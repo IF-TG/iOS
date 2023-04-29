@@ -5,8 +5,8 @@
 //  Created by 양승현 on 2023/04/29.
 //
 
-protocol ViewControllerBindCase {
-  /// ViewControllerState
+protocol ViewBindCase {
+  /// View UI render state
   associatedtype State
   func bind()
   func render(_ state: State)
