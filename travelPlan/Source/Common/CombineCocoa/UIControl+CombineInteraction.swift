@@ -13,8 +13,7 @@ extension UIControl {
   
   // MARK: - InteractionSubscription
   class InteractionSubscription<S: Subscriber>: Subscription
-  where S.Input == UIControl
-  {
+  where S.Input == UIControl {
     private var subscriber: S?
     private let control: UIControl
     private let event: UIControl.Event
@@ -58,7 +57,9 @@ extension UIControl {
     }
     
     // MARK: - Publihser
-    func receive<S>(subscriber: S) where S : Subscriber, Never == S.Failure, UIControl == S.Input {
+    func receive<S>(subscriber: S)
+    where S: Subscriber,
+          Never == S.Failure, UIControl == S.Input {
       let subscription = InteractionSubscription(
         subscriber: subscriber,
         control: control,
