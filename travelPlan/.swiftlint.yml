@@ -13,3 +13,10 @@ disabled_rules:
 line_length:
   ignores_comments: true
 
+nesting:
+  type_level:
+    warning: 3
+    error: 6
+  statement_level:
+    warning: 5
+    error: 10
