@@ -7,15 +7,25 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+
 		151130092A04E4EB0041DDA1 /* travelPlanTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151130082A04E4EB0041DDA1 /* travelPlanTests.swift */; };
 		151130162A04E5B00041DDA1 /* travelPlanUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151130152A04E5B00041DDA1 /* travelPlanUITests.swift */; };
 		151130182A04E5B00041DDA1 /* travelPlanUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151130172A04E5B00041DDA1 /* travelPlanUITestsLaunchTests.swift */; };
+		1339DB8629FD6C240039DF1D /* UIColor+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1339DB8529FD6C240039DF1D /* UIColor+.swift */; };
 		1594F53229FD517E00A58F20 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1594F53129FD517E00A58F20 /* AppDelegate.swift */; };
 		1594F53429FD517E00A58F20 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1594F53329FD517E00A58F20 /* SceneDelegate.swift */; };
 		1594F53629FD517E00A58F20 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1594F53529FD517E00A58F20 /* ViewController.swift */; };
 		1594F53B29FD517F00A58F20 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1594F53A29FD517F00A58F20 /* Assets.xcassets */; };
 		1594F53E29FD517F00A58F20 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1594F53C29FD517F00A58F20 /* LaunchScreen.storyboard */; };
 		15F0A3F529FD58280049AB33 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 15F0A3F429FD58280049AB33 /* .swiftlint.yml */; };
+		15F0A3F929FD5CBA0049AB33 /* LayoutSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F0A3F829FD5CBA0049AB33 /* LayoutSupport.swift */; };
+		15F0A3FC29FD5D2C0049AB33 /* ConvenienceInit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F0A3FB29FD5D2C0049AB33 /* ConvenienceInit.swift */; };
+		15F0A3FE29FD5DF00049AB33 /* ViewModelProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F0A3FD29FD5DF00049AB33 /* ViewModelProtocols.swift */; };
+		15FA5BB029FF1A2A00649317 /* UIControl+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FA5BAB29FF1A2900649317 /* UIControl+Combine.swift */; };
+		15FA5BB129FF1A2A00649317 /* UISwitch+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FA5BAC29FF1A2900649317 /* UISwitch+Combine.swift */; };
+		15FA5BB229FF1A2A00649317 /* UIButton+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FA5BAD29FF1A2900649317 /* UIButton+Combine.swift */; };
+		15FA5BB329FF1A2A00649317 /* UIControl+CombineInteraction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FA5BAE29FF1A2900649317 /* UIControl+CombineInteraction.swift */; };
+		15FA5BB429FF1A2A00649317 /* UITextField+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FA5BAF29FF1A2900649317 /* UITextField+Combine.swift */; };
 		8B8277C1D53D2763DBC91C26 /* Pods_travelPlan.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5093F957BE61B8938FD9727 /* Pods_travelPlan.framework */; };
 /* End PBXBuildFile section */
 
@@ -42,6 +52,8 @@
 		151130132A04E5B00041DDA1 /* travelPlanUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = travelPlanUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		151130152A04E5B00041DDA1 /* travelPlanUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = travelPlanUITests.swift; sourceTree = "<group>"; };
 		151130172A04E5B00041DDA1 /* travelPlanUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = travelPlanUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		1339DB8529FD6C240039DF1D /* 
+    +.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+.swift"; sourceTree = "<group>"; };
 		1594F52E29FD517E00A58F20 /* travelPlan.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = travelPlan.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1594F53129FD517E00A58F20 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1594F53329FD517E00A58F20 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -50,6 +62,14 @@
 		1594F53D29FD517F00A58F20 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1594F53F29FD517F00A58F20 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		15F0A3F429FD58280049AB33 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
+		15F0A3F829FD5CBA0049AB33 /* LayoutSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutSupport.swift; sourceTree = "<group>"; };
+		15F0A3FB29FD5D2C0049AB33 /* ConvenienceInit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvenienceInit.swift; sourceTree = "<group>"; };
+		15F0A3FD29FD5DF00049AB33 /* ViewModelProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelProtocols.swift; sourceTree = "<group>"; };
+		15FA5BAB29FF1A2900649317 /* UIControl+Combine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIControl+Combine.swift"; sourceTree = "<group>"; };
+		15FA5BAC29FF1A2900649317 /* UISwitch+Combine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UISwitch+Combine.swift"; sourceTree = "<group>"; };
+		15FA5BAD29FF1A2900649317 /* UIButton+Combine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+Combine.swift"; sourceTree = "<group>"; };
+		15FA5BAE29FF1A2900649317 /* UIControl+CombineInteraction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIControl+CombineInteraction.swift"; sourceTree = "<group>"; };
+		15FA5BAF29FF1A2900649317 /* UITextField+Combine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITextField+Combine.swift"; sourceTree = "<group>"; };
 		95C1136D7650708D46BBF977 /* Pods-travelPlan.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-travelPlan.release.xcconfig"; path = "Target Support Files/Pods-travelPlan/Pods-travelPlan.release.xcconfig"; sourceTree = "<group>"; };
 		B40897DD36F55524D37767A7 /* Pods-travelPlan.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-travelPlan.debug.xcconfig"; path = "Target Support Files/Pods-travelPlan/Pods-travelPlan.debug.xcconfig"; sourceTree = "<group>"; };
 		D5093F957BE61B8938FD9727 /* Pods_travelPlan.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_travelPlan.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -96,6 +116,12 @@
 				151130172A04E5B00041DDA1 /* travelPlanUITestsLaunchTests.swift */,
 			);
 			path = travelPlanUITests;
+		1339DB8429FD6B440039DF1D /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				1339DB8529FD6C240039DF1D /* UIColor+.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 		1594F52529FD517E00A58F20 = {
@@ -124,6 +150,8 @@
 		1594F53029FD517E00A58F20 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				15F0A3F629FD5C9A0049AB33 /* Common */,
+				1594F54A29FD52A700A58F20 /* Private */,
 				1594F54629FD526900A58F20 /* Feature */,
 				1594F54529FD521000A58F20 /* Support */,
 			);
@@ -164,6 +192,46 @@
 				1594F53529FD517E00A58F20 /* ViewController.swift */,
 			);
 			path = ViewController;
+			sourceTree = "<group>";
+		};
+		1594F54A29FD52A700A58F20 /* Private */ = {
+			isa = PBXGroup;
+			children = (
+				1594F54B29FD52BF00A58F20 /* test.swift */,
+			);
+			path = Private;
+			sourceTree = "<group>";
+		};
+		15F0A3F629FD5C9A0049AB33 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				15FA5BAA29FF1A2900649317 /* CombineCocoa */,
+				1339DB8429FD6B440039DF1D /* Extension */,
+				15F0A3F729FD5CAA0049AB33 /* Protocol */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		15F0A3F729FD5CAA0049AB33 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				15F0A3F829FD5CBA0049AB33 /* LayoutSupport.swift */,
+				15F0A3FB29FD5D2C0049AB33 /* ConvenienceInit.swift */,
+				15F0A3FD29FD5DF00049AB33 /* ViewModelProtocols.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
+		15FA5BAA29FF1A2900649317 /* CombineCocoa */ = {
+			isa = PBXGroup;
+			children = (
+				15FA5BAB29FF1A2900649317 /* UIControl+Combine.swift */,
+				15FA5BAC29FF1A2900649317 /* UISwitch+Combine.swift */,
+				15FA5BAD29FF1A2900649317 /* UIButton+Combine.swift */,
+				15FA5BAE29FF1A2900649317 /* UIControl+CombineInteraction.swift */,
+				15FA5BAF29FF1A2900649317 /* UITextField+Combine.swift */,
+			);
+			path = CombineCocoa;
 			sourceTree = "<group>";
 		};
 		22C6F6C53B2A988070A2BBBC /* Pods */ = {
@@ -394,9 +462,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				15FA5BB429FF1A2A00649317 /* UITextField+Combine.swift in Sources */,
+				15FA5BB329FF1A2A00649317 /* UIControl+CombineInteraction.swift in Sources */,
+				15FA5BB229FF1A2A00649317 /* UIButton+Combine.swift in Sources */,
 				1594F53629FD517E00A58F20 /* ViewController.swift in Sources */,
+				15FA5BB029FF1A2A00649317 /* UIControl+Combine.swift in Sources */,
+				1339DB8629FD6C240039DF1D /* UIColor+.swift in Sources */,
+				15FA5BB129FF1A2A00649317 /* UISwitch+Combine.swift in Sources */,
+				15F0A3FE29FD5DF00049AB33 /* ViewModelProtocols.swift in Sources */,
+				15F0A3F929FD5CBA0049AB33 /* LayoutSupport.swift in Sources */,
+				1594F54C29FD52BF00A58F20 /* test.swift in Sources */,
 				1594F53229FD517E00A58F20 /* AppDelegate.swift in Sources */,
 				1594F53429FD517E00A58F20 /* SceneDelegate.swift in Sources */,
+				15F0A3FC29FD5D2C0049AB33 /* ConvenienceInit.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
