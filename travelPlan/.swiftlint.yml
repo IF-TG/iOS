@@ -1,6 +1,8 @@
 excluded:
     - Pods
     - Libraries
+    - travelPlanTests/
+    - travelPlanUITests/
 
 included:
     
