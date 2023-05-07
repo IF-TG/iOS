@@ -9,7 +9,7 @@ enum TabBarCase: String {
   case feed
   case search
   case plan
-  case heart
+  case favorite
   case profile
   
   var title: String {
@@ -17,7 +17,7 @@ enum TabBarCase: String {
     case .feed: return "피드"
     case .search: return "검색"
     case .plan: return "플랜"
-    case .heart: return "찜"
+    case .favorite: return "찜"
     case .profile: return "프로필"
     }
   }

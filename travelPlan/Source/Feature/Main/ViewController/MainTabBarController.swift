@@ -47,7 +47,7 @@ extension MainTabBarController {
   }
   
   private func configureItems() {
-    let tabBarList: [TabBarCase] = [.feed, .search, .plan, .heart, .profile]
+    let tabBarList: [TabBarCase] = [.feed, .search, .plan, .favorite, .profile]
     _ = tabBarList.map { makeTabBarItem(type: $0)}
     
     self.viewControllers = viewControllerBuffer
@@ -70,9 +70,9 @@ extension MainTabBarController {
     case .plan:
       navigationController = UINavigationController(
         rootViewController: PlanViewController().set { $0.tabBarItem = tabBarItem })
-    case .heart:
+    case .favorite:
       navigationController = UINavigationController(
-        rootViewController: MarkViewController().set { $0.tabBarItem = tabBarItem })
+        rootViewController: FavoriteViewController().set { $0.tabBarItem = tabBarItem })
     case .profile:
       navigationController = UINavigationController(
         rootViewController: ProfileViewController().set { $0.tabBarItem = tabBarItem })
