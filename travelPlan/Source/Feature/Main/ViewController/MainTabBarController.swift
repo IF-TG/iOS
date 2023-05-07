@@ -14,7 +14,8 @@ final class MainTabBarController: UITabBarController {
 
   private lazy var shadowContainerView: UIView = UIView().set {
     $0.frame = self.tabBar.bounds
-    $0.backgroundColor = .white
+    $0.backgroundColor = .clear
+    $0.clipsToBounds = false
   }
   
   // MARK: - LifeCycle
@@ -24,10 +25,6 @@ final class MainTabBarController: UITabBarController {
     setupUI()
     configureTabBar()
   }
-  
-  override func viewDidLayoutSubviews() {
-    super.viewDidLayoutSubviews()
-  }
 }
 
 extension MainTabBarController {
@@ -35,21 +32,18 @@ extension MainTabBarController {
   private func configureTabBar() {
     configureTabBarAppearance()
     configureItems()
-    configureShadow()
+    configureTabBarShadow()
   }
   
   private func configureTabBarAppearance() {
-    tabBar.backgroundColor = .white
-  
     let appearance = UITabBarAppearance()
     appearance
       .stackedLayoutAppearance
       .selected
-      .titleTextAttributes = [
-        .foregroundColor: UIColor(hex: "6DB26B")
-      ]
-    
+      .titleTextAttributes = [.foregroundColor: UIColor(hex: "6DB26B")]
+
     self.tabBar.standardAppearance = appearance
+    self.tabBar.backgroundColor = .white
   }
   
   private func configureItems() {
@@ -86,34 +80,16 @@ extension MainTabBarController {
     viewControllerBuffer.append(navigationController)
   }
   
-  // RefactoringFIXME: - refactoring custom ShadowContainerView
-  private func configureShadow() {
-    let shadows = UIView()
-    shadows.frame = shadowContainerView.frame
-    shadows.clipsToBounds = false
-    shadowContainerView.addSubview(shadows)
-
-    let shadowPath0 = UIBezierPath(roundedRect: shadows.bounds, cornerRadius: 0)
-    let layer0 = CALayer()
-    layer0.shadowPath = shadowPath0.cgPath
-    layer0.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.08).cgColor
-    layer0.shadowOpacity = 1
-    layer0.shadowRadius = 20
-    layer0.shadowOffset = CGSize(width: 1, height: -10)
-    layer0.bounds = shadows.bounds
-    layer0.position = shadows.center
-    shadows.layer.addSublayer(layer0)
-
-    let shapes = UIView()
-    shapes.frame = shadowContainerView.frame
-    shapes.clipsToBounds = true
-    shadowContainerView.addSubview(shapes)
-
-    let layer1 = CALayer()
-    layer1.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1).cgColor
-    layer1.bounds = shapes.bounds
-    layer1.position = shapes.center
-    shapes.layer.addSublayer(layer1)
+  private func configureTabBarShadow() {
+    let shadowPath = UIBezierPath(roundedRect: shadowContainerView.bounds, cornerRadius: 0)
+    let shadowLayer = CALayer()
+    shadowLayer.shadowPath = shadowPath.cgPath
+    shadowLayer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.08).cgColor
+    shadowLayer.shadowOpacity = 1
+    shadowLayer.shadowRadius = 10
+    shadowLayer.bounds = shadowContainerView.bounds
+    shadowLayer.position = shadowContainerView.center
+    shadowContainerView.layer.addSublayer(shadowLayer)
   }
 }
 
@@ -126,9 +102,9 @@ extension MainTabBarController: LayoutSupport {
   func setConstraints() {
     shadowContainerView.snp.makeConstraints {
       $0.width.equalToSuperview()
-      $0.height.equalTo(60)
+      $0.height.equalTo(1)
       $0.centerX.equalToSuperview()
-      $0.bottom.equalToSuperview().inset(35)
+      $0.bottom.equalTo(self.tabBar.snp.top)
     }
   }
 }
