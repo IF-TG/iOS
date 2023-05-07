@@ -119,13 +119,6 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		13254FF72A068C0800094218 /* View */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
 		151130072A04E4EB0041DDA1 /* travelPlanTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -199,7 +192,6 @@
 		1594F54729FD527100A58F20 /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				13254FF72A068C0800094218 /* View */,
 				13254FEE2A05499900094218 /* Model */,
 				1594F54829FD527700A58F20 /* ViewController */,
 			);
