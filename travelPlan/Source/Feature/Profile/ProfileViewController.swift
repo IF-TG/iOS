@@ -1,5 +1,5 @@
 //
-//  MarkViewController.swift
+//  ProfileViewController.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 2023/05/05.
@@ -7,11 +7,11 @@
 
 import UIKit
 
-class MarkViewController: UIViewController {
+class ProfileViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    
+    view.backgroundColor = .orange.withAlphaComponent(0.3)
     // Do any additional setup after loading the view.
   }
   

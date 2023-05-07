@@ -1,5 +1,5 @@
 //
-//  ProfileViewController.swift
+//  FeedViewController.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 2023/05/05.
@@ -7,12 +7,13 @@
 
 import UIKit
 
-class ProfileViewController: UIViewController {
+class FeedViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
     
     // Do any additional setup after loading the view.
+    view.backgroundColor = .green.withAlphaComponent(0.15)
   }
   
   /*
