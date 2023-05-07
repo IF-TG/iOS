@@ -1,5 +1,5 @@
 //
-//  FeedViewController.swift
+//  FavoriteViewController.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 2023/05/05.
@@ -7,12 +7,13 @@
 
 import UIKit
 
-class FeedViewController: UIViewController {
+class FavoriteViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
     
     // Do any additional setup after loading the view.
+    view.backgroundColor = .systemPink.withAlphaComponent(0.3)
   }
   
   /*

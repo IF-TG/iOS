@@ -11,7 +11,7 @@
 		13254FE52A05157900094218 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13254FE42A05157900094218 /* FeedViewController.swift */; };
 		13254FE72A05158E00094218 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13254FE62A05158E00094218 /* SearchViewController.swift */; };
 		13254FE92A0515A900094218 /* PlanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13254FE82A0515A900094218 /* PlanViewController.swift */; };
-		13254FEB2A0515C700094218 /* HeartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13254FEA2A0515C700094218 /* HeartViewController.swift */; };
+		13254FEB2A0515C700094218 /* FavoriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13254FEA2A0515C700094218 /* FavoriteViewController.swift */; };
 		13254FED2A0515D800094218 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13254FEC2A0515D800094218 /* ProfileViewController.swift */; };
 		13254FF02A0549D200094218 /* TabBarCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13254FEF2A0549D200094218 /* TabBarCase.swift */; };
 		151130092A04E4EB0041DDA1 /* travelPlanTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151130082A04E4EB0041DDA1 /* travelPlanTests.swift */; };
@@ -21,6 +21,7 @@
 		1594F53429FD517E00A58F20 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1594F53329FD517E00A58F20 /* SceneDelegate.swift */; };
 		1594F53B29FD517F00A58F20 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1594F53A29FD517F00A58F20 /* Assets.xcassets */; };
 		1594F53E29FD517F00A58F20 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1594F53C29FD517F00A58F20 /* LaunchScreen.storyboard */; };
+		15EF8C052A0829FD0068C744 /* LocationSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EF8C042A0829FD0068C744 /* LocationSearchViewController.swift */; };
 		15F0A3F529FD58280049AB33 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 15F0A3F429FD58280049AB33 /* .swiftlint.yml */; };
 		15FEB5E52A050A99000A5F33 /* UIControl+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FEB5DA2A050A99000A5F33 /* UIControl+Combine.swift */; };
 		15FEB5E62A050A99000A5F33 /* UISwitch+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FEB5DB2A050A99000A5F33 /* UISwitch+Combine.swift */; };
@@ -56,7 +57,7 @@
 		13254FE42A05157900094218 /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
 		13254FE62A05158E00094218 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		13254FE82A0515A900094218 /* PlanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanViewController.swift; sourceTree = "<group>"; };
-		13254FEA2A0515C700094218 /* HeartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartViewController.swift; sourceTree = "<group>"; };
+		13254FEA2A0515C700094218 /* FavoriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteViewController.swift; sourceTree = "<group>"; };
 		13254FEC2A0515D800094218 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		13254FEF2A0549D200094218 /* TabBarCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarCase.swift; sourceTree = "<group>"; };
 		151130062A04E4EB0041DDA1 /* travelPlanTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = travelPlanTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -70,6 +71,7 @@
 		1594F53A29FD517F00A58F20 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1594F53D29FD517F00A58F20 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1594F53F29FD517F00A58F20 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		15EF8C042A0829FD0068C744 /* LocationSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchViewController.swift; sourceTree = "<group>"; };
 		15F0A3F429FD58280049AB33 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		15FEB5DA2A050A99000A5F33 /* UIControl+Combine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIControl+Combine.swift"; sourceTree = "<group>"; };
 		15FEB5DB2A050A99000A5F33 /* UISwitch+Combine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UISwitch+Combine.swift"; sourceTree = "<group>"; };
@@ -117,13 +119,6 @@
 				13254FEF2A0549D200094218 /* TabBarCase.swift */,
 			);
 			path = Model;
-			sourceTree = "<group>";
-		};
-		13254FF72A068C0800094218 /* View */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = View;
 			sourceTree = "<group>";
 		};
 		151130072A04E4EB0041DDA1 /* travelPlanTests */ = {
@@ -191,7 +186,12 @@
 		1594F54629FD526900A58F20 /* Feature */ = {
 			isa = PBXGroup;
 			children = (
+				15BED3032A0825BB00F86321 /* Profile */,
 				1594F54729FD527100A58F20 /* Main */,
+				15BED3012A08256000F86321 /* Favorite */,
+				15BED2FF2A0824C300F86321 /* Search */,
+				15BED2FD2A0824A900F86321 /* Plan */,
+				15BED2FB2A08236300F86321 /* Feed */,
 			);
 			path = Feature;
 			sourceTree = "<group>";
@@ -199,7 +199,6 @@
 		1594F54729FD527100A58F20 /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				13254FF72A068C0800094218 /* View */,
 				13254FEE2A05499900094218 /* Model */,
 				1594F54829FD527700A58F20 /* ViewController */,
 			);
@@ -210,11 +209,103 @@
 			isa = PBXGroup;
 			children = (
 				13254FE22A05147200094218 /* MainTabBarController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		15BED2FB2A08236300F86321 /* Feed */ = {
+			isa = PBXGroup;
+			children = (
+				15BED2FC2A08249300F86321 /* ViewController */,
+			);
+			path = Feed;
+			sourceTree = "<group>";
+		};
+		15BED2FC2A08249300F86321 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
 				13254FE42A05157900094218 /* FeedViewController.swift */,
-				13254FE62A05158E00094218 /* SearchViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		15BED2FD2A0824A900F86321 /* Plan */ = {
+			isa = PBXGroup;
+			children = (
+				15BED2FE2A0824B800F86321 /* ViewController */,
+			);
+			path = Plan;
+			sourceTree = "<group>";
+		};
+		15BED2FE2A0824B800F86321 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
 				13254FE82A0515A900094218 /* PlanViewController.swift */,
-				13254FEA2A0515C700094218 /* HeartViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		15BED2FF2A0824C300F86321 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				15EF8C022A0829DD0068C744 /* LocationSearch */,
+				15BED3002A08253000F86321 /* Search */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		15BED3002A08253000F86321 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				15EF8C012A08282F0068C744 /* ViewController */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		15BED3012A08256000F86321 /* Favorite */ = {
+			isa = PBXGroup;
+			children = (
+				15BED3022A0825A100F86321 /* ViewController */,
+			);
+			path = Favorite;
+			sourceTree = "<group>";
+		};
+		15BED3022A0825A100F86321 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				13254FEA2A0515C700094218 /* FavoriteViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		15BED3032A0825BB00F86321 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
 				13254FEC2A0515D800094218 /* ProfileViewController.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		15EF8C012A08282F0068C744 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				13254FE62A05158E00094218 /* SearchViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		15EF8C022A0829DD0068C744 /* LocationSearch */ = {
+			isa = PBXGroup;
+			children = (
+				15EF8C032A0829E80068C744 /* ViewController */,
+			);
+			path = LocationSearch;
+			sourceTree = "<group>";
+		};
+		15EF8C032A0829E80068C744 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				15EF8C042A0829FD0068C744 /* LocationSearchViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -495,10 +586,11 @@
 				13254FED2A0515D800094218 /* ProfileViewController.swift in Sources */,
 				15FEB5E62A050A99000A5F33 /* UISwitch+Combine.swift in Sources */,
 				15FEB5ED2A050A99000A5F33 /* LayoutSupport.swift in Sources */,
+				15EF8C052A0829FD0068C744 /* LocationSearchViewController.swift in Sources */,
 				13254FE32A05147200094218 /* MainTabBarController.swift in Sources */,
 				15FEB5E82A050A99000A5F33 /* UIControl+CombineInteraction.swift in Sources */,
 				13254FF02A0549D200094218 /* TabBarCase.swift in Sources */,
-				13254FEB2A0515C700094218 /* HeartViewController.swift in Sources */,
+				13254FEB2A0515C700094218 /* FavoriteViewController.swift in Sources */,
 				1594F53229FD517E00A58F20 /* AppDelegate.swift in Sources */,
 				15FEB5E52A050A99000A5F33 /* UIControl+Combine.swift in Sources */,
 				1594F53429FD517E00A58F20 /* SceneDelegate.swift in Sources */,
