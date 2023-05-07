@@ -17,6 +17,15 @@ final class MainTabBarController: UITabBarController {
     $0.backgroundColor = .clear
     $0.clipsToBounds = false
   }
+  private lazy var shadowLayer: CALayer = CALayer().set {
+    let shadowPath = UIBezierPath(roundedRect: shadowContainerView.bounds, cornerRadius: 0)
+    $0.shadowPath = shadowPath.cgPath
+    $0.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.08).cgColor
+    $0.shadowOpacity = 1
+    $0.shadowRadius = 10
+    $0.bounds = shadowContainerView.bounds
+    $0.position = shadowContainerView.center
+  }
   
   // MARK: - LifeCycle
   override func viewDidLoad() {
@@ -32,7 +41,6 @@ extension MainTabBarController {
   private func configureTabBar() {
     configureTabBarAppearance()
     configureItems()
-    configureTabBarShadow()
   }
   
   private func configureTabBarAppearance() {
@@ -79,23 +87,12 @@ extension MainTabBarController {
     }
     viewControllerBuffer.append(navigationController)
   }
-  
-  private func configureTabBarShadow() {
-    let shadowPath = UIBezierPath(roundedRect: shadowContainerView.bounds, cornerRadius: 0)
-    let shadowLayer = CALayer()
-    shadowLayer.shadowPath = shadowPath.cgPath
-    shadowLayer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.08).cgColor
-    shadowLayer.shadowOpacity = 1
-    shadowLayer.shadowRadius = 10
-    shadowLayer.bounds = shadowContainerView.bounds
-    shadowLayer.position = shadowContainerView.center
-    shadowContainerView.layer.addSublayer(shadowLayer)
-  }
 }
 
 extension MainTabBarController: LayoutSupport {
   func addSubviews() {
     self.view.addSubview(shadowContainerView)
+    shadowContainerView.layer.addSublayer(shadowLayer)
     self.view.bringSubviewToFront(self.tabBar)
   }
   
