@@ -9,6 +9,7 @@ import UIKit
 
 final class CategoryDetailView: UICollectionView {
   // MARK: - Properties
+  /// CategoryView가 로드된 후 height가 지정되면 detailView cell의 height지정하기 위해
   private var layout: UICollectionViewFlowLayout!
   
   // MARK: - Initialization

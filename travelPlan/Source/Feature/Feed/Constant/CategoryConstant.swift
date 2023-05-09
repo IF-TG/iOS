@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 // MARK: - CategoryView UI constants
 /// size가 고정이 아닌 경우는 shared를 통해서 얻어야 합니다.
 struct CategoryViewConstant {

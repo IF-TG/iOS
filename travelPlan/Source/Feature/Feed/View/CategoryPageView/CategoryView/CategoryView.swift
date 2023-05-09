@@ -76,6 +76,10 @@ final class CategoryView: UIView {
 
 // MARK: - Helpers
 extension CategoryView {
+  /// selected cell위치에 따라 scrollBar layout 갱신
+  /// - Parameters:
+  ///   - cell: selected cell
+  ///   - spacing: celected cell's title text leading
   func drawScrollBar(target cell: UICollectionViewCell, fromLeading spacing: CGFloat) {
     NSLayoutConstraint.deactivate(scrollBarConstraints)
     scrollBarConstraints = scrollBarConstriant(cell, cellTitleSpacing: spacing)
@@ -132,6 +136,9 @@ fileprivate extension CategoryView {
     return const
   }
   
+  /// ScrollBar's leading, width anchor l
+  /// - Parameter constraint: scrollBar's default constraint array
+  /// - Returns: configured scrollBar's initial constraint
   func setInitialScrollBar(constraint: inout [NSLayoutConstraint]
   ) -> [NSLayoutConstraint] {
     let width = CategoryViewConstant.shared
@@ -143,6 +150,11 @@ fileprivate extension CategoryView {
     return constraint
   }
   
+  /// When called selectedItem in categoryView, set scroll bar's position
+  /// - Parameters:
+  ///   - cell: selectedItem
+  ///   - spacing: selected item's title from leading spacing
+  ///   - constraint: scrollBar's current constraint
   func setScrollBarPosition(
     from cell: UICollectionViewCell,
     spacing: CGFloat,
