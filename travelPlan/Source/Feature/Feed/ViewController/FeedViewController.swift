@@ -8,22 +8,36 @@
 import UIKit
 
 class FeedViewController: UIViewController {
+  // MARK: - Properties
+  let categoryPageView = CategoryPageView()
   
+  // MARK: - Lifecycle
   override func viewDidLoad() {
     super.viewDidLoad()
-    
-    // Do any additional setup after loading the view.
-    view.backgroundColor = .green.withAlphaComponent(0.15)
+    setupUI()
+  }
+}
+
+// MARK: - LayoutSupport
+extension FeedViewController: LayoutSupport {
+  func addSubviews() {
+    view.addSubview(categoryPageView)
   }
   
-  /*
-   // MARK: - Navigation
-   
-   // In a storyboard-based application, you will often want to do a little preparation before navigation
-   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-   // Get the new view controller using segue.destination.
-   // Pass the selected object to the new view controller.
-   }
-   */
-  
+  func setConstraints() {
+    NSLayoutConstraint.activate(categoryPageViewConstraint)
+  }
+}
+
+fileprivate extension FeedViewController {
+  var categoryPageViewConstraint: [NSLayoutConstraint] {
+    [categoryPageView.topAnchor.constraint(
+      equalTo: view.safeAreaLayoutGuide.topAnchor),
+     categoryPageView.leadingAnchor.constraint(
+      equalTo: view.leadingAnchor),
+     categoryPageView.trailingAnchor.constraint(
+      equalTo: view.trailingAnchor),
+     categoryPageView.bottomAnchor.constraint(
+      equalTo: view.safeAreaLayoutGuide.bottomAnchor)]
+  }
 }
