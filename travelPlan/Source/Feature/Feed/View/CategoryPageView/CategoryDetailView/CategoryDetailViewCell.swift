@@ -8,12 +8,13 @@
 import UIKit
 
 class CategoryDetailViewCell: UICollectionViewCell {
-  // MARK: - Identifier
-  static let id = "CategoryDetailViewCell"
-  
   // MARK: - Properties
   let content = UIView().set {
     $0.translatesAutoresizingMaskIntoConstraints = false
+  }
+  
+  static var id: String {
+    return String(describing: self)
   }
   
   // MARK: - Initialization
@@ -33,8 +34,7 @@ class CategoryDetailViewCell: UICollectionViewCell {
 
 extension CategoryDetailViewCell {
   func configCell(with indexPath: IndexPath) -> UICollectionViewCell {
-    backgroundColor = .systemPink
-      .withAlphaComponent(CGFloat((indexPath.row+1))*0.2)
+    backgroundColor = UIColor(red: 0.961, green: 0.961, blue: 0.961, alpha: 1)
     return self
   }
 }
