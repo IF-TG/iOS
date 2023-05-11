@@ -8,6 +8,10 @@
 import UIKit
 
 class CategoryViewCell: UICollectionViewCell {
+  // MARK: - Constant
+  static var id: String {
+    return String(describing: self)
+  }
   
   // MARK: - Properties
   let categoryImageView = UIImageView().set {
@@ -36,10 +40,6 @@ class CategoryViewCell: UICollectionViewCell {
         deselectedAnimation()
       }
     }
-  }
-  
-  static var id: String{
-    return String(describing: self)
   }
   
   // MARK: - Initialization

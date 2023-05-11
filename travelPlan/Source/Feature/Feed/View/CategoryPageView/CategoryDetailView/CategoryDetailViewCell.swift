@@ -8,13 +8,14 @@
 import UIKit
 
 class CategoryDetailViewCell: UICollectionViewCell {
+  // MARK: - Constant
+  static var id: String {
+    return String(describing: self)
+  }
+  
   // MARK: - Properties
   let content = UIView().set {
     $0.translatesAutoresizingMaskIntoConstraints = false
-  }
-  
-  static var id: String {
-    return String(describing: self)
   }
   
   // MARK: - Initialization
