@@ -33,6 +33,8 @@ final class CategoryPageView: UIView {
     initCategoryDetailViewCellItem()
     initCategoryViewScrollBarLayout()
     selectedCategoryViewFirstCell()
+    bringSubviewToFront(categoryView)
+    categoryView.configureShadow()
   }
 }
 
@@ -148,8 +150,8 @@ extension CategoryPageView: UICollectionViewDelegate {
 // MARK: - LayoutSupport
 extension CategoryPageView: LayoutSupport {
   func addSubviews() {
-    _=[categoryView,
-       categoryDetailView]
+    _=[categoryDetailView,
+       categoryView]
       .map { addSubview($0) }
   }
   
