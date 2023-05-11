@@ -21,14 +21,16 @@ final class CategoryView: UIView {
     let cv = UICollectionView(
       frame: .zero,
       collectionViewLayout: layout)
-    cv.translatesAutoresizingMaskIntoConstraints = false
-    cv.decelerationRate = .fast
-    cv.showsHorizontalScrollIndicator = false
+    _=cv.set {
+      $0.translatesAutoresizingMaskIntoConstraints = false
+      $0.decelerationRate = .fast
+      $0.showsHorizontalScrollIndicator = false
+    }
     return cv
   }()
   
   private let scrollBar: UIView = UIView().set {
-    $0.backgroundColor = UIColor(red: 0.106, green: 0.627, blue: 0.922, alpha: 1)
+    $0.backgroundColor = CategoryViewConstant.ScrollBar.color
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.layer.cornerRadius = CategoryViewConstant.ScrollBar.radius
   }
@@ -56,13 +58,7 @@ final class CategoryView: UIView {
   // MARK: - LifeCycle
   override init(frame: CGRect) {
     super.init(frame: frame)
-    translatesAutoresizingMaskIntoConstraints = false
-    setupUI()
-    categoryView.register(
-      CategoryViewCell.self,
-      forCellWithReuseIdentifier: CategoryViewCell.id)
-    categoryView.bounces = false
-    backgroundColor = .white
+    configureUI()
   }
   
   required init?(coder: NSCoder) {
@@ -84,6 +80,39 @@ extension CategoryView {
     NSLayoutConstraint.deactivate(scrollBarConstraints)
     scrollBarConstraints = scrollBarConstriant(cell, cellTitleSpacing: spacing)
     NSLayoutConstraint.activate(scrollBarConstraints)
+  }
+  
+  private func configureUI() {
+    translatesAutoresizingMaskIntoConstraints = false
+    categoryView.bounces = false
+    backgroundColor = .white
+    setupUI()
+    configureRegister()
+    configureShadow()
+  }
+  
+  private func configureRegister() {
+    categoryView.register(
+      CategoryViewCell.self,
+      forCellWithReuseIdentifier: CategoryViewCell.id)
+  }
+  
+  /// CategoryView의 컨테이너 뷰는 CategoryPageView입니다.
+  /// CategoryPageView에서 뒤늦게 scrollBar의 위치와 CategoryDetailView의 item 크기가 지정됩니다.
+  /// 그 후에 호출해야합니다.
+  func configureShadow() {
+    layer.shadowColor = CategoryViewConstant.shadow.color
+    layer.shadowRadius = CategoryViewConstant.shadow.radius
+    layer.shadowOffset = CategoryViewConstant.shadow.offset
+    layer.masksToBounds = false
+    layoutIfNeeded()
+    let shadowRect = CGRect(
+      x: bounds.origin.x,
+      y: bounds.origin.y + bounds.height - 1,
+      width: bounds.width,
+      height: CategoryViewConstant.shadow.offset.height + 1)
+    let shadowPath = UIBezierPath(rect: shadowRect).cgPath
+    layer.shadowPath = shadowPath
   }
 }
 

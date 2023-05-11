@@ -13,7 +13,11 @@ struct CategoryViewConstant {
   
   /// Size얻기 위해 사용되는 인스턴스
   static var shared = CategoryViewConstant()
-  
+  enum shadow {
+    static let radius: CGFloat = 10.0
+    static let color = UIColor(red: 0, green: 0, blue: 0, alpha: 0.05).cgColor
+    static let offset = CGSize(width: 0, height: 1)
+  }
   /// CategoryViewCellUIConstants
   var cellSize: CGSize {
     CategoryViewCellConstant.shared.cellSize
@@ -29,6 +33,7 @@ struct CategoryViewConstant {
   enum ScrollBar {
     static let height: CGFloat = 4
     static let radius: CGFloat = 2
+    static let color: UIColor = .yg.primary
   }
   
   fileprivate init() {}
