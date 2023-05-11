@@ -30,7 +30,7 @@ final class FeedNavigationBar: UIView {
       attributes: [.kern: -0.41, .paragraphStyle: paragraphStyle])
   }
   
-  private lazy var postSearchButton = UIButton().set {
+  private let postSearchButton = UIButton().set {
     $0.translatesAutoresizingMaskIntoConstraints = false
     let image = Constant.postSearch.image
     $0.setImage(
@@ -41,7 +41,7 @@ final class FeedNavigationBar: UIView {
       for: .highlighted)
   }
   
-  private lazy var notificationButton = UIButton().set {
+  private let notificationButton = UIButton().set {
     $0.translatesAutoresizingMaskIntoConstraints = false
     let image = Constant.Notification.image
     $0.setImage(
@@ -53,21 +53,16 @@ final class FeedNavigationBar: UIView {
   }
   
   /// 사용자가 알림을 확인 했는지 여부를 체크하고 이에 따른 notificationIcon 상태를 rendering 합니다.
-  private var isCheckedNotification: Bool
+  private var isCheckedNotification: Bool?
   
-  /// notificationButton과 Icon, searchButton의 경우 isCheckedNotification의 확인이 된 후에야 레이아웃 지정이 가능합니다.
-  private lazy var notificationRedIcon = UIView().set {
+  private let notificationRedIcon = UIView().set {
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.layer.cornerRadius = Constant.NotificationIcon.width/2
-    let redColor = Constant.NotificationIcon.color
-    $0.backgroundColor = isCheckedNotification ? Constant
-      .backgroundColor : redColor
   }
   
   // MARK: - Initialization
   private override init(frame: CGRect) {
-    //임시 값
-    isCheckedNotification = false
+    /// 임시 값
     super.init(frame: frame)
   }
   
@@ -76,7 +71,7 @@ final class FeedNavigationBar: UIView {
   }
   
   /// 계산된 뷰를
-  convenience init(isCheckedNotification: Bool) {
+  convenience init(isCheckedNotification: Bool? = nil) {
     self.init(frame: .zero)
     self.isCheckedNotification = isCheckedNotification
     translatesAutoresizingMaskIntoConstraints = false
@@ -118,6 +113,7 @@ extension FeedNavigationBar {
   }
   
   private func updateNotificationIconColor() {
+    guard let isCheckedNotification = isCheckedNotification else { return }
     let redColor = Constant.NotificationIcon.color
     notificationRedIcon
       .backgroundColor = isCheckedNotification ? .white : redColor
@@ -127,7 +123,10 @@ extension FeedNavigationBar {
 // MARK: - LayoutSupport
 extension FeedNavigationBar: LayoutSupport {
   func addSubviews() {
-    _=[appTitle, postSearchButton, notificationButton, notificationRedIcon]
+    _=[appTitle,
+       postSearchButton,
+       notificationButton,
+       notificationRedIcon]
       .map { addSubview($0) }
   }
   
