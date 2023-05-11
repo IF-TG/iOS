@@ -62,7 +62,7 @@ final class FeedNavigationBar: UIView {
   }()
   
   /// notificationButton과 Icon, searchButton의 경우 isCheckedNotification의 확인이 된 후에야 레이아웃 지정이 가능합니다.
-  private lazy var notificationIcon = UIView().set {
+  private lazy var notificationRedIcon = UIView().set {
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.layer.cornerRadius = Constant.NotificationIcon.width/2
     let redColor = Constant.NotificationIcon.color
@@ -97,7 +97,7 @@ extension FeedNavigationBar {
   
   private func bind() {
     postSearchButton.tap.sink {
-      self.delegate?.didTapUserPostSearch()
+      self.delegate?.didTapPostSearch()
     }.store(in: &subscriptions)
     notificationButton.tap.sink {
       self.delegate?.didTapNotification()
@@ -128,7 +128,7 @@ extension FeedNavigationBar {
   
   private func updateNotificationIconColor() {
     let redColor = Constant.NotificationIcon.color
-    notificationIcon
+    notificationRedIcon
       .backgroundColor = isCheckedNotification ? .white : redColor
   }
 }
@@ -136,7 +136,7 @@ extension FeedNavigationBar {
 // MARK: - LayoutSupport
 extension FeedNavigationBar: LayoutSupport {
   func addSubviews() {
-    _=[appTitle, postSearchButton, notificationButton, notificationIcon]
+    _=[appTitle, postSearchButton, notificationButton, notificationRedIcon]
       .map { addSubview($0) }
   }
   
@@ -144,7 +144,7 @@ extension FeedNavigationBar: LayoutSupport {
     _=[appTitleConstraint,
        notificationButtonConstraint,
        postSearchButtonConstraint,
-       notificationIconConstraint]
+       notificationRedIconConstraint]
       .map { NSLayoutConstraint.activate($0) }
   }
 }
@@ -179,22 +179,22 @@ fileprivate extension FeedNavigationBar {
       equalTo: topAnchor,
       constant: Constant.Notification.topSpacaing),
      notificationButton.trailingAnchor.constraint(
-      equalTo: notificationIcon.leadingAnchor),
+      equalTo: notificationRedIcon.leadingAnchor),
      notificationButton.bottomAnchor.constraint(
       equalTo: bottomAnchor,
       constant: -Constant.Notification.bottomSpacing)]
   }
   
-  var notificationIconConstraint: [NSLayoutConstraint] {
-    [notificationIcon.topAnchor.constraint(
+  var notificationRedIconConstraint: [NSLayoutConstraint] {
+    [notificationRedIcon.topAnchor.constraint(
       equalTo: topAnchor,
       constant: Constant.NotificationIcon.topSpacing),
-     notificationIcon.trailingAnchor.constraint(
+     notificationRedIcon.trailingAnchor.constraint(
       equalTo: trailingAnchor,
       constant: -Constant.NotificationIcon.trailingSpacing),
-     notificationIcon.widthAnchor.constraint(
+     notificationRedIcon.widthAnchor.constraint(
       equalToConstant: Constant.NotificationIcon.width),
-     notificationIcon.heightAnchor.constraint(
+     notificationRedIcon.heightAnchor.constraint(
       equalToConstant: Constant.NotificationIcon.height)]
   }
 }
