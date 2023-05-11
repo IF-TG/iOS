@@ -9,13 +9,40 @@ import UIKit
 
 class FeedViewController: UIViewController {
   // MARK: - Properties
-  let categoryPageView = CategoryPageView()
+  private let categoryPageView = CategoryPageView()
+  
+  private let feedNavigationBar = FeedNavigationBar()
   
   // MARK: - Lifecycle
   override func viewDidLoad() {
     super.viewDidLoad()
-    setupUI()
+    configureUI()
   }
+}
+
+// MARK: - Helpers
+extension FeedViewController {
+  private func configureUI() {
+    setupUI()
+    navigationController?.navigationBar.backgroundColor = .white
+    view.backgroundColor = .white
+    guard let naviBar = navigationController?.navigationBar else { return }
+    feedNavigationBar.delegate = self
+    feedNavigationBar.layoutFrom(naviBar)
+  }
+}
+
+extension FeedViewController: FeedNavigationBarDelegate {
+  func didTapUserPostSearch() {
+    // goto user post search naivgationController
+    print("DEBUG: User post search event occured")
+  }
+
+  func didTapNotification() {
+    // goto notifiation with naivgationController
+    print("DEBUG: User notification event occured")
+  }
+
 }
 
 // MARK: - LayoutSupport
@@ -23,7 +50,7 @@ extension FeedViewController: LayoutSupport {
   func addSubviews() {
     view.addSubview(categoryPageView)
   }
-  
+
   func setConstraints() {
     NSLayoutConstraint.activate(categoryPageViewConstraint)
   }
