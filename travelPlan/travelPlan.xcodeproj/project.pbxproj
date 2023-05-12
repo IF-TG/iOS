@@ -182,6 +182,13 @@
 			path = Fonts;
 			sourceTree = "<group>";
 		};
+		158BEF712A0E23B600C27861 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		1594F52529FD517E00A58F20 = {
 			isa = PBXGroup;
 			children = (
@@ -336,13 +343,6 @@
 			path = Profile;
 			sourceTree = "<group>";
 		};
-		15C92C082A0AA13E00376D1B /* UserPostThumbnailView */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = UserPostThumbnailView;
-			sourceTree = "<group>";
-		};
 		15C92C0C2A0ABE7800376D1B /* FeedNavigationBar */ = {
 			isa = PBXGroup;
 			children = (
@@ -388,7 +388,6 @@
 			isa = PBXGroup;
 			children = (
 				15C92C0C2A0ABE7800376D1B /* FeedNavigationBar */,
-				15C92C082A0AA13E00376D1B /* UserPostThumbnailView */,
 				15EF8C942A0A18660068C744 /* CategoryPageView */,
 			);
 			path = View;
@@ -451,6 +450,7 @@
 		15FEB5D82A050A99000A5F33 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				158BEF712A0E23B600C27861 /* View */,
 				15FEB5D92A050A99000A5F33 /* CombineCocoa */,
 				15FEB5DF2A050A99000A5F33 /* Extension */,
 				15FEB5E12A050A99000A5F33 /* Protocol */,
