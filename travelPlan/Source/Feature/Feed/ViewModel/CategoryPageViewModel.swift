@@ -23,7 +23,7 @@ extension CategoryPageViewModel {
     let lb = UILabel()
     lb.text = data[index.row]
     lb.font = UIFont.systemFont(
-      ofSize: CategoryViewCellConstant.Title.fontSize)
+      ofSize: CategoryViewCell.Constant.Title.fontSize)
     lb.sizeToFit()
     return lb.bounds.width
   }
@@ -33,10 +33,8 @@ extension CategoryPageViewModel {
   /// - Returns: cell에서 title을 제외한 영역중 절반 leading spacing
   func scrollBarLeadingSpacing(_ titleWidth: CGFloat) -> CGFloat {
     return (
-      CategoryViewConstant
-        .shared
-        .intrinsicContentSize
-        .width - titleWidth)/2.0
+      CategoryView.Constant.size
+        .width - titleWidth) / 2.0
   }
   
   func configCell(

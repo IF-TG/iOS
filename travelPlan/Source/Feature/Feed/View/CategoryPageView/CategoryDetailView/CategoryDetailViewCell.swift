@@ -8,8 +8,10 @@
 import UIKit
 
 class CategoryDetailViewCell: UICollectionViewCell {
-  // MARK: - Identifier
-  static let id = "CategoryDetailViewCell"
+  // MARK: - Constant
+  static var id: String {
+    return String(describing: self)
+  }
   
   // MARK: - Properties
   let content = UIView().set {
@@ -33,8 +35,7 @@ class CategoryDetailViewCell: UICollectionViewCell {
 
 extension CategoryDetailViewCell {
   func configCell(with indexPath: IndexPath) -> UICollectionViewCell {
-    backgroundColor = .systemPink
-      .withAlphaComponent(CGFloat((indexPath.row+1))*0.2)
+    backgroundColor = UIColor(red: 0.961, green: 0.961, blue: 0.961, alpha: 1)
     return self
   }
 }
@@ -54,7 +55,7 @@ fileprivate extension CategoryDetailViewCell {
   var contentConstraint: [NSLayoutConstraint] {
     [content.topAnchor.constraint(
       equalTo: contentView.topAnchor,
-      constant: CategoryDetailCellConstant.spacingTop),
+      constant: Constant.Spacing.top),
      content.leadingAnchor.constraint(
       equalTo: contentView.leadingAnchor),
      content.trailingAnchor.constraint(
