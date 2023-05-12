@@ -4,6 +4,15 @@
 <dict>
 	<key>UIAppFonts</key>
 	<array>
+		<string>Pretendard-Black.ttf</string>
+		<string>Pretendard-Bold.ttf</string>
+		<string>Pretendard-ExtraBold.ttf</string>
+		<string>Pretendard-ExtraLight.ttf</string>
+		<string>Pretendard-Light.ttf</string>
+		<string>Pretendard-Medium.ttf</string>
+		<string>Pretendard-Regular.ttf</string>
+		<string>Pretendard-SemiBold.ttf</string>
+		<string>Pretendard-Thin.ttf</string>
 		<string>SFProText-Semibold.ttf</string>
 		<string>SFPro.ttf</string>
 		<string>SFPro-Italic.ttf</string>
