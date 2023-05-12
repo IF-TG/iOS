@@ -55,7 +55,7 @@ fileprivate extension CategoryDetailViewCell {
   var contentConstraint: [NSLayoutConstraint] {
     [content.topAnchor.constraint(
       equalTo: contentView.topAnchor,
-      constant: CategoryDetailCellConstant.spacingTop),
+      constant: Constant.Spacing.top),
      content.leadingAnchor.constraint(
       equalTo: contentView.leadingAnchor),
      content.trailingAnchor.constraint(

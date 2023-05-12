@@ -24,15 +24,15 @@ class CategoryViewCell: UICollectionViewCell {
   let categoryTitle = UILabel().set {
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.font = UIFont.systemFont(
-      ofSize: CategoryViewCellConstant.Title.fontSize)
+      ofSize: Constant.Title.fontSize)
     $0.textAlignment = .center
-    $0.textColor = UIColor(red: 0.404, green: 0.404, blue: 0.404, alpha: 1)
+    $0.textColor = Constant.Title.textColor
     $0.text = "카테고리"
   }
   
   override var isSelected: Bool {
     willSet {
-      self.categoryTitle.textColor = newValue ? .black : UIColor(red: 0.404, green: 0.404, blue: 0.404, alpha: 1)
+      self.categoryTitle.textColor = newValue ? .black : Constant.Title.textColor
       self.categoryImageView.backgroundColor = newValue ? .lightGray : .lightGray.withAlphaComponent(0.6)
       if newValue {
         selectedAnimation()
@@ -104,26 +104,26 @@ fileprivate extension CategoryViewCell {
   var categoryImageViewConstraint: [NSLayoutConstraint] {
     [categoryImageView.topAnchor.constraint(
       equalTo: contentView.topAnchor,
-      constant: CategoryViewCellConstant.ImageView.spacingTop),
+      constant: Constant.ImageView.Spacing.top),
      categoryImageView.leadingAnchor.constraint(
       equalTo: contentView.leadingAnchor,
-      constant: CategoryViewCellConstant.ImageView.spacingLeft),
+      constant: Constant.ImageView.Spacing.left),
      categoryImageView.trailingAnchor.constraint(
       equalTo: contentView.trailingAnchor,
-      constant: -CategoryViewCellConstant.ImageView.spacingLeft),
+      constant: -Constant.ImageView.Spacing.left),
      categoryImageView.heightAnchor.constraint(
-      equalToConstant: CategoryViewCellConstant.ImageView.size.height)]
+      equalToConstant: Constant.ImageView.size.height)]
   }
   
   var categoryTitleConstraint: [NSLayoutConstraint] {
     [categoryTitle.topAnchor.constraint(
       equalTo: categoryImageView.bottomAnchor,
-      constant: CategoryViewCellConstant.Title.spacingTop),
+      constant: Constant.Title.Spacing.top),
      categoryTitle.leadingAnchor.constraint(
       equalTo: contentView.leadingAnchor),
      categoryTitle.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
      categoryTitle.bottomAnchor.constraint(
       equalTo: contentView.bottomAnchor,
-      constant: CategoryViewCellConstant.Title.spacingBottom)]
+      constant: Constant.Title.Spacing.bottom)]
   }
 }

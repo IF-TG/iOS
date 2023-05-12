@@ -59,10 +59,7 @@ fileprivate extension CategoryPageView {
     }
     let firstCellTextSize = vm.titleFontSize()
     let firstTextLeading = (
-      CategoryViewConstant
-        .shared
-        .intrinsicContentSize
-        .width - firstCellTextSize)/2
+      CategoryView.Constant.size.width - firstCellTextSize)/2
     categoryView.drawScrollBar(
       target: cell,
       fromLeading: firstTextLeading)
@@ -70,14 +67,11 @@ fileprivate extension CategoryPageView {
   
   /// If subviews layout, set category detail view cell size
   func initCategoryDetailViewCellItem() {
-    let categoryCellHeight = CategoryViewConstant
-      .shared
-      .intrinsicContentSize
-      .height
+    let categoryHeight = CategoryView.Constant.size.height
     categoryDetailView.setLayoutItemSize(
       CGSize(
         width: bounds.width,
-        height: bounds.height - categoryCellHeight))
+        height: bounds.height - categoryHeight))
     categoryDetailView.isScrollEnabled = false
   }
   
@@ -170,7 +164,9 @@ fileprivate extension CategoryPageView {
       equalTo: leadingAnchor),
      categoryView.trailingAnchor.constraint(
       equalTo: trailingAnchor),
-     categoryView.heightAnchor.constraint(equalToConstant: CategoryViewConstant.shared.intrinsicContentSize.height)]
+     categoryView.heightAnchor.constraint(
+      equalToConstant:
+        CategoryView.Constant.size.height)]
   }
   
   var categoryDetailViewConstraint: [NSLayoutConstraint] {
