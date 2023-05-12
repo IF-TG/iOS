@@ -10,7 +10,7 @@ import UIKit
 class LeftAlignedCollectionViewFlowLayout: UICollectionViewFlowLayout {
   override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
     // layout 속성값
-    guard let attributes = super.layoutAttributesForElements(in: rect) else { return [ ] }
+    guard let attributes = super.layoutAttributesForElements(in: rect) else { return [] }
     
     // contentView의 left 여백
     var leftMargin = self.sectionInset.left
