@@ -7,15 +7,15 @@
 
 import Foundation
 
-struct SearchModel {
-  // MARK: - Properties
-  static let recommendationSearchKeyword = [
-    "추천1", "추천11", "추천111", "추천11", "추천", "추천111111", "추천11", "추천11", "추천", "추", "추천1",
-    "추천11", "추천", "추천1111"
+struct RecommendationSearch {
+  let headerTitle = "추천 검색"
+  let keywords = ["최근검색2222zzzzzzzzzzz", "최근검색22", "최근검색3333", "최근검색", "최근검색5"]
+}
+
+struct RecentSearch {
+  let headerTitle = "최근 검색"
+  let keywords = [
+    "추천1", "추천11", "추천11111111222222222222", "추천11", "추천", "추천111111", "추천11", "추천11",
+    "추천", "추천", "추천1", "추천11", "추천", "추천1111"
   ]
-  
-  static let recentSearchKeyword = [
-    "최근검색1", "최근검색2", "최근검색3", "최근검색4", "최근검색5"
-  ]
-  static let headerTitle = ["추천 검색", "최근 검색"]
 }
