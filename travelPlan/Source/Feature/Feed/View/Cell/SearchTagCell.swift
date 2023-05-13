@@ -50,6 +50,7 @@ extension SearchTagCell {
     guard let cancelButton = self.cancelButton else { return UIButton() }
     cancelButton.setImage(UIImage(systemName: "xmark"), for: .normal)
     cancelButton.tintColor = UIColor(hex: "#484848")
+    cancelButton.addTarget(self, action: #selector(didTapCancelButton), for: .touchUpInside)
     return cancelButton
   }
   
@@ -64,6 +65,14 @@ extension SearchTagCell {
       setupUI()
     case .recent, .recommendation: return
     }
+  }
+}
+
+// MARK: - Actions
+extension SearchTagCell {
+  @objc private func didTapCancelButton(_ button: UIButton) {
+    // DeleteCellTODO: 선택된 최근 검색 cell 삭제
+    print("cancel button Tapped")
   }
 }
 
@@ -107,7 +116,3 @@ extension SearchTagCell: LayoutSupport {
     }
   }
 }
-
-//protocol CancelButtonDelegate: AnyObject {
-//  func
-//}
