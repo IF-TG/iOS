@@ -52,8 +52,8 @@ extension OneUnitHeightLine {
   }
   
   // superView만 필요한 경우
-  func lineConstraint(
-    from superView: UIView,
+  func setConstraint(
+    fromSuperView superView: UIView,
     spacing: Spacing
   ) {
     superView.addSubview(self)
@@ -70,7 +70,7 @@ extension OneUnitHeightLine {
     ])
   }
   // superView랑 line 위에 view가 있는 경우
-  func lineConstraint(
+  func setConstraint(
     fromTopView topView: UIView,
     superView: UIView,
     spacing: Spacing
@@ -78,7 +78,7 @@ extension OneUnitHeightLine {
     topAnchor.constraint(
       equalTo: topView.bottomAnchor,
       constant: spacing.top).isActive = true
-    lineConstraint(from: superView, spacing: spacing)
+    setConstraint(fromSuperView: superView, spacing: spacing)
   }
   
 }
