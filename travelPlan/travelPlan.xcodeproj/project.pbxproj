@@ -15,7 +15,7 @@
 		13254FED2A0515D800094218 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13254FEC2A0515D800094218 /* ProfileViewController.swift */; };
 		13254FF02A0549D200094218 /* TabBarCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13254FEF2A0549D200094218 /* TabBarCase.swift */; };
 		13254FFB2A08AD8700094218 /* UserPostSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13254FFA2A08AD8700094218 /* UserPostSearchViewController.swift */; };
-		1325501E2A08BFC800094218 /* TitleSupplementaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1325501D2A08BFC800094218 /* TitleSupplementaryView.swift */; };
+		1325501E2A08BFC800094218 /* UserPostSearchHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1325501D2A08BFC800094218 /* UserPostSearchHeaderView.swift */; };
 		132550282A0ABBDA00094218 /* SearchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132550272A0ABBDA00094218 /* SearchModel.swift */; };
 		1325502B2A0ABE5E00094218 /* UserPostSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1325502A2A0ABE5E00094218 /* UserPostSearchViewModel.swift */; };
 		1325502D2A0AC80000094218 /* LeftAlignedCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1325502C2A0AC80000094218 /* LeftAlignedCollectionViewFlowLayout.swift */; };
@@ -68,7 +68,7 @@
 		13254FEC2A0515D800094218 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		13254FEF2A0549D200094218 /* TabBarCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarCase.swift; sourceTree = "<group>"; };
 		13254FFA2A08AD8700094218 /* UserPostSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPostSearchViewController.swift; sourceTree = "<group>"; };
-		1325501D2A08BFC800094218 /* TitleSupplementaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleSupplementaryView.swift; sourceTree = "<group>"; };
+		1325501D2A08BFC800094218 /* UserPostSearchHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPostSearchHeaderView.swift; sourceTree = "<group>"; };
 		132550272A0ABBDA00094218 /* SearchModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchModel.swift; sourceTree = "<group>"; };
 		1325502A2A0ABE5E00094218 /* UserPostSearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPostSearchViewModel.swift; sourceTree = "<group>"; };
 		1325502C2A0AC80000094218 /* LeftAlignedCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftAlignedCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
@@ -139,7 +139,7 @@
 			isa = PBXGroup;
 			children = (
 				132550252A0A80CB00094218 /* Cell */,
-				1325501D2A08BFC800094218 /* TitleSupplementaryView.swift */,
+				1325501D2A08BFC800094218 /* UserPostSearchHeaderView.swift */,
 				1325502C2A0AC80000094218 /* LeftAlignedCollectionViewFlowLayout.swift */,
 			);
 			path = View;
@@ -634,7 +634,7 @@
 				13254FE72A05158E00094218 /* SearchViewController.swift in Sources */,
 				15FEB5EC2A050A99000A5F33 /* ViewModelProtocols.swift in Sources */,
 				15FEB5E72A050A99000A5F33 /* UIButton+Combine.swift in Sources */,
-				1325501E2A08BFC800094218 /* TitleSupplementaryView.swift in Sources */,
+				1325501E2A08BFC800094218 /* UserPostSearchHeaderView.swift in Sources */,
 				15FEB5EB2A050A99000A5F33 /* ConvenienceInit.swift in Sources */,
 				1325502B2A0ABE5E00094218 /* UserPostSearchViewModel.swift in Sources */,
 				15FEB5E92A050A99000A5F33 /* UITextField+Combine.swift in Sources */,
