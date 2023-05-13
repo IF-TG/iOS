@@ -8,5 +8,6 @@
 import Foundation
 
 final class UserPostSearchViewModel {
-  
+  var recommendationModel = RecommendationSearch()
+  var recentModel = RecentSearch()
 }
