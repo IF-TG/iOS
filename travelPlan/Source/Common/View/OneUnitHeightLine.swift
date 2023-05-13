@@ -14,18 +14,20 @@ final class OneUnitHeightLine: UIView {
   // MARK: - Initialization
   fileprivate override init(frame: CGRect) {
     super.init(frame: frame)
+    translatesAutoresizingMaskIntoConstraints = false
   }
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
   
-  convenience init(_ color: UIColor = .yg.gray0) {
+  convenience init(color: UIColor) {
     self.init(frame: .zero)
+    backgroundColor = color
   }
 }
 
-//MARK: -  Constants
+// MARK: - Constants
 extension OneUnitHeightLine {
   struct Spacing {
     let leading: CGFloat
@@ -44,13 +46,6 @@ extension OneUnitHeightLine {
 // MARK: - Helpers
 extension OneUnitHeightLine {
   
-  fileprivate func configureUI(_ color: UIColor) {
-    translatesAutoresizingMaskIntoConstraints = false
-    heightAnchor.constraint(
-      equalToConstant: height).isActive = true
-    backgroundColor = color
-  }
-  
   // superView만 필요한 경우
   func setConstraint(
     fromSuperView superView: UIView,
@@ -58,6 +53,7 @@ extension OneUnitHeightLine {
   ) {
     superView.addSubview(self)
     NSLayoutConstraint.activate([
+      heightAnchor.constraint(equalToConstant: height),
       leadingAnchor.constraint(
         equalTo: superView.leadingAnchor,
         constant: spacing.leading),
@@ -66,8 +62,8 @@ extension OneUnitHeightLine {
         constant: -spacing.bottom),
       trailingAnchor.constraint(
         equalTo: superView.trailingAnchor,
-        constant: -spacing.trailing)
-    ])
+        constant: -spacing.trailing)])
+    superView.bringSubviewToFront(self)
   }
   // superView랑 line 위에 view가 있는 경우
   func setConstraint(
