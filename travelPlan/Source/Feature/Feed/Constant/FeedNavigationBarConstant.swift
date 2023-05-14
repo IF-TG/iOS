@@ -8,11 +8,9 @@
 import UIKit
 
 extension FeedNavigationBar {
-  struct Constant {
-    
+  enum Constant {
     static let backgroundColor: UIColor = .white
-    
-    struct Title {
+    enum Title {
       static let text = "ㅇㅕ ㄱㄴ"
       static let textColor: UIColor = .yg.primary
       static let fontSize: CGFloat = 18
@@ -21,7 +19,7 @@ extension FeedNavigationBar {
       static let bottomSpacing: CGFloat = 10
       static let fontName: String = "SFProText-Semibold"
     }
-    struct postSearch {
+    enum postSearch {
       static let image = UIImage(named: "search")
       static let size = CGSize(width: 24, height: 24)
       static let trailingSpacing: CGFloat = 19.3
@@ -30,8 +28,7 @@ extension FeedNavigationBar {
       static let normalColor: UIColor = .yg.gray5
       static let highlightColor: UIColor = .yg.gray5.withAlphaComponent(0.5)
     }
-    
-    struct Notification {
+    enum Notification {
       static let image = UIImage(named: "notification")
       static let size = CGSize(width: 24, height: 24)
       static let topSpacaing: CGFloat = 9.33
@@ -39,8 +36,7 @@ extension FeedNavigationBar {
       static let normalColor: UIColor = .yg.gray5
       static let highlightColor: UIColor = .yg.gray5.withAlphaComponent(0.5)
     }
-    
-    struct NotificationIcon {
+    enum NotificationIcon {
       static let width: CGFloat = 5
       static let height: CGFloat = 5
       static let topSpacing: CGFloat = 9.33

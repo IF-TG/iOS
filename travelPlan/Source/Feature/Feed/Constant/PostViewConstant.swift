@@ -44,33 +44,33 @@ extension PostHeaderView {
     let instrinsicHeight = {
       return UserProfileImage.Spacing.top + UserProfileImage.height + UserProfileImage.Spacing.bottom
     }()
-    struct UserProfileImage {
+    enum UserProfileImage {
       static let width: CGFloat = 40
       static let height: CGFloat = 40
-      struct Spacing {
+      enum Spacing {
         static let leading: CGFloat = 29.5
         static let top: CGFloat = 20
         static let bottom: CGFloat = 5
       }
     }
-    struct Title {
+    enum Title {
       static let textColor: UIColor = .yg.gray7
       static let font: UIFont = UIFont(pretendard: .semiBold, size: 18)!
-      struct Spacing {
+      enum Spacing {
         static let top: CGFloat = 20
         static let leading: CGFloat = 21.5
         static let trailing: CGFloat = 51.5
       }
     }
-    struct SubInfoView {
-      struct Spacing {
+    enum SubInfoView {
+      enum Spacing {
         static let top: CGFloat = 5
         static let leading: CGFloat = 21.5
         static let trailing: CGFloat = 73
         static let bottom: CGFloat = 7
       }
     }
-    struct OptionView {
+    enum OptionView {
       static let size = CGSize(width: 1.67, height: 13.33)
       static let selectedImage = UIImage(named: "feedOption")
       static let unselectedImage = UIImage(named: "feedOption")?.setColor(.yg.gray4.withAlphaComponent(0.5))
@@ -84,13 +84,13 @@ extension PostHeaderView {
 
 // MARK: - PostHeaderSubInfoView UI Constant
 extension PostHeaderSubInfoView {
-  struct Constant {
-    struct UserName {
+  enum Constant {
+    enum UserName {
       static let textColor: UIColor = .yg.gray5
       static let font: UIFont = UIFont(pretendard: .medium, size: 10)!
       static let width: CGFloat = 70
     }
-    struct Duration {
+    enum Duration {
       static let textColor: UIColor = .yg.gray5
       static let font: UIFont = UIFont(pretendard: .medium, size: 10)!
       static let width: CGFloat = 31
@@ -99,16 +99,15 @@ extension PostHeaderSubInfoView {
         static let trailing: CGFloat = 10
       }
     }
-    struct DateRange {
+    enum DateRange {
       static let textColor: UIColor = .yg.gray5
       static let font: UIFont = UIFont(pretendard: .medium, size: 10)!
       static let width: CGFloat = 86
-      
-      struct Spacing {
+      enum Spacing {
         static let leading: CGFloat = 10
       }
     }
-    struct Divider {
+    enum Divider {
       static let bgColor: UIColor = .yg.gray5
       static let width: CGFloat = 1
       static let height: CGFloat = 13
@@ -127,17 +126,17 @@ extension PostContentAreaView {
     let intrinsicHeight = Constant.imageHeight + ImageSpacing.top
     
     static let imageHeight: CGFloat = 118
-    struct ImageSpacing {
+    enum ImageSpacing {
       static let leading: CGFloat = 30
       static let trailing: CGFloat = 30
       static let top: CGFloat = 8
     }
-    struct Text {
+    enum Text {
       static let textSize: CGFloat = 14
       static let lineBreakMode: NSLineBreakMode = .byWordWrapping
       static let font: UIFont = UIFont(
         pretendard: .regular, size: 14)!
-      struct Spacing {
+      enum Spacing {
         static let top: CGFloat = 12
         static let bottom: CGFloat = 4
         static let leading: CGFloat = 30
@@ -170,9 +169,9 @@ extension PostThumbnailView {
 
 // MARK: - PostFooterView UI Constant
 extension PostFooterView {
-  struct Constant {
+  enum Constant {
     static let footerViewheight: CGFloat = 50
-    struct HeartSV {
+    enum HeartSV {
       static let width: CGFloat = 60
       static let spacing: CGFloat = 16
       static let height: CGFloat = 20
@@ -180,7 +179,7 @@ extension PostFooterView {
         static let leading: CGFloat = 51
       }
     }
-    struct Heart {
+    enum Heart {
       static let iconName = "feedHeart"
       static let colorHex = "#FE0135"
       static let minimumsSize = CGSize(width: 15, height: 15)
@@ -190,12 +189,12 @@ extension PostFooterView {
         named: Constant.Heart.iconName)?
         .setColor(UIColor(hex: Constant.Heart.colorHex))
       
-      struct Text {
+      enum Text {
         static let font: UIFont = UIFont(pretendard: .regular, size: 13)!
         static let fontColor: UIColor = .yg.gray4
       }
     }
-    struct Comment {
+    enum Comment {
       static let iconName = "feedComment"
       static let minimumsSize = CGSize(width: 15, height: 15)
       struct Text {
@@ -203,15 +202,14 @@ extension PostFooterView {
         static let fontColor: UIColor = .yg.gray4
       }
     }
-    
-    struct Share {
+    enum Share {
       static let iconName = "feedShare"
       struct Spacing {
         static let trailing: CGFloat = 53
       }
     }
     
-    struct CommentSV {
+    enum CommentSV {
       static let width: CGFloat = 40
       static let height: CGFloat = 20
       static let spacing: CGFloat = 16
