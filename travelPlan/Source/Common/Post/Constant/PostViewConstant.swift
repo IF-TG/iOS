@@ -8,7 +8,7 @@
 import UIKit
 
 // MARK: - PostViewCell UI Constant
-extension PostViewCell {
+extension PostCell {
   struct Constant {
     struct Line {
       static let bgColor: UIColor = .yg.gray0
@@ -57,6 +57,15 @@ extension PostHeaderView {
         static let leading: CGFloat = 21.5
         static let trailing: CGFloat = 73
         static let bottom: CGFloat = 7
+      }
+    }
+    struct OptionView {
+      static let size = CGSize(width: 1.67, height: 13.33)
+      static let selectedImage = UIImage(named: "feedOption")
+      static let unselectedImage = UIImage(named: "feedOption")?.setColor(.yg.gray4.withAlphaComponent(0.5))
+      struct Spacing {
+        static let top: CGFloat = 38.33
+        static let trailing: CGFloat = 39.67
       }
     }
   }
@@ -151,6 +160,12 @@ extension PostFooterView {
       static let iconName = "feedHeart"
       static let colorHex = "#FE0135"
       static let minimumsSize = CGSize(width: 14.33, height: 12.89)
+      // 이거 정해야 합니다.
+      // static let selectedImage: UIImage =
+      static let unselectedImage = UIImage(
+        named: Constant.Heart.iconName)?
+        .setColor(UIColor(hex: Constant.Heart.colorHex))
+      
       struct Text {
         static let font: UIFont = UIFont(pretendard: .regular, size: 13)!
         static let fontColor: UIColor = .yg.gray4
