@@ -10,9 +10,10 @@ import UIKit
 struct CategoryPageViewModel {
   // MARK: - Properties
   let data = categoryData
+  let mockPostData = MockPostModel().initMockData()
 }
 
-// MARK: - Helpers
+// MARK: - Public helpers
 extension CategoryPageViewModel {
   /// Return categoryView cell's title font size
   /// - Parameter index: 특정 cell의 indexPath
@@ -55,8 +56,8 @@ extension CategoryPageViewModel {
   }
 }
 
-// MARK: - Fileprivate helpers
-fileprivate extension CategoryPageViewModel {
+// MARK: - Helpers
+private extension CategoryPageViewModel {
   func setupCategoryCell(
     _ cv: UICollectionView,
     cellForItemAt indexPath: IndexPath
@@ -80,6 +81,6 @@ fileprivate extension CategoryPageViewModel {
     ) as? CategoryDetailViewCell else {
       return UICollectionViewCell()
     }
-    return cell.configCell(with: indexPath)
+    return cell.configure(with: mockPostData)
   }
 }
