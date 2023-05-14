@@ -67,9 +67,9 @@ extension UIFont {
     case sfPro
     
     var toStr: String {
-      switch self  {
+      switch self {
       case .italic: return "SFPro-Italic"
-      case .semibold: return "SFProText-Semibold"
+      case .semiBold: return "SFProText-Semibold"
       case .sfPro: return "SFPro"
       }
     }
