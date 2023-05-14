@@ -27,7 +27,6 @@ extension DateValidationManager: DateValidationProtocol {
   func isValidDateRange(from dateString: String) -> Bool {
     do {
       if !isValidToDateFormatTypeString(dateString) {
-        return false
       }
       let lists = dateString.components(separatedBy: " ~ ")
       let start = lists[0]
@@ -66,7 +65,7 @@ private extension DateValidationManager {
   }
   
   func isValidToDateFormatTypeString(_ dateString: String) -> Bool {
-    if dateString.isEmpty || dateString.contains(" ~ ") {
+    if dateString.isEmpty || !dateString.contains(" ~ ") {
       return false
     }
     return true
