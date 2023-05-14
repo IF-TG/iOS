@@ -14,14 +14,11 @@ class CategoryDetailViewCell: UICollectionViewCell {
   }
   
   // MARK: - Properties
-  let content = UIView().set {
-    $0.translatesAutoresizingMaskIntoConstraints = false
-  }
+  private var postView: PostView!
   
   // MARK: - Initialization
   override init(frame: CGRect) {
     super.init(frame: frame)
-    setupUI()
   }
   
   convenience init() {
@@ -33,34 +30,42 @@ class CategoryDetailViewCell: UICollectionViewCell {
   }
 }
 
+// MARK: - Public helpers
 extension CategoryDetailViewCell {
-  func configCell(with indexPath: IndexPath) -> UICollectionViewCell {
-    backgroundColor = UIColor(red: 0.961, green: 0.961, blue: 0.961, alpha: 1)
+  func configure(with data: [PostModel]
+  ) -> UICollectionViewCell {
+    setPostView(with: data)
     return self
+  }
+}
+
+// MARK: - Helpers
+extension CategoryDetailViewCell {
+  private func setPostView(with data: [PostModel]) {
+    if postView == nil {
+      postView = PostView(
+        with: PostViewModel(data: data))
+      setupUI()
+    }
   }
 }
 
 // MARK: - LayoutSupport
 extension CategoryDetailViewCell: LayoutSupport {
   func addSubviews() {
-    contentView.addSubview(content)
+    contentView.addSubview(postView)
   }
   
   func setConstraints() {
-    NSLayoutConstraint.activate(contentConstraint)
-  }
-}
-
-fileprivate extension CategoryDetailViewCell {
-  var contentConstraint: [NSLayoutConstraint] {
-    [content.topAnchor.constraint(
-      equalTo: contentView.topAnchor,
-      constant: Constant.Spacing.top),
-     content.leadingAnchor.constraint(
-      equalTo: contentView.leadingAnchor),
-     content.trailingAnchor.constraint(
-      equalTo: contentView.trailingAnchor),
-     content.bottomAnchor.constraint(
-      equalTo: contentView.bottomAnchor)]
+    NSLayoutConstraint.activate([
+      postView.topAnchor.constraint(
+        equalTo: contentView.topAnchor,
+        constant: Constant.Spacing.top),
+      postView.leadingAnchor.constraint(
+        equalTo: contentView.leadingAnchor),
+      postView.trailingAnchor.constraint(
+        equalTo: contentView.trailingAnchor),
+      postView.bottomAnchor.constraint(
+        equalTo: contentView.bottomAnchor)])
   }
 }

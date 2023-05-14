@@ -65,9 +65,10 @@ extension FeedViewController: ViewBindCase {
         case .failure(let error):
           self?.handleError(error)
         }
-      } receiveValue: { self.render($0) }
+      } receiveValue: { [weak self] in self?.render($0) }
       .store(in: &subscription)
   }
+  
   func render(_ state: State) {
     switch state {
     case .none:
