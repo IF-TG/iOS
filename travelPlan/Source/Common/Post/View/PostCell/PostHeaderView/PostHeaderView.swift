@@ -11,30 +11,40 @@ final class PostHeaderView: UIView {
   // MARK: - Properteis
   private lazy var title = UILabel().set {
     $0.translatesAutoresizingMaskIntoConstraints = false
-    $0.text = "거, 여행가기 딱 좋은 날씨네 ..."
+    $0.text = " "
     $0.textAlignment = .left
     $0.font = Constant.Title.font
     $0.textColor = Constant.Title.textColor
     $0.numberOfLines = 1
-    $0.sizeToFit()
     $0.isUserInteractionEnabled = true
     let touchGesture = UITapGestureRecognizer(target: self, action: #selector(didTapTitle))
     $0.addGestureRecognizer(touchGesture)
   }
+  
   private lazy var profileImageView: UIImageView = UIImageView().set {
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.backgroundColor = .lightGray.withAlphaComponent(0.5)
     $0.clipsToBounds = true
-    $0.image = UIImage(named: "tempProfile1")
     $0.isUserInteractionEnabled = true
     $0.contentMode = .scaleAspectFill
     let gesture = UITapGestureRecognizer(target: self, action: #selector(didTapProfile))
     $0.isUserInteractionEnabled = true
     $0.addGestureRecognizer(gesture)
     $0.layer.cornerRadius = Constant.UserProfileImage.width/2
-    $0.sizeToFit()
   }
+  
   private let subInfoView = PostHeaderSubInfoView()
+  
+  private lazy var optionButton = UIButton().set {
+    $0.translatesAutoresizingMaskIntoConstraints = false
+    $0.setImage(
+      Constant.OptionView.selectedImage,
+      for: .normal)
+    $0.setImage(
+      Constant.OptionView.unselectedImage,
+      for: .highlighted)
+    $0.addTarget(self, action: #selector(didTapOption), for: .touchUpInside)
+  }
   
   // MARK: - Initialization
   private override init(frame: CGRect) {
@@ -53,15 +63,34 @@ final class PostHeaderView: UIView {
   }
 }
 
-// MARK: - Helpers
+// MARK: - Public Helpers
 extension PostHeaderView {
-  func setupData(_ data: [String]) {
-    // 헤더에 관한 데이터 받는다.
-    // 헤더에 필요한 데이터는 프로필 이미지, 이름, 제목, 여행 기간, 여행 년월일기간
+  func configure(with data: PostHeaderModel) {
+    setTitle(with: data.title)
+    setProfile(with: data.image)
+    setSubInfo(with: data.subInfo)
   }
 }
 
-// MARK: - Action Event
+// MARK: - Helpers
+extension PostHeaderView {
+  private func setTitle(with text: String) {
+    title.text = text
+    title.sizeToFit()
+  }
+  
+  private func setProfile(with image: UIImage?) {
+    profileImageView.image = image
+  }
+  
+  private func setSubInfo(
+    with subInfoData: PostHeaderSubInfoModel
+  ) {
+    subInfoView.configure(with: subInfoData)
+  }
+}
+
+// MARK: - Action
 extension PostHeaderView {
   @objc func didTapTitle() {
     print("DEBUG: 탭탭!! title :)")
@@ -72,22 +101,28 @@ extension PostHeaderView {
     print("DEBUG: Goto profile scene !!")
     UIView.touchAnimate(profileImageView)
   }
+  
+  @objc func didTapOption() {
+    print("DEBUG: pop up option scene !!")
+    UIView.touchAnimate(optionButton)
+  }
 }
 
 // MARK: - LayoutSupport
 extension PostHeaderView: LayoutSupport {
   func addSubviews() {
-    _=[profileImageView, title, subInfoView].map { addSubview($0) }
+    _=[profileImageView, title, subInfoView, optionButton].map { addSubview($0) }
   }
   
   func setConstraints() {
-    _=[profileImageViewConstraints, titleConstraints, subInfoViewConstraints].map {
+    _=[profileImageViewConstraints, titleConstraints, subInfoViewConstraints, optionButtonConstraints].map {
       NSLayoutConstraint.activate($0)
     }
   }
 }
 
-fileprivate extension PostHeaderView {
+// MARK: - LayoutSupport constraints
+private extension PostHeaderView {
   var profileImageViewConstraints: [NSLayoutConstraint] {
     [profileImageView.topAnchor.constraint(
       equalTo: topAnchor,
@@ -130,5 +165,18 @@ fileprivate extension PostHeaderView {
      subInfoView.trailingAnchor.constraint(
       equalTo: trailingAnchor,
       constant: -Constant.SubInfoView.Spacing.trailing)]
+  }
+  
+  var optionButtonConstraints: [NSLayoutConstraint] {
+    [optionButton.trailingAnchor.constraint(
+      equalTo: trailingAnchor,
+      constant: -Constant.OptionView.Spacing.trailing),
+     optionButton.topAnchor.constraint(
+      equalTo: topAnchor,
+      constant: Constant.OptionView.Spacing.top),
+     optionButton.widthAnchor.constraint(
+      equalToConstant: Constant.OptionView.size.width),
+     optionButton.heightAnchor.constraint(
+      equalToConstant: Constant.OptionView.size.height)]
   }
 }

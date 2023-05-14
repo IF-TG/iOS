@@ -9,9 +9,9 @@ import UIKit
 
 class PostHeaderSubInfoView: UIView {
   // MARK: - Properties
-  private lazy var userNameLabel: UILabel = UILabel().set {
+  private lazy var userNameLabel = UILabel().set {
     $0.translatesAutoresizingMaskIntoConstraints = false
-    $0.text = "Charlotte"
+    $0.text = " "
     $0.textColor = Constant.UserName.textColor
     $0.textAlignment = .left
     $0.numberOfLines = 1
@@ -24,16 +24,16 @@ class PostHeaderSubInfoView: UIView {
   
   private let durationLabel = UILabel().set {
     $0.translatesAutoresizingMaskIntoConstraints = false
-    $0.text = "10일"
+    $0.text = " "
     $0.textColor = Constant.Duration.textColor
     $0.textAlignment = .center
     $0.numberOfLines = 1
     $0.font = Constant.Duration.font
   }
   
-  private let dateRangeLabel = UILabel().set {
+  private let yearMonthDayRangeLabel = UILabel().set {
     $0.translatesAutoresizingMaskIntoConstraints = false
-    $0.text = "23.07.02 ~ 23.07.11"
+    $0.text = " "
     $0.textColor = Constant.DateRange.textColor
     $0.textAlignment = .center
     $0.numberOfLines = 1
@@ -63,14 +63,36 @@ class PostHeaderSubInfoView: UIView {
   }
 }
 
-// MARK: - Action event
-fileprivate extension PostHeaderSubInfoView {
+// MARK: - Public helpers
+extension PostHeaderSubInfoView {
+  func configure(with data: PostHeaderSubInfoModel) {
+    setUserNameLabel(with: data.userName)
+    setDurationLabel(with: data.duration)
+    setYearMonthDayRangeLabel(with: data.yearMonthDayRange)
+  }
+}
+
+// MARK: - Helpers
+extension PostHeaderSubInfoView {
+  private func setUserNameLabel(with text: String) {
+    userNameLabel.text = text
+  }
   
+  private func setDurationLabel(with text: String) {
+    durationLabel.text = text
+  }
+  
+  private func setYearMonthDayRangeLabel(with text: String) {
+    yearMonthDayRangeLabel.text = text
+  }
+}
+
+// MARK: - Action
+private extension PostHeaderSubInfoView {
   @objc func didTapUserName() {
     print("DEBUG: Goto profile section!!")
     UIView.touchAnimate(userNameLabel)
   }
-  
 }
 
 // MARK: - LayoutSupport
@@ -80,7 +102,7 @@ extension PostHeaderSubInfoView: LayoutSupport {
        dividerView.first!,
        durationLabel,
        dividerView.last!,
-       dateRangeLabel].map { addSubview($0) }
+       yearMonthDayRangeLabel].map { addSubview($0) }
   }
   
   func setConstraints() {
@@ -95,16 +117,17 @@ extension PostHeaderSubInfoView: LayoutSupport {
   }
 }
 
-fileprivate extension PostHeaderSubInfoView {
-    var userNameLabelConstraints: [NSLayoutConstraint] {
-      [userNameLabel.leadingAnchor.constraint(
-        equalTo: leadingAnchor),
-       userNameLabel.topAnchor.constraint(
-        equalTo: topAnchor),
-       userNameLabel.bottomAnchor.constraint(
-        equalTo: bottomAnchor),
-       userNameLabel.widthAnchor.constraint(lessThanOrEqualToConstant: Constant.UserName.width)]
-    }
+// MARK: - LayoutSupport constraints
+private extension PostHeaderSubInfoView {
+  var userNameLabelConstraints: [NSLayoutConstraint] {
+    [userNameLabel.leadingAnchor.constraint(
+      equalTo: leadingAnchor),
+     userNameLabel.topAnchor.constraint(
+      equalTo: topAnchor),
+     userNameLabel.bottomAnchor.constraint(
+      equalTo: bottomAnchor),
+     userNameLabel.widthAnchor.constraint(lessThanOrEqualToConstant: Constant.UserName.width)]
+  }
   
   var dividerView1Constraints: [NSLayoutConstraint] {
     let divider = dividerView.first!
@@ -130,29 +153,29 @@ fileprivate extension PostHeaderSubInfoView {
       lessThanOrEqualToConstant: Constant.Duration.width)]
   }
   
-    var dividerView2Constraints: [NSLayoutConstraint] {
-      let divider = dividerView.last!
-      return [
-        divider.topAnchor.constraint(
-          equalTo: topAnchor),
-        divider.bottomAnchor.constraint(equalTo: bottomAnchor),
-        divider.widthAnchor.constraint(
-          equalToConstant: Constant.Divider.width),
-        divider.heightAnchor.constraint(
-          equalToConstant: Constant.Divider.height),
-        divider.leadingAnchor.constraint(
-          equalTo: durationLabel.trailingAnchor,
-          constant: Constant.Divider.Spacing.leading)]
-    }
+  var dividerView2Constraints: [NSLayoutConstraint] {
+    let divider = dividerView.last!
+    return [
+      divider.topAnchor.constraint(
+        equalTo: topAnchor),
+      divider.bottomAnchor.constraint(equalTo: bottomAnchor),
+      divider.widthAnchor.constraint(
+        equalToConstant: Constant.Divider.width),
+      divider.heightAnchor.constraint(
+        equalToConstant: Constant.Divider.height),
+      divider.leadingAnchor.constraint(
+        equalTo: durationLabel.trailingAnchor,
+        constant: Constant.Divider.Spacing.leading)]
+  }
   
-    var dateRangeLabelConstraints: [NSLayoutConstraint] {
-      [dateRangeLabel.topAnchor.constraint(equalTo: topAnchor),
-       dateRangeLabel.leadingAnchor.constraint(
-        equalTo: dividerView[1].trailingAnchor,
-        constant: Constant.DateRange.Spacing.leading),
-       dateRangeLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
-       dateRangeLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
-       dateRangeLabel.widthAnchor.constraint(lessThanOrEqualToConstant: 86)
-      ]
-    }
+  var dateRangeLabelConstraints: [NSLayoutConstraint] {
+    [yearMonthDayRangeLabel.topAnchor.constraint(equalTo: topAnchor),
+     yearMonthDayRangeLabel.leadingAnchor.constraint(
+      equalTo: dividerView[1].trailingAnchor,
+      constant: Constant.DateRange.Spacing.leading),
+     yearMonthDayRangeLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
+     yearMonthDayRangeLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
+     yearMonthDayRangeLabel.widthAnchor.constraint(lessThanOrEqualToConstant: 86)
+    ]
+  }
 }
