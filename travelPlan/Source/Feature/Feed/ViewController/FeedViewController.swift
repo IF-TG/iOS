@@ -8,15 +8,20 @@
 import UIKit
 import Combine
 
-class FeedViewController: UIViewController {
+final class FeedViewController: UIViewController {
   // MARK: - Properties
   private let categoryPageView = CategoryPageView()
-  private var feedNavigationBar = FeedNavigationBar(isCheckedNotification: nil)
-  private let vm = FeedViewModel()
-  private var subscription = Set<AnyCancellable>()
   
+  private var feedNavigationBar = FeedNavigationBar(isCheckedNotification: nil)
+  
+  private let vm = FeedViewModel()
+  
+  private var subscription = Set<AnyCancellable>()
+
   private let tapPostSearch = PassthroughSubject<Void, FeedViewModelError>()
+  
   private let tapNotification = PassthroughSubject<Void, FeedViewModelError>()
+  
   private let appear = PassthroughSubject<Void, FeedViewModelError>()
   
   // MARK: - Lifecycle

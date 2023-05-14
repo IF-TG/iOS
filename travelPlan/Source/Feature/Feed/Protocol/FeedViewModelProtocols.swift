@@ -7,8 +7,8 @@
 
 import Combine
 
-/// viewModel을 viewController에 바인딩 이후,
-/// 서버에서 알림이 오는지 3~5초마다 확인 후 알림이 왔다면 feedVM의 notificationArrived 값을 true로 해야합니다.
+// viewModel을 viewController에 바인딩 이후,
+// 서버에서 알림이 오는지 3~5초마다TODO: - 확인 후 알림이 왔다면 feedVM의 notificationArrived 값을 true로 해야합니다.
 
 enum FeedViewModelError: Error {
   case none

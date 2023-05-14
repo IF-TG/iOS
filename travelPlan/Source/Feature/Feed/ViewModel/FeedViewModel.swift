@@ -22,24 +22,21 @@ final class FeedViewModel: ViewModelCase {
   
   // MARK: - Properteis
   @Published private var isNotificationArrived = false
+  
   private var updateNotificatinoRedIcon = PassthroughSubject<Void, FeedErr>()
+  
   var subscription = Set<AnyCancellable>()
 }
 
 extension FeedViewModel {
   func transform(_ input: Input) -> Output {
     bind()
-    let appear = appearChains(input)
-    let didTapNotification = didTapNotificationChains(input)
-    let didTapPostSearch = didTapPostSearch(input)
-    let notificationRedIcon = updateNotificationRedIconChains()
-    
     return Publishers
       .MergeMany([
-        appear,
-        didTapNotification,
-        didTapPostSearch,
-        notificationRedIcon])
+        appearChains(input),
+        didTapNotificationChains(input),
+        didTapPostSearch(input),
+        updateNotificationRedIconChains()])
       .eraseToAnyPublisher()
   }
 }

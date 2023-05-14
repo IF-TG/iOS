@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CategoryDetailViewCell: UICollectionViewCell {
+final class CategoryDetailViewCell: UICollectionViewCell {
   // MARK: - Constant
   static var id: String {
     return String(describing: self)
@@ -17,7 +17,7 @@ class CategoryDetailViewCell: UICollectionViewCell {
   private var postView: PostView!
   
   // MARK: - Initialization
-  override init(frame: CGRect) {
+  private override init(frame: CGRect) {
     super.init(frame: frame)
   }
   

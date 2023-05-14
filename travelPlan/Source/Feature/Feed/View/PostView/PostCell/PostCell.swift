@@ -33,7 +33,7 @@ final class PostCell: UICollectionViewCell {
   }
 }
 
-// MARK: - Private Helpers
+// MARK: - Public Helpers
 extension PostCell {
   func configure(with post: PostModel) {
     vm = PostCellViewModel(postModel: post)

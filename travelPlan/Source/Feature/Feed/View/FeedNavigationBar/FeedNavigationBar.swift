@@ -85,18 +85,8 @@ final class FeedNavigationBar: UIView {
   }
 }
 
-// MARK: - Helper
+// MARK: - Public helpers
 extension FeedNavigationBar {
-  
-  private func bind() {
-    postSearchButton.tap.sink {
-      self.delegate?.didTapPostSearch()
-    }.store(in: &subscriptions)
-    notificationButton.tap.sink {
-      self.delegate?.didTapNotification()
-    }.store(in: &subscriptions)
-  }
-  
   func layoutFrom(_ navigationBar: UINavigationBar) {
     let navi = navigationBar
     navi.addSubview(self)
@@ -110,6 +100,18 @@ extension FeedNavigationBar {
   func updateIsCheckedNotification(_ value: Bool) {
     isCheckedNotification = value
     updateNotificationIconColor()
+  }
+}
+
+// MARK: - Helpers
+extension FeedNavigationBar {
+  private func bind() {
+    postSearchButton.tap.sink {
+      self.delegate?.didTapPostSearch()
+    }.store(in: &subscriptions)
+    notificationButton.tap.sink {
+      self.delegate?.didTapNotification()
+    }.store(in: &subscriptions)
   }
   
   private func updateNotificationIconColor() {
@@ -139,7 +141,8 @@ extension FeedNavigationBar: LayoutSupport {
   }
 }
 
-fileprivate extension FeedNavigationBar {
+// MARK: - LayoutSupport constraints
+private extension FeedNavigationBar {
   var appTitleConstraint: [NSLayoutConstraint] {
     [appTitle.leadingAnchor.constraint(
       equalTo: leadingAnchor,

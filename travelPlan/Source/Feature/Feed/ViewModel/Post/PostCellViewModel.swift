@@ -23,7 +23,7 @@ struct PostCellViewModel {
     postModel.footer
   }
   
-  // MARK: - Default data (데이터 유효하지 않은 경우 기본 문구 대체)
+  // MARK: - Default data(When fetched data invalid)
   var defaultHeaderModel: PostHeaderModel {
     PostHeaderModel()
   }

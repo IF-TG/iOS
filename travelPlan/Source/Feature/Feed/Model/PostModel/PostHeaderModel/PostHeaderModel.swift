@@ -27,7 +27,7 @@ struct PostHeaderModel {
   }
 }
 
-// MARK: - Helpers
+// MARK: - Public helpers
 extension PostHeaderModel {
   func isValidated() -> Bool {
     do {

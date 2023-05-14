@@ -22,6 +22,7 @@ struct PostHeaderSubInfoModel {
   }
 }
 
+// MARK: - Public helpers
 extension PostHeaderSubInfoModel {
   func isValidatedUsername() -> Bool {
     if !userName.isEmpty || userName.count >= 3 {

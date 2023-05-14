@@ -21,6 +21,7 @@ struct PostContentAreaModel {
   }
 }
 
+// MARK: - Public helpers
 extension PostContentAreaModel {
   func isValidatedThumbnailImages() -> Bool {
     if !thumbnailImages.isEmpty { return true }
