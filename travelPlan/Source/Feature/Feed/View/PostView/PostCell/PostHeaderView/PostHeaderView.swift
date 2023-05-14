@@ -76,7 +76,6 @@ extension PostHeaderView {
 extension PostHeaderView {
   private func setTitle(with text: String) {
     title.text = text
-    title.sizeToFit()
   }
   
   private func setProfile(with image: UIImage?) {

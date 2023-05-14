@@ -67,7 +67,6 @@ extension PostView: UICollectionViewDelegateFlowLayout {
     layout collectionViewLayout: UICollectionViewLayout,
     sizeForItemAt indexPath: IndexPath
   ) -> CGSize {
-    sizeToFit()
     return vm.calculatePostCellWidthAndDynamicHeight(
       fromSuperView: collectionView,
       indexPath)

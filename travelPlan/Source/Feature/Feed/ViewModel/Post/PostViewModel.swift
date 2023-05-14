@@ -32,18 +32,15 @@ extension PostViewModel {
     _ indexPath: IndexPath
   ) -> CGSize {
     let width = collectionView.bounds.width
-    let postHeaderViewHeight = PostHeaderView.Constant.height
-    let postContentImageAreaHeight = PostContentAreaView.Constant.ImageSpacing
-      .top + PostContentAreaView.Constant.imageHeight
-    let postContentTextAreaHeight = PostContentAreaView.Constant.Text.Spacing
-      .top + calculateDynamicLabelHeight(
-        fromSuperView: collectionView,
-        indexPath) + PostContentAreaView.Constant.Text.Spacing.bottom
-    let postFooterViewHeight = PostFooterView.Constant.footerViewheight
+    let contentTextHeight = calculateDynamicLabelHeight(
+      fromSuperView: collectionView,
+      indexPath)
     return CGSize(
       width: width,
-      height: postHeaderViewHeight + postContentImageAreaHeight +
-      postContentTextAreaHeight + postFooterViewHeight)
+      height: contentTextHeight + PostCell
+        .Constant
+        .constant
+        .intrinsicHeightWithOutContentTextHeight)
   }
 }
 
@@ -55,14 +52,21 @@ private extension PostViewModel {
   ) -> CGFloat {
     let labelWidth = collectionView.bounds.width - (
       PostContentAreaView.Constant.Text.Spacing.leading + PostContentAreaView.Constant.Text.Spacing.trailing)
-    let label = UILabel(frame: CGRect(x: 0, y: 0, width: labelWidth, height: 1))
-    label.numberOfLines = 3
-    label.font = UIFont.systemFont(
-      ofSize: PostContentAreaView.Constant.Text.textSize)
-    label.lineBreakMode = PostContentAreaView
-      .Constant.Text.lineBreakMode
-    label.text = self.cellItem(indexPath).content.text
-    label.sizeToFit()
-    return label.bounds.height
+    
+    let text = contentText(indexPath)
+    let font = UIFont.init(pretendard: .regular, size: PostContentAreaView.Constant.Text.textSize)!
+    let maxSize = CGSize(width: labelWidth, height: 70)
+    let options: NSStringDrawingOptions = [.usesLineFragmentOrigin, .usesFontLeading]
+    let textSize = (text as NSString).boundingRect(
+      with: maxSize,
+      options: options,
+      attributes: [.font: font],
+      context: nil
+    ).size
+    return ceil(textSize.height)
+  }
+  
+  func contentText(_ indexPath: IndexPath) -> String {
+    return data[indexPath.row].content.text
   }
 }

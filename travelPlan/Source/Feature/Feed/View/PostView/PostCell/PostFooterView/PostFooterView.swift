@@ -20,6 +20,7 @@ class PostFooterView: UIView {
   private let heartText = UILabel().set {
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.text = "0"
+    $0.textAlignment = .left
     $0.font = Constant.Heart.Text.font
     $0.textColor = Constant.Heart.Text.fontColor
   }
@@ -37,6 +38,7 @@ class PostFooterView: UIView {
   private let commentText = UILabel().set {
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.text = "0"
+    $0.textAlignment = .left
     $0.font = Constant.Heart.Text.font
     $0.textColor = Constant.Heart.Text.fontColor
   }
@@ -126,8 +128,8 @@ extension PostFooterView {
     _=[icon, text].map { addSubview($0) }
     return UIStackView(arrangedSubviews: [icon, text]).set {
       $0.translatesAutoresizingMaskIntoConstraints = false
-      $0.distribution = .fillEqually
-      $0.alignment = .center
+      $0.axis = .horizontal
+      $0.alignment = .leading
       switch type {
       case .heart:
         $0.spacing = Constant.HeartSV.spacing
@@ -137,6 +139,7 @@ extension PostFooterView {
         setCommentIconMinimumSize(icon)
       }
       $0.heightAnchor.constraint(equalToConstant: Constant.HeartSV.height).isActive = true
+      $0.widthAnchor.constraint(greaterThanOrEqualToConstant: Constant.HeartSV.width).isActive = true
     }
   }
   
@@ -176,9 +179,7 @@ private extension PostFooterView {
   }
   
   var commentStackViewConstraint: [NSLayoutConstraint] {
-    [commentStackView.leadingAnchor.constraint(
-      equalTo: heartStackView.trailingAnchor,
-      constant: Constant.CommentSV.Spacing.leading),
+    [commentStackView.centerXAnchor.constraint(equalTo: centerXAnchor),
      commentStackView.centerYAnchor.constraint(equalTo: centerYAnchor)]
   }
   

@@ -16,7 +16,6 @@ class PostHeaderSubInfoView: UIView {
     $0.textAlignment = .left
     $0.numberOfLines = 1
     $0.font = Constant.UserName.font
-    $0.sizeToFit()
     $0.isUserInteractionEnabled = true
     let touch = UITapGestureRecognizer(target: self, action: #selector(didTapUserName))
     $0.addGestureRecognizer(touch)
@@ -173,9 +172,8 @@ private extension PostHeaderSubInfoView {
      yearMonthDayRangeLabel.leadingAnchor.constraint(
       equalTo: dividerView[1].trailingAnchor,
       constant: Constant.DateRange.Spacing.leading),
-     yearMonthDayRangeLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
-     yearMonthDayRangeLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
-     yearMonthDayRangeLabel.widthAnchor.constraint(lessThanOrEqualToConstant: 86)
+     yearMonthDayRangeLabel.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor),
+     yearMonthDayRangeLabel.bottomAnchor.constraint(equalTo: bottomAnchor)
     ]
   }
 }

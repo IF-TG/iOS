@@ -79,23 +79,3 @@ extension PostCellViewModel {
     return true
   }
 }
-
-// MARK: - Helpers
-extension PostCellViewModel {
-  private func calculateDynamicLabelHeight(
-    fromSuperView collectionView: UICollectionView
-  ) -> CGFloat {
-    let labelWidth = collectionView.bounds.width - (
-      PostContentAreaView.Constant.Text.Spacing.leading + PostContentAreaView.Constant.Text.Spacing.trailing)
-    let label = UILabel(frame: CGRect(x: 0, y: 0, width: labelWidth, height: 1))
-    label.numberOfLines = 3
-    label.font = UIFont.systemFont(
-      ofSize: PostContentAreaView.Constant.Text.textSize)
-    label.lineBreakMode = PostContentAreaView
-      .Constant.Text.lineBreakMode
-    label.text = contentAreaModel.text
-    label.sizeToFit()
-    return label.bounds.height
-  }
-  
-}

@@ -69,7 +69,7 @@ extension PostCell {
     }
     contentAreaView.configure(with: vm.contentAreaModel)
   }
-  
+
   private func setFooterWithData() {
     guard vm.isValidatedFooterModel() else {
       footerView.configure(with: vm.defaultFooterModel)
@@ -102,7 +102,7 @@ private extension PostCell {
       equalTo: contentView.topAnchor),
      headerView.trailingAnchor.constraint(
       equalTo: contentView.trailingAnchor),
-     headerView.heightAnchor.constraint(equalToConstant: PostHeaderView.Constant.height)]
+     headerView.heightAnchor.constraint(equalToConstant: PostHeaderView.Constant.constant.instrinsicHeight)]
   }
   
   var contentAreaViewConstraints: [NSLayoutConstraint] {
@@ -110,7 +110,7 @@ private extension PostCell {
      contentAreaView.leadingAnchor.constraint(greaterThanOrEqualTo: contentView.leadingAnchor),
      contentAreaView.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor)]
   }
-  
+
   var footerViewConstraints: [ NSLayoutConstraint] {
     [footerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
      footerView.trailingAnchor.constraint(

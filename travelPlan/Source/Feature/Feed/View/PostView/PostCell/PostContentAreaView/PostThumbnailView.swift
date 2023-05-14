@@ -84,9 +84,9 @@ private extension PostThumbnailView {
     _ view: UIView
   ) -> [NSLayoutConstraint] {
     return [
-      view.leadingAnchor.constraint(equalTo: leadingAnchor),
+      view.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor),
       view.topAnchor.constraint(equalTo: topAnchor),
-      view.trailingAnchor.constraint(equalTo: trailingAnchor),
+      view.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor),
       view.bottomAnchor.constraint(lessThanOrEqualTo: bottomAnchor)]
   }
 }
@@ -129,7 +129,7 @@ private extension PostThumbnailView {
           $0.widthAnchor.constraint(
             lessThanOrEqualToConstant: Constant.mediumWidth),
           $0.heightAnchor.constraint(
-            lessThanOrEqualToConstant: Constant.smallHeight)])
+            equalToConstant: Constant.smallHeight)])
       }
   }
 }

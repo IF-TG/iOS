@@ -10,6 +10,15 @@ import UIKit
 // MARK: - PostViewCell UI Constant
 extension PostCell {
   struct Constant {
+    private init() {}
+    static let constant = Constant()
+    var intrinsicHeightWithOutContentTextHeight: CGFloat = {
+      return PostHeaderView.Constant.constant.instrinsicHeight +
+      PostContentAreaView.Constant.constant.intrinsicHeight +
+      PostContentAreaView.Constant.Text.Spacing.top +
+      PostContentAreaView.Constant.Text.Spacing.bottom +
+      PostFooterView.Constant.footerViewheight
+    }()
     struct Line {
       static let bgColor: UIColor = .yg.gray0
       static let height: CGFloat = 1
@@ -30,7 +39,9 @@ extension PostCell {
 // MARK: - PostHeaderView UI Constant
 extension PostHeaderView {
   struct Constant {
-    static let height = {
+    private init() { }
+    static let constant = Constant()
+    let instrinsicHeight = {
       return UserProfileImage.Spacing.top + UserProfileImage.height + UserProfileImage.Spacing.bottom
     }()
     struct UserProfileImage {
@@ -111,6 +122,10 @@ extension PostHeaderSubInfoView {
 // MARK: - PostContentAreaView UI Constant
 extension PostContentAreaView {
   struct Constant {
+    private init() { }
+    static let constant = Constant()
+    let intrinsicHeight = Constant.imageHeight + ImageSpacing.top
+    
     static let imageHeight: CGFloat = 118
     struct ImageSpacing {
       static let leading: CGFloat = 30
@@ -128,6 +143,9 @@ extension PostContentAreaView {
         static let leading: CGFloat = 30
         static let trailing: CGFloat = 30
       }
+      static let postIntrinsicContentHeight = {
+        return 1
+      }()
     }
   }
 }
@@ -135,12 +153,18 @@ extension PostContentAreaView {
 // MARK: - PostThumbnailView UI Constant
 extension PostThumbnailView {
   struct Constant {
+    private static let intrinsicWidth = (UIScreen.main.bounds.width - PostContentAreaView
+      .Constant.ImageSpacing.leading*2)
     static let spacing: CGFloat = 1
     static let cornerRadius: CGFloat = 10
     static let height: CGFloat = 117
-    static let smallWidth: CGFloat = 82.5
+    static let smallWidth: CGFloat = {
+      (((intrinsicWidth-spacing)/2) - spacing) / 2
+    }()
     static let smallHeight: CGFloat = 58
-    static let mediumWidth: CGFloat = 166
+    static let mediumWidth: CGFloat = {
+     ( intrinsicWidth - spacing ) / 2
+    }()
   }
 }
 
@@ -149,7 +173,7 @@ extension PostFooterView {
   struct Constant {
     static let footerViewheight: CGFloat = 50
     struct HeartSV {
-      static let width: CGFloat = 40
+      static let width: CGFloat = 60
       static let spacing: CGFloat = 16
       static let height: CGFloat = 20
       struct Spacing {
@@ -159,7 +183,7 @@ extension PostFooterView {
     struct Heart {
       static let iconName = "feedHeart"
       static let colorHex = "#FE0135"
-      static let minimumsSize = CGSize(width: 14.33, height: 12.89)
+      static let minimumsSize = CGSize(width: 15, height: 15)
       // 이거 정해야 합니다.
       // static let selectedImage: UIImage =
       static let unselectedImage = UIImage(
@@ -173,7 +197,7 @@ extension PostFooterView {
     }
     struct Comment {
       static let iconName = "feedComment"
-      static let minimumsSize = CGSize(width: 14, height: 14.41)
+      static let minimumsSize = CGSize(width: 15, height: 15)
       struct Text {
         static let font: UIFont = UIFont(pretendard: .regular, size: 13)!
         static let fontColor: UIColor = .yg.gray4
@@ -186,11 +210,11 @@ extension PostFooterView {
         static let trailing: CGFloat = 53
       }
     }
+    
     struct CommentSV {
       static let width: CGFloat = 40
       static let height: CGFloat = 20
       static let spacing: CGFloat = 16
-      
       struct Spacing {
         static let leading: CGFloat = 89.5
       }

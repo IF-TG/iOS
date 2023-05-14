@@ -17,7 +17,6 @@ class PostContentAreaView: UIView {
     $0.text = " "
     $0.font = Constant.Text.font
     $0.lineBreakMode = Constant.Text.lineBreakMode
-    $0.sizeToFit()
   }
   
   // MARK: - Initialization
@@ -68,14 +67,14 @@ extension PostContentAreaView: LayoutSupport {
   }
 }
 
-// MARK: - LayoutSupport constraints
+// MARK: - LayoutSupport
 private extension PostContentAreaView {
   var thumbnailConstraints: [NSLayoutConstraint] {
     [thumbnail.topAnchor.constraint(
       equalTo: topAnchor,
       constant: Constant.ImageSpacing.top),
       thumbnail.leadingAnchor.constraint(
-      greaterThanOrEqualTo: leadingAnchor,
+      equalTo: leadingAnchor,
       constant: Constant.ImageSpacing.leading),
      thumbnail.trailingAnchor.constraint(
       equalTo: trailingAnchor,
