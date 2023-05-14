@@ -7,6 +7,26 @@
 
 import UIKit
 
+/// YG app에서 사용되는 얇은 그래이색 height 1 라인
+/// # Example #
+/// ```
+/// Example:
+/// class ViewController: UIViewController {
+///   let content = UIView()
+///   let line = OneUnitHeightLine(color: .yg.gray4)
+///   viewDidAppear() {
+///     setupUI()
+///     line.setConstraint(fromSuperView: view)
+///         //or spacing을 지정해야 할 경우
+///         //line.setConstraint(
+///             fromSuperView: view,
+///             spacing: .init(leading: 20, trailing: 20))
+/// 상위 뷰가 있을 때 상위뷰가 view.bottom과 연결되야 한다면 사이에 lien을 두는 함수
+///         //line.setConstraint(
+///             fromTopView: view,
+///             superView: content,
+///             spacing: ...)
+/// }
 final class OneUnitHeightLine: UIView {
   // MARK: - Constants
   private let height: CGFloat = 1
