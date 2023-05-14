@@ -16,6 +16,15 @@ struct PostHeaderModel {
   let title: String
   let image: UIImage?
   let subInfo: PostHeaderSubInfoModel
+  
+  // 데이터가 존재하지 않을 경우
+  init(title: String = "제목 없음",
+       image: UIImage? = nil,
+       subInfo: PostHeaderSubInfoModel = PostHeaderSubInfoModel()) {
+    self.title = title
+    self.image = image
+    self.subInfo = subInfo
+  }
 }
 
 // MARK: - Helpers

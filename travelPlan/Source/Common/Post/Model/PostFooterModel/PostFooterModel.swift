@@ -14,6 +14,16 @@ struct PostFooterModel {
   let heartState: Bool
   // comment text
   let commentCount: Int
+  
+  // 데이터가 유효하지 않은 경우
+  init(
+    heartCount: Int = 0,
+    heartState: Bool = false,
+    commentCount: Int = 0) {
+    self.heartCount = heartCount
+    self.heartState = heartState
+    self.commentCount = commentCount
+  }
 }
 
 // MARK: - Helpers

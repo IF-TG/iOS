@@ -11,10 +11,13 @@ struct PostContentAreaModel {
   var text: String
 
   // TumbnailModel
-  var thumbnailImages: [UIImageView]
+  var thumbnailImages: [UIImage]
   
-  var thumbnailType: PostThumbnailType {
-    return PostThumbnailType(fromInt: thumbnailImages.count)
+  // 데이터가 유효하지 않은 경우
+  init(text: String = "N/A",
+       thumbnailImages: [UIImage] = [UIImage()]) {
+    self.text = text
+    self.thumbnailImages = thumbnailImages
   }
 }
 

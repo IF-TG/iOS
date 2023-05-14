@@ -11,6 +11,15 @@ struct PostHeaderSubInfoModel {
   let userName: String
   let duration: String
   let yearMonthDayRange: String
+  
+  // 데이터가 유효하지 않을 경우
+  init(userName: String = "익명",
+       duration: String = "미정",
+       yearMonthDayRange: String = "20XX.XX.XX ~ 20XX.XX.XX") {
+    self.userName = userName
+    self.duration = duration
+    self.yearMonthDayRange = yearMonthDayRange
+  }
 }
 
 extension PostHeaderSubInfoModel {
