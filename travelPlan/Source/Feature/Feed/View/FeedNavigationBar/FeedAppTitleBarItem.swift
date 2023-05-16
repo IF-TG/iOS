@@ -9,7 +9,6 @@ import UIKit
 
 final class FeedAppTitleBarItem: UIView {
   // MARK: - Properteis
-  
   let appTitle = UILabel().set {
     let text = Constant.Title.text
     $0.translatesAutoresizingMaskIntoConstraints = false

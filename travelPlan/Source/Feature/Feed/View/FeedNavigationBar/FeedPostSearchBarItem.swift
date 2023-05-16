@@ -9,9 +9,9 @@ import UIKit
 
 final class FeedPostSearchBarItem: UIButton {
   // MARK: - Properties
-  
   var delegate: FeedNavigationBarDelegate?
   
+  // MARK: - Initialization
   private override init(frame: CGRect) {
     super.init(frame: .zero)
     configureUI()
@@ -20,11 +20,21 @@ final class FeedPostSearchBarItem: UIButton {
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
+  
+  convenience init() {
+    self.init(frame: .zero)
+  }
+}
+
+// MARK: - Action
+extension FeedPostSearchBarItem {
+  @objc func didTapPostSearch() {
+    delegate?.didTapPostSearch()
+  }
 }
 
 // MARK: - Helpers
-
-extension FeedPostSearchBarItem {
+private extension FeedPostSearchBarItem {
   func configureUI() {
     translatesAutoresizingMaskIntoConstraints = false
     let image = Constant.image

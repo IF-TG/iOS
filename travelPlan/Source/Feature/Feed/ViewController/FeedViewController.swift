@@ -13,9 +13,10 @@ final class FeedViewController: UIViewController {
   private let categoryPageView = CategoryPageView()
  
   private let leftNaviBarItem = FeedAppTitleBarItem()
-    
-  /// 사용자가 알림을 확인 했는지 여부를 체크하고 이에 따른 notificationIcon 상태를 rendering 합니다.
-  private var isCheckedNotification: Bool?
+  
+  private let searchBarItem = FeedPostSearchBarItem()
+  
+  private let notificationBarItem = FeedNotificationBarItem()
   
   private let vm = FeedViewModel()
   
@@ -29,7 +30,7 @@ final class FeedViewController: UIViewController {
   
   private var naviConstraints: [NSLayoutConstraint] = []
   
-  // MARK: - Lifecycle
+  // MARK: - LifeCycle
   override func viewWillAppear(_ animated: Bool) {
     appear.send()
   }
@@ -42,6 +43,8 @@ final class FeedViewController: UIViewController {
 
 // MARK: - Helpers
 extension FeedViewController {
+  // redEffectTODO: - 사용자가 확인하지 않은 알림이 있을 경우 아래 코드 호출해서 빨간 알림 이펙트 추가해야합니다.
+  // notificationBarItem.updateIsCheckedNotification(.notChecked)
   private func configureUI() {
     configureFeedNavigationBar()
     setupUI()
@@ -51,15 +54,11 @@ extension FeedViewController {
   
   private func configureFeedNavigationBar() {
     navigationItem.leftBarButtonItem = UIBarButtonItem(customView: leftNaviBarItem)
-    let feedSearchBarItem = FeedPostSearchBarItem()
-    feedSearchBarItem.delegate = self
-    let feedNotificationBarItem =
-    FeedNotificationBarItem()
-    feedNotificationBarItem.delegate = self
-    let rightSearchBarItem = UIBarButtonItem(customView: feedSearchBarItem)
-    let rightNotificationBarItem = UIBarButtonItem(customView: feedNotificationBarItem)
+    searchBarItem.delegate = self
+    notificationBarItem.delegate = self
+    let rightSearchBarItem = UIBarButtonItem(customView: searchBarItem)
+    let rightNotificationBarItem = UIBarButtonItem(customView: notificationBarItem)
     navigationItem.rightBarButtonItems = [rightNotificationBarItem, rightSearchBarItem]
-    
   }
 }
 
@@ -75,7 +74,7 @@ extension FeedViewController: ViewBindCase {
     let output = vm.transform(input)
     
     output
-      .receive(on: RunLoop.main)
+      .receive(on: DispatchQueue.main)
       .sink { [weak self] result in
         switch result {
         case .finished:
@@ -91,18 +90,17 @@ extension FeedViewController: ViewBindCase {
     switch state {
     case .none:
       break
-    case .initFeedNaviBarIsCheckedNotification(let value):
-      print(value)
-      rightNaviBarItem.updateIsCheckedNotification(value)
+    case .viewAppear(let value):
+      notificationBarItem.updateNotificationRedIcon(value)
     case .updateNotificationRedIcon:
-      rightNaviBarItem.updateIsCheckedNotification(false)
+      // 알림TODO: - 알림 온 경우. feedVM에서 1~5초 간격으로 알림이 왔는지 여부를 확인합니다.
+      notificationBarItem.updateNotificationRedIcon(.notChecked)
     case .goToPostSearch:
       let vc = UserPostSearchViewController(nibName: nil, bundle: nil)
       navigationController?.pushViewController(vc, animated: true)
-    case .goToNotification(let isChecked):
-      // goto notifiation with naivgationController
-      print("DEBUG: User notification event occured")
-      rightNaviBarItem.updateIsCheckedNotification(isChecked)
+    case .goToNotification:
+      // transitionTODO: - Goto notifiation with naivgationController
+      notificationBarItem.updateNotificationRedIcon(.none)
     }
   }
   
@@ -121,7 +119,6 @@ extension FeedViewController: FeedNavigationBarDelegate {
   }
 
   func didTapNotification() {
-    print("hiss")
     tapNotification.send()
   }
 }
