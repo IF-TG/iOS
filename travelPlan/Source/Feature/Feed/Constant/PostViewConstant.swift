@@ -171,51 +171,53 @@ extension PostThumbnailView {
 extension PostFooterView {
   enum Constant {
     static let footerViewheight: CGFloat = 50
-    enum HeartSV {
-      static let width: CGFloat = 60
-      static let spacing: CGFloat = 16
-      static let height: CGFloat = 20
-      struct Spacing {
-        static let leading: CGFloat = 51
-      }
-    }
+    
     enum Heart {
-      static let iconName = "feedHeart"
-      static let colorHex = "#FE0135"
-      static let minimumsSize = CGSize(width: 15, height: 15)
-      // 이거 정해야 합니다.
-      // static let selectedImage: UIImage =
-      static let unselectedImage = UIImage(
-        named: Constant.Heart.iconName)?
-        .setColor(UIColor(hex: Constant.Heart.colorHex))
-      
       enum Text {
         static let font: UIFont = UIFont(pretendard: .regular, size: 13)!
         static let fontColor: UIColor = .yg.gray4
+        enum Spacing {
+          static let leading: CGFloat = 6.33
+        }
+      }
+      enum Icon {
+        static let minimumsSize = CGSize(width: 13.33, height: 11.89)
+        static let color: UIColor = .yg.red
+        static let unselectedImage = UIImage(
+          named: "unselectedHeart")?.setColor(color)
+        static let selectedImage = UIImage(
+          named: "selectedHeart")?.setColor(color)
+        enum Spacing {
+          static let leading: CGFloat = 30
+        }
+
       }
     }
     enum Comment {
-      static let iconName = "feedComment"
-      static let minimumsSize = CGSize(width: 15, height: 15)
       struct Text {
         static let font: UIFont = UIFont(pretendard: .regular, size: 13)!
         static let fontColor: UIColor = .yg.gray4
+        enum Spacing {
+          static let leading: CGFloat = 7
+        }
+      }
+      
+      struct Icon {
+        static let name = "feedComment"
+        static let minimumsSize = CGSize(width: 12, height: 12.31)
+        enum Spacing {
+          static let leading: CGFloat = 12
+        }
       }
     }
     enum Share {
       static let iconName = "feedShare"
+      static let height: CGFloat = 16.67
+      static let width: CGFloat = 15
       struct Spacing {
         static let trailing: CGFloat = 53
       }
     }
     
-    enum CommentSV {
-      static let width: CGFloat = 40
-      static let height: CGFloat = 20
-      static let spacing: CGFloat = 16
-      struct Spacing {
-        static let leading: CGFloat = 89.5
-      }
-    }
   }
 }
