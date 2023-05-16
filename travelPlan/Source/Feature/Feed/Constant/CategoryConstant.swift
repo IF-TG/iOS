@@ -9,15 +9,15 @@ import UIKit
 
 // MARK: - CategoryView UI constants
 extension CategoryView {
-  struct Constant {
+  enum Constant {
     
-    struct ScrollBar {
+    enum ScrollBar {
       static let height: CGFloat = 4
       static let radius: CGFloat = 2
       static let color: UIColor = .yg.primary
     }
     
-    struct Shadow {
+    enum Shadow {
       static let radius: CGFloat = 10.0
       static let color = UIColor(red: 0, green: 0, blue: 0, alpha: 0.05).cgColor
       static let offset = CGSize(width: 0, height: 1)
@@ -35,17 +35,16 @@ extension CategoryView {
 
 // MARK: - CategoryViewCell UI constants
 extension CategoryViewCell {
-  struct Constant {
-    struct ImageView {
-      struct Spacing {
+  enum Constant {
+    enum ImageView {
+      enum Spacing {
         static let top: CGFloat = 20
         static let left: CGFloat = 27.5
       }
       static let size: CGSize = CGSize(width: 28, height: 28)
     }
-    
-    struct Title {
-      struct Spacing {
+    enum Title {
+      enum Spacing {
         static let top: CGFloat = 5
         static let bottom: CGFloat = 6
       }
@@ -53,7 +52,6 @@ extension CategoryViewCell {
       static let height: CGFloat = 22
       static let textColor = UIColor(red: 0.404, green: 0.404, blue: 0.404, alpha: 1)
     }
-    
     static let size: CGSize = {
       let width = Constant.ImageView.Spacing
         .left * 2.0 + ImageView.size.width
@@ -69,8 +67,8 @@ extension CategoryViewCell {
 
 // MARK: - CategoryDetailViewCell UI constants
 extension CategoryDetailViewCell {
-  struct Constant {
-    struct Spacing {
+  enum Constant {
+    enum Spacing {
       static let top: CGFloat = 17.5
     }
   }
