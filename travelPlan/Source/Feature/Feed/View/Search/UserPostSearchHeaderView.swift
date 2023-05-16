@@ -18,7 +18,7 @@ final class UserPostSearchHeaderView: UICollectionReusableView {
   
   // FontFIXME: - PretendardVariable-Bold
   private let titleLabel: UILabel = UILabel().set {
-    $0.font = .systemFont(ofSize: 17, weight: .semibold) // weight 수정
+    $0.font = .systemFont(ofSize: 17, weight: .bold) // weight 수정
     $0.textColor = UIColor(hex: "4B4B4B")
   }
   
@@ -40,7 +40,7 @@ final class UserPostSearchHeaderView: UICollectionReusableView {
   }
 }
 
-// MARK: - Helpers
+// MARK: - Public Helpers
 extension UserPostSearchHeaderView {
   func prepare(title: String?) {
     titleLabel.text = title
@@ -54,7 +54,10 @@ extension UserPostSearchHeaderView {
     case .recommendation, .recent: return
     }
   }
-  
+}
+
+// MARK: - Helpers
+extension UserPostSearchHeaderView {
   private func makeDeleteAllButton() -> UIButton {
     self.deleteAllButton = UIButton()
     guard let button = self.deleteAllButton else { return UIButton() }
@@ -65,7 +68,10 @@ extension UserPostSearchHeaderView {
     button.addTarget(self, action: #selector(didTapDeleteAllButton), for: .touchUpInside)
     return button
   }
-  
+}
+
+// MARK: - Actions
+extension UserPostSearchHeaderView {
   @objc private func didTapDeleteAllButton(_ button: UIButton) {
     print("최근 검색 기록 전체 삭제!")
   }
@@ -76,7 +82,7 @@ extension UserPostSearchHeaderView: LayoutSupport {
   func addSubviews() {
     switch sectionType {
     case .recent:
-      let deleteAllButton = makeDeleteAllButton()
+      let deleteAllButton = makeDeleteAllButton() // 최근 검색인 경우 전체삭제 버튼 추가
       
       self.addSubview(deleteAllButton)
       fallthrough

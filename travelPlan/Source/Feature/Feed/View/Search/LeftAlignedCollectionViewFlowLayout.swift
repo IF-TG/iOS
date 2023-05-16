@@ -8,7 +8,7 @@
 import UIKit
 
 class LeftAlignedCollectionViewFlowLayout: UICollectionViewFlowLayout {
-  // MARK: - Properties
+  // MARK: - LifeCycle
   override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
     // layout 속성값
     guard let attributes = super.layoutAttributesForElements(in: rect) else { return [] }

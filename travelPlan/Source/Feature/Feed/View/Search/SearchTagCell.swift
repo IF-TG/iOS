@@ -22,7 +22,7 @@ class SearchTagCell: UICollectionViewCell {
     $0.lineBreakMode = .byClipping
   }
   
-  private var cancelButton: UIButton?
+  private var deleteButton: UIButton?
   
   // MARK: - LifeCycle
   override init(frame: CGRect) {
@@ -45,15 +45,18 @@ extension SearchTagCell {
     self.contentView.layer.borderWidth = 1
   }
   
-  private func makeCancelButton() -> UIButton {
-    self.cancelButton = UIButton()
-    guard let cancelButton = self.cancelButton else { return UIButton() }
-    cancelButton.setImage(UIImage(systemName: "xmark"), for: .normal)
-    cancelButton.tintColor = UIColor(hex: "#484848")
-    cancelButton.addTarget(self, action: #selector(didTapCancelButton), for: .touchUpInside)
-    return cancelButton
+  private func makeDeleteButton() -> UIButton {
+    self.deleteButton = UIButton()
+    guard let deleteButton = self.deleteButton else { return UIButton() }
+    deleteButton.setImage(UIImage(systemName: "xmark"), for: .normal)
+    deleteButton.tintColor = UIColor(hex: "#484848")
+    deleteButton.addTarget(self, action: #selector(didTapDeleteButton), for: .touchUpInside)
+    return deleteButton
   }
-  
+}
+
+// MARK: - Public Helpers
+extension SearchTagCell {
   func configure(_ text: String) {
     tagLabel.text = text
   }
@@ -61,7 +64,7 @@ extension SearchTagCell {
   func initSectionType(with type: SearchSection) {
     switch sectionType {
     case .none:
-      self.sectionType = type
+      sectionType = type
       setupUI()
     case .recent, .recommendation: return
     }
@@ -70,9 +73,9 @@ extension SearchTagCell {
 
 // MARK: - Actions
 extension SearchTagCell {
-  @objc private func didTapCancelButton(_ button: UIButton) {
+  @objc private func didTapDeleteButton(_ button: UIButton) {
     // DeleteCellTODO: 선택된 최근 검색 cell 삭제
-    print("cancel button Tapped")
+    print("delete button Tapped")
   }
 }
 
@@ -81,9 +84,9 @@ extension SearchTagCell: LayoutSupport {
   func addSubviews() {
     switch sectionType {
     case .recent:
-      // Cancel Button 추가
-      let cancelButton = makeCancelButton()
-      self.contentView.addSubview(cancelButton)
+      // delete Button 추가
+      let deleteButton = makeDeleteButton()
+      self.contentView.addSubview(deleteButton)
       fallthrough
     case .recommendation: self.contentView.addSubview(tagLabel)
     case .none: break
@@ -99,14 +102,14 @@ extension SearchTagCell: LayoutSupport {
         $0.centerY.equalToSuperview()
       }
     case .recent:
-      guard let cancelButton = cancelButton else { return }
+      guard let deleteButton = deleteButton else { return }
       
       tagLabel.snp.makeConstraints {
         $0.leading.equalToSuperview().inset(13)
         $0.centerY.equalToSuperview()
       }
       
-      cancelButton.snp.makeConstraints {
+      deleteButton.snp.makeConstraints {
         $0.leading.equalTo(tagLabel.snp.trailing).offset(4)
         $0.trailing.equalToSuperview().inset(13)
         $0.centerY.equalTo(tagLabel)
