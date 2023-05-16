@@ -7,6 +7,14 @@
 
 import Foundation
 
+// ModelingFIXME: - Section과 Item Modeling
+struct SearchSectionItemModel {
+  enum SearchSection {
+    case recommendation
+    case recent
+  }
+}
+
 struct RecommendationSearch {
   let headerTitle = "추천 검색"
   let keywords = ["최근검색2222zzzzzzzzzzz", "최근검색22", "최근검색3333", "최근검색", "최근검색5"]
