@@ -11,8 +11,11 @@ import Combine
 final class FeedViewController: UIViewController {
   // MARK: - Properties
   private let categoryPageView = CategoryPageView()
-  
-  private var feedNavigationBar = FeedNavigationBar(isCheckedNotification: nil)
+ 
+  private let leftNaviBarItem = FeedAppTitleBarItem()
+    
+  /// 사용자가 알림을 확인 했는지 여부를 체크하고 이에 따른 notificationIcon 상태를 rendering 합니다.
+  private var isCheckedNotification: Bool?
   
   private let vm = FeedViewModel()
   
@@ -23,6 +26,8 @@ final class FeedViewController: UIViewController {
   private let tapNotification = PassthroughSubject<Void, FeedViewModelError>()
   
   private let appear = PassthroughSubject<Void, FeedViewModelError>()
+  
+  private var naviConstraints: [NSLayoutConstraint] = []
   
   // MARK: - Lifecycle
   override func viewWillAppear(_ animated: Bool) {
@@ -40,13 +45,21 @@ extension FeedViewController {
   private func configureUI() {
     configureFeedNavigationBar()
     setupUI()
-    view.backgroundColor = .white
     bind()
+    view.backgroundColor = .white
   }
+  
   private func configureFeedNavigationBar() {
-    guard let naviBar = navigationController?.navigationBar else { return }
-    feedNavigationBar.delegate = self
-    feedNavigationBar.layoutFrom(naviBar)
+    navigationItem.leftBarButtonItem = UIBarButtonItem(customView: leftNaviBarItem)
+    let feedSearchBarItem = FeedPostSearchBarItem()
+    feedSearchBarItem.delegate = self
+    let feedNotificationBarItem =
+    FeedNotificationBarItem()
+    feedNotificationBarItem.delegate = self
+    let rightSearchBarItem = UIBarButtonItem(customView: feedSearchBarItem)
+    let rightNotificationBarItem = UIBarButtonItem(customView: feedNotificationBarItem)
+    navigationItem.rightBarButtonItems = [rightNotificationBarItem, rightSearchBarItem]
+    
   }
 }
 
@@ -79,16 +92,17 @@ extension FeedViewController: ViewBindCase {
     case .none:
       break
     case .initFeedNaviBarIsCheckedNotification(let value):
-      feedNavigationBar.updateIsCheckedNotification(value)
+      print(value)
+      rightNaviBarItem.updateIsCheckedNotification(value)
     case .updateNotificationRedIcon:
-      feedNavigationBar.updateIsCheckedNotification(false)
+      rightNaviBarItem.updateIsCheckedNotification(false)
     case .goToPostSearch:
-      // goto user post search naivgationController
-      print("DEBUG: User post search event occured")
+      let vc = UserPostSearchViewController(nibName: nil, bundle: nil)
+      navigationController?.pushViewController(vc, animated: true)
     case .goToNotification(let isChecked):
       // goto notifiation with naivgationController
       print("DEBUG: User notification event occured")
-      feedNavigationBar.updateIsCheckedNotification(isChecked)
+      rightNaviBarItem.updateIsCheckedNotification(isChecked)
     }
   }
   
@@ -107,6 +121,7 @@ extension FeedViewController: FeedNavigationBarDelegate {
   }
 
   func didTapNotification() {
+    print("hiss")
     tapNotification.send()
   }
 }
