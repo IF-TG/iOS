@@ -71,12 +71,21 @@ extension PostHeaderView {
       }
     }
     enum OptionView {
-      static let size = CGSize(width: 1.67, height: 13.33)
+      static let size = CGSize(width: 1.67 + 5 + 5, height: 13.33 + 3 + 3)
       static let selectedImage = UIImage(named: "feedOption")
       static let unselectedImage = UIImage(named: "feedOption")?.setColor(.yg.gray4.withAlphaComponent(0.5))
       struct Spacing {
-        static let top: CGFloat = 38.33
-        static let trailing: CGFloat = 39.67
+        // inset 길이만큼 뺐습니다.
+        static let top: CGFloat = 38.33 - 3 - 3
+        static let trailing: CGFloat = 39.67 - 5
+      }
+      
+      // 옵션 버튼이 너무 작아서 터치가 안되서 버튼의 크기를 늘리겠습니다.
+      struct Inset {
+        static let top: CGFloat = 3
+        static let leading: CGFloat = 5
+        static let trailing: CGFloat = 5
+        static let bottom: CGFloat = 3
       }
     }
   }

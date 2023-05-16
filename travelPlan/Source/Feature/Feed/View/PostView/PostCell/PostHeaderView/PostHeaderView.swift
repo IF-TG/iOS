@@ -35,7 +35,7 @@ final class PostHeaderView: UIView {
   
   private let subInfoView = PostHeaderSubInfoView()
   
-  private lazy var optionButton = UIButton().set {
+  private lazy var optionButton: UIButton = UIButton().set {
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.setImage(
       Constant.OptionView.selectedImage,
@@ -44,6 +44,11 @@ final class PostHeaderView: UIView {
       Constant.OptionView.unselectedImage,
       for: .highlighted)
     $0.addTarget(self, action: #selector(didTapOption), for: .touchUpInside)
+    $0.contentEdgeInsets = UIEdgeInsets(
+      top: Constant.OptionView.Inset.top,
+      left: Constant.OptionView.Inset.leading,
+      bottom: Constant.OptionView.Inset.bottom,
+      right: Constant.OptionView.Inset.trailing)
   }
   
   // MARK: - Initialization
