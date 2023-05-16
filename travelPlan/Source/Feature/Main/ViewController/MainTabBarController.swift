@@ -30,7 +30,7 @@ final class MainTabBarController: UITabBarController {
   // MARK: - LifeCycle
   override func viewDidLoad() {
     super.viewDidLoad()
-    self.view.backgroundColor = UIColor(hex: "F9F9F9")
+    self.view.backgroundColor = .yg.gray00Background
     setupUI()
     configureTabBar()
   }
@@ -48,7 +48,7 @@ extension MainTabBarController {
     appearance
       .stackedLayoutAppearance
       .selected
-      .titleTextAttributes = [.foregroundColor: UIColor(hex: "6DB26B")]
+      .titleTextAttributes = [.foregroundColor: UIColor.yg.primary]
 
     self.tabBar.standardAppearance = appearance
     self.tabBar.backgroundColor = .white
@@ -65,7 +65,7 @@ extension MainTabBarController {
     let navigationController: UINavigationController!
     
     let imageName = type.rawValue
-    let selectedImage = UIImage(named: imageName)?.withTintColor(UIColor(hex: "6DB26B"), renderingMode: .alwaysOriginal)
+    let selectedImage = UIImage(named: imageName)?.withTintColor(UIColor.yg.primary, renderingMode: .alwaysOriginal)
     let tabBarItem = UITabBarItem(title: type.title, image: UIImage(named: imageName), selectedImage: selectedImage)
     
     switch type {

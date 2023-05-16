@@ -12,7 +12,9 @@ final class CategoryPageView: UIView {
   
   // MARK: - Properties
   private lazy var categoryView = CategoryView()
+  
   private lazy var categoryDetailView = CategoryDetailView()
+  
   private let vm = CategoryPageViewModel()
   
   // MARK: - Initialization
@@ -39,7 +41,7 @@ final class CategoryPageView: UIView {
 }
 
 // MARK: - Helpers
-fileprivate extension CategoryPageView {
+private extension CategoryPageView {
   func configure() {
     translatesAutoresizingMaskIntoConstraints = false
     setupUI()
@@ -114,7 +116,6 @@ extension CategoryPageView: UICollectionViewDataSource {
 
 // MARK: - UICollectionViewDelegate
 extension CategoryPageView: UICollectionViewDelegate {
-  
   /// When selected category view's cell, set scrollBar postiion, cell's position in screen
   func collectionView(
     _ collectionView: UICollectionView,
@@ -156,7 +157,8 @@ extension CategoryPageView: LayoutSupport {
   }
 }
 
-fileprivate extension CategoryPageView {
+// MARK: - LayoutSupport constraints
+private extension CategoryPageView {
   var categoryViewConstraint: [NSLayoutConstraint] {
     [categoryView.topAnchor.constraint(
       equalTo: topAnchor),

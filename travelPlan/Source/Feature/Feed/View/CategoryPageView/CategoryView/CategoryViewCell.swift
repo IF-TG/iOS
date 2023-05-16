@@ -7,21 +7,21 @@
 
 import UIKit
 
-class CategoryViewCell: UICollectionViewCell {
+final class CategoryViewCell: UICollectionViewCell {
   // MARK: - Constant
   static var id: String {
     return String(describing: self)
   }
   
   // MARK: - Properties
-  let categoryImageView = UIImageView().set {
+  private let categoryImageView = UIImageView().set {
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.backgroundColor = .lightGray.withAlphaComponent(0.6)
     $0.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
     $0.clipsToBounds = true
   }
   
-  let categoryTitle = UILabel().set {
+  private let categoryTitle = UILabel().set {
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.font = UIFont.systemFont(
       ofSize: Constant.Title.fontSize)
@@ -99,8 +99,8 @@ extension CategoryViewCell: LayoutSupport {
   }
 }
 
-// MARK: - Subviews constraint
-fileprivate extension CategoryViewCell {
+// MARK: - LayoutSupport constraints
+private extension CategoryViewCell {
   var categoryImageViewConstraint: [NSLayoutConstraint] {
     [categoryImageView.topAnchor.constraint(
       equalTo: contentView.topAnchor,

@@ -22,24 +22,21 @@ final class FeedViewModel: ViewModelCase {
   
   // MARK: - Properteis
   @Published private var isNotificationArrived = false
+  
   private var updateNotificatinoRedIcon = PassthroughSubject<Void, FeedErr>()
+  
   var subscription = Set<AnyCancellable>()
 }
 
 extension FeedViewModel {
   func transform(_ input: Input) -> Output {
     bind()
-    let appear = appearChains(input)
-    let didTapNotification = didTapNotificationChains(input)
-    let didTapPostSearch = didTapPostSearch(input)
-    let notificationRedIcon = updateNotificationRedIconChains()
-    
     return Publishers
       .MergeMany([
-        appear,
-        didTapNotification,
-        didTapPostSearch,
-        notificationRedIcon])
+        appearChains(input),
+        didTapNotificationChains(input),
+        didTapPostSearch(input),
+        updateNotificationRedIconChains()])
       .eraseToAnyPublisher()
   }
 }
@@ -79,7 +76,8 @@ fileprivate extension FeedViewModel {
       .subscribe(on: RunLoop.main)
       .tryMap { _ -> State in
         /// 이곳에서 영구저장소에 사용자가 알림을 확인했는지 확인해야합니다.
-        return .initFeedNaviBarIsCheckedNotification(isCheckedNotification: true)
+        /// 임시적으로 지금은 뷰가 나타났을 때 알림이 왔다는 가정을 했습니다. .none으로 할 경우 redIcon 사라집니다.
+        return .viewAppear(userNotificationState: .notChecked)
       }.mapError { error in
         return error as? FeedErr ?? .none
       }.eraseToAnyPublisher()
@@ -93,7 +91,7 @@ fileprivate extension FeedViewModel {
         /// 이곳에서 영구저장소에 사용자가 알림을 확인했는지 확인해야 합니다.
         /// 그리고 확인된 값을 반환해야 합니다.
         /// 지금은 임시적으로 일관된 값을 반환합니다.
-        return .goToNotification(isCheckedNotification: true)
+        return .goToNotification
       }.mapError { return $0 as? FeedErr ?? .none }
       .eraseToAnyPublisher()
   }

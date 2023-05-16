@@ -69,7 +69,7 @@ final class CategoryView: UIView {
   }
 }
 
-// MARK: - Helpers
+// MARK: - Public helpers
 extension CategoryView {
   /// selected cell위치에 따라 scrollBar layout 갱신
   /// - Parameters:
@@ -79,21 +79,6 @@ extension CategoryView {
     NSLayoutConstraint.deactivate(scrollBarConstraints)
     scrollBarConstraints = scrollBarConstriant(cell, cellTitleSpacing: spacing)
     NSLayoutConstraint.activate(scrollBarConstraints)
-  }
-  
-  private func configureUI() {
-    translatesAutoresizingMaskIntoConstraints = false
-    categoryView.bounces = false
-    backgroundColor = .white
-    setupUI()
-    configureRegister()
-    configureShadow()
-  }
-  
-  private func configureRegister() {
-    categoryView.register(
-      CategoryViewCell.self,
-      forCellWithReuseIdentifier: CategoryViewCell.id)
   }
   
   /// CategoryView의 컨테이너 뷰는 CategoryPageView입니다.
@@ -115,6 +100,24 @@ extension CategoryView {
   }
 }
 
+// MARK: - Helpers
+private extension CategoryView {
+  func configureUI() {
+    translatesAutoresizingMaskIntoConstraints = false
+    categoryView.bounces = false
+    backgroundColor = .white
+    setupUI()
+    configureRegister()
+    configureShadow()
+  }
+  
+  func configureRegister() {
+    categoryView.register(
+      CategoryViewCell.self,
+      forCellWithReuseIdentifier: CategoryViewCell.id)
+  }
+}
+
 // MARK: - LayoutSupport
 extension CategoryView: LayoutSupport {
   func addSubviews() {
@@ -130,7 +133,8 @@ extension CategoryView: LayoutSupport {
   }
 }
 
-fileprivate extension CategoryView {
+// MARK: - LayoutSupport constraints
+private extension CategoryView {
   var categoryViewConstraint: [NSLayoutConstraint] {
     [categoryView.topAnchor.constraint(equalTo: topAnchor),
      categoryView.leadingAnchor.constraint(equalTo: leadingAnchor),
