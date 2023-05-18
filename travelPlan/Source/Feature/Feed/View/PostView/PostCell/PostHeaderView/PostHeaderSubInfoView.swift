@@ -51,6 +51,7 @@ class PostHeaderSubInfoView: UIView {
     super.init(frame: .zero)
     translatesAutoresizingMaskIntoConstraints = false
     setupUI()
+    setSubviewsLayoutPriorities()
   }
   
   required init?(coder: NSCoder) {
@@ -83,6 +84,16 @@ extension PostHeaderSubInfoView {
   
   private func setYearMonthDayRangeLabel(with text: String) {
     yearMonthDayRangeLabel.text = text
+  }
+  
+  private func setSubviewsLayoutPriorities() {
+    userNameLabel.setContentHuggingPriority(
+      UILayoutPriority(252), for: .horizontal)
+    userNameLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+    durationLabel.setContentCompressionResistancePriority(
+      UILayoutPriority(998), for: .horizontal)
+    yearMonthDayRangeLabel.setContentCompressionResistancePriority(
+      UILayoutPriority(999), for: .horizontal)
   }
 }
 
@@ -119,20 +130,18 @@ extension PostHeaderSubInfoView: LayoutSupport {
 // MARK: - LayoutSupport constraints
 private extension PostHeaderSubInfoView {
   var userNameLabelConstraints: [NSLayoutConstraint] {
-    [userNameLabel.leadingAnchor.constraint(
-      equalTo: leadingAnchor),
-     userNameLabel.topAnchor.constraint(
-      equalTo: topAnchor),
-     userNameLabel.bottomAnchor.constraint(
-      equalTo: bottomAnchor),
-     userNameLabel.widthAnchor.constraint(lessThanOrEqualToConstant: Constant.UserName.width)]
+    return [
+      userNameLabel.leadingAnchor.constraint(
+        equalTo: leadingAnchor),
+      userNameLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
+      userNameLabel.widthAnchor.constraint(lessThanOrEqualToConstant: Constant.UserName.width),
+      userNameLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 0)]
   }
   
   var dividerView1Constraints: [NSLayoutConstraint] {
     let divider = dividerView.first!
     return [
-      divider.topAnchor.constraint(equalTo: topAnchor),
-      divider.bottomAnchor.constraint(equalTo: bottomAnchor),
+      divider.centerYAnchor.constraint(equalTo: centerYAnchor),
       divider.widthAnchor.constraint(
         equalToConstant: Constant.Divider.width),
       divider.heightAnchor.constraint(
@@ -143,21 +152,20 @@ private extension PostHeaderSubInfoView {
   }
   
   var durationLabelConstraints: [NSLayoutConstraint] {
-    [durationLabel.topAnchor.constraint(equalTo: topAnchor),
-     durationLabel.leadingAnchor.constraint(
-      equalTo: dividerView[0].trailingAnchor,
-      constant: Constant.Duration.Spacing.leading),
-     durationLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
-     durationLabel.widthAnchor.constraint(
-      lessThanOrEqualToConstant: Constant.Duration.width)]
+    return [
+      durationLabel.centerYAnchor.constraint(
+        equalTo: centerYAnchor),
+      durationLabel.leadingAnchor.constraint(
+        equalTo: dividerView[0].trailingAnchor,
+        constant: Constant.Duration.Spacing.leading),
+      durationLabel.widthAnchor.constraint(
+        lessThanOrEqualToConstant: Constant.Duration.width)]
   }
   
   var dividerView2Constraints: [NSLayoutConstraint] {
     let divider = dividerView.last!
     return [
-      divider.topAnchor.constraint(
-        equalTo: topAnchor),
-      divider.bottomAnchor.constraint(equalTo: bottomAnchor),
+      divider.centerYAnchor.constraint(equalTo: centerYAnchor),
       divider.widthAnchor.constraint(
         equalToConstant: Constant.Divider.width),
       divider.heightAnchor.constraint(
@@ -168,12 +176,12 @@ private extension PostHeaderSubInfoView {
   }
   
   var dateRangeLabelConstraints: [NSLayoutConstraint] {
-    [yearMonthDayRangeLabel.topAnchor.constraint(equalTo: topAnchor),
+    [yearMonthDayRangeLabel.centerYAnchor.constraint(
+      equalTo: centerYAnchor),
      yearMonthDayRangeLabel.leadingAnchor.constraint(
       equalTo: dividerView[1].trailingAnchor,
       constant: Constant.DateRange.Spacing.leading),
-     yearMonthDayRangeLabel.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor),
-     yearMonthDayRangeLabel.bottomAnchor.constraint(equalTo: bottomAnchor)
-    ]
+     yearMonthDayRangeLabel.trailingAnchor.constraint(
+      lessThanOrEqualTo: trailingAnchor)]
   }
 }
