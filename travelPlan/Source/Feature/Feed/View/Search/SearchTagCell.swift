@@ -15,7 +15,7 @@ class SearchTagCell: UICollectionViewCell {
     return String(describing: self)
   }
   
-  private let tagLabel: UILabel = UILabel().set {
+  let tagLabel: UILabel = UILabel().set {
     $0.font = .systemFont(ofSize: 14)
     $0.textColor = .black
     $0.numberOfLines = 1

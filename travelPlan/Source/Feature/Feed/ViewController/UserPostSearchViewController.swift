@@ -13,7 +13,7 @@ final class UserPostSearchViewController: UIViewController {
   // MARK: - Properties
   let viewModel = UserPostSearchViewModel()
   
-  private var dataSource: String?
+//  private var dataSource: String?
   
   private lazy var leftAlignedCollectionViewFlowLayout:
   LeftAlignedCollectionViewFlowLayout = LeftAlignedCollectionViewFlowLayout().set {
@@ -40,6 +40,11 @@ final class UserPostSearchViewController: UIViewController {
       forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
       withReuseIdentifier: UserPostSearchHeaderView.id
     )
+    $0.register(
+      RecommendationSearchFooterView.self,
+      forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
+      withReuseIdentifier: RecommendationSearchFooterView.id
+    )
   }
   
   private var subscriptions = Set<AnyCancellable>()
@@ -52,14 +57,14 @@ final class UserPostSearchViewController: UIViewController {
   private let _didTapCancelButton = PassthroughSubject<Void, Never>()
   private let _didTapSearchButton = PassthroughSubject<Void, Never>()
   private let _editingTextField = PassthroughSubject<Void, Never>()
-
+  
   // MARK: - LifeCycle
   override func viewDidLoad() {
     super.viewDidLoad()
     self.view.backgroundColor = .white
     setupUI()
     bind()
-//    BaseNavigationController.configureBackButtonItem(title: "헬로", target: self)
+    setupNavigationBar()
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -67,6 +72,10 @@ final class UserPostSearchViewController: UIViewController {
     leftAlignedCollectionViewFlowLayout.headerReferenceSize = CGSize(
       width: self.collectionView.frame.width,
       height: 60
+    )
+    leftAlignedCollectionViewFlowLayout.footerReferenceSize = CGSize(
+      width: self.collectionView.frame.width,
+      height: 21
     )
   }
 }
@@ -119,7 +128,6 @@ extension UserPostSearchViewController {
     at type: SearchSection
   ) -> String {
     headerView.initSectionType(with: type)
-    
     switch type {
     case .recommendation:
       return viewModel.recommendationModel.headerTitle
@@ -127,12 +135,19 @@ extension UserPostSearchViewController {
       return viewModel.recentModel.headerTitle
     }
   }
+  
+  private func setupNavigationBar() {
+    // backButtonItem에 image넣어줌.
+    // padding: 1. customView 대입, 2. containerView안에 넣어서 inset
+    
+    //    let backButtonItem = UIBarButtonItem(tit)
+  }
 }
 
 // MARK: - Actions
 extension UserPostSearchViewController {
   @objc private func didTapSearchButton(_ button: UIButton) {
-//    _didTapSearchButton.send(텍스트필드.text)
+    //    _didTapSearchButton.send(텍스트필드.text)
     print("DEBUG: search button tapped!")
   }
 }
@@ -159,96 +174,42 @@ extension UserPostSearchViewController: UICollectionViewDelegateFlowLayout {
     layout collectionViewLayout: UICollectionViewLayout,
     sizeForItemAt indexPath: IndexPath
   ) -> CGSize {
-    let widthPadding: CGFloat = 13
-    let heightPadding: CGFloat = 4
-    
-    if indexPath.section == SearchSection.recommendation.rawValue {
-      let text = viewModel.recommendationModel.keywords[indexPath.item]
-      let textSize = (text as NSString)
-        .size(withAttributes: [.font: UIFont.systemFont(ofSize: 14)])
-      
-      return CGSize(
-        width: textSize.width + (widthPadding * 2),
-        height: textSize.height + (heightPadding * 2)
-      )
-    } else if indexPath.section == SearchSection.recent.rawValue {
-      let text = viewModel.recentModel.keywords[indexPath.item]
-      let textSize = (text as NSString)
-        .size(withAttributes: [.font: UIFont.systemFont(ofSize: 14)])
-      
-      // widthSizeFIXME: - 버튼의 width 계산하기
-      // AutoLayout을 사용할 수 없어서 문제를 해결하지 못하여, 임시 방편으로 buttonWidth 상수를 사용했습니다.
-      let buttonWidth: CGFloat = 10
-      let componentPadding: CGFloat = 4
-      
-      let width = textSize.width + componentPadding + buttonWidth + (widthPadding * 2)
-      
-      return CGSize(
-        width: width,
-        height: textSize.height + (heightPadding * 2)
-      )
-    } else { return CGSize() }
+    return viewModel.sizeForItem(at: indexPath)
   }
   
   func collectionView(
     _ collectionView: UICollectionView,
     didSelectItemAt indexPath: IndexPath
   ) {
-    guard let searchTagCell = collectionView.cellForItem(at: indexPath) as? SearchTagCell else { return }
-    
-    switch searchTagCell.sectionType {
-    case .recommendation:
-      print("추천 검색어: \(viewModel.recommendationModel.keywords[indexPath.item]) tapped")
-//      self.navigationController?.pushViewController(DummyViewController(), animated: true)
-    case .recent:
-      print("최근 검색어: \(viewModel.recentModel.keywords[indexPath.item]) tapped")
-    case .none: return
-    }
+    let keyword = viewModel.didSelectItem(at: indexPath)
+    print(keyword)
   }
 }
 
 // MARK: - UICollectionViewDataSource
 extension UserPostSearchViewController: UICollectionViewDataSource {
   func numberOfSections(in collectionView: UICollectionView) -> Int {
-    return SearchSection.allCases.count
+    return viewModel.numberOfSections()
   }
   
   func collectionView(
     _ collectionView: UICollectionView,
     numberOfItemsInSection section: Int
   ) -> Int {
-    switch section {
-    case SearchSection.recommendation.rawValue:
-      return viewModel.recommendationModel.keywords.count
-    case SearchSection.recent.rawValue:
-      return viewModel.recentModel.keywords.count
-    default: return 0
-    }
+    return viewModel.numberOfItemsInSection(section)
   }
   
   func collectionView(
     _ collectionView: UICollectionView,
     cellForItemAt indexPath: IndexPath
   ) -> UICollectionViewCell {
-    
-//    viewModel.collectionView(collectionView, cellForItemAt: indexPath)
     guard let searchTagCell = collectionView.dequeueReusableCell(
       withReuseIdentifier: SearchTagCell.id,
       for: indexPath
     ) as? SearchTagCell else { return UICollectionViewCell() }
     
-    // 하나의 Cell class를 재사용해서 변형시키므로, section별로 Cell 구분화
-    switch indexPath.section {
-    case SearchSection.recommendation.rawValue:
-      searchTagCell.initSectionType(with: .recommendation)
-      self.dataSource = viewModel.recommendationModel.keywords[indexPath.item]
-    case SearchSection.recent.rawValue:
-      searchTagCell.initSectionType(with: .recent)
-      self.dataSource = viewModel.recentModel.keywords[indexPath.item]
-    default: break
-    }
-    guard let dataSource = self.dataSource else { return searchTagCell }
-    searchTagCell.configure(dataSource)
+    let tagString = viewModel.cellForItem(searchTagCell, at: indexPath)
+    searchTagCell.configure(tagString)
     
     return searchTagCell
   }
@@ -258,31 +219,50 @@ extension UserPostSearchViewController: UICollectionViewDataSource {
     viewForSupplementaryElementOfKind kind: String,
     at indexPath: IndexPath
   ) -> UICollectionReusableView {
+    
     switch kind {
-    case UICollectionView.elementKindSectionHeader:
-      
+    case UICollectionView.elementKindSectionHeader: // HeaderView
       guard let titleHeaderView = collectionView.dequeueReusableSupplementaryView(
         ofKind: kind,
         withReuseIdentifier: UserPostSearchHeaderView.id,
         for: indexPath
       ) as? UserPostSearchHeaderView else { return UICollectionReusableView() }
-      
-//      viewModel.fetchHeaderTitle(titleHeaderView, at: .recommendation)
-      // viewModel에게 CollectionReusableView와 cell Type을 넘긴다.
-      
       var titleString = ""
+      
+//      headerView.initSectionType(with: type)
+//      switch type {
+//      case .recommendation:
+//        return viewModel.recommendationModel.headerTitle
+//      case .recent:
+//        return viewModel.recentModel.headerTitle
+//      }
       
       switch indexPath.section {
       case SearchSection.recommendation.rawValue:
+        
+        // init과 model 접근후 data fetch
         titleString = fetchHeaderTitle(titleHeaderView, at: .recommendation)
       case SearchSection.recent.rawValue:
         titleString = fetchHeaderTitle(titleHeaderView, at: .recent)
       default: break
       }
-      
+      // *********************************************
       titleHeaderView.prepare(title: titleString)
       
       return titleHeaderView
+      // *********************************************
+      
+    case UICollectionView.elementKindSectionFooter: // FooterView
+      guard let lineFooterView = collectionView.dequeueReusableSupplementaryView(
+        ofKind: kind,
+        withReuseIdentifier: RecommendationSearchFooterView.id,
+        for: indexPath
+      ) as? RecommendationSearchFooterView else { return UICollectionReusableView() }
+      
+      if indexPath.section == SearchSection.recent.rawValue {
+        lineFooterView.isHidden = true
+      }
+      return lineFooterView
     default: return UICollectionReusableView()
     }
   }
