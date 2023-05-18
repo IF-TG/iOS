@@ -35,11 +35,11 @@ private extension MockPostModel {
   }
   
   func compressThumbImg(_ index: Int) -> UIImage {
-    return UIImage(named: tempThumb(index))!.compressJPEGImage(with: 0.003)!
+    return UIImage(named: tempThumb(index))!.compressJPEGImage(with: 0.0005)!
   }
   
   func compressProfImg(_ index: Int) -> UIImage {
-    return UIImage(named: tempProf(index))!.compressJPEGImage(with: 0.005)!
+    return UIImage(named: tempProf(index))!.compressJPEGImage(with: 0.0003)!
   }
   
   func initMockHeader() -> [PostHeaderModel] {
