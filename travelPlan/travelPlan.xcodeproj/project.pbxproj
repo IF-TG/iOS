@@ -22,6 +22,7 @@
 		132550822A113BE000094218 /* BaseNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132550812A113BE000094218 /* BaseNavigationController.swift */; };
 		1325508C2A13EDEA00094218 /* LeftAlignedCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1325508B2A13EDEA00094218 /* LeftAlignedCollectionViewFlowLayout.swift */; };
 		1325508E2A13EE8E00094218 /* UserPostSearchHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1325508D2A13EE8E00094218 /* UserPostSearchHeaderView.swift */; };
+		13C07ECD2A13F454005F04CD /* RecommendationSearchFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C07ECC2A13F454005F04CD /* RecommendationSearchFooterView.swift */; };
 		151130092A04E4EB0041DDA1 /* travelPlanTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151130082A04E4EB0041DDA1 /* travelPlanTests.swift */; };
 		151130162A04E5B00041DDA1 /* travelPlanUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151130152A04E5B00041DDA1 /* travelPlanUITests.swift */; };
 		151130182A04E5B00041DDA1 /* travelPlanUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151130172A04E5B00041DDA1 /* travelPlanUITestsLaunchTests.swift */; };
@@ -129,6 +130,7 @@
 		132550812A113BE000094218 /* BaseNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNavigationController.swift; sourceTree = "<group>"; };
 		1325508B2A13EDEA00094218 /* LeftAlignedCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftAlignedCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
 		1325508D2A13EE8E00094218 /* UserPostSearchHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPostSearchHeaderView.swift; sourceTree = "<group>"; };
+		13C07ECC2A13F454005F04CD /* RecommendationSearchFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationSearchFooterView.swift; sourceTree = "<group>"; };
 		151130062A04E4EB0041DDA1 /* travelPlanTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = travelPlanTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		151130082A04E4EB0041DDA1 /* travelPlanTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = travelPlanTests.swift; sourceTree = "<group>"; };
 		151130132A04E5B00041DDA1 /* travelPlanUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = travelPlanUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -250,6 +252,7 @@
 				132550572A0B7BCD00094218 /* SearchSection.swift */,
 				1325508B2A13EDEA00094218 /* LeftAlignedCollectionViewFlowLayout.swift */,
 				1325508D2A13EE8E00094218 /* UserPostSearchHeaderView.swift */,
+				13C07ECC2A13F454005F04CD /* RecommendationSearchFooterView.swift */,
 			);
 			path = Search;
 			sourceTree = "<group>";
@@ -1018,6 +1021,7 @@
 				15FEB5ED2A050A99000A5F33 /* LayoutSupport.swift in Sources */,
 				158BEFF42A0FFA0A00C27861 /* PostFooterStackViewType.swift in Sources */,
 				1325508C2A13EDEA00094218 /* LeftAlignedCollectionViewFlowLayout.swift in Sources */,
+				13C07ECD2A13F454005F04CD /* RecommendationSearchFooterView.swift in Sources */,
 				156759B32A0D78D400849CE2 /* FeedViewModelProtocols.swift in Sources */,
 				15CB23722A10F5DA003EAF20 /* MockPostModel.swift in Sources */,
 				158BEFC42A0EC8A100C27861 /* UIView+CustomAnimation.swift in Sources */,
