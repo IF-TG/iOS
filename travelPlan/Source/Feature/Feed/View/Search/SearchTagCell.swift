@@ -8,8 +8,11 @@
 import UIKit
 
 class SearchTagCell: UICollectionViewCell {
+  typealias SectionType = SearchSectionItemModel.SectionType
+  
   // MARK: - Properties
-  var sectionType: SearchSection?
+  var sectionType: SectionType?
+  weak var delegate: SearchTagCellDelegate?
   
   static var id: String {
     return String(describing: self)
@@ -22,7 +25,7 @@ class SearchTagCell: UICollectionViewCell {
     $0.lineBreakMode = .byClipping
   }
   
-  private var deleteButton: UIButton?
+  var deleteButton: UIButton?
   
   // MARK: - LifeCycle
   override init(frame: CGRect) {
@@ -61,10 +64,10 @@ extension SearchTagCell {
     tagLabel.text = text
   }
   
-  func initSectionType(with type: SearchSection) {
-    switch sectionType {
+  func initSectionType(with sectionType: SectionType) {
+    switch self.sectionType {
     case .none:
-      sectionType = type
+      self.sectionType = sectionType
       setupUI()
     case .recent, .recommendation: return
     }
@@ -75,14 +78,17 @@ extension SearchTagCell {
 extension SearchTagCell {
   @objc private func didTapDeleteButton(_ button: UIButton) {
     // DeleteCellTODO: 선택된 최근 검색 cell 삭제
-    print("delete button Tapped")
+    delegate?.didTapDeleteButton(
+      tag: button.tag,
+      in: sectionType?.rawValue ?? SectionType.recent.rawValue
+    )
   }
 }
 
 // MARK: - LayoutSupport
 extension SearchTagCell: LayoutSupport {
   func addSubviews() {
-    switch sectionType {
+    switch self.sectionType {
     case .recent:
       // delete Button 추가
       let deleteButton = makeDeleteButton()
@@ -94,7 +100,7 @@ extension SearchTagCell: LayoutSupport {
   }
   
   func setConstraints() {
-    switch sectionType {
+    switch self.sectionType {
     case .recommendation:
       tagLabel.snp.makeConstraints {
         $0.leading.equalToSuperview().inset(13)

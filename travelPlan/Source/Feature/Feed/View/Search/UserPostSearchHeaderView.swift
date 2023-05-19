@@ -7,27 +7,29 @@
 
 import UIKit
 import SnapKit
+import Combine
 
 final class UserPostSearchHeaderView: UICollectionReusableView {
+  typealias SectionType = SearchSectionItemModel.SectionType
+  
   // MARK: - Properties
   static var id: String {
     return String(describing: self)
   }
+
+  var sectionType: SectionType?
   
-  var sectionType: SearchSection?
-  
-  // FontFIXME: - PretendardVariable-Bold
   private let titleLabel: UILabel = UILabel().set {
-    $0.font = .systemFont(ofSize: 17, weight: .bold) // weight 수정
+    $0.font = .init(pretendard: .bold, size: 17)
     $0.textColor = UIColor(hex: "4B4B4B")
   }
   
   private var deleteAllButton: UIButton?
+  weak var delegate: UserPostSearchHeaderViewDelegate?
   
   // MARK: - LifeCycle
   override init(frame: CGRect) {
     super.init(frame: frame)
-    
   }
   
   required init?(coder: NSCoder) {
@@ -46,10 +48,10 @@ extension UserPostSearchHeaderView {
     titleLabel.text = title
   }
   
-  func initSectionType(with type: SearchSection) {
-    switch sectionType {
+  func initSectionType(with sectionType: SectionType) {
+    switch self.sectionType {
     case .none:
-      self.sectionType = type
+      self.sectionType = sectionType
       setupUI()
     case .recommendation, .recent: return
     }
@@ -73,14 +75,14 @@ extension UserPostSearchHeaderView {
 // MARK: - Actions
 extension UserPostSearchHeaderView {
   @objc private func didTapDeleteAllButton(_ button: UIButton) {
-    print("최근 검색 기록 전체 삭제!")
+    delegate?.didTapDeleteAllButton()
   }
 }
 
 // MARK: - LayoutSupport
 extension UserPostSearchHeaderView: LayoutSupport {
   func addSubviews() {
-    switch sectionType {
+    switch self.sectionType {
     case .recent:
       let deleteAllButton = makeDeleteAllButton() // 최근 검색인 경우 전체삭제 버튼 추가
       
@@ -93,7 +95,7 @@ extension UserPostSearchHeaderView: LayoutSupport {
   }
   
   func setConstraints() {
-    switch sectionType {
+    switch self.sectionType {
     case .recent:
       guard let button = deleteAllButton else { return }
       
