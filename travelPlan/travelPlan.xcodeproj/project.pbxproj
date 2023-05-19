@@ -24,6 +24,7 @@
 		151130092A04E4EB0041DDA1 /* travelPlanTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151130082A04E4EB0041DDA1 /* travelPlanTests.swift */; };
 		151130162A04E5B00041DDA1 /* travelPlanUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151130152A04E5B00041DDA1 /* travelPlanUITests.swift */; };
 		151130182A04E5B00041DDA1 /* travelPlanUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151130172A04E5B00041DDA1 /* travelPlanUITestsLaunchTests.swift */; };
+		15332AD62A163AB6008A4110 /* FavoriteViewControllerConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15332AD52A163AB6008A4110 /* FavoriteViewControllerConstant.swift */; };
 		156759B12A0D774500849CE2 /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156759B02A0D774500849CE2 /* FeedViewModel.swift */; };
 		156759B32A0D78D400849CE2 /* FeedViewModelProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156759B22A0D78D400849CE2 /* FeedViewModelProtocols.swift */; };
 		1570ECB22A13176100A3FDCF /* FeedNavigationBarConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1570ECB12A13176100A3FDCF /* FeedNavigationBarConstant.swift */; };
@@ -132,6 +133,7 @@
 		151130132A04E5B00041DDA1 /* travelPlanUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = travelPlanUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		151130152A04E5B00041DDA1 /* travelPlanUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = travelPlanUITests.swift; sourceTree = "<group>"; };
 		151130172A04E5B00041DDA1 /* travelPlanUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = travelPlanUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		15332AD52A163AB6008A4110 /* FavoriteViewControllerConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteViewControllerConstant.swift; sourceTree = "<group>"; };
 		156759B02A0D774500849CE2 /* FeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
 		156759B22A0D78D400849CE2 /* FeedViewModelProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModelProtocols.swift; sourceTree = "<group>"; };
 		1570ECB12A13176100A3FDCF /* FeedNavigationBarConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedNavigationBarConstant.swift; sourceTree = "<group>"; };
@@ -265,6 +267,14 @@
 				151130172A04E5B00041DDA1 /* travelPlanUITestsLaunchTests.swift */,
 			);
 			path = travelPlanUITests;
+			sourceTree = "<group>";
+		};
+		15332AD42A163AA9008A4110 /* Constant */ = {
+			isa = PBXGroup;
+			children = (
+				15332AD52A163AB6008A4110 /* FavoriteViewControllerConstant.swift */,
+			);
+			path = Constant;
 			sourceTree = "<group>";
 		};
 		157176702A0BFA2F0015EC8C /* Fonts */ = {
@@ -501,6 +511,7 @@
 		15BED3012A08256000F86321 /* Favorite */ = {
 			isa = PBXGroup;
 			children = (
+				15332AD42A163AA9008A4110 /* Constant */,
 				15BED3022A0825A100F86321 /* ViewController */,
 			);
 			path = Favorite;
@@ -996,6 +1007,7 @@
 				158BEF882A0E33F700C27861 /* PostHeaderSubInfoView.swift in Sources */,
 				158BEF7D2A0E2C5F00C27861 /* PostHeaderView.swift in Sources */,
 				15FEB5E72A050A99000A5F33 /* UIButton+Combine.swift in Sources */,
+				15332AD62A163AB6008A4110 /* FavoriteViewControllerConstant.swift in Sources */,
 				1325501E2A08BFC800094218 /* UserPostSearchHeaderView.swift in Sources */,
 				15FEB5EB2A050A99000A5F33 /* ConvenienceInit.swift in Sources */,
 				1325502B2A0ABE5E00094218 /* UserPostSearchViewModel.swift in Sources */,
