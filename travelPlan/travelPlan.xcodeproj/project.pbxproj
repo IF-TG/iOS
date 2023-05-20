@@ -23,6 +23,8 @@
 		1325508C2A13EDEA00094218 /* LeftAlignedCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1325508B2A13EDEA00094218 /* LeftAlignedCollectionViewFlowLayout.swift */; };
 		1325508E2A13EE8E00094218 /* UserPostSearchHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1325508D2A13EE8E00094218 /* UserPostSearchHeaderView.swift */; };
 		13C07ECD2A13F454005F04CD /* RecommendationSearchFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C07ECC2A13F454005F04CD /* RecommendationSearchFooterView.swift */; };
+		13C9C1AF2A17FFC400DF1FFF /* UserPostSearchHeaderViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C9C1AE2A17FFC400DF1FFF /* UserPostSearchHeaderViewDelegate.swift */; };
+		13C9C1B12A1806F500DF1FFF /* SearchTagCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C9C1B02A1806F500DF1FFF /* SearchTagCellDelegate.swift */; };
 		151130092A04E4EB0041DDA1 /* travelPlanTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151130082A04E4EB0041DDA1 /* travelPlanTests.swift */; };
 		151130162A04E5B00041DDA1 /* travelPlanUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151130152A04E5B00041DDA1 /* travelPlanUITests.swift */; };
 		151130182A04E5B00041DDA1 /* travelPlanUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151130172A04E5B00041DDA1 /* travelPlanUITestsLaunchTests.swift */; };
@@ -131,6 +133,8 @@
 		1325508B2A13EDEA00094218 /* LeftAlignedCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftAlignedCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
 		1325508D2A13EE8E00094218 /* UserPostSearchHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPostSearchHeaderView.swift; sourceTree = "<group>"; };
 		13C07ECC2A13F454005F04CD /* RecommendationSearchFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationSearchFooterView.swift; sourceTree = "<group>"; };
+		13C9C1AE2A17FFC400DF1FFF /* UserPostSearchHeaderViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPostSearchHeaderViewDelegate.swift; sourceTree = "<group>"; };
+		13C9C1B02A1806F500DF1FFF /* SearchTagCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTagCellDelegate.swift; sourceTree = "<group>"; };
 		151130062A04E4EB0041DDA1 /* travelPlanTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = travelPlanTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		151130082A04E4EB0041DDA1 /* travelPlanTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = travelPlanTests.swift; sourceTree = "<group>"; };
 		151130132A04E5B00041DDA1 /* travelPlanUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = travelPlanUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -545,6 +549,8 @@
 			children = (
 				15C92C132A0AD22D00376D1B /* FeedNavigationBarDelegate.swift */,
 				156759B22A0D78D400849CE2 /* FeedViewModelProtocols.swift */,
+				13C9C1AE2A17FFC400DF1FFF /* UserPostSearchHeaderViewDelegate.swift */,
+				13C9C1B02A1806F500DF1FFF /* SearchTagCellDelegate.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -1043,6 +1049,7 @@
 				1594F53229FD517E00A58F20 /* AppDelegate.swift in Sources */,
 				158BEFC22A0EB45300C27861 /* UIFont+.swift in Sources */,
 				15FEB5E52A050A99000A5F33 /* UIControl+Combine.swift in Sources */,
+				13C9C1AF2A17FFC400DF1FFF /* UserPostSearchHeaderViewDelegate.swift in Sources */,
 				13254FFB2A08AD8700094218 /* UserPostSearchViewController.swift in Sources */,
 				15EF8CA12A0A19380068C744 /* CategoryDetailViewCell.swift in Sources */,
 				15710CBC2A132DD00023C19E /* FeedAppTitleBarItem.swift in Sources */,
@@ -1061,6 +1068,7 @@
 				15FEB5EA2A050A99000A5F33 /* UIColor+.swift in Sources */,
 				1570ECB22A13176100A3FDCF /* FeedNavigationBarConstant.swift in Sources */,
 				15CB236F2A10C314003EAF20 /* PostCellViewModel.swift in Sources */,
+				13C9C1B12A1806F500DF1FFF /* SearchTagCellDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

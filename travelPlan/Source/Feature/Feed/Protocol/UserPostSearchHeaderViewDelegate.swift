@@ -6,3 +6,7 @@
 //
 
 import Foundation
+
+protocol UserPostSearchHeaderViewDelegate: AnyObject {
+  func didTapDeleteAllButton()
+}

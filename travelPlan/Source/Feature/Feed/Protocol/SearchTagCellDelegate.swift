@@ -6,3 +6,8 @@
 //
 
 import Foundation
+import UIKit
+
+protocol SearchTagCellDelegate: AnyObject {
+  func didTapDeleteButton(item: Int, in section: Int)
+}
