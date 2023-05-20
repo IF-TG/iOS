@@ -9,7 +9,7 @@ import UIKit
 
 class FavoriteViewController: UIViewController {
   // MARK: - Properties
-  
+  private let line = OneUnitHeightLine(color: .yg.gray0)
   // MARK: - Lifecycle
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -24,6 +24,7 @@ private extension FavoriteViewController {
     view.backgroundColor = Constant.bgColor
     setNavigationBarTitle()
     setNavigationRightBarItem()
+    setNavigationBarEdgeGrayLine()
   }
   
   func setNavigationBarTitle() {
@@ -32,6 +33,7 @@ private extension FavoriteViewController {
       $0.textColor = Constant.NavigationBar.Title.color
       $0.font = Constant.NavigationBar.Title.font
       $0.textAlignment = .center
+      
     }
     navigationItem.titleView = titleLabel
   }
@@ -52,11 +54,20 @@ private extension FavoriteViewController {
     navigationItem.rightBarButtonItem = UIBarButtonItem(
       customView: settingButton)
   }
+  
+  func setNavigationBarEdgeGrayLine() {
+    guard let naviBar = navigationController?.navigationBar else {
+      return
+    }
+    line.setConstraint(fromSuperView: naviBar, spacing: .init(bottom: 0))
+  }
 }
 
 // MARK: - Action
 extension FavoriteViewController {
   @objc func didTapSettingButton() {
     print("DEBUG: Tap setting button")
+    // 여기서 테스트로 feed 함 가보자. 네비 선 사라지나 안사라지나 ,.,.,
+    
   }
 }
