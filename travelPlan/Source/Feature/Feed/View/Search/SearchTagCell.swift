@@ -18,7 +18,7 @@ class SearchTagCell: UICollectionViewCell {
     return String(describing: self)
   }
   
-  let tagLabel: UILabel = UILabel().set {
+  private let tagLabel: UILabel = UILabel().set {
     $0.font = .systemFont(ofSize: 14)
     $0.textColor = .black
     $0.numberOfLines = 1
@@ -43,9 +43,9 @@ class SearchTagCell: UICollectionViewCell {
 extension SearchTagCell {
   private func setupStyles() {
     self.contentView.backgroundColor = .systemBackground
-    self.contentView.layer.cornerRadius = 13
-    self.contentView.layer.borderColor = UIColor(hex: "D9D9D9").cgColor
+    self.contentView.layer.borderColor = UIColor.YG.gray0.cgColor
     self.contentView.layer.borderWidth = 1
+    self.contentView.layer.cornerRadius = 13
   }
   
   private func makeDeleteButton() -> UIButton {
@@ -79,7 +79,7 @@ extension SearchTagCell {
   @objc private func didTapDeleteButton(_ button: UIButton) {
     // DeleteCellTODO: 선택된 최근 검색 cell 삭제
     delegate?.didTapDeleteButton(
-      tag: button.tag,
+      item: button.tag,
       in: sectionType?.rawValue ?? SectionType.recent.rawValue
     )
   }
