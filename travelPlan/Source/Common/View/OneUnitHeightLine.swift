@@ -27,6 +27,8 @@ import UIKit
 ///             superView: content,
 ///             spacing: ...)
 /// }
+/// ```
+///
 final class OneUnitHeightLine: UIView {
   // MARK: - Constants
   private let height: CGFloat = 1
