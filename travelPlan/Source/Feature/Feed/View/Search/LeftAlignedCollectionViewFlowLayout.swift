@@ -25,23 +25,23 @@ class LeftAlignedCollectionViewFlowLayout: UICollectionViewFlowLayout {
     var maxY: CGFloat = -1.0
     let edgeInset: CGFloat = 20
     
-    // copy 객체 customizing 후, return
+    // 원본 객체가 아닌, copy 객체 사용
     let copyAttributes = attributes.map {
-      if let copyAttribute = $0.copy() as? UICollectionViewLayoutAttributes {
-        return copyAttribute
-      }
-      return UICollectionViewLayoutAttributes()
+      guard let copyAttribute = $0.copy() as? UICollectionViewLayoutAttributes
+      else { return UICollectionViewLayoutAttributes() }
+      
+      return copyAttribute
     }
     
-    copyAttributes.forEach { layoutAttribute in
-      if layoutAttribute.representedElementCategory == .cell {
-        
+    copyAttributes
+      .filter { $0.representedElementCategory == .cell }
+      .forEach { layoutAttribute in
         guard let collectionView = self.collectionView else { return }
-        
+
         if layoutAttribute.frame.width >= collectionView.frame.width - (edgeInset * 2) {
           layoutAttribute.frame.size.width = collectionView.frame.width - (edgeInset * 2)
         }
-        
+
         if layoutAttribute.frame.origin.y >= maxY {
           leftMargin = self.sectionInset.left
         }
@@ -49,9 +49,8 @@ class LeftAlignedCollectionViewFlowLayout: UICollectionViewFlowLayout {
         layoutAttribute.frame.origin.x = leftMargin
         leftMargin += layoutAttribute.frame.width + self.minimumInteritemSpacing
         maxY = max(layoutAttribute.frame.maxY, maxY)
-      }
     }
-    
+
     return copyAttributes
   }
 }
