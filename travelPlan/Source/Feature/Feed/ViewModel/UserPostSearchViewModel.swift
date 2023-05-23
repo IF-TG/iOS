@@ -84,7 +84,9 @@ extension UserPostSearchViewModel: ViewModelCase {
   private func didSelectedItemChain(_ input: Input) -> Output {
     return input.didSelectedItem
       .map { [weak self] indexPath -> State in
-          .gotoSearch(searchText: self?.model[indexPath.section].items[indexPath.item] ?? "")
+          .gotoSearch(
+            searchText: self?.model[indexPath.section].items[indexPath.item] ?? ""
+          )
       }.eraseToAnyPublisher()
   }
   
@@ -115,7 +117,7 @@ extension UserPostSearchViewModel: ViewModelCase {
 // MARK: - Helpers
 extension UserPostSearchViewModel {
   private func removeItemModel(item: Int, section: Int) {
-    model[section].items.remove(at: item)
+    self.model[section].items.remove(at: item)
   }
   
   private func isValueChanged(text: String) -> Bool {
@@ -132,7 +134,7 @@ extension UserPostSearchViewModel {
     let widthPadding: CGFloat = 13
     let heightPadding: CGFloat = 4
     
-    let text = model[indexPath.section].items[indexPath.item]
+    let text = self.model[indexPath.section].items[indexPath.item]
     let textSize = (text as NSString)
       .size(withAttributes: [.font: UIFont(pretendard: .medium, size: 14)!])
     
@@ -159,7 +161,10 @@ extension UserPostSearchViewModel {
     return SectionType.allCases.count
   }
   
-  func cellForItem(_ searchTagCell: SearchTagCell, at indexPath: IndexPath) -> String {
+  func cellForItem(
+    _ searchTagCell: SearchTagCell,
+    at indexPath: IndexPath
+  ) -> String {
     // 하나의 Cell class를 재사용해서 변형시키므로, section별로 Cell 구분화
     switch indexPath.section {
     case SearchSection.recommendation.rawValue:
@@ -170,14 +175,17 @@ extension UserPostSearchViewModel {
     }
     searchTagCell.deleteButton?.tag = indexPath.item
     
-    return model[indexPath.section].items[indexPath.item]
+    return self.model[indexPath.section].items[indexPath.item]
   }
   
   func numberOfItemsInSection(_ section: Int) -> Int {
-    return model[section].items.count
+    return self.model[section].items.count
   }
   
-  func fetchHeaderTitle(_ headerView: UserPostSearchHeaderView, at section: Int) -> String {
+  func fetchHeaderTitle(
+    _ headerView: UserPostSearchHeaderView,
+    at section: Int
+  ) -> String {
     switch section {
     case SearchSection.recommendation.rawValue:
       headerView.initSectionType(with: .recommendation)

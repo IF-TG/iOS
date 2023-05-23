@@ -217,7 +217,7 @@ extension UserPostSearchViewController {
   }
   
   @objc private func editingChangedTextField(_ textField: UITextField) {
-    _editingTextField.send(textField.text ?? "")
+    self._editingTextField.send(textField.text ?? "")
   }
   
   @objc private func dismissKeyboard() {
