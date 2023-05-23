@@ -52,8 +52,15 @@ final class UserPostSearchViewController: UIViewController {
   
   private lazy var collectionView: UICollectionView = UICollectionView(
     frame: .zero,
-    collectionViewLayout: leftAlignedCollectionViewFlowLayout
+    collectionViewLayout: self.leftAlignedCollectionViewFlowLayout
   ).set {
+    let tapGesture = UITapGestureRecognizer(
+      target: self,
+      action: #selector(dismissKeyboard)
+    )
+    tapGesture.cancelsTouchesInView = false
+    $0.addGestureRecognizer(tapGesture)
+    
     $0.backgroundColor = .systemBackground
     $0.delegate = self
     $0.dataSource = self
@@ -109,7 +116,7 @@ extension UserPostSearchViewController {
       didTapEnterAlertAction: _didTapEnterAlertAction.eraseToAnyPublisher()
     )
     
-    let output = viewModel.transform(input)
+    let output = self.viewModel.transform(input)
     output
       .receive(on: RunLoop.main)
       .sink { result in
@@ -129,14 +136,14 @@ extension UserPostSearchViewController {
     switch state {
     case .gotoBack: print("DEBUG: UserPostSearchVC -> FeedVC")
     case .gotoSearch(let text):
-      searchTextField.resignFirstResponder()
+      self.searchTextField.resignFirstResponder()
       print("DEBUG: UserPostSearchVC -> SearchResultVC, keyword:\(text)")
     case .presentAlert:
       setupAlertController()
     case .deleteCell(let section):
-      collectionView.reloadSections(IndexSet(section...section))
+      self.collectionView.reloadSections(IndexSet(section...section))
     case .deleteAllCells(let section):
-      collectionView.reloadSections(IndexSet(section...section))
+      self.collectionView.reloadSections(IndexSet(section...section))
     case .changeButtonColor(let isChanged):
       if isChanged {
         self.searchBarButtonItem.tintColor = .yg.primary
@@ -179,15 +186,18 @@ extension UserPostSearchViewController {
   }
   
   private func setupNavigationBar() {
-    let paddingBarButtonItem = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
-    paddingBarButtonItem.width = 10
-    
     let textFieldButtonItem = UIBarButtonItem(customView: self.searchTextField)
     var barButtonItems = [UIBarButtonItem]()
     
     barButtonItems.append(self.backButtonItem)
-    barButtonItems.append(paddingBarButtonItem)
     barButtonItems.append(textFieldButtonItem)
+    
+    // textField width autoLayout 지정
+    if let customView = textFieldButtonItem.customView {
+      customView.snp.makeConstraints {
+        $0.width.equalTo(270)
+      }
+    }
     
     navigationItem.leftBarButtonItems = barButtonItems
     navigationItem.rightBarButtonItem = self.searchBarButtonItem
@@ -208,6 +218,10 @@ extension UserPostSearchViewController {
   
   @objc private func editingChangedTextField(_ textField: UITextField) {
     _editingTextField.send(textField.text ?? "")
+  }
+  
+  @objc private func dismissKeyboard() {
+    self.navigationController?.navigationBar.endEditing(true)
   }
 }
 
@@ -332,5 +346,4 @@ extension UserPostSearchViewController: SearchTagCellDelegate {
   }
 }
 
-// KeyboardTODO: - CollectionView 클릭 시, keyboard 내리기
 // CellLayoutFIXME: - 최근 검색 키워드 충분히 길어진 경우, 잘못된 tag cell size
