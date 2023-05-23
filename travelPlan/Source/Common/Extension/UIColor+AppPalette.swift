@@ -51,7 +51,7 @@ extension UIColor {
     static let gray7 = UIColor(
       red: 0.2, green: 0.2, blue: 0.2, alpha: 1)
     
-    // MARK: -  brand color
+    // MARK: - brand color
     /// #1BA0EB
     static let primary = UIColor(
       red: 0.106, green: 0.627, blue: 0.922, alpha: 1)
