@@ -26,12 +26,17 @@ import UIKit
 ///             fromTopView: view,
 ///             superView: content,
 ///             spacing: ...)
+///
+///     높이를 지정해야 하는 경우
+///     line.setHeight(0.4)
 /// }
 /// ```
 ///
 final class OneUnitHeightLine: UIView {
   // MARK: - Constants
-  private let height: CGFloat = 1
+  private var height: CGFloat = 1
+  private static let spacingFromNavigationBar: CGFloat = 5
+  private lazy var heightConstraint = heightAnchor.constraint(equalToConstant: height)
   
   // MARK: - Initialization
   fileprivate override init(frame: CGRect) {
@@ -68,14 +73,17 @@ extension OneUnitHeightLine {
 // MARK: - Helpers
 extension OneUnitHeightLine {
   
-  // superView만 필요한 경우
+  /// 오토 레이아웃으로 SuperView만 필요한 경우.
+  /// 이 경우는 cell이나 일반적인 커스텀 뷰의 bottom edge 경계선으로 다는 경우
+  /// 일반적인 VC의 bottomAnchor에 달 경우 이 함수 사용해서는 안됩니다.
+  /// BottomAnchor가 safeAreaLayoutGuide로 오토 레이아웃 미지정.
   func setConstraint(
     fromSuperView superView: UIView,
     spacing: Spacing
   ) {
     superView.addSubview(self)
     NSLayoutConstraint.activate([
-      heightAnchor.constraint(equalToConstant: height),
+      heightConstraint,
       leadingAnchor.constraint(
         equalTo: superView.leadingAnchor,
         constant: spacing.leading),
@@ -87,7 +95,8 @@ extension OneUnitHeightLine {
         constant: -spacing.trailing)])
     superView.bringSubviewToFront(self)
   }
-  // superView랑 line 위에 view가 있는 경우
+  
+  /// 커스텀 UIView로 구현된 superView랑 line의 top view의 아래로 layout잡아야 하는 경우
   func setConstraint(
     fromTopView topView: UIView,
     superView: UIView,
@@ -99,4 +108,32 @@ extension OneUnitHeightLine {
     setConstraint(fromSuperView: superView, spacing: spacing)
   }
   
+  /// navigationBar의 아래 구분선으로 추가할 경우 직접 네비바에 subview로 하지 않습니다. (naviBar height가 인식하기 어려움)
+  /// 그래서 ViewController의 view에 safeAreaLayoutGuide의 bottom 에 constraint 추가!!!!
+  /// 그리고 viewController의 top은 viewController.view의 safeAreaLayoutGuide.topAnchor가 아닌, 이 인스턴스의 bottom으로 레이아웃을 잡아야 합니다.
+  func setConstraintWhenNavigationBarBottomEdge(
+    _ superView: UIView,
+    spacing: UIConstantSpacing = .init(bottom: spacingFromNavigationBar)
+  ) {
+    superView.addSubview(self)
+    NSLayoutConstraint.activate([
+      topAnchor.constraint(
+        equalTo: superView.safeAreaLayoutGuide.topAnchor,
+        constant: spacing.bottom),
+      leadingAnchor.constraint(
+        equalTo: superView.leadingAnchor,
+        constant: spacing.leading),
+      trailingAnchor.constraint(
+        equalTo: superView.trailingAnchor,
+        constant: spacing.trailing),
+      heightConstraint])
+  }
+  
+  /// gray line의 높이를 바꾸고 싶은 경우
+  func setHeight(_ height: CGFloat) {
+    self.height = height
+    heightConstraint.isActive = false
+    heightConstraint = heightAnchor.constraint(equalToConstant: height)
+    heightConstraint.isActive = true
+  }
 }
