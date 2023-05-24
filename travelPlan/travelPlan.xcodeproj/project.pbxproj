@@ -313,8 +313,8 @@
 		152AD4E42A188BCE008A2A11 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				152AD4F22A189F41008A2A11 /* FavoriteListTableView */,
 				152AD4F12A189F0F008A2A11 /* FavoriteListHeaderView */,
+				152AD4F22A189F41008A2A11 /* FavoriteListTableView */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -414,9 +414,8 @@
 		15332AD42A163AA9008A4110 /* Constant */ = {
 			isa = PBXGroup;
 			children = (
-				152AD4FC2A18BB2F008A2A11 /* FavoriteListHeaderView */,
+				15F63CB22A1E710E00BD5CE0 /* FavoriteListTableView */,
 				15332AD52A163AB6008A4110 /* FavoriteViewControllerConstant.swift */,
-				152AD4EA2A1890FD008A2A11 /* FavoriteListTableViewCellConstant.swift */,
 			);
 			path = Constant;
 			sourceTree = "<group>";
@@ -853,6 +852,15 @@
 				1570ECB12A13176100A3FDCF /* FeedNavigationBarConstant.swift */,
 			);
 			path = Constant;
+			sourceTree = "<group>";
+		};
+		15F63CB22A1E710E00BD5CE0 /* FavoriteListTableView */ = {
+			isa = PBXGroup;
+			children = (
+				152AD4EA2A1890FD008A2A11 /* FavoriteListTableViewCellConstant.swift */,
+				152AD4FC2A18BB2F008A2A11 /* FavoriteListHeaderView */,
+			);
+			path = FavoriteListTableView;
 			sourceTree = "<group>";
 		};
 		15FEB5D82A050A99000A5F33 /* Common */ = {
