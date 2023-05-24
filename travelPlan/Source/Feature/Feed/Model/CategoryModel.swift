@@ -6,7 +6,7 @@
 //
 
 let categoryData = [
-  "전체", "계절", "지역 탐방", "여행 테마",
+  "For you", "계절", "지역 탐방", "여행 테마",
   "동반자", "페스티벌", "캠핑-글램핑"]
 
 enum CategoryViewType {

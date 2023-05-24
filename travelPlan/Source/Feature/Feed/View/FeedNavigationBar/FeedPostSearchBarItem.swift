@@ -9,7 +9,7 @@ import UIKit
 
 final class FeedPostSearchBarItem: UIButton {
   // MARK: - Properties
-  var delegate: FeedNavigationBarDelegate?
+  weak var delegate: FeedNavigationBarDelegate?
   
   // MARK: - Initialization
   private override init(frame: CGRect) {
