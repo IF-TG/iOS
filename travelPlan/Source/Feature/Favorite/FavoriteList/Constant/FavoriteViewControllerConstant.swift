@@ -11,6 +11,7 @@ extension FavoriteViewController {
   enum Constant {
     static let bgColor: UIColor = .white
     enum NavigationBar {
+      static let spacing = UIConstantSpacing(bottom: 5)
       enum Title {
         static let color: UIColor = .yg.gray7
         static let font: UIFont = UIFont(
