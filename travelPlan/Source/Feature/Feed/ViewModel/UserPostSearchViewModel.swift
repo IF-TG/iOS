@@ -33,14 +33,13 @@ final class UserPostSearchViewModel {
 extension UserPostSearchViewModel {
   // MARK: - Input
   struct UserPostSearchEvent {
-    let viewDidLoad: AnyPublisher<Void, Never>
     let didSelectedItem: AnyPublisher<IndexPath, Never>
     let didTapDeleteButton: AnyPublisher<(Int, Int), Never>
     let didTapDeleteAllButton: AnyPublisher<Void, Never>
     let didTapView: AnyPublisher<Void, Never>
     let didTapSearchTextField: AnyPublisher<Void, Never>
     let didTapSearchButton: AnyPublisher<String, Never>
-    let editingTextField: AnyPublisher<Void, Never>
+    let editingTextField: AnyPublisher<String, Never>
     let didTapEnterAlertAction: AnyPublisher<Void, Never>
   }
   
@@ -52,53 +51,79 @@ extension UserPostSearchViewModel {
     case deleteCell(section: Int)
     case deleteAllCells(section: Int)
     case presentAlert
+    case changeButtonColor(Bool)
   }
 }
 
 // MARK: - ViewModelCase
 extension UserPostSearchViewModel: ViewModelCase {
   func transform(_ input: Input) -> Output {
-    let viewDidLoadChain = input.viewDidLoad
-      .receive(on: RunLoop.main)
-      .map { _ -> State in return .none }
+    return Publishers.MergeMany([
+      editingTextFieldChain(input),
+      didTapShearchButtonChain(input),
+      didSelectedItemChain(input),
+      didTapDeleteAllButtonChain(input),
+      didTapDeleteButtonChain(input),
+      didTapEnterAlertActionChain(input)
+    ]).eraseToAnyPublisher()
+  }
+  
+  private func editingTextFieldChain(_ input: Input) -> Output {
+    return input.editingTextField
+      .map { State.changeButtonColor(self.isValueChanged(text: $0)) }
       .eraseToAnyPublisher()
-    
-    let didTapShearchButtonChain = input.didTapSearchButton
+  }
+  
+  private func didTapShearchButtonChain(_ input: Input) -> Output {
+    return input.didTapSearchButton
       .map { searchText -> State in
-        print("\(searchText) 키워드로 검색 하겠음.")
         return .gotoSearch(searchText: searchText)
       }.eraseToAnyPublisher()
-    
-    let didSelectedItemChain = input.didSelectedItem
+  }
+  
+  private func didSelectedItemChain(_ input: Input) -> Output {
+    return input.didSelectedItem
       .map { [weak self] indexPath -> State in
-          .gotoSearch(searchText: self?.model[indexPath.section].items[indexPath.item] ?? "")
+          .gotoSearch(
+            searchText: self?.model[indexPath.section].items[indexPath.item] ?? ""
+          )
       }.eraseToAnyPublisher()
-    
-    let didTapDeleteAllButtonChain = input.didTapDeleteAllButton
+  }
+  
+  private func didTapDeleteAllButtonChain(_ input: Input) -> Output {
+    return input.didTapDeleteAllButton
       .map { _ -> State in
         return .presentAlert
       }.eraseToAnyPublisher()
-    
-    let didTapDeleteButtonChain = input.didTapDeleteButton
+  }
+  
+  private func didTapDeleteButtonChain(_ input: Input) -> Output {
+    return input.didTapDeleteButton
       .map { [weak self] item, section -> State in
         self?.removeItemModel(item: item, section: section)
         return .deleteCell(section: section)
       }.eraseToAnyPublisher()
-    
-    let didTapEnterAlertActionChain = input.didTapEnterAlertAction
+  }
+  
+  private func didTapEnterAlertActionChain(_ input: Input) -> Output {
+    return input.didTapEnterAlertAction
       .map { [weak self] _ -> State in
         self?.model[SectionType.recent.rawValue].items.removeAll()
         return .deleteAllCells(section: SectionType.recent.rawValue)
       }.eraseToAnyPublisher()
-    
-    return Publishers.MergeMany([
-      viewDidLoadChain,
-      didTapShearchButtonChain,
-      didSelectedItemChain,
-      didTapDeleteAllButtonChain,
-      didTapDeleteButtonChain,
-      didTapEnterAlertActionChain
-    ]).eraseToAnyPublisher()
+  }
+}
+
+// MARK: - Helpers
+extension UserPostSearchViewModel {
+  private func removeItemModel(item: Int, section: Int) {
+    self.model[section].items.remove(at: item)
+  }
+  
+  private func isValueChanged(text: String) -> Bool {
+    if text.count > 0 {
+      return true
+    } else { return false }
   }
 }
 
@@ -109,7 +134,7 @@ extension UserPostSearchViewModel {
     let widthPadding: CGFloat = 13
     let heightPadding: CGFloat = 4
     
-    let text = model[indexPath.section].items[indexPath.item]
+    let text = self.model[indexPath.section].items[indexPath.item]
     let textSize = (text as NSString)
       .size(withAttributes: [.font: UIFont(pretendard: .medium, size: 14)!])
     
@@ -118,7 +143,7 @@ extension UserPostSearchViewModel {
       return CGSize(
         width: textSize.width + (widthPadding * 2),
         height: textSize.height + (heightPadding * 2)
-        )
+      )
     case SectionType.recent.rawValue:
       let buttonWidth: CGFloat = 10
       let componentPadding: CGFloat = 4
@@ -136,7 +161,10 @@ extension UserPostSearchViewModel {
     return SectionType.allCases.count
   }
   
-  func cellForItem(_ searchTagCell: SearchTagCell, at indexPath: IndexPath) -> String {
+  func cellForItem(
+    _ searchTagCell: SearchTagCell,
+    at indexPath: IndexPath
+  ) -> String {
     // 하나의 Cell class를 재사용해서 변형시키므로, section별로 Cell 구분화
     switch indexPath.section {
     case SearchSection.recommendation.rawValue:
@@ -147,14 +175,17 @@ extension UserPostSearchViewModel {
     }
     searchTagCell.deleteButton?.tag = indexPath.item
     
-    return model[indexPath.section].items[indexPath.item]
+    return self.model[indexPath.section].items[indexPath.item]
   }
   
   func numberOfItemsInSection(_ section: Int) -> Int {
-    return model[section].items.count
+    return self.model[section].items.count
   }
   
-  func fetchHeaderTitle(_ headerView: UserPostSearchHeaderView, at section: Int) -> String {
+  func fetchHeaderTitle(
+    _ headerView: UserPostSearchHeaderView,
+    at section: Int
+  ) -> String {
     switch section {
     case SearchSection.recommendation.rawValue:
       headerView.initSectionType(with: .recommendation)
@@ -168,9 +199,5 @@ extension UserPostSearchViewModel {
   
   func isRecentSection(at section: Int) -> Bool {
     return section == SectionType.recent.rawValue
-  }
-  
-  func removeItemModel(item: Int, section: Int) {
-    model[section].items.remove(at: item)
   }
 }

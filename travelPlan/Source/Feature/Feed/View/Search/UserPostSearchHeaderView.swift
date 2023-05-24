@@ -45,7 +45,7 @@ final class UserPostSearchHeaderView: UICollectionReusableView {
 // MARK: - Public Helpers
 extension UserPostSearchHeaderView {
   func prepare(title: String?) {
-    titleLabel.text = title
+    self.titleLabel.text = title
   }
   
   func initSectionType(with sectionType: SectionType) {
@@ -65,7 +65,7 @@ extension UserPostSearchHeaderView {
     guard let button = self.deleteAllButton else { return UIButton() }
     
     button.setTitle("전체 삭제", for: .normal)
-    button.setTitleColor(UIColor(hex: "676767"), for: .normal)
+    button.setTitleColor(.yg.gray4, for: .normal)
     button.titleLabel?.font = .systemFont(ofSize: 12, weight: .semibold)
     button.addTarget(self, action: #selector(didTapDeleteAllButton), for: .touchUpInside)
     return button
@@ -75,7 +75,7 @@ extension UserPostSearchHeaderView {
 // MARK: - Actions
 extension UserPostSearchHeaderView {
   @objc private func didTapDeleteAllButton(_ button: UIButton) {
-    delegate?.didTapDeleteAllButton()
+    self.delegate?.didTapDeleteAllButton()
   }
 }
 
@@ -89,7 +89,7 @@ extension UserPostSearchHeaderView: LayoutSupport {
       self.addSubview(deleteAllButton)
       fallthrough
     case .recommendation:
-      self.addSubview(titleLabel)
+      self.addSubview(self.titleLabel)
     case .none: break
     }
   }
@@ -97,7 +97,7 @@ extension UserPostSearchHeaderView: LayoutSupport {
   func setConstraints() {
     switch self.sectionType {
     case .recent:
-      guard let button = deleteAllButton else { return }
+      guard let button = self.deleteAllButton else { return }
       
       button.snp.makeConstraints {
         $0.centerY.equalToSuperview()
@@ -105,7 +105,7 @@ extension UserPostSearchHeaderView: LayoutSupport {
       }
       fallthrough
     case .recommendation:
-      titleLabel.snp.makeConstraints {
+      self.titleLabel.snp.makeConstraints {
         $0.centerY.equalToSuperview()
         $0.leading.equalToSuperview().inset(20)
       }

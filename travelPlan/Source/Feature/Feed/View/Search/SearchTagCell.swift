@@ -52,7 +52,7 @@ extension SearchTagCell {
     self.deleteButton = UIButton()
     guard let deleteButton = self.deleteButton else { return UIButton() }
     deleteButton.setImage(UIImage(systemName: "xmark"), for: .normal)
-    deleteButton.tintColor = UIColor(hex: "#484848")
+    deleteButton.tintColor = .yg.gray5
     deleteButton.addTarget(self, action: #selector(didTapDeleteButton), for: .touchUpInside)
     return deleteButton
   }
@@ -61,7 +61,7 @@ extension SearchTagCell {
 // MARK: - Public Helpers
 extension SearchTagCell {
   func configure(_ text: String) {
-    tagLabel.text = text
+    self.tagLabel.text = text
   }
   
   func initSectionType(with sectionType: SectionType) {
@@ -78,7 +78,7 @@ extension SearchTagCell {
 extension SearchTagCell {
   @objc private func didTapDeleteButton(_ button: UIButton) {
     // DeleteCellTODO: 선택된 최근 검색 cell 삭제
-    delegate?.didTapDeleteButton(
+    self.delegate?.didTapDeleteButton(
       item: button.tag,
       in: sectionType?.rawValue ?? SectionType.recent.rawValue
     )
@@ -94,7 +94,7 @@ extension SearchTagCell: LayoutSupport {
       let deleteButton = makeDeleteButton()
       self.contentView.addSubview(deleteButton)
       fallthrough
-    case .recommendation: self.contentView.addSubview(tagLabel)
+    case .recommendation: self.contentView.addSubview(self.tagLabel)
     case .none: break
     }
   }
@@ -102,23 +102,23 @@ extension SearchTagCell: LayoutSupport {
   func setConstraints() {
     switch self.sectionType {
     case .recommendation:
-      tagLabel.snp.makeConstraints {
+      self.tagLabel.snp.makeConstraints {
         $0.leading.equalToSuperview().inset(13)
         $0.trailing.equalToSuperview().inset(13)
         $0.centerY.equalToSuperview()
       }
     case .recent:
-      guard let deleteButton = deleteButton else { return }
+      guard let deleteButton = self.deleteButton else { return }
       
-      tagLabel.snp.makeConstraints {
+      self.tagLabel.snp.makeConstraints {
         $0.leading.equalToSuperview().inset(13)
         $0.centerY.equalToSuperview()
       }
       
       deleteButton.snp.makeConstraints {
-        $0.leading.equalTo(tagLabel.snp.trailing).offset(4)
+        $0.leading.equalTo(self.tagLabel.snp.trailing).offset(4)
         $0.trailing.equalToSuperview().inset(13)
-        $0.centerY.equalTo(tagLabel)
+        $0.centerY.equalTo(self.tagLabel)
         $0.size.equalTo(10)
       }
     case .none: break
