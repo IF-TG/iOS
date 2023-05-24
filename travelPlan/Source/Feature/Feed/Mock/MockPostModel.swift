@@ -40,7 +40,7 @@ private extension MockPostModel {
   }
   
   func compressProfImg(_ index: Int) -> UIImage {
-    return UIImage(named: tempProf(index))!.compressJPEGImage(with: 1)!
+    return UIImage(named: tempProf(index))!.compressJPEGImage(with: 0)!
   }
   
   func initMockHeader() -> [PostHeaderModel] {

@@ -10,9 +10,9 @@ import UIKit
 struct MockFavoriteListdata {
   private let mockProfileImages = [
     UIImage(
-      named: "tempThumbnail7")?.compressJPEGImage(with: 0.005)!,
+      named: "tempThumbnail7")?.compressJPEGImage(with: 0)!,
     UIImage(
-      named: "tempThumbnail13")?.compressJPEGImage(with: 0.005)!]
+      named: "tempThumbnail13")?.compressJPEGImage(with: 0)!]
   
   var mockFavoriteListHeader: FavoriteListHeaderModel {
     FavoriteListHeaderModel(
