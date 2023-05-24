@@ -99,7 +99,7 @@ final class UserPostSearchViewController: UIViewController {
   }
 }
 
-// MARK: - Bind
+// MARK: - ViewBindCase
 extension UserPostSearchViewController: ViewBindCase {
   typealias Input = UserPostSearchViewModel.Input
   typealias ErrorType = UserPostSearchViewModel.ErrorType

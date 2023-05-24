@@ -37,6 +37,5 @@ extension FeedViewModel: ViewModelAssociatedType {
     case updateNotificationRedIcon
   }
 
-  
   typealias Output = AnyPublisher<State, ErrorType>
 }

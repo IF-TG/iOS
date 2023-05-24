@@ -40,7 +40,7 @@ extension UserPostSearchViewModel: ViewModelCase {
   private func editingTextFieldChain(_ input: Input) -> Output {
     return input.editingTextField
       .tryMap { State.changeButtonColor(self.isValueChanged(text: $0)) }
-      .mapError{ $0 as? ErrorType ?? .unexpected }
+      .mapError { $0 as? ErrorType ?? .unexpected }
       .eraseToAnyPublisher()
   }
   
@@ -49,7 +49,7 @@ extension UserPostSearchViewModel: ViewModelCase {
       .tryMap { searchText -> State in
         return .gotoSearch(searchText: searchText)
       }
-      .mapError{ $0 as? ErrorType ?? .unexpected }
+      .mapError { $0 as? ErrorType ?? .unexpected }
       .eraseToAnyPublisher()
   }
   
@@ -60,7 +60,7 @@ extension UserPostSearchViewModel: ViewModelCase {
             searchText: self?.model[indexPath.section].items[indexPath.item] ?? ""
           )
       }
-      .mapError{ $0 as? ErrorType ?? .unexpected }
+      .mapError { $0 as? ErrorType ?? .unexpected }
       .eraseToAnyPublisher()
   }
   
@@ -69,7 +69,7 @@ extension UserPostSearchViewModel: ViewModelCase {
       .tryMap { _ -> State in
         return .presentAlert
       }
-      .mapError{ $0 as? ErrorType ?? .unexpected }
+      .mapError { $0 as? ErrorType ?? .unexpected }
       .eraseToAnyPublisher()
   }
   
@@ -79,7 +79,7 @@ extension UserPostSearchViewModel: ViewModelCase {
         self?.removeItemModel(item: item, section: section)
         return .deleteCell(section: section)
       }
-      .mapError{ $0 as? ErrorType ?? .unexpected }
+      .mapError { $0 as? ErrorType ?? .unexpected }
       .eraseToAnyPublisher()
   }
   
@@ -89,7 +89,7 @@ extension UserPostSearchViewModel: ViewModelCase {
         self?.model[SectionType.recent.rawValue].items.removeAll()
         return .deleteAllCells(section: SectionType.recent.rawValue)
       }
-      .mapError{ $0 as? ErrorType ?? .unexpected }
+      .mapError { $0 as? ErrorType ?? .unexpected }
       .eraseToAnyPublisher()
   }
 }
