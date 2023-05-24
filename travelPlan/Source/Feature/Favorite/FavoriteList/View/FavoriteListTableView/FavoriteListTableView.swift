@@ -8,7 +8,8 @@
 import UIKit
 
 final class FavoriteListTableView: UITableView {
-  // MARK: - Properties
+  // MARK: - Constant
+  static let innerGrayLineHeight = 0.5
   
   // MARK: - Initialization
   private override init(frame: CGRect, style: UITableView.Style) {
@@ -46,6 +47,11 @@ extension FavoriteListTableView {
 private extension FavoriteListTableView {
   func configureUI() {
     translatesAutoresizingMaskIntoConstraints = false
+    if #available(iOS 15.0, *) {
+      sectionHeaderTopPadding = 0
+    }
+    separatorInset = .zero
+    separatorStyle = .none
     register(
       FavoriteListTableViewCell.self,
       forCellReuseIdentifier: FavoriteListTableViewCell.id)

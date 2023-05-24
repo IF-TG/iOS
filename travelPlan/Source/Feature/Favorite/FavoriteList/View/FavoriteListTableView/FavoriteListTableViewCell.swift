@@ -21,6 +21,7 @@ final class FavoriteListTableViewCell: UITableViewCell {
   private let listTitle: UILabel = UILabel().set {
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.text = ""
+    $0.numberOfLines = 1
     $0.textColor = Constant.Title.textColor
     $0.font = .init(
       pretendard: Constant.Title.fontName,
@@ -43,6 +44,8 @@ final class FavoriteListTableViewCell: UITableViewCell {
     return "\(titleText) (0\(count))"
   }
   
+  private let line = OneUnitHeightLine(color: .yg.gray0)
+  
   // MARK: - Initialization
   override init(
     style: UITableViewCell.CellStyle,
@@ -51,7 +54,8 @@ final class FavoriteListTableViewCell: UITableViewCell {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
     selectionStyle = .none
     setupUI()
-    selectionStyle = .none
+    line.setConstraint(fromSuperView: contentView, spacing: .init())
+    line.setHeight(FavoriteListTableView.innerGrayLineHeight)
   }
   
   required init?(coder: NSCoder) {
