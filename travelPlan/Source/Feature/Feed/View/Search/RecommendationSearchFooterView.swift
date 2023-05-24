@@ -35,7 +35,7 @@ extension RecommendationSearchFooterView: LayoutSupport {
   func setConstraints() {
     underLineView.setConstraint(
       fromSuperView: self,
-      spacing: .init(leading: 20, trailing: 20, bottom: 10, top: 10)
+      spacing: .init(leading: 20, top: 10, trailing: 20, bottom: 10)
     )
   }
 }

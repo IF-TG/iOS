@@ -16,7 +16,7 @@ enum UserNotificationState {
 
 final class FeedNotificationBarItem: UIButton {
   // MARK: - Properties
-  var delegate: FeedNotificationBarItemDelegate?
+  weak var delegate: FeedNotificationBarItemDelegate?
   
   /// 사용자가 알림을 확인 했는지 여부를 체크하고 이에 따른 notificationIcon 상태를 rendering 합니다. 그 후 상태를 none으로 변경합니다.
   private var userNotificationState: UserNotificationState?
