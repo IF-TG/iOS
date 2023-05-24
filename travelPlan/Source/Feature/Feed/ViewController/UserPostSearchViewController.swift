@@ -10,9 +10,6 @@ import SnapKit
 import Combine
 
 final class UserPostSearchViewController: UIViewController {
-  typealias Input = UserPostSearchViewModel.UserPostSearchEvent
-  typealias State = UserPostSearchViewModel.UserPostSearchState
-  
   // MARK: - Properties
   private let viewModel = UserPostSearchViewModel()
   
@@ -103,8 +100,12 @@ final class UserPostSearchViewController: UIViewController {
 }
 
 // MARK: - Bind
-extension UserPostSearchViewController {
-  private func bind() {
+extension UserPostSearchViewController: ViewBindCase {
+  typealias Input = UserPostSearchViewModel.Input
+  typealias ErrorType = UserPostSearchViewModel.ErrorType
+  typealias State = UserPostSearchViewModel.State
+  
+  func bind() {
     let input = Input(
       didSelectedItem: _didSelectedItem.eraseToAnyPublisher(),
       didTapDeleteButton: _didTapDeleteButton.eraseToAnyPublisher(),
@@ -119,12 +120,12 @@ extension UserPostSearchViewController {
     let output = self.viewModel.transform(input)
     output
       .receive(on: RunLoop.main)
-      .sink { result in
+      .sink { [weak self] result in
         switch result {
         case .finished:
           print("completed")
         case let .failure(error):
-          print("error: \(error.localizedDescription)")
+          self?.handleError(error)
         }
       } receiveValue: { [weak self] in
         self?.render($0)
@@ -132,7 +133,7 @@ extension UserPostSearchViewController {
       .store(in: &self.subscriptions)
   }
   
-  private func render(_ state: State) {
+  func render(_ state: State) {
     switch state {
     case .gotoBack: print("DEBUG: UserPostSearchVC -> FeedVC")
     case .gotoSearch(let text):
@@ -153,6 +154,15 @@ extension UserPostSearchViewController {
         self.searchBarButtonItem.isEnabled = false
       }
     case .none: break
+    }
+  }
+  
+  func handleError(_ error: ErrorType) {
+    switch error {
+    case .none:
+      print("DEBUG: Error not occured")
+    case .unexpected:
+      print("DEBUG: Unexpected error occured")
     }
   }
 }

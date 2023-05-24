@@ -64,10 +64,12 @@ extension FeedViewController {
 
 // MARK: - ViewBindCase
 extension FeedViewController: ViewBindCase {
-  typealias State = FeedViewControllerState
+  typealias Input = FeedViewModel.Input
+  typealias ErrorType = FeedViewModel.ErrorType
+  typealias State = FeedViewModel.State
   
   func bind() {
-    let input = FeedViewControllerEvent(
+    let input = Input(
       appear: appear.eraseToAnyPublisher(),
       didTapPostSearch: tapPostSearch.eraseToAnyPublisher(),
       didTapNotification: tapNotification.eraseToAnyPublisher())
@@ -104,7 +106,7 @@ extension FeedViewController: ViewBindCase {
     }
   }
   
-  func handleError(_ error: FeedViewModelError) {
+  func handleError(_ error: ErrorType) {
     switch error {
     case .none:
       break
