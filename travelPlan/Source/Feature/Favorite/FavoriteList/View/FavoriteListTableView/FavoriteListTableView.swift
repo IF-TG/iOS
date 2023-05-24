@@ -50,7 +50,6 @@ private extension FavoriteListTableView {
     if #available(iOS 15.0, *) {
       sectionHeaderTopPadding = 0
     }
-    separatorInset = .zero
     separatorStyle = .none
     register(
       FavoriteListTableViewCell.self,
