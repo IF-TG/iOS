@@ -51,6 +51,7 @@ final class FavoriteListTableViewCell: UITableViewCell {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
     selectionStyle = .none
     setupUI()
+    selectionStyle = .none
   }
   
   required init?(coder: NSCoder) {
