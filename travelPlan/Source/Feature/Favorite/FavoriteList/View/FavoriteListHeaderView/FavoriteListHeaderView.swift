@@ -18,6 +18,7 @@ final class FavoriteListHeaderView: UITableViewHeaderFooterView {
   private let title: UILabel = UILabel().set {
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.text = "전체 (00)"
+    $0.numberOfLines = 1
     $0.textColor = Constant.Title.textColor
     $0.font = .init(
       pretendard: Constant.Title.fontName,
@@ -25,6 +26,8 @@ final class FavoriteListHeaderView: UITableViewHeaderFooterView {
   }
   
   private var totalCount: Int?
+  
+  private let line = OneUnitHeightLine(color: .yg.gray0)
   
   // MARK: - Initialization
   override init(reuseIdentifier: String?) {
@@ -51,8 +54,9 @@ extension FavoriteListHeaderView {
 // MARK: - Private helpers
 private extension FavoriteListHeaderView {
   func configureUI() {
-    translatesAutoresizingMaskIntoConstraints = false
     setupUI()
+    line.setConstraint(fromSuperView: contentView)
+    line.setHeight(FavoriteListTableView.innerGrayLineHeight)
   }
   
   @MainActor
