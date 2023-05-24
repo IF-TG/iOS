@@ -74,23 +74,23 @@ extension FavoriteListTableViewAdapter: UITableViewDelegate {
     return header
   }
   
-  func tableView(
-    _ tableView: UITableView,
-    estimatedHeightForRowAt indexPath: IndexPath
-  ) -> CGFloat {
-    let imageTopSpacing = FavoriteListTableViewCell.Constant
-      .ImageView.spacing.top
-    let imageBottomSpacing = FavoriteListTableViewCell.Constant
-      .ImageView.spacing.bottom
-    let imageHeight = FavoriteListTableViewCell.Constant.ImageView
-      .size.height
-    return imageTopSpacing+imageBottomSpacing+imageHeight
+  func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    if indexPath.section == 0 {
+      let imageTopSpacing = FavoriteListTableViewCell.Constant.ImageView.spacing.top
+      let imageBottomSpacing = FavoriteListTableViewCell.Constant.ImageView.spacing.bottom
+      let imageHeight = FavoriteListTableViewCell.Constant.ImageView.size.height
+      return imageTopSpacing+imageBottomSpacing+imageHeight
+    }
+    return 0
   }
   
   func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-    let imageTopSpacing = FavoriteListHeaderView.Constant.ImageViews.spacing.top
-    let imageBottomSpacing = FavoriteListHeaderView.Constant.ImageViews.spacing.bottom
-    let imageHeight = FavoriteListHeaderView.Constant.ImageViews.size.height
-    return imageTopSpacing+imageBottomSpacing+imageHeight
+    if section == 0 {
+      let imageTopSpacing = FavoriteListHeaderView.Constant.ImageViews.spacing.top
+      let imageBottomSpacing = FavoriteListHeaderView.Constant.ImageViews.spacing.bottom
+      let imageHeight = FavoriteListHeaderView.Constant.ImageViews.size.height
+      return imageTopSpacing+imageBottomSpacing+imageHeight
+    }
+    return 0
   }
 }
