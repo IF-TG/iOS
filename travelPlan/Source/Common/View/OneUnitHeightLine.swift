@@ -54,22 +54,6 @@ final class OneUnitHeightLine: UIView {
   }
 }
 
-// MARK: - Constants
-extension OneUnitHeightLine {
-  struct Spacing {
-    let leading: CGFloat
-    let trailing: CGFloat
-    let bottom: CGFloat
-    let top: CGFloat
-    init(leading: CGFloat = 0, trailing: CGFloat = 0, bottom: CGFloat = 0, top: CGFloat = 0) {
-      self.leading = leading
-      self.trailing = trailing
-      self.bottom = bottom
-      self.top = top
-    }
-  }
-}
-
 // MARK: - Helpers
 extension OneUnitHeightLine {
   
@@ -79,7 +63,7 @@ extension OneUnitHeightLine {
   /// BottomAnchor가 safeAreaLayoutGuide로 오토 레이아웃 미지정.
   func setConstraint(
     fromSuperView superView: UIView,
-    spacing: Spacing
+    spacing: UIConstantSpacing = .init(leading: 0, top: 0, trailing: 0, bottom: 0)
   ) {
     superView.addSubview(self)
     NSLayoutConstraint.activate([
@@ -100,7 +84,7 @@ extension OneUnitHeightLine {
   func setConstraint(
     fromTopView topView: UIView,
     superView: UIView,
-    spacing: Spacing
+    spacing: UIConstantSpacing = .init(leading: 0, top: 0, trailing: 0, bottom: 0)
   ) {
     topAnchor.constraint(
       equalTo: topView.bottomAnchor,
