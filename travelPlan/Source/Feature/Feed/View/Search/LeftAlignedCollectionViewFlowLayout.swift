@@ -21,9 +21,11 @@ class LeftAlignedCollectionViewFlowLayout: UICollectionViewFlowLayout {
   override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
     guard let attributes = super.layoutAttributesForElements(in: rect) else { return [] }
     
-    var leftMargin = self.sectionInset.left
+    var leftMargin = sectionInset.left
     var maxY: CGFloat = -1.0
     let edgeInset: CGFloat = 20
+    
+    guard let collectionView = collectionView else { return nil }
     
     // 원본 객체가 아닌, copy 객체 사용
     let copyAttributes = attributes.map {
@@ -35,21 +37,19 @@ class LeftAlignedCollectionViewFlowLayout: UICollectionViewFlowLayout {
     
     copyAttributes
       .filter { $0.representedElementCategory == .cell }
-      .forEach { layoutAttribute in
-        guard let collectionView = self.collectionView else { return }
-
-        if layoutAttribute.frame.width >= collectionView.frame.width - (edgeInset * 2) {
-          layoutAttribute.frame.size.width = collectionView.frame.width - (edgeInset * 2)
+      .forEach {
+        if $0.frame.width >= collectionView.frame.width - (edgeInset * 2) {
+          $0.frame.size.width = collectionView.frame.width - (edgeInset * 2)
         }
-
-        if layoutAttribute.frame.origin.y >= maxY {
-          leftMargin = self.sectionInset.left
+        
+        if $0.frame.origin.y >= maxY {
+          leftMargin = sectionInset.left
         }
-
-        layoutAttribute.frame.origin.x = leftMargin
-        leftMargin += layoutAttribute.frame.width + self.minimumInteritemSpacing
-        maxY = max(layoutAttribute.frame.maxY, maxY)
-    }
+        
+        $0.frame.origin.x = leftMargin
+        leftMargin += $0.frame.width + minimumInteritemSpacing
+        maxY = max($0.frame.maxY, maxY)
+      }
 
     return copyAttributes
   }
@@ -58,11 +58,11 @@ class LeftAlignedCollectionViewFlowLayout: UICollectionViewFlowLayout {
 // MARK: - Helpers
 extension LeftAlignedCollectionViewFlowLayout {
   private func setupReferenceSize() {
-    self.headerReferenceSize = CGSize(
+    headerReferenceSize = CGSize(
       width: UIScreen.main.bounds.size.width,
       height: 60
     )
-    self.footerReferenceSize = CGSize(
+    footerReferenceSize = CGSize(
       width: UIScreen.main.bounds.size.width,
       height: 21
     )

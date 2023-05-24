@@ -7,7 +7,9 @@
 
 protocol ViewBindCase {
   /// View UI render state
+  associatedtype Input
   associatedtype State
+  associatedtype ViewModelError
   func bind()
   func render(_ state: State)
 }

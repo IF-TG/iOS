@@ -42,15 +42,15 @@ class SearchTagCell: UICollectionViewCell {
 // MARK: - Helpers
 extension SearchTagCell {
   private func setupStyles() {
-    self.contentView.backgroundColor = .systemBackground
-    self.contentView.layer.borderColor = UIColor.YG.gray0.cgColor
-    self.contentView.layer.borderWidth = 1
-    self.contentView.layer.cornerRadius = 13
+    contentView.backgroundColor = .systemBackground
+    contentView.layer.borderColor = UIColor.YG.gray0.cgColor
+    contentView.layer.borderWidth = 1
+    contentView.layer.cornerRadius = 13
   }
   
   private func makeDeleteButton() -> UIButton {
-    self.deleteButton = UIButton()
-    guard let deleteButton = self.deleteButton else { return UIButton() }
+    deleteButton = UIButton()
+    guard let deleteButton = deleteButton else { return UIButton() }
     deleteButton.setImage(UIImage(systemName: "xmark"), for: .normal)
     deleteButton.tintColor = .yg.gray5
     deleteButton.addTarget(self, action: #selector(didTapDeleteButton), for: .touchUpInside)
@@ -61,7 +61,7 @@ extension SearchTagCell {
 // MARK: - Public Helpers
 extension SearchTagCell {
   func configure(_ text: String) {
-    self.tagLabel.text = text
+    tagLabel.text = text
   }
   
   func initSectionType(with sectionType: SectionType) {
@@ -78,7 +78,7 @@ extension SearchTagCell {
 extension SearchTagCell {
   @objc private func didTapDeleteButton(_ button: UIButton) {
     // DeleteCellTODO: 선택된 최근 검색 cell 삭제
-    self.delegate?.didTapDeleteButton(
+    delegate?.didTapDeleteButton(
       item: button.tag,
       in: sectionType?.rawValue ?? SectionType.recent.rawValue
     )
@@ -88,37 +88,37 @@ extension SearchTagCell {
 // MARK: - LayoutSupport
 extension SearchTagCell: LayoutSupport {
   func addSubviews() {
-    switch self.sectionType {
+    switch sectionType {
     case .recent:
       // delete Button 추가
       let deleteButton = makeDeleteButton()
-      self.contentView.addSubview(deleteButton)
+      contentView.addSubview(deleteButton)
       fallthrough
-    case .recommendation: self.contentView.addSubview(self.tagLabel)
+    case .recommendation: contentView.addSubview(tagLabel)
     case .none: break
     }
   }
   
   func setConstraints() {
-    switch self.sectionType {
+    switch sectionType {
     case .recommendation:
-      self.tagLabel.snp.makeConstraints {
+      tagLabel.snp.makeConstraints {
         $0.leading.equalToSuperview().inset(13)
         $0.trailing.equalToSuperview().inset(13)
         $0.centerY.equalToSuperview()
       }
     case .recent:
-      guard let deleteButton = self.deleteButton else { return }
+      guard let deleteButton = deleteButton else { return }
       
-      self.tagLabel.snp.makeConstraints {
+      tagLabel.snp.makeConstraints {
         $0.leading.equalToSuperview().inset(13)
         $0.centerY.equalToSuperview()
       }
       
       deleteButton.snp.makeConstraints {
-        $0.leading.equalTo(self.tagLabel.snp.trailing).offset(4)
+        $0.leading.equalTo(tagLabel.snp.trailing).offset(4)
         $0.trailing.equalToSuperview().inset(13)
-        $0.centerY.equalTo(self.tagLabel)
+        $0.centerY.equalTo(tagLabel)
         $0.size.equalTo(10)
       }
     case .none: break

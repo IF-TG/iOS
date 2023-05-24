@@ -22,11 +22,11 @@ final class FeedViewController: UIViewController {
   
   private var subscription = Set<AnyCancellable>()
 
-  private let tapPostSearch = PassthroughSubject<Void, FeedViewModelError>()
+  private let tapPostSearch = PassthroughSubject<Void, ViewModelError>()
   
-  private let tapNotification = PassthroughSubject<Void, FeedViewModelError>()
+  private let tapNotification = PassthroughSubject<Void, ViewModelError>()
   
-  private let appear = PassthroughSubject<Void, FeedViewModelError>()
+  private let appear = PassthroughSubject<Void, ViewModelError>()
   
   private var naviConstraints: [NSLayoutConstraint] = []
   
@@ -64,10 +64,12 @@ extension FeedViewController {
 
 // MARK: - ViewBindCase
 extension FeedViewController: ViewBindCase {
-  typealias State = FeedViewControllerState
+  typealias Input = FeedViewModel.FeedViewControllerEvent
+  typealias State = FeedViewModel.FeedViewControllerState
+  typealias ViewModelError = FeedViewModel.FeedViewModelError
   
   func bind() {
-    let input = FeedViewControllerEvent(
+    let input = Input(
       appear: appear.eraseToAnyPublisher(),
       didTapPostSearch: tapPostSearch.eraseToAnyPublisher(),
       didTapNotification: tapNotification.eraseToAnyPublisher())
@@ -104,7 +106,7 @@ extension FeedViewController: ViewBindCase {
     }
   }
   
-  func handleError(_ error: FeedViewModelError) {
+  func handleError(_ error: FeedViewModel.FeedViewModelError) {
     switch error {
     case .none:
       break

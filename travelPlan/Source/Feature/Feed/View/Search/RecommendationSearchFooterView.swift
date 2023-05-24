@@ -29,11 +29,11 @@ class RecommendationSearchFooterView: UICollectionReusableView {
 // MARK: - LayoutSupport
 extension RecommendationSearchFooterView: LayoutSupport {
   func addSubviews() {
-    self.addSubview(self.underLineView)
+    addSubview(underLineView)
   }
   
   func setConstraints() {
-    self.underLineView.setConstraint(
+    underLineView.setConstraint(
       fromSuperView: self,
       spacing: .init(leading: 20, trailing: 20, bottom: 10, top: 10)
     )

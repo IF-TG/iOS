@@ -21,7 +21,7 @@ final class UserPostSearchHeaderView: UICollectionReusableView {
   
   private let titleLabel: UILabel = UILabel().set {
     $0.font = .init(pretendard: .bold, size: 17)
-    $0.textColor = UIColor(hex: "4B4B4B")
+    $0.textColor = .yg.gray6
   }
   
   private var deleteAllButton: UIButton?
@@ -45,7 +45,7 @@ final class UserPostSearchHeaderView: UICollectionReusableView {
 // MARK: - Public Helpers
 extension UserPostSearchHeaderView {
   func prepare(title: String?) {
-    self.titleLabel.text = title
+    titleLabel.text = title
   }
   
   func initSectionType(with sectionType: SectionType) {
@@ -61,8 +61,8 @@ extension UserPostSearchHeaderView {
 // MARK: - Helpers
 extension UserPostSearchHeaderView {
   private func makeDeleteAllButton() -> UIButton {
-    self.deleteAllButton = UIButton()
-    guard let button = self.deleteAllButton else { return UIButton() }
+    deleteAllButton = UIButton()
+    guard let button = deleteAllButton else { return UIButton() }
     
     button.setTitle("전체 삭제", for: .normal)
     button.setTitleColor(.yg.gray4, for: .normal)
@@ -75,29 +75,28 @@ extension UserPostSearchHeaderView {
 // MARK: - Actions
 extension UserPostSearchHeaderView {
   @objc private func didTapDeleteAllButton(_ button: UIButton) {
-    self.delegate?.didTapDeleteAllButton()
+    delegate?.didTapDeleteAllButton()
   }
 }
 
 // MARK: - LayoutSupport
 extension UserPostSearchHeaderView: LayoutSupport {
   func addSubviews() {
-    switch self.sectionType {
+    switch sectionType {
     case .recent:
-      let deleteAllButton = makeDeleteAllButton() // 최근 검색인 경우 전체삭제 버튼 추가
-      
-      self.addSubview(deleteAllButton)
+      // 최근 검색인 경우 전체삭제 버튼 추가
+      addSubview(makeDeleteAllButton())
       fallthrough
     case .recommendation:
-      self.addSubview(self.titleLabel)
+      addSubview(titleLabel)
     case .none: break
     }
   }
   
   func setConstraints() {
-    switch self.sectionType {
+    switch sectionType {
     case .recent:
-      guard let button = self.deleteAllButton else { return }
+      guard let button = deleteAllButton else { return }
       
       button.snp.makeConstraints {
         $0.centerY.equalToSuperview()
@@ -105,7 +104,7 @@ extension UserPostSearchHeaderView: LayoutSupport {
       }
       fallthrough
     case .recommendation:
-      self.titleLabel.snp.makeConstraints {
+      titleLabel.snp.makeConstraints {
         $0.centerY.equalToSuperview()
         $0.leading.equalToSuperview().inset(20)
       }

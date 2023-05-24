@@ -10,11 +10,6 @@ import Combine
 import UIKit
 
 final class UserPostSearchViewModel {
-  
-  typealias Input = UserPostSearchEvent
-  typealias Output = AnyPublisher<State, Never>
-  typealias State = UserPostSearchState
-  
   typealias SectionType = SearchSectionItemModel.SectionType
   
   // MARK: - Properties
@@ -25,26 +20,26 @@ final class UserPostSearchViewModel {
     ),
     SearchSectionItemModel(
       type: .recent,
-      items: ["최근검색11111111111", "최근검색22222", "최근검색3333", "최근검색4", "최근검색555"]
+      items: ["최근검색11", "최근검색22222", "최근검색3333", "최근검색4", "최근검색555"]
     )
   ]
 }
 
 extension UserPostSearchViewModel {
   // MARK: - Input
-  struct UserPostSearchEvent {
+  struct Input {
     let didSelectedItem: AnyPublisher<IndexPath, Never>
     let didTapDeleteButton: AnyPublisher<(Int, Int), Never>
     let didTapDeleteAllButton: AnyPublisher<Void, Never>
-    let didTapView: AnyPublisher<Void, Never>
-    let didTapSearchTextField: AnyPublisher<Void, Never>
+    let didTapCollectionView: AnyPublisher<Void, Never>
     let didTapSearchButton: AnyPublisher<String, Never>
     let editingTextField: AnyPublisher<String, Never>
     let didTapEnterAlertAction: AnyPublisher<Void, Never>
+    let didTapBackButton: AnyPublisher<Void, Never>
   }
-  
+
   // MARK: - State
-  enum UserPostSearchState {
+  enum State {
     case none
     case gotoBack
     case gotoSearch(searchText: String)
@@ -52,11 +47,17 @@ extension UserPostSearchViewModel {
     case deleteAllCells(section: Int)
     case presentAlert
     case changeButtonColor(Bool)
+    case goDownKeyboard
   }
+  
+  // MARK: - ViewModelError
+  enum Error { }
 }
 
 // MARK: - ViewModelCase
 extension UserPostSearchViewModel: ViewModelCase {
+  typealias Output = AnyPublisher<State, Never>
+  
   func transform(_ input: Input) -> Output {
     return Publishers.MergeMany([
       editingTextFieldChain(input),
@@ -64,50 +65,61 @@ extension UserPostSearchViewModel: ViewModelCase {
       didSelectedItemChain(input),
       didTapDeleteAllButtonChain(input),
       didTapDeleteButtonChain(input),
-      didTapEnterAlertActionChain(input)
+      didTapEnterAlertActionChain(input),
+      didTapBackButtonChain(input),
+      didTapCollectionViewChain(input)
     ]).eraseToAnyPublisher()
+  }
+  
+  private func didTapCollectionViewChain(_ input: Input) -> Output {
+    return input.didTapCollectionView
+      .map { .goDownKeyboard }
+      .eraseToAnyPublisher()
+  }
+  
+  private func didTapBackButtonChain(_ input: Input) -> Output {
+    return input.didTapBackButton
+      .map { .gotoBack }
+      .eraseToAnyPublisher()
   }
   
   private func editingTextFieldChain(_ input: Input) -> Output {
     return input.editingTextField
-      .map { State.changeButtonColor(self.isValueChanged(text: $0)) }
-      .eraseToAnyPublisher()
+      .map { [weak self] in
+        .changeButtonColor(self?.isValueChanged(text: $0) ?? false)
+      }.eraseToAnyPublisher()
   }
   
   private func didTapShearchButtonChain(_ input: Input) -> Output {
     return input.didTapSearchButton
-      .map { searchText -> State in
-        return .gotoSearch(searchText: searchText)
-      }.eraseToAnyPublisher()
+      .map { .gotoSearch(searchText: $0) }
+      .eraseToAnyPublisher()
   }
   
   private func didSelectedItemChain(_ input: Input) -> Output {
     return input.didSelectedItem
-      .map { [weak self] indexPath -> State in
-          .gotoSearch(
-            searchText: self?.model[indexPath.section].items[indexPath.item] ?? ""
-          )
-      }.eraseToAnyPublisher()
+      .map { [weak self] in
+        .gotoSearch(searchText: self?.model[$0.section].items[$0.item] ?? "") }
+      .eraseToAnyPublisher()
   }
   
   private func didTapDeleteAllButtonChain(_ input: Input) -> Output {
     return input.didTapDeleteAllButton
-      .map { _ -> State in
-        return .presentAlert
-      }.eraseToAnyPublisher()
+      .map { .presentAlert }
+      .eraseToAnyPublisher()
   }
   
   private func didTapDeleteButtonChain(_ input: Input) -> Output {
     return input.didTapDeleteButton
-      .map { [weak self] item, section -> State in
-        self?.removeItemModel(item: item, section: section)
-        return .deleteCell(section: section)
+      .map { [weak self] in
+        self?.removeItemModel(item: $0, section: $1)
+        return .deleteCell(section: $1)
       }.eraseToAnyPublisher()
   }
   
   private func didTapEnterAlertActionChain(_ input: Input) -> Output {
     return input.didTapEnterAlertAction
-      .map { [weak self] _ -> State in
+      .map { [weak self] in
         self?.model[SectionType.recent.rawValue].items.removeAll()
         return .deleteAllCells(section: SectionType.recent.rawValue)
       }.eraseToAnyPublisher()
@@ -117,7 +129,7 @@ extension UserPostSearchViewModel: ViewModelCase {
 // MARK: - Helpers
 extension UserPostSearchViewModel {
   private func removeItemModel(item: Int, section: Int) {
-    self.model[section].items.remove(at: item)
+    model[section].items.remove(at: item)
   }
   
   private func isValueChanged(text: String) -> Bool {
@@ -134,7 +146,7 @@ extension UserPostSearchViewModel {
     let widthPadding: CGFloat = 13
     let heightPadding: CGFloat = 4
     
-    let text = self.model[indexPath.section].items[indexPath.item]
+    let text = model[indexPath.section].items[indexPath.item]
     let textSize = (text as NSString)
       .size(withAttributes: [.font: UIFont(pretendard: .medium, size: 14)!])
     
@@ -175,11 +187,11 @@ extension UserPostSearchViewModel {
     }
     searchTagCell.deleteButton?.tag = indexPath.item
     
-    return self.model[indexPath.section].items[indexPath.item]
+    return model[indexPath.section].items[indexPath.item]
   }
   
   func numberOfItemsInSection(_ section: Int) -> Int {
-    return self.model[section].items.count
+    return model[section].items.count
   }
   
   func fetchHeaderTitle(
