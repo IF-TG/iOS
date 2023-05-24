@@ -93,6 +93,7 @@
 		15CB236F2A10C314003EAF20 /* PostCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15CB236E2A10C314003EAF20 /* PostCellViewModel.swift */; };
 		15CB23722A10F5DA003EAF20 /* MockPostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15CB23712A10F5DA003EAF20 /* MockPostModel.swift */; };
 		15CB23742A110FB4003EAF20 /* PostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15CB23732A110FB4003EAF20 /* PostViewModel.swift */; };
+		15CC64142A1DD4EF00857446 /* ConvenienceInit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FEB5E22A050A99000A5F33 /* ConvenienceInit.swift */; };
 		15EF8C052A0829FD0068C744 /* LocationSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EF8C042A0829FD0068C744 /* LocationSearchViewController.swift */; };
 		15EF8C972A0A18960068C744 /* CategoryPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EF8C962A0A18960068C744 /* CategoryPageViewModel.swift */; };
 		15EF8C9B2A0A19100068C744 /* CategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EF8C9A2A0A19100068C744 /* CategoryView.swift */; };
@@ -109,7 +110,6 @@
 		15FEB5E82A050A99000A5F33 /* UIControl+CombineInteraction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FEB5DD2A050A99000A5F33 /* UIControl+CombineInteraction.swift */; };
 		15FEB5E92A050A99000A5F33 /* UITextField+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FEB5DE2A050A99000A5F33 /* UITextField+Combine.swift */; };
 		15FEB5EA2A050A99000A5F33 /* UIColor+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FEB5E02A050A99000A5F33 /* UIColor+.swift */; };
-		15FEB5EB2A050A99000A5F33 /* ConvenienceInit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FEB5E22A050A99000A5F33 /* ConvenienceInit.swift */; };
 		15FEB5EC2A050A99000A5F33 /* ViewModelProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FEB5E32A050A99000A5F33 /* ViewModelProtocols.swift */; };
 		15FEB5ED2A050A99000A5F33 /* LayoutSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FEB5E42A050A99000A5F33 /* LayoutSupport.swift */; };
 		8B8277C1D53D2763DBC91C26 /* Pods_travelPlan.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5093F957BE61B8938FD9727 /* Pods_travelPlan.framework */; };
@@ -1142,6 +1142,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				15CC64142A1DD4EF00857446 /* ConvenienceInit.swift in Sources */,
 				158BEF772A0E279700C27861 /* PostCell.swift in Sources */,
 				15EF8C9D2A0A19190068C744 /* CategoryViewCell.swift in Sources */,
 				15CB23612A10B5E3003EAF20 /* DateValidationProtocol.swift in Sources */,
@@ -1157,10 +1158,7 @@
 				15FEB5E72A050A99000A5F33 /* UIButton+Combine.swift in Sources */,
 				15332AD62A163AB6008A4110 /* FavoriteViewControllerConstant.swift in Sources */,
 				152AD51B2A1A0447008A2A11 /* FavoriteListTableViewAdapter.swift in Sources */,
-				1325501E2A08BFC800094218 /* UserPostSearchHeaderView.swift in Sources */,
-				15FEB5EB2A050A99000A5F33 /* ConvenienceInit.swift in Sources */,
 				152AD52A2A1B8D6E008A2A11 /* MockFavoriteListData.swift in Sources */,
-				15FEB5EB2A050A99000A5F33 /* ConvenienceInit.swift in Sources */,
 				1325508E2A13EE8E00094218 /* UserPostSearchHeaderView.swift in Sources */,
 				1325502B2A0ABE5E00094218 /* UserPostSearchViewModel.swift in Sources */,
 				15FEB5E92A050A99000A5F33 /* UITextField+Combine.swift in Sources */,
