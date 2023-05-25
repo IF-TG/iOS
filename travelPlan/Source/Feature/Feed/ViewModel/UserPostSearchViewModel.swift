@@ -5,16 +5,10 @@
 //  Created by SeokHyun on 2023/05/10.
 //
 
-import Foundation
 import Combine
 import UIKit
 
 final class UserPostSearchViewModel {
-  
-  typealias Input = UserPostSearchEvent
-  typealias Output = AnyPublisher<State, Never>
-  typealias State = UserPostSearchState
-  
   typealias SectionType = SearchSectionItemModel.SectionType
   
   // MARK: - Properties
@@ -28,31 +22,6 @@ final class UserPostSearchViewModel {
       items: ["최근검색11111111111", "최근검색22222", "최근검색3333", "최근검색4", "최근검색555"]
     )
   ]
-}
-
-extension UserPostSearchViewModel {
-  // MARK: - Input
-  struct UserPostSearchEvent {
-    let didSelectedItem: AnyPublisher<IndexPath, Never>
-    let didTapDeleteButton: AnyPublisher<(Int, Int), Never>
-    let didTapDeleteAllButton: AnyPublisher<Void, Never>
-    let didTapView: AnyPublisher<Void, Never>
-    let didTapSearchTextField: AnyPublisher<Void, Never>
-    let didTapSearchButton: AnyPublisher<String, Never>
-    let editingTextField: AnyPublisher<String, Never>
-    let didTapEnterAlertAction: AnyPublisher<Void, Never>
-  }
-  
-  // MARK: - State
-  enum UserPostSearchState {
-    case none
-    case gotoBack
-    case gotoSearch(searchText: String)
-    case deleteCell(section: Int)
-    case deleteAllCells(section: Int)
-    case presentAlert
-    case changeButtonColor(Bool)
-  }
 }
 
 // MARK: - ViewModelCase
@@ -70,47 +39,58 @@ extension UserPostSearchViewModel: ViewModelCase {
   
   private func editingTextFieldChain(_ input: Input) -> Output {
     return input.editingTextField
-      .map { State.changeButtonColor(self.isValueChanged(text: $0)) }
+      .tryMap { State.changeButtonColor(self.isValueChanged(text: $0)) }
+      .mapError { $0 as? ErrorType ?? .unexpected }
       .eraseToAnyPublisher()
   }
   
   private func didTapShearchButtonChain(_ input: Input) -> Output {
     return input.didTapSearchButton
-      .map { searchText -> State in
+      .tryMap { searchText -> State in
         return .gotoSearch(searchText: searchText)
-      }.eraseToAnyPublisher()
+      }
+      .mapError { $0 as? ErrorType ?? .unexpected }
+      .eraseToAnyPublisher()
   }
   
   private func didSelectedItemChain(_ input: Input) -> Output {
     return input.didSelectedItem
-      .map { [weak self] indexPath -> State in
+      .tryMap { [weak self] indexPath -> State in
           .gotoSearch(
             searchText: self?.model[indexPath.section].items[indexPath.item] ?? ""
           )
-      }.eraseToAnyPublisher()
+      }
+      .mapError { $0 as? ErrorType ?? .unexpected }
+      .eraseToAnyPublisher()
   }
   
   private func didTapDeleteAllButtonChain(_ input: Input) -> Output {
     return input.didTapDeleteAllButton
-      .map { _ -> State in
+      .tryMap { _ -> State in
         return .presentAlert
-      }.eraseToAnyPublisher()
+      }
+      .mapError { $0 as? ErrorType ?? .unexpected }
+      .eraseToAnyPublisher()
   }
   
   private func didTapDeleteButtonChain(_ input: Input) -> Output {
     return input.didTapDeleteButton
-      .map { [weak self] item, section -> State in
+      .tryMap { [weak self] item, section -> State in
         self?.removeItemModel(item: item, section: section)
         return .deleteCell(section: section)
-      }.eraseToAnyPublisher()
+      }
+      .mapError { $0 as? ErrorType ?? .unexpected }
+      .eraseToAnyPublisher()
   }
   
   private func didTapEnterAlertActionChain(_ input: Input) -> Output {
     return input.didTapEnterAlertAction
-      .map { [weak self] _ -> State in
+      .tryMap { [weak self] _ -> State in
         self?.model[SectionType.recent.rawValue].items.removeAll()
         return .deleteAllCells(section: SectionType.recent.rawValue)
-      }.eraseToAnyPublisher()
+      }
+      .mapError { $0 as? ErrorType ?? .unexpected }
+      .eraseToAnyPublisher()
   }
 }
 

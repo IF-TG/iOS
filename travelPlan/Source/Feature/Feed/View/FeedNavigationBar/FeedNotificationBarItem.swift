@@ -15,9 +15,6 @@ enum UserNotificationState {
 }
 
 final class FeedNotificationBarItem: UIButton {
-  // MARK: - Properties
-  weak var delegate: FeedNotificationBarItemDelegate?
-  
   /// 사용자가 알림을 확인 했는지 여부를 체크하고 이에 따른 notificationIcon 상태를 rendering 합니다. 그 후 상태를 none으로 변경합니다.
   private var userNotificationState: UserNotificationState?
 
@@ -40,13 +37,6 @@ final class FeedNotificationBarItem: UIButton {
   
   convenience init() {
     self.init(frame: .zero)
-  }
-}
-
-// MARK: - Action
-extension FeedNotificationBarItem {
-  @objc func didTapNotification() {
-    delegate?.didTapNotification()
   }
 }
 
@@ -76,8 +66,6 @@ extension FeedNotificationBarItem {
     setImage(
       image?.setColor(Constant.Notification.highlightColor),
       for: .highlighted)
-    addTarget(self, action: #selector(didTapNotification), for: .touchUpInside)
-    
     contentEdgeInsets = UIEdgeInsets(
       top: Constant.Notification.Inset.top,
       left: Constant.Notification.Inset.leading,

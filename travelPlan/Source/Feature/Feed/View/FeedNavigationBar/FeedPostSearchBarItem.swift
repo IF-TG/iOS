@@ -7,10 +7,7 @@
 
 import UIKit
 
-final class FeedPostSearchBarItem: UIButton {
-  // MARK: - Properties
-  weak var delegate: FeedNavigationBarDelegate?
-  
+final class FeedPostSearchBarItem: UIButton {  
   // MARK: - Initialization
   private override init(frame: CGRect) {
     super.init(frame: .zero)
@@ -26,13 +23,6 @@ final class FeedPostSearchBarItem: UIButton {
   }
 }
 
-// MARK: - Action
-extension FeedPostSearchBarItem {
-  @objc func didTapPostSearch() {
-    delegate?.didTapPostSearch()
-  }
-}
-
 // MARK: - Helpers
 private extension FeedPostSearchBarItem {
   func configureUI() {
@@ -44,7 +34,7 @@ private extension FeedPostSearchBarItem {
     setImage(
       image?.setColor(Constant.highlightColor),
       for: .highlighted)
-    addTarget(self, action: #selector(didTapPostSearch), for: .touchUpInside)
+
     contentEdgeInsets = UIEdgeInsets(
       top: Constant.Inset.top,
       left: Constant.Inset.leading,
