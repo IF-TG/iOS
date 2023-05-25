@@ -13,6 +13,8 @@ final class UserPostSearchViewController: UIViewController {
   // MARK: - Properties
   private let viewModel = UserPostSearchViewModel()
   
+  lazy var input = Input(didTapSearchTextField: searchTextField.changed)
+  
   private lazy var searchBarButtonItem = UIBarButtonItem(
     image: UIImage(named: "search")?.withRenderingMode(.alwaysTemplate),
     style: .plain,
@@ -36,7 +38,6 @@ final class UserPostSearchViewController: UIViewController {
     $0.font = .init(pretendard: .regular, size: 16)
     $0.autocorrectionType = .no
     $0.delegate = self
-    $0.addTarget(self, action: #selector(editingChangedTextField), for: .editingChanged)
   }
   
   private lazy var leftAlignedCollectionViewFlowLayout:
@@ -80,14 +81,6 @@ final class UserPostSearchViewController: UIViewController {
   
   // Combine
   private var subscriptions = Set<AnyCancellable>()
-  private let _didSelectedItem = PassthroughSubject<IndexPath, Never>()
-  private let _didTapDeleteButton = PassthroughSubject<(Int, Int), Never>()
-  private let _didTapDeleteAllButton = PassthroughSubject<Void, Never>()
-  private let _didTapCollectionView = PassthroughSubject<Void, Never>()
-  private let _didTapSearchButton = PassthroughSubject<String, Never>()
-  private let _editingTextField = PassthroughSubject<String, Never>()
-  private let _didTapEnterAlertAction = PassthroughSubject<Void, Never>()
-  private let _didTapBackButton = PassthroughSubject<Void, Never>()
   
   // MARK: - LifeCycle
   override func viewDidLoad() {
@@ -102,30 +95,19 @@ final class UserPostSearchViewController: UIViewController {
 // MARK: - ViewBindCase
 extension UserPostSearchViewController: ViewBindCase {
   typealias Input = UserPostSearchViewModel.Input
-  typealias ViewModelError = UserPostSearchViewModel.Error
+  typealias ErrorType = UserPostSearchViewModel.ErrorType
   typealias State = UserPostSearchViewModel.State
   
   func bind() {
-    let input = Input(
-      didSelectedItem: _didSelectedItem.eraseToAnyPublisher(),
-      didTapDeleteButton: _didTapDeleteButton.eraseToAnyPublisher(),
-      didTapDeleteAllButton: _didTapDeleteAllButton.eraseToAnyPublisher(),
-      didTapCollectionView: _didTapCollectionView.eraseToAnyPublisher(),
-      didTapSearchButton: _didTapSearchButton.eraseToAnyPublisher(),
-      editingTextField: _editingTextField.eraseToAnyPublisher(),
-      didTapEnterAlertAction: _didTapEnterAlertAction.eraseToAnyPublisher(),
-      didTapBackButton: _didTapBackButton.eraseToAnyPublisher()
-    )
-    
-    let output = viewModel.transform(input)
+    let output = self.viewModel.transform(input)
     output
       .receive(on: RunLoop.main)
-      .sink { result in
+      .sink { [weak self] result in
         switch result {
         case .finished:
           print("completed")
         case let .failure(error):
-          print("error: \(error.localizedDescription)")
+          self?.handleError(error)
         }
       } receiveValue: { [weak self] in
         self?.render($0)
@@ -141,7 +123,7 @@ extension UserPostSearchViewController: ViewBindCase {
       searchTextField.resignFirstResponder()
       print("DEBUG: UserPostSearchVC -> SearchResultVC, keyword:\(text)")
     case .presentAlert:
-      setupAlertController()
+      showAlert(alertType: .withCancel, message: "최근 검색 내역을\n모두 삭제하시겠습니까?", target: self)
     case .deleteCell(let section):
       collectionView.reloadSections(IndexSet(section...section))
     case .deleteAllCells(let section):
@@ -155,6 +137,15 @@ extension UserPostSearchViewController: ViewBindCase {
     case .none: break
     }
   }
+  
+  func handleError(_ error: ErrorType) {
+    switch error {
+    case .none:
+      print("DEBUG: Error not occured")
+    case .unexpected:
+      print("DEBUG: Unexpected error occured")
+    }
+  }
 }
 
 // MARK: - Helpers
@@ -162,32 +153,6 @@ extension UserPostSearchViewController {
   private func setupSearchBarButtonItemStyle(_ color: UIColor, isEnabled: Bool) {
     searchBarButtonItem.tintColor = color
     searchBarButtonItem.isEnabled = isEnabled
-  }
-  
-  private func setupAlertController() {
-    let message = "최근 검색 내역을\n모두 삭제하시겠습니까?"
-    let attrMessageString = NSMutableAttributedString(string: message)
-//    let style = NSMutableParagraphStyle()
-//    style.lineSpacing = 5
-    attrMessageString.addAttributes(
-      [
-        .font: UIFont.systemFont(ofSize: 13),
-        .foregroundColor: UIColor.black
-//        .paragraphStyle: style
-      ],
-      range: NSRange(location: 0, length: attrMessageString.length)
-    )
-    let alert = UIAlertController(title: "", message: "", preferredStyle: .alert)
-    alert.setValue(attrMessageString, forKey: "attributedTitle")
-    
-    let cancelAction = UIAlertAction(title: "취소", style: .cancel)
-    let confirmAction = UIAlertAction(title: "확인", style: .default) { _ in
-      self._didTapEnterAlertAction.send()
-    }
-    
-    alert.addAction(cancelAction)
-    alert.addAction(confirmAction)
-    present(alert, animated: true)
   }
   
   private func setupNavigationBar() {
@@ -211,22 +176,20 @@ extension UserPostSearchViewController {
 
 // MARK: - Actions
 extension UserPostSearchViewController {
-  
-  // SearchButton은 textField에 text가 들어오면 파란색으로 color 바뀜
   @objc private func didTapSearchButton() {
-    self._didTapSearchButton.send(searchTextField.text ?? "")
+    input.didTapSearchButton.send(self.searchTextField.text ?? "")
   }
   
   @objc private func didTapBackButton() {
-    _didTapBackButton.send()
+    input.didTapBackButton.send()
   }
   
   @objc private func editingChangedTextField(_ textField: UITextField) {
-    _editingTextField.send(textField.text ?? "")
+    input.editingTextField.send(textField.text ?? "")
   }
   
   @objc private func didTapCollectionView() {
-    _didTapCollectionView.send()
+    input.didTapCollectionView.send()
   }
 }
 
@@ -259,7 +222,7 @@ extension UserPostSearchViewController: UICollectionViewDelegateFlowLayout {
     _ collectionView: UICollectionView,
     didSelectItemAt indexPath: IndexPath
   ) {
-    _didSelectedItem.send(indexPath)
+    input.didSelectedItem.send(indexPath)
   }
 }
 
@@ -332,7 +295,7 @@ extension UserPostSearchViewController: UICollectionViewDataSource {
 // MARK: - UITextFieldDelegate
 extension UserPostSearchViewController: UITextFieldDelegate {
   func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-    _didTapSearchButton.send(textField.text ?? "")
+    input.didTapSearchButton.send(textField.text ?? "")
     return true
   }
 }
@@ -340,14 +303,26 @@ extension UserPostSearchViewController: UITextFieldDelegate {
 // MARK: - UserPostSearchHeaderViewDelegate
 extension UserPostSearchViewController: UserPostSearchHeaderViewDelegate {
   func didTapDeleteAllButton() {
-    _didTapDeleteAllButton.send()
+    input.didTapDeleteAllButton.send()
   }
 }
 
 // MARK: - SearchTagCellDelegate
 extension UserPostSearchViewController: SearchTagCellDelegate {
-  func didTapDeleteButton(item: Int, in section: Int) {
-    _didTapDeleteButton.send((item, section))
+    func didTapDeleteButton(item: Int, in section: Int) {
+      input.didTapDeleteButton.send((item, section))
+    }
+}
+
+// MARK: - CautionAlertViewControllerDelegate
+extension UserPostSearchViewController: CautionAlertViewControllerDelegate {
+  func didTapAlertConfirm() {
+    input.didTapAlertConfirmButton.send()
+    print("confirm Alert")
+  }
+  
+  func didTapAlertCancel() {
+    print("cancel Alert")
   }
 }
 

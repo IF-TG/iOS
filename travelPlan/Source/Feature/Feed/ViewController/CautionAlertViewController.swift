@@ -8,19 +8,16 @@
 import UIKit
 import SnapKit
 
-class CautionAlertViewController: UIViewController {
-  enum AlertType {
-    case onlyConfirm
-    case withCancel
-  }
-  
+final class CautionAlertViewController: UIViewController {
   // MARK: - Properties
-  private let messageLabel: UILabel = UILabel().set {
+  var alertType: CautionAlertType?
+  weak var delegate: CautionAlertViewControllerDelegate?
+  
+  let messageLabel: UILabel = UILabel().set {
     $0.font = UIFont(SFPro: .sfPro, size: 13)
     $0.textColor = .black
-    $0.text = "최근 검색 내역을\n모두 삭제하시겠습니까?"
     $0.textAlignment = .center
-    $0.numberOfLines = 2
+    $0.numberOfLines = 0
   }
   
   private let alertView: UIView = UIView().set {
@@ -28,17 +25,16 @@ class CautionAlertViewController: UIViewController {
     $0.backgroundColor = UIColor(hex: "#F2F2F2")
   }
   
-  private let cancelButton: UIButton = UIButton().set {
-    $0.setTitle("취소", for: .normal)
+  lazy var cancelButton: UIButton = UIButton().set {
     $0.setTitleColor(.systemBlue, for: .normal)
     $0.titleLabel?.font = UIFont(SFPro: .sfPro, size: 17)
-
+    $0.addTarget(self, action: #selector(didTapCancelButton), for: .touchUpInside)
   }
   
-  private let confirmButton: UIButton = UIButton().set {
-    $0.setTitle("확인", for: .normal)
+  lazy var confirmButton: UIButton = UIButton().set {
     $0.setTitleColor(.systemBlue, for: .normal)
     $0.titleLabel?.font = UIFont(SFPro: .sfPro, size: 17)
+    $0.addTarget(self, action: #selector(didTapConfirmButton), for: .touchUpInside)
   }
   
   private lazy var buttonsStackView: UIStackView = UIStackView().set {
@@ -46,15 +42,14 @@ class CautionAlertViewController: UIViewController {
     $0.axis = .horizontal
     $0.alignment = .fill
     $0.distribution = .fillEqually
-//    $0.layer.borderColor = .cgColor
-//    $0.layer.borderWidth = 0.5
   }
   
   // MARK: - LifeCycle
   override func viewDidLoad() {
     super.viewDidLoad()
-    view.backgroundColor = .green
     setupUI()
+    setupCancelButton(with: alertType)
+    view.backgroundColor = .black.withAlphaComponent(0.1)
   }
   
   deinit {
@@ -62,13 +57,40 @@ class CautionAlertViewController: UIViewController {
   }
 }
 
+// MARK: - Actions
+extension CautionAlertViewController {
+  @objc private func didTapCancelButton(_ button: UIButton) {
+    dismiss(animated: true) {
+      guard let didTapAlertCancel = self.delegate?.didTapAlertCancel else { return }
+        didTapAlertCancel()
+    }
+  }
+  
+  @objc private func didTapConfirmButton(_ button: UIButton) {
+    dismiss(animated: true) {
+      guard let didTapAlertConfirm = self.delegate?.didTapAlertConfirm else { return }
+        didTapAlertConfirm()
+    }
+  }
+}
+// MARK: - Helpers
+extension CautionAlertViewController {
+  private func setupCancelButton(with alertType: CautionAlertType?) {
+    switch alertType {
+    case .onlyConfirm:
+      cancelButton.isHidden = true
+    case .withCancel, .none: break
+    }
+  }
+}
+
+// MARK: - LayoutSupport
 extension CautionAlertViewController: LayoutSupport {
   func addSubviews() {
     view.addSubview(alertView)
     alertView.addSubview(messageLabel)
     alertView.addSubview(buttonsStackView)
-    
-    [cancelButton, confirmButton].map {
+    _ = [cancelButton, confirmButton].map {
       buttonsStackView.addArrangedSubview($0)
     }
   }
@@ -89,36 +111,6 @@ extension CautionAlertViewController: LayoutSupport {
       $0.left.right.equalToSuperview()
       $0.bottom.equalToSuperview()
       $0.height.equalTo(44)
-    }
-  }
-}
-
-// MARK: - Helpers
-extension CautionAlertViewController {
-
-}
-
-// MARK: - Public Helpers
-extension CautionAlertViewController {
-}
-
-extension CALayer {
-  func addBorder(_ arr_edge: [UIRectEdge], color: UIColor, width: CGFloat) {
-    for edge in arr_edge {
-      let border = CALayer()
-      switch edge {
-      case .top:
-        border.frame = CGRect.init(x: 0, y: 0, width: frame.width, height: width)
-      case .bottom:
-        border.frame = CGRect.init(x: 0, y: frame.height - width, width: frame.width, height: width)
-      case .left:
-        border.frame = CGRect.init(x: 0, y: 0, width: width, height: frame.height)
-      case .right:
-        border.frame = CGRect.init(x: frame.width - width, y: 0, width: width, height: frame.height)
-      default: break
-      }
-      border.backgroundColor = color.cgColor
-      self.addSublayer(border)
     }
   }
 }
