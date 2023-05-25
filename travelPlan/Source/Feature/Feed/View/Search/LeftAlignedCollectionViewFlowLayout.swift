@@ -7,7 +7,7 @@
 
 import UIKit
 
-class LeftAlignedCollectionViewFlowLayout: UICollectionViewFlowLayout {
+final class LeftAlignedCollectionViewFlowLayout: UICollectionViewFlowLayout {
   // MARK: - LifeCycle
   override init() {
     super.init()

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SearchTagCell: UICollectionViewCell {
+final class SearchTagCell: UICollectionViewCell {
   typealias SectionType = SearchSectionItemModel.SectionType
   
   // MARK: - Properties

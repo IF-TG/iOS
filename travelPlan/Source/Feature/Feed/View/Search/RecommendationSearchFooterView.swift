@@ -7,7 +7,7 @@
 
 import UIKit
 
-class RecommendationSearchFooterView: UICollectionReusableView {
+final class RecommendationSearchFooterView: UICollectionReusableView {
   // MARK: - Properties
   static var id: String {
     return String(describing: self)

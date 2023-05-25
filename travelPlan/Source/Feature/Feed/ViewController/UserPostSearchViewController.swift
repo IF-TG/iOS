@@ -148,12 +148,8 @@ extension UserPostSearchViewController: ViewBindCase {
       collectionView.reloadSections(IndexSet(section...section))
     case .changeButtonColor(let isChanged):
       if isChanged {
-        searchBarButtonItem.tintColor = .yg.primary
-        searchBarButtonItem.isEnabled = true
-      } else {
-        searchBarButtonItem.tintColor = .yg.gray1
-        searchBarButtonItem.isEnabled = false
-      }
+        setupSearchBarButtonItemStyle(.yg.primary, isEnabled: true)
+      } else { setupSearchBarButtonItemStyle(.yg.gray1, isEnabled: false) }
     case.goDownKeyboard:
       navigationController?.navigationBar.endEditing(true)
     case .none: break
@@ -163,6 +159,11 @@ extension UserPostSearchViewController: ViewBindCase {
 
 // MARK: - Helpers
 extension UserPostSearchViewController {
+  private func setupSearchBarButtonItemStyle(_ color: UIColor, isEnabled: Bool) {
+    searchBarButtonItem.tintColor = color
+    searchBarButtonItem.isEnabled = isEnabled
+  }
+  
   private func setupAlertController() {
     let message = "최근 검색 내역을\n모두 삭제하시겠습니까?"
     let attrMessageString = NSMutableAttributedString(string: message)
@@ -180,12 +181,12 @@ extension UserPostSearchViewController {
     alert.setValue(attrMessageString, forKey: "attributedTitle")
     
     let cancelAction = UIAlertAction(title: "취소", style: .cancel)
-    let enterAction = UIAlertAction(title: "확인", style: .default) { _ in
+    let confirmAction = UIAlertAction(title: "확인", style: .default) { _ in
       self._didTapEnterAlertAction.send()
     }
     
     alert.addAction(cancelAction)
-    alert.addAction(enterAction)
+    alert.addAction(confirmAction)
     present(alert, animated: true)
   }
   
@@ -197,11 +198,11 @@ extension UserPostSearchViewController {
     barButtonItems.append(textFieldButtonItem)
     
     // textField width autoLayout 지정
-//    if let customView = textFieldButtonItem.customView {
-//      customView.snp.makeConstraints {
-//        $0.width.equalTo(260)
-//      }
-//    }
+    if let customView = textFieldButtonItem.customView {
+      customView.snp.makeConstraints {
+        $0.width.equalTo(260)
+      }
+    }
     
     navigationItem.leftBarButtonItems = barButtonItems
     navigationItem.rightBarButtonItem = searchBarButtonItem
