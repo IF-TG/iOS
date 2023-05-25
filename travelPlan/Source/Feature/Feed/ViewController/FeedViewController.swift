@@ -11,6 +11,10 @@ import Combine
 final class FeedViewController: UIViewController {
   // MARK: - Properties
   private let categoryPageView = CategoryPageView()
+  
+  lazy var input = Input(
+    didTapPostSearch: searchBarItem.tap,
+    didTapNotification: notificationBarItem.tap)
  
   private let leftNaviBarItem = FeedAppTitleBarItem()
   
@@ -21,18 +25,12 @@ final class FeedViewController: UIViewController {
   private let vm = FeedViewModel()
   
   private var subscription = Set<AnyCancellable>()
-
-  private let tapPostSearch = PassthroughSubject<Void, FeedViewModelError>()
-  
-  private let tapNotification = PassthroughSubject<Void, FeedViewModelError>()
-  
-  private let appear = PassthroughSubject<Void, FeedViewModelError>()
   
   private var naviConstraints: [NSLayoutConstraint] = []
   
   // MARK: - LifeCycle
   override func viewWillAppear(_ animated: Bool) {
-    appear.send()
+    input.appear.send()
   }
   
   override func viewDidLoad() {
@@ -54,8 +52,6 @@ extension FeedViewController {
   
   private func configureFeedNavigationBar() {
     navigationItem.leftBarButtonItem = UIBarButtonItem(customView: leftNaviBarItem)
-    searchBarItem.delegate = self
-    notificationBarItem.delegate = self
     let rightSearchBarItem = UIBarButtonItem(customView: searchBarItem)
     let rightNotificationBarItem = UIBarButtonItem(customView: notificationBarItem)
     navigationItem.rightBarButtonItems = [rightNotificationBarItem, rightSearchBarItem]
@@ -69,10 +65,6 @@ extension FeedViewController: ViewBindCase {
   typealias State = FeedViewModel.State
   
   func bind() {
-    let input = Input(
-      appear: appear.eraseToAnyPublisher(),
-      didTapPostSearch: tapPostSearch.eraseToAnyPublisher(),
-      didTapNotification: tapNotification.eraseToAnyPublisher())
     let output = vm.transform(input)
     
     output
@@ -111,17 +103,6 @@ extension FeedViewController: ViewBindCase {
     case .none:
       break
     }
-  }
-}
-
-// MARK: - FeedNavigationBarDelegate
-extension FeedViewController: FeedNavigationBarDelegate {
-  func didTapPostSearch() {
-    tapPostSearch.send()
-  }
-
-  func didTapNotification() {
-    tapNotification.send()
   }
 }
 

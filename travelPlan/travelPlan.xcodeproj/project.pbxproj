@@ -86,7 +86,6 @@
 		15BB01BB2A1EB6300035B486 /* LoginViewModel+AssociatedType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BB01BA2A1EB6300035B486 /* LoginViewModel+AssociatedType.swift */; };
 		15BB01BD2A1EB7640035B486 /* UserPostSearchViewModel+Associatedtype.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BB01BC2A1EB7640035B486 /* UserPostSearchViewModel+Associatedtype.swift */; };
 		15BB01BF2A1EBAC20035B486 /* LoginViewModel+Associatedtype.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BB01BE2A1EBAC20035B486 /* LoginViewModel+Associatedtype.swift */; };
-		15C92C142A0AD22D00376D1B /* FeedNavigationBarDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C92C132A0AD22D00376D1B /* FeedNavigationBarDelegate.swift */; };
 		15CB23592A109C85003EAF20 /* PostHeaderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15CB23582A109C85003EAF20 /* PostHeaderModel.swift */; };
 		15CB235B2A109CA4003EAF20 /* PostHeaderSubInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15CB235A2A109CA4003EAF20 /* PostHeaderSubInfoModel.swift */; };
 		15CB235F2A10B5B8003EAF20 /* DateValidationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15CB235E2A10B5B8003EAF20 /* DateValidationManager.swift */; };
@@ -221,7 +220,6 @@
 		15BB01BA2A1EB6300035B486 /* LoginViewModel+AssociatedType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LoginViewModel+AssociatedType.swift"; sourceTree = "<group>"; };
 		15BB01BC2A1EB7640035B486 /* UserPostSearchViewModel+Associatedtype.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserPostSearchViewModel+Associatedtype.swift"; sourceTree = "<group>"; };
 		15BB01BE2A1EBAC20035B486 /* LoginViewModel+Associatedtype.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LoginViewModel+Associatedtype.swift"; sourceTree = "<group>"; };
-		15C92C132A0AD22D00376D1B /* FeedNavigationBarDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedNavigationBarDelegate.swift; sourceTree = "<group>"; };
 		15CB23582A109C85003EAF20 /* PostHeaderModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostHeaderModel.swift; sourceTree = "<group>"; };
 		15CB235A2A109CA4003EAF20 /* PostHeaderSubInfoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostHeaderSubInfoModel.swift; sourceTree = "<group>"; };
 		15CB235E2A10B5B8003EAF20 /* DateValidationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateValidationManager.swift; sourceTree = "<group>"; };
@@ -752,7 +750,6 @@
 		15C92C122A0AD21E00376D1B /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
-				15C92C132A0AD22D00376D1B /* FeedNavigationBarDelegate.swift */,
 				156759B22A0D78D400849CE2 /* FeedViewModelProtocols.swift */,
 				13C9C1AE2A17FFC400DF1FFF /* UserPostSearchHeaderViewDelegate.swift */,
 				13C9C1B02A1806F500DF1FFF /* SearchTagCellDelegate.swift */,
@@ -1259,7 +1256,6 @@
 				15CB23722A10F5DA003EAF20 /* MockPostModel.swift in Sources */,
 				15BB01B82A1EB5070035B486 /* LoginViewModel.swift in Sources */,
 				158BEFC42A0EC8A100C27861 /* UIView+CustomAnimation.swift in Sources */,
-				15C92C142A0AD22D00376D1B /* FeedNavigationBarDelegate.swift in Sources */,
 				156759B12A0D774500849CE2 /* FeedViewModel.swift in Sources */,
 				15EF8CA92A0A19AF0068C744 /* CategoryConstant.swift in Sources */,
 				15EF8C052A0829FD0068C744 /* LocationSearchViewController.swift in Sources */,

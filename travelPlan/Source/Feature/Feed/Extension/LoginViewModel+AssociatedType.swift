@@ -9,9 +9,19 @@ import Combine
 
 extension FeedViewModel: ViewModelAssociatedType {
   struct Input {
-    let appear: AnyPublisher<Void, FeedViewModelError>
-    let didTapPostSearch: AnyPublisher<Void, FeedViewModelError>
-    let didTapNotification: AnyPublisher<Void, FeedViewModelError>
+    typealias PS = PassthroughSubject
+    let appear: PassthroughSubject<Void, FeedViewModelError>
+    let didTapPostSearch: AnyPublisher<Void, Never>
+    let didTapNotification: AnyPublisher<Void, Never>
+    
+    init(
+      appear: PassthroughSubject<Void, FeedViewModelError> = PS<Void, FeedViewModelError>(),
+      didTapPostSearch: AnyPublisher<Void, Never>,
+      didTapNotification: AnyPublisher<Void, Never>) {
+      self.appear = appear
+      self.didTapPostSearch = didTapPostSearch
+      self.didTapNotification = didTapNotification
+    }
   }
   
   /// viewModel을 viewController에 바인딩 이후,
