@@ -16,15 +16,10 @@ import Combine
 /// 영구저장소에는 isCheckedNotification을 false로 합니다.
 /// 그리고 ui state를 updateNotificationRedIcon로 변경합니다.
 final class FeedViewModel: ViewModelCase {
-  typealias Input = FeedViewControllerEvent
-  typealias Output = AnyPublisher<State, FeedViewModelError>
-  typealias State = FeedViewControllerState
-  
   // MARK: - Properteis
   @Published private var isNotificationArrived = false
   
   private var updateNotificatinoRedIcon = PassthroughSubject<Void, FeedErr>()
-  
   var subscription = Set<AnyCancellable>()
 }
 
@@ -66,7 +61,7 @@ fileprivate extension FeedViewModel {
       .map { [weak self] _ -> State in
         self?.isNotificationArrived = false
         return .updateNotificationRedIcon
-      }.mapError { $0 as? FeedErr ?? .none }
+      }.mapError { $0 as? ErrorType ?? .none }
       .eraseToAnyPublisher()
   }
   
@@ -79,7 +74,7 @@ fileprivate extension FeedViewModel {
         /// 임시적으로 지금은 뷰가 나타났을 때 알림이 왔다는 가정을 했습니다. .none으로 할 경우 redIcon 사라집니다.
         return .viewAppear(userNotificationState: .notChecked)
       }.mapError { error in
-        return error as? FeedErr ?? .none
+        return error as? ErrorType ?? .none
       }.eraseToAnyPublisher()
   }
   
@@ -92,7 +87,7 @@ fileprivate extension FeedViewModel {
         /// 그리고 확인된 값을 반환해야 합니다.
         /// 지금은 임시적으로 일관된 값을 반환합니다.
         return .goToNotification
-      }.mapError { return $0 as? FeedErr ?? .none }
+      }.mapError { return $0 as? ErrorType ?? .none }
       .eraseToAnyPublisher()
   }
   
@@ -102,7 +97,7 @@ fileprivate extension FeedViewModel {
       .subscribe(on: RunLoop.main)
       .tryMap { _ -> State in
         return .goToPostSearch
-      }.mapError { $0 as? FeedErr ?? .none }
+      }.mapError { $0 as? ErrorType ?? .none }
       .eraseToAnyPublisher()
   }
 }

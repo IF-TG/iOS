@@ -5,7 +5,6 @@
 //  Created by SeokHyun on 2023/05/10.
 //
 
-import Foundation
 import Combine
 import UIKit
 
@@ -25,104 +24,91 @@ final class UserPostSearchViewModel {
   ]
 }
 
-extension UserPostSearchViewModel {
-  // MARK: - Input
-  struct Input {
-    let didSelectedItem: AnyPublisher<IndexPath, Never>
-    let didTapDeleteButton: AnyPublisher<(Int, Int), Never>
-    let didTapDeleteAllButton: AnyPublisher<Void, Never>
-    let didTapCollectionView: AnyPublisher<Void, Never>
-    let didTapSearchButton: AnyPublisher<String, Never>
-    let editingTextField: AnyPublisher<String, Never>
-    let didTapEnterAlertAction: AnyPublisher<Void, Never>
-    let didTapBackButton: AnyPublisher<Void, Never>
-  }
-
-  // MARK: - State
-  enum State {
-    case none
-    case gotoBack
-    case gotoSearch(searchText: String)
-    case deleteCell(section: Int)
-    case deleteAllCells(section: Int)
-    case presentAlert
-    case changeButtonColor(Bool)
-    case goDownKeyboard
-  }
-  
-  // MARK: - ViewModelError
-  enum Error { }
-}
-
 // MARK: - ViewModelCase
 extension UserPostSearchViewModel: ViewModelCase {
-  typealias Output = AnyPublisher<State, Never>
+//  typealias Output = AnyPublisher<State, ErrorType>
   
   func transform(_ input: Input) -> Output {
     return Publishers.MergeMany([
-      editingTextFieldChain(input),
-      didTapShearchButtonChain(input),
-      didSelectedItemChain(input),
-      didTapDeleteAllButtonChain(input),
-      didTapDeleteButtonChain(input),
-      didTapEnterAlertActionChain(input),
-      didTapBackButtonChain(input),
-      didTapCollectionViewChain(input)
+      editingTextFieldStream(input),
+      didTapShearchButtonStream(input),
+      didSelectedItemStream(input),
+      didTapDeleteAllButtonStream(input),
+      didTapDeleteButtonStream(input),
+      didTapEnterAlertActionStream(input),
+      didTapBackButtonStream(input),
+      didTapCollectionViewStream(input)
     ]).eraseToAnyPublisher()
   }
   
-  private func didTapCollectionViewChain(_ input: Input) -> Output {
+  private func didTapCollectionViewStream(_ input: Input) -> Output {
     return input.didTapCollectionView
-      .map { .goDownKeyboard }
+      .tryMap { .goDownKeyboard }
+      .mapError { _ in ErrorType.none }
       .eraseToAnyPublisher()
   }
   
-  private func didTapBackButtonChain(_ input: Input) -> Output {
+  private func didTapBackButtonStream(_ input: Input) -> Output {
     return input.didTapBackButton
-      .map { .gotoBack }
+      .tryMap { .gotoBack }
+      .mapError { _ in ErrorType.none }
       .eraseToAnyPublisher()
   }
   
-  private func editingTextFieldChain(_ input: Input) -> Output {
+  private func editingTextFieldStream(_ input: Input) -> Output {
     return input.editingTextField
-      .map { [weak self] in
-        .changeButtonColor(self?.isValueChanged(text: $0) ?? false)
-      }.eraseToAnyPublisher()
+      .tryMap { [weak self] in
+        State.changeButtonColor(self?.isValueChanged(text: $0) ?? false)
+      }
+      .mapError { $0 as? ErrorType ?? .unexpected }
+      .eraseToAnyPublisher()
   }
   
-  private func didTapShearchButtonChain(_ input: Input) -> Output {
+  private func didTapShearchButtonStream(_ input: Input) -> Output {
     return input.didTapSearchButton
-      .map { .gotoSearch(searchText: $0) }
+      .tryMap { searchText -> State in
+        return .gotoSearch(searchText: searchText)
+      }
+      .mapError { $0 as? ErrorType ?? .unexpected }
       .eraseToAnyPublisher()
   }
   
-  private func didSelectedItemChain(_ input: Input) -> Output {
+  private func didSelectedItemStream(_ input: Input) -> Output {
     return input.didSelectedItem
-      .map { [weak self] in
-        .gotoSearch(searchText: self?.model[$0.section].items[$0.item] ?? "") }
+      .tryMap { [weak self] indexPath in
+          State.gotoSearch(
+            searchText: self?.model[indexPath.section].items[indexPath.item] ?? ""
+          )
+      }
+      .mapError { $0 as? ErrorType ?? .unexpected }
       .eraseToAnyPublisher()
   }
   
-  private func didTapDeleteAllButtonChain(_ input: Input) -> Output {
+  private func didTapDeleteAllButtonStream(_ input: Input) -> Output {
     return input.didTapDeleteAllButton
-      .map { .presentAlert }
+      .tryMap { State.presentAlert }
+      .mapError { $0 as? ErrorType ?? .unexpected }
       .eraseToAnyPublisher()
   }
   
-  private func didTapDeleteButtonChain(_ input: Input) -> Output {
+  private func didTapDeleteButtonStream(_ input: Input) -> Output {
     return input.didTapDeleteButton
-      .map { [weak self] in
-        self?.removeItemModel(item: $0, section: $1)
-        return .deleteCell(section: $1)
-      }.eraseToAnyPublisher()
+      .tryMap { [weak self] item, section in
+        self?.removeItemModel(item: item, section: section)
+        return State.deleteCell(section: section)
+      }
+      .mapError { $0 as? ErrorType ?? .unexpected }
+      .eraseToAnyPublisher()
   }
   
-  private func didTapEnterAlertActionChain(_ input: Input) -> Output {
-    return input.didTapEnterAlertAction
-      .map { [weak self] in
+  private func didTapEnterAlertActionStream(_ input: Input) -> Output {
+    return input.didTapAlertConfirmButton
+      .tryMap { [weak self] in
         self?.model[SectionType.recent.rawValue].items.removeAll()
-        return .deleteAllCells(section: SectionType.recent.rawValue)
-      }.eraseToAnyPublisher()
+        return State.deleteAllCells(section: SectionType.recent.rawValue)
+      }
+      .mapError { $0 as? ErrorType ?? .unexpected }
+      .eraseToAnyPublisher()
   }
 }
 
