@@ -10,14 +10,37 @@ import Combine
 
 extension UserPostSearchViewModel: ViewModelAssociatedType {
   struct Input {
-    let didSelectedItem: AnyPublisher<IndexPath, Never>
-    let didTapDeleteButton: AnyPublisher<(Int, Int), Never>
-    let didTapDeleteAllButton: AnyPublisher<Void, Never>
-    let didTapView: AnyPublisher<Void, Never>
-    let didTapSearchTextField: AnyPublisher<Void, Never>
-    let didTapSearchButton: AnyPublisher<String, Never>
-    let editingTextField: AnyPublisher<String, Never>
-    let didTapEnterAlertAction: AnyPublisher<Void, Never>
+    typealias PS = PassthroughSubject
+    let didSelectedItem: PassthroughSubject<IndexPath, Never>
+    let didTapDeleteButton: PassthroughSubject<(Int, Int), Never>
+    let didTapDeleteAllButton: PassthroughSubject<Void, Never>
+    let didTapView: PassthroughSubject<Void, Never>
+    let didTapSearchTextField: AnyPublisher<String, Never>
+    let didTapSearchButton: PassthroughSubject<String, Never>
+    let editingTextField: PassthroughSubject<String, Never>
+    let didTapEnterAlertAction: PassthroughSubject<Void, Never>
+    
+    init(
+      didSelectedItem: PS<IndexPath, Never> = PS<IndexPath, Never>(),
+      didTapDeleteButton: PS<(Int, Int), Never> = PS<(Int, Int), Never>(),
+      didTapDeleteAllButton: PS<Void, Never> = PS<Void, Never>(),
+      didTapView: PS<Void, Never> = PS<Void, Never>(),
+      didTapSearchTextField: AnyPublisher<String, Never>,
+      didTapSearchButton: PS<String, Never> = PS<String, Never>(),
+      editingTextField: PS<String, Never> = PS<String, Never>(),
+      didTapEnterAlertAction: PS<Void, Never> = PS<Void,
+      
+      Never>()
+    ) {
+      self.didSelectedItem = didSelectedItem
+      self.didTapDeleteButton = didTapDeleteButton
+      self.didTapDeleteAllButton = didTapDeleteAllButton
+      self.didTapView = didTapView
+      self.didTapSearchTextField = didTapSearchTextField
+      self.didTapSearchButton = didTapSearchButton
+      self.editingTextField = editingTextField
+      self.didTapEnterAlertAction = didTapEnterAlertAction
+    }
   }
   
   enum State {

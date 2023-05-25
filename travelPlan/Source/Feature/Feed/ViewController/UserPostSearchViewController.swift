@@ -13,6 +13,8 @@ final class UserPostSearchViewController: UIViewController {
   // MARK: - Properties
   private let viewModel = UserPostSearchViewModel()
   
+  lazy var input = Input(didTapSearchTextField: searchTextField.changed)
+  
   private lazy var searchBarButtonItem = UIBarButtonItem(
     image: UIImage(named: "search")?.withRenderingMode(.alwaysTemplate),
     style: .plain,
@@ -36,7 +38,6 @@ final class UserPostSearchViewController: UIViewController {
     $0.font = .init(pretendard: .regular, size: 16)
     $0.autocorrectionType = .no
     $0.delegate = self
-    $0.addTarget(self, action: #selector(editingChangedTextField), for: .editingChanged)
   }
   
   private lazy var leftAlignedCollectionViewFlowLayout:
@@ -80,14 +81,6 @@ final class UserPostSearchViewController: UIViewController {
   
   // Combine
   private var subscriptions = Set<AnyCancellable>()
-  private let _didSelectedItem = PassthroughSubject<IndexPath, Never>()
-  private let _didTapDeleteButton = PassthroughSubject<(Int, Int), Never>()
-  private let _didTapDeleteAllButton = PassthroughSubject<Void, Never>()
-  private let _didTapView = PassthroughSubject<Void, Never>()
-  private let _didTapSearchTextField = PassthroughSubject<Void, Never>()
-  private let _didTapSearchButton = PassthroughSubject<String, Never>()
-  private let _editingTextField = PassthroughSubject<String, Never>()
-  private let _didTapEnterAlertAction = PassthroughSubject<Void, Never>()
   
   // MARK: - LifeCycle
   override func viewDidLoad() {
@@ -106,17 +99,6 @@ extension UserPostSearchViewController: ViewBindCase {
   typealias State = UserPostSearchViewModel.State
   
   func bind() {
-    let input = Input(
-      didSelectedItem: _didSelectedItem.eraseToAnyPublisher(),
-      didTapDeleteButton: _didTapDeleteButton.eraseToAnyPublisher(),
-      didTapDeleteAllButton: _didTapDeleteAllButton.eraseToAnyPublisher(),
-      didTapView: _didTapView.eraseToAnyPublisher(),
-      didTapSearchTextField: _didTapSearchTextField.eraseToAnyPublisher(),
-      didTapSearchButton: _didTapSearchButton.eraseToAnyPublisher(),
-      editingTextField: _editingTextField.eraseToAnyPublisher(),
-      didTapEnterAlertAction: _didTapEnterAlertAction.eraseToAnyPublisher()
-    )
-    
     let output = self.viewModel.transform(input)
     output
       .receive(on: RunLoop.main)
@@ -187,7 +169,7 @@ extension UserPostSearchViewController {
     
     let cancelAction = UIAlertAction(title: "취소", style: .cancel)
     let enterAction = UIAlertAction(title: "확인", style: .default) { _ in
-      self._didTapEnterAlertAction.send()
+      self.input.didTapEnterAlertAction.send()
     }
     
     alert.addAction(cancelAction)
@@ -219,7 +201,7 @@ extension UserPostSearchViewController {
   
   // SearchButton은 textField에 text가 들어오면 파란색으로 color 바뀜
   @objc private func didTapSearchButton() {
-    self._didTapSearchButton.send(self.searchTextField.text ?? "")
+    input.didTapSearchButton.send(self.searchTextField.text ?? "")
   }
   
   @objc private func didTapBackButton() {
@@ -227,7 +209,7 @@ extension UserPostSearchViewController {
   }
   
   @objc private func editingChangedTextField(_ textField: UITextField) {
-    self._editingTextField.send(textField.text ?? "")
+    input.editingTextField.send(textField.text ?? "")
   }
   
   @objc private func dismissKeyboard() {
@@ -264,7 +246,7 @@ extension UserPostSearchViewController: UICollectionViewDelegateFlowLayout {
     _ collectionView: UICollectionView,
     didSelectItemAt indexPath: IndexPath
   ) {
-    self._didSelectedItem.send(indexPath)
+    input.didSelectedItem.send(indexPath)
   }
 }
 
@@ -337,7 +319,7 @@ extension UserPostSearchViewController: UICollectionViewDataSource {
 // MARK: - UITextFieldDelegate
 extension UserPostSearchViewController: UITextFieldDelegate {
   func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-    self._didTapSearchButton.send(textField.text ?? "")
+    input.didTapSearchButton.send(textField.text ?? "")
     return true
   }
 }
@@ -345,15 +327,15 @@ extension UserPostSearchViewController: UITextFieldDelegate {
 // MARK: - UserPostSearchHeaderViewDelegate
 extension UserPostSearchViewController: UserPostSearchHeaderViewDelegate {
   func didTapDeleteAllButton() {
-    self._didTapDeleteAllButton.send()
+    input.didTapDeleteAllButton.send()
   }
 }
 
 // MARK: - SearchTagCellDelegate
 extension UserPostSearchViewController: SearchTagCellDelegate {
-  func didTapDeleteButton(item: Int, in section: Int) {
-    self._didTapDeleteButton.send((item, section))
-  }
+    func didTapDeleteButton(item: Int, in section: Int) {
+      input.didTapDeleteButton.send((item, section))
+    }
 }
 
 // CellLayoutFIXME: - 최근 검색 키워드 충분히 길어진 경우, 잘못된 tag cell size
