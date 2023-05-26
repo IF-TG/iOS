@@ -26,11 +26,10 @@ final class UserPostSearchViewModel {
 
 // MARK: - ViewModelCase
 extension UserPostSearchViewModel: ViewModelCase {
-//  typealias Output = AnyPublisher<State, ErrorType>
   
   func transform(_ input: Input) -> Output {
     return Publishers.MergeMany([
-      editingTextFieldStream(input),
+      didChangeTextFieldStream(input),
       didTapShearchButtonStream(input),
       didSelectedItemStream(input),
       didTapDeleteAllButtonStream(input),
@@ -43,24 +42,32 @@ extension UserPostSearchViewModel: ViewModelCase {
   
   private func didTapCollectionViewStream(_ input: Input) -> Output {
     return input.didTapCollectionView
-      .tryMap { .goDownKeyboard }
+      .tryMap { State.goDownKeyboard }
       .mapError { _ in ErrorType.none }
       .eraseToAnyPublisher()
   }
   
   private func didTapBackButtonStream(_ input: Input) -> Output {
     return input.didTapBackButton
-      .tryMap { .gotoBack }
+      .tryMap { State.gotoBack }
       .mapError { _ in ErrorType.none }
       .eraseToAnyPublisher()
   }
   
-  private func editingTextFieldStream(_ input: Input) -> Output {
-    return input.editingTextField
+  private func didChangeTextFieldStream(_ input: Input) -> Output {
+    let changeButtonColor = input.didChangeSearchTextField
       .tryMap { [weak self] in
         State.changeButtonColor(self?.isValueChanged(text: $0) ?? false)
       }
       .mapError { $0 as? ErrorType ?? .unexpected }
+      .eraseToAnyPublisher()
+    
+    let showRecommendationCollection = input.didChangeSearchTextField
+      .tryMap { _ in State.showRecommendationCollection }
+      .mapError { $0 as? ErrorType ?? .unexpected }
+      .eraseToAnyPublisher()
+    
+    return Publishers.Merge(changeButtonColor, showRecommendationCollection)
       .eraseToAnyPublisher()
   }
   

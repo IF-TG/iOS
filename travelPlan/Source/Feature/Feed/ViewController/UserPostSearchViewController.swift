@@ -13,7 +13,7 @@ final class UserPostSearchViewController: UIViewController {
   // MARK: - Properties
   private let viewModel = UserPostSearchViewModel()
   
-  lazy var input = Input(didTapSearchTextField: searchTextField.changed)
+  private lazy var input = Input(didChangeSearchTextField: searchTextField.changed)
   
   private lazy var searchBarButtonItem = UIBarButtonItem(
     image: UIImage(named: "search")?.withRenderingMode(.alwaysTemplate),
@@ -21,7 +21,7 @@ final class UserPostSearchViewController: UIViewController {
     target: self,
     action: #selector(didTapSearchButton)
   ).set {
-    $0.isEnabled = true
+    $0.isEnabled = false
     $0.tintColor = .yg.gray1
   }
   
@@ -124,16 +124,18 @@ extension UserPostSearchViewController: ViewBindCase {
       print("DEBUG: UserPostSearchVC -> SearchResultVC, keyword:\(text)")
     case .presentAlert:
       showAlert(alertType: .withCancel, message: "최근 검색 내역을\n모두 삭제하시겠습니까?", target: self)
-    case .deleteCell(let section):
+    case .deleteCell(let section), .deleteAllCells(let section):
       collectionView.reloadSections(IndexSet(section...section))
-    case .deleteAllCells(let section):
-      collectionView.reloadSections(IndexSet(section...section))
+//    case .deleteAllCells(let section):
+//      collectionView.reloadSections(IndexSet(section...section))
     case .changeButtonColor(let isChanged):
       if isChanged {
         setupSearchBarButtonItemStyle(.yg.primary, isEnabled: true)
       } else { setupSearchBarButtonItemStyle(.yg.gray1, isEnabled: false) }
     case.goDownKeyboard:
       navigationController?.navigationBar.endEditing(true)
+    case .showRecommendationCollection:
+      print("text에 따른 collectionView 변화")
     case .none: break
     }
   }
@@ -182,10 +184,6 @@ extension UserPostSearchViewController {
   
   @objc private func didTapBackButton() {
     input.didTapBackButton.send()
-  }
-  
-  @objc private func editingChangedTextField(_ textField: UITextField) {
-    input.editingTextField.send(textField.text ?? "")
   }
   
   @objc private func didTapCollectionView() {
@@ -325,5 +323,4 @@ extension UserPostSearchViewController: CautionAlertViewControllerDelegate {
     print("cancel Alert")
   }
 }
-
 // CellLayoutFIXME: - 최근 검색 키워드 충분히 길어진 경우, 잘못된 tag cell size

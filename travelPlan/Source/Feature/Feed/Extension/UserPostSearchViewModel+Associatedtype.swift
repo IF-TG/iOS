@@ -16,9 +16,8 @@ extension UserPostSearchViewModel: ViewModelAssociatedType {
     let didTapDeleteButton: PassthroughSubject<(Int, Int), Never>
     let didTapDeleteAllButton: PassthroughSubject<Void, Never>
     let didTapView: PassthroughSubject<Void, Never>
-    let didTapSearchTextField: AnyPublisher<String, Never>
+    let didChangeSearchTextField: AnyPublisher<String, Never>
     let didTapSearchButton: PassthroughSubject<String, Never>
-    let editingTextField: PassthroughSubject<String, Never>
     let didTapAlertConfirmButton: PassthroughSubject<Void, Never>
     let didTapCollectionView: PassthroughSubject<Void, Never>
     let didTapBackButton: PassthroughSubject<Void, Never>
@@ -28,9 +27,8 @@ extension UserPostSearchViewModel: ViewModelAssociatedType {
       didTapDeleteButton: PassthroughSubject<(Int, Int), Never> = .init(),
       didTapDeleteAllButton: PassthroughSubject<Void, Never> = .init(),
       didTapView: PassthroughSubject<Void, Never> = .init(),
-      didTapSearchTextField: AnyPublisher<String, Never>,
+      didChangeSearchTextField: AnyPublisher<String, Never>,
       didTapSearchButton: PassthroughSubject<String, Never> = .init(),
-      editingTextField: PassthroughSubject<String, Never> = .init(),
       didTapEnterAlertAction: PassthroughSubject<Void, Never> = .init(),
       didTapCollectionView: PassthroughSubject<Void, Never> = .init(),
       didTapBackButton: PassthroughSubject<Void, Never> = .init()
@@ -39,9 +37,8 @@ extension UserPostSearchViewModel: ViewModelAssociatedType {
       self.didTapDeleteButton = didTapDeleteButton
       self.didTapDeleteAllButton = didTapDeleteAllButton
       self.didTapView = didTapView
-      self.didTapSearchTextField = didTapSearchTextField
+      self.didChangeSearchTextField = didChangeSearchTextField
       self.didTapSearchButton = didTapSearchButton
-      self.editingTextField = editingTextField
       self.didTapAlertConfirmButton = didTapEnterAlertAction
       self.didTapCollectionView = didTapCollectionView
       self.didTapBackButton = didTapBackButton
@@ -57,6 +54,7 @@ extension UserPostSearchViewModel: ViewModelAssociatedType {
     case presentAlert
     case changeButtonColor(Bool)
     case goDownKeyboard
+    case showRecommendationCollection
   }
   
   enum ErrorType: Error {
