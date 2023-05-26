@@ -126,8 +126,6 @@ extension UserPostSearchViewController: ViewBindCase {
       showAlert(alertType: .withCancel, message: "최근 검색 내역을\n모두 삭제하시겠습니까?", target: self)
     case .deleteCell(let section), .deleteAllCells(let section):
       collectionView.reloadSections(IndexSet(section...section))
-//    case .deleteAllCells(let section):
-//      collectionView.reloadSections(IndexSet(section...section))
     case .changeButtonColor(let isChanged):
       if isChanged {
         setupSearchBarButtonItemStyle(.yg.primary, isEnabled: true)
@@ -164,7 +162,7 @@ extension UserPostSearchViewController {
     barButtonItems.append(backButtonItem)
     barButtonItems.append(textFieldButtonItem)
     
-    // textField width autoLayout 지정
+    // textField width Layout 지정
     if let customView = textFieldButtonItem.customView {
       customView.snp.makeConstraints {
         $0.width.equalTo(260)
@@ -245,6 +243,7 @@ extension UserPostSearchViewController: UICollectionViewDataSource {
       withReuseIdentifier: SearchTagCell.id,
       for: indexPath
     ) as? SearchTagCell else { return UICollectionViewCell() }
+    
     searchTagCell.delegate = self
     
     let tagString = viewModel.cellForItem(searchTagCell, at: indexPath)
@@ -267,11 +266,11 @@ extension UserPostSearchViewController: UICollectionViewDataSource {
       ) as? UserPostSearchHeaderView else { return UICollectionReusableView() }
       
       titleHeaderView.delegate = self
+      
       let titleString = viewModel.fetchHeaderTitle(titleHeaderView, at: indexPath.section)
       titleHeaderView.prepare(title: titleString)
       
       return titleHeaderView
-      
       // FooterView
     case UICollectionView.elementKindSectionFooter:
       guard let lineFooterView = collectionView.dequeueReusableSupplementaryView(

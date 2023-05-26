@@ -56,15 +56,15 @@ extension UserPostSearchViewModel: ViewModelCase {
   
   private func didChangeTextFieldStream(_ input: Input) -> Output {
     let changeButtonColor = input.didChangeSearchTextField
-      .tryMap { [weak self] in
+      .map { [weak self] in
         State.changeButtonColor(self?.isValueChanged(text: $0) ?? false)
       }
-      .mapError { $0 as? ErrorType ?? .unexpected }
+      .setFailureType(to: ErrorType.self)
       .eraseToAnyPublisher()
     
     let showRecommendationCollection = input.didChangeSearchTextField
-      .tryMap { _ in State.showRecommendationCollection }
-      .mapError { $0 as? ErrorType ?? .unexpected }
+      .map { _ in State.showRecommendationCollection }
+      .setFailureType(to: ErrorType.self)
       .eraseToAnyPublisher()
     
     return Publishers.Merge(changeButtonColor, showRecommendationCollection)
@@ -172,9 +172,9 @@ extension UserPostSearchViewModel {
   ) -> String {
     // 하나의 Cell class를 재사용해서 변형시키므로, section별로 Cell 구분화
     switch indexPath.section {
-    case SearchSection.recommendation.rawValue:
+    case SectionType.recommendation.rawValue:
       searchTagCell.initSectionType(with: .recommendation)
-    case SearchSection.recent.rawValue:
+    case SectionType.recent.rawValue:
       searchTagCell.initSectionType(with: .recent)
     default: break
     }
@@ -192,10 +192,10 @@ extension UserPostSearchViewModel {
     at section: Int
   ) -> String {
     switch section {
-    case SearchSection.recommendation.rawValue:
+    case SectionType.recommendation.rawValue:
       headerView.initSectionType(with: .recommendation)
       return SectionType.recommendation.title
-    case SearchSection.recent.rawValue:
+    case SectionType.recent.rawValue:
       headerView.initSectionType(with: .recent)
       return SectionType.recent.title
     default: return ""

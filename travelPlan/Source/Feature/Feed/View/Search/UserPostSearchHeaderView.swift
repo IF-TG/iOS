@@ -61,13 +61,14 @@ extension UserPostSearchHeaderView {
 // MARK: - Helpers
 extension UserPostSearchHeaderView {
   private func makeDeleteAllButton() -> UIButton {
-    deleteAllButton = UIButton()
-    guard let button = deleteAllButton else { return UIButton() }
+    let button = UIButton()
+    deleteAllButton = button
     
     button.setTitle("전체 삭제", for: .normal)
     button.setTitleColor(.yg.gray4, for: .normal)
     button.titleLabel?.font = .systemFont(ofSize: 12, weight: .semibold)
     button.addTarget(self, action: #selector(didTapDeleteAllButton), for: .touchUpInside)
+
     return button
   }
 }

@@ -106,8 +106,10 @@ extension CautionAlertViewController {
 extension CautionAlertViewController: LayoutSupport {
   func addSubviews() {
     view.addSubview(alertView)
+    
     alertView.addSubview(messageLabel)
     alertView.addSubview(buttonsStackView)
+    
     _ = [cancelButton, confirmButton].map {
       buttonsStackView.addArrangedSubview($0)
     }
