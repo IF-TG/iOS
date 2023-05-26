@@ -285,6 +285,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		130304732A2147A000776A0D /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				13CB6D312A1E9F6600D185B2 /* CautionAlertViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
 		13254FEE2A05499900094218 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -679,7 +687,6 @@
 			children = (
 				13254FFA2A08AD8700094218 /* UserPostSearchViewController.swift */,
 				13254FE42A05157900094218 /* FeedViewController.swift */,
-				13CB6D312A1E9F6600D185B2 /* CautionAlertViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -931,6 +938,7 @@
 		15FEB5D82A050A99000A5F33 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				130304732A2147A000776A0D /* ViewController */,
 				152AD4EC2A1891C4008A2A11 /* Model */,
 				15CB235C2A10B598003EAF20 /* Utils */,
 				158BEFCE2A0FE0B300C27861 /* View */,

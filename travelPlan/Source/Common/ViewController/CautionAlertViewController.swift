@@ -48,7 +48,7 @@ final class CautionAlertViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     setupUI()
-    setupCancelButton(with: alertType)
+    setupCancelButton(by: alertType)
     view.backgroundColor = .black.withAlphaComponent(0.1)
   }
   
@@ -80,7 +80,7 @@ extension CautionAlertViewController {
 }
 // MARK: - Helpers
 extension CautionAlertViewController {
-  private func setupCancelButton(with alertType: CautionAlertType?) {
+  private func setupCancelButton(by alertType: CautionAlertType?) {
     switch alertType {
     case .onlyConfirm:
       cancelButton.isHidden = true

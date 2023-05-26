@@ -42,6 +42,3 @@ extension CautionAlertViewControllerDelegate where Self: UIViewController {
     present(alertVC, animated: true)
   }
 }
-
-// CautionAlertViewControllerDelegate를 준수한 UIViewController를 상속한 타입은 self.showAlert 메소드를 제공 받습니다.
-  // where Self: UIViewController 조건을 추가했기 때문입니다.
