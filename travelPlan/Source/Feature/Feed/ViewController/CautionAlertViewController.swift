@@ -52,8 +52,13 @@ final class CautionAlertViewController: UIViewController {
     view.backgroundColor = .black.withAlphaComponent(0.1)
   }
   
+  override func viewDidLayoutSubviews() {
+    super.viewDidLayoutSubviews()
+    setupAlertBorderStyle()
+  }
+  
   deinit {
-    print("deinit alertController")
+    print("[DEBUG]: deinit alertController")
   }
 }
 
@@ -62,14 +67,14 @@ extension CautionAlertViewController {
   @objc private func didTapCancelButton(_ button: UIButton) {
     dismiss(animated: true) {
       guard let didTapAlertCancel = self.delegate?.didTapAlertCancel else { return }
-        didTapAlertCancel()
+      didTapAlertCancel()
     }
   }
   
   @objc private func didTapConfirmButton(_ button: UIButton) {
     dismiss(animated: true) {
       guard let didTapAlertConfirm = self.delegate?.didTapAlertConfirm else { return }
-        didTapAlertConfirm()
+      didTapAlertConfirm()
     }
   }
 }
@@ -81,6 +86,19 @@ extension CautionAlertViewController {
       cancelButton.isHidden = true
     case .withCancel, .none: break
     }
+  }
+  
+  private func setupAlertBorderStyle() {
+    buttonsStackView.layer.addBorder(
+      at: [.top],
+      color: UIColor(hex: "#3C3C43").withAlphaComponent(0.36),
+      width: 0.5
+    )
+    cancelButton.layer.addBorder(
+      at: [.right],
+      color: UIColor(hex: "#3C3C43").withAlphaComponent(0.36),
+      width: 0.5
+    )
   }
 }
 
