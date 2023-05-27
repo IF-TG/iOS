@@ -14,9 +14,9 @@ import UIKit.UIColor
 /// UIView의 특정 위치에 borderStyle 적용
 /// # Example #
 ///
-/// ```
 /// view의 top, left부분에 border Style 적용
 /// Example:
+/// ```
 /// let customView = UIView()
 ///
 /// in VC, viewDidLayoutSubviews 시점
