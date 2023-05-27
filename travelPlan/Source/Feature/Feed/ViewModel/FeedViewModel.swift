@@ -19,7 +19,7 @@ final class FeedViewModel: ViewModelCase {
   // MARK: - Properteis
   @Published private var isNotificationArrived = false
   
-  private var updateNotificatinoRedIcon = PassthroughSubject<Void, FeedErr>()
+  private var updateNotificatinoRedIcon = PassthroughSubject<Void, ErrorType>()
   var subscription = Set<AnyCancellable>()
 }
 
@@ -51,9 +51,6 @@ fileprivate extension FeedViewModel {
 
 // MARK: - Operator chains
 fileprivate extension FeedViewModel {
-  
-  typealias FeedErr = FeedViewModelError
-   
   func updateNotificationRedIconChains() -> Output {
     /// 알림이 왔다면 notificationArrived 값을 true로 하고, 이 함수가 호출될 것입니다.
     updateNotificatinoRedIcon
