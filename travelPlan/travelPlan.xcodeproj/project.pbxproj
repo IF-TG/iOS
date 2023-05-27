@@ -47,7 +47,6 @@
 		152AD52A2A1B8D6E008A2A11 /* MockFavoriteListData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152AD5292A1B8D6E008A2A11 /* MockFavoriteListData.swift */; };
 		15332AD62A163AB6008A4110 /* FavoriteViewControllerConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15332AD52A163AB6008A4110 /* FavoriteViewControllerConstant.swift */; };
 		156759B12A0D774500849CE2 /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156759B02A0D774500849CE2 /* FeedViewModel.swift */; };
-		156759B32A0D78D400849CE2 /* FeedViewModelProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156759B22A0D78D400849CE2 /* FeedViewModelProtocols.swift */; };
 		1570ECB22A13176100A3FDCF /* FeedNavigationBarConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1570ECB12A13176100A3FDCF /* FeedNavigationBarConstant.swift */; };
 		15710CB82A132C630023C19E /* FeedPostSearchBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15710CB72A132C630023C19E /* FeedPostSearchBarItem.swift */; };
 		15710CBA2A132C760023C19E /* FeedNotificationBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15710CB92A132C760023C19E /* FeedNotificationBarItem.swift */; };
@@ -85,7 +84,7 @@
 		15AF2C3E2A1147B100BEE166 /* UIImage+JPEGCompress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15AF2C3D2A1147B100BEE166 /* UIImage+JPEGCompress.swift */; };
 		15BB01B62A1EB5000035B486 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BB01B52A1EB5000035B486 /* LoginViewController.swift */; };
 		15BB01B82A1EB5070035B486 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BB01B72A1EB5070035B486 /* LoginViewModel.swift */; };
-		15BB01BB2A1EB6300035B486 /* LoginViewModel+AssociatedType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BB01BA2A1EB6300035B486 /* LoginViewModel+AssociatedType.swift */; };
+		15BB01BB2A1EB6300035B486 /* FeedViewModel+AssociatedType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BB01BA2A1EB6300035B486 /* FeedViewModel+AssociatedType.swift */; };
 		15BB01BD2A1EB7640035B486 /* UserPostSearchViewModel+Associatedtype.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BB01BC2A1EB7640035B486 /* UserPostSearchViewModel+Associatedtype.swift */; };
 		15BB01BF2A1EBAC20035B486 /* LoginViewModel+Associatedtype.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BB01BE2A1EBAC20035B486 /* LoginViewModel+Associatedtype.swift */; };
 		15CB23592A109C85003EAF20 /* PostHeaderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15CB23582A109C85003EAF20 /* PostHeaderModel.swift */; };
@@ -181,7 +180,6 @@
 		152AD5292A1B8D6E008A2A11 /* MockFavoriteListData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockFavoriteListData.swift; sourceTree = "<group>"; };
 		15332AD52A163AB6008A4110 /* FavoriteViewControllerConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteViewControllerConstant.swift; sourceTree = "<group>"; };
 		156759B02A0D774500849CE2 /* FeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
-		156759B22A0D78D400849CE2 /* FeedViewModelProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModelProtocols.swift; sourceTree = "<group>"; };
 		1570ECB12A13176100A3FDCF /* FeedNavigationBarConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedNavigationBarConstant.swift; sourceTree = "<group>"; };
 		15710CB72A132C630023C19E /* FeedPostSearchBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedPostSearchBarItem.swift; sourceTree = "<group>"; };
 		15710CB92A132C760023C19E /* FeedNotificationBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedNotificationBarItem.swift; sourceTree = "<group>"; };
@@ -221,7 +219,7 @@
 		15AF2C3D2A1147B100BEE166 /* UIImage+JPEGCompress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+JPEGCompress.swift"; sourceTree = "<group>"; };
 		15BB01B52A1EB5000035B486 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		15BB01B72A1EB5070035B486 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
-		15BB01BA2A1EB6300035B486 /* LoginViewModel+AssociatedType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LoginViewModel+AssociatedType.swift"; sourceTree = "<group>"; };
+		15BB01BA2A1EB6300035B486 /* FeedViewModel+AssociatedType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FeedViewModel+AssociatedType.swift"; sourceTree = "<group>"; };
 		15BB01BC2A1EB7640035B486 /* UserPostSearchViewModel+Associatedtype.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserPostSearchViewModel+Associatedtype.swift"; sourceTree = "<group>"; };
 		15BB01BE2A1EBAC20035B486 /* LoginViewModel+Associatedtype.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LoginViewModel+Associatedtype.swift"; sourceTree = "<group>"; };
 		15CB23582A109C85003EAF20 /* PostHeaderModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostHeaderModel.swift; sourceTree = "<group>"; };
@@ -661,7 +659,7 @@
 		15BB01B92A1EB5C00035B486 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
-				15BB01BA2A1EB6300035B486 /* LoginViewModel+AssociatedType.swift */,
+				15BB01BA2A1EB6300035B486 /* FeedViewModel+AssociatedType.swift */,
 				15BB01BC2A1EB7640035B486 /* UserPostSearchViewModel+Associatedtype.swift */,
 			);
 			path = Extension;
@@ -761,7 +759,6 @@
 		15C92C122A0AD21E00376D1B /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
-				156759B22A0D78D400849CE2 /* FeedViewModelProtocols.swift */,
 				13C9C1AE2A17FFC400DF1FFF /* UserPostSearchHeaderViewDelegate.swift */,
 				13C9C1B02A1806F500DF1FFF /* SearchTagCellDelegate.swift */,
 				13CB6D332A1FEC6D00D185B2 /* CautionAlertViewControllerDelegate.swift */,
@@ -860,8 +857,8 @@
 			isa = PBXGroup;
 			children = (
 				158BEF7A2A0E2A4700C27861 /* PostView */,
-				15C92C0C2A0ABE7800376D1B /* FeedNavigationBar */,
 				15EF8C942A0A18660068C744 /* CategoryPageView */,
+				15C92C0C2A0ABE7800376D1B /* FeedNavigationBar */,
 				132550252A0A80CB00094218 /* Search */,
 			);
 			path = View;
@@ -880,10 +877,10 @@
 		15EF8C952A0A18880068C744 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				15AF2C3B2A11431200BEE166 /* Post */,
-				156759B02A0D774500849CE2 /* FeedViewModel.swift */,
 				15EF8C962A0A18960068C744 /* CategoryPageViewModel.swift */,
+				156759B02A0D774500849CE2 /* FeedViewModel.swift */,
 				1325502A2A0ABE5E00094218 /* UserPostSearchViewModel.swift */,
+				15AF2C3B2A11431200BEE166 /* Post */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1265,7 +1262,6 @@
 				15BB01BD2A1EB7640035B486 /* UserPostSearchViewModel+Associatedtype.swift in Sources */,
 				1325508C2A13EDEA00094218 /* LeftAlignedCollectionViewFlowLayout.swift in Sources */,
 				13C07ECD2A13F454005F04CD /* RecommendationSearchFooterView.swift in Sources */,
-				156759B32A0D78D400849CE2 /* FeedViewModelProtocols.swift in Sources */,
 				152AD5182A19F5C0008A2A11 /* FavoriteListHeaderModel.swift in Sources */,
 				152AD4EE2A1891DB008A2A11 /* UIConstantSpacing.swift in Sources */,
 				15CB23722A10F5DA003EAF20 /* MockPostModel.swift in Sources */,
@@ -1303,7 +1299,7 @@
 				15BB01BF2A1EBAC20035B486 /* LoginViewModel+Associatedtype.swift in Sources */,
 				152AD4F42A18B568008A2A11 /* FavoriteListHeaderViewConstant.swift in Sources */,
 				1594F53429FD517E00A58F20 /* SceneDelegate.swift in Sources */,
-				15BB01BB2A1EB6300035B486 /* LoginViewModel+AssociatedType.swift in Sources */,
+				15BB01BB2A1EB6300035B486 /* FeedViewModel+AssociatedType.swift in Sources */,
 				15BB01B62A1EB5000035B486 /* LoginViewController.swift in Sources */,
 				13254FE92A0515A900094218 /* PlanViewController.swift in Sources */,
 				15CB235F2A10B5B8003EAF20 /* DateValidationManager.swift in Sources */,
