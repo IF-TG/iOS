@@ -1,25 +1,35 @@
 //
-//  FeedViewModelProtocols.swift
+//  LoginViewModel+ViewModelAssociatedType.swift
 //  travelPlan
 //
-//  Created by 양승현 on 2023/05/12.
+//  Created by 양승현 on 2023/05/25.
 //
 
 import Combine
-extension FeedViewModel {
-  // viewModel을 viewController에 바인딩 이후,
-  // 서버에서 알림이 오는지 3~5초마다TODO: - 확인 후 알림이 왔다면 feedVM의 notificationArrived 값을 true로 해야합니다.
-  enum FeedViewModelError: Error {
+
+extension FeedViewModel: ViewModelAssociatedType {
+  struct Input {
+    let appear: PassthroughSubject<Void, ErrorType>
+    let didTapPostSearch: AnyPublisher<Void, Never>
+    let didTapNotification: AnyPublisher<Void, Never>
+    
+    init(
+      appear: PassthroughSubject<Void, ErrorType> = .init(),
+      didTapPostSearch: AnyPublisher<Void, Never>,
+      didTapNotification: AnyPublisher<Void, Never>) {
+      self.appear = appear
+      self.didTapPostSearch = didTapPostSearch
+      self.didTapNotification = didTapNotification
+    }
+  }
+  
+  /// viewModel을 viewController에 바인딩 이후,
+  /// 서버에서 알림이 오는지 3~5초마다TODO: - 확인 후 알림이 왔다면 feedVM의 notificationArrived 값을 true로 해야합니다.
+  enum ErrorType: Error {
     case none
   }
   
-  struct FeedViewControllerEvent {
-    let appear: AnyPublisher<Void, FeedViewModelError>
-    let didTapPostSearch: AnyPublisher<Void, FeedViewModelError>
-    let didTapNotification: AnyPublisher<Void, FeedViewModelError>
-  }
-  
-  enum FeedViewControllerState {
+  enum State {
     case none
     
     /// FeedViewControllerEvent에서 발생된 appear의 경우 이 case로 render 해야합니다.
@@ -35,4 +45,6 @@ extension FeedViewModel {
     /// 동시에 영구저장소도 feed에서 알림을 확인했는지 유무를 false(확인 안했다)로 업데이트 해야합니다.
     case updateNotificationRedIcon
   }
+
+  typealias Output = AnyPublisher<State, ErrorType>
 }
