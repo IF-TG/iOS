@@ -13,7 +13,7 @@ final class UserPostSearchViewController: UIViewController {
   // MARK: - Properties
   private let viewModel = UserPostSearchViewModel()
   
-  lazy var input = Input(didTapSearchTextField: searchTextField.changed)
+  private lazy var input = Input(didChangeSearchTextField: searchTextField.changed)
   
   private lazy var searchBarButtonItem = UIBarButtonItem(
     image: UIImage(named: "search")?.withRenderingMode(.alwaysTemplate),
@@ -21,7 +21,7 @@ final class UserPostSearchViewController: UIViewController {
     target: self,
     action: #selector(didTapSearchButton)
   ).set {
-    $0.isEnabled = true
+    $0.isEnabled = false
     $0.tintColor = .yg.gray1
   }
   
@@ -50,11 +50,11 @@ final class UserPostSearchViewController: UIViewController {
   
   private lazy var collectionView: UICollectionView = UICollectionView(
     frame: .zero,
-    collectionViewLayout: self.leftAlignedCollectionViewFlowLayout
+    collectionViewLayout: leftAlignedCollectionViewFlowLayout
   ).set {
     let tapGesture = UITapGestureRecognizer(
       target: self,
-      action: #selector(dismissKeyboard)
+      action: #selector(didTapCollectionView)
     )
     tapGesture.cancelsTouchesInView = false
     $0.addGestureRecognizer(tapGesture)
@@ -85,7 +85,7 @@ final class UserPostSearchViewController: UIViewController {
   // MARK: - LifeCycle
   override func viewDidLoad() {
     super.viewDidLoad()
-    self.view.backgroundColor = .white
+    view.backgroundColor = .white
     setupUI()
     bind()
     setupNavigationBar()
@@ -112,29 +112,28 @@ extension UserPostSearchViewController: ViewBindCase {
       } receiveValue: { [weak self] in
         self?.render($0)
       }
-      .store(in: &self.subscriptions)
+      .store(in: &subscriptions)
   }
   
   func render(_ state: State) {
     switch state {
-    case .gotoBack: print("DEBUG: UserPostSearchVC -> FeedVC")
+    case .gotoBack:
+      navigationController?.popViewController(animated: true)
     case .gotoSearch(let text):
-      self.searchTextField.resignFirstResponder()
+      searchTextField.resignFirstResponder()
       print("DEBUG: UserPostSearchVC -> SearchResultVC, keyword:\(text)")
     case .presentAlert:
-      setupAlertController()
-    case .deleteCell(let section):
-      self.collectionView.reloadSections(IndexSet(section...section))
-    case .deleteAllCells(let section):
-      self.collectionView.reloadSections(IndexSet(section...section))
+      showAlert(alertType: .withCancel, message: "최근 검색 내역을\n모두 삭제하시겠습니까?", target: self)
+    case .deleteCell(let section), .deleteAllCells(let section):
+      collectionView.reloadSections(IndexSet(section...section))
     case .changeButtonColor(let isChanged):
       if isChanged {
-        self.searchBarButtonItem.tintColor = .yg.primary
-        self.searchBarButtonItem.isEnabled = true
-      } else {
-        self.searchBarButtonItem.tintColor = .yg.gray1
-        self.searchBarButtonItem.isEnabled = false
-      }
+        setupSearchBarButtonItemStyle(.yg.primary, isEnabled: true)
+      } else { setupSearchBarButtonItemStyle(.yg.gray1, isEnabled: false) }
+    case.goDownKeyboard:
+      navigationController?.navigationBar.endEditing(true)
+    case .showRecommendationCollection:
+      print("text에 따른 collectionView 변화")
     case .none: break
     }
   }
@@ -151,81 +150,54 @@ extension UserPostSearchViewController: ViewBindCase {
 
 // MARK: - Helpers
 extension UserPostSearchViewController {
-  private func setupAlertController() {
-    let message = "최근 검색 내역을\n모두 삭제하시겠습니까?"
-    let attrMessageString = NSMutableAttributedString(string: message)
-//    let style = NSMutableParagraphStyle()
-//    style.lineSpacing = 5
-    attrMessageString.addAttributes(
-      [
-        .font: UIFont.systemFont(ofSize: 13),
-        .foregroundColor: UIColor.black
-//        .paragraphStyle: style
-      ],
-      range: NSRange(location: 0, length: attrMessageString.length)
-    )
-    let alert = UIAlertController(title: "", message: "", preferredStyle: .alert)
-    alert.setValue(attrMessageString, forKey: "attributedTitle")
-    
-    let cancelAction = UIAlertAction(title: "취소", style: .cancel)
-    let enterAction = UIAlertAction(title: "확인", style: .default) { _ in
-      self.input.didTapEnterAlertAction.send()
-    }
-    
-    alert.addAction(cancelAction)
-    alert.addAction(enterAction)
-    self.present(alert, animated: true)
+  private func setupSearchBarButtonItemStyle(_ color: UIColor, isEnabled: Bool) {
+    searchBarButtonItem.tintColor = color
+    searchBarButtonItem.isEnabled = isEnabled
   }
   
   private func setupNavigationBar() {
-    let textFieldButtonItem = UIBarButtonItem(customView: self.searchTextField)
+    let textFieldButtonItem = UIBarButtonItem(customView: searchTextField)
     var barButtonItems = [UIBarButtonItem]()
     
-    barButtonItems.append(self.backButtonItem)
+    barButtonItems.append(backButtonItem)
     barButtonItems.append(textFieldButtonItem)
     
-    // textField width autoLayout 지정
+    // textField width Layout 지정
     if let customView = textFieldButtonItem.customView {
       customView.snp.makeConstraints {
-        $0.width.equalTo(270)
+        $0.width.equalTo(260)
       }
     }
     
     navigationItem.leftBarButtonItems = barButtonItems
-    navigationItem.rightBarButtonItem = self.searchBarButtonItem
+    navigationItem.rightBarButtonItem = searchBarButtonItem
   }
 }
 
 // MARK: - Actions
 extension UserPostSearchViewController {
-  
-  // SearchButton은 textField에 text가 들어오면 파란색으로 color 바뀜
   @objc private func didTapSearchButton() {
     input.didTapSearchButton.send(self.searchTextField.text ?? "")
   }
   
   @objc private func didTapBackButton() {
-    self.navigationController?.popViewController(animated: true)
+    input.didTapBackButton.send()
   }
   
-  @objc private func editingChangedTextField(_ textField: UITextField) {
-    input.editingTextField.send(textField.text ?? "")
-  }
-  
-  @objc private func dismissKeyboard() {
-    self.navigationController?.navigationBar.endEditing(true)
+  @objc private func didTapCollectionView() {
+    input.didTapCollectionView.send()
   }
 }
 
 // MARK: - LayoutSupport
 extension UserPostSearchViewController: LayoutSupport {
   func addSubviews() {
-    self.view.addSubview(self.collectionView)
+    view.addSubview(collectionView)
   }
   
   func setConstraints() {
     self.collectionView.snp.makeConstraints {
-      $0.leading.trailing.equalTo(self.view.safeAreaLayoutGuide)
+      $0.leading.trailing.equalTo(view.safeAreaLayoutGuide)
       $0.top.bottom.equalToSuperview()
     }
   }
@@ -239,7 +211,7 @@ extension UserPostSearchViewController: UICollectionViewDelegateFlowLayout {
     layout collectionViewLayout: UICollectionViewLayout,
     sizeForItemAt indexPath: IndexPath
   ) -> CGSize {
-    return self.viewModel.sizeForItem(at: indexPath)
+    return viewModel.sizeForItem(at: indexPath)
   }
   
   func collectionView(
@@ -253,14 +225,14 @@ extension UserPostSearchViewController: UICollectionViewDelegateFlowLayout {
 // MARK: - UICollectionViewDataSource
 extension UserPostSearchViewController: UICollectionViewDataSource {
   func numberOfSections(in collectionView: UICollectionView) -> Int {
-    return self.viewModel.numberOfSections()
+    return viewModel.numberOfSections()
   }
   
   func collectionView(
     _ collectionView: UICollectionView,
     numberOfItemsInSection section: Int
   ) -> Int {
-    return self.viewModel.numberOfItemsInSection(section)
+    return viewModel.numberOfItemsInSection(section)
   }
   
   func collectionView(
@@ -271,6 +243,7 @@ extension UserPostSearchViewController: UICollectionViewDataSource {
       withReuseIdentifier: SearchTagCell.id,
       for: indexPath
     ) as? SearchTagCell else { return UICollectionViewCell() }
+    
     searchTagCell.delegate = self
     
     let tagString = viewModel.cellForItem(searchTagCell, at: indexPath)
@@ -293,11 +266,11 @@ extension UserPostSearchViewController: UICollectionViewDataSource {
       ) as? UserPostSearchHeaderView else { return UICollectionReusableView() }
       
       titleHeaderView.delegate = self
-      let titleString = self.viewModel.fetchHeaderTitle(titleHeaderView, at: indexPath.section)
+      
+      let titleString = viewModel.fetchHeaderTitle(titleHeaderView, at: indexPath.section)
       titleHeaderView.prepare(title: titleString)
       
       return titleHeaderView
-      
       // FooterView
     case UICollectionView.elementKindSectionFooter:
       guard let lineFooterView = collectionView.dequeueReusableSupplementaryView(
@@ -306,7 +279,7 @@ extension UserPostSearchViewController: UICollectionViewDataSource {
         for: indexPath
       ) as? RecommendationSearchFooterView else { return UICollectionReusableView() }
      
-      if self.viewModel.isRecentSection(at: indexPath.section) {
+      if viewModel.isRecentSection(at: indexPath.section) {
         lineFooterView.isHidden = true
       }
 
@@ -338,4 +311,15 @@ extension UserPostSearchViewController: SearchTagCellDelegate {
     }
 }
 
+// MARK: - CautionAlertViewControllerDelegate
+extension UserPostSearchViewController: CautionAlertViewControllerDelegate {
+  func didTapAlertConfirm() {
+    input.didTapAlertConfirmButton.send()
+    print("confirm Alert")
+  }
+  
+  func didTapAlertCancel() {
+    print("cancel Alert")
+  }
+}
 // CellLayoutFIXME: - 최근 검색 키워드 충분히 길어진 경우, 잘못된 tag cell size

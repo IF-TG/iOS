@@ -19,32 +19,59 @@ final class UserPostSearchViewModel {
     ),
     SearchSectionItemModel(
       type: .recent,
-      items: ["최근검색11111111111", "최근검색22222", "최근검색3333", "최근검색4", "최근검색555"]
+      items: ["최근검색11", "최근검색22222", "최근검색3333", "최근검색4", "최근검색555"]
     )
   ]
 }
 
 // MARK: - ViewModelCase
 extension UserPostSearchViewModel: ViewModelCase {
+  
   func transform(_ input: Input) -> Output {
     return Publishers.MergeMany([
-      editingTextFieldChain(input),
-      didTapShearchButtonChain(input),
-      didSelectedItemChain(input),
-      didTapDeleteAllButtonChain(input),
-      didTapDeleteButtonChain(input),
-      didTapEnterAlertActionChain(input)
+      didChangeTextFieldStream(input),
+      didTapShearchButtonStream(input),
+      didSelectedItemStream(input),
+      didTapDeleteAllButtonStream(input),
+      didTapDeleteButtonStream(input),
+      didTapEnterAlertActionStream(input),
+      didTapBackButtonStream(input),
+      didTapCollectionViewStream(input)
     ]).eraseToAnyPublisher()
   }
   
-  private func editingTextFieldChain(_ input: Input) -> Output {
-    return input.editingTextField
-      .tryMap { State.changeButtonColor(self.isValueChanged(text: $0)) }
-      .mapError { $0 as? ErrorType ?? .unexpected }
+  private func didTapCollectionViewStream(_ input: Input) -> Output {
+    return input.didTapCollectionView
+      .tryMap { State.goDownKeyboard }
+      .mapError { _ in ErrorType.none }
       .eraseToAnyPublisher()
   }
   
-  private func didTapShearchButtonChain(_ input: Input) -> Output {
+  private func didTapBackButtonStream(_ input: Input) -> Output {
+    return input.didTapBackButton
+      .tryMap { State.gotoBack }
+      .mapError { _ in ErrorType.none }
+      .eraseToAnyPublisher()
+  }
+  
+  private func didChangeTextFieldStream(_ input: Input) -> Output {
+    let changeButtonColor = input.didChangeSearchTextField
+      .map { [weak self] in
+        State.changeButtonColor(self?.isValueChanged(text: $0) ?? false)
+      }
+      .setFailureType(to: ErrorType.self)
+      .eraseToAnyPublisher()
+    
+    let showRecommendationCollection = input.didChangeSearchTextField
+      .map { _ in State.showRecommendationCollection }
+      .setFailureType(to: ErrorType.self)
+      .eraseToAnyPublisher()
+    
+    return Publishers.Merge(changeButtonColor, showRecommendationCollection)
+      .eraseToAnyPublisher()
+  }
+  
+  private func didTapShearchButtonStream(_ input: Input) -> Output {
     return input.didTapSearchButton
       .tryMap { searchText -> State in
         return .gotoSearch(searchText: searchText)
@@ -53,10 +80,10 @@ extension UserPostSearchViewModel: ViewModelCase {
       .eraseToAnyPublisher()
   }
   
-  private func didSelectedItemChain(_ input: Input) -> Output {
+  private func didSelectedItemStream(_ input: Input) -> Output {
     return input.didSelectedItem
-      .tryMap { [weak self] indexPath -> State in
-          .gotoSearch(
+      .tryMap { [weak self] indexPath in
+          State.gotoSearch(
             searchText: self?.model[indexPath.section].items[indexPath.item] ?? ""
           )
       }
@@ -64,30 +91,28 @@ extension UserPostSearchViewModel: ViewModelCase {
       .eraseToAnyPublisher()
   }
   
-  private func didTapDeleteAllButtonChain(_ input: Input) -> Output {
+  private func didTapDeleteAllButtonStream(_ input: Input) -> Output {
     return input.didTapDeleteAllButton
-      .tryMap { _ -> State in
-        return .presentAlert
-      }
+      .tryMap { State.presentAlert }
       .mapError { $0 as? ErrorType ?? .unexpected }
       .eraseToAnyPublisher()
   }
   
-  private func didTapDeleteButtonChain(_ input: Input) -> Output {
+  private func didTapDeleteButtonStream(_ input: Input) -> Output {
     return input.didTapDeleteButton
-      .tryMap { [weak self] item, section -> State in
+      .tryMap { [weak self] item, section in
         self?.removeItemModel(item: item, section: section)
-        return .deleteCell(section: section)
+        return State.deleteCell(section: section)
       }
       .mapError { $0 as? ErrorType ?? .unexpected }
       .eraseToAnyPublisher()
   }
   
-  private func didTapEnterAlertActionChain(_ input: Input) -> Output {
-    return input.didTapEnterAlertAction
-      .tryMap { [weak self] _ -> State in
+  private func didTapEnterAlertActionStream(_ input: Input) -> Output {
+    return input.didTapAlertConfirmButton
+      .tryMap { [weak self] in
         self?.model[SectionType.recent.rawValue].items.removeAll()
-        return .deleteAllCells(section: SectionType.recent.rawValue)
+        return State.deleteAllCells(section: SectionType.recent.rawValue)
       }
       .mapError { $0 as? ErrorType ?? .unexpected }
       .eraseToAnyPublisher()
@@ -97,7 +122,7 @@ extension UserPostSearchViewModel: ViewModelCase {
 // MARK: - Helpers
 extension UserPostSearchViewModel {
   private func removeItemModel(item: Int, section: Int) {
-    self.model[section].items.remove(at: item)
+    model[section].items.remove(at: item)
   }
   
   private func isValueChanged(text: String) -> Bool {
@@ -114,7 +139,7 @@ extension UserPostSearchViewModel {
     let widthPadding: CGFloat = 13
     let heightPadding: CGFloat = 4
     
-    let text = self.model[indexPath.section].items[indexPath.item]
+    let text = model[indexPath.section].items[indexPath.item]
     let textSize = (text as NSString)
       .size(withAttributes: [.font: UIFont(pretendard: .medium, size: 14)!])
     
@@ -147,19 +172,19 @@ extension UserPostSearchViewModel {
   ) -> String {
     // 하나의 Cell class를 재사용해서 변형시키므로, section별로 Cell 구분화
     switch indexPath.section {
-    case SearchSection.recommendation.rawValue:
+    case SectionType.recommendation.rawValue:
       searchTagCell.initSectionType(with: .recommendation)
-    case SearchSection.recent.rawValue:
+    case SectionType.recent.rawValue:
       searchTagCell.initSectionType(with: .recent)
     default: break
     }
     searchTagCell.deleteButton?.tag = indexPath.item
     
-    return self.model[indexPath.section].items[indexPath.item]
+    return model[indexPath.section].items[indexPath.item]
   }
   
   func numberOfItemsInSection(_ section: Int) -> Int {
-    return self.model[section].items.count
+    return model[section].items.count
   }
   
   func fetchHeaderTitle(
@@ -167,10 +192,10 @@ extension UserPostSearchViewModel {
     at section: Int
   ) -> String {
     switch section {
-    case SearchSection.recommendation.rawValue:
+    case SectionType.recommendation.rawValue:
       headerView.initSectionType(with: .recommendation)
       return SectionType.recommendation.title
-    case SearchSection.recent.rawValue:
+    case SectionType.recent.rawValue:
       headerView.initSectionType(with: .recent)
       return SectionType.recent.title
     default: return ""
