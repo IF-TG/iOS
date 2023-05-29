@@ -77,10 +77,9 @@ extension SearchTagCell {
 // MARK: - Actions
 extension SearchTagCell {
   @objc private func didTapDeleteButton(_ button: UIButton) {
-    // DeleteCellTODO: 선택된 최근 검색 cell 삭제
     delegate?.didTapDeleteButton(
       item: button.tag,
-      in: sectionType?.rawValue ?? SectionType.recent.rawValue
+      in: sectionType?.index ?? SectionType.recent.index
     )
   }
 }

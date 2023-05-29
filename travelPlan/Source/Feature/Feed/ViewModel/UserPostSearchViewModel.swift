@@ -34,10 +34,21 @@ extension UserPostSearchViewModel: ViewModelCase {
       didSelectedItemStream(input),
       didTapDeleteAllButtonStream(input),
       didTapDeleteButtonStream(input),
-      didTapEnterAlertActionStream(input),
+      didTapAlertConfirmButtonStream(input),
       didTapBackButtonStream(input),
-      didTapCollectionViewStream(input)
+      didTapCollectionViewStream(input),
+      didTapAlertCancelButtonStream(input)
     ]).eraseToAnyPublisher()
+  }
+  
+  private func didTapAlertCancelButtonStream(_ input: Input) -> Output {
+    return input.didTapAlertCancelButton
+      .tryMap {
+        print("DEBUG: 취소 버튼 클릭됨")
+        return State.runtoCancelLogic
+      }
+      .mapError { _ in ErrorType.unexpected }
+      .eraseToAnyPublisher()
   }
   
   private func didTapCollectionViewStream(_ input: Input) -> Output {
@@ -73,9 +84,7 @@ extension UserPostSearchViewModel: ViewModelCase {
   
   private func didTapShearchButtonStream(_ input: Input) -> Output {
     return input.didTapSearchButton
-      .tryMap { searchText -> State in
-        return .gotoSearch(searchText: searchText)
-      }
+      .tryMap { State.gotoSearch(searchText: $0) }
       .mapError { $0 as? ErrorType ?? .unexpected }
       .eraseToAnyPublisher()
   }
@@ -83,9 +92,9 @@ extension UserPostSearchViewModel: ViewModelCase {
   private func didSelectedItemStream(_ input: Input) -> Output {
     return input.didSelectedItem
       .tryMap { [weak self] indexPath in
-          State.gotoSearch(
-            searchText: self?.model[indexPath.section].items[indexPath.item] ?? ""
-          )
+        State.gotoSearch(
+          searchText: self?.model[indexPath.section].items[indexPath.item] ?? ""
+        )
       }
       .mapError { $0 as? ErrorType ?? .unexpected }
       .eraseToAnyPublisher()
@@ -108,11 +117,12 @@ extension UserPostSearchViewModel: ViewModelCase {
       .eraseToAnyPublisher()
   }
   
-  private func didTapEnterAlertActionStream(_ input: Input) -> Output {
+  private func didTapAlertConfirmButtonStream(_ input: Input) -> Output {
     return input.didTapAlertConfirmButton
       .tryMap { [weak self] in
-        self?.model[SectionType.recent.rawValue].items.removeAll()
-        return State.deleteAllCells(section: SectionType.recent.rawValue)
+        print("DEBUG: 확인 버튼 클릭됨")
+        self?.model[SectionType.recent.index].items.removeAll()
+        return State.deleteAllCells(section: SectionType.recent.index)
       }
       .mapError { $0 as? ErrorType ?? .unexpected }
       .eraseToAnyPublisher()
@@ -144,12 +154,12 @@ extension UserPostSearchViewModel {
       .size(withAttributes: [.font: UIFont(pretendard: .medium, size: 14)!])
     
     switch indexPath.section {
-    case SectionType.recommendation.rawValue:
+    case SectionType.recommendation.index:
       return CGSize(
         width: textSize.width + (widthPadding * 2),
         height: textSize.height + (heightPadding * 2)
       )
-    case SectionType.recent.rawValue:
+    case SectionType.recent.index:
       let buttonWidth: CGFloat = 10
       let componentPadding: CGFloat = 4
       let width = textSize.width + componentPadding + buttonWidth + (widthPadding * 2)
@@ -166,15 +176,15 @@ extension UserPostSearchViewModel {
     return SectionType.allCases.count
   }
   
-  func cellForItem(
+  func getTagString(
     _ searchTagCell: SearchTagCell,
     at indexPath: IndexPath
   ) -> String {
     // 하나의 Cell class를 재사용해서 변형시키므로, section별로 Cell 구분화
     switch indexPath.section {
-    case SectionType.recommendation.rawValue:
+    case SectionType.recommendation.index:
       searchTagCell.initSectionType(with: .recommendation)
-    case SectionType.recent.rawValue:
+    case SectionType.recent.index:
       searchTagCell.initSectionType(with: .recent)
     default: break
     }
@@ -187,15 +197,15 @@ extension UserPostSearchViewModel {
     return model[section].items.count
   }
   
-  func fetchHeaderTitle(
+  func getHeaderTitle(
     _ headerView: UserPostSearchHeaderView,
     at section: Int
   ) -> String {
     switch section {
-    case SectionType.recommendation.rawValue:
+    case SectionType.recommendation.index:
       headerView.initSectionType(with: .recommendation)
       return SectionType.recommendation.title
-    case SectionType.recent.rawValue:
+    case SectionType.recent.index:
       headerView.initSectionType(with: .recent)
       return SectionType.recent.title
     default: return ""
@@ -203,6 +213,6 @@ extension UserPostSearchViewModel {
   }
   
   func isRecentSection(at section: Int) -> Bool {
-    return section == SectionType.recent.rawValue
+    return section == SectionType.recent.index
   }
 }

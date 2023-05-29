@@ -14,7 +14,7 @@ final class CautionAlertViewController: UIViewController {
   weak var delegate: CautionAlertViewControllerDelegate?
   
   let messageLabel: UILabel = UILabel().set {
-    $0.font = UIFont(SFPro: .sfPro, size: 13)
+    $0.font = .systemFont(ofSize: 13)
     $0.textColor = .black
     $0.textAlignment = .center
     $0.numberOfLines = 0
@@ -27,13 +27,13 @@ final class CautionAlertViewController: UIViewController {
   
   lazy var cancelButton: UIButton = UIButton().set {
     $0.setTitleColor(.systemBlue, for: .normal)
-    $0.titleLabel?.font = UIFont(SFPro: .sfPro, size: 17)
+    $0.titleLabel?.font = .systemFont(ofSize: 17)
     $0.addTarget(self, action: #selector(didTapCancelButton), for: .touchUpInside)
   }
   
   lazy var confirmButton: UIButton = UIButton().set {
     $0.setTitleColor(.systemBlue, for: .normal)
-    $0.titleLabel?.font = UIFont(SFPro: .sfPro, size: 17)
+    $0.titleLabel?.font = .systemFont(ofSize: 17)
     $0.addTarget(self, action: #selector(didTapConfirmButton), for: .touchUpInside)
   }
   

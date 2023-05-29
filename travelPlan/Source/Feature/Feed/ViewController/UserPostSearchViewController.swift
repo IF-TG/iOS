@@ -133,7 +133,9 @@ extension UserPostSearchViewController: ViewBindCase {
     case.goDownKeyboard:
       navigationController?.navigationBar.endEditing(true)
     case .showRecommendationCollection:
-      print("text에 따른 collectionView 변화")
+      print("DEBUG: text에 따른 collectionView 변화")
+    case .runtoCancelLogic:
+      print("DEBUG: cancel버튼 클릭했을 때의 logic 실행")
     case .none: break
     }
   }
@@ -246,7 +248,7 @@ extension UserPostSearchViewController: UICollectionViewDataSource {
     
     searchTagCell.delegate = self
     
-    let tagString = viewModel.cellForItem(searchTagCell, at: indexPath)
+    let tagString = viewModel.getTagString(searchTagCell, at: indexPath)
     searchTagCell.configure(tagString)
     return searchTagCell
   }
@@ -267,7 +269,7 @@ extension UserPostSearchViewController: UICollectionViewDataSource {
       
       titleHeaderView.delegate = self
       
-      let titleString = viewModel.fetchHeaderTitle(titleHeaderView, at: indexPath.section)
+      let titleString = viewModel.getHeaderTitle(titleHeaderView, at: indexPath.section)
       titleHeaderView.prepare(title: titleString)
       
       return titleHeaderView
@@ -315,11 +317,10 @@ extension UserPostSearchViewController: SearchTagCellDelegate {
 extension UserPostSearchViewController: CautionAlertViewControllerDelegate {
   func didTapAlertConfirm() {
     input.didTapAlertConfirmButton.send()
-    print("confirm Alert")
   }
   
   func didTapAlertCancel() {
-    print("cancel Alert")
+    input.didTapAlertCancelButton.send()
   }
 }
 // CellLayoutFIXME: - 최근 검색 키워드 충분히 길어진 경우, 잘못된 tag cell size

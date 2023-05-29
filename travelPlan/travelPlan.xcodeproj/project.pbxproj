@@ -291,6 +291,14 @@
 			path = ViewController;
 			sourceTree = "<group>";
 		};
+		130304742A23C7B900776A0D /* Delegate */ = {
+			isa = PBXGroup;
+			children = (
+				13CB6D332A1FEC6D00D185B2 /* CautionAlertViewControllerDelegate.swift */,
+			);
+			path = Delegate;
+			sourceTree = "<group>";
+		};
 		13254FEE2A05499900094218 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -761,7 +769,6 @@
 			children = (
 				13C9C1AE2A17FFC400DF1FFF /* UserPostSearchHeaderViewDelegate.swift */,
 				13C9C1B02A1806F500DF1FFF /* SearchTagCellDelegate.swift */,
-				13CB6D332A1FEC6D00D185B2 /* CautionAlertViewControllerDelegate.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -974,6 +981,7 @@
 		15FEB5E12A050A99000A5F33 /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
+				130304742A23C7B900776A0D /* Delegate */,
 				15FEB5E22A050A99000A5F33 /* ConvenienceInit.swift */,
 				15FEB5E32A050A99000A5F33 /* ViewModelProtocols.swift */,
 				15FEB5E42A050A99000A5F33 /* LayoutSupport.swift */,
