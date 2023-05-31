@@ -1,5 +1,5 @@
 //
-//  RecommendationSearchFooterView.swift
+//  PostSearchFooterView.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 2023/05/17.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class RecommendationSearchFooterView: UICollectionReusableView {
+final class PostSearchFooterView: UICollectionReusableView {
   // MARK: - Properties
   static var id: String {
     return String(describing: self)
@@ -27,7 +27,7 @@ final class RecommendationSearchFooterView: UICollectionReusableView {
 }
 
 // MARK: - LayoutSupport
-extension RecommendationSearchFooterView: LayoutSupport {
+extension PostSearchFooterView: LayoutSupport {
   func addSubviews() {
     addSubview(underLineView)
   }

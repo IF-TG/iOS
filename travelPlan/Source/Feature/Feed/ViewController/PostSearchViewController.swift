@@ -1,5 +1,5 @@
 //
-//  UserPostSearchViewController.swift
+//  PostSearchViewController.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 2023/05/08.
@@ -9,9 +9,9 @@ import UIKit
 import SnapKit
 import Combine
 
-final class UserPostSearchViewController: UIViewController {
+final class PostSearchViewController: UIViewController {
   // MARK: - Properties
-  private let viewModel = UserPostSearchViewModel()
+  private let viewModel = PostSearchViewModel()
   
   private lazy var input = Input(didChangeSearchTextField: searchTextField.changed)
   
@@ -64,18 +64,18 @@ final class UserPostSearchViewController: UIViewController {
     $0.dataSource = self
     
     $0.register(
-      SearchTagCell.self,
-      forCellWithReuseIdentifier: SearchTagCell.id
+      PostSearchTagCell.self,
+      forCellWithReuseIdentifier: PostSearchTagCell.id
     )
     $0.register(
-      UserPostSearchHeaderView.self,
+      PostSearchHeaderView.self,
       forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-      withReuseIdentifier: UserPostSearchHeaderView.id
+      withReuseIdentifier: PostSearchHeaderView.id
     )
     $0.register(
-      RecommendationSearchFooterView.self,
+      PostSearchFooterView.self,
       forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
-      withReuseIdentifier: RecommendationSearchFooterView.id
+      withReuseIdentifier: PostSearchFooterView.id
     )
   }
   
@@ -85,7 +85,6 @@ final class UserPostSearchViewController: UIViewController {
   // MARK: - LifeCycle
   override func viewDidLoad() {
     super.viewDidLoad()
-    view.backgroundColor = .white
     setupUI()
     bind()
     setupNavigationBar()
@@ -93,10 +92,10 @@ final class UserPostSearchViewController: UIViewController {
 }
 
 // MARK: - ViewBindCase
-extension UserPostSearchViewController: ViewBindCase {
-  typealias Input = UserPostSearchViewModel.Input
-  typealias ErrorType = UserPostSearchViewModel.ErrorType
-  typealias State = UserPostSearchViewModel.State
+extension PostSearchViewController: ViewBindCase {
+  typealias Input = PostSearchViewModel.Input
+  typealias ErrorType = PostSearchViewModel.ErrorType
+  typealias State = PostSearchViewModel.State
   
   func bind() {
     let output = self.viewModel.transform(input)
@@ -121,7 +120,7 @@ extension UserPostSearchViewController: ViewBindCase {
       navigationController?.popViewController(animated: true)
     case .gotoSearch(let text):
       searchTextField.resignFirstResponder()
-      print("DEBUG: UserPostSearchVC -> SearchResultVC, keyword:\(text)")
+      print("DEBUG: PostSearchVC -> SearchResultVC, keyword:\(text)")
     case .presentAlert:
       showAlert(alertType: .withCancel, message: "최근 검색 내역을\n모두 삭제하시겠습니까?", target: self)
     case .deleteCell(let section), .deleteAllCells(let section):
@@ -151,7 +150,11 @@ extension UserPostSearchViewController: ViewBindCase {
 }
 
 // MARK: - Helpers
-extension UserPostSearchViewController {
+extension PostSearchViewController {
+  private func setupStyles() {
+    view.backgroundColor = .white
+  }
+  
   private func setupSearchBarButtonItemStyle(_ color: UIColor, isEnabled: Bool) {
     searchBarButtonItem.tintColor = color
     searchBarButtonItem.isEnabled = isEnabled
@@ -177,7 +180,7 @@ extension UserPostSearchViewController {
 }
 
 // MARK: - Actions
-extension UserPostSearchViewController {
+extension PostSearchViewController {
   @objc private func didTapSearchButton() {
     input.didTapSearchButton.send(self.searchTextField.text ?? "")
   }
@@ -192,7 +195,7 @@ extension UserPostSearchViewController {
 }
 
 // MARK: - LayoutSupport
-extension UserPostSearchViewController: LayoutSupport {
+extension PostSearchViewController: LayoutSupport {
   func addSubviews() {
     view.addSubview(collectionView)
   }
@@ -206,7 +209,7 @@ extension UserPostSearchViewController: LayoutSupport {
 }
 
 // MARK: - UICollectionViewDelegateFlowLayout
-extension UserPostSearchViewController: UICollectionViewDelegateFlowLayout {
+extension PostSearchViewController: UICollectionViewDelegateFlowLayout {
   // sizeFIXME: - UILabel 사이즈 개선
   func collectionView(
     _ collectionView: UICollectionView,
@@ -225,7 +228,7 @@ extension UserPostSearchViewController: UICollectionViewDelegateFlowLayout {
 }
 
 // MARK: - UICollectionViewDataSource
-extension UserPostSearchViewController: UICollectionViewDataSource {
+extension PostSearchViewController: UICollectionViewDataSource {
   func numberOfSections(in collectionView: UICollectionView) -> Int {
     return viewModel.numberOfSections()
   }
@@ -241,16 +244,16 @@ extension UserPostSearchViewController: UICollectionViewDataSource {
     _ collectionView: UICollectionView,
     cellForItemAt indexPath: IndexPath
   ) -> UICollectionViewCell {
-    guard let searchTagCell = collectionView.dequeueReusableCell(
-      withReuseIdentifier: SearchTagCell.id,
+    guard let tagCell = collectionView.dequeueReusableCell(
+      withReuseIdentifier: PostSearchTagCell.id,
       for: indexPath
-    ) as? SearchTagCell else { return UICollectionViewCell() }
+    ) as? PostSearchTagCell else { return UICollectionViewCell() }
     
-    searchTagCell.delegate = self
+    tagCell.delegate = self
     
-    let tagString = viewModel.getTagString(searchTagCell, at: indexPath)
-    searchTagCell.configure(tagString)
-    return searchTagCell
+    let tagString = viewModel.getTagString(tagCell, at: indexPath)
+    tagCell.configure(tagString)
+    return tagCell
   }
   
   func collectionView(
@@ -263,9 +266,9 @@ extension UserPostSearchViewController: UICollectionViewDataSource {
     case UICollectionView.elementKindSectionHeader:
       guard let titleHeaderView = collectionView.dequeueReusableSupplementaryView(
         ofKind: kind,
-        withReuseIdentifier: UserPostSearchHeaderView.id,
+        withReuseIdentifier: PostSearchHeaderView.id,
         for: indexPath
-      ) as? UserPostSearchHeaderView else { return UICollectionReusableView() }
+      ) as? PostSearchHeaderView else { return UICollectionReusableView() }
       
       titleHeaderView.delegate = self
       
@@ -277,14 +280,14 @@ extension UserPostSearchViewController: UICollectionViewDataSource {
     case UICollectionView.elementKindSectionFooter:
       guard let lineFooterView = collectionView.dequeueReusableSupplementaryView(
         ofKind: kind,
-        withReuseIdentifier: RecommendationSearchFooterView.id,
+        withReuseIdentifier: PostSearchFooterView.id,
         for: indexPath
-      ) as? RecommendationSearchFooterView else { return UICollectionReusableView() }
-     
+      ) as? PostSearchFooterView else { return UICollectionReusableView() }
+      
       if viewModel.isRecentSection(at: indexPath.section) {
         lineFooterView.isHidden = true
       }
-
+      
       return lineFooterView
     default: return UICollectionReusableView()
     }
@@ -292,29 +295,29 @@ extension UserPostSearchViewController: UICollectionViewDataSource {
 }
 
 // MARK: - UITextFieldDelegate
-extension UserPostSearchViewController: UITextFieldDelegate {
+extension PostSearchViewController: UITextFieldDelegate {
   func textFieldShouldReturn(_ textField: UITextField) -> Bool {
     input.didTapSearchButton.send(textField.text ?? "")
     return true
   }
 }
 
-// MARK: - UserPostSearchHeaderViewDelegate
-extension UserPostSearchViewController: UserPostSearchHeaderViewDelegate {
+// MARK: - PostSearchHeaderViewDelegate
+extension PostSearchViewController: PostSearchHeaderViewDelegate {
   func didTapDeleteAllButton() {
     input.didTapDeleteAllButton.send()
   }
 }
 
-// MARK: - SearchTagCellDelegate
-extension UserPostSearchViewController: SearchTagCellDelegate {
-    func didTapDeleteButton(item: Int, in section: Int) {
-      input.didTapDeleteButton.send((item, section))
-    }
+// MARK: - PostSearchTagCellDelegate
+extension PostSearchViewController: PostSearchTagCellDelegate {
+  func didTapDeleteButton(item: Int, in section: Int) {
+    input.didTapDeleteButton.send((item, section))
+  }
 }
 
 // MARK: - CautionAlertViewControllerDelegate
-extension UserPostSearchViewController: CautionAlertViewControllerDelegate {
+extension PostSearchViewController: CautionAlertViewControllerDelegate {
   func didTapAlertConfirm() {
     input.didTapAlertConfirmButton.send()
   }

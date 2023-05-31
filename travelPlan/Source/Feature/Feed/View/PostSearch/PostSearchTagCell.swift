@@ -1,5 +1,5 @@
 //
-//  SearchTagCell.swift
+//  PostSearchTagCell.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 2023/05/10.
@@ -7,12 +7,12 @@
 
 import UIKit
 
-final class SearchTagCell: UICollectionViewCell {
-  typealias SectionType = SearchSectionItemModel.SectionType
+final class PostSearchTagCell: UICollectionViewCell {
+  typealias SectionType = PostSearchSectionItemModel.SectionType
   
   // MARK: - Properties
   var sectionType: SectionType?
-  weak var delegate: SearchTagCellDelegate?
+  weak var delegate: PostSearchTagCellDelegate?
   
   static var id: String {
     return String(describing: self)
@@ -40,7 +40,7 @@ final class SearchTagCell: UICollectionViewCell {
 }
 
 // MARK: - Helpers
-extension SearchTagCell {
+extension PostSearchTagCell {
   private func setupStyles() {
     contentView.backgroundColor = .systemBackground
     contentView.layer.borderColor = UIColor.YG.gray0.cgColor
@@ -59,7 +59,7 @@ extension SearchTagCell {
 }
 
 // MARK: - Public Helpers
-extension SearchTagCell {
+extension PostSearchTagCell {
   func configure(_ text: String) {
     tagLabel.text = text
   }
@@ -75,7 +75,7 @@ extension SearchTagCell {
 }
 
 // MARK: - Actions
-extension SearchTagCell {
+extension PostSearchTagCell {
   @objc private func didTapDeleteButton(_ button: UIButton) {
     delegate?.didTapDeleteButton(
       item: button.tag,
@@ -85,7 +85,7 @@ extension SearchTagCell {
 }
 
 // MARK: - LayoutSupport
-extension SearchTagCell: LayoutSupport {
+extension PostSearchTagCell: LayoutSupport {
   func addSubviews() {
     switch sectionType {
     case .recent:
