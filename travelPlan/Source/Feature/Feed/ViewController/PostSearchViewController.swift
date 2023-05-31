@@ -120,7 +120,7 @@ extension PostSearchViewController: ViewBindCase {
       navigationController?.popViewController(animated: true)
     case .gotoSearch(let text):
       searchTextField.resignFirstResponder()
-      print("DEBUG: PostSearchVC -> SearchResultVC, keyword:\(text)")
+      print("DEBUG: PostSearchVC -> PostSearchResultVC, keyword:\(text)")
     case .presentAlert:
       showAlert(alertType: .withCancel, message: "최근 검색 내역을\n모두 삭제하시겠습니까?", target: self)
     case .deleteCell(let section), .deleteAllCells(let section):
