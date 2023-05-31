@@ -1,5 +1,5 @@
 //
-//  UserPostSearchViewModel.swift
+//  PostSearchViewModel.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 2023/05/10.
@@ -8,16 +8,16 @@
 import Combine
 import UIKit
 
-final class UserPostSearchViewModel {
-  typealias SectionType = SearchSectionItemModel.SectionType
+final class PostSearchViewModel {
+  typealias SectionType = PostSearchSectionItemModel.SectionType
   
   // MARK: - Properties
-  private var model: [SearchSectionItemModel] = [
-    SearchSectionItemModel(
+  private var model: [PostSearchSectionItemModel] = [
+    PostSearchSectionItemModel(
       type: .recommendation,
       items: ["추천1", "추천22", "추천33333", "추천444"]
     ),
-    SearchSectionItemModel(
+    PostSearchSectionItemModel(
       type: .recent,
       items: ["최근검색11", "최근검색22222", "최근검색3333", "최근검색4", "최근검색555"]
     )
@@ -25,7 +25,7 @@ final class UserPostSearchViewModel {
 }
 
 // MARK: - ViewModelCase
-extension UserPostSearchViewModel: ViewModelCase {
+extension PostSearchViewModel: ViewModelCase {
   
   func transform(_ input: Input) -> Output {
     return Publishers.MergeMany([
@@ -130,7 +130,7 @@ extension UserPostSearchViewModel: ViewModelCase {
 }
 
 // MARK: - Helpers
-extension UserPostSearchViewModel {
+extension PostSearchViewModel {
   private func removeItemModel(item: Int, section: Int) {
     model[section].items.remove(at: item)
   }
@@ -143,7 +143,7 @@ extension UserPostSearchViewModel {
 }
 
 // MARK: - Public Helpers
-extension UserPostSearchViewModel {
+extension PostSearchViewModel {
   func sizeForItem(at indexPath: IndexPath) -> CGSize {
     // label과 cell간의 padding
     let widthPadding: CGFloat = 13
@@ -177,18 +177,18 @@ extension UserPostSearchViewModel {
   }
   
   func getTagString(
-    _ searchTagCell: SearchTagCell,
+    _ tagCell: PostSearchTagCell,
     at indexPath: IndexPath
   ) -> String {
     // 하나의 Cell class를 재사용해서 변형시키므로, section별로 Cell 구분화
     switch indexPath.section {
     case SectionType.recommendation.index:
-      searchTagCell.initSectionType(with: .recommendation)
+      tagCell.initSectionType(with: .recommendation)
     case SectionType.recent.index:
-      searchTagCell.initSectionType(with: .recent)
+      tagCell.initSectionType(with: .recent)
     default: break
     }
-    searchTagCell.deleteButton?.tag = indexPath.item
+    tagCell.deleteButton?.tag = indexPath.item
     
     return model[indexPath.section].items[indexPath.item]
   }
@@ -198,7 +198,7 @@ extension UserPostSearchViewModel {
   }
   
   func getHeaderTitle(
-    _ headerView: UserPostSearchHeaderView,
+    _ headerView: PostSearchHeaderView,
     at section: Int
   ) -> String {
     switch section {

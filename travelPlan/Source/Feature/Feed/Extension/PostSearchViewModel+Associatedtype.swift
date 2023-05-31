@@ -1,5 +1,5 @@
 //
-//  UserPostSearchViewModel+Associatedtype.swift
+//  PostSearchViewModel+Associatedtype.swift
 //  travelPlan
 //
 //  Created by 양승현 on 2023/05/25.
@@ -8,7 +8,7 @@
 import UIKit
 import Combine
 
-extension UserPostSearchViewModel: ViewModelAssociatedType {
+extension PostSearchViewModel: ViewModelAssociatedType {
   typealias Output = AnyPublisher<State, ErrorType>
   
   struct Input {

@@ -1,5 +1,5 @@
 //
-//  UserPostSearchHeaderView.swift
+//  PostSearchHeaderView.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 2023/05/08.
@@ -9,8 +9,8 @@ import UIKit
 import SnapKit
 import Combine
 
-final class UserPostSearchHeaderView: UICollectionReusableView {
-  typealias SectionType = SearchSectionItemModel.SectionType
+final class PostSearchHeaderView: UICollectionReusableView {
+  typealias SectionType = PostSearchSectionItemModel.SectionType
   
   // MARK: - Properties
   static var id: String {
@@ -25,7 +25,7 @@ final class UserPostSearchHeaderView: UICollectionReusableView {
   }
   
   private var deleteAllButton: UIButton?
-  weak var delegate: UserPostSearchHeaderViewDelegate?
+  weak var delegate: PostSearchHeaderViewDelegate?
   
   // MARK: - LifeCycle
   override init(frame: CGRect) {
@@ -43,7 +43,7 @@ final class UserPostSearchHeaderView: UICollectionReusableView {
 }
 
 // MARK: - Public Helpers
-extension UserPostSearchHeaderView {
+extension PostSearchHeaderView {
   func prepare(title: String?) {
     titleLabel.text = title
   }
@@ -59,7 +59,7 @@ extension UserPostSearchHeaderView {
 }
 
 // MARK: - Helpers
-extension UserPostSearchHeaderView {
+extension PostSearchHeaderView {
   private func makeDeleteAllButton() -> UIButton {
     let button = UIButton()
     deleteAllButton = button
@@ -74,14 +74,14 @@ extension UserPostSearchHeaderView {
 }
 
 // MARK: - Actions
-extension UserPostSearchHeaderView {
+extension PostSearchHeaderView {
   @objc private func didTapDeleteAllButton(_ button: UIButton) {
     delegate?.didTapDeleteAllButton()
   }
 }
 
 // MARK: - LayoutSupport
-extension UserPostSearchHeaderView: LayoutSupport {
+extension PostSearchHeaderView: LayoutSupport {
   func addSubviews() {
     switch sectionType {
     case .recent:

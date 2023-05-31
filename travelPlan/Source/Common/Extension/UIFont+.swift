@@ -16,14 +16,18 @@ extension UIFont {
   /// lb.font = UIFont(pretendard: .semiBold, size: 18)!
   /// ```
   enum Pretendard {
-    case black
+    /// 400
+    case regular
+    /// 500
+    case medium
+    /// 600
+    case semiBold
+    /// 700
     case bold
+    case black
     case extraBold
     case extraLight
     case light
-    case medium
-    case regular
-    case semiBold
     case thin
     var toString: String {
       switch self {

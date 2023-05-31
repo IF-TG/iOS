@@ -90,7 +90,7 @@ extension FeedViewController: ViewBindCase {
       // 알림TODO: - 알림 온 경우. feedVM에서 1~5초 간격으로 알림이 왔는지 여부를 확인합니다.
       notificationBarItem.updateNotificationRedIcon(.notChecked)
     case .goToPostSearch:
-      let vc = UserPostSearchViewController(nibName: nil, bundle: nil)
+      let vc = PostSearchViewController(nibName: nil, bundle: nil)
       navigationController?.pushViewController(vc, animated: true)
     case .goToNotification:
       // transitionTODO: - Goto notifiation with naivgationController

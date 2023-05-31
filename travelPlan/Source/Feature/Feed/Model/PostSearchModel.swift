@@ -1,5 +1,5 @@
 //
-//  RecommendationSearchTagModel.swift
+//  PostSearchSectionItemModel.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 2023/05/10.
@@ -7,13 +7,13 @@
 
 import Foundation
 
-struct SearchSectionItemModel {
+struct PostSearchSectionItemModel {
   let type: SectionType
   var items: [String]
 }
 
 // MARK: - SectionType
-extension SearchSectionItemModel {
+extension PostSearchSectionItemModel {
   enum SectionType: Int, CaseIterable {
     case recommendation // 추천
     case recent // 최근
@@ -21,7 +21,7 @@ extension SearchSectionItemModel {
 }
 
 // MARK: - ComputedProperties in SectionType
-extension SearchSectionItemModel.SectionType {
+extension PostSearchSectionItemModel.SectionType {
   var title: String {
     switch self {
     case .recommendation:
