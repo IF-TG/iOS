@@ -61,6 +61,11 @@ final class SearchFamousSpotCell: UICollectionViewCell {
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
+  
+  override func prepareForReuse() {
+    super.prepareForReuse()
+    thumbnailImageView.image = nil
+  }
 }
 
 // MARK: - Configure
