@@ -204,10 +204,10 @@ extension PostSearchViewModel {
     switch section {
     case SectionType.recommendation.index:
       headerView.initSectionType(with: .recommendation)
-      return SectionType.recommendation.title
+      return SectionType.recommendation.headerTitle
     case SectionType.recent.index:
       headerView.initSectionType(with: .recent)
-      return SectionType.recent.title
+      return SectionType.recent.headerTitle
     default: return ""
     }
   }
