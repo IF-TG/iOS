@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class SearchView: UIView {
+final class SearchView: UIView {
   // MARK: - Properties
   private let searchTextField: UITextField = UITextField().set {
     $0.placeholder = "여행지 및 축제를 검색해보세요."
