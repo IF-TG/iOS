@@ -19,7 +19,7 @@ final class SearchHeaderView: UICollectionReusableView {
     $0.textColor = .yg.gray7
     $0.numberOfLines = 1
     $0.textAlignment = .left
-    $0.text = "베스트 축제"
+    $0.text = "베스트 축제" // will erase
   }
   
   // MARK: - LifeCycle
@@ -31,6 +31,13 @@ final class SearchHeaderView: UICollectionReusableView {
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+}
+
+// MARK: - Public Helpers
+extension SearchHeaderView {
+  func configure(_ headerTitle: String) {
+    headerLabel.text = headerTitle
   }
 }
 
