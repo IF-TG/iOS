@@ -12,8 +12,6 @@ final class SearchViewController: UIViewController {
   
   // MARK: - Properties
   private let viewModel = SearchViewModel()
-  private let scrollView = UIScrollView()
-  private let contentView = UIView()
   private let searchView: SearchView = SearchView()
   
   // LayoutFIXME: - CompositionalLayout으로 변경
@@ -129,23 +127,13 @@ extension SearchViewController {
 // MARK: - LayoutSupport
 extension SearchViewController: LayoutSupport {
   func addSubviews() {
-    view.addSubview(scrollView)
-    scrollView.addSubview(contentView)
-    contentView.addSubview(searchView)
-    contentView.addSubview(collectionView)
+    view.addSubview(searchView)
+    view.addSubview(collectionView)
   }
   
   func setConstraints() {
-    scrollView.snp.makeConstraints {
-      $0.edges.equalTo(view.safeAreaLayoutGuide)
-    }
-    
-    contentView.snp.makeConstraints {
-      $0.edges.width.equalToSuperview()
-    }
-    
     searchView.snp.makeConstraints {
-      $0.top.equalToSuperview().inset(46)
+      $0.top.equalTo(view.safeAreaLayoutGuide).inset(40)
       $0.leading.trailing.equalToSuperview().inset(30)
       $0.height.equalTo(50)
     }
@@ -154,7 +142,6 @@ extension SearchViewController: LayoutSupport {
       $0.top.equalTo(searchView.snp.bottom)
       $0.leading.trailing.equalToSuperview()
       $0.bottom.equalToSuperview()
-      $0.height.equalTo(1000)
     }
   }
 }
@@ -224,13 +211,21 @@ extension SearchViewController: UICollectionViewDataSource {
 
 // MARK: - UICollectionViewDelegate
 extension SearchViewController: UICollectionViewDelegate {
-//  func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//    // searchBarTODO: - SearchBar 네비에 붙이기
-//  }
+  func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    print(scrollView.contentOffset.y)
+    
+    if 40 - scrollView.contentOffset.y * 3 > 0 {
+      searchView.snp.updateConstraints {
+        $0.top.equalTo(view.safeAreaLayoutGuide).inset(40 - scrollView.contentOffset.y * 3)
+        $0.leading.trailing.equalToSuperview().inset(30)
+        $0.height.equalTo(50)
+      }
+    } else if 40 - scrollView.contentOffset.y * 3 <= 0 {
+      searchView.snp.updateConstraints {
+        $0.top.equalTo(view.safeAreaLayoutGuide)
+        $0.leading.trailing.equalToSuperview().inset(30)
+        $0.height.equalTo(50)
+      }
+    }
+  }
 }
-
-// searchBarTODO: - searchBar 위치에 따라 navigationBar 로 만들기
-// 1. searchBar의 y값이 0보다 작아지면, searchBar 상단에 고정
-
-// 2. scrollView의 현재 y값이 searchBar의 top constraint라면,
-  // ㄴ> searchBar 상단에 고정된 것 풀고 기존 위치에 고정

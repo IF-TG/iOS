@@ -54,6 +54,17 @@ extension SearchSectionItemModel {
       .init(imageName: "tempProfile4", title: "관광4", catrgory: "카테4", area: "지역4"),
       .init(imageName: "tempProfile4", title: "관광4", catrgory: "카테4", area: "지역4"),
       .init(imageName: "tempProfile4", title: "관광4", catrgory: "카테4", area: "지역4")
+    ]),
+    .famousSpot([
+      .init(imageName: "tempProfile4", title: "관광1111111111111111", catrgory: "카테1", area: "지역1"),
+      .init(imageName: "tempProfile4", title: "관광2", catrgory: "카테2", area: "지역2"),
+      .init(imageName: "tempProfile4", title: "관광3", catrgory: "카테3", area: "지역3"),
+      .init(imageName: "tempProfile4", title: "관광4", catrgory: "카테4", area: "지역4"),
+      .init(imageName: "tempProfile4", title: "관광4", catrgory: "카테4", area: "지역4"),
+      .init(imageName: "tempProfile4", title: "관광4", catrgory: "카테4", area: "지역4"),
+      .init(imageName: "tempProfile4", title: "관광4", catrgory: "카테4", area: "지역4"),
+      .init(imageName: "tempProfile4", title: "관광4", catrgory: "카테4", area: "지역4"),
+      .init(imageName: "tempProfile4", title: "관광4", catrgory: "카테4", area: "지역4")
     ])
   ]
 }
