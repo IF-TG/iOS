@@ -12,7 +12,8 @@ final class SearchViewController: UIViewController {
   
   // MARK: - Properties
   private let viewModel = SearchViewModel()
-  
+  private let scrollView = UIScrollView()
+  private let contentView = UIView()
   private let searchView: SearchView = SearchView()
   
   // LayoutFIXME: - CompositionalLayout으로 변경
@@ -128,13 +129,23 @@ extension SearchViewController {
 // MARK: - LayoutSupport
 extension SearchViewController: LayoutSupport {
   func addSubviews() {
-    view.addSubview(searchView)
-    view.addSubview(collectionView)
+    view.addSubview(scrollView)
+    scrollView.addSubview(contentView)
+    contentView.addSubview(searchView)
+    contentView.addSubview(collectionView)
   }
   
   func setConstraints() {
+    scrollView.snp.makeConstraints {
+      $0.edges.equalTo(view.safeAreaLayoutGuide)
+    }
+    
+    contentView.snp.makeConstraints {
+      $0.edges.width.equalToSuperview()
+    }
+    
     searchView.snp.makeConstraints {
-      $0.top.equalTo(view.safeAreaLayoutGuide).inset(46)
+      $0.top.equalToSuperview().inset(46)
       $0.leading.trailing.equalToSuperview().inset(30)
       $0.height.equalTo(50)
     }
@@ -142,7 +153,8 @@ extension SearchViewController: LayoutSupport {
     collectionView.snp.makeConstraints {
       $0.top.equalTo(searchView.snp.bottom)
       $0.leading.trailing.equalToSuperview()
-      $0.bottom.equalTo(view.safeAreaLayoutGuide)
+      $0.bottom.equalToSuperview()
+      $0.height.equalTo(1000)
     }
   }
 }
@@ -212,7 +224,9 @@ extension SearchViewController: UICollectionViewDataSource {
 
 // MARK: - UICollectionViewDelegate
 extension SearchViewController: UICollectionViewDelegate {
-  
+//  func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//    // searchBarTODO: - SearchBar 네비에 붙이기
+//  }
 }
 
 // searchBarTODO: - searchBar 위치에 따라 navigationBar 로 만들기
