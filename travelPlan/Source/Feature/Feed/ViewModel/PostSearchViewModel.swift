@@ -199,7 +199,7 @@ extension PostSearchViewModel {
   
   func getHeaderTitle(
     _ headerView: PostSearchHeaderView,
-    at section: Int
+    in section: Int
   ) -> String {
     switch section {
     case SectionType.recommendation.index:
@@ -212,7 +212,7 @@ extension PostSearchViewModel {
     }
   }
   
-  func isRecentSection(at section: Int) -> Bool {
+  func isRecentSection(in section: Int) -> Bool {
     return section == SectionType.recent.index
   }
 }
