@@ -9,6 +9,28 @@ import Foundation
 import Combine
 
 final class SearchViewModel {
+  typealias Output = AnyPublisher<State, ErrorType>
+  
+  // MARK: - Input
+  struct Input {
+    let didTapView: PassthroughSubject<Void, Never>
+    
+    init(
+      didTapView: PassthroughSubject<Void, Never> = .init()
+    ) {
+      self.didTapView = didTapView
+    }
+  }
+  // MARK: - State
+  enum State {
+    case goDownKeyboard
+  }
+  // MARK: - Error
+  enum ErrorType: Error {
+    case none
+    case unexpected
+  }
+  
   // MARK: - Properties
   private var models = SearchSectionItemModel.models
 }
@@ -16,23 +38,14 @@ final class SearchViewModel {
 // MARK: - ViewModelCase
 extension SearchViewModel: ViewModelCase {
   func transform(_ input: Input) -> AnyPublisher<State, ErrorType> {
-    return input.viewDidLoad
-      .map { State.createCompositionalLayout }
+    return didTapCollectionViewStream(input)
+  }
+  
+  private func didTapCollectionViewStream(_ input: Input) -> Output {
+    return input.didTapView
+      .map { State.goDownKeyboard }
       .setFailureType(to: ErrorType.self)
       .eraseToAnyPublisher()
-  }
-  
-  struct Input {
-    let viewDidLoad: PassthroughSubject<Void, Never>
-  }
-  
-  enum State {
-    case createCompositionalLayout
-  }
-  
-  enum ErrorType: Error {
-    case none
-    case unexpected
   }
 }
 

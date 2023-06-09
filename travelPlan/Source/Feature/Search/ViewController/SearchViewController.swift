@@ -5,7 +5,9 @@
 //  Created by SeokHyun on 2023/05/05.
 //
 
+import Combine
 import UIKit
+
 import SnapKit
 
 final class SearchViewController: UIViewController {
@@ -13,13 +15,23 @@ final class SearchViewController: UIViewController {
   // MARK: - Properties
   private let viewModel = SearchViewModel()
   private let searchView: SearchView = SearchView()
-  var isScrollUntilTop = false
+  private var isScrollUntilTop = false
+  
+  private var subscriptions = Set<AnyCancellable>()
+  private lazy var input = SearchViewModel.Input()
   
   // LayoutFIXME: - CompositionalLayout으로 변경
   private lazy var collectionView: UICollectionView = UICollectionView(
     frame: .zero,
     collectionViewLayout: createLayout()
   ).set {
+    let tapGesture = UITapGestureRecognizer(
+      target: self,
+      action: #selector(didTapCollectionView)
+    )
+    tapGesture.cancelsTouchesInView = false
+    $0.addGestureRecognizer(tapGesture)
+    
     $0.dataSource = self
     $0.delegate = self
     
@@ -43,11 +55,53 @@ final class SearchViewController: UIViewController {
     super.viewDidLoad()
     setupUI()
     setupStyles()
+    bind()
   }
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     navigationController?.isNavigationBarHidden = true
+  }
+}
+
+// MARK: - Bind
+extension SearchViewController {
+  private func bind() {
+    let output = viewModel.transform(input)
+    output
+      .receive(on: RunLoop.main)
+      .sink { [weak self] result in
+        switch result {
+        case .finished:
+          print("completed")
+        case let .failure(error):
+          self?.handleError(error)
+        }
+      } receiveValue: { [weak self] in
+        self?.render($0)
+      }
+      .store(in: &subscriptions)
+  }
+  
+  private func handleError(_ error: SearchViewModel.ErrorType) {
+    switch error {
+    case .none: print("DEBUG: none error")
+    case .unexpected: print("DEBUG: unexpected error")
+    }
+  }
+  
+  private func render(_ state: SearchViewModel.State) {
+    switch state {
+    case .goDownKeyboard:
+      searchView.endEditing(true)
+    }
+  }
+}
+
+// MARK: - Actions
+extension SearchViewController {
+  @objc func didTapCollectionView() {
+    input.didTapView.send()
   }
 }
 
@@ -220,5 +274,12 @@ extension SearchViewController: UICollectionViewDelegate {
         $0.height.equalTo(50)
       }
     }
+  }
+  
+  func collectionView(
+    _ collectionView: UICollectionView,
+    didSelectItemAt indexPath: IndexPath
+  ) {
+    print("[\(indexPath.section), \(indexPath.item)] clicked")
   }
 }
