@@ -9,7 +9,8 @@ import Foundation
 import Combine
 
 final class SearchViewModel {
-  let models = SearchSectionItemModel.models
+  // MARK: - Properties
+  private var models = SearchSectionItemModel.models
 }
 
 // MARK: - ViewModelCase
@@ -32,5 +33,29 @@ extension SearchViewModel: ViewModelCase {
   enum ErrorType: Error {
     case none
     case unexpected
+  }
+}
+
+// MARK: - Public Helpers
+extension SearchViewModel {
+  func getModel(in section: Int) -> SearchSectionItemModel.SearchSection {
+    return models[section]
+  }
+  
+  func getHeaderTitle(in section: Int) -> String {
+    return models[section].headerTitle
+  }
+  
+  func numberOfItemsInSection(in section: Int) -> Int {
+    switch models[section] {
+    case let .bestFestival(festivalItems):
+      return festivalItems.count
+    case let .famousSpot(spotItems):
+      return spotItems.count
+    }
+  }
+  
+  func numberOfSections() -> Int {
+    return models.count
   }
 }
