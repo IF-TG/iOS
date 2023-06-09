@@ -13,6 +13,7 @@ final class SearchViewController: UIViewController {
   // MARK: - Properties
   private let viewModel = SearchViewModel()
   private let searchView: SearchView = SearchView()
+  var isScrollUntilTop = false
   
   // LayoutFIXME: - CompositionalLayout으로 변경
   private lazy var collectionView: UICollectionView = UICollectionView(
@@ -59,7 +60,8 @@ extension SearchViewController {
   private func createLayout() -> UICollectionViewCompositionalLayout {
     return UICollectionViewCompositionalLayout { [weak self] section, _ in
       guard let self = self else { return nil }
-      switch self.viewModel.models[section] {
+      
+      switch self.viewModel.getModel(in: section) {
       case .bestFestival:
         // item
         let item = NSCollectionLayoutItem(layoutSize: .init(
@@ -135,11 +137,11 @@ extension SearchViewController: LayoutSupport {
     searchView.snp.makeConstraints {
       $0.top.equalTo(view.safeAreaLayoutGuide).inset(40)
       $0.leading.trailing.equalToSuperview().inset(30)
+      $0.bottom.equalTo(collectionView.snp.top)
       $0.height.equalTo(50)
     }
     
     collectionView.snp.makeConstraints {
-      $0.top.equalTo(searchView.snp.bottom)
       $0.leading.trailing.equalToSuperview()
       $0.bottom.equalToSuperview()
     }
@@ -149,26 +151,21 @@ extension SearchViewController: LayoutSupport {
 // MARK: - UICollectionViewDataSource
 extension SearchViewController: UICollectionViewDataSource {
   func numberOfSections(in collectionView: UICollectionView) -> Int {
-    return viewModel.models.count
+    return viewModel.numberOfSections()
   }
   
   func collectionView(
     _ collectionView: UICollectionView,
     numberOfItemsInSection section: Int
   ) -> Int {
-    switch viewModel.models[section] {
-    case let .bestFestival(festivalItems):
-      return festivalItems.count
-    case let .famousSpot(spotItems):
-      return spotItems.count
-    }
+    return viewModel.numberOfItemsInSection(in: section)
   }
   
   func collectionView(
     _ collectionView: UICollectionView,
     cellForItemAt indexPath: IndexPath
   ) -> UICollectionViewCell {
-    switch viewModel.models[indexPath.section] {
+    switch viewModel.getModel(in: indexPath.section) {
     case let .bestFestival(festivalItems):
       guard let cell = collectionView.dequeueReusableCell(
         withReuseIdentifier: SearchBestFestivalCell.id,
@@ -200,7 +197,7 @@ extension SearchViewController: UICollectionViewDataSource {
         for: indexPath
       ) as? SearchHeaderView else { return UICollectionReusableView() }
       
-      let title = viewModel.models[indexPath.section].headerTitle
+      let title = viewModel.getHeaderTitle(in: indexPath.section)
       headerView.configure(title)
       
       return headerView
@@ -212,17 +209,13 @@ extension SearchViewController: UICollectionViewDataSource {
 // MARK: - UICollectionViewDelegate
 extension SearchViewController: UICollectionViewDelegate {
   func scrollViewDidScroll(_ scrollView: UIScrollView) {
-    print(scrollView.contentOffset.y)
     
-    if 40 - scrollView.contentOffset.y * 3 > 0 {
+    let currentTopMargin = 40 - scrollView.contentOffset.y
+    isScrollUntilTop = currentTopMargin > 0
+    
+    if isScrollUntilTop {
       searchView.snp.updateConstraints {
-        $0.top.equalTo(view.safeAreaLayoutGuide).inset(40 - scrollView.contentOffset.y * 3)
-        $0.leading.trailing.equalToSuperview().inset(30)
-        $0.height.equalTo(50)
-      }
-    } else if 40 - scrollView.contentOffset.y * 3 <= 0 {
-      searchView.snp.updateConstraints {
-        $0.top.equalTo(view.safeAreaLayoutGuide)
+        $0.top.equalTo(view.safeAreaLayoutGuide).inset(currentTopMargin)
         $0.leading.trailing.equalToSuperview().inset(30)
         $0.height.equalTo(50)
       }
