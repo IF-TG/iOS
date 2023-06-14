@@ -15,6 +15,7 @@
 		130304842A25117200776A0D /* SearchBestFestivalCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130304832A25117200776A0D /* SearchBestFestivalCell.swift */; };
 		130304AA2A271F3B00776A0D /* SearchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130304A92A271F3B00776A0D /* SearchModel.swift */; };
 		130304B02A28447900776A0D /* SearchFamousSpotCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130304AF2A28447900776A0D /* SearchFamousSpotCell.swift */; };
+		130FA91F2A359EE300E739C5 /* SearchViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130FA91E2A359EE300E739C5 /* SearchViewDelegate.swift */; };
 		13254FE32A05147200094218 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13254FE22A05147200094218 /* MainTabBarController.swift */; };
 		13254FE52A05157900094218 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13254FE42A05157900094218 /* FeedViewController.swift */; };
 		13254FE72A05158E00094218 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13254FE62A05158E00094218 /* SearchViewController.swift */; };
@@ -154,6 +155,7 @@
 		130304832A25117200776A0D /* SearchBestFestivalCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBestFestivalCell.swift; sourceTree = "<group>"; };
 		130304A92A271F3B00776A0D /* SearchModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchModel.swift; sourceTree = "<group>"; };
 		130304AF2A28447900776A0D /* SearchFamousSpotCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFamousSpotCell.swift; sourceTree = "<group>"; };
+		130FA91E2A359EE300E739C5 /* SearchViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewDelegate.swift; sourceTree = "<group>"; };
 		13254FE22A05147200094218 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		13254FE42A05157900094218 /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
 		13254FE62A05158E00094218 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
@@ -358,6 +360,14 @@
 				130304A92A271F3B00776A0D /* SearchModel.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		130FA91D2A359ED500E739C5 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				130FA91E2A359EE300E739C5 /* SearchViewDelegate.swift */,
+			);
+			path = Protocol;
 			sourceTree = "<group>";
 		};
 		13254FEE2A05499900094218 /* Model */ = {
@@ -777,6 +787,7 @@
 		15BED2FF2A0824C300F86321 /* Search */ = {
 			isa = PBXGroup;
 			children = (
+				130FA91D2A359ED500E739C5 /* Protocol */,
 				130304A82A270A7C00776A0D /* Model */,
 				130304772A24935600776A0D /* View */,
 				130304762A24935100776A0D /* ViewModel */,
@@ -1280,6 +1291,7 @@
 				152AD51B2A1A0447008A2A11 /* FavoriteListTableViewAdapter.swift in Sources */,
 				152AD52A2A1B8D6E008A2A11 /* MockFavoriteListData.swift in Sources */,
 				1325508E2A13EE8E00094218 /* PostSearchHeaderView.swift in Sources */,
+				130FA91F2A359EE300E739C5 /* SearchViewDelegate.swift in Sources */,
 				1325502B2A0ABE5E00094218 /* PostSearchViewModel.swift in Sources */,
 				15FEB5E92A050A99000A5F33 /* UITextField+Combine.swift in Sources */,
 				15EF8C972A0A18960068C744 /* CategoryPageViewModel.swift in Sources */,

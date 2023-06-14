@@ -14,16 +14,20 @@ final class SearchViewModel {
   // MARK: - Input
   struct Input {
     let didTapView: PassthroughSubject<Void, Never>
+    let didTapSearchButton: PassthroughSubject<String, ErrorType>
     
     init(
-      didTapView: PassthroughSubject<Void, Never> = .init()
+      didTapView: PassthroughSubject<Void, Never> = .init(),
+      didTapSearchButton: PassthroughSubject<String, ErrorType> = .init()
     ) {
       self.didTapView = didTapView
+      self.didTapSearchButton = didTapSearchButton
     }
   }
   // MARK: - State
   enum State {
     case goDownKeyboard
+    case gotoSearch
   }
   // MARK: - Error
   enum ErrorType: Error {
@@ -38,7 +42,10 @@ final class SearchViewModel {
 // MARK: - ViewModelCase
 extension SearchViewModel: ViewModelCase {
   func transform(_ input: Input) -> AnyPublisher<State, ErrorType> {
-    return didTapCollectionViewStream(input)
+    return Publishers.MergeMany([
+      didTapCollectionViewStream(input),
+      didTapSearchButtonStream(input)
+    ]).eraseToAnyPublisher()
   }
   
   private func didTapCollectionViewStream(_ input: Input) -> Output {
@@ -47,15 +54,26 @@ extension SearchViewModel: ViewModelCase {
       .setFailureType(to: ErrorType.self)
       .eraseToAnyPublisher()
   }
+  
+  private func didTapSearchButtonStream(_ input: Input) -> Output {
+    return input.didTapSearchButton
+      .tryMap { text in
+        print("DEBUG: '\(text)' search")
+        return State.gotoSearch
+      }
+      .mapError { $0 as? ErrorType ?? .unexpected }
+      .eraseToAnyPublisher()
+    
+  }
 }
 
 // MARK: - Public Helpers
 extension SearchViewModel {
-  func getModel(in section: Int) -> SearchSectionItemModel.SearchSection {
+  func fetchModel(in section: Int) -> SearchSectionItemModel.SearchSection {
     return models[section]
   }
   
-  func getHeaderTitle(in section: Int) -> String {
+  func fetchHeaderTitle(in section: Int) -> String {
     return models[section].headerTitle
   }
   

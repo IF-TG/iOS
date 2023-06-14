@@ -14,8 +14,11 @@ final class SearchViewController: UIViewController {
   
   // MARK: - Properties
   private let viewModel = SearchViewModel()
-  private let searchView: SearchView = SearchView()
-  private var isScrollUntilTop = false
+  private lazy var searchView: SearchView = .init().set {
+    $0.delegate = self
+  }
+  
+  private var isScrolledUntilTop = false
   
   private var subscriptions = Set<AnyCancellable>()
   private lazy var input = SearchViewModel.Input()
@@ -94,13 +97,16 @@ extension SearchViewController {
     switch state {
     case .goDownKeyboard:
       searchView.endEditing(true)
+      
+    case .gotoSearch:
+      print("해당 text를 기반으로 vc 전환")
     }
   }
 }
 
 // MARK: - Actions
 extension SearchViewController {
-  @objc func didTapCollectionView() {
+  @objc private func didTapCollectionView() {
     input.didTapView.send()
   }
 }
@@ -115,7 +121,7 @@ extension SearchViewController {
     return UICollectionViewCompositionalLayout { [weak self] section, _ in
       guard let self = self else { return nil }
       
-      switch self.viewModel.getModel(in: section) {
+      switch self.viewModel.fetchModel(in: section) {
       case .bestFestival:
         // item
         let item = NSCollectionLayoutItem(layoutSize: .init(
@@ -191,11 +197,11 @@ extension SearchViewController: LayoutSupport {
     searchView.snp.makeConstraints {
       $0.top.equalTo(view.safeAreaLayoutGuide).inset(40)
       $0.leading.trailing.equalToSuperview().inset(30)
-      $0.bottom.equalTo(collectionView.snp.top)
       $0.height.equalTo(50)
     }
     
     collectionView.snp.makeConstraints {
+      $0.top.equalTo(searchView.snp.bottom)
       $0.leading.trailing.equalToSuperview()
       $0.bottom.equalToSuperview()
     }
@@ -219,7 +225,7 @@ extension SearchViewController: UICollectionViewDataSource {
     _ collectionView: UICollectionView,
     cellForItemAt indexPath: IndexPath
   ) -> UICollectionViewCell {
-    switch viewModel.getModel(in: indexPath.section) {
+    switch viewModel.fetchModel(in: indexPath.section) {
     case let .bestFestival(festivalItems):
       guard let cell = collectionView.dequeueReusableCell(
         withReuseIdentifier: SearchBestFestivalCell.id,
@@ -251,7 +257,7 @@ extension SearchViewController: UICollectionViewDataSource {
         for: indexPath
       ) as? SearchHeaderView else { return UICollectionReusableView() }
       
-      let title = viewModel.getHeaderTitle(in: indexPath.section)
+      let title = viewModel.fetchHeaderTitle(in: indexPath.section)
       headerView.configure(title)
       
       return headerView
@@ -263,15 +269,12 @@ extension SearchViewController: UICollectionViewDataSource {
 // MARK: - UICollectionViewDelegate
 extension SearchViewController: UICollectionViewDelegate {
   func scrollViewDidScroll(_ scrollView: UIScrollView) {
-    
     let currentTopMargin = 40 - scrollView.contentOffset.y
-    isScrollUntilTop = currentTopMargin > 0
-    
-    if isScrollUntilTop {
+    isScrolledUntilTop = currentTopMargin > 0
+
+    if isScrolledUntilTop {
       searchView.snp.updateConstraints {
         $0.top.equalTo(view.safeAreaLayoutGuide).inset(currentTopMargin)
-        $0.leading.trailing.equalToSuperview().inset(30)
-        $0.height.equalTo(50)
       }
     }
   }
@@ -281,5 +284,11 @@ extension SearchViewController: UICollectionViewDelegate {
     didSelectItemAt indexPath: IndexPath
   ) {
     print("[\(indexPath.section), \(indexPath.item)] clicked")
+  }
+}
+
+extension SearchViewController: SearchViewDelegate {
+  func didTapSearchButton(text: String) {
+    input.didTapSearchButton.send(text)
   }
 }
