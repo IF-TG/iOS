@@ -10,6 +10,8 @@ import SnapKit
 
 final class SearchView: UIView {
   // MARK: - Properties
+  weak var delegate: SearchViewDelegate?
+  
   private lazy var searchTextField: UITextField = UITextField().set {
     $0.placeholder = "여행지 및 축제를 검색해보세요."
     $0.font = .init(pretendard: .regular, size: 14)
@@ -18,10 +20,12 @@ final class SearchView: UIView {
     $0.delegate = self
   }
   
-  private let searchButton: UIButton = UIButton().set {
+  private lazy var searchButton: UIButton = UIButton().set {
     let image = UIImage(named: "search")?.withRenderingMode(.alwaysTemplate)
+    
     $0.setImage(image, for: .normal)
     $0.tintColor = .yg.primary
+    $0.addTarget(self, action: #selector(didTapSearchButton), for: .touchUpInside)
   }
   
   // MARK: - LifeCycle
@@ -42,6 +46,13 @@ extension SearchView {
     layer.borderColor = UIColor.yg.primary.cgColor
     layer.borderWidth = 1
     layer.cornerRadius = 25
+  }
+}
+
+// MARK: - Actions
+extension SearchView {
+  @objc private func didTapSearchButton() {
+    delegate?.didTapSearchButton(text: searchTextField.text ?? "")
   }
 }
 
