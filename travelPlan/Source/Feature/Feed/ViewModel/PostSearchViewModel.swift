@@ -176,7 +176,7 @@ extension PostSearchViewModel {
     return SectionType.allCases.count
   }
   
-  func getTagString(
+  func fetchTagString(
     _ tagCell: PostSearchTagCell,
     at indexPath: IndexPath
   ) -> String {
@@ -197,7 +197,7 @@ extension PostSearchViewModel {
     return model[section].items.count
   }
   
-  func getHeaderTitle(
+  func fetchHeaderTitle(
     _ headerView: PostSearchHeaderView,
     in section: Int
   ) -> String {
