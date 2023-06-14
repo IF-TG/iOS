@@ -6,7 +6,87 @@
 //
 
 import Foundation
+import Combine
 
 final class SearchViewModel {
+  typealias Output = AnyPublisher<State, ErrorType>
   
+  // MARK: - Input
+  struct Input {
+    let didTapView: PassthroughSubject<Void, Never>
+    let didTapSearchButton: PassthroughSubject<String, ErrorType>
+    
+    init(
+      didTapView: PassthroughSubject<Void, Never> = .init(),
+      didTapSearchButton: PassthroughSubject<String, ErrorType> = .init()
+    ) {
+      self.didTapView = didTapView
+      self.didTapSearchButton = didTapSearchButton
+    }
+  }
+  // MARK: - State
+  enum State {
+    case goDownKeyboard
+    case gotoSearch
+  }
+  // MARK: - Error
+  enum ErrorType: Error {
+    case none
+    case unexpected
+  }
+  
+  // MARK: - Properties
+  private var models = SearchSectionItemModel.models
+}
+
+// MARK: - ViewModelCase
+extension SearchViewModel: ViewModelCase {
+  func transform(_ input: Input) -> AnyPublisher<State, ErrorType> {
+    return Publishers.MergeMany([
+      didTapCollectionViewStream(input),
+      didTapSearchButtonStream(input)
+    ]).eraseToAnyPublisher()
+  }
+  
+  private func didTapCollectionViewStream(_ input: Input) -> Output {
+    return input.didTapView
+      .map { State.goDownKeyboard }
+      .setFailureType(to: ErrorType.self)
+      .eraseToAnyPublisher()
+  }
+  
+  private func didTapSearchButtonStream(_ input: Input) -> Output {
+    return input.didTapSearchButton
+      .tryMap { text in
+        print("DEBUG: '\(text)' search")
+        return State.gotoSearch
+      }
+      .mapError { $0 as? ErrorType ?? .unexpected }
+      .eraseToAnyPublisher()
+    
+  }
+}
+
+// MARK: - Public Helpers
+extension SearchViewModel {
+  func fetchModel(in section: Int) -> SearchSectionItemModel.SearchSection {
+    return models[section]
+  }
+  
+  func fetchHeaderTitle(in section: Int) -> String {
+    return models[section].headerTitle
+  }
+  
+  func numberOfItemsInSection(in section: Int) -> Int {
+    switch models[section] {
+    case let .bestFestival(festivalItems):
+      return festivalItems.count
+    case let .famousSpot(spotItems):
+      return spotItems.count
+    }
+  }
+  
+  func numberOfSections() -> Int {
+    return models.count
+  }
 }

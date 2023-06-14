@@ -251,7 +251,7 @@ extension PostSearchViewController: UICollectionViewDataSource {
     
     tagCell.delegate = self
     
-    let tagString = viewModel.getTagString(tagCell, at: indexPath)
+    let tagString = viewModel.fetchTagString(tagCell, at: indexPath)
     tagCell.configure(tagString)
     return tagCell
   }
@@ -272,7 +272,7 @@ extension PostSearchViewController: UICollectionViewDataSource {
       
       titleHeaderView.delegate = self
       
-      let titleString = viewModel.getHeaderTitle(titleHeaderView, at: indexPath.section)
+      let titleString = viewModel.fetchHeaderTitle(titleHeaderView, in: indexPath.section)
       titleHeaderView.prepare(title: titleString)
       
       return titleHeaderView
@@ -284,7 +284,7 @@ extension PostSearchViewController: UICollectionViewDataSource {
         for: indexPath
       ) as? PostSearchFooterView else { return UICollectionReusableView() }
       
-      if viewModel.isRecentSection(at: indexPath.section) {
+      if viewModel.isRecentSection(in: indexPath.section) {
         lineFooterView.isHidden = true
       }
       

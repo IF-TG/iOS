@@ -8,18 +8,24 @@
 import UIKit
 import SnapKit
 
-class SearchView: UIView {
+final class SearchView: UIView {
   // MARK: - Properties
-  private let searchTextField: UITextField = UITextField().set {
+  weak var delegate: SearchViewDelegate?
+  
+  private lazy var searchTextField: UITextField = UITextField().set {
     $0.placeholder = "여행지 및 축제를 검색해보세요."
     $0.font = .init(pretendard: .regular, size: 14)
     $0.textColor = .yg.gray5
+    
+    $0.delegate = self
   }
   
-  private let searchButton: UIButton = UIButton().set {
+  private lazy var searchButton: UIButton = UIButton().set {
     let image = UIImage(named: "search")?.withRenderingMode(.alwaysTemplate)
+    
     $0.setImage(image, for: .normal)
     $0.tintColor = .yg.primary
+    $0.addTarget(self, action: #selector(didTapSearchButton), for: .touchUpInside)
   }
   
   // MARK: - LifeCycle
@@ -43,6 +49,13 @@ extension SearchView {
   }
 }
 
+// MARK: - Actions
+extension SearchView {
+  @objc private func didTapSearchButton() {
+    delegate?.didTapSearchButton(text: searchTextField.text ?? "")
+  }
+}
+
 // MARK: - LayoutSupport
 extension SearchView: LayoutSupport {
   func addSubviews() {
@@ -62,5 +75,13 @@ extension SearchView: LayoutSupport {
       $0.top.bottom.equalToSuperview().inset(11)
       $0.width.equalTo(searchButton.snp.height)
     }
+  }
+}
+
+// MARK: - UITextFieldDelegate
+extension SearchView: UITextFieldDelegate {
+  func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    textField.resignFirstResponder()
+    return true
   }
 }

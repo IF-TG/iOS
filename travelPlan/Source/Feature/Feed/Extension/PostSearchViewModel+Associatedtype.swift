@@ -9,8 +9,7 @@ import UIKit
 import Combine
 
 extension PostSearchViewModel: ViewModelAssociatedType {
-  typealias Output = AnyPublisher<State, ErrorType>
-  
+  // MARK: - Input
   struct Input {
     let didSelectedItem: PassthroughSubject<IndexPath, Never>
     let didTapDeleteButton: PassthroughSubject<(Int, Int), Never>
@@ -45,6 +44,7 @@ extension PostSearchViewModel: ViewModelAssociatedType {
     }
   }
   
+  // MARK: - State
   enum State {
     case none
     case gotoBack
@@ -58,6 +58,7 @@ extension PostSearchViewModel: ViewModelAssociatedType {
     case runtoCancelLogic
   }
   
+  // MARK: - Error
   enum ErrorType: Error {
     case none
     case unexpected

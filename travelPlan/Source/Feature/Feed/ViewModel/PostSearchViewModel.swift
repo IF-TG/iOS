@@ -176,7 +176,7 @@ extension PostSearchViewModel {
     return SectionType.allCases.count
   }
   
-  func getTagString(
+  func fetchTagString(
     _ tagCell: PostSearchTagCell,
     at indexPath: IndexPath
   ) -> String {
@@ -197,22 +197,22 @@ extension PostSearchViewModel {
     return model[section].items.count
   }
   
-  func getHeaderTitle(
+  func fetchHeaderTitle(
     _ headerView: PostSearchHeaderView,
-    at section: Int
+    in section: Int
   ) -> String {
     switch section {
     case SectionType.recommendation.index:
       headerView.initSectionType(with: .recommendation)
-      return SectionType.recommendation.title
+      return SectionType.recommendation.headerTitle
     case SectionType.recent.index:
       headerView.initSectionType(with: .recent)
-      return SectionType.recent.title
+      return SectionType.recent.headerTitle
     default: return ""
     }
   }
   
-  func isRecentSection(at section: Int) -> Bool {
+  func isRecentSection(in section: Int) -> Bool {
     return section == SectionType.recent.index
   }
 }

@@ -22,7 +22,7 @@ extension PostSearchSectionItemModel {
 
 // MARK: - ComputedProperties in SectionType
 extension PostSearchSectionItemModel.SectionType {
-  var title: String {
+  var headerTitle: String {
     switch self {
     case .recommendation:
       return "추천 검색"

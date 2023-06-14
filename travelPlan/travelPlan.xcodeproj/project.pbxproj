@@ -12,7 +12,10 @@
 		1303047E2A249D6F00776A0D /* UIViewController+Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1303047D2A249D6F00776A0D /* UIViewController+Preview.swift */; };
 		130304802A249E2C00776A0D /* UIView+Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1303047F2A249E2C00776A0D /* UIView+Preview.swift */; };
 		130304822A250DF600776A0D /* SearchHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130304812A250DF600776A0D /* SearchHeaderView.swift */; };
-		130304842A25117200776A0D /* BestFestivalCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130304832A25117200776A0D /* BestFestivalCell.swift */; };
+		130304842A25117200776A0D /* SearchBestFestivalCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130304832A25117200776A0D /* SearchBestFestivalCell.swift */; };
+		130304AA2A271F3B00776A0D /* SearchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130304A92A271F3B00776A0D /* SearchModel.swift */; };
+		130304B02A28447900776A0D /* SearchFamousSpotCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130304AF2A28447900776A0D /* SearchFamousSpotCell.swift */; };
+		130FA91F2A359EE300E739C5 /* SearchViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130FA91E2A359EE300E739C5 /* SearchViewDelegate.swift */; };
 		13254FE32A05147200094218 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13254FE22A05147200094218 /* MainTabBarController.swift */; };
 		13254FE52A05157900094218 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13254FE42A05157900094218 /* FeedViewController.swift */; };
 		13254FE72A05158E00094218 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13254FE62A05158E00094218 /* SearchViewController.swift */; };
@@ -149,7 +152,10 @@
 		1303047D2A249D6F00776A0D /* UIViewController+Preview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Preview.swift"; sourceTree = "<group>"; };
 		1303047F2A249E2C00776A0D /* UIView+Preview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Preview.swift"; sourceTree = "<group>"; };
 		130304812A250DF600776A0D /* SearchHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHeaderView.swift; sourceTree = "<group>"; };
-		130304832A25117200776A0D /* BestFestivalCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BestFestivalCell.swift; sourceTree = "<group>"; };
+		130304832A25117200776A0D /* SearchBestFestivalCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBestFestivalCell.swift; sourceTree = "<group>"; };
+		130304A92A271F3B00776A0D /* SearchModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchModel.swift; sourceTree = "<group>"; };
+		130304AF2A28447900776A0D /* SearchFamousSpotCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFamousSpotCell.swift; sourceTree = "<group>"; };
+		130FA91E2A359EE300E739C5 /* SearchViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewDelegate.swift; sourceTree = "<group>"; };
 		13254FE22A05147200094218 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		13254FE42A05157900094218 /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
 		13254FE62A05158E00094218 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
@@ -333,7 +339,8 @@
 			children = (
 				1303047A2A24938700776A0D /* SearchView.swift */,
 				130304812A250DF600776A0D /* SearchHeaderView.swift */,
-				130304832A25117200776A0D /* BestFestivalCell.swift */,
+				130304832A25117200776A0D /* SearchBestFestivalCell.swift */,
+				130304AF2A28447900776A0D /* SearchFamousSpotCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -350,8 +357,17 @@
 		130304A82A270A7C00776A0D /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				130304A92A271F3B00776A0D /* SearchModel.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		130FA91D2A359ED500E739C5 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				130FA91E2A359EE300E739C5 /* SearchViewDelegate.swift */,
+			);
+			path = Protocol;
 			sourceTree = "<group>";
 		};
 		13254FEE2A05499900094218 /* Model */ = {
@@ -771,6 +787,7 @@
 		15BED2FF2A0824C300F86321 /* Search */ = {
 			isa = PBXGroup;
 			children = (
+				130FA91D2A359ED500E739C5 /* Protocol */,
 				130304A82A270A7C00776A0D /* Model */,
 				130304772A24935600776A0D /* View */,
 				130304762A24935100776A0D /* ViewModel */,
@@ -1266,6 +1283,7 @@
 				152AD4E62A188BFE008A2A11 /* FavoriteListTableView.swift in Sources */,
 				158BEF7F2A0E2C6E00C27861 /* PostContentAreaView.swift in Sources */,
 				15710CB82A132C630023C19E /* FeedPostSearchBarItem.swift in Sources */,
+				130304B02A28447900776A0D /* SearchFamousSpotCell.swift in Sources */,
 				158BEF882A0E33F700C27861 /* PostHeaderSubInfoView.swift in Sources */,
 				158BEF7D2A0E2C5F00C27861 /* PostHeaderView.swift in Sources */,
 				15FEB5E72A050A99000A5F33 /* UIButton+Combine.swift in Sources */,
@@ -1273,6 +1291,7 @@
 				152AD51B2A1A0447008A2A11 /* FavoriteListTableViewAdapter.swift in Sources */,
 				152AD52A2A1B8D6E008A2A11 /* MockFavoriteListData.swift in Sources */,
 				1325508E2A13EE8E00094218 /* PostSearchHeaderView.swift in Sources */,
+				130FA91F2A359EE300E739C5 /* SearchViewDelegate.swift in Sources */,
 				1325502B2A0ABE5E00094218 /* PostSearchViewModel.swift in Sources */,
 				15FEB5E92A050A99000A5F33 /* UITextField+Combine.swift in Sources */,
 				15EF8C972A0A18960068C744 /* CategoryPageViewModel.swift in Sources */,
@@ -1294,6 +1313,7 @@
 				15CB236C2A10BB17003EAF20 /* PostModel.swift in Sources */,
 				152AD5202A1A09E8008A2A11 /* FavoriteListTableViewAdapterDelegate.swift in Sources */,
 				15FEB5ED2A050A99000A5F33 /* LayoutSupport.swift in Sources */,
+				130304AA2A271F3B00776A0D /* SearchModel.swift in Sources */,
 				158BEFF42A0FFA0A00C27861 /* PostFooterStackViewType.swift in Sources */,
 				15BB01BD2A1EB7640035B486 /* PostSearchViewModel+Associatedtype.swift in Sources */,
 				1325508C2A13EDEA00094218 /* LeftAlignedCollectionViewFlowLayout.swift in Sources */,
@@ -1332,7 +1352,7 @@
 				152AD4EB2A1890FD008A2A11 /* FavoriteListTableViewCellConstant.swift in Sources */,
 				158BEFC72A0ED09800C27861 /* PostThumbnailView.swift in Sources */,
 				15CB23692A10B9CF003EAF20 /* PostFooterModel.swift in Sources */,
-				130304842A25117200776A0D /* BestFestivalCell.swift in Sources */,
+				130304842A25117200776A0D /* SearchBestFestivalCell.swift in Sources */,
 				158BEF852A0E2DD700C27861 /* PostViewConstant.swift in Sources */,
 				158BEF792A0E27BD00C27861 /* PostView.swift in Sources */,
 				15BB01BF2A1EBAC20035B486 /* LoginViewModel+Associatedtype.swift in Sources */,
