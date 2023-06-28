@@ -225,6 +225,15 @@ extension PostSearchViewController: UICollectionViewDelegateFlowLayout {
   ) {
     input.didSelectedItem.send(indexPath)
   }
+  
+  func collectionView(
+    _ collectionView: UICollectionView,
+    willDisplay cell: UICollectionViewCell,
+    forItemAt indexPath: IndexPath
+  ) {
+    guard let tagCell = cell as? PostSearchTagCell else { return }
+    tagCell.setBackgroundColor(with: indexPath.section)
+  }
 }
 
 // MARK: - UICollectionViewDataSource

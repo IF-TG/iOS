@@ -42,7 +42,6 @@ final class PostSearchTagCell: UICollectionViewCell {
 // MARK: - Helpers
 extension PostSearchTagCell {
   private func setupStyles() {
-    contentView.backgroundColor = .systemBackground
     contentView.layer.borderColor = UIColor.YG.gray0.cgColor
     contentView.layer.borderWidth = 1
     contentView.layer.cornerRadius = 13
@@ -55,6 +54,20 @@ extension PostSearchTagCell {
     deleteButton.tintColor = .yg.gray5
     deleteButton.addTarget(self, action: #selector(didTapDeleteButton), for: .touchUpInside)
     return deleteButton
+  }
+}
+
+// MARK: - Helpers
+extension PostSearchTagCell {
+  func setBackgroundColor(with section: Int) {
+    switch section {
+    case SectionType.recommendation.rawValue:
+      contentView.backgroundColor = UIColor(hex: "1BA0EB").withAlphaComponent(0.1)
+    case SectionType.recent.rawValue:
+      contentView.backgroundColor =  .yg.veryLightGray
+    default:
+      contentView.backgroundColor = .white
+    }
   }
 }
 
@@ -79,7 +92,7 @@ extension PostSearchTagCell {
   @objc private func didTapDeleteButton(_ button: UIButton) {
     delegate?.didTapDeleteButton(
       item: button.tag,
-      in: sectionType?.index ?? SectionType.recent.index
+      in: sectionType?.rawValue ?? SectionType.recent.rawValue
     )
   }
 }
