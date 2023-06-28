@@ -121,8 +121,8 @@ extension PostSearchViewModel: ViewModelCase {
     return input.didTapAlertConfirmButton
       .tryMap { [weak self] in
         print("DEBUG: 확인 버튼 클릭됨")
-        self?.model[SectionType.recent.index].items.removeAll()
-        return State.deleteAllCells(section: SectionType.recent.index)
+        self?.model[SectionType.recent.rawValue].items.removeAll()
+        return State.deleteAllCells(section: SectionType.recent.rawValue)
       }
       .mapError { $0 as? ErrorType ?? .unexpected }
       .eraseToAnyPublisher()
@@ -154,12 +154,12 @@ extension PostSearchViewModel {
       .size(withAttributes: [.font: UIFont(pretendard: .medium, size: 14)!])
     
     switch indexPath.section {
-    case SectionType.recommendation.index:
+    case SectionType.recommendation.rawValue:
       return CGSize(
         width: textSize.width + (widthPadding * 2),
         height: textSize.height + (heightPadding * 2)
       )
-    case SectionType.recent.index:
+    case SectionType.recent.rawValue:
       let buttonWidth: CGFloat = 10
       let componentPadding: CGFloat = 4
       let width = textSize.width + componentPadding + buttonWidth + (widthPadding * 2)
@@ -182,9 +182,9 @@ extension PostSearchViewModel {
   ) -> String {
     // 하나의 Cell class를 재사용해서 변형시키므로, section별로 Cell 구분화
     switch indexPath.section {
-    case SectionType.recommendation.index:
+    case SectionType.recommendation.rawValue:
       tagCell.initSectionType(with: .recommendation)
-    case SectionType.recent.index:
+    case SectionType.recent.rawValue:
       tagCell.initSectionType(with: .recent)
     default: break
     }
@@ -202,10 +202,10 @@ extension PostSearchViewModel {
     in section: Int
   ) -> String {
     switch section {
-    case SectionType.recommendation.index:
+    case SectionType.recommendation.rawValue:
       headerView.initSectionType(with: .recommendation)
       return SectionType.recommendation.headerTitle
-    case SectionType.recent.index:
+    case SectionType.recent.rawValue:
       headerView.initSectionType(with: .recent)
       return SectionType.recent.headerTitle
     default: return ""
@@ -213,6 +213,6 @@ extension PostSearchViewModel {
   }
   
   func isRecentSection(in section: Int) -> Bool {
-    return section == SectionType.recent.index
+    return section == SectionType.recent.rawValue
   }
 }

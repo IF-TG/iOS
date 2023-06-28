@@ -30,13 +30,4 @@ extension PostSearchSectionItemModel.SectionType {
       return "최근 검색"
     }
   }
-  
-  var index: Int {
-    switch self {
-    case .recommendation:
-      return self.rawValue
-    case .recent:
-      return self.rawValue
-    }
-  }
 }

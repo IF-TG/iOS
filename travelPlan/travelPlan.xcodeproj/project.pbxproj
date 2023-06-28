@@ -16,6 +16,7 @@
 		130304AA2A271F3B00776A0D /* SearchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130304A92A271F3B00776A0D /* SearchModel.swift */; };
 		130304B02A28447900776A0D /* SearchFamousSpotCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130304AF2A28447900776A0D /* SearchFamousSpotCell.swift */; };
 		130FA91F2A359EE300E739C5 /* SearchViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130FA91E2A359EE300E739C5 /* SearchViewDelegate.swift */; };
+		130FA9212A4284E600E739C5 /* HeartButtonDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130FA9202A4284E600E739C5 /* HeartButtonDelegate.swift */; };
 		13254FE32A05147200094218 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13254FE22A05147200094218 /* MainTabBarController.swift */; };
 		13254FE52A05157900094218 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13254FE42A05157900094218 /* FeedViewController.swift */; };
 		13254FE72A05158E00094218 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13254FE62A05158E00094218 /* SearchViewController.swift */; };
@@ -156,6 +157,7 @@
 		130304A92A271F3B00776A0D /* SearchModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchModel.swift; sourceTree = "<group>"; };
 		130304AF2A28447900776A0D /* SearchFamousSpotCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFamousSpotCell.swift; sourceTree = "<group>"; };
 		130FA91E2A359EE300E739C5 /* SearchViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewDelegate.swift; sourceTree = "<group>"; };
+		130FA9202A4284E600E739C5 /* HeartButtonDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartButtonDelegate.swift; sourceTree = "<group>"; };
 		13254FE22A05147200094218 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		13254FE42A05157900094218 /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
 		13254FE62A05158E00094218 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
@@ -366,6 +368,7 @@
 			isa = PBXGroup;
 			children = (
 				130FA91E2A359EE300E739C5 /* SearchViewDelegate.swift */,
+				130FA9202A4284E600E739C5 /* HeartButtonDelegate.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -1277,6 +1280,7 @@
 				15EF8C9D2A0A19190068C744 /* CategoryViewCell.swift in Sources */,
 				15CB23612A10B5E3003EAF20 /* DateValidationProtocol.swift in Sources */,
 				152AD4F62A18B6C3008A2A11 /* FavoriteListHeaderImageView.swift in Sources */,
+				130FA9212A4284E600E739C5 /* HeartButtonDelegate.swift in Sources */,
 				13254FE72A05158E00094218 /* SearchViewController.swift in Sources */,
 				15FEB5EC2A050A99000A5F33 /* ViewModelProtocols.swift in Sources */,
 				152AD5272A1B89D2008A2A11 /* FavoriteListViewModel.swift in Sources */,
