@@ -13,6 +13,7 @@ import SnapKit
 final class SearchViewController: UIViewController {
   
   // MARK: - Properties
+  weak var coordinator: SearchCoordinator?
   private let viewModel = SearchViewModel()
   private lazy var searchView: SearchView = .init().set {
     $0.delegate = self

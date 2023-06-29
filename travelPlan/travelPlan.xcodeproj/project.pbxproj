@@ -36,6 +36,15 @@
 		13CB6D322A1E9F6600D185B2 /* CautionAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CB6D312A1E9F6600D185B2 /* CautionAlertViewController.swift */; };
 		13CB6D342A1FEC6D00D185B2 /* CautionAlertViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CB6D332A1FEC6D00D185B2 /* CautionAlertViewControllerDelegate.swift */; };
 		13CB6D362A20E12B00D185B2 /* CALayer+Border.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CB6D352A20E12B00D185B2 /* CALayer+Border.swift */; };
+		1503F9292A4E0603002BC38D /* SHCoordinator in Frameworks */ = {isa = PBXBuildFile; productRef = 1503F9282A4E0603002BC38D /* SHCoordinator */; };
+		1503F92B2A4E068E002BC38D /* ApplicationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1503F92A2A4E068E002BC38D /* ApplicationCoordinator.swift */; };
+		1503F92E2A4E083C002BC38D /* LoginCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1503F92D2A4E083C002BC38D /* LoginCoordinator.swift */; };
+		1503F9312A4E0A4F002BC38D /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1503F9302A4E0A4F002BC38D /* MainCoordinator.swift */; };
+		1503F9342A4E0D06002BC38D /* ProfileCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1503F9332A4E0D06002BC38D /* ProfileCoordinator.swift */; };
+		1503F9372A4E1103002BC38D /* FavoriteCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1503F9362A4E1103002BC38D /* FavoriteCoordinator.swift */; };
+		1503F93A2A4E1260002BC38D /* SearchCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1503F9392A4E1260002BC38D /* SearchCoordinator.swift */; };
+		1503F93D2A4E1291002BC38D /* PlanCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1503F93C2A4E1291002BC38D /* PlanCoordinator.swift */; };
+		1503F9402A4E1327002BC38D /* FeedCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1503F93F2A4E1327002BC38D /* FeedCoordinator.swift */; };
 		151130092A04E4EB0041DDA1 /* travelPlanTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151130082A04E4EB0041DDA1 /* travelPlanTests.swift */; };
 		151130162A04E5B00041DDA1 /* travelPlanUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151130152A04E5B00041DDA1 /* travelPlanUITests.swift */; };
 		151130182A04E5B00041DDA1 /* travelPlanUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151130172A04E5B00041DDA1 /* travelPlanUITestsLaunchTests.swift */; };
@@ -176,6 +185,14 @@
 		13CB6D312A1E9F6600D185B2 /* CautionAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CautionAlertViewController.swift; sourceTree = "<group>"; };
 		13CB6D332A1FEC6D00D185B2 /* CautionAlertViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CautionAlertViewControllerDelegate.swift; sourceTree = "<group>"; };
 		13CB6D352A20E12B00D185B2 /* CALayer+Border.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+Border.swift"; sourceTree = "<group>"; };
+		1503F92A2A4E068E002BC38D /* ApplicationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationCoordinator.swift; sourceTree = "<group>"; };
+		1503F92D2A4E083C002BC38D /* LoginCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCoordinator.swift; sourceTree = "<group>"; };
+		1503F9302A4E0A4F002BC38D /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
+		1503F9332A4E0D06002BC38D /* ProfileCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCoordinator.swift; sourceTree = "<group>"; };
+		1503F9362A4E1103002BC38D /* FavoriteCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteCoordinator.swift; sourceTree = "<group>"; };
+		1503F9392A4E1260002BC38D /* SearchCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCoordinator.swift; sourceTree = "<group>"; };
+		1503F93C2A4E1291002BC38D /* PlanCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanCoordinator.swift; sourceTree = "<group>"; };
+		1503F93F2A4E1327002BC38D /* FeedCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCoordinator.swift; sourceTree = "<group>"; };
 		151130062A04E4EB0041DDA1 /* travelPlanTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = travelPlanTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		151130082A04E4EB0041DDA1 /* travelPlanTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = travelPlanTests.swift; sourceTree = "<group>"; };
 		151130132A04E5B00041DDA1 /* travelPlanUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = travelPlanUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -294,6 +311,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1503F9292A4E0603002BC38D /* SHCoordinator in Frameworks */,
 				8B8277C1D53D2763DBC91C26 /* Pods_travelPlan.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -389,6 +407,70 @@
 			path = PostSearch;
 			sourceTree = "<group>";
 		};
+		1503F92C2A4E0832002BC38D /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				1503F92D2A4E083C002BC38D /* LoginCoordinator.swift */,
+			);
+			path = Coordinator;
+			sourceTree = "<group>";
+		};
+		1503F92F2A4E0A3F002BC38D /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				1503F9302A4E0A4F002BC38D /* MainCoordinator.swift */,
+			);
+			path = Coordinator;
+			sourceTree = "<group>";
+		};
+		1503F9322A4E0CFD002BC38D /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				1503F9332A4E0D06002BC38D /* ProfileCoordinator.swift */,
+			);
+			path = Coordinator;
+			sourceTree = "<group>";
+		};
+		1503F9352A4E10F7002BC38D /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				1503F9362A4E1103002BC38D /* FavoriteCoordinator.swift */,
+			);
+			path = Coordinator;
+			sourceTree = "<group>";
+		};
+		1503F9382A4E1256002BC38D /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				1503F9392A4E1260002BC38D /* SearchCoordinator.swift */,
+			);
+			path = Coordinator;
+			sourceTree = "<group>";
+		};
+		1503F93B2A4E128B002BC38D /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				1503F93C2A4E1291002BC38D /* PlanCoordinator.swift */,
+			);
+			path = Coordinator;
+			sourceTree = "<group>";
+		};
+		1503F93E2A4E131F002BC38D /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				1503F93F2A4E1327002BC38D /* FeedCoordinator.swift */,
+			);
+			path = Coordinator;
+			sourceTree = "<group>";
+		};
+		1503F9412A4E13FB002BC38D /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				13254FEC2A0515D800094218 /* ProfileViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
 		151130072A04E4EB0041DDA1 /* travelPlanTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -418,6 +500,7 @@
 		152AD4E92A188FAD008A2A11 /* FavoriteList */ = {
 			isa = PBXGroup;
 			children = (
+				1503F9352A4E10F7002BC38D /* Coordinator */,
 				152AD5282A1B8D5A008A2A11 /* Mock */,
 				152AD5252A1B89C9008A2A11 /* ViewModel */,
 				152AD51C2A1A04D0008A2A11 /* Protocol */,
@@ -644,6 +727,7 @@
 		1594F54629FD526900A58F20 /* Feature */ = {
 			isa = PBXGroup;
 			children = (
+				1503F92A2A4E068E002BC38D /* ApplicationCoordinator.swift */,
 				15BB01AE2A1EB4890035B486 /* Authentication */,
 				15BED3032A0825BB00F86321 /* Profile */,
 				1594F54729FD527100A58F20 /* Main */,
@@ -658,6 +742,7 @@
 		1594F54729FD527100A58F20 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				1503F92F2A4E0A3F002BC38D /* Coordinator */,
 				13254FEE2A05499900094218 /* Model */,
 				1594F54829FD527700A58F20 /* ViewController */,
 			);
@@ -712,6 +797,7 @@
 		15BB01B02A1EB4CF0035B486 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				1503F92C2A4E0832002BC38D /* Coordinator */,
 				15BB01B22A1EB4DF0035B486 /* Extension */,
 				15BB01B12A1EB4D80035B486 /* ViewModel */,
 				15BB01AF2A1EB4C40035B486 /* ViewController */,
@@ -747,6 +833,7 @@
 		15BED2FB2A08236300F86321 /* Feed */ = {
 			isa = PBXGroup;
 			children = (
+				1503F93E2A4E131F002BC38D /* Coordinator */,
 				15BB01B92A1EB5C00035B486 /* Extension */,
 				15CB23702A10F5CD003EAF20 /* Mock */,
 				15C92C122A0AD21E00376D1B /* Protocol */,
@@ -771,6 +858,7 @@
 		15BED2FD2A0824A900F86321 /* Plan */ = {
 			isa = PBXGroup;
 			children = (
+				1503F93B2A4E128B002BC38D /* Coordinator */,
 				15BED2FE2A0824B800F86321 /* ViewController */,
 			);
 			path = Plan;
@@ -787,6 +875,7 @@
 		15BED2FF2A0824C300F86321 /* Search */ = {
 			isa = PBXGroup;
 			children = (
+				1503F9382A4E1256002BC38D /* Coordinator */,
 				130FA91D2A359ED500E739C5 /* Protocol */,
 				130304A82A270A7C00776A0D /* Model */,
 				130304772A24935600776A0D /* View */,
@@ -815,7 +904,8 @@
 		15BED3032A0825BB00F86321 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				13254FEC2A0515D800094218 /* ProfileViewController.swift */,
+				1503F9412A4E13FB002BC38D /* ViewController */,
+				1503F9322A4E0CFD002BC38D /* Coordinator */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -1104,6 +1194,9 @@
 			dependencies = (
 			);
 			name = travelPlan;
+			packageProductDependencies = (
+				1503F9282A4E0603002BC38D /* SHCoordinator */,
+			);
 			productName = travelPlan;
 			productReference = 1594F52E29FD517E00A58F20 /* travelPlan.app */;
 			productType = "com.apple.product-type.application";
@@ -1140,6 +1233,9 @@
 				Base,
 			);
 			mainGroup = 1594F52529FD517E00A58F20;
+			packageReferences = (
+				1503F9272A4E0603002BC38D /* XCRemoteSwiftPackageReference "SHCoordinator" */,
+			);
 			productRefGroup = 1594F52F29FD517E00A58F20 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -1273,6 +1369,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				15CC64142A1DD4EF00857446 /* ConvenienceInit.swift in Sources */,
+				1503F9312A4E0A4F002BC38D /* MainCoordinator.swift in Sources */,
 				158BEF772A0E279700C27861 /* PostCell.swift in Sources */,
 				15EF8C9D2A0A19190068C744 /* CategoryViewCell.swift in Sources */,
 				15CB23612A10B5E3003EAF20 /* DateValidationProtocol.swift in Sources */,
@@ -1289,20 +1386,24 @@
 				15FEB5E72A050A99000A5F33 /* UIButton+Combine.swift in Sources */,
 				15332AD62A163AB6008A4110 /* FavoriteViewControllerConstant.swift in Sources */,
 				152AD51B2A1A0447008A2A11 /* FavoriteListTableViewAdapter.swift in Sources */,
+				1503F92B2A4E068E002BC38D /* ApplicationCoordinator.swift in Sources */,
 				152AD52A2A1B8D6E008A2A11 /* MockFavoriteListData.swift in Sources */,
 				1325508E2A13EE8E00094218 /* PostSearchHeaderView.swift in Sources */,
 				130FA91F2A359EE300E739C5 /* SearchViewDelegate.swift in Sources */,
 				1325502B2A0ABE5E00094218 /* PostSearchViewModel.swift in Sources */,
 				15FEB5E92A050A99000A5F33 /* UITextField+Combine.swift in Sources */,
 				15EF8C972A0A18960068C744 /* CategoryPageViewModel.swift in Sources */,
+				1503F9402A4E1327002BC38D /* FeedCoordinator.swift in Sources */,
 				13254FED2A0515D800094218 /* ProfileViewController.swift in Sources */,
 				1303047E2A249D6F00776A0D /* UIViewController+Preview.swift in Sources */,
 				13CB6D322A1E9F6600D185B2 /* CautionAlertViewController.swift in Sources */,
 				15CB235B2A109CA4003EAF20 /* PostHeaderSubInfoModel.swift in Sources */,
 				130304792A24936D00776A0D /* SearchViewModel.swift in Sources */,
 				157176782A0C21C90015EC8C /* UIColor+AppPalette.swift in Sources */,
+				1503F92E2A4E083C002BC38D /* LoginCoordinator.swift in Sources */,
 				152AD5152A19ED4E008A2A11 /* FavoriteListHeaderImageViewsConstant.swift in Sources */,
 				152AD51E2A1A04E5008A2A11 /* FavoriteListTableViewAdapterDataSource.swift in Sources */,
+				1503F93A2A4E1260002BC38D /* SearchCoordinator.swift in Sources */,
 				15FEB5E62A050A99000A5F33 /* UISwitch+Combine.swift in Sources */,
 				132550282A0ABBDA00094218 /* PostSearchModel.swift in Sources */,
 				15EF8C9B2A0A19100068C744 /* CategoryView.swift in Sources */,
@@ -1312,6 +1413,7 @@
 				158BEFD02A0FE2C000C27861 /* OneUnitHeightLine.swift in Sources */,
 				15CB236C2A10BB17003EAF20 /* PostModel.swift in Sources */,
 				152AD5202A1A09E8008A2A11 /* FavoriteListTableViewAdapterDelegate.swift in Sources */,
+				1503F9342A4E0D06002BC38D /* ProfileCoordinator.swift in Sources */,
 				15FEB5ED2A050A99000A5F33 /* LayoutSupport.swift in Sources */,
 				130304AA2A271F3B00776A0D /* SearchModel.swift in Sources */,
 				158BEFF42A0FFA0A00C27861 /* PostFooterStackViewType.swift in Sources */,
@@ -1364,8 +1466,10 @@
 				15CB235F2A10B5B8003EAF20 /* DateValidationManager.swift in Sources */,
 				15CB23592A109C85003EAF20 /* PostHeaderModel.swift in Sources */,
 				15EF8CA32A0A197C0068C744 /* CategoryPageView.swift in Sources */,
+				1503F93D2A4E1291002BC38D /* PlanCoordinator.swift in Sources */,
 				13254FE52A05157900094218 /* FeedViewController.swift in Sources */,
 				130304822A250DF600776A0D /* SearchHeaderView.swift in Sources */,
+				1503F9372A4E1103002BC38D /* FavoriteCoordinator.swift in Sources */,
 				15CB23662A10B7F1003EAF20 /* PostContentAreaModel.swift in Sources */,
 				15CB23632A10B600003EAF20 /* DateValidationError.swift in Sources */,
 				15FEB5EA2A050A99000A5F33 /* UIColor+.swift in Sources */,
@@ -1683,6 +1787,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		1503F9272A4E0603002BC38D /* XCRemoteSwiftPackageReference "SHCoordinator" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SHcommit/SHCoordinator.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1503F9282A4E0603002BC38D /* SHCoordinator */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1503F9272A4E0603002BC38D /* XCRemoteSwiftPackageReference "SHCoordinator" */;
+			productName = SHCoordinator;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 1594F52629FD517E00A58F20 /* Project object */;
 }
