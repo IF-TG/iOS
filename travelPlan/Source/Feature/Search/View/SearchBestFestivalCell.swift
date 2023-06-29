@@ -13,35 +13,26 @@ final class SearchBestFestivalCell: UICollectionViewCell {
   static var id: String {
     return String(describing: self)
   }
+  
   private let thumbnailImageView: UIImageView = .init().set {
     $0.layer.cornerRadius = 3
     $0.contentMode = .scaleAspectFill
     $0.layer.masksToBounds = true
+    $0.isUserInteractionEnabled = true // UIImageView의 터치 이벤트를 감지하기 위해 인터랙션을 활성화
   }
   
-  private let heartButton: UIButton = .init().set {
-    $0.setImage(
-      UIImage(named: "unselectedHeart")?.withRenderingMode(.alwaysOriginal),
-      for: .normal
-    )
+  private lazy var heartButton: UIButton = .init().set {
+    $0.setImage(UIImage(named: "unselectedHeart"), for: .normal)
+    $0.setImage(UIImage(named: "selectedHeart"), for: .selected)
+    $0.addTarget(self, action: #selector(didTapHeartButton), for: .touchUpInside)
   }
+  weak var buttonDelegate: HeartButtonDelegate?
   
-  // NSAttributedStringTODO: - border 추가 https://easy-coding.tistory.com/89
   private let festivalLabel: UILabel = .init().set {
     $0.font = UIFont(pretendard: .bold, size: 18)
     $0.textColor = .yg.gray00Background
     $0.numberOfLines = 1
     $0.textAlignment = .center
-    
-    // shadowTODO: - shadow, blur 처리
-//    let attrString = NSAttributedString(string: "축제명축제명축제명", attributes: [
-//      .strokeColor: UIColor.black.withAlphaComponent(0.3),
-//      .foregroundColor: UIColor.white,
-//      .strokeWidth: 0.5,
-//      .font: UIFont(pretendard: .bold, size: 18) ?? .systemFont(ofSize: 18)
-//    ])
-//
-//    $0.attributedText = attrString
     
     $0.text = "축제명축제명축제명"
   }
@@ -69,6 +60,14 @@ final class SearchBestFestivalCell: UICollectionViewCell {
   override func prepareForReuse() {
     super.prepareForReuse()
     thumbnailImageView.image = nil
+  }
+}
+
+// MARK: - Actions
+extension SearchBestFestivalCell {
+  @objc private func didTapHeartButton() {
+    buttonDelegate?.didTapHeartButton()
+    heartButton.isSelected.toggle()
   }
 }
 

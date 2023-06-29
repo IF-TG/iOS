@@ -21,10 +21,12 @@ final class SearchFamousSpotCell: UICollectionViewCell {
     $0.layer.masksToBounds = true
   }
   
-  private let heartButton: UIButton = UIButton().set {
-    $0.setImage(UIImage(named: "selectedHeart"), for: .normal)
+  private lazy var heartButton: UIButton = UIButton().set {
+    $0.setImage(UIImage(named: "unselectedHeart"), for: .normal)
+    $0.setImage(UIImage(named: "selectedHeart"), for: .selected)
+    $0.addTarget(self, action: #selector(didTapHeartButton), for: .touchUpInside)
   }
-  
+  weak var buttonDelegate: HeartButtonDelegate?
   private let placeLabel: UILabel = UILabel().set {
     $0.font = .init(pretendard: .semiBold, size: 16)
     $0.text = "관광 장소명" // will erase
@@ -65,6 +67,15 @@ final class SearchFamousSpotCell: UICollectionViewCell {
   override func prepareForReuse() {
     super.prepareForReuse()
     thumbnailImageView.image = nil
+  }
+}
+
+// MARK: - Actions
+extension SearchFamousSpotCell {
+  @objc private func didTapHeartButton() {
+    buttonDelegate?.didTapHeartButton()
+    print("DEBUG: 버튼 변화됨!")
+//    heartButton.isSelected.toggle()
   }
 }
 
