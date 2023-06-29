@@ -15,19 +15,23 @@ final class SearchViewModel {
   struct Input {
     let didTapView: PassthroughSubject<Void, Never>
     let didTapSearchButton: PassthroughSubject<String, ErrorType>
+    let didTapHeartButton: PassthroughSubject<Void, ErrorType>
     
     init(
       didTapView: PassthroughSubject<Void, Never> = .init(),
-      didTapSearchButton: PassthroughSubject<String, ErrorType> = .init()
+      didTapSearchButton: PassthroughSubject<String, ErrorType> = .init(),
+      didTapHeartButton: PassthroughSubject<Void, ErrorType> = .init()
     ) {
       self.didTapView = didTapView
       self.didTapSearchButton = didTapSearchButton
+      self.didTapHeartButton = didTapHeartButton
     }
   }
   // MARK: - State
   enum State {
     case goDownKeyboard
     case gotoSearch
+    case change
   }
   // MARK: - Error
   enum ErrorType: Error {
@@ -44,8 +48,16 @@ extension SearchViewModel: ViewModelCase {
   func transform(_ input: Input) -> AnyPublisher<State, ErrorType> {
     return Publishers.MergeMany([
       didTapCollectionViewStream(input),
-      didTapSearchButtonStream(input)
+      didTapSearchButtonStream(input),
+      didTapHeartButton(input)
     ]).eraseToAnyPublisher()
+  }
+  
+  private func didTapHeartButton(_ input: Input) -> Output {
+    return input.didTapHeartButton
+      .tryMap { State.change }
+      .mapError { $0 as? ErrorType ?? .unexpected }
+      .eraseToAnyPublisher()
   }
   
   private func didTapCollectionViewStream(_ input: Input) -> Output {

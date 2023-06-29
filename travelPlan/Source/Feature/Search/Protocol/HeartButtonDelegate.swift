@@ -6,3 +6,7 @@
 //
 
 import Foundation
+
+protocol HeartButtonDelegate: AnyObject {
+  func didTapHeartButton()
+}

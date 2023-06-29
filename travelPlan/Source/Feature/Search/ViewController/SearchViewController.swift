@@ -97,9 +97,11 @@ extension SearchViewController {
     switch state {
     case .goDownKeyboard:
       searchView.endEditing(true)
-      
+    
     case .gotoSearch:
       print("해당 text를 기반으로 vc 전환")
+    case .change:
+      print("state")
     }
   }
 }
@@ -168,7 +170,12 @@ extension SearchViewController {
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .groupPaging
         section.interGroupSpacing = 20
-        section.contentInsets = .init(top: 5, leading: 0, bottom: 5, trailing: UIScreen.main.bounds.size.width*0.13)
+        section.contentInsets = .init(
+          top: 5,
+          leading: 0,
+          bottom: 5,
+          trailing: UIScreen.main.bounds.size.width * 0.13
+        )
         section.boundarySupplementaryItems = [self.supplementaryHeaderItem()] // 헤더의 layout 처리
         section.supplementariesFollowContentInsets = false
         
@@ -232,6 +239,7 @@ extension SearchViewController: UICollectionViewDataSource {
         for: indexPath
       ) as? SearchBestFestivalCell else { return UICollectionViewCell() }
       
+      cell.buttonDelegate = self
       cell.configure(festivalItems[indexPath.item])
       return cell
     case let .famousSpot(spotItems):
@@ -239,6 +247,7 @@ extension SearchViewController: UICollectionViewDataSource {
         withReuseIdentifier: SearchFamousSpotCell.id, for: indexPath
       ) as? SearchFamousSpotCell else { return UICollectionViewCell() }
       
+      cell.buttonDelegate = self
       cell.configure(spotItems[indexPath.item])
       return cell
     }
@@ -287,8 +296,17 @@ extension SearchViewController: UICollectionViewDelegate {
   }
 }
 
+// MARK: - SearchViewDelegate
 extension SearchViewController: SearchViewDelegate {
   func didTapSearchButton(text: String) {
     input.didTapSearchButton.send(text)
+  }
+}
+
+// MARK: - HeartButtonDelegate
+extension SearchViewController: HeartButtonDelegate {
+  func didTapHeartButton() {
+    input.didTapHeartButton.send()
+    print("DEBUG: 하트 버튼 클릭")
   }
 }
