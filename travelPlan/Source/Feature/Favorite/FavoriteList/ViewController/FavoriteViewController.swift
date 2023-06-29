@@ -12,7 +12,7 @@ class FavoriteViewController: UIViewController {
   private let line = OneUnitHeightLine(color: .yg.gray0)
   private lazy var tableView = FavoriteListTableView()
   private var adapter: FavoriteListTableViewAdapter!
-  
+  weak var coordinator: FavoriteCoordinator?
   private var vm = FavoriteListViewModel()
   
   // MARK: - Lifecycle
