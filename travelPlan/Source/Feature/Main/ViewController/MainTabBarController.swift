@@ -10,6 +10,7 @@ import SnapKit
 
 final class MainTabBarController: UITabBarController {
   // MARK: - Properties
+  weak var coordinator: MainCoordinator?
   private var viewControllerBuffer = [UIViewController]()
 
   private lazy var shadowContainerView: UIView = UIView().set {
@@ -34,13 +35,24 @@ final class MainTabBarController: UITabBarController {
     setupUI()
     configureTabBar()
   }
+  
+  private override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+    super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+  }
+  
+  convenience init() {
+    self.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError()
+  }
 }
 
+// MARK: - Helpers
 extension MainTabBarController {
-  // MARK: - Helpers
   private func configureTabBar() {
     configureTabBarAppearance()
-    configureItems()
   }
   
   private func configureTabBarAppearance() {
@@ -54,41 +66,19 @@ extension MainTabBarController {
     self.tabBar.backgroundColor = .white
   }
   
-  private func configureItems() {
+  func setTabBarIcon() {
     let tabBarList: [TabBarCase] = [.feed, .search, .plan, .favorite, .profile]
-    _ = tabBarList.map { makeTabBarItem(type: $0)}
-    
-    self.viewControllers = viewControllerBuffer
-  }
-  
-  private func makeTabBarItem(type: TabBarCase) {
-    let navigationController: UINavigationController!
-    
-    let imageName = type.rawValue
-    let selectedImage = UIImage(named: imageName)?.withTintColor(UIColor.yg.primary, renderingMode: .alwaysOriginal)
-    let tabBarItem = UITabBarItem(title: type.title, image: UIImage(named: imageName), selectedImage: selectedImage)
-    
-    switch type {
-    case .feed:
-      navigationController = UINavigationController(
-        rootViewController: FeedViewController().set { $0.tabBarItem = tabBarItem })
-    case .search:
-      navigationController = UINavigationController(
-        rootViewController: SearchViewController().set { $0.tabBarItem = tabBarItem })
-    case .plan:
-      navigationController = UINavigationController(
-        rootViewController: PlanViewController().set { $0.tabBarItem = tabBarItem })
-    case .favorite:
-      navigationController = UINavigationController(
-        rootViewController: FavoriteViewController().set { $0.tabBarItem = tabBarItem })
-    case .profile:
-      navigationController = UINavigationController(
-        rootViewController: ProfileViewController().set { $0.tabBarItem = tabBarItem })
+    let tabBarItems = tabBarList.map {
+      let imageName = $0.rawValue
+      let selectedImage = UIImage(named: imageName)?.withTintColor(UIColor.yg.primary, renderingMode: .alwaysOriginal)
+      return UITabBarItem(title: $0.title, image: UIImage(named: imageName), selectedImage: selectedImage)
     }
-    viewControllerBuffer.append(navigationController)
+    guard let viewControllers = viewControllers else { return }
+    _=viewControllers.enumerated().map { $1.tabBarItem = tabBarItems[$0] }
   }
 }
 
+// MARK: - LayoutSupport
 extension MainTabBarController: LayoutSupport {
   func addSubviews() {
     self.view.addSubview(shadowContainerView)

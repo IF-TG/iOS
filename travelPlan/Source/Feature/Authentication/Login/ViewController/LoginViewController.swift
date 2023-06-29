@@ -10,10 +10,11 @@ import Combine
 
 class LoginViewController: UIViewController {
   // MARK: - Properteis
-  let vm = LoginViewModel()
+  var vm: LoginViewModel!
   let appear = PassthroughSubject<Void, ErrorType>()
   let viewLoad = PassthroughSubject<Void, ErrorType>()
   var subscription = Set<AnyCancellable>()
+  weak var coordinator: LoginCoordinator?
   
   // MARK: - Lifecycle
   override func viewDidLoad() {
@@ -22,6 +23,19 @@ class LoginViewController: UIViewController {
     viewLoad.send()
     view.backgroundColor = .brown
     
+  }
+  
+  private override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+    super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+  }
+  
+  convenience init(vm: LoginViewModel) {
+    self.init(nibName: nil, bundle: nil)
+    self.vm = vm
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
   }
   
   override func viewWillAppear(_ animated: Bool) {

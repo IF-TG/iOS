@@ -10,6 +10,7 @@ import Combine
 
 final class FeedViewController: UIViewController {
   // MARK: - Properties
+  weak var coordinator: FeedCoordinator?
   private let categoryPageView = CategoryPageView()
   
   lazy var input = Input(
