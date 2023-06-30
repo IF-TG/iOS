@@ -59,7 +59,16 @@ private extension CategoryPageView {
       ) as? CategoryViewCell else {
       return
     }
-    let firstCellTextSize = vm.titleFontSize()
+    
+    
+    let lb = UILabel()
+    lb.text = vm.data[indexPath.row]
+    lb.font = UIFont.systemFont(
+      ofSize: CategoryViewCell.Constant.Title.fontSize)
+    lb.sizeToFit()
+    let firstCellTextSize = lb.bounds.width
+    
+    
     let firstTextLeading = (
       CategoryView.Constant.size.width - firstCellTextSize)/2
     categoryView.drawScrollBar(
@@ -96,20 +105,34 @@ extension CategoryPageView: UICollectionViewDataSource {
   }
   
   func collectionView(
-    _ collectionView: UICollectionView,
+    _ cv: UICollectionView,
     cellForItemAt indexPath: IndexPath
   ) -> UICollectionViewCell {
-    switch collectionView {
+    switch cv {
     case categoryDetailView:
-      return vm.configCell(
-        collectionView,
-        cellForItemAt: indexPath,
-        type: .categoryDetail)
+//      return vm.configCell(
+//        collectionView,
+//        cellForItemAt: indexPath,
+//        type: .categoryDetail)
+      guard let cell = cv.dequeueReusableCell(
+        withReuseIdentifier: CategoryDetailViewCell.id,
+        for: indexPath
+      ) as? CategoryDetailViewCell else {
+        return UICollectionViewCell()
+      }
+      return cell.configure(with: vm.mockPostData)
     default:
-      return vm.configCell(
-        collectionView,
-        cellForItemAt: indexPath,
-        type: .category)
+//      return vm.configCell(
+//        collectionView,
+//        cellForItemAt: indexPath,
+//        type: .category)
+      guard let cell = cv.dequeueReusableCell(
+        withReuseIdentifier: CategoryViewCell.id,
+        for: indexPath
+      ) as? CategoryViewCell else {
+        return UICollectionViewCell()
+      }
+      return cell.configUI(with: vm.data[indexPath.row])
     }
   }
 }
@@ -122,7 +145,15 @@ extension CategoryPageView: UICollectionViewDelegate {
     didSelectItemAt indexPath: IndexPath
   ) {
     if collectionView == categoryView.collectionView {
-      let titleWidth = vm.titleFontSize(of: indexPath)
+      
+      let lb = UILabel()
+      lb.text = vm.data[indexPath.row]
+      lb.font = UIFont.systemFont(
+        ofSize: CategoryViewCell.Constant.Title.fontSize)
+      lb.sizeToFit()
+      let titleWidth = lb.bounds.width
+      
+//      let titleWidth = vm.titleFontSize(of: indexPath)
       let spacing = vm.scrollBarLeadingSpacing(titleWidth)
       
       guard let cell = collectionView.cellForItem(at: indexPath) else { return }

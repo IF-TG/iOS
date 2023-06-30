@@ -67,8 +67,28 @@ extension PostView: UICollectionViewDelegateFlowLayout {
     layout collectionViewLayout: UICollectionViewLayout,
     sizeForItemAt indexPath: IndexPath
   ) -> CGSize {
-    return vm.calculatePostCellWidthAndDynamicHeight(
-      fromSuperView: collectionView,
-      indexPath)
+    
+    let width = collectionView.bounds.width
+    let labelWidth = collectionView.bounds.width - (
+      PostContentAreaView.Constant.Text.Spacing.leading + PostContentAreaView.Constant.Text.Spacing.trailing)
+    
+    let text = vm.contentText(indexPath)
+    let font = UIFont.init(pretendard: .regular, size: PostContentAreaView.Constant.Text.textSize)!
+    let maxSize = CGSize(width: labelWidth, height: 70)
+    let options: NSStringDrawingOptions = [.usesLineFragmentOrigin, .usesFontLeading]
+    let textSize = (text as NSString).boundingRect(
+      with: maxSize,
+      options: options,
+      attributes: [.font: font],
+      context: nil
+    ).size
+    let contentTextHeight = ceil(textSize.height)
+    
+    return CGSize(
+      width: width,
+      height: contentTextHeight + PostCell
+        .Constant
+        .constant
+        .intrinsicHeightWithOutContentTextHeight)
   }
 }
