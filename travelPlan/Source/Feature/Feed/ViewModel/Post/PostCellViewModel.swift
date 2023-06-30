@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct PostCellViewModel {
+final class PostCellViewModel {
   // MARK: - Properties
   private let postModel: PostModel
   

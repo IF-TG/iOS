@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct CategoryPageViewModel {
+final class CategoryPageViewModel {
   // MARK: - Properties
   let data = categoryData
   let mockPostData = MockPostModel().initMockData()
