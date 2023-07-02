@@ -57,11 +57,8 @@ extension FeedAppTitleBarItem {
   enum Constant {
     static let backgroundColor: UIColor = .white
     static let size = CGSize(width: 24, height: 24)
-    enum Title {
-      static let text = "ㅇㅕ ㄱㄴ"
-      static let textColor: UIColor = .yg.primary
-      static let fontSize: CGFloat = 18
-      static let fontName: String = "SFProText-Semibold"
+    enum Image {
+      static let text = "appLogo"
     }
     enum Spacing {
       static let top: CGFloat = 10

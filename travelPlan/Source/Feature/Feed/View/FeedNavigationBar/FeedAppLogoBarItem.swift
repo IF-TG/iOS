@@ -9,20 +9,9 @@ import UIKit
 
 final class FeedAppTitleBarItem: UIView {
   // MARK: - Properteis
-  let appTitle = UILabel().set {
-    let text = Constant.Title.text
+  let appLogo = UIImageView().set {
     $0.translatesAutoresizingMaskIntoConstraints = false
-    $0.textColor = Constant.Title.textColor
-    $0.font = UIFont(
-      name: Constant.Title.fontName,
-      size: Constant.Title.fontSize)
-    $0.numberOfLines = 0
-    $0.textAlignment = .center
-    let paragraphStyle = NSMutableParagraphStyle()
-    paragraphStyle.lineHeightMultiple = 1.02
-    $0.attributedText = NSMutableAttributedString(
-      string: text,
-      attributes: [.kern: -0.41, .paragraphStyle: paragraphStyle])
+    $0.image = UIImage(named: Constant.Image.text)
   }
   
   // MARK: - Initialization
@@ -44,21 +33,21 @@ final class FeedAppTitleBarItem: UIView {
 // MARK: - LayoutSupport
 extension FeedAppTitleBarItem: LayoutSupport {
   func addSubviews() {
-    addSubview(appTitle)
+    addSubview(appLogo)
   }
   
   func setConstraints() {
     NSLayoutConstraint.activate([
-      appTitle.leadingAnchor.constraint(
+      appLogo.leadingAnchor.constraint(
         equalTo: leadingAnchor,
         constant: Constant.Spacing.leading),
-      appTitle.topAnchor.constraint(
+      appLogo.topAnchor.constraint(
         equalTo: topAnchor,
         constant: Constant.Spacing.top),
-      appTitle.trailingAnchor.constraint(
+      appLogo.trailingAnchor.constraint(
         equalTo: trailingAnchor,
         constant: -Constant.Spacing.trailing),
-      appTitle.bottomAnchor.constraint(
+      appLogo.bottomAnchor.constraint(
         equalTo: bottomAnchor,
         constant: -Constant.Spacing.bottom)
     ])
