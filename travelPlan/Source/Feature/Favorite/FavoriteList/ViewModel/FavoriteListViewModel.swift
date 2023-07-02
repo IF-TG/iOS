@@ -7,7 +7,7 @@
 
 import Foundation
 
-class FavoriteListViewModel {
+final class FavoriteListViewModel {
   // MARK: - Properties
   private var headerData: FavoriteListHeaderModel
   private var cellData: [FavoriteListTableViewCellModel]

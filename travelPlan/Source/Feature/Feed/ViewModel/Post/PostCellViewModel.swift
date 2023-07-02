@@ -5,9 +5,9 @@
 //  Created by 양승현 on 2023/05/14.
 //
 
-import UIKit
+import Foundation
 
-struct PostCellViewModel {
+final class PostCellViewModel {
   // MARK: - Properties
   private let postModel: PostModel
   

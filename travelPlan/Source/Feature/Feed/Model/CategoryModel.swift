@@ -7,7 +7,7 @@
 
 let categoryData = [
   "For you", "계절", "지역 탐방", "여행 테마",
-  "동반자", "페스티벌", "캠핑-글램핑"]
+  "동반자", "메뉴 업데이트..."]
 
 enum CategoryViewType {
   case category

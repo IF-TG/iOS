@@ -7,7 +7,7 @@
 
 import Combine
 
-struct LoginViewModel {
+final class LoginViewModel {
   // MARK: - Properties
 }
 

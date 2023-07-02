@@ -5,9 +5,9 @@
 //  Created by 양승현 on 2023/05/09.
 //
 
-import UIKit
+import Foundation
 
-struct CategoryPageViewModel {
+final class CategoryPageViewModel {
   // MARK: - Properties
   let data = categoryData
   let mockPostData = MockPostModel().initMockData()
@@ -15,19 +15,6 @@ struct CategoryPageViewModel {
 
 // MARK: - Public helpers
 extension CategoryPageViewModel {
-  /// Return categoryView cell's title font size
-  /// - Parameter index: 특정 cell의 indexPath
-  /// - Returns: 특정 cell의 sizeToFit된 width 길이
-  func titleFontSize(
-    of index: IndexPath = IndexPath(row: 0, section: 0)
-  ) -> CGFloat {
-    let lb = UILabel()
-    lb.text = data[index.row]
-    lb.font = UIFont.systemFont(
-      ofSize: CategoryViewCell.Constant.Title.fontSize)
-    lb.sizeToFit()
-    return lb.bounds.width
-  }
   
   /// Return scrollBar specific position's leading spacing
   /// - Parameter titleWidth: 특정 categoryViewCell의 title 실제 길이
@@ -37,50 +24,19 @@ extension CategoryPageViewModel {
       CategoryView.Constant.size
         .width - titleWidth) / 2.0
   }
-  
-  func configCell(
-    _ collectionView: UICollectionView,
-    cellForItemAt indexPath: IndexPath,
-    type: CategoryViewType
-  ) -> UICollectionViewCell {
-    switch type {
-    case .categoryDetail:
-      return setupCategoryDetailCell(
-        collectionView,
-        cellForItemAt: indexPath)
-    default:
-      return setupCategoryCell(
-        collectionView,
-        cellForItemAt: indexPath)
-    }
-  }
 }
 
-// MARK: - Helpers
-private extension CategoryPageViewModel {
-  func setupCategoryCell(
-    _ cv: UICollectionView,
-    cellForItemAt indexPath: IndexPath
-  ) -> UICollectionViewCell {
-    guard let cell = cv.dequeueReusableCell(
-      withReuseIdentifier: CategoryViewCell.id,
-      for: indexPath
-    ) as? CategoryViewCell else {
-      return UICollectionViewCell()
-    }
-    return cell.configUI(with: data[indexPath.row])
+// MARK: - CategoryPageViewDataSource
+extension CategoryPageViewModel: CategoryPageViewDataSource {
+  var numberOfItems: Int {
+    data.count
   }
   
-  func setupCategoryDetailCell(
-    _ cv: UICollectionView,
-    cellForItemAt indexPath: IndexPath
-  ) -> UICollectionViewCell {
-    guard let cell = cv.dequeueReusableCell(
-      withReuseIdentifier: CategoryDetailViewCell.id,
-      for: indexPath
-    ) as? CategoryDetailViewCell else {
-      return UICollectionViewCell()
-    }
-    return cell.configure(with: mockPostData)
+  func categoryDetailViewCellItem(at index: Int) -> [PostModel] {
+    return mockPostData
+  }
+  
+  func categoryViewCellItem(at index: Int) -> String {
+    return data[index]
   }
 }
