@@ -13,6 +13,8 @@ final class PostSearchViewController: UIViewController {
   // MARK: - Properties
   private let viewModel = PostSearchViewModel()
   
+  weak var coordinator: PostSearchCoordinator?
+  
   private lazy var input = Input(didChangeSearchTextField: searchTextField.changed)
   
   private lazy var searchBarButtonItem = UIBarButtonItem(
@@ -88,6 +90,11 @@ final class PostSearchViewController: UIViewController {
     setupUI()
     bind()
     setupNavigationBar()
+  }
+  
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    coordinator?.finish()
   }
 }
 

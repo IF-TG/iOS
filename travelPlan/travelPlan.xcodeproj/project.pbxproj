@@ -130,6 +130,7 @@
 		15F0D19A2A4EF49700D04773 /* CategoryPageViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F0D1992A4EF49700D04773 /* CategoryPageViewAdapter.swift */; };
 		15F0D1B02A51BDFE00D04773 /* CategoryPageViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F0D1AF2A51BDFE00D04773 /* CategoryPageViewDataSource.swift */; };
 		15F0D1B22A51BE3200D04773 /* CategoryPageViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F0D1B12A51BE3200D04773 /* CategoryPageViewDelegate.swift */; };
+		15F0D1B42A51BFB800D04773 /* PostSearchCoordiantor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F0D1B32A51BFB800D04773 /* PostSearchCoordiantor.swift */; };
 		15FEB5E52A050A99000A5F33 /* UIControl+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FEB5DA2A050A99000A5F33 /* UIControl+Combine.swift */; };
 		15FEB5E62A050A99000A5F33 /* UISwitch+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FEB5DB2A050A99000A5F33 /* UISwitch+Combine.swift */; };
 		15FEB5E72A050A99000A5F33 /* UIButton+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FEB5DC2A050A99000A5F33 /* UIButton+Combine.swift */; };
@@ -284,6 +285,7 @@
 		15F0D1992A4EF49700D04773 /* CategoryPageViewAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryPageViewAdapter.swift; sourceTree = "<group>"; };
 		15F0D1AF2A51BDFE00D04773 /* CategoryPageViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryPageViewDataSource.swift; sourceTree = "<group>"; };
 		15F0D1B12A51BE3200D04773 /* CategoryPageViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryPageViewDelegate.swift; sourceTree = "<group>"; };
+		15F0D1B32A51BFB800D04773 /* PostSearchCoordiantor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSearchCoordiantor.swift; sourceTree = "<group>"; };
 		15FEB5DA2A050A99000A5F33 /* UIControl+Combine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIControl+Combine.swift"; sourceTree = "<group>"; };
 		15FEB5DB2A050A99000A5F33 /* UISwitch+Combine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UISwitch+Combine.swift"; sourceTree = "<group>"; };
 		15FEB5DC2A050A99000A5F33 /* UIButton+Combine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+Combine.swift"; sourceTree = "<group>"; };
@@ -465,6 +467,7 @@
 			isa = PBXGroup;
 			children = (
 				1503F93F2A4E1327002BC38D /* FeedCoordinator.swift */,
+				15F0D1B32A51BFB800D04773 /* PostSearchCoordiantor.swift */,
 			);
 			path = Coordinator;
 			sourceTree = "<group>";
@@ -1412,6 +1415,7 @@
 				15332AD62A163AB6008A4110 /* FavoriteViewControllerConstant.swift in Sources */,
 				152AD51B2A1A0447008A2A11 /* FavoriteListTableViewAdapter.swift in Sources */,
 				1503F92B2A4E068E002BC38D /* ApplicationCoordinator.swift in Sources */,
+				15F0D1B42A51BFB800D04773 /* PostSearchCoordiantor.swift in Sources */,
 				15F0D19A2A4EF49700D04773 /* CategoryPageViewAdapter.swift in Sources */,
 				152AD52A2A1B8D6E008A2A11 /* MockFavoriteListData.swift in Sources */,
 				1325508E2A13EE8E00094218 /* PostSearchHeaderView.swift in Sources */,
