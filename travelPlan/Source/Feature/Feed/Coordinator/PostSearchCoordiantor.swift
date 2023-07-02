@@ -1,14 +1,14 @@
 //
-//  FeedCoordinator.swift
+//  PostSearchCoordiantor.swift
 //  travelPlan
 //
-//  Created by 양승현 on 2023/06/30.
+//  Created by 양승현 on 2023/07/02.
 //
 
 import UIKit
 import SHCoordinator
 
-final class FeedCoordinator: FlowCoordinator {
+final class PostSearchCoordinator: FlowCoordinator {
   // MARK: - Properties
   var parent: FlowCoordinator!
   var child: [FlowCoordinator] = []
@@ -17,7 +17,7 @@ final class FeedCoordinator: FlowCoordinator {
   
   init(presenter: UINavigationController) {
     self.presenter = presenter
-    let vc = FeedViewController()
+    let vc = PostSearchViewController()
     vc.coordinator = self
     viewController = vc
   }
@@ -25,13 +25,5 @@ final class FeedCoordinator: FlowCoordinator {
   // MARK: - Helpers
   func start() {
     presenter.pushViewController(viewController, animated: true)
-  }
-}
-
-extension FeedCoordinator {
-  func gotoPostSearchPage() {
-    // TODO: - post search coordaintor로 이동해야 합니다.
-    let childCoordinator = PostSearchCoordinator(presenter: presenter)
-    addChild(with: childCoordinator)
   }
 }

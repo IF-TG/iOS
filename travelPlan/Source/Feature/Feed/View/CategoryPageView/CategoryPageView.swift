@@ -17,10 +17,18 @@ final class CategoryPageView: UIView {
   
   private let vm = CategoryPageViewModel()
   
+  private var adapter: CategoryPageViewAdapter!
+  
   // MARK: - Initialization
   override init(frame: CGRect) {
     super.init(frame: frame)
-    configure()
+    adapter = CategoryPageViewAdapter(
+      dataSource: vm,
+      delegate: self,
+      categoryCollectionView: categoryView.collectionView,
+      categoryDetailCollectionView: categoryDetailView)
+    translatesAutoresizingMaskIntoConstraints = false
+    setupUI()
   }
   
   required init?(coder: NSCoder) {
@@ -42,14 +50,6 @@ final class CategoryPageView: UIView {
 
 // MARK: - Helpers
 private extension CategoryPageView {
-  func configure() {
-    translatesAutoresizingMaskIntoConstraints = false
-    setupUI()
-    categoryView.delegate = self
-    categoryView.dataSource = self
-    categoryDetailView.dataSource = self
-  }
-  
   /// If subviews layout, set category view scroll bar's layout
   func initCategoryViewScrollBarLayout() {
     let indexPath = IndexPath(row: 0, section: 0)
@@ -59,7 +59,14 @@ private extension CategoryPageView {
       ) as? CategoryViewCell else {
       return
     }
-    let firstCellTextSize = vm.titleFontSize()
+     
+    let lb = UILabel()
+    lb.text = vm.data[indexPath.row]
+    lb.font = UIFont.systemFont(
+      ofSize: CategoryViewCell.Constant.Title.fontSize)
+    lb.sizeToFit()
+    let firstCellTextSize = lb.bounds.width
+     
     let firstTextLeading = (
       CategoryView.Constant.size.width - firstCellTextSize)/2
     categoryView.drawScrollBar(
@@ -86,59 +93,24 @@ private extension CategoryPageView {
   }
 }
 
-// MARK: - UICollectionViewDataSource
-extension CategoryPageView: UICollectionViewDataSource {
-  func collectionView(
-    _ collectionView: UICollectionView,
-    numberOfItemsInSection section: Int
-  ) -> Int {
-    return categoryData.count
-  }
-  
-  func collectionView(
-    _ collectionView: UICollectionView,
-    cellForItemAt indexPath: IndexPath
-  ) -> UICollectionViewCell {
-    switch collectionView {
-    case categoryDetailView:
-      return vm.configCell(
-        collectionView,
-        cellForItemAt: indexPath,
-        type: .categoryDetail)
-    default:
-      return vm.configCell(
-        collectionView,
-        cellForItemAt: indexPath,
-        type: .category)
-    }
-  }
-}
-
-// MARK: - UICollectionViewDelegate
-extension CategoryPageView: UICollectionViewDelegate {
-  /// When selected category view's cell, set scrollBar postiion, cell's position in screen
-  func collectionView(
-    _ collectionView: UICollectionView,
-    didSelectItemAt indexPath: IndexPath
-  ) {
-    if collectionView == categoryView.collectionView {
-      let titleWidth = vm.titleFontSize(of: indexPath)
-      let spacing = vm.scrollBarLeadingSpacing(titleWidth)
-      
-      guard let cell = collectionView.cellForItem(at: indexPath) else { return }
-      
-      _=[collectionView, categoryDetailView]
-        .map {
-          $0.selectItem(
-            at: indexPath,
-            animated: true,
-            scrollPosition: .centeredHorizontally)
-        }
-      categoryView.drawScrollBar(target: cell, fromLeading: spacing)
-      UIView.animate(withDuration: 0.3) {
-        self.layoutIfNeeded()
+// MARK: - CategoryPageViewDelegate
+extension CategoryPageView: CategoryPageViewDelegate {
+  func didSelectItemAt(_ indexPath: IndexPath, spacing: CGFloat) {
+    let cv = categoryView.collectionView
+    guard let cell = cv.cellForItem(at: indexPath) else { return }
+    
+    _=[cv, categoryDetailView]
+      .map {
+        $0.selectItem(
+          at: indexPath,
+          animated: true,
+          scrollPosition: .centeredHorizontally)
       }
+    categoryView.drawScrollBar(target: cell, fromLeading: spacing)
+    UIView.animate(withDuration: 0.3) {
+      self.layoutIfNeeded()
     }
+
   }
 }
 
