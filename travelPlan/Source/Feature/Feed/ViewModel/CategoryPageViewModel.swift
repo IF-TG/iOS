@@ -25,3 +25,18 @@ extension CategoryPageViewModel {
         .width - titleWidth) / 2.0
   }
 }
+
+// MARK: - CategoryPageViewDataSource
+extension CategoryPageViewModel: CategoryPageViewDataSource {
+  var numberOfItems: Int {
+    data.count
+  }
+  
+  func categoryDetailViewCellItem(at index: Int) -> [PostModel] {
+    return mockPostData
+  }
+  
+  func categoryViewCellItem(at index: Int) -> String {
+    return data[index]
+  }
+}

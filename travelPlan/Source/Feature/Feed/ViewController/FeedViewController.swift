@@ -118,6 +118,7 @@ extension FeedViewController: LayoutSupport {
   }
 }
 
+// MARK: - LayoutSupprot helpers
 fileprivate extension FeedViewController {
   var categoryPageViewConstraint: [NSLayoutConstraint] {
     [categoryPageView.topAnchor.constraint(
