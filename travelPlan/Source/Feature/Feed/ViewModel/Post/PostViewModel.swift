@@ -31,3 +31,18 @@ extension PostViewModel {
     return data[indexPath.row].content.text
   }
 }
+
+// MARK: - PostViewDataSource
+extension PostViewModel: PostViewDataSource {
+  var numberOfItems: Int {
+    data.count
+  }
+  
+  func postViewCellItem(at index: Int) -> PostModel {
+    return data[index]
+  }
+
+  func contentText(at index: Int) -> String {
+    return data[index].content.text
+  }
+}

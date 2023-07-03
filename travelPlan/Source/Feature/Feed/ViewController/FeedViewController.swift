@@ -11,6 +11,7 @@ import Combine
 final class FeedViewController: UIViewController {
   // MARK: - Properties
   weak var coordinator: FeedCoordinator?
+  
   private let categoryPageView = CategoryPageView()
   
   lazy var input = Input(
@@ -40,7 +41,7 @@ final class FeedViewController: UIViewController {
   }
 }
 
-// MARK: - Helpers
+// MARK: - Private helpers
 extension FeedViewController {
   // redEffectTODO: - 사용자가 확인하지 않은 알림이 있을 경우 아래 코드 호출해서 빨간 알림 이펙트 추가해야합니다.
   // notificationBarItem.updateIsCheckedNotification(.notChecked)
@@ -49,6 +50,11 @@ extension FeedViewController {
     setupUI()
     bind()
     view.backgroundColor = .white
+    NotificationCenter.default.addObserver(
+      self,
+      selector: #selector(handleNotificaiton),
+      name: .postViewDetailCategoryHeaderViewToFeedVC,
+      object: nil)
   }
   
   private func configureFeedNavigationBar() {
@@ -56,6 +62,27 @@ extension FeedViewController {
     let rightSearchBarItem = UIBarButtonItem(customView: searchBarItem)
     let rightNotificationBarItem = UIBarButtonItem(customView: notificationBarItem)
     navigationItem.rightBarButtonItems = [rightNotificationBarItem, rightSearchBarItem]
+  }
+}
+
+// MARK: - Action
+extension FeedViewController {
+  @objc func handleNotificaiton(_ noti: Notification) {
+    guard let type = noti.userInfo?["CategoryType"] as? MoreCategoryType else {
+      NSLog("DEBUG: 데이터 못받았어... feedVC에서 from MoreCategoryView..")
+      return
+    }
+    switch type {
+    case .total:
+      //지금은 일차적으로 모든 경우에 대해서 토탈, 소팅으로만 했는데 이제 cell별로 분류해서 카테고리가 계절인지, 지역탐방인지 등등 파악해야해서
+      // noti 보낼 때 그 정보도 같이 보내주자.
+      print("토탈 클릭")
+      // 토탈 수정 바텀 시트
+    case .sorting:
+      print("소팅 클릭")
+      
+      // 소팅 수정 바텀 시트
+    }
   }
 }
 

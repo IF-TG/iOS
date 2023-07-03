@@ -30,7 +30,7 @@ final class FeedCoordinator: FlowCoordinator {
 
 extension FeedCoordinator {
   func gotoPostSearchPage() {
-    // TODO: - post search coordaintor로 이동해야 합니다.
+    // coordinator settingTODO: - post search coordaintor로 이동해야 합니다.
     let childCoordinator = PostSearchCoordinator(presenter: presenter)
     addChild(with: childCoordinator)
   }

@@ -13,6 +13,8 @@ class PostView: UICollectionView {
   
   var vm: PostViewModel!
   
+  var adapter: PostViewAdapter!
+  
   // MARK: - Initialization
   private override init(
     frame: CGRect,
@@ -20,8 +22,13 @@ class PostView: UICollectionView {
   ) {
     super.init(frame: frame, collectionViewLayout: layout)
     translatesAutoresizingMaskIntoConstraints = false
-    self.register(PostCell.self,
+    register(
+      PostCell.self,
                   forCellWithReuseIdentifier: PostCell.id)
+    register(
+      PostDetailCategoryHeaderView.self,
+      forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+      withReuseIdentifier: PostDetailCategoryHeaderView.id)
   }
   
   required init?(coder: NSCoder) {
@@ -35,60 +42,29 @@ class PostView: UICollectionView {
     layout.scrollDirection = .vertical
     self.init(frame: .zero, collectionViewLayout: layout)
     vm = viewModel
+    self.adapter = PostViewAdapter(
+      dataSource: vm,
+      collectionView: self)
     showsHorizontalScrollIndicator = false
     backgroundColor = .yg.gray00Background
-    dataSource = self
-    delegate = self
   }
 }
 
-// MARK: - UICollectionViewDataSource
-extension PostView: UICollectionViewDataSource {
-  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return vm.count
-  }
-  
-  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    guard let cell = collectionView.dequeueReusableCell(
-      withReuseIdentifier: PostCell.id,
-      for: indexPath
-    ) as? PostCell else {
-      return UICollectionViewCell()
+extension PostView: MoreCategoryViewDelegate {
+  func didTapMoreCategoryView(with type: MoreCategoryType) {
+    switch type {
+    case .total:
+      let data: [String: MoreCategoryType] = ["CategoryType": .total]
+      NotificationCenter.default.post(
+        name: .postViewDetailCategoryHeaderViewToFeedVC,
+        object: nil,
+        userInfo: data)
+    case .sorting:
+      let data: [String: MoreCategoryType] = ["CategoryType": .sorting]
+      NotificationCenter.default.post(
+        name: .postViewDetailCategoryHeaderViewToFeedVC,
+        object: nil,
+        userInfo: data)
     }
-    cell.configure(with: vm.cellItem(indexPath))
-    return cell
-  }
-}
-
-// MARK: - UICollectionViewDelegateFlowLayout
-extension PostView: UICollectionViewDelegateFlowLayout {
-  func collectionView(
-    _ collectionView: UICollectionView,
-    layout collectionViewLayout: UICollectionViewLayout,
-    sizeForItemAt indexPath: IndexPath
-  ) -> CGSize {
-    
-    let width = collectionView.bounds.width
-    let labelWidth = collectionView.bounds.width - (
-      PostContentAreaView.Constant.Text.Spacing.leading + PostContentAreaView.Constant.Text.Spacing.trailing)
-    
-    let text = vm.contentText(indexPath)
-    let font = UIFont.init(pretendard: .regular, size: PostContentAreaView.Constant.Text.textSize)!
-    let maxSize = CGSize(width: labelWidth, height: 70)
-    let options: NSStringDrawingOptions = [.usesLineFragmentOrigin, .usesFontLeading]
-    let textSize = (text as NSString).boundingRect(
-      with: maxSize,
-      options: options,
-      attributes: [.font: font],
-      context: nil
-    ).size
-    let contentTextHeight = ceil(textSize.height)
-    
-    return CGSize(
-      width: width,
-      height: contentTextHeight + PostCell
-        .Constant
-        .constant
-        .intrinsicHeightWithOutContentTextHeight)
   }
 }
