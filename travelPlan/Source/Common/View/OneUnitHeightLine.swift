@@ -63,7 +63,7 @@ extension OneUnitHeightLine {
   /// BottomAnchor가 safeAreaLayoutGuide로 오토 레이아웃 미지정.
   func setConstraint(
     fromSuperView superView: UIView,
-    spacing: UIConstantSpacing = .init(leading: 0, top: 0, trailing: 0, bottom: 0)
+    spacing: UISpacing = .init(leading: 0, top: 0, trailing: 0, bottom: 0)
   ) {
     superView.addSubview(self)
     NSLayoutConstraint.activate([
@@ -84,7 +84,7 @@ extension OneUnitHeightLine {
   func setConstraint(
     fromTopView topView: UIView,
     superView: UIView,
-    spacing: UIConstantSpacing = .init(leading: 0, top: 0, trailing: 0, bottom: 0)
+    spacing: UISpacing = .init(leading: 0, top: 0, trailing: 0, bottom: 0)
   ) {
     topAnchor.constraint(
       equalTo: topView.bottomAnchor,
@@ -97,7 +97,7 @@ extension OneUnitHeightLine {
   /// 그리고 viewController의 top은 viewController.view의 safeAreaLayoutGuide.topAnchor가 아닌, 이 인스턴스의 bottom으로 레이아웃을 잡아야 합니다.
   func setConstraintWhenNavigationBarBottomEdge(
     _ superView: UIView,
-    spacing: UIConstantSpacing = .init(bottom: spacingFromNavigationBar)
+    spacing: UISpacing = .init(bottom: spacingFromNavigationBar)
   ) {
     superView.addSubview(self)
     NSLayoutConstraint.activate([
