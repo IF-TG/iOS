@@ -20,7 +20,7 @@ final class SearchViewController: UIViewController {
   }
   
   private var isScrolledUntilTop = false
-  
+
   private var subscriptions = Set<AnyCancellable>()
   private lazy var input = SearchViewModel.Input()
   
@@ -98,11 +98,10 @@ extension SearchViewController {
     switch state {
     case .goDownKeyboard:
       searchView.endEditing(true)
-    
     case .gotoSearch:
       print("해당 text를 기반으로 vc 전환")
-    case .change:
-      print("state")
+    case .setButtonColor:
+      collectionView.reloadData()
     }
   }
 }
@@ -239,7 +238,6 @@ extension SearchViewController: UICollectionViewDataSource {
         withReuseIdentifier: SearchBestFestivalCell.id,
         for: indexPath
       ) as? SearchBestFestivalCell else { return UICollectionViewCell() }
-      
       cell.buttonDelegate = self
       cell.configure(festivalItems[indexPath.item])
       return cell

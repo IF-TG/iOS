@@ -67,7 +67,15 @@ final class SearchBestFestivalCell: UICollectionViewCell {
 extension SearchBestFestivalCell {
   @objc private func didTapHeartButton() {
     buttonDelegate?.didTapHeartButton()
-    heartButton.isSelected.toggle()
+  }
+}
+
+// MARK: - Public Helpers
+extension SearchBestFestivalCell {
+  func updateHeartButtonColor(_ isChanged: Bool) {
+    if isChanged {
+      heartButton.isSelected.toggle()
+    }
   }
 }
 
@@ -83,6 +91,7 @@ extension SearchBestFestivalCell {
   func configure(_ item: FestivalItem) {
     festivalLabel.text = item.title
     dateLabel.text = item.date
+    heartButton.isSelected = item.isSelectedButton
     // imageTODO: - 이미지 적용
     thumbnailImageView.image = UIImage(named: item.imageName ?? "tempThumbnail15")
   }

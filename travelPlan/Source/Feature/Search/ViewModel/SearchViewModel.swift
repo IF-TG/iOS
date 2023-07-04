@@ -31,7 +31,7 @@ final class SearchViewModel {
   enum State {
     case goDownKeyboard
     case gotoSearch
-    case change
+    case setButtonColor
   }
   // MARK: - Error
   enum ErrorType: Error {
@@ -55,7 +55,8 @@ extension SearchViewModel: ViewModelCase {
   
   private func didTapHeartButton(_ input: Input) -> Output {
     return input.didTapHeartButton
-      .tryMap { State.change }
+    // 서버에 하트 저장
+      .tryMap { State.setButtonColor } // 서버 응답에 따라 Bool값 달라짐
       .mapError { $0 as? ErrorType ?? .unexpected }
       .eraseToAnyPublisher()
   }
