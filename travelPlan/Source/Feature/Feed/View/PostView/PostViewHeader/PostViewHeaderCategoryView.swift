@@ -104,10 +104,7 @@ private extension PostViewHeaderCategoryView {
       constant: Constant.SortingView.spacing.top),
      sortingView.bottomAnchor.constraint(
       equalTo: bottomAnchor,
-      constant: -0),
-      sortingView.trailingAnchor.constraint(
-        equalTo: trailingAnchor,
-        constant: -Constant.SortingView.spacing.trailing)
+      constant: 0)
     ]
   }
 }
