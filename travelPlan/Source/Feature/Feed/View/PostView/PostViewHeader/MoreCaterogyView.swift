@@ -7,22 +7,6 @@
 
 import UIKit
 
-protocol MoreCategoryViewDelegate: AnyObject {
-  func didTapMoreCategoryView(with type: MoreCategoryType)
-}
-
-enum MoreCategoryType {
-  case total
-  case sorting
-  
-  var toString: String {
-    switch self {
-    case .sorting: return "정렬"
-    case .total: return "전체"
-    }
-  }
-}
-
 final class MoreCategoryView: UIView {
   // MARK: - Properties
   weak var delegate: MoreCategoryViewDelegate?

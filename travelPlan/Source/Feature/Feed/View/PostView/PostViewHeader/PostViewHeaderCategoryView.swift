@@ -7,20 +7,6 @@
 
 import UIKit
 
-extension PostViewHeaderCategoryView {
-  struct Constant {
-    enum TotalView {
-      static let spacing: UISpacing = .init(
-        leading: 21.5, top: 10, bottom: 10)
-    }
-    
-    enum SortingView {
-      static let spacing: UISpacing = .init(
-        leading: 15, top: 10, trailing: 224.5, bottom: 10)
-    }
-  }
-}
-
 final class PostViewHeaderCategoryView: UICollectionReusableView {
   
   // MARK: - Identifier
@@ -65,10 +51,6 @@ final class PostViewHeaderCategoryView: UICollectionReusableView {
     self.init(frame: .zero)
   }
 }
-
-// MARK: - Helper
-
-// MARK: - Private helper
 
 // MARK: - LayoutSupport
 extension PostViewHeaderCategoryView: LayoutSupport {

@@ -8,7 +8,6 @@
 import UIKit
 
 // 07.04TODO: - post header 터치까지 구현해서 Feed vc에서 catch만함. 이제 bottom sheet만들어야하고, idx 0인 경우 숨겨야한다.
-// 그리고 지금 header 내부에 view 전자의 경우 width ambiguous, 후자의 경우 height, width ambiguous하대.
 
 class PostView: UICollectionView {
   // MARK: - Properties

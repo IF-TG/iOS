@@ -117,6 +117,9 @@
 		15CB23722A10F5DA003EAF20 /* MockPostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15CB23712A10F5DA003EAF20 /* MockPostModel.swift */; };
 		15CB23742A110FB4003EAF20 /* PostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15CB23732A110FB4003EAF20 /* PostViewModel.swift */; };
 		15CC64142A1DD4EF00857446 /* ConvenienceInit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FEB5E22A050A99000A5F33 /* ConvenienceInit.swift */; };
+		15EA48C82A539D4900F4B391 /* MoreCategoryType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EA48C72A539D4900F4B391 /* MoreCategoryType.swift */; };
+		15EA48CA2A539D7B00F4B391 /* MoreCategoryViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EA48C92A539D7B00F4B391 /* MoreCategoryViewDelegate.swift */; };
+		15EA48CE2A539DFD00F4B391 /* PostViewHeaderCategoryViewConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EA48CD2A539DFD00F4B391 /* PostViewHeaderCategoryViewConstant.swift */; };
 		15EF8C052A0829FD0068C744 /* LocationSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EF8C042A0829FD0068C744 /* LocationSearchViewController.swift */; };
 		15EF8C972A0A18960068C744 /* CategoryPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EF8C962A0A18960068C744 /* CategoryPageViewModel.swift */; };
 		15EF8C9B2A0A19100068C744 /* CategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EF8C9A2A0A19100068C744 /* CategoryView.swift */; };
@@ -131,7 +134,7 @@
 		15F0D1B02A51BDFE00D04773 /* CategoryPageViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F0D1AF2A51BDFE00D04773 /* CategoryPageViewDataSource.swift */; };
 		15F0D1B22A51BE3200D04773 /* CategoryPageViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F0D1B12A51BE3200D04773 /* CategoryPageViewDelegate.swift */; };
 		15F0D1B42A51BFB800D04773 /* PostSearchCoordiantor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F0D1B32A51BFB800D04773 /* PostSearchCoordiantor.swift */; };
-		15F0D1B62A524DC500D04773 /* PostDetailCategoryHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F0D1B52A524DC500D04773 /* PostDetailCategoryHeaderView.swift */; };
+		15F0D1B62A524DC500D04773 /* PostViewHeaderCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F0D1B52A524DC500D04773 /* PostViewHeaderCategoryView.swift */; };
 		15F0D1B92A524E1F00D04773 /* MoreCaterogyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F0D1B82A524E1F00D04773 /* MoreCaterogyView.swift */; };
 		15F0D1BB2A524FB900D04773 /* MoreCategoryViewConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F0D1BA2A524FB900D04773 /* MoreCategoryViewConstant.swift */; };
 		15F0D1BE2A52940F00D04773 /* PostViewBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F0D1BD2A52940F00D04773 /* PostViewBottomSheetViewController.swift */; };
@@ -278,6 +281,9 @@
 		15CB236E2A10C314003EAF20 /* PostCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCellViewModel.swift; sourceTree = "<group>"; };
 		15CB23712A10F5DA003EAF20 /* MockPostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPostModel.swift; sourceTree = "<group>"; };
 		15CB23732A110FB4003EAF20 /* PostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewModel.swift; sourceTree = "<group>"; };
+		15EA48C72A539D4900F4B391 /* MoreCategoryType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreCategoryType.swift; sourceTree = "<group>"; };
+		15EA48C92A539D7B00F4B391 /* MoreCategoryViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreCategoryViewDelegate.swift; sourceTree = "<group>"; };
+		15EA48CD2A539DFD00F4B391 /* PostViewHeaderCategoryViewConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewHeaderCategoryViewConstant.swift; sourceTree = "<group>"; };
 		15EF8C042A0829FD0068C744 /* LocationSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchViewController.swift; sourceTree = "<group>"; };
 		15EF8C962A0A18960068C744 /* CategoryPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryPageViewModel.swift; sourceTree = "<group>"; };
 		15EF8C9A2A0A19100068C744 /* CategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryView.swift; sourceTree = "<group>"; };
@@ -292,7 +298,7 @@
 		15F0D1AF2A51BDFE00D04773 /* CategoryPageViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryPageViewDataSource.swift; sourceTree = "<group>"; };
 		15F0D1B12A51BE3200D04773 /* CategoryPageViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryPageViewDelegate.swift; sourceTree = "<group>"; };
 		15F0D1B32A51BFB800D04773 /* PostSearchCoordiantor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSearchCoordiantor.swift; sourceTree = "<group>"; };
-		15F0D1B52A524DC500D04773 /* PostDetailCategoryHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailCategoryHeaderView.swift; sourceTree = "<group>"; };
+		15F0D1B52A524DC500D04773 /* PostViewHeaderCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewHeaderCategoryView.swift; sourceTree = "<group>"; };
 		15F0D1B82A524E1F00D04773 /* MoreCaterogyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreCaterogyView.swift; sourceTree = "<group>"; };
 		15F0D1BA2A524FB900D04773 /* MoreCategoryViewConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreCategoryViewConstant.swift; sourceTree = "<group>"; };
 		15F0D1BD2A52940F00D04773 /* PostViewBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewBottomSheetViewController.swift; sourceTree = "<group>"; };
@@ -633,7 +639,7 @@
 			isa = PBXGroup;
 			children = (
 				158BEF782A0E27BD00C27861 /* PostView.swift */,
-				15F0D1B72A524DF000D04773 /* PostHeaderView */,
+				15F0D1B72A524DF000D04773 /* PostViewHeader */,
 				158BEF7B2A0E2C4500C27861 /* PostCell */,
 				15F0D1BD2A52940F00D04773 /* PostViewBottomSheetViewController.swift */,
 			);
@@ -948,6 +954,7 @@
 		15C92C122A0AD21E00376D1B /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
+				15EA48CC2A539DA300F4B391 /* PostView */,
 				15F0D1AE2A51BDE300D04773 /* CategoryPageViewAdapterProtocol */,
 				13C9C1AE2A17FFC400DF1FFF /* PostSearchHeaderViewDelegate.swift */,
 				13C9C1B02A1806F500DF1FFF /* PostSearchTagCellDelegate.swift */,
@@ -1018,6 +1025,14 @@
 			path = Mock;
 			sourceTree = "<group>";
 		};
+		15EA48CC2A539DA300F4B391 /* PostView */ = {
+			isa = PBXGroup;
+			children = (
+				15EA48C92A539D7B00F4B391 /* MoreCategoryViewDelegate.swift */,
+			);
+			path = PostView;
+			sourceTree = "<group>";
+		};
 		15EF8C932A0A185D0068C744 /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -1074,6 +1089,7 @@
 				15AF2C3A2A1142E200BEE166 /* PostModel */,
 				15EF8CA52A0A19990068C744 /* CategoryModel.swift */,
 				132550272A0ABBDA00094218 /* PostSearchModel.swift */,
+				15EA48C72A539D4900F4B391 /* MoreCategoryType.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1085,6 +1101,7 @@
 				15EF8CA82A0A19AF0068C744 /* CategoryConstant.swift */,
 				1570ECB12A13176100A3FDCF /* FeedNavigationBarConstant.swift */,
 				15F0D1BA2A524FB900D04773 /* MoreCategoryViewConstant.swift */,
+				15EA48CD2A539DFD00F4B391 /* PostViewHeaderCategoryViewConstant.swift */,
 			);
 			path = Constant;
 			sourceTree = "<group>";
@@ -1107,13 +1124,13 @@
 			path = CategoryPageViewAdapterProtocol;
 			sourceTree = "<group>";
 		};
-		15F0D1B72A524DF000D04773 /* PostHeaderView */ = {
+		15F0D1B72A524DF000D04773 /* PostViewHeader */ = {
 			isa = PBXGroup;
 			children = (
-				15F0D1B52A524DC500D04773 /* PostDetailCategoryHeaderView.swift */,
+				15F0D1B52A524DC500D04773 /* PostViewHeaderCategoryView.swift */,
 				15F0D1B82A524E1F00D04773 /* MoreCaterogyView.swift */,
 			);
-			path = PostHeaderView;
+			path = PostViewHeader;
 			sourceTree = "<group>";
 		};
 		15F63CB22A1E710E00BD5CE0 /* FavoriteListTableView */ = {
@@ -1426,6 +1443,7 @@
 				1503F9312A4E0A4F002BC38D /* MainCoordinator.swift in Sources */,
 				158BEF772A0E279700C27861 /* PostCell.swift in Sources */,
 				15EF8C9D2A0A19190068C744 /* CategoryViewCell.swift in Sources */,
+				15EA48C82A539D4900F4B391 /* MoreCategoryType.swift in Sources */,
 				15CB23612A10B5E3003EAF20 /* DateValidationProtocol.swift in Sources */,
 				152AD4F62A18B6C3008A2A11 /* FavoriteListHeaderImageView.swift in Sources */,
 				13254FE72A05158E00094218 /* SearchViewController.swift in Sources */,
@@ -1457,6 +1475,7 @@
 				13CB6D322A1E9F6600D185B2 /* CautionAlertViewController.swift in Sources */,
 				15CB235B2A109CA4003EAF20 /* PostHeaderSubInfoModel.swift in Sources */,
 				130304792A24936D00776A0D /* SearchViewModel.swift in Sources */,
+				15EA48CE2A539DFD00F4B391 /* PostViewHeaderCategoryViewConstant.swift in Sources */,
 				157176782A0C21C90015EC8C /* UIColor+AppPalette.swift in Sources */,
 				1503F92E2A4E083C002BC38D /* LoginCoordinator.swift in Sources */,
 				152AD5152A19ED4E008A2A11 /* FavoriteListHeaderImageViewsConstant.swift in Sources */,
@@ -1464,6 +1483,7 @@
 				1503F93A2A4E1260002BC38D /* SearchCoordinator.swift in Sources */,
 				15FEB5E62A050A99000A5F33 /* UISwitch+Combine.swift in Sources */,
 				132550282A0ABBDA00094218 /* PostSearchModel.swift in Sources */,
+				15EA48CA2A539D7B00F4B391 /* MoreCategoryViewDelegate.swift in Sources */,
 				15EF8C9B2A0A19100068C744 /* CategoryView.swift in Sources */,
 				15CB23742A110FB4003EAF20 /* PostViewModel.swift in Sources */,
 				15AF2C3E2A1147B100BEE166 /* UIImage+JPEGCompress.swift in Sources */,
@@ -1486,7 +1506,7 @@
 				15CB23722A10F5DA003EAF20 /* MockPostModel.swift in Sources */,
 				15BB01B82A1EB5070035B486 /* LoginViewModel.swift in Sources */,
 				158BEFC42A0EC8A100C27861 /* UIView+CustomAnimation.swift in Sources */,
-				15F0D1B62A524DC500D04773 /* PostDetailCategoryHeaderView.swift in Sources */,
+				15F0D1B62A524DC500D04773 /* PostViewHeaderCategoryView.swift in Sources */,
 				156759B12A0D774500849CE2 /* FeedViewModel.swift in Sources */,
 				15EF8CA92A0A19AF0068C744 /* CategoryConstant.swift in Sources */,
 				15F0D1B02A51BDFE00D04773 /* CategoryPageViewDataSource.swift in Sources */,
