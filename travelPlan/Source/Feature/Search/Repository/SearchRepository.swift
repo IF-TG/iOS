@@ -1,8 +1,12 @@
 //
-//  SearchViewRepository.swift
+//  SearchRepository.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 2023/07/04.
 //
 
 import Foundation
+
+final class SearchRepository {
+  
+}
