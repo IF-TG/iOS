@@ -96,6 +96,10 @@ final class PostSearchViewController: UIViewController {
     super.viewDidAppear(animated)
     coordinator?.finish()
   }
+  
+  deinit {
+    print("DEBUG: \(String(describing: self)) deinit")
+  }
 }
 
 // MARK: - ViewBindCase

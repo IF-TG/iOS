@@ -14,6 +14,8 @@ final class SearchFamousSpotCell: UICollectionViewCell {
     return String(describing: self)
   }
   
+  weak var buttonDelegate: HeartButtonDelegate?
+  
   private let thumbnailImageView: UIImageView = UIImageView().set {
     $0.image = UIImage(named: "tempThumbnail1")
     $0.layer.cornerRadius = 3
@@ -26,7 +28,7 @@ final class SearchFamousSpotCell: UICollectionViewCell {
     $0.setImage(UIImage(named: "selectedHeart"), for: .selected)
     $0.addTarget(self, action: #selector(didTapHeartButton), for: .touchUpInside)
   }
-  weak var buttonDelegate: HeartButtonDelegate?
+  
   private let placeLabel: UILabel = UILabel().set {
     $0.font = .init(pretendard: .semiBold, size: 16)
     $0.text = "관광 장소명" // will erase
@@ -75,7 +77,6 @@ extension SearchFamousSpotCell {
   @objc private func didTapHeartButton() {
     buttonDelegate?.didTapHeartButton()
     print("DEBUG: 버튼 변화됨!")
-//    heartButton.isSelected.toggle()
   }
 }
 

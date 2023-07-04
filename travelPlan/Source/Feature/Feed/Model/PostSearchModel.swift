@@ -20,7 +20,7 @@ extension PostSearchSectionItemModel {
   }
 }
 
-// MARK: - ComputedProperties in SectionType
+// MARK: - Properties
 extension PostSearchSectionItemModel.SectionType {
   var headerTitle: String {
     switch self {
