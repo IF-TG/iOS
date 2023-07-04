@@ -27,6 +27,7 @@ final class SearchHeaderView: UICollectionReusableView {
     $0.titleLabel?.font = .systemFont(ofSize: 12, weight: .semibold)
     $0.setTitleColor(.yg.gray4, for: .normal)
     $0.setImage(UIImage(named: "plus"), for: .normal)
+    $0.semanticContentAttribute = .forceRightToLeft
     $0.layer.cornerRadius = 12
     $0.layer.borderColor = UIColor.yg.gray0.cgColor
     $0.layer.borderWidth = 1
