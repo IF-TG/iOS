@@ -7,7 +7,7 @@
 
 import UIKit
 
-extension PostDetailCategoryHeaderView {
+extension PostViewHeaderCategoryView {
   struct Constant {
     enum TotalView {
       static let spacing: UISpacing = .init(
@@ -21,7 +21,7 @@ extension PostDetailCategoryHeaderView {
   }
 }
 
-final class PostDetailCategoryHeaderView: UICollectionReusableView {
+final class PostViewHeaderCategoryView: UICollectionReusableView {
   
   // MARK: - Identifier
   static let id: String = String(describing: PostCell.self)
@@ -71,7 +71,7 @@ final class PostDetailCategoryHeaderView: UICollectionReusableView {
 // MARK: - Private helper
 
 // MARK: - LayoutSupport
-extension PostDetailCategoryHeaderView: LayoutSupport {
+extension PostViewHeaderCategoryView: LayoutSupport {
   func addSubviews() {
     _=[totalView, sortingView].map { addSubview($0) }
   }
@@ -82,7 +82,7 @@ extension PostDetailCategoryHeaderView: LayoutSupport {
 }
 
 // MARK: - Layout support helper
-private extension PostDetailCategoryHeaderView {
+private extension PostViewHeaderCategoryView {
   var totalViewConstraints: [NSLayoutConstraint] {
     [totalView.leadingAnchor.constraint(
       equalTo: leadingAnchor,
