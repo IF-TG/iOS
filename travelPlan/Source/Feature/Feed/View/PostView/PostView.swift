@@ -29,9 +29,9 @@ class PostView: UICollectionView {
       PostCell.self,
                   forCellWithReuseIdentifier: PostCell.id)
     register(
-      PostDetailCategoryHeaderView.self,
+      PostViewHeaderCategoryView.self,
       forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-      withReuseIdentifier: PostDetailCategoryHeaderView.id)
+      withReuseIdentifier: PostViewHeaderCategoryView.id)
   }
   
   required init?(coder: NSCoder) {

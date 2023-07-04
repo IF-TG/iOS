@@ -57,8 +57,8 @@ extension PostViewAdapter: UICollectionViewDataSource {
       kind == UICollectionView.elementKindSectionHeader,
       let header = collectionView.dequeueReusableSupplementaryView(
         ofKind: kind,
-        withReuseIdentifier: PostDetailCategoryHeaderView.id,
-        for: indexPath) as? PostDetailCategoryHeaderView
+        withReuseIdentifier: PostViewHeaderCategoryView.id,
+        for: indexPath) as? PostViewHeaderCategoryView
     else {
       return .init()
     }
