@@ -31,7 +31,6 @@
 		132550822A113BE000094218 /* BaseNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132550812A113BE000094218 /* BaseNavigationController.swift */; };
 		1325508C2A13EDEA00094218 /* LeftAlignedCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1325508B2A13EDEA00094218 /* LeftAlignedCollectionViewFlowLayout.swift */; };
 		1325508E2A13EE8E00094218 /* PostSearchHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1325508D2A13EE8E00094218 /* PostSearchHeaderView.swift */; };
-		133481C02A5438E0001EE578 /* SearchRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 133481BF2A5438E0001EE578 /* SearchRepository.swift */; };
 		13C07ECD2A13F454005F04CD /* PostSearchFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C07ECC2A13F454005F04CD /* PostSearchFooterView.swift */; };
 		13C9C1AF2A17FFC400DF1FFF /* PostSearchHeaderViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C9C1AE2A17FFC400DF1FFF /* PostSearchHeaderViewDelegate.swift */; };
 		13C9C1B12A1806F500DF1FFF /* PostSearchTagCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C9C1B02A1806F500DF1FFF /* PostSearchTagCellDelegate.swift */; };
@@ -186,7 +185,6 @@
 		132550812A113BE000094218 /* BaseNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNavigationController.swift; sourceTree = "<group>"; };
 		1325508B2A13EDEA00094218 /* LeftAlignedCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftAlignedCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
 		1325508D2A13EE8E00094218 /* PostSearchHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSearchHeaderView.swift; sourceTree = "<group>"; };
-		133481BF2A5438E0001EE578 /* SearchRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRepository.swift; sourceTree = "<group>"; };
 		13C07ECC2A13F454005F04CD /* PostSearchFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSearchFooterView.swift; sourceTree = "<group>"; };
 		13C9C1AE2A17FFC400DF1FFF /* PostSearchHeaderViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSearchHeaderViewDelegate.swift; sourceTree = "<group>"; };
 		13C9C1B02A1806F500DF1FFF /* PostSearchTagCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSearchTagCellDelegate.swift; sourceTree = "<group>"; };
@@ -418,14 +416,6 @@
 				13C07ECC2A13F454005F04CD /* PostSearchFooterView.swift */,
 			);
 			path = PostSearch;
-			sourceTree = "<group>";
-		};
-		133481BE2A5433D1001EE578 /* Repository */ = {
-			isa = PBXGroup;
-			children = (
-				133481BF2A5438E0001EE578 /* SearchRepository.swift */,
-			);
-			path = Repository;
 			sourceTree = "<group>";
 		};
 		1503F92C2A4E0832002BC38D /* Coordinator */ = {
@@ -898,7 +888,6 @@
 		15BED2FF2A0824C300F86321 /* Search */ = {
 			isa = PBXGroup;
 			children = (
-				133481BE2A5433D1001EE578 /* Repository */,
 				1503F9382A4E1256002BC38D /* Coordinator */,
 				130FA91D2A359ED500E739C5 /* Protocol */,
 				130304A82A270A7C00776A0D /* Model */,
@@ -1498,7 +1487,6 @@
 				13254FFB2A08AD8700094218 /* PostSearchViewController.swift in Sources */,
 				15EF8CA12A0A19380068C744 /* CategoryDetailViewCell.swift in Sources */,
 				15710CBC2A132DD00023C19E /* FeedAppLogoBarItem.swift in Sources */,
-				133481C02A5438E0001EE578 /* SearchRepository.swift in Sources */,
 				152AD4EB2A1890FD008A2A11 /* FavoriteListTableViewCellConstant.swift in Sources */,
 				158BEFC72A0ED09800C27861 /* PostThumbnailView.swift in Sources */,
 				15CB23692A10B9CF003EAF20 /* PostFooterModel.swift in Sources */,

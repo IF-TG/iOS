@@ -238,9 +238,12 @@ extension SearchViewController: UICollectionViewDataSource {
         withReuseIdentifier: SearchBestFestivalCell.id,
         for: indexPath
       ) as? SearchBestFestivalCell else { return UICollectionViewCell() }
+      
       cell.buttonDelegate = self
       cell.configure(festivalItems[indexPath.item])
+      
       return cell
+      
     case let .famousSpot(spotItems):
       guard let cell = collectionView.dequeueReusableCell(
         withReuseIdentifier: SearchFamousSpotCell.id, for: indexPath
@@ -248,6 +251,7 @@ extension SearchViewController: UICollectionViewDataSource {
       
       cell.buttonDelegate = self
       cell.configure(spotItems[indexPath.item])
+      
       return cell
     }
   }
@@ -291,6 +295,7 @@ extension SearchViewController: UICollectionViewDelegate {
     _ collectionView: UICollectionView,
     didSelectItemAt indexPath: IndexPath
   ) {
+    // TODO: - detailVC 화면 전환
     print("[\(indexPath.section), \(indexPath.item)] clicked")
   }
 }

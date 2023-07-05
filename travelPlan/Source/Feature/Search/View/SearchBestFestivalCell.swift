@@ -34,7 +34,7 @@ final class SearchBestFestivalCell: UICollectionViewCell {
     $0.numberOfLines = 1
     $0.textAlignment = .center
     
-    $0.text = "축제명축제명축제명"
+    $0.text = "축제명"
   }
   
   private let dateLabel: UILabel = .init().set {
@@ -42,7 +42,7 @@ final class SearchBestFestivalCell: UICollectionViewCell {
     $0.textColor = .yg.gray00Background
     $0.textAlignment = .center
     
-    $0.text = "2023.12.30~2023.12.31"
+    $0.text = "날짜"
     // shadowTODO: - shadow, blur 처리
   }
   

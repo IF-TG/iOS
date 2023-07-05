@@ -36,6 +36,10 @@ struct FamousSpotItem {
   var area: String
   var isSelectedButton: Bool
 }
+struct SectionItem {
+  var festival: FestivalItem
+  var famous: FamousSpotItem
+}
 
 extension SearchSectionItemModel {
   static var models: [SearchSection] = [
