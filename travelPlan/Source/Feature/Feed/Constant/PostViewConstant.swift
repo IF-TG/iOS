@@ -230,10 +230,10 @@ extension PostFooterView {
     }
     enum Share {
       static let iconName = "feedShare"
-      static let height: CGFloat = 16.67
-      static let width: CGFloat = 15
+      static let height: CGFloat = 18
+      static let width: CGFloat = 18
       struct Spacing {
-        static let trailing: CGFloat = 53
+        static let trailing: CGFloat = 33
       }
     }
     
