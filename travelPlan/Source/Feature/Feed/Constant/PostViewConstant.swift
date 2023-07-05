@@ -67,14 +67,14 @@ extension PostHeaderView {
       static let font: UIFont = UIFont(pretendard: .semiBold, size: 18)!
       enum Spacing {
         static let top: CGFloat = 20
-        static let leading: CGFloat = 21.5
+        static let leading: CGFloat = 10
         static let trailing: CGFloat = 51.5
       }
     }
     enum SubInfoView {
       enum Spacing {
         static let top: CGFloat = 5
-        static let leading: CGFloat = 21.5
+        static let leading: CGFloat = 10
         static let trailing: CGFloat = 73
         static let bottom: CGFloat = 7
       }
@@ -192,14 +192,14 @@ extension PostFooterView {
     
     enum Heart {
       enum Text {
-        static let font: UIFont = UIFont(pretendard: .regular, size: 13)!
+        static let font: UIFont = UIFont(pretendard: .regular, size: 14)!
         static let fontColor: UIColor = .yg.gray4
         enum Spacing {
           static let leading: CGFloat = 6.33
         }
       }
       enum Icon {
-        static let minimumsSize = CGSize(width: 13.33, height: 11.89)
+        static let minimumsSize = CGSize(width: 20.0, height: 20)
         static let color: UIColor = .yg.red
         static let unselectedImage = UIImage(
           named: "unselectedHeart")?.setColor(color)
@@ -213,7 +213,7 @@ extension PostFooterView {
     }
     enum Comment {
       struct Text {
-        static let font: UIFont = UIFont(pretendard: .regular, size: 13)!
+        static let font: UIFont = UIFont(pretendard: .regular, size: 14)!
         static let fontColor: UIColor = .yg.gray4
         enum Spacing {
           static let leading: CGFloat = 7
@@ -222,7 +222,7 @@ extension PostFooterView {
       
       struct Icon {
         static let name = "feedComment"
-        static let minimumsSize = CGSize(width: 12, height: 12.31)
+        static let minimumsSize = CGSize(width: 20, height: 20)
         enum Spacing {
           static let leading: CGFloat = 12
         }
