@@ -74,8 +74,16 @@ extension FeedViewController {
     }
     switch type {
     case .total:
-      //지금은 일차적으로 모든 경우에 대해서 토탈, 소팅으로만 했는데 이제 cell별로 분류해서 카테고리가 계절인지, 지역탐방인지 등등 파악해야해서
+      // 소 분류 카테고리 등 눌렀을 때 bottom sheetTODO: -
+      // 1. 지금은 일차적으로 모든 경우에 대해서 토탈, 소팅으로만 했는데 이제 cell별로 분류해서 카테고리가 계절인지, 지역탐방인지 등등 파악해야해서
       // noti 보낼 때 그 정보도 같이 보내주자.
+      // 여기서 바텀 시트 출력 근데 코디네이터로 이동해야함
+      // 2. postview의 footer에서 라인 과 간격을 10으로 수정했다는데 ,,, 뭔지모르겠어서 다시 확인해봐야해
+//      let nav = UINavigationController(rootViewController: viewController)
+//      nav.modalPresentationStyle = .pageSheet
+//      if let sheet = nav.sheetPresentationController {
+//        sheet.detents = [.medium()]
+//      }
       print("토탈 클릭")
       // 토탈 수정 바텀 시트
     case .sorting:
