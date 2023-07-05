@@ -69,7 +69,7 @@ extension CategoryViewCell {
 extension CategoryDetailViewCell {
   enum Constant {
     enum Spacing {
-      static let top: CGFloat = 17.5
+      static let top: CGFloat = 0
     }
   }
 }
