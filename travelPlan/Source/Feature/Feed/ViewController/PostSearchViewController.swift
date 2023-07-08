@@ -35,7 +35,10 @@ final class PostSearchViewController: UIViewController {
   )
   
   private lazy var searchTextField: UITextField = UITextField().set {
-    $0.placeholder = "여행자들의 여행 리뷰를 검색해보세요."
+    $0.attributedPlaceholder = .init(
+      string: "여행자들의 여행 리뷰를 검색해보세요.",
+      attributes: [NSAttributedString.Key.foregroundColor: UIColor.yg.gray1]
+    )
     $0.textColor = .yg.gray5
     $0.font = .init(pretendard: .regular, size: 16)
     $0.autocorrectionType = .no
@@ -61,7 +64,7 @@ final class PostSearchViewController: UIViewController {
     tapGesture.cancelsTouchesInView = false
     $0.addGestureRecognizer(tapGesture)
     
-    $0.backgroundColor = .systemBackground
+    $0.backgroundColor = .clear
     $0.delegate = self
     $0.dataSource = self
     
@@ -88,6 +91,7 @@ final class PostSearchViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     setupUI()
+    setupStyles()
     bind()
     setupNavigationBar()
   }

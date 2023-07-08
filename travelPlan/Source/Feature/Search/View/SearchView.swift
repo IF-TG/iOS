@@ -13,7 +13,10 @@ final class SearchView: UIView {
   weak var delegate: SearchViewDelegate?
   
   private lazy var searchTextField: UITextField = UITextField().set {
-    $0.placeholder = "여행지 및 축제를 검색해보세요."
+    $0.attributedPlaceholder = .init(
+      string: "여행자들의 여행 리뷰를 검색해보세요.",
+      attributes: [NSAttributedString.Key.foregroundColor: UIColor.yg.gray1]
+    )
     $0.font = .init(pretendard: .regular, size: 14)
     $0.textColor = .yg.gray5
     

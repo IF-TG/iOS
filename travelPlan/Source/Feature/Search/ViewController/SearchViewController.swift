@@ -38,7 +38,7 @@ final class SearchViewController: UIViewController {
     
     $0.dataSource = self
     $0.delegate = self
-    
+    $0.backgroundColor = .clear
     $0.register(
       SearchBestFestivalCell.self,
       forCellWithReuseIdentifier: SearchBestFestivalCell.id
