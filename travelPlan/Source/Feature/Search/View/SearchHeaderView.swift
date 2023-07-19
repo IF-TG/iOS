@@ -37,7 +37,6 @@ final class SearchHeaderView: UICollectionReusableView {
   override init(frame: CGRect) {
     super.init(frame: frame)
     setupUI()
-    
   }
   
   required init?(coder: NSCoder) {
@@ -47,8 +46,8 @@ final class SearchHeaderView: UICollectionReusableView {
 
 // MARK: - Public Helpers
 extension SearchHeaderView {
-  func configure(_ headerTitle: String) {
-    headerLabel.text = headerTitle
+  func configure(header: SearchHeaderModel) {
+    headerLabel.text = header.title
   }
 }
 
