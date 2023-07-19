@@ -10,6 +10,8 @@ import SnapKit
 
 final class SearchBestFestivalCell: UICollectionViewCell {
   // MARK: - Properties
+//  var viewModel: SearchBestFestivalCellViewModel
+  
   static var id: String {
     return String(describing: self)
   }
@@ -37,7 +39,7 @@ final class SearchBestFestivalCell: UICollectionViewCell {
     $0.text = "축제명"
   }
   
-  private let dateLabel: UILabel = .init().set {
+  private let periodLabel: UILabel = .init().set {
     $0.font = UIFont(pretendard: .semiBold, size: 12)
     $0.textColor = .yg.gray00Background
     $0.textAlignment = .center
@@ -88,12 +90,12 @@ extension SearchBestFestivalCell {
 
 // MARK: - Configure
 extension SearchBestFestivalCell {
-  func configure(_ item: FestivalItem) {
-    festivalLabel.text = item.title
-    dateLabel.text = item.date
-    heartButton.isSelected = item.isSelectedButton
+  func configure(viewModel: SearchBestFestivalCellViewModel) {
+    festivalLabel.text = viewModel.title
+    periodLabel.text = viewModel.periodString
+    heartButton.isSelected = viewModel.isSelectedButton
     // imageTODO: - 이미지 적용
-    thumbnailImageView.image = UIImage(named: item.imageName ?? "tempThumbnail15")
+    thumbnailImageView.image = UIImage(named: viewModel.thumbnailImage ?? "tempThumbnail7")
   }
 }
 
@@ -103,7 +105,7 @@ extension SearchBestFestivalCell: LayoutSupport {
     contentView.addSubview(thumbnailImageView)
     thumbnailImageView.addSubview(heartButton)
     thumbnailImageView.addSubview(festivalLabel)
-    thumbnailImageView.addSubview(dateLabel)
+    thumbnailImageView.addSubview(periodLabel)
   }
   
   func setConstraints() {
@@ -122,7 +124,7 @@ extension SearchBestFestivalCell: LayoutSupport {
       $0.trailing.lessThanOrEqualToSuperview().inset(4)
     }
     
-    dateLabel.snp.makeConstraints {
+    periodLabel.snp.makeConstraints {
       $0.top.equalTo(festivalLabel.snp.bottom)
       $0.leading.equalTo(4)
       $0.trailing.lessThanOrEqualToSuperview().inset(4)

@@ -82,11 +82,11 @@ extension SearchFamousSpotCell {
 
 // MARK: - Configure
 extension SearchFamousSpotCell {
-  func configure(_ item: FamousSpotItem) {
-    thumbnailImageView.image = UIImage(named: item.imageName ?? "FamousSpotItem")
-    placeLabel.text = item.title
-    categoryLabel.text = item.catrgory
-    areaLabel.text = item.area
+  func configure(viewModel: SearchFamousSpotCellViewModel) {
+    thumbnailImageView.image = UIImage(named: viewModel.thumbnailImage ?? "tempProfile4")
+    placeLabel.text = viewModel.place
+    categoryLabel.text = viewModel.category
+    areaLabel.text = viewModel.location
   }
 }
 
