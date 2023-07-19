@@ -20,14 +20,13 @@ final class SearchViewController: UIViewController {
   }
   
   private var isScrolledUntilTop = false
-
+  
   private var subscriptions = Set<AnyCancellable>()
   private lazy var input = SearchViewModel.Input()
-  
-  // LayoutFIXME: - CompositionalLayout으로 변경
+  private let compositionalLayout = SearchCollectionViewCompositionalLayout()
   private lazy var collectionView: UICollectionView = UICollectionView(
     frame: .zero,
-    collectionViewLayout: createLayout()
+    collectionViewLayout: compositionalLayout.createLayout()
   ).set {
     let tapGesture = UITapGestureRecognizer(
       target: self,
@@ -60,6 +59,7 @@ final class SearchViewController: UIViewController {
     setupUI()
     setupStyles()
     bind()
+    input.viewDidLoad.send()
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -102,6 +102,7 @@ extension SearchViewController {
       print("해당 text를 기반으로 vc 전환")
     case .setButtonColor:
       collectionView.reloadData()
+    case .none: break
     }
   }
 }
@@ -117,79 +118,6 @@ extension SearchViewController {
 extension SearchViewController {
   private func setupStyles() {
     view.backgroundColor = .white
-  }
-  
-  private func createLayout() -> UICollectionViewCompositionalLayout {
-    return UICollectionViewCompositionalLayout { [weak self] section, _ in
-      guard let self = self else { return nil }
-      
-      switch self.viewModel.fetchModel(in: section) {
-      case .bestFestival:
-        // item
-        let item = NSCollectionLayoutItem(layoutSize: .init(
-          widthDimension: .fractionalWidth(1),
-          heightDimension: .fractionalHeight(1)
-        ))
-        
-        // group
-        let group = NSCollectionLayoutGroup.horizontal(
-          layoutSize: .init(
-            widthDimension: .absolute(140),
-            heightDimension: .absolute(150)
-          ),
-          subitems: [item]
-        )
-        
-        // section
-        let section = NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = .continuous
-        section.interGroupSpacing = 10
-        section.contentInsets = .init(top: 0, leading: 20, bottom: 0, trailing: 20)
-        section.boundarySupplementaryItems = [self.supplementaryHeaderItem()] // 헤더의 layout 처리
-        
-        // availableTODO: - 16버전은 사용 불가능, 버전에 따라 처리 해주어야 합니다.
-        section.supplementariesFollowContentInsets = false // false의 경우, item의 contentInset을 무시하고 size 설정
-        return section
-      case .famousSpot:
-        // item
-        let item = NSCollectionLayoutItem(layoutSize: .init(
-          widthDimension: .fractionalWidth(1),
-          heightDimension: .fractionalHeight(0.3)
-        ))
-        
-        // group
-        let group = NSCollectionLayoutGroup.vertical(
-          layoutSize: .init(
-            widthDimension: .fractionalWidth(0.87),
-            heightDimension: .absolute(360)
-          ),
-          subitems: [item]
-        )
-        group.interItemSpacing = .fixed(10)
-        // section
-        let section = NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = .groupPaging
-        section.interGroupSpacing = 20
-        section.contentInsets = .init(
-          top: 5,
-          leading: 0,
-          bottom: 5,
-          trailing: UIScreen.main.bounds.size.width * 0.13
-        )
-        section.boundarySupplementaryItems = [self.supplementaryHeaderItem()] // 헤더의 layout 처리
-        section.supplementariesFollowContentInsets = false
-        
-        return section
-      }
-    }
-  }
-  
-  private func supplementaryHeaderItem() -> NSCollectionLayoutBoundarySupplementaryItem {
-    return .init(
-      layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .estimated(74)),
-      elementKind: UICollectionView.elementKindSectionHeader,
-      alignment: .top
-    )
   }
 }
 
@@ -232,26 +160,23 @@ extension SearchViewController: UICollectionViewDataSource {
     _ collectionView: UICollectionView,
     cellForItemAt indexPath: IndexPath
   ) -> UICollectionViewCell {
-    switch viewModel.fetchModel(in: indexPath.section) {
-    case let .bestFestival(festivalItems):
+    switch viewModel.getCellViewModels(in: indexPath.section) {
+      
+    case .festival(let viewModels, _):
       guard let cell = collectionView.dequeueReusableCell(
         withReuseIdentifier: SearchBestFestivalCell.id,
         for: indexPath
-      ) as? SearchBestFestivalCell else { return UICollectionViewCell() }
+      ) as? SearchBestFestivalCell else { return .init() }
       
-      cell.buttonDelegate = self
-      cell.configure(festivalItems[indexPath.item])
-      
+      cell.configure(viewModel: viewModels[indexPath.item])
       return cell
       
-    case let .famousSpot(spotItems):
+    case .famous(let viewModels, _):
       guard let cell = collectionView.dequeueReusableCell(
         withReuseIdentifier: SearchFamousSpotCell.id, for: indexPath
-      ) as? SearchFamousSpotCell else { return UICollectionViewCell() }
+      ) as? SearchFamousSpotCell else { return .init() }
       
-      cell.buttonDelegate = self
-      cell.configure(spotItems[indexPath.item])
-      
+      cell.configure(viewModel: viewModels[indexPath.item])
       return cell
     }
   }
@@ -261,20 +186,18 @@ extension SearchViewController: UICollectionViewDataSource {
     viewForSupplementaryElementOfKind kind: String,
     at indexPath: IndexPath
   ) -> UICollectionReusableView {
-    switch kind {
-    case UICollectionView.elementKindSectionHeader:
+    if case UICollectionView.elementKindSectionHeader = kind {
       guard let headerView = collectionView.dequeueReusableSupplementaryView(
         ofKind: kind,
         withReuseIdentifier: SearchHeaderView.id,
         for: indexPath
-      ) as? SearchHeaderView else { return UICollectionReusableView() }
-      
-      let title = viewModel.fetchHeaderTitle(in: indexPath.section)
-      headerView.configure(title)
+      ) as? SearchHeaderView else { return .init() }
+    
+      let headerModel = viewModel.fetchHeaderTitle(in: indexPath.section)
+      headerView.configure(header: headerModel)
       
       return headerView
-    default: return UICollectionReusableView()
-    }
+    } else { return .init() }
   }
 }
 
@@ -283,7 +206,7 @@ extension SearchViewController: UICollectionViewDelegate {
   func scrollViewDidScroll(_ scrollView: UIScrollView) {
     let currentTopMargin = 40 - scrollView.contentOffset.y
     isScrolledUntilTop = currentTopMargin > 0
-
+    
     if isScrolledUntilTop {
       searchView.snp.updateConstraints {
         $0.top.equalTo(view.safeAreaLayoutGuide).inset(currentTopMargin)
@@ -295,7 +218,7 @@ extension SearchViewController: UICollectionViewDelegate {
     _ collectionView: UICollectionView,
     didSelectItemAt indexPath: IndexPath
   ) {
-    // TODO: - detailVC 화면 전환
+    // pushTODO: - detailVC 화면 전환
     print("[\(indexPath.section), \(indexPath.item)] clicked")
   }
 }

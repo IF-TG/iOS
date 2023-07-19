@@ -7,7 +7,7 @@
 
 import Foundation
 
-class SearchBestFestivalCellViewModel: SearchCellViewModelProtocol {
+class SearchBestFestivalCellViewModel {
 // MARK: - Properties
   var id: Int
   var thumbnailImage: String? // typeFIXME: - URL?
