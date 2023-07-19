@@ -36,7 +36,8 @@ extension SearchFestivalModel {
 extension SearchFestivalModel {
   func makePeriod() -> String {
     let dateFormatter = DateFormatter()
-    dateFormatter.dateFormat = "yyyy.MM.dd"
+    dateFormatter.dateFormat = "yy.MM.dd"
+    
     let startString = dateFormatter.string(from: self.startDate)
     let endString = dateFormatter.string(from: self.endDate)
     
