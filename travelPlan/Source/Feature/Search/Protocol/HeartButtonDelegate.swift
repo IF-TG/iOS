@@ -7,6 +7,7 @@
 
 import Foundation
 
+// eraseTODO: - 이 파일을 삭제합니다.
 protocol HeartButtonDelegate: AnyObject {
   func didTapHeartButton()
 }

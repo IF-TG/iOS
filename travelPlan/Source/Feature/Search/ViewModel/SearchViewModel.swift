@@ -48,7 +48,7 @@ final class SearchViewModel {
 
 // MARK: - ViewModelCase
 extension SearchViewModel: ViewModelCase {
-  func transform(_ input: Input) -> AnyPublisher<State, ErrorType> {
+  func transform(_ input: Input) -> Output {
     return Publishers.MergeMany([
       viewDidLoadStream(input),
       didTapCollectionViewStream(input),
@@ -70,7 +70,6 @@ extension SearchViewModel: ViewModelCase {
   private func didTapHeartButtonStream(_ input: Input) -> Output {
     return input.didTapHeartButton
       .tryMap { _ in
-
         State.setButtonColor
       } // 서버 응답에 따라 Bool값 달라짐
       .mapError { $0 as? ErrorType ?? .unexpected }

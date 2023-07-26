@@ -23,4 +23,8 @@ class SearchFamousSpotCellViewModel {
     self.place = model.place
     self.isSelectedButton = model.isSelectedButton
   }
+  
+  deinit {
+    print("deinit SearchFamousSpotCellViewModel")
+  }
 }
