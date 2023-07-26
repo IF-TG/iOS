@@ -5,12 +5,20 @@
 //  Created by SeokHyun on 2023/05/30.
 //
 
+import Combine
 import UIKit
+
 import SnapKit
 
 final class SearchBestFestivalCell: UICollectionViewCell {
   // MARK: - Properties
-//  var viewModel: SearchBestFestivalCellViewModel
+  private var viewModel: SearchBestFestivalCellViewModel? {
+    didSet {
+      bind()
+    }
+  }
+  private lazy var input = SearchBestFestivalCellViewModel.Input()
+  private var subscriptions = Set<AnyCancellable>()
   
   static var id: String {
     return String(describing: self)
@@ -28,7 +36,6 @@ final class SearchBestFestivalCell: UICollectionViewCell {
     $0.setImage(UIImage(named: "selectedHeart"), for: .selected)
     $0.addTarget(self, action: #selector(didTapHeartButton), for: .touchUpInside)
   }
-  weak var buttonDelegate: HeartButtonDelegate?
   
   private let festivalLabel: UILabel = .init().set {
     $0.font = UIFont(pretendard: .bold, size: 18)
@@ -62,21 +69,56 @@ final class SearchBestFestivalCell: UICollectionViewCell {
   override func prepareForReuse() {
     super.prepareForReuse()
     thumbnailImageView.image = nil
+    heartButton.isSelected = false
+    subscriptions.removeAll()
   }
 }
 
 // MARK: - Actions
 extension SearchBestFestivalCell {
   @objc private func didTapHeartButton() {
-    buttonDelegate?.didTapHeartButton()
+    input.didTapHeartButton.send()
   }
 }
 
-// MARK: - Public Helpers
+// MARK: - Bind
 extension SearchBestFestivalCell {
-  func updateHeartButtonColor(_ isChanged: Bool) {
-    if isChanged {
+  private func bind() {
+    guard let viewModel = self.viewModel else { return }
+    
+    let output = viewModel.transform(input)
+    output
+      .receive(on: RunLoop.main)
+      .sink { [weak self] completion in
+        switch completion {
+        case .finished:
+          print("finished: SearchBestFestivalCell")
+        case .failure(let error):
+          self?.handleError(error)
+        }
+      } receiveValue: { [weak self] in
+        self?.render($0)
+      }
+      .store(in: &subscriptions)
+  }
+  
+  private func render(_ state: SearchBestFestivalCellViewModel.State) {
+    switch state {
+    case .changeButtonColor:
+      // networkFIXME: - 서버의 저장에 따라 하트버튼 색의 UI를 변경해야합니다.
       heartButton.isSelected.toggle()
+    case .none: break
+    }
+  }
+  
+  private func handleError(_ error: SearchBestFestivalCellViewModel.ErrorType) {
+    switch error {
+    case .fatalError:
+      print("DEBUG: Error fatalError in SeachBestFestivalCell")
+    case .unexpected:
+      print("DEBUG: Error unexpected in SeachBestFestivalCell")
+    case .networkError:
+      print("DEBUG: Error networkError in SeachBestFestivalCell")
     }
   }
 }
@@ -91,6 +133,8 @@ extension SearchBestFestivalCell {
 // MARK: - Configure
 extension SearchBestFestivalCell {
   func configure(viewModel: SearchBestFestivalCellViewModel) {
+    self.viewModel = viewModel
+    
     festivalLabel.text = viewModel.title
     periodLabel.text = viewModel.periodString
     heartButton.isSelected = viewModel.isSelectedButton
