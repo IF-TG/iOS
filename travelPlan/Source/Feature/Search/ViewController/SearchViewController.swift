@@ -11,7 +11,6 @@ import UIKit
 import SnapKit
 
 final class SearchViewController: UIViewController {
-  
   // MARK: - Properties
   weak var coordinator: SearchCoordinator?
   private let viewModel = SearchViewModel()
@@ -167,7 +166,6 @@ extension SearchViewController: UICollectionViewDataSource {
         withReuseIdentifier: SearchBestFestivalCell.id,
         for: indexPath
       ) as? SearchBestFestivalCell else { return .init() }
-      
       cell.configure(viewModel: viewModels[indexPath.item])
       return cell
       
@@ -231,9 +229,9 @@ extension SearchViewController: SearchViewDelegate {
 }
 
 // MARK: - HeartButtonDelegate
-extension SearchViewController: HeartButtonDelegate {
-  func didTapHeartButton() {
-    input.didTapHeartButton.send()
-    print("DEBUG: 하트 버튼 클릭")
-  }
-}
+//extension SearchViewController: HeartButtonDelegate {
+//  func didTapHeartButton() {
+//    input.didTapHeartButton.send()
+//    print("DEBUG: 하트 버튼 클릭")
+//  }
+//}
