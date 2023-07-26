@@ -22,7 +22,7 @@ final class SearchViewController: UIViewController {
   
   private var subscriptions = Set<AnyCancellable>()
   private lazy var input = SearchViewModel.Input()
-  private let compositionalLayout = SearchCollectionViewCompositionalLayout()
+  private let compositionalLayout: SearchCollectionViewCompositionalLayout = SearchCollectionViewCompositionalLayout()
   private lazy var collectionView: UICollectionView = UICollectionView(
     frame: .zero,
     collectionViewLayout: compositionalLayout.createLayout()
@@ -227,11 +227,3 @@ extension SearchViewController: SearchViewDelegate {
     input.didTapSearchButton.send(text)
   }
 }
-
-// MARK: - HeartButtonDelegate
-//extension SearchViewController: HeartButtonDelegate {
-//  func didTapHeartButton() {
-//    input.didTapHeartButton.send()
-//    print("DEBUG: 하트 버튼 클릭")
-//  }
-//}

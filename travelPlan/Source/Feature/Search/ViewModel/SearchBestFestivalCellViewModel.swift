@@ -34,7 +34,6 @@ class SearchBestFestivalCellViewModel {
   
 // MARK: - Properties
   private var subscriptions = Set<AnyCancellable>()
-//  var model: Model?
   var id: Int
   var thumbnailImage: String? // typeFIXME: - URL?
   var title: String

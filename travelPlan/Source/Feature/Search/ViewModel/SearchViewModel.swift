@@ -143,8 +143,3 @@ extension SearchViewModel {
     sections.append(.famous(famousViewModels, famousHeader))
   }
 }
-
-/*
- load 메소드 내에서 서버에서 model값 가지고 온 것을 items.send 하기
- 
- */
