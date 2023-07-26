@@ -10,6 +10,8 @@ import SnapKit
 
 final class SearchFamousSpotCell: UICollectionViewCell {
   // MARK: - Properties
+  private var viewModel: SearchFamousSpotCellViewModel?
+  
   static var id: String {
     return String(describing: self)
   }
@@ -87,6 +89,8 @@ extension SearchFamousSpotCell {
     placeLabel.text = viewModel.place
     categoryLabel.text = viewModel.category
     areaLabel.text = viewModel.location
+    
+    self.viewModel = viewModel
   }
 }
 
