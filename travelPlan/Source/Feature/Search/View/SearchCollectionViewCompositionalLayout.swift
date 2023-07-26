@@ -12,7 +12,10 @@ class SearchCollectionViewCompositionalLayout {
     case festival
     case famous
   }
-  
+}
+
+// MARK: - SearchCompositionalLayout
+extension SearchCollectionViewCompositionalLayout: SearchCompositionalLayout {
   func createLayout() -> UICollectionViewCompositionalLayout {
     return UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ in
       switch sectionIndex {
@@ -22,12 +25,12 @@ class SearchCollectionViewCompositionalLayout {
       }
     }
   }
-  
+}
+
+// MARK: - Helpers
+extension SearchCollectionViewCompositionalLayout {
   private func firstSectionLayout() -> NSCollectionLayoutSection {
-    let item = NSCollectionLayoutItem(layoutSize: .init(
-      widthDimension: .fractionalWidth(1),
-      heightDimension: .fractionalHeight(1)
-    ))
+    let item = makeLayoutItem(fractionalWidth: 1, fractionalHeight: 1)
     
     let group = NSCollectionLayoutGroup.horizontal(
       layoutSize: .init(
@@ -48,10 +51,7 @@ class SearchCollectionViewCompositionalLayout {
   }
   
   private func secondSectionLayout() -> NSCollectionLayoutSection {
-    let item = NSCollectionLayoutItem(layoutSize: .init(
-      widthDimension: .fractionalWidth(1),
-      heightDimension: .fractionalHeight(0.3)
-    ))
+    let item = makeLayoutItem(fractionalWidth: 1, fractionalHeight: 0.3)
     
     let group = NSCollectionLayoutGroup.vertical(
       layoutSize: .init(
@@ -83,5 +83,10 @@ class SearchCollectionViewCompositionalLayout {
       elementKind: UICollectionView.elementKindSectionHeader,
       alignment: .top
     )
+  }
+  
+  private func makeLayoutItem(fractionalWidth: CGFloat, fractionalHeight: CGFloat) -> NSCollectionLayoutItem {
+    return NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(fractionalWidth),
+                                                    heightDimension: .fractionalHeight(fractionalHeight)))
   }
 }
