@@ -28,7 +28,17 @@ extension SearchFestivalModel {
     .init(
       id: 3, imageName: "tempThumbnail7", title: "축제1", startDate: Date(), endDate: Date(), isSelectedButton: false),
     .init(
-      id: 4, imageName: "tempThumbnail7", title: "축제1", startDate: Date(), endDate: Date(), isSelectedButton: false)
+      id: 4, imageName: "tempThumbnail7", title: "축제1", startDate: Date(), endDate: Date(), isSelectedButton: false),
+    .init(
+      id: 5, imageName: "tempThumbnail7", title: "축제1", startDate: Date(), endDate: Date(), isSelectedButton: false),
+    .init(
+      id: 6, imageName: "tempThumbnail7", title: "축제1", startDate: Date(), endDate: Date(), isSelectedButton: false),
+    .init(
+      id: 7, imageName: "tempThumbnail7", title: "축제1", startDate: Date(), endDate: Date(), isSelectedButton: false),
+    .init(
+      id: 8, imageName: "tempThumbnail7", title: "축제1", startDate: Date(), endDate: Date(), isSelectedButton: false),
+    .init(
+      id: 9, imageName: "tempThumbnail7", title: "축제1", startDate: Date(), endDate: Date(), isSelectedButton: false)
   ]
 }
 
