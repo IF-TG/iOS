@@ -8,11 +8,20 @@
 import Foundation
 import Combine
 
+protocol SearchViewModelInput {
+  associatedtype ErrorType: Error
+  
+  var viewDidLoad: PassthroughSubject<Void, Never> { get }
+  var didTapView: PassthroughSubject<Void, Never> { get }
+  var didTapSearchButton: PassthroughSubject<String, ErrorType> { get }
+  var didTapHeartButton: PassthroughSubject<Void, ErrorType> { get }
+}
+
 final class SearchViewModel {
   typealias Output = AnyPublisher<State, ErrorType>
   
   // MARK: - Input
-  struct Input {
+  struct Input: SearchViewModelInput {
     let viewDidLoad: PassthroughSubject<Void, Never>
     let didTapView: PassthroughSubject<Void, Never>
     let didTapSearchButton: PassthroughSubject<String, ErrorType>
