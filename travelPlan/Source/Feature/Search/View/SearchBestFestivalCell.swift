@@ -25,29 +25,29 @@ final class SearchBestFestivalCell: UICollectionViewCell {
   }
   
   private let thumbnailImageView: UIImageView = .init().set {
-    $0.layer.cornerRadius = 3
+    $0.layer.cornerRadius = Constants.ThumbnailImageView.cornerRadius
     $0.contentMode = .scaleAspectFill
     $0.layer.masksToBounds = true
     $0.isUserInteractionEnabled = true // UIImageView의 터치 이벤트를 감지하기 위해 인터랙션을 활성화
   }
   
   private lazy var heartButton: UIButton = .init().set {
-    $0.setImage(UIImage(named: "unselectedHeart"), for: .normal)
-    $0.setImage(UIImage(named: "selectedHeart"), for: .selected)
+    $0.setImage(UIImage(named: Constants.HeartButton.normalImageName), for: .normal)
+    $0.setImage(UIImage(named: Constants.HeartButton.selectedImageName), for: .selected)
     $0.addTarget(self, action: #selector(didTapHeartButton), for: .touchUpInside)
   }
   
   private let festivalLabel: UILabel = .init().set {
-    $0.font = UIFont(pretendard: .bold, size: 18)
+    $0.font = UIFont(pretendard: .bold, size: Constants.FestivalLabel.fontSize)
     $0.textColor = .yg.gray00Background
-    $0.numberOfLines = 1
+    $0.numberOfLines = Constants.FestivalLabel.numberOfLines
     $0.textAlignment = .center
     
     $0.text = "축제명"
   }
   
   private let periodLabel: UILabel = .init().set {
-    $0.font = UIFont(pretendard: .semiBold, size: 12)
+    $0.font = UIFont(pretendard: .semiBold, size: Constants.PeriodLabel.fontSize)
     $0.textColor = .yg.gray00Background
     $0.textAlignment = .center
     
@@ -70,7 +70,9 @@ final class SearchBestFestivalCell: UICollectionViewCell {
     super.prepareForReuse()
     thumbnailImageView.image = nil
     heartButton.isSelected = false
-    subscriptions.removeAll()
+    periodLabel.text = nil
+    festivalLabel.text = nil
+    subscriptions = []
   }
 }
 
@@ -158,21 +160,24 @@ extension SearchBestFestivalCell: LayoutSupport {
     }
     
     heartButton.snp.makeConstraints {
-      $0.top.equalToSuperview().inset(8)
-      $0.right.equalToSuperview().inset(8)
-      $0.size.equalTo(20)
+      $0.top.equalToSuperview().inset(Constants.HeartButton.Inset.top)
+      $0.trailing.equalToSuperview().inset(Constants.HeartButton.Inset.trailing)
+      $0.size.equalTo(Constants.HeartButton.size)
     }
     
     festivalLabel.snp.makeConstraints {
-      $0.leading.equalToSuperview().inset(4)
-      $0.trailing.lessThanOrEqualToSuperview().inset(4)
+      $0.leading.equalToSuperview().inset(Constants.FestivalLabel.Inset.leading)
+      $0.trailing.lessThanOrEqualToSuperview()
+        .inset(Constants.FestivalLabel.Inset.trailing)
     }
     
     periodLabel.snp.makeConstraints {
       $0.top.equalTo(festivalLabel.snp.bottom)
-      $0.leading.equalTo(4)
-      $0.trailing.lessThanOrEqualToSuperview().inset(4)
-      $0.bottom.equalToSuperview().inset(6)
+      $0.leading.equalTo(festivalLabel)
+      $0.trailing.lessThanOrEqualToSuperview()
+        .inset(Constants.PeriodLabel.Inset.trailing)
+      $0.bottom.equalToSuperview()
+        .inset(Constants.PeriodLabel.Inset.bottom)
     }
   }
 }

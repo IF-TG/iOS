@@ -19,42 +19,42 @@ final class SearchFamousSpotCell: UICollectionViewCell {
   weak var buttonDelegate: HeartButtonDelegate?
   
   private let thumbnailImageView: UIImageView = UIImageView().set {
-    $0.image = UIImage(named: "tempThumbnail1")
-    $0.layer.cornerRadius = 3
+    $0.image = UIImage(named: Constants.ThumbnailImageView.imageName)
+    $0.layer.cornerRadius = Constants.ThumbnailImageView.cornerRadius
     $0.contentMode = .scaleAspectFill
     $0.layer.masksToBounds = true
   }
   
   private lazy var heartButton: UIButton = UIButton().set {
-    $0.setImage(UIImage(named: "unselectedHeart"), for: .normal)
-    $0.setImage(UIImage(named: "selectedHeart"), for: .selected)
+    $0.setImage(UIImage(named: Constants.HeartButton.normalImageName), for: .normal)
+    $0.setImage(UIImage(named: Constants.HeartButton.selectedImageName), for: .selected)
     $0.addTarget(self, action: #selector(didTapHeartButton), for: .touchUpInside)
   }
   
   private let placeLabel: UILabel = UILabel().set {
-    $0.font = .init(pretendard: .semiBold, size: 16)
-    $0.text = "관광 장소명" // will erase
+    $0.font = .init(pretendard: .semiBold, size: Constants.PlaceLabel.fontSize)
+    $0.text = "관광 장소명"
     $0.textColor = .yg.gray6
-    $0.numberOfLines = 1
+    $0.numberOfLines = Constants.PlaceLabel.numberOfLines
   }
   
   private let categoryLabel: UILabel = UILabel().set {
-    $0.font = .init(pretendard: .medium, size: 14)
+    $0.font = .init(pretendard: .medium, size: Constants.CategoryLabel.fontSize)
     $0.textColor = .yg.gray6
     $0.text = "관광 카테고리"
-    $0.numberOfLines = 1
+    $0.numberOfLines = Constants.CategoryLabel.numberOfLines
   }
   
   private let areaLabel: UILabel = UILabel().set {
-    $0.font = .init(pretendard: .medium, size: 14)
-    $0.text = "지역명" // will erase
+    $0.font = .init(pretendard: .medium, size: Constants.AreaLabel.size)
+    $0.text = "지역명"
     $0.textColor = .yg.gray6
-    $0.numberOfLines = 1
+    $0.numberOfLines = Constants.AreaLabel.numberOfLines
   }
   
   private let labelStackView: UIStackView = UIStackView().set {
     $0.axis = .vertical
-    $0.spacing = 0
+    $0.spacing = Constants.LabelStackView.spacing
     $0.alignment = .leading
   }
   
@@ -106,22 +106,26 @@ extension SearchFamousSpotCell: LayoutSupport {
   
   func setConstraints() {
     thumbnailImageView.snp.makeConstraints {
-      $0.leading.equalToSuperview().inset(20)
+      $0.leading.equalToSuperview()
+        .inset(Constants.ThumbnailImageView.Inset.leading)
       $0.top.equalToSuperview()
       $0.bottom.equalToSuperview()
       $0.width.equalTo(thumbnailImageView.snp.height)
     }
     
     labelStackView.snp.makeConstraints {
-      $0.leading.equalTo(thumbnailImageView.snp.trailing).offset(15)
-      $0.trailing.lessThanOrEqualTo(heartButton.snp.leading).offset(-10)
+      $0.leading.equalTo(thumbnailImageView.snp.trailing)
+        .offset(Constants.LabelStackView.Offset.leading)
+      $0.trailing.lessThanOrEqualTo(heartButton.snp.leading)
+        .offset(Constants.LabelStackView.Offset.trailing)
       $0.top.equalTo(thumbnailImageView)
     }
     
     heartButton.snp.makeConstraints {
-      $0.top.equalToSuperview().inset(5)
-      $0.trailing.equalToSuperview().inset(10)
-      $0.size.equalTo(20)
+      $0.top.equalToSuperview().inset(Constants.HeartButton.Inset.top)
+      $0.trailing.equalToSuperview()
+        .inset(Constants.HeartButton.Inset.trailing)
+      $0.size.equalTo(Constants.HeartButton.size)
     }
   }
 }

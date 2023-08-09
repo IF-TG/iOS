@@ -22,7 +22,7 @@ final class SearchViewController: UIViewController {
   
   private var subscriptions = Set<AnyCancellable>()
   private lazy var input = SearchViewModel.Input()
-  private let compositionalLayout: SearchCollectionViewCompositionalLayout = SearchCollectionViewCompositionalLayout()
+  private let compositionalLayout: SearchCompositionalLayout = SearchCollectionViewCompositionalLayout()
   private lazy var collectionView: UICollectionView = UICollectionView(
     frame: .zero,
     collectionViewLayout: compositionalLayout.createLayout()
@@ -76,7 +76,7 @@ extension SearchViewController {
       .sink { [weak self] result in
         switch result {
         case .finished:
-          print("completed")
+          print("DEBUG: completed")
         case let .failure(error):
           self?.handleError(error)
         }
@@ -129,9 +129,10 @@ extension SearchViewController: LayoutSupport {
   
   func setConstraints() {
     searchView.snp.makeConstraints {
-      $0.top.equalTo(view.safeAreaLayoutGuide).inset(40)
-      $0.leading.trailing.equalToSuperview().inset(30)
-      $0.height.equalTo(50)
+      $0.top.equalTo(view.safeAreaLayoutGuide).inset(Constants.SearchView.Spacing.top)
+      $0.leading.trailing.equalToSuperview()
+        .inset(Constants.SearchView.Spacing.leadingTrailing)
+      $0.height.equalTo(Constants.SearchView.height)
     }
     
     collectionView.snp.makeConstraints {
