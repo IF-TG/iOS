@@ -44,6 +44,8 @@
 		132C2D2E2A83B14A00B587E8 /* PostSearchFooterView+Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132C2D2D2A83B14A00B587E8 /* PostSearchFooterView+Constants.swift */; };
 		132C2D302A83B1D500B587E8 /* PostSearchHeaderView+Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132C2D2F2A83B1D500B587E8 /* PostSearchHeaderView+Constants.swift */; };
 		132C2D322A83BC2900B587E8 /* LeftAlignedCollectionViewFlowLayout+Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132C2D312A83BC2900B587E8 /* LeftAlignedCollectionViewFlowLayout+Constants.swift */; };
+		132C2D382A84315800B587E8 /* PostSearchViewModel+Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132C2D372A84315800B587E8 /* PostSearchViewModel+Constants.swift */; };
+		132C2D3A2A84394300B587E8 /* PostSearchTagCell+Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132C2D392A84394300B587E8 /* PostSearchTagCell+Constants.swift */; };
 		137764092A715F6A00B11A15 /* SearchCompositionalLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137764082A715F6A00B11A15 /* SearchCompositionalLayout.swift */; };
 		13C07ECD2A13F454005F04CD /* PostSearchFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C07ECC2A13F454005F04CD /* PostSearchFooterView.swift */; };
 		13C9C1AF2A17FFC400DF1FFF /* PostSearchHeaderViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C9C1AE2A17FFC400DF1FFF /* PostSearchHeaderViewDelegate.swift */; };
@@ -214,6 +216,8 @@
 		132C2D2D2A83B14A00B587E8 /* PostSearchFooterView+Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PostSearchFooterView+Constants.swift"; sourceTree = "<group>"; };
 		132C2D2F2A83B1D500B587E8 /* PostSearchHeaderView+Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PostSearchHeaderView+Constants.swift"; sourceTree = "<group>"; };
 		132C2D312A83BC2900B587E8 /* LeftAlignedCollectionViewFlowLayout+Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LeftAlignedCollectionViewFlowLayout+Constants.swift"; sourceTree = "<group>"; };
+		132C2D372A84315800B587E8 /* PostSearchViewModel+Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PostSearchViewModel+Constants.swift"; sourceTree = "<group>"; };
+		132C2D392A84394300B587E8 /* PostSearchTagCell+Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PostSearchTagCell+Constants.swift"; sourceTree = "<group>"; };
 		137764082A715F6A00B11A15 /* SearchCompositionalLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCompositionalLayout.swift; sourceTree = "<group>"; };
 		13C07ECC2A13F454005F04CD /* PostSearchFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSearchFooterView.swift; sourceTree = "<group>"; };
 		13C9C1AE2A17FFC400DF1FFF /* PostSearchHeaderViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSearchHeaderViewDelegate.swift; sourceTree = "<group>"; };
@@ -476,6 +480,8 @@
 				132C2D2D2A83B14A00B587E8 /* PostSearchFooterView+Constants.swift */,
 				132C2D2F2A83B1D500B587E8 /* PostSearchHeaderView+Constants.swift */,
 				132C2D312A83BC2900B587E8 /* LeftAlignedCollectionViewFlowLayout+Constants.swift */,
+				132C2D372A84315800B587E8 /* PostSearchViewModel+Constants.swift */,
+				132C2D392A84394300B587E8 /* PostSearchTagCell+Constants.swift */,
 			);
 			path = PostSearch;
 			sourceTree = "<group>";
@@ -1507,6 +1513,7 @@
 				15FEB5E62A050A99000A5F33 /* UISwitch+Combine.swift in Sources */,
 				132550282A0ABBDA00094218 /* PostSearchModel.swift in Sources */,
 				15EF8C9B2A0A19100068C744 /* CategoryView.swift in Sources */,
+				132C2D3A2A84394300B587E8 /* PostSearchTagCell+Constants.swift in Sources */,
 				15CB23742A110FB4003EAF20 /* PostViewModel.swift in Sources */,
 				132C2D252A8353AE00B587E8 /* SearchBestFestivalCell+Constants.swift in Sources */,
 				15AF2C3E2A1147B100BEE166 /* UIImage+JPEGCompress.swift in Sources */,
@@ -1515,6 +1522,7 @@
 				158BEFD02A0FE2C000C27861 /* OneUnitHeightLine.swift in Sources */,
 				15CB236C2A10BB17003EAF20 /* PostModel.swift in Sources */,
 				152AD5202A1A09E8008A2A11 /* FavoriteListTableViewAdapterDelegate.swift in Sources */,
+				132C2D382A84315800B587E8 /* PostSearchViewModel+Constants.swift in Sources */,
 				1503F9342A4E0D06002BC38D /* ProfileCoordinator.swift in Sources */,
 				15FEB5ED2A050A99000A5F33 /* LayoutSupport.swift in Sources */,
 				130304AA2A271F3B00776A0D /* SearchModel.swift in Sources */,
