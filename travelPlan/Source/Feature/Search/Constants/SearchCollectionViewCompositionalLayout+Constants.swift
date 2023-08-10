@@ -57,6 +57,5 @@ extension SearchCollectionViewCompositionalLayout {
       static let width: CGFloat = 1
       static let height: CGFloat = 74
     }
-    
   }
 }

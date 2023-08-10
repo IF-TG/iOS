@@ -130,8 +130,10 @@ extension SearchViewController: LayoutSupport {
   func setConstraints() {
     searchView.snp.makeConstraints {
       $0.top.equalTo(view.safeAreaLayoutGuide).inset(Constants.SearchView.Spacing.top)
-      $0.leading.trailing.equalToSuperview()
-        .inset(Constants.SearchView.Spacing.leadingTrailing)
+      $0.leading.equalToSuperview()
+        .inset(Constants.SearchView.Spacing.leading)
+      $0.trailing.equalToSuperview()
+        .inset(Constants.SearchView.Spacing.trailing)
       $0.height.equalTo(Constants.SearchView.height)
     }
     

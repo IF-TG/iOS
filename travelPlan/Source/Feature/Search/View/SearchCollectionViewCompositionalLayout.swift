@@ -90,7 +90,7 @@ extension SearchCollectionViewCompositionalLayout {
   private func supplementaryHeaderItem() -> NSCollectionLayoutBoundarySupplementaryItem {
     return .init(
       layoutSize: .init(
-        widthDimension: .fractionalWidth(Constants.Header.height),
+        widthDimension: .fractionalWidth(Constants.Header.width),
         heightDimension: .estimated(Constants.Header.height)
       ),
       elementKind: UICollectionView.elementKindSectionHeader,
