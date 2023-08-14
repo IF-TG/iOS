@@ -8,11 +8,13 @@
 import UIKit.UIViewController
 
 enum CautionAlertType {
-  case onlyConfirm /// 확인
-  case withCancel /// 취소 + 확인
+  /// 확인
+  case onlyConfirm
+  /// 취소 + 확인
+  case withCancel
 }
 
-/// delegate pattern으로, alertButton(cancel, confirm)이 눌렸을 때 로직을 구현합니다.
+/// alertButton(cancel, confirm)이 눌렸을 때 로직을 구현합니다.
 @objc
 protocol CautionAlertViewControllerDelegate: AnyObject {
   func didTapAlertConfirm()
