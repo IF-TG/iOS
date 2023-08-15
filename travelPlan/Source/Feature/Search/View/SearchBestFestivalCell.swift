@@ -17,7 +17,7 @@ final class SearchBestFestivalCell: UICollectionViewCell {
       bind()
     }
   }
-  private lazy var input = SearchBestFestivalCellViewModel.Input()
+  private lazy var input = Input()
   private var subscriptions = Set<AnyCancellable>()
   
   static var id: String {
@@ -83,9 +83,13 @@ extension SearchBestFestivalCell {
   }
 }
 
-// MARK: - Bind
-extension SearchBestFestivalCell {
-  private func bind() {
+// MARK: - ViewBindCase
+extension SearchBestFestivalCell: ViewBindCase {
+  typealias Input = SearchBestFestivalCellViewModel.Input
+  typealias ErrorType = SearchBestFestivalCellViewModel.ErrorType
+  typealias State = SearchBestFestivalCellViewModel.State
+  
+  internal func bind() {
     guard let viewModel = self.viewModel else { return }
     
     let output = viewModel.transform(input)
@@ -104,7 +108,7 @@ extension SearchBestFestivalCell {
       .store(in: &subscriptions)
   }
   
-  private func render(_ state: SearchBestFestivalCellViewModel.State) {
+  internal func render(_ state: State) {
     switch state {
     case .changeButtonColor:
       // networkFIXME: - 서버의 저장에 따라 하트버튼 색의 UI를 변경해야합니다.
@@ -113,7 +117,7 @@ extension SearchBestFestivalCell {
     }
   }
   
-  private func handleError(_ error: SearchBestFestivalCellViewModel.ErrorType) {
+  internal func handleError(_ error: ErrorType) {
     switch error {
     case .fatalError:
       print("DEBUG: Error fatalError in SeachBestFestivalCell")
