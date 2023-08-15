@@ -67,9 +67,13 @@ final class SearchViewController: UIViewController {
   }
 }
 
-// MARK: - Bind
-extension SearchViewController {
-  private func bind() {
+// MARK: - ViewBindCase
+extension SearchViewController: ViewBindCase {
+  typealias Input = SearchViewModel.Input
+  typealias ErrorType = SearchViewModel.ErrorType
+  typealias State = SearchViewModel.State
+  
+  internal func bind() {
     let output = viewModel.transform(input)
     output
       .receive(on: RunLoop.main)
@@ -86,14 +90,14 @@ extension SearchViewController {
       .store(in: &subscriptions)
   }
   
-  private func handleError(_ error: SearchViewModel.ErrorType) {
+  internal func handleError(_ error: ErrorType) {
     switch error {
     case .none: print("DEBUG: none error")
     case .unexpected: print("DEBUG: unexpected error")
     }
   }
   
-  private func render(_ state: SearchViewModel.State) {
+  internal func render(_ state: State) {
     switch state {
     case .goDownKeyboard:
       searchView.endEditing(true)
