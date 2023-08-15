@@ -209,9 +209,9 @@ extension SearchViewController: UICollectionViewDataSource {
 // MARK: - UICollectionViewDelegate
 extension SearchViewController: UICollectionViewDelegate {
   func scrollViewDidScroll(_ scrollView: UIScrollView) {
-    let currentTopMargin = 40 - scrollView.contentOffset.y
+    let currentTopMargin = Constants.SearchView.Spacing.top - scrollView.contentOffset.y
     isScrolledUntilTop = currentTopMargin > 0
-    
+
     if isScrolledUntilTop {
       searchView.snp.updateConstraints {
         $0.top.equalTo(view.safeAreaLayoutGuide).inset(currentTopMargin)
