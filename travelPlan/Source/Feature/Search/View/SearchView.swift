@@ -46,6 +46,7 @@ final class SearchView: UIView {
 
 // MARK: - Helpers
 extension SearchView {
+  // shadowTODO: - SearchView의 shadow를 추가해야합니다.
   private func setupStyles() {
     layer.borderColor = UIColor.yg.primary.cgColor
     layer.borderWidth = SearchView.Constants.borderWidth
@@ -56,7 +57,7 @@ extension SearchView {
 // MARK: - Actions
 extension SearchView {
   @objc private func didTapSearchButton() {
-    delegate?.didTapSearchButton(text: searchTextField.text ?? "")
+    delegate?.didTapSearchButton(self, text: searchTextField.text ?? "")
   }
 }
 
