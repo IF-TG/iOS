@@ -77,6 +77,7 @@ final class SearchFamousSpotCell: UICollectionViewCell {
 // MARK: - Actions
 extension SearchFamousSpotCell {
   @objc private func didTapHeartButton() {
+    // viewModelTODO: - CellViewModel 추가해서 input output 패턴 적용하고 delegate를 제거해야 합니다.
     buttonDelegate?.didTapHeartButton()
     print("DEBUG: 버튼 변화됨!")
   }
