@@ -42,7 +42,6 @@ final class SearchBestFestivalCell: UICollectionViewCell {
     $0.textColor = .yg.gray00Background
     $0.numberOfLines = Constants.FestivalLabel.numberOfLines
     $0.textAlignment = .center
-    
     $0.text = "축제명"
   }
   
@@ -50,7 +49,6 @@ final class SearchBestFestivalCell: UICollectionViewCell {
     $0.font = UIFont(pretendard: .semiBold, size: Constants.PeriodLabel.fontSize)
     $0.textColor = .yg.gray00Background
     $0.textAlignment = .center
-    
     $0.text = "날짜"
     // shadowTODO: - shadow, blur 처리
   }
@@ -72,7 +70,7 @@ final class SearchBestFestivalCell: UICollectionViewCell {
     heartButton.isSelected = false
     periodLabel.text = nil
     festivalLabel.text = nil
-    subscriptions = []
+    subscriptions.removeAll()
   }
 }
 
