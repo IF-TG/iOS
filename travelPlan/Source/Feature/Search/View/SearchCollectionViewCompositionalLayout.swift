@@ -8,10 +8,7 @@
 import UIKit
 
 class SearchCollectionViewCompositionalLayout {
-  enum SearchSection: Int {
-    case festival
-    case famous
-  }
+  
 }
 
 // MARK: - SearchCompositionalLayout
@@ -19,8 +16,8 @@ extension SearchCollectionViewCompositionalLayout: SearchCompositionalLayout {
   func createLayout() -> UICollectionViewCompositionalLayout {
     return UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ in
       switch sectionIndex {
-      case SearchSection.festival.rawValue: return self?.firstSectionLayout()
-      case SearchSection.famous.rawValue: return self?.secondSectionLayout()
+      case SearchSectionType.festival.rawValue: return self?.firstSectionLayout()
+      case SearchSectionType.famous.rawValue: return self?.secondSectionLayout()
       default: return nil
       }
     }
