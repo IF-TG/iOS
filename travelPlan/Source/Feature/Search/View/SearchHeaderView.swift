@@ -14,6 +14,10 @@ final class SearchHeaderView: UICollectionReusableView {
     return String(describing: self)
   }
   
+  var type: SearchSectionType?
+  
+  weak var delegate: SearchHeaderViewDelegate?
+  
   private let headerLabel: UILabel = UILabel().set {
     $0.font = UIFont(pretendard: .bold, size: Constants.HeaderLabel.fontSize)
     $0.textColor = .yg.gray7
@@ -22,7 +26,7 @@ final class SearchHeaderView: UICollectionReusableView {
     $0.text = "베스트 축제"
   }
   
-  private let lookingMoreButton: UIButton = .init().set {
+  private lazy var lookingMoreButton: UIButton = .init().set {
     $0.setTitle(Constants.LookingMoreButton.title, for: .normal)
     $0.titleLabel?.font = .systemFont(
       ofSize: Constants.LookingMoreButton.titleFontSize,
@@ -34,6 +38,7 @@ final class SearchHeaderView: UICollectionReusableView {
     $0.layer.cornerRadius = Constants.LookingMoreButton.cornerRadius
     $0.layer.borderColor = UIColor.yg.gray0.cgColor
     $0.layer.borderWidth = Constants.LookingMoreButton.borderWidth
+    $0.addTarget(self, action: #selector(didTapLookingMoreButton), for: .touchUpInside)
   }
   
   // MARK: - LifeCycle
@@ -45,12 +50,24 @@ final class SearchHeaderView: UICollectionReusableView {
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
+  
+  override func prepareForReuse() {
+    super.prepareForReuse()
+    self.type = nil
+  }
 }
 
 // MARK: - Public Helpers
 extension SearchHeaderView {
   func configure(header: SearchHeaderModel) {
     headerLabel.text = header.title
+  }
+}
+
+// MARK: - Actions
+extension SearchHeaderView {
+  @objc private func didTapLookingMoreButton() {
+    delegate?.didTaplookingMoreButton(self)
   }
 }
 

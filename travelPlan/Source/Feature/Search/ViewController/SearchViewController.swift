@@ -197,7 +197,17 @@ extension SearchViewController: UICollectionViewDataSource {
         withReuseIdentifier: SearchHeaderView.id,
         for: indexPath
       ) as? SearchHeaderView else { return .init() }
-    
+      
+      switch indexPath.section {
+      case SearchSectionType.festival.rawValue:
+        headerView.type = .festival
+      case SearchSectionType.famous.rawValue:
+        headerView.type = .famous
+      default: break
+      }
+      
+      headerView.delegate = self
+      
       let headerModel = viewModel.fetchHeaderTitle(in: indexPath.section)
       headerView.configure(header: headerModel)
       
@@ -230,7 +240,21 @@ extension SearchViewController: UICollectionViewDelegate {
 
 // MARK: - SearchViewDelegate
 extension SearchViewController: SearchViewDelegate {
-  func didTapSearchButton(text: String) {
+  func didTapSearchButton(_ searchView: SearchView, text: String) {
     input.didTapSearchButton.send(text)
+  }
+}
+
+// MARK: - SearchHeaderViewDelegate
+extension SearchViewController: SearchHeaderViewDelegate {
+  // pushTODO: - 각 타입에 맞게 화면전환을 해야합니다.
+  func didTaplookingMoreButton(_ headerView: SearchHeaderView) {
+    switch headerView.type {
+    case .festival:
+      print("DEBUG: 베스트 축제 더보기 클릭")
+    case .famous:
+      print("DEBUG: 유명 관광지 더보기 클릭")
+    case .none: break
+    }
   }
 }
