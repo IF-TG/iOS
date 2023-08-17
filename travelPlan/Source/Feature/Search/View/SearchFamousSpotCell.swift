@@ -7,16 +7,19 @@
 
 import UIKit
 import SnapKit
+import Combine
 
 final class SearchFamousSpotCell: UICollectionViewCell {
   // MARK: - Properties
-  private var viewModel: SearchFamousSpotCellViewModel?
+  private var viewModel: SearchFamousSpotCellViewModel? {
+    didSet {
+      bind()
+    }
+  }
   
   static var id: String {
     return String(describing: self)
   }
-  
-  weak var buttonDelegate: HeartButtonDelegate?
   
   private let thumbnailImageView: UIImageView = UIImageView().set {
     $0.image = UIImage(named: Constants.ThumbnailImageView.imageName)
@@ -25,9 +28,7 @@ final class SearchFamousSpotCell: UICollectionViewCell {
     $0.layer.masksToBounds = true
   }
   
-  private lazy var heartButton: UIButton = UIButton().set {
-    $0.setImage(UIImage(named: Constants.HeartButton.normalImageName), for: .normal)
-    $0.setImage(UIImage(named: Constants.HeartButton.selectedImageName), for: .selected)
+  private lazy var heartButton: SearchHeartButton = .init().set {
     $0.addTarget(self, action: #selector(didTapHeartButton), for: .touchUpInside)
   }
   
@@ -58,6 +59,9 @@ final class SearchFamousSpotCell: UICollectionViewCell {
     $0.alignment = .leading
   }
   
+  private lazy var input = Input()
+  private var subscriptions = Set<AnyCancellable>()
+  
   // MARK: - LifeCycle
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -74,11 +78,52 @@ final class SearchFamousSpotCell: UICollectionViewCell {
   }
 }
 
+extension SearchFamousSpotCell: ViewBindCase {
+  typealias Input = SearchFamousSpotCellViewModel.Input
+  typealias ErrorType = SearchFamousSpotCellViewModel.ErrorType
+  typealias State = SearchFamousSpotCellViewModel.State
+  
+  func bind() {
+    guard let viewModel = self.viewModel else { return }
+    
+    let output = viewModel.transform(input)
+    output
+      .receive(on: RunLoop.main)
+      .sink { [weak self] completion in
+        switch completion {
+        case .finished:
+          print("DEBUG: finished SearchFamousSpotCell")
+        case .failure(let error):
+          self?.handleError(error)
+        }
+      } receiveValue: { [weak self] in
+        self?.render($0)
+      }
+      .store(in: &subscriptions)
+  }
+  
+  func render(_ state: State) {
+    switch state {
+    case .changeButtonColor:
+      heartButton.isSelected.toggle()
+    case .none: break
+    }
+  }
+  
+  func handleError(_ error: ErrorType) {
+    switch error {
+    case .fatalError: print("DEBUG: fatalError occurred")
+    case .networkError: print("DEBUG: networkError occurred")
+    case .unexpected: print("DEBUG: unexpected occurred")
+    }
+  }
+}
+
 // MARK: - Actions
 extension SearchFamousSpotCell {
   @objc private func didTapHeartButton() {
     // viewModelTODO: - CellViewModel 추가해서 input output 패턴 적용하고 delegate를 제거해야 합니다.
-    buttonDelegate?.didTapHeartButton()
+    input.didTapHeartButton.send()
     print("DEBUG: 버튼 변화됨!")
   }
 }
