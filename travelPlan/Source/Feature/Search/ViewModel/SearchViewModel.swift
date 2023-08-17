@@ -43,7 +43,6 @@ final class SearchViewModel {
   enum State {
     case goDownKeyboard
     case gotoSearch
-    case setButtonColor
     case none
   }
   // MARK: - Error
@@ -61,8 +60,7 @@ extension SearchViewModel: ViewModelCase {
     return Publishers.MergeMany([
       viewDidLoadStream(input),
       didTapCollectionViewStream(input),
-      didTapSearchButtonStream(input),
-      didTapHeartButtonStream(input)
+      didTapSearchButtonStream(input)
     ]).eraseToAnyPublisher()
   }
   
@@ -73,15 +71,6 @@ extension SearchViewModel: ViewModelCase {
         return State.none
       }
       .setFailureType(to: ErrorType.self)
-      .eraseToAnyPublisher()
-  }
-  
-  private func didTapHeartButtonStream(_ input: Input) -> Output {
-    return input.didTapHeartButton
-      .tryMap { _ in
-        State.setButtonColor
-      } // 서버 응답에 따라 Bool값 달라짐
-      .mapError { $0 as? ErrorType ?? .unexpected }
       .eraseToAnyPublisher()
   }
   
