@@ -31,9 +31,7 @@ final class SearchBestFestivalCell: UICollectionViewCell {
     $0.isUserInteractionEnabled = true // UIImageView의 터치 이벤트를 감지하기 위해 인터랙션을 활성화
   }
   
-  private lazy var heartButton: UIButton = .init().set {
-    $0.setImage(UIImage(named: Constants.HeartButton.normalImageName), for: .normal)
-    $0.setImage(UIImage(named: Constants.HeartButton.selectedImageName), for: .selected)
+  private lazy var heartButton: SearchHeartButton = .init().set {
     $0.addTarget(self, action: #selector(didTapHeartButton), for: .touchUpInside)
   }
   
@@ -96,7 +94,7 @@ extension SearchBestFestivalCell: ViewBindCase {
       .sink { [weak self] completion in
         switch completion {
         case .finished:
-          print("finished: SearchBestFestivalCell")
+          print("DEBUG: finished SearchBestFestivalCell")
         case .failure(let error):
           self?.handleError(error)
         }
