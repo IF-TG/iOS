@@ -103,8 +103,6 @@ extension SearchViewController: ViewBindCase {
       searchView.endEditing(true)
     case .gotoSearch:
       print("해당 text를 기반으로 vc 전환")
-    case .setButtonColor:
-      collectionView.reloadData()
     case .none: break
     }
   }
@@ -121,6 +119,17 @@ extension SearchViewController {
 extension SearchViewController {
   private func setupStyles() {
     view.backgroundColor = .white
+  }
+  
+  private func headerType(for section: Int) -> SearchSectionType? {
+    switch section {
+    case SearchSectionType.festival.rawValue:
+      return .festival
+    case SearchSectionType.famous.rawValue:
+      return .famous
+    default:
+      return nil
+    }
   }
 }
 
@@ -198,15 +207,8 @@ extension SearchViewController: UICollectionViewDataSource {
         for: indexPath
       ) as? SearchHeaderView else { return .init() }
       
-      switch indexPath.section {
-      case SearchSectionType.festival.rawValue:
-        headerView.type = .festival
-      case SearchSectionType.famous.rawValue:
-        headerView.type = .famous
-      default: break
-      }
-      
       headerView.delegate = self
+      headerView.type = headerType(for: indexPath.section)
       
       let headerModel = viewModel.fetchHeaderTitle(in: indexPath.section)
       headerView.configure(header: headerModel)
