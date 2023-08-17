@@ -11,7 +11,7 @@ import Foundation
 class SearchBestFestivalCellViewModel {
   typealias Output = AnyPublisher<State, ErrorType>
   
-  struct Input {
+  struct Input: SearchCellViewModelInput {
     let didTapHeartButton: PassthroughSubject<Void, ErrorType>
     
     init(
