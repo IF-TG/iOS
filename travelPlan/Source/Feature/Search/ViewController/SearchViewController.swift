@@ -210,7 +210,6 @@ extension SearchViewController: UICollectionViewDataSource {
       ) as? SearchHeaderView else { return .init() }
       
       headerView.delegate = self
-//      headerView.type = headerType(for: indexPath.section)
             
       let headerTitle = viewModel.fetchHeaderTitle(in: indexPath.section)
       headerView.configure(title: headerTitle)
