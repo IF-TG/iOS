@@ -20,7 +20,7 @@ struct SearchFamousSpotModel {
 
 // MARK: - Mock
 extension SearchFamousSpotModel {
-  static var models: [SearchFamousSpotModel] = [
+  static var mockModels: [SearchFamousSpotModel] = [
     .init(id: 1, imageName: "tempProfile4",
           place: "관광 장소명", location: "서울", category: "관광 카테고리", isSelectedButton: false),
     .init(id: 1, imageName: "tempProfile4",

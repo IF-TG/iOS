@@ -20,7 +20,7 @@ struct SearchFestivalModel {
 
 // MARK: - Mock
 extension SearchFestivalModel {
-  static var models: [SearchFestivalModel] = [
+  static var mockModels: [SearchFestivalModel] = [
     .init(
       id: 1, imageName: "tempThumbnail7", title: "축제1", startDate: Date(), endDate: Date(), isSelectedButton: false),
     .init(
