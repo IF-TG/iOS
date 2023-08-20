@@ -121,16 +121,16 @@ extension SearchViewController {
     view.backgroundColor = .white
   }
   
-  private func headerType(for section: Int) -> SearchSectionType? {
-    switch section {
-    case SearchSectionType.festival.rawValue:
-      return .festival
-    case SearchSectionType.famous.rawValue:
-      return .famous
-    default:
-      return nil
-    }
-  }
+//  private func headerType(for section: Int) -> SearchSectionType? {
+//    switch section {
+//    case SearchSectionType.festival.rawValue:
+//      return .festival
+//    case SearchSectionType.famous.rawValue:
+//      return .famous
+//    default:
+//      return nil
+//    }
+//  }
 }
 
 // MARK: - LayoutSupport
@@ -177,20 +177,22 @@ extension SearchViewController: UICollectionViewDataSource {
   ) -> UICollectionViewCell {
     switch viewModel.getCellViewModels(in: indexPath.section) {
       
-    case .festival(let viewModels, _):
+    case let .festival(festivalViewModels):
       guard let cell = collectionView.dequeueReusableCell(
         withReuseIdentifier: SearchBestFestivalCell.id,
         for: indexPath
       ) as? SearchBestFestivalCell else { return .init() }
-      cell.configure(viewModel: viewModels[indexPath.item])
+      
+      cell.configure(with: festivalViewModels[indexPath.item])
       return cell
       
-    case .famous(let viewModels, _):
+    case let .famous(famousViewModels):
       guard let cell = collectionView.dequeueReusableCell(
-        withReuseIdentifier: SearchFamousSpotCell.id, for: indexPath
+        withReuseIdentifier: SearchFamousSpotCell.id,
+        for: indexPath
       ) as? SearchFamousSpotCell else { return .init() }
       
-      cell.configure(viewModel: viewModels[indexPath.item])
+      cell.configure(with: famousViewModels[indexPath.item])
       return cell
     }
   }
@@ -208,10 +210,10 @@ extension SearchViewController: UICollectionViewDataSource {
       ) as? SearchHeaderView else { return .init() }
       
       headerView.delegate = self
-      headerView.type = headerType(for: indexPath.section)
-      
-      let headerModel = viewModel.fetchHeaderTitle(in: indexPath.section)
-      headerView.configure(header: headerModel)
+//      headerView.type = headerType(for: indexPath.section)
+            
+      let headerTitle = viewModel.fetchHeaderTitle(in: indexPath.section)
+      headerView.configure(title: headerTitle)
       
       return headerView
     } else { return .init() }

@@ -51,7 +51,8 @@ final class SearchViewModel {
     case unexpected
   }
   // MARK: - Properties
-  private var sections: [SearchSection] = []
+//  private var sections: [SearchSection] = []
+  private var dataSource = [SearchSectionModel]()
 }
 
 // MARK: - ViewModelCase
@@ -94,30 +95,25 @@ extension SearchViewModel: ViewModelCase {
 
 // MARK: - Public Helpers
 extension SearchViewModel {
-  func getCellViewModels(in section: Int) -> SearchSection {
-    return sections[section]
+  func getCellViewModels(in section: Int) -> SearchItemType {
+    return dataSource[section].itemType
   }
   
-  func fetchHeaderTitle(in section: Int) -> SearchHeaderModel {
-    switch sections[section] {
-    case .festival(_, let header):
-      return header
-    case .famous(_, let header):
-      return header
-    }
+  func fetchHeaderTitle(in section: Int) -> String {
+    return dataSource[section].headerTitle
   }
   
   func numberOfItemsInSection(in section: Int) -> Int {
-    switch sections[section] {
-    case .festival(let viewModels, _):
+    switch dataSource[section].itemType {
+    case .festival(let viewModels):
       return viewModels.count
-    case .famous(let viewModels, _):
+    case .famous(let viewModels):
       return viewModels.count
     }
   }
   
   func numberOfSections() -> Int {
-    return sections.count
+    dataSource.count
   }
 }
 
@@ -130,14 +126,14 @@ extension SearchViewModel {
   
   private func fetchData() {
     // 네트워크 요청을 수행해서 데이터를 가져옵니다.
-    let festivalModels = SearchFestivalModel.models
+    let festivalModels = SearchFestivalModel.mockModels
     let festivalViewModels = festivalModels.map { SearchBestFestivalCellViewModel(model: $0) }
-    let festivalHeader = SearchHeaderModel(title: "베스트 축제")
-    sections.append(.festival(festivalViewModels, festivalHeader))
+    let festivalHeader = "베스트 축제"
+    dataSource.append(SearchSectionModel.init(itemType: .festival(festivalViewModels), headerTitle: festivalHeader))
     
-    let famousModels = SearchFamousSpotModel.models
+    let famousModels = SearchFamousSpotModel.mockModels
     let famousViewModels = famousModels.map { SearchFamousSpotCellViewModel(model: $0) }
-    let famousHeader = SearchHeaderModel(title: "야영 레포츠 어떠세요?")
-    sections.append(.famous(famousViewModels, famousHeader))
+    let famousHeader = "야영 레포츠 어떠세요?"
+    dataSource.append(SearchSectionModel(itemType: .famous(famousViewModels), headerTitle: famousHeader))
   }
 }

@@ -7,20 +7,12 @@
 
 import Foundation
 
-enum SearchSection {
-  case festival([SearchBestFestivalCellViewModel], SearchHeaderModel)
-  case famous([SearchFamousSpotCellViewModel], SearchHeaderModel)
+struct SearchSectionModel {
+  let itemType: SearchItemType
+  let headerTitle: String
 }
 
-extension SearchSection {
-  var index: Int {
-    switch self {
-    case .festival: return 0
-    case .famous: return 1
-    }
-  }
-}
-
-struct SearchHeaderModel {
-  var title: String
+enum SearchItemType {
+  case festival([SearchBestFestivalCellViewModel])
+  case famous([SearchFamousSpotCellViewModel])
 }
