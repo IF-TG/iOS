@@ -130,13 +130,13 @@ extension SearchFamousSpotCell {
 
 // MARK: - Configure
 extension SearchFamousSpotCell {
-  func configure(viewModel: SearchFamousSpotCellViewModel) {
+  func configure(with viewModel: SearchFamousSpotCellViewModel) {
+    self.viewModel = viewModel
+    
     thumbnailImageView.image = UIImage(named: viewModel.thumbnailImage ?? "tempProfile4")
     placeLabel.text = viewModel.place
     categoryLabel.text = viewModel.category
     areaLabel.text = viewModel.location
-    
-    self.viewModel = viewModel
   }
 }
 

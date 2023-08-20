@@ -134,7 +134,7 @@ extension SearchBestFestivalCell {
 
 // MARK: - Configure
 extension SearchBestFestivalCell {
-  func configure(viewModel: SearchBestFestivalCellViewModel) {
+  func configure(with viewModel: SearchBestFestivalCellViewModel) {
     self.viewModel = viewModel
     
     festivalLabel.text = viewModel.title

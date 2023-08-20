@@ -59,8 +59,8 @@ final class SearchHeaderView: UICollectionReusableView {
 
 // MARK: - Public Helpers
 extension SearchHeaderView {
-  func configure(header: SearchHeaderModel) {
-    headerLabel.text = header.title
+  func configure(title: String) {
+    headerLabel.text = title
   }
 }
 
