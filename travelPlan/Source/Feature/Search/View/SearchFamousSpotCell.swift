@@ -75,6 +75,7 @@ final class SearchFamousSpotCell: UICollectionViewCell {
   override func prepareForReuse() {
     super.prepareForReuse()
     thumbnailImageView.image = nil
+    subscriptions.removeAll()
   }
 }
 
