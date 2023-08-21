@@ -121,16 +121,15 @@ extension SearchViewController {
     view.backgroundColor = .white
   }
   
-//  private func headerType(for section: Int) -> SearchSectionType? {
-//    switch section {
-//    case SearchSectionType.festival.rawValue:
-//      return .festival
-//    case SearchSectionType.famous.rawValue:
-//      return .famous
-//    default:
-//      return nil
-//    }
-//  }
+  private func headerType(for section: Int) -> SearchSectionType? {
+    switch section {
+    case SearchSectionType.festival.rawValue:
+      return .festival
+    case SearchSectionType.famous.rawValue:
+      return .famous
+    default: return nil
+    }
+  }
 }
 
 // MARK: - LayoutSupport
@@ -210,7 +209,8 @@ extension SearchViewController: UICollectionViewDataSource {
       ) as? SearchHeaderView else { return .init() }
       
       headerView.delegate = self
-            
+      headerView.type = headerType(for: indexPath.section)
+      
       let headerTitle = viewModel.fetchHeaderTitle(in: indexPath.section)
       headerView.configure(title: headerTitle)
       
