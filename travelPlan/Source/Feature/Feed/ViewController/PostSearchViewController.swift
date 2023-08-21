@@ -18,7 +18,8 @@ final class PostSearchViewController: UIViewController {
   private lazy var input = Input(didChangeSearchTextField: searchTextField.changed)
   
   private lazy var searchBarButtonItem = UIBarButtonItem(
-    image: UIImage(named: "search")?.withRenderingMode(.alwaysTemplate),
+    image: UIImage(named: Constants.SearchBarButtonItem.imageName)?
+      .withRenderingMode(.alwaysTemplate),
     style: .plain,
     target: self,
     action: #selector(didTapSearchButton)
@@ -28,16 +29,20 @@ final class PostSearchViewController: UIViewController {
   }
   
   private lazy var backButtonItem = UIBarButtonItem(
-    image: UIImage(named: "back")?.withRenderingMode(.alwaysOriginal),
+    image: UIImage(named: Constants.BackButtonItem.imageName)?
+      .withRenderingMode(.alwaysOriginal),
     style: .plain,
     target: self,
     action: #selector(didTapBackButton)
   )
   
   private lazy var searchTextField: UITextField = UITextField().set {
-    $0.placeholder = "여행자들의 여행 리뷰를 검색해보세요."
+    $0.attributedPlaceholder = .init(
+      string: Constants.SearchTextField.placeholder,
+      attributes: [NSAttributedString.Key.foregroundColor: UIColor.yg.gray1]
+    )
     $0.textColor = .yg.gray5
-    $0.font = .init(pretendard: .regular, size: 16)
+    $0.font = .init(pretendard: .regular, size: Constants.SearchTextField.fontSize)
     $0.autocorrectionType = .no
     $0.delegate = self
   }
@@ -45,9 +50,14 @@ final class PostSearchViewController: UIViewController {
   private lazy var leftAlignedCollectionViewFlowLayout:
   LeftAlignedCollectionViewFlowLayout = LeftAlignedCollectionViewFlowLayout().set {
     $0.scrollDirection = .vertical
-    $0.minimumLineSpacing = 16
-    $0.minimumInteritemSpacing = 8
-    $0.sectionInset = UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20)
+    $0.minimumLineSpacing = Constants.CollectionViewLayout.lineSpacing
+    $0.minimumInteritemSpacing = Constants.CollectionViewLayout.itemSpacing
+    $0.sectionInset = UIEdgeInsets(
+      top: Constants.CollectionViewLayout.Inset.top,
+      left: Constants.CollectionViewLayout.Inset.left,
+      bottom: Constants.CollectionViewLayout.Inset.bottom,
+      right: Constants.CollectionViewLayout.Inset.right
+    )
   }
   
   private lazy var collectionView: UICollectionView = UICollectionView(
@@ -61,7 +71,7 @@ final class PostSearchViewController: UIViewController {
     tapGesture.cancelsTouchesInView = false
     $0.addGestureRecognizer(tapGesture)
     
-    $0.backgroundColor = .systemBackground
+    $0.backgroundColor = .clear
     $0.delegate = self
     $0.dataSource = self
     
@@ -88,6 +98,7 @@ final class PostSearchViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     setupUI()
+    setupStyles()
     bind()
     setupNavigationBar()
   }
@@ -95,6 +106,10 @@ final class PostSearchViewController: UIViewController {
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     coordinator?.finish()
+  }
+  
+  deinit {
+    print("DEBUG: \(String(describing: self)) deinit")
   }
 }
 
@@ -129,7 +144,7 @@ extension PostSearchViewController: ViewBindCase {
       searchTextField.resignFirstResponder()
       print("DEBUG: PostSearchVC -> PostSearchResultVC, keyword:\(text)")
     case .presentAlert:
-      showAlert(alertType: .withCancel, message: "최근 검색 내역을\n모두 삭제하시겠습니까?", target: self)
+      showAlert(alertType: .withCancel, message: Constants.Alert.message, target: self)
     case .deleteCell(let section), .deleteAllCells(let section):
       collectionView.reloadSections(IndexSet(section...section))
     case .changeButtonColor(let isChanged):
@@ -177,7 +192,7 @@ extension PostSearchViewController {
     // textField width Layout 지정
     if let customView = textFieldButtonItem.customView {
       customView.snp.makeConstraints {
-        $0.width.equalTo(260)
+        $0.width.equalTo(Constants.SearchTextField.width)
       }
     }
     
@@ -231,6 +246,15 @@ extension PostSearchViewController: UICollectionViewDelegateFlowLayout {
     didSelectItemAt indexPath: IndexPath
   ) {
     input.didSelectedItem.send(indexPath)
+  }
+  
+  func collectionView(
+    _ collectionView: UICollectionView,
+    willDisplay cell: UICollectionViewCell,
+    forItemAt indexPath: IndexPath
+  ) {
+    guard let tagCell = cell as? PostSearchTagCell else { return }
+    tagCell.setBackgroundColor(with: indexPath.section)
   }
 }
 

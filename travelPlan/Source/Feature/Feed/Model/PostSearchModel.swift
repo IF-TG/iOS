@@ -20,7 +20,7 @@ extension PostSearchSectionItemModel {
   }
 }
 
-// MARK: - ComputedProperties in SectionType
+// MARK: - Properties
 extension PostSearchSectionItemModel.SectionType {
   var headerTitle: String {
     switch self {
@@ -28,15 +28,6 @@ extension PostSearchSectionItemModel.SectionType {
       return "추천 검색"
     case .recent:
       return "최근 검색"
-    }
-  }
-  
-  var index: Int {
-    switch self {
-    case .recommendation:
-      return self.rawValue
-    case .recent:
-      return self.rawValue
     }
   }
 }

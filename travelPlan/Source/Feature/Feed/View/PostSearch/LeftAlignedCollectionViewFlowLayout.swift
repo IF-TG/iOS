@@ -22,8 +22,8 @@ final class LeftAlignedCollectionViewFlowLayout: UICollectionViewFlowLayout {
     guard let attributes = super.layoutAttributesForElements(in: rect) else { return [] }
     
     var leftMargin = sectionInset.left
-    var maxY: CGFloat = -1.0
-    let edgeInset: CGFloat = 20
+    var maxY: CGFloat = Constants.maxY
+    let edgeInset: CGFloat = Constants.edgeInset
     
     guard let collectionView = collectionView else { return nil }
     

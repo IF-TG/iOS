@@ -13,15 +13,19 @@ final class SearchView: UIView {
   weak var delegate: SearchViewDelegate?
   
   private lazy var searchTextField: UITextField = UITextField().set {
-    $0.placeholder = "여행지 및 축제를 검색해보세요."
-    $0.font = .init(pretendard: .regular, size: 14)
+    $0.attributedPlaceholder = .init(
+      string: Constants.SearchTextField.placeholder,
+      attributes: [NSAttributedString.Key.foregroundColor: UIColor.yg.gray1]
+    )
+    $0.font = .init(pretendard: .regular, size: Constants.SearchTextField.fontSize)
     $0.textColor = .yg.gray5
     
     $0.delegate = self
   }
   
   private lazy var searchButton: UIButton = UIButton().set {
-    let image = UIImage(named: "search")?.withRenderingMode(.alwaysTemplate)
+    let image = UIImage(named: Constants.SearchButton.imageName)?
+      .withRenderingMode(.alwaysTemplate)
     
     $0.setImage(image, for: .normal)
     $0.tintColor = .yg.primary
@@ -42,17 +46,18 @@ final class SearchView: UIView {
 
 // MARK: - Helpers
 extension SearchView {
+  // shadowTODO: - SearchView의 shadow를 추가해야합니다.
   private func setupStyles() {
     layer.borderColor = UIColor.yg.primary.cgColor
-    layer.borderWidth = 1
-    layer.cornerRadius = 25
+    layer.borderWidth = SearchView.Constants.borderWidth
+    layer.cornerRadius = SearchView.Constants.cornerRadius
   }
 }
 
 // MARK: - Actions
 extension SearchView {
   @objc private func didTapSearchButton() {
-    delegate?.didTapSearchButton(text: searchTextField.text ?? "")
+    delegate?.didTapSearchButton(self, text: searchTextField.text ?? "")
   }
 }
 
@@ -65,14 +70,15 @@ extension SearchView: LayoutSupport {
   
   func setConstraints() {
     searchTextField.snp.makeConstraints {
-      $0.leading.equalToSuperview().inset(20)
+      $0.leading.equalToSuperview().inset(Constants.SearchTextField.Inset.leading)
       $0.centerY.equalToSuperview()
     }
     
     searchButton.snp.makeConstraints {
-      $0.leading.equalTo(searchTextField.snp.trailing).offset(10)
-      $0.trailing.equalToSuperview().inset(24)
-      $0.top.bottom.equalToSuperview().inset(11)
+      $0.leading.equalTo(searchTextField.snp.trailing)
+        .offset(Constants.SearchButton.Offset.leading)
+      $0.trailing.equalToSuperview().inset(Constants.SearchButton.Inset.trailing)
+      $0.top.bottom.equalToSuperview().inset(Constants.SearchButton.Inset.topBottom)
       $0.width.equalTo(searchButton.snp.height)
     }
   }

@@ -20,7 +20,7 @@ final class PostSearchHeaderView: UICollectionReusableView {
   var sectionType: SectionType?
   
   private let titleLabel: UILabel = UILabel().set {
-    $0.font = .init(pretendard: .bold, size: 17)
+    $0.font = .init(pretendard: .bold, size: Constants.TitleLabel.fontSize)
     $0.textColor = .yg.gray6
   }
   
@@ -64,9 +64,12 @@ extension PostSearchHeaderView {
     let button = UIButton()
     deleteAllButton = button
     
-    button.setTitle("전체 삭제", for: .normal)
+    button.setTitle(Constants.DeleteAllButton.title, for: .normal)
     button.setTitleColor(.yg.gray4, for: .normal)
-    button.titleLabel?.font = .systemFont(ofSize: 12, weight: .semibold)
+    button.titleLabel?.font = .systemFont(
+      ofSize: Constants.DeleteAllButton.titleFontSize,
+      weight: .semibold
+    )
     button.addTarget(self, action: #selector(didTapDeleteAllButton), for: .touchUpInside)
 
     return button
@@ -101,13 +104,13 @@ extension PostSearchHeaderView: LayoutSupport {
       
       button.snp.makeConstraints {
         $0.centerY.equalToSuperview()
-        $0.trailing.equalToSuperview().inset(30)
+        $0.trailing.equalToSuperview().inset(Constants.DeleteAllButton.Inset.trailing)
       }
       fallthrough
     case .recommendation:
       titleLabel.snp.makeConstraints {
         $0.centerY.equalToSuperview()
-        $0.leading.equalToSuperview().inset(20)
+        $0.leading.equalToSuperview().inset(Constants.TitleLabel.Inset.leading)
       }
     case .none: break
     }

@@ -14,40 +14,60 @@ final class SearchHeaderView: UICollectionReusableView {
     return String(describing: self)
   }
   
+  var type: SearchSectionType?
+  
+  weak var delegate: SearchHeaderViewDelegate?
+  
   private let headerLabel: UILabel = UILabel().set {
-    $0.font = UIFont(pretendard: .bold, size: 25)
+    $0.font = UIFont(pretendard: .bold, size: Constants.HeaderLabel.fontSize)
     $0.textColor = .yg.gray7
-    $0.numberOfLines = 1
+    $0.numberOfLines = Constants.HeaderLabel.numberOfLines
     $0.textAlignment = .left
-    $0.text = "베스트 축제" // will erase
+    $0.text = "베스트 축제"
   }
   
-  private let lookingMoreButton: UIButton = .init().set {
-    $0.setTitle("더보기", for: .normal)
-    $0.titleLabel?.font = .systemFont(ofSize: 12, weight: .semibold)
+  private lazy var lookingMoreButton: UIButton = .init().set {
+    $0.setTitle(Constants.LookingMoreButton.title, for: .normal)
+    $0.titleLabel?.font = .systemFont(
+      ofSize: Constants.LookingMoreButton.titleFontSize,
+      weight: .semibold
+    )
     $0.setTitleColor(.yg.gray4, for: .normal)
-    $0.setImage(UIImage(named: "plus"), for: .normal)
-    $0.layer.cornerRadius = 12
+    $0.setImage(UIImage(named: Constants.LookingMoreButton.imageName), for: .normal)
+    $0.semanticContentAttribute = .forceRightToLeft
+    $0.layer.cornerRadius = Constants.LookingMoreButton.cornerRadius
     $0.layer.borderColor = UIColor.yg.gray0.cgColor
-    $0.layer.borderWidth = 1
+    $0.layer.borderWidth = Constants.LookingMoreButton.borderWidth
+    $0.addTarget(self, action: #selector(didTapLookingMoreButton), for: .touchUpInside)
   }
   
   // MARK: - LifeCycle
   override init(frame: CGRect) {
     super.init(frame: frame)
     setupUI()
-    
   }
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
+  
+  override func prepareForReuse() {
+    super.prepareForReuse()
+    self.type = nil
+  }
 }
 
 // MARK: - Public Helpers
 extension SearchHeaderView {
-  func configure(_ headerTitle: String) {
-    headerLabel.text = headerTitle
+  func configure(title: String) {
+    headerLabel.text = title
+  }
+}
+
+// MARK: - Actions
+extension SearchHeaderView {
+  @objc private func didTapLookingMoreButton() {
+    delegate?.didTaplookingMoreButton(self)
   }
 }
 
@@ -60,17 +80,19 @@ extension SearchHeaderView: LayoutSupport {
   
   func setConstraints() {
     headerLabel.snp.makeConstraints {
-      $0.leading.equalToSuperview().inset(20)
-      $0.trailing.lessThanOrEqualTo(lookingMoreButton.snp.leading).offset(-20)
-      $0.top.equalToSuperview().inset(30)
-      $0.bottom.equalToSuperview().inset(20)
+      $0.leading.equalToSuperview().inset(Constants.HeaderLabel.Inset.leading)
+      $0.trailing.lessThanOrEqualTo(lookingMoreButton.snp.leading)
+        .offset(Constants.HeaderLabel.Offset.trailing)
+      $0.top.equalToSuperview().inset(Constants.HeaderLabel.Inset.top)
+      $0.bottom.equalToSuperview().inset(Constants.HeaderLabel.Inset.bottom)
     }
     
     lookingMoreButton.snp.makeConstraints {
       $0.top.equalTo(headerLabel)
-      $0.width.equalTo(64)
-      $0.height.equalTo(24)
-      $0.trailing.equalToSuperview().inset(20)
+      $0.width.equalTo(Constants.LookingMoreButton.width)
+      $0.height.equalTo(Constants.LookingMoreButton.height)
+      $0.trailing.equalToSuperview()
+        .inset(Constants.LookingMoreButton.Inset.trailing)
     }
   }
 }

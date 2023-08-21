@@ -6,7 +6,8 @@
 //
 
 import Combine
-import UIKit
+import Foundation
+import CoreText
 
 final class PostSearchViewModel {
   typealias SectionType = PostSearchSectionItemModel.SectionType
@@ -121,8 +122,8 @@ extension PostSearchViewModel: ViewModelCase {
     return input.didTapAlertConfirmButton
       .tryMap { [weak self] in
         print("DEBUG: 확인 버튼 클릭됨")
-        self?.model[SectionType.recent.index].items.removeAll()
-        return State.deleteAllCells(section: SectionType.recent.index)
+        self?.model[SectionType.recent.rawValue].items.removeAll()
+        return State.deleteAllCells(section: SectionType.recent.rawValue)
       }
       .mapError { $0 as? ErrorType ?? .unexpected }
       .eraseToAnyPublisher()
@@ -144,29 +145,45 @@ extension PostSearchViewModel {
 
 // MARK: - Public Helpers
 extension PostSearchViewModel {
+  func sizeForItem(at indexPath: IndexPath) -> String {
+    return model[indexPath.section].items[indexPath.item]
+  }
+  
   func sizeForItem(at indexPath: IndexPath) -> CGSize {
-    // label과 cell간의 padding
-    let widthPadding: CGFloat = 13
-    let heightPadding: CGFloat = 4
     
     let text = model[indexPath.section].items[indexPath.item]
-    let textSize = (text as NSString)
-      .size(withAttributes: [.font: UIFont(pretendard: .medium, size: 14)!])
+    let fontSize: CGFloat = Constants.DynamicCellSize.fontSize
+    // 폰트 생성
+    let font = CTFontCreateWithName(Constants.DynamicCellSize.fontName as CFString, fontSize, nil)
+    
+    // 속성 문자열 생성
+    let attributes: [NSAttributedString.Key: Any] = [.font: font]
+    let attributedString = NSAttributedString(string: text, attributes: attributes)
+    
+    // 문자열 크기 계산
+    let textSize = attributedString
+      .boundingRect(
+        with: CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude),
+        options: [.usesLineFragmentOrigin, .usesFontLeading],
+        context: nil
+      )
+      .size
     
     switch indexPath.section {
-    case SectionType.recommendation.index:
+    case SectionType.recommendation.rawValue:
       return CGSize(
-        width: textSize.width + (widthPadding * 2),
-        height: textSize.height + (heightPadding * 2)
+        width: textSize.width + Constants.DynamicCellSize.insetWidthPadding,
+        height: textSize.height + Constants.DynamicCellSize.insetHeightPadding
       )
-    case SectionType.recent.index:
-      let buttonWidth: CGFloat = 10
-      let componentPadding: CGFloat = 4
-      let width = textSize.width + componentPadding + buttonWidth + (widthPadding * 2)
-      
+    case SectionType.recent.rawValue:
+      let width = textSize.width +
+      Constants.DynamicCellSize.componentsPadding +
+      Constants.DynamicCellSize.buttonWidth +
+      Constants.DynamicCellSize.insetWidthPadding
+
       return CGSize(
         width: width,
-        height: textSize.height + (heightPadding * 2)
+        height: textSize.height + Constants.DynamicCellSize.insetHeightPadding
       )
     default: return CGSize()
     }
@@ -182,9 +199,9 @@ extension PostSearchViewModel {
   ) -> String {
     // 하나의 Cell class를 재사용해서 변형시키므로, section별로 Cell 구분화
     switch indexPath.section {
-    case SectionType.recommendation.index:
+    case SectionType.recommendation.rawValue:
       tagCell.initSectionType(with: .recommendation)
-    case SectionType.recent.index:
+    case SectionType.recent.rawValue:
       tagCell.initSectionType(with: .recent)
     default: break
     }
@@ -202,10 +219,10 @@ extension PostSearchViewModel {
     in section: Int
   ) -> String {
     switch section {
-    case SectionType.recommendation.index:
+    case SectionType.recommendation.rawValue:
       headerView.initSectionType(with: .recommendation)
       return SectionType.recommendation.headerTitle
-    case SectionType.recent.index:
+    case SectionType.recent.rawValue:
       headerView.initSectionType(with: .recent)
       return SectionType.recent.headerTitle
     default: return ""
@@ -213,6 +230,6 @@ extension PostSearchViewModel {
   }
   
   func isRecentSection(in section: Int) -> Bool {
-    return section == SectionType.recent.index
+    return section == SectionType.recent.rawValue
   }
 }
