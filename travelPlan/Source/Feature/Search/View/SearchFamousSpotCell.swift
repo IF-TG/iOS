@@ -155,8 +155,8 @@ extension SearchFamousSpotCell: LayoutSupport {
     thumbnailImageView.snp.makeConstraints {
       $0.leading.equalToSuperview()
         .inset(Constants.ThumbnailImageView.Inset.leading)
-      $0.top.equalToSuperview()
-      $0.bottom.equalToSuperview()
+      $0.top.equalToSuperview().inset(Constants.ThumbnailImageView.Inset.top)
+      $0.bottom.equalToSuperview().inset(Constants.ThumbnailImageView.Inset.bottom)
       $0.width.equalTo(thumbnailImageView.snp.height)
     }
     
@@ -171,7 +171,6 @@ extension SearchFamousSpotCell: LayoutSupport {
     heartButton.snp.makeConstraints {
       $0.top.equalToSuperview().inset(Constants.HeartButton.Inset.top)
       $0.trailing.equalToSuperview()
-        .inset(Constants.HeartButton.Inset.trailing)
       $0.size.equalTo(Constants.HeartButton.size)
     }
   }

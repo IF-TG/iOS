@@ -14,7 +14,9 @@ extension SearchFamousSpotCell {
       static let imageName = "tempThumbnail1"
       static let cornerRadius: CGFloat = 3
       enum Inset {
-        static let leading: CGFloat = 20
+        static let leading: CGFloat = 16
+        static let top: CGFloat = 5
+        static let bottom: CGFloat = 5
       }
     }
     // MARK: - LabelStackView
@@ -22,7 +24,7 @@ extension SearchFamousSpotCell {
       static let spacing: CGFloat = 0
       enum Offset {
         static let leading: CGFloat = 15
-        static let trailing: CGFloat = -10
+        static let trailing: CGFloat = -20
       }
     }
     // MARK: - HeartButton
@@ -32,7 +34,6 @@ extension SearchFamousSpotCell {
       static let size: CGFloat = 20
       enum Inset {
         static let top: CGFloat = 5
-        static let trailing: CGFloat = 10
       }
     }
     // MARK: - PlaceLabel

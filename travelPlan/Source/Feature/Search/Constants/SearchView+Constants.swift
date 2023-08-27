@@ -18,13 +18,13 @@ extension SearchView {
         static let leading: CGFloat = 10
       }
       enum Inset {
-        static let trailing: CGFloat = 24
+        static let trailing: CGFloat = 20
         static let topBottom: CGFloat = 11
       }
     }
     // MARK: - SearchTextField
     enum SearchTextField {
-      static let placeholder = "여행자들의 여행 리뷰를 검색해보세요."
+      static let placeholder = "여행지 및 축제를 검색해보세요."
       static let fontSize: CGFloat = 14
       enum Inset {
         static let leading: CGFloat = 20

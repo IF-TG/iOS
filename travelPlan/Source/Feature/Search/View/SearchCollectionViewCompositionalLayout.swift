@@ -28,8 +28,8 @@ extension SearchCollectionViewCompositionalLayout: SearchCompositionalLayout {
 extension SearchCollectionViewCompositionalLayout {
   private func firstSectionLayout() -> NSCollectionLayoutSection {
     let item = makeLayoutItem(
-      fractionalWidth: Constants.Festival.Item.width,
-      fractionalHeight: Constants.Festival.Item.height
+      fractionalWidth: Constants.Festival.Item.fractionalWidth,
+      fractionalHeight: Constants.Festival.Item.fractionalHeight
     )
     
     let group = NSCollectionLayoutGroup.horizontal(
@@ -57,13 +57,13 @@ extension SearchCollectionViewCompositionalLayout {
   
   private func secondSectionLayout() -> NSCollectionLayoutSection {
     let item = makeLayoutItem(
-      fractionalWidth: Constants.Famous.Item.width,
-      fractionalHeight: Constants.Famous.Item.height
+      fractionalWidth: Constants.Famous.Item.fractionalWidth,
+      fractionalHeight: Constants.Famous.Item.fractionalHeight
     )
     
     let group = NSCollectionLayoutGroup.vertical(
       layoutSize: .init(
-        widthDimension: .fractionalWidth(Constants.Famous.Group.width),
+        widthDimension: .fractionalWidth(Constants.Famous.Group.fractionalWidth),
         heightDimension: .absolute(Constants.Famous.Group.height)
       ),
       subitems: [item]

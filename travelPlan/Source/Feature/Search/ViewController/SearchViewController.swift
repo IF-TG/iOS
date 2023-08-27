@@ -150,7 +150,7 @@ extension SearchViewController: LayoutSupport {
     }
     
     collectionView.snp.makeConstraints {
-      $0.top.equalTo(searchView.snp.bottom)
+      $0.top.equalTo(searchView.snp.bottom).offset(Constants.CollectionView.Spacing.Offset.top)
       $0.leading.trailing.equalToSuperview()
       $0.bottom.equalToSuperview()
     }
