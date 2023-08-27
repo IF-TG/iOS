@@ -13,7 +13,7 @@ extension PostSearchViewModel {
       static let fontSize: CGFloat = 14
       static let fontName = "Pretendard-Medium"
       
-      static let insetWidthPadding: CGFloat = PostSearchTagCell.Constants.TagLabel.Inset.trailing +
+      static let edgeWidthPadding: CGFloat = PostSearchTagCell.Constants.TagLabel.Inset.trailing +
       PostSearchTagCell.Constants.TagLabel.Inset.leading
       
       static let insetHeightPadding: CGFloat = PostSearchTagCell.Constants.TagLabel.Inset.top +
