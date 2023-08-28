@@ -15,11 +15,11 @@ extension SearchHeaderView {
       static let numberOfLines = 1
       enum Inset {
         static let leading: CGFloat = 20
-        static let top: CGFloat = 30
-        static let bottom: CGFloat = 20
+        static let top: CGFloat = 31
+        static let bottom: CGFloat = 21
       }
       enum Offset {
-        static let trailing: CGFloat = -20
+        static let trailing: CGFloat = -15
       }
     }
     // MARK: - LookingMoreButton
@@ -27,13 +27,13 @@ extension SearchHeaderView {
       static let title = "더보기"
       static let titleFontSize: CGFloat = 12
       static let imageName = "plus"
-      static let cornerRadius: CGFloat = 12
+      static let cornerRadius: CGFloat = 14
       static let borderWidth: CGFloat = 1
       enum Inset {
         static let trailing: CGFloat = 20
       }
       static let width: CGFloat = 64
-      static let height: CGFloat = 24
+      static let height: CGFloat = 28
     }
   }
 }

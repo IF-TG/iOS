@@ -12,11 +12,19 @@ extension SearchViewController {
     // MARK: - SearchView
     enum SearchView {
       enum Spacing {
-        static let top: CGFloat = 40
-        static let leading: CGFloat = 30
-        static let trailing: CGFloat = 30
+        static let top: CGFloat = 20
+        static let leading: CGFloat = 21
+        static let trailing: CGFloat = 21
       }
       static let height: CGFloat = 50
+    }
+    // MARK: - CollectionView
+    enum CollectionView {
+      enum Spacing {
+        enum Offset {
+          static let top: CGFloat = 20
+        }
+      }
     }
   }
 }

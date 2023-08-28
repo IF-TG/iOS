@@ -47,7 +47,6 @@
 		132C2D3A2A84394300B587E8 /* PostSearchTagCell+Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132C2D392A84394300B587E8 /* PostSearchTagCell+Constants.swift */; };
 		137764092A715F6A00B11A15 /* SearchCompositionalLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137764082A715F6A00B11A15 /* SearchCompositionalLayout.swift */; };
 		1390CC5D2A8BADEC00E34DC3 /* SearchHeaderViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1390CC5C2A8BADEC00E34DC3 /* SearchHeaderViewDelegate.swift */; };
-		1390CC6B2A8D6D2000E34DC3 /* SearchSectionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1390CC6A2A8D6D2000E34DC3 /* SearchSectionType.swift */; };
 		1390CC6D2A8DE6FA00E34DC3 /* SearchCellViewModelInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1390CC6C2A8DE6FA00E34DC3 /* SearchCellViewModelInput.swift */; };
 		1390CC6F2A8E0B2800E34DC3 /* SearchHeartButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1390CC6E2A8E0B2800E34DC3 /* SearchHeartButton.swift */; };
 		1390CC712A8E149E00E34DC3 /* SearchHeartButton+Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1390CC702A8E149E00E34DC3 /* SearchHeartButton+Constants.swift */; };
@@ -223,7 +222,6 @@
 		132C2D392A84394300B587E8 /* PostSearchTagCell+Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PostSearchTagCell+Constants.swift"; sourceTree = "<group>"; };
 		137764082A715F6A00B11A15 /* SearchCompositionalLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCompositionalLayout.swift; sourceTree = "<group>"; };
 		1390CC5C2A8BADEC00E34DC3 /* SearchHeaderViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHeaderViewDelegate.swift; sourceTree = "<group>"; };
-		1390CC6A2A8D6D2000E34DC3 /* SearchSectionType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchSectionType.swift; sourceTree = "<group>"; };
 		1390CC6C2A8DE6FA00E34DC3 /* SearchCellViewModelInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCellViewModelInput.swift; sourceTree = "<group>"; };
 		1390CC6E2A8E0B2800E34DC3 /* SearchHeartButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHeartButton.swift; sourceTree = "<group>"; };
 		1390CC702A8E149E00E34DC3 /* SearchHeartButton+Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SearchHeartButton+Constants.swift"; sourceTree = "<group>"; };
@@ -473,7 +471,6 @@
 		132C2D1B2A82D91900B587E8 /* Constants */ = {
 			isa = PBXGroup;
 			children = (
-				1390CC692A8D6D1600E34DC3 /* Enum */,
 				132C2D1E2A82E89B00B587E8 /* SearchViewController+Constants.swift */,
 				132C2D202A83468E00B587E8 /* SearchView+Constants.swift */,
 				132C2D222A83509200B587E8 /* SearchHeaderView+Constants.swift */,
@@ -496,14 +493,6 @@
 				132C2D392A84394300B587E8 /* PostSearchTagCell+Constants.swift */,
 			);
 			path = PostSearch;
-			sourceTree = "<group>";
-		};
-		1390CC692A8D6D1600E34DC3 /* Enum */ = {
-			isa = PBXGroup;
-			children = (
-				1390CC6A2A8D6D2000E34DC3 /* SearchSectionType.swift */,
-			);
-			path = Enum;
 			sourceTree = "<group>";
 		};
 		1503F92C2A4E0832002BC38D /* Coordinator */ = {
@@ -1532,7 +1521,6 @@
 				1503F93A2A4E1260002BC38D /* SearchCoordinator.swift in Sources */,
 				15FEB5E62A050A99000A5F33 /* UISwitch+Combine.swift in Sources */,
 				132550282A0ABBDA00094218 /* PostSearchModel.swift in Sources */,
-				1390CC6B2A8D6D2000E34DC3 /* SearchSectionType.swift in Sources */,
 				15EF8C9B2A0A19100068C744 /* CategoryView.swift in Sources */,
 				132C2D3A2A84394300B587E8 /* PostSearchTagCell+Constants.swift in Sources */,
 				15CB23742A110FB4003EAF20 /* PostViewModel.swift in Sources */,
