@@ -45,6 +45,7 @@
 		132C2D322A83BC2900B587E8 /* LeftAlignedCollectionViewFlowLayout+Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132C2D312A83BC2900B587E8 /* LeftAlignedCollectionViewFlowLayout+Constants.swift */; };
 		132C2D382A84315800B587E8 /* PostSearchViewModel+Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132C2D372A84315800B587E8 /* PostSearchViewModel+Constants.swift */; };
 		132C2D3A2A84394300B587E8 /* PostSearchTagCell+Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132C2D392A84394300B587E8 /* PostSearchTagCell+Constants.swift */; };
+		13606E832A9C71C200365F20 /* CoreTextSizeCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13606E822A9C71C200365F20 /* CoreTextSizeCalculator.swift */; };
 		137764092A715F6A00B11A15 /* SearchCompositionalLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137764082A715F6A00B11A15 /* SearchCompositionalLayout.swift */; };
 		1390CC5D2A8BADEC00E34DC3 /* SearchHeaderViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1390CC5C2A8BADEC00E34DC3 /* SearchHeaderViewDelegate.swift */; };
 		1390CC6D2A8DE6FA00E34DC3 /* SearchCellViewModelInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1390CC6C2A8DE6FA00E34DC3 /* SearchCellViewModelInput.swift */; };
@@ -220,6 +221,7 @@
 		132C2D312A83BC2900B587E8 /* LeftAlignedCollectionViewFlowLayout+Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LeftAlignedCollectionViewFlowLayout+Constants.swift"; sourceTree = "<group>"; };
 		132C2D372A84315800B587E8 /* PostSearchViewModel+Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PostSearchViewModel+Constants.swift"; sourceTree = "<group>"; };
 		132C2D392A84394300B587E8 /* PostSearchTagCell+Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PostSearchTagCell+Constants.swift"; sourceTree = "<group>"; };
+		13606E822A9C71C200365F20 /* CoreTextSizeCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreTextSizeCalculator.swift; sourceTree = "<group>"; };
 		137764082A715F6A00B11A15 /* SearchCompositionalLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCompositionalLayout.swift; sourceTree = "<group>"; };
 		1390CC5C2A8BADEC00E34DC3 /* SearchHeaderViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHeaderViewDelegate.swift; sourceTree = "<group>"; };
 		1390CC6C2A8DE6FA00E34DC3 /* SearchCellViewModelInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCellViewModelInput.swift; sourceTree = "<group>"; };
@@ -493,6 +495,14 @@
 				132C2D392A84394300B587E8 /* PostSearchTagCell+Constants.swift */,
 			);
 			path = PostSearch;
+			sourceTree = "<group>";
+		};
+		13606E842A9C754400365F20 /* Calculator */ = {
+			isa = PBXGroup;
+			children = (
+				13606E822A9C71C200365F20 /* CoreTextSizeCalculator.swift */,
+			);
+			path = Calculator;
 			sourceTree = "<group>";
 		};
 		1503F92C2A4E0832002BC38D /* Coordinator */ = {
@@ -1043,6 +1053,7 @@
 		15CB235C2A10B598003EAF20 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				13606E842A9C754400365F20 /* Calculator */,
 				15CB235D2A10B59E003EAF20 /* DateValidation */,
 			);
 			path = Utils;
@@ -1481,6 +1492,7 @@
 				15CC64142A1DD4EF00857446 /* ConvenienceInit.swift in Sources */,
 				1503F9312A4E0A4F002BC38D /* MainCoordinator.swift in Sources */,
 				158BEF772A0E279700C27861 /* PostCell.swift in Sources */,
+				13606E832A9C71C200365F20 /* CoreTextSizeCalculator.swift in Sources */,
 				15EF8C9D2A0A19190068C744 /* CategoryViewCell.swift in Sources */,
 				15CB23612A10B5E3003EAF20 /* DateValidationProtocol.swift in Sources */,
 				152AD4F62A18B6C3008A2A11 /* FavoriteListHeaderImageView.swift in Sources */,
