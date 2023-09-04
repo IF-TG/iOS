@@ -9,6 +9,11 @@ import Foundation
 
 extension PostSearchViewController {
   enum Constants {
+    enum SearchSection {
+      static let recommendation = 0
+      static let recent = 0
+    }
+    
     enum SearchBarButtonItem {
       static let imageName = "search"
     }
