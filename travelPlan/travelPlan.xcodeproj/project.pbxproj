@@ -52,6 +52,7 @@
 		13606E962AA1889100365F20 /* PostSearchTagLabel+Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13606E952AA1889100365F20 /* PostSearchTagLabel+Constants.swift */; };
 		13606E982AA4F26500365F20 /* PostSearchCollectionViewCompositionalLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13606E972AA4F26500365F20 /* PostSearchCollectionViewCompositionalLayout.swift */; };
 		137764092A715F6A00B11A15 /* SearchCompositionalLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137764082A715F6A00B11A15 /* SearchCompositionalLayout.swift */; };
+		13813A1C2AA8AE8400AF6AEB /* PostSearchCollectionViewCompositionalLayout+Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13813A1B2AA8AE8400AF6AEB /* PostSearchCollectionViewCompositionalLayout+Constants.swift */; };
 		1390CC5D2A8BADEC00E34DC3 /* SearchHeaderViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1390CC5C2A8BADEC00E34DC3 /* SearchHeaderViewDelegate.swift */; };
 		1390CC6D2A8DE6FA00E34DC3 /* SearchCellViewModelInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1390CC6C2A8DE6FA00E34DC3 /* SearchCellViewModelInput.swift */; };
 		1390CC6F2A8E0B2800E34DC3 /* SearchHeartButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1390CC6E2A8E0B2800E34DC3 /* SearchHeartButton.swift */; };
@@ -233,6 +234,7 @@
 		13606E952AA1889100365F20 /* PostSearchTagLabel+Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PostSearchTagLabel+Constants.swift"; sourceTree = "<group>"; };
 		13606E972AA4F26500365F20 /* PostSearchCollectionViewCompositionalLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSearchCollectionViewCompositionalLayout.swift; sourceTree = "<group>"; };
 		137764082A715F6A00B11A15 /* SearchCompositionalLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCompositionalLayout.swift; sourceTree = "<group>"; };
+		13813A1B2AA8AE8400AF6AEB /* PostSearchCollectionViewCompositionalLayout+Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PostSearchCollectionViewCompositionalLayout+Constants.swift"; sourceTree = "<group>"; };
 		1390CC5C2A8BADEC00E34DC3 /* SearchHeaderViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHeaderViewDelegate.swift; sourceTree = "<group>"; };
 		1390CC6C2A8DE6FA00E34DC3 /* SearchCellViewModelInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCellViewModelInput.swift; sourceTree = "<group>"; };
 		1390CC6E2A8E0B2800E34DC3 /* SearchHeartButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHeartButton.swift; sourceTree = "<group>"; };
@@ -502,6 +504,7 @@
 				132C2D2A2A83A37300B587E8 /* PostSearchViewController+Constants.swift */,
 				132C2D372A84315800B587E8 /* PostSearchViewModel+Constants.swift */,
 				13606E952AA1889100365F20 /* PostSearchTagLabel+Constants.swift */,
+				13813A1B2AA8AE8400AF6AEB /* PostSearchCollectionViewCompositionalLayout+Constants.swift */,
 			);
 			path = PostSearch;
 			sourceTree = "<group>";
@@ -1664,6 +1667,7 @@
 				15EF8CA32A0A197C0068C744 /* CategoryPageView.swift in Sources */,
 				1503F93D2A4E1291002BC38D /* PlanCoordinator.swift in Sources */,
 				13254FE52A05157900094218 /* FeedViewController.swift in Sources */,
+				13813A1C2AA8AE8400AF6AEB /* PostSearchCollectionViewCompositionalLayout+Constants.swift in Sources */,
 				130304822A250DF600776A0D /* SearchHeaderView.swift in Sources */,
 				1503F9372A4E1103002BC38D /* FavoriteCoordinator.swift in Sources */,
 				15CB23662A10B7F1003EAF20 /* PostContentAreaModel.swift in Sources */,
