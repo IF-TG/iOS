@@ -47,22 +47,10 @@ final class PostSearchViewController: UIViewController {
     $0.delegate = self
   }
   
-  private lazy var leftAlignedCollectionViewFlowLayout:
-  LeftAlignedCollectionViewFlowLayout = LeftAlignedCollectionViewFlowLayout().set {
-    $0.scrollDirection = .vertical
-    $0.minimumLineSpacing = Constants.CollectionViewLayout.lineSpacing
-    $0.minimumInteritemSpacing = Constants.CollectionViewLayout.itemSpacing
-    $0.sectionInset = UIEdgeInsets(
-      top: Constants.CollectionViewLayout.Inset.top,
-      left: Constants.CollectionViewLayout.Inset.left,
-      bottom: Constants.CollectionViewLayout.Inset.bottom,
-      right: Constants.CollectionViewLayout.Inset.right
-    )
-  }
-  
+  private let compositionalLayout: PostSearchLayout = DefaultPostSearchLayout()
   private lazy var collectionView: UICollectionView = UICollectionView(
     frame: .zero,
-    collectionViewLayout: leftAlignedCollectionViewFlowLayout
+    collectionViewLayout: compositionalLayout.createLayout()
   ).set {
     let tapGesture = UITapGestureRecognizer(
       target: self,
@@ -76,13 +64,22 @@ final class PostSearchViewController: UIViewController {
     $0.dataSource = self
     
     $0.register(
-      PostSearchTagCell.self,
-      forCellWithReuseIdentifier: PostSearchTagCell.id
+      PostRecommendationSearchTagCell.self,
+      forCellWithReuseIdentifier: PostRecommendationSearchTagCell.id
     )
     $0.register(
-      PostSearchHeaderView.self,
+      PostRecentSearchTagCell.self,
+      forCellWithReuseIdentifier: PostRecentSearchTagCell.id
+    )
+    $0.register(
+      PostRecommendationSearchHeaderView.self,
       forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-      withReuseIdentifier: PostSearchHeaderView.id
+      withReuseIdentifier: PostRecommendationSearchHeaderView.id
+    )
+    $0.register(
+      PostRecentSearchHeaderView.self,
+      forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+      withReuseIdentifier: PostRecentSearchHeaderView.id
     )
     $0.register(
       PostSearchFooterView.self,
@@ -101,6 +98,7 @@ final class PostSearchViewController: UIViewController {
     setupStyles()
     bind()
     setupNavigationBar()
+    input.viewDidLoad.send()
   }
   
   override func viewDidAppear(_ animated: Bool) {
@@ -109,7 +107,7 @@ final class PostSearchViewController: UIViewController {
   }
   
   deinit {
-    print("DEBUG: \(String(describing: self)) deinit")
+    print("deinit: \(Self.self)")
   }
 }
 
@@ -145,8 +143,6 @@ extension PostSearchViewController: ViewBindCase {
       print("DEBUG: PostSearchVC -> PostSearchResultVC, keyword:\(text)")
     case .presentAlert:
       showAlert(alertType: .withCancel, message: Constants.Alert.message, target: self)
-    case .deleteCell(let section), .deleteAllCells(let section):
-      collectionView.reloadSections(IndexSet(section...section))
     case .changeButtonColor(let isChanged):
       if isChanged {
         setupSearchBarButtonItemStyle(.yg.primary, isEnabled: true)
@@ -157,16 +153,21 @@ extension PostSearchViewController: ViewBindCase {
       print("DEBUG: text에 따른 collectionView 변화")
     case .runtoCancelLogic:
       print("DEBUG: cancel버튼 클릭했을 때의 logic 실행")
+    case .reloadData:
+      collectionView.reloadData()
     case .none: break
     }
   }
   
   func handleError(_ error: ErrorType) {
     switch error {
-    case .none:
-      print("DEBUG: Error not occured")
+    case .none: break
     case .unexpected:
       print("DEBUG: Unexpected error occured")
+    case .deallocated:
+      print("DEBUG: Deallocated PostSearchViewModel")
+    case .invalidDataSource:
+      print("DEBUG: 올바르지 않은 model type입니다.")
     }
   }
 }
@@ -199,6 +200,67 @@ extension PostSearchViewController {
     navigationItem.leftBarButtonItems = barButtonItems
     navigationItem.rightBarButtonItem = searchBarButtonItem
   }
+  
+  private func headerView(
+    for indexPath: IndexPath,
+    in collectionView: UICollectionView
+  ) -> UICollectionReusableView {
+    switch viewModel.fetchHeaderTitle(in: indexPath.section) {
+    case let .recommendation(title):
+      return self.recommendationHeaderView(for: indexPath, title: title, in: collectionView)
+    case let .recent(title):
+      return self.recentHeaderView(for: indexPath, title: title, in: collectionView)
+    }
+  }
+  
+  private func recommendationHeaderView(
+    for indexPath: IndexPath,
+    title: String,
+    in collectionView: UICollectionView
+  ) -> UICollectionReusableView {
+    guard let recommendationHeaderView = collectionView.dequeueReusableSupplementaryView(
+      ofKind: UICollectionView.elementKindSectionHeader,
+      withReuseIdentifier: PostRecommendationSearchHeaderView.id,
+      for: indexPath
+    ) as? PostRecommendationSearchHeaderView else { return .init() }
+    
+    recommendationHeaderView.prepare(title: title)
+    return recommendationHeaderView
+  }
+  
+  private func recentHeaderView(
+    for indexPath: IndexPath,
+    title: String,
+    in collectionView: UICollectionView
+  ) -> UICollectionReusableView {
+    guard let recentHeaderView = collectionView.dequeueReusableSupplementaryView(
+      ofKind: UICollectionView.elementKindSectionHeader,
+      withReuseIdentifier: PostRecentSearchHeaderView.id,
+      for: indexPath
+    ) as? PostRecentSearchHeaderView else { return .init() }
+    
+    recentHeaderView.delegate = self
+    recentHeaderView.prepare(title: title)
+    
+    return recentHeaderView
+  }
+  
+  private func footerView(
+    for indexPath: IndexPath,
+    in collectionView: UICollectionView
+  ) -> UICollectionReusableView {
+    // 추천 검색
+    if indexPath.section == Constants.SearchSection.recommendation {
+      guard let lineFooterView = collectionView.dequeueReusableSupplementaryView(
+        ofKind: UICollectionView.elementKindSectionFooter,
+        withReuseIdentifier: PostSearchFooterView.id,
+        for: indexPath
+      ) as? PostSearchFooterView else { return .init() }
+      return lineFooterView
+    } else {
+      return UICollectionReusableView()
+    }
+  }
 }
 
 // MARK: - Actions
@@ -230,31 +292,13 @@ extension PostSearchViewController: LayoutSupport {
   }
 }
 
-// MARK: - UICollectionViewDelegateFlowLayout
-extension PostSearchViewController: UICollectionViewDelegateFlowLayout {
-  // sizeFIXME: - UILabel 사이즈 개선
-  func collectionView(
-    _ collectionView: UICollectionView,
-    layout collectionViewLayout: UICollectionViewLayout,
-    sizeForItemAt indexPath: IndexPath
-  ) -> CGSize {
-    return viewModel.sizeForItem(at: indexPath)
-  }
-  
+// MARK: - UICollectionViewDelegate
+extension PostSearchViewController: UICollectionViewDelegate {
   func collectionView(
     _ collectionView: UICollectionView,
     didSelectItemAt indexPath: IndexPath
   ) {
     input.didSelectedItem.send(indexPath)
-  }
-  
-  func collectionView(
-    _ collectionView: UICollectionView,
-    willDisplay cell: UICollectionViewCell,
-    forItemAt indexPath: IndexPath
-  ) {
-    guard let tagCell = cell as? PostSearchTagCell else { return }
-    tagCell.setBackgroundColor(with: indexPath.section)
   }
 }
 
@@ -268,23 +312,32 @@ extension PostSearchViewController: UICollectionViewDataSource {
     _ collectionView: UICollectionView,
     numberOfItemsInSection section: Int
   ) -> Int {
-    return viewModel.numberOfItemsInSection(section)
+    return viewModel.numberOfItems(in: section)
   }
   
   func collectionView(
     _ collectionView: UICollectionView,
     cellForItemAt indexPath: IndexPath
   ) -> UICollectionViewCell {
-    guard let tagCell = collectionView.dequeueReusableCell(
-      withReuseIdentifier: PostSearchTagCell.id,
-      for: indexPath
-    ) as? PostSearchTagCell else { return UICollectionViewCell() }
-    
-    tagCell.delegate = self
-    
-    let tagString = viewModel.fetchTagString(tagCell, at: indexPath)
-    tagCell.configure(tagString)
-    return tagCell
+    switch viewModel.cellForItems(at: indexPath.section) {
+    case let .recommendation(items):
+      guard let recommendationSearchTagCell = collectionView.dequeueReusableCell(
+        withReuseIdentifier: PostRecommendationSearchTagCell.id,
+        for: indexPath
+      ) as? PostRecommendationSearchTagCell else { return .init() }
+      
+      recommendationSearchTagCell.configure(items[indexPath.item])
+      return recommendationSearchTagCell
+    case let .recent(items):
+      guard let recentSearchTagCell = collectionView.dequeueReusableCell(
+        withReuseIdentifier: PostRecentSearchTagCell.id,
+        for: indexPath
+      ) as? PostRecentSearchTagCell else { return .init() }
+      
+      recentSearchTagCell.delegate = self
+      recentSearchTagCell.configure(items[indexPath.item])
+      return recentSearchTagCell
+    }
   }
   
   func collectionView(
@@ -293,34 +346,12 @@ extension PostSearchViewController: UICollectionViewDataSource {
     at indexPath: IndexPath
   ) -> UICollectionReusableView {
     switch kind {
-      // HeaderView
     case UICollectionView.elementKindSectionHeader:
-      guard let titleHeaderView = collectionView.dequeueReusableSupplementaryView(
-        ofKind: kind,
-        withReuseIdentifier: PostSearchHeaderView.id,
-        for: indexPath
-      ) as? PostSearchHeaderView else { return UICollectionReusableView() }
-      
-      titleHeaderView.delegate = self
-      
-      let titleString = viewModel.fetchHeaderTitle(titleHeaderView, in: indexPath.section)
-      titleHeaderView.prepare(title: titleString)
-      
-      return titleHeaderView
-      // FooterView
+      return headerView(for: indexPath, in: collectionView)
     case UICollectionView.elementKindSectionFooter:
-      guard let lineFooterView = collectionView.dequeueReusableSupplementaryView(
-        ofKind: kind,
-        withReuseIdentifier: PostSearchFooterView.id,
-        for: indexPath
-      ) as? PostSearchFooterView else { return UICollectionReusableView() }
-      
-      if viewModel.isRecentSection(in: indexPath.section) {
-        lineFooterView.isHidden = true
-      }
-      
-      return lineFooterView
-    default: return UICollectionReusableView()
+      return footerView(for: indexPath, in: collectionView)
+    default:
+      return UICollectionReusableView()
     }
   }
 }
@@ -340,21 +371,22 @@ extension PostSearchViewController: PostSearchHeaderViewDelegate {
   }
 }
 
-// MARK: - PostSearchTagCellDelegate
-extension PostSearchViewController: PostSearchTagCellDelegate {
-  func didTapDeleteButton(item: Int, in section: Int) {
-    input.didTapDeleteButton.send((item, section))
+// MARK: - PostRecentSearchTagCellDelegate
+extension PostSearchViewController: PostRecentSearchTagCellDelegate {
+  func didTapTagDeleteButton(in recentTagCell: PostRecentSearchTagCell) {
+    // questionTODO: -  다운캐스팅을 해야 하는가? 추후 실험해보고 필요없다면, UICollectionViewCell로 업캐스팅 해둘 것
+    guard let indexPath = collectionView.indexPath(for: recentTagCell) else { return }
+    input.didTapRecentSearchTagDeleteButton.send(indexPath.item)
   }
 }
 
 // MARK: - CautionAlertViewControllerDelegate
 extension PostSearchViewController: CautionAlertViewControllerDelegate {
   func didTapAlertConfirm() {
-    input.didTapAlertConfirmButton.send()
+    input.didTapDeleteAllAlert.send()
   }
   
   func didTapAlertCancel() {
     input.didTapAlertCancelButton.send()
   }
 }
-// CellLayoutFIXME: - 최근 검색 키워드 충분히 길어진 경우, 잘못된 tag cell size
