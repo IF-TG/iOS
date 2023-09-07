@@ -1,5 +1,5 @@
 //
-//  PostSearchCollectionViewCompositionalLayout.swift
+//  DefaultPostSearchLayout.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 2023/09/04.
@@ -8,10 +8,7 @@
 import Foundation
 import UIKit
 
-protocol PostSearchLayout {
-  func createLayout() -> UICollectionViewCompositionalLayout
-}
-
+// MARK: - PostSearchLayout
 class DefaultPostSearchLayout: PostSearchLayout {
   func createLayout() -> UICollectionViewCompositionalLayout {
     return UICollectionViewCompositionalLayout { [weak self] section, _ in
@@ -24,7 +21,10 @@ class DefaultPostSearchLayout: PostSearchLayout {
       }
     }
   }
-  
+}
+
+// MARK: - Helpers
+extension DefaultPostSearchLayout {
   private func recommendationSearchSectionLayout() -> NSCollectionLayoutSection {
     let itemSize = NSCollectionLayoutSize(
       widthDimension: .estimated(Constants.Recommendation.Item.estimatedWidth),
