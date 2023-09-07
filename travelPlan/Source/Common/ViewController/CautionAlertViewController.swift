@@ -58,7 +58,7 @@ final class CautionAlertViewController: UIViewController {
   }
   
   deinit {
-    print("[DEBUG]: deinit alertController")
+    print("deinit: \(Self.self)")
   }
 }
 
