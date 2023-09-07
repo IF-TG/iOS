@@ -22,8 +22,8 @@ final class PostRecentSearchTagCell: UICollectionViewCell {
   
   private let tagLabel = PostSearchTagLabel()
   
+//  weak var delegate: PostRecentSearchTagCellDelegate?
   weak var delegate: PostRecentSearchTagCellDelegate?
-  
   // MARK: - LifeCycle
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -46,7 +46,18 @@ final class PostRecentSearchTagCell: UICollectionViewCell {
     layoutAttributes.frame.size.width = calculateTagSize(to: layoutAttributes)
     return layoutAttributes
   }
-  
+}
+
+// MARK: - Configure
+extension PostRecentSearchTagCell {
+  func configure(_ text: String, delegate: PostRecentSearchTagCellDelegate?) {
+    self.delegate = delegate
+    tagLabel.text = text
+  }
+}
+
+// MARK: - Helpers
+extension PostRecentSearchTagCell {
   // label text가 길어져서 cell width가 최대 지정 width를 넘어간다면, cell width를 고정해줍니다.
   private func calculateTagSize(
     to layoutAttributes: UICollectionViewLayoutAttributes
@@ -64,14 +75,6 @@ final class PostRecentSearchTagCell: UICollectionViewCell {
     return min(optimalSize.width, UIScreen.main.bounds.width - Constants.contentInsets)
   }
   
-  // MARK: - Configure
-  func configure(_ text: String) {
-    tagLabel.text = text
-  }
-}
-
-// MARK: - Helpers
-extension PostRecentSearchTagCell {
   private func setupStyles() {
     contentView.backgroundColor = .yg.veryLightGray
     contentView.layer.borderColor = UIColor.YG.gray0.cgColor
