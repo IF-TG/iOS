@@ -9,9 +9,8 @@ import Combine
 import Foundation
 
 final class PostSearchViewModel {
-  
   // MARK: - Properties
-  private var dataSource: [PostSearchSectionModel] = []
+  private var sectionModels: [PostSearchSectionModel] = []
   private var recentModels: [String] = []
   
   // MARK: - LifeCycle
@@ -102,7 +101,7 @@ extension PostSearchViewModel: ViewModelCase {
       .tryMap { [weak self] indexPath in
         var searchText = ""
         
-        switch self?.dataSource[indexPath.section].sectionItem {
+        switch self?.sectionModels[indexPath.section].sectionItem {
         case let .recommendation(items):
           searchText = items[indexPath.item]
         case let .recent(items):
@@ -155,7 +154,7 @@ extension PostSearchViewModel: ViewModelCase {
 extension PostSearchViewModel {
   private func loadData() {
     // recommendation
-    dataSource.append(
+    sectionModels.append(
       PostSearchSectionModel(
         sectionItem: .recommendation(items: PostSearchSectionModel.createRecommendationMock()),
         section: .recommendation(title: PostSearchSectionModel.createRecommendationHeaderMock())
@@ -164,7 +163,7 @@ extension PostSearchViewModel {
     
     // recent
     self.recentModels = PostSearchSectionModel.createRecentMock()
-    dataSource.append(
+    sectionModels.append(
       PostSearchSectionModel(
         sectionItem: .recent(items: recentModels),
         section: .recent(title: PostSearchSectionModel.createRecentHeaderMock())
@@ -183,11 +182,11 @@ extension PostSearchViewModel {
   }
   
   private func updateRecentItem(with recentItems: [String]) {
-    guard let index = self.dataSource.firstIndex(where: isRecentSection(item:)) else {
+    guard let index = self.sectionModels.firstIndex(where: isRecentSection(item:)) else {
       return
     }
     
-    dataSource[index].sectionItem = .recent(items: recentItems)
+    sectionModels[index].sectionItem = .recent(items: recentItems)
   }
   
   // recent section이 있는지 확인합니다.
@@ -206,25 +205,25 @@ extension PostSearchViewModel {
   }
 }
 
-// MARK: - Public Helpers
-extension PostSearchViewModel {
+// MARK: - PostSearchCollectionViewDataSource
+extension PostSearchViewModel: PostSearchCollectionViewDataSource {
   func getTextString(at indexPath: IndexPath) -> String {
-    switch dataSource[indexPath.section].sectionItem {
+    switch sectionModels[indexPath.section].sectionItem {
     case let .recent(items): return items[indexPath.item]
     case let .recommendation(items): return items[indexPath.item]
     }
   }
   
   func numberOfSections() -> Int {
-    return dataSource.count
+    return sectionModels.count
   }
   
   func cellForItems(at section: Int) -> PostSearchSectionModel.Item {
-    return dataSource[section].sectionItem
+    return sectionModels[section].sectionItem
   }
   
   func numberOfItems(in section: Int) -> Int {
-    switch dataSource[section].sectionItem {
+    switch sectionModels[section].sectionItem {
     case let .recommendation(items):
       return items.count
     case let .recent(items):
@@ -233,6 +232,6 @@ extension PostSearchViewModel {
   }
 
   func fetchHeaderTitle(in section: Int) -> PostSearchSectionModel.Section {
-    return dataSource[section].section
+    return sectionModels[section].section
   }
 }
