@@ -7,6 +7,11 @@
 
 import Foundation
 
+enum PostSearchSection: Int {
+  case recommendation
+  case recent
+}
+
 struct PostSearchSectionModel {
   var sectionItem: Item
   let section: Section
@@ -14,8 +19,6 @@ struct PostSearchSectionModel {
   enum Item {
     case recommendation(items: [String])
     case recent(items: [String])
-    
-    
   }
   
   enum Section {
