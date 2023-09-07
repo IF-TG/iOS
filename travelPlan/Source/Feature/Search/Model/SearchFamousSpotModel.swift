@@ -22,7 +22,10 @@ struct SearchFamousSpotModel {
 extension SearchFamousSpotModel {
   static var mockModels: [SearchFamousSpotModel] = [
     .init(id: 1, imageName: "tempProfile4",
-          place: "관광 장소명", location: "서울", category: "관광 카테고리", isSelectedButton: false),
+          place: "관광 장소명관광 장소명관광 장소명관광 장소명관광 장소명",
+          location: "서울서울서울서울서울서울서울서울서울서울서울서울서울서울",
+          category: "관광 카테고리관광 카테고리관광 카테고리관광 카테고리관광 카테고리관광 카테고리",
+          isSelectedButton: false),
     .init(id: 1, imageName: "tempProfile4",
           place: "관광 장소명", location: "서울", category: "관광 카테고리", isSelectedButton: false),
     .init(id: 1, imageName: "tempProfile4",

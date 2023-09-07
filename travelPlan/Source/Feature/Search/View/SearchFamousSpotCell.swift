@@ -154,7 +154,6 @@ extension SearchFamousSpotCell: LayoutSupport {
   func setConstraints() {
     thumbnailImageView.snp.makeConstraints {
       $0.leading.equalToSuperview()
-        .inset(Constants.ThumbnailImageView.Inset.leading)
       $0.top.equalToSuperview().inset(Constants.ThumbnailImageView.Inset.top)
       $0.bottom.equalToSuperview().inset(Constants.ThumbnailImageView.Inset.bottom)
       $0.width.equalTo(thumbnailImageView.snp.height)
