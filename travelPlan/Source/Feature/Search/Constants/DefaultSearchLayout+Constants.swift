@@ -7,7 +7,7 @@
 
 import UIKit
 
-extension SearchCollectionViewCompositionalLayout {
+extension DefaultSearchLayout {
   enum Constants {
     // MARK: - First
     enum Festival {

@@ -7,12 +7,12 @@
 
 import UIKit
 
-class SearchCollectionViewCompositionalLayout {
-  
+protocol SearchLayout {
+  func createLayout() -> UICollectionViewCompositionalLayout
 }
 
 // MARK: - SearchCompositionalLayout
-extension SearchCollectionViewCompositionalLayout: SearchCompositionalLayout {
+class DefaultSearchLayout: SearchLayout {
   func createLayout() -> UICollectionViewCompositionalLayout {
     return UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ in
       switch sectionIndex {
@@ -25,7 +25,7 @@ extension SearchCollectionViewCompositionalLayout: SearchCompositionalLayout {
 }
 
 // MARK: - Helpers
-extension SearchCollectionViewCompositionalLayout {
+extension DefaultSearchLayout {
   private func firstSectionLayout() -> NSCollectionLayoutSection {
     let item = makeLayoutItem(
       fractionalWidth: Constants.Festival.Item.fractionalWidth,
