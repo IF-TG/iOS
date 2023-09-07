@@ -13,8 +13,8 @@ extension SearchViewController {
     enum SearchView {
       enum Spacing {
         static let top: CGFloat = 20
-        static let leading: CGFloat = 21
-        static let trailing: CGFloat = 21
+        static let leading: CGFloat = 16
+        static let trailing: CGFloat = 16
       }
       static let height: CGFloat = 50
     }

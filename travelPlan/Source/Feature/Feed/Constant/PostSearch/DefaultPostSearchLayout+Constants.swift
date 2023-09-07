@@ -1,5 +1,5 @@
 //
-//  PostSearchCollectionViewCompositionalLayout+Constants.swift
+//  DefaultPostSearchLayout+Constants.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 2023/09/06.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension PostSearchCollectionViewCompositionalLayout {
+extension DefaultPostSearchLayout {
   enum Constants {
     enum Recommendation {
       enum Item {

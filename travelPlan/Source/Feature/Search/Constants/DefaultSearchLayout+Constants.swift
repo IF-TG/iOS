@@ -1,5 +1,5 @@
 //
-//  SearchCollectionViewCompositionalLayout+Constants.swift
+//  DefaultSearchLayout+Constants.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 2023/08/09.
@@ -23,9 +23,9 @@ extension DefaultSearchLayout {
         static let interGroupSpacing: CGFloat = 10
         enum Inset {
           static let top: CGFloat = 0
-          static let leading: CGFloat = 9
+          static let leading: CGFloat = 16
           static let bottom: CGFloat = 0
-          static let trailing: CGFloat = 9
+          static let trailing: CGFloat = 16
         }
       }
     }
@@ -37,25 +37,27 @@ extension DefaultSearchLayout {
         static let fractionalHeight: CGFloat = 0.3
       }
       enum Group {
-        static let fractionalWidth: CGFloat = 0.93
+        static var fractionalWidth: CGFloat {
+          let fractionalWidth = 314 / UIScreen.main.bounds.size.width
+          return CGFloat((String(format: "%.3f", fractionalWidth) as NSString).floatValue)
+        }
         static let height: CGFloat = 360
         static let interSpacing: CGFloat = 10
       }
       enum Section {
-        static let interSpacing: CGFloat = 0 // 이전: 20
         enum Inset {
           static let top: CGFloat = 5
-          static let leading: CGFloat = 0
+          static let leading: CGFloat = 16
           static let bottom: CGFloat = 5
-          static var trailing: CGFloat {
-            UIScreen.main.bounds.size.width * (1 - Group.fractionalWidth)
-          }
+          static var trailing: CGFloat = 16
         }
+        static let interGroupSpacing: CGFloat = 16
       }
     }
+    
     enum Header {
-      static let width: CGFloat = 1
-      static let height: CGFloat = 74
+      static let fractionalWidth: CGFloat = 1.0
+      static let estimatedHeight: CGFloat = 74
     }
   }
 }

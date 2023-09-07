@@ -32,10 +32,10 @@ extension PostRecentSearchTagCell {
       static let imageName = "cancel"
     }
     
-    static let targetSizeHeight: CGFloat = PostSearchCollectionViewCompositionalLayout
+    static let targetSizeHeight: CGFloat = DefaultPostSearchLayout
       .Constants.Recent.Item.absoluteHeight
-    static let contentInsets: CGFloat = PostSearchCollectionViewCompositionalLayout
-      .Constants.Recent.Section.ContentInsets.leading + PostSearchCollectionViewCompositionalLayout
+    static let contentInsets: CGFloat = DefaultPostSearchLayout
+      .Constants.Recent.Section.ContentInsets.leading + DefaultPostSearchLayout
       .Constants.Recent.Section.ContentInsets.trailing
   }
 }
