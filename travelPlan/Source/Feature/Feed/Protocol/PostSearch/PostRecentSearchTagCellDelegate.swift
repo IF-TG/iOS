@@ -5,8 +5,8 @@
 //  Created by SeokHyun on 2023/05/20.
 //
 
-import Foundation
+import UIKit
 
 protocol PostRecentSearchTagCellDelegate: AnyObject {
-  func didTapTagDeleteButton(in recentTagCell: PostRecentSearchTagCell)
+  func didTapTagDeleteButton(in recentTagCell: UICollectionViewCell)
 }
