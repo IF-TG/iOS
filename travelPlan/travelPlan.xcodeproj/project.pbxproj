@@ -471,7 +471,6 @@
 		132550252A0A80CB00094218 /* PostSearch */ = {
 			isa = PBXGroup;
 			children = (
-				13606E902A9F984A00365F20 /* CollectionReusableView */,
 				13606E8F2A9F983F00365F20 /* TagCell */,
 				13606E932AA187F500365F20 /* PostSearchTagLabel.swift */,
 				13606E972AA4F26500365F20 /* PostSearchCollectionViewCompositionalLayout.swift */,
@@ -538,18 +537,11 @@
 			children = (
 				1325502E2A0B4BD700094218 /* PostRecommendationSearchTagCell.swift */,
 				13606E872A9DDE7D00365F20 /* PostRecentSearchTagCell.swift */,
-			);
-			path = TagCell;
-			sourceTree = "<group>";
-		};
-		13606E902A9F984A00365F20 /* CollectionReusableView */ = {
-			isa = PBXGroup;
-			children = (
 				13606E8B2A9F959F00365F20 /* PostRecommendationSearchHeaderView.swift */,
 				1325508D2A13EE8E00094218 /* PostRecentSearchHeaderView.swift */,
 				13C07ECC2A13F454005F04CD /* PostSearchFooterView.swift */,
 			);
-			path = CollectionReusableView;
+			path = TagCell;
 			sourceTree = "<group>";
 		};
 		1503F92C2A4E0832002BC38D /* Coordinator */ = {
