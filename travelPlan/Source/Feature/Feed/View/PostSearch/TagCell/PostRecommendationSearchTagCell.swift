@@ -14,7 +14,9 @@ class PostRecommendationSearchTagCell: UICollectionViewCell {
     return String(describing: self)
   }
   
-  private let tagLabel = PostSearchTagLabel()
+  private let tagLabel = PostSearchTagLabel().set {
+    $0.textColor = UIColor.YG.highlight
+  }
   
   // MARK: - LifeCycle
   override init(frame: CGRect) {
