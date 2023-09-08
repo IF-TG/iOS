@@ -31,22 +31,22 @@ final class PostSearchCollectionViewManager: NSObject {
 // MARK: - Helpers
 extension PostSearchCollectionViewManager {
   private func headerView(
-    for indexPath: IndexPath,
+    at indexPath: IndexPath,
     in collectionView: UICollectionView
   ) -> UICollectionReusableView {
     guard let dataSource = dataSource else { return .init() }
     
     switch dataSource.fetchHeaderTitle(in: indexPath.section) {
     case let .recommendation(title):
-      return self.recommendationHeaderView(for: indexPath, title: title, in: collectionView)
+      return self.recommendationHeaderView(title: title, at: indexPath, in: collectionView)
     case let .recent(title):
-      return self.recentHeaderView(for: indexPath, title: title, in: collectionView)
+      return self.recentHeaderView(title: title, at: indexPath, in: collectionView)
     }
   }
   
   private func recommendationHeaderView(
-    for indexPath: IndexPath,
     title: String,
+    at indexPath: IndexPath,
     in collectionView: UICollectionView
   ) -> UICollectionReusableView {
     guard let recommendationHeaderView = collectionView.dequeueReusableSupplementaryView(
@@ -60,8 +60,8 @@ extension PostSearchCollectionViewManager {
   }
   
   private func recentHeaderView(
-    for indexPath: IndexPath,
     title: String,
+    at indexPath: IndexPath,
     in collectionView: UICollectionView
   ) -> UICollectionReusableView {
     guard let recentHeaderView = collectionView.dequeueReusableSupplementaryView(
@@ -75,7 +75,7 @@ extension PostSearchCollectionViewManager {
   }
   
   private func footerView(
-    for indexPath: IndexPath,
+    at indexPath: IndexPath,
     in collectionView: UICollectionView
   ) -> UICollectionReusableView {
     switch indexPath.section {
@@ -93,9 +93,9 @@ extension PostSearchCollectionViewManager {
   }
   
   private func recommendationSearchTagCell(
-    _ collectionView: UICollectionView,
     items: [String],
-    at indexPath: IndexPath
+    at indexPath: IndexPath,
+    in collectionView: UICollectionView
   ) -> UICollectionViewCell {
     guard let cell = collectionView.dequeueReusableCell(
       withReuseIdentifier: PostRecommendationSearchTagCell.id,
@@ -107,9 +107,9 @@ extension PostSearchCollectionViewManager {
   }
   
   private func recentSearchTagCell(
-    _ collectionView: UICollectionView,
     items: [String],
-    at indexPath: IndexPath
+    at indexPath: IndexPath,
+    in collectionView: UICollectionView
   ) -> UICollectionViewCell {
     guard let cell = collectionView.dequeueReusableCell(
       withReuseIdentifier: PostRecentSearchTagCell.id,
@@ -142,9 +142,9 @@ extension PostSearchCollectionViewManager: UICollectionViewDataSource {
     
     switch dataSource.cellForItems(at: indexPath.section) {
     case let .recommendation(items):
-      return recommendationSearchTagCell(collectionView, items: items, at: indexPath)
+      return recommendationSearchTagCell(items: items, at: indexPath, in: collectionView)
     case let .recent(items):
-      return recentSearchTagCell(collectionView, items: items, at: indexPath)
+      return recentSearchTagCell(items: items, at: indexPath, in: collectionView)
     }
   }
   
@@ -155,9 +155,9 @@ extension PostSearchCollectionViewManager: UICollectionViewDataSource {
   ) -> UICollectionReusableView {
     switch kind {
     case UICollectionView.elementKindSectionHeader:
-      return headerView(for: indexPath, in: collectionView)
+      return headerView(at: indexPath, in: collectionView)
     case UICollectionView.elementKindSectionFooter:
-      return footerView(for: indexPath, in: collectionView)
+      return footerView(at: indexPath, in: collectionView)
     default:
       return UICollectionReusableView()
     }
