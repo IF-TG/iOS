@@ -154,9 +154,12 @@ extension PostSearchViewModel: ViewModelCase {
 extension PostSearchViewModel {
   private func loadData() {
     // recommendation
+    let recommendatoinModels = PostSearchSectionModel.createRecommendationMock()
+    let transformedModels = recommendatoinModels.map { "#"+$0 }
+    
     sectionModels.append(
       PostSearchSectionModel(
-        sectionItem: .recommendation(items: PostSearchSectionModel.createRecommendationMock()),
+        sectionItem: .recommendation(items: transformedModels),
         section: .recommendation(title: PostSearchSectionModel.createRecommendationHeaderMock())
       )
     )
