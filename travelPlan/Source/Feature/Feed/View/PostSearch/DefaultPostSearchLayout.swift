@@ -5,7 +5,6 @@
 //  Created by SeokHyun on 2023/09/04.
 //
 
-import Foundation
 import UIKit
 
 // MARK: - PostSearchLayout
