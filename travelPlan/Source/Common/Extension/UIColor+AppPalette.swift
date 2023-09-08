@@ -61,5 +61,7 @@ extension UIColor {
     /// #EE0031
     static let red2 = UIColor(
       red: 0.933, green: 0, blue: 0.192, alpha: 1)
+    /// #0072C6
+    static let highlight = UIColor(hex: "0072C6", alpha: 1)
   }
 }
