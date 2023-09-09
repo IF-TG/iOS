@@ -14,7 +14,6 @@ extension SearchFamousSpotCell {
       static let imageName = "tempThumbnail1"
       static let cornerRadius: CGFloat = 3
       enum Inset {
-        static let leading: CGFloat = 16
         static let top: CGFloat = 5
         static let bottom: CGFloat = 5
       }

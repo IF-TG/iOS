@@ -14,7 +14,6 @@ extension SearchHeaderView {
       static let fontSize: CGFloat = 25
       static let numberOfLines = 1
       enum Inset {
-        static let leading: CGFloat = 20
         static let top: CGFloat = 31
         static let bottom: CGFloat = 21
       }
@@ -30,7 +29,7 @@ extension SearchHeaderView {
       static let cornerRadius: CGFloat = 14
       static let borderWidth: CGFloat = 1
       enum Inset {
-        static let trailing: CGFloat = 20
+        static let trailing: CGFloat = 4
       }
       static let width: CGFloat = 64
       static let height: CGFloat = 28

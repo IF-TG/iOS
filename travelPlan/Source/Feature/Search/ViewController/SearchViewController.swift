@@ -22,7 +22,7 @@ final class SearchViewController: UIViewController {
   
   private var subscriptions = Set<AnyCancellable>()
   private lazy var input = SearchViewModel.Input()
-  private let compositionalLayout: SearchCompositionalLayout = SearchCollectionViewCompositionalLayout()
+  private let compositionalLayout: SearchLayout = DefaultSearchLayout()
   private lazy var collectionView: UICollectionView = UICollectionView(
     frame: .zero,
     collectionViewLayout: compositionalLayout.createLayout()

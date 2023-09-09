@@ -80,8 +80,8 @@ extension SearchHeaderView: LayoutSupport {
   
   func setConstraints() {
     headerLabel.snp.makeConstraints {
-      $0.leading.equalToSuperview().inset(Constants.HeaderLabel.Inset.leading)
-      $0.trailing.lessThanOrEqualTo(lookingMoreButton.snp.leading)
+      $0.leading.equalToSuperview()
+      $0.trailing.greaterThanOrEqualTo(lookingMoreButton.snp.leading)
         .offset(Constants.HeaderLabel.Offset.trailing)
       $0.top.equalToSuperview().inset(Constants.HeaderLabel.Inset.top)
       $0.bottom.equalToSuperview().inset(Constants.HeaderLabel.Inset.bottom)

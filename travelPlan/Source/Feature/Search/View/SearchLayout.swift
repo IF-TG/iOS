@@ -1,5 +1,5 @@
 //
-//  SearchCollectionViewCompositionalLayout.swift
+//  SearchLayout.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 2023/07/20.
@@ -7,12 +7,12 @@
 
 import UIKit
 
-class SearchCollectionViewCompositionalLayout {
-  
+protocol SearchLayout {
+  func createLayout() -> UICollectionViewCompositionalLayout
 }
 
 // MARK: - SearchCompositionalLayout
-extension SearchCollectionViewCompositionalLayout: SearchCompositionalLayout {
+class DefaultSearchLayout: SearchLayout {
   func createLayout() -> UICollectionViewCompositionalLayout {
     return UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ in
       switch sectionIndex {
@@ -25,7 +25,7 @@ extension SearchCollectionViewCompositionalLayout: SearchCompositionalLayout {
 }
 
 // MARK: - Helpers
-extension SearchCollectionViewCompositionalLayout {
+extension DefaultSearchLayout {
   private func firstSectionLayout() -> NSCollectionLayoutSection {
     let item = makeLayoutItem(
       fractionalWidth: Constants.Festival.Item.fractionalWidth,
@@ -49,9 +49,7 @@ extension SearchCollectionViewCompositionalLayout {
       bottom: Constants.Festival.Section.Inset.bottom,
       trailing: Constants.Festival.Section.Inset.trailing
     )
-    section.boundarySupplementaryItems = [self.supplementaryHeaderItem()] // 헤더의 layout 처리
-    // availableTODO: - 16버전은 사용 불가능, 버전에 따라 처리 해주어야 합니다.
-    section.supplementariesFollowContentInsets = false // false의 경우, item의 contentInset을 무시하고 size 설정
+    section.boundarySupplementaryItems = [headerLayout()]
     return section
   }
   
@@ -72,23 +70,23 @@ extension SearchCollectionViewCompositionalLayout {
     
     let section = NSCollectionLayoutSection(group: group)
     section.orthogonalScrollingBehavior = .groupPaging
-    section.interGroupSpacing = Constants.Famous.Section.interSpacing
+    section.interGroupSpacing = Constants.Famous.Section.interGroupSpacing
     section.contentInsets = .init(
       top: Constants.Famous.Section.Inset.top,
       leading: Constants.Famous.Section.Inset.leading,
       bottom: Constants.Famous.Section.Inset.bottom,
       trailing: Constants.Famous.Section.Inset.trailing
     )
-    section.boundarySupplementaryItems = [self.supplementaryHeaderItem()] // 헤더의 layout 처리
-    section.supplementariesFollowContentInsets = false
+    section.boundarySupplementaryItems = [headerLayout()]
     
     return section
   }
-  private func supplementaryHeaderItem() -> NSCollectionLayoutBoundarySupplementaryItem {
+  
+  private func headerLayout() -> NSCollectionLayoutBoundarySupplementaryItem {
     return .init(
       layoutSize: .init(
-        widthDimension: .fractionalWidth(Constants.Header.width),
-        heightDimension: .estimated(Constants.Header.height)
+        widthDimension: .fractionalWidth(Constants.Header.fractionalWidth),
+        heightDimension: .estimated(Constants.Header.estimatedHeight)
       ),
       elementKind: UICollectionView.elementKindSectionHeader,
       alignment: .top

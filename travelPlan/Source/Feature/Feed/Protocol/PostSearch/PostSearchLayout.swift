@@ -1,12 +1,12 @@
 //
-//  SearchCompositionalLayout.swift
+//  PostSearchLayout.swift
 //  travelPlan
 //
-//  Created by SeokHyun on 2023/07/26.
+//  Created by SeokHyun on 2023/09/08.
 //
 
 import UIKit.UICollectionViewCompositionalLayout
 
-protocol SearchCompositionalLayout {
+protocol PostSearchLayout {
   func createLayout() -> UICollectionViewCompositionalLayout
 }

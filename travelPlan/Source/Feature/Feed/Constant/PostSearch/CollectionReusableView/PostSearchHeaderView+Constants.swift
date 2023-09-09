@@ -7,19 +7,16 @@
 
 import Foundation
 
-extension PostSearchHeaderView {
+extension PostRecentSearchHeaderView {
   enum Constants {
     enum TitleLabel {
       static let fontSize: CGFloat = 17
-      enum Inset {
-        static let leading: CGFloat = 20
-      }
     }
     enum DeleteAllButton {
       static let title = "전체 삭제"
       static let titleFontSize: CGFloat = 12
       enum Inset {
-        static let trailing: CGFloat = 30
+        static let trailing: CGFloat = 10
       }
     }
   }
