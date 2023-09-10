@@ -64,7 +64,8 @@ extension DefaultSearchLayout {
         widthDimension: .fractionalWidth(Constants.Famous.Group.fractionalWidth),
         heightDimension: .absolute(Constants.Famous.Group.height)
       ),
-      subitems: [item]
+      subitem: item,
+      count: 3
     )
     group.interItemSpacing = .fixed(Constants.Famous.Group.interSpacing)
     
