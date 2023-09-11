@@ -31,13 +31,13 @@ final class SearchBestFestivalCell: UICollectionViewCell {
     $0.isUserInteractionEnabled = true // UIImageView의 터치 이벤트를 감지하기 위해 인터랙션을 활성화
   }
   
-  private lazy var heartButton: SearchHeartButton = .init().set {
-    $0.addTarget(self, action: #selector(didTapHeartButton), for: .touchUpInside)
+  private lazy var starButton: SearchStarButton = .init().set {
+    $0.addTarget(self, action: #selector(didTapStarButton), for: .touchUpInside)
   }
   
   private let festivalLabel: UILabel = .init().set {
     $0.font = UIFont(pretendard: .bold, size: Constants.FestivalLabel.fontSize)
-    $0.textColor = .yg.gray00Background
+    $0.textColor = .yg.littleWhite
     $0.numberOfLines = Constants.FestivalLabel.numberOfLines
     $0.textAlignment = .center
     $0.text = "축제명"
@@ -45,7 +45,7 @@ final class SearchBestFestivalCell: UICollectionViewCell {
   
   private let periodLabel: UILabel = .init().set {
     $0.font = UIFont(pretendard: .semiBold, size: Constants.PeriodLabel.fontSize)
-    $0.textColor = .yg.gray00Background
+    $0.textColor = .yg.littleWhite
     $0.textAlignment = .center
     $0.text = "날짜"
     // shadowTODO: - shadow, blur 처리
@@ -65,7 +65,7 @@ final class SearchBestFestivalCell: UICollectionViewCell {
   override func prepareForReuse() {
     super.prepareForReuse()
     thumbnailImageView.image = nil
-    heartButton.isSelected = false
+    starButton.isSelected = false
     periodLabel.text = nil
     festivalLabel.text = nil
     subscriptions.removeAll()
@@ -74,8 +74,8 @@ final class SearchBestFestivalCell: UICollectionViewCell {
 
 // MARK: - Actions
 extension SearchBestFestivalCell {
-  @objc private func didTapHeartButton() {
-    input.didTapHeartButton.send()
+  @objc private func didTapStarButton() {
+    input.didTapStarButton.send()
   }
 }
 
@@ -108,7 +108,7 @@ extension SearchBestFestivalCell: ViewBindCase {
     switch state {
     case .changeButtonColor:
       // networkFIXME: - 서버의 저장에 따라 하트버튼 색의 UI를 변경해야합니다.
-      heartButton.isSelected.toggle()
+      starButton.isSelected.toggle()
     case .none: break
     }
   }
@@ -139,7 +139,7 @@ extension SearchBestFestivalCell {
     
     festivalLabel.text = viewModel.title
     periodLabel.text = viewModel.periodString
-    heartButton.isSelected = viewModel.isSelectedButton
+    starButton.isSelected = viewModel.isSelectedButton
     // imageTODO: - 이미지 적용
     thumbnailImageView.image = UIImage(named: viewModel.thumbnailImage ?? "tempThumbnail7")
   }
@@ -149,7 +149,7 @@ extension SearchBestFestivalCell {
 extension SearchBestFestivalCell: LayoutSupport {
   func addSubviews() {
     contentView.addSubview(thumbnailImageView)
-    thumbnailImageView.addSubview(heartButton)
+    thumbnailImageView.addSubview(starButton)
     thumbnailImageView.addSubview(festivalLabel)
     thumbnailImageView.addSubview(periodLabel)
   }
@@ -159,10 +159,10 @@ extension SearchBestFestivalCell: LayoutSupport {
       $0.edges.equalToSuperview()
     }
     
-    heartButton.snp.makeConstraints {
-      $0.top.equalToSuperview().inset(Constants.HeartButton.Inset.top)
-      $0.trailing.equalToSuperview().inset(Constants.HeartButton.Inset.trailing)
-      $0.size.equalTo(Constants.HeartButton.size)
+    starButton.snp.makeConstraints {
+      $0.top.equalToSuperview().inset(Constants.StarButton.Inset.top)
+      $0.trailing.equalToSuperview().inset(Constants.StarButton.Inset.trailing)
+      $0.size.equalTo(Constants.StarButton.size)
     }
     
     festivalLabel.snp.makeConstraints {

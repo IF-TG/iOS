@@ -28,9 +28,7 @@ extension SearchFamousSpotCell {
     }
     // MARK: - HeartButton
     enum HeartButton {
-      static let normalImageName = "unselectedHeart"
-      static let selectedImageName = "selectedHeart"
-      static let size: CGFloat = 20
+      static let size: CGFloat = 24
       enum Inset {
         static let top: CGFloat = 5
       }

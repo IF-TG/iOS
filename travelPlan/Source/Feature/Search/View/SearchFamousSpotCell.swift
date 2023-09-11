@@ -28,8 +28,8 @@ final class SearchFamousSpotCell: UICollectionViewCell {
     $0.layer.masksToBounds = true
   }
   
-  private lazy var heartButton: SearchHeartButton = .init().set {
-    $0.addTarget(self, action: #selector(didTapHeartButton), for: .touchUpInside)
+  private lazy var starButton: SearchStarButton = .init().set {
+    $0.addTarget(self, action: #selector(didTapStarButton), for: .touchUpInside)
   }
   
   private let placeLabel: UILabel = UILabel().set {
@@ -106,7 +106,7 @@ extension SearchFamousSpotCell: ViewBindCase {
   func render(_ state: State) {
     switch state {
     case .changeButtonColor:
-      heartButton.isSelected.toggle()
+      starButton.isSelected.toggle()
     case .none: break
     }
   }
@@ -122,9 +122,9 @@ extension SearchFamousSpotCell: ViewBindCase {
 
 // MARK: - Actions
 extension SearchFamousSpotCell {
-  @objc private func didTapHeartButton() {
+  @objc private func didTapStarButton() {
     // viewModelTODO: - CellViewModel 추가해서 input output 패턴 적용하고 delegate를 제거해야 합니다.
-    input.didTapHeartButton.send()
+    input.didTapStarButton.send()
     print("DEBUG: 버튼 변화됨!")
   }
 }
@@ -146,7 +146,7 @@ extension SearchFamousSpotCell: LayoutSupport {
   func addSubviews() {
     contentView.addSubview(thumbnailImageView)
     contentView.addSubview(labelStackView)
-    contentView.addSubview(heartButton)
+    contentView.addSubview(starButton)
     _ = [placeLabel, categoryLabel, areaLabel]
       .map { labelStackView.addArrangedSubview($0) }
   }
@@ -162,12 +162,12 @@ extension SearchFamousSpotCell: LayoutSupport {
     labelStackView.snp.makeConstraints {
       $0.leading.equalTo(thumbnailImageView.snp.trailing)
         .offset(Constants.LabelStackView.Offset.leading)
-      $0.trailing.lessThanOrEqualTo(heartButton.snp.leading)
+      $0.trailing.lessThanOrEqualTo(starButton.snp.leading)
         .offset(Constants.LabelStackView.Offset.trailing)
       $0.top.equalTo(thumbnailImageView)
     }
     
-    heartButton.snp.makeConstraints {
+    starButton.snp.makeConstraints {
       $0.top.equalToSuperview().inset(Constants.HeartButton.Inset.top)
       $0.trailing.equalToSuperview()
       $0.size.equalTo(Constants.HeartButton.size)

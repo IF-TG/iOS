@@ -14,14 +14,12 @@ extension SearchBestFestivalCell {
       static let cornerRadius: CGFloat = 3
     }
     // MARK: - HeartButton
-    enum HeartButton {
-      static let normalImageName = "unselectedHeart"
-      static let selectedImageName = "selectedHeart"
+    enum StarButton {
       enum Inset {
         static let top: CGFloat = 8
         static let trailing: CGFloat = 8
       }
-      static let size: CGFloat = 20
+      static let size: CGFloat = 24
     }
     // MARK: - FestivalLabel
     enum FestivalLabel {

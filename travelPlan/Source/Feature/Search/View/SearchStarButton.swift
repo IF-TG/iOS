@@ -1,5 +1,5 @@
 //
-//  SearchHeartButton.swift
+//  SearchStarButton.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 2023/08/17.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SearchHeartButton: UIButton {
+class SearchStarButton: UIButton {
   // MARK: - LifeCycle
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -20,7 +20,7 @@ class SearchHeartButton: UIButton {
 }
 
 // MARK: - Helpers
-extension SearchHeartButton {
+extension SearchStarButton {
   private func setImages() {
     setImage(UIImage(named: Constants.normalImageName), for: .normal)
     setImage(UIImage(named: Constants.selectedImageName), for: .selected)

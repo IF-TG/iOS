@@ -12,12 +12,12 @@ class SearchBestFestivalCellViewModel {
   typealias Output = AnyPublisher<State, ErrorType>
   
   struct Input: SearchCellViewModelInput {
-    let didTapHeartButton: PassthroughSubject<Void, ErrorType>
+    let didTapStarButton: PassthroughSubject<Void, ErrorType>
     
     init(
-      didTapHeartButton: PassthroughSubject<Void, ErrorType> = .init()
+      didTapStarButton: PassthroughSubject<Void, ErrorType> = .init()
     ) {
-      self.didTapHeartButton = didTapHeartButton
+      self.didTapStarButton = didTapStarButton
     }
   }
   
@@ -53,7 +53,7 @@ class SearchBestFestivalCellViewModel {
 extension SearchBestFestivalCellViewModel: ViewModelCase {
   func transform(_ input: Input) -> Output {
     // 서버 저장 요청 후 응답에 따라 output이 달라집니다.
-    return input.didTapHeartButton
+    return input.didTapStarButton
       .flatMap { [weak self] _ in
         guard let self = self else {
           return Fail<State, ErrorType>(error: .unexpected)

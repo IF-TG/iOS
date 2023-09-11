@@ -10,5 +10,5 @@ import Combine
 
 protocol SearchCellViewModelInput {
   associatedtype ErrorType: Error
-  var didTapHeartButton: PassthroughSubject<Void, ErrorType> { get }
+  var didTapStarButton: PassthroughSubject<Void, ErrorType> { get }
 }
