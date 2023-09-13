@@ -13,7 +13,7 @@ enum Season: String, CaseIterable {
   case fall = "가을"
   case winter = "겨울"
   
-  var count: Int {
+  static var count: Int {
     Self.allCases.count
   }
 }
@@ -33,6 +33,10 @@ enum TravelThemeType: CaseIterable {
      .travelTheme,
      .partner,
      .categoryDevelop]
+  }
+  
+  static var count: Int {
+    Self.allCases.count
   }
 }
 
