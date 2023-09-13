@@ -10,7 +10,7 @@ import Foundation
 enum TravelThemeType: CaseIterable {
   case all
   case season(Season)
-  case legion
+  case region
   case travelTheme
   case partner
   case categoryDevelop
@@ -18,7 +18,7 @@ enum TravelThemeType: CaseIterable {
   static var allCases: [TravelThemeType] {
     [.all,
      .season(Season.spring),
-     .legion,
+     .region,
      .travelTheme,
      .partner,
      .categoryDevelop]
@@ -38,7 +38,7 @@ extension TravelThemeType: RawRepresentable {
     case "계절":
       self = .season(Season.spring)
     case "지역":
-      self = .legion
+      self = .region
     case "여행 테마":
       self = .travelTheme
     case "동반자":
@@ -56,7 +56,7 @@ extension TravelThemeType: RawRepresentable {
       return "전체"
     case .season(_):
       return "계절"
-    case .legion:
+    case .region:
       return "지역"
     case .travelTheme:
       return "여행 테마"
