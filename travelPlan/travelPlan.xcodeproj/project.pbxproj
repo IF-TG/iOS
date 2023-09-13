@@ -64,11 +64,12 @@
 		152AD5272A1B89D2008A2A11 /* FavoriteListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152AD5262A1B89D2008A2A11 /* FavoriteListViewModel.swift */; };
 		152AD52A2A1B8D6E008A2A11 /* MockFavoriteListData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152AD5292A1B8D6E008A2A11 /* MockFavoriteListData.swift */; };
 		15332AD62A163AB6008A4110 /* FavoriteViewControllerConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15332AD52A163AB6008A4110 /* FavoriteViewControllerConstant.swift */; };
-		153841D72A5642A9004C41D1 /* PostViewBottomSheetCategoryCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153841D62A5642A9004C41D1 /* PostViewBottomSheetCategoryCVCell.swift */; };
+		153841D72A5642A9004C41D1 /* PostViewBottomSheetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153841D62A5642A9004C41D1 /* PostViewBottomSheetCell.swift */; };
 		154ECA172AB0B5D40093AF25 /* TravelThemeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154ECA162AB0B5D40093AF25 /* TravelThemeType.swift */; };
 		156759B12A0D774500849CE2 /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156759B02A0D774500849CE2 /* FeedViewModel.swift */; };
 		1570ECB22A13176100A3FDCF /* FeedNavigationBarConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1570ECB12A13176100A3FDCF /* FeedNavigationBarConstant.swift */; };
 		1570FDB22AB1B616006FBAA3 /* TravelTrend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1570FDB12AB1B616006FBAA3 /* TravelTrend.swift */; };
+		1570FDB72AB1E29C006FBAA3 /* Notification+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1570FDB62AB1E29C006FBAA3 /* Notification+.swift */; };
 		15710CB82A132C630023C19E /* FeedPostSearchBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15710CB72A132C630023C19E /* FeedPostSearchBarItem.swift */; };
 		15710CBA2A132C760023C19E /* FeedNotificationBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15710CB92A132C760023C19E /* FeedNotificationBarItem.swift */; };
 		15710CBC2A132DD00023C19E /* FeedAppLogoBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15710CBB2A132DD00023C19E /* FeedAppLogoBarItem.swift */; };
@@ -122,8 +123,7 @@
 		15CB23742A110FB4003EAF20 /* PostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15CB23732A110FB4003EAF20 /* PostViewModel.swift */; };
 		15CC64142A1DD4EF00857446 /* ConvenienceInit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FEB5E22A050A99000A5F33 /* ConvenienceInit.swift */; };
 		15DD40452A5B862D002BC5F8 /* PostViewBottomSheetAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DD40442A5B862D002BC5F8 /* PostViewBottomSheetAdapter.swift */; };
-		15DD40482A5B8752002BC5F8 /* TravelCategoryDetailType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DD40472A5B8752002BC5F8 /* TravelCategoryDetailType.swift */; };
-		15EA48C82A539D4900F4B391 /* MoreCategoryType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EA48C72A539D4900F4B391 /* MoreCategoryType.swift */; };
+		15DD40482A5B8752002BC5F8 /* TravelCategorySortingType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DD40472A5B8752002BC5F8 /* TravelCategorySortingType.swift */; };
 		15EA48CA2A539D7B00F4B391 /* MoreCategoryViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EA48C92A539D7B00F4B391 /* MoreCategoryViewDelegate.swift */; };
 		15EA48CE2A539DFD00F4B391 /* PostViewHeaderCategoryViewConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EA48CD2A539DFD00F4B391 /* PostViewHeaderCategoryViewConstant.swift */; };
 		15EF8C052A0829FD0068C744 /* LocationSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EF8C042A0829FD0068C744 /* LocationSearchViewController.swift */; };
@@ -145,7 +145,6 @@
 		15F0D1BB2A524FB900D04773 /* MoreCategoryViewConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F0D1BA2A524FB900D04773 /* MoreCategoryViewConstant.swift */; };
 		15F0D1BE2A52940F00D04773 /* PostViewBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F0D1BD2A52940F00D04773 /* PostViewBottomSheetViewController.swift */; };
 		15F0D1D32A53095100D04773 /* PostViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F0D1D22A53095100D04773 /* PostViewAdapter.swift */; };
-		15F0D1D52A5314D000D04773 /* Notification+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F0D1D42A5314D000D04773 /* Notification+.swift */; };
 		15F36A152AB1961F00971803 /* TravelRegion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F36A142AB1961F00971803 /* TravelRegion.swift */; };
 		15F36A182AB1986000971803 /* TravelTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F36A172AB1986000971803 /* TravelTheme.swift */; };
 		15F36A1A2AB1A18200971803 /* CaseIterable+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F36A192AB1A18200971803 /* CaseIterable+.swift */; };
@@ -237,11 +236,12 @@
 		152AD5262A1B89D2008A2A11 /* FavoriteListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteListViewModel.swift; sourceTree = "<group>"; };
 		152AD5292A1B8D6E008A2A11 /* MockFavoriteListData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockFavoriteListData.swift; sourceTree = "<group>"; };
 		15332AD52A163AB6008A4110 /* FavoriteViewControllerConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteViewControllerConstant.swift; sourceTree = "<group>"; };
-		153841D62A5642A9004C41D1 /* PostViewBottomSheetCategoryCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewBottomSheetCategoryCVCell.swift; sourceTree = "<group>"; };
+		153841D62A5642A9004C41D1 /* PostViewBottomSheetCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewBottomSheetCell.swift; sourceTree = "<group>"; };
 		154ECA162AB0B5D40093AF25 /* TravelThemeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelThemeType.swift; sourceTree = "<group>"; };
 		156759B02A0D774500849CE2 /* FeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
 		1570ECB12A13176100A3FDCF /* FeedNavigationBarConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedNavigationBarConstant.swift; sourceTree = "<group>"; };
 		1570FDB12AB1B616006FBAA3 /* TravelTrend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelTrend.swift; sourceTree = "<group>"; };
+		1570FDB62AB1E29C006FBAA3 /* Notification+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+.swift"; sourceTree = "<group>"; };
 		15710CB72A132C630023C19E /* FeedPostSearchBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedPostSearchBarItem.swift; sourceTree = "<group>"; };
 		15710CB92A132C760023C19E /* FeedNotificationBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedNotificationBarItem.swift; sourceTree = "<group>"; };
 		15710CBB2A132DD00023C19E /* FeedAppLogoBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedAppLogoBarItem.swift; sourceTree = "<group>"; };
@@ -296,8 +296,7 @@
 		15CB23712A10F5DA003EAF20 /* MockPostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPostModel.swift; sourceTree = "<group>"; };
 		15CB23732A110FB4003EAF20 /* PostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewModel.swift; sourceTree = "<group>"; };
 		15DD40442A5B862D002BC5F8 /* PostViewBottomSheetAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewBottomSheetAdapter.swift; sourceTree = "<group>"; };
-		15DD40472A5B8752002BC5F8 /* TravelCategoryDetailType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelCategoryDetailType.swift; sourceTree = "<group>"; };
-		15EA48C72A539D4900F4B391 /* MoreCategoryType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreCategoryType.swift; sourceTree = "<group>"; };
+		15DD40472A5B8752002BC5F8 /* TravelCategorySortingType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelCategorySortingType.swift; sourceTree = "<group>"; };
 		15EA48C92A539D7B00F4B391 /* MoreCategoryViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreCategoryViewDelegate.swift; sourceTree = "<group>"; };
 		15EA48CD2A539DFD00F4B391 /* PostViewHeaderCategoryViewConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewHeaderCategoryViewConstant.swift; sourceTree = "<group>"; };
 		15EF8C042A0829FD0068C744 /* LocationSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchViewController.swift; sourceTree = "<group>"; };
@@ -319,7 +318,6 @@
 		15F0D1BA2A524FB900D04773 /* MoreCategoryViewConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreCategoryViewConstant.swift; sourceTree = "<group>"; };
 		15F0D1BD2A52940F00D04773 /* PostViewBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewBottomSheetViewController.swift; sourceTree = "<group>"; };
 		15F0D1D22A53095100D04773 /* PostViewAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewAdapter.swift; sourceTree = "<group>"; };
-		15F0D1D42A5314D000D04773 /* Notification+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+.swift"; sourceTree = "<group>"; };
 		15F36A142AB1961F00971803 /* TravelRegion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelRegion.swift; sourceTree = "<group>"; };
 		15F36A172AB1986000971803 /* TravelTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelTheme.swift; sourceTree = "<group>"; };
 		15F36A192AB1A18200971803 /* CaseIterable+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CaseIterable+.swift"; sourceTree = "<group>"; };
@@ -875,7 +873,6 @@
 			children = (
 				15BB01BA2A1EB6300035B486 /* FeedViewModel+AssociatedType.swift */,
 				15BB01BC2A1EB7640035B486 /* PostSearchViewModel+Associatedtype.swift */,
-				15F0D1D42A5314D000D04773 /* Notification+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -1054,7 +1051,7 @@
 				15F36A142AB1961F00971803 /* TravelRegion.swift */,
 				15F36A172AB1986000971803 /* TravelTheme.swift */,
 				15F36A1B2AB1A45600971803 /* TravelPartner.swift */,
-				15DD40472A5B8752002BC5F8 /* TravelCategoryDetailType.swift */,
+				15DD40472A5B8752002BC5F8 /* TravelCategorySortingType.swift */,
 				1570FDB12AB1B616006FBAA3 /* TravelTrend.swift */,
 			);
 			path = TravelTheme;
@@ -1075,7 +1072,7 @@
 				15EF8C942A0A18660068C744 /* CategoryPageView */,
 				15C92C0C2A0ABE7800376D1B /* FeedNavigationBar */,
 				132550252A0A80CB00094218 /* PostSearch */,
-				153841D62A5642A9004C41D1 /* PostViewBottomSheetCategoryCVCell.swift */,
+				153841D62A5642A9004C41D1 /* PostViewBottomSheetCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1125,7 +1122,6 @@
 				15AF2C3A2A1142E200BEE166 /* PostModel */,
 				15EF8CA52A0A19990068C744 /* CategoryViewType.swift */,
 				132550272A0ABBDA00094218 /* PostSearchModel.swift */,
-				15EA48C72A539D4900F4B391 /* MoreCategoryType.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1216,6 +1212,7 @@
 				15AF2C3D2A1147B100BEE166 /* UIImage+JPEGCompress.swift */,
 				13CB6D352A20E12B00D185B2 /* CALayer+Border.swift */,
 				15F36A192AB1A18200971803 /* CaseIterable+.swift */,
+				1570FDB62AB1E29C006FBAA3 /* Notification+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -1481,7 +1478,6 @@
 				1503F9312A4E0A4F002BC38D /* MainCoordinator.swift in Sources */,
 				158BEF772A0E279700C27861 /* PostCell.swift in Sources */,
 				15EF8C9D2A0A19190068C744 /* CategoryViewCell.swift in Sources */,
-				15EA48C82A539D4900F4B391 /* MoreCategoryType.swift in Sources */,
 				1586D3042AB193F7001D4A80 /* Season.swift in Sources */,
 				15CB23612A10B5E3003EAF20 /* DateValidationProtocol.swift in Sources */,
 				152AD4F62A18B6C3008A2A11 /* FavoriteListHeaderImageView.swift in Sources */,
@@ -1533,6 +1529,7 @@
 				13CB6D342A1FEC6D00D185B2 /* CautionAlertViewControllerDelegate.swift in Sources */,
 				158BEFD02A0FE2C000C27861 /* OneUnitHeightLine.swift in Sources */,
 				15CB236C2A10BB17003EAF20 /* PostModel.swift in Sources */,
+				1570FDB72AB1E29C006FBAA3 /* Notification+.swift in Sources */,
 				152AD5202A1A09E8008A2A11 /* FavoriteListTableViewAdapterDelegate.swift in Sources */,
 				1503F9342A4E0D06002BC38D /* ProfileCoordinator.swift in Sources */,
 				15FEB5ED2A050A99000A5F33 /* LayoutSupport.swift in Sources */,
@@ -1549,7 +1546,7 @@
 				15BB01B82A1EB5070035B486 /* LoginViewModel.swift in Sources */,
 				158BEFC42A0EC8A100C27861 /* UIView+CustomAnimation.swift in Sources */,
 				15F0D1B62A524DC500D04773 /* PostViewHeaderCategoryView.swift in Sources */,
-				153841D72A5642A9004C41D1 /* PostViewBottomSheetCategoryCVCell.swift in Sources */,
+				153841D72A5642A9004C41D1 /* PostViewBottomSheetCell.swift in Sources */,
 				156759B12A0D774500849CE2 /* FeedViewModel.swift in Sources */,
 				15EF8CA92A0A19AF0068C744 /* CategoryConstant.swift in Sources */,
 				15F0D1B02A51BDFE00D04773 /* CategoryPageViewDataSource.swift in Sources */,
@@ -1561,7 +1558,7 @@
 				130304802A249E2C00776A0D /* UIView+Preview.swift in Sources */,
 				13254FE32A05147200094218 /* MainTabBarController.swift in Sources */,
 				1325502F2A0B4BD700094218 /* PostSearchTagCell.swift in Sources */,
-				15DD40482A5B8752002BC5F8 /* TravelCategoryDetailType.swift in Sources */,
+				15DD40482A5B8752002BC5F8 /* TravelCategorySortingType.swift in Sources */,
 				152AD4F02A189CFC008A2A11 /* FavoriteListHeaderView.swift in Sources */,
 				15EF8CA62A0A19990068C744 /* CategoryViewType.swift in Sources */,
 				152AD4E82A188D33008A2A11 /* FavoriteListTableViewCell.swift in Sources */,
@@ -1608,7 +1605,6 @@
 				15CB236F2A10C314003EAF20 /* PostCellViewModel.swift in Sources */,
 				13C9C1B12A1806F500DF1FFF /* PostSearchTagCellDelegate.swift in Sources */,
 				13CB6D362A20E12B00D185B2 /* CALayer+Border.swift in Sources */,
-				15F0D1D52A5314D000D04773 /* Notification+.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
