@@ -122,7 +122,7 @@ private extension PostViewBottomSheetViewController {
         equalTo: view.trailingAnchor),
       categoryView.bottomAnchor.constraint(
         equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-      categoryView.heightAnchor.constraint(lessThanOrEqualToConstant: <#T##CGFloat#>)]
+      categoryView.heightAnchor.constraint(lessThanOrEqualToConstant: 300)]
   }
   
   var safeAreaBottomBackgroundViewConstraints: [NSLayoutConstraint] {
