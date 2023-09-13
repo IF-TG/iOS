@@ -9,17 +9,20 @@ import UIKit
 
 final class PostViewBottomSheetViewController: UIViewController {
   // MARK: - Constant
-  struct Constant {
-    enum CategoryCollectionView {
-      static let spacing: UISpacing = .init(top: 15)
+  struct Constants {
+    enum CategoryView {
+      enum Inset {
+        static let top: CGFloat = 15
+      }
+      
       static let cellSize: CGSize = {
         let width = UIScreen.main.bounds.width
-        let cellTitleSpacing = PostViewBottomSheetCategoryCVCell.Constant.Title.spacing
+        let cellTitleSpacing = PostViewBottomSheetCell.Constant.Title.spacing
         let topAndBottomSpacing = cellTitleSpacing.top + cellTitleSpacing.bottom
         let height: CGFloat = {
           let label = UILabel().set {
             $0.text = "test"
-            $0.font = PostViewBottomSheetCategoryCVCell.Constant.Title.font
+            $0.font = PostViewBottomSheetCell.Constant.Title.font
             $0.sizeToFit()
           }
           return label.bounds.height
@@ -30,50 +33,55 @@ final class PostViewBottomSheetViewController: UIViewController {
   }
   
   // MARK: - Properties
-  private let categoryCollectionView = {
-    let layout = UICollectionViewFlowLayout().set {
-      $0.scrollDirection = .vertical
-      $0.minimumLineSpacing = 0
-      $0.minimumInteritemSpacing = 0
-      $0.itemSize = Constant.CategoryCollectionView.cellSize
-    }
-    let cv = UICollectionView.init(
-      frame: .zero,
-      collectionViewLayout: layout)
-    cv.register(
-      PostViewBottomSheetCategoryCVCell.self, forCellWithReuseIdentifier: PostViewBottomSheetCategoryCVCell.id)
-    return cv
-  }()
+  private let categoryView: UITableView = UITableView(frame: .zero).set {
+    $0.translatesAutoresizingMaskIntoConstraints = false
+    $0.register(
+      PostViewBottomSheetCell.self,
+      forCellReuseIdentifier: PostViewBottomSheetCell.id)
+    $0.rowHeight = Constants.CategoryView.cellSize.height
+  }
   
   // MARK: - Lifecycle
-  private override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+  override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
     super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     setupUI()
   }
   
-  convenience init() {
-    self.init(nibName: nil, bundle: nil)
+  init() {
+    super.init(nibName: nil, bundle: nil)
+    setupUI()
   }
-  required init?(coder: NSCoder) { fatalError() }
+  
+  required init?(coder: NSCoder) {
+    super.init(coder: coder)
+    setupUI()
+  }
 }
 
+// MARK: - LayoutSupport
 extension PostViewBottomSheetViewController: LayoutSupport {
   func addSubviews() {
-    view.addSubview(categoryCollectionView)
+    view.addSubview(categoryView)
   }
   
   func setConstraints() {
-    [categoryCollectionView.leadingAnchor.constraint(
-      equalTo: view.leadingAnchor,
-      constant: Constant.CategoryCollectionView.spacing.leading),
-     categoryCollectionView.topAnchor.constraint(
-      equalTo: view.topAnchor,
-      constant: Constant.CategoryCollectionView.spacing.top),
-     categoryCollectionView.trailingAnchor.constraint(
-      equalTo: view.trailingAnchor,
-      constant: -Constant.CategoryCollectionView.spacing.trailing),
-     categoryCollectionView.bottomAnchor.constraint(
-      equalTo: view.bottomAnchor,
-      constant: -Constant.CategoryCollectionView.spacing.bottom)]
+    NSLayoutConstraint.activate(categoryViewConstraints)
+  }
+}
+
+// MARK: - LayoutSupport helper
+private extension PostViewBottomSheetViewController {
+  var categoryViewConstraints: [NSLayoutConstraint] {
+    typealias Inset = Constants.CategoryView.Inset
+    return [
+      categoryView.leadingAnchor.constraint(
+        equalTo: view.leadingAnchor),
+      categoryView.topAnchor.constraint(
+        equalTo: view.topAnchor,
+        constant: Inset.top),
+      categoryView.trailingAnchor.constraint(
+        equalTo: view.trailingAnchor),
+      categoryView.bottomAnchor.constraint(
+        equalTo: view.bottomAnchor)]
   }
 }
