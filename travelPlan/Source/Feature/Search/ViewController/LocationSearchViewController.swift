@@ -11,5 +11,6 @@ final class LocationSearchViewController: UIViewController {
   
   override func viewDidLoad() {
     view.backgroundColor = .yellow
+  
   }
 }

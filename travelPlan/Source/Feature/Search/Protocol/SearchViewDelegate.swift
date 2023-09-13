@@ -6,7 +6,8 @@
 //
 
 import Foundation
+import UIKit.UIButton
 
 protocol SearchViewDelegate: AnyObject {
-  func didTapSearchButton(text: String)
+  func didTapSearchButton(_ searchView: SearchView, text: String)
 }

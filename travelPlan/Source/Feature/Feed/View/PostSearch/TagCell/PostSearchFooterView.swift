@@ -35,7 +35,12 @@ extension PostSearchFooterView: LayoutSupport {
   func setConstraints() {
     underLineView.setConstraint(
       fromSuperView: self,
-      spacing: .init(leading: 20, top: 10, trailing: 20, bottom: 10)
+      spacing: .init(
+        leading: Constants.Inset.leading,
+        top: Constants.Inset.top,
+        trailing: Constants.Inset.trailing,
+        bottom: Constants.Inset.bottom
+      )
     )
   }
 }

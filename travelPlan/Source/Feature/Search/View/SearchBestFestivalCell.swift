@@ -5,53 +5,49 @@
 //  Created by SeokHyun on 2023/05/30.
 //
 
+import Combine
 import UIKit
+
 import SnapKit
 
 final class SearchBestFestivalCell: UICollectionViewCell {
   // MARK: - Properties
+  private var viewModel: SearchBestFestivalCellViewModel? {
+    didSet {
+      bind()
+    }
+  }
+  private lazy var input = Input()
+  private var subscriptions = Set<AnyCancellable>()
+  
   static var id: String {
     return String(describing: self)
   }
+  
   private let thumbnailImageView: UIImageView = .init().set {
-    $0.layer.cornerRadius = 3
+    $0.layer.cornerRadius = Constants.ThumbnailImageView.cornerRadius
     $0.contentMode = .scaleAspectFill
     $0.layer.masksToBounds = true
+    $0.isUserInteractionEnabled = true // UIImageView의 터치 이벤트를 감지하기 위해 인터랙션을 활성화
   }
   
-  private let heartButton: UIButton = .init().set {
-    $0.setImage(
-      UIImage(named: "unselectedHeart")?.withRenderingMode(.alwaysOriginal),
-      for: .normal
-    )
+  private lazy var heartButton: SearchHeartButton = .init().set {
+    $0.addTarget(self, action: #selector(didTapHeartButton), for: .touchUpInside)
   }
   
-  // NSAttributedStringTODO: - border 추가 https://easy-coding.tistory.com/89
   private let festivalLabel: UILabel = .init().set {
-    $0.font = UIFont(pretendard: .bold, size: 18)
+    $0.font = UIFont(pretendard: .bold, size: Constants.FestivalLabel.fontSize)
     $0.textColor = .yg.gray00Background
-    $0.numberOfLines = 1
+    $0.numberOfLines = Constants.FestivalLabel.numberOfLines
     $0.textAlignment = .center
-    
-    // shadowTODO: - shadow, blur 처리
-//    let attrString = NSAttributedString(string: "축제명축제명축제명", attributes: [
-//      .strokeColor: UIColor.black.withAlphaComponent(0.3),
-//      .foregroundColor: UIColor.white,
-//      .strokeWidth: 0.5,
-//      .font: UIFont(pretendard: .bold, size: 18) ?? .systemFont(ofSize: 18)
-//    ])
-//
-//    $0.attributedText = attrString
-    
-    $0.text = "축제명축제명축제명"
+    $0.text = "축제명"
   }
   
-  private let dateLabel: UILabel = .init().set {
-    $0.font = UIFont(pretendard: .semiBold, size: 12)
+  private let periodLabel: UILabel = .init().set {
+    $0.font = UIFont(pretendard: .semiBold, size: Constants.PeriodLabel.fontSize)
     $0.textColor = .yg.gray00Background
     $0.textAlignment = .center
-    
-    $0.text = "2023.12.30~2023.12.31"
+    $0.text = "날짜"
     // shadowTODO: - shadow, blur 처리
   }
   
@@ -69,6 +65,63 @@ final class SearchBestFestivalCell: UICollectionViewCell {
   override func prepareForReuse() {
     super.prepareForReuse()
     thumbnailImageView.image = nil
+    heartButton.isSelected = false
+    periodLabel.text = nil
+    festivalLabel.text = nil
+    subscriptions.removeAll()
+  }
+}
+
+// MARK: - Actions
+extension SearchBestFestivalCell {
+  @objc private func didTapHeartButton() {
+    input.didTapHeartButton.send()
+  }
+}
+
+// MARK: - ViewBindCase
+extension SearchBestFestivalCell: ViewBindCase {
+  typealias Input = SearchBestFestivalCellViewModel.Input
+  typealias ErrorType = SearchBestFestivalCellViewModel.ErrorType
+  typealias State = SearchBestFestivalCellViewModel.State
+  
+  internal func bind() {
+    guard let viewModel = self.viewModel else { return }
+    
+    let output = viewModel.transform(input)
+    output
+      .receive(on: RunLoop.main)
+      .sink { [weak self] completion in
+        switch completion {
+        case .finished:
+          print("DEBUG: finished SearchBestFestivalCell")
+        case .failure(let error):
+          self?.handleError(error)
+        }
+      } receiveValue: { [weak self] in
+        self?.render($0)
+      }
+      .store(in: &subscriptions)
+  }
+  
+  internal func render(_ state: State) {
+    switch state {
+    case .changeButtonColor:
+      // networkFIXME: - 서버의 저장에 따라 하트버튼 색의 UI를 변경해야합니다.
+      heartButton.isSelected.toggle()
+    case .none: break
+    }
+  }
+  
+  internal func handleError(_ error: ErrorType) {
+    switch error {
+    case .fatalError:
+      print("DEBUG: Error fatalError in SeachBestFestivalCell")
+    case .unexpected:
+      print("DEBUG: Error unexpected in SeachBestFestivalCell")
+    case .networkError:
+      print("DEBUG: Error networkError in SeachBestFestivalCell")
+    }
   }
 }
 
@@ -81,11 +134,14 @@ extension SearchBestFestivalCell {
 
 // MARK: - Configure
 extension SearchBestFestivalCell {
-  func configure(_ item: FestivalItem) {
-    festivalLabel.text = item.title
-    dateLabel.text = item.date
+  func configure(with viewModel: SearchBestFestivalCellViewModel) {
+    self.viewModel = viewModel
+    
+    festivalLabel.text = viewModel.title
+    periodLabel.text = viewModel.periodString
+    heartButton.isSelected = viewModel.isSelectedButton
     // imageTODO: - 이미지 적용
-    thumbnailImageView.image = UIImage(named: item.imageName ?? "tempThumbnail15")
+    thumbnailImageView.image = UIImage(named: viewModel.thumbnailImage ?? "tempThumbnail7")
   }
 }
 
@@ -95,7 +151,7 @@ extension SearchBestFestivalCell: LayoutSupport {
     contentView.addSubview(thumbnailImageView)
     thumbnailImageView.addSubview(heartButton)
     thumbnailImageView.addSubview(festivalLabel)
-    thumbnailImageView.addSubview(dateLabel)
+    thumbnailImageView.addSubview(periodLabel)
   }
   
   func setConstraints() {
@@ -104,21 +160,24 @@ extension SearchBestFestivalCell: LayoutSupport {
     }
     
     heartButton.snp.makeConstraints {
-      $0.top.equalToSuperview().inset(8)
-      $0.right.equalToSuperview().inset(8)
-      $0.size.equalTo(20)
+      $0.top.equalToSuperview().inset(Constants.HeartButton.Inset.top)
+      $0.trailing.equalToSuperview().inset(Constants.HeartButton.Inset.trailing)
+      $0.size.equalTo(Constants.HeartButton.size)
     }
     
     festivalLabel.snp.makeConstraints {
-      $0.leading.equalToSuperview().inset(4)
-      $0.trailing.lessThanOrEqualToSuperview().inset(4)
+      $0.leading.equalToSuperview().inset(Constants.FestivalLabel.Inset.leading)
+      $0.trailing.lessThanOrEqualToSuperview()
+        .inset(Constants.FestivalLabel.Inset.trailing)
     }
     
-    dateLabel.snp.makeConstraints {
+    periodLabel.snp.makeConstraints {
       $0.top.equalTo(festivalLabel.snp.bottom)
-      $0.leading.equalTo(4)
-      $0.trailing.lessThanOrEqualToSuperview().inset(4)
-      $0.bottom.equalToSuperview().inset(6)
+      $0.leading.equalTo(festivalLabel)
+      $0.trailing.lessThanOrEqualToSuperview()
+        .inset(Constants.PeriodLabel.Inset.trailing)
+      $0.bottom.equalToSuperview()
+        .inset(Constants.PeriodLabel.Inset.bottom)
     }
   }
 }

@@ -6,39 +6,46 @@
 //
 
 import Combine
-import UIKit
+import Foundation
 
 final class PostSearchViewModel {
-  typealias SectionType = PostSearchSectionItemModel.SectionType
-  
   // MARK: - Properties
-  private var model: [PostSearchSectionItemModel] = [
-    PostSearchSectionItemModel(
-      type: .recommendation,
-      items: ["추천1", "추천22", "추천33333", "추천444"]
-    ),
-    PostSearchSectionItemModel(
-      type: .recent,
-      items: ["최근검색11", "최근검색22222", "최근검색3333", "최근검색4", "최근검색555"]
-    )
-  ]
+  private var sectionModels: [PostSearchSectionModel] = []
+  private var recentModels: [String] = []
+  
+  // MARK: - LifeCycle
+  deinit {
+    print("deinit: \(Self.self)")
+  }
 }
 
 // MARK: - ViewModelCase
 extension PostSearchViewModel: ViewModelCase {
+  typealias Output = AnyPublisher<State, ErrorType>
   
   func transform(_ input: Input) -> Output {
     return Publishers.MergeMany([
+      viewDidLoadStream(input),
       didChangeTextFieldStream(input),
       didTapShearchButtonStream(input),
       didSelectedItemStream(input),
       didTapDeleteAllButtonStream(input),
-      didTapDeleteButtonStream(input),
-      didTapAlertConfirmButtonStream(input),
+      didTapRecentSeaerchTagDeleteButtonStream(input),
+      didTapDeleteAllAlertStream(input),
       didTapBackButtonStream(input),
       didTapCollectionViewStream(input),
       didTapAlertCancelButtonStream(input)
     ]).eraseToAnyPublisher()
+  }
+  
+  private func viewDidLoadStream(_ input: Input) -> Output {
+    return input.viewDidLoad
+      .map { [weak self] in
+        self?.loadData()
+        return State.none
+      }
+      .setFailureType(to: ErrorType.self)
+      .eraseToAnyPublisher()
   }
   
   private func didTapAlertCancelButtonStream(_ input: Input) -> Output {
@@ -92,9 +99,18 @@ extension PostSearchViewModel: ViewModelCase {
   private func didSelectedItemStream(_ input: Input) -> Output {
     return input.didSelectedItem
       .tryMap { [weak self] indexPath in
-        State.gotoSearch(
-          searchText: self?.model[indexPath.section].items[indexPath.item] ?? ""
-        )
+        var searchText = ""
+        
+        switch self?.sectionModels[indexPath.section].sectionItem {
+        case let .recommendation(items):
+          searchText = items[indexPath.item]
+        case let .recent(items):
+          searchText = items[indexPath.item]
+        case .none:
+          throw ErrorType.invalidDataSource
+        }
+        
+        return State.gotoSearch(searchText: searchText)
       }
       .mapError { $0 as? ErrorType ?? .unexpected }
       .eraseToAnyPublisher()
@@ -107,22 +123,27 @@ extension PostSearchViewModel: ViewModelCase {
       .eraseToAnyPublisher()
   }
   
-  private func didTapDeleteButtonStream(_ input: Input) -> Output {
-    return input.didTapDeleteButton
-      .tryMap { [weak self] item, section in
-        self?.removeItemModel(item: item, section: section)
-        return State.deleteCell(section: section)
+  private func didTapRecentSeaerchTagDeleteButtonStream(_ input: Input) -> Output {
+    return input.didTapRecentSearchTagDeleteButton
+      .tryMap { [weak self] index in
+        self?.removeRecentItem(at: index)
+        return .reloadData
       }
       .mapError { $0 as? ErrorType ?? .unexpected }
       .eraseToAnyPublisher()
   }
   
-  private func didTapAlertConfirmButtonStream(_ input: Input) -> Output {
-    return input.didTapAlertConfirmButton
-      .tryMap { [weak self] in
-        print("DEBUG: 확인 버튼 클릭됨")
-        self?.model[SectionType.recent.index].items.removeAll()
-        return State.deleteAllCells(section: SectionType.recent.index)
+  private func didTapDeleteAllAlertStream(_ input: Input) -> Output {
+    return input.didTapDeleteAllAlert
+      .flatMap { [weak self] in
+        // networkTODO: - 추후 서버와의 통신을 통해 delete를 수행해야합니다.
+        // bindingTestTODO: - 바인딩이 잘 되었는지 확인하기
+        return Future { promise in
+          DispatchQueue.global().asyncAfter(deadline: .now()) { [weak self] in
+            self?.removeAllRecentItems()
+            promise(.success(.reloadData))
+          }
+        }
       }
       .mapError { $0 as? ErrorType ?? .unexpected }
       .eraseToAnyPublisher()
@@ -131,8 +152,53 @@ extension PostSearchViewModel: ViewModelCase {
 
 // MARK: - Helpers
 extension PostSearchViewModel {
-  private func removeItemModel(item: Int, section: Int) {
-    model[section].items.remove(at: item)
+  private func loadData() {
+    // recommendation
+    let recommendatoinModels = PostSearchSectionModel.createRecommendationMock()
+    let transformedModels = recommendatoinModels.map { "#"+$0 }
+    
+    sectionModels.append(
+      PostSearchSectionModel(
+        sectionItem: .recommendation(items: transformedModels),
+        section: .recommendation(title: PostSearchSectionModel.createRecommendationHeaderMock())
+      )
+    )
+    
+    // recent
+    self.recentModels = PostSearchSectionModel.createRecentMock()
+    sectionModels.append(
+      PostSearchSectionModel(
+        sectionItem: .recent(items: recentModels),
+        section: .recent(title: PostSearchSectionModel.createRecentHeaderMock())
+      )
+    )
+  }
+  
+  private func removeAllRecentItems() {
+    self.recentModels.removeAll()
+    updateRecentItem(with: recentModels)
+  }
+  
+  private func removeRecentItem(at index: Int) {
+    self.recentModels.remove(at: index)
+    updateRecentItem(with: recentModels)
+  }
+  
+  private func updateRecentItem(with recentItems: [String]) {
+    guard let index = self.sectionModels.firstIndex(where: isRecentSection(item:)) else {
+      return
+    }
+    
+    sectionModels[index].sectionItem = .recent(items: recentItems)
+  }
+  
+  // recent section이 있는지 확인합니다.
+  private func isRecentSection(item: PostSearchSectionModel) -> Bool {
+    if case .recent = item.sectionItem {
+      return true
+    } else {
+      return false
+    }
   }
   
   private func isValueChanged(text: String) -> Bool {
@@ -142,77 +208,33 @@ extension PostSearchViewModel {
   }
 }
 
-// MARK: - Public Helpers
-extension PostSearchViewModel {
-  func sizeForItem(at indexPath: IndexPath) -> CGSize {
-    // label과 cell간의 padding
-    let widthPadding: CGFloat = 13
-    let heightPadding: CGFloat = 4
-    
-    let text = model[indexPath.section].items[indexPath.item]
-    let textSize = (text as NSString)
-      .size(withAttributes: [.font: UIFont(pretendard: .medium, size: 14)!])
-    
-    switch indexPath.section {
-    case SectionType.recommendation.index:
-      return CGSize(
-        width: textSize.width + (widthPadding * 2),
-        height: textSize.height + (heightPadding * 2)
-      )
-    case SectionType.recent.index:
-      let buttonWidth: CGFloat = 10
-      let componentPadding: CGFloat = 4
-      let width = textSize.width + componentPadding + buttonWidth + (widthPadding * 2)
-      
-      return CGSize(
-        width: width,
-        height: textSize.height + (heightPadding * 2)
-      )
-    default: return CGSize()
+// MARK: - PostSearchCollectionViewDataSource
+extension PostSearchViewModel: PostSearchCollectionViewDataSource {
+  func getTextString(at indexPath: IndexPath) -> String {
+    switch sectionModels[indexPath.section].sectionItem {
+    case let .recent(items): return items[indexPath.item]
+    case let .recommendation(items): return items[indexPath.item]
     }
   }
   
   func numberOfSections() -> Int {
-    return SectionType.allCases.count
+    return sectionModels.count
   }
   
-  func fetchTagString(
-    _ tagCell: PostSearchTagCell,
-    at indexPath: IndexPath
-  ) -> String {
-    // 하나의 Cell class를 재사용해서 변형시키므로, section별로 Cell 구분화
-    switch indexPath.section {
-    case SectionType.recommendation.index:
-      tagCell.initSectionType(with: .recommendation)
-    case SectionType.recent.index:
-      tagCell.initSectionType(with: .recent)
-    default: break
-    }
-    tagCell.deleteButton?.tag = indexPath.item
-    
-    return model[indexPath.section].items[indexPath.item]
+  func cellForItems(at section: Int) -> PostSearchSectionModel.Item {
+    return sectionModels[section].sectionItem
   }
   
-  func numberOfItemsInSection(_ section: Int) -> Int {
-    return model[section].items.count
-  }
-  
-  func fetchHeaderTitle(
-    _ headerView: PostSearchHeaderView,
-    in section: Int
-  ) -> String {
-    switch section {
-    case SectionType.recommendation.index:
-      headerView.initSectionType(with: .recommendation)
-      return SectionType.recommendation.headerTitle
-    case SectionType.recent.index:
-      headerView.initSectionType(with: .recent)
-      return SectionType.recent.headerTitle
-    default: return ""
+  func numberOfItems(in section: Int) -> Int {
+    switch sectionModels[section].sectionItem {
+    case let .recommendation(items):
+      return items.count
+    case let .recent(items):
+      return items.count
     }
   }
-  
-  func isRecentSection(in section: Int) -> Bool {
-    return section == SectionType.recent.index
+
+  func fetchHeaderTitle(in section: Int) -> PostSearchSectionModel.Section {
+    return sectionModels[section].section
   }
 }
