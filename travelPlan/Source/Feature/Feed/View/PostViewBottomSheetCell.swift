@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class PostViewBottomSheetCell: UICollectionViewCell {
+final class PostViewBottomSheetCell: UITableViewCell {
   // MARK: - Identnfier
   static let id: String = .init(
     describing: PostViewBottomSheetCell.self)
@@ -34,8 +34,9 @@ final class PostViewBottomSheetCell: UICollectionViewCell {
   }
   
   // MARK: - Lifecycle
-  override init(frame: CGRect) {
-    super.init(frame: frame)
+  override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+    super.init(style: style, reuseIdentifier: reuseIdentifier)
+    setupUI()
   }
   
   required init?(coder: NSCoder) {
