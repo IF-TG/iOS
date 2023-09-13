@@ -14,11 +14,11 @@ final class PostViewHeaderCategoryView: UICollectionReusableView {
   
   // MARK: - Properties
   private let totalView = MoreCategoryView().set {
-    $0.configure(with: .total)
+    $0.configure(with: .trend)
   }
   
   private let sortingView = MoreCategoryView().set {
-    $0.configure(with: .sorting)
+    $0.configure(with: .detailCategory)
   }
   
   var totalViewDelegate: MoreCategoryViewDelegate? {

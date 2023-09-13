@@ -53,8 +53,11 @@ class PostView: UICollectionView {
 }
 
 extension PostView: MoreCategoryViewDelegate {
-  func didTapMoreCategoryView(with type: TravelCategoryDetailType) {
-    let data: [Notification.Name: TravelCategoryDetailType] = [.TravelCategoryDetailSelected: type]
+  func moreCategoryView(
+    _ moreCategoryView: MoreCategoryView,
+    didSelectedType type: TravelCategorySortingType
+  ) {
+    let data: [Notification.Name: TravelCategorySortingType] = [.TravelCategoryDetailSelected: type]
     NotificationCenter.default.post(
       name: .TravelCategoryDetailSelected,
       object: nil,

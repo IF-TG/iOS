@@ -18,6 +18,12 @@ final class MoreCategoryView: UIView {
     $0.contentMode = .scaleAspectFit
   }
   
+  private var isSelected: Bool = false {
+    didSet {
+      animateMoreIcon()
+    }
+  }
+  
   private let categoryLabel = UILabel().set {
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.textColor = Constant.CategoryLabel.color
@@ -26,7 +32,7 @@ final class MoreCategoryView: UIView {
     $0.sizeToFit()
   }
   
-  private var categoryType: MoreCategoryType = .total
+  private var categoryType: TravelCategorySortingType = .detailCategory
   
   // MARK: - LifeCycle
   private override init(frame: CGRect) {
@@ -48,18 +54,37 @@ final class MoreCategoryView: UIView {
 
 extension MoreCategoryView {
   @objc func didTapView() {
-    delegate?.didTapMoreCategoryView(with: categoryType)
+    isSelected.toggle()
+    delegate?.moreCategoryView(
+      self,
+      didSelectedType: categoryType)
   }
 }
 
 // MARK: - Helper
 extension MoreCategoryView {
-  func configure(with type: MoreCategoryType) {
-    categoryLabel.text = type.toString
+  func configure(with type: TravelCategorySortingType) {
+    categoryLabel.text = type.rawValue
     categoryType = type
     isUserInteractionEnabled = true
     let tap = UITapGestureRecognizer(target: self, action: #selector(didTapView))
     addGestureRecognizer(tap)
+  }
+}
+
+// MARK: - Private helper
+private extension MoreCategoryView {
+  func animateMoreIcon() {
+    guard isSelected else {
+      UIView.animate(withDuration: 0.2) {
+        self.moreIcon.transform = .identity
+      }
+      return
+    }
+    UIView.animate(withDuration: 0.2) {
+      self.moreIcon.transform = .init(rotationAngle: 1)
+    }
+    
   }
 }
 
