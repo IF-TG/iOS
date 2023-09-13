@@ -1,5 +1,5 @@
 //
-//  Region.swift
+//  TravelRegion.swift
 //  travelPlan
 //
 //  Created by 양승현 on 2023/09/13.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum Region: String, CaseIterable {
+enum TravelRegion: String, CaseIterable {
   case seoul = "서울"
   case busan = "부산"
   case incheon = "인천"
