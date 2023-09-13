@@ -6,5 +6,5 @@
 //
 
 protocol MoreCategoryViewDelegate: AnyObject {
-  func didTapMoreCategoryView(with type: MoreCategoryType)
+  func moreCategoryView(_ moreCategoryView: MoreCategoryView, didSelectedType type: TravelCategoryDetailType)
 }
