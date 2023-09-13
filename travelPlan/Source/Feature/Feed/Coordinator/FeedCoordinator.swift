@@ -37,7 +37,7 @@ extension FeedCoordinator {
   
   func gotoTotalBottomSheetPage() {
     let sheetViewController = PostViewBottomSheetViewController()
-    presenter.present(sheetViewController, animated: true)
+    presenter.present(sheetViewController, animated: false)
   }
   
   func gotoSortBottomSheetPage() {
