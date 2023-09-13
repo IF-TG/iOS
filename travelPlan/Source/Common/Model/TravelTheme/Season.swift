@@ -12,8 +12,4 @@ enum Season: String, CaseIterable {
   case summer = "여름"
   case fall = "가을"
   case winter = "겨울"
-  
-  static var count: Int {
-    Self.allCases.count
-  }
 }

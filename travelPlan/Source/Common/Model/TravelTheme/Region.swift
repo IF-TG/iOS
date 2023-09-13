@@ -25,8 +25,4 @@ enum Region: String, CaseIterable {
   case gyeongsangnamdo = "경상남도"
   case gangwonSpecialSelfGoverningProvince = "강원특별자치도"
   case jejuSpecialSelfGoverningProvince = "제주특별자치도"
-  
-  static var count: Int {
-    Self.allCases.count
-  }
 }

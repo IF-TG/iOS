@@ -23,10 +23,6 @@ enum TravelThemeType: CaseIterable {
      .partner,
      .categoryDevelop]
   }
-  
-  static var count: Int {
-    Self.allCases.count
-  }
 }
 
 // MARK: - RawRepresentable
