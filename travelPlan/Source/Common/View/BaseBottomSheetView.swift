@@ -49,6 +49,11 @@ class BaseBottomSheetView: UIView {
     configureUI()
   }
   
+  convenience init() {
+    self.init(frame: .zero)
+    translatesAutoresizingMaskIntoConstraints = false
+  }
+  
   // MARK: - Helper
   func setContentView(_ contentView: UIView) {
     self.contentView.addSubview(contentView)
@@ -71,7 +76,7 @@ extension BaseBottomSheetView: LayoutSupport {
     _=[topView,
        topIndicatorView,
        contentView
-    ].map  {
+    ].map {
       addSubview($0)
     }
   }
