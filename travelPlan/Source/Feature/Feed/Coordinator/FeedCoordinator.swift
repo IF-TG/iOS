@@ -34,4 +34,12 @@ extension FeedCoordinator {
     let childCoordinator = PostSearchCoordinator(presenter: presenter)
     addChild(with: childCoordinator)
   }
+  
+  func gotoTotalBottomSheetPage() {
+    let sheetViewController = PostViewBottomSheetViewController()
+    presenter.present(sheetViewController, animated: true)
+  }
+  
+  func gotoSortBottomSheetPage() {
+  }
 }
