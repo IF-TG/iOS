@@ -9,7 +9,7 @@ import Foundation
 
 final class CategoryPageViewModel {
   // MARK: - Properties
-  let data = categoryData
+  private let travelThemeList: [String] = TravelThemeType.allCases.map { $0.rawValue }
   let mockPostData = MockPostModel().initMockData()
 }
 
@@ -29,7 +29,7 @@ extension CategoryPageViewModel {
 // MARK: - CategoryPageViewDataSource
 extension CategoryPageViewModel: CategoryPageViewDataSource {
   var numberOfItems: Int {
-    data.count
+    travelThemeList.count
   }
   
   func categoryDetailViewCellItem(at index: Int) -> [PostModel] {
@@ -37,6 +37,6 @@ extension CategoryPageViewModel: CategoryPageViewDataSource {
   }
   
   func categoryViewCellItem(at index: Int) -> String {
-    return data[index]
+    return travelThemeList[index]
   }
 }

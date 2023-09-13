@@ -61,7 +61,7 @@ private extension CategoryPageView {
     }
      
     let lb = UILabel()
-    lb.text = vm.data[indexPath.row]
+    lb.text = vm.categoryViewCellItem(at: indexPath.row)
     lb.font = UIFont.systemFont(
       ofSize: CategoryViewCell.Constant.Title.fontSize)
     lb.sizeToFit()
