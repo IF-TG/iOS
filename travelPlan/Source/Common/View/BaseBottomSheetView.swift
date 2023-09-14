@@ -9,6 +9,7 @@ import UIKit
 
 class BaseBottomSheetView: UIView {
   enum Constants {
+    static let cornerRadius: CGFloat = 8
     enum TopView {
       static let height: CGFloat = 20
     }
@@ -26,6 +27,7 @@ class BaseBottomSheetView: UIView {
   // MARK: - Properties
   private let topView = UIView(frame: .zero).set {
     $0.translatesAutoresizingMaskIntoConstraints = false
+    $0.backgroundColor = .white
   }
   
   private let topIndicatorView = UIView(frame: .zero).set {
@@ -54,6 +56,13 @@ class BaseBottomSheetView: UIView {
     translatesAutoresizingMaskIntoConstraints = false
   }
   
+  init(radius: CGFloat) {
+    super.init(frame: .zero)
+    translatesAutoresizingMaskIntoConstraints = false
+    layer.cornerRadius = radius
+    configureUI()
+  }
+  
   // MARK: - Helper
   func setContentView(_ contentView: UIView) {
     self.contentView.addSubview(contentView)
@@ -65,9 +74,16 @@ class BaseBottomSheetView: UIView {
     layoutIfNeeded()
   }
   
+  func setCornerRadius(_ radius: CGFloat) {
+    layer.cornerRadius = Constants.cornerRadius
+  }
+  
   // MARK: - Private helper
   func configureUI() {
     setupUI()
+    layer.cornerRadius = Constants.cornerRadius
+    clipsToBounds = true
+    layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
   }
 }
 // MARK: - LayoutSupportable
