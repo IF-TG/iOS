@@ -18,7 +18,7 @@ class BaseBottomSheetViewController: UIViewController {
   }
   
   // MARK: - Properties
-  private var bottomSheetView = BaseBottomSheetView()
+  private var bottomSheetView = BottomSheetView()
   
   private var safeAreaBottomView = UIView(frame: .zero).set {
     $0.translatesAutoresizingMaskIntoConstraints = false
@@ -53,6 +53,21 @@ class BaseBottomSheetViewController: UIViewController {
     hideViewWithAnimation()
     hideBottomSheetWithAnimation {
       super.dismiss(animated: flag, completion: completion)
+    }
+  }
+  
+  override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    if let touch = touches.first {
+      let hitCount = view.subviews.filter {
+        let position = touch.location(in: view)
+        guard $0.frame.contains(position) else {
+          return false
+        }
+        return true
+      }.count
+      if hitCount < 1 {
+        dismiss(animated: false)
+      }
     }
   }
   
