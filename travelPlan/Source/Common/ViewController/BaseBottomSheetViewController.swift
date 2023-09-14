@@ -9,7 +9,7 @@ import UIKit
  
 class BaseBottomSheetViewController: UIViewController {
   enum Constants {
-    static let animationDuration = 0.37
+    static let animationDuration: CGFloat = 0.43
     static let bgColor = UIColor(hex: "#000000", alpha: 0.1)
     
     enum BottomSheetView {
@@ -30,12 +30,9 @@ class BaseBottomSheetViewController: UIViewController {
     .constraint(equalToConstant: Constants.BottomSheetView.minimumHeihgt)
   
   // MARK: - Lifecycle
-  override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-    super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-  }
   
-  convenience init() {
-    self.init(nibName: nil, bundle: nil)
+  init() {
+    super.init(nibName: nil, bundle: nil)
   }
   
   required init?(coder: NSCoder) {
@@ -51,12 +48,14 @@ class BaseBottomSheetViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     configureUI()
+    DispatchQueue.main.asyncAfter(deadline: .now()+3, execute: {self.dismiss(animated: false)})
   }
   
-  override func viewWillDisappear(_ animated: Bool) {
-    super.viewWillDisappear(animated)
+  override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
     hideViewWithAnimation()
-    hideBottomSheetWithAnimation()
+    hideBottomSheetWithAnimation {
+      super.dismiss(animated: flag, completion: completion)
+    }
   }
   
   // MARK: - Helper
@@ -89,7 +88,7 @@ class BaseBottomSheetViewController: UIViewController {
       delay: 0,
       options: .curveEaseInOut
     ) {
-      self.view.backgroundColor = .clear
+      self.view.backgroundColor = .none
     }
   }
   
@@ -106,14 +105,17 @@ class BaseBottomSheetViewController: UIViewController {
     }
   }
   
-  private func hideBottomSheetWithAnimation() {
+  private func hideBottomSheetWithAnimation(_ completion: @escaping () -> Void) {
     UIView.animate(
       withDuration: Constants.animationDuration,
       delay: 0,
-      options: .curveEaseInOut
-    ) {
+      options: .curveEaseInOut,
+      animations: {
       self.bottomSheetView.transform = .init(translationX: 0, y: self.view.bounds.height)
       self.safeAreaBottomView.transform = .init(translationX: 0, y: self.view.bounds.height)
+      }
+    ) { _ in
+      completion()
     }
   }
 }
