@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol BottomSheetViewDelegate: AnyObject {
+  func bottomSheetView(_ bottomSheetView: BottomSheetView, withPenGesture gesture: UIPanGestureRecognizer)
+}
+
 class BottomSheetView: UIView {
   enum Constants {
     static let cornerRadius: CGFloat = 8
@@ -39,6 +43,8 @@ class BottomSheetView: UIView {
   private var contentView = UIView(frame: .zero).set {
     $0.translatesAutoresizingMaskIntoConstraints = false
   }
+  
+  weak var delegate: BottomSheetViewDelegate?
   
   // MARK: - Lifecycle
   override init(frame: CGRect) {
@@ -96,7 +102,7 @@ class BottomSheetView: UIView {
   
   // MARK: - Action
   @objc func handlePanGesture(_ gesture: UIPanGestureRecognizer) {
-    print("무야호")
+    delegate?.bottomSheetView(self, withPenGesture: gesture)
   }
 }
 // MARK: - LayoutSupportable
