@@ -30,7 +30,6 @@ class BaseBottomSheetViewController: UIViewController {
     .constraint(equalToConstant: Constants.BottomSheetView.minimumHeihgt)
   
   // MARK: - Lifecycle
-  
   init() {
     super.init(nibName: nil, bundle: nil)
   }
@@ -48,7 +47,6 @@ class BaseBottomSheetViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     configureUI()
-    DispatchQueue.main.asyncAfter(deadline: .now()+3, execute: {self.dismiss(animated: false)})
   }
   
   override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
