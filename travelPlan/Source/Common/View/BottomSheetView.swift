@@ -1,5 +1,5 @@
 //
-//  BaseBottomSheetView.swift
+//  BottomSheetView.swift
 //  travelPlan
 //
 //  Created by 양승현 on 2023/09/14.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class BaseBottomSheetView: UIView {
+class BottomSheetView: UIView {
   enum Constants {
     static let cornerRadius: CGFloat = 8
     enum TopView {
@@ -81,13 +81,26 @@ class BaseBottomSheetView: UIView {
   // MARK: - Private helper
   func configureUI() {
     setupUI()
+    setGesture()
     layer.cornerRadius = Constants.cornerRadius
     clipsToBounds = true
     layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
   }
+  
+  func setGesture() {
+    let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture))
+    panGesture.delaysTouchesBegan = false
+    panGesture.delaysTouchesEnded = false
+    topView.addGestureRecognizer(panGesture)
+  }
+  
+  // MARK: - Action
+  @objc func handlePanGesture(_ gesture: UIPanGestureRecognizer) {
+    print("무야호")
+  }
 }
 // MARK: - LayoutSupportable
-extension BaseBottomSheetView: LayoutSupport {
+extension BottomSheetView: LayoutSupport {
   func addSubviews() {
     _=[topView,
        topIndicatorView,
@@ -108,7 +121,7 @@ extension BaseBottomSheetView: LayoutSupport {
 }
 
 // MARK: - Layout supportable private helper
-private extension BaseBottomSheetView {
+private extension BottomSheetView {
   var topViewConstraints: [NSLayoutConstraint] {
     typealias Const = Constants.TopView
     return [
