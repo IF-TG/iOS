@@ -9,6 +9,7 @@ import UIKit
  
 class BaseBottomSheetViewController: UIViewController {
   enum Constants {
+    static let animationDuration = 0.37
     static let bgColor = UIColor(hex: "#000000", alpha: 0.1)
     
     enum BottomSheetView {
@@ -31,7 +32,6 @@ class BaseBottomSheetViewController: UIViewController {
   // MARK: - Lifecycle
   override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
     super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-    modalPresentationStyle = .overFullScreen
   }
   
   convenience init() {
@@ -40,12 +40,23 @@ class BaseBottomSheetViewController: UIViewController {
   
   required init?(coder: NSCoder) {
     super.init(coder: coder)
-    modalPresentationStyle = .overFullScreen
+  }
+  
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    showViewWithAnimation()
+    showBottomSheetWithAnimation()
   }
   
   override func viewDidLoad() {
     super.viewDidLoad()
     configureUI()
+  }
+  
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    hideViewWithAnimation()
+    hideBottomSheetWithAnimation()
   }
   
   // MARK: - Helper
@@ -60,8 +71,50 @@ class BaseBottomSheetViewController: UIViewController {
   // MARK: - Private helper
   private func configureUI() {
     setupUI()
-    view.backgroundColor = Constants.bgColor
-    view.bringSubviewToFront(safeAreaBottomView)
+  }
+  
+  private func showViewWithAnimation() {
+    UIView.animate(
+      withDuration: Constants.animationDuration,
+      delay: 0,
+      options: .curveEaseInOut
+    ) {
+      self.view.backgroundColor = Constants.bgColor
+    }
+  }
+  
+  private func hideViewWithAnimation() {
+    UIView.animate(
+      withDuration: Constants.animationDuration,
+      delay: 0,
+      options: .curveEaseInOut
+    ) {
+      self.view.backgroundColor = .clear
+    }
+  }
+  
+  private func showBottomSheetWithAnimation() {
+    bottomSheetView.transform = .init(translationX: 0, y: self.view.bounds.height)
+    safeAreaBottomView.transform = .init(translationX: 0, y: self.view.bounds.height)
+    UIView.animate(
+      withDuration: Constants.animationDuration,
+      delay: 0,
+      options: .curveEaseInOut
+    ) {
+      self.bottomSheetView.transform = .identity
+      self.safeAreaBottomView.transform = .identity
+    }
+  }
+  
+  private func hideBottomSheetWithAnimation() {
+    UIView.animate(
+      withDuration: Constants.animationDuration,
+      delay: 0,
+      options: .curveEaseInOut
+    ) {
+      self.bottomSheetView.transform = .init(translationX: 0, y: self.view.bounds.height)
+      self.safeAreaBottomView.transform = .init(translationX: 0, y: self.view.bounds.height)
+    }
   }
 }
 
