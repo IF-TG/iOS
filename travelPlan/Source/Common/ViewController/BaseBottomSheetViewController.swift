@@ -9,7 +9,10 @@ import UIKit
  
 class BaseBottomSheetViewController: UIViewController {
   enum Constants {
+    static let bgColor = UIColor(hex: "#000000", alpha: 0.1)
+    
     enum BottomSheetView {
+      static let minimumHeihgt: CGFloat = 50
     }
   }
   
@@ -21,10 +24,14 @@ class BaseBottomSheetViewController: UIViewController {
     $0.backgroundColor = .white
   }
   
+  private lazy var bottomSheetHeight: NSLayoutConstraint = bottomSheetView
+    .heightAnchor
+    .constraint(equalToConstant: Constants.BottomSheetView.minimumHeihgt)
+  
   // MARK: - Lifecycle
   override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
     super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-    configureUI()
+    modalPresentationStyle = .overFullScreen
   }
   
   convenience init() {
@@ -33,14 +40,28 @@ class BaseBottomSheetViewController: UIViewController {
   
   required init?(coder: NSCoder) {
     super.init(coder: coder)
+    modalPresentationStyle = .overFullScreen
+  }
+  
+  override func viewDidLoad() {
+    super.viewDidLoad()
     configureUI()
   }
   
   // MARK: - Helper
+  func setContentView(_ contentView: UIView) {
+    bottomSheetView.setContentView(contentView)
+  }
+  
+  func setCornerRadius(_ radius: CGFloat) {
+    bottomSheetView.setCornerRadius(radius)
+  }
   
   // MARK: - Private helper
   private func configureUI() {
     setupUI()
+    view.backgroundColor = Constants.bgColor
+    view.bringSubviewToFront(safeAreaBottomView)
   }
 }
 
@@ -71,6 +92,7 @@ private extension BaseBottomSheetViewController {
       bottomSheetView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
       bottomSheetView.topAnchor.constraint(
         greaterThanOrEqualTo: view.safeAreaLayoutGuide.topAnchor),
+      bottomSheetHeight,
       bottomSheetView.bottomAnchor.constraint(
         equalTo: view.safeAreaLayoutGuide.bottomAnchor)]
   }
@@ -79,7 +101,7 @@ private extension BaseBottomSheetViewController {
     return [
       safeAreaBottomView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
       safeAreaBottomView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-      safeAreaBottomView.topAnchor.constraint(equalTo: bottomSheetView.bottomAnchor),
+      safeAreaBottomView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
       safeAreaBottomView.bottomAnchor.constraint(equalTo: view.bottomAnchor)]
   }
 }
