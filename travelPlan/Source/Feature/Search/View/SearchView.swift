@@ -65,13 +65,18 @@ final class SearchView: UIView {
     $0.cornerRadius = SearchView.Constants.cornerRadius
   }
   
-  override var bounds: CGRect {
-    didSet {
-      shadowLayer.frame = self.bounds
-    }
+  // MARK: - LifeCycle
+  override func layoutSubviews() {
+    super.layoutSubviews()
+
+    shadowLayer.frame = self.bounds
+    
+    shadowLayer.shadowPath = UIBezierPath(
+      roundedRect: shadowLayer.bounds,
+      cornerRadius: SearchView.Constants.cornerRadius
+    ).cgPath
   }
   
-  // MARK: - LifeCycle
   override init(frame: CGRect) {
     super.init(frame: frame)
     setupUI()
