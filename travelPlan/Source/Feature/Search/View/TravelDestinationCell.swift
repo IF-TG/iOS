@@ -11,7 +11,6 @@ import Combine
 
 final class TravelDestinationCell: UICollectionViewCell {
   enum Constants {
-    // MARK: - ThumbnailImageView
     enum ThumbnailImageView {
       static let imageName = "tempThumbnail1"
       static let cornerRadius: CGFloat = 3
@@ -20,15 +19,13 @@ final class TravelDestinationCell: UICollectionViewCell {
         static let bottom: CGFloat = 5
       }
     }
-    // MARK: - LabelStackView
+    
     enum LabelStackView {
-      static let spacing: CGFloat = 0
       enum Offset {
         static let leading: CGFloat = 15
         static let trailing: CGFloat = -20
       }
     }
-    // MARK: - HeartButton
     enum HeartButton {
       static let size: CGFloat = 24
       enum Inset {
@@ -36,17 +33,14 @@ final class TravelDestinationCell: UICollectionViewCell {
         static let trailing: CGFloat = 16
       }
     }
-    // MARK: - PlaceLabel
     enum PlaceLabel {
       static let fontSize: CGFloat = 16
-      static let numberOfLines = 1
+      static let numberOfLines = 2
     }
-    // MARK: - CategoryLabel
     enum CategoryLabel {
       static let fontSize: CGFloat = 14
       static let numberOfLines = 1
     }
-    // MARK: - AreaLabel
     enum AreaLabel {
       static let size: CGFloat = 14
       static let numberOfLines = 1
@@ -77,7 +71,7 @@ final class TravelDestinationCell: UICollectionViewCell {
   
   private let titleLabel: UILabel = UILabel().set {
     $0.font = .init(pretendard: .semiBold, size: Constants.PlaceLabel.fontSize)
-    $0.text = "관광 장소명"
+    $0.text = "n/a"
     $0.textColor = .yg.gray6
     $0.numberOfLines = Constants.PlaceLabel.numberOfLines
   }
@@ -98,7 +92,7 @@ final class TravelDestinationCell: UICollectionViewCell {
   
   private let labelStackView: UIStackView = UIStackView().set {
     $0.axis = .vertical
-    $0.spacing = Constants.LabelStackView.spacing
+    $0.spacing = .zero
     $0.alignment = .leading
   }
   
