@@ -46,11 +46,11 @@ extension PostSearchSectionModel.Item: Equatable {
 // MARK: - Mock
 extension PostSearchSectionModel {
   static func createRecommendationMock() -> [String] {
-    return ["인기관광", "가족코스", "자연", "추천444444", "추천5", "추천66", "추천7777"]
+    return ["인기관광", "가족코스", "자연", "액티비티", "TOP10 여행지", "인기맛집", "대전 명소"]
   }
   
   static func createRecentMock() -> [String] {
-    return ["부산여행부산여행부산여행부산여행부산여행부산여행부산여행부산여행부산여행부산여행", "국내여행", "맛집", "카페", "기타"]
+    return ["부산여행", "국내여행", "대청호", "카페", "기타", "대전 동구 맛집", "맛집"]
   }
   
   static func createHeaderMock() -> [String] {
