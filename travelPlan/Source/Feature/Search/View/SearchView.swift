@@ -9,6 +9,30 @@ import UIKit
 import SnapKit
 
 final class SearchView: UIView {
+  enum Constants {
+    static let borderWidth: CGFloat = 1
+    static let cornerRadius: CGFloat = 25
+    // MARK: - SearchButton
+    enum SearchButton {
+      static let imageName = "search"
+      enum Offset {
+        static let leading: CGFloat = 10
+      }
+      enum Inset {
+        static let trailing: CGFloat = 20
+        static let topBottom: CGFloat = 11
+      }
+    }
+    // MARK: - SearchTextField
+    enum SearchTextField {
+      static let placeholder = "여행지 및 축제를 검색해보세요."
+      static let fontSize: CGFloat = 14
+      enum Inset {
+        static let leading: CGFloat = 20
+      }
+    }
+  }
+  
   // MARK: - Properties
   weak var delegate: SearchViewDelegate?
   
@@ -30,6 +54,21 @@ final class SearchView: UIView {
     $0.setImage(image, for: .normal)
     $0.tintColor = .yg.primary
     $0.addTarget(self, action: #selector(didTapSearchButton), for: .touchUpInside)
+  }
+  
+  private let shadowLayer: CALayer = .init().set {
+    $0.shadowColor = UIColor.yg.primary.cgColor
+    $0.backgroundColor = UIColor.systemBackground.cgColor
+    $0.shadowOpacity = 0.5
+    $0.shadowRadius = 3
+    $0.shadowOffset = .init(width: 0, height: 0)
+    $0.cornerRadius = SearchView.Constants.cornerRadius
+  }
+  
+  override var bounds: CGRect {
+    didSet {
+      shadowLayer.frame = self.bounds
+    }
   }
   
   // MARK: - LifeCycle
@@ -64,6 +103,8 @@ extension SearchView {
 // MARK: - LayoutSupport
 extension SearchView: LayoutSupport {
   func addSubviews() {
+    layer.addSublayer(shadowLayer)
+    
     addSubview(searchTextField)
     addSubview(searchButton)
   }
