@@ -12,7 +12,6 @@ import SnapKit
 
 final class SearchViewController: UIViewController {
   enum Constants {
-    // MARK: - SearchView
     enum SearchView {
       enum Spacing {
         static let top: CGFloat = 20
@@ -21,7 +20,7 @@ final class SearchViewController: UIViewController {
       }
       static let height: CGFloat = 50
     }
-    // MARK: - CollectionView
+    
     enum CollectionView {
       enum Spacing {
         enum Offset {
@@ -43,6 +42,7 @@ final class SearchViewController: UIViewController {
   private var subscriptions = Set<AnyCancellable>()
   private lazy var input = SearchViewModel.Input()
   private let compositionalLayout: SearchLayout = DefaultSearchLayout()
+  
   private lazy var collectionView: UICollectionView = UICollectionView(
     frame: .zero,
     collectionViewLayout: compositionalLayout.createLayout()
@@ -57,19 +57,13 @@ final class SearchViewController: UIViewController {
     $0.dataSource = self
     $0.delegate = self
     $0.backgroundColor = .clear
-    $0.register(
-      SearchBestFestivalCell.self,
-      forCellWithReuseIdentifier: SearchBestFestivalCell.id
-    )
-    $0.register(
-      TravelDestinationCell.self,
-      forCellWithReuseIdentifier: TravelDestinationCell.id
-    )
-    $0.register(
-      SearchHeaderView.self,
-      forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-      withReuseIdentifier: SearchHeaderView.id
-    )
+    $0.register(SearchBestFestivalCell.self,
+                forCellWithReuseIdentifier: SearchBestFestivalCell.id)
+    $0.register(TravelDestinationCell.self,
+                forCellWithReuseIdentifier: TravelDestinationCell.id)
+    $0.register(SearchHeaderView.self,
+                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+                withReuseIdentifier: SearchHeaderView.id)
   }
   
   // MARK: - LifeCycle
@@ -84,6 +78,11 @@ final class SearchViewController: UIViewController {
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     navigationController?.isNavigationBarHidden = true
+  }
+  
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    searchView.setupShadowLayer()
   }
 }
 
@@ -243,7 +242,7 @@ extension SearchViewController: UICollectionViewDataSource {
 extension SearchViewController: UICollectionViewDelegate {
   func scrollViewDidScroll(_ scrollView: UIScrollView) {
     let currentTopMargin = Constants.SearchView.Spacing.top - scrollView.contentOffset.y
-    isScrolledUntilTop = currentTopMargin > 0
+    isScrolledUntilTop = currentTopMargin > CGFloat.zero
 
     if isScrolledUntilTop {
       searchView.snp.updateConstraints {

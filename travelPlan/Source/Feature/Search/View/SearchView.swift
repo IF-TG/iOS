@@ -12,7 +12,7 @@ final class SearchView: UIView {
   enum Constants {
     static let borderWidth: CGFloat = 1
     static let cornerRadius: CGFloat = 25
-    // MARK: - SearchButton
+    
     enum SearchButton {
       static let imageName = "search"
       enum Offset {
@@ -23,13 +23,19 @@ final class SearchView: UIView {
         static let topBottom: CGFloat = 11
       }
     }
-    // MARK: - SearchTextField
+    
     enum SearchTextField {
       static let placeholder = "여행지 및 축제를 검색해보세요."
       static let fontSize: CGFloat = 14
       enum Inset {
         static let leading: CGFloat = 20
       }
+    }
+    
+    enum ShadowLayer {
+      static let shadowOpacity: Float = 0.2
+      static let shadowRadius: CGFloat = 5
+      static let shadowOffsetHeight: CGFloat = 4
     }
   }
   
@@ -59,22 +65,11 @@ final class SearchView: UIView {
   private let shadowLayer: CALayer = .init().set {
     $0.shadowColor = UIColor.yg.primary.cgColor
     $0.backgroundColor = UIColor.systemBackground.cgColor
-    $0.shadowOpacity = 0.5
-    $0.shadowRadius = 3
-    $0.shadowOffset = .init(width: 0, height: 0)
+    $0.shadowOpacity = Constants.ShadowLayer.shadowOpacity
+    $0.shadowRadius = Constants.ShadowLayer.shadowRadius
     $0.cornerRadius = SearchView.Constants.cornerRadius
-  }
-  
-  // MARK: - LifeCycle
-  override func layoutSubviews() {
-    super.layoutSubviews()
-
-    shadowLayer.frame = self.bounds
-    
-    shadowLayer.shadowPath = UIBezierPath(
-      roundedRect: shadowLayer.bounds,
-      cornerRadius: SearchView.Constants.cornerRadius
-    ).cgPath
+    $0.shadowOffset = CGSize(width: CGFloat.zero,
+                             height: Constants.ShadowLayer.shadowOffsetHeight)
   }
   
   override init(frame: CGRect) {
@@ -85,6 +80,21 @@ final class SearchView: UIView {
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+}
+
+// MARK: - Public Helpers
+extension SearchView {
+  func setupShadowLayer() {
+    CATransaction.begin()
+    CATransaction.setDisableActions(true)
+    
+    shadowLayer.frame = self.bounds
+    shadowLayer.shadowPath = UIBezierPath(
+      roundedRect: shadowLayer.bounds,
+      cornerRadius: SearchView.Constants.cornerRadius
+    ).cgPath
+    CATransaction.commit()
   }
 }
 
