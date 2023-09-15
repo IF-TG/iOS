@@ -1,5 +1,5 @@
 //
-//  SearchFamousSpotCell.swift
+//  TravelDestinationCell.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 2023/06/01.
@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Combine
 
-final class SearchFamousSpotCell: UICollectionViewCell {
+final class TravelDestinationCell: UICollectionViewCell {
   enum Constants {
     // MARK: - ThumbnailImageView
     enum ThumbnailImageView {
@@ -53,7 +53,7 @@ final class SearchFamousSpotCell: UICollectionViewCell {
   }
   
   // MARK: - Properties
-  private var viewModel: SearchFamousSpotCellViewModel? {
+  private var viewModel: TravelDestinationCellViewModel? {
     didSet {
       bind()
     }
@@ -74,23 +74,23 @@ final class SearchFamousSpotCell: UICollectionViewCell {
     $0.addTarget(self, action: #selector(didTapStarButton), for: .touchUpInside)
   }
   
-  private let placeLabel: UILabel = UILabel().set {
+  private let titleLabel: UILabel = UILabel().set {
     $0.font = .init(pretendard: .semiBold, size: Constants.PlaceLabel.fontSize)
     $0.text = "관광 장소명"
     $0.textColor = .yg.gray6
     $0.numberOfLines = Constants.PlaceLabel.numberOfLines
   }
   
-  private let categoryLabel: UILabel = UILabel().set {
+  private let secondLabel: UILabel = UILabel().set {
     $0.font = .init(pretendard: .medium, size: Constants.CategoryLabel.fontSize)
     $0.textColor = .yg.gray6
-    $0.text = "관광 카테고리"
+    $0.text = "n/a"
     $0.numberOfLines = Constants.CategoryLabel.numberOfLines
   }
   
-  private let areaLabel: UILabel = UILabel().set {
+  private let thirdLabel: UILabel = UILabel().set {
     $0.font = .init(pretendard: .medium, size: Constants.AreaLabel.size)
-    $0.text = "지역명"
+    $0.text = "n/a"
     $0.textColor = .yg.gray6
     $0.numberOfLines = Constants.AreaLabel.numberOfLines
   }
@@ -121,10 +121,10 @@ final class SearchFamousSpotCell: UICollectionViewCell {
   }
 }
 
-extension SearchFamousSpotCell: ViewBindCase {
-  typealias Input = SearchFamousSpotCellViewModel.Input
-  typealias ErrorType = SearchFamousSpotCellViewModel.ErrorType
-  typealias State = SearchFamousSpotCellViewModel.State
+extension TravelDestinationCell: ViewBindCase {
+  typealias Input = TravelDestinationCellViewModel.Input
+  typealias ErrorType = TravelDestinationCellViewModel.ErrorType
+  typealias State = TravelDestinationCellViewModel.State
   
   func bind() {
     guard let viewModel = self.viewModel else { return }
@@ -163,7 +163,7 @@ extension SearchFamousSpotCell: ViewBindCase {
 }
 
 // MARK: - Actions
-extension SearchFamousSpotCell {
+extension TravelDestinationCell {
   @objc private func didTapStarButton() {
     // viewModelTODO: - CellViewModel 추가해서 input output 패턴 적용하고 delegate를 제거해야 합니다.
     input.didTapStarButton.send()
@@ -172,24 +172,24 @@ extension SearchFamousSpotCell {
 }
 
 // MARK: - Configure
-extension SearchFamousSpotCell {
-  func configure(with viewModel: SearchFamousSpotCellViewModel) {
+extension TravelDestinationCell {
+  func configure(with viewModel: TravelDestinationCellViewModel) {
     self.viewModel = viewModel
     
     thumbnailImageView.image = UIImage(named: viewModel.thumbnailImage ?? "tempProfile4")
-    placeLabel.text = viewModel.place
-    categoryLabel.text = viewModel.category
-    areaLabel.text = viewModel.location
+    titleLabel.text = viewModel.place
+    secondLabel.text = viewModel.category
+    thirdLabel.text = viewModel.location
   }
 }
 
 // MARK: - LayoutSupport
-extension SearchFamousSpotCell: LayoutSupport {
+extension TravelDestinationCell: LayoutSupport {
   func addSubviews() {
     contentView.addSubview(thumbnailImageView)
     contentView.addSubview(labelStackView)
     contentView.addSubview(starButton)
-    _ = [placeLabel, categoryLabel, areaLabel]
+    _ = [titleLabel, secondLabel, thirdLabel]
       .map { labelStackView.addArrangedSubview($0) }
   }
   

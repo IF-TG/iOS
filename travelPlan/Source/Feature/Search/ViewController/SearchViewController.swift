@@ -62,8 +62,8 @@ final class SearchViewController: UIViewController {
       forCellWithReuseIdentifier: SearchBestFestivalCell.id
     )
     $0.register(
-      SearchFamousSpotCell.self,
-      forCellWithReuseIdentifier: SearchFamousSpotCell.id
+      TravelDestinationCell.self,
+      forCellWithReuseIdentifier: TravelDestinationCell.id
     )
     $0.register(
       SearchHeaderView.self,
@@ -207,9 +207,9 @@ extension SearchViewController: UICollectionViewDataSource {
       
     case let .famous(famousViewModels):
       guard let cell = collectionView.dequeueReusableCell(
-        withReuseIdentifier: SearchFamousSpotCell.id,
+        withReuseIdentifier: TravelDestinationCell.id,
         for: indexPath
-      ) as? SearchFamousSpotCell else { return .init() }
+      ) as? TravelDestinationCell else { return .init() }
       
       cell.configure(with: famousViewModels[indexPath.item])
       return cell

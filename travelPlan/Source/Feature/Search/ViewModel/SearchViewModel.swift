@@ -132,7 +132,7 @@ extension SearchViewModel {
     dataSource.append(SearchSectionModel.init(itemType: .festival(festivalViewModels), headerTitle: festivalHeader))
     
     let famousModels = SearchFamousSpotModel.mockModels
-    let famousViewModels = famousModels.map { SearchFamousSpotCellViewModel(model: $0) }
+    let famousViewModels = famousModels.map { TravelDestinationCellViewModel(model: $0) }
     let famousHeader = "야영 레포츠 어떠세요?"
     dataSource.append(SearchSectionModel(itemType: .famous(famousViewModels), headerTitle: famousHeader))
   }

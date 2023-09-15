@@ -1,5 +1,5 @@
 //
-//  SearchFamousSpotCellViewModel.swift
+//  TravelDestinationCellViewModel.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 2023/07/10.
@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-class SearchFamousSpotCellViewModel {
+class TravelDestinationCellViewModel {
   typealias Output = AnyPublisher<State, ErrorType>
   
   // MARK: - Properties
@@ -34,7 +34,7 @@ class SearchFamousSpotCellViewModel {
   }
   
   // MARK: - Input
-  struct Input: SearchCellViewModelInput {
+  struct Input {
     let didTapStarButton: PassthroughSubject<Void, ErrorType>
     
     init(didTapStarButton: PassthroughSubject<Void, ErrorType> = .init()) {
@@ -57,7 +57,7 @@ class SearchFamousSpotCellViewModel {
 }
 
 // MARK: - ViewModelCase
-extension SearchFamousSpotCellViewModel: ViewModelCase {
+extension TravelDestinationCellViewModel: ViewModelCase {
   func transform(_ input: Input) -> Output {
     // 서버 저장 요청 후 응답에 따라 output이 달라집니다.
     return input.didTapStarButton
@@ -74,7 +74,7 @@ extension SearchFamousSpotCellViewModel: ViewModelCase {
 }
 
 // MARK: - Helpers
-extension SearchFamousSpotCellViewModel {
+extension TravelDestinationCellViewModel {
   /// 서버에 저장 요청.
   /// 성공 시 UI 변환, 실패 시, 변화 없음
   private func saveButtonState(id: Int) -> Future<State, ErrorType> {
