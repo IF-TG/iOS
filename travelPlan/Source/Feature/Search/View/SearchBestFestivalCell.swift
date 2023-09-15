@@ -11,12 +11,44 @@ import UIKit
 import SnapKit
 
 final class SearchBestFestivalCell: UICollectionViewCell {
+  enum Constants {
+    enum ThumbnailImageView {
+      static let cornerRadius: CGFloat = 3
+    }
+    
+    enum StarButton {
+      enum Inset {
+        static let top: CGFloat = 8
+        static let trailing: CGFloat = 8
+      }
+      static let size: CGFloat = 24
+    }
+    
+    enum FestivalLabel {
+      static let fontSize: CGFloat = 18
+      static let numberOfLines = 1
+      enum Inset {
+        static let leading: CGFloat = 4
+        static let trailing: CGFloat = 4
+      }
+    }
+    
+    enum PeriodLabel {
+      static let fontSize: CGFloat = 12
+      enum Inset {
+        static let trailing: CGFloat = 4
+        static let bottom: CGFloat = 6
+      }
+    }
+  }
+  
   // MARK: - Properties
   private var viewModel: SearchBestFestivalCellViewModel? {
     didSet {
       bind()
     }
   }
+  
   private lazy var input = Input()
   private var subscriptions = Set<AnyCancellable>()
   
@@ -24,14 +56,23 @@ final class SearchBestFestivalCell: UICollectionViewCell {
     return String(describing: self)
   }
   
-  private let thumbnailImageView: UIImageView = .init().set {
-    $0.layer.cornerRadius = Constants.ThumbnailImageView.cornerRadius
+  private lazy var thumbnailImageView: UIImageView = .init().set {
     $0.contentMode = .scaleAspectFill
     $0.layer.masksToBounds = true
     $0.isUserInteractionEnabled = true // UIImageView의 터치 이벤트를 감지하기 위해 인터랙션을 활성화
+    $0.layer.cornerRadius = Constants.ThumbnailImageView.cornerRadius
+    $0.layer.insertSublayer(self.thumbnailGradientLayer, at: 0)
   }
   
-  private lazy var starButton: SearchStarButton = .init().set {
+  private let thumbnailGradientLayer: CAGradientLayer = .init().set {
+    $0.colors = [
+      UIColor.clear.cgColor,
+      UIColor(hex: "#333333", alpha: 1.0).cgColor
+    ]
+    $0.locations = [0.7, 1.0]
+  }
+  
+  private lazy var starButton: SearchStarButton = .init(normalType: .withAlpha).set {
     $0.addTarget(self, action: #selector(didTapStarButton), for: .touchUpInside)
   }
   
@@ -48,14 +89,18 @@ final class SearchBestFestivalCell: UICollectionViewCell {
     $0.textColor = .yg.littleWhite
     $0.textAlignment = .center
     $0.text = "날짜"
-    // shadowTODO: - shadow, blur 처리
+  }
+  
+  override var bounds: CGRect {
+    didSet {
+      self.thumbnailGradientLayer.frame = self.bounds
+    }
   }
   
   // MARK: - LifeCycle
   override init(frame: CGRect) {
     super.init(frame: frame)
     setupUI()
-    setupStyles()
   }
   
   required init?(coder: NSCoder) {
@@ -125,13 +170,6 @@ extension SearchBestFestivalCell: ViewBindCase {
   }
 }
 
-// MARK: - Helpers
-extension SearchBestFestivalCell {
-  private func setupStyles() {
-    contentView.backgroundColor = .systemBlue
-  }
-}
-
 // MARK: - Configure
 extension SearchBestFestivalCell {
   func configure(with viewModel: SearchBestFestivalCellViewModel) {
@@ -148,6 +186,8 @@ extension SearchBestFestivalCell {
 // MARK: - LayoutSupport
 extension SearchBestFestivalCell: LayoutSupport {
   func addSubviews() {
+    thumbnailImageView.layer.insertSublayer(thumbnailGradientLayer, at: 0)
+    
     contentView.addSubview(thumbnailImageView)
     thumbnailImageView.addSubview(starButton)
     thumbnailImageView.addSubview(festivalLabel)

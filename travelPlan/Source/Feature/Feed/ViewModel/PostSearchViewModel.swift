@@ -9,6 +9,14 @@ import Combine
 import Foundation
 
 final class PostSearchViewModel {
+  enum Constants {
+    enum CollectionView {
+      static let edgeInsetWidth: CGFloat = PostSearchViewController.Constants
+        .CollectionViewLayout.Inset.left + PostSearchViewController.Constants
+        .CollectionViewLayout.Inset.right
+    }
+  }
+  
   // MARK: - Properties
   private var sectionModels: [PostSearchSectionModel] = []
   private var recentModels: [String] = []

@@ -8,11 +8,32 @@
 import UIKit
 
 class SearchStarButton: UIButton {
+  enum NormalType: String {
+    case empty
+    case withAlpha
+  }
+  
+  enum Constants {
+    static let emptyImageName = "emptyStar"
+    static let selectedImageName = "star"
+    static let alphaImageName = "star-alpha10"
+  }
+  
+  // MARK: - Properties
+  private var normalType: NormalType?
+  
   // MARK: - LifeCycle
-  override init(frame: CGRect) {
-    super.init(frame: frame)
+  init(normalType: NormalType) {
+    self.normalType = normalType
+    super.init(frame: .zero)
+    
     setImages()
   }
+  
+//  override init(frame: CGRect) {
+//    super.init(frame: frame)
+//    setImages()
+//  }
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
@@ -22,7 +43,12 @@ class SearchStarButton: UIButton {
 // MARK: - Helpers
 extension SearchStarButton {
   private func setImages() {
-    setImage(UIImage(named: Constants.normalImageName), for: .normal)
+    switch normalType {
+    case .empty, .none:
+      setImage(UIImage(named: Constants.emptyImageName), for: .normal)
+    case .withAlpha:
+      setImage(UIImage(named: Constants.alphaImageName), for: .normal)
+    }
     setImage(UIImage(named: Constants.selectedImageName), for: .selected)
   }
 }

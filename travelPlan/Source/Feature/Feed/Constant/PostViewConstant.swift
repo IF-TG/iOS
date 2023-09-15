@@ -227,6 +227,5 @@ extension PostFooterView {
         static let trailing: CGFloat = 53
       }
     }
-    
   }
 }

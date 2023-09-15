@@ -11,6 +11,19 @@ import Combine
 
 // SectionTypeFIXME: - HeaderView는 sectionType을 알 필요가 없기 때문에, 제거해야 합니다.
 final class PostRecentSearchHeaderView: UICollectionReusableView {
+  enum Constants {
+    enum TitleLabel {
+      static let fontSize: CGFloat = 17
+    }
+    enum DeleteAllButton {
+      static let title = "전체 삭제"
+      static let titleFontSize: CGFloat = 12
+      enum Inset {
+        static let trailing: CGFloat = 10
+      }
+    }
+  }
+  
   // MARK: - Properties
   static var id: String {
     return String(describing: self)
