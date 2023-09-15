@@ -33,6 +33,7 @@ final class TravelDestinationCell: UICollectionViewCell {
       static let size: CGFloat = 24
       enum Inset {
         static let top: CGFloat = 5
+        static let trailing: CGFloat = 16
       }
     }
     // MARK: - PlaceLabel
@@ -211,7 +212,7 @@ extension TravelDestinationCell: LayoutSupport {
     
     starButton.snp.makeConstraints {
       $0.top.equalToSuperview().inset(Constants.HeartButton.Inset.top)
-      $0.trailing.equalToSuperview()
+      $0.trailing.equalToSuperview().inset(Constants.HeartButton.Inset.trailing)
       $0.size.equalTo(Constants.HeartButton.size)
     }
   }

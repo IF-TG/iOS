@@ -27,9 +27,7 @@ class DefaultSearchLayout: SearchLayout {
       enum Section {
         static let interGroupSpacing: CGFloat = 10
         enum Inset {
-          static let top: CGFloat = 0
           static let leading: CGFloat = 16
-          static let bottom: CGFloat = 0
           static let trailing: CGFloat = 16
         }
       }
@@ -42,21 +40,16 @@ class DefaultSearchLayout: SearchLayout {
         static let fractionalHeight: CGFloat = 0.3
       }
       enum Group {
-        static var fractionalWidth: CGFloat {
-          let fractionalWidth = 314 / UIScreen.main.bounds.size.width
-          return CGFloat((String(format: "%.3f", fractionalWidth) as NSString).floatValue)
-        }
+        static let fractionalWidth: CGFloat = 0.89
         static let height: CGFloat = 360
-        static let interSpacing: CGFloat = 10
+        static let count = 3
       }
       enum Section {
         enum Inset {
-          static let top: CGFloat = 5
           static let leading: CGFloat = 16
+          static let top: CGFloat = 5
           static let bottom: CGFloat = 5
-          static var trailing: CGFloat = 16
         }
-        static let interGroupSpacing: CGFloat = 16
       }
     }
     
@@ -97,9 +90,9 @@ extension DefaultSearchLayout {
     section.orthogonalScrollingBehavior = .continuous
     section.interGroupSpacing = Constants.Festival.Section.interGroupSpacing
     section.contentInsets = .init(
-      top: Constants.Festival.Section.Inset.top,
+      top: .zero,
       leading: Constants.Festival.Section.Inset.leading,
-      bottom: Constants.Festival.Section.Inset.bottom,
+      bottom: .zero,
       trailing: Constants.Festival.Section.Inset.trailing
     )
     section.boundarySupplementaryItems = [headerLayout()]
@@ -118,21 +111,18 @@ extension DefaultSearchLayout {
         heightDimension: .absolute(Constants.Famous.Group.height)
       ),
       subitem: item,
-      count: 3
+      count: Constants.Famous.Group.count
     )
-    group.interItemSpacing = .fixed(Constants.Famous.Group.interSpacing)
     
     let section = NSCollectionLayoutSection(group: group)
     section.orthogonalScrollingBehavior = .groupPaging
-    section.interGroupSpacing = Constants.Famous.Section.interGroupSpacing
     section.contentInsets = .init(
       top: Constants.Famous.Section.Inset.top,
       leading: Constants.Famous.Section.Inset.leading,
       bottom: Constants.Famous.Section.Inset.bottom,
-      trailing: Constants.Famous.Section.Inset.trailing
+      trailing: .zero
     )
     section.boundarySupplementaryItems = [headerLayout()]
-    
     return section
   }
   
