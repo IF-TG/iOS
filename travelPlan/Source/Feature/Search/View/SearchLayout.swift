@@ -47,6 +47,7 @@ class DefaultSearchLayout: SearchLayout {
       enum Section {
         enum Inset {
           static let leading: CGFloat = 16
+          static let trailing: CGFloat = 16
           static let top: CGFloat = 5
           static let bottom: CGFloat = 5
         }
@@ -120,7 +121,7 @@ extension DefaultSearchLayout {
       top: Constants.Famous.Section.Inset.top,
       leading: Constants.Famous.Section.Inset.leading,
       bottom: Constants.Famous.Section.Inset.bottom,
-      trailing: .zero
+      trailing: Constants.Famous.Section.Inset.trailing
     )
     section.boundarySupplementaryItems = [headerLayout()]
     return section
