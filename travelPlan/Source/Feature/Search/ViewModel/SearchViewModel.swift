@@ -51,7 +51,6 @@ final class SearchViewModel {
     case unexpected
   }
   // MARK: - Properties
-//  private var sections: [SearchSection] = []
   private var dataSource = [SearchSectionModel]()
 }
 
