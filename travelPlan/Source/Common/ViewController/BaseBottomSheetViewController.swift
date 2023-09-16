@@ -33,6 +33,10 @@ class BaseBottomSheetViewController: UIViewController {
   
   private var bottomSheetOriginHeight: CGFloat!
   
+  private var isDraggingBottomSheet: Bool = false
+  
+  private var bottomSheetOriginPosition: CGRect = .zero
+  
   // MARK: - Lifecycle
   init() {
     super.init(nibName: nil, bundle: nil)
@@ -154,18 +158,20 @@ class BaseBottomSheetViewController: UIViewController {
   }
   
   private func updateBottomSheetPosition(from y: CGFloat) {
-    self.bottomSheetView.frame.origin.y = y
-    self.safeAreaBottomView.frame.origin.y = y + self.bottomSheetOriginHeight
+    bottomSheetView.transform = .init(translationX: 0, y: y)
+    safeAreaBottomView.transform = .init(translationX: 0, y: y)
   }
-  
-  private func animateBottomSheetWithOriginPosition() {
+  var i = 0
+  private func animateBottomSheetWithOriginPosition(_ gesture: UIPanGestureRecognizer) {
     bottomSheetView.isUserInteractionEnabled = false
+    gesture.cancelsTouchesInView = true
     UIView.animate(
-      withDuration: 0.3,
+      withDuration: Constants.animationDuration,
       delay: 0,
       options: .curveEaseInOut,
       animations: {
-        self.updateBottomSheetPosition(from: self.bottomSheetOriginY)
+        self.bottomSheetView.transform = .identity
+        self.safeAreaBottomView.transform = .identity
       }) { _ in
         self.bottomSheetView.isUserInteractionEnabled = true
       }
@@ -179,18 +185,16 @@ extension BaseBottomSheetViewController: BottomSheetViewDelegate {
     withPenGesture gesture: UIPanGestureRecognizer
   ) {
     let translation = gesture.translation(in: bottomSheetView)
-    let isDraggingDown = translation.y > 0
-    guard isDraggingDown else {
-      return
-    }
     let pannedHeight = translation.y
-    let curY = view.frame.height - (bottomSheetView.frame.height + safeAreaBottomView.frame.height)
+    let isDraggingDown = pannedHeight > 0
+    guard isDraggingDown else { return }
     switch gesture.state {
     case .changed:
-      updateBottomSheetPosition(from: curY + pannedHeight)
-    case .ended:
-      guard translation.y >= (bottomSheetOriginHeight + safeAreaBottomView.bounds.height)/2 else {
-        animateBottomSheetWithOriginPosition()
+      updateBottomSheetPosition(from: pannedHeight)
+    case .ended,
+         .cancelled:
+      guard pannedHeight >= (bottomSheetOriginHeight)/2 else {
+        animateBottomSheetWithOriginPosition(gesture)
         return
       }
       dismiss(animated: false)
