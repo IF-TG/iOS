@@ -137,7 +137,8 @@ private extension BottomSheetView {
       topView.trailingAnchor.constraint(
         equalTo: trailingAnchor),
       topView.topAnchor.constraint(
-        equalTo: topAnchor)]
+        equalTo: topAnchor),
+      topView.heightAnchor.constraint(equalToConstant: Const.height)]
   }
   
   var topIndicatorViewConstraints: [NSLayoutConstraint] {
