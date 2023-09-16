@@ -8,6 +8,13 @@
 import UIKit
  
 class BaseBottomSheetViewController: UIViewController {
+  enum ContentMode {
+    // bottomSheet가 꽉 찬 화면
+    case full
+    // bottomSheet가 내부 tableView cell 추가로 꽉 찰 수 있는 경우
+    case couldBeFull
+  }
+  
   enum Constants {
     static let animationDuration: CGFloat = 0.43
     static let bgColor = UIColor(hex: "#000000", alpha: 0.2)
@@ -28,8 +35,19 @@ class BaseBottomSheetViewController: UIViewController {
   private var bottomSheetOriginY: CGFloat!
   
   private var bottomSheetOriginHeight: CGFloat!
+  
+  private var contentMode: ContentMode = .full
 
   // MARK: - Lifecycle
+  init(mode: ContentMode) {
+    contentMode = mode
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     setBottomSheetBeforeAnimation()
@@ -211,15 +229,17 @@ extension BaseBottomSheetViewController: LayoutSupport {
 private extension BaseBottomSheetViewController {
   var bottomSheetViewConstraints: [NSLayoutConstraint] {
     typealias Const = Constants.BottomSheetView
-    return [
+    let constraints = [
       bottomSheetView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
       bottomSheetView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-      bottomSheetView.topAnchor.constraint(
-        greaterThanOrEqualTo: view.safeAreaLayoutGuide.topAnchor),
-      bottomSheetView.heightAnchor.constraint(
-          greaterThanOrEqualToConstant: Const.minimumHeihgt),
       bottomSheetView.bottomAnchor.constraint(
         equalTo: view.safeAreaLayoutGuide.bottomAnchor)]
+    if contentMode == .full {
+      return constraints + [bottomSheetView.topAnchor.constraint(
+        equalTo: view.safeAreaLayoutGuide.topAnchor)]
+    }
+    return constraints + [bottomSheetView.topAnchor.constraint(
+      greaterThanOrEqualTo: view.safeAreaLayoutGuide.topAnchor)]
   }
   
   var safeAreaBottomViewConstraints: [NSLayoutConstraint] {
