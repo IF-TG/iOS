@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 protocol BottomSheetViewDelegate: AnyObject {
   func bottomSheetView(_ bottomSheetView: BottomSheetView, withPenGesture gesture: UIPanGestureRecognizer)
@@ -44,17 +45,23 @@ class BottomSheetView: UIView {
     $0.translatesAutoresizingMaskIntoConstraints = false
   }
   
+  private let panGesturePublisher = PassthroughSubject<UIPanGestureRecognizer, Never>()
+  
+  private var subscriptions = Set<AnyCancellable>()
+  
   weak var delegate: BottomSheetViewDelegate?
   
   // MARK: - Lifecycle
   override init(frame: CGRect) {
     super.init(frame: frame)
     configureUI()
+    bind()
   }
   
   required init?(coder: NSCoder) {
     super.init(coder: coder)
     configureUI()
+    bind()
   }
   
   convenience init() {
@@ -85,7 +92,7 @@ class BottomSheetView: UIView {
   }
   
   // MARK: - Private helper
-  func configureUI() {
+  private func configureUI() {
     setupUI()
     setGesture()
     layer.cornerRadius = Constants.cornerRadius
@@ -93,18 +100,41 @@ class BottomSheetView: UIView {
     layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
   }
   
-  func setGesture() {
+  private func setGesture() {
     let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture))
     panGesture.delaysTouchesBegan = false
     panGesture.delaysTouchesEnded = false
     topView.addGestureRecognizer(panGesture)
   }
   
+  private func bind() {
+    panGesturePublisher
+      .debounce(for: .milliseconds(7), scheduler: DispatchQueue.main)
+      .filter { gesture in
+        gesture.state != .ended
+      }.sink { [weak self] gesture in
+        guard let self else { return }
+          print("bb")
+          delegate?.bottomSheetView(self, withPenGesture: gesture)
+      }.store(in: &subscriptions)
+    
+    panGesturePublisher
+      .filter { gesture in
+        gesture.state == .ended
+      }
+      .receive(on: DispatchQueue.main)
+      .sink { [weak self] gesture in
+        guard let self else { return }
+        print("a")
+        delegate?.bottomSheetView(self, withPenGesture: gesture)
+      }.store(in: &subscriptions)
+  }
   // MARK: - Action
   @objc func handlePanGesture(_ gesture: UIPanGestureRecognizer) {
-    delegate?.bottomSheetView(self, withPenGesture: gesture)
+    panGesturePublisher.send(gesture)
   }
 }
+
 // MARK: - LayoutSupportable
 extension BottomSheetView: LayoutSupport {
   func addSubviews() {
