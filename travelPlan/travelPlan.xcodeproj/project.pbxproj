@@ -18,6 +18,8 @@
 		130B9AE32A684D3D0072A0CF /* SearchLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130B9AE22A684D3D0072A0CF /* SearchLayout.swift */; };
 		130FA91F2A359EE300E739C5 /* SearchViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130FA91E2A359EE300E739C5 /* SearchViewDelegate.swift */; };
 		131A11062AB4CD1A007BDD66 /* SearchDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131A11052AB4CD1A007BDD66 /* SearchDetailViewController.swift */; };
+		131A11082AB5067E007BDD66 /* SearchDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131A11072AB5067E007BDD66 /* SearchDetailViewModel.swift */; };
+		131A110A2AB509FB007BDD66 /* UIView+roundCorners.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131A11092AB509FB007BDD66 /* UIView+roundCorners.swift */; };
 		13254FE32A05147200094218 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13254FE22A05147200094218 /* MainTabBarController.swift */; };
 		13254FE52A05157900094218 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13254FE42A05157900094218 /* FeedViewController.swift */; };
 		13254FE72A05158E00094218 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13254FE62A05158E00094218 /* SearchViewController.swift */; };
@@ -187,6 +189,8 @@
 		130B9AE22A684D3D0072A0CF /* SearchLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchLayout.swift; sourceTree = "<group>"; };
 		130FA91E2A359EE300E739C5 /* SearchViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewDelegate.swift; sourceTree = "<group>"; };
 		131A11052AB4CD1A007BDD66 /* SearchDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDetailViewController.swift; sourceTree = "<group>"; };
+		131A11072AB5067E007BDD66 /* SearchDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDetailViewModel.swift; sourceTree = "<group>"; };
+		131A11092AB509FB007BDD66 /* UIView+roundCorners.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+roundCorners.swift"; sourceTree = "<group>"; };
 		13254FE22A05147200094218 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		13254FE42A05157900094218 /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
 		13254FE62A05158E00094218 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
@@ -391,6 +395,7 @@
 				130304782A24936D00776A0D /* SearchViewModel.swift */,
 				13274C592A59AD29001F141C /* SearchBestFestivalCellViewModel.swift */,
 				13FE64782A5C3900007D9A53 /* TravelDestinationCellViewModel.swift */,
+				131A11072AB5067E007BDD66 /* SearchDetailViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1207,6 +1212,7 @@
 				158BEFC32A0EC8A100C27861 /* UIView+CustomAnimation.swift */,
 				15AF2C3D2A1147B100BEE166 /* UIImage+JPEGCompress.swift */,
 				13CB6D352A20E12B00D185B2 /* CALayer+Border.swift */,
+				131A11092AB509FB007BDD66 /* UIView+roundCorners.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -1482,6 +1488,7 @@
 				152AD4E62A188BFE008A2A11 /* FavoriteListTableView.swift in Sources */,
 				158BEF7F2A0E2C6E00C27861 /* PostContentAreaView.swift in Sources */,
 				15710CB82A132C630023C19E /* FeedPostSearchBarItem.swift in Sources */,
+				131A110A2AB509FB007BDD66 /* UIView+roundCorners.swift in Sources */,
 				13606E8C2A9F959F00365F20 /* PostRecommendationSearchHeaderView.swift in Sources */,
 				13813A232AAA459900AF6AEB /* PostSearchCollectionViewDelegate.swift in Sources */,
 				130304B02A28447900776A0D /* TravelDestinationCell.swift in Sources */,
@@ -1515,6 +1522,7 @@
 				132550282A0ABBDA00094218 /* PostSearchSectionItemModel.swift in Sources */,
 				15EF8C9B2A0A19100068C744 /* CategoryView.swift in Sources */,
 				15CB23742A110FB4003EAF20 /* PostViewModel.swift in Sources */,
+				131A11082AB5067E007BDD66 /* SearchDetailViewModel.swift in Sources */,
 				15AF2C3E2A1147B100BEE166 /* UIImage+JPEGCompress.swift in Sources */,
 				15F0D1B22A51BE3200D04773 /* CategoryPageViewDelegate.swift in Sources */,
 				13CB6D342A1FEC6D00D185B2 /* CautionAlertViewControllerDelegate.swift in Sources */,
