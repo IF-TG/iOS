@@ -13,7 +13,7 @@ class BaseBottomSheetViewController: UIViewController {
     static let bgColor = UIColor(hex: "#000000", alpha: 0.1)
     
     enum BottomSheetView {
-      static let minimumHeihgt: CGFloat = 200
+      static let minimumHeihgt: CGFloat = 50
     }
   }
   
@@ -25,18 +25,10 @@ class BaseBottomSheetViewController: UIViewController {
     $0.backgroundColor = .white
   }
   
-  private lazy var bottomSheetHeightConstraint: NSLayoutConstraint = bottomSheetView
-    .heightAnchor
-    .constraint(equalToConstant: Constants.BottomSheetView.minimumHeihgt)
-  
   private var bottomSheetOriginY: CGFloat!
   
   private var bottomSheetOriginHeight: CGFloat!
-  
-  private var isDraggingBottomSheet: Bool = false
-  
-  private var bottomSheetOriginPosition: CGRect = .zero
-  
+
   // MARK: - Lifecycle
   init() {
     super.init(nibName: nil, bundle: nil)
@@ -226,12 +218,14 @@ extension BaseBottomSheetViewController: LayoutSupport {
 // MARK: - Layout supportable private helper
 private extension BaseBottomSheetViewController {
   var bottomSheetViewConstraints: [NSLayoutConstraint] {
+    typealias Const = Constants.BottomSheetView
     return [
       bottomSheetView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
       bottomSheetView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
       bottomSheetView.topAnchor.constraint(
         greaterThanOrEqualTo: view.safeAreaLayoutGuide.topAnchor),
-      bottomSheetHeightConstraint,
+      bottomSheetView.heightAnchor.constraint(
+          greaterThanOrEqualToConstant: Const.minimumHeihgt),
       bottomSheetView.bottomAnchor.constraint(
         equalTo: view.safeAreaLayoutGuide.bottomAnchor)]
   }
