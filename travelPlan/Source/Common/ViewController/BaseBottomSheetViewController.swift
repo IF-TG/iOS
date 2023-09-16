@@ -13,7 +13,7 @@ class BaseBottomSheetViewController: UIViewController {
     static let bgColor = UIColor(hex: "#000000", alpha: 0.1)
     
     enum BottomSheetView {
-      static let minimumHeihgt: CGFloat = 50
+      static let minimumHeihgt: CGFloat = 200
     }
   }
   
@@ -25,9 +25,13 @@ class BaseBottomSheetViewController: UIViewController {
     $0.backgroundColor = .white
   }
   
-  private lazy var bottomSheetHeight: NSLayoutConstraint = bottomSheetView
+  private lazy var bottomSheetHeightConstraint: NSLayoutConstraint = bottomSheetView
     .heightAnchor
     .constraint(equalToConstant: Constants.BottomSheetView.minimumHeihgt)
+  
+  private var bottomSheetOriginY: CGFloat!
+  
+  private var bottomSheetOriginHeight: CGFloat!
   
   // MARK: - Lifecycle
   init() {
@@ -38,15 +42,23 @@ class BaseBottomSheetViewController: UIViewController {
     super.init(coder: coder)
   }
   
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    setBottomSheetBeforeAnimation()
+  }
+  
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     showViewWithAnimation()
     showBottomSheetWithAnimation()
+    setBottomSheetOriginProperties()
+    
   }
   
   override func viewDidLoad() {
     super.viewDidLoad()
     configureUI()
+    bottomSheetView.delegate = self
   }
   
   override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
@@ -74,6 +86,7 @@ class BaseBottomSheetViewController: UIViewController {
   // MARK: - Helper
   func setContentView(_ contentView: UIView) {
     bottomSheetView.setContentView(contentView)
+    setBottomSheetOriginProperties()
   }
   
   func setCornerRadius(_ radius: CGFloat) {
@@ -83,6 +96,11 @@ class BaseBottomSheetViewController: UIViewController {
   // MARK: - Private helper
   private func configureUI() {
     setupUI()
+  }
+  
+  private func setBottomSheetOriginProperties() {
+    bottomSheetOriginY = bottomSheetView.frame.origin.y
+    bottomSheetOriginHeight = bottomSheetView.frame.height
   }
   
   private func showViewWithAnimation() {
@@ -105,9 +123,12 @@ class BaseBottomSheetViewController: UIViewController {
     }
   }
   
-  private func showBottomSheetWithAnimation() {
+  private func setBottomSheetBeforeAnimation() {
     bottomSheetView.transform = .init(translationX: 0, y: self.view.bounds.height)
     safeAreaBottomView.transform = .init(translationX: 0, y: self.view.bounds.height)
+  }
+  
+  private func showBottomSheetWithAnimation() {
     UIView.animate(
       withDuration: Constants.animationDuration,
       delay: 0,
@@ -129,6 +150,52 @@ class BaseBottomSheetViewController: UIViewController {
       }
     ) { _ in
       completion()
+    }
+  }
+  
+  private func updateBottomSheetPosition(from y: CGFloat) {
+    self.bottomSheetView.frame.origin.y = y
+    self.safeAreaBottomView.frame.origin.y = y + self.bottomSheetOriginHeight
+  }
+  
+  private func animateBottomSheetWithOriginPosition() {
+    bottomSheetView.isUserInteractionEnabled = false
+    UIView.animate(
+      withDuration: 0.3,
+      delay: 0,
+      options: .curveEaseInOut,
+      animations: {
+        self.updateBottomSheetPosition(from: self.bottomSheetOriginY)
+      }) { _ in
+        self.bottomSheetView.isUserInteractionEnabled = true
+      }
+  }
+}
+
+// MARK: - BottomSheetViewDelegate
+extension BaseBottomSheetViewController: BottomSheetViewDelegate {
+  func bottomSheetView(
+    _ bottomSheetView: BottomSheetView,
+    withPenGesture gesture: UIPanGestureRecognizer
+  ) {
+    let translation = gesture.translation(in: bottomSheetView)
+    let isDraggingDown = translation.y > 0
+    guard isDraggingDown else {
+      return
+    }
+    let pannedHeight = translation.y
+    let curY = view.frame.height - (bottomSheetView.frame.height + safeAreaBottomView.frame.height)
+    switch gesture.state {
+    case .changed:
+      updateBottomSheetPosition(from: curY + pannedHeight)
+    case .ended:
+      guard translation.y >= (bottomSheetOriginHeight + safeAreaBottomView.bounds.height)/2 else {
+        animateBottomSheetWithOriginPosition()
+        return
+      }
+      dismiss(animated: false)
+    default:
+      break
     }
   }
 }
@@ -160,7 +227,7 @@ private extension BaseBottomSheetViewController {
       bottomSheetView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
       bottomSheetView.topAnchor.constraint(
         greaterThanOrEqualTo: view.safeAreaLayoutGuide.topAnchor),
-      bottomSheetHeight,
+      bottomSheetHeightConstraint,
       bottomSheetView.bottomAnchor.constraint(
         equalTo: view.safeAreaLayoutGuide.bottomAnchor)]
   }
