@@ -10,7 +10,7 @@ import UIKit
 class BaseBottomSheetViewController: UIViewController {
   enum Constants {
     static let animationDuration: CGFloat = 0.43
-    static let bgColor = UIColor(hex: "#000000", alpha: 0.1)
+    static let bgColor = UIColor(hex: "#000000", alpha: 0.2)
     
     enum BottomSheetView {
       static let minimumHeihgt: CGFloat = 50
@@ -30,14 +30,6 @@ class BaseBottomSheetViewController: UIViewController {
   private var bottomSheetOriginHeight: CGFloat!
 
   // MARK: - Lifecycle
-  init() {
-    super.init(nibName: nil, bundle: nil)
-  }
-  
-  required init?(coder: NSCoder) {
-    super.init(coder: coder)
-  }
-  
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     setBottomSheetBeforeAnimation()
@@ -153,7 +145,7 @@ class BaseBottomSheetViewController: UIViewController {
     bottomSheetView.transform = .init(translationX: 0, y: y)
     safeAreaBottomView.transform = .init(translationX: 0, y: y)
   }
-  var i = 0
+  
   private func animateBottomSheetWithOriginPosition(_ gesture: UIPanGestureRecognizer) {
     bottomSheetView.isUserInteractionEnabled = false
     gesture.cancelsTouchesInView = true
