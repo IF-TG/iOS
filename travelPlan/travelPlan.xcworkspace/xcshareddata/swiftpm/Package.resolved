@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/SHcommit/SHCoordinator.git",
       "state" : {
-        "revision" : "d6798e5720150fa92915a832bc6aa7c8a9a112cb",
-        "version" : "1.0.2"
+        "revision" : "88b335760bd93a36aa63b045f1fd97168d8ad836",
+        "version" : "2.0.0"
       }
     }
   ],
