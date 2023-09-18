@@ -8,27 +8,29 @@
 import UIKit
 import SHCoordinator
 
+protocol PostSearchCoordinatorDelegate: AnyObject {
+  func finish()
+}
+
 final class PostSearchCoordinator: FlowCoordinator {
   // MARK: - Properties
   var parent: FlowCoordinator!
   var child: [FlowCoordinator] = []
-  var presenter: UINavigationController
-  var viewController: UIViewController!
+  var presenter: UINavigationController!
   
   // MARK: - LifeCycle
   init(presenter: UINavigationController) {
     self.presenter = presenter
-    let vc = PostSearchViewController()
-    vc.coordinator = self
-    viewController = vc
   }
-  
-//  deinit {
-//    print("DEBUG: \(String(describing: self)) deinit")
-//  }
-  
+
   // MARK: - Helpers
   func start() {
-    presenter.pushViewController(viewController, animated: true)
+    let vc = PostSearchViewController()
+    vc.coordinator = self
+    presenter.pushViewController(vc, animated: true)
   }
+}
+
+// MARK: - PostSearchCoordinatorDelegate 
+extension PostSearchCoordinator: PostSearchCoordinatorDelegate {
 }

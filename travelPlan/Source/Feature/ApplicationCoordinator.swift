@@ -12,7 +12,7 @@ final class ApplicationCoordinator: FlowCoordinator {
   // MARK: - Properties
   var parent: FlowCoordinator!
   var child: [FlowCoordinator] = []
-  var presenter: UINavigationController = .init()
+  var presenter: UINavigationController! = nil
   var viewController: UIViewController!
   private let window: UIWindow
   

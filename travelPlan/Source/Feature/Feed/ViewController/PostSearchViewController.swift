@@ -13,7 +13,7 @@ final class PostSearchViewController: UIViewController {
   // MARK: - Properties
   private let viewModel = PostSearchViewModel()
   
-  weak var coordinator: PostSearchCoordinator?
+  weak var coordinator: PostSearchCoordinatorDelegate?
   
   private lazy var input = Input(didChangeSearchTextField: searchTextField.changed)
   
@@ -101,7 +101,7 @@ final class PostSearchViewController: UIViewController {
   }
   
   deinit {
-    print("deinit: \(Self.self)")
+    coordinator?.finish()
   }
 }
 
