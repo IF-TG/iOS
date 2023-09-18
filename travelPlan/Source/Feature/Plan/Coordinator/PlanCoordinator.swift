@@ -26,8 +26,9 @@ final class PlanCoordinator: FlowCoordinator {
   func start() {
     let vc = PlanViewController()
     vc.coordinator = self
-    presenter.pushViewController(viewController, animated: true)
+    presenter.pushViewController(vc, animated: true)
   }
 }
 
+// MARK: - PlanCoordinatorDelegate
 extension PlanCoordinator: PlanCoordinatorDelegate {}

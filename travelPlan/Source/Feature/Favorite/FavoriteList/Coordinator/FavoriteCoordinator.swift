@@ -8,22 +8,27 @@
 import UIKit
 import SHCoordinator
 
+protocol FavoriteCoordinatorDelegate: AnyObject {
+  func finish()
+}
+
 final class FavoriteCoordinator: FlowCoordinator {
   // MARK: - Properties
   var parent: FlowCoordinator!
   var child: [FlowCoordinator] = []
-  var presenter: UINavigationController
-  var viewController: UIViewController!
+  var presenter: UINavigationController!
   
   init(presenter: UINavigationController) {
     self.presenter = presenter
-    let vc = FavoriteViewController()
-    vc.coordinator = self
-    viewController = vc
   }
   
   // MARK: - Helpers
   func start() {
-    presenter.pushViewController(viewController, animated: true)
+    let vc = FavoriteViewController()
+    vc.coordinator = self
+    presenter.pushViewController(vc, animated: true)
   }
 }
+
+// MARK: - FavoriteCoordinatorDelegate
+extension FavoriteCoordinator: FavoriteCoordinatorDelegate {}

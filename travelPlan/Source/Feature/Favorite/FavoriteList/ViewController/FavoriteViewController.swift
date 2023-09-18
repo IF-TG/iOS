@@ -12,7 +12,7 @@ class FavoriteViewController: UIViewController {
   private let line = OneUnitHeightLine(color: .yg.gray0)
   private lazy var tableView = FavoriteListTableView()
   private var adapter: FavoriteListTableViewAdapter!
-  weak var coordinator: FavoriteCoordinator?
+  weak var coordinator: FavoriteCoordinatorDelegate?
   private var vm = FavoriteListViewModel()
   
   // MARK: - Lifecycle
@@ -49,6 +49,10 @@ class FavoriteViewController: UIViewController {
 
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+  
+  deinit {
+    coordinator?.finish()
   }
 }
 

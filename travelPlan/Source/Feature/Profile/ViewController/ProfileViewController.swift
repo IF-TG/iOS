@@ -7,9 +7,10 @@
 
 import UIKit
 
+
 class ProfileViewController: UIViewController {
   // MARK: - Properties
-  weak var coordinator: ProfileCoordinator?
+  weak var coordinator: ProfileCoordinatorDelegate?
   
   // MARK: - Lifecycle
   override func viewDidLoad() {
@@ -30,4 +31,7 @@ class ProfileViewController: UIViewController {
     fatalError("init(coder:) has not been implemented")
   }
   
+  deinit {
+    coordinator?.finish()
+  }
 }
