@@ -24,7 +24,7 @@ enum TravelThemeType: CaseIterable {
      .categoryDevelop]
   }
   
-  var travelThemeAllCases: [String] {
+  var titles: [String] {
     switch self {
     case .all:
       return []
