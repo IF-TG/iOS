@@ -9,7 +9,7 @@ import UIKit
 
 class PlanViewController: UIViewController {
   // MARK: - Properties
-  weak var coordinator: PlanCoordinator?
+  weak var coordinator: PlanCoordinatorDelegate?
   // MARK: - Lifecycle
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -17,26 +17,7 @@ class PlanViewController: UIViewController {
     // Do any additional setup after loading the view.
   }
   
-  private override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-    super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+  deinit {
+    coordinator?.finish()
   }
-  
-  convenience init() {
-    self.init(nibName: nil, bundle: nil)
-  }
-  
-  required init?(coder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
-  }
-  
-  /*
-   // MARK: - Navigation
-   
-   // In a storyboard-based application, you will often want to do a little preparation before navigation
-   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-   // Get the new view controller using segue.destination.
-   // Pass the selected object to the new view controller.
-   }
-   */
-  
 }
