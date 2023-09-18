@@ -23,6 +23,23 @@ enum TravelThemeType: CaseIterable {
      .partner(TravelPartner.alone),
      .categoryDevelop]
   }
+  
+  var travelThemeAllCases: [String] {
+    switch self {
+    case .all:
+      return []
+    case .season:
+      return Season.allCases.map { $0.rawValue }
+    case .region:
+      return TravelRegion.allCases.map { $0.rawValue }
+    case .travelTheme:
+      return TravelTheme.allCases.map { $0.rawValue }
+    case .partner:
+      return TravelPartner.allCases.map { $0.rawValue }
+    case .categoryDevelop:
+      return []
+    }
+  }
 }
 
 // MARK: - RawRepresentable
