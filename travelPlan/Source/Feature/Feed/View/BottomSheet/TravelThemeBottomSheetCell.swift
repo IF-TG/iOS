@@ -11,6 +11,7 @@ final class TravelThemeBottomSheetCell: UITableViewCell {
   enum Constants {
     enum Title {
       static let textSize: CGFloat = 16
+      static let textColor: UIColor = .yg.gray5
       enum Inset {
         static let leading: CGFloat = 35
         static let trailing = leading
@@ -22,17 +23,21 @@ final class TravelThemeBottomSheetCell: UITableViewCell {
   
   // MARK: - Properties
   private let title: UILabel = UILabel(frame: .zero).set {
+    typealias Const = Constants.Title
     $0.translatesAutoresizingMaskIntoConstraints = false
-    $0.font = .systemFont(ofSize: Constants.Title.textSize)
+    $0.font = UIFont.boldSystemFont(ofSize: Const.textSize)
+    $0.textColor = Const.textColor
     $0.numberOfLines = 1
   }
   
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
+    setupUI()
   }
   
   required init?(coder: NSCoder) {
     super.init(coder: coder)
+    setupUI()
   }
   
   override func prepareForReuse() {
