@@ -20,6 +20,7 @@
 		131A11062AB4CD1A007BDD66 /* SearchDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131A11052AB4CD1A007BDD66 /* SearchDetailViewController.swift */; };
 		131A11082AB5067E007BDD66 /* SearchDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131A11072AB5067E007BDD66 /* SearchDetailViewModel.swift */; };
 		131A110A2AB509FB007BDD66 /* UIView+roundCorners.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131A11092AB509FB007BDD66 /* UIView+roundCorners.swift */; };
+		131A110C2AB5D55C007BDD66 /* SearchDetailCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131A110B2AB5D55C007BDD66 /* SearchDetailCoordinator.swift */; };
 		13254FE32A05147200094218 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13254FE22A05147200094218 /* MainTabBarController.swift */; };
 		13254FE52A05157900094218 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13254FE42A05157900094218 /* FeedViewController.swift */; };
 		13254FE72A05158E00094218 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13254FE62A05158E00094218 /* SearchViewController.swift */; };
@@ -46,6 +47,7 @@
 		13813A252AAA494500AF6AEB /* PostSearchLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13813A242AAA494500AF6AEB /* PostSearchLayout.swift */; };
 		1390CC5D2A8BADEC00E34DC3 /* SearchHeaderViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1390CC5C2A8BADEC00E34DC3 /* SearchHeaderViewDelegate.swift */; };
 		1390CC6F2A8E0B2800E34DC3 /* SearchStarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1390CC6E2A8E0B2800E34DC3 /* SearchStarButton.swift */; };
+		13A6C2DB2AB782A100EABD76 /* UIViewController+BackBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A6C2DA2AB782A100EABD76 /* UIViewController+BackBarButtonItem.swift */; };
 		13C07ECD2A13F454005F04CD /* PostSearchFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C07ECC2A13F454005F04CD /* PostSearchFooterView.swift */; };
 		13C9C1AF2A17FFC400DF1FFF /* PostSearchHeaderViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C9C1AE2A17FFC400DF1FFF /* PostSearchHeaderViewDelegate.swift */; };
 		13C9C1B12A1806F500DF1FFF /* PostRecentSearchTagCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C9C1B02A1806F500DF1FFF /* PostRecentSearchTagCellDelegate.swift */; };
@@ -191,6 +193,7 @@
 		131A11052AB4CD1A007BDD66 /* SearchDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDetailViewController.swift; sourceTree = "<group>"; };
 		131A11072AB5067E007BDD66 /* SearchDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDetailViewModel.swift; sourceTree = "<group>"; };
 		131A11092AB509FB007BDD66 /* UIView+roundCorners.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+roundCorners.swift"; sourceTree = "<group>"; };
+		131A110B2AB5D55C007BDD66 /* SearchDetailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDetailCoordinator.swift; sourceTree = "<group>"; };
 		13254FE22A05147200094218 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		13254FE42A05157900094218 /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
 		13254FE62A05158E00094218 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
@@ -217,6 +220,7 @@
 		13813A242AAA494500AF6AEB /* PostSearchLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSearchLayout.swift; sourceTree = "<group>"; };
 		1390CC5C2A8BADEC00E34DC3 /* SearchHeaderViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHeaderViewDelegate.swift; sourceTree = "<group>"; };
 		1390CC6E2A8E0B2800E34DC3 /* SearchStarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchStarButton.swift; sourceTree = "<group>"; };
+		13A6C2DA2AB782A100EABD76 /* UIViewController+BackBarButtonItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+BackBarButtonItem.swift"; sourceTree = "<group>"; };
 		13C07ECC2A13F454005F04CD /* PostSearchFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSearchFooterView.swift; sourceTree = "<group>"; };
 		13C9C1AE2A17FFC400DF1FFF /* PostSearchHeaderViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSearchHeaderViewDelegate.swift; sourceTree = "<group>"; };
 		13C9C1B02A1806F500DF1FFF /* PostRecentSearchTagCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostRecentSearchTagCellDelegate.swift; sourceTree = "<group>"; };
@@ -528,6 +532,7 @@
 			isa = PBXGroup;
 			children = (
 				1503F9392A4E1260002BC38D /* SearchCoordinator.swift */,
+				131A110B2AB5D55C007BDD66 /* SearchDetailCoordinator.swift */,
 			);
 			path = Coordinator;
 			sourceTree = "<group>";
@@ -1213,6 +1218,7 @@
 				15AF2C3D2A1147B100BEE166 /* UIImage+JPEGCompress.swift */,
 				13CB6D352A20E12B00D185B2 /* CALayer+Border.swift */,
 				131A11092AB509FB007BDD66 /* UIView+roundCorners.swift */,
+				13A6C2DA2AB782A100EABD76 /* UIViewController+BackBarButtonItem.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -1507,6 +1513,7 @@
 				1325502B2A0ABE5E00094218 /* PostSearchViewModel.swift in Sources */,
 				15FEB5E92A050A99000A5F33 /* UITextField+Combine.swift in Sources */,
 				15EF8C972A0A18960068C744 /* CategoryPageViewModel.swift in Sources */,
+				131A110C2AB5D55C007BDD66 /* SearchDetailCoordinator.swift in Sources */,
 				1503F9402A4E1327002BC38D /* FeedCoordinator.swift in Sources */,
 				13254FED2A0515D800094218 /* ProfileViewController.swift in Sources */,
 				1303047E2A249D6F00776A0D /* UIViewController+Preview.swift in Sources */,
@@ -1582,6 +1589,7 @@
 				152AD4F42A18B568008A2A11 /* FavoriteListHeaderViewConstant.swift in Sources */,
 				1594F53429FD517E00A58F20 /* SceneDelegate.swift in Sources */,
 				15BB01BB2A1EB6300035B486 /* FeedViewModel+AssociatedType.swift in Sources */,
+				13A6C2DB2AB782A100EABD76 /* UIViewController+BackBarButtonItem.swift in Sources */,
 				15BB01B62A1EB5000035B486 /* LoginViewController.swift in Sources */,
 				13606E882A9DDE7D00365F20 /* PostRecentSearchTagCell.swift in Sources */,
 				13254FE92A0515A900094218 /* PlanViewController.swift in Sources */,
