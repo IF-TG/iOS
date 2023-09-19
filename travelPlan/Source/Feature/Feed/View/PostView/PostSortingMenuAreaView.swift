@@ -1,5 +1,5 @@
 //
-//  PostSortingMenuView.swift
+//  PostSortingMenuAreaView.swift
 //  travelPlan
 //
 //  Created by 양승현 on 2023/07/03.
@@ -27,9 +27,9 @@ final class PostSortingMenuAreaView: UIView {
   }
   
   // MARK: - Properties
-  private(set) var travelThemeMenuView = MoreMenuView()
+  private var travelThemeMenuView = MoreMenuView()
   
-  private(set) var travelTrendMenuView = MoreMenuView()
+  private var travelTrendMenuView = MoreMenuView()
   
   // MARK: - LifeCycle
   private override init(frame: CGRect) {
@@ -41,6 +41,8 @@ final class PostSortingMenuAreaView: UIView {
     setupUI()
     travelThemeMenuView.configure(with: .detailCategory(travelThemeType))
     travelTrendMenuView.configure(with: .trend)
+    travelThemeMenuView.delegate = self
+    travelTrendMenuView.delegate = self
   }
   
   convenience init(travelThemeType: TravelThemeType) {
