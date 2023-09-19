@@ -8,9 +8,10 @@
 import UIKit
 
 extension UIViewController {
+  
   /// 내비게이션의 뒤로가기 버튼을 설정합니다. 원하는 ViewController의 viewDidLoad시점에서 해당 메소드를 호출해서 사용합니다.
-  ///
-  /// 버튼의 크기는 image size와 동일합니다. systemName은 적용되지 않습니다.
+  /// 버튼은 내비게이션의 leftBarButtonItem으로 설정됩니다.
+  /// 버튼의 크기는 image size와 동일합니다. **주의 해야 할 것으로, systemName은 적용되지 않습니다.**
   ///
   /// default size
   /// width: 28, height: 28
