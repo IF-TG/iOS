@@ -160,7 +160,6 @@ extension TravelDestinationCell: ViewBindCase {
 // MARK: - Actions
 extension TravelDestinationCell {
   @objc private func didTapStarButton() {
-    // viewModelTODO: - CellViewModel 추가해서 input output 패턴 적용하고 delegate를 제거해야 합니다.
     input.didTapStarButton.send()
     print("DEBUG: 버튼 변화됨!")
   }
