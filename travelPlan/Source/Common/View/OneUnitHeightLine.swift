@@ -8,9 +8,8 @@
 import UIKit
 
 /// YG app에서 사용되는 얇은 그래이색 height 1 라인
-/// # Example #
-/// ```
 /// Example:
+/// ```
 /// class ViewController: UIViewController {
 ///   let content = UIView()
 ///   let line = OneUnitHeightLine(color: .yg.gray4)
