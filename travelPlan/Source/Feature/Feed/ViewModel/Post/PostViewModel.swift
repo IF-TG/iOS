@@ -32,8 +32,8 @@ extension PostViewModel {
   }
 }
 
-// MARK: - PostViewDataSource
-extension PostViewModel: PostViewDataSource {
+// MARK: - PostViewAdapterDataSource
+extension PostViewModel: PostViewAdapterDataSource {
   var numberOfItems: Int {
     data.count
   }

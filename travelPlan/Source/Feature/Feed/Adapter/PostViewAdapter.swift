@@ -7,21 +7,19 @@
 
 import UIKit
 
-protocol PostViewDataSource: AnyObject {
+protocol PostViewAdapterDataSource: AnyObject {
   var numberOfItems: Int { get }
   func postViewCellItem(at index: Int) -> PostModel
   func contentText(at index: Int) -> String
 }
 
 final class PostViewAdapter: NSObject {
-  weak var delegateProvider: PostView?
-  weak var dataSource: PostViewDataSource?
+  weak var dataSource: PostViewAdapterDataSource?
   init(
-    dataSource: PostViewDataSource? = nil,
+    dataSource: PostViewAdapterDataSource? = nil,
     collectionView: PostView
   ) {
     super.init()
-    self.delegateProvider = collectionView
     self.dataSource = dataSource
     collectionView.dataSource = self
     collectionView.delegate = self
@@ -47,27 +45,8 @@ extension PostViewAdapter: UICollectionViewDataSource {
     cell.configure(with: dataSource.postViewCellItem(at: indexPath.row))
     return cell
   }
-  
-  func collectionView(
-    _ collectionView: UICollectionView,
-    viewForSupplementaryElementOfKind kind: String,
-    at indexPath: IndexPath
-  ) -> UICollectionReusableView {
-    guard
-      kind == UICollectionView.elementKindSectionHeader,
-      let header = collectionView.dequeueReusableSupplementaryView(
-        ofKind: kind,
-        withReuseIdentifier: PostViewHeaderCategoryView.id,
-        for: indexPath) as? PostViewHeaderCategoryView
-    else {
-      return .init()
-    }
-    header.totalViewDelegate = delegateProvider
-    header.sortingViewDelegate = delegateProvider
-    return header
-  }
-
 }
+
 // MARK: - UICollectionViewDelegateFlowLayout
 extension PostViewAdapter: UICollectionViewDelegateFlowLayout {
   func collectionView(
@@ -98,16 +77,5 @@ extension PostViewAdapter: UICollectionViewDelegateFlowLayout {
         .Constant
         .constant
         .intrinsicHeightWithOutContentTextHeight)
-  }
-  
-  func collectionView(
-    _ collectionView: UICollectionView,
-    layout collectionViewLayout: UICollectionViewLayout,
-    referenceSizeForHeaderInSection section: Int
-  ) -> CGSize {
-    let screenWidth = collectionView.bounds.width
-    return .init(
-      width: screenWidth,
-      height: PostView.Constant.Header.height)
   }
 }
