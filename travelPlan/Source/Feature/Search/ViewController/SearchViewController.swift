@@ -84,6 +84,10 @@ final class SearchViewController: UIViewController {
     super.viewDidAppear(animated)
     searchView.setupShadowLayer()
   }
+  
+  deinit {
+    coordinator?.finish()
+  }
 }
 
 // MARK: - ViewBindCase
@@ -271,12 +275,7 @@ extension SearchViewController: SearchViewDelegate {
 extension SearchViewController: SearchHeaderViewDelegate {
   // pushTODO: - 각 타입에 맞게 화면전환을 해야합니다.
   func didTaplookingMoreButton(_ headerView: SearchHeaderView) {
-    switch headerView.type {
-    case .festival:
-      print("DEBUG: 베스트 축제 더보기 클릭")
-    case .famous:
-      print("DEBUG: 유명 관광지 더보기 클릭")
-    case .none: break
-    }
+    guard let sectionType = headerView.type else { return }
+    coordinator?.showSearchDetail(type: sectionType)
   }
 }
