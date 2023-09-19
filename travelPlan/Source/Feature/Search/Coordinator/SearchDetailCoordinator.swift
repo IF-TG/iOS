@@ -12,18 +12,13 @@ final class SearchDetailCoordinator: FlowCoordinator {
   // MARK: - Properties
   var parent: FlowCoordinator!
   var child: [FlowCoordinator] = []
-  var presenter: UINavigationController
-  
-  // weakTODO: - viewController를 weak로 설정해야 합니다.
-  var viewController: UIViewController!
+  var presenter: UINavigationController!
+  var viewControllerType: SearchSectionType
   
   // MARK: - LifeCycle
-  init(presenter: UINavigationController, type: SearchSectionType) {
+  init(presenter: UINavigationController, viewControllerType: SearchSectionType) {
+    self.viewControllerType = viewControllerType
     self.presenter = presenter
-    
-    let searchDetailVC = SearchDetailViewController(type: type)
-    searchDetailVC.coordinator = self
-    viewController = searchDetailVC
   }
   
   deinit {
@@ -32,7 +27,8 @@ final class SearchDetailCoordinator: FlowCoordinator {
   
   // MARK: - Start
   func start() {
-//    guard let viewController = self.viewController else { return }
+    let viewController = SearchDetailViewController(type: viewControllerType)
+    viewController.coordinator = self
     presenter.pushViewController(viewController, animated: true)
   }
 }
