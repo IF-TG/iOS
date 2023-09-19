@@ -53,7 +53,6 @@ final class PostRecentSearchTagCell: UICollectionViewCell {
   
   private let tagLabel = PostSearchTagLabel()
   
-//  weak var delegate: PostRecentSearchTagCellDelegate?
   weak var delegate: PostRecentSearchTagCellDelegate?
   // MARK: - LifeCycle
   override init(frame: CGRect) {
@@ -70,9 +69,6 @@ final class PostRecentSearchTagCell: UICollectionViewCell {
     _ layoutAttributes: UICollectionViewLayoutAttributes
   ) -> UICollectionViewLayoutAttributes {
     super.preferredLayoutAttributesFitting(layoutAttributes)
-
-    setNeedsLayout()
-    layoutIfNeeded()
     
     layoutAttributes.frame.size.width = calculateTagSize(to: layoutAttributes)
     return layoutAttributes
