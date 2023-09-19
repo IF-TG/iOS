@@ -17,13 +17,21 @@ final class SearchCoordinator: FlowCoordinator {
   
   init(presenter: UINavigationController) {
     self.presenter = presenter
-    let vc = SearchViewController()
-    vc.coordinator = self
-    viewController = vc
+  }
+  
+  deinit {
+    print("deinit: \(Self.self)")
   }
   
   // MARK: - Helpers
   func start() {
-    presenter.pushViewController(viewController, animated: true)
+    let viewController = SearchViewController()
+    viewController.coordinator = self
+    presenter.viewControllers = [viewController]
+  }
+  
+  func showSearchDetail(type: SearchSectionType) {
+    let child = SearchDetailCoordinator(presenter: presenter, type: type)
+    addChild(with: child)
   }
 }
