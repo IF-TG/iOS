@@ -126,12 +126,8 @@ final class PostSearchViewController: UIViewController {
     input.viewDidLoad.send()
   }
   
-  override func viewDidAppear(_ animated: Bool) {
-    super.viewDidAppear(animated)
-    coordinator?.finish()
-  }
-  
   deinit {
+    coordinator?.finish()
     print("deinit: \(Self.self)")
   }
 }
