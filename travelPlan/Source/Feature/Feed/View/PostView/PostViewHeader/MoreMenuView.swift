@@ -42,7 +42,7 @@ final class MoreMenuView: UIView {
     }
   }
   // MARK: - Properties
-  weak var delegate: MoreCategoryViewDelegate?
+  weak var delegate: MoreMenuViewDelegate?
   
   private let moreIcon = UIImageView().set {
     $0.translatesAutoresizingMaskIntoConstraints = false
@@ -84,7 +84,7 @@ final class MoreMenuView: UIView {
 extension MoreMenuView {
   @objc func didTapView() {
     isSelected.toggle()
-    delegate?.moreCategoryView(
+    delegate?.moreMenuView(
       self,
       didSelectedType: categoryType)
   }

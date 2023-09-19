@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class PostSortingMenuView: UIView {
+final class PostSortingMenuAreaView: UIView {
   enum Constants {
     enum TravelThemeMenuView {
       enum Inset {
@@ -25,12 +25,11 @@ final class PostSortingMenuView: UIView {
       }
     }
   }
-
   
   // MARK: - Properties
-  private(set) var travelThemeMenuView = MoreCategoryView()
+  private(set) var travelThemeMenuView = MoreMenuView()
   
-  private(set) var travelTrendMenuView = MoreCategoryView()
+  private(set) var travelTrendMenuView = MoreMenuView()
   
   // MARK: - LifeCycle
   private override init(frame: CGRect) {
@@ -53,7 +52,7 @@ final class PostSortingMenuView: UIView {
 }
 
 // MARK: - LayoutSupport
-extension PostSortingMenuView: LayoutSupport {
+extension PostSortingMenuAreaView: LayoutSupport {
   func addSubviews() {
     _=[
       travelThemeMenuView,
@@ -74,7 +73,7 @@ extension PostSortingMenuView: LayoutSupport {
 }
 
 // MARK: - Layout support helper
-private extension PostSortingMenuView {
+private extension PostSortingMenuAreaView {
   var travelThemeMenuViewConstraints: [NSLayoutConstraint] {
     typealias Inset = Constants.TravelThemeMenuView.Inset
     return [
@@ -99,5 +98,18 @@ private extension PostSortingMenuView {
         equalTo: travelThemeMenuView.centerYAnchor),
       travelTrendMenuView.trailingAnchor.constraint(
         lessThanOrEqualTo: trailingAnchor)]
+  }
+}
+
+extension PostSortingMenuAreaView: MoreMenuViewDelegate {
+  func moreMenuView(
+    _ moreMenuView: MoreMenuView,
+    didSelectedType type: TravelCategorySortingType
+  ) {
+    let data: [Notification.Name: TravelCategorySortingType] = [.TravelCategoryDetailSelected: type]
+    NotificationCenter.default.post(
+      name: .TravelCategoryDetailSelected,
+      object: nil,
+      userInfo: data)
   }
 }
