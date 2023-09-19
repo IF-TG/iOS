@@ -74,6 +74,21 @@ extension PostSortingMenuAreaView: LayoutSupport {
   }
 }
 
+// MARK: - MoreMenuViewDelegate
+extension PostSortingMenuAreaView: MoreMenuViewDelegate {
+  func moreMenuView(
+    _ moreMenuView: MoreMenuView,
+    didSelectedType type: TravelCategorySortingType
+  ) {
+    let data: [Notification.Name: TravelCategorySortingType] = [.TravelCategoryDetailSelected: type]
+    NotificationCenter.default.post(
+      name: .TravelCategoryDetailSelected,
+      object: nil,
+      userInfo: data)
+  }
+}
+
+
 // MARK: - Layout support helper
 private extension PostSortingMenuAreaView {
   var travelThemeMenuViewConstraints: [NSLayoutConstraint] {
@@ -100,18 +115,5 @@ private extension PostSortingMenuAreaView {
         equalTo: travelThemeMenuView.centerYAnchor),
       travelTrendMenuView.trailingAnchor.constraint(
         lessThanOrEqualTo: trailingAnchor)]
-  }
-}
-
-extension PostSortingMenuAreaView: MoreMenuViewDelegate {
-  func moreMenuView(
-    _ moreMenuView: MoreMenuView,
-    didSelectedType type: TravelCategorySortingType
-  ) {
-    let data: [Notification.Name: TravelCategorySortingType] = [.TravelCategoryDetailSelected: type]
-    NotificationCenter.default.post(
-      name: .TravelCategoryDetailSelected,
-      object: nil,
-      userInfo: data)
   }
 }
