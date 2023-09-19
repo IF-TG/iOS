@@ -12,9 +12,7 @@ final class MainCoordinator: FlowCoordinator {
   // MARK: - Properties
   var parent: FlowCoordinator!
   var child: [FlowCoordinator] = []
-  // **Not use**
-  let presenter: UINavigationController = .init()
-  // **Use this**
+  let presenter: UINavigationController! = nil
   let mainTabBarPresenter: MainTabBarController
   var viewController: UIViewController!
   

@@ -8,14 +8,18 @@
 import UIKit
 import SHCoordinator
 
+protocol SearchCoordinatorDelegate: AnyObject {
+  func showSearchDetail(type: SearchSectionType)
+  func finish()
+}
+
 final class SearchCoordinator: FlowCoordinator {
   // MARK: - Properties
   var parent: FlowCoordinator!
   var child: [FlowCoordinator] = []
-  var presenter: UINavigationController
-  var viewController: UIViewController!
+  var presenter: UINavigationController!
   
-  init(presenter: UINavigationController) {
+  init(presenter: UINavigationController!) {
     self.presenter = presenter
   }
   
@@ -28,10 +32,14 @@ final class SearchCoordinator: FlowCoordinator {
     let viewController = SearchViewController()
     viewController.coordinator = self
     presenter.viewControllers = [viewController]
+    print(presenter.viewControllers)
   }
-  
+}
+
+// MARK: - SearchCoordinatorDelegate
+extension SearchCoordinator: SearchCoordinatorDelegate {
   func showSearchDetail(type: SearchSectionType) {
-    let child = SearchDetailCoordinator(presenter: presenter, type: type)
+    let child = SearchDetailCoordinator(presenter: presenter, viewControllerType: type)
     addChild(with: child)
   }
 }
