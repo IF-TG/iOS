@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "shcoordinator",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SHcommit/SHCoordinator.git",
+      "state" : {
+        "revision" : "88b335760bd93a36aa63b045f1fd97168d8ad836",
+        "version" : "2.0.0"
+      }
+    }
+  ],
+  "version" : 2
+}
