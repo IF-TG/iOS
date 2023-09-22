@@ -1,6 +1,6 @@
 
 ## 📖 참고 자료
-<!-- 사진 한 개인 경우 <img src=" " width="200" height="400"/> -->
+<!-- 사진 한 개인 경우 <img src=" " width="200"/> -->
 
 <!-- 사진 두 개인 경우
  <img src="이미지1" width="350">|<img width="350" alt="image" src="이미지2">|
