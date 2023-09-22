@@ -1,12 +1,5 @@
----
-name: todo-item
-about: Project issue item template
-title: ''
-labels: ''
-assignees: ''
 
----
-
+## 📖 참고 자료
 <!-- 사진 한 개인 경우 <img src=" " width="200" height="400"/> -->
 
 <!-- 사진 두 개인 경우
@@ -14,7 +7,10 @@ assignees: ''
  |:-:|:-:|
  |`이미지1 이름`|`이미지2 이름`| -->
 
-## 화면 네이밍:
+
+
+
+## 📱 화면 네이밍:
 - ViewController
 - View
 
