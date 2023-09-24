@@ -14,7 +14,16 @@ final class CategoryDetailViewCell: UICollectionViewCell {
   }
   
   // MARK: - Properties
-  private var postView: PostView!
+  private var travelThemeType: TravelThemeType = .all
+  
+  private var travelTrendType: TravelTrend = .newest
+  
+  private lazy var postSortingMenuAreaView = PostSortingMenuAreaView(
+    travelThemeType: travelThemeType)
+  
+  private var postView: PostCollectionView!
+  
+  private var postViewAdapter: PostViewAdapter!
   
   // MARK: - Initialization
   private override init(frame: CGRect) {
@@ -32,7 +41,7 @@ final class CategoryDetailViewCell: UICollectionViewCell {
 
 // MARK: - Public helpers
 extension CategoryDetailViewCell {
-  func configure(with data: [PostModel]
+  func configure(data: [PostModel], travelThemeType: TravelThemeType
   ) -> UICollectionViewCell {
     setPostView(with: data)
     return self
@@ -43,8 +52,11 @@ extension CategoryDetailViewCell {
 extension CategoryDetailViewCell {
   private func setPostView(with data: [PostModel]) {
     if postView == nil {
-      postView = PostView(
-        with: PostViewModel(data: data))
+      let postViewModel = PostViewModel(data: data)
+      postView = PostCollectionView(viewModel: postViewModel)
+      postViewAdapter = PostViewAdapter(
+        dataSource: postViewModel,
+        collectionView: postView)
       setupUI()
     }
   }
