@@ -17,7 +17,7 @@ final class PostViewAdapter: NSObject {
   weak var dataSource: PostViewAdapterDataSource?
   init(
     dataSource: PostViewAdapterDataSource? = nil,
-    collectionView: PostView
+    collectionView: BasePostCollectionView
   ) {
     super.init()
     self.dataSource = dataSource
