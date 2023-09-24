@@ -7,7 +7,9 @@
 
 import UIKit
 
-final class MoreMenuView: UIView {
+final class MoreMenuView: UICollectionReusableView {
+  static let id = String(describing: MoreMenuView.self)
+  
   enum Constants {
     static let selectedBorderColor: UIColor = .YG.gray3
     static let selectedBGColor: UIColor = .yg.gray3
@@ -68,16 +70,15 @@ final class MoreMenuView: UIView {
   private(set) var categoryType: TravelCategorySortingType = .detailCategory(.all)
   
   // MARK: - LifeCycle
-  private override init(frame: CGRect) {
+  override init(frame: CGRect) {
     super.init(frame: frame)
     configureUI()
   }
   
-  convenience init() {
-    self.init(frame: .zero)
+  required init?(coder: NSCoder) {
+    super.init(coder: coder)
+    configureUI()
   }
-  
-  required init?(coder: NSCoder) { fatalError() }
 }
 
 // MARK: - Action
