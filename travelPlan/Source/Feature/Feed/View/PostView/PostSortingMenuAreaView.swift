@@ -32,10 +32,6 @@ final class PostSortingMenuAreaView: UIView {
   private var travelTrendMenuView = MoreMenuView()
   
   // MARK: - LifeCycle
-  private override init(frame: CGRect) {
-    fatalError()
-  }
-  
   init(frame: CGRect, travelThemeType: TravelThemeType) {
     super.init(frame: frame)
     setupUI()
@@ -87,7 +83,6 @@ extension PostSortingMenuAreaView: MoreMenuViewDelegate {
       userInfo: data)
   }
 }
-
 
 // MARK: - Layout support helper
 private extension PostSortingMenuAreaView {
