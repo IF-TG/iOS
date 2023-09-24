@@ -41,8 +41,13 @@ final class CategoryDetailViewCell: UICollectionViewCell {
 
 // MARK: - Public helpers
 extension CategoryDetailViewCell {
-  func configure(data: [PostModel], travelThemeType: TravelThemeType
+  func configure(
+    data: [PostModel],
+    travelThemeType: TravelThemeType,
+    travelTrendType: TravelTrend
   ) -> UICollectionViewCell {
+    self.travelThemeType = travelThemeType
+    self.travelTrendType = travelTrendType
     setPostView(with: data)
     return self
   }
