@@ -7,15 +7,6 @@
 
 import UIKit
 
-// MARK: - PostView UI Constant
-extension PostView {
-  struct Constant {
-    enum Header {
-      static let height: CGFloat = 40
-    }
-  }
-}
-
 // MARK: - PostViewCell UI Constant
 extension PostCell {
   struct Constant {
