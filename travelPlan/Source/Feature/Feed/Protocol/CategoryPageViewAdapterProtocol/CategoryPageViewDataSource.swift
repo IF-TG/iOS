@@ -9,6 +9,7 @@ import Foundation
 
 protocol CategoryPageViewDataSource: AnyObject {
   var numberOfItems: Int { get }
+  var travelTrendState: TravelTrend { get }
   
   func scrollBarLeadingSpacing(_ titleWidth: CGFloat) -> CGFloat
   func categoryDetailViewCellItem(
