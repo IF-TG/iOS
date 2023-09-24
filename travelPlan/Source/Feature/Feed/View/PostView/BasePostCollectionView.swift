@@ -18,35 +18,45 @@ class BasePostCollectionView: UICollectionView {
   // MARK: - Properties
   private var baseViewModel: PostViewModel
   
-  private var baseAdapter: PostViewAdapter
-  
   // MARK: - Initialization
-  init(frame: CGRect, layout: UICollectionViewLayout, vm: PostViewModel, adapter: PostViewAdapter) {
-    self.baseViewModel = vm
-    self.baseAdapter = adapter
+  init(frame: CGRect, layout: UICollectionViewLayout, viewModel: PostViewModel) {
+    self.baseViewModel = viewModel
     super.init(frame: frame, collectionViewLayout: layout)
-    register(
-      PostCell.self,
-      forCellWithReuseIdentifier: PostCell.id)
-    showsHorizontalScrollIndicator = false
-    backgroundColor = .clear
+    configureUI()
   }
   
-  convenience init(layout: UICollectionViewLayout, vm: PostViewModel, adapter: PostViewAdapter) {
-    self.init(frame: .zero, layout: layout, vm: vm, adapter: adapter)
+  init(frame: CGRect, viewModel: PostViewModel) {
+    baseViewModel = viewModel
+    super.init(frame: frame, collectionViewLayout: .init())
+    collectionViewLayout = makeLayout()
+    configureUI()
+  }
+  
+  convenience init(layout: UICollectionViewLayout, viewModel: PostViewModel) {
+    self.init(frame: .zero, layout: layout, viewModel: viewModel)
     translatesAutoresizingMaskIntoConstraints = false
   }
   
-  convenience init(vm: PostViewModel, adapter: PostViewAdapter) {
-    self.init(layout: .init(), vm: vm, adapter: adapter)
-    collectionViewLayout = makeLayout()
+  convenience init(viewModel: PostViewModel) {
+    self.init(frame: .zero, viewModel: viewModel)
+    translatesAutoresizingMaskIntoConstraints = false
   }
   
   required init?(coder: NSCoder) {
     super.init(coder: coder)
+    configureUI()
+    collectionViewLayout = makeLayout()
   }
   
   // MARK: - Private func
+  private func configureUI() {
+    showsHorizontalScrollIndicator = false
+    backgroundColor = .clear
+    register(
+      PostCell.self,
+      forCellWithReuseIdentifier: PostCell.id)
+  }
+  
   private func makeLayout() -> UICollectionViewLayout {
     typealias LayoutSize = NSCollectionLayoutSize
     typealias Const = Constants.Layout
