@@ -11,9 +11,7 @@ protocol CategoryPageViewDataSource: AnyObject {
   var numberOfItems: Int { get }
   var travelTrendState: TravelTrend { get }
   
-  func scrollBarLeadingSpacing(_ titleWidth: CGFloat) -> CGFloat
-  func categoryDetailViewCellItem(
-    at index: Int) -> [PostModel]
+  func scrollBarLeadingSpacing(_ titleWidth: CGFloat) -> CGFloat  
   func categoryViewCellItem(
     at index: Int) -> String
 }
