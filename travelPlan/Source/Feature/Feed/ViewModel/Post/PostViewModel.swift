@@ -9,15 +9,20 @@ import Foundation
 
 final class PostViewModel {
   // MARK: - Properties
-  private let data: [PostModel]
+  private let data: [PostModel] = MockPostModel().initMockData()
+  
+  private(set) var travelTheme: TravelThemeType = .all
+  
+  private(set) var travelTrend: TravelTrend = .newest
   
     var count: Int {
       data.count
     }
   
   // MARK: - Properteis
-  init(data: [PostModel]) {
-    self.data = data
+  init(filterInfo: FeedPostSearchFilterInfo) {
+    self.travelTheme = filterInfo.travelTheme
+    self.travelTrend = filterInfo.travelTrend
   }
 }
 
