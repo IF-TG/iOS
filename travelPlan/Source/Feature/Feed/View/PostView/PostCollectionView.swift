@@ -17,44 +17,28 @@ class PostCollectionView: UICollectionView {
   }
   
   // MARK: - Properties
-  private var postViewModel: PostViewModel
-  
   private(set) var sectionIndex = 0
   
   // MARK: - Initialization
-  init(frame: CGRect, layout: UICollectionViewLayout, viewModel: PostViewModel) {
-    self.postViewModel = viewModel
+  init(frame: CGRect, layout: UICollectionViewLayout) {
     super.init(frame: frame, collectionViewLayout: layout)
     configureUI()
   }
   
-  init(frame: CGRect, viewModel: PostViewModel) {
-    postViewModel = viewModel
+  init(frame: CGRect) {
     super.init(frame: frame, collectionViewLayout: .init())
     collectionViewLayout = makePostLayout()
     configureUI()
   }
   
-  convenience init(layout: UICollectionViewLayout, viewModel: PostViewModel) {
-    self.init(frame: .zero, layout: layout, viewModel: viewModel)
-    translatesAutoresizingMaskIntoConstraints = false
-  }
-  
-  convenience init(viewModel: PostViewModel) {
-    self.init(frame: .zero, viewModel: viewModel)
-    translatesAutoresizingMaskIntoConstraints = false
+  convenience init() {
+    self.init(frame: .zero) 
   }
   
   required init?(coder: NSCoder) {
-    postViewModel = .init(data: [.init(header: .init(), content: .init(), footer: .init())])
     super.init(coder: coder)
     configureUI()
     collectionViewLayout = makePostLayout()
-  }
-  
-  // MARK: - Helper
-  func configure(with data: [PostModel]) {
-    postViewModel = .init(data: data)
   }
  
   // MARK: - Private helper
