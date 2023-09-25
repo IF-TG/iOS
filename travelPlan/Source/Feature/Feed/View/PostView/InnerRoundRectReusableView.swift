@@ -1,5 +1,5 @@
 //
-//  RoundReusableView.swift
+//  InnerRoundRectReusableView.swift
 //  travelPlan
 //
 //  Created by 양승현 on 2023/09/24.
@@ -7,12 +7,12 @@
 
 import UIKit
 
-final class RoundReusableView: UICollectionReusableView {
+final class InnerRoundRectReusableView: UICollectionReusableView {
   
-  static let id = String(describing: RoundReusableView.self)
+  static let id = String(describing: InnerRoundRectReusableView.self)
   
   // MARK: - Properties
-  private let backgroundView = UIView(frame: .zero).set {
+  private let roundView = UIView(frame: .zero).set {
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.layer.cornerRadius = 8
     $0.backgroundColor = .yg.littleWhite
@@ -37,10 +37,10 @@ final class RoundReusableView: UICollectionReusableView {
 }
 
 // MARK: - LayoutSupport
-extension RoundReusableView: LayoutSupport {
+extension InnerRoundRectReusableView: LayoutSupport {
   func addSubviews() {
     _=[
-      backgroundView
+      roundView
     ].map {
       addSubview($0)
     }
@@ -48,24 +48,24 @@ extension RoundReusableView: LayoutSupport {
   
   func setConstraints() {
     _=[
-      backgroundViewConstraints
+      roundViewConstraints
     ].map {
       NSLayoutConstraint.activate($0)
     }
   }
   
-  private var backgroundViewConstraints: [NSLayoutConstraint] {
+  private var roundViewConstraints: [NSLayoutConstraint] {
     return [
-      backgroundView.leadingAnchor.constraint(
+      roundView.leadingAnchor.constraint(
         equalTo: leadingAnchor,
         constant: 10),
-      backgroundView.trailingAnchor.constraint(
+      roundView.trailingAnchor.constraint(
         equalTo: trailingAnchor,
         constant: -10),
-      backgroundView.topAnchor.constraint(
+      roundView.topAnchor.constraint(
         equalTo: topAnchor,
         constant: 10),
-      backgroundView.bottomAnchor.constraint(
+      roundView.bottomAnchor.constraint(
         equalTo: bottomAnchor,
         constant: -10)]
   }
