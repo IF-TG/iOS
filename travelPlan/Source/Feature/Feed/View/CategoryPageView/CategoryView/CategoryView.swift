@@ -151,8 +151,7 @@ private extension CategoryView {
     var const = [
       scrollBar.topAnchor.constraint(
         lessThanOrEqualTo: categoryView.bottomAnchor),
-      scrollBar.heightAnchor.constraint(
-        lessThanOrEqualToConstant: Constant.ScrollBar.height),
+      scrollBar.heightAnchor.constraint(equalToConstant: Constant.ScrollBar.height),
       scrollBar.bottomAnchor.constraint(equalTo: bottomAnchor)]
     
     guard let cell = cell else {
