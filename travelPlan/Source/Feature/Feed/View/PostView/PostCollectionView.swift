@@ -79,6 +79,7 @@ class PostCollectionView: UICollectionView {
     return NSCollectionLayoutSection(group: group).set {
       let whiteRoundView = NSCollectionLayoutDecorationItem.background(elementKind: InnerRoundRectReusableView.id)
       $0.contentInsets = Const.groupInset
+      whiteRoundView.contentInsets = Const.groupInset
       $0.decorationItems = [whiteRoundView]
     }
   }
