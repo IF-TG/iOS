@@ -5,8 +5,8 @@
 //  Created by SeokHyun on 2023/09/24.
 //
 
-import Foundation
+import UIKit
 
 protocol StarButtonDelegate: AnyObject {
-  func didTapStarButton()
+  func didTapStarButton<T: UIView & CellConfigurable>(_ baseView: BaseDestinationView<T>)
 }

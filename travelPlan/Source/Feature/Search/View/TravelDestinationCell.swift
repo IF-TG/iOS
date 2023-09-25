@@ -88,7 +88,7 @@ class TravelDestinationCell: UICollectionViewCell {
 
 // MARK: - StarButtonDelegate
 extension TravelDestinationCell: StarButtonDelegate {
-  func didTapStarButton() {
+  func didTapStarButton<T: UIView & CellConfigurable>(_ baseView: BaseDestinationView<T>) {
     input.didTapStarButton.send()
   }
 }
