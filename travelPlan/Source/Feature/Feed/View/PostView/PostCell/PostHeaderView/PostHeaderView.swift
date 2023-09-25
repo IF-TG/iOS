@@ -53,18 +53,18 @@ final class PostHeaderView: UIView {
   
   // MARK: - Initialization
   private override init(frame: CGRect) {
-    super.init(frame: .zero)
-    translatesAutoresizingMaskIntoConstraints = false
-    backgroundColor = .yg.gray00Background
+    super.init(frame: frame)
     setupUI()
   }
   
   convenience init() {
     self.init(frame: .zero)
+    translatesAutoresizingMaskIntoConstraints = false
   }
   
   required init?(coder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
+    super.init(coder: coder)
+    setupUI()
   }
 }
 

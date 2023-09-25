@@ -24,12 +24,12 @@ final class PostCell: UICollectionViewCell {
   
   private override init(frame: CGRect) {
     super.init(frame: .zero)
-    backgroundColor = .yg.gray00Background
     setupUI()
   }
   
   required init?(coder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
+    super.init(coder: coder)
+    setupUI()
   }
 }
 
@@ -82,14 +82,23 @@ extension PostCell {
 // MARK: - LayoutSupport
 extension PostCell: LayoutSupport {
   func addSubviews() {
-    _=[headerView, contentAreaView, footerView].map { contentView.addSubview($0) }
+    _=[
+      headerView,
+      contentAreaView,
+      footerView
+    ].map {
+      contentView.addSubview($0)
+    }
   }
   
   func setConstraints() {
-    _=[headViewConstraints,
-       contentAreaViewConstraints,
-       footerViewConstraints]
-      .map { NSLayoutConstraint.activate($0) }
+    _=[
+      headViewConstraints,
+      contentAreaViewConstraints,
+      footerViewConstraints
+    ].map {
+      NSLayoutConstraint.activate($0)
+    }
   }
 }
 
