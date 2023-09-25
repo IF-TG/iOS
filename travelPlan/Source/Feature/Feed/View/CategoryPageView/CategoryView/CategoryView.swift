@@ -8,25 +8,32 @@
 import UIKit
 
 final class CategoryView: UIView {
+  enum Constant {
+    enum ScrollBar {
+      static let height: CGFloat = 4
+      static let radius: CGFloat = 2
+      static let color: UIColor = .yg.primary
+    }
+    
+    enum Shadow {
+      static let radius: CGFloat = 10.0
+      static let color = UIColor(red: 0, green: 0, blue: 0, alpha: 0.05).cgColor
+      static let offset = CGSize(width: 0, height: 1)
+    }
+    
+    static let cellSize = CategoryViewCell.Constant.size
+    
+    static let size: CGSize = {
+      let width = cellSize.width
+      let height = Constant.ScrollBar.height + Constant.cellSize.height
+      return CGSize(width: width, height: height)
+    }()
+  }
+  
   // MARK: - Properties
   private var scrollBarConstraints: [NSLayoutConstraint] = []
   
-  private(set) var categoryView = {
-    let layout = UICollectionViewFlowLayout().set {
-      $0.scrollDirection = .horizontal
-      $0.itemSize = Constant.cellSize
-      $0.minimumLineSpacing = 0
-      $0.minimumInteritemSpacing = 0
-    }
-    return UICollectionView(
-      frame: .zero,
-      collectionViewLayout: layout
-    ).set {
-      $0.translatesAutoresizingMaskIntoConstraints = false
-      $0.decelerationRate = .fast
-      $0.showsHorizontalScrollIndicator = false
-    }
-  }()
+  private(set) var travelThemeCategoryView = TravelThemeCollectionView()
   
   private let scrollBar: UIView = UIView().set {
     $0.backgroundColor = Constant.ScrollBar.color
@@ -51,15 +58,15 @@ final class CategoryView: UIView {
   }
 }
 
-// MARK: - Public helpers
+// MARK: - Helper
 extension CategoryView {
   func selectedCell(at indexPath: IndexPath) -> UICollectionViewCell? {
-    return categoryView.cellForItem(at: indexPath)
+    return travelThemeCategoryView.cellForItem(at: indexPath)
   }
   
   func setInitialVisibleSubviews(from text: String) {
     let indexPath = IndexPath(row: 0, section: 0)
-    guard let cell = categoryView.cellForItem(at: indexPath) as? CategoryViewCell else { return }
+    guard let cell = travelThemeCategoryView.cellForItem(at: indexPath) as? CategoryViewCell else { return }
     let firstCategoryTextWidth = UILabel(frame: .zero)
       .set {
         typealias Const = CategoryViewCell.Constant.Title
@@ -78,10 +85,7 @@ extension CategoryView {
     animated: Bool,
     scrollPosition position: UICollectionView.ScrollPosition
   ) {
-    categoryView.selectItem(
-      at: indexPath,
-      animated: animated,
-      scrollPosition: position)
+    travelThemeCategoryView.selectItem(at: indexPath, animated: animated, scrollPosition: position)
   }
   
   /// selected cell위치에 따라 scrollBar layout 갱신
@@ -116,14 +120,10 @@ extension CategoryView {
   }
 }
 
-// MARK: - Helpers
+// MARK: - Private helper
 private extension CategoryView {
   func configureUI() {
-    categoryView.bounces = false
     backgroundColor = .white
-    categoryView.register(
-      CategoryViewCell.self,
-      forCellWithReuseIdentifier: CategoryViewCell.id)
     setupUI()
   }
 }
@@ -131,42 +131,49 @@ private extension CategoryView {
 // MARK: - LayoutSupport
 extension CategoryView: LayoutSupport {
   func addSubviews() {
-    _=[categoryView, scrollBar].map { addSubview($0) }
+    _=[
+      travelThemeCategoryView,
+      scrollBar
+    ].map {
+      addSubview($0)
+    }
   }
   
   func setConstraints() {
     /// scrollBar position dynamic하게 바꾸기 위해 인스턴스에 저장
     scrollBarConstraints = scrollBarConstriant()
-    _=[categoryViewConstraint,
-       scrollBarConstraints]
-      .map { NSLayoutConstraint.activate($0) }
+    _=[
+      travelThemeCategoryViewConstraint,
+      scrollBarConstraints
+    ].map {
+      NSLayoutConstraint.activate($0)
+    }
   }
 }
 
 // MARK: - LayoutSupport constraints
 private extension CategoryView {
-  var categoryViewConstraint: [NSLayoutConstraint] {
-    [categoryView.topAnchor.constraint(equalTo: topAnchor),
-     categoryView.leadingAnchor.constraint(equalTo: leadingAnchor),
-     categoryView.trailingAnchor.constraint(equalTo: trailingAnchor),
-     categoryView.heightAnchor.constraint(
-      equalToConstant: Constant.cellSize.height)]
+  var travelThemeCategoryViewConstraint: [NSLayoutConstraint] {
+    typealias Const = Constant
+    return [
+      travelThemeCategoryView.topAnchor.constraint(equalTo: topAnchor),
+      travelThemeCategoryView.leadingAnchor.constraint(equalTo: leadingAnchor),
+      travelThemeCategoryView.trailingAnchor.constraint(equalTo: trailingAnchor),
+      travelThemeCategoryView.heightAnchor.constraint(
+        equalToConstant: Const.cellSize.height)]
   }
   
   func scrollBarConstriant(
     _ cell: UICollectionViewCell? = nil,
     cellTitleSpacing spacing: CGFloat = 0.0
   ) -> [NSLayoutConstraint] {
-    
     var const = [
       scrollBar.topAnchor.constraint(
-        equalTo: categoryView.bottomAnchor),
+        equalTo: travelThemeCategoryView.bottomAnchor),
       scrollBar.heightAnchor.constraint(equalToConstant: Constant.ScrollBar.height),
       scrollBar.bottomAnchor.constraint(equalTo: bottomAnchor)]
     
-    guard let cell = cell else {
-      return setInitialScrollBar(constraint: &const)
-    }
+    guard let cell = cell else { return setInitialScrollBar(constraint: &const) }
     
     setScrollBarPosition(
       from: cell,
@@ -179,7 +186,8 @@ private extension CategoryView {
   /// ScrollBar's leading, width anchor l
   /// - Parameter constraint: scrollBar's default constraint array
   /// - Returns: configured scrollBar's initial constraint
-  func setInitialScrollBar(constraint: inout [NSLayoutConstraint]
+  func setInitialScrollBar(
+    constraint: inout [NSLayoutConstraint]
   ) -> [NSLayoutConstraint] {
     let width = Constant.size.width
     _=[scrollBar.leadingAnchor.constraint(equalTo: leadingAnchor),
