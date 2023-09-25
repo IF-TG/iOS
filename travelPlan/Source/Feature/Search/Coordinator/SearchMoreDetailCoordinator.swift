@@ -1,5 +1,5 @@
 //
-//  SearchDetailCoordinator.swift
+//  SearchMoreDetailCoordinator.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 2023/09/16.
@@ -8,7 +8,11 @@
 import UIKit
 import SHCoordinator
 
-final class SearchDetailCoordinator: FlowCoordinator {
+protocol SearchMoreDetailCoordinatorDelegate: AnyObject {
+  func finish()
+}
+
+final class SearchMoreDetailCoordinator: FlowCoordinator {
   // MARK: - Properties
   var parent: FlowCoordinator!
   var child: [FlowCoordinator] = []
@@ -27,8 +31,12 @@ final class SearchDetailCoordinator: FlowCoordinator {
   
   // MARK: - Start
   func start() {
-    let viewController = SearchDetailViewController(type: viewControllerType)
+    let viewController = SearchMoreDetailViewController(type: viewControllerType)
     viewController.coordinator = self
     presenter.pushViewController(viewController, animated: true)
   }
+}
+
+extension SearchMoreDetailCoordinator: SearchMoreDetailCoordinatorDelegate {
+  
 }
