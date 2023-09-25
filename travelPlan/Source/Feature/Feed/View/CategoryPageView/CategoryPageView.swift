@@ -29,7 +29,7 @@ final class CategoryPageView: UIView {
     adapter = CategoryPageViewAdapter(
       dataSource: vm,
       delegate: self,
-      categoryCollectionView: categoryScrollBarAreaView.categoryView,
+      travelThemeCollectionView: categoryScrollBarAreaView.travelThemeCategoryView,
       categoryDetailCollectionView: categoryDetailView)
   }
   
@@ -57,16 +57,12 @@ private extension CategoryPageView {
       .receive(on: DispatchQueue.main)
       .sink { [unowned self] in
         let categoryfirstText = vm.categoryViewCellItem(at: 0)
+        let firstIndex = IndexPath(item: 0, section: 0)
         categoryScrollBarAreaView.setInitialVisibleSubviews(from: categoryfirstText)
-        categoryScrollBarAreaView.selectedItem(
-          at: IndexPath(row: 0, section: 0),
-          animated: false,
-          scrollPosition: .left)
-        categoryDetailView.selectItem(
-          at: IndexPath(row: 0, section: 0),
-          animated: false,
-          scrollPosition: .left)
-        bringSubviewToFront(categoryScrollBarAreaView)
+        categoryScrollBarAreaView.selectedItem(at: firstIndex, animated: false, scrollPosition: .left)
+        categoryDetailView.selectItem(at: firstIndex, animated: false, scrollPosition: .left)
+        // TODO: - 쉐도우 적용 안되서 적용해야합니다.
+        // bringSubviewToFront(categoryScrollBarAreaView)
         categoryScrollBarAreaView.configureShadow()
       }
   }
@@ -77,8 +73,8 @@ extension CategoryPageView: CategoryPageViewDelegate {
   func didSelectItemAt(_ indexPath: IndexPath, spacing: CGFloat) {
     guard let cell = categoryScrollBarAreaView.selectedCell(at: indexPath) else { return }
     categoryScrollBarAreaView.selectedItem(at: indexPath, animated: true, scrollPosition: .centeredHorizontally)
-    categoryScrollBarAreaView.drawScrollBar(target: cell, fromLeading: spacing)
     categoryDetailView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredHorizontally)
+    categoryScrollBarAreaView.drawScrollBar(target: cell, fromLeading: spacing)
   }
 }
 
@@ -100,15 +96,17 @@ extension CategoryPageView: LayoutSupport {
 // MARK: - LayoutSupport constraints
 private extension CategoryPageView {
   var categoryViewConstraint: [NSLayoutConstraint] {
-    [categoryScrollBarAreaView.topAnchor.constraint(
-      equalTo: topAnchor),
-     categoryScrollBarAreaView.leadingAnchor.constraint(
-      equalTo: leadingAnchor),
-     categoryScrollBarAreaView.trailingAnchor.constraint(
-      equalTo: trailingAnchor),
-     categoryScrollBarAreaView.heightAnchor.constraint(
-      equalToConstant:
-        CategoryView.Constant.size.height)]
+    typealias Const = CategoryView.Constant
+    return [
+      categoryScrollBarAreaView.topAnchor.constraint(
+        equalTo: topAnchor),
+      categoryScrollBarAreaView.leadingAnchor.constraint(
+        equalTo: leadingAnchor),
+      categoryScrollBarAreaView.trailingAnchor.constraint(
+        equalTo: trailingAnchor),
+      categoryScrollBarAreaView.heightAnchor.constraint(
+        equalToConstant:
+          Const.size.height)]
   }
   
   var categoryDetailViewConstraint: [NSLayoutConstraint] {
