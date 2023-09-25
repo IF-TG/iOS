@@ -1,3 +1,11 @@
+---
+name: "todo issue template"
+about: Github todo issue template입니다.
+title: ''
+labels: ''
+assignees: ''
+
+---
 
 ## 📖 참고 자료
 
