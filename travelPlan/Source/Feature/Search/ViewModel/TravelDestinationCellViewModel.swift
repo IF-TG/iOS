@@ -8,29 +8,30 @@
 import Foundation
 import Combine
 
-class TravelDestinationCellViewModel {
+final class TravelDestinationCellViewModel {
   typealias Output = AnyPublisher<State, ErrorType>
   
   // MARK: - Properties
-  let id: Int
-  let thumbnailImage: String? // typeFIXME: - URL?
-  let place: String
-  let location: String
-  let category: String
+  let contentModel: LeftAlignThreeLabelsView.Model
   var isSelectedButton: Bool
+  let imageURLString: String?
+  let id: Int
   
   // MARK: - LifeCycle
-  init(model: SearchFamousSpotModel) {
-    self.id = model.id
-    self.thumbnailImage = model.imageName
-    self.location = model.location
-    self.category = model.category
-    self.place = model.place
+  init(model: SearchCampingModel) {
+    self.contentModel = LeftAlignThreeLabelsView.Model(
+      place: model.place,
+      category: model.category,
+      location: model.location
+    )
+    
     self.isSelectedButton = model.isSelectedButton
+    self.imageURLString = model.imageURLString
+    self.id = model.id
   }
   
   deinit {
-    print("deinit SearchFamousSpotCellViewModel")
+    print("deinit: \(Self.self)")
   }
   
   // MARK: - Input
@@ -83,7 +84,6 @@ extension TravelDestinationCellViewModel {
       // fake network. 추후 네트워크 통신 이후, promise로 값을 방출해야 합니다.
       DispatchQueue.global().asyncAfter(wallDeadline: .now() + 0.5) { [weak self] in
         print("DEBUG: FakeNetwork 통신 성공!")
-        
         self?.isSelectedButton.toggle()
         promise(.success(.changeButtonColor))
       }
