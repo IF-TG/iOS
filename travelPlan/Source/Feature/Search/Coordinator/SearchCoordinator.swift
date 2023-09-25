@@ -19,6 +19,7 @@ final class SearchCoordinator: FlowCoordinator {
   var child: [FlowCoordinator] = []
   var presenter: UINavigationController!
   
+  // MARK: - LifeCycle
   init(presenter: UINavigationController!) {
     self.presenter = presenter
   }
@@ -39,7 +40,7 @@ final class SearchCoordinator: FlowCoordinator {
 // MARK: - SearchCoordinatorDelegate
 extension SearchCoordinator: SearchCoordinatorDelegate {
   func showSearchDetail(type: SearchSectionType) {
-    let child = SearchDetailCoordinator(presenter: presenter, viewControllerType: type)
+    let child = SearchMoreDetailCoordinator(presenter: presenter, viewControllerType: type)
     addChild(with: child)
   }
 }
