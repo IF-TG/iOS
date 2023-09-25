@@ -11,9 +11,9 @@ import UIKit
 final class CategoryPageView: UIView {
   
   // MARK: - Properties
-  private lazy var categoryView = CategoryView()
+  private let categoryView = CategoryView()
   
-  private lazy var categoryDetailView = CategoryDetailView()
+  private let categoryDetailView = CategoryDetailView()
   
   private let vm = CategoryPageViewModel()
   
@@ -39,7 +39,9 @@ final class CategoryPageView: UIView {
     self.init(frame: .zero)
   }
   
+  // FIXME: - layoutSubviews말고 다른 뷰 싸이클로 수정해야합니다.
   override func layoutSubviews() {
+    super.layoutSubviews()
     initCategoryDetailViewCellItem()
     initCategoryViewScrollBarLayout()
     selectedCategoryViewFirstCell()
