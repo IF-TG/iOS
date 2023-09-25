@@ -11,7 +11,7 @@ class PostCollectionView: UICollectionView {
   enum Constants {
     enum Layout {
       static let estimatedCellHeight: CGFloat = 289
-      static let groupInset: NSDirectionalEdgeInsets = .init(top: 0, leading: 10, bottom: 10, trailing: 10)
+      static let groupInset: NSDirectionalEdgeInsets = .init(top: 10, leading: 10, bottom: 10, trailing: 10)
     }
     static let backgroundColor: UIColor = .yg.gray00Background
   }
@@ -31,8 +31,15 @@ class PostCollectionView: UICollectionView {
     configureUI()
   }
   
+  init(layout: UICollectionViewLayout) {
+    super.init(frame: .zero, collectionViewLayout: layout)
+    translatesAutoresizingMaskIntoConstraints = false
+    configureUI()
+  }
+  
   convenience init() {
-    self.init(frame: .zero) 
+    self.init(frame: .zero)
+    translatesAutoresizingMaskIntoConstraints = false
   }
   
   required init?(coder: NSCoder) {
@@ -56,26 +63,22 @@ class PostCollectionView: UICollectionView {
       return self?.postSection
     }.set {
       $0.register(
-        RoundReusableView.self,
-        forDecorationViewOfKind: RoundReusableView.id)
+        InnerRoundRectReusableView.self,
+        forDecorationViewOfKind: InnerRoundRectReusableView.id)
     }
   }
   
   private var postSection: NSCollectionLayoutSection {
     typealias LayoutSize = NSCollectionLayoutSize
     typealias Const = Constants.Layout
-    let itemSize = LayoutSize(
-      widthDimension: .fractionalWidth(1),
-      heightDimension: .fractionalHeight(1))
-    let groupSize = LayoutSize(
-      widthDimension: .fractionalWidth(1),
-      heightDimension: .estimated(Const.estimatedCellHeight))
+    let groupHeight = Const.estimatedCellHeight
+    let itemSize = LayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
+    let groupSize = LayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(groupHeight))
     let item = NSCollectionLayoutItem(layoutSize: itemSize)
     let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
     return NSCollectionLayoutSection(group: group).set {
-      let whiteRoundView = NSCollectionLayoutDecorationItem.background(elementKind: RoundReusableView.id)
+      let whiteRoundView = NSCollectionLayoutDecorationItem.background(elementKind: InnerRoundRectReusableView.id)
       $0.contentInsets = Const.groupInset
-      $0.orthogonalScrollingBehavior = .groupPaging
       $0.decorationItems = [whiteRoundView]
     }
   }
