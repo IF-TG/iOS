@@ -59,7 +59,7 @@ class BaseDestinationView<T: UIView & CellConfigurable>: UIView {
   
   // MARK: - Actions
   @objc private func didTapStarButton(_ button: UIButton) {
-    delegate?.didTapStarButton()
+    delegate?.didTapStarButton(self)
   }
 }
 
