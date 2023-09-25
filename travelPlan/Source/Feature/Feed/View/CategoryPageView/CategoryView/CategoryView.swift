@@ -11,47 +11,27 @@ final class CategoryView: UIView {
   // MARK: - Properties
   private var scrollBarConstraints: [NSLayoutConstraint] = []
   
-  private let categoryView = {
-    let layout = UICollectionViewFlowLayout()
-    layout.scrollDirection = .horizontal
-    layout.itemSize = Constant.cellSize
-    layout.minimumLineSpacing = 0
-    layout.minimumInteritemSpacing = 0
-    let cv = UICollectionView(
+  private(set) var categoryView = {
+    let layout = UICollectionViewFlowLayout().set {
+      $0.scrollDirection = .horizontal
+      $0.itemSize = Constant.cellSize
+      $0.minimumLineSpacing = 0
+      $0.minimumInteritemSpacing = 0
+    }
+    return UICollectionView(
       frame: .zero,
-      collectionViewLayout: layout)
-    _=cv.set {
+      collectionViewLayout: layout
+    ).set {
       $0.translatesAutoresizingMaskIntoConstraints = false
       $0.decelerationRate = .fast
       $0.showsHorizontalScrollIndicator = false
     }
-    return cv
   }()
   
   private let scrollBar: UIView = UIView().set {
     $0.backgroundColor = Constant.ScrollBar.color
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.layer.cornerRadius = Constant.ScrollBar.radius
-  }
-  
-  var delegate: UICollectionViewDelegate? {
-    get {
-      return categoryView.delegate
-    } set {
-      categoryView.delegate = newValue
-    }
-  }
-  
-  var dataSource: UICollectionViewDataSource? {
-    get {
-      return categoryView.dataSource
-    } set {
-      categoryView.dataSource = newValue
-    }
-  }
-  
-  var collectionView: UICollectionView {
-    categoryView
   }
   
   // MARK: - LifeCycle
@@ -71,6 +51,37 @@ final class CategoryView: UIView {
 
 // MARK: - Public helpers
 extension CategoryView {
+  func setInitialVisibleSubviews(from text: String) {
+    let indexPath = IndexPath(row: 0, section: 0)
+    guard let cell = categoryView.cellForItem(at: indexPath) as? CategoryViewCell else { return }
+    let firstCategoryTextWidth = UILabel(frame: .zero)
+      .set {
+        typealias Const = CategoryViewCell.Constant.Title
+        $0.text = text
+        $0.font = UIFont.systemFont(ofSize: Const.fontSize)
+        $0.sizeToFit()
+      }
+      .bounds
+      .width
+    let scrollBarLeading = (Constant.size.width - firstCategoryTextWidth) / 2
+    
+    NSLayoutConstraint.deactivate(scrollBarConstraints)
+    scrollBarConstraints = scrollBarConstriant(cell, cellTitleSpacing: scrollBarLeading)
+    NSLayoutConstraint.activate(scrollBarConstraints)
+    layoutIfNeeded()
+  }
+  
+  func selectedItem(
+    at indexPath: IndexPath,
+    animated: Bool,
+    scrollPosition position: UICollectionView.ScrollPosition
+  ) {
+    categoryView.selectItem(
+      at: indexPath,
+      animated: animated,
+      scrollPosition: position)
+  }
+  
   /// selected cell위치에 따라 scrollBar layout 갱신
   /// - Parameters:
   ///   - cell: selected cell
@@ -79,6 +90,9 @@ extension CategoryView {
     NSLayoutConstraint.deactivate(scrollBarConstraints)
     scrollBarConstraints = scrollBarConstriant(cell, cellTitleSpacing: spacing)
     NSLayoutConstraint.activate(scrollBarConstraints)
+    UIView.animate(withDuration: 0.3) {
+      self.layoutIfNeeded()
+    }
   }
   
   /// CategoryView의 컨테이너 뷰는 CategoryPageView입니다.
@@ -150,7 +164,7 @@ private extension CategoryView {
     
     var const = [
       scrollBar.topAnchor.constraint(
-        lessThanOrEqualTo: categoryView.bottomAnchor),
+        equalTo: categoryView.bottomAnchor),
       scrollBar.heightAnchor.constraint(equalToConstant: Constant.ScrollBar.height),
       scrollBar.bottomAnchor.constraint(equalTo: bottomAnchor)]
     
