@@ -41,11 +41,11 @@ final class SearchViewController: UIViewController {
   
   private var subscriptions = Set<AnyCancellable>()
   private lazy var input = SearchViewModel.Input()
-  private let compositionalLayout: SearchLayout = DefaultSearchLayout()
+  private let compositionalLayout: CompositionalLayoutCreatable = SearchCompositionalLayout()
   
   private lazy var collectionView: UICollectionView = UICollectionView(
     frame: .zero,
-    collectionViewLayout: compositionalLayout.createLayout()
+    collectionViewLayout: compositionalLayout.makeLayout()
   ).set {
     let tapGesture = UITapGestureRecognizer(
       target: self,
@@ -57,8 +57,8 @@ final class SearchViewController: UIViewController {
     $0.dataSource = self
     $0.delegate = self
     $0.backgroundColor = .clear
-    $0.register(SearchBestFestivalCell.self,
-                forCellWithReuseIdentifier: SearchBestFestivalCell.id)
+    $0.register(SearchFestivalCell.self,
+                forCellWithReuseIdentifier: SearchFestivalCell.id)
     $0.register(TravelDestinationCell.self,
                 forCellWithReuseIdentifier: TravelDestinationCell.id)
     $0.register(SearchHeaderView.self,
@@ -148,8 +148,8 @@ extension SearchViewController {
     switch section {
     case SearchSectionType.festival.rawValue:
       return .festival
-    case SearchSectionType.famous.rawValue:
-      return .famous
+    case SearchSectionType.camping.rawValue:
+      return .camping
     default: return nil
     }
   }
@@ -201,20 +201,20 @@ extension SearchViewController: UICollectionViewDataSource {
       
     case let .festival(festivalViewModels):
       guard let cell = collectionView.dequeueReusableCell(
-        withReuseIdentifier: SearchBestFestivalCell.id,
+        withReuseIdentifier: SearchFestivalCell.id,
         for: indexPath
-      ) as? SearchBestFestivalCell else { return .init() }
+      ) as? SearchFestivalCell else { return .init() }
       
       cell.configure(with: festivalViewModels[indexPath.item])
       return cell
       
-    case let .famous(famousViewModels):
+    case let .camping(campingViewModels):
       guard let cell = collectionView.dequeueReusableCell(
         withReuseIdentifier: TravelDestinationCell.id,
         for: indexPath
       ) as? TravelDestinationCell else { return .init() }
       
-      cell.configure(with: famousViewModels[indexPath.item])
+      cell.configure(with: campingViewModels[indexPath.item])
       return cell
     }
   }
