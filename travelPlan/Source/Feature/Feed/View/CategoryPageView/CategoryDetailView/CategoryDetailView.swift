@@ -8,6 +8,7 @@
 import UIKit
 import Combine
 
+/// DetailViewCell은 포스트 컬랙션 뷰를 갖습니다. 그리고 포스트 컬랙션 뷰는 사용자가 올린 포스트들을 아래 스크롤로 보여줍니다.
 final class CategoryDetailView: UICollectionView {
   // MARK: - Properties
   @Published private var isSetItemSize = false
