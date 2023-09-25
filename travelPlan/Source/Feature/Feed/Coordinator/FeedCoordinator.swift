@@ -40,6 +40,30 @@ extension FeedCoordinator {
     presenter.present(sheetViewController, animated: false)
   }
   
-  func gotoSortBottomSheetPage() {
+  func gotoTravelThemeBottomSheetPage(sortingType: TravelThemeType) {
+    var viewController: TravelThemeBottomSheetViewController
+    if sortingType.rawValue == "지역" {
+      viewController = TravelThemeBottomSheetViewController(
+        bottomSheetMode: .full,
+        sortingType: .detailCategory(.region(.busan)))
+    } else {
+      viewController = TravelThemeBottomSheetViewController(
+        bottomSheetMode: .couldBeFull,
+        sortingType: .detailCategory(sortingType))
+    }
+    if let feedVC = presenter.viewControllers.last as? FeedViewController {
+      viewController.delegate = feedVC
+    }
+    presenter.presentBottomSheet(viewController)
+  }
+  
+  func gotoTravelTrendBottomSheetPage() {
+    let viewController = TravelThemeBottomSheetViewController(
+      bottomSheetMode: .couldBeFull,
+      sortingType: .trend)
+    if let feedVC = presenter.viewControllers.last as? FeedViewController {
+      viewController.delegate = feedVC
+    }
+    presenter.presentBottomSheet(viewController)
   }
 }

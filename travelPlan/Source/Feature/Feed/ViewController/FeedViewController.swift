@@ -62,6 +62,7 @@ extension FeedViewController {
     let rightSearchBarItem = UIBarButtonItem(customView: searchBarItem)
     let rightNotificationBarItem = UIBarButtonItem(customView: notificationBarItem)
     navigationItem.rightBarButtonItems = [rightNotificationBarItem, rightSearchBarItem]
+    navigationController?.navigationBar.backgroundColor = .white
   }
 }
 
@@ -77,16 +78,11 @@ extension FeedViewController {
     }
     switch type {
     case .trend:
-      // 소 분류 카테고리 등 눌렀을 때 bottom sheetTODO: -
       // 1. 지금은 일차적으로 모든 경우에 대해서 토탈, 소팅으로만 했는데 이제 cell별로 분류해서 카테고리가 계절인지, 지역탐방인지 등등 파악해야해서
-      // noti 보낼 때 그 정보도 같이 보내주자.
-      // 여기서 바텀 시트 출력 근데 코디네이터로 이동해야함
       // 2. postview의 footer에서 라인 과 간격을 10으로 수정했다는데 ,,, 뭔지모르겠어서 다시 확인해봐야해
-      // 토탈 수정 바텀 시트
-      coordinator?.gotoTotalBottomSheetPage()
-    case .detailCategory:
-      print("소팅 클릭")
-      // 소팅 수정 바텀 시트
+      coordinator?.gotoTravelTrendBottomSheetPage()
+    case .detailCategory(let themeType):
+      coordinator?.gotoTravelThemeBottomSheetPage(sortingType: themeType)
     }
   }
 }
@@ -135,6 +131,21 @@ extension FeedViewController: ViewBindCase {
     case .none:
       break
     }
+  }
+}
+
+extension FeedViewController: TravelThemeBottomSheetDelegate {
+  func travelThemeBottomSheetViewController(
+    _ viewController: TravelThemeBottomSheetViewController,
+    didSelectTitle title: String?
+  ) {
+    guard let title else {
+      // 그냥 꺽쇠만 원래대로
+      return
+    }
+    // TODO: - 서버에서 데이터 받은 후 특정 cell reload
+    // 소분류 let type = viewController.travelThemeType.rawValue
+    // 특정 상세 카테고리 title
   }
 }
 
