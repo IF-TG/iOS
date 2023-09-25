@@ -60,36 +60,3 @@ extension PostViewAdapter: UICollectionViewDataSource {
     return .init(frame: .zero)
   }
 }
-
-// MARK: - UICollectionViewDelegateFlowLayout
-//extension PostViewAdapter: UICollectionViewDelegateFlowLayout {
-//  func collectionView(
-//    _ collectionView: UICollectionView,
-//    layout collectionViewLayout: UICollectionViewLayout,
-//    sizeForItemAt indexPath: IndexPath
-//  ) -> CGSize {
-//    guard let dataSource = dataSource else { return CGSize(width: 50, height: 50) }
-//    let width = collectionView.bounds.width
-//    let labelWidth = collectionView.bounds.width - (
-//      PostContentAreaView.Constant.Text.Spacing.leading + PostContentAreaView.Constant.Text.Spacing.trailing)
-//    
-//    let text = dataSource.contentText(at: indexPath.row)
-//    let font = UIFont.init(pretendard: .regular, size: PostContentAreaView.Constant.Text.textSize)!
-//    let maxSize = CGSize(width: labelWidth, height: 70)
-//    let options: NSStringDrawingOptions = [.usesLineFragmentOrigin, .usesFontLeading]
-//    let textSize = (text as NSString).boundingRect(
-//      with: maxSize,
-//      options: options,
-//      attributes: [.font: font],
-//      context: nil
-//    ).size
-//    let contentTextHeight = ceil(textSize.height)
-//    
-//    return CGSize(
-//      width: width,
-//      height: contentTextHeight + PostCell
-//        .Constant
-//        .constant
-//        .intrinsicHeightWithOutContentTextHeight)
-//  }
-//}
