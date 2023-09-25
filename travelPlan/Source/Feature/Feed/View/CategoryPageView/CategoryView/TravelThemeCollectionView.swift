@@ -10,6 +10,7 @@ import UIKit
 final class TravelThemeCollectionView: UICollectionView {
   static let id = String(describing: TravelThemeCollectionView.self)
   
+  // MARK: - Lifecycle
   init(frame: CGRect) {
     let layout = UICollectionViewFlowLayout().set {
       $0.scrollDirection = .horizontal
@@ -18,8 +19,7 @@ final class TravelThemeCollectionView: UICollectionView {
       $0.minimumInteritemSpacing = 0
     }
     super.init(frame: frame, collectionViewLayout: layout)
-    decelerationRate = .fast
-    showsHorizontalScrollIndicator = false
+    configureUI()
   }
   
   convenience init() {
@@ -29,5 +29,16 @@ final class TravelThemeCollectionView: UICollectionView {
   
   required init?(coder: NSCoder) {
     super.init(coder: coder)
+    configureUI()
+  }
+  
+  // MARK: - Private helpers
+  private func configureUI() {
+    decelerationRate = .fast
+    showsHorizontalScrollIndicator = false
+    bounces = false
+    register(
+      CategoryViewCell.self,
+      forCellWithReuseIdentifier: CategoryViewCell.id)
   }
 }
