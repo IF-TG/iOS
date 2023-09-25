@@ -41,16 +41,22 @@ final class CategoryView: UIView {
   }
   
   required init?(coder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
+    super.init(coder: coder)
+    configureUI()
   }
   
   convenience init() {
     self.init(frame: .zero)
+    translatesAutoresizingMaskIntoConstraints = false
   }
 }
 
 // MARK: - Public helpers
 extension CategoryView {
+  func selectedCell(at indexPath: IndexPath) -> UICollectionViewCell? {
+    return categoryView.cellForItem(at: indexPath)
+  }
+  
   func setInitialVisibleSubviews(from text: String) {
     let indexPath = IndexPath(row: 0, section: 0)
     guard let cell = categoryView.cellForItem(at: indexPath) as? CategoryViewCell else { return }
@@ -64,11 +70,7 @@ extension CategoryView {
       .bounds
       .width
     let scrollBarLeading = (Constant.size.width - firstCategoryTextWidth) / 2
-    
-    NSLayoutConstraint.deactivate(scrollBarConstraints)
-    scrollBarConstraints = scrollBarConstriant(cell, cellTitleSpacing: scrollBarLeading)
-    NSLayoutConstraint.activate(scrollBarConstraints)
-    layoutIfNeeded()
+    drawScrollBar(target: cell, fromLeading: scrollBarLeading)
   }
   
   func selectedItem(
@@ -95,6 +97,7 @@ extension CategoryView {
     }
   }
   
+  // TODO: - 쉐도우 안먹힘.
   /// CategoryView의 컨테이너 뷰는 CategoryPageView입니다.
   /// CategoryPageView에서 뒤늦게 scrollBar의 위치와 CategoryDetailView의 item 크기가 지정됩니다.
   /// 그 후에 호출해야합니다.
@@ -103,7 +106,6 @@ extension CategoryView {
     layer.shadowRadius = Constant.Shadow.radius
     layer.shadowOffset = Constant.Shadow.offset
     layer.masksToBounds = false
-    layoutIfNeeded()
     let shadowRect = CGRect(
       x: bounds.origin.x,
       y: bounds.origin.y + bounds.height - 1,
@@ -117,18 +119,12 @@ extension CategoryView {
 // MARK: - Helpers
 private extension CategoryView {
   func configureUI() {
-    translatesAutoresizingMaskIntoConstraints = false
     categoryView.bounces = false
     backgroundColor = .white
-    setupUI()
-    configureRegister()
-    configureShadow()
-  }
-  
-  func configureRegister() {
     categoryView.register(
       CategoryViewCell.self,
       forCellWithReuseIdentifier: CategoryViewCell.id)
+    setupUI()
   }
 }
 
