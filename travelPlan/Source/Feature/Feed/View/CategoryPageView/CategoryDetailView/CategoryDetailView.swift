@@ -21,9 +21,7 @@ final class CategoryDetailView: UICollectionView {
   
   override var bounds: CGRect {
     didSet {
-      if !isSetItemSize,
-         let layout = collectionViewLayout as? UICollectionViewFlowLayout
-      {
+      if bounds.height != 0, !isSetItemSize, let layout = collectionViewLayout as? UICollectionViewFlowLayout {
         isSetItemSize.toggle()
         layout.itemSize = bounds.size
       }
@@ -48,7 +46,7 @@ final class CategoryDetailView: UICollectionView {
     let layout = UICollectionViewFlowLayout().set {
       $0.minimumLineSpacing = 0
       $0.scrollDirection = .horizontal
-      $0.itemSize = CGSize(width: 50, height: 50)
+      $0.itemSize = CGSize(width: 100, height: 100)
     }
     self.init(
       frame: .zero,
