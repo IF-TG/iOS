@@ -7,10 +7,10 @@
 
 import UIKit
 
-class SearchStarButton: UIButton {
+final class SearchStarButton: UIButton {
   enum NormalType: String {
     case empty
-    case withAlpha
+    case emptyWithAlpha
   }
   
   enum Constants {
@@ -18,22 +18,21 @@ class SearchStarButton: UIButton {
     static let selectedImageName = "star"
     static let alphaImageName = "star-alpha10"
   }
-  
-  // MARK: - Properties
-  private var normalType: NormalType?
-  
+
   // MARK: - LifeCycle
-  init(normalType: NormalType) {
-    self.normalType = normalType
-    super.init(frame: .zero)
-    
-    setImages()
+  convenience init(normalType: NormalType) {
+    self.init(frame: .zero, normalType: normalType)
   }
   
-//  override init(frame: CGRect) {
-//    super.init(frame: frame)
-//    setImages()
-//  }
+  convenience init() {
+    self.init(frame: .zero, normalType: .empty)
+  }
+  
+  init(frame: CGRect, normalType: NormalType) {
+    super.init(frame: frame)
+    self.translatesAutoresizingMaskIntoConstraints = false
+    setImages(normalType: normalType)
+  }
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
@@ -42,11 +41,11 @@ class SearchStarButton: UIButton {
 
 // MARK: - Helpers
 extension SearchStarButton {
-  private func setImages() {
+  private func setImages(normalType: NormalType) {
     switch normalType {
-    case .empty, .none:
+    case .empty:
       setImage(UIImage(named: Constants.emptyImageName), for: .normal)
-    case .withAlpha:
+    case .emptyWithAlpha:
       setImage(UIImage(named: Constants.alphaImageName), for: .normal)
     }
     setImage(UIImage(named: Constants.selectedImageName), for: .selected)
