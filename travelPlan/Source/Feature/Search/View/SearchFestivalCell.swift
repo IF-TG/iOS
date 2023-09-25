@@ -1,5 +1,5 @@
 //
-//  SearchBestFestivalCell.swift
+//  SearchFestivalCell.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 2023/05/30.
@@ -10,10 +10,15 @@ import UIKit
 
 import SnapKit
 
-final class SearchBestFestivalCell: UICollectionViewCell {
+final class SearchFestivalCell: UICollectionViewCell {
   enum Constants {
     enum ThumbnailImageView {
       static let cornerRadius: CGFloat = 3
+    }
+    enum ThumbnailGradientLayer {
+      static let lastColorAlpha: CGFloat = 1.0
+      static let firstLocation: NSNumber = 0.7
+      static let lastLocation: NSNumber = 1.0
     }
     
     enum StarButton {
@@ -43,7 +48,7 @@ final class SearchBestFestivalCell: UICollectionViewCell {
   }
   
   // MARK: - Properties
-  private var viewModel: SearchBestFestivalCellViewModel? {
+  private var viewModel: SearchFestivalCellViewModel? {
     didSet {
       bind()
     }
@@ -61,18 +66,21 @@ final class SearchBestFestivalCell: UICollectionViewCell {
     $0.layer.masksToBounds = true
     $0.isUserInteractionEnabled = true // UIImageView의 터치 이벤트를 감지하기 위해 인터랙션을 활성화
     $0.layer.cornerRadius = Constants.ThumbnailImageView.cornerRadius
-    $0.layer.insertSublayer(self.thumbnailGradientLayer, at: 0)
+    $0.layer.insertSublayer(self.thumbnailGradientLayer, at: .zero)
   }
   
   private let thumbnailGradientLayer: CAGradientLayer = .init().set {
     $0.colors = [
       UIColor.clear.cgColor,
-      UIColor(hex: "#333333", alpha: 1.0).cgColor
+      UIColor.yg.gray7.withAlphaComponent(Constants.ThumbnailGradientLayer.lastColorAlpha).cgColor
     ]
-    $0.locations = [0.7, 1.0]
+    $0.locations = [
+      Constants.ThumbnailGradientLayer.firstLocation,
+      Constants.ThumbnailGradientLayer.lastLocation
+    ]
   }
   
-  private lazy var starButton: SearchStarButton = .init(normalType: .withAlpha).set {
+  private lazy var starButton: SearchStarButton = .init(normalType: .emptyWithAlpha).set {
     $0.addTarget(self, action: #selector(didTapStarButton), for: .touchUpInside)
   }
   
@@ -118,17 +126,17 @@ final class SearchBestFestivalCell: UICollectionViewCell {
 }
 
 // MARK: - Actions
-extension SearchBestFestivalCell {
+extension SearchFestivalCell {
   @objc private func didTapStarButton() {
     input.didTapStarButton.send()
   }
 }
 
 // MARK: - ViewBindCase
-extension SearchBestFestivalCell: ViewBindCase {
-  typealias Input = SearchBestFestivalCellViewModel.Input
-  typealias ErrorType = SearchBestFestivalCellViewModel.ErrorType
-  typealias State = SearchBestFestivalCellViewModel.State
+extension SearchFestivalCell: ViewBindCase {
+  typealias Input = SearchFestivalCellViewModel.Input
+  typealias ErrorType = SearchFestivalCellViewModel.ErrorType
+  typealias State = SearchFestivalCellViewModel.State
   
   internal func bind() {
     guard let viewModel = self.viewModel else { return }
@@ -171,8 +179,8 @@ extension SearchBestFestivalCell: ViewBindCase {
 }
 
 // MARK: - Configure
-extension SearchBestFestivalCell {
-  func configure(with viewModel: SearchBestFestivalCellViewModel) {
+extension SearchFestivalCell {
+  func configure(with viewModel: SearchFestivalCellViewModel) {
     self.viewModel = viewModel
     
     festivalLabel.text = viewModel.title
@@ -184,9 +192,9 @@ extension SearchBestFestivalCell {
 }
 
 // MARK: - LayoutSupport
-extension SearchBestFestivalCell: LayoutSupport {
+extension SearchFestivalCell: LayoutSupport {
   func addSubviews() {
-    thumbnailImageView.layer.insertSublayer(thumbnailGradientLayer, at: 0)
+    thumbnailImageView.layer.insertSublayer(thumbnailGradientLayer, at: .zero)
     
     contentView.addSubview(thumbnailImageView)
     thumbnailImageView.addSubview(starButton)
