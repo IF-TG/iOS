@@ -12,7 +12,7 @@ import SnapKit
 
 final class SearchViewController: UIViewController {
   // MARK: - Properties
-  weak var coordinator: SearchCoordinator?
+  weak var coordinator: SearchCoordinatorDelegate?
   private let viewModel = SearchViewModel()
   private lazy var searchView: SearchView = .init().set {
     $0.delegate = self
@@ -64,6 +64,10 @@ final class SearchViewController: UIViewController {
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     navigationController?.isNavigationBarHidden = true
+  }
+  
+  deinit {
+    coordinator?.finish()
   }
 }
 

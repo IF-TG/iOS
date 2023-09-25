@@ -10,7 +10,7 @@ import Combine
 
 final class FeedViewController: UIViewController {
   // MARK: - Properties
-  weak var coordinator: FeedCoordinator?
+  weak var coordinator: FeedCoordinatorDelegate?
   
   private let categoryPageView = CategoryPageView()
   
@@ -38,6 +38,10 @@ final class FeedViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     configureUI()
+  }
+  
+  deinit {
+    coordinator?.finish()
   }
 }
 

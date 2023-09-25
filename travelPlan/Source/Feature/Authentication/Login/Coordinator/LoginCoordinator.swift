@@ -8,11 +8,15 @@
 import UIKit
 import SHCoordinator
 
+protocol LoginCoordinatorDelegate: AnyObject {
+  func finish()
+}
+
 final class LoginCoordinator: FlowCoordinator {
   // MARK: - Properties
   var parent: FlowCoordinator!
   var child: [FlowCoordinator] = []
-  let presenter: UINavigationController
+  let presenter: UINavigationController!
   var viewController: UIViewController!
 
   // MARK: - Lifecycle
@@ -30,7 +34,6 @@ final class LoginCoordinator: FlowCoordinator {
   
 }
 
-// MARK: - Goto child coordinator
-extension LoginCoordinator {
-  
+// MARK: - LoginCoordinatorDelegate
+extension LoginCoordinator: LoginCoordinatorDelegate {
 }

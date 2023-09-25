@@ -14,7 +14,7 @@ class LoginViewController: UIViewController {
   let appear = PassthroughSubject<Void, ErrorType>()
   let viewLoad = PassthroughSubject<Void, ErrorType>()
   var subscription = Set<AnyCancellable>()
-  weak var coordinator: LoginCoordinator?
+  weak var coordinator: LoginCoordinatorDelegate?
   
   // MARK: - Lifecycle
   override func viewDidLoad() {
@@ -43,6 +43,9 @@ class LoginViewController: UIViewController {
     appear.send()
   }
   
+  deinit {
+    coordinator?.finish()
+  }
 }
 
 // MARK: - ViewBindCase

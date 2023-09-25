@@ -8,22 +8,27 @@
 import UIKit
 import SHCoordinator
 
+protocol ProfileCoordinatorDelegate: AnyObject {
+  func finish()
+}
+
 final class ProfileCoordinator: FlowCoordinator {
   // MARK: - Properties
   var parent: FlowCoordinator!
   var child: [FlowCoordinator] = []
-  var presenter: UINavigationController
-  var viewController: UIViewController!
+  var presenter: UINavigationController!
   
   init(presenter: UINavigationController) {
     self.presenter = presenter
-    let vc = ProfileViewController()
-    vc.coordinator = self
-    viewController = vc
   }
   
   // MARK: - Helpers
   func start() {
-    presenter.pushViewController(viewController, animated: true)
+    let vc = ProfileViewController()
+    vc.coordinator = self
+    presenter.pushViewController(vc, animated: true)
   }
 }
+
+// MARK: - ProfileCoordinatorDelegate
+extension ProfileCoordinator: ProfileCoordinatorDelegate {}

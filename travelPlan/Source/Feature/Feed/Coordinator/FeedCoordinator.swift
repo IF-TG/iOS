@@ -8,27 +8,34 @@
 import UIKit
 import SHCoordinator
 
+protocol FeedCoordinatorDelegate: AnyObject {
+  func finish()
+  func gotoPostSearchPage()
+  func gotoTotalBottomSheetPage()
+  func gotoTravelThemeBottomSheetPage(sortingType: TravelThemeType)
+  func gotoTravelTrendBottomSheetPage()
+}
+
 final class FeedCoordinator: FlowCoordinator {
   // MARK: - Properties
   var parent: FlowCoordinator!
   var child: [FlowCoordinator] = []
-  var presenter: UINavigationController
-  var viewController: UIViewController!
+  var presenter: UINavigationController!
   
-  init(presenter: UINavigationController) {
+  init(presenter: UINavigationController!) {
     self.presenter = presenter
-    let vc = FeedViewController()
-    vc.coordinator = self
-    viewController = vc
   }
   
   // MARK: - Helpers
   func start() {
-    presenter.pushViewController(viewController, animated: true)
+    let vc = FeedViewController()
+    vc.coordinator = self
+    presenter.pushViewController(vc, animated: true)
   }
 }
 
-extension FeedCoordinator {
+// MARK: - FeedCoordinatorDelegate
+extension FeedCoordinator: FeedCoordinatorDelegate {
   func gotoPostSearchPage() {
     // coordinator settingTODO: - post search coordaintor로 이동해야 합니다.
     let childCoordinator = PostSearchCoordinator(presenter: presenter)
