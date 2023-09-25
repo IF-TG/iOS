@@ -1,5 +1,5 @@
 //
-//  SearchLayout.swift
+//  SearchCompositionalLayout.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 2023/07/20.
@@ -7,12 +7,7 @@
 
 import UIKit
 
-protocol SearchLayout {
-  func createLayout() -> UICollectionViewCompositionalLayout
-}
-
-// MARK: - SearchCompositionalLayout
-class DefaultSearchLayout: SearchLayout {
+class SearchCompositionalLayout {
   enum Constants {
     // MARK: - First
     enum Festival {
@@ -59,12 +54,14 @@ class DefaultSearchLayout: SearchLayout {
       static let estimatedHeight: CGFloat = 74
     }
   }
-  
-  func createLayout() -> UICollectionViewCompositionalLayout {
+}
+
+extension SearchCompositionalLayout: CompositionalLayoutCreatable {
+  func makeLayout() -> UICollectionViewCompositionalLayout {
     return UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ in
       switch sectionIndex {
-      case SearchSectionType.festival.rawValue: return self?.firstSectionLayout()
-      case SearchSectionType.famous.rawValue: return self?.secondSectionLayout()
+      case SearchSectionType.festival.rawValue: return self?.festivalSectionLayout()
+      case SearchSectionType.camping.rawValue: return self?.campingSectionLayout()
       default: return nil
       }
     }
@@ -72,8 +69,8 @@ class DefaultSearchLayout: SearchLayout {
 }
 
 // MARK: - Helpers
-extension DefaultSearchLayout {
-  private func firstSectionLayout() -> NSCollectionLayoutSection {
+extension SearchCompositionalLayout {
+  private func festivalSectionLayout() -> NSCollectionLayoutSection {
     let item = makeLayoutItem(
       fractionalWidth: Constants.Festival.Item.fractionalWidth,
       fractionalHeight: Constants.Festival.Item.fractionalHeight
@@ -100,7 +97,7 @@ extension DefaultSearchLayout {
     return section
   }
   
-  private func secondSectionLayout() -> NSCollectionLayoutSection {
+  private func campingSectionLayout() -> NSCollectionLayoutSection {
     let item = makeLayoutItem(
       fractionalWidth: Constants.Famous.Item.fractionalWidth,
       fractionalHeight: Constants.Famous.Item.fractionalHeight
