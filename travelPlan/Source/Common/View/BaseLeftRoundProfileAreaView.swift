@@ -89,6 +89,7 @@ class BaseLeftRoundProfileAreaView: UIView {
     translatesAutoresizingMaskIntoConstraints = false
     makeProfileImageView()
     setupUI()
+    setSubviewsPriority()
   }
   
   private func makeProfileImageView() {
@@ -103,6 +104,11 @@ class BaseLeftRoundProfileAreaView: UIView {
       $0.addGestureRecognizer(gesture)
       $0.layer.cornerRadius = profileLayoutInfo.radius
     }
+  }
+  
+  private func setSubviewsPriority() {
+    profileImageView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+    contentView.setContentHuggingPriority(.defaultLow, for: .horizontal)
   }
   
   // MARK: - Action
