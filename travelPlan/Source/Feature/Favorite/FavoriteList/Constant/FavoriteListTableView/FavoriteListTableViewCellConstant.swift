@@ -10,12 +10,12 @@ import UIKit
 extension FavoriteListTableViewCell {
   enum Constant {
     enum ImageView {
-      static let spacing = UIConstantSpacing(leading: 20, top: 15, bottom: 16)
+      static let spacing = UISpacing(leading: 20, top: 15, bottom: 16)
       static let size = CGSize(width: 40, height: 40)
     }
     
     enum Title {
-      static let spacing = UIConstantSpacing(leading: 15, trailing: 44)
+      static let spacing = UISpacing(leading: 15, trailing: 44)
       static let textColor: UIColor = .yg.gray6
       static let fontName: UIFont.Pretendard = .medium
       static let textSize: CGFloat = 15.0

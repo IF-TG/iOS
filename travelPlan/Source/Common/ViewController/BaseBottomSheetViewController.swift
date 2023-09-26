@@ -195,7 +195,7 @@ extension BaseBottomSheetViewController: BottomSheetViewDelegate {
       updateBottomSheetPosition(from: pannedHeight)
     case .ended,
          .cancelled:
-      guard pannedHeight >= (bottomSheetOriginHeight)/2 else {
+      guard pannedHeight >= (bottomSheetOriginHeight)/3 else {
         animateBottomSheetWithOriginPosition(gesture)
         return
       }

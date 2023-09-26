@@ -10,23 +10,20 @@ import UIKit
 final class CategoryPageViewAdapter: NSObject {
   weak var dataSource: CategoryPageViewDataSource?
   weak var delegate: CategoryPageViewDelegate?
-  weak var categoryCollectionView: UICollectionView?
+  
   init(
     dataSource: CategoryPageViewDataSource? = nil,
     delegate: CategoryPageViewDelegate? = nil,
-    categoryCollectionView: UICollectionView? = nil,
+    travelThemeCollectionView: TravelThemeCollectionView? = nil,
     categoryDetailCollectionView: CategoryDetailView? = nil
   ) {
     super.init()
     self.dataSource = dataSource
     self.delegate = delegate
-    self.categoryCollectionView = categoryCollectionView
-    categoryCollectionView?.dataSource = self
-    categoryCollectionView?.delegate = self
-    
+    travelThemeCollectionView?.dataSource = self
+    travelThemeCollectionView?.delegate = self
     categoryDetailCollectionView?.dataSource = self
     categoryDetailCollectionView?.delegate = self
-    
   }
 }
 
@@ -46,20 +43,26 @@ extension CategoryPageViewAdapter: UICollectionViewDataSource {
     guard let dataSource = dataSource else { return .init() }
     switch collectionView {
     case is CategoryDetailView:
-      // detailViewCell은 포스트 뷰를 갖는다. 이 뷰는 collectionView다. 즉 한개의 detailViewCell은 subview로 collectionView가 있느데 그 안에서 포스트들을 보여준다.
       guard let cell = collectionView.dequeueReusableCell(
         withReuseIdentifier: CategoryDetailViewCell.id,
         for: indexPath
       ) as? CategoryDetailViewCell else {
-        return .init()
+        return .init(frame: .zero)
       }
-      return cell.configure(with: dataSource.categoryDetailViewCellItem(at: indexPath.row))
+      
+      // TODO: - PageControl 도입 예정
+      let themeState = dataSource.categoryViewCellItem(at: indexPath.row)
+      let trendState = dataSource.travelTrendState
+      let filterInfo = FeedPostSearchFilterInfo(
+        travelTheme: TravelMainThemeType(rawValue: themeState) ?? .all,
+        travelTrend: trendState)
+      return cell.configure(with: filterInfo)
     default:
       guard let cell = collectionView.dequeueReusableCell(
         withReuseIdentifier: CategoryViewCell.id,
         for: indexPath
       ) as? CategoryViewCell else {
-        return UICollectionViewCell()
+        return UICollectionViewCell(frame: .zero)
       }
       return cell.configUI(with: dataSource.categoryViewCellItem(at: indexPath.row))
     }
@@ -73,20 +76,14 @@ extension CategoryPageViewAdapter: UICollectionViewDelegate {
     _ collectionView: UICollectionView,
     didSelectItemAt indexPath: IndexPath
   ) {
-    guard
-      let categoryCollectionView = categoryCollectionView,
-      let dataSource = dataSource
-    else { return }
-    if collectionView === categoryCollectionView {
-      let lb = UILabel()
-      lb.text = dataSource.categoryViewCellItem(at: indexPath.row)
-      lb.font = UIFont.systemFont(
-        ofSize: CategoryViewCell.Constant.Title.fontSize)
-      lb.sizeToFit()
-      let titleWidth = lb.bounds.width
-      
+    guard let dataSource = dataSource else { return }
+    if collectionView is TravelThemeCollectionView {
+      let titleWidth = UILabel().set {
+        $0.text = dataSource.categoryViewCellItem(at: indexPath.row)
+        $0.font = UIFont.systemFont(ofSize: CategoryViewCell.Constant.Title.fontSize)
+        $0.sizeToFit()
+      }.bounds.width
       let spacing = dataSource.scrollBarLeadingSpacing(titleWidth)
-      
       delegate?.didSelectItemAt(indexPath, spacing: spacing)
     }
   }

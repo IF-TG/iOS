@@ -11,6 +11,9 @@ import SHCoordinator
 protocol FeedCoordinatorDelegate: AnyObject {
   func finish()
   func gotoPostSearchPage()
+  func gotoTotalBottomSheetPage()
+  func gotoTravelThemeBottomSheetPage(sortingType: TravelMainThemeType)
+  func gotoTravelTrendBottomSheetPage()
 }
 
 final class FeedCoordinator: FlowCoordinator {
@@ -34,8 +37,40 @@ final class FeedCoordinator: FlowCoordinator {
 // MARK: - FeedCoordinatorDelegate
 extension FeedCoordinator: FeedCoordinatorDelegate {
   func gotoPostSearchPage() {
-    // TODO: - post search coordaintor로 이동해야 합니다.
+    // coordinator settingTODO: - post search coordaintor로 이동해야 합니다.
     let childCoordinator = PostSearchCoordinator(presenter: presenter)
     addChild(with: childCoordinator)
+  }
+  
+  func gotoTotalBottomSheetPage() {
+    let sheetViewController = PostViewBottomSheetViewController()
+    presenter.present(sheetViewController, animated: false)
+  }
+  
+  func gotoTravelThemeBottomSheetPage(sortingType: TravelMainThemeType) {
+    var viewController: TravelThemeBottomSheetViewController
+    if sortingType.rawValue == "지역" {
+      viewController = TravelThemeBottomSheetViewController(
+        bottomSheetMode: .full,
+        sortingType: .detailCategory(.region(.busan)))
+    } else {
+      viewController = TravelThemeBottomSheetViewController(
+        bottomSheetMode: .couldBeFull,
+        sortingType: .detailCategory(sortingType))
+    }
+    if let feedVC = presenter.viewControllers.last as? FeedViewController {
+      viewController.delegate = feedVC
+    }
+    presenter.presentBottomSheet(viewController)
+  }
+  
+  func gotoTravelTrendBottomSheetPage() {
+    let viewController = TravelThemeBottomSheetViewController(
+      bottomSheetMode: .couldBeFull,
+      sortingType: .trend)
+    if let feedVC = presenter.viewControllers.last as? FeedViewController {
+      viewController.delegate = feedVC
+    }
+    presenter.presentBottomSheet(viewController)
   }
 }

@@ -6,111 +6,75 @@
 //
 
 import UIKit
+import Combine
 
 /// Horizontal category page view
 final class CategoryPageView: UIView {
-  
   // MARK: - Properties
-  private lazy var categoryView = CategoryView()
+  private let categoryScrollBarAreaView = CategoryView()
   
-  private lazy var categoryDetailView = CategoryDetailView()
+  private let categoryDetailView = CategoryDetailView()
   
   private let vm = CategoryPageViewModel()
   
   private var adapter: CategoryPageViewAdapter!
   
+  private var subscription: AnyCancellable?
+  
   // MARK: - Initialization
   override init(frame: CGRect) {
     super.init(frame: frame)
+    configureUI()
+    bind()
     adapter = CategoryPageViewAdapter(
       dataSource: vm,
       delegate: self,
-      categoryCollectionView: categoryView.collectionView,
+      travelThemeCollectionView: categoryScrollBarAreaView.travelThemeCategoryView,
       categoryDetailCollectionView: categoryDetailView)
-    translatesAutoresizingMaskIntoConstraints = false
-    setupUI()
   }
   
   required init?(coder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
+    super.init(coder: coder)
+    configureUI()
+    bind()
   }
   
   convenience init() {
     self.init(frame: .zero)
-  }
-  
-  override func layoutSubviews() {
-    initCategoryDetailViewCellItem()
-    initCategoryViewScrollBarLayout()
-    selectedCategoryViewFirstCell()
-    bringSubviewToFront(categoryView)
-    categoryView.configureShadow()
+    translatesAutoresizingMaskIntoConstraints = false
   }
 }
 
-// MARK: - Helpers
+// MARK: - Private Helpers
 private extension CategoryPageView {
-  /// If subviews layout, set category view scroll bar's layout
-  func initCategoryViewScrollBarLayout() {
-    let indexPath = IndexPath(row: 0, section: 0)
-    guard let cell = categoryView
-      .collectionView
-      .cellForItem(at: indexPath
-      ) as? CategoryViewCell else {
-      return
-    }
-     
-    let lb = UILabel()
-    lb.text = vm.data[indexPath.row]
-    lb.font = UIFont.systemFont(
-      ofSize: CategoryViewCell.Constant.Title.fontSize)
-    lb.sizeToFit()
-    let firstCellTextSize = lb.bounds.width
-     
-    let firstTextLeading = (
-      CategoryView.Constant.size.width - firstCellTextSize)/2
-    categoryView.drawScrollBar(
-      target: cell,
-      fromLeading: firstTextLeading)
+  func configureUI() {
+    setupUI()
   }
   
-  /// If subviews layout, set category detail view cell size
-  func initCategoryDetailViewCellItem() {
-    let categoryHeight = CategoryView.Constant.size.height
-    categoryDetailView.setLayoutItemSize(
-      CGSize(
-        width: bounds.width,
-        height: bounds.height - categoryHeight))
-    categoryDetailView.isScrollEnabled = false
-  }
-  
-  /// If subviews layout, selectItem category view first sell
-  func selectedCategoryViewFirstCell() {
-    categoryView.collectionView.selectItem(
-      at: IndexPath(row: 0, section: 0),
-      animated: false,
-      scrollPosition: .left)
+  func bind() {
+    subscription = categoryDetailView
+      .itemSizeSetNotifier
+      .receive(on: DispatchQueue.main)
+      .sink { [unowned self] in
+        let categoryfirstText = vm.categoryViewCellItem(at: 0)
+        let firstIndex = IndexPath(item: 0, section: 0)
+        categoryScrollBarAreaView.setInitialVisibleSubviews(from: categoryfirstText)
+        categoryScrollBarAreaView.selectedItem(at: firstIndex, animated: false, scrollPosition: .left)
+        categoryDetailView.selectItem(at: firstIndex, animated: false, scrollPosition: .left)
+        // TODO: - 쉐도우 적용 안되서 적용해야합니다.
+        // bringSubviewToFront(categoryScrollBarAreaView)
+        categoryScrollBarAreaView.configureShadow()
+      }
   }
 }
 
 // MARK: - CategoryPageViewDelegate
 extension CategoryPageView: CategoryPageViewDelegate {
   func didSelectItemAt(_ indexPath: IndexPath, spacing: CGFloat) {
-    let cv = categoryView.collectionView
-    guard let cell = cv.cellForItem(at: indexPath) else { return }
-    
-    _=[cv, categoryDetailView]
-      .map {
-        $0.selectItem(
-          at: indexPath,
-          animated: true,
-          scrollPosition: .centeredHorizontally)
-      }
-    categoryView.drawScrollBar(target: cell, fromLeading: spacing)
-    UIView.animate(withDuration: 0.3) {
-      self.layoutIfNeeded()
-    }
-
+    guard let cell = categoryScrollBarAreaView.selectedCell(at: indexPath) else { return }
+    categoryScrollBarAreaView.selectedItem(at: indexPath, animated: true, scrollPosition: .centeredHorizontally)
+    categoryDetailView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredHorizontally)
+    categoryScrollBarAreaView.drawScrollBar(target: cell, fromLeading: spacing)
   }
 }
 
@@ -118,7 +82,7 @@ extension CategoryPageView: CategoryPageViewDelegate {
 extension CategoryPageView: LayoutSupport {
   func addSubviews() {
     _=[categoryDetailView,
-       categoryView]
+       categoryScrollBarAreaView]
       .map { addSubview($0) }
   }
   
@@ -132,19 +96,21 @@ extension CategoryPageView: LayoutSupport {
 // MARK: - LayoutSupport constraints
 private extension CategoryPageView {
   var categoryViewConstraint: [NSLayoutConstraint] {
-    [categoryView.topAnchor.constraint(
-      equalTo: topAnchor),
-     categoryView.leadingAnchor.constraint(
-      equalTo: leadingAnchor),
-     categoryView.trailingAnchor.constraint(
-      equalTo: trailingAnchor),
-     categoryView.heightAnchor.constraint(
-      equalToConstant:
-        CategoryView.Constant.size.height)]
+    typealias Const = CategoryView.Constant
+    return [
+      categoryScrollBarAreaView.topAnchor.constraint(
+        equalTo: topAnchor),
+      categoryScrollBarAreaView.leadingAnchor.constraint(
+        equalTo: leadingAnchor),
+      categoryScrollBarAreaView.trailingAnchor.constraint(
+        equalTo: trailingAnchor),
+      categoryScrollBarAreaView.heightAnchor.constraint(
+        equalToConstant:
+          Const.size.height)]
   }
   
   var categoryDetailViewConstraint: [NSLayoutConstraint] {
-    [categoryDetailView.topAnchor.constraint(equalTo: categoryView.bottomAnchor),
+    [categoryDetailView.topAnchor.constraint(equalTo: categoryScrollBarAreaView.bottomAnchor),
      categoryDetailView.leadingAnchor.constraint(equalTo: leadingAnchor),
      categoryDetailView.trailingAnchor.constraint(equalTo: trailingAnchor),
      categoryDetailView.bottomAnchor.constraint(equalTo: bottomAnchor)]
