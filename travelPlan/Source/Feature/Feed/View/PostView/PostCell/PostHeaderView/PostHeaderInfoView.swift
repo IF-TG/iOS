@@ -43,13 +43,17 @@ final class PostHeaderInfoView: UIView {
     configureUI()
   }
   
+  convenience init() {
+    self.init(frame: .zero)
+  }
+  
   required init?(coder: NSCoder) {
     super.init(coder: coder)
     configureUI()
   }
   
   // MARK: - Helper
-  func configure(title: String?, subInfoData: PostHeaderSubInfoModel) {
+  func configure(title: String?, subInfoData: PostHeaderSubInfoModel?) {
     setTitle(with: title)
     setSubInfo(with: subInfoData)
   }
