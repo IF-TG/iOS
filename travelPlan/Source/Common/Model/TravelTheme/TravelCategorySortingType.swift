@@ -24,7 +24,7 @@ enum TravelCategorySortingType {
     switch self {
     case .trend:
       /// 인기순 최신순
-      return TravelTrend.allCases.map { $0.rawValue }
+      return TravelOrderType.allCases.map { $0.rawValue }
     case .detailCategory(let travelThemeType):
       /// 지역일 경우 서울,  경기 ... 17개
       return travelThemeType.titles

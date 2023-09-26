@@ -13,7 +13,7 @@ final class PostViewModel {
   
   private(set) var travelTheme: TravelMainThemeType = .all
   
-  private(set) var travelTrend: TravelTrend = .newest
+  private(set) var travelTrend: TravelOrderType = .newest
   
     var count: Int {
       data.count

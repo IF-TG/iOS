@@ -10,7 +10,7 @@ import UIKit
 protocol PostViewAdapterDataSource: AnyObject {
   var numberOfItems: Int { get }
   var travelTheme: TravelMainThemeType { get }
-  var travelTrend: TravelTrend { get }
+  var travelTrend: TravelOrderType { get }
   
   func postViewCellItem(at index: Int) -> PostModel
   func contentText(at index: Int) -> String
