@@ -65,24 +65,24 @@ class PostHeaderSubInfoView: UIView {
 
 // MARK: - Public helpers
 extension PostHeaderSubInfoView {
-  func configure(with data: PostHeaderSubInfoModel) {
-    setUserNameLabel(with: data.userName)
-    setDurationLabel(with: data.duration)
-    setYearMonthDayRangeLabel(with: data.yearMonthDayRange)
+  func configure(with data: PostHeaderSubInfoModel?) {
+    setUserNameLabel(with: data?.userName)
+    setDurationLabel(with: data?.duration)
+    setYearMonthDayRangeLabel(with: data?.yearMonthDayRange)
   }
 }
 
 // MARK: - Helpers
 extension PostHeaderSubInfoView {
-  private func setUserNameLabel(with text: String) {
+  private func setUserNameLabel(with text: String?) {
     userNameLabel.text = text
   }
   
-  private func setDurationLabel(with text: String) {
+  private func setDurationLabel(with text: String?) {
     durationLabel.text = text
   }
   
-  private func setYearMonthDayRangeLabel(with text: String) {
+  private func setYearMonthDayRangeLabel(with text: String?) {
     yearMonthDayRangeLabel.text = text
   }
   
