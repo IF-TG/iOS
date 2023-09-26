@@ -6,6 +6,6 @@
 //
 
 struct FeedPostSearchFilterInfo {
-  var travelTheme: TravelThemeType
+  var travelTheme: TravelMainThemeType
   var travelTrend: TravelTrend
 }

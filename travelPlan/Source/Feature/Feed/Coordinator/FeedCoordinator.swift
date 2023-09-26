@@ -12,7 +12,7 @@ protocol FeedCoordinatorDelegate: AnyObject {
   func finish()
   func gotoPostSearchPage()
   func gotoTotalBottomSheetPage()
-  func gotoTravelThemeBottomSheetPage(sortingType: TravelThemeType)
+  func gotoTravelThemeBottomSheetPage(sortingType: TravelMainThemeType)
   func gotoTravelTrendBottomSheetPage()
 }
 
@@ -47,7 +47,7 @@ extension FeedCoordinator: FeedCoordinatorDelegate {
     presenter.present(sheetViewController, animated: false)
   }
   
-  func gotoTravelThemeBottomSheetPage(sortingType: TravelThemeType) {
+  func gotoTravelThemeBottomSheetPage(sortingType: TravelMainThemeType) {
     var viewController: TravelThemeBottomSheetViewController
     if sortingType.rawValue == "지역" {
       viewController = TravelThemeBottomSheetViewController(

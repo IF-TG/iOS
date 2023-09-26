@@ -1,5 +1,5 @@
 //
-//  TravelThemeType.swift
+//  TravelMainThemeType.swift
 //  travelPlan
 //
 //  Created by 양승현 on 2023/09/13.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum TravelThemeType: CaseIterable {
+enum TravelMainThemeType: CaseIterable {
   case all
   case season(Season)
   case region(TravelRegion)
@@ -15,7 +15,7 @@ enum TravelThemeType: CaseIterable {
   case partner(TravelPartner)
   case categoryDevelop
   
-  static var allCases: [TravelThemeType] {
+  static var allCases: [TravelMainThemeType] {
     [.all,
      .season(Season.spring),
      .region(TravelRegion.busan),
@@ -43,7 +43,7 @@ enum TravelThemeType: CaseIterable {
 }
 
 // MARK: - RawRepresentable
-extension TravelThemeType: RawRepresentable {
+extension TravelMainThemeType: RawRepresentable {
   init?(rawValue: String) {
     switch rawValue {
     case "전체":

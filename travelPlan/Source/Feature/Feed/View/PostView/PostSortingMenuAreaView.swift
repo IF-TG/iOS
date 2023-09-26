@@ -32,7 +32,7 @@ final class PostSortingMenuAreaView: UIView {
   private var travelTrendMenuView = MoreMenuView()
   
   // MARK: - LifeCycle
-  init(frame: CGRect, travelThemeType: TravelThemeType) {
+  init(frame: CGRect, travelThemeType: TravelMainThemeType) {
     super.init(frame: frame)
     setupUI()
     travelThemeMenuView.configure(with: .detailCategory(travelThemeType))
@@ -41,7 +41,7 @@ final class PostSortingMenuAreaView: UIView {
     travelTrendMenuView.delegate = self
   }
   
-  convenience init(travelThemeType: TravelThemeType) {
+  convenience init(travelThemeType: TravelMainThemeType) {
     self.init(frame: .zero, travelThemeType: travelThemeType)
     translatesAutoresizingMaskIntoConstraints = false
   }

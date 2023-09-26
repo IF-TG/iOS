@@ -54,7 +54,7 @@ extension CategoryPageViewAdapter: UICollectionViewDataSource {
       let themeState = dataSource.categoryViewCellItem(at: indexPath.row)
       let trendState = dataSource.travelTrendState
       let filterInfo = FeedPostSearchFilterInfo(
-        travelTheme: TravelThemeType(rawValue: themeState) ?? .all,
+        travelTheme: TravelMainThemeType(rawValue: themeState) ?? .all,
         travelTrend: trendState)
       return cell.configure(with: filterInfo)
     default:

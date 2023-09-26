@@ -11,7 +11,7 @@ final class PostViewModel {
   // MARK: - Properties
   private let data: [PostModel] = MockPostModel().initMockData()
   
-  private(set) var travelTheme: TravelThemeType = .all
+  private(set) var travelTheme: TravelMainThemeType = .all
   
   private(set) var travelTrend: TravelTrend = .newest
   

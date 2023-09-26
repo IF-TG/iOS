@@ -9,7 +9,7 @@ import Foundation
 
 enum TravelCategorySortingType {
   case trend
-  case detailCategory(TravelThemeType)
+  case detailCategory(TravelMainThemeType)
   
   var toIndex: Int {
     switch self {
