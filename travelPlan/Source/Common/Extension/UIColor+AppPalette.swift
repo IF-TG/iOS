@@ -50,8 +50,6 @@ extension UIColor {
     /// #333333
     static let gray7 = UIColor(
       red: 0.2, green: 0.2, blue: 0.2, alpha: 1)
-    /// #FBFBFB
-    static let littleWhite = UIColor(hex: "FBFBFB")
     
     // MARK: - brand color
     /// #1BA0EB
