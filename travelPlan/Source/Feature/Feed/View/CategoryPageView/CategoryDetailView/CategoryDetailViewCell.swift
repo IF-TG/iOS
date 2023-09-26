@@ -7,6 +7,7 @@
 
 import UIKit
 
+// TODO: - 재사용 관련 문제를 처리하기 어려울 수 있기에
 final class CategoryDetailViewCell: UICollectionViewCell {
   // MARK: - Constant
   static var id: String {
@@ -14,38 +15,49 @@ final class CategoryDetailViewCell: UICollectionViewCell {
   }
   
   // MARK: - Properties
-  private var postView: PostView!
+  // TODO: - 이건 postView 헤더에 추가. 그리고 카테고리 디테일 뷰 셀이 0이 아닐때 이거 추가해야합니다.
+//  private lazy var postSortingMenuAreaView = PostSortingMenuAreaView(
+//    travelThemeType: )
   
-  // MARK: - Initialization
-  private override init(frame: CGRect) {
-    super.init(frame: frame)
+  private var postView = PostCollectionView()
+  
+  private var viewModel: PostViewModel!
+  
+  private var postViewAdapter: PostViewAdapter!
+  
+  private var isViewModelNil: Bool {
+    viewModel == nil
   }
   
-  convenience init() {
-    self.init(frame: .zero)
+  // MARK: - Initialization
+  override init(frame: CGRect) {
+    super.init(frame: frame)
+    setupUI()
   }
   
   required init?(coder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
+    super.init(coder: coder)
+    setupUI()
   }
+  // TODO: - prepareForReuse 구현하지않고 pageView 도입 에정
 }
 
 // MARK: - Public helpers
 extension CategoryDetailViewCell {
-  func configure(with data: [PostModel]
+  func configure(with filterInfo: FeedPostSearchFilterInfo
   ) -> UICollectionViewCell {
-    setPostView(with: data)
+    setViewModel(with: filterInfo)
     return self
   }
 }
 
 // MARK: - Helpers
 extension CategoryDetailViewCell {
-  private func setPostView(with data: [PostModel]) {
-    if postView == nil {
-      postView = PostView(
-        with: PostViewModel(data: data))
-      setupUI()
+  private func setViewModel(with filterInfo: FeedPostSearchFilterInfo) {
+    guard !isViewModelNil else {
+      viewModel = PostViewModel(filterInfo: filterInfo)
+      postViewAdapter = PostViewAdapter(dataSource: viewModel, collectionView: postView)
+      return
     }
   }
 }

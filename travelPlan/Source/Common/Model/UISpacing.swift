@@ -1,5 +1,5 @@
 //
-//  UIConstantSpacing.swift
+//  UISpacing.swift
 //  travelPlan
 //
 //  Created by 양승현 on 2023/05/20.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-/// UI Constant spacing 정할 때 CGFloat를 쉽게 선언하기 위한 구조체
+/// UI spacing 정할 때 CGFloat를 쉽게 선언하기 위한 구조체
 /// # Example #
 /// ```
 /// extension FavoriteListTableViewCell {
@@ -22,7 +22,7 @@ import Foundation
 ///   }
 /// }
 /// ```
-struct UIConstantSpacing {
+struct UISpacing {
   let top: CGFloat
   let leading: CGFloat
   let trailing: CGFloat

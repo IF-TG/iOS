@@ -9,8 +9,9 @@ import Foundation
 
 final class CategoryPageViewModel {
   // MARK: - Properties
-  let data = categoryData
-  let mockPostData = MockPostModel().initMockData()
+  private let travelThemeList: [String] = TravelMainThemeType.allCases.map { $0.rawValue }
+  // TODO: - 상황에 따라 바텀시트에서 특정 trend를 누를 경우 이 프로퍼티도 갱신해야합니다.
+  private(set) var travelTrendState: TravelOrderType = .newest
 }
 
 // MARK: - Public helpers
@@ -29,14 +30,10 @@ extension CategoryPageViewModel {
 // MARK: - CategoryPageViewDataSource
 extension CategoryPageViewModel: CategoryPageViewDataSource {
   var numberOfItems: Int {
-    data.count
+    travelThemeList.count
   }
-  
-  func categoryDetailViewCellItem(at index: Int) -> [PostModel] {
-    return mockPostData
-  }
-  
+
   func categoryViewCellItem(at index: Int) -> String {
-    return data[index]
+    return travelThemeList[index]
   }
 }

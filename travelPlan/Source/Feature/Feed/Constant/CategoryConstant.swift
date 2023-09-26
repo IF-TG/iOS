@@ -7,32 +7,6 @@
 
 import UIKit
 
-// MARK: - CategoryView UI constants
-extension CategoryView {
-  enum Constant {
-    
-    enum ScrollBar {
-      static let height: CGFloat = 4
-      static let radius: CGFloat = 2
-      static let color: UIColor = .yg.primary
-    }
-    
-    enum Shadow {
-      static let radius: CGFloat = 10.0
-      static let color = UIColor(red: 0, green: 0, blue: 0, alpha: 0.05).cgColor
-      static let offset = CGSize(width: 0, height: 1)
-    }
-    
-    static let cellSize = CategoryViewCell.Constant.size
-    
-    static let size: CGSize = {
-      let width = cellSize.width
-      let height = Constant.ScrollBar.height + Constant.cellSize.height
-      return CGSize(width: width, height: height)
-    }()
-  }
-}
-
 // MARK: - CategoryViewCell UI constants
 extension CategoryViewCell {
   enum Constant {
@@ -69,7 +43,7 @@ extension CategoryViewCell {
 extension CategoryDetailViewCell {
   enum Constant {
     enum Spacing {
-      static let top: CGFloat = 17.5
+      static let top: CGFloat = 0
     }
   }
 }
