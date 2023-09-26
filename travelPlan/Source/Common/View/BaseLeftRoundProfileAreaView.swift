@@ -88,7 +88,6 @@ class BaseLeftRoundProfileAreaView: UIView {
   private func configureUI() {
     translatesAutoresizingMaskIntoConstraints = false
     makeProfileImageView()
-    setupUI()
     setSubviewsPriority()
   }
   
@@ -111,25 +110,13 @@ class BaseLeftRoundProfileAreaView: UIView {
     contentView.setContentHuggingPriority(.defaultLow, for: .horizontal)
   }
   
-  // MARK: - Action
-  @objc func didTapProfile() {
-    print("DEBUG: Goto profile scene !!")
-    delegate?.baseLeftRoundProfileAreaView(self, didSelectProfile: profileImageView)
-  }
-}
-
-// MARK: - LayoutSupportable
-extension BaseLeftRoundProfileAreaView: LayoutSupport {
-  func addSubviews() {
+  private func configureLayout() {
     _=[
       profileImageView,
       contentView
     ].map {
       addSubview($0)
     }
-  }
-  
-  func setConstraints() {
     _=[
       profileImageViewConstraints,
       contentViewConstraints
@@ -137,11 +124,8 @@ extension BaseLeftRoundProfileAreaView: LayoutSupport {
       NSLayoutConstraint.activate($0)
     }
   }
-}
-
-// MARK: - Private layoutSupportable
-private extension BaseLeftRoundProfileAreaView {
-  var profileImageViewConstraints: [NSLayoutConstraint] {
+  
+  private var profileImageViewConstraints: [NSLayoutConstraint] {
     var constraints = [
       profileImageView.leadingAnchor.constraint(equalTo: leadingAnchor),
       profileImageView.widthAnchor.constraint(equalToConstant: profileLayoutInfo.size.width),
@@ -152,12 +136,18 @@ private extension BaseLeftRoundProfileAreaView {
     return constraints + [profileImageView.topAnchor.constraint(equalTo: topAnchor)]
   }
   
-  var contentViewConstraints: [NSLayoutConstraint] {
+  private var contentViewConstraints: [NSLayoutConstraint] {
     return [
       contentView.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor),
       contentView.topAnchor.constraint(equalTo: topAnchor),
       contentView.trailingAnchor.constraint(equalTo: trailingAnchor),
       contentView.bottomAnchor.constraint(equalTo: bottomAnchor)
     ]
+  }
+  
+  // MARK: - Action
+  @objc func didTapProfile() {
+    print("DEBUG: Goto profile scene !!")
+    delegate?.baseLeftRoundProfileAreaView(self, didSelectProfile: profileImageView)
   }
 }
