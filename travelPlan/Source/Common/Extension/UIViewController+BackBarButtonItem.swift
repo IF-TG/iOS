@@ -22,7 +22,7 @@ extension UIViewController {
   ) {
     self.navigationController?.isNavigationBarHidden = false
     
-    let backButton = createBackButton(imageName: imageName, tintColor: tintColor, marginLeft: marginLeft)
+    let backButton = makeBackButton(imageName: imageName, tintColor: tintColor, marginLeft: marginLeft)
     configureBackBarButtonItem(customView: backButton)
   }
   
@@ -33,7 +33,7 @@ extension UIViewController {
   }
   
   // MARK: - Privates
-  private func createBackButton(
+  private func makeBackButton(
     imageName: String,
     tintColor: UIColor,
     marginLeft: CGFloat
