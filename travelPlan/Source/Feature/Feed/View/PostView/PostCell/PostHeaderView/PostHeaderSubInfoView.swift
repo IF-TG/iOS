@@ -8,14 +8,47 @@
 import UIKit
 
 class PostHeaderSubInfoView: UIView {
+  enum Constants {
+    enum UserName {
+      static let textColor: UIColor = .yg.gray5
+      static let font: UIFont = UIFont(pretendard: .medium, size: 10)!
+      static let width: CGFloat = 70
+    }
+    enum Duration {
+      static let textColor: UIColor = .yg.gray5
+      static let font: UIFont = UIFont(pretendard: .medium, size: 10)!
+      static let width: CGFloat = 31
+      struct Spacing {
+        static let leading: CGFloat = 10
+        static let trailing: CGFloat = 10
+      }
+    }
+    enum DateRange {
+      static let textColor: UIColor = .yg.gray5
+      static let font: UIFont = UIFont(pretendard: .medium, size: 10)!
+      static let width: CGFloat = 86
+      enum Spacing {
+        static let leading: CGFloat = 10
+      }
+    }
+    enum Divider {
+      static let bgColor: UIColor = .yg.gray5
+      static let width: CGFloat = 1
+      static let height: CGFloat = 13
+      struct Spacing {
+        static let leading: CGFloat = 10
+      }
+    }
+  }
+
   // MARK: - Properties
   private lazy var userNameLabel = UILabel().set {
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.text = " "
-    $0.textColor = Constant.UserName.textColor
+    $0.textColor = Constants.UserName.textColor
     $0.textAlignment = .left
     $0.numberOfLines = 1
-    $0.font = Constant.UserName.font
+    $0.font = Constants.UserName.font
     $0.isUserInteractionEnabled = true
     let touch = UITapGestureRecognizer(target: self, action: #selector(didTapUserName))
     $0.addGestureRecognizer(touch)
@@ -24,25 +57,25 @@ class PostHeaderSubInfoView: UIView {
   private let durationLabel = UILabel().set {
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.text = " "
-    $0.textColor = Constant.Duration.textColor
+    $0.textColor = Constants.Duration.textColor
     $0.textAlignment = .center
     $0.numberOfLines = 1
-    $0.font = Constant.Duration.font
+    $0.font = Constants.Duration.font
   }
   
   private let yearMonthDayRangeLabel = UILabel().set {
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.text = " "
-    $0.textColor = Constant.DateRange.textColor
+    $0.textColor = Constants.DateRange.textColor
     $0.textAlignment = .center
     $0.numberOfLines = 1
-    $0.font = Constant.DateRange.font
+    $0.font = Constants.DateRange.font
   }
   
   private let dividerView: [UIView] = (0..<2).map { _ in
     return UIView().set {
       $0.translatesAutoresizingMaskIntoConstraints = false
-      $0.backgroundColor = Constant.Divider.bgColor
+      $0.backgroundColor = Constants.Divider.bgColor
     }
   }
   
@@ -134,7 +167,7 @@ private extension PostHeaderSubInfoView {
       userNameLabel.leadingAnchor.constraint(
         equalTo: leadingAnchor),
       userNameLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
-      userNameLabel.widthAnchor.constraint(lessThanOrEqualToConstant: Constant.UserName.width),
+      userNameLabel.widthAnchor.constraint(lessThanOrEqualToConstant: Constants.UserName.width),
       userNameLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 0)]
   }
   
@@ -143,12 +176,12 @@ private extension PostHeaderSubInfoView {
     return [
       divider.centerYAnchor.constraint(equalTo: centerYAnchor),
       divider.widthAnchor.constraint(
-        equalToConstant: Constant.Divider.width),
+        equalToConstant: Constants.Divider.width),
       divider.heightAnchor.constraint(
-        equalToConstant: Constant.Divider.height),
+        equalToConstant: Constants.Divider.height),
       divider.leadingAnchor.constraint(
         equalTo: userNameLabel.trailingAnchor,
-        constant: Constant.Divider.Spacing.leading)]
+        constant: Constants.Divider.Spacing.leading)]
   }
   
   var durationLabelConstraints: [NSLayoutConstraint] {
@@ -157,9 +190,9 @@ private extension PostHeaderSubInfoView {
         equalTo: centerYAnchor),
       durationLabel.leadingAnchor.constraint(
         equalTo: dividerView[0].trailingAnchor,
-        constant: Constant.Duration.Spacing.leading),
+        constant: Constants.Duration.Spacing.leading),
       durationLabel.widthAnchor.constraint(
-        lessThanOrEqualToConstant: Constant.Duration.width)]
+        lessThanOrEqualToConstant: Constants.Duration.width)]
   }
   
   var dividerView2Constraints: [NSLayoutConstraint] {
@@ -167,12 +200,12 @@ private extension PostHeaderSubInfoView {
     return [
       divider.centerYAnchor.constraint(equalTo: centerYAnchor),
       divider.widthAnchor.constraint(
-        equalToConstant: Constant.Divider.width),
+        equalToConstant: Constants.Divider.width),
       divider.heightAnchor.constraint(
-        equalToConstant: Constant.Divider.height),
+        equalToConstant: Constants.Divider.height),
       divider.leadingAnchor.constraint(
         equalTo: durationLabel.trailingAnchor,
-        constant: Constant.Divider.Spacing.leading)]
+        constant: Constants.Divider.Spacing.leading)]
   }
   
   var dateRangeLabelConstraints: [NSLayoutConstraint] {
@@ -180,7 +213,7 @@ private extension PostHeaderSubInfoView {
       equalTo: centerYAnchor),
      yearMonthDayRangeLabel.leadingAnchor.constraint(
       equalTo: dividerView[1].trailingAnchor,
-      constant: Constant.DateRange.Spacing.leading),
+      constant: Constants.DateRange.Spacing.leading),
      yearMonthDayRangeLabel.trailingAnchor.constraint(
       lessThanOrEqualTo: trailingAnchor)]
   }
