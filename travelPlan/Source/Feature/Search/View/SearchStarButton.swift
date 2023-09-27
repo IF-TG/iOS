@@ -11,12 +11,21 @@ final class SearchStarButton: UIButton {
   enum NormalType: String {
     case empty
     case emptyWithAlpha
+    
+    var imagePath: String {
+      switch self {
+      case .empty:
+        return Constants.emptyImageName
+      case .emptyWithAlpha:
+        return Constants.emptyWithAlphaImageName
+      }
+    }
   }
   
   enum Constants {
     static let emptyImageName = "emptyStar"
+    static let emptyWithAlphaImageName = "star-alpha10"
     static let selectedImageName = "star"
-    static let alphaImageName = "star-alpha10"
   }
 
   // MARK: - LifeCycle
@@ -44,10 +53,11 @@ extension SearchStarButton {
   private func setImages(normalType: NormalType) {
     switch normalType {
     case .empty:
-      setImage(UIImage(named: Constants.emptyImageName), for: .normal)
+      setImage(UIImage(named: normalType.imagePath), for: .normal)
     case .emptyWithAlpha:
-      setImage(UIImage(named: Constants.alphaImageName), for: .normal)
+      setImage(UIImage(named: normalType.imagePath), for: .normal)
     }
+    
     setImage(UIImage(named: Constants.selectedImageName), for: .selected)
   }
 }
