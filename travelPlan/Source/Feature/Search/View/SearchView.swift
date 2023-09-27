@@ -72,6 +72,13 @@ final class SearchView: UIView {
                              height: Constants.ShadowLayer.shadowOffsetHeight)
   }
   
+  override var bounds: CGRect {
+    didSet {
+      setupShadowLayer()
+    }
+  }
+  
+  // MARK: - LifeCycle
   override init(frame: CGRect) {
     super.init(frame: frame)
     setupUI()
@@ -85,16 +92,13 @@ final class SearchView: UIView {
 
 // MARK: - Public Helpers
 extension SearchView {
-  func setupShadowLayer() {
-    CATransaction.begin()
-    CATransaction.setDisableActions(true)
-    
+  private func setupShadowLayer() {
     shadowLayer.frame = self.bounds
+    
     shadowLayer.shadowPath = UIBezierPath(
       roundedRect: shadowLayer.bounds,
       cornerRadius: SearchView.Constants.cornerRadius
     ).cgPath
-    CATransaction.commit()
   }
 }
 

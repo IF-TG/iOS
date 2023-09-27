@@ -80,11 +80,6 @@ final class SearchViewController: UIViewController {
     navigationController?.isNavigationBarHidden = true
   }
   
-  override func viewDidAppear(_ animated: Bool) {
-    super.viewDidAppear(animated)
-    searchView.setupShadowLayer()
-  }
-  
   deinit {
     coordinator?.finish()
   }
