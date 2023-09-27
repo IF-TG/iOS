@@ -8,6 +8,29 @@
 import UIKit
 
 class PostContentAreaView: UIView {
+  enum Constants {
+    enum Thumbnail {
+      static let height: CGFloat = 118
+      enum Spacing {
+        static let leading: CGFloat = 11
+        static let trailing = leading
+        static let top: CGFloat = 8
+      }
+    }
+
+    enum Text {
+      static let textSize: CGFloat = 14
+      static let lineBreakMode: NSLineBreakMode = .byWordWrapping
+      static let font: UIFont = UIFont(pretendard: .regular, size: 14)!
+      enum Spacing {
+        static let top: CGFloat = 12
+        static let bottom: CGFloat = 4
+        static let leading: CGFloat = 11
+        static let trailing: CGFloat = 11
+      }
+    }
+  }
+  
   // MARK: - Properties
   private var thumbnail: PostThumbnailView = PostThumbnailView()
   
@@ -15,8 +38,8 @@ class PostContentAreaView: UIView {
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.numberOfLines = 3
     $0.text = " "
-    $0.font = Constant.Text.font
-    $0.lineBreakMode = Constant.Text.lineBreakMode
+    $0.font = Constants.Text.font
+    $0.lineBreakMode = Constants.Text.lineBreakMode
   }
   
   // MARK: - Initialization
@@ -57,11 +80,19 @@ private extension PostContentAreaView {
 // MARK: - LayoutSupport
 extension PostContentAreaView: LayoutSupport {
   func addSubviews() {
-    _=[thumbnail, text].map { addSubview($0) }
+    _=[
+      thumbnail,
+      text
+    ].map {
+      addSubview($0)
+    }
   }
   
   func setConstraints() {
-    _=[thumbnailConstraints, textConstraints].map {
+    _=[
+      thumbnailConstraints,
+      textConstraints
+    ].map {
       NSLayoutConstraint.activate($0)
     }
   }
@@ -70,30 +101,35 @@ extension PostContentAreaView: LayoutSupport {
 // MARK: - LayoutSupport
 private extension PostContentAreaView {
   var thumbnailConstraints: [NSLayoutConstraint] {
-    [thumbnail.topAnchor.constraint(
-      equalTo: topAnchor,
-      constant: Constant.ImageSpacing.top),
+    typealias Spacing = Constants.Thumbnail.Spacing
+    typealias Const = Constants.Thumbnail
+    return [
+      thumbnail.topAnchor.constraint(
+        equalTo: topAnchor,
+        constant: Spacing.top),
       thumbnail.leadingAnchor.constraint(
-      equalTo: leadingAnchor,
-      constant: Constant.ImageSpacing.leading),
-     thumbnail.trailingAnchor.constraint(
-      equalTo: trailingAnchor,
-      constant: -Constant.ImageSpacing.trailing),
-     thumbnail.heightAnchor.constraint(equalToConstant: Constant.imageHeight)]
+        equalTo: leadingAnchor,
+        constant: Spacing.leading),
+      thumbnail.trailingAnchor.constraint(
+        equalTo: trailingAnchor,
+        constant: -Spacing.trailing),
+      thumbnail.heightAnchor.constraint(equalToConstant: Const.height)]
   }
   
   var textConstraints: [NSLayoutConstraint] {
-    [text.leadingAnchor.constraint(
-      equalTo: leadingAnchor,
-      constant: Constant.Text.Spacing.leading),
-     text.topAnchor.constraint(
-      equalTo: thumbnail.bottomAnchor,
-      constant: Constant.Text.Spacing.top),
-     text.trailingAnchor.constraint(
-      equalTo: trailingAnchor,
-      constant: -Constant.Text.Spacing.trailing),
-     text.bottomAnchor.constraint(
-      equalTo: bottomAnchor,
-      constant: -Constant.Text.Spacing.bottom)]
+    typealias Spacing = Constants.Text.Spacing
+    return [
+      text.leadingAnchor.constraint(
+        equalTo: leadingAnchor,
+        constant: Spacing.leading),
+      text.topAnchor.constraint(
+        equalTo: thumbnail.bottomAnchor,
+        constant: Spacing.top),
+      text.trailingAnchor.constraint(
+        equalTo: trailingAnchor,
+        constant: -Spacing.trailing),
+      text.bottomAnchor.constraint(
+        equalTo: bottomAnchor,
+        constant: -Spacing.bottom)]
   }
 }
