@@ -8,5 +8,5 @@
 import UIKit
 
 protocol StarButtonDelegate: AnyObject {
-  func didTapStarButton<T: UIView & CellConfigurable>(_ baseView: BaseDestinationView<T>)
+  func didTapStarButton(_ button: UIButton)
 }

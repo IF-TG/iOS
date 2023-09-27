@@ -45,7 +45,7 @@ class TravelDestinationCell: UICollectionViewCell {
   
   override func prepareForReuse() {
     super.prepareForReuse()
-    
+    containerView.clearButtonSelectedState()
     containerView.clearThumbnailImage()
     subscriptions.removeAll()
   }
@@ -88,7 +88,7 @@ class TravelDestinationCell: UICollectionViewCell {
 
 // MARK: - StarButtonDelegate
 extension TravelDestinationCell: StarButtonDelegate {
-  func didTapStarButton<T: UIView & CellConfigurable>(_ baseView: BaseDestinationView<T>) {
+  func didTapStarButton(_ button: UIButton) {
     input.didTapStarButton.send()
   }
 }

@@ -59,7 +59,7 @@ class BaseDestinationView<T: UIView & CellConfigurable>: UIView {
   
   // MARK: - Actions
   @objc private func didTapStarButton(_ button: UIButton) {
-    delegate?.didTapStarButton(self)
+    delegate?.didTapStarButton(button)
   }
 }
 
@@ -67,6 +67,10 @@ class BaseDestinationView<T: UIView & CellConfigurable>: UIView {
 extension BaseDestinationView {
   func clearThumbnailImage() {
     thumbnailImageView.image = nil
+  }
+  
+  func clearButtonSelectedState() {
+    starButton.isSelected = false
   }
   
   func toggleStarButtonState() {
