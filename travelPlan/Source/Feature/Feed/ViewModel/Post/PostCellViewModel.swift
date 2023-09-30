@@ -11,7 +11,7 @@ final class PostCellViewModel {
   // MARK: - Properties
   private let postModel: PostModel
   
-  var headerModel: PostHeaderModel {
+  var headerModel: PostHeaderProfileAndInfoView.Model {
       postModel.header
   }
   
@@ -24,8 +24,8 @@ final class PostCellViewModel {
   }
   
   // MARK: - Default data(When fetched data invalid)
-  var defaultHeaderModel: PostHeaderModel {
-    PostHeaderModel()
+  var defaultHeaderModel: PostHeaderProfileAndInfoView.Model {
+    .init()
   }
   
   var defaultContentAreaModel: PostContentAreaModel {
@@ -49,9 +49,6 @@ extension PostCellViewModel {
   func isValidatedHeaderModel() -> Bool {
     let subInfoModel = headerModel.subInfo
     let manager = DateValidationManager()
-    guard headerModel.isValidated() else {
-      return false
-    }
     guard subInfoModel.isValidatedDuration(),
           subInfoModel.isValidatedUsername(),
           subInfoModel.isValidatedYearMonthDayRange(
