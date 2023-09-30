@@ -7,16 +7,19 @@
 
 import UIKit
 
+protocol PostHeaderProfileAndInfoViewDelegate: BaseLeftRoundProfileAreaViewDelegate { }
+
 final class PostHeaderProfileAndInfoView: BaseLeftRoundProfileAreaView {
   struct Model {
     let title: String
     let image: UIImage?
     let subInfo: PostHeaderSubInfoModel
     
-    // 데이터가 존재하지 않을 경우
-    init(title: String = "제목 없음",
-         image: UIImage? = nil,
-         subInfo: PostHeaderSubInfoModel = PostHeaderSubInfoModel()) {
+    init(
+      title: String = "제목 없음",
+      image: UIImage? = nil,
+      subInfo: PostHeaderSubInfoModel = PostHeaderSubInfoModel()
+    ) {
       self.title = title
       self.image = image
       self.subInfo = subInfo
@@ -26,12 +29,13 @@ final class PostHeaderProfileAndInfoView: BaseLeftRoundProfileAreaView {
   // MARK: - Properteis
   private let postInfoView = PostHeaderInfoView()
   
-  var profileDelegate: BaseLeftRoundProfileAreaViewDelegate? {
+  weak var delegate: PostHeaderProfileAndInfoViewDelegate?
+  
+  override var baseDelegate: BaseLeftRoundProfileAreaViewDelegate? {
     get {
-      super.delegate
-    }
-    set {
-      super.delegate = newValue
+      return delegate
+    } set {
+      delegate = newValue as? PostHeaderProfileAndInfoViewDelegate
     }
   }
   
