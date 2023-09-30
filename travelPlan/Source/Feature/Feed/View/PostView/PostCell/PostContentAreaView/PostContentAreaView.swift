@@ -9,6 +9,16 @@ import UIKit
 
 class PostContentAreaView: UIView {
   enum Constants {
+    static var maximumHeight: CGFloat {
+      Thumbnail.height 
+      + Thumbnail.Spacing.top
+      + Text.maximumHeight
+    }
+    static var minimumHeight: CGFloat {
+      Thumbnail.height
+      + Thumbnail.Spacing.top
+      + Text.minimumHeight
+    }
     enum Thumbnail {
       static let height: CGFloat = 118
       enum Spacing {
@@ -17,14 +27,20 @@ class PostContentAreaView: UIView {
         static let top: CGFloat = 8
       }
     }
-
     enum Text {
+      static var minimumHeight: CGFloat {
+        font.lineHeight + Spacing.top + Spacing.bottom + 4
+      }
+      static var maximumHeight: CGFloat {
+        maximumLineHeight + Spacing.top + Spacing.bottom + 4
+      }
       static let textSize: CGFloat = 14
       static let lineBreakMode: NSLineBreakMode = .byWordWrapping
       static let font: UIFont = UIFont(pretendard: .regular, size: 14)!
+      static var maximumLineHeight: CGFloat { font.lineHeight * 3 }
       enum Spacing {
-        static let top: CGFloat = 12
-        static let bottom: CGFloat = 4
+        static let top: CGFloat = 8
+        static let bottom: CGFloat = 5
         static let leading: CGFloat = 11
         static let trailing: CGFloat = 11
       }
@@ -36,10 +52,10 @@ class PostContentAreaView: UIView {
   
   private let text = UILabel().set {
     $0.translatesAutoresizingMaskIntoConstraints = false
-    $0.numberOfLines = 3
-    $0.text = " "
+    $0.numberOfLines = 0
     $0.font = Constants.Text.font
     $0.lineBreakMode = Constants.Text.lineBreakMode
+    $0.sizeToFit()
   }
   
   // MARK: - Initialization
@@ -117,6 +133,7 @@ private extension PostContentAreaView {
   }
   
   var textConstraints: [NSLayoutConstraint] {
+    typealias Const = Constants.Text
     typealias Spacing = Constants.Text.Spacing
     return [
       text.leadingAnchor.constraint(
