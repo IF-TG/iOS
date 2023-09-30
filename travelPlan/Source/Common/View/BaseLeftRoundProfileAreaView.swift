@@ -10,7 +10,7 @@ import UIKit
 protocol BaseLeftRoundProfileAreaViewDelegate: AnyObject {
   func baseLeftRoundProfileAreaView(
     _ baseLeftRoundProfileAreaView: BaseLeftRoundProfileAreaView,
-    didSelectProfile profile: UIImageView)
+    didSelectProfile profile: UIImage?)
 }
 
 class BaseLeftRoundProfileAreaView: UIView {
@@ -56,7 +56,7 @@ class BaseLeftRoundProfileAreaView: UIView {
   
   private var contentView: UIView
   
-  weak var delegate: BaseLeftRoundProfileAreaViewDelegate?
+  weak var baseDelegate: BaseLeftRoundProfileAreaViewDelegate?
   
   private var profileLayoutInfo: ProfileInfoType
   
@@ -88,6 +88,7 @@ class BaseLeftRoundProfileAreaView: UIView {
   private func configureUI() {
     translatesAutoresizingMaskIntoConstraints = false
     makeProfileImageView()
+    configureLayout()
     setSubviewsPriority()
   }
   
@@ -148,6 +149,6 @@ class BaseLeftRoundProfileAreaView: UIView {
   // MARK: - Action
   @objc func didTapProfile() {
     print("DEBUG: Goto profile scene !!")
-    delegate?.baseLeftRoundProfileAreaView(self, didSelectProfile: profileImageView)
+    baseDelegate?.baseLeftRoundProfileAreaView(self, didSelectProfile: profileImageView.image)
   }
 }
