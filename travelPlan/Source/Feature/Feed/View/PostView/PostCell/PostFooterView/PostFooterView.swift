@@ -8,8 +8,59 @@
 import UIKit
 
 class PostFooterView: UIView {
+  enum Constants {
+    static let footerViewheight: CGFloat = 50
+    
+    enum Heart {
+      enum Text {
+        static let font: UIFont = UIFont(pretendard: .regular, size: 14)!
+        static let fontColor: UIColor = .yg.gray4
+        enum Spacing {
+          static let leading: CGFloat = 6.33
+        }
+      }
+      enum Icon {
+        static let minimumsSize = CGSize(width: 20.0, height: 20)
+        static let color: UIColor = .yg.red
+        static let unselectedImage = UIImage(
+          named: "unselectedHeart")?.setColor(color)
+        static let selectedImage = UIImage(
+          named: "selectedHeart")?.setColor(color)
+        enum Spacing {
+          static let leading: CGFloat = 30
+        }
+        
+      }
+    }
+    enum Comment {
+      struct Text {
+        static let font: UIFont = UIFont(pretendard: .regular, size: 14)!
+        static let fontColor: UIColor = .yg.gray4
+        enum Spacing {
+          static let leading: CGFloat = 7
+        }
+      }
+      
+      struct Icon {
+        static let name = "feedComment"
+        static let minimumsSize = CGSize(width: 20, height: 20)
+        enum Spacing {
+          static let leading: CGFloat = 12
+        }
+      }
+    }
+    enum Share {
+      static let iconName = "feedShare"
+      static let height: CGFloat = 18
+      static let width: CGFloat = 18
+      struct Spacing {
+        static let trailing: CGFloat = 33
+      }
+    }
+    
+  }
+
   // MARK: - Properties
-  
   /// 초기 사용자가 포스트에 대해서 하트를 눌렀는지 상태 체크
   private var postHeartState: Bool? = false
   
@@ -26,13 +77,13 @@ class PostFooterView: UIView {
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.text = "0"
     $0.textAlignment = .left
-    $0.font = Constant.Heart.Text.font
-    $0.textColor = Constant.Heart.Text.fontColor
+    $0.font = Constants.Heart.Text.font
+    $0.textColor = Constants.Heart.Text.fontColor
   }
   
   private lazy var commentIcon = UIImageView().set {
     $0.translatesAutoresizingMaskIntoConstraints = false
-    $0.image = UIImage(named: Constant.Comment.Icon.name)?.setColor(.yg.gray4)
+    $0.image = UIImage(named: Constants.Comment.Icon.name)?.setColor(.yg.gray4)
     $0.contentMode = .scaleAspectFit
     $0.isUserInteractionEnabled = true
     let tap = UITapGestureRecognizer(
@@ -44,17 +95,17 @@ class PostFooterView: UIView {
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.text = "0"
     $0.textAlignment = .left
-    $0.font = Constant.Heart.Text.font
-    $0.textColor = Constant.Heart.Text.fontColor
+    $0.font = Constants.Heart.Text.font
+    $0.textColor = Constants.Heart.Text.fontColor
   }
   
   private lazy var shareButton = UIButton().set {
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.contentMode = .scaleAspectFit
     $0.setImage(
-      UIImage(named: Constant.Share.iconName)?.setColor(.yg.gray4),
+      UIImage(named: Constants.Share.iconName)?.setColor(.yg.gray4),
       for: .normal)
-    var img = UIImage(named: Constant.Share.iconName)
+    var img = UIImage(named: Constants.Share.iconName)
     img = img?.setColor(.yg.gray4.withAlphaComponent(0.5))
     $0.setImage(img, for: .highlighted)
     $0.addTarget(self, action: #selector(didTapShare), for: .touchUpInside)
@@ -134,10 +185,10 @@ extension PostFooterView {
   private func setHeartIcon(with state: Bool) {
     postHeartState = state
     if state {
-      heartIcon.image = Constant.Heart.Icon.selectedImage
+      heartIcon.image = Constants.Heart.Icon.selectedImage
     } else {
       // 하트 취소
-      heartIcon.image = Constant.Heart.Icon.unselectedImage
+      heartIcon.image = Constants.Heart.Icon.unselectedImage
     }
   }
   
@@ -187,13 +238,13 @@ private extension PostFooterView {
   var heartIconConstraint: [Layout] {
     [heartIcon.leadingAnchor.constraint(
       equalTo: leadingAnchor,
-      constant: Constant.Heart.Icon.Spacing.leading),
+      constant: Constants.Heart.Icon.Spacing.leading),
      heartIcon.centerYAnchor.constraint(
       equalTo: centerYAnchor),
      heartIcon.widthAnchor.constraint(
-      equalToConstant: Constant.Heart.Icon.minimumsSize.width),
+      equalToConstant: Constants.Heart.Icon.minimumsSize.width),
      heartIcon.heightAnchor.constraint(
-      equalToConstant: Constant.Heart.Icon.minimumsSize.height)]
+      equalToConstant: Constants.Heart.Icon.minimumsSize.height)]
   }
   
   var heartTextConstraint: [Layout] {
@@ -201,7 +252,7 @@ private extension PostFooterView {
     return [
       heartText.leadingAnchor.constraint(
         equalTo: heartIcon.trailingAnchor,
-        constant: Constant.Heart.Text.Spacing.leading),
+        constant: Constants.Heart.Text.Spacing.leading),
       heartText.centerYAnchor.constraint(
         equalTo: centerYAnchor)]
   }
@@ -209,13 +260,13 @@ private extension PostFooterView {
   var commentIconConstraint: [Layout] {
     [commentIcon.leadingAnchor.constraint(
       equalTo: heartText.trailingAnchor,
-      constant: Constant.Comment.Icon.Spacing.leading),
+      constant: Constants.Comment.Icon.Spacing.leading),
      commentIcon.centerYAnchor.constraint(
       equalTo: centerYAnchor),
      commentIcon.widthAnchor.constraint(
-      equalToConstant: Constant.Comment.Icon.minimumsSize.width),
+      equalToConstant: Constants.Comment.Icon.minimumsSize.width),
      commentIcon.heightAnchor.constraint(
-      equalToConstant: Constant.Comment.Icon.minimumsSize.height)]
+      equalToConstant: Constants.Comment.Icon.minimumsSize.height)]
   }
   
   var commentTextConstraint: [Layout] {
@@ -223,7 +274,7 @@ private extension PostFooterView {
     return [
       commentText.leadingAnchor.constraint(
         equalTo: commentIcon.trailingAnchor,
-        constant: Constant.Comment.Text.Spacing.leading),
+        constant: Constants.Comment.Text.Spacing.leading),
       commentText.centerYAnchor.constraint(equalTo: centerYAnchor)]
   }
   
@@ -231,9 +282,9 @@ private extension PostFooterView {
     [
       shareButton.trailingAnchor.constraint(
         equalTo: trailingAnchor,
-        constant: -Constant.Share.Spacing.trailing),
+        constant: -Constants.Share.Spacing.trailing),
       shareButton.centerYAnchor.constraint(equalTo: centerYAnchor),
-      shareButton.heightAnchor.constraint(equalToConstant: Constant.Share.height),
-      shareButton.widthAnchor.constraint(equalToConstant: Constant.Share.width)]
+      shareButton.heightAnchor.constraint(equalToConstant: Constants.Share.height),
+      shareButton.widthAnchor.constraint(equalToConstant: Constants.Share.width)]
   }
 }
