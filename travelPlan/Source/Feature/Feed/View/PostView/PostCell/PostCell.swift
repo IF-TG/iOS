@@ -9,6 +9,15 @@ import UIKit
 
 final class PostCell: UICollectionViewCell {
   enum Constants {
+    static var maximumHeight: CGFloat {
+      HeaderView.height
+      + HeaderView.Spacing.top
+      + ContentView.maximumHeight
+      + FooterView.height
+      + FooterView.Spacing.top
+      + FooterView.Spacing.bottom
+    }
+    
     enum Line {
       static let bgColor: UIColor = .yg.gray0
       static let height: CGFloat = 1
@@ -29,6 +38,7 @@ final class PostCell: UICollectionViewCell {
     
     enum ContentView {
       static let maximumHeight = PostContentAreaView.Constants.maximumHeight
+      static let minimumHeight = PostContentAreaView.Constants.minimumHeight
     }
     
     enum FooterView {
@@ -44,11 +54,10 @@ final class PostCell: UICollectionViewCell {
       static let selectedImage = UIImage(named: "feedOption")
       static let unselectedImage = UIImage(named: "feedOption")?.setColor(.yg.gray4.withAlphaComponent(0.5))
       struct Spacing {
-        // inset 길이만큼 뺐습니다.
         static let top: CGFloat = 15
         static let trailing: CGFloat = 15
       }
-      // 옵션 버튼이 너무 작아서 터치가 안되서 버튼의 크기를 늘리겠습니다.
+
       struct Inset {
         static let top: CGFloat = 3
         static let bottom: CGFloat = 3
@@ -115,12 +124,11 @@ final class PostCell: UICollectionViewCell {
   }
   
   private func configureUI() {
+    typealias Spacing = Constants.Line.Spacing
     setupUI()
     line.setConstraint(
       fromSuperView: contentView,
-      spacing: .init(
-        leading: Constants.Line.Spacing.leading,
-        trailing: Constants.Line.Spacing.trailing))
+      spacing: .init(leading: Spacing.leading, trailing: Spacing.trailing))
   }
   
   private func setHeaderWithData() {
@@ -144,9 +152,9 @@ final class PostCell: UICollectionViewCell {
   }
   
   private func makeOptionButton() -> UIButton {
+    typealias Const = Constants.OptionView
+    typealias Inset = Const.Inset
     return UIButton().set {
-      typealias Const = Constants.OptionView
-      typealias Inset = Const.Inset
       $0.translatesAutoresizingMaskIntoConstraints = false
       $0.setImage(
         Const.selectedImage,
@@ -158,7 +166,6 @@ final class PostCell: UICollectionViewCell {
       $0.addTarget(self, action: #selector(didTapOption), for: .touchUpInside)
       $0.contentEdgeInsets = UIEdgeInsets(top: Inset.top, left: 0, bottom: Inset.bottom, right: 0)
     }
-    
   }
   
   // MARK: - Action
@@ -216,21 +223,23 @@ private extension PostCell {
     return [
       contentAreaView.topAnchor.constraint(equalTo: headerView.bottomAnchor),
       contentAreaView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-      contentAreaView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-      contentAreaView.heightAnchor.constraint(lessThanOrEqualToConstant: Const.maximumHeight)]
+      contentAreaView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)]
   }
 
   var footerViewConstraints: [NSLayoutConstraint] {
-    [footerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-     footerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-     footerView.topAnchor.constraint(
-      equalTo: contentAreaView.bottomAnchor,
-      constant: Constants.FooterView.Spacing.top),
-     footerView.heightAnchor.constraint(
-      equalToConstant: Constants.FooterView.height),
-     footerView.bottomAnchor.constraint(
-      equalTo: contentView.bottomAnchor,
-      constant: -Constants.FooterView.Spacing.bottom)]
+    typealias Const = Constants.FooterView
+    typealias Spacing = Const.Spacing
+    return [
+      footerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+      footerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+      footerView.topAnchor.constraint(
+        equalTo: contentAreaView.bottomAnchor,
+        constant: Spacing.top),
+      footerView.heightAnchor.constraint(
+        equalToConstant: Const.height),
+      footerView.bottomAnchor.constraint(
+        equalTo: contentView.bottomAnchor,
+        constant: -Spacing.bottom)]
   }
   
   var optionButtonConstraints: [NSLayoutConstraint] {
