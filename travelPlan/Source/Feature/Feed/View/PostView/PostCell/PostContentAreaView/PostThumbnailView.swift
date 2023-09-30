@@ -53,7 +53,7 @@ extension PostThumbnailView {
 
 // MARK: - Public helpers
 extension PostThumbnailView {
-  func configure(with data: [UIImage]) {
+  func configure(with data: [UIImage]?) {
     setImageViews(with: data)
     if !isSetupfuncCalled {
       isSetupfuncCalled = true
@@ -64,9 +64,10 @@ extension PostThumbnailView {
 
 // MARK: - Helpers
 private extension PostThumbnailView {
-  func setImageViews(with images: [UIImage]) {
-    imageViews = images
-      .map { return initImageview(with: $0) }
+  func setImageViews(with images: [UIImage]?) {
+    if let images = images {
+      imageViews = images.map { return initImageview(with: $0) }
+    }
   }
   
   // Default is horizontal

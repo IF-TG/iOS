@@ -97,10 +97,10 @@ fileprivate extension PostFooterView {
 
 // MARK: - Public helpers
 extension PostFooterView {
-  func configure(with data: PostFooterModel) {
-    setHeart(with: String(data.heartCount))
-    setHeartIcon(with: data.heartState)
-    setComment(with: String(data.commentCount))
+  func configure(with data: PostFooterModel?) {
+    setHeart(with: String(data?.heartCount ?? 0))
+    setHeartIcon(with: data?.heartState ?? false)
+    setComment(with: String(data?.commentCount ?? 0))
   }
   
   func updatePostHeartState() {
