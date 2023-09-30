@@ -12,13 +12,15 @@ final class PostHeaderInfoView: UIView {
     enum Title {
       static let textColor: UIColor = .yg.gray7
       static let font: UIFont = UIFont(pretendard: .semiBold, size: 18)!
-      enum Inset {
+      enum Spacing {
+        static let leading: CGFloat = 10
         static let top: CGFloat = 3
       }
     }
     
     enum subInfoView {
-      enum Inset {
+      enum Spacing {
+        static let leading: CGFloat = 10
         static let top: CGFloat = 5
         static let bottom: CGFloat = 5
       }
@@ -96,20 +98,20 @@ extension PostHeaderInfoView: LayoutSupport {
 // MARK: - Private layoutSupportable
 private extension PostHeaderInfoView {
   var titleConstraints: [NSLayoutConstraint] {
-    typealias Inset = Constants.Title.Inset
+    typealias Inset = Constants.Title.Spacing
     return [
-      title.leadingAnchor.constraint(equalTo: leadingAnchor),
+      title.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Inset.leading),
       title.trailingAnchor.constraint(equalTo: trailingAnchor),
-      title.topAnchor.constraint(equalTo: topAnchor, constant: Inset.top),
+      title.topAnchor.constraint(equalTo: topAnchor, constant: Inset.top)
     ]
   }
   
   var subInfoViewConstraints: [NSLayoutConstraint] {
-    typealias Inset = Constants.subInfoView.Inset
+    typealias Inset = Constants.subInfoView.Spacing
     return [
-      subInfoView.leadingAnchor.constraint(equalTo: leadingAnchor),
+      subInfoView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Inset.leading),
       subInfoView.trailingAnchor.constraint(equalTo: trailingAnchor),
-      subInfoView.topAnchor.constraint(equalTo: topAnchor, constant: Inset.top),
+      subInfoView.topAnchor.constraint(equalTo: title.bottomAnchor, constant: Inset.top),
       subInfoView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Inset.bottom)
     ]
   }
