@@ -51,13 +51,7 @@ final class SearchStarButton: UIButton {
 // MARK: - Helpers
 extension SearchStarButton {
   private func setImages(normalType: NormalType) {
-    switch normalType {
-    case .empty:
-      setImage(UIImage(named: normalType.imagePath), for: .normal)
-    case .emptyWithAlpha:
-      setImage(UIImage(named: normalType.imagePath), for: .normal)
-    }
-    
+    setImage(UIImage(named: normalType.imagePath), for: .normal)
     setImage(UIImage(named: Constants.selectedImageName), for: .selected)
   }
 }
