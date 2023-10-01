@@ -51,10 +51,10 @@ extension CategoryPageViewAdapter: UICollectionViewDataSource {
       }
       
       // TODO: - PageControl 도입 예정
-      let themeState = dataSource.categoryViewCellItem(at: indexPath.row)
+      let themeTitle = dataSource.travelMainCategoryTitle(at: indexPath.row)
       let trendState = dataSource.travelTrendState
       let filterInfo = FeedPostSearchFilterInfo(
-        travelTheme: TravelMainThemeType(rawValue: themeState) ?? .all,
+        travelTheme: TravelMainThemeType(rawValue: themeTitle) ?? .all,
         travelTrend: trendState)
       return cell.configure(with: filterInfo)
     default:
@@ -64,7 +64,8 @@ extension CategoryPageViewAdapter: UICollectionViewDataSource {
       ) as? CategoryViewCell else {
         return UICollectionViewCell(frame: .zero)
       }
-      return cell.configUI(with: dataSource.categoryViewCellItem(at: indexPath.row))
+      cell.configure(with: dataSource.categoryViewCellItem(at: indexPath.row))
+      return cell
     }
   }
 }
@@ -79,7 +80,7 @@ extension CategoryPageViewAdapter: UICollectionViewDelegate {
     guard let dataSource = dataSource else { return }
     if collectionView is TravelThemeCollectionView {
       let titleWidth = UILabel().set {
-        $0.text = dataSource.categoryViewCellItem(at: indexPath.row)
+        $0.text = dataSource.travelMainCategoryTitle(at: indexPath.row)
         $0.font = UIFont.systemFont(ofSize: CategoryViewCell.Constant.Title.fontSize)
         $0.sizeToFit()
       }.bounds.width

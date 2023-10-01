@@ -11,7 +11,7 @@ final class CategoryView: UIView {
   enum Constant {
     enum ScrollBar {
       static let height: CGFloat = 4
-      static let radius: CGFloat = 2
+      static let radius: CGFloat = 2.5
       static let color: UIColor = .yg.primary
     }
     
@@ -39,6 +39,16 @@ final class CategoryView: UIView {
     $0.backgroundColor = Constant.ScrollBar.color
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.layer.cornerRadius = Constant.ScrollBar.radius
+  }
+  
+  private var isSetShadow = false
+  override var bounds: CGRect {
+    didSet {
+      if !isSetShadow {
+        isSetShadow.toggle()
+        configureShadow()
+      }
+    }
   }
   
   // MARK: - LifeCycle
@@ -77,7 +87,10 @@ extension CategoryView {
       .bounds
       .width
     let scrollBarLeading = (Constant.size.width - firstCategoryTextWidth) / 2
-    drawScrollBar(target: cell, fromLeading: scrollBarLeading)
+    NSLayoutConstraint.deactivate(scrollBarConstraints)
+    scrollBarConstraints = scrollBarConstriant(cell, cellTitleSpacing: scrollBarLeading)
+    NSLayoutConstraint.activate(scrollBarConstraints)
+    layoutIfNeeded()
   }
   
   func selectedItem(
@@ -109,12 +122,12 @@ extension CategoryView {
     layer.shadowColor = Constant.Shadow.color
     layer.shadowRadius = Constant.Shadow.radius
     layer.shadowOffset = Constant.Shadow.offset
-    layer.masksToBounds = false
+    layer.shadowOpacity = 1
     let shadowRect = CGRect(
       x: bounds.origin.x,
-      y: bounds.origin.y + bounds.height - 1,
+      y: bounds.origin.y,
       width: bounds.width,
-      height: Constant.Shadow.offset.height + 1)
+      height: bounds.height + 1)
     let shadowPath = UIBezierPath(rect: shadowRect).cgPath
     layer.shadowPath = shadowPath
   }

@@ -9,7 +9,18 @@ import Foundation
 
 final class CategoryPageViewModel {
   // MARK: - Properties
-  private let travelThemeList: [String] = TravelMainThemeType.allCases.map { $0.rawValue }
+  private var travelMainCategory: [TravelMainThemeType] {
+    TravelMainThemeType.allCases
+  }
+  
+  private lazy var travelMainCategoryTitles: [String] = {
+    travelMainCategory.map { $0.rawValue }
+  }()
+  
+  private lazy var travelCategoryItems: [CategoryViewCell.Model] = travelMainCategory.map {
+    .init(cagtegoryTitle: $0.rawValue, imagePath: $0.imagePath)
+  }
+  
   // TODO: - 상황에 따라 바텀시트에서 특정 trend를 누를 경우 이 프로퍼티도 갱신해야합니다.
   private(set) var travelTrendState: TravelOrderType = .newest
 }
@@ -29,11 +40,15 @@ extension CategoryPageViewModel {
 
 // MARK: - CategoryPageViewDataSource
 extension CategoryPageViewModel: CategoryPageViewDataSource {
-  var numberOfItems: Int {
-    travelThemeList.count
+  func travelMainCategoryTitle(at index: Int) -> String {
+    return travelMainCategoryTitles[index]
   }
-
-  func categoryViewCellItem(at index: Int) -> String {
-    return travelThemeList[index]
+  
+  func categoryViewCellItem(at index: Int) -> CategoryViewCell.Model {
+    return travelCategoryItems[index]
+  }
+  
+  var numberOfItems: Int {
+    travelCategoryItems.count
   }
 }
