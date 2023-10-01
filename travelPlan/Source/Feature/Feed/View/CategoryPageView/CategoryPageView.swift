@@ -61,8 +61,6 @@ private extension CategoryPageView {
         categoryScrollBarAreaView.setInitialVisibleSubviews(from: categoryfirstText)
         categoryScrollBarAreaView.selectedItem(at: firstIndex, animated: false, scrollPosition: .left)
         categoryDetailView.selectItem(at: firstIndex, animated: false, scrollPosition: .left)
-        // TODO: - 쉐도우 적용 안되서 적용해야합니다.
-        categoryScrollBarAreaView.configureShadow()
       }
   }
 }

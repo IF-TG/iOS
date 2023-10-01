@@ -41,6 +41,16 @@ final class CategoryView: UIView {
     $0.layer.cornerRadius = Constant.ScrollBar.radius
   }
   
+  private var isSetShadow = false
+  override var bounds: CGRect {
+    didSet {
+      if !isSetShadow {
+        isSetShadow.toggle()
+        configureShadow()
+      }
+    }
+  }
+  
   // MARK: - LifeCycle
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -112,12 +122,12 @@ extension CategoryView {
     layer.shadowColor = Constant.Shadow.color
     layer.shadowRadius = Constant.Shadow.radius
     layer.shadowOffset = Constant.Shadow.offset
-    layer.masksToBounds = false
+    layer.shadowOpacity = 1
     let shadowRect = CGRect(
       x: bounds.origin.x,
-      y: bounds.origin.y + bounds.height - 1,
+      y: bounds.origin.y,
       width: bounds.width,
-      height: Constant.Shadow.offset.height + 1)
+      height: bounds.height + 1)
     let shadowPath = UIBezierPath(rect: shadowRect).cgPath
     layer.shadowPath = shadowPath
   }
