@@ -8,6 +8,21 @@
 import UIKit
 
 final class PostThumbnailView: UIView {
+  enum Constant {
+    private static let intrinsicWidth = (UIScreen.main.bounds.width - PostContentAreaView
+      .Constant.Thumbnail.Spacing.leading*2)
+    static let spacing: CGFloat = 1
+    static let cornerRadius: CGFloat = 10
+    static let height: CGFloat = 117
+    static let smallWidth: CGFloat = {
+      (((intrinsicWidth-spacing)/2) - spacing) / 2
+    }()
+    static let smallHeight: CGFloat = 58
+    static let mediumWidth: CGFloat = {
+      ( intrinsicWidth - spacing ) / 2
+    }()
+  }
+  
   // MARK: - Properties
   private var imageViews: [UIImageView] = []
   private var isSetupfuncCalled = false
@@ -38,7 +53,7 @@ extension PostThumbnailView {
 
 // MARK: - Public helpers
 extension PostThumbnailView {
-  func configure(with data: [UIImage]) {
+  func configure(with data: [UIImage]?) {
     setImageViews(with: data)
     if !isSetupfuncCalled {
       isSetupfuncCalled = true
@@ -49,9 +64,10 @@ extension PostThumbnailView {
 
 // MARK: - Helpers
 private extension PostThumbnailView {
-  func setImageViews(with images: [UIImage]) {
-    imageViews = images
-      .map { return initImageview(with: $0) }
+  func setImageViews(with images: [UIImage]?) {
+    if let images = images {
+      imageViews = images.map { return initImageview(with: $0) }
+    }
   }
   
   // Default is horizontal

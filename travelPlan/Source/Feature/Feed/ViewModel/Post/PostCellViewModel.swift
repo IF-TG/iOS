@@ -9,23 +9,23 @@ import Foundation
 
 final class PostCellViewModel {
   // MARK: - Properties
-  private let postModel: PostModel
+  private let postModel: PostModel?
   
-  var headerModel: PostHeaderModel {
-      postModel.header
+  var headerModel: PostHeaderView.Model? {
+    postModel?.header
   }
   
-  var contentAreaModel: PostContentAreaModel {
-    postModel.content
+  var contentAreaModel: PostContentAreaModel? {
+    postModel?.content
   }
   
-  var footerModel: PostFooterModel {
-    postModel.footer
+  var footerModel: PostFooterModel? {
+    postModel?.footer
   }
   
   // MARK: - Default data(When fetched data invalid)
-  var defaultHeaderModel: PostHeaderModel {
-    PostHeaderModel()
+  var defaultHeaderModel: PostHeaderView.Model {
+    .init()
   }
   
   var defaultContentAreaModel: PostContentAreaModel {
@@ -37,7 +37,7 @@ final class PostCellViewModel {
   }
   
   // MARK: - Initialization
-  init(postModel: PostModel) {
+  init(postModel: PostModel?) {
     self.postModel = postModel
   }
 }
@@ -47,15 +47,12 @@ extension PostCellViewModel {
   
   // MARK: - Check model is valid data
   func isValidatedHeaderModel() -> Bool {
-    let subInfoModel = headerModel.subInfo
     let manager = DateValidationManager()
-    guard headerModel.isValidated() else {
-      return false
-    }
-    guard subInfoModel.isValidatedDuration(),
-          subInfoModel.isValidatedUsername(),
-          subInfoModel.isValidatedYearMonthDayRange(
-            fromDateValidationManager: manager)
+    guard 
+      let subInfoModel = headerModel?.subInfo,
+      subInfoModel.isValidatedDuration(),
+      subInfoModel.isValidatedUsername(),
+      subInfoModel.isValidatedYearMonthDayRange(fromDateValidationManager: manager)
     else {
       return false
     }
@@ -63,7 +60,9 @@ extension PostCellViewModel {
   }
   
   func isValidatedContentAreaModel() -> Bool {
-    guard contentAreaModel.isValidatedThumbnailImages() else {
+    guard
+      let contentAreaModel,
+      contentAreaModel.isValidatedThumbnailImages() else {
       return false
     }
     return true
@@ -71,6 +70,7 @@ extension PostCellViewModel {
   
   func isValidatedFooterModel() -> Bool {
     guard
+      let footerModel,
       footerModel.isValidatedCommentCount() ||
       footerModel.isValidatedHeartCount()
     else {

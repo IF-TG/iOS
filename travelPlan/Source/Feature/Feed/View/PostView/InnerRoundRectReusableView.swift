@@ -19,11 +19,15 @@ final class InnerRoundRectReusableView: UICollectionReusableView {
   }
   private var isSetShadow = false
   
+  private let shadowLayer = CALayer()
+  
   override var bounds: CGRect {
     didSet {
       if !isSetShadow {
         isSetShadow.toggle()
         setRoundViewShadow()
+      } else {
+        updateShadowPath()
       }
     }
   }
@@ -45,11 +49,9 @@ final class InnerRoundRectReusableView: UICollectionReusableView {
   }
   
   private func setRoundViewShadow() {
-    let shadowRect = CGRect(x: 0, y: 0, width: bounds.width, height: bounds.height)
-    let shadowPath = UIBezierPath(roundedRect: shadowRect, cornerRadius: 8)
-    let shadowLayer = CALayer().set {
+    updateShadowPath()
+    _=shadowLayer.set {
       $0.cornerRadius = 8
-      $0.shadowPath = shadowPath.cgPath
       $0.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.1).cgColor
       $0.shadowOpacity = 1
       $0.shadowRadius = 8
@@ -57,6 +59,12 @@ final class InnerRoundRectReusableView: UICollectionReusableView {
     }
     layer.addSublayer(shadowLayer)
     bringSubviewToFront(roundView)
+  }
+  
+  private func updateShadowPath() {
+    let shadowRect = CGRect(x: 0, y: 0, width: bounds.width, height: bounds.height)
+    let shadowPath = UIBezierPath(roundedRect: shadowRect, cornerRadius: 8)
+    shadowLayer.shadowPath = shadowPath.cgPath
   }
 }
 

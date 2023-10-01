@@ -10,7 +10,7 @@ import UIKit
 final class MoreMenuView: UICollectionReusableView {
   static let id = String(describing: MoreMenuView.self)
   
-  enum Constants {
+  enum Constant {
     static let selectedBorderColor: UIColor = .YG.gray3
     static let selectedBGColor: UIColor = .yg.gray3
     static let deselectedBorderColor: UIColor = .yg.littleWhite
@@ -49,7 +49,7 @@ final class MoreMenuView: UICollectionReusableView {
   private let moreIcon = UIImageView().set {
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.image = UIImage(
-      named: Constants.MoreIcon.iconName)
+      named: Constant.MoreIcon.iconName)
     $0.contentMode = .scaleAspectFit
   }
   
@@ -61,9 +61,9 @@ final class MoreMenuView: UICollectionReusableView {
   
   private let menuLabel = UILabel().set {
     $0.translatesAutoresizingMaskIntoConstraints = false
-    $0.textColor = Constants.MenuLabel.deselectedTextColor
+    $0.textColor = Constant.MenuLabel.deselectedTextColor
     $0.text = ""
-    $0.font = .systemFont(ofSize: Constants.MenuLabel.fontSize)
+    $0.font = .systemFont(ofSize: Constant.MenuLabel.fontSize)
     $0.sizeToFit()
   }
   
@@ -106,11 +106,11 @@ extension MoreMenuView {
 private extension MoreMenuView {
   func configureUI() {
     translatesAutoresizingMaskIntoConstraints = false
-    layer.borderWidth = Constants.boarderSize
-    layer.cornerRadius = Constants.radius
-    layer.borderColor = Constants.deselectedBorderColor.cgColor
-    menuLabel.textColor = Constants.MenuLabel.deselectedTextColor
-    moreIcon.tintColor = Constants.MoreIcon.deselectedColor
+    layer.borderWidth = Constant.boarderSize
+    layer.cornerRadius = Constant.radius
+    layer.borderColor = Constant.deselectedBorderColor.cgColor
+    menuLabel.textColor = Constant.MenuLabel.deselectedTextColor
+    moreIcon.tintColor = Constant.MoreIcon.deselectedColor
     setupUI()
   }
   
@@ -128,18 +128,18 @@ private extension MoreMenuView {
   
   func setSelectedMoreIcon() {
     moreIcon.transform = moreIcon.transform.rotated(by: .pi)
-    moreIcon.tintColor = Constants.MoreIcon.selectedColor
-    layer.borderColor = Constants.selectedBorderColor.cgColor
-    backgroundColor = Constants.selectedBGColor
-    menuLabel.textColor = Constants.MenuLabel.selectedTextColor
+    moreIcon.tintColor = Constant.MoreIcon.selectedColor
+    layer.borderColor = Constant.selectedBorderColor.cgColor
+    backgroundColor = Constant.selectedBGColor
+    menuLabel.textColor = Constant.MenuLabel.selectedTextColor
   }
   
   func setDeselectedMoreIcon() {
     moreIcon.transform = .identity
-    moreIcon.tintColor = Constants.MoreIcon.deselectedColor
-    layer.borderColor = Constants.deselectedBorderColor.cgColor
-    backgroundColor = Constants.deselectedBGColor
-    menuLabel.textColor = Constants.MenuLabel.deselectedTextColor
+    moreIcon.tintColor = Constant.MoreIcon.deselectedColor
+    layer.borderColor = Constant.deselectedBorderColor.cgColor
+    backgroundColor = Constant.deselectedBGColor
+    menuLabel.textColor = Constant.MenuLabel.deselectedTextColor
   }
 }
 
@@ -166,7 +166,7 @@ extension MoreMenuView: LayoutSupport {
 // MARK: - Layout support helper
 private extension MoreMenuView {
   var categoryLabelConstraints: [NSLayoutConstraint] {
-    typealias Inset = Constants.MenuLabel.Inset
+    typealias Inset = Constant.MenuLabel.Inset
     return [
       menuLabel.leadingAnchor.constraint(
         equalTo: leadingAnchor,
@@ -180,7 +180,7 @@ private extension MoreMenuView {
   }
   
   var moreIconConstraints: [NSLayoutConstraint] {
-    typealias Const = Constants.MoreIcon
+    typealias Const = Constant.MoreIcon
     typealias Inset = Const.Inset
     return [
       moreIcon.leadingAnchor.constraint(
