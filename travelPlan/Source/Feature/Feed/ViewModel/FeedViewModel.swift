@@ -31,7 +31,8 @@ extension FeedViewModel {
         appearChains(input),
         didTapNotificationChains(input),
         didTapPostSearch(input),
-        updateNotificationRedIconChains()])
+        updateNotificationRedIconChains(),
+        didTapReviewWrite(input)])
       .eraseToAnyPublisher()
   }
 }
@@ -94,6 +95,16 @@ fileprivate extension FeedViewModel {
       .subscribe(on: RunLoop.main)
       .tryMap { _ -> State in
         return .goToPostSearch
+      }.mapError { $0 as? ErrorType ?? .none }
+      .eraseToAnyPublisher()
+  }
+  
+  func didTapReviewWrite(_ input: Input) -> Output {
+    return input
+      .didTapReviewWrite
+      .subscribe(on: RunLoop.main)
+      .tryMap { _ -> State in
+        return .gotoReviewWrite
       }.mapError { $0 as? ErrorType ?? .none }
       .eraseToAnyPublisher()
   }

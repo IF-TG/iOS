@@ -9,6 +9,17 @@ import UIKit
 import Combine
 
 final class FeedViewController: UIViewController {
+  enum Constant {
+    enum ReviewWriteButton {
+      static let size: CGSize = .init(width: 60, height: 60)
+      static let iconSize: CGSize = .init(width: 28, height: 28)
+      enum Spacing {
+        static let trailing: CGFloat = 16
+        static let bottom = trailing
+      }
+    }
+  }
+  
   // MARK: - Properties
   weak var coordinator: FeedCoordinatorDelegate?
   
@@ -16,7 +27,8 @@ final class FeedViewController: UIViewController {
   
   lazy var input = Input(
     didTapPostSearch: searchBarItem.tap,
-    didTapNotification: notificationBarItem.tap)
+    didTapNotification: notificationBarItem.tap,
+    didTapReviewWrite: reviewWriteButton.tap)
  
   private let leftNaviBarItem = FeedAppTitleBarItem()
   
@@ -29,6 +41,10 @@ final class FeedViewController: UIViewController {
   private var subscription = Set<AnyCancellable>()
   
   private var naviConstraints: [NSLayoutConstraint] = []
+  
+  private var reviewWriteButton = UIButton(frame: .zero).set {
+    $0.translatesAutoresizingMaskIntoConstraints = false
+  }
   
   // MARK: - LifeCycle
   override func viewWillAppear(_ animated: Bool) {
@@ -127,6 +143,9 @@ extension FeedViewController: ViewBindCase {
     case .goToNotification:
       // transitionTODO: - Goto notifiation with naivgationController
       notificationBarItem.updateNotificationRedIcon(.none)
+    case .gotoReviewWrite:
+      // TODO: - reviewWrite page로 가야합니다.
+      print("무야호")
     }
   }
   
@@ -156,7 +175,11 @@ extension FeedViewController: TravelThemeBottomSheetDelegate {
 // MARK: - LayoutSupport
 extension FeedViewController: LayoutSupport {
   func addSubviews() {
-    view.addSubview(categoryPageView)
+    _=[
+      categoryPageView
+    ].map {
+      view.addSubview($0)
+    }
   }
 
   func setConstraints() {
