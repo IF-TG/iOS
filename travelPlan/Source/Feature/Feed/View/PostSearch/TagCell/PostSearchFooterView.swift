@@ -8,6 +8,15 @@
 import UIKit
 
 final class PostSearchFooterView: UICollectionReusableView {
+  enum Constants {
+    enum Inset {
+      static let leading: CGFloat = 0
+      static let top: CGFloat = 10
+      static let trailing: CGFloat = 0
+      static let bottom: CGFloat = 10
+    }
+  }
+  
   // MARK: - Properties
   static var id: String {
     return String(describing: self)

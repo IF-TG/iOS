@@ -22,12 +22,16 @@ final class PostSearchCoordinator: FlowCoordinator {
   init(presenter: UINavigationController) {
     self.presenter = presenter
   }
-
+  
+  deinit {
+    print("deinit: \(Self.self)")
+  }
+  
   // MARK: - Helpers
   func start() {
-    let vc = PostSearchViewController()
-    vc.coordinator = self
-    presenter.pushViewController(vc, animated: true)
+    let viewController = PostSearchViewController()
+    viewController.coordinator = self
+    presenter.pushViewController(viewController, animated: true)
   }
 }
 

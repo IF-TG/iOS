@@ -9,6 +9,23 @@ import UIKit
 import SnapKit
 
 class PostRecommendationSearchTagCell: UICollectionViewCell {
+  enum Constants {
+    enum ContentView {
+      static let borderWidth: CGFloat = 1
+      static let cornerRadius: CGFloat = 15
+      static let alphaComponent: CGFloat = 0.1
+    }
+    
+    enum TagLabel {
+      enum Inset {
+        static let trailing: CGFloat = 13
+        static let leading: CGFloat = 13
+        static let top: CGFloat = 4
+        static let bottom: CGFloat = 4
+      }
+    }
+  }
+  
   // MARK: - Properties
   class var id: String {
     return String(describing: self)
@@ -55,10 +72,11 @@ extension PostRecommendationSearchTagCell: LayoutSupport {
   
   func setConstraints() {
     tagLabel.snp.makeConstraints {
-      $0.trailing.equalToSuperview().inset(Constants.TagLabel.Inset.trailing)
-      $0.leading.equalToSuperview().inset(Constants.TagLabel.Inset.leading)
-      $0.top.equalToSuperview().inset(Constants.TagLabel.Inset.top)
-      $0.bottom.equalToSuperview().inset(Constants.TagLabel.Inset.bottom)
+      typealias Inset = Constants.TagLabel.Inset
+      $0.trailing.equalToSuperview().inset(Inset.trailing)
+      $0.leading.equalToSuperview().inset(Inset.leading)
+      $0.top.equalToSuperview().inset(Inset.top)
+      $0.bottom.equalToSuperview().inset(Inset.bottom)
     }
   }
 }

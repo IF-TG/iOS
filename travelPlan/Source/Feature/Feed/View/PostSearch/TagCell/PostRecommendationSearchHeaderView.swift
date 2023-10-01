@@ -9,6 +9,12 @@ import UIKit
 import SnapKit
 
 final class PostRecommendationSearchHeaderView: UICollectionReusableView {
+  enum Constants {
+    enum TitleLabel {
+      static let fontSize: CGFloat = 17
+    }
+  }
+  
   // MARK: - Properties
   static var id: String {
     return String(describing: self)

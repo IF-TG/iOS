@@ -9,6 +9,36 @@ import UIKit
 import SnapKit
 
 final class SearchView: UIView {
+  enum Constants {
+    static let borderWidth: CGFloat = 1
+    static let cornerRadius: CGFloat = 25
+    
+    enum SearchButton {
+      static let imageName = "search"
+      enum Offset {
+        static let leading: CGFloat = 10
+      }
+      enum Inset {
+        static let trailing: CGFloat = 20
+        static let topBottom: CGFloat = 11
+      }
+    }
+    
+    enum SearchTextField {
+      static let placeholder = "여행지 및 축제를 검색해보세요."
+      static let fontSize: CGFloat = 14
+      enum Inset {
+        static let leading: CGFloat = 20
+      }
+    }
+    
+    enum ShadowLayer {
+      static let shadowOpacity: Float = 0.2
+      static let shadowRadius: CGFloat = 5
+      static let shadowOffsetHeight: CGFloat = 4
+    }
+  }
+  
   // MARK: - Properties
   weak var delegate: SearchViewDelegate?
   
@@ -32,6 +62,22 @@ final class SearchView: UIView {
     $0.addTarget(self, action: #selector(didTapSearchButton), for: .touchUpInside)
   }
   
+  private let shadowLayer: CALayer = .init().set {
+    $0.shadowColor = UIColor.yg.primary.cgColor
+    $0.backgroundColor = UIColor.systemBackground.cgColor
+    $0.shadowOpacity = Constants.ShadowLayer.shadowOpacity
+    $0.shadowRadius = Constants.ShadowLayer.shadowRadius
+    $0.cornerRadius = SearchView.Constants.cornerRadius
+    $0.shadowOffset = CGSize(width: CGFloat.zero,
+                             height: Constants.ShadowLayer.shadowOffsetHeight)
+  }
+  
+  override var bounds: CGRect {
+    didSet {
+      setupShadowLayer()
+    }
+  }
+  
   // MARK: - LifeCycle
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -41,6 +87,18 @@ final class SearchView: UIView {
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+}
+
+// MARK: - Public Helpers
+extension SearchView {
+  private func setupShadowLayer() {
+    shadowLayer.frame = self.bounds
+    
+    shadowLayer.shadowPath = UIBezierPath(
+      roundedRect: shadowLayer.bounds,
+      cornerRadius: SearchView.Constants.cornerRadius
+    ).cgPath
   }
 }
 
@@ -64,6 +122,8 @@ extension SearchView {
 // MARK: - LayoutSupport
 extension SearchView: LayoutSupport {
   func addSubviews() {
+    layer.addSublayer(shadowLayer)
+    
     addSubview(searchTextField)
     addSubview(searchButton)
   }

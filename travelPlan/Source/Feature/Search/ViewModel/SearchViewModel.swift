@@ -8,35 +8,26 @@
 import Foundation
 import Combine
 
-protocol SearchViewModelInput {
-  associatedtype ErrorType: Error
-  
-  var viewDidLoad: PassthroughSubject<Void, Never> { get }
-  var didTapView: PassthroughSubject<Void, Never> { get }
-  var didTapSearchButton: PassthroughSubject<String, ErrorType> { get }
-  var didTapHeartButton: PassthroughSubject<Void, ErrorType> { get }
-}
-
 final class SearchViewModel {
   typealias Output = AnyPublisher<State, ErrorType>
   
   // MARK: - Input
-  struct Input: SearchViewModelInput {
+  struct Input {
     let viewDidLoad: PassthroughSubject<Void, Never>
     let didTapView: PassthroughSubject<Void, Never>
     let didTapSearchButton: PassthroughSubject<String, ErrorType>
-    let didTapHeartButton: PassthroughSubject<Void, ErrorType>
+    let didTapStarButton: PassthroughSubject<Void, ErrorType>
     
     init(
       viewDidLoad: PassthroughSubject<Void, Never> = .init(),
       didTapView: PassthroughSubject<Void, Never> = .init(),
       didTapSearchButton: PassthroughSubject<String, ErrorType> = .init(),
-      didTapHeartButton: PassthroughSubject<Void, ErrorType> = .init()
+      didTapStarButton: PassthroughSubject<Void, ErrorType> = .init()
     ) {
       self.viewDidLoad = viewDidLoad
       self.didTapView = didTapView
       self.didTapSearchButton = didTapSearchButton
-      self.didTapHeartButton = didTapHeartButton
+      self.didTapStarButton = didTapStarButton
     }
   }
   // MARK: - State
@@ -51,7 +42,6 @@ final class SearchViewModel {
     case unexpected
   }
   // MARK: - Properties
-//  private var sections: [SearchSection] = []
   private var dataSource = [SearchSectionModel]()
 }
 
@@ -107,7 +97,7 @@ extension SearchViewModel {
     switch dataSource[section].itemType {
     case .festival(let viewModels):
       return viewModels.count
-    case .famous(let viewModels):
+    case .camping(let viewModels):
       return viewModels.count
     }
   }
@@ -127,13 +117,13 @@ extension SearchViewModel {
   private func fetchData() {
     // 네트워크 요청을 수행해서 데이터를 가져옵니다.
     let festivalModels = SearchFestivalModel.mockModels
-    let festivalViewModels = festivalModels.map { SearchBestFestivalCellViewModel(model: $0) }
+    let festivalViewModels = festivalModels.map { SearchFestivalCellViewModel(model: $0) }
     let festivalHeader = "베스트 축제"
     dataSource.append(SearchSectionModel.init(itemType: .festival(festivalViewModels), headerTitle: festivalHeader))
     
-    let famousModels = SearchFamousSpotModel.mockModels
-    let famousViewModels = famousModels.map { SearchFamousSpotCellViewModel(model: $0) }
+    let campingModels = SearchCampingModel.mockModels
+    let campingViewModels = campingModels.map { TravelDestinationCellViewModel(model: $0) }
     let famousHeader = "야영 레포츠 어떠세요?"
-    dataSource.append(SearchSectionModel(itemType: .famous(famousViewModels), headerTitle: famousHeader))
+    dataSource.append(SearchSectionModel(itemType: .camping(campingViewModels), headerTitle: famousHeader))
   }
 }

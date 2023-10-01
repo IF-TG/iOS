@@ -8,6 +8,11 @@
 import UIKit
 
 class PostSearchTagLabel: UILabel {
+  enum Constants {
+    static let fontSize: CGFloat = 14
+    static let numberOfLines = 1
+  }
+  
   override init(frame: CGRect) {
     super.init(frame: frame)
     setupStyles()

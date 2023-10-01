@@ -9,6 +9,37 @@ import UIKit
 import SnapKit
 
 final class PostRecentSearchTagCell: UICollectionViewCell {
+  enum Constants {
+    enum ContentView {
+      static let borderWidth: CGFloat = 1
+      static let cornerRadius: CGFloat = 15
+    }
+    
+    enum TagLabel {
+      enum Inset {
+        static let leading: CGFloat = 10
+        static let topBottom: CGFloat = 4
+      }
+      enum Offset {
+        static let trailing: CGFloat = -4
+      }
+    }
+    
+    enum TagDeleteButton {
+      enum Inset {
+        static let trailing: CGFloat = 10
+      }
+      static let size: CGFloat = 18
+      static let imageName = "cancel"
+    }
+    
+    static let targetSizeHeight: CGFloat = DefaultPostSearchLayout
+      .Constants.Recent.Item.absoluteHeight
+    static let contentInsets: CGFloat = DefaultPostSearchLayout
+      .Constants.Recent.Section.ContentInsets.leading + DefaultPostSearchLayout
+      .Constants.Recent.Section.ContentInsets.trailing
+  }
+  
   // MARK: - Properties
   static var id: String {
     return String(describing: self)
@@ -22,7 +53,6 @@ final class PostRecentSearchTagCell: UICollectionViewCell {
   
   private let tagLabel = PostSearchTagLabel()
   
-//  weak var delegate: PostRecentSearchTagCellDelegate?
   weak var delegate: PostRecentSearchTagCellDelegate?
   // MARK: - LifeCycle
   override init(frame: CGRect) {
@@ -39,9 +69,6 @@ final class PostRecentSearchTagCell: UICollectionViewCell {
     _ layoutAttributes: UICollectionViewLayoutAttributes
   ) -> UICollectionViewLayoutAttributes {
     super.preferredLayoutAttributesFitting(layoutAttributes)
-
-    setNeedsLayout()
-    layoutIfNeeded()
     
     layoutAttributes.frame.size.width = calculateTagSize(to: layoutAttributes)
     return layoutAttributes
@@ -91,9 +118,10 @@ extension PostRecentSearchTagCell: LayoutSupport {
   
   func setConstraints() {
     tagLabel.snp.makeConstraints {
-      $0.leading.equalToSuperview().inset(Constants.TagLabel.Inset.leading)
-      $0.trailing.equalTo(tagDeleteButton.snp.leading).offset(Constants.TagLabel.Offset.trailing)
-      $0.top.bottom.equalToSuperview().inset(Constants.TagLabel.Inset.topBottom)
+      typealias TagLabel = Constants.TagLabel
+      $0.leading.equalToSuperview().inset(TagLabel.Inset.leading)
+      $0.trailing.equalTo(tagDeleteButton.snp.leading).offset(TagLabel.Offset.trailing)
+      $0.top.bottom.equalToSuperview().inset(TagLabel.Inset.topBottom)
     }
     
     tagDeleteButton.snp.makeConstraints {

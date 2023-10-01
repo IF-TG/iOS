@@ -11,6 +11,25 @@ import UIKit
 import SnapKit
 
 final class SearchViewController: UIViewController {
+  enum Constants {
+    enum SearchView {
+      enum Spacing {
+        static let top: CGFloat = 20
+        static let leading: CGFloat = 16
+        static let trailing: CGFloat = 16
+      }
+      static let height: CGFloat = 50
+    }
+    
+    enum CollectionView {
+      enum Spacing {
+        enum Offset {
+          static let top: CGFloat = 20
+        }
+      }
+    }
+  }
+  
   // MARK: - Properties
   weak var coordinator: SearchCoordinatorDelegate?
   private let viewModel = SearchViewModel()
@@ -22,10 +41,11 @@ final class SearchViewController: UIViewController {
   
   private var subscriptions = Set<AnyCancellable>()
   private lazy var input = SearchViewModel.Input()
-  private let compositionalLayout: SearchLayout = DefaultSearchLayout()
+  private let compositionalLayout: CompositionalLayoutCreatable = SearchCompositionalLayout()
+  
   private lazy var collectionView: UICollectionView = UICollectionView(
     frame: .zero,
-    collectionViewLayout: compositionalLayout.createLayout()
+    collectionViewLayout: compositionalLayout.makeLayout()
   ).set {
     let tapGesture = UITapGestureRecognizer(
       target: self,
@@ -37,19 +57,13 @@ final class SearchViewController: UIViewController {
     $0.dataSource = self
     $0.delegate = self
     $0.backgroundColor = .clear
-    $0.register(
-      SearchBestFestivalCell.self,
-      forCellWithReuseIdentifier: SearchBestFestivalCell.id
-    )
-    $0.register(
-      SearchFamousSpotCell.self,
-      forCellWithReuseIdentifier: SearchFamousSpotCell.id
-    )
-    $0.register(
-      SearchHeaderView.self,
-      forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-      withReuseIdentifier: SearchHeaderView.id
-    )
+    $0.register(SearchFestivalCell.self,
+                forCellWithReuseIdentifier: SearchFestivalCell.id)
+    $0.register(TravelDestinationCell.self,
+                forCellWithReuseIdentifier: TravelDestinationCell.id)
+    $0.register(SearchHeaderView.self,
+                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+                withReuseIdentifier: SearchHeaderView.id)
   }
   
   // MARK: - LifeCycle
@@ -129,8 +143,8 @@ extension SearchViewController {
     switch section {
     case SearchSectionType.festival.rawValue:
       return .festival
-    case SearchSectionType.famous.rawValue:
-      return .famous
+    case SearchSectionType.camping.rawValue:
+      return .camping
     default: return nil
     }
   }
@@ -182,20 +196,20 @@ extension SearchViewController: UICollectionViewDataSource {
       
     case let .festival(festivalViewModels):
       guard let cell = collectionView.dequeueReusableCell(
-        withReuseIdentifier: SearchBestFestivalCell.id,
+        withReuseIdentifier: SearchFestivalCell.id,
         for: indexPath
-      ) as? SearchBestFestivalCell else { return .init() }
+      ) as? SearchFestivalCell else { return .init() }
       
       cell.configure(with: festivalViewModels[indexPath.item])
       return cell
       
-    case let .famous(famousViewModels):
+    case let .camping(campingViewModels):
       guard let cell = collectionView.dequeueReusableCell(
-        withReuseIdentifier: SearchFamousSpotCell.id,
+        withReuseIdentifier: TravelDestinationCell.id,
         for: indexPath
-      ) as? SearchFamousSpotCell else { return .init() }
+      ) as? TravelDestinationCell else { return .init() }
       
-      cell.configure(with: famousViewModels[indexPath.item])
+      cell.configure(with: campingViewModels[indexPath.item])
       return cell
     }
   }
@@ -227,7 +241,7 @@ extension SearchViewController: UICollectionViewDataSource {
 extension SearchViewController: UICollectionViewDelegate {
   func scrollViewDidScroll(_ scrollView: UIScrollView) {
     let currentTopMargin = Constants.SearchView.Spacing.top - scrollView.contentOffset.y
-    isScrolledUntilTop = currentTopMargin > 0
+    isScrolledUntilTop = currentTopMargin > CGFloat.zero
 
     if isScrolledUntilTop {
       searchView.snp.updateConstraints {
@@ -256,12 +270,7 @@ extension SearchViewController: SearchViewDelegate {
 extension SearchViewController: SearchHeaderViewDelegate {
   // pushTODO: - 각 타입에 맞게 화면전환을 해야합니다.
   func didTaplookingMoreButton(_ headerView: SearchHeaderView) {
-    switch headerView.type {
-    case .festival:
-      print("DEBUG: 베스트 축제 더보기 클릭")
-    case .famous:
-      print("DEBUG: 유명 관광지 더보기 클릭")
-    case .none: break
-    }
+    guard let sectionType = headerView.type else { return }
+    coordinator?.showSearchDetail(type: sectionType)
   }
 }

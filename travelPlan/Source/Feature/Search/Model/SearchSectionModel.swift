@@ -13,12 +13,6 @@ struct SearchSectionModel {
 }
 
 enum SearchItemType {
-  case festival([SearchBestFestivalCellViewModel])
-  case famous([SearchFamousSpotCellViewModel])
-}
-
-/// headerView를 재사용하기 때문에 type을 구분지어주기 위해 필요합니다.
-enum SearchSectionType: Int {
-  case festival
-  case famous
+  case festival([SearchFestivalCellViewModel])
+  case camping([TravelDestinationCellViewModel])
 }
