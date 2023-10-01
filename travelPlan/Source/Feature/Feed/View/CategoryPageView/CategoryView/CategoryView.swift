@@ -11,7 +11,7 @@ final class CategoryView: UIView {
   enum Constant {
     enum ScrollBar {
       static let height: CGFloat = 4
-      static let radius: CGFloat = 2
+      static let radius: CGFloat = 2.5
       static let color: UIColor = .yg.primary
     }
     
