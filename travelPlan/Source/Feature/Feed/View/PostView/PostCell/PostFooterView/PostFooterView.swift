@@ -8,7 +8,7 @@
 import UIKit
 
 class PostFooterView: UIView {
-  enum Constants {
+  enum Constant {
     enum Heart {
       enum Text {
         static let font: UIFont = UIFont(pretendard: .regular, size: 14)!
@@ -67,7 +67,7 @@ class PostFooterView: UIView {
   }
   
   private let heartText = UILabel().set {
-    typealias Const = Constants.Heart.Text
+    typealias Const = Constant.Heart.Text
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.text = "0"
     $0.textAlignment = .left
@@ -76,7 +76,7 @@ class PostFooterView: UIView {
   }
   
   private lazy var commentIcon = UIImageView().set {
-    typealias Const = Constants.Comment.Icon
+    typealias Const = Constant.Comment.Icon
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.image = UIImage(named: Const.name)?.setColor(.yg.gray4)
     $0.contentMode = .scaleAspectFit
@@ -87,7 +87,7 @@ class PostFooterView: UIView {
   }
   
   private let commentText = UILabel().set {
-    typealias Const = Constants.Heart.Text
+    typealias Const = Constant.Heart.Text
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.text = "0"
     $0.textAlignment = .left
@@ -96,7 +96,7 @@ class PostFooterView: UIView {
   }
   
   private lazy var shareButton = UIButton().set {
-    typealias Const = Constants.Share
+    typealias Const = Constant.Share
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.contentMode = .scaleAspectFit
     $0.setImage(UIImage(named: Const.iconName)?.setColor(.yg.gray4), for: .normal)
@@ -183,10 +183,10 @@ extension PostFooterView {
   private func setHeartIcon(with state: Bool) {
     postHeartState = state
     if state {
-      heartIcon.image = Constants.Heart.Icon.selectedImage
+      heartIcon.image = Constant.Heart.Icon.selectedImage
     } else {
       // 하트 취소
-      heartIcon.image = Constants.Heart.Icon.unselectedImage
+      heartIcon.image = Constant.Heart.Icon.unselectedImage
     }
   }
   
@@ -243,8 +243,8 @@ extension PostFooterView: LayoutSupport {
 private extension PostFooterView {
   typealias NSLayout = NSLayoutConstraint
   var heartIconConstraint: [NSLayout] {
-    typealias Const = Constants.Heart.Icon
-    typealias Spacing = Constants.Heart.Icon.Spacing
+    typealias Const = Constant.Heart.Icon
+    typealias Spacing = Constant.Heart.Icon.Spacing
     return [
       heartIcon.leadingAnchor.constraint(
         equalTo: leadingAnchor,
@@ -258,7 +258,7 @@ private extension PostFooterView {
   }
   
   var heartTextConstraint: [NSLayout] {
-    typealias Spacing = Constants.Heart.Text.Spacing
+    typealias Spacing = Constant.Heart.Text.Spacing
     return [
       heartText.leadingAnchor.constraint(
         equalTo: heartIcon.trailingAnchor,
@@ -268,8 +268,8 @@ private extension PostFooterView {
   }
   
   var commentIconConstraint: [NSLayout] {
-    typealias Const = Constants.Comment.Icon
-    typealias Spacing = Constants.Comment.Icon.Spacing
+    typealias Const = Constant.Comment.Icon
+    typealias Spacing = Constant.Comment.Icon.Spacing
     return [
       commentIcon.leadingAnchor.constraint(
         equalTo: heartText.trailingAnchor,
@@ -283,7 +283,7 @@ private extension PostFooterView {
   }
   
   var commentTextConstraint: [NSLayout] {
-    typealias Spacing = Constants.Comment.Text.Spacing
+    typealias Spacing = Constant.Comment.Text.Spacing
     return [
       commentText.leadingAnchor.constraint(
         equalTo: commentIcon.trailingAnchor,
@@ -292,8 +292,8 @@ private extension PostFooterView {
   }
   
   var shareIconConstraint: [NSLayout] {
-    typealias Spacing = Constants.Share.Spacing
-    typealias Const = Constants.Share
+    typealias Spacing = Constant.Share.Spacing
+    typealias Const = Constant.Share
     return [
       shareButton.trailingAnchor.constraint(
         equalTo: trailingAnchor,

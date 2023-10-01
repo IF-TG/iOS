@@ -8,7 +8,7 @@
 import UIKit
 
 class PostContentAreaView: UIView {
-  enum Constants {
+  enum Constant {
     static var maximumHeight: CGFloat {
       Thumbnail.height 
       + Thumbnail.Spacing.top
@@ -53,8 +53,8 @@ class PostContentAreaView: UIView {
   private let text = UILabel().set {
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.numberOfLines = 0
-    $0.font = Constants.Text.font
-    $0.lineBreakMode = Constants.Text.lineBreakMode
+    $0.font = Constant.Text.font
+    $0.lineBreakMode = Constant.Text.lineBreakMode
     $0.sizeToFit()
   }
   
@@ -117,8 +117,8 @@ extension PostContentAreaView: LayoutSupport {
 // MARK: - LayoutSupport
 private extension PostContentAreaView {
   var thumbnailConstraints: [NSLayoutConstraint] {
-    typealias Spacing = Constants.Thumbnail.Spacing
-    typealias Const = Constants.Thumbnail
+    typealias Spacing = Constant.Thumbnail.Spacing
+    typealias Const = Constant.Thumbnail
     return [
       thumbnail.topAnchor.constraint(
         equalTo: topAnchor,
@@ -133,8 +133,8 @@ private extension PostContentAreaView {
   }
   
   var textConstraints: [NSLayoutConstraint] {
-    typealias Const = Constants.Text
-    typealias Spacing = Constants.Text.Spacing
+    typealias Const = Constant.Text
+    typealias Spacing = Constant.Text.Spacing
     return [
       text.leadingAnchor.constraint(
         equalTo: leadingAnchor,

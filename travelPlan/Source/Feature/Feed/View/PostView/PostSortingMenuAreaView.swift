@@ -8,7 +8,7 @@
 import UIKit
 
 final class PostSortingMenuAreaView: UIView {
-  enum Constants {
+  enum Constant {
     enum TravelThemeMenuView {
       enum Inset {
         static let leading: CGFloat = 16
@@ -87,7 +87,7 @@ extension PostSortingMenuAreaView: MoreMenuViewDelegate {
 // MARK: - Layout support helper
 private extension PostSortingMenuAreaView {
   var travelThemeMenuViewConstraints: [NSLayoutConstraint] {
-    typealias Inset = Constants.TravelThemeMenuView.Inset
+    typealias Inset = Constant.TravelThemeMenuView.Inset
     return [
       travelThemeMenuView.leadingAnchor.constraint(
         equalTo: leadingAnchor,
@@ -101,7 +101,7 @@ private extension PostSortingMenuAreaView {
   }
   
   var travelTrendMenuViewConstraints: [NSLayoutConstraint] {
-    typealias Inset = Constants.TravelTrendMenuView.Inset
+    typealias Inset = Constant.TravelTrendMenuView.Inset
     return [
       travelTrendMenuView.leadingAnchor.constraint(
         equalTo: travelThemeMenuView.trailingAnchor,

@@ -8,7 +8,7 @@
 import UIKit
 
 final class PostHeaderInfoView: UIView {
-  enum Constants {
+  enum Constant {
     enum Title {
       static let textColor: UIColor = .yg.gray7
       static let font: UIFont = UIFont(pretendard: .semiBold, size: 18)!
@@ -31,8 +31,8 @@ final class PostHeaderInfoView: UIView {
   private let title = UILabel().set {
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.textAlignment = .left
-    $0.font = Constants.Title.font
-    $0.textColor = Constants.Title.textColor
+    $0.font = Constant.Title.font
+    $0.textColor = Constant.Title.textColor
     $0.numberOfLines = 1
     $0.sizeToFit()
   }
@@ -98,7 +98,7 @@ extension PostHeaderInfoView: LayoutSupport {
 // MARK: - Private layoutSupportable
 private extension PostHeaderInfoView {
   var titleConstraints: [NSLayoutConstraint] {
-    typealias Inset = Constants.Title.Spacing
+    typealias Inset = Constant.Title.Spacing
     return [
       title.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Inset.leading),
       title.trailingAnchor.constraint(equalTo: trailingAnchor),
@@ -107,7 +107,7 @@ private extension PostHeaderInfoView {
   }
   
   var subInfoViewConstraints: [NSLayoutConstraint] {
-    typealias Inset = Constants.subInfoView.Spacing
+    typealias Inset = Constant.subInfoView.Spacing
     return [
       subInfoView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Inset.leading),
       subInfoView.trailingAnchor.constraint(equalTo: trailingAnchor),

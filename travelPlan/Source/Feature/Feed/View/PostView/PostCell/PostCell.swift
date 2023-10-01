@@ -8,7 +8,7 @@
 import UIKit
 
 final class PostCell: UICollectionViewCell {
-  enum Constants {
+  enum Constant {
     static var maximumHeight: CGFloat {
       HeaderView.height
       + HeaderView.Spacing.top
@@ -37,8 +37,8 @@ final class PostCell: UICollectionViewCell {
     }
     
     enum ContentView {
-      static let maximumHeight = PostContentAreaView.Constants.maximumHeight
-      static let minimumHeight = PostContentAreaView.Constants.minimumHeight
+      static let maximumHeight = PostContentAreaView.Constant.maximumHeight
+      static let minimumHeight = PostContentAreaView.Constant.minimumHeight
     }
     
     enum FooterView {
@@ -124,7 +124,7 @@ final class PostCell: UICollectionViewCell {
   }
   
   private func configureUI() {
-    typealias Spacing = Constants.Line.Spacing
+    typealias Spacing = Constant.Line.Spacing
     setupUI()
     line.setConstraint(
       fromSuperView: contentView,
@@ -152,7 +152,7 @@ final class PostCell: UICollectionViewCell {
   }
   
   private func makeOptionButton() -> UIButton {
-    typealias Const = Constants.OptionView
+    typealias Const = Constant.OptionView
     typealias Inset = Const.Inset
     return UIButton().set {
       $0.translatesAutoresizingMaskIntoConstraints = false
@@ -203,8 +203,8 @@ extension PostCell: LayoutSupport {
 // MARK: - LayoutSupport constraints
 private extension PostCell {
   var headViewConstraints: [NSLayoutConstraint] {
-    typealias Spacing = Constants.HeaderView.Spacing
-    typealias Const = Constants.HeaderView
+    typealias Spacing = Constant.HeaderView.Spacing
+    typealias Const = Constant.HeaderView
     return [
       headerView.leadingAnchor.constraint(
       equalTo: contentView.leadingAnchor,
@@ -219,7 +219,7 @@ private extension PostCell {
   }
   
   var contentAreaViewConstraints: [NSLayoutConstraint] {
-    typealias Const = Constants.ContentView
+    typealias Const = Constant.ContentView
     return [
       contentAreaView.topAnchor.constraint(equalTo: headerView.bottomAnchor),
       contentAreaView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
@@ -227,7 +227,7 @@ private extension PostCell {
   }
 
   var footerViewConstraints: [NSLayoutConstraint] {
-    typealias Const = Constants.FooterView
+    typealias Const = Constant.FooterView
     typealias Spacing = Const.Spacing
     return [
       footerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
@@ -243,7 +243,7 @@ private extension PostCell {
   }
   
   var optionButtonConstraints: [NSLayoutConstraint] {
-    typealias Const = Constants.OptionView
+    typealias Const = Constant.OptionView
     typealias Spacing = Const.Spacing
     return [
       optionButton.widthAnchor.constraint(equalToConstant: Const.size.width),

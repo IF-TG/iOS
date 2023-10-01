@@ -8,10 +8,10 @@
 import UIKit
 
 class PostCollectionView: UICollectionView {
-  enum Constants {
+  enum Constant {
     enum Layout {
       static var estimatedCellHeight: CGFloat {
-        PostCell.Constants.maximumHeight
+        PostCell.Constant.maximumHeight
       }
       static let groupInset: NSDirectionalEdgeInsets = .init(top: 10, leading: 10, bottom: 10, trailing: 10)
     }
@@ -53,7 +53,7 @@ class PostCollectionView: UICollectionView {
   // MARK: - Private helper
   private func configureUI() {
     showsHorizontalScrollIndicator = false
-    backgroundColor = Constants.backgroundColor
+    backgroundColor = Constant.backgroundColor
     register(
       PostCell.self,
       forCellWithReuseIdentifier: PostCell.id)
@@ -72,7 +72,7 @@ class PostCollectionView: UICollectionView {
   
   private var postSection: NSCollectionLayoutSection {
     typealias LayoutSize = NSCollectionLayoutSize
-    typealias Const = Constants.Layout
+    typealias Const = Constant.Layout
     let groupHeight = Const.estimatedCellHeight
     let itemSize = LayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(groupHeight))
     let groupSize = LayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(groupHeight))

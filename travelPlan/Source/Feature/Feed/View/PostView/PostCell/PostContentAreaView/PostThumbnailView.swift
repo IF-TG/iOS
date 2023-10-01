@@ -8,9 +8,9 @@
 import UIKit
 
 final class PostThumbnailView: UIView {
-  enum Constants {
+  enum Constant {
     private static let intrinsicWidth = (UIScreen.main.bounds.width - PostContentAreaView
-      .Constants.Thumbnail.Spacing.leading*2)
+      .Constant.Thumbnail.Spacing.leading*2)
     static let spacing: CGFloat = 1
     static let cornerRadius: CGFloat = 10
     static let height: CGFloat = 117
@@ -32,7 +32,7 @@ final class PostThumbnailView: UIView {
     super.init(frame: .zero)
     translatesAutoresizingMaskIntoConstraints = false
     clipsToBounds = true
-    layer.cornerRadius = Constants.cornerRadius
+    layer.cornerRadius = Constant.cornerRadius
   }
   
   required init?(coder: NSCoder) {
@@ -139,13 +139,13 @@ private extension PostThumbnailView {
     }
     return initStackView(
       arrangeSubviews: views,
-      spacing: Constants.spacing).set {
+      spacing: Constant.spacing).set {
         addSubview($0)
         NSLayoutConstraint.activate([
           $0.widthAnchor.constraint(
-            lessThanOrEqualToConstant: Constants.mediumWidth),
+            lessThanOrEqualToConstant: Constant.mediumWidth),
           $0.heightAnchor.constraint(
-            equalToConstant: Constants.smallHeight)])
+            equalToConstant: Constant.smallHeight)])
       }
   }
 }
@@ -192,7 +192,7 @@ private extension PostThumbnailView {
     if type == .three { ivList.append(imageViews[2]) }
     let sv = initStackView(
       arrangeSubviews: ivList,
-      spacing: Constants.spacing)
+      spacing: Constant.spacing)
     addSubview(sv)
     return setLayoutEqualToSuperView(sv)
   }
@@ -202,18 +202,18 @@ private extension PostThumbnailView {
     let smallMediumSv = initStackView(
       arrangeSubviews: [imageViews[1], rightBottomSv],
       axis: .vertical,
-      spacing: Constants.spacing)
+      spacing: Constant.spacing)
     
     addSubview(smallMediumSv)
     NSLayoutConstraint.activate([
       smallMediumSv.heightAnchor.constraint(
-        lessThanOrEqualToConstant: Constants.smallHeight*2 + 1),
+        lessThanOrEqualToConstant: Constant.smallHeight*2 + 1),
       smallMediumSv.widthAnchor.constraint(
-        lessThanOrEqualToConstant: Constants.mediumWidth)])
+        lessThanOrEqualToConstant: Constant.mediumWidth)])
     
     let bigSv = initStackView(
       arrangeSubviews: [imageViews[0], smallMediumSv],
-      spacing: Constants.spacing)
+      spacing: Constant.spacing)
     addSubview(bigSv)
     return setLayoutEqualToSuperView(bigSv)
   }
@@ -224,11 +224,11 @@ private extension PostThumbnailView {
     let rightSv = initStackView(
       arrangeSubviews: [rightTopSv, rightBottomSv],
       axis: .vertical,
-      spacing: Constants.spacing)
+      spacing: Constant.spacing)
     addSubview(rightSv)
     let totalSv = initStackView(
       arrangeSubviews: [imageViews.first!, rightSv],
-      spacing: Constants.spacing)
+      spacing: Constant.spacing)
     addSubview(totalSv)
     return setLayoutEqualToSuperView(totalSv)
   }
