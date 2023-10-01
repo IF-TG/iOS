@@ -127,7 +127,7 @@ class BaseProfileAreaView: UIView {
   }
   
   private var profileImageViewConstraints: [NSLayoutConstraint] {
-    var constraints = [
+    let constraints = [
       profileImageView.leadingAnchor.constraint(equalTo: leadingAnchor),
       profileImageView.widthAnchor.constraint(equalToConstant: profileLayoutInfo.size.width),
       profileImageView.heightAnchor.constraint(equalToConstant: profileLayoutInfo.size.height)]
