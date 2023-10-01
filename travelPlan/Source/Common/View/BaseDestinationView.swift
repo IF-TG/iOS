@@ -90,8 +90,11 @@ extension BaseDestinationView {
 // MARK: - LayoutSupport
 extension BaseDestinationView: LayoutSupport {
   func addSubviews() {
-    _ = [thumbnailImageView, centerView, starButton]
-      .map { self.addSubview($0) }
+    _ = [
+      thumbnailImageView,
+      centerView,
+      starButton
+    ].map { self.addSubview($0) }
   }
   
   func setConstraints() {
