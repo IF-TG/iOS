@@ -77,7 +77,10 @@ extension CategoryView {
       .bounds
       .width
     let scrollBarLeading = (Constant.size.width - firstCategoryTextWidth) / 2
-    drawScrollBar(target: cell, fromLeading: scrollBarLeading)
+    NSLayoutConstraint.deactivate(scrollBarConstraints)
+    scrollBarConstraints = scrollBarConstriant(cell, cellTitleSpacing: scrollBarLeading)
+    NSLayoutConstraint.activate(scrollBarConstraints)
+    layoutIfNeeded()
   }
   
   func selectedItem(

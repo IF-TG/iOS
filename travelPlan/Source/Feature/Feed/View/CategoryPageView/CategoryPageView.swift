@@ -62,7 +62,6 @@ private extension CategoryPageView {
         categoryScrollBarAreaView.selectedItem(at: firstIndex, animated: false, scrollPosition: .left)
         categoryDetailView.selectItem(at: firstIndex, animated: false, scrollPosition: .left)
         // TODO: - 쉐도우 적용 안되서 적용해야합니다.
-        // bringSubviewToFront(categoryScrollBarAreaView)
         categoryScrollBarAreaView.configureShadow()
       }
   }
