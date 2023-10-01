@@ -8,6 +8,11 @@
 import UIKit
 
 final class CategoryViewCell: UICollectionViewCell {
+  struct Model {
+    let cagtegoryTitle: String
+    let imagePath: String
+  }
+  
   // MARK: - Constant
   static var id: String {
     return String(describing: self)
@@ -33,6 +38,7 @@ final class CategoryViewCell: UICollectionViewCell {
   override var isSelected: Bool {
     willSet {
       self.categoryTitle.textColor = newValue ? .black : Constant.Title.textColor
+      // TODO: - 실제 이미지 뷰의 색 변화를 해야합니다.
       self.categoryImageView.backgroundColor = newValue ? .lightGray : .lightGray.withAlphaComponent(0.6)
       if newValue {
         selectedAnimation()
@@ -53,8 +59,10 @@ final class CategoryViewCell: UICollectionViewCell {
   }
   
   override func prepareForReuse() {
+    super.prepareForReuse()
     isSelected = false
     categoryImageView.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
+    configure(with: nil)
   }
   
   convenience init() {
@@ -64,13 +72,15 @@ final class CategoryViewCell: UICollectionViewCell {
 
 // MARK: - Helpers
 extension CategoryViewCell {
-  func configUI(
-    with title: String = "카테고리",
-    image: UIImage = UIImage()
-  ) -> UICollectionViewCell {
-    categoryImageView.image = image
-    categoryTitle.text = title
-    return self
+  func configure(
+    with data: Model?
+  ) {
+    categoryTitle.text = data?.cagtegoryTitle
+    guard let imagePath = data?.imagePath else {
+      categoryImageView.image = UIImage()
+      return
+    }
+    categoryImageView.image = UIImage(named: imagePath)
   }
   
   func deselectedAnimation() {
