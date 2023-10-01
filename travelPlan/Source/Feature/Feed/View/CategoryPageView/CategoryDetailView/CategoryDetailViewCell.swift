@@ -10,6 +10,12 @@ import UIKit
 // TODO: - 재사용 관련 문제를 처리하기 어려울 수 있기에
 final class CategoryDetailViewCell: UICollectionViewCell {
   // MARK: - Constant
+  enum Constant {
+    enum Spacing {
+      static let top: CGFloat = 0
+    }
+  }
+
   static var id: String {
     return String(describing: self)
   }
