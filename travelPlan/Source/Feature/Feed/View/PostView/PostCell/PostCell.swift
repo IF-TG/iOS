@@ -117,10 +117,10 @@ final class PostCell: UICollectionViewCell {
   // MARK: - Private helper
   private func setCellDivieder(_ isVisible: Bool) {
     guard isVisible else {
-      hideCellDivider()
+      showCellDivider()
       return
     }
-    showCellDivider()
+    hideCellDivider()
   }
   
   private func configureUI() {
