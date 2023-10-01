@@ -56,7 +56,7 @@ private extension CategoryPageView {
       .itemSizeSetNotifier
       .receive(on: DispatchQueue.main)
       .sink { [unowned self] in
-        let categoryfirstText = vm.categoryViewCellItem(at: 0)
+        let categoryfirstText = vm.travelMainCategoryTitle(at: 0)
         let firstIndex = IndexPath(item: 0, section: 0)
         categoryScrollBarAreaView.setInitialVisibleSubviews(from: categoryfirstText)
         categoryScrollBarAreaView.selectedItem(at: firstIndex, animated: false, scrollPosition: .left)
