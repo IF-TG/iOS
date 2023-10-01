@@ -40,6 +40,23 @@ enum TravelMainThemeType: CaseIterable {
       return []
     }
   }
+  
+  var imagePath: String {
+    switch self {
+    case .all:
+      return "travelCategoryAll"
+    case .season:
+      return "travelCategorySeason"
+    case .region:
+      return "travelCategoryRegion"
+    case .travelTheme:
+      return "travelCategoryTravelTheme"
+    case .partner:
+      return  "travelCategoryPartner"
+    case .categoryDevelop:
+      return "travelCategoryDevelop"
+    }
+  }
 }
 
 // MARK: - RawRepresentable
