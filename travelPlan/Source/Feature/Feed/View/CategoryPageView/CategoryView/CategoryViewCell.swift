@@ -8,6 +8,35 @@
 import UIKit
 
 final class CategoryViewCell: UICollectionViewCell {
+  enum Constant {
+    enum ImageView {
+      enum Spacing {
+        static let top: CGFloat = 20
+        static let left: CGFloat = 27.5
+      }
+      static let size: CGSize = CGSize(width: 28, height: 28)
+    }
+    enum Title {
+      enum Spacing {
+        static let top: CGFloat = 5
+        static let bottom: CGFloat = 6
+      }
+      static let fontSize: CGFloat = 12
+      static let height: CGFloat = 22
+      static let textColor = UIColor(red: 0.404, green: 0.404, blue: 0.404, alpha: 1)
+    }
+    static let size: CGSize = {
+      let width = Constant.ImageView.Spacing
+        .left * 2.0 + ImageView.size.width
+      let height = Constant.ImageView.Spacing.top +
+      Constant.ImageView.size.height +
+      Constant.Title.Spacing.top +
+      Constant.Title.height +
+      Constant.Title.Spacing.bottom
+      return CGSize(width: width, height: height)
+    }()
+  }
+
   struct Model {
     let cagtegoryTitle: String
     let imagePath: String
@@ -27,11 +56,12 @@ final class CategoryViewCell: UICollectionViewCell {
   }
   
   private let categoryTitle = UILabel().set {
+    typealias Const = Constant.Title
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.font = UIFont.systemFont(
-      ofSize: Constant.Title.fontSize)
+      ofSize: Const.fontSize)
     $0.textAlignment = .center
-    $0.textColor = Constant.Title.textColor
+    $0.textColor = Const.textColor
     $0.text = "카테고리"
   }
   
@@ -99,41 +129,54 @@ extension CategoryViewCell {
 // MARK: - LayoutSupport
 extension CategoryViewCell: LayoutSupport {
   func addSubviews() {
-    _=[categoryImageView, categoryTitle]
-      .map { contentView.addSubview($0) }
+    _=[
+      categoryImageView,
+      categoryTitle
+    ].map {
+      contentView.addSubview($0)
+    }
   }
   
   func setConstraints() {
-    _=[categoryImageViewConstraint, categoryTitleConstraint]
-      .map { NSLayoutConstraint.activate($0) }
+    _=[
+      categoryImageViewConstraint,
+      categoryTitleConstraint
+    ].map {
+      NSLayoutConstraint.activate($0)
+    }
   }
 }
 
 // MARK: - LayoutSupport constraints
 private extension CategoryViewCell {
   var categoryImageViewConstraint: [NSLayoutConstraint] {
-    [categoryImageView.topAnchor.constraint(
-      equalTo: contentView.topAnchor,
-      constant: Constant.ImageView.Spacing.top),
-     categoryImageView.leadingAnchor.constraint(
-      equalTo: contentView.leadingAnchor,
-      constant: Constant.ImageView.Spacing.left),
-     categoryImageView.trailingAnchor.constraint(
-      equalTo: contentView.trailingAnchor,
-      constant: -Constant.ImageView.Spacing.left),
-     categoryImageView.heightAnchor.constraint(
-      equalToConstant: Constant.ImageView.size.height)]
+    typealias Const = Constant.ImageView
+    typealias Spacing = Const.Spacing
+    return [
+      categoryImageView.topAnchor.constraint(
+        equalTo: contentView.topAnchor,
+        constant: Spacing.top),
+      categoryImageView.leadingAnchor.constraint(
+        equalTo: contentView.leadingAnchor,
+        constant: Spacing.left),
+      categoryImageView.trailingAnchor.constraint(
+        equalTo: contentView.trailingAnchor,
+        constant: -Spacing.left),
+      categoryImageView.heightAnchor.constraint(
+        equalToConstant: Const.size.height)]
   }
   
   var categoryTitleConstraint: [NSLayoutConstraint] {
-    [categoryTitle.topAnchor.constraint(
-      equalTo: categoryImageView.bottomAnchor,
-      constant: Constant.Title.Spacing.top),
-     categoryTitle.leadingAnchor.constraint(
-      equalTo: contentView.leadingAnchor),
-     categoryTitle.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-     categoryTitle.bottomAnchor.constraint(
-      equalTo: contentView.bottomAnchor,
-      constant: Constant.Title.Spacing.bottom)]
+    typealias Spacing = Constant.Title.Spacing
+    return [
+      categoryTitle.topAnchor.constraint(
+        equalTo: categoryImageView.bottomAnchor,
+        constant: Spacing.top),
+      categoryTitle.leadingAnchor.constraint(
+        equalTo: contentView.leadingAnchor),
+      categoryTitle.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+      categoryTitle.bottomAnchor.constraint(
+        equalTo: contentView.bottomAnchor,
+        constant: Spacing.bottom)]
   }
 }
