@@ -1,17 +1,14 @@
 {
   "images" : [
     {
-      "filename" : "travelCategoryRegion.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "travelCategoryRegion@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "travelCategoryRegion@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
