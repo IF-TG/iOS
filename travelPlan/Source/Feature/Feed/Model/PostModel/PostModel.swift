@@ -8,7 +8,7 @@
 import Foundation
 
 struct PostModel {
-  let header: PostHeaderModel
+  let header: PostHeaderView.Model
   let content: PostContentAreaModel
   let footer: PostFooterModel
 }

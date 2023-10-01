@@ -8,8 +8,52 @@
 import UIKit
 
 class PostFooterView: UIView {
+  enum Constant {
+    enum Heart {
+      enum Text {
+        static let font: UIFont = UIFont(pretendard: .regular, size: 14)!
+        static let fontColor: UIColor = .yg.gray4
+        enum Spacing {
+          static let leading: CGFloat = 5
+        }
+      }
+      enum Icon {
+        static let minimumsSize = CGSize(width: 17, height: 15)
+        static let color: UIColor = .yg.red
+        static let unselectedImage = UIImage(named: "unselectedHeart")?.setColor(color)
+        static let selectedImage = UIImage(named: "selectedHeart")?.setColor(color)
+        enum Spacing {
+          static let leading: CGFloat = 11
+        }
+      }
+    }
+    enum Comment {
+      enum Text {
+        static let font: UIFont = UIFont(pretendard: .regular, size: 14)!
+        static let fontColor: UIColor = .yg.gray4
+        enum Spacing {
+          static let leading: CGFloat = 5
+        }
+      }
+      enum Icon {
+        static let name = "feedComment"
+        static let minimumsSize = CGSize(width: 20, height: 20)
+        enum Spacing {
+          static let leading: CGFloat = 12.5
+        }
+      }
+    }
+    enum Share {
+      static let iconName = "feedShare"
+      static let height: CGFloat = 15
+      static let width: CGFloat = 15
+      enum Spacing {
+        static let trailing: CGFloat = 11
+      }
+    }
+  }
+
   // MARK: - Properties
-  
   /// 초기 사용자가 포스트에 대해서 하트를 눌렀는지 상태 체크
   private var postHeartState: Bool? = false
   
@@ -23,16 +67,18 @@ class PostFooterView: UIView {
   }
   
   private let heartText = UILabel().set {
+    typealias Const = Constant.Heart.Text
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.text = "0"
     $0.textAlignment = .left
-    $0.font = Constant.Heart.Text.font
-    $0.textColor = Constant.Heart.Text.fontColor
+    $0.font = Const.font
+    $0.textColor = Const.fontColor
   }
   
   private lazy var commentIcon = UIImageView().set {
+    typealias Const = Constant.Comment.Icon
     $0.translatesAutoresizingMaskIntoConstraints = false
-    $0.image = UIImage(named: Constant.Comment.Icon.name)?.setColor(.yg.gray4)
+    $0.image = UIImage(named: Const.name)?.setColor(.yg.gray4)
     $0.contentMode = .scaleAspectFit
     $0.isUserInteractionEnabled = true
     let tap = UITapGestureRecognizer(
@@ -41,30 +87,29 @@ class PostFooterView: UIView {
   }
   
   private let commentText = UILabel().set {
+    typealias Const = Constant.Heart.Text
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.text = "0"
     $0.textAlignment = .left
-    $0.font = Constant.Heart.Text.font
-    $0.textColor = Constant.Heart.Text.fontColor
+    $0.font = Const.font
+    $0.textColor = Const.fontColor
   }
   
   private lazy var shareButton = UIButton().set {
+    typealias Const = Constant.Share
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.contentMode = .scaleAspectFit
-    $0.setImage(
-      UIImage(named: Constant.Share.iconName)?.setColor(.yg.gray4),
-      for: .normal)
-    var img = UIImage(named: Constant.Share.iconName)
+    $0.setImage(UIImage(named: Const.iconName)?.setColor(.yg.gray4), for: .normal)
+    var img = UIImage(named: Const.iconName)
     img = img?.setColor(.yg.gray4.withAlphaComponent(0.5))
     $0.setImage(img, for: .highlighted)
     $0.addTarget(self, action: #selector(didTapShare), for: .touchUpInside)
   }
   
   // MARK: - Initialization
-  private override init(frame: CGRect) {
-    super.init(frame: .zero)
-    translatesAutoresizingMaskIntoConstraints = false
-    setupUI()
+  override init(frame: CGRect) {
+    super.init(frame: frame)
+    configureUI()
   }
   
   convenience init() {
@@ -72,35 +117,34 @@ class PostFooterView: UIView {
   }
   
   required init?(coder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
+    super.init(coder: coder)
+    configureUI()
   }
 }
 
 // MARK: - Action
-fileprivate extension PostFooterView {
+private extension PostFooterView {
   @objc func didTapHeart() {
-    // 여기선 서버로 하트 취소한거 처리 해야합니다TODO: - 하트 취소, 수락 서버 갱신
+    // TODO: - 하트 취소, 수락 서버 갱신. 여기선 서버로 하트 취소한거 처리 해야합니다
     updatePostHeartState()
     print("DEBUG: 찜")
   }
   
   @objc func didTapComment() {
     print("커맨드 화면 이동")
-    UIView.touchAnimate(commentIcon, scale: 0.85)
   }
   
   @objc func didTapShare() {
     print("share 화면으로 이동")
-    UIView.touchAnimate(shareButton, scale: 0.85)
   }
 }
 
-// MARK: - Public helpers
+// MARK: - Helper
 extension PostFooterView {
-  func configure(with data: PostFooterModel) {
-    setHeart(with: String(data.heartCount))
-    setHeartIcon(with: data.heartState)
-    setComment(with: String(data.commentCount))
+  func configure(with data: PostFooterModel?) {
+    setHeart(with: String(data?.heartCount ?? 0))
+    setHeartIcon(with: data?.heartState ?? false)
+    setComment(with: String(data?.commentCount ?? 0))
   }
   
   func updatePostHeartState() {
@@ -121,8 +165,13 @@ extension PostFooterView {
   }
 }
 
-// MARK: - Helpers
+// MARK: - Private helper
 extension PostFooterView {
+  private func configureUI() {
+    translatesAutoresizingMaskIntoConstraints = false
+    setupUI()
+  }
+  
   private func setHeart(with text: String) {
     heartText.text = text
   }
@@ -166,74 +215,91 @@ extension PostFooterView {
 // MARK: - LayoutSupport
 extension PostFooterView: LayoutSupport {
   func addSubviews() {
-    _=[heartIcon, heartText,
-       commentIcon, commentText, shareButton]
-      .map { addSubview($0) }
+    _=[
+      heartIcon,
+      heartText,
+      commentIcon,
+      commentText,
+      shareButton
+    ].map {
+      addSubview($0)
+    }
   }
   
   func setConstraints() {
-    _=[heartIconConstraint,
-       heartTextConstraint,
-       commentIconConstraint,
-       commentTextConstraint,
-       shareIconConstraint]
-      .map { NSLayoutConstraint.activate($0) }
+    _=[
+      heartIconConstraint,
+      heartTextConstraint,
+      commentIconConstraint,
+      commentTextConstraint,
+      shareIconConstraint
+    ].map {
+      NSLayoutConstraint.activate($0)
+    }
   }
 }
 
 // MARK: - LayoutSupport Constraints
 private extension PostFooterView {
-  typealias Layout = NSLayoutConstraint
-  var heartIconConstraint: [Layout] {
-    [heartIcon.leadingAnchor.constraint(
-      equalTo: leadingAnchor,
-      constant: Constant.Heart.Icon.Spacing.leading),
-     heartIcon.centerYAnchor.constraint(
-      equalTo: centerYAnchor),
-     heartIcon.widthAnchor.constraint(
-      equalToConstant: Constant.Heart.Icon.minimumsSize.width),
-     heartIcon.heightAnchor.constraint(
-      equalToConstant: Constant.Heart.Icon.minimumsSize.height)]
+  typealias NSLayout = NSLayoutConstraint
+  var heartIconConstraint: [NSLayout] {
+    typealias Const = Constant.Heart.Icon
+    typealias Spacing = Constant.Heart.Icon.Spacing
+    return [
+      heartIcon.leadingAnchor.constraint(
+        equalTo: leadingAnchor,
+        constant: Spacing.leading),
+      heartIcon.centerYAnchor.constraint(
+        equalTo: centerYAnchor),
+      heartIcon.widthAnchor.constraint(
+        equalToConstant: Const.minimumsSize.width),
+      heartIcon.heightAnchor.constraint(
+        lessThanOrEqualToConstant: Const.minimumsSize.height)]
   }
   
-  var heartTextConstraint: [Layout] {
-    heartText.sizeToFit()
+  var heartTextConstraint: [NSLayout] {
+    typealias Spacing = Constant.Heart.Text.Spacing
     return [
       heartText.leadingAnchor.constraint(
         equalTo: heartIcon.trailingAnchor,
-        constant: Constant.Heart.Text.Spacing.leading),
+        constant: Spacing.leading),
       heartText.centerYAnchor.constraint(
         equalTo: centerYAnchor)]
   }
   
-  var commentIconConstraint: [Layout] {
-    [commentIcon.leadingAnchor.constraint(
-      equalTo: heartText.trailingAnchor,
-      constant: Constant.Comment.Icon.Spacing.leading),
-     commentIcon.centerYAnchor.constraint(
-      equalTo: centerYAnchor),
-     commentIcon.widthAnchor.constraint(
-      equalToConstant: Constant.Comment.Icon.minimumsSize.width),
-     commentIcon.heightAnchor.constraint(
-      equalToConstant: Constant.Comment.Icon.minimumsSize.height)]
+  var commentIconConstraint: [NSLayout] {
+    typealias Const = Constant.Comment.Icon
+    typealias Spacing = Constant.Comment.Icon.Spacing
+    return [
+      commentIcon.leadingAnchor.constraint(
+        equalTo: heartText.trailingAnchor,
+        constant: Spacing.leading),
+      commentIcon.centerYAnchor.constraint(
+        equalTo: centerYAnchor),
+      commentIcon.widthAnchor.constraint(
+        equalToConstant: Const.minimumsSize.width),
+      commentIcon.heightAnchor.constraint(
+        lessThanOrEqualToConstant: Const.minimumsSize.height)]
   }
   
-  var commentTextConstraint: [Layout] {
-    commentText.sizeToFit()
+  var commentTextConstraint: [NSLayout] {
+    typealias Spacing = Constant.Comment.Text.Spacing
     return [
       commentText.leadingAnchor.constraint(
         equalTo: commentIcon.trailingAnchor,
-        constant: Constant.Comment.Text.Spacing.leading),
+        constant: Spacing.leading),
       commentText.centerYAnchor.constraint(equalTo: centerYAnchor)]
   }
   
-  var shareIconConstraint: [Layout] {
-    [
+  var shareIconConstraint: [NSLayout] {
+    typealias Spacing = Constant.Share.Spacing
+    typealias Const = Constant.Share
+    return [
       shareButton.trailingAnchor.constraint(
         equalTo: trailingAnchor,
-        constant: -Constant.Share.Spacing.trailing),
+        constant: -Spacing.trailing),
       shareButton.centerYAnchor.constraint(equalTo: centerYAnchor),
-      shareButton.heightAnchor.constraint(equalToConstant: Constant.Share.height),
-      shareButton.widthAnchor.constraint(equalToConstant: Constant.Share.width)]
+      shareButton.heightAnchor.constraint(equalToConstant: Const.height),
+      shareButton.widthAnchor.constraint(equalToConstant: Const.width)]
   }
 }

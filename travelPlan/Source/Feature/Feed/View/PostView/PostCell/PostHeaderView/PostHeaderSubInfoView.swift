@@ -8,6 +8,39 @@
 import UIKit
 
 class PostHeaderSubInfoView: UIView {
+  enum Constant {
+    enum UserName {
+      static let textColor: UIColor = .yg.gray5
+      static let font: UIFont = UIFont(pretendard: .medium, size: 10)!
+      static let width: CGFloat = 70
+    }
+    enum Duration {
+      static let textColor: UIColor = .yg.gray5
+      static let font: UIFont = UIFont(pretendard: .medium, size: 10)!
+      static let width: CGFloat = 31
+      struct Spacing {
+        static let leading: CGFloat = 10
+        static let trailing: CGFloat = 10
+      }
+    }
+    enum DateRange {
+      static let textColor: UIColor = .yg.gray5
+      static let font: UIFont = UIFont(pretendard: .medium, size: 10)!
+      static let width: CGFloat = 86
+      enum Spacing {
+        static let leading: CGFloat = 10
+      }
+    }
+    enum Divider {
+      static let bgColor: UIColor = .yg.gray5
+      static let width: CGFloat = 1
+      static let height: CGFloat = 13
+      struct Spacing {
+        static let leading: CGFloat = 10
+      }
+    }
+  }
+
   // MARK: - Properties
   private lazy var userNameLabel = UILabel().set {
     $0.translatesAutoresizingMaskIntoConstraints = false
@@ -65,24 +98,24 @@ class PostHeaderSubInfoView: UIView {
 
 // MARK: - Public helpers
 extension PostHeaderSubInfoView {
-  func configure(with data: PostHeaderSubInfoModel) {
-    setUserNameLabel(with: data.userName)
-    setDurationLabel(with: data.duration)
-    setYearMonthDayRangeLabel(with: data.yearMonthDayRange)
+  func configure(with data: PostHeaderSubInfoModel?) {
+    setUserNameLabel(with: data?.userName)
+    setDurationLabel(with: data?.duration)
+    setYearMonthDayRangeLabel(with: data?.yearMonthDayRange)
   }
 }
 
 // MARK: - Helpers
 extension PostHeaderSubInfoView {
-  private func setUserNameLabel(with text: String) {
+  private func setUserNameLabel(with text: String?) {
     userNameLabel.text = text
   }
   
-  private func setDurationLabel(with text: String) {
+  private func setDurationLabel(with text: String?) {
     durationLabel.text = text
   }
   
-  private func setYearMonthDayRangeLabel(with text: String) {
+  private func setYearMonthDayRangeLabel(with text: String?) {
     yearMonthDayRangeLabel.text = text
   }
   
