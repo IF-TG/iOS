@@ -118,7 +118,6 @@ final class SearchFestivalCell: UICollectionViewCell {
   override func prepareForReuse() {
     super.prepareForReuse()
     thumbnailImageView.image = nil
-    starButton.isSelected = false
     periodLabel.text = nil
     festivalLabel.text = nil
     subscriptions.removeAll()
