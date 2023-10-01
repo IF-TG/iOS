@@ -11,30 +11,20 @@ final class CategoryViewCell: UICollectionViewCell {
   enum Constant {
     enum ImageView {
       enum Spacing {
-        static let top: CGFloat = 20
-        static let left: CGFloat = 27.5
+        static let top: CGFloat = 16
       }
       static let size: CGSize = CGSize(width: 28, height: 28)
     }
     enum Title {
       enum Spacing {
-        static let top: CGFloat = 5
-        static let bottom: CGFloat = 6
+        static let top: CGFloat = 2
+        static let bottom: CGFloat = 3
       }
       static let fontSize: CGFloat = 12
-      static let height: CGFloat = 22
+      static let height: CGFloat = 23
       static let textColor = UIColor.yg.gray3
     }
-    static let size: CGSize = {
-      let width = Constant.ImageView.Spacing
-        .left * 2.0 + ImageView.size.width
-      let height = Constant.ImageView.Spacing.top +
-      Constant.ImageView.size.height +
-      Constant.Title.Spacing.top +
-      Constant.Title.height +
-      Constant.Title.Spacing.bottom
-      return CGSize(width: width, height: height)
-    }()
+    static let size: CGSize = .init(width: 74, height: 72)
   }
 
   struct Model {
@@ -170,27 +160,29 @@ private extension CategoryViewCell {
       categoryImageView.topAnchor.constraint(
         equalTo: contentView.topAnchor,
         constant: Spacing.top),
-      categoryImageView.leadingAnchor.constraint(
-        equalTo: contentView.leadingAnchor,
-        constant: Spacing.left),
-      categoryImageView.trailingAnchor.constraint(
-        equalTo: contentView.trailingAnchor,
-        constant: -Spacing.left),
+      categoryImageView.widthAnchor.constraint(
+        equalToConstant: Const.size.width),
+      categoryImageView.centerXAnchor.constraint(
+        equalTo: contentView.centerXAnchor),
       categoryImageView.heightAnchor.constraint(
         equalToConstant: Const.size.height)]
   }
   
   var categoryTitleConstraint: [NSLayoutConstraint] {
-    typealias Spacing = Constant.Title.Spacing
+    typealias Const = Constant.Title
+    typealias Spacing = Const.Spacing
     return [
       categoryTitle.topAnchor.constraint(
         equalTo: categoryImageView.bottomAnchor,
         constant: Spacing.top),
       categoryTitle.leadingAnchor.constraint(
         equalTo: contentView.leadingAnchor),
-      categoryTitle.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+      categoryTitle.trailingAnchor.constraint(
+        equalTo: contentView.trailingAnchor),
+      categoryTitle.heightAnchor.constraint(
+        equalToConstant: Const.height),
       categoryTitle.bottomAnchor.constraint(
         equalTo: contentView.bottomAnchor,
-        constant: Spacing.bottom)]
+        constant: -Spacing.bottom)]
   }
 }
