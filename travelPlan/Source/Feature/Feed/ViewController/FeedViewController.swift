@@ -13,6 +13,7 @@ final class FeedViewController: UIViewController {
     enum ReviewWriteButton {
       static let size: CGSize = .init(width: 60, height: 60)
       static let iconSize: CGSize = .init(width: 28, height: 28)
+      static let iconName = "feedPlus"
       enum Spacing {
         static let trailing: CGFloat = 16
         static let bottom = trailing
@@ -28,7 +29,7 @@ final class FeedViewController: UIViewController {
   lazy var input = Input(
     didTapPostSearch: searchBarItem.tap,
     didTapNotification: notificationBarItem.tap,
-    didTapReviewWrite: reviewWriteButton.tap)
+    didTapReviewWrite: reviewWriteButtonPublihser)
  
   private let leftNaviBarItem = FeedAppTitleBarItem()
   
@@ -43,7 +44,18 @@ final class FeedViewController: UIViewController {
   private var naviConstraints: [NSLayoutConstraint] = []
   
   private var reviewWriteButton = UIButton(frame: .zero).set {
+    typealias Const = Constant.ReviewWriteButton
     $0.translatesAutoresizingMaskIntoConstraints = false
+    $0.backgroundColor = .yg.primary
+    $0.layer.cornerRadius = Const.size.width/2
+    guard let image = UIImage(named: Const.iconName) else { return }
+    $0.setImage(image, for: .normal)
+  }
+  
+  private var reviewWriteButtonPublihser: AnyPublisher<Void, Never> {
+    reviewWriteButton.tap.map {
+      self.reviewWriteButton.backgroundColor = .yg.primary.withAlphaComponent(0.75)
+    }.eraseToAnyPublisher()
   }
   
   // MARK: - LifeCycle
@@ -145,7 +157,9 @@ extension FeedViewController: ViewBindCase {
       notificationBarItem.updateNotificationRedIcon(.none)
     case .gotoReviewWrite:
       // TODO: - reviewWrite page로 가야합니다.
-      print("무야호")
+      UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut) {
+        self.reviewWriteButton.backgroundColor = .yg.primary
+      }
     }
   }
   
@@ -176,19 +190,25 @@ extension FeedViewController: TravelThemeBottomSheetDelegate {
 extension FeedViewController: LayoutSupport {
   func addSubviews() {
     _=[
-      categoryPageView
+      categoryPageView,
+      reviewWriteButton
     ].map {
       view.addSubview($0)
     }
   }
 
   func setConstraints() {
-    NSLayoutConstraint.activate(categoryPageViewConstraint)
+    _=[
+      categoryPageViewConstraint,
+      reviewWriteButtonConstraint
+    ].map {
+      NSLayoutConstraint.activate($0)
+    }
   }
 }
 
 // MARK: - LayoutSupprot helpers
-fileprivate extension FeedViewController {
+private extension FeedViewController {
   var categoryPageViewConstraint: [NSLayoutConstraint] {
     [categoryPageView.topAnchor.constraint(
       equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -198,5 +218,21 @@ fileprivate extension FeedViewController {
       equalTo: view.trailingAnchor),
      categoryPageView.bottomAnchor.constraint(
       equalTo: view.safeAreaLayoutGuide.bottomAnchor)]
+  }
+  
+  var reviewWriteButtonConstraint: [NSLayoutConstraint] {
+    typealias Const = Constant.ReviewWriteButton
+    typealias Spacing = Const.Spacing
+    return [
+      reviewWriteButton.widthAnchor.constraint(
+        equalToConstant: Const.size.width),
+      reviewWriteButton.heightAnchor.constraint(
+        equalToConstant: Const.size.height),
+      reviewWriteButton.trailingAnchor.constraint(
+        equalTo: view.trailingAnchor,
+        constant: -Spacing.trailing),
+      reviewWriteButton.bottomAnchor.constraint(
+        equalTo: view.safeAreaLayoutGuide.bottomAnchor,
+        constant: -Spacing.bottom)]
   }
 }
