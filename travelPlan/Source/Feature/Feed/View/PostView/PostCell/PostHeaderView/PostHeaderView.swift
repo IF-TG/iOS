@@ -1,5 +1,5 @@
 //
-//  PostHeaderProfileAndInfoView.swift
+//  PostHeaderView.swift
 //  travelPlan
 //
 //  Created by 양승현 on 2023/05/12.
@@ -7,9 +7,9 @@
 
 import UIKit
 
-protocol PostHeaderProfileAndInfoViewDelegate: BaseLeftRoundProfileAreaViewDelegate { }
+protocol PostHeaderViewDelegate: BaseProfileAreaViewDelegate { }
 
-final class PostHeaderProfileAndInfoView: BaseLeftRoundProfileAreaView {
+final class PostHeaderView: BaseProfileAreaView {
   struct Model {
     let title: String
     let image: UIImage?
@@ -29,13 +29,13 @@ final class PostHeaderProfileAndInfoView: BaseLeftRoundProfileAreaView {
   // MARK: - Properteis
   private let postInfoView = PostHeaderInfoView()
   
-  weak var delegate: PostHeaderProfileAndInfoViewDelegate?
+  weak var delegate: PostHeaderViewDelegate?
   
-  override var baseDelegate: BaseLeftRoundProfileAreaViewDelegate? {
+  override var baseDelegate: BaseProfileAreaViewDelegate? {
     get {
       return delegate
     } set {
-      delegate = newValue as? PostHeaderProfileAndInfoViewDelegate
+      delegate = newValue as? PostHeaderViewDelegate
     }
   }
   

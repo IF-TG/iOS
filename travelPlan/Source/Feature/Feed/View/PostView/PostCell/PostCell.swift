@@ -69,7 +69,7 @@ final class PostCell: UICollectionViewCell {
   static let id: String = String(describing: PostCell.self)
   
   // MARK: - Properties
-  private let headerView = PostHeaderProfileAndInfoView()
+  private let headerView = PostHeaderView()
 
   private lazy var optionButton = makeOptionButton()
   

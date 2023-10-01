@@ -7,13 +7,13 @@
 
 import UIKit
 
-protocol BaseLeftRoundProfileAreaViewDelegate: AnyObject {
+protocol BaseProfileAreaViewDelegate: AnyObject {
   func baseLeftRoundProfileAreaView(
-    _ baseLeftRoundProfileAreaView: BaseLeftRoundProfileAreaView,
-    didSelectProfile profile: UIImage?)
+    _ view: BaseProfileAreaView,
+    didSelectProfileImage image: UIImage?)
 }
 
-class BaseLeftRoundProfileAreaView: UIView {
+class BaseProfileAreaView: UIView {
   enum ProfileLayoutType {
     case centerY
     case top
@@ -56,7 +56,7 @@ class BaseLeftRoundProfileAreaView: UIView {
   
   private var contentView: UIView
   
-  weak var baseDelegate: BaseLeftRoundProfileAreaViewDelegate?
+  weak var baseDelegate: BaseProfileAreaViewDelegate?
   
   private var profileLayoutInfo: ProfileInfoType
   
@@ -149,6 +149,6 @@ class BaseLeftRoundProfileAreaView: UIView {
   // MARK: - Action
   @objc func didTapProfile() {
     print("DEBUG: Goto profile scene !!")
-    baseDelegate?.baseLeftRoundProfileAreaView(self, didSelectProfile: profileImageView.image)
+    baseDelegate?.baseLeftRoundProfileAreaView(self, didSelectProfileImage: profileImageView.image)
   }
 }

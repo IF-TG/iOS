@@ -108,7 +108,7 @@
 		1586D3042AB193F7001D4A80 /* Season.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1586D3032AB193F7001D4A80 /* Season.swift */; };
 		158BEF772A0E279700C27861 /* PostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158BEF762A0E279700C27861 /* PostCell.swift */; };
 		158BEF792A0E27BD00C27861 /* PostCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158BEF782A0E27BD00C27861 /* PostCollectionView.swift */; };
-		158BEF7D2A0E2C5F00C27861 /* PostHeaderProfileAndInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158BEF7C2A0E2C5F00C27861 /* PostHeaderProfileAndInfoView.swift */; };
+		158BEF7D2A0E2C5F00C27861 /* PostHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158BEF7C2A0E2C5F00C27861 /* PostHeaderView.swift */; };
 		158BEF7F2A0E2C6E00C27861 /* PostContentAreaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158BEF7E2A0E2C6E00C27861 /* PostContentAreaView.swift */; };
 		158BEF812A0E2C9E00C27861 /* PostFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158BEF802A0E2C9E00C27861 /* PostFooterView.swift */; };
 		158BEF882A0E33F700C27861 /* PostHeaderSubInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158BEF872A0E33F700C27861 /* PostHeaderSubInfoView.swift */; };
@@ -155,7 +155,7 @@
 		15DE36B62AB83DD40030CCCC /* TravelThemeBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DE36B52AB83DD40030CCCC /* TravelThemeBottomSheetViewController.swift */; };
 		15DE36B92AB853900030CCCC /* TravelThemeBottomSheetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DE36B82AB853900030CCCC /* TravelThemeBottomSheetCell.swift */; };
 		15EA48CA2A539D7B00F4B391 /* MoreMenuViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EA48C92A539D7B00F4B391 /* MoreMenuViewDelegate.swift */; };
-		15EB39E62AC303C90025FFB4 /* BaseLeftRoundProfileAreaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EB39E52AC303C90025FFB4 /* BaseLeftRoundProfileAreaView.swift */; };
+		15EB39E62AC303C90025FFB4 /* BaseProfileAreaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EB39E52AC303C90025FFB4 /* BaseProfileAreaView.swift */; };
 		15EB3A012AC3477B0025FFB4 /* PostHeaderInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EB3A002AC3477B0025FFB4 /* PostHeaderInfoView.swift */; };
 		15EF8C052A0829FD0068C744 /* LocationSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EF8C042A0829FD0068C744 /* LocationSearchViewController.swift */; };
 		15EF8C972A0A18960068C744 /* CategoryPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EF8C962A0A18960068C744 /* CategoryPageViewModel.swift */; };
@@ -323,7 +323,7 @@
 		1586D3032AB193F7001D4A80 /* Season.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Season.swift; sourceTree = "<group>"; };
 		158BEF762A0E279700C27861 /* PostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCell.swift; sourceTree = "<group>"; };
 		158BEF782A0E27BD00C27861 /* PostCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCollectionView.swift; sourceTree = "<group>"; };
-		158BEF7C2A0E2C5F00C27861 /* PostHeaderProfileAndInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostHeaderProfileAndInfoView.swift; sourceTree = "<group>"; };
+		158BEF7C2A0E2C5F00C27861 /* PostHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostHeaderView.swift; sourceTree = "<group>"; };
 		158BEF7E2A0E2C6E00C27861 /* PostContentAreaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostContentAreaView.swift; sourceTree = "<group>"; };
 		158BEF802A0E2C9E00C27861 /* PostFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostFooterView.swift; sourceTree = "<group>"; };
 		158BEF872A0E33F700C27861 /* PostHeaderSubInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostHeaderSubInfoView.swift; sourceTree = "<group>"; };
@@ -371,7 +371,7 @@
 		15DE36B52AB83DD40030CCCC /* TravelThemeBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelThemeBottomSheetViewController.swift; sourceTree = "<group>"; };
 		15DE36B82AB853900030CCCC /* TravelThemeBottomSheetCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelThemeBottomSheetCell.swift; sourceTree = "<group>"; };
 		15EA48C92A539D7B00F4B391 /* MoreMenuViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreMenuViewDelegate.swift; sourceTree = "<group>"; };
-		15EB39E52AC303C90025FFB4 /* BaseLeftRoundProfileAreaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseLeftRoundProfileAreaView.swift; sourceTree = "<group>"; };
+		15EB39E52AC303C90025FFB4 /* BaseProfileAreaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseProfileAreaView.swift; sourceTree = "<group>"; };
 		15EB3A002AC3477B0025FFB4 /* PostHeaderInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostHeaderInfoView.swift; sourceTree = "<group>"; };
 		15EF8C042A0829FD0068C744 /* LocationSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchViewController.swift; sourceTree = "<group>"; };
 		15EF8C962A0A18960068C744 /* CategoryPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryPageViewModel.swift; sourceTree = "<group>"; };
@@ -843,7 +843,7 @@
 		158BEF862A0E33D600C27861 /* PostHeaderView */ = {
 			isa = PBXGroup;
 			children = (
-				158BEF7C2A0E2C5F00C27861 /* PostHeaderProfileAndInfoView.swift */,
+				158BEF7C2A0E2C5F00C27861 /* PostHeaderView.swift */,
 				15EB3A002AC3477B0025FFB4 /* PostHeaderInfoView.swift */,
 				158BEF872A0E33F700C27861 /* PostHeaderSubInfoView.swift */,
 			);
@@ -888,7 +888,7 @@
 			children = (
 				158BEFCF2A0FE2C000C27861 /* OneUnitHeightLine.swift */,
 				15C83F892AB2134D00DDB536 /* BottomSheetView.swift */,
-				15EB39E52AC303C90025FFB4 /* BaseLeftRoundProfileAreaView.swift */,
+				15EB39E52AC303C90025FFB4 /* BaseProfileAreaView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1669,7 +1669,7 @@
 				13813A232AAA459900AF6AEB /* PostSearchCollectionViewDelegate.swift in Sources */,
 				130304B02A28447900776A0D /* SearchFamousSpotCell.swift in Sources */,
 				158BEF882A0E33F700C27861 /* PostHeaderSubInfoView.swift in Sources */,
-				158BEF7D2A0E2C5F00C27861 /* PostHeaderProfileAndInfoView.swift in Sources */,
+				158BEF7D2A0E2C5F00C27861 /* PostHeaderView.swift in Sources */,
 				15FEB5E72A050A99000A5F33 /* UIButton+Combine.swift in Sources */,
 				15332AD62A163AB6008A4110 /* FavoriteViewControllerConstant.swift in Sources */,
 				154ECA172AB0B5D40093AF25 /* TravelMainThemeType.swift in Sources */,
@@ -1677,7 +1677,7 @@
 				15F0D1BE2A52940F00D04773 /* PostViewBottomSheetViewController.swift in Sources */,
 				15C83F8A2AB2134D00DDB536 /* BottomSheetView.swift in Sources */,
 				1503F92B2A4E068E002BC38D /* ApplicationCoordinator.swift in Sources */,
-				15EB39E62AC303C90025FFB4 /* BaseLeftRoundProfileAreaView.swift in Sources */,
+				15EB39E62AC303C90025FFB4 /* BaseProfileAreaView.swift in Sources */,
 				13813A212AAA458000AF6AEB /* PostSearchCollectionViewDataSource.swift in Sources */,
 				15F0D1B42A51BFB800D04773 /* PostSearchCoordiantor.swift in Sources */,
 				15F0D19A2A4EF49700D04773 /* CategoryPageViewAdapter.swift in Sources */,

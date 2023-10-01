@@ -43,7 +43,7 @@ private extension MockPostModel {
     return UIImage(named: tempProf(index))!.compressJPEGImage(with: 0)!
   }
   
-  func initMockHeader() -> [PostHeaderProfileAndInfoView.Model] {
+  func initMockHeader() -> [PostHeaderView.Model] {
     let mockHeaderSubInfo = initMockHeaderSubInfo()
     return [
       ("Capturing the Beauty of Ocean Bliss",
@@ -61,7 +61,7 @@ private extension MockPostModel {
       ("또 가고 싶다..",
        compressProfImg(5),
        mockHeaderSubInfo[4])].map {
-         PostHeaderProfileAndInfoView.Model(title: $0, image: $1, subInfo: $2)
+         PostHeaderView.Model(title: $0, image: $1, subInfo: $2)
        }
   }
   

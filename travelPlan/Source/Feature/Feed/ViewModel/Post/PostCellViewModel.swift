@@ -11,7 +11,7 @@ final class PostCellViewModel {
   // MARK: - Properties
   private let postModel: PostModel?
   
-  var headerModel: PostHeaderProfileAndInfoView.Model? {
+  var headerModel: PostHeaderView.Model? {
     postModel?.header
   }
   
@@ -24,7 +24,7 @@ final class PostCellViewModel {
   }
   
   // MARK: - Default data(When fetched data invalid)
-  var defaultHeaderModel: PostHeaderProfileAndInfoView.Model {
+  var defaultHeaderModel: PostHeaderView.Model {
     .init()
   }
   
