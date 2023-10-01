@@ -23,7 +23,7 @@ final class CategoryViewCell: UICollectionViewCell {
       }
       static let fontSize: CGFloat = 12
       static let height: CGFloat = 22
-      static let textColor = UIColor(red: 0.404, green: 0.404, blue: 0.404, alpha: 1)
+      static let textColor = UIColor.yg.gray3
     }
     static let size: CGSize = {
       let width = Constant.ImageView.Spacing
@@ -50,7 +50,6 @@ final class CategoryViewCell: UICollectionViewCell {
   // MARK: - Properties
   private let categoryImageView = UIImageView().set {
     $0.translatesAutoresizingMaskIntoConstraints = false
-    $0.backgroundColor = .lightGray.withAlphaComponent(0.6)
     $0.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
     $0.clipsToBounds = true
   }
@@ -68,8 +67,6 @@ final class CategoryViewCell: UICollectionViewCell {
   override var isSelected: Bool {
     willSet {
       self.categoryTitle.textColor = newValue ? .black : Constant.Title.textColor
-      // TODO: - 실제 이미지 뷰의 색 변화를 해야합니다.
-      self.categoryImageView.backgroundColor = newValue ? .lightGray : .lightGray.withAlphaComponent(0.6)
       if newValue {
         selectedAnimation()
       } else {
@@ -100,7 +97,7 @@ final class CategoryViewCell: UICollectionViewCell {
   }
 }
 
-// MARK: - Helpers
+// MARK: - Helper
 extension CategoryViewCell {
   func configure(
     with data: Model?
@@ -114,18 +111,35 @@ extension CategoryViewCell {
   }
   
   func deselectedAnimation() {
-    UIView.animate(withDuration: 0.3) {
+    let convertedImage = categoryImageView.image?.withTintColor(.yg.gray2)
+    UIView.animate(
+      withDuration: 0.26,
+      delay: 0,
+      options: .curveEaseInOut
+    ) {
+      self.categoryImageView.image = convertedImage
       self.categoryImageView.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
     }
   }
   
   func selectedAnimation() {
-    UIView.animate(withDuration: 0.3) {
-      self.categoryImageView.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+    let convertedImage = categoryImageView.image?.withTintColor(.yg.primary)
+    UIView.animate(
+      withDuration: 0.26,
+      delay: 0,
+      options: .curveEaseInOut
+    ) {
+      self.categoryImageView.image = convertedImage
+      self.categoryImageView.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
     }
   }
+  
+  // MARK: - Private helper
+  
+  private func convertImageColor(_ image: UIImage) -> UIImage {
+    image.withTintColor(.yg.primary)
+  }
 }
-
 // MARK: - LayoutSupport
 extension CategoryViewCell: LayoutSupport {
   func addSubviews() {
