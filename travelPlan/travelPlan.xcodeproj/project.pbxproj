@@ -86,6 +86,7 @@
 		15332AD62A163AB6008A4110 /* FavoriteViewControllerConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15332AD52A163AB6008A4110 /* FavoriteViewControllerConstant.swift */; };
 		153841D72A5642A9004C41D1 /* PostViewBottomSheetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153841D62A5642A9004C41D1 /* PostViewBottomSheetCell.swift */; };
 		154ECA172AB0B5D40093AF25 /* TravelMainThemeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154ECA162AB0B5D40093AF25 /* TravelMainThemeType.swift */; };
+		1550D9AF2ACAFAC10046569B /* TravelDetailThemeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1550D9AE2ACAFAC10046569B /* TravelDetailThemeViewController.swift */; };
 		156759B12A0D774500849CE2 /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156759B02A0D774500849CE2 /* FeedViewModel.swift */; };
 		1570ECB22A13176100A3FDCF /* FeedNavigationBarConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1570ECB12A13176100A3FDCF /* FeedNavigationBarConstant.swift */; };
 		1570FDB22AB1B616006FBAA3 /* TravelOrderType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1570FDB12AB1B616006FBAA3 /* TravelOrderType.swift */; };
@@ -155,8 +156,6 @@
 		15EF8C972A0A18960068C744 /* CategoryPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EF8C962A0A18960068C744 /* CategoryPageViewModel.swift */; };
 		15EF8C9B2A0A19100068C744 /* CategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EF8C9A2A0A19100068C744 /* CategoryView.swift */; };
 		15EF8C9D2A0A19190068C744 /* CategoryViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EF8C9C2A0A19190068C744 /* CategoryViewCell.swift */; };
-		15EF8C9F2A0A19310068C744 /* CategoryDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EF8C9E2A0A19310068C744 /* CategoryDetailView.swift */; };
-		15EF8CA12A0A19380068C744 /* CategoryDetailViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EF8CA02A0A19380068C744 /* CategoryDetailViewCell.swift */; };
 		15EF8CA32A0A197C0068C744 /* CategoryPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EF8CA22A0A197C0068C744 /* CategoryPageView.swift */; };
 		15EF8CA62A0A19990068C744 /* CategoryViewType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EF8CA52A0A19990068C744 /* CategoryViewType.swift */; };
 		15F0A3F529FD58280049AB33 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 15F0A3F429FD58280049AB33 /* .swiftlint.yml */; };
@@ -292,6 +291,7 @@
 		15332AD52A163AB6008A4110 /* FavoriteViewControllerConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteViewControllerConstant.swift; sourceTree = "<group>"; };
 		153841D62A5642A9004C41D1 /* PostViewBottomSheetCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewBottomSheetCell.swift; sourceTree = "<group>"; };
 		154ECA162AB0B5D40093AF25 /* TravelMainThemeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelMainThemeType.swift; sourceTree = "<group>"; };
+		1550D9AE2ACAFAC10046569B /* TravelDetailThemeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelDetailThemeViewController.swift; sourceTree = "<group>"; };
 		156759B02A0D774500849CE2 /* FeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
 		1570ECB12A13176100A3FDCF /* FeedNavigationBarConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedNavigationBarConstant.swift; sourceTree = "<group>"; };
 		1570FDB12AB1B616006FBAA3 /* TravelOrderType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelOrderType.swift; sourceTree = "<group>"; };
@@ -362,8 +362,6 @@
 		15EF8C962A0A18960068C744 /* CategoryPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryPageViewModel.swift; sourceTree = "<group>"; };
 		15EF8C9A2A0A19100068C744 /* CategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryView.swift; sourceTree = "<group>"; };
 		15EF8C9C2A0A19190068C744 /* CategoryViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewCell.swift; sourceTree = "<group>"; };
-		15EF8C9E2A0A19310068C744 /* CategoryDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryDetailView.swift; sourceTree = "<group>"; };
-		15EF8CA02A0A19380068C744 /* CategoryDetailViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryDetailViewCell.swift; sourceTree = "<group>"; };
 		15EF8CA22A0A197C0068C744 /* CategoryPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryPageView.swift; sourceTree = "<group>"; };
 		15EF8CA52A0A19990068C744 /* CategoryViewType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewType.swift; sourceTree = "<group>"; };
 		15F0A3F429FD58280049AB33 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
@@ -1000,6 +998,7 @@
 		15BED2FC2A08249300F86321 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				1550D9AE2ACAFAC10046569B /* TravelDetailThemeViewController.swift */,
 				15F0D1BD2A52940F00D04773 /* PostViewBottomSheetViewController.swift */,
 				13254FFA2A08AD8700094218 /* PostSearchViewController.swift */,
 				13254FE42A05157900094218 /* FeedViewController.swift */,
@@ -1194,7 +1193,6 @@
 			isa = PBXGroup;
 			children = (
 				15EF8CA22A0A197C0068C744 /* CategoryPageView.swift */,
-				15EF8C992A0A18FF0068C744 /* CategoryDetailView */,
 				15EF8C982A0A18F70068C744 /* CategoryView */,
 			);
 			path = CategoryPageView;
@@ -1219,15 +1217,6 @@
 				15FB47F02AC1DCEF0033AA18 /* TravelThemeCollectionView.swift */,
 			);
 			path = CategoryView;
-			sourceTree = "<group>";
-		};
-		15EF8C992A0A18FF0068C744 /* CategoryDetailView */ = {
-			isa = PBXGroup;
-			children = (
-				15EF8C9E2A0A19310068C744 /* CategoryDetailView.swift */,
-				15EF8CA02A0A19380068C744 /* CategoryDetailViewCell.swift */,
-			);
-			path = CategoryDetailView;
 			sourceTree = "<group>";
 		};
 		15EF8CA42A0A198B0068C744 /* Model */ = {
@@ -1683,11 +1672,11 @@
 				15DD40482A5B8752002BC5F8 /* TravelCategorySortingType.swift in Sources */,
 				152AD4F02A189CFC008A2A11 /* FavoriteListHeaderView.swift in Sources */,
 				15EF8CA62A0A19990068C744 /* CategoryViewType.swift in Sources */,
+				1550D9AF2ACAFAC10046569B /* TravelDetailThemeViewController.swift in Sources */,
 				152AD4E82A188D33008A2A11 /* FavoriteListTableViewCell.swift in Sources */,
 				158BEF812A0E2C9E00C27861 /* PostFooterView.swift in Sources */,
 				15FEB5E82A050A99000A5F33 /* UIControl+CombineInteraction.swift in Sources */,
 				15B4E5F02ACA6452001CF071 /* TravelReviewViewController.swift in Sources */,
-				15EF8C9F2A0A19310068C744 /* CategoryDetailView.swift in Sources */,
 				13254FF02A0549D200094218 /* TabBarCase.swift in Sources */,
 				13254FEB2A0515C700094218 /* FavoriteViewController.swift in Sources */,
 				158BEFC92A0F6E8800C27861 /* PostThumbnailType.swift in Sources */,
@@ -1698,7 +1687,6 @@
 				15FEB5E52A050A99000A5F33 /* UIControl+Combine.swift in Sources */,
 				13C9C1AF2A17FFC400DF1FFF /* PostSearchHeaderViewDelegate.swift in Sources */,
 				13254FFB2A08AD8700094218 /* PostSearchViewController.swift in Sources */,
-				15EF8CA12A0A19380068C744 /* CategoryDetailViewCell.swift in Sources */,
 				15C83F882AB2055E00DDB536 /* BaseBottomSheetViewController.swift in Sources */,
 				15710CBC2A132DD00023C19E /* FeedAppLogoBarItem.swift in Sources */,
 				152AD4EB2A1890FD008A2A11 /* FavoriteListTableViewCellConstant.swift in Sources */,
