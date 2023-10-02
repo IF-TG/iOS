@@ -8,6 +8,22 @@
 import UIKit
 
 final class FeedAppTitleBarItem: UIView {
+  enum Constant {
+    static let backgroundColor: UIColor = .white
+    static let size = CGSize(width: 24, height: 24)
+    
+    enum Image {
+      static let text = "appLogo"
+    }
+    
+    enum Spacing {
+      static let top: CGFloat = 10
+      static let bottom: CGFloat = 0
+      static let leading: CGFloat = 15
+      static let trailing: CGFloat = 0
+    }
+  }
+
   // MARK: - Properteis
   let appLogo = UIImageView().set {
     $0.translatesAutoresizingMaskIntoConstraints = false
@@ -37,19 +53,20 @@ extension FeedAppTitleBarItem: LayoutSupport {
   }
   
   func setConstraints() {
+    typealias Spacing = Constant.Spacing
     NSLayoutConstraint.activate([
       appLogo.leadingAnchor.constraint(
         equalTo: leadingAnchor,
-        constant: Constant.Spacing.leading),
+        constant: Spacing.leading),
       appLogo.topAnchor.constraint(
         equalTo: topAnchor,
-        constant: Constant.Spacing.top),
+        constant: Spacing.top),
       appLogo.trailingAnchor.constraint(
         equalTo: trailingAnchor,
-        constant: -Constant.Spacing.trailing),
+        constant: -Spacing.trailing),
       appLogo.bottomAnchor.constraint(
         equalTo: bottomAnchor,
-        constant: -Constant.Spacing.bottom)
+        constant: -Spacing.bottom)
     ])
   }
 }

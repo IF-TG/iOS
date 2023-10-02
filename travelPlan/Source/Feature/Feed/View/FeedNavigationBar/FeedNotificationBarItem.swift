@@ -15,6 +15,35 @@ enum UserNotificationState {
 }
 
 final class FeedNotificationBarItem: UIButton {
+  enum Constant {
+    static let backgroundColor: UIColor = .white
+    
+    enum Notification {
+      static let image = UIImage(named: "notification")
+      static let size = CGSize(width: 24, height: 24)
+      
+      enum Spacing {
+        static let top: CGFloat = 9.33
+        static let bottom: CGFloat = 9.33
+        static let leading: CGFloat = 10.33
+        static let trailing: CGFloat = 10
+      }
+      
+      static let topSpacaing: CGFloat = 9.33
+      static let bottomSpacing: CGFloat = 9.33
+      static let normalColor: UIColor = .yg.gray5
+      static let highlightColor: UIColor = .yg.gray5.withAlphaComponent(0.5)
+    }
+    
+    enum NotificationIcon {
+      static let width: CGFloat = 5
+      static let height: CGFloat = 5
+      static let topSpacing: CGFloat = 9.33
+      static let trailingSpacing: CGFloat = 5
+      static let color: UIColor = UIColor(hex: "#FF2216")
+    }
+  }
+  
   /// 사용자가 알림을 확인 했는지 여부를 체크하고 이에 따른 notificationIcon 상태를 rendering 합니다. 그 후 상태를 none으로 변경합니다.
   private var userNotificationState: UserNotificationState?
 
@@ -58,19 +87,18 @@ extension FeedNotificationBarItem {
   }
   
   func configureUI() {
+    typealias Const = Constant.Notification
+    typealias Spacing = Const.Spacing
     translatesAutoresizingMaskIntoConstraints = false
-    let image = Constant.Notification.image
-    setImage(
-      image?.setColor(Constant.Notification.normalColor),
-      for: .normal)
-    setImage(
-      image?.setColor(Constant.Notification.highlightColor),
-      for: .highlighted)
+    
+    let image = Const.image
+    setImage(image?.setColor(Const.normalColor), for: .normal)
+    setImage(image?.setColor(Const.highlightColor), for: .highlighted)
     contentEdgeInsets = UIEdgeInsets(
-      top: Constant.Notification.Inset.top,
-      left: Constant.Notification.Inset.leading,
-      bottom: Constant.Notification.Inset.bottom,
-      right: Constant.Notification.Inset.trailing)
+      top: Spacing.top,
+      left: Spacing.leading,
+      bottom: Spacing.bottom,
+      right: Spacing.trailing)
     
   }
 }
@@ -82,16 +110,17 @@ extension FeedNotificationBarItem: LayoutSupport {
   }
   
   func setConstraints() {
+    typealias Const = Constant.NotificationIcon
     NSLayoutConstraint.activate([
       notificationRedIcon.topAnchor.constraint(
         equalTo: topAnchor,
-        constant: Constant.NotificationIcon.topSpacing),
+        constant: Const.topSpacing),
       notificationRedIcon.trailingAnchor.constraint(
         equalTo: trailingAnchor,
-        constant: -Constant.NotificationIcon.trailingSpacing),
+        constant: -Const.trailingSpacing),
       notificationRedIcon.widthAnchor.constraint(
-        equalToConstant: Constant.NotificationIcon.width),
+        equalToConstant: Const.width),
       notificationRedIcon.heightAnchor.constraint(
-        equalToConstant: Constant.NotificationIcon.height)])
+        equalToConstant: Const.height)])
   }
 }
