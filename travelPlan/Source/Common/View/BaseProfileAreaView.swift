@@ -100,7 +100,6 @@ class BaseProfileAreaView: UIView {
       $0.isUserInteractionEnabled = true
       $0.contentMode = .scaleAspectFill
       let gesture = UITapGestureRecognizer(target: self, action: #selector(didTapProfile))
-      $0.isUserInteractionEnabled = true
       $0.addGestureRecognizer(gesture)
       $0.layer.cornerRadius = profileLayoutInfo.radius
     }
