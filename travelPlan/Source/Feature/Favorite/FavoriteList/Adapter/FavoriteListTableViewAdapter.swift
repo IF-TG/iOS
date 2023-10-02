@@ -76,9 +76,11 @@ extension FavoriteListTableViewAdapter: UITableViewDelegate {
   
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
     if indexPath.section == 0 {
-      let imageTopSpacing = FavoriteListTableViewCell.Constant.ImageView.spacing.top
-      let imageBottomSpacing = FavoriteListTableViewCell.Constant.ImageView.spacing.bottom
-      let imageHeight = FavoriteListTableViewCell.Constant.ImageView.size.height
+      typealias Const = FavoriteListTableViewCell.Constant.ImageView
+      typealias Spacing = Const.Spacing
+      let imageTopSpacing = Spacing.top
+      let imageBottomSpacing = Spacing.bottom
+      let imageHeight = Const.size.height
       return imageTopSpacing+imageBottomSpacing+imageHeight
     }
     return 0
@@ -86,9 +88,11 @@ extension FavoriteListTableViewAdapter: UITableViewDelegate {
   
   func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
     if section == 0 {
-      let imageTopSpacing = FavoriteListHeaderView.Constant.ImageViews.spacing.top
-      let imageBottomSpacing = FavoriteListHeaderView.Constant.ImageViews.spacing.bottom
-      let imageHeight = FavoriteListHeaderView.Constant.ImageViews.size.height
+      typealias Const = FavoriteListHeaderView.Constant.ImageViews
+      typealias Spacing = Const.Spacing
+      let imageTopSpacing = Spacing.top
+      let imageBottomSpacing = Spacing.bottom
+      let imageHeight = Const.size.height
       return imageTopSpacing+imageBottomSpacing+imageHeight
     }
     return 0
