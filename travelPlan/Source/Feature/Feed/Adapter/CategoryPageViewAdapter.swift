@@ -14,16 +14,13 @@ final class CategoryPageViewAdapter: NSObject {
   init(
     dataSource: CategoryPageViewDataSource? = nil,
     delegate: CategoryPageViewDelegate? = nil,
-    travelThemeCollectionView: TravelThemeCollectionView? = nil,
-    categoryDetailCollectionView: CategoryDetailView? = nil
+    travelThemeCollectionView: TravelThemeCollectionView? = nil
   ) {
     super.init()
     self.dataSource = dataSource
     self.delegate = delegate
     travelThemeCollectionView?.dataSource = self
     travelThemeCollectionView?.delegate = self
-    categoryDetailCollectionView?.dataSource = self
-    categoryDetailCollectionView?.delegate = self
   }
 }
 
@@ -40,33 +37,17 @@ extension CategoryPageViewAdapter: UICollectionViewDataSource {
     _ collectionView: UICollectionView,
     cellForItemAt indexPath: IndexPath
   ) -> UICollectionViewCell {
-    guard let dataSource = dataSource else { return .init() }
-    switch collectionView {
-    case is CategoryDetailView:
-      guard let cell = collectionView.dequeueReusableCell(
-        withReuseIdentifier: CategoryDetailViewCell.id,
-        for: indexPath
-      ) as? CategoryDetailViewCell else {
-        return .init(frame: .zero)
-      }
-      
-      // TODO: - PageControl 도입 예정
-      let themeTitle = dataSource.travelMainCategoryTitle(at: indexPath.row)
-      let trendState = dataSource.travelTrendState
-      let filterInfo = FeedPostSearchFilterInfo(
-        travelTheme: TravelMainThemeType(rawValue: themeTitle) ?? .all,
-        travelTrend: trendState)
-      return cell.configure(with: filterInfo)
-    default:
-      guard let cell = collectionView.dequeueReusableCell(
+    guard
+      let dataSource = dataSource,
+      let cell = collectionView.dequeueReusableCell(
         withReuseIdentifier: CategoryViewCell.id,
         for: indexPath
-      ) as? CategoryViewCell else {
-        return UICollectionViewCell(frame: .zero)
-      }
-      cell.configure(with: dataSource.categoryViewCellItem(at: indexPath.row))
-      return cell
+      ) as? CategoryViewCell
+    else {
+      return UICollectionViewCell(frame: .zero)
     }
+    cell.configure(with: dataSource.cellItem(at: indexPath.row))
+    return cell
   }
 }
 
