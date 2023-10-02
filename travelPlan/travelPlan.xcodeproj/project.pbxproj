@@ -1195,7 +1195,7 @@
 			children = (
 				15EF8CA22A0A197C0068C744 /* CategoryPageView.swift */,
 				15EF8C992A0A18FF0068C744 /* CategoryDetailView */,
-				15EF8C982A0A18F70068C744 /* CategoryView */,
+				15EF8C982A0A18F70068C744 /* TravelMainCategoryView */,
 			);
 			path = CategoryPageView;
 			sourceTree = "<group>";
@@ -1211,14 +1211,14 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
-		15EF8C982A0A18F70068C744 /* CategoryView */ = {
+		15EF8C982A0A18F70068C744 /* TravelMainCategoryView */ = {
 			isa = PBXGroup;
 			children = (
 				15EF8C9C2A0A19190068C744 /* CategoryViewCell.swift */,
 				15EF8C9A2A0A19100068C744 /* CategoryView.swift */,
 				15FB47F02AC1DCEF0033AA18 /* TravelThemeCollectionView.swift */,
 			);
-			path = CategoryView;
+			path = TravelMainCategoryView;
 			sourceTree = "<group>";
 		};
 		15EF8C992A0A18FF0068C744 /* CategoryDetailView */ = {
