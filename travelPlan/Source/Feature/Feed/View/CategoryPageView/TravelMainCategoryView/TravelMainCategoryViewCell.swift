@@ -32,7 +32,6 @@ final class TravelMainCategoryViewCell: UICollectionViewCell {
     let imagePath: String
   }
   
-  // MARK: - Constant
   static var id: String {
     return String(describing: self)
   }
@@ -65,7 +64,7 @@ final class TravelMainCategoryViewCell: UICollectionViewCell {
     }
   }
   
-  // MARK: - Initialization
+  // MARK: - Lifecycle
   override init(frame: CGRect) {
     super.init(frame: frame)
     setupUI()
@@ -87,7 +86,7 @@ final class TravelMainCategoryViewCell: UICollectionViewCell {
   }
 }
 
-// MARK: - Helper
+// MARK: - Helpers
 extension TravelMainCategoryViewCell {
   func configure(
     with data: Model?
@@ -123,13 +122,15 @@ extension TravelMainCategoryViewCell {
       self.categoryImageView.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
     }
   }
-  
-  // MARK: - Private helper
-  
+}
+
+// MARK: - Private helper
+extension TravelMainCategoryViewCell {
   private func convertImageColor(_ image: UIImage) -> UIImage {
     image.withTintColor(.yg.primary)
   }
 }
+
 // MARK: - LayoutSupport
 extension TravelMainCategoryViewCell: LayoutSupport {
   func addSubviews() {
@@ -151,7 +152,7 @@ extension TravelMainCategoryViewCell: LayoutSupport {
   }
 }
 
-// MARK: - LayoutSupport constraints
+// MARK: - LayoutSupport Constraints
 private extension TravelMainCategoryViewCell {
   var categoryImageViewConstraint: [NSLayoutConstraint] {
     typealias Const = Constant.ImageView

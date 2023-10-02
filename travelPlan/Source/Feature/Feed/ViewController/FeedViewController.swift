@@ -74,7 +74,7 @@ final class FeedViewController: UIViewController {
   }
 }
 
-// MARK: - Private helpers
+// MARK: - Private Helpers
 extension FeedViewController {
   // redEffectTODO: - 사용자가 확인하지 않은 알림이 있을 경우 아래 코드 호출해서 빨간 알림 이펙트 추가해야합니다.
   // notificationBarItem.updateIsCheckedNotification(.notChecked)
@@ -124,7 +124,7 @@ extension FeedViewController {
   }
 }
 
-// MARK: - Action
+// MARK: - Actions
 extension FeedViewController {
   @objc func handleNotificaiton(_ noti: Notification) {
     let notiKey = Notification.Name.TravelCategoryDetailSelected
@@ -238,7 +238,7 @@ extension FeedViewController: LayoutSupport {
   }
 }
 
-// MARK: - LayoutSupprot helpers
+// MARK: - LayoutSupprot Constraints
 private extension FeedViewController {
   var categoryPageViewConstraint: [NSLayoutConstraint] {
     [categoryPageView.topAnchor.constraint(

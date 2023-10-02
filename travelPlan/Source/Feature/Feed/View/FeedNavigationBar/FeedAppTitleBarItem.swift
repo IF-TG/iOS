@@ -30,7 +30,7 @@ final class FeedAppTitleBarItem: UIView {
     $0.image = UIImage(named: Constant.Image.text)
   }
   
-  // MARK: - Initialization
+  // MARK: - Lifecycle
   private override init(frame: CGRect) {
     super.init(frame: .zero)
     translatesAutoresizingMaskIntoConstraints = false

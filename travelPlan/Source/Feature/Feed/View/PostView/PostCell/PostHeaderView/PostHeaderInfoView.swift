@@ -53,14 +53,18 @@ final class PostHeaderInfoView: UIView {
     super.init(coder: coder)
     configureUI()
   }
-  
-  // MARK: - Helper
+}
+
+// MARK: - Helpers
+extension PostHeaderInfoView {
   func configure(title: String?, subInfoData: PostHeaderSubInfoModel?) {
     setTitle(with: title)
     setSubInfo(with: subInfoData)
   }
-  
-  // MARK: - Private helper
+}
+
+// MARK: - Private helpers
+extension PostHeaderInfoView {
   private func configureUI() {
     translatesAutoresizingMaskIntoConstraints = false
     setupUI()
@@ -74,7 +78,8 @@ final class PostHeaderInfoView: UIView {
     subInfoView.configure(with: subInfoData)
   }
 }
-// MARK: - LayoutSupportable
+
+// MARK: - LayoutSupport
 extension PostHeaderInfoView: LayoutSupport {
   func addSubviews() {
     _=[
@@ -95,7 +100,7 @@ extension PostHeaderInfoView: LayoutSupport {
   }
 }
 
-// MARK: - Private layoutSupportable
+// MARK: - Private layoutSupport
 private extension PostHeaderInfoView {
   var titleConstraints: [NSLayoutConstraint] {
     typealias Inset = Constant.Title.Spacing

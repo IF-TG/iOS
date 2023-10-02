@@ -35,7 +35,7 @@ final class CategoryDetailViewCell: UICollectionViewCell {
     viewModel == nil
   }
   
-  // MARK: - Initialization
+  // MARK: - Lifecycle
   override init(frame: CGRect) {
     super.init(frame: frame)
     setupUI()
@@ -48,7 +48,7 @@ final class CategoryDetailViewCell: UICollectionViewCell {
   // TODO: - prepareForReuse 구현하지않고 pageView 도입 에정
 }
 
-// MARK: - Public helpers
+// MARK: - Helpers
 extension CategoryDetailViewCell {
   func configure(with filterInfo: FeedPostSearchFilterInfo
   ) -> UICollectionViewCell {
@@ -57,7 +57,7 @@ extension CategoryDetailViewCell {
   }
 }
 
-// MARK: - Helpers
+// MARK: - Private Helpers
 extension CategoryDetailViewCell {
   private func setViewModel(with filterInfo: FeedPostSearchFilterInfo) {
     guard !isViewModelNil else {

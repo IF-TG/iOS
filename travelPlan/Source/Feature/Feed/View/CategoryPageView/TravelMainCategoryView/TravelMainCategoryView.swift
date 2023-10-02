@@ -68,7 +68,7 @@ final class TravelMainCategoryView: UIView {
   }
 }
 
-// MARK: - Helper
+// MARK: - Helpers
 extension TravelMainCategoryView {
   func selectedCell(at indexPath: IndexPath) -> UICollectionViewCell? {
     return travelThemeCategoryView.cellForItem(at: indexPath)
@@ -129,7 +129,7 @@ extension TravelMainCategoryView {
   }
 }
 
-// MARK: - Private helper
+// MARK: - Private Helpers
 private extension TravelMainCategoryView {
   func configureUI() {
     backgroundColor = .white
@@ -160,7 +160,7 @@ extension TravelMainCategoryView: LayoutSupport {
   }
 }
 
-// MARK: - LayoutSupport constraints
+// MARK: - LayoutSupport Constraints
 private extension TravelMainCategoryView {
   var travelThemeCategoryViewConstraint: [NSLayoutConstraint] {
     typealias Const = Constant

@@ -23,7 +23,7 @@ final class FeedPostSearchBarItem: UIButton {
     static let highlightColor: UIColor = .yg.gray5.withAlphaComponent(0.5)
   }
   
-  // MARK: - Initialization
+  // MARK: - Lifecycle
   private override init(frame: CGRect) {
     super.init(frame: .zero)
     configureUI()
@@ -38,7 +38,7 @@ final class FeedPostSearchBarItem: UIButton {
   }
 }
 
-// MARK: - Helpers
+// MARK: - Private Helpers
 private extension FeedPostSearchBarItem {
   func configureUI() {
     translatesAutoresizingMaskIntoConstraints = false

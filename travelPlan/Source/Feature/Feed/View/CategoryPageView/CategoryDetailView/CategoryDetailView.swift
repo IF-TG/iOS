@@ -29,7 +29,7 @@ final class CategoryDetailView: UICollectionView {
     }
   }
   
-  // MARK: - Initialization
+  // MARK: - Lifecycle
   override init(
     frame: CGRect,
     collectionViewLayout layout: UICollectionViewLayout
