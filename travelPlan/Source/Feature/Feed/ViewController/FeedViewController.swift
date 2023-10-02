@@ -95,7 +95,6 @@ extension FeedViewController {
     let rightSearchBarItem = UIBarButtonItem(customView: searchBarItem)
     let rightNotificationBarItem = UIBarButtonItem(customView: notificationBarItem)
     navigationItem.rightBarButtonItems = [rightNotificationBarItem, rightSearchBarItem]
-    navigationController?.navigationBar.backgroundColor = .white
   }
   
   private func setReviewWriteButtonShadow() {
@@ -169,9 +168,15 @@ extension FeedViewController: ViewBindCase {
       notificationBarItem.updateNotificationRedIcon(.none)
     case .gotoReviewWrite:
       // TODO: - reviewWrite page로 가야합니다.
-      UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut) {
-        self.reviewWriteButton.backgroundColor = .yg.primary
-      }
+      UIView.animate(
+        withDuration: 0.2,
+        delay: 0,
+        options: .curveEaseInOut,
+        animations: {
+          self.reviewWriteButton.backgroundColor = .yg.primary
+        }, completion: { _ in
+          self.coordinator?.gotoReviewWritePage()
+        })
     }
   }
   
