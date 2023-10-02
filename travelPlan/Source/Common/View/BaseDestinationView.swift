@@ -36,7 +36,9 @@ class BaseDestinationView<T: UIView & CellConfigurable>: UIView {
   
   // MARK: - Properties
   weak var delegate: StarButtonDelegate?
-  private let thumbnailImageView = UIImageView()
+  private let thumbnailImageView: UIImageView = .init().set {
+    $0.contentMode = .scaleAspectFill
+  }
   private let centerView: T
   private lazy var starButton: SearchStarButton = .init(normalType: .empty).set {
     $0.addTarget(self, action: #selector(didTapStarButton(_:)), for: .touchUpInside)
