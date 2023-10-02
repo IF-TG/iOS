@@ -8,6 +8,24 @@
 import UIKit
 
 final class FavoriteListHeaderImageViews: UIView {
+  enum Constant {
+    static let itemSpacing: CGFloat = 1
+    static let lineSpacing: CGFloat = 1
+    
+    enum ImageView {
+      static let bgColor: UIColor = .yg.gray1
+      static let size = {
+        let favoriteListHeaderImageViewWidth = FavoriteListHeaderView
+          .Constant
+          .ImageViews
+          .size
+          .width - 1.0
+        let width = favoriteListHeaderImageViewWidth / 2.0
+        return CGSize(width: width, height: width)
+      }()
+    }
+  }
+
   // MARK: - Properteis
   private let imageViews: [UIImageView] = (0...4).map { _ -> UIImageView in
     return UIImageView().set {

@@ -24,12 +24,15 @@ final class TravelReviewViewController: UIViewController {
     configureUI()
     temp()
   }
-  
-  // MARK: - Private helper
+}
+
+// MARK: - Private helpers
+extension TravelReviewViewController {
   private func configureUI() {
     view.backgroundColor = .white
     setupBackBarButtonItem()
   }
+  
   private func temp() {
     let scrollView = UIScrollView().set {
       $0.translatesAutoresizingMaskIntoConstraints = false

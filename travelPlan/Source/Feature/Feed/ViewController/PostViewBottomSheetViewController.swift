@@ -8,7 +8,6 @@
 import UIKit
 
 final class PostViewBottomSheetViewController: UIViewController {
-  // MARK: - Constant
   struct Constants {
     enum CategoryView {
       enum Inset {
@@ -35,7 +34,6 @@ final class PostViewBottomSheetViewController: UIViewController {
   // MARK: - Properties
   private let indicatorBar = UIView(frame: .zero).set {
     $0.translatesAutoresizingMaskIntoConstraints = false
-    $0
   }
   private let categoryView = UITableView(frame: .zero).set {
     $0.translatesAutoresizingMaskIntoConstraints = false
@@ -78,8 +76,10 @@ final class PostViewBottomSheetViewController: UIViewController {
       self.safeAreaBottomBackgroundView.transform = .identity
     }
   }
-  
-  // MARK: - Private helper
+}
+
+// MARK: - Private Helpers
+extension PostViewBottomSheetViewController {
   private func configureUI() {
     setupUI()
     modalPresentationStyle = .overFullScreen
@@ -108,7 +108,7 @@ extension PostViewBottomSheetViewController: LayoutSupport {
   }
 }
 
-// MARK: - LayoutSupport helper
+// MARK: - LayoutSupport Constraints
 private extension PostViewBottomSheetViewController {
   var categoryViewConstraints: [NSLayoutConstraint] {
     typealias Inset = Constants.CategoryView.Inset

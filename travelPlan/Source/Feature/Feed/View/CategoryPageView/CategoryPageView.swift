@@ -45,7 +45,7 @@ final class CategoryPageView: UIView {
   
   private var subscription: AnyCancellable?
   
-  // MARK: - Initialization
+  // MARK: - Lifecycle
   override init(frame: CGRect) {
     super.init(frame: frame)
     configureUI()

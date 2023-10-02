@@ -72,29 +72,24 @@
 		15259DEC2ACAAAB200C14F62 /* LocationSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EF8C042A0829FD0068C744 /* LocationSearchViewController.swift */; };
 		152AD4E62A188BFE008A2A11 /* FavoriteListTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152AD4E52A188BFE008A2A11 /* FavoriteListTableView.swift */; };
 		152AD4E82A188D33008A2A11 /* FavoriteListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152AD4E72A188D33008A2A11 /* FavoriteListTableViewCell.swift */; };
-		152AD4EB2A1890FD008A2A11 /* FavoriteListTableViewCellConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152AD4EA2A1890FD008A2A11 /* FavoriteListTableViewCellConstant.swift */; };
 		152AD4F02A189CFC008A2A11 /* FavoriteListHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152AD4EF2A189CFC008A2A11 /* FavoriteListHeaderView.swift */; };
-		152AD4F42A18B568008A2A11 /* FavoriteListHeaderViewConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152AD4F32A18B568008A2A11 /* FavoriteListHeaderViewConstant.swift */; };
 		152AD4F62A18B6C3008A2A11 /* FavoriteListHeaderImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152AD4F52A18B6C3008A2A11 /* FavoriteListHeaderImageView.swift */; };
-		152AD5152A19ED4E008A2A11 /* FavoriteListHeaderImageViewsConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152AD5142A19ED4E008A2A11 /* FavoriteListHeaderImageViewsConstant.swift */; };
 		152AD51B2A1A0447008A2A11 /* FavoriteListTableViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152AD51A2A1A0447008A2A11 /* FavoriteListTableViewAdapter.swift */; };
 		152AD51E2A1A04E5008A2A11 /* FavoriteListTableViewAdapterDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152AD51D2A1A04E5008A2A11 /* FavoriteListTableViewAdapterDataSource.swift */; };
 		152AD5202A1A09E8008A2A11 /* FavoriteListTableViewAdapterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152AD51F2A1A09E8008A2A11 /* FavoriteListTableViewAdapterDelegate.swift */; };
 		152AD5222A1A0AFC008A2A11 /* FavoriteListTableViewCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152AD5212A1A0AFC008A2A11 /* FavoriteListTableViewCellModel.swift */; };
 		152AD5272A1B89D2008A2A11 /* FavoriteListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152AD5262A1B89D2008A2A11 /* FavoriteListViewModel.swift */; };
 		152AD52A2A1B8D6E008A2A11 /* MockFavoriteListData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152AD5292A1B8D6E008A2A11 /* MockFavoriteListData.swift */; };
-		15332AD62A163AB6008A4110 /* FavoriteViewControllerConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15332AD52A163AB6008A4110 /* FavoriteViewControllerConstant.swift */; };
 		153841D72A5642A9004C41D1 /* PostViewBottomSheetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153841D62A5642A9004C41D1 /* PostViewBottomSheetCell.swift */; };
 		154ECA172AB0B5D40093AF25 /* TravelMainThemeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154ECA162AB0B5D40093AF25 /* TravelMainThemeType.swift */; };
 		1550D9AF2ACAFAC10046569B /* TravelDetailThemeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1550D9AE2ACAFAC10046569B /* TravelDetailThemeViewController.swift */; };
 		1550D9B12ACB1D740046569B /* DevelopmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1550D9B02ACB1D740046569B /* DevelopmentViewController.swift */; };
 		156759B12A0D774500849CE2 /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156759B02A0D774500849CE2 /* FeedViewModel.swift */; };
-		1570ECB22A13176100A3FDCF /* FeedNavigationBarConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1570ECB12A13176100A3FDCF /* FeedNavigationBarConstant.swift */; };
 		1570FDB22AB1B616006FBAA3 /* TravelOrderType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1570FDB12AB1B616006FBAA3 /* TravelOrderType.swift */; };
 		1570FDB72AB1E29C006FBAA3 /* Notification+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1570FDB62AB1E29C006FBAA3 /* Notification+.swift */; };
 		15710CB82A132C630023C19E /* FeedPostSearchBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15710CB72A132C630023C19E /* FeedPostSearchBarItem.swift */; };
 		15710CBA2A132C760023C19E /* FeedNotificationBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15710CB92A132C760023C19E /* FeedNotificationBarItem.swift */; };
-		15710CBC2A132DD00023C19E /* FeedAppLogoBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15710CBB2A132DD00023C19E /* FeedAppLogoBarItem.swift */; };
+		15710CBC2A132DD00023C19E /* FeedAppTitleBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15710CBB2A132DD00023C19E /* FeedAppTitleBarItem.swift */; };
 		157176722A0BFA780015EC8C /* SFProText-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 157176712A0BFA780015EC8C /* SFProText-Semibold.ttf */; };
 		157176752A0C09740015EC8C /* SFPro-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 157176732A0C09740015EC8C /* SFPro-Italic.ttf */; };
 		157176762A0C09740015EC8C /* SFPro.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 157176742A0C09740015EC8C /* SFPro.ttf */; };
@@ -156,7 +151,7 @@
 		15EB3A222AC99FCA0025FFB4 /* PostHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158BEF7C2A0E2C5F00C27861 /* PostHeaderView.swift */; };
 		15EF8C972A0A18960068C744 /* CategoryPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EF8C962A0A18960068C744 /* CategoryPageViewModel.swift */; };
 		15EF8C9B2A0A19100068C744 /* TravelMainThemeCategoryAreaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EF8C9A2A0A19100068C744 /* TravelMainThemeCategoryAreaView.swift */; };
-		15EF8C9D2A0A19190068C744 /* CategoryViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EF8C9C2A0A19190068C744 /* CategoryViewCell.swift */; };
+		15EF8C9D2A0A19190068C744 /* TravelMainCategoryViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EF8C9C2A0A19190068C744 /* TravelMainCategoryViewCell.swift */; };
 		15EF8CA32A0A197C0068C744 /* CategoryPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EF8CA22A0A197C0068C744 /* CategoryPageView.swift */; };
 		15EF8CA62A0A19990068C744 /* CategoryViewType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EF8CA52A0A19990068C744 /* CategoryViewType.swift */; };
 		15F0A3F529FD58280049AB33 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 15F0A3F429FD58280049AB33 /* .swiftlint.yml */; };
@@ -276,12 +271,9 @@
 		151130172A04E5B00041DDA1 /* travelPlanUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = travelPlanUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		152AD4E52A188BFE008A2A11 /* FavoriteListTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteListTableView.swift; sourceTree = "<group>"; };
 		152AD4E72A188D33008A2A11 /* FavoriteListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteListTableViewCell.swift; sourceTree = "<group>"; };
-		152AD4EA2A1890FD008A2A11 /* FavoriteListTableViewCellConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteListTableViewCellConstant.swift; sourceTree = "<group>"; };
 		152AD4ED2A1891DB008A2A11 /* UISpacing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UISpacing.swift; sourceTree = "<group>"; };
 		152AD4EF2A189CFC008A2A11 /* FavoriteListHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteListHeaderView.swift; sourceTree = "<group>"; };
-		152AD4F32A18B568008A2A11 /* FavoriteListHeaderViewConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteListHeaderViewConstant.swift; sourceTree = "<group>"; };
 		152AD4F52A18B6C3008A2A11 /* FavoriteListHeaderImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteListHeaderImageView.swift; sourceTree = "<group>"; };
-		152AD5142A19ED4E008A2A11 /* FavoriteListHeaderImageViewsConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteListHeaderImageViewsConstant.swift; sourceTree = "<group>"; };
 		152AD5172A19F5C0008A2A11 /* FavoriteListHeaderModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteListHeaderModel.swift; sourceTree = "<group>"; };
 		152AD51A2A1A0447008A2A11 /* FavoriteListTableViewAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteListTableViewAdapter.swift; sourceTree = "<group>"; };
 		152AD51D2A1A04E5008A2A11 /* FavoriteListTableViewAdapterDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteListTableViewAdapterDataSource.swift; sourceTree = "<group>"; };
@@ -289,18 +281,16 @@
 		152AD5212A1A0AFC008A2A11 /* FavoriteListTableViewCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteListTableViewCellModel.swift; sourceTree = "<group>"; };
 		152AD5262A1B89D2008A2A11 /* FavoriteListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteListViewModel.swift; sourceTree = "<group>"; };
 		152AD5292A1B8D6E008A2A11 /* MockFavoriteListData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockFavoriteListData.swift; sourceTree = "<group>"; };
-		15332AD52A163AB6008A4110 /* FavoriteViewControllerConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteViewControllerConstant.swift; sourceTree = "<group>"; };
 		153841D62A5642A9004C41D1 /* PostViewBottomSheetCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewBottomSheetCell.swift; sourceTree = "<group>"; };
 		154ECA162AB0B5D40093AF25 /* TravelMainThemeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelMainThemeType.swift; sourceTree = "<group>"; };
 		1550D9AE2ACAFAC10046569B /* TravelDetailThemeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelDetailThemeViewController.swift; sourceTree = "<group>"; };
 		1550D9B02ACB1D740046569B /* DevelopmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevelopmentViewController.swift; sourceTree = "<group>"; };
 		156759B02A0D774500849CE2 /* FeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
-		1570ECB12A13176100A3FDCF /* FeedNavigationBarConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedNavigationBarConstant.swift; sourceTree = "<group>"; };
 		1570FDB12AB1B616006FBAA3 /* TravelOrderType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelOrderType.swift; sourceTree = "<group>"; };
 		1570FDB62AB1E29C006FBAA3 /* Notification+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+.swift"; sourceTree = "<group>"; };
 		15710CB72A132C630023C19E /* FeedPostSearchBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedPostSearchBarItem.swift; sourceTree = "<group>"; };
 		15710CB92A132C760023C19E /* FeedNotificationBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedNotificationBarItem.swift; sourceTree = "<group>"; };
-		15710CBB2A132DD00023C19E /* FeedAppLogoBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedAppLogoBarItem.swift; sourceTree = "<group>"; };
+		15710CBB2A132DD00023C19E /* FeedAppTitleBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedAppTitleBarItem.swift; sourceTree = "<group>"; };
 		157176712A0BFA780015EC8C /* SFProText-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFProText-Semibold.ttf"; sourceTree = "<group>"; };
 		157176732A0C09740015EC8C /* SFPro-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFPro-Italic.ttf"; sourceTree = "<group>"; };
 		157176742A0C09740015EC8C /* SFPro.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SFPro.ttf; sourceTree = "<group>"; };
@@ -363,7 +353,7 @@
 		15EF8C042A0829FD0068C744 /* LocationSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchViewController.swift; sourceTree = "<group>"; };
 		15EF8C962A0A18960068C744 /* CategoryPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryPageViewModel.swift; sourceTree = "<group>"; };
 		15EF8C9A2A0A19100068C744 /* TravelMainThemeCategoryAreaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelMainThemeCategoryAreaView.swift; sourceTree = "<group>"; };
-		15EF8C9C2A0A19190068C744 /* CategoryViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewCell.swift; sourceTree = "<group>"; };
+		15EF8C9C2A0A19190068C744 /* TravelMainCategoryViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelMainCategoryViewCell.swift; sourceTree = "<group>"; };
 		15EF8CA22A0A197C0068C744 /* CategoryPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryPageView.swift; sourceTree = "<group>"; };
 		15EF8CA52A0A19990068C744 /* CategoryViewType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewType.swift; sourceTree = "<group>"; };
 		15F0A3F429FD58280049AB33 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
@@ -649,7 +639,6 @@
 				152AD51C2A1A04D0008A2A11 /* Protocol */,
 				152AD5192A1A0420008A2A11 /* Adapter */,
 				152AD5162A19F5AB008A2A11 /* Model */,
-				15332AD42A163AA9008A4110 /* Constant */,
 				152AD4E42A188BCE008A2A11 /* View */,
 				15BED3022A0825A100F86321 /* ViewController */,
 			);
@@ -681,15 +670,6 @@
 				152AD4E52A188BFE008A2A11 /* FavoriteListTableView.swift */,
 			);
 			path = FavoriteListTableView;
-			sourceTree = "<group>";
-		};
-		152AD4FC2A18BB2F008A2A11 /* FavoriteListHeaderView */ = {
-			isa = PBXGroup;
-			children = (
-				152AD4F32A18B568008A2A11 /* FavoriteListHeaderViewConstant.swift */,
-				152AD5142A19ED4E008A2A11 /* FavoriteListHeaderImageViewsConstant.swift */,
-			);
-			path = FavoriteListHeaderView;
 			sourceTree = "<group>";
 		};
 		152AD5162A19F5AB008A2A11 /* Model */ = {
@@ -732,15 +712,6 @@
 				152AD5292A1B8D6E008A2A11 /* MockFavoriteListData.swift */,
 			);
 			path = Mock;
-			sourceTree = "<group>";
-		};
-		15332AD42A163AA9008A4110 /* Constant */ = {
-			isa = PBXGroup;
-			children = (
-				15F63CB22A1E710E00BD5CE0 /* FavoriteListTableView */,
-				15332AD52A163AB6008A4110 /* FavoriteViewControllerConstant.swift */,
-			);
-			path = Constant;
 			sourceTree = "<group>";
 		};
 		157176702A0BFA2F0015EC8C /* Fonts */ = {
@@ -988,7 +959,6 @@
 				15BB01B92A1EB5C00035B486 /* Extension */,
 				15CB23702A10F5CD003EAF20 /* Mock */,
 				15C92C122A0AD21E00376D1B /* Protocol */,
-				15EF8CA72A0A19A80068C744 /* Constant */,
 				15EF8CA42A0A198B0068C744 /* Model */,
 				15EF8C952A0A18880068C744 /* ViewModel */,
 				15EF8C932A0A185D0068C744 /* View */,
@@ -1071,7 +1041,7 @@
 			children = (
 				15710CB72A132C630023C19E /* FeedPostSearchBarItem.swift */,
 				15710CB92A132C760023C19E /* FeedNotificationBarItem.swift */,
-				15710CBB2A132DD00023C19E /* FeedAppLogoBarItem.swift */,
+				15710CBB2A132DD00023C19E /* FeedAppTitleBarItem.swift */,
 			);
 			path = FeedNavigationBar;
 			sourceTree = "<group>";
@@ -1215,7 +1185,7 @@
 		15EF8C982A0A18F70068C744 /* TravelMainThemeCategoryView */ = {
 			isa = PBXGroup;
 			children = (
-				15EF8C9C2A0A19190068C744 /* CategoryViewCell.swift */,
+				15EF8C9C2A0A19190068C744 /* TravelMainCategoryViewCell.swift */,
 				15EF8C9A2A0A19100068C744 /* TravelMainThemeCategoryAreaView.swift */,
 				15FB47F02AC1DCEF0033AA18 /* TravelMainThemeCollectionView.swift */,
 			);
@@ -1230,14 +1200,6 @@
 				132550272A0ABBDA00094218 /* PostSearchSectionItemModel.swift */,
 			);
 			path = Model;
-			sourceTree = "<group>";
-		};
-		15EF8CA72A0A19A80068C744 /* Constant */ = {
-			isa = PBXGroup;
-			children = (
-				1570ECB12A13176100A3FDCF /* FeedNavigationBarConstant.swift */,
-			);
-			path = Constant;
 			sourceTree = "<group>";
 		};
 		15F0D1982A4EF48A00D04773 /* Adapter */ = {
@@ -1257,15 +1219,6 @@
 				15F0D1AF2A51BDFE00D04773 /* CategoryPageViewDataSource.swift */,
 			);
 			path = CategoryPageViewAdapterProtocol;
-			sourceTree = "<group>";
-		};
-		15F63CB22A1E710E00BD5CE0 /* FavoriteListTableView */ = {
-			isa = PBXGroup;
-			children = (
-				152AD4EA2A1890FD008A2A11 /* FavoriteListTableViewCellConstant.swift */,
-				152AD4FC2A18BB2F008A2A11 /* FavoriteListHeaderView */,
-			);
-			path = FavoriteListTableView;
 			sourceTree = "<group>";
 		};
 		15FEB5D82A050A99000A5F33 /* Common */ = {
@@ -1582,7 +1535,7 @@
 				15FB47D52ABFFF6C0033AA18 /* InnerRoundRectReusableView.swift in Sources */,
 				15DE36B62AB83DD40030CCCC /* TravelThemeBottomSheetViewController.swift in Sources */,
 				158BEF772A0E279700C27861 /* PostCell.swift in Sources */,
-				15EF8C9D2A0A19190068C744 /* CategoryViewCell.swift in Sources */,
+				15EF8C9D2A0A19190068C744 /* TravelMainCategoryViewCell.swift in Sources */,
 				1586D3042AB193F7001D4A80 /* Season.swift in Sources */,
 				15CB23612A10B5E3003EAF20 /* DateValidationProtocol.swift in Sources */,
 				152AD4F62A18B6C3008A2A11 /* FavoriteListHeaderImageView.swift in Sources */,
@@ -1599,7 +1552,6 @@
 				130304B02A28447900776A0D /* TravelDestinationCell.swift in Sources */,
 				158BEF882A0E33F700C27861 /* PostHeaderSubInfoView.swift in Sources */,
 				15FEB5E72A050A99000A5F33 /* UIButton+Combine.swift in Sources */,
-				15332AD62A163AB6008A4110 /* FavoriteViewControllerConstant.swift in Sources */,
 				154ECA172AB0B5D40093AF25 /* TravelMainThemeType.swift in Sources */,
 				152AD51B2A1A0447008A2A11 /* FavoriteListTableViewAdapter.swift in Sources */,
 				15F0D1BE2A52940F00D04773 /* PostViewBottomSheetViewController.swift in Sources */,
@@ -1629,7 +1581,6 @@
 				15FB47D72AC0407D0033AA18 /* FeedPostSearchFilterInfo.swift in Sources */,
 				157176782A0C21C90015EC8C /* UIColor+AppPalette.swift in Sources */,
 				1503F92E2A4E083C002BC38D /* LoginCoordinator.swift in Sources */,
-				152AD5152A19ED4E008A2A11 /* FavoriteListHeaderImageViewsConstant.swift in Sources */,
 				152AD51E2A1A04E5008A2A11 /* FavoriteListTableViewAdapterDataSource.swift in Sources */,
 				13300FAA2AC0812900952757 /* StarButtonDelegate.swift in Sources */,
 				1503F93A2A4E1260002BC38D /* SearchCoordinator.swift in Sources */,
@@ -1692,8 +1643,7 @@
 				13C9C1AF2A17FFC400DF1FFF /* PostSearchHeaderViewDelegate.swift in Sources */,
 				13254FFB2A08AD8700094218 /* PostSearchViewController.swift in Sources */,
 				15C83F882AB2055E00DDB536 /* BaseBottomSheetViewController.swift in Sources */,
-				15710CBC2A132DD00023C19E /* FeedAppLogoBarItem.swift in Sources */,
-				152AD4EB2A1890FD008A2A11 /* FavoriteListTableViewCellConstant.swift in Sources */,
+				15710CBC2A132DD00023C19E /* FeedAppTitleBarItem.swift in Sources */,
 				15F36A1A2AB1A18200971803 /* CaseIterable+.swift in Sources */,
 				158BEFC72A0ED09800C27861 /* PostThumbnailView.swift in Sources */,
 				15CB23692A10B9CF003EAF20 /* PostFooterModel.swift in Sources */,
@@ -1702,7 +1652,6 @@
 				13274C5C2A59B4AD001F141C /* SearchFestivalModel.swift in Sources */,
 				158BEF792A0E27BD00C27861 /* PostCollectionView.swift in Sources */,
 				15BB01BF2A1EBAC20035B486 /* LoginViewModel+Associatedtype.swift in Sources */,
-				152AD4F42A18B568008A2A11 /* FavoriteListHeaderViewConstant.swift in Sources */,
 				1594F53429FD517E00A58F20 /* SceneDelegate.swift in Sources */,
 				15BB01BB2A1EB6300035B486 /* FeedViewModel+AssociatedType.swift in Sources */,
 				13A6C2DB2AB782A100EABD76 /* UIViewController+BackBarButtonItem.swift in Sources */,
@@ -1725,7 +1674,6 @@
 				15CB23632A10B600003EAF20 /* DateValidationError.swift in Sources */,
 				15FEB5EA2A050A99000A5F33 /* UIColor+.swift in Sources */,
 				13606E982AA4F26500365F20 /* DefaultPostSearchLayout.swift in Sources */,
-				1570ECB22A13176100A3FDCF /* FeedNavigationBarConstant.swift in Sources */,
 				15FB47EE2AC176FD0033AA18 /* UISpacing.swift in Sources */,
 				15CB236F2A10C314003EAF20 /* PostCellViewModel.swift in Sources */,
 				13C9C1B12A1806F500DF1FFF /* PostRecentSearchTagCellDelegate.swift in Sources */,

@@ -129,7 +129,7 @@ extension TravelMainThemeCategoryAreaView {
   }
 }
 
-// MARK: - Private Helpers
+  // MARK: - Private Helpers
 private extension TravelMainThemeCategoryAreaView {
   func configureUI() {
     backgroundColor = .white

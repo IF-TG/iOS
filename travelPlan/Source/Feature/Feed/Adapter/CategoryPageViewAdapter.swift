@@ -40,9 +40,9 @@ extension CategoryPageViewAdapter: UICollectionViewDataSource {
     guard
       let dataSource = dataSource,
       let cell = collectionView.dequeueReusableCell(
-        withReuseIdentifier: CategoryViewCell.id,
+        withReuseIdentifier: TravelMainCategoryViewCell.id,
         for: indexPath
-      ) as? CategoryViewCell
+      ) as? TravelMainCategoryViewCell
     else {
       return UICollectionViewCell(frame: .zero)
     }
@@ -62,7 +62,7 @@ extension CategoryPageViewAdapter: UICollectionViewDelegate {
     if collectionView is TravelMainThemeCollectionView {
       let titleWidth = UILabel().set {
         $0.text = dataSource.travelMainCategoryTitle(at: indexPath.row)
-        $0.font = UIFont.systemFont(ofSize: CategoryViewCell.Constant.Title.fontSize)
+        $0.font = UIFont.systemFont(ofSize: TravelMainCategoryViewCell.Constant.Title.fontSize)
         $0.sizeToFit()
       }.bounds.width
       let spacing = dataSource.scrollBarLeadingSpacing(titleWidth)

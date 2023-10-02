@@ -17,7 +17,7 @@ final class CategoryPageViewModel {
     travelMainCategory.map { $0.rawValue }
   }()
   
-  private lazy var travelCategoryItems: [CategoryViewCell.Model] = travelMainCategory.map {
+  private lazy var travelCategoryItems: [TravelMainCategoryViewCell.Model] = travelMainCategory.map {
     .init(cagtegoryTitle: $0.rawValue, imagePath: $0.imagePath)
   }
   
@@ -45,7 +45,7 @@ extension CategoryPageViewModel: CategoryPageViewDataSource {
     return travelMainCategoryTitles[index]
   }
   
-  func cellItem(at index: Int) -> CategoryViewCell.Model {
+  func cellItem(at index: Int) -> TravelMainCategoryViewCell.Model {
     return travelCategoryItems[index]
   }
   

@@ -8,6 +8,27 @@
 import UIKit
 
 final class FavoriteListHeaderView: UITableViewHeaderFooterView {
+  enum Constant {
+    enum ImageViews {
+      enum Spacing {
+        static let leading: CGFloat = 20
+        static let top: CGFloat = 15
+        static let bottom: CGFloat = 16
+      }
+      static let size = CGSize(width: 40, height: 40)
+    }
+    
+    enum Title {
+      enum Spacing {
+        static let leading: CGFloat = 15
+        static let trailing: CGFloat = 43
+      }
+      static let textColor: UIColor = .yg.gray6
+      static let fontName: UIFont.Pretendard = .medium
+      static let textSize: CGFloat = 15.0
+    }
+  }
+
   // MARK: - Idenrifier
   static let id: String = String(
     describing: FavoriteListHeaderView.self)
@@ -78,34 +99,53 @@ private extension FavoriteListHeaderView {
 // MARK: - LayoutSupport
 extension FavoriteListHeaderView: LayoutSupport {
   func addSubviews() {
-    _=[imageViews, title].map { contentView.addSubview($0) }
+    _=[
+      imageViews,
+      title
+    ].map {
+      contentView.addSubview($0)
+    }
   }
   
   func setConstraints() {
-    // imageViewsConstraint
-    NSLayoutConstraint.activate([
+   _=[
+    imageViewConstraints,
+    titleConstraints
+   ].map {
+     NSLayoutConstraint.activate($0)
+   }
+  }
+}
+
+private extension FavoriteListHeaderView {
+  var imageViewConstraints: [NSLayoutConstraint] {
+    typealias Const = Constant.ImageViews
+    typealias Spacing = Const.Spacing
+    return [
       imageViews.leadingAnchor.constraint(
         equalTo: leadingAnchor,
-        constant: Constant.ImageViews.spacing.leading),
+        constant: Spacing.leading),
       imageViews.topAnchor.constraint(
         equalTo: topAnchor,
-        constant: Constant.ImageViews.spacing.top),
+        constant: Spacing.top),
       imageViews.bottomAnchor.constraint(
         equalTo: bottomAnchor,
-        constant: -Constant.ImageViews.spacing.bottom),
+        constant: -Spacing.bottom),
       imageViews.widthAnchor.constraint(
-        equalToConstant: Constant.ImageViews.size.width),
+        equalToConstant: Const.size.width),
       imageViews.heightAnchor.constraint(
-        equalToConstant: Constant.ImageViews.size.height)])
-    
-    // titleConstraint
-    NSLayoutConstraint.activate([
+        equalToConstant: Const.size.height)]
+  }
+  
+  var titleConstraints: [NSLayoutConstraint] {
+    typealias Spacing = Constant.Title.Spacing
+    return [
       title.leadingAnchor.constraint(
         equalTo: imageViews.trailingAnchor,
-        constant: Constant.Title.spacing.leading),
+        constant: Spacing.leading),
       title.trailingAnchor.constraint(
         equalTo: trailingAnchor,
-        constant: -Constant.Title.spacing.trailing),
-      title.centerYAnchor.constraint(equalTo: centerYAnchor)])
+        constant: -Spacing.trailing),
+      title.centerYAnchor.constraint(equalTo: centerYAnchor)]
   }
 }
