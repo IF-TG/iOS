@@ -13,7 +13,7 @@ final class CategoryPageView: UIView {
   // MARK: - Properties
   private let categoryScrollBarAreaView = TravelMainThemeCategoryAreaView()
   
-  private var travelDetailThemeViewControllers: [TravelDetailThemeViewController]!
+  private var viewControllerDataSource: [UIViewController]!
   
   private lazy var travelDetailThemePageViewController = UIPageViewController(
     transitionStyle: .scroll,
@@ -21,7 +21,7 @@ final class CategoryPageView: UIView {
   ).set {
     $0.view.translatesAutoresizingMaskIntoConstraints = false
     $0.setViewControllers(
-      [travelDetailThemeViewControllers[0]],
+      [viewControllerDataSource[0]],
       direction: .forward,
       animated: true)
   }
@@ -31,7 +31,10 @@ final class CategoryPageView: UIView {
   }
   
   private var travelDetailThemeFirstVC: TravelDetailThemeViewController {
-    travelDetailThemeViewControllers[0]
+    if let firstVC = viewControllerDataSource[0] as? TravelDetailThemeViewController {
+      return firstVC
+    }
+    return .init(with: .init(travelTheme: .all, travelTrend: .newest))
   }
   
   private var presentedPageViewIndex = 0
@@ -68,9 +71,12 @@ final class CategoryPageView: UIView {
 private extension CategoryPageView {
   func configureUI() {
     translatesAutoresizingMaskIntoConstraints = false
-    travelDetailThemeViewControllers = (0..<vm.numberOfItems).map {
+    viewControllerDataSource = (0..<vm.numberOfItems).map {
       let filterInfo = vm.postSearchFilterItem(at: $0)
-      return .init(with: filterInfo)
+      if $0+1 == vm.numberOfItems {
+        return DevelopmentViewController(nibName: nil, bundle: nil)
+      }
+      return TravelDetailThemeViewController(with: filterInfo)
     }
     setupUI()
   }
@@ -97,7 +103,7 @@ private extension CategoryPageView {
   
   func setCurrentPage(with direction: UIPageViewController.NavigationDirection) {
     travelDetailThemePageViewController.setViewControllers(
-      [travelDetailThemeViewControllers[presentedPageViewIndex]],
+      [viewControllerDataSource[presentedPageViewIndex]],
       direction: direction,
       animated: true)
   }
