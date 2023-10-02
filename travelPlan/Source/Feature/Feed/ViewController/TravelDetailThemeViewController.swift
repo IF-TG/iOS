@@ -10,6 +10,11 @@ import Combine
 
 final class TravelDetailThemeViewController: UIViewController {
   // MARK: - Properties
+  // TODO: - PostView 헤더에 소팅 뷰 추가할건지 여기에 추가할건지 정해야함.
+  
+  //  private lazy var postSortingMenuAreaView = PostSortingMenuAreaView(
+  //    travelThemeType: )
+  
   private let postView = PostCollectionView()
   
   var itemSizeSetNotifier: AnyPublisher<Void, Never> {
@@ -44,7 +49,6 @@ final class TravelDetailThemeViewController: UIViewController {
     super.init(coder: coder)
   }
 }
-
 
 // MARK: - Private Helpers
 extension TravelDetailThemeViewController {
