@@ -34,7 +34,7 @@ extension CategoryPageViewModel {
   /// - Returns: cell에서 title을 제외한 영역중 절반 leading spacing
   func scrollBarLeadingSpacing(_ titleWidth: CGFloat) -> CGFloat {
     return (
-      CategoryView.Constant.size
+      TravelMainThemeCategoryAreaView.Constant.size
         .width - titleWidth) / 2.0
   }
 }

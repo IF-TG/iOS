@@ -14,7 +14,7 @@ final class TravelThemeCollectionView: UICollectionView {
   init(frame: CGRect) {
     let layout = UICollectionViewFlowLayout().set {
       $0.scrollDirection = .horizontal
-      $0.itemSize = CategoryView.Constant.cellSize
+      $0.itemSize = TravelMainThemeCategoryAreaView.Constant.cellSize
       $0.minimumLineSpacing = 0
       $0.minimumInteritemSpacing = 0
     }

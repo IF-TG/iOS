@@ -1,5 +1,5 @@
 //
-//  CategoryView.swift
+//  TravelMainThemeCategoryAreaView.swift
 //  travelPlan
 //
 //  Created by 양승현 on 2023/05/09.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class CategoryView: UIView {
+final class TravelMainThemeCategoryAreaView: UIView {
   enum Constant {
     enum ScrollBar {
       static let height: CGFloat = 4
@@ -69,7 +69,7 @@ final class CategoryView: UIView {
 }
 
 // MARK: - Helper
-extension CategoryView {
+extension TravelMainThemeCategoryAreaView {
   func selectedCell(at indexPath: IndexPath) -> UICollectionViewCell? {
     return travelThemeCategoryView.cellForItem(at: indexPath)
   }
@@ -130,7 +130,7 @@ extension CategoryView {
 }
 
 // MARK: - Private helper
-private extension CategoryView {
+private extension TravelMainThemeCategoryAreaView {
   func configureUI() {
     backgroundColor = .white
     setupUI()
@@ -138,7 +138,7 @@ private extension CategoryView {
 }
 
 // MARK: - LayoutSupport
-extension CategoryView: LayoutSupport {
+extension TravelMainThemeCategoryAreaView: LayoutSupport {
   func addSubviews() {
     _=[
       travelThemeCategoryView,
@@ -161,7 +161,7 @@ extension CategoryView: LayoutSupport {
 }
 
 // MARK: - LayoutSupport constraints
-private extension CategoryView {
+private extension TravelMainThemeCategoryAreaView {
   var travelThemeCategoryViewConstraint: [NSLayoutConstraint] {
     typealias Const = Constant
     return [
