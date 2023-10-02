@@ -124,6 +124,7 @@
 		1594F53B29FD517F00A58F20 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1594F53A29FD517F00A58F20 /* Assets.xcassets */; };
 		1594F53E29FD517F00A58F20 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1594F53C29FD517F00A58F20 /* LaunchScreen.storyboard */; };
 		15AF2C3E2A1147B100BEE166 /* UIImage+JPEGCompress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15AF2C3D2A1147B100BEE166 /* UIImage+JPEGCompress.swift */; };
+		15B4E5F02ACA6452001CF071 /* TravelReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B4E5EF2ACA6452001CF071 /* TravelReviewViewController.swift */; };
 		15BB01B62A1EB5000035B486 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BB01B52A1EB5000035B486 /* LoginViewController.swift */; };
 		15BB01B82A1EB5070035B486 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BB01B72A1EB5070035B486 /* LoginViewModel.swift */; };
 		15BB01BB2A1EB6300035B486 /* FeedViewModel+AssociatedType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BB01BA2A1EB6300035B486 /* FeedViewModel+AssociatedType.swift */; };
@@ -333,6 +334,7 @@
 		1594F53D29FD517F00A58F20 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1594F53F29FD517F00A58F20 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		15AF2C3D2A1147B100BEE166 /* UIImage+JPEGCompress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+JPEGCompress.swift"; sourceTree = "<group>"; };
+		15B4E5EF2ACA6452001CF071 /* TravelReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelReviewViewController.swift; sourceTree = "<group>"; };
 		15BB01B52A1EB5000035B486 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		15BB01B72A1EB5070035B486 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		15BB01BA2A1EB6300035B486 /* FeedViewModel+AssociatedType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FeedViewModel+AssociatedType.swift"; sourceTree = "<group>"; };
@@ -1003,6 +1005,7 @@
 				13254FFA2A08AD8700094218 /* PostSearchViewController.swift */,
 				13254FE42A05157900094218 /* FeedViewController.swift */,
 				15DE36B52AB83DD40030CCCC /* TravelThemeBottomSheetViewController.swift */,
+				15B4E5EF2ACA6452001CF071 /* TravelReviewViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -1241,10 +1244,6 @@
 		15EF8CA72A0A19A80068C744 /* Constant */ = {
 			isa = PBXGroup;
 			children = (
-				158BEF842A0E2DD700C27861 /* PostViewConstant.swift */,
-				132C2D2C2A83B0E700B587E8 /* PostSearch */,
-				15EF8CA82A0A19AF0068C744 /* CategoryConstant.swift */,
-				158BEF842A0E2DD700C27861 /* PostViewConstant.swift */,
 				1570ECB12A13176100A3FDCF /* FeedNavigationBarConstant.swift */,
 			);
 			path = Constant;
@@ -1628,7 +1627,6 @@
 				15F36A1C2AB1A45600971803 /* TravelPartner.swift in Sources */,
 				1503F9402A4E1327002BC38D /* FeedCoordinator.swift in Sources */,
 				15EB3A012AC3477B0025FFB4 /* PostHeaderInfoView.swift in Sources */,
-				132C2D272A835D9400B587E8 /* SearchFamousSpotCell+Constants.swift in Sources */,
 				13254FED2A0515D800094218 /* ProfileViewController.swift in Sources */,
 				1303047E2A249D6F00776A0D /* UIViewController+Preview.swift in Sources */,
 				13CB6D322A1E9F6600D185B2 /* CautionAlertViewController.swift in Sources */,
@@ -1675,8 +1673,7 @@
 				153841D72A5642A9004C41D1 /* PostViewBottomSheetCell.swift in Sources */,
 				156759B12A0D774500849CE2 /* FeedViewModel.swift in Sources */,
 				13FE64792A5C3900007D9A53 /* TravelDestinationCellViewModel.swift in Sources */,
-				15EF8CA92A0A19AF0068C744 /* CategoryConstant.swift in Sources */,
-				13FE64792A5C3900007D9A53 /* SearchFamousSpotCellViewModel.swift in Sources */,
+				13FE64792A5C3900007D9A53 /* TravelDestinationCellViewModel.swift in Sources */,
 				15F0D1B02A51BDFE00D04773 /* CategoryPageViewDataSource.swift in Sources */,
 				13274C5A2A59AD29001F141C /* SearchFestivalCellViewModel.swift in Sources */,
 				15EF8C052A0829FD0068C744 /* LocationSearchViewController.swift in Sources */,
@@ -1696,6 +1693,7 @@
 				152AD4E82A188D33008A2A11 /* FavoriteListTableViewCell.swift in Sources */,
 				158BEF812A0E2C9E00C27861 /* PostFooterView.swift in Sources */,
 				15FEB5E82A050A99000A5F33 /* UIControl+CombineInteraction.swift in Sources */,
+				15B4E5F02ACA6452001CF071 /* TravelReviewViewController.swift in Sources */,
 				15EF8C9F2A0A19310068C744 /* CategoryDetailView.swift in Sources */,
 				13254FF02A0549D200094218 /* TabBarCase.swift in Sources */,
 				13254FEB2A0515C700094218 /* FavoriteViewController.swift in Sources */,
