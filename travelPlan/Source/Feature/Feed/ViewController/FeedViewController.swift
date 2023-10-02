@@ -68,6 +68,11 @@ final class FeedViewController: UIViewController {
     configureUI()
   }
   
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    navigationController?.navigationBar.backgroundColor = .clear
+  }
+  
   deinit {
     coordinator?.finish()
   }
@@ -82,6 +87,7 @@ extension FeedViewController {
     setupUI()
     bind()
     view.backgroundColor = .white
+    navigationController?.navigationBar.backgroundColor = .white
     NotificationCenter.default.addObserver(
       self,
       selector: #selector(handleNotificaiton),
@@ -167,7 +173,6 @@ extension FeedViewController: ViewBindCase {
       // transitionTODO: - Goto notifiation with naivgationController
       notificationBarItem.updateNotificationRedIcon(.none)
     case .gotoReviewWrite:
-      // TODO: - reviewWrite page로 가야합니다.
       UIView.animate(
         withDuration: 0.2,
         delay: 0,
