@@ -12,14 +12,18 @@ extension FeedViewModel: ViewModelAssociatedType {
     let appear: PassthroughSubject<Void, ErrorType>
     let didTapPostSearch: AnyPublisher<Void, Never>
     let didTapNotification: AnyPublisher<Void, Never>
+    let didTapReviewWrite: AnyPublisher<Void, Never>
     
     init(
       appear: PassthroughSubject<Void, ErrorType> = .init(),
       didTapPostSearch: AnyPublisher<Void, Never>,
-      didTapNotification: AnyPublisher<Void, Never>) {
+      didTapNotification: AnyPublisher<Void, Never>,
+      didTapReviewWrite: AnyPublisher<Void, Never>
+    ) {
       self.appear = appear
       self.didTapPostSearch = didTapPostSearch
       self.didTapNotification = didTapNotification
+      self.didTapReviewWrite = didTapReviewWrite
     }
   }
   
@@ -44,6 +48,8 @@ extension FeedViewModel: ViewModelAssociatedType {
     /// 타인으로부터 알림이 발생될 경우 vm에서 1~5초간 서버로부터 감지하다 알림이 왔다고 icon 색을 빨간색으로 변경해야 합니다.
     /// 동시에 영구저장소도 feed에서 알림을 확인했는지 유무를 false(확인 안했다)로 업데이트 해야합니다.
     case updateNotificationRedIcon
+    
+    case gotoReviewWrite
   }
 
   typealias Output = AnyPublisher<State, ErrorType>

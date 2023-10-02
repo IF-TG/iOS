@@ -114,10 +114,6 @@ extension CategoryView {
     }
   }
   
-  // TODO: - 쉐도우 안먹힘.
-  /// CategoryView의 컨테이너 뷰는 CategoryPageView입니다.
-  /// CategoryPageView에서 뒤늦게 scrollBar의 위치와 CategoryDetailView의 item 크기가 지정됩니다.
-  /// 그 후에 호출해야합니다.
   func configureShadow() {
     layer.shadowColor = Constant.Shadow.color
     layer.shadowRadius = Constant.Shadow.radius

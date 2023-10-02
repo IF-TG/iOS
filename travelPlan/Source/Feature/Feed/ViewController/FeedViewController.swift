@@ -9,6 +9,18 @@ import UIKit
 import Combine
 
 final class FeedViewController: UIViewController {
+  enum Constant {
+    enum ReviewWriteButton {
+      static let size: CGSize = .init(width: 60, height: 60)
+      static let iconSize: CGSize = .init(width: 28, height: 28)
+      static let iconName = "feedPlus"
+      enum Spacing {
+        static let trailing: CGFloat = 16
+        static let bottom = trailing
+      }
+    }
+  }
+  
   // MARK: - Properties
   weak var coordinator: FeedCoordinatorDelegate?
   
@@ -16,7 +28,8 @@ final class FeedViewController: UIViewController {
   
   lazy var input = Input(
     didTapPostSearch: searchBarItem.tap,
-    didTapNotification: notificationBarItem.tap)
+    didTapNotification: notificationBarItem.tap,
+    didTapReviewWrite: reviewWriteButtonPublihser)
  
   private let leftNaviBarItem = FeedAppTitleBarItem()
   
@@ -30,8 +43,24 @@ final class FeedViewController: UIViewController {
   
   private var naviConstraints: [NSLayoutConstraint] = []
   
+  private var reviewWriteButton = UIButton(frame: .zero).set {
+    typealias Const = Constant.ReviewWriteButton
+    $0.translatesAutoresizingMaskIntoConstraints = false
+    $0.backgroundColor = .yg.primary
+    $0.layer.cornerRadius = Const.size.width/2
+    guard let image = UIImage(named: Const.iconName) else { return }
+    $0.setImage(image, for: .normal)
+  }
+  
+  private var reviewWriteButtonPublihser: AnyPublisher<Void, Never> {
+    reviewWriteButton.tap.map {
+      self.reviewWriteButton.backgroundColor = .yg.primary.withAlphaComponent(0.75)
+    }.eraseToAnyPublisher()
+  }
+  
   // MARK: - LifeCycle
   override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
     input.appear.send()
   }
   
@@ -59,6 +88,21 @@ extension FeedViewController {
       selector: #selector(handleNotificaiton),
       name: .TravelCategoryDetailSelected,
       object: nil)
+    setReviewWriteButtonShadow()
+    navigationBackgroundView()
+  }
+  
+  private func navigationBackgroundView() {
+    _=UIView(frame: .zero).set {
+      view.addSubview($0)
+      $0.translatesAutoresizingMaskIntoConstraints = false
+      $0.backgroundColor = .white
+      NSLayoutConstraint.activate([
+        $0.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+        $0.topAnchor.constraint(equalTo: view.topAnchor),
+        $0.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+        $0.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)])
+    }
   }
   
   private func configureFeedNavigationBar() {
@@ -66,7 +110,17 @@ extension FeedViewController {
     let rightSearchBarItem = UIBarButtonItem(customView: searchBarItem)
     let rightNotificationBarItem = UIBarButtonItem(customView: notificationBarItem)
     navigationItem.rightBarButtonItems = [rightNotificationBarItem, rightSearchBarItem]
-    navigationController?.navigationBar.backgroundColor = .white
+  }
+  
+  private func setReviewWriteButtonShadow() {
+    typealias Const = Constant.ReviewWriteButton
+    let rect = CGRect(x: 0, y: 0, width: Const.size.width, height: Const.size.height)
+    let path = UIBezierPath(roundedRect: rect, cornerRadius: 30)
+    reviewWriteButton.layer.shadowRadius = 10
+    reviewWriteButton.layer.shadowOpacity = 1
+    reviewWriteButton.layer.shadowOffset = .init(width: 0, height: 4)
+    reviewWriteButton.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
+    reviewWriteButton.layer.shadowPath = path.cgPath
   }
 }
 
@@ -127,6 +181,16 @@ extension FeedViewController: ViewBindCase {
     case .goToNotification:
       // transitionTODO: - Goto notifiation with naivgationController
       notificationBarItem.updateNotificationRedIcon(.none)
+    case .gotoReviewWrite:
+      UIView.animate(
+        withDuration: 0.2,
+        delay: 0,
+        options: .curveEaseInOut,
+        animations: {
+          self.reviewWriteButton.backgroundColor = .yg.primary
+        }, completion: { _ in
+          self.coordinator?.gotoReviewWritePage()
+        })
     }
   }
   
@@ -156,16 +220,26 @@ extension FeedViewController: TravelThemeBottomSheetDelegate {
 // MARK: - LayoutSupport
 extension FeedViewController: LayoutSupport {
   func addSubviews() {
-    view.addSubview(categoryPageView)
+    _=[
+      categoryPageView,
+      reviewWriteButton
+    ].map {
+      view.addSubview($0)
+    }
   }
 
   func setConstraints() {
-    NSLayoutConstraint.activate(categoryPageViewConstraint)
+    _=[
+      categoryPageViewConstraint,
+      reviewWriteButtonConstraint
+    ].map {
+      NSLayoutConstraint.activate($0)
+    }
   }
 }
 
 // MARK: - LayoutSupprot helpers
-fileprivate extension FeedViewController {
+private extension FeedViewController {
   var categoryPageViewConstraint: [NSLayoutConstraint] {
     [categoryPageView.topAnchor.constraint(
       equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -175,5 +249,21 @@ fileprivate extension FeedViewController {
       equalTo: view.trailingAnchor),
      categoryPageView.bottomAnchor.constraint(
       equalTo: view.safeAreaLayoutGuide.bottomAnchor)]
+  }
+  
+  var reviewWriteButtonConstraint: [NSLayoutConstraint] {
+    typealias Const = Constant.ReviewWriteButton
+    typealias Spacing = Const.Spacing
+    return [
+      reviewWriteButton.widthAnchor.constraint(
+        equalToConstant: Const.size.width),
+      reviewWriteButton.heightAnchor.constraint(
+        equalToConstant: Const.size.height),
+      reviewWriteButton.trailingAnchor.constraint(
+        equalTo: view.trailingAnchor,
+        constant: -Spacing.trailing),
+      reviewWriteButton.bottomAnchor.constraint(
+        equalTo: view.safeAreaLayoutGuide.bottomAnchor,
+        constant: -Spacing.bottom)]
   }
 }

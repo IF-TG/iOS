@@ -14,6 +14,7 @@ protocol FeedCoordinatorDelegate: AnyObject {
   func gotoTotalBottomSheetPage()
   func gotoTravelThemeBottomSheetPage(sortingType: TravelMainThemeType)
   func gotoTravelTrendBottomSheetPage()
+  func gotoReviewWritePage()
 }
 
 final class FeedCoordinator: FlowCoordinator {
@@ -72,5 +73,10 @@ extension FeedCoordinator: FeedCoordinatorDelegate {
       viewController.delegate = feedVC
     }
     presenter.presentBottomSheet(viewController)
+  }
+  
+  func gotoReviewWritePage() {
+    let viewController = TravelReviewViewController()
+    presenter.pushViewController(viewController, animated: true)
   }
 }
