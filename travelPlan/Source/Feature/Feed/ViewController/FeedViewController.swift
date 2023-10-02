@@ -138,9 +138,9 @@ extension FeedViewController {
     case .trend:
       // 1. 지금은 일차적으로 모든 경우에 대해서 토탈, 소팅으로만 했는데 이제 cell별로 분류해서 카테고리가 계절인지, 지역탐방인지 등등 파악해야해서
       // 2. postview의 footer에서 라인 과 간격을 10으로 수정했다는데 ,,, 뭔지모르겠어서 다시 확인해봐야해
-      coordinator?.gotoTravelTrendBottomSheetPage()
+      coordinator?.showTravelTrendBottomSheet()
     case .detailCategory(let themeType):
-      coordinator?.gotoTravelThemeBottomSheetPage(sortingType: themeType)
+      coordinator?.showTravelThemeBottomSheet(sortingType: themeType)
     }
   }
 }
@@ -177,7 +177,7 @@ extension FeedViewController: ViewBindCase {
       // 알림TODO: - 알림 온 경우. feedVM에서 1~5초 간격으로 알림이 왔는지 여부를 확인합니다.
       notificationBarItem.updateNotificationRedIcon(.notChecked)
     case .goToPostSearch:
-      coordinator?.gotoPostSearchPage()
+      coordinator?.showPostSearch()
     case .goToNotification:
       // transitionTODO: - Goto notifiation with naivgationController
       notificationBarItem.updateNotificationRedIcon(.none)
@@ -189,7 +189,7 @@ extension FeedViewController: ViewBindCase {
         animations: {
           self.reviewWriteButton.backgroundColor = .yg.primary
         }, completion: { _ in
-          self.coordinator?.gotoReviewWritePage()
+          self.coordinator?.showReviewWrite()
         })
     }
   }
