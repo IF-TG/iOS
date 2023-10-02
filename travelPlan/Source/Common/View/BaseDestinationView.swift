@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class BaseDestinationView<T: UIView & CellConfigurable>: UIView {
+class BaseDestinationView<CenterView: UIView & CellConfigurable>: UIView {
   enum Constants {
     enum ThumbnailImageView {
       static var cornerRadius: CGFloat { 3 }
@@ -39,17 +39,17 @@ class BaseDestinationView<T: UIView & CellConfigurable>: UIView {
   private let thumbnailImageView: UIImageView = .init().set {
     $0.contentMode = .scaleAspectFill
   }
-  private let centerView: T
+  private let centerView: CenterView
   private lazy var starButton: SearchStarButton = .init(normalType: .empty).set {
     $0.addTarget(self, action: #selector(didTapStarButton(_:)), for: .touchUpInside)
   }
   
   // MARK: - LifeCycle
-  convenience init(centerView: T) {
+  convenience init(centerView: CenterView) {
     self.init(frame: .zero, centerView: centerView)
   }
   
-  init(frame: CGRect, centerView: T) {
+  init(frame: CGRect, centerView: CenterView) {
     self.centerView = centerView
     super.init(frame: frame)
     setupUI()
@@ -79,7 +79,7 @@ extension BaseDestinationView {
     starButton.isSelected.toggle()
   }
   
-  func configure(centerModel: T.ModelType) {
+  func configure(centerModel: CenterView.ModelType) {
     centerView.configure(model: centerModel)
   }
   
