@@ -60,17 +60,13 @@ final class FeedViewController: UIViewController {
   
   // MARK: - LifeCycle
   override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
     input.appear.send()
   }
   
   override func viewDidLoad() {
     super.viewDidLoad()
     configureUI()
-  }
-  
-  override func viewWillDisappear(_ animated: Bool) {
-    super.viewWillDisappear(animated)
-    navigationController?.navigationBar.backgroundColor = .clear
   }
   
   deinit {
@@ -87,13 +83,26 @@ extension FeedViewController {
     setupUI()
     bind()
     view.backgroundColor = .white
-    navigationController?.navigationBar.backgroundColor = .white
     NotificationCenter.default.addObserver(
       self,
       selector: #selector(handleNotificaiton),
       name: .TravelCategoryDetailSelected,
       object: nil)
     setReviewWriteButtonShadow()
+    navigationBackgroundView()
+  }
+  
+  private func navigationBackgroundView() {
+    _=UIView(frame: .zero).set {
+      view.addSubview($0)
+      $0.translatesAutoresizingMaskIntoConstraints = false
+      $0.backgroundColor = .white
+      NSLayoutConstraint.activate([
+        $0.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+        $0.topAnchor.constraint(equalTo: view.topAnchor),
+        $0.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+        $0.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)])
+    }
   }
   
   private func configureFeedNavigationBar() {
