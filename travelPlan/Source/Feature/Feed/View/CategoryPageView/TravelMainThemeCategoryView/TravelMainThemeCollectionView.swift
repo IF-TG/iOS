@@ -1,5 +1,5 @@
 //
-//  TravelThemeCollectionView.swift
+//  TravelMainThemeCollectionView.swift
 //  travelPlan
 //
 //  Created by 양승현 on 2023/09/26.
@@ -7,8 +7,8 @@
 
 import UIKit
 
-final class TravelThemeCollectionView: UICollectionView {
-  static let id = String(describing: TravelThemeCollectionView.self)
+final class TravelMainThemeCollectionView: UICollectionView {
+  static let id = String(describing: TravelMainThemeCollectionView.self)
   
   // MARK: - Lifecycle
   init(frame: CGRect) {

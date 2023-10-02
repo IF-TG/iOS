@@ -14,7 +14,7 @@ final class CategoryPageViewAdapter: NSObject {
   init(
     dataSource: CategoryPageViewDataSource? = nil,
     delegate: CategoryPageViewDelegate? = nil,
-    travelThemeCollectionView: TravelThemeCollectionView? = nil
+    travelThemeCollectionView: TravelMainThemeCollectionView? = nil
   ) {
     super.init()
     self.dataSource = dataSource
@@ -59,7 +59,7 @@ extension CategoryPageViewAdapter: UICollectionViewDelegate {
     didSelectItemAt indexPath: IndexPath
   ) {
     guard let dataSource = dataSource else { return }
-    if collectionView is TravelThemeCollectionView {
+    if collectionView is TravelMainThemeCollectionView {
       let titleWidth = UILabel().set {
         $0.text = dataSource.travelMainCategoryTitle(at: indexPath.row)
         $0.font = UIFont.systemFont(ofSize: CategoryViewCell.Constant.Title.fontSize)

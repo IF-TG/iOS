@@ -33,7 +33,7 @@ final class TravelMainThemeCategoryAreaView: UIView {
   // MARK: - Properties
   private var scrollBarConstraints: [NSLayoutConstraint] = []
   
-  private(set) var travelThemeCategoryView = TravelThemeCollectionView()
+  private(set) var travelThemeCategoryView = TravelMainThemeCollectionView()
   
   private let scrollBar: UIView = UIView().set {
     $0.backgroundColor = Constant.ScrollBar.color
