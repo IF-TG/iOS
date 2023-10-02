@@ -31,15 +31,22 @@ final class TravelReviewViewController: UIViewController {
     setupBackBarButtonItem()
   }
   private func temp() {
-    _=UIImageView(image: UIImage(named: "tempTravelReviewPage")).set {
+    let scrollView = UIScrollView().set {
       $0.translatesAutoresizingMaskIntoConstraints = false
-      $0.contentMode = .scaleAspectFit
       view.addSubview($0)
       NSLayoutConstraint.activate([
         $0.leadingAnchor.constraint(equalTo: view.leadingAnchor),
         $0.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
         $0.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-        $0.bottomAnchor.constraint(equalTo: view.bottomAnchor)])
+        $0.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)])
+    }
+    let deviceSize = UIScreen.main.bounds.size
+    let rect = CGRect(x: 0, y: 0, width: deviceSize.width, height: deviceSize.height-44 - 20)
+    _=UIImageView(frame: rect).set {
+      $0.image = UIImage(named: "tempTravelReviewPage")
+      $0.contentMode = .scaleAspectFit
+      scrollView.addSubview($0)
+      scrollView.contentSize = $0.bounds.size
     }
   }
 }
