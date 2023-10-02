@@ -42,8 +42,9 @@ final class InnerRoundRectReusableView: UICollectionReusableView {
     super.init(coder: coder)
     configureUI()
   }
-  
-  // MARK: - Private helper
+}
+// MARK: - Private helper
+extension InnerRoundRectReusableView {
   private func configureUI() {
     setupUI()
   }

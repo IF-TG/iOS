@@ -10,7 +10,7 @@ import SnapKit
 
 final class MainTabBarController: UITabBarController {
   // MARK: - Properties
-  weak var coordinator: MainCoordinator?
+  weak var coordinator: MainCoordinatorDelegate?
   private var viewControllerBuffer = [UIViewController]()
 
   private lazy var shadowContainerView: UIView = UIView().set {

@@ -11,7 +11,7 @@ import Combine
 /// Horizontal category page view
 final class CategoryPageView: UIView {
   // MARK: - Properties
-  private let categoryScrollBarAreaView = CategoryView()
+  private let categoryScrollBarAreaView = TravelMainCategoryView()
   
   private let categoryDetailView = CategoryDetailView()
   
@@ -21,7 +21,7 @@ final class CategoryPageView: UIView {
   
   private var subscription: AnyCancellable?
   
-  // MARK: - Initialization
+  // MARK: - Lifecycle
   override init(frame: CGRect) {
     super.init(frame: frame)
     configureUI()
@@ -93,7 +93,7 @@ extension CategoryPageView: LayoutSupport {
 // MARK: - LayoutSupport constraints
 private extension CategoryPageView {
   var categoryViewConstraint: [NSLayoutConstraint] {
-    typealias Const = CategoryView.Constant
+    typealias Const = TravelMainCategoryView.Constant
     return [
       categoryScrollBarAreaView.topAnchor.constraint(
         equalTo: topAnchor),

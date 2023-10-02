@@ -14,7 +14,7 @@ final class TravelThemeCollectionView: UICollectionView {
   init(frame: CGRect) {
     let layout = UICollectionViewFlowLayout().set {
       $0.scrollDirection = .horizontal
-      $0.itemSize = CategoryView.Constant.cellSize
+      $0.itemSize = TravelMainCategoryView.Constant.cellSize
       $0.minimumLineSpacing = 0
       $0.minimumInteritemSpacing = 0
     }
@@ -38,7 +38,7 @@ final class TravelThemeCollectionView: UICollectionView {
     showsHorizontalScrollIndicator = false
     bounces = false
     register(
-      CategoryViewCell.self,
-      forCellWithReuseIdentifier: CategoryViewCell.id)
+      TravelMainCategoryViewCell.self,
+      forCellWithReuseIdentifier: TravelMainCategoryViewCell.id)
   }
 }

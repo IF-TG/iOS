@@ -21,7 +21,7 @@ class PostCollectionView: UICollectionView {
   // MARK: - Properties
   private(set) var sectionIndex = 0
   
-  // MARK: - Initialization
+  // MARK: - Lifecycle
   init(frame: CGRect, layout: UICollectionViewLayout) {
     super.init(frame: frame, collectionViewLayout: layout)
     configureUI()
@@ -49,8 +49,10 @@ class PostCollectionView: UICollectionView {
     configureUI()
     collectionViewLayout = makePostLayout()
   }
- 
-  // MARK: - Private helper
+}
+
+// MARK: - Private helpers
+extension PostCollectionView {
   private func configureUI() {
     showsHorizontalScrollIndicator = false
     backgroundColor = Constant.backgroundColor
@@ -59,7 +61,7 @@ class PostCollectionView: UICollectionView {
       forCellWithReuseIdentifier: PostCell.id)
   }
   
-  func makePostLayout() -> UICollectionViewLayout {
+  private func makePostLayout() -> UICollectionViewLayout {
     return UICollectionViewCompositionalLayout { [weak self] (sectionIndex, _) -> NSCollectionLayoutSection? in
       guard sectionIndex == (self?.sectionIndex ?? 0) else { return nil }
       return self?.postSection

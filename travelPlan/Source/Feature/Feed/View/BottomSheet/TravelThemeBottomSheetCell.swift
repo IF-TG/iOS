@@ -44,12 +44,15 @@ final class TravelThemeBottomSheetCell: UITableViewCell {
     super.prepareForReuse()
     configure(with: nil)
   }
-  
-  // MARK: - Helper
+}
+
+// MARK: - Helpers
+extension TravelThemeBottomSheetCell {
   func configure(with text: String?) {
     title.text = text
   }
 }
+
 
 // MARK: - LayoutSupport
 extension TravelThemeBottomSheetCell: LayoutSupport {

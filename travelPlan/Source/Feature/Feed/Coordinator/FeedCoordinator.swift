@@ -10,11 +10,11 @@ import SHCoordinator
 
 protocol FeedCoordinatorDelegate: AnyObject {
   func finish()
-  func gotoPostSearchPage()
-  func gotoTotalBottomSheetPage()
-  func gotoTravelThemeBottomSheetPage(sortingType: TravelMainThemeType)
-  func gotoTravelTrendBottomSheetPage()
-  func gotoReviewWritePage()
+  func showPostSearch()
+  func showTotalBottomSheet()
+  func showTravelThemeBottomSheet(sortingType: TravelMainThemeType)
+  func showTravelTrendBottomSheet()
+  func showReviewWrite()
 }
 
 final class FeedCoordinator: FlowCoordinator {
@@ -37,18 +37,18 @@ final class FeedCoordinator: FlowCoordinator {
 
 // MARK: - FeedCoordinatorDelegate
 extension FeedCoordinator: FeedCoordinatorDelegate {
-  func gotoPostSearchPage() {
+  func showPostSearch() {
     // coordinator settingTODO: - post search coordaintor로 이동해야 합니다.
     let childCoordinator = PostSearchCoordinator(presenter: presenter)
     addChild(with: childCoordinator)
   }
   
-  func gotoTotalBottomSheetPage() {
+  func showTotalBottomSheet() {
     let sheetViewController = PostViewBottomSheetViewController()
     presenter.present(sheetViewController, animated: false)
   }
   
-  func gotoTravelThemeBottomSheetPage(sortingType: TravelMainThemeType) {
+  func showTravelThemeBottomSheet(sortingType: TravelMainThemeType) {
     var viewController: TravelThemeBottomSheetViewController
     if sortingType.rawValue == "지역" {
       viewController = TravelThemeBottomSheetViewController(
@@ -65,7 +65,7 @@ extension FeedCoordinator: FeedCoordinatorDelegate {
     presenter.presentBottomSheet(viewController)
   }
   
-  func gotoTravelTrendBottomSheetPage() {
+  func showTravelTrendBottomSheet() {
     let viewController = TravelThemeBottomSheetViewController(
       bottomSheetMode: .couldBeFull,
       sortingType: .trend)
@@ -75,7 +75,7 @@ extension FeedCoordinator: FeedCoordinatorDelegate {
     presenter.presentBottomSheet(viewController)
   }
   
-  func gotoReviewWritePage() {
+  func showReviewWrite() {
     let viewController = TravelReviewViewController()
     presenter.pushViewController(viewController, animated: true)
   }

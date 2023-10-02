@@ -38,7 +38,7 @@ final class TravelThemeBottomSheetViewController: BaseBottomSheetViewController 
   }
   
   private(set) var sortingType: TravelCategorySortingType
-
+  
   private lazy var titles: [String] = sortingType.subCateogryTitles
   
   weak var delegate: TravelThemeBottomSheetDelegate?
@@ -78,8 +78,10 @@ final class TravelThemeBottomSheetViewController: BaseBottomSheetViewController 
       self,
       didSelectTitle: selectedTitle)
   }
-  
-  // MARK: - Private helper
+}
+
+// MARK: - Private Helpers
+extension TravelThemeBottomSheetViewController {
   private func setTableViewPosition() {
     let maximumHeight: CGFloat = CGFloat(titles.count) * Constants.TableView.cellHeight
     contentView.addSubview(tableView)

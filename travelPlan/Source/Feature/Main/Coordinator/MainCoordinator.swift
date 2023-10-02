@@ -8,16 +8,22 @@
 import UIKit
 import SHCoordinator
 
+protocol MainCoordinatorDelegate: AnyObject {
+  func finish()
+  func showLogin()
+  func showFeed()
+}
+
 final class MainCoordinator: FlowCoordinator {
   // MARK: - Properties
   var parent: FlowCoordinator!
   var child: [FlowCoordinator] = []
   let presenter: UINavigationController! = nil
   let mainTabBarPresenter: MainTabBarController
-  var viewController: UIViewController!
   
   init(mainTabBarViewController: MainTabBarController) {
     self.mainTabBarPresenter = mainTabBarViewController
+    mainTabBarPresenter.coordinator = self
   }
   // MARK: - Helpers
   func start() {
@@ -38,9 +44,9 @@ final class MainCoordinator: FlowCoordinator {
   }
 }
 
-// MARK: - Setup other Coordinator
-extension MainCoordinator {
-  func gotoLoginPage() {
+// MARK: - MainCoordinatorDelegate
+extension MainCoordinator: MainCoordinatorDelegate {
+  func showLogin() {
     guard let parent = parent as? ApplicationCoordinator else {
       NSLog("DEBUG: Parent is not applicationCoordinator")
       return
@@ -48,7 +54,7 @@ extension MainCoordinator {
     parent.gotoLoginPage(withDelete: self)
   }
   
-  func gotoFeedPage() {
+  func showFeed() {
     mainTabBarPresenter.selectedIndex = 0
   }
 }

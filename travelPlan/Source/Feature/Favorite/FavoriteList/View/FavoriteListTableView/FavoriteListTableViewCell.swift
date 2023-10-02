@@ -8,6 +8,27 @@
 import UIKit
 
 final class FavoriteListTableViewCell: UITableViewCell {
+  enum Constant {
+    enum ImageView {
+      enum Spacing {
+        static let leading: CGFloat = 20
+        static let top: CGFloat = 15
+        static let bottom: CGFloat = 16
+      }
+      static let size = CGSize(width: 40, height: 40)
+    }
+    
+    enum Title {
+      enum Spacing {
+        static let leading: CGFloat = 15
+        static let trailing: CGFloat = 44
+      }
+      static let textColor: UIColor = .yg.gray6
+      static let fontName: UIFont.Pretendard = .medium
+      static let textSize: CGFloat = 15.0
+    }
+  }
+
   // MARK: - Identifier
   static let id: String = String(describing: PostCell.self)
   
@@ -75,17 +96,14 @@ extension FavoriteListTableViewCell {
 
 // MARK: - Private helpers
 private extension FavoriteListTableViewCell {
-  @MainActor
   func setListTitle(with text: String) {
       self.listTitle.text = text
   }
   
-  @MainActor
   func setImageView(with image: UIImage?) {
     self.listImageView.image = image
   }
   
-  @MainActor
   func setListTitleInfo(withTitle title: String, withCount count: Int) {
     titleText = title
     innerItemCount = count
@@ -96,41 +114,55 @@ private extension FavoriteListTableViewCell {
 // MARK: - LayoutSupport
 extension FavoriteListTableViewCell: LayoutSupport {
   func addSubviews() {
-    _=[listImageView, listTitle].map { contentView.addSubview($0) }
+    _=[
+      listImageView,
+      listTitle
+    ].map {
+      contentView.addSubview($0)
+    }
   }
   
   func setConstraints() {
-    _=[listImageViewConstraints, listTitleConstraints]
-      .map { NSLayoutConstraint.activate($0) }
+    _=[
+      listImageViewConstraints,
+      listTitleConstraints
+    ].map {
+      NSLayoutConstraint.activate($0)
+    }
   }
 }
 
 // MARK: - LayoutSupport constriants
 private extension FavoriteListTableViewCell {
   var listImageViewConstraints: [NSLayoutConstraint] {
-    [listImageView.leadingAnchor.constraint(
-      equalTo: contentView.leadingAnchor,
-      constant: Constant.ImageView.spacing.leading),
-     listImageView.topAnchor.constraint(
-      equalTo: contentView.topAnchor,
-      constant: Constant.ImageView.spacing.top),
-     listImageView.bottomAnchor.constraint(
-      equalTo: contentView.bottomAnchor,
-      constant: -Constant.ImageView.spacing.bottom),
-     listImageView.heightAnchor.constraint(
-      equalToConstant: Constant.ImageView.size.height),
-     listImageView.widthAnchor.constraint(
-      equalToConstant: Constant.ImageView.size.width)]
+    typealias Const = Constant.ImageView
+    typealias Spacing = Const.Spacing
+    return [
+      listImageView.leadingAnchor.constraint(
+        equalTo: contentView.leadingAnchor,
+        constant: Spacing.leading),
+      listImageView.topAnchor.constraint(
+        equalTo: contentView.topAnchor,
+        constant: Spacing.top),
+      listImageView.bottomAnchor.constraint(
+        equalTo: contentView.bottomAnchor,
+        constant: -Spacing.bottom),
+      listImageView.heightAnchor.constraint(
+        equalToConstant: Const.size.height),
+      listImageView.widthAnchor.constraint(
+        equalToConstant: Const.size.width)]
   }
   
   var listTitleConstraints: [NSLayoutConstraint] {
-    [listTitle.leadingAnchor.constraint(
-      equalTo: listImageView.trailingAnchor,
-      constant: Constant.Title.spacing.leading),
-     listTitle.centerYAnchor.constraint(
-      equalTo: contentView.centerYAnchor),
-     listTitle.trailingAnchor.constraint(
-      equalTo: contentView.trailingAnchor,
-      constant: -Constant.Title.spacing.trailing)]
+    typealias Spacing = Constant.Title.Spacing
+    return [
+      listTitle.leadingAnchor.constraint(
+        equalTo: listImageView.trailingAnchor,
+        constant: Spacing.leading),
+      listTitle.centerYAnchor.constraint(
+        equalTo: contentView.centerYAnchor),
+      listTitle.trailingAnchor.constraint(
+        equalTo: contentView.trailingAnchor,
+        constant: -Spacing.trailing)]
   }
 }

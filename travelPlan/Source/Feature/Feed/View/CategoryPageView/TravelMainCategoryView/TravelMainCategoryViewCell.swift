@@ -1,5 +1,5 @@
 //
-//  CategoryViewCell.swift
+//  TravelMainCategoryViewCell.swift
 //  travelPlan
 //
 //  Created by 양승현 on 2023/05/09.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class CategoryViewCell: UICollectionViewCell {
+final class TravelMainCategoryViewCell: UICollectionViewCell {
   enum Constant {
     enum ImageView {
       enum Spacing {
@@ -32,7 +32,6 @@ final class CategoryViewCell: UICollectionViewCell {
     let imagePath: String
   }
   
-  // MARK: - Constant
   static var id: String {
     return String(describing: self)
   }
@@ -65,7 +64,7 @@ final class CategoryViewCell: UICollectionViewCell {
     }
   }
   
-  // MARK: - Initialization
+  // MARK: - Lifecycle
   override init(frame: CGRect) {
     super.init(frame: frame)
     setupUI()
@@ -87,8 +86,8 @@ final class CategoryViewCell: UICollectionViewCell {
   }
 }
 
-// MARK: - Helper
-extension CategoryViewCell {
+// MARK: - Helpers
+extension TravelMainCategoryViewCell {
   func configure(
     with data: Model?
   ) {
@@ -123,15 +122,17 @@ extension CategoryViewCell {
       self.categoryImageView.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
     }
   }
-  
-  // MARK: - Private helper
-  
+}
+
+// MARK: - Private helper
+extension TravelMainCategoryViewCell {
   private func convertImageColor(_ image: UIImage) -> UIImage {
     image.withTintColor(.yg.primary)
   }
 }
+
 // MARK: - LayoutSupport
-extension CategoryViewCell: LayoutSupport {
+extension TravelMainCategoryViewCell: LayoutSupport {
   func addSubviews() {
     _=[
       categoryImageView,
@@ -151,8 +152,8 @@ extension CategoryViewCell: LayoutSupport {
   }
 }
 
-// MARK: - LayoutSupport constraints
-private extension CategoryViewCell {
+// MARK: - LayoutSupport Constraints
+private extension TravelMainCategoryViewCell {
   var categoryImageViewConstraint: [NSLayoutConstraint] {
     typealias Const = Constant.ImageView
     typealias Spacing = Const.Spacing

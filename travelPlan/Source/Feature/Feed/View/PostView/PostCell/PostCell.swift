@@ -57,7 +57,7 @@ final class PostCell: UICollectionViewCell {
         static let top: CGFloat = 15
         static let trailing: CGFloat = 15
       }
-
+      
       struct Inset {
         static let top: CGFloat = 3
         static let bottom: CGFloat = 3
@@ -65,12 +65,11 @@ final class PostCell: UICollectionViewCell {
     }
   }
   
-  // MARK: - Identifier
   static let id: String = String(describing: PostCell.self)
   
   // MARK: - Properties
   private let headerView = PostHeaderView()
-
+  
   private lazy var optionButton = makeOptionButton()
   
   private let contentAreaView = PostContentAreaView()
@@ -81,6 +80,7 @@ final class PostCell: UICollectionViewCell {
   
   var vm: PostCellViewModel!
   
+  // MARK: - Lifecycle
   override init(frame: CGRect) {
     super.init(frame: frame)
     configureUI()
@@ -96,8 +96,10 @@ final class PostCell: UICollectionViewCell {
     configure(with: nil)
     hideCellDivider()
   }
-  
-  // MARK: - Helper
+}
+
+// MARK: - Helpers
+extension PostCell {
   func configure(with post: PostModel?) {
     vm = PostCellViewModel(postModel: post)
     setHeaderWithData()
@@ -113,8 +115,10 @@ final class PostCell: UICollectionViewCell {
   func showCellDivider() {
     line.isHidden = false
   }
+}
 
-  // MARK: - Private helper
+// MARK: - Private helpers
+extension PostCell {
   private func setCellDivieder(_ isVisible: Bool) {
     guard isVisible else {
       showCellDivider()
@@ -142,7 +146,7 @@ final class PostCell: UICollectionViewCell {
     }
     contentAreaView.configure(with: vm.contentAreaModel)
   }
-
+  
   private func setFooterWithData() {
     guard vm.isValidatedFooterModel() else {
       footerView.configure(with: vm.defaultFooterModel)
@@ -167,8 +171,10 @@ final class PostCell: UICollectionViewCell {
       $0.contentEdgeInsets = UIEdgeInsets(top: Inset.top, left: 0, bottom: Inset.bottom, right: 0)
     }
   }
-  
-  // MARK: - Action
+}
+
+// MARK: - Action
+extension PostCell {
   @objc func didTapOption() {
     print("DEBUG: pop up option scene !!")
     UIView.touchAnimate(optionButton)
@@ -200,7 +206,7 @@ extension PostCell: LayoutSupport {
   }
 }
 
-// MARK: - LayoutSupport constraints
+// MARK: - Private layoutsupport
 private extension PostCell {
   var headViewConstraints: [NSLayoutConstraint] {
     typealias Spacing = Constant.HeaderView.Spacing

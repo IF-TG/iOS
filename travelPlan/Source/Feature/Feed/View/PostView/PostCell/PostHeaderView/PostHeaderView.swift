@@ -25,7 +25,7 @@ final class PostHeaderView: BaseProfileAreaView {
       self.subInfo = subInfo
     }
   }
-
+  
   // MARK: - Properteis
   private let postInfoView = PostHeaderInfoView()
   
@@ -55,8 +55,10 @@ final class PostHeaderView: BaseProfileAreaView {
   required init?(coder: NSCoder) {
     super.init(coder: coder)
   }
-  
-  // MARK: - Helper
+}
+
+// MARK: - Helpers
+extension PostHeaderView {
   func configure(with data: Model?) {
     super.configure(with: data?.image)
     postInfoView.configure(title: data?.title, subInfoData: data?.subInfo)
