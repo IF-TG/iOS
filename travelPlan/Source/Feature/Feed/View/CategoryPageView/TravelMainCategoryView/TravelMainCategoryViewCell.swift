@@ -1,5 +1,5 @@
 //
-//  CategoryViewCell.swift
+//  TravelMainCategoryViewCell.swift
 //  travelPlan
 //
 //  Created by 양승현 on 2023/05/09.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class CategoryViewCell: UICollectionViewCell {
+final class TravelMainCategoryViewCell: UICollectionViewCell {
   enum Constant {
     enum ImageView {
       enum Spacing {
@@ -88,7 +88,7 @@ final class CategoryViewCell: UICollectionViewCell {
 }
 
 // MARK: - Helper
-extension CategoryViewCell {
+extension TravelMainCategoryViewCell {
   func configure(
     with data: Model?
   ) {
@@ -131,7 +131,7 @@ extension CategoryViewCell {
   }
 }
 // MARK: - LayoutSupport
-extension CategoryViewCell: LayoutSupport {
+extension TravelMainCategoryViewCell: LayoutSupport {
   func addSubviews() {
     _=[
       categoryImageView,
@@ -152,7 +152,7 @@ extension CategoryViewCell: LayoutSupport {
 }
 
 // MARK: - LayoutSupport constraints
-private extension CategoryViewCell {
+private extension TravelMainCategoryViewCell {
   var categoryImageViewConstraint: [NSLayoutConstraint] {
     typealias Const = Constant.ImageView
     typealias Spacing = Const.Spacing

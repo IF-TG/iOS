@@ -17,7 +17,7 @@ final class CategoryPageViewModel {
     travelMainCategory.map { $0.rawValue }
   }()
   
-  private lazy var travelCategoryItems: [CategoryViewCell.Model] = travelMainCategory.map {
+  private lazy var travelCategoryItems: [TravelMainCategoryViewCell.Model] = travelMainCategory.map {
     .init(cagtegoryTitle: $0.rawValue, imagePath: $0.imagePath)
   }
   
@@ -33,7 +33,7 @@ extension CategoryPageViewModel {
   /// - Returns: cell에서 title을 제외한 영역중 절반 leading spacing
   func scrollBarLeadingSpacing(_ titleWidth: CGFloat) -> CGFloat {
     return (
-      CategoryView.Constant.size
+      TravelMainCategoryView.Constant.size
         .width - titleWidth) / 2.0
   }
 }
@@ -44,7 +44,7 @@ extension CategoryPageViewModel: CategoryPageViewDataSource {
     return travelMainCategoryTitles[index]
   }
   
-  func categoryViewCellItem(at index: Int) -> CategoryViewCell.Model {
+  func categoryViewCellItem(at index: Int) -> TravelMainCategoryViewCell.Model {
     return travelCategoryItems[index]
   }
   

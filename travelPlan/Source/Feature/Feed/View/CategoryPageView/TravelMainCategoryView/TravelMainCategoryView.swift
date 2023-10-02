@@ -1,5 +1,5 @@
 //
-//  CategoryView.swift
+//  TravelMainCategoryView.swift
 //  travelPlan
 //
 //  Created by 양승현 on 2023/05/09.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class CategoryView: UIView {
+final class TravelMainCategoryView: UIView {
   enum Constant {
     enum ScrollBar {
       static let height: CGFloat = 4
@@ -21,7 +21,7 @@ final class CategoryView: UIView {
       static let offset = CGSize(width: 0, height: 1)
     }
     
-    static let cellSize = CategoryViewCell.Constant.size
+    static let cellSize = TravelMainCategoryViewCell.Constant.size
     
     static let size: CGSize = {
       let width = cellSize.width
@@ -69,17 +69,17 @@ final class CategoryView: UIView {
 }
 
 // MARK: - Helper
-extension CategoryView {
+extension TravelMainCategoryView {
   func selectedCell(at indexPath: IndexPath) -> UICollectionViewCell? {
     return travelThemeCategoryView.cellForItem(at: indexPath)
   }
   
   func setInitialVisibleSubviews(from text: String) {
     let indexPath = IndexPath(row: 0, section: 0)
-    guard let cell = travelThemeCategoryView.cellForItem(at: indexPath) as? CategoryViewCell else { return }
+    guard let cell = travelThemeCategoryView.cellForItem(at: indexPath) as? TravelMainCategoryViewCell else { return }
     let firstCategoryTextWidth = UILabel(frame: .zero)
       .set {
-        typealias Const = CategoryViewCell.Constant.Title
+        typealias Const = TravelMainCategoryViewCell.Constant.Title
         $0.text = text
         $0.font = UIFont.systemFont(ofSize: Const.fontSize)
         $0.sizeToFit()
@@ -130,7 +130,7 @@ extension CategoryView {
 }
 
 // MARK: - Private helper
-private extension CategoryView {
+private extension TravelMainCategoryView {
   func configureUI() {
     backgroundColor = .white
     setupUI()
@@ -138,7 +138,7 @@ private extension CategoryView {
 }
 
 // MARK: - LayoutSupport
-extension CategoryView: LayoutSupport {
+extension TravelMainCategoryView: LayoutSupport {
   func addSubviews() {
     _=[
       travelThemeCategoryView,
@@ -161,7 +161,7 @@ extension CategoryView: LayoutSupport {
 }
 
 // MARK: - LayoutSupport constraints
-private extension CategoryView {
+private extension TravelMainCategoryView {
   var travelThemeCategoryViewConstraint: [NSLayoutConstraint] {
     typealias Const = Constant
     return [
