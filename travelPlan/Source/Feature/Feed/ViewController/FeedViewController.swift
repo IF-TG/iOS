@@ -87,6 +87,7 @@ extension FeedViewController {
       selector: #selector(handleNotificaiton),
       name: .TravelCategoryDetailSelected,
       object: nil)
+    setReviewWriteButtonShadow()
   }
   
   private func configureFeedNavigationBar() {
@@ -95,6 +96,17 @@ extension FeedViewController {
     let rightNotificationBarItem = UIBarButtonItem(customView: notificationBarItem)
     navigationItem.rightBarButtonItems = [rightNotificationBarItem, rightSearchBarItem]
     navigationController?.navigationBar.backgroundColor = .white
+  }
+  
+  private func setReviewWriteButtonShadow() {
+    typealias Const = Constant.ReviewWriteButton
+    let rect = CGRect(x: 0, y: 0, width: Const.size.width, height: Const.size.height)
+    let path = UIBezierPath(roundedRect: rect, cornerRadius: 30)
+    reviewWriteButton.layer.shadowRadius = 10
+    reviewWriteButton.layer.shadowOpacity = 1
+    reviewWriteButton.layer.shadowOffset = .init(width: 0, height: 4)
+    reviewWriteButton.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
+    reviewWriteButton.layer.shadowPath = path.cgPath
   }
 }
 
