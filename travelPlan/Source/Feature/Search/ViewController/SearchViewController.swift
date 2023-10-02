@@ -110,8 +110,10 @@ extension SearchViewController: ViewBindCase {
   
   internal func handleError(_ error: ErrorType) {
     switch error {
-    case .none: print("DEBUG: none error")
-    case .unexpected: print("DEBUG: unexpected error")
+    case .none:
+      print("DEBUG: none error")
+    case .unexpected: 
+      print("DEBUG: unexpected error")
     }
   }
   
