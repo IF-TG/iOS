@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 class ProfileViewController: UIViewController {
   // MARK: - Properties
   weak var coordinator: ProfileCoordinatorDelegate?
