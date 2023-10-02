@@ -21,11 +21,12 @@ final class CategoryPageViewModel {
     .init(cagtegoryTitle: $0.rawValue, imagePath: $0.imagePath)
   }
   
-  // TODO: - 상황에 따라 바텀시트에서 특정 trend를 누를 경우 이 프로퍼티도 갱신해야합니다.
-  private(set) var travelTrendState: TravelOrderType = .newest
+  private lazy var postSearchFilterInfoList: [FeedPostSearchFilterInfo] = travelMainCategory.map {
+    .init(travelTheme: $0, travelTrend: .newest)
+  }
 }
 
-// MARK: - Public helpers
+// MARK: - Helpers
 extension CategoryPageViewModel {
   
   /// Return scrollBar specific position's leading spacing
@@ -44,11 +45,15 @@ extension CategoryPageViewModel: CategoryPageViewDataSource {
     return travelMainCategoryTitles[index]
   }
   
-  func categoryViewCellItem(at index: Int) -> CategoryViewCell.Model {
+  func cellItem(at index: Int) -> CategoryViewCell.Model {
     return travelCategoryItems[index]
   }
   
   var numberOfItems: Int {
     travelCategoryItems.count
+  }
+  
+  func postSearchFilterItem(at index: Int) -> FeedPostSearchFilterInfo {
+    return postSearchFilterInfoList[index]
   }
 }
