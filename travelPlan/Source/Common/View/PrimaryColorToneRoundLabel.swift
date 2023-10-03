@@ -18,7 +18,12 @@ final class PrimaryColorToneRoundLabel: UILabel {
     case selected
     
     var borderColor: CGColor {
-      return UIColor.yg.primary.withAlphaComponent(0.1).cgColor
+      switch self {
+      case .normal:
+        return UIColor.yg.primary.withAlphaComponent(0.1).cgColor
+      case .selected:
+        return UIColor.clear.cgColor
+      }
     }
     
     var backgroundColor: CGColor {
@@ -73,7 +78,7 @@ final class PrimaryColorToneRoundLabel: UILabel {
     }
   }
   
-  var tap: (() -> Void)?
+  var tapHandler: (() -> Void)?
   
   private var currentState: State = .normal
   
@@ -90,6 +95,7 @@ final class PrimaryColorToneRoundLabel: UILabel {
   init(frame: CGRect, currentState: State) {
     self.currentState = currentState
     super.init(frame: frame)
+    configureUI()
   }
   
   convenience init(currentState: State) {
@@ -110,6 +116,7 @@ extension PrimaryColorToneRoundLabel {
     layer.borderWidth = 1
     textAlignment = .center
     setAppearance()
+    isUserInteractionEnabled = true
     let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapPrimaryColorToneRoundLabel))
     addGestureRecognizer(tapGesture)
     
@@ -127,6 +134,6 @@ extension PrimaryColorToneRoundLabel {
 extension PrimaryColorToneRoundLabel {
   @objc func didTapPrimaryColorToneRoundLabel() {
     isSelected.toggle()
-    tap?()
+    tapHandler?()
   }
 }
