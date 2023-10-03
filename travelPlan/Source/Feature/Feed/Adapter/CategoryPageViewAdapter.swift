@@ -10,6 +10,7 @@ import UIKit
 final class CategoryPageViewAdapter: NSObject {
   weak var dataSource: CategoryPageViewDataSource?
   weak var delegate: CategoryPageViewDelegate?
+  private var isSetFirstCell = false
   
   init(
     dataSource: CategoryPageViewDataSource? = nil,
@@ -58,15 +59,42 @@ extension CategoryPageViewAdapter: UICollectionViewDelegate {
     _ collectionView: UICollectionView,
     didSelectItemAt indexPath: IndexPath
   ) {
-    guard let dataSource = dataSource else { return }
-    if collectionView is TravelMainThemeCollectionView {
-      let titleWidth = UILabel().set {
-        $0.text = dataSource.travelMainCategoryTitle(at: indexPath.row)
-        $0.font = UIFont.systemFont(ofSize: TravelMainCategoryViewCell.Constant.Title.fontSize)
-        $0.sizeToFit()
-      }.bounds.width
-      let spacing = dataSource.scrollBarLeadingSpacing(titleWidth)
-      delegate?.didSelectItemAt(indexPath, spacing: spacing)
+    let cellTitle = dataSource?.travelMainCategoryTitle(at: indexPath.row)
+    let scrollBarLeadingInset = calculateScrollBarInset(from: cellTitle)
+    delegate?.didSelectItemAt(indexPath, spacing: scrollBarLeadingInset)
+  }
+  
+  func collectionView(
+    _ collectionView: UICollectionView,
+    willDisplay cell: UICollectionViewCell,
+    forItemAt indexPath: IndexPath
+  ) {
+    if !isSetFirstCell, indexPath.item == 0 && indexPath.section == 0 {
+      isSetFirstCell.toggle()
+      delegate?.collectionView(collectionView, willDisplayFirstCell: cell)
     }
+  }
+}
+
+// MARK: - Private Helpers
+private extension CategoryPageViewAdapter {
+  /// Return scrollBar specific position's leading spacing
+  /// - Parameter title: 특정 TravelMainCategoryViewCell의 여행 메인 테마 title
+  /// - Returns: cell에서 title을 제외한 영역중 절반 leading spacing
+  func calculateScrollBarInset(from title: String?) -> CGFloat {
+    typealias Const = TravelMainThemeCategoryAreaView.Constant
+    let titleWidth = calculateCellTitleLabelWidth(from: title)
+    let cellWidth = Const.size.width
+    return (cellWidth - titleWidth) / 2.0
+  }
+  
+  func calculateCellTitleLabelWidth(from title: String?) -> CGFloat {
+    return UILabel().set {
+      $0.text = title
+      $0.font = UIFont.systemFont(ofSize: TravelMainCategoryViewCell.Constant.Title.fontSize)
+      $0.sizeToFit()
+    }
+    .bounds
+    .width
   }
 }
