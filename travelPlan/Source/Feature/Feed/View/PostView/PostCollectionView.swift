@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 class PostCollectionView: UICollectionView {
   enum Constant {
@@ -35,13 +36,11 @@ class PostCollectionView: UICollectionView {
   
   init(layout: UICollectionViewLayout) {
     super.init(frame: .zero, collectionViewLayout: layout)
-    translatesAutoresizingMaskIntoConstraints = false
     configureUI()
   }
   
   convenience init() {
     self.init(frame: .zero)
-    translatesAutoresizingMaskIntoConstraints = false
   }
   
   required init?(coder: NSCoder) {
@@ -54,6 +53,7 @@ class PostCollectionView: UICollectionView {
 // MARK: - Private helpers
 extension PostCollectionView {
   private func configureUI() {
+    translatesAutoresizingMaskIntoConstraints = false
     showsHorizontalScrollIndicator = false
     backgroundColor = Constant.backgroundColor
     register(

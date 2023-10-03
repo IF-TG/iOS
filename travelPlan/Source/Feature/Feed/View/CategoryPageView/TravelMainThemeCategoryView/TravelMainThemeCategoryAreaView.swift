@@ -70,45 +70,23 @@ final class TravelMainThemeCategoryAreaView: UIView {
 
 // MARK: - Helpers
 extension TravelMainThemeCategoryAreaView {
-  func selectedCell(at indexPath: IndexPath) -> UICollectionViewCell? {
-    return travelThemeCategoryView.cellForItem(at: indexPath)
-  }
-  
-  func setInitialVisibleSubviews(from text: String) {
-    let indexPath = IndexPath(row: 0, section: 0)
-    guard let cell = travelThemeCategoryView.cellForItem(at: indexPath) as? TravelMainCategoryViewCell else { return }
-    let firstCategoryTextWidth = UILabel(frame: .zero)
-      .set {
-        typealias Const = TravelMainCategoryViewCell.Constant.Title
-        $0.text = text
-        $0.font = UIFont.systemFont(ofSize: Const.fontSize)
-        $0.sizeToFit()
-      }
-      .bounds
-      .width
-    let scrollBarLeading = (Constant.size.width - firstCategoryTextWidth) / 2
-    NSLayoutConstraint.deactivate(scrollBarConstraints)
-    scrollBarConstraints = scrollBarConstriant(cell, cellTitleSpacing: scrollBarLeading)
-    NSLayoutConstraint.activate(scrollBarConstraints)
-    layoutIfNeeded()
-  }
-  
-  func selectedItem(
-    at indexPath: IndexPath,
-    animated: Bool,
-    scrollPosition position: UICollectionView.ScrollPosition
-  ) {
-    travelThemeCategoryView.selectItem(at: indexPath, animated: animated, scrollPosition: position)
-  }
-  
   /// selected cell위치에 따라 scrollBar layout 갱신
   /// - Parameters:
-  ///   - cell: selected cell
-  ///   - spacing: celected cell's title text leading
-  func drawScrollBar(target cell: UICollectionViewCell, fromLeading spacing: CGFloat) {
+  ///   - layoutTargetCell: selected cell
+  ///   - leadingInset: celected cell's title text leading
+  ///   - animation: 초기에는 애니메이션 x
+  func drawScrollBar(
+    layoutTargetCell cell: UICollectionViewCell?,
+    leadingInset: CGFloat,
+    animation: Bool = true
+  ) {
     NSLayoutConstraint.deactivate(scrollBarConstraints)
-    scrollBarConstraints = scrollBarConstriant(cell, cellTitleSpacing: spacing)
+    scrollBarConstraints = scrollBarConstriant(cell, cellTitleSpacing: leadingInset)
     NSLayoutConstraint.activate(scrollBarConstraints)
+    guard animation else {
+      layoutIfNeeded()
+      return
+    }
     UIView.animate(withDuration: 0.3) {
       self.layoutIfNeeded()
     }
@@ -129,7 +107,7 @@ extension TravelMainThemeCategoryAreaView {
   }
 }
 
-  // MARK: - Private Helpers
+// MARK: - Private Helpers
 private extension TravelMainThemeCategoryAreaView {
   func configureUI() {
     backgroundColor = .white
@@ -198,9 +176,8 @@ private extension TravelMainThemeCategoryAreaView {
   func setInitialScrollBar(
     constraint: inout [NSLayoutConstraint]
   ) -> [NSLayoutConstraint] {
-    let width = Constant.size.width
     _=[scrollBar.leadingAnchor.constraint(equalTo: leadingAnchor),
-       scrollBar.widthAnchor.constraint(equalToConstant: width)]
+       scrollBar.widthAnchor.constraint(equalToConstant: 10)]
       .map { constraint.append($0) }
     return constraint
   }
