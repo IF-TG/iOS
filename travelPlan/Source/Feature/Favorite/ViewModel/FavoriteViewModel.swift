@@ -9,7 +9,7 @@ import Foundation
 
 final class FavoriteViewModel {
   // MARK: - Properties
-  private var headerData: FavoriteHeaderModel
+  private var headerData: FavoriteHeaderView.Model
   private var cellData: [FavoriteTableViewCellModel]
   
   // MARK: - Initialization
@@ -26,7 +26,7 @@ extension FavoriteViewModel: FavoriteTableViewAdapterDataSource {
     cellData.count
   }
   
-  var headerItem: FavoriteHeaderModel {
+  var headerItem: FavoriteHeaderView.Model {
     headerData
   }
   

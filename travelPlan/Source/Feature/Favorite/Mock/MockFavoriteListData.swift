@@ -14,8 +14,8 @@ struct MockFavoritedata {
     UIImage(
       named: "tempThumbnail13")?.compressJPEGImage(with: 0)!]
   
-  var mockFavoriteListHeader: FavoriteHeaderModel {
-    FavoriteHeaderModel(
+  var mockFavoriteListHeader: FavoriteHeaderView.Model {
+    .init(
       categoryCount: 0,
       images: [mockProfileImages[0], mockProfileImages[1]])
   }
