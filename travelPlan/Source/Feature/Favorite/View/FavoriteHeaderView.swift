@@ -1,5 +1,5 @@
 //
-//  FavoriteListTotalStateView.swift
+//  FavoriteHeaderView.swift
 //  travelPlan
 //
 //  Created by 양승현 on 2023/05/20.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class FavoriteListHeaderView: UITableViewHeaderFooterView {
+final class FavoriteHeaderView: UITableViewHeaderFooterView {
   enum Constant {
     enum ImageViews {
       enum Spacing {
@@ -31,10 +31,10 @@ final class FavoriteListHeaderView: UITableViewHeaderFooterView {
 
   // MARK: - Idenrifier
   static let id: String = String(
-    describing: FavoriteListHeaderView.self)
+    describing: FavoriteHeaderView.self)
   
   // MARK: - Properties
-  private let imageViews = FavoriteListHeaderImageViews()
+  private let imageViews = FavoriteHeaderImageViews()
   
   private let title: UILabel = UILabel().set {
     $0.translatesAutoresizingMaskIntoConstraints = false
@@ -61,8 +61,8 @@ final class FavoriteListHeaderView: UITableViewHeaderFooterView {
   }
 }
 // MARK: - Helpers
-extension FavoriteListHeaderView {
-  func configure(with data: FavoriteListHeaderModel) {
+extension FavoriteHeaderView {
+  func configure(with data: FavoriteHeaderModel) {
     setTitle(with: data.categoryCount)
     setImageViews(with: data.images)
   }
@@ -73,11 +73,11 @@ extension FavoriteListHeaderView {
 }
 
 // MARK: - Private helpers
-private extension FavoriteListHeaderView {
+private extension FavoriteHeaderView {
   func configureUI() {
     setupUI()
     line.setConstraint(fromSuperView: contentView)
-    line.setHeight(FavoriteListTableView.innerGrayLineHeight)
+    line.setHeight(FavoriteTableView.innerGrayLineHeight)
   }
   
   @MainActor
@@ -97,7 +97,7 @@ private extension FavoriteListHeaderView {
 }
 
 // MARK: - LayoutSupport
-extension FavoriteListHeaderView: LayoutSupport {
+extension FavoriteHeaderView: LayoutSupport {
   func addSubviews() {
     _=[
       imageViews,
@@ -117,7 +117,7 @@ extension FavoriteListHeaderView: LayoutSupport {
   }
 }
 
-private extension FavoriteListHeaderView {
+private extension FavoriteHeaderView {
   var imageViewConstraints: [NSLayoutConstraint] {
     typealias Const = Constant.ImageViews
     typealias Spacing = Const.Spacing

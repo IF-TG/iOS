@@ -1,5 +1,5 @@
 //
-//  FavoriteListTableViewCell.swift
+//  FavoriteTableViewCell.swift
 //  travelPlan
 //
 //  Created by 양승현 on 2023/05/20.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class FavoriteListTableViewCell: UITableViewCell {
+final class FavoriteTableViewCell: UITableViewCell {
   enum Constant {
     enum ImageView {
       enum Spacing {
@@ -76,7 +76,7 @@ final class FavoriteListTableViewCell: UITableViewCell {
     selectionStyle = .none
     setupUI()
     line.setConstraint(fromSuperView: contentView, spacing: .init())
-    line.setHeight(FavoriteListTableView.innerGrayLineHeight)
+    line.setHeight(FavoriteTableView.innerGrayLineHeight)
   }
   
   required init?(coder: NSCoder) {
@@ -85,8 +85,8 @@ final class FavoriteListTableViewCell: UITableViewCell {
 }
 
 // MARK: - Helpers
-extension FavoriteListTableViewCell {
-  func configure(with data: FavoriteListTableViewCellModel) {
+extension FavoriteTableViewCell {
+  func configure(with data: FavoriteTableViewCellModel) {
     setListTitleInfo(
       withTitle: data.title,
       withCount: data.innerItemCount)
@@ -95,7 +95,7 @@ extension FavoriteListTableViewCell {
 }
 
 // MARK: - Private helpers
-private extension FavoriteListTableViewCell {
+private extension FavoriteTableViewCell {
   func setListTitle(with text: String) {
       self.listTitle.text = text
   }
@@ -112,7 +112,7 @@ private extension FavoriteListTableViewCell {
 }
 
 // MARK: - LayoutSupport
-extension FavoriteListTableViewCell: LayoutSupport {
+extension FavoriteTableViewCell: LayoutSupport {
   func addSubviews() {
     _=[
       listImageView,
@@ -133,7 +133,7 @@ extension FavoriteListTableViewCell: LayoutSupport {
 }
 
 // MARK: - LayoutSupport constriants
-private extension FavoriteListTableViewCell {
+private extension FavoriteTableViewCell {
   var listImageViewConstraints: [NSLayoutConstraint] {
     typealias Const = Constant.ImageView
     typealias Spacing = Const.Spacing

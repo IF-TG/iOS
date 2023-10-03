@@ -1,5 +1,5 @@
 //
-//  FavoriteListTableView.swift
+//  FavoriteTableView.swift
 //  travelPlan
 //
 //  Created by 양승현 on 2023/05/20.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class FavoriteListTableView: UITableView {
+final class FavoriteTableView: UITableView {
   // MARK: - Constant
   static let innerGrayLineHeight = 0.5
   
@@ -27,7 +27,7 @@ final class FavoriteListTableView: UITableView {
 }
 
 // MARK: - Helpers
-extension FavoriteListTableView {
+extension FavoriteTableView {
   func layoutFrom(superView: UIView) {
       superView.addSubview(self)
     superView.layoutIfNeeded()
@@ -44,7 +44,7 @@ extension FavoriteListTableView {
 }
 
 // MARK: - Private helpers
-private extension FavoriteListTableView {
+private extension FavoriteTableView {
   func configureUI() {
     translatesAutoresizingMaskIntoConstraints = false
     if #available(iOS 15.0, *) {
@@ -52,10 +52,10 @@ private extension FavoriteListTableView {
     }
     separatorStyle = .none
     register(
-      FavoriteListTableViewCell.self,
-      forCellReuseIdentifier: FavoriteListTableViewCell.id)
+      FavoriteTableViewCell.self,
+      forCellReuseIdentifier: FavoriteTableViewCell.id)
     register(
-      FavoriteListHeaderView.self,
-      forHeaderFooterViewReuseIdentifier: FavoriteListHeaderView.id)
+      FavoriteHeaderView.self,
+      forHeaderFooterViewReuseIdentifier: FavoriteHeaderView.id)
   }
 }
