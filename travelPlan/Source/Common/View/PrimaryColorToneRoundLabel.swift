@@ -83,15 +83,6 @@ final class PrimaryColorToneRoundLabel: UILabel {
   private var currentState: State = .normal
   
   // MARK: - Lifecycle
-  override init(frame: CGRect) {
-    super.init(frame: .zero)
-    configureUI()
-  }
-  
-  convenience init() {
-    self.init(frame: .zero)
-  }
-  
   init(frame: CGRect, currentState: State) {
     self.currentState = currentState
     super.init(frame: frame)
@@ -100,6 +91,10 @@ final class PrimaryColorToneRoundLabel: UILabel {
   
   convenience init(currentState: State) {
     self.init(frame: .zero, currentState: currentState)
+  }
+  
+  convenience init() {
+    self.init(currentState: .normal)
   }
   
   required init?(coder: NSCoder) {
