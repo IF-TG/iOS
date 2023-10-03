@@ -71,7 +71,6 @@
 		15259DEB2ACAA9F600C14F62 /* PostSearchFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C07ECC2A13F454005F04CD /* PostSearchFooterView.swift */; };
 		15259DEC2ACAAAB200C14F62 /* LocationSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EF8C042A0829FD0068C744 /* LocationSearchViewController.swift */; };
 		152AD4E62A188BFE008A2A11 /* FavoriteTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152AD4E52A188BFE008A2A11 /* FavoriteTableView.swift */; };
-		152AD4E82A188D33008A2A11 /* FavoriteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152AD4E72A188D33008A2A11 /* FavoriteTableViewCell.swift */; };
 		152AD4F02A189CFC008A2A11 /* FavoriteHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152AD4EF2A189CFC008A2A11 /* FavoriteHeaderView.swift */; };
 		152AD4F62A18B6C3008A2A11 /* FavoriteHeaderImageViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152AD4F52A18B6C3008A2A11 /* FavoriteHeaderImageViews.swift */; };
 		152AD51B2A1A0447008A2A11 /* FavoriteTableViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152AD51A2A1A0447008A2A11 /* FavoriteTableViewAdapter.swift */; };
@@ -172,6 +171,7 @@
 		15FB47EE2AC176FD0033AA18 /* UISpacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152AD4ED2A1891DB008A2A11 /* UISpacing.swift */; };
 		15FB47EF2AC1772C0033AA18 /* PostRecommendationSearchTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1325502E2A0B4BD700094218 /* PostRecommendationSearchTagCell.swift */; };
 		15FB47F12AC1DCEF0033AA18 /* TravelMainThemeCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FB47F02AC1DCEF0033AA18 /* TravelMainThemeCollectionView.swift */; };
+		15FC90D92ACC56280033A1E5 /* FavoriteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152AD4E72A188D33008A2A11 /* FavoriteTableViewCell.swift */; };
 		15FEB5E52A050A99000A5F33 /* UIControl+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FEB5DA2A050A99000A5F33 /* UIControl+Combine.swift */; };
 		15FEB5E62A050A99000A5F33 /* UISwitch+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FEB5DB2A050A99000A5F33 /* UISwitch+Combine.swift */; };
 		15FEB5E72A050A99000A5F33 /* UIButton+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FEB5DC2A050A99000A5F33 /* UIButton+Combine.swift */; };
@@ -1487,6 +1487,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				15FC90D92ACC56280033A1E5 /* FavoriteTableViewCell.swift in Sources */,
 				15259DEB2ACAA9F600C14F62 /* PostSearchFooterView.swift in Sources */,
 				15259DEA2ACAA9D800C14F62 /* SearchFestivalCellViewModel.swift in Sources */,
 				15CC64142A1DD4EF00857446 /* ConvenienceInit.swift in Sources */,
@@ -1586,9 +1587,7 @@
 				15DD40482A5B8752002BC5F8 /* TravelCategorySortingType.swift in Sources */,
 				152AD4F02A189CFC008A2A11 /* FavoriteHeaderView.swift in Sources */,
 				15EF8CA62A0A19990068C744 /* CategoryViewType.swift in Sources */,
-				152AD4E82A188D33008A2A11 /* FavoriteTableViewCell.swift in Sources */,
 				1550D9AF2ACAFAC10046569B /* TravelDetailThemeViewController.swift in Sources */,
-				152AD4E82A188D33008A2A11 /* FavoriteListTableViewCell.swift in Sources */,
 				158BEF812A0E2C9E00C27861 /* PostFooterView.swift in Sources */,
 				15FEB5E82A050A99000A5F33 /* UIControl+CombineInteraction.swift in Sources */,
 				15B4E5F02ACA6452001CF071 /* TravelReviewViewController.swift in Sources */,
