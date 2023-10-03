@@ -1,5 +1,5 @@
 //
-//  FavoriteListHeaderImageView.swift
+//  FavoriteHeaderImageViews.swift
 //  travelPlan
 //
 //  Created by 양승현 on 2023/05/20.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class FavoriteListHeaderImageViews: UIView {
+final class FavoriteHeaderImageViews: UIView {
   enum Constant {
     static let itemSpacing: CGFloat = 1
     static let lineSpacing: CGFloat = 1
@@ -15,7 +15,7 @@ final class FavoriteListHeaderImageViews: UIView {
     enum ImageView {
       static let bgColor: UIColor = .yg.gray1
       static let size = {
-        let favoriteListHeaderImageViewWidth = FavoriteListHeaderView
+        let favoriteListHeaderImageViewWidth = FavoriteHeaderView
           .Constant
           .ImageViews
           .size
@@ -40,7 +40,7 @@ final class FavoriteListHeaderImageViews: UIView {
   private override init(frame: CGRect) {
     super.init(frame: frame)
     translatesAutoresizingMaskIntoConstraints = false
-    layer.cornerRadius = FavoriteListHeaderView
+    layer.cornerRadius = FavoriteHeaderView
       .Constant
       .ImageViews
       .size.width / 2.0
@@ -58,7 +58,7 @@ final class FavoriteListHeaderImageViews: UIView {
 }
 
 // MARK: - Helpers
-extension FavoriteListHeaderImageViews {
+extension FavoriteHeaderImageViews {
   func configure(with data: [UIImage?]) {
     for (i, image) in data.enumerated() {
       if i < 4 {
@@ -71,7 +71,7 @@ extension FavoriteListHeaderImageViews {
 }
 
 // MARK: - LayoutSupport
-extension FavoriteListHeaderImageViews: LayoutSupport {
+extension FavoriteHeaderImageViews: LayoutSupport {
   func addSubviews() {
     _=imageViews.map { addSubview($0) }
   }
@@ -85,7 +85,7 @@ extension FavoriteListHeaderImageViews: LayoutSupport {
 }
 
 // MARK: - LayoutSupport constriants
-private extension FavoriteListHeaderImageViews {
+private extension FavoriteHeaderImageViews {
   var upperLeftIv: [NSLayoutConstraint] {
     let iv = imageViews[0]
     return [

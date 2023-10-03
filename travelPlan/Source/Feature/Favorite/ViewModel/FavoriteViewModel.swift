@@ -1,5 +1,5 @@
 //
-//  FavoriteListViewModel.swift
+//  FavoriteViewModel.swift
 //  travelPlan
 //
 //  Created by 양승현 on 2023/05/22.
@@ -7,30 +7,30 @@
 
 import Foundation
 
-final class FavoriteListViewModel {
+final class FavoriteViewModel {
   // MARK: - Properties
-  private var headerData: FavoriteListHeaderModel
-  private var cellData: [FavoriteListTableViewCellModel]
+  private var headerData: FavoriteHeaderView.Model
+  private var cellData: [FavoriteTableViewCell.Model]
   
   // MARK: - Initialization
   init() {
-    let mockData = MockFavoriteListdata()
+    let mockData = MockFavoritedata()
     self.headerData = mockData.mockFavoriteListHeader
     self.cellData = mockData.mockFavoriteListData
   }
 }
 
 // MARK: - FavoriteListTableViewAdapterDataSource
-extension FavoriteListViewModel: FavoriteListTableViewAdapterDataSource {
+extension FavoriteViewModel: FavoriteTableViewAdapterDataSource {
   var numberOfItems: Int {
     cellData.count
   }
   
-  var headerItem: FavoriteListHeaderModel {
+  var headerItem: FavoriteHeaderView.Model {
     headerData
   }
   
-  func cellItem(at index: Int) -> FavoriteListTableViewCellModel {
+  func cellItem(at index: Int) -> FavoriteTableViewCell.Model {
     cellData[index]
   }
 }
