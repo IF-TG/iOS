@@ -43,7 +43,13 @@ final class PrimaryColorToneRoundButton: UIButton {
   override var isSelected: Bool {
     didSet {
       currentState.toggle()
-      setAppearance()
+      UIView.animate(
+        withDuration: 0.2,
+        delay: 0,
+        options: .curveEaseInOut
+      ) {
+        self.setAppearance()
+      }
     }
   }
   
