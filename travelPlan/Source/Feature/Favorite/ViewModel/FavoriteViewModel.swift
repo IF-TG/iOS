@@ -10,7 +10,7 @@ import Foundation
 final class FavoriteViewModel {
   // MARK: - Properties
   private var headerData: FavoriteHeaderView.Model
-  private var cellData: [FavoriteTableViewCellModel]
+  private var cellData: [FavoriteTableViewCell.Model]
   
   // MARK: - Initialization
   init() {
@@ -30,7 +30,7 @@ extension FavoriteViewModel: FavoriteTableViewAdapterDataSource {
     headerData
   }
   
-  func cellItem(at index: Int) -> FavoriteTableViewCellModel {
+  func cellItem(at index: Int) -> FavoriteTableViewCell.Model {
     cellData[index]
   }
 }

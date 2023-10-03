@@ -12,5 +12,5 @@ protocol FavoriteTableViewAdapterDataSource: AnyObject {
   var headerItem: FavoriteHeaderView.Model { get }
   func cellItem(
     at index: Int
-  ) -> FavoriteTableViewCellModel
+  ) -> FavoriteTableViewCell.Model
 }

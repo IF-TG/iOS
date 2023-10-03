@@ -8,6 +8,12 @@
 import UIKit
 
 final class FavoriteTableViewCell: UITableViewCell {
+  struct Model {
+    let title: String
+    let innerItemCount: Int
+    let image: UIImage?
+  }
+  
   enum Constant {
     enum ImageView {
       enum Spacing {
@@ -86,7 +92,7 @@ final class FavoriteTableViewCell: UITableViewCell {
 
 // MARK: - Helpers
 extension FavoriteTableViewCell {
-  func configure(with data: FavoriteTableViewCellModel) {
+  func configure(with data: Model) {
     setListTitleInfo(
       withTitle: data.title,
       withCount: data.innerItemCount)

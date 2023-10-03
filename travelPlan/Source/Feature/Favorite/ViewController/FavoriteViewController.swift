@@ -128,7 +128,7 @@ extension FavoriteViewController {
 }
 
 extension FavoriteViewController: FavoriteTableViewAdapterDelegate {
-  func tappedCell(with data: FavoriteTableViewCellModel) {
+  func tappedCell(with data: FavoriteTableViewCell.Model) {
     print("go to specific favorite detail list")
   }
 }

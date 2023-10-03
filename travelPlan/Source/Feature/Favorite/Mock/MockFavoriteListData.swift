@@ -20,12 +20,12 @@ struct MockFavoritedata {
       images: [mockProfileImages[0], mockProfileImages[1]])
   }
   
-  var mockFavoriteListData: [FavoriteTableViewCellModel] {
-    [FavoriteTableViewCellModel(
+  var mockFavoriteListData: [FavoriteTableViewCell.Model] {
+    [.init(
       title: "분위기 있는 카페",
       innerItemCount: 0,
       image: mockProfileImages[0]),
-     FavoriteTableViewCellModel(
+     .init(
       title: "바다 가즈아~~",
       innerItemCount: 0,
       image: mockProfileImages[1])]

@@ -8,5 +8,5 @@
 import Foundation
 
 protocol FavoriteTableViewAdapterDelegate: AnyObject {
-  func tappedCell(with data: FavoriteTableViewCellModel) 
+  func tappedCell(with data: FavoriteTableViewCell.Model) 
 }
