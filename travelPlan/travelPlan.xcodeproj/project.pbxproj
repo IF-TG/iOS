@@ -174,6 +174,7 @@
 		15FB47EE2AC176FD0033AA18 /* UISpacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152AD4ED2A1891DB008A2A11 /* UISpacing.swift */; };
 		15FB47EF2AC1772C0033AA18 /* PostRecommendationSearchTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1325502E2A0B4BD700094218 /* PostRecommendationSearchTagCell.swift */; };
 		15FB47F12AC1DCEF0033AA18 /* TravelThemeCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FB47F02AC1DCEF0033AA18 /* TravelThemeCollectionView.swift */; };
+		15FC90D82ACC44B40033A1E5 /* FavoriteDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FC90D72ACC44B40033A1E5 /* FavoriteDetailViewController.swift */; };
 		15FEB5E52A050A99000A5F33 /* UIControl+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FEB5DA2A050A99000A5F33 /* UIControl+Combine.swift */; };
 		15FEB5E62A050A99000A5F33 /* UISwitch+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FEB5DB2A050A99000A5F33 /* UISwitch+Combine.swift */; };
 		15FEB5E72A050A99000A5F33 /* UIButton+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FEB5DC2A050A99000A5F33 /* UIButton+Combine.swift */; };
@@ -372,6 +373,7 @@
 		15FB47D42ABFFF6C0033AA18 /* InnerRoundRectReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InnerRoundRectReusableView.swift; sourceTree = "<group>"; };
 		15FB47D62AC0407D0033AA18 /* FeedPostSearchFilterInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedPostSearchFilterInfo.swift; sourceTree = "<group>"; };
 		15FB47F02AC1DCEF0033AA18 /* TravelThemeCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelThemeCollectionView.swift; sourceTree = "<group>"; };
+		15FC90D72ACC44B40033A1E5 /* FavoriteDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteDetailViewController.swift; sourceTree = "<group>"; };
 		15FEB5DA2A050A99000A5F33 /* UIControl+Combine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIControl+Combine.swift"; sourceTree = "<group>"; };
 		15FEB5DB2A050A99000A5F33 /* UISwitch+Combine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UISwitch+Combine.swift"; sourceTree = "<group>"; };
 		15FEB5DC2A050A99000A5F33 /* UIButton+Combine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+Combine.swift"; sourceTree = "<group>"; };
@@ -641,6 +643,7 @@
 				152AD5162A19F5AB008A2A11 /* Model */,
 				152AD4E42A188BCE008A2A11 /* View */,
 				15BED3022A0825A100F86321 /* ViewController */,
+				15FC90D72ACC44B40033A1E5 /* FavoriteDetailViewController.swift */,
 			);
 			path = FavoriteList;
 			sourceTree = "<group>";
@@ -1644,6 +1647,7 @@
 				158BEFC92A0F6E8800C27861 /* PostThumbnailType.swift in Sources */,
 				1594F53229FD517E00A58F20 /* AppDelegate.swift in Sources */,
 				158BEFC22A0EB45300C27861 /* UIFont+.swift in Sources */,
+				15FC90D82ACC44B40033A1E5 /* FavoriteDetailViewController.swift in Sources */,
 				15B4E5F12ACAA947001CF071 /* SearchStarButton.swift in Sources */,
 				1303047B2A24938700776A0D /* SearchView.swift in Sources */,
 				15FEB5E52A050A99000A5F33 /* UIControl+Combine.swift in Sources */,
