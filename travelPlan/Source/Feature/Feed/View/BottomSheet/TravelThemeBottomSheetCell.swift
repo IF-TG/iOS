@@ -53,7 +53,6 @@ extension TravelThemeBottomSheetCell {
   }
 }
 
-
 // MARK: - LayoutSupport
 extension TravelThemeBottomSheetCell: LayoutSupport {
   func addSubviews() {
