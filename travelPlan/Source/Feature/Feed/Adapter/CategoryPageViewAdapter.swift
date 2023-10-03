@@ -62,7 +62,7 @@ extension CategoryPageViewAdapter: UICollectionViewDelegate {
     let cellTitle = dataSource?.travelMainCategoryTitle(at: indexPath.row)
     let scrollBarLeadingInset = calculateScrollBarInset(from: cellTitle)
     collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredHorizontally)
-    delegate?.collectionView(collectionView, didSelectItemAt: indexPath, scrollBarInset: scrollBarLeadingInset)
+    delegate?.collectionView(collectionView, didSelectItemAt: indexPath, scrollBarLeadingInset: scrollBarLeadingInset)
   }
   
   func collectionView(

@@ -108,7 +108,7 @@ extension CategoryPageView: CategoryPageViewDelegate {
   func collectionView(
     _ collectionView: UICollectionView,
     didSelectItemAt indexPath: IndexPath,
-    scrollBarInset inset: CGFloat
+    scrollBarLeadingInset inset: CGFloat
   ) {
     let cell = collectionView.cellForItem(at: indexPath)
     showCurrentPageView(fromSelectedIndex: indexPath.row)
