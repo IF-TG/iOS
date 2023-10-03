@@ -61,7 +61,8 @@ extension CategoryPageViewAdapter: UICollectionViewDelegate {
   ) {
     let cellTitle = dataSource?.travelMainCategoryTitle(at: indexPath.row)
     let scrollBarLeadingInset = calculateScrollBarInset(from: cellTitle)
-    delegate?.didSelectItemAt(indexPath, spacing: scrollBarLeadingInset)
+    collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredHorizontally)
+    delegate?.collectionView(collectionView, didSelectItemAt: indexPath, scrollBarInset: scrollBarLeadingInset)
   }
   
   func collectionView(
@@ -71,7 +72,11 @@ extension CategoryPageViewAdapter: UICollectionViewDelegate {
   ) {
     if !isSetFirstCell, indexPath.item == 0 && indexPath.section == 0 {
       isSetFirstCell.toggle()
-      delegate?.collectionView(collectionView, willDisplayFirstCell: cell)
+      let cellTitle = dataSource?.travelMainCategoryTitle(at: indexPath.row)
+      let scrollBarLeadingInset = calculateScrollBarInset(from: cellTitle)
+      collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredHorizontally)
+      cell.isSelected = true
+      delegate?.collectionView(collectionView, willDisplayFirstCell: cell, scrollBarLeadingInset: scrollBarLeadingInset)
     }
   }
 }
