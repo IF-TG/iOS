@@ -20,25 +20,7 @@ class PostCollectionView: UICollectionView {
   }
   
   // MARK: - Properties
-  @Published private var isSetItemSize = false
-  
-  var itemSizeSetNotifier: AnyPublisher<Void, Never> {
-    $isSetItemSize
-      .filter { $0 }
-      .map { _ -> Void in }
-      .eraseToAnyPublisher()
-  }
-  
   private(set) var sectionIndex = 0
-  
-  override var bounds: CGRect {
-    didSet {
-      if bounds.height != 0, !isSetItemSize, let layout = collectionViewLayout as? UICollectionViewFlowLayout {
-        isSetItemSize.toggle()
-        layout.itemSize = bounds.size
-      }
-    }
-  }
   
   // MARK: - Lifecycle
   init(frame: CGRect, layout: UICollectionViewLayout) {
