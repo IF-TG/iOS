@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 final class PrimaryColorToneRoundButton: UIButton {
   enum Constant {
@@ -53,6 +54,8 @@ final class PrimaryColorToneRoundButton: UIButton {
     }
   }
   
+  var tapHandler: (() -> Void)?
+  
   // MARK: - Lifecycle
   init(frame: CGRect, currentState: State) {
     self.currentState = currentState
@@ -83,10 +86,19 @@ extension PrimaryColorToneRoundButton {
     titleLabel?.font = Constant.font
     setTitleColor(Constant.textColor, for: .normal)
     setTitle("확인", for: .normal)
+    addTarget(self, action: #selector(didTapPrimaryColorToneRoundButton), for: .touchUpInside)
     setAppearance()
   }
   
   private func setAppearance() {
     layer.backgroundColor = currentState.backgroundColor
+  }
+}
+
+// MARK: - Actions
+extension PrimaryColorToneRoundButton {
+  @objc func didTapPrimaryColorToneRoundButton() {
+    isSelected.toggle()
+    tapHandler?()
   }
 }
