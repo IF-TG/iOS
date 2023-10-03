@@ -56,14 +56,12 @@ final class PrimaryColorToneRoundLabel: UILabel {
       case .selected:
         self = .normal
       }
-      
     }
   }
   
   // MARK: - Properties
   private(set) var isSelected = false {
     didSet {
-      isSelected.toggle()
       currentState.toggle()
       UIView.animate(
         withDuration: 0.2,
@@ -74,6 +72,8 @@ final class PrimaryColorToneRoundLabel: UILabel {
       }
     }
   }
+  
+  var tap: (() -> Void)?
   
   private var currentState: State = .normal
   
@@ -110,6 +110,9 @@ extension PrimaryColorToneRoundLabel {
     layer.borderWidth = 1
     textAlignment = .center
     setAppearance()
+    let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapPrimaryColorToneRoundLabel))
+    addGestureRecognizer(tapGesture)
+    
   }
   
   private func setAppearance() {
@@ -117,5 +120,13 @@ extension PrimaryColorToneRoundLabel {
     textColor = currentState.textColor
     layer.borderColor = currentState.borderColor
     layer.backgroundColor = currentState.backgroundColor
+  }
+}
+
+// MARK: - Actions
+extension PrimaryColorToneRoundLabel {
+  @objc func didTapPrimaryColorToneRoundLabel() {
+    isSelected.toggle()
+    tap?()
   }
 }
