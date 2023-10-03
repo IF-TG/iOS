@@ -8,20 +8,25 @@
 import UIKit
 
 final class PrimaryColorToneRoundLabel: UILabel {
-  enum State {
+  enum Constant {
+    static let textSize: CGFloat = 14
+    static let cornerRadius: CGFloat = 5
+  }
+  
+  enum State: Toggable {
     case normal
     case selected
     
-    var borderColor: UIColor {
-      return .yg.primary.withAlphaComponent(0.1)
+    var borderColor: CGColor {
+      return UIColor.yg.primary.withAlphaComponent(0.1).cgColor
     }
     
-    var backgroundColor: UIColor {
+    var backgroundColor: CGColor {
       switch self {
       case .normal:
-        return .white
+        return UIColor.white.cgColor
       case .selected:
-        return .yg.primary.withAlphaComponent(0.1)
+        return UIColor.yg.primary.withAlphaComponent(0.1).cgColor
       }
     }
     
@@ -33,15 +38,62 @@ final class PrimaryColorToneRoundLabel: UILabel {
         return .yg.primary
       }
     }
+    
+    var font: UIFont {
+      let size = Constant.textSize
+      switch self {
+      case .normal:
+        return .systemFont(ofSize: size, weight: .init(500))
+      case .selected:
+        return .systemFont(ofSize: size, weight: .init(600))
+      }
+    }
+    
+    mutating func toggle() {
+      switch self {
+      case .normal:
+        self = .selected
+      case .selected:
+        self = .normal
+      }
+      
+    }
   }
   
   // MARK: - Properties
-  private var isSelected = false
+  private(set) var isSelected = false {
+    didSet {
+      isSelected.toggle()
+      currentState.toggle()
+      UIView.animate(
+        withDuration: 0.2,
+        delay: 0,
+        options: .curveEaseInOut
+      ) {
+        self.setAppearance()
+      }
+    }
+  }
+  
+  private var currentState: State = .normal
   
   // MARK: - Lifecycle
-  init(frame: CGSize) {
+  override init(frame: CGRect) {
     super.init(frame: .zero)
     configureUI()
+  }
+  
+  convenience init() {
+    self.init(frame: .zero)
+  }
+  
+  init(frame: CGRect, currentState: State) {
+    self.currentState = currentState
+    super.init(frame: frame)
+  }
+  
+  convenience init(currentState: State) {
+    self.init(frame: .zero, currentState: currentState)
   }
   
   required init?(coder: NSCoder) {
@@ -54,5 +106,16 @@ final class PrimaryColorToneRoundLabel: UILabel {
 extension PrimaryColorToneRoundLabel {
   private func configureUI() {
     translatesAutoresizingMaskIntoConstraints = false
+    layer.cornerRadius = Constant.cornerRadius
+    layer.borderWidth = 1
+    textAlignment = .center
+    setAppearance()
+  }
+  
+  private func setAppearance() {
+    font = currentState.font
+    textColor = currentState.textColor
+    layer.borderColor = currentState.borderColor
+    layer.backgroundColor = currentState.backgroundColor
   }
 }
