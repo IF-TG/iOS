@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import Combine
 
 /// Horizontal category page view
 final class CategoryPageView: UIView {
@@ -43,13 +42,10 @@ final class CategoryPageView: UIView {
   
   private var adapter: CategoryPageViewAdapter!
   
-  private var subscription: AnyCancellable?
-  
   // MARK: - Lifecycle
   override init(frame: CGRect) {
     super.init(frame: frame)
     configureUI()
-    bind()
     adapter = CategoryPageViewAdapter(
       dataSource: vm,
       delegate: self,
@@ -59,7 +55,6 @@ final class CategoryPageView: UIView {
   required init?(coder: NSCoder) {
     super.init(coder: coder)
     configureUI()
-    bind()
   }
   
   convenience init() {
@@ -81,18 +76,6 @@ private extension CategoryPageView {
     setupUI()
   }
   
-  func bind() {
-    subscription = travelDetailThemeFirstVC
-      .itemSizeSetNotifier
-      .receive(on: DispatchQueue.main)
-      .sink { [unowned self] in
-        let categoryfirstText = vm.travelMainCategoryTitle(at: 0)
-        let firstIndex = IndexPath(item: 0, section: 0)
-        categoryScrollBarAreaView.setInitialVisibleSubviews(from: categoryfirstText)
-        categoryScrollBarAreaView.selectedItem(at: firstIndex, animated: false, scrollPosition: .left)
-      }
-  }
-  
   func showCurrentPageView(fromSelectedIndex selectedIndex: Int) {
     guard selectedIndex != presentedPageViewIndex else { return }
     var direction: UIPageViewController.NavigationDirection
@@ -111,11 +94,25 @@ private extension CategoryPageView {
 
 // MARK: - CategoryPageViewDelegate
 extension CategoryPageView: CategoryPageViewDelegate {
-  func didSelectItemAt(_ indexPath: IndexPath, spacing: CGFloat) {
-    guard let cell = categoryScrollBarAreaView.selectedCell(at: indexPath) else { return }
-    categoryScrollBarAreaView.selectedItem(at: indexPath, animated: true, scrollPosition: .centeredHorizontally)
+  func collectionView(
+    _ collectionView: UICollectionView,
+    willDisplayFirstCell cell: UICollectionViewCell,
+    scrollBarLeadingInset leadingInset: CGFloat
+  ) {
+    categoryScrollBarAreaView.drawScrollBar(
+      layoutTargetCell: cell,
+      leadingInset: leadingInset,
+      animation: false)
+  }
+  
+  func collectionView(
+    _ collectionView: UICollectionView,
+    didSelectItemAt indexPath: IndexPath,
+    scrollBarInset inset: CGFloat
+  ) {
+    let cell = collectionView.cellForItem(at: indexPath)
     showCurrentPageView(fromSelectedIndex: indexPath.row)
-    categoryScrollBarAreaView.drawScrollBar(target: cell, fromLeading: spacing)
+    categoryScrollBarAreaView.drawScrollBar(layoutTargetCell: cell, leadingInset: inset)
   }
 }
 
