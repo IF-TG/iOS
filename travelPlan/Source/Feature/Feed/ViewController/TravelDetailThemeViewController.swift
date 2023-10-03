@@ -17,17 +17,9 @@ final class TravelDetailThemeViewController: UIViewController {
   
   private let postView = PostCollectionView()
   
-  var itemSizeSetNotifier: AnyPublisher<Void, Never> {
-    postView.itemSizeSetNotifier
-  }
-  
   private var viewModel: PostViewModel!
   
   private var postViewAdapter: PostViewAdapter!
-  
-  private var isViewModelNil: Bool {
-    viewModel == nil
-  }
   
   override func loadView() {
     view = postView
