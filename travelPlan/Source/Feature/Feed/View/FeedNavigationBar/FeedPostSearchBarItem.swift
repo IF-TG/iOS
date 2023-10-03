@@ -8,7 +8,22 @@
 import UIKit
 
 final class FeedPostSearchBarItem: UIButton {  
-  // MARK: - Initialization
+  enum Constant {
+    static let backgroundColor: UIColor = .white
+    static let image = UIImage(named: "search")
+    static let size = CGSize(width: 24, height: 24)
+    
+    enum Spacing {
+      static let top: CGFloat = 5
+      static let bottom: CGFloat = 5
+      static let leading: CGFloat = 0
+      static let trailing: CGFloat = 0
+    }
+    static let normalColor: UIColor = .yg.gray5
+    static let highlightColor: UIColor = .yg.gray5.withAlphaComponent(0.5)
+  }
+  
+  // MARK: - Lifecycle
   private override init(frame: CGRect) {
     super.init(frame: .zero)
     configureUI()
@@ -23,7 +38,7 @@ final class FeedPostSearchBarItem: UIButton {
   }
 }
 
-// MARK: - Helpers
+// MARK: - Private Helpers
 private extension FeedPostSearchBarItem {
   func configureUI() {
     translatesAutoresizingMaskIntoConstraints = false
@@ -36,9 +51,9 @@ private extension FeedPostSearchBarItem {
       for: .highlighted)
 
     contentEdgeInsets = UIEdgeInsets(
-      top: Constant.Inset.top,
-      left: Constant.Inset.leading,
-      bottom: Constant.Inset.bottom,
-      right: Constant.Inset.trailing)
+      top: Constant.Spacing.top,
+      left: Constant.Spacing.leading,
+      bottom: Constant.Spacing.bottom,
+      right: Constant.Spacing.trailing)
   }
 }

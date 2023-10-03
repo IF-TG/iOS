@@ -81,17 +81,7 @@ final class MoreMenuView: UICollectionReusableView {
   }
 }
 
-// MARK: - Action
-extension MoreMenuView {
-  @objc func didTapView() {
-    isSelected.toggle()
-    delegate?.moreMenuView(
-      self,
-      didSelectedType: categoryType)
-  }
-}
-
-// MARK: - Helper
+// MARK: - Helpers
 extension MoreMenuView {
   func configure(with type: TravelCategorySortingType) {
     menuLabel.text = type.rawValue
@@ -102,7 +92,7 @@ extension MoreMenuView {
   }
 }
 
-// MARK: - Private helper
+// MARK: - Private helpers
 private extension MoreMenuView {
   func configureUI() {
     translatesAutoresizingMaskIntoConstraints = false
@@ -140,6 +130,16 @@ private extension MoreMenuView {
     layer.borderColor = Constant.deselectedBorderColor.cgColor
     backgroundColor = Constant.deselectedBGColor
     menuLabel.textColor = Constant.MenuLabel.deselectedTextColor
+  }
+}
+
+// MARK: - Actions
+extension MoreMenuView {
+  @objc func didTapView() {
+    isSelected.toggle()
+    delegate?.moreMenuView(
+      self,
+      didSelectedType: categoryType)
   }
 }
 

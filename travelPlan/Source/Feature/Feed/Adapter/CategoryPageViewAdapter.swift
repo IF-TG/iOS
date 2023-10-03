@@ -10,20 +10,18 @@ import UIKit
 final class CategoryPageViewAdapter: NSObject {
   weak var dataSource: CategoryPageViewDataSource?
   weak var delegate: CategoryPageViewDelegate?
+  private var isSetFirstCell = false
   
   init(
     dataSource: CategoryPageViewDataSource? = nil,
     delegate: CategoryPageViewDelegate? = nil,
-    travelThemeCollectionView: TravelThemeCollectionView? = nil,
-    categoryDetailCollectionView: CategoryDetailView? = nil
+    travelThemeCollectionView: TravelMainThemeCollectionView? = nil
   ) {
     super.init()
     self.dataSource = dataSource
     self.delegate = delegate
     travelThemeCollectionView?.dataSource = self
     travelThemeCollectionView?.delegate = self
-    categoryDetailCollectionView?.dataSource = self
-    categoryDetailCollectionView?.delegate = self
   }
 }
 
@@ -40,33 +38,17 @@ extension CategoryPageViewAdapter: UICollectionViewDataSource {
     _ collectionView: UICollectionView,
     cellForItemAt indexPath: IndexPath
   ) -> UICollectionViewCell {
-    guard let dataSource = dataSource else { return .init() }
-    switch collectionView {
-    case is CategoryDetailView:
-      guard let cell = collectionView.dequeueReusableCell(
-        withReuseIdentifier: CategoryDetailViewCell.id,
+    guard
+      let dataSource = dataSource,
+      let cell = collectionView.dequeueReusableCell(
+        withReuseIdentifier: TravelMainCategoryViewCell.id,
         for: indexPath
-      ) as? CategoryDetailViewCell else {
-        return .init(frame: .zero)
-      }
-      
-      // TODO: - PageControl 도입 예정
-      let themeTitle = dataSource.travelMainCategoryTitle(at: indexPath.row)
-      let trendState = dataSource.travelTrendState
-      let filterInfo = FeedPostSearchFilterInfo(
-        travelTheme: TravelMainThemeType(rawValue: themeTitle) ?? .all,
-        travelTrend: trendState)
-      return cell.configure(with: filterInfo)
-    default:
-      guard let cell = collectionView.dequeueReusableCell(
-        withReuseIdentifier: CategoryViewCell.id,
-        for: indexPath
-      ) as? CategoryViewCell else {
-        return UICollectionViewCell(frame: .zero)
-      }
-      cell.configure(with: dataSource.categoryViewCellItem(at: indexPath.row))
-      return cell
+      ) as? TravelMainCategoryViewCell
+    else {
+      return UICollectionViewCell(frame: .zero)
     }
+    cell.configure(with: dataSource.cellItem(at: indexPath.row))
+    return cell
   }
 }
 
@@ -77,15 +59,47 @@ extension CategoryPageViewAdapter: UICollectionViewDelegate {
     _ collectionView: UICollectionView,
     didSelectItemAt indexPath: IndexPath
   ) {
-    guard let dataSource = dataSource else { return }
-    if collectionView is TravelThemeCollectionView {
-      let titleWidth = UILabel().set {
-        $0.text = dataSource.travelMainCategoryTitle(at: indexPath.row)
-        $0.font = UIFont.systemFont(ofSize: CategoryViewCell.Constant.Title.fontSize)
-        $0.sizeToFit()
-      }.bounds.width
-      let spacing = dataSource.scrollBarLeadingSpacing(titleWidth)
-      delegate?.didSelectItemAt(indexPath, spacing: spacing)
+    let cellTitle = dataSource?.travelMainCategoryTitle(at: indexPath.row)
+    let scrollBarLeadingInset = calculateScrollBarInset(from: cellTitle)
+    collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredHorizontally)
+    delegate?.collectionView(collectionView, didSelectItemAt: indexPath, scrollBarLeadingInset: scrollBarLeadingInset)
+  }
+  
+  func collectionView(
+    _ collectionView: UICollectionView,
+    willDisplay cell: UICollectionViewCell,
+    forItemAt indexPath: IndexPath
+  ) {
+    if !isSetFirstCell, indexPath.item == 0 && indexPath.section == 0 {
+      isSetFirstCell.toggle()
+      let cellTitle = dataSource?.travelMainCategoryTitle(at: indexPath.row)
+      let scrollBarLeadingInset = calculateScrollBarInset(from: cellTitle)
+      collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredHorizontally)
+      cell.isSelected = true
+      delegate?.collectionView(collectionView, willDisplayFirstCell: cell, scrollBarLeadingInset: scrollBarLeadingInset)
     }
+  }
+}
+
+// MARK: - Private Helpers
+private extension CategoryPageViewAdapter {
+  /// Return scrollBar specific position's leading spacing
+  /// - Parameter title: 특정 TravelMainCategoryViewCell의 여행 메인 테마 title
+  /// - Returns: cell에서 title을 제외한 영역중 절반 leading spacing
+  func calculateScrollBarInset(from title: String?) -> CGFloat {
+    typealias Const = TravelMainThemeCategoryAreaView.Constant
+    let titleWidth = calculateCellTitleLabelWidth(from: title)
+    let cellWidth = Const.size.width
+    return (cellWidth - titleWidth) / 2.0
+  }
+  
+  func calculateCellTitleLabelWidth(from title: String?) -> CGFloat {
+    return UILabel().set {
+      $0.text = title
+      $0.font = UIFont.systemFont(ofSize: TravelMainCategoryViewCell.Constant.Title.fontSize)
+      $0.sizeToFit()
+    }
+    .bounds
+    .width
   }
 }

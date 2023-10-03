@@ -79,7 +79,7 @@ class PostHeaderSubInfoView: UIView {
     }
   }
   
-  // MARK: - Initialization
+  // MARK: - Lifecycle
   private override init(frame: CGRect) {
     super.init(frame: .zero)
     translatesAutoresizingMaskIntoConstraints = false
@@ -96,7 +96,7 @@ class PostHeaderSubInfoView: UIView {
   }
 }
 
-// MARK: - Public helpers
+// MARK: - Helpers
 extension PostHeaderSubInfoView {
   func configure(with data: PostHeaderSubInfoModel?) {
     setUserNameLabel(with: data?.userName)
@@ -105,7 +105,7 @@ extension PostHeaderSubInfoView {
   }
 }
 
-// MARK: - Helpers
+// MARK: - Private helpers
 extension PostHeaderSubInfoView {
   private func setUserNameLabel(with text: String?) {
     userNameLabel.text = text
@@ -130,7 +130,7 @@ extension PostHeaderSubInfoView {
   }
 }
 
-// MARK: - Action
+// MARK: - Actions
 private extension PostHeaderSubInfoView {
   @objc func didTapUserName() {
     print("DEBUG: Goto profile section!!")
@@ -160,7 +160,7 @@ extension PostHeaderSubInfoView: LayoutSupport {
   }
 }
 
-// MARK: - LayoutSupport constraints
+// MARK: - LayoutSupport Constraints
 private extension PostHeaderSubInfoView {
   var userNameLabelConstraints: [NSLayoutConstraint] {
     return [

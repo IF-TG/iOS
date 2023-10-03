@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 class PostCollectionView: UICollectionView {
   enum Constant {
@@ -21,7 +22,7 @@ class PostCollectionView: UICollectionView {
   // MARK: - Properties
   private(set) var sectionIndex = 0
   
-  // MARK: - Initialization
+  // MARK: - Lifecycle
   init(frame: CGRect, layout: UICollectionViewLayout) {
     super.init(frame: frame, collectionViewLayout: layout)
     configureUI()
@@ -35,13 +36,11 @@ class PostCollectionView: UICollectionView {
   
   init(layout: UICollectionViewLayout) {
     super.init(frame: .zero, collectionViewLayout: layout)
-    translatesAutoresizingMaskIntoConstraints = false
     configureUI()
   }
   
   convenience init() {
     self.init(frame: .zero)
-    translatesAutoresizingMaskIntoConstraints = false
   }
   
   required init?(coder: NSCoder) {
@@ -49,9 +48,12 @@ class PostCollectionView: UICollectionView {
     configureUI()
     collectionViewLayout = makePostLayout()
   }
- 
-  // MARK: - Private helper
+}
+
+// MARK: - Private helpers
+extension PostCollectionView {
   private func configureUI() {
+    translatesAutoresizingMaskIntoConstraints = false
     showsHorizontalScrollIndicator = false
     backgroundColor = Constant.backgroundColor
     register(
@@ -59,7 +61,7 @@ class PostCollectionView: UICollectionView {
       forCellWithReuseIdentifier: PostCell.id)
   }
   
-  func makePostLayout() -> UICollectionViewLayout {
+  private func makePostLayout() -> UICollectionViewLayout {
     return UICollectionViewCompositionalLayout { [weak self] (sectionIndex, _) -> NSCollectionLayoutSection? in
       guard sectionIndex == (self?.sectionIndex ?? 0) else { return nil }
       return self?.postSection

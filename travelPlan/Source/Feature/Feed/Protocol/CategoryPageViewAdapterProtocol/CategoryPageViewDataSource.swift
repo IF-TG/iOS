@@ -9,9 +9,8 @@ import Foundation
 
 protocol CategoryPageViewDataSource: AnyObject {
   var numberOfItems: Int { get }
-  var travelTrendState: TravelOrderType { get }
   
-  func scrollBarLeadingSpacing(_ titleWidth: CGFloat) -> CGFloat  
-  func categoryViewCellItem(at index: Int) -> CategoryViewCell.Model
+  func cellItem(at index: Int) -> TravelMainCategoryViewCell.Model
   func travelMainCategoryTitle(at index: Int) -> String
+  func postSearchFilterItem(at index: Int) -> FeedPostSearchFilterInfo
 }

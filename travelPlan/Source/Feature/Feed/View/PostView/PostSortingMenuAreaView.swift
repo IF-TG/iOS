@@ -84,7 +84,7 @@ extension PostSortingMenuAreaView: MoreMenuViewDelegate {
   }
 }
 
-// MARK: - Layout support helper
+// MARK: - Private layoutsupport
 private extension PostSortingMenuAreaView {
   var travelThemeMenuViewConstraints: [NSLayoutConstraint] {
     typealias Inset = Constant.TravelThemeMenuView.Inset

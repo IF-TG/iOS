@@ -58,7 +58,7 @@ class PostContentAreaView: UIView {
     $0.sizeToFit()
   }
   
-  // MARK: - Initialization
+  // MARK: - Lifecycle
   private override init(frame: CGRect) {
     super.init(frame: .zero)
     translatesAutoresizingMaskIntoConstraints = false
