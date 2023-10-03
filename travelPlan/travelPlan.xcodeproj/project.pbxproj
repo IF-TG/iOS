@@ -624,25 +624,12 @@
 		152AD4E42A188BCE008A2A11 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				152AD4F12A189F0F008A2A11 /* FavoriteListHeaderView */,
-				152AD4F22A189F41008A2A11 /* FavoriteListTableView */,
+				152AD4F52A18B6C3008A2A11 /* FavoriteListHeaderImageView.swift */,
+				152AD4E72A188D33008A2A11 /* FavoriteListTableViewCell.swift */,
+				152AD4E52A188BFE008A2A11 /* FavoriteListTableView.swift */,
+				152AD4EF2A189CFC008A2A11 /* FavoriteListHeaderView.swift */,
 			);
 			path = View;
-			sourceTree = "<group>";
-		};
-		152AD4E92A188FAD008A2A11 /* FavoriteList */ = {
-			isa = PBXGroup;
-			children = (
-				1503F9352A4E10F7002BC38D /* Coordinator */,
-				152AD5282A1B8D5A008A2A11 /* Mock */,
-				152AD5252A1B89C9008A2A11 /* ViewModel */,
-				152AD51C2A1A04D0008A2A11 /* Protocol */,
-				152AD5192A1A0420008A2A11 /* Adapter */,
-				152AD5162A19F5AB008A2A11 /* Model */,
-				152AD4E42A188BCE008A2A11 /* View */,
-				15BED3022A0825A100F86321 /* ViewController */,
-			);
-			path = FavoriteList;
 			sourceTree = "<group>";
 		};
 		152AD4EC2A1891C4008A2A11 /* Model */ = {
@@ -652,24 +639,6 @@
 				152AD4ED2A1891DB008A2A11 /* UISpacing.swift */,
 			);
 			path = Model;
-			sourceTree = "<group>";
-		};
-		152AD4F12A189F0F008A2A11 /* FavoriteListHeaderView */ = {
-			isa = PBXGroup;
-			children = (
-				152AD4F52A18B6C3008A2A11 /* FavoriteListHeaderImageView.swift */,
-				152AD4EF2A189CFC008A2A11 /* FavoriteListHeaderView.swift */,
-			);
-			path = FavoriteListHeaderView;
-			sourceTree = "<group>";
-		};
-		152AD4F22A189F41008A2A11 /* FavoriteListTableView */ = {
-			isa = PBXGroup;
-			children = (
-				152AD4E72A188D33008A2A11 /* FavoriteListTableViewCell.swift */,
-				152AD4E52A188BFE008A2A11 /* FavoriteListTableView.swift */,
-			);
-			path = FavoriteListTableView;
 			sourceTree = "<group>";
 		};
 		152AD5162A19F5AB008A2A11 /* Model */ = {
@@ -1012,7 +981,14 @@
 		15BED3012A08256000F86321 /* Favorite */ = {
 			isa = PBXGroup;
 			children = (
-				152AD4E92A188FAD008A2A11 /* FavoriteList */,
+				15BED3022A0825A100F86321 /* ViewController */,
+				152AD4E42A188BCE008A2A11 /* View */,
+				152AD5162A19F5AB008A2A11 /* Model */,
+				152AD5192A1A0420008A2A11 /* Adapter */,
+				152AD51C2A1A04D0008A2A11 /* Protocol */,
+				152AD5252A1B89C9008A2A11 /* ViewModel */,
+				152AD5282A1B8D5A008A2A11 /* Mock */,
+				1503F9352A4E10F7002BC38D /* Coordinator */,
 			);
 			path = Favorite;
 			sourceTree = "<group>";
