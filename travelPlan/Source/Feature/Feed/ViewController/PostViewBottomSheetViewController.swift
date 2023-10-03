@@ -34,7 +34,6 @@ final class PostViewBottomSheetViewController: UIViewController {
   // MARK: - Properties
   private let indicatorBar = UIView(frame: .zero).set {
     $0.translatesAutoresizingMaskIntoConstraints = false
-    $0
   }
   private let categoryView = UITableView(frame: .zero).set {
     $0.translatesAutoresizingMaskIntoConstraints = false

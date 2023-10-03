@@ -1,5 +1,5 @@
 //
-//  FavoriteListTableViewAdapter.swift
+//  FavoriteTableViewAdapter.swift
 //  travelPlan
 //
 //  Created by 양승현 on 2023/05/21.
@@ -7,16 +7,16 @@
 
 import UIKit
 
-final class FavoriteListTableViewAdapter: NSObject {
+final class FavoriteTableViewAdapter: NSObject {
   
   // MARK: - Properties
-  weak var adapterDataSource: FavoriteListTableViewAdapterDataSource?
-  weak var adapterDelegate: FavoriteListTableViewAdapterDelegate?
+  weak var adapterDataSource: FavoriteTableViewAdapterDataSource?
+  weak var adapterDelegate: FavoriteTableViewAdapterDelegate?
   
   // MARK: - Initialization
   init(tableView: UITableView,
-       adapterDataSource: FavoriteListTableViewAdapterDataSource?,
-       adapterDelegate: FavoriteListTableViewAdapterDelegate?
+       adapterDataSource: FavoriteTableViewAdapterDataSource?,
+       adapterDelegate: FavoriteTableViewAdapterDelegate?
   ) {
     super.init()
     tableView.delegate = self
@@ -27,7 +27,7 @@ final class FavoriteListTableViewAdapter: NSObject {
 }
 
 // MARK: - UITableViewDataSource
-extension FavoriteListTableViewAdapter: UITableViewDataSource {
+extension FavoriteTableViewAdapter: UITableViewDataSource {
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return adapterDataSource?.numberOfItems ?? 0
   }
@@ -35,8 +35,8 @@ extension FavoriteListTableViewAdapter: UITableViewDataSource {
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     guard
       let cell = tableView.dequeueReusableCell(
-        withIdentifier: FavoriteListTableViewCell.id,
-        for: indexPath) as? FavoriteListTableViewCell,
+        withIdentifier: FavoriteTableViewCell.id,
+        for: indexPath) as? FavoriteTableViewCell,
       let item = adapterDataSource?.cellItem(at: indexPath.row)
     else {
       return .init()
@@ -47,7 +47,7 @@ extension FavoriteListTableViewAdapter: UITableViewDataSource {
 }
 
 // MARK: - UITableViewDelegate
-extension FavoriteListTableViewAdapter: UITableViewDelegate {
+extension FavoriteTableViewAdapter: UITableViewDelegate {
   func tableView(
     _ tableView: UITableView,
     didSelectRowAt indexPath: IndexPath
@@ -65,7 +65,7 @@ extension FavoriteListTableViewAdapter: UITableViewDelegate {
   ) -> UIView? {
     guard
       let header = tableView.dequeueReusableHeaderFooterView(
-      withIdentifier: FavoriteListHeaderView.id) as? FavoriteListHeaderView,
+      withIdentifier: FavoriteHeaderView.id) as? FavoriteHeaderView,
       let item = adapterDataSource?.headerItem
     else {
       return .init()
@@ -76,7 +76,7 @@ extension FavoriteListTableViewAdapter: UITableViewDelegate {
   
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
     if indexPath.section == 0 {
-      typealias Const = FavoriteListTableViewCell.Constant.ImageView
+      typealias Const = FavoriteTableViewCell.Constant.ImageView
       typealias Spacing = Const.Spacing
       let imageTopSpacing = Spacing.top
       let imageBottomSpacing = Spacing.bottom
@@ -88,7 +88,7 @@ extension FavoriteListTableViewAdapter: UITableViewDelegate {
   
   func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
     if section == 0 {
-      typealias Const = FavoriteListHeaderView.Constant.ImageViews
+      typealias Const = FavoriteHeaderView.Constant.ImageViews
       typealias Spacing = Const.Spacing
       let imageTopSpacing = Spacing.top
       let imageBottomSpacing = Spacing.bottom

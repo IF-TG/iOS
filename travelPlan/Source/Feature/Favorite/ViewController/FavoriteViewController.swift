@@ -28,17 +28,17 @@ class FavoriteViewController: UIViewController {
 
   // MARK: - Properties
   private let line = OneUnitHeightLine(color: .yg.gray0)
-  private lazy var tableView = FavoriteListTableView()
-  private var adapter: FavoriteListTableViewAdapter!
+  private lazy var tableView = FavoriteTableView()
+  private var adapter: FavoriteTableViewAdapter!
   weak var coordinator: FavoriteCoordinatorDelegate?
-  private var vm = FavoriteListViewModel()
+  private var vm = FavoriteViewModel()
   
   // MARK: - Lifecycle
   override func viewDidLoad() {
     super.viewDidLoad()
     configureUI()
     tableView.layoutFrom(superView: self.view)
-    adapter = FavoriteListTableViewAdapter(
+    adapter = FavoriteTableViewAdapter(
       tableView: self.tableView,
       adapterDataSource: vm,
       adapterDelegate: self)
@@ -127,8 +127,8 @@ extension FavoriteViewController {
   }
 }
 
-extension FavoriteViewController: FavoriteListTableViewAdapterDelegate {
-  func tappedCell(with data: FavoriteListTableViewCellModel) {
+extension FavoriteViewController: FavoriteTableViewAdapterDelegate {
+  func tappedCell(with data: FavoriteTableViewCell.Model) {
     print("go to specific favorite detail list")
   }
 }
