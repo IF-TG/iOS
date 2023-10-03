@@ -26,19 +26,6 @@ final class CategoryPageViewModel {
   }
 }
 
-// MARK: - Helpers
-extension CategoryPageViewModel {
-  
-  /// Return scrollBar specific position's leading spacing
-  /// - Parameter titleWidth: 특정 categoryViewCell의 title 실제 길이
-  /// - Returns: cell에서 title을 제외한 영역중 절반 leading spacing
-  func scrollBarLeadingSpacing(_ titleWidth: CGFloat) -> CGFloat {
-    return (
-      TravelMainThemeCategoryAreaView.Constant.size
-        .width - titleWidth) / 2.0
-  }
-}
-
 // MARK: - CategoryPageViewDataSource
 extension CategoryPageViewModel: CategoryPageViewDataSource {
   func travelMainCategoryTitle(at index: Int) -> String {
