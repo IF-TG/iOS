@@ -9,23 +9,16 @@ import UIKit
 
 final class FavoriteDetailCategoryAreaView: UIView {
   enum Constant {
-    enum TravelReviewLabel {
+    enum CategoryStackView {
       static let height: CGFloat = 40
+      static let interItemSpacing: CGFloat = 8
       enum Spacing {
         static let leading: CGFloat = 16
-        static let top = leading
-      }
-    }
-    
-    enum TravelLocationLabel {
-      static let height: CGFloat = 40
-      enum Spacing {
-        static let leading: CGFloat = 8
         static let top: CGFloat = 16
-        static let trailing: CGFloat = top
+        static let trailing = leading
       }
     }
-    
+        
     enum StoredTotalPostLabel {
       static let textColor: UIColor = .YG.gray3
       static let textSize: CGFloat = 13
@@ -39,6 +32,15 @@ final class FavoriteDetailCategoryAreaView: UIView {
   }
   
   // MARK: - Properties
+  private lazy var categoryStackView = UIStackView(arrangedSubviews: [travelReviewLabel, travelLocationLabel]).set {
+    typealias Const = Constant.CategoryStackView
+    $0.translatesAutoresizingMaskIntoConstraints = false
+    $0.spacing = Const.interItemSpacing
+    $0.axis = .horizontal
+    $0.alignment = .fill
+    $0.distribution = .fillEqually
+  }
+  
   private let travelReviewLabel = PrimaryColorToneRoundLabel(currentState: .selected).set {
     $0.text = "여행 리뷰"
   }
@@ -47,6 +49,7 @@ final class FavoriteDetailCategoryAreaView: UIView {
     $0.text = "장소"
   }
   
+  // TODO: - 이건 트래벌 리뷰 눌르면 그때 하위 뷰컨에서 얼마나 컨텐츠 보유중인지 확인 후 다시 여기에 새로 갱신해야할거같음.
   private var storedPostCount: Int = 0
   
   private lazy var storedTotalPostLabel: UILabel = UILabel(frame: .zero).set {
@@ -64,6 +67,7 @@ final class FavoriteDetailCategoryAreaView: UIView {
     travelReviewLabel.tapHandler
   }
   
+  // TODO: - 나중에 이거 Void반환말고 Int로 반환해서 그 특정 메뉴에 찜 몇개인지 판단하고 그거에 따라 빈화면인지 아닌지 구분해야함.
   var travelLocationTapHandler: (() -> Void)? {
     travelLocationLabel.tapHandler
   }
@@ -117,8 +121,7 @@ extension FavoriteDetailCategoryAreaView {
 extension FavoriteDetailCategoryAreaView: LayoutSupport {
   func addSubviews() {
     _=[
-      travelReviewLabel,
-      travelLocationLabel,
+      categoryStackView,
       storedTotalPostLabel
     ].map {
       addSubview($0)
@@ -127,8 +130,7 @@ extension FavoriteDetailCategoryAreaView: LayoutSupport {
   
   func setConstraints() {
     _=[
-      travelReviewLabelConstraints,
-      travelLocationLabelConstraints,
+      categoryStackViewConstraints,
       storedTotalPostLabelConstraints
     ].map {
       NSLayoutConstraint.activate($0)
@@ -138,23 +140,14 @@ extension FavoriteDetailCategoryAreaView: LayoutSupport {
 
 // MARK: - LayoutSupport Constraints
 private extension FavoriteDetailCategoryAreaView {
-  var travelReviewLabelConstraints: [NSLayoutConstraint] {
-    typealias Const = Constant.TravelReviewLabel
+  var categoryStackViewConstraints: [NSLayoutConstraint] {
+    typealias Const = Constant.CategoryStackView
     typealias Spacing = Const.Spacing
     return [
-      travelReviewLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Spacing.leading),
-      travelReviewLabel.topAnchor.constraint(equalTo: topAnchor, constant: Spacing.top),
-      travelReviewLabel.heightAnchor.constraint(equalToConstant: Const.height)]
-  }
-  
-  var travelLocationLabelConstraints: [NSLayoutConstraint] {
-    typealias Const = Constant.TravelLocationLabel
-    typealias Spacing = Const.Spacing
-    return [
-      travelLocationLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Spacing.leading),
-      travelLocationLabel.topAnchor.constraint(equalTo: topAnchor, constant: Spacing.top),
-      travelLocationLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Spacing.trailing),
-      travelLocationLabel.heightAnchor.constraint(equalToConstant: Const.height)]
+      categoryStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Spacing.leading),
+      categoryStackView.topAnchor.constraint(equalTo: topAnchor, constant: Spacing.top),
+      categoryStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Spacing.trailing),
+      categoryStackView.heightAnchor.constraint(equalToConstant: Const.height)]
   }
   
   var storedTotalPostLabelConstraints: [NSLayoutConstraint] {
