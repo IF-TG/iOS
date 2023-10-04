@@ -32,9 +32,13 @@ final class FavoriteDetailCategoryAreaView: UIView {
     }
   }
   
-  enum CategoryState {
-    case travelReview
-    case travelLocation
+  enum CategoryState: String {
+    case travelReview = "글"
+    case travelLocation = "장소"
+    
+    func convertTotalItemTextFormat(with totalItem: Int) -> String {
+      return "찜한 " + self.rawValue + " " + totalItem.zeroPaddingString + "개"
+    }
   }
   
   // MARK: - Properties
@@ -55,10 +59,7 @@ final class FavoriteDetailCategoryAreaView: UIView {
     $0.text = "장소"
   }
   
-  // TODO: - 이건 트래벌 리뷰 눌르면 그때 하위 뷰컨에서 얼마나 컨텐츠 보유중인지 확인 후 다시 여기에 새로 갱신해야할거같음.
-  private var storedPostCount: Int = 0
-  
-  private lazy var storedTotalPostLabel: UILabel = UILabel(frame: .zero).set {
+  private lazy var TotalItemStateLabel: UILabel = UILabel(frame: .zero).set {
     typealias Const = Constant.StoredTotalPostLabel
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.numberOfLines = 1
@@ -69,20 +70,17 @@ final class FavoriteDetailCategoryAreaView: UIView {
     $0.sizeToFit()
   }
   
-  var travelReviewTapHandler: (() -> Void)? {
-    travelReviewLabel.tapHandler
-  }
-  
-  
-  
   // TODO: - 각각 레이블 헨들러 Void 반환말고 찜 개수 Int를 반환해서 그 특정 메뉴에 찜 몇개인지 판단하고 그거에 따라 빈화면인지 아닌지 구분해야함.
-  var travelLocationTapHandler: (() -> Void)? {
-    travelLocationLabel.tapHandler
-  }
+  var travelReviewTapHandler: (() -> Int)?
+  
+  var travelLocationTapHandler: (() -> Int)?
+  
+  // TODO: - 이건 트래벌 리뷰 눌르면 그때 하위 뷰컨에서 얼마나 컨텐츠 보유중인지 확인 후 다시 여기에 새로 갱신해야할거같음.
+  @Published private var storedPostCount: Int = 0
   
   @Published private var categoryState: CategoryState = .travelReview
   
-  private var subscription: AnyCancellable?
+  private var subscriptions = Set<AnyCancellable>()
   
   override var intrinsicContentSize: CGSize {
     let width = super.intrinsicContentSize.width
@@ -131,7 +129,7 @@ extension FavoriteDetailCategoryAreaView {
   }
   
   private func bind() {
-    subscription = $categoryState
+    $categoryState
       .sink { [weak self] in
         if $0 == .travelReview {
           self?.travelReviewLabel.isUserInteractionEnabled = false
@@ -140,7 +138,13 @@ extension FavoriteDetailCategoryAreaView {
           self?.travelLocationLabel.isUserInteractionEnabled = false
           self?.travelReviewLabel.isUserInteractionEnabled = true
         }
-    }
+      }.store(in: &subscriptions)
+    
+    $storedPostCount
+      .sink { [weak self] in
+        guard $0 >= 0 else { return }
+        self?.TotalItemStateLabel.text = "찜한 글 " + $0.zeroPaddingString + "개"
+      }.store(in: &subscriptions)
     
     travelReviewLabel.tapHandler = { [weak self] in
       if self?.categoryState == .travelLocation {
@@ -163,7 +167,7 @@ extension FavoriteDetailCategoryAreaView: LayoutSupport {
   func addSubviews() {
     _=[
       categoryStackView,
-      storedTotalPostLabel
+      TotalItemStateLabel
     ].map {
       addSubview($0)
     }
@@ -195,8 +199,8 @@ private extension FavoriteDetailCategoryAreaView {
     typealias Const = Constant.StoredTotalPostLabel
     typealias Spacing = Const.Spacing
     return [
-      storedTotalPostLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Spacing.leaidng),
-      storedTotalPostLabel.topAnchor.constraint(equalTo: travelReviewLabel.bottomAnchor, constant: Spacing.top),
-      storedTotalPostLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Spacing.trailing)]
+      TotalItemStateLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Spacing.leaidng),
+      TotalItemStateLabel.topAnchor.constraint(equalTo: travelReviewLabel.bottomAnchor, constant: Spacing.top),
+      TotalItemStateLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Spacing.trailing)]
   }
 }
