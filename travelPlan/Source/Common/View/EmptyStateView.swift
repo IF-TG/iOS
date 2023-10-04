@@ -29,5 +29,17 @@ final class EmptyStateView: UIView {
         return path
       }
     }
+    
+    var titleFont: UIFont {
+      return .systemFont(ofSize: 15, weight: .init(600))
+    }
+    
+    var contentFont: UIFont {
+      return .systemFont(ofSize: 13, weight: .init(400))
+    }
+    
+    var textColor: UIColor {
+      return .YG.gray1
+    }
   }
 }
