@@ -88,8 +88,25 @@ final class FavoriteDetailCategoryAreaView: UIView {
     super.init(coder: coder)
     configureUI()
   }
+}
+
+// MARK: - Helpers
+extension FavoriteDetailCategoryAreaView {
+  func plusStoredPost() {
+    storedPostCount += 1
+  }
   
-  // MARK: - Private Helpers
+  func minusStoredPost() -> Bool {
+    if storedPostCount == 0 {
+      return false
+    }
+    storedPostCount -= 1
+    return true
+  }
+}
+
+// MARK: - Private Helpers
+extension FavoriteDetailCategoryAreaView {
   private func configureUI() {
     translatesAutoresizingMaskIntoConstraints = false
     setupUI()
