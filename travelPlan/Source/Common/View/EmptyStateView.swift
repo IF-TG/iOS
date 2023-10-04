@@ -9,10 +9,6 @@ import UIKit
 
 final class EmptyStateView: UIView {
   enum Constant {
-    enum Icon {
-      static let size = CGSize(width: 50, height: 50)
-    }
-    
     enum TitleLabel {
       enum Spacing {
         static let top: CGFloat = 15
@@ -21,7 +17,7 @@ final class EmptyStateView: UIView {
     
     enum ContentLabel {
       enum Spacing {
-        static let top: CGFloat = 20
+        static let top: CGFloat = 10
       }
     }
   }
@@ -31,7 +27,7 @@ final class EmptyStateView: UIView {
     case disabledNotification
     case emptyTravelPost
     case emptyTravelLocation
-    case customEmpty(imagePath: String, title: String, content: String)
+    case customEmpty(iconPath: String, iconSize: CGSize, title: String, content: String)
     
     var iconPath: String {
       switch self {
@@ -43,8 +39,21 @@ final class EmptyStateView: UIView {
         return "emptyStateStar"
       case .emptyTravelLocation:
         return "emptyStateStar"
-      case .customEmpty(let path, _, _):
+      case .customEmpty(let path, _, _, _):
         return path
+      }
+    }
+    
+    var iconSize: CGSize {
+      switch self {
+      case .emptyTravelPost,
+           .emptyTravelLocation:
+        return .init(width: 48, height: 48)
+      case .emptyNotifiation,
+           .disabledNotification:
+        return .init(width: 50, height: 50)
+      case .customEmpty(_, let size, _, _):
+        return size
       }
     }
     
@@ -70,7 +79,7 @@ final class EmptyStateView: UIView {
         return "여행 리뷰가 비어있어요."
       case .emptyTravelLocation:
         return "여행 장소가 비어있어요."
-      case .customEmpty(_, let title, _):
+      case .customEmpty(_, _, let title, _):
         return title
       }
     }
@@ -82,9 +91,9 @@ final class EmptyStateView: UIView {
       case .disabledNotification:
         return "흥미로운 플랜과 리뷰를 둘러보러 가볼까요?"
       case .emptyTravelPost,
-          .emptyTravelLocation:
+           .emptyTravelLocation:
         return "여행자들의 리뷰와 장소를 찜해보세요."
-      case .customEmpty(_, _, let content):
+      case .customEmpty(_, _, _, let content):
         return content
       }
     }
@@ -122,7 +131,7 @@ final class EmptyStateView: UIView {
   
   override var intrinsicContentSize: CGSize {
     let width = 260.0
-    let iconAreaHeight = Constant.Icon.size.height
+    let iconAreaHeight = state.iconSize.height
     let titleAreaHeight = Constant.TitleLabel.Spacing.top + state.titleFont.lineHeight
     let contentAreaHeight = Constant.ContentLabel.Spacing.top + state.contentFont.lineHeight * 2
     let height = iconAreaHeight + titleAreaHeight + contentAreaHeight
@@ -181,10 +190,9 @@ extension EmptyStateView: LayoutSupport {
 // MARK: - LayoutSupport Constraints
 private extension EmptyStateView {
   var iconConstraints: [NSLayoutConstraint] {
-    typealias Const = Constant.Icon
     return [
-      icon.widthAnchor.constraint(equalToConstant: Const.size.width),
-      icon.heightAnchor.constraint(equalToConstant: Const.size.height),
+      icon.widthAnchor.constraint(equalToConstant: state.iconSize.width),
+      icon.heightAnchor.constraint(equalToConstant: state.iconSize.height),
       icon.topAnchor.constraint(equalTo: topAnchor),
       icon.centerXAnchor.constraint(equalTo: centerXAnchor)]
   }
