@@ -138,6 +138,8 @@ final class EmptyStateView: UIView {
     return .init(width: width, height: height)
   }
   
+  private var isFirstAnimation = false
+  
   // MARK: - Lifecycle
   init(frame: CGRect, state: UseageType) {
     self.state = state
@@ -156,11 +158,56 @@ final class EmptyStateView: UIView {
   }
 }
 
+// MARK: - Helpers
+extension EmptyStateView {
+  /// 애니메이션을 사용하려면 viewWillAppear 시점에 호출해 주세요.
+  func prepareAnimation() {
+    icon.alpha = 0.12
+    icon.backgroundColor = .white
+    titleLabel.alpha = 0
+    titleLabel.transform = .init(translationX: -30, y: 0)
+    contentLabel.alpha = 0
+    contentLabel.transform = .init(translationX: -30, y: 0)
+  }
+  
+  /// 애니메이션을 사용하려면 viewDidAppaer 시점에 호출해 주세요.
+  func showAnimation() {
+    guard !isFirstAnimation else {
+      return
+    }
+    isFirstAnimation.toggle()
+    UIView.transition(
+      with: icon,
+      duration: 1.1,
+      options: [.curveEaseOut, .transitionCurlDown, .curveEaseIn],
+      animations: {
+        self.icon.alpha = 1
+      })
+    UIView.animate(
+      withDuration: 0.75,
+      delay: 0.5,
+      options: [.curveEaseOut],
+      animations: {
+        self.titleLabel.transform = .identity
+        self.titleLabel.alpha = 1
+      })
+    UIView.animate(
+      withDuration: 0.75,
+      delay: 0.9,
+      options: [.curveEaseOut],
+      animations: {
+        self.contentLabel.transform = .identity
+        self.contentLabel.alpha = 1
+      })
+  }
+}
+
 // MARK: - Private Helpers
 private extension EmptyStateView {
   func configureUI() {
     translatesAutoresizingMaskIntoConstraints = false
     setupUI()
+    backgroundColor = .white
   }
 }
 
