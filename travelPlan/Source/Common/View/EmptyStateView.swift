@@ -59,5 +59,34 @@ final class EmptyStateView: UIView {
     var textColor: UIColor {
       return .YG.gray1
     }
+    
+    var title: String {
+      switch self {
+      case .emptyNotifiation:
+        return "새로운 알림이 없어요."
+      case .disabledNotification:
+        return "알림이 꺼져있어요."
+      case .emptyTravelPost:
+        return "여행 리뷰가 비어있어요."
+      case .emptyTravelLocation:
+        return "여행 장소가 비어있어요."
+      case .customEmpty(_, let title, _):
+        return title
+      }
+    }
+    
+    var content: String {
+      switch self {
+      case .emptyNotifiation:
+        return "여행자들의 흥미로운 소식을 알림으로 받아보세요!"
+      case .disabledNotification:
+        return "흥미로운 플랜과 리뷰를 둘러보러 가볼까요?"
+      case .emptyTravelPost,
+          .emptyTravelLocation:
+        return "여행자들의 리뷰와 장소를 찜해보세요."
+      case .customEmpty(_, _, let content):
+        return content
+      }
+    }
   }
 }
