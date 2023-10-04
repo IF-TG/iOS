@@ -106,6 +106,7 @@ final class EmptyStateView: UIView {
     $0.textColor = state.textColor
     $0.numberOfLines = 1
     $0.text = state.title
+    $0.sizeToFit()
   }
   
   private lazy var contentLabel: UILabel = UILabel(frame: .zero).set {
@@ -116,6 +117,7 @@ final class EmptyStateView: UIView {
     /// 최대 2문장까지
     $0.numberOfLines = 0
     $0.text = state.content
+    $0.sizeToFit()
   }
   
   // MARK: - Lifecycle
@@ -140,5 +142,58 @@ final class EmptyStateView: UIView {
 private extension EmptyStateView {
   func configureUI() {
     translatesAutoresizingMaskIntoConstraints = false
+    setupUI()
+  }
+}
+
+// MARK: - LayoutSupport
+extension EmptyStateView: LayoutSupport {
+  func addSubviews() {
+    _=[
+      icon,
+      titleLabel,
+      contentLabel
+    ].map {
+      addSubview($0)
+    }
+  }
+  
+  func setConstraints() {
+    _=[
+      iconConstraints,
+      titleLabelConstraints,
+      contentLabelConstraints
+    ].map {
+      NSLayoutConstraint.activate($0)
+    }
+  }
+}
+
+// MARK: - LayoutSupport Constraints
+private extension EmptyStateView {
+  var iconConstraints: [NSLayoutConstraint] {
+    typealias Const = Constant.Icon
+    return [
+      icon.widthAnchor.constraint(equalToConstant: Const.size.width),
+      icon.heightAnchor.constraint(equalToConstant: Const.size.height),
+      icon.topAnchor.constraint(equalTo: topAnchor),
+      icon.centerXAnchor.constraint(equalTo: centerXAnchor)]
+  }
+  
+  var titleLabelConstraints: [NSLayoutConstraint] {
+    typealias Spacing = Constant.TitleLabel.Spacing
+    return [
+      titleLabel.topAnchor.constraint(equalTo: icon.bottomAnchor, constant: Spacing.top),
+      titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
+      titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor)]
+  }
+  
+  var contentLabelConstraints: [NSLayoutConstraint] {
+    typealias Spacing = Constant.contentLabel.Spacing
+    return [
+      contentLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: Spacing.top),
+      contentLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
+      contentLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
+      contentLabel.heightAnchor.constraint(lessThanOrEqualToConstant: state.contentFont.lineHeight*2)]
   }
 }
