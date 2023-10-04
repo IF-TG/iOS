@@ -13,6 +13,21 @@ final class EmptyStateView: UIView {
     case disabledNotification
     case emptyTravelPost
     case emptyTravelLocation
-    case custom(imagePath: String, title: String, content: String)
+    case customEmpty(imagePath: String, title: String, content: String)
+    
+    var imagePath: String {
+      switch self {
+      case .emptyNotifiation:
+        return "emptyNotificationBell"
+      case .disabledNotification:
+        return "disabledNotificationBell"
+      case .emptyTravelPost:
+        return "emptyStateStar"
+      case .emptyTravelLocation:
+        return "emptyStateStar"
+      case .customEmpty(let path, _, _):
+        return path
+      }
+    }
   }
 }
