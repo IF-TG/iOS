@@ -19,7 +19,7 @@ final class EmptyStateView: UIView {
       }
     }
     
-    enum contentLabel {
+    enum ContentLabel {
       enum Spacing {
         static let top: CGFloat = 20
       }
@@ -120,6 +120,15 @@ final class EmptyStateView: UIView {
     $0.sizeToFit()
   }
   
+  override var intrinsicContentSize: CGSize {
+    let width = 260.0
+    let iconAreaHeight = Constant.Icon.size.height
+    let titleAreaHeight = Constant.TitleLabel.Spacing.top + state.titleFont.lineHeight
+    let contentAreaHeight = Constant.ContentLabel.Spacing.top + state.contentFont.lineHeight * 2
+    let height = iconAreaHeight + titleAreaHeight + contentAreaHeight
+    return .init(width: width, height: height)
+  }
+  
   // MARK: - Lifecycle
   init(frame: CGRect, state: UseageType) {
     self.state = state
@@ -189,7 +198,7 @@ private extension EmptyStateView {
   }
   
   var contentLabelConstraints: [NSLayoutConstraint] {
-    typealias Spacing = Constant.contentLabel.Spacing
+    typealias Spacing = Constant.ContentLabel.Spacing
     return [
       contentLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: Spacing.top),
       contentLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
