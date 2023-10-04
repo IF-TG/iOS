@@ -103,6 +103,13 @@ final class PrimaryColorToneRoundLabel: UILabel {
   }
 }
 
+// MARK: - Helpers
+extension PrimaryColorToneRoundLabel {
+  func toggleCurrentState() {
+    isSelected.toggle()
+  }
+}
+
 // MARK: - Private Helpers
 extension PrimaryColorToneRoundLabel {
   private func configureUI() {
