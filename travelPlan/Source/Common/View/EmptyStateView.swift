@@ -15,7 +15,7 @@ final class EmptyStateView: UIView {
     case emptyTravelLocation
     case customEmpty(imagePath: String, title: String, content: String)
     
-    var imagePath: String {
+    var iconPath: String {
       switch self {
       case .emptyNotifiation:
         return "emptyNotificationBell"
