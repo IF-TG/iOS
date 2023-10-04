@@ -8,6 +8,24 @@
 import UIKit
 
 final class EmptyStateView: UIView {
+  enum Constant {
+    enum Icon {
+      static let size = CGSize(width: 50, height: 50)
+    }
+    
+    enum TitleLabel {
+      enum Spacing {
+        static let top: CGFloat = 15
+      }
+    }
+    
+    enum contentLabel {
+      enum Spacing {
+        static let top: CGFloat = 20
+      }
+    }
+  }
+  
   enum UseageType {
     case emptyNotifiation
     case disabledNotification
