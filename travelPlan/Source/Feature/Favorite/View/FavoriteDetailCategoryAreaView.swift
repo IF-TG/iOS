@@ -66,7 +66,7 @@ final class FavoriteDetailCategoryAreaView: UIView {
     $0.textAlignment = .natural
     $0.textColor = Const.textColor
     $0.font = UIFont.systemFont(ofSize: Const.textSize, weight: .init(Const.textWeight))
-    $0.text = "찜한 글 " + storedPostCount.zeroPaddingString + "개"
+    $0.text = "찜한 글 " + totalItemCount.zeroPaddingString + "개"
     $0.sizeToFit()
   }
   
@@ -76,7 +76,7 @@ final class FavoriteDetailCategoryAreaView: UIView {
   var travelLocationTapHandler: (() -> Int)?
   
   // TODO: - 이건 트래벌 리뷰 눌르면 그때 하위 뷰컨에서 얼마나 컨텐츠 보유중인지 확인 후 다시 여기에 새로 갱신해야할거같음.
-  @Published private var storedPostCount: Int = 0
+  @Published private var totalItemCount: Int = 0
   
   @Published private var categoryState: CategoryState = .travelReview
   
@@ -109,14 +109,14 @@ final class FavoriteDetailCategoryAreaView: UIView {
 // MARK: - Helpers
 extension FavoriteDetailCategoryAreaView {
   func plusStoredPost() {
-    storedPostCount += 1
+    totalItemCount += 1
   }
   
   func minusStoredPost() -> Bool {
-    if storedPostCount == 0 {
+    if totalItemCount == 0 {
       return false
     }
-    storedPostCount -= 1
+    totalItemCount -= 1
     return true
   }
 }
@@ -140,7 +140,7 @@ extension FavoriteDetailCategoryAreaView {
         }
       }.store(in: &subscriptions)
     
-    $storedPostCount
+    $totalItemCount
       .sink { [weak self] in
         guard $0 >= 0 else { return }
         self?.TotalItemStateLabel.text = "찜한 글 " + $0.zeroPaddingString + "개"
