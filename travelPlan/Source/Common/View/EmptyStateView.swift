@@ -39,7 +39,7 @@ final class EmptyStateView: UIView {
         return "emptyStateStar"
       case .emptyTravelLocation:
         return "emptyStateStar"
-      case .customEmpty(let path, _, _, _):
+      case .custom(let path, _, _, _):
         return path
       }
     }
@@ -52,7 +52,7 @@ final class EmptyStateView: UIView {
       case .emptyNotifiation,
            .disabledNotification:
         return .init(width: 50, height: 50)
-      case .customEmpty(_, let size, _, _):
+      case .custom(_, let size, _, _):
         return size
       }
     }
@@ -79,7 +79,7 @@ final class EmptyStateView: UIView {
         return "여행 리뷰가 비어있어요."
       case .emptyTravelLocation:
         return "여행 장소가 비어있어요."
-      case .customEmpty(_, _, let title, _):
+      case .custom(_, _, let title, _):
         return title
       }
     }
@@ -93,7 +93,7 @@ final class EmptyStateView: UIView {
       case .emptyTravelPost,
            .emptyTravelLocation:
         return "여행자들의 리뷰와 장소를 찜해보세요."
-      case .customEmpty(_, _, _, let content):
+      case .custom(_, _, _, let content):
         return content
       }
     }
