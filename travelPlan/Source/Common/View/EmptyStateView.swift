@@ -89,4 +89,56 @@ final class EmptyStateView: UIView {
       }
     }
   }
+  
+  // MARK: - Properties
+  private let state: UseageType
+  
+  private lazy var icon: UIImageView = UIImageView(frame: .zero).set {
+    $0.translatesAutoresizingMaskIntoConstraints = false
+    $0.contentMode = .scaleAspectFit
+    $0.image = UIImage(named: state.iconPath)
+  }
+  
+  private lazy var titleLabel: UILabel = UILabel(frame: .zero).set {
+    $0.translatesAutoresizingMaskIntoConstraints = false
+    $0.textAlignment = .center
+    $0.font = state.titleFont
+    $0.textColor = state.textColor
+    $0.numberOfLines = 1
+    $0.text = state.title
+  }
+  
+  private lazy var contentLabel: UILabel = UILabel(frame: .zero).set {
+    $0.translatesAutoresizingMaskIntoConstraints = false
+    $0.textAlignment = .center
+    $0.font = state.contentFont
+    $0.textColor = state.textColor
+    /// 최대 2문장까지
+    $0.numberOfLines = 0
+    $0.text = state.content
+  }
+  
+  // MARK: - Lifecycle
+  init(frame: CGRect, state: UseageType) {
+    self.state = state
+    super.init(frame: frame)
+    configureUI()
+  }
+  
+  convenience init(state: UseageType) {
+    self.init(frame: .zero, state: state)
+  }
+  
+  required init?(coder: NSCoder) {
+    state = .emptyNotifiation
+    super.init(coder: coder)
+    configureUI()
+  }
+}
+
+// MARK: - Private Helpers
+private extension EmptyStateView {
+  func configureUI() {
+    translatesAutoresizingMaskIntoConstraints = false
+  }
 }
