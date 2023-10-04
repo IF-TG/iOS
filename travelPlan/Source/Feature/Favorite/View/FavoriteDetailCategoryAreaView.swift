@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 final class FavoriteDetailCategoryAreaView: UIView {
   enum Constant {
@@ -29,6 +30,11 @@ final class FavoriteDetailCategoryAreaView: UIView {
         static let trailing = leaidng
       }
     }
+  }
+  
+  enum CategoryState {
+    case travelReview
+    case travelLocation
   }
   
   // MARK: - Properties
@@ -67,10 +73,16 @@ final class FavoriteDetailCategoryAreaView: UIView {
     travelReviewLabel.tapHandler
   }
   
-  // TODO: - 나중에 이거 Void반환말고 Int로 반환해서 그 특정 메뉴에 찜 몇개인지 판단하고 그거에 따라 빈화면인지 아닌지 구분해야함.
+  
+  
+  // TODO: - 각각 레이블 헨들러 Void 반환말고 찜 개수 Int를 반환해서 그 특정 메뉴에 찜 몇개인지 판단하고 그거에 따라 빈화면인지 아닌지 구분해야함.
   var travelLocationTapHandler: (() -> Void)? {
     travelLocationLabel.tapHandler
   }
+  
+  @Published private var categoryState: CategoryState = .travelReview
+  
+  private var subscription: AnyCancellable?
   
   override var intrinsicContentSize: CGSize {
     let width = super.intrinsicContentSize.width
@@ -82,6 +94,7 @@ final class FavoriteDetailCategoryAreaView: UIView {
   override init(frame: CGRect) {
     super.init(frame: frame)
     configureUI()
+    bind()
   }
   
   convenience init() {
@@ -91,6 +104,7 @@ final class FavoriteDetailCategoryAreaView: UIView {
   required init?(coder: NSCoder) {
     super.init(coder: coder)
     configureUI()
+    bind()
   }
 }
 
@@ -114,6 +128,33 @@ extension FavoriteDetailCategoryAreaView {
   private func configureUI() {
     translatesAutoresizingMaskIntoConstraints = false
     setupUI()
+  }
+  
+  private func bind() {
+    subscription = $categoryState
+      .sink { [weak self] in
+        if $0 == .travelReview {
+          self?.travelReviewLabel.isUserInteractionEnabled = false
+          self?.travelLocationLabel.isUserInteractionEnabled = true
+        } else {
+          self?.travelLocationLabel.isUserInteractionEnabled = false
+          self?.travelReviewLabel.isUserInteractionEnabled = true
+        }
+    }
+    
+    travelReviewLabel.tapHandler = { [weak self] in
+      if self?.categoryState == .travelLocation {
+        self?.categoryState = .travelReview
+        self?.travelLocationLabel.toggleCurrentState()
+      }
+    }
+    
+    travelLocationLabel.tapHandler = { [weak self] in
+      if self?.categoryState == .travelReview {
+        self?.categoryState = .travelLocation
+        self?.travelReviewLabel.toggleCurrentState()
+      }
+    }
   }
 }
 
