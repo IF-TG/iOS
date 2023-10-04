@@ -20,7 +20,7 @@ final class FavoriteDetailCategoryAreaView: UIView {
       }
     }
         
-    enum StoredTotalPostLabel {
+    enum TotalItemStateLabel {
       static let textColor: UIColor = .YG.gray3
       static let textSize: CGFloat = 13
       static let textWeight: CGFloat = 500
@@ -59,8 +59,8 @@ final class FavoriteDetailCategoryAreaView: UIView {
     $0.text = "장소"
   }
   
-  private lazy var TotalItemStateLabel: UILabel = UILabel(frame: .zero).set {
-    typealias Const = Constant.StoredTotalPostLabel
+  private lazy var totalItemStateLabel: UILabel = UILabel(frame: .zero).set {
+    typealias Const = Constant.TotalItemStateLabel
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.numberOfLines = 1
     $0.textAlignment = .natural
@@ -143,7 +143,7 @@ extension FavoriteDetailCategoryAreaView {
     $totalItemCount
       .sink { [weak self] in
         guard $0 >= 0 else { return }
-        self?.TotalItemStateLabel.text = "찜한 글 " + $0.zeroPaddingString + "개"
+        self?.totalItemStateLabel.text = "찜한 글 " + $0.zeroPaddingString + "개"
       }.store(in: &subscriptions)
     
     travelReviewLabel.tapHandler = { [weak self] in
@@ -167,7 +167,7 @@ extension FavoriteDetailCategoryAreaView: LayoutSupport {
   func addSubviews() {
     _=[
       categoryStackView,
-      TotalItemStateLabel
+      totalItemStateLabel
     ].map {
       addSubview($0)
     }
@@ -176,7 +176,7 @@ extension FavoriteDetailCategoryAreaView: LayoutSupport {
   func setConstraints() {
     _=[
       categoryStackViewConstraints,
-      storedTotalPostLabelConstraints
+      totalItemStateLabelConstraints
     ].map {
       NSLayoutConstraint.activate($0)
     }
@@ -195,12 +195,12 @@ private extension FavoriteDetailCategoryAreaView {
       categoryStackView.heightAnchor.constraint(equalToConstant: Const.height)]
   }
   
-  var storedTotalPostLabelConstraints: [NSLayoutConstraint] {
-    typealias Const = Constant.StoredTotalPostLabel
+  var totalItemStateLabelConstraints: [NSLayoutConstraint] {
+    typealias Const = Constant.TotalItemStateLabel
     typealias Spacing = Const.Spacing
     return [
-      TotalItemStateLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Spacing.leaidng),
-      TotalItemStateLabel.topAnchor.constraint(equalTo: travelReviewLabel.bottomAnchor, constant: Spacing.top),
-      TotalItemStateLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Spacing.trailing)]
+      totalItemStateLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Spacing.leaidng),
+      totalItemStateLabel.topAnchor.constraint(equalTo: travelReviewLabel.bottomAnchor, constant: Spacing.top),
+      totalItemStateLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Spacing.trailing)]
   }
 }
