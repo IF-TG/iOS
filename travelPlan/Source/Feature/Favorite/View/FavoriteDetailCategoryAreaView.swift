@@ -7,9 +7,10 @@
 
 import UIKit
 
-final class FavoriteDetailCategoryView: UIView {
+final class FavoriteDetailCategoryAreaView: UIView {
   enum Constant {
     enum TravelReviewLabel {
+      static let height: CGFloat = 40
       enum Spacing {
         static let leading: CGFloat = 16
         static let top = leading
@@ -18,6 +19,7 @@ final class FavoriteDetailCategoryView: UIView {
     }
     
     enum TravelLocationLabel {
+      static let height: CGFloat = 40
       enum Spacing {
         static let leading: CGFloat = 8
         static let top: CGFloat = 16
@@ -67,7 +69,7 @@ final class FavoriteDetailCategoryView: UIView {
 }
 
 // MARK: - LayoutSupport
-extension FavoriteDetailCategoryView: LayoutSupport {
+extension FavoriteDetailCategoryAreaView: LayoutSupport {
   func addSubviews() {
     _=[
       travelReviewLabel,
@@ -88,7 +90,7 @@ extension FavoriteDetailCategoryView: LayoutSupport {
 }
 
 // MARK: - LayoutSupport Constraints
-private extension FavoriteDetailCategoryView {
+private extension FavoriteDetailCategoryAreaView {
   var travelReviewLabelConstraints: [NSLayoutConstraint] {
     typealias Spacing = Constant.TravelReviewLabel.Spacing
     return [
