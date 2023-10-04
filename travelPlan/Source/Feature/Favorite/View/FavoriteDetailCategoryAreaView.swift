@@ -63,7 +63,7 @@ final class FavoriteDetailCategoryAreaView: UIView {
     typealias Const = Constant.TotalItemStateLabel
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.numberOfLines = 1
-    $0.textAlignment = .natural
+    $0.textAlignment = .left
     $0.textColor = Const.textColor
     $0.font = UIFont.systemFont(ofSize: Const.textSize, weight: .init(Const.textWeight))
     $0.text = "찜한 글 " + totalItemCount.zeroPaddingString + "개"
@@ -81,12 +81,6 @@ final class FavoriteDetailCategoryAreaView: UIView {
   @Published private var categoryState: CategoryState = .travelReview
   
   private var subscriptions = Set<AnyCancellable>()
-  
-  override var intrinsicContentSize: CGSize {
-    let width = super.intrinsicContentSize.width
-    let height = 98.0
-    return .init(width: width, height: height)
-  }
   
   // MARK: - Lifecycle
   override init(frame: CGRect) {
@@ -200,7 +194,7 @@ private extension FavoriteDetailCategoryAreaView {
     typealias Spacing = Const.Spacing
     return [
       totalItemStateLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Spacing.leaidng),
-      totalItemStateLabel.topAnchor.constraint(equalTo: travelReviewLabel.bottomAnchor, constant: Spacing.top),
+      totalItemStateLabel.topAnchor.constraint(equalTo: categoryStackView.bottomAnchor, constant: Spacing.top),
       totalItemStateLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Spacing.trailing)]
   }
 }
