@@ -27,7 +27,7 @@ final class EmptyStateView: UIView {
     case disabledNotification
     case emptyTravelPost
     case emptyTravelLocation
-    case customEmpty(iconPath: String, iconSize: CGSize, title: String, content: String)
+    case custom(iconPath: String, iconSize: CGSize, title: String, content: String)
     
     var iconPath: String {
       switch self {
