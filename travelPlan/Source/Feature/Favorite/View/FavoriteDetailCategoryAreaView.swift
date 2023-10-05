@@ -21,6 +21,8 @@ final class FavoriteDetailCategoryAreaView: UIView {
     }
         
     enum TotalItemStateLabel {
+      // TODO: - 글자가 이상하네;;ㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠ .,.. 시스템이랑 다른가?본데,,
+      // FIXME: - 다르다면.. 글자 폰트 전용으로 만들고 레이블도 전용으로 만들어서 도입해야할듯,,ㅇ..ㅇ
       static let textColor: UIColor = .YG.gray3
       static let textSize: CGFloat = 13
       static let textWeight: CGFloat = 500
@@ -65,7 +67,10 @@ final class FavoriteDetailCategoryAreaView: UIView {
     $0.numberOfLines = 1
     $0.textAlignment = .left
     $0.textColor = Const.textColor
+    
     $0.font = UIFont.systemFont(ofSize: Const.textSize, weight: .init(Const.textWeight))
+    // $0.font = UIFont(pretendard: .medium, size: 13)
+    print("마마마", $0.font.fontName)
     $0.text = "찜한 글 " + totalItemCount.zeroPaddingString + "개"
     $0.sizeToFit()
   }

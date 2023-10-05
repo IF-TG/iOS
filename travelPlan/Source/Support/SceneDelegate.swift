@@ -8,6 +8,8 @@
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
+  var window: UIWindow?
+  
   func scene(
     _ scene: UIScene,
     willConnectTo session: UISceneSession,
@@ -15,8 +17,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   ) {
     guard let windowScene = (scene as? UIWindowScene) else { return }
     let window = UIWindow(windowScene: windowScene)
-    let appCoordinator = ApplicationCoordinator(window: window)
-    appCoordinator.start()
+//    let appCoordinator = ApplicationCoordinator(window: window)
+//    appCoordinator.start()
+    self.window = window
+    window.rootViewController = FavoriteDetailViewController()
     window.makeKeyAndVisible()
   }
 }
