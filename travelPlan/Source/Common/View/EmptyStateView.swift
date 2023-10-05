@@ -138,7 +138,7 @@ final class EmptyStateView: UIView {
     return .init(width: width, height: height)
   }
   
-  private var isFirstAnimation = false
+  private(set) var isFirstAnimation = false
   
   // MARK: - Lifecycle
   init(frame: CGRect, state: UseageType) {
