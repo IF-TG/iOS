@@ -17,13 +17,17 @@ class EmptyStateBasedContentViewController: UIViewController {
   // MARK: - Properties
   private let contentView: UIView & EmptyStateBasedContentViewCheckable
   
-  private let emptyStateView: UIView = .init(frame: .zero)
+  private let emptyStateView: EmptyStateView
   
   private var subscription: AnyCancellable?
   
   // MARK: - Lifecycle
-  init(contentView: UIView & EmptyStateBasedContentViewCheckable) {
+  init(
+    contentView: UIView & EmptyStateBasedContentViewCheckable,
+    emptyState: EmptyStateView.UseageType
+  ) {
     self.contentView = contentView
+    self.emptyStateView = EmptyStateView(state: emptyState)
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -44,14 +48,14 @@ class EmptyStateBasedContentViewController: UIViewController {
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     if !contentView.isShowingFirstAnimation {
-      
+      emptyStateView.prepareAnimation()
     }
   }
   
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     if !contentView.isShowingFirstAnimation {
-      
+      emptyStateView.showAnimation()
     }
   }
 }
