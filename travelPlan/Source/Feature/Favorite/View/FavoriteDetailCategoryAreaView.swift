@@ -149,6 +149,7 @@ extension FavoriteDetailCategoryAreaView {
       if self?.categoryState == .travelLocation {
         self?.categoryState = .travelReview
         self?.travelLocationLabel.toggleCurrentState()
+        let contentViewItems = self?.travelReviewTapHandler?()
       }
     }
     
@@ -156,6 +157,7 @@ extension FavoriteDetailCategoryAreaView {
       if self?.categoryState == .travelReview {
         self?.categoryState = .travelLocation
         self?.travelReviewLabel.toggleCurrentState()
+        let contentViewItems = self?.travelLocationTapHandler?()
       }
     }
   }
