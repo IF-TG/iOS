@@ -162,6 +162,9 @@ final class EmptyStateView: UIView {
 extension EmptyStateView {
   /// 애니메이션을 사용하려면 viewWillAppear 시점에 호출해 주세요.
   func prepareAnimation() {
+    guard !isFirstAnimation else {
+      return
+    }
     icon.alpha = 0.12
     icon.backgroundColor = .white
     titleLabel.alpha = 0
