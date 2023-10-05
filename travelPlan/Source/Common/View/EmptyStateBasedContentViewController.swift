@@ -9,7 +9,7 @@ import UIKit
 import Combine
 
 protocol EmptyStateBasedContentViewCheckable: AnyObject {
-  var itemState: PassthroughSubject<Bool, Never> { get }
+  var hasItem: PassthroughSubject<Bool, Never> { get }
   var isShowingFirstAnimation: Bool { get }
 }
 
@@ -35,10 +35,6 @@ class EmptyStateBasedContentViewController: UIViewController {
     fatalError()
   }
   
-  override func loadView() {
-    view = contentView
-  }
-  
   override func viewDidLoad() {
     super.viewDidLoad()
     configureUI()
@@ -47,14 +43,14 @@ class EmptyStateBasedContentViewController: UIViewController {
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    if !contentView.isShowingFirstAnimation {
+    if contentView.isShowingFirstAnimation {
       emptyStateView.prepareAnimation()
     }
   }
   
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
-    if !contentView.isShowingFirstAnimation {
+    if contentView.isShowingFirstAnimation {
       emptyStateView.showAnimation()
     }
   }
@@ -64,14 +60,16 @@ class EmptyStateBasedContentViewController: UIViewController {
 private extension EmptyStateBasedContentViewController {
   func configureUI() {
     view.backgroundColor = .white
+    contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
     setupUI()
   }
   
   func bind() {
     subscription = contentView
-      .itemState
+      .hasItem
       .receive(on: DispatchQueue.main)
       .sink { [weak self] in
+        print("무야호")
         self?.emptyStateView.isHidden = $0 ? false : true
       }
   }
