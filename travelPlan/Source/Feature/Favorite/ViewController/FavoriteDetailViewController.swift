@@ -17,7 +17,14 @@ final class FavoriteDetailViewController: UIViewController {
   // MARK: - Properties
   private let categoryView = FavoriteDetailCategoryAreaView()
   
-  private var pageViewControllerDataSource: [BaseFavoriteContentViewController]!
+  private var pageViewControllerDataSource: [UIViewController]!
+  
+  // MARK: - Temp
+  let postCollectionView = PostCollectionView()
+  let postViewModel = PostViewModel(filterInfo: .init(travelTheme: .all, travelTrend: .newest))
+  lazy var postAdapter = PostViewAdapter(
+    dataSource: postViewModel,
+    collectionView: postCollectionView)
   
   private lazy var pageViewController = UIPageViewController(
     transitionStyle: .scroll,
@@ -46,6 +53,7 @@ final class FavoriteDetailViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     configureUI()
+    bind()
   }
 }
 
@@ -53,21 +61,38 @@ final class FavoriteDetailViewController: UIViewController {
 private extension FavoriteDetailViewController {
   func configureUI() {
     pageViewControllerDataSource = (0...1).map { i in
-      let mv = UIView(frame: .zero).set {
+      return .init(nibName: nil, bundle: nil).set {
+        $0.view.backgroundColor = i == 0 ? .orange : .purple
         if i == 0 {
-          $0.backgroundColor = .systemPurple
-        } else {
-          $0.backgroundColor = .systemPink
+          $0.view.addSubview(postCollectionView)
+          postCollectionView.translatesAutoresizingMaskIntoConstraints = true
+          postCollectionView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         }
       }
-      return BaseFavoriteContentViewController(contentView: mv)
     }
     setupUI()
     view.backgroundColor = .white
   }
   
   func bind() {
+    categoryView.travelReviewTapHandler = {
+      print("무야호")
+      self.pageViewController.setViewControllers(
+        [self.pageViewControllerDataSource[0]],
+        direction: .forward,
+        animated: true)
+      
+      return 3
+    }
     
+    categoryView.travelLocationTapHandler = {
+      print("무야호222")
+      self.pageViewController.setViewControllers(
+        [self.pageViewControllerDataSource[1]],
+        direction: .reverse,
+        animated: true)
+      return 2
+    }
   }
 }
 
