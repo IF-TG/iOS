@@ -10,6 +10,7 @@ import Combine
 
 protocol EmptyStateBasedContentViewCheckable: AnyObject {
   var itemState: PassthroughSubject<Bool, Never> { get }
+  var isShowingFirstAnimation: Bool { get }
 }
 
 class EmptyStateBasedContentViewController: UIViewController {
@@ -38,6 +39,20 @@ class EmptyStateBasedContentViewController: UIViewController {
     super.viewDidLoad()
     configureUI()
     bind()
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    if !contentView.isShowingFirstAnimation {
+      
+    }
+  }
+  
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    if !contentView.isShowingFirstAnimation {
+      
+    }
   }
 }
 
