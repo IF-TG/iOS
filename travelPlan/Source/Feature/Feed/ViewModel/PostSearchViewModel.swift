@@ -21,25 +21,23 @@ final class PostSearchViewModel {
   struct Input {
     let viewDidLoad: PassthroughSubject<Void, Never>
     let didSelectedItem: PassthroughSubject<IndexPath, ErrorType>
-    let didTapRecentSearchTagDeleteButton: PassthroughSubject<Int, Never>
+    let didTapRecentSearchTagDeleteButton: PassthroughSubject<IndexPath, Never>
     let didTapDeleteAllButton: PassthroughSubject<Void, Never>
     let didChangeSearchTextField: AnyPublisher<String, Never>
     let didTapSearchButton: PassthroughSubject<String, Never>
     let didTapDeleteAllAlert: PassthroughSubject<Void, ErrorType>
     let didTapCollectionView: PassthroughSubject<Void, Never>
-    let didTapBackButton: PassthroughSubject<Void, Never>
     let didTapAlertCancelButton: PassthroughSubject<Void, Never>
     
     init(
       viewDidLoad: PassthroughSubject<Void, Never> = .init(),
       didSelectedItem: PassthroughSubject<IndexPath, ErrorType> = .init(),
-      didTapRecentSearchTagDeleteButton: PassthroughSubject<Int, Never> = .init(),
+      didTapRecentSearchTagDeleteButton: PassthroughSubject<IndexPath, Never> = .init(),
       didTapDeleteAllButton: PassthroughSubject<Void, Never> = .init(),
       didChangeSearchTextField: AnyPublisher<String, Never>,
       didTapSearchButton: PassthroughSubject<String, Never> = .init(),
       didTapDeleteAllAlert: PassthroughSubject<Void, ErrorType> = .init(),
       didTapCollectionView: PassthroughSubject<Void, Never> = .init(),
-      didTapBackButton: PassthroughSubject<Void, Never> = .init(),
       didTapAlertCancelButton: PassthroughSubject<Void, Never> = .init()
     ) {
       self.viewDidLoad = viewDidLoad
@@ -50,7 +48,6 @@ final class PostSearchViewModel {
       self.didTapSearchButton = didTapSearchButton
       self.didTapDeleteAllAlert = didTapDeleteAllAlert
       self.didTapCollectionView = didTapCollectionView
-      self.didTapBackButton = didTapBackButton
       self.didTapAlertCancelButton = didTapAlertCancelButton
     }
   }
@@ -58,14 +55,10 @@ final class PostSearchViewModel {
   // MARK: - State
   enum State {
     case none
-    case gotoBack
     case gotoSearch(searchText: String)
     case presentAlert
     case changeButtonColor(Bool)
     case goDownKeyboard
-    case showRecommendationCollection
-    case runtoCancelLogic
-    case reloadData
     case reloadSections(sectionIndex: Int)
   }
   
@@ -95,12 +88,11 @@ extension PostSearchViewModel: ViewModelCase {
     return Publishers.MergeMany([
       viewDidLoadStream(input),
       didChangeTextFieldStream(input),
-      didTapShearchButtonStream(input),
+      didTapSearchButtonStream(input),
       didSelectedItemStream(input),
       didTapDeleteAllButtonStream(input),
       didTapRecentSeaerchTagDeleteButtonStream(input),
       didTapDeleteAllAlertStream(input),
-      didTapBackButtonStream(input),
       didTapCollectionViewStream(input),
       didTapAlertCancelButtonStream(input)
     ]).eraseToAnyPublisher()
@@ -119,8 +111,7 @@ extension PostSearchViewModel: ViewModelCase {
   private func didTapAlertCancelButtonStream(_ input: Input) -> Output {
     return input.didTapAlertCancelButton
       .tryMap {
-        print("DEBUG: 취소 버튼 클릭됨")
-        return State.runtoCancelLogic
+        return .none
       }
       .mapError { _ in ErrorType.unexpected }
       .eraseToAnyPublisher()
@@ -133,31 +124,16 @@ extension PostSearchViewModel: ViewModelCase {
       .eraseToAnyPublisher()
   }
   
-  private func didTapBackButtonStream(_ input: Input) -> Output {
-    return input.didTapBackButton
-      .tryMap { State.gotoBack }
-      .mapError { _ in ErrorType.none }
-      .eraseToAnyPublisher()
-  }
-  
   private func didChangeTextFieldStream(_ input: Input) -> Output {
-    let changeButtonColor = input.didChangeSearchTextField
+    return input.didChangeSearchTextField
       .map { [weak self] in
         State.changeButtonColor(self?.isValueChanged(text: $0) ?? false)
       }
       .setFailureType(to: ErrorType.self)
       .eraseToAnyPublisher()
-    
-    let showRecommendationCollection = input.didChangeSearchTextField
-      .map { _ in State.showRecommendationCollection }
-      .setFailureType(to: ErrorType.self)
-      .eraseToAnyPublisher()
-    
-    return Publishers.Merge(changeButtonColor, showRecommendationCollection)
-      .eraseToAnyPublisher()
   }
   
-  private func didTapShearchButtonStream(_ input: Input) -> Output {
+  private func didTapSearchButtonStream(_ input: Input) -> Output {
     return input.didTapSearchButton
       .tryMap { State.gotoSearch(searchText: $0) }
       .mapError { $0 as? ErrorType ?? .unexpected }
@@ -186,16 +162,16 @@ extension PostSearchViewModel: ViewModelCase {
   
   private func didTapDeleteAllButtonStream(_ input: Input) -> Output {
     return input.didTapDeleteAllButton
-      .tryMap { State.presentAlert }
+      .tryMap { _ in State.presentAlert }
       .mapError { $0 as? ErrorType ?? .unexpected }
       .eraseToAnyPublisher()
   }
   
   private func didTapRecentSeaerchTagDeleteButtonStream(_ input: Input) -> Output {
     return input.didTapRecentSearchTagDeleteButton
-      .tryMap { [weak self] index in
-        self?.removeRecentItem(at: index)
-        return .reloadData
+      .tryMap { [weak self] indexPath in
+        self?.removeRecentItem(at: indexPath.item)
+        return .reloadSections(sectionIndex: indexPath.section)
       }
       .mapError { $0 as? ErrorType ?? .unexpected }
       .eraseToAnyPublisher()
@@ -203,13 +179,12 @@ extension PostSearchViewModel: ViewModelCase {
   
   private func didTapDeleteAllAlertStream(_ input: Input) -> Output {
     return input.didTapDeleteAllAlert
-      .flatMap { [weak self] in
-        // networkTODO: - 추후 서버와의 통신을 통해 delete를 수행해야합니다.
-        // bindingTestTODO: - 바인딩이 잘 되었는지 확인하기
+      .flatMap { [weak self] _ in
+        // TODO: - 추후 서버와의 통신을 통해 delete를 수행해야합니다.
         return Future { promise in
           DispatchQueue.global().asyncAfter(deadline: .now()) { [weak self] in
             self?.removeAllRecentItems()
-            promise(.success(.reloadData))
+            promise(.success(.reloadSections(sectionIndex: PostSearchSection.recent.rawValue)))
           }
         }
       }
