@@ -21,8 +21,6 @@ final class FavoriteDetailCategoryAreaView: UIView {
     }
         
     enum TotalItemStateLabel {
-      // TODO: - 글자가 이상하네;;ㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠ .,.. 시스템이랑 다른가?본데,,
-      // FIXME: - 다르다면.. 글자 폰트 전용으로 만들고 레이블도 전용으로 만들어서 도입해야할듯,,ㅇ..ㅇ
       static let textColor: UIColor = .YG.gray3
       static let textSize: CGFloat = 13
       static let textWeight: CGFloat = 500
@@ -75,7 +73,6 @@ final class FavoriteDetailCategoryAreaView: UIView {
     $0.sizeToFit()
   }
   
-  // TODO: - 각각 레이블 헨들러 Void 반환말고 찜 개수 Int를 반환해서 그 특정 메뉴에 찜 몇개인지 판단하고 그거에 따라 빈화면인지 아닌지 구분해야함.
   var travelReviewTapHandler: (() -> Int)?
   
   var travelLocationTapHandler: (() -> Int)?
@@ -142,14 +139,14 @@ extension FavoriteDetailCategoryAreaView {
     $totalItemCount
       .sink { [weak self] in
         guard $0 >= 0 else { return }
-        self?.totalItemStateLabel.text = "찜한 글 " + $0.zeroPaddingString + "개"
+        self?.totalItemStateLabel.text = self?.categoryState.convertTotalItemTextFormat(with: $0)
       }.store(in: &subscriptions)
     
     travelReviewLabel.tapHandler = { [weak self] in
       if self?.categoryState == .travelLocation {
         self?.categoryState = .travelReview
         self?.travelLocationLabel.toggleCurrentState()
-        let contentViewItems = self?.travelReviewTapHandler?()
+        self?.totalItemCount = self?.travelReviewTapHandler?() ?? 0
       }
     }
     
@@ -157,7 +154,7 @@ extension FavoriteDetailCategoryAreaView {
       if self?.categoryState == .travelReview {
         self?.categoryState = .travelLocation
         self?.travelReviewLabel.toggleCurrentState()
-        let contentViewItems = self?.travelLocationTapHandler?()
+        self?.totalItemCount = self?.travelLocationTapHandler?() ?? 0
       }
     }
   }
