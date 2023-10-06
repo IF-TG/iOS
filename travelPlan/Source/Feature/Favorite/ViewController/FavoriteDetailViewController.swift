@@ -22,14 +22,8 @@ final class FavoriteDetailViewController: UIViewController {
   
   private let categoryView = FavoriteDetailCategoryAreaView()
   
+  // TODO: - 장소 찜 화면 나오면 그 떄 EmptyStateBasedContentViewController타입으로 변경.
   private var pageViewControllerDataSource: [UIViewController]!
-  
-  // MARK: - Temp
-  let postCollectionView = PostCollectionView().set {
-    $0.bounces = false
-  }
-  let postViewModel = PostViewModel(filterInfo: .init(travelTheme: .all, travelTrend: .newest))
-  var postAdapter: FavoritePostViewAdapter!
   
   private lazy var pageViewController = UIPageViewController(
     transitionStyle: .scroll,
@@ -47,8 +41,11 @@ final class FavoriteDetailViewController: UIViewController {
   }
   
   private var categoryViewTargetTransform = CGAffineTransform()
+  
   private var pageViewOriginTopAnchor: NSLayoutConstraint!
+  
   private var pageViewTopAnchor: NSLayoutConstraint!
+  
   private var isDoneCategoryViewAnimation = true
   
   // MARK: - Lifecycle
@@ -64,34 +61,25 @@ final class FavoriteDetailViewController: UIViewController {
     super.viewDidLoad()
     configureUI()
     bind()
-    postAdapter = FavoritePostViewAdapter(
-      dataSource: postViewModel,
-      delegate: self,
-      collectionView: postCollectionView)
   }
 }
 
 // MARK: - Private Helpers
 private extension FavoriteDetailViewController {
   func configureUI() {
-    pageViewControllerDataSource = (0...1).map { i in
-      return .init(nibName: nil, bundle: nil).set {
-        $0.view.backgroundColor = i == 0 ? .orange : .purple
-        if i == 0 {
-          $0.view.addSubview(postCollectionView)
-          NSLayoutConstraint.activate([
-            postCollectionView.leadingAnchor.constraint(equalTo: $0.view.leadingAnchor),
-            postCollectionView.topAnchor.constraint(equalTo: $0.view.topAnchor),
-            postCollectionView.trailingAnchor.constraint(equalTo: $0.view.trailingAnchor),
-            postCollectionView.bottomAnchor.constraint(equalTo: $0.view.bottomAnchor)])
-        }
-      }
+    let favoritePostReviewViewController = FavoritePostViewController().set {
+      $0.delegate = self
     }
-    setupUI()
+    let tempFavoriteLocationViewController = UIViewController().set { 
+      $0.view.backgroundColor = .orange
+    }
+    pageViewControllerDataSource = [favoritePostReviewViewController, tempFavoriteLocationViewController]
     view.backgroundColor = .white
+    setupUI()
   }
   
   func bind() {
+    // TODO: - 이거 이제 페이보릿 포스트 리뷰 뷰컨의 뷰모델 꺼로 동기화 해야함.
     categoryView.travelReviewTapHandler = {
       self.pageViewController.setViewControllers(
         [self.pageViewControllerDataSource[0]],
@@ -110,7 +98,8 @@ private extension FavoriteDetailViewController {
   }
 }
 
-extension FavoriteDetailViewController: FavoritePostViewAdapterDelegate {
+// MARK: - FavoritePostViewDelegate
+extension FavoriteDetailViewController: FavoritePostViewDelegate {
   func scrollDidScroll(
     _ scrollView: UIScrollView,
     scrollYPosition: CGFloat,
