@@ -41,7 +41,6 @@ final class FavoriteDetailMenuAreaView: UIView {
   enum MenuState: String {
     case travelReview = "글"
     case travelLocation = "장소"
-    
     func convertTotalItemTextFormat(with totalItem: Int) -> String {
       return "찜한 " + self.rawValue + " " + totalItem.zeroPaddingString + "개"
     }

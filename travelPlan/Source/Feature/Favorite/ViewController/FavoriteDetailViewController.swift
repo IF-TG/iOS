@@ -17,7 +17,7 @@ final class FavoriteDetailViewController: UIViewController {
   // MARK: - Properties
   private let safeAreaTopBackgroundView = UIView(frame: .zero).set {
     $0.translatesAutoresizingMaskIntoConstraints = false
-    $0.backgroundColor = .systemPink
+    $0.backgroundColor = .white
   }
   
   private lazy var menuView = FavoriteDetailMenuAreaView(

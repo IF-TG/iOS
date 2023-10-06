@@ -30,7 +30,7 @@ final class FavoriteLocationViewController: EmptyStateBasedContentViewController
   }
 }
 
-
+// MARK: - FavoriteDetailMenuViewConfigurable 
 extension FavoriteLocationViewController: FavoriteDetailMenuViewConfigurable {
   var numberOfItems: Int {
     17
