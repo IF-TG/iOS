@@ -46,13 +46,9 @@ final class FavoriteDetailViewController: UIViewController {
     pageViewController.view
   }
   
-  private var scrollDirection: UIScrollView.ScrollVerticalDirection = .down
-  private var targetScrollPosition: CGFloat = 0
-  private var categoryViewScrollYPosition: CGFloat = 0
-  private var categoryViewVisibleHeight: CGFloat = 0
+  private var categoryViewTargetTransform = CGAffineTransform()
   private var pageViewOriginTopAnchor: NSLayoutConstraint!
   private var pageViewTopAnchor: NSLayoutConstraint!
-  
   private var isDoneCategoryViewAnimation = true
   
   // MARK: - Lifecycle
@@ -115,39 +111,46 @@ private extension FavoriteDetailViewController {
 }
 
 extension FavoriteDetailViewController: FavoritePostViewAdapterDelegate {
-  
   func scrollDidScroll(
     _ scrollView: UIScrollView,
     scrollYPosition: CGFloat,
     direction: UIScrollView.ScrollVerticalDirection
   ) {
-//    let targetHeight = Constant.CategoryView.height
     guard isDoneCategoryViewAnimation else { return }
+    prepareSubviewsForScrollAnimation()
+    setSubviesPositionForScrollAnimation(from: direction)
+    showSubviewsScrollAnimation()
+  }
+  
+  private func prepareSubviewsForScrollAnimation() {
     isDoneCategoryViewAnimation = false
     pageViewTopAnchor.isActive = false
-    var targetTransform: CGAffineTransform
-    
+  }
+  
+  private func setSubviesPositionForScrollAnimation(
+    from direction: UIScrollView.ScrollVerticalDirection
+  ) {
     if direction == .up {
       pageViewTopAnchor = pageViewOriginTopAnchor
-      targetTransform = .identity
-    } else {
-      pageViewTopAnchor = pageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
-      targetTransform = .init(translationX: 0, y: -Constant.CategoryView.height)
+      categoryViewTargetTransform = .identity
+      return
     }
+    pageViewTopAnchor = pageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
+    categoryViewTargetTransform = .init(translationX: 0, y: -Constant.CategoryView.height)
+  }
+  
+  private func showSubviewsScrollAnimation() {
     pageViewTopAnchor.isActive = true
     UIView.transition(
       with: categoryView,
       duration: 0.3,
       options: .curveEaseOut,
       animations: {
-        self.categoryView.transform = targetTransform
+        self.categoryView.transform = self.categoryViewTargetTransform
         self.view.layoutIfNeeded()
       }, completion: { _ in
         self.isDoneCategoryViewAnimation = true
       })
-  }
-  
-  func scrollViewDidEndDecelerating(_ scrollView: UIScrollView, scrollYPosition: CGFloat) {
   }
 }
 
