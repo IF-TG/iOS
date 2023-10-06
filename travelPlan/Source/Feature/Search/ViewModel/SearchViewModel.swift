@@ -17,17 +17,20 @@ final class SearchViewModel {
     let didTapView: PassthroughSubject<Void, Never>
     let didTapSearchButton: PassthroughSubject<String, ErrorType>
     let didTapStarButton: PassthroughSubject<Void, ErrorType>
+    let didTaplookingMoreButton: PassthroughSubject<Int, ErrorType>
     
     init(
       viewDidLoad: PassthroughSubject<Void, Never> = .init(),
       didTapView: PassthroughSubject<Void, Never> = .init(),
       didTapSearchButton: PassthroughSubject<String, ErrorType> = .init(),
-      didTapStarButton: PassthroughSubject<Void, ErrorType> = .init()
+      didTapStarButton: PassthroughSubject<Void, ErrorType> = .init(),
+      didTaplookingMoreButton: PassthroughSubject<Int, ErrorType> = .init()
     ) {
       self.viewDidLoad = viewDidLoad
       self.didTapView = didTapView
       self.didTapSearchButton = didTapSearchButton
       self.didTapStarButton = didTapStarButton
+      self.didTaplookingMoreButton = didTaplookingMoreButton
     }
   }
   // MARK: - State
@@ -35,6 +38,7 @@ final class SearchViewModel {
     case goDownKeyboard
     case gotoSearch
     case none
+    case showSearchMoreDetail(_ sectionType: SearchSectionType)
   }
   // MARK: - Error
   enum ErrorType: Error {
@@ -51,7 +55,8 @@ extension SearchViewModel: ViewModelCase {
     return Publishers.MergeMany([
       viewDidLoadStream(input),
       didTapCollectionViewStream(input),
-      didTapSearchButtonStream(input)
+      didTapSearchButtonStream(input),
+      didTaplookingMoreButton(input)
     ]).eraseToAnyPublisher()
   }
   
@@ -77,6 +82,15 @@ extension SearchViewModel: ViewModelCase {
       .tryMap { text in
         print("DEBUG: '\(text)' search")
         return State.gotoSearch
+      }
+      .mapError { $0 as? ErrorType ?? .unexpected }
+      .eraseToAnyPublisher()
+  }
+  
+  private func didTaplookingMoreButton(_ input: Input) -> Output {
+    return input.didTaplookingMoreButton
+      .tryMap { sectionIndex in
+        return State.showSearchMoreDetail(SearchSectionType(rawValue: sectionIndex) ?? .festival)
       }
       .mapError { $0 as? ErrorType ?? .unexpected }
       .eraseToAnyPublisher()
@@ -109,11 +123,6 @@ extension SearchViewModel {
 
 // MARK: - Helpers
 extension SearchViewModel {
-  // networkTODO: - Server Communication
-  // 이 곳에서 useCase.execute메소드를 호출하고 completionHandler에서 result 처리 해야합니다.
-//  private func load() {
-//  }
-  
   private func fetchData() {
     // 네트워크 요청을 수행해서 데이터를 가져옵니다.
     let festivalModels = SearchFestivalModel.mockModels

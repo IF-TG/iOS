@@ -1,5 +1,5 @@
 //
-//  SearchHeaderView.swift
+//  TitleWithButtonHeaderView.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 2023/05/30.
@@ -8,7 +8,8 @@
 import UIKit
 import SnapKit
 
-final class SearchHeaderView: UICollectionReusableView {
+/// 해당 뷰에 존재하는 버튼 action을 사용하려면, TitleWithButtonHeaderViewDelegate 프로토콜을 준수해야 합니다.
+final class TitleWithButtonHeaderView: UICollectionReusableView {
   enum Constants {
     enum HeaderLabel {
       static let fontSize: CGFloat = 25
@@ -40,17 +41,17 @@ final class SearchHeaderView: UICollectionReusableView {
   static var id: String {
     return String(describing: self)
   }
+
+  var sectionIndex: Int?
   
-  var type: SearchSectionType?
-  
-  weak var delegate: SearchHeaderViewDelegate?
+  weak var delegate: TitleWithButtonHeaderViewDelegate?
   
   private let headerLabel: UILabel = UILabel().set {
     $0.font = UIFont(pretendard: .bold, size: Constants.HeaderLabel.fontSize)
     $0.textColor = .yg.gray7
     $0.numberOfLines = Constants.HeaderLabel.numberOfLines
     $0.textAlignment = .left
-    $0.text = "베스트 축제"
+    $0.text = "헤더 타이틀"
   }
   
   private lazy var lookingMoreButton: UIButton = .init().set {
@@ -80,26 +81,28 @@ final class SearchHeaderView: UICollectionReusableView {
   
   override func prepareForReuse() {
     super.prepareForReuse()
-    self.type = nil
+    headerLabel.text = nil
+    sectionIndex = nil
   }
 }
 
 // MARK: - Public Helpers
-extension SearchHeaderView {
+extension TitleWithButtonHeaderView {
   func configure(title: String) {
     headerLabel.text = title
   }
 }
 
 // MARK: - Actions
-extension SearchHeaderView {
+extension TitleWithButtonHeaderView {
   @objc private func didTapLookingMoreButton() {
-    delegate?.didTaplookingMoreButton(self)
+    guard let sectionIndex = sectionIndex else { return }
+    delegate?.didTaplookingMoreButton(lookingMoreButton, in: sectionIndex)
   }
 }
 
 // MARK: - LayoutSupport
-extension SearchHeaderView: LayoutSupport {
+extension TitleWithButtonHeaderView: LayoutSupport {
   func addSubviews() {
     addSubview(headerLabel)
     addSubview(lookingMoreButton)
@@ -108,7 +111,7 @@ extension SearchHeaderView: LayoutSupport {
   func setConstraints() {
     headerLabel.snp.makeConstraints {
       $0.leading.equalToSuperview()
-      $0.trailing.greaterThanOrEqualTo(lookingMoreButton.snp.leading)
+      $0.trailing.lessThanOrEqualTo(lookingMoreButton.snp.leading)
         .offset(Constants.HeaderLabel.Offset.trailing)
       $0.top.equalToSuperview().inset(Constants.HeaderLabel.Inset.top)
       $0.bottom.equalToSuperview().inset(Constants.HeaderLabel.Inset.bottom)

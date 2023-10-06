@@ -61,9 +61,9 @@ final class SearchViewController: UIViewController {
                 forCellWithReuseIdentifier: SearchFestivalCell.id)
     $0.register(TravelDestinationCell.self,
                 forCellWithReuseIdentifier: TravelDestinationCell.id)
-    $0.register(SearchHeaderView.self,
+    $0.register(TitleWithButtonHeaderView.self,
                 forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-                withReuseIdentifier: SearchHeaderView.id)
+                withReuseIdentifier: TitleWithButtonHeaderView.id)
   }
   
   // MARK: - LifeCycle
@@ -110,8 +110,10 @@ extension SearchViewController: ViewBindCase {
   
   internal func handleError(_ error: ErrorType) {
     switch error {
-    case .none: print("DEBUG: none error")
-    case .unexpected: print("DEBUG: unexpected error")
+    case .none:
+      print("DEBUG: none error")
+    case .unexpected: 
+      print("DEBUG: unexpected error")
     }
   }
   
@@ -121,7 +123,10 @@ extension SearchViewController: ViewBindCase {
       searchView.endEditing(true)
     case .gotoSearch:
       print("해당 text를 기반으로 vc 전환")
-    case .none: break
+    case let .showSearchMoreDetail(sectionType):
+      coordinator?.showSearchDetail(type: sectionType)
+    case .none:
+      break
     }
   }
 }
@@ -222,16 +227,15 @@ extension SearchViewController: UICollectionViewDataSource {
     if case UICollectionView.elementKindSectionHeader = kind {
       guard let headerView = collectionView.dequeueReusableSupplementaryView(
         ofKind: kind,
-        withReuseIdentifier: SearchHeaderView.id,
+        withReuseIdentifier: TitleWithButtonHeaderView.id,
         for: indexPath
-      ) as? SearchHeaderView else { return .init() }
+      ) as? TitleWithButtonHeaderView else { return .init() }
       
       headerView.delegate = self
-      headerView.type = headerType(for: indexPath.section)
-      
+      headerView.sectionIndex = indexPath.section
       let headerTitle = viewModel.fetchHeaderTitle(in: indexPath.section)
       headerView.configure(title: headerTitle)
-      
+    
       return headerView
     } else { return .init() }
   }
@@ -266,11 +270,10 @@ extension SearchViewController: SearchViewDelegate {
   }
 }
 
-// MARK: - SearchHeaderViewDelegate
-extension SearchViewController: SearchHeaderViewDelegate {
+// MARK: - TitleWithButtonHeaderViewDelegate
+extension SearchViewController: TitleWithButtonHeaderViewDelegate {
   // pushTODO: - 각 타입에 맞게 화면전환을 해야합니다.
-  func didTaplookingMoreButton(_ headerView: SearchHeaderView) {
-    guard let sectionType = headerView.type else { return }
-    coordinator?.showSearchDetail(type: sectionType)
+  func didTaplookingMoreButton(_ button: UIButton, in section: Int) {
+    input.didTaplookingMoreButton.send(section)
   }
 }

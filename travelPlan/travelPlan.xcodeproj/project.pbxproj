@@ -11,7 +11,7 @@
 		1303047B2A24938700776A0D /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1303047A2A24938700776A0D /* SearchView.swift */; };
 		1303047E2A249D6F00776A0D /* UIViewController+Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1303047D2A249D6F00776A0D /* UIViewController+Preview.swift */; };
 		130304802A249E2C00776A0D /* UIView+Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1303047F2A249E2C00776A0D /* UIView+Preview.swift */; };
-		130304822A250DF600776A0D /* SearchHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130304812A250DF600776A0D /* SearchHeaderView.swift */; };
+		130304822A250DF600776A0D /* TitleWithButtonHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130304812A250DF600776A0D /* TitleWithButtonHeaderView.swift */; };
 		130304842A25117200776A0D /* SearchFestivalCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130304832A25117200776A0D /* SearchFestivalCell.swift */; };
 		130304AA2A271F3B00776A0D /* SearchSectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130304A92A271F3B00776A0D /* SearchSectionModel.swift */; };
 		130304B02A28447900776A0D /* TravelDestinationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130304AF2A28447900776A0D /* TravelDestinationCell.swift */; };
@@ -46,7 +46,7 @@
 		13813A212AAA458000AF6AEB /* PostSearchCollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13813A202AAA458000AF6AEB /* PostSearchCollectionViewDataSource.swift */; };
 		13813A232AAA459900AF6AEB /* PostSearchCollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13813A222AAA459900AF6AEB /* PostSearchCollectionViewDelegate.swift */; };
 		13813A252AAA494500AF6AEB /* PostSearchLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13813A242AAA494500AF6AEB /* PostSearchLayout.swift */; };
-		1390CC5D2A8BADEC00E34DC3 /* SearchHeaderViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1390CC5C2A8BADEC00E34DC3 /* SearchHeaderViewDelegate.swift */; };
+		1390CC5D2A8BADEC00E34DC3 /* TitleWithButtonHeaderViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1390CC5C2A8BADEC00E34DC3 /* TitleWithButtonHeaderViewDelegate.swift */; };
 		13A6C2DB2AB782A100EABD76 /* UIViewController+BackBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A6C2DA2AB782A100EABD76 /* UIViewController+BackBarButtonItem.swift */; };
 		13C9C1AF2A17FFC400DF1FFF /* PostSearchHeaderViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C9C1AE2A17FFC400DF1FFF /* PostSearchHeaderViewDelegate.swift */; };
 		13C9C1B12A1806F500DF1FFF /* PostRecentSearchTagCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C9C1B02A1806F500DF1FFF /* PostRecentSearchTagCellDelegate.swift */; };
@@ -222,7 +222,7 @@
 		1303047A2A24938700776A0D /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		1303047D2A249D6F00776A0D /* UIViewController+Preview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Preview.swift"; sourceTree = "<group>"; };
 		1303047F2A249E2C00776A0D /* UIView+Preview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Preview.swift"; sourceTree = "<group>"; };
-		130304812A250DF600776A0D /* SearchHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHeaderView.swift; sourceTree = "<group>"; };
+		130304812A250DF600776A0D /* TitleWithButtonHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleWithButtonHeaderView.swift; sourceTree = "<group>"; };
 		130304832A25117200776A0D /* SearchFestivalCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFestivalCell.swift; sourceTree = "<group>"; };
 		130304A92A271F3B00776A0D /* SearchSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchSectionModel.swift; sourceTree = "<group>"; };
 		130304AF2A28447900776A0D /* TravelDestinationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelDestinationCell.swift; sourceTree = "<group>"; };
@@ -260,7 +260,7 @@
 		13813A202AAA458000AF6AEB /* PostSearchCollectionViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSearchCollectionViewDataSource.swift; sourceTree = "<group>"; };
 		13813A222AAA459900AF6AEB /* PostSearchCollectionViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSearchCollectionViewDelegate.swift; sourceTree = "<group>"; };
 		13813A242AAA494500AF6AEB /* PostSearchLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSearchLayout.swift; sourceTree = "<group>"; };
-		1390CC5C2A8BADEC00E34DC3 /* SearchHeaderViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHeaderViewDelegate.swift; sourceTree = "<group>"; };
+		1390CC5C2A8BADEC00E34DC3 /* TitleWithButtonHeaderViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleWithButtonHeaderViewDelegate.swift; sourceTree = "<group>"; };
 		1390CC6E2A8E0B2800E34DC3 /* SearchStarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchStarButton.swift; sourceTree = "<group>"; };
 		13A6C2DA2AB782A100EABD76 /* UIViewController+BackBarButtonItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+BackBarButtonItem.swift"; sourceTree = "<group>"; };
 		13C07ECC2A13F454005F04CD /* PostSearchFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSearchFooterView.swift; sourceTree = "<group>"; };
@@ -458,6 +458,7 @@
 		130304742A23C7B900776A0D /* Delegate */ = {
 			isa = PBXGroup;
 			children = (
+				1390CC5C2A8BADEC00E34DC3 /* TitleWithButtonHeaderViewDelegate.swift */,
 				13CB6D332A1FEC6D00D185B2 /* CautionAlertViewControllerDelegate.swift */,
 			);
 			path = Delegate;
@@ -488,7 +489,6 @@
 			isa = PBXGroup;
 			children = (
 				1303047A2A24938700776A0D /* SearchView.swift */,
-				130304812A250DF600776A0D /* SearchHeaderView.swift */,
 				130304832A25117200776A0D /* SearchFestivalCell.swift */,
 				130304AF2A28447900776A0D /* TravelDestinationCell.swift */,
 				130B9AE22A684D3D0072A0CF /* SearchCompositionalLayout.swift */,
@@ -522,7 +522,6 @@
 			isa = PBXGroup;
 			children = (
 				130FA91E2A359EE300E739C5 /* SearchViewDelegate.swift */,
-				1390CC5C2A8BADEC00E34DC3 /* SearchHeaderViewDelegate.swift */,
 				13300FA92AC0812900952757 /* StarButtonDelegate.swift */,
 			);
 			path = Protocol;
@@ -791,6 +790,7 @@
 		158BEFCE2A0FE0B300C27861 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				130304812A250DF600776A0D /* TitleWithButtonHeaderView.swift */,
 				13300FA32AC0688300952757 /* BaseDestinationView.swift */,
 				158BEFCF2A0FE2C000C27861 /* OneUnitHeightLine.swift */,
 				15C83F892AB2134D00DDB536 /* BottomSheetView.swift */,
@@ -1705,7 +1705,7 @@
 				157ADCAA2AD000DD00D37680 /* FavoritePostCollectionView.swift in Sources */,
 				1503F93D2A4E1291002BC38D /* PlanCoordinator.swift in Sources */,
 				13254FE52A05157900094218 /* FeedViewController.swift in Sources */,
-				130304822A250DF600776A0D /* SearchHeaderView.swift in Sources */,
+				130304822A250DF600776A0D /* TitleWithButtonHeaderView.swift in Sources */,
 				1503F9372A4E1103002BC38D /* FavoriteCoordinator.swift in Sources */,
 				15CB23662A10B7F1003EAF20 /* PostContentAreaModel.swift in Sources */,
 				131A11062AB4CD1A007BDD66 /* SearchMoreDetailViewController.swift in Sources */,
@@ -1717,7 +1717,7 @@
 				13C9C1B12A1806F500DF1FFF /* PostRecentSearchTagCellDelegate.swift in Sources */,
 				13FE64772A5C378D007D9A53 /* SearchCampingModel.swift in Sources */,
 				130B9AE32A684D3D0072A0CF /* SearchCompositionalLayout.swift in Sources */,
-				1390CC5D2A8BADEC00E34DC3 /* SearchHeaderViewDelegate.swift in Sources */,
+				1390CC5D2A8BADEC00E34DC3 /* TitleWithButtonHeaderViewDelegate.swift in Sources */,
 				13CB6D362A20E12B00D185B2 /* CALayer+Border.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1939,7 +1939,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 4GW2K8FK25;
+				DEVELOPMENT_TEAM = BH624LXP8S;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Source/Support/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -1968,7 +1968,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 4GW2K8FK25;
+				DEVELOPMENT_TEAM = BH624LXP8S;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Source/Support/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
