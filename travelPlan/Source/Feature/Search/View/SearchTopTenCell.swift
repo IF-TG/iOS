@@ -1,22 +1,16 @@
 //
-//  TravelDestinationCell.swift
+//  SearchTopTenCell.swift
 //  travelPlan
 //
-//  Created by SeokHyun on 2023/06/01.
+//  Created by SeokHyun on 10/7/23.
 //
 
 import UIKit
-import SnapKit
-import Combine
 
-class TravelDestinationCell: UICollectionViewCell {
-  typealias Input = TravelDestinationCellViewModel.Input
-  typealias ErrorType = TravelDestinationCellViewModel.ErrorType
-  typealias State = TravelDestinationCellViewModel.State
-  
+class SearchTopTenCell: UICollectionViewCell {
   // MARK: - Properties
   static var id: String {
-    return String(describing: self)
+    return String(describing: Self.self)
   }
   
   private var viewModel: TravelDestinationCellViewModel? {
@@ -25,7 +19,7 @@ class TravelDestinationCell: UICollectionViewCell {
     }
   }
   
-  private lazy var containerView: BaseDestinationView<LeftAlignThreeLabelsView> 
+  private lazy var containerView: BaseDestinationView<LeftAlignThreeLabelsView>
   = .init(centerView: LeftAlignThreeLabelsView()).set {
     $0.delegate = self
   }
@@ -36,7 +30,6 @@ class TravelDestinationCell: UICollectionViewCell {
   // MARK: - LifeCycle
   override init(frame: CGRect) {
     super.init(frame: frame)
-    setupUI()
   }
   
   required init?(coder: NSCoder) {
@@ -82,37 +75,6 @@ class TravelDestinationCell: UICollectionViewCell {
     case .fatalError: print("DEBUG: fatalError occurred")
     case .networkError: print("DEBUG: networkError occurred")
     case .unexpected: print("DEBUG: unexpected occurred")
-    }
-  }
-}
-
-// MARK: - StarButtonDelegate
-extension TravelDestinationCell: StarButtonDelegate {
-  func didTapStarButton(_ button: UIButton) {
-    input.didTapStarButton.send()
-  }
-}
-
-// MARK: - Helpers
-extension TravelDestinationCell {
-  func configure(with viewModel: TravelDestinationCellViewModel) {
-    self.viewModel = viewModel
-    
-    containerView.configure(centerModel: viewModel.contentModel)
-    containerView.configure(imageURL: viewModel.imageURLString,
-                            isSelectedButton: viewModel.isSelectedButton)
-  }
-}
-
-// MARK: - LayoutSupport
-extension TravelDestinationCell: LayoutSupport {
-  func addSubviews() {
-    contentView.addSubview(containerView)
-  }
-  
-  func setConstraints() {
-    containerView.snp.makeConstraints {
-      $0.edges.equalTo(contentView)
     }
   }
 }
