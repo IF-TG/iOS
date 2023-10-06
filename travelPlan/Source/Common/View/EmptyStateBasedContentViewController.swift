@@ -69,7 +69,6 @@ private extension EmptyStateBasedContentViewController {
       .hasItem
       .receive(on: DispatchQueue.main)
       .sink { [weak self] in
-        print("무야호")
         self?.emptyStateView.isHidden = $0 ? false : true
       }
   }
