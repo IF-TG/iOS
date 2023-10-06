@@ -15,16 +15,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   ) {
     guard let windowScene = (scene as? UIWindowScene) else { return }
     let window = UIWindow(windowScene: windowScene)
-    let appCoordinator = ApplicationCoordinator(window: window)
-    appCoordinator.start()
+    ApplicationCoordinator(window: window).set { $0.start() }
     window.makeKeyAndVisible()
   }
-}
-
-extension SceneDelegate {
-  func sceneDidDisconnect(_ scene: UIScene) {}
-  func sceneDidBecomeActive(_ scene: UIScene) {}
-  func sceneWillResignActive(_ scene: UIScene) {}
-  func sceneWillEnterForeground(_ scene: UIScene) {}
-  func sceneDidEnterBackground(_ scene: UIScene) {}
 }

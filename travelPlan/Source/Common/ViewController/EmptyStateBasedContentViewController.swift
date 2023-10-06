@@ -8,11 +8,6 @@
 import UIKit
 import Combine
 
-protocol EmptyStateBasedContentViewCheckable: AnyObject {
-  var hasItem: PassthroughSubject<Bool, Never> { get }
-  var isShowingFirstAnimation: Bool { get }
-}
-
 class EmptyStateBasedContentViewController: UIViewController {
   // MARK: - Properties
   private let contentView: UIView & EmptyStateBasedContentViewCheckable
@@ -43,14 +38,14 @@ class EmptyStateBasedContentViewController: UIViewController {
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    if contentView.isShowingFirstAnimation {
+    if contentView.isShowingFirstAnimation, !contentView.hasItem.value {
       emptyStateView.prepareAnimation()
     }
   }
   
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
-    if contentView.isShowingFirstAnimation {
+    if contentView.isShowingFirstAnimation, !contentView.hasItem.value {
       emptyStateView.showAnimation()
     }
   }
@@ -60,7 +55,6 @@ class EmptyStateBasedContentViewController: UIViewController {
 private extension EmptyStateBasedContentViewController {
   func configureUI() {
     view.backgroundColor = .white
-    contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
     setupUI()
   }
   
@@ -69,7 +63,7 @@ private extension EmptyStateBasedContentViewController {
       .hasItem
       .receive(on: DispatchQueue.main)
       .sink { [weak self] in
-        self?.emptyStateView.isHidden = $0 ? false : true
+        self?.emptyStateView.isHidden = $0 ? true : false
       }
   }
 }
@@ -78,7 +72,8 @@ private extension EmptyStateBasedContentViewController {
 extension EmptyStateBasedContentViewController: LayoutSupport {
   func addSubviews() {
     _=[
-      emptyStateView
+      emptyStateView,
+      contentView
     ].map {
       view.addSubview($0)
     }
@@ -86,7 +81,8 @@ extension EmptyStateBasedContentViewController: LayoutSupport {
   
   func setConstraints() {
     _=[
-      emptyStateViewConstraints
+      emptyStateViewConstraints,
+      contentViewConstraints
     ].map {
       NSLayoutConstraint.activate($0)
     }
@@ -99,5 +95,13 @@ private extension EmptyStateBasedContentViewController {
     return [
       emptyStateView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
       emptyStateView.centerXAnchor.constraint(equalTo: view.centerXAnchor)]
+  }
+  
+  var contentViewConstraints: [NSLayoutConstraint] {
+    return [
+      contentView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+      contentView.topAnchor.constraint(equalTo: view.topAnchor),
+      contentView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+      contentView.bottomAnchor.constraint(equalTo: view.bottomAnchor)]
   }
 }
