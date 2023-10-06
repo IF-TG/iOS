@@ -92,6 +92,9 @@
 		157176752A0C09740015EC8C /* SFPro-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 157176732A0C09740015EC8C /* SFPro-Italic.ttf */; };
 		157176762A0C09740015EC8C /* SFPro.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 157176742A0C09740015EC8C /* SFPro.ttf */; };
 		157176782A0C21C90015EC8C /* UIColor+AppPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157176772A0C21C90015EC8C /* UIColor+AppPalette.swift */; };
+		157ADC9E2ACFAAFA00D37680 /* FavoritePostViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157ADC9D2ACFAAFA00D37680 /* FavoritePostViewAdapter.swift */; };
+		157ADCA02ACFB33100D37680 /* UIScrollView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157ADC9F2ACFB33100D37680 /* UIScrollView+.swift */; };
+		157ADCA22ACFB55800D37680 /* FavoritePostViewAdapterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157ADCA12ACFB55800D37680 /* FavoritePostViewAdapterDelegate.swift */; };
 		158312E12AB36A9A0087034A /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158312E02AB36A9A0087034A /* UIViewController.swift */; };
 		1586D3042AB193F7001D4A80 /* Season.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1586D3032AB193F7001D4A80 /* Season.swift */; };
 		158BEF772A0E279700C27861 /* PostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158BEF762A0E279700C27861 /* PostCell.swift */; };
@@ -298,6 +301,9 @@
 		157176732A0C09740015EC8C /* SFPro-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFPro-Italic.ttf"; sourceTree = "<group>"; };
 		157176742A0C09740015EC8C /* SFPro.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SFPro.ttf; sourceTree = "<group>"; };
 		157176772A0C21C90015EC8C /* UIColor+AppPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+AppPalette.swift"; sourceTree = "<group>"; };
+		157ADC9D2ACFAAFA00D37680 /* FavoritePostViewAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoritePostViewAdapter.swift; sourceTree = "<group>"; };
+		157ADC9F2ACFB33100D37680 /* UIScrollView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScrollView+.swift"; sourceTree = "<group>"; };
+		157ADCA12ACFB55800D37680 /* FavoritePostViewAdapterDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePostViewAdapterDelegate.swift; sourceTree = "<group>"; };
 		158312E02AB36A9A0087034A /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
 		1586D3032AB193F7001D4A80 /* Season.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Season.swift; sourceTree = "<group>"; };
 		158BEF762A0E279700C27861 /* PostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCell.swift; sourceTree = "<group>"; };
@@ -657,6 +663,7 @@
 		152AD5192A1A0420008A2A11 /* Adapter */ = {
 			isa = PBXGroup;
 			children = (
+				157ADC9D2ACFAAFA00D37680 /* FavoritePostViewAdapter.swift */,
 				152AD51A2A1A0447008A2A11 /* FavoriteTableViewAdapter.swift */,
 			);
 			path = Adapter;
@@ -667,6 +674,7 @@
 			children = (
 				152AD51D2A1A04E5008A2A11 /* FavoriteTableViewAdapterDataSource.swift */,
 				152AD51F2A1A09E8008A2A11 /* FavoriteTableViewAdapterDelegate.swift */,
+				157ADCA12ACFB55800D37680 /* FavoritePostViewAdapterDelegate.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -1254,6 +1262,7 @@
 				1570FDB62AB1E29C006FBAA3 /* Notification+.swift */,
 				158312E02AB36A9A0087034A /* UIViewController.swift */,
 				15DA4C7E2ACD78C1003A7900 /* Int+.swift */,
+				157ADC9F2ACFB33100D37680 /* UIScrollView+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -1534,6 +1543,7 @@
 				15CB23612A10B5E3003EAF20 /* DateValidationProtocol.swift in Sources */,
 				15E982C12ACD16A2002B932F /* FavoriteDetailCategoryAreaView.swift in Sources */,
 				152AD4F62A18B6C3008A2A11 /* FavoriteHeaderImageViews.swift in Sources */,
+				157ADCA02ACFB33100D37680 /* UIScrollView+.swift in Sources */,
 				13254FE72A05158E00094218 /* SearchViewController.swift in Sources */,
 				15FEB5EC2A050A99000A5F33 /* ViewModelProtocols.swift in Sources */,
 				15A4F28D2ACC1025001AA51D /* Toggable.swift in Sources */,
@@ -1551,6 +1561,7 @@
 				154ECA172AB0B5D40093AF25 /* TravelMainThemeType.swift in Sources */,
 				152AD51B2A1A0447008A2A11 /* FavoriteTableViewAdapter.swift in Sources */,
 				15F0D1BE2A52940F00D04773 /* PostViewBottomSheetViewController.swift in Sources */,
+				157ADC9E2ACFAAFA00D37680 /* FavoritePostViewAdapter.swift in Sources */,
 				15C83F8A2AB2134D00DDB536 /* BottomSheetView.swift in Sources */,
 				1503F92B2A4E068E002BC38D /* ApplicationCoordinator.swift in Sources */,
 				15259DE92ACAA98F00C14F62 /* TravelDestinationCellViewModel.swift in Sources */,
@@ -1625,6 +1636,7 @@
 				1550D9AF2ACAFAC10046569B /* TravelDetailThemeViewController.swift in Sources */,
 				158BEF812A0E2C9E00C27861 /* PostFooterView.swift in Sources */,
 				15FEB5E82A050A99000A5F33 /* UIControl+CombineInteraction.swift in Sources */,
+				157ADCA22ACFB55800D37680 /* FavoritePostViewAdapterDelegate.swift in Sources */,
 				15B4E5F02ACA6452001CF071 /* TravelReviewViewController.swift in Sources */,
 				1550D9B12ACB1D740046569B /* DevelopmentViewController.swift in Sources */,
 				13254FF02A0549D200094218 /* TabBarCase.swift in Sources */,
