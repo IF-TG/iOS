@@ -432,6 +432,7 @@
 		130304742A23C7B900776A0D /* Delegate */ = {
 			isa = PBXGroup;
 			children = (
+				1390CC5C2A8BADEC00E34DC3 /* TitleWithButtonHeaderViewDelegate.swift */,
 				13CB6D332A1FEC6D00D185B2 /* CautionAlertViewControllerDelegate.swift */,
 			);
 			path = Delegate;
@@ -462,7 +463,6 @@
 			isa = PBXGroup;
 			children = (
 				1303047A2A24938700776A0D /* SearchView.swift */,
-				130304812A250DF600776A0D /* TitleWithButtonHeaderView.swift */,
 				130304832A25117200776A0D /* SearchFestivalCell.swift */,
 				130304AF2A28447900776A0D /* TravelDestinationCell.swift */,
 				130B9AE22A684D3D0072A0CF /* SearchCompositionalLayout.swift */,
@@ -496,7 +496,6 @@
 			isa = PBXGroup;
 			children = (
 				130FA91E2A359EE300E739C5 /* SearchViewDelegate.swift */,
-				1390CC5C2A8BADEC00E34DC3 /* TitleWithButtonHeaderViewDelegate.swift */,
 				13300FA92AC0812900952757 /* StarButtonDelegate.swift */,
 			);
 			path = Protocol;
@@ -759,6 +758,7 @@
 		158BEFCE2A0FE0B300C27861 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				130304812A250DF600776A0D /* TitleWithButtonHeaderView.swift */,
 				13300FA32AC0688300952757 /* BaseDestinationView.swift */,
 				158BEFCF2A0FE2C000C27861 /* OneUnitHeightLine.swift */,
 				15C83F892AB2134D00DDB536 /* BottomSheetView.swift */,
