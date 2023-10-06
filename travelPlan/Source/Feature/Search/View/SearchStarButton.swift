@@ -25,7 +25,7 @@ final class SearchStarButton: UIButton {
   enum Constants {
     static let emptyImageName = "emptyStar"
     static let emptyWithAlphaImageName = "star-alpha10"
-    static let selectedImageName = "star"
+    static let selectedImageName = "star-filled"
   }
 
   // MARK: - LifeCycle

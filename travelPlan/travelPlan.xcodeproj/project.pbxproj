@@ -127,7 +127,6 @@
 		15BB01B62A1EB5000035B486 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BB01B52A1EB5000035B486 /* LoginViewController.swift */; };
 		15BB01B82A1EB5070035B486 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BB01B72A1EB5070035B486 /* LoginViewModel.swift */; };
 		15BB01BB2A1EB6300035B486 /* FeedViewModel+AssociatedType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BB01BA2A1EB6300035B486 /* FeedViewModel+AssociatedType.swift */; };
-		15BB01BD2A1EB7640035B486 /* PostSearchViewModel+Associatedtype.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BB01BC2A1EB7640035B486 /* PostSearchViewModel+Associatedtype.swift */; };
 		15BB01BF2A1EBAC20035B486 /* LoginViewModel+Associatedtype.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BB01BE2A1EBAC20035B486 /* LoginViewModel+Associatedtype.swift */; };
 		15C83F882AB2055E00DDB536 /* BaseBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C83F872AB2055E00DDB536 /* BaseBottomSheetViewController.swift */; };
 		15C83F8A2AB2134D00DDB536 /* BottomSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C83F892AB2134D00DDB536 /* BottomSheetView.swift */; };
@@ -334,7 +333,6 @@
 		15BB01B52A1EB5000035B486 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		15BB01B72A1EB5070035B486 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		15BB01BA2A1EB6300035B486 /* FeedViewModel+AssociatedType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FeedViewModel+AssociatedType.swift"; sourceTree = "<group>"; };
-		15BB01BC2A1EB7640035B486 /* PostSearchViewModel+Associatedtype.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PostSearchViewModel+Associatedtype.swift"; sourceTree = "<group>"; };
 		15BB01BE2A1EBAC20035B486 /* LoginViewModel+Associatedtype.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LoginViewModel+Associatedtype.swift"; sourceTree = "<group>"; };
 		15C83F872AB2055E00DDB536 /* BaseBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseBottomSheetViewController.swift; sourceTree = "<group>"; };
 		15C83F892AB2134D00DDB536 /* BottomSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetView.swift; sourceTree = "<group>"; };
@@ -919,7 +917,6 @@
 			isa = PBXGroup;
 			children = (
 				15BB01BA2A1EB6300035B486 /* FeedViewModel+AssociatedType.swift */,
-				15BB01BC2A1EB7640035B486 /* PostSearchViewModel+Associatedtype.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -1588,7 +1585,6 @@
 				15FEB5ED2A050A99000A5F33 /* LayoutSupport.swift in Sources */,
 				130304AA2A271F3B00776A0D /* SearchSectionModel.swift in Sources */,
 				158BEFF42A0FFA0A00C27861 /* PostFooterStackViewType.swift in Sources */,
-				15BB01BD2A1EB7640035B486 /* PostSearchViewModel+Associatedtype.swift in Sources */,
 				15F36A182AB1986000971803 /* TravelTheme.swift in Sources */,
 				15CB23722A10F5DA003EAF20 /* MockPostModel.swift in Sources */,
 				15EA6B352ACEF627002783F0 /* EmptyStateBasedContentViewController.swift in Sources */,
