@@ -65,7 +65,7 @@ final class FavoriteDetailMenuAreaView: UIView {
     $0.numberOfLines = 1
     $0.textAlignment = .left
     $0.textColor = Const.textColor
-    
+    // TODO: - 기본 폰트가 아니라 다 pretendard 폰트로 변경해야합니다.
     $0.font = UIFont.systemFont(ofSize: Const.textSize, weight: .init(Const.textWeight))
     // $0.font = UIFont(pretendard: .medium, size: 13)
     print("마마마", $0.font.fontName)
