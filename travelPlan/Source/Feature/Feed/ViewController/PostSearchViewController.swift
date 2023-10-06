@@ -157,8 +157,6 @@ extension PostSearchViewController: ViewBindCase {
   
   func render(_ state: State) {
     switch state {
-    case .gotoBack:
-      navigationController?.popViewController(animated: true)
     case .gotoSearch(let text):
       searchTextField.resignFirstResponder()
       print("DEBUG: PostSearchVC -> PostSearchResultVC, keyword:\(text)")
@@ -170,25 +168,23 @@ extension PostSearchViewController: ViewBindCase {
       } else { setupSearchBarButtonItemStyle(.yg.gray1, isEnabled: false) }
     case.goDownKeyboard:
       navigationController?.navigationBar.endEditing(true)
-    case .showRecommendationCollection:
-      print("DEBUG: text에 따른 collectionView 변화")
-    case .runtoCancelLogic:
-      print("DEBUG: cancel버튼 클릭했을 때의 logic 실행")
-    case .reloadData:
-      collectionView.reloadData()
-    case .none: break
+    case .reloadSections(let sectionIndex):
+      collectionView.reloadSections(.init(integer: sectionIndex))
+    case .none: 
+      break
     }
   }
   
   func handleError(_ error: ErrorType) {
     switch error {
-    case .none: break
     case .unexpected:
       print("DEBUG: Unexpected error occured")
     case .deallocated:
       print("DEBUG: Deallocated PostSearchViewModel")
     case .invalidDataSource:
       print("DEBUG: 올바르지 않은 model type입니다.")
+    case .none:
+      break
     }
   }
 }
@@ -230,7 +226,7 @@ extension PostSearchViewController {
   }
   
   @objc private func didTapBackButton() {
-    input.didTapBackButton.send()
+    navigationController?.popViewController(animated: true)
   }
   
   @objc private func didTapCollectionView() {
@@ -272,7 +268,7 @@ extension PostSearchViewController: PostRecentSearchTagCellDelegate {
   func didTapTagDeleteButton(in recentTagCell: UICollectionViewCell) {
     guard let indexPath = collectionView.indexPath(for: recentTagCell) else { return }
     
-    input.didTapRecentSearchTagDeleteButton.send(indexPath.item)
+    input.didTapRecentSearchTagDeleteButton.send(indexPath)
   }
 }
 
