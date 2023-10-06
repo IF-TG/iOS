@@ -16,7 +16,7 @@ protocol PostViewAdapterDataSource: AnyObject {
   func contentText(at index: Int) -> String
 }
 
-final class PostViewAdapter: NSObject {
+class PostViewAdapter: NSObject {
   weak var dataSource: PostViewAdapterDataSource?
   init(
     dataSource: PostViewAdapterDataSource? = nil,
