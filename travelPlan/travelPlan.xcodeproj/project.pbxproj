@@ -437,6 +437,7 @@
 			children = (
 				13CB6D312A1E9F6600D185B2 /* CautionAlertViewController.swift */,
 				15C83F872AB2055E00DDB536 /* BaseBottomSheetViewController.swift */,
+				15EA6B342ACEF627002783F0 /* EmptyStateBasedContentViewController.swift */,
 				15A4F28E2ACC11E5001AA51D /* ViewController.swift */,
 			);
 			path = ViewController;
@@ -781,7 +782,6 @@
 				15EB39E52AC303C90025FFB4 /* BaseProfileAreaView.swift */,
 				15A4F28A2ACC072A001AA51D /* PrimaryColorToneRoundLabel.swift */,
 				15FC90D52ACC1BB50033A1E5 /* PrimaryColorToneRoundButton.swift */,
-				15EA6B342ACEF627002783F0 /* EmptyStateBasedContentViewController.swift */,
 				15DA4C822ACD821F003A7900 /* EmptyStateView.swift */,
 			);
 			path = View;
