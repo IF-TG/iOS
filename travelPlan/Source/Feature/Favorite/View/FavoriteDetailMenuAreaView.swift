@@ -1,5 +1,5 @@
 //
-//  FavoriteDetailCategoryAreaView.swift
+//  FavoriteDetailMenuAreaView.swift
 //  travelPlan
 //
 //  Created by 양승현 on 10/4/23.
@@ -8,7 +8,7 @@
 import UIKit
 import Combine
 
-final class FavoriteDetailCategoryAreaView: UIView {
+final class FavoriteDetailMenuAreaView: UIView {
   enum Constant {
     enum CategoryStackView {
       static let height: CGFloat = 40
@@ -103,7 +103,7 @@ final class FavoriteDetailCategoryAreaView: UIView {
 }
 
 // MARK: - Helpers
-extension FavoriteDetailCategoryAreaView {
+extension FavoriteDetailMenuAreaView {
   func plusStoredPost() {
     totalItemCount += 1
   }
@@ -118,7 +118,7 @@ extension FavoriteDetailCategoryAreaView {
 }
 
 // MARK: - Private Helpers
-extension FavoriteDetailCategoryAreaView {
+extension FavoriteDetailMenuAreaView {
   private func configureUI() {
     translatesAutoresizingMaskIntoConstraints = false
     setupUI()
@@ -161,7 +161,7 @@ extension FavoriteDetailCategoryAreaView {
 }
 
 // MARK: - LayoutSupport
-extension FavoriteDetailCategoryAreaView: LayoutSupport {
+extension FavoriteDetailMenuAreaView: LayoutSupport {
   func addSubviews() {
     _=[
       categoryStackView,
@@ -182,7 +182,7 @@ extension FavoriteDetailCategoryAreaView: LayoutSupport {
 }
 
 // MARK: - LayoutSupport Constraints
-private extension FavoriteDetailCategoryAreaView {
+private extension FavoriteDetailMenuAreaView {
   var categoryStackViewConstraints: [NSLayoutConstraint] {
     typealias Const = Constant.CategoryStackView
     typealias Spacing = Const.Spacing
