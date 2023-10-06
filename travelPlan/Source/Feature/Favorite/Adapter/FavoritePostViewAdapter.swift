@@ -34,8 +34,4 @@ extension FavoritePostViewAdapter: UICollectionViewDelegate {
     scrollPosition = scrollYPosition
     delegate?.scrollDidScroll(scrollView, scrollYPosition: scrollYPosition, direction: direction)
   }
-  
-  func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-    delegate?.scrollViewDidEndDecelerating(scrollView, scrollYPosition: scrollView.contentOffset.y)
-  }
 }

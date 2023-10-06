@@ -12,5 +12,4 @@ protocol FavoritePostViewAdapterDelegate: AnyObject {
     _ scrollView: UIScrollView,
     scrollYPosition: CGFloat,
     direction: UIScrollView.ScrollVerticalDirection)
-  func scrollViewDidEndDecelerating(_ scrollView: UIScrollView, scrollYPosition: CGFloat)
 }
