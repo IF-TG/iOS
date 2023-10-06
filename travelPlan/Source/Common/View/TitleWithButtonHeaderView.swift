@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 
+/// 해당 뷰에 존재하는 버튼 action을 사용하려면, TitleWithButtonHeaderViewDelegate 프로토콜을 준수해야 합니다.
 final class TitleWithButtonHeaderView: UICollectionReusableView {
   enum Constants {
     enum HeaderLabel {
