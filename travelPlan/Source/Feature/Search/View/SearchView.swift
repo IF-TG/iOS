@@ -64,7 +64,7 @@ final class SearchView: UIView {
   
   private let shadowLayer: CALayer = .init().set {
     $0.shadowColor = UIColor.yg.primary.cgColor
-    $0.backgroundColor = UIColor.systemBackground.cgColor
+    $0.backgroundColor = UIColor.white.cgColor
     $0.shadowOpacity = Constants.ShadowLayer.shadowOpacity
     $0.shadowRadius = Constants.ShadowLayer.shadowRadius
     $0.cornerRadius = SearchView.Constants.cornerRadius
