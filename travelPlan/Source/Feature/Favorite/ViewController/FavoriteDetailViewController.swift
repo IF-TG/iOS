@@ -25,7 +25,9 @@ final class FavoriteDetailViewController: UIViewController {
   private var pageViewControllerDataSource: [UIViewController]!
   
   // MARK: - Temp
-  let postCollectionView = PostCollectionView()
+  let postCollectionView = PostCollectionView().set {
+    $0.bounces = false
+  }
   let postViewModel = PostViewModel(filterInfo: .init(travelTheme: .all, travelTrend: .newest))
   var postAdapter: FavoritePostViewAdapter!
   
@@ -48,7 +50,10 @@ final class FavoriteDetailViewController: UIViewController {
   private var targetScrollPosition: CGFloat = 0
   private var categoryViewScrollYPosition: CGFloat = 0
   private var categoryViewVisibleHeight: CGFloat = 0
-  private var pageViewOriginYAnchor: NSLayoutConstraint!
+  private var pageViewOriginTopAnchor: NSLayoutConstraint!
+  private var pageViewTopAnchor: NSLayoutConstraint!
+  
+  private var isDoneCategoryViewAnimation = true
   
   // MARK: - Lifecycle
   init() {
@@ -116,30 +121,30 @@ extension FavoriteDetailViewController: FavoritePostViewAdapterDelegate {
     scrollYPosition: CGFloat,
     direction: UIScrollView.ScrollVerticalDirection
   ) {
-    let categoryHeight = Constant.CategoryView.height
+//    let targetHeight = Constant.CategoryView.height
+    guard isDoneCategoryViewAnimation else { return }
+    isDoneCategoryViewAnimation = false
+    pageViewTopAnchor.isActive = false
+    var targetTransform: CGAffineTransform
     
-    // 초기에 사라지는 경우
-    if direction == .down && scrollYPosition <= categoryHeight {
-      categoryViewScrollYPosition = -scrollYPosition
-      categoryView.transform = .init(translationX: 0, y: categoryViewScrollYPosition)
-      scrollDirection = .down
+    if direction == .up {
+      pageViewTopAnchor = pageViewOriginTopAnchor
+      targetTransform = .identity
+    } else {
+      pageViewTopAnchor = pageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
+      targetTransform = .init(translationX: 0, y: -Constant.CategoryView.height)
     }
-    
-    // 초기, 중간에 업 되는 경우
-    if direction == .up, categoryViewScrollYPosition <= 0 {
-      if scrollDirection == .down {
-        scrollDirection = .up
-        targetScrollPosition = scrollYPosition
-      }
-      let offsetY = targetScrollPosition - scrollYPosition
-      if categoryViewScrollYPosition + offsetY >= 0 {
-        return
-      }
-      // categoryViewScrollYPosition += offsetY하면 이게 계속 0.....1씩 감속되는게아니라 중첩되서 1,2,3,6 9 이렇게 빼짐
-      categoryView.transform = .init(translationX: 0, y: categoryViewScrollYPosition + offsetY)
-    }
-    
-    // 중간에 다운 되는 경우
+    pageViewTopAnchor.isActive = true
+    UIView.transition(
+      with: categoryView,
+      duration: 0.3,
+      options: .curveEaseOut,
+      animations: {
+        self.categoryView.transform = targetTransform
+        self.view.layoutIfNeeded()
+      }, completion: { _ in
+        self.isDoneCategoryViewAnimation = true
+      })
   }
   
   func scrollViewDidEndDecelerating(_ scrollView: UIScrollView, scrollYPosition: CGFloat) {
@@ -189,10 +194,11 @@ private extension FavoriteDetailViewController {
   }
   
   var pageViewContraints: [NSLayoutConstraint] {
-    pageViewOriginYAnchor = pageView.topAnchor.constraint(equalTo: categoryView.bottomAnchor)
+    pageViewOriginTopAnchor = pageView.topAnchor.constraint(equalTo: categoryView.bottomAnchor)
+    pageViewTopAnchor = pageViewOriginTopAnchor
     return [
       pageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-      pageViewOriginYAnchor,
+      pageViewTopAnchor,
       pageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
       pageView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)]
   }
