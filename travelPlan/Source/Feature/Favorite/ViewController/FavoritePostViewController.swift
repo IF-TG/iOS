@@ -53,3 +53,10 @@ extension FavoritePostViewController: FavoritePostViewAdapterDelegate {
     delegate?.scrollDidScroll(scrollView, scrollYPosition: scrollYPosition, direction: direction)
   }
 }
+
+// MARK: - FavoriteDetailMenuViewConfigurable
+extension FavoritePostViewController: FavoriteDetailMenuViewConfigurable {
+  var numberOfItems: Int {
+    postViewModel.numberOfItems
+  }
+}
