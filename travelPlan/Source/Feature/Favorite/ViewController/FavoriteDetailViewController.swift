@@ -15,6 +15,11 @@ final class FavoriteDetailViewController: UIViewController {
   }
   
   // MARK: - Properties
+  private let safeAreaTopBackgroundView = UIView(frame: .zero).set {
+    $0.translatesAutoresizingMaskIntoConstraints = false
+    $0.backgroundColor = .systemPink
+  }
+  
   private let categoryView = FavoriteDetailCategoryAreaView()
   
   private var pageViewControllerDataSource: [UIViewController]!
@@ -22,9 +27,7 @@ final class FavoriteDetailViewController: UIViewController {
   // MARK: - Temp
   let postCollectionView = PostCollectionView()
   let postViewModel = PostViewModel(filterInfo: .init(travelTheme: .all, travelTrend: .newest))
-  lazy var postAdapter = PostViewAdapter(
-    dataSource: postViewModel,
-    collectionView: postCollectionView)
+  var postAdapter: FavoritePostViewAdapter!
   
   private lazy var pageViewController = UIPageViewController(
     transitionStyle: .scroll,
@@ -40,7 +43,13 @@ final class FavoriteDetailViewController: UIViewController {
   private var pageView: UIView! {
     pageViewController.view
   }
-
+  
+  private var scrollDirection: UIScrollView.ScrollVerticalDirection = .down
+  private var targetScrollPosition: CGFloat = 0
+  private var categoryViewScrollYPosition: CGFloat = 0
+  private var categoryViewVisibleHeight: CGFloat = 0
+  private var pageViewOriginYAnchor: NSLayoutConstraint!
+  
   // MARK: - Lifecycle
   init() {
     super.init(nibName: nil, bundle: nil)
@@ -54,6 +63,10 @@ final class FavoriteDetailViewController: UIViewController {
     super.viewDidLoad()
     configureUI()
     bind()
+    postAdapter = FavoritePostViewAdapter(
+      dataSource: postViewModel,
+      delegate: self,
+      collectionView: postCollectionView)
   }
 }
 
@@ -65,8 +78,11 @@ private extension FavoriteDetailViewController {
         $0.view.backgroundColor = i == 0 ? .orange : .purple
         if i == 0 {
           $0.view.addSubview(postCollectionView)
-          postCollectionView.translatesAutoresizingMaskIntoConstraints = true
-          postCollectionView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+          NSLayoutConstraint.activate([
+            postCollectionView.leadingAnchor.constraint(equalTo: $0.view.leadingAnchor),
+            postCollectionView.topAnchor.constraint(equalTo: $0.view.topAnchor),
+            postCollectionView.trailingAnchor.constraint(equalTo: $0.view.trailingAnchor),
+            postCollectionView.bottomAnchor.constraint(equalTo: $0.view.bottomAnchor)])
         }
       }
     }
@@ -76,23 +92,57 @@ private extension FavoriteDetailViewController {
   
   func bind() {
     categoryView.travelReviewTapHandler = {
-      print("무야호")
       self.pageViewController.setViewControllers(
         [self.pageViewControllerDataSource[0]],
-        direction: .forward,
+        direction: .reverse,
         animated: true)
-      
       return 3
     }
     
     categoryView.travelLocationTapHandler = {
-      print("무야호222")
       self.pageViewController.setViewControllers(
         [self.pageViewControllerDataSource[1]],
-        direction: .reverse,
+        direction: .forward,
         animated: true)
       return 2
     }
+  }
+}
+
+extension FavoriteDetailViewController: FavoritePostViewAdapterDelegate {
+  
+  func scrollDidScroll(
+    _ scrollView: UIScrollView,
+    scrollYPosition: CGFloat,
+    direction: UIScrollView.ScrollVerticalDirection
+  ) {
+    let categoryHeight = Constant.CategoryView.height
+    
+    // 초기에 사라지는 경우
+    if direction == .down && scrollYPosition <= categoryHeight {
+      categoryViewScrollYPosition = -scrollYPosition
+      categoryView.transform = .init(translationX: 0, y: categoryViewScrollYPosition)
+      scrollDirection = .down
+    }
+    
+    // 초기, 중간에 업 되는 경우
+    if direction == .up, categoryViewScrollYPosition <= 0 {
+      if scrollDirection == .down {
+        scrollDirection = .up
+        targetScrollPosition = scrollYPosition
+      }
+      let offsetY = targetScrollPosition - scrollYPosition
+      if categoryViewScrollYPosition + offsetY >= 0 {
+        return
+      }
+      // categoryViewScrollYPosition += offsetY하면 이게 계속 0.....1씩 감속되는게아니라 중첩되서 1,2,3,6 9 이렇게 빼짐
+      categoryView.transform = .init(translationX: 0, y: categoryViewScrollYPosition + offsetY)
+    }
+    
+    // 중간에 다운 되는 경우
+  }
+  
+  func scrollViewDidEndDecelerating(_ scrollView: UIScrollView, scrollYPosition: CGFloat) {
   }
 }
 
@@ -101,6 +151,7 @@ extension FavoriteDetailViewController: LayoutSupport {
   func addSubviews() {
     _=[
       categoryView,
+      safeAreaTopBackgroundView,
       pageView
     ].map {
       view.addSubview($0)
@@ -109,6 +160,7 @@ extension FavoriteDetailViewController: LayoutSupport {
   
   func setConstraints() {
     _=[
+      safeAreaTopBackgroundViewConstraints,
       categoryViewConstraints,
       pageViewContraints
     ].map {
@@ -119,6 +171,14 @@ extension FavoriteDetailViewController: LayoutSupport {
 
 // MARK: - LayoutSupport Constraints
 private extension FavoriteDetailViewController {
+  var safeAreaTopBackgroundViewConstraints: [NSLayoutConstraint] {
+    return [
+      safeAreaTopBackgroundView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+      safeAreaTopBackgroundView.topAnchor.constraint(equalTo: view.topAnchor),
+      safeAreaTopBackgroundView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+      safeAreaTopBackgroundView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)]
+  }
+  
   var categoryViewConstraints: [NSLayoutConstraint] {
     typealias Const = Constant.CategoryView
     return [
@@ -129,9 +189,10 @@ private extension FavoriteDetailViewController {
   }
   
   var pageViewContraints: [NSLayoutConstraint] {
+    pageViewOriginYAnchor = pageView.topAnchor.constraint(equalTo: categoryView.bottomAnchor)
     return [
       pageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-      pageView.topAnchor.constraint(equalTo: categoryView.bottomAnchor),
+      pageViewOriginYAnchor,
       pageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
       pageView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)]
   }
