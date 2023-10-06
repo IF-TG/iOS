@@ -8,5 +8,9 @@
 import UIKit
 
 protocol FavoritePostViewAdapterDelegate: AnyObject {
-  func scrollDidScroll(_ scrollView: UIScrollView, direction: UIScrollView.ScrollVerticalDirection)
+  func scrollDidScroll(
+    _ scrollView: UIScrollView,
+    scrollYPosition: CGFloat,
+    direction: UIScrollView.ScrollVerticalDirection)
+  func scrollViewDidEndDecelerating(_ scrollView: UIScrollView, scrollYPosition: CGFloat)
 }

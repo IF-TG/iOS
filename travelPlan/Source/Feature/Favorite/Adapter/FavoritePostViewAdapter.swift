@@ -19,6 +19,7 @@ final class FavoritePostViewAdapter: PostViewAdapter {
   ) {
     self.delegate = delegate
     super.init(dataSource: dataSource, collectionView: collectionView)
+    collectionView?.delegate = self
   }
 }
 
@@ -29,8 +30,12 @@ extension FavoritePostViewAdapter: UICollectionViewDelegate {
     }
     var direction: UIScrollView.ScrollVerticalDirection
     let scrollYPosition = scrollView.contentOffset.y
-    direction = scrollPosition < scrollYPosition ? .up : .down
+    direction = scrollPosition < scrollYPosition ? .down : .up
     scrollPosition = scrollYPosition
-    delegate?.scrollDidScroll(scrollView, direction: direction)
+    delegate?.scrollDidScroll(scrollView, scrollYPosition: scrollYPosition, direction: direction)
+  }
+  
+  func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+    delegate?.scrollViewDidEndDecelerating(scrollView, scrollYPosition: scrollView.contentOffset.y)
   }
 }
