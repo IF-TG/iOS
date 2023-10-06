@@ -148,6 +148,7 @@
 		15DE36B62AB83DD40030CCCC /* TravelThemeBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DE36B52AB83DD40030CCCC /* TravelThemeBottomSheetViewController.swift */; };
 		15DE36B92AB853900030CCCC /* TravelThemeBottomSheetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DE36B82AB853900030CCCC /* TravelThemeBottomSheetCell.swift */; };
 		15EA48CA2A539D7B00F4B391 /* MoreMenuViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EA48C92A539D7B00F4B391 /* MoreMenuViewDelegate.swift */; };
+		15EA6B352ACEF627002783F0 /* EmptyStateBasedContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EA6B342ACEF627002783F0 /* EmptyStateBasedContentViewController.swift */; };
 		15EB39E62AC303C90025FFB4 /* BaseProfileAreaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EB39E52AC303C90025FFB4 /* BaseProfileAreaView.swift */; };
 		15EB3A012AC3477B0025FFB4 /* PostHeaderInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EB3A002AC3477B0025FFB4 /* PostHeaderInfoView.swift */; };
 		15EB3A222AC99FCA0025FFB4 /* PostHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158BEF7C2A0E2C5F00C27861 /* PostHeaderView.swift */; };
@@ -353,6 +354,7 @@
 		15DE36B52AB83DD40030CCCC /* TravelThemeBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelThemeBottomSheetViewController.swift; sourceTree = "<group>"; };
 		15DE36B82AB853900030CCCC /* TravelThemeBottomSheetCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelThemeBottomSheetCell.swift; sourceTree = "<group>"; };
 		15EA48C92A539D7B00F4B391 /* MoreMenuViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreMenuViewDelegate.swift; sourceTree = "<group>"; };
+		15EA6B342ACEF627002783F0 /* EmptyStateBasedContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateBasedContentViewController.swift; sourceTree = "<group>"; };
 		15EB39E52AC303C90025FFB4 /* BaseProfileAreaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseProfileAreaView.swift; sourceTree = "<group>"; };
 		15EB3A002AC3477B0025FFB4 /* PostHeaderInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostHeaderInfoView.swift; sourceTree = "<group>"; };
 		15EF8C042A0829FD0068C744 /* LocationSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchViewController.swift; sourceTree = "<group>"; };
@@ -765,6 +767,7 @@
 				15EB39E52AC303C90025FFB4 /* BaseProfileAreaView.swift */,
 				15A4F28A2ACC072A001AA51D /* PrimaryColorToneRoundLabel.swift */,
 				15FC90D52ACC1BB50033A1E5 /* PrimaryColorToneRoundButton.swift */,
+				15EA6B342ACEF627002783F0 /* EmptyStateBasedContentViewController.swift */,
 				15DA4C822ACD821F003A7900 /* EmptyStateView.swift */,
 			);
 			path = View;
@@ -1588,6 +1591,7 @@
 				15BB01BD2A1EB7640035B486 /* PostSearchViewModel+Associatedtype.swift in Sources */,
 				15F36A182AB1986000971803 /* TravelTheme.swift in Sources */,
 				15CB23722A10F5DA003EAF20 /* MockPostModel.swift in Sources */,
+				15EA6B352ACEF627002783F0 /* EmptyStateBasedContentViewController.swift in Sources */,
 				15BB01B82A1EB5070035B486 /* LoginViewModel.swift in Sources */,
 				15FB47F12AC1DCEF0033AA18 /* TravelMainThemeCollectionView.swift in Sources */,
 				158BEFC42A0EC8A100C27861 /* UIView+CustomAnimation.swift in Sources */,
