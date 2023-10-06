@@ -20,10 +20,12 @@ final class FavoriteDetailViewController: UIViewController {
     $0.backgroundColor = .systemPink
   }
   
-  private let categoryView = FavoriteDetailCategoryAreaView()
+  private lazy var menuView = FavoriteDetailMenuAreaView(
+    totalItemCount: pageViewDataSource[0].numberOfItems)
   
-  // TODO: - 장소 찜 화면 나오면 그 떄 EmptyStateBasedContentViewController타입으로 변경.
-  private var pageViewControllerDataSource: [UIViewController]!
+  private var pageViewDataSource: [
+    EmptyStateBasedContentViewController
+    & FavoriteDetailMenuViewConfigurable]!
   
   private lazy var pageViewController = UIPageViewController(
     transitionStyle: .scroll,
@@ -31,7 +33,7 @@ final class FavoriteDetailViewController: UIViewController {
   ).set {
     $0.view.translatesAutoresizingMaskIntoConstraints = false
     $0.setViewControllers(
-      [pageViewControllerDataSource[0]],
+      [pageViewDataSource[0]],
       direction: .forward,
       animated: true)
   }
@@ -67,33 +69,35 @@ final class FavoriteDetailViewController: UIViewController {
 // MARK: - Private Helpers
 private extension FavoriteDetailViewController {
   func configureUI() {
-    let favoritePostReviewViewController = FavoritePostViewController().set {
+    let favoritePostViewController = FavoritePostViewController().set {
       $0.delegate = self
     }
-    let tempFavoriteLocationViewController = UIViewController().set { 
-      $0.view.backgroundColor = .orange
-    }
-    pageViewControllerDataSource = [favoritePostReviewViewController, tempFavoriteLocationViewController]
+    
+    let favoriteLocationViewController = FavoriteLocationViewController()
+    
+    pageViewDataSource = [favoritePostViewController, favoriteLocationViewController]
     view.backgroundColor = .white
     setupUI()
   }
   
   func bind() {
-    // TODO: - 이거 이제 페이보릿 포스트 리뷰 뷰컨의 뷰모델 꺼로 동기화 해야함.
-    categoryView.travelReviewTapHandler = {
+    menuView.travelReviewTapHandler = {
+      let targetViewController = self.pageViewDataSource[0]
       self.pageViewController.setViewControllers(
-        [self.pageViewControllerDataSource[0]],
+        [targetViewController],
         direction: .reverse,
         animated: true)
-      return 3
+      
+      return targetViewController.numberOfItems
     }
     
-    categoryView.travelLocationTapHandler = {
+    menuView.travelLocationTapHandler = {
+      let targetViewController = self.pageViewDataSource[1]
       self.pageViewController.setViewControllers(
-        [self.pageViewControllerDataSource[1]],
+        [targetViewController],
         direction: .forward,
         animated: true)
-      return 2
+      return targetViewController.numberOfItems
     }
   }
 }
@@ -131,11 +135,11 @@ extension FavoriteDetailViewController: FavoritePostViewDelegate {
   private func showSubviewsScrollAnimation() {
     pageViewTopAnchor.isActive = true
     UIView.transition(
-      with: categoryView,
+      with: menuView,
       duration: 0.3,
       options: .curveEaseOut,
       animations: {
-        self.categoryView.transform = self.categoryViewTargetTransform
+        self.menuView.transform = self.categoryViewTargetTransform
         self.view.layoutIfNeeded()
       }, completion: { _ in
         self.isDoneCategoryViewAnimation = true
@@ -147,7 +151,7 @@ extension FavoriteDetailViewController: FavoritePostViewDelegate {
 extension FavoriteDetailViewController: LayoutSupport {
   func addSubviews() {
     _=[
-      categoryView,
+      menuView,
       safeAreaTopBackgroundView,
       pageView
     ].map {
@@ -179,14 +183,14 @@ private extension FavoriteDetailViewController {
   var categoryViewConstraints: [NSLayoutConstraint] {
     typealias Const = Constant.CategoryView
     return [
-      categoryView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-      categoryView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-      categoryView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-      categoryView.heightAnchor.constraint(equalToConstant: Const.height)]
+      menuView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+      menuView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+      menuView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+      menuView.heightAnchor.constraint(equalToConstant: Const.height)]
   }
   
   var pageViewContraints: [NSLayoutConstraint] {
-    pageViewOriginTopAnchor = pageView.topAnchor.constraint(equalTo: categoryView.bottomAnchor)
+    pageViewOriginTopAnchor = pageView.topAnchor.constraint(equalTo: menuView.bottomAnchor)
     pageViewTopAnchor = pageViewOriginTopAnchor
     return [
       pageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
