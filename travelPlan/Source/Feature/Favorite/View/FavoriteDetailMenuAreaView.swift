@@ -30,6 +30,12 @@ final class FavoriteDetailMenuAreaView: UIView {
         static let trailing = leaidng
       }
     }
+    
+    enum Shadow {
+      static let radius: CGFloat = 10.0
+      static let color = UIColor(red: 0, green: 0, blue: 0, alpha: 0.05).cgColor
+      static let offset = CGSize(width: 0, height: 1)
+    }
   }
   
   enum MenuState: String {
@@ -68,9 +74,19 @@ final class FavoriteDetailMenuAreaView: UIView {
     // TODO: - 기본 폰트가 아니라 다 pretendard 폰트로 변경해야합니다.
     $0.font = UIFont.systemFont(ofSize: Const.textSize, weight: .init(Const.textWeight))
     // $0.font = UIFont(pretendard: .medium, size: 13)
-    print("마마마", $0.font.fontName)
     $0.text = "찜한 글 " + totalItemCount.zeroPaddingString + "개"
     $0.sizeToFit()
+  }
+  
+  private var isSetShadow = false
+  
+  override var bounds: CGRect {
+    didSet {
+      if !isSetShadow {
+        isSetShadow.toggle()
+        configureShadow()
+      }
+    }
   }
   
   var travelReviewTapHandler: (() -> Int)?
@@ -107,6 +123,7 @@ final class FavoriteDetailMenuAreaView: UIView {
 extension FavoriteDetailMenuAreaView {
   private func configureUI() {
     translatesAutoresizingMaskIntoConstraints = false
+    backgroundColor = .white
     setupUI()
   }
   
@@ -143,6 +160,20 @@ extension FavoriteDetailMenuAreaView {
         self?.totalItemCount = self?.travelLocationTapHandler?() ?? 0
       }
     }
+  }
+  
+  func configureShadow() {
+    layer.shadowColor = Constant.Shadow.color
+    layer.shadowRadius = Constant.Shadow.radius
+    layer.shadowOffset = Constant.Shadow.offset
+    layer.shadowOpacity = 1
+    let shadowRect = CGRect(
+      x: bounds.origin.x,
+      y: bounds.origin.y,
+      width: bounds.width,
+      height: bounds.height + 1)
+    let shadowPath = UIBezierPath(rect: shadowRect).cgPath
+    layer.shadowPath = shadowPath
   }
 }
 
