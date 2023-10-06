@@ -96,7 +96,7 @@ extension TitleWithButtonHeaderView {
 extension TitleWithButtonHeaderView {
   @objc private func didTapLookingMoreButton() {
     guard let sectionIndex = sectionIndex else { return }
-    delegate?.didTaplookingMoreButton(in: sectionIndex)
+    delegate?.didTaplookingMoreButton(lookingMoreButton, in: sectionIndex)
   }
 }
 

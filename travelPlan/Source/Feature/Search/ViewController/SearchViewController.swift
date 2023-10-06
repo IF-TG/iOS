@@ -273,7 +273,7 @@ extension SearchViewController: SearchViewDelegate {
 // MARK: - TitleWithButtonHeaderViewDelegate
 extension SearchViewController: TitleWithButtonHeaderViewDelegate {
   // pushTODO: - 각 타입에 맞게 화면전환을 해야합니다.
-  func didTaplookingMoreButton(in section: Int) {
+  func didTaplookingMoreButton(_ button: UIButton, in section: Int) {
     input.didTaplookingMoreButton.send(section)
   }
 }
