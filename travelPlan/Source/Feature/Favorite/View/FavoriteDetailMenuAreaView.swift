@@ -32,7 +32,7 @@ final class FavoriteDetailMenuAreaView: UIView {
     }
   }
   
-  enum CategoryState: String {
+  enum MenuState: String {
     case travelReview = "글"
     case travelLocation = "장소"
     
@@ -42,7 +42,7 @@ final class FavoriteDetailMenuAreaView: UIView {
   }
   
   // MARK: - Properties
-  private lazy var categoryStackView = UIStackView(arrangedSubviews: [travelReviewLabel, travelLocationLabel]).set {
+  private lazy var menuStackView = UIStackView(arrangedSubviews: [travelReviewLabel, travelLocationLabel]).set {
     typealias Const = Constant.CategoryStackView
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.spacing = Const.interItemSpacing
@@ -77,43 +77,29 @@ final class FavoriteDetailMenuAreaView: UIView {
   
   var travelLocationTapHandler: (() -> Int)?
   
-  // TODO: - 이건 트래벌 리뷰 눌르면 그때 하위 뷰컨에서 얼마나 컨텐츠 보유중인지 확인 후 다시 여기에 새로 갱신해야할거같음.
-  @Published private var totalItemCount: Int = 0
+  @Published private var totalItemCount: Int
   
-  @Published private var categoryState: CategoryState = .travelReview
+  @Published private var categoryState: MenuState = .travelReview
   
   private var subscriptions = Set<AnyCancellable>()
   
   // MARK: - Lifecycle
-  override init(frame: CGRect) {
+  init(frame: CGRect, totalItemCount: Int) {
+    self.totalItemCount = totalItemCount
     super.init(frame: frame)
     configureUI()
     bind()
   }
   
-  convenience init() {
-    self.init(frame: .zero)
+  convenience init(totalItemCount: Int) {
+    self.init(frame: .zero, totalItemCount: totalItemCount)
   }
   
   required init?(coder: NSCoder) {
+    self.totalItemCount = 0
     super.init(coder: coder)
     configureUI()
     bind()
-  }
-}
-
-// MARK: - Helpers
-extension FavoriteDetailMenuAreaView {
-  func plusStoredPost() {
-    totalItemCount += 1
-  }
-  
-  func minusStoredPost() -> Bool {
-    if totalItemCount == 0 {
-      return false
-    }
-    totalItemCount -= 1
-    return true
   }
 }
 
@@ -164,7 +150,7 @@ extension FavoriteDetailMenuAreaView {
 extension FavoriteDetailMenuAreaView: LayoutSupport {
   func addSubviews() {
     _=[
-      categoryStackView,
+      menuStackView,
       totalItemStateLabel
     ].map {
       addSubview($0)
@@ -187,10 +173,10 @@ private extension FavoriteDetailMenuAreaView {
     typealias Const = Constant.CategoryStackView
     typealias Spacing = Const.Spacing
     return [
-      categoryStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Spacing.leading),
-      categoryStackView.topAnchor.constraint(equalTo: topAnchor, constant: Spacing.top),
-      categoryStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Spacing.trailing),
-      categoryStackView.heightAnchor.constraint(equalToConstant: Const.height)]
+      menuStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Spacing.leading),
+      menuStackView.topAnchor.constraint(equalTo: topAnchor, constant: Spacing.top),
+      menuStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Spacing.trailing),
+      menuStackView.heightAnchor.constraint(equalToConstant: Const.height)]
   }
   
   var totalItemStateLabelConstraints: [NSLayoutConstraint] {
@@ -198,7 +184,7 @@ private extension FavoriteDetailMenuAreaView {
     typealias Spacing = Const.Spacing
     return [
       totalItemStateLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Spacing.leaidng),
-      totalItemStateLabel.topAnchor.constraint(equalTo: categoryStackView.bottomAnchor, constant: Spacing.top),
+      totalItemStateLabel.topAnchor.constraint(equalTo: menuStackView.bottomAnchor, constant: Spacing.top),
       totalItemStateLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Spacing.trailing)]
   }
 }
