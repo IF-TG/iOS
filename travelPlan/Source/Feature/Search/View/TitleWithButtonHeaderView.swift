@@ -80,6 +80,7 @@ final class TitleWithButtonHeaderView: UICollectionReusableView {
   
   override func prepareForReuse() {
     super.prepareForReuse()
+    headerLabel.text = nil
     sectionIndex = nil
   }
 }
