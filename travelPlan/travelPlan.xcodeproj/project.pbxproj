@@ -48,6 +48,7 @@
 		13813A252AAA494500AF6AEB /* PostSearchLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13813A242AAA494500AF6AEB /* PostSearchLayout.swift */; };
 		1390CC5D2A8BADEC00E34DC3 /* TitleWithButtonHeaderViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1390CC5C2A8BADEC00E34DC3 /* TitleWithButtonHeaderViewDelegate.swift */; };
 		13A6C2DB2AB782A100EABD76 /* UIViewController+BackBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A6C2DA2AB782A100EABD76 /* UIViewController+BackBarButtonItem.swift */; };
+		13A93EEF2AD0766900FC4BBD /* SearchTop10Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A93EEE2AD0766900FC4BBD /* SearchTop10Model.swift */; };
 		13C9C1AF2A17FFC400DF1FFF /* PostSearchHeaderViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C9C1AE2A17FFC400DF1FFF /* PostSearchHeaderViewDelegate.swift */; };
 		13C9C1B12A1806F500DF1FFF /* PostRecentSearchTagCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C9C1B02A1806F500DF1FFF /* PostRecentSearchTagCellDelegate.swift */; };
 		13CB6D322A1E9F6600D185B2 /* CautionAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CB6D312A1E9F6600D185B2 /* CautionAlertViewController.swift */; };
@@ -263,6 +264,7 @@
 		1390CC5C2A8BADEC00E34DC3 /* TitleWithButtonHeaderViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleWithButtonHeaderViewDelegate.swift; sourceTree = "<group>"; };
 		1390CC6E2A8E0B2800E34DC3 /* SearchStarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchStarButton.swift; sourceTree = "<group>"; };
 		13A6C2DA2AB782A100EABD76 /* UIViewController+BackBarButtonItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+BackBarButtonItem.swift"; sourceTree = "<group>"; };
+		13A93EEE2AD0766900FC4BBD /* SearchTop10Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTop10Model.swift; sourceTree = "<group>"; };
 		13C07ECC2A13F454005F04CD /* PostSearchFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSearchFooterView.swift; sourceTree = "<group>"; };
 		13C9C1AE2A17FFC400DF1FFF /* PostSearchHeaderViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSearchHeaderViewDelegate.swift; sourceTree = "<group>"; };
 		13C9C1B02A1806F500DF1FFF /* PostRecentSearchTagCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostRecentSearchTagCellDelegate.swift; sourceTree = "<group>"; };
@@ -512,6 +514,7 @@
 			children = (
 				13274C5B2A59B4AD001F141C /* SearchFestivalModel.swift */,
 				13FE64762A5C378D007D9A53 /* SearchCampingModel.swift */,
+				13A93EEE2AD0766900FC4BBD /* SearchTop10Model.swift */,
 				130304A92A271F3B00776A0D /* SearchSectionModel.swift */,
 				13300FAD2AC2093D00952757 /* SearchSectionType.swift */,
 			);
@@ -1596,6 +1599,7 @@
 				1325508E2A13EE8E00094218 /* PostRecentSearchHeaderView.swift in Sources */,
 				13300FA82AC0804400952757 /* CellConfigurable.swift in Sources */,
 				130FA91F2A359EE300E739C5 /* SearchViewDelegate.swift in Sources */,
+				13A93EEF2AD0766900FC4BBD /* SearchTop10Model.swift in Sources */,
 				1325502B2A0ABE5E00094218 /* PostSearchViewModel.swift in Sources */,
 				15FEB5E92A050A99000A5F33 /* UITextField+Combine.swift in Sources */,
 				15EF8C972A0A18960068C744 /* CategoryPageViewModel.swift in Sources */,
