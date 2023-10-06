@@ -151,9 +151,9 @@ extension FavoriteDetailViewController: FavoritePostViewDelegate {
 extension FavoriteDetailViewController: LayoutSupport {
   func addSubviews() {
     _=[
+      pageView,
       menuView,
-      safeAreaTopBackgroundView,
-      pageView
+      safeAreaTopBackgroundView
     ].map {
       view.addSubview($0)
     }
