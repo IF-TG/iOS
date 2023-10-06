@@ -37,7 +37,7 @@ class BaseDestinationView<CenterView: UIView & CellConfigurable>: UIView {
   // MARK: - Properties
   weak var delegate: StarButtonDelegate?
   private let thumbnailImageView: UIImageView = .init().set {
-    $0.contentMode = .scaleAspectFill
+    $0.contentMode = .scaleToFill
   }
   private let centerView: CenterView
   private lazy var starButton: SearchStarButton = .init(normalType: .empty).set {
