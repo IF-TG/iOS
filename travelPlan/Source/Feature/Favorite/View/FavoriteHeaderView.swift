@@ -35,8 +35,7 @@ final class FavoriteHeaderView: UITableViewHeaderFooterView {
   }
 
   // MARK: - Idenrifier
-  static let id: String = String(
-    describing: FavoriteHeaderView.self)
+  static let id: String = String(describing: FavoriteHeaderView.self)
   
   // MARK: - Properties
   private let imageViews = FavoriteHeaderImageViews()
@@ -65,6 +64,7 @@ final class FavoriteHeaderView: UITableViewHeaderFooterView {
     fatalError("init(coder:) has not been implemented")
   }
 }
+
 // MARK: - Helpers
 extension FavoriteHeaderView {
   func configure(with data: Model) {
@@ -82,7 +82,7 @@ private extension FavoriteHeaderView {
   func configureUI() {
     setupUI()
     line.setConstraint(fromSuperView: contentView)
-    line.setHeight(FavoriteTableView.innerGrayLineHeight)
+    line.setHeight(0.33)
   }
   
   @MainActor
