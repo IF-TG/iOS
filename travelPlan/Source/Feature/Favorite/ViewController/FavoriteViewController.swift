@@ -10,7 +10,7 @@ import UIKit
 class FavoriteViewController: UIViewController {
   enum Constant {
     static let itemHeight: CGFloat = 65
-    
+    static let deleteIconWidth: CGFloat = 38.5
     enum NavigationBar {
       enum Title {
         static let color: UIColor = .yg.gray7
@@ -58,6 +58,10 @@ class FavoriteViewController: UIViewController {
     favoriteTableView.isEditing
   }
   
+  private var headerView: UITableViewHeaderFooterView? {
+    favoriteTableView.headerView(forSection: 0)
+  }
+  
   // MARK: - Lifecycle
   override func loadView() {
     view = favoriteTableView
@@ -68,8 +72,8 @@ class FavoriteViewController: UIViewController {
     configureUI()
     adapter = FavoriteTableViewAdapter(
       tableView: self.favoriteTableView,
-      adapterDataSource: vm,
-      adapterDelegate: self)
+      dataSource: vm,
+      delegate: self)
   }
     
   deinit {
@@ -123,8 +127,9 @@ private extension FavoriteViewController {
       options: .curveEaseOut,
       animations: {
         self.favoriteTableView.transform = .init(translationX: 0, y: -Constant.itemHeight)
+        self.headerView?.transform = .init(translationX: Constant.deleteIconWidth, y: 0)
         self.navigationBarDivider.transform = .init(translationX: 0, y: Constant.itemHeight)
-        self.favoriteTableView.headerView(forSection: 0)?.alpha = 0
+        self.headerView?.alpha = 0
       })
   }
   
@@ -134,13 +139,15 @@ private extension FavoriteViewController {
       delay: 0,
       options: .curveEaseInOut,
       animations: {
+        self.headerView?.transform = .identity
         self.favoriteTableView.transform = .identity
         self.navigationBarDivider.transform = .identity
-        self.favoriteTableView.headerView(forSection: 0)?.alpha = 1
+        self.headerView?.alpha = 1
       })
 
   }
 }
+// TODO: - 문제는 스크롤 위로 쑥 올린 상태에서 설정 누르면 테이블 뷰가 올라가니까 그거기반 이상하게 애니메이션 잡힘
 
 // MARK: - Actions
 extension FavoriteViewController {
