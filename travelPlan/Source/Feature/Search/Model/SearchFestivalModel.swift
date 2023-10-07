@@ -7,6 +7,7 @@
 
 import Foundation
 
+// Entity
 struct SearchFestivalModel {
   typealias Identifier = Int
   
