@@ -7,30 +7,56 @@
 
 import Foundation
 
-final class FavoriteViewModel {
-  // MARK: - Properties
-  private var headerData: FavoriteHeaderView.Model
-  private var cellData: [FavoriteTableViewCell.Model]
+// 임시
+struct FavoriteHeaderDirectoryEntity {
+  let categoryCount: Int
+  let imageURLs: [String?]
   
-  // MARK: - Initialization
+  func toModel() -> FavoriteHeaderView.Model {
+    return .init(categoryCount: self.categoryCount, imageURLs: self.imageURLs)
+  }
+}
+
+struct FavoriteDirectoryEntity {
+  let id: Int
+  let title: String
+  let innerItemCount: Int
+  let imageURL: String?
+  
+  func toModel() -> FavoriteTableViewCell.Model {
+    return .init(
+      title: self.title,
+      innerItemCount: self.innerItemCount,
+      imageURL: self.imageURL)
+  }
+}
+
+final class FavoriteViewModel {
+  // MARK: - Dependencies
+  
+  // MARK: - Properties
+  private var headerDirectory: FavoriteHeaderDirectoryEntity
+  private var favoriteDirectories: [FavoriteDirectoryEntity]
+  
+  // MARK: - Lifecycles
   init() {
-    let mockData = MockFavoritedata()
-    self.headerData = mockData.mockFavoriteListHeader
-    self.cellData = mockData.mockFavoriteListData
+    var mockData = MockFavoriteUseCase()
+    headerDirectory = mockData.favoriteHeader
+    favoriteDirectories = mockData.favoriteDirectories
   }
 }
 
 // MARK: - FavoriteListTableViewAdapterDataSource
 extension FavoriteViewModel: FavoriteTableViewAdapterDataSource {
   var numberOfItems: Int {
-    cellData.count
+    favoriteDirectories.count
   }
   
   var headerItem: FavoriteHeaderView.Model {
-    headerData
+    headerDirectory.toModel()
   }
   
   func cellItem(at index: Int) -> FavoriteTableViewCell.Model {
-    cellData[index]
+    return favoriteDirectories[index].toModel()
   }
 }
