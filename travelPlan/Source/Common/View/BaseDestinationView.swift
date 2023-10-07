@@ -8,7 +8,12 @@
 import UIKit
 import SnapKit
 
-class BaseDestinationView<CenterView: UIView & CellConfigurable>: UIView {
+/// imageView + centerView + starButton로 구성되어 있습니다.
+///
+/// centerView를 커스텀해서 생성자 시점에 주입합니다.
+/// imageView를 주입하지 않으면 기본 이미지뷰를 사용합니다.
+/// starButton의 이벤트를 정의해야 되는 경우, StarButtonDelegate를 준수해야 합니다.
+class BaseDestinationView<CenterView>: UIView where CenterView: UIView & CellConfigurable {
   enum Constants {
     enum ThumbnailImageView {
       static var cornerRadius: CGFloat { 3 }
@@ -36,23 +41,24 @@ class BaseDestinationView<CenterView: UIView & CellConfigurable>: UIView {
   
   // MARK: - Properties
   weak var delegate: StarButtonDelegate?
-  private let thumbnailImageView: UIImageView = .init().set {
-    $0.contentMode = .scaleToFill
-  }
+  private let thumbnailImageView: UIImageView
   private let centerView: CenterView
   private lazy var starButton: SearchStarButton = .init(normalType: .empty).set {
     $0.addTarget(self, action: #selector(didTapStarButton(_:)), for: .touchUpInside)
   }
   
   // MARK: - LifeCycle
-  convenience init(centerView: CenterView) {
-    self.init(frame: .zero, centerView: centerView)
+  /// imageView를 주입하지 않으면, 기본 이미지뷰를 사용합니다.
+  convenience init(centerView: CenterView, thumbnailImageView: UIImageView = .init()) {
+    self.init(frame: .zero, centerView: centerView, thumbnailImageView: thumbnailImageView)
   }
   
-  init(frame: CGRect, centerView: CenterView) {
+  init(frame: CGRect, centerView: CenterView, thumbnailImageView: UIImageView) {
     self.centerView = centerView
+    self.thumbnailImageView = thumbnailImageView
     super.init(frame: frame)
     setupUI()
+    setupStyles()
   }
   
   required init?(coder: NSCoder) {
@@ -65,7 +71,7 @@ class BaseDestinationView<CenterView: UIView & CellConfigurable>: UIView {
   }
 }
 
-// MARK: - Public Helpers
+// MARK: - Helpers
 extension BaseDestinationView {
   func clearThumbnailImage() {
     thumbnailImageView.image = nil
@@ -89,6 +95,12 @@ extension BaseDestinationView {
   }
 }
 
+// MARK: - Private Helpers
+extension BaseDestinationView {
+  private func setupStyles() {
+    thumbnailImageView.contentMode = .scaleToFill
+  }
+}
 // MARK: - LayoutSupport
 extension BaseDestinationView: LayoutSupport {
   func addSubviews() {
