@@ -6,9 +6,19 @@
 //
 
 import UIKit
+import Combine
 
 final class FavoriteDirectorySettingView: BottomSheetView {
+  enum EditingState {
+    case origin
+    case good
+    case excess
+  }
+  
   enum Constant {
+    static let minimumTextLength = 1
+    static let maximumTextLength = 15
+    
     static let radius: CGFloat = 25
 
     enum TitleLabel {
@@ -54,6 +64,10 @@ final class FavoriteDirectorySettingView: BottomSheetView {
   
   private let okButton = PrimaryColorToneRoundButton(currentState: .normal)
   
+  private var editingState: EditingState = .origin
+  
+  private var subscription: AnyCancellable?
+  
   override var intrinsicContentSize: CGSize {
     typealias TitleLabel = Constant.TitleLabel
     typealias SearchBar = Constant.SearchBar
@@ -78,6 +92,7 @@ final class FavoriteDirectorySettingView: BottomSheetView {
     translatesAutoresizingMaskIntoConstraints = false
     configureContentView()
     backgroundColor = .white
+    bind()
   }
   
   required init?(coder: NSCoder) {
@@ -86,11 +101,48 @@ final class FavoriteDirectorySettingView: BottomSheetView {
     translatesAutoresizingMaskIntoConstraints = false
     configureContentView()
     backgroundColor = .white
+    bind()
   }
 }
 
 // MARK: - Private Helpers
 private extension FavoriteDirectorySettingView {
+  func bind() {
+    searchBar.textClear = {
+      self.setOkButtonNotWorkingUI()
+    }
+    subscription = searchBar
+      .changed
+      .sink { [weak self] in
+        let minLength = Constant.minimumTextLength
+        let maxLength = Constant.maximumTextLength
+        if (minLength..<maxLength).contains($0.count) && self?.editingState != .good {
+          self?.editingState = .good
+          self?.searchBar.editingState = .good
+          self?.okButton.currentState = .selected
+        } else if $0.count >= maxLength && self?.editingState != .excess {
+          self?.editingState = .excess
+          self?.searchBar.editingState = .excess
+          self?.searchBar.showTextExcessAlertLabel()
+          self?.okButton.currentState = .normal
+        } else if $0.count == 0 && self?.editingState != .origin {
+          self?.editingState = .origin
+          self?.searchBar.editingState = .origin
+          self?.okButton.currentState = .normal
+        }
+      }
+  }
+  
+  func setOkButtonNotWorkingUI() {
+    okButton.currentState = .normal
+    okButton.isUserInteractionEnabled = false
+  }
+  
+  func setOkButtonWorkingUI() {
+    okButton.currentState = .selected
+    okButton.isUserInteractionEnabled = true
+  }
+  
   func configureContentView() {
     setContentView(.init(frame: .zero).set { contentView in
       contentView.translatesAutoresizingMaskIntoConstraints = false
@@ -139,6 +191,7 @@ private extension FavoriteDirectorySettingView {
       okButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Spacing.leading),
       okButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Spacing.trailing),
       okButton.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: Spacing.top),
+      okButton.heightAnchor.constraint(equalToConstant: Const.height),
       okButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Spacing.bottom)]
   }
 }
