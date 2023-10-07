@@ -15,16 +15,9 @@ protocol FavoriteDirectorySettingViewDelegate: AnyObject, BottomSheetViewDelegat
 }
 
 final class FavoriteDirectorySettingView: BottomSheetView {
-  enum EditingState {
-    case origin
-    case good
-    case excess
-  }
-  
   enum Constant {
     static let minimumTextLength = 1
     static let maximumTextLength = 15
-    
     static let radius: CGFloat = 25
 
     enum TitleLabel {
@@ -68,11 +61,13 @@ final class FavoriteDirectorySettingView: BottomSheetView {
   
   private let searchBar = SearchWithCancelView(frame: .zero)
   
+  private var editingState: SearchWithCancelView.EditingState {
+    searchBar.editingState
+  }
+  
   private let okButton = PrimaryColorToneRoundButton(currentState: .normal).set {
     $0.isUserInteractionEnabled = false
   }
-  
-  private var editingState: EditingState = .origin
   
   weak var delegate: FavoriteDirectorySettingViewDelegate?
   
@@ -127,7 +122,7 @@ final class FavoriteDirectorySettingView: BottomSheetView {
 private extension FavoriteDirectorySettingView {
   func bind() {
     searchBar.textClear = {
-      self.editingState = .origin
+      self.searchBar.editingState = .origin
       self.setOkButtonNotWorkingUI()
     }
     
@@ -141,16 +136,13 @@ private extension FavoriteDirectorySettingView {
         let minLength = Constant.minimumTextLength
         let maxLength = Constant.maximumTextLength
         if (minLength..<maxLength).contains($0.count) && self?.editingState != .good {
-          self?.editingState = .good
           self?.searchBar.editingState = .good
           self?.setOkButtonWorkingUI()
         } else if $0.count >= maxLength && self?.editingState != .excess {
-          self?.editingState = .excess
           self?.searchBar.editingState = .excess
           self?.searchBar.showTextExcessAlertLabel()
           self?.setOkButtonNotWorkingUI()
         } else if $0.count == 0 && self?.editingState != .origin {
-          self?.editingState = .origin
           self?.searchBar.editingState = .origin
           self?.setOkButtonNotWorkingUI()
         }
