@@ -145,7 +145,7 @@ private extension FavoriteViewController {
 // MARK: - Actions
 extension FavoriteViewController {
   @objc func didTapSettingButton() {
-    favoriteTableView.isEditing.toggle()
+    favoriteTableView.setEditing(!isEditingTableView, animated: true)
     guard isEditingTableView else {
       setNotEditingMode()
       return
