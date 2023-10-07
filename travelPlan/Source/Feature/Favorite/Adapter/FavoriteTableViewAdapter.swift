@@ -52,9 +52,7 @@ extension FavoriteTableViewAdapter: UITableViewDelegate {
     _ tableView: UITableView,
     didSelectRowAt indexPath: IndexPath
   ) {
-    guard let dataSource else { return }
-    let item = dataSource.cellItem(at: indexPath.row)
-    delegate?.tappedCell(with: item)
+    delegate?.tableView(tableView, didSelectRowAt: indexPath)
   }
   
   func tableView(
@@ -71,5 +69,9 @@ extension FavoriteTableViewAdapter: UITableViewDelegate {
     }
     header.configure(with: item)
     return header
+  }
+  
+  func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    delegate?.scrollViewDidScroll(scrollView)
   }
 }
