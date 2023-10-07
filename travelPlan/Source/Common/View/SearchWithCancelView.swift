@@ -87,6 +87,8 @@ final class SearchWithCancelView: UIView {
     textField.text
   }
   
+  var textClear: (() -> Void)?
+  
   var editingState: EditingState = .origin {
     didSet {
       if editingState != .excess {
@@ -168,7 +170,9 @@ private extension SearchWithCancelView {
     cancelSubscription = cancelButton.tap
       .receive(on: DispatchQueue.main)
       .sink { [weak self] in
-        self?.textField.text = nil
+        self?.textField.text = ""
+        self?.textClear?()
+        self?.editingState = .origin
       }
   }
 }
