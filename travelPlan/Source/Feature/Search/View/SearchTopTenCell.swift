@@ -6,21 +6,43 @@
 //
 
 import UIKit
+import Combine
+import SnapKit
 
 class SearchTopTenCell: UICollectionViewCell {
+  typealias Input = SearchTopTenCellViewModel.Input
+  typealias ErrorType = SearchTopTenCellViewModel.ErrorType
+  typealias State = SearchTopTenCellViewModel.State
+  
   // MARK: - Properties
   static var id: String {
     return String(describing: Self.self)
   }
   
-  private var viewModel: TravelDestinationCellViewModel? {
+  private var viewModel: SearchTopTenCellViewModel? {
     didSet {
       bind()
     }
   }
   
+  private let thumbnailImageView: UIImageView = .init().set {
+    $0.contentMode = .scaleToFill
+  }
+  
+  private let rankingView: UIView = .init().set {
+    $0.layer.cornerRadius = 2
+    $0.backgroundColor = .yg.littleWhite
+  }
+  
+  private let rankingNumberLabel: UILabel = .init().set {
+    $0.font = .init(pretendard: .semiBold, size: 16)
+    $0.textColor = .yg.gray5
+  }
+  
+  // TODO: - 순위뷰를 포함하는 이미지뷰를 주입해야 합니다.
   private lazy var containerView: BaseDestinationView<LeftAlignThreeLabelsView>
-  = .init(centerView: LeftAlignThreeLabelsView()).set {
+  = .init(centerView: LeftAlignThreeLabelsView(),
+          thumbnailImageView: thumbnailImageView).set {
     $0.delegate = self
   }
   
@@ -30,6 +52,7 @@ class SearchTopTenCell: UICollectionViewCell {
   // MARK: - LifeCycle
   override init(frame: CGRect) {
     super.init(frame: frame)
+    setupUI()
   }
   
   required init?(coder: NSCoder) {
@@ -41,9 +64,13 @@ class SearchTopTenCell: UICollectionViewCell {
     containerView.clearButtonSelectedState()
     containerView.clearThumbnailImage()
     subscriptions.removeAll()
+    rankingNumberLabel.text = nil
   }
-  
-  private func bind() {
+}
+
+// MARK: - ViewBindCase
+extension SearchTopTenCell: ViewBindCase {
+  func bind() {
     guard let viewModel = self.viewModel else { return }
     
     let output = viewModel.transform(input)
@@ -62,7 +89,7 @@ class SearchTopTenCell: UICollectionViewCell {
       .store(in: &subscriptions)
   }
   
-  private func render(_ state: State) {
+  func render(_ state: State) {
     switch state {
     case .changeButtonColor:
       containerView.toggleStarButtonState()
@@ -70,11 +97,57 @@ class SearchTopTenCell: UICollectionViewCell {
     }
   }
   
-  private func handleError(_ error: ErrorType) {
+  func handleError(_ error: ErrorType) {
     switch error {
-    case .fatalError: print("DEBUG: fatalError occurred")
-    case .networkError: print("DEBUG: networkError occurred")
-    case .unexpected: print("DEBUG: unexpected occurred")
+    case .fatalError: 
+      print("DEBUG: fatalError occurred")
+    case .networkError:
+      print("DEBUG: networkError occurred")
+    case .unexpected: 
+      print("DEBUG: unexpected occurred")
+    }
+  }
+}
+
+// MARK: - StarButtonDelegate
+extension SearchTopTenCell: StarButtonDelegate {
+  func didTapStarButton(_ button: UIButton) {
+    input.didTapStarButton.send()
+  }
+}
+
+// MARK: - Helpers
+extension SearchTopTenCell {
+  func configure(with viewModel: SearchTopTenCellViewModel) {
+    self.viewModel = viewModel
+    
+    containerView.configure(centerModel: viewModel.contentModel)
+    containerView.configure(imageURL: viewModel.imagePath,
+                            isSelectedButton: viewModel.isSelectedButton)
+    
+  }
+}
+
+// MARK: - LayoutSupport
+extension SearchTopTenCell: LayoutSupport {
+  func addSubviews() {
+    contentView.addSubview(containerView)
+    thumbnailImageView.addSubview(rankingView)
+    rankingView.addSubview(rankingNumberLabel)
+  }
+  
+  func setConstraints() {
+    containerView.snp.makeConstraints {
+      $0.edges.equalTo(contentView)
+    }
+    
+    rankingView.snp.makeConstraints {
+      $0.leading.top.equalToSuperview().inset(8)
+      $0.size.equalTo(20)
+    }
+    
+    rankingNumberLabel.snp.makeConstraints {
+      $0.center.equalToSuperview()
     }
   }
 }
