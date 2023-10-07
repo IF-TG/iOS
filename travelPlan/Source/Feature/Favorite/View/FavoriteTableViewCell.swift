@@ -15,14 +15,14 @@ final class FavoriteTableViewCell: UITableViewCell {
   }
   
   enum Constant {
-    enum ImageView {
+    enum QuarterImageView {
       enum Spacing {
         static let leading: CGFloat = 16
       }
       static let size = CGSize(width: 40, height: 40)
     }
     
-    enum Title {
+    enum TitleLabel {
       enum Spacing {
         static let leading: CGFloat = 15
         static let trailing: CGFloat = 44
@@ -36,24 +36,22 @@ final class FavoriteTableViewCell: UITableViewCell {
   // MARK: - Identifier
   static let id: String = String(describing: PostCell.self)
   
-  private lazy var listImageView = UIImageView().set {
+  private lazy var quarterImageView = UIImageView().set {
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.backgroundColor = .yg.gray1
-    $0.layer.cornerRadius = Constant.ImageView.size.width/2.0
+    $0.layer.cornerRadius = Constant.QuarterImageView.size.width/2.0
     $0.clipsToBounds = true
   }
   
-  private let listTitle: UILabel = UILabel().set {
+  private let titleLabel = UILabel().set {
+    typealias Const = Constant.TitleLabel
     $0.translatesAutoresizingMaskIntoConstraints = false
-    $0.text = ""
     $0.numberOfLines = 1
-    $0.textColor = Constant.Title.textColor
-    $0.font = .init(
-      pretendard: Constant.Title.fontName,
-      size: Constant.Title.textSize)
+    $0.textColor = Const.textColor
+    $0.font = .init(pretendard: Const.fontName, size: Const.textSize)
   }
   
-  // MARK: - Initialization
+  // MARK: - Lifecycle
   override init(
     style: UITableViewCell.CellStyle,
     reuseIdentifier: String?
@@ -71,26 +69,18 @@ final class FavoriteTableViewCell: UITableViewCell {
 // MARK: - Helpers
 extension FavoriteTableViewCell {
   func configure(with data: Model?) {
-    setListTitleInfo(withTitle: data?.title, withCount: data?.innerItemCount)
-    setImageView(with: data?.imageURL)
+    let combinedTitle = titleAndInnerItemCount(data?.title, itemCount: data?.innerItemCount)
+    self.titleLabel.text = combinedTitle
+    guard let imageURL = data?.imageURL else {
+      quarterImageView.image = nil
+      return
+    }
+    self.quarterImageView.image = UIImage(named: imageURL)
   }
 }
 
 // MARK: - Private helpers
 private extension FavoriteTableViewCell {
-  func setImageView(with image: String?) {
-    guard let image else {
-      listImageView.image = nil
-      return
-    }
-    self.listImageView.image = UIImage(named: image)
-  }
-  
-  func setListTitleInfo(withTitle title: String?, withCount count: Int?) {
-    let combinedTitle = titleAndInnerItemCount(title, itemCount: count)
-    self.listTitle.text = combinedTitle
-  }
-  
   private func titleAndInnerItemCount(_ title: String?, itemCount: Int?) -> String {
     return "\(title ?? "미정") (\((itemCount ?? 0).zeroPaddingString))"
   }
@@ -100,8 +90,8 @@ private extension FavoriteTableViewCell {
 extension FavoriteTableViewCell: LayoutSupport {
   func addSubviews() {
     _=[
-      listImageView,
-      listTitle
+      quarterImageView,
+      titleLabel
     ].map {
       contentView.addSubview($0)
     }
@@ -109,8 +99,8 @@ extension FavoriteTableViewCell: LayoutSupport {
   
   func setConstraints() {
     _=[
-      listImageViewConstraints,
-      listTitleConstraints
+      quarterImageViewConstraints,
+      titleLabelConstraints
     ].map {
       NSLayoutConstraint.activate($0)
     }
@@ -119,21 +109,21 @@ extension FavoriteTableViewCell: LayoutSupport {
 
 // MARK: - LayoutSupport constriants
 private extension FavoriteTableViewCell {
-  var listImageViewConstraints: [NSLayoutConstraint] {
-    typealias Const = Constant.ImageView
+  var quarterImageViewConstraints: [NSLayoutConstraint] {
+    typealias Const = Constant.QuarterImageView
     typealias Spacing = Const.Spacing
     return [
-      listImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Spacing.leading),
-      listImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-      listImageView.heightAnchor.constraint(equalToConstant: Const.size.height),
-      listImageView.widthAnchor.constraint(equalToConstant: Const.size.width)]
+      quarterImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Spacing.leading),
+      quarterImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+      quarterImageView.heightAnchor.constraint(equalToConstant: Const.size.height),
+      quarterImageView.widthAnchor.constraint(equalToConstant: Const.size.width)]
   }
   
-  var listTitleConstraints: [NSLayoutConstraint] {
-    typealias Spacing = Constant.Title.Spacing
+  var titleLabelConstraints: [NSLayoutConstraint] {
+    typealias Spacing = Constant.TitleLabel.Spacing
     return [
-      listTitle.leadingAnchor.constraint(equalTo: listImageView.trailingAnchor, constant: Spacing.leading),
-      listTitle.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-      listTitle.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Spacing.trailing)]
+      titleLabel.leadingAnchor.constraint(equalTo: quarterImageView.trailingAnchor, constant: Spacing.leading),
+      titleLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+      titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Spacing.trailing)]
   }
 }
