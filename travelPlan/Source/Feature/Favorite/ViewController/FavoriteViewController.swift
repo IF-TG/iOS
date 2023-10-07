@@ -9,14 +9,12 @@ import UIKit
 
 class FavoriteViewController: UIViewController {
   enum Constant {
-    static let bgColor: UIColor = .white
     static let itemHeight: CGFloat = 65
     
     enum NavigationBar {
       enum Title {
         static let color: UIColor = .yg.gray7
-        static let font: UIFont = UIFont(
-          pretendard: .semiBold, size: 18)!
+        static let font: UIFont = UIFont(pretendard: .semiBold, size: 18)!
       }
       
       enum Setting {
@@ -27,8 +25,6 @@ class FavoriteViewController: UIViewController {
   }
 
   // MARK: - Properties
-  private let line = OneUnitHeightLine(color: .yg.gray0)
-  
   private let favoriteTableView = UITableView(frame: .zero, style: .plain).set {
     if #available(iOS 15.0, *) {
       $0.sectionHeaderTopPadding = 0
@@ -37,8 +33,8 @@ class FavoriteViewController: UIViewController {
     $0.separatorColor = .yg.gray0
     $0.separatorInset = .zero
     $0.rowHeight = Constant.itemHeight
-    
     $0.sectionHeaderHeight = Constant.itemHeight
+    $0.backgroundColor = .white
     $0.register(
       FavoriteTableViewCell.self,
       forCellReuseIdentifier: FavoriteTableViewCell.id)
@@ -47,34 +43,33 @@ class FavoriteViewController: UIViewController {
       forHeaderFooterViewReuseIdentifier: FavoriteHeaderView.id)
   }
   
+  private let navigationBarDivider = UIView(frame: .zero).set {
+    $0.translatesAutoresizingMaskIntoConstraints = false
+    $0.backgroundColor = .yg.gray0
+  }
+  
   private var adapter: FavoriteTableViewAdapter!
   
   weak var coordinator: FavoriteCoordinatorDelegate?
   
   private var vm = FavoriteViewModel()
   
+  private var isEditingTableView: Bool {
+    favoriteTableView.isEditing
+  }
+  
   // MARK: - Lifecycle
   override func loadView() {
     view = favoriteTableView
   }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     configureUI()
-    
     adapter = FavoriteTableViewAdapter(
       tableView: self.favoriteTableView,
       adapterDataSource: vm,
       adapterDelegate: self)
-  }
-  
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    line.isHidden = false
-  }
-  
-  override func viewWillDisappear(_ animated: Bool) {
-    super.viewWillDisappear(animated)
-    line.isHidden = true
   }
     
   deinit {
@@ -85,7 +80,7 @@ class FavoriteViewController: UIViewController {
 // MARK: - Private helpers
 private extension FavoriteViewController {
   func configureUI() {
-    view.backgroundColor = Constant.bgColor
+    view.backgroundColor = .white
     setNavigationBarTitle()
     setNavigationRightBarItem()
     setNavigationBarEdgeGrayLine()
@@ -97,44 +92,68 @@ private extension FavoriteViewController {
       $0.textColor = Constant.NavigationBar.Title.color
       $0.font = Constant.NavigationBar.Title.font
       $0.textAlignment = .center
-      
     }
     navigationItem.titleView = titleLabel
   }
   
   func setNavigationRightBarItem() {
+    typealias Const = Constant.NavigationBar.Setting
     let settingButton = UIButton().set {
-      let image = UIImage(
-        named: Constant.NavigationBar.Setting.iconName)
+      let image = UIImage(named: Const.iconName)
       $0.setImage(image, for: .normal)
-      $0.setImage(
-        image!.setColor(Constant.NavigationBar.Setting.touchedColor),
-        for: .highlighted)
-      $0.addTarget(
-        self,
-        action: #selector(didTapSettingButton),
-        for: .touchUpInside)
+      $0.setImage(image!.setColor(Const.touchedColor), for: .highlighted)
+      $0.addTarget(self, action: #selector(didTapSettingButton), for: .touchUpInside)
     }
-    navigationItem.rightBarButtonItem = UIBarButtonItem(
-      customView: settingButton)
+    navigationItem.rightBarButtonItem = UIBarButtonItem(customView: settingButton)
   }
   
   func setNavigationBarEdgeGrayLine() {
-    guard let naviBar = navigationController?.navigationBar else {
-      return
-    }
-    line.setConstraint(fromSuperView: naviBar)
+      view.addSubview(navigationBarDivider)
+      NSLayoutConstraint.activate([
+        navigationBarDivider.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+        navigationBarDivider.widthAnchor.constraint(equalTo: view.widthAnchor),
+        navigationBarDivider.heightAnchor.constraint(equalToConstant: 1)])
+  }
+  
+  func setEditingMode() {
+    UIView.animate(
+      withDuration: 0.27,
+      delay: 0,
+      options: .curveEaseOut,
+      animations: {
+        self.favoriteTableView.transform = .init(translationX: 0, y: -Constant.itemHeight)
+        self.navigationBarDivider.transform = .init(translationX: 0, y: Constant.itemHeight)
+        self.favoriteTableView.headerView(forSection: 0)?.isHidden = true
+      })
+  }
+  
+  func setNotEditingMode() {
+    UIView.animate(
+      withDuration: 0.27,
+      delay: 0,
+      options: .curveEaseInOut,
+      animations: {
+        self.favoriteTableView.transform = .identity
+        self.navigationBarDivider.transform = .identity
+        self.favoriteTableView.headerView(forSection: 0)?.isHidden = false
+      })
+
   }
 }
 
-// MARK: - Action
+// MARK: - Actions
 extension FavoriteViewController {
   @objc func didTapSettingButton() {
-    print("DEBUG: Tap setting button")
-    
+    favoriteTableView.isEditing.toggle()
+    guard isEditingTableView else {
+      setNotEditingMode()
+      return
+    }
+    setEditingMode()
   }
 }
 
+// MARK: - FavoriteTableViewAdapterDelegate
 extension FavoriteViewController: FavoriteTableViewAdapterDelegate {
   func tappedCell(with data: FavoriteTableViewCell.Model) {
     print("go to specific favorite detail list")
