@@ -128,18 +128,25 @@ extension SearchViewModel {
   private func fetchData() {
     // 네트워크 요청을 수행해서 데이터를 가져옵니다.
     let festivalModels = SearchFestivalModel.mockModels
-    let festivalViewModels = festivalModels.map { SearchFestivalCellViewModel(model: $0) }
+    let festivalCellViewModels = festivalModels.map { SearchFestivalCellViewModel(model: $0) }
     let festivalHeader = "베스트 축제"
-    dataSource.append(SearchSectionModel.init(itemType: .festival(festivalViewModels), headerTitle: festivalHeader))
+    dataSource.append(SearchSectionModel.init(itemType: .festival(festivalCellViewModels), headerTitle: festivalHeader))
     
-    let campingModels = SearchCampingModel.mockModels
-    let campingViewModels = campingModels.map { TravelDestinationCellViewModel(model: $0) }
+    // mapping entity to view's model
+    let campingModels = SearchCampingModel.mockModels.map {
+      TravelDestinationModel(id: $0.id,
+                             place: $0.place,
+                             secondText: $0.category,
+                             thirdText: $0.location,
+                             isSelectedButton: $0.isSelectedButton)
+    }
+    let campingCellViewModels = campingModels.map { TravelDestinationCellViewModel(model: $0) }
     let famousHeader = "야영 레포츠 어떠세요?"
-    dataSource.append(SearchSectionModel(itemType: .camping(campingViewModels), headerTitle: famousHeader))
+    dataSource.append(SearchSectionModel(itemType: .camping(campingCellViewModels), headerTitle: famousHeader))
     
     let topTenModels = SearchTopTenModel.mockModels
-    let topTenViewModels = topTenModels.map { TravelDestinationCellViewModel(model: $0) }
+    let topTenCellViewModels = topTenModels.map { SearchTopTenCellViewModel(model: $0) }
     let topTenHeader = "여행지 TOP 10"
-    dataSource.append(.init(itemType: .topTen(topTenViewModels), headerTitle: topTenHeader))
+    dataSource.append(.init(itemType: .topTen(topTenCellViewModels), headerTitle: topTenHeader))
   }
 }
