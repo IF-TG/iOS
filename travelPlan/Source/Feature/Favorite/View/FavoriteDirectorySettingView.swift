@@ -35,4 +35,15 @@ final class FavoriteDirectorySettingView: UIView {
       }
     }
   }
+  
+  // MARK: - Properties
+  private let bottomSheetView: BottomSheetView = .init(radius: 20)
+  
+  private lazy var contentView: UIView = .init(frame: .zero)
+  
+  private let titleLabel: UILabel = .init(frame: .zero)
+  
+  private let searchBar = SearchWithCancelView(frame: .zero)
+  
+  private let okButton = PrimaryColorToneRoundButton(currentState: .normal)
 }
