@@ -10,6 +10,7 @@ import Combine
 
 final class SearchWithCancelView: UIView {
   enum Constant {
+    static let height: CGFloat = TextField.font.lineHeight + TextField.Spacing.top + TextField.Spacing.bottom
     static let radius: CGFloat = 2
     static let borderWidth: CGFloat = 0.5
     static let borderColor: UIColor = .yg.gray0
@@ -59,10 +60,7 @@ final class SearchWithCancelView: UIView {
   }
   
   override var intrinsicContentSize: CGSize {
-    typealias Const = Constant.TextField
-    typealias Spacing = Const.Spacing
-    let height = Const.font.lineHeight + Spacing.top + Spacing.bottom
-    return .init(width: 150, height: height)
+    return .init(width: 150, height: Constant.height)
   }
   
   private var cancelSubscription: AnyCancellable?
