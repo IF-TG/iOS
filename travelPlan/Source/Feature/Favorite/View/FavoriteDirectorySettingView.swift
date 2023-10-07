@@ -45,7 +45,7 @@ final class FavoriteDirectorySettingView: BottomSheetView {
     typealias Const = Constant.TitleLabel
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.font = Const.font
-    $0.textAlignment = .natural
+    $0.textAlignment = .center
     $0.numberOfLines = 1
     $0.textColor = Const.textColor
   }
@@ -72,24 +72,28 @@ final class FavoriteDirectorySettingView: BottomSheetView {
   }
   
   // MARK: - Lifecycle
-  init() {
+  init(title: String) {
     super.init(radius: Constant.radius)
+    titleLabel.text = title
+    translatesAutoresizingMaskIntoConstraints = false
+    configureContentView()
+    backgroundColor = .white
   }
   
   required init?(coder: NSCoder) {
     super.init(coder: coder)
+    titleLabel.text = "Setting"
+    translatesAutoresizingMaskIntoConstraints = false
+    configureContentView()
+    backgroundColor = .white
   }
 }
 
 // MARK: - Private Helpers
 private extension FavoriteDirectorySettingView {
-  func configureUI() {
-    translatesAutoresizingMaskIntoConstraints = false
-    configureContentView()
-  }
-  
   func configureContentView() {
     setContentView(.init(frame: .zero).set { contentView in
+      contentView.translatesAutoresizingMaskIntoConstraints = false
       _=[
         titleLabel,
         searchBar,
