@@ -7,8 +7,8 @@
 
 import Foundation
 
-struct SearchCampingModel: TravelDestinationModelable {
-  let id: Identifier
+struct SearchCampingModel {
+  let id: Int
   let imagePath: String?
   let place: String
   let location: String
