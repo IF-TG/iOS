@@ -54,6 +54,10 @@ class FavoriteViewController: UIViewController {
   
   private var vm = FavoriteViewModel()
   
+  private var topScrollPosition: CGFloat!
+  
+  private var isScrolling: Bool = false
+  
   private var isEditingTableView: Bool {
     favoriteTableView.isEditing
   }
@@ -61,10 +65,6 @@ class FavoriteViewController: UIViewController {
   private var headerView: UITableViewHeaderFooterView? {
     favoriteTableView.headerView(forSection: 0)
   }
-  
-  private var topScrollPosition: CGFloat!
-  
-  private var isScrolling: Bool = false
   
   // MARK: - Lifecycle
   override func loadView() {
@@ -169,7 +169,6 @@ extension FavoriteViewController {
     if isScrolling {
       return
     }
-    print("스크롤안할떄", isScrolling)
     favoriteTableView.setEditing(!isEditingTableView, animated: true)
     guard isEditingTableView else {
       setNotEditingMode()
@@ -187,6 +186,6 @@ extension FavoriteViewController: FavoriteTableViewAdapterDelegate {
   }
   
   func tableView(_ tableView: UITableView, didSelectRowAt: IndexPath) {
-    print("Find data and go to specific favorite detail list")
+    // TODO: - 데이터 찾고 그와 관련된 상세 찜 화면으로 이동.
   }
 }
