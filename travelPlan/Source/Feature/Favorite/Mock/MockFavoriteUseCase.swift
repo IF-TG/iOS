@@ -16,5 +16,25 @@ struct MockFavoriteUseCase {
   
   lazy var favoriteDirectories: [FavoriteDirectoryEntity] = [
     .init(id: 0, title: "분위기 있는 카페", innerItemCount: 0, imageURL: profileImageURLs[0]),
+    .init(id: 1, title: "벌써 10월이야? 단풍 각", innerItemCount: 1, imageURL: profileImageURLs[1]),
+    .init(id: 0, title: "분위기 있는 카페", innerItemCount: 0, imageURL: profileImageURLs[0]),
+    .init(id: 1, title: "벌써 10월이야? 단풍 각", innerItemCount: 1, imageURL: profileImageURLs[1]),
+    .init(id: 0, title: "분위기 있는 카페", innerItemCount: 0, imageURL: profileImageURLs[0]),
+    .init(id: 1, title: "벌써 10월이야? 단풍 각", innerItemCount: 1, imageURL: profileImageURLs[1]),
+    .init(id: 0, title: "분위기 있는 카페", innerItemCount: 0, imageURL: profileImageURLs[0]),
+    .init(id: 1, title: "벌써 10월이야? 단풍 각", innerItemCount: 1, imageURL: profileImageURLs[1]),
+    .init(id: 0, title: "분위기 있는 카페", innerItemCount: 0, imageURL: profileImageURLs[0]),
+    .init(id: 1, title: "벌써 10월이야? 단풍 각", innerItemCount: 1, imageURL: profileImageURLs[1]),
+    .init(id: 0, title: "분위기 있는 카페", innerItemCount: 0, imageURL: profileImageURLs[0]),
+    .init(id: 1, title: "벌써 10월이야? 단풍 각", innerItemCount: 1, imageURL: profileImageURLs[1]),
+    .init(id: 0, title: "분위기 있는 카페", innerItemCount: 0, imageURL: profileImageURLs[0]),
+    .init(id: 1, title: "벌써 10월이야? 단풍 각", innerItemCount: 1, imageURL: profileImageURLs[1]),
+    .init(id: 0, title: "분위기 있는 카페", innerItemCount: 0, imageURL: profileImageURLs[0]),
+    .init(id: 1, title: "벌써 10월이야? 단풍 각", innerItemCount: 1, imageURL: profileImageURLs[1]),
+    .init(id: 0, title: "분위기 있는 카페", innerItemCount: 0, imageURL: profileImageURLs[0]),
+    .init(id: 1, title: "벌써 10월이야? 단풍 각", innerItemCount: 1, imageURL: profileImageURLs[1]),
+    .init(id: 0, title: "분위기 있는 카페", innerItemCount: 0, imageURL: profileImageURLs[0]),
+    .init(id: 1, title: "벌써 10월이야? 단풍 각", innerItemCount: 1, imageURL: profileImageURLs[1]),
+    .init(id: 0, title: "분위기 있는 카페", innerItemCount: 0, imageURL: profileImageURLs[0]),
     .init(id: 1, title: "벌써 10월이야? 단풍 각", innerItemCount: 1, imageURL: profileImageURLs[1])]
 }
