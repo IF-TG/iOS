@@ -17,9 +17,7 @@ final class FavoriteTableViewCell: UITableViewCell {
   enum Constant {
     enum ImageView {
       enum Spacing {
-        static let leading: CGFloat = 20
-        static let top: CGFloat = 15
-        static let bottom: CGFloat = 16
+        static let leading: CGFloat = 16
       }
       static let size = CGSize(width: 40, height: 40)
     }
@@ -140,31 +138,17 @@ private extension FavoriteTableViewCell {
     typealias Const = Constant.ImageView
     typealias Spacing = Const.Spacing
     return [
-      listImageView.leadingAnchor.constraint(
-        equalTo: contentView.leadingAnchor,
-        constant: Spacing.leading),
-      listImageView.topAnchor.constraint(
-        equalTo: contentView.topAnchor,
-        constant: Spacing.top),
-      listImageView.bottomAnchor.constraint(
-        equalTo: contentView.bottomAnchor,
-        constant: -Spacing.bottom),
-      listImageView.heightAnchor.constraint(
-        equalToConstant: Const.size.height),
-      listImageView.widthAnchor.constraint(
-        equalToConstant: Const.size.width)]
+      listImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Spacing.leading),
+      listImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+      listImageView.heightAnchor.constraint(equalToConstant: Const.size.height),
+      listImageView.widthAnchor.constraint(equalToConstant: Const.size.width)]
   }
   
   var listTitleConstraints: [NSLayoutConstraint] {
     typealias Spacing = Constant.Title.Spacing
     return [
-      listTitle.leadingAnchor.constraint(
-        equalTo: listImageView.trailingAnchor,
-        constant: Spacing.leading),
-      listTitle.centerYAnchor.constraint(
-        equalTo: contentView.centerYAnchor),
-      listTitle.trailingAnchor.constraint(
-        equalTo: contentView.trailingAnchor,
-        constant: -Spacing.trailing)]
+      listTitle.leadingAnchor.constraint(equalTo: listImageView.trailingAnchor, constant: Spacing.leading),
+      listTitle.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+      listTitle.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Spacing.trailing)]
   }
 }
