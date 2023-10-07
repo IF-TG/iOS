@@ -20,10 +20,9 @@ class BottomSheetView: UIView {
     
     enum TopIndicatorView {
       static let height: CGFloat = 5
+      static let width: CGFloat = 36
       enum Inset {
         static let top: CGFloat = 5
-        static let leading: CGFloat = 169
-        static let trailing = leading
       }
     }
   }
@@ -148,12 +147,7 @@ private extension BottomSheetView {
       topIndicatorView.topAnchor.constraint(
         equalTo: topView.topAnchor,
         constant: Inset.top),
-      topIndicatorView.leadingAnchor.constraint(
-        equalTo: leadingAnchor,
-        constant: Inset.leading),
-      topIndicatorView.trailingAnchor.constraint(
-        equalTo: trailingAnchor,
-        constant: -Inset.trailing),
+      topIndicatorView.widthAnchor.constraint(equalToConstant: Const.width)
       topIndicatorView.heightAnchor.constraint(equalToConstant: Const.height)]
   }
   
