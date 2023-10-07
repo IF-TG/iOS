@@ -15,5 +15,5 @@ struct SearchSectionModel {
 enum SearchItemType {
   case festival([SearchFestivalCellViewModel])
   case camping([TravelDestinationCellViewModel])
-  case topTen([TravelDestinationCellViewModel])
+  case topTen([SearchTopTenCellViewModel])
 }
