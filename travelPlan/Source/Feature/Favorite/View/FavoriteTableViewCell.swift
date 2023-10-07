@@ -11,7 +11,7 @@ final class FavoriteTableViewCell: UITableViewCell {
   struct Model {
     let title: String
     let innerItemCount: Int
-    let image: UIImage?
+    let imageURL: String?
   }
   
   enum Constant {
