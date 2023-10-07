@@ -8,6 +8,12 @@
 import UIKit
 import Combine
 
+protocol FavoriteDirectorySettingViewDelegate: AnyObject, BottomSheetViewDelegate {
+  func favoriteDirectorySettingView(
+    _ settingView: FavoriteDirectorySettingView,
+    didTapOkButton: UIButton)
+}
+
 final class FavoriteDirectorySettingView: BottomSheetView {
   enum EditingState {
     case origin
@@ -62,9 +68,21 @@ final class FavoriteDirectorySettingView: BottomSheetView {
   
   private let searchBar = SearchWithCancelView(frame: .zero)
   
-  private let okButton = PrimaryColorToneRoundButton(currentState: .normal)
+  private let okButton = PrimaryColorToneRoundButton(currentState: .normal).set {
+    $0.isUserInteractionEnabled = false
+  }
   
   private var editingState: EditingState = .origin
+  
+  weak var delegate: FavoriteDirectorySettingViewDelegate?
+  
+  override var baseDelegate: BottomSheetViewDelegate? {
+    get {
+      return delegate
+    } set {
+      delegate = newValue as? FavoriteDirectorySettingViewDelegate
+    }
+  }
   
   private var subscription: AnyCancellable?
   
@@ -109,8 +127,14 @@ final class FavoriteDirectorySettingView: BottomSheetView {
 private extension FavoriteDirectorySettingView {
   func bind() {
     searchBar.textClear = {
+      self.editingState = .origin
       self.setOkButtonNotWorkingUI()
     }
+    
+    okButton.tapHandler = {
+      self.delegate?.favoriteDirectorySettingView(self, didTapOkButton: self.okButton)
+    }
+    
     subscription = searchBar
       .changed
       .sink { [weak self] in
@@ -119,16 +143,16 @@ private extension FavoriteDirectorySettingView {
         if (minLength..<maxLength).contains($0.count) && self?.editingState != .good {
           self?.editingState = .good
           self?.searchBar.editingState = .good
-          self?.okButton.currentState = .selected
+          self?.setOkButtonWorkingUI()
         } else if $0.count >= maxLength && self?.editingState != .excess {
           self?.editingState = .excess
           self?.searchBar.editingState = .excess
           self?.searchBar.showTextExcessAlertLabel()
-          self?.okButton.currentState = .normal
+          self?.setOkButtonNotWorkingUI()
         } else if $0.count == 0 && self?.editingState != .origin {
           self?.editingState = .origin
           self?.searchBar.editingState = .origin
-          self?.okButton.currentState = .normal
+          self?.setOkButtonNotWorkingUI()
         }
       }
   }
