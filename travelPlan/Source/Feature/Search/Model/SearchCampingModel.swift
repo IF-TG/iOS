@@ -7,11 +7,9 @@
 
 import Foundation
 
-struct SearchCampingModel {
-  typealias Identifier = Int
-  
+struct SearchCampingModel: TravelDestinationModelable {
   let id: Identifier
-  let imageURLString: String?
+  let imagePath: String?
   let place: String
   let location: String
   let category: String
@@ -21,22 +19,22 @@ struct SearchCampingModel {
 // MARK: - Mock
 extension SearchCampingModel {
   static var mockModels: [SearchCampingModel] = [
-    .init(id: 1, imageURLString: "tempProfile4",
+    .init(id: 1, imagePath: "tempProfile4",
           place: "관광 장소명관광 장소명관광 장소명관광 장소명관광 장소명",
           location: "서울서울서울서울서울서울서울서울서울서울서울서울서울서울",
           category: "관광 카테고리관광 카테고리관광 카테고리관광 카테고리관광 카테고리관광 카테고리",
           isSelectedButton: false),
-    .init(id: 1, imageURLString: "tempProfile4",
+    .init(id: 1, imagePath: "tempProfile4",
           place: "관광 장소명", location: "서울", category: "관광 카테고리", isSelectedButton: false),
-    .init(id: 1, imageURLString: "tempProfile4",
+    .init(id: 1, imagePath: "tempProfile4",
           place: "관광 장소명", location: "서울", category: "관광 카테고리", isSelectedButton: false),
-    .init(id: 1, imageURLString: "tempProfile4",
+    .init(id: 1, imagePath: "tempProfile4",
           place: "관광 장소명", location: "서울", category: "관광 카테고리", isSelectedButton: false),
-    .init(id: 1, imageURLString: "tempProfile4",
+    .init(id: 1, imagePath: "tempProfile4",
           place: "관광 장소명", location: "서울", category: "관광 카테고리", isSelectedButton: false),
-    .init(id: 1, imageURLString: "tempProfile4",
+    .init(id: 1, imagePath: "tempProfile4",
           place: "관광 장소명", location: "서울", category: "관광 카테고리", isSelectedButton: false),
-    .init(id: 1, imageURLString: "tempProfile4",
+    .init(id: 1, imagePath: "tempProfile4",
           place: "관광 장소명", location: "서울", category: "관광 카테고리", isSelectedButton: false)
   ]
 }
