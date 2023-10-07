@@ -147,7 +147,8 @@ private extension BottomSheetView {
       topIndicatorView.topAnchor.constraint(
         equalTo: topView.topAnchor,
         constant: Inset.top),
-      topIndicatorView.widthAnchor.constraint(equalToConstant: Const.width)
+      topIndicatorView.widthAnchor.constraint(equalToConstant: Const.width),
+      topIndicatorView.centerXAnchor.constraint(equalTo: centerXAnchor),
       topIndicatorView.heightAnchor.constraint(equalToConstant: Const.height)]
   }
   
