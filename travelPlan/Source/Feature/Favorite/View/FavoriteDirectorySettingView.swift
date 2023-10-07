@@ -12,7 +12,7 @@ final class FavoriteDirectorySettingView: BottomSheetView {
     static let radius: CGFloat = 25
 
     enum TitleLabel {
-      static let font = UIFont(pretendard: .medium, size: 16)
+      static let font = UIFont(pretendard: .medium, size: 16)!
       static let textColor: UIColor = .yg.gray7
       enum Spacing {
         static let top: CGFloat = 16
@@ -53,6 +53,23 @@ final class FavoriteDirectorySettingView: BottomSheetView {
   private let searchBar = SearchWithCancelView(frame: .zero)
   
   private let okButton = PrimaryColorToneRoundButton(currentState: .normal)
+  
+  override var intrinsicContentSize: CGSize {
+    typealias TitleLabel = Constant.TitleLabel
+    typealias SearchBar = Constant.SearchBar
+    typealias OkButton = Constant.OkButton
+    let superViewIntrinsicHeight = BottomSheetView.Constants.TopView.height
+    let titleHeightAndTopSpacing = TitleLabel.font.lineHeight + TitleLabel.Spacing.top
+    let searchBarHeightAndTopSpacing = SearchWithCancelView.Constant.height + SearchBar.Spacing.top
+    let okButtonHeightAndTopBottomSpacing = OkButton.height + OkButton.Spacing.top + OkButton.Spacing.bottom
+    return .init(
+      width: 150,
+      height: (
+        superViewIntrinsicHeight
+        + titleHeightAndTopSpacing
+        + searchBarHeightAndTopSpacing
+        + okButtonHeightAndTopBottomSpacing))
+  }
   
   // MARK: - Lifecycle
   init() {
