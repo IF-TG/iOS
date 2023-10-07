@@ -10,9 +10,9 @@ import UIKit
 class FavoriteViewController: UIViewController {
   enum Constant {
     static let bgColor: UIColor = .white
+    static let itemHeight: CGFloat = 65
     
     enum NavigationBar {
-      static let spacing = UISpacing(bottom: 5)
       enum Title {
         static let color: UIColor = .yg.gray7
         static let font: UIFont = UIFont(
@@ -28,18 +28,41 @@ class FavoriteViewController: UIViewController {
 
   // MARK: - Properties
   private let line = OneUnitHeightLine(color: .yg.gray0)
-  private lazy var tableView = FavoriteTableView()
+  
+  private let favoriteTableView = UITableView(frame: .zero, style: .plain).set {
+    if #available(iOS 15.0, *) {
+      $0.sectionHeaderTopPadding = 0
+    }
+    $0.separatorStyle = .singleLine
+    $0.separatorColor = .yg.gray0
+    $0.separatorInset = .zero
+    $0.rowHeight = Constant.itemHeight
+    
+    $0.sectionHeaderHeight = Constant.itemHeight
+    $0.register(
+      FavoriteTableViewCell.self,
+      forCellReuseIdentifier: FavoriteTableViewCell.id)
+    $0.register(
+      FavoriteHeaderView.self,
+      forHeaderFooterViewReuseIdentifier: FavoriteHeaderView.id)
+  }
+  
   private var adapter: FavoriteTableViewAdapter!
+  
   weak var coordinator: FavoriteCoordinatorDelegate?
+  
   private var vm = FavoriteViewModel()
   
   // MARK: - Lifecycle
+  override func loadView() {
+    view = favoriteTableView
+  }
   override func viewDidLoad() {
     super.viewDidLoad()
     configureUI()
-    tableView.layoutFrom(superView: self.view)
+    
     adapter = FavoriteTableViewAdapter(
-      tableView: self.tableView,
+      tableView: self.favoriteTableView,
       adapterDataSource: vm,
       adapterDelegate: self)
   }
@@ -53,22 +76,7 @@ class FavoriteViewController: UIViewController {
     super.viewWillDisappear(animated)
     line.isHidden = true
   }
-  
-  private override init(
-    nibName nibNameOrNil: String?,
-    bundle nibBundleOrNil: Bundle?
-  ) {
-    super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-  }
-
-  convenience init() {
-    self.init(nibName: nil, bundle: nil)
-  }
-
-  required init?(coder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
-  }
-  
+    
   deinit {
     coordinator?.finish()
   }
@@ -115,7 +123,7 @@ private extension FavoriteViewController {
     guard let naviBar = navigationController?.navigationBar else {
       return
     }
-    line.setConstraint(fromSuperView: naviBar, spacing: .init(bottom: -Constant.NavigationBar.spacing.bottom))
+    line.setConstraint(fromSuperView: naviBar)
   }
 }
 
