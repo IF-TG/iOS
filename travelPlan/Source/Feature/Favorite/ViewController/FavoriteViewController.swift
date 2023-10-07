@@ -54,9 +54,7 @@ class FavoriteViewController: UIViewController {
   
   private var vm = FavoriteViewModel()
   
-  private var topScrollPosition: CGFloat!
-  
-  private var isScrolling: Bool = false
+  private var originHeaderCenterX: CGFloat!
   
   private var isEditingTableView: Bool {
     favoriteTableView.isEditing
@@ -74,19 +72,11 @@ class FavoriteViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     configureUI()
+    favoriteTableView.bounces = false
     adapter = FavoriteTableViewAdapter(
       tableView: self.favoriteTableView,
       dataSource: vm,
       delegate: self)
-  }
-  
-  override func viewDidAppear(_ animated: Bool) {
-    super.viewDidAppear(animated)
-    if topScrollPosition == nil {
-      // TODO: - 데이터늘어날 경우 contentOffset.y변하는지 체크하기
-      topScrollPosition = favoriteTableView.contentOffset.y
-      isScrolling = false
-    }
   }
     
   deinit {
@@ -134,29 +124,29 @@ private extension FavoriteViewController {
   }
   
   func setEditingMode() {
-    favoriteTableView.bounces = false
+    guard let headerView else { return }
+    originHeaderCenterX = headerView.center.x
     UIView.animate(
       withDuration: 0.27,
       delay: 0,
       options: .curveEaseInOut,
       animations: {
         self.favoriteTableView.transform = .init(translationX: 0, y: -Constant.itemHeight)
-        self.headerView?.transform = .init(translationX: Constant.deleteIconWidth, y: 0)
         self.navigationBarDivider.transform = .init(translationX: 0, y: Constant.itemHeight)
+        self.headerView?.center.x += Constant.deleteIconWidth
         self.headerView?.alpha = 0
       })
   }
   
   func setNotEditingMode() {
-    favoriteTableView.bounces = true
     UIView.animate(
       withDuration: 0.27,
       delay: 0,
       options: .curveEaseInOut,
       animations: {
         self.favoriteTableView.transform = .identity
-        self.headerView?.transform = .identity
         self.navigationBarDivider.transform = .identity
+        self.headerView?.center.x = self.originHeaderCenterX
         self.headerView?.alpha = 1
       })
 
@@ -166,9 +156,6 @@ private extension FavoriteViewController {
 // MARK: - Actions
 extension FavoriteViewController {
   @objc func didTapSettingButton() {
-    if isScrolling {
-      return
-    }
     favoriteTableView.setEditing(!isEditingTableView, animated: true)
     guard isEditingTableView else {
       setNotEditingMode()
@@ -181,8 +168,7 @@ extension FavoriteViewController {
 // MARK: - FavoriteTableViewAdapterDelegate
 extension FavoriteViewController: FavoriteTableViewAdapterDelegate {
   func scrollViewDidScroll(_ scrollView: UIScrollView) {
-    let targetYPosition = scrollView.contentOffset.y
-    isScrolling = targetYPosition != topScrollPosition ? true : false
+
   }
   
   func tableView(_ tableView: UITableView, didSelectRowAt: IndexPath) {
