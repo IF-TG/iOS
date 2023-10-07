@@ -71,8 +71,6 @@ final class FavoriteTableViewCell: UITableViewCell {
     return "\(titleText) (0\(count))"
   }
   
-  private let line = OneUnitHeightLine(color: .yg.gray0)
-  
   // MARK: - Initialization
   override init(
     style: UITableViewCell.CellStyle,
@@ -81,8 +79,6 @@ final class FavoriteTableViewCell: UITableViewCell {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
     selectionStyle = .none
     setupUI()
-    line.setConstraint(fromSuperView: contentView, spacing: .init())
-    line.setHeight(FavoriteTableView.innerGrayLineHeight)
   }
   
   required init?(coder: NSCoder) {
