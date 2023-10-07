@@ -62,6 +62,10 @@ class FavoriteViewController: UIViewController {
     favoriteTableView.headerView(forSection: 0)
   }
   
+  private var topScrollPosition: CGFloat!
+  
+  private var isScrolling: Bool = false
+  
   // MARK: - Lifecycle
   override func loadView() {
     view = favoriteTableView
@@ -74,6 +78,15 @@ class FavoriteViewController: UIViewController {
       tableView: self.favoriteTableView,
       dataSource: vm,
       delegate: self)
+  }
+  
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    if topScrollPosition == nil {
+      // TODO: - 데이터늘어날 경우 contentOffset.y변하는지 체크하기
+      topScrollPosition = favoriteTableView.contentOffset.y
+      isScrolling = false
+    }
   }
     
   deinit {
@@ -121,10 +134,11 @@ private extension FavoriteViewController {
   }
   
   func setEditingMode() {
+    favoriteTableView.bounces = false
     UIView.animate(
       withDuration: 0.27,
       delay: 0,
-      options: .curveEaseOut,
+      options: .curveEaseInOut,
       animations: {
         self.favoriteTableView.transform = .init(translationX: 0, y: -Constant.itemHeight)
         self.headerView?.transform = .init(translationX: Constant.deleteIconWidth, y: 0)
@@ -134,24 +148,28 @@ private extension FavoriteViewController {
   }
   
   func setNotEditingMode() {
+    favoriteTableView.bounces = true
     UIView.animate(
       withDuration: 0.27,
       delay: 0,
       options: .curveEaseInOut,
       animations: {
-        self.headerView?.transform = .identity
         self.favoriteTableView.transform = .identity
+        self.headerView?.transform = .identity
         self.navigationBarDivider.transform = .identity
         self.headerView?.alpha = 1
       })
 
   }
 }
-// TODO: - 문제는 스크롤 위로 쑥 올린 상태에서 설정 누르면 테이블 뷰가 올라가니까 그거기반 이상하게 애니메이션 잡힘
 
 // MARK: - Actions
 extension FavoriteViewController {
   @objc func didTapSettingButton() {
+    if isScrolling {
+      return
+    }
+    print("스크롤안할떄", isScrolling)
     favoriteTableView.setEditing(!isEditingTableView, animated: true)
     guard isEditingTableView else {
       setNotEditingMode()
@@ -163,7 +181,12 @@ extension FavoriteViewController {
 
 // MARK: - FavoriteTableViewAdapterDelegate
 extension FavoriteViewController: FavoriteTableViewAdapterDelegate {
-  func tappedCell(with data: FavoriteTableViewCell.Model) {
-    print("go to specific favorite detail list")
+  func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    let targetYPosition = scrollView.contentOffset.y
+    isScrolling = targetYPosition != topScrollPosition ? true : false
+  }
+  
+  func tableView(_ tableView: UITableView, didSelectRowAt: IndexPath) {
+    print("Find data and go to specific favorite detail list")
   }
 }
