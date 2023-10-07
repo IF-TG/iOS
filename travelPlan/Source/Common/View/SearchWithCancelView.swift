@@ -13,8 +13,9 @@ final class SearchWithCancelView: UIView {
     static let radius: CGFloat = 2
     static let borderWidth: CGFloat = 0.5
     static let borderColor: UIColor = .yg.gray0
+    
     enum TextField {
-      static let font: UIFont = .systemFont(ofSize: 16, weight: .init(500))
+      static let font = UIFont(pretendard: .medium, size: 16)!
       enum Spacing {
         static let top: CGFloat = 6
         static let bottom = top
@@ -39,6 +40,7 @@ final class SearchWithCancelView: UIView {
     $0.placeholder = "폴더명을 입력해주세요."
     $0.font = Const.font
     $0.textAlignment = .natural
+    $0.keyboardType = .default
   }
   
   private let cancelButton = UIButton(frame: .zero).set {
@@ -78,6 +80,7 @@ final class SearchWithCancelView: UIView {
     bind()
   }
 }
+
   // MARK: - Private Helpers
 private extension SearchWithCancelView {
   func configureUI() {
