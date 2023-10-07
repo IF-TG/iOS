@@ -81,6 +81,7 @@ class FavoriteViewController: UIViewController {
 private extension FavoriteViewController {
   func configureUI() {
     view.backgroundColor = .white
+    navigationController?.navigationBar.backgroundColor = .white
     setNavigationBarTitle()
     setNavigationRightBarItem()
     setNavigationBarEdgeGrayLine()
@@ -123,7 +124,7 @@ private extension FavoriteViewController {
       animations: {
         self.favoriteTableView.transform = .init(translationX: 0, y: -Constant.itemHeight)
         self.navigationBarDivider.transform = .init(translationX: 0, y: Constant.itemHeight)
-        self.favoriteTableView.headerView(forSection: 0)?.isHidden = true
+        self.favoriteTableView.headerView(forSection: 0)?.alpha = 0
       })
   }
   
@@ -135,7 +136,7 @@ private extension FavoriteViewController {
       animations: {
         self.favoriteTableView.transform = .identity
         self.navigationBarDivider.transform = .identity
-        self.favoriteTableView.headerView(forSection: 0)?.isHidden = false
+        self.favoriteTableView.headerView(forSection: 0)?.alpha = 1
       })
 
   }
