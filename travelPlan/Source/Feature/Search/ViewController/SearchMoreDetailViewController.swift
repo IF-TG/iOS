@@ -39,7 +39,7 @@ class SearchMoreDetailViewController: UIViewController {
   
   // MARK: - Properties
   weak var coordinator: SearchMoreDetailCoordinatorDelegate?
-  private let viewModel = SearchMoreDetailViewModel()
+  private let viewModel: SearchMoreDetailViewModel
   
   private let titleLabel: UILabel = .init().set {
     $0.numberOfLines = Constants.TitleLabel.numberOfLines
@@ -69,12 +69,13 @@ class SearchMoreDetailViewController: UIViewController {
     $0.dataSource = self
   }
   
-  let type: SearchSectionType
+  private let type: SearchSectionType
   let input = SearchMoreDetailViewModel.Input()
   
   // MARK: - LifeCycle
   init(type: SearchSectionType) {
     self.type = type
+    self.viewModel = SearchMoreDetailViewModel(type: type)
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -93,12 +94,14 @@ class SearchMoreDetailViewController: UIViewController {
     setupStyles()
     setupBackBarButtonItem()
     
-    input.viewDidLoad.send(type)
+    input.viewDidLoad.send()
     switch type {
     case .festival:
       print("베스트 축제 VC")
     case .camping:
       print("레포츠 vc")
+    case .topTen:
+      print("여행지 TOP 10 VC")
     }
   }
 }
