@@ -10,7 +10,7 @@ import UIKit
 final class FavoriteHeaderView: UITableViewHeaderFooterView {
   struct Model {
     let categoryCount: Int
-    let images: [UIImage?]
+    let imageURLs: [String?]
   }
   
   enum Constant {
