@@ -105,7 +105,7 @@ extension TravelDestinationCell {
     self.viewModel = viewModel
     
     containerView.configure(centerModel: viewModel.contentModel)
-    containerView.configure(imageURL: viewModel.imageURLString,
+    containerView.configure(imageURL: viewModel.imagePath,
                             isSelectedButton: viewModel.isSelectedButton)
   }
 }
