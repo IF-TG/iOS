@@ -10,23 +10,23 @@ import Combine
 
 final class TravelDestinationCellViewModel {
   typealias Output = AnyPublisher<State, ErrorType>
-  
+
   // MARK: - Properties
   let contentModel: LeftAlignThreeLabelsView.Model
   var isSelectedButton: Bool
-  let imageURLString: String?
+  let imagePath: String?
   let id: Int
   
   // MARK: - LifeCycle
-  init(model: SearchCampingModel) {
+  init(model: TravelDestinationModel) {
     self.contentModel = LeftAlignThreeLabelsView.Model(
       place: model.place,
-      category: model.category,
-      location: model.location
+      category: model.secondText,
+      location: model.thirdText
     )
     
     self.isSelectedButton = model.isSelectedButton
-    self.imageURLString = model.imageURLString
+    self.imagePath = model.imagePath
     self.id = model.id
   }
   
