@@ -1,5 +1,5 @@
 //
-//  SearchCampingCell.swift
+//  TravelDestinationCell.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 2023/06/01.
@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Combine
 
-class SearchCampingCell: UICollectionViewCell {
+class TravelDestinationCell: UICollectionViewCell {
   typealias Input = TravelDestinationCellViewModel.Input
   typealias ErrorType = TravelDestinationCellViewModel.ErrorType
   typealias State = TravelDestinationCellViewModel.State
@@ -52,7 +52,7 @@ class SearchCampingCell: UICollectionViewCell {
 }
 
 // MARK: - ViewBindCase
-extension SearchCampingCell: ViewBindCase {
+extension TravelDestinationCell: ViewBindCase {
   func bind() {
     guard let viewModel = self.viewModel else { return }
     
@@ -93,14 +93,14 @@ extension SearchCampingCell: ViewBindCase {
 }
 
 // MARK: - StarButtonDelegate
-extension SearchCampingCell: StarButtonDelegate {
+extension TravelDestinationCell: StarButtonDelegate {
   func didTapStarButton(_ button: UIButton) {
     input.didTapStarButton.send()
   }
 }
 
 // MARK: - Helpers
-extension SearchCampingCell {
+extension TravelDestinationCell {
   func configure(with viewModel: TravelDestinationCellViewModel) {
     self.viewModel = viewModel
     
@@ -111,7 +111,7 @@ extension SearchCampingCell {
 }
 
 // MARK: - LayoutSupport
-extension SearchCampingCell: LayoutSupport {
+extension TravelDestinationCell: LayoutSupport {
   func addSubviews() {
     contentView.addSubview(containerView)
   }
