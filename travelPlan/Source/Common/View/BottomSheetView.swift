@@ -43,7 +43,7 @@ class BottomSheetView: UIView {
     $0.translatesAutoresizingMaskIntoConstraints = false
   }
   
-  weak var delegate: BottomSheetViewDelegate?
+  weak var baseDelegate: BottomSheetViewDelegate?
   
   // MARK: - Lifecycle
   override init(frame: CGRect) {
@@ -101,7 +101,7 @@ class BottomSheetView: UIView {
 
   // MARK: - Action
   @objc func handlePanGesture(_ gesture: UIPanGestureRecognizer) {
-    delegate?.bottomSheetView(self, withPenGesture: gesture)
+    baseDelegate?.bottomSheetView(self, withPenGesture: gesture)
   }
 }
 
