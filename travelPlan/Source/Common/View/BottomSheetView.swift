@@ -20,10 +20,9 @@ class BottomSheetView: UIView {
     
     enum TopIndicatorView {
       static let height: CGFloat = 5
+      static let width: CGFloat = 36
       enum Inset {
         static let top: CGFloat = 5
-        static let leading: CGFloat = 169
-        static let trailing = leading
       }
     }
   }
@@ -44,7 +43,7 @@ class BottomSheetView: UIView {
     $0.translatesAutoresizingMaskIntoConstraints = false
   }
   
-  weak var delegate: BottomSheetViewDelegate?
+  weak var baseDelegate: BottomSheetViewDelegate?
   
   // MARK: - Lifecycle
   override init(frame: CGRect) {
@@ -102,7 +101,7 @@ class BottomSheetView: UIView {
 
   // MARK: - Action
   @objc func handlePanGesture(_ gesture: UIPanGestureRecognizer) {
-    delegate?.bottomSheetView(self, withPenGesture: gesture)
+    baseDelegate?.bottomSheetView(self, withPenGesture: gesture)
   }
 }
 
@@ -148,12 +147,8 @@ private extension BottomSheetView {
       topIndicatorView.topAnchor.constraint(
         equalTo: topView.topAnchor,
         constant: Inset.top),
-      topIndicatorView.leadingAnchor.constraint(
-        equalTo: leadingAnchor,
-        constant: Inset.leading),
-      topIndicatorView.trailingAnchor.constraint(
-        equalTo: trailingAnchor,
-        constant: -Inset.trailing),
+      topIndicatorView.widthAnchor.constraint(equalToConstant: Const.width),
+      topIndicatorView.centerXAnchor.constraint(equalTo: centerXAnchor),
       topIndicatorView.heightAnchor.constraint(equalToConstant: Const.height)]
   }
   
