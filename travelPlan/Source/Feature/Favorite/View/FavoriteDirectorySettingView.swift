@@ -142,5 +142,3 @@ private extension FavoriteDirectorySettingView {
       okButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Spacing.bottom)]
   }
 }
-
-// MARK: - Actions
