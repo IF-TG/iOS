@@ -11,4 +11,5 @@ import Foundation
 enum SearchSectionType: Int {
   case festival
   case camping
+  case topTen
 }
