@@ -90,7 +90,7 @@ extension FavoriteTableViewCell {
     setListTitleInfo(
       withTitle: data.title,
       withCount: data.innerItemCount)
-    setImageView(with: data.image)
+    setImageView(with: data.imageURL)
   }
 }
 
@@ -100,8 +100,12 @@ private extension FavoriteTableViewCell {
       self.listTitle.text = text
   }
   
-  func setImageView(with image: UIImage?) {
-    self.listImageView.image = image
+  func setImageView(with image: String?) {
+    guard let image else {
+      listImageView.image = nil
+      return
+    }
+    self.listImageView.image = UIImage(named: image)
   }
   
   func setListTitleInfo(withTitle title: String, withCount count: Int) {
