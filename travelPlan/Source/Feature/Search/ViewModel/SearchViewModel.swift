@@ -109,9 +109,11 @@ extension SearchViewModel {
   
   func numberOfItemsInSection(in section: Int) -> Int {
     switch dataSource[section].itemType {
-    case .festival(let viewModels):
+    case let .festival(viewModels):
       return viewModels.count
-    case .camping(let viewModels):
+    case let .camping(viewModels):
+      return viewModels.count
+    case let .topTen(viewModels):
       return viewModels.count
     }
   }
@@ -134,5 +136,10 @@ extension SearchViewModel {
     let campingViewModels = campingModels.map { TravelDestinationCellViewModel(model: $0) }
     let famousHeader = "야영 레포츠 어떠세요?"
     dataSource.append(SearchSectionModel(itemType: .camping(campingViewModels), headerTitle: famousHeader))
+    
+    let topTenModels = SearchTopTenModel.mockModels
+    let topTenViewModels = topTenModels.map { TravelDestinationCellViewModel(model: $0) }
+    let topTenHeader = "여행지 TOP 10"
+    dataSource.append(.init(itemType: .topTen(topTenViewModels), headerTitle: topTenHeader))
   }
 }
