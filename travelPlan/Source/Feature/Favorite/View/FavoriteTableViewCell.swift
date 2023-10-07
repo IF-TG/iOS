@@ -53,22 +53,6 @@ final class FavoriteTableViewCell: UITableViewCell {
       size: Constant.Title.textSize)
   }
   
-  private var titleText: String?
-  
-  private var innerItemCount: Int?
-  
-  private var titleAndInnerItemCount: String {
-    guard
-      let count = innerItemCount,
-      let titleText = titleText else {
-      return "미정 (00)"
-    }
-    guard count < 10 else {
-      return "\(titleText) (\(count))"
-    }
-    return "\(titleText) (0\(count))"
-  }
-  
   // MARK: - Initialization
   override init(
     style: UITableViewCell.CellStyle,
@@ -86,20 +70,14 @@ final class FavoriteTableViewCell: UITableViewCell {
 
 // MARK: - Helpers
 extension FavoriteTableViewCell {
-  func configure(with data: Model) {
-    setListTitleInfo(
-      withTitle: data.title,
-      withCount: data.innerItemCount)
-    setImageView(with: data.imageURL)
+  func configure(with data: Model?) {
+    setListTitleInfo(withTitle: data?.title, withCount: data?.innerItemCount)
+    setImageView(with: data?.imageURL)
   }
 }
 
 // MARK: - Private helpers
 private extension FavoriteTableViewCell {
-  func setListTitle(with text: String) {
-      self.listTitle.text = text
-  }
-  
   func setImageView(with image: String?) {
     guard let image else {
       listImageView.image = nil
@@ -108,10 +86,13 @@ private extension FavoriteTableViewCell {
     self.listImageView.image = UIImage(named: image)
   }
   
-  func setListTitleInfo(withTitle title: String, withCount count: Int) {
-    titleText = title
-    innerItemCount = count
-    setListTitle(with: titleAndInnerItemCount)
+  func setListTitleInfo(withTitle title: String?, withCount count: Int?) {
+    let combinedTitle = titleAndInnerItemCount(title, itemCount: count)
+    self.listTitle.text = combinedTitle
+  }
+  
+  private func titleAndInnerItemCount(_ title: String?, itemCount: Int?) -> String {
+    return "\(title ?? "미정") (\((itemCount ?? 0).zeroPaddingString))"
   }
 }
 
