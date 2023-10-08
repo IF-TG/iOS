@@ -37,7 +37,7 @@ final class SearchFestivalCellViewModel {
   
   // TODO: - Cell.Model 타입으로 struct 정의
   var id: Int
-  var thumbnailImage: String? // typeFIXME: - URL?
+  var imagePath: String?
   var title: String
   var periodString: String
   var isSelectedButton: Bool
@@ -48,6 +48,7 @@ final class SearchFestivalCellViewModel {
     title = model.title
     periodString = model.makePeriod()
     isSelectedButton = model.isSelectedButton
+    imagePath = model.imagePath
   }
 }
 
@@ -73,7 +74,7 @@ extension SearchFestivalCellViewModel {
   /// 서버에 저장 요청.
   /// 성공 시 UI 변환, 실패 시, 변화 없음
   private func saveButtonState(id: Int) -> Future<State, ErrorType> {
-    // networkTODO: - id값을 통해 서버에 데이터 저장을 요청하고, 성공 시 하트버튼의 색깔을 변경해야 합니다.
+    // TODO: - id값을 통해 서버에 데이터 저장을 요청하고, 성공 시 하트버튼의 색깔을 변경해야 합니다.
     return Future { promise in
       // fake network. 추후 네트워크 통신 이후, promise로 값을 방출해야 합니다.
       DispatchQueue.global().asyncAfter(wallDeadline: .now() + 0.5) { [weak self] in

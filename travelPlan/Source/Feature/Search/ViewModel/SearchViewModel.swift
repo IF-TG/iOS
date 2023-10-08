@@ -97,7 +97,7 @@ extension SearchViewModel: ViewModelCase {
   }
 }
 
-// MARK: - Public Helpers
+// MARK: - Helpers
 extension SearchViewModel {
   func getCellViewModels(in section: Int) -> SearchItemType {
     return dataSource[section].itemType
@@ -123,30 +123,33 @@ extension SearchViewModel {
   }
 }
 
-// MARK: - Helpers
+// MARK: - Private Helpers
 extension SearchViewModel {
   private func fetchData() {
     // 네트워크 요청을 수행해서 데이터를 가져옵니다.
     let festivalModels = SearchFestivalModel.mockModels
     let festivalCellViewModels = festivalModels.map { SearchFestivalCellViewModel(model: $0) }
-    let festivalHeader = "베스트 축제"
+    let festivalHeader = "베스트 축제 🎡"
     dataSource.append(SearchSectionModel.init(itemType: .festival(festivalCellViewModels), headerTitle: festivalHeader))
     
     // mapping entity to view's model
     let campingModels = SearchCampingModel.mockModels.map {
       TravelDestinationModel(id: $0.id,
+                             imagePath: $0.imagePath,
                              place: $0.place,
                              secondText: $0.category,
                              thirdText: $0.location,
                              isSelectedButton: $0.isSelectedButton)
     }
     let campingCellViewModels = campingModels.map { TravelDestinationCellViewModel(model: $0) }
-    let famousHeader = "야영 레포츠 어떠세요?"
+    let famousHeader = "야영, 레포츠 어떠세요? 🏕️"
     dataSource.append(SearchSectionModel(itemType: .camping(campingCellViewModels), headerTitle: famousHeader))
     
     let topTenModels = SearchTopTenModel.mockModels
+      .filter { $0.ranking <= 3 }
+      .sorted { $0.ranking < $1.ranking }
     let topTenCellViewModels = topTenModels.map { SearchTopTenCellViewModel(model: $0) }
-    let topTenHeader = "여행지 TOP 10"
-    dataSource.append(.init(itemType: .topTen(topTenCellViewModels), headerTitle: topTenHeader))
+    let topTenHeader = "여행지 TOP 10 🌟"
+    dataSource.append(SearchSectionModel.init(itemType: .topTen(topTenCellViewModels), headerTitle: topTenHeader))
   }
 }
