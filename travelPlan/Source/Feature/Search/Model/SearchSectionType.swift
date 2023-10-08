@@ -11,9 +11,5 @@ import Foundation
 enum SearchSectionType: Int {
   case festival
   case camping
-<<<<<<< HEAD
   case topTen
-=======
-  case top10
->>>>>>> dcfdcaff5ae4419dfbfa178847588701569f3906
 }

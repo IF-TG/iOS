@@ -19,33 +19,35 @@ class SearchMoreDetailViewController: UIViewController {
     enum CollectionViewCell {
       static let height: CGFloat = UIScreen.main.bounds.height * 0.172
     }
+    enum TitleLabel {
+      static let numberOfLines = 1
+      static let fontSize: CGFloat = 15
+    }
+    enum CategoryThumbnailImageView {
+      static let cornerRadius: CGFloat = 10
+    }
   }
   
   // MARK: - Properties
   weak var coordinator: SearchMoreDetailCoordinatorDelegate?
-<<<<<<< HEAD
   private let viewModel: SearchMoreDetailViewModel
   
   private let titleLabel: UILabel = .init().set {
     $0.numberOfLines = Constants.TitleLabel.numberOfLines
     $0.font = .init(pretendard: .bold, size: Constants.TitleLabel.fontSize)
-    $0.text = Constants.TitleLabel.text
+    $0.text = "헤더 타이틀"
     $0.textColor = UIColor.yg.littleWhite
   }
   
   private let categoryThumbnailImageView: UIImageView = .init().set {
     $0.roundCorners(
-      cornerRadius: Constants.categoryThumbnailImageView.cornerRadius,
+      cornerRadius: Constants.CategoryThumbnailImageView.cornerRadius,
       cornerList: [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
     )
     $0.image = UIImage(named: "tempProfile1") // to erase
     $0.contentMode = .scaleAspectFill
   }
-  
-=======
-  private let viewModel = SearchMoreDetailViewModel()
   private let compositionalLayoutManager: CompositionalLayoutCreatable = SearchMoreDetailLayoutManager()
->>>>>>> dcfdcaff5ae4419dfbfa178847588701569f3906
   private lazy var collectionView: UICollectionView = .init(
     frame: .zero,
     collectionViewLayout: compositionalLayoutManager.makeLayout()
@@ -88,13 +90,8 @@ class SearchMoreDetailViewController: UIViewController {
     $0.imageView?.tintColor = .white
   }
   
-<<<<<<< HEAD
   private let type: SearchSectionType
   let input = SearchMoreDetailViewModel.Input()
-=======
-  let type: SearchSectionType
-  private let input = SearchMoreDetailViewModel.Input()
->>>>>>> dcfdcaff5ae4419dfbfa178847588701569f3906
   
   // MARK: - LifeCycle
   init(type: SearchSectionType) {
@@ -124,13 +121,8 @@ class SearchMoreDetailViewController: UIViewController {
       print("베스트 축제 VC")
     case .camping:
       print("레포츠 vc")
-<<<<<<< HEAD
     case .topTen:
       print("여행지 TOP 10 VC")
-=======
-    case .top10:
-      print("여행지 TOP 10")
->>>>>>> dcfdcaff5ae4419dfbfa178847588701569f3906
     }
   }
 }
