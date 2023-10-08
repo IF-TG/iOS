@@ -8,6 +8,9 @@
 import UIKit
 
 final class FavoriteTableViewCell: UITableViewCell {
+  // MARK: - Identifier
+  static let id: String = String(describing: PostCell.self)
+  
   struct Model {
     let title: String
     let innerItemCount: Int
@@ -43,7 +46,15 @@ final class FavoriteTableViewCell: UITableViewCell {
     enum TitleTextField {
       enum Spacing {
         static let leading: CGFloat = 20
-        static let trailing: CGFloat = 50 + deleteControlWidth
+        static let trailing: CGFloat = {
+          if #available(iOS 11.0, *) {
+            let deviceWidth = UIScreen.main.bounds.width
+            if deviceWidth >= 414 {
+              return 60 + deleteControlWidth
+            }
+          }
+          return 50 + deleteControlWidth
+        }()
       }
       static let height: CGFloat = 25
       static let textColor: UIColor = .yg.gray6
@@ -53,11 +64,25 @@ final class FavoriteTableViewCell: UITableViewCell {
       static let borderColor: UIColor = .yg.gray3
       static let radius: CGFloat = 3
     }
+    
+    enum MenuAccessoryView {
+      static let iconName = "cellMenuAccessory"
+      static let size: CGSize = .init(width: 24, height: 24)
+      enum Spacing {
+        static let trailing: CGFloat = {
+          if #available(iOS 11.0, *) {
+            let deviceWidth = UIScreen.main.bounds.width
+            if deviceWidth >= 414 {
+              return 21 + deleteControlWidth
+            }
+          }
+          return 11 + deleteControlWidth
+        }()
+      }
+    }
   }
 
-  // MARK: - Identifier
-  static let id: String = String(describing: PostCell.self)
-  
+  // MARK: - Properties
   private var deleteButton = UIButton(frame: .zero).set {
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.setImage(UIImage(named: "deleteMinusIcon"), for: .normal)
@@ -91,6 +116,14 @@ final class FavoriteTableViewCell: UITableViewCell {
     $0.rightView = UIView(frame: .init(x: 0, y: 0, width: 8, height: 0))
     $0.leftViewMode = .always
     $0.rightViewMode = .always
+  }
+  
+  private let menuAccessoryView = UIImageView(frame: .zero).set {
+    typealias Const = Constant.MenuAccessoryView
+    $0.translatesAutoresizingMaskIntoConstraints = false
+    $0.image = UIImage(named: Const.iconName)
+    $0.contentMode = .scaleAspectFit
+    $0.alpha = 0
   }
   
   // MARK: - Lifecycle
@@ -150,6 +183,13 @@ private extension FavoriteTableViewCell {
           subview.transform = .init(translationX: Constant.deleteControlWidth, y: 0 )
         })
     }
+    UIView.animate(
+      withDuration: 0.27,
+      delay: 0,
+      options: .curveEaseInOut,
+      animations: {
+        self.menuAccessoryView.alpha = 1
+      })
   }
   
   private func releaseEditingMode() {
@@ -157,6 +197,7 @@ private extension FavoriteTableViewCell {
     quarterImageView.isHidden = false
     titleLabel.isHidden = false
     titleTextField.isHidden = true
+    menuAccessoryView.alpha = 0
     contentView.subviews.forEach { subview in
       UIView.animate(
         withDuration: 0.37,
@@ -176,7 +217,8 @@ extension FavoriteTableViewCell: LayoutSupport {
       quarterImageView,
       titleLabel,
       deleteButton,
-      titleTextField
+      titleTextField,
+      menuAccessoryView
     ].map {
       contentView.addSubview($0)
     }
@@ -187,7 +229,8 @@ extension FavoriteTableViewCell: LayoutSupport {
       quarterImageViewConstraints,
       titleLabelConstraints,
       deleteButtonConstraints,
-      titleTextFieldConstraints
+      titleTextFieldConstraints,
+      menuAccessoryViewConstraints
     ].map {
       NSLayoutConstraint.activate($0)
     }
@@ -232,5 +275,17 @@ private extension FavoriteTableViewCell {
       titleTextField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Spacing.trailing),
       titleTextField.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
       titleTextField.heightAnchor.constraint(equalToConstant: Const.height)]
+  }
+  
+  var menuAccessoryViewConstraints: [NSLayoutConstraint] {
+    typealias Const = Constant.MenuAccessoryView
+    typealias Spacing = Const.Spacing
+    return [
+      menuAccessoryView.trailingAnchor.constraint(
+        equalTo: contentView.trailingAnchor,
+        constant: -Const.Spacing.trailing),
+      menuAccessoryView.widthAnchor.constraint(equalToConstant: Const.size.width),
+      menuAccessoryView.heightAnchor.constraint(equalToConstant: Const.size.height),
+      menuAccessoryView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)]
   }
 }
