@@ -41,11 +41,11 @@ final class SearchViewController: UIViewController {
   
   private var subscriptions = Set<AnyCancellable>()
   private lazy var input = SearchViewModel.Input()
-  private let compositionalLayout: CompositionalLayoutCreatable = SearchCompositionalLayout()
+  private let compositionalLayoutManager: CompositionalLayoutCreatable = SearchCompositionalLayoutManager()
   
   private lazy var collectionView: UICollectionView = UICollectionView(
     frame: .zero,
-    collectionViewLayout: compositionalLayout.makeLayout()
+    collectionViewLayout: compositionalLayoutManager.makeLayout()
   ).set {
     let tapGesture = UITapGestureRecognizer(
       target: self,

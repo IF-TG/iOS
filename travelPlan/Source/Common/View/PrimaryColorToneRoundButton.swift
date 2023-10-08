@@ -39,11 +39,8 @@ final class PrimaryColorToneRoundButton: UIButton {
   }
   
   // MARK: - Properties
-  private(set) var currentState: State
-  
-  override var isSelected: Bool {
+  var currentState: State {
     didSet {
-      currentState.toggle()
       UIView.animate(
         withDuration: 0.2,
         delay: 0,
@@ -98,7 +95,6 @@ extension PrimaryColorToneRoundButton {
 // MARK: - Actions
 extension PrimaryColorToneRoundButton {
   @objc func didTapPrimaryColorToneRoundButton() {
-    isSelected.toggle()
     tapHandler?()
   }
 }

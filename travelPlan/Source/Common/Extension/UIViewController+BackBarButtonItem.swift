@@ -15,7 +15,7 @@ extension UIViewController {
   ///
   /// default size
   /// width: 28, height: 28
-  func setupBackBarButtonItem(
+  func setupDefaultBackBarButtonItem(
     imageName: String = "back",
     tintColor: UIColor = .black,
     marginLeft: CGFloat = 10
@@ -28,7 +28,7 @@ extension UIViewController {
   
   // MARK: - Actions
   /// 해당 내비게이션으로부터 pop 기능을 수행합니다.
-  @objc private func didTapBackBarButtonItem() {
+  @objc private func didTapDefaultBackBarButtonItem() {
     self.navigationController?.popViewController(animated: true)
   }
   
@@ -45,7 +45,7 @@ extension UIViewController {
     )
     backButton.addTarget(
       self,
-      action: #selector(didTapBackBarButtonItem),
+      action: #selector(didTapDefaultBackBarButtonItem),
       for: .touchUpInside
     )
     backButton.contentEdgeInsets = .init(
@@ -61,5 +61,10 @@ extension UIViewController {
   private func configureBackBarButtonItem(customView: UIView) {
     let barButtonItem = UIBarButtonItem(customView: customView)
     self.navigationItem.leftBarButtonItem = barButtonItem
+    
+//    if navigationItem.leftBarButtonItems == nil {
+//      navigationItem.leftBarButtonItems = []
+//    }
+//    navigationItem.leftBarButtonItems?.append(barButtonItem)
   }
 }

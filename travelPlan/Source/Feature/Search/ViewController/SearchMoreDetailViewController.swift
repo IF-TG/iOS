@@ -10,35 +10,20 @@ import SnapKit
 
 class SearchMoreDetailViewController: UIViewController {
   enum Constants {
-    enum TitleLabel {
-      static let numberOfLines = 1
-      static let fontSize: CGFloat = 30
-      static let text = "헤더 타이틀"
-      enum Spacing {
-        static let leading: CGFloat = 16
-        static let trailing: CGFloat = 16
-        static let bottom: CGFloat = 25
-      }
-    }
-    enum categoryThumbnailImageView {
-      static let cornerRadius: CGFloat = 10
-      enum Spacing {
-        static let multipliedHeight: CGFloat = 0.25
-      }
-    }
     enum CollectionView {
       static let cornerRadius: CGFloat = 10
-      enum Spacing {
-        static let top: CGFloat = 8
-      }
+    }
+    enum CollectionHeaderView {
+      static let heightRatio: CGFloat = 0.25
     }
     enum CollectionViewCell {
-      static let height: CGFloat = UIScreen.main.bounds.size.height * 0.172
+      static let height: CGFloat = UIScreen.main.bounds.height * 0.172
     }
   }
   
   // MARK: - Properties
   weak var coordinator: SearchMoreDetailCoordinatorDelegate?
+<<<<<<< HEAD
   private let viewModel: SearchMoreDetailViewModel
   
   private let titleLabel: UILabel = .init().set {
@@ -57,20 +42,59 @@ class SearchMoreDetailViewController: UIViewController {
     $0.contentMode = .scaleAspectFill
   }
   
+=======
+  private let viewModel = SearchMoreDetailViewModel()
+  private let compositionalLayoutManager: CompositionalLayoutCreatable = SearchMoreDetailLayoutManager()
+>>>>>>> dcfdcaff5ae4419dfbfa178847588701569f3906
   private lazy var collectionView: UICollectionView = .init(
     frame: .zero,
-    collectionViewLayout: UICollectionViewFlowLayout()
+    collectionViewLayout: compositionalLayoutManager.makeLayout()
   ).set {
-    $0.register(TravelDestinationCell.self, forCellWithReuseIdentifier: TravelDestinationCell.id)
+    $0.register(TravelDestinationCell.self,
+                forCellWithReuseIdentifier: TravelDestinationCell.id)
+    $0.register(SearchDetailHeaderView.self,
+                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+                withReuseIdentifier: SearchDetailHeaderView.id)
     $0.roundCorners(cornerRadius: Constants.CollectionView.cornerRadius,
                     cornerList: [.layerMinXMinYCorner, .layerMaxXMinYCorner])
-    $0.backgroundColor = .cyan
+    $0.backgroundColor = .white
     $0.delegate = self
     $0.dataSource = self
+    $0.bounces = false
+    $0.contentInsetAdjustmentBehavior = .never  // 자동 inset 조정 비활성화
   }
   
+  private var headerViewHeight: CGFloat {
+    self.view.bounds.height * Constants.CollectionHeaderView.heightRatio
+  }
+  
+  private lazy var backButton: UIButton = .init().set {
+    $0.addTarget(
+      self,
+      action: #selector(didTapBackBarButtonItem),
+      for: .touchUpInside
+    )
+    $0.contentEdgeInsets = .init(
+      top: .zero,
+      left: 10,
+      bottom: .zero,
+      right: .zero
+    )
+    $0.setImage(
+      UIImage(named: "back")?
+        .withRenderingMode(.alwaysTemplate),
+      for: .normal
+    )
+    $0.imageView?.tintColor = .white
+  }
+  
+<<<<<<< HEAD
   private let type: SearchSectionType
   let input = SearchMoreDetailViewModel.Input()
+=======
+  let type: SearchSectionType
+  private let input = SearchMoreDetailViewModel.Input()
+>>>>>>> dcfdcaff5ae4419dfbfa178847588701569f3906
   
   // MARK: - LifeCycle
   init(type: SearchSectionType) {
@@ -92,7 +116,7 @@ class SearchMoreDetailViewController: UIViewController {
     super.viewDidLoad()
     setupUI()
     setupStyles()
-    setupBackBarButtonItem()
+    setupNavigationBar()
     
     input.viewDidLoad.send()
     switch type {
@@ -100,62 +124,57 @@ class SearchMoreDetailViewController: UIViewController {
       print("베스트 축제 VC")
     case .camping:
       print("레포츠 vc")
+<<<<<<< HEAD
     case .topTen:
       print("여행지 TOP 10 VC")
+=======
+    case .top10:
+      print("여행지 TOP 10")
+>>>>>>> dcfdcaff5ae4419dfbfa178847588701569f3906
     }
   }
 }
 
-// MARK: - Helpers
+// MARK: - Actions
+extension SearchMoreDetailViewController {
+  @objc private func didTapBackBarButtonItem() {
+    navigationController?.popViewController(animated: true)
+  }
+}
+
+// MARK: - Private Helpers
 extension SearchMoreDetailViewController {
   private func setupStyles() {
-    view.backgroundColor = .yg.gray00Background
+    view.backgroundColor = .white
+  }
+  
+  private func setupNavigationBar() {
+    self.navigationController?.isNavigationBarHidden = false
+    navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
+    clearNavigationBarImage()
+  }
+  
+  private func clearNavigationBarImage() {
+    self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+    self.navigationController?.navigationBar.shadowImage = UIImage()
+  }
+  
+  private func changeBlackOrWhiteColor(with alpha: CGFloat) -> UIColor {
+    return UIColor(white: alpha, alpha: 1)
   }
 }
 
 // MARK: - LayoutSupport
 extension SearchMoreDetailViewController: LayoutSupport {
   func addSubviews() {
-    categoryThumbnailImageView.addSubview(titleLabel)
-    view.addSubview(categoryThumbnailImageView)
     view.addSubview(collectionView)
   }
   
   func setConstraints() {
-    titleLabel.snp.makeConstraints {
-      $0.leading.equalToSuperview().inset(Constants.TitleLabel.Spacing.leading)
-      $0.trailing.equalToSuperview().inset(Constants.TitleLabel.Spacing.trailing)
-      $0.bottom.equalToSuperview().inset(Constants.TitleLabel.Spacing.bottom)
-    }
-    
-    categoryThumbnailImageView.snp.makeConstraints {
-      $0.leading.trailing.equalTo(self.view.safeAreaLayoutGuide)
-      $0.top.equalToSuperview()
-      $0.height.equalToSuperview()
-        .multipliedBy(Constants.categoryThumbnailImageView.Spacing.multipliedHeight)
-    }
-    
     collectionView.snp.makeConstraints {
-      $0.top.equalTo(categoryThumbnailImageView.snp.bottom).offset(Constants.CollectionView.Spacing.top)
-      $0.leading.trailing.equalTo(self.view.safeAreaLayoutGuide)
+      $0.top.leading.trailing.equalToSuperview()
       $0.bottom.equalTo(view.safeAreaLayoutGuide)
     }
-  }
-}
-
-// MARK: - UIScrollViewDelegate
-extension SearchMoreDetailViewController: UIScrollViewDelegate {
-  
-}
-
-// MARK: - UICollectionViewDelegateFlowLayout
-extension SearchMoreDetailViewController: UICollectionViewDelegateFlowLayout {
-  func collectionView(
-    _ collectionView: UICollectionView,
-    layout collectionViewLayout: UICollectionViewLayout,
-    sizeForItemAt indexPath: IndexPath
-  ) -> CGSize {
-    return CGSize(width: UIScreen.main.bounds.size.width, height: Constants.CollectionViewCell.height)
   }
 }
 
@@ -178,5 +197,38 @@ extension SearchMoreDetailViewController: UICollectionViewDataSource {
     ) as? TravelDestinationCell else { return .init() }
 //    cell.configure(with: )
     return cell
+  }
+  
+  func collectionView(
+    _ collectionView: UICollectionView,
+    viewForSupplementaryElementOfKind kind: String,
+    at indexPath: IndexPath
+  ) -> UICollectionReusableView {
+    if case UICollectionView.elementKindSectionHeader = kind {
+      guard let headerView = collectionView.dequeueReusableSupplementaryView(
+        ofKind: kind,
+        withReuseIdentifier: SearchDetailHeaderView.id,
+        for: indexPath) as? SearchDetailHeaderView else { return .init() }
+      
+      // TODO: - ViewModel을 통해 서버로부터 fetch해온 model을 주입주어야 합니다.
+      headerView.configure(with: SearchDetailHeaderModel(title: "헤더 타이틀", imageURL: "tempProfile1"))
+      return headerView
+    } else { return .init() }
+  }
+}
+
+extension SearchMoreDetailViewController: UICollectionViewDelegate {
+  func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    let maxHeight = min(headerViewHeight, scrollView.contentOffset.y)
+    
+    let alpha = (headerViewHeight - maxHeight) / headerViewHeight
+    print(alpha)
+    let headerView = collectionView.supplementaryView(
+      forElementKind: UICollectionView.elementKindSectionHeader,
+      at: IndexPath(item: .zero, section: .zero)
+    )
+    
+    headerView?.alpha = alpha
+    backButton.imageView?.tintColor = changeBlackOrWhiteColor(with: alpha)
   }
 }

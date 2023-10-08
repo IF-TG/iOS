@@ -63,6 +63,12 @@ extension MainTabBarController {
       .titleTextAttributes = [.foregroundColor: UIColor.yg.primary]
 
     self.tabBar.standardAppearance = appearance
+    
+//    if #available(iOS 15, *) {
+//      self.tabBar.scrollEdgeAppearance = appearance
+//    }
+    
+    
     self.tabBar.backgroundColor = .white
   }
   

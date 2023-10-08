@@ -30,7 +30,7 @@ final class TravelReviewViewController: UIViewController {
 extension TravelReviewViewController {
   private func configureUI() {
     view.backgroundColor = .white
-    setupBackBarButtonItem()
+//    setupBackBarButtonItem()
   }
   
   private func temp() {

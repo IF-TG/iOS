@@ -1,5 +1,5 @@
 //
-//  SearchCompositionalLayout.swift
+//  SearchCompositionalLayoutManager.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 2023/07/20.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SearchCompositionalLayout {
+class SearchCompositionalLayoutManager {
   enum Constants {
     // MARK: - First
     enum Festival {
@@ -56,7 +56,7 @@ class SearchCompositionalLayout {
   }
 }
 
-extension SearchCompositionalLayout: CompositionalLayoutCreatable {
+extension SearchCompositionalLayoutManager: CompositionalLayoutCreatable {
   func makeLayout() -> UICollectionViewCompositionalLayout {
     return UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ in
       switch sectionIndex {
@@ -69,7 +69,7 @@ extension SearchCompositionalLayout: CompositionalLayoutCreatable {
 }
 
 // MARK: - Helpers
-extension SearchCompositionalLayout {
+extension SearchCompositionalLayoutManager {
   private func festivalSectionLayout() -> NSCollectionLayoutSection {
     let item = makeLayoutItem(
       fractionalWidth: Constants.Festival.Item.fractionalWidth,

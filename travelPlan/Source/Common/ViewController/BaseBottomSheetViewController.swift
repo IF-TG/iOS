@@ -64,7 +64,7 @@ class BaseBottomSheetViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     configureUI()
-    bottomSheetView.delegate = self
+    bottomSheetView.baseDelegate = self
   }
   
   override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {

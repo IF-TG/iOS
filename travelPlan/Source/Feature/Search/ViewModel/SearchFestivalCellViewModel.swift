@@ -34,6 +34,8 @@ final class SearchFestivalCellViewModel {
   
 // MARK: - Properties
   private var subscriptions = Set<AnyCancellable>()
+  
+  // TODO: - Cell.Model 타입으로 struct 정의
   var id: Int
   var thumbnailImage: String? // typeFIXME: - URL?
   var title: String
