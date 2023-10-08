@@ -39,6 +39,20 @@ final class FavoriteTableViewCell: UITableViewCell {
       static let fontName: UIFont.Pretendard = .medium
       static let textSize: CGFloat = 15.0
     }
+    
+    enum TitleTextField {
+      enum Spacing {
+        static let leading: CGFloat = 20
+        static let trailing: CGFloat = 50 + deleteControlWidth
+      }
+      static let height: CGFloat = 25
+      static let textColor: UIColor = .yg.gray6
+      static let fontName: UIFont.Pretendard = .medium
+      static let textSize: CGFloat = 14.0
+      static let borderWidth: CGFloat = 0.3
+      static let borderColor: UIColor = .yg.gray3
+      static let radius: CGFloat = 3
+    }
   }
 
   // MARK: - Identifier
@@ -62,6 +76,21 @@ final class FavoriteTableViewCell: UITableViewCell {
     $0.numberOfLines = 1
     $0.textColor = Const.textColor
     $0.font = .init(pretendard: Const.fontName, size: Const.textSize)
+  }
+  
+  private lazy var titleTextField = UITextField().set {
+    typealias Const = Constant.TitleTextField
+    $0.translatesAutoresizingMaskIntoConstraints = false
+    $0.font = UIFont(pretendard: Const.fontName, size: Const.textSize)
+    $0.textColor = Const.textColor
+    $0.layer.borderWidth = Const.borderWidth
+    $0.layer.borderColor = Const.borderColor.cgColor
+    $0.layer.cornerRadius = 3
+    $0.keyboardType = .default
+    $0.leftView = UIView(frame: .init(x: 0, y: 0, width: 8, height: 0))
+    $0.rightView = UIView(frame: .init(x: 0, y: 0, width: 8, height: 0))
+    $0.leftViewMode = .always
+    $0.rightViewMode = .always
   }
   
   // MARK: - Lifecycle
@@ -97,6 +126,7 @@ extension FavoriteTableViewCell {
       return
     }
     self.quarterImageView.image = UIImage(named: imageURL)
+    titleTextField.text = data?.title
   }
 }
 
@@ -107,6 +137,10 @@ private extension FavoriteTableViewCell {
   }
   
   private func setEditingMode() {
+    titleTextField.isUserInteractionEnabled = true
+    quarterImageView.isHidden = true
+    titleLabel.isHidden = true
+    titleTextField.isHidden = false
     contentView.subviews.forEach { subview in
       UIView.animate(
         withDuration: 0.37,
@@ -119,6 +153,10 @@ private extension FavoriteTableViewCell {
   }
   
   private func releaseEditingMode() {
+    titleTextField.isUserInteractionEnabled = false
+    quarterImageView.isHidden = false
+    titleLabel.isHidden = false
+    titleTextField.isHidden = true
     contentView.subviews.forEach { subview in
       UIView.animate(
         withDuration: 0.37,
@@ -137,7 +175,8 @@ extension FavoriteTableViewCell: LayoutSupport {
     _=[
       quarterImageView,
       titleLabel,
-      deleteButton
+      deleteButton,
+      titleTextField
     ].map {
       contentView.addSubview($0)
     }
@@ -147,7 +186,8 @@ extension FavoriteTableViewCell: LayoutSupport {
     _=[
       quarterImageViewConstraints,
       titleLabelConstraints,
-      deleteButtonConstraints
+      deleteButtonConstraints,
+      titleTextFieldConstraints
     ].map {
       NSLayoutConstraint.activate($0)
     }
@@ -182,5 +222,15 @@ private extension FavoriteTableViewCell {
       deleteButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
       deleteButton.widthAnchor.constraint(equalToConstant: Const.size.width),
       deleteButton.heightAnchor.constraint(equalToConstant: Const.size.height)]
+  }
+  
+  var titleTextFieldConstraints: [NSLayoutConstraint] {
+    typealias Const = Constant.TitleTextField
+    typealias Spacing = Const.Spacing
+    return [
+      titleTextField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Spacing.leading),
+      titleTextField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Spacing.trailing),
+      titleTextField.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+      titleTextField.heightAnchor.constraint(equalToConstant: Const.height)]
   }
 }
