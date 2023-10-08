@@ -43,7 +43,7 @@ class BaseDestinationView<CenterView>: UIView where CenterView: UIView & CellCon
   weak var delegate: StarButtonDelegate?
   private let thumbnailImageView: UIImageView
   private let centerView: CenterView
-  private lazy var starButton: SearchStarButton = .init(normalType: .empty).set {
+  private lazy var starButton: SearchStarButton = .init(normalType: .black).set {
     $0.addTarget(self, action: #selector(didTapStarButton(_:)), for: .touchUpInside)
   }
   

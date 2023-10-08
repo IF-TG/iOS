@@ -80,7 +80,7 @@ final class SearchFestivalCell: UICollectionViewCell {
     ]
   }
   
-  private lazy var starButton: SearchStarButton = .init(normalType: .emptyWithAlpha).set {
+  private lazy var starButton: SearchStarButton = .init(normalType: .white).set {
     $0.addTarget(self, action: #selector(didTapStarButton), for: .touchUpInside)
   }
   
@@ -186,7 +186,7 @@ extension SearchFestivalCell {
     periodLabel.text = viewModel.periodString
     starButton.isSelected = viewModel.isSelectedButton
     // imageTODO: - 이미지 적용
-    thumbnailImageView.image = UIImage(named: viewModel.thumbnailImage ?? "tempThumbnail7")
+    thumbnailImageView.image = UIImage(named: viewModel.imagePath ?? "tempThumbnail7")
   }
 }
 
