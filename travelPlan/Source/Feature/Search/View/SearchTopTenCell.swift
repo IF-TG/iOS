@@ -32,6 +32,7 @@ class SearchTopTenCell: UICollectionViewCell {
   private let rankingView: UIView = .init().set {
     $0.layer.cornerRadius = 2
     $0.backgroundColor = .yg.littleWhite
+    $0.alpha = 0.9
   }
   
   private let rankingNumberLabel: UILabel = .init().set {
@@ -124,7 +125,7 @@ extension SearchTopTenCell {
     containerView.configure(centerModel: viewModel.contentModel)
     containerView.configure(imageURL: viewModel.imagePath,
                             isSelectedButton: viewModel.isSelectedButton)
-    
+    rankingNumberLabel.text = "\(viewModel.ranking)"
   }
 }
 
