@@ -8,9 +8,6 @@
 import UIKit
 
 final class FavoriteTableViewCell: UITableViewCell {
-  // MARK: - Identifier
-  static let id: String = String(describing: PostCell.self)
-  
   struct Model {
     let title: String
     let innerItemCount: Int
@@ -81,6 +78,9 @@ final class FavoriteTableViewCell: UITableViewCell {
       }
     }
   }
+  
+  // MARK: - Identifier
+  static let id: String = String(describing: PostCell.self)
 
   // MARK: - Properties
   private var deleteButton = UIButton(frame: .zero).set {
@@ -146,6 +146,11 @@ final class FavoriteTableViewCell: UITableViewCell {
     } else {
       releaseEditingMode()
     }
+  }
+  
+  override func prepareForReuse() {
+    super.prepareForReuse()
+    configure(with: nil)
   }
 }
 
