@@ -23,23 +23,23 @@ struct SearchFestivalModel {
 // MARK: - Mock
 extension SearchFestivalModel {
   static var mockModels: [SearchFestivalModel] = [
-    .init(id: 1, imagePath: "tempThumbnail7", title: "축제1",
+    .init(id: 1, imagePath: "tempThumbnail1", title: "축제1",
           startDate: Date(), endDate: Date(), isSelectedButton: false, location: "서울"),
-    .init(id: 2, imagePath: "tempThumbnail7", title: "축제1",
+    .init(id: 2, imagePath: "tempThumbnail2", title: "축제1",
           startDate: Date(), endDate: Date(), isSelectedButton: false, location: "서울"),
-    .init(id: 3, imagePath: "tempThumbnail7", title: "축제1",
+    .init(id: 3, imagePath: "tempThumbnail3", title: "축제1",
           startDate: Date(), endDate: Date(), isSelectedButton: false, location: "서울"),
-    .init(id: 4, imagePath: "tempThumbnail7", title: "축제1",
+    .init(id: 4, imagePath: "tempThumbnail4", title: "축제1",
           startDate: Date(), endDate: Date(), isSelectedButton: false, location: "서울"),
-    .init(id: 5, imagePath: "tempThumbnail7", title: "축제1",
+    .init(id: 5, imagePath: "tempThumbnail5", title: "축제1",
           startDate: Date(), endDate: Date(), isSelectedButton: false, location: "서울"),
-    .init(id: 6, imagePath: "tempThumbnail7", title: "축제1",
+    .init(id: 6, imagePath: "tempThumbnail6", title: "축제1",
           startDate: Date(), endDate: Date(), isSelectedButton: false, location: "서울"),
     .init(id: 7, imagePath: "tempThumbnail7", title: "축제1",
           startDate: Date(), endDate: Date(), isSelectedButton: false, location: "서울"),
-    .init(id: 8, imagePath: "tempThumbnail7", title: "축제1",
+    .init(id: 8, imagePath: "tempThumbnail8", title: "축제1",
           startDate: Date(), endDate: Date(), isSelectedButton: false, location: "서울"),
-    .init(id: 9, imagePath: "tempThumbnail7", title: "축제1",
+    .init(id: 9, imagePath: "tempThumbnail9", title: "축제1",
           startDate: Date(), endDate: Date(), isSelectedButton: false, location: "서울")
   ]
 }
