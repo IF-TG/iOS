@@ -11,10 +11,6 @@ import Foundation
 struct FavoriteHeaderDirectoryEntity {
   let categoryCount: Int
   let imageURLs: [String?]
-  
-  func toModel() -> FavoriteHeaderView.Model {
-    return .init(categoryCount: self.categoryCount, imageURLs: self.imageURLs)
-  }
 }
 
 struct FavoriteDirectoryEntity {
@@ -22,13 +18,6 @@ struct FavoriteDirectoryEntity {
   let title: String
   let innerItemCount: Int
   let imageURL: String?
-  
-  func toModel() -> FavoriteTableViewCell.Model {
-    return .init(
-      title: self.title,
-      innerItemCount: self.innerItemCount,
-      imageURL: self.imageURL)
-  }
 }
 
 final class FavoriteViewModel {
@@ -53,10 +42,11 @@ extension FavoriteViewModel: FavoriteTableViewAdapterDataSource {
   }
   
   var headerItem: FavoriteHeaderView.Model {
-    headerDirectory.toModel()
+    return .init(categoryCount: headerDirectory.categoryCount, imageURLs: headerDirectory.imageURLs)
   }
   
   func cellItem(at index: Int) -> FavoriteTableViewCell.Model {
-    return favoriteDirectories[index].toModel()
+    let item = favoriteDirectories[index]
+    return .init(title: item.title, innerItemCount: item.innerItemCount, imageURL: item.imageURL)
   }
 }
