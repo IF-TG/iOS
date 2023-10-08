@@ -10,7 +10,7 @@ import UIKit
 class FavoriteViewController: UIViewController {
   enum Constant {
     static let itemHeight: CGFloat = 65
-    static let deleteIconWidth: CGFloat = 38.5
+    static let deleteControlWidth: CGFloat = 34
     enum NavigationBar {
       enum Title {
         static let color: UIColor = .yg.gray7
@@ -116,24 +116,25 @@ private extension FavoriteViewController {
   }
   
   func setNavigationBarEdgeGrayLine() {
-      view.addSubview(navigationBarDivider)
+    guard let naviBar = navigationController?.navigationBar else { return }
+    naviBar.addSubview(navigationBarDivider)
       NSLayoutConstraint.activate([
-        navigationBarDivider.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-        navigationBarDivider.widthAnchor.constraint(equalTo: view.widthAnchor),
-        navigationBarDivider.heightAnchor.constraint(equalToConstant: 1)])
+        navigationBarDivider.leadingAnchor.constraint(equalTo: naviBar.leadingAnchor),
+        navigationBarDivider.trailingAnchor.constraint(equalTo: naviBar.trailingAnchor),
+        navigationBarDivider.heightAnchor.constraint(equalToConstant: 1),
+        navigationBarDivider.bottomAnchor.constraint(equalTo: naviBar.bottomAnchor)])
   }
   
   func setEditingMode() {
     guard let headerView else { return }
     originHeaderCenterX = headerView.center.x
     UIView.animate(
-      withDuration: 0.27,
+      withDuration: 0.37,
       delay: 0,
-      options: .curveEaseInOut,
+      options: .curveEaseOut,
       animations: {
         self.favoriteTableView.transform = .init(translationX: 0, y: -Constant.itemHeight)
-        self.navigationBarDivider.transform = .init(translationX: 0, y: Constant.itemHeight)
-        self.headerView?.center.x += Constant.deleteIconWidth
+        self.headerView?.center.x += Constant.deleteControlWidth
         self.headerView?.alpha = 0
       })
   }
@@ -145,7 +146,6 @@ private extension FavoriteViewController {
       options: .curveEaseInOut,
       animations: {
         self.favoriteTableView.transform = .identity
-        self.navigationBarDivider.transform = .identity
         self.headerView?.center.x = self.originHeaderCenterX
         self.headerView?.alpha = 1
       })
