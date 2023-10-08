@@ -15,6 +15,14 @@ final class FavoriteTableViewCell: UITableViewCell {
   }
   
   enum Constant {
+    static let deleteControlWidth = FavoriteViewController.Constant.deleteControlWidth
+    enum DeleteButton {
+      enum Spacing {
+        static let leading: CGFloat = 14
+      }
+      static let size: CGSize = .init(width: 20, height: 20)
+    }
+    
     enum QuarterImageView {
       enum Spacing {
         static let leading: CGFloat = 16
@@ -35,6 +43,11 @@ final class FavoriteTableViewCell: UITableViewCell {
 
   // MARK: - Identifier
   static let id: String = String(describing: PostCell.self)
+  
+  private var deleteButton = UIButton(frame: .zero).set {
+    $0.translatesAutoresizingMaskIntoConstraints = false
+    $0.setImage(UIImage(named: "deleteMinusIcon"), for: .normal)
+  }
   
   private lazy var quarterImageView = UIImageView().set {
     $0.translatesAutoresizingMaskIntoConstraints = false
@@ -64,6 +77,14 @@ final class FavoriteTableViewCell: UITableViewCell {
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
+  
+  override func setEditing(_ editing: Bool, animated: Bool) {
+    if editing {
+      setEditingMode()
+    } else {
+      releaseEditingMode()
+    }
+  }
 }
 
 // MARK: - Helpers
@@ -84,6 +105,30 @@ private extension FavoriteTableViewCell {
   private func titleAndInnerItemCount(_ title: String?, itemCount: Int?) -> String {
     return "\(title ?? "미정") (\((itemCount ?? 0).zeroPaddingString))"
   }
+  
+  private func setEditingMode() {
+    contentView.subviews.forEach { subview in
+      UIView.animate(
+        withDuration: 0.37,
+        delay: 0,
+        options: .curveEaseOut,
+        animations: {
+          subview.transform = .init(translationX: Constant.deleteControlWidth, y: 0 )
+        })
+    }
+  }
+  
+  private func releaseEditingMode() {
+    contentView.subviews.forEach { subview in
+      UIView.animate(
+        withDuration: 0.37,
+        delay: 0,
+        options: .curveEaseOut,
+        animations: {
+          subview.transform = .identity
+        })
+    }
+  }
 }
 
 // MARK: - LayoutSupport
@@ -91,7 +136,8 @@ extension FavoriteTableViewCell: LayoutSupport {
   func addSubviews() {
     _=[
       quarterImageView,
-      titleLabel
+      titleLabel,
+      deleteButton
     ].map {
       contentView.addSubview($0)
     }
@@ -100,7 +146,8 @@ extension FavoriteTableViewCell: LayoutSupport {
   func setConstraints() {
     _=[
       quarterImageViewConstraints,
-      titleLabelConstraints
+      titleLabelConstraints,
+      deleteButtonConstraints
     ].map {
       NSLayoutConstraint.activate($0)
     }
@@ -125,5 +172,15 @@ private extension FavoriteTableViewCell {
       titleLabel.leadingAnchor.constraint(equalTo: quarterImageView.trailingAnchor, constant: Spacing.leading),
       titleLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
       titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Spacing.trailing)]
+  }
+  
+  var deleteButtonConstraints: [NSLayoutConstraint] {
+    typealias Const = Constant.DeleteButton
+    typealias Spacing = Const.Spacing
+    return [
+      deleteButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: -Const.size.width),
+      deleteButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+      deleteButton.widthAnchor.constraint(equalToConstant: Const.size.width),
+      deleteButton.heightAnchor.constraint(equalToConstant: Const.size.height)]
   }
 }
