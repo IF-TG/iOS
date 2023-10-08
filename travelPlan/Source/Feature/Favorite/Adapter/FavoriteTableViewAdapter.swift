@@ -70,8 +70,4 @@ extension FavoriteTableViewAdapter: UITableViewDelegate {
     header.configure(with: item)
     return header
   }
-  
-  func scrollViewDidScroll(_ scrollView: UIScrollView) {
-    delegate?.scrollViewDidScroll(scrollView)
-  }
 }

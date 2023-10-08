@@ -9,5 +9,4 @@ import UIKit
 
 protocol FavoriteTableViewAdapterDelegate: AnyObject {
   func tableView(_ tableView: UITableView, didSelectRowAt: IndexPath)
-  func scrollViewDidScroll(_ scrollView: UIScrollView)
 }

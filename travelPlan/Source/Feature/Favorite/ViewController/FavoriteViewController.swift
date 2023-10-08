@@ -214,11 +214,7 @@ extension FavoriteViewController {
 }
 
 // MARK: - FavoriteTableViewAdapterDelegate
-extension FavoriteViewController: FavoriteTableViewAdapterDelegate {
-  func scrollViewDidScroll(_ scrollView: UIScrollView) {
-
-  }
-  
+extension FavoriteViewController: FavoriteTableViewAdapterDelegate {  
   func tableView(_ tableView: UITableView, didSelectRowAt: IndexPath) {
     // TODO: - 데이터 찾고 그와 관련된 상세 찜 화면으로 이동.
   }
