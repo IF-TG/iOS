@@ -19,7 +19,12 @@ class FavoriteViewController: UIViewController {
       
       enum Setting {
         static let iconName: String = "favoriteNavigationBarSetting"
+        static let selectedIconName: String = "folderPlus"
         static let touchedColor: UIColor = .yg.gray7.withAlphaComponent(0.5)
+      }
+      
+      enum BackButtonItem {
+        static let imageName = "back"
       }
     }
   }
@@ -64,6 +69,37 @@ class FavoriteViewController: UIViewController {
     favoriteTableView.headerView(forSection: 0)
   }
   
+  private let navigationTitleLabel = UILabel().set {
+    $0.text = "찜 목록"
+    $0.numberOfLines = 1
+    $0.textColor = Constant.NavigationBar.Title.color
+    $0.font = Constant.NavigationBar.Title.font
+    $0.textAlignment = .center
+  }
+  
+  private lazy var backButton = UIButton().set {
+    let iconName = Constant.NavigationBar.BackButtonItem.imageName
+    let image = UIImage(named: iconName)?.withRenderingMode(.alwaysOriginal)
+    $0.setImage(image, for: .normal)
+    $0.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
+  }
+  
+  private lazy var settingButton: UIButton = UIButton().set {
+    typealias Const = Constant.NavigationBar.Setting
+    let image = UIImage(named: Const.iconName)
+    $0.setImage(image, for: .normal)
+    $0.setImage(image!.setColor(Const.touchedColor), for: .highlighted)
+    $0.addTarget(self, action: #selector(didTapSettingButton), for: .touchUpInside)
+  }
+  
+  private lazy var folderPlusButton = UIButton().set {
+    typealias Const = Constant.NavigationBar.Setting
+    let image = UIImage(named: Const.selectedIconName)
+    $0.setImage(image, for: .normal)
+    $0.setImage(image!.setColor(Const.touchedColor), for: .highlighted)
+    $0.addTarget(self, action: #selector(didTapFolderPlusButton), for: .touchUpInside)
+  }
+  
   // MARK: - Lifecycle
   override func loadView() {
     view = favoriteTableView
@@ -91,28 +127,21 @@ private extension FavoriteViewController {
     navigationController?.navigationBar.backgroundColor = .white
     setNavigationBarTitle()
     setNavigationRightBarItem()
+    setNavigationLeftBarItem()
     setNavigationBarEdgeGrayLine()
   }
   
   func setNavigationBarTitle() {
-    let titleLabel = UILabel().set {
-      $0.text = "찜 목록"
-      $0.textColor = Constant.NavigationBar.Title.color
-      $0.font = Constant.NavigationBar.Title.font
-      $0.textAlignment = .center
-    }
-    navigationItem.titleView = titleLabel
+    navigationItem.titleView = navigationTitleLabel
   }
   
   func setNavigationRightBarItem() {
-    typealias Const = Constant.NavigationBar.Setting
-    let settingButton = UIButton().set {
-      let image = UIImage(named: Const.iconName)
-      $0.setImage(image, for: .normal)
-      $0.setImage(image!.setColor(Const.touchedColor), for: .highlighted)
-      $0.addTarget(self, action: #selector(didTapSettingButton), for: .touchUpInside)
-    }
     navigationItem.rightBarButtonItem = UIBarButtonItem(customView: settingButton)
+  }
+  
+  func setNavigationLeftBarItem() {
+    navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
+    backButton.isHidden = true
   }
   
   func setNavigationBarEdgeGrayLine() {
@@ -128,6 +157,9 @@ private extension FavoriteViewController {
   func setEditingMode() {
     guard let headerView else { return }
     originHeaderCenterX = headerView.center.x
+    navigationTitleLabel.text = "폴더 변경"
+    navigationTitleLabel.sizeToFit()
+    backButton.isHidden = false
     UIView.animate(
       withDuration: 0.37,
       delay: 0,
@@ -140,6 +172,10 @@ private extension FavoriteViewController {
   }
   
   func setNotEditingMode() {
+    navigationTitleLabel.text = "찜 목록"
+    backButton.isHidden = true
+    settingButton.isSelected.toggle()
+    favoriteTableView.setEditing(!isEditingTableView, animated: true)
     UIView.animate(
       withDuration: 0.27,
       delay: 0,
@@ -155,14 +191,26 @@ private extension FavoriteViewController {
 
 // MARK: - Actions
 extension FavoriteViewController {
-  @objc func didTapSettingButton() {
-    favoriteTableView.setEditing(!isEditingTableView, animated: true)
-    guard isEditingTableView else {
-      setNotEditingMode()
-      return
+  @objc private func didTapSettingButton() {
+    if !settingButton.isSelected {
+      settingButton.isSelected.toggle()
+      navigationItem.rightBarButtonItem?.customView = folderPlusButton
+      
+      favoriteTableView.setEditing(!isEditingTableView, animated: true)
+      setEditingMode()
     }
-    setEditingMode()
+
   }
+  
+  @objc private func didTapBackButton() {
+    navigationItem.rightBarButtonItem?.customView = settingButton
+    setNotEditingMode()
+  }
+  
+  @objc private func didTapFolderPlusButton() {
+    print("무야호")
+  }
+  
 }
 
 // MARK: - FavoriteTableViewAdapterDelegate
