@@ -67,9 +67,11 @@ class SearchDetailHeaderView: UICollectionReusableView {
     ]
   }
   
+  private var isImageLayerFrameSet = false
+  
   override var bounds: CGRect {
     didSet {
-      self.imageGradientLayer.frame = self.bounds
+      self.setImageLayerFrame()
     }
   }
   
@@ -95,6 +97,16 @@ extension SearchDetailHeaderView {
     // TODO: - 추후 imageURL로 변경
     titleLabel.text = model.title
     categoryThumbnailImageView.image = UIImage(named: model.imageURL)
+  }
+}
+
+// MARK: - Private Helpers
+extension SearchDetailHeaderView {
+  private func setImageLayerFrame() {
+    if !self.isImageLayerFrameSet {
+      self.isImageLayerFrameSet = true
+      self.imageGradientLayer.frame = self.bounds
+    }
   }
 }
 
