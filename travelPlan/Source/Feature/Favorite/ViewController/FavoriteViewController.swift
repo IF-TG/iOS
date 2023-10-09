@@ -6,6 +6,19 @@
 //
 
 import UIKit
+import Combine
+
+struct FavoriteViewInput {
+  let appear: AnyPublisher<Void, Never>
+  let detailPage: AnyPublisher<IndexPath, Never>
+  let directoryNameSettingPage: AnyPublisher<IndexPath, Never>
+}
+
+enum FavoriteViewState {
+  case none
+  case showDetailPage(IndexPath)
+  case updateDirecrotyName(IndexPath)
+}
 
 class FavoriteViewController: UIViewController {
   enum Constant {
