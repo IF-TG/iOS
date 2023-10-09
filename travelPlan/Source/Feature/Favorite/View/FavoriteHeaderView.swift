@@ -8,11 +8,6 @@
 import UIKit
 
 final class FavoriteHeaderView: UITableViewHeaderFooterView {
-  struct Model {
-    let categoryCount: Int
-    let imageURLs: [String?]
-  }
-  
   enum Constant {
     enum ImageViews {
       enum Spacing {
@@ -65,7 +60,7 @@ final class FavoriteHeaderView: UITableViewHeaderFooterView {
 
 // MARK: - Helpers
 extension FavoriteHeaderView {
-  func configure(with data: Model) {
+  func configure(with data: FavoriteHeaderDirectoryEntity) {
     setTitle(with: data.categoryCount)
     setImageViews(with: data.imageURLs)
   }

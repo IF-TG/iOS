@@ -156,7 +156,7 @@ final class FavoriteTableViewCell: UITableViewCell {
 
 // MARK: - Helpers
 extension FavoriteTableViewCell {
-  func configure(with data: Model?) {
+  func configure(with data: FavoriteDirectoryEntity?) {
     let combinedTitle = titleAndInnerItemCount(data?.title, itemCount: data?.innerItemCount)
     self.titleLabel.text = combinedTitle
     guard let imageURL = data?.imageURL else {
