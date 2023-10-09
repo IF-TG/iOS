@@ -12,9 +12,9 @@ final class SearchMoreDetailViewModel {
   typealias Output = AnyPublisher<State, ErrorType>
   
   struct Input {
-    let viewDidLoad: PassthroughSubject<Void, Never>
+    let viewDidLoad: PassthroughSubject<SearchSectionType, Never>
     
-    init(viewDidLoad: PassthroughSubject<Void, Never> = .init()
+    init(viewDidLoad: PassthroughSubject<SearchSectionType, Never> = .init()
     ) {
       self.viewDidLoad = viewDidLoad
     }
@@ -29,16 +29,10 @@ final class SearchMoreDetailViewModel {
   }
   
   // MARK: - Properties
-  private let type: SearchSectionType
-  
-  var festivalCellViewModels: [TravelDestinationCellViewModel]?
-  var campingCellViewModels: [TravelDestinationCellViewModel]?
+  /// festival, camping이 해당 프로퍼티를 공통으로 사용합니다.
+  var travelDestinationCellViewModels: [TravelDestinationCellViewModel]?
   var topTenCellViewModels: [SearchTopTenCellViewModel]?
-  
-  // MARK: - LifeCycle
-  init(type: SearchSectionType) {
-    self.type = type
-  }
+  private (set) var headerInfo: SearchDetailHeaderInfo?
 }
 
 // MARK: - ViewModelCase
@@ -46,8 +40,8 @@ extension SearchMoreDetailViewModel: ViewModelCase {
   func transform(_ input: Input) -> Output {
     return input
       .viewDidLoad
-      .map { [weak self] _ in
-        self?.fetchData()
+      .map { [weak self] type in
+        self?.fetchData(type: type)
         return .none
       }
       .setFailureType(to: ErrorType.self)
@@ -57,7 +51,7 @@ extension SearchMoreDetailViewModel: ViewModelCase {
 
 // MARK: - Private Helpers
 extension SearchMoreDetailViewModel {
-  private func fetchData() {
+  private func fetchData(type: SearchSectionType) {
     switch type {
     case .festival:
       fetchFestivalModel()
@@ -78,8 +72,9 @@ extension SearchMoreDetailViewModel {
                              isSelectedButton: $0.isSelectedButton)
     }
     let cellViewModels = models.map { TravelDestinationCellViewModel(model: $0) }
-    self.festivalCellViewModels = .init()
-    _ = cellViewModels.map { self.festivalCellViewModels?.append($0) }
+    self.travelDestinationCellViewModels = .init()
+    _ = cellViewModels.map { self.travelDestinationCellViewModels?.append($0) }
+    self.headerInfo = SearchDetailHeaderInfo.festivalMock
   }
   
   private func fetchCampingModel() {
@@ -92,13 +87,29 @@ extension SearchMoreDetailViewModel {
                              isSelectedButton: $0.isSelectedButton)
     }
     let cellViewModels = models.map { TravelDestinationCellViewModel(model: $0) }
-    self.campingCellViewModels = .init()
-    _ = cellViewModels.map { self.campingCellViewModels?.append($0) }
+    self.travelDestinationCellViewModels = .init()
+    _ = cellViewModels.map { self.travelDestinationCellViewModels?.append($0) }
+    self.headerInfo = SearchDetailHeaderInfo.campingMock
   }
   
   private func fetchTopTenModel() {
-    let cellViewModels = SearchTopTenModel.mockModels.map { SearchTopTenCellViewModel(model: $0) }
+    let cellViewModels = SearchTopTenModel.mockModels
+      .sorted { $0.ranking < $1.ranking }
+      .map { SearchTopTenCellViewModel(model: $0) }
     self.topTenCellViewModels = .init()
     _ = cellViewModels.map { self.topTenCellViewModels?.append($0) }
+    self.headerInfo = SearchDetailHeaderInfo.topTenMock
+  }
+}
+
+// MARK: - Helpers
+extension SearchMoreDetailViewModel {
+  func numberOfItems(type: SearchSectionType) -> Int {
+    switch type {
+    case .festival, .camping:
+      return travelDestinationCellViewModels?.count ?? 0
+    case .topTen:
+      return topTenCellViewModels?.count ?? 0
+    }
   }
 }

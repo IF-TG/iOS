@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Combine
 
 class SearchMoreDetailViewController: UIViewController {
   enum Constants {
@@ -19,41 +20,19 @@ class SearchMoreDetailViewController: UIViewController {
     enum CollectionViewCell {
       static let height: CGFloat = UIScreen.main.bounds.height * 0.172
     }
-    enum TitleLabel {
-      static let numberOfLines = 1
-      static let fontSize: CGFloat = 15
-    }
-    enum CategoryThumbnailImageView {
-      static let cornerRadius: CGFloat = 10
-    }
   }
   
   // MARK: - Properties
   weak var coordinator: SearchMoreDetailCoordinatorDelegate?
-  private let viewModel: SearchMoreDetailViewModel
+  private let viewModel = SearchMoreDetailViewModel()
   
-  private let titleLabel: UILabel = .init().set {
-    $0.numberOfLines = Constants.TitleLabel.numberOfLines
-    $0.font = .init(pretendard: .bold, size: Constants.TitleLabel.fontSize)
-    $0.text = "헤더 타이틀"
-    $0.textColor = UIColor.yg.littleWhite
-  }
-  
-  private let categoryThumbnailImageView: UIImageView = .init().set {
-    $0.roundCorners(
-      cornerRadius: Constants.CategoryThumbnailImageView.cornerRadius,
-      cornerList: [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
-    )
-    $0.image = UIImage(named: "tempProfile1") // to erase
-    $0.contentMode = .scaleAspectFill
-  }
   private let compositionalLayoutManager: CompositionalLayoutCreatable = SearchMoreDetailLayoutManager()
+  
   private lazy var collectionView: UICollectionView = .init(
     frame: .zero,
     collectionViewLayout: compositionalLayoutManager.makeLayout()
   ).set {
-    $0.register(TravelDestinationCell.self,
-                forCellWithReuseIdentifier: TravelDestinationCell.id)
+    self.registerCell(in: $0)
     $0.register(SearchDetailHeaderView.self,
                 forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                 withReuseIdentifier: SearchDetailHeaderView.id)
@@ -91,12 +70,14 @@ class SearchMoreDetailViewController: UIViewController {
   }
   
   private let type: SearchSectionType
-  let input = SearchMoreDetailViewModel.Input()
+  
+  private let input = Input()
+  
+  private var subscriptions = Set<AnyCancellable>()
   
   // MARK: - LifeCycle
   init(type: SearchSectionType) {
     self.type = type
-    self.viewModel = SearchMoreDetailViewModel(type: type)
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -114,8 +95,9 @@ class SearchMoreDetailViewController: UIViewController {
     setupUI()
     setupStyles()
     setupNavigationBar()
+    bind()
+    input.viewDidLoad.send(type)
     
-    input.viewDidLoad.send()
     switch type {
     case .festival:
       print("베스트 축제 VC")
@@ -123,6 +105,47 @@ class SearchMoreDetailViewController: UIViewController {
       print("레포츠 vc")
     case .topTen:
       print("여행지 TOP 10 VC")
+    }
+  }
+}
+
+extension SearchMoreDetailViewController: ViewBindCase {
+  typealias Input = SearchMoreDetailViewModel.Input
+  typealias ErrorType = SearchMoreDetailViewModel.ErrorType
+  typealias State = SearchMoreDetailViewModel.State
+  
+  func bind() {
+    let output = viewModel.transform(input)
+    output
+      .receive(on: RunLoop.main)
+      .sink { [weak self] result in
+        switch result {
+        case .failure(let error):
+          self?.handleError(error)
+        case .finished:
+          print("finished \(Self.self)")
+        }
+      } receiveValue: { [weak self] in
+        self?.render($0)
+      }
+      .store(in: &subscriptions)
+  }
+  
+  func render(_ state: SearchMoreDetailViewModel.State) {
+    switch state {
+    case .showDetailVC:
+      print("DEBUG: show detail")
+    case .none:
+      break
+    }
+  }
+  
+  func handleError(_ error: SearchMoreDetailViewModel.ErrorType) {
+    switch error {
+    case .unexpected:
+      print("DEBUG: unexpected error")
+    case .none:
+      break
     }
   }
 }
@@ -154,6 +177,17 @@ extension SearchMoreDetailViewController {
   private func changeBlackOrWhiteColor(with alpha: CGFloat) -> UIColor {
     return UIColor(white: alpha, alpha: 1)
   }
+  
+  private func registerCell(in collectionView: UICollectionView) {
+    switch type {
+    case .festival, .camping:
+      collectionView.register(TravelDestinationCell.self,
+                              forCellWithReuseIdentifier: TravelDestinationCell.id)
+    case .topTen:
+      collectionView.register(SearchTopTenCell.self, 
+                              forCellWithReuseIdentifier: SearchTopTenCell.id)
+    }
+  }
 }
 
 // MARK: - LayoutSupport
@@ -176,19 +210,35 @@ extension SearchMoreDetailViewController: UICollectionViewDataSource {
     _ collectionView: UICollectionView,
     numberOfItemsInSection section: Int
   ) -> Int {
-    return 10
+    self.viewModel.numberOfItems(type: type)
   }
   
   func collectionView(
     _ collectionView: UICollectionView,
     cellForItemAt indexPath: IndexPath
   ) -> UICollectionViewCell {
-    guard let cell = collectionView.dequeueReusableCell(
-      withReuseIdentifier: TravelDestinationCell.id,
-      for: indexPath
-    ) as? TravelDestinationCell else { return .init() }
-//    cell.configure(with: )
-    return cell
+
+    switch type {
+    case .festival, .camping:
+      guard let cell = collectionView.dequeueReusableCell(
+        withReuseIdentifier: TravelDestinationCell.id,
+        for: indexPath
+      ) as? TravelDestinationCell else { return .init() }
+      guard let cellViewModels = self.viewModel.travelDestinationCellViewModels else { return .init() }
+      
+      cell.configure(with: cellViewModels[indexPath.item])
+      return cell
+      
+    case .topTen:
+      guard let cell = collectionView.dequeueReusableCell(
+        withReuseIdentifier: SearchTopTenCell.id,
+        for: indexPath
+      ) as? SearchTopTenCell else { return .init() }
+      guard let cellViewModels = self.viewModel.topTenCellViewModels else { return .init() }
+      
+      cell.configure(with: cellViewModels[indexPath.item])
+      return cell
+    }
   }
   
   func collectionView(
@@ -200,10 +250,12 @@ extension SearchMoreDetailViewController: UICollectionViewDataSource {
       guard let headerView = collectionView.dequeueReusableSupplementaryView(
         ofKind: kind,
         withReuseIdentifier: SearchDetailHeaderView.id,
-        for: indexPath) as? SearchDetailHeaderView else { return .init() }
+        for: indexPath
+      ) as? SearchDetailHeaderView else { return .init() }
       
-      // TODO: - ViewModel을 통해 서버로부터 fetch해온 model을 주입주어야 합니다.
-      headerView.configure(with: SearchDetailHeaderModel(title: "헤더 타이틀", imageURL: "tempProfile1"))
+      if let headerInfo = viewModel.headerInfo {
+        headerView.configure(with: headerInfo)
+      }
       return headerView
     } else { return .init() }
   }
@@ -214,7 +266,6 @@ extension SearchMoreDetailViewController: UICollectionViewDelegate {
     let maxHeight = min(headerViewHeight, scrollView.contentOffset.y)
     
     let alpha = (headerViewHeight - maxHeight) / headerViewHeight
-    print(alpha)
     let headerView = collectionView.supplementaryView(
       forElementKind: UICollectionView.elementKindSectionHeader,
       at: IndexPath(item: .zero, section: .zero)
