@@ -29,7 +29,7 @@ class MainSearchLayoutManager {
     }
     
     // MARK: - Second
-    enum Famous {
+    enum Camping {
       enum Item {
         static let fractionalWidth: CGFloat = 1
         static let fractionalHeight: CGFloat = 0.3
@@ -103,26 +103,26 @@ extension MainSearchLayoutManager {
   
   private func campingLayout() -> NSCollectionLayoutSection {
     let item = makeLayoutItem(
-      fractionalWidth: Constants.Famous.Item.fractionalWidth,
-      fractionalHeight: Constants.Famous.Item.fractionalHeight
+      fractionalWidth: Constants.Camping.Item.fractionalWidth,
+      fractionalHeight: Constants.Camping.Item.fractionalHeight
     )
     
     let group = NSCollectionLayoutGroup.vertical(
       layoutSize: .init(
-        widthDimension: .fractionalWidth(Constants.Famous.Group.fractionalWidth),
-        heightDimension: .absolute(Constants.Famous.Group.height)
+        widthDimension: .fractionalWidth(Constants.Camping.Group.fractionalWidth),
+        heightDimension: .absolute(Constants.Camping.Group.height)
       ),
       subitem: item,
-      count: Constants.Famous.Group.count
+      count: Constants.Camping.Group.count
     )
     
     let section = NSCollectionLayoutSection(group: group)
     section.orthogonalScrollingBehavior = .groupPaging
     section.contentInsets = .init(
-      top: Constants.Famous.Section.Inset.top,
-      leading: Constants.Famous.Section.Inset.leading,
-      bottom: Constants.Famous.Section.Inset.bottom,
-      trailing: Constants.Famous.Section.Inset.trailing
+      top: Constants.Camping.Section.Inset.top,
+      leading: Constants.Camping.Section.Inset.leading,
+      bottom: Constants.Camping.Section.Inset.bottom,
+      trailing: Constants.Camping.Section.Inset.trailing
     )
     section.boundarySupplementaryItems = [headerLayout()]
     return section
