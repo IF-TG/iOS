@@ -10,26 +10,26 @@ import UIKit
 final class FavoriteTableViewAdapter: NSObject {
   
   // MARK: - Properties
-  weak var adapterDataSource: FavoriteTableViewAdapterDataSource?
-  weak var adapterDelegate: FavoriteTableViewAdapterDelegate?
+  weak var dataSource: FavoriteTableViewAdapterDataSource?
+  weak var delegate: FavoriteTableViewAdapterDelegate?
   
   // MARK: - Initialization
   init(tableView: UITableView,
-       adapterDataSource: FavoriteTableViewAdapterDataSource?,
-       adapterDelegate: FavoriteTableViewAdapterDelegate?
+       dataSource: FavoriteTableViewAdapterDataSource?,
+       delegate: FavoriteTableViewAdapterDelegate?
   ) {
     super.init()
     tableView.delegate = self
     tableView.dataSource = self
-    self.adapterDataSource = adapterDataSource
-    self.adapterDelegate = adapterDelegate
+    self.dataSource = dataSource
+    self.delegate = delegate
   }
 }
 
 // MARK: - UITableViewDataSource
 extension FavoriteTableViewAdapter: UITableViewDataSource {
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return adapterDataSource?.numberOfItems ?? 0
+    return dataSource?.numberOfItems ?? 0
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -37,7 +37,7 @@ extension FavoriteTableViewAdapter: UITableViewDataSource {
       let cell = tableView.dequeueReusableCell(
         withIdentifier: FavoriteTableViewCell.id,
         for: indexPath) as? FavoriteTableViewCell,
-      let item = adapterDataSource?.cellItem(at: indexPath.row)
+      let item = dataSource?.cellItem(at: indexPath.row)
     else {
       return .init()
     }
@@ -52,11 +52,7 @@ extension FavoriteTableViewAdapter: UITableViewDelegate {
     _ tableView: UITableView,
     didSelectRowAt indexPath: IndexPath
   ) {
-    guard let item = adapterDataSource?.cellItem(at: indexPath.row) else {
-      print("DEBUG: Unexpected item fetch error in favorite list tableView adapter's delegate")
-      return
-    }
-    adapterDelegate?.tappedCell(with: item)
+    delegate?.tableView(tableView, didSelectRowAt: indexPath)
   }
   
   func tableView(
@@ -64,37 +60,14 @@ extension FavoriteTableViewAdapter: UITableViewDelegate {
     viewForHeaderInSection section: Int
   ) -> UIView? {
     guard
+      let item = dataSource?.headerItem,
       let header = tableView.dequeueReusableHeaderFooterView(
-      withIdentifier: FavoriteHeaderView.id) as? FavoriteHeaderView,
-      let item = adapterDataSource?.headerItem
+        withIdentifier: FavoriteHeaderView.id
+      ) as? FavoriteHeaderView
     else {
       return .init()
     }
     header.configure(with: item)
     return header
-  }
-  
-  func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-    if indexPath.section == 0 {
-      typealias Const = FavoriteTableViewCell.Constant.ImageView
-      typealias Spacing = Const.Spacing
-      let imageTopSpacing = Spacing.top
-      let imageBottomSpacing = Spacing.bottom
-      let imageHeight = Const.size.height
-      return imageTopSpacing+imageBottomSpacing+imageHeight
-    }
-    return 0
-  }
-  
-  func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-    if section == 0 {
-      typealias Const = FavoriteHeaderView.Constant.ImageViews
-      typealias Spacing = Const.Spacing
-      let imageTopSpacing = Spacing.top
-      let imageBottomSpacing = Spacing.bottom
-      let imageHeight = Const.size.height
-      return imageTopSpacing+imageBottomSpacing+imageHeight
-    }
-    return 0
   }
 }

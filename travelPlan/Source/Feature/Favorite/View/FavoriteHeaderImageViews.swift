@@ -59,10 +59,14 @@ final class FavoriteHeaderImageViews: UIView {
 
 // MARK: - Helpers
 extension FavoriteHeaderImageViews {
-  func configure(with data: [UIImage?]) {
-    for (i, image) in data.enumerated() {
+  func configure(with data: [String?]) {
+    for (i, imageURL) in data.enumerated() {
       if i < 4 {
-        self.imageViews[i].image = image
+        guard let imageURL else {
+          imageViews[i].image = nil
+          return
+        }
+        self.imageViews[i].image = UIImage(named: imageURL)
       } else {
         break
       }
