@@ -49,11 +49,13 @@ class BottomSheetView: UIView {
   override init(frame: CGRect) {
     super.init(frame: frame)
     configureUI()
+    layer.cornerRadius = Constants.cornerRadius
   }
   
   required init?(coder: NSCoder) {
     super.init(coder: coder)
     configureUI()
+    layer.cornerRadius = Constants.cornerRadius
   }
   
   convenience init() {
@@ -87,7 +89,6 @@ class BottomSheetView: UIView {
   private func configureUI() {
     setupUI()
     setGesture()
-    layer.cornerRadius = Constants.cornerRadius
     clipsToBounds = true
     layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
   }
