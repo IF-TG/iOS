@@ -49,7 +49,8 @@ class BaseDestinationView<CenterView>: UIView where CenterView: UIView & CellCon
       switch self {
       case .default:
         return UIImageView().set {
-          $0.contentMode = .scaleToFill
+          $0.contentMode = .scaleAspectFill
+          
           $0.layer.cornerRadius = 7
           $0.clipsToBounds = true
         }
@@ -76,10 +77,8 @@ class BaseDestinationView<CenterView>: UIView where CenterView: UIView & CellCon
   private init(frame: CGRect, centerView: CenterView, imageViewType: ImageViewType) {
     self.centerView = centerView
     self.thumbnailImageView = imageViewType.imageView
-    
     super.init(frame: frame)
     setupUI()
-    setupStyles()
   }
   
   required init?(coder: NSCoder) {
@@ -116,12 +115,6 @@ extension BaseDestinationView {
   }
 }
 
-// MARK: - Private Helpers
-extension BaseDestinationView {
-  private func setupStyles() {
-    thumbnailImageView.contentMode = .scaleToFill
-  }
-}
 // MARK: - LayoutSupport
 extension BaseDestinationView: LayoutSupport {
   func addSubviews() {
