@@ -53,6 +53,7 @@ class FavoriteViewController: UIViewController {
     $0.rowHeight = Constant.itemHeight
     $0.sectionHeaderHeight = Constant.itemHeight
     $0.backgroundColor = .white
+    $0.bounces = false
     $0.register(
       FavoriteTableViewCell.self,
       forCellReuseIdentifier: FavoriteTableViewCell.id)
@@ -113,7 +114,20 @@ class FavoriteViewController: UIViewController {
     favoriteTableView.headerView(forSection: 0)
   }
   
-  // MARK: - Lifecycle  
+  // MARK: - Lifecycle
+  init(viewModel: any FavoriteViewModelable & FavoriteTableViewAdapterDataSource) {
+    self.viewModel = viewModel
+    super.init(nibName: nil, bundle: nil)
+    adapter = FavoriteTableViewAdapter(
+      tableView: self.favoriteTableView,
+      dataSource: viewModel,
+      delegate: self)
+  }
+  
+  required init?(coder: NSCoder) {
+    nil
+  }
+  
   override func loadView() {
     view = favoriteTableView
   }
@@ -121,11 +135,6 @@ class FavoriteViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     configureUI()
-    favoriteTableView.bounces = false
-    adapter = FavoriteTableViewAdapter(
-      tableView: self.favoriteTableView,
-      dataSource: viewModel,
-      delegate: self)
   }
     
   deinit {
