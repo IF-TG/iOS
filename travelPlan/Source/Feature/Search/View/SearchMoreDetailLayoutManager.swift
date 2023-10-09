@@ -28,11 +28,11 @@ extension SearchMoreDetailLayoutManager {
     let item = NSCollectionLayoutItem(layoutSize: itemSize)
     
     let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                           heightDimension: .fractionalHeight(0.19))
+                                           heightDimension: .absolute(140))
     let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
     
     let section = NSCollectionLayoutSection(group: group)
-    section.contentInsets = .init(top: 8, leading: .zero, bottom: .zero, trailing: .zero)
+    section.contentInsets = .init(top: 8, leading: 16, bottom: .zero, trailing: .zero)
 
     let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                             heightDimension: .fractionalHeight(0.27))
