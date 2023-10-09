@@ -8,5 +8,5 @@
 import UIKit
 
 protocol FavoriteTableViewAdapterDelegate: AnyObject {
-  func tableView(_ tableView: UITableView, didSelectRowAt: IndexPath)
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
 }
