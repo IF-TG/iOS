@@ -61,15 +61,13 @@ final class PostRecentSearchHeaderView: UICollectionReusableView {
   
   override func prepareForReuse() {
     super.prepareForReuse()
-    // delegateNilTODO: - delegate를 초기화 하는 것이 맞는지 확인해보기
-    prepare(title: nil, delegate: nil)
+    prepare(title: nil)
   }
 }
 
 // MARK: - Public Helpers
 extension PostRecentSearchHeaderView {
-  func prepare(title: String?, delegate: PostSearchHeaderViewDelegate?) {
-    self.delegate = delegate
+  func prepare(title: String?) {
     titleLabel.text = title
   }
 }

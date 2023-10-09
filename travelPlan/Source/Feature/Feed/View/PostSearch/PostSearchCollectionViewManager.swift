@@ -69,8 +69,8 @@ extension PostSearchCollectionViewManager {
       withReuseIdentifier: PostRecentSearchHeaderView.id,
       for: indexPath
     ) as? PostRecentSearchHeaderView else { return .init() }
-    
-    recentHeaderView.prepare(title: title, delegate: delegate)
+    recentHeaderView.delegate = self.delegate
+    recentHeaderView.prepare(title: title)
     return recentHeaderView
   }
   
