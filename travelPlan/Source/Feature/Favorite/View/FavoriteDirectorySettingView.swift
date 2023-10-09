@@ -118,6 +118,21 @@ final class FavoriteDirectorySettingView: BottomSheetView {
   }
 }
 
+// MARK: - Helpers
+extension FavoriteDirectorySettingView {
+  func setSearchBarInputAccessory(_ view: UIView) {
+    searchBar.setTextFieldInputAccessory(view)
+  }
+  
+  func hideKeyboard() {
+    searchBar.hideKeyboard()
+  }
+  
+  func showKeyboard() {
+    searchBar.showKeyboard()
+  }
+}
+
 // MARK: - Private Helpers
 private extension FavoriteDirectorySettingView {
   func bind() {
