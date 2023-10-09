@@ -24,7 +24,8 @@ final class FavoriteCoordinator: FlowCoordinator {
   
   // MARK: - Helpers
   func start() {
-    let vc = FavoriteViewController()
+    let viewModel = FavoriteViewModel()
+    let vc = FavoriteViewController(viewModel: viewModel)
     vc.coordinator = self
     presenter.pushViewController(vc, animated: true)
   }
