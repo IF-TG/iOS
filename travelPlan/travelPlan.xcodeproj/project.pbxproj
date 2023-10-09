@@ -49,7 +49,7 @@
 		1390CC5D2A8BADEC00E34DC3 /* TitleWithButtonHeaderViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1390CC5C2A8BADEC00E34DC3 /* TitleWithButtonHeaderViewDelegate.swift */; };
 		13A6C2DB2AB782A100EABD76 /* UIViewController+BackBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A6C2DA2AB782A100EABD76 /* UIViewController+BackBarButtonItem.swift */; };
 		13A93EE52ACDE0EC00FC4BBD /* SearchDetailHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A93EE42ACDE0EC00FC4BBD /* SearchDetailHeaderView.swift */; };
-		13A93EE72ACDE4AB00FC4BBD /* SearchDetailHeaderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A93EE62ACDE4AB00FC4BBD /* SearchDetailHeaderModel.swift */; };
+		13A93EE72ACDE4AB00FC4BBD /* SearchDetailHeaderInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A93EE62ACDE4AB00FC4BBD /* SearchDetailHeaderInfo.swift */; };
 		13A93EE92AD0065300FC4BBD /* SearchMoreDetailLayoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A93EE82AD0065300FC4BBD /* SearchMoreDetailLayoutManager.swift */; };
 		13A93EEF2AD0766900FC4BBD /* SearchTopTenModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A93EEE2AD0766900FC4BBD /* SearchTopTenModel.swift */; };
 		13A93EF72AD0AD2700FC4BBD /* SearchTopTenCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A93EF62AD0AD2700FC4BBD /* SearchTopTenCell.swift */; };
@@ -272,7 +272,7 @@
 		1390CC6E2A8E0B2800E34DC3 /* SearchStarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchStarButton.swift; sourceTree = "<group>"; };
 		13A6C2DA2AB782A100EABD76 /* UIViewController+BackBarButtonItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+BackBarButtonItem.swift"; sourceTree = "<group>"; };
 		13A93EE42ACDE0EC00FC4BBD /* SearchDetailHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDetailHeaderView.swift; sourceTree = "<group>"; };
-		13A93EE62ACDE4AB00FC4BBD /* SearchDetailHeaderModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDetailHeaderModel.swift; sourceTree = "<group>"; };
+		13A93EE62ACDE4AB00FC4BBD /* SearchDetailHeaderInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDetailHeaderInfo.swift; sourceTree = "<group>"; };
 		13A93EE82AD0065300FC4BBD /* SearchMoreDetailLayoutManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMoreDetailLayoutManager.swift; sourceTree = "<group>"; };
 		13A93EEE2AD0766900FC4BBD /* SearchTopTenModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTopTenModel.swift; sourceTree = "<group>"; };
 		13A93EF62AD0AD2700FC4BBD /* SearchTopTenCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTopTenCell.swift; sourceTree = "<group>"; };
@@ -537,7 +537,7 @@
 				130304A92A271F3B00776A0D /* SearchSectionModel.swift */,
 				13300FAD2AC2093D00952757 /* SearchSectionType.swift */,
 				13A93EFA2AD1EA6B00FC4BBD /* TravelDestinationModel.swift */,
-				13A93EE62ACDE4AB00FC4BBD /* SearchDetailHeaderModel.swift */,
+				13A93EE62ACDE4AB00FC4BBD /* SearchDetailHeaderInfo.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1746,7 +1746,7 @@
 				15FB47EE2AC176FD0033AA18 /* UISpacing.swift in Sources */,
 				15CB236F2A10C314003EAF20 /* PostCellViewModel.swift in Sources */,
 				13C9C1B12A1806F500DF1FFF /* PostRecentSearchTagCellDelegate.swift in Sources */,
-				13A93EE72ACDE4AB00FC4BBD /* SearchDetailHeaderModel.swift in Sources */,
+				13A93EE72ACDE4AB00FC4BBD /* SearchDetailHeaderInfo.swift in Sources */,
 				13FE64772A5C378D007D9A53 /* SearchCampingModel.swift in Sources */,
 				130B9AE32A684D3D0072A0CF /* MainSearchLayoutManager.swift in Sources */,
 				1390CC5D2A8BADEC00E34DC3 /* TitleWithButtonHeaderViewDelegate.swift in Sources */,
