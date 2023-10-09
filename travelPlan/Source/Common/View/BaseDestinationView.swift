@@ -11,16 +11,18 @@ import SnapKit
 /// imageView + centerView + starButton로 구성되어 있습니다.
 ///
 /// centerView를 커스텀해서 생성자 시점에 주입합니다.
-/// imageView를 주입하지 않으면 기본 이미지뷰를 사용합니다.
+/// imageView는 type에 따라 설정할 수 있습니다. custom인 경우, 연관값으로 커스텀 이미지뷰를 넣어주어야 합니다.
 /// starButton의 이벤트를 정의해야 되는 경우, StarButtonDelegate를 준수해야 합니다.
 class BaseDestinationView<CenterView>: UIView where CenterView: UIView & CellConfigurable {
   enum Constants {
     enum ThumbnailImageView {
       static var cornerRadius: CGFloat { 3 }
+      static var width: CGFloat { 110 }
       enum Spacing {
         static var top: CGFloat { 5 }
         static var bottom: CGFloat { 5 }
       }
+      
     }
     
     enum CenterView {
@@ -39,6 +41,24 @@ class BaseDestinationView<CenterView>: UIView where CenterView: UIView & CellCon
     }
   }
   
+  enum ImageViewType {
+    case `default`
+    case custom(imageView: UIImageView)
+    
+    var imageView: UIImageView {
+      switch self {
+      case .default:
+        return UIImageView().set {
+          $0.contentMode = .scaleToFill
+          $0.layer.cornerRadius = 7
+          $0.clipsToBounds = true
+        }
+      case let .custom(imageView):
+        return imageView
+      }
+    }
+  }
+  
   // MARK: - Properties
   weak var delegate: StarButtonDelegate?
   private let thumbnailImageView: UIImageView
@@ -48,14 +68,15 @@ class BaseDestinationView<CenterView>: UIView where CenterView: UIView & CellCon
   }
   
   // MARK: - LifeCycle
-  /// imageView를 주입하지 않으면, 기본 이미지뷰를 사용합니다.
-  convenience init(centerView: CenterView, thumbnailImageView: UIImageView = .init()) {
-    self.init(frame: .zero, centerView: centerView, thumbnailImageView: thumbnailImageView)
+  /// centerView를 직접 추가해야 합니다. imageView는 type에 따라서 설정할 수 있습니다.
+  convenience init(centerView: CenterView, imageViewType: ImageViewType) {
+    self.init(frame: .zero, centerView: centerView, imageViewType: imageViewType)
   }
   
-  init(frame: CGRect, centerView: CenterView, thumbnailImageView: UIImageView) {
+  private init(frame: CGRect, centerView: CenterView, imageViewType: ImageViewType) {
     self.centerView = centerView
-    self.thumbnailImageView = thumbnailImageView
+    self.thumbnailImageView = imageViewType.imageView
+    
     super.init(frame: frame)
     setupUI()
     setupStyles()
@@ -116,7 +137,7 @@ extension BaseDestinationView: LayoutSupport {
       $0.leading.equalToSuperview()
       $0.top.equalToSuperview().inset(Constants.ThumbnailImageView.Spacing.top)
       $0.bottom.equalToSuperview().inset(Constants.ThumbnailImageView.Spacing.bottom)
-      $0.width.equalTo(thumbnailImageView.snp.height)
+      $0.width.equalTo(Constants.ThumbnailImageView.width)
     }
     
     centerView.snp.makeConstraints {
