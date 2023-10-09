@@ -50,6 +50,8 @@ final class FavoriteDetailViewController: UIViewController {
   
   private var isDoneCategoryViewAnimation = true
   
+  weak var coordinator: FavoriteDetailCoordinatorDelegate?
+  
   // MARK: - Lifecycle
   init() {
     super.init(nibName: nil, bundle: nil)
@@ -63,6 +65,10 @@ final class FavoriteDetailViewController: UIViewController {
     super.viewDidLoad()
     configureUI()
     bind()
+  }
+  
+  deinit {
+    coordinator?.finish()
   }
 }
 
