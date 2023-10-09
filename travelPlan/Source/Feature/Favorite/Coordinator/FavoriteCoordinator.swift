@@ -10,6 +10,7 @@ import SHCoordinator
 
 protocol FavoriteCoordinatorDelegate: AnyObject {
   func finish()
+  func showDetailPage(with id: AnyHashable)
 }
 
 final class FavoriteCoordinator: FlowCoordinator {
@@ -32,4 +33,9 @@ final class FavoriteCoordinator: FlowCoordinator {
 }
 
 // MARK: - FavoriteCoordinatorDelegate
-extension FavoriteCoordinator: FavoriteCoordinatorDelegate {}
+extension FavoriteCoordinator: FavoriteCoordinatorDelegate {
+  func showDetailPage(with id: AnyHashable) {
+    let childCoordinator = FavoriteDetailCoordinator(presenter: presenter, direcotryIdentifier: id)
+    addChild(with: childCoordinator)
+  }
+}
