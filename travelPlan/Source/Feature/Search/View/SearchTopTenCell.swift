@@ -27,6 +27,8 @@ class SearchTopTenCell: UICollectionViewCell {
   
   private let thumbnailImageView: UIImageView = .init().set {
     $0.contentMode = .scaleToFill
+    $0.layer.cornerRadius = 7
+    $0.clipsToBounds = true
   }
   
   private let rankingView: UIView = .init().set {
@@ -42,8 +44,10 @@ class SearchTopTenCell: UICollectionViewCell {
   
   // TODO: - 순위뷰를 포함하는 이미지뷰를 주입해야 합니다.
   private lazy var containerView: BaseDestinationView<LeftAlignThreeLabelsView>
-  = .init(centerView: LeftAlignThreeLabelsView(),
-          thumbnailImageView: thumbnailImageView).set {
+  = .init(
+    centerView: LeftAlignThreeLabelsView(),
+    imageViewType: .custom(imageView: self.thumbnailImageView)
+  ).set {
     $0.delegate = self
   }
   
