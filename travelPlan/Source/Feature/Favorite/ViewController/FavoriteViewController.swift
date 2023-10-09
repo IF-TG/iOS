@@ -66,22 +66,6 @@ class FavoriteViewController: UIViewController {
     $0.backgroundColor = .yg.gray0
   }
   
-  private var adapter: FavoriteTableViewAdapter!
-  
-  weak var coordinator: FavoriteCoordinatorDelegate?
-  
-  private var vm = FavoriteViewModel()
-  
-  private var originHeaderCenterX: CGFloat!
-  
-  private var isEditingTableView: Bool {
-    favoriteTableView.isEditing
-  }
-  
-  private var headerView: UITableViewHeaderFooterView? {
-    favoriteTableView.headerView(forSection: 0)
-  }
-  
   private let navigationTitleLabel = UILabel().set {
     $0.text = "찜 목록"
     $0.numberOfLines = 1
@@ -113,7 +97,23 @@ class FavoriteViewController: UIViewController {
     $0.addTarget(self, action: #selector(didTapFolderPlusButton), for: .touchUpInside)
   }
   
-  // MARK: - Lifecycle
+  private var adapter: FavoriteTableViewAdapter!
+  
+  weak var coordinator: FavoriteCoordinatorDelegate?
+  
+  private let viewModel: any FavoriteViewModelable & FavoriteTableViewAdapterDataSource
+  
+  private var originHeaderCenterX: CGFloat!
+  
+  private var isEditingTableView: Bool {
+    favoriteTableView.isEditing
+  }
+  
+  private var headerView: UITableViewHeaderFooterView? {
+    favoriteTableView.headerView(forSection: 0)
+  }
+  
+  // MARK: - Lifecycle  
   override func loadView() {
     view = favoriteTableView
   }
@@ -124,7 +124,7 @@ class FavoriteViewController: UIViewController {
     favoriteTableView.bounces = false
     adapter = FavoriteTableViewAdapter(
       tableView: self.favoriteTableView,
-      dataSource: vm,
+      dataSource: viewModel,
       delegate: self)
   }
     
