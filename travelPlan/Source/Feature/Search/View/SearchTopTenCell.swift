@@ -16,7 +16,7 @@ class SearchTopTenCell: UICollectionViewCell {
   
   // MARK: - Properties
   static var id: String {
-    return String(describing: Self.self)
+    return String(describing: self)
   }
   
   private var viewModel: SearchTopTenCellViewModel? {
@@ -26,7 +26,7 @@ class SearchTopTenCell: UICollectionViewCell {
   }
   
   private let thumbnailImageView: UIImageView = .init().set {
-    $0.contentMode = .scaleToFill
+    $0.contentMode = .scaleAspectFill
     $0.layer.cornerRadius = 7
     $0.clipsToBounds = true
   }
