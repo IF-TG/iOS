@@ -11,20 +11,26 @@ final class FavoriteTableViewCell: UITableViewCell {
   struct Model {
     let title: String
     let innerItemCount: Int
-    let image: UIImage?
+    let imageURL: String?
   }
   
   enum Constant {
-    enum ImageView {
+    static let deleteControlWidth = FavoriteViewController.Constant.deleteControlWidth
+    enum DeleteButton {
       enum Spacing {
-        static let leading: CGFloat = 20
-        static let top: CGFloat = 15
-        static let bottom: CGFloat = 16
+        static let leading: CGFloat = 14
+      }
+      static let size: CGSize = .init(width: 20, height: 20)
+    }
+    
+    enum QuarterImageView {
+      enum Spacing {
+        static let leading: CGFloat = 16
       }
       static let size = CGSize(width: 40, height: 40)
     }
     
-    enum Title {
+    enum TitleLabel {
       enum Spacing {
         static let leading: CGFloat = 15
         static let trailing: CGFloat = 44
@@ -33,47 +39,94 @@ final class FavoriteTableViewCell: UITableViewCell {
       static let fontName: UIFont.Pretendard = .medium
       static let textSize: CGFloat = 15.0
     }
+    
+    enum TitleTextField {
+      enum Spacing {
+        static let leading: CGFloat = 20
+        static let trailing: CGFloat = {
+          if #available(iOS 11.0, *) {
+            let deviceWidth = UIScreen.main.bounds.width
+            if deviceWidth >= 414 {
+              return 60 + deleteControlWidth
+            }
+          }
+          return 50 + deleteControlWidth
+        }()
+      }
+      static let height: CGFloat = 25
+      static let textColor: UIColor = .yg.gray6
+      static let fontName: UIFont.Pretendard = .medium
+      static let textSize: CGFloat = 14.0
+      static let borderWidth: CGFloat = 0.3
+      static let borderColor: UIColor = .yg.gray3
+      static let radius: CGFloat = 3
+    }
+    
+    enum MenuAccessoryView {
+      static let iconName = "cellMenuAccessory"
+      static let size: CGSize = .init(width: 24, height: 24)
+      enum Spacing {
+        static let trailing: CGFloat = {
+          if #available(iOS 11.0, *) {
+            let deviceWidth = UIScreen.main.bounds.width
+            if deviceWidth >= 414 {
+              return 21 + deleteControlWidth
+            }
+          }
+          return 11 + deleteControlWidth
+        }()
+      }
+    }
   }
-
+  
   // MARK: - Identifier
   static let id: String = String(describing: PostCell.self)
+
+  // MARK: - Properties
+  private var deleteButton = UIButton(frame: .zero).set {
+    $0.translatesAutoresizingMaskIntoConstraints = false
+    $0.setImage(UIImage(named: "deleteMinusIcon"), for: .normal)
+  }
   
-  private lazy var listImageView = UIImageView().set {
+  private lazy var quarterImageView = UIImageView().set {
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.backgroundColor = .yg.gray1
-    $0.layer.cornerRadius = Constant.ImageView.size.width/2.0
+    $0.layer.cornerRadius = Constant.QuarterImageView.size.width/2.0
     $0.clipsToBounds = true
   }
   
-  private let listTitle: UILabel = UILabel().set {
+  private let titleLabel = UILabel().set {
+    typealias Const = Constant.TitleLabel
     $0.translatesAutoresizingMaskIntoConstraints = false
-    $0.text = ""
     $0.numberOfLines = 1
-    $0.textColor = Constant.Title.textColor
-    $0.font = .init(
-      pretendard: Constant.Title.fontName,
-      size: Constant.Title.textSize)
+    $0.textColor = Const.textColor
+    $0.font = .init(pretendard: Const.fontName, size: Const.textSize)
   }
   
-  private var titleText: String?
-  
-  private var innerItemCount: Int?
-  
-  private var titleAndInnerItemCount: String {
-    guard
-      let count = innerItemCount,
-      let titleText = titleText else {
-      return "미정 (00)"
-    }
-    guard count < 10 else {
-      return "\(titleText) (\(count))"
-    }
-    return "\(titleText) (0\(count))"
+  private lazy var titleTextField = UITextField().set {
+    typealias Const = Constant.TitleTextField
+    $0.translatesAutoresizingMaskIntoConstraints = false
+    $0.font = UIFont(pretendard: Const.fontName, size: Const.textSize)
+    $0.textColor = Const.textColor
+    $0.layer.borderWidth = Const.borderWidth
+    $0.layer.borderColor = Const.borderColor.cgColor
+    $0.layer.cornerRadius = 3
+    $0.keyboardType = .default
+    $0.leftView = UIView(frame: .init(x: 0, y: 0, width: 8, height: 0))
+    $0.rightView = UIView(frame: .init(x: 0, y: 0, width: 8, height: 0))
+    $0.leftViewMode = .always
+    $0.rightViewMode = .always
   }
   
-  private let line = OneUnitHeightLine(color: .yg.gray0)
+  private let menuAccessoryView = UIImageView(frame: .zero).set {
+    typealias Const = Constant.MenuAccessoryView
+    $0.translatesAutoresizingMaskIntoConstraints = false
+    $0.image = UIImage(named: Const.iconName)
+    $0.contentMode = .scaleAspectFit
+    $0.alpha = 0
+  }
   
-  // MARK: - Initialization
+  // MARK: - Lifecycle
   override init(
     style: UITableViewCell.CellStyle,
     reuseIdentifier: String?
@@ -81,39 +134,84 @@ final class FavoriteTableViewCell: UITableViewCell {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
     selectionStyle = .none
     setupUI()
-    line.setConstraint(fromSuperView: contentView, spacing: .init())
-    line.setHeight(FavoriteTableView.innerGrayLineHeight)
   }
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
+  
+  override func setEditing(_ editing: Bool, animated: Bool) {
+    if editing {
+      setEditingMode()
+    } else {
+      releaseEditingMode()
+    }
+  }
+  
+  override func prepareForReuse() {
+    super.prepareForReuse()
+    configure(with: nil)
+  }
 }
 
 // MARK: - Helpers
 extension FavoriteTableViewCell {
-  func configure(with data: Model) {
-    setListTitleInfo(
-      withTitle: data.title,
-      withCount: data.innerItemCount)
-    setImageView(with: data.image)
+  func configure(with data: Model?) {
+    let combinedTitle = titleAndInnerItemCount(data?.title, itemCount: data?.innerItemCount)
+    self.titleLabel.text = combinedTitle
+    guard let imageURL = data?.imageURL else {
+      quarterImageView.image = nil
+      return
+    }
+    self.quarterImageView.image = UIImage(named: imageURL)
+    titleTextField.text = data?.title
   }
 }
 
 // MARK: - Private helpers
 private extension FavoriteTableViewCell {
-  func setListTitle(with text: String) {
-      self.listTitle.text = text
+  private func titleAndInnerItemCount(_ title: String?, itemCount: Int?) -> String {
+    return "\(title ?? "미정") (\((itemCount ?? 0).zeroPaddingString))"
   }
   
-  func setImageView(with image: UIImage?) {
-    self.listImageView.image = image
+  private func setEditingMode() {
+    titleTextField.isUserInteractionEnabled = true
+    quarterImageView.isHidden = true
+    titleLabel.isHidden = true
+    titleTextField.isHidden = false
+    contentView.subviews.forEach { subview in
+      UIView.animate(
+        withDuration: 0.37,
+        delay: 0,
+        options: .curveEaseOut,
+        animations: {
+          subview.transform = .init(translationX: Constant.deleteControlWidth, y: 0 )
+        })
+    }
+    UIView.animate(
+      withDuration: 0.27,
+      delay: 0,
+      options: .curveEaseInOut,
+      animations: {
+        self.menuAccessoryView.alpha = 1
+      })
   }
   
-  func setListTitleInfo(withTitle title: String, withCount count: Int) {
-    titleText = title
-    innerItemCount = count
-    setListTitle(with: titleAndInnerItemCount)
+  private func releaseEditingMode() {
+    titleTextField.isUserInteractionEnabled = false
+    quarterImageView.isHidden = false
+    titleLabel.isHidden = false
+    titleTextField.isHidden = true
+    menuAccessoryView.alpha = 0
+    contentView.subviews.forEach { subview in
+      UIView.animate(
+        withDuration: 0.37,
+        delay: 0,
+        options: .curveEaseOut,
+        animations: {
+          subview.transform = .identity
+        })
+    }
   }
 }
 
@@ -121,8 +219,11 @@ private extension FavoriteTableViewCell {
 extension FavoriteTableViewCell: LayoutSupport {
   func addSubviews() {
     _=[
-      listImageView,
-      listTitle
+      quarterImageView,
+      titleLabel,
+      deleteButton,
+      titleTextField,
+      menuAccessoryView
     ].map {
       contentView.addSubview($0)
     }
@@ -130,8 +231,11 @@ extension FavoriteTableViewCell: LayoutSupport {
   
   func setConstraints() {
     _=[
-      listImageViewConstraints,
-      listTitleConstraints
+      quarterImageViewConstraints,
+      titleLabelConstraints,
+      deleteButtonConstraints,
+      titleTextFieldConstraints,
+      menuAccessoryViewConstraints
     ].map {
       NSLayoutConstraint.activate($0)
     }
@@ -140,35 +244,53 @@ extension FavoriteTableViewCell: LayoutSupport {
 
 // MARK: - LayoutSupport constriants
 private extension FavoriteTableViewCell {
-  var listImageViewConstraints: [NSLayoutConstraint] {
-    typealias Const = Constant.ImageView
+  var quarterImageViewConstraints: [NSLayoutConstraint] {
+    typealias Const = Constant.QuarterImageView
     typealias Spacing = Const.Spacing
     return [
-      listImageView.leadingAnchor.constraint(
-        equalTo: contentView.leadingAnchor,
-        constant: Spacing.leading),
-      listImageView.topAnchor.constraint(
-        equalTo: contentView.topAnchor,
-        constant: Spacing.top),
-      listImageView.bottomAnchor.constraint(
-        equalTo: contentView.bottomAnchor,
-        constant: -Spacing.bottom),
-      listImageView.heightAnchor.constraint(
-        equalToConstant: Const.size.height),
-      listImageView.widthAnchor.constraint(
-        equalToConstant: Const.size.width)]
+      quarterImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Spacing.leading),
+      quarterImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+      quarterImageView.heightAnchor.constraint(equalToConstant: Const.size.height),
+      quarterImageView.widthAnchor.constraint(equalToConstant: Const.size.width)]
   }
   
-  var listTitleConstraints: [NSLayoutConstraint] {
-    typealias Spacing = Constant.Title.Spacing
+  var titleLabelConstraints: [NSLayoutConstraint] {
+    typealias Spacing = Constant.TitleLabel.Spacing
     return [
-      listTitle.leadingAnchor.constraint(
-        equalTo: listImageView.trailingAnchor,
-        constant: Spacing.leading),
-      listTitle.centerYAnchor.constraint(
-        equalTo: contentView.centerYAnchor),
-      listTitle.trailingAnchor.constraint(
+      titleLabel.leadingAnchor.constraint(equalTo: quarterImageView.trailingAnchor, constant: Spacing.leading),
+      titleLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+      titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Spacing.trailing)]
+  }
+  
+  var deleteButtonConstraints: [NSLayoutConstraint] {
+    typealias Const = Constant.DeleteButton
+    typealias Spacing = Const.Spacing
+    return [
+      deleteButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: -Const.size.width),
+      deleteButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+      deleteButton.widthAnchor.constraint(equalToConstant: Const.size.width),
+      deleteButton.heightAnchor.constraint(equalToConstant: Const.size.height)]
+  }
+  
+  var titleTextFieldConstraints: [NSLayoutConstraint] {
+    typealias Const = Constant.TitleTextField
+    typealias Spacing = Const.Spacing
+    return [
+      titleTextField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Spacing.leading),
+      titleTextField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Spacing.trailing),
+      titleTextField.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+      titleTextField.heightAnchor.constraint(equalToConstant: Const.height)]
+  }
+  
+  var menuAccessoryViewConstraints: [NSLayoutConstraint] {
+    typealias Const = Constant.MenuAccessoryView
+    typealias Spacing = Const.Spacing
+    return [
+      menuAccessoryView.trailingAnchor.constraint(
         equalTo: contentView.trailingAnchor,
-        constant: -Spacing.trailing)]
+        constant: -Const.Spacing.trailing),
+      menuAccessoryView.widthAnchor.constraint(equalToConstant: Const.size.width),
+      menuAccessoryView.heightAnchor.constraint(equalToConstant: Const.size.height),
+      menuAccessoryView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)]
   }
 }

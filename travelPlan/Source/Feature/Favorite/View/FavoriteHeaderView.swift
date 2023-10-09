@@ -10,15 +10,13 @@ import UIKit
 final class FavoriteHeaderView: UITableViewHeaderFooterView {
   struct Model {
     let categoryCount: Int
-    let images: [UIImage?]
+    let imageURLs: [String?]
   }
   
   enum Constant {
     enum ImageViews {
       enum Spacing {
-        static let leading: CGFloat = 20
-        static let top: CGFloat = 15
-        static let bottom: CGFloat = 16
+        static let leading: CGFloat = 16
       }
       static let size = CGSize(width: 40, height: 40)
     }
@@ -26,7 +24,7 @@ final class FavoriteHeaderView: UITableViewHeaderFooterView {
     enum Title {
       enum Spacing {
         static let leading: CGFloat = 15
-        static let trailing: CGFloat = 43
+        static let trailing: CGFloat = 20
       }
       static let textColor: UIColor = .yg.gray6
       static let fontName: UIFont.Pretendard = .medium
@@ -35,8 +33,7 @@ final class FavoriteHeaderView: UITableViewHeaderFooterView {
   }
 
   // MARK: - Idenrifier
-  static let id: String = String(
-    describing: FavoriteHeaderView.self)
+  static let id: String = String(describing: FavoriteHeaderView.self)
   
   // MARK: - Properties
   private let imageViews = FavoriteHeaderImageViews()
@@ -65,11 +62,12 @@ final class FavoriteHeaderView: UITableViewHeaderFooterView {
     fatalError("init(coder:) has not been implemented")
   }
 }
+
 // MARK: - Helpers
 extension FavoriteHeaderView {
   func configure(with data: Model) {
     setTitle(with: data.categoryCount)
-    setImageViews(with: data.images)
+    setImageViews(with: data.imageURLs)
   }
   
   func updateTotalCount(with count: Int) {
@@ -82,7 +80,7 @@ private extension FavoriteHeaderView {
   func configureUI() {
     setupUI()
     line.setConstraint(fromSuperView: contentView)
-    line.setHeight(FavoriteTableView.innerGrayLineHeight)
+    line.setHeight(0.33)
   }
   
   @MainActor
@@ -96,7 +94,7 @@ private extension FavoriteHeaderView {
   }
   
   @MainActor
-  func setImageViews(with images: [UIImage?]) {
+  func setImageViews(with images: [String?]) {
     imageViews.configure(with: images)
   }
 }
@@ -122,35 +120,23 @@ extension FavoriteHeaderView: LayoutSupport {
   }
 }
 
+// MARK: - LayoutSupport Constraints
 private extension FavoriteHeaderView {
   var imageViewConstraints: [NSLayoutConstraint] {
     typealias Const = Constant.ImageViews
     typealias Spacing = Const.Spacing
     return [
-      imageViews.leadingAnchor.constraint(
-        equalTo: leadingAnchor,
-        constant: Spacing.leading),
-      imageViews.topAnchor.constraint(
-        equalTo: topAnchor,
-        constant: Spacing.top),
-      imageViews.bottomAnchor.constraint(
-        equalTo: bottomAnchor,
-        constant: -Spacing.bottom),
-      imageViews.widthAnchor.constraint(
-        equalToConstant: Const.size.width),
-      imageViews.heightAnchor.constraint(
-        equalToConstant: Const.size.height)]
+      imageViews.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Spacing.leading),
+      imageViews.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+      imageViews.widthAnchor.constraint(equalToConstant: Const.size.width),
+      imageViews.heightAnchor.constraint(equalToConstant: Const.size.height)]
   }
   
   var titleConstraints: [NSLayoutConstraint] {
     typealias Spacing = Constant.Title.Spacing
     return [
-      title.leadingAnchor.constraint(
-        equalTo: imageViews.trailingAnchor,
-        constant: Spacing.leading),
-      title.trailingAnchor.constraint(
-        equalTo: trailingAnchor,
-        constant: -Spacing.trailing),
-      title.centerYAnchor.constraint(equalTo: centerYAnchor)]
+      title.leadingAnchor.constraint(equalTo: imageViews.trailingAnchor, constant: Spacing.leading),
+      title.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Spacing.trailing),
+      title.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)]
   }
 }

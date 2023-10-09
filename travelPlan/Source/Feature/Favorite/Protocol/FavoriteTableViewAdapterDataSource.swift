@@ -10,7 +10,5 @@ import UIKit
 protocol FavoriteTableViewAdapterDataSource: AnyObject {
   var numberOfItems: Int { get }
   var headerItem: FavoriteHeaderView.Model { get }
-  func cellItem(
-    at index: Int
-  ) -> FavoriteTableViewCell.Model
+  func cellItem(at index: Int) -> FavoriteTableViewCell.Model
 }
