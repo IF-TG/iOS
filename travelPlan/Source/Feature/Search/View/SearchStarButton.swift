@@ -8,36 +8,36 @@
 import UIKit
 
 final class SearchStarButton: UIButton {
-  enum NormalType: String {
-    case empty
-    case emptyWithAlpha
+  enum BorderColor: String {
+    case black
+    case white
     
     var imagePath: String {
       switch self {
-      case .empty:
-        return Constants.emptyImageName
-      case .emptyWithAlpha:
-        return Constants.emptyWithAlphaImageName
+      case .black:
+        return Constants.borderBlack
+      case .white:
+        return Constants.borderWhite
       }
     }
   }
   
   enum Constants {
-    static let emptyImageName = "emptyStar"
-    static let emptyWithAlphaImageName = "star-alpha10"
+    static let borderBlack = "emptyStar-border-black"
+    static let borderWhite = "emptyStar-border-white"
     static let selectedImageName = "star-filled"
   }
 
   // MARK: - LifeCycle
-  convenience init(normalType: NormalType) {
+  convenience init(normalType: BorderColor) {
     self.init(frame: .zero, normalType: normalType)
   }
   
   convenience init() {
-    self.init(frame: .zero, normalType: .empty)
+    self.init(frame: .zero, normalType: .black)
   }
   
-  init(frame: CGRect, normalType: NormalType) {
+  init(frame: CGRect, normalType: BorderColor) {
     super.init(frame: frame)
     self.translatesAutoresizingMaskIntoConstraints = false
     setImages(normalType: normalType)
@@ -50,7 +50,7 @@ final class SearchStarButton: UIButton {
 
 // MARK: - Helpers
 extension SearchStarButton {
-  private func setImages(normalType: NormalType) {
+  private func setImages(normalType: BorderColor) {
     setImage(UIImage(named: normalType.imagePath), for: .normal)
     setImage(UIImage(named: Constants.selectedImageName), for: .selected)
   }

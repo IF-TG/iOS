@@ -7,38 +7,40 @@
 
 import Foundation
 
+// Entity
 struct SearchFestivalModel {
   typealias Identifier = Int
   
   let id: Identifier
-  let imageName: String? // Data
+  let imagePath: String? // Data
   let title: String
   let startDate: Date // Date
   let endDate: Date
-  let isSelectedButton: Bool
+  var isSelectedButton: Bool
+  let location: String
 }
 
 // MARK: - Mock
 extension SearchFestivalModel {
   static var mockModels: [SearchFestivalModel] = [
-    .init(
-      id: 1, imageName: "tempThumbnail7", title: "축제1", startDate: Date(), endDate: Date(), isSelectedButton: false),
-    .init(
-      id: 2, imageName: "tempThumbnail7", title: "축제1", startDate: Date(), endDate: Date(), isSelectedButton: false),
-    .init(
-      id: 3, imageName: "tempThumbnail7", title: "축제1", startDate: Date(), endDate: Date(), isSelectedButton: false),
-    .init(
-      id: 4, imageName: "tempThumbnail7", title: "축제1", startDate: Date(), endDate: Date(), isSelectedButton: false),
-    .init(
-      id: 5, imageName: "tempThumbnail7", title: "축제1", startDate: Date(), endDate: Date(), isSelectedButton: false),
-    .init(
-      id: 6, imageName: "tempThumbnail7", title: "축제1", startDate: Date(), endDate: Date(), isSelectedButton: false),
-    .init(
-      id: 7, imageName: "tempThumbnail7", title: "축제1", startDate: Date(), endDate: Date(), isSelectedButton: false),
-    .init(
-      id: 8, imageName: "tempThumbnail7", title: "축제1", startDate: Date(), endDate: Date(), isSelectedButton: false),
-    .init(
-      id: 9, imageName: "tempThumbnail7", title: "축제1", startDate: Date(), endDate: Date(), isSelectedButton: false)
+    .init(id: 1, imagePath: "tempThumbnail1", title: "축제1",
+          startDate: Date(), endDate: Date(), isSelectedButton: false, location: "서울"),
+    .init(id: 2, imagePath: "tempThumbnail2", title: "축제1",
+          startDate: Date(), endDate: Date(), isSelectedButton: false, location: "서울"),
+    .init(id: 3, imagePath: "tempThumbnail3", title: "축제1",
+          startDate: Date(), endDate: Date(), isSelectedButton: false, location: "서울"),
+    .init(id: 4, imagePath: "tempThumbnail4", title: "축제1",
+          startDate: Date(), endDate: Date(), isSelectedButton: false, location: "서울"),
+    .init(id: 5, imagePath: "tempThumbnail5", title: "축제1",
+          startDate: Date(), endDate: Date(), isSelectedButton: false, location: "서울"),
+    .init(id: 6, imagePath: "tempThumbnail6", title: "축제1",
+          startDate: Date(), endDate: Date(), isSelectedButton: false, location: "서울"),
+    .init(id: 7, imagePath: "tempThumbnail7", title: "축제1",
+          startDate: Date(), endDate: Date(), isSelectedButton: false, location: "서울"),
+    .init(id: 8, imagePath: "tempThumbnail8", title: "축제1",
+          startDate: Date(), endDate: Date(), isSelectedButton: false, location: "서울"),
+    .init(id: 9, imagePath: "tempThumbnail9", title: "축제1",
+          startDate: Date(), endDate: Date(), isSelectedButton: false, location: "서울")
   ]
 }
 

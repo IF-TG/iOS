@@ -1,5 +1,5 @@
 //
-//  SearchCompositionalLayout.swift
+//  MainSearchLayoutManager.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 2023/07/20.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SearchCompositionalLayout {
+class MainSearchLayoutManager {
   enum Constants {
     // MARK: - First
     enum Festival {
@@ -56,12 +56,16 @@ class SearchCompositionalLayout {
   }
 }
 
-extension SearchCompositionalLayout: CompositionalLayoutCreatable {
+extension MainSearchLayoutManager: CompositionalLayoutCreatable {
   func makeLayout() -> UICollectionViewCompositionalLayout {
     return UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ in
       switch sectionIndex {
-      case SearchSectionType.festival.rawValue: return self?.festivalSectionLayout()
-      case SearchSectionType.camping.rawValue: return self?.campingSectionLayout()
+      case SearchSectionType.festival.rawValue: 
+        return self?.festivalLayout()
+      case SearchSectionType.camping.rawValue: 
+        return self?.campingLayout()
+      case SearchSectionType.topTen.rawValue:
+        return self?.topTenLayout()
       default: return nil
       }
     }
@@ -69,8 +73,8 @@ extension SearchCompositionalLayout: CompositionalLayoutCreatable {
 }
 
 // MARK: - Helpers
-extension SearchCompositionalLayout {
-  private func festivalSectionLayout() -> NSCollectionLayoutSection {
+extension MainSearchLayoutManager {
+  private func festivalLayout() -> NSCollectionLayoutSection {
     let item = makeLayoutItem(
       fractionalWidth: Constants.Festival.Item.fractionalWidth,
       fractionalHeight: Constants.Festival.Item.fractionalHeight
@@ -97,7 +101,7 @@ extension SearchCompositionalLayout {
     return section
   }
   
-  private func campingSectionLayout() -> NSCollectionLayoutSection {
+  private func campingLayout() -> NSCollectionLayoutSection {
     let item = makeLayoutItem(
       fractionalWidth: Constants.Famous.Item.fractionalWidth,
       fractionalHeight: Constants.Famous.Item.fractionalHeight
@@ -120,6 +124,22 @@ extension SearchCompositionalLayout {
       bottom: Constants.Famous.Section.Inset.bottom,
       trailing: Constants.Famous.Section.Inset.trailing
     )
+    section.boundarySupplementaryItems = [headerLayout()]
+    return section
+  }
+  
+  private func topTenLayout() -> NSCollectionLayoutSection {
+    let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                          heightDimension: .fractionalHeight(1.0))
+    let item = NSCollectionLayoutItem(layoutSize: itemSize)
+    
+    let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                           heightDimension: .absolute(120))
+    let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize,
+                                                 subitems: [item])
+    
+    let section = NSCollectionLayoutSection(group: group)
+    section.contentInsets = .init(top: 0, leading: 16, bottom: 0, trailing: 12)
     section.boundarySupplementaryItems = [headerLayout()]
     return section
   }

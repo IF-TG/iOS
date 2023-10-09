@@ -41,11 +41,11 @@ final class SearchViewController: UIViewController {
   
   private var subscriptions = Set<AnyCancellable>()
   private lazy var input = SearchViewModel.Input()
-  private let compositionalLayout: CompositionalLayoutCreatable = SearchCompositionalLayout()
+  private let compositionalLayoutManager: CompositionalLayoutCreatable = MainSearchLayoutManager()
   
   private lazy var collectionView: UICollectionView = UICollectionView(
     frame: .zero,
-    collectionViewLayout: compositionalLayout.makeLayout()
+    collectionViewLayout: compositionalLayoutManager.makeLayout()
   ).set {
     let tapGesture = UITapGestureRecognizer(
       target: self,
@@ -61,6 +61,8 @@ final class SearchViewController: UIViewController {
                 forCellWithReuseIdentifier: SearchFestivalCell.id)
     $0.register(TravelDestinationCell.self,
                 forCellWithReuseIdentifier: TravelDestinationCell.id)
+    $0.register(SearchTopTenCell.self,
+                forCellWithReuseIdentifier: SearchTopTenCell.id)
     $0.register(TitleWithButtonHeaderView.self,
                 forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                 withReuseIdentifier: TitleWithButtonHeaderView.id)
@@ -215,6 +217,15 @@ extension SearchViewController: UICollectionViewDataSource {
       ) as? TravelDestinationCell else { return .init() }
       
       cell.configure(with: campingViewModels[indexPath.item])
+      return cell
+      
+    case let .topTen(topTenViewModels):
+      guard let cell = collectionView.dequeueReusableCell(
+        withReuseIdentifier: SearchTopTenCell.id,
+        for: indexPath
+      ) as? SearchTopTenCell else { return .init() }
+      
+      cell.configure(with: topTenViewModels[indexPath.item])
       return cell
     }
   }

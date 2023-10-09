@@ -1,32 +1,49 @@
 //
-//  TravelDestinationCell.swift
+//  SearchTopTenCell.swift
 //  travelPlan
 //
-//  Created by SeokHyun on 2023/06/01.
+//  Created by SeokHyun on 10/7/23.
 //
 
 import UIKit
-import SnapKit
 import Combine
+import SnapKit
 
-class TravelDestinationCell: UICollectionViewCell {
-  typealias Input = TravelDestinationCellViewModel.Input
-  typealias ErrorType = TravelDestinationCellViewModel.ErrorType
-  typealias State = TravelDestinationCellViewModel.State
+class SearchTopTenCell: UICollectionViewCell {
+  typealias Input = SearchTopTenCellViewModel.Input
+  typealias ErrorType = SearchTopTenCellViewModel.ErrorType
+  typealias State = SearchTopTenCellViewModel.State
   
   // MARK: - Properties
   static var id: String {
-    return String(describing: self)
+    return String(describing: Self.self)
   }
   
-  private var viewModel: TravelDestinationCellViewModel? {
+  private var viewModel: SearchTopTenCellViewModel? {
     didSet {
       bind()
     }
   }
   
-  private lazy var containerView: BaseDestinationView<LeftAlignThreeLabelsView> 
-  = .init(centerView: LeftAlignThreeLabelsView()).set {
+  private let thumbnailImageView: UIImageView = .init().set {
+    $0.contentMode = .scaleToFill
+  }
+  
+  private let rankingView: UIView = .init().set {
+    $0.layer.cornerRadius = 2
+    $0.backgroundColor = .yg.littleWhite
+    $0.alpha = 0.9
+  }
+  
+  private let rankingNumberLabel: UILabel = .init().set {
+    $0.font = .init(pretendard: .semiBold, size: 16)
+    $0.textColor = .yg.gray5
+  }
+  
+  // TODO: - 순위뷰를 포함하는 이미지뷰를 주입해야 합니다.
+  private lazy var containerView: BaseDestinationView<LeftAlignThreeLabelsView>
+  = .init(centerView: LeftAlignThreeLabelsView(),
+          thumbnailImageView: thumbnailImageView).set {
     $0.delegate = self
   }
   
@@ -48,11 +65,12 @@ class TravelDestinationCell: UICollectionViewCell {
     containerView.clearButtonSelectedState()
     containerView.clearThumbnailImage()
     subscriptions.removeAll()
+    rankingNumberLabel.text = nil
   }
 }
 
 // MARK: - ViewBindCase
-extension TravelDestinationCell: ViewBindCase {
+extension SearchTopTenCell: ViewBindCase {
   func bind() {
     guard let viewModel = self.viewModel else { return }
     
@@ -86,39 +104,51 @@ extension TravelDestinationCell: ViewBindCase {
       print("DEBUG: fatalError occurred")
     case .networkError:
       print("DEBUG: networkError occurred")
-    case .unexpected:
+    case .unexpected: 
       print("DEBUG: unexpected occurred")
     }
   }
 }
 
 // MARK: - StarButtonDelegate
-extension TravelDestinationCell: StarButtonDelegate {
+extension SearchTopTenCell: StarButtonDelegate {
   func didTapStarButton(_ button: UIButton) {
     input.didTapStarButton.send()
   }
 }
 
 // MARK: - Helpers
-extension TravelDestinationCell {
-  func configure(with viewModel: TravelDestinationCellViewModel) {
+extension SearchTopTenCell {
+  func configure(with viewModel: SearchTopTenCellViewModel) {
     self.viewModel = viewModel
     
     containerView.configure(centerModel: viewModel.contentModel)
     containerView.configure(imageURL: viewModel.imagePath,
                             isSelectedButton: viewModel.isSelectedButton)
+    rankingNumberLabel.text = "\(viewModel.ranking)"
   }
 }
 
 // MARK: - LayoutSupport
-extension TravelDestinationCell: LayoutSupport {
+extension SearchTopTenCell: LayoutSupport {
   func addSubviews() {
     contentView.addSubview(containerView)
+    thumbnailImageView.addSubview(rankingView)
+    rankingView.addSubview(rankingNumberLabel)
   }
   
   func setConstraints() {
     containerView.snp.makeConstraints {
       $0.edges.equalTo(contentView)
+    }
+    
+    rankingView.snp.makeConstraints {
+      $0.leading.top.equalToSuperview().inset(8)
+      $0.size.equalTo(20)
+    }
+    
+    rankingNumberLabel.snp.makeConstraints {
+      $0.center.equalToSuperview()
     }
   }
 }

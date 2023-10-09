@@ -1,32 +1,31 @@
 //
-//  TravelDestinationCellViewModel.swift
+//  SearchTopTenCellViewModel.swift
 //  travelPlan
 //
-//  Created by SeokHyun on 2023/07/10.
+//  Created by SeokHyun on 10/8/23.
 //
 
 import Foundation
 import Combine
 
-final class TravelDestinationCellViewModel {
-  typealias Output = AnyPublisher<State, ErrorType>
-
+class SearchTopTenCellViewModel {
+  
   // MARK: - Properties
   let contentModel: LeftAlignThreeLabelsView.Model
   var isSelectedButton: Bool
   let imagePath: String?
   let id: Int
+  let ranking: Int
   
   // MARK: - LifeCycle
-  init(model: TravelDestinationModel) {
-    self.contentModel = LeftAlignThreeLabelsView.Model(
-      place: model.place,
-      category: model.secondText,
-      location: model.thirdText
-    )
+  init(model: SearchTopTenModel) {
+    self.contentModel = LeftAlignThreeLabelsView.Model(place: model.place,
+                                                       category: model.category,
+                                                       location: model.location)
     
     self.isSelectedButton = model.isSelectedButton
     self.imagePath = model.imagePath
+    self.ranking = model.ranking
     self.id = model.id
   }
   
@@ -58,7 +57,7 @@ final class TravelDestinationCellViewModel {
 }
 
 // MARK: - ViewModelCase
-extension TravelDestinationCellViewModel: ViewModelCase {
+extension SearchTopTenCellViewModel: ViewModelCase {
   func transform(_ input: Input) -> Output {
     // 서버 저장 요청 후 응답에 따라 output이 달라집니다.
     return input.didTapStarButton
@@ -75,7 +74,7 @@ extension TravelDestinationCellViewModel: ViewModelCase {
 }
 
 // MARK: - Helpers
-extension TravelDestinationCellViewModel {
+extension SearchTopTenCellViewModel {
   /// 서버에 저장 요청.
   /// 성공 시 UI 변환, 실패 시, 변화 없음
   private func saveButtonState(id: Int) -> Future<State, ErrorType> {
