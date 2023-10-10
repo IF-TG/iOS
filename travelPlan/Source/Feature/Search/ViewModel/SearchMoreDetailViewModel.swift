@@ -33,9 +33,9 @@ final class SearchMoreDetailViewModel {
   
   // MARK: - Properties
   /// festival, camping이 해당 프로퍼티를 공통으로 사용합니다.
-  var travelDestinationCellViewModels: [TravelDestinationCellViewModel]?
-  var topTenCellViewModels: [SearchTopTenCellViewModel]?
-  private (set) var headerInfo: SearchDetailHeaderInfo?
+  private(set) var travelDestinationCellViewModels: [TravelDestinationCellViewModel]?
+  private(set) var topTenCellViewModels: [SearchTopTenCellViewModel]?
+  private(set) var headerInfo: SearchDetailHeaderInfo?
 }
 
 // MARK: - ViewModelCase
