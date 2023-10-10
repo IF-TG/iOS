@@ -22,6 +22,7 @@ final class FavoriteTableViewCell: UITableViewCell {
         static let leading: CGFloat = 14
       }
       static let size: CGSize = .init(width: 20, height: 20)
+      static let iconName = "deleteMinusIcon"
     }
     
     enum QuarterImageView {
@@ -87,7 +88,7 @@ final class FavoriteTableViewCell: UITableViewCell {
   // MARK: - Properties
   private lazy var deleteButton = UIButton(frame: .zero).set {
     $0.translatesAutoresizingMaskIntoConstraints = false
-    $0.setImage(UIImage(named: "deleteMinusIcon"), for: .normal)
+    $0.setImage(UIImage(named: Constant.DeleteButton.iconName), for: .normal)
     $0.addTarget(self, action: #selector(didTapDeleteButton), for: .touchUpInside)
   }
   
@@ -113,7 +114,7 @@ final class FavoriteTableViewCell: UITableViewCell {
     $0.textColor = Const.textColor
     $0.layer.borderWidth = Const.borderWidth
     $0.layer.borderColor = Const.borderColor.cgColor
-    $0.layer.cornerRadius = 3
+    $0.layer.cornerRadius = Const.radius
     $0.isUserInteractionEnabled = true
     let gesture = UITapGestureRecognizer(
       target: self,
