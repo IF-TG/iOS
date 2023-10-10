@@ -171,23 +171,11 @@ private extension FavoriteViewController {
   func configureUI() {
     view.backgroundColor = .white
     navigationController?.navigationBar.backgroundColor = .white
-    setNavigationBarTitle()
-    setNavigationRightBarItem()
-    setNavigationLeftBarItem()
-    setNavigationBarEdgeGrayLine()
-  }
-  
-  func setNavigationBarTitle() {
     navigationItem.titleView = navigationTitleLabel
-  }
-  
-  func setNavigationRightBarItem() {
     navigationItem.rightBarButtonItem = UIBarButtonItem(customView: settingButton)
-  }
-  
-  func setNavigationLeftBarItem() {
     navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
     backButton.isHidden = true
+    setNavigationBarEdgeGrayLine()
   }
   
   func setNavigationBarEdgeGrayLine() {
