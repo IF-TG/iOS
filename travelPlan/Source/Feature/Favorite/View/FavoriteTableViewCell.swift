@@ -160,18 +160,18 @@ extension FavoriteTableViewCell {
   func configure(with data: FavoriteDirectoryEntity?) {
     let combinedTitle = titleAndInnerItemCount(data?.title, itemCount: data?.innerItemCount)
     self.titleLabel.text = combinedTitle
+    editModeTitleLabel.text = data?.title
     guard let imageURL = data?.imageURL else {
       quarterImageView.image = nil
       return
     }
     self.quarterImageView.image = UIImage(named: imageURL)
-    editModeTitleLabel.text = data?.title
   }
 }
 
 // MARK: - Private helpers
 private extension FavoriteTableViewCell {
-  private func titleAndInnerItemCount(_ title: String?, itemCount: Int?) -> String {
+  private func titleAndInnerItemCount(_ title: String?, itemCount: Int?) -> String? {
     return "\(title ?? "미정") (\((itemCount ?? 0).zeroPaddingString))"
   }
   
