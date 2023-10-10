@@ -232,11 +232,13 @@ private extension FavoriteViewController {
         self.headerView?.alpha = 1
       }, completion: { _ in
         // FIXME: - 잠재적오류는 세팅눌렀다 뒤로가기 빠르게하면 이거 호출됨 EXC_BAD_ACCESS
+        // 그래서 설정 -> 취소누를 때 애니메이션 때까지는 설정 모드 들어가야하는거 막아야함
         completion?()
       })
   }
 }
 
+// MARK: - ViewBindCase
 extension FavoriteViewController: ViewBindCase {
   typealias Input = FavoriteViewInput
   
@@ -282,11 +284,9 @@ extension FavoriteViewController {
     if !settingButton.isSelected {
       settingButton.isSelected.toggle()
       navigationItem.rightBarButtonItem?.customView = folderPlusButton
-      
       favoriteTableView.setEditing(!isEditingTableView, animated: true)
       setEditingMode()
     }
-
   }
   
   @objc private func didTapBackButton(_ completion: (() -> Void)? = nil) {
