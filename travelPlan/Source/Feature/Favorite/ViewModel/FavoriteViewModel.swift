@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Combine
 
 // 임시
 struct FavoriteHeaderDirectoryEntity {
@@ -41,12 +42,69 @@ extension FavoriteViewModel: FavoriteTableViewAdapterDataSource {
     favoriteDirectories.count
   }
   
-  var headerItem: FavoriteHeaderView.Model {
-    return .init(categoryCount: headerDirectory.categoryCount, imageURLs: headerDirectory.imageURLs)
+  var headerItem: FavoriteHeaderDirectoryEntity {
+    return headerDirectory
   }
   
-  func cellItem(at index: Int) -> FavoriteTableViewCell.Model {
-    let item = favoriteDirectories[index]
-    return .init(title: item.title, innerItemCount: item.innerItemCount, imageURL: item.imageURL)
+  func cellItem(at index: Int) -> FavoriteDirectoryEntity {
+    return favoriteDirectories[index]
+  }
+}
+
+// MARK: - FavoriteViewModelable
+extension FavoriteViewModel: FavoriteViewModelable {
+  func transform(_ input: Input) -> AnyPublisher<State, Never> {
+    return Publishers.MergeMany([
+      appearStream(input),
+      detailPageStream(input),
+      directoryNameSettingPageStream(input),
+      didTapNewDirectoryStream(input),
+      newDirectoryStream(input)
+    ]).eraseToAnyPublisher()
+  }
+  
+  private func appearStream(_ input: Input) -> Output {
+    return input.appear
+      .map {
+        return .none
+      }.eraseToAnyPublisher()
+  }
+  
+  private func detailPageStream(_ input: Input) -> Output {
+    return input.detailPage
+      .map { indexPath -> State in
+        // TODO: - 세부 디렉터리 식별자 키 찾아서 전송해야합니다.
+        print("무야호")
+        return .showDetailPage(indexPath)
+      }.eraseToAnyPublisher()
+  }
+  
+  private func directoryNameSettingPageStream(_ input: Input) -> Output {
+    return input.directoryNameSettingPage
+      .map {  indexPath -> State in
+        return .none
+      }.eraseToAnyPublisher()
+  }
+  
+  private func didTapNewDirectoryStream(_ input: Input) -> Output {
+    return input.didTapNewDirectory
+      .map {
+        return .showNewDirectoryCreationPage
+      }.eraseToAnyPublisher()
+  }
+  
+  private func newDirectoryStream(_ input: Input) -> Output {
+    return input.newDirectory
+      .compactMap { $0 }
+      .map { [weak self] title in
+        let newDirectory = FavoriteDirectoryEntity(
+          id: 0,
+          title: title,
+          innerItemCount: 0,
+          imageURL: nil)
+        self?.favoriteDirectories.append(newDirectory)
+        let indexPath = IndexPath(item: (self?.favoriteDirectories.count ?? 1)-1, section: 0)
+        return .newDirectory(indexPath)
+      }.eraseToAnyPublisher()
   }
 }
