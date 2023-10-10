@@ -14,12 +14,12 @@ protocol FavoriteDirectorySettingViewDelegate: AnyObject, BottomSheetViewDelegat
     didTapOkButton: UIButton)
 }
 
-final class FavoriteDirectorySettingView: BottomSheetView {
+final class FavoriteDirectorySettingView: UIView {
   enum Constant {
     static let minimumTextLength = 1
     static let maximumTextLength = 15
     static let radius: CGFloat = 25
-
+    
     enum TitleLabel {
       static let font = UIFont(pretendard: .medium, size: 16)!
       static let textColor: UIColor = .yg.gray7
@@ -61,6 +61,10 @@ final class FavoriteDirectorySettingView: BottomSheetView {
   
   private let searchBar = SearchWithCancelView(frame: .zero)
   
+  var text: String? {
+    searchBar.text
+  }
+  
   private var editingState: SearchWithCancelView.EditingState {
     searchBar.editingState
   }
@@ -71,39 +75,30 @@ final class FavoriteDirectorySettingView: BottomSheetView {
   
   weak var delegate: FavoriteDirectorySettingViewDelegate?
   
-  override var baseDelegate: BottomSheetViewDelegate? {
-    get {
-      return delegate
-    } set {
-      delegate = newValue as? FavoriteDirectorySettingViewDelegate
-    }
-  }
-  
   private var subscription: AnyCancellable?
   
   override var intrinsicContentSize: CGSize {
     typealias TitleLabel = Constant.TitleLabel
     typealias SearchBar = Constant.SearchBar
     typealias OkButton = Constant.OkButton
-    let superViewIntrinsicHeight = BottomSheetView.Constants.TopView.height
     let titleHeightAndTopSpacing = TitleLabel.font.lineHeight + TitleLabel.Spacing.top
     let searchBarHeightAndTopSpacing = SearchWithCancelView.Constant.height + SearchBar.Spacing.top
     let okButtonHeightAndTopBottomSpacing = OkButton.height + OkButton.Spacing.top + OkButton.Spacing.bottom
     return .init(
       width: 150,
       height: (
-        superViewIntrinsicHeight
-        + titleHeightAndTopSpacing
+        titleHeightAndTopSpacing
         + searchBarHeightAndTopSpacing
         + okButtonHeightAndTopBottomSpacing))
   }
   
   // MARK: - Lifecycle
   init(title: String) {
-    super.init(radius: Constant.radius)
+    super.init(frame: .zero)
     titleLabel.text = title
+    titleLabel.sizeToFit()
     translatesAutoresizingMaskIntoConstraints = false
-    configureContentView()
+    setupUI()
     backgroundColor = .white
     bind()
   }
@@ -112,7 +107,7 @@ final class FavoriteDirectorySettingView: BottomSheetView {
     super.init(coder: coder)
     titleLabel.text = "Setting"
     translatesAutoresizingMaskIntoConstraints = false
-    configureContentView()
+    setupUI()
     backgroundColor = .white
     bind()
   }
@@ -173,56 +168,60 @@ private extension FavoriteDirectorySettingView {
     okButton.currentState = .selected
     okButton.isUserInteractionEnabled = true
   }
-  
-  func configureContentView() {
-    setContentView(.init(frame: .zero).set { contentView in
-      contentView.translatesAutoresizingMaskIntoConstraints = false
-      _=[
-        titleLabel,
-        searchBar,
-        okButton
-      ].map {
-        contentView.addSubview($0)
-      }
-      
-      _=[
-        setTitleLabelConstraints(with: contentView),
-        setSearchBarCosntraints(with: contentView),
-        setOkButtonConstraints(with: contentView)
-      ].map {
-        NSLayoutConstraint.activate($0)
-      }
-    })
+}
+
+// MARK: - LayoutSupport
+extension FavoriteDirectorySettingView: LayoutSupport {
+  func addSubviews() {
+    _=[
+      titleLabel,
+      searchBar,
+      okButton
+    ].map {
+      addSubview($0)
+    }
   }
   
-  // MARK: - Layout
-  func setTitleLabelConstraints(with contentView: UIView) -> [NSLayoutConstraint] {
+  func setConstraints() {
+    _=[
+      setTitleLabelConstraints,
+      setSearchBarCosntraints,
+      setOkButtonConstraints
+    ].map {
+      NSLayoutConstraint.activate($0)
+    }
+  }
+}
+
+// MARK: - LayoutSupport Constraints
+private extension FavoriteDirectorySettingView {
+  var setTitleLabelConstraints: [NSLayoutConstraint] {
     typealias Const = Constant.TitleLabel
     typealias Spacing = Const.Spacing
     return [
-      titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Spacing.leading),
-      titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Spacing.trailing),
-      titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Spacing.top)
+      titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Spacing.leading),
+      titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Spacing.trailing),
+      titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: Spacing.top)
     ]
   }
   
-  func setSearchBarCosntraints(with contentView: UIView) -> [NSLayoutConstraint] {
+  var setSearchBarCosntraints: [NSLayoutConstraint] {
     typealias Const = Constant.SearchBar
     typealias Spacing = Const.Spacing
     return [
-      searchBar.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Spacing.leading),
+      searchBar.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Spacing.leading),
       searchBar.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: Spacing.top),
-      searchBar.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Spacing.trailing)]
+      searchBar.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Spacing.trailing)]
   }
   
-  func setOkButtonConstraints(with contentView: UIView) -> [NSLayoutConstraint] {
+  var setOkButtonConstraints: [NSLayoutConstraint] {
     typealias Const = Constant.OkButton
     typealias Spacing = Const.Spacing
     return [
-      okButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Spacing.leading),
-      okButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Spacing.trailing),
+      okButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Spacing.leading),
+      okButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Spacing.trailing),
       okButton.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: Spacing.top),
       okButton.heightAnchor.constraint(equalToConstant: Const.height),
-      okButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Spacing.bottom)]
+      okButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Spacing.bottom)]
   }
 }
