@@ -211,6 +211,7 @@
 		15FFABFD2AD5C75A0013DB57 /* FavoriteTableViewCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFABFC2AD5C75A0013DB57 /* FavoriteTableViewCellDelegate.swift */; };
 		15FFABFF2AD5D57B0013DB57 /* FavoriteCellInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFABFE2AD5D57B0013DB57 /* FavoriteCellInfo.swift */; };
 		15FFAC012AD5D6710013DB57 /* FavoriteDirectorySettingViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFAC002AD5D6710013DB57 /* FavoriteDirectorySettingViewDelegate.swift */; };
+		15FFAC032AD5D98A0013DB57 /* FavoriteCoordinatorDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFAC022AD5D98A0013DB57 /* FavoriteCoordinatorDelegate.swift */; };
 		8B8277C1D53D2763DBC91C26 /* Pods_travelPlan.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5093F957BE61B8938FD9727 /* Pods_travelPlan.framework */; };
 /* End PBXBuildFile section */
 
@@ -440,6 +441,7 @@
 		15FFABFC2AD5C75A0013DB57 /* FavoriteTableViewCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteTableViewCellDelegate.swift; sourceTree = "<group>"; };
 		15FFABFE2AD5D57B0013DB57 /* FavoriteCellInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteCellInfo.swift; sourceTree = "<group>"; };
 		15FFAC002AD5D6710013DB57 /* FavoriteDirectorySettingViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteDirectorySettingViewDelegate.swift; sourceTree = "<group>"; };
+		15FFAC022AD5D98A0013DB57 /* FavoriteCoordinatorDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteCoordinatorDelegate.swift; sourceTree = "<group>"; };
 		95C1136D7650708D46BBF977 /* Pods-travelPlan.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-travelPlan.release.xcconfig"; path = "Target Support Files/Pods-travelPlan/Pods-travelPlan.release.xcconfig"; sourceTree = "<group>"; };
 		B40897DD36F55524D37767A7 /* Pods-travelPlan.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-travelPlan.debug.xcconfig"; path = "Target Support Files/Pods-travelPlan/Pods-travelPlan.debug.xcconfig"; sourceTree = "<group>"; };
 		D5093F957BE61B8938FD9727 /* Pods_travelPlan.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_travelPlan.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -732,6 +734,7 @@
 				15D867CC2AD4003E00F35811 /* FavoriteViewModelable.swift */,
 				15FFABFC2AD5C75A0013DB57 /* FavoriteTableViewCellDelegate.swift */,
 				15FFAC002AD5D6710013DB57 /* FavoriteDirectorySettingViewDelegate.swift */,
+				15FFAC022AD5D98A0013DB57 /* FavoriteCoordinatorDelegate.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -1657,6 +1660,7 @@
 				15FB47D72AC0407D0033AA18 /* FeedPostSearchFilterInfo.swift in Sources */,
 				157ADCA82ACFFFE100D37680 /* FavoritePostViewDelegate.swift in Sources */,
 				157176782A0C21C90015EC8C /* UIColor+AppPalette.swift in Sources */,
+				15FFAC032AD5D98A0013DB57 /* FavoriteCoordinatorDelegate.swift in Sources */,
 				1503F92E2A4E083C002BC38D /* LoginCoordinator.swift in Sources */,
 				152AD51E2A1A04E5008A2A11 /* FavoriteTableViewAdapterDataSource.swift in Sources */,
 				13300FAA2AC0812900952757 /* StarButtonDelegate.swift in Sources */,
