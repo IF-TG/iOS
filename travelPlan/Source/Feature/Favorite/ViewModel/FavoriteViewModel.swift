@@ -60,7 +60,8 @@ extension FavoriteViewModel: FavoriteViewModelable {
       changeDirectoryNameStream(input),
       didTapNewDirectoryStream(input),
       newDirectoryStream(input),
-      directoryNameSettingPageStream(input)
+      directoryNameSettingPageStream(input),
+      deleteDirectoryStream(input)
     ]).eraseToAnyPublisher()
   }
   
@@ -115,6 +116,14 @@ extension FavoriteViewModel: FavoriteViewModelable {
     return input.directoryNameSettingPage
       .map { indexPath -> State in
         return .showDirectoryNameSettingPage(indexPath.row)
+      }.eraseToAnyPublisher()
+  }
+  
+  private func deleteDirectoryStream(_ input: Input) -> Output {
+    return input.deleteDirectory
+      .map { [weak self] indexPath -> State in
+        self?.favoriteDirectories.remove(at: indexPath.row)
+        return .deleteDirectory(indexPath)
       }.eraseToAnyPublisher()
   }
 }

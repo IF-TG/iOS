@@ -15,6 +15,7 @@ struct FavoriteViewInput {
   let didTapNewDirectory: PassthroughSubject<Void, Never> = .init()
   let directoryNameSettingPage: PassthroughSubject<IndexPath, Never> = .init()
   let addNewDirectory: PassthroughSubject<String?, Never> = .init()
+  let deleteDirectory: PassthroughSubject<IndexPath, Never> = .init()
 }
 
 enum FavoriteViewState {
@@ -26,6 +27,7 @@ enum FavoriteViewState {
   case showNewDirectoryCreationPage
   case showDirectoryNameSettingPage(Int)
   case newDirectory(IndexPath)
+  case deleteDirectory(IndexPath)
 }
 
 class FavoriteViewController: UIViewController {
@@ -268,6 +270,10 @@ extension FavoriteViewController: ViewBindCase {
       }
     case .showDirectoryNameSettingPage(let index):
       coordinator?.showDirectoryNameSettingPage(with: index)
+    case .deleteDirectory(let indexPath):
+      setListMode {
+        self.favoriteTableView.deleteRows(at: [indexPath], with: .fade)
+      }
     }
   }
   
@@ -307,5 +313,7 @@ extension FavoriteViewController: FavoriteTableViewAdapterDelegate {
   }
   
   func tableViewCell(_ cell: FavoriteTableViewCell, didtapDeleteButton: UIButton) {
+    guard let indexPath = favoriteTableView.indexPath(for: cell) else { return }
+    input.deleteDirectory.send(indexPath)
   }
 }
