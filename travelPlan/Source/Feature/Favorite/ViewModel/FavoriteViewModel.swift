@@ -46,8 +46,9 @@ extension FavoriteViewModel: FavoriteTableViewAdapterDataSource {
     return headerDirectory
   }
   
-  func cellItem(at index: Int) -> FavoriteDirectoryEntity {
-    return favoriteDirectories[index]
+  func cellItem(at index: Int) -> FavoriteCellInfo {
+    let item = favoriteDirectories[index]
+    return FavoriteCellInfo(title: item.title, innerItemCount: item.innerItemCount, imageURL: item.imageURL)
   }
 }
 
