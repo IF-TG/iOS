@@ -50,8 +50,8 @@ final class FavoriteDirectorySettingView: UIView {
   }
   
   enum SettingType: String {
-    case name = "폴더 추가"
-    case newDirectory = "변경"
+    case name = "변경"
+    case newDirectory = "폴더 추가"
   }
   
   // MARK: - Properties
