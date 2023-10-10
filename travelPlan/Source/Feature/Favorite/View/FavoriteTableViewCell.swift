@@ -9,12 +9,6 @@ import UIKit
 
 // TODO: - 메뉴버튼 클릭시 우선순위 교체 로직 추가해야합니다.
 final class FavoriteTableViewCell: UITableViewCell {
-  struct Model {
-    let title: String
-    let innerItemCount: Int
-    let imageURL: String?
-  }
-  
   enum Constant {
     static let deleteControlWidth = FavoriteViewController.Constant.deleteControlWidth
     enum DeleteButton {
@@ -24,14 +18,12 @@ final class FavoriteTableViewCell: UITableViewCell {
       static let size: CGSize = .init(width: 20, height: 20)
       static let iconName = "deleteMinusIcon"
     }
-    
     enum QuarterImageView {
       enum Spacing {
         static let leading: CGFloat = 16
       }
       static let size = CGSize(width: 40, height: 40)
     }
-    
     enum TitleLabel {
       enum Spacing {
         static let leading: CGFloat = 15
@@ -41,7 +33,6 @@ final class FavoriteTableViewCell: UITableViewCell {
       static let fontName: UIFont.Pretendard = .medium
       static let textSize: CGFloat = 15.0
     }
-    
     enum EditModeTitleLabel {
       static let padding: UIEdgeInsets = .init(top: 0, left: 8, bottom: 0, right: 8)
       enum Spacing {
@@ -64,7 +55,6 @@ final class FavoriteTableViewCell: UITableViewCell {
       static let borderColor: UIColor = .yg.gray3
       static let radius: CGFloat = 3
     }
-    
     enum MenuAccessoryView {
       static let iconName = "cellMenuAccessory"
       static let size: CGSize = .init(width: 24, height: 24)
@@ -83,7 +73,7 @@ final class FavoriteTableViewCell: UITableViewCell {
   }
   
   // MARK: - Identifier
-  static let id: String = String(describing: PostCell.self)
+  static let id: String = String(describing: FavoriteTableViewCell.self)
 
   // MARK: - Properties
   private lazy var deleteButton = UIButton(frame: .zero).set {
@@ -162,7 +152,7 @@ final class FavoriteTableViewCell: UITableViewCell {
 
 // MARK: - Helpers
 extension FavoriteTableViewCell {
-  func configure(with data: FavoriteDirectoryEntity?) {
+  func configure(with data: FavoriteCellInfo?) {
     let combinedTitle = titleAndInnerItemCount(data?.title, itemCount: data?.innerItemCount)
     self.titleLabel.text = combinedTitle
     editModeTitleLabel.text = data?.title

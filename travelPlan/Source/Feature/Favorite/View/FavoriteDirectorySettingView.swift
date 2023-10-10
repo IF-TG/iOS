@@ -8,18 +8,11 @@
 import UIKit
 import Combine
 
-protocol FavoriteDirectorySettingViewDelegate: AnyObject, BottomSheetViewDelegate {
-  func favoriteDirectorySettingView(
-    _ settingView: FavoriteDirectorySettingView,
-    didTapOkButton: UIButton)
-}
-
 final class FavoriteDirectorySettingView: UIView {
   enum Constant {
     static let minimumTextLength = 1
     static let maximumTextLength = 15
     static let radius: CGFloat = 25
-    
     enum TitleLabel {
       static let font = UIFont(pretendard: .medium, size: 16)!
       static let textColor: UIColor = .yg.gray7
@@ -29,7 +22,6 @@ final class FavoriteDirectorySettingView: UIView {
         static let trailing = leading
       }
     }
-    
     enum SearchBar {
       enum Spacing {
         static let top: CGFloat = 35
@@ -37,7 +29,6 @@ final class FavoriteDirectorySettingView: UIView {
         static let trailing = leading
       }
     }
-    
     enum OkButton {
       static let height: CGFloat = 39
       enum Spacing {

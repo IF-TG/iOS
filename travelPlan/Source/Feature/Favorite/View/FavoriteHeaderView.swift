@@ -9,6 +9,7 @@ import UIKit
 
 final class FavoriteHeaderView: UITableViewHeaderFooterView {
   enum Constant {
+    static let navigationBarDividerHeight: CGFloat = 0.33
     enum ImageViews {
       enum Spacing {
         static let leading: CGFloat = 16
@@ -75,7 +76,7 @@ private extension FavoriteHeaderView {
   func configureUI() {
     setupUI()
     line.setConstraint(fromSuperView: contentView)
-    line.setHeight(0.33)
+    line.setHeight(Constant.navigationBarDividerHeight)
   }
   
   @MainActor
