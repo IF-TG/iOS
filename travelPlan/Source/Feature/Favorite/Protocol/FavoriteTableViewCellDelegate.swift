@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol FavoriteTableViewCellDelegate {
+protocol FavoriteTableViewCellDelegate: AnyObject {
   func favoriteTableViewCell(_ cell: FavoriteTableViewCell, touchUpDirectoryLabel: UILabel)
   func favoriteTableViewCell(_ cell: FavoriteTableViewCell, touchUpDeleteButton: UIButton)
 }
