@@ -207,6 +207,8 @@
 		15FEB5EA2A050A99000A5F33 /* UIColor+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FEB5E02A050A99000A5F33 /* UIColor+.swift */; };
 		15FEB5EC2A050A99000A5F33 /* ViewModelProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FEB5E32A050A99000A5F33 /* ViewModelProtocols.swift */; };
 		15FEB5ED2A050A99000A5F33 /* LayoutSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FEB5E42A050A99000A5F33 /* LayoutSupport.swift */; };
+		15FFABFB2AD5B6FC0013DB57 /* BasePaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFABFA2AD5B6FC0013DB57 /* BasePaddingLabel.swift */; };
+		15FFABFD2AD5C75A0013DB57 /* FavoriteTableViewCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFABFC2AD5C75A0013DB57 /* FavoriteTableViewCellDelegate.swift */; };
 		8B8277C1D53D2763DBC91C26 /* Pods_travelPlan.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5093F957BE61B8938FD9727 /* Pods_travelPlan.framework */; };
 /* End PBXBuildFile section */
 
@@ -432,6 +434,8 @@
 		15FEB5E22A050A99000A5F33 /* ConvenienceInit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConvenienceInit.swift; sourceTree = "<group>"; };
 		15FEB5E32A050A99000A5F33 /* ViewModelProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewModelProtocols.swift; sourceTree = "<group>"; };
 		15FEB5E42A050A99000A5F33 /* LayoutSupport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LayoutSupport.swift; sourceTree = "<group>"; };
+		15FFABFA2AD5B6FC0013DB57 /* BasePaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasePaddingLabel.swift; sourceTree = "<group>"; };
+		15FFABFC2AD5C75A0013DB57 /* FavoriteTableViewCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteTableViewCellDelegate.swift; sourceTree = "<group>"; };
 		95C1136D7650708D46BBF977 /* Pods-travelPlan.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-travelPlan.release.xcconfig"; path = "Target Support Files/Pods-travelPlan/Pods-travelPlan.release.xcconfig"; sourceTree = "<group>"; };
 		B40897DD36F55524D37767A7 /* Pods-travelPlan.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-travelPlan.debug.xcconfig"; path = "Target Support Files/Pods-travelPlan/Pods-travelPlan.debug.xcconfig"; sourceTree = "<group>"; };
 		D5093F957BE61B8938FD9727 /* Pods_travelPlan.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_travelPlan.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -721,6 +725,7 @@
 				157ADCA72ACFFFE100D37680 /* FavoritePostViewDelegate.swift */,
 				157ADCAB2AD008EE00D37680 /* FavoriteDetailMenuViewConfigurable.swift */,
 				15D867CC2AD4003E00F35811 /* FavoriteViewModelable.swift */,
+				15FFABFC2AD5C75A0013DB57 /* FavoriteTableViewCellDelegate.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -828,6 +833,7 @@
 				15FC90D52ACC1BB50033A1E5 /* PrimaryColorToneRoundButton.swift */,
 				15DA4C822ACD821F003A7900 /* EmptyStateView.swift */,
 				157ADCB32AD07ED600D37680 /* SearchWithCancelView.swift */,
+				15FFABFA2AD5B6FC0013DB57 /* BasePaddingLabel.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1615,6 +1621,7 @@
 				157ADC9E2ACFAAFA00D37680 /* FavoritePostViewAdapter.swift in Sources */,
 				15C83F8A2AB2134D00DDB536 /* BottomSheetView.swift in Sources */,
 				1503F92B2A4E068E002BC38D /* ApplicationCoordinator.swift in Sources */,
+				15FFABFB2AD5B6FC0013DB57 /* BasePaddingLabel.swift in Sources */,
 				15259DE92ACAA98F00C14F62 /* TravelDestinationCellViewModel.swift in Sources */,
 				15EB39E62AC303C90025FFB4 /* BaseProfileAreaView.swift in Sources */,
 				13813A212AAA458000AF6AEB /* PostSearchCollectionViewDataSource.swift in Sources */,
@@ -1749,6 +1756,7 @@
 				131A11062AB4CD1A007BDD66 /* SearchMoreDetailViewController.swift in Sources */,
 				15CB23632A10B600003EAF20 /* DateValidationError.swift in Sources */,
 				15FEB5EA2A050A99000A5F33 /* UIColor+.swift in Sources */,
+				15FFABFD2AD5C75A0013DB57 /* FavoriteTableViewCellDelegate.swift in Sources */,
 				13A93EF92AD1CA0200FC4BBD /* SearchTopTenCellViewModel.swift in Sources */,
 				13606E982AA4F26500365F20 /* DefaultPostSearchLayout.swift in Sources */,
 				15FB47EE2AC176FD0033AA18 /* UISpacing.swift in Sources */,
