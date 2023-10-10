@@ -295,13 +295,17 @@ extension FavoriteViewController {
 }
 
 // MARK: - FavoriteTableViewAdapterDelegate
-extension FavoriteViewController: FavoriteTableViewAdapterDelegate {  
+extension FavoriteViewController: FavoriteTableViewAdapterDelegate {
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    guard let cell = tableView.cellForRow(at: indexPath) else { return }
-    guard cell.isEditing else {
-      input.detailPage.send(indexPath)
-      return
-    }
+    input.detailPage.send(indexPath)
+  }
+  
+  func tableViewCell(_ cell: FavoriteTableViewCell, didTapEditModeTitle title: String?) {
+    guard let indexPath = favoriteTableView.indexPath(for: cell) else { return }
+    // 원하면 placeholder에 현제 텍스트 추가할 수 있음.
     input.directoryNameSettingPage.send(indexPath)
+  }
+  
+  func tableViewCell(_ cell: FavoriteTableViewCell, didtapDeleteButton: UIButton) {
   }
 }
