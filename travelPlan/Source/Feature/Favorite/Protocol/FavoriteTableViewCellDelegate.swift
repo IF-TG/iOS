@@ -8,6 +8,6 @@
 import UIKit
 
 protocol FavoriteTableViewCellDelegate: AnyObject {
-  func favoriteTableViewCell(_ cell: FavoriteTableViewCell, touchUpDirectoryLabel: UILabel)
+  func favoriteTableViewCell(_ cell: FavoriteTableViewCell, touchUpEditModeTitleLabel: UILabel)
   func favoriteTableViewCell(_ cell: FavoriteTableViewCell, touchUpDeleteButton: UIButton)
 }
