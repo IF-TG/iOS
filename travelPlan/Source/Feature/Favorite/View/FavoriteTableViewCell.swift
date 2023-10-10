@@ -117,7 +117,7 @@ final class FavoriteTableViewCell: UITableViewCell {
     $0.isUserInteractionEnabled = true
     let gesture = UITapGestureRecognizer(
       target: self,
-      action: #selector(didTapTitleTextField))
+      action: #selector(didTapEditModeTitleLabel))
     $0.addGestureRecognizer(gesture)
   }
   
@@ -220,8 +220,8 @@ private extension FavoriteTableViewCell {
 
 // MARK: - Action
 extension FavoriteTableViewCell {
-  @objc func didTapTitleTextField() {
-    delegate?.favoriteTableViewCell(self, touchUpDirectoryLabel: editModeTitleLabel)
+  @objc func didTapEditModeTitleLabel() {
+    delegate?.favoriteTableViewCell(self, touchUpEditModeTitleLabel: editModeTitleLabel)
   }
   
   @objc func didTapDeleteButton() {
