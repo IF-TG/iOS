@@ -154,7 +154,7 @@ extension SearchWithCancelView {
       })
   }
   
-  func setTextFieldInputAccessory(_ view: UIView) {
+  func setTextFieldInputAccessory(_ view: UIView?) {
     textField.inputAccessoryView = view
   }
   
