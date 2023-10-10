@@ -11,18 +11,20 @@ import Combine
 struct FavoriteViewInput {
   let appear: PassthroughSubject<Void, Never> = .init()
   let detailPage: PassthroughSubject<IndexPath, Never> = .init()
-  let directoryNameSettingPage: PassthroughSubject<IndexPath, Never> = .init()
+  let updateDirectoryName: PassthroughSubject<(title: String, Int: Int), Never> = .init()
   let didTapNewDirectory: PassthroughSubject<Void, Never> = .init()
-  let newDirectory: PassthroughSubject<String?, Never> = .init()
+  let directoryNameSettingPage: PassthroughSubject<IndexPath, Never> = .init()
+  let addNewDirectory: PassthroughSubject<String?, Never> = .init()
 }
 
 enum FavoriteViewState {
   case none
   // TODO: - 인덱스페스나 디렉터리를 식별하는 식별자를 반환해서 이동해야합니다.
   case showDetailPage(IndexPath)
-  case updateDirecrotyName(IndexPath)
+  case updatedDirecrotyName(IndexPath)
   case notUpdateDirectoryName
   case showNewDirectoryCreationPage
+  case showDirectoryNameSettingPage(Int)
   case newDirectory(IndexPath)
 }
 
@@ -124,8 +126,6 @@ class FavoriteViewController: UIViewController {
   
   private let input = FavoriteViewInput()
   
-  let newFolder: PassthroughSubject<String?, Never> = .init()
-  
   // MARK: - Lifecycle
   init(viewModel: any FavoriteViewModelable & FavoriteTableViewAdapterDataSource) {
     self.viewModel = viewModel
@@ -160,9 +160,14 @@ class FavoriteViewController: UIViewController {
   }
 }
 
+// MARK: - Helpers
 extension FavoriteViewController {
-  func makeANewDirectory(with title: String?) {
-    input.newDirectory.send(title)
+  func makeNewDirectory(with title: String?) {
+    input.addNewDirectory.send(title)
+  }
+  
+  func updateDirectoryName(title: String, index: Int) {
+    input.updateDirectoryName.send((title, index))
   }
 }
 
@@ -205,7 +210,8 @@ private extension FavoriteViewController {
       })
   }
   
-  func setNotEditingMode(_ completion: (() -> Void)? = nil) {
+  func setListMode(_ completion: (() -> Void)? = nil) {
+    navigationItem.rightBarButtonItem?.customView = settingButton
     navigationTitleLabel.text = "찜 목록"
     backButton.isHidden = true
     settingButton.isSelected.toggle()
@@ -219,19 +225,20 @@ private extension FavoriteViewController {
         self.headerView?.center.x = self.originHeaderCenterX
         self.headerView?.alpha = 1
       }, completion: { _ in
-        // FIXME: - 잠재적오류는 세팅눌렀다 뒤로가기 빠르게하면 이거 호출됨 EXC_BAD_ACCESS
-        // 그래서 설정 -> 취소누를 때 애니메이션 때까지는 설정 모드 들어가야하는거 막아야함
         completion?()
       })
+  }
+  
+  func setFavoriteTableView(with indexPath: IndexPath) {
+    favoriteTableView.reloadData()
+    favoriteTableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
   }
 }
 
 // MARK: - ViewBindCase
 extension FavoriteViewController: ViewBindCase {
   typealias Input = FavoriteViewInput
-  
   typealias ErrorType = Error
-  
   typealias State = FavoriteViewState
   
   func bind() {
@@ -246,20 +253,21 @@ extension FavoriteViewController: ViewBindCase {
     case .none:
       break
     case .newDirectory(let indexPath):
-      // TODO: - 새로 리로드하면서 설정 화면 나가기
-      didTapBackButton { [weak self] in
-        self?.favoriteTableView.reloadData()
-        self?.favoriteTableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+      setListMode { [weak self] in
+        self?.setFavoriteTableView(with: indexPath)
       }
-      return
     case .showNewDirectoryCreationPage:
       coordinator?.showNewDirectoryCreationPage()
     case .notUpdateDirectoryName:
       didTapBackButton()
     case .showDetailPage(let indexPath):
       coordinator?.showDetailPage(with: indexPath.row)
-    case .updateDirecrotyName(let indexPath):
-      print(indexPath)
+    case .updatedDirecrotyName(let indexPath):
+      setListMode { [weak self] in
+        self?.setFavoriteTableView(with: indexPath)
+      }
+    case .showDirectoryNameSettingPage(let index):
+      coordinator?.showDirectoryNameSettingPage(with: index)
     }
   }
   
@@ -277,9 +285,8 @@ extension FavoriteViewController {
     }
   }
   
-  @objc private func didTapBackButton(_ completion: (() -> Void)? = nil) {
-    navigationItem.rightBarButtonItem?.customView = settingButton
-    setNotEditingMode(completion)
+  @objc private func didTapBackButton() {
+    setListMode()
   }
   
   @objc private func didTapFolderPlusButton() {
@@ -290,8 +297,11 @@ extension FavoriteViewController {
 // MARK: - FavoriteTableViewAdapterDelegate
 extension FavoriteViewController: FavoriteTableViewAdapterDelegate {  
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    // TODO: - 데이터 찾고 그와 관련된 상세 찜 화면으로 이동.
-    input.detailPage.send(indexPath)
-    print("무야호", indexPath.row)
+    guard let cell = tableView.cellForRow(at: indexPath) else { return }
+    guard cell.isEditing else {
+      input.detailPage.send(indexPath)
+      return
+    }
+    input.directoryNameSettingPage.send(indexPath)
   }
 }
