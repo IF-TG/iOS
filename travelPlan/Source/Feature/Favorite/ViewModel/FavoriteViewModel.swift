@@ -15,10 +15,10 @@ struct FavoriteHeaderDirectoryEntity {
 }
 
 struct FavoriteDirectoryEntity {
-  let id: Int
-  let title: String
-  let innerItemCount: Int
-  let imageURL: String?
+  var id: Int
+  var title: String
+  var innerItemCount: Int
+  var imageURL: String?
 }
 
 final class FavoriteViewModel {
@@ -57,9 +57,10 @@ extension FavoriteViewModel: FavoriteViewModelable {
     return Publishers.MergeMany([
       appearStream(input),
       detailPageStream(input),
-      directoryNameSettingPageStream(input),
+      changeDirectoryNameStream(input),
       didTapNewDirectoryStream(input),
-      newDirectoryStream(input)
+      newDirectoryStream(input),
+      directoryNameSettingPageStream(input)
     ]).eraseToAnyPublisher()
   }
   
@@ -79,10 +80,12 @@ extension FavoriteViewModel: FavoriteViewModelable {
       }.eraseToAnyPublisher()
   }
   
-  private func directoryNameSettingPageStream(_ input: Input) -> Output {
-    return input.directoryNameSettingPage
-      .map {  indexPath -> State in
-        return .none
+  private func changeDirectoryNameStream(_ input: Input) -> Output {
+    return input.updateDirectoryName
+      .map { [weak self] (title, index) -> State in
+        self?.favoriteDirectories[index].title = title
+        let indexPath = IndexPath(row: index, section: 0)
+        return .updatedDirecrotyName(indexPath)
       }.eraseToAnyPublisher()
   }
   
@@ -94,7 +97,7 @@ extension FavoriteViewModel: FavoriteViewModelable {
   }
   
   private func newDirectoryStream(_ input: Input) -> Output {
-    return input.newDirectory
+    return input.addNewDirectory
       .compactMap { $0 }
       .map { [weak self] title in
         let newDirectory = FavoriteDirectoryEntity(
@@ -103,8 +106,15 @@ extension FavoriteViewModel: FavoriteViewModelable {
           innerItemCount: 0,
           imageURL: nil)
         self?.favoriteDirectories.append(newDirectory)
-        let indexPath = IndexPath(item: (self?.favoriteDirectories.count ?? 1)-1, section: 0)
+        let indexPath = IndexPath(item: (self?.numberOfItems ?? 1)-1, section: 0)
         return .newDirectory(indexPath)
+      }.eraseToAnyPublisher()
+  }
+  
+  private func directoryNameSettingPageStream(_ input: Input) -> Output {
+    return input.directoryNameSettingPage
+      .map { indexPath -> State in
+        return .showDirectoryNameSettingPage(indexPath.row)
       }.eraseToAnyPublisher()
   }
 }
