@@ -85,9 +85,10 @@ final class FavoriteTableViewCell: UITableViewCell {
   static let id: String = String(describing: PostCell.self)
 
   // MARK: - Properties
-  private var deleteButton = UIButton(frame: .zero).set {
+  private lazy var deleteButton = UIButton(frame: .zero).set {
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.setImage(UIImage(named: "deleteMinusIcon"), for: .normal)
+    $0.addTarget(self, action: #selector(didTapDeleteButton), for: .touchUpInside)
   }
   
   private lazy var quarterImageView = UIImageView().set {
@@ -127,6 +128,8 @@ final class FavoriteTableViewCell: UITableViewCell {
     $0.contentMode = .scaleAspectFit
     $0.alpha = 0
   }
+  
+  weak var delegate: FavoriteTableViewCellDelegate?
   
   // MARK: - Lifecycle
   override init(
@@ -218,7 +221,11 @@ private extension FavoriteTableViewCell {
 // MARK: - Action
 extension FavoriteTableViewCell {
   @objc func didTapTitleTextField() {
-    print("hi 제발되라")
+    delegate?.favoriteTableViewCell(self, touchUpDirectoryLabel: editModeTitleLabel)
+  }
+  
+  @objc func didTapDeleteButton() {
+    delegate?.favoriteTableViewCell(self, touchUpDeleteButton: deleteButton)
   }
 }
 
