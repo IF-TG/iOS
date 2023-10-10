@@ -40,7 +40,8 @@ final class FavoriteTableViewCell: UITableViewCell {
       static let textSize: CGFloat = 15.0
     }
     
-    enum TitleTextField {
+    enum EditModeTitleLabel {
+      static let padding: UIEdgeInsets = .init(top: 0, left: 8, bottom: 0, right: 8)
       enum Spacing {
         static let leading: CGFloat = 20
         static let trailing: CGFloat = {
@@ -103,19 +104,19 @@ final class FavoriteTableViewCell: UITableViewCell {
     $0.font = .init(pretendard: Const.fontName, size: Const.textSize)
   }
   
-  private lazy var titleTextField = UITextField().set {
-    typealias Const = Constant.TitleTextField
+  private lazy var editModeTitleLabel = BasePaddingLabel(padding: Constant.EditModeTitleLabel.padding).set {
+    typealias Const = Constant.EditModeTitleLabel
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.font = UIFont(pretendard: Const.fontName, size: Const.textSize)
     $0.textColor = Const.textColor
     $0.layer.borderWidth = Const.borderWidth
     $0.layer.borderColor = Const.borderColor.cgColor
     $0.layer.cornerRadius = 3
-    $0.keyboardType = .default
-    $0.leftView = UIView(frame: .init(x: 0, y: 0, width: 8, height: 0))
-    $0.rightView = UIView(frame: .init(x: 0, y: 0, width: 8, height: 0))
-    $0.leftViewMode = .always
-    $0.rightViewMode = .always
+    $0.isUserInteractionEnabled = true
+    let gesture = UITapGestureRecognizer(
+      target: self,
+      action: #selector(didTapTitleTextField))
+    $0.addGestureRecognizer(gesture)
   }
   
   private let menuAccessoryView = UIImageView(frame: .zero).set {
@@ -164,7 +165,7 @@ extension FavoriteTableViewCell {
       return
     }
     self.quarterImageView.image = UIImage(named: imageURL)
-    titleTextField.text = data?.title
+    editModeTitleLabel.text = data?.title
   }
 }
 
@@ -175,10 +176,9 @@ private extension FavoriteTableViewCell {
   }
   
   private func setEditingMode() {
-    titleTextField.isUserInteractionEnabled = true
     quarterImageView.isHidden = true
     titleLabel.isHidden = true
-    titleTextField.isHidden = false
+    editModeTitleLabel.isHidden = false
     contentView.subviews.forEach { subview in
       UIView.animate(
         withDuration: 0.37,
@@ -198,10 +198,9 @@ private extension FavoriteTableViewCell {
   }
   
   private func releaseEditingMode() {
-    titleTextField.isUserInteractionEnabled = false
     quarterImageView.isHidden = false
     titleLabel.isHidden = false
-    titleTextField.isHidden = true
+    editModeTitleLabel.isHidden = true
     menuAccessoryView.alpha = 0
     contentView.subviews.forEach { subview in
       UIView.animate(
@@ -215,6 +214,13 @@ private extension FavoriteTableViewCell {
   }
 }
 
+// MARK: - Action
+extension FavoriteTableViewCell {
+  @objc func didTapTitleTextField() {
+    print("hi 제발되라")
+  }
+}
+
 // MARK: - LayoutSupport
 extension FavoriteTableViewCell: LayoutSupport {
   func addSubviews() {
@@ -222,7 +228,7 @@ extension FavoriteTableViewCell: LayoutSupport {
       quarterImageView,
       titleLabel,
       deleteButton,
-      titleTextField,
+      editModeTitleLabel,
       menuAccessoryView
     ].map {
       contentView.addSubview($0)
@@ -234,7 +240,7 @@ extension FavoriteTableViewCell: LayoutSupport {
       quarterImageViewConstraints,
       titleLabelConstraints,
       deleteButtonConstraints,
-      titleTextFieldConstraints,
+      editModeTitleLabelConstraints,
       menuAccessoryViewConstraints
     ].map {
       NSLayoutConstraint.activate($0)
@@ -272,14 +278,14 @@ private extension FavoriteTableViewCell {
       deleteButton.heightAnchor.constraint(equalToConstant: Const.size.height)]
   }
   
-  var titleTextFieldConstraints: [NSLayoutConstraint] {
-    typealias Const = Constant.TitleTextField
+  var editModeTitleLabelConstraints: [NSLayoutConstraint] {
+    typealias Const = Constant.EditModeTitleLabel
     typealias Spacing = Const.Spacing
     return [
-      titleTextField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Spacing.leading),
-      titleTextField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Spacing.trailing),
-      titleTextField.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-      titleTextField.heightAnchor.constraint(equalToConstant: Const.height)]
+      editModeTitleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Spacing.leading),
+      editModeTitleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Spacing.trailing),
+      editModeTitleLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+      editModeTitleLabel.heightAnchor.constraint(equalToConstant: Const.height)]
   }
   
   var menuAccessoryViewConstraints: [NSLayoutConstraint] {
