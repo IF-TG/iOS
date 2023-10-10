@@ -495,9 +495,9 @@
 			isa = PBXGroup;
 			children = (
 				130304782A24936D00776A0D /* SearchViewModel.swift */,
+				131A11072AB5067E007BDD66 /* SearchMoreDetailViewModel.swift */,
 				13274C592A59AD29001F141C /* SearchFestivalCellViewModel.swift */,
 				13FE64782A5C3900007D9A53 /* TravelDestinationCellViewModel.swift */,
-				131A11072AB5067E007BDD66 /* SearchMoreDetailViewModel.swift */,
 				13A93EF82AD1CA0200FC4BBD /* SearchTopTenCellViewModel.swift */,
 			);
 			path = ViewModel;
