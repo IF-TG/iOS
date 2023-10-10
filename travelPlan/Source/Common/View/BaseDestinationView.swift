@@ -22,7 +22,7 @@ class BaseDestinationView<CenterView>: UIView where CenterView: UIView & CellCon
         static var top: CGFloat { 5 }
         static var bottom: CGFloat { 5 }
       }
-      static var defaultCornerRadius: CGFloat = 7
+      static var defaultCornerRadius: CGFloat { 7 }
     }
     
     enum CenterView {
