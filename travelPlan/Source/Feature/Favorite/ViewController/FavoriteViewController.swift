@@ -177,7 +177,6 @@ extension FavoriteViewController {
 private extension FavoriteViewController {
   func configureUI() {
     view.backgroundColor = .white
-    navigationController?.navigationBar.backgroundColor = .white
     navigationItem.titleView = navigationTitleLabel
     navigationItem.rightBarButtonItem = UIBarButtonItem(customView: settingButton)
     navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
