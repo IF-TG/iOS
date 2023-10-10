@@ -12,6 +12,7 @@ protocol FavoriteCoordinatorDelegate: AnyObject {
   func finish()
   func showDetailPage(with id: AnyHashable)
   func showNewDirectoryCreationPage()
+  func showDirectoryNameSettingPage(with index: Int)
 }
 
 final class FavoriteCoordinator: FlowCoordinator {
@@ -19,7 +20,8 @@ final class FavoriteCoordinator: FlowCoordinator {
   var parent: FlowCoordinator!
   var child: [FlowCoordinator] = []
   var presenter: UINavigationController!
-  weak var viewController: FavoriteViewController!
+  private weak var viewController: FavoriteViewController!
+  private var settingIndex: Int?
   
   init(presenter: UINavigationController) {
     self.presenter = presenter
@@ -35,6 +37,23 @@ final class FavoriteCoordinator: FlowCoordinator {
   }
 }
 
+// MARK: - Private Helpers
+extension FavoriteCoordinator {
+  func makeSettingBottomSheetViewController(
+    mode: BaseBottomSheetViewController.ContentMode,
+    contentView: FavoriteDirectorySettingView
+  ) -> BaseBottomSheetViewController {
+    let settingViewController = BaseBottomSheetViewController(mode: mode, radius: 25, isShowedKeyBoard: true)
+    settingViewController.setContentView(contentView)
+    settingViewController.dismissHandler = {
+      contentView.hideKeyboard()
+    }
+    contentView.setSearchBarInputAccessory(settingViewController.view.subviews.first)
+    contentView.delegate = self
+    return settingViewController
+  }
+}
+
 // MARK: - FavoriteCoordinatorDelegate
 extension FavoriteCoordinator: FavoriteCoordinatorDelegate {
   func showDetailPage(with id: AnyHashable) {
@@ -43,17 +62,21 @@ extension FavoriteCoordinator: FavoriteCoordinatorDelegate {
   }
   
   func showNewDirectoryCreationPage() {
-    let settingView = FavoriteDirectorySettingView(title: "폴더 추가")
-    settingView.delegate = self
-    let settingViewController = BaseBottomSheetViewController(
+    let settingView = FavoriteDirectorySettingView(settingState: .newDirectory)
+    let settingViewController = makeSettingBottomSheetViewController(
       mode: .couldBeFull,
-      radius: 25,
-      isShowedKeyBoard: true)
-    settingViewController.setContentView(settingView)
-    settingViewController.dismissHandler = {
-      settingView.hideKeyboard()
+      contentView: settingView)
+    viewController.presentBottomSheet(settingViewController) {
+      settingView.showKeyboard()
     }
-    settingView.setSearchBarInputAccessory(settingViewController.view.subviews.first!)
+  }
+  
+  func showDirectoryNameSettingPage(with index: Int) {
+    settingIndex = index
+    let settingView = FavoriteDirectorySettingView(settingState: .name)
+    let settingViewController = makeSettingBottomSheetViewController(
+      mode: .couldBeFull,
+      contentView: settingView)
     viewController.presentBottomSheet(settingViewController) {
       settingView.showKeyboard()
     }
@@ -67,9 +90,18 @@ extension FavoriteCoordinator: FavoriteDirectorySettingViewDelegate {
     didTapOkButton: UIButton
   ) {
     presenter.presentedViewController?.dismiss(animated: false)
-    let directoryTitle = settingView.text
-    viewController.makeANewDirectory(with: directoryTitle)
-    
+    let title = settingView.text
+    switch settingView.settingState {
+    case .newDirectory:
+      viewController.makeNewDirectory(with: title)
+    case .name:
+      guard let settingIndex, let title else {
+        // FIXME: - 에러 알림창. 일단 0번 업데이트로 설정
+        viewController.updateDirectoryName(title: title ?? "미정", index: 0)
+        return
+      }
+      viewController.updateDirectoryName(title: title, index: settingIndex)
+    }
   }
   
   func bottomSheetView(
