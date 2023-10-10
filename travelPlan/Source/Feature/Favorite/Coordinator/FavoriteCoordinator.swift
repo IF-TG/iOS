@@ -8,13 +8,6 @@
 import UIKit
 import SHCoordinator
 
-protocol FavoriteCoordinatorDelegate: AnyObject {
-  func finish()
-  func showDetailPage(with id: AnyHashable)
-  func showNewDirectoryCreationPage()
-  func showDirectoryNameSettingPage(with index: Int)
-}
-
 final class FavoriteCoordinator: FlowCoordinator {
   // MARK: - Properties
   var parent: FlowCoordinator!
