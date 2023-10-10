@@ -127,27 +127,27 @@ extension BaseDestinationView: LayoutSupport {
   
   func setConstraints() {
     thumbnailImageView.snp.makeConstraints {
-      typealias Cnst = Constant.ThumbnailImageView
+      typealias Const = Constant.ThumbnailImageView
       $0.leading.equalToSuperview()
-      $0.top.equalToSuperview().inset(Cnst.Spacing.top)
-      $0.bottom.equalToSuperview().inset(Cnst.Spacing.bottom)
-      $0.width.equalTo(Cnst.width)
+      $0.top.equalToSuperview().inset(Const.Spacing.top)
+      $0.bottom.equalToSuperview().inset(Const.Spacing.bottom)
+      $0.width.equalTo(Const.width)
     }
     
     centerView.snp.makeConstraints {
-      typealias Cnst = Constant.CenterView.Spacing
+      typealias Const = Constant.CenterView.Spacing
       $0.leading.equalTo(thumbnailImageView.snp.trailing)
-        .offset(Cnst.leading)
+        .offset(Const.leading)
       $0.trailing.lessThanOrEqualTo(starButton.snp.leading)
-        .offset(Cnst.trailing)
+        .offset(Const.trailing)
       $0.top.equalTo(thumbnailImageView)
     }
     
     starButton.snp.makeConstraints {
-      typealias Cnst = Constant.StarButton
-      $0.top.equalToSuperview().inset(Cnst.Spacing.top)
-      $0.trailing.equalToSuperview().inset(Cnst.Spacing.trailing)
-      $0.size.equalTo(Cnst.size)
+      typealias Const = Constant.StarButton
+      $0.top.equalToSuperview().inset(Const.Spacing.top)
+      $0.trailing.equalToSuperview().inset(Const.Spacing.trailing)
+      $0.size.equalTo(Const.size)
     }
   }
 }
