@@ -23,6 +23,7 @@ struct FavoriteDirectoryEntity {
 
 final class FavoriteViewModel {
   // MARK: - Dependencies
+  private var useCase: MockFavoriteUseCase
   
   // MARK: - Properties
   private var headerDirectory: FavoriteHeaderDirectoryEntity
@@ -30,9 +31,9 @@ final class FavoriteViewModel {
   
   // MARK: - Lifecycles
   init() {
-    var mockData = MockFavoriteUseCase()
-    headerDirectory = mockData.favoriteHeader
-    favoriteDirectories = mockData.favoriteDirectories
+    self.useCase = MockFavoriteUseCase()
+    headerDirectory = useCase.favoriteHeader
+    favoriteDirectories = useCase.favoriteDirectories
   }
 }
 
@@ -77,7 +78,7 @@ extension FavoriteViewModel: FavoriteViewModelable {
     return input.detailPage
       .map { indexPath -> State in
         // TODO: - 세부 디렉터리 식별자 키 찾아서 전송해야합니다.
-        print("무야호")
+
         return .showDetailPage(indexPath)
       }.eraseToAnyPublisher()
   }
