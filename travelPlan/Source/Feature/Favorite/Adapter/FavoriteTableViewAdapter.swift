@@ -42,6 +42,7 @@ extension FavoriteTableViewAdapter: UITableViewDataSource {
       return .init()
     }
     cell.configure(with: item)
+    cell.delegate = self
     return cell
   }
 }
@@ -69,5 +70,16 @@ extension FavoriteTableViewAdapter: UITableViewDelegate {
     }
     header.configure(with: item)
     return header
+  }
+}
+
+// MARK: - FavoriteTableViewCellDelegate
+extension FavoriteTableViewAdapter: FavoriteTableViewCellDelegate {
+  func favoriteTableViewCell(_ cell: FavoriteTableViewCell, touchUpEditModeTitleLabel label: UILabel) {
+    delegate?.tableViewCell(cell, didTapEditModeTitle: label.text)
+  }
+  
+  func favoriteTableViewCell(_ cell: FavoriteTableViewCell, touchUpDeleteButton button: UIButton) {
+    delegate?.tableViewCell(cell, didtapDeleteButton: button)
   }
 }
