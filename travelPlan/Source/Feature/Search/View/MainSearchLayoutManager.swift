@@ -49,6 +49,25 @@ class MainSearchLayoutManager {
       }
     }
     
+    enum TopTen {
+      enum Item {
+        static let fractionalWidth: CGFloat = 1
+        static let fractionalHeight: CGFloat = 1
+      }
+      enum Group {
+        static let fractionWidth: CGFloat = 1
+        static let height: CGFloat = 120
+      }
+      enum Section {
+        enum ContentInsets {
+          static let top: CGFloat = 0
+          static let leading: CGFloat = 16
+          static let trailing: CGFloat = 12
+          static let bottom: CGFloat = 0
+        }
+      }
+    }
+    
     enum Header {
       static let fractionalWidth: CGFloat = 1.0
       static let estimatedHeight: CGFloat = 74
@@ -129,17 +148,21 @@ extension MainSearchLayoutManager {
   }
   
   private func topTenLayout() -> NSCollectionLayoutSection {
-    let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                          heightDimension: .fractionalHeight(1.0))
+    typealias Cnst = Constants.TopTen
+    let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(Cnst.Item.fractionalWidth),
+                                          heightDimension: .fractionalHeight(Cnst.Item.fractionalHeight))
     let item = NSCollectionLayoutItem(layoutSize: itemSize)
     
-    let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                           heightDimension: .absolute(120))
+    let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(Cnst.Group.fractionWidth),
+                                           heightDimension: .absolute(Cnst.Group.height))
     let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize,
                                                  subitems: [item])
     
     let section = NSCollectionLayoutSection(group: group)
-    section.contentInsets = .init(top: 0, leading: 16, bottom: 0, trailing: 12)
+    section.contentInsets = .init(top: Cnst.Section.ContentInsets.top,
+                                  leading: Cnst.Section.ContentInsets.leading,
+                                  bottom: Cnst.Section.ContentInsets.bottom,
+                                  trailing: Cnst.Section.ContentInsets.trailing)
     section.boundarySupplementaryItems = [headerLayout()]
     return section
   }

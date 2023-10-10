@@ -14,7 +14,7 @@ import SnapKit
 /// imageView는 type에 따라 설정할 수 있습니다. custom인 경우, 연관값으로 커스텀 이미지뷰를 넣어주어야 합니다.
 /// starButton의 이벤트를 정의해야 되는 경우, StarButtonDelegate를 준수해야 합니다.
 class BaseDestinationView<CenterView>: UIView where CenterView: UIView & CellConfigurable {
-  enum Constants {
+  enum Constant {
     enum ThumbnailImageView {
       static var cornerRadius: CGFloat { 3 }
       static var width: CGFloat { 110 }
@@ -22,7 +22,7 @@ class BaseDestinationView<CenterView>: UIView where CenterView: UIView & CellCon
         static var top: CGFloat { 5 }
         static var bottom: CGFloat { 5 }
       }
-      
+      static var defaultCornerRadius: CGFloat = 7
     }
     
     enum CenterView {
@@ -51,7 +51,7 @@ class BaseDestinationView<CenterView>: UIView where CenterView: UIView & CellCon
         return UIImageView().set {
           $0.contentMode = .scaleAspectFill
           
-          $0.layer.cornerRadius = 7
+          $0.layer.cornerRadius = Constant.ThumbnailImageView.defaultCornerRadius
           $0.clipsToBounds = true
         }
       case let .custom(imageView):
@@ -127,24 +127,27 @@ extension BaseDestinationView: LayoutSupport {
   
   func setConstraints() {
     thumbnailImageView.snp.makeConstraints {
+      typealias Cnst = Constant.ThumbnailImageView
       $0.leading.equalToSuperview()
-      $0.top.equalToSuperview().inset(Constants.ThumbnailImageView.Spacing.top)
-      $0.bottom.equalToSuperview().inset(Constants.ThumbnailImageView.Spacing.bottom)
-      $0.width.equalTo(Constants.ThumbnailImageView.width)
+      $0.top.equalToSuperview().inset(Cnst.Spacing.top)
+      $0.bottom.equalToSuperview().inset(Cnst.Spacing.bottom)
+      $0.width.equalTo(Cnst.width)
     }
     
     centerView.snp.makeConstraints {
+      typealias Cnst = Constant.CenterView.Spacing
       $0.leading.equalTo(thumbnailImageView.snp.trailing)
-        .offset(Constants.CenterView.Spacing.leading)
+        .offset(Cnst.leading)
       $0.trailing.lessThanOrEqualTo(starButton.snp.leading)
-        .offset(Constants.CenterView.Spacing.trailing)
+        .offset(Cnst.trailing)
       $0.top.equalTo(thumbnailImageView)
     }
     
     starButton.snp.makeConstraints {
-      $0.top.equalToSuperview().inset(Constants.StarButton.Spacing.top)
-      $0.trailing.equalToSuperview().inset(Constants.StarButton.Spacing.trailing)
-      $0.size.equalTo(Constants.StarButton.size)
+      typealias Cnst = Constant.StarButton
+      $0.top.equalToSuperview().inset(Cnst.Spacing.top)
+      $0.trailing.equalToSuperview().inset(Cnst.Spacing.trailing)
+      $0.size.equalTo(Cnst.size)
     }
   }
 }
