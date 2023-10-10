@@ -10,7 +10,7 @@ import SnapKit
 import Combine
 
 class SearchMoreDetailViewController: UIViewController {
-  enum Constants {
+  enum Constant {
     enum CollectionView {
       static let cornerRadius: CGFloat = 10
     }
@@ -19,6 +19,11 @@ class SearchMoreDetailViewController: UIViewController {
     }
     enum CollectionViewCell {
       static let height: CGFloat = UIScreen.main.bounds.height * 0.172
+    }
+    enum BackButton {
+      enum ContentEdgeInsets {
+        static let left: CGFloat = 10
+      }
     }
   }
   
@@ -36,7 +41,7 @@ class SearchMoreDetailViewController: UIViewController {
     $0.register(SearchDetailHeaderView.self,
                 forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                 withReuseIdentifier: SearchDetailHeaderView.id)
-    $0.roundCorners(cornerRadius: Constants.CollectionView.cornerRadius,
+    $0.roundCorners(cornerRadius: Constant.CollectionView.cornerRadius,
                     cornerList: [.layerMinXMinYCorner, .layerMaxXMinYCorner])
     $0.backgroundColor = .white
     $0.delegate = self
@@ -46,7 +51,7 @@ class SearchMoreDetailViewController: UIViewController {
   }
   
   private var headerViewHeight: CGFloat {
-    self.view.bounds.height * Constants.CollectionHeaderView.heightRatio
+    self.view.bounds.height * Constant.CollectionHeaderView.heightRatio
   }
   
   private lazy var backButton: UIButton = .init().set {
@@ -57,7 +62,7 @@ class SearchMoreDetailViewController: UIViewController {
     )
     $0.contentEdgeInsets = .init(
       top: .zero,
-      left: 10,
+      left: Constant.BackButton.ContentEdgeInsets.left,
       bottom: .zero,
       right: .zero
     )
@@ -97,15 +102,6 @@ class SearchMoreDetailViewController: UIViewController {
     setupNavigationBar()
     bind()
     input.viewDidLoad.send(type)
-    
-    switch type {
-    case .festival:
-      print("베스트 축제 VC")
-    case .camping:
-      print("레포츠 vc")
-    case .topTen:
-      print("여행지 TOP 10 VC")
-    }
   }
 }
 
@@ -133,8 +129,8 @@ extension SearchMoreDetailViewController: ViewBindCase {
   
   func render(_ state: SearchMoreDetailViewModel.State) {
     switch state {
-    case .showDetailVC:
-      print("DEBUG: show detail")
+    case .showDetail:
+      print("DEBUG: 다음 화면으로 전환합니다.")
     case .none:
       break
     }
@@ -174,8 +170,9 @@ extension SearchMoreDetailViewController {
     self.navigationController?.navigationBar.shadowImage = UIImage()
   }
   
-  private func changeBlackOrWhiteColor(with alpha: CGFloat) -> UIColor {
-    return UIColor(white: alpha, alpha: 1)
+  /// scaleFactor는 0과 1사이의 조절 변수입니다.
+  private func changeImageViewTintColor(with scaleFactor: CGFloat) -> UIColor {
+    return UIColor(white: scaleFactor, alpha: 1)
   }
   
   private func registerCell(in collectionView: UICollectionView) {
@@ -272,6 +269,10 @@ extension SearchMoreDetailViewController: UICollectionViewDelegate {
     )
     
     headerView?.alpha = alpha
-    backButton.imageView?.tintColor = changeBlackOrWhiteColor(with: alpha)
+    backButton.imageView?.tintColor = changeImageViewTintColor(with: alpha)
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    input.didSelectItem.send(indexPath)
   }
 }

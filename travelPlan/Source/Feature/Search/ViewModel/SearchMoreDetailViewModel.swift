@@ -13,15 +13,18 @@ final class SearchMoreDetailViewModel {
   
   struct Input {
     let viewDidLoad: PassthroughSubject<SearchSectionType, Never>
+    let didSelectItem: PassthroughSubject<IndexPath, Never>
     
-    init(viewDidLoad: PassthroughSubject<SearchSectionType, Never> = .init()
+    init(viewDidLoad: PassthroughSubject<SearchSectionType, Never> = .init(),
+         didSelectItem: PassthroughSubject<IndexPath, Never> = .init()
     ) {
       self.viewDidLoad = viewDidLoad
+      self.didSelectItem = didSelectItem
     }
   }
   enum State {
     case none
-    case showDetailVC
+    case showDetail
   }
   enum ErrorType: Error {
     case none
@@ -38,11 +41,28 @@ final class SearchMoreDetailViewModel {
 // MARK: - ViewModelCase
 extension SearchMoreDetailViewModel: ViewModelCase {
   func transform(_ input: Input) -> Output {
-    return input
-      .viewDidLoad
+    return Publishers.MergeMany(
+      viewDidLoadStream(input),
+      didSelecetItemStream(input)
+    ).eraseToAnyPublisher()
+  }
+  
+  private func viewDidLoadStream(_ input: Input) -> Output {
+    input.viewDidLoad
       .map { [weak self] type in
         self?.fetchData(type: type)
         return .none
+      }
+      .setFailureType(to: ErrorType.self)
+      .eraseToAnyPublisher()
+  }
+  
+  private func didSelecetItemStream(_ input: Input) -> Output {
+    input.didSelectItem
+      .map { [weak self] indexPath in
+        // TODO: - 해당 item을 기반으로 상세페이지로 이동합니다.
+        print("DEBUG: [\(indexPath.section)], [\(indexPath.item)] clicked")
+        return State.showDetail
       }
       .setFailureType(to: ErrorType.self)
       .eraseToAnyPublisher()
@@ -107,9 +127,9 @@ extension SearchMoreDetailViewModel {
   func numberOfItems(type: SearchSectionType) -> Int {
     switch type {
     case .festival, .camping:
-      return travelDestinationCellViewModels?.count ?? 0
+      return travelDestinationCellViewModels?.count ?? .zero
     case .topTen:
-      return topTenCellViewModels?.count ?? 0
+      return topTenCellViewModels?.count ?? .zero
     }
   }
 }
