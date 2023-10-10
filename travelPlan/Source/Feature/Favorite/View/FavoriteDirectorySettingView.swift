@@ -49,6 +49,11 @@ final class FavoriteDirectorySettingView: UIView {
     }
   }
   
+  enum SettingType: String {
+    case name = "폴더 추가"
+    case newDirectory = "변경"
+  }
+  
   // MARK: - Properties
   private let titleLabel: UILabel = .init(frame: .zero).set {
     typealias Const = Constant.TitleLabel
@@ -92,10 +97,13 @@ final class FavoriteDirectorySettingView: UIView {
         + okButtonHeightAndTopBottomSpacing))
   }
   
+  private(set) var settingState: SettingType
+  
   // MARK: - Lifecycle
-  init(title: String) {
+  init(settingState: SettingType) {
+    self.settingState = settingState
     super.init(frame: .zero)
-    titleLabel.text = title
+    titleLabel.text = settingState.rawValue
     titleLabel.sizeToFit()
     translatesAutoresizingMaskIntoConstraints = false
     setupUI()
@@ -104,8 +112,9 @@ final class FavoriteDirectorySettingView: UIView {
   }
   
   required init?(coder: NSCoder) {
+    self.settingState = .newDirectory
     super.init(coder: coder)
-    titleLabel.text = "Setting"
+    titleLabel.text = settingState.rawValue
     translatesAutoresizingMaskIntoConstraints = false
     setupUI()
     backgroundColor = .white
@@ -115,7 +124,7 @@ final class FavoriteDirectorySettingView: UIView {
 
 // MARK: - Helpers
 extension FavoriteDirectorySettingView {
-  func setSearchBarInputAccessory(_ view: UIView) {
+  func setSearchBarInputAccessory(_ view: UIView?) {
     searchBar.setTextFieldInputAccessory(view)
   }
   
