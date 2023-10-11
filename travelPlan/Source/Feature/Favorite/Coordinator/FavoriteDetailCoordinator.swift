@@ -9,7 +9,7 @@ import UIKit
 import SHCoordinator
 
 protocol FavoriteDetailCoordinatorDelegate: AnyObject {
-  func finish()
+  func popViewController()
 }
 
 final class FavoriteDetailCoordinator: FlowCoordinator {
@@ -18,20 +18,26 @@ final class FavoriteDetailCoordinator: FlowCoordinator {
   var child: [FlowCoordinator] = []
   var presenter: UINavigationController!
   
-  private var direcrotyIdentifier: AnyHashable
+  var viewController: FavoriteDetailViewController
   
-  init(presenter: UINavigationController, direcotryIdentifier identifier: AnyHashable) {
+  init(presenter: UINavigationController, direcotryIdentifier identifier: AnyHashable, title: String) {
     self.presenter = presenter
-    direcrotyIdentifier = identifier
+    // TODO: - 뷰모델 생성시 특별한 식별자 주입 identifier주입
+    // direcrotyIdentifier = identifier
+    viewController = FavoriteDetailViewController(title: title)
   }
   
   // MARK: - Helpers
   func start() {
-    let vc = FavoriteDetailViewController()
-    vc.coordinator = self
-    presenter.pushViewController(vc, animated: true)
+    viewController.coordinator = self
+    presenter.pushViewController(viewController, animated: true)
   }
 }
 
 // MARK: - FavoriteCoordinatorDelegate
-extension FavoriteDetailCoordinator: FavoriteDetailCoordinatorDelegate {}
+extension FavoriteDetailCoordinator: FavoriteDetailCoordinatorDelegate {
+  func popViewController() {
+    presenter.popViewController(animated: true)
+    finish()
+  }
+}
