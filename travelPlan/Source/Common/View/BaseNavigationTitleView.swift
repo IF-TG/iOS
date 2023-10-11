@@ -9,7 +9,6 @@ import UIKit
 import SnapKit
 
 /// 적용하고 싶은 ViewControler에서 navigationItem.titleView에 해당 객체를 대입하면 됩니다.
-/// titleView에 적용하면 시스템이 leftBarButtonItem과 rightBarButtonItem으로부터 자동으로 레이아웃을 잡아줍니다.
 class BaseNavigationTitleView: UIView {
   enum Constant {
     enum DefaultLabel {
@@ -43,7 +42,7 @@ class BaseNavigationTitleView: UIView {
     self.init(frame: .zero, type: type)
   }
   
-  init(frame: CGRect, type: `Type`) {
+  private init(frame: CGRect, type: `Type`) {
     self.contentView = type.titleView
     super.init(frame: frame)
     setupUI()
@@ -62,8 +61,7 @@ extension BaseNavigationTitleView: LayoutSupport {
   
   func setConstraints() {
     contentView.snp.makeConstraints {
-      $0.center.equalToSuperview()
-      $0.size.equalToSuperview()
+      $0.edges.equalToSuperview()
     }
   }
 }
