@@ -74,6 +74,11 @@ class SearchMoreDetailViewController: UIViewController {
     $0.imageView?.tintColor = .white
   }
   
+  private let navigationTitleLabel: UILabel = .init().set {
+    $0.font = .init(pretendard: .semiBold, size: 18)
+    $0.textColor = .yg.gray7
+  }
+  
   private let type: SearchSectionType
   
   private let input = Input()
@@ -137,7 +142,8 @@ extension SearchMoreDetailViewController: ViewBindCase {
     case .showDetail:
       print("DEBUG: 다음 화면으로 전환합니다.")
     case let .setNavigationTitle(title):
-      navigationItem.title = title
+      navigationTitleLabel.text = title
+      setupBaseNavigationTitleView(titleViewType: .custom(customView: navigationTitleLabel))
     }
   }
   
