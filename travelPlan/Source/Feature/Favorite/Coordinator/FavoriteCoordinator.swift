@@ -49,8 +49,8 @@ extension FavoriteCoordinator {
 
 // MARK: - FavoriteCoordinatorDelegate
 extension FavoriteCoordinator: FavoriteCoordinatorDelegate {
-  func showDetailPage(with id: AnyHashable) {
-    let childCoordinator = FavoriteDetailCoordinator(presenter: presenter, direcotryIdentifier: id)
+  func showDetailPage(with id: AnyHashable, title: String) {
+    let childCoordinator = FavoriteDetailCoordinator(presenter: presenter, direcotryIdentifier: id, title: title)
     addChild(with: childCoordinator)
   }
   
