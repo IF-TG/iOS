@@ -21,7 +21,7 @@ struct FavoriteViewInput {
 enum FavoriteViewState {
   case none
   // TODO: - 인덱스페스나 디렉터리를 식별하는 식별자를 반환해서 이동해야합니다.
-  case showDetailPage(IndexPath)
+  case showDetailPage(IndexPath, String)
   case updatedDirecrotyName(IndexPath)
   case notUpdateDirectoryName
   case showNewDirectoryCreationPage
@@ -261,8 +261,8 @@ extension FavoriteViewController: ViewBindCase {
       coordinator?.showNewDirectoryCreationPage()
     case .notUpdateDirectoryName:
       didTapBackButton()
-    case .showDetailPage(let indexPath):
-      coordinator?.showDetailPage(with: indexPath.row)
+    case .showDetailPage(let indexPath, let title):
+      coordinator?.showDetailPage(with: indexPath.row, title: title)
     case .updatedDirecrotyName(let indexPath):
       setListMode { [weak self] in
         self?.setFavoriteTableView(with: indexPath)
