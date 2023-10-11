@@ -32,7 +32,7 @@ final class FavoriteDetailViewController: UIViewController {
     EmptyStateBasedContentViewController
     & FavoriteDetailMenuViewConfigurable]!
   
-  private lazy var pageViewController = UIPageViewController(
+  private lazy var pageViewController: UIPageViewController! = UIPageViewController(
     transitionStyle: .scroll,
     navigationOrientation: .horizontal
   ).set {
@@ -70,8 +70,9 @@ final class FavoriteDetailViewController: UIViewController {
   weak var coordinator: FavoriteDetailCoordinatorDelegate?
   
   // MARK: - Lifecycle
-  init() {
+  init(title: String) {
     super.init(nibName: nil, bundle: nil)
+    setNavigationTitle(title)
   }
   
   required init?(coder: NSCoder) {
@@ -85,16 +86,15 @@ final class FavoriteDetailViewController: UIViewController {
   }
   
   deinit {
-    coordinator?.finish()
+    print("deinit: 디테일뷰컨해제")
   }
 }
 
 // MARK: - Private Helpers
 private extension FavoriteDetailViewController {
   func configureUI() {
-    let favoritePostViewController = FavoritePostViewController().set {
-      $0.delegate = self
-    }
+    let favoritePostViewController = FavoritePostViewController()
+    favoritePostViewController.delegate = self
     let favoriteLocationViewController = FavoriteLocationViewController()
     pageViewDataSource = [favoritePostViewController, favoriteLocationViewController]
     view.backgroundColor = .white
@@ -102,15 +102,15 @@ private extension FavoriteDetailViewController {
     setNavigationUI()
   }
   
-  private func setNavigationUI() {
+  func setNavigationUI() {
     let barItem = UIBarButtonItem(customView: backButton)
     navigationItem.leftBarButtonItem = barItem
   }
   
   func bind() {
-    menuView.travelReviewTapHandler = {
-      let targetViewController = self.pageViewDataSource[0]
-      self.pageViewController.setViewControllers(
+    menuView.travelReviewTapHandler = { [weak self] in
+      guard let targetViewController = self?.pageViewDataSource[0] else { return 0}
+      self?.pageViewController.setViewControllers(
         [targetViewController],
         direction: .reverse,
         animated: true)
@@ -118,21 +118,26 @@ private extension FavoriteDetailViewController {
       return targetViewController.numberOfItems
     }
     
-    menuView.travelLocationTapHandler = {
-      let targetViewController = self.pageViewDataSource[1]
-      self.pageViewController.setViewControllers(
+    menuView.travelLocationTapHandler = { [weak self] in
+      guard let targetViewController = self?.pageViewDataSource[1] else { return 0 }
+      
+      self?.pageViewController.setViewControllers(
         [targetViewController],
         direction: .forward,
         animated: true)
       return targetViewController.numberOfItems
     }
   }
+  
+  func setNavigationTitle(_ title: String) {
+    navigationItem.title = title
+  }
 }
 
 // MARK: - Action
 extension FavoriteDetailViewController {
   @objc private func didTapBackButton() {
-    navigationController?.popViewController(animated: true)
+    coordinator?.popViewController()
   }
 }
 
@@ -172,11 +177,11 @@ extension FavoriteDetailViewController: FavoritePostViewDelegate {
       with: menuView,
       duration: 0.3,
       options: .curveEaseOut,
-      animations: {
-        self.menuView.transform = self.categoryViewTargetTransform
-        self.view.layoutIfNeeded()
-      }, completion: { _ in
-        self.isDoneCategoryViewAnimation = true
+      animations: { [weak self] in
+        self?.menuView.transform = self?.categoryViewTargetTransform ?? .identity
+        self?.view.layoutIfNeeded()
+      }, completion: { [weak self] _ in
+        self?.isDoneCategoryViewAnimation = true
       })
   }
 }
