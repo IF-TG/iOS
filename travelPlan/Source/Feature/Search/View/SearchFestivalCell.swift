@@ -13,7 +13,7 @@ import SnapKit
 final class SearchFestivalCell: UICollectionViewCell {
   enum Constants {
     enum ThumbnailImageView {
-      static let cornerRadius: CGFloat = 3
+      static let cornerRadius: CGFloat = 7
     }
     enum ThumbnailGradientLayer {
       static let lastColorAlpha: CGFloat = 1.0

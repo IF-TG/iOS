@@ -9,6 +9,9 @@ import Foundation
 import Combine
 
 final class SearchViewModel {
+  enum Constant {
+    static let rankingMaxCount = 3
+  }
   typealias Output = AnyPublisher<State, ErrorType>
   
   // MARK: - Input
@@ -146,7 +149,7 @@ extension SearchViewModel {
     dataSource.append(SearchSectionModel(itemType: .camping(campingCellViewModels), headerTitle: famousHeader))
     
     let topTenModels = SearchTopTenModel.mockModels
-      .filter { $0.ranking <= 3 }
+      .filter { $0.ranking <= Constant.rankingMaxCount }
       .sorted { $0.ranking < $1.ranking }
     let topTenCellViewModels = topTenModels.map { SearchTopTenCellViewModel(model: $0) }
     let topTenHeader = "여행지 TOP 10 🌟"
