@@ -18,18 +18,19 @@ final class FavoriteDetailCoordinator: FlowCoordinator {
   var child: [FlowCoordinator] = []
   var presenter: UINavigationController!
   
-  var viewController: FavoriteDetailViewController
+  var viewController: UIViewController
   
   init(presenter: UINavigationController, direcotryIdentifier identifier: AnyHashable, title: String) {
     self.presenter = presenter
     // TODO: - 뷰모델 생성시 특별한 식별자 주입 identifier주입
     // direcrotyIdentifier = identifier
-    viewController = FavoriteDetailViewController(title: title)
+    let favoriteDetailViewController = FavoriteDetailViewController(title: title)
+    viewController = favoriteDetailViewController
+    favoriteDetailViewController.coordinator = self
   }
   
   // MARK: - Helpers
   func start() {
-    viewController.coordinator = self
     presenter.pushViewController(viewController, animated: true)
   }
 }
