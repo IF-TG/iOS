@@ -76,10 +76,10 @@ extension FavoriteViewModel: FavoriteViewModelable {
   
   private func detailPageStream(_ input: Input) -> Output {
     return input.detailPage
-      .map { indexPath -> State in
+      .map { [weak self] indexPath -> State in
         // TODO: - 세부 디렉터리 식별자 키 찾아서 전송해야합니다.
-
-        return .showDetailPage(indexPath)
+        let item = self?.favoriteDirectories[indexPath.row]
+        return .showDetailPage(indexPath, item?.title ?? "찜 상세 화면")
       }.eraseToAnyPublisher()
   }
   
