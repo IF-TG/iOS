@@ -26,7 +26,7 @@ class TravelDestinationCell: UICollectionViewCell {
   }
   
   private lazy var containerView: BaseDestinationView<LeftAlignThreeLabelsView> 
-  = .init(centerView: LeftAlignThreeLabelsView()).set {
+  = .init(centerView: LeftAlignThreeLabelsView(), imageViewType: .default).set {
     $0.delegate = self
   }
   
