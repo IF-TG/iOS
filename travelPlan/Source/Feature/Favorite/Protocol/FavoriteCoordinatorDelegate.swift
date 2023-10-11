@@ -9,7 +9,7 @@ import Foundation
 
 protocol FavoriteCoordinatorDelegate: AnyObject {
   func finish()
-  func showDetailPage(with id: AnyHashable)
+  func showDetailPage(with id: AnyHashable, title: String)
   func showNewDirectoryCreationPage()
   func showDirectoryNameSettingPage(with index: Int)
 }
