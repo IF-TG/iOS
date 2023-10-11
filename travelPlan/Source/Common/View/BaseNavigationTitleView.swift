@@ -8,7 +8,6 @@
 import UIKit
 import SnapKit
 
-/// 적용하고 싶은 ViewControler에서 navigationItem.titleView에 해당 객체를 대입하면 됩니다.
 class BaseNavigationTitleView: UIView {
   enum Constant {
     enum DefaultLabel {
@@ -17,7 +16,7 @@ class BaseNavigationTitleView: UIView {
   }
   
   enum `Type` {
-    case `default`(title: String)
+    case `default`(title: String?)
     case custom(customView: UIView)
     
     fileprivate var titleView: UIView {
