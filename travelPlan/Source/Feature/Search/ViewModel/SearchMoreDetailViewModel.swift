@@ -23,7 +23,7 @@ final class SearchMoreDetailViewModel {
     }
   }
   enum State {
-    case none
+    case setNavigationTitle(title: String?)
     case showDetail
   }
   enum ErrorType: Error {
@@ -51,7 +51,8 @@ extension SearchMoreDetailViewModel: ViewModelCase {
     input.viewDidLoad
       .map { [weak self] type in
         self?.fetchData(type: type)
-        return .none
+        let title = self?.navigationTitle()
+        return .setNavigationTitle(title: title)
       }
       .setFailureType(to: ErrorType.self)
       .eraseToAnyPublisher()
@@ -119,6 +120,10 @@ extension SearchMoreDetailViewModel {
     self.topTenCellViewModels = .init()
     _ = cellViewModels.map { self.topTenCellViewModels?.append($0) }
     self.headerInfo = SearchDetailHeaderInfo.topTenMock
+  }
+  
+  private func navigationTitle() -> String? {
+    return headerInfo?.title
   }
 }
 

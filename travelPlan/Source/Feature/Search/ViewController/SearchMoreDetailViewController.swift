@@ -103,6 +103,11 @@ class SearchMoreDetailViewController: UIViewController {
     bind()
     input.viewDidLoad.send(type)
   }
+  
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    self.navigationController?.navigationBar.backgroundColor = nil
+  }
 }
 
 extension SearchMoreDetailViewController: ViewBindCase {
@@ -131,8 +136,8 @@ extension SearchMoreDetailViewController: ViewBindCase {
     switch state {
     case .showDetail:
       print("DEBUG: 다음 화면으로 전환합니다.")
-    case .none:
-      break
+    case let .setNavigationTitle(title):
+      navigationItem.title = title
     }
   }
   
@@ -276,3 +281,16 @@ extension SearchMoreDetailViewController: UICollectionViewDelegate {
     input.didSelectItem.send(indexPath)
   }
 }
+
+// 스크롤 시, 특이점에 도달할 때를 기준으로 그라데이션을 시작한다.
+// x: header.height,
+// y: navigationBar.height
+
+//if contentOffset >= (x-y) { // 타이틀이 보여지는 경우
+
+//  self.navigationController?.navigationBar.backgroundColor = .white
+//} else if contentOffset < (x-y) {
+//  navigationItem.titleView?.alpha = 0 // 타이틀이 사라짐
+//}
+
+// titleView를 viewDidLoad시점에 만들어두고, 스크롤에 따라서 주입 or nil 처리
