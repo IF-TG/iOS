@@ -12,3 +12,10 @@ protocol FavoriteDirectorySettingViewDelegate: AnyObject, BottomSheetViewDelegat
     _ settingView: FavoriteDirectorySettingView,
     didTapOkButton: UIButton)
 }
+
+extension FavoriteDirectorySettingViewDelegate{
+  func bottomSheetView(
+    _ bottomSheetView: BottomSheetView,
+    withPenGesture gesture: UIPanGestureRecognizer
+  ) { }
+}

@@ -96,9 +96,4 @@ extension FavoriteCoordinator: FavoriteDirectorySettingViewDelegate {
       viewController.updateDirectoryName(title: title, index: settingIndex)
     }
   }
-  
-  func bottomSheetView(
-    _ bottomSheetView: BottomSheetView,
-    withPenGesture gesture: UIPanGestureRecognizer
-  ) { }
 }
