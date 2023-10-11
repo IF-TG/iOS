@@ -18,11 +18,11 @@ fileprivate class TempFavoriteLocationView: UIView & EmptyStateBasedContentViewC
 final class FavoriteLocationViewController: EmptyStateBasedContentViewController {
   private let tempLocationView = TempFavoriteLocationView(frame: .zero).set {
     $0.translatesAutoresizingMaskIntoConstraints = false
-    $0.backgroundColor = .orange
   }
   
   init() {
     super.init(contentView: tempLocationView, emptyState: .emptyTravelLocation)
+    tempLocationView.hasItem.send(false)
   }
   
   required init?(coder: NSCoder) {
@@ -33,6 +33,6 @@ final class FavoriteLocationViewController: EmptyStateBasedContentViewController
 // MARK: - FavoriteDetailMenuViewConfigurable 
 extension FavoriteLocationViewController: FavoriteDetailMenuViewConfigurable {
   var numberOfItems: Int {
-    17
+    0
   }
 }
