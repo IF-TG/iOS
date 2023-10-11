@@ -12,6 +12,11 @@ final class FavoriteDetailViewController: UIViewController {
     enum CategoryView {
       static let height: CGFloat = 98
     }
+    enum BackButtonItem {
+      static let imageName = "back"
+      static let titleColor = UIColor.yg.gray7
+      static let fontSize: CGFloat = 16
+    }
   }
   
   // MARK: - Properties
@@ -40,6 +45,18 @@ final class FavoriteDetailViewController: UIViewController {
   
   private var pageView: UIView! {
     pageViewController.view
+  }
+  
+  private lazy var backButton = UIButton().set {
+    typealias Const = Constant.BackButtonItem
+    let iconName = Const.imageName
+    let image = UIImage(named: iconName)?.withRenderingMode(.alwaysOriginal)
+    let attributes: [NSAttributedString.Key: Any] = [.font: UIFont(pretendard: .medium, size: Const.fontSize)!]
+    let attrString = NSAttributedString(string: "찜 목록", attributes: attributes)
+    $0.setImage(image, for: .normal)
+    $0.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
+    $0.setTitleColor(Const.titleColor, for: .normal)
+    $0.setAttributedTitle(attrString, for: .normal)
   }
   
   private var categoryViewTargetTransform = CGAffineTransform()
@@ -78,12 +95,16 @@ private extension FavoriteDetailViewController {
     let favoritePostViewController = FavoritePostViewController().set {
       $0.delegate = self
     }
-    
     let favoriteLocationViewController = FavoriteLocationViewController()
-    
     pageViewDataSource = [favoritePostViewController, favoriteLocationViewController]
     view.backgroundColor = .white
     setupUI()
+    setNavigationUI()
+  }
+  
+  private func setNavigationUI() {
+    let barItem = UIBarButtonItem(customView: backButton)
+    navigationItem.leftBarButtonItem = barItem
   }
   
   func bind() {
@@ -105,6 +126,13 @@ private extension FavoriteDetailViewController {
         animated: true)
       return targetViewController.numberOfItems
     }
+  }
+}
+
+// MARK: - Action
+extension FavoriteDetailViewController {
+  @objc private func didTapBackButton() {
+    navigationController?.popViewController(animated: true)
   }
 }
 
