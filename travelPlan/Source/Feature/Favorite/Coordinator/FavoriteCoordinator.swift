@@ -13,7 +13,7 @@ final class FavoriteCoordinator: FlowCoordinator {
   var parent: FlowCoordinator!
   var child: [FlowCoordinator] = []
   var presenter: UINavigationController!
-  private weak var viewController: FavoriteViewController!
+  private weak var viewController: UIViewController!
   private var settingIndex: Int?
   
   init(presenter: UINavigationController) {
@@ -83,6 +83,7 @@ extension FavoriteCoordinator: FavoriteDirectorySettingViewDelegate {
     didTapOkButton: UIButton
   ) {
     presenter.presentedViewController?.dismiss(animated: false)
+    guard let viewController = self.viewController as? FavoriteViewController else { return }
     let title = settingView.text
     switch settingView.settingState {
     case .newDirectory:
