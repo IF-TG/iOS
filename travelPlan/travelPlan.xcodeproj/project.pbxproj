@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		130304792A24936D00776A0D /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130304782A24936D00776A0D /* SearchViewModel.swift */; };
 		1303047B2A24938700776A0D /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1303047A2A24938700776A0D /* SearchView.swift */; };
-		1303047E2A249D6F00776A0D /* UIViewController+Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1303047D2A249D6F00776A0D /* UIViewController+Preview.swift */; };
-		130304802A249E2C00776A0D /* UIView+Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1303047F2A249E2C00776A0D /* UIView+Preview.swift */; };
 		130304822A250DF600776A0D /* TitleWithButtonHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130304812A250DF600776A0D /* TitleWithButtonHeaderView.swift */; };
 		130304842A25117200776A0D /* SearchFestivalCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130304832A25117200776A0D /* SearchFestivalCell.swift */; };
 		130304AA2A271F3B00776A0D /* SearchSectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130304A92A271F3B00776A0D /* SearchSectionModel.swift */; };
@@ -55,6 +53,8 @@
 		13A93EF72AD0AD2700FC4BBD /* SearchTopTenCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A93EF62AD0AD2700FC4BBD /* SearchTopTenCell.swift */; };
 		13A93EF92AD1CA0200FC4BBD /* SearchTopTenCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A93EF82AD1CA0200FC4BBD /* SearchTopTenCellViewModel.swift */; };
 		13A93EFB2AD1EA6B00FC4BBD /* TravelDestinationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A93EFA2AD1EA6B00FC4BBD /* TravelDestinationModel.swift */; };
+		13BF40F32AD6F1D600F3F082 /* BaseNavigationTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13BF40F22AD6F1D600F3F082 /* BaseNavigationTitleView.swift */; };
+		13BF40F52AD712EC00F3F082 /* UIViewController+TitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13BF40F42AD712EC00F3F082 /* UIViewController+TitleView.swift */; };
 		13C9C1AF2A17FFC400DF1FFF /* PostSearchHeaderViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C9C1AE2A17FFC400DF1FFF /* PostSearchHeaderViewDelegate.swift */; };
 		13C9C1B12A1806F500DF1FFF /* PostRecentSearchTagCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C9C1B02A1806F500DF1FFF /* PostRecentSearchTagCellDelegate.swift */; };
 		13CB6D322A1E9F6600D185B2 /* CautionAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CB6D312A1E9F6600D185B2 /* CautionAlertViewController.swift */; };
@@ -235,8 +235,6 @@
 /* Begin PBXFileReference section */
 		130304782A24936D00776A0D /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		1303047A2A24938700776A0D /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
-		1303047D2A249D6F00776A0D /* UIViewController+Preview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Preview.swift"; sourceTree = "<group>"; };
-		1303047F2A249E2C00776A0D /* UIView+Preview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Preview.swift"; sourceTree = "<group>"; };
 		130304812A250DF600776A0D /* TitleWithButtonHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleWithButtonHeaderView.swift; sourceTree = "<group>"; };
 		130304832A25117200776A0D /* SearchFestivalCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFestivalCell.swift; sourceTree = "<group>"; };
 		130304A92A271F3B00776A0D /* SearchSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchSectionModel.swift; sourceTree = "<group>"; };
@@ -285,6 +283,8 @@
 		13A93EF62AD0AD2700FC4BBD /* SearchTopTenCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTopTenCell.swift; sourceTree = "<group>"; };
 		13A93EF82AD1CA0200FC4BBD /* SearchTopTenCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTopTenCellViewModel.swift; sourceTree = "<group>"; };
 		13A93EFA2AD1EA6B00FC4BBD /* TravelDestinationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelDestinationModel.swift; sourceTree = "<group>"; };
+		13BF40F22AD6F1D600F3F082 /* BaseNavigationTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNavigationTitleView.swift; sourceTree = "<group>"; };
+		13BF40F42AD712EC00F3F082 /* UIViewController+TitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+TitleView.swift"; sourceTree = "<group>"; };
 		13C07ECC2A13F454005F04CD /* PostSearchFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSearchFooterView.swift; sourceTree = "<group>"; };
 		13C9C1AE2A17FFC400DF1FFF /* PostSearchHeaderViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSearchHeaderViewDelegate.swift; sourceTree = "<group>"; };
 		13C9C1B02A1806F500DF1FFF /* PostRecentSearchTagCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostRecentSearchTagCellDelegate.swift; sourceTree = "<group>"; };
@@ -531,15 +531,6 @@
 				13A93EE82AD0065300FC4BBD /* SearchMoreDetailLayoutManager.swift */,
 			);
 			path = View;
-			sourceTree = "<group>";
-		};
-		1303047C2A249D5B00776A0D /* Preview */ = {
-			isa = PBXGroup;
-			children = (
-				1303047D2A249D6F00776A0D /* UIViewController+Preview.swift */,
-				1303047F2A249E2C00776A0D /* UIView+Preview.swift */,
-			);
-			path = Preview;
 			sourceTree = "<group>";
 		};
 		130304A82A270A7C00776A0D /* Model */ = {
@@ -842,6 +833,7 @@
 				15FC90D52ACC1BB50033A1E5 /* PrimaryColorToneRoundButton.swift */,
 				15DA4C822ACD821F003A7900 /* EmptyStateView.swift */,
 				157ADCB32AD07ED600D37680 /* SearchWithCancelView.swift */,
+				13BF40F22AD6F1D600F3F082 /* BaseNavigationTitleView.swift */,
 				15FFABFA2AD5B6FC0013DB57 /* BasePaddingLabel.swift */,
 			);
 			path = View;
@@ -1314,7 +1306,6 @@
 		15FEB5DF2A050A99000A5F33 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
-				1303047C2A249D5B00776A0D /* Preview */,
 				15FEB5E02A050A99000A5F33 /* UIColor+.swift */,
 				157176772A0C21C90015EC8C /* UIColor+AppPalette.swift */,
 				158BEFC12A0EB45300C27861 /* UIFont+.swift */,
@@ -1322,6 +1313,7 @@
 				15AF2C3D2A1147B100BEE166 /* UIImage+JPEGCompress.swift */,
 				13CB6D352A20E12B00D185B2 /* CALayer+Border.swift */,
 				131A11092AB509FB007BDD66 /* UIView+roundCorners.swift */,
+				13BF40F42AD712EC00F3F082 /* UIViewController+TitleView.swift */,
 				13A6C2DA2AB782A100EABD76 /* UIViewController+BackBarButtonItem.swift */,
 				15F36A192AB1A18200971803 /* CaseIterable+.swift */,
 				1570FDB62AB1E29C006FBAA3 /* Notification+.swift */,
@@ -1649,11 +1641,11 @@
 				15FEB5E92A050A99000A5F33 /* UITextField+Combine.swift in Sources */,
 				15EF8C972A0A18960068C744 /* CategoryPageViewModel.swift in Sources */,
 				131A110C2AB5D55C007BDD66 /* SearchMoreDetailCoordinator.swift in Sources */,
+				13BF40F32AD6F1D600F3F082 /* BaseNavigationTitleView.swift in Sources */,
 				15F36A1C2AB1A45600971803 /* TravelPartner.swift in Sources */,
 				1503F9402A4E1327002BC38D /* FeedCoordinator.swift in Sources */,
 				15EB3A012AC3477B0025FFB4 /* PostHeaderInfoView.swift in Sources */,
 				13254FED2A0515D800094218 /* ProfileViewController.swift in Sources */,
-				1303047E2A249D6F00776A0D /* UIViewController+Preview.swift in Sources */,
 				13CB6D322A1E9F6600D185B2 /* CautionAlertViewController.swift in Sources */,
 				15CB235B2A109CA4003EAF20 /* PostHeaderSubInfoModel.swift in Sources */,
 				130304792A24936D00776A0D /* SearchViewModel.swift in Sources */,
@@ -1745,6 +1737,7 @@
 				15BB01BF2A1EBAC20035B486 /* LoginViewModel+Associatedtype.swift in Sources */,
 				1594F53429FD517E00A58F20 /* SceneDelegate.swift in Sources */,
 				15BB01BB2A1EB6300035B486 /* FeedViewModel+AssociatedType.swift in Sources */,
+				13BF40F52AD712EC00F3F082 /* UIViewController+TitleView.swift in Sources */,
 				13A6C2DB2AB782A100EABD76 /* UIViewController+BackBarButtonItem.swift in Sources */,
 				13300FA42AC0688300952757 /* BaseDestinationView.swift in Sources */,
 				13A93EE52ACDE0EC00FC4BBD /* SearchDetailHeaderView.swift in Sources */,
