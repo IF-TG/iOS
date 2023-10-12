@@ -30,10 +30,6 @@ final class TravelDestinationCellViewModel {
     self.id = model.id
   }
   
-  deinit {
-    print("deinit: \(Self.self)")
-  }
-  
   // MARK: - Input
   struct Input {
     let didTapStarButton: PassthroughSubject<Void, ErrorType>
