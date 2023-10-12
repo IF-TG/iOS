@@ -205,6 +205,9 @@
 		15FEB5EA2A050A99000A5F33 /* UIColor+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FEB5E02A050A99000A5F33 /* UIColor+.swift */; };
 		15FEB5EC2A050A99000A5F33 /* ViewModelProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FEB5E32A050A99000A5F33 /* ViewModelProtocols.swift */; };
 		15FEB5ED2A050A99000A5F33 /* LayoutSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FEB5E42A050A99000A5F33 /* LayoutSupport.swift */; };
+		15FFAC072AD6ED5B0013DB57 /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFAC062AD6ED5B0013DB57 /* Endpoint.swift */; };
+		15FFAC092AD7C1260013DB57 /* Requestable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFAC082AD7C1260013DB57 /* Requestable.swift */; };
+		15FFAC0B2AD7C22B0013DB57 /* ResponseType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFAC0A2AD7C22B0013DB57 /* ResponseType.swift */; };
 		8B8277C1D53D2763DBC91C26 /* Pods_travelPlan.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5093F957BE61B8938FD9727 /* Pods_travelPlan.framework */; };
 /* End PBXBuildFile section */
 
@@ -428,6 +431,9 @@
 		15FEB5E22A050A99000A5F33 /* ConvenienceInit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConvenienceInit.swift; sourceTree = "<group>"; };
 		15FEB5E32A050A99000A5F33 /* ViewModelProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewModelProtocols.swift; sourceTree = "<group>"; };
 		15FEB5E42A050A99000A5F33 /* LayoutSupport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LayoutSupport.swift; sourceTree = "<group>"; };
+		15FFAC062AD6ED5B0013DB57 /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
+		15FFAC082AD7C1260013DB57 /* Requestable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Requestable.swift; sourceTree = "<group>"; };
+		15FFAC0A2AD7C22B0013DB57 /* ResponseType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseType.swift; sourceTree = "<group>"; };
 		95C1136D7650708D46BBF977 /* Pods-travelPlan.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-travelPlan.release.xcconfig"; path = "Target Support Files/Pods-travelPlan/Pods-travelPlan.release.xcconfig"; sourceTree = "<group>"; };
 		B40897DD36F55524D37767A7 /* Pods-travelPlan.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-travelPlan.debug.xcconfig"; path = "Target Support Files/Pods-travelPlan/Pods-travelPlan.debug.xcconfig"; sourceTree = "<group>"; };
 		D5093F957BE61B8938FD9727 /* Pods_travelPlan.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_travelPlan.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -853,6 +859,7 @@
 		1594F53029FD517E00A58F20 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				15FFAC052AD6E8D80013DB57 /* Network */,
 				15FEB5D82A050A99000A5F33 /* Common */,
 				1594F54629FD526900A58F20 /* Feature */,
 				1594F54529FD521000A58F20 /* Support */,
@@ -1326,6 +1333,16 @@
 			path = Protocol;
 			sourceTree = "<group>";
 		};
+		15FFAC052AD6E8D80013DB57 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				15FFAC062AD6ED5B0013DB57 /* Endpoint.swift */,
+				15FFAC082AD7C1260013DB57 /* Requestable.swift */,
+				15FFAC0A2AD7C22B0013DB57 /* ResponseType.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
 		22C6F6C53B2A988070A2BBBC /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -1595,6 +1612,7 @@
 				15F0D1D32A53095100D04773 /* PostViewAdapter.swift in Sources */,
 				157ADCA62ACFFEF300D37680 /* EmptyStateBasedContentViewCheckable.swift in Sources */,
 				152AD5272A1B89D2008A2A11 /* FavoriteViewModel.swift in Sources */,
+				15FFAC0B2AD7C22B0013DB57 /* ResponseType.swift in Sources */,
 				158BEF7F2A0E2C6E00C27861 /* PostContentAreaView.swift in Sources */,
 				15710CB82A132C630023C19E /* FeedPostSearchBarItem.swift in Sources */,
 				131A110A2AB509FB007BDD66 /* UIView+roundCorners.swift in Sources */,
@@ -1704,6 +1722,7 @@
 				1303047B2A24938700776A0D /* SearchView.swift in Sources */,
 				15FEB5E52A050A99000A5F33 /* UIControl+Combine.swift in Sources */,
 				13C9C1AF2A17FFC400DF1FFF /* PostSearchHeaderViewDelegate.swift in Sources */,
+				15FFAC092AD7C1260013DB57 /* Requestable.swift in Sources */,
 				13A93EF72AD0AD2700FC4BBD /* SearchTopTenCell.swift in Sources */,
 				13254FFB2A08AD8700094218 /* PostSearchViewController.swift in Sources */,
 				15C83F882AB2055E00DDB536 /* BaseBottomSheetViewController.swift in Sources */,
@@ -1726,6 +1745,7 @@
 				13606E882A9DDE7D00365F20 /* PostRecentSearchTagCell.swift in Sources */,
 				13254FE92A0515A900094218 /* PlanViewController.swift in Sources */,
 				13606E942AA187F500365F20 /* PostSearchTagLabel.swift in Sources */,
+				15FFAC072AD6ED5B0013DB57 /* Endpoint.swift in Sources */,
 				15CB235F2A10B5B8003EAF20 /* DateValidationManager.swift in Sources */,
 				15EF8CA32A0A197C0068C744 /* CategoryPageView.swift in Sources */,
 				13300FAE2AC2093D00952757 /* SearchSectionType.swift in Sources */,
