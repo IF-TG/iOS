@@ -24,6 +24,11 @@ class SearchMoreDetailViewController: UIViewController {
       enum ContentEdgeInsets {
         static let left: CGFloat = 10
       }
+      static let imageName = "back"
+    }
+    enum NavigationTitleLabel {
+      static let maxAlpha: CGFloat = 1
+      static let fontSize: CGFloat = 18
     }
   }
   
@@ -55,6 +60,7 @@ class SearchMoreDetailViewController: UIViewController {
   }
   
   private lazy var backButton: UIButton = .init().set {
+    typealias Const = Constant.BackButton
     $0.addTarget(
       self,
       action: #selector(didTapBackBarButtonItem),
@@ -62,12 +68,12 @@ class SearchMoreDetailViewController: UIViewController {
     )
     $0.contentEdgeInsets = .init(
       top: .zero,
-      left: Constant.BackButton.ContentEdgeInsets.left,
+      left: Const.ContentEdgeInsets.left,
       bottom: .zero,
       right: .zero
     )
     $0.setImage(
-      UIImage(named: "back")?
+      UIImage(named: Const.imageName)?
         .withRenderingMode(.alwaysTemplate),
       for: .normal
     )
@@ -75,8 +81,10 @@ class SearchMoreDetailViewController: UIViewController {
   }
   
   private let navigationTitleLabel: UILabel = .init().set {
-    $0.font = .init(pretendard: .semiBold, size: 18)
+    typealias Const = Constant.NavigationTitleLabel
+    $0.font = .init(pretendard: .semiBold, size: Const.fontSize)
     $0.textColor = .yg.gray7
+    $0.alpha = .zero
   }
   
   private let type: SearchSectionType
@@ -111,10 +119,8 @@ class SearchMoreDetailViewController: UIViewController {
   
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
-//    self.navigationController?.navigationBar.backgroundColor = nil
-    appearance.backgroundColor = nil
-    navigationController?.navigationBar.standardAppearance = appearance
-    navigationController?.navigationBar.scrollEdgeAppearance = appearance
+    removeNavigationBackground()
+    setNavigationBarAppearance(with: appearance)
   }
 }
 
@@ -169,6 +175,18 @@ extension SearchMoreDetailViewController {
 
 // MARK: - Private Helpers
 extension SearchMoreDetailViewController {
+  /// 내비게이션의 배경을 제거합니다.
+  private func removeNavigationBackground() {
+    appearance.backgroundColor = nil
+    appearance.shadowColor = nil
+  }
+  
+  /// appearance의 값을 변경 후, 해당 함수를 호출해야만 변경된 값이 적용됩니다.
+  private func setNavigationBarAppearance(with appearance: UINavigationBarAppearance) {
+    navigationController?.navigationBar.standardAppearance = appearance
+    navigationController?.navigationBar.scrollEdgeAppearance = appearance
+  }
+  
   private func setupStyles() {
     view.backgroundColor = .white
   }
@@ -176,20 +194,13 @@ extension SearchMoreDetailViewController {
   private func setupNavigationBar() {
     self.navigationController?.isNavigationBarHidden = false
     navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
-    clearNavigationBarImage()
-    appearance.backgroundEffect = .none
-  }
-  
-  private func clearNavigationBarImage() {
-    self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-    self.navigationController?.navigationBar.shadowImage = UIImage()
   }
   
   /// scaleFactor는 0과 1사이의 조절 변수입니다.
   ///
   /// scaleFactor가 1에서 0으로 변하면, color가 white에서 black으로 변합니다.
   /// 반대로 scaleFactor가 0에서 1로 변하면, color가 black에서 white로 변합니다.
-  private func changeImageViewTintColor(with scaleFactor: CGFloat) -> UIColor {
+  private func changeBackButtonTintColor(with scaleFactor: CGFloat) -> UIColor {
     return UIColor(white: scaleFactor, alpha: 1)
   }
   
@@ -278,38 +289,39 @@ extension SearchMoreDetailViewController: UICollectionViewDataSource {
 
 extension SearchMoreDetailViewController: UICollectionViewDelegate {
   func scrollViewDidScroll(_ scrollView: UIScrollView) {
-    
-    guard let headerView = collectionView.supplementaryView(
+    guard let headerView = self.collectionView.supplementaryView(
       forElementKind: UICollectionView.elementKindSectionHeader,
       at: IndexPath(item: .zero, section: .zero)
     ) else { return }
-
-    let headerViewHeight = headerView.bounds.height
     
     guard
-      let navigationBarHeight = self.navigationController?.navigationBar.frame.height,
+      let navigationBarHeight = self.navigationController?.navigationBar.bounds.height,
       let statusBarHeight = view.window?.windowScene?.statusBarManager?.statusBarFrame.height
     else { return }
-    let barHeight = navigationBarHeight + statusBarHeight
     
-    let heightDistance = headerViewHeight - barHeight
+    // headerView 높이
+    let headerViewHeight = headerView.bounds.height
+    // bar 높이
+    let appearanceHeight = navigationBarHeight + statusBarHeight
+    
+    let heightDistance = headerViewHeight - appearanceHeight
     let maxHeight = min(heightDistance, scrollView.contentOffset.y)
     let headerViewAlpha = (heightDistance - maxHeight) / heightDistance
     
-    if scrollView.contentOffset.y >= headerViewHeight - barHeight {
-//      appearance.backgroundColor = .white
-//      appearance.shadowColor = .yg.gray0
+    // 헤더뷰의 bottom이 내비게이션바의 botom과 닿거나 헤더뷰의 bottom이 내비게이션바의 bottom보다 위에 존재하는 경우
+    if scrollView.contentOffset.y >= heightDistance {
+      appearance.backgroundColor = .white
+      appearance.shadowColor = .yg.gray0
+      navigationTitleLabel.alpha = Constant.NavigationTitleLabel.maxAlpha
     } else {
-      appearance.backgroundColor = .clear
-//      appearance.shadowColor = .clear // default line 설정
+      removeNavigationBackground()
+      navigationTitleLabel.alpha = .zero
     }
     
     headerView.alpha = headerViewAlpha
-    backButton.imageView?.tintColor = changeImageViewTintColor(with: headerViewAlpha)
-    print(headerViewAlpha)
-    appearance.backgroundEffect = .none
-    navigationController?.navigationBar.standardAppearance = appearance
-    navigationController?.navigationBar.scrollEdgeAppearance = appearance
+    appearance.backgroundEffect = .none // 내비게이션 반투명도 제거
+    backButton.imageView?.tintColor = changeBackButtonTintColor(with: headerViewAlpha)
+    setNavigationBarAppearance(with: appearance)
   }
   
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
