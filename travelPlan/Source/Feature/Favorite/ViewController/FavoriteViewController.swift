@@ -6,6 +6,29 @@
 //
 
 import UIKit
+import Combine
+
+struct FavoriteViewInput {
+  let appear: PassthroughSubject<Void, Never> = .init()
+  let detailPage: PassthroughSubject<IndexPath, Never> = .init()
+  let updateDirectoryName: PassthroughSubject<(title: String, Int: Int), Never> = .init()
+  let didTapNewDirectory: PassthroughSubject<Void, Never> = .init()
+  let directoryNameSettingPage: PassthroughSubject<IndexPath, Never> = .init()
+  let addNewDirectory: PassthroughSubject<String?, Never> = .init()
+  let deleteDirectory: PassthroughSubject<IndexPath, Never> = .init()
+}
+
+enum FavoriteViewState {
+  case none
+  // TODO: - 인덱스페스나 디렉터리를 식별하는 식별자를 반환해서 이동해야합니다.
+  case showDetailPage(IndexPath, String)
+  case updatedDirecrotyName(IndexPath)
+  case notUpdateDirectoryName
+  case showNewDirectoryCreationPage
+  case showDirectoryNameSettingPage(Int)
+  case newDirectory(IndexPath)
+  case deleteDirectory(IndexPath)
+}
 
 class FavoriteViewController: UIViewController {
   enum Constant {
@@ -40,6 +63,7 @@ class FavoriteViewController: UIViewController {
     $0.rowHeight = Constant.itemHeight
     $0.sectionHeaderHeight = Constant.itemHeight
     $0.backgroundColor = .white
+    $0.bounces = false
     $0.register(
       FavoriteTableViewCell.self,
       forCellReuseIdentifier: FavoriteTableViewCell.id)
@@ -51,22 +75,6 @@ class FavoriteViewController: UIViewController {
   private let navigationBarDivider = UIView(frame: .zero).set {
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.backgroundColor = .yg.gray0
-  }
-  
-  private var adapter: FavoriteTableViewAdapter!
-  
-  weak var coordinator: FavoriteCoordinatorDelegate?
-  
-  private var vm = FavoriteViewModel()
-  
-  private var originHeaderCenterX: CGFloat!
-  
-  private var isEditingTableView: Bool {
-    favoriteTableView.isEditing
-  }
-  
-  private var headerView: UITableViewHeaderFooterView? {
-    favoriteTableView.headerView(forSection: 0)
   }
   
   private let navigationTitleLabel = UILabel().set {
@@ -100,7 +108,40 @@ class FavoriteViewController: UIViewController {
     $0.addTarget(self, action: #selector(didTapFolderPlusButton), for: .touchUpInside)
   }
   
+  private var adapter: FavoriteTableViewAdapter!
+  
+  weak var coordinator: FavoriteCoordinatorDelegate?
+  
+  private let viewModel: any FavoriteViewModelable & FavoriteTableViewAdapterDataSource
+  
+  private var originHeaderCenterX: CGFloat!
+  
+  private var subscription: AnyCancellable?
+  
+  private var isEditingTableView: Bool {
+    favoriteTableView.isEditing
+  }
+  
+  private var headerView: UITableViewHeaderFooterView? {
+    favoriteTableView.headerView(forSection: 0)
+  }
+  
+  private let input = FavoriteViewInput()
+  
   // MARK: - Lifecycle
+  init(viewModel: any FavoriteViewModelable & FavoriteTableViewAdapterDataSource) {
+    self.viewModel = viewModel
+    super.init(nibName: nil, bundle: nil)
+    adapter = FavoriteTableViewAdapter(
+      tableView: self.favoriteTableView,
+      dataSource: viewModel,
+      delegate: self)
+  }
+  
+  required init?(coder: NSCoder) {
+    nil
+  }
+  
   override func loadView() {
     view = favoriteTableView
   }
@@ -108,11 +149,12 @@ class FavoriteViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     configureUI()
-    favoriteTableView.bounces = false
-    adapter = FavoriteTableViewAdapter(
-      tableView: self.favoriteTableView,
-      dataSource: vm,
-      delegate: self)
+    bind()
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    input.appear.send()
   }
     
   deinit {
@@ -120,28 +162,26 @@ class FavoriteViewController: UIViewController {
   }
 }
 
+// MARK: - Helpers
+extension FavoriteViewController {
+  func makeNewDirectory(with title: String?) {
+    input.addNewDirectory.send(title)
+  }
+  
+  func updateDirectoryName(title: String, index: Int) {
+    input.updateDirectoryName.send((title, index))
+  }
+}
+
 // MARK: - Private helpers
 private extension FavoriteViewController {
   func configureUI() {
     view.backgroundColor = .white
-    navigationController?.navigationBar.backgroundColor = .white
-    setNavigationBarTitle()
-    setNavigationRightBarItem()
-    setNavigationLeftBarItem()
-    setNavigationBarEdgeGrayLine()
-  }
-  
-  func setNavigationBarTitle() {
     navigationItem.titleView = navigationTitleLabel
-  }
-  
-  func setNavigationRightBarItem() {
     navigationItem.rightBarButtonItem = UIBarButtonItem(customView: settingButton)
-  }
-  
-  func setNavigationLeftBarItem() {
     navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
     backButton.isHidden = true
+    setNavigationBarEdgeGrayLine()
   }
   
   func setNavigationBarEdgeGrayLine() {
@@ -171,7 +211,8 @@ private extension FavoriteViewController {
       })
   }
   
-  func setNotEditingMode() {
+  func setListMode(_ completion: (() -> Void)? = nil) {
+    navigationItem.rightBarButtonItem?.customView = settingButton
     navigationTitleLabel.text = "찜 목록"
     backButton.isHidden = true
     settingButton.isSelected.toggle()
@@ -184,9 +225,58 @@ private extension FavoriteViewController {
         self.favoriteTableView.transform = .identity
         self.headerView?.center.x = self.originHeaderCenterX
         self.headerView?.alpha = 1
+      }, completion: { _ in
+        completion?()
       })
-
   }
+  
+  func setFavoriteTableView(with indexPath: IndexPath) {
+    favoriteTableView.reloadData()
+    favoriteTableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+  }
+}
+
+// MARK: - ViewBindCase
+extension FavoriteViewController: ViewBindCase {
+  typealias Input = FavoriteViewInput
+  typealias ErrorType = Error
+  typealias State = FavoriteViewState
+  
+  func bind() {
+    let output = viewModel.transform(input)
+    subscription = output.sink { [weak self] in
+      self?.render($0)
+    }
+  }
+  
+  func render(_ state: FavoriteViewState) {
+    switch state {
+    case .none:
+      break
+    case .newDirectory(let indexPath):
+      setListMode { [weak self] in
+        self?.setFavoriteTableView(with: indexPath)
+      }
+    case .showNewDirectoryCreationPage:
+      coordinator?.showNewDirectoryCreationPage()
+    case .notUpdateDirectoryName:
+      didTapBackButton()
+    case .showDetailPage(let indexPath, let title):
+      coordinator?.showDetailPage(with: indexPath.row, title: title)
+    case .updatedDirecrotyName(let indexPath):
+      setListMode { [weak self] in
+        self?.setFavoriteTableView(with: indexPath)
+      }
+    case .showDirectoryNameSettingPage(let index):
+      coordinator?.showDirectoryNameSettingPage(with: index)
+    case .deleteDirectory(let indexPath):
+      setListMode {
+        self.favoriteTableView.deleteRows(at: [indexPath], with: .fade)
+      }
+    }
+  }
+  
+  func handleError(_ error: ErrorType) { }
 }
 
 // MARK: - Actions
@@ -195,27 +285,34 @@ extension FavoriteViewController {
     if !settingButton.isSelected {
       settingButton.isSelected.toggle()
       navigationItem.rightBarButtonItem?.customView = folderPlusButton
-      
       favoriteTableView.setEditing(!isEditingTableView, animated: true)
       setEditingMode()
     }
-
   }
   
   @objc private func didTapBackButton() {
-    navigationItem.rightBarButtonItem?.customView = settingButton
-    setNotEditingMode()
+    setListMode()
   }
   
   @objc private func didTapFolderPlusButton() {
-    print("무야호")
+    input.didTapNewDirectory.send()
   }
-  
 }
 
 // MARK: - FavoriteTableViewAdapterDelegate
-extension FavoriteViewController: FavoriteTableViewAdapterDelegate {  
-  func tableView(_ tableView: UITableView, didSelectRowAt: IndexPath) {
-    // TODO: - 데이터 찾고 그와 관련된 상세 찜 화면으로 이동.
+extension FavoriteViewController: FavoriteTableViewAdapterDelegate {
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    input.detailPage.send(indexPath)
+  }
+  
+  func tableViewCell(_ cell: UITableViewCell, didTapEditModeTitle title: String?) {
+    guard let indexPath = favoriteTableView.indexPath(for: cell) else { return }
+    // 원하면 placeholder에 현제 텍스트 추가할 수 있음.
+    input.directoryNameSettingPage.send(indexPath)
+  }
+  
+  func tableViewCell(_ cell: UITableViewCell, didtapDeleteButton: UIButton) {
+    guard let indexPath = favoriteTableView.indexPath(for: cell) else { return }
+    input.deleteDirectory.send(indexPath)
   }
 }

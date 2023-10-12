@@ -11,7 +11,6 @@ final class FavoriteHeaderImageViews: UIView {
   enum Constant {
     static let itemSpacing: CGFloat = 1
     static let lineSpacing: CGFloat = 1
-    
     enum ImageView {
       static let bgColor: UIColor = .yg.gray1
       static let size = {
@@ -36,7 +35,7 @@ final class FavoriteHeaderImageViews: UIView {
     }
   }
   
-  // MARK: - Initialization
+  // MARK: - Lifecycle
   private override init(frame: CGRect) {
     super.init(frame: frame)
     translatesAutoresizingMaskIntoConstraints = false

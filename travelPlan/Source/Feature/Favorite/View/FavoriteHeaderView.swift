@@ -8,12 +8,8 @@
 import UIKit
 
 final class FavoriteHeaderView: UITableViewHeaderFooterView {
-  struct Model {
-    let categoryCount: Int
-    let imageURLs: [String?]
-  }
-  
   enum Constant {
+    static let navigationBarDividerHeight: CGFloat = 0.33
     enum ImageViews {
       enum Spacing {
         static let leading: CGFloat = 16
@@ -65,7 +61,7 @@ final class FavoriteHeaderView: UITableViewHeaderFooterView {
 
 // MARK: - Helpers
 extension FavoriteHeaderView {
-  func configure(with data: Model) {
+  func configure(with data: FavoriteHeaderDirectoryEntity) {
     setTitle(with: data.categoryCount)
     setImageViews(with: data.imageURLs)
   }
@@ -80,7 +76,7 @@ private extension FavoriteHeaderView {
   func configureUI() {
     setupUI()
     line.setConstraint(fromSuperView: contentView)
-    line.setHeight(0.33)
+    line.setHeight(Constant.navigationBarDividerHeight)
   }
   
   @MainActor

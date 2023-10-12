@@ -19,7 +19,6 @@ final class FavoriteDetailMenuAreaView: UIView {
         static let trailing = leading
       }
     }
-        
     enum TotalItemStateLabel {
       static let textColor: UIColor = .YG.gray3
       static let textSize: CGFloat = 13
@@ -30,14 +29,12 @@ final class FavoriteDetailMenuAreaView: UIView {
         static let trailing = leaidng
       }
     }
-    
     enum Shadow {
       static let radius: CGFloat = 10.0
       static let color = UIColor(red: 0, green: 0, blue: 0, alpha: 0.05).cgColor
       static let offset = CGSize(width: 0, height: 1)
     }
   }
-  
   enum MenuState: String {
     case travelReview = "글"
     case travelLocation = "장소"
@@ -72,7 +69,6 @@ final class FavoriteDetailMenuAreaView: UIView {
     $0.textColor = Const.textColor
     // TODO: - 기본 폰트가 아니라 다 pretendard 폰트로 변경해야합니다.
     $0.font = UIFont.systemFont(ofSize: Const.textSize, weight: .init(Const.textWeight))
-    // $0.font = UIFont(pretendard: .medium, size: 13)
     $0.text = "찜한 글 " + totalItemCount.zeroPaddingString + "개"
     $0.sizeToFit()
   }

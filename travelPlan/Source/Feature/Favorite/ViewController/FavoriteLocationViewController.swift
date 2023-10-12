@@ -9,7 +9,7 @@ import UIKit
 import Combine
 
 // TODO: - 로케이션 뷰 구체적 지정되면 해당 뷰로 변환해야 합니다.
-fileprivate class TempFavoriteLocationView: UIView & EmptyStateBasedContentViewCheckable {
+private class TempFavoriteLocationView: UIView, EmptyStateBasedContentViewCheckable {
   var hasItem: CurrentValueSubject<Bool, Never> = .init(true)
   
   var isShowingFirstAnimation: Bool = true
@@ -18,11 +18,11 @@ fileprivate class TempFavoriteLocationView: UIView & EmptyStateBasedContentViewC
 final class FavoriteLocationViewController: EmptyStateBasedContentViewController {
   private let tempLocationView = TempFavoriteLocationView(frame: .zero).set {
     $0.translatesAutoresizingMaskIntoConstraints = false
-    $0.backgroundColor = .orange
   }
   
   init() {
     super.init(contentView: tempLocationView, emptyState: .emptyTravelLocation)
+    tempLocationView.hasItem.send(false)
   }
   
   required init?(coder: NSCoder) {
@@ -33,6 +33,6 @@ final class FavoriteLocationViewController: EmptyStateBasedContentViewController
 // MARK: - FavoriteDetailMenuViewConfigurable 
 extension FavoriteLocationViewController: FavoriteDetailMenuViewConfigurable {
   var numberOfItems: Int {
-    17
+    0
   }
 }

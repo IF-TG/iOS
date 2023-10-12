@@ -51,7 +51,7 @@ final class TravelThemeBottomSheetViewController: BaseBottomSheetViewController 
     sortingType: TravelCategorySortingType
   ) {
     self.sortingType = sortingType
-    super.init(mode: bottomSheetMode)
+    super.init(mode: bottomSheetMode, radius: 8)
   }
   
   required init?(coder: NSCoder) {
