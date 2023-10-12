@@ -25,7 +25,7 @@ class BaseBottomSheetViewController: UIViewController {
   }
   
   // MARK: - Properties
-  private var bottomSheetView = BottomSheetView()
+  private var bottomSheetView: BottomSheetView
   
   private var safeAreaBottomView = UIView(frame: .zero).set {
     $0.translatesAutoresizingMaskIntoConstraints = false
@@ -37,10 +37,26 @@ class BaseBottomSheetViewController: UIViewController {
   private var bottomSheetOriginHeight: CGFloat!
   
   private var contentMode: ContentMode = .full
+  
+  var dismissHandler: (() -> Void)?
+
+  private var isShowedWithKeyBoard = false
 
   // MARK: - Lifecycle
-  init(mode: ContentMode) {
+  init(mode: ContentMode, radius: CGFloat) {
     contentMode = mode
+    bottomSheetView = BottomSheetView(radius: radius)
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  init(
+    mode: ContentMode,
+    radius: CGFloat = 8,
+    isShowedKeyBoard: Bool
+  ) {
+    self.isShowedWithKeyBoard = isShowedKeyBoard
+    self.contentMode = mode
+    bottomSheetView = BottomSheetView(radius: radius)
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -58,7 +74,6 @@ class BaseBottomSheetViewController: UIViewController {
     showViewWithAnimation()
     showBottomSheetWithAnimation()
     setBottomSheetOriginProperties()
-    
   }
   
   override func viewDidLoad() {
@@ -72,6 +87,7 @@ class BaseBottomSheetViewController: UIViewController {
     hideBottomSheetWithAnimation {
       super.dismiss(animated: flag, completion: completion)
     }
+    dismissHandler?()
   }
   
   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -190,11 +206,18 @@ extension BaseBottomSheetViewController: BottomSheetViewDelegate {
     let pannedHeight = translation.y
     let isDraggingDown = pannedHeight > 0
     guard isDraggingDown else { return }
+    if isShowedWithKeyBoard {
+      gesture.isEnabled = false
+      dismiss(animated: false)
+    }
     switch gesture.state {
     case .changed:
       updateBottomSheetPosition(from: pannedHeight)
     case .ended,
          .cancelled:
+      if isShowedWithKeyBoard {
+        dismiss(animated: false)
+      }
       guard pannedHeight >= (bottomSheetOriginHeight)/3 else {
         animateBottomSheetWithOriginPosition(gesture)
         return

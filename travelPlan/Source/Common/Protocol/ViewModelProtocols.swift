@@ -47,3 +47,11 @@ protocol ViewModelCase: ViewModelAssociatedType {
   /// Transform view's event publihsers to 1 output publhiser with UI render state
   func transform(_ input: Input) -> Output
 }
+
+protocol ViewModelable {
+  associatedtype Input
+  associatedtype State
+  associatedtype Output
+  
+  func transform(_ input: Input) -> Output
+}

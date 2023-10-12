@@ -153,6 +153,19 @@ extension SearchWithCancelView {
           })
       })
   }
+  
+  func setTextFieldInputAccessory(_ view: UIView?) {
+    textField.inputAccessoryView = view
+  }
+  
+  func hideKeyboard() {
+    textField.resignFirstResponder()
+  }
+  
+  func showKeyboard() {
+    textField.becomeFirstResponder()
+  }
+
 }
 
 // MARK: - Private Helpers

@@ -8,8 +8,8 @@
 import UIKit
 
 extension UIViewController {
-  func presentBottomSheet(_ viewController: UIViewController) {
+  func presentBottomSheet(_ viewController: UIViewController, _ completion: (() -> Void)? = nil) {
     viewController.modalPresentationStyle = .overFullScreen
-    present(viewController, animated: false)
+    present(viewController, animated: false, completion: completion)
   }
 }

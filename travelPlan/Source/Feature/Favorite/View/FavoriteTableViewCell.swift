@@ -7,13 +7,8 @@
 
 import UIKit
 
+// TODO: - 메뉴버튼 클릭시 우선순위 교체 로직 추가해야합니다.
 final class FavoriteTableViewCell: UITableViewCell {
-  struct Model {
-    let title: String
-    let innerItemCount: Int
-    let imageURL: String?
-  }
-  
   enum Constant {
     static let deleteControlWidth = FavoriteViewController.Constant.deleteControlWidth
     enum DeleteButton {
@@ -21,15 +16,14 @@ final class FavoriteTableViewCell: UITableViewCell {
         static let leading: CGFloat = 14
       }
       static let size: CGSize = .init(width: 20, height: 20)
+      static let iconName = "deleteMinusIcon"
     }
-    
     enum QuarterImageView {
       enum Spacing {
         static let leading: CGFloat = 16
       }
       static let size = CGSize(width: 40, height: 40)
     }
-    
     enum TitleLabel {
       enum Spacing {
         static let leading: CGFloat = 15
@@ -39,8 +33,8 @@ final class FavoriteTableViewCell: UITableViewCell {
       static let fontName: UIFont.Pretendard = .medium
       static let textSize: CGFloat = 15.0
     }
-    
-    enum TitleTextField {
+    enum EditModeTitleLabel {
+      static let padding: UIEdgeInsets = .init(top: 0, left: 8, bottom: 0, right: 8)
       enum Spacing {
         static let leading: CGFloat = 20
         static let trailing: CGFloat = {
@@ -61,7 +55,6 @@ final class FavoriteTableViewCell: UITableViewCell {
       static let borderColor: UIColor = .yg.gray3
       static let radius: CGFloat = 3
     }
-    
     enum MenuAccessoryView {
       static let iconName = "cellMenuAccessory"
       static let size: CGSize = .init(width: 24, height: 24)
@@ -80,12 +73,13 @@ final class FavoriteTableViewCell: UITableViewCell {
   }
   
   // MARK: - Identifier
-  static let id: String = String(describing: PostCell.self)
+  static let id: String = String(describing: FavoriteTableViewCell.self)
 
   // MARK: - Properties
-  private var deleteButton = UIButton(frame: .zero).set {
+  private lazy var deleteButton = UIButton(frame: .zero).set {
     $0.translatesAutoresizingMaskIntoConstraints = false
-    $0.setImage(UIImage(named: "deleteMinusIcon"), for: .normal)
+    $0.setImage(UIImage(named: Constant.DeleteButton.iconName), for: .normal)
+    $0.addTarget(self, action: #selector(didTapDeleteButton), for: .touchUpInside)
   }
   
   private lazy var quarterImageView = UIImageView().set {
@@ -103,19 +97,19 @@ final class FavoriteTableViewCell: UITableViewCell {
     $0.font = .init(pretendard: Const.fontName, size: Const.textSize)
   }
   
-  private lazy var titleTextField = UITextField().set {
-    typealias Const = Constant.TitleTextField
+  private lazy var editModeTitleLabel = BasePaddingLabel(padding: Constant.EditModeTitleLabel.padding).set {
+    typealias Const = Constant.EditModeTitleLabel
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.font = UIFont(pretendard: Const.fontName, size: Const.textSize)
     $0.textColor = Const.textColor
     $0.layer.borderWidth = Const.borderWidth
     $0.layer.borderColor = Const.borderColor.cgColor
-    $0.layer.cornerRadius = 3
-    $0.keyboardType = .default
-    $0.leftView = UIView(frame: .init(x: 0, y: 0, width: 8, height: 0))
-    $0.rightView = UIView(frame: .init(x: 0, y: 0, width: 8, height: 0))
-    $0.leftViewMode = .always
-    $0.rightViewMode = .always
+    $0.layer.cornerRadius = Const.radius
+    $0.isUserInteractionEnabled = true
+    let gesture = UITapGestureRecognizer(
+      target: self,
+      action: #selector(didTapEditModeTitleLabel))
+    $0.addGestureRecognizer(gesture)
   }
   
   private let menuAccessoryView = UIImageView(frame: .zero).set {
@@ -125,6 +119,8 @@ final class FavoriteTableViewCell: UITableViewCell {
     $0.contentMode = .scaleAspectFit
     $0.alpha = 0
   }
+  
+  weak var delegate: FavoriteTableViewCellDelegate?
   
   // MARK: - Lifecycle
   override init(
@@ -156,29 +152,28 @@ final class FavoriteTableViewCell: UITableViewCell {
 
 // MARK: - Helpers
 extension FavoriteTableViewCell {
-  func configure(with data: Model?) {
+  func configure(with data: FavoriteCellInfo?) {
     let combinedTitle = titleAndInnerItemCount(data?.title, itemCount: data?.innerItemCount)
     self.titleLabel.text = combinedTitle
+    editModeTitleLabel.text = data?.title
     guard let imageURL = data?.imageURL else {
       quarterImageView.image = nil
       return
     }
     self.quarterImageView.image = UIImage(named: imageURL)
-    titleTextField.text = data?.title
   }
 }
 
 // MARK: - Private helpers
 private extension FavoriteTableViewCell {
-  private func titleAndInnerItemCount(_ title: String?, itemCount: Int?) -> String {
+  private func titleAndInnerItemCount(_ title: String?, itemCount: Int?) -> String? {
     return "\(title ?? "미정") (\((itemCount ?? 0).zeroPaddingString))"
   }
   
   private func setEditingMode() {
-    titleTextField.isUserInteractionEnabled = true
     quarterImageView.isHidden = true
     titleLabel.isHidden = true
-    titleTextField.isHidden = false
+    editModeTitleLabel.isHidden = false
     contentView.subviews.forEach { subview in
       UIView.animate(
         withDuration: 0.37,
@@ -198,10 +193,9 @@ private extension FavoriteTableViewCell {
   }
   
   private func releaseEditingMode() {
-    titleTextField.isUserInteractionEnabled = false
     quarterImageView.isHidden = false
     titleLabel.isHidden = false
-    titleTextField.isHidden = true
+    editModeTitleLabel.isHidden = true
     menuAccessoryView.alpha = 0
     contentView.subviews.forEach { subview in
       UIView.animate(
@@ -215,6 +209,17 @@ private extension FavoriteTableViewCell {
   }
 }
 
+// MARK: - Action
+extension FavoriteTableViewCell {
+  @objc func didTapEditModeTitleLabel() {
+    delegate?.favoriteTableViewCell(self, touchUpEditModeTitleLabel: editModeTitleLabel)
+  }
+  
+  @objc func didTapDeleteButton() {
+    delegate?.favoriteTableViewCell(self, touchUpDeleteButton: deleteButton)
+  }
+}
+
 // MARK: - LayoutSupport
 extension FavoriteTableViewCell: LayoutSupport {
   func addSubviews() {
@@ -222,7 +227,7 @@ extension FavoriteTableViewCell: LayoutSupport {
       quarterImageView,
       titleLabel,
       deleteButton,
-      titleTextField,
+      editModeTitleLabel,
       menuAccessoryView
     ].map {
       contentView.addSubview($0)
@@ -234,7 +239,7 @@ extension FavoriteTableViewCell: LayoutSupport {
       quarterImageViewConstraints,
       titleLabelConstraints,
       deleteButtonConstraints,
-      titleTextFieldConstraints,
+      editModeTitleLabelConstraints,
       menuAccessoryViewConstraints
     ].map {
       NSLayoutConstraint.activate($0)
@@ -272,14 +277,14 @@ private extension FavoriteTableViewCell {
       deleteButton.heightAnchor.constraint(equalToConstant: Const.size.height)]
   }
   
-  var titleTextFieldConstraints: [NSLayoutConstraint] {
-    typealias Const = Constant.TitleTextField
+  var editModeTitleLabelConstraints: [NSLayoutConstraint] {
+    typealias Const = Constant.EditModeTitleLabel
     typealias Spacing = Const.Spacing
     return [
-      titleTextField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Spacing.leading),
-      titleTextField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Spacing.trailing),
-      titleTextField.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-      titleTextField.heightAnchor.constraint(equalToConstant: Const.height)]
+      editModeTitleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Spacing.leading),
+      editModeTitleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Spacing.trailing),
+      editModeTitleLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+      editModeTitleLabel.heightAnchor.constraint(equalToConstant: Const.height)]
   }
   
   var menuAccessoryViewConstraints: [NSLayoutConstraint] {
