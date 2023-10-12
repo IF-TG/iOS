@@ -30,7 +30,7 @@ class SearchMoreDetailViewController: UIViewController {
   // MARK: - Properties
   weak var coordinator: SearchMoreDetailCoordinatorDelegate?
   private let viewModel = SearchMoreDetailViewModel()
-  
+  private let appearance = UINavigationBarAppearance()
   private let compositionalLayoutManager: CompositionalLayoutCreatable = SearchMoreDetailLayoutManager()
   
   private lazy var collectionView: UICollectionView = .init(
@@ -111,7 +111,10 @@ class SearchMoreDetailViewController: UIViewController {
   
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
-    self.navigationController?.navigationBar.backgroundColor = nil
+//    self.navigationController?.navigationBar.backgroundColor = nil
+    appearance.backgroundColor = nil
+    navigationController?.navigationBar.standardAppearance = appearance
+    navigationController?.navigationBar.scrollEdgeAppearance = appearance
   }
 }
 
@@ -174,6 +177,7 @@ extension SearchMoreDetailViewController {
     self.navigationController?.isNavigationBarHidden = false
     navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
     clearNavigationBarImage()
+    appearance.backgroundEffect = .none
   }
   
   private func clearNavigationBarImage() {
@@ -182,6 +186,9 @@ extension SearchMoreDetailViewController {
   }
   
   /// scaleFactor는 0과 1사이의 조절 변수입니다.
+  ///
+  /// scaleFactor가 1에서 0으로 변하면, color가 white에서 black으로 변합니다.
+  /// 반대로 scaleFactor가 0에서 1로 변하면, color가 black에서 white로 변합니다.
   private func changeImageViewTintColor(with scaleFactor: CGFloat) -> UIColor {
     return UIColor(white: scaleFactor, alpha: 1)
   }
@@ -271,32 +278,41 @@ extension SearchMoreDetailViewController: UICollectionViewDataSource {
 
 extension SearchMoreDetailViewController: UICollectionViewDelegate {
   func scrollViewDidScroll(_ scrollView: UIScrollView) {
-    let maxHeight = min(headerViewHeight, scrollView.contentOffset.y)
     
-    let alpha = (headerViewHeight - maxHeight) / headerViewHeight
-    let headerView = collectionView.supplementaryView(
+    guard let headerView = collectionView.supplementaryView(
       forElementKind: UICollectionView.elementKindSectionHeader,
       at: IndexPath(item: .zero, section: .zero)
-    )
+    ) else { return }
+
+    let headerViewHeight = headerView.bounds.height
     
-    headerView?.alpha = alpha
-    backButton.imageView?.tintColor = changeImageViewTintColor(with: alpha)
+    guard
+      let navigationBarHeight = self.navigationController?.navigationBar.frame.height,
+      let statusBarHeight = view.window?.windowScene?.statusBarManager?.statusBarFrame.height
+    else { return }
+    let barHeight = navigationBarHeight + statusBarHeight
+    
+    let heightDistance = headerViewHeight - barHeight
+    let maxHeight = min(heightDistance, scrollView.contentOffset.y)
+    let headerViewAlpha = (heightDistance - maxHeight) / heightDistance
+    
+    if scrollView.contentOffset.y >= headerViewHeight - barHeight {
+//      appearance.backgroundColor = .white
+//      appearance.shadowColor = .yg.gray0
+    } else {
+      appearance.backgroundColor = .clear
+//      appearance.shadowColor = .clear // default line 설정
+    }
+    
+    headerView.alpha = headerViewAlpha
+    backButton.imageView?.tintColor = changeImageViewTintColor(with: headerViewAlpha)
+    print(headerViewAlpha)
+    appearance.backgroundEffect = .none
+    navigationController?.navigationBar.standardAppearance = appearance
+    navigationController?.navigationBar.scrollEdgeAppearance = appearance
   }
   
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     input.didSelectItem.send(indexPath)
   }
 }
-
-// 스크롤 시, 특이점에 도달할 때를 기준으로 그라데이션을 시작한다.
-// x: header.height,
-// y: navigationBar.height
-
-//if contentOffset >= (x-y) { // 타이틀이 보여지는 경우
-
-//  self.navigationController?.navigationBar.backgroundColor = .white
-//} else if contentOffset < (x-y) {
-//  navigationItem.titleView?.alpha = 0 // 타이틀이 사라짐
-//}
-
-// titleView를 viewDidLoad시점에 만들어두고, 스크롤에 따라서 주입 or nil 처리
