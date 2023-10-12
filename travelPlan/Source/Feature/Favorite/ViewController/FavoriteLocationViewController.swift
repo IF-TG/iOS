@@ -9,7 +9,7 @@ import UIKit
 import Combine
 
 // TODO: - 로케이션 뷰 구체적 지정되면 해당 뷰로 변환해야 합니다.
-private class TempFavoriteLocationView: UIView & EmptyStateBasedContentViewCheckable {
+private class TempFavoriteLocationView: UIView, EmptyStateBasedContentViewCheckable {
   var hasItem: CurrentValueSubject<Bool, Never> = .init(true)
   
   var isShowingFirstAnimation: Bool = true
