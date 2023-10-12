@@ -305,13 +305,13 @@ extension FavoriteViewController: FavoriteTableViewAdapterDelegate {
     input.detailPage.send(indexPath)
   }
   
-  func tableViewCell(_ cell: FavoriteTableViewCell, didTapEditModeTitle title: String?) {
+  func tableViewCell(_ cell: UITableViewCell, didTapEditModeTitle title: String?) {
     guard let indexPath = favoriteTableView.indexPath(for: cell) else { return }
     // 원하면 placeholder에 현제 텍스트 추가할 수 있음.
     input.directoryNameSettingPage.send(indexPath)
   }
   
-  func tableViewCell(_ cell: FavoriteTableViewCell, didtapDeleteButton: UIButton) {
+  func tableViewCell(_ cell: UITableViewCell, didtapDeleteButton: UIButton) {
     guard let indexPath = favoriteTableView.indexPath(for: cell) else { return }
     input.deleteDirectory.send(indexPath)
   }
