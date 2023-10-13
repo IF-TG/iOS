@@ -17,18 +17,20 @@ protocol Requestable {
   /// get일땐 queryItems에 부착, post일때 httpbody에 추가. AF는
   var parameters: Params? { get }
   var headers: HTTPHeaders? { get }
+  var interceptor: RequestInterceptor? { get }
 }
 
 extension Requestable {
   func makeRequest(with responseType: ResponseType) throws -> DataRequest {
     let baseURL = "\(scheme)://\(host)" + prefixPath + responseType.path
     guard method == .post else {
-      return AF.request(baseURL, method: method, parameters: parameters)
+      return AF.request(baseURL, method: method, parameters: parameters, interceptor: interceptor)
     }
     return AF.request(
       baseURL,
       method: method,
       parameters: parameters,
-      encoder: URLEncodedFormParameterEncoder.default)
+      encoder: URLEncodedFormParameterEncoder.default,
+      interceptor: interceptor)
   }
 }
