@@ -9,22 +9,26 @@ import Alamofire
 
 protocol Requestable {
   typealias Error = AFError
+  associatedtype Params: Encodable
   var scheme: String { get }
   var host: String { get }
   var method: HTTPMethod { get }
   var prefixPath: String { get }
-  var queryParams: Encodable? { get }
-  var bodyParams: Encodable? { get }
+  /// get일땐 queryItems에 부착, post일때 httpbody에 추가. AF는
+  var parameters: Params? { get }
   var headers: HTTPHeaders? { get }
 }
 
 extension Requestable {
-  func makeURL(with responseType: ResponseType) throws -> URL {
+  func makeRequest(with responseType: ResponseType) throws -> DataRequest {
     let baseURL = "\(scheme)://\(host)" + prefixPath + responseType.path
-    guard var components = URLComponents(string: baseURL) else {
-      throw Error.invalidURL(url: baseURL)
+    guard method == .post else {
+      return AF.request(baseURL, method: method, parameters: parameters)
     }
-    components.queryItems = queryParams?.makeQueryItems()
-    return try components.asURL()
+    return AF.request(
+      baseURL,
+      method: method,
+      parameters: parameters,
+      encoder: URLEncodedFormParameterEncoder.default)
   }
 }
