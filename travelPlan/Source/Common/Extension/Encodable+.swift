@@ -12,4 +12,8 @@ extension Encodable {
     guard let jsonData = try? JSONEncoder().encode(self) else { return  nil }
     return try? JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any]
   }
+  
+  func makeQueryItems() -> [URLQueryItem]? {
+    return toDictionary?.map { URLQueryItem(name: $0.key, value: "\($0.value)") }
+  }
 }
