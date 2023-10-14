@@ -10,8 +10,8 @@ import Combine
 import Foundation
 
 final class SessionProvider {
-  private let session: URLSession
-  init(session: URLSession = .shared) {
+  let session: Session
+  init(session: Session = .default) {
     self.session = session
   }
 }
@@ -22,9 +22,9 @@ extension SessionProvider: Sessionable {
   where R: Decodable,
         E: NetworkInteractionable,
         E.Params: Encodable {
-    return Future<R, AFError> { promise in
+    return Future<R, AFError> { [weak self] promise in
       do {
-        let request = try endpoint.makeRequest()
+        let request = try endpoint.makeRequest(with: self?.session ?? .default)
         request.validate()
         request.responseDecodable(of: R.self) { response in
           switch response.result {
