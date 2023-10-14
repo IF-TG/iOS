@@ -207,7 +207,12 @@
 		15FEB5ED2A050A99000A5F33 /* LayoutSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FEB5E42A050A99000A5F33 /* LayoutSupport.swift */; };
 		15FFAC072AD6ED5B0013DB57 /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFAC062AD6ED5B0013DB57 /* Endpoint.swift */; };
 		15FFAC092AD7C1260013DB57 /* Requestable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFAC082AD7C1260013DB57 /* Requestable.swift */; };
-		15FFAC0B2AD7C22B0013DB57 /* ResponseType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFAC0A2AD7C22B0013DB57 /* ResponseType.swift */; };
+		15FFAC0B2AD7C22B0013DB57 /* RequestType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFAC0A2AD7C22B0013DB57 /* RequestType.swift */; };
+		15FFAC0D2AD9AEB80013DB57 /* Encodable+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFAC0C2AD9AEB80013DB57 /* Encodable+.swift */; };
+		15FFAC0F2AD9C3B20013DB57 /* Responsable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFAC0E2AD9C3B20013DB57 /* Responsable.swift */; };
+		15FFAC112AD9C7A10013DB57 /* Sessionable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFAC102AD9C7A10013DB57 /* Sessionable.swift */; };
+		15FFAC132AD9C7EB0013DB57 /* NetwrokInteractionable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFAC122AD9C7EB0013DB57 /* NetwrokInteractionable.swift */; };
+		15FFAC152ADA83E00013DB57 /* SessionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFAC142ADA83E00013DB57 /* SessionProvider.swift */; };
 		8B8277C1D53D2763DBC91C26 /* Pods_travelPlan.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5093F957BE61B8938FD9727 /* Pods_travelPlan.framework */; };
 /* End PBXBuildFile section */
 
@@ -433,7 +438,12 @@
 		15FEB5E42A050A99000A5F33 /* LayoutSupport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LayoutSupport.swift; sourceTree = "<group>"; };
 		15FFAC062AD6ED5B0013DB57 /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
 		15FFAC082AD7C1260013DB57 /* Requestable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Requestable.swift; sourceTree = "<group>"; };
-		15FFAC0A2AD7C22B0013DB57 /* ResponseType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseType.swift; sourceTree = "<group>"; };
+		15FFAC0A2AD7C22B0013DB57 /* RequestType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestType.swift; sourceTree = "<group>"; };
+		15FFAC0C2AD9AEB80013DB57 /* Encodable+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Encodable+.swift"; sourceTree = "<group>"; };
+		15FFAC0E2AD9C3B20013DB57 /* Responsable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Responsable.swift; sourceTree = "<group>"; };
+		15FFAC102AD9C7A10013DB57 /* Sessionable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sessionable.swift; sourceTree = "<group>"; };
+		15FFAC122AD9C7EB0013DB57 /* NetwrokInteractionable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetwrokInteractionable.swift; sourceTree = "<group>"; };
+		15FFAC142ADA83E00013DB57 /* SessionProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionProvider.swift; sourceTree = "<group>"; };
 		95C1136D7650708D46BBF977 /* Pods-travelPlan.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-travelPlan.release.xcconfig"; path = "Target Support Files/Pods-travelPlan/Pods-travelPlan.release.xcconfig"; sourceTree = "<group>"; };
 		B40897DD36F55524D37767A7 /* Pods-travelPlan.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-travelPlan.debug.xcconfig"; path = "Target Support Files/Pods-travelPlan/Pods-travelPlan.debug.xcconfig"; sourceTree = "<group>"; };
 		D5093F957BE61B8938FD9727 /* Pods_travelPlan.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_travelPlan.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1314,6 +1324,7 @@
 				158312E02AB36A9A0087034A /* UIViewController.swift */,
 				15DA4C7E2ACD78C1003A7900 /* Int+.swift */,
 				157ADC9F2ACFB33100D37680 /* UIScrollView+.swift */,
+				15FFAC0C2AD9AEB80013DB57 /* Encodable+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -1336,11 +1347,39 @@
 		15FFAC052AD6E8D80013DB57 /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				15FFAC062AD6ED5B0013DB57 /* Endpoint.swift */,
-				15FFAC082AD7C1260013DB57 /* Requestable.swift */,
-				15FFAC0A2AD7C22B0013DB57 /* ResponseType.swift */,
+				15FFAC172ADA92500013DB57 /* Module */,
+				15FFAC162ADA90C50013DB57 /* Tests */,
 			);
 			path = Network;
+			sourceTree = "<group>";
+		};
+		15FFAC162ADA90C50013DB57 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				15FFAC182ADA94920013DB57 /* Mock */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		15FFAC172ADA92500013DB57 /* Module */ = {
+			isa = PBXGroup;
+			children = (
+				15FFAC122AD9C7EB0013DB57 /* NetwrokInteractionable.swift */,
+				15FFAC082AD7C1260013DB57 /* Requestable.swift */,
+				15FFAC0E2AD9C3B20013DB57 /* Responsable.swift */,
+				15FFAC0A2AD7C22B0013DB57 /* RequestType.swift */,
+				15FFAC142ADA83E00013DB57 /* SessionProvider.swift */,
+				15FFAC102AD9C7A10013DB57 /* Sessionable.swift */,
+				15FFAC062AD6ED5B0013DB57 /* Endpoint.swift */,
+			);
+			path = Module;
+			sourceTree = "<group>";
+		};
+		15FFAC182ADA94920013DB57 /* Mock */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Mock;
 			sourceTree = "<group>";
 		};
 		22C6F6C53B2A988070A2BBBC /* Pods */ = {
@@ -1612,7 +1651,7 @@
 				15F0D1D32A53095100D04773 /* PostViewAdapter.swift in Sources */,
 				157ADCA62ACFFEF300D37680 /* EmptyStateBasedContentViewCheckable.swift in Sources */,
 				152AD5272A1B89D2008A2A11 /* FavoriteViewModel.swift in Sources */,
-				15FFAC0B2AD7C22B0013DB57 /* ResponseType.swift in Sources */,
+				15FFAC0B2AD7C22B0013DB57 /* RequestType.swift in Sources */,
 				158BEF7F2A0E2C6E00C27861 /* PostContentAreaView.swift in Sources */,
 				15710CB82A132C630023C19E /* FeedPostSearchBarItem.swift in Sources */,
 				131A110A2AB509FB007BDD66 /* UIView+roundCorners.swift in Sources */,
@@ -1726,6 +1765,7 @@
 				13A93EF72AD0AD2700FC4BBD /* SearchTopTenCell.swift in Sources */,
 				13254FFB2A08AD8700094218 /* PostSearchViewController.swift in Sources */,
 				15C83F882AB2055E00DDB536 /* BaseBottomSheetViewController.swift in Sources */,
+				15FFAC152ADA83E00013DB57 /* SessionProvider.swift in Sources */,
 				15710CBC2A132DD00023C19E /* FeedAppTitleBarItem.swift in Sources */,
 				15F36A1A2AB1A18200971803 /* CaseIterable+.swift in Sources */,
 				158BEFC72A0ED09800C27861 /* PostThumbnailView.swift in Sources */,
@@ -1751,6 +1791,7 @@
 				13300FAE2AC2093D00952757 /* SearchSectionType.swift in Sources */,
 				1570FDB22AB1B616006FBAA3 /* TravelOrderType.swift in Sources */,
 				157ADCAA2AD000DD00D37680 /* FavoritePostCollectionView.swift in Sources */,
+				15FFAC0F2AD9C3B20013DB57 /* Responsable.swift in Sources */,
 				1503F93D2A4E1291002BC38D /* PlanCoordinator.swift in Sources */,
 				13254FE52A05157900094218 /* FeedViewController.swift in Sources */,
 				130304822A250DF600776A0D /* TitleWithButtonHeaderView.swift in Sources */,
@@ -1766,7 +1807,10 @@
 				15FB47EE2AC176FD0033AA18 /* UISpacing.swift in Sources */,
 				15CB236F2A10C314003EAF20 /* PostCellViewModel.swift in Sources */,
 				13C9C1B12A1806F500DF1FFF /* PostRecentSearchTagCellDelegate.swift in Sources */,
+				15FFAC0D2AD9AEB80013DB57 /* Encodable+.swift in Sources */,
+				15FFAC132AD9C7EB0013DB57 /* NetwrokInteractionable.swift in Sources */,
 				13A93EE72ACDE4AB00FC4BBD /* SearchDetailHeaderModel.swift in Sources */,
+				15FFAC112AD9C7A10013DB57 /* Sessionable.swift in Sources */,
 				13FE64772A5C378D007D9A53 /* SearchCampingModel.swift in Sources */,
 				130B9AE32A684D3D0072A0CF /* MainSearchLayoutManager.swift in Sources */,
 				1390CC5D2A8BADEC00E34DC3 /* TitleWithButtonHeaderViewDelegate.swift in Sources */,
