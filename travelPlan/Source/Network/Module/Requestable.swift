@@ -30,7 +30,7 @@ extension Requestable where Params: Encodable {
     baseURL + requestType.path
   }
   
-  func makeRequest(with session: Session) throws -> DataRequest {
+  func makeRequest(from session: Session) throws -> DataRequest {
     guard method == .post else {
       return session.request(absoluteURL, method: method, parameters: parameters, interceptor: interceptor)
     }

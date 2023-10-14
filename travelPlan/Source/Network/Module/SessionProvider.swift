@@ -24,7 +24,7 @@ extension SessionProvider: Sessionable {
         E.Params: Encodable {
     return Future<R, AFError> { [weak self] promise in
       do {
-        let request = try endpoint.makeRequest(with: self?.session ?? .default)
+        let request = try endpoint.makeRequest(from: self?.session ?? .default)
         request.validate()
         request.responseDecodable(of: R.self) { response in
           switch response.result {
