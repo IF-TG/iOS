@@ -7,9 +7,10 @@
 
 import UIKit
 import SnapKit
+import Combine
 
 class SearchMoreDetailViewController: UIViewController {
-  enum Constants {
+  enum Constant {
     enum CollectionView {
       static let cornerRadius: CGFloat = 10
     }
@@ -19,45 +20,33 @@ class SearchMoreDetailViewController: UIViewController {
     enum CollectionViewCell {
       static let height: CGFloat = UIScreen.main.bounds.height * 0.172
     }
-    enum TitleLabel {
-      static let numberOfLines = 1
-      static let fontSize: CGFloat = 15
+    enum BackButton {
+      enum ContentEdgeInsets {
+        static let left: CGFloat = 10
+      }
+      static let imageName = "back"
     }
-    enum CategoryThumbnailImageView {
-      static let cornerRadius: CGFloat = 10
+    enum NavigationTitleLabel {
+      static let maxAlpha: CGFloat = 1
+      static let fontSize: CGFloat = 18
     }
   }
   
   // MARK: - Properties
   weak var coordinator: SearchMoreDetailCoordinatorDelegate?
-  private let viewModel: SearchMoreDetailViewModel
-  
-  private let titleLabel: UILabel = .init().set {
-    $0.numberOfLines = Constants.TitleLabel.numberOfLines
-    $0.font = .init(pretendard: .bold, size: Constants.TitleLabel.fontSize)
-    $0.text = "헤더 타이틀"
-    $0.textColor = UIColor.yg.littleWhite
-  }
-  
-  private let categoryThumbnailImageView: UIImageView = .init().set {
-    $0.roundCorners(
-      cornerRadius: Constants.CategoryThumbnailImageView.cornerRadius,
-      cornerList: [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
-    )
-    $0.image = UIImage(named: "tempProfile1") // to erase
-    $0.contentMode = .scaleAspectFill
-  }
+  private let viewModel = SearchMoreDetailViewModel()
+  private let appearance = UINavigationBarAppearance()
   private let compositionalLayoutManager: CompositionalLayoutCreatable = SearchMoreDetailLayoutManager()
+  
   private lazy var collectionView: UICollectionView = .init(
     frame: .zero,
     collectionViewLayout: compositionalLayoutManager.makeLayout()
   ).set {
-    $0.register(TravelDestinationCell.self,
-                forCellWithReuseIdentifier: TravelDestinationCell.id)
+    self.registerCell(in: $0)
     $0.register(SearchDetailHeaderView.self,
                 forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                 withReuseIdentifier: SearchDetailHeaderView.id)
-    $0.roundCorners(cornerRadius: Constants.CollectionView.cornerRadius,
+    $0.roundCorners(cornerRadius: Constant.CollectionView.cornerRadius,
                     cornerList: [.layerMinXMinYCorner, .layerMaxXMinYCorner])
     $0.backgroundColor = .white
     $0.delegate = self
@@ -67,10 +56,11 @@ class SearchMoreDetailViewController: UIViewController {
   }
   
   private var headerViewHeight: CGFloat {
-    self.view.bounds.height * Constants.CollectionHeaderView.heightRatio
+    self.view.bounds.height * Constant.CollectionHeaderView.heightRatio
   }
   
   private lazy var backButton: UIButton = .init().set {
+    typealias Const = Constant.BackButton
     $0.addTarget(
       self,
       action: #selector(didTapBackBarButtonItem),
@@ -78,25 +68,34 @@ class SearchMoreDetailViewController: UIViewController {
     )
     $0.contentEdgeInsets = .init(
       top: .zero,
-      left: 10,
+      left: Const.ContentEdgeInsets.left,
       bottom: .zero,
       right: .zero
     )
     $0.setImage(
-      UIImage(named: "back")?
+      UIImage(named: Const.imageName)?
         .withRenderingMode(.alwaysTemplate),
       for: .normal
     )
     $0.imageView?.tintColor = .white
   }
   
+  private let navigationTitleLabel: UILabel = .init().set {
+    typealias Const = Constant.NavigationTitleLabel
+    $0.font = .init(pretendard: .semiBold, size: Const.fontSize)
+    $0.textColor = .yg.gray7
+    $0.alpha = .zero
+  }
+  
   private let type: SearchSectionType
-  let input = SearchMoreDetailViewModel.Input()
+  
+  private let input = Input()
+  
+  private var subscriptions = Set<AnyCancellable>()
   
   // MARK: - LifeCycle
   init(type: SearchSectionType) {
     self.type = type
-    self.viewModel = SearchMoreDetailViewModel(type: type)
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -114,15 +113,55 @@ class SearchMoreDetailViewController: UIViewController {
     setupUI()
     setupStyles()
     setupNavigationBar()
-    
-    input.viewDidLoad.send()
-    switch type {
-    case .festival:
-      print("베스트 축제 VC")
-    case .camping:
-      print("레포츠 vc")
-    case .topTen:
-      print("여행지 TOP 10 VC")
+    bind()
+    input.viewDidLoad.send(type)
+  }
+  
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    removeNavigationBackground()
+    setNavigationBarAppearance(with: appearance)
+  }
+}
+
+extension SearchMoreDetailViewController: ViewBindCase {
+  typealias Input = SearchMoreDetailViewModel.Input
+  typealias ErrorType = SearchMoreDetailViewModel.ErrorType
+  typealias State = SearchMoreDetailViewModel.State
+  
+  func bind() {
+    let output = viewModel.transform(input)
+    output
+      .receive(on: RunLoop.main)
+      .sink { [weak self] result in
+        switch result {
+        case .failure(let error):
+          self?.handleError(error)
+        case .finished:
+          print("finished \(Self.self)")
+        }
+      } receiveValue: { [weak self] in
+        self?.render($0)
+      }
+      .store(in: &subscriptions)
+  }
+  
+  func render(_ state: SearchMoreDetailViewModel.State) {
+    switch state {
+    case .showDetail:
+      print("DEBUG: 다음 화면으로 전환합니다.")
+    case let .setNavigationTitle(title):
+      navigationTitleLabel.text = title
+      setupBaseNavigationTitleView(titleViewType: .custom(customView: navigationTitleLabel))
+    }
+  }
+  
+  func handleError(_ error: SearchMoreDetailViewModel.ErrorType) {
+    switch error {
+    case .unexpected:
+      print("DEBUG: unexpected error")
+    case .none:
+      break
     }
   }
 }
@@ -136,6 +175,18 @@ extension SearchMoreDetailViewController {
 
 // MARK: - Private Helpers
 extension SearchMoreDetailViewController {
+  /// 내비게이션의 배경을 제거합니다.
+  private func removeNavigationBackground() {
+    appearance.backgroundColor = nil
+    appearance.shadowColor = nil
+  }
+  
+  /// appearance의 값을 변경 후, 해당 함수를 호출해야만 변경된 값이 적용됩니다.
+  private func setNavigationBarAppearance(with appearance: UINavigationBarAppearance) {
+    navigationController?.navigationBar.standardAppearance = appearance
+    navigationController?.navigationBar.scrollEdgeAppearance = appearance
+  }
+  
   private func setupStyles() {
     view.backgroundColor = .white
   }
@@ -143,16 +194,25 @@ extension SearchMoreDetailViewController {
   private func setupNavigationBar() {
     self.navigationController?.isNavigationBarHidden = false
     navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
-    clearNavigationBarImage()
   }
   
-  private func clearNavigationBarImage() {
-    self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-    self.navigationController?.navigationBar.shadowImage = UIImage()
+  /// scaleFactor는 0과 1사이의 조절 변수입니다.
+  ///
+  /// scaleFactor가 1에서 0으로 변하면, color가 white에서 black으로 변합니다.
+  /// 반대로 scaleFactor가 0에서 1로 변하면, color가 black에서 white로 변합니다.
+  private func changeBackButtonTintColor(with scaleFactor: CGFloat) -> UIColor {
+    return UIColor(white: scaleFactor, alpha: 1)
   }
   
-  private func changeBlackOrWhiteColor(with alpha: CGFloat) -> UIColor {
-    return UIColor(white: alpha, alpha: 1)
+  private func registerCell(in collectionView: UICollectionView) {
+    switch type {
+    case .festival, .camping:
+      collectionView.register(TravelDestinationCell.self,
+                              forCellWithReuseIdentifier: TravelDestinationCell.id)
+    case .topTen:
+      collectionView.register(SearchTopTenCell.self, 
+                              forCellWithReuseIdentifier: SearchTopTenCell.id)
+    }
   }
 }
 
@@ -176,19 +236,35 @@ extension SearchMoreDetailViewController: UICollectionViewDataSource {
     _ collectionView: UICollectionView,
     numberOfItemsInSection section: Int
   ) -> Int {
-    return 10
+    self.viewModel.numberOfItems(type: type)
   }
   
   func collectionView(
     _ collectionView: UICollectionView,
     cellForItemAt indexPath: IndexPath
   ) -> UICollectionViewCell {
-    guard let cell = collectionView.dequeueReusableCell(
-      withReuseIdentifier: TravelDestinationCell.id,
-      for: indexPath
-    ) as? TravelDestinationCell else { return .init() }
-//    cell.configure(with: )
-    return cell
+
+    switch type {
+    case .festival, .camping:
+      guard let cell = collectionView.dequeueReusableCell(
+        withReuseIdentifier: TravelDestinationCell.id,
+        for: indexPath
+      ) as? TravelDestinationCell else { return .init() }
+      guard let cellViewModels = self.viewModel.travelDestinationCellViewModels else { return .init() }
+      
+      cell.configure(with: cellViewModels[indexPath.item])
+      return cell
+      
+    case .topTen:
+      guard let cell = collectionView.dequeueReusableCell(
+        withReuseIdentifier: SearchTopTenCell.id,
+        for: indexPath
+      ) as? SearchTopTenCell else { return .init() }
+      guard let cellViewModels = self.viewModel.topTenCellViewModels else { return .init() }
+      
+      cell.configure(with: cellViewModels[indexPath.item])
+      return cell
+    }
   }
   
   func collectionView(
@@ -200,10 +276,12 @@ extension SearchMoreDetailViewController: UICollectionViewDataSource {
       guard let headerView = collectionView.dequeueReusableSupplementaryView(
         ofKind: kind,
         withReuseIdentifier: SearchDetailHeaderView.id,
-        for: indexPath) as? SearchDetailHeaderView else { return .init() }
+        for: indexPath
+      ) as? SearchDetailHeaderView else { return .init() }
       
-      // TODO: - ViewModel을 통해 서버로부터 fetch해온 model을 주입주어야 합니다.
-      headerView.configure(with: SearchDetailHeaderModel(title: "헤더 타이틀", imageURL: "tempProfile1"))
+      if let headerInfo = viewModel.headerInfo {
+        headerView.configure(with: headerInfo)
+      }
       return headerView
     } else { return .init() }
   }
@@ -211,16 +289,42 @@ extension SearchMoreDetailViewController: UICollectionViewDataSource {
 
 extension SearchMoreDetailViewController: UICollectionViewDelegate {
   func scrollViewDidScroll(_ scrollView: UIScrollView) {
-    let maxHeight = min(headerViewHeight, scrollView.contentOffset.y)
-    
-    let alpha = (headerViewHeight - maxHeight) / headerViewHeight
-    print(alpha)
-    let headerView = collectionView.supplementaryView(
+    guard let headerView = self.collectionView.supplementaryView(
       forElementKind: UICollectionView.elementKindSectionHeader,
       at: IndexPath(item: .zero, section: .zero)
-    )
+    ) else { return }
     
-    headerView?.alpha = alpha
-    backButton.imageView?.tintColor = changeBlackOrWhiteColor(with: alpha)
+    guard
+      let navigationBarHeight = self.navigationController?.navigationBar.bounds.height,
+      let statusBarHeight = view.window?.windowScene?.statusBarManager?.statusBarFrame.height
+    else { return }
+    
+    // headerView 높이
+    let headerViewHeight = headerView.bounds.height
+    // bar 높이
+    let appearanceHeight = navigationBarHeight + statusBarHeight
+    
+    let heightDistance = headerViewHeight - appearanceHeight
+    let maxHeight = min(heightDistance, scrollView.contentOffset.y)
+    let headerViewAlpha = (heightDistance - maxHeight) / heightDistance
+    
+    // 헤더뷰의 bottom이 내비게이션바의 botom과 닿거나 헤더뷰의 bottom이 내비게이션바의 bottom보다 위에 존재하는 경우
+    if scrollView.contentOffset.y >= heightDistance {
+      appearance.backgroundColor = .white
+      appearance.shadowColor = .yg.gray0
+      navigationTitleLabel.alpha = Constant.NavigationTitleLabel.maxAlpha
+    } else {
+      removeNavigationBackground()
+      navigationTitleLabel.alpha = .zero
+    }
+    
+    headerView.alpha = headerViewAlpha
+    appearance.backgroundEffect = .none // 내비게이션 반투명도 제거
+    backButton.imageView?.tintColor = changeBackButtonTintColor(with: headerViewAlpha)
+    setNavigationBarAppearance(with: appearance)
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    input.didSelectItem.send(indexPath)
   }
 }

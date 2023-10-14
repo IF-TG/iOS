@@ -12,16 +12,19 @@ final class SearchMoreDetailViewModel {
   typealias Output = AnyPublisher<State, ErrorType>
   
   struct Input {
-    let viewDidLoad: PassthroughSubject<Void, Never>
+    let viewDidLoad: PassthroughSubject<SearchSectionType, Never>
+    let didSelectItem: PassthroughSubject<IndexPath, Never>
     
-    init(viewDidLoad: PassthroughSubject<Void, Never> = .init()
+    init(viewDidLoad: PassthroughSubject<SearchSectionType, Never> = .init(),
+         didSelectItem: PassthroughSubject<IndexPath, Never> = .init()
     ) {
       self.viewDidLoad = viewDidLoad
+      self.didSelectItem = didSelectItem
     }
   }
   enum State {
-    case none
-    case showDetailVC
+    case setNavigationTitle(title: String?)
+    case showDetail
   }
   enum ErrorType: Error {
     case none
@@ -29,26 +32,38 @@ final class SearchMoreDetailViewModel {
   }
   
   // MARK: - Properties
-  private let type: SearchSectionType
-  
-  var festivalCellViewModels: [TravelDestinationCellViewModel]?
-  var campingCellViewModels: [TravelDestinationCellViewModel]?
-  var topTenCellViewModels: [SearchTopTenCellViewModel]?
-  
-  // MARK: - LifeCycle
-  init(type: SearchSectionType) {
-    self.type = type
-  }
+  /// festival, camping이 해당 프로퍼티를 공통으로 사용합니다.
+  private(set) var travelDestinationCellViewModels: [TravelDestinationCellViewModel]?
+  private(set) var topTenCellViewModels: [SearchTopTenCellViewModel]?
+  private(set) var headerInfo: SearchDetailHeaderInfo?
 }
 
 // MARK: - ViewModelCase
 extension SearchMoreDetailViewModel: ViewModelCase {
   func transform(_ input: Input) -> Output {
-    return input
-      .viewDidLoad
-      .map { [weak self] _ in
-        self?.fetchData()
-        return .none
+    return Publishers.MergeMany(
+      viewDidLoadStream(input),
+      didSelecetItemStream(input)
+    ).eraseToAnyPublisher()
+  }
+  
+  private func viewDidLoadStream(_ input: Input) -> Output {
+    input.viewDidLoad
+      .map { [weak self] type in
+        self?.fetchData(type: type)
+        let title = self?.navigationTitle()
+        return .setNavigationTitle(title: title)
+      }
+      .setFailureType(to: ErrorType.self)
+      .eraseToAnyPublisher()
+  }
+  
+  private func didSelecetItemStream(_ input: Input) -> Output {
+    input.didSelectItem
+      .map { [weak self] indexPath in
+        // TODO: - 해당 item을 기반으로 상세페이지로 이동합니다.
+        print("DEBUG: [\(indexPath.section)], [\(indexPath.item)] clicked")
+        return State.showDetail
       }
       .setFailureType(to: ErrorType.self)
       .eraseToAnyPublisher()
@@ -57,7 +72,7 @@ extension SearchMoreDetailViewModel: ViewModelCase {
 
 // MARK: - Private Helpers
 extension SearchMoreDetailViewModel {
-  private func fetchData() {
+  private func fetchData(type: SearchSectionType) {
     switch type {
     case .festival:
       fetchFestivalModel()
@@ -78,8 +93,9 @@ extension SearchMoreDetailViewModel {
                              isSelectedButton: $0.isSelectedButton)
     }
     let cellViewModels = models.map { TravelDestinationCellViewModel(model: $0) }
-    self.festivalCellViewModels = .init()
-    _ = cellViewModels.map { self.festivalCellViewModels?.append($0) }
+    self.travelDestinationCellViewModels = .init()
+    _ = cellViewModels.map { self.travelDestinationCellViewModels?.append($0) }
+    self.headerInfo = SearchDetailHeaderInfo.festivalMock
   }
   
   private func fetchCampingModel() {
@@ -92,13 +108,33 @@ extension SearchMoreDetailViewModel {
                              isSelectedButton: $0.isSelectedButton)
     }
     let cellViewModels = models.map { TravelDestinationCellViewModel(model: $0) }
-    self.campingCellViewModels = .init()
-    _ = cellViewModels.map { self.campingCellViewModels?.append($0) }
+    self.travelDestinationCellViewModels = .init()
+    _ = cellViewModels.map { self.travelDestinationCellViewModels?.append($0) }
+    self.headerInfo = SearchDetailHeaderInfo.campingMock
   }
   
   private func fetchTopTenModel() {
-    let cellViewModels = SearchTopTenModel.mockModels.map { SearchTopTenCellViewModel(model: $0) }
+    let cellViewModels = SearchTopTenModel.mockModels
+      .sorted { $0.ranking < $1.ranking }
+      .map { SearchTopTenCellViewModel(model: $0) }
     self.topTenCellViewModels = .init()
     _ = cellViewModels.map { self.topTenCellViewModels?.append($0) }
+    self.headerInfo = SearchDetailHeaderInfo.topTenMock
+  }
+  
+  private func navigationTitle() -> String? {
+    return headerInfo?.title
+  }
+}
+
+// MARK: - Helpers
+extension SearchMoreDetailViewModel {
+  func numberOfItems(type: SearchSectionType) -> Int {
+    switch type {
+    case .festival, .camping:
+      return travelDestinationCellViewModels?.count ?? .zero
+    case .topTen:
+      return topTenCellViewModels?.count ?? .zero
+    }
   }
 }

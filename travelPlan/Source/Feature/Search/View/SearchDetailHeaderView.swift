@@ -93,10 +93,13 @@ class SearchDetailHeaderView: UICollectionReusableView {
 
 // MARK: - Helpers
 extension SearchDetailHeaderView {
-  func configure(with model: SearchDetailHeaderModel) {
+  func configure(with model: SearchDetailHeaderInfo) {
     // TODO: - 추후 imageURL로 변경
     titleLabel.text = model.title
-    categoryThumbnailImageView.image = UIImage(named: model.imageURL)
+    
+    if let imageURL = model.imageURL {
+      categoryThumbnailImageView.image = UIImage(named: imageURL)
+    }
   }
 }
 

@@ -10,13 +10,27 @@ import Combine
 import SnapKit
 
 class SearchTopTenCell: UICollectionViewCell {
-  typealias Input = SearchTopTenCellViewModel.Input
-  typealias ErrorType = SearchTopTenCellViewModel.ErrorType
-  typealias State = SearchTopTenCellViewModel.State
+  enum Constant {
+    enum ThumbnailImageView {
+      static let cornerRadius: CGFloat = 7
+    }
+    enum RankingView {
+      static let cornerRadius: CGFloat = 2
+      static let alpha: CGFloat = 0.9
+      static let size: CGFloat = 20
+      enum Spacing {
+        static let leading: CGFloat = 8
+        static let top: CGFloat = 8
+      }
+    }
+    enum RankingNumberLabel {
+      static let fontSize: CGFloat = 16
+    }
+  }
   
   // MARK: - Properties
   static var id: String {
-    return String(describing: Self.self)
+    return String(describing: self)
   }
   
   private var viewModel: SearchTopTenCellViewModel? {
@@ -26,24 +40,28 @@ class SearchTopTenCell: UICollectionViewCell {
   }
   
   private let thumbnailImageView: UIImageView = .init().set {
-    $0.contentMode = .scaleToFill
+    $0.contentMode = .scaleAspectFill
+    $0.layer.cornerRadius = Constant.ThumbnailImageView.cornerRadius
+    $0.clipsToBounds = true
   }
   
   private let rankingView: UIView = .init().set {
-    $0.layer.cornerRadius = 2
+    $0.layer.cornerRadius = Constant.RankingView.cornerRadius
     $0.backgroundColor = .yg.littleWhite
-    $0.alpha = 0.9
+    $0.alpha = Constant.RankingView.alpha
   }
   
   private let rankingNumberLabel: UILabel = .init().set {
-    $0.font = .init(pretendard: .semiBold, size: 16)
+    $0.font = .init(pretendard: .semiBold, size: Constant.RankingNumberLabel.fontSize)
     $0.textColor = .yg.gray5
   }
   
   // TODO: - 순위뷰를 포함하는 이미지뷰를 주입해야 합니다.
   private lazy var containerView: BaseDestinationView<LeftAlignThreeLabelsView>
-  = .init(centerView: LeftAlignThreeLabelsView(),
-          thumbnailImageView: thumbnailImageView).set {
+  = .init(
+    centerView: LeftAlignThreeLabelsView(),
+    imageViewType: .custom(imageView: self.thumbnailImageView)
+  ).set {
     $0.delegate = self
   }
   
@@ -71,6 +89,10 @@ class SearchTopTenCell: UICollectionViewCell {
 
 // MARK: - ViewBindCase
 extension SearchTopTenCell: ViewBindCase {
+  typealias Input = SearchTopTenCellViewModel.Input
+  typealias ErrorType = SearchTopTenCellViewModel.ErrorType
+  typealias State = SearchTopTenCellViewModel.State
+  
   func bind() {
     guard let viewModel = self.viewModel else { return }
     
@@ -143,8 +165,10 @@ extension SearchTopTenCell: LayoutSupport {
     }
     
     rankingView.snp.makeConstraints {
-      $0.leading.top.equalToSuperview().inset(8)
-      $0.size.equalTo(20)
+      typealias Cnst = Constant.RankingView
+      $0.leading.equalToSuperview().inset(Cnst.Spacing.leading)
+      $0.top.equalToSuperview().inset(Cnst.Spacing.top)
+      $0.size.equalTo(Cnst.size)
     }
     
     rankingNumberLabel.snp.makeConstraints {
