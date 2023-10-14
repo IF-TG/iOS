@@ -22,13 +22,20 @@ protocol Requestable {
 }
 
 extension Requestable where Params: Encodable {
-  func makeRequest() throws -> DataRequest {
-    let baseURL = "\(scheme)://\(host)" + prefixPath + requestType.path
+  var baseURL: String {
+    "\(scheme)://\(host)" + prefixPath
+  }
+  
+  var absoluteURL: String {
+    baseURL + requestType.path
+  }
+  
+  func makeRequest(with session: Session) throws -> DataRequest {
     guard method == .post else {
-      return AF.request(baseURL, method: method, parameters: parameters, interceptor: interceptor)
+      return session.request(absoluteURL, method: method, parameters: parameters, interceptor: interceptor)
     }
-    return AF.request(
-      baseURL,
+    return session.request(
+      absoluteURL,
       method: method,
       parameters: parameters,
       encoder: URLEncodedFormParameterEncoder.default,
