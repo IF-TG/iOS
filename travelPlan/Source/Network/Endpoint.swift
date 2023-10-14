@@ -16,6 +16,7 @@ final class Endpoint<ResponseDTO>: NetworkInteractionable where ResponseDTO: Dec
   var method: HTTPMethod
   var prefixPath: String
   var parameters: Params?
+  var requestType: RequestType
   var headers: HTTPHeaders?
   var interceptor: RequestInterceptor?
   
@@ -25,6 +26,8 @@ final class Endpoint<ResponseDTO>: NetworkInteractionable where ResponseDTO: Dec
     host: String = "호스트 미정",
     method: HTTPMethod = .get,
     prefixPath: String = "미정",
+    parameters: Params?,
+    requestType: RequestType,
     headers: HTTPHeaders? = ["Content-Type": "application/json"],
     interceptor: RequestInterceptor? = nil
   ) {
@@ -32,6 +35,8 @@ final class Endpoint<ResponseDTO>: NetworkInteractionable where ResponseDTO: Dec
     self.host = host
     self.method = method
     self.prefixPath = prefixPath
+    self.parameters = parameters
+    self.requestType = requestType
     self.headers = headers
     self.interceptor = interceptor
   }
