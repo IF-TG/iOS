@@ -37,10 +37,14 @@ class SearchMoreDetailViewController: UIViewController {
   private let viewModel = SearchMoreDetailViewModel()
   private let appearance = UINavigationBarAppearance()
   private let compositionalLayoutManager: CompositionalLayoutCreatable = SearchMoreDetailLayoutManager()
+  private lazy var compositionalLayout = compositionalLayoutManager.makeLayout()
+    .set {
+    $0.register(InnerRoundRectReusableView.self, forDecorationViewOfKind: InnerRoundRectReusableView.id)
+  }
   
   private lazy var collectionView: UICollectionView = .init(
     frame: .zero,
-    collectionViewLayout: compositionalLayoutManager.makeLayout()
+    collectionViewLayout: compositionalLayout
   ).set {
     self.registerCell(in: $0)
     $0.register(SearchDetailHeaderView.self,
@@ -48,7 +52,7 @@ class SearchMoreDetailViewController: UIViewController {
                 withReuseIdentifier: SearchDetailHeaderView.id)
     $0.roundCorners(cornerRadius: Constant.CollectionView.cornerRadius,
                     cornerList: [.layerMinXMinYCorner, .layerMaxXMinYCorner])
-    $0.backgroundColor = .white
+    $0.backgroundColor = .clear
     $0.delegate = self
     $0.dataSource = self
     $0.bounces = false
@@ -188,7 +192,7 @@ extension SearchMoreDetailViewController {
   }
   
   private func setupStyles() {
-    view.backgroundColor = .white
+    view.backgroundColor = .yg.gray00Background
   }
   
   private func setupNavigationBar() {
