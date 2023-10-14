@@ -25,20 +25,20 @@ extension SessionProvider: Sessionable {
     return Future<R, AFError> { [weak self] promise in
       do {
         let request = try endpoint.makeRequest(from: self?.session ?? .default)
-        request.validate()
-        request.responseDecodable(of: R.self) { response in
-          switch response.result {
-          case .success(let data):
-            return promise(.success(data))
-          case .failure(let error):
-            return promise(.failure(error))
+        request
+          .validate(statusCode: 200...299)
+          .responseDecodable(of: R.self) { response in
+            switch response.result {
+            case .success(let data):
+              return promise(.success(data))
+            case .failure(let error):
+              return promise(.failure(error))
+            }
           }
-        }
-        return promise(.failure(.explicitlyCancelled))
       } catch let err as AFError {
         return promise(.failure(err))
       } catch {
-        print("DEBUG: Unexpected Error ", error.localizedDescription)
+        return promise(.failure(.createURLRequestFailed(error: error)))
       }
     }
   }
