@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum ResponseType {
+enum RequestType {
   case none
   
   var path: String {
