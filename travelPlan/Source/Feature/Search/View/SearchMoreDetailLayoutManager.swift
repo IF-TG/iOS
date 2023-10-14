@@ -8,20 +8,6 @@
 import UIKit
 
 class SearchMoreDetailLayoutManager: CompositionalLayoutCreatable {
-  func makeLayout() -> UICollectionViewCompositionalLayout {
-    return .init { [weak self] sectionIndex, _ in
-      switch sectionIndex {
-      case .zero:
-        return self?.makeSectionLayout()
-      default:
-        return nil
-      }
-    }
-  }
-}
-
-// MARK: - Private Helpers
-extension SearchMoreDetailLayoutManager {
   enum Constant {
     enum Item {
       static let fractionWidth: CGFloat = 1
@@ -52,6 +38,20 @@ extension SearchMoreDetailLayoutManager {
     static let sectionViewCellSpacing: CGFloat = 8
   }
   
+  func makeLayout() -> UICollectionViewCompositionalLayout {
+    return .init { [weak self] sectionIndex, _ in
+      switch sectionIndex {
+      case .zero:
+        return self?.makeSectionLayout()
+      default:
+        return nil
+      }
+    }
+  }
+}
+
+// MARK: - Private Helpers
+extension SearchMoreDetailLayoutManager {
   private func makeSectionLayout() -> NSCollectionLayoutSection {
     let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(Constant.Item.fractionWidth),
                                           heightDimension: .fractionalHeight(Constant.Item.fractionHeight))
