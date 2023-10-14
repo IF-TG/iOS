@@ -10,6 +10,7 @@ import Alamofire
 final class Endpoint<ResponseDTO>: NetworkInteractionable where ResponseDTO: Decodable {
   typealias Params = Encodable?
   
+  // MARK: - Properties
   var scheme: String
   var host: String
   var method: HTTPMethod
@@ -18,6 +19,7 @@ final class Endpoint<ResponseDTO>: NetworkInteractionable where ResponseDTO: Dec
   var headers: HTTPHeaders?
   var interceptor: RequestInterceptor?
   
+  // MARK: - Lifecycle
   init(
     scheme: String = "https",
     host: String = "호스트 미정",
