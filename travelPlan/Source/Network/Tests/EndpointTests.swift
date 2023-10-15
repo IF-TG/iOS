@@ -41,16 +41,21 @@ extension EndpointTests {
   func testMakeRequest_DataRequest의AbsoluteURL검사할때_ShouldReturnEqaul() {
     // Arrange
     let mockSession = MockSessionProvider.session
-    let endpointURL = URL(string: "http://test.com/user/name-update?id=777&name=배고프다")
+    let targetURL = URL(string: "http://test.com/user/name-update?id=777&name=배고프다")
     let requestExpectation = expectation(description: "Request should finish")
-
-    let dataRequest = try? sut.makeRequest(from: mockSession)
     
-    // Assert
-    XCTAssertNotNil(dataRequest, "DataRequest를 반환해야하는데 nil반환")
-    XCTAssertEqual(
-      dataRequest!.request!.url!, endpointURL)
+    // Act
+    DispatchQueue.global().async {
+      var dataRequest = try? self.sut.makeRequest(from: mockSession)
+      
+      // Assert
+      XCTAssertNotNil(dataRequest, "DataRequest를 반환해야하는데 nil반환")
+      XCTAssertNotNil(dataRequest?.convertible.urlRequest, "DataRequest의 urlRequest를 반환해야하는데 nil반환")
+      XCTAssertEqual(
+        dataRequest?.convertible.urlRequest?.url, targetURL)
+      requestExpectation.fulfill()
+    }
     
-    wait(for: [requestExpectation], timeout: 1)
+    wait(for: [requestExpectation], timeout: 10)
   }
 }
