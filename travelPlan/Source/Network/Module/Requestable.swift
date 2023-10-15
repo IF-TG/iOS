@@ -9,19 +9,18 @@ import Alamofire
 
 protocol Requestable {
   typealias Error = AFError
-  associatedtype Params
   var scheme: String { get }
   var host: String { get }
   var method: HTTPMethod { get }
   var prefixPath: String { get }
   /// get일땐 queryItems에 부착, post일때 httpbody에 추가.
-  var parameters: Params? { get }
+  var parameters: Encodable? { get }
   var requestType: RequestType { get }
   var headers: HTTPHeaders? { get }
   var interceptor: RequestInterceptor? { get }
 }
 
-extension Requestable where Params: Encodable {
+extension Requestable {
   var baseURL: String {
     "\(scheme)://\(host)" + prefixPath
   }
@@ -31,14 +30,10 @@ extension Requestable where Params: Encodable {
   }
   
   func makeRequest(from session: Session) throws -> DataRequest {
-    guard method == .post else {
-      return session.request(baseURLWithRequestPath, method: method, parameters: parameters, interceptor: interceptor)
-    }
     return session.request(
       baseURLWithRequestPath,
       method: method,
-      parameters: parameters,
-      encoder: URLEncodedFormParameterEncoder.default,
+      parameters: parameters?.toDictionary,
       interceptor: interceptor)
   }
 }
