@@ -1,5 +1,5 @@
 //
-//  MockSession.swift
+//  MockUrlProtocol.swift
 //  travelPlan
 //
 //  Created by 양승현 on 10/15/23.
@@ -8,6 +8,8 @@
 import Foundation
 
 class MockUrlProtocol: URLProtocol {
+  static var requestHandler: ((URLRequest) throws -> (HTTPURLResponse, Data))?
+  
   override class func canInit(with request: URLRequest) -> Bool {
     return true
   }
@@ -17,7 +19,17 @@ class MockUrlProtocol: URLProtocol {
   }
   
   override func startLoading() {
-    <#code#>
+    guard let handler = MockUrlProtocol.requestHandler else {
+      fatalError("Unavailable request handler")
+    }
+    do {
+      let (response, data) = try handler(request)
+      client?.urlProtocol(self, didReceive: response, cacheStoragePolicy: .notAllowed)
+      client?.urlProtocol(self, didLoad: data)
+      client?.urlProtocolDidFinishLoading(self)
+    } catch {
+      client?.urlProtocol(self, didFailWithError: error)
+    }
   }
   
   override func stopLoading() {
