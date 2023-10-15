@@ -20,8 +20,7 @@ final class SessionProvider {
 extension SessionProvider: Sessionable {
   func request<R, E>(endpoint: E) -> Future<R, AFError>
   where R: Decodable,
-        E: NetworkInteractionable,
-        E.Params: Encodable {
+        E: NetworkInteractionable {
     return Future<R, AFError> { [weak self] promise in
       do {
         guard let session = self?.session else { return promise(.failure(.sessionInvalidated(error: nil)))}
