@@ -80,4 +80,23 @@ extension EndpointTests {
     
     wait(for: [expectation], timeout: 10)
   }
+  
+  func testMakeRequest_DataRequest의HttpMethod가Post이고_HttpBody가값이있을때_shouldReturnSuccess() {
+    // Arrange
+    sut.method = .post
+    
+    // Act
+    DispatchQueue.global().async { [unowned self] in
+      var dataRequest = try? sut.makeRequest(from: mockSession)
+      
+      // Assert
+      XCTAssertNotNil(dataRequest, "DataRequest를 반환해야하는데 nil반환")
+      XCTAssertNotNil(dataRequest?.convertible.urlRequest, "DataRequest의 urlRequest를 반환해야하는데 nil반환")
+      XCTAssertNotEqual(
+        dataRequest?.convertible.urlRequest?.httpBody, .none)
+      expectation.fulfill()
+    }
+    
+    wait(for: [expectation], timeout: 10)
+  }
 }
