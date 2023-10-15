@@ -26,7 +26,7 @@ extension Requestable {
   }
   
   var baseURLWithRequestPath: String {
-    baseURL + requestType.path
+    baseURL + "/" + requestType.path
   }
   
   func makeRequest(from session: Session) throws -> DataRequest {
