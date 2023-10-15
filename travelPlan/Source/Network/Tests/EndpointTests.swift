@@ -8,7 +8,7 @@
 import XCTest
 @testable import travelPlan
 
-class EndpointTests: XCTestCase {
+final class EndpointTests: XCTestCase {
   // MARK: - Properties
   var sut: Endpoint<UserNameResponseModel>!
   var mockRequestModel: UserNameRequestModel!
