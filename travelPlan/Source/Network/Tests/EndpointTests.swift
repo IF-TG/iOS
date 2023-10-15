@@ -13,6 +13,7 @@ final class EndpointTests: XCTestCase {
   // MARK: - Properties
   var sut: Endpoint<UserNameResponseModel>!
   var mockRequestModel: UserNameRequestModel!
+  let mockSession = MockSessionProvider.session
   
   // MARK: - Lifecycle
   override func setUp() {
@@ -40,13 +41,12 @@ final class EndpointTests: XCTestCase {
 extension EndpointTests {
   func testMakeRequest_DataRequest의AbsoluteURL검사할때_ShouldReturnEqaul() {
     // Arrange
-    let mockSession = MockSessionProvider.session
     let targetURL = URL(string: "http://test.com/user/name-update?id=777&name=배고프다")
     let requestExpectation = expectation(description: "Request should finish")
     
     // Act
-    DispatchQueue.global().async {
-      var dataRequest = try? self.sut.makeRequest(from: mockSession)
+    DispatchQueue.global().async { [unowned self] in
+      var dataRequest = try? sut.makeRequest(from: mockSession)
       
       // Assert
       XCTAssertNotNil(dataRequest, "DataRequest를 반환해야하는데 nil반환")
@@ -58,4 +58,5 @@ extension EndpointTests {
     
     wait(for: [requestExpectation], timeout: 10)
   }
+  
 }
