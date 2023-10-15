@@ -12,7 +12,7 @@ final class EndpointTests: XCTestCase {
   // MARK: - Properties
   var sut: Endpoint<UserNameResponseModel>!
   var mockRequestModel: UserNameRequestModel!
-  let mockSession = MockSessionProvider.session
+  let mockSession = MockSession.default
   var expectation: XCTestExpectation!
   
   // MARK: - Lifecycle
