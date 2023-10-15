@@ -26,16 +26,16 @@ extension Requestable where Params: Encodable {
     "\(scheme)://\(host)" + prefixPath
   }
   
-  var absoluteURL: String {
+  var baseURLWithRequestPath: String {
     baseURL + requestType.path
   }
   
   func makeRequest(from session: Session) throws -> DataRequest {
     guard method == .post else {
-      return session.request(absoluteURL, method: method, parameters: parameters, interceptor: interceptor)
+      return session.request(baseURLWithRequestPath, method: method, parameters: parameters, interceptor: interceptor)
     }
     return session.request(
-      absoluteURL,
+      baseURLWithRequestPath,
       method: method,
       parameters: parameters,
       encoder: URLEncodedFormParameterEncoder.default,
