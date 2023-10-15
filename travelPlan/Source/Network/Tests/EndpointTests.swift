@@ -59,4 +59,22 @@ extension EndpointTests {
     wait(for: [requestExpectation], timeout: 10)
   }
   
+  func testMakeReqeust_DataReqeust의HttpMethod가Post일때_shouldReturnNotNil() {
+    // Arrange
+    sut.method = .post
+    let targetURL = URL(string: "http://test.com/user/name-update")
+    let expectation = expectation(description: "finish")
+    // Act
+    DispatchQueue.global().async { [unowned self] in
+      var dataRequest = try? sut.makeRequest(from: mockSession)
+      
+      // Assert
+      XCTAssertNotNil(dataRequest, "DataRequest를 반환해야하는데 nil반환")
+      XCTAssertNotNil(dataRequest?.convertible.urlRequest, "DataRequest의 urlRequest를 반환해야하는데 nil반환")
+      XCTAssertEqual(
+        dataRequest?.convertible.urlRequest?.url, targetURL)
+      expectation.fulfill()
+    }
+    wait(for: [expectation], timeout: 10)
+  }
 }
