@@ -12,3 +12,8 @@ target 'travelPlan' do
   pod 'Swinject'
 
 end
+
+target 'travelPlanTests' do
+  #Pods for travelPnalTests
+  pod 'Alamofire'
+end
