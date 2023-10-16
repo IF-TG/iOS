@@ -10,15 +10,15 @@ import XCTest
 
 final class EndpointTests: XCTestCase {
   // MARK: - Properties
-  var sut: Endpoint<UserNameResponseModel>!
-  var mockRequestModel: UserNameRequestModel!
+  var sut: Endpoint<UserNameResponseDTO>!
+  var mockRequestModel: UserNameRequestDTO!
   let mockSession = MockSession.default
   var expectation: XCTestExpectation!
   
   // MARK: - Lifecycle
   override func setUp() {
     super.setUp()
-    mockRequestModel = UserNameRequestModel(name: "배고프다", id: 777)
+    mockRequestModel = UserNameRequestDTO(name: "배고프다", id: 777)
     sut = Endpoint(
       scheme: "http",
       host: "test.com",
