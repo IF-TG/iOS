@@ -1,12 +1,13 @@
 //
-//  MockUserInfoEndpoint.swift
+//  MockUserEndpoint.swift
 //  travelPlan
 //
 //  Created by 양승현 on 10/16/23.
 //
 
-final class MockUserInfoEndpoint {
-  static let shared = MockUserInfoEndpoint()
+final class MockUserEndpoint {
+  private init() {}
+  static let shared = MockUserEndpoint()
   
   func uploadUserName(
     with requestDTO: UserNameRequestDTO
