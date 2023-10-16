@@ -9,5 +9,5 @@ import Foundation
 
 protocol Responsable {
   /// AF 요청 후 응답받을 반환 타입
-  associatedtype ResponseDTO
+  associatedtype ResponseDTO: Decodable
 }
