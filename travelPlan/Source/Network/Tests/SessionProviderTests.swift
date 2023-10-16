@@ -91,4 +91,38 @@ extension SessionProviderTests {
       })
     wait(for: [expectation], timeout: 7)
   }
+  
+  func testUploadUserName_SessionProvider로요청후응답에서StatusCode300일때_ShouldReturnEqual() {
+    // Arrange
+    let userNameUploadEndpoint = mockUserEndpoint.uploadUserName(with: mockUserNameRequestDTO)
+    let responseJSONString = """
+      {
+        "status": "OK"
+      }
+      """
+    MockUrlProtocol.requestHandler = { request in
+      let responseData = responseJSONString.data(using: .utf8)!
+      let mockURL = request.url!
+      let urlResponse = HTTPURLResponse(url: mockURL, statusCode: 300, httpVersion: nil, headerFields: nil)!
+      return ((urlResponse, responseData))
+    }
+    subscription = sut.request(endpoint: userNameUploadEndpoint)
+      .sink(receiveCompletion: { [unowned self] completion in
+        
+        // Assert
+        switch completion {
+        case .finished:
+          break
+        case .failure(let error):
+          XCTAssertEqual(
+            error.responseCode!, 300,
+            " Request의 결과는 서버에 있지만, statusCode가 300이 반환되는 경우")
+        }
+        expectation.fulfill()
+      }, receiveValue: { responseDTO in
+        XCTAssertEqual(responseDTO.status, "OK", "StatusCode == 200일 때 Request의 결과로 OK가 반환되야하는데 잘못된 값이 반환됨.")
+      })
+    
+    wait(for: [expectation], timeout: 7)
+  }
 }
