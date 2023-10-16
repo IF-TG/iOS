@@ -47,7 +47,7 @@ extension EndpointTests {
     
     // Act
     DispatchQueue.global().async { [unowned self] in
-      var dataRequest = try? sut.makeRequest(from: mockSession)
+      let dataRequest = try? sut.makeRequest(from: mockSession)
       
       // Assert
       XCTAssertNotNil(dataRequest, "DataRequest를 반환해야하는데 nil반환")
@@ -67,7 +67,7 @@ extension EndpointTests {
     
     // Act
     DispatchQueue.global().async { [unowned self] in
-      var dataRequest = try? sut.makeRequest(from: mockSession)
+      let dataRequest = try? sut.makeRequest(from: mockSession)
       
       // Assert
       XCTAssertNotNil(dataRequest, "DataRequest를 반환해야하는데 nil반환")
@@ -86,7 +86,7 @@ extension EndpointTests {
     
     // Act
     DispatchQueue.global().async { [unowned self] in
-      var dataRequest = try? sut.makeRequest(from: mockSession)
+      let dataRequest = try? sut.makeRequest(from: mockSession)
       
       // Assert
       XCTAssertNotNil(dataRequest, "DataRequest를 반환해야하는데 nil반환")
