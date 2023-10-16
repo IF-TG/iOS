@@ -12,7 +12,7 @@ final class MockUserEndpoint {
   func uploadUserName(
     with requestDTO: UserNameRequestDTO
   ) -> Endpoint<UserNameResponseDTO> {
-    return Endpoint(
+    return Endpoint<UserNameResponseDTO>(
       scheme: "https",
       host: "test.com",
       method: .post,
