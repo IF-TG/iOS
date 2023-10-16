@@ -9,7 +9,7 @@ import Foundation
 
 final class PostCellViewModel {
   // MARK: - Properties
-  private let postModel: PostModel?
+  private let postModel: PostInfo?
   
   var headerModel: PostHeaderView.Model? {
     postModel?.header
@@ -37,7 +37,7 @@ final class PostCellViewModel {
   }
   
   // MARK: - Initialization
-  init(postModel: PostModel?) {
+  init(postModel: PostInfo?) {
     self.postModel = postModel
   }
 }

@@ -7,6 +7,12 @@
 
 import UIKit
 
+struct PostInfo {
+  let header: PostHeaderView.Model
+  let content: PostContentAreaModel
+  let footer: PostFooterModel
+}
+
 final class PostCell: UICollectionViewCell {
   enum Constant {
     static var maximumHeight: CGFloat {
@@ -100,7 +106,7 @@ final class PostCell: UICollectionViewCell {
 
 // MARK: - Helpers
 extension PostCell {
-  func configure(with post: PostModel?) {
+  func configure(with post: PostInfo?) {
     vm = PostCellViewModel(postModel: post)
     setHeaderWithData()
     setContentAreaWithData()

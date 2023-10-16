@@ -14,9 +14,9 @@ final class MockPostModel {
   
   private lazy var mockFooter = initMockFooter()
   
-  func initMockData() -> [PostModel] {
-    return (0..<5).map { i -> PostModel in
-      return PostModel(
+  func initMockData() -> [PostInfo] {
+    return (0..<5).map { i -> PostInfo in
+      return PostInfo(
         header: mockHeader[i],
         content: mockContent[i],
         footer: mockFooter[i])

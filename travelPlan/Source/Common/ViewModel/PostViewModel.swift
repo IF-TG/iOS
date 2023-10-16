@@ -9,7 +9,7 @@ import Foundation
 
 final class PostViewModel {
   // MARK: - Properties
-  private let data: [PostModel] = MockPostModel().initMockData()
+  private let data: [PostInfo] = MockPostModel().initMockData()
   
   private(set) var travelTheme: TravelMainThemeType = .all
   
@@ -28,7 +28,7 @@ final class PostViewModel {
 
 // MARK: - Public helpers
 extension PostViewModel {
-  func cellItem(_ indexPath: IndexPath) -> PostModel {
+  func cellItem(_ indexPath: IndexPath) -> PostInfo {
     return data[indexPath.row]
   }
   
@@ -43,7 +43,7 @@ extension PostViewModel: PostViewAdapterDataSource {
     data.count
   }
   
-  func postViewCellItem(at index: Int) -> PostModel {
+  func postViewCellItem(at index: Int) -> PostInfo {
     return data[index]
   }
 

@@ -10,6 +10,6 @@ protocol PostViewAdapterDataSource: AnyObject {
   var travelTheme: TravelMainThemeType { get }
   var travelTrend: TravelOrderType { get }
   
-  func postViewCellItem(at index: Int) -> PostModel
+  func postViewCellItem(at index: Int) -> PostInfo
   func contentText(at index: Int) -> String
 }

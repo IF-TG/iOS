@@ -153,7 +153,6 @@
 		15CB23632A10B600003EAF20 /* DateValidationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15CB23622A10B600003EAF20 /* DateValidationError.swift */; };
 		15CB23662A10B7F1003EAF20 /* PostContentAreaModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15CB23652A10B7F1003EAF20 /* PostContentAreaModel.swift */; };
 		15CB23692A10B9CF003EAF20 /* PostFooterModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15CB23682A10B9CF003EAF20 /* PostFooterModel.swift */; };
-		15CB236C2A10BB17003EAF20 /* PostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15CB236B2A10BB17003EAF20 /* PostModel.swift */; };
 		15CB236F2A10C314003EAF20 /* PostCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15CB236E2A10C314003EAF20 /* PostCellViewModel.swift */; };
 		15CB23722A10F5DA003EAF20 /* MockPostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15CB23712A10F5DA003EAF20 /* MockPostModel.swift */; };
 		15CB23742A110FB4003EAF20 /* PostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15CB23732A110FB4003EAF20 /* PostViewModel.swift */; };
@@ -387,7 +386,6 @@
 		15CB23622A10B600003EAF20 /* DateValidationError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateValidationError.swift; sourceTree = "<group>"; };
 		15CB23652A10B7F1003EAF20 /* PostContentAreaModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostContentAreaModel.swift; sourceTree = "<group>"; };
 		15CB23682A10B9CF003EAF20 /* PostFooterModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostFooterModel.swift; sourceTree = "<group>"; };
-		15CB236B2A10BB17003EAF20 /* PostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostModel.swift; sourceTree = "<group>"; };
 		15CB236E2A10C314003EAF20 /* PostCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCellViewModel.swift; sourceTree = "<group>"; };
 		15CB23712A10F5DA003EAF20 /* MockPostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPostModel.swift; sourceTree = "<group>"; };
 		15CB23732A110FB4003EAF20 /* PostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewModel.swift; sourceTree = "<group>"; };
@@ -888,7 +886,6 @@
 				15CB23572A109C34003EAF20 /* PostHeaderModel */,
 				15CB23642A10B7CF003EAF20 /* PostContentAreaModel */,
 				15CB23672A10B9A4003EAF20 /* PostFooterModel */,
-				15CB236B2A10BB17003EAF20 /* PostModel.swift */,
 			);
 			path = PostModel;
 			sourceTree = "<group>";
@@ -1659,7 +1656,6 @@
 				13CB6D342A1FEC6D00D185B2 /* CautionAlertViewControllerDelegate.swift in Sources */,
 				15FB47EB2AC176420033AA18 /* PostSearchSectionItemModel.swift in Sources */,
 				158BEFD02A0FE2C000C27861 /* OneUnitHeightLine.swift in Sources */,
-				15CB236C2A10BB17003EAF20 /* PostModel.swift in Sources */,
 				1570FDB72AB1E29C006FBAA3 /* Notification+.swift in Sources */,
 				152AD5202A1A09E8008A2A11 /* FavoriteTableViewAdapterDelegate.swift in Sources */,
 				1503F9342A4E0D06002BC38D /* ProfileCoordinator.swift in Sources */,
