@@ -7,12 +7,6 @@
 
 import UIKit
 
-struct PostInfo {
-  let header: PostHeaderView.Model
-  let content: PostContentAreaModel
-  let footer: PostFooterModel
-}
-
 final class PostCell: UICollectionViewCell {
   enum Constant {
     static var maximumHeight: CGFloat {

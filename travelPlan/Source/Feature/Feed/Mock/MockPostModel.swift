@@ -95,11 +95,11 @@ private extension MockPostModel {
       }
   }
   
-  func initMockFooter() -> [PostFooterModel] {
+  func initMockFooter() -> [PostFooterInfo] {
     return [
       (0, false, 0), (1040, false, 23),
       (41, false, 2), (548, false, 0), (7, false, 0)].map {
-        PostFooterModel(heartCount: $0, heartState: $1, commentCount: $2)
+        PostFooterInfo(heartCount: $0, heartState: $1, commentCount: $2)
       }
   }
 }

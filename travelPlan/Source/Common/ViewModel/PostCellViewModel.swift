@@ -19,7 +19,7 @@ final class PostCellViewModel {
     postModel?.content
   }
   
-  var footerModel: PostFooterModel? {
+  var footerModel: PostFooterInfo? {
     postModel?.footer
   }
   
@@ -32,8 +32,8 @@ final class PostCellViewModel {
     PostContentAreaModel()
   }
   
-  var defaultFooterModel: PostFooterModel {
-    PostFooterModel()
+  var defaultFooterModel: PostFooterInfo {
+    PostFooterInfo()
   }
   
   // MARK: - Initialization
