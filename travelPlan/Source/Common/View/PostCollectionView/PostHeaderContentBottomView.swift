@@ -1,5 +1,5 @@
 //
-//  PostHeaderSubInfoView.swift
+//  PostHeaderContentBottomView.swift
 //  travelPlan
 //
 //  Created by 양승현 on 2023/05/12.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PostHeaderSubInfoView: UIView {
+class PostHeaderContentBottomView: UIView {
   enum Constant {
     enum UserName {
       static let textColor: UIColor = .yg.gray5
@@ -97,7 +97,7 @@ class PostHeaderSubInfoView: UIView {
 }
 
 // MARK: - Helpers
-extension PostHeaderSubInfoView {
+extension PostHeaderContentBottomView {
   func configure(with data: PostHeaderSubInfoModel?) {
     setUserNameLabel(with: data?.userName)
     setDurationLabel(with: data?.duration)
@@ -106,7 +106,7 @@ extension PostHeaderSubInfoView {
 }
 
 // MARK: - Private helpers
-extension PostHeaderSubInfoView {
+extension PostHeaderContentBottomView {
   private func setUserNameLabel(with text: String?) {
     userNameLabel.text = text
   }
@@ -131,7 +131,7 @@ extension PostHeaderSubInfoView {
 }
 
 // MARK: - Actions
-private extension PostHeaderSubInfoView {
+private extension PostHeaderContentBottomView {
   @objc func didTapUserName() {
     print("DEBUG: Goto profile section!!")
     UIView.touchAnimate(userNameLabel)
@@ -139,7 +139,7 @@ private extension PostHeaderSubInfoView {
 }
 
 // MARK: - LayoutSupport
-extension PostHeaderSubInfoView: LayoutSupport {
+extension PostHeaderContentBottomView: LayoutSupport {
   func addSubviews() {
     _=[userNameLabel,
        dividerView.first!,
@@ -161,7 +161,7 @@ extension PostHeaderSubInfoView: LayoutSupport {
 }
 
 // MARK: - LayoutSupport Constraints
-private extension PostHeaderSubInfoView {
+private extension PostHeaderContentBottomView {
   var userNameLabelConstraints: [NSLayoutConstraint] {
     return [
       userNameLabel.leadingAnchor.constraint(

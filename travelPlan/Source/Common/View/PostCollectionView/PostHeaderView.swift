@@ -27,7 +27,7 @@ final class PostHeaderView: BaseProfileAreaView {
   }
   
   // MARK: - Properteis
-  private let postInfoView = PostHeaderInfoView()
+  private let postInfoView = PostHeaderContentView()
   
   weak var delegate: PostHeaderViewDelegate?
   

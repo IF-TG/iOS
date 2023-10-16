@@ -1,5 +1,5 @@
 //
-//  PostHeaderInfoView.swift
+//  PostHeaderContentView.swift
 //  travelPlan
 //
 //  Created by 양승현 on 2023/09/26.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class PostHeaderInfoView: UIView {
+final class PostHeaderContentView: UIView {
   enum Constant {
     enum Title {
       static let textColor: UIColor = .yg.gray7
@@ -37,7 +37,7 @@ final class PostHeaderInfoView: UIView {
     $0.sizeToFit()
   }
   
-  private let subInfoView = PostHeaderSubInfoView()
+  private let subInfoView = PostHeaderContentBottomView()
   
   // MARK: - Lifecycle
   override init(frame: CGRect) {
@@ -56,7 +56,7 @@ final class PostHeaderInfoView: UIView {
 }
 
 // MARK: - Helpers
-extension PostHeaderInfoView {
+extension PostHeaderContentView {
   func configure(title: String?, subInfoData: PostHeaderSubInfoModel?) {
     setTitle(with: title)
     setSubInfo(with: subInfoData)
@@ -64,7 +64,7 @@ extension PostHeaderInfoView {
 }
 
 // MARK: - Private helpers
-extension PostHeaderInfoView {
+extension PostHeaderContentView {
   private func configureUI() {
     translatesAutoresizingMaskIntoConstraints = false
     setupUI()
@@ -80,7 +80,7 @@ extension PostHeaderInfoView {
 }
 
 // MARK: - LayoutSupport
-extension PostHeaderInfoView: LayoutSupport {
+extension PostHeaderContentView: LayoutSupport {
   func addSubviews() {
     _=[
       title,
@@ -101,7 +101,7 @@ extension PostHeaderInfoView: LayoutSupport {
 }
 
 // MARK: - Private layoutSupport
-private extension PostHeaderInfoView {
+private extension PostHeaderContentView {
   var titleConstraints: [NSLayoutConstraint] {
     typealias Inset = Constant.Title.Spacing
     return [
