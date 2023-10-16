@@ -759,33 +759,10 @@
 			isa = PBXGroup;
 			children = (
 				15FB47D42ABFFF6C0033AA18 /* InnerRoundRectReusableView.swift */,
-				158BEF782A0E27BD00C27861 /* PostCollectionView.swift */,
 				15F0D1B52A524DC500D04773 /* PostSortingMenuAreaView.swift */,
 				15F0D1B82A524E1F00D04773 /* MoreMenuView.swift */,
-				158BEF7B2A0E2C4500C27861 /* PostCell */,
 			);
 			path = PostView;
-			sourceTree = "<group>";
-		};
-		158BEF7B2A0E2C4500C27861 /* PostCell */ = {
-			isa = PBXGroup;
-			children = (
-				158BEF762A0E279700C27861 /* PostCell.swift */,
-				158BEF862A0E33D600C27861 /* PostHeaderView */,
-				158BEFC52A0ED08500C27861 /* PostContentAreaView */,
-				158BEFCB2A0FD2AB00C27861 /* PostFooterView */,
-			);
-			path = PostCell;
-			sourceTree = "<group>";
-		};
-		158BEF862A0E33D600C27861 /* PostHeaderView */ = {
-			isa = PBXGroup;
-			children = (
-				158BEF7C2A0E2C5F00C27861 /* PostHeaderView.swift */,
-				15EB3A002AC3477B0025FFB4 /* PostHeaderInfoView.swift */,
-				158BEF872A0E33F700C27861 /* PostHeaderSubInfoView.swift */,
-			);
-			path = PostHeaderView;
 			sourceTree = "<group>";
 		};
 		158BEF9C2A0EB21600C27861 /* Pretendard */ = {
@@ -804,37 +781,21 @@
 			path = Pretendard;
 			sourceTree = "<group>";
 		};
-		158BEFC52A0ED08500C27861 /* PostContentAreaView */ = {
-			isa = PBXGroup;
-			children = (
-				158BEF7E2A0E2C6E00C27861 /* PostContentAreaView.swift */,
-				158BEFC62A0ED09800C27861 /* PostThumbnailView.swift */,
-			);
-			path = PostContentAreaView;
-			sourceTree = "<group>";
-		};
-		158BEFCB2A0FD2AB00C27861 /* PostFooterView */ = {
-			isa = PBXGroup;
-			children = (
-				158BEF802A0E2C9E00C27861 /* PostFooterView.swift */,
-			);
-			path = PostFooterView;
-			sourceTree = "<group>";
-		};
 		158BEFCE2A0FE0B300C27861 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				130304812A250DF600776A0D /* TitleWithButtonHeaderView.swift */,
 				13300FA32AC0688300952757 /* BaseDestinationView.swift */,
-				158BEFCF2A0FE2C000C27861 /* OneUnitHeightLine.swift */,
-				15C83F892AB2134D00DDB536 /* BottomSheetView.swift */,
-				15EB39E52AC303C90025FFB4 /* BaseProfileAreaView.swift */,
-				15A4F28A2ACC072A001AA51D /* PrimaryColorToneRoundLabel.swift */,
-				15FC90D52ACC1BB50033A1E5 /* PrimaryColorToneRoundButton.swift */,
-				15DA4C822ACD821F003A7900 /* EmptyStateView.swift */,
-				157ADCB32AD07ED600D37680 /* SearchWithCancelView.swift */,
 				13BF40F22AD6F1D600F3F082 /* BaseNavigationTitleView.swift */,
 				15FFABFA2AD5B6FC0013DB57 /* BasePaddingLabel.swift */,
+				15EB39E52AC303C90025FFB4 /* BaseProfileAreaView.swift */,
+				15C83F892AB2134D00DDB536 /* BottomSheetView.swift */,
+				15DA4C822ACD821F003A7900 /* EmptyStateView.swift */,
+				158BEFCF2A0FE2C000C27861 /* OneUnitHeightLine.swift */,
+				15FC90D52ACC1BB50033A1E5 /* PrimaryColorToneRoundButton.swift */,
+				15A4F28A2ACC072A001AA51D /* PrimaryColorToneRoundLabel.swift */,
+				157ADCB32AD07ED600D37680 /* SearchWithCancelView.swift */,
+				130304812A250DF600776A0D /* TitleWithButtonHeaderView.swift */,
+				15FFAC312ADD4A770013DB57 /* PostCollectionView */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1339,6 +1300,21 @@
 			path = Protocol;
 			sourceTree = "<group>";
 		};
+		15FFAC312ADD4A770013DB57 /* PostCollectionView */ = {
+			isa = PBXGroup;
+			children = (
+				158BEF782A0E27BD00C27861 /* PostCollectionView.swift */,
+				158BEF762A0E279700C27861 /* PostCell.swift */,
+				158BEF7C2A0E2C5F00C27861 /* PostHeaderView.swift */,
+				158BEF7E2A0E2C6E00C27861 /* PostContentAreaView.swift */,
+				158BEFC62A0ED09800C27861 /* PostThumbnailView.swift */,
+				158BEF802A0E2C9E00C27861 /* PostFooterView.swift */,
+				15EB3A002AC3477B0025FFB4 /* PostHeaderInfoView.swift */,
+				158BEF872A0E33F700C27861 /* PostHeaderSubInfoView.swift */,
+			);
+			path = PostCollectionView;
+			sourceTree = "<group>";
+		};
 		22C6F6C53B2A988070A2BBBC /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -1695,7 +1671,6 @@
 				15F36A152AB1961F00971803 /* TravelRegion.swift in Sources */,
 				15DD40452A5B862D002BC5F8 /* PostViewBottomSheetAdapter.swift in Sources */,
 				15710CBA2A132C760023C19E /* FeedNotificationBarItem.swift in Sources */,
-				130304802A249E2C00776A0D /* UIView+Preview.swift in Sources */,
 				15D867CF2AD427EC00F35811 /* FavoriteDetailCoordinator.swift in Sources */,
 				157ADCAC2AD008EE00D37680 /* FavoriteDetailMenuViewConfigurable.swift in Sources */,
 				13254FE32A05147200094218 /* MainTabBarController.swift in Sources */,
