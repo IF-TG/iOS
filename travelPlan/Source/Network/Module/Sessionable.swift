@@ -13,5 +13,4 @@ protocol Sessionable {
   where R: Decodable,
         E: NetworkInteractionable,
         R == E.ResponseDTO
-  // TODO: - Image download 추가해야 함. 킹피셔 라이브러리 파해쳐보자!!
 }
