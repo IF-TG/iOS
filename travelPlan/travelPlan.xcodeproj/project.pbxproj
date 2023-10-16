@@ -220,11 +220,12 @@
 		15FFAC112AD9C7A10013DB57 /* Sessionable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFAC102AD9C7A10013DB57 /* Sessionable.swift */; };
 		15FFAC132AD9C7EB0013DB57 /* NetwrokInteractionable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFAC122AD9C7EB0013DB57 /* NetwrokInteractionable.swift */; };
 		15FFAC152ADA83E00013DB57 /* SessionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFAC142ADA83E00013DB57 /* SessionProvider.swift */; };
-		15FFAC1A2ADC1C9D0013DB57 /* MockUrlProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFAC192ADC1C9D0013DB57 /* MockUrlProtocol.swift */; };
-		15FFAC1C2ADC2BC20013DB57 /* MockSessionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFAC1B2ADC2BC20013DB57 /* MockSessionProvider.swift */; };
 		15FFAC202ADC322B0013DB57 /* EndpointTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFAC1F2ADC322B0013DB57 /* EndpointTests.swift */; };
-		15FFAC222ADC335F0013DB57 /* MockModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFAC212ADC335F0013DB57 /* MockModels.swift */; };
 		15FFAC282ADC598E0013DB57 /* SessionProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFAC272ADC598E0013DB57 /* SessionProviderTests.swift */; };
+		15FFAC2C2ADD03050013DB57 /* MockUrlProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFAC192ADC1C9D0013DB57 /* MockUrlProtocol.swift */; };
+		15FFAC2D2ADD03080013DB57 /* MockSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFAC1B2ADC2BC20013DB57 /* MockSession.swift */; };
+		15FFAC2E2ADD030F0013DB57 /* MockModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFAC212ADC335F0013DB57 /* MockModels.swift */; };
+		15FFAC2F2ADD03130013DB57 /* MockUserEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFAC2A2ADCD7370013DB57 /* MockUserEndpoint.swift */; };
 		50E5ECB21C547037A9B1EF1C /* Pods_travelPlan.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 468988FDFA3F9AC1DD7C2506 /* Pods_travelPlan.framework */; };
 		B5C1F246FE221917F2C9E531 /* libPods-travelPlanTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8543CA81E53C1E92627B15D0 /* libPods-travelPlanTests.a */; };
 /* End PBXBuildFile section */
@@ -466,11 +467,12 @@
 		15FFAC122AD9C7EB0013DB57 /* NetwrokInteractionable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetwrokInteractionable.swift; sourceTree = "<group>"; };
 		15FFAC142ADA83E00013DB57 /* SessionProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionProvider.swift; sourceTree = "<group>"; };
 		15FFAC192ADC1C9D0013DB57 /* MockUrlProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUrlProtocol.swift; sourceTree = "<group>"; };
-		15FFAC1B2ADC2BC20013DB57 /* MockSessionProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSessionProvider.swift; sourceTree = "<group>"; };
+		15FFAC1B2ADC2BC20013DB57 /* MockSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSession.swift; sourceTree = "<group>"; };
 		15FFAC1F2ADC322B0013DB57 /* EndpointTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndpointTests.swift; sourceTree = "<group>"; };
 		15FFAC212ADC335F0013DB57 /* MockModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockModels.swift; sourceTree = "<group>"; };
 		15FFAC232ADC52040013DB57 /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		15FFAC272ADC598E0013DB57 /* SessionProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionProviderTests.swift; sourceTree = "<group>"; };
+		15FFAC2A2ADCD7370013DB57 /* MockUserEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUserEndpoint.swift; sourceTree = "<group>"; };
 		468988FDFA3F9AC1DD7C2506 /* Pods_travelPlan.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_travelPlan.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F4C920852E645D65C36B2F7 /* Pods-travelPlanTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-travelPlanTests.debug.xcconfig"; path = "Target Support Files/Pods-travelPlanTests/Pods-travelPlanTests.debug.xcconfig"; sourceTree = "<group>"; };
 		6F042EF5A3948CB101B88C49 /* Pods-travelPlan.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-travelPlan.debug.xcconfig"; path = "Target Support Files/Pods-travelPlan/Pods-travelPlan.debug.xcconfig"; sourceTree = "<group>"; };
@@ -1410,8 +1412,9 @@
 			isa = PBXGroup;
 			children = (
 				15FFAC192ADC1C9D0013DB57 /* MockUrlProtocol.swift */,
-				15FFAC1B2ADC2BC20013DB57 /* MockSessionProvider.swift */,
+				15FFAC1B2ADC2BC20013DB57 /* MockSession.swift */,
 				15FFAC212ADC335F0013DB57 /* MockModels.swift */,
+				15FFAC2A2ADCD7370013DB57 /* MockUserEndpoint.swift */,
 			);
 			path = Mocks;
 			sourceTree = "<group>";
@@ -1533,7 +1536,7 @@
 			);
 			mainGroup = 1594F52529FD517E00A58F20;
 			packageReferences = (
-				1503F9272A4E0603002BC38D /* XCRemoteSwiftPackageReference "SHCoordinator.git" */,
+				1503F9272A4E0603002BC38D /* XCRemoteSwiftPackageReference "SHCoordinator" */,
 			);
 			productRefGroup = 1594F52F29FD517E00A58F20 /* Products */;
 			projectDirPath = "";
@@ -1672,9 +1675,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				15FFAC2F2ADD03130013DB57 /* MockUserEndpoint.swift in Sources */,
 				15FFAC282ADC598E0013DB57 /* SessionProviderTests.swift in Sources */,
+				15FFAC2D2ADD03080013DB57 /* MockSession.swift in Sources */,
 				15FFAC202ADC322B0013DB57 /* EndpointTests.swift in Sources */,
+				15FFAC2E2ADD030F0013DB57 /* MockModels.swift in Sources */,
 				151130092A04E4EB0041DDA1 /* travelPlanTests.swift in Sources */,
+				15FFAC2C2ADD03050013DB57 /* MockUrlProtocol.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1741,7 +1748,6 @@
 				15FFABFF2AD5D57B0013DB57 /* FavoriteCellInfo.swift in Sources */,
 				15A4F28B2ACC072A001AA51D /* PrimaryColorToneRoundLabel.swift in Sources */,
 				1325508E2A13EE8E00094218 /* PostRecentSearchHeaderView.swift in Sources */,
-				15FFAC1C2ADC2BC20013DB57 /* MockSessionProvider.swift in Sources */,
 				13300FA82AC0804400952757 /* CellConfigurable.swift in Sources */,
 				130FA91F2A359EE300E739C5 /* SearchViewDelegate.swift in Sources */,
 				13A93EEF2AD0766900FC4BBD /* SearchTopTenModel.swift in Sources */,
@@ -1760,7 +1766,6 @@
 				15FB47D72AC0407D0033AA18 /* FeedPostSearchFilterInfo.swift in Sources */,
 				157ADCA82ACFFFE100D37680 /* FavoritePostViewDelegate.swift in Sources */,
 				157176782A0C21C90015EC8C /* UIColor+AppPalette.swift in Sources */,
-				15FFAC222ADC335F0013DB57 /* MockModels.swift in Sources */,
 				15FFAC032AD5D98A0013DB57 /* FavoriteCoordinatorDelegate.swift in Sources */,
 				1503F92E2A4E083C002BC38D /* LoginCoordinator.swift in Sources */,
 				152AD51E2A1A04E5008A2A11 /* FavoriteTableViewAdapterDataSource.swift in Sources */,
@@ -1803,7 +1808,6 @@
 				15FB47EF2AC1772C0033AA18 /* PostRecommendationSearchTagCell.swift in Sources */,
 				15F36A152AB1961F00971803 /* TravelRegion.swift in Sources */,
 				15DD40452A5B862D002BC5F8 /* PostViewBottomSheetAdapter.swift in Sources */,
-				15FFAC1A2ADC1C9D0013DB57 /* MockUrlProtocol.swift in Sources */,
 				15710CBA2A132C760023C19E /* FeedNotificationBarItem.swift in Sources */,
 				15D867CF2AD427EC00F35811 /* FavoriteDetailCoordinator.swift in Sources */,
 				157ADCAC2AD008EE00D37680 /* FavoriteDetailMenuViewConfigurable.swift in Sources */,
@@ -2207,7 +2211,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		1503F9272A4E0603002BC38D /* XCRemoteSwiftPackageReference "SHCoordinator.git" */ = {
+		1503F9272A4E0603002BC38D /* XCRemoteSwiftPackageReference "SHCoordinator" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SHcommit/SHCoordinator.git";
 			requirement = {
@@ -2220,7 +2224,7 @@
 /* Begin XCSwiftPackageProductDependency section */
 		1503F9282A4E0603002BC38D /* SHCoordinator */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 1503F9272A4E0603002BC38D /* XCRemoteSwiftPackageReference "SHCoordinator.git" */;
+			package = 1503F9272A4E0603002BC38D /* XCRemoteSwiftPackageReference "SHCoordinator" */;
 			productName = SHCoordinator;
 		};
 /* End XCSwiftPackageProductDependency section */
