@@ -14,7 +14,7 @@ final class LeftAlignThreeLabelsView: UIStackView {
     let location: String
   }
   
-  enum Constants {
+  enum Constant {
     enum TitleLabel {
       static let fontSize: CGFloat = 16
       static let numberOfLines = 2
@@ -31,24 +31,24 @@ final class LeftAlignThreeLabelsView: UIStackView {
   
   // MARK: - Properties
   private let titleLabel: UILabel = UILabel().set {
-    $0.font = .init(pretendard: .semiBold, size: Constants.TitleLabel.fontSize)
+    $0.font = .init(pretendard: .semiBold, size: Constant.TitleLabel.fontSize)
     $0.text = "n/a"
     $0.textColor = .yg.gray6
-    $0.numberOfLines = Constants.TitleLabel.numberOfLines
+    $0.numberOfLines = Constant.TitleLabel.numberOfLines
   }
   
   private let secondLabel: UILabel = UILabel().set {
-    $0.font = .init(pretendard: .medium, size: Constants.SecondLabel.fontSize)
+    $0.font = .init(pretendard: .medium, size: Constant.SecondLabel.fontSize)
     $0.textColor = .yg.gray6
     $0.text = "n/a"
-    $0.numberOfLines = Constants.SecondLabel.numberOfLines
+    $0.numberOfLines = Constant.SecondLabel.numberOfLines
   }
   
   private let thirdLabel: UILabel = UILabel().set {
-    $0.font = .init(pretendard: .medium, size: Constants.ThirdLabel.size)
+    $0.font = .init(pretendard: .medium, size: Constant.ThirdLabel.size)
     $0.text = "n/a"
     $0.textColor = .yg.gray6
-    $0.numberOfLines = Constants.ThirdLabel.numberOfLines
+    $0.numberOfLines = Constant.ThirdLabel.numberOfLines
   }
   
   // MARK: - LifeCycle

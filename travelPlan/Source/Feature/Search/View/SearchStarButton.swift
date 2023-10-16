@@ -15,14 +15,14 @@ final class SearchStarButton: UIButton {
     var imagePath: String {
       switch self {
       case .black:
-        return Constants.borderBlack
+        return Constant.borderBlack
       case .white:
-        return Constants.borderWhite
+        return Constant.borderWhite
       }
     }
   }
   
-  enum Constants {
+  enum Constant {
     static let borderBlack = "emptyStar-border-black"
     static let borderWhite = "emptyStar-border-white"
     static let selectedImageName = "star-filled"
@@ -52,6 +52,6 @@ final class SearchStarButton: UIButton {
 extension SearchStarButton {
   private func setImages(normalType: BorderColor) {
     setImage(UIImage(named: normalType.imagePath), for: .normal)
-    setImage(UIImage(named: Constants.selectedImageName), for: .selected)
+    setImage(UIImage(named: Constant.selectedImageName), for: .selected)
   }
 }
