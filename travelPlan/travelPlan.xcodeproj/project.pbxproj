@@ -212,6 +212,7 @@
 		15FFABFF2AD5D57B0013DB57 /* FavoriteCellInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFABFE2AD5D57B0013DB57 /* FavoriteCellInfo.swift */; };
 		15FFAC012AD5D6710013DB57 /* FavoriteDirectorySettingViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFAC002AD5D6710013DB57 /* FavoriteDirectorySettingViewDelegate.swift */; };
 		15FFAC032AD5D98A0013DB57 /* FavoriteCoordinatorDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFAC022AD5D98A0013DB57 /* FavoriteCoordinatorDelegate.swift */; };
+		15FFAC332ADD4C480013DB57 /* PostViewAdapterDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFAC322ADD4C480013DB57 /* PostViewAdapterDataSource.swift */; };
 		8B8277C1D53D2763DBC91C26 /* Pods_travelPlan.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5093F957BE61B8938FD9727 /* Pods_travelPlan.framework */; };
 /* End PBXBuildFile section */
 
@@ -442,6 +443,7 @@
 		15FFABFE2AD5D57B0013DB57 /* FavoriteCellInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteCellInfo.swift; sourceTree = "<group>"; };
 		15FFAC002AD5D6710013DB57 /* FavoriteDirectorySettingViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteDirectorySettingViewDelegate.swift; sourceTree = "<group>"; };
 		15FFAC022AD5D98A0013DB57 /* FavoriteCoordinatorDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteCoordinatorDelegate.swift; sourceTree = "<group>"; };
+		15FFAC322ADD4C480013DB57 /* PostViewAdapterDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewAdapterDataSource.swift; sourceTree = "<group>"; };
 		95C1136D7650708D46BBF977 /* Pods-travelPlan.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-travelPlan.release.xcconfig"; path = "Target Support Files/Pods-travelPlan/Pods-travelPlan.release.xcconfig"; sourceTree = "<group>"; };
 		B40897DD36F55524D37767A7 /* Pods-travelPlan.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-travelPlan.debug.xcconfig"; path = "Target Support Files/Pods-travelPlan/Pods-travelPlan.debug.xcconfig"; sourceTree = "<group>"; };
 		D5093F957BE61B8938FD9727 /* Pods_travelPlan.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_travelPlan.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -891,15 +893,6 @@
 			path = PostModel;
 			sourceTree = "<group>";
 		};
-		15AF2C3B2A11431200BEE166 /* Post */ = {
-			isa = PBXGroup;
-			children = (
-				15CB236E2A10C314003EAF20 /* PostCellViewModel.swift */,
-				15CB23732A110FB4003EAF20 /* PostViewModel.swift */,
-			);
-			path = Post;
-			sourceTree = "<group>";
-		};
 		15BB01AE2A1EB4890035B486 /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
@@ -1194,7 +1187,6 @@
 				15EF8C962A0A18960068C744 /* CategoryPageViewModel.swift */,
 				156759B02A0D774500849CE2 /* FeedViewModel.swift */,
 				1325502A2A0ABE5E00094218 /* PostSearchViewModel.swift */,
-				15AF2C3B2A11431200BEE166 /* Post */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1223,7 +1215,6 @@
 			isa = PBXGroup;
 			children = (
 				15F0D1992A4EF49700D04773 /* CategoryPageViewAdapter.swift */,
-				15F0D1D22A53095100D04773 /* PostViewAdapter.swift */,
 				15DD40442A5B862D002BC5F8 /* PostViewBottomSheetAdapter.swift */,
 			);
 			path = Adapter;
@@ -1241,6 +1232,8 @@
 		15FEB5D82A050A99000A5F33 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				15FFAC352ADD4DED0013DB57 /* ViewModel */,
+				15FFAC342ADD4C990013DB57 /* Adapter */,
 				130304732A2147A000776A0D /* ViewController */,
 				152AD4EC2A1891C4008A2A11 /* Model */,
 				15CB235C2A10B598003EAF20 /* Utils */,
@@ -1296,6 +1289,7 @@
 				13300FAB2AC0883200952757 /* UICompositionalLayoutCreatable.swift */,
 				15A4F28C2ACC1025001AA51D /* Toggable.swift */,
 				157ADCA52ACFFEF300D37680 /* EmptyStateBasedContentViewCheckable.swift */,
+				15FFAC322ADD4C480013DB57 /* PostViewAdapterDataSource.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -1313,6 +1307,23 @@
 				158BEF872A0E33F700C27861 /* PostHeaderContentBottomView.swift */,
 			);
 			path = PostCollectionView;
+			sourceTree = "<group>";
+		};
+		15FFAC342ADD4C990013DB57 /* Adapter */ = {
+			isa = PBXGroup;
+			children = (
+				15F0D1D22A53095100D04773 /* PostViewAdapter.swift */,
+			);
+			path = Adapter;
+			sourceTree = "<group>";
+		};
+		15FFAC352ADD4DED0013DB57 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				15CB236E2A10C314003EAF20 /* PostCellViewModel.swift */,
+				15CB23732A110FB4003EAF20 /* PostViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		22C6F6C53B2A988070A2BBBC /* Pods */ = {
@@ -1693,6 +1704,7 @@
 				158BEFC22A0EB45300C27861 /* UIFont+.swift in Sources */,
 				15B4E5F12ACAA947001CF071 /* SearchStarButton.swift in Sources */,
 				15DA4C832ACD821F003A7900 /* EmptyStateView.swift in Sources */,
+				15FFAC332ADD4C480013DB57 /* PostViewAdapterDataSource.swift in Sources */,
 				15A4F28F2ACC11E5001AA51D /* ViewController.swift in Sources */,
 				157ADCB42AD07ED600D37680 /* SearchWithCancelView.swift in Sources */,
 				1303047B2A24938700776A0D /* SearchView.swift in Sources */,
