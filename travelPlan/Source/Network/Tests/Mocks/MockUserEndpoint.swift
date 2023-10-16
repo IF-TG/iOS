@@ -18,6 +18,6 @@ final class MockUserEndpoint {
       method: .post,
       prefixPath: "/user",
       parameters: requestDTO,
-      requestType: .none)
+      requestType: .custom("name-update"))
   }
 }
