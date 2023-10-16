@@ -37,7 +37,7 @@ final class SessionProviderTests: XCTestCase {
 }
 
 extension SessionProviderTests {
-  func testUploadUserName_SessionProvider로요청후응답할때ResponseDTO체크_ShouldReturnEqual() {
+  func testUploadUserName_SessionProvider로요청후응답에서ResponseDTO체크_ShouldReturnEqual() {
     // Arrange
     let userNameUploadEndpoint = mockUserEndpoint.uploadUserName(with: mockUserNameRequestDTO)
     let responseJSONString = """
@@ -62,7 +62,7 @@ extension SessionProviderTests {
     wait(for: [expectation], timeout: 10)
   }
   
-  func testUploadUserName_SessionProvider로요청후응답할때StatusCode404일때_ShouldReturnFailure() {
+  func testUploadUserName_SessionProvider로요청후응답에서StatusCode404일때_ShouldReturnFailure() {
     // Arrange
     let userNameUploadEndpoint = mockUserEndpoint.uploadUserName(with: mockUserNameRequestDTO)
     MockUrlProtocol.requestHandler = { _ in
