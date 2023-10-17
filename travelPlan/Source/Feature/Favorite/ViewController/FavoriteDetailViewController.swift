@@ -96,6 +96,9 @@ private extension FavoriteDetailViewController {
     let postViewModel = PostViewModel(postUseCase: MockPostUseCase())
     let favoritePostViewController = FavoritePostViewController(postViewModel: postViewModel)
     favoritePostViewController.delegate = self
+    favoritePostViewController.postUpdatedHandler = { [weak self] count in
+      self?.menuView.updateTotalItemCount(count)
+    }
     let favoriteLocationViewController = FavoriteLocationViewController()
     pageViewDataSource = [favoritePostViewController, favoriteLocationViewController]
     view.backgroundColor = .white

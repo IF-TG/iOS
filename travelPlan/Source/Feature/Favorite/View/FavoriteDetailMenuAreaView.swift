@@ -114,6 +114,13 @@ final class FavoriteDetailMenuAreaView: UIView {
   }
 }
 
+// MARK: - Helpers
+extension FavoriteDetailMenuAreaView {
+  func updateTotalItemCount(_ count: Int) {
+    totalItemCount = count
+  }
+}
+
 // MARK: - Private Helpers
 extension FavoriteDetailMenuAreaView {
   private func configureUI() {
