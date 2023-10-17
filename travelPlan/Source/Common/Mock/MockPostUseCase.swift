@@ -6,11 +6,17 @@
 //
 
 import Foundation
+import Combine
+import Alamofire
 
 // 임시
 struct MockPostUseCase {
-  func fetchPosts() -> [PostEntity] {
-    PostEntity.mockData
+  func fetchPosts() -> Future<[PostEntity], AFError> {
+    return Future() { promise in
+      DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+        promise(.success(PostEntity.mockData))
+      }
+    }
   }
 }
 
