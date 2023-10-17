@@ -45,7 +45,7 @@ final class PostHeaderView: BaseProfileAreaView {
 // MARK: - Helpers
 extension PostHeaderView {
   func configure(with data: PostHeaderInfo?) {
-    super.configure(with: data?.image)
-    postInfoView.configure(title: data?.title, subInfoData: data?.subInfo)
+    super.configure(with: data?.imageURL)
+    postInfoView.configure(with: data?.contentInfo)
   }
 }

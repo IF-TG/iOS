@@ -24,10 +24,7 @@ final class PostCellViewModel {
   }
   
   // MARK: - Default data(When fetched data invalid)
-  var defaultHeaderModel: PostHeaderInfo {
-    .init()
-  }
-  
+ 
   var defaultContentAreaModel: PostContentInfo {
     PostContentInfo()
   }
@@ -49,10 +46,10 @@ extension PostCellViewModel {
   func isValidatedHeaderModel() -> Bool {
     let manager = DateValidationManager()
     guard 
-      let subInfoModel = headerModel?.subInfo,
-      subInfoModel.isValidatedDuration(),
-      subInfoModel.isValidatedUsername(),
-      subInfoModel.isValidatedYearMonthDayRange(fromDateValidationManager: manager)
+      let contentInfo = headerModel?.contentInfo,
+      contentInfo.bottomViewInfo.isValidatedDuration(),
+      contentInfo.bottomViewInfo.isValidatedUsername(),
+      contentInfo.bottomViewInfo.isValidatedYearMonthDayRange(fromDateValidationManager: manager)
     else {
       return false
     }

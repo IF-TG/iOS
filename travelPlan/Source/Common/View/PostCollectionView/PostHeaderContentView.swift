@@ -18,7 +18,7 @@ final class PostHeaderContentView: UIView {
       }
     }
     
-    enum subInfoView {
+    enum BottomView {
       enum Spacing {
         static let leading: CGFloat = 10
         static let top: CGFloat = 5
@@ -37,7 +37,7 @@ final class PostHeaderContentView: UIView {
     $0.sizeToFit()
   }
   
-  private let subInfoView = PostHeaderContentBottomView()
+  private let bottomView = PostHeaderContentBottomView()
   
   // MARK: - Lifecycle
   override init(frame: CGRect) {
@@ -57,9 +57,9 @@ final class PostHeaderContentView: UIView {
 
 // MARK: - Helpers
 extension PostHeaderContentView {
-  func configure(title: String?, subInfoData: PostHeaderContentBottomInfo?) {
-    setTitle(with: title)
-    setSubInfo(with: subInfoData)
+  func configure(with data: PostHeaderContentInfo?) {
+    setTitle(with: data?.title)
+    setBottomView(with: data?.bottomViewInfo)
   }
 }
 
@@ -74,8 +74,8 @@ extension PostHeaderContentView {
     title.text = text
   }
   
-  private func setSubInfo(with subInfoData: PostHeaderContentBottomInfo?) {
-    subInfoView.configure(with: subInfoData)
+  private func setBottomView(with subInfoData: PostHeaderContentBottomInfo?) {
+    bottomView.configure(with: subInfoData)
   }
 }
 
@@ -84,7 +84,7 @@ extension PostHeaderContentView: LayoutSupport {
   func addSubviews() {
     _=[
       title,
-      subInfoView
+      bottomView
     ].map {
       addSubview($0)
     }
@@ -112,12 +112,12 @@ private extension PostHeaderContentView {
   }
   
   var subInfoViewConstraints: [NSLayoutConstraint] {
-    typealias Inset = Constant.subInfoView.Spacing
+    typealias Inset = Constant.BottomView.Spacing
     return [
-      subInfoView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Inset.leading),
-      subInfoView.trailingAnchor.constraint(equalTo: trailingAnchor),
-      subInfoView.topAnchor.constraint(equalTo: title.bottomAnchor, constant: Inset.top),
-      subInfoView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Inset.bottom)
+      bottomView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Inset.leading),
+      bottomView.trailingAnchor.constraint(equalTo: trailingAnchor),
+      bottomView.topAnchor.constraint(equalTo: title.bottomAnchor, constant: Inset.top),
+      bottomView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Inset.bottom)
     ]
   }
 }

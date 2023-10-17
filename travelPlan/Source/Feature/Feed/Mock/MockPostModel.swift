@@ -35,33 +35,23 @@ private extension MockPostModel {
   }
   
   func compressThumbImg(_ index: Int) -> UIImage {
-    
     return UIImage(named: tempThumb(index))!.compressJPEGImage(with: 0)!
   }
   
   func initMockHeader() -> [PostHeaderInfo] {
-    let mockHeaderSubInfo = initMockHeaderSubInfo()
+    let mcokHeaderContentInfo = initMockPostHeaderContentInfo()
     return [
-      ("Capturing the Beauty of Ocean Bliss",
-       tempThumb(1),
-       mockHeaderSubInfo[0]),
-      ("영롱한 바다",
-       tempThumb(2),
-       mockHeaderSubInfo[1]),
-      ("거, 갈땐 가더라도 커피 한잔 정도는 괜찮잖나.. ",
-       tempThumb(3),
-       mockHeaderSubInfo[2]),
-      ("맛과 향의 여행",
-       tempThumb(4),
-       mockHeaderSubInfo[3]),
-      ("또 가고 싶다..",
-       tempThumb(5),
-       mockHeaderSubInfo[4])].map {
-         PostHeaderInfo(title: $0, image: $1, subInfo: $2)
-       }
+      (tempThumb(1), mcokHeaderContentInfo[0]),
+      (tempThumb(2), mcokHeaderContentInfo[1]),
+      (tempThumb(3), mcokHeaderContentInfo[2]),
+      (tempThumb(4), mcokHeaderContentInfo[3]),
+      (tempThumb(5), mcokHeaderContentInfo[4])
+    ].map {
+      PostHeaderInfo(imageURL: $0, contentInfo: $1)
+    }
   }
   
-  func initMockHeaderSubInfo() -> [PostHeaderContentBottomInfo] {
+  func initMockPostHeaderContentBottomInfo() -> [PostHeaderContentBottomInfo] {
     return [
       ("Wanderlust_Journey", "한달", "2023.03.16 ~ 2023.04.15"),
       ("SoulRebel", "7일", "2023.04.03 ~ 2023.04.09"),
@@ -70,6 +60,20 @@ private extension MockPostModel {
       ("모던스타일", "60일", "2023.03.15 ~ 2023.05.13")]
       .map {
         PostHeaderContentBottomInfo(userName: $0, duration: $1, yearMonthDayRange: $2)
+      }
+  }
+  
+  func initMockPostHeaderContentInfo() -> [PostHeaderContentInfo] {
+    let bottomViewInfo = initMockPostHeaderContentBottomInfo()
+    return [
+      "Capturing the Beauty of Ocean Bliss", 
+      "영롱한 바다",
+      "거, 갈땐 가더라도 커피 한잔 정도는 괜찮잖나.. ",
+      "맛과 향의 여행",
+      "또 가고 싶다.."]
+      .enumerated()
+      .map {
+        return PostHeaderContentInfo(title: $1, bottomViewInfo: bottomViewInfo[$0])
       }
   }
   
