@@ -7,24 +7,6 @@
 import UIKit
 
 struct PostContentInfo {
-  // post thumbnail 글 내용
   var text: String
-
-  // TumbnailModel
-  var thumbnailImages: [UIImage]
-  
-  // 데이터가 유효하지 않은 경우
-  init(text: String = "N/A",
-       thumbnailImages: [UIImage] = [UIImage()]) {
-    self.text = text
-    self.thumbnailImages = thumbnailImages
-  }
-}
-
-// MARK: - Public helpers
-extension PostContentInfo {
-  func isValidatedThumbnailImages() -> Bool {
-    if !thumbnailImages.isEmpty { return true }
-    return false
-  }
+  var thumbnailURLs: [String]
 }
