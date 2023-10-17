@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 class SearchDetailHeaderView: UICollectionReusableView {
-  enum Constants {
+  enum Constant {
     enum TitleLabel {
       static let numberOfLines = 1
       static let fontSize: CGFloat = 30
@@ -39,15 +39,15 @@ class SearchDetailHeaderView: UICollectionReusableView {
   }
   
   private let titleLabel: UILabel = .init().set {
-    $0.numberOfLines = Constants.TitleLabel.numberOfLines
-    $0.font = .init(pretendard: .bold, size: Constants.TitleLabel.fontSize)
-    $0.text = Constants.TitleLabel.text
+    $0.numberOfLines = Constant.TitleLabel.numberOfLines
+    $0.font = .init(pretendard: .bold, size: Constant.TitleLabel.fontSize)
+    $0.text = Constant.TitleLabel.text
     $0.textColor = UIColor.yg.littleWhite
   }
   
   private lazy var categoryThumbnailImageView: UIImageView = .init().set {
     $0.roundCorners(
-      cornerRadius: Constants.categoryThumbnailImageView.cornerRadius,
+      cornerRadius: Constant.categoryThumbnailImageView.cornerRadius,
       cornerList: [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
     )
     $0.image = UIImage(named: "tempProfile1") // to erase
@@ -56,7 +56,7 @@ class SearchDetailHeaderView: UICollectionReusableView {
   }
   
   private let imageGradientLayer: CAGradientLayer = .init().set {
-    typealias Cnst = Constants.ImageGradientLayer
+    typealias Cnst = Constant.ImageGradientLayer
     $0.colors = [
       UIColor.clear.cgColor,
       UIColor.yg.gray7.withAlphaComponent(Cnst.lastColorAlpha).cgColor
@@ -122,9 +122,9 @@ extension SearchDetailHeaderView: LayoutSupport {
   
   func setConstraints() {
     titleLabel.snp.makeConstraints {
-      $0.leading.equalToSuperview().inset(Constants.TitleLabel.Spacing.leading)
-      $0.trailing.equalToSuperview().inset(Constants.TitleLabel.Spacing.trailing)
-      $0.bottom.equalToSuperview().inset(Constants.TitleLabel.Spacing.bottom)
+      $0.leading.equalToSuperview().inset(Constant.TitleLabel.Spacing.leading)
+      $0.trailing.equalToSuperview().inset(Constant.TitleLabel.Spacing.trailing)
+      $0.bottom.equalToSuperview().inset(Constant.TitleLabel.Spacing.bottom)
     }
     
     categoryThumbnailImageView.snp.makeConstraints {
