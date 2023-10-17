@@ -8,7 +8,7 @@
 import UIKit
 
 class MainSearchLayoutManager {
-  enum Constants {
+  enum Constant {
     // MARK: - First
     enum Festival {
       enum Item {
@@ -95,26 +95,26 @@ extension MainSearchLayoutManager: CompositionalLayoutCreatable {
 extension MainSearchLayoutManager {
   private func festivalLayout() -> NSCollectionLayoutSection {
     let item = makeLayoutItem(
-      fractionalWidth: Constants.Festival.Item.fractionalWidth,
-      fractionalHeight: Constants.Festival.Item.fractionalHeight
+      fractionalWidth: Constant.Festival.Item.fractionalWidth,
+      fractionalHeight: Constant.Festival.Item.fractionalHeight
     )
     
     let group = NSCollectionLayoutGroup.horizontal(
       layoutSize: .init(
-        widthDimension: .absolute(Constants.Festival.Group.width),
-        heightDimension: .absolute(Constants.Festival.Group.height)
+        widthDimension: .absolute(Constant.Festival.Group.width),
+        heightDimension: .absolute(Constant.Festival.Group.height)
       ),
       subitems: [item]
     )
     
     let section = NSCollectionLayoutSection(group: group)
     section.orthogonalScrollingBehavior = .continuous
-    section.interGroupSpacing = Constants.Festival.Section.interGroupSpacing
+    section.interGroupSpacing = Constant.Festival.Section.interGroupSpacing
     section.contentInsets = .init(
       top: .zero,
-      leading: Constants.Festival.Section.Inset.leading,
+      leading: Constant.Festival.Section.Inset.leading,
       bottom: .zero,
-      trailing: Constants.Festival.Section.Inset.trailing
+      trailing: Constant.Festival.Section.Inset.trailing
     )
     section.boundarySupplementaryItems = [headerLayout()]
     return section
@@ -122,33 +122,33 @@ extension MainSearchLayoutManager {
   
   private func campingLayout() -> NSCollectionLayoutSection {
     let item = makeLayoutItem(
-      fractionalWidth: Constants.Camping.Item.fractionalWidth,
-      fractionalHeight: Constants.Camping.Item.fractionalHeight
+      fractionalWidth: Constant.Camping.Item.fractionalWidth,
+      fractionalHeight: Constant.Camping.Item.fractionalHeight
     )
     
     let group = NSCollectionLayoutGroup.vertical(
       layoutSize: .init(
-        widthDimension: .fractionalWidth(Constants.Camping.Group.fractionalWidth),
-        heightDimension: .absolute(Constants.Camping.Group.height)
+        widthDimension: .fractionalWidth(Constant.Camping.Group.fractionalWidth),
+        heightDimension: .absolute(Constant.Camping.Group.height)
       ),
       subitem: item,
-      count: Constants.Camping.Group.count
+      count: Constant.Camping.Group.count
     )
     
     let section = NSCollectionLayoutSection(group: group)
     section.orthogonalScrollingBehavior = .groupPaging
     section.contentInsets = .init(
-      top: Constants.Camping.Section.Inset.top,
-      leading: Constants.Camping.Section.Inset.leading,
-      bottom: Constants.Camping.Section.Inset.bottom,
-      trailing: Constants.Camping.Section.Inset.trailing
+      top: Constant.Camping.Section.Inset.top,
+      leading: Constant.Camping.Section.Inset.leading,
+      bottom: Constant.Camping.Section.Inset.bottom,
+      trailing: Constant.Camping.Section.Inset.trailing
     )
     section.boundarySupplementaryItems = [headerLayout()]
     return section
   }
   
   private func topTenLayout() -> NSCollectionLayoutSection {
-    typealias Cnst = Constants.TopTen
+    typealias Cnst = Constant.TopTen
     let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(Cnst.Item.fractionalWidth),
                                           heightDimension: .fractionalHeight(Cnst.Item.fractionalHeight))
     let item = NSCollectionLayoutItem(layoutSize: itemSize)
@@ -170,8 +170,8 @@ extension MainSearchLayoutManager {
   private func headerLayout() -> NSCollectionLayoutBoundarySupplementaryItem {
     return .init(
       layoutSize: .init(
-        widthDimension: .fractionalWidth(Constants.Header.fractionalWidth),
-        heightDimension: .estimated(Constants.Header.estimatedHeight)
+        widthDimension: .fractionalWidth(Constant.Header.fractionalWidth),
+        heightDimension: .estimated(Constant.Header.estimatedHeight)
       ),
       elementKind: UICollectionView.elementKindSectionHeader,
       alignment: .top
