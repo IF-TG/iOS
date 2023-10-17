@@ -53,8 +53,8 @@ extension PostThumbnailView {
 
 // MARK: - Public helpers
 extension PostThumbnailView {
-  func configure(with data: [UIImage]?) {
-    setImageViews(with: data)
+  func configure(with imageURLs: [String]?) {
+    setImageViews(with: imageURLs)
     if !isSetupfuncCalled {
       isSetupfuncCalled = true
       setupUI()
@@ -64,9 +64,9 @@ extension PostThumbnailView {
 
 // MARK: - Helpers
 private extension PostThumbnailView {
-  func setImageViews(with images: [UIImage]?) {
-    if let images = images {
-      imageViews = images.map { return initImageview(with: $0) }
+  func setImageViews(with imageURLs: [String]?) {
+    if let imageURLs = imageURLs {
+      imageViews = imageURLs.map { return initImageview(with: $0) }
     }
   }
   
@@ -83,12 +83,12 @@ private extension PostThumbnailView {
       }
     }
   
-  func initImageview(with image: UIImage) -> UIImageView {
+  func initImageview(with imageURL: String) -> UIImageView {
     return UIImageView().set {
       $0.translatesAutoresizingMaskIntoConstraints = false
       $0.clipsToBounds = true
       $0.contentMode = .scaleAspectFill
-      $0.image = image
+      $0.image = UIImage(named: imageURL)
       $0.backgroundColor = .lightGray.withAlphaComponent(0.5)
       let touch = UITapGestureRecognizer(target: self, action: #selector(didTapThumbnail))
       $0.isUserInteractionEnabled = true

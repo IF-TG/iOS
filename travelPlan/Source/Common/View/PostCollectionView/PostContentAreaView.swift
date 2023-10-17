@@ -78,7 +78,7 @@ class PostContentAreaView: UIView {
 extension PostContentAreaView {
   func configure(with data: PostContentInfo?) {
     setText(with: data?.text)
-    setThumbnail(with: data?.thumbnailImages)
+    setThumbnail(with: data?.thumbnailURLs)
   }
 }
 
@@ -88,7 +88,7 @@ private extension PostContentAreaView {
     text.text = content
   }
   
-  func setThumbnail(with images: [UIImage]?) {
+  func setThumbnail(with images: [String]?) {
     thumbnail.configure(with: images)
   }
 }
