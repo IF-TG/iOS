@@ -102,9 +102,9 @@ final class PostCell: UICollectionViewCell {
 extension PostCell {
   func configure(with post: PostInfo?) {
     vm = PostCellViewModel(postModel: post)
-    setHeaderWithData()
-    setContentAreaWithData()
-    setFooterWithData()
+    headerView.configure(with: vm.headerModel)
+    contentAreaView.configure(with: vm.contentAreaModel)
+    footerView.configure(with: vm.footerModel)
     setCellDivieder(post == nil)
   }
   
@@ -133,26 +133,6 @@ extension PostCell {
     line.setConstraint(
       fromSuperView: contentView,
       spacing: .init(leading: Spacing.leading, trailing: Spacing.trailing))
-  }
-  
-  private func setHeaderWithData() {
-    headerView.configure(with: vm.headerModel)
-  }
-  
-  private func setContentAreaWithData() {
-    guard vm.isValidatedContentAreaModel() else {
-      contentAreaView.configure(with: vm.defaultContentAreaModel)
-      return
-    }
-    contentAreaView.configure(with: vm.contentAreaModel)
-  }
-  
-  private func setFooterWithData() {
-    guard vm.isValidatedFooterModel() else {
-      footerView.configure(with: vm.defaultFooterModel)
-      return
-    }
-    footerView.configure(with: vm.footerModel)
   }
   
   private func makeOptionButton() -> UIButton {
