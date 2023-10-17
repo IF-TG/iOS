@@ -12,7 +12,7 @@ import Alamofire
 // 임시
 struct MockPostUseCase {
   func fetchPosts() -> Future<[PostEntity], AFError> {
-    return Future() { promise in
+    return Future { promise in
       DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
         promise(.success(PostEntity.mockData))
       }
