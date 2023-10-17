@@ -45,7 +45,7 @@ extension PostViewAdapter: UICollectionViewDataSource {
       else {
         return .init(frame: .zero)
       }
-      cell.configure(with: dataSource.postViewCellItem(at: indexPath.row))
+      cell.configure(with: dataSource.postItem(at: indexPath.row))
       checkLastCell(cell, indexPath: indexPath)
       return cell
     }

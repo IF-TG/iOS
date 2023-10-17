@@ -7,9 +7,5 @@
 
 protocol PostViewAdapterDataSource: AnyObject {
   var numberOfItems: Int { get }
-  var travelTheme: TravelMainThemeType { get }
-  var travelTrend: TravelOrderType { get }
-  
-  func postViewCellItem(at index: Int) -> PostInfo
-  func contentText(at index: Int) -> String
+  func postItem(at index: Int) -> PostInfo
 }
