@@ -9,7 +9,7 @@ import UIKit
 
 final class PostThumbnailView: UIView {
   enum Constant {
-    private static let intrinsicWidth = (UIScreen.main.bounds.width - PostContentAreaView
+    private static let intrinsicWidth = (UIScreen.main.bounds.width - PostContentView
       .Constant.Thumbnail.Spacing.leading*2)
     static let spacing: CGFloat = 1
     static let cornerRadius: CGFloat = 10

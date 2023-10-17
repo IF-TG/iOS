@@ -113,7 +113,7 @@
 		1586D3042AB193F7001D4A80 /* Season.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1586D3032AB193F7001D4A80 /* Season.swift */; };
 		158BEF772A0E279700C27861 /* PostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158BEF762A0E279700C27861 /* PostCell.swift */; };
 		158BEF792A0E27BD00C27861 /* PostCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158BEF782A0E27BD00C27861 /* PostCollectionView.swift */; };
-		158BEF7F2A0E2C6E00C27861 /* PostContentAreaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158BEF7E2A0E2C6E00C27861 /* PostContentAreaView.swift */; };
+		158BEF7F2A0E2C6E00C27861 /* PostContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158BEF7E2A0E2C6E00C27861 /* PostContentView.swift */; };
 		158BEF812A0E2C9E00C27861 /* PostFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158BEF802A0E2C9E00C27861 /* PostFooterView.swift */; };
 		158BEF882A0E33F700C27861 /* PostHeaderContentBottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158BEF872A0E33F700C27861 /* PostHeaderContentBottomView.swift */; };
 		158BEFB82A0EB2A500C27861 /* Pretendard-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 158BEFAF2A0EB2A400C27861 /* Pretendard-Light.ttf */; };
@@ -347,7 +347,7 @@
 		158BEF762A0E279700C27861 /* PostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCell.swift; sourceTree = "<group>"; };
 		158BEF782A0E27BD00C27861 /* PostCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCollectionView.swift; sourceTree = "<group>"; };
 		158BEF7C2A0E2C5F00C27861 /* PostHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostHeaderView.swift; sourceTree = "<group>"; };
-		158BEF7E2A0E2C6E00C27861 /* PostContentAreaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostContentAreaView.swift; sourceTree = "<group>"; };
+		158BEF7E2A0E2C6E00C27861 /* PostContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostContentView.swift; sourceTree = "<group>"; };
 		158BEF802A0E2C9E00C27861 /* PostFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostFooterView.swift; sourceTree = "<group>"; };
 		158BEF872A0E33F700C27861 /* PostHeaderContentBottomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostHeaderContentBottomView.swift; sourceTree = "<group>"; };
 		158BEFAF2A0EB2A400C27861 /* Pretendard-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Light.ttf"; sourceTree = "<group>"; };
@@ -1257,7 +1257,7 @@
 				158BEF782A0E27BD00C27861 /* PostCollectionView.swift */,
 				158BEF762A0E279700C27861 /* PostCell.swift */,
 				158BEF7C2A0E2C5F00C27861 /* PostHeaderView.swift */,
-				158BEF7E2A0E2C6E00C27861 /* PostContentAreaView.swift */,
+				158BEF7E2A0E2C6E00C27861 /* PostContentView.swift */,
 				158BEFC62A0ED09800C27861 /* PostThumbnailView.swift */,
 				158BEF802A0E2C9E00C27861 /* PostFooterView.swift */,
 				15EB3A002AC3477B0025FFB4 /* PostHeaderContentView.swift */,
@@ -1576,7 +1576,7 @@
 				15F0D1D32A53095100D04773 /* PostViewAdapter.swift in Sources */,
 				157ADCA62ACFFEF300D37680 /* EmptyStateBasedContentViewCheckable.swift in Sources */,
 				152AD5272A1B89D2008A2A11 /* FavoriteViewModel.swift in Sources */,
-				158BEF7F2A0E2C6E00C27861 /* PostContentAreaView.swift in Sources */,
+				158BEF7F2A0E2C6E00C27861 /* PostContentView.swift in Sources */,
 				15710CB82A132C630023C19E /* FeedPostSearchBarItem.swift in Sources */,
 				131A110A2AB509FB007BDD66 /* UIView+roundCorners.swift in Sources */,
 				13606E8C2A9F959F00365F20 /* PostRecommendationSearchHeaderView.swift in Sources */,

@@ -1,5 +1,5 @@
 //
-//  PostContentAreaView.swift
+//  PostContentView.swift
 //  travelPlan
 //
 //  Created by 양승현 on 2023/05/12.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PostContentAreaView: UIView {
+class PostContentView: UIView {
   enum Constant {
     static var maximumHeight: CGFloat {
       Thumbnail.height 
@@ -75,7 +75,7 @@ class PostContentAreaView: UIView {
 }
 
 // MARK: - Public helpers
-extension PostContentAreaView {
+extension PostContentView {
   func configure(with data: PostContentInfo?) {
     setText(with: data?.text)
     setThumbnail(with: data?.thumbnailURLs)
@@ -83,7 +83,7 @@ extension PostContentAreaView {
 }
 
 // MARK: - Helpers
-private extension PostContentAreaView {
+private extension PostContentView {
   func setText(with content: String?) {
     text.text = content
   }
@@ -94,7 +94,7 @@ private extension PostContentAreaView {
 }
 
 // MARK: - LayoutSupport
-extension PostContentAreaView: LayoutSupport {
+extension PostContentView: LayoutSupport {
   func addSubviews() {
     _=[
       thumbnail,
@@ -115,7 +115,7 @@ extension PostContentAreaView: LayoutSupport {
 }
 
 // MARK: - LayoutSupport
-private extension PostContentAreaView {
+private extension PostContentView {
   var thumbnailConstraints: [NSLayoutConstraint] {
     typealias Spacing = Constant.Thumbnail.Spacing
     typealias Const = Constant.Thumbnail

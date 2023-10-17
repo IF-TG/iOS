@@ -37,8 +37,8 @@ final class PostCell: UICollectionViewCell {
     }
     
     enum ContentView {
-      static let maximumHeight = PostContentAreaView.Constant.maximumHeight
-      static let minimumHeight = PostContentAreaView.Constant.minimumHeight
+      static let maximumHeight = PostContentView.Constant.maximumHeight
+      static let minimumHeight = PostContentView.Constant.minimumHeight
     }
     
     enum FooterView {
@@ -72,7 +72,7 @@ final class PostCell: UICollectionViewCell {
   
   private lazy var optionButton = makeOptionButton()
   
-  private let contentAreaView = PostContentAreaView()
+  private let contentAreaView = PostContentView()
   
   private let footerView = PostFooterView()
   
