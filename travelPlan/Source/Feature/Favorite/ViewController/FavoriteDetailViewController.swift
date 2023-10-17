@@ -93,7 +93,8 @@ final class FavoriteDetailViewController: UIViewController {
 // MARK: - Private Helpers
 private extension FavoriteDetailViewController {
   func configureUI() {
-    let favoritePostViewController = FavoritePostViewController()
+    let postViewModel = PostViewModel(postUseCase: MockPostUseCase())
+    let favoritePostViewController = FavoritePostViewController(postViewModel: postViewModel)
     favoritePostViewController.delegate = self
     let favoriteLocationViewController = FavoriteLocationViewController()
     pageViewDataSource = [favoritePostViewController, favoriteLocationViewController]
