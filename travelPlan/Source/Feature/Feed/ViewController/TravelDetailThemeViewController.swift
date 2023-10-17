@@ -33,7 +33,7 @@ final class TravelDetailThemeViewController: UIViewController {
   // MARK: - Lifecycle
   init(with filterInfo: FeedPostSearchFilterInfo) {
     super.init(nibName: nil, bundle: nil)
-    viewModel = PostViewModel(filterInfo: filterInfo)
+    // viewModel = PostViewModel(filterInfo: filterInfo)
     postViewAdapter = PostViewAdapter(dataSource: viewModel, collectionView: postView)
   }
   
