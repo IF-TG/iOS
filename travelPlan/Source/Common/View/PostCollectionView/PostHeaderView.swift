@@ -10,21 +10,6 @@ import UIKit
 protocol PostHeaderViewDelegate: BaseProfileAreaViewDelegate { }
 
 final class PostHeaderView: BaseProfileAreaView {
-  struct Model {
-    let title: String
-    let image: UIImage?
-    let subInfo: PostHeaderSubInfoModel
-    
-    init(
-      title: String = "제목 없음",
-      image: UIImage? = nil,
-      subInfo: PostHeaderSubInfoModel = PostHeaderSubInfoModel()
-    ) {
-      self.title = title
-      self.image = image
-      self.subInfo = subInfo
-    }
-  }
   
   // MARK: - Properteis
   private let postInfoView = PostHeaderContentView()
@@ -59,7 +44,7 @@ final class PostHeaderView: BaseProfileAreaView {
 
 // MARK: - Helpers
 extension PostHeaderView {
-  func configure(with data: Model?) {
+  func configure(with data: PostHeaderInfo?) {
     super.configure(with: data?.image)
     postInfoView.configure(title: data?.title, subInfoData: data?.subInfo)
   }

@@ -98,7 +98,7 @@ class PostHeaderContentBottomView: UIView {
 
 // MARK: - Helpers
 extension PostHeaderContentBottomView {
-  func configure(with data: PostHeaderSubInfoModel?) {
+  func configure(with data: PostHeaderContentBottomInfo?) {
     setUserNameLabel(with: data?.userName)
     setDurationLabel(with: data?.duration)
     setYearMonthDayRangeLabel(with: data?.yearMonthDayRange)

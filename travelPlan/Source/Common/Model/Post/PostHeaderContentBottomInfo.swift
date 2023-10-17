@@ -1,5 +1,5 @@
 //
-//  PostHeaderSubInfoModel.swift
+//  PostHeaderContentBottomInfo.swift
 //  travelPlan
 //
 //  Created by 양승현 on 2023/05/14.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct PostHeaderSubInfoModel {
+struct PostHeaderContentBottomInfo {
   let userName: String
   let duration: String
   let yearMonthDayRange: String
@@ -23,7 +23,7 @@ struct PostHeaderSubInfoModel {
 }
 
 // MARK: - Public helpers
-extension PostHeaderSubInfoModel {
+extension PostHeaderContentBottomInfo {
   func isValidatedUsername() -> Bool {
     if !userName.isEmpty || userName.count >= 3 {
       return true

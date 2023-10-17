@@ -1,12 +1,12 @@
 //
-//  PostContentAreaModel.swift
+//  PostContentInfo.swift
 //  travelPlan
 //
 //  Created by 양승현 on 2023/05/14.
 //
 import UIKit
 
-struct PostContentAreaModel {
+struct PostContentInfo {
   // post thumbnail 글 내용
   var text: String
 
@@ -22,7 +22,7 @@ struct PostContentAreaModel {
 }
 
 // MARK: - Public helpers
-extension PostContentAreaModel {
+extension PostContentInfo {
   func isValidatedThumbnailImages() -> Bool {
     if !thumbnailImages.isEmpty { return true }
     return false

@@ -11,11 +11,11 @@ final class PostCellViewModel {
   // MARK: - Properties
   private let postModel: PostInfo?
   
-  var headerModel: PostHeaderView.Model? {
+  var headerModel: PostHeaderInfo? {
     postModel?.header
   }
   
-  var contentAreaModel: PostContentAreaModel? {
+  var contentAreaModel: PostContentInfo? {
     postModel?.content
   }
   
@@ -24,12 +24,12 @@ final class PostCellViewModel {
   }
   
   // MARK: - Default data(When fetched data invalid)
-  var defaultHeaderModel: PostHeaderView.Model {
+  var defaultHeaderModel: PostHeaderInfo {
     .init()
   }
   
-  var defaultContentAreaModel: PostContentAreaModel {
-    PostContentAreaModel()
+  var defaultContentAreaModel: PostContentInfo {
+    PostContentInfo()
   }
   
   var defaultFooterModel: PostFooterInfo {

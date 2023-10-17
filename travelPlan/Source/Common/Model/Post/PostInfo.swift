@@ -6,7 +6,7 @@
 //
 
 struct PostInfo {
-  let header: PostHeaderView.Model
-  let content: PostContentAreaModel
+  let header: PostHeaderInfo
+  let content: PostContentInfo
   let footer: PostFooterInfo
 }

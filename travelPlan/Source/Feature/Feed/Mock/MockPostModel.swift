@@ -39,33 +39,29 @@ private extension MockPostModel {
     return UIImage(named: tempThumb(index))!.compressJPEGImage(with: 0)!
   }
   
-  func compressProfImg(_ index: Int) -> UIImage {
-    return UIImage(named: tempProf(index))!.compressJPEGImage(with: 0)!
-  }
-  
-  func initMockHeader() -> [PostHeaderView.Model] {
+  func initMockHeader() -> [PostHeaderInfo] {
     let mockHeaderSubInfo = initMockHeaderSubInfo()
     return [
       ("Capturing the Beauty of Ocean Bliss",
-       compressProfImg(1),
+       tempThumb(1),
        mockHeaderSubInfo[0]),
       ("영롱한 바다",
-       compressProfImg(2),
+       tempThumb(2),
        mockHeaderSubInfo[1]),
       ("거, 갈땐 가더라도 커피 한잔 정도는 괜찮잖나.. ",
-       compressProfImg(3),
+       tempThumb(3),
        mockHeaderSubInfo[2]),
       ("맛과 향의 여행",
-       compressProfImg(4),
+       tempThumb(4),
        mockHeaderSubInfo[3]),
       ("또 가고 싶다..",
-       compressProfImg(5),
+       tempThumb(5),
        mockHeaderSubInfo[4])].map {
-         PostHeaderView.Model(title: $0, image: $1, subInfo: $2)
+         PostHeaderInfo(title: $0, image: $1, subInfo: $2)
        }
   }
   
-  func initMockHeaderSubInfo() -> [PostHeaderSubInfoModel] {
+  func initMockHeaderSubInfo() -> [PostHeaderContentBottomInfo] {
     return [
       ("Wanderlust_Journey", "한달", "2023.03.16 ~ 2023.04.15"),
       ("SoulRebel", "7일", "2023.04.03 ~ 2023.04.09"),
@@ -73,11 +69,11 @@ private extension MockPostModel {
       ("커피맨", "12일", "2023.03.19 ~ 2023.03.30"),
       ("모던스타일", "60일", "2023.03.15 ~ 2023.05.13")]
       .map {
-        PostHeaderSubInfoModel(userName: $0, duration: $1, yearMonthDayRange: $2)
+        PostHeaderContentBottomInfo(userName: $0, duration: $1, yearMonthDayRange: $2)
       }
   }
   
-  func initMockContent() -> [PostContentAreaModel] {
+  func initMockContent() -> [PostContentInfo] {
     let tempStr = "특히 파도가 너무 작아서 안전하게 즐길 수 있었어요."
     let tempString = " 오랜만에 파스타 먹으니 대박 맛있어요. 따봉 따봉 강추!!"
     return [
@@ -91,7 +87,7 @@ private extension MockPostModel {
        (7...10).map { i -> UIImage in compressThumbImg(i) }),
       ("여행 중 발견한 빙수 가게의 특별한 토핑과 시럽 조합은 따봉", (11...15).map { i -> UIImage in compressThumbImg(i)})
     ].map {
-        PostContentAreaModel(text: $0, thumbnailImages: $1)
+        PostContentInfo(text: $0, thumbnailImages: $1)
       }
   }
   

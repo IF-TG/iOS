@@ -57,7 +57,7 @@ final class PostHeaderContentView: UIView {
 
 // MARK: - Helpers
 extension PostHeaderContentView {
-  func configure(title: String?, subInfoData: PostHeaderSubInfoModel?) {
+  func configure(title: String?, subInfoData: PostHeaderContentBottomInfo?) {
     setTitle(with: title)
     setSubInfo(with: subInfoData)
   }
@@ -74,7 +74,7 @@ extension PostHeaderContentView {
     title.text = text
   }
   
-  private func setSubInfo(with subInfoData: PostHeaderSubInfoModel?) {
+  private func setSubInfo(with subInfoData: PostHeaderContentBottomInfo?) {
     subInfoView.configure(with: subInfoData)
   }
 }

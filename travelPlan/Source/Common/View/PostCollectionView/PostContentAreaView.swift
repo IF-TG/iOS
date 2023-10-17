@@ -76,7 +76,7 @@ class PostContentAreaView: UIView {
 
 // MARK: - Public helpers
 extension PostContentAreaView {
-  func configure(with data: PostContentAreaModel?) {
+  func configure(with data: PostContentInfo?) {
     setText(with: data?.text)
     setThumbnail(with: data?.thumbnailImages)
   }
