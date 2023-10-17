@@ -5,12 +5,12 @@
 //  Created by 양승현 on 10/17/23.
 //
 
-import Foundation
-import Combine
 import Alamofire
+import Combine
+import Foundation
 
 // 임시
-struct MockPostUseCase {
+struct MockPostUseCase: PostUseCase {
   func fetchPosts() -> Future<[PostEntity], AFError> {
     return Future { promise in
       DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
