@@ -37,7 +37,7 @@ final class FeedViewController: UIViewController {
   
   private let notificationBarItem = FeedNotificationBarItem()
   
-  private let vm = FeedViewModel()
+  private let viewModel: any FeedViewModelable
   
   private var subscription = Set<AnyCancellable>()
   
@@ -67,6 +67,15 @@ final class FeedViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     configureUI()
+  }
+  
+  init(viewModel: any FeedViewModelable) {
+    self.viewModel = viewModel
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init(coder: NSCoder) {
+    fatalError()
   }
   
   deinit {
@@ -152,7 +161,7 @@ extension FeedViewController: ViewBindCase {
   typealias State = FeedViewModel.State
   
   func bind() {
-    let output = vm.transform(input)
+    let output = viewModel.transform(input)
     
     output
       .receive(on: DispatchQueue.main)
