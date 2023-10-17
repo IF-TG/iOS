@@ -5,49 +5,94 @@
 //  Created by 양승현 on 2023/05/14.
 //
 
+import Alamofire
+import Combine
 import Foundation
+
+protocol PostUseCase {
+  func fetchPosts() -> Future<[PostEntity], AFError>
+}
+
+// FIXME: - 임시적으로 추가했습니다.
+struct PostEntity {
+  let id: Int
+  let profileImageURL: String
+  let title: String
+  let userName: String
+  let duration: String
+  let yearMonthDayRange: String
+  let thumbnailImageURls: [String]
+  let contentText: String
+  let heartCount: Int
+  let commentCount: Int
+  let isSelectedHeart: Bool = false
+}
 
 final class PostViewModel {
   // MARK: - Properties
-  private let data: [PostInfo] = MockPostModel().initMockData()
+  @Published private(set) var posts: [PostInfo] = []
   
-  private(set) var travelTheme: TravelMainThemeType = .all
+  private let defaultUseCase: PostUseCase
   
-  private(set) var travelTrend: TravelOrderType = .newest
+  private var subscriptions = Set<AnyCancellable>()
   
-    var count: Int {
-      data.count
-    }
-  
-  // MARK: - Properteis
-  init(filterInfo: FeedPostSearchFilterInfo) {
-    self.travelTheme = filterInfo.travelTheme
-    self.travelTrend = filterInfo.travelTrend
+  init(postUseCase: PostUseCase) {
+    defaultUseCase = postUseCase
+    
+    bindData()
   }
 }
 
 // MARK: - Public helpers
 extension PostViewModel {
-  func cellItem(_ indexPath: IndexPath) -> PostInfo {
-    return data[indexPath.row]
+  func updatePost(_ index: Int, post: PostInfo) {
+    posts[index] = post
+  }
+}
+
+// MARK: - Private Helpers
+private extension PostViewModel {
+  func bindData() {
+    defaultUseCase.fetchPosts()
+      .receive(on: DispatchQueue.main)
+      .sink(receiveCompletion: { [weak self] completion in
+        self?.handleFetchedPostError(from: completion)
+      }, receiveValue: { [weak self] postEntities in
+        self?.posts = postEntities.map {
+          let headerContentBottomInfo = PostHeaderContentBottomInfo(
+            userName: $0.userName,
+            duration: $0.duration,
+            yearMonthDayRange: $0.yearMonthDayRange)
+          let headerContentInfo = PostHeaderContentInfo(title: $0.title, bottomViewInfo: headerContentBottomInfo)
+          let headerInfo = PostHeaderInfo(imageURL: $0.profileImageURL, contentInfo: headerContentInfo)
+          let contentInfo = PostContentInfo(text: $0.contentText, thumbnailURLs: $0.thumbnailImageURls)
+          let footerInfo = PostFooterInfo(
+            heartCount: $0.heartCount,
+            heartState: $0.isSelectedHeart,
+            commentCount: $0.commentCount)
+          
+          return PostInfo(header: headerInfo, content: contentInfo, footer: footerInfo)
+        }
+      }).store(in: &subscriptions)
   }
   
-  func contentText(_ indexPath: IndexPath) -> String {
-    return data[indexPath.row].content.text
+  func handleFetchedPostError(from completion: Subscribers.Completion<AFError>) {
+    switch completion {
+    case .finished:
+      break
+    case .failure(let error):
+      print("에러처리해야함.", error.localizedDescription)
+    }
   }
 }
 
 // MARK: - PostViewAdapterDataSource
 extension PostViewModel: PostViewAdapterDataSource {
   var numberOfItems: Int {
-    data.count
+    posts.count
   }
   
-  func postViewCellItem(at index: Int) -> PostInfo {
-    return data[index]
-  }
-
-  func contentText(at index: Int) -> String {
-    return data[index].content.text
+  func postItem(at index: Int) -> PostInfo {
+    return posts[index]
   }
 }
