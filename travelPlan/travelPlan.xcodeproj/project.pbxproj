@@ -142,7 +142,6 @@
 		15B4E5F12ACAA947001CF071 /* SearchStarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1390CC6E2A8E0B2800E34DC3 /* SearchStarButton.swift */; };
 		15BB01B62A1EB5000035B486 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BB01B52A1EB5000035B486 /* LoginViewController.swift */; };
 		15BB01B82A1EB5070035B486 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BB01B72A1EB5070035B486 /* LoginViewModel.swift */; };
-		15BB01BB2A1EB6300035B486 /* FeedViewModel+AssociatedType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BB01BA2A1EB6300035B486 /* FeedViewModel+AssociatedType.swift */; };
 		15BB01BF2A1EBAC20035B486 /* LoginViewModel+Associatedtype.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BB01BE2A1EBAC20035B486 /* LoginViewModel+Associatedtype.swift */; };
 		15C83F882AB2055E00DDB536 /* BaseBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C83F872AB2055E00DDB536 /* BaseBottomSheetViewController.swift */; };
 		15C83F8A2AB2134D00DDB536 /* BottomSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C83F892AB2134D00DDB536 /* BottomSheetView.swift */; };
@@ -157,6 +156,7 @@
 		15CC64142A1DD4EF00857446 /* ConvenienceInit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FEB5E22A050A99000A5F33 /* ConvenienceInit.swift */; };
 		15D867CD2AD4003E00F35811 /* FavoriteViewModelable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D867CC2AD4003E00F35811 /* FavoriteViewModelable.swift */; };
 		15D867CF2AD427EC00F35811 /* FavoriteDetailCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D867CE2AD427EC00F35811 /* FavoriteDetailCoordinator.swift */; };
+		15D955AD2ADEA525002BF9C3 /* FeedViewModelable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D955AC2ADEA525002BF9C3 /* FeedViewModelable.swift */; };
 		15DA4C7F2ACD78C1003A7900 /* Int+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DA4C7E2ACD78C1003A7900 /* Int+.swift */; };
 		15DA4C832ACD821F003A7900 /* EmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DA4C822ACD821F003A7900 /* EmptyStateView.swift */; };
 		15DD40452A5B862D002BC5F8 /* PostViewBottomSheetAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DD40442A5B862D002BC5F8 /* PostViewBottomSheetAdapter.swift */; };
@@ -377,7 +377,6 @@
 		15B4E5EF2ACA6452001CF071 /* TravelReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelReviewViewController.swift; sourceTree = "<group>"; };
 		15BB01B52A1EB5000035B486 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		15BB01B72A1EB5070035B486 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
-		15BB01BA2A1EB6300035B486 /* FeedViewModel+AssociatedType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FeedViewModel+AssociatedType.swift"; sourceTree = "<group>"; };
 		15BB01BE2A1EBAC20035B486 /* LoginViewModel+Associatedtype.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LoginViewModel+Associatedtype.swift"; sourceTree = "<group>"; };
 		15C83F872AB2055E00DDB536 /* BaseBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseBottomSheetViewController.swift; sourceTree = "<group>"; };
 		15C83F892AB2134D00DDB536 /* BottomSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetView.swift; sourceTree = "<group>"; };
@@ -391,6 +390,7 @@
 		15CB23732A110FB4003EAF20 /* PostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewModel.swift; sourceTree = "<group>"; };
 		15D867CC2AD4003E00F35811 /* FavoriteViewModelable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteViewModelable.swift; sourceTree = "<group>"; };
 		15D867CE2AD427EC00F35811 /* FavoriteDetailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteDetailCoordinator.swift; sourceTree = "<group>"; };
+		15D955AC2ADEA525002BF9C3 /* FeedViewModelable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModelable.swift; sourceTree = "<group>"; };
 		15DA4C7E2ACD78C1003A7900 /* Int+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+.swift"; sourceTree = "<group>"; };
 		15DA4C822ACD821F003A7900 /* EmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateView.swift; sourceTree = "<group>"; };
 		15DD40442A5B862D002BC5F8 /* PostViewBottomSheetAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewBottomSheetAdapter.swift; sourceTree = "<group>"; };
@@ -931,7 +931,6 @@
 		15BB01B92A1EB5C00035B486 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
-				15BB01BA2A1EB6300035B486 /* FeedViewModel+AssociatedType.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -1045,6 +1044,7 @@
 				15EA48CC2A539DA300F4B391 /* PostView */,
 				13813A262AAA496B00AF6AEB /* PostSearch */,
 				15F0D1AE2A51BDE300D04773 /* CategoryPageViewAdapterProtocol */,
+				15D955AC2ADEA525002BF9C3 /* FeedViewModelable.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -1681,6 +1681,7 @@
 				1594F53229FD517E00A58F20 /* AppDelegate.swift in Sources */,
 				158BEFC22A0EB45300C27861 /* UIFont+.swift in Sources */,
 				15B4E5F12ACAA947001CF071 /* SearchStarButton.swift in Sources */,
+				15D955AD2ADEA525002BF9C3 /* FeedViewModelable.swift in Sources */,
 				15DA4C832ACD821F003A7900 /* EmptyStateView.swift in Sources */,
 				15FFAC332ADD4C480013DB57 /* PostViewAdapterDataSource.swift in Sources */,
 				15A4F28F2ACC11E5001AA51D /* ViewController.swift in Sources */,
@@ -1701,7 +1702,6 @@
 				158BEF792A0E27BD00C27861 /* PostCollectionView.swift in Sources */,
 				15BB01BF2A1EBAC20035B486 /* LoginViewModel+Associatedtype.swift in Sources */,
 				1594F53429FD517E00A58F20 /* SceneDelegate.swift in Sources */,
-				15BB01BB2A1EB6300035B486 /* FeedViewModel+AssociatedType.swift in Sources */,
 				13BF40F52AD712EC00F3F082 /* UIViewController+TitleView.swift in Sources */,
 				13A6C2DB2AB782A100EABD76 /* UIViewController+BackBarButtonItem.swift in Sources */,
 				13300FA42AC0688300952757 /* BaseDestinationView.swift in Sources */,
