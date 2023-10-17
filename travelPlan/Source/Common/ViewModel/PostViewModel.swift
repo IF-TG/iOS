@@ -28,7 +28,7 @@ struct PostEntity {
   let isSelectedHeart: Bool = false
 }
 
-final class PostViewModel {
+class PostViewModel {
   // MARK: - Properties
   @Published private(set) var posts: [PostInfo] = []
   
