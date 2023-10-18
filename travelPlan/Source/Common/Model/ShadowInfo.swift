@@ -7,9 +7,9 @@
 
 import UIKit
 
-struct ShadowInfo {
-  let color: UIColor
-  let opaciry: Float
-  let radius: CGFloat
-  let offset: CGSize
+struct ShadowInfo: Equatable {
+  var color: UIColor
+  var opacity: Float
+  var radius: CGFloat
+  var offset: CGSize
 }
