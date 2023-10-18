@@ -8,34 +8,6 @@
 import UIKit
 
 class InnerRoundRectReusableView: UICollectionReusableView {
-  enum ShadowType: Equatable {
-    case feed
-    case search
-    case custom(ShadowInfo)
-    
-    var constant: ShadowInfo {
-      var `defualt` = ShadowInfo(
-        color: UIColor(red: 0, green: 0, blue: 0, alpha: 0.1),
-        opacity: 1,
-        radius: 8,
-        offset: .zero)
-      switch self {
-      case .feed:
-        `defualt`.offset = .init(width: 0, height: 2)
-        return `defualt`
-      case .search:
-        `defualt`.offset = .init(width: 0, height: -2)
-        return `defualt`
-      case .custom(let info):
-        return info
-      }
-    }
-    
-    static func == (lhs: ShadowType, rhs: ShadowType) -> Bool {
-      return lhs.constant == rhs.constant
-    }
-  }
-  
   static let baseID = String(describing: InnerRoundRectReusableView.self)
   
   // MARK: - Properties
@@ -48,11 +20,7 @@ class InnerRoundRectReusableView: UICollectionReusableView {
   
   private let shadowLayer = CALayer().set { $0.cornerRadius = 8 }
   
-  private let shadowState: ShadowType
-  
-  private var constant: ShadowInfo {
-    shadowState.constant
-  }
+  private let shadowInfo: ShadowInfo
   
   override var bounds: CGRect {
     didSet {
@@ -66,18 +34,27 @@ class InnerRoundRectReusableView: UICollectionReusableView {
   }
   
   // MARK: - Lifecycle
-  init(shadowType: ShadowType, frame: CGRect) {
-    self.shadowState = shadowType
+  init(shadowInfo: ShadowInfo, frame: CGRect) {
+    self.shadowInfo = shadowInfo
     super.init(frame: frame)
     configureUI()
   }
   
-  convenience override init(frame: CGRect) {
-    self.init(shadowType: .feed, frame: frame)
+  private convenience override init(frame: CGRect) {
+    let defualtInfo = ShadowInfo(
+      color: UIColor(red: 0, green: 0, blue: 0, alpha: 0.1),
+      opacity: 1,
+      radius: 8,
+      offset: .init(width: 0, height: 2))
+    self.init(shadowInfo: defualtInfo, frame: frame)
   }
   
   required init?(coder: NSCoder) {
-    shadowState = .feed
+    shadowInfo = ShadowInfo(
+      color: UIColor(red: 0, green: 0, blue: 0, alpha: 0.1),
+      opacity: 1,
+      radius: 8,
+      offset: .init(width: 0, height: 2))
     super.init(coder: coder)
     configureUI()
   }
@@ -92,10 +69,10 @@ extension InnerRoundRectReusableView {
   
   func setShadowLayerShadowAppearance() {
     _=shadowLayer.set {
-      $0.shadowColor = constant.color.cgColor
-      $0.shadowOpacity = constant.opacity
-      $0.shadowRadius = constant.radius
-      $0.shadowOffset = constant.offset
+      $0.shadowColor = shadowInfo.color.cgColor
+      $0.shadowOpacity = shadowInfo.opacity
+      $0.shadowRadius = shadowInfo.radius
+      $0.shadowOffset = shadowInfo.offset
     }
   }
   
