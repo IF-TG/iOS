@@ -13,14 +13,19 @@ final class FavoritePostViewController: EmptyStateBasedContentViewController {
   private let postCollectionView = FavoritePostCollectionView()
   
   // TODO: - 포스트 뷰모델이 공통속성으로 빠지면, 포스트뷰모델을 상속받아 코어데이터에 저장된 유즈케이스를 갖는 favoriteVM 인스턴스로 재구현해야합니다.
-  private let postViewModel = PostViewModel(filterInfo: .init(travelTheme: .all, travelTrend: .newest))
+  private let postViewModel: PostViewModel & PostViewAdapterDataSource
   
   private var postAdapter: FavoritePostViewAdapter!
+  
+  private var subscription: AnyCancellable?
+  
+  var postUpdatedHandler: ((Int) -> Void)?
   
   weak var delegate: FavoritePostViewDelegate?
   
   // MARK: - Lifecycle
-  init() {
+  init(postViewModel: PostViewModel & PostViewAdapterDataSource) {
+    self.postViewModel = postViewModel
     super.init(
       contentView: postCollectionView,
       emptyState: .emptyTravelPost)
@@ -40,6 +45,12 @@ final class FavoritePostViewController: EmptyStateBasedContentViewController {
 private extension FavoritePostViewController {
   func bind() {
     postCollectionView.hasItem.send(postViewModel.numberOfItems > 0 ? true : false)
+    subscription = postViewModel.$posts
+      .receive(on: DispatchQueue.main)
+      .sink { [weak self] in
+        self?.postCollectionView.reloadData()
+        self?.postUpdatedHandler?($0.count)
+      }
   }
 }
 

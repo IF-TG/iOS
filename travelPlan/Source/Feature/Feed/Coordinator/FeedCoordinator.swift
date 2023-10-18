@@ -29,7 +29,8 @@ final class FeedCoordinator: FlowCoordinator {
   
   // MARK: - Helpers
   func start() {
-    let vc = FeedViewController()
+    let feedViewModel = FeedViewModel()
+    let vc = FeedViewController(viewModel: feedViewModel)
     vc.coordinator = self
     presenter.pushViewController(vc, animated: true)
   }

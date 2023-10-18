@@ -68,7 +68,6 @@ extension MainTabBarController {
 //      self.tabBar.scrollEdgeAppearance = appearance
 //    }
     
-    
     self.tabBar.backgroundColor = .white
   }
   
