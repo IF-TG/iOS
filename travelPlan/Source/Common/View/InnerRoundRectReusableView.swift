@@ -9,10 +9,6 @@ import UIKit
 
 class InnerRoundRectReusableView: UICollectionReusableView {
   enum ShadowType: Equatable {
-    static func == (lhs: ShadowType, rhs: ShadowType) -> Bool {
-      return lhs.constant == rhs.constant
-    }
-    
     case feed
     case search
     case custom(ShadowInfo)
@@ -33,6 +29,10 @@ class InnerRoundRectReusableView: UICollectionReusableView {
       case .custom(let info):
         return info
       }
+    }
+    
+    static func == (lhs: ShadowType, rhs: ShadowType) -> Bool {
+      return lhs.constant == rhs.constant
     }
   }
   
@@ -83,25 +83,19 @@ class InnerRoundRectReusableView: UICollectionReusableView {
   }
 }
 
-// MARK: - Helpers
+// MARK: - Private Helpers
 extension InnerRoundRectReusableView {
+  private func configureUI() {
+    setupUI()
+    setShadowLayerShadowAppearance()
+  }
+  
   func setShadowLayerShadowAppearance() {
     _=shadowLayer.set {
       $0.shadowColor = constant.color.cgColor
       $0.shadowOpacity = constant.opacity
       $0.shadowRadius = constant.radius
       $0.shadowOffset = constant.offset
-    }
-  }
-}
-
-// MARK: - Private helper
-extension InnerRoundRectReusableView {
-  private func configureUI() {
-    setupUI()
-    setShadowLayerShadowAppearance()
-    if shadowState == .search {
-      shadowLayer.shadowColor = UIColor.green.cgColor
     }
   }
   
