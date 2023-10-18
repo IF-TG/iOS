@@ -21,6 +21,8 @@ final class TravelDetailThemeViewController: UIViewController {
   
   private var postViewAdapter: PostViewAdapter!
   
+  private var subscription: AnyCancellable?
+  
   override func loadView() {
     view = postView
   }
@@ -33,8 +35,13 @@ final class TravelDetailThemeViewController: UIViewController {
   // MARK: - Lifecycle
   init(with filterInfo: FeedPostSearchFilterInfo) {
     super.init(nibName: nil, bundle: nil)
-    viewModel = PostViewModel(filterInfo: filterInfo)
+    // TODO: - FilterInfo를 기반으로한 vm만들어야합니다.
+    // viewModel = PostViewModel(filterInfo: filterInfo)
+    viewModel = PostViewModel(postUseCase: MockPostUseCase())
     postViewAdapter = PostViewAdapter(dataSource: viewModel, collectionView: postView)
+    subscription = viewModel.$posts.sink { [weak self] _ in
+      self?.postView.reloadData()
+    }
   }
   
   required init?(coder: NSCoder) {
