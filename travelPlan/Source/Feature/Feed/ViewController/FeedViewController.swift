@@ -216,7 +216,7 @@ extension FeedViewController: TravelThemeBottomSheetDelegate {
     _ viewController: TravelThemeBottomSheetViewController,
     didSelectTitle title: String?
   ) {
-    guard let title else {
+    guard title != nil else {
       // 그냥 꺽쇠만 원래대로
       return
     }
