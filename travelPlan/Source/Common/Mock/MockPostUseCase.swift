@@ -13,7 +13,7 @@ import Foundation
 struct MockPostUseCase: PostUseCase {
   func fetchPosts() -> Future<[PostEntity], AFError> {
     return Future { promise in
-      DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+      DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
         promise(.success(PostEntity.mockData))
       }
     }
