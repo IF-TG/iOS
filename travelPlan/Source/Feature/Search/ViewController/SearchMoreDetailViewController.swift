@@ -39,7 +39,7 @@ class SearchMoreDetailViewController: UIViewController {
   private let compositionalLayoutManager: CompositionalLayoutCreatable = SearchMoreDetailLayoutManager()
   private lazy var compositionalLayout = compositionalLayoutManager.makeLayout()
     .set {
-    $0.register(InnerRoundRectReusableView.self, forDecorationViewOfKind: InnerRoundRectReusableView.id)
+    $0.register(InnerRoundRectReusableView.self, forDecorationViewOfKind: InnerRoundRectReusableView.baseID)
   }
   
   private lazy var collectionView: UICollectionView = .init(

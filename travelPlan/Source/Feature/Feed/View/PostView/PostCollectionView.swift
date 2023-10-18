@@ -68,7 +68,7 @@ extension PostCollectionView {
     }.set {
       $0.register(
         InnerRoundRectReusableView.self,
-        forDecorationViewOfKind: InnerRoundRectReusableView.id)
+        forDecorationViewOfKind: InnerRoundRectReusableView.baseID)
     }
   }
   
@@ -81,7 +81,7 @@ extension PostCollectionView {
     let item = NSCollectionLayoutItem(layoutSize: itemSize)
     let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
     return NSCollectionLayoutSection(group: group).set {
-      let whiteRoundView = NSCollectionLayoutDecorationItem.background(elementKind: InnerRoundRectReusableView.id)
+      let whiteRoundView = NSCollectionLayoutDecorationItem.background(elementKind: InnerRoundRectReusableView.baseID)
       $0.contentInsets = Const.groupInset
       whiteRoundView.contentInsets = Const.groupInset
       $0.decorationItems = [whiteRoundView]
