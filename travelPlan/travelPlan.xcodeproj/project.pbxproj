@@ -439,7 +439,6 @@
 		15F36A172AB1986000971803 /* TravelTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelTheme.swift; sourceTree = "<group>"; };
 		15F36A192AB1A18200971803 /* CaseIterable+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CaseIterable+.swift"; sourceTree = "<group>"; };
 		15F36A1B2AB1A45600971803 /* TravelPartner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelPartner.swift; sourceTree = "<group>"; };
-		15FB47D42ABFFF6C0033AA18 /* InnerRoundRectReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InnerRoundRectReusableView.swift; sourceTree = "<group>"; };
 		15FB47D62AC0407D0033AA18 /* FeedPostSearchFilterInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedPostSearchFilterInfo.swift; sourceTree = "<group>"; };
 		15FB47F02AC1DCEF0033AA18 /* TravelMainThemeCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelMainThemeCollectionView.swift; sourceTree = "<group>"; };
 		15FC90D52ACC1BB50033A1E5 /* PrimaryColorToneRoundButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryColorToneRoundButton.swift; sourceTree = "<group>"; };
@@ -801,7 +800,6 @@
 		158BEF7A2A0E2A4700C27861 /* PostView */ = {
 			isa = PBXGroup;
 			children = (
-				15FB47D42ABFFF6C0033AA18 /* InnerRoundRectReusableView.swift */,
 				15F0D1B52A524DC500D04773 /* PostSortingMenuAreaView.swift */,
 				15F0D1B82A524E1F00D04773 /* MoreMenuView.swift */,
 			);
