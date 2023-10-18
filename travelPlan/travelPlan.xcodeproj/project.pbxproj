@@ -928,19 +928,11 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
-		15BB01B92A1EB5C00035B486 /* Extension */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Extension;
-			sourceTree = "<group>";
-		};
 		15BED2FB2A08236300F86321 /* Feed */ = {
 			isa = PBXGroup;
 			children = (
 				15F0D1982A4EF48A00D04773 /* Adapter */,
 				1503F93E2A4E131F002BC38D /* Coordinator */,
-				15BB01B92A1EB5C00035B486 /* Extension */,
 				15C92C122A0AD21E00376D1B /* Protocol */,
 				15EF8CA42A0A198B0068C744 /* Model */,
 				15EF8C952A0A18880068C744 /* ViewModel */,
