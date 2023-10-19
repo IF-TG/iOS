@@ -39,7 +39,7 @@ final class TravelDetailThemeViewController: UIViewController {
     // viewModel = PostViewModel(filterInfo: filterInfo)
     viewModel = PostViewModel(postUseCase: MockPostUseCase())
     postViewAdapter = PostViewAdapter(dataSource: viewModel, collectionView: postView)
-    subscription = viewModel.$posts.sink { [weak self] _ in
+    subscription = viewModel.$posts.receive(on: DispatchQueue.main).sink { [weak self] _ in
       self?.postView.reloadData()
     }
   }

@@ -7,9 +7,8 @@
 
 import UIKit
 
-final class InnerRoundRectReusableView: UICollectionReusableView {
-  
-  static let id = String(describing: InnerRoundRectReusableView.self)
+class InnerRoundRectReusableView: UICollectionReusableView {
+  static let baseID = String(describing: InnerRoundRectReusableView.self)
   
   // MARK: - Properties
   private let roundView = UIView(frame: .zero).set {
@@ -17,14 +16,15 @@ final class InnerRoundRectReusableView: UICollectionReusableView {
     $0.layer.cornerRadius = 8
     $0.backgroundColor = .yg.littleWhite
   }
-  private var isSetShadow = false
   
-  private let shadowLayer = CALayer()
+  private var isShadowSet = false
+  
+  private let shadowLayer = CALayer().set { $0.cornerRadius = 8 }
   
   override var bounds: CGRect {
     didSet {
-      if !isSetShadow {
-        isSetShadow.toggle()
+      if !isShadowSet {
+        isShadowSet.toggle()
         setRoundViewShadow()
       } else {
         updateShadowPath()
@@ -33,31 +33,50 @@ final class InnerRoundRectReusableView: UICollectionReusableView {
   }
   
   // MARK: - Lifecycle
-  override init(frame: CGRect) {
+  init(shadowInfo: ShadowInfo, frame: CGRect) {
     super.init(frame: frame)
     configureUI()
+    setShadowLayer(with: shadowInfo)
+  }
+  
+  private convenience override init(frame: CGRect) {
+    let defualtInfo = ShadowInfo(
+      color: UIColor(red: 0, green: 0, blue: 0, alpha: 0.1),
+      opacity: 1,
+      radius: 8,
+      offset: .init(width: 0, height: 2))
+    self.init(shadowInfo: defualtInfo, frame: frame)
   }
   
   required init?(coder: NSCoder) {
     super.init(coder: coder)
     configureUI()
+    let shadowInfo = ShadowInfo(
+      color: UIColor(red: 0, green: 0, blue: 0, alpha: 0.1),
+      opacity: 1,
+      radius: 8,
+      offset: .init(width: 0, height: 2))
+    setShadowLayer(with: shadowInfo)
   }
 }
-// MARK: - Private helper
+
+// MARK: - Private Helpers
 extension InnerRoundRectReusableView {
   private func configureUI() {
     setupUI()
   }
   
+  func setShadowLayer(with shadowInfo: ShadowInfo) {
+    _=shadowLayer.set {
+      $0.shadowColor = shadowInfo.color.cgColor
+      $0.shadowOpacity = shadowInfo.opacity
+      $0.shadowRadius = shadowInfo.radius
+      $0.shadowOffset = shadowInfo.offset
+    }
+  }
+  
   private func setRoundViewShadow() {
     updateShadowPath()
-    _=shadowLayer.set {
-      $0.cornerRadius = 8
-      $0.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.1).cgColor
-      $0.shadowOpacity = 1
-      $0.shadowRadius = 8
-      $0.shadowOffset = CGSize(width: 0, height: 2)
-    }
     layer.addSublayer(shadowLayer)
     bringSubviewToFront(roundView)
   }

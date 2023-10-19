@@ -71,7 +71,7 @@ extension SearchMoreDetailLayoutManager {
                                   bottom: .zero,
                                   trailing: .zero)
     let sectionBackgroundView = NSCollectionLayoutDecorationItem
-      .background(elementKind: InnerRoundRectReusableView.id)
+      .background(elementKind: InnerRoundRectReusableView.baseID)
     sectionBackgroundView.contentInsets = .init(top: Constant.SectionBackgroundView.ContentInsets.top,
                                                 leading: .zero,
                                                 bottom: .zero,
