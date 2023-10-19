@@ -20,8 +20,6 @@ class InnerRoundRectReusableView: UICollectionReusableView {
   
   private let shadowLayer = CALayer().set { $0.cornerRadius = 8 }
   
-  private let shadowInfo: ShadowInfo
-  
   override var bounds: CGRect {
     didSet {
       if !isShadowSet {
@@ -35,9 +33,9 @@ class InnerRoundRectReusableView: UICollectionReusableView {
   
   // MARK: - Lifecycle
   init(shadowInfo: ShadowInfo, frame: CGRect) {
-    self.shadowInfo = shadowInfo
     super.init(frame: frame)
     configureUI()
+    setShadowLayer(with: shadowInfo)
   }
   
   private convenience override init(frame: CGRect) {
@@ -50,13 +48,14 @@ class InnerRoundRectReusableView: UICollectionReusableView {
   }
   
   required init?(coder: NSCoder) {
-    shadowInfo = ShadowInfo(
+    super.init(coder: coder)
+    configureUI()
+    let shadowInfo = ShadowInfo(
       color: UIColor(red: 0, green: 0, blue: 0, alpha: 0.1),
       opacity: 1,
       radius: 8,
       offset: .init(width: 0, height: 2))
-    super.init(coder: coder)
-    configureUI()
+    setShadowLayer(with: shadowInfo)
   }
 }
 
@@ -64,10 +63,9 @@ class InnerRoundRectReusableView: UICollectionReusableView {
 extension InnerRoundRectReusableView {
   private func configureUI() {
     setupUI()
-    setShadowLayerShadowAppearance()
   }
   
-  func setShadowLayerShadowAppearance() {
+  func setShadowLayer(with shadowInfo: ShadowInfo) {
     _=shadowLayer.set {
       $0.shadowColor = shadowInfo.color.cgColor
       $0.shadowOpacity = shadowInfo.opacity
