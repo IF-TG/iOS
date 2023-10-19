@@ -16,7 +16,7 @@ class InnerRoundRectReusableView: UICollectionReusableView {
     $0.layer.cornerRadius = 8
     $0.backgroundColor = .yg.littleWhite
   }
-  private var isSetShadow = false
+  private var isShadowSet = false
   
   private let shadowLayer = CALayer().set { $0.cornerRadius = 8 }
   
@@ -24,8 +24,8 @@ class InnerRoundRectReusableView: UICollectionReusableView {
   
   override var bounds: CGRect {
     didSet {
-      if !isSetShadow {
-        isSetShadow.toggle()
+      if !isShadowSet {
+        isShadowSet.toggle()
         setRoundViewShadow()
       } else {
         updateShadowPath()
