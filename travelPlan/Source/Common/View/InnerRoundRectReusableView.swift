@@ -16,6 +16,7 @@ class InnerRoundRectReusableView: UICollectionReusableView {
     $0.layer.cornerRadius = 8
     $0.backgroundColor = .yg.littleWhite
   }
+  
   private var isShadowSet = false
   
   private let shadowLayer = CALayer().set { $0.cornerRadius = 8 }
