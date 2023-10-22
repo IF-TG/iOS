@@ -38,27 +38,23 @@ final class CategoryPageView: UIView {
   
   private var presentedPageViewIndex = 0
   
-  private let vm = CategoryPageViewModel()
+  private let viewModel: CategoryPageViewDataSource
   
   private var adapter: CategoryPageViewAdapter!
   
   // MARK: - Lifecycle
-  override init(frame: CGRect) {
+  init(frame: CGRect, viewModel: CategoryPageViewDataSource) {
+    self.viewModel = viewModel
     super.init(frame: frame)
     configureUI()
     adapter = CategoryPageViewAdapter(
-      dataSource: vm,
+      dataSource: viewModel,
       delegate: self,
       travelThemeCollectionView: categoryScrollBarAreaView.travelThemeCategoryView)
   }
   
   required init?(coder: NSCoder) {
-    super.init(coder: coder)
-    configureUI()
-  }
-  
-  convenience init() {
-    self.init(frame: .zero)
+    fatalError()
   }
 }
 
@@ -66,9 +62,9 @@ final class CategoryPageView: UIView {
 private extension CategoryPageView {
   func configureUI() {
     translatesAutoresizingMaskIntoConstraints = false
-    viewControllerDataSource = (0..<vm.numberOfItems).map {
-      let filterInfo = vm.postSearchFilterItem(at: $0)
-      if $0+1 == vm.numberOfItems {
+    viewControllerDataSource = (0..<viewModel.numberOfItems).map {
+      let filterInfo = viewModel.postSearchFilterItem(at: $0)
+      if $0+1 == viewModel.numberOfItems {
         return DevelopmentViewController(nibName: nil, bundle: nil)
       }
       return TravelDetailThemeViewController(with: filterInfo)

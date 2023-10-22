@@ -24,7 +24,7 @@ final class FeedViewController: UIViewController {
   // MARK: - Properties
   weak var coordinator: FeedCoordinatorDelegate?
   
-  private let categoryPageView = CategoryPageView()
+  private let categoryPageView: CategoryPageView
   
   lazy var input = Input(
     didTapPostSearch: searchBarItem.tap,
@@ -71,6 +71,7 @@ final class FeedViewController: UIViewController {
   
   init(viewModel: any FeedViewModelable) {
     self.viewModel = viewModel
+    self.categoryPageView = CategoryPageView(frame: .zero, viewModel: CategoryPageViewModel())
     super.init(nibName: nil, bundle: nil)
   }
   
