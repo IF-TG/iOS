@@ -63,17 +63,16 @@ final class PostChevronLabel: UIView {
     }
   }
   
-  private(set) var sortingType: TravelCategorySortingType
+  private(set) var sortingType: TravelCategorySortingType!
   
   // MARK: - LifeCycle
-  init(frame: CGRect, sortingType: TravelCategorySortingType) {
-    self.sortingType = sortingType
+  override init(frame: CGRect) {
     super.init(frame: frame)
     configureUI()
   }
   
-  convenience init(sortingType: TravelCategorySortingType) {
-    self.init(frame: .zero, sortingType: sortingType)
+  convenience init() {
+    self.init(frame: .zero)
     translatesAutoresizingMaskIntoConstraints = false
   }
   
@@ -82,20 +81,27 @@ final class PostChevronLabel: UIView {
   }
 }
 
+// MARK: - Helpers
+extension PostChevronLabel {
+  func configure(with type: TravelCategorySortingType) {
+    label.text = sortingType.rawValue
+    sortingType = type
+    isUserInteractionEnabled = true
+    let tap = UITapGestureRecognizer(target: self, action: #selector(didTapView))
+    addGestureRecognizer(tap)
+  }
+}
+
 // MARK: - Private helpers
 private extension PostChevronLabel {
   func configureUI() {
     translatesAutoresizingMaskIntoConstraints = false
-    setupUI()
     layer.borderWidth = Constant.boarderSize
     layer.cornerRadius = Constant.radius
     layer.borderColor = Constant.deselectedBorderColor.cgColor
     label.textColor = Constant.Label.deselectedTextColor
     chevronIcon.tintColor = Constant.ChevronIcon.deselectedColor
-    label.text = sortingType.rawValue
-    isUserInteractionEnabled = true
-    let tap = UITapGestureRecognizer(target: self, action: #selector(didTapView))
-    addGestureRecognizer(tap)
+    setupUI()
   }
   
   func animateMoreIcon() {
