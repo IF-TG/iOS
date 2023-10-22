@@ -27,19 +27,17 @@ final class PostSortingMenuAreaView: UIView {
   }
   
   // MARK: - Properties
-  private var travelThemeMenuView = PostChevronLabel(sortingType: .trend)
+  private var travelThemeChevronView: PostChevronLabel
   
-  private var travelTrendMenuView: PostChevronLabel
+  private var travelTrendChevronView = PostChevronLabel(sortingType: .trend)
   
   // MARK: - LifeCycle
   init(frame: CGRect, travelThemeType: TravelMainThemeType) {
-    travelTrendMenuView = PostChevronLabel(sortingType: .detailCategory(travelThemeType))
+    travelThemeChevronView = PostChevronLabel(sortingType: .detailCategory(travelThemeType))
     super.init(frame: frame)
     setupUI()
-    travelThemeMenuView.configure(with: .detailCategory(travelThemeType))
-    travelTrendMenuView.configure(with: .trend)
-    travelThemeMenuView.delegate = self
-    travelTrendMenuView.delegate = self
+    travelThemeChevronView.delegate = self
+    travelTrendChevronView.delegate = self
   }
   
   convenience init(travelThemeType: TravelMainThemeType) {
@@ -54,8 +52,8 @@ final class PostSortingMenuAreaView: UIView {
 extension PostSortingMenuAreaView: LayoutSupport {
   func addSubviews() {
     _=[
-      travelThemeMenuView,
-      travelTrendMenuView
+      travelThemeChevronView,
+      travelTrendChevronView
     ].map {
       addSubview($0)
     }
@@ -90,26 +88,18 @@ private extension PostSortingMenuAreaView {
   var travelThemeMenuViewConstraints: [NSLayoutConstraint] {
     typealias Inset = Constant.TravelThemeMenuView.Inset
     return [
-      travelThemeMenuView.leadingAnchor.constraint(
-        equalTo: leadingAnchor,
-        constant: Inset.leading),
-      travelThemeMenuView.topAnchor.constraint(
-        equalTo: topAnchor,
-        constant: Inset.top),
-      travelThemeMenuView.bottomAnchor.constraint(
-        equalTo: bottomAnchor,
-        constant: -Inset.bottom)]
+      travelThemeChevronView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Inset.leading),
+      travelThemeChevronView.topAnchor.constraint(equalTo: topAnchor, constant: Inset.top),
+      travelThemeChevronView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Inset.bottom)]
   }
   
   var travelTrendMenuViewConstraints: [NSLayoutConstraint] {
     typealias Inset = Constant.TravelTrendMenuView.Inset
     return [
-      travelTrendMenuView.leadingAnchor.constraint(
-        equalTo: travelThemeMenuView.trailingAnchor,
+      travelTrendChevronView.leadingAnchor.constraint(
+        equalTo: travelThemeChevronView.trailingAnchor,
         constant: Inset.leading),
-      travelThemeMenuView.centerYAnchor.constraint(
-        equalTo: travelThemeMenuView.centerYAnchor),
-      travelTrendMenuView.trailingAnchor.constraint(
-        lessThanOrEqualTo: trailingAnchor)]
+      travelThemeChevronView.centerYAnchor.constraint(equalTo: travelThemeChevronView.centerYAnchor),
+      travelTrendChevronView.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor)]
   }
 }
