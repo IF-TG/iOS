@@ -10,7 +10,7 @@ import Foundation
 protocol CategoryPageViewDataSource: AnyObject {
   var numberOfItems: Int { get }
   
-  func cellItem(at index: Int) -> TravelMainCategoryViewCell.Model
+  func cellItem(at index: Int) -> TravelMainCategoryViewCellInfo
   func travelMainCategoryTitle(at index: Int) -> String
   func postSearchFilterItem(at index: Int) -> FeedPostSearchFilterInfo
 }
