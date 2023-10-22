@@ -16,7 +16,7 @@ final class CategoryPageView: UIView {
   /// 7개 테마 카테고리에 대한 상세 뷰
   private var pageViewDataSource: [UIViewController]!
   
-  private lazy var travelDetailThemePageViewController = UIPageViewController(
+  private lazy var postPageViewController = UIPageViewController(
     transitionStyle: .scroll,
     navigationOrientation: .horizontal
   ).set {
@@ -27,12 +27,12 @@ final class CategoryPageView: UIView {
       animated: true)
   }
   
-  private var travelDetailThemePageView: UIView! {
-    travelDetailThemePageViewController.view
+  private var postPageView: UIView! {
+    postPageViewController.view
   }
   
-  private var travelDetailThemeFirstVC: TravelDetailThemeViewController {
-    if let firstVC = pageViewDataSource[0] as? TravelDetailThemeViewController {
+  private var allThemePostViewController: FeedPostViewController {
+    if let firstVC = pageViewDataSource[0] as? FeedPostViewController {
       return firstVC
     }
     return .init(with: .init(travelTheme: .all, travelTrend: .newest))
@@ -69,7 +69,7 @@ private extension CategoryPageView {
       if $0+1 == viewModel.numberOfItems {
         return DevelopmentViewController(nibName: nil, bundle: nil)
       }
-      return TravelDetailThemeViewController(with: filterInfo)
+      return FeedPostViewController(with: filterInfo)
     }
     setupUI()
   }
@@ -83,7 +83,7 @@ private extension CategoryPageView {
   }
   
   func setCurrentPage(with direction: UIPageViewController.NavigationDirection) {
-    travelDetailThemePageViewController.setViewControllers(
+    postPageViewController.setViewControllers(
       [pageViewDataSource[presentedPageViewIndex]],
       direction: direction,
       animated: true)
@@ -118,7 +118,7 @@ extension CategoryPageView: CategoryPageViewDelegate {
 extension CategoryPageView: LayoutSupport {
   func addSubviews() {
     _=[
-      travelDetailThemePageView,
+      postPageView,
        travelMainThemeCategoryView
     ].map {
       addSubview($0)
@@ -148,9 +148,9 @@ private extension CategoryPageView {
   
   var travelDetailThemePageViewConstraint: [NSLayoutConstraint] {
     return [
-      travelDetailThemePageView.leadingAnchor.constraint(equalTo: leadingAnchor),
-      travelDetailThemePageView.topAnchor.constraint(equalTo: travelMainThemeCategoryView.bottomAnchor),
-      travelDetailThemePageView.trailingAnchor.constraint(equalTo: trailingAnchor),
-      travelDetailThemePageView.bottomAnchor.constraint(equalTo: bottomAnchor)]
+      postPageView.leadingAnchor.constraint(equalTo: leadingAnchor),
+      postPageView.topAnchor.constraint(equalTo: travelMainThemeCategoryView.bottomAnchor),
+      postPageView.trailingAnchor.constraint(equalTo: trailingAnchor),
+      postPageView.bottomAnchor.constraint(equalTo: bottomAnchor)]
   }
 }

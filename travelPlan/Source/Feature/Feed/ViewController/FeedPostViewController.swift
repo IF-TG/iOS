@@ -1,5 +1,5 @@
 //
-//  TravelDetailThemeViewController.swift
+//  FeedPostViewController.swift
 //  travelPlan
 //
 //  Created by 양승현 on 10/2/23.
@@ -8,7 +8,7 @@
 import UIKit
 import Combine
 
-final class TravelDetailThemeViewController: UIViewController {
+final class FeedPostViewController: UIViewController {
   // MARK: - Properties
   // TODO: - PostView 헤더에 소팅 뷰 추가할건지 여기에 추가할건지 정해야함.
   
@@ -50,7 +50,7 @@ final class TravelDetailThemeViewController: UIViewController {
 }
 
 // MARK: - Private Helpers
-extension TravelDetailThemeViewController {
+extension FeedPostViewController {
   private func configureUI() {
     view.translatesAutoresizingMaskIntoConstraints = false
   }
