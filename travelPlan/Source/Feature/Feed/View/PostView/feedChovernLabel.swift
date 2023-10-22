@@ -1,5 +1,5 @@
 //
-//  MoreMenuView.swift
+//  PostChevronLabel.swift
 //  travelPlan
 //
 //  Created by 양승현 on 2023/07/03.
@@ -7,9 +7,7 @@
 
 import UIKit
 
-final class MoreMenuView: UICollectionReusableView {
-  static let id = String(describing: MoreMenuView.self)
-  
+final class PostChevronLabel: UIView {
   enum Constant {
     static let selectedBorderColor: UIColor = .YG.gray3
     static let selectedBGColor: UIColor = .yg.gray3
@@ -17,22 +15,20 @@ final class MoreMenuView: UICollectionReusableView {
     static let deselectedBGColor: UIColor = .yg.gray3
     static let boarderSize: CGFloat = 0.8
     static let radius: CGFloat = 15
-    
-    enum MoreIcon {
+    enum ChevronIcon {
       enum Inset {
         static let leading: CGFloat = 3
         static let trailing: CGFloat = 10
         static let top: CGFloat = 5
         static let bottom: CGFloat = 5
       }
-      static let size: CGSize = .init(
-        width: 20, height: 20)
+      static let size: CGSize = .init(width: 20, height: 20)
       static let iconName = "feedChevron"
       static let selectedColor: UIColor = .yg.littleWhite
       static let deselectedColor: UIColor = . yg.gray3
     }
 
-    enum MenuLabel {
+    enum Label {
       enum Inset {
         static let leading: CGFloat = 10
         static let top: CGFloat = 7
@@ -43,15 +39,23 @@ final class MoreMenuView: UICollectionReusableView {
       static let deselectedTextColor: UIColor = .yg.gray3
     }
   }
-  // MARK: - Properties
-  weak var delegate: MoreMenuViewDelegate?
   
-  private let moreIcon = UIImageView().set {
+  // MARK: - Properties
+  private let chevronIcon = UIImageView().set {
     $0.translatesAutoresizingMaskIntoConstraints = false
-    $0.image = UIImage(
-      named: Constant.MoreIcon.iconName)
+    $0.image = UIImage(named: Constant.ChevronIcon.iconName)
     $0.contentMode = .scaleAspectFit
   }
+  
+  private let label = UILabel().set {
+    $0.translatesAutoresizingMaskIntoConstraints = false
+    $0.textColor = Constant.Label.deselectedTextColor
+    $0.text = ""
+    $0.font = .systemFont(ofSize: Constant.Label.fontSize)
+    $0.sizeToFit()
+  }
+  
+  weak var delegate: MoreMenuViewDelegate?
   
   private var isSelected: Bool = false {
     didSet {
@@ -59,33 +63,30 @@ final class MoreMenuView: UICollectionReusableView {
     }
   }
   
-  private let menuLabel = UILabel().set {
-    $0.translatesAutoresizingMaskIntoConstraints = false
-    $0.textColor = Constant.MenuLabel.deselectedTextColor
-    $0.text = ""
-    $0.font = .systemFont(ofSize: Constant.MenuLabel.fontSize)
-    $0.sizeToFit()
-  }
-  
-  private(set) var categoryType: TravelCategorySortingType = .detailCategory(.all)
+  private(set) var sortingType: TravelCategorySortingType
   
   // MARK: - LifeCycle
-  override init(frame: CGRect) {
+  init(frame: CGRect, sortingType: TravelCategorySortingType) {
+    self.sortingType = sortingType
     super.init(frame: frame)
     configureUI()
   }
   
+  convenience init(sortingType: TravelCategorySortingType) {
+    self.init(frame: .zero, sortingType: sortingType)
+    translatesAutoresizingMaskIntoConstraints = false
+  }
+  
   required init?(coder: NSCoder) {
-    super.init(coder: coder)
-    configureUI()
+    fatalError()
   }
 }
 
 // MARK: - Helpers
-extension MoreMenuView {
+extension PostChevronLabel {
   func configure(with type: TravelCategorySortingType) {
-    menuLabel.text = type.rawValue
-    categoryType = type
+    label.text = type.rawValue
+    sortingType = type
     isUserInteractionEnabled = true
     let tap = UITapGestureRecognizer(target: self, action: #selector(didTapView))
     addGestureRecognizer(tap)
@@ -93,62 +94,60 @@ extension MoreMenuView {
 }
 
 // MARK: - Private helpers
-private extension MoreMenuView {
+private extension PostChevronLabel {
   func configureUI() {
     translatesAutoresizingMaskIntoConstraints = false
     layer.borderWidth = Constant.boarderSize
     layer.cornerRadius = Constant.radius
     layer.borderColor = Constant.deselectedBorderColor.cgColor
-    menuLabel.textColor = Constant.MenuLabel.deselectedTextColor
-    moreIcon.tintColor = Constant.MoreIcon.deselectedColor
+    label.textColor = Constant.Label.deselectedTextColor
+    chevronIcon.tintColor = Constant.ChevronIcon.deselectedColor
     setupUI()
   }
   
   func animateMoreIcon() {
     guard isSelected else {
       UIView.animate(withDuration: 0.3) {
-        self.setDeselectedMoreIcon()
+        self.setDeselectedAppearance()
       }
       return
     }
     UIView.animate(withDuration: 0.3) {
-      self.setSelectedMoreIcon()
+      self.setSelectedAppearance()
     }
   }
   
-  func setSelectedMoreIcon() {
-    moreIcon.transform = moreIcon.transform.rotated(by: .pi)
-    moreIcon.tintColor = Constant.MoreIcon.selectedColor
+  func setSelectedAppearance() {
+    chevronIcon.transform = chevronIcon.transform.rotated(by: .pi)
+    chevronIcon.tintColor = Constant.ChevronIcon.selectedColor
     layer.borderColor = Constant.selectedBorderColor.cgColor
     backgroundColor = Constant.selectedBGColor
-    menuLabel.textColor = Constant.MenuLabel.selectedTextColor
+    label.textColor = Constant.Label.selectedTextColor
   }
   
-  func setDeselectedMoreIcon() {
-    moreIcon.transform = .identity
-    moreIcon.tintColor = Constant.MoreIcon.deselectedColor
+  func setDeselectedAppearance() {
+    chevronIcon.transform = .identity
+    chevronIcon.tintColor = Constant.ChevronIcon.deselectedColor
     layer.borderColor = Constant.deselectedBorderColor.cgColor
     backgroundColor = Constant.deselectedBGColor
-    menuLabel.textColor = Constant.MenuLabel.deselectedTextColor
+    label.textColor = Constant.Label.deselectedTextColor
   }
 }
 
 // MARK: - Actions
-extension MoreMenuView {
+extension PostChevronLabel {
   @objc func didTapView() {
     isSelected.toggle()
-    delegate?.moreMenuView(
-      self,
-      didSelectedType: categoryType)
+    delegate?.moreMenuView(self, didSelectedType: sortingType)
   }
 }
 
 // MARK: - LayoutSupport
-extension MoreMenuView: LayoutSupport {
+extension PostChevronLabel: LayoutSupport {
   func addSubviews() {
     _=[
-      menuLabel,
-      moreIcon
+      label,
+      chevronIcon
     ].map {
       addSubview($0)
     }
@@ -164,40 +163,24 @@ extension MoreMenuView: LayoutSupport {
 }
 
 // MARK: - Layout support helper
-private extension MoreMenuView {
+private extension PostChevronLabel {
   var categoryLabelConstraints: [NSLayoutConstraint] {
-    typealias Inset = Constant.MenuLabel.Inset
+    typealias Inset = Constant.Label.Inset
     return [
-      menuLabel.leadingAnchor.constraint(
-        equalTo: leadingAnchor,
-        constant: Inset.leading),
-      menuLabel.topAnchor.constraint(
-        equalTo: topAnchor,
-        constant: Inset.top),
-      menuLabel.bottomAnchor.constraint(
-        equalTo: bottomAnchor,
-        constant: -Inset.bottom)]
+      label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Inset.leading),
+      label.topAnchor.constraint(equalTo: topAnchor, constant: Inset.top),
+      label.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Inset.bottom)]
   }
   
   var moreIconConstraints: [NSLayoutConstraint] {
-    typealias Const = Constant.MoreIcon
+    typealias Const = Constant.ChevronIcon
     typealias Inset = Const.Inset
     return [
-      moreIcon.leadingAnchor.constraint(
-        equalTo: menuLabel.trailingAnchor,
-        constant: Inset.leading),
-      moreIcon.topAnchor.constraint(
-        equalTo: topAnchor,
-        constant: Inset.top),
-      moreIcon.bottomAnchor.constraint(
-        equalTo: bottomAnchor,
-        constant: -Inset.bottom),
-      moreIcon.trailingAnchor.constraint(
-        equalTo: trailingAnchor,
-        constant: -Inset.trailing),
-      moreIcon.heightAnchor.constraint(
-        equalToConstant: Const.size.height),
-      moreIcon.widthAnchor.constraint(
-        equalToConstant: Const.size.width)]
+      chevronIcon.leadingAnchor.constraint(equalTo: label.trailingAnchor, constant: Inset.leading),
+      chevronIcon.topAnchor.constraint(equalTo: topAnchor, constant: Inset.top),
+      chevronIcon.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Inset.bottom),
+      chevronIcon.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Inset.trailing),
+      chevronIcon.heightAnchor.constraint(equalToConstant: Const.size.height),
+      chevronIcon.widthAnchor.constraint(equalToConstant: Const.size.width)]
   }
 }

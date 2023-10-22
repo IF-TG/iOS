@@ -27,12 +27,13 @@ final class PostSortingMenuAreaView: UIView {
   }
   
   // MARK: - Properties
-  private var travelThemeMenuView = MoreMenuView()
+  private var travelThemeMenuView = PostChevronLabel(sortingType: .trend)
   
-  private var travelTrendMenuView = MoreMenuView()
+  private var travelTrendMenuView: PostChevronLabel
   
   // MARK: - LifeCycle
   init(frame: CGRect, travelThemeType: TravelMainThemeType) {
+    travelTrendMenuView = PostChevronLabel(sortingType: .detailCategory(travelThemeType))
     super.init(frame: frame)
     setupUI()
     travelThemeMenuView.configure(with: .detailCategory(travelThemeType))
@@ -73,7 +74,7 @@ extension PostSortingMenuAreaView: LayoutSupport {
 // MARK: - MoreMenuViewDelegate
 extension PostSortingMenuAreaView: MoreMenuViewDelegate {
   func moreMenuView(
-    _ moreMenuView: MoreMenuView,
+    _ moreMenuView: PostChevronLabel,
     didSelectedType type: TravelCategorySortingType
   ) {
     let data: [Notification.Name: TravelCategorySortingType] = [.TravelCategoryDetailSelected: type]
