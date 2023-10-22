@@ -7,18 +7,17 @@
 
 import UIKit
 
-final class PostSortingMenuAreaView: UIView {
+final class PostSortingAreaView: UIView {
   enum Constant {
-    enum TravelThemeMenuView {
-      enum Inset {
+    enum TravelThemeChevronView {
+      enum Spacing {
         static let leading: CGFloat = 16
         static let top: CGFloat = 10
         static let bottom: CGFloat = 10
       }
     }
-    
-    enum TravelTrendMenuView {
-      enum Inset {
+    enum TravelTrendChevronView {
+      enum Spacing {
         static let leading: CGFloat = 10
         static let top: CGFloat = 10
         static let bottom: CGFloat = 10
@@ -49,7 +48,7 @@ final class PostSortingMenuAreaView: UIView {
 }
 
 // MARK: - LayoutSupport
-extension PostSortingMenuAreaView: LayoutSupport {
+extension PostSortingAreaView: LayoutSupport {
   func addSubviews() {
     _=[
       travelThemeChevronView,
@@ -70,7 +69,7 @@ extension PostSortingMenuAreaView: LayoutSupport {
 }
 
 // MARK: - MoreMenuViewDelegate
-extension PostSortingMenuAreaView: MoreMenuViewDelegate {
+extension PostSortingAreaView: MoreMenuViewDelegate {
   func moreMenuView(
     _ moreMenuView: PostChevronLabel,
     didSelectedType type: TravelCategorySortingType
@@ -84,9 +83,9 @@ extension PostSortingMenuAreaView: MoreMenuViewDelegate {
 }
 
 // MARK: - Private layoutsupport
-private extension PostSortingMenuAreaView {
+private extension PostSortingAreaView {
   var travelThemeMenuViewConstraints: [NSLayoutConstraint] {
-    typealias Inset = Constant.TravelThemeMenuView.Inset
+    typealias Inset = Constant.TravelThemeChevronView.Spacing
     return [
       travelThemeChevronView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Inset.leading),
       travelThemeChevronView.topAnchor.constraint(equalTo: topAnchor, constant: Inset.top),
@@ -94,7 +93,7 @@ private extension PostSortingMenuAreaView {
   }
   
   var travelTrendMenuViewConstraints: [NSLayoutConstraint] {
-    typealias Inset = Constant.TravelTrendMenuView.Inset
+    typealias Inset = Constant.TravelTrendChevronView.Spacing
     return [
       travelTrendChevronView.leadingAnchor.constraint(
         equalTo: travelThemeChevronView.trailingAnchor,
