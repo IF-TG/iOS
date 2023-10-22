@@ -27,7 +27,7 @@ final class MoreMenuView: UICollectionReusableView {
       }
       static let size: CGSize = .init(
         width: 20, height: 20)
-      static let iconName = "feedMore"
+      static let iconName = "feedChevron"
       static let selectedColor: UIColor = .yg.littleWhite
       static let deselectedColor: UIColor = . yg.gray3
     }
