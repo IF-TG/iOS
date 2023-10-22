@@ -7,7 +7,9 @@
 
 import UIKit
 
-final class PostSortingAreaView: UIView {
+final class PostSortingAreaView: UICollectionReusableView {
+  static let id = String(describing: PostSortingAreaView.self)
+  
   enum Constant {
     enum TravelThemeChevronView {
       enum Spacing {
@@ -26,25 +28,27 @@ final class PostSortingAreaView: UIView {
   }
   
   // MARK: - Properties
-  private var travelThemeChevronView: PostChevronLabel
+  private var travelThemeChevronView = PostChevronLabel()
   
-  private var travelTrendChevronView = PostChevronLabel(sortingType: .trend)
+  private var travelTrendChevronView = PostChevronLabel()
   
   // MARK: - LifeCycle
-  init(frame: CGRect, travelThemeType: TravelMainThemeType) {
-    travelThemeChevronView = PostChevronLabel(sortingType: .detailCategory(travelThemeType))
+  override init(frame: CGRect) {
     super.init(frame: frame)
+    travelTrendChevronView.configure(with: .trend)
     setupUI()
     travelThemeChevronView.delegate = self
     travelTrendChevronView.delegate = self
   }
   
-  convenience init(travelThemeType: TravelMainThemeType) {
-    self.init(frame: .zero, travelThemeType: travelThemeType)
-    translatesAutoresizingMaskIntoConstraints = false
-  }
-  
   required init?(coder: NSCoder) { fatalError() }
+}
+
+// MARK: - Helpers
+extension PostSortingAreaView {
+  func configure(with sortingType: TravelCategorySortingType) {
+    travelThemeChevronView.configure(with: sortingType)
+  }
 }
 
 // MARK: - LayoutSupport
