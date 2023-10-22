@@ -183,7 +183,7 @@
 		15F0D1B22A51BE3200D04773 /* CategoryPageViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F0D1B12A51BE3200D04773 /* CategoryPageViewDelegate.swift */; };
 		15F0D1B42A51BFB800D04773 /* PostSearchCoordiantor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F0D1B32A51BFB800D04773 /* PostSearchCoordiantor.swift */; };
 		15F0D1B62A524DC500D04773 /* PostSortingMenuAreaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F0D1B52A524DC500D04773 /* PostSortingMenuAreaView.swift */; };
-		15F0D1B92A524E1F00D04773 /* feedChovernLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F0D1B82A524E1F00D04773 /* feedChovernLabel.swift */; };
+		15F0D1B92A524E1F00D04773 /* PostChevronLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F0D1B82A524E1F00D04773 /* PostChevronLabel.swift */; };
 		15F0D1BE2A52940F00D04773 /* PostViewBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F0D1BD2A52940F00D04773 /* PostViewBottomSheetViewController.swift */; };
 		15F0D1D32A53095100D04773 /* PostViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F0D1D22A53095100D04773 /* PostViewAdapter.swift */; };
 		15F36A152AB1961F00971803 /* TravelRegion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F36A142AB1961F00971803 /* TravelRegion.swift */; };
@@ -432,7 +432,7 @@
 		15F0D1B12A51BE3200D04773 /* CategoryPageViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryPageViewDelegate.swift; sourceTree = "<group>"; };
 		15F0D1B32A51BFB800D04773 /* PostSearchCoordiantor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSearchCoordiantor.swift; sourceTree = "<group>"; };
 		15F0D1B52A524DC500D04773 /* PostSortingMenuAreaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSortingMenuAreaView.swift; sourceTree = "<group>"; };
-		15F0D1B82A524E1F00D04773 /* feedChovernLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = feedChovernLabel.swift; sourceTree = "<group>"; };
+		15F0D1B82A524E1F00D04773 /* PostChevronLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostChevronLabel.swift; sourceTree = "<group>"; };
 		15F0D1BD2A52940F00D04773 /* PostViewBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewBottomSheetViewController.swift; sourceTree = "<group>"; };
 		15F0D1D22A53095100D04773 /* PostViewAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewAdapter.swift; sourceTree = "<group>"; };
 		15F36A142AB1961F00971803 /* TravelRegion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelRegion.swift; sourceTree = "<group>"; };
@@ -801,7 +801,7 @@
 			isa = PBXGroup;
 			children = (
 				15F0D1B52A524DC500D04773 /* PostSortingMenuAreaView.swift */,
-				15F0D1B82A524E1F00D04773 /* feedChovernLabel.swift */,
+				15F0D1B82A524E1F00D04773 /* PostChevronLabel.swift */,
 			);
 			path = PostView;
 			sourceTree = "<group>";
@@ -1746,7 +1746,7 @@
 				15AF2C3E2A1147B100BEE166 /* UIImage+.swift in Sources */,
 				13300FAC2AC0883200952757 /* UICompositionalLayoutCreatable.swift in Sources */,
 				15EB3A222AC99FCA0025FFB4 /* PostHeaderView.swift in Sources */,
-				15F0D1B92A524E1F00D04773 /* feedChovernLabel.swift in Sources */,
+				15F0D1B92A524E1F00D04773 /* PostChevronLabel.swift in Sources */,
 				15F0D1B22A51BE3200D04773 /* CategoryPageViewDelegate.swift in Sources */,
 				13CB6D342A1FEC6D00D185B2 /* CautionAlertViewControllerDelegate.swift in Sources */,
 				15FB47EB2AC176420033AA18 /* PostSearchSectionItemModel.swift in Sources */,
