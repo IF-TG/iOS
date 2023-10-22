@@ -142,15 +142,10 @@ private extension CategoryPageView {
   var categoryViewConstraint: [NSLayoutConstraint] {
     typealias Const = TravelMainThemeCategoryAreaView.Constant
     return [
-      categoryScrollBarAreaView.topAnchor.constraint(
-        equalTo: topAnchor),
-      categoryScrollBarAreaView.leadingAnchor.constraint(
-        equalTo: leadingAnchor),
-      categoryScrollBarAreaView.trailingAnchor.constraint(
-        equalTo: trailingAnchor),
-      categoryScrollBarAreaView.heightAnchor.constraint(
-        equalToConstant:
-          Const.size.height)]
+      categoryScrollBarAreaView.topAnchor.constraint(equalTo: topAnchor),
+      categoryScrollBarAreaView.leadingAnchor.constraint(equalTo: leadingAnchor),
+      categoryScrollBarAreaView.trailingAnchor.constraint(equalTo: trailingAnchor),
+      categoryScrollBarAreaView.heightAnchor.constraint(equalToConstant: Const.size.height)]
   }
   
   var travelDetailThemePageViewConstraint: [NSLayoutConstraint] {
