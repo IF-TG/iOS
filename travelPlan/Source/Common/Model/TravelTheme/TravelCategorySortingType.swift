@@ -36,9 +36,9 @@ enum TravelCategorySortingType {
 extension TravelCategorySortingType: RawRepresentable {
   init?(rawValue: String) {
     switch rawValue {
-    case "전체":
+    case "최신순":
       self = .trend
-    case "정렬":
+    case "분류":
       self = .detailCategory(.all)
     default:
       return nil
@@ -48,9 +48,9 @@ extension TravelCategorySortingType: RawRepresentable {
   var rawValue: String {
     switch self {
     case .trend:
-      return "전체"
+      return "최신순"
     case .detailCategory:
-      return "정렬"
+      return "분류"
     }
   }
   
