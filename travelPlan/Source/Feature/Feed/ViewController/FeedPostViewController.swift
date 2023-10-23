@@ -31,6 +31,14 @@ final class FeedPostViewController: UIViewController {
   
   private var subscription: AnyCancellable?
   
+  private var sortingHeader: PostSortingAreaView? {
+    let indexPath = IndexPath(item: 0, section: 0)
+    return postView.supplementaryView(
+      forElementKind: UICollectionView.elementKindSectionHeader,
+      at: indexPath
+    ) as? PostSortingAreaView
+  }
+  
   private let input = Input()
   
   override func loadView() {
@@ -62,6 +70,17 @@ final class FeedPostViewController: UIViewController {
   
   required init?(coder: NSCoder) {
     fatalError()
+  }
+}
+
+// MARK: - Helpers
+extension FeedPostViewController {
+  func setDetaultThemeUI() {
+    sortingHeader?.setDefaultThemeUI()
+  }
+  
+  func setDefaultTrendUI() {
+    sortingHeader?.setDefaultTrendUI()
   }
 }
 
@@ -104,7 +123,7 @@ extension FeedPostViewController {
       layoutSize: headerSize,
       elementKind: UICollectionView.elementKindSectionHeader,
       alignment: .top)
-    var tempSection = postView.tempSection.set {
+    let tempSection = postView.tempSection.set {
       $0.boundarySupplementaryItems = [headerElement]
     }
     postView.collectionViewLayout = postView.makeLayout(withCustomSection: tempSection)
