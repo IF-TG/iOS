@@ -84,8 +84,8 @@ final class PostChevronLabel: UIView {
 // MARK: - Helpers
 extension PostChevronLabel {
   func configure(with type: TravelCategorySortingType) {
-    label.text = sortingType.rawValue
     sortingType = type
+    label.text = sortingType.rawValue
     isUserInteractionEnabled = true
     let tap = UITapGestureRecognizer(target: self, action: #selector(didTapView))
     addGestureRecognizer(tap)
