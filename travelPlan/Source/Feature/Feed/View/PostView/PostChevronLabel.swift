@@ -16,6 +16,11 @@ final class PostChevronLabel: UIView {
     static let deselectedBGColor: UIColor = .yg.littleWhite
     static let deselectedTextColor: UIColor = .yg.gray3
     static let boarderSize: CGFloat = 0.8
+    static let shadowInfo = ShadowInfo(
+      color: UIColor(red: 0, green: 0, blue: 0, alpha: 0.05),
+      opacity: 1,
+      radius: 4,
+      offset: CGSize(width: 0, height: 2))
     enum ChevronIcon {
       enum Spacing {
         static let leading: CGFloat = 2
@@ -24,7 +29,6 @@ final class PostChevronLabel: UIView {
       static let size: CGSize = .init(width: 15, height: 15)
       static let iconName = "feedChevron"
     }
-
     enum Label {
       enum Spacing {
         static let leading: CGFloat = 8
@@ -67,12 +71,7 @@ final class PostChevronLabel: UIView {
       if !isBoundsSet {
         isBoundsSet.toggle()
         layer.cornerRadius = bounds.height/2
-        let path = UIBezierPath(roundedRect: bounds, cornerRadius: 14)
-        layer.shadowPath = path.cgPath
-        layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.05).cgColor
-        layer.shadowOpacity = 1
-        layer.shadowRadius = 4
-        layer.shadowOffset = CGSize(width: 0, height: 2)
+        setShadow()
       }
     }
   }
@@ -141,6 +140,16 @@ private extension PostChevronLabel {
     layer.borderColor = Constant.deselectedBorderColor.cgColor
     backgroundColor = Constant.deselectedBGColor
     label.textColor = Constant.deselectedTextColor
+  }
+  
+  func setShadow() {
+    let info = Constant.shadowInfo
+    let path = UIBezierPath(roundedRect: bounds, cornerRadius: layer.cornerRadius)
+    layer.shadowPath = path.cgPath
+    layer.shadowColor = info.color.cgColor
+    layer.shadowOpacity = info.opacity
+    layer.shadowRadius = info.radius
+    layer.shadowOffset = info.offset
   }
 }
 
