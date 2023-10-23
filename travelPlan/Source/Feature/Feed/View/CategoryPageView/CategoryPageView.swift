@@ -60,6 +60,21 @@ final class CategoryPageView: UIView {
   }
 }
 
+// MARK: - Helpers
+extension CategoryPageView {
+  func setDefaultSortingHeaderUI(from sortingType: TravelCategorySortingType) {
+    guard let targetViewController = postPageViewController.viewControllers?
+      .first as? FeedPostViewController
+    else { return }
+    switch sortingType {
+    case .trend:
+      targetViewController.setDefaultTrendUI()
+    case .detailCategory:
+      targetViewController.setDefaultThemeUI()
+    }
+  }
+}
+
 // MARK: - Private Helpers
 private extension CategoryPageView {
   func configureUI() {
