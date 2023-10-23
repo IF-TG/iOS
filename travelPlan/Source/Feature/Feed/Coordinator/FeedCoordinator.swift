@@ -23,6 +23,8 @@ final class FeedCoordinator: FlowCoordinator {
   var child: [FlowCoordinator] = []
   var presenter: UINavigationController!
   
+  private weak var viewController: FeedViewController?
+  
   init(presenter: UINavigationController!) {
     self.presenter = presenter
   }
@@ -31,6 +33,7 @@ final class FeedCoordinator: FlowCoordinator {
   func start() {
     let feedViewModel = FeedViewModel()
     let vc = FeedViewController(viewModel: feedViewModel)
+    viewController = vc
     vc.coordinator = self
     presenter.pushViewController(vc, animated: true)
   }
@@ -50,34 +53,30 @@ extension FeedCoordinator: FeedCoordinatorDelegate {
   }
   
   func showTravelThemeBottomSheet(sortingType: TravelMainThemeType) {
-    var viewController: TravelThemeBottomSheetViewController
+    var bottomSheetViewController: TravelThemeBottomSheetViewController
     if sortingType.rawValue == "지역" {
-      viewController = TravelThemeBottomSheetViewController(
+      bottomSheetViewController = TravelThemeBottomSheetViewController(
         bottomSheetMode: .full,
         sortingType: .detailCategory(.region(.busan)))
     } else {
-      viewController = TravelThemeBottomSheetViewController(
+      bottomSheetViewController = TravelThemeBottomSheetViewController(
         bottomSheetMode: .couldBeFull,
         sortingType: .detailCategory(sortingType))
     }
-    if let feedVC = presenter.viewControllers.last as? FeedViewController {
-      viewController.delegate = feedVC
-    }
-    presenter.presentBottomSheet(viewController)
+    bottomSheetViewController.delegate = viewController
+    presenter.presentBottomSheet(bottomSheetViewController)
   }
   
   func showTravelTrendBottomSheet() {
-    let viewController = TravelThemeBottomSheetViewController(
+    let bottomSheetViewController = TravelThemeBottomSheetViewController(
       bottomSheetMode: .couldBeFull,
       sortingType: .trend)
-    if let feedVC = presenter.viewControllers.last as? FeedViewController {
-      viewController.delegate = feedVC
-    }
-    presenter.presentBottomSheet(viewController)
+    bottomSheetViewController.delegate = viewController
+    presenter.presentBottomSheet(bottomSheetViewController)
   }
   
   func showReviewWrite() {
-    let viewController = TravelReviewViewController()
-    presenter.pushViewController(viewController, animated: true)
+    let reviewViewController = TravelReviewViewController()
+    presenter.pushViewController(reviewViewController, animated: true)
   }
 }
