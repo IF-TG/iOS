@@ -128,7 +128,7 @@ private extension PostChevronLabel {
   
   func setSelectedAppearance() {
     chevronIcon.transform = chevronIcon.transform.rotated(by: .pi)
-    chevronIcon.tintColor = Constant.selectedTextColor
+    chevronIcon.image = chevronIcon.image?.withTintColor(Constant.selectedTextColor, renderingMode: .alwaysTemplate)
     layer.borderColor = Constant.selectedBorderColor.cgColor
     backgroundColor = Constant.selectedBGColor
     label.textColor = Constant.selectedTextColor
@@ -136,7 +136,7 @@ private extension PostChevronLabel {
   
   func setDeselectedAppearance() {
     chevronIcon.transform = .identity
-    chevronIcon.tintColor = Constant.deselectedTextColor
+    chevronIcon.image = chevronIcon.image?.withTintColor(Constant.deselectedTextColor, renderingMode: .alwaysOriginal)
     layer.borderColor = Constant.deselectedBorderColor.cgColor
     backgroundColor = Constant.deselectedBGColor
     label.textColor = Constant.deselectedTextColor
