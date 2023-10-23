@@ -42,7 +42,6 @@ final class FeedCoordinator: FlowCoordinator {
 // MARK: - FeedCoordinatorDelegate
 extension FeedCoordinator: FeedCoordinatorDelegate {
   func showPostSearch() {
-    // coordinator settingTODO: - post search coordaintor로 이동해야 합니다.
     let childCoordinator = PostSearchCoordinator(presenter: presenter)
     addChild(with: childCoordinator)
   }
@@ -57,11 +56,11 @@ extension FeedCoordinator: FeedCoordinatorDelegate {
     if sortingType.rawValue == "지역" {
       bottomSheetViewController = TravelThemeBottomSheetViewController(
         bottomSheetMode: .full,
-        sortingType: .detailCategory(.region(.busan)))
+        sortingType: .travelMainTheme(.region(.busan)))
     } else {
       bottomSheetViewController = TravelThemeBottomSheetViewController(
         bottomSheetMode: .couldBeFull,
-        sortingType: .detailCategory(sortingType))
+        sortingType: .travelMainTheme(sortingType))
     }
     bottomSheetViewController.delegate = viewController
     presenter.presentBottomSheet(bottomSheetViewController)
@@ -70,7 +69,7 @@ extension FeedCoordinator: FeedCoordinatorDelegate {
   func showTravelTrendBottomSheet() {
     let bottomSheetViewController = TravelThemeBottomSheetViewController(
       bottomSheetMode: .couldBeFull,
-      sortingType: .trend)
+      sortingType: .travelOrder)
     bottomSheetViewController.delegate = viewController
     presenter.presentBottomSheet(bottomSheetViewController)
   }
