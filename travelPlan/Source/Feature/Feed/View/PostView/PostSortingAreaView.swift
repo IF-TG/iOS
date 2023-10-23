@@ -7,9 +7,7 @@
 
 import UIKit
 
-final class PostSortingAreaView: UICollectionReusableView {
-  static let id = String(describing: PostSortingAreaView.self)
-  
+final class PostSortingAreaView: UIView {
   enum Constant {
     enum TravelThemeChevronView {
       enum Spacing {
@@ -102,7 +100,6 @@ private extension PostSortingAreaView {
       travelTrendChevronView.leadingAnchor.constraint(
         equalTo: travelThemeChevronView.trailingAnchor,
         constant: Inset.leading),
-      travelThemeChevronView.centerYAnchor.constraint(equalTo: travelThemeChevronView.centerYAnchor),
-      travelTrendChevronView.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor)]
+      travelTrendChevronView.centerYAnchor.constraint(equalTo: travelThemeChevronView.centerYAnchor)]
   }
 }
