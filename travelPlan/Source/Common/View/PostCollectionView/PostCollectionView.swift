@@ -27,7 +27,7 @@ class PostCollectionView: UICollectionView {
   
   init(frame: CGRect) {
     super.init(frame: frame, collectionViewLayout: .init())
-    collectionViewLayout = makePostLayout()
+    collectionViewLayout = makeLayout()
     configureUI()
   }
   
@@ -43,17 +43,17 @@ class PostCollectionView: UICollectionView {
   required init?(coder: NSCoder) {
     super.init(coder: coder)
     configureUI()
-    collectionViewLayout = makePostLayout()
+    collectionViewLayout = makeLayout()
   }
 }
 
 // MARK: - Public Helpers
 extension PostCollectionView {
-  func makePostLayout() -> UICollectionViewLayout {
+  func makeLayout(withCustomSection customSection : NSCollectionLayoutSection? = nil) -> UICollectionViewLayout {
     return UICollectionViewCompositionalLayout { [weak self] (sectionIndex, _) -> NSCollectionLayoutSection? in
       switch sectionIndex {
       case 0:
-        return self?.tempSection
+        return customSection ?? self?.tempSection
       case 1:
         return self?.postSection
       default:
