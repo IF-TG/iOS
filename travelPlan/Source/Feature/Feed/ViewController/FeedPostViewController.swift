@@ -25,9 +25,9 @@ final class FeedPostViewController: UIViewController {
   // MARK: - Properties
   private let postView = PostCollectionView()
   
-  private let viewModel: any FeedPostViewModelable
-  
-  private var postViewAdapter: PostViewAdapter!
+  private let viewModel: any FeedPostViewModelable & FeedPostViewAdapterDataSource
+    
+  private var postViewAdapter: PostViewAdapter?
   
   private var subscription: AnyCancellable?
   
@@ -37,6 +37,10 @@ final class FeedPostViewController: UIViewController {
       forElementKind: UICollectionView.elementKindSectionHeader,
       at: indexPath
     ) as? PostSortingAreaView
+  }
+  
+  var themeType: TravelCategorySortingType {
+    viewModel.headerItem
   }
   
   private let input = Input()
@@ -60,11 +64,11 @@ final class FeedPostViewController: UIViewController {
       postViewAdapter = PostViewAdapter(dataSource: viewModel, collectionView: postView)
       return
     }
-    updatePostViewLayout()
     postView.register(
       PostSortingAreaView.self,
       forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
       withReuseIdentifier: PostSortingAreaView.id)
+    updatePostViewLayout()
     postViewAdapter = FeedPostViewAdapter(dataSource: viewModel, collectionView: postView)
   }
   
@@ -75,7 +79,7 @@ final class FeedPostViewController: UIViewController {
 
 // MARK: - Helpers
 extension FeedPostViewController {
-  func setDetaultThemeUI() {
+  func setDefaultThemeUI() {
     sortingHeader?.setDefaultThemeUI()
   }
   
