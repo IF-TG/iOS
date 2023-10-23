@@ -62,7 +62,7 @@ final class PostChevronLabel: UIView {
     }
   }
   
-  private(set) var sortingType: TravelCategorySortingType!
+  private(set) var sortingType: PostSearchFilterType!
   
   private var isBoundsSet = false
   
@@ -94,7 +94,7 @@ final class PostChevronLabel: UIView {
 
 // MARK: - Helpers
 extension PostChevronLabel {
-  func configure(with type: TravelCategorySortingType) {
+  func configure(with type: PostSearchFilterType) {
     sortingType = type
     label.text = sortingType.rawValue
     isUserInteractionEnabled = true

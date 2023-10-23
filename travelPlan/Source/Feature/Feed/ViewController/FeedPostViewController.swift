@@ -39,7 +39,7 @@ final class FeedPostViewController: UIViewController {
     ) as? PostSortingAreaView
   }
   
-  var themeType: TravelCategorySortingType {
+  var themeType: PostSearchFilterType {
     viewModel.headerItem
   }
   

@@ -6,5 +6,5 @@
 //
 
 protocol FeedPostViewAdapterDataSource: PostViewAdapterDataSource {
-  var headerItem: TravelCategorySortingType { get }
+  var headerItem: PostSearchFilterType { get }
 }

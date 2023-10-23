@@ -166,7 +166,7 @@
 		15DA4C7F2ACD78C1003A7900 /* Int+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DA4C7E2ACD78C1003A7900 /* Int+.swift */; };
 		15DA4C832ACD821F003A7900 /* EmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DA4C822ACD821F003A7900 /* EmptyStateView.swift */; };
 		15DD40452A5B862D002BC5F8 /* PostViewBottomSheetAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DD40442A5B862D002BC5F8 /* PostViewBottomSheetAdapter.swift */; };
-		15DD40482A5B8752002BC5F8 /* TravelCategorySortingType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DD40472A5B8752002BC5F8 /* TravelCategorySortingType.swift */; };
+		15DD40482A5B8752002BC5F8 /* PostSearchFilterType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DD40472A5B8752002BC5F8 /* PostSearchFilterType.swift */; };
 		15DE36B62AB83DD40030CCCC /* TravelThemeBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DE36B52AB83DD40030CCCC /* TravelThemeBottomSheetViewController.swift */; };
 		15DE36B92AB853900030CCCC /* TravelThemeBottomSheetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DE36B82AB853900030CCCC /* TravelThemeBottomSheetCell.swift */; };
 		15E982BF2ACC95CC002B932F /* FavoriteDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E982BE2ACC95CC002B932F /* FavoriteDetailViewController.swift */; };
@@ -419,7 +419,7 @@
 		15DA4C7E2ACD78C1003A7900 /* Int+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+.swift"; sourceTree = "<group>"; };
 		15DA4C822ACD821F003A7900 /* EmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateView.swift; sourceTree = "<group>"; };
 		15DD40442A5B862D002BC5F8 /* PostViewBottomSheetAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewBottomSheetAdapter.swift; sourceTree = "<group>"; };
-		15DD40472A5B8752002BC5F8 /* TravelCategorySortingType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelCategorySortingType.swift; sourceTree = "<group>"; };
+		15DD40472A5B8752002BC5F8 /* PostSearchFilterType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSearchFilterType.swift; sourceTree = "<group>"; };
 		15DE36B52AB83DD40030CCCC /* TravelThemeBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelThemeBottomSheetViewController.swift; sourceTree = "<group>"; };
 		15DE36B82AB853900030CCCC /* TravelThemeBottomSheetCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelThemeBottomSheetCell.swift; sourceTree = "<group>"; };
 		15E982BE2ACC95CC002B932F /* FavoriteDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoriteDetailViewController.swift; sourceTree = "<group>"; };
@@ -1132,7 +1132,7 @@
 				15F36A142AB1961F00971803 /* TravelRegion.swift */,
 				15F36A172AB1986000971803 /* TravelTheme.swift */,
 				15F36A1B2AB1A45600971803 /* TravelPartner.swift */,
-				15DD40472A5B8752002BC5F8 /* TravelCategorySortingType.swift */,
+				15DD40472A5B8752002BC5F8 /* PostSearchFilterType.swift */,
 				1570FDB12AB1B616006FBAA3 /* TravelOrderType.swift */,
 				15FB47D62AC0407D0033AA18 /* FeedPostSearchFilterInfo.swift */,
 			);
@@ -1788,7 +1788,7 @@
 				15D867CF2AD427EC00F35811 /* FavoriteDetailCoordinator.swift in Sources */,
 				157ADCAC2AD008EE00D37680 /* FavoriteDetailMenuViewConfigurable.swift in Sources */,
 				13254FE32A05147200094218 /* MainTabBarController.swift in Sources */,
-				15DD40482A5B8752002BC5F8 /* TravelCategorySortingType.swift in Sources */,
+				15DD40482A5B8752002BC5F8 /* PostSearchFilterType.swift in Sources */,
 				152AD4F02A189CFC008A2A11 /* FavoriteHeaderView.swift in Sources */,
 				15EF8CA62A0A19990068C744 /* CategoryViewType.swift in Sources */,
 				1550D9AF2ACAFAC10046569B /* FeedPostViewController.swift in Sources */,

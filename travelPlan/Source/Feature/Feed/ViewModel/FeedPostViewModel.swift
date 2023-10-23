@@ -45,7 +45,7 @@ private extension FeedPostViewModel {
 
 // MARK: - FeedPostViewAdapterDataSource
 extension FeedPostViewModel: FeedPostViewAdapterDataSource {
-  var headerItem: TravelCategorySortingType {
-    return .detailCategory(filterInfo.travelTheme)
+  var headerItem: PostSearchFilterType {
+    return .travelMainTheme(filterInfo.travelTheme)
   }
 }

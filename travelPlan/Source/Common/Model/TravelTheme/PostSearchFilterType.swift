@@ -1,5 +1,5 @@
 //
-//  TravelCategorySortingType.swift
+//  PostSearchFilterType.swift
 //  travelPlan
 //
 //  Created by 양승현 on 2023/07/10.
@@ -7,25 +7,25 @@
 
 import Foundation
 
-enum TravelCategorySortingType {
-  case trend
-  case detailCategory(TravelMainThemeType)
+enum PostSearchFilterType {
+  case travelOrder
+  case travelMainTheme(TravelMainThemeType)
   
   var toIndex: Int {
     switch self {
-    case .trend:
+    case .travelOrder:
       return 0
-    case .detailCategory:
+    case .travelMainTheme:
       return 1
     }
   }
   
   var subCateogryTitles: [String] {
     switch self {
-    case .trend:
+    case .travelOrder:
       /// 인기순 최신순
       return TravelOrderType.allCases.map { $0.rawValue }
-    case .detailCategory(let travelThemeType):
+    case .travelMainTheme(let travelThemeType):
       /// 지역일 경우 서울,  경기 ... 17개
       return travelThemeType.titles
     }
@@ -33,13 +33,13 @@ enum TravelCategorySortingType {
 }
 
 // MARK: - RawRepresentable
-extension TravelCategorySortingType: RawRepresentable {
+extension PostSearchFilterType: RawRepresentable {
   init?(rawValue: String) {
     switch rawValue {
     case "최신순":
-      self = .trend
+      self = .travelOrder
     case "분류":
-      self = .detailCategory(.all)
+      self = .travelMainTheme(.all)
     default:
       return nil
     }
@@ -47,9 +47,9 @@ extension TravelCategorySortingType: RawRepresentable {
   
   var rawValue: String {
     switch self {
-    case .trend:
+    case .travelOrder:
       return "최신순"
-    case .detailCategory:
+    case .travelMainTheme:
       return "분류"
     }
   }

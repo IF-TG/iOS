@@ -35,7 +35,7 @@ final class PostSortingAreaView: UICollectionReusableView {
   // MARK: - LifeCycle
   override init(frame: CGRect) {
     super.init(frame: frame)
-    travelTrendChevronView.configure(with: .trend)
+    travelTrendChevronView.configure(with: .travelOrder)
     setupUI()
     travelThemeChevronView.delegate = self
     travelTrendChevronView.delegate = self
@@ -46,7 +46,7 @@ final class PostSortingAreaView: UICollectionReusableView {
 
 // MARK: - Helpers
 extension PostSortingAreaView {
-  func configure(with sortingType: TravelCategorySortingType) {
+  func configure(with sortingType: PostSearchFilterType) {
     travelThemeChevronView.configure(with: sortingType)
   }
   
@@ -84,9 +84,9 @@ extension PostSortingAreaView: LayoutSupport {
 extension PostSortingAreaView: MoreMenuViewDelegate {
   func moreMenuView(
     _ moreMenuView: PostChevronLabel,
-    didSelectedType type: TravelCategorySortingType
+    didSelectedType type: PostSearchFilterType
   ) {
-    let data: [Notification.Name: TravelCategorySortingType] = [.TravelCategoryDetailSelected: type]
+    let data: [Notification.Name: PostSearchFilterType] = [.TravelCategoryDetailSelected: type]
     NotificationCenter.default.post(
       name: .TravelCategoryDetailSelected,
       object: nil,

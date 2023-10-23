@@ -37,7 +37,7 @@ final class TravelThemeBottomSheetViewController: BaseBottomSheetViewController 
     $0.delegate = self
   }
   
-  private(set) var sortingType: TravelCategorySortingType
+  private(set) var sortingType: PostSearchFilterType
   
   private lazy var titles: [String] = sortingType.subCateogryTitles
   
@@ -48,14 +48,14 @@ final class TravelThemeBottomSheetViewController: BaseBottomSheetViewController 
   // MARK: - Lifecycle
   init(
     bottomSheetMode: BaseBottomSheetViewController.ContentMode,
-    sortingType: TravelCategorySortingType
+    sortingType: PostSearchFilterType
   ) {
     self.sortingType = sortingType
     super.init(mode: bottomSheetMode, radius: 8)
   }
   
   required init?(coder: NSCoder) {
-    sortingType = .trend
+    sortingType = .travelOrder
     super.init(coder: coder)
   }
   
