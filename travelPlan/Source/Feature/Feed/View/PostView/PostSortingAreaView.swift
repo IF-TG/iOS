@@ -15,14 +15,12 @@ final class PostSortingAreaView: UICollectionReusableView {
       enum Spacing {
         static let leading: CGFloat = 16
         static let top: CGFloat = 10
-        static let bottom: CGFloat = 10
       }
     }
     enum TravelTrendChevronView {
       enum Spacing {
         static let leading: CGFloat = 10
         static let top: CGFloat = 10
-        static let bottom: CGFloat = 10
       }
     }
   }
@@ -93,7 +91,7 @@ private extension PostSortingAreaView {
     return [
       travelThemeChevronView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Inset.leading),
       travelThemeChevronView.topAnchor.constraint(equalTo: topAnchor, constant: Inset.top),
-      travelThemeChevronView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Inset.bottom)]
+      travelThemeChevronView.bottomAnchor.constraint(equalTo: bottomAnchor)]
   }
   
   var travelTrendMenuViewConstraints: [NSLayoutConstraint] {
