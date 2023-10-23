@@ -11,32 +11,27 @@ final class PostChevronLabel: UIView {
   enum Constant {
     static let selectedBorderColor: UIColor = .YG.gray3
     static let selectedBGColor: UIColor = .yg.gray3
-    static let deselectedBorderColor: UIColor = .yg.littleWhite
-    static let deselectedBGColor: UIColor = .yg.gray3
+    static let selectedTextColor: UIColor = .yg.littleWhite
+    static let deselectedBorderColor: UIColor = .yg.gray0
+    static let deselectedBGColor: UIColor = .yg.littleWhite
+    static let deselectedTextColor: UIColor = .yg.gray3
     static let boarderSize: CGFloat = 0.8
-    static let radius: CGFloat = 15
     enum ChevronIcon {
-      enum Inset {
-        static let leading: CGFloat = 3
-        static let trailing: CGFloat = 10
-        static let top: CGFloat = 5
-        static let bottom: CGFloat = 5
+      enum Spacing {
+        static let leading: CGFloat = 2
+        static let trailing: CGFloat = 8
       }
-      static let size: CGSize = .init(width: 20, height: 20)
+      static let size: CGSize = .init(width: 15, height: 15)
       static let iconName = "feedChevron"
-      static let selectedColor: UIColor = .yg.littleWhite
-      static let deselectedColor: UIColor = . yg.gray3
     }
 
     enum Label {
-      enum Inset {
-        static let leading: CGFloat = 10
-        static let top: CGFloat = 7
-        static let bottom: CGFloat = 7
+      enum Spacing {
+        static let leading: CGFloat = 8
+        static let top: CGFloat = 6
+        static let bottom: CGFloat = 6
       }
-      static let fontSize: CGFloat = 13
-      static let selectedTextColor: UIColor = .yg.littleWhite
-      static let deselectedTextColor: UIColor = .yg.gray3
+      static let fontSize: CGFloat = 12
     }
   }
   
@@ -49,9 +44,9 @@ final class PostChevronLabel: UIView {
   
   private let label = UILabel().set {
     $0.translatesAutoresizingMaskIntoConstraints = false
-    $0.textColor = Constant.Label.deselectedTextColor
+    $0.textColor = Constant.deselectedTextColor
     $0.text = ""
-    $0.font = .systemFont(ofSize: Constant.Label.fontSize)
+    $0.font = .init(pretendard: .medium, size: 12)
     $0.sizeToFit()
   }
   
@@ -59,11 +54,13 @@ final class PostChevronLabel: UIView {
   
   private var isSelected: Bool = false {
     didSet {
-      animateMoreIcon()
+      animateChevronIcon()
     }
   }
   
   private(set) var sortingType: TravelCategorySortingType!
+  
+  private var isBoundsSet = false
   
   // MARK: - LifeCycle
   override init(frame: CGRect) {
@@ -97,14 +94,13 @@ private extension PostChevronLabel {
   func configureUI() {
     translatesAutoresizingMaskIntoConstraints = false
     layer.borderWidth = Constant.boarderSize
-    layer.cornerRadius = Constant.radius
     layer.borderColor = Constant.deselectedBorderColor.cgColor
-    label.textColor = Constant.Label.deselectedTextColor
-    chevronIcon.tintColor = Constant.ChevronIcon.deselectedColor
+    backgroundColor = UIColor.white
+    chevronIcon.tintColor = Constant.deselectedBGColor
     setupUI()
   }
   
-  func animateMoreIcon() {
+  func animateChevronIcon() {
     guard isSelected else {
       UIView.animate(withDuration: 0.3) {
         self.setDeselectedAppearance()
@@ -118,18 +114,18 @@ private extension PostChevronLabel {
   
   func setSelectedAppearance() {
     chevronIcon.transform = chevronIcon.transform.rotated(by: .pi)
-    chevronIcon.tintColor = Constant.ChevronIcon.selectedColor
+    chevronIcon.tintColor = Constant.selectedTextColor
     layer.borderColor = Constant.selectedBorderColor.cgColor
     backgroundColor = Constant.selectedBGColor
-    label.textColor = Constant.Label.selectedTextColor
+    label.textColor = Constant.selectedTextColor
   }
   
   func setDeselectedAppearance() {
     chevronIcon.transform = .identity
-    chevronIcon.tintColor = Constant.ChevronIcon.deselectedColor
+    chevronIcon.tintColor = Constant.deselectedTextColor
     layer.borderColor = Constant.deselectedBorderColor.cgColor
     backgroundColor = Constant.deselectedBGColor
-    label.textColor = Constant.Label.deselectedTextColor
+    label.textColor = Constant.deselectedTextColor
   }
 }
 
@@ -164,21 +160,21 @@ extension PostChevronLabel: LayoutSupport {
 // MARK: - Layout support helper
 private extension PostChevronLabel {
   var categoryLabelConstraints: [NSLayoutConstraint] {
-    typealias Inset = Constant.Label.Inset
+    typealias Const = Constant.Label
+    typealias Spacing = Const.Spacing
     return [
-      label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Inset.leading),
-      label.topAnchor.constraint(equalTo: topAnchor, constant: Inset.top),
-      label.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Inset.bottom)]
+      label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Spacing.leading),
+      label.topAnchor.constraint(equalTo: topAnchor, constant: Spacing.top),
+      label.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Spacing.bottom)]
   }
   
   var moreIconConstraints: [NSLayoutConstraint] {
     typealias Const = Constant.ChevronIcon
-    typealias Inset = Const.Inset
+    typealias Spacing = Const.Spacing
     return [
-      chevronIcon.leadingAnchor.constraint(equalTo: label.trailingAnchor, constant: Inset.leading),
-      chevronIcon.topAnchor.constraint(equalTo: topAnchor, constant: Inset.top),
-      chevronIcon.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Inset.bottom),
-      chevronIcon.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Inset.trailing),
+      chevronIcon.leadingAnchor.constraint(equalTo: label.trailingAnchor, constant: Spacing.leading),
+      chevronIcon.centerYAnchor.constraint(equalTo: centerYAnchor),
+      chevronIcon.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Spacing.trailing),
       chevronIcon.heightAnchor.constraint(equalToConstant: Const.size.height),
       chevronIcon.widthAnchor.constraint(equalToConstant: Const.size.width)]
   }
