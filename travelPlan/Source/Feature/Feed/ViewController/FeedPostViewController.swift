@@ -8,20 +8,30 @@
 import UIKit
 import Combine
 
+struct FeedPostViewControllerInput {
+  let viewDidLoad: PassthroughSubject<Void, Never> = .init()
+}
+
+enum FeedPostViewControllerState {
+  case updatePosts
+  case none
+}
+
 final class FeedPostViewController: UIViewController {
+  enum Constant {
+    static let postViewSortingHeaderHeight: CGFloat = 36
+  }
+  
   // MARK: - Properties
-  // TODO: - PostView 헤더에 소팅 뷰 추가할건지 여기에 추가할건지 정해야함.
-  
-  //  private lazy var postSortingMenuAreaView = PostSortingMenuAreaView(
-  //    travelThemeType: )
-  
   private let postView = PostCollectionView()
   
-  private var viewModel: PostViewModel!
+  private let viewModel: any FeedPostViewModelable
   
   private var postViewAdapter: PostViewAdapter!
   
   private var subscription: AnyCancellable?
+  
+  private let input = Input()
   
   override func loadView() {
     view = postView
@@ -34,24 +44,69 @@ final class FeedPostViewController: UIViewController {
   
   // MARK: - Lifecycle
   init(with filterInfo: FeedPostSearchFilterInfo) {
+    let viewModel = FeedPostViewModel(filterInfo: filterInfo, postUseCase: MockPostUseCase())
+    self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
-    // TODO: - FilterInfo를 기반으로한 vm만들어야합니다.
-    // viewModel = PostViewModel(filterInfo: filterInfo)
-    viewModel = PostViewModel(postUseCase: MockPostUseCase())
-    postViewAdapter = PostViewAdapter(dataSource: viewModel, collectionView: postView)
-    subscription = viewModel.$posts.receive(on: DispatchQueue.main).sink { [weak self] _ in
-      self?.postView.reloadData()
+    bind()
+    if filterInfo.travelTheme == .all {
+      postViewAdapter = PostViewAdapter(dataSource: viewModel, collectionView: postView)
+      return
     }
+    updatePostViewLayout()
+    postView.register(
+      PostSortingAreaView.self,
+      forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+      withReuseIdentifier: PostSortingAreaView.id)
+    postViewAdapter = FeedPostViewAdapter(dataSource: viewModel, collectionView: postView)
   }
   
   required init?(coder: NSCoder) {
-    super.init(coder: coder)
+    fatalError()
   }
+}
+
+// MARK: - ViewBindCase
+extension FeedPostViewController: ViewBindCase {
+  typealias Input = FeedPostViewControllerInput
+  typealias ErrorType = Error
+  typealias State = FeedPostViewControllerState
+  
+  func bind() {
+    let output = viewModel.transform(input)
+    subscription = output.receive(on: DispatchQueue.main).sink { [unowned self] state in
+      render(state)
+    }
+  }
+  
+  func render(_ state: FeedPostViewControllerState) {
+    switch state {
+    case .none:
+      break
+    case .updatePosts:
+      postView.reloadData()
+    }
+  }
+  
+  func handleError(_ error: ErrorType) { }
 }
 
 // MARK: - Private Helpers
 extension FeedPostViewController {
   private func configureUI() {
     view.translatesAutoresizingMaskIntoConstraints = false
+  }
+  
+  private func updatePostViewLayout() {
+    let headerSize = NSCollectionLayoutSize(
+      widthDimension: .fractionalWidth(1.0),
+      heightDimension: .estimated(Constant.postViewSortingHeaderHeight))
+    let headerElement = NSCollectionLayoutBoundarySupplementaryItem(
+      layoutSize: headerSize,
+      elementKind: UICollectionView.elementKindSectionHeader,
+      alignment: .top)
+    var tempSection = postView.tempSection.set {
+      $0.boundarySupplementaryItems = [headerElement]
+    }
+    postView.collectionViewLayout = postView.makeLayout(withCustomSection: tempSection)
   }
 }
