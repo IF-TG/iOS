@@ -217,11 +217,9 @@ extension FeedViewController: TravelThemeBottomSheetDelegate {
     _ viewController: TravelThemeBottomSheetViewController,
     didSelectTitle title: String?
   ) {
-    guard title != nil else {
-      // 그냥 꺽쇠만 원래대로
-      return
-    }
-    // TODO: - 서버에서 데이터 받은 후 특정 cell reload
+    categoryPageView.setDefaultSortingHeaderUI(from: viewController.sortingType)
+    guard title != nil else { return }
+    // TODO: - 서버에서 데이터 요청 후 특정 정렬된 posts로 리로드.
     // 소분류 let type = viewController.travelThemeType.rawValue
     // 특정 상세 카테고리 title
   }
