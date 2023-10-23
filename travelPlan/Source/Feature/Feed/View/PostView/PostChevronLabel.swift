@@ -56,7 +56,7 @@ final class PostChevronLabel: UIView {
   
   weak var delegate: MoreMenuViewDelegate?
   
-  private var isSelected: Bool = false {
+  var isSelected: Bool = false {
     didSet {
       animateChevronIcon()
     }
