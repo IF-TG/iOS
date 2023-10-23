@@ -12,8 +12,8 @@ protocol FeedCoordinatorDelegate: AnyObject {
   func finish()
   func showPostSearch()
   func showTotalBottomSheet()
-  func showTravelThemeBottomSheet(sortingType: TravelMainThemeType)
-  func showTravelTrendBottomSheet()
+  func showPostMainThemeFilteringBottomSheet(sortingType: TravelMainThemeType)
+  func showPostOrderFilteringBottomSheet()
   func showReviewWrite()
 }
 
@@ -51,14 +51,14 @@ extension FeedCoordinator: FeedCoordinatorDelegate {
     presenter.present(sheetViewController, animated: false)
   }
   
-  func showTravelThemeBottomSheet(sortingType: TravelMainThemeType) {
-    var bottomSheetViewController: TravelThemeBottomSheetViewController
+  func showPostMainThemeFilteringBottomSheet(sortingType: TravelMainThemeType) {
+    var bottomSheetViewController: PostFilteringBottomSheetViewController
     if sortingType.rawValue == "지역" {
-      bottomSheetViewController = TravelThemeBottomSheetViewController(
+      bottomSheetViewController = PostFilteringBottomSheetViewController(
         bottomSheetMode: .full,
         sortingType: .travelMainTheme(.region(.busan)))
     } else {
-      bottomSheetViewController = TravelThemeBottomSheetViewController(
+      bottomSheetViewController = PostFilteringBottomSheetViewController(
         bottomSheetMode: .couldBeFull,
         sortingType: .travelMainTheme(sortingType))
     }
@@ -66,8 +66,8 @@ extension FeedCoordinator: FeedCoordinatorDelegate {
     presenter.presentBottomSheet(bottomSheetViewController)
   }
   
-  func showTravelTrendBottomSheet() {
-    let bottomSheetViewController = TravelThemeBottomSheetViewController(
+  func showPostOrderFilteringBottomSheet() {
+    let bottomSheetViewController = PostFilteringBottomSheetViewController(
       bottomSheetMode: .couldBeFull,
       sortingType: .travelOrder)
     bottomSheetViewController.delegate = viewController
