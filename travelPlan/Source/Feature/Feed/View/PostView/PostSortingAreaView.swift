@@ -7,7 +7,9 @@
 
 import UIKit
 
-final class PostSortingAreaView: UIView {
+final class PostSortingAreaView: UICollectionReusableView {
+  static let id = String(describing: PostSortingAreaView.self)
+  
   enum Constant {
     enum TravelThemeChevronView {
       enum Spacing {
