@@ -7,5 +7,5 @@
 
 struct FeedPostSearchFilterInfo {
   var travelTheme: TravelMainThemeType
-  var travelTrend: TravelOrderType
+  var travelOrder: TravelOrderType
 }

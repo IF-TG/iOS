@@ -35,7 +35,7 @@ final class CategoryPageView: UIView {
     if let firstVC = pageViewDataSource[0] as? FeedPostViewController {
       return firstVC
     }
-    return .init(with: .init(travelTheme: .all, travelTrend: .newest))
+    return .init(with: .init(travelTheme: .all, travelOrder: .newest))
   }
   
   private var presentedPageViewIndex = 0

@@ -23,7 +23,7 @@ final class CategoryPageViewModel {
     }
   
   private lazy var postSearchFilterInfoList: [FeedPostSearchFilterInfo] = travelMainCategory.map {
-    .init(travelTheme: $0, travelTrend: .newest)
+    .init(travelTheme: $0, travelOrder: .newest)
   }
 }
 
