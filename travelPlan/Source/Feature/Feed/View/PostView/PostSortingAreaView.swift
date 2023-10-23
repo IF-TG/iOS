@@ -26,8 +26,10 @@ final class PostSortingAreaView: UICollectionReusableView {
   }
   
   // MARK: - Properties
+  /// 분류
   private var travelThemeChevronView = PostChevronLabel()
   
+  /// 최신순
   private var travelTrendChevronView = PostChevronLabel()
   
   // MARK: - LifeCycle
@@ -46,6 +48,14 @@ final class PostSortingAreaView: UICollectionReusableView {
 extension PostSortingAreaView {
   func configure(with sortingType: TravelCategorySortingType) {
     travelThemeChevronView.configure(with: sortingType)
+  }
+  
+  func setDefaultThemeUI() {
+    travelThemeChevronView.isSelected = false
+  }
+  
+  func setDefaultTrendUI() {
+    travelTrendChevronView.isSelected = false
   }
 }
 
