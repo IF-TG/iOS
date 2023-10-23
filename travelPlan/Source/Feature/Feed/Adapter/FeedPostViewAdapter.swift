@@ -8,17 +8,19 @@
 import UIKit
 
 final class FeedPostViewAdapter: PostViewAdapter {
-  
+  // MARK: - Properties
   private weak var feedDataSource: FeedPostViewAdapterDataSource?
   
+  // MARK: - Lifecycle
   init(dataSource: FeedPostViewAdapterDataSource? = nil, collectionView: PostCollectionView?) {
     feedDataSource = dataSource
     super.init(dataSource: dataSource, collectionView: collectionView)
+    collectionView?.delegate = self
   }
 }
 
 // MARK: - UICollectionViewDelegate
-extension FeedPostViewAdapter {
+extension FeedPostViewAdapter: UICollectionViewDelegate {
   func collectionView(
     _ collectionView: UICollectionView,
     viewForSupplementaryElementOfKind kind: String,
