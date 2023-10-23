@@ -62,6 +62,21 @@ final class PostChevronLabel: UIView {
   
   private var isBoundsSet = false
   
+  override var bounds: CGRect {
+    didSet {
+      if !isBoundsSet {
+        isBoundsSet.toggle()
+        layer.cornerRadius = bounds.height/2
+        let path = UIBezierPath(roundedRect: bounds, cornerRadius: 14)
+        layer.shadowPath = path.cgPath
+        layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.05).cgColor
+        layer.shadowOpacity = 1
+        layer.shadowRadius = 4
+        layer.shadowOffset = CGSize(width: 0, height: 2)
+      }
+    }
+  }
+  
   // MARK: - LifeCycle
   override init(frame: CGRect) {
     super.init(frame: frame)
