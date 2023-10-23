@@ -30,6 +30,7 @@ final class TravelThemeBottomSheetViewController: BaseBottomSheetViewController 
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.rowHeight = Constants.TableView.cellHeight
     $0.separatorStyle = .singleLine
+    $0.separatorInset = .zero
     $0.register(
       TravelThemeBottomSheetCell.self,
       forCellReuseIdentifier: TravelThemeBottomSheetCell.id)
