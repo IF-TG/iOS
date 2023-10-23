@@ -110,6 +110,10 @@
 		157ADCB02AD06B5400D37680 /* FavoriteDirectorySettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157ADCAF2AD06B5400D37680 /* FavoriteDirectorySettingView.swift */; };
 		157ADCB42AD07ED600D37680 /* SearchWithCancelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157ADCB32AD07ED600D37680 /* SearchWithCancelView.swift */; };
 		158312E12AB36A9A0087034A /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158312E02AB36A9A0087034A /* UIViewController.swift */; };
+		158695932AE5455B0087CCB3 /* FeedPostViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158695922AE5455B0087CCB3 /* FeedPostViewAdapter.swift */; };
+		158695952AE54D010087CCB3 /* FeedPostViewAdapterDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158695942AE54D010087CCB3 /* FeedPostViewAdapterDataSource.swift */; };
+		158695972AE620610087CCB3 /* FeedPostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158695962AE620610087CCB3 /* FeedPostViewModel.swift */; };
+		158695992AE621010087CCB3 /* FeedPostViewModelable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158695982AE621010087CCB3 /* FeedPostViewModelable.swift */; };
 		1586D3042AB193F7001D4A80 /* Season.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1586D3032AB193F7001D4A80 /* Season.swift */; };
 		15889D4C2AE0375700B1CB31 /* SearchDetailHeaderInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A93EE62ACDE4AB00FC4BBD /* SearchDetailHeaderInfo.swift */; };
 		158BEF772A0E279700C27861 /* PostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158BEF762A0E279700C27861 /* PostCell.swift */; };
@@ -359,6 +363,10 @@
 		157ADCAF2AD06B5400D37680 /* FavoriteDirectorySettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteDirectorySettingView.swift; sourceTree = "<group>"; };
 		157ADCB32AD07ED600D37680 /* SearchWithCancelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchWithCancelView.swift; sourceTree = "<group>"; };
 		158312E02AB36A9A0087034A /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
+		158695922AE5455B0087CCB3 /* FeedPostViewAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedPostViewAdapter.swift; sourceTree = "<group>"; };
+		158695942AE54D010087CCB3 /* FeedPostViewAdapterDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedPostViewAdapterDataSource.swift; sourceTree = "<group>"; };
+		158695962AE620610087CCB3 /* FeedPostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedPostViewModel.swift; sourceTree = "<group>"; };
+		158695982AE621010087CCB3 /* FeedPostViewModelable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedPostViewModelable.swift; sourceTree = "<group>"; };
 		1586D3032AB193F7001D4A80 /* Season.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Season.swift; sourceTree = "<group>"; };
 		158BEF762A0E279700C27861 /* PostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCell.swift; sourceTree = "<group>"; };
 		158BEF782A0E27BD00C27861 /* PostCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCollectionView.swift; sourceTree = "<group>"; };
@@ -983,13 +991,13 @@
 		15BED2FC2A08249300F86321 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				1550D9AE2ACAFAC10046569B /* FeedPostViewController.swift */,
-				15F0D1BD2A52940F00D04773 /* PostViewBottomSheetViewController.swift */,
-				13254FFA2A08AD8700094218 /* PostSearchViewController.swift */,
-				13254FE42A05157900094218 /* FeedViewController.swift */,
-				15DE36B52AB83DD40030CCCC /* TravelThemeBottomSheetViewController.swift */,
-				15B4E5EF2ACA6452001CF071 /* TravelReviewViewController.swift */,
 				1550D9B02ACB1D740046569B /* DevelopmentViewController.swift */,
+				1550D9AE2ACAFAC10046569B /* FeedPostViewController.swift */,
+				13254FE42A05157900094218 /* FeedViewController.swift */,
+				13254FFA2A08AD8700094218 /* PostSearchViewController.swift */,
+				15F0D1BD2A52940F00D04773 /* PostViewBottomSheetViewController.swift */,
+				15B4E5EF2ACA6452001CF071 /* TravelReviewViewController.swift */,
+				15DE36B52AB83DD40030CCCC /* TravelThemeBottomSheetViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -1075,6 +1083,7 @@
 				13813A262AAA496B00AF6AEB /* PostSearch */,
 				15F0D1AE2A51BDE300D04773 /* CategoryPageViewAdapterProtocol */,
 				15D955AC2ADEA525002BF9C3 /* FeedViewModelable.swift */,
+				158695982AE621010087CCB3 /* FeedPostViewModelable.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -1142,6 +1151,7 @@
 			isa = PBXGroup;
 			children = (
 				15EA48C92A539D7B00F4B391 /* MoreMenuViewDelegate.swift */,
+				158695942AE54D010087CCB3 /* FeedPostViewAdapterDataSource.swift */,
 			);
 			path = PostView;
 			sourceTree = "<group>";
@@ -1174,6 +1184,7 @@
 				15EF8C962A0A18960068C744 /* CategoryPageViewModel.swift */,
 				156759B02A0D774500849CE2 /* FeedViewModel.swift */,
 				1325502A2A0ABE5E00094218 /* PostSearchViewModel.swift */,
+				158695962AE620610087CCB3 /* FeedPostViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1202,6 +1213,7 @@
 			children = (
 				15F0D1992A4EF49700D04773 /* CategoryPageViewAdapter.swift */,
 				15DD40442A5B862D002BC5F8 /* PostViewBottomSheetAdapter.swift */,
+				158695922AE5455B0087CCB3 /* FeedPostViewAdapter.swift */,
 			);
 			path = Adapter;
 			sourceTree = "<group>";
@@ -1659,6 +1671,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				158695972AE620610087CCB3 /* FeedPostViewModel.swift in Sources */,
 				15FC90D92ACC56280033A1E5 /* FavoriteTableViewCell.swift in Sources */,
 				15259DEB2ACAA9F600C14F62 /* PostSearchFooterView.swift in Sources */,
 				15FFAC382ADD501B0013DB57 /* PostInfo.swift in Sources */,
@@ -1673,6 +1686,7 @@
 				15FC90D62ACC1BB50033A1E5 /* PrimaryColorToneRoundButton.swift in Sources */,
 				1586D3042AB193F7001D4A80 /* Season.swift in Sources */,
 				15FFAC012AD5D6710013DB57 /* FavoriteDirectorySettingViewDelegate.swift in Sources */,
+				158695932AE5455B0087CCB3 /* FeedPostViewAdapter.swift in Sources */,
 				15CB23612A10B5E3003EAF20 /* DateValidationProtocol.swift in Sources */,
 				15E982C12ACD16A2002B932F /* FavoriteDetailMenuAreaView.swift in Sources */,
 				152AD4F62A18B6C3008A2A11 /* FavoriteHeaderImageViews.swift in Sources */,
@@ -1787,10 +1801,12 @@
 				13254FEB2A0515C700094218 /* FavoriteViewController.swift in Sources */,
 				13A93EFB2AD1EA6B00FC4BBD /* TravelDestinationModel.swift in Sources */,
 				15E982BF2ACC95CC002B932F /* FavoriteDetailViewController.swift in Sources */,
+				158695952AE54D010087CCB3 /* FeedPostViewAdapterDataSource.swift in Sources */,
 				158BEFC92A0F6E8800C27861 /* PostThumbnailType.swift in Sources */,
 				15DA4C7F2ACD78C1003A7900 /* Int+.swift in Sources */,
 				1594F53229FD517E00A58F20 /* AppDelegate.swift in Sources */,
 				158BEFC22A0EB45300C27861 /* UIFont+.swift in Sources */,
+				158695992AE621010087CCB3 /* FeedPostViewModelable.swift in Sources */,
 				15B4E5F12ACAA947001CF071 /* SearchStarButton.swift in Sources */,
 				15D955AD2ADEA525002BF9C3 /* FeedViewModelable.swift in Sources */,
 				15DA4C832ACD821F003A7900 /* EmptyStateView.swift in Sources */,
