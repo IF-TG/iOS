@@ -12,7 +12,7 @@ final class FeedPostViewAdapter: PostViewAdapter {
   private weak var feedDataSource: FeedPostViewAdapterDataSource?
   
   // MARK: - Lifecycle
-  init(dataSource: FeedPostViewAdapterDataSource? = nil, collectionView: PostCollectionView?) {
+  init(dataSource: FeedPostViewAdapterDataSource? = nil, collectionView: UICollectionView?) {
     feedDataSource = dataSource
     super.init(dataSource: dataSource, collectionView: collectionView)
     collectionView?.delegate = self
