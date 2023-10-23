@@ -68,7 +68,7 @@ extension CategoryPageView {
     else { return }
     switch sortingType {
     case .travelOrder:
-      targetViewController.setDefaultTrendUI()
+      targetViewController.setDefaultOrderUI()
     case .travelMainTheme:
       targetViewController.setDefaultThemeUI()
     }

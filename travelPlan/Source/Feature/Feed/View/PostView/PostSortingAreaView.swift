@@ -54,7 +54,7 @@ extension PostSortingAreaView {
     travelThemeChevronView.isSelected = false
   }
   
-  func setDefaultTrendUI() {
+  func setDefaultOrderUI() {
     travelTrendChevronView.isSelected = false
   }
 }

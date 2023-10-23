@@ -83,8 +83,8 @@ extension FeedPostViewController {
     sortingHeader?.setDefaultThemeUI()
   }
   
-  func setDefaultTrendUI() {
-    sortingHeader?.setDefaultTrendUI()
+  func setDefaultOrderUI() {
+    sortingHeader?.setDefaultOrderUI()
   }
 }
 
