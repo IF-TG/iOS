@@ -1,5 +1,5 @@
 //
-//  TravelThemeBottomSheetViewController.swift
+//  PostFilteringBottomSheetViewController.swift
 //  travelPlan
 //
 //  Created by 양승현 on 2023/09/18.
@@ -9,11 +9,11 @@ import UIKit
 
 protocol TravelThemeBottomSheetDelegate: AnyObject {
   func travelThemeBottomSheetViewController(
-    _ viewController: TravelThemeBottomSheetViewController,
+    _ viewController: PostFilteringBottomSheetViewController,
     didSelectTitle title: String?)
 }
 
-final class TravelThemeBottomSheetViewController: BaseBottomSheetViewController {
+final class PostFilteringBottomSheetViewController: BaseBottomSheetViewController {
   enum Constants {
     enum TableView {
       static let cellHeight: CGFloat = 55
@@ -30,6 +30,7 @@ final class TravelThemeBottomSheetViewController: BaseBottomSheetViewController 
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.rowHeight = Constants.TableView.cellHeight
     $0.separatorStyle = .singleLine
+    $0.separatorInset = .zero
     $0.register(
       TravelThemeBottomSheetCell.self,
       forCellReuseIdentifier: TravelThemeBottomSheetCell.id)
@@ -37,7 +38,7 @@ final class TravelThemeBottomSheetViewController: BaseBottomSheetViewController 
     $0.delegate = self
   }
   
-  private(set) var sortingType: TravelCategorySortingType
+  private(set) var sortingType: PostSearchFilterType
   
   private lazy var titles: [String] = sortingType.subCateogryTitles
   
@@ -48,14 +49,14 @@ final class TravelThemeBottomSheetViewController: BaseBottomSheetViewController 
   // MARK: - Lifecycle
   init(
     bottomSheetMode: BaseBottomSheetViewController.ContentMode,
-    sortingType: TravelCategorySortingType
+    sortingType: PostSearchFilterType
   ) {
     self.sortingType = sortingType
     super.init(mode: bottomSheetMode, radius: 8)
   }
   
   required init?(coder: NSCoder) {
-    sortingType = .trend
+    sortingType = .travelOrder
     super.init(coder: coder)
   }
   
@@ -81,7 +82,7 @@ final class TravelThemeBottomSheetViewController: BaseBottomSheetViewController 
 }
 
 // MARK: - Private Helpers
-extension TravelThemeBottomSheetViewController {
+extension PostFilteringBottomSheetViewController {
   private func setTableViewPosition() {
     let maximumHeight: CGFloat = CGFloat(titles.count) * Constants.TableView.cellHeight
     contentView.addSubview(tableView)
@@ -102,7 +103,7 @@ extension TravelThemeBottomSheetViewController {
 }
 
 // MARK: - UITableViewDataSource
-extension TravelThemeBottomSheetViewController: UITableViewDataSource {
+extension PostFilteringBottomSheetViewController: UITableViewDataSource {
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return titles.count
   }
@@ -119,7 +120,7 @@ extension TravelThemeBottomSheetViewController: UITableViewDataSource {
 }
 
 // MARK: - UITableViewDelegate
-extension TravelThemeBottomSheetViewController: UITableViewDelegate {
+extension PostFilteringBottomSheetViewController: UITableViewDelegate {
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     // TODO: - 서버랑 정해야함. 어떻게 서버에 요청해야할 것인지? ex) "https://...지역/세종" 이런느낌으로 보낼건지 param 정해야함.
     selectedTitle = titles[indexPath.row]

@@ -7,6 +7,6 @@
 
 protocol MoreMenuViewDelegate: AnyObject {
   func moreMenuView(
-    _ moreMenuView: MoreMenuView,
-    didSelectedType type: TravelCategorySortingType)
+    _ postChevronLabel: PostChevronLabel,
+    didSelectedType type: PostSearchFilterType)
 }

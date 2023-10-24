@@ -7,6 +7,11 @@
 
 import UIKit
 
+struct TravelMainCategoryViewCellInfo {
+  let cagtegoryTitle: String
+  let imagePath: String
+}
+
 final class TravelMainCategoryViewCell: UICollectionViewCell {
   enum Constant {
     enum ImageView {
@@ -25,11 +30,6 @@ final class TravelMainCategoryViewCell: UICollectionViewCell {
       static let textColor = UIColor.yg.gray3
     }
     static let size: CGSize = .init(width: 74, height: 72)
-  }
-
-  struct Model {
-    let cagtegoryTitle: String
-    let imagePath: String
   }
   
   static var id: String {
@@ -88,9 +88,7 @@ final class TravelMainCategoryViewCell: UICollectionViewCell {
 
 // MARK: - Helpers
 extension TravelMainCategoryViewCell {
-  func configure(
-    with data: Model?
-  ) {
+  func configure(with data: TravelMainCategoryViewCellInfo?) {
     categoryTitle.text = data?.cagtegoryTitle
     guard let imagePath = data?.imagePath else {
       categoryImageView.image = UIImage()

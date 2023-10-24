@@ -19,9 +19,6 @@ class PostCollectionView: UICollectionView {
     static let backgroundColor: UIColor = .yg.gray00Background
   }
   
-  // MARK: - Properties
-  private(set) var sectionIndex = 0
-  
   // MARK: - Lifecycle
   init(frame: CGRect, layout: UICollectionViewLayout) {
     super.init(frame: frame, collectionViewLayout: layout)
@@ -30,7 +27,7 @@ class PostCollectionView: UICollectionView {
   
   init(frame: CGRect) {
     super.init(frame: frame, collectionViewLayout: .init())
-    collectionViewLayout = makePostLayout()
+    collectionViewLayout = makeLayout()
     configureUI()
   }
   
@@ -46,25 +43,22 @@ class PostCollectionView: UICollectionView {
   required init?(coder: NSCoder) {
     super.init(coder: coder)
     configureUI()
-    collectionViewLayout = makePostLayout()
+    collectionViewLayout = makeLayout()
   }
 }
 
-// MARK: - Private helpers
+// MARK: - Public Helpers
 extension PostCollectionView {
-  private func configureUI() {
-    translatesAutoresizingMaskIntoConstraints = false
-    showsHorizontalScrollIndicator = false
-    backgroundColor = Constant.backgroundColor
-    register(
-      PostCell.self,
-      forCellWithReuseIdentifier: PostCell.id)
-  }
-  
-  private func makePostLayout() -> UICollectionViewLayout {
+  func makeLayout(withCustomSection customSection: NSCollectionLayoutSection? = nil) -> UICollectionViewLayout {
     return UICollectionViewCompositionalLayout { [weak self] (sectionIndex, _) -> NSCollectionLayoutSection? in
-      guard sectionIndex == (self?.sectionIndex ?? 0) else { return nil }
-      return self?.postSection
+      switch sectionIndex {
+      case 0:
+        return customSection ?? self?.tempSection
+      case 1:
+        return self?.postSection
+      default:
+        return nil
+      }
     }.set {
       $0.register(
         InnerRoundRectReusableView.self,
@@ -72,7 +66,15 @@ extension PostCollectionView {
     }
   }
   
-  private var postSection: NSCollectionLayoutSection {
+  var tempSection: NSCollectionLayoutSection {
+    let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .absolute(1), heightDimension: .absolute(0.1)))
+    let group = NSCollectionLayoutGroup.vertical(
+      layoutSize: .init(widthDimension: .absolute(1), heightDimension: .absolute(0.1)),
+      subitems: [item])
+    return NSCollectionLayoutSection(group: group)
+  }
+  
+  var postSection: NSCollectionLayoutSection {
     typealias LayoutSize = NSCollectionLayoutSize
     typealias Const = Constant.Layout
     let groupHeight = Const.estimatedCellHeight
@@ -86,5 +88,17 @@ extension PostCollectionView {
       whiteRoundView.contentInsets = Const.groupInset
       $0.decorationItems = [whiteRoundView]
     }
+  }
+}
+
+// MARK: - Private helpers
+extension PostCollectionView {
+  private func configureUI() {
+    translatesAutoresizingMaskIntoConstraints = false
+    showsHorizontalScrollIndicator = false
+    backgroundColor = Constant.backgroundColor
+    register(
+      PostCell.self,
+      forCellWithReuseIdentifier: PostCell.id)
   }
 }

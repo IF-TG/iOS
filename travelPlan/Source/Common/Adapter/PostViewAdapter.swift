@@ -11,7 +11,7 @@ class PostViewAdapter: NSObject {
   weak var dataSource: PostViewAdapterDataSource?
   init(
     dataSource: PostViewAdapterDataSource? = nil,
-    collectionView: PostCollectionView?
+    collectionView: UICollectionView?
   ) {
     super.init()
     self.dataSource = dataSource
@@ -21,12 +21,16 @@ class PostViewAdapter: NSObject {
 
 // MARK: - UICollectionViewDataSource
 extension PostViewAdapter: UICollectionViewDataSource {
+  func numberOfSections(in collectionView: UICollectionView) -> Int {
+    return 2
+  }
+  
   func collectionView(
     _ collectionView: UICollectionView, 
     numberOfItemsInSection section: Int
   ) -> Int {
-    if section == 0 {
-      return dataSource?.numberOfItems ?? 0
+    if section == 1, let numberOfItems = dataSource?.numberOfItems {
+      return numberOfItems
     }
     return 0
   }
@@ -35,7 +39,7 @@ extension PostViewAdapter: UICollectionViewDataSource {
     _ collectionView: UICollectionView,
     cellForItemAt indexPath: IndexPath
   ) -> UICollectionViewCell {
-    if indexPath.section == 0 {
+    if indexPath.section == 1 {
       guard
         let cell = collectionView.dequeueReusableCell(
           withReuseIdentifier: PostCell.id,

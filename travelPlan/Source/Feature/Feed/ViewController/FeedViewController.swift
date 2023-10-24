@@ -24,7 +24,7 @@ final class FeedViewController: UIViewController {
   // MARK: - Properties
   weak var coordinator: FeedCoordinatorDelegate?
   
-  private let categoryPageView = CategoryPageView()
+  private let categoryPageView: CategoryPageView
   
   lazy var input = Input(
     didTapPostSearch: searchBarItem.tap,
@@ -71,6 +71,7 @@ final class FeedViewController: UIViewController {
   
   init(viewModel: any FeedViewModelable) {
     self.viewModel = viewModel
+    self.categoryPageView = CategoryPageView(frame: .zero, viewModel: CategoryPageViewModel())
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -138,18 +139,18 @@ extension FeedViewController {
   @objc func handleNotificaiton(_ noti: Notification) {
     let notiKey = Notification.Name.TravelCategoryDetailSelected
     guard
-      let type = noti.userInfo?[notiKey] as? TravelCategorySortingType
+      let type = noti.userInfo?[notiKey] as? PostSearchFilterType
     else {
       NSLog("DEBUG: 데이터 못받았어... feedVC에서 from MoreCategoryView..")
       return
     }
     switch type {
-    case .trend:
+    case .travelOrder:
       // 1. 지금은 일차적으로 모든 경우에 대해서 토탈, 소팅으로만 했는데 이제 cell별로 분류해서 카테고리가 계절인지, 지역탐방인지 등등 파악해야해서
       // 2. postview의 footer에서 라인 과 간격을 10으로 수정했다는데 ,,, 뭔지모르겠어서 다시 확인해봐야해
-      coordinator?.showTravelTrendBottomSheet()
-    case .detailCategory(let themeType):
-      coordinator?.showTravelThemeBottomSheet(sortingType: themeType)
+      coordinator?.showPostOrderFilteringBottomSheet()
+    case .travelMainTheme(let themeType):
+      coordinator?.showPostMainThemeFilteringBottomSheet(sortingType: themeType)
     }
   }
 }
@@ -213,14 +214,12 @@ extension FeedViewController: ViewBindCase {
 
 extension FeedViewController: TravelThemeBottomSheetDelegate {
   func travelThemeBottomSheetViewController(
-    _ viewController: TravelThemeBottomSheetViewController,
+    _ viewController: PostFilteringBottomSheetViewController,
     didSelectTitle title: String?
   ) {
-    guard title != nil else {
-      // 그냥 꺽쇠만 원래대로
-      return
-    }
-    // TODO: - 서버에서 데이터 받은 후 특정 cell reload
+    categoryPageView.setDefaultSortingHeaderUI(from: viewController.sortingType)
+    guard title != nil else { return }
+    // TODO: - 서버에서 데이터 요청 후 특정 정렬된 posts로 리로드.
     // 소분류 let type = viewController.travelThemeType.rawValue
     // 특정 상세 카테고리 title
   }

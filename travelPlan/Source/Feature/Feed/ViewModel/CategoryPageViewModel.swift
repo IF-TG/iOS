@@ -17,12 +17,13 @@ final class CategoryPageViewModel {
     travelMainCategory.map { $0.rawValue }
   }()
   
-  private lazy var travelCategoryItems: [TravelMainCategoryViewCell.Model] = travelMainCategory.map {
-    .init(cagtegoryTitle: $0.rawValue, imagePath: $0.imagePath)
-  }
+  private lazy var travelCategoryItems: [TravelMainCategoryViewCellInfo] = travelMainCategory
+    .map {
+      .init(cagtegoryTitle: $0.rawValue, imagePath: $0.imagePath)
+    }
   
   private lazy var postSearchFilterInfoList: [FeedPostSearchFilterInfo] = travelMainCategory.map {
-    .init(travelTheme: $0, travelTrend: .newest)
+    .init(travelTheme: $0, travelOrder: .newest)
   }
 }
 
@@ -32,7 +33,7 @@ extension CategoryPageViewModel: CategoryPageViewDataSource {
     return travelMainCategoryTitles[index]
   }
   
-  func cellItem(at index: Int) -> TravelMainCategoryViewCell.Model {
+  func cellItem(at index: Int) -> TravelMainCategoryViewCellInfo {
     return travelCategoryItems[index]
   }
   
