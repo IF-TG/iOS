@@ -49,7 +49,7 @@ class PostCollectionView: UICollectionView {
 
 // MARK: - Public Helpers
 extension PostCollectionView {
-  func makeLayout(withCustomSection customSection : NSCollectionLayoutSection? = nil) -> UICollectionViewLayout {
+  func makeLayout(withCustomSection customSection: NSCollectionLayoutSection? = nil) -> UICollectionViewLayout {
     return UICollectionViewCompositionalLayout { [weak self] (sectionIndex, _) -> NSCollectionLayoutSection? in
       switch sectionIndex {
       case 0:
