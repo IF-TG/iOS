@@ -22,14 +22,30 @@ class LoginViewController: UIViewController {
   
   private let loginStartView = LoginStartView()
   
+  private let yeogaLogo: UIImageView = .init().set {
+    $0.image = UIImage(named: "yeoga-logo")?.withRenderingMode(.alwaysTemplate)
+    $0.tintColor = .yg.littleWhite
+  }
+  private let airplaneLogo: UIImageView = .init().set {
+    $0.image = UIImage(named: "airplane-logo")?.withRenderingMode(.alwaysTemplate)
+    $0.contentMode = .scaleToFill
+    $0.tintColor = .yg.primary
+  }
+  
+  private let firstDescriptionLabel = UILabel().set {
+    $0.font = .init(pretendard: .medium, size: 16)
+    $0.textColor = .yg.littleWhite
+    $0.text = "설레는 여행의 내딛음"
+  }
+  
   // MARK: - Lifecycle
   override func viewDidLoad() {
     super.viewDidLoad()
     setupPlayer()
     setupUI()
-    bind()
     setupStyles()
-    
+    defineCircleViewCompletionHandler()
+    bind()
     viewLoad.send()
   }
   
@@ -49,6 +65,11 @@ class LoginViewController: UIViewController {
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     appear.send()
+  }
+  
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    navigationController?.navigationBar.isHidden = false
   }
   
   deinit {
@@ -102,7 +123,12 @@ extension LoginViewController: ViewBindCase {
 
 // MARK: - Private Helpers
 extension LoginViewController {
+  private func defineCircleViewCompletionHandler() {
+    
+  }
+  
   private func setupStyles() {
+    navigationController?.navigationBar.isHidden = true
     view.backgroundColor = .white
   }
   
@@ -137,6 +163,9 @@ extension LoginViewController {
 extension LoginViewController: LayoutSupport {
   func addSubviews() {
     view.addSubview(loginStartView)
+    view.addSubview(airplaneLogo)
+    view.addSubview(yeogaLogo)
+    view.addSubview(firstDescriptionLabel)
   }
   
   func setConstraints() {
@@ -144,7 +173,27 @@ extension LoginViewController: LayoutSupport {
       $0.centerX.equalToSuperview()
       $0.bottom.equalToSuperview().inset(60)
       $0.width.equalTo(70)
-      $0.height.equalTo(125)
+      $0.height.equalTo(LoginStartView.Constant.CircleView.size * 2.5 +
+                        LoginStartView.Constant.CircleView.Spacing.leadingTrailingBottom)
+    }
+    
+    airplaneLogo.snp.makeConstraints {
+      $0.top.equalTo(view.safeAreaLayoutGuide).offset(50)
+      $0.width.equalTo(48)
+      $0.height.equalTo(30)
+      $0.trailing.equalTo(yeogaLogo).offset(8)
+    }
+    
+    yeogaLogo.snp.makeConstraints {
+      $0.centerX.equalToSuperview()
+      $0.top.equalTo(airplaneLogo.snp.bottom).offset(10)
+      $0.width.equalTo(125)
+      $0.height.equalTo(47.5)
+    }
+    
+    firstDescriptionLabel.snp.makeConstraints {
+      $0.centerX.equalToSuperview()
+      $0.top.equalTo(yeogaLogo.snp.bottom).offset(15)
     }
   }
 }
