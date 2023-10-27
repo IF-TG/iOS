@@ -1,5 +1,5 @@
 //
-//  PostSearchCollectionViewManager.swift
+//  PostSearchCollectionViewAdapter.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 2023/09/07.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class PostSearchCollectionViewManager: NSObject {
+final class PostSearchCollectionViewAdapter: NSObject {
   // MARK: - Properties
   weak var dataSource: PostSearchCollectionViewDataSource?
   weak var delegate: (PostSearchCollectionViewDelegate &
@@ -24,12 +24,12 @@ final class PostSearchCollectionViewManager: NSObject {
   }
   
   deinit {
-    print("deinit: \(Self.self)")
+    print("deinit: \(PostSearchCollectionViewAdapter.self)")
   }
 }
 
 // MARK: - Helpers
-extension PostSearchCollectionViewManager {
+extension PostSearchCollectionViewAdapter {
   private func headerView(
     at indexPath: IndexPath,
     in collectionView: UICollectionView
@@ -122,7 +122,7 @@ extension PostSearchCollectionViewManager {
 }
 
 // MARK: - UICollectionViewDataSource
-extension PostSearchCollectionViewManager: UICollectionViewDataSource {
+extension PostSearchCollectionViewAdapter: UICollectionViewDataSource {
   func numberOfSections(in collectionView: UICollectionView) -> Int {
     return dataSource?.numberOfSections() ?? .zero
   }
@@ -165,7 +165,7 @@ extension PostSearchCollectionViewManager: UICollectionViewDataSource {
 }
 
 // MARK: - UICollectionViewDelegate
-extension PostSearchCollectionViewManager: UICollectionViewDelegate {
+extension PostSearchCollectionViewAdapter: UICollectionViewDelegate {
   func collectionView(
     _ collectionView: UICollectionView,
     didSelectItemAt indexPath: IndexPath
