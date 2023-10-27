@@ -38,6 +38,43 @@ class LoginViewController: UIViewController {
     $0.text = "설레는 여행의 내딛음"
   }
   
+  private let loginDescriptionLabel = UILabel().set {
+    $0.text = "설레는 여행의 내딛음,\n여행을 가다"
+    $0.font = .init(pretendard: .medium, size: 20)
+    $0.textColor = .yg.littleWhite
+    $0.numberOfLines = 0
+    
+    var paragraphStyle = NSMutableParagraphStyle()
+    paragraphStyle.lineHeightMultiple = 1
+    
+    let attributedString = NSMutableAttributedString(
+      string: $0.text!,
+      attributes: [.paragraphStyle: paragraphStyle]
+    )
+    
+    let firstRange = ($0.text! as NSString).range(of: "설레는 여행")
+    let firstAttrs: [NSAttributedString.Key: Any] = [
+      .font: UIFont(pretendard: .bold, size: 24) ?? .systemFont(ofSize: 24),
+      .foregroundColor: UIColor.yg.littleWhite
+    ]
+    attributedString.addAttributes(firstAttrs, range: firstRange)
+    
+    let primaryAttrs: [NSAttributedString.Key: Any] = [
+      .font: UIFont(pretendard: .bold, size: 24) ?? .systemFont(ofSize: 24),
+      .foregroundColor: UIColor.yg.primary
+    ]
+    
+    if let secondRange = ($0.text! as NSString).range(of: "여행을").validation {
+      let newRange = NSRange(location: secondRange.location, length: 2)
+      attributedString.addAttributes(primaryAttrs, range: newRange)
+    }
+    
+    let thirdRange = ($0.text! as NSString).range(of: "가다")
+    attributedString.addAttributes(primaryAttrs, range: thirdRange)
+    
+    $0.attributedText = attributedString
+  }
+  
   private let loginView = UIView().set {
     $0.backgroundColor = .clear
   }
