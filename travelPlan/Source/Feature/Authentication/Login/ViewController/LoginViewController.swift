@@ -38,13 +38,17 @@ class LoginViewController: UIViewController {
     $0.text = "설레는 여행의 내딛음"
   }
   
+  private let loginView = UIView().set {
+    $0.backgroundColor = .clear
+  }
+  
   // MARK: - Lifecycle
   override func viewDidLoad() {
     super.viewDidLoad()
     setupPlayer()
     setupUI()
+    setupLoginUI()
     setupStyles()
-    defineCircleViewCompletionHandler()
     bind()
     viewLoad.send()
   }
@@ -123,8 +127,16 @@ extension LoginViewController: ViewBindCase {
 
 // MARK: - Private Helpers
 extension LoginViewController {
-  private func defineCircleViewCompletionHandler() {
-    
+  private func setupLoginUI() {
+    loginStartView.completionHandler = { [weak self] in
+      UIView.animate(withDuration: 1, animations: {
+        self?.loginView.backgroundColor = .black.withAlphaComponent(0.24)
+        self?.loginStartView.alpha = 0
+      }) { _ in
+        self?.loginStartView.snp.removeConstraints()
+        self?.loginStartView.removeFromSuperview()
+      }
+    }
   }
   
   private func setupStyles() {
@@ -162,13 +174,18 @@ extension LoginViewController {
 // MARK: - LayoutSupport
 extension LoginViewController: LayoutSupport {
   func addSubviews() {
-    view.addSubview(loginStartView)
-    view.addSubview(airplaneLogo)
-    view.addSubview(yeogaLogo)
-    view.addSubview(firstDescriptionLabel)
+    view.addSubview(loginView)
+    loginView.addSubview(loginStartView)
+    loginView.addSubview(airplaneLogo)
+    loginView.addSubview(yeogaLogo)
+    loginView.addSubview(firstDescriptionLabel)
   }
   
   func setConstraints() {
+    loginView.snp.makeConstraints {
+      $0.edges.equalToSuperview()
+    }
+    
     loginStartView.snp.makeConstraints {
       $0.centerX.equalToSuperview()
       $0.bottom.equalToSuperview().inset(60)
