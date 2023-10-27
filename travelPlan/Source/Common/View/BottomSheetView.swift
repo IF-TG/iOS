@@ -37,6 +37,7 @@ class BottomSheetView: UIView {
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.backgroundColor = .YG.gray1
     $0.layer.cornerRadius = Constants.TopIndicatorView.height/2
+    $0.isUserInteractionEnabled = false
   }
   
   private var contentView = UIView(frame: .zero).set {
@@ -98,6 +99,8 @@ class BottomSheetView: UIView {
     panGesture.delaysTouchesBegan = false
     panGesture.delaysTouchesEnded = false
     topView.addGestureRecognizer(panGesture)
+
+    
   }
 
   // MARK: - Action

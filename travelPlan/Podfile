@@ -9,6 +9,10 @@ target 'travelPlan' do
   pod 'SnapKit', '~> 5.6.0'
   pod 'SwiftLint'
   pod 'Alamofire' 
-  pod 'Swinject'
 
 end
+
+target 'travelPlanTests' do
+  inherit! :search_paths
+end
+

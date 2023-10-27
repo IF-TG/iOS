@@ -182,7 +182,7 @@ extension EmptyStateView {
     UIView.transition(
       with: icon,
       duration: 1.1,
-      options: [.curveEaseOut, .transitionCurlDown, .curveEaseIn],
+      options: [.curveEaseOut, .transitionCrossDissolve, .curveEaseIn],
       animations: {
         self.icon.alpha = 1
       })
