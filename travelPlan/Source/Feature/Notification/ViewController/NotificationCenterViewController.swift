@@ -34,8 +34,6 @@ final class NotificationCenterViewController: UIViewController {
   }
 }
 
-// MARK: - Helpers
-
 // MARK: - Private Helpers
 private extension NotificationCenterViewController {
   func configureUI() {
