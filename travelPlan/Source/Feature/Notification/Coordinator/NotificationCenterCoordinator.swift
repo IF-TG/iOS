@@ -24,7 +24,12 @@ final class NotificationCenterCoordinator: FlowCoordinator {
   
   func start() {
     let vc = NotificationCenterViewController()
+    vc.coordinator = self
     presenter.pushViewController(vc, animated: true)
+  }
+  
+  deinit {
+    print("\(Self.self) deinit" )
   }
 }
 
