@@ -45,7 +45,9 @@ class RedAlarmBasedUnderbarSegmentedControl: UISegmentedControl {
     super.layoutSubviews()
     if !isFirstSettingDone {
       isFirstSettingDone.toggle()
-      setOnceFirstSetting()
+      setUnderbarMovableBackgroundLayer()
+      layer.cornerRadius = 0
+      layer.masksToBounds = false
     }
     let underBarLeadingSpacing = CGFloat(selectedSegmentIndex) * (underbarWidth ?? 50)
     UIView.animate(withDuration: 0.27, delay: 0, options: .curveEaseOut, animations: {
@@ -71,7 +73,7 @@ private extension RedAlarmBasedUnderbarSegmentedControl {
     }
   }
   
-  func setOnceFirstSetting() {
+  func setUnderbarMovableBackgroundLayer() {
     let backgroundLayer = CALayer()
     backgroundLayer.frame = .init(
       x: 0,
@@ -80,8 +82,6 @@ private extension RedAlarmBasedUnderbarSegmentedControl {
       height: underbarInfo.height)
     backgroundLayer.backgroundColor = underbarInfo.backgroundColor.cgColor
     layer.addSublayer(backgroundLayer)
-    layer.cornerRadius = 0
-    layer.masksToBounds = false
   }
   
   func makeUnderbar() -> UIView {
