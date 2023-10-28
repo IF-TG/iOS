@@ -14,16 +14,7 @@ struct UnderbarInfo {
 
 class RedAlarmBasedUnderbarSegmentedControl: UISegmentedControl {
   // MARK: - Properties
-  private lazy var underbar = UIView(frame: .zero).set {
-    $0.translatesAutoresizingMaskIntoConstraints = false
-    $0.backgroundColor = underbarInfo.backgroundColor
-    addSubview($0)
-    NSLayoutConstraint.activate([
-      $0.leadingAnchor.constraint(equalTo: leadingAnchor),
-      $0.bottomAnchor.constraint(equalTo: bottomAnchor),
-      $0.widthAnchor.constraint(equalToConstant: underbarWidth ?? 50),
-      $0.heightAnchor.constraint(equalToConstant: underbarInfo.height)])
-  }
+  private lazy var underbar = makeUnderbar()
   
   private lazy var underbarWidth: CGFloat? = bounds.size.width / CGFloat(numberOfSegments)
   
@@ -51,15 +42,20 @@ class RedAlarmBasedUnderbarSegmentedControl: UISegmentedControl {
   
   override func layoutSubviews() {
     super.layoutSubviews()
-    if isFirstSettingDone {
+    if !isFirstSettingDone {
       isFirstSettingDone.toggle()
-      layer.cornerRadius = 0
+      setOnceFirstSetting()
     }
     let underBarLeadingSpacing = CGFloat(selectedSegmentIndex) * (underbarWidth ?? 50)
     UIView.animate(withDuration: 0.27, delay: 0, options: .curveEaseOut, animations: {
       self.underbar.transform = .init(translationX: underBarLeadingSpacing, y: 0)
     })
   }
+}
+
+// MARK: - Helpers
+extension RedAlarmBasedUnderbarSegmentedControl {
+  
 }
 
 // MARK: - Private Helpers
@@ -74,9 +70,29 @@ private extension RedAlarmBasedUnderbarSegmentedControl {
     }
   }
   
-  func makeUnderbar(height: CGFloat) -> UIView {
+  func setOnceFirstSetting() {
+    let backgroundLayer = CALayer()
+    backgroundLayer.frame = .init(
+      x: 0,
+      y: bounds.height - underbarInfo.height,
+      width: bounds.width,
+      height: underbarInfo.height)
+    backgroundLayer.backgroundColor = UIColor.yg.gray0.cgColor
+    layer.addSublayer(backgroundLayer)
+    layer.cornerRadius = 0
+    layer.masksToBounds = false
+  }
+  
+  func makeUnderbar() -> UIView {
     return .init(frame: .zero).set {
       $0.translatesAutoresizingMaskIntoConstraints = false
+      $0.backgroundColor = underbarInfo.backgroundColor
+      addSubview($0)
+      NSLayoutConstraint.activate([
+        $0.leadingAnchor.constraint(equalTo: leadingAnchor),
+        $0.bottomAnchor.constraint(equalTo: bottomAnchor),
+        $0.widthAnchor.constraint(equalToConstant: underbarWidth ?? 50),
+        $0.heightAnchor.constraint(equalToConstant: underbarInfo.height)])
     }
   }
   
