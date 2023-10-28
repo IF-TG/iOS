@@ -45,7 +45,7 @@ class LoginViewController: UIViewController {
     $0.numberOfLines = 0
     
     var paragraphStyle = NSMutableParagraphStyle()
-    paragraphStyle.lineHeightMultiple = 1
+    paragraphStyle.lineHeightMultiple = 1.2
     
     let attributedString = NSMutableAttributedString(
       string: $0.text!,
@@ -172,6 +172,39 @@ extension LoginViewController {
       }) { _ in
         self?.loginStartView.snp.removeConstraints()
         self?.loginStartView.removeFromSuperview()
+        
+        guard let self else { return }
+        
+        self.loginView.addSubview(self.loginDescriptionLabel)
+        
+        self.airplaneLogo.snp.remakeConstraints {
+          $0.top.equalTo(self.view.safeAreaLayoutGuide).inset(20)
+          $0.leading.equalTo(self.loginDescriptionLabel.snp.trailing).offset(-20)
+          $0.width.equalTo(48)
+          $0.height.equalTo(30)
+        }
+        
+        self.loginDescriptionLabel.snp.makeConstraints {
+          $0.leading.equalToSuperview().inset(25)
+          $0.top.equalTo(self.airplaneLogo.snp.bottom).offset(8)
+        }
+        
+        self.yeogaLogo.snp.remakeConstraints {
+          $0.leading.equalToSuperview().inset(25)
+          $0.top.equalTo(self.loginDescriptionLabel.snp.bottom).offset(20)
+          $0.width.equalTo(125)
+          $0.height.equalTo(47.5)
+        }
+        UIView.animate(withDuration: 0.5, animations: {
+          self.firstDescriptionLabel.alpha = 0
+        }) { _ in
+          self.firstDescriptionLabel.snp.removeConstraints()
+          self.firstDescriptionLabel.removeFromSuperview()
+        }
+        
+        UIView.animate(withDuration: 1) {
+          self.loginView.layoutIfNeeded()
+        }
       }
     }
   }
