@@ -28,10 +28,17 @@ final class NotificationCenterViewController: UIViewController {
     items: ["알림", "공지사항"],
     underbarInfo: Constant.SegmentedControl.underbarInfo)
   
+  weak var coordinator: NotificationCenterCoordinatorDelegate?
+  
   // MARK: - Lifecycle
   override func viewDidLoad() {
     super.viewDidLoad()
     configureUI()
+  }
+  
+  deinit {
+    coordinator?.finish()
+    print("\(Self.self) deinit")
   }
 }
 
@@ -76,7 +83,7 @@ private extension NotificationCenterViewController {
 extension NotificationCenterViewController {
   @objc func didTapSegmentedControl(_ sender: UISegmentedControl) {
     segmentedControl.selectedSegmentIndex = sender.selectedSegmentIndex
-    // TODO: - 페이지 이동
+    // TODO: - 페이지 뷰 써서 페이지 전환
   }
 }
 
