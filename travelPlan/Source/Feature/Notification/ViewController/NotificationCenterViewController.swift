@@ -15,6 +15,11 @@ final class NotificationCenterViewController: UIViewController {
       static let fontColor: UIColor = .yg.gray1
       static let height: CGFloat = 47
     }
+    
+    enum NavigationBar {
+      static let titleFont: UIFont = .init(pretendard: .semiBold, size: 18)!
+      static let titleColor: UIColor = .yg.gray7
+    }
   }
   
   // MARK: - Properties
@@ -39,7 +44,9 @@ private extension NotificationCenterViewController {
   func configureUI() {
     setupUI()
     setSegmentedControl()
+    setNavigationBar()
     view.backgroundColor = .white
+    
   }
   
   func setSegmentedControl() {
@@ -48,6 +55,15 @@ private extension NotificationCenterViewController {
       .foregroundColor: Const.fontColor,
         .font: UIFont(pretendard: .medium, size: Const.fontSize)!]
     segmentedControl.setTitleTextAttributes(attributes, for: .normal)
+  }
+  
+  func setNavigationBar() {
+    typealias Const = Constant.NavigationBar
+    setupDefaultBackBarButtonItem()
+    navigationController?.navigationBar.titleTextAttributes = [
+      .foregroundColor: Const.titleColor,
+      .font: Const.titleFont]
+    navigationController?.navigationBar.topItem?.title = "알림센터"
   }
 }
 
