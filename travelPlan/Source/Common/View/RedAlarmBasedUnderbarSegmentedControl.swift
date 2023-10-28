@@ -9,6 +9,7 @@ import UIKit
 
 struct UnderbarInfo {
   var height: CGFloat
+  var barColor: UIColor
   var backgroundColor: UIColor
 }
 
@@ -62,7 +63,7 @@ extension RedAlarmBasedUnderbarSegmentedControl {
 private extension RedAlarmBasedUnderbarSegmentedControl {
   func configureUI() {
     removeBorders()
-    setTitleTextAttributes([.foregroundColor: underbarInfo.backgroundColor], for: .selected)
+    setTitleTextAttributes([.foregroundColor: underbarInfo.barColor], for: .selected)
     if #available(iOS 13.0, *) {
       selectedSegmentTintColor = .clear
     } else {
@@ -77,7 +78,7 @@ private extension RedAlarmBasedUnderbarSegmentedControl {
       y: bounds.height - underbarInfo.height,
       width: bounds.width,
       height: underbarInfo.height)
-    backgroundLayer.backgroundColor = UIColor.yg.gray0.cgColor
+    backgroundLayer.backgroundColor = underbarInfo.backgroundColor.cgColor
     layer.addSublayer(backgroundLayer)
     layer.cornerRadius = 0
     layer.masksToBounds = false
@@ -86,7 +87,7 @@ private extension RedAlarmBasedUnderbarSegmentedControl {
   func makeUnderbar() -> UIView {
     return .init(frame: .zero).set {
       $0.translatesAutoresizingMaskIntoConstraints = false
-      $0.backgroundColor = underbarInfo.backgroundColor
+      $0.backgroundColor = underbarInfo.barColor
       addSubview($0)
       NSLayoutConstraint.activate([
         $0.leadingAnchor.constraint(equalTo: leadingAnchor),
