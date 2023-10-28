@@ -99,7 +99,12 @@ extension RedAlarmBasedUnderbarSegmentedControl {
 private extension RedAlarmBasedUnderbarSegmentedControl {
   func configureUI() {
     removeBorders()
-    setTitleTextAttributes([.foregroundColor: underbarInfo.barColor], for: .selected)
+    setTitleTextAttributes([
+      .foregroundColor: UIColor.black,
+      .font: UIFont(pretendard: .medium, size: 16)!], for: .normal)
+    setTitleTextAttributes([
+      .foregroundColor: underbarInfo.barColor,
+      .font: UIFont(pretendard: .medium, size: 16)!], for: .selected)
     if #available(iOS 13.0, *) {
       selectedSegmentTintColor = .clear
     } else {
