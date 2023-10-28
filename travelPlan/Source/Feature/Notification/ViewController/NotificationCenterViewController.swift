@@ -19,6 +19,7 @@ final class NotificationCenterViewController: UIViewController {
     enum NavigationBar {
       static let titleFont: UIFont = .init(pretendard: .semiBold, size: 18)!
       static let titleColor: UIColor = .yg.gray7
+      static let dividerHeight: CGFloat = 1
     }
   }
   
@@ -61,6 +62,13 @@ private extension NotificationCenterViewController {
       .foregroundColor: Const.titleColor,
       .font: Const.titleFont]
     navigationController?.navigationBar.topItem?.title = "알림센터"
+    let naviBarDivider = OneUnitHeightLine(color: .yg.gray0)
+    view.addSubview(naviBarDivider)
+    NSLayoutConstraint.activate([
+      naviBarDivider.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+      naviBarDivider.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+      naviBarDivider.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: -Const.dividerHeight),
+      naviBarDivider.heightAnchor.constraint(equalToConstant: Const.dividerHeight)])
   }
 }
 
