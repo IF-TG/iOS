@@ -25,10 +25,7 @@ final class NotificationCenterViewController: UIViewController {
   // MARK: - Properties
   private let segmentedControl = RedAlarmBasedUnderbarSegmentedControl(
     items: ["알림", "공지사항"],
-    underbarInfo: Constant.SegmentedControl.underbarInfo
-  ).set {
-    $0.translatesAutoresizingMaskIntoConstraints = false
-  }
+    underbarInfo: Constant.SegmentedControl.underbarInfo)
   
   // MARK: - Lifecycle
   override func viewDidLoad() {
@@ -55,6 +52,8 @@ private extension NotificationCenterViewController {
       .foregroundColor: Const.fontColor,
         .font: UIFont(pretendard: .medium, size: Const.fontSize)!]
     segmentedControl.setTitleTextAttributes(attributes, for: .normal)
+    segmentedControl.translatesAutoresizingMaskIntoConstraints = false
+    segmentedControl.addTarget(self, action: #selector(didTapSegmentedControl), for: .valueChanged)
   }
   
   func setNavigationBar() {
@@ -64,6 +63,14 @@ private extension NotificationCenterViewController {
       .foregroundColor: Const.titleColor,
       .font: Const.titleFont]
     navigationController?.navigationBar.topItem?.title = "알림센터"
+  }
+}
+
+// MARK: - Actions
+extension NotificationCenterViewController {
+  @objc func didTapSegmentedControl(_ sender: UISegmentedControl) {
+    segmentedControl.selectedSegmentIndex = sender.selectedSegmentIndex
+    // TODO: - 페이지 이동
   }
 }
 
