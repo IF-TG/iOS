@@ -35,7 +35,6 @@ class RedAlarmBasedUnderbarSegmentedControl: UISegmentedControl {
   
   override var selectedSegmentIndex: Int {
     didSet {
-      print(selectedSegmentIndex)
       hideSpecificRedIcon(with: selectedSegmentIndex)
       // TODO: - selectedSegmentedIndex를 변경하는 뷰컨트롤러측에서
       //          사용자가 특정 segmented view를 확인했음을 뷰모델이나 저장소 등에 갱신해야합니다.
