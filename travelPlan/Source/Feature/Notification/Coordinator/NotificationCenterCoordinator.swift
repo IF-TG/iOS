@@ -18,6 +18,7 @@ final class NotificationCenterCoordinator: FlowCoordinator {
   var child: [FlowCoordinator] = []
   var presenter: UINavigationController!
   
+  // MARK: - Lifecycle
   init(presenter: UINavigationController?) {
     self.presenter = presenter
   }
@@ -33,4 +34,5 @@ final class NotificationCenterCoordinator: FlowCoordinator {
   }
 }
 
+// MARK: - NotificationCenterCoordinatorDelegate
 extension NotificationCenterCoordinator: NotificationCenterCoordinatorDelegate { }
