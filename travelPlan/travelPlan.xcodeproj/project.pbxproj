@@ -1127,7 +1127,6 @@
 		15D60D472AED08590087FEC0 /* Notification */ = {
 			isa = PBXGroup;
 			children = (
-				15D60D4A2AED16CD0087FEC0 /* View */,
 				15D60D492AED09200087FEC0 /* ViewController */,
 				15D60D482AED08680087FEC0 /* Coordinator */,
 			);
@@ -1148,13 +1147,6 @@
 				15D60D352AEB84FE0087FEC0 /* NotificationCenterViewController.swift */,
 			);
 			path = ViewController;
-			sourceTree = "<group>";
-		};
-		15D60D4A2AED16CD0087FEC0 /* View */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = View;
 			sourceTree = "<group>";
 		};
 		15DE36B72AB84FDC0030CCCC /* BottomSheet */ = {
