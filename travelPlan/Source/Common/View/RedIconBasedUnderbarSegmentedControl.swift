@@ -1,5 +1,5 @@
 //
-//  RedAlarmBasedUnderbarSegmentedControl.swift
+//  RedIconBasedUnderbarSegmentedControl.swift
 //  travelPlan
 //
 //  Created by 양승현 on 10/28/23.
@@ -13,7 +13,7 @@ struct UnderbarInfo {
   var backgroundColor: UIColor
 }
 
-class RedAlarmBasedUnderbarSegmentedControl: UISegmentedControl {
+class RedIconBasedUnderbarSegmentedControl: UISegmentedControl {
   enum Constant {
     static let redIconWidth: CGFloat = 5
   }
@@ -80,7 +80,7 @@ class RedAlarmBasedUnderbarSegmentedControl: UISegmentedControl {
 }
 
 // MARK: - Helpers
-extension RedAlarmBasedUnderbarSegmentedControl {
+extension RedIconBasedUnderbarSegmentedControl {
   func showSpecificRedIcon(with index: Int) {
     UIView.animate(withDuration: 0.24, animations: {
       self.redIcons[index].alpha = 1
@@ -95,7 +95,7 @@ extension RedAlarmBasedUnderbarSegmentedControl {
 }
 
 // MARK: - Private Helpers
-private extension RedAlarmBasedUnderbarSegmentedControl {
+private extension RedIconBasedUnderbarSegmentedControl {
   func configureUI() {
     removeBorders()
     setTitleTextAttributes([

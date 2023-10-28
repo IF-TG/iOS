@@ -24,7 +24,7 @@ final class NotificationCenterViewController: UIViewController {
   }
   
   // MARK: - Properties
-  private let segmentedControl = RedAlarmBasedUnderbarSegmentedControl(
+  private let segmentedControl = RedIconBasedUnderbarSegmentedControl(
     items: ["알림", "공지사항"],
     underbarInfo: Constant.SegmentedControl.underbarInfo)
   
