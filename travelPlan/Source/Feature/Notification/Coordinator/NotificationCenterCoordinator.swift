@@ -18,14 +18,14 @@ final class NotificationCenterCoordinator: FlowCoordinator {
   var child: [FlowCoordinator] = []
   var presenter: UINavigationController!
   
-  private var viewController: UIViewController?
-  
   init(presenter: UINavigationController?) {
     self.presenter = presenter
-    viewController = NotificationCenterViewController()
   }
   
   func start() {
-    
+    let vc = NotificationCenterViewController()
+    presenter.pushViewController(vc, animated: true)
   }
 }
+
+extension NotificationCenterCoordinator: NotificationCenterCoordinatorDelegate { }
