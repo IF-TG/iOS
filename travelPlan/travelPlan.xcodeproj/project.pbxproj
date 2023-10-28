@@ -37,6 +37,7 @@
 		13300FAC2AC0883200952757 /* UICompositionalLayoutCreatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13300FAB2AC0883200952757 /* UICompositionalLayoutCreatable.swift */; };
 		13300FAE2AC2093D00952757 /* SearchSectionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13300FAD2AC2093D00952757 /* SearchSectionType.swift */; };
 		13333CBF2ABDE86A005AB50B /* LeftAlignThreeLabelsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13333CBE2ABDE86A005AB50B /* LeftAlignThreeLabelsView.swift */; };
+		13405EFC2AECEBD800382796 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13405EFB2AECEBD700382796 /* LoginView.swift */; };
 		13606E882A9DDE7D00365F20 /* PostRecentSearchTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13606E872A9DDE7D00365F20 /* PostRecentSearchTagCell.swift */; };
 		13606E8C2A9F959F00365F20 /* PostRecommendationSearchHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13606E8B2A9F959F00365F20 /* PostRecommendationSearchHeaderView.swift */; };
 		13606E942AA187F500365F20 /* PostSearchTagLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13606E932AA187F500365F20 /* PostSearchTagLabel.swift */; };
@@ -291,6 +292,7 @@
 		13300FAB2AC0883200952757 /* UICompositionalLayoutCreatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICompositionalLayoutCreatable.swift; sourceTree = "<group>"; };
 		13300FAD2AC2093D00952757 /* SearchSectionType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchSectionType.swift; sourceTree = "<group>"; };
 		13333CBE2ABDE86A005AB50B /* LeftAlignThreeLabelsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftAlignThreeLabelsView.swift; sourceTree = "<group>"; };
+		13405EFB2AECEBD700382796 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		13606E872A9DDE7D00365F20 /* PostRecentSearchTagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostRecentSearchTagCell.swift; sourceTree = "<group>"; };
 		13606E8B2A9F959F00365F20 /* PostRecommendationSearchHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostRecommendationSearchHeaderView.swift; sourceTree = "<group>"; };
 		13606E932AA187F500365F20 /* PostSearchTagLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSearchTagLabel.swift; sourceTree = "<group>"; };
@@ -656,6 +658,7 @@
 			isa = PBXGroup;
 			children = (
 				13BF411F2ADBEC8C00F3F082 /* LoginStartView.swift */,
+				13405EFB2AECEBD700382796 /* LoginView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1767,6 +1770,7 @@
 				15FDCC912AE03F4A00716CC6 /* InnerRoundRectReusableView.swift in Sources */,
 				1503F92E2A4E083C002BC38D /* LoginCoordinator.swift in Sources */,
 				152AD51E2A1A04E5008A2A11 /* FavoriteTableViewAdapterDataSource.swift in Sources */,
+				13405EFC2AECEBD800382796 /* LoginView.swift in Sources */,
 				15889D4C2AE0375700B1CB31 /* SearchDetailHeaderInfo.swift in Sources */,
 				13300FAA2AC0812900952757 /* StarButtonDelegate.swift in Sources */,
 				1503F93A2A4E1260002BC38D /* SearchCoordinator.swift in Sources */,
