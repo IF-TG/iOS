@@ -65,10 +65,19 @@ private extension NotificationCenterViewController {
   func setNavigationBar() {
     typealias Const = Constant.NavigationBar
     setupDefaultBackBarButtonItem()
-    navigationController?.navigationBar.titleTextAttributes = [
-      .foregroundColor: Const.titleColor,
-      .font: Const.titleFont]
-    navigationController?.navigationBar.topItem?.title = "알림센터"
+    let navigationTitleLabel = UILabel().set {
+      $0.numberOfLines = 1
+      $0.textAlignment = .center
+      let title = "알림센터"
+      let attrStr = NSMutableAttributedString(string: title)
+      let attributes: [NSAttributedString.Key: Any] = [
+        .foregroundColor: Const.titleColor,
+        .font: Const.titleFont]
+      attrStr.addAttributes(attributes, range: NSRange(location: 0, length: title.count))
+      $0.attributedText = attrStr
+      $0.sizeToFit()
+    }
+    navigationItem.titleView = navigationTitleLabel
     let naviBarDivider = OneUnitHeightLine(color: .yg.gray0)
     view.addSubview(naviBarDivider)
     NSLayoutConstraint.activate([
