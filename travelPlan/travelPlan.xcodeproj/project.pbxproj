@@ -77,6 +77,11 @@
 		151DF0DC2AEE6EB500D5D55B /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151DF0DB2AEE6EB500D5D55B /* NotificationViewController.swift */; };
 		151DF0DE2AEE709800D5D55B /* Bool+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151DF0DD2AEE709800D5D55B /* Bool+.swift */; };
 		151DF0E12AEE828900D5D55B /* NoticeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151DF0E02AEE828900D5D55B /* NoticeCell.swift */; };
+		151DF0E42AEE990400D5D55B /* NoticeViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151DF0E32AEE990400D5D55B /* NoticeViewAdapter.swift */; };
+		151DF0E72AEEA76500D5D55B /* NoticeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151DF0E62AEEA76500D5D55B /* NoticeViewModel.swift */; };
+		151DF0EA2AEEA7BA00D5D55B /* NoticeViewAdapterDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151DF0E92AEEA7BA00D5D55B /* NoticeViewAdapterDataSource.swift */; };
+		151DF0EC2AEEAB2600D5D55B /* NoticeViewAdapterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151DF0EB2AEEAB2600D5D55B /* NoticeViewAdapterDelegate.swift */; };
+		151DF0F02AEEAE2100D5D55B /* NoticeEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151DF0EF2AEEAE2100D5D55B /* NoticeEntity.swift */; };
 		15259DE92ACAA98F00C14F62 /* TravelDestinationCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13FE64782A5C3900007D9A53 /* TravelDestinationCellViewModel.swift */; };
 		15259DEA2ACAA9D800C14F62 /* SearchFestivalCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13274C592A59AD29001F141C /* SearchFestivalCellViewModel.swift */; };
 		15259DEB2ACAA9F600C14F62 /* PostSearchFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C07ECC2A13F454005F04CD /* PostSearchFooterView.swift */; };
@@ -339,6 +344,11 @@
 		151DF0DB2AEE6EB500D5D55B /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
 		151DF0DD2AEE709800D5D55B /* Bool+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bool+.swift"; sourceTree = "<group>"; };
 		151DF0E02AEE828900D5D55B /* NoticeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeCell.swift; sourceTree = "<group>"; };
+		151DF0E32AEE990400D5D55B /* NoticeViewAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeViewAdapter.swift; sourceTree = "<group>"; };
+		151DF0E62AEEA76500D5D55B /* NoticeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeViewModel.swift; sourceTree = "<group>"; };
+		151DF0E92AEEA7BA00D5D55B /* NoticeViewAdapterDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeViewAdapterDataSource.swift; sourceTree = "<group>"; };
+		151DF0EB2AEEAB2600D5D55B /* NoticeViewAdapterDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeViewAdapterDelegate.swift; sourceTree = "<group>"; };
+		151DF0EF2AEEAE2100D5D55B /* NoticeEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeEntity.swift; sourceTree = "<group>"; };
 		152AD4E72A188D33008A2A11 /* FavoriteTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteTableViewCell.swift; sourceTree = "<group>"; };
 		152AD4ED2A1891DB008A2A11 /* UISpacing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UISpacing.swift; sourceTree = "<group>"; };
 		152AD4EF2A189CFC008A2A11 /* FavoriteHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteHeaderView.swift; sourceTree = "<group>"; };
@@ -752,6 +762,47 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		151DF0E22AEE98F000D5D55B /* Adapter */ = {
+			isa = PBXGroup;
+			children = (
+				151DF0E32AEE990400D5D55B /* NoticeViewAdapter.swift */,
+			);
+			path = Adapter;
+			sourceTree = "<group>";
+		};
+		151DF0E52AEEA75500D5D55B /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				151DF0E62AEEA76500D5D55B /* NoticeViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		151DF0E82AEEA7AE00D5D55B /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				151DF0E92AEEA7BA00D5D55B /* NoticeViewAdapterDataSource.swift */,
+				151DF0EB2AEEAB2600D5D55B /* NoticeViewAdapterDelegate.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
+		151DF0ED2AEEADFC00D5D55B /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				151DF0EE2AEEAE1100D5D55B /* Entities */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		151DF0EE2AEEAE1100D5D55B /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				151DF0EF2AEEAE2100D5D55B /* NoticeEntity.swift */,
+			);
+			path = Entities;
+			sourceTree = "<group>";
+		};
 		152AD4E42A188BCE008A2A11 /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -900,6 +951,7 @@
 		1594F53029FD517E00A58F20 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				151DF0ED2AEEADFC00D5D55B /* Domain */,
 				15FFAC052AD6E8D80013DB57 /* Network */,
 				15FEB5D82A050A99000A5F33 /* Common */,
 				1594F54629FD526900A58F20 /* Feature */,
@@ -1143,6 +1195,9 @@
 		15D60D472AED08590087FEC0 /* Notification */ = {
 			isa = PBXGroup;
 			children = (
+				151DF0E82AEEA7AE00D5D55B /* Protocol */,
+				151DF0E52AEEA75500D5D55B /* ViewModel */,
+				151DF0E22AEE98F000D5D55B /* Adapter */,
 				151DF0DF2AEE827C00D5D55B /* View */,
 				15D60D492AED09200087FEC0 /* ViewController */,
 				15D60D482AED08680087FEC0 /* Coordinator */,
@@ -1830,6 +1885,7 @@
 				15BB01B82A1EB5070035B486 /* LoginViewModel.swift in Sources */,
 				15FB47F12AC1DCEF0033AA18 /* TravelMainThemeCollectionView.swift in Sources */,
 				158BEFC42A0EC8A100C27861 /* UIView+CustomAnimation.swift in Sources */,
+				151DF0EA2AEEA7BA00D5D55B /* NoticeViewAdapterDataSource.swift in Sources */,
 				15F0D1B62A524DC500D04773 /* PostSortingAreaView.swift in Sources */,
 				153841D72A5642A9004C41D1 /* PostViewBottomSheetCell.swift in Sources */,
 				156759B12A0D774500849CE2 /* FeedViewModel.swift in Sources */,
@@ -1841,6 +1897,7 @@
 				15DD40452A5B862D002BC5F8 /* PostViewBottomSheetAdapter.swift in Sources */,
 				15710CBA2A132C760023C19E /* FeedNotificationBarItem.swift in Sources */,
 				15D867CF2AD427EC00F35811 /* FavoriteDetailCoordinator.swift in Sources */,
+				151DF0F02AEEAE2100D5D55B /* NoticeEntity.swift in Sources */,
 				157ADCAC2AD008EE00D37680 /* FavoriteDetailMenuViewConfigurable.swift in Sources */,
 				13254FE32A05147200094218 /* MainTabBarController.swift in Sources */,
 				15DD40482A5B8752002BC5F8 /* PostSearchFilterType.swift in Sources */,
@@ -1854,6 +1911,7 @@
 				1550D9B12ACB1D740046569B /* DevelopmentViewController.swift in Sources */,
 				13254FF02A0549D200094218 /* TabBarCase.swift in Sources */,
 				13254FEB2A0515C700094218 /* FavoriteViewController.swift in Sources */,
+				151DF0E72AEEA76500D5D55B /* NoticeViewModel.swift in Sources */,
 				13A93EFB2AD1EA6B00FC4BBD /* TravelDestinationModel.swift in Sources */,
 				15E982BF2ACC95CC002B932F /* FavoriteDetailViewController.swift in Sources */,
 				158695952AE54D010087CCB3 /* FeedPostViewAdapterDataSource.swift in Sources */,
@@ -1865,6 +1923,7 @@
 				15B4E5F12ACAA947001CF071 /* SearchStarButton.swift in Sources */,
 				15D955AD2ADEA525002BF9C3 /* FeedViewModelable.swift in Sources */,
 				15DA4C832ACD821F003A7900 /* EmptyStateView.swift in Sources */,
+				151DF0EC2AEEAB2600D5D55B /* NoticeViewAdapterDelegate.swift in Sources */,
 				151DF0DA2AEE6DF700D5D55B /* NoticeViewController.swift in Sources */,
 				15FFAC332ADD4C480013DB57 /* PostViewAdapterDataSource.swift in Sources */,
 				15A4F28F2ACC11E5001AA51D /* ViewController.swift in Sources */,
@@ -1878,6 +1937,7 @@
 				15C83F882AB2055E00DDB536 /* BaseBottomSheetViewController.swift in Sources */,
 				15FFAC152ADA83E00013DB57 /* SessionProvider.swift in Sources */,
 				15710CBC2A132DD00023C19E /* FeedAppTitleBarItem.swift in Sources */,
+				151DF0E42AEE990400D5D55B /* NoticeViewAdapter.swift in Sources */,
 				15F36A1A2AB1A18200971803 /* CaseIterable+.swift in Sources */,
 				158BEFC72A0ED09800C27861 /* PostThumbnailView.swift in Sources */,
 				15CB23692A10B9CF003EAF20 /* PostFooterInfo.swift in Sources */,
