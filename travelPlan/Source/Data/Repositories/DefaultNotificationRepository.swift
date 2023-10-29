@@ -9,7 +9,7 @@ import Combine
 
 final class DefaultNotificationRepository {
   // MARK: - Properties
-  private let service : Sessionable
+  private let service: Sessionable
   
   private var subscription: AnyCancellable?
   
