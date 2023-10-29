@@ -36,6 +36,16 @@ final class NotificationCenterViewController: UIViewController {
     configureUI()
   }
   
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    setTabBarVisible(false)
+  }
+  
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    setTabBarVisible(true)
+  }
+  
   deinit {
     coordinator?.finish()
     print("\(Self.self) deinit")
@@ -49,7 +59,6 @@ private extension NotificationCenterViewController {
     setSegmentedControl()
     setNavigationBar()
     view.backgroundColor = .white
-    
   }
   
   func setSegmentedControl() {
@@ -85,6 +94,17 @@ private extension NotificationCenterViewController {
       naviBarDivider.trailingAnchor.constraint(equalTo: view.trailingAnchor),
       naviBarDivider.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: -Const.dividerHeight),
       naviBarDivider.heightAnchor.constraint(equalToConstant: Const.dividerHeight)])
+  }
+  
+  func setTabBarVisible(_ showTabBar: Bool) {
+    let zPos = showTabBar ? 0 : -1
+    guard let mainTabBarController = tabBarController as? MainTabBarController else { return }
+    if showTabBar {
+      mainTabBarController.showShadowLayer()
+    } else {
+      mainTabBarController.hideShadowLayer()
+    }
+    mainTabBarController.tabBar.layer.zPosition = CGFloat(zPos)
   }
 }
 
