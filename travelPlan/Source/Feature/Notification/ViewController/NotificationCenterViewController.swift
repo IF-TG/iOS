@@ -15,7 +15,6 @@ final class NotificationCenterViewController: UIViewController {
       static let fontColor: UIColor = .yg.gray1
       static let height: CGFloat = 47
     }
-    
     enum NavigationBar {
       static let titleFont: UIFont = .init(pretendard: .semiBold, size: 18)!
       static let titleColor: UIColor = .yg.gray7
@@ -27,8 +26,6 @@ final class NotificationCenterViewController: UIViewController {
   private let segmentedControl = RedIconBasedUnderbarSegmentedControl(
     items: ["알림", "공지사항"],
     underbarInfo: Constant.SegmentedControl.underbarInfo)
-  
-  weak var coordinator: NotificationCenterCoordinatorDelegate?
   
   private let viewControllers: [UIViewController] = [
     NotificationViewController(),
@@ -48,6 +45,8 @@ final class NotificationCenterViewController: UIViewController {
   private var pageView: UIView! {
     pageViewController.view
   }
+  
+  weak var coordinator: NotificationCenterCoordinatorDelegate?
   
   // MARK: - Lifecycle
   override func viewDidLoad() {
@@ -76,7 +75,8 @@ private extension NotificationCenterViewController {
   func configureUI() {
     setupUI()
     setSegmentedControl()
-    setNavigationBar()
+    setNavigationTitle()
+    setNavigationDivider()
     view.backgroundColor = .white
   }
   
@@ -90,7 +90,7 @@ private extension NotificationCenterViewController {
     segmentedControl.addTarget(self, action: #selector(didTapSegmentedControl), for: .valueChanged)
   }
   
-  func setNavigationBar() {
+  func setNavigationTitle() {
     typealias Const = Constant.NavigationBar
     setupDefaultBackBarButtonItem()
     let navigationTitleLabel = UILabel().set {
@@ -106,6 +106,10 @@ private extension NotificationCenterViewController {
       $0.sizeToFit()
     }
     navigationItem.titleView = navigationTitleLabel
+  }
+  
+  func setNavigationDivider() {
+    typealias Const = Constant.NavigationBar
     let naviBarDivider = OneUnitHeightLine(color: .yg.gray0)
     view.addSubview(naviBarDivider)
     NSLayoutConstraint.activate([
@@ -158,6 +162,7 @@ extension NotificationCenterViewController: LayoutSupport {
     }
   }
 }
+
 // MARK: - LayoutSupport Constraints
 extension NotificationCenterViewController {
   private var segmentedControlConstraints: [NSLayoutConstraint] {
