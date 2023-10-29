@@ -29,7 +29,7 @@ extension NoticeViewModel: NoticeViewModelable {
   func transform(_ input: NoticeViewInput) -> AnyPublisher<NoticeViewState, Never> {
     return Publishers.MergeMany([
       viewDidLoadChains(input),
-      didtapNoticeChains(input)
+      didTapNoticeChains(input)
     ]).eraseToAnyPublisher()
   }
 }
@@ -44,7 +44,7 @@ private extension NoticeViewModel {
       }.eraseToAnyPublisher()
   }
   
-  func didtapNoticeChains(_ input: Input) -> Output {
+  func didTapNoticeChains(_ input: Input) -> Output {
     return input.didTapNotice
       .map { [weak self] in
         self?.notices[$0.indexPath.row].isExpended = $0.isExpected
