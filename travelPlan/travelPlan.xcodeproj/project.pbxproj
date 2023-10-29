@@ -73,6 +73,8 @@
 		151130092A04E4EB0041DDA1 /* travelPlanTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151130082A04E4EB0041DDA1 /* travelPlanTests.swift */; };
 		151130162A04E5B00041DDA1 /* travelPlanUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151130152A04E5B00041DDA1 /* travelPlanUITests.swift */; };
 		151130182A04E5B00041DDA1 /* travelPlanUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151130172A04E5B00041DDA1 /* travelPlanUITestsLaunchTests.swift */; };
+		151DF0DA2AEE6DF700D5D55B /* NoticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151DF0D92AEE6DF700D5D55B /* NoticeViewController.swift */; };
+		151DF0DC2AEE6EB500D5D55B /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151DF0DB2AEE6EB500D5D55B /* NotificationViewController.swift */; };
 		15259DE92ACAA98F00C14F62 /* TravelDestinationCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13FE64782A5C3900007D9A53 /* TravelDestinationCellViewModel.swift */; };
 		15259DEA2ACAA9D800C14F62 /* SearchFestivalCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13274C592A59AD29001F141C /* SearchFestivalCellViewModel.swift */; };
 		15259DEB2ACAA9F600C14F62 /* PostSearchFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C07ECC2A13F454005F04CD /* PostSearchFooterView.swift */; };
@@ -331,6 +333,8 @@
 		151130132A04E5B00041DDA1 /* travelPlanUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = travelPlanUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		151130152A04E5B00041DDA1 /* travelPlanUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = travelPlanUITests.swift; sourceTree = "<group>"; };
 		151130172A04E5B00041DDA1 /* travelPlanUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = travelPlanUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		151DF0D92AEE6DF700D5D55B /* NoticeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeViewController.swift; sourceTree = "<group>"; };
+		151DF0DB2AEE6EB500D5D55B /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
 		152AD4E72A188D33008A2A11 /* FavoriteTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteTableViewCell.swift; sourceTree = "<group>"; };
 		152AD4ED2A1891DB008A2A11 /* UISpacing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UISpacing.swift; sourceTree = "<group>"; };
 		152AD4EF2A189CFC008A2A11 /* FavoriteHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteHeaderView.swift; sourceTree = "<group>"; };
@@ -1145,6 +1149,8 @@
 			isa = PBXGroup;
 			children = (
 				15D60D352AEB84FE0087FEC0 /* NotificationCenterViewController.swift */,
+				151DF0D92AEE6DF700D5D55B /* NoticeViewController.swift */,
+				151DF0DB2AEE6EB500D5D55B /* NotificationViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -1712,6 +1718,7 @@
 				15CC64142A1DD4EF00857446 /* ConvenienceInit.swift in Sources */,
 				1503F9312A4E0A4F002BC38D /* MainCoordinator.swift in Sources */,
 				15DE36B92AB853900030CCCC /* TravelThemeBottomSheetCell.swift in Sources */,
+				151DF0DC2AEE6EB500D5D55B /* NotificationViewController.swift in Sources */,
 				13813A252AAA494500AF6AEB /* PostSearchLayout.swift in Sources */,
 				15DE36B62AB83DD40030CCCC /* PostFilteringBottomSheetViewController.swift in Sources */,
 				158BEF772A0E279700C27861 /* PostCell.swift in Sources */,
@@ -1843,6 +1850,7 @@
 				15B4E5F12ACAA947001CF071 /* SearchStarButton.swift in Sources */,
 				15D955AD2ADEA525002BF9C3 /* FeedViewModelable.swift in Sources */,
 				15DA4C832ACD821F003A7900 /* EmptyStateView.swift in Sources */,
+				151DF0DA2AEE6DF700D5D55B /* NoticeViewController.swift in Sources */,
 				15FFAC332ADD4C480013DB57 /* PostViewAdapterDataSource.swift in Sources */,
 				15A4F28F2ACC11E5001AA51D /* ViewController.swift in Sources */,
 				157ADCB42AD07ED600D37680 /* SearchWithCancelView.swift in Sources */,
