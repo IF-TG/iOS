@@ -27,9 +27,7 @@ final class NotificationCenterViewController: UIViewController {
     items: ["알림", "공지사항"],
     underbarInfo: Constant.SegmentedControl.underbarInfo)
   
-  private let viewControllers: [UIViewController] = [
-    NotificationViewController(),
-    NoticeViewController()]
+  private let viewControllers: [UIViewController]
   
   private lazy var pageViewController = UIPageViewController(
     transitionStyle: .scroll,
@@ -49,6 +47,17 @@ final class NotificationCenterViewController: UIViewController {
   weak var coordinator: NotificationCenterCoordinatorDelegate?
   
   // MARK: - Lifecycle
+  init(noticeViewModel: any NoticeViewModelable & NoticeViewAdapterDataSource) {
+    viewControllers = [
+      NotificationViewController(),
+      NoticeViewController(viewModel: noticeViewModel)]
+    super.init()
+  }
+  
+  required init?(coder: NSCoder) {
+    nil
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     configureUI()
