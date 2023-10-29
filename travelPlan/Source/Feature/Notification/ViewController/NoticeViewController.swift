@@ -33,6 +33,8 @@ final class NoticeViewController: UIViewController {
   private var adapter: NoticeViewAdapter?
   
   private let viewModel: any NoticeViewModelable
+  
+  private var subscriptions = Set<AnyCancellable>()
     
   // MARK: - Lifecycle
   init(viewModel: any NoticeViewModelable & NoticeViewAdapterDataSource) {
@@ -52,8 +54,34 @@ final class NoticeViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    bind()
     input.viewDidLoad.send()
   }
+}
+
+// MARK: - ViewBindCase
+extension NoticeViewController: ViewBindCase {
+  typealias Input = NoticeViewInput
+  typealias ErrorType = Error
+  typealias State = NoticeViewState
+  
+  func bind() {
+    let output = viewModel.transform(input)
+    output.receive(on: DispatchQueue.main).sink { [weak self] in
+      self?.render($0)
+    }.store(in: &subscriptions)
+  }
+  
+  func render(_ state: NoticeViewState) {
+    switch state {
+    case .none:
+      break
+    case .updateNotices:
+      tableView.reloadData()
+    }
+  }
+  
+  func handleError(_ error: ErrorType) {}
 }
 
 // MARK: - NoticeViewAdapterDelegate
