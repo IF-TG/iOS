@@ -32,7 +32,22 @@ class LoginView: UIView {
     $0.font = .init(pretendard: .medium, size: 20)
     $0.textColor = .yg.littleWhite
     $0.numberOfLines = 0
-    setAttributedText(of: $0)
+    setAttributedTextOfloginDescriptionLabel($0)
+  }
+  
+  private let kakaoButton: UIButton = KakaoLoginButton()
+  private let appleButton: UIButton = AppleLoginButton()
+  private let googleButton: UIButton = GoogleLoginButton()
+  private let buttonStackView: UIStackView = .init().set {
+    $0.axis = .vertical
+    $0.distribution = .fillEqually
+    $0.spacing = 7
+  }
+  private lazy var policyDescriptionLabel: UILabel = .init().set {
+    $0.font = .init(pretendard: .regular, size: 12)
+    $0.text = "로그인 시 이용약관 / 개인정보 처리방침 동의로 간주합니다."
+    $0.textColor = .white
+    setAttributedTextOfPolicyDescriptionLabel($0)
   }
   
   // MARK: - LifeCycle
@@ -50,11 +65,47 @@ class LoginView: UIView {
 
 // MARK: - Private Helpers
 extension LoginView {
+  private func setupBottomComponents() {
+    addSubview(buttonStackView)
+    addSubview(policyDescriptionLabel)
+    _ = [self.kakaoButton,
+         self.appleButton,
+         self.googleButton]
+      .map { buttonStackView.addArrangedSubview($0) }
+    
+    kakaoButton.snp.makeConstraints {
+      $0.height.equalTo(46)
+    }
+    buttonStackView.snp.makeConstraints {
+      $0.leading.trailing.equalToSuperview().inset(26)
+    }
+    policyDescriptionLabel.snp.makeConstraints {
+      $0.centerX.equalToSuperview()
+      $0.top.equalTo(buttonStackView.snp.bottom).offset(16)
+      $0.bottom.equalTo(safeAreaLayoutGuide).inset(22)
+    }
+    policyDescriptionLabel.alpha = 0
+    self.buttonStackView.alpha = 0
+  }
+  
   private func setupStyles() {
     backgroundColor = .clear
   }
   
-  private func setAttributedText(of label: UILabel) {
+  private func setAttributedTextOfPolicyDescriptionLabel(_ label: UILabel) {
+    let attributedString = NSMutableAttributedString(string: label.text!)
+    let firstRange = (label.text! as NSString).range(of: "이용약관")
+    let secondRange = (label.text! as NSString).range(of: "개인정보 처리방침")
+    let underlineAttrs: [NSAttributedString.Key: Any] = [
+      .underlineStyle: NSUnderlineStyle.single.rawValue
+    ]
+    attributedString.addAttributes(underlineAttrs, range: firstRange)
+    attributedString.addAttributes(underlineAttrs, range: secondRange)
+    
+    label.attributedText = attributedString
+  }
+  
+  private func setAttributedTextOfloginDescriptionLabel(_ label: UILabel) {
     let paragraphStyle = NSMutableParagraphStyle()
     paragraphStyle.lineHeightMultiple = 1.2
     
@@ -98,9 +149,15 @@ extension LoginView {
         guard let self else { return }
         self.setupTopComponents()
         self.disappearFirstDescriptionLabel()
-        
-        UIView.animate(withDuration: 1) {
+        self.setupBottomComponents()
+
+        UIView.animate(withDuration: 1, animations: {
           self.layoutIfNeeded()
+        }) { _ in
+          UIView.animate(withDuration: 0.5) {
+            self.buttonStackView.alpha = 1
+            self.policyDescriptionLabel.alpha = 1
+          }
         }
       }
     }
