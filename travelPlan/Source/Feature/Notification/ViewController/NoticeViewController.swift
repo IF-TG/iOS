@@ -32,10 +32,10 @@ final class NoticeViewController: UIViewController {
   
   private var adapter: NoticeViewAdapter?
   
-  private let viewModel: NoticeViewAdapterDataSource
+  private let viewModel: any NoticeViewModelable
     
   // MARK: - Lifecycle
-  init(viewModel: NoticeViewAdapterDataSource) {
+  init(viewModel: any NoticeViewModelable & NoticeViewAdapterDataSource) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
     adapter = NoticeViewAdapter(dataSource: viewModel, tableView: tableView)
