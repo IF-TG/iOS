@@ -48,4 +48,45 @@ final class NoticeCell: UITableViewCell {
       }()
     }
   }
+  
+  // MARK: - Properties
+  private let titleLabel = UILabel(frame: .zero).set {
+    typealias Const = Constant.TitleLabel
+    $0.translatesAutoresizingMaskIntoConstraints = false
+    $0.font = Const.font
+    $0.textColor = Const.fontColor
+    $0.numberOfLines = 2
+  }
+  
+  private let chevronIcon = UIImageView().set {
+    $0.translatesAutoresizingMaskIntoConstraints = false
+    $0.image = UIImage(named: "chevron")
+  }
+  
+  private let dateLabel = UILabel(frame: .zero).set {
+    typealias Const = Constant.DateLabel
+    $0.translatesAutoresizingMaskIntoConstraints = false
+    $0.font = Const.font
+    $0.textColor = Const.fontColor
+    $0.numberOfLines = 1
+  }
+  
+  private let cellDivider = UIView(frame: .zero).set {
+    typealias Const = Constant.CellDivider
+    $0.translatesAutoresizingMaskIntoConstraints = false
+    $0.backgroundColor = Const.color
+  }
+  
+  private let expendableLabel = BasePaddingLabel(padding: Constant.ExpendableLabel.inset).set {
+    typealias Const = Constant.ExpendableLabel
+    $0.translatesAutoresizingMaskIntoConstraints = false
+    $0.font = Const.font
+    $0.numberOfLines = 0
+  }
+  
+  var isExpended = false {
+    didSet {
+      
+    }
+  }
 }
