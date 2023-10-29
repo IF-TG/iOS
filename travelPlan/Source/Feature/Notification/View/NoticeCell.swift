@@ -48,6 +48,7 @@ final class NoticeCell: UITableViewCell {
       }
     }
     enum DetailsLabel {
+      static let backgroundColor = UIColor.yg.gray00Background
       static let inset = UIEdgeInsets(top: 20, left: 11, bottom: 20, right: 11)
       static let font = UIFont(pretendard: .regular, size: 15)
       static let attributes: [NSAttributedString.Key: Any] = {
@@ -90,6 +91,7 @@ final class NoticeCell: UITableViewCell {
     typealias Const = Constant.DetailsLabel
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.font = Const.font
+    $0.backgroundColor = Const.backgroundColor
     $0.numberOfLines = 0
   }
   
