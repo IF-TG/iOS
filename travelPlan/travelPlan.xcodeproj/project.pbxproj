@@ -42,6 +42,7 @@
 		13405F042AED899800382796 /* KakaoLoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13405F032AED899800382796 /* KakaoLoginButton.swift */; };
 		13405F062AEE17B100382796 /* AppleLoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13405F052AEE17B100382796 /* AppleLoginButton.swift */; };
 		13405F082AEE212500382796 /* GoogleLoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13405F072AEE212500382796 /* GoogleLoginButton.swift */; };
+		13405F0B2AEEF1E400382796 /* LoginButtonDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13405F0A2AEEF1E400382796 /* LoginButtonDelegate.swift */; };
 		13606E882A9DDE7D00365F20 /* PostRecentSearchTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13606E872A9DDE7D00365F20 /* PostRecentSearchTagCell.swift */; };
 		13606E8C2A9F959F00365F20 /* PostRecommendationSearchHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13606E8B2A9F959F00365F20 /* PostRecommendationSearchHeaderView.swift */; };
 		13606E942AA187F500365F20 /* PostSearchTagLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13606E932AA187F500365F20 /* PostSearchTagLabel.swift */; };
@@ -301,6 +302,7 @@
 		13405F032AED899800382796 /* KakaoLoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoLoginButton.swift; sourceTree = "<group>"; };
 		13405F052AEE17B100382796 /* AppleLoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleLoginButton.swift; sourceTree = "<group>"; };
 		13405F072AEE212500382796 /* GoogleLoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleLoginButton.swift; sourceTree = "<group>"; };
+		13405F0A2AEEF1E400382796 /* LoginButtonDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginButtonDelegate.swift; sourceTree = "<group>"; };
 		13606E872A9DDE7D00365F20 /* PostRecentSearchTagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostRecentSearchTagCell.swift; sourceTree = "<group>"; };
 		13606E8B2A9F959F00365F20 /* PostRecommendationSearchHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostRecommendationSearchHeaderView.swift; sourceTree = "<group>"; };
 		13606E932AA187F500365F20 /* PostSearchTagLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSearchTagLabel.swift; sourceTree = "<group>"; };
@@ -636,6 +638,14 @@
 				13606E932AA187F500365F20 /* PostSearchTagLabel.swift */,
 			);
 			path = PostSearch;
+			sourceTree = "<group>";
+		};
+		13405F092AEEF1CA00382796 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				13405F0A2AEEF1E400382796 /* LoginButtonDelegate.swift */,
+			);
+			path = Protocol;
 			sourceTree = "<group>";
 		};
 		13606E8F2A9F983F00365F20 /* TagCell */ = {
@@ -980,6 +990,7 @@
 		15BB01B02A1EB4CF0035B486 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				13405F092AEEF1CA00382796 /* Protocol */,
 				13BF411E2ADBEC4100F3F082 /* View */,
 				1503F92C2A4E0832002BC38D /* Coordinator */,
 				15BB01B22A1EB4DF0035B486 /* Extension */,
@@ -1883,6 +1894,7 @@
 				15FFAC072AD6ED5B0013DB57 /* Endpoint.swift in Sources */,
 				15CB235F2A10B5B8003EAF20 /* DateValidationManager.swift in Sources */,
 				15EF8CA32A0A197C0068C744 /* CategoryPageView.swift in Sources */,
+				13405F0B2AEEF1E400382796 /* LoginButtonDelegate.swift in Sources */,
 				15FFAC402ADE52120013DB57 /* MockPostUseCase.swift in Sources */,
 				13300FAE2AC2093D00952757 /* SearchSectionType.swift in Sources */,
 				1570FDB22AB1B616006FBAA3 /* TravelOrderType.swift in Sources */,
