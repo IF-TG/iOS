@@ -81,6 +81,14 @@ extension MainTabBarController {
     guard let viewControllers = viewControllers else { return }
     _=viewControllers.enumerated().map { $1.tabBarItem = tabBarItems[$0] }
   }
+  
+  func hideShadowLayer() {
+    shadowLayer.isHidden = true
+  }
+  
+  func showShadowLayer() {
+    shadowLayer.isHidden = false
+  }
 }
 
 // MARK: - LayoutSupport
