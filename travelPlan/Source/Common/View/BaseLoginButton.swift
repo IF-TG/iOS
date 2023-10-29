@@ -10,17 +10,17 @@ import SnapKit
 
 class BaseLoginButton: UIButton {
   // MARK: - Properties
-  private var logoImageView: UIImageView!
-  private var logoLabel: UILabel!
+  private var logoView: UIImageView!
+  private var textLabel: UILabel!
   
   // MARK: - LifeCycle
-  convenience init(imageView: UIImageView, textLabel: UILabel) {
-    self.init(frame: .zero)
-  }
-  
-  private override init(frame: CGRect) {
+  init(frame: CGRect, imagePath: String, textLabel: UILabel) {
+    self.logoView = .init(image: .init(named: imagePath))
+    self.textLabel = textLabel
+
     super.init(frame: frame)
     setupUI()
+    setupStyles()
   }
   
   required init?(coder: NSCoder) {
@@ -31,19 +31,26 @@ class BaseLoginButton: UIButton {
 // MARK: - LayoutSupport
 extension BaseLoginButton: LayoutSupport {
   func addSubviews() {
-    addSubview(logoImageView)
-    addSubview(logoLabel)
+    addSubview(logoView)
+    addSubview(textLabel)
   }
   
   func setConstraints() {
-    logoImageView.snp.makeConstraints {
+    logoView.snp.makeConstraints {
       $0.centerY.equalToSuperview()
       $0.leading.equalToSuperview().inset(14)
     }
     
-    logoLabel.snp.makeConstraints {
+    textLabel.snp.makeConstraints {
       $0.centerY.equalToSuperview()
       $0.centerX.equalToSuperview()
     }
+  }
+}
+
+// MARK: - Private Helpers
+extension BaseLoginButton {
+  private func setupStyles() {
+    layer.cornerRadius = 6
   }
 }
