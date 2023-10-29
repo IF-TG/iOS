@@ -6,3 +6,10 @@
 //
 
 import Foundation
+
+protocol NoticeViewAdapterDelegate: AnyObject {
+  func noticeViewAdapter(
+    _ noticeViewAdapter: NoticeViewAdapter,
+    didSelectRowAt indexPath: IndexPath,
+    isExpended: Bool)
+}
