@@ -197,8 +197,12 @@ extension NoticeCell: LayoutSupport {
     let detailsLabelBottomConstraint = detailsLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
     detailsLabelBottomConstraint.priority = .defaultHigh
     
-    notExpendedConstraints = [cellDividerBottomConstraint]
-    expendedConstriants = [detailsLabelBottomConstraint]
+    notExpendedConstraints = [
+      cellDividerBottomConstraint,
+      detailsLabel.topAnchor.constraint(equalTo: cellDivider.bottomAnchor, constant: -12)]
+    expendedConstriants = [
+      detailsLabelBottomConstraint,
+      detailsLabel.topAnchor.constraint(equalTo: cellDivider.bottomAnchor)]
     
     NSLayoutConstraint.activate([sharedConstraints + notExpendedConstraints].flatMap { $0 })
   }
@@ -245,7 +249,6 @@ private extension NoticeCell {
   var detailsLabelConstraints: [NSLayoutConstraint] {
     return [
       detailsLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-      detailsLabel.topAnchor.constraint(equalTo: cellDivider.bottomAnchor),
       detailsLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)]
   }
 }
