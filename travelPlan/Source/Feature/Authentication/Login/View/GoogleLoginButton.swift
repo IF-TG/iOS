@@ -1,5 +1,5 @@
 //
-//  KakaoLoginButton.swift
+//  GoogleLoginButton.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 10/29/23.
@@ -7,10 +7,10 @@
 
 import UIKit
 
-class KakaoLoginButton: BaseLoginButton {
+class GoogleLoginButton: BaseLoginButton {
   // MARK: - Properties
   private let textLabel: UILabel = .init().set {
-    $0.text = "카카오 로그인"
+    $0.text = "Google 로그인"
     $0.font = .init(pretendard: .semiBold, size: 15)
     $0.textColor = .black.withAlphaComponent(0.85)
   }
@@ -21,7 +21,7 @@ class KakaoLoginButton: BaseLoginButton {
   }
   
   init(frame: CGRect) {
-    super.init(frame: frame, imagePath: "kakao-icon", textLabel: textLabel)
+    super.init(frame: frame, imagePath: "google-icon", textLabel: textLabel)
     setupStyles()
   }
   
@@ -31,8 +31,8 @@ class KakaoLoginButton: BaseLoginButton {
 }
 
 // MARK: - Private Helpers
-extension KakaoLoginButton {
-  private func setupStyles() {
-    backgroundColor = .yg.kakao
+extension GoogleLoginButton {
+  func setupStyles() {
+    
   }
 }

@@ -1,5 +1,5 @@
 //
-//  KakaoLoginButton.swift
+//  AppleLoginButton.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 10/29/23.
@@ -7,12 +7,12 @@
 
 import UIKit
 
-class KakaoLoginButton: BaseLoginButton {
+class AppleLoginButton: BaseLoginButton {
   // MARK: - Properties
   private let textLabel: UILabel = .init().set {
-    $0.text = "카카오 로그인"
+    $0.text = "Apple 로그인"
     $0.font = .init(pretendard: .semiBold, size: 15)
-    $0.textColor = .black.withAlphaComponent(0.85)
+    $0.textColor = .white
   }
   
   // MARK: - LifeCycle
@@ -21,8 +21,7 @@ class KakaoLoginButton: BaseLoginButton {
   }
   
   init(frame: CGRect) {
-    super.init(frame: frame, imagePath: "kakao-icon", textLabel: textLabel)
-    setupStyles()
+    super.init(frame: frame, imagePath: "apple-icon", textLabel: textLabel)
   }
   
   required init?(coder: NSCoder) {
@@ -31,8 +30,6 @@ class KakaoLoginButton: BaseLoginButton {
 }
 
 // MARK: - Private Helpers
-extension KakaoLoginButton {
-  private func setupStyles() {
-    backgroundColor = .yg.kakao
-  }
+extension AppleLoginButton {
+  
 }
