@@ -10,6 +10,11 @@ import Combine
 import AVFoundation
 
 class LoginViewController: UIViewController {
+  enum Constant {
+    static let bundleResource = "onboarding-video"
+    static let bundleExtension = "mp4"
+  }
+  
   // MARK: - Properteis
   var vm: LoginViewModel!
   let appear = PassthroughSubject<Void, ErrorType>()
@@ -20,8 +25,9 @@ class LoginViewController: UIViewController {
   private var player: AVPlayer!
   private var playerLayer: AVPlayerLayer!
   
-  private let loginView = LoginView()
-  
+  private lazy var loginView = LoginView().set {
+    $0.delegate = self
+  }
   
   // MARK: - Lifecycle
   override func viewDidLoad() {
@@ -113,7 +119,9 @@ extension LoginViewController {
   }
   
   private func setupPlayer() {
-    guard let url = Bundle.main.url(forResource: "onboarding-video", withExtension: "mp4") else { return }
+    typealias Const = Constant
+    guard let url = Bundle.main.url(forResource: Const.bundleResource,
+                                    withExtension: Const.bundleExtension) else { return }
     self.player = AVPlayer(playerItem: AVPlayerItem(url: url))
     self.playerLayer = AVPlayerLayer(player: player)
     
@@ -148,6 +156,18 @@ extension LoginViewController: LayoutSupport {
   func setConstraints() {
     loginView.snp.makeConstraints {
       $0.edges.equalToSuperview()
+    }
+  }
+}
+
+extension LoginViewController: LoginButtonDelegate {
+  func loginButton(_ button: UIButton) {
+    if button is KakaoLoginButton {
+      print("카카오!!!!!!!!!!!!!!")
+    } else if button is AppleLoginButton {
+      print("애플!!!!!!!!!")
+    } else if button is GoogleLoginButton {
+      print("구글!!!!!!!!!!!!!!")
     }
   }
 }
