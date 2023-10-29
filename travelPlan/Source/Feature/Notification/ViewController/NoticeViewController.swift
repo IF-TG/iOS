@@ -6,6 +6,17 @@
 //
 
 import UIKit
+import Combine
+
+struct NoticeViewInput {
+  var viewDidLoad: PassthroughSubject<Void, Never> = .init()
+  var didTapNotice: PassthroughSubject<(indexPath: IndexPath, isExpected: Bool), Never> = .init()
+}
+
+enum NoticeViewState {
+  case none
+  case updateNotices
+}
 
 final class NoticeViewController: UIViewController {
   // MARK: - Properties
@@ -16,6 +27,8 @@ final class NoticeViewController: UIViewController {
     $0.register(NoticeCell.self, forCellReuseIdentifier: NoticeCell.id)
     $0.separatorStyle = .none
   }
+  
+  private let input = NoticeViewInput()
   
   private var adapter: NoticeViewAdapter?
   
@@ -39,6 +52,7 @@ final class NoticeViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    input.viewDidLoad.send()
   }
 }
 
@@ -49,6 +63,6 @@ extension NoticeViewController: NoticeViewAdapterDelegate {
     didSelectRowAt indexPath: IndexPath,
     isExpended: Bool
   ) {
-    // TODO: - input전송
+    input.didTapNotice.send((indexPath, isExpended))
   }
 }
