@@ -65,5 +65,7 @@ extension UIColor {
     static let highlight = UIColor(hex: "0072C6", alpha: 1)
     /// #FBFBFB
     static let littleWhite = UIColor(hex: "#FBFBFB", alpha: 1)
+    /// #FEE500
+    static let kakao = UIColor(hex: "#FEE500")
   }
 }
