@@ -134,6 +134,7 @@ extension NoticeCell {
 private extension NoticeCell {
   func configureUI() {
     setupUI()
+    setHuggingPriority()
     selectionStyle = .none
   }
   
@@ -146,6 +147,11 @@ private extension NoticeCell {
       NSLayoutConstraint.activate(notExpendedConstraints)
     }
     detailsLabel.alpha = CGFloat(isExpended.toInt)
+  }
+  
+  func setHuggingPriority() {
+    titleLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
+    dateLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
   }
 }
 
