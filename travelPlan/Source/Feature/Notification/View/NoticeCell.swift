@@ -102,6 +102,7 @@ final class NoticeCell: UITableViewCell {
   var isExpended = false {
     didSet {
       updateVisibleLayout()
+      updateChevronRotation()
     }
   }
   
@@ -154,6 +155,10 @@ private extension NoticeCell {
   func setHuggingPriority() {
     titleLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
     dateLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
+  }
+  
+  func updateChevronRotation() {
+    chevronIcon.transform = isExpended ? .init(rotationAngle: .pi) : .identity
   }
 }
 
