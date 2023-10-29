@@ -5,8 +5,8 @@
 //  Created by 양승현 on 10/30/23.
 //
 
-import Foundation
+import Combine
 
 protocol NotificationRepository {
-  func fetchNotices() -> [NoticeEntity]
+  func fetchNotices() -> Future<[NoticeEntity], Never>
 }
