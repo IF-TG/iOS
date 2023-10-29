@@ -9,7 +9,7 @@ import UIKit
 
 final class NoticeViewAdapter: NSObject {
   // MARK: - Propreties
-  weak var dataSource: NoticeViewAdapterDataSource?
+  private let dataSource: NoticeViewAdapterDataSource?
   weak var delegate: NoticeViewAdapterDelegate?
   
   // MARK: - Lifecycle
