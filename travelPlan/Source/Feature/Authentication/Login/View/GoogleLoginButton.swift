@@ -32,7 +32,9 @@ class GoogleLoginButton: BaseLoginButton {
 
 // MARK: - Private Helpers
 extension GoogleLoginButton {
-  func setupStyles() {
-    
+  private func setupStyles() {
+    backgroundColor = .white
+    layer.borderColor = UIColor.yg.gray0.cgColor
+    layer.borderWidth = 1
   }
 }

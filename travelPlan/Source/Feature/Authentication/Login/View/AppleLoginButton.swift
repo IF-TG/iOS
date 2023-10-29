@@ -22,6 +22,7 @@ class AppleLoginButton: BaseLoginButton {
   
   init(frame: CGRect) {
     super.init(frame: frame, imagePath: "apple-icon", textLabel: textLabel)
+    setupStyles()
   }
   
   required init?(coder: NSCoder) {
@@ -31,5 +32,7 @@ class AppleLoginButton: BaseLoginButton {
 
 // MARK: - Private Helpers
 extension AppleLoginButton {
-  
+  private func setupStyles() {
+    backgroundColor = .black
+  }
 }
