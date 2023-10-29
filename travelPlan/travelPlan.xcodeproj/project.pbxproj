@@ -82,6 +82,17 @@
 		151DF0EA2AEEA7BA00D5D55B /* NoticeViewAdapterDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151DF0E92AEEA7BA00D5D55B /* NoticeViewAdapterDataSource.swift */; };
 		151DF0EC2AEEAB2600D5D55B /* NoticeViewAdapterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151DF0EB2AEEAB2600D5D55B /* NoticeViewAdapterDelegate.swift */; };
 		151DF0F02AEEAE2100D5D55B /* NoticeEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151DF0EF2AEEAE2100D5D55B /* NoticeEntity.swift */; };
+		151DF0F42AEEB29500D5D55B /* NoticeUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151DF0F32AEEB29500D5D55B /* NoticeUseCase.swift */; };
+		151DF0F62AEEB2D200D5D55B /* DefaultNoticeUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151DF0F52AEEB2D200D5D55B /* DefaultNoticeUseCase.swift */; };
+		151DF0FC2AEEBA0100D5D55B /* NotificationRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151DF0FB2AEEBA0100D5D55B /* NotificationRepository.swift */; };
+		151DF0FE2AEEBBE200D5D55B /* DefaultNotificationRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151DF0FD2AEEBBE200D5D55B /* DefaultNotificationRepository.swift */; };
+		151DF1012AEEBD0A00D5D55B /* NotificationAPIEndpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151DF1002AEEBD0A00D5D55B /* NotificationAPIEndpoints.swift */; };
+		151DF1052AEEBE0F00D5D55B /* NoticeResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151DF1042AEEBE0F00D5D55B /* NoticeResponseDTO.swift */; };
+		151DF10A2AEEC58600D5D55B /* MockSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFAC1B2ADC2BC20013DB57 /* MockSession.swift */; };
+		151DF10B2AEEC58900D5D55B /* MockUrlProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFAC192ADC1C9D0013DB57 /* MockUrlProtocol.swift */; };
+		151DF10D2AEEC77800D5D55B /* MockUrlProtocol+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151DF10C2AEEC77800D5D55B /* MockUrlProtocol+.swift */; };
+		151DF10F2AEECBB400D5D55B /* mock_response_notice.json in Resources */ = {isa = PBXBuildFile; fileRef = 151DF10E2AEECBB400D5D55B /* mock_response_notice.json */; };
+		151DF1122AEECDDD00D5D55B /* NoticeViewModelable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151DF1112AEECDDD00D5D55B /* NoticeViewModelable.swift */; };
 		15259DE92ACAA98F00C14F62 /* TravelDestinationCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13FE64782A5C3900007D9A53 /* TravelDestinationCellViewModel.swift */; };
 		15259DEA2ACAA9D800C14F62 /* SearchFestivalCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13274C592A59AD29001F141C /* SearchFestivalCellViewModel.swift */; };
 		15259DEB2ACAA9F600C14F62 /* PostSearchFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C07ECC2A13F454005F04CD /* PostSearchFooterView.swift */; };
@@ -349,6 +360,15 @@
 		151DF0E92AEEA7BA00D5D55B /* NoticeViewAdapterDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeViewAdapterDataSource.swift; sourceTree = "<group>"; };
 		151DF0EB2AEEAB2600D5D55B /* NoticeViewAdapterDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeViewAdapterDelegate.swift; sourceTree = "<group>"; };
 		151DF0EF2AEEAE2100D5D55B /* NoticeEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeEntity.swift; sourceTree = "<group>"; };
+		151DF0F32AEEB29500D5D55B /* NoticeUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeUseCase.swift; sourceTree = "<group>"; };
+		151DF0F52AEEB2D200D5D55B /* DefaultNoticeUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultNoticeUseCase.swift; sourceTree = "<group>"; };
+		151DF0FB2AEEBA0100D5D55B /* NotificationRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationRepository.swift; sourceTree = "<group>"; };
+		151DF0FD2AEEBBE200D5D55B /* DefaultNotificationRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultNotificationRepository.swift; sourceTree = "<group>"; };
+		151DF1002AEEBD0A00D5D55B /* NotificationAPIEndpoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationAPIEndpoints.swift; sourceTree = "<group>"; };
+		151DF1042AEEBE0F00D5D55B /* NoticeResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeResponseDTO.swift; sourceTree = "<group>"; };
+		151DF10C2AEEC77800D5D55B /* MockUrlProtocol+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MockUrlProtocol+.swift"; sourceTree = "<group>"; };
+		151DF10E2AEECBB400D5D55B /* mock_response_notice.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = mock_response_notice.json; sourceTree = "<group>"; };
+		151DF1112AEECDDD00D5D55B /* NoticeViewModelable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeViewModelable.swift; sourceTree = "<group>"; };
 		152AD4E72A188D33008A2A11 /* FavoriteTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteTableViewCell.swift; sourceTree = "<group>"; };
 		152AD4ED2A1891DB008A2A11 /* UISpacing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UISpacing.swift; sourceTree = "<group>"; };
 		152AD4EF2A189CFC008A2A11 /* FavoriteHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteHeaderView.swift; sourceTree = "<group>"; };
@@ -783,6 +803,7 @@
 			children = (
 				151DF0E92AEEA7BA00D5D55B /* NoticeViewAdapterDataSource.swift */,
 				151DF0EB2AEEAB2600D5D55B /* NoticeViewAdapterDelegate.swift */,
+				151DF1112AEECDDD00D5D55B /* NoticeViewModelable.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -790,6 +811,8 @@
 		151DF0ED2AEEADFC00D5D55B /* Domain */ = {
 			isa = PBXGroup;
 			children = (
+				151DF0F92AEEB96400D5D55B /* Interfaces */,
+				151DF0F22AEEB28600D5D55B /* UseCases */,
 				151DF0EE2AEEAE1100D5D55B /* Entities */,
 			);
 			path = Domain;
@@ -801,6 +824,90 @@
 				151DF0EF2AEEAE2100D5D55B /* NoticeEntity.swift */,
 			);
 			path = Entities;
+			sourceTree = "<group>";
+		};
+		151DF0F12AEEB27400D5D55B /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				151DF0F32AEEB29500D5D55B /* NoticeUseCase.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
+		151DF0F22AEEB28600D5D55B /* UseCases */ = {
+			isa = PBXGroup;
+			children = (
+				151DF0F12AEEB27400D5D55B /* Protocol */,
+				151DF0F52AEEB2D200D5D55B /* DefaultNoticeUseCase.swift */,
+			);
+			path = UseCases;
+			sourceTree = "<group>";
+		};
+		151DF0F72AEEB4A200D5D55B /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				151DF0FF2AEEBC0700D5D55B /* Network */,
+				151DF0F82AEEB89100D5D55B /* Repositories */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		151DF0F82AEEB89100D5D55B /* Repositories */ = {
+			isa = PBXGroup;
+			children = (
+				151DF0FD2AEEBBE200D5D55B /* DefaultNotificationRepository.swift */,
+			);
+			path = Repositories;
+			sourceTree = "<group>";
+		};
+		151DF0F92AEEB96400D5D55B /* Interfaces */ = {
+			isa = PBXGroup;
+			children = (
+				151DF0FA2AEEB96E00D5D55B /* Repositories */,
+			);
+			path = Interfaces;
+			sourceTree = "<group>";
+		};
+		151DF0FA2AEEB96E00D5D55B /* Repositories */ = {
+			isa = PBXGroup;
+			children = (
+				151DF0FB2AEEBA0100D5D55B /* NotificationRepository.swift */,
+			);
+			path = Repositories;
+			sourceTree = "<group>";
+		};
+		151DF0FF2AEEBC0700D5D55B /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				151DF1022AEEBDE100D5D55B /* ResponseDTO */,
+				151DF1002AEEBD0A00D5D55B /* NotificationAPIEndpoints.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		151DF1022AEEBDE100D5D55B /* ResponseDTO */ = {
+			isa = PBXGroup;
+			children = (
+				151DF1042AEEBE0F00D5D55B /* NoticeResponseDTO.swift */,
+			);
+			path = ResponseDTO;
+			sourceTree = "<group>";
+		};
+		151DF1062AEEC52200D5D55B /* Local */ = {
+			isa = PBXGroup;
+			children = (
+				151DF1072AEEC53400D5D55B /* MockJson */,
+				151DF10C2AEEC77800D5D55B /* MockUrlProtocol+.swift */,
+			);
+			path = Local;
+			sourceTree = "<group>";
+		};
+		151DF1072AEEC53400D5D55B /* MockJson */ = {
+			isa = PBXGroup;
+			children = (
+				151DF10E2AEECBB400D5D55B /* mock_response_notice.json */,
+			);
+			path = MockJson;
 			sourceTree = "<group>";
 		};
 		152AD4E42A188BCE008A2A11 /* View */ = {
@@ -951,6 +1058,8 @@
 		1594F53029FD517E00A58F20 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				151DF1062AEEC52200D5D55B /* Local */,
+				151DF0F72AEEB4A200D5D55B /* Data */,
 				151DF0ED2AEEADFC00D5D55B /* Domain */,
 				15FFAC052AD6E8D80013DB57 /* Network */,
 				15FEB5D82A050A99000A5F33 /* Common */,
@@ -1659,6 +1768,7 @@
 				158BEFBA2A0EB2A500C27861 /* Pretendard-Bold.ttf in Resources */,
 				1594F53B29FD517F00A58F20 /* Assets.xcassets in Resources */,
 				158BEFBE2A0EB2A500C27861 /* Pretendard-ExtraBold.ttf in Resources */,
+				151DF10F2AEECBB400D5D55B /* mock_response_notice.json in Resources */,
 				158BEFBD2A0EB2A500C27861 /* Pretendard-Medium.ttf in Resources */,
 				157176752A0C09740015EC8C /* SFPro-Italic.ttf in Resources */,
 				158BEFB82A0EB2A500C27861 /* Pretendard-Light.ttf in Resources */,
@@ -1801,9 +1911,11 @@
 				152AD4F62A18B6C3008A2A11 /* FavoriteHeaderImageViews.swift in Sources */,
 				157ADCA02ACFB33100D37680 /* UIScrollView+.swift in Sources */,
 				13254FE72A05158E00094218 /* SearchViewController.swift in Sources */,
+				151DF0FC2AEEBA0100D5D55B /* NotificationRepository.swift in Sources */,
 				15FEB5EC2A050A99000A5F33 /* ViewModelProtocols.swift in Sources */,
 				15A4F28D2ACC1025001AA51D /* Toggable.swift in Sources */,
 				15D955AF2ADFB2F1002BF9C3 /* ShadowInfo.swift in Sources */,
+				151DF10A2AEEC58600D5D55B /* MockSession.swift in Sources */,
 				15F0D1D32A53095100D04773 /* PostViewAdapter.swift in Sources */,
 				157ADCA62ACFFEF300D37680 /* EmptyStateBasedContentViewCheckable.swift in Sources */,
 				152AD5272A1B89D2008A2A11 /* FavoriteViewModel.swift in Sources */,
@@ -1822,10 +1934,13 @@
 				157ADC9E2ACFAAFA00D37680 /* FavoritePostViewAdapter.swift in Sources */,
 				15C83F8A2AB2134D00DDB536 /* BottomSheetView.swift in Sources */,
 				1503F92B2A4E068E002BC38D /* ApplicationCoordinator.swift in Sources */,
+				151DF0F62AEEB2D200D5D55B /* DefaultNoticeUseCase.swift in Sources */,
 				15FFABFB2AD5B6FC0013DB57 /* BasePaddingLabel.swift in Sources */,
+				151DF1012AEEBD0A00D5D55B /* NotificationAPIEndpoints.swift in Sources */,
 				15259DE92ACAA98F00C14F62 /* TravelDestinationCellViewModel.swift in Sources */,
 				15EB39E62AC303C90025FFB4 /* BaseProfileAreaView.swift in Sources */,
 				15FFAC3A2ADE47910013DB57 /* PostHeaderInfo.swift in Sources */,
+				151DF0F42AEEB29500D5D55B /* NoticeUseCase.swift in Sources */,
 				13813A212AAA458000AF6AEB /* PostSearchCollectionViewDataSource.swift in Sources */,
 				15F0D1B42A51BFB800D04773 /* PostSearchCoordiantor.swift in Sources */,
 				15F0D19A2A4EF49700D04773 /* CategoryPageViewAdapter.swift in Sources */,
@@ -1863,6 +1978,7 @@
 				15EA48CA2A539D7B00F4B391 /* MoreMenuViewDelegate.swift in Sources */,
 				15EF8C9B2A0A19100068C744 /* TravelMainThemeCategoryAreaView.swift in Sources */,
 				158312E12AB36A9A0087034A /* UIViewController.swift in Sources */,
+				151DF10B2AEEC58900D5D55B /* MockUrlProtocol.swift in Sources */,
 				15CB23742A110FB4003EAF20 /* PostViewModel.swift in Sources */,
 				157ADCA42ACFF31D00D37680 /* FavoritePostViewController.swift in Sources */,
 				131A11082AB5067E007BDD66 /* SearchMoreDetailViewModel.swift in Sources */,
@@ -1879,6 +1995,7 @@
 				1503F9342A4E0D06002BC38D /* ProfileCoordinator.swift in Sources */,
 				15FEB5ED2A050A99000A5F33 /* LayoutSupport.swift in Sources */,
 				130304AA2A271F3B00776A0D /* SearchSectionModel.swift in Sources */,
+				151DF1122AEECDDD00D5D55B /* NoticeViewModelable.swift in Sources */,
 				15F36A182AB1986000971803 /* TravelTheme.swift in Sources */,
 				15EA6B352ACEF627002783F0 /* EmptyStateBasedContentViewController.swift in Sources */,
 				157ADCAE2AD00AB400D37680 /* FavoriteLocationViewController.swift in Sources */,
@@ -1896,6 +2013,7 @@
 				15F36A152AB1961F00971803 /* TravelRegion.swift in Sources */,
 				15DD40452A5B862D002BC5F8 /* PostViewBottomSheetAdapter.swift in Sources */,
 				15710CBA2A132C760023C19E /* FeedNotificationBarItem.swift in Sources */,
+				151DF10D2AEEC77800D5D55B /* MockUrlProtocol+.swift in Sources */,
 				15D867CF2AD427EC00F35811 /* FavoriteDetailCoordinator.swift in Sources */,
 				151DF0F02AEEAE2100D5D55B /* NoticeEntity.swift in Sources */,
 				157ADCAC2AD008EE00D37680 /* FavoriteDetailMenuViewConfigurable.swift in Sources */,
@@ -1946,6 +2064,7 @@
 				15D60D362AEB84FE0087FEC0 /* NotificationCenterViewController.swift in Sources */,
 				15D60D4C2AED17660087FEC0 /* RedIconBasedUnderbarSegmentedControl.swift in Sources */,
 				13274C5C2A59B4AD001F141C /* SearchFestivalModel.swift in Sources */,
+				151DF0FE2AEEBBE200D5D55B /* DefaultNotificationRepository.swift in Sources */,
 				158BEF792A0E27BD00C27861 /* PostCollectionView.swift in Sources */,
 				15BB01BF2A1EBAC20035B486 /* LoginViewModel+Associatedtype.swift in Sources */,
 				1594F53429FD517E00A58F20 /* SceneDelegate.swift in Sources */,
@@ -1972,6 +2091,7 @@
 				13254FE52A05157900094218 /* FeedViewController.swift in Sources */,
 				130304822A250DF600776A0D /* TitleWithButtonHeaderView.swift in Sources */,
 				13A93EE92AD0065300FC4BBD /* SearchMoreDetailLayoutManager.swift in Sources */,
+				151DF1052AEEBE0F00D5D55B /* NoticeResponseDTO.swift in Sources */,
 				1503F9372A4E1103002BC38D /* FavoriteCoordinator.swift in Sources */,
 				157ADCB02AD06B5400D37680 /* FavoriteDirectorySettingView.swift in Sources */,
 				15CB23662A10B7F1003EAF20 /* PostContentInfo.swift in Sources */,
