@@ -9,46 +9,83 @@ import UIKit
 import SnapKit
 
 class LoginView: UIView {
+  enum Constant {
+    enum YeoGaLogo {
+      static let imagePath = "yeoga-logo"
+    }
+    enum AirplaneLogo {
+      static let imagePath = "airplane-logo"
+    }
+    enum FirstDescriptionLabel {
+      static let fontSize: CGFloat = 16
+      static let text = "설레는 여행의 내딛음"
+    }
+    enum LoginDescriptionLabel {
+      static let fontSize: CGFloat = 20
+      static let numberOfLines = 0
+      static let text = "설레는 여행의 내딛음,\n여행을 가다"
+    }
+    enum ButtonStackView {
+      static let spacing: CGFloat = 7
+    }
+    enum PolicyLabel {
+      static let text = "로그인 시 이용약관 / 개인정보 처리방침 동의로 간주합니다."
+      static let fontSize: CGFloat = 12
+    }
+  }
+  
   // MARK: - Properties
   private let loginStartView = LoginStartView()
-  private let yeogaLogo: UIImageView = .init().set {
-    $0.image = UIImage(named: "yeoga-logo")?.withRenderingMode(.alwaysTemplate)
+  private let yeoGaLogo: UIImageView = .init().set {
+    $0.image = UIImage(named: Constant.YeoGaLogo.imagePath)?.withRenderingMode(.alwaysTemplate)
     $0.tintColor = .yg.littleWhite
   }
   private let airplaneLogo: UIImageView = .init().set {
-    $0.image = UIImage(named: "airplane-logo")?.withRenderingMode(.alwaysTemplate)
+    $0.image = UIImage(named: Constant.AirplaneLogo.imagePath)?.withRenderingMode(.alwaysTemplate)
     $0.contentMode = .scaleToFill
     $0.tintColor = .yg.primary
   }
   
   private let firstDescriptionLabel = UILabel().set {
-    $0.font = .init(pretendard: .medium, size: 16)
+    typealias Const = Constant.FirstDescriptionLabel
+    $0.font = .init(pretendard: .medium, size: Const.fontSize)
     $0.textColor = .yg.littleWhite
-    $0.text = "설레는 여행의 내딛음"
+    $0.text = Const.text
   }
   
   private lazy var loginDescriptionLabel = UILabel().set {
-    $0.text = "설레는 여행의 내딛음,\n여행을 가다"
-    $0.font = .init(pretendard: .medium, size: 20)
+    typealias Const = Constant.LoginDescriptionLabel
+    $0.text = Const.text
+    $0.font = .init(pretendard: .medium, size: Const.fontSize)
     $0.textColor = .yg.littleWhite
-    $0.numberOfLines = 0
+    $0.numberOfLines = Const.numberOfLines
     setAttributedTextOfloginDescriptionLabel($0)
   }
   
-  private let kakaoButton: UIButton = KakaoLoginButton()
-  private let appleButton: UIButton = AppleLoginButton()
-  private let googleButton: UIButton = GoogleLoginButton()
+  private lazy var kakaoButton = KakaoLoginButton().set {
+    $0.addTarget(self, action: #selector(didTapLoginButton), for: .touchUpInside)
+  }
+  private lazy var appleButton = AppleLoginButton().set {
+    $0.addTarget(self, action: #selector(didTapLoginButton), for: .touchUpInside)
+  }
+  private lazy var googleButton = GoogleLoginButton().set {
+    $0.addTarget(self, action: #selector(didTapLoginButton), for: .touchUpInside)
+  }
+  
   private let buttonStackView: UIStackView = .init().set {
     $0.axis = .vertical
     $0.distribution = .fillEqually
-    $0.spacing = 7
+    $0.spacing = Constant.ButtonStackView.spacing
   }
-  private lazy var policyDescriptionLabel: UILabel = .init().set {
-    $0.font = .init(pretendard: .regular, size: 12)
-    $0.text = "로그인 시 이용약관 / 개인정보 처리방침 동의로 간주합니다."
+  private lazy var policyLabel: UILabel = .init().set {
+    typealias Const = Constant.PolicyLabel
+    $0.font = .init(pretendard: .regular, size: Const.fontSize)
+    $0.text = Const.text
     $0.textColor = .white
     setAttributedTextOfPolicyDescriptionLabel($0)
   }
+  
+  weak var delegate: LoginButtonDelegate?
   
   // MARK: - LifeCycle
   override init(frame: CGRect) {
@@ -67,7 +104,7 @@ class LoginView: UIView {
 extension LoginView {
   private func setupBottomComponents() {
     addSubview(buttonStackView)
-    addSubview(policyDescriptionLabel)
+    addSubview(policyLabel)
     _ = [self.kakaoButton,
          self.appleButton,
          self.googleButton]
@@ -79,12 +116,12 @@ extension LoginView {
     buttonStackView.snp.makeConstraints {
       $0.leading.trailing.equalToSuperview().inset(26)
     }
-    policyDescriptionLabel.snp.makeConstraints {
+    policyLabel.snp.makeConstraints {
       $0.centerX.equalToSuperview()
       $0.top.equalTo(buttonStackView.snp.bottom).offset(16)
       $0.bottom.equalTo(safeAreaLayoutGuide).inset(22)
     }
-    policyDescriptionLabel.alpha = 0
+    policyLabel.alpha = 0
     self.buttonStackView.alpha = 0
   }
   
@@ -156,7 +193,7 @@ extension LoginView {
         }) { _ in
           UIView.animate(withDuration: 0.5) {
             self.buttonStackView.alpha = 1
-            self.policyDescriptionLabel.alpha = 1
+            self.policyLabel.alpha = 1
           }
         }
       }
@@ -175,7 +212,7 @@ extension LoginView {
       $0.width.equalTo(48)
       $0.height.equalTo(30)
     }
-    self.yeogaLogo.snp.remakeConstraints {
+    self.yeoGaLogo.snp.remakeConstraints {
       $0.leading.equalToSuperview().inset(25)
       $0.top.equalTo(self.loginDescriptionLabel.snp.bottom).offset(20)
       $0.width.equalTo(125)
@@ -199,7 +236,7 @@ extension LoginView: LayoutSupport {
   func addSubviews() {
     addSubview(loginStartView)
     addSubview(airplaneLogo)
-    addSubview(yeogaLogo)
+    addSubview(yeoGaLogo)
     addSubview(firstDescriptionLabel)
   }
   
@@ -216,10 +253,10 @@ extension LoginView: LayoutSupport {
       $0.top.equalTo(self.safeAreaLayoutGuide).offset(50)
       $0.width.equalTo(48)
       $0.height.equalTo(30)
-      $0.trailing.equalTo(yeogaLogo).offset(8)
+      $0.trailing.equalTo(yeoGaLogo).offset(8)
     }
     
-    yeogaLogo.snp.makeConstraints {
+    yeoGaLogo.snp.makeConstraints {
       $0.centerX.equalToSuperview()
       $0.top.equalTo(airplaneLogo.snp.bottom).offset(10)
       $0.width.equalTo(125)
@@ -228,7 +265,14 @@ extension LoginView: LayoutSupport {
     
     firstDescriptionLabel.snp.makeConstraints {
       $0.centerX.equalToSuperview()
-      $0.top.equalTo(yeogaLogo.snp.bottom).offset(15)
+      $0.top.equalTo(yeoGaLogo.snp.bottom).offset(15)
     }
+  }
+}
+
+// MARK: - Actions
+extension LoginView {
+  @objc private func didTapLoginButton(_ button: UIButton) {
+    delegate?.loginButton(button)
   }
 }

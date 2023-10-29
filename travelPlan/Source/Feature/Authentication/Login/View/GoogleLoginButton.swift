@@ -8,11 +8,22 @@
 import UIKit
 
 class GoogleLoginButton: BaseLoginButton {
+  enum Constant {
+    enum TextLabel {
+      static let text = "Google 로그인"
+      static let fontSize: CGFloat = 15
+      static let alphaOfTextColor: CGFloat = 0.85
+    }
+    static let imagePath = "google-icon"
+    static let borderWidth: CGFloat = 1
+  }
+  
   // MARK: - Properties
   private let textLabel: UILabel = .init().set {
-    $0.text = "Google 로그인"
-    $0.font = .init(pretendard: .semiBold, size: 15)
-    $0.textColor = .black.withAlphaComponent(0.85)
+    typealias Const = Constant.TextLabel
+    $0.text = Const.text
+    $0.font = .init(pretendard: .semiBold, size: Const.fontSize)
+    $0.textColor = .black.withAlphaComponent(Const.alphaOfTextColor)
   }
   
   // MARK: - LifeCycle
@@ -21,7 +32,7 @@ class GoogleLoginButton: BaseLoginButton {
   }
   
   init(frame: CGRect) {
-    super.init(frame: frame, imagePath: "google-icon", textLabel: textLabel)
+    super.init(frame: frame, imagePath: Constant.imagePath, textLabel: textLabel)
     setupStyles()
   }
   
@@ -35,6 +46,6 @@ extension GoogleLoginButton {
   private func setupStyles() {
     backgroundColor = .white
     layer.borderColor = UIColor.yg.gray0.cgColor
-    layer.borderWidth = 1
+    layer.borderWidth = Constant.borderWidth
   }
 }

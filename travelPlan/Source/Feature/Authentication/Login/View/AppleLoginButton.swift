@@ -8,10 +8,19 @@
 import UIKit
 
 class AppleLoginButton: BaseLoginButton {
+  enum Constant {
+    enum TextLabel {
+      static let text = "Apple 로그인"
+      static let fontSize: CGFloat = 15
+    }
+    static let imagePath = "apple-icon"
+  }
+  
   // MARK: - Properties
   private let textLabel: UILabel = .init().set {
-    $0.text = "Apple 로그인"
-    $0.font = .init(pretendard: .semiBold, size: 15)
+    typealias Const = Constant.TextLabel
+    $0.text = Const.text
+    $0.font = .init(pretendard: .semiBold, size: Const.fontSize)
     $0.textColor = .white
   }
   
@@ -21,7 +30,7 @@ class AppleLoginButton: BaseLoginButton {
   }
   
   init(frame: CGRect) {
-    super.init(frame: frame, imagePath: "apple-icon", textLabel: textLabel)
+    super.init(frame: frame, imagePath: Constant.imagePath, textLabel: textLabel)
     setupStyles()
   }
   

@@ -8,11 +8,21 @@
 import UIKit
 
 class KakaoLoginButton: BaseLoginButton {
+  enum Constant {
+    enum TextLabel {
+      static let text = "카카오 로그인"
+      static let fontSize: CGFloat = 15
+      static let alphaOfTextColor: CGFloat = 0.85
+    }
+    static let imagePath = "kakao-icon"
+  }
+  
   // MARK: - Properties
   private let textLabel: UILabel = .init().set {
-    $0.text = "카카오 로그인"
-    $0.font = .init(pretendard: .semiBold, size: 15)
-    $0.textColor = .black.withAlphaComponent(0.85)
+    typealias Const = Constant.TextLabel
+    $0.text = Const.text
+    $0.font = .init(pretendard: .semiBold, size: Const.fontSize)
+    $0.textColor = .black.withAlphaComponent(Const.alphaOfTextColor)
   }
   
   // MARK: - LifeCycle
@@ -21,7 +31,7 @@ class KakaoLoginButton: BaseLoginButton {
   }
   
   init(frame: CGRect) {
-    super.init(frame: frame, imagePath: "kakao-icon", textLabel: textLabel)
+    super.init(frame: frame, imagePath: Constant.imagePath, textLabel: textLabel)
     setupStyles()
   }
   
