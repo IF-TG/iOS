@@ -51,7 +51,7 @@ final class NotificationCenterViewController: UIViewController {
     viewControllers = [
       NotificationViewController(),
       NoticeViewController(viewModel: noticeViewModel)]
-    super.init()
+    super.init(nibName: nil, bundle: nil)
   }
   
   required init?(coder: NSCoder) {
