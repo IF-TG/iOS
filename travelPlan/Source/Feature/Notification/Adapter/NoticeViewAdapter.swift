@@ -17,8 +17,8 @@ final class NoticeViewAdapter: NSObject {
     dataSource: NoticeViewAdapterDataSource?,
     tableView: UITableView?
   ) {
-    super.init()
     self.dataSource = dataSource
+    super.init()
     tableView?.dataSource = self
     tableView?.delegate = self
   }
