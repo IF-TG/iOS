@@ -39,6 +39,7 @@ final class NoticeCell: UITableViewCell {
       static let height = 1
     }
     enum ExpendableLabel {
+      static let inset = UIEdgeInsets(top: 20, left: 11, bottom: 20, right: 11)
       static let font = UIFont(pretendard: .regular, size: 15)
       static let attributes: [NSAttributedString.Key: Any] = {
         let paragraph = NSMutableParagraphStyle()
