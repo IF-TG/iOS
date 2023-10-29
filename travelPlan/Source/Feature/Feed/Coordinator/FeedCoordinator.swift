@@ -10,6 +10,7 @@ import SHCoordinator
 
 protocol FeedCoordinatorDelegate: FlowCoordinatorDelegate {
   func showPostSearch()
+  func showNotification()
   func showTotalBottomSheet()
   func showPostMainThemeFilteringBottomSheet(sortingType: TravelMainThemeType)
   func showPostOrderFilteringBottomSheet()
@@ -42,6 +43,11 @@ final class FeedCoordinator: FlowCoordinator {
 extension FeedCoordinator: FeedCoordinatorDelegate {
   func showPostSearch() {
     let childCoordinator = PostSearchCoordinator(presenter: presenter)
+    addChild(with: childCoordinator)
+  }
+  
+  func showNotification() {
+    let childCoordinator = NotificationCenterCoordinator(presenter: presenter)
     addChild(with: childCoordinator)
   }
   
