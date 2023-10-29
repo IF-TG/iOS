@@ -30,6 +30,25 @@ final class NotificationCenterViewController: UIViewController {
   
   weak var coordinator: NotificationCenterCoordinatorDelegate?
   
+  private let viewControllers: [UIViewController] = [
+    NotificationViewController(),
+    NoticeViewController()]
+  
+  private lazy var pageViewController = UIPageViewController(
+    transitionStyle: .scroll,
+    navigationOrientation: .horizontal
+  ).set {
+    $0.view.translatesAutoresizingMaskIntoConstraints = false
+    $0.setViewControllers(
+      [viewControllers[0]],
+      direction: .forward,
+      animated: true)
+  }
+  
+  private var pageView: UIView! {
+    pageViewController.view
+  }
+  
   // MARK: - Lifecycle
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -111,8 +130,13 @@ private extension NotificationCenterViewController {
 // MARK: - Actions
 extension NotificationCenterViewController {
   @objc func didTapSegmentedControl(_ sender: UISegmentedControl) {
-    segmentedControl.selectedSegmentIndex = sender.selectedSegmentIndex
-    // TODO: - 페이지 뷰 써서 페이지 전환
+    let selectedIndex = sender.selectedSegmentIndex
+    segmentedControl.selectedSegmentIndex = selectedIndex
+    let direction: UIPageViewController.NavigationDirection = selectedIndex == 0 ? .reverse : .forward
+    pageViewController.setViewControllers(
+      [viewControllers[sender.selectedSegmentIndex]],
+      direction: direction,
+      animated: true)
   }
 }
 
@@ -120,13 +144,15 @@ extension NotificationCenterViewController {
 extension NotificationCenterViewController: LayoutSupport {
   func addSubviews() {
     _=[
-      segmentedControl
+      segmentedControl,
+      pageView
     ].map { view.addSubview($0) }
   }
   
   func setConstraints() {
     _=[
-      segmentedControlConstraints
+      segmentedControlConstraints,
+      pageViewConstraints
     ].map {
       NSLayoutConstraint.activate($0)
     }
@@ -141,5 +167,13 @@ extension NotificationCenterViewController {
       segmentedControl.trailingAnchor.constraint(equalTo: view.trailingAnchor),
       segmentedControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
       segmentedControl.heightAnchor.constraint(equalToConstant: Const.height)]
+  }
+  
+  private var pageViewConstraints: [NSLayoutConstraint] {
+    return [
+      pageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+      pageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+      pageView.topAnchor.constraint(equalTo: segmentedControl.bottomAnchor),
+      pageView.bottomAnchor.constraint(equalTo: view.bottomAnchor)]
   }
 }
