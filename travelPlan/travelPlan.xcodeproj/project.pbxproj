@@ -60,7 +60,6 @@
 		13CB6D342A1FEC6D00D185B2 /* CautionAlertViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CB6D332A1FEC6D00D185B2 /* CautionAlertViewControllerDelegate.swift */; };
 		13CB6D362A20E12B00D185B2 /* CALayer+Border.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CB6D352A20E12B00D185B2 /* CALayer+Border.swift */; };
 		13FE64772A5C378D007D9A53 /* SearchCampingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13FE64762A5C378D007D9A53 /* SearchCampingModel.swift */; };
-		1503F9292A4E0603002BC38D /* SHCoordinator in Frameworks */ = {isa = PBXBuildFile; productRef = 1503F9282A4E0603002BC38D /* SHCoordinator */; };
 		1503F92B2A4E068E002BC38D /* ApplicationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1503F92A2A4E068E002BC38D /* ApplicationCoordinator.swift */; };
 		1503F92E2A4E083C002BC38D /* LoginCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1503F92D2A4E083C002BC38D /* LoginCoordinator.swift */; };
 		1503F9312A4E0A4F002BC38D /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1503F9302A4E0A4F002BC38D /* MainCoordinator.swift */; };
@@ -72,6 +71,10 @@
 		151130092A04E4EB0041DDA1 /* travelPlanTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151130082A04E4EB0041DDA1 /* travelPlanTests.swift */; };
 		151130162A04E5B00041DDA1 /* travelPlanUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151130152A04E5B00041DDA1 /* travelPlanUITests.swift */; };
 		151130182A04E5B00041DDA1 /* travelPlanUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151130172A04E5B00041DDA1 /* travelPlanUITestsLaunchTests.swift */; };
+		151DF0CF2AEE397000D5D55B /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 151DF0CE2AEE397000D5D55B /* Alamofire */; };
+		151DF0D22AEE39DA00D5D55B /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 151DF0D12AEE39DA00D5D55B /* SnapKit */; };
+		151DF0D42AEE39DA00D5D55B /* SnapKit-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 151DF0D32AEE39DA00D5D55B /* SnapKit-Dynamic */; };
+		151DF0D62AEE3C0700D5D55B /* SHCoordinator in Frameworks */ = {isa = PBXBuildFile; productRef = 151DF0D52AEE3C0700D5D55B /* SHCoordinator */; };
 		15259DE92ACAA98F00C14F62 /* TravelDestinationCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13FE64782A5C3900007D9A53 /* TravelDestinationCellViewModel.swift */; };
 		15259DEA2ACAA9D800C14F62 /* SearchFestivalCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13274C592A59AD29001F141C /* SearchFestivalCellViewModel.swift */; };
 		15259DEB2ACAA9F600C14F62 /* PostSearchFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C07ECC2A13F454005F04CD /* PostSearchFooterView.swift */; };
@@ -509,8 +512,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1503F9292A4E0603002BC38D /* SHCoordinator in Frameworks */,
+				151DF0D42AEE39DA00D5D55B /* SnapKit-Dynamic in Frameworks */,
+				151DF0CF2AEE397000D5D55B /* Alamofire in Frameworks */,
+				151DF0D22AEE39DA00D5D55B /* SnapKit in Frameworks */,
 				4D09A064E38B6641AA454DEB /* Pods_travelPlan.framework in Frameworks */,
+				151DF0D62AEE3C0700D5D55B /* SHCoordinator in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1460,7 +1466,10 @@
 			);
 			name = travelPlan;
 			packageProductDependencies = (
-				1503F9282A4E0603002BC38D /* SHCoordinator */,
+				151DF0CE2AEE397000D5D55B /* Alamofire */,
+				151DF0D12AEE39DA00D5D55B /* SnapKit */,
+				151DF0D32AEE39DA00D5D55B /* SnapKit-Dynamic */,
+				151DF0D52AEE3C0700D5D55B /* SHCoordinator */,
 			);
 			productName = travelPlan;
 			productReference = 1594F52E29FD517E00A58F20 /* travelPlan.app */;
@@ -1499,7 +1508,9 @@
 			);
 			mainGroup = 1594F52529FD517E00A58F20;
 			packageReferences = (
-				1503F9272A4E0603002BC38D /* XCRemoteSwiftPackageReference "SHCoordinator.git" */,
+				1503F9272A4E0603002BC38D /* XCRemoteSwiftPackageReference "SHCoordinator" */,
+				151DF0CD2AEE397000D5D55B /* XCRemoteSwiftPackageReference "Alamofire" */,
+				151DF0D02AEE39DA00D5D55B /* XCRemoteSwiftPackageReference "SnapKit" */,
 			);
 			productRefGroup = 1594F52F29FD517E00A58F20 /* Products */;
 			projectDirPath = "";
@@ -2139,20 +2150,51 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		1503F9272A4E0603002BC38D /* XCRemoteSwiftPackageReference "SHCoordinator.git" */ = {
+		1503F9272A4E0603002BC38D /* XCRemoteSwiftPackageReference "SHCoordinator" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SHcommit/SHCoordinator.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 2.0.0;
+				minimumVersion = 3.0.1;
+			};
+		};
+		151DF0CD2AEE397000D5D55B /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.8.1;
+			};
+		};
+		151DF0D02AEE39DA00D5D55B /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.6.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		1503F9282A4E0603002BC38D /* SHCoordinator */ = {
+		151DF0CE2AEE397000D5D55B /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 1503F9272A4E0603002BC38D /* XCRemoteSwiftPackageReference "SHCoordinator.git" */;
+			package = 151DF0CD2AEE397000D5D55B /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		151DF0D12AEE39DA00D5D55B /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 151DF0D02AEE39DA00D5D55B /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+		151DF0D32AEE39DA00D5D55B /* SnapKit-Dynamic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 151DF0D02AEE39DA00D5D55B /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = "SnapKit-Dynamic";
+		};
+		151DF0D52AEE3C0700D5D55B /* SHCoordinator */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1503F9272A4E0603002BC38D /* XCRemoteSwiftPackageReference "SHCoordinator" */;
 			productName = SHCoordinator;
 		};
 /* End XCSwiftPackageProductDependency section */
