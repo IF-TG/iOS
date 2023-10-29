@@ -6,6 +6,7 @@
 //
 
 import Alamofire
+import Foundation
 
 class MockSession {
   static var `default`: Session {
