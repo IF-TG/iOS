@@ -166,6 +166,21 @@ private extension NoticeCell {
         chevronIcon.transform = isExpended ? .init(rotationAngle: .pi-0.00000000001) : .identity
       })
   }
+  
+  func setReferenceConstraints() {
+    let cellDividerBottomConstraint = cellDivider.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+    cellDividerBottomConstraint.priority = .defaultHigh
+    
+    let detailsLabelBottomConstraint = detailsLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+    detailsLabelBottomConstraint.priority = .defaultHigh
+    
+    notExpendedConstraints = [
+      cellDividerBottomConstraint,
+      detailsLabel.topAnchor.constraint(equalTo: cellDivider.bottomAnchor, constant: -12)]
+    expendedConstriants = [
+      detailsLabelBottomConstraint,
+      detailsLabel.topAnchor.constraint(equalTo: cellDivider.bottomAnchor)]
+  }
 }
 
 // MARK: - LayoutSupport
@@ -191,18 +206,7 @@ extension NoticeCell: LayoutSupport {
       detailsLabelConstraints
     ].flatMap { $0 }
     
-    let cellDividerBottomConstraint = cellDivider.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
-    cellDividerBottomConstraint.priority = .defaultHigh
-    
-    let detailsLabelBottomConstraint = detailsLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
-    detailsLabelBottomConstraint.priority = .defaultHigh
-    
-    notExpendedConstraints = [
-      cellDividerBottomConstraint,
-      detailsLabel.topAnchor.constraint(equalTo: cellDivider.bottomAnchor, constant: -12)]
-    expendedConstriants = [
-      detailsLabelBottomConstraint,
-      detailsLabel.topAnchor.constraint(equalTo: cellDivider.bottomAnchor)]
+    setReferenceConstraints()
     
     NSLayoutConstraint.activate([sharedConstraints + notExpendedConstraints].flatMap { $0 })
   }
