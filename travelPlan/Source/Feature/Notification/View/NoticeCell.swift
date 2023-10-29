@@ -158,7 +158,13 @@ private extension NoticeCell {
   }
   
   func updateChevronRotation() {
-    chevronIcon.transform = isExpended ? .init(rotationAngle: .pi) : .identity
+    UIView.animate(
+      withDuration: 0.24,
+      delay: 0,
+      options: .curveEaseOut,
+      animations: { [unowned self] in
+        chevronIcon.transform = isExpended ? .init(rotationAngle: .pi-0.00000000001) : .identity
+      })
   }
 }
 
