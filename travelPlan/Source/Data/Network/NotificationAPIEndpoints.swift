@@ -11,8 +11,8 @@ struct NotificationAPIEndpoints {
   private init() {}
   static let `default` = NotificationAPIEndpoints()
   
-  func fetchNotices() -> Endpoint<NoticeResponseDTO> {
-    return Endpoint<NoticeResponseDTO>(
+  func fetchNotices() -> Endpoint<[NoticeResponseDTO]> {
+    return Endpoint<[NoticeResponseDTO]>(
       prefixPath: "temp",
       parameters: nil,
       requestType: .none)
