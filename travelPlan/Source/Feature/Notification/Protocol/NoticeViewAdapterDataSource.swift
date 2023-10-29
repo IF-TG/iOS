@@ -6,3 +6,9 @@
 //
 
 import Foundation
+
+protocol NoticeViewAdapterDataSource: AnyObject {
+  var numberOfItems: Int { get }
+  
+  func getItem(_ indexPath: IndexPath) -> NoticeCellInfo
+}
