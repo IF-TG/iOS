@@ -141,7 +141,7 @@ private extension FavoriteDetailViewController {
 // MARK: - Action
 extension FavoriteDetailViewController {
   @objc private func didTapBackButton() {
-    coordinator?.popViewController()
+    coordinator?.finish(withAnimated: true)
   }
 }
 

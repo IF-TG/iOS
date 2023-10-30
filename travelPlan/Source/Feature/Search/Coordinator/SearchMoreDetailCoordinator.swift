@@ -8,19 +8,17 @@
 import UIKit
 import SHCoordinator
 
-protocol SearchMoreDetailCoordinatorDelegate: AnyObject {
-  func finish()
-}
+protocol SearchMoreDetailCoordinatorDelegate: FlowCoordinatorDelegate { }
 
 final class SearchMoreDetailCoordinator: FlowCoordinator {
   // MARK: - Properties
-  var parent: FlowCoordinator!
+  var parent: FlowCoordinator?
   var child: [FlowCoordinator] = []
-  var presenter: UINavigationController!
+  var presenter: UINavigationController?
   var viewControllerType: SearchSectionType
   
   // MARK: - LifeCycle
-  init(presenter: UINavigationController, viewControllerType: SearchSectionType) {
+  init(presenter: UINavigationController?, viewControllerType: SearchSectionType) {
     self.viewControllerType = viewControllerType
     self.presenter = presenter
   }
@@ -33,7 +31,7 @@ final class SearchMoreDetailCoordinator: FlowCoordinator {
   func start() {
     let viewController = SearchMoreDetailViewController(type: viewControllerType)
     viewController.coordinator = self
-    presenter.pushViewController(viewController, animated: true)
+    presenter?.pushViewController(viewController, animated: true)
   }
 }
 

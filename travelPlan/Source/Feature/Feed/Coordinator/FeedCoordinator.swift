@@ -8,8 +8,7 @@
 import UIKit
 import SHCoordinator
 
-protocol FeedCoordinatorDelegate: AnyObject {
-  func finish()
+protocol FeedCoordinatorDelegate: FlowCoordinatorDelegate {
   func showPostSearch()
   func showNotification()
   func showTotalBottomSheet()
@@ -20,13 +19,13 @@ protocol FeedCoordinatorDelegate: AnyObject {
 
 final class FeedCoordinator: FlowCoordinator {
   // MARK: - Properties
-  var parent: FlowCoordinator!
+  var parent: FlowCoordinator?
   var child: [FlowCoordinator] = []
-  var presenter: UINavigationController!
+  var presenter: UINavigationController?
   
   private weak var viewController: FeedViewController?
   
-  init(presenter: UINavigationController!) {
+  init(presenter: UINavigationController?) {
     self.presenter = presenter
   }
   
@@ -36,7 +35,7 @@ final class FeedCoordinator: FlowCoordinator {
     let vc = FeedViewController(viewModel: feedViewModel)
     viewController = vc
     vc.coordinator = self
-    presenter.pushViewController(vc, animated: true)
+    presenter?.pushViewController(vc, animated: true)
   }
 }
 
@@ -54,7 +53,7 @@ extension FeedCoordinator: FeedCoordinatorDelegate {
   
   func showTotalBottomSheet() {
     let sheetViewController = PostViewBottomSheetViewController()
-    presenter.present(sheetViewController, animated: false)
+    presenter?.present(sheetViewController, animated: false)
   }
   
   func showPostMainThemeFilteringBottomSheet(sortingType: TravelMainThemeType) {
@@ -69,7 +68,7 @@ extension FeedCoordinator: FeedCoordinatorDelegate {
         sortingType: .travelMainTheme(sortingType))
     }
     bottomSheetViewController.delegate = viewController
-    presenter.presentBottomSheet(bottomSheetViewController)
+    presenter?.presentBottomSheet(bottomSheetViewController)
   }
   
   func showPostOrderFilteringBottomSheet() {
@@ -77,11 +76,11 @@ extension FeedCoordinator: FeedCoordinatorDelegate {
       bottomSheetMode: .couldBeFull,
       sortingType: .travelOrder)
     bottomSheetViewController.delegate = viewController
-    presenter.presentBottomSheet(bottomSheetViewController)
+    presenter?.presentBottomSheet(bottomSheetViewController)
   }
   
   func showReviewWrite() {
     let reviewViewController = TravelReviewViewController()
-    presenter.pushViewController(reviewViewController, animated: true)
+    presenter?.pushViewController(reviewViewController, animated: true)
   }
 }

@@ -99,8 +99,6 @@ class BottomSheetView: UIView {
     panGesture.delaysTouchesBegan = false
     panGesture.delaysTouchesEnded = false
     topView.addGestureRecognizer(panGesture)
-
-    
   }
 
   // MARK: - Action

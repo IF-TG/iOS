@@ -8,28 +8,27 @@
 import UIKit
 import SHCoordinator
 
-protocol LoginCoordinatorDelegate: AnyObject {
-  func finish()
+protocol LoginCoordinatorDelegate: FlowCoordinatorDelegate {
 }
 
 final class LoginCoordinator: FlowCoordinator {
   // MARK: - Properties
-  var parent: FlowCoordinator!
+  var parent: FlowCoordinator?
   var child: [FlowCoordinator] = []
-  let presenter: UINavigationController!
-  var viewController: UIViewController!
+  let presenter: UINavigationController?
+  weak var viewController: UIViewController?
 
   // MARK: - Lifecycle
-  init() {
-    let loginVM = LoginViewModel()
-    let loginViewController = LoginViewController(vm: loginVM)
-    self.presenter = .init(rootViewController: loginViewController)
-    viewController = loginViewController
-    loginViewController.coordinator = self
+  init(presenter: UINavigationController?) {
+    self.presenter = .init()
   }
   
   func start() {
-    presenter.viewControllers = [viewController]
+    let loginVM = LoginViewModel()
+    let loginViewController = LoginViewController(vm: loginVM)
+    viewController = loginViewController
+    loginViewController.coordinator = self
+    presenter?.viewControllers = [loginViewController]
   }
   
 }

@@ -14,9 +14,9 @@ protocol NotificationCenterCoordinatorDelegate: AnyObject {
 
 final class NotificationCenterCoordinator: FlowCoordinator {
   // MARK: - Properties
-  var parent: FlowCoordinator!
+  var parent: FlowCoordinator?
   var child: [FlowCoordinator] = []
-  var presenter: UINavigationController!
+  var presenter: UINavigationController?
   
   // MARK: - Lifecycle
   init(presenter: UINavigationController?) {
@@ -44,7 +44,7 @@ final class NotificationCenterCoordinator: FlowCoordinator {
     let noticeViewModel = NoticeViewModel(noticeUseCase: noticeUseCase)
     let vc = NotificationCenterViewController(noticeViewModel: noticeViewModel)
     vc.coordinator = self
-    presenter.pushViewController(vc, animated: true)
+    presenter?.pushViewController(vc, animated: true)
   }
   
   deinit {
