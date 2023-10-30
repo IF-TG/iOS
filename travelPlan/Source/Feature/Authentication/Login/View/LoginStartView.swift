@@ -143,7 +143,7 @@ extension LoginStartView {
   
   private func animateCircleView(velocity: CGPoint) {
     let currentCircleViewX = circleView.frame.origin.x
-    var isDraggingDown = velocity.y > .zero
+    let isDraggingDown = velocity.y > .zero
     
     if isDraggingDown {
       UIView.animate(
@@ -231,8 +231,8 @@ extension LoginStartView {
     let translation = panGesture.translation(in: circleView)
     let newY = currentCircleViewY + translation.y
     
-    var topBoundaryExceeded = Constant.CircleView.Spacing.maxTop >= newY
-    var bottomBoundaryExceeded = initialCircleViewY < currentCircleViewY
+    let topBoundaryExceeded = Constant.CircleView.Spacing.maxTop >= newY
+    let bottomBoundaryExceeded = initialCircleViewY < currentCircleViewY
     
     if panGesture.state == .ended {
       animateCircleView(velocity: panGesture.velocity(in: circleView))
