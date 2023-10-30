@@ -17,8 +17,6 @@ class LoginViewController: UIViewController {
   
   // MARK: - Properteis
   var vm: LoginViewModel!
-  let appear = PassthroughSubject<Void, ErrorType>()
-  let viewLoad = PassthroughSubject<Void, ErrorType>()
   private var subscriptions = Set<AnyCancellable>()
   weak var coordinator: LoginCoordinatorDelegate?
   
@@ -28,6 +26,7 @@ class LoginViewController: UIViewController {
   private lazy var loginView = LoginView().set {
     $0.delegate = self
   }
+  private let input = LoginViewModel.Input()
   
   // MARK: - Lifecycle
   override func viewDidLoad() {
@@ -36,7 +35,7 @@ class LoginViewController: UIViewController {
     setupUI()
     setupStyles()
     bind()
-    viewLoad.send()
+    input.viewDidLoad.send()
   }
   
   private override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -54,7 +53,7 @@ class LoginViewController: UIViewController {
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    appear.send()
+    input.viewWillAppear.send()
   }
   
   override func viewWillDisappear(_ animated: Bool) {
@@ -67,16 +66,13 @@ class LoginViewController: UIViewController {
   }
 }
 
-// MARK: - ViewBindCase
+// MARK: - ViewBindCaes
 extension LoginViewController: ViewBindCase {
   typealias Input = LoginViewModel.Input
   typealias ErrorType = LoginViewModel.ErrorType
   typealias State = LoginViewModel.State
   
   func bind() {
-    let input = Input(
-      appear: appear.eraseToAnyPublisher(),
-      viewLoad: viewLoad.eraseToAnyPublisher())
     let output = vm.transform(input)
     output.sink { [weak self] completion in
       switch completion {
@@ -98,10 +94,16 @@ extension LoginViewController: ViewBindCase {
       print("appear")
     case .viewLoad:
       print("viewLoaded")
+    case .presentKakao:
+      print("Kakao 로그인 화면 띄워짐")
+    case .presentApple:
+      print("Apple 로그인 화면 띄워짐")
+    case .presentGoogle:
+      print("Google 로그인 화면 띄워짐")
     }
   }
   
-  func handleError(_ error: LoginViewModel.ErrorType) {
+  func handleError(_ error: ErrorType) {
     switch error {
     case .none:
       print("none")
@@ -135,8 +137,8 @@ extension LoginViewController {
     )
     .sink { [weak self] _ in
       // CMTime.zero: 비디오의 시작점
-      self?.player.seek(to: CMTime.zero, completionHandler: { isSeekingCompelete in
-        if isSeekingCompelete {
+      self?.player.seek(to: CMTime.zero, completionHandler: { isCompleted in
+        if isCompleted {
           self?.player.play()
         }
       })
@@ -163,11 +165,11 @@ extension LoginViewController: LayoutSupport {
 extension LoginViewController: LoginButtonDelegate {
   func loginButton(_ button: UIButton) {
     if button is KakaoLoginButton {
-      print("카카오!!!!!!!!!!!!!!")
+      input.didTapKakaoButton.send()
     } else if button is AppleLoginButton {
-      print("애플!!!!!!!!!")
+      input.didTapAppleButton.send()
     } else if button is GoogleLoginButton {
-      print("구글!!!!!!!!!!!!!!")
+      input.didTapGoogleButton.send()
     }
   }
 }
