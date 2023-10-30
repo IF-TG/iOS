@@ -183,17 +183,16 @@ extension LoginView {
         self?.loginStartView.snp.removeConstraints()
         self?.loginStartView.removeFromSuperview()
         
-        guard let self else { return }
-        self.setupTopComponents()
-        self.disappearFirstDescriptionLabel()
-        self.setupBottomComponents()
+        self?.setupTopComponents()
+        self?.disappearFirstDescriptionLabel()
+        self?.setupBottomComponents()
 
         UIView.animate(withDuration: 1, animations: {
-          self.layoutIfNeeded()
+          self?.layoutIfNeeded()
         }) { _ in
           UIView.animate(withDuration: 0.5) {
-            self.buttonStackView.alpha = 1
-            self.policyLabel.alpha = 1
+            self?.buttonStackView.alpha = 1
+            self?.policyLabel.alpha = 1
           }
         }
       }
@@ -201,20 +200,20 @@ extension LoginView {
   }
   
   private func setupTopComponents() {
-    self.addSubview(self.loginDescriptionLabel)
-    self.loginDescriptionLabel.snp.makeConstraints {
+    self.addSubview(loginDescriptionLabel)
+    loginDescriptionLabel.snp.makeConstraints {
       $0.leading.equalToSuperview().inset(25)
-      $0.top.equalTo(self.airplaneLogo.snp.bottom).offset(8)
+      $0.top.equalTo(airplaneLogo.snp.bottom).offset(8)
     }
-    self.airplaneLogo.snp.remakeConstraints {
+    airplaneLogo.snp.remakeConstraints {
       $0.top.equalTo(self.safeAreaLayoutGuide).inset(20)
-      $0.leading.equalTo(self.loginDescriptionLabel.snp.trailing).offset(-20)
+      $0.leading.equalTo(loginDescriptionLabel.snp.trailing).offset(-20)
       $0.width.equalTo(48)
       $0.height.equalTo(30)
     }
-    self.yeoGaLogo.snp.remakeConstraints {
+    yeoGaLogo.snp.remakeConstraints {
       $0.leading.equalToSuperview().inset(25)
-      $0.top.equalTo(self.loginDescriptionLabel.snp.bottom).offset(20)
+      $0.top.equalTo(loginDescriptionLabel.snp.bottom).offset(20)
       $0.width.equalTo(125)
       $0.height.equalTo(47.5)
     }
