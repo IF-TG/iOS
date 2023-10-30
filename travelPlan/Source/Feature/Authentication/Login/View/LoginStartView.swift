@@ -231,16 +231,19 @@ extension LoginStartView {
     let translation = panGesture.translation(in: circleView)
     let newY = currentCircleViewY + translation.y
     
+    var topBoundaryExceeded = Constant.CircleView.Spacing.maxTop >= newY
+    var bottomBoundaryExceeded = initialCircleViewY < currentCircleViewY
+    
     if panGesture.state == .ended {
       animateCircleView(velocity: panGesture.velocity(in: circleView))
       return
     }
-    
-    if Constant.CircleView.Spacing.maxTop >= newY { // circleView가 top 경계를 넘으면
+       
+    if topBoundaryExceeded {
       let origin = CGPoint(x: currentCircleViewX, y: Constant.CircleView.Spacing.maxTop)
       coordinateCircleViewOrigin(panGesture: panGesture, origin: origin)
       return
-    } else if initialCircleViewY < currentCircleViewY { // circleView가 bottom 경계를 넘으면
+    } else if bottomBoundaryExceeded {
       let origin = CGPoint(x: currentCircleViewX, y: initialCircleViewY)
       coordinateCircleViewOrigin(panGesture: panGesture, origin: origin)
       return
