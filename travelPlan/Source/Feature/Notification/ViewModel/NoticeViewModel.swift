@@ -28,15 +28,15 @@ final class NoticeViewModel {
 extension NoticeViewModel: NoticeViewModelable {
   func transform(_ input: NoticeViewInput) -> AnyPublisher<NoticeViewState, Never> {
     return Publishers.MergeMany([
-      viewDidLoadChains(input),
-      didTapNoticeChains(input)
+      viewDidLoadStream(input),
+      didTapNoticeStream(input)
     ]).eraseToAnyPublisher()
   }
 }
 
 // MARK: - Input chains
 private extension NoticeViewModel {
-  func viewDidLoadChains(_ input: Input) -> Output {
+  func viewDidLoadStream(_ input: Input) -> Output {
     return input.viewDidLoad
       .map { [weak self] _ in
         self?.noticeUseCase.fetchNotices()
@@ -44,7 +44,7 @@ private extension NoticeViewModel {
       }.eraseToAnyPublisher()
   }
   
-  func didTapNoticeChains(_ input: Input) -> Output {
+  func didTapNoticeStream(_ input: Input) -> Output {
     return input.didTapNotice
       .map { [weak self] in
         self?.notices[$0.indexPath.row].isExpended = $0.isExpected
