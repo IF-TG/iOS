@@ -10,7 +10,7 @@ import UIKit
 final class AppleLoginButton: BaseLoginButton {
   enum Constant {
     enum TextLabel {
-      static let text = "Apple 로그인"
+      static let text = "Apple로 로그인"
       static let fontSize: CGFloat = 15
     }
     static let imagePath = "apple-icon"
