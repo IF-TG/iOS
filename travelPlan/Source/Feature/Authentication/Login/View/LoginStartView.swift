@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class LoginStartView: UIView {
+final class LoginStartView: UIView {
   enum Constant {
     enum ArrowImageView1 {
       static let imagePath = "arrow-up-onboarding"

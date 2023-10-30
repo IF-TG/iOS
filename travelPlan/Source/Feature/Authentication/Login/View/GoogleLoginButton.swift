@@ -7,7 +7,7 @@
 
 import UIKit
 
-class GoogleLoginButton: BaseLoginButton {
+final class GoogleLoginButton: BaseLoginButton {
   enum Constant {
     enum TextLabel {
       static let text = "Google 로그인"

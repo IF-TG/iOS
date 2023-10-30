@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class LoginView: UIView {
+final class LoginView: UIView {
   enum Constant {
     enum YeoGaLogo {
       static let imagePath = "yeoga-logo"
