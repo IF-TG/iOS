@@ -127,7 +127,6 @@ final class PostSearchViewController: UIViewController {
   }
   
   deinit {
-    coordinator?.finish()
     print("deinit: \(Self.self)")
   }
 }
@@ -226,7 +225,7 @@ extension PostSearchViewController {
   }
   
   @objc private func didTapBackButton() {
-    navigationController?.popViewController(animated: true)
+    coordinator?.finish(withAnimated: true)
   }
   
   @objc private func didTapCollectionView() {

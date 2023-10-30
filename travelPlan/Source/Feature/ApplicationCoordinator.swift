@@ -10,16 +10,17 @@ import SHCoordinator
 
 final class ApplicationCoordinator: FlowCoordinator {
   // MARK: - Properties
-  var parent: FlowCoordinator!
+  var parent: FlowCoordinator?
   var child: [FlowCoordinator] = []
-  var presenter: UINavigationController! = nil
-  var viewController: UIViewController!
+  var presenter: UINavigationController?
+  var viewController: UIViewController?
   private let window: UIWindow
   
   private var isSignIn: Bool {
     // 로그인 확인TODO: - 추후 UserDefaults등으로 사용자 로그인 확인 후 로그인 or main coordinator로 전환.
-    return true
+    return false
   }
+  
   init(window: UIWindow) {
     self.window = window
   }
@@ -48,7 +49,7 @@ extension ApplicationCoordinator {
   /// 1. MainCoordinator에서 login으로 가야할 때는 MainCoordinator를 삭제해야합니다.
   /// 2. app에서 시작될 때는 삭제해야할 prev coordinator가 없음으로 그냥 window에 등록합니다.
   func gotoLoginPage(withDelete prevCoordinator: MainCoordinator? = nil) {
-    let loginCoordinator = LoginCoordinator()
+    let loginCoordinator = LoginCoordinator(presenter: .init())
     window.rootViewController = nil
     window.rootViewController = loginCoordinator.presenter
     addChild(with: loginCoordinator)

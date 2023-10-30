@@ -8,17 +8,15 @@
 import UIKit
 import SHCoordinator
 
-protocol PlanCoordinatorDelegate: AnyObject {
-  func finish()
-}
+protocol PlanCoordinatorDelegate: FlowCoordinatorDelegate { }
 
 final class PlanCoordinator: FlowCoordinator {
   // MARK: - Properties
-  var parent: FlowCoordinator!
+  var parent: FlowCoordinator?
   var child: [FlowCoordinator] = []
-  var presenter: UINavigationController!
+  var presenter: UINavigationController?
   
-  init(presenter: UINavigationController) {
+  init(presenter: UINavigationController?) {
     self.presenter = presenter
   }
   
@@ -26,9 +24,9 @@ final class PlanCoordinator: FlowCoordinator {
   func start() {
     let vc = PlanViewController()
     vc.coordinator = self
-    presenter.pushViewController(vc, animated: true)
+    presenter?.pushViewController(vc, animated: true)
   }
 }
 
 // MARK: - PlanCoordinatorDelegate
-extension PlanCoordinator: PlanCoordinatorDelegate {}
+extension PlanCoordinator: PlanCoordinatorDelegate { }

@@ -16,9 +16,9 @@ protocol MainCoordinatorDelegate: AnyObject {
 
 final class MainCoordinator: FlowCoordinator {
   // MARK: - Properties
-  var parent: FlowCoordinator!
+  var parent: FlowCoordinator?
   var child: [FlowCoordinator] = []
-  let presenter: UINavigationController! = nil
+  let presenter: UINavigationController? = nil
   let mainTabBarPresenter: MainTabBarController
   
   init(mainTabBarViewController: MainTabBarController) {
@@ -39,7 +39,7 @@ final class MainCoordinator: FlowCoordinator {
     addChild(with: favorite)
     addChild(with: profile)
     
-    mainTabBarPresenter.viewControllers = child.map { $0.presenter }
+    mainTabBarPresenter.viewControllers = child.compactMap { $0.presenter }
     mainTabBarPresenter.setTabBarIcon()
   }
 }

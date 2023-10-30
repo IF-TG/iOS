@@ -69,7 +69,6 @@
 		13CB6D342A1FEC6D00D185B2 /* CautionAlertViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CB6D332A1FEC6D00D185B2 /* CautionAlertViewControllerDelegate.swift */; };
 		13CB6D362A20E12B00D185B2 /* CALayer+Border.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CB6D352A20E12B00D185B2 /* CALayer+Border.swift */; };
 		13FE64772A5C378D007D9A53 /* SearchCampingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13FE64762A5C378D007D9A53 /* SearchCampingModel.swift */; };
-		1503F9292A4E0603002BC38D /* SHCoordinator in Frameworks */ = {isa = PBXBuildFile; productRef = 1503F9282A4E0603002BC38D /* SHCoordinator */; };
 		1503F92B2A4E068E002BC38D /* ApplicationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1503F92A2A4E068E002BC38D /* ApplicationCoordinator.swift */; };
 		1503F92E2A4E083C002BC38D /* LoginCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1503F92D2A4E083C002BC38D /* LoginCoordinator.swift */; };
 		1503F9312A4E0A4F002BC38D /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1503F9302A4E0A4F002BC38D /* MainCoordinator.swift */; };
@@ -81,6 +80,10 @@
 		151130092A04E4EB0041DDA1 /* travelPlanTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151130082A04E4EB0041DDA1 /* travelPlanTests.swift */; };
 		151130162A04E5B00041DDA1 /* travelPlanUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151130152A04E5B00041DDA1 /* travelPlanUITests.swift */; };
 		151130182A04E5B00041DDA1 /* travelPlanUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151130172A04E5B00041DDA1 /* travelPlanUITestsLaunchTests.swift */; };
+		151DF0CF2AEE397000D5D55B /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 151DF0CE2AEE397000D5D55B /* Alamofire */; };
+		151DF0D22AEE39DA00D5D55B /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 151DF0D12AEE39DA00D5D55B /* SnapKit */; };
+		151DF0D42AEE39DA00D5D55B /* SnapKit-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 151DF0D32AEE39DA00D5D55B /* SnapKit-Dynamic */; };
+		151DF0D62AEE3C0700D5D55B /* SHCoordinator in Frameworks */ = {isa = PBXBuildFile; productRef = 151DF0D52AEE3C0700D5D55B /* SHCoordinator */; };
 		15259DE92ACAA98F00C14F62 /* TravelDestinationCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13FE64782A5C3900007D9A53 /* TravelDestinationCellViewModel.swift */; };
 		15259DEA2ACAA9D800C14F62 /* SearchFestivalCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13274C592A59AD29001F141C /* SearchFestivalCellViewModel.swift */; };
 		15259DEB2ACAA9F600C14F62 /* PostSearchFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C07ECC2A13F454005F04CD /* PostSearchFooterView.swift */; };
@@ -124,6 +127,7 @@
 		158695992AE621010087CCB3 /* FeedPostViewModelable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158695982AE621010087CCB3 /* FeedPostViewModelable.swift */; };
 		1586D3042AB193F7001D4A80 /* Season.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1586D3032AB193F7001D4A80 /* Season.swift */; };
 		15889D4C2AE0375700B1CB31 /* SearchDetailHeaderInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A93EE62ACDE4AB00FC4BBD /* SearchDetailHeaderInfo.swift */; };
+		158A9B37EF562FFE5B885213 /* Pods_travelPlan.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A6A233F1D1C28FFCF8ED9CB /* Pods_travelPlan.framework */; };
 		158BEF772A0E279700C27861 /* PostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158BEF762A0E279700C27861 /* PostCell.swift */; };
 		158BEF792A0E27BD00C27861 /* PostCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158BEF782A0E27BD00C27861 /* PostCollectionView.swift */; };
 		158BEF7F2A0E2C6E00C27861 /* PostContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158BEF7E2A0E2C6E00C27861 /* PostContentView.swift */; };
@@ -244,8 +248,6 @@
 		15FFAC3A2ADE47910013DB57 /* PostHeaderInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFAC392ADE47910013DB57 /* PostHeaderInfo.swift */; };
 		15FFAC3C2ADE50880013DB57 /* PostHeaderContentInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFAC3B2ADE50880013DB57 /* PostHeaderContentInfo.swift */; };
 		15FFAC402ADE52120013DB57 /* MockPostUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFAC3F2ADE52120013DB57 /* MockPostUseCase.swift */; };
-		7EAF73C73ED6EC312AE52D3D /* libPods-travelPlanTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BD51E6A4DBEDC30408D7006B /* libPods-travelPlanTests.a */; };
-		EA41A5DD5022032948ABAB70 /* Pods_travelPlan.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 960F08B28D6595CB8BEC079D /* Pods_travelPlan.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -508,12 +510,9 @@
 		15FFAC392ADE47910013DB57 /* PostHeaderInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostHeaderInfo.swift; sourceTree = "<group>"; };
 		15FFAC3B2ADE50880013DB57 /* PostHeaderContentInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostHeaderContentInfo.swift; sourceTree = "<group>"; };
 		15FFAC3F2ADE52120013DB57 /* MockPostUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPostUseCase.swift; sourceTree = "<group>"; };
-		744E87D469CC731B8914E070 /* Pods-travelPlan.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-travelPlan.debug.xcconfig"; path = "Target Support Files/Pods-travelPlan/Pods-travelPlan.debug.xcconfig"; sourceTree = "<group>"; };
-		960F08B28D6595CB8BEC079D /* Pods_travelPlan.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_travelPlan.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		AA9937EC317C26870FA6E97B /* Pods-travelPlanTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-travelPlanTests.release.xcconfig"; path = "Target Support Files/Pods-travelPlanTests/Pods-travelPlanTests.release.xcconfig"; sourceTree = "<group>"; };
-		B8A22397EF9028459A724CFC /* Pods-travelPlanTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-travelPlanTests.debug.xcconfig"; path = "Target Support Files/Pods-travelPlanTests/Pods-travelPlanTests.debug.xcconfig"; sourceTree = "<group>"; };
-		BD51E6A4DBEDC30408D7006B /* libPods-travelPlanTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-travelPlanTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		F98629E7966D187E01AE6433 /* Pods-travelPlan.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-travelPlan.release.xcconfig"; path = "Target Support Files/Pods-travelPlan/Pods-travelPlan.release.xcconfig"; sourceTree = "<group>"; };
+		2067503AAACF192B65FC6847 /* Pods-travelPlan.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-travelPlan.debug.xcconfig"; path = "Target Support Files/Pods-travelPlan/Pods-travelPlan.debug.xcconfig"; sourceTree = "<group>"; };
+		8A6A233F1D1C28FFCF8ED9CB /* Pods_travelPlan.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_travelPlan.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		ADB6C4537196247D3DB11C58 /* Pods-travelPlan.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-travelPlan.release.xcconfig"; path = "Target Support Files/Pods-travelPlan/Pods-travelPlan.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -521,7 +520,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7EAF73C73ED6EC312AE52D3D /* libPods-travelPlanTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -536,8 +534,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1503F9292A4E0603002BC38D /* SHCoordinator in Frameworks */,
-				EA41A5DD5022032948ABAB70 /* Pods_travelPlan.framework in Frameworks */,
+				151DF0D42AEE39DA00D5D55B /* SnapKit-Dynamic in Frameworks */,
+				151DF0CF2AEE397000D5D55B /* Alamofire in Frameworks */,
+				151DF0D22AEE39DA00D5D55B /* SnapKit in Frameworks */,
+				151DF0D62AEE3C0700D5D55B /* SHCoordinator in Frameworks */,
+				158A9B37EF562FFE5B885213 /* Pods_travelPlan.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1460,10 +1461,8 @@
 		22C6F6C53B2A988070A2BBBC /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				744E87D469CC731B8914E070 /* Pods-travelPlan.debug.xcconfig */,
-				F98629E7966D187E01AE6433 /* Pods-travelPlan.release.xcconfig */,
-				B8A22397EF9028459A724CFC /* Pods-travelPlanTests.debug.xcconfig */,
-				AA9937EC317C26870FA6E97B /* Pods-travelPlanTests.release.xcconfig */,
+				2067503AAACF192B65FC6847 /* Pods-travelPlan.debug.xcconfig */,
+				ADB6C4537196247D3DB11C58 /* Pods-travelPlan.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -1472,8 +1471,7 @@
 			isa = PBXGroup;
 			children = (
 				15FFAC232ADC52040013DB57 /* Alamofire.framework */,
-				960F08B28D6595CB8BEC079D /* Pods_travelPlan.framework */,
-				BD51E6A4DBEDC30408D7006B /* libPods-travelPlanTests.a */,
+				8A6A233F1D1C28FFCF8ED9CB /* Pods_travelPlan.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1485,7 +1483,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1511300C2A04E4EB0041DDA1 /* Build configuration list for PBXNativeTarget "travelPlanTests" */;
 			buildPhases = (
-				FC18A7300343D08351EB1F87 /* [CP] Check Pods Manifest.lock */,
 				151130022A04E4EB0041DDA1 /* Sources */,
 				151130032A04E4EB0041DDA1 /* Frameworks */,
 				151130042A04E4EB0041DDA1 /* Resources */,
@@ -1522,12 +1519,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1594F54229FD517F00A58F20 /* Build configuration list for PBXNativeTarget "travelPlan" */;
 			buildPhases = (
-				F69DE8D59659B9A49F623B55 /* [CP] Check Pods Manifest.lock */,
+				210ECDFFE1CF351B289C13EB /* [CP] Check Pods Manifest.lock */,
 				1594F52A29FD517E00A58F20 /* Sources */,
 				1594F52B29FD517E00A58F20 /* Frameworks */,
 				1594F52C29FD517E00A58F20 /* Resources */,
 				15F0A3F329FD57CD0049AB33 /* ShellScript */,
-				5C52DCD35E07A3C107827CD4 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1535,7 +1531,10 @@
 			);
 			name = travelPlan;
 			packageProductDependencies = (
-				1503F9282A4E0603002BC38D /* SHCoordinator */,
+				151DF0CE2AEE397000D5D55B /* Alamofire */,
+				151DF0D12AEE39DA00D5D55B /* SnapKit */,
+				151DF0D32AEE39DA00D5D55B /* SnapKit-Dynamic */,
+				151DF0D52AEE3C0700D5D55B /* SHCoordinator */,
 			);
 			productName = travelPlan;
 			productReference = 1594F52E29FD517E00A58F20 /* travelPlan.app */;
@@ -1574,7 +1573,9 @@
 			);
 			mainGroup = 1594F52529FD517E00A58F20;
 			packageReferences = (
-				1503F9272A4E0603002BC38D /* XCRemoteSwiftPackageReference "SHCoordinator" */,
+				1503F9272A4E0603002BC38D /* XCRemoteSwiftPackageReference "SHCoordinator.git" */,
+				151DF0CD2AEE397000D5D55B /* XCRemoteSwiftPackageReference "Alamofire.git" */,
+				151DF0D02AEE39DA00D5D55B /* XCRemoteSwiftPackageReference "SnapKit.git" */,
 			);
 			productRefGroup = 1594F52F29FD517E00A58F20 /* Products */;
 			projectDirPath = "";
@@ -1646,24 +1647,7 @@
 			shellPath = /bin/sh;
 			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n${PODS_ROOT}/SwiftLint/swiftlint\n";
 		};
-		5C52DCD35E07A3C107827CD4 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-travelPlan/Pods-travelPlan-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-travelPlan/Pods-travelPlan-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-travelPlan/Pods-travelPlan-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		F69DE8D59659B9A49F623B55 /* [CP] Check Pods Manifest.lock */ = {
+		210ECDFFE1CF351B289C13EB /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1679,28 +1663,6 @@
 			);
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-travelPlan-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		FC18A7300343D08351EB1F87 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-travelPlanTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1899,7 +1861,7 @@
 				15CB23692A10B9CF003EAF20 /* PostFooterInfo.swift in Sources */,
 				130304842A25117200776A0D /* SearchFestivalCell.swift in Sources */,
 				13813A1E2AA9FC2200AF6AEB /* PostSearchCollectionViewAdapter.swift in Sources */,
-				13813A1E2AA9FC2200AF6AEB /* PostSearchCollectionViewManager.swift in Sources */,
+				13813A1E2AA9FC2200AF6AEB /* PostSearchCollectionViewAdapter.swift in Sources */,
 				15D60D362AEB84FE0087FEC0 /* NotificationCenterViewController.swift in Sources */,
 				15D60D4C2AED17660087FEC0 /* RedIconBasedUnderbarSegmentedControl.swift in Sources */,
 				13274C5C2A59B4AD001F141C /* SearchFestivalModel.swift in Sources */,
@@ -1981,7 +1943,6 @@
 /* Begin XCBuildConfiguration section */
 		1511300D2A04E4EB0041DDA1 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B8A22397EF9028459A724CFC /* Pods-travelPlanTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -2000,7 +1961,6 @@
 		};
 		1511300E2A04E4EB0041DDA1 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AA9937EC317C26870FA6E97B /* Pods-travelPlanTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -2165,7 +2125,7 @@
 		};
 		1594F54329FD517F00A58F20 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 744E87D469CC731B8914E070 /* Pods-travelPlan.debug.xcconfig */;
+			baseConfigurationReference = 2067503AAACF192B65FC6847 /* Pods-travelPlan.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -2196,7 +2156,7 @@
 		};
 		1594F54429FD517F00A58F20 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F98629E7966D187E01AE6433 /* Pods-travelPlan.release.xcconfig */;
+			baseConfigurationReference = ADB6C4537196247D3DB11C58 /* Pods-travelPlan.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -2267,20 +2227,51 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		1503F9272A4E0603002BC38D /* XCRemoteSwiftPackageReference "SHCoordinator" */ = {
+		1503F9272A4E0603002BC38D /* XCRemoteSwiftPackageReference "SHCoordinator.git" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SHcommit/SHCoordinator.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 2.0.0;
+				minimumVersion = 3.0.1;
+			};
+		};
+		151DF0CD2AEE397000D5D55B /* XCRemoteSwiftPackageReference "Alamofire.git" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.8.1;
+			};
+		};
+		151DF0D02AEE39DA00D5D55B /* XCRemoteSwiftPackageReference "SnapKit.git" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.6.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		1503F9282A4E0603002BC38D /* SHCoordinator */ = {
+		151DF0CE2AEE397000D5D55B /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 1503F9272A4E0603002BC38D /* XCRemoteSwiftPackageReference "SHCoordinator" */;
+			package = 151DF0CD2AEE397000D5D55B /* XCRemoteSwiftPackageReference "Alamofire.git" */;
+			productName = Alamofire;
+		};
+		151DF0D12AEE39DA00D5D55B /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 151DF0D02AEE39DA00D5D55B /* XCRemoteSwiftPackageReference "SnapKit.git" */;
+			productName = SnapKit;
+		};
+		151DF0D32AEE39DA00D5D55B /* SnapKit-Dynamic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 151DF0D02AEE39DA00D5D55B /* XCRemoteSwiftPackageReference "SnapKit.git" */;
+			productName = "SnapKit-Dynamic";
+		};
+		151DF0D52AEE3C0700D5D55B /* SHCoordinator */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1503F9272A4E0603002BC38D /* XCRemoteSwiftPackageReference "SHCoordinator.git" */;
 			productName = SHCoordinator;
 		};
 /* End XCSwiftPackageProductDependency section */

@@ -108,7 +108,6 @@ class SearchMoreDetailViewController: UIViewController {
   }
   
   deinit {
-    coordinator?.finish()
     print("deinit: \(Self.self)")
   }
   
@@ -173,7 +172,7 @@ extension SearchMoreDetailViewController: ViewBindCase {
 // MARK: - Actions
 extension SearchMoreDetailViewController {
   @objc private func didTapBackBarButtonItem() {
-    navigationController?.popViewController(animated: true)
+    coordinator?.finish(withAnimated: true)
   }
 }
 

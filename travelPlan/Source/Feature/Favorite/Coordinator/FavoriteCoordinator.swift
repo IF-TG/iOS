@@ -10,13 +10,13 @@ import SHCoordinator
 
 final class FavoriteCoordinator: FlowCoordinator {
   // MARK: - Properties
-  var parent: FlowCoordinator!
+  var parent: FlowCoordinator?
   var child: [FlowCoordinator] = []
-  var presenter: UINavigationController!
+  var presenter: UINavigationController?
   private weak var viewController: UIViewController!
   private var settingIndex: Int?
   
-  init(presenter: UINavigationController) {
+  init(presenter: UINavigationController?) {
     self.presenter = presenter
   }
   
@@ -26,7 +26,7 @@ final class FavoriteCoordinator: FlowCoordinator {
     let vc = FavoriteViewController(viewModel: viewModel)
     viewController = vc
     vc.coordinator = self
-    presenter.pushViewController(vc, animated: true)
+    presenter?.pushViewController(vc, animated: true)
   }
 }
 
@@ -82,7 +82,7 @@ extension FavoriteCoordinator: FavoriteDirectorySettingViewDelegate {
     _ settingView: FavoriteDirectorySettingView,
     didTapOkButton: UIButton
   ) {
-    presenter.presentedViewController?.dismiss(animated: false)
+    presenter?.presentedViewController?.dismiss(animated: false)
     guard let viewController = self.viewController as? FavoriteViewController else { return }
     let title = settingView.text
     switch settingView.settingState {
