@@ -166,6 +166,9 @@
 		15CB236F2A10C314003EAF20 /* PostCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15CB236E2A10C314003EAF20 /* PostCellViewModel.swift */; };
 		15CB23742A110FB4003EAF20 /* PostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15CB23732A110FB4003EAF20 /* PostViewModel.swift */; };
 		15CC64142A1DD4EF00857446 /* ConvenienceInit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FEB5E22A050A99000A5F33 /* ConvenienceInit.swift */; };
+		15D60D362AEB84FE0087FEC0 /* NotificationCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D60D352AEB84FE0087FEC0 /* NotificationCenterViewController.swift */; };
+		15D60D382AEB874B0087FEC0 /* NotificationCenterCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D60D372AEB874B0087FEC0 /* NotificationCenterCoordinator.swift */; };
+		15D60D4C2AED17660087FEC0 /* RedIconBasedUnderbarSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D60D4B2AED17660087FEC0 /* RedIconBasedUnderbarSegmentedControl.swift */; };
 		15D867CD2AD4003E00F35811 /* FavoriteViewModelable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D867CC2AD4003E00F35811 /* FavoriteViewModelable.swift */; };
 		15D867CF2AD427EC00F35811 /* FavoriteDetailCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D867CE2AD427EC00F35811 /* FavoriteDetailCoordinator.swift */; };
 		15D955AD2ADEA525002BF9C3 /* FeedViewModelable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D955AC2ADEA525002BF9C3 /* FeedViewModelable.swift */; };
@@ -428,6 +431,9 @@
 		15CB23682A10B9CF003EAF20 /* PostFooterInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostFooterInfo.swift; sourceTree = "<group>"; };
 		15CB236E2A10C314003EAF20 /* PostCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCellViewModel.swift; sourceTree = "<group>"; };
 		15CB23732A110FB4003EAF20 /* PostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewModel.swift; sourceTree = "<group>"; };
+		15D60D352AEB84FE0087FEC0 /* NotificationCenterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCenterViewController.swift; sourceTree = "<group>"; };
+		15D60D372AEB874B0087FEC0 /* NotificationCenterCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCenterCoordinator.swift; sourceTree = "<group>"; };
+		15D60D4B2AED17660087FEC0 /* RedIconBasedUnderbarSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedIconBasedUnderbarSegmentedControl.swift; sourceTree = "<group>"; };
 		15D867CC2AD4003E00F35811 /* FavoriteViewModelable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteViewModelable.swift; sourceTree = "<group>"; };
 		15D867CE2AD427EC00F35811 /* FavoriteDetailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteDetailCoordinator.swift; sourceTree = "<group>"; };
 		15D955AC2ADEA525002BF9C3 /* FeedViewModelable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModelable.swift; sourceTree = "<group>"; };
@@ -870,6 +876,7 @@
 			isa = PBXGroup;
 			children = (
 				13405EFF2AECF76300382796 /* BaseLoginButton.swift */,
+				15D60D4B2AED17660087FEC0 /* RedIconBasedUnderbarSegmentedControl.swift */,
 				13300FA32AC0688300952757 /* BaseDestinationView.swift */,
 				13BF40F22AD6F1D600F3F082 /* BaseNavigationTitleView.swift */,
 				15FFABFA2AD5B6FC0013DB57 /* BasePaddingLabel.swift */,
@@ -940,6 +947,7 @@
 			isa = PBXGroup;
 			children = (
 				1503F92A2A4E068E002BC38D /* ApplicationCoordinator.swift */,
+				15D60D472AED08590087FEC0 /* Notification */,
 				15BB01AE2A1EB4890035B486 /* Authentication */,
 				15BED3032A0825BB00F86321 /* Profile */,
 				1594F54729FD527100A58F20 /* Main */,
@@ -1145,6 +1153,31 @@
 				15CB23622A10B600003EAF20 /* DateValidationError.swift */,
 			);
 			path = DateValidation;
+			sourceTree = "<group>";
+		};
+		15D60D472AED08590087FEC0 /* Notification */ = {
+			isa = PBXGroup;
+			children = (
+				15D60D492AED09200087FEC0 /* ViewController */,
+				15D60D482AED08680087FEC0 /* Coordinator */,
+			);
+			path = Notification;
+			sourceTree = "<group>";
+		};
+		15D60D482AED08680087FEC0 /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				15D60D372AEB874B0087FEC0 /* NotificationCenterCoordinator.swift */,
+			);
+			path = Coordinator;
+			sourceTree = "<group>";
+		};
+		15D60D492AED09200087FEC0 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				15D60D352AEB84FE0087FEC0 /* NotificationCenterViewController.swift */,
+			);
+			path = ViewController;
 			sourceTree = "<group>";
 		};
 		15DE36B72AB84FDC0030CCCC /* BottomSheet */ = {
@@ -1866,6 +1899,9 @@
 				15CB23692A10B9CF003EAF20 /* PostFooterInfo.swift in Sources */,
 				130304842A25117200776A0D /* SearchFestivalCell.swift in Sources */,
 				13813A1E2AA9FC2200AF6AEB /* PostSearchCollectionViewAdapter.swift in Sources */,
+				13813A1E2AA9FC2200AF6AEB /* PostSearchCollectionViewManager.swift in Sources */,
+				15D60D362AEB84FE0087FEC0 /* NotificationCenterViewController.swift in Sources */,
+				15D60D4C2AED17660087FEC0 /* RedIconBasedUnderbarSegmentedControl.swift in Sources */,
 				13274C5C2A59B4AD001F141C /* SearchFestivalModel.swift in Sources */,
 				158BEF792A0E27BD00C27861 /* PostCollectionView.swift in Sources */,
 				1594F53429FD517E00A58F20 /* SceneDelegate.swift in Sources */,
@@ -1902,6 +1938,7 @@
 				15FFABFD2AD5C75A0013DB57 /* FavoriteTableViewCellDelegate.swift in Sources */,
 				13A93EF92AD1CA0200FC4BBD /* SearchTopTenCellViewModel.swift in Sources */,
 				13606E982AA4F26500365F20 /* DefaultPostSearchLayout.swift in Sources */,
+				15D60D382AEB874B0087FEC0 /* NotificationCenterCoordinator.swift in Sources */,
 				15FB47EE2AC176FD0033AA18 /* UISpacing.swift in Sources */,
 				15CB236F2A10C314003EAF20 /* PostCellViewModel.swift in Sources */,
 				13C9C1B12A1806F500DF1FFF /* PostRecentSearchTagCellDelegate.swift in Sources */,

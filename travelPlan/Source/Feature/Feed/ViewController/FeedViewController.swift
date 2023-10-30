@@ -189,7 +189,7 @@ extension FeedViewController: ViewBindCase {
     case .goToPostSearch:
       coordinator?.showPostSearch()
     case .goToNotification:
-      // transitionTODO: - Goto notifiation with naivgationController
+      coordinator?.showNotification()
       notificationBarItem.updateNotificationRedIcon(.none)
     case .gotoReviewWrite:
       UIView.animate(
