@@ -13,10 +13,12 @@ final class LoginStartView: UIView {
     enum ArrowImageView1 {
       static let imagePath = "arrow-up-onboarding"
       static let width: CGFloat = 14
+      static let alphaOfTintColor: CGFloat = 0.3
     }
     enum ArrowImageView2 {
       static let imagePath = "arrow-up-onboarding"
       static let width: CGFloat = 14
+      static let alphaOfTintColor: CGFloat = 0.4
     }
     enum ArrowStackView {
       static let spacing: CGFloat = 4
@@ -37,6 +39,7 @@ final class LoginStartView: UIView {
     enum TextImageView {
       static let width: CGFloat = 26
       static let height: CGFloat = 14
+      static let imagePath = "go-onboarding"
     }
     enum GradientLayer {
       static let firstColorAlpha: CGFloat = 0.025
@@ -49,15 +52,17 @@ final class LoginStartView: UIView {
   
   // MARK: - Properties
   private let arrowImageView1: UIImageView = .init().set {
-    $0.image = UIImage(named: Constant.ArrowImageView1.imagePath)?
+    typealias Const = Constant.ArrowImageView1
+    $0.image = UIImage(named: Const.imagePath)?
       .withRenderingMode(.alwaysTemplate)
-    $0.tintColor = .white.withAlphaComponent(0.3)
+    $0.tintColor = .white.withAlphaComponent(Const.alphaOfTintColor)
   }
   
   private let arrowImageView2: UIImageView = .init().set {
-    $0.image = UIImage(named: Constant.ArrowImageView2.imagePath)?
+    typealias Const = Constant.ArrowImageView2
+    $0.image = UIImage(named: Const.imagePath)?
       .withRenderingMode(.alwaysTemplate)
-    $0.tintColor = .white.withAlphaComponent(0.4)
+    $0.tintColor = .white.withAlphaComponent(Const.alphaOfTintColor)
   }
   
   private lazy var arrowStackView: UIStackView = .init().set {
@@ -69,16 +74,13 @@ final class LoginStartView: UIView {
   private lazy var circleView: UIView = .init().set {
     $0.backgroundColor = .yg.littleWhite
     $0.layer.cornerRadius = Constant.CircleView.cornerRadius
+    let panGestureRecognizer = UIPanGestureRecognizer(target: self,
+                                                      action: #selector(handlePanGesture(_:)))
     $0.addGestureRecognizer(panGestureRecognizer)
   }
   
-  private lazy var panGestureRecognizer = UIPanGestureRecognizer(
-    target: self,
-    action: #selector(handlePanGesture(_:))
-  )
-  
   private let textImageView: UIImageView = .init().set {
-    $0.image = .init(named: "go-onboarding")
+    $0.image = .init(named: Constant.TextImageView.imagePath)
     $0.contentMode = .scaleAspectFit
   }
   
@@ -141,26 +143,27 @@ extension LoginStartView {
   
   private func animateCircleView(velocity: CGPoint) {
     let currentCircleViewX = circleView.frame.origin.x
+    var isDraggingDown = velocity.y > .zero
     
-    if velocity.y > 0 { // 아래로 드래그 한 경우
+    if isDraggingDown {
       UIView.animate(
         withDuration: 0.3,
-        delay: 0,
-        options: [.curveEaseInOut]) {
-          self.circleView.frame.origin = .init(x: currentCircleViewX,
-                                               y: self.initialCircleViewY)
-        }
-    } else { // 위로 드래그 한 경우
+        delay: .zero,
+        options: [.curveEaseInOut]
+      ) {
+        self.circleView.frame.origin = .init(x: currentCircleViewX,
+                                             y: self.initialCircleViewY)
+      }
+    } else {
       UIView.animate(
         withDuration: 0.3,
-        delay: 0,
+        delay: .zero,
         options: [.curveEaseInOut],
         animations: {
           self.circleView.frame.origin = .init(x: currentCircleViewX,
                                                y: Constant.CircleView.Spacing.maxTop)
         }
       ) { _ in
-        print("시작!!!!!!!!!!!")
         self.completionHandler?()
       }
     }
