@@ -43,6 +43,7 @@
 		13405F062AEE17B100382796 /* AppleLoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13405F052AEE17B100382796 /* AppleLoginButton.swift */; };
 		13405F082AEE212500382796 /* GoogleLoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13405F072AEE212500382796 /* GoogleLoginButton.swift */; };
 		13405F0B2AEEF1E400382796 /* LoginButtonDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13405F0A2AEEF1E400382796 /* LoginButtonDelegate.swift */; };
+		13405F352AF1002800382796 /* LoginPlayerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13405F342AF1002800382796 /* LoginPlayerManager.swift */; };
 		13606E882A9DDE7D00365F20 /* PostRecentSearchTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13606E872A9DDE7D00365F20 /* PostRecentSearchTagCell.swift */; };
 		13606E8C2A9F959F00365F20 /* PostRecommendationSearchHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13606E8B2A9F959F00365F20 /* PostRecommendationSearchHeaderView.swift */; };
 		13606E942AA187F500365F20 /* PostSearchTagLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13606E932AA187F500365F20 /* PostSearchTagLabel.swift */; };
@@ -328,6 +329,7 @@
 		13405F052AEE17B100382796 /* AppleLoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleLoginButton.swift; sourceTree = "<group>"; };
 		13405F072AEE212500382796 /* GoogleLoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleLoginButton.swift; sourceTree = "<group>"; };
 		13405F0A2AEEF1E400382796 /* LoginButtonDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginButtonDelegate.swift; sourceTree = "<group>"; };
+		13405F342AF1002800382796 /* LoginPlayerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPlayerManager.swift; sourceTree = "<group>"; };
 		13606E872A9DDE7D00365F20 /* PostRecentSearchTagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostRecentSearchTagCell.swift; sourceTree = "<group>"; };
 		13606E8B2A9F959F00365F20 /* PostRecommendationSearchHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostRecommendationSearchHeaderView.swift; sourceTree = "<group>"; };
 		13606E932AA187F500365F20 /* PostSearchTagLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSearchTagLabel.swift; sourceTree = "<group>"; };
@@ -688,6 +690,14 @@
 				13405F0A2AEEF1E400382796 /* LoginButtonDelegate.swift */,
 			);
 			path = Protocol;
+			sourceTree = "<group>";
+		};
+		13405F332AF1001400382796 /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				13405F342AF1002800382796 /* LoginPlayerManager.swift */,
+			);
+			path = Manager;
 			sourceTree = "<group>";
 		};
 		13606E8F2A9F983F00365F20 /* TagCell */ = {
@@ -1468,6 +1478,7 @@
 		15FEB5D82A050A99000A5F33 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				13405F332AF1001400382796 /* Manager */,
 				15FFAC3E2ADE52030013DB57 /* Mock */,
 				15FFAC352ADD4DED0013DB57 /* ViewModel */,
 				15FFAC342ADD4C990013DB57 /* Adapter */,
@@ -2086,6 +2097,7 @@
 				13A93EE92AD0065300FC4BBD /* SearchMoreDetailLayoutManager.swift in Sources */,
 				151DF1052AEEBE0F00D5D55B /* NoticeResponseDTO.swift in Sources */,
 				1503F9372A4E1103002BC38D /* FavoriteCoordinator.swift in Sources */,
+				13405F352AF1002800382796 /* LoginPlayerManager.swift in Sources */,
 				157ADCB02AD06B5400D37680 /* FavoriteDirectorySettingView.swift in Sources */,
 				15CB23662A10B7F1003EAF20 /* PostContentInfo.swift in Sources */,
 				131A11062AB4CD1A007BDD66 /* SearchMoreDetailViewController.swift in Sources */,
