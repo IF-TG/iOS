@@ -15,6 +15,8 @@ final class NoticeViewModel {
   // MARK: - Properties
   private var notices: [NoticeCellInfo] = []
   
+  private let isNoticesFetched = PassthroughSubject<Void, Never>()
+  
   private var subscriptions = Set<AnyCancellable>()
   
   // MARK: - Lifecycle
@@ -29,7 +31,8 @@ extension NoticeViewModel: NoticeViewModelable {
   func transform(_ input: NoticeViewInput) -> AnyPublisher<NoticeViewState, Never> {
     return Publishers.MergeMany([
       viewDidLoadStream(input),
-      didTapNoticeStream(input)
+      didTapNoticeStream(input),
+      fetchedNotices()
     ]).eraseToAnyPublisher()
   }
 }
@@ -51,6 +54,12 @@ private extension NoticeViewModel {
         return .none
       }.eraseToAnyPublisher()
   }
+  
+  func fetchedNotices() -> Output {
+    return isNoticesFetched.map { _ in
+        .updateNotices
+    }.eraseToAnyPublisher()
+  }
 }
 
 // MARK: - Private Helpers
@@ -60,8 +69,9 @@ private extension NoticeViewModel {
       .receive(on: DispatchQueue.main)
       .sink { [weak self] noticeEntities in
         self?.notices = noticeEntities.map {
-          .init(title: $0.title, date: $0.date, details: $0.details, isExpended: false)
+          return .init(title: $0.title, date: $0.date, details: $0.details, isExpended: false)
         }
+        self?.isNoticesFetched.send()
       }.store(in: &subscriptions)
   }
 }
