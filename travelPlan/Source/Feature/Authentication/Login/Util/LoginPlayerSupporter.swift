@@ -17,7 +17,6 @@ final class LoginPlayerSupporter {
   
   // MARK: - Properties
   private var player: AVPlayer?
-  private var playerLayer: AVPlayerLayer?
   private var subscriptions = Set<AnyCancellable>()
   
   // MARK: - LifeCycle
@@ -47,11 +46,10 @@ extension LoginPlayerSupporter {
 // MARK: - Private Helpers
 extension LoginPlayerSupporter {
   private func setupPlayerLayer(in view: UIView) {
-    playerLayer = AVPlayerLayer(player: player)
-    guard let playerLayer = playerLayer else { return }
-    
+    let playerLayer = AVPlayerLayer(player: player)
     playerLayer.videoGravity = .resizeAspectFill
     playerLayer.frame = view.bounds
+    
     view.layer.addSublayer(playerLayer)
   }
   
