@@ -20,6 +20,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   }
   
   func sceneWillEnterForeground(_ scene: UIScene) {
-    LoginPlayerManager.shared.play()
+    guard let windowScene = scene as? UIWindowScene else { return }
+    if let rootVC = windowScene.windows.first?.rootViewController as? UINavigationController,
+        rootVC.topViewController is LoginViewController {
+      LoginPlayerManager.shared.play()
+    }
   }
 }
