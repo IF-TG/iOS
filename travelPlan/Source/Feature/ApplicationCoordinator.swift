@@ -18,7 +18,7 @@ final class ApplicationCoordinator: FlowCoordinator {
   
   private var isSignIn: Bool {
     // 로그인 확인TODO: - 추후 UserDefaults등으로 사용자 로그인 확인 후 로그인 or main coordinator로 전환.
-    return false
+    return true
   }
   
   init(window: UIWindow) {
