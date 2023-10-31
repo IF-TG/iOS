@@ -1747,9 +1747,9 @@
 			);
 			mainGroup = 1594F52529FD517E00A58F20;
 			packageReferences = (
-				1503F9272A4E0603002BC38D /* XCRemoteSwiftPackageReference "SHCoordinator.git" */,
-				151DF0CD2AEE397000D5D55B /* XCRemoteSwiftPackageReference "Alamofire.git" */,
-				151DF0D02AEE39DA00D5D55B /* XCRemoteSwiftPackageReference "SnapKit.git" */,
+				1503F9272A4E0603002BC38D /* XCRemoteSwiftPackageReference "SHCoordinator" */,
+				151DF0CD2AEE397000D5D55B /* XCRemoteSwiftPackageReference "Alamofire" */,
+				151DF0D02AEE39DA00D5D55B /* XCRemoteSwiftPackageReference "SnapKit" */,
 			);
 			productRefGroup = 1594F52F29FD517E00A58F20 /* Products */;
 			projectDirPath = "";
@@ -2421,7 +2421,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		1503F9272A4E0603002BC38D /* XCRemoteSwiftPackageReference "SHCoordinator.git" */ = {
+		1503F9272A4E0603002BC38D /* XCRemoteSwiftPackageReference "SHCoordinator" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SHcommit/SHCoordinator.git";
 			requirement = {
@@ -2429,7 +2429,7 @@
 				minimumVersion = 3.0.1;
 			};
 		};
-		151DF0CD2AEE397000D5D55B /* XCRemoteSwiftPackageReference "Alamofire.git" */ = {
+		151DF0CD2AEE397000D5D55B /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
 			requirement = {
@@ -2437,7 +2437,7 @@
 				minimumVersion = 5.8.1;
 			};
 		};
-		151DF0D02AEE39DA00D5D55B /* XCRemoteSwiftPackageReference "SnapKit.git" */ = {
+		151DF0D02AEE39DA00D5D55B /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
 			requirement = {
@@ -2450,22 +2450,22 @@
 /* Begin XCSwiftPackageProductDependency section */
 		151DF0CE2AEE397000D5D55B /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 151DF0CD2AEE397000D5D55B /* XCRemoteSwiftPackageReference "Alamofire.git" */;
+			package = 151DF0CD2AEE397000D5D55B /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
 		};
 		151DF0D12AEE39DA00D5D55B /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 151DF0D02AEE39DA00D5D55B /* XCRemoteSwiftPackageReference "SnapKit.git" */;
+			package = 151DF0D02AEE39DA00D5D55B /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
 		};
 		151DF0D32AEE39DA00D5D55B /* SnapKit-Dynamic */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 151DF0D02AEE39DA00D5D55B /* XCRemoteSwiftPackageReference "SnapKit.git" */;
+			package = 151DF0D02AEE39DA00D5D55B /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = "SnapKit-Dynamic";
 		};
 		151DF0D52AEE3C0700D5D55B /* SHCoordinator */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 1503F9272A4E0603002BC38D /* XCRemoteSwiftPackageReference "SHCoordinator.git" */;
+			package = 1503F9272A4E0603002BC38D /* XCRemoteSwiftPackageReference "SHCoordinator" */;
 			productName = SHCoordinator;
 		};
 /* End XCSwiftPackageProductDependency section */
