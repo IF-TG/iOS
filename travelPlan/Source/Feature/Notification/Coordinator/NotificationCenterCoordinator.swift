@@ -24,7 +24,25 @@ final class NotificationCenterCoordinator: FlowCoordinator {
   }
   
   func start() {
-    let vc = NotificationCenterViewController()
+    MockUrlProtocol.requestHandler = { request in
+      guard let path = Bundle.main.path(forResource: "mock_response_notice", ofType: "json") else {
+        return ((HTTPURLResponse(), Data()))
+      }
+      guard let jsonStr = try? String(contentsOfFile: path) else {
+        return ((HTTPURLResponse(), Data()))
+      }
+      let responseData = jsonStr.data(using: .utf8)!
+      let mockURL = request.url!
+      let urlResponse = HTTPURLResponse(url: mockURL, statusCode: 203, httpVersion: nil, headerFields: nil)!
+      return ((urlResponse, responseData))
+    }
+
+    let mockSession = MockSession.default
+    let service = SessionProvider(session: mockSession)
+    let notificationRepository = DefaultNotificationRepository(service: service)
+    let noticeUseCase = DefaultNoticeUseCase(notificationRepository: notificationRepository)
+    let noticeViewModel = NoticeViewModel(noticeUseCase: noticeUseCase)
+    let vc = NotificationCenterViewController(noticeViewModel: noticeViewModel)
     vc.coordinator = self
     presenter?.pushViewController(vc, animated: true)
   }
