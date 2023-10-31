@@ -125,7 +125,6 @@
 		157ADCA22ACFB55800D37680 /* FavoritePostViewAdapterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157ADCA12ACFB55800D37680 /* FavoritePostViewAdapterDelegate.swift */; };
 		157ADCA42ACFF31D00D37680 /* FavoritePostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157ADCA32ACFF31D00D37680 /* FavoritePostViewController.swift */; };
 		157ADCA82ACFFFE100D37680 /* FavoritePostViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157ADCA72ACFFFE100D37680 /* FavoritePostViewDelegate.swift */; };
-		157ADCAA2AD000DD00D37680 /* FavoritePostCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157ADCA92AD000DD00D37680 /* FavoritePostCollectionView.swift */; };
 		157ADCAC2AD008EE00D37680 /* FavoriteDetailMenuViewConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157ADCAB2AD008EE00D37680 /* FavoriteDetailMenuViewConfigurable.swift */; };
 		157ADCAE2AD00AB400D37680 /* FavoriteLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157ADCAD2AD00AB400D37680 /* FavoriteLocationViewController.swift */; };
 		157ADCB02AD06B5400D37680 /* FavoriteDirectorySettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157ADCAF2AD06B5400D37680 /* FavoriteDirectorySettingView.swift */; };
@@ -399,7 +398,6 @@
 		157ADCA12ACFB55800D37680 /* FavoritePostViewAdapterDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePostViewAdapterDelegate.swift; sourceTree = "<group>"; };
 		157ADCA32ACFF31D00D37680 /* FavoritePostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePostViewController.swift; sourceTree = "<group>"; };
 		157ADCA72ACFFFE100D37680 /* FavoritePostViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePostViewDelegate.swift; sourceTree = "<group>"; };
-		157ADCA92AD000DD00D37680 /* FavoritePostCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePostCollectionView.swift; sourceTree = "<group>"; };
 		157ADCAB2AD008EE00D37680 /* FavoriteDetailMenuViewConfigurable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteDetailMenuViewConfigurable.swift; sourceTree = "<group>"; };
 		157ADCAD2AD00AB400D37680 /* FavoriteLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteLocationViewController.swift; sourceTree = "<group>"; };
 		157ADCAF2AD06B5400D37680 /* FavoriteDirectorySettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteDirectorySettingView.swift; sourceTree = "<group>"; };
@@ -915,7 +913,6 @@
 				152AD4E72A188D33008A2A11 /* FavoriteTableViewCell.swift */,
 				152AD4EF2A189CFC008A2A11 /* FavoriteHeaderView.swift */,
 				15E982C02ACD16A2002B932F /* FavoriteDetailMenuAreaView.swift */,
-				157ADCA92AD000DD00D37680 /* FavoritePostCollectionView.swift */,
 				157ADCAF2AD06B5400D37680 /* FavoriteDirectorySettingView.swift */,
 				15FFABFE2AD5D57B0013DB57 /* FavoriteCellInfo.swift */,
 			);
@@ -2032,7 +2029,6 @@
 				15FFAC402ADE52120013DB57 /* MockPostUseCase.swift in Sources */,
 				13300FAE2AC2093D00952757 /* SearchSectionType.swift in Sources */,
 				1570FDB22AB1B616006FBAA3 /* TravelOrderType.swift in Sources */,
-				157ADCAA2AD000DD00D37680 /* FavoritePostCollectionView.swift in Sources */,
 				15FFAC0F2AD9C3B20013DB57 /* Responsable.swift in Sources */,
 				151DF0DE2AEE709800D5D55B /* Bool+.swift in Sources */,
 				1503F93D2A4E1291002BC38D /* PlanCoordinator.swift in Sources */,
