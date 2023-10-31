@@ -131,12 +131,12 @@ extension LoginViewController {
     playerLayer.videoGravity = .resizeAspectFill
     view.layer.addSublayer(playerLayer)
     
+    // 비디오가 끝나면 비디오를 다시 처음부터 재시작합니다.
     NotificationCenter.default.publisher(
       for: AVPlayerItem.didPlayToEndTimeNotification,
       object: self.player.currentItem
     )
     .sink { [weak self] _ in
-      // CMTime.zero: 비디오의 시작점
       self?.player.seek(to: CMTime.zero, completionHandler: { isCompleted in
         if isCompleted {
           self?.player.play()
