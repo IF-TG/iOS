@@ -692,12 +692,12 @@
 			path = Protocol;
 			sourceTree = "<group>";
 		};
-		13405F362AF1552E00382796 /* Util */ = {
+		13405F362AF1552E00382796 /* Supporter */ = {
 			isa = PBXGroup;
 			children = (
 				13405F342AF1002800382796 /* LoginPlayerSupporter.swift */,
 			);
-			path = Util;
+			path = Supporter;
 			sourceTree = "<group>";
 		};
 		13606E8F2A9F983F00365F20 /* TagCell */ = {
@@ -1182,7 +1182,7 @@
 		15BB01B02A1EB4CF0035B486 /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				13405F362AF1552E00382796 /* Util */,
+				13405F362AF1552E00382796 /* Supporter */,
 				13405F092AEEF1CA00382796 /* Protocol */,
 				13BF411E2ADBEC4100F3F082 /* View */,
 				1503F92C2A4E0832002BC38D /* Coordinator */,
