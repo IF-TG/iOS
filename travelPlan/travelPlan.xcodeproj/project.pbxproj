@@ -124,7 +124,6 @@
 		157ADCA02ACFB33100D37680 /* UIScrollView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157ADC9F2ACFB33100D37680 /* UIScrollView+.swift */; };
 		157ADCA22ACFB55800D37680 /* FavoritePostViewAdapterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157ADCA12ACFB55800D37680 /* FavoritePostViewAdapterDelegate.swift */; };
 		157ADCA42ACFF31D00D37680 /* FavoritePostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157ADCA32ACFF31D00D37680 /* FavoritePostViewController.swift */; };
-		157ADCA62ACFFEF300D37680 /* EmptyStateBasedContentViewCheckable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157ADCA52ACFFEF300D37680 /* EmptyStateBasedContentViewCheckable.swift */; };
 		157ADCA82ACFFFE100D37680 /* FavoritePostViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157ADCA72ACFFFE100D37680 /* FavoritePostViewDelegate.swift */; };
 		157ADCAA2AD000DD00D37680 /* FavoritePostCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157ADCA92AD000DD00D37680 /* FavoritePostCollectionView.swift */; };
 		157ADCAC2AD008EE00D37680 /* FavoriteDetailMenuViewConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157ADCAB2AD008EE00D37680 /* FavoriteDetailMenuViewConfigurable.swift */; };
@@ -399,7 +398,6 @@
 		157ADC9F2ACFB33100D37680 /* UIScrollView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScrollView+.swift"; sourceTree = "<group>"; };
 		157ADCA12ACFB55800D37680 /* FavoritePostViewAdapterDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePostViewAdapterDelegate.swift; sourceTree = "<group>"; };
 		157ADCA32ACFF31D00D37680 /* FavoritePostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePostViewController.swift; sourceTree = "<group>"; };
-		157ADCA52ACFFEF300D37680 /* EmptyStateBasedContentViewCheckable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateBasedContentViewCheckable.swift; sourceTree = "<group>"; };
 		157ADCA72ACFFFE100D37680 /* FavoritePostViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePostViewDelegate.swift; sourceTree = "<group>"; };
 		157ADCA92AD000DD00D37680 /* FavoritePostCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePostCollectionView.swift; sourceTree = "<group>"; };
 		157ADCAB2AD008EE00D37680 /* FavoriteDetailMenuViewConfigurable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteDetailMenuViewConfigurable.swift; sourceTree = "<group>"; };
@@ -1496,7 +1494,6 @@
 				15FEB5E42A050A99000A5F33 /* LayoutSupport.swift */,
 				13300FAB2AC0883200952757 /* UICompositionalLayoutCreatable.swift */,
 				15A4F28C2ACC1025001AA51D /* Toggable.swift */,
-				157ADCA52ACFFEF300D37680 /* EmptyStateBasedContentViewCheckable.swift */,
 				15FFAC322ADD4C480013DB57 /* PostViewAdapterDataSource.swift */,
 			);
 			path = Protocol;
@@ -1869,7 +1866,6 @@
 				15D955AF2ADFB2F1002BF9C3 /* ShadowInfo.swift in Sources */,
 				151DF10A2AEEC58600D5D55B /* MockSession.swift in Sources */,
 				15F0D1D32A53095100D04773 /* PostViewAdapter.swift in Sources */,
-				157ADCA62ACFFEF300D37680 /* EmptyStateBasedContentViewCheckable.swift in Sources */,
 				152AD5272A1B89D2008A2A11 /* FavoriteViewModel.swift in Sources */,
 				158BEF7F2A0E2C6E00C27861 /* PostContentView.swift in Sources */,
 				15FFAC0B2AD7C22B0013DB57 /* RequestType.swift in Sources */,
