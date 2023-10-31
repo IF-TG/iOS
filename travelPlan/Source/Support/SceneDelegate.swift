@@ -18,4 +18,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     ApplicationCoordinator(window: window).set { $0.start() }
     window.makeKeyAndVisible()
   }
+  
+  func sceneWillEnterForeground(_ scene: UIScene) {
+    LoginPlayerManager.shared.play()
+  }
 }
