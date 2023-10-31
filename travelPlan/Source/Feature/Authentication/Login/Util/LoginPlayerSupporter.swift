@@ -18,9 +18,6 @@ final class LoginPlayerSupporter {
   // MARK: - Properties
   private var player: AVPlayer?
   private var subscriptions = Set<AnyCancellable>()
-  
-  // MARK: - LifeCycle
-  init() { }
 }
 
 // MARK: - Helpers
