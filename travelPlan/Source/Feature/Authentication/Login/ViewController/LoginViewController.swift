@@ -7,21 +7,12 @@
 
 import UIKit
 import Combine
-import AVFoundation
 
 class LoginViewController: UIViewController {
-  enum Constant {
-    static let bundleResource = "onboarding-video"
-    static let bundleExtension = "mp4"
-  }
-  
   // MARK: - Properteis
   var vm: LoginViewModel!
   private var subscriptions = Set<AnyCancellable>()
   weak var coordinator: LoginCoordinatorDelegate?
-  
-  private var player: AVPlayer!
-  private var playerLayer: AVPlayerLayer!
   
   private lazy var loginView = LoginView().set {
     $0.delegate = self
@@ -31,7 +22,7 @@ class LoginViewController: UIViewController {
   // MARK: - Lifecycle
   override func viewDidLoad() {
     super.viewDidLoad()
-    setupPlayer()
+    LoginPlayerManager.shared.setupPlayer(in: self.view)
     setupUI()
     setupStyles()
     bind()
@@ -63,6 +54,7 @@ class LoginViewController: UIViewController {
   
   deinit {
     coordinator?.finish()
+    LoginPlayerManager.shared.cleanup()
   }
 }
 
@@ -118,34 +110,6 @@ extension LoginViewController {
   private func setupStyles() {
     navigationController?.navigationBar.isHidden = true
     view.backgroundColor = .white
-  }
-  
-  private func setupPlayer() {
-    typealias Const = Constant
-    guard let url = Bundle.main.url(forResource: Const.bundleResource,
-                                    withExtension: Const.bundleExtension) else { return }
-    self.player = AVPlayer(playerItem: AVPlayerItem(url: url))
-    self.playerLayer = AVPlayerLayer(player: player)
-    
-    playerLayer.frame = view.bounds
-    playerLayer.videoGravity = .resizeAspectFill
-    view.layer.addSublayer(playerLayer)
-    
-    // 비디오가 끝나면 비디오를 다시 처음부터 재시작합니다.
-    NotificationCenter.default.publisher(
-      for: AVPlayerItem.didPlayToEndTimeNotification,
-      object: self.player.currentItem
-    )
-    .sink { [weak self] _ in
-      self?.player.seek(to: CMTime.zero, completionHandler: { isCompleted in
-        if isCompleted {
-          self?.player.play()
-        }
-      })
-    }
-    .store(in: &subscriptions)
-    
-    player.play()
   }
 }
 
