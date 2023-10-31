@@ -10,18 +10,21 @@ import Combine
 
 class EmptyStateBasedContentViewController: UIViewController {
   // MARK: - Properties
-  private let contentView: UIView & EmptyStateBasedContentViewCheckable
+  private let contentView: UIView
   
   private let emptyStateView: EmptyStateView
+  
+  var hasItem: CurrentValueSubject<Bool, Never> = .init(false)
   
   private var subscription: AnyCancellable?
   
   // MARK: - Lifecycle
   init(
-    contentView: UIView & EmptyStateBasedContentViewCheckable,
+    contentView: UIView,
     emptyState: EmptyStateView.UseageType
   ) {
     self.contentView = contentView
+    contentView.isHidden = true
     self.emptyStateView = EmptyStateView(state: emptyState)
     super.init(nibName: nil, bundle: nil)
   }
@@ -38,14 +41,14 @@ class EmptyStateBasedContentViewController: UIViewController {
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    if contentView.isShowingFirstAnimation, !contentView.hasItem.value {
+    if !hasItem.value {
       emptyStateView.prepareAnimation()
     }
   }
   
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
-    if contentView.isShowingFirstAnimation, !contentView.hasItem.value {
+    if hasItem.value {
       emptyStateView.showAnimation()
     }
   }
@@ -59,11 +62,15 @@ private extension EmptyStateBasedContentViewController {
   }
   
   func bind() {
-    subscription = contentView
-      .hasItem
+    subscription = hasItem
       .receive(on: DispatchQueue.main)
       .sink { [weak self] in
         self?.emptyStateView.isHidden = $0 ? true : false
+        self?.contentView.isHidden = $0 ? false : true
+        if !$0 {
+          self?.emptyStateView.prepareAnimation()
+          self?.emptyStateView.showAnimation()
+        }
       }
   }
 }
