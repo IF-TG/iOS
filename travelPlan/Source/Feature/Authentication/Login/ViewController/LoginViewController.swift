@@ -11,18 +11,22 @@ import Combine
 class LoginViewController: UIViewController {
   // MARK: - Properteis
   var vm: LoginViewModel!
-  let appear = PassthroughSubject<Void, ErrorType>()
-  let viewLoad = PassthroughSubject<Void, ErrorType>()
-  var subscription = Set<AnyCancellable>()
+  private var subscriptions = Set<AnyCancellable>()
   weak var coordinator: LoginCoordinatorDelegate?
+  
+  private lazy var loginView = LoginView().set {
+    $0.delegate = self
+  }
+  private let input = LoginViewModel.Input()
   
   // MARK: - Lifecycle
   override func viewDidLoad() {
     super.viewDidLoad()
+    LoginPlayerManager.shared.setupPlayer(in: self.view)
+    setupUI()
+    setupStyles()
     bind()
-    viewLoad.send()
-    view.backgroundColor = .brown
-    
+    input.viewDidLoad.send()
   }
   
   private override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -40,24 +44,27 @@ class LoginViewController: UIViewController {
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    appear.send()
+    input.viewWillAppear.send()
+  }
+  
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    navigationController?.navigationBar.isHidden = false
   }
   
   deinit {
     coordinator?.finish()
+    LoginPlayerManager.shared.cleanup()
   }
 }
 
-// MARK: - ViewBindCase
+// MARK: - ViewBindCaes
 extension LoginViewController: ViewBindCase {
   typealias Input = LoginViewModel.Input
   typealias ErrorType = LoginViewModel.ErrorType
   typealias State = LoginViewModel.State
   
   func bind() {
-    let input = Input(
-      appear: appear.eraseToAnyPublisher(),
-      viewLoad: viewLoad.eraseToAnyPublisher())
     let output = vm.transform(input)
     output.sink { [weak self] completion in
       switch completion {
@@ -67,7 +74,7 @@ extension LoginViewController: ViewBindCase {
       }
     } receiveValue: { [weak self] in
       self?.render($0)
-    }.store(in: &subscription)
+    }.store(in: &subscriptions)
     
   }
   
@@ -79,15 +86,54 @@ extension LoginViewController: ViewBindCase {
       print("appear")
     case .viewLoad:
       print("viewLoaded")
+    case .presentKakao:
+      print("Kakao 로그인 화면 띄워짐")
+    case .presentApple:
+      print("Apple 로그인 화면 띄워짐")
+    case .presentGoogle:
+      print("Google 로그인 화면 띄워짐")
     }
   }
   
-  func handleError(_ error: LoginViewModel.ErrorType) {
+  func handleError(_ error: ErrorType) {
     switch error {
     case .none:
       print("none")
     case .unexpectedError:
       print("unexpectedError")
+    }
+  }
+}
+
+// MARK: - Private Helpers
+extension LoginViewController {
+  private func setupStyles() {
+    navigationController?.navigationBar.isHidden = true
+    view.backgroundColor = .white
+  }
+}
+
+// MARK: - LayoutSupport
+extension LoginViewController: LayoutSupport {
+  func addSubviews() {
+    view.addSubview(loginView)
+  }
+  
+  func setConstraints() {
+    loginView.snp.makeConstraints {
+      $0.edges.equalToSuperview()
+    }
+  }
+}
+
+extension LoginViewController: LoginButtonDelegate {
+  func loginButton(_ button: UIButton) {
+    if button is KakaoLoginButton {
+      input.didTapKakaoButton.send()
+    } else if button is AppleLoginButton {
+      input.didTapAppleButton.send()
+    } else if button is GoogleLoginButton {
+      input.didTapGoogleButton.send()
     }
   }
 }
