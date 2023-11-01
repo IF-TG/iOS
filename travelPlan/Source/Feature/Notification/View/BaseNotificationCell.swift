@@ -10,7 +10,7 @@ import UIKit
 protocol BaseNotificationCellDelegate: AnyObject {
   func baseNotificationCell(
     _ cell: BaseNotificationCell,
-    didTapCloseButton button: UIButton)
+    didTapCloseIcon icon: UIImageView)
 }
 
 class BaseNotificationCell: UITableViewCell {
@@ -27,10 +27,10 @@ class BaseNotificationCell: UITableViewCell {
         static let leading: CGFloat = 13
         static let top: CGFloat = 15
         static let bottom: CGFloat = 15
-        
+        static let trailing: CGFloat = 37
       }
     }
-    enum CloseButton {
+    enum CloseIcon {
       static let size = CGSize(width: 20, height: 20)
       enum Spacing {
         static let leading: CGFloat = 8
@@ -52,11 +52,15 @@ class BaseNotificationCell: UITableViewCell {
   
   private let baseContentView = UIView().set {
     $0.translatesAutoresizingMaskIntoConstraints = false
+    $0.backgroundColor = .black
   }
   
-  private lazy var closeButton = UIButton(frame: .zero).set {
+  private lazy var closeIcon = UIImageView(frame: .zero).set {
     $0.translatesAutoresizingMaskIntoConstraints = false
-    $0.addTarget(self, action: #selector(didTapCloseButton), for: .touchUpInside)
+    $0.image = UIImage(named: "cancel")
+    $0.contentMode = .scaleAspectFill
+    let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapCloseButton))
+    $0.addGestureRecognizer(tapGesture)
   }
   
   private let cellDivider = UIView(frame: .zero).set {
@@ -69,7 +73,7 @@ class BaseNotificationCell: UITableViewCell {
   // MARK: - Lifecycle
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
-    selectionStyle = .none
+    configureUI()
   }
   
   required init?(coder: NSCoder) {
@@ -93,10 +97,29 @@ extension BaseNotificationCell {
   }
 }
 
+// MARK: - Private Helpers
+private extension BaseNotificationCell {
+  func configureUI() {
+    selectionStyle = .none
+    setupUI()
+    setSubviewsPriority()
+  }
+  
+  func setSubviewsPriority() {
+    icon.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+    baseContentView.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+    closeIcon.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+    
+    icon.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+    baseContentView.setContentHuggingPriority(.defaultLow, for: .horizontal)
+    closeIcon.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+  }
+}
+
 // MARK: - Actions
 private extension BaseNotificationCell {
   @objc func didTapCloseButton(_ sender: Any) {
-    delegate?.baseNotificationCell(self, didTapCloseButton: closeButton)
+    delegate?.baseNotificationCell(self, didTapCloseIcon: closeIcon)
   }
 }
 
@@ -106,7 +129,7 @@ extension BaseNotificationCell: LayoutSupport {
     _=[
       icon,
       baseContentView,
-      closeButton,
+      closeIcon,
       cellDivider
     ].map {
       contentView.addSubview($0)
@@ -117,7 +140,7 @@ extension BaseNotificationCell: LayoutSupport {
     _=[
       iconConstraints,
       baseContentViewConstraints,
-      closeButtonConstraints,
+      closeIconConstraints,
       cellDividerConstraints
     ].map {
       NSLayoutConstraint.activate($0)
@@ -154,21 +177,25 @@ private extension BaseNotificationCell {
       baseContentView.topAnchor.constraint(
         equalTo: contentView.topAnchor,
         constant: Spacing.top),
+      baseContentView.trailingAnchor.constraint(
+        equalTo: contentView.trailingAnchor,
+        constant: -Spacing.trailing),
+      baseContentView.heightAnchor.constraint(equalToConstant: 70),
       bottomConstraint]
   }
   
-  var closeButtonConstraints: [NSLayoutConstraint] {
-    typealias Const = Constant.CloseButton
+  var closeIconConstraints: [NSLayoutConstraint] {
+    typealias Const = Constant.CloseIcon
     typealias Spacing = Const.Spacing
     return [
-      closeButton.trailingAnchor.constraint(
+      closeIcon.trailingAnchor.constraint(
         equalTo: contentView.trailingAnchor,
         constant: -Spacing.trailing),
-      closeButton.topAnchor.constraint(
+      closeIcon.topAnchor.constraint(
         equalTo: contentView.topAnchor,
         constant: Spacing.top),
-      closeButton.widthAnchor.constraint(equalToConstant: Const.size.width),
-      closeButton.heightAnchor.constraint(equalToConstant: Const.size.height)]
+      closeIcon.widthAnchor.constraint(equalToConstant: Const.size.width),
+      closeIcon.heightAnchor.constraint(equalToConstant: Const.size.height)]
   }
   
   var cellDividerConstraints: [NSLayoutConstraint] {
