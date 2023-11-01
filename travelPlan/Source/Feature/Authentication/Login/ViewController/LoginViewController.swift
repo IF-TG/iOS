@@ -87,7 +87,8 @@ extension LoginViewController: ViewBindCase {
     case .viewLoad:
       print("viewLoaded")
     case .presentKakao:
-      print("Kakao 로그인 화면 띄워짐")
+      // TODO: - 카카오 연동 후 인증된 후에 피드로가야합니다. 지금은 바로 갑니다.
+      coordinator?.showFeedPage()
     case .presentApple:
       print("Apple 로그인 화면 띄워짐")
     case .presentGoogle:

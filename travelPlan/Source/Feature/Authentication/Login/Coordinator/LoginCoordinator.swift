@@ -9,6 +9,7 @@ import UIKit
 import SHCoordinator
 
 protocol LoginCoordinatorDelegate: FlowCoordinatorDelegate {
+  func showFeedPage()
 }
 
 final class LoginCoordinator: FlowCoordinator {
@@ -31,8 +32,18 @@ final class LoginCoordinator: FlowCoordinator {
     presenter?.viewControllers = [loginViewController]
   }
   
+  deinit {
+    print("삭제요~ Self.self")
+  }
 }
 
 // MARK: - LoginCoordinatorDelegate
 extension LoginCoordinator: LoginCoordinatorDelegate {
+  func showFeedPage() {
+    guard let parent = parent as? ApplicationCoordinator else {
+      NSLog("DEBUG: Parent is not applicationCoordinator")
+      return
+    }
+    parent.gotoMainTapFeedPage(withDelete: self)
+  }
 }
