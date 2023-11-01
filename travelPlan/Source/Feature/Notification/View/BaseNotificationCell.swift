@@ -50,10 +50,7 @@ class BaseNotificationCell: UITableViewCell {
     $0.contentMode = .scaleAspectFit
   }
   
-  private let baseContentView = UIView().set {
-    $0.translatesAutoresizingMaskIntoConstraints = false
-    $0.backgroundColor = .black
-  }
+  private let baseContentView: UIView
   
   private lazy var closeIcon = UIImageView(frame: .zero).set {
     $0.translatesAutoresizingMaskIntoConstraints = false
@@ -71,7 +68,14 @@ class BaseNotificationCell: UITableViewCell {
   weak var delegate: BaseNotificationCellDelegate?
   
   // MARK: - Lifecycle
-  override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+  // useageTODO: - 오버라이드 해서 baseContentView의 인스턴스를 초기화 해야합니다.
+  init(
+    baseContentView: UIView,
+    style: UITableViewCell.CellStyle,
+    reuseIdentifier: String?
+  ) {
+    self.baseContentView = baseContentView
+    self.baseContentView.translatesAutoresizingMaskIntoConstraints = false
     super.init(style: style, reuseIdentifier: reuseIdentifier)
     configureUI()
   }
@@ -180,7 +184,6 @@ private extension BaseNotificationCell {
       baseContentView.trailingAnchor.constraint(
         equalTo: contentView.trailingAnchor,
         constant: -Spacing.trailing),
-      baseContentView.heightAnchor.constraint(equalToConstant: 70),
       bottomConstraint]
   }
   
