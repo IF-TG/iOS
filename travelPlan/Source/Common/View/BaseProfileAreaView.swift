@@ -141,11 +141,13 @@ class BaseProfileAreaView: UIView {
   }
   
   private var contentViewConstraints: [NSLayoutConstraint] {
+    let contentViewBottomConstraint = contentView.bottomAnchor.constraint(equalTo: bottomAnchor)
+    contentViewBottomConstraint.priority = .defaultHigh
     return [
       contentView.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor),
       contentView.topAnchor.constraint(equalTo: topAnchor),
       contentView.trailingAnchor.constraint(equalTo: trailingAnchor),
-      contentView.bottomAnchor.constraint(equalTo: bottomAnchor)
+      contentViewBottomConstraint
     ]
   }
   
