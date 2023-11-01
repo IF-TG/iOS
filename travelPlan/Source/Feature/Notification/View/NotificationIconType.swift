@@ -23,6 +23,17 @@ enum NotificationType {
     }
   }
   
+  var toString: String {
+    switch self {
+    case .comment:
+      return "comment"
+    case .commentReply:
+      return "commentReply"
+    case .heart:
+      return "heart"
+    }
+  }
+  
   var postTitle: String {
     switch self {
     case .comment(postTitle: let title):
