@@ -6,3 +6,8 @@
 //
 
 import Foundation
+
+protocol NotificationViewAdapterDataSource {
+  var numberOfItems: Int { get }
+  func getItem(_ indexPath: IndexPath) -> NotificationInfo
+}
