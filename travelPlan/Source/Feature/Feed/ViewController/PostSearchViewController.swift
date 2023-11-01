@@ -79,7 +79,7 @@ final class PostSearchViewController: UIViewController {
   }
   
   private let compositionalLayout: PostSearchLayout = DefaultPostSearchLayout()
-  private lazy var collectionViewManager = PostSearchCollectionViewManager(
+  private lazy var collectionViewAdapter = PostSearchCollectionViewAdapter(
     dataSource: self.viewModel,
     delegate: self
   )
@@ -87,8 +87,8 @@ final class PostSearchViewController: UIViewController {
     frame: .zero,
     collectionViewLayout: compositionalLayout.createLayout()
   ).set {
-    $0.delegate = self.collectionViewManager
-    $0.dataSource = self.collectionViewManager
+    $0.delegate = self.collectionViewAdapter
+    $0.dataSource = self.collectionViewAdapter
     $0.backgroundColor = .clear
     
     let tapGesture = UITapGestureRecognizer(

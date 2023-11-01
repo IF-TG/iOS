@@ -18,4 +18,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     ApplicationCoordinator(window: window).set { $0.start() }
     window.makeKeyAndVisible()
   }
+  
+  func sceneWillEnterForeground(_ scene: UIScene) {
+    guard let windowScene = scene as? UIWindowScene else { return }
+    if let rootVC = windowScene.windows.first?.rootViewController as? UINavigationController,
+        rootVC.topViewController is LoginViewController {
+      LoginPlayerManager.shared.play()
+    }
+  }
 }
