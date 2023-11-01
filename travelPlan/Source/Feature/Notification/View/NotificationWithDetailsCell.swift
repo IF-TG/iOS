@@ -82,6 +82,8 @@ final class NotificationWithDetailsCell: BaseNotificationCell {
 extension NotificationWithDetailsCell {
   func configure(with data: NotificationInfo?) {
     setTitle(userName: data?.userName, notificationType: data?.type)
+    setDetails(data?.details)
+    setDuration(data?.duration)
   }
 }
 
@@ -131,5 +133,25 @@ private extension NotificationWithDetailsCell {
       .font: Const.font,
       .paragraphStyle: style]
     details.attributedText = NSAttributedString(string: text, attributes: attributes)
+  }
+  
+  func setDuration(_ text: String?) {
+    guard let text else {
+      duration.attributedText = nil
+      return
+    }
+    typealias Const = Constant.Duration
+    let style = NSMutableParagraphStyle().set {
+      $0.minimumLineHeight = Const.lineHeight
+      $0.maximumLineHeight = Const.lineHeight
+    }
+    
+    let attributes = [
+      .foregroundColor: Const.textColor,
+      .font: Const.font,
+      .paragraphStyle: style
+    ] as [NSAttributedString.Key: Any]
+    
+    duration.attributedText = NSAttributedString(string: text, attributes: attributes)
   }
 }
