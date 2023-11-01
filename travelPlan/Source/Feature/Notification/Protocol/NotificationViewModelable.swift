@@ -12,6 +12,7 @@ struct NotificationViewInput {
   let viewDidLoad: PassthroughSubject<Void, Never>
   let didTapCell: PassthroughSubject<Int, Never>
   let didTapDeleteIcon: PassthroughSubject<IndexPath, Never>
+  let refreshNotifications: PassthroughSubject<Void, Never>
 }
 
 enum NotificationViewState {
