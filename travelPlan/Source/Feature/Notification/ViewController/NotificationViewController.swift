@@ -33,7 +33,10 @@ final class NotificationViewController: EmptyStateBasedContentViewController {
   init(viewModel: any NotificationViewModelable & NotificationViewAdapterDataSource) {
     self.viewModel = viewModel
     super.init(contentView: tableView, emptyState: .emptyNotifiation)
-    adapter = .init(dataSource: viewModel, delegate: self, tableView: tableView)
+    adapter = .init(
+      dataSource: viewModel,
+      delegate: self,
+      tableView: tableView)
     hasItem.send(true)
     bind()
   }
