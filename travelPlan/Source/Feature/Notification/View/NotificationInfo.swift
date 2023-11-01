@@ -11,5 +11,5 @@ struct NotificationInfo {
   let userName: String
   let details: String
   let duration: String
-  let imagePath: NotificationIconType
+  let type: NotificationType
 }
