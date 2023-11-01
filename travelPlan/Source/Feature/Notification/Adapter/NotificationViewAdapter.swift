@@ -56,7 +56,7 @@ extension NotificationViewAdapter: UITableViewDelegate {
   }
 }
 
-// MARK: -  BaseNotificationCellDelegate
+// MARK: - BaseNotificationCellDelegate
 extension NotificationViewAdapter: BaseNotificationCellDelegate {
   func baseNotificationCell(_ cell: BaseNotificationCell, didTapCloseIcon icon: UIImageView) {
     delegate?.didTapDeleteButton(cell)
