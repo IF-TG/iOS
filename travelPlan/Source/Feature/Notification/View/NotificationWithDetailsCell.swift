@@ -9,6 +9,7 @@ import UIKit
 
 /// 댓글, 대댓글의 경우
 final class NotificationWithDetailsCell: BaseNotificationCell {
+  static let id = String(describing: NotificationWithDetailsCell.self)
   enum Constant {
     enum Title {
       static let boldFont = UIFont(pretendard: .semiBold, size: 14)!
@@ -45,7 +46,7 @@ final class NotificationWithDetailsCell: BaseNotificationCell {
   }
   
   // MARK: - Lifecycles
-  init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+  override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     let containerView = UIView(frame: .zero)
     _=[
       title,
@@ -70,12 +71,17 @@ final class NotificationWithDetailsCell: BaseNotificationCell {
       duration.topAnchor.constraint(equalTo: details.bottomAnchor),
       duration.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
       durationBottomConstraint])
-    
-    super.init(baseContentView: containerView, style: style, reuseIdentifier: reuseIdentifier)
+    super.init(style: style, reuseIdentifier: reuseIdentifier)
+    setBaseContentView(containerView)
   }
   
   required init?(coder: NSCoder) {
     nil
+  }
+  
+  override func prepareForReuse() {
+    super.prepareForReuse()
+    configure(with: nil)
   }
 }
 
