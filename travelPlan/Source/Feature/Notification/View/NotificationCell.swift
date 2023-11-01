@@ -8,8 +8,8 @@
 import UIKit
 
 /// 댓글, 대댓글의 경우
-final class NotificationWithDetailsCell: BaseNotificationCell {
-  static let id = String(describing: NotificationWithDetailsCell.self)
+final class NotificationCell: BaseNotificationCell {
+  static let id = String(describing: NotificationCell.self)
   enum Constant {
     enum Title {
       static let boldFont = UIFont(pretendard: .semiBold, size: 14)!
@@ -86,17 +86,25 @@ final class NotificationWithDetailsCell: BaseNotificationCell {
 }
 
 // MARK: - Helpers
-extension NotificationWithDetailsCell {
+extension NotificationCell {
   func configure(with data: NotificationInfo?) {
     super.baseConfigure(with: data?.type.path)
     setTitle(userName: data?.userName, notificationType: data?.type)
+    if data?.type.toString == "heart" {
+      details.isHidden = true
+      return
+    } else {
+      details.isHidden = false
+    }
     setDetails(data?.details)
     setDuration(data?.duration)
   }
+  
+  func
 }
 
 // MARK: - Private Helpers
-private extension NotificationWithDetailsCell {
+private extension NotificationCell {
   // TODO: - pretendard 전용 레이블 생성하기!!
   func setTitle(userName: String?, notificationType: NotificationType?) {
     guard let userName, let notificationType else {
