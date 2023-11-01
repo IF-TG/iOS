@@ -20,6 +20,7 @@ final class NotificationViewAdapter: NSObject {
   ) {
     self.dataSource = dataSource
     self.delegate = delegate
+    super.init()
     tableView.dataSource = self
     tableView.delegate = self
   }
