@@ -7,6 +7,7 @@
 
 import UIKit
 
+/// 댓글, 대댓글의 경우
 final class NotificationWithDetailsCell: BaseNotificationCell {
   enum Constant {
     enum Title {
@@ -117,6 +118,8 @@ private extension NotificationWithDetailsCell {
     attrStr.addAttributes(
       boldAttributes,
       range: NSRange(location: userName.count+3, length: notificationType.postTitle.count))
+    title.attributedText = attrStr
+    title.sizeToFit()
   }
   
   func setDetails(_ text: String?) {
@@ -134,6 +137,7 @@ private extension NotificationWithDetailsCell {
       .font: Const.font,
       .paragraphStyle: style]
     details.attributedText = NSAttributedString(string: text, attributes: attributes)
+    details.sizeToFit()
   }
   
   func setDuration(_ text: String?) {
@@ -154,5 +158,6 @@ private extension NotificationWithDetailsCell {
     ] as [NSAttributedString.Key: Any]
     
     duration.attributedText = NSAttributedString(string: text, attributes: attributes)
+    duration.sizeToFit()
   }
 }
