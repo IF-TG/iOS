@@ -11,13 +11,15 @@ import Combine
 struct NotificationViewInput {
   let viewDidLoad: PassthroughSubject<Void, Never>
   let didTapCell: PassthroughSubject<Int, Never>
-  let didTapCellDelete: PassthroughSubject<IndexPath, Never>
+  let didTapDeleteIcon: PassthroughSubject<IndexPath, Never>
 }
 
 enum NotificationViewState {
   case none
   case reloadNotifications
   case deleteCell(IndexPath)
+  // TODO: - 특정 post 상세 id와 함꼐화면 이동
+  case showDetailPostPage(UUID)
 }
 
 protocol NotificationViewModelable: ViewModelable
