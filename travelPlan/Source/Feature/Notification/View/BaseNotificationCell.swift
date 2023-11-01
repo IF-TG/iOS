@@ -56,6 +56,7 @@ class BaseNotificationCell: UITableViewCell {
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.image = UIImage(named: "cancel")
     $0.contentMode = .scaleAspectFill
+    $0.isUserInteractionEnabled = true
     let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapCloseButton))
     $0.addGestureRecognizer(tapGesture)
   }
