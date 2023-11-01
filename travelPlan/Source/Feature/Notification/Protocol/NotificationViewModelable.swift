@@ -16,8 +16,8 @@ struct NotificationViewInput {
 
 enum NotificationViewState {
   case none
-  case reloadNotifications
-  case deleteCell(IndexPath)
+  case reloadNotifications(lastItems: Int)
+  case deleteCell(IndexPath, lastItems: Int)
   // TODO: - 특정 post 상세 id와 함꼐화면 이동
   case showDetailPostPage(UUID)
 }
