@@ -6,9 +6,39 @@
 //
 
 import Foundation
+import Combine
 
 final class NotificationViewModel {
-  let notifications = NotificationInfo.mockData() 
+  var notifications = NotificationInfo.mockData()
+}
+
+// MARK: - NotificationViewModelable
+extension NotificationViewModel: NotificationViewModelable {
+  func transform(_ input: Input) -> AnyPublisher<State, Never> {
+    
+  }
+}
+
+// MARK: - Private Helpers
+private extension NotificationViewModel {
+  func viewDidLoadStream(_ input: Input) -> Output {
+    return input.viewDidLoad.map { _ in .none }.eraseToAnyPublisher()
+  }
+  
+  func didTapCellStream(_ input: Input) -> Output {
+    return input.didTapCell.map { _ in
+      // TODO: - 해당 포스트 아이디와 함꼐 상세 디테일 포스트 화면으로 이동해야합니다. 임시로 UUID
+      return .showDetailPostPage(.init())
+    }.eraseToAnyPublisher()
+  }
+  
+  func didTapDeleteIconStream(_ input: Input) -> Output {
+    return input.didTapDeleteIcon.map { [weak self] indexPath in
+      // TODO: - 서버한테 삭제하려는 item 보낸후에 삭제해야합니다.
+      self?.notifications.remove(at: indexPath.row)
+      return .deleteCell(indexPath)
+    }.eraseToAnyPublisher()
+  }
 }
 
 // MARK: - NotificationViewAdapterDataSource
