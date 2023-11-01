@@ -15,7 +15,11 @@ final class NotificationViewModel {
 // MARK: - NotificationViewModelable
 extension NotificationViewModel: NotificationViewModelable {
   func transform(_ input: Input) -> AnyPublisher<State, Never> {
-    
+    return Publishers.MergeMany([
+      viewDidLoadStream(input),
+      didTapCellStream(input),
+      didTapDeleteIconStream(input)
+    ]).eraseToAnyPublisher()
   }
 }
 
@@ -36,7 +40,7 @@ private extension NotificationViewModel {
     return input.didTapDeleteIcon.map { [weak self] indexPath in
       // TODO: - 서버한테 삭제하려는 item 보낸후에 삭제해야합니다.
       self?.notifications.remove(at: indexPath.row)
-      return .deleteCell(indexPath)
+      return .deleteCell(indexPath, lastItems: self?.notifications.count ?? 0)
     }.eraseToAnyPublisher()
   }
 }
