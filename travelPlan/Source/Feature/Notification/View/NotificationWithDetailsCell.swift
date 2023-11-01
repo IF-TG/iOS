@@ -10,21 +10,18 @@ import UIKit
 final class NotificationWithDetailsCell: BaseNotificationCell {
   enum Constant {
     enum Title {
-      static let boldWeight: CGFloat = 600
-      static let fontSize: CGFloat = 14
-      static let normaoWeight: CGFloat = 400
+      static let boldFont = UIFont(pretendard: .semiBold, size: 14)!
+      static let normalFont = UIFont(pretendard: .regular, size: 14)!
       static let lineHeight: CGFloat = 20
       static let textColor: UIColor = .yg.gray5
     }
     enum Details {
-      static let weight: CGFloat = 400
-      static let fontSize: CGFloat = 13
+      static let font = UIFont(pretendard: .regular, size: 13)!
       static let lineHeight: CGFloat = 20
       static let textColor: UIColor = .yg.gray4
     }
     enum Duration {
-      static let weight: CGFloat = 400
-      static let size: CGFloat = 11
+      static let font = UIFont(pretendard: .regular, size: 11)!
       static let lineHeight: CGFloat = 20
       static let textColor: UIColor = .yg.gray3
     }
@@ -83,15 +80,16 @@ final class NotificationWithDetailsCell: BaseNotificationCell {
 
 // MARK: - Helpers
 extension NotificationWithDetailsCell {
-  func configure(with data: NotificationInfo) {
-    
+  func configure(with data: NotificationInfo?) {
+    setTitle(userName: data?.userName, notificationType: data?.type)
   }
 }
 
 // MARK: - Private Helpers
 private extension NotificationWithDetailsCell {
-  func setTitle(userName: String?, notificationType: NotificationIconType) {
-    guard let userName else {
+  // TODO: - pretendard 전용 레이블 생성하기!!
+  func setTitle(userName: String?, notificationType: NotificationType?) {
+    guard let userName, let notificationType else {
       title.attributedText = nil
       return
     }
@@ -103,20 +101,35 @@ private extension NotificationWithDetailsCell {
     }
     let defaultAttributes = [
       .foregroundColor: Const.textColor,
-      .font: UIFont(pretendard: .regular, size: Const.fontSize)!,
+      .font: Const.normalFont,
       .paragraphStyle: style
     ] as [NSAttributedString.Key: Any]
     
     let attrStr = NSMutableAttributedString(string: text)
     attrStr.addAttributes(defaultAttributes, range: NSRange(location: 0, length: text.count))
     
-    let boldAttributes = [
-      .font: UIFont(pretendard: .semiBold, size: Const.fontSize)!
-    ] as [NSAttributedString.Key: Any]
+    let boldAttributes = [.font: Const.boldFont] as [NSAttributedString.Key: Any]
     
     attrStr.addAttributes(boldAttributes, range: NSRange(location: 0, length: userName.count))
     attrStr.addAttributes(
       boldAttributes,
       range: NSRange(location: userName.count+3, length: notificationType.postTitle.count))
+  }
+  
+  func setDetails(_ text: String?) {
+    guard let text else {
+      details.attributedText = nil
+      return
+    }
+    typealias Const = Constant.Details
+    let style = NSMutableParagraphStyle().set {
+      $0.minimumLineHeight = Const.lineHeight
+      $0.maximumLineHeight = Const.lineHeight
+    }
+    let attributes: [NSAttributedString.Key: Any] = [
+      .foregroundColor: Const.textColor,
+      .font: Const.font,
+      .paragraphStyle: style]
+    details.attributedText = NSAttributedString(string: text, attributes: attributes)
   }
 }
