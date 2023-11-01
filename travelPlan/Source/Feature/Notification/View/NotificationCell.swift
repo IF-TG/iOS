@@ -1,5 +1,5 @@
 //
-//  NotificationWithDetailsCell.swift
+//  NotificationCell.swift
 //  travelPlan
 //
 //  Created by 양승현 on 11/1/23.
@@ -90,17 +90,9 @@ extension NotificationCell {
   func configure(with data: NotificationInfo?) {
     super.baseConfigure(with: data?.type.path)
     setTitle(userName: data?.userName, notificationType: data?.type)
-    if data?.type.toString == "heart" {
-      details.isHidden = true
-      return
-    } else {
-      details.isHidden = false
-    }
-    setDetails(data?.details)
+    setDetails(data?.details, notificationType: data?.type)
     setDuration(data?.duration)
   }
-  
-  func
 }
 
 // MARK: - Private Helpers
@@ -136,7 +128,8 @@ private extension NotificationCell {
     title.sizeToFit()
   }
   
-  func setDetails(_ text: String?) {
+  func setDetails(_ text: String?, notificationType: NotificationType?) {
+    guard !isHeartNotification(with: notificationType) else { return }
     guard let text else {
       details.attributedText = nil
       return
@@ -152,6 +145,15 @@ private extension NotificationCell {
       .paragraphStyle: style]
     details.attributedText = NSAttributedString(string: text, attributes: attributes)
     details.sizeToFit()
+  }
+  
+  func isHeartNotification(with type: NotificationType?) -> Bool {
+    guard type?.toString == "heart" else {
+      details.isHidden = false
+      return false
+    }
+    details.isHidden = true
+    return true
   }
   
   func setDuration(_ text: String?) {
