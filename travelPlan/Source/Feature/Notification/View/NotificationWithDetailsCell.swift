@@ -81,6 +81,7 @@ final class NotificationWithDetailsCell: BaseNotificationCell {
 // MARK: - Helpers
 extension NotificationWithDetailsCell {
   func configure(with data: NotificationInfo?) {
+    super.baseConfigure(with: data?.type.path)
     setTitle(userName: data?.userName, notificationType: data?.type)
     setDetails(data?.details)
     setDuration(data?.duration)
