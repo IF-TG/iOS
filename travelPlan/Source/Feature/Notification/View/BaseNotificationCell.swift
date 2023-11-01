@@ -75,8 +75,23 @@ class BaseNotificationCell: UITableViewCell {
   required init?(coder: NSCoder) {
     nil
   }
+  
+  override func prepareForReuse() {
+    super.prepareForReuse()
+    baseConfigure(with: nil)
+  }
 }
+
 // MARK: - Helpers
+extension BaseNotificationCell {
+  func baseConfigure(with imagePath: String?) {
+    guard let imagePath else {
+      icon.image = nil
+      return
+    }
+    icon.image = UIImage(named: imagePath)
+  }
+}
 
 // MARK: - Actions
 private extension BaseNotificationCell {
