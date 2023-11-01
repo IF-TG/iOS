@@ -170,7 +170,13 @@
 		15BB01BF2A1EBAC20035B486 /* LoginViewModel+Associatedtype.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BB01BE2A1EBAC20035B486 /* LoginViewModel+Associatedtype.swift */; };
 		15C1F53A2AF25FE4005FDA15 /* BaseNotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C1F5392AF25FE4005FDA15 /* BaseNotificationCell.swift */; };
 		15C1F53C2AF27043005FDA15 /* NotificationViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C1F53B2AF27043005FDA15 /* NotificationViewAdapter.swift */; };
-		15C1F53E2AF2904C005FDA15 /* NotificationWithDetailsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C1F53D2AF2904C005FDA15 /* NotificationWithDetailsCell.swift */; };
+		15C1F53E2AF2904C005FDA15 /* NotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C1F53D2AF2904C005FDA15 /* NotificationCell.swift */; };
+		15C1F5402AF29CDE005FDA15 /* NotificationIconType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C1F53F2AF29CDE005FDA15 /* NotificationIconType.swift */; };
+		15C1F5422AF29CF7005FDA15 /* NotificationInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C1F5412AF29CF7005FDA15 /* NotificationInfo.swift */; };
+		15C1F5442AF2BF48005FDA15 /* NotificationViewAdapterDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C1F5432AF2BF48005FDA15 /* NotificationViewAdapterDataSource.swift */; };
+		15C1F5462AF2BF73005FDA15 /* NotificationViewAdapterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C1F5452AF2BF73005FDA15 /* NotificationViewAdapterDelegate.swift */; };
+		15C1F5482AF2C002005FDA15 /* NotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C1F5472AF2C002005FDA15 /* NotificationViewModel.swift */; };
+		15C1F54A2AF2C356005FDA15 /* NotificationViewModelable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C1F5492AF2C356005FDA15 /* NotificationViewModelable.swift */; };
 		15C83F882AB2055E00DDB536 /* BaseBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C83F872AB2055E00DDB536 /* BaseBottomSheetViewController.swift */; };
 		15C83F8A2AB2134D00DDB536 /* BottomSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C83F892AB2134D00DDB536 /* BottomSheetView.swift */; };
 		15CB235B2A109CA4003EAF20 /* PostHeaderContentBottomInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15CB235A2A109CA4003EAF20 /* PostHeaderContentBottomInfo.swift */; };
@@ -447,7 +453,13 @@
 		15BB01BE2A1EBAC20035B486 /* LoginViewModel+Associatedtype.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LoginViewModel+Associatedtype.swift"; sourceTree = "<group>"; };
 		15C1F5392AF25FE4005FDA15 /* BaseNotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNotificationCell.swift; sourceTree = "<group>"; };
 		15C1F53B2AF27043005FDA15 /* NotificationViewAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewAdapter.swift; sourceTree = "<group>"; };
-		15C1F53D2AF2904C005FDA15 /* NotificationWithDetailsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationWithDetailsCell.swift; sourceTree = "<group>"; };
+		15C1F53D2AF2904C005FDA15 /* NotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCell.swift; sourceTree = "<group>"; };
+		15C1F53F2AF29CDE005FDA15 /* NotificationIconType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationIconType.swift; sourceTree = "<group>"; };
+		15C1F5412AF29CF7005FDA15 /* NotificationInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationInfo.swift; sourceTree = "<group>"; };
+		15C1F5432AF2BF48005FDA15 /* NotificationViewAdapterDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewAdapterDataSource.swift; sourceTree = "<group>"; };
+		15C1F5452AF2BF73005FDA15 /* NotificationViewAdapterDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewAdapterDelegate.swift; sourceTree = "<group>"; };
+		15C1F5472AF2C002005FDA15 /* NotificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewModel.swift; sourceTree = "<group>"; };
+		15C1F5492AF2C356005FDA15 /* NotificationViewModelable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewModelable.swift; sourceTree = "<group>"; };
 		15C83F872AB2055E00DDB536 /* BaseBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseBottomSheetViewController.swift; sourceTree = "<group>"; };
 		15C83F892AB2134D00DDB536 /* BottomSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetView.swift; sourceTree = "<group>"; };
 		15CB235A2A109CA4003EAF20 /* PostHeaderContentBottomInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostHeaderContentBottomInfo.swift; sourceTree = "<group>"; };
@@ -781,7 +793,9 @@
 			children = (
 				151DF0E02AEE828900D5D55B /* NoticeCell.swift */,
 				15C1F5392AF25FE4005FDA15 /* BaseNotificationCell.swift */,
-				15C1F53D2AF2904C005FDA15 /* NotificationWithDetailsCell.swift */,
+				15C1F53D2AF2904C005FDA15 /* NotificationCell.swift */,
+				15C1F53F2AF29CDE005FDA15 /* NotificationIconType.swift */,
+				15C1F5412AF29CF7005FDA15 /* NotificationInfo.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -799,6 +813,7 @@
 			isa = PBXGroup;
 			children = (
 				151DF0E62AEEA76500D5D55B /* NoticeViewModel.swift */,
+				15C1F5472AF2C002005FDA15 /* NotificationViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -809,6 +824,9 @@
 				151DF0E92AEEA7BA00D5D55B /* NoticeViewAdapterDataSource.swift */,
 				151DF0EB2AEEAB2600D5D55B /* NoticeViewAdapterDelegate.swift */,
 				151DF1112AEECDDD00D5D55B /* NoticeViewModelable.swift */,
+				15C1F5432AF2BF48005FDA15 /* NotificationViewAdapterDataSource.swift */,
+				15C1F5452AF2BF73005FDA15 /* NotificationViewAdapterDelegate.swift */,
+				15C1F5492AF2C356005FDA15 /* NotificationViewModelable.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -1854,6 +1872,7 @@
 				15DE36B92AB853900030CCCC /* TravelThemeBottomSheetCell.swift in Sources */,
 				151DF0DC2AEE6EB500D5D55B /* NotificationViewController.swift in Sources */,
 				13813A252AAA494500AF6AEB /* PostSearchLayout.swift in Sources */,
+				15C1F5482AF2C002005FDA15 /* NotificationViewModel.swift in Sources */,
 				15DE36B62AB83DD40030CCCC /* PostFilteringBottomSheetViewController.swift in Sources */,
 				158BEF772A0E279700C27861 /* PostCell.swift in Sources */,
 				15EF8C9D2A0A19190068C744 /* TravelMainCategoryViewCell.swift in Sources */,
@@ -1866,6 +1885,7 @@
 				152AD4F62A18B6C3008A2A11 /* FavoriteHeaderImageViews.swift in Sources */,
 				157ADCA02ACFB33100D37680 /* UIScrollView+.swift in Sources */,
 				13254FE72A05158E00094218 /* SearchViewController.swift in Sources */,
+				15C1F5442AF2BF48005FDA15 /* NotificationViewAdapterDataSource.swift in Sources */,
 				151DF0FC2AEEBA0100D5D55B /* NotificationRepository.swift in Sources */,
 				15FEB5EC2A050A99000A5F33 /* ViewModelProtocols.swift in Sources */,
 				15A4F28D2ACC1025001AA51D /* Toggable.swift in Sources */,
@@ -1879,6 +1899,7 @@
 				131A110A2AB509FB007BDD66 /* UIView+roundCorners.swift in Sources */,
 				13606E8C2A9F959F00365F20 /* PostRecommendationSearchHeaderView.swift in Sources */,
 				13813A232AAA459900AF6AEB /* PostSearchCollectionViewDelegate.swift in Sources */,
+				15C1F5402AF29CDE005FDA15 /* NotificationIconType.swift in Sources */,
 				130304B02A28447900776A0D /* TravelDestinationCell.swift in Sources */,
 				158BEF882A0E33F700C27861 /* PostHeaderContentBottomView.swift in Sources */,
 				15FEB5E72A050A99000A5F33 /* UIButton+Combine.swift in Sources */,
@@ -1935,6 +1956,7 @@
 				151DF10B2AEEC58900D5D55B /* MockUrlProtocol.swift in Sources */,
 				15CB23742A110FB4003EAF20 /* PostViewModel.swift in Sources */,
 				157ADCA42ACFF31D00D37680 /* FavoritePostViewController.swift in Sources */,
+				15C1F5422AF29CF7005FDA15 /* NotificationInfo.swift in Sources */,
 				131A11082AB5067E007BDD66 /* SearchMoreDetailViewModel.swift in Sources */,
 				15AF2C3E2A1147B100BEE166 /* UIImage+.swift in Sources */,
 				13300FAC2AC0883200952757 /* UICompositionalLayoutCreatable.swift in Sources */,
@@ -1955,7 +1977,7 @@
 				157ADCAE2AD00AB400D37680 /* FavoriteLocationViewController.swift in Sources */,
 				15BB01B82A1EB5070035B486 /* LoginViewModel.swift in Sources */,
 				15FB47F12AC1DCEF0033AA18 /* TravelMainThemeCollectionView.swift in Sources */,
-				15C1F53E2AF2904C005FDA15 /* NotificationWithDetailsCell.swift in Sources */,
+				15C1F53E2AF2904C005FDA15 /* NotificationCell.swift in Sources */,
 				158BEFC42A0EC8A100C27861 /* UIView+CustomAnimation.swift in Sources */,
 				151DF0EA2AEEA7BA00D5D55B /* NoticeViewAdapterDataSource.swift in Sources */,
 				15F0D1B62A524DC500D04773 /* PostSortingAreaView.swift in Sources */,
@@ -1991,6 +2013,7 @@
 				158BEFC92A0F6E8800C27861 /* PostThumbnailType.swift in Sources */,
 				15DA4C7F2ACD78C1003A7900 /* Int+.swift in Sources */,
 				1594F53229FD517E00A58F20 /* AppDelegate.swift in Sources */,
+				15C1F5462AF2BF73005FDA15 /* NotificationViewAdapterDelegate.swift in Sources */,
 				158BEFC22A0EB45300C27861 /* UIFont+.swift in Sources */,
 				158695992AE621010087CCB3 /* FeedPostViewModelable.swift in Sources */,
 				15B4E5F12ACAA947001CF071 /* SearchStarButton.swift in Sources */,
@@ -2034,6 +2057,7 @@
 				13254FE92A0515A900094218 /* PlanViewController.swift in Sources */,
 				15FFAC3C2ADE50880013DB57 /* PostHeaderContentInfo.swift in Sources */,
 				13606E942AA187F500365F20 /* PostSearchTagLabel.swift in Sources */,
+				15C1F54A2AF2C356005FDA15 /* NotificationViewModelable.swift in Sources */,
 				15FFAC072AD6ED5B0013DB57 /* Endpoint.swift in Sources */,
 				15CB235F2A10B5B8003EAF20 /* DateValidationManager.swift in Sources */,
 				15EF8CA32A0A197C0068C744 /* CategoryPageView.swift in Sources */,
