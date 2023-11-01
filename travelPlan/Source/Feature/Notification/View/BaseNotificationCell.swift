@@ -50,7 +50,7 @@ class BaseNotificationCell: UITableViewCell {
     $0.contentMode = .scaleAspectFit
   }
   
-  private let baseContentView: UIView
+  private var baseContentView: UIView!
   
   private lazy var closeIcon = UIImageView(frame: .zero).set {
     $0.translatesAutoresizingMaskIntoConstraints = false
@@ -68,16 +68,11 @@ class BaseNotificationCell: UITableViewCell {
   weak var delegate: BaseNotificationCellDelegate?
   
   // MARK: - Lifecycle
-  // useageTODO: - 오버라이드 해서 baseContentView의 인스턴스를 초기화 해야합니다.
-  init(
-    baseContentView: UIView,
+  override init(
     style: UITableViewCell.CellStyle,
     reuseIdentifier: String?
   ) {
-    self.baseContentView = baseContentView
-    self.baseContentView.translatesAutoresizingMaskIntoConstraints = false
     super.init(style: style, reuseIdentifier: reuseIdentifier)
-    configureUI()
   }
   
   required init?(coder: NSCoder) {
@@ -98,6 +93,12 @@ extension BaseNotificationCell {
       return
     }
     icon.image = UIImage(named: imagePath)
+  }
+  
+  func setBaseContentView(_ view: UIView) {
+    self.baseContentView = view
+    baseContentView.translatesAutoresizingMaskIntoConstraints = false
+    configureUI()
   }
 }
 
