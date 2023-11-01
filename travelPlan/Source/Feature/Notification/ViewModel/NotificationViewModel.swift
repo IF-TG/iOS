@@ -18,7 +18,8 @@ extension NotificationViewModel: NotificationViewModelable {
     return Publishers.MergeMany([
       viewDidLoadStream(input),
       didTapCellStream(input),
-      didTapDeleteIconStream(input)
+      didTapDeleteIconStream(input),
+      refreshNotificationsStream(input)
     ]).eraseToAnyPublisher()
   }
 }
@@ -42,6 +43,21 @@ private extension NotificationViewModel {
       self?.notifications.remove(at: indexPath.row)
       return .deleteCell(indexPath, lastItems: self?.notifications.count ?? 0)
     }.eraseToAnyPublisher()
+  }
+  
+  func refreshNotificationsStream(_ input: Input) -> Output {
+    return input.refreshNotifications
+      .subscribe(on: DispatchQueue.main)
+      .delay(for: 1.2, scheduler: DispatchQueue.main)
+      .map { [weak self] in
+        let fetchedMockData = NotificationInfo(
+          userName: "방금추가..",
+          details: "따근따근한추가 \n잘 ~ 됨됨!!!!",
+          duration: "300일",
+          type: .comment(postTitle: "리프레쉬"))
+        self?.notifications.append(fetchedMockData)
+        return .reloadNotifications(lastItems: self?.notifications.count ?? 0)
+      }.eraseToAnyPublisher()
   }
 }
 
