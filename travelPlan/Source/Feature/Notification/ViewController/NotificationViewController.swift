@@ -27,7 +27,10 @@ final class NotificationViewController: EmptyStateBasedContentViewController {
   private let input = NotificationViewInput(
     viewDidLoad: .init(),
     didTapCell: .init(),
-    didTapDeleteIcon: .init())
+    didTapDeleteIcon: .init(),
+    refreshNotifications: .init())
+  
+  private let refresher = UIRefreshControl()
     
   // MARK: - Lifecycle
   init(viewModel: any NotificationViewModelable & NotificationViewAdapterDataSource) {
@@ -39,6 +42,8 @@ final class NotificationViewController: EmptyStateBasedContentViewController {
       tableView: tableView)
     hasItem.send(true)
     bind()
+    tableView.refreshControl = refresher
+    refresher.addTarget(self, action: #selector(refreshNotifications), for: .valueChanged)
   }
   
   required init?(coder: NSCoder) {
@@ -66,6 +71,7 @@ extension NotificationViewController: ViewBindCase {
     case .reloadNotifications(let lastItems):
       tableView.reloadData()
       updateHasItem(with: lastItems)
+      refresher.endRefreshing()
     case .deleteCell(let indexPath, let lastItems):
       tableView.performBatchUpdates {
         tableView.deleteRows(at: [indexPath], with: .fade)
@@ -88,6 +94,13 @@ private extension NotificationViewController {
     } else if hasItem.value != true {
       hasItem.send(true)
     }
+  }
+}
+
+// MARK: - Actions
+extension NotificationViewController {
+  @objc func refreshNotifications() {
+    input.refreshNotifications.send()
   }
 }
 
