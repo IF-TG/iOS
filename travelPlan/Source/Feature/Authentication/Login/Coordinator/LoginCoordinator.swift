@@ -33,7 +33,7 @@ final class LoginCoordinator: FlowCoordinator {
   }
   
   deinit {
-    print("삭제요~ Self.self")
+    print("삭제요~ \(Self.self)")
   }
 }
 
