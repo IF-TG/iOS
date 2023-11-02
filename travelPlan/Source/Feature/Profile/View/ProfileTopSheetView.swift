@@ -28,8 +28,16 @@ final class ProfileTopSheetView: UIView {
   // MARK: - Properties
   private let nameLabel = UILabel().set {
     $0.translatesAutoresizingMaskIntoConstraints = false
-    $0.text = "김석현님,\n어디로 떠나시게요?🎒"
-    $0.numberOfLines = 2
+    $0.text = "무야호님,"
+    $0.numberOfLines = 1
+    $0.font = UIFont.systemFont(ofSize: 24)
+    $0.textColor = UIColor(red: 0.984, green: 0.984, blue: 0.984, alpha: 1)
+  }
+  
+  private let quotationLabel = UILabel().set {
+    $0.translatesAutoresizingMaskIntoConstraints = false
+    $0.text = "어디로 떠나시게요?🎒"
+    $0.numberOfLines = 1
     $0.font = UIFont.systemFont(ofSize: 24)
     $0.textColor = UIColor(red: 0.984, green: 0.984, blue: 0.984, alpha: 1)
   }
@@ -79,20 +87,30 @@ extension ProfileTopSheetView {
   func prepareForAnimation() {
     nameLabel.alpha = 0
     nameLabel.transform = .init(translationX: 0, y: +nameLabel.bounds.height/2)
+    quotationLabel.alpha = 0
+    quotationLabel.transform = .init(translationX: 0, y: +quotationLabel.bounds.height/3)
     profileImageView.alpha = 0
-    profileImageView.transform = .init(translationX: 0, y: +nameLabel.bounds.height/2)
   }
   
   func showAnimation() {
     UIView.animate(
-      withDuration: 0.25,
+      withDuration: 0.3,
       delay: 0,
-      options: .curveEaseInOut,
+      options: .curveEaseIn,
       animations: {
         self.nameLabel.alpha = 1
         self.profileImageView.alpha = 1
         self.nameLabel.transform = .identity
         self.profileImageView.transform = .identity
+      })
+    
+    UIView.animate(
+      withDuration: 0.33,
+      delay: 0.5,
+      options: .curveEaseOut,
+      animations: {
+        self.quotationLabel.alpha = 1
+        self.quotationLabel.transform = .identity
       })
   }
 }
@@ -121,6 +139,7 @@ extension ProfileTopSheetView: LayoutSupport {
   func addSubviews() {
     _=[
       nameLabel,
+      quotationLabel,
       profileImageView
     ].map {
       addSubview($0)
@@ -130,6 +149,7 @@ extension ProfileTopSheetView: LayoutSupport {
   func setConstraints() {
     _=[
       nameLabelConstraints,
+      quotationLabelConstraints,
       profileImageViewConstraints
     ].map {
       NSLayoutConstraint.activate($0)
@@ -148,6 +168,15 @@ private extension ProfileTopSheetView {
         constant: Spacing.leading),
       nameLabel.topAnchor.constraint(equalTo: topAnchor, constant: Spacing.top),
       nameLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Spacing.trailing)]
+  }
+  
+  var quotationLabelConstraints: [NSLayoutConstraint] {
+    typealias Const = Constant.NameLabel
+    typealias Spacing = Const.Spacing
+    return [
+      quotationLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Spacing.leading),
+      quotationLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor),
+      quotationLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Spacing.trailing)]
   }
   
   var profileImageViewConstraints: [NSLayoutConstraint] {
