@@ -21,4 +21,28 @@ import UIKit
   case customerService = "고객센터"
   
   case versionInformation = "버전정보"
+  
+  var fontType: UIFont.Pretendard {
+    switch self {
+    case .accountSetting, .activitySetting, .service:
+      return .semiBold_600(fontSize: 16)
+    case .versionInformation:
+      return .regular_400(fontSize: 13)
+    default:
+      return .medium_500(fontSize: 14)
+    }
+  }
+  
+  var fontColor: UIColor {
+    switch self {
+    case .accountSetting, .activitySetting, .service, .versionInformation:
+      return .yg.gray6
+    default:
+      return .yg.gray5
+    }
+  }
+  
+  var lineHeight: CGFloat {
+    30
+  }
 }
