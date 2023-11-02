@@ -68,6 +68,33 @@ final class ProfileTopSheetView: UIView {
   }
 }
 
+// MARK: - Helpers
+extension ProfileTopSheetView {
+  func configure(with imagePath: String) {
+    profileImageView.image = UIImage(named: imagePath)
+  }
+  
+  func prepareForAnimation() {
+    nameLabel.alpha = 0
+    nameLabel.transform = .init(translationX: 0, y: -nameLabel.bounds.height/2)
+    profileImageView.alpha = 0
+    profileImageView.transform = .init(translationX: 0, y: -profileImageView.bounds.height/2)
+  }
+  
+  func showAnimation() {
+    UIView.animate(
+      withDuration: 0.25,
+      delay: 0,
+      options: .curveEaseInOut,
+      animations: {
+        self.nameLabel.alpha = 1
+        self.profileImageView.alpha = 1
+        self.nameLabel.transform = .identity
+        self.profileImageView.transform = .identity
+      })
+  }
+}
+
 // MARK: - Private Helpers
 private extension ProfileTopSheetView {
   func configureUI() {
