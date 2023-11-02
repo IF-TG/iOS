@@ -8,29 +8,98 @@
 import UIKit
 
 class ProfileViewController: UIViewController {
+  enum Constant {
+    enum TopSheetView {
+      static let height: CGFloat = 253
+    }
+  }
+  
   // MARK: - Properties
   weak var coordinator: ProfileCoordinatorDelegate?
   
+  private let topSheetView = ProfileTopSheetView()
+  
+  private var isAnimated = false
+   
   // MARK: - Lifecycle
-  override func viewDidLoad() {
-    super.viewDidLoad()
-    view.backgroundColor = .orange.withAlphaComponent(0.3)
-    // Do any additional setup after loading the view.
-  }
-  
-  private override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-    super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-  }
-  
-  convenience init() {
-    self.init(nibName: nil, bundle: nil)
+  init() {
+    super.init(nibName: nil, bundle: nil)
   }
   
   required init?(coder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
+    nil
+  }
+  
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    configureUI()
+    topSheetView.configure(with: "tempProfile3")
+  }
+  
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    if !isAnimated {
+      isAnimated.toggle()
+      showAnimate()
+    }
   }
   
   deinit {
     coordinator?.finish()
+  }
+}
+
+// MARK: - Private Helpers
+private extension ProfileViewController {
+  func configureUI() {
+    view.backgroundColor = .white
+    setupUI()
+  }
+  
+  func showAnimate() {
+    topSheetView.alpha = 0.7
+    topSheetView.transform = .init(translationX: 0, y: -20)
+    topSheetView.prepareForAnimation()
+    UIView.animate(
+      withDuration: 0.28,
+      delay: 0,
+      options: .curveEaseOut,
+      animations: {
+        self.topSheetView.alpha = 1
+        self.topSheetView.transform = .identity
+      }, completion: { _ in
+        self.topSheetView.showAnimation()
+      })
+  }
+}
+
+// MARK: - LayoutSupport
+extension ProfileViewController: LayoutSupport {
+  func addSubviews() {
+    _=[
+      topSheetView
+    ].map {
+      view.addSubview($0)
+    }
+  }
+  
+  func setConstraints() {
+    _=[
+      topSheetViewConstraints
+    ].map {
+      NSLayoutConstraint.activate($0)
+    }
+  }
+}
+
+// MARK: - LayoutSupport Constraints
+private extension ProfileViewController {
+  var topSheetViewConstraints: [NSLayoutConstraint] {
+    typealias Const = Constant.TopSheetView
+    return [
+      topSheetView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+      topSheetView.topAnchor.constraint(equalTo: view.topAnchor),
+      topSheetView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+      topSheetView.heightAnchor.constraint(equalToConstant: Const.height)]
   }
 }
