@@ -9,7 +9,7 @@ import UIKit
 
 extension UIFont {
   /// YG app에서 사용되는 Pretendard Font
-  /// # Example #
+  /// Example:
   /// ```
   /// Example:
   /// let lb = UILabel()
@@ -17,38 +17,24 @@ extension UIFont {
   /// ```
   enum Pretendard {
     /// 400
-    case regular
+    case regular_400
     /// 500
-    case medium
+    case medium_500
     /// 600
-    case semiBold
+    case semiBold_600
     /// 700
-    case bold
-    case black
-    case extraBold
-    case extraLight
-    case light
-    case thin
+    case bold_700
+    
     var toString: String {
       switch self {
-      case .black:
-        return "Pretendard-Black"
-      case .bold:
-        return "Pretendard-Bold"
-      case .extraBold:
-        return "Pretendard-ExtraBold"
-      case .extraLight:
-        return "Pretendard-ExtraLight"
-      case .light:
-        return "Pretendard-Light"
-      case .medium:
-        return "Pretendard-Medium"
-      case .regular:
+      case .regular_400:
         return "Pretendard-Regular"
-      case .semiBold:
+      case .medium_500:
+        return "Pretendard-Medium"
+      case .semiBold_600:
         return "Pretendard-SemiBold"
-      case .thin:
-        return "Pretendard-Thin"
+      case .bold_700:
+        return "Pretendard-Light"
       }
     }
   }
