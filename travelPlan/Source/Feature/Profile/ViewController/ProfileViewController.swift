@@ -20,7 +20,7 @@ class ProfileViewController: UIViewController {
       enum Spacing {
         static let leading: CGFloat = 20
         static let trailing = leading
-        static let top: CGFloat = 168
+        static let top: CGFloat = 168 - 44
         static let bottom: CGFloat = 5
       }
     }
