@@ -100,6 +100,7 @@ private extension ProfileTopSheetView {
   func configureUI() {
     layer.cornerRadius = Constant.radius
     layer.setCornerMask(.leftBottom, .rightBottom)
+    layer.backgroundColor = UIColor.yg.primary.cgColor
     setupUI()
   }
   
