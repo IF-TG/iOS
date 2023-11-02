@@ -57,28 +57,3 @@ extension UIFont {
     self.init(name: pretendard.toString, size: size)
   }
 }
-
-/// # Example #
-/// ```
-/// Example:
-/// let lb = UILabel()
-/// lb.font = UIFont(SFPro: .semiBold, size: 18)!
-/// ```
-extension UIFont {
-  enum SFPro {
-    case italic
-    case semiBold
-    case sfPro
-    
-    var toStr: String {
-      switch self {
-      case .italic: return "SFPro-Italic"
-      case .semiBold: return "SFProText-Semibold"
-      case .sfPro: return "SFPro"
-      }
-    }
-  }
-  convenience init?(SFPro: SFPro, size: CGFloat) {
-    self.init(name: SFPro.toStr, size: size)
-  }
-}
