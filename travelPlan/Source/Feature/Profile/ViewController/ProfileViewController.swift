@@ -45,6 +45,7 @@ class ProfileViewController: UIViewController {
       $0.axis = .vertical
       $0.alignment = .fill
       $0.distribution = .fill
+      $0.alpha = 0
     }
   }
   
@@ -108,6 +109,9 @@ private extension ProfileViewController {
         self.topSheetView.transform = .identity
       }, completion: { _ in
         self.topSheetView.showAnimation()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+          self.animateSettingViews(self.settingStackViews)
+        }
       })
   }
   
@@ -154,6 +158,20 @@ private extension ProfileViewController {
       subview.trailingAnchor.constraint(
         equalTo: superView.trailingAnchor,
         constant: -Constant.versionLabelTrailing)])
+  }
+  
+  func animateSettingViews(_ settingViews: [UIView]) {
+    settingViews.enumerated().forEach { (idx, view) in
+      view.transform = CGAffineTransform(translationX: 0, y: view.bounds.height/10)
+      UIView.animate(
+        withDuration: 0.25,
+        delay: Double(idx) * (0.33 + Double(idx)/15.0),
+        options: .curveEaseOut,
+        animations: {
+        view.alpha = 1
+        view.transform = .identity
+      })
+    }
   }
 }
 
