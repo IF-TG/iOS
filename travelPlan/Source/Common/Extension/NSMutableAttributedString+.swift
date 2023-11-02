@@ -8,6 +8,12 @@
 import UIKit
 
 extension NSMutableAttributedString {
+  struct HighlightFontInfo {
+    let fontType: UIFont.Pretendard
+    var lineHeight: CGFloat?
+    let text: String
+  }
+  
   /// 기본적으로 UIFOnt.Pretendard 타입과 Optional(lineHeight)를 지정할 경우 모든 텍스트에 앞에 언급한 attributes를 적용합니다.
   func setPretendard(with fontType: UIFont.Pretendard, lineHeight: CGFloat? = nil) {
     let font = fontType.uiFont
@@ -38,24 +44,42 @@ extension NSMutableAttributedString {
   }
   
   /**
-   기본 글자에 다른 타입의 highlight text를 적용할 떄 사용하면 편합니다.
+   기존 텍스트의 attributes설정 후, 기존 택스트에서 특정한 문자열만 highlight해야하는 경우입니다.
   
    Notes:
    1. base keyword: 기본적으로 적용될 Pretendard 타입
-   2. other keyword: 특정 문구에 적용될 Pretendard 타입
+   2. highlightInfo keyword: 특정 문구에 적용될 Pretendard 타입
   */
   func setPretendard(
     baseType: UIFont.Pretendard,
-    baseLineLeight: CGFloat? = nil,
-    otherType: UIFont.Pretendard,
-    otherLineHeight: CGFloat? = nil,
-    otherText: String
+    baseLineHeight: CGFloat? = nil,
+    highlightInfo info: HighlightFontInfo
   ) {
-    setPretendard(with: baseType, lineHeight: baseLineLeight)
+    setPretendard(with: baseType, lineHeight: baseLineHeight)
     
-    guard let otherFont = otherType.uiFont else { return }
-    let otherAttributes = convertToNSAttributes(from: otherType, lineHeight: otherLineHeight)
     
-    addAttributes(otherAttributes, range: (string as NSString).range(of: otherText))
+    setHighlightedPretendard(with: info)
+  }
+  
+  /// 기존에 존재하는 택스트에서 서로 다른 여러 문구에서 각각의 문자열들을 highlight할 경우 사용하면 됩니다.
+  func setPretendard(
+    baseType: UIFont.Pretendard,
+    baseLineHeight: CGFloat? = nil,
+    otherTypes: HighlightFontInfo...
+  ) {
+    setPretendard(with: baseType, lineHeight: baseLineHeight)
+    
+    otherTypes.forEach {
+      setHighlightedPretendard(with: $0)
+    }
+  }
+  
+  /// 기존에 존재하는 텍스트에서 특정한 문구의 텍스트만 highlight해야하는 경우에 호출하면 됩니다.
+  func setHighlightedPretendard(with highlightInfo: HighlightFontInfo) {
+    guard let otherFont = highlightInfo.fontType.uiFont else { return }
+    let highlightAttributes = convertToNSAttributes(
+      from: highlightInfo.fontType,
+      lineHeight: highlightInfo.lineHeight)
+    addAttributes(highlightAttributes, range: (string as NSString).range(of: highlightInfo.text))
   }
 }
