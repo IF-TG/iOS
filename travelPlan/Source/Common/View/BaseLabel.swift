@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class BaseLabel: UILabel {
+class BaseLabel: UILabel {
   // MARK: - Properties
   private var fontType: UIFont.Pretendard
   
