@@ -30,7 +30,7 @@ final class PostRecentSearchHeaderView: UICollectionReusableView {
   }
   
   private let titleLabel: UILabel = UILabel().set {
-    $0.font = .init(pretendard: .bold, size: Constants.TitleLabel.fontSize)
+    $0.font = .init(pretendard: .bold_700(fontSize: Constants.TitleLabel.fontSize))
     $0.textColor = .yg.gray6
   }
   

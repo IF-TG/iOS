@@ -40,7 +40,7 @@ class SearchDetailHeaderView: UICollectionReusableView {
   
   private let titleLabel: UILabel = .init().set {
     $0.numberOfLines = Constant.TitleLabel.numberOfLines
-    $0.font = .init(pretendard: .bold, size: Constant.TitleLabel.fontSize)
+    $0.font = .init(pretendard: .bold_700(fontSize: Constant.TitleLabel.fontSize))
     $0.text = Constant.TitleLabel.text
     $0.textColor = UIColor.yg.littleWhite
   }

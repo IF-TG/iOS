@@ -86,7 +86,7 @@ class SearchMoreDetailViewController: UIViewController {
   
   private let navigationTitleLabel: UILabel = .init().set {
     typealias Const = Constant.NavigationTitleLabel
-    $0.font = .init(pretendard: .semiBold, size: Const.fontSize)
+    $0.font = .init(pretendard: .semiBold_600(fontSize: Const.fontSize))
     $0.textColor = .yg.gray7
     $0.alpha = .zero
   }

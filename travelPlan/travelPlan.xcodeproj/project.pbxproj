@@ -126,9 +126,6 @@
 		15710CB82A132C630023C19E /* FeedPostSearchBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15710CB72A132C630023C19E /* FeedPostSearchBarItem.swift */; };
 		15710CBA2A132C760023C19E /* FeedNotificationBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15710CB92A132C760023C19E /* FeedNotificationBarItem.swift */; };
 		15710CBC2A132DD00023C19E /* FeedAppTitleBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15710CBB2A132DD00023C19E /* FeedAppTitleBarItem.swift */; };
-		157176722A0BFA780015EC8C /* SFProText-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 157176712A0BFA780015EC8C /* SFProText-Semibold.ttf */; };
-		157176752A0C09740015EC8C /* SFPro-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 157176732A0C09740015EC8C /* SFPro-Italic.ttf */; };
-		157176762A0C09740015EC8C /* SFPro.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 157176742A0C09740015EC8C /* SFPro.ttf */; };
 		157176782A0C21C90015EC8C /* UIColor+AppPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157176772A0C21C90015EC8C /* UIColor+AppPalette.swift */; };
 		157ADC9E2ACFAAFA00D37680 /* FavoritePostViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157ADC9D2ACFAAFA00D37680 /* FavoritePostViewAdapter.swift */; };
 		157ADCA02ACFB33100D37680 /* UIScrollView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157ADC9F2ACFB33100D37680 /* UIScrollView+.swift */; };
@@ -182,6 +179,8 @@
 		15C1F55F2AF3CDD4005FDA15 /* ProfileTopSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C1F55E2AF3CDD4005FDA15 /* ProfileTopSheetView.swift */; };
 		15C1F5612AF3D17D005FDA15 /* CALayer+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C1F5602AF3D17D005FDA15 /* CALayer+.swift */; };
 		15C1F5632AF408D3005FDA15 /* SettingType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C1F5622AF408D3005FDA15 /* SettingType.swift */; };
+		15C1F55A2AF37092005FDA15 /* BaseLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C1F5592AF37092005FDA15 /* BaseLabel.swift */; };
+		15C1F55C2AF37CA8005FDA15 /* NSMutableAttributedString+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C1F55B2AF37CA8005FDA15 /* NSMutableAttributedString+.swift */; };
 		15C83F882AB2055E00DDB536 /* BaseBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C83F872AB2055E00DDB536 /* BaseBottomSheetViewController.swift */; };
 		15C83F8A2AB2134D00DDB536 /* BottomSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C83F892AB2134D00DDB536 /* BottomSheetView.swift */; };
 		15CB235B2A109CA4003EAF20 /* PostHeaderContentBottomInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15CB235A2A109CA4003EAF20 /* PostHeaderContentBottomInfo.swift */; };
@@ -413,9 +412,6 @@
 		15710CB72A132C630023C19E /* FeedPostSearchBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedPostSearchBarItem.swift; sourceTree = "<group>"; };
 		15710CB92A132C760023C19E /* FeedNotificationBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedNotificationBarItem.swift; sourceTree = "<group>"; };
 		15710CBB2A132DD00023C19E /* FeedAppTitleBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedAppTitleBarItem.swift; sourceTree = "<group>"; };
-		157176712A0BFA780015EC8C /* SFProText-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFProText-Semibold.ttf"; sourceTree = "<group>"; };
-		157176732A0C09740015EC8C /* SFPro-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFPro-Italic.ttf"; sourceTree = "<group>"; };
-		157176742A0C09740015EC8C /* SFPro.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SFPro.ttf; sourceTree = "<group>"; };
 		157176772A0C21C90015EC8C /* UIColor+AppPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+AppPalette.swift"; sourceTree = "<group>"; };
 		157ADC9D2ACFAAFA00D37680 /* FavoritePostViewAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoritePostViewAdapter.swift; sourceTree = "<group>"; };
 		157ADC9F2ACFB33100D37680 /* UIScrollView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScrollView+.swift"; sourceTree = "<group>"; };
@@ -470,6 +466,8 @@
 		15C1F55E2AF3CDD4005FDA15 /* ProfileTopSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTopSheetView.swift; sourceTree = "<group>"; };
 		15C1F5602AF3D17D005FDA15 /* CALayer+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+.swift"; sourceTree = "<group>"; };
 		15C1F5622AF408D3005FDA15 /* SettingType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingType.swift; sourceTree = "<group>"; };
+		15C1F5592AF37092005FDA15 /* BaseLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseLabel.swift; sourceTree = "<group>"; };
+		15C1F55B2AF37CA8005FDA15 /* NSMutableAttributedString+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+.swift"; sourceTree = "<group>"; };
 		15C83F872AB2055E00DDB536 /* BaseBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseBottomSheetViewController.swift; sourceTree = "<group>"; };
 		15C83F892AB2134D00DDB536 /* BottomSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetView.swift; sourceTree = "<group>"; };
 		15CB235A2A109CA4003EAF20 /* PostHeaderContentBottomInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostHeaderContentBottomInfo.swift; sourceTree = "<group>"; };
@@ -1032,7 +1030,6 @@
 		157176702A0BFA2F0015EC8C /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
-				15CB23562A109754003EAF20 /* SFPro */,
 				158BEF9C2A0EB21600C27861 /* Pretendard */,
 			);
 			path = Fonts;
@@ -1067,6 +1064,7 @@
 			isa = PBXGroup;
 			children = (
 				13405EFF2AECF76300382796 /* BaseLoginButton.swift */,
+				15C1F5592AF37092005FDA15 /* BaseLabel.swift */,
 				15D60D4B2AED17660087FEC0 /* RedIconBasedUnderbarSegmentedControl.swift */,
 				13300FA32AC0688300952757 /* BaseDestinationView.swift */,
 				13BF40F22AD6F1D600F3F082 /* BaseNavigationTitleView.swift */,
@@ -1330,16 +1328,6 @@
 			path = Protocol;
 			sourceTree = "<group>";
 		};
-		15CB23562A109754003EAF20 /* SFPro */ = {
-			isa = PBXGroup;
-			children = (
-				157176732A0C09740015EC8C /* SFPro-Italic.ttf */,
-				157176712A0BFA780015EC8C /* SFProText-Semibold.ttf */,
-				157176742A0C09740015EC8C /* SFPro.ttf */,
-			);
-			path = SFPro;
-			sourceTree = "<group>";
-		};
 		15CB235C2A10B598003EAF20 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
@@ -1542,6 +1530,7 @@
 				130369652AEC3AA2007E980C /* NSRange+.swift */,
 				151DF0DD2AEE709800D5D55B /* Bool+.swift */,
 				15C1F5602AF3D17D005FDA15 /* CALayer+.swift */,
+				15C1F55B2AF37CA8005FDA15 /* NSMutableAttributedString+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -1810,8 +1799,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				13BF411D2ADBE42000F3F082 /* onboarding-video.mp4 in Resources */,
-				157176722A0BFA780015EC8C /* SFProText-Semibold.ttf in Resources */,
-				157176762A0C09740015EC8C /* SFPro.ttf in Resources */,
 				158BEFBB2A0EB2A500C27861 /* Pretendard-Regular.ttf in Resources */,
 				15F0A3F529FD58280049AB33 /* .swiftlint.yml in Resources */,
 				1594F53E29FD517F00A58F20 /* LaunchScreen.storyboard in Resources */,
@@ -1822,7 +1809,6 @@
 				158BEFBE2A0EB2A500C27861 /* Pretendard-ExtraBold.ttf in Resources */,
 				151DF10F2AEECBB400D5D55B /* mock_response_notice.json in Resources */,
 				158BEFBD2A0EB2A500C27861 /* Pretendard-Medium.ttf in Resources */,
-				157176752A0C09740015EC8C /* SFPro-Italic.ttf in Resources */,
 				158BEFB82A0EB2A500C27861 /* Pretendard-Light.ttf in Resources */,
 				158BEFB92A0EB2A500C27861 /* Pretendard-ExtraLight.ttf in Resources */,
 				158BEFC02A0EB2A500C27861 /* Pretendard-Black.ttf in Resources */,
@@ -1924,6 +1910,7 @@
 				13405F002AECF76300382796 /* BaseLoginButton.swift in Sources */,
 				15E982C12ACD16A2002B932F /* FavoriteDetailMenuAreaView.swift in Sources */,
 				152AD4F62A18B6C3008A2A11 /* FavoriteHeaderImageViews.swift in Sources */,
+				15C1F55A2AF37092005FDA15 /* BaseLabel.swift in Sources */,
 				157ADCA02ACFB33100D37680 /* UIScrollView+.swift in Sources */,
 				13254FE72A05158E00094218 /* SearchViewController.swift in Sources */,
 				151DF0FC2AEEBA0100D5D55B /* NotificationRepository.swift in Sources */,
@@ -2114,6 +2101,7 @@
 				1503F93D2A4E1291002BC38D /* PlanCoordinator.swift in Sources */,
 				13254FE52A05157900094218 /* FeedViewController.swift in Sources */,
 				130304822A250DF600776A0D /* TitleWithButtonHeaderView.swift in Sources */,
+				15C1F55C2AF37CA8005FDA15 /* NSMutableAttributedString+.swift in Sources */,
 				13A93EE92AD0065300FC4BBD /* SearchMoreDetailLayoutManager.swift in Sources */,
 				151DF1052AEEBE0F00D5D55B /* NoticeResponseDTO.swift in Sources */,
 				1503F9372A4E1103002BC38D /* FavoriteCoordinator.swift in Sources */,

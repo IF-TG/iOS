@@ -9,76 +9,56 @@ import UIKit
 
 extension UIFont {
   /// YG app에서 사용되는 Pretendard Font
-  /// # Example #
+  /// Example:
   /// ```
   /// Example:
   /// let lb = UILabel()
-  /// lb.font = UIFont(pretendard: .semiBold, size: 18)!
+  /// lb.font = UIFont(pretendard: .semiBold_600(fontSize: 14)!
   /// ```
   enum Pretendard {
     /// 400
-    case regular
+    case regular_400(fontSize: CGFloat)
     /// 500
-    case medium
+    case medium_500(fontSize: CGFloat)
     /// 600
-    case semiBold
+    case semiBold_600(fontSize: CGFloat)
     /// 700
-    case bold
-    case black
-    case extraBold
-    case extraLight
-    case light
-    case thin
-    var toString: String {
+    case bold_700(fontSize: CGFloat)
+    
+    var path: String {
       switch self {
-      case .black:
-        return "Pretendard-Black"
-      case .bold:
-        return "Pretendard-Bold"
-      case .extraBold:
-        return "Pretendard-ExtraBold"
-      case .extraLight:
-        return "Pretendard-ExtraLight"
-      case .light:
-        return "Pretendard-Light"
-      case .medium:
-        return "Pretendard-Medium"
-      case .regular:
+      case .regular_400:
         return "Pretendard-Regular"
-      case .semiBold:
+      case .medium_500:
+        return "Pretendard-Medium"
+      case .semiBold_600:
         return "Pretendard-SemiBold"
-      case .thin:
-        return "Pretendard-Thin"
+      case .bold_700:
+        return "Pretendard-Bold"
       }
     }
-  }
-  
-  convenience init?(pretendard: Pretendard, size: CGFloat) {
-    self.init(name: pretendard.toString, size: size)
+    
+    var size: CGFloat {
+      switch self {
+      case .regular_400(fontSize: let size):
+        return size
+      case .medium_500(fontSize: let size):
+        return size
+      case .semiBold_600(fontSize: let size):
+        return size
+      case .bold_700(fontSize: let size):
+        return size
+      }
+    }
+    
+    var uiFont: UIFont? {
+      UIFont(pretendard: self)
+    }
   }
 }
 
-/// # Example #
-/// ```
-/// Example:
-/// let lb = UILabel()
-/// lb.font = UIFont(SFPro: .semiBold, size: 18)!
-/// ```
 extension UIFont {
-  enum SFPro {
-    case italic
-    case semiBold
-    case sfPro
-    
-    var toStr: String {
-      switch self {
-      case .italic: return "SFPro-Italic"
-      case .semiBold: return "SFProText-Semibold"
-      case .sfPro: return "SFPro"
-      }
-    }
-  }
-  convenience init?(SFPro: SFPro, size: CGFloat) {
-    self.init(name: SFPro.toStr, size: size)
+  convenience init?(pretendard font: Pretendard) {
+    self.init(name: font.path, size: font.size)
   }
 }
