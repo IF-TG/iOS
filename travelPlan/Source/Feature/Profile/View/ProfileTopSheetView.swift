@@ -14,12 +14,12 @@ final class ProfileTopSheetView: UIView {
       enum Spacing {
         static let top: CGFloat = 58.5 + 47
         static let leading: CGFloat = 20
+        static let trailing: CGFloat = 120
       }
     }
     enum ProfileImageView {
       static let size: CGSize = .init(width: 80, height: 80)
       enum Spacing {
-        static let leading: CGFloat = 10
         static let trailing: CGFloat = 30
       }
     }
@@ -146,16 +146,14 @@ private extension ProfileTopSheetView {
       nameLabel.leadingAnchor.constraint(
         equalTo: leadingAnchor,
         constant: Spacing.leading),
-      nameLabel.topAnchor.constraint(equalTo: topAnchor, constant: Spacing.top)]
+      nameLabel.topAnchor.constraint(equalTo: topAnchor, constant: Spacing.top),
+      nameLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Spacing.trailing)]
   }
   
   var profileImageViewConstraints: [NSLayoutConstraint] {
     typealias Const = Constant.ProfileImageView
     typealias Spacing = Const.Spacing
     return [
-      profileImageView.leadingAnchor.constraint(
-        equalTo: nameLabel.trailingAnchor,
-        constant: Spacing.leading),
       profileImageView.trailingAnchor.constraint(
         equalTo: trailingAnchor,
         constant: -Spacing.trailing),
