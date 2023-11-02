@@ -1,5 +1,5 @@
 //
-//  ProfileTopSheetView.swift
+//  SettingTopSheetView.swift
 //  travelPlan
 //
 //  Created by 양승현 on 11/2/23.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class ProfileTopSheetView: UIView {
+final class SettingTopSheetView: UIView {
   enum Constant {
     static let radius: CGFloat = 30
     enum NameLabel {
@@ -95,7 +95,7 @@ final class ProfileTopSheetView: UIView {
 }
 
 // MARK: - Helpers
-extension ProfileTopSheetView {
+extension SettingTopSheetView {
   func configure(name: String, imagePath: String) {
     profileImageView.image = UIImage(named: imagePath)
     nameLabel.text = "\(name)님,"
@@ -138,7 +138,7 @@ extension ProfileTopSheetView {
 }
 
 // MARK: - Private Helpers
-private extension ProfileTopSheetView {
+private extension SettingTopSheetView {
   func configureUI() {
     layer.cornerRadius = Constant.radius
     layer.setCornerMask(.leftBottom, .rightBottom)
@@ -157,7 +157,7 @@ private extension ProfileTopSheetView {
 }
 
 // MARK: - LayoutSupport
-extension ProfileTopSheetView: LayoutSupport {
+extension SettingTopSheetView: LayoutSupport {
   func addSubviews() {
     _=[
       nameLabel,
@@ -180,7 +180,7 @@ extension ProfileTopSheetView: LayoutSupport {
 }
 
 // MARK: - LayoutSupport Constraints
-private extension ProfileTopSheetView {
+private extension SettingTopSheetView {
   var nameLabelConstraints: [NSLayoutConstraint] {
     typealias Const = Constant.NameLabel
     typealias Spacing = Const.Spacing

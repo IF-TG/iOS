@@ -1,5 +1,5 @@
 //
-//  ProfileViewController.swift
+//  SettingViewController.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 2023/05/05.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ProfileViewController: UIViewController {
+class SettingViewController: UIViewController {
   enum Constant {
     enum TopSheetView {
       static let height: CGFloat = 253
@@ -29,7 +29,7 @@ class ProfileViewController: UIViewController {
   // MARK: - Properties
   weak var coordinator: ProfileCoordinatorDelegate?
   
-  private let topSheetView = ProfileTopSheetView()
+  private let topSheetView = SettingTopSheetView()
   
   private let scrollView = UIScrollView().set {
     $0.translatesAutoresizingMaskIntoConstraints = false
@@ -85,7 +85,7 @@ class ProfileViewController: UIViewController {
 }
 
 // MARK: - Private Helpers
-private extension ProfileViewController {
+private extension SettingViewController {
   func configureUI() {
     view.backgroundColor = .yg.gray00Background
     let settingLabels = makeSettingLabels()
@@ -176,7 +176,7 @@ private extension ProfileViewController {
 }
 
 // MARK: - Actions
-private extension ProfileViewController {
+private extension SettingViewController {
   @objc func didTapSettingLabel(_ sender: UIGestureRecognizer) {
     guard
       let targetLabel = (sender.view as? UILabel),
@@ -197,7 +197,7 @@ private extension ProfileViewController {
 }
 
 // MARK: - LayoutSupport
-extension ProfileViewController: LayoutSupport {
+extension SettingViewController: LayoutSupport {
   func addSubviews() {
     view.addSubview(topSheetView)
     view.addSubview(scrollView)
@@ -235,7 +235,7 @@ extension ProfileViewController: LayoutSupport {
 }
 
 // MARK: - LayoutSupport Constraints
-private extension ProfileViewController {
+private extension SettingViewController {
   var topSheetViewConstraints: [NSLayoutConstraint] {
     typealias Const = Constant.TopSheetView
     return [
