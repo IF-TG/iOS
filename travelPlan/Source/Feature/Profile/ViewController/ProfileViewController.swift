@@ -127,6 +127,7 @@ private extension ProfileViewController {
       ).set {
         $0.text = settingType.rawValue
         $0.textColor = settingType.fontColor
+        $0.isUserInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(didTapSettingLabel))
         $0.addGestureRecognizer(tap)
         if settingType == .versionInformation {
@@ -151,15 +152,28 @@ private extension ProfileViewController {
       subview.centerYAnchor.constraint(equalTo: superView.centerYAnchor),
       subview.trailingAnchor.constraint(
         equalTo: superView.trailingAnchor,
-        constant: Constant.versionLabelTrailing)])
+        constant: -Constant.versionLabelTrailing)])
   }
 }
 
 // MARK: - Actions
 private extension ProfileViewController {
-  @objc func didTapSettingLabel(_ sender: UILabel) {
-    print(sender.text ?? "")
-    // TODO: - 터치할때 그래이세그로
+  @objc func didTapSettingLabel(_ sender: UIGestureRecognizer) {
+    guard
+      let targetLabel = (sender.view as? UILabel),
+      let title = targetLabel.text,
+      let settingType = SettingType(rawValue: title)
+    else {
+      return
+    }
+    UIView.animate(withDuration: 0.17, animations: {
+      targetLabel.layer.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.1).cgColor
+    }, completion: { _ in
+      print("\(settingType.rawValue ) 화면으로 이동해야합니다. 타입: \(settingType.self)")
+      UIView.animate(withDuration: 0.13, animations: {
+        targetLabel.layer.backgroundColor = UIColor.white.cgColor
+      })
+    })
   }
 }
 
