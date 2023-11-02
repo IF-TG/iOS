@@ -20,10 +20,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   }
   
   func sceneWillEnterForeground(_ scene: UIScene) {
-    guard let windowScene = scene as? UIWindowScene else { return }
-    if let rootVC = windowScene.windows.first?.rootViewController as? UINavigationController,
-        rootVC.topViewController is LoginViewController {
-      LoginPlayerManager.shared.play()
-    }
+    resumeLoginVideo(scene)
+  }
+}
+
+// MARK: - Private Helpers
+extension SceneDelegate {
+  private func resumeLoginVideo(_ scene: UIScene) {
+    guard let windowScene = scene as? UIWindowScene,
+          let rootViewController = windowScene.windows.first?.rootViewController as? UINavigationController,
+          let loginViewController = rootViewController.topViewController as? LoginViewController
+    else { return }
+    
+    loginViewController.resumeVideo()
   }
 }

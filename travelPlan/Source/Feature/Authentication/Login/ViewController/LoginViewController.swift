@@ -18,11 +18,12 @@ class LoginViewController: UIViewController {
     $0.delegate = self
   }
   private let input = LoginViewModel.Input()
+  private let loginPlayerSupporter = LoginPlayerSupporter()
   
   // MARK: - Lifecycle
   override func viewDidLoad() {
     super.viewDidLoad()
-    LoginPlayerManager.shared.setupPlayer(in: self.view)
+    configureVideo()
     setupUI()
     setupStyles()
     bind()
@@ -54,7 +55,6 @@ class LoginViewController: UIViewController {
   
   deinit {
     coordinator?.finish()
-    LoginPlayerManager.shared.cleanup()
   }
 }
 
@@ -68,7 +68,8 @@ extension LoginViewController: ViewBindCase {
     let output = vm.transform(input)
     output.sink { [weak self] completion in
       switch completion {
-      case .finished: break
+      case .finished: 
+        break
       case .failure(let error):
         self?.handleError(error)
       }
@@ -106,8 +107,20 @@ extension LoginViewController: ViewBindCase {
   }
 }
 
+// MARK: - Helpers
+extension LoginViewController {
+  func resumeVideo() {
+    loginPlayerSupporter.play()
+  }
+}
+
 // MARK: - Private Helpers
 extension LoginViewController {
+  private func configureVideo() {
+    loginPlayerSupporter.setupPlayer(in: self.view)
+    loginPlayerSupporter.play()
+  }
+  
   private func setupStyles() {
     navigationController?.navigationBar.isHidden = true
     view.backgroundColor = .white
