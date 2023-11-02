@@ -181,24 +181,16 @@ private extension ProfileViewController {
 // MARK: - LayoutSupport
 extension ProfileViewController: LayoutSupport {
   func addSubviews() {
-    _=[
-      topSheetView,
-      scrollView
-    ].map {
-      view.addSubview($0)
-    }
+    view.addSubview(topSheetView)
+    view.addSubview(scrollView)
     _=settingStackViews.map {
       scrollView.addSubview($0)
     }
   }
   
   func setConstraints() {
-    _=[
-      topSheetViewConstraints,
-      scrollViewConstraints
-    ].map {
-      NSLayoutConstraint.activate($0)
-    }
+    NSLayoutConstraint.activate(topSheetViewConstraints)
+    NSLayoutConstraint.activate(scrollViewConstraints)
     
     let topSpacing = Constant.stackViewSpacing
     let sc = scrollView.contentLayoutGuide
