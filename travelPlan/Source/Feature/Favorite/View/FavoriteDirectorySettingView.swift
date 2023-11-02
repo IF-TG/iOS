@@ -14,7 +14,7 @@ final class FavoriteDirectorySettingView: UIView {
     static let maximumTextLength = 15
     static let radius: CGFloat = 25
     enum TitleLabel {
-      static let font = UIFont(pretendard: .medium, size: 16)!
+      static let font = UIFont(pretendard: .medium_500, size: 16)!
       static let textColor: UIColor = .yg.gray7
       enum Spacing {
         static let top: CGFloat = 16

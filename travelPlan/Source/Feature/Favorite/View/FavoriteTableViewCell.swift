@@ -30,7 +30,7 @@ final class FavoriteTableViewCell: UITableViewCell {
         static let trailing: CGFloat = 44
       }
       static let textColor: UIColor = .yg.gray6
-      static let fontName: UIFont.Pretendard = .medium
+      static let fontName: UIFont.Pretendard = .medium_500
       static let textSize: CGFloat = 15.0
     }
     enum EditModeTitleLabel {
@@ -49,7 +49,7 @@ final class FavoriteTableViewCell: UITableViewCell {
       }
       static let height: CGFloat = 25
       static let textColor: UIColor = .yg.gray6
-      static let fontName: UIFont.Pretendard = .medium
+      static let fontName: UIFont.Pretendard = .medium_500
       static let textSize: CGFloat = 14.0
       static let borderWidth: CGFloat = 0.3
       static let borderColor: UIColor = .yg.gray3

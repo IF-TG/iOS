@@ -22,7 +22,7 @@ final class GoogleLoginButton: BaseLoginButton {
   private let textLabel: UILabel = .init().set {
     typealias Const = Constant.TextLabel
     $0.text = Const.text
-    $0.font = .init(pretendard: .semiBold, size: Const.fontSize)
+    $0.font = .init(pretendard: .semiBold_600, size: Const.fontSize)
     $0.textColor = .black.withAlphaComponent(Const.alphaOfTextColor)
   }
   

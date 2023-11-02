@@ -23,7 +23,7 @@ final class FavoriteHeaderView: UITableViewHeaderFooterView {
         static let trailing: CGFloat = 20
       }
       static let textColor: UIColor = .yg.gray6
-      static let fontName: UIFont.Pretendard = .medium
+      static let fontName: UIFont.Pretendard = .medium_500
       static let textSize: CGFloat = 15.0
     }
   }

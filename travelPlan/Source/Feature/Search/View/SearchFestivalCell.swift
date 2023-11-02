@@ -85,7 +85,7 @@ final class SearchFestivalCell: UICollectionViewCell {
   }
   
   private let festivalLabel: UILabel = .init().set {
-    $0.font = UIFont(pretendard: .bold, size: Constants.FestivalLabel.fontSize)
+    $0.font = UIFont(pretendard: .bold_700, size: Constants.FestivalLabel.fontSize)
     $0.textColor = .yg.littleWhite
     $0.numberOfLines = Constants.FestivalLabel.numberOfLines
     $0.textAlignment = .center
@@ -93,7 +93,7 @@ final class SearchFestivalCell: UICollectionViewCell {
   }
   
   private let periodLabel: UILabel = .init().set {
-    $0.font = UIFont(pretendard: .semiBold, size: Constants.PeriodLabel.fontSize)
+    $0.font = UIFont(pretendard: .semiBold_600, size: Constants.PeriodLabel.fontSize)
     $0.textColor = .yg.littleWhite
     $0.textAlignment = .center
     $0.text = "날짜"

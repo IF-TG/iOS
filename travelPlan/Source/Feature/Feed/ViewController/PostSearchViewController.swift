@@ -73,7 +73,7 @@ final class PostSearchViewController: UIViewController {
       attributes: [NSAttributedString.Key.foregroundColor: UIColor.yg.gray1]
     )
     $0.textColor = .yg.gray5
-    $0.font = .init(pretendard: .regular, size: Constants.SearchTextField.fontSize)
+    $0.font = .init(pretendard: .regular_400, size: Constants.SearchTextField.fontSize)
     $0.autocorrectionType = .no
     $0.delegate = self
   }

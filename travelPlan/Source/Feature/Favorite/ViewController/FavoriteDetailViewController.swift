@@ -51,7 +51,7 @@ final class FavoriteDetailViewController: UIViewController {
     typealias Const = Constant.BackButtonItem
     let iconName = Const.imageName
     let image = UIImage(named: iconName)?.withRenderingMode(.alwaysOriginal)
-    let attributes: [NSAttributedString.Key: Any] = [.font: UIFont(pretendard: .medium, size: Const.fontSize)!]
+    let attributes: [NSAttributedString.Key: Any] = [.font: UIFont(pretendard: .medium_500, size: Const.fontSize)!]
     let attrString = NSAttributedString(string: "찜 목록", attributes: attributes)
     $0.setImage(image, for: .normal)
     $0.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)

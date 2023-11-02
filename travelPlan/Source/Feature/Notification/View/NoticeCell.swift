@@ -19,7 +19,7 @@ final class NoticeCell: UITableViewCell {
   
   enum Constant {
     enum TitleLabel {
-      static let font = UIFont(pretendard: .regular, size: 15)
+      static let font = UIFont(pretendard: .regular_400, size: 15)
       static let fontColor = UIColor.yg.gray5
       enum Spacing {
         static let leading: CGFloat = 12
@@ -34,7 +34,7 @@ final class NoticeCell: UITableViewCell {
       }
     }
     enum DateLabel {
-      static let font = UIFont(pretendard: .regular, size: 15)
+      static let font = UIFont(pretendard: .regular_400, size: 15)
       static let fontColor = UIColor.yg.gray3
       enum Spacing {
         static let leading: CGFloat = 12
@@ -50,7 +50,7 @@ final class NoticeCell: UITableViewCell {
     enum DetailsLabel {
       static let backgroundColor = UIColor.yg.gray00Background
       static let inset = UIEdgeInsets(top: 20, left: 11, bottom: 20, right: 11)
-      static let font = UIFont(pretendard: .regular, size: 15)
+      static let font = UIFont(pretendard: .regular_400, size: 15)
       static let attributes: [NSAttributedString.Key: Any] = {
         let paragraph = NSMutableParagraphStyle()
         paragraph.lineHeightMultiple = 1.28

@@ -11,12 +11,12 @@ class PostHeaderContentBottomView: UIView {
   enum Constant {
     enum UserName {
       static let textColor: UIColor = .yg.gray5
-      static let font: UIFont = UIFont(pretendard: .medium, size: 10)!
+      static let font: UIFont = UIFont(pretendard: .medium_500, size: 10)!
       static let width: CGFloat = 70
     }
     enum Duration {
       static let textColor: UIColor = .yg.gray5
-      static let font: UIFont = UIFont(pretendard: .medium, size: 10)!
+      static let font: UIFont = UIFont(pretendard: .medium_500, size: 10)!
       static let width: CGFloat = 31
       struct Spacing {
         static let leading: CGFloat = 10
@@ -25,7 +25,7 @@ class PostHeaderContentBottomView: UIView {
     }
     enum DateRange {
       static let textColor: UIColor = .yg.gray5
-      static let font: UIFont = UIFont(pretendard: .medium, size: 10)!
+      static let font: UIFont = UIFont(pretendard: .medium_500, size: 10)!
       static let width: CGFloat = 86
       enum Spacing {
         static let leading: CGFloat = 10

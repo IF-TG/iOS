@@ -47,7 +47,7 @@ final class SearchView: UIView {
       string: Constants.SearchTextField.placeholder,
       attributes: [NSAttributedString.Key.foregroundColor: UIColor.yg.gray1]
     )
-    $0.font = .init(pretendard: .regular, size: Constants.SearchTextField.fontSize)
+    $0.font = .init(pretendard: .regular_400, size: Constants.SearchTextField.fontSize)
     $0.textColor = .yg.gray5
     
     $0.delegate = self

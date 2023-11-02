@@ -11,7 +11,7 @@ class PostFooterView: UIView {
   enum Constant {
     enum Heart {
       enum Text {
-        static let font: UIFont = UIFont(pretendard: .regular, size: 14)!
+        static let font: UIFont = UIFont(pretendard: .regular_400, size: 14)!
         static let fontColor: UIColor = .yg.gray4
         enum Spacing {
           static let leading: CGFloat = 5
@@ -29,7 +29,7 @@ class PostFooterView: UIView {
     }
     enum Comment {
       enum Text {
-        static let font: UIFont = UIFont(pretendard: .regular, size: 14)!
+        static let font: UIFont = UIFont(pretendard: .regular_400, size: 14)!
         static let fontColor: UIColor = .yg.gray4
         enum Spacing {
           static let leading: CGFloat = 5

@@ -16,7 +16,7 @@ final class NotificationCenterViewController: UIViewController {
       static let height: CGFloat = 47
     }
     enum NavigationBar {
-      static let titleFont: UIFont = .init(pretendard: .semiBold, size: 18)!
+      static let titleFont: UIFont = .init(pretendard: .semiBold_600, size: 18)!
       static let titleColor: UIColor = .yg.gray7
       static let dividerHeight: CGFloat = 1
     }
@@ -93,7 +93,7 @@ private extension NotificationCenterViewController {
     typealias Const = Constant.SegmentedControl
     let attributes: [NSAttributedString.Key: Any] = [
       .foregroundColor: Const.fontColor,
-        .font: UIFont(pretendard: .medium, size: Const.fontSize)!]
+        .font: UIFont(pretendard: .medium_500, size: Const.fontSize)!]
     segmentedControl.setTitleTextAttributes(attributes, for: .normal)
     segmentedControl.translatesAutoresizingMaskIntoConstraints = false
     segmentedControl.addTarget(self, action: #selector(didTapSegmentedControl), for: .valueChanged)

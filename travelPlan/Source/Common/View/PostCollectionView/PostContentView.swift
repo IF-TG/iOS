@@ -36,7 +36,7 @@ class PostContentView: UIView {
       }
       static let textSize: CGFloat = 14
       static let lineBreakMode: NSLineBreakMode = .byWordWrapping
-      static let font: UIFont = UIFont(pretendard: .regular, size: 14)!
+      static let font: UIFont = UIFont(pretendard: .regular_400, size: 14)!
       static var maximumLineHeight: CGFloat { font.lineHeight * 3 }
       enum Spacing {
         static let top: CGFloat = 8
