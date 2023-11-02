@@ -25,7 +25,7 @@ extension UIFont {
     /// 700
     case bold_700
     
-    var toString: String {
+    var path: String {
       switch self {
       case .regular_400:
         return "Pretendard-Regular"
@@ -40,6 +40,6 @@ extension UIFont {
   }
   
   convenience init?(pretendard: Pretendard, size: CGFloat) {
-    self.init(name: pretendard.toString, size: size)
+    self.init(name: pretendard.path, size: size)
   }
 }
