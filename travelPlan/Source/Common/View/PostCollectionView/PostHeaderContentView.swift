@@ -11,7 +11,7 @@ final class PostHeaderContentView: UIView {
   enum Constant {
     enum Title {
       static let textColor: UIColor = .yg.gray7
-      static let font: UIFont = UIFont(pretendard: .semiBold, size: 18)!
+      static let font: UIFont = UIFont(pretendard: .semiBold_600(fontSize: 18))!
       enum Spacing {
         static let leading: CGFloat = 10
         static let top: CGFloat = 3

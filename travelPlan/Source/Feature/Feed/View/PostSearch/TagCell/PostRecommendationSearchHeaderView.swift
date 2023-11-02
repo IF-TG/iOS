@@ -21,7 +21,7 @@ final class PostRecommendationSearchHeaderView: UICollectionReusableView {
   }
   
   private let titleLabel: UILabel = .init().set {
-    $0.font = .init(pretendard: .bold, size: Constants.TitleLabel.fontSize)
+    $0.font = .init(pretendard: .regular_400(fontSize: Constants.TitleLabel.fontSize))
     $0.textColor = .yg.gray6
   }
   

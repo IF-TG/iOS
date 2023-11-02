@@ -31,21 +31,21 @@ final class LeftAlignThreeLabelsView: UIStackView {
   
   // MARK: - Properties
   private let titleLabel: UILabel = UILabel().set {
-    $0.font = .init(pretendard: .semiBold, size: Constant.TitleLabel.fontSize)
+    $0.font = .init(pretendard: .semiBold_600(fontSize: Constant.TitleLabel.fontSize))
     $0.text = "n/a"
     $0.textColor = .yg.gray6
     $0.numberOfLines = Constant.TitleLabel.numberOfLines
   }
   
   private let secondLabel: UILabel = UILabel().set {
-    $0.font = .init(pretendard: .medium, size: Constant.SecondLabel.fontSize)
+    $0.font = .init(pretendard: .medium_500(fontSize: Constant.SecondLabel.fontSize))
     $0.textColor = .yg.gray6
     $0.text = "n/a"
     $0.numberOfLines = Constant.SecondLabel.numberOfLines
   }
   
   private let thirdLabel: UILabel = UILabel().set {
-    $0.font = .init(pretendard: .medium, size: Constant.ThirdLabel.size)
+    $0.font = .init(pretendard: .medium_500(fontSize: Constant.ThirdLabel.size))
     $0.text = "n/a"
     $0.textColor = .yg.gray6
     $0.numberOfLines = Constant.ThirdLabel.numberOfLines
