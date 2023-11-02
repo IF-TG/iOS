@@ -95,10 +95,12 @@ final class FavoriteTableViewCell: UITableViewCell {
     $0.font = .init(pretendard: Const.fontName)
   }
   
-  private lazy var editModeTitleLabel = BasePaddingLabel(padding: Constant.EditModeTitleLabel.padding).set {
+  private lazy var editModeTitleLabel = BasePaddingLabel(
+    padding: Constant.EditModeTitleLabel.padding,
+    fontType: Constant.EditModeTitleLabel.fontName
+  ).set {
     typealias Const = Constant.EditModeTitleLabel
     $0.translatesAutoresizingMaskIntoConstraints = false
-    $0.font = UIFont(pretendard: Const.fontName)
     $0.textColor = Const.textColor
     $0.layer.borderWidth = Const.borderWidth
     $0.layer.borderColor = Const.borderColor.cgColor

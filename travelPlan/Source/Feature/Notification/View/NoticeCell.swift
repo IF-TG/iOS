@@ -50,7 +50,7 @@ final class NoticeCell: UITableViewCell {
     enum DetailsLabel {
       static let backgroundColor = UIColor.yg.gray00Background
       static let inset = UIEdgeInsets(top: 20, left: 11, bottom: 20, right: 11)
-      static let font = UIFont(pretendard: .regular_400(fontSize: 15))
+      static let fontType: UIFont.Pretendard =  .regular_400(fontSize: 15)
       static let attributes: [NSAttributedString.Key: Any] = {
         let paragraph = NSMutableParagraphStyle()
         paragraph.lineHeightMultiple = 1.28
@@ -87,10 +87,12 @@ final class NoticeCell: UITableViewCell {
     $0.backgroundColor = Const.color
   }
   
-  private let detailsLabel = BasePaddingLabel(padding: Constant.DetailsLabel.inset).set {
+  private let detailsLabel = BasePaddingLabel(
+    padding: Constant.DetailsLabel.inset,
+    fontType: Constant.DetailsLabel.fontType
+  ).set {
     typealias Const = Constant.DetailsLabel
     $0.translatesAutoresizingMaskIntoConstraints = false
-    $0.font = Const.font
     $0.backgroundColor = Const.backgroundColor
     $0.numberOfLines = 0
   }
