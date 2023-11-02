@@ -11,11 +11,18 @@ final class ProfileTopSheetView: UIView {
   enum Constant {
     static let radius: CGFloat = 30
     enum NameLabel {
+      static let defaultFont: UIFont.Pretendard = .regular_400(fontSize: 20)
+      static let highlightFont: UIFont.Pretendard = .semiBold_600(fontSize: 24)
+      static let lineHeight: CGFloat = 30
       enum Spacing {
         static let top: CGFloat = 58.5 + 47
         static let leading: CGFloat = 20
         static let trailing: CGFloat = 120
       }
+    }
+    enum QuotationLabel {
+      static let font: UIFont.Pretendard = .regular_400(fontSize: 20)
+      static let lineHeight: CGFloat = 30
     }
     enum ProfileImageView {
       static let size: CGSize = .init(width: 80, height: 80)
@@ -26,15 +33,25 @@ final class ProfileTopSheetView: UIView {
   }
   
   // MARK: - Properties
-  private let nameLabel = UILabel().set {
+  private let nameLabel = BaseLabel(
+    fontType: Constant.NameLabel.defaultFont,
+    lineHeight: Constant.NameLabel.lineHeight
+  ).set {
+    typealias Const = Constant.NameLabel
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.text = "무야호님,"
     $0.numberOfLines = 1
     $0.font = UIFont.systemFont(ofSize: 24)
+    let highlightInfo = HighlightFontInfo(
+      fontType: Const.highlightFont,
+      text: "무야호")
+    $0.setHighlight(with: highlightInfo)
     $0.textColor = UIColor(red: 0.984, green: 0.984, blue: 0.984, alpha: 1)
   }
   
-  private let quotationLabel = UILabel().set {
+  private let quotationLabel = BaseLabel(
+    fontType: Constant.QuotationLabel.font
+  ).set {
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.text = "어디로 떠나시게요?🎒"
     $0.numberOfLines = 1
