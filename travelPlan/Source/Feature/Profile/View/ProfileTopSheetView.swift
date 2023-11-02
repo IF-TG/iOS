@@ -23,6 +23,11 @@ final class ProfileTopSheetView: UIView {
     enum QuotationLabel {
       static let font: UIFont.Pretendard = .regular_400(fontSize: 20)
       static let lineHeight: CGFloat = 30
+      enum Spacing {
+        static let top: CGFloat = 3
+        static let leading: CGFloat = 20
+        static let trailing: CGFloat = 120
+      }
     }
     enum ProfileImageView {
       static let size: CGSize = .init(width: 80, height: 80)
@@ -41,10 +46,10 @@ final class ProfileTopSheetView: UIView {
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.text = "무야호님,"
     $0.numberOfLines = 1
-    $0.font = UIFont.systemFont(ofSize: 24)
     let highlightInfo = HighlightFontInfo(
       fontType: Const.highlightFont,
-      text: "무야호")
+      text: "무야호",
+      additionalAttributes: [.font: UIFont(pretendard: Const.highlightFont)!])
     $0.setHighlight(with: highlightInfo)
     $0.textColor = UIColor(red: 0.984, green: 0.984, blue: 0.984, alpha: 1)
   }
@@ -53,9 +58,9 @@ final class ProfileTopSheetView: UIView {
     fontType: Constant.QuotationLabel.font
   ).set {
     $0.translatesAutoresizingMaskIntoConstraints = false
-    $0.text = "어디로 떠나시게요?🎒"
+    $0.font = UIFont(pretendard: Constant.NameLabel.defaultFont)
+    $0.text = "어디로 떠나시게요? 🎒"
     $0.numberOfLines = 1
-    $0.font = UIFont.systemFont(ofSize: 24)
     $0.textColor = UIColor(red: 0.984, green: 0.984, blue: 0.984, alpha: 1)
   }
   
@@ -188,11 +193,11 @@ private extension ProfileTopSheetView {
   }
   
   var quotationLabelConstraints: [NSLayoutConstraint] {
-    typealias Const = Constant.NameLabel
+    typealias Const = Constant.QuotationLabel
     typealias Spacing = Const.Spacing
     return [
       quotationLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Spacing.leading),
-      quotationLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor),
+      quotationLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: Spacing.top),
       quotationLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Spacing.trailing)]
   }
   
