@@ -58,7 +58,7 @@ private extension NotificationViewModel {
           duration: "300일",
           isChecked: false,
           type: .comment(postTitle: "리프레쉬"))
-        self?.notifications.append(fetchedMockData)
+        self?.notifications.insert(fetchedMockData, at: 0)
         return .reloadNotifications(lastItems: self?.notifications.count ?? 0)
       }.eraseToAnyPublisher()
   }
