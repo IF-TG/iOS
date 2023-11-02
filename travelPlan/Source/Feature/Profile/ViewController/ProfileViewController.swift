@@ -41,6 +41,7 @@ class ProfileViewController: UIViewController {
       $0.translatesAutoresizingMaskIntoConstraints = false
       $0.backgroundColor = .white
       $0.layer.cornerRadius = Constant.settingStackViewRadius
+      $0.clipsToBounds = true
       $0.axis = .vertical
       $0.alignment = .fill
       $0.distribution = .fill
