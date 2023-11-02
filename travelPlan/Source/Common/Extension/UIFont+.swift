@@ -17,13 +17,13 @@ extension UIFont {
   /// ```
   enum Pretendard {
     /// 400
-    case regular_400
+    case regular_400(lineHeight: CGFloat)
     /// 500
-    case medium_500
+    case medium_500(lineHeight: CGFloat)
     /// 600
-    case semiBold_600
+    case semiBold_600(lineHeight: CGFloat)
     /// 700
-    case bold_700
+    case bold_700(lineHeight: CGFloat)
     
     var path: String {
       switch self {
@@ -35,6 +35,19 @@ extension UIFont {
         return "Pretendard-SemiBold"
       case .bold_700:
         return "Pretendard-Light"
+      }
+    }
+    
+    var lineHeight: CGFloat {
+      switch self {
+      case .regular_400(lineHeight: let height):
+        return height
+      case .medium_500(lineHeight: let height):
+        return height
+      case .semiBold_600(lineHeight: let height):
+        return height
+      case .bold_700(lineHeight: let height):
+        return height
       }
     }
   }
