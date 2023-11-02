@@ -7,16 +7,19 @@
 
 import UIKit
 
-extension NSMutableAttributedString {
-  struct HighlightFontInfo {
-    let fontType: UIFont.Pretendard
-    var lineHeight: CGFloat?
-    let text: String
-  }
+struct HighlightFontInfo {
+  let fontType: UIFont.Pretendard
+  var lineHeight: CGFloat?
+  let text: String
   
+  /// 색이나 kern(자간간격) 등 추가적인 attributes!!.
+  var additionalAttributes: [NSAttributedString.Key: Any]?
+  var startIndex: Int?
+}
+
+extension NSMutableAttributedString {
   /// 기본적으로 UIFOnt.Pretendard 타입과 Optional(lineHeight)를 지정할 경우 모든 텍스트에 앞에 언급한 attributes를 적용합니다.
   func setPretendard(with fontType: UIFont.Pretendard, lineHeight: CGFloat? = nil) {
-    let font = fontType.uiFont
     let attributes = convertToNSAttributes(from: fontType, lineHeight: lineHeight)
     
     addAttributes(
@@ -57,7 +60,6 @@ extension NSMutableAttributedString {
   ) {
     setPretendard(with: baseType, lineHeight: baseLineHeight)
     
-    
     setHighlightedPretendard(with: info)
   }
   
@@ -75,11 +77,20 @@ extension NSMutableAttributedString {
   }
   
   /// 기존에 존재하는 텍스트에서 특정한 문구의 텍스트만 highlight해야하는 경우에 호출하면 됩니다.
+  /// 주의사항: 위치를 지정하지 않을경우 prefix에 위치하는 문구만 계속해서 새로운 attributes로 적용될 수 있습니다.
   func setHighlightedPretendard(with highlightInfo: HighlightFontInfo) {
-    guard let otherFont = highlightInfo.fontType.uiFont else { return }
-    let highlightAttributes = convertToNSAttributes(
+    var highlightAttributes = convertToNSAttributes(
       from: highlightInfo.fontType,
       lineHeight: highlightInfo.lineHeight)
-    addAttributes(highlightAttributes, range: (string as NSString).range(of: highlightInfo.text))
+    if let additionalAttributes = highlightInfo.additionalAttributes {
+      additionalAttributes.forEach {
+        highlightAttributes[$0] = $1
+      }
+    }
+    if let startIndex = highlightInfo.startIndex {
+      addAttributes(highlightAttributes, range: NSRange(location: startIndex, length: highlightInfo.text.count))
+    } else {
+      addAttributes(highlightAttributes, range: (string as NSString).range(of: highlightInfo.text))
+    }
   }
 }
