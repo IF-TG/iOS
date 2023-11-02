@@ -30,13 +30,15 @@ final class ProfileTopSheetView: UIView {
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.text = "김석현님,\n어디로 떠나시게요?🎒"
     $0.numberOfLines = 2
+    $0.font = UIFont.systemFont(ofSize: 24)
     $0.textColor = UIColor(red: 0.984, green: 0.984, blue: 0.984, alpha: 1)
   }
   
   private let profileImageView = UIImageView(frame: .zero).set {
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.layer.cornerRadius = Constant.ProfileImageView.size.width/2
-    $0.contentMode = .scaleAspectFit
+    $0.contentMode = .scaleAspectFill
+    $0.clipsToBounds = true
   }
   
   private var isShadowSet = false
@@ -76,9 +78,9 @@ extension ProfileTopSheetView {
   
   func prepareForAnimation() {
     nameLabel.alpha = 0
-    nameLabel.transform = .init(translationX: 0, y: -nameLabel.bounds.height/2)
+    nameLabel.transform = .init(translationX: 0, y: +nameLabel.bounds.height/2)
     profileImageView.alpha = 0
-    profileImageView.transform = .init(translationX: 0, y: -profileImageView.bounds.height/2)
+    profileImageView.transform = .init(translationX: 0, y: +nameLabel.bounds.height/2)
   }
   
   func showAnimation() {
@@ -157,6 +159,7 @@ private extension ProfileTopSheetView {
       profileImageView.trailingAnchor.constraint(
         equalTo: trailingAnchor,
         constant: -Spacing.trailing),
+      profileImageView.centerYAnchor.constraint(equalTo: nameLabel.centerYAnchor),
       profileImageView.widthAnchor.constraint(equalToConstant: Const.size.width),
       profileImageView.heightAnchor.constraint(equalToConstant: Const.size.height)]
   }
