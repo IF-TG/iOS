@@ -58,10 +58,15 @@ class ProfileViewController: UIViewController {
     nil
   }
   
+  override func loadView() {
+    super.loadView()
+    // TODO: - 파일매니저나 캐싱으로 저장한 사용자 정보 가져와야 합니다.
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     configureUI()
-    topSheetView.configure(with: "tempProfile3")
+    topSheetView.configure(name: "신짱구", imagePath: "tempProfile3")
   }
   
   override func viewDidAppear(_ animated: Bool) {
