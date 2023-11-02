@@ -9,6 +9,7 @@ import UIKit
 
 /// 댓글, 대댓글의 경우
 final class NotificationCell: BaseNotificationCell {
+  let notCheckedStateBackgroundColor = UIColor.yg.primary.withAlphaComponent(0.07)
   static let id = String(describing: NotificationCell.self)
   enum Constant {
     enum Title {
@@ -92,6 +93,7 @@ extension NotificationCell {
     setTitle(userName: data?.userName, notificationType: data?.type)
     setDetails(data?.details, notificationType: data?.type)
     setDuration(data?.duration)
+    contentView.backgroundColor = (data?.isChecked ?? false) ? .white : notCheckedStateBackgroundColor
   }
 }
 

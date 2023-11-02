@@ -20,7 +20,7 @@ enum NotificationViewState {
   case reloadNotifications(lastItems: Int)
   case deleteCell(IndexPath, lastItems: Int)
   // TODO: - 특정 post 상세 id와 함꼐화면 이동
-  case showDetailPostPage(UUID)
+  case showDetailPostPage(postId: UUID, index: Int)
 }
 
 protocol NotificationViewModelable: ViewModelable

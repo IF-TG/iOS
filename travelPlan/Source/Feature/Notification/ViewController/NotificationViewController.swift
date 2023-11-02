@@ -77,7 +77,8 @@ extension NotificationViewController: ViewBindCase {
         tableView.deleteRows(at: [indexPath], with: .fade)
       }
       updateHasItem(with: lastItems)
-    case .showDetailPostPage(_):
+    case .showDetailPostPage(_, let index):
+      tableView.reloadRows(at: [IndexPath(item: index, section: 0)], with: .automatic)
       // TODO: - 상세 포스트 아이디 기반으로 포스트 상세 화면 가야합니다.
       break
     }
