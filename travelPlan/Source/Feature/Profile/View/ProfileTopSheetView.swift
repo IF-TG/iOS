@@ -44,13 +44,7 @@ final class ProfileTopSheetView: UIView {
   ).set {
     typealias Const = Constant.NameLabel
     $0.translatesAutoresizingMaskIntoConstraints = false
-    $0.text = "무야호님,"
     $0.numberOfLines = 1
-    let highlightInfo = HighlightFontInfo(
-      fontType: Const.highlightFont,
-      text: "무야호",
-      additionalAttributes: [.font: UIFont(pretendard: Const.highlightFont)!])
-    $0.setHighlight(with: highlightInfo)
     $0.textColor = UIColor(red: 0.984, green: 0.984, blue: 0.984, alpha: 1)
   }
   
@@ -102,8 +96,14 @@ final class ProfileTopSheetView: UIView {
 
 // MARK: - Helpers
 extension ProfileTopSheetView {
-  func configure(with imagePath: String) {
+  func configure(name: String, imagePath: String) {
     profileImageView.image = UIImage(named: imagePath)
+    nameLabel.text = "\(name)님,"
+    let highlightInfo = HighlightFontInfo(
+      fontType: Constant.NameLabel.highlightFont,
+      text: name,
+      additionalAttributes: [.font: UIFont(pretendard: Constant.NameLabel.highlightFont)!])
+    nameLabel.setHighlight(with: highlightInfo)
   }
   
   func prepareForAnimation() {
