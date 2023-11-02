@@ -34,7 +34,7 @@ extension UIFont {
       case .semiBold_600:
         return "Pretendard-SemiBold"
       case .bold_700:
-        return "Pretendard-Light"
+        return "Pretendard-Bold"
       }
     }
     
