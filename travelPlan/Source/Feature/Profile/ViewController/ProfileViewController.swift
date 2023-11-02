@@ -19,6 +19,10 @@ class ProfileViewController: UIViewController {
   
   private let topSheetView = ProfileTopSheetView()
   
+  private let settingStackViews: [UIStackView] = []
+  
+  private let scrollView = UIScrollView()
+  
   private var isAnimated = false
    
   // MARK: - Lifecycle
