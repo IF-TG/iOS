@@ -33,6 +33,7 @@ class ProfileViewController: UIViewController {
   
   private let scrollView = UIScrollView().set {
     $0.translatesAutoresizingMaskIntoConstraints = false
+    $0.scrollIndicatorInsets = .init(top: 0, left: -3, bottom: 0, right: -3)
   }
   
   private lazy var settingStackViews: [UIStackView] = (0..<4).map { _ in
