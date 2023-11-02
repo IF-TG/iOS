@@ -52,7 +52,7 @@ class SearchTopTenCell: UICollectionViewCell {
   }
   
   private let rankingNumberLabel: UILabel = .init().set {
-    $0.font = .init(pretendard: .semiBold_600, size: Constant.RankingNumberLabel.fontSize)
+    $0.font = .init(pretendard: .semiBold_600(fontSize: Constant.RankingNumberLabel.fontSize))
     $0.textColor = .yg.gray5
   }
   

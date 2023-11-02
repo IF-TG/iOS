@@ -24,7 +24,7 @@ class BaseNavigationTitleView: UIView {
       case let .default(title):
         return UILabel().set {
           $0.text = title
-          $0.font = .init(pretendard: .semiBold_600, size: Constant.DefaultLabel.fontSize)
+          $0.font = .init(pretendard: .semiBold_600(fontSize: Constant.DefaultLabel.fontSize))
           $0.textColor = .yg.gray7
         }
       case let .custom(customView):

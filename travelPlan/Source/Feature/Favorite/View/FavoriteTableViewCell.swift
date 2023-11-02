@@ -30,8 +30,7 @@ final class FavoriteTableViewCell: UITableViewCell {
         static let trailing: CGFloat = 44
       }
       static let textColor: UIColor = .yg.gray6
-      static let fontName: UIFont.Pretendard = .medium_500
-      static let textSize: CGFloat = 15.0
+      static let fontName: UIFont.Pretendard = .medium_500(fontSize: 15)
     }
     enum EditModeTitleLabel {
       static let padding: UIEdgeInsets = .init(top: 0, left: 8, bottom: 0, right: 8)
@@ -49,8 +48,7 @@ final class FavoriteTableViewCell: UITableViewCell {
       }
       static let height: CGFloat = 25
       static let textColor: UIColor = .yg.gray6
-      static let fontName: UIFont.Pretendard = .medium_500
-      static let textSize: CGFloat = 14.0
+      static let fontName: UIFont.Pretendard = .medium_500(fontSize: 14)
       static let borderWidth: CGFloat = 0.3
       static let borderColor: UIColor = .yg.gray3
       static let radius: CGFloat = 3
@@ -94,13 +92,13 @@ final class FavoriteTableViewCell: UITableViewCell {
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.numberOfLines = 1
     $0.textColor = Const.textColor
-    $0.font = .init(pretendard: Const.fontName, size: Const.textSize)
+    $0.font = .init(pretendard: Const.fontName)
   }
   
   private lazy var editModeTitleLabel = BasePaddingLabel(padding: Constant.EditModeTitleLabel.padding).set {
     typealias Const = Constant.EditModeTitleLabel
     $0.translatesAutoresizingMaskIntoConstraints = false
-    $0.font = UIFont(pretendard: Const.fontName, size: Const.textSize)
+    $0.font = UIFont(pretendard: Const.fontName)
     $0.textColor = Const.textColor
     $0.layer.borderWidth = Const.borderWidth
     $0.layer.borderColor = Const.borderColor.cgColor

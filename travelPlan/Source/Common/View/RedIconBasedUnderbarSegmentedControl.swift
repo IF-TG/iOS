@@ -100,10 +100,10 @@ private extension RedIconBasedUnderbarSegmentedControl {
     removeBorders()
     setTitleTextAttributes([
       .foregroundColor: UIColor.black,
-      .font: UIFont(pretendard: .medium_500, size: 16)!], for: .normal)
+      .font: UIFont(pretendard: .medium_500(fontSize: 16))!], for: .normal)
     setTitleTextAttributes([
       .foregroundColor: underbarInfo.barColor,
-      .font: UIFont(pretendard: .medium_500, size: 16)!], for: .selected)
+      .font: UIFont(pretendard: .medium_500(fontSize: 16))!], for: .selected)
     if #available(iOS 13.0, *) {
       selectedSegmentTintColor = .clear
     } else {

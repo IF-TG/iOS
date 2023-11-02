@@ -50,7 +50,7 @@ final class PostChevronLabel: UIView {
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.textColor = Constant.deselectedTextColor
     $0.text = ""
-    $0.font = .init(pretendard: .medium_500, size: 12)
+    $0.font = .init(pretendard: .medium_500(fontSize: 12))
     $0.sizeToFit()
   }
   

@@ -47,7 +47,7 @@ final class TitleWithButtonHeaderView: UICollectionReusableView {
   weak var delegate: TitleWithButtonHeaderViewDelegate?
   
   private let headerLabel: UILabel = UILabel().set {
-    $0.font = UIFont(pretendard: .bold_700, size: Constants.HeaderLabel.fontSize)
+    $0.font = UIFont(pretendard: .bold_700(fontSize: Constants.HeaderLabel.fontSize))
     $0.textColor = .yg.gray7
     $0.numberOfLines = Constants.HeaderLabel.numberOfLines
     $0.textAlignment = .left

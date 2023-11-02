@@ -23,8 +23,7 @@ final class FavoriteHeaderView: UITableViewHeaderFooterView {
         static let trailing: CGFloat = 20
       }
       static let textColor: UIColor = .yg.gray6
-      static let fontName: UIFont.Pretendard = .medium_500
-      static let textSize: CGFloat = 15.0
+      static let fontName: UIFont.Pretendard = .medium_500(fontSize: 15)
     }
   }
 
@@ -40,8 +39,7 @@ final class FavoriteHeaderView: UITableViewHeaderFooterView {
     $0.numberOfLines = 1
     $0.textColor = Constant.Title.textColor
     $0.font = .init(
-      pretendard: Constant.Title.fontName,
-      size: Constant.Title.textSize)
+      pretendard: Constant.Title.fontName)
   }
   
   private var totalCount: Int?

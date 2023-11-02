@@ -13,17 +13,17 @@ extension UIFont {
   /// ```
   /// Example:
   /// let lb = UILabel()
-  /// lb.font = UIFont(pretendard: .semiBold, size: 18)!
+  /// lb.font = UIFont(pretendard: .semiBold_600(fontSize: 14)!
   /// ```
   enum Pretendard {
     /// 400
-    case regular_400(lineHeight: CGFloat)
+    case regular_400(fontSize: CGFloat)
     /// 500
-    case medium_500(lineHeight: CGFloat)
+    case medium_500(fontSize: CGFloat)
     /// 600
-    case semiBold_600(lineHeight: CGFloat)
+    case semiBold_600(fontSize: CGFloat)
     /// 700
-    case bold_700(lineHeight: CGFloat)
+    case bold_700(fontSize: CGFloat)
     
     var path: String {
       switch self {
@@ -38,21 +38,27 @@ extension UIFont {
       }
     }
     
-    var lineHeight: CGFloat {
+    var size: CGFloat {
       switch self {
-      case .regular_400(lineHeight: let height):
-        return height
-      case .medium_500(lineHeight: let height):
-        return height
-      case .semiBold_600(lineHeight: let height):
-        return height
-      case .bold_700(lineHeight: let height):
-        return height
+      case .regular_400(fontSize: let size):
+        return size
+      case .medium_500(fontSize: let size):
+        return size
+      case .semiBold_600(fontSize: let size):
+        return size
+      case .bold_700(fontSize: let size):
+        return size
       }
     }
+    
+    var uiFont: UIFont? {
+      UIFont(pretendard: self)
+    }
   }
-  
-  convenience init?(pretendard: Pretendard, size: CGFloat) {
-    self.init(name: pretendard.path, size: size)
+}
+
+extension UIFont {
+  convenience init?(pretendard font: Pretendard) {
+    self.init(name: font.path, size: font.size)
   }
 }

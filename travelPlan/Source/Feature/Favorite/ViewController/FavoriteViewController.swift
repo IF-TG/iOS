@@ -37,7 +37,7 @@ class FavoriteViewController: UIViewController {
     enum NavigationBar {
       enum Title {
         static let color: UIColor = .yg.gray7
-        static let font: UIFont = UIFont(pretendard: .semiBold_600, size: 18)!
+        static let font: UIFont = UIFont(pretendard: .semiBold_600(fontSize: 18))!
       }
       
       enum Setting {
