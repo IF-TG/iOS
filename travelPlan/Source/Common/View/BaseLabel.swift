@@ -19,6 +19,15 @@ class BaseLabel: UILabel {
     }
   }
   
+  override var intrinsicContentSize: CGSize {
+    var size = super.intrinsicContentSize
+    if let lineHeight {
+      let numberOfLines = max(1, Int(size.height / lineHeight))
+      size.height = lineHeight * CGFloat(numberOfLines)
+    }
+    return size
+  }
+  
   // MARK: - Lifecycle
   init(frame: CGRect, fontType: UIFont.Pretendard, lineHeight: CGFloat? = nil) {
     self.lineHeight = lineHeight
