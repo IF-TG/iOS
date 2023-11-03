@@ -11,14 +11,6 @@ import UIKit
 final class NotificationCell: BaseNotificationCell {
   let notCheckedStateBackgroundColor = UIColor.yg.primary.withAlphaComponent(0.07)
   static let id = String(describing: NotificationCell.self)
-  enum Constant {
-    enum Details {
-      static let lineHeight: CGFloat = 20
-    }
-    enum Duration {
-      static let lineHeight: CGFloat = 20
-    }
-  }
   
   // MARK: - Properties
   private let title = BaseLabel(fontType: .regular_400(fontSize: 14), lineHeight: 20).set {
@@ -110,15 +102,12 @@ private extension NotificationCell {
     title.text = text
     let userNameHighlightInfo = HighlightFontInfo(
       fontType: .semiBold_600(fontSize: 14),
-      lineHeight: 20,
       text: userName)
     let postTitleHighlightInfo = HighlightFontInfo(
       fontType: .semiBold_600(fontSize: 14),
-      lineHeight: 20,
       text: notificationType.postTitle,
       startIndex: userName.count+3)
     title.setHighlights(with: userNameHighlightInfo, postTitleHighlightInfo)
-    title.sizeToFit()
     
   }
   
@@ -129,7 +118,6 @@ private extension NotificationCell {
       return
     }
     details.text = text
-    details.sizeToFit()
   }
   
   func isHeartNotification(with type: NotificationType?) -> Bool {
@@ -153,6 +141,5 @@ private extension NotificationCell {
       return
     }
     duration.text = text
-    duration.sizeToFit()
   }
 }
