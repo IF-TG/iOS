@@ -12,42 +12,40 @@ final class NotificationCell: BaseNotificationCell {
   let notCheckedStateBackgroundColor = UIColor.yg.primary.withAlphaComponent(0.07)
   static let id = String(describing: NotificationCell.self)
   enum Constant {
-    enum Title {
-      static let boldFont = UIFont(pretendard: .semiBold, size: 14)!
-      static let normalFont = UIFont(pretendard: .regular, size: 14)!
-      static let lineHeight: CGFloat = 20
-      static let textColor: UIColor = .yg.gray5
-    }
     enum Details {
-      static let font = UIFont(pretendard: .regular, size: 13)!
       static let lineHeight: CGFloat = 20
-      static let textColor: UIColor = .yg.gray4
     }
     enum Duration {
-      static let font = UIFont(pretendard: .regular, size: 11)!
       static let lineHeight: CGFloat = 20
-      static let textColor: UIColor = .yg.gray3
     }
   }
   
   // MARK: - Properties
-  private let title = UILabel().set {
+  private let title = BaseLabel(fontType: .regular_400(fontSize: 14), lineHeight: 20).set {
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.numberOfLines = 2
+    $0.textColor = .yg.gray5
   }
   
-  private let details = UILabel().set {
+  private let details = BaseLabel(fontType: .regular_400(fontSize: 13), lineHeight: 20).set {
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.numberOfLines = 3
+    $0.textColor = .yg.gray4
   }
   
-  private let duration = UILabel().set {
+  private let duration = BaseLabel(fontType: .medium_500(fontSize: 11), lineHeight: 20).set {
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.numberOfLines = 1
+    $0.textColor = .yg.gray3
   }
+  
+  private let hiddenDetailsConstraint: NSLayoutConstraint
+  
+  private let showedDetailsConstraint: NSLayoutConstraint
   
   // MARK: - Lifecycles
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+    
     let containerView = UIView(frame: .zero)
     _=[
       title,
@@ -56,6 +54,10 @@ final class NotificationCell: BaseNotificationCell {
     ].map {
       containerView.addSubview($0)
     }
+    
+    hiddenDetailsConstraint = duration.topAnchor.constraint(equalTo: title.bottomAnchor)
+    
+    showedDetailsConstraint = duration.topAnchor.constraint(equalTo: details.bottomAnchor)
     
     let durationBottomConstraint = duration.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
     durationBottomConstraint.priority = .defaultHigh
@@ -69,7 +71,7 @@ final class NotificationCell: BaseNotificationCell {
       details.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
       
       duration.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
-      duration.topAnchor.constraint(equalTo: details.bottomAnchor),
+      showedDetailsConstraint,
       duration.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
       durationBottomConstraint])
     super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -99,63 +101,50 @@ extension NotificationCell {
 
 // MARK: - Private Helpers
 private extension NotificationCell {
-  // TODO: - pretendard 전용 레이블 생성하기!!
   func setTitle(userName: String?, notificationType: NotificationType?) {
     guard let userName, let notificationType else {
       title.attributedText = nil
       return
     }
-    typealias Const = Constant.Title
     let text = userName + notificationType.suffixWords
-    let style = NSMutableParagraphStyle().set {
-      $0.maximumLineHeight = Const.lineHeight
-      $0.minimumLineHeight = Const.lineHeight
-    }
-    let defaultAttributes = [
-      .foregroundColor: Const.textColor,
-      .font: Const.normalFont,
-      .paragraphStyle: style
-    ] as [NSAttributedString.Key: Any]
-    
-    let attrStr = NSMutableAttributedString(string: text)
-    attrStr.addAttributes(defaultAttributes, range: NSRange(location: 0, length: text.count))
-    
-    let boldAttributes = [.font: Const.boldFont] as [NSAttributedString.Key: Any]
-    
-    attrStr.addAttributes(boldAttributes, range: NSRange(location: 0, length: userName.count))
-    attrStr.addAttributes(
-      boldAttributes,
-      range: NSRange(location: userName.count+3, length: notificationType.postTitle.count))
-    title.attributedText = attrStr
+    title.text = text
+    let userNameHighlightInfo = HighlightFontInfo(
+      fontType: .semiBold_600(fontSize: 14),
+      lineHeight: 20,
+      text: userName)
+    let postTitleHighlightInfo = HighlightFontInfo(
+      fontType: .semiBold_600(fontSize: 14),
+      lineHeight: 20,
+      text: notificationType.postTitle,
+      startIndex: userName.count+3)
+    title.setHighlights(with: userNameHighlightInfo, postTitleHighlightInfo)
     title.sizeToFit()
+    
   }
   
   func setDetails(_ text: String?, notificationType: NotificationType?) {
-    guard !isHeartNotification(with: notificationType) else { return }
+    if isHeartNotification(with: notificationType) { return }
     guard let text else {
       details.attributedText = nil
       return
     }
-    typealias Const = Constant.Details
-    let style = NSMutableParagraphStyle().set {
-      $0.minimumLineHeight = Const.lineHeight
-      $0.maximumLineHeight = Const.lineHeight
-    }
-    let attributes: [NSAttributedString.Key: Any] = [
-      .foregroundColor: Const.textColor,
-      .font: Const.font,
-      .paragraphStyle: style]
-    details.attributedText = NSAttributedString(string: text, attributes: attributes)
+    details.text = text
     details.sizeToFit()
   }
   
   func isHeartNotification(with type: NotificationType?) -> Bool {
-    guard type?.toString == "heart" else {
-      details.isHidden = false
+    guard let type, type.isEqual(rhs: .heart(postTitle: "")) else {
+      updateVisibleDetails(false)
       return false
     }
-    details.isHidden = true
+    updateVisibleDetails(true)
     return true
+  }
+  
+  func updateVisibleDetails(_ isHidden: Bool) {
+    details.isHidden = isHidden
+    hiddenDetailsConstraint.isActive = isHidden
+    showedDetailsConstraint.isActive = !isHidden
   }
   
   func setDuration(_ text: String?) {
@@ -163,19 +152,7 @@ private extension NotificationCell {
       duration.attributedText = nil
       return
     }
-    typealias Const = Constant.Duration
-    let style = NSMutableParagraphStyle().set {
-      $0.minimumLineHeight = Const.lineHeight
-      $0.maximumLineHeight = Const.lineHeight
-    }
-    
-    let attributes = [
-      .foregroundColor: Const.textColor,
-      .font: Const.font,
-      .paragraphStyle: style
-    ] as [NSAttributedString.Key: Any]
-    
-    duration.attributedText = NSAttributedString(string: text, attributes: attributes)
+    duration.text = text
     duration.sizeToFit()
   }
 }
