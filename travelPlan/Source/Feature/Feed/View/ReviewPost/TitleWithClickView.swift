@@ -9,19 +9,17 @@ import UIKit
 import SnapKit
 
 class TitleWithClickView: UIView {
-  enum ClickImageLayout {
-    case left
-    case right
+  enum LayoutType {
+    case leftImage
+    case rightImage
   }
   
   enum Constant {
     enum ClickImageView {
-      enum Spacing {
-        static let trailing: CGFloat = -2
-      }
       static let width: CGFloat = 20
       static let height: CGFloat = 20
     }
+    static let paddingOfComponents: CGFloat = -2
   }
   
   // MARK: - Properties
@@ -38,15 +36,22 @@ class TitleWithClickView: UIView {
   override var intrinsicContentSize: CGSize {
     let width = Constant.ClickImageView.width +
     titleLabel.intrinsicContentSize.width +
-    Constant.ClickImageView.Spacing.trailing
+    Constant.paddingOfComponents
     let height = max(Constant.ClickImageView.height,
                      titleLabel.intrinsicContentSize.height)
-    print("width: \(clickImageView.frame.width), height: \(clickImageView.frame.height)")
     return .init(width: width, height: height)
   }
   
+  private let layoutType: LayoutType
+  
   // MARK: - LifeCycle
-  override init(frame: CGRect) {
+  convenience init(title: String, layoutType: LayoutType) {
+    self.init(frame: .zero, title: title, layoutType: layoutType)
+  }
+  
+  init(frame: CGRect, title: String, layoutType: LayoutType) {
+    self.layoutType = layoutType
+    titleLabel.text = title
     super.init(frame: frame)
     setupUI()
   }
@@ -65,17 +70,30 @@ extension TitleWithClickView: LayoutSupport {
   
   func setConstraints() {
     clickImageView.snp.makeConstraints {
-      typealias Const = Constant.ClickImageView
       $0.centerY.equalToSuperview()
-      $0.width.equalTo(Const.width)
-      $0.height.equalTo(Const.height)
-      $0.leading.equalToSuperview()
-      $0.trailing.equalTo(titleLabel.snp.leading).offset(Const.Spacing.trailing)
+      $0.width.equalTo(Constant.ClickImageView.width)
+      $0.height.equalTo(Constant.ClickImageView.height)
     }
-    
     titleLabel.snp.makeConstraints {
       $0.centerY.equalToSuperview()
-      $0.trailing.equalToSuperview()
+    }
+    switch layoutType {
+    case .leftImage:
+      clickImageView.snp.makeConstraints {
+        $0.leading.equalToSuperview()
+        $0.trailing.equalTo(titleLabel.snp.leading).offset(Constant.paddingOfComponents)
+      }
+      titleLabel.snp.makeConstraints {
+        $0.trailing.equalToSuperview()
+      }
+    case .rightImage:
+      titleLabel.snp.makeConstraints {
+        $0.leading.equalToSuperview()
+        $0.trailing.equalTo(clickImageView.snp.leading).offset(Constant.paddingOfComponents)
+      }
+      clickImageView.snp.makeConstraints {
+        $0.trailing.equalToSuperview()
+      }
     }
   }
 }
