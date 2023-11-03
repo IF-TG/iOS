@@ -56,3 +56,14 @@ enum NotificationType {
     }
   }
 }
+
+// MARK: - Equatable
+extension NotificationType: Equatable {
+  func isEqual(rhs: NotificationType) -> Bool {
+    return self == rhs
+  }
+  
+  static func == (lhs: NotificationType, rhs: NotificationType) -> Bool {
+    return lhs.toString == rhs.toString
+  }
+}
