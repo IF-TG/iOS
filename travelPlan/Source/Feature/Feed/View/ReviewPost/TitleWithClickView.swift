@@ -28,8 +28,7 @@ class TitleWithClickView: UIView {
   }
   
   private let titleLabel: UILabel = .init().set {
-    $0.text = "타이틀"
-    $0.font = .init(pretendard: .semiBold_600(fontSize: 14))
+    $0.font = .init(pretendard: .semiBold_600(fontSize: 20))
     $0.textColor = .yg.gray5
   }
   
@@ -39,6 +38,7 @@ class TitleWithClickView: UIView {
     Constant.paddingOfComponents
     let height = max(Constant.ClickImageView.height,
                      titleLabel.intrinsicContentSize.height)
+    
     return .init(width: width, height: height)
   }
   
@@ -69,6 +69,20 @@ extension TitleWithClickView: LayoutSupport {
   }
   
   func setConstraints() {
+    setupCommonConstraints()
+    
+    switch layoutType {
+    case .leftImage:
+      setupLeftImageTypeConstraints()
+    case .rightImage:
+      setupRightImageTypeConstraints()
+    }
+  }
+}
+
+// MARK: - Private Helpers
+extension TitleWithClickView {
+  private func setupCommonConstraints() {
     clickImageView.snp.makeConstraints {
       $0.centerY.equalToSuperview()
       $0.width.equalTo(Constant.ClickImageView.width)
@@ -77,23 +91,25 @@ extension TitleWithClickView: LayoutSupport {
     titleLabel.snp.makeConstraints {
       $0.centerY.equalToSuperview()
     }
-    switch layoutType {
-    case .leftImage:
-      clickImageView.snp.makeConstraints {
-        $0.leading.equalToSuperview()
-        $0.trailing.equalTo(titleLabel.snp.leading).offset(Constant.paddingOfComponents)
-      }
-      titleLabel.snp.makeConstraints {
-        $0.trailing.equalToSuperview()
-      }
-    case .rightImage:
-      titleLabel.snp.makeConstraints {
-        $0.leading.equalToSuperview()
-        $0.trailing.equalTo(clickImageView.snp.leading).offset(Constant.paddingOfComponents)
-      }
-      clickImageView.snp.makeConstraints {
-        $0.trailing.equalToSuperview()
-      }
+  }
+  
+  private func setupLeftImageTypeConstraints() {
+    clickImageView.snp.makeConstraints {
+      $0.leading.equalToSuperview()
+      $0.trailing.equalTo(titleLabel.snp.leading).offset(Constant.paddingOfComponents)
+    }
+    titleLabel.snp.makeConstraints {
+      $0.trailing.equalToSuperview()
+    }
+  }
+  
+  private func setupRightImageTypeConstraints() {
+    titleLabel.snp.makeConstraints {
+      $0.leading.equalToSuperview()
+      $0.trailing.equalTo(clickImageView.snp.leading).offset(Constant.paddingOfComponents)
+    }
+    clickImageView.snp.makeConstraints {
+      $0.trailing.equalToSuperview()
     }
   }
 }
