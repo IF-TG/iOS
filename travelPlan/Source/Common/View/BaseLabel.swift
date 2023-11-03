@@ -56,8 +56,8 @@ extension BaseLabel {
   }
   
   func setHighlights(with list: HighlightFontInfo...) {
-    guard let text else { return }
-    attributedText = NSMutableAttributedString(string: text).set { mutableString in
+    guard let attributedText else { return }
+    self.attributedText = NSMutableAttributedString(attributedString: attributedText).set { mutableString in
       list.forEach {
         mutableString.setHighlightedPretendard(with: $0)
       }
@@ -68,8 +68,8 @@ extension BaseLabel {
 // MARK: - Private Helpers
 private extension BaseLabel {
   func setPretendardFont() {
-    guard let text else { return }
-    attributedText = NSMutableAttributedString(string: text).set {
+    guard let attributedText else { return }
+    self.attributedText = NSMutableAttributedString(attributedString: attributedText).set {
       $0.setPretendard(with: fontType, lineHeight: lineHeight)
     }
   }
