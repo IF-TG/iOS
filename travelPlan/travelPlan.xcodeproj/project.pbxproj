@@ -44,7 +44,7 @@
 		13405F082AEE212500382796 /* GoogleLoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13405F072AEE212500382796 /* GoogleLoginButton.swift */; };
 		13405F0B2AEEF1E400382796 /* LoginButtonDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13405F0A2AEEF1E400382796 /* LoginButtonDelegate.swift */; };
 		13405F352AF1002800382796 /* LoginPlayerSupporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13405F342AF1002800382796 /* LoginPlayerSupporter.swift */; };
-		13405F662AF4470200382796 /* ReviewPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13405F652AF4470200382796 /* ReviewPostViewController.swift */; };
+		13405F662AF4470200382796 /* ReviewWritingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13405F652AF4470200382796 /* ReviewWritingViewController.swift */; };
 		13405F692AF4478400382796 /* TitleWithClickView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13405F682AF4478400382796 /* TitleWithClickView.swift */; };
 		13606E882A9DDE7D00365F20 /* PostRecentSearchTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13606E872A9DDE7D00365F20 /* PostRecentSearchTagCell.swift */; };
 		13606E8C2A9F959F00365F20 /* PostRecommendationSearchHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13606E8B2A9F959F00365F20 /* PostRecommendationSearchHeaderView.swift */; };
@@ -331,7 +331,7 @@
 		13405F072AEE212500382796 /* GoogleLoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleLoginButton.swift; sourceTree = "<group>"; };
 		13405F0A2AEEF1E400382796 /* LoginButtonDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginButtonDelegate.swift; sourceTree = "<group>"; };
 		13405F342AF1002800382796 /* LoginPlayerSupporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPlayerSupporter.swift; sourceTree = "<group>"; };
-		13405F652AF4470200382796 /* ReviewPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewPostViewController.swift; sourceTree = "<group>"; };
+		13405F652AF4470200382796 /* ReviewWritingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWritingViewController.swift; sourceTree = "<group>"; };
 		13405F682AF4478400382796 /* TitleWithClickView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleWithClickView.swift; sourceTree = "<group>"; };
 		13606E872A9DDE7D00365F20 /* PostRecentSearchTagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostRecentSearchTagCell.swift; sourceTree = "<group>"; };
 		13606E8B2A9F959F00365F20 /* PostRecommendationSearchHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostRecommendationSearchHeaderView.swift; sourceTree = "<group>"; };
@@ -1234,7 +1234,7 @@
 				15F0D1BD2A52940F00D04773 /* PostViewBottomSheetViewController.swift */,
 				15B4E5EF2ACA6452001CF071 /* TravelReviewViewController.swift */,
 				15DE36B52AB83DD40030CCCC /* PostFilteringBottomSheetViewController.swift */,
-				13405F652AF4470200382796 /* ReviewPostViewController.swift */,
+				13405F652AF4470200382796 /* ReviewWritingViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -2115,7 +2115,7 @@
 				13C9C1B12A1806F500DF1FFF /* PostRecentSearchTagCellDelegate.swift in Sources */,
 				15FFAC0D2AD9AEB80013DB57 /* Encodable+.swift in Sources */,
 				15FFAC132AD9C7EB0013DB57 /* NetwrokInteractionable.swift in Sources */,
-				13405F662AF4470200382796 /* ReviewPostViewController.swift in Sources */,
+				13405F662AF4470200382796 /* ReviewWritingViewController.swift in Sources */,
 				15FFAC112AD9C7A10013DB57 /* Sessionable.swift in Sources */,
 				13FE64772A5C378D007D9A53 /* SearchCampingModel.swift in Sources */,
 				130B9AE32A684D3D0072A0CF /* MainSearchLayoutManager.swift in Sources */,
