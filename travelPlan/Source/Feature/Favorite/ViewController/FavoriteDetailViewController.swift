@@ -14,7 +14,6 @@ final class FavoriteDetailViewController: UIViewController {
     }
     enum BackButtonItem {
       static let imageName = "back"
-      static let titleColor = UIColor.yg.gray7
       static let fontSize: CGFloat = 16
     }
   }
@@ -55,7 +54,7 @@ final class FavoriteDetailViewController: UIViewController {
     let attrString = NSAttributedString(string: "찜 목록", attributes: attributes)
     $0.setImage(image, for: .normal)
     $0.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
-    $0.setTitleColor(Const.titleColor, for: .normal)
+    $0.setTitleColor(UIColor.yg.gray7, for: .normal)
     $0.setAttributedTitle(attrString, for: .normal)
   }
   
