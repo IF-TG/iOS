@@ -34,7 +34,7 @@ final class SearchWithCancelView: UIView {
     static let borderWidth: CGFloat = 0.5
     
     enum TextField {
-      static let font = UIFont(pretendard: .medium, size: 16)!
+      static let font = UIFont(pretendard: .medium_500(fontSize: 16))!
       enum Spacing {
         static let top: CGFloat = 6
         static let bottom = top
@@ -72,7 +72,7 @@ final class SearchWithCancelView: UIView {
   private let textExcessAlertLabel = UILabel(frame: .zero).set {
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.text = "입력 가능한 글자수를 초과했습니다."
-    $0.font = .init(pretendard: .medium, size: 12)
+    $0.font = .init(pretendard: .medium_500(fontSize: 12))
     $0.textColor = .yg.red2
     $0.alpha = 0
   }

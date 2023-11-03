@@ -48,7 +48,7 @@ final class LoginView: UIView {
   
   private let firstDescriptionLabel = UILabel().set {
     typealias Const = Constant.FirstDescriptionLabel
-    $0.font = .init(pretendard: .medium, size: Const.fontSize)
+    $0.font = .init(pretendard: .medium_500(fontSize: Const.fontSize))
     $0.textColor = .yg.littleWhite
     $0.text = Const.text
   }
@@ -56,7 +56,7 @@ final class LoginView: UIView {
   private lazy var loginDescriptionLabel = UILabel().set {
     typealias Const = Constant.LoginDescriptionLabel
     $0.text = Const.text
-    $0.font = .init(pretendard: .medium, size: Const.fontSize)
+    $0.font = .init(pretendard: .medium_500(fontSize: Const.fontSize))
     $0.textColor = .yg.littleWhite
     $0.numberOfLines = Const.numberOfLines
     setAttributedTextOfloginDescriptionLabel($0)
@@ -79,7 +79,7 @@ final class LoginView: UIView {
   }
   private lazy var policyLabel: UILabel = .init().set {
     typealias Const = Constant.PolicyLabel
-    $0.font = .init(pretendard: .regular, size: Const.fontSize)
+    $0.font = .init(pretendard: .regular_400(fontSize: Const.fontSize))
     $0.text = Const.text
     $0.textColor = .white
     setAttributedTextOfPolicyDescriptionLabel($0)
@@ -153,13 +153,13 @@ extension LoginView {
     
     let firstRange = (label.text! as NSString).range(of: "설레는 여행")
     let firstAttrs: [NSAttributedString.Key: Any] = [
-      .font: UIFont(pretendard: .bold, size: 24) ?? .systemFont(ofSize: 24),
+      .font: UIFont(pretendard: .bold_700(fontSize: 24)) ?? .systemFont(ofSize: 24),
       .foregroundColor: UIColor.yg.littleWhite
     ]
     attributedString.addAttributes(firstAttrs, range: firstRange)
     
     let primaryAttrs: [NSAttributedString.Key: Any] = [
-      .font: UIFont(pretendard: .bold, size: 24) ?? .systemFont(ofSize: 24),
+      .font: UIFont(pretendard: .bold_700(fontSize: 24)) ?? .systemFont(ofSize: 24),
       .foregroundColor: UIColor.yg.primary
     ]
     

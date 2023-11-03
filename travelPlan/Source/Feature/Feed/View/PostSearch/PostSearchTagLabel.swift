@@ -23,7 +23,7 @@ class PostSearchTagLabel: UILabel {
   }
   
   private func setupStyles() {
-    self.font = UIFont(pretendard: .medium, size: Constants.fontSize)
+    self.font = UIFont(pretendard: .medium_500(fontSize: Constants.fontSize))
     self.textColor = .black
     self.numberOfLines = Constants.numberOfLines
     self.lineBreakMode = .byTruncatingTail
