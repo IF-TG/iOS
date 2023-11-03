@@ -49,8 +49,8 @@ class BaseLabel: UILabel {
 extension BaseLabel {
   /// 강조를하기전에 기본적으로 text에 텍스트가 있어야 합니다.
   func setHighlight(with info: HighlightFontInfo) {
-    guard let text else { return }
-    attributedText = NSMutableAttributedString(string: text).set {
+    guard let attributedText else { return }
+    self.attributedText = NSMutableAttributedString(attributedString: attributedText).set {
       $0.setHighlightedPretendard(with: info)
     }
   }
@@ -68,8 +68,8 @@ extension BaseLabel {
 // MARK: - Private Helpers
 private extension BaseLabel {
   func setPretendardFont() {
-    guard let attributedText else { return }
-    self.attributedText = NSMutableAttributedString(attributedString: attributedText).set {
+    guard let text else { return }
+    attributedText = NSMutableAttributedString(string: text).set {
       $0.setPretendard(with: fontType, lineHeight: lineHeight)
     }
   }
