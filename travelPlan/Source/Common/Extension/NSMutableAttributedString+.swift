@@ -89,10 +89,12 @@ extension NSMutableAttributedString {
         highlightAttributes[$0] = $1
       }
     }
+    var range: NSRange
     if let startIndex = highlightInfo.startIndex {
-      addAttributes(highlightAttributes, range: NSRange(location: startIndex, length: highlightInfo.text.count))
+      range = NSRange(location: startIndex, length: highlightInfo.text.count)
     } else {
-      addAttributes(highlightAttributes, range: (string as NSString).range(of: highlightInfo.text))
+      range = (string as NSString).range(of: highlightInfo.text)
     }
+    addAttributes(highlightAttributes, range: range)
   }
 }

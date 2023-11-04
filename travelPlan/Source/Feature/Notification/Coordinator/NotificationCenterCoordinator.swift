@@ -42,7 +42,12 @@ final class NotificationCenterCoordinator: FlowCoordinator {
     let notificationRepository = DefaultNotificationRepository(service: service)
     let noticeUseCase = DefaultNoticeUseCase(notificationRepository: notificationRepository)
     let noticeViewModel = NoticeViewModel(noticeUseCase: noticeUseCase)
-    let vc = NotificationCenterViewController(noticeViewModel: noticeViewModel)
+    
+    let notificationViewModel = NotificationViewModel()
+    
+    let vc = NotificationCenterViewController(
+      noticeViewModel: noticeViewModel,
+      notificationViewModel: notificationViewModel)
     vc.coordinator = self
     presenter?.pushViewController(vc, animated: true)
   }

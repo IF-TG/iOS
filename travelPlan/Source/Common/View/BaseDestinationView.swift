@@ -69,7 +69,7 @@ class BaseDestinationView<CenterView>: UIView where CenterView: UIView & CellCon
   }
   
   // MARK: - LifeCycle
-  /// centerView를 직접 추가해야 합니다. imageView는 type에 따라서 설정할 수 있습니다.
+// centerView를 직접 추가해야 합니다. imageView는 type에 따라서 설정할 수 있습니다.
 //  convenience init(centerView: CenterView, imageViewType: ImageViewType) {
 //    self.init(frame: .zero, centerView: centerView, imageViewType: imageViewType)
 //  }

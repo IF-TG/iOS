@@ -48,7 +48,6 @@
 		13606E8C2A9F959F00365F20 /* PostRecommendationSearchHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13606E8B2A9F959F00365F20 /* PostRecommendationSearchHeaderView.swift */; };
 		13606E942AA187F500365F20 /* PostSearchTagLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13606E932AA187F500365F20 /* PostSearchTagLabel.swift */; };
 		13606E982AA4F26500365F20 /* DefaultPostSearchLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13606E972AA4F26500365F20 /* DefaultPostSearchLayout.swift */; };
-		13813A1E2AA9FC2200AF6AEB /* PostSearchCollectionViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13813A1D2AA9FC2200AF6AEB /* PostSearchCollectionViewAdapter.swift */; };
 		13813A212AAA458000AF6AEB /* PostSearchCollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13813A202AAA458000AF6AEB /* PostSearchCollectionViewDataSource.swift */; };
 		13813A232AAA459900AF6AEB /* PostSearchCollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13813A222AAA459900AF6AEB /* PostSearchCollectionViewDelegate.swift */; };
 		13813A252AAA494500AF6AEB /* PostSearchLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13813A242AAA494500AF6AEB /* PostSearchLayout.swift */; };
@@ -131,9 +130,7 @@
 		157ADCA02ACFB33100D37680 /* UIScrollView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157ADC9F2ACFB33100D37680 /* UIScrollView+.swift */; };
 		157ADCA22ACFB55800D37680 /* FavoritePostViewAdapterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157ADCA12ACFB55800D37680 /* FavoritePostViewAdapterDelegate.swift */; };
 		157ADCA42ACFF31D00D37680 /* FavoritePostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157ADCA32ACFF31D00D37680 /* FavoritePostViewController.swift */; };
-		157ADCA62ACFFEF300D37680 /* EmptyStateBasedContentViewCheckable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157ADCA52ACFFEF300D37680 /* EmptyStateBasedContentViewCheckable.swift */; };
 		157ADCA82ACFFFE100D37680 /* FavoritePostViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157ADCA72ACFFFE100D37680 /* FavoritePostViewDelegate.swift */; };
-		157ADCAA2AD000DD00D37680 /* FavoritePostCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157ADCA92AD000DD00D37680 /* FavoritePostCollectionView.swift */; };
 		157ADCAC2AD008EE00D37680 /* FavoriteDetailMenuViewConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157ADCAB2AD008EE00D37680 /* FavoriteDetailMenuViewConfigurable.swift */; };
 		157ADCAE2AD00AB400D37680 /* FavoriteLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157ADCAD2AD00AB400D37680 /* FavoriteLocationViewController.swift */; };
 		157ADCB02AD06B5400D37680 /* FavoriteDirectorySettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157ADCAF2AD06B5400D37680 /* FavoriteDirectorySettingView.swift */; };
@@ -176,6 +173,15 @@
 		15B4E5F12ACAA947001CF071 /* SearchStarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1390CC6E2A8E0B2800E34DC3 /* SearchStarButton.swift */; };
 		15BB01B62A1EB5000035B486 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BB01B52A1EB5000035B486 /* LoginViewController.swift */; };
 		15BB01B82A1EB5070035B486 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BB01B72A1EB5070035B486 /* LoginViewModel.swift */; };
+		15C1F53A2AF25FE4005FDA15 /* BaseNotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C1F5392AF25FE4005FDA15 /* BaseNotificationCell.swift */; };
+		15C1F53C2AF27043005FDA15 /* NotificationViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C1F53B2AF27043005FDA15 /* NotificationViewAdapter.swift */; };
+		15C1F53E2AF2904C005FDA15 /* NotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C1F53D2AF2904C005FDA15 /* NotificationCell.swift */; };
+		15C1F5402AF29CDE005FDA15 /* NotificationIconType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C1F53F2AF29CDE005FDA15 /* NotificationIconType.swift */; };
+		15C1F5422AF29CF7005FDA15 /* NotificationInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C1F5412AF29CF7005FDA15 /* NotificationInfo.swift */; };
+		15C1F5442AF2BF48005FDA15 /* NotificationViewAdapterDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C1F5432AF2BF48005FDA15 /* NotificationViewAdapterDataSource.swift */; };
+		15C1F5462AF2BF73005FDA15 /* NotificationViewAdapterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C1F5452AF2BF73005FDA15 /* NotificationViewAdapterDelegate.swift */; };
+		15C1F5482AF2C002005FDA15 /* NotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C1F5472AF2C002005FDA15 /* NotificationViewModel.swift */; };
+		15C1F54A2AF2C356005FDA15 /* NotificationViewModelable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C1F5492AF2C356005FDA15 /* NotificationViewModelable.swift */; };
 		15C1F55A2AF37092005FDA15 /* BaseLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C1F5592AF37092005FDA15 /* BaseLabel.swift */; };
 		15C1F55C2AF37CA8005FDA15 /* NSMutableAttributedString+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C1F55B2AF37CA8005FDA15 /* NSMutableAttributedString+.swift */; };
 		15C1F55F2AF3CDD4005FDA15 /* SettingTopSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C1F55E2AF3CDD4005FDA15 /* SettingTopSheetView.swift */; };
@@ -217,6 +223,7 @@
 		15EF8C9D2A0A19190068C744 /* TravelMainCategoryViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EF8C9C2A0A19190068C744 /* TravelMainCategoryViewCell.swift */; };
 		15EF8CA32A0A197C0068C744 /* CategoryPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EF8CA22A0A197C0068C744 /* CategoryPageView.swift */; };
 		15EF8CA62A0A19990068C744 /* CategoryViewType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EF8CA52A0A19990068C744 /* CategoryViewType.swift */; };
+		15EFB6C82AF51CFE00AA629C /* PostSearchCollectionViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13813A1D2AA9FC2200AF6AEB /* PostSearchCollectionViewAdapter.swift */; };
 		15F0A3F529FD58280049AB33 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 15F0A3F429FD58280049AB33 /* .swiftlint.yml */; };
 		15F0D19A2A4EF49700D04773 /* CategoryPageViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F0D1992A4EF49700D04773 /* CategoryPageViewAdapter.swift */; };
 		15F0D1B02A51BDFE00D04773 /* CategoryPageViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F0D1AF2A51BDFE00D04773 /* CategoryPageViewDataSource.swift */; };
@@ -417,9 +424,7 @@
 		157ADC9F2ACFB33100D37680 /* UIScrollView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScrollView+.swift"; sourceTree = "<group>"; };
 		157ADCA12ACFB55800D37680 /* FavoritePostViewAdapterDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePostViewAdapterDelegate.swift; sourceTree = "<group>"; };
 		157ADCA32ACFF31D00D37680 /* FavoritePostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePostViewController.swift; sourceTree = "<group>"; };
-		157ADCA52ACFFEF300D37680 /* EmptyStateBasedContentViewCheckable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateBasedContentViewCheckable.swift; sourceTree = "<group>"; };
 		157ADCA72ACFFFE100D37680 /* FavoritePostViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePostViewDelegate.swift; sourceTree = "<group>"; };
-		157ADCA92AD000DD00D37680 /* FavoritePostCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePostCollectionView.swift; sourceTree = "<group>"; };
 		157ADCAB2AD008EE00D37680 /* FavoriteDetailMenuViewConfigurable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteDetailMenuViewConfigurable.swift; sourceTree = "<group>"; };
 		157ADCAD2AD00AB400D37680 /* FavoriteLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteLocationViewController.swift; sourceTree = "<group>"; };
 		157ADCAF2AD06B5400D37680 /* FavoriteDirectorySettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteDirectorySettingView.swift; sourceTree = "<group>"; };
@@ -463,6 +468,15 @@
 		15B4E5EF2ACA6452001CF071 /* TravelReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelReviewViewController.swift; sourceTree = "<group>"; };
 		15BB01B52A1EB5000035B486 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		15BB01B72A1EB5070035B486 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		15C1F5392AF25FE4005FDA15 /* BaseNotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNotificationCell.swift; sourceTree = "<group>"; };
+		15C1F53B2AF27043005FDA15 /* NotificationViewAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewAdapter.swift; sourceTree = "<group>"; };
+		15C1F53D2AF2904C005FDA15 /* NotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCell.swift; sourceTree = "<group>"; };
+		15C1F53F2AF29CDE005FDA15 /* NotificationIconType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationIconType.swift; sourceTree = "<group>"; };
+		15C1F5412AF29CF7005FDA15 /* NotificationInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationInfo.swift; sourceTree = "<group>"; };
+		15C1F5432AF2BF48005FDA15 /* NotificationViewAdapterDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewAdapterDataSource.swift; sourceTree = "<group>"; };
+		15C1F5452AF2BF73005FDA15 /* NotificationViewAdapterDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewAdapterDelegate.swift; sourceTree = "<group>"; };
+		15C1F5472AF2C002005FDA15 /* NotificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewModel.swift; sourceTree = "<group>"; };
+		15C1F5492AF2C356005FDA15 /* NotificationViewModelable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewModelable.swift; sourceTree = "<group>"; };
 		15C1F5592AF37092005FDA15 /* BaseLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseLabel.swift; sourceTree = "<group>"; };
 		15C1F55B2AF37CA8005FDA15 /* NSMutableAttributedString+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+.swift"; sourceTree = "<group>"; };
 		15C1F55E2AF3CDD4005FDA15 /* SettingTopSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTopSheetView.swift; sourceTree = "<group>"; };
@@ -829,6 +843,10 @@
 			isa = PBXGroup;
 			children = (
 				151DF0E02AEE828900D5D55B /* NoticeCell.swift */,
+				15C1F5392AF25FE4005FDA15 /* BaseNotificationCell.swift */,
+				15C1F53D2AF2904C005FDA15 /* NotificationCell.swift */,
+				15C1F53F2AF29CDE005FDA15 /* NotificationIconType.swift */,
+				15C1F5412AF29CF7005FDA15 /* NotificationInfo.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -837,6 +855,7 @@
 			isa = PBXGroup;
 			children = (
 				151DF0E32AEE990400D5D55B /* NoticeViewAdapter.swift */,
+				15C1F53B2AF27043005FDA15 /* NotificationViewAdapter.swift */,
 			);
 			path = Adapter;
 			sourceTree = "<group>";
@@ -845,6 +864,7 @@
 			isa = PBXGroup;
 			children = (
 				151DF0E62AEEA76500D5D55B /* NoticeViewModel.swift */,
+				15C1F5472AF2C002005FDA15 /* NotificationViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -855,6 +875,9 @@
 				151DF0E92AEEA7BA00D5D55B /* NoticeViewAdapterDataSource.swift */,
 				151DF0EB2AEEAB2600D5D55B /* NoticeViewAdapterDelegate.swift */,
 				151DF1112AEECDDD00D5D55B /* NoticeViewModelable.swift */,
+				15C1F5432AF2BF48005FDA15 /* NotificationViewAdapterDataSource.swift */,
+				15C1F5452AF2BF73005FDA15 /* NotificationViewAdapterDelegate.swift */,
+				15C1F5492AF2C356005FDA15 /* NotificationViewModelable.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -968,7 +991,6 @@
 				152AD4E72A188D33008A2A11 /* FavoriteTableViewCell.swift */,
 				152AD4EF2A189CFC008A2A11 /* FavoriteHeaderView.swift */,
 				15E982C02ACD16A2002B932F /* FavoriteDetailMenuAreaView.swift */,
-				157ADCA92AD000DD00D37680 /* FavoritePostCollectionView.swift */,
 				157ADCAF2AD06B5400D37680 /* FavoriteDirectorySettingView.swift */,
 				15FFABFE2AD5D57B0013DB57 /* FavoriteCellInfo.swift */,
 			);
@@ -1545,7 +1567,6 @@
 				15FEB5E42A050A99000A5F33 /* LayoutSupport.swift */,
 				13300FAB2AC0883200952757 /* UICompositionalLayoutCreatable.swift */,
 				15A4F28C2ACC1025001AA51D /* Toggable.swift */,
-				157ADCA52ACFFEF300D37680 /* EmptyStateBasedContentViewCheckable.swift */,
 				15FFAC322ADD4C480013DB57 /* PostViewAdapterDataSource.swift */,
 			);
 			path = Protocol;
@@ -1899,6 +1920,7 @@
 				15DE36B92AB853900030CCCC /* TravelThemeBottomSheetCell.swift in Sources */,
 				151DF0DC2AEE6EB500D5D55B /* NotificationViewController.swift in Sources */,
 				13813A252AAA494500AF6AEB /* PostSearchLayout.swift in Sources */,
+				15C1F5482AF2C002005FDA15 /* NotificationViewModel.swift in Sources */,
 				15DE36B62AB83DD40030CCCC /* PostFilteringBottomSheetViewController.swift in Sources */,
 				158BEF772A0E279700C27861 /* PostCell.swift in Sources */,
 				15EF8C9D2A0A19190068C744 /* TravelMainCategoryViewCell.swift in Sources */,
@@ -1913,6 +1935,7 @@
 				15C1F55A2AF37092005FDA15 /* BaseLabel.swift in Sources */,
 				157ADCA02ACFB33100D37680 /* UIScrollView+.swift in Sources */,
 				13254FE72A05158E00094218 /* SearchViewController.swift in Sources */,
+				15C1F5442AF2BF48005FDA15 /* NotificationViewAdapterDataSource.swift in Sources */,
 				151DF0FC2AEEBA0100D5D55B /* NotificationRepository.swift in Sources */,
 				15FEB5EC2A050A99000A5F33 /* ViewModelProtocols.swift in Sources */,
 				15C1F5632AF408D3005FDA15 /* ProfileViewController+SettingType.swift in Sources */,
@@ -1920,7 +1943,6 @@
 				15D955AF2ADFB2F1002BF9C3 /* ShadowInfo.swift in Sources */,
 				151DF10A2AEEC58600D5D55B /* MockSession.swift in Sources */,
 				15F0D1D32A53095100D04773 /* PostViewAdapter.swift in Sources */,
-				157ADCA62ACFFEF300D37680 /* EmptyStateBasedContentViewCheckable.swift in Sources */,
 				152AD5272A1B89D2008A2A11 /* FavoriteViewModel.swift in Sources */,
 				158BEF7F2A0E2C6E00C27861 /* PostContentView.swift in Sources */,
 				15FFAC0B2AD7C22B0013DB57 /* RequestType.swift in Sources */,
@@ -1928,6 +1950,7 @@
 				131A110A2AB509FB007BDD66 /* UIView+roundCorners.swift in Sources */,
 				13606E8C2A9F959F00365F20 /* PostRecommendationSearchHeaderView.swift in Sources */,
 				13813A232AAA459900AF6AEB /* PostSearchCollectionViewDelegate.swift in Sources */,
+				15C1F5402AF29CDE005FDA15 /* NotificationIconType.swift in Sources */,
 				130304B02A28447900776A0D /* TravelDestinationCell.swift in Sources */,
 				158BEF882A0E33F700C27861 /* PostHeaderContentBottomView.swift in Sources */,
 				15FEB5E72A050A99000A5F33 /* UIButton+Combine.swift in Sources */,
@@ -1988,7 +2011,9 @@
 				158312E12AB36A9A0087034A /* UIViewController.swift in Sources */,
 				151DF10B2AEEC58900D5D55B /* MockUrlProtocol.swift in Sources */,
 				15CB23742A110FB4003EAF20 /* PostViewModel.swift in Sources */,
+				15EFB6C82AF51CFE00AA629C /* PostSearchCollectionViewAdapter.swift in Sources */,
 				157ADCA42ACFF31D00D37680 /* FavoritePostViewController.swift in Sources */,
+				15C1F5422AF29CF7005FDA15 /* NotificationInfo.swift in Sources */,
 				131A11082AB5067E007BDD66 /* SearchMoreDetailViewModel.swift in Sources */,
 				15AF2C3E2A1147B100BEE166 /* UIImage+.swift in Sources */,
 				13300FAC2AC0883200952757 /* UICompositionalLayoutCreatable.swift in Sources */,
@@ -2010,6 +2035,7 @@
 				157ADCAE2AD00AB400D37680 /* FavoriteLocationViewController.swift in Sources */,
 				15BB01B82A1EB5070035B486 /* LoginViewModel.swift in Sources */,
 				15FB47F12AC1DCEF0033AA18 /* TravelMainThemeCollectionView.swift in Sources */,
+				15C1F53E2AF2904C005FDA15 /* NotificationCell.swift in Sources */,
 				158BEFC42A0EC8A100C27861 /* UIView+CustomAnimation.swift in Sources */,
 				151DF0EA2AEEA7BA00D5D55B /* NoticeViewAdapterDataSource.swift in Sources */,
 				15F0D1B62A524DC500D04773 /* PostSortingAreaView.swift in Sources */,
@@ -2045,6 +2071,7 @@
 				158BEFC92A0F6E8800C27861 /* PostThumbnailType.swift in Sources */,
 				15DA4C7F2ACD78C1003A7900 /* Int+.swift in Sources */,
 				1594F53229FD517E00A58F20 /* AppDelegate.swift in Sources */,
+				15C1F5462AF2BF73005FDA15 /* NotificationViewAdapterDelegate.swift in Sources */,
 				158BEFC22A0EB45300C27861 /* UIFont+.swift in Sources */,
 				158695992AE621010087CCB3 /* FeedPostViewModelable.swift in Sources */,
 				15B4E5F12ACAA947001CF071 /* SearchStarButton.swift in Sources */,
@@ -2069,10 +2096,9 @@
 				158BEFC72A0ED09800C27861 /* PostThumbnailView.swift in Sources */,
 				15CB23692A10B9CF003EAF20 /* PostFooterInfo.swift in Sources */,
 				130304842A25117200776A0D /* SearchFestivalCell.swift in Sources */,
-				13813A1E2AA9FC2200AF6AEB /* PostSearchCollectionViewAdapter.swift in Sources */,
-				13813A1E2AA9FC2200AF6AEB /* PostSearchCollectionViewAdapter.swift in Sources */,
 				15D60D362AEB84FE0087FEC0 /* NotificationCenterViewController.swift in Sources */,
 				15D60D4C2AED17660087FEC0 /* RedIconBasedUnderbarSegmentedControl.swift in Sources */,
+				15C1F53A2AF25FE4005FDA15 /* BaseNotificationCell.swift in Sources */,
 				13274C5C2A59B4AD001F141C /* SearchFestivalModel.swift in Sources */,
 				151DF0FE2AEEBBE200D5D55B /* DefaultNotificationRepository.swift in Sources */,
 				158BEF792A0E27BD00C27861 /* PostCollectionView.swift in Sources */,
@@ -2087,14 +2113,15 @@
 				13254FE92A0515A900094218 /* PlanViewController.swift in Sources */,
 				15FFAC3C2ADE50880013DB57 /* PostHeaderContentInfo.swift in Sources */,
 				13606E942AA187F500365F20 /* PostSearchTagLabel.swift in Sources */,
+				15C1F54A2AF2C356005FDA15 /* NotificationViewModelable.swift in Sources */,
 				15FFAC072AD6ED5B0013DB57 /* Endpoint.swift in Sources */,
 				15CB235F2A10B5B8003EAF20 /* DateValidationManager.swift in Sources */,
 				15EF8CA32A0A197C0068C744 /* CategoryPageView.swift in Sources */,
+				15C1F53C2AF27043005FDA15 /* NotificationViewAdapter.swift in Sources */,
 				13405F0B2AEEF1E400382796 /* LoginButtonDelegate.swift in Sources */,
 				15FFAC402ADE52120013DB57 /* MockPostUseCase.swift in Sources */,
 				13300FAE2AC2093D00952757 /* SearchSectionType.swift in Sources */,
 				1570FDB22AB1B616006FBAA3 /* TravelOrderType.swift in Sources */,
-				157ADCAA2AD000DD00D37680 /* FavoritePostCollectionView.swift in Sources */,
 				15FFAC0F2AD9C3B20013DB57 /* Responsable.swift in Sources */,
 				13405F062AEE17B100382796 /* AppleLoginButton.swift in Sources */,
 				151DF0DE2AEE709800D5D55B /* Bool+.swift in Sources */,
@@ -2346,20 +2373,21 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = BH624LXP8S;
+				DEVELOPMENT_TEAM = 4GW2K8FK25;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Source/Support/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = SH.travelPlanabc;
+				PRODUCT_BUNDLE_IDENTIFIER = SH.travelPlan;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -2384,6 +2412,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
