@@ -24,7 +24,7 @@ final class ProfileCoordinator: FlowCoordinator {
   
   // MARK: - Helpers
   func start() {
-    let vc = ProfileViewController()
+    let vc = SettingViewController()
     vc.coordinator = self
     presenter?.pushViewController(vc, animated: true)
   }
