@@ -69,7 +69,8 @@ extension ReviewWritingView: LayoutSupport {
     messageTextView.snp.makeConstraints {
       $0.top.equalTo(boundaryLineView.snp.bottom).offset(16)
       $0.leading.trailing.equalToSuperview()
-      $0.height.equalTo(100)
+      $0.bottom.equalToSuperview()
+//      $0.height.equalTo(100)
     }
   }
 }
