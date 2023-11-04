@@ -32,6 +32,8 @@ final class ReviewWritingViewController: UIViewController {
     $0.titleLabel?.font = .init(pretendard: .regular_400(fontSize: 16))
   }
   
+  private let reviewWritingView = ReviewWritingView()
+  
   // MARK: - LifeCycle
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -61,12 +63,13 @@ extension ReviewWritingViewController {
 // MARK: - LayoutSupport
 extension ReviewWritingViewController: LayoutSupport {
   func addSubviews() {
-    view.addSubview(titleView)
+    view.addSubview(reviewWritingView)
   }
   
   func setConstraints() {
-    titleView.snp.makeConstraints {
-      $0.center.equalToSuperview()
+    reviewWritingView.snp.makeConstraints {
+      $0.top.bottom.equalTo(view.safeAreaLayoutGuide)
+      $0.leading.trailing.equalToSuperview().inset(15)
     }
   }
 }
