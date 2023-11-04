@@ -28,7 +28,7 @@ class TitleWithClickView: UIView {
   }
   
   private let titleLabel: UILabel = .init().set {
-    $0.font = .init(pretendard: .semiBold_600(fontSize: 20))
+    $0.font = .init(pretendard: .semiBold_600(fontSize: 15))
     $0.textColor = .yg.gray5
   }
   
