@@ -10,4 +10,4 @@ import Combine
 protocol NoticeViewModelable: ViewModelable
 where Input == NoticeViewInput,
       State == NoticeViewState,
-      Output == AnyPublisher<State, Never>{ }
+      Output == AnyPublisher<State, Never> { }
