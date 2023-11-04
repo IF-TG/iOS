@@ -1,5 +1,5 @@
 //
-//  ReviewWritingView.swift
+//  ReviewWritingContentView.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 11/4/23.
@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-final class ReviewWritingView: UIView {
+final class ReviewWritingContentView: UIView {
   // MARK: - Properties
   private lazy var titleTextView: UITextView = .init().set {
     $0.text = "제목"
@@ -41,12 +41,16 @@ final class ReviewWritingView: UIView {
   }
   
   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-    titleTextView.resignFirstResponder()
+    self.subviews.forEach { subView in
+      if let textView = subView as? UITextView {
+        textView.resignFirstResponder()
+      }
+    }
   }
 }
 
 // MARK: - LayoutSupport
-extension ReviewWritingView: LayoutSupport {
+extension ReviewWritingContentView: LayoutSupport {
   func addSubviews() {
     addSubview(titleTextView)
     addSubview(boundaryLineView)
@@ -70,12 +74,12 @@ extension ReviewWritingView: LayoutSupport {
       $0.top.equalTo(boundaryLineView.snp.bottom).offset(16)
       $0.leading.trailing.equalToSuperview()
       $0.bottom.equalToSuperview()
-//      $0.height.equalTo(100)
+      $0.height.equalTo(100)
     }
   }
 }
 
-extension ReviewWritingView: UITextViewDelegate {
+extension ReviewWritingContentView: UITextViewDelegate {
   func textViewDidChange(_ textView: UITextView) {
     if textView === titleTextView {
       adjustHeight(of: textView)
@@ -94,11 +98,14 @@ extension ReviewWritingView: UITextViewDelegate {
     shouldChangeTextIn range: NSRange,
     replacementText text: String
   ) -> Bool {
-    let tapReturnKey = text == "\n"
-    
-    if tapReturnKey {
-      return false
+    if textView === titleTextView {
+      let tapReturnKey = text == "\n"
+      
+      if tapReturnKey {
+        return false
+      }
     }
+    
     return true
   }
   
@@ -117,7 +124,7 @@ extension ReviewWritingView: UITextViewDelegate {
 }
 
 // MARK: - Private Helpers
-extension ReviewWritingView {
+extension ReviewWritingContentView {
   private func erasePlaceholder(of textView: UITextView) {
     guard textView.textColor == .yg.gray1 else { return }
     textView.text = nil
@@ -137,7 +144,7 @@ extension ReviewWritingView {
   }
   
   private func adjustHeight(of textView: UITextView) {
-    let size = CGSize(width: textView.frame.width, height: self.frame.height)
+    let size = CGSize(width: textView.frame.width, height: CGFloat.infinity)
     let newSize = textView.sizeThatFits(size)
     textView.snp.updateConstraints {
       $0.height.equalTo(newSize.height)
