@@ -19,6 +19,8 @@ struct HighlightFontInfo {
 
 extension NSMutableAttributedString {
   /// 기본적으로 UIFOnt.Pretendard 타입과 Optional(lineHeight)를 지정할 경우 모든 텍스트에 앞에 언급한 attributes를 적용합니다.
+  /// BUG:  lineHeight를 적용하기 위해 style을 사용하는데, 이때 글자 높이가 너무 커져서 이모지가 깨지는 현상 발생.
+  /// 이모지의 경우 lineHeight를 주기 힘듭니다....
   func setPretendard(with fontType: UIFont.Pretendard, lineHeight: CGFloat? = nil) {
     let attributes = convertToNSAttributes(from: fontType, lineHeight: lineHeight)
     
