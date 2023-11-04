@@ -48,6 +48,7 @@
 		13405F692AF4478400382796 /* TitleWithClickView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13405F682AF4478400382796 /* TitleWithClickView.swift */; };
 		13405F6B2AF665B100382796 /* ReviewWritingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13405F6A2AF665B100382796 /* ReviewWritingCoordinator.swift */; };
 		13405F6D2AF6804F00382796 /* ReviewWritingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13405F6C2AF6804F00382796 /* ReviewWritingView.swift */; };
+		13405F6F2AF6E6F200382796 /* ReviewWritingBottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13405F6E2AF6E6F200382796 /* ReviewWritingBottomView.swift */; };
 		13606E882A9DDE7D00365F20 /* PostRecentSearchTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13606E872A9DDE7D00365F20 /* PostRecentSearchTagCell.swift */; };
 		13606E8C2A9F959F00365F20 /* PostRecommendationSearchHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13606E8B2A9F959F00365F20 /* PostRecommendationSearchHeaderView.swift */; };
 		13606E942AA187F500365F20 /* PostSearchTagLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13606E932AA187F500365F20 /* PostSearchTagLabel.swift */; };
@@ -336,6 +337,7 @@
 		13405F682AF4478400382796 /* TitleWithClickView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleWithClickView.swift; sourceTree = "<group>"; };
 		13405F6A2AF665B100382796 /* ReviewWritingCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWritingCoordinator.swift; sourceTree = "<group>"; };
 		13405F6C2AF6804F00382796 /* ReviewWritingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWritingView.swift; sourceTree = "<group>"; };
+		13405F6E2AF6E6F200382796 /* ReviewWritingBottomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWritingBottomView.swift; sourceTree = "<group>"; };
 		13606E872A9DDE7D00365F20 /* PostRecentSearchTagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostRecentSearchTagCell.swift; sourceTree = "<group>"; };
 		13606E8B2A9F959F00365F20 /* PostRecommendationSearchHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostRecommendationSearchHeaderView.swift; sourceTree = "<group>"; };
 		13606E932AA187F500365F20 /* PostSearchTagLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSearchTagLabel.swift; sourceTree = "<group>"; };
@@ -709,6 +711,7 @@
 			children = (
 				13405F682AF4478400382796 /* TitleWithClickView.swift */,
 				13405F6C2AF6804F00382796 /* ReviewWritingView.swift */,
+				13405F6E2AF6E6F200382796 /* ReviewWritingBottomView.swift */,
 			);
 			path = ReviewWriting;
 			sourceTree = "<group>";
@@ -2018,6 +2021,7 @@
 				15FB47EF2AC1772C0033AA18 /* PostRecommendationSearchTagCell.swift in Sources */,
 				15F36A152AB1961F00971803 /* TravelRegion.swift in Sources */,
 				15DD40452A5B862D002BC5F8 /* PostViewBottomSheetAdapter.swift in Sources */,
+				13405F6F2AF6E6F200382796 /* ReviewWritingBottomView.swift in Sources */,
 				15710CBA2A132C760023C19E /* FeedNotificationBarItem.swift in Sources */,
 				151DF10D2AEEC77800D5D55B /* MockUrlProtocol+.swift in Sources */,
 				15D867CF2AD427EC00F35811 /* FavoriteDetailCoordinator.swift in Sources */,
