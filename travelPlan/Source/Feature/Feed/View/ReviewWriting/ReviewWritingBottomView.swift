@@ -15,10 +15,11 @@ final class ReviewWritingBottomView: UIView {
     $0.addGestureRecognizer(tapGesture)
   }
   
-  private let cameraButton: UIButton = .init(type: .system).set {
+  private lazy var cameraButton: UIButton = .init(type: .system).set {
     $0.setImage(.init(named: "camera")?.withRenderingMode(.alwaysOriginal), for: .normal)
     $0.backgroundColor = .yg.primary.withAlphaComponent(0.1)
     $0.layer.cornerRadius = 16
+    $0.addTarget(self, action: #selector(didTapCameraButton(_:)), for: .touchUpInside)
     if #available(iOS 15.0, *) {
       $0.configuration?.imagePadding = 8
     } else {
@@ -36,7 +37,7 @@ final class ReviewWritingBottomView: UIView {
     $0.font = .init(pretendard: .regular_400(fontSize: 14))
   }
   
-  weak var delegate: DefaultTapGestureDelegate?
+  weak var delegate: ReviewWritingBottomViewDelegate?
   // MARK: - LifeCycle
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -95,5 +96,9 @@ extension ReviewWritingBottomView: LayoutSupport {
 private extension ReviewWritingBottomView {
   @objc func didTapPlanView() {
     delegate?.tapGestureRecognizer(in: planView)
+  }
+  
+  @objc func didTapCameraButton(_ button: UIButton) {
+    delegate?.didTapCameraButton(button)
   }
 }
