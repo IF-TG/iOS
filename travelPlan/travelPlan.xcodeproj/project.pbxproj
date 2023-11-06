@@ -47,8 +47,10 @@
 		13405F662AF4470200382796 /* ReviewWritingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13405F652AF4470200382796 /* ReviewWritingViewController.swift */; };
 		13405F692AF4478400382796 /* TitleWithClickView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13405F682AF4478400382796 /* TitleWithClickView.swift */; };
 		13405F6B2AF665B100382796 /* ReviewWritingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13405F6A2AF665B100382796 /* ReviewWritingCoordinator.swift */; };
-		13405F6D2AF6804F00382796 /* ReviewWritingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13405F6C2AF6804F00382796 /* ReviewWritingView.swift */; };
+		13405F6D2AF6804F00382796 /* ReviewWritingContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13405F6C2AF6804F00382796 /* ReviewWritingContentView.swift */; };
 		13405F6F2AF6E6F200382796 /* ReviewWritingBottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13405F6E2AF6E6F200382796 /* ReviewWritingBottomView.swift */; };
+		13405F712AF6F05300382796 /* ReviewWritingPlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13405F702AF6F05300382796 /* ReviewWritingPlanView.swift */; };
+		13405F772AF79CBD00382796 /* ReviewWritingBottomViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13405F762AF79CBD00382796 /* ReviewWritingBottomViewDelegate.swift */; };
 		13606E882A9DDE7D00365F20 /* PostRecentSearchTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13606E872A9DDE7D00365F20 /* PostRecentSearchTagCell.swift */; };
 		13606E8C2A9F959F00365F20 /* PostRecommendationSearchHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13606E8B2A9F959F00365F20 /* PostRecommendationSearchHeaderView.swift */; };
 		13606E942AA187F500365F20 /* PostSearchTagLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13606E932AA187F500365F20 /* PostSearchTagLabel.swift */; };
@@ -336,8 +338,10 @@
 		13405F652AF4470200382796 /* ReviewWritingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWritingViewController.swift; sourceTree = "<group>"; };
 		13405F682AF4478400382796 /* TitleWithClickView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleWithClickView.swift; sourceTree = "<group>"; };
 		13405F6A2AF665B100382796 /* ReviewWritingCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWritingCoordinator.swift; sourceTree = "<group>"; };
-		13405F6C2AF6804F00382796 /* ReviewWritingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWritingView.swift; sourceTree = "<group>"; };
+		13405F6C2AF6804F00382796 /* ReviewWritingContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWritingContentView.swift; sourceTree = "<group>"; };
 		13405F6E2AF6E6F200382796 /* ReviewWritingBottomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWritingBottomView.swift; sourceTree = "<group>"; };
+		13405F702AF6F05300382796 /* ReviewWritingPlanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWritingPlanView.swift; sourceTree = "<group>"; };
+		13405F762AF79CBD00382796 /* ReviewWritingBottomViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWritingBottomViewDelegate.swift; sourceTree = "<group>"; };
 		13606E872A9DDE7D00365F20 /* PostRecentSearchTagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostRecentSearchTagCell.swift; sourceTree = "<group>"; };
 		13606E8B2A9F959F00365F20 /* PostRecommendationSearchHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostRecommendationSearchHeaderView.swift; sourceTree = "<group>"; };
 		13606E932AA187F500365F20 /* PostSearchTagLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSearchTagLabel.swift; sourceTree = "<group>"; };
@@ -710,8 +714,17 @@
 			isa = PBXGroup;
 			children = (
 				13405F682AF4478400382796 /* TitleWithClickView.swift */,
-				13405F6C2AF6804F00382796 /* ReviewWritingView.swift */,
+				13405F6C2AF6804F00382796 /* ReviewWritingContentView.swift */,
 				13405F6E2AF6E6F200382796 /* ReviewWritingBottomView.swift */,
+				13405F702AF6F05300382796 /* ReviewWritingPlanView.swift */,
+			);
+			path = ReviewWriting;
+			sourceTree = "<group>";
+		};
+		13405F752AF79CB300382796 /* ReviewWriting */ = {
+			isa = PBXGroup;
+			children = (
+				13405F762AF79CBD00382796 /* ReviewWritingBottomViewDelegate.swift */,
 			);
 			path = ReviewWriting;
 			sourceTree = "<group>";
@@ -1322,6 +1335,7 @@
 		15C92C122A0AD21E00376D1B /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
+				13405F752AF79CB300382796 /* ReviewWriting */,
 				15EA48CC2A539DA300F4B391 /* PostView */,
 				13813A262AAA496B00AF6AEB /* PostSearch */,
 				15F0D1AE2A51BDE300D04773 /* CategoryPageViewAdapterProtocol */,
@@ -1972,6 +1986,7 @@
 				130369662AEC3AA2007E980C /* NSRange+.swift in Sources */,
 				15CB235B2A109CA4003EAF20 /* PostHeaderContentBottomInfo.swift in Sources */,
 				130304792A24936D00776A0D /* SearchViewModel.swift in Sources */,
+				13405F712AF6F05300382796 /* ReviewWritingPlanView.swift in Sources */,
 				15FB47D72AC0407D0033AA18 /* FeedPostSearchFilterInfo.swift in Sources */,
 				157ADCA82ACFFFE100D37680 /* FavoritePostViewDelegate.swift in Sources */,
 				157176782A0C21C90015EC8C /* UIColor+AppPalette.swift in Sources */,
@@ -2097,8 +2112,9 @@
 				13300FAE2AC2093D00952757 /* SearchSectionType.swift in Sources */,
 				1570FDB22AB1B616006FBAA3 /* TravelOrderType.swift in Sources */,
 				157ADCAA2AD000DD00D37680 /* FavoritePostCollectionView.swift in Sources */,
-				13405F6D2AF6804F00382796 /* ReviewWritingView.swift in Sources */,
+				13405F6D2AF6804F00382796 /* ReviewWritingContentView.swift in Sources */,
 				15FFAC0F2AD9C3B20013DB57 /* Responsable.swift in Sources */,
+				13405F772AF79CBD00382796 /* ReviewWritingBottomViewDelegate.swift in Sources */,
 				13405F062AEE17B100382796 /* AppleLoginButton.swift in Sources */,
 				151DF0DE2AEE709800D5D55B /* Bool+.swift in Sources */,
 				1503F93D2A4E1291002BC38D /* PlanCoordinator.swift in Sources */,
