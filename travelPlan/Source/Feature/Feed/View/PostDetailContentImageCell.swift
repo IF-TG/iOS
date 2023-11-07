@@ -29,6 +29,11 @@ final class PostDetailContentImageCell: UITableViewCell {
   required init?(coder: NSCoder) {
     nil
   }
+  
+  override func prepareForReuse() {
+    super.prepareForReuse()
+    configure(with: nil)
+  }
 }
 
 // MARK: - Helpers
