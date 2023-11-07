@@ -162,7 +162,7 @@ class BaseProfileAreaView: UIView {
       constant: -spacing.bottom)
     contentViewBottomConstraint.priority = .defaultHigh
     return [
-      contentView.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: -spacing.left),
+      contentView.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: spacing.left),
       contentView.topAnchor.constraint(equalTo: topAnchor, constant: spacing.top),
       contentView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -spacing.right),
       contentViewBottomConstraint
