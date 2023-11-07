@@ -44,6 +44,16 @@ final class PostDetailViewController: UIViewController {
   
   private let profileAreaView = PostDetailProfileAreaView()
   
+  private let tableView = UITableView(frame: .zero, style: .plain).set {
+    $0.translatesAutoresizingMaskIntoConstraints = false
+    $0.separatorStyle = .none
+    $0.rowHeight = UITableView.automaticDimension
+    $0.estimatedRowHeight = 235
+    $0.register(PostDetailContentTextCell.self, forCellReuseIdentifier: PostDetailContentTextCell.id)
+    $0.register(PostDetailContentImageCell.self, forCellReuseIdentifier: PostDetailContentImageCell.id)
+    $0.register(PostDetailContentFooterView.self, forCellReuseIdentifier: PostDetailContentFooterView.id)
+  }
+  
   // MARK: - Lifecycle
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -98,7 +108,8 @@ extension PostDetailViewController: LayoutSupport {
     _=[
       categoryLabel,
       titleLabel,
-      profileAreaView
+      profileAreaView,
+      tableView
     ].map {
       view.addSubview($0)
     }
@@ -108,7 +119,8 @@ extension PostDetailViewController: LayoutSupport {
     _=[
       categoryLabelConstraints,
       titleLabelConstraints,
-      profileAreaViewConstraints
+      profileAreaViewConstraints,
+      tableViewConstraints
     ].map {
       NSLayoutConstraint.activate($0)
     }
@@ -137,5 +149,13 @@ private extension PostDetailViewController {
       profileAreaView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Spacing.leaidng),
       profileAreaView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: Spacing.top),
       profileAreaView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Spacing.trailing)]
+  }
+  
+  var tableViewConstraints: [NSLayoutConstraint] {
+    return [
+      tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+      tableView.topAnchor.constraint(equalTo: profileAreaView.bottomAnchor),
+      tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+      tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)]
   }
 }
