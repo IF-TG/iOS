@@ -42,10 +42,9 @@ extension PostDetailTableViewAdapter: UITableViewDataSource {
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     guard let dataSource else { return .init(frame: .zero) }
-    let postContentItem = dataSource.postContentItem(at: indexPath)
-    
     switch indexPath.row {
     case 0:
+      let postContentItem = dataSource.postContentItem(at: indexPath.row)
       switch postContentItem {
       case .text(let text):
           let cell = tableView.dequeueReusableCell(
