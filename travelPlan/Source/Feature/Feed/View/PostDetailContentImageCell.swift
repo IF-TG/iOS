@@ -21,6 +21,7 @@ final class PostDetailContentImageCell: UITableViewCell {
     $0.contentMode = .scaleAspectFill
     $0.layer.backgroundColor = UIColor.lightGray.withAlphaComponent(0.3).cgColor
     $0.layer.cornerRadius = 20
+    $0.clipsToBounds = true
   }
   
   // MARK: - Lifecycle
@@ -46,16 +47,19 @@ extension PostDetailContentImageCell {
       contentImageView.image = nil
       return
     }
-    contentImageView.image = UIImage(named: imagePath)
-    if Int(contentImageView.layer.cornerRadius) != Int(0) {
-      UIView.animate(
-        withDuration: 0.32,
-        delay: 0,
-        options: .curveEaseOut,
-        animations: {
-          self.contentImageView.layer.cornerRadius = 0
-        })
-    }
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.35, execute: {
+      /// 서버에서 0.3초 늦게 이미지를 받아온다고 가정.:
+      self.contentImageView.image = UIImage(named: imagePath)
+      if Int(self.contentImageView.layer.cornerRadius) != Int(0) {
+        UIView.animate(
+          withDuration: 0.32,
+          delay: 0,
+          options: .curveEaseOut,
+          animations: {
+            self.contentImageView.layer.cornerRadius = 0
+          })
+      }
+    })
   }
 }
 
