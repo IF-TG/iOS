@@ -43,6 +43,17 @@ final class PostDetailCategoryHeaderView: UITableViewHeaderFooterView {
 extension PostDetailCategoryHeaderView {
   func configure(with text: String?) {
     categoryLabel.text = text
+    
+    // 임시
+    if text == nil { return }
+    let firstChevronHighlight = HighlightFontInfo(
+      fontType: .bold_700(fontSize: 15),
+      text: ">")
+    let lastChevronHighlight = HighlightFontInfo(
+      fontType: .bold_700(fontSize: 15),
+      text: ">",
+      startIndex: "여행테마 > 휴식, 동반자 ".count)
+    categoryLabel.setHighlights(with: firstChevronHighlight, lastChevronHighlight)
   }
 }
 
