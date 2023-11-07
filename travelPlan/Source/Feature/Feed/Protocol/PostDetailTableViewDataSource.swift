@@ -11,5 +11,5 @@ protocol PostDetailTableViewDataSource: AnyObject {
   var numberOfSections: Int { get }
   
   func numberOfItems(in section: Int) -> Int
-  func postContentItem(at indexPath: IndexPath) -> PostDetailContentInfo
+  func postContentItem(at index: Int) -> PostDetailContentInfo
 }
