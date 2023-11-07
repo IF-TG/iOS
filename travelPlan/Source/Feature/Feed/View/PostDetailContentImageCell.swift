@@ -10,6 +10,7 @@ import UIKit
 final class PostDetailContentImageCell: UITableViewCell {
   enum Constant {
     static let spacing: CGFloat = 10
+    static let imageHeight: CGFloat = 235
   }
   
   // MARK: - Properties
@@ -67,6 +68,8 @@ private extension PostDetailContentImageCell {
     return [
       contentImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constant.spacing),
       contentImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Constant.spacing),
-      contentImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Constant.spacing)]
+      contentImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Constant.spacing),
+      contentImageView.heightAnchor.constraint(equalToConstant: Constant.imageHeight),
+      contentImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)]
   }
 }
