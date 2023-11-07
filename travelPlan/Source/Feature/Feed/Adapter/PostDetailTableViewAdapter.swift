@@ -22,6 +22,7 @@ final class PostDetailTableViewAdapter: NSObject {
     self.dataSource = dataSource
     self.delegate = delegate
     tableView.dataSource = self
+    tableView.delegate = self
   }
 }
 
