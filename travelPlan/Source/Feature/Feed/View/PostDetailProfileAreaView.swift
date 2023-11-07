@@ -9,7 +9,6 @@ import UIKit
 
 /// 임시
 struct PostDetailProfileAreaInfo {
-  let title: String
   let userName: String
   let userId: String
   
@@ -23,19 +22,18 @@ struct PostDetailProfileAreaInfo {
 final class PostDetailProfileAreaView: BaseProfileAreaView {
   // MARK: - Properties
   private let userNameLabel = BaseLabel(fontType: .medium_500(fontSize: 15)).set {
-    $0.backgroundColor = .yg.gray7
+    $0.textColor = .yg.gray7
     $0.numberOfLines = 1
-    $0.textAlignment = .natural
   }
   
   private let travelDurationLabel = BaseLabel(fontType: .medium_500(fontSize: 12), lineHeight: 14.32).set {
-    $0.backgroundColor = .yg.gray5
+    $0.textColor = .yg.gray5
     $0.numberOfLines = 1
     $0.textAlignment = .left
   }
   
   private let travelCalendarDateRangeLabel = BaseLabel(fontType: .medium_500(fontSize: 12), lineHeight: 14.32).set {
-    $0.backgroundColor = .yg.gray5
+    $0.textColor = .yg.gray5
     $0.numberOfLines = 1
     $0.textAlignment = .left
   }
@@ -47,9 +45,8 @@ final class PostDetailProfileAreaView: BaseProfileAreaView {
   }
   
   private let uploadedDescriptionLabel = BaseLabel(fontType: .regular_400(fontSize: 12), lineHeight: 14.32).set {
-    $0.backgroundColor = .yg.gray5
+    $0.textColor = .yg.gray5
     $0.numberOfLines = 1
-    $0.textAlignment = .right
   }
   
   private let travelDurationStackView: UIStackView
@@ -62,19 +59,22 @@ final class PostDetailProfileAreaView: BaseProfileAreaView {
       arrangedSubviews: [travelDurationLabel, durationDivider, travelCalendarDateRangeLabel]
     ).set {
       $0.translatesAutoresizingMaskIntoConstraints = false
-      $0.spacing = 3
+      $0.spacing = 10
       $0.axis = .horizontal
       $0.alignment = .leading
     }
     
     contentStackView = UIStackView(
-      arrangedSubviews: [userNameLabel, travelDurationLabel, uploadedDescriptionLabel]
+      arrangedSubviews: [userNameLabel, travelDurationStackView, uploadedDescriptionLabel]
     ).set {
       $0.translatesAutoresizingMaskIntoConstraints = false
       $0.spacing = 3
-      $0.axis = .horizontal
+      $0.axis = .vertical
       $0.distribution = .equalSpacing
+      $0.alignment = .leading
     }
+    
+    uploadedDescriptionLabel.widthAnchor.constraint(equalTo: contentStackView.widthAnchor).isActive = true
     
     super.init(frame: frame, contentView: contentStackView, profileLayoutInfo: .small(.top))
     
@@ -95,9 +95,11 @@ final class PostDetailProfileAreaView: BaseProfileAreaView {
 extension PostDetailProfileAreaView {
   func configure(with info: PostDetailProfileAreaInfo) {
     super.configure(with: info.userThumbnailPath)
-    userNameLabel.text = info.title
+    userNameLabel.text = info.userName
     travelDurationLabel.text = info.travelDuration
-    
+    travelCalendarDateRangeLabel.text = info.travelCalendarDateRange
+    uploadedDescriptionLabel.text = info.uploadedDescription
+    uploadedDescriptionLabel.textAlignment = .right
   }
 }
 
