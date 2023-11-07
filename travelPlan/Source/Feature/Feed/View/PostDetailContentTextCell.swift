@@ -15,9 +15,9 @@ final class PostDetailContentTextCell: UITableViewCell {
   }
   
   // MARK: - Properties
-  private let label = BaseLabel(fontType: .regular_400(fontSize: 14), lineHeight: 25)
-  
-  private var labelBottomConstraint: NSLayoutConstraint!
+  private let label = BaseLabel(fontType: .regular_400(fontSize: 14), lineHeight: 25).set {
+    $0.numberOfLines = 0
+  }
 
   // MARK: - Lifecycle
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -66,7 +66,7 @@ extension PostDetailContentTextCell: LayoutSupport {
 // MARK: - LayoutSupport Constraints
 private extension PostDetailContentTextCell {
   private var labelConstriants: [NSLayoutConstraint] {
-    labelBottomConstraint = label.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+    let labelBottomConstraint = label.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
     labelBottomConstraint.priority = .defaultHigh
     return [
       label.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constant.spacing),
