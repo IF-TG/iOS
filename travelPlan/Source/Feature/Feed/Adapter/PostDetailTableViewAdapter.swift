@@ -10,14 +10,17 @@ import UIKit
 final class PostDetailTableViewAdapter: NSObject {
   // MARK: - Properties
   weak var dataSource: PostDetailTableViewDataSource?
+  weak var delegate: PostDetailTableViewDelegate?
   
   // MARK: - Lifecycle
   init(
     dataSource: PostDetailTableViewDataSource?,
+    delegate: PostDetailTableViewDelegate?,
     tableView: UITableView
   ) {
     super.init()
     self.dataSource = dataSource
+    self.delegate = delegate
     tableView.dataSource = self
   }
 }
@@ -62,5 +65,20 @@ extension PostDetailTableViewAdapter: UITableViewDataSource {
     default:
       return .init(frame: .zero)
     }
+  }
+}
+
+// MARK: - UITableViewDelegate
+extension PostDetailTableViewAdapter: UITableViewDelegate {
+  func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    return UITableView.automaticDimension
+  }
+  
+  func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+    return section == 0 ? 11 : 0
+  }
+  
+  func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    delegate?.scrollViewDidScroll(scrollView)
   }
 }
