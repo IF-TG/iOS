@@ -95,7 +95,7 @@ extension ReviewWritingBottomView: LayoutSupport {
 // MARK: - Actions
 private extension ReviewWritingBottomView {
   @objc func didTapPlanView() {
-    delegate?.didTapPlanLoadingView(planView)
+    delegate?.didTapPlanView(planView)
   }
   
   @objc func didTapCameraButton(_ button: UIButton) {

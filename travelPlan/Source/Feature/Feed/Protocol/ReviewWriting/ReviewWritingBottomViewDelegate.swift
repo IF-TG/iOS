@@ -8,6 +8,6 @@
 import UIKit
 
 protocol ReviewWritingBottomViewDelegate: AnyObject {
-  func didTapPlanLoadingView(_ view: UIView)
+  func didTapPlanView(_ view: UIView)
   func didTapCameraButton(_ button: UIButton)
 }
