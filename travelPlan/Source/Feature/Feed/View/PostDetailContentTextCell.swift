@@ -43,6 +43,7 @@ extension PostDetailContentTextCell {
 // MARK: - Private Helpers
 private extension PostDetailContentTextCell {
   func configureUI() {
+    selectionStyle = .none
     setupUI()
   }
 }

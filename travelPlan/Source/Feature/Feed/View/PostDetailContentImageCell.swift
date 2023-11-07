@@ -24,6 +24,7 @@ final class PostDetailContentImageCell: UITableViewCell {
   // MARK: - Lifecycle
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
+    configureUI()
   }
   
   required init?(coder: NSCoder) {
@@ -53,6 +54,14 @@ extension PostDetailContentImageCell {
           self.contentImageView.layer.cornerRadius = 0
         })
     }
+  }
+}
+
+// MARK: - Private Helpers
+private extension PostDetailContentImageCell {
+  func configureUI() {
+    selectionStyle = .none
+    setupUI()
   }
 }
 
