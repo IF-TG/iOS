@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct postDetailViewInfo {
+struct PostDetailViewInfo {
   /// 임시
   let categoryText: String
   let title: String
@@ -15,54 +15,20 @@ struct postDetailViewInfo {
 }
 
 final class PostDetailViewController: UIViewController {
-  enum Constant {
-    enum ProfileAreaViewSpacing {
-      static let leaidng: CGFloat = 10
-      static let trailing: CGFloat = 10
-      static let top: CGFloat = 10
-    }
-    enum Divider {
-      enum Spacing {
-        static let top: CGFloat = 13
-        static let leading: CGFloat = 10
-        static let trailing: CGFloat = 10
-      }
-      static let height: CGFloat = 1
-    }
-  }
-
-  // MARK: - Properties
-  private let categoryLabel = BasePaddingLabel(
-    padding: .init(top: 16.5, left: 20, bottom: 8.5, right: 20),
-    fontType: .medium_500(fontSize: 14),
-    lineHeight: 16.71
-  ).set {
-    $0.translatesAutoresizingMaskIntoConstraints = false
-    $0.textColor = .yg.gray4
-  }
-  
-  private let titleLabel = BasePaddingLabel(
-    padding: .init(top: 10, left: 20, bottom: 10, right: 20),
-    fontType: .semiBold_600(fontSize: 30),
-    lineHeight: 35.8
-  ).set {
-    $0.translatesAutoresizingMaskIntoConstraints = false
-    $0.textColor = .yg.gray7
-    $0.numberOfLines = 2
-  }
-  
-  private let profileAreaView = PostDetailProfileAreaView()
-  
-  private let profileAreaViewDivider = UIView(frame: .zero).set {
-    $0.translatesAutoresizingMaskIntoConstraints = false
-    $0.backgroundColor = .yg.gray0
-  }
-  
   private let tableView = UITableView(frame: .zero, style: .plain).set {
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.separatorStyle = .none
     $0.rowHeight = UITableView.automaticDimension
     $0.estimatedRowHeight = 235
+    
+    $0.register(
+      PostDetailCategoryHeaderView.self,
+      forHeaderFooterViewReuseIdentifier: PostDetailCategoryHeaderView.id)
+    $0.register(PostDetailTitleCell.self, forCellReuseIdentifier: PostDetailTitleCell.id)
+    $0.register(
+      PostDetailProfileAreaFooterView.self,
+      forHeaderFooterViewReuseIdentifier: PostDetailProfileAreaFooterView.id)
+      
     $0.register(PostDetailContentTextCell.self, forCellReuseIdentifier: PostDetailContentTextCell.id)
     $0.register(PostDetailContentImageCell.self, forCellReuseIdentifier: PostDetailContentImageCell.id)
     $0.register(PostDetailContentFooterView.self, forHeaderFooterViewReuseIdentifier: PostDetailContentFooterView.id)
@@ -86,12 +52,13 @@ final class PostDetailViewController: UIViewController {
     nil
   }
   
+  override func loadView() {
+    view = tableView
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     configureUI()
-    DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-      self.makeMockData()
-    }
   }
 }
 
@@ -99,37 +66,6 @@ final class PostDetailViewController: UIViewController {
 private extension PostDetailViewController {
   func configureUI() {
     view.backgroundColor = .white
-    setupUI()
-  }
-  
-  func configure(with info: postDetailViewInfo) {
-    categoryLabel.text = info.categoryText
-    // 임시
-    let firstChevronHighlight = HighlightFontInfo(
-      fontType: .bold_700(fontSize: 15),
-      text: ">")
-    let lastChevronHighlight = HighlightFontInfo(
-      fontType: .bold_700(fontSize: 15),
-      text: ">",
-      startIndex: "여행테마 > 휴식, 동반자 ".count)
-    categoryLabel.setHighlights(with: firstChevronHighlight, lastChevronHighlight)
-    titleLabel.text = info.title
-    profileAreaView.configure(with: info.profileAreaInfo)
-  }
-  
-  func makeMockData() {
-    let profileAreaInfo = PostDetailProfileAreaInfo(
-      userName: "닉네임은 여덟자리",
-      userId: "0",
-      userThumbnailPath: "tempProfile1",
-      travelDuration: "1박 2일",
-      travelCalendarDateRange: "23.12.31 ~ 23.12.31",
-      uploadedDescription: "2023. 12. 31 12:12")
-    let postDetailViewInfo = postDetailViewInfo(
-      categoryText: "여행테마 > 휴식, 동반자 > 가족 ...",
-      title: "곧 크리스마스가 다가옵니다. 하하하. 미리메리크리스마스~",
-      profileAreaInfo: profileAreaInfo)
-    configure(with: postDetailViewInfo)
   }
 }
 
@@ -138,75 +74,5 @@ extension PostDetailViewController: PostDetailTableViewDelegate {
   func scrollViewDidScroll(_ scrollView: UIScrollView) {
     // TODO: - 제목 네비에 자연스레 장착
     // TODO: - 테이블뷰 위에 뷰들 위로 이동하면서 히든처리
-  }
-}
-
-// MARK: - LayoutSupport
-extension PostDetailViewController: LayoutSupport {
-  func addSubviews() {
-    _=[
-      categoryLabel,
-      titleLabel,
-      profileAreaView,
-      profileAreaViewDivider,
-      tableView
-    ].map {
-      view.addSubview($0)
-    }
-  }
-  
-  func setConstraints() {
-    _=[
-      categoryLabelConstraints,
-      titleLabelConstraints,
-      profileAreaViewConstraints,
-      profileAreaViewDividerConstraints,
-      tableViewConstraints
-    ].map {
-      NSLayoutConstraint.activate($0)
-    }
-  }
-}
-
-// MARK: - LayoutSupport Constraints
-private extension PostDetailViewController {
-  var categoryLabelConstraints: [NSLayoutConstraint] {
-    return [
-      categoryLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-      categoryLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-      categoryLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor)]
-  }
-  
-  var titleLabelConstraints: [NSLayoutConstraint] {
-    return [
-      titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-      titleLabel.topAnchor.constraint(equalTo: categoryLabel.bottomAnchor),
-      titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor)]
-  }
-  
-  var profileAreaViewConstraints: [NSLayoutConstraint] {
-    typealias Spacing = Constant.ProfileAreaViewSpacing
-    return [
-      profileAreaView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Spacing.leaidng),
-      profileAreaView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: Spacing.top),
-      profileAreaView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Spacing.trailing)]
-  }
-  
-  var profileAreaViewDividerConstraints: [NSLayoutConstraint] {
-    typealias Const = Constant.Divider
-    typealias Spacing = Const.Spacing
-    return [
-      profileAreaViewDivider.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Spacing.leading),
-      profileAreaViewDivider.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Spacing.trailing),
-      profileAreaViewDivider.heightAnchor.constraint(equalToConstant: Const.height),
-      profileAreaViewDivider.topAnchor.constraint(equalTo: profileAreaView.bottomAnchor, constant: Spacing.top)]
-  }
-  
-  var tableViewConstraints: [NSLayoutConstraint] {
-    return [
-      tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-      tableView.topAnchor.constraint(equalTo: profileAreaViewDivider.bottomAnchor),
-      tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-      tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)]
   }
 }
