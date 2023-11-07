@@ -8,6 +8,8 @@
 import UIKit
 
 final class PostDetailContentTextCell: UITableViewCell {
+  static let id = String(describing: PostDetailContentTextCell.self)
+  
   enum Constant {
     static let spacing: CGFloat = 10
   }
