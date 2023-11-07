@@ -81,11 +81,13 @@ extension PostDetailContentImageCell: LayoutSupport {
 // MARK: - LayoutSupport Constraints
 private extension PostDetailContentImageCell {
   var contentImageViewConstraints: [NSLayoutConstraint] {
+    let contentImageViewBottomConstriant = contentImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+    contentImageViewBottomConstriant.priority = .init(999)
     return [
       contentImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constant.spacing),
       contentImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Constant.spacing),
       contentImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Constant.spacing),
       contentImageView.heightAnchor.constraint(equalToConstant: Constant.imageHeight),
-      contentImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)]
+      contentImageViewBottomConstriant]
   }
 }
