@@ -68,7 +68,7 @@ final class PostDetailProfileAreaView: BaseProfileAreaView {
     }
     
     contentStackView = UIStackView(
-      arrangedSubviews: [userNameLabel,  travelDurationLabel, uploadedDescriptionLabel]
+      arrangedSubviews: [userNameLabel, travelDurationLabel, uploadedDescriptionLabel]
     ).set {
       $0.translatesAutoresizingMaskIntoConstraints = false
       $0.spacing = 3
@@ -95,6 +95,9 @@ final class PostDetailProfileAreaView: BaseProfileAreaView {
 extension PostDetailProfileAreaView {
   func configure(with info: PostDetailProfileAreaInfo) {
     super.configure(with: info.userThumbnailPath)
+    userNameLabel.text = info.title
+    travelDurationLabel.text = info.travelDuration
+    
   }
 }
 
