@@ -113,7 +113,7 @@ private extension PostDetailViewController {
       uploadedDescription: "2023. 12. 31 12:12")
     let postDetailViewInfo = postDetailViewInfo(
       categoryText: "여행테마 > 휴식, 동반자 > 가족 ...",
-      title: "곧 크리스마스가 다가옵니다. 하하하. 미리매리크리스마스~",
+      title: "곧 크리스마스가 다가옵니다. 하하하. 미리메리크리스마스~",
       profileAreaInfo: profileAreaInfo)
     configure(with: postDetailViewInfo)
   }
