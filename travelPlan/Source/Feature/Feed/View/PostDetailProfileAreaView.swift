@@ -76,7 +76,11 @@ final class PostDetailProfileAreaView: BaseProfileAreaView {
     
     uploadedDescriptionLabel.widthAnchor.constraint(equalTo: contentStackView.widthAnchor).isActive = true
     
-    super.init(frame: frame, contentView: contentStackView, profileLayoutInfo: .small(.top))
+    super.init(
+      frame: frame,
+      contentView: contentStackView,
+      contentViewSpacing: .init(top: 0, left: 10, bottom: 0, right: 0),
+      profileLayoutInfo: .small(.top))
     
     setTapGestureInUserNameLabel()
   }
