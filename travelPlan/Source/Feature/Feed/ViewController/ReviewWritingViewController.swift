@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Combine
 
 final class ReviewWritingViewController: UIViewController {
   // MARK: - Properties
@@ -17,7 +18,9 @@ final class ReviewWritingViewController: UIViewController {
     $0.addGestureRecognizer(tapGesture)
   }
   
-  private lazy var cancelButton = UIButton().set {
+  private let keyboardImage: UIImage = .init(named: "keyboard") ?? .init(systemName: "keyboard")!
+  
+  private lazy var leftButton = UIButton().set {
     $0.addTarget(self, action: #selector(didTapCancelButton), for: .touchUpInside)
     $0.setTitle("취소", for: .normal)
     $0.setTitleColor(.yg.gray7, for: .normal)
@@ -28,7 +31,7 @@ final class ReviewWritingViewController: UIViewController {
   private lazy var finishButton = UIButton().set {
     $0.addTarget(self, action: #selector(didTapFinishButton), for: .touchUpInside)
     $0.setTitle("완료", for: .normal)
-    $0.setTitleColor(.yg.gray1, for: .normal)
+    $0.setTitleColor(.yg.primary, for: .normal)
     $0.titleLabel?.font = .init(pretendard: .regular_400(fontSize: 16))
   }
   
@@ -41,6 +44,7 @@ final class ReviewWritingViewController: UIViewController {
   private lazy var bottomView = ReviewWritingBottomView().set {
     $0.delegate = self
   }
+  private var subscriptions = Set<AnyCancellable>()
   
   // MARK: - LifeCycle
   override func viewDidLoad() {
@@ -48,6 +52,7 @@ final class ReviewWritingViewController: UIViewController {
     setupUI()
     setupStyles()
     setupNavigationBar()
+    bind()
     let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
     view.addGestureRecognizer(tapGesture)
   }
@@ -71,8 +76,26 @@ final class ReviewWritingViewController: UIViewController {
 
 // MARK: - Private Helpers
 extension ReviewWritingViewController {
+  private func bind() {
+    NotificationCenter.default
+      .publisher(for: UIResponder.keyboardWillShowNotification)
+      .sink { [weak self] _ in
+        self?.leftButton.setImage(self?.keyboardImage, for: .normal)
+        self?.leftButton.setTitle(nil, for: .normal)
+      }
+      .store(in: &subscriptions)
+    
+    NotificationCenter.default
+      .publisher(for: UIResponder.keyboardWillHideNotification)
+      .sink { [weak self] _ in
+        self?.leftButton.setImage(nil, for: .normal)
+        self?.leftButton.setTitle("취소", for: .normal)
+      }
+      .store(in: &subscriptions)
+  }
+  
   private func setupNavigationBar() {
-    navigationItem.leftBarButtonItem = .init(customView: cancelButton)
+    navigationItem.leftBarButtonItem = .init(customView: leftButton)
     navigationItem.rightBarButtonItem = .init(customView: finishButton)
     navigationItem.titleView = titleView
   }
