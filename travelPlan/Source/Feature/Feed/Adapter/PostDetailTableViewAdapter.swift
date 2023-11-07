@@ -32,17 +32,12 @@ extension PostDetailTableViewAdapter: UITableViewDataSource {
   }
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    switch section {
-    case 0:
-      return dataSource?.numberOfItems(in: section) ?? 0
-    default:
-      return 0
-    }
+    return dataSource?.numberOfItems(in: section) ?? 0
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     guard let dataSource else { return .init(frame: .zero) }
-    switch indexPath.row {
+    switch indexPath.section {
     case 0:
       let postContentItem = dataSource.postContentItem(at: indexPath.row)
       switch postContentItem {
