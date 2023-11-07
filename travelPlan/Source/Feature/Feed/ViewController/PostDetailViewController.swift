@@ -21,7 +21,16 @@ final class PostDetailViewController: UIViewController {
       static let trailing: CGFloat = 10
       static let top: CGFloat = 10
     }
+    enum Divider {
+      enum Spacing {
+        static let top: CGFloat = 13
+        static let leading: CGFloat = 10
+        static let trailing: CGFloat = 10
+      }
+      static let height: CGFloat = 1
+    }
   }
+
   // MARK: - Properties
   private let categoryLabel = BasePaddingLabel(
     padding: .init(top: 16.5, left: 20, bottom: 8.5, right: 20),
@@ -43,6 +52,11 @@ final class PostDetailViewController: UIViewController {
   }
   
   private let profileAreaView = PostDetailProfileAreaView()
+  
+  private let profileAreaViewDivider = UIView(frame: .zero).set {
+    $0.translatesAutoresizingMaskIntoConstraints = false
+    $0.backgroundColor = .yg.gray0
+  }
   
   private let tableView = UITableView(frame: .zero, style: .plain).set {
     $0.translatesAutoresizingMaskIntoConstraints = false
@@ -134,6 +148,7 @@ extension PostDetailViewController: LayoutSupport {
       categoryLabel,
       titleLabel,
       profileAreaView,
+      profileAreaViewDivider,
       tableView
     ].map {
       view.addSubview($0)
@@ -145,6 +160,7 @@ extension PostDetailViewController: LayoutSupport {
       categoryLabelConstraints,
       titleLabelConstraints,
       profileAreaViewConstraints,
+      profileAreaViewDividerConstraints,
       tableViewConstraints
     ].map {
       NSLayoutConstraint.activate($0)
@@ -176,10 +192,20 @@ private extension PostDetailViewController {
       profileAreaView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Spacing.trailing)]
   }
   
+  var profileAreaViewDividerConstraints: [NSLayoutConstraint] {
+    typealias Const = Constant.Divider
+    typealias Spacing = Const.Spacing
+    return [
+      profileAreaViewDivider.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Spacing.leading),
+      profileAreaViewDivider.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Spacing.trailing),
+      profileAreaViewDivider.heightAnchor.constraint(equalToConstant: Const.height),
+      profileAreaViewDivider.topAnchor.constraint(equalTo: profileAreaView.bottomAnchor, constant: Spacing.top)]
+  }
+  
   var tableViewConstraints: [NSLayoutConstraint] {
     return [
       tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-      tableView.topAnchor.constraint(equalTo: profileAreaView.bottomAnchor),
+      tableView.topAnchor.constraint(equalTo: profileAreaViewDivider.bottomAnchor),
       tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
       tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)]
   }
