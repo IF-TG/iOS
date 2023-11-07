@@ -20,15 +20,6 @@ struct PostDetailProfileAreaInfo {
 }
 
 final class PostDetailProfileAreaView: BaseProfileAreaView {
-  enum Constant {
-    enum Divider {
-      enum Spacing {
-        static let top: CGFloat = 13
-      }
-      static let height: CGFloat = 1
-    }
-  }
-  
   // MARK: - Properties
   private let userNameLabel = BaseLabel(fontType: .medium_500(fontSize: 15)).set {
     $0.textColor = .yg.gray7
@@ -92,7 +83,6 @@ final class PostDetailProfileAreaView: BaseProfileAreaView {
       profileLayoutInfo: .small(.top))
     
     setTapGestureInUserNameLabel()
-    setDivider()
   }
   
   convenience init() {
@@ -123,20 +113,5 @@ private extension PostDetailProfileAreaView {
     userNameLabel.isUserInteractionEnabled = true
     let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapProfile))
     userNameLabel.addGestureRecognizer(tapGesture)
-  }
-  
-  func setDivider() {
-    typealias Const = Constant.Divider
-    typealias Spacing = Const.Spacing
-    let divider = UIView(frame: .zero).set {
-      $0.translatesAutoresizingMaskIntoConstraints = false
-      $0.backgroundColor = .yg.gray0
-      addSubview($0)
-    }
-    NSLayoutConstraint.activate([
-      divider.leadingAnchor.constraint(equalTo: leadingAnchor),
-      divider.trailingAnchor.constraint(equalTo: trailingAnchor),
-      divider.heightAnchor.constraint(equalToConstant: Const.height),
-      divider.topAnchor.constraint(equalTo: bottomAnchor, constant: Spacing.top)])
   }
 }
