@@ -7,39 +7,37 @@
 
 import UIKit
 
-final class PostDetailProfileAreaView: BaseProfileAreaView {
-  enum Constant {
-    enum UserNameLabel {
-      enum Spacing {
-        static let top: CGFloat = 3
-        static let trailing: CGFloat = 10
-      }
-    }
-    enum TravelDurationStackView {
-      static let height: CGFloat = 18
-      static let spacing: CGFloat = 10
-      enum Spacing {
-        static let top: CGFloat = 6
-      }
-    }
-    enum UploadedDescriptionLabel {
-      enum Spacing {
-        static let top: CGFloat = 3
-      }
-    }
-  }
+/// 임시
+struct PostDetailProfileAreaInfo {
+  let title: String
+  let userName: String
+  let userId: String
   
+  /// 임시
+  let userThumbnailPath: String
+  let travelDuration: String
+  let travelCalendarDateRange: String
+  let uploadedDescription: String
+}
+
+final class PostDetailProfileAreaView: BaseProfileAreaView {
   // MARK: - Properties
   private let userNameLabel = BaseLabel(fontType: .medium_500(fontSize: 15)).set {
     $0.backgroundColor = .yg.gray7
+    $0.numberOfLines = 1
+    $0.textAlignment = .natural
   }
   
   private let travelDurationLabel = BaseLabel(fontType: .medium_500(fontSize: 12), lineHeight: 14.32).set {
     $0.backgroundColor = .yg.gray5
+    $0.numberOfLines = 1
+    $0.textAlignment = .left
   }
   
   private let travelCalendarDateRangeLabel = BaseLabel(fontType: .medium_500(fontSize: 12), lineHeight: 14.32).set {
     $0.backgroundColor = .yg.gray5
+    $0.numberOfLines = 1
+    $0.textAlignment = .left
   }
   
   private let durationDivider = UILabel().set {
@@ -50,14 +48,61 @@ final class PostDetailProfileAreaView: BaseProfileAreaView {
   
   private let uploadedDescriptionLabel = BaseLabel(fontType: .regular_400(fontSize: 12), lineHeight: 14.32).set {
     $0.backgroundColor = .yg.gray5
+    $0.numberOfLines = 1
+    $0.textAlignment = .right
   }
   
-  private lazy var travelDurationStackView: UIStackView = UIStackView(
-    arrangedSubviews: [travelDurationLabel, durationDivider, travelCalendarDateRangeLabel]
-  ).set {
-    $0.translatesAutoresizingMaskIntoConstraints = false
-    $0.spacing = Constant.TravelDurationStackView.spacing
-    $0.axis = .horizontal
-    $0.alignment = .leading
+  private let travelDurationStackView: UIStackView
+  
+  private let contentStackView: UIStackView
+  
+  // MARK: - Lifecycle
+  init(frame: CGRect) {
+    travelDurationStackView = UIStackView(
+      arrangedSubviews: [travelDurationLabel, durationDivider, travelCalendarDateRangeLabel]
+    ).set {
+      $0.translatesAutoresizingMaskIntoConstraints = false
+      $0.spacing = 3
+      $0.axis = .horizontal
+      $0.alignment = .leading
+    }
+    
+    contentStackView = UIStackView(
+      arrangedSubviews: [userNameLabel,  travelDurationLabel, uploadedDescriptionLabel]
+    ).set {
+      $0.translatesAutoresizingMaskIntoConstraints = false
+      $0.spacing = 3
+      $0.axis = .horizontal
+      $0.distribution = .equalSpacing
+    }
+    
+    super.init(frame: frame, contentView: contentStackView, profileLayoutInfo: .small(.top))
+    
+    setTapGestureInUserNameLabel()
+  }
+  
+  convenience init() {
+    self.init(frame: .zero)
+    translatesAutoresizingMaskIntoConstraints = false
+  }
+  
+  required init?(coder: NSCoder) {
+    nil
+  }
+}
+
+// MARK: - Helpers
+extension PostDetailProfileAreaView {
+  func configure(with info: PostDetailProfileAreaInfo) {
+    super.configure(with: info.userThumbnailPath)
+  }
+}
+
+// MARK: - Private Helpers
+private extension PostDetailProfileAreaView {
+  func setTapGestureInUserNameLabel() {
+    userNameLabel.isUserInteractionEnabled = true
+    let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapProfile))
+    userNameLabel.addGestureRecognizer(tapGesture)
   }
 }
