@@ -47,19 +47,23 @@ extension PostDetailTableViewAdapter: UITableViewDataSource {
       let postContentItem = dataSource.postContentItem(at: indexPath.row)
       switch postContentItem {
       case .text(let text):
-          let cell = tableView.dequeueReusableCell(
+        guard let cell = tableView.dequeueReusableCell(
           withIdentifier: PostDetailContentTextCell.id,
           for: indexPath
-        ) as? PostDetailContentTextCell
-        cell?.configure(with: text)
-        return cell ?? .init(frame: .zero)
+        ) as? PostDetailContentTextCell else {
+          return .init(frame: .zero)
+        }
+        cell.configure(with: text)
+        return cell
       case .image(let imagePath):
-        let cell = tableView.dequeueReusableCell(
+        guard let cell = tableView.dequeueReusableCell(
           withIdentifier: PostDetailContentImageCell.id,
           for: indexPath
-        ) as? PostDetailContentImageCell
-        cell?.configure(with: imagePath)
-        return cell ?? .init(frame: .zero)
+        ) as? PostDetailContentImageCell  else {
+          return .init(frame: .zero)
+        }
+        cell.configure(with: imagePath)
+        return cell
       }
     default:
       return .init(frame: .zero)
@@ -69,6 +73,13 @@ extension PostDetailTableViewAdapter: UITableViewDataSource {
 
 // MARK: - UITableViewDelegate
 extension PostDetailTableViewAdapter: UITableViewDelegate {
+  func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+    if section == 0 {
+      return tableView.dequeueReusableHeaderFooterView(withIdentifier: PostDetailContentFooterView.id) 
+    }
+    return nil
+  }
+  
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
     return UITableView.automaticDimension
   }
