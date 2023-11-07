@@ -97,12 +97,12 @@ final class PostDetailProfileAreaView: BaseProfileAreaView {
 
 // MARK: - Helpers
 extension PostDetailProfileAreaView {
-  func configure(with info: PostDetailProfileAreaInfo) {
-    super.configure(with: info.userThumbnailPath)
-    userNameLabel.text = info.userName
-    travelDurationLabel.text = info.travelDuration
-    travelCalendarDateRangeLabel.text = info.travelCalendarDateRange
-    uploadedDescriptionLabel.text = info.uploadedDescription
+  func configure(with info: PostDetailProfileAreaInfo?) {
+    super.configure(with: info?.userThumbnailPath)
+    userNameLabel.text = info?.userName
+    travelDurationLabel.text = info?.travelDuration
+    travelCalendarDateRangeLabel.text = info?.travelCalendarDateRange
+    uploadedDescriptionLabel.text = info?.uploadedDescription
     uploadedDescriptionLabel.textAlignment = .right
   }
 }
