@@ -51,10 +51,27 @@ final class PostDetailViewController: UIViewController {
     $0.estimatedRowHeight = 235
     $0.register(PostDetailContentTextCell.self, forCellReuseIdentifier: PostDetailContentTextCell.id)
     $0.register(PostDetailContentImageCell.self, forCellReuseIdentifier: PostDetailContentImageCell.id)
-    $0.register(PostDetailContentFooterView.self, forCellReuseIdentifier: PostDetailContentFooterView.id)
+    $0.register(PostDetailContentFooterView.self, forHeaderFooterViewReuseIdentifier: PostDetailContentFooterView.id)
   }
   
+  private var adapter: PostDetailTableViewAdapter?
+  
+  private let viewModel: PostDetailTableViewDataSource
+  
   // MARK: - Lifecycle
+  init(viewModel: PostDetailTableViewDataSource) {
+    self.viewModel = viewModel
+    super.init(nibName: nil, bundle: nil)
+    adapter = PostDetailTableViewAdapter(
+      dataSource: viewModel,
+      delegate: self,
+      tableView: tableView)
+  }
+  
+  required init?(coder: NSCoder) {
+    nil
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     configureUI()
@@ -99,6 +116,14 @@ private extension PostDetailViewController {
       title: "곧 크리스마스가 다가옵니다. 하하하. 미리매리크리스마스~",
       profileAreaInfo: profileAreaInfo)
     configure(with: postDetailViewInfo)
+  }
+}
+
+// MARK: - PostDetailTableViewDelegate
+extension PostDetailViewController: PostDetailTableViewDelegate {
+  func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    // TODO: - 제목 네비에 자연스레 장착
+    // TODO: - 테이블뷰 위에 뷰들 위로 이동하면서 히든처리
   }
 }
 
