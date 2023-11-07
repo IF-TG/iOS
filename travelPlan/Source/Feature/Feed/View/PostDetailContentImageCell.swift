@@ -38,7 +38,7 @@ extension PostDetailContentImageCell {
       return
     }
     contentImageView.image = UIImage(named: imagePath)
-    if contentImageView.layer.cornerRadius != 0 {
+    if Int(contentImageView.layer.cornerRadius) != Int(0) {
       UIView.animate(
         withDuration: 0.32,
         delay: 0,
