@@ -24,7 +24,7 @@ final class FeedViewController: UIViewController {
   // MARK: - Properties
   weak var coordinator: FeedCoordinatorDelegate?
   
-  private let categoryPageView: CategoryPageView
+  private var categoryPageView: CategoryPageView!
   
   lazy var input = Input(
     didTapPostSearch: searchBarItem.tap,
@@ -71,8 +71,8 @@ final class FeedViewController: UIViewController {
   
   init(viewModel: any FeedViewModelable) {
     self.viewModel = viewModel
-    self.categoryPageView = CategoryPageView(frame: .zero, viewModel: CategoryPageViewModel())
     super.init(nibName: nil, bundle: nil)
+    self.categoryPageView = CategoryPageView(frame: .zero, viewModel: CategoryPageViewModel(), postDelegator: self)
   }
   
   required init(coder: NSCoder) {
@@ -212,6 +212,14 @@ extension FeedViewController: ViewBindCase {
   }
 }
 
+// MARK: - FeedPostViewAdapterDelegate
+extension FeedViewController: PostViewAdapterDelegate {
+  func didTapPost(with postId: Int) {
+    coordinator?.showPostDetailPage()
+  }
+}
+
+// MARK: - TravelThemeBottomSheetDelegate
 extension FeedViewController: TravelThemeBottomSheetDelegate {
   func travelThemeBottomSheetViewController(
     _ viewController: PostFilteringBottomSheetViewController,
