@@ -66,7 +66,7 @@ private extension PostDetailCategoryHeaderView {
   
   func setTapGestureInCategoryLabel() {
     let tap = UITapGestureRecognizer(target: self, action: #selector(didTapCategoryLabel))
-    categoryLabel.isUserInteractionEnabled = false
+    categoryLabel.isUserInteractionEnabled = true
     categoryLabel.addGestureRecognizer(tap)
   }
 }
