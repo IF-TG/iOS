@@ -10,4 +10,7 @@ import UIKit
 protocol PostDetailTableViewDelegate: AnyObject {
   func disappearTitle(_ title: String)
   func willDisplayTitle()
+  
+  func showUploadedUserProfilePage(with userId: Int)
+  func showCategoryDetailPage()
 }
