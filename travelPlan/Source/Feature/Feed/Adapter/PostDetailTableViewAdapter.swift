@@ -10,12 +10,12 @@ import UIKit
 final class PostDetailTableViewAdapter: NSObject {
   // MARK: - Properties
   weak var dataSource: PostDetailTableViewDataSource?
-  weak var delegate: PostDetailTableViewDelegate?
+  weak var delegate: PostDetailTableViewAdapterDelegate?
   
   // MARK: - Lifecycle
   init(
     dataSource: PostDetailTableViewDataSource?,
-    delegate: PostDetailTableViewDelegate?,
+    delegate: PostDetailTableViewAdapterDelegate?,
     tableView: UITableView
   ) {
     super.init()

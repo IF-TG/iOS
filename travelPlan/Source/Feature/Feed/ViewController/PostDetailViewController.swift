@@ -69,7 +69,7 @@ private extension PostDetailViewController {
 }
 
 // MARK: - PostDetailTableViewDelegate
-extension PostDetailViewController: PostDetailTableViewDelegate {
+extension PostDetailViewController: PostDetailTableViewAdapterDelegate {
   func willDisplayTitle() {
     guard let topItem = navigationController?.navigationBar.topItem else { return }
     topItem.title = nil
