@@ -13,12 +13,11 @@ final class PostDetailTitleCell: UITableViewCell {
   // MARK: - Properties
   private let titleLabel = BasePaddingLabel(
     padding: .init(top: 10, left: 20, bottom: 10, right: 20),
-    fontType: .semiBold_600(fontSize: 30),
-    lineHeight: 35.8
+    fontType: .semiBold_600(fontSize: 27)
   ).set {
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.textColor = .yg.gray7
-    $0.numberOfLines = 2
+    $0.numberOfLines = 3
   }
   
   // MARK: - Lifecycle
