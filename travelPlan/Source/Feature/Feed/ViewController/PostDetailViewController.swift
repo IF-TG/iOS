@@ -81,6 +81,14 @@ extension PostDetailViewController: PostDetailTableViewDelegate {
       topItem.title = title
     }
   }
+  
+  func showUploadedUserProfilePage(with userId: Int) {
+    print("업로드 유저 프로필 화면으로 이동!!")
+  }
+  
+  func showCategoryDetailPage() {
+    print("카데고리 상세 화면으로 이동!!!")
+  }
 }
 
 extension PostDetailViewController: LayoutSupport {
