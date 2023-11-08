@@ -34,10 +34,12 @@ final class PostDetailViewController: UIViewController {
   }
   
   private let naviTitle = UILabel(frame: .zero).set {
-    $0.alpha = 0
+    $0.text = "temp"
   }
   
-  var naviTitleAnimator: UIViewPropertyAnimator?
+  private var naviTitleAnimator: UIViewPropertyAnimator?
+  
+  private var naviTItleOriginY: CGFloat = 0.0
   
   private var adapter: PostDetailTableViewAdapter?
   
@@ -63,6 +65,12 @@ final class PostDetailViewController: UIViewController {
     super.viewDidLoad()
     configureUI()
   }
+  
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    guard let topItem = navigationController?.navigationBar.topItem else { return }
+    naviTItleOriginY = (44.0 - naviTitle.font.lineHeight)/2
+  }
 }
 
 // MARK: - Private Helpers
@@ -71,6 +79,14 @@ private extension PostDetailViewController {
     view.backgroundColor = .white
     setupDefaultBackBarButtonItem(marginLeft: 0)
     setupUI()
+    setTitleView()
+  }
+  
+  func setTitleView() {
+    guard let topItem = navigationController?.navigationBar.topItem else { return }
+    if topItem.titleView == nil {
+      topItem.titleView = naviTitle
+    }
   }
 }
 
@@ -83,9 +99,7 @@ extension PostDetailViewController: PostDetailTableViewAdapterDelegate {
       duration: 0.28,
       curve: .easeIn,
       animations: {
-        topItem.titleView?.transform = .init(
-          translationX: 0,
-          y: self.naviTitle.font.lineHeight)
+        topItem.titleView?.center.y += self.naviTitle.font.lineHeight
         topItem.titleView?.alpha = 0
       })
     naviTitleAnimator?.addCompletion { _ in
@@ -96,10 +110,7 @@ extension PostDetailViewController: PostDetailTableViewAdapterDelegate {
   }
   
   func disappearTitle(_ title: String) {
-    guard let topItem = navigationController?.navigationBar.topItem else { return }
-    if topItem.titleView == nil {
-      topItem.titleView = naviTitle
-      topItem.titleView?.transform = .init(translationX: 0, y: naviTitle.font.lineHeight)
+    guard let topItem = navigationController?.navigationBar.topItem else { return
     }
     naviTitle.text = title
     topItem.titleView?.isHidden = false
@@ -108,7 +119,7 @@ extension PostDetailViewController: PostDetailTableViewAdapterDelegate {
       duration: 0.28,
       curve: .easeOut,
       animations: {
-        topItem.titleView?.transform = .identity
+        topItem.titleView?.center.y = self.naviTItleOriginY
         topItem.titleView?.alpha = 1
       })
     naviTitleAnimator?.addCompletion { _ in
