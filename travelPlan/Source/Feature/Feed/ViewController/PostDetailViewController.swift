@@ -15,7 +15,7 @@ final class PostDetailViewController: UIViewController {
     $0.estimatedRowHeight = 235
     $0.separatorInset = .zero
     $0.backgroundColor = .white
-    
+    $0.scrollIndicatorInsets = .init(top: 0, left: -1, bottom: 13, right: -1)
     if #available(iOS 15.0, *) {
       $0.sectionHeaderTopPadding = 0
     }
@@ -36,6 +36,8 @@ final class PostDetailViewController: UIViewController {
   private var adapter: PostDetailTableViewAdapter?
   
   private let viewModel: PostDetailTableViewDataSource
+  
+  private var prevScrollDirection: UIScrollView.ScrollVerticalDirection = .down
   
   // MARK: - Lifecycle
   init(viewModel: PostDetailTableViewDataSource) {
