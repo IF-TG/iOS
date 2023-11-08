@@ -21,7 +21,7 @@ final class ReviewWritingViewController: UIViewController {
   private let keyboardImage: UIImage = .init(named: "keyboard") ?? .init(systemName: "keyboard")!
   
   private lazy var leftButton = UIButton().set {
-    $0.addTarget(self, action: #selector(didTapCancelButton), for: .touchUpInside)
+    $0.addTarget(self, action: #selector(didTapLeftButton), for: .touchUpInside)
     $0.setTitle("취소", for: .normal)
     $0.setTitleColor(.yg.gray7, for: .normal)
     $0.setTitleColor(.yg.gray7.withAlphaComponent(0.1), for: .highlighted)
@@ -37,7 +37,6 @@ final class ReviewWritingViewController: UIViewController {
   
   private lazy var scrollView = UIScrollView().set {
     let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapScrollViewFrameLayout))
-    tapGesture.cancelsTouchesInView = false
     $0.addGestureRecognizer(tapGesture)
   }
   private let contentView = ReviewWritingContentView()
@@ -79,6 +78,7 @@ extension ReviewWritingViewController {
   private func bind() {
     NotificationCenter.default
       .publisher(for: UIResponder.keyboardWillShowNotification)
+      .receive(on: RunLoop.main)
       .sink { [weak self] _ in
         self?.leftButton.setImage(self?.keyboardImage, for: .normal)
         self?.leftButton.setTitle(nil, for: .normal)
@@ -87,11 +87,24 @@ extension ReviewWritingViewController {
     
     NotificationCenter.default
       .publisher(for: UIResponder.keyboardWillHideNotification)
+      .receive(on: RunLoop.main)
       .sink { [weak self] _ in
         self?.leftButton.setImage(nil, for: .normal)
         self?.leftButton.setTitle("취소", for: .normal)
       }
       .store(in: &subscriptions)
+    
+    contentView.scrollToLastView = { [weak self] in
+      guard let scrollView = self?.scrollView else { return }
+      let frameHeightIsSmallerThanContentHeight = scrollView.contentSize.height > scrollView.bounds.height
+      
+      if frameHeightIsSmallerThanContentHeight {
+        scrollView.setContentOffset(
+          CGPoint(x: .zero, y: scrollView.contentSize.height - scrollView.bounds.height),
+          animated: true
+        )
+      }
+    }
   }
   
   private func setupNavigationBar() {
@@ -135,11 +148,17 @@ extension ReviewWritingViewController: LayoutSupport {
 
 // MARK: - Actions
 private extension ReviewWritingViewController {
-  @objc func didTapCancelButton() {
-    coordinator?.finish(withAnimated: true)
+  @objc func didTapLeftButton() {
+    if leftButton.image(for: .normal) != nil {
+      view.endEditing(true)
+    } else {
+      coordinator?.finish(withAnimated: true)
+    }
   }
   
   @objc func didTapFinishButton() {
+    // TODO: - contentView에서 레이아웃이 잡혀있는 imageView의 개수를 bottomView에 띄우기
+      // - 만약 imageView가 하나도 없다면, cameraWarningLabel의 textColor 변경하기
     print("완료버튼 클릭")
   }
   
@@ -150,8 +169,6 @@ private extension ReviewWritingViewController {
   @objc func didTapScrollViewFrameLayout() {
     print("스크롤뷰 클릭!")
     contentView.manageTextViewDisplay()
-    // lastView가 textView인 경우, 해당 textView 포커싱
-    // lastView가 imageView인 경우, imageView 밑에 새로운 textView를 제약조건을 통해 추가
   }
   
   @objc func dismissKeyboard() {
@@ -162,7 +179,7 @@ private extension ReviewWritingViewController {
 
 // MARK: - DefaultTapGestureDelegate
 extension ReviewWritingViewController: ReviewWritingBottomViewDelegate {
-  func didTapPlanLoadingView(_ view: UIView) {
+  func didTapPlanView(_ view: UIView) {
     print("플랜 불러오기 버튼 클릭!")
   }
   
@@ -171,6 +188,3 @@ extension ReviewWritingViewController: ReviewWritingBottomViewDelegate {
     contentView.addImageView()
   }
 }
-
-// 스크롤뷰가 눌렸을 때, contentView의 lastView가 이미지뷰이면 이미지뷰 아래에 textView 추가하고, lastView를 갱신
-// contentView의 lastView가 textView라면 무시
