@@ -11,7 +11,6 @@ final class PostDetailContentFooterView: UITableViewHeaderFooterView {
   static let id = String(describing: PostDetailContentFooterView.self)
   
   enum Constant {
-    static let DividerBottomSpacing: CGFloat = 10
     static let DividerHeight: CGFloat = 1
   }
   
@@ -24,6 +23,7 @@ final class PostDetailContentFooterView: UITableViewHeaderFooterView {
   // MARK: - Lifecycle
   override init(reuseIdentifier: String?) {
     super.init(reuseIdentifier: reuseIdentifier)
+    contentView.backgroundColor = .white
     setupUI()
   }
   
@@ -43,8 +43,6 @@ extension PostDetailContentFooterView: LayoutSupport {
       lineDivider.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
       lineDivider.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
       lineDivider.heightAnchor.constraint(equalToConstant: Constant.DividerHeight),
-      lineDivider.bottomAnchor.constraint(
-        equalTo: contentView.bottomAnchor,
-        constant: -Constant.DividerBottomSpacing)])
+      lineDivider.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)])
   }
 }
