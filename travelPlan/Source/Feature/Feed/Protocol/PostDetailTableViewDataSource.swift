@@ -10,6 +10,10 @@ import Foundation
 protocol PostDetailTableViewDataSource: AnyObject {
   var numberOfSections: Int { get }
   
+  var title: String { get }
+  var cateogry: String { get }
+  var profileAreaItem: PostDetailProfileAreaInfo { get }
+  
   func numberOfItems(in section: Int) -> Int
-  func postContentItem(at index: Int) -> PostDetailContentInfo
+  func postContentItem(at row: Int) -> PostDetailContentInfo
 }
