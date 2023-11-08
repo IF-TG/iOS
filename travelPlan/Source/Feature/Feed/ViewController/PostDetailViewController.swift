@@ -7,19 +7,17 @@
 
 import UIKit
 
-struct PostDetailViewInfo {
-  /// 임시
-  let categoryText: String
-  let title: String
-  let profileAreaInfo: PostDetailProfileAreaInfo
-}
-
 final class PostDetailViewController: UIViewController {
-  private let tableView = UITableView(frame: .zero, style: .plain).set {
+  private let tableView = UITableView(frame: .zero, style: .grouped).set {
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.separatorStyle = .none
     $0.rowHeight = UITableView.automaticDimension
     $0.estimatedRowHeight = 235
+    $0.separatorInset = .zero
+    
+    if #available(iOS 15.0, *) {
+      $0.sectionHeaderTopPadding = 0
+    }
     
     $0.register(
       PostDetailCategoryHeaderView.self,
@@ -28,7 +26,7 @@ final class PostDetailViewController: UIViewController {
     $0.register(
       PostDetailProfileAreaFooterView.self,
       forHeaderFooterViewReuseIdentifier: PostDetailProfileAreaFooterView.id)
-      
+    
     $0.register(PostDetailContentTextCell.self, forCellReuseIdentifier: PostDetailContentTextCell.id)
     $0.register(PostDetailContentImageCell.self, forCellReuseIdentifier: PostDetailContentImageCell.id)
     $0.register(PostDetailContentFooterView.self, forHeaderFooterViewReuseIdentifier: PostDetailContentFooterView.id)
