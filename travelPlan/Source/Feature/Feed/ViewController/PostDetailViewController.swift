@@ -33,6 +33,12 @@ final class PostDetailViewController: UIViewController {
     $0.register(PostDetailContentFooterView.self, forHeaderFooterViewReuseIdentifier: PostDetailContentFooterView.id)
   }
   
+  private let naviTitle = UILabel(frame: .zero).set {
+    $0.alpha = 0
+  }
+  
+  var naviTitleAnimator: UIViewPropertyAnimator?
+  
   private var adapter: PostDetailTableViewAdapter?
   
   private let viewModel: PostDetailTableViewDataSource
@@ -72,14 +78,43 @@ private extension PostDetailViewController {
 extension PostDetailViewController: PostDetailTableViewAdapterDelegate {
   func willDisplayTitle() {
     guard let topItem = navigationController?.navigationBar.topItem else { return }
-    topItem.title = nil
+    naviTitleAnimator?.stopAnimation(true)
+    naviTitleAnimator = UIViewPropertyAnimator(
+      duration: 0.28,
+      curve: .easeIn,
+      animations: {
+        topItem.titleView?.transform = .init(
+          translationX: 0,
+          y: self.naviTitle.font.lineHeight)
+        topItem.titleView?.alpha = 0
+      })
+    naviTitleAnimator?.addCompletion { _ in
+      topItem.titleView?.isHidden = true
+    }
+    naviTitleAnimator?.startAnimation()
+                   
   }
   
   func disappearTitle(_ title: String) {
     guard let topItem = navigationController?.navigationBar.topItem else { return }
-    if topItem.title == nil {
-      topItem.title = title
+    if topItem.titleView == nil {
+      topItem.titleView = naviTitle
+      topItem.titleView?.transform = .init(translationX: 0, y: naviTitle.font.lineHeight)
     }
+    naviTitle.text = title
+    topItem.titleView?.isHidden = false
+    naviTitleAnimator?.stopAnimation(true)
+    naviTitleAnimator = UIViewPropertyAnimator(
+      duration: 0.28,
+      curve: .easeOut,
+      animations: {
+        topItem.titleView?.transform = .identity
+        topItem.titleView?.alpha = 1
+      })
+    naviTitleAnimator?.addCompletion { _ in
+      topItem.titleView?.isHidden = false
+    }
+    naviTitleAnimator?.startAnimation()
   }
   
   func showUploadedUserProfilePage(with userId: Int) {
