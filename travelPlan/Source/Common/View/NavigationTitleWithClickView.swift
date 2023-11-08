@@ -1,5 +1,5 @@
 //
-//  TitleWithClickView.swift
+//  NavigationTitleWithClickView.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 11/3/23.
@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class TitleWithClickView: UIView {
+class NavigationTitleWithClickView: UIView {
   enum LayoutType {
     case leftImage
     case rightImage
@@ -62,7 +62,7 @@ class TitleWithClickView: UIView {
 }
 
 // MARK: - LayoutSupport
-extension TitleWithClickView: LayoutSupport {
+extension NavigationTitleWithClickView: LayoutSupport {
   func addSubviews() {
     addSubview(clickImageView)
     addSubview(titleLabel)
@@ -81,7 +81,7 @@ extension TitleWithClickView: LayoutSupport {
 }
 
 // MARK: - Private Helpers
-extension TitleWithClickView {
+extension NavigationTitleWithClickView {
   private func setupCommonConstraints() {
     clickImageView.snp.makeConstraints {
       $0.centerY.equalToSuperview()

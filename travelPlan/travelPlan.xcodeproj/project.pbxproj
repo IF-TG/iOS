@@ -45,7 +45,7 @@
 		13405F0B2AEEF1E400382796 /* LoginButtonDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13405F0A2AEEF1E400382796 /* LoginButtonDelegate.swift */; };
 		13405F352AF1002800382796 /* LoginPlayerSupporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13405F342AF1002800382796 /* LoginPlayerSupporter.swift */; };
 		13405F662AF4470200382796 /* ReviewWritingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13405F652AF4470200382796 /* ReviewWritingViewController.swift */; };
-		13405F692AF4478400382796 /* TitleWithClickView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13405F682AF4478400382796 /* TitleWithClickView.swift */; };
+		13405F692AF4478400382796 /* NavigationTitleWithClickView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13405F682AF4478400382796 /* NavigationTitleWithClickView.swift */; };
 		13405F6B2AF665B100382796 /* ReviewWritingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13405F6A2AF665B100382796 /* ReviewWritingCoordinator.swift */; };
 		13405F6D2AF6804F00382796 /* ReviewWritingContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13405F6C2AF6804F00382796 /* ReviewWritingContentView.swift */; };
 		13405F6F2AF6E6F200382796 /* ReviewWritingBottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13405F6E2AF6E6F200382796 /* ReviewWritingBottomView.swift */; };
@@ -350,7 +350,7 @@
 		13405F0A2AEEF1E400382796 /* LoginButtonDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginButtonDelegate.swift; sourceTree = "<group>"; };
 		13405F342AF1002800382796 /* LoginPlayerSupporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPlayerSupporter.swift; sourceTree = "<group>"; };
 		13405F652AF4470200382796 /* ReviewWritingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWritingViewController.swift; sourceTree = "<group>"; };
-		13405F682AF4478400382796 /* TitleWithClickView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleWithClickView.swift; sourceTree = "<group>"; };
+		13405F682AF4478400382796 /* NavigationTitleWithClickView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationTitleWithClickView.swift; sourceTree = "<group>"; };
 		13405F6A2AF665B100382796 /* ReviewWritingCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWritingCoordinator.swift; sourceTree = "<group>"; };
 		13405F6C2AF6804F00382796 /* ReviewWritingContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWritingContentView.swift; sourceTree = "<group>"; };
 		13405F6E2AF6E6F200382796 /* ReviewWritingBottomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWritingBottomView.swift; sourceTree = "<group>"; };
@@ -727,7 +727,6 @@
 		13405F672AF4472200382796 /* ReviewWriting */ = {
 			isa = PBXGroup;
 			children = (
-				13405F682AF4478400382796 /* TitleWithClickView.swift */,
 				13405F6C2AF6804F00382796 /* ReviewWritingContentView.swift */,
 				13405F6E2AF6E6F200382796 /* ReviewWritingBottomView.swift */,
 				13405F702AF6F05300382796 /* ReviewWritingPlanView.swift */,
@@ -1116,6 +1115,7 @@
 				15FC90D52ACC1BB50033A1E5 /* PrimaryColorToneRoundButton.swift */,
 				15A4F28A2ACC072A001AA51D /* PrimaryColorToneRoundLabel.swift */,
 				157ADCB32AD07ED600D37680 /* SearchWithCancelView.swift */,
+				13405F682AF4478400382796 /* NavigationTitleWithClickView.swift */,
 				130304812A250DF600776A0D /* TitleWithButtonHeaderView.swift */,
 				15FFAC312ADD4A770013DB57 /* PostCollectionView */,
 			);
@@ -2075,7 +2075,7 @@
 				158BEFC92A0F6E8800C27861 /* PostThumbnailType.swift in Sources */,
 				15DA4C7F2ACD78C1003A7900 /* Int+.swift in Sources */,
 				1594F53229FD517E00A58F20 /* AppDelegate.swift in Sources */,
-				13405F692AF4478400382796 /* TitleWithClickView.swift in Sources */,
+				13405F692AF4478400382796 /* NavigationTitleWithClickView.swift in Sources */,
 				158BEFC22A0EB45300C27861 /* UIFont+.swift in Sources */,
 				158695992AE621010087CCB3 /* FeedPostViewModelable.swift in Sources */,
 				13405F6B2AF665B100382796 /* ReviewWritingCoordinator.swift in Sources */,

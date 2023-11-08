@@ -13,7 +13,7 @@ final class ReviewWritingViewController: UIViewController {
   // MARK: - Properties
   weak var coordinator: ReviewWritingCoordinatorDelegate?
   
-  private lazy var titleView = TitleWithClickView(title: "테마 설정", layoutType: .rightImage).set {
+  private lazy var titleView = NavigationTitleWithClickView(title: "테마 설정", layoutType: .rightImage).set {
     let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapTitleView))
     $0.addGestureRecognizer(tapGesture)
   }
