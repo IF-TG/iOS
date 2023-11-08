@@ -80,6 +80,25 @@ extension PostDetailTableViewAdapter: UITableViewDataSource {
 
 // MARK: - UITableViewDelegate
 extension PostDetailTableViewAdapter: UITableViewDelegate {
+  func tableView(
+    _ tableView: UITableView,
+    didEndDisplaying cell: UITableViewCell,
+    forRowAt indexPath: IndexPath
+  ) {
+    let sectionType: PostDetailSectionType = .init(rawValue: indexPath.section) ?? .postDescription
+    if sectionType == .postDescription && indexPath.row == 0 {
+      guard let title = dataSource?.title else { return }
+      delegate?.disappearTitle(title)
+    }
+  }
+  
+  func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    
+    if cell is PostDetailTitleCell {
+      delegate?.willDisplayTitle()
+    }
+  }
+  
   func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
     guard let dataSource else { return nil }
     if section == 0 {
@@ -95,8 +114,12 @@ extension PostDetailTableViewAdapter: UITableViewDelegate {
   }
   
   func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-    guard let dataSource else { return nil }
-    if section == 0 {
+    guard
+      let dataSource,
+      let sectionType: PostDetailSectionType = .init(rawValue: section)
+    else { return nil }
+    switch sectionType {
+    case .postDescription:
       guard let footer = tableView.dequeueReusableHeaderFooterView(
         withIdentifier: PostDetailProfileAreaFooterView.id
       ) as? PostDetailProfileAreaFooterView else {
@@ -104,15 +127,28 @@ extension PostDetailTableViewAdapter: UITableViewDelegate {
       }
       footer.configure(with: dataSource.profileAreaItem)
       return footer
+    case .postContent:
+      guard let footer = tableView.dequeueReusableHeaderFooterView(
+        withIdentifier: PostDetailContentFooterView.id
+      ) as? PostDetailContentFooterView else {
+        return nil
+      }
+      return footer
+    default:
+      return nil
     }
-    return nil
   }
   
   func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-    if section == 0 {
+    guard let sectionType: PostDetailSectionType = .init(rawValue: section) else { return 0 }
+    switch sectionType {
+    case .postDescription:
       return UITableView.automaticDimension
+    case .postContent:
+      return 11
+    default:
+      return 0
     }
-    return 0
   }
   
   func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -124,9 +160,5 @@ extension PostDetailTableViewAdapter: UITableViewDelegate {
   
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
     return UITableView.automaticDimension
-  }
-  
-  func scrollViewDidScroll(_ scrollView: UIScrollView) {
-    delegate?.scrollViewDidScroll(scrollView)
   }
 }
