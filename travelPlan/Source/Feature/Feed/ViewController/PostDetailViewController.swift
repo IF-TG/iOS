@@ -33,7 +33,7 @@ final class PostDetailViewController: UIViewController {
     $0.register(PostDetailContentFooterView.self, forHeaderFooterViewReuseIdentifier: PostDetailContentFooterView.id)
   }
   
-  private let naviTitle = UILabel(frame: .zero)
+  private let naviTitle = BaseLabel(fontType: .semiBold_600(fontSize: 16))
   
   private var naviTitleAnimator: UIViewPropertyAnimator?
   
@@ -66,7 +66,8 @@ final class PostDetailViewController: UIViewController {
   
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
-    naviTItleOriginY = (44.0 - naviTitle.font.lineHeight)/2
+    let height = navigationController?.navigationBar.frame.size.height ?? 0
+    naviTItleOriginY = (height - naviTitle.font.lineHeight)/2 - 2
     setTitleView()
   }
   
@@ -113,7 +114,8 @@ extension PostDetailViewController: PostDetailTableViewAdapterDelegate {
   }
   
   func disappearTitle(_ title: String) {
-    guard let topItem = navigationController?.navigationBar.topItem else { return
+    guard let topItem = navigationController?.navigationBar.topItem else { 
+      return
     }
     if naviTitle.text == nil {
       naviTitle.text = title
