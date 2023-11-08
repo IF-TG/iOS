@@ -63,6 +63,7 @@ final class PostDetailViewController: UIViewController {
 private extension PostDetailViewController {
   func configureUI() {
     view.backgroundColor = .white
+    setupDefaultBackBarButtonItem(marginLeft: 0)
     setupUI()
   }
 }
