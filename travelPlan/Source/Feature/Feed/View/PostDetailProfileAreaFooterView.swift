@@ -92,11 +92,13 @@ private extension PostDetailProfileAreaFooterView {
   var profileAreaViewDividerConstraints: [NSLayoutConstraint] {
     typealias Const = Constant.Divider
     typealias Spacing = Const.Spacing
+    let dividerBottomConstriant = profileAreaViewDivider.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+    dividerBottomConstriant.priority = .defaultLow
     return [
       profileAreaViewDivider.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
       profileAreaViewDivider.topAnchor.constraint(equalTo: profileAreaView.bottomAnchor, constant: Spacing.top),
       profileAreaViewDivider.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-      profileAreaViewDivider.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+      dividerBottomConstriant,
       profileAreaViewDivider.heightAnchor.constraint(equalToConstant: Const.height)]
   }
 }
