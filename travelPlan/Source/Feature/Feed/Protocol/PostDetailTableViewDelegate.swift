@@ -8,5 +8,6 @@
 import UIKit
 
 protocol PostDetailTableViewDelegate: AnyObject {
-  func scrollViewDidScroll(_ scrollView: UIScrollView)
+  func disappearTitle(_ title: String)
+  func willDisplayTitle()
 }
