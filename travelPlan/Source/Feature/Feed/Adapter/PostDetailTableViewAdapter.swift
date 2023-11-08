@@ -38,8 +38,18 @@ extension PostDetailTableViewAdapter: UITableViewDataSource {
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     guard let dataSource else { return .init(frame: .zero) }
-    switch indexPath.section {
-    case 0:
+    let sectionType: PostDetailSectionType = .init(rawValue: indexPath.section) ?? .postDescription
+    switch sectionType {
+    case .postDescription:
+      guard let cell = tableView.dequeueReusableCell(
+        withIdentifier: PostDetailTitleCell.id,
+        for: indexPath
+      ) as? PostDetailTitleCell else {
+        return .init(frame: .zero)
+      }
+      cell.configure(with: dataSource.title)
+      return cell
+    case .postContent:
       let postContentItem = dataSource.postContentItem(at: indexPath.row)
       switch postContentItem {
       case .text(let text):
@@ -62,6 +72,7 @@ extension PostDetailTableViewAdapter: UITableViewDataSource {
         return cell
       }
     default:
+      /// 댓글
       return .init(frame: .zero)
     }
   }
@@ -69,19 +80,50 @@ extension PostDetailTableViewAdapter: UITableViewDataSource {
 
 // MARK: - UITableViewDelegate
 extension PostDetailTableViewAdapter: UITableViewDelegate {
-  func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+  func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    guard let dataSource else { return nil }
     if section == 0 {
-      return tableView.dequeueReusableHeaderFooterView(withIdentifier: PostDetailContentFooterView.id) 
+      guard let header = tableView.dequeueReusableHeaderFooterView(
+        withIdentifier: PostDetailCategoryHeaderView.id
+      ) as? PostDetailCategoryHeaderView else {
+        return nil
+      }
+      header.configure(with: dataSource.cateogry)
+      return header
     }
     return nil
   }
   
-  func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-    return UITableView.automaticDimension
+  func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+    guard let dataSource else { return nil }
+    if section == 0 {
+      guard let footer = tableView.dequeueReusableHeaderFooterView(
+        withIdentifier: PostDetailProfileAreaFooterView.id
+      ) as? PostDetailProfileAreaFooterView else {
+        return nil
+      }
+      footer.configure(with: dataSource.profileAreaItem)
+      return footer
+    }
+    return nil
   }
   
   func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-    return section == 0 ? 11 : 0
+    if section == 0 {
+      return UITableView.automaticDimension
+    }
+    return 0
+  }
+  
+  func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    if section == 0 {
+      return UITableView.automaticDimension
+    }
+    return 0
+  }
+  
+  func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    return UITableView.automaticDimension
   }
   
   func scrollViewDidScroll(_ scrollView: UIScrollView) {
