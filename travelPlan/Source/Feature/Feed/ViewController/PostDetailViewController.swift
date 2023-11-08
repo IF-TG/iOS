@@ -14,6 +14,7 @@ final class PostDetailViewController: UIViewController {
     $0.rowHeight = UITableView.automaticDimension
     $0.estimatedRowHeight = 235
     $0.separatorInset = .zero
+    $0.backgroundColor = .white
     
     if #available(iOS 15.0, *) {
       $0.sectionHeaderTopPadding = 0
@@ -50,10 +51,6 @@ final class PostDetailViewController: UIViewController {
     nil
   }
   
-  override func loadView() {
-    view = tableView
-  }
-  
   override func viewDidLoad() {
     super.viewDidLoad()
     configureUI()
@@ -64,13 +61,35 @@ final class PostDetailViewController: UIViewController {
 private extension PostDetailViewController {
   func configureUI() {
     view.backgroundColor = .white
+    setupUI()
   }
 }
 
 // MARK: - PostDetailTableViewDelegate
 extension PostDetailViewController: PostDetailTableViewDelegate {
-  func scrollViewDidScroll(_ scrollView: UIScrollView) {
-    // TODO: - 제목 네비에 자연스레 장착
-    // TODO: - 테이블뷰 위에 뷰들 위로 이동하면서 히든처리
+  func willDisplayTitle() {
+    guard let topItem = navigationController?.navigationBar.topItem else { return }
+    topItem.title = nil
+  }
+  
+  func disappearTitle(_ title: String) {
+    guard let topItem = navigationController?.navigationBar.topItem else { return }
+    if topItem.title == nil {
+      topItem.title = title
+    }
+  }
+}
+
+extension PostDetailViewController: LayoutSupport {
+  func addSubviews() {
+    view.addSubview(tableView)
+  }
+  
+  func setConstraints() {
+    NSLayoutConstraint.activate([
+      tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+      tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+      tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+      tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)])
   }
 }
