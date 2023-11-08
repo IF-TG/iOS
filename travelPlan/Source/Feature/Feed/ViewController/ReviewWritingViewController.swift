@@ -149,7 +149,9 @@ extension ReviewWritingViewController: LayoutSupport {
 // MARK: - Actions
 private extension ReviewWritingViewController {
   @objc func didTapLeftButton() {
-    if leftButton.image(for: .normal) != nil {
+    let keyboardIsOnScreen = leftButton.image(for: .normal) != nil
+    
+    if keyboardIsOnScreen {
       view.endEditing(true)
     } else {
       coordinator?.finish(withAnimated: true)
