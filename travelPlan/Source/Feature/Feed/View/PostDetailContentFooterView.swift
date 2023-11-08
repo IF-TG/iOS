@@ -12,6 +12,7 @@ final class PostDetailContentFooterView: UITableViewHeaderFooterView {
   
   enum Constant {
     static let DividerHeight: CGFloat = 1
+    static let spacing: CGFloat = 10
   }
   
   // MARK: - Properties
@@ -40,8 +41,8 @@ extension PostDetailContentFooterView: LayoutSupport {
   
   func setConstraints() {
     NSLayoutConstraint.activate([
-      lineDivider.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-      lineDivider.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+      lineDivider.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constant.spacing),
+      lineDivider.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Constant.spacing),
       lineDivider.heightAnchor.constraint(equalToConstant: Constant.DividerHeight),
       lineDivider.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)])
   }
