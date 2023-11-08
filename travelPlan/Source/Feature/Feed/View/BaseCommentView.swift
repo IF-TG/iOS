@@ -79,8 +79,6 @@ final class BaseCommentView: BaseProfileAreaView {
   
   public var isOnHeart = false
   
-  private let usageType: UsageType
-  
   public weak var delegate: BaseCommentViewDelegate?
 }
 
