@@ -41,6 +41,7 @@ final class PostDetailTitleCell: UITableViewCell {
 extension PostDetailTitleCell {
   func configure(with title: String?) {
     titleLabel.text = title
+    titleLabel.textAlignment = .justified
   }
 }
 
