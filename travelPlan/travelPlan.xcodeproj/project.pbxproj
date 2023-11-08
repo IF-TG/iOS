@@ -54,7 +54,6 @@
 		13405F7B2AFAA13700382796 /* SnapKit-Dynamic in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 13405F782AFAA13700382796 /* SnapKit-Dynamic */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		13405F882AFB98D900382796 /* Pods_travelPlan.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13405F872AFB98D900382796 /* Pods_travelPlan.framework */; };
 		134CCADD2AFB9A1700D51D84 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 134CCADC2AFB9A1700D51D84 /* SnapKit */; };
-		134CCADF2AFB9A1700D51D84 /* SnapKit-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 134CCADE2AFB9A1700D51D84 /* SnapKit-Dynamic */; };
 		13606E882A9DDE7D00365F20 /* PostRecentSearchTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13606E872A9DDE7D00365F20 /* PostRecentSearchTagCell.swift */; };
 		13606E8C2A9F959F00365F20 /* PostRecommendationSearchHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13606E8B2A9F959F00365F20 /* PostRecommendationSearchHeaderView.swift */; };
 		13606E942AA187F500365F20 /* PostSearchTagLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13606E932AA187F500365F20 /* PostSearchTagLabel.swift */; };
@@ -599,7 +598,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				134CCADF2AFB9A1700D51D84 /* SnapKit-Dynamic in Frameworks */,
 				13405F882AFB98D900382796 /* Pods_travelPlan.framework in Frameworks */,
 				134CCADD2AFB9A1700D51D84 /* SnapKit in Frameworks */,
 				151DF0CF2AEE397000D5D55B /* Alamofire in Frameworks */,
@@ -1760,7 +1758,6 @@
 				151DF0CE2AEE397000D5D55B /* Alamofire */,
 				151DF0D52AEE3C0700D5D55B /* SHCoordinator */,
 				134CCADC2AFB9A1700D51D84 /* SnapKit */,
-				134CCADE2AFB9A1700D51D84 /* SnapKit-Dynamic */,
 			);
 			productName = travelPlan;
 			productReference = 1594F52E29FD517E00A58F20 /* travelPlan.app */;
@@ -2525,11 +2522,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 134CCADB2AFB9A1700D51D84 /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
-		};
-		134CCADE2AFB9A1700D51D84 /* SnapKit-Dynamic */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 134CCADB2AFB9A1700D51D84 /* XCRemoteSwiftPackageReference "SnapKit" */;
-			productName = "SnapKit-Dynamic";
 		};
 		151DF0CE2AEE397000D5D55B /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
