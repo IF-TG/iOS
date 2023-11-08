@@ -47,9 +47,12 @@ final class NotificationCenterViewController: UIViewController {
   weak var coordinator: NotificationCenterCoordinatorDelegate?
   
   // MARK: - Lifecycle
-  init(noticeViewModel: any NoticeViewModelable & NoticeViewAdapterDataSource) {
+  init(
+    noticeViewModel: any NoticeViewModelable & NoticeViewAdapterDataSource,
+    notificationViewModel: any NotificationViewModelable & NotificationViewAdapterDataSource
+  ) {
     viewControllers = [
-      NotificationViewController(),
+      NotificationViewController(viewModel: notificationViewModel),
       NoticeViewController(viewModel: noticeViewModel)]
     super.init(nibName: nil, bundle: nil)
   }

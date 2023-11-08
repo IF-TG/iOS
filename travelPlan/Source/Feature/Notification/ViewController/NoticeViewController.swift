@@ -18,7 +18,7 @@ enum NoticeViewState {
   case updateNotices
 }
 
-final class NoticeViewController: UIViewController {
+final class NoticeViewController: EmptyStateBasedContentViewController {
   // MARK: - Properties
   private let tableView = UITableView().set {
     $0.translatesAutoresizingMaskIntoConstraints = false
@@ -39,7 +39,7 @@ final class NoticeViewController: UIViewController {
   // MARK: - Lifecycle
   init(viewModel: any NoticeViewModelable & NoticeViewAdapterDataSource) {
     self.viewModel = viewModel
-    super.init(nibName: nil, bundle: nil)
+    super.init(contentView: tableView, emptyState: .emptyNotifiation)
     adapter = NoticeViewAdapter(dataSource: viewModel, tableView: tableView)
     adapter?.delegate = self
   }
@@ -47,11 +47,7 @@ final class NoticeViewController: UIViewController {
   required init?(coder: NSCoder) {
     nil
   }
-  
-  override func loadView() {
-    view = tableView
-  }
-  
+
   override func viewDidLoad() {
     super.viewDidLoad()
     bind()
@@ -77,6 +73,7 @@ extension NoticeViewController: ViewBindCase {
     case .none:
       break
     case .updateNotices:
+      hasItem.send(true)
       tableView.reloadData()
     }
   }
