@@ -161,4 +161,37 @@ extension PostDetailTableViewAdapter: UITableViewDelegate {
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
     return UITableView.automaticDimension
   }
+  
+  func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+    guard let sectionType: PostDetailSectionType = .init(rawValue: section) else { return }
+    if sectionType == .postDescription {
+      let header = view as? PostDetailCategoryHeaderView
+      if header?.delegate != nil { return }
+      header?.delegate = self
+    }
+  }
+  
+  func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
+    guard let sectionType: PostDetailSectionType = .init(rawValue: section) else { return }
+    if sectionType == .postDescription {
+      let footer = view as? PostDetailProfileAreaFooterView
+      if footer?.delegate != nil { return }
+      footer?.delegate = self
+    }
+  }
+}
+
+// MARK: - PostDetailCategoryHeaderViewDelegate
+extension PostDetailTableViewAdapter: PostDetailCategoryHeaderViewDelegate {
+  func didTapCategoryHeaderView(_ sender: UITapGestureRecognizer) {
+    delegate?.showCategoryDetailPage()
+  }
+}
+
+// MARK: - BaseProfileAreaViewDelegate
+extension PostDetailTableViewAdapter: BaseProfileAreaViewDelegate {
+  func baseLeftRoundProfileAreaView(_ view: BaseProfileAreaView, didSelectProfileImage image: UIImage?) {
+    guard let dataSource = dataSource else { return }
+    delegate?.showUploadedUserProfilePage(with: dataSource.profileAreaItem.userId)
+  }
 }
