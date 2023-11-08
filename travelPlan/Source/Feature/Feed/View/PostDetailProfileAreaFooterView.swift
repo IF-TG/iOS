@@ -32,7 +32,13 @@ final class PostDetailProfileAreaFooterView: UITableViewHeaderFooterView {
     $0.backgroundColor = .yg.gray0
   }
   
-  weak var delegate: BaseProfileAreaViewDelegate?
+  weak var delegate: BaseProfileAreaViewDelegate? {
+    get {
+      profileAreaView.baseDelegate
+    } set {
+      profileAreaView.baseDelegate = newValue
+    }
+  }
   
   // MARK: - Lifecycle
   override init(reuseIdentifier: String?) {
@@ -102,3 +108,4 @@ private extension PostDetailProfileAreaFooterView {
       profileAreaViewDivider.heightAnchor.constraint(equalToConstant: Const.height)]
   }
 }
+
