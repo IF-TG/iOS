@@ -85,7 +85,7 @@ extension ReviewWritingContentView: LayoutSupport {
     messageTextView.snp.makeConstraints {
       $0.top.equalTo(boundaryLineView.snp.bottom).offset(16)
       $0.leading.trailing.equalToSuperview()
-      self.lastViewBottomConstraint = $0.bottom.greaterThanOrEqualToSuperview().inset(40)
+      self.lastViewBottomConstraint = $0.bottom.equalToSuperview().inset(40)
       $0.height.equalTo(100)
     }
   }
@@ -96,7 +96,6 @@ extension ReviewWritingContentView: UITextViewDelegate {
   func textViewDidChange(_ textView: UITextView) {
       adjustHeight(of: textView)
       
-    
     if textView === titleTextView {
       limitTextStringCount(at: textView)
     }
