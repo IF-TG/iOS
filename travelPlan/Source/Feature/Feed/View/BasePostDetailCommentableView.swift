@@ -13,7 +13,7 @@ protocol BaseCommentViewDelegate: BaseProfileAreaViewDelegate {
   func didCanceledHeart()
 }
 
-final class BaseCommentView: BaseProfileAreaView {
+final class BasePostDetailCommentableView: BaseProfileAreaView {
   enum UsageType {
     case comment
     case reply
@@ -46,7 +46,7 @@ final class BaseCommentView: BaseProfileAreaView {
     $0.numberOfLines = 0
   }
   
-  private lazy var heartIcon = UIImageView(image: UIImage(named: "unselectedHeart")?.setColor(.yg.gray3)).set  {
+  private lazy var heartIcon = UIImageView(image: UIImage(named: "unselectedHeart")?.setColor(.yg.gray3)).set {
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.contentMode = .scaleAspectFill
     $0.isUserInteractionEnabled = true
@@ -80,10 +80,40 @@ final class BaseCommentView: BaseProfileAreaView {
   public var isOnHeart = false
   
   public weak var delegate: BaseCommentViewDelegate?
+  
+  // MARK: - Lifecycle
+  init(frame: CGRect, usageType: UsageType) {
+    
+    switch usageType {
+    case .comment:
+      footerStackView = UIStackView(arrangedSubviews: [heartLabel, dotIcon, replyLabel])
+    case .reply:
+      
+    }
+    
+    
+    super.init(frame: frame, contentView: <#T##UIView#>, profileLayoutInfo: <#T##BaseProfileAreaView.ProfileInfoType#>)
+  }
+  
+  convenience init(usageType: UsageType) {
+    self.init(frame: .zero, usageType: usageType)
+    translatesAutoresizingMaskIntoConstraints = false
+  }
+  
+  required init?(coder: NSCoder) {
+    nil
+  }
+  
+  // MARK: - Private Helpers
+  
+  
+  // MARK: - LayoutSupport
+  
+  // MARK: - LayoutSupport Constraints
 }
 
 // MARK: - Helpers
-extension BaseCommentView {
+extension BasePostDetailCommentableView {
   func setHeartLabelHeartOnState(_ heartCountText: String) {
     heartLabel.font = UIFont(pretendard: .semiBold_600(fontSize: 12))
     heartLabel.text = " \(heartCountText) 좋아요 취소"
@@ -96,7 +126,7 @@ extension BaseCommentView {
 }
 
 // MARK: - Actions
-private extension BaseCommentView {
+private extension BasePostDetailCommentableView {
   @objc func didTapHeartIcon() {
     delegate?.didTapHeart(isOnHeart)
   }
