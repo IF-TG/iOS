@@ -5,4 +5,8 @@
 //  Created by 양승현 on 11/9/23.
 //
 
-import Foundation
+import UIKit
+
+final class PostDetailCommentHeader: UITableViewHeaderFooterView {
+  
+}
