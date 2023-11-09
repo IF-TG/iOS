@@ -1,5 +1,5 @@
 //
-//  BaseCommentView.swift
+//  BasePostDetailCommentableView.swift
 //  travelPlan
 //
 //  Created by 양승현 on 11/9/23.
@@ -11,6 +11,7 @@ protocol BaseCommentViewDelegate: BaseProfileAreaViewDelegate {
   func didTapProfile()
   func didTapHeart(_ isOnHeart: Bool)
   func didCanceledHeart()
+  func didTapReply()
 }
 
 final class BasePostDetailCommentableView: BaseProfileAreaView {
@@ -20,25 +21,16 @@ final class BasePostDetailCommentableView: BaseProfileAreaView {
   }
   
   // MARK: - Properties
-  private lazy var userNameLabel = BaseLabel(fontType: .medium_500(fontSize: 14)).set {
+  private let userNameLabel = BaseLabel(fontType: .medium_500(fontSize: 14)).set {
     $0.textColor = .yg.gray7
     $0.numberOfLines = 1
     $0.isUserInteractionEnabled = true
-    let tap = UITapGestureRecognizer(target: self, action: #selector(didTapProfile))
-    $0.addGestureRecognizer(tap)
   }
   
+  // TODO: - 어떻게 시간 지남을 구하고 표시할것인가?
   private let timeStampLabel = BaseLabel(fontType: .regular_400(fontSize: 12), lineHeight: 14.32).set {
     $0.textColor = .yg.gray3
     $0.numberOfLines = 1
-  }
-  
-  private lazy var headerStackView: UIStackView = .init(arrangedSubviews: [userNameLabel, timeStampLabel]).set {
-    $0.translatesAutoresizingMaskIntoConstraints = false
-    $0.axis = .horizontal
-    $0.distribution = .equalSpacing
-    $0.spacing = 5
-    $0.alignment = .leading
   }
   
   private let commentLabel = BaseLabel(fontType: .regular_400(fontSize: 14)).set {
@@ -46,21 +38,23 @@ final class BasePostDetailCommentableView: BaseProfileAreaView {
     $0.numberOfLines = 0
   }
   
-  private lazy var heartIcon = UIImageView(image: UIImage(named: "unselectedHeart")?.setColor(.yg.gray3)).set {
+  private let heartIcon = UIImageView(image: UIImage(named: "unselectedHeart")?.setColor(.yg.gray3)).set {
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.contentMode = .scaleAspectFill
     $0.isUserInteractionEnabled = true
-    let tap = UITapGestureRecognizer(target: self, action: #selector(didTapHeartIcon))
-    $0.addGestureRecognizer(tap)
   }
   
   /// 숫자는 highlight 써야합니다.
-  private lazy var heartLabel = BaseLabel(fontType: .semiBold_600(fontSize: 12), lineHeight: 14.32).set {
+  private let heartLabel = BaseLabel(fontType: .medium_500(fontSize: 12), lineHeight: 14.32).set {
     $0.textColor = .yg.gray3
     $0.text = "좋아요"
     $0.isUserInteractionEnabled = true
-    let tap = UITapGestureRecognizer(target: self, action: #selector(didCanceledHeart))
-    $0.addGestureRecognizer(tap)
+  }
+  
+  private lazy var heartCancelLabel = BaseLabel(fontType: .semiBold_600(fontSize: 12), lineHeight: 14.32).set {
+    $0.textColor = .yg.gray3
+    $0.text = "취소"
+    $0.isUserInteractionEnabled = true
   }
   
   /// CommentType별로 메모리 로드 안 할 수 있음
@@ -71,28 +65,82 @@ final class BasePostDetailCommentableView: BaseProfileAreaView {
   /// CommentType별로 메모리 로드 안 할 수 있음
   private lazy var replyLabel = BaseLabel(fontType: .medium_500(fontSize: 12)).set {
     $0.textColor = .yg.gray3
+    let tap = UITapGestureRecognizer(target: self, action: #selector(didTapReply))
+    $0.addGestureRecognizer(tap)
   }
   
-  private var footerStackView: UIStackView?
+  public var isOnHeart = false {
+    didSet {
+      animateHeartCancelLabel()
+      if isOnHeart {
+        animateSelectedHeartIcon()
+      } else {
+        animateDeselectedHeartIcon()
+      }
+    }
+  }
   
-  private let contentStackView: UIStackView
-  
-  public var isOnHeart = false
+  private lazy var heartCancelLabelAnimator = UIViewPropertyAnimator(
+    duration: 0.28,
+    curve: .easeInOut
+  ) {
+    self.heartCancelLabel.layoutIfNeeded()
+  }
   
   public weak var delegate: BaseCommentViewDelegate?
   
   // MARK: - Lifecycle
   init(frame: CGRect, usageType: UsageType) {
+    /// 닉네임, 업로드 시간 스택 뷰
+    let headerStackView = UIStackView(arrangedSubviews: [userNameLabel, timeStampLabel]).set {
+      $0.translatesAutoresizingMaskIntoConstraints = false
+      $0.axis = .horizontal
+      $0.distribution = .equalSpacing
+      $0.spacing = 5
+      $0.alignment = .leading
+    }
+    
+    /// usageType == comment인 경우 사용 하지 않습니다.
+    /// 하트, 좋아요 취소 및 답글달기 영역 스택 뷰
+    var footerStackView: UIStackView?
+    var contentSubviews = [headerStackView, commentLabel]
     
     switch usageType {
     case .comment:
-      footerStackView = UIStackView(arrangedSubviews: [heartLabel, dotIcon, replyLabel])
+      /// 하트, 좋아요 취소 답글달기  영역 뷰
+      let footerTempStackView = UIStackView(arrangedSubviews: [heartLabel])
+      footerStackView = footerTempStackView
+      contentSubviews.append(footerTempStackView)
     case .reply:
-      
+      contentSubviews.append(heartLabel)
     }
     
+    let contentStackView = UIStackView(arrangedSubviews: contentSubviews).set {
+      $0.translatesAutoresizingMaskIntoConstraints = false
+      $0.axis = .vertical
+      $0.spacing = 6
+      $0.alignment = .top
+      $0.distribution = .equalSpacing
+    }
     
-    super.init(frame: frame, contentView: <#T##UIView#>, profileLayoutInfo: <#T##BaseProfileAreaView.ProfileInfoType#>)
+    // TODO: - 새롭게 pr된 init의 content padding적용해야합니다.
+    super.init(
+      frame: frame,
+      contentView: contentStackView,
+      profileLayoutInfo: usageType == .comment ? .medium(.top) : .small(.top))
+    
+    if usageType == .comment {
+      _=[
+        dotIcon,
+        replyLabel
+      ].map {
+        footerStackView?.addArrangedSubview($0)
+      }
+    }
+    
+    setUserNameTapGesture()
+    setHeartIconTapGesture()
+    setHeartCancelLabelTapGesture()
   }
   
   convenience init(usageType: UsageType) {
@@ -103,13 +151,6 @@ final class BasePostDetailCommentableView: BaseProfileAreaView {
   required init?(coder: NSCoder) {
     nil
   }
-  
-  // MARK: - Private Helpers
-  
-  
-  // MARK: - LayoutSupport
-  
-  // MARK: - LayoutSupport Constraints
 }
 
 // MARK: - Helpers
@@ -125,6 +166,54 @@ extension BasePostDetailCommentableView {
   }
 }
 
+// MARK: - Private Helpers
+extension BasePostDetailCommentableView {
+  private func setUserNameTapGesture() {
+    let tap = UITapGestureRecognizer(target: self, action: #selector(didTapProfile))
+    userNameLabel.addGestureRecognizer(tap)
+  }
+  
+  private func setHeartIconTapGesture() {
+    let tap = UITapGestureRecognizer(target: self, action: #selector(didTapHeartIcon))
+    heartIcon.addGestureRecognizer(tap)
+  }
+  
+  private func setHeartCancelLabelTapGesture() {
+    let tap = UITapGestureRecognizer(target: self, action: #selector(didCanceledHeart))
+    heartCancelLabel.addGestureRecognizer(tap)
+  }
+  
+  private func animateHeartCancelLabel() {
+    heartCancelLabelAnimator.stopAnimation(true)
+    self.heartCancelLabel.isHidden = !self.isOnHeart
+    heartCancelLabelAnimator.startAnimation()
+  }
+  
+  private func animateSelectedHeartIcon() {
+    heartIcon.image = UIImage(named: "selectedHeart")?.setColor(.yg.red)
+    heartIcon.alpha = 0.0
+    heartIcon.transform = CGAffineTransform(scaleX: 0, y: 0)
+    UIView.animate(
+      withDuration: 0.4,
+      delay: 0,
+      options: .curveEaseInOut) {
+        self.heartIcon.alpha = 1.0
+        self.heartIcon.transform = CGAffineTransform(scaleX: 1, y: 1)
+      }
+  }
+  
+  private func animateDeselectedHeartIcon() {
+    heartIcon.image = UIImage(named: "unselectedHeart")?.setColor(.yg.gray3)
+    heartIcon.alpha = 0.0
+    UIView.animate(
+      withDuration: 0.4,
+      delay: 0,
+      options: .curveEaseOut) {
+        self.heartIcon.alpha = 1.0
+      }
+  }
+}
+
 // MARK: - Actions
 private extension BasePostDetailCommentableView {
   @objc func didTapHeartIcon() {
@@ -134,5 +223,9 @@ private extension BasePostDetailCommentableView {
   @objc func didCanceledHeart() {
     guard isOnHeart else { return }
     delegate?.didCanceledHeart()
+  }
+  
+  @objc func didTapReply() {
+    delegate?.didTapReply()
   }
 }
