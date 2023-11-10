@@ -6,6 +6,7 @@
 //
 
 struct PostInfo {
+  let postId: Int
   let header: PostHeaderInfo
   let content: PostContentInfo
   let footer: PostFooterInfo

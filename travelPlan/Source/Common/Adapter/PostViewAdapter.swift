@@ -9,13 +9,17 @@ import UIKit
 
 class PostViewAdapter: NSObject {
   weak var dataSource: PostViewAdapterDataSource?
+  weak var baseDelegate: PostViewAdapterDelegate?
   init(
     dataSource: PostViewAdapterDataSource? = nil,
+    delegate: PostViewAdapterDelegate? = nil,
     collectionView: UICollectionView?
   ) {
     super.init()
     self.dataSource = dataSource
+    self.baseDelegate = delegate
     collectionView?.dataSource = self
+    collectionView?.delegate = self
   }
 }
 
@@ -63,5 +67,13 @@ private extension PostViewAdapter {
     if let numberOfItems = dataSource?.numberOfItems, indexPath.item == numberOfItems - 1 {
       cell.hideCellDivider()
     }
+  }
+}
+
+// MARK: - UICollectionViewDelegate
+extension PostViewAdapter: UICollectionViewDelegate {
+  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    guard let dataSource else { return }
+    baseDelegate?.didTapPost(with: dataSource.postItem(at: indexPath.row).postId)
   }
 }

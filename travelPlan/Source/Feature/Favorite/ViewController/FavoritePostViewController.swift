@@ -59,6 +59,10 @@ private extension FavoritePostViewController {
 
 // MARK: - FavoritePostViewAdapterDelegate
 extension FavoritePostViewController: FavoritePostViewAdapterDelegate {
+  func didTapPost(with postId: Int) {
+    print("특정 포스트 상세 화면으로 이동")
+  }
+  
   func scrollDidScroll(
     _ scrollView: UIScrollView,
     scrollYPosition: CGFloat,

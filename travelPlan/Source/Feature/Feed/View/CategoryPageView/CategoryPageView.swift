@@ -30,13 +30,8 @@ final class CategoryPageView: UIView {
   private var postPageView: UIView! {
     postPageViewController.view
   }
-  
-  private var allThemePostViewController: FeedPostViewController {
-    if let firstVC = pageViewDataSource[0] as? FeedPostViewController {
-      return firstVC
-    }
-    return .init(with: .init(travelTheme: .all, travelOrder: .newest))
-  }
+    
+  weak var postDelegator: PostViewAdapterDelegate?
   
   private var presentedPageViewIndex = 0
   
@@ -45,8 +40,9 @@ final class CategoryPageView: UIView {
   private var adapter: CategoryPageViewAdapter!
   
   // MARK: - Lifecycle
-  init(frame: CGRect, viewModel: CategoryPageViewDataSource) {
+  init(frame: CGRect, viewModel: CategoryPageViewDataSource, postDelegator: PostViewAdapterDelegate?) {
     self.viewModel = viewModel
+    self.postDelegator = postDelegator
     super.init(frame: frame)
     configureUI()
     adapter = CategoryPageViewAdapter(
@@ -84,7 +80,7 @@ private extension CategoryPageView {
       if $0+1 == viewModel.numberOfItems {
         return DevelopmentViewController(nibName: nil, bundle: nil)
       }
-      return FeedPostViewController(with: filterInfo)
+      return FeedPostViewController(with: filterInfo, postDelegator: postDelegator)
     }
     setupUI()
   }

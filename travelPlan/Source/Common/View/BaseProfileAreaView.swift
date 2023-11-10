@@ -56,6 +56,8 @@ class BaseProfileAreaView: UIView {
   
   private var contentView: UIView
   
+  private var contentViewSpacing: UIEdgeInsets = .zero
+  
   weak var baseDelegate: BaseProfileAreaViewDelegate?
   
   private var profileLayoutInfo: ProfileInfoType
@@ -68,6 +70,19 @@ class BaseProfileAreaView: UIView {
   ) {
     self.profileLayoutInfo = profileLayoutInfo
     self.contentView = contentView
+    super.init(frame: frame)
+    configureUI()
+  }
+  
+  init(
+    frame: CGRect,
+    contentView: UIView,
+    contentViewSpacing: UIEdgeInsets,
+    profileLayoutInfo: ProfileInfoType
+  ) {
+    self.profileLayoutInfo = profileLayoutInfo
+    self.contentView = contentView
+    self.contentViewSpacing = contentViewSpacing
     super.init(frame: frame)
     configureUI()
   }
@@ -141,12 +156,15 @@ class BaseProfileAreaView: UIView {
   }
   
   private var contentViewConstraints: [NSLayoutConstraint] {
-    let contentViewBottomConstraint = contentView.bottomAnchor.constraint(equalTo: bottomAnchor)
+    let spacing = contentViewSpacing
+    let contentViewBottomConstraint = contentView.bottomAnchor.constraint(
+      equalTo: bottomAnchor,
+      constant: -spacing.bottom)
     contentViewBottomConstraint.priority = .defaultHigh
     return [
-      contentView.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor),
-      contentView.topAnchor.constraint(equalTo: topAnchor),
-      contentView.trailingAnchor.constraint(equalTo: trailingAnchor),
+      contentView.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: spacing.left),
+      contentView.topAnchor.constraint(equalTo: topAnchor, constant: spacing.top),
+      contentView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -spacing.right),
       contentViewBottomConstraint
     ]
   }
