@@ -66,6 +66,12 @@ final class PostDetailViewController: UIViewController {
     configureUI()
   }
   
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    (self.tabBarController as? MainTabBarController)?.hideShadowLayer()
+    self.tabBarController?.tabBar.isHidden = true
+  }
+  
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     setTitleView()
@@ -74,6 +80,8 @@ final class PostDetailViewController: UIViewController {
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
     navigationController?.navigationBar.topItem?.titleView = nil
+    (self.tabBarController as? MainTabBarController)?.showShadowLayer()
+    self.tabBarController?.tabBar.isHidden = false
   }
 }
 
@@ -148,6 +156,6 @@ extension PostDetailViewController: LayoutSupport {
       tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
       tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
       tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-      tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)])
+      tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)])
   }
 }
