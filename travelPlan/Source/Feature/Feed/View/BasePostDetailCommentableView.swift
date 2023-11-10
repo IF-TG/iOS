@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct BaseCommentInfo {
+struct BasePostDetailCommentInfo {
   let userId: String
   let userName: String
   let userProfile: String
@@ -165,7 +165,7 @@ final class BasePostDetailCommentableView: BaseProfileAreaView {
 
 // MARK: - Helpers
 extension BasePostDetailCommentableView {
-  func configure(with info: BaseCommentInfo?) {
+  func configure(with info: BasePostDetailCommentInfo?) {
     userNameLabel.text = info?.userName
     timeStampLabel.text = info?.timestamp
     commentLabel.text = info?.comment
