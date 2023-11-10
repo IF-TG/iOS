@@ -110,7 +110,7 @@ final class BasePostDetailCommentableView: BaseProfileAreaView {
       $0.axis = .horizontal
       $0.distribution = .equalSpacing
       $0.spacing = 5
-      $0.alignment = .leading
+      $0.alignment = .center
     }
     heartIcon.widthAnchor.constraint(equalToConstant: 13.33).isActive = true
     heartIcon.heightAnchor.constraint(equalToConstant: 11.89).isActive = true
