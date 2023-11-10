@@ -65,6 +65,7 @@ extension PostDetailReplyCell {
 extension PostDetailReplyCell {
   func configureUI() {
     selectionStyle = .none
+    contentView.backgroundColor = .yg.gray00Background
     setupUI()
   }
 }
