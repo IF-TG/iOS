@@ -118,7 +118,7 @@ final class BasePostDetailCommentableView: BaseProfileAreaView {
       $0.axis = .horizontal
       $0.distribution = .equalSpacing
       $0.spacing = 2
-      $0.alignment = .leading
+      $0.alignment = .center
     }
     /// usageType == comment인 경우 사용 하지 않습니다.
     /// 하트, 좋아요 취소 및 답글달기 영역 스택 뷰
@@ -182,10 +182,10 @@ extension BasePostDetailCommentableView {
     guard info?.isOnHeart == true else {
       heartIcon.image = UIImage(named: "unselectedHeart")?.setColor(.yg.gray3)
       heartCancelLabel.isHidden = true
-      setHeartLabelHeartOnState(info?.heartCountText ?? "")
+      setHeartLabelHeartOffState(info?.heartCountText ?? "")
       return
     }
-    setHeartLabelHeartOffState(info?.heartCountText ?? "")
+    setHeartLabelHeartOnState(info?.heartCountText ?? "")
     heartCancelLabel.isHidden = false
     heartIcon.image = UIImage(named: "selectedHeart")?.setColor(.yg.red)
   }
