@@ -37,6 +37,11 @@ final class PostDetailViewController: UIViewController {
     $0.register(PostDetailReplyCell.self, forCellReuseIdentifier: PostDetailReplyCell.id)
   }
   
+  private let commentInputView = UIView(frame: .zero).set {
+    $0.translatesAutoresizingMaskIntoConstraints = false
+    $0.backgroundColor = .yellow
+  }
+  
   private let naviTitle = BaseLabel(fontType: .semiBold_600(fontSize: 16))
   
   private var naviTitleAnimator: UIViewPropertyAnimator?
@@ -148,7 +153,9 @@ extension PostDetailViewController: PostDetailTableViewAdapterDelegate {
 
 extension PostDetailViewController: LayoutSupport {
   func addSubviews() {
-    view.addSubview(tableView)
+    [tableView, commentInputView].forEach {
+      view.addSubview($0)
+    }
   }
   
   func setConstraints() {
@@ -156,6 +163,11 @@ extension PostDetailViewController: LayoutSupport {
       tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
       tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
       tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-      tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)])
+      
+      commentInputView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+      commentInputView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+      commentInputView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+      commentInputView.heightAnchor.constraint(equalToConstant: 60),
+      commentInputView.topAnchor.constraint(equalTo: tableView.bottomAnchor)])
   }
 }
