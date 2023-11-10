@@ -105,7 +105,7 @@ extension PostDetailViewModel: PostDetailTableViewDataSource {
   }
   
   var numberOfSections: Int {
-    guard let postDetails else { return 0 }
+    if postDetails == nil { return 0 }
     return DefaultSectionCount + comments.count
   }
   
@@ -165,7 +165,7 @@ private extension PostDetailViewModel {
   func fetchMockAllComments() -> [PostComment] {
     return [
       .init(id: 0, userProfileURL: "tempProfile1", userName: "졸업까지 약 세달",
-            timestamp: "3일 전", comment: "뭔가 세월이 너무 빨리 흘러간 느낌이야... 이상하다 이상해!!!!!!! ",
+            timestamp: "3일 전", comment: "뭔가 내년이 너무 빨리 다가오는 느낌이드네... 이상하다 이상해!!!!!!! ",
             isOnHeart: true, heartCountText: "1", replies: []),
       .init(id: 1, userProfileURL: "tempProfile2", userName: "뿌셔뿌셔꿀맛탱",
             timestamp: "4일 전", 
