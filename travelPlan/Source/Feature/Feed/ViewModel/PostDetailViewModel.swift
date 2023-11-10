@@ -79,7 +79,7 @@ final class PostDetailViewModel {
 // MARK: - PostDetailTableViewDataSource
 extension PostDetailViewModel: PostDetailTableViewDataSource {
   func replyItem(at indexPath: IndexPath) -> PostReplyInfo {
-    let postReply = comments[indexPath.row].replies[indexPath.row]
+    let postReply = comments[indexPath.section - DefaultSectionCount].replies[indexPath.row]
     let commentInfo = BasePostDetailCommentInfo(
       commentId: postReply.id,
       userName: postReply.userName,
