@@ -108,4 +108,3 @@ private extension PostDetailProfileAreaFooterView {
       profileAreaViewDivider.heightAnchor.constraint(equalToConstant: Const.height)]
   }
 }
-
