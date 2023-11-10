@@ -135,7 +135,7 @@
 		157ADCAE2AD00AB400D37680 /* FavoriteLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157ADCAD2AD00AB400D37680 /* FavoriteLocationViewController.swift */; };
 		157ADCB02AD06B5400D37680 /* FavoriteDirectorySettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157ADCAF2AD06B5400D37680 /* FavoriteDirectorySettingView.swift */; };
 		157ADCB42AD07ED600D37680 /* SearchWithCancelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157ADCB32AD07ED600D37680 /* SearchWithCancelView.swift */; };
-		158312E12AB36A9A0087034A /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158312E02AB36A9A0087034A /* UIViewController.swift */; };
+		158312E12AB36A9A0087034A /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158312E02AB36A9A0087034A /* UIViewController+.swift */; };
 		158695932AE5455B0087CCB3 /* FeedPostViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158695922AE5455B0087CCB3 /* FeedPostViewAdapter.swift */; };
 		158695952AE54D010087CCB3 /* FeedPostViewAdapterDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158695942AE54D010087CCB3 /* FeedPostViewAdapterDataSource.swift */; };
 		158695972AE620610087CCB3 /* FeedPostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158695962AE620610087CCB3 /* FeedPostViewModel.swift */; };
@@ -449,7 +449,7 @@
 		157ADCAD2AD00AB400D37680 /* FavoriteLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteLocationViewController.swift; sourceTree = "<group>"; };
 		157ADCAF2AD06B5400D37680 /* FavoriteDirectorySettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteDirectorySettingView.swift; sourceTree = "<group>"; };
 		157ADCB32AD07ED600D37680 /* SearchWithCancelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchWithCancelView.swift; sourceTree = "<group>"; };
-		158312E02AB36A9A0087034A /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
+		158312E02AB36A9A0087034A /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
 		158695922AE5455B0087CCB3 /* FeedPostViewAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedPostViewAdapter.swift; sourceTree = "<group>"; };
 		158695942AE54D010087CCB3 /* FeedPostViewAdapterDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedPostViewAdapterDataSource.swift; sourceTree = "<group>"; };
 		158695962AE620610087CCB3 /* FeedPostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedPostViewModel.swift; sourceTree = "<group>"; };
@@ -1604,7 +1604,7 @@
 				13BF40F42AD712EC00F3F082 /* UIViewController+TitleView.swift */,
 				13A6C2DA2AB782A100EABD76 /* UIViewController+BackBarButtonItem.swift */,
 				15F36A192AB1A18200971803 /* CaseIterable+.swift */,
-				158312E02AB36A9A0087034A /* UIViewController.swift */,
+				158312E02AB36A9A0087034A /* UIViewController+.swift */,
 				15DA4C7E2ACD78C1003A7900 /* Int+.swift */,
 				157ADC9F2ACFB33100D37680 /* UIScrollView+.swift */,
 				15FFAC0C2AD9AEB80013DB57 /* Encodable+.swift */,
@@ -2074,7 +2074,7 @@
 				15FEB5E62A050A99000A5F33 /* UISwitch+Combine.swift in Sources */,
 				15EA48CA2A539D7B00F4B391 /* MoreMenuViewDelegate.swift in Sources */,
 				15EF8C9B2A0A19100068C744 /* TravelMainThemeCategoryAreaView.swift in Sources */,
-				158312E12AB36A9A0087034A /* UIViewController.swift in Sources */,
+				158312E12AB36A9A0087034A /* UIViewController+.swift in Sources */,
 				151DF10B2AEEC58900D5D55B /* MockUrlProtocol.swift in Sources */,
 				15CB23742A110FB4003EAF20 /* PostViewModel.swift in Sources */,
 				15EFB6C82AF51CFE00AA629C /* PostSearchCollectionViewAdapter.swift in Sources */,
