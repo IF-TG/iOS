@@ -31,6 +31,8 @@ final class PostDetailViewController: UIViewController {
     $0.register(PostDetailContentTextCell.self, forCellReuseIdentifier: PostDetailContentTextCell.id)
     $0.register(PostDetailContentImageCell.self, forCellReuseIdentifier: PostDetailContentImageCell.id)
     $0.register(PostDetailContentFooterView.self, forHeaderFooterViewReuseIdentifier: PostDetailContentFooterView.id)
+    
+    $0.register(PostDetailCommentHeader.self, forHeaderFooterViewReuseIdentifier: PostDetailCommentHeader.id)
   }
   
   private let naviTitle = BaseLabel(fontType: .semiBold_600(fontSize: 16))
