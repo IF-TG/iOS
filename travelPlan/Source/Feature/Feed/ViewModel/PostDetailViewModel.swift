@@ -21,7 +21,6 @@ struct PostDetails {
   // 임시..
   let postContents: [PostDetailContentInfo]
   let category: String
-  let comments: [[Int]]
 }
 
 enum PostDetailSectionType: Int {
@@ -42,16 +41,44 @@ enum PostDetailSectionType: Int {
   }
 }
 
+struct PostComment {
+  let id: Int64
+  let userProfileURL: String
+  let userName: String
+  let timestamp: String
+  let comment: String
+  let isOnHeart: Bool
+  let heartCountText: String
+  let replies: [PostReplyEntity]
+}
+
 final class PostDetailViewModel {
+  private let DefaultSectionCount = 2
+  
   private var postDetails: PostDetails?
+  
+  private var comments: [PostComment] = []
   
   init() {
     postDetails = fetchMockAllData()
+    comments = fetchMockAllComments()
   }
 }
 
 // MARK: - PostDetailTableViewDataSource
 extension PostDetailViewModel: PostDetailTableViewDataSource {
+  func commentItem(in section: Int) -> BasePostDetailCommentInfo {
+    let postComment = comments[section - DefaultSectionCount]
+    return .init(
+      commentId: postComment.id,
+      userName: postComment.userName,
+      userProfileURL: postComment.userProfileURL,
+      timestamp: postComment.timestamp,
+      comment: postComment.comment,
+      isOnHeart: postComment.isOnHeart,
+      heartCountText: postComment.heartCountText)
+  }
+  
   var title: String {
     guard let postDetails else { return "" }
     return postDetails.title
@@ -79,7 +106,7 @@ extension PostDetailViewModel: PostDetailTableViewDataSource {
   
   var numberOfSections: Int {
     guard let postDetails else { return 0 }
-    return 2 + postDetails.comments.count
+    return DefaultSectionCount + comments.count
   }
   
   func numberOfItems(in section: Int) -> Int {
@@ -94,7 +121,7 @@ extension PostDetailViewModel: PostDetailTableViewDataSource {
     case .postContent:
       return postDetails.postContents.count
     default:
-      return postDetails.comments[section].count
+      return comments[section-DefaultSectionCount].replies.count
     }
   }
 }
@@ -132,7 +159,25 @@ private extension PostDetailViewModel {
       isFavoritePost: false, userThumbnailPath: "tempProfile1",
       travelDuration: "1박 2일", travelCalenderDateRange: "23.12.31 ~ 23.12.31",
       uploadedDescription: "2023. 12. 31 12:12", title: "곧 크리스마스가 다가옵니다. 하하하. 미리메리크리스마스~",
-      postContents: contents, category: "여행테마 > 휴식, 동반자 > 가족 ...",
-      comments: [])
+      postContents: contents, category: "여행테마 > 휴식, 동반자 > 가족 ...")
+  }
+  
+  func fetchMockAllComments() -> [PostComment] {
+    return [
+      .init(id: 0, userProfileURL: "tempProfile1", userName: "졸업까지 약 세달",
+            timestamp: "3일 전", comment: "뭔가 세월이 너무 빨리 흘러간 느낌이야... 이상하다 이상해!!!!!!! ",
+            isOnHeart: true, heartCountText: "1", replies: []),
+      .init(id: 1, userProfileURL: "tempProfile2", userName: "뿌셔뿌셔꿀맛탱",
+            timestamp: "4일 전", 
+            comment: 
+              """
+              오 곧 크리스마스라니~~~~ 크리스마스가 다가오면 대학생활도 끝이네요
+              많은 것을 잘 배워갑니다.
+              
+              
+              20학점들었을 때가 엊그제.. 엊그제는 아니긴하네요.(머쓱)
+              여행이나 가볼까나~..~\n\n후후후..
+              """,
+            isOnHeart: false, heartCountText: "", replies: [])]
   }
 }
