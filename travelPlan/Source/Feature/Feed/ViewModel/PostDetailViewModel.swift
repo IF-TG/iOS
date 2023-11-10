@@ -49,7 +49,18 @@ struct PostComment {
   let comment: String
   let isOnHeart: Bool
   let heartCountText: String
-  let replies: [PostReplyEntity]
+  let replies: [PostReply]
+}
+
+struct PostReply {
+  let id: Int64
+  let userProfileURL: String
+  let userName: String
+  let timestamp: String
+  let comment: String
+  let heartCountText: String
+  let isOnHeart: Bool
+  let isFirstReply: Bool
 }
 
 final class PostDetailViewModel {
@@ -163,10 +174,30 @@ private extension PostDetailViewModel {
   }
   
   func fetchMockAllComments() -> [PostComment] {
+    let repliesAboutFirstComment: [PostReply] = [
+      .init(id: 0, userProfileURL: "tempProfile2", userName: "나야나 스택뷰 설명!",
+            timestamp: "2일전", comment:
+              """
+              Stack views let you leverage the power of Auto Layout,
+              creating user interfaces that can dynamically adapt to the device’s orientation,
+              screen size, and any changes in the available space.
+              
+              The stack view manages the layout of all the views in its arrangedSubviews property.
+              These views are arranged along the stack view’s axis, based on their order in the arrangedSubviews array.
+              
+              
+              The exact layout varies depending on the stack view’s axis, distribution, alignment, spacing, and other properties.
+              """
+            , heartCountText: "", isOnHeart: false, isFirstReply: true),
+      .init(id: 1, userProfileURL: "tempProfile3", userName: "흰눈 펑펑", timestamp: "2일전", comment: "오 그럽시다. 크리스마스 전에는 첫눈이 내린다죠.(한국한정)",
+            heartCountText: "1", isOnHeart: true, isFirstReply: false),
+      .init(id: 2, userProfileURL: "tempProfile4", userName: "당근당근당근",
+            timestamp: "2일전", comment: "재즈 : )", heartCountText: "293", isOnHeart: true, isFirstReply: false)]
+    
     return [
       .init(id: 0, userProfileURL: "tempProfile1", userName: "졸업까지 약 세달",
             timestamp: "3일 전", comment: "뭔가 내년이 너무 빨리 다가오는 느낌이드네... 이상하다 이상해!!!!!!! ",
-            isOnHeart: true, heartCountText: "1", replies: []),
+            isOnHeart: true, heartCountText: "1", replies: repliesAboutFirstComment),
       .init(id: 1, userProfileURL: "tempProfile2", userName: "뿌셔뿌셔꿀맛탱",
             timestamp: "4일 전", 
             comment: 
