@@ -8,12 +8,12 @@
 import UIKit
 
 struct BasePostDetailCommentInfo {
-  let userId: String
+  let commentId: Int64
   let userName: String
   let userProfileURL: String
   let timestamp: String
   let comment: String
-  let isOnHeart: String
+  let isOnHeart: Bool
   let heartCountText: String
 }
 
@@ -170,6 +170,7 @@ extension BasePostDetailCommentableView {
     userNameLabel.text = info?.userName
     timeStampLabel.text = info?.timestamp
     commentLabel.text = info?.comment
+    isOnHeart = info?.isOnHeart ?? false
     guard let isOnHeart = info?.isOnHeart else {
       heartIcon.image = UIImage(named: "unselectedHeart")?.setColor(.yg.gray3)
       heartCancelLabel.isHidden = true
