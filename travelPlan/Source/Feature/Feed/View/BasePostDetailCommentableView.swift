@@ -123,10 +123,10 @@ final class BasePostDetailCommentableView: BaseProfileAreaView {
       $0.distribution = .equalSpacing
     }
     
-    // TODO: - 새롭게 pr된 init의 content padding적용해야합니다.
     super.init(
       frame: frame,
       contentView: contentStackView,
+      contentViewSpacing: .init(top: 3, left: 10, bottom: 3, right: 30),
       profileLayoutInfo: usageType == .comment ? .medium(.top) : .small(.top))
     
     if usageType == .comment {
