@@ -64,11 +64,11 @@ extension PostDetailCommentHeader: LayoutSupport {
     let commentViewBottomConstraint = commentView.bottomAnchor.constraint(
       equalTo: contentView.bottomAnchor,
       constant: -10)
-    commentViewBottomConstraint.priority = .defaultLow
+    commentViewBottomConstraint.priority = .defaultHigh
     NSLayoutConstraint.activate([
-      contentView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 11),
-      contentView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-      contentView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -11),
+      commentView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 11),
+      commentView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+      commentView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -11),
       commentViewBottomConstraint])
   }
 }
