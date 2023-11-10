@@ -61,9 +61,10 @@ final class BasePostDetailCommentableView: BaseProfileAreaView {
     $0.isUserInteractionEnabled = true
   }
   
-  private lazy var heartCancelLabel = BaseLabel(fontType: .semiBold_600(fontSize: 12), lineHeight: 14.32).set {
+  private let heartCancelLabel = BaseLabel(fontType: .semiBold_600(fontSize: 12), lineHeight: 14.32).set {
     $0.textColor = .yg.gray3
     $0.text = "취소"
+    $0.isHidden = true
     $0.isUserInteractionEnabled = true
   }
   
@@ -114,7 +115,7 @@ final class BasePostDetailCommentableView: BaseProfileAreaView {
     }
     heartIcon.widthAnchor.constraint(equalToConstant: 13.33).isActive = true
     heartIcon.heightAnchor.constraint(equalToConstant: 11.89).isActive = true
-    let heartStackView = UIStackView(arrangedSubviews: [heartIcon, heartLabel]).set {
+    let heartStackView = UIStackView(arrangedSubviews: [heartIcon, heartLabel, heartCancelLabel]).set {
       $0.axis = .horizontal
       $0.distribution = .equalSpacing
       $0.spacing = 2
@@ -178,25 +179,26 @@ extension BasePostDetailCommentableView {
     userNameLabel.text = info?.userName
     timeStampLabel.text = info?.timestamp
     commentLabel.text = info?.comment
-    isOnHeart = info?.isOnHeart ?? false
     guard info?.isOnHeart == true else {
       heartIcon.image = UIImage(named: "unselectedHeart")?.setColor(.yg.gray3)
       heartCancelLabel.isHidden = true
       setHeartLabelHeartOffState(info?.heartCountText ?? "")
+      isOnHeart = false
       return
     }
     setHeartLabelHeartOnState(info?.heartCountText ?? "")
     heartCancelLabel.isHidden = false
     heartIcon.image = UIImage(named: "selectedHeart")?.setColor(.yg.red)
+    isOnHeart = true
   }
   
   func setHeartLabelHeartOnState(_ heartCountText: String) {
-    heartLabel.font = UIFont(pretendard: .semiBold_600(fontSize: 12))
-    heartLabel.text = " \(heartCountText) 좋아요 취소"
+    heartLabel.fontType = .semiBold_600(fontSize: 12)
+    heartLabel.text = " \(heartCountText) 좋아요"
   }
   
   func setHeartLabelHeartOffState(_ heartCountText: String) {
-    heartLabel.font = UIFont(pretendard: .medium_500(fontSize: 12))
+    heartLabel.fontType = .medium_500(fontSize: 12)
     heartLabel.text = "\(heartCountText) 좋아요"
   }
 }
