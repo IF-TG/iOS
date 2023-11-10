@@ -69,12 +69,16 @@ final class BasePostDetailCommentableView: BaseProfileAreaView {
   
   /// CommentType별로 메모리 로드 안 할 수 있음
   private lazy var dotIcon = UIImageView(image: UIImage(named: "commentDot")).set {
+    $0.translatesAutoresizingMaskIntoConstraints = false
     $0.contentMode = .scaleAspectFit
+    $0.widthAnchor.constraint(equalToConstant: 2).isActive = true
+    $0.heightAnchor.constraint(equalToConstant: 2).isActive = true
   }
   
   /// CommentType별로 메모리 로드 안 할 수 있음
   private lazy var replyLabel = BaseLabel(fontType: .medium_500(fontSize: 12)).set {
     $0.textColor = .yg.gray3
+    $0.text = "답글 달기"
     let tap = UITapGestureRecognizer(target: self, action: #selector(didTapReply))
     $0.addGestureRecognizer(tap)
   }
@@ -103,10 +107,19 @@ final class BasePostDetailCommentableView: BaseProfileAreaView {
   init(frame: CGRect, usageType: UsageType) {
     /// 닉네임, 업로드 시간 스택 뷰
     let headerStackView = UIStackView(arrangedSubviews: [userNameLabel, timeStampLabel]).set {
-      $0.translatesAutoresizingMaskIntoConstraints = false
       $0.axis = .horizontal
       $0.distribution = .equalSpacing
       $0.spacing = 5
+      $0.alignment = .leading
+    }
+    
+    heartIcon.widthAnchor.constraint(equalToConstant: 13.33).isActive = true
+    heartIcon.heightAnchor.constraint(equalToConstant: 11.89).isActive = true
+    
+    let heartStackView = UIStackView(arrangedSubviews: [heartIcon, heartLabel]).set {
+      $0.axis = .horizontal
+      $0.distribution = .equalSpacing
+      $0.spacing = 2
       $0.alignment = .leading
     }
     
@@ -118,11 +131,16 @@ final class BasePostDetailCommentableView: BaseProfileAreaView {
     switch usageType {
     case .comment:
       /// 하트, 좋아요 취소 답글달기  영역 뷰
-      let footerTempStackView = UIStackView(arrangedSubviews: [heartLabel])
+      let footerTempStackView = UIStackView(arrangedSubviews: [heartStackView]).set {
+        $0.axis = .horizontal
+        $0.distribution = .equalSpacing
+        $0.spacing = 8
+        $0.alignment = .center
+      }
       footerStackView = footerTempStackView
       contentSubviews.append(footerTempStackView)
     case .reply:
-      contentSubviews.append(heartLabel)
+      contentSubviews.append(heartStackView)
     }
     
     let contentStackView = UIStackView(arrangedSubviews: contentSubviews).set {
