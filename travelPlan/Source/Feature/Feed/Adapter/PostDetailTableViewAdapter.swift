@@ -9,8 +9,10 @@ import UIKit
 
 final class PostDetailTableViewAdapter: NSObject {
   // MARK: - Properties
-  weak var dataSource: PostDetailTableViewDataSource?
+  private weak var dataSource: PostDetailTableViewDataSource?
   weak var delegate: PostDetailTableViewAdapterDelegate?
+  
+  private let defaultSection = 2
   
   // MARK: - Lifecycle
   init(
@@ -118,6 +120,7 @@ extension PostDetailTableViewAdapter: UITableViewDelegate {
       ) as? PostDetailCommentHeader else {
         return nil
       }
+      commentHeader.configure(with: dataSource.commentItem(in: section))
       return commentHeader
     }
     
@@ -162,10 +165,18 @@ extension PostDetailTableViewAdapter: UITableViewDelegate {
   }
   
   func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-    if section == 0 {
+    guard 
+      let sectionType: PostDetailSectionType = .init(rawValue: section),
+      let dataSource
+    else { return 0 }
+    switch sectionType {
+    case .postDescription:
       return UITableView.automaticDimension
+    case .postContent:
+      return 0
+    default:
+      return (dataSource.numberOfSections - defaultSection <= 0) ? 0 : UITableView.automaticDimension
     }
-    return 0
   }
   
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
