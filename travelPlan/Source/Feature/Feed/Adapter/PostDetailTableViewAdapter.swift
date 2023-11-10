@@ -101,7 +101,8 @@ extension PostDetailTableViewAdapter: UITableViewDelegate {
   
   func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
     guard let dataSource else { return nil }
-    if section == 0 {
+    switch section {
+    case 0:
       guard let header = tableView.dequeueReusableHeaderFooterView(
         withIdentifier: PostDetailCategoryHeaderView.id
       ) as? PostDetailCategoryHeaderView else {
@@ -109,8 +110,17 @@ extension PostDetailTableViewAdapter: UITableViewDelegate {
       }
       header.configure(with: dataSource.cateogry)
       return header
+    case 1:
+      return nil
+    default:
+      guard let commentHeader = tableView.dequeueReusableHeaderFooterView(
+        withIdentifier: PostDetailCommentHeader.id
+      ) as? PostDetailCommentHeader else {
+        return nil
+      }
+      return commentHeader
     }
-    return nil
+    
   }
   
   func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
