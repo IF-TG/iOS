@@ -11,6 +11,6 @@ struct PostReplyEntity {
   let userName: String
   let timestamp: String
   let comment: String
-  let heartCount: Int32
+  let heartCountText: String
   let isOnHeart: Bool
 }

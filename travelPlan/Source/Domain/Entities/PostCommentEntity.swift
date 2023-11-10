@@ -14,6 +14,6 @@ struct PostCommentEntity {
   let deleted: Bool
   let isOnHeart: Bool
   let blocked: Bool
-  let heartCount: Int32
+  let heartCountText: String
   let replies: [PostReplyEntity]
 }
