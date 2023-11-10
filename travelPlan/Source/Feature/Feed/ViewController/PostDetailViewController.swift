@@ -37,8 +37,6 @@ final class PostDetailViewController: UIViewController {
   
   private var naviTitleAnimator: UIViewPropertyAnimator?
   
-  private var naviTItleOriginY: CGFloat = 0.0
-  
   private var adapter: PostDetailTableViewAdapter?
   
   private let viewModel: PostDetailTableViewDataSource
@@ -66,8 +64,6 @@ final class PostDetailViewController: UIViewController {
   
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
-    let height = navigationController?.navigationBar.frame.size.height ?? 0
-    naviTItleOriginY = (height - naviTitle.font.lineHeight)/2 - 2
     setTitleView()
   }
   
@@ -86,52 +82,45 @@ private extension PostDetailViewController {
   }
   
   func setTitleView() {
-    guard let topItem = navigationController?.navigationBar.topItem else { return }
-    if topItem.titleView == nil {
-      topItem.titleView = naviTitle
-      naviTitle.alpha = 0
-    }
+    navigationItem.titleView = naviTitle
+    naviTitle.alpha = 0
   }
 }
 
 // MARK: - PostDetailTableViewDelegate
 extension PostDetailViewController: PostDetailTableViewAdapterDelegate {
   func willDisplayTitle() {
-    guard let topItem = navigationController?.navigationBar.topItem else { return }
     naviTitleAnimator?.stopAnimation(true)
     naviTitleAnimator = UIViewPropertyAnimator(
       duration: 0.28,
       curve: .easeIn,
       animations: {
-        topItem.titleView?.center.y += self.naviTitle.font.lineHeight
-        topItem.titleView?.alpha = 0
+        self.naviTitle.alpha = 0
+        self.naviTitle.transform = .init(translationX: 0, y: self.naviTitle.font.lineHeight)
       })
     naviTitleAnimator?.addCompletion { _ in
-      topItem.titleView?.isHidden = true
+      self.naviTitle.isHidden = true
     }
     naviTitleAnimator?.startAnimation()
                    
   }
   
   func disappearTitle(_ title: String) {
-    guard let topItem = navigationController?.navigationBar.topItem else { 
-      return
-    }
     if naviTitle.text == nil {
       naviTitle.text = title
-      topItem.titleView?.center.y += naviTitle.font.lineHeight
+      naviTitle.transform = .init(translationX: 0, y: naviTitle.font.lineHeight)
     }
-    topItem.titleView?.isHidden = false
+    naviTitle.isHidden = false
     naviTitleAnimator?.stopAnimation(true)
     naviTitleAnimator = UIViewPropertyAnimator(
       duration: 0.28,
       curve: .easeOut,
       animations: {
-        topItem.titleView?.center.y = self.naviTItleOriginY
-        topItem.titleView?.alpha = 1
+        self.naviTitle.transform = .identity
+        self.naviTitle.alpha = 1
       })
     naviTitleAnimator?.addCompletion { _ in
-      topItem.titleView?.isHidden = false
+      self.naviTitle.isHidden = false
     }
     naviTitleAnimator?.startAnimation()
   }
