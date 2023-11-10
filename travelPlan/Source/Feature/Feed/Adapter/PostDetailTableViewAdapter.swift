@@ -74,8 +74,14 @@ extension PostDetailTableViewAdapter: UITableViewDataSource {
         return cell
       }
     default:
-      /// 댓글
-      return .init(frame: .zero)
+      guard let cell = tableView.dequeueReusableCell(
+        withIdentifier: PostDetailReplyCell.id,
+        for: indexPath
+      ) as? PostDetailReplyCell else {
+        return .init(frame: .zero)
+      }
+      cell.configure(with: dataSource.replyItem(at: indexPath))
+      return cell
     }
   }
 }
@@ -98,6 +104,7 @@ extension PostDetailTableViewAdapter: UITableViewDelegate {
     if cell is PostDetailTitleCell {
       delegate?.willDisplayTitle()
     }
+    // TODO: - 서버에서 만약 댓글달았을때 에대한 bool값 있으면 배경색 파랑 -> 원래색으로 돌아오는 피그마 ui추가.
   }
   
   func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
