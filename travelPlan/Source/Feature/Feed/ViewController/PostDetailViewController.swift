@@ -8,7 +8,7 @@
 import UIKit
 
 final class PostDetailViewController: UIViewController {
-  private let tableView = UITableView(frame: .zero, style: .grouped).set {
+  private let tableView = UITableView(frame: .zero, style: .plain).set {
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.separatorStyle = .none
     $0.rowHeight = UITableView.automaticDimension
@@ -16,6 +16,7 @@ final class PostDetailViewController: UIViewController {
     $0.separatorInset = .zero
     $0.backgroundColor = .white
     $0.scrollIndicatorInsets = .init(top: 0, left: -1, bottom: 13, right: -1)
+    $0.contentInset = .zero
     if #available(iOS 15.0, *) {
       $0.sectionHeaderTopPadding = 0
     }
