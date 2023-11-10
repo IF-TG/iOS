@@ -12,15 +12,18 @@ final class FeedPostViewAdapter: PostViewAdapter {
   private weak var feedDataSource: FeedPostViewAdapterDataSource?
   
   // MARK: - Lifecycle
-  init(dataSource: FeedPostViewAdapterDataSource? = nil, collectionView: UICollectionView?) {
+  init(
+    dataSource: FeedPostViewAdapterDataSource?,
+    delegate: PostViewAdapterDelegate?,
+    collectionView: UICollectionView?
+  ) {
     feedDataSource = dataSource
-    super.init(dataSource: dataSource, collectionView: collectionView)
-    collectionView?.delegate = self
+    super.init(dataSource: dataSource, delegate: delegate, collectionView: collectionView)
   }
 }
 
 // MARK: - UICollectionViewDelegate
-extension FeedPostViewAdapter: UICollectionViewDelegate {
+extension FeedPostViewAdapter {
   func collectionView(
     _ collectionView: UICollectionView,
     viewForSupplementaryElementOfKind kind: String,
