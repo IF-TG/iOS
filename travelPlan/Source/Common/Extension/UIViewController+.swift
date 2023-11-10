@@ -17,13 +17,19 @@ extension UIViewController {
 
 // MARK: - Animation
 extension UIViewController {
-  func setTabBarVisible(_ hidden: Bool, animated: Bool = true, duration: TimeInterval = 0.27) {
+  func setTabBarVisible(
+    _ hidden: Bool,
+    animated: Bool = true, 
+    duration: TimeInterval = 0.27,
+    _ completion: (() -> Void)? = nil
+  ) {
     if animated, var frame = tabBarController?.tabBar.frame {
       frame.origin.y = CGFloat(hidden.toInt) * frame.size.height
       UIView.animate(withDuration: duration, animations: {
         self.tabBarController?.tabBar.frame = frame
       }, completion: { _ in
         self.tabBarController?.tabBar.isHidden = hidden
+        completion?()
       })
       return
     }
