@@ -8,7 +8,7 @@
 import UIKit
 
 final class PostDetailViewController: UIViewController {
-  private let tableView = UITableView(frame: .zero, style: .plain).set {
+  private let tableView = UITableView(frame: .zero, style: .grouped).set {
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.separatorStyle = .none
     $0.rowHeight = UITableView.automaticDimension

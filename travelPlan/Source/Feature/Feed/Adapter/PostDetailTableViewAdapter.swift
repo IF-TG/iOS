@@ -159,14 +159,14 @@ extension PostDetailTableViewAdapter: UITableViewDelegate {
   }
   
   func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-    guard let sectionType: PostDetailSectionType = .init(rawValue: section) else { return 0 }
+    guard let sectionType: PostDetailSectionType = .init(rawValue: section) else { return .leastNonzeroMagnitude }
     switch sectionType {
     case .postDescription:
       return UITableView.automaticDimension
     case .postContent:
       return 11
     default:
-      return 0
+      return .leastNonzeroMagnitude
     }
   }
   
@@ -181,7 +181,8 @@ extension PostDetailTableViewAdapter: UITableViewDelegate {
     case .postContent:
       return 0
     default:
-      return (dataSource.numberOfSections - defaultSection <= 0) ? 0 : UITableView.automaticDimension
+      return (dataSource.numberOfSections - defaultSection <= 0)
+              ? .leastNonzeroMagnitude : UITableView.automaticDimension
     }
   }
   
