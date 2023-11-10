@@ -7,6 +7,16 @@
 
 import UIKit
 
+struct BaseCommentInfo {
+  let userId: String
+  let userName: String
+  let userProfile: String
+  let timestamp: String
+  let comment: String
+  let isOnHeart: String
+  let heartCountText: String
+}
+
 protocol BaseCommentViewDelegate: BaseProfileAreaViewDelegate {
   func didTapProfile()
   func didTapHeart(_ isOnHeart: Bool)
@@ -155,6 +165,21 @@ final class BasePostDetailCommentableView: BaseProfileAreaView {
 
 // MARK: - Helpers
 extension BasePostDetailCommentableView {
+  func configure(with info: BaseCommentInfo?) {
+    userNameLabel.text = info?.userName
+    timeStampLabel.text = info?.timestamp
+    commentLabel.text = info?.comment
+    guard let isOnHeart = info?.isOnHeart else {
+      heartIcon.image = UIImage(named: "unselectedHeart")?.setColor(.yg.gray3)
+      heartCancelLabel.isHidden = true
+      setHeartLabelHeartOnState(info?.heartCountText ?? "")
+      return
+    }
+    setHeartLabelHeartOffState(info?.heartCountText ?? "")
+    heartCancelLabel.isHidden = false
+    heartIcon.image = UIImage(named: "selectedHeart")?.setColor(.yg.red)
+  }
+  
   func setHeartLabelHeartOnState(_ heartCountText: String) {
     heartLabel.font = UIFont(pretendard: .semiBold_600(fontSize: 12))
     heartLabel.text = " \(heartCountText) 좋아요 취소"
