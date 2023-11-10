@@ -56,19 +56,19 @@ extension PostDetailCommentHeader {
 extension PostDetailCommentHeader: LayoutSupport {
   func addSubviews() {
     [commentView].forEach {
-      contentView.addSubview($0)
+      addSubview($0)
     }
   }
   
   func setConstraints() {
     let commentViewBottomConstraint = commentView.bottomAnchor.constraint(
-      equalTo: contentView.bottomAnchor,
+      equalTo: bottomAnchor,
       constant: -10)
     commentViewBottomConstraint.priority = .defaultHigh
     NSLayoutConstraint.activate([
-      commentView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 11),
-      commentView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-      commentView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -11),
+      commentView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 11),
+      commentView.topAnchor.constraint(equalTo: topAnchor, constant: 10),
+      commentView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -11),
       commentViewBottomConstraint])
   }
 }

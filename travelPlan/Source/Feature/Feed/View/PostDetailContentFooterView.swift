@@ -36,14 +36,14 @@ final class PostDetailContentFooterView: UITableViewHeaderFooterView {
 // MARK: - LayoutSupport
 extension PostDetailContentFooterView: LayoutSupport {
   func addSubviews() {
-    contentView.addSubview(lineDivider)
+    addSubview(lineDivider)
   }
   
   func setConstraints() {
     NSLayoutConstraint.activate([
-      lineDivider.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constant.spacing),
-      lineDivider.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Constant.spacing),
+      lineDivider.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constant.spacing),
+      lineDivider.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constant.spacing),
       lineDivider.heightAnchor.constraint(equalToConstant: Constant.DividerHeight),
-      lineDivider.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)])
+      lineDivider.bottomAnchor.constraint(equalTo: bottomAnchor)])
   }
 }
