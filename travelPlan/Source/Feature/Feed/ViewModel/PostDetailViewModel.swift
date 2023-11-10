@@ -78,6 +78,21 @@ final class PostDetailViewModel {
 
 // MARK: - PostDetailTableViewDataSource
 extension PostDetailViewModel: PostDetailTableViewDataSource {
+  func replyItem(at indexPath: IndexPath) -> PostReplyInfo {
+    let postReply = comments[indexPath.row].replies[indexPath.row]
+    let commentInfo = BasePostDetailCommentInfo(
+      commentId: postReply.id,
+      userName: postReply.userName,
+      userProfileURL: postReply.userProfileURL,
+      timestamp: postReply.timestamp,
+      comment: postReply.comment,
+      isOnHeart: postReply.isOnHeart,
+      heartCountText: postReply.heartCountText)
+    return .init(
+      isFirstReply: postReply.isFirstReply,
+      commentInfo: commentInfo)
+  }
+  
   func commentItem(in section: Int) -> BasePostDetailCommentInfo {
     let postComment = comments[section - DefaultSectionCount]
     return .init(
@@ -186,10 +201,12 @@ private extension PostDetailViewModel {
               These views are arranged along the stack view’s axis, based on their order in the arrangedSubviews array.
               
               
-              The exact layout varies depending on the stack view’s axis, distribution, alignment, spacing, and other properties.
+              The exact layout varies depending on the stack view’s axis,
+              distribution, alignment, spacing, and other properties.
               """
             , heartCountText: "", isOnHeart: false, isFirstReply: true),
-      .init(id: 1, userProfileURL: "tempProfile3", userName: "흰눈 펑펑", timestamp: "2일전", comment: "오 그럽시다. 크리스마스 전에는 첫눈이 내린다죠.(한국한정)",
+      .init(id: 1, userProfileURL: "tempProfile3", userName: "흰눈 펑펑",
+            timestamp: "2일전", comment: "오 그럽시다. 크리스마스 전에는 첫눈이 내린다죠.(한국한정)",
             heartCountText: "1", isOnHeart: true, isFirstReply: false),
       .init(id: 2, userProfileURL: "tempProfile4", userName: "당근당근당근",
             timestamp: "2일전", comment: "재즈 : )", heartCountText: "293", isOnHeart: true, isFirstReply: false)]
