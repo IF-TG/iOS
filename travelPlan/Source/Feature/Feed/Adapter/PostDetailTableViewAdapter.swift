@@ -95,7 +95,6 @@ extension PostDetailTableViewAdapter: UITableViewDelegate {
   }
   
   func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-    
     if cell is PostDetailTitleCell {
       delegate?.willDisplayTitle()
     }
