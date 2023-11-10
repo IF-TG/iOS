@@ -31,6 +31,18 @@ final class PostDetailCommentHeader: UITableViewHeaderFooterView {
   required init?(coder: NSCoder) {
     nil
   }
+  
+  override func prepareForReuse() {
+    super.prepareForReuse()
+    configure(with: nil)
+  }
+}
+
+// MARK: - Helpers
+extension PostDetailCommentHeader {
+  func configure(with info: BasePostDetailCommentInfo?) {
+    commentView.configure(with: info)
+  }
 }
 
 // MARK: - Private Helpers
@@ -51,7 +63,7 @@ extension PostDetailCommentHeader: LayoutSupport {
   func setConstraints() {
     let commentViewBottomConstraint = commentView.bottomAnchor.constraint(
       equalTo: contentView.bottomAnchor,
-      constant: -8)
+      constant: -10)
     commentViewBottomConstraint.priority = .defaultLow
     NSLayoutConstraint.activate([
       contentView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 11),
