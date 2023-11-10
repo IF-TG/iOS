@@ -19,6 +19,7 @@ final class PostDetailReplyCell: UITableViewCell {
   private let replyView = BasePostDetailCommentableView(usageType: .reply)
   
   private let replyIcon = UIImageView(frame: .zero).set {
+    $0.translatesAutoresizingMaskIntoConstraints = false
     $0.contentMode = .scaleAspectFill
   }
   
