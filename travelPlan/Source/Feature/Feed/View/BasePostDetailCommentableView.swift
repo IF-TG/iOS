@@ -112,20 +112,18 @@ final class BasePostDetailCommentableView: BaseProfileAreaView {
       $0.spacing = 5
       $0.alignment = .leading
     }
-    
     heartIcon.widthAnchor.constraint(equalToConstant: 13.33).isActive = true
     heartIcon.heightAnchor.constraint(equalToConstant: 11.89).isActive = true
-    
     let heartStackView = UIStackView(arrangedSubviews: [heartIcon, heartLabel]).set {
       $0.axis = .horizontal
       $0.distribution = .equalSpacing
       $0.spacing = 2
       $0.alignment = .leading
     }
-    
     /// usageType == comment인 경우 사용 하지 않습니다.
     /// 하트, 좋아요 취소 및 답글달기 영역 스택 뷰
     var footerStackView: UIStackView?
+    
     var contentSubviews = [headerStackView, commentLabel]
     
     switch usageType {
@@ -142,7 +140,6 @@ final class BasePostDetailCommentableView: BaseProfileAreaView {
     case .reply:
       contentSubviews.append(heartStackView)
     }
-    
     let contentStackView = UIStackView(arrangedSubviews: contentSubviews).set {
       $0.translatesAutoresizingMaskIntoConstraints = false
       $0.axis = .vertical
@@ -150,7 +147,6 @@ final class BasePostDetailCommentableView: BaseProfileAreaView {
       $0.alignment = .top
       $0.distribution = .equalSpacing
     }
-    
     super.init(
       frame: frame,
       contentView: contentStackView,
@@ -158,14 +154,8 @@ final class BasePostDetailCommentableView: BaseProfileAreaView {
       profileLayoutInfo: usageType == .comment ? .medium(.top) : .small(.top))
     
     if usageType == .comment {
-      _=[
-        dotIcon,
-        replyLabel
-      ].map {
-        footerStackView?.addArrangedSubview($0)
-      }
+      [dotIcon, replyLabel].forEach { footerStackView?.addArrangedSubview($0) }
     }
-    
     setUserNameTapGesture()
     setHeartIconTapGesture()
     setHeartCancelLabelTapGesture()
@@ -189,7 +179,7 @@ extension BasePostDetailCommentableView {
     timeStampLabel.text = info?.timestamp
     commentLabel.text = info?.comment
     isOnHeart = info?.isOnHeart ?? false
-    guard let isOnHeart = info?.isOnHeart else {
+    guard info?.isOnHeart == true else {
       heartIcon.image = UIImage(named: "unselectedHeart")?.setColor(.yg.gray3)
       heartCancelLabel.isHidden = true
       setHeartLabelHeartOnState(info?.heartCountText ?? "")
