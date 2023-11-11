@@ -12,7 +12,7 @@ final class ReviewWritingContentView: UIView {
   // MARK: - Properties
   private lazy var titleTextView: UITextView = .init().set {
     $0.text = "제목"
-    $0.font = .init(pretendard: .bold_700(fontSize: 22))
+    $0.font = .init(pretendard: .regular_400(fontSize: 22))
     $0.textColor = .yg.gray1
     $0.isScrollEnabled = false
     $0.delegate = self
@@ -77,7 +77,7 @@ extension ReviewWritingContentView: LayoutSupport {
     
     boundaryLineView.snp.makeConstraints {
       $0.top.equalTo(titleTextView.snp.bottom)
-      $0.leading.trailing.equalToSuperview().inset(17)
+      $0.leading.trailing.equalToSuperview().inset(2)
       $0.height.equalTo(1)
     }
     
