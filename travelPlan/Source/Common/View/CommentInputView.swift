@@ -72,7 +72,7 @@ extension CommentInputView {
 // MARK: - Action
 extension CommentInputView {
   @objc func didTapSendIcon() {
-    c1ommentDelegate?.didTapSendIcon(text)
+    commentDelegate?.didTapSendIcon(text)
   }
 }
 
