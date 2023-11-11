@@ -7,13 +7,22 @@
 
 import UIKit
 
+protocol PostCommentInputViewDelegate: AnyObject {
+  func didTapSendIcon(_ text: String)
+}
+
 final class PostCommentInputView: InputTextView {
   // MARK: - Properties
-  private let sendIcon = UIImageView(image: UIImage(named: "commentSend")?.setColor(.yg.gray2)).set {
+  private lazy var sendIcon = UIImageView(image: UIImage(named: "commentSend")?.setColor(.yg.gray2)).set {
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.contentMode = .scaleAspectFill
     $0.isHidden = true
+    $0.isUserInteractionEnabled = true
+    let tap = UITapGestureRecognizer(target: self, action: #selector(didTapSendIcon))
+    $0.addGestureRecognizer(tap)
   }
+  
+  weak var postCommentDelegate: PostCommentInputViewDelegate?
   
   // MARK: - Lifecycle
   convenience init() {
@@ -47,6 +56,10 @@ extension PostCommentInputView {
     layer.backgroundColor = UIColor.yg.gray1.cgColor
     layer.borderWidth = 0.8
   }
+  
+  func clearInputText() {
+    text = nil
+  }
 }
 
 // MARK: - Private Helpers
@@ -56,11 +69,29 @@ extension PostCommentInputView {
   }
 }
 
+// MARK: - Action
+extension PostCommentInputView {
+  @objc func didTapSendIcon() {
+    postCommentDelegate?.didTapSendIcon(text)
+  }
+}
+
 // MARK: - UITextViewDelegate
 extension PostCommentInputView {
   override func textViewDidBeginEditing(_ textView: UITextView) {
     super.textViewDidBeginEditing(textView)
     sendIcon.isHidden = false
+  }
+  
+  override func textViewDidChange(_ textView: UITextView) {
+    super.textViewDidChange(textView)
+    if text == nil || length == 0 {
+      sendIcon.image = sendIcon.image?.setColor(.yg.gray2)
+      sendIcon.isUserInteractionEnabled = false
+    } else {
+      sendIcon.image = sendIcon.image?.setColor(.yg.primary)
+      sendIcon.isUserInteractionEnabled = true
+    }
   }
   
   override func textViewDidEndEditing(_ textView: UITextView) {
