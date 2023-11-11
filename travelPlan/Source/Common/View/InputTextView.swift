@@ -63,6 +63,7 @@ class InputTextView: UITextView {
   // MARK: - Private Helpers
   func baseConfigureUI() {
     setupUI()
+    delegate = self
   }
 }
 
@@ -79,7 +80,7 @@ extension InputTextView: LayoutSupport {
   private var placeholderConsriants: [NSLayoutConstraint] {
     let inset = placeholderInfo.inset
     let position = placeholderInfo.position
-    var constraints = [
+    let constraints = [
       placeholder.leadingAnchor.constraint(equalTo: leadingAnchor, constant: inset.left),
       placeholder.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -inset.right)]
     switch position {
