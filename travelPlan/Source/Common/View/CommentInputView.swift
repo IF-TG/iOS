@@ -1,5 +1,5 @@
 //
-//  PostCommentInputView.swift
+//  CommentInputView.swift
 //  travelPlan
 //
 //  Created by 양승현 on 11/11/23.
@@ -7,11 +7,11 @@
 
 import UIKit
 
-protocol PostCommentInputViewDelegate: AnyObject {
+protocol CommentInputViewDelegate: AnyObject {
   func didTapSendIcon(_ text: String)
 }
 
-final class PostCommentInputView: InputTextView {
+final class CommentInputView: InputTextView {
   // MARK: - Properties
   private lazy var sendIcon = UIImageView(image: UIImage(named: "commentSend")?.setColor(.yg.gray2)).set {
     $0.translatesAutoresizingMaskIntoConstraints = false
@@ -22,7 +22,7 @@ final class PostCommentInputView: InputTextView {
     $0.addGestureRecognizer(tap)
   }
   
-  weak var postCommentDelegate: PostCommentInputViewDelegate?
+  weak var commentDelegate: CommentInputViewDelegate?
   
   // MARK: - Lifecycle
   convenience init() {
@@ -50,7 +50,7 @@ final class PostCommentInputView: InputTextView {
 }
 
 // MARK: - Helpers
-extension PostCommentInputView {
+extension CommentInputView {
   func setPostCommentBorderStyle() {
     layer.cornerRadius = 12
     layer.backgroundColor = UIColor.yg.gray1.cgColor
@@ -63,21 +63,21 @@ extension PostCommentInputView {
 }
 
 // MARK: - Private Helpers
-extension PostCommentInputView {
+extension CommentInputView {
   private func configureUI() {
     setupUI()
   }
 }
 
 // MARK: - Action
-extension PostCommentInputView {
+extension CommentInputView {
   @objc func didTapSendIcon() {
-    postCommentDelegate?.didTapSendIcon(text)
+    c1ommentDelegate?.didTapSendIcon(text)
   }
 }
 
 // MARK: - UITextViewDelegate
-extension PostCommentInputView {
+extension CommentInputView {
   override func textViewDidBeginEditing(_ textView: UITextView) {
     super.textViewDidBeginEditing(textView)
     sendIcon.isHidden = false
@@ -104,7 +104,7 @@ extension PostCommentInputView {
 }
 
 // MARK: - LayoutSupport
-extension PostCommentInputView: LayoutSupport {
+extension CommentInputView: LayoutSupport {
   func addSubviews() {
     addSubview(sendIcon)
   }
