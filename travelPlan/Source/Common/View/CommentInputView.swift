@@ -28,11 +28,11 @@ final class CommentInputView: InputTextView {
   convenience init() {
     let placeholderInfo = PlaceholderInfo(
       placeholderText: "댓글을 입력해주세요.",
-      position: .centerY,
+      position: .top,
       inset: .init(top: 10, left: 10, bottom: 10, right: 40))
     self.init(frame: .zero, textContainer: nil, placeholderInfo: placeholderInfo)
     translatesAutoresizingMaskIntoConstraints = false
-    textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 40)
+    textContainerInset = UIEdgeInsets(top: 10, left: 3.5, bottom: 10, right: 40)
   }
   
   override init(frame: CGRect, textContainer: NSTextContainer?, placeholderInfo: PlaceholderInfo) {
@@ -53,7 +53,7 @@ final class CommentInputView: InputTextView {
 extension CommentInputView {
   func setPostCommentBorderStyle() {
     layer.cornerRadius = 12
-    layer.backgroundColor = UIColor.yg.gray1.cgColor
+    layer.borderColor = UIColor.yg.gray1.cgColor
     layer.borderWidth = 0.8
   }
   
