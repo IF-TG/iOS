@@ -37,7 +37,7 @@ final class ReviewWritingContentView: UIView {
   }()
   private var imageViewList = [UIImageView]()
   private var lastViewBottomConstraint: ConstraintMakerEditable?
-  private var lastView: UIView!
+  private lazy var lastView: UIView = messageTextView
   private var shouldScrollToLastView = false
   var scrollToLastView: (() -> Void)?
   
@@ -81,12 +81,14 @@ extension ReviewWritingContentView: LayoutSupport {
       $0.height.equalTo(1)
     }
     
-    self.lastView = messageTextView
+    let estimatedHeight = messageTextView.sizeThatFits(
+      CGSize(width: messageTextView.frame.width, height: CGFloat.infinity))
+      .height
     messageTextView.snp.makeConstraints {
       $0.top.equalTo(boundaryLineView.snp.bottom).offset(16)
       $0.leading.trailing.equalToSuperview()
       self.lastViewBottomConstraint = $0.bottom.equalToSuperview().inset(40)
-      $0.height.equalTo(100)
+      $0.height.equalTo(estimatedHeight)
     }
   }
 }
@@ -125,7 +127,7 @@ extension ReviewWritingContentView: UITextViewDelegate {
   }
   
   func textViewDidEndEditing(_ textView: UITextView) {
-    // FIXME: - 타이핑 했다가 글을 전부 지우고 resignResponder를 할 때, configurePlaceholder함수 호출로 인해 텍스트 잘림 현상 해결하기
+    // FIXME: - 타이핑 했다가 글을 전부 지우고 resignResponder를 할 때, adjustHeight(of:)함수 호출로 인해 텍스트 잘림 현상 해결하기
     configurePlaceholder(of: textView)
   }
 }
@@ -151,6 +153,7 @@ extension ReviewWritingContentView {
         textView.text = "제목"
       } else if textView === messageTextView {
         textView.text = "이번 여행에 대한 나의 후기를\n자유롭게 작성해보세요. :)"
+        adjustHeight(of: textView)
       }
       
       textView.textColor = .yg.gray1
@@ -158,10 +161,11 @@ extension ReviewWritingContentView {
   }
   
   private func adjustHeight(of textView: UITextView) {
-    let size = CGSize(width: textView.frame.width, height: CGFloat.infinity)
-    let newSize = textView.sizeThatFits(size)
+    let estimatedHeight = textView.sizeThatFits(
+      CGSize(width: textView.frame.width, height: CGFloat.infinity)
+    ).height
     textView.snp.updateConstraints {
-      $0.height.equalTo(newSize.height)
+      $0.height.equalTo(estimatedHeight)
     }
     shouldScrollToLastView = true
   }
@@ -181,20 +185,20 @@ extension ReviewWritingContentView {
       $0.top.equalTo(lastView.snp.bottom).offset(10)
       lastViewBottomConstraint = $0.bottom.equalToSuperview().inset(40)
     }
-    makeLastViewHeightConstraint(lastView: view)
     lastView = view
+    makeLastViewHeightConstraint()
     
     view.layoutIfNeeded() // view는 lastView. 이 시점에 lastView의 height이 결정
     shouldScrollToLastView = true
   }
   
-  private func makeLastViewHeightConstraint(lastView view: UIView) {
-    if view is UITextView {
-      view.snp.makeConstraints {
+  private func makeLastViewHeightConstraint() {
+    if lastView is UITextView {
+      lastView.snp.makeConstraints {
         $0.height.equalTo(40)
       }
-    } else if view is UIImageView {
-      view.snp.makeConstraints {
+    } else if lastView is UIImageView {
+      lastView.snp.makeConstraints {
         $0.height.equalTo(100)
       }
     }
