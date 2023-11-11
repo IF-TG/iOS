@@ -36,24 +36,28 @@ final class ReviewWritingViewController: UIViewController {
   }
   
   private lazy var scrollView = UIScrollView().set {
-    let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapScrollViewFrameLayout))
+    let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapScrollView))
     $0.addGestureRecognizer(tapGesture)
+    $0.alwaysBounceVertical = true
   }
   private let contentView = ReviewWritingContentView()
   private lazy var bottomView = ReviewWritingBottomView().set {
     $0.delegate = self
   }
   private var subscriptions = Set<AnyCancellable>()
-  
+  private var scrollViewBottomConstraint: ConstraintMakerEditable?
+  private let viewModel = ReviewWritingViewModel()
+  private let input = ReviewWritingViewModel.Input()
+
   // MARK: - LifeCycle
   override func viewDidLoad() {
     super.viewDidLoad()
     setupUI()
     setupStyles()
     setupNavigationBar()
+    bindNotificationCenter()
+    addGestureRecognizer()
     bind()
-    let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-    view.addGestureRecognizer(tapGesture)
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -73,13 +77,71 @@ final class ReviewWritingViewController: UIViewController {
   }
 }
 
+// MARK: - ViewBindCase
+extension ReviewWritingViewController: ViewBindCase {
+  typealias Input = ReviewWritingViewModel.Input
+  typealias ErrorType = Error
+  typealias State = ReviewWritingViewModel.State
+  
+  func bind() {
+    viewModel
+      .transform(input)
+      .receive(on: RunLoop.main)
+      .sink { [weak self] state in
+        self?.render(state)
+      }
+      .store(in: &subscriptions)
+  }
+  
+  func render(_ state: State) {
+    switch state {
+    case .popViewController:
+      coordinator?.finish(withAnimated: true)
+    case .presentAlbumViewController:
+      contentView.addImageView()
+    case .presentPlan:
+      print("플랜화면 띄우기")
+    case .keyboardDown:
+      view.endEditing(true)
+    case .manageTextViewDisplay:
+      contentView.manageTextViewDisplay()
+    case .presentThemeSetting:
+      print("테마 설정 화면 띄우기")
+    }
+  }
+  
+  func handleError(_ error: ErrorType) { }
+}
+
 // MARK: - Private Helpers
 extension ReviewWritingViewController {
-  private func bind() {
+  private func addGestureRecognizer() {
+    let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+    view.addGestureRecognizer(tapGesture)
+  }
+  
+  private func bindNotificationCenter() {
     NotificationCenter.default
       .publisher(for: UIResponder.keyboardWillShowNotification)
       .receive(on: RunLoop.main)
-      .sink { [weak self] _ in
+      .sink { [weak self] notification in
+//        guard let bottomViewHeight = self?.bottomView.frame.height,
+//              let keyboardHeight = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?
+//          .cgRectValue.height else { return }
+//        
+//        if self?.scrollView.contentOffset.y == 0 {
+//          self?.scrollViewBottomConstraint?.constraint.update(inset: keyboardHeight - bottomViewHeight)
+//        }
+        
+        // textView를 터치했을 때, 키보드가 올라오는데,
+          // scrollView.contentOffset.y가 0이면 return
+          // scrollView.
+        // textView의 커서가 키보드보다 아래에 있는 경우, scrollVie
+        
+        
+        // scrollView.contentOffset.y가 조정
+          // 키보드가 떴을 때, 상수값 만큼 spacing
+        
         self?.leftButton.setImage(self?.keyboardImage, for: .normal)
         self?.leftButton.setTitle(nil, for: .normal)
       }
@@ -131,6 +193,7 @@ extension ReviewWritingViewController: LayoutSupport {
       $0.top.equalTo(view.safeAreaLayoutGuide)
       $0.leading.trailing.equalToSuperview().inset(15)
       $0.height.equalToSuperview().multipliedBy(0.73)
+      scrollViewBottomConstraint = $0.bottom.equalTo(bottomView.snp.top)
     }
     
     contentView.snp.makeConstraints {
@@ -139,7 +202,6 @@ extension ReviewWritingViewController: LayoutSupport {
     }
     
     bottomView.snp.makeConstraints {
-      $0.top.equalTo(scrollView.snp.bottom)
       $0.leading.trailing.equalToSuperview()
       $0.bottom.equalToSuperview()
     }
@@ -152,41 +214,38 @@ private extension ReviewWritingViewController {
     let keyboardIsOnScreen = leftButton.image(for: .normal) != nil
     
     if keyboardIsOnScreen {
-      view.endEditing(true)
+      input.didTapKeyboardDownButton.send()
     } else {
-      coordinator?.finish(withAnimated: true)
+      input.didTapCancelButton.send()
     }
   }
   
   @objc func didTapFinishButton() {
     // TODO: - contentView에서 레이아웃이 잡혀있는 imageView의 개수를 bottomView에 띄우기
       // - 만약 imageView가 하나도 없다면, cameraWarningLabel의 textColor 변경하기
-    print("완료버튼 클릭")
+    input.didTapFinishButton.send()
   }
   
   @objc func didTapTitleView() {
-    print("타이틀뷰 클릭")
+    input.didTapNavigationTitleView.send()
   }
   
-  @objc func didTapScrollViewFrameLayout() {
-    print("스크롤뷰 클릭!")
-    contentView.manageTextViewDisplay()
+  @objc func didTapScrollView() {
+    input.didTapScrollView.send()
   }
   
   @objc func dismissKeyboard() {
-    print("뷰클릭")
-    view.endEditing(true)
+    input.didTapView.send()
   }
 }
 
 // MARK: - DefaultTapGestureDelegate
 extension ReviewWritingViewController: ReviewWritingBottomViewDelegate {
   func didTapPlanView(_ view: UIView) {
-    print("플랜 불러오기 버튼 클릭!")
+    input.didTapPlanView.send()
   }
   
   func didTapCameraButton(_ button: UIButton) {
-    print("카메라 버튼 클릭!")
-    contentView.addImageView()
+    input.didTapAlbumButton.send()
   }
 }
