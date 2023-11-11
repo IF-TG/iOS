@@ -1,5 +1,5 @@
 //
-//  PostCommentInputAccessory.swift
+//  PostProfileAndCommentView.swift
 //  travelPlan
 //
 //  Created by 양승현 on 11/11/23.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class PostCommentInputAccessory: BaseProfileAreaView {
+final class PostProfileAndCommentView: BaseProfileAreaView {
   // MARK: - Properties
   private let commentInputView = CommentInputView()
   
