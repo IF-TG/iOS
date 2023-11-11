@@ -35,11 +35,18 @@ class InputTextView: UITextView {
     placeholderInfo: PlaceholderInfo
   ) {
     self.placeholderInfo = placeholderInfo
+    self.placeholderText = placeholderInfo.placeholderText
     super.init(frame: frame, textContainer: textContainer)
+    baseConfigureUI()
   }
   
   convenience init(textContainer: NSTextContainer?, placeholderInfo: PlaceholderInfo = .init()) {
     self.init(frame: .zero, textContainer: textContainer, placeholderInfo: placeholderInfo)
+    translatesAutoresizingMaskIntoConstraints = false
+  }
+  
+  convenience init(placeholderInfo: PlaceholderInfo) {
+    self.init(frame: .zero, textContainer: nil, placeholderInfo: placeholderInfo)
     translatesAutoresizingMaskIntoConstraints = false
   }
   
@@ -99,7 +106,7 @@ extension InputTextView: UITextViewDelegate {
   
   func textViewDidEndEditing(_ textView: UITextView) {
     if textView.text == nil || length < 1 {
-      placeholder.isHidden = falsetravelPlan/Source/Common/View/InputTextView.swift
+      placeholder.isHidden = false
     }
   }
 }
@@ -107,10 +114,12 @@ extension InputTextView: UITextViewDelegate {
 // MARK: - Utils
 extension InputTextView {
   struct PlaceholderInfo {
+    let placeholderText: String?
     let position: Position
     let inset: UIEdgeInsets
     
-    init(position: Position = .centerY, inset: UIEdgeInsets = .zero) {
+    init(placeholderText: String? = nil, position: Position = .centerY, inset: UIEdgeInsets = .zero) {
+      self.placeholderText = placeholderText
       self.position = position
       self.inset = inset
     }
