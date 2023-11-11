@@ -24,6 +24,14 @@ class InputTextView: UITextView {
     }
   }
   
+  override var text: String! {
+    didSet {
+      if !placeholder.isHidden && (text == nil || text.count == 0)  {
+        placeholder.isHidden = false
+      }
+    }
+  }
+  
   var length: Int {
     text.count
   }
