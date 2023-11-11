@@ -150,13 +150,13 @@ extension ReviewWritingContentView {
   private func configurePlaceholder(of textView: UITextView) {
     if textView.text.isEmpty {
       if textView === titleTextView {
+        textView.textColor = .yg.gray1
         textView.text = "제목"
       } else if textView === messageTextView {
+        textView.textColor = .yg.gray1
         textView.text = "이번 여행에 대한 나의 후기를\n자유롭게 작성해보세요. :)"
         adjustHeight(of: textView)
       }
-      
-      textView.textColor = .yg.gray1
     }
   }
   
