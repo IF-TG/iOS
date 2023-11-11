@@ -62,22 +62,19 @@ class InputTextView: UITextView {
   
   // MARK: - Private Helpers
   func baseConfigureUI() {
-    setupUI()
+    setPlaceholderLayout()
     delegate = self
   }
 }
 
 // MARK: - LayoutSupport
-extension InputTextView: LayoutSupport {
-  func addSubviews() {
+private extension InputTextView {
+  func setPlaceholderLayout() {
     addSubview(placeholder)
-  }
-  
-  func setConstraints() {
     NSLayoutConstraint.activate(placeholderConsriants)
   }
   
-  private var placeholderConsriants: [NSLayoutConstraint] {
+  var placeholderConsriants: [NSLayoutConstraint] {
     let inset = placeholderInfo.inset
     let position = placeholderInfo.position
     let constraints = [
