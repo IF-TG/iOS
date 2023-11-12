@@ -8,6 +8,8 @@
 import UIKit
 
 final class PostHeartAndShareAreaHeaderView: UITableViewHeaderFooterView {
+  static let id = String(describing: PostHeartAndShareAreaHeaderView.self)
+  
   // MARK: - Properties
   private var postHeartState: Bool? = false
   
