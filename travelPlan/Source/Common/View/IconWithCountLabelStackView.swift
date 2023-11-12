@@ -19,6 +19,9 @@ class IconWithCountLabelStackView: UIStackView {
     countLabel = BaseLabel(fontType: countInfo.fontType, lineHeight: countInfo.lineHeight)
     super.init(frame: frame)
     configureUI()
+    
+    icon.widthAnchor.constraint(equalToConstant: iconInfo.size.width).isActive = true
+    icon.heightAnchor.constraint(equalToConstant: iconInfo.size.height).isActive = true
   }
   
   convenience init(
@@ -44,6 +47,8 @@ extension IconWithCountLabelStackView {
 // MARK: - Private Helpers
 extension IconWithCountLabelStackView {
   private func configureUI() {
+    addArrangedSubview(icon)
+    addArrangedSubview(countLabel)
     axis = .horizontal
     spacing = 5
     distribution = .equalSpacing
@@ -60,6 +65,6 @@ extension IconWithCountLabelStackView {
   
   struct CountLabelInfo {
     let fontType: UIFont.Pretendard
-    let lineHeight: CGFloat
+    let lineHeight: CGFloat?
   }
 }
