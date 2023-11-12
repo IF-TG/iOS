@@ -9,46 +9,12 @@ import UIKit
 
 class PostFooterView: UIView {
   enum Constant {
-    enum Heart {
-      enum Text {
-        static let font: UIFont = UIFont(pretendard: .regular_400(fontSize: 14))!
-        static let fontColor: UIColor = .yg.gray4
-        enum Spacing {
-          static let leading: CGFloat = 5
-        }
-      }
-      enum Icon {
-        static let minimumsSize = CGSize(width: 17, height: 15)
-        static let color: UIColor = .yg.red
-        static let unselectedImage = UIImage(named: "unselectedHeart")?.setColor(color)
-        static let selectedImage = UIImage(named: "selectedHeart")?.setColor(color)
-        enum Spacing {
-          static let leading: CGFloat = 11
-        }
-      }
-    }
-    enum Comment {
-      enum Text {
-        static let font: UIFont = UIFont(pretendard: .regular_400(fontSize: 14))!
-        static let fontColor: UIColor = .yg.gray4
-        enum Spacing {
-          static let leading: CGFloat = 5
-        }
-      }
-      enum Icon {
-        static let name = "feedComment"
-        static let minimumsSize = CGSize(width: 20, height: 20)
-        enum Spacing {
-          static let leading: CGFloat = 12.5
-        }
-      }
-    }
     enum Share {
       static let iconName = "feedShare"
       static let height: CGFloat = 15
       static let width: CGFloat = 15
       enum Spacing {
-        static let trailing: CGFloat = 11
+        static let trailing: CGFloat = 13.5
       }
     }
   }
@@ -57,52 +23,31 @@ class PostFooterView: UIView {
   /// 초기 사용자가 포스트에 대해서 하트를 눌렀는지 상태 체크
   private var postHeartState: Bool? = false
   
-  private lazy var heartIcon = UIImageView().set {
-    $0.translatesAutoresizingMaskIntoConstraints = false
-    $0.contentMode = .scaleAspectFit
-    $0.isUserInteractionEnabled = true
-    let tap = UITapGestureRecognizer(
-      target: self, action: #selector(didTapHeart))
-    $0.addGestureRecognizer(tap)
-  }
+  private let heartStackView = IconWithCountLabelStackView(
+    iconInfo: .init(size: .init(width: 20, height: 20),
+                    iconPath: "unselectedHeart"), 
+    countInfo: .init(fontType: .regular_400(fontSize: 14), lineHeight: nil)
+  ).set {
+    $0.countLabel.textColor = .yg.gray4
+      $0.countLabel.text = "0"
+    }
   
-  private let heartText = UILabel().set {
-    typealias Const = Constant.Heart.Text
-    $0.translatesAutoresizingMaskIntoConstraints = false
-    $0.text = "0"
-    $0.textAlignment = .left
-    $0.font = Const.font
-    $0.textColor = Const.fontColor
-  }
-  
-  private lazy var commentIcon = UIImageView().set {
-    typealias Const = Constant.Comment.Icon
-    $0.translatesAutoresizingMaskIntoConstraints = false
-    $0.image = UIImage(named: Const.name)?.setColor(.yg.gray4)
-    $0.contentMode = .scaleAspectFit
-    $0.isUserInteractionEnabled = true
-    let tap = UITapGestureRecognizer(
-      target: self, action: #selector(didTapComment))
-    $0.addGestureRecognizer(tap)
-  }
-  
-  private let commentText = UILabel().set {
-    typealias Const = Constant.Heart.Text
-    $0.translatesAutoresizingMaskIntoConstraints = false
-    $0.text = "0"
-    $0.textAlignment = .left
-    $0.font = Const.font
-    $0.textColor = Const.fontColor
+  private let commentStackView = IconWithCountLabelStackView(
+    iconInfo: .init(size: .init(width: 20, height: 20),
+                    iconPath: "feedComment"),
+    countInfo: .init(fontType: .regular_400(fontSize: 14), lineHeight: nil)
+  ).set {
+    $0.icon.image = $0.icon.image?.setColor(.yg.gray4)
+    $0.countLabel.textColor = .yg.gray4
+    $0.countLabel.text = "0"
   }
   
   private lazy var shareButton = UIButton().set {
-    typealias Const = Constant.Share
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.contentMode = .scaleAspectFit
-    $0.setImage(UIImage(named: Const.iconName)?.setColor(.yg.gray4), for: .normal)
-    var img = UIImage(named: Const.iconName)
-    img = img?.setColor(.yg.gray4.withAlphaComponent(0.5))
-    $0.setImage(img, for: .highlighted)
+    let image = UIImage(named: "feedShare")
+    $0.setImage(image?.setColor(.yg.gray4), for: .normal)
+    $0.setImage(image?.setColor(.yg.gray4.withAlphaComponent(0.5)), for: .highlighted)
     $0.addTarget(self, action: #selector(didTapShare), for: .touchUpInside)
   }
   
@@ -170,44 +115,60 @@ extension PostFooterView {
   private func configureUI() {
     translatesAutoresizingMaskIntoConstraints = false
     setupUI()
+    setCommentIconTapGesture()
+    setHeartIconTapGesture()
+  }
+  
+  private func setCommentIconTapGesture() {
+    commentStackView.icon.isUserInteractionEnabled = true
+    let tap = UITapGestureRecognizer(
+      target: self, action: #selector(didTapComment))
+    commentStackView.icon.addGestureRecognizer(tap)
+  }
+  
+  private func setHeartIconTapGesture() {
+    heartStackView.icon.isUserInteractionEnabled = true
+    let tap = UITapGestureRecognizer(
+      target: self, action: #selector(didTapHeart))
+    heartStackView.icon.addGestureRecognizer(tap)
   }
   
   private func setHeart(with text: String) {
-    heartText.text = text
+    heartStackView.countLabel.text = text
   }
   
   private func setComment(with text: String) {
-    commentText.text = text
+    commentStackView.countLabel.text = text
   }
 
   private func setHeartIcon(with state: Bool) {
     postHeartState = state
     if state {
-      heartIcon.image = Constant.Heart.Icon.selectedImage
+      heartStackView.icon.image = UIImage(named: "selectedHeart")?.setColor(.yg.red)
     } else {
       // 하트 취소
-      heartIcon.image = Constant.Heart.Icon.unselectedImage
+      heartStackView.icon.image = UIImage(named: "unselectedHeart")?.setColor(.yg.red)
     }
   }
   
   private func selectedHeartAnim() {
-    heartIcon.alpha = 0.0
-    heartIcon.transform = CGAffineTransform(scaleX: 0, y: 0)
+    heartStackView.icon.alpha = 0.0
+    heartStackView.icon.transform = CGAffineTransform(scaleX: 0, y: 0)
     UIView.animate(
       withDuration: 0.4,
       delay: 0,
       options: .curveEaseInOut) {
-        self.heartIcon.alpha = 1.0
-        self.heartIcon.transform = CGAffineTransform(scaleX: 1, y: 1)
+        self.heartStackView.icon.alpha = 1.0
+        self.heartStackView.icon.transform = CGAffineTransform(scaleX: 1, y: 1)
       }
   }
   private func unselectedHeartAnim() {
-    heartIcon.alpha = 0.0
+    heartStackView.icon.alpha = 0.0
     UIView.animate(
       withDuration: 0.4,
       delay: 0,
       options: .curveEaseOut) {
-        self.heartIcon.alpha = 1.0
+        self.heartStackView.icon.alpha = 1.0
     }
   }
 }
@@ -216,10 +177,8 @@ extension PostFooterView {
 extension PostFooterView: LayoutSupport {
   func addSubviews() {
     _=[
-      heartIcon,
-      heartText,
-      commentIcon,
-      commentText,
+      heartStackView,
+      commentStackView,
       shareButton
     ].map {
       addSubview($0)
@@ -228,10 +187,8 @@ extension PostFooterView: LayoutSupport {
   
   func setConstraints() {
     _=[
-      heartIconConstraint,
-      heartTextConstraint,
-      commentIconConstraint,
-      commentTextConstraint,
+      heartStackViewConstraint,
+      commentStackViewConstriant,
       shareIconConstraint
     ].map {
       NSLayoutConstraint.activate($0)
@@ -242,64 +199,23 @@ extension PostFooterView: LayoutSupport {
 // MARK: - LayoutSupport Constraints
 private extension PostFooterView {
   typealias NSLayout = NSLayoutConstraint
-  var heartIconConstraint: [NSLayout] {
-    typealias Const = Constant.Heart.Icon
-    typealias Spacing = Constant.Heart.Icon.Spacing
+  var heartStackViewConstraint: [NSLayout] {
     return [
-      heartIcon.leadingAnchor.constraint(
-        equalTo: leadingAnchor,
-        constant: Spacing.leading),
-      heartIcon.centerYAnchor.constraint(
-        equalTo: centerYAnchor),
-      heartIcon.widthAnchor.constraint(
-        equalToConstant: Const.minimumsSize.width),
-      heartIcon.heightAnchor.constraint(
-        lessThanOrEqualToConstant: Const.minimumsSize.height)]
+      heartStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 11),
+      heartStackView.centerYAnchor.constraint(equalTo: centerYAnchor)]
   }
   
-  var heartTextConstraint: [NSLayout] {
-    typealias Spacing = Constant.Heart.Text.Spacing
+  var commentStackViewConstriant: [NSLayout] {
     return [
-      heartText.leadingAnchor.constraint(
-        equalTo: heartIcon.trailingAnchor,
-        constant: Spacing.leading),
-      heartText.centerYAnchor.constraint(
-        equalTo: centerYAnchor)]
-  }
-  
-  var commentIconConstraint: [NSLayout] {
-    typealias Const = Constant.Comment.Icon
-    typealias Spacing = Constant.Comment.Icon.Spacing
-    return [
-      commentIcon.leadingAnchor.constraint(
-        equalTo: heartText.trailingAnchor,
-        constant: Spacing.leading),
-      commentIcon.centerYAnchor.constraint(
-        equalTo: centerYAnchor),
-      commentIcon.widthAnchor.constraint(
-        equalToConstant: Const.minimumsSize.width),
-      commentIcon.heightAnchor.constraint(
-        lessThanOrEqualToConstant: Const.minimumsSize.height)]
-  }
-  
-  var commentTextConstraint: [NSLayout] {
-    typealias Spacing = Constant.Comment.Text.Spacing
-    return [
-      commentText.leadingAnchor.constraint(
-        equalTo: commentIcon.trailingAnchor,
-        constant: Spacing.leading),
-      commentText.centerYAnchor.constraint(equalTo: centerYAnchor)]
+      commentStackView.leadingAnchor.constraint( equalTo: heartStackView.trailingAnchor, constant: 12.5),
+      commentStackView.centerYAnchor.constraint(equalTo: centerYAnchor)]
   }
   
   var shareIconConstraint: [NSLayout] {
-    typealias Spacing = Constant.Share.Spacing
-    typealias Const = Constant.Share
     return [
-      shareButton.trailingAnchor.constraint(
-        equalTo: trailingAnchor,
-        constant: -Spacing.trailing),
+      shareButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -13.5),
       shareButton.centerYAnchor.constraint(equalTo: centerYAnchor),
-      shareButton.heightAnchor.constraint(equalToConstant: Const.height),
-      shareButton.widthAnchor.constraint(equalToConstant: Const.width)]
+      shareButton.heightAnchor.constraint(equalToConstant: 15),
+      shareButton.widthAnchor.constraint(equalToConstant: 15)]
   }
 }
