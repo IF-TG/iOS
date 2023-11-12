@@ -8,17 +8,6 @@
 import UIKit
 
 class PostFooterView: UIView {
-  enum Constant {
-    enum Share {
-      static let iconName = "feedShare"
-      static let height: CGFloat = 15
-      static let width: CGFloat = 15
-      enum Spacing {
-        static let trailing: CGFloat = 13.5
-      }
-    }
-  }
-
   // MARK: - Properties
   /// 초기 사용자가 포스트에 대해서 하트를 눌렀는지 상태 체크
   private var postHeartState: Bool? = false
