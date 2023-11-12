@@ -22,7 +22,7 @@ final class CommentInputView: UIView {
     $0.addGestureRecognizer(tap)
   }
   
-  private let textView = {
+  private let inputTextView: InputTextView = {
     let placeholder = InputTextView.PlaceholderInfo(
       placeholderText: "댓글을 입력해주세요.",
       position: .centerY,
@@ -34,22 +34,22 @@ final class CommentInputView: UIView {
     return inputTextView
   }()
   
-  weak var commentDelegate: CommentInputViewDelegate?
-  
   weak var textViewDelegate: UITextViewDelegate? {
     get {
-      textView.delegate
+      inputTextView.delegate
     } set {
-      textView.delegate = newValue
+      inputTextView.delegate = newValue
     }
   }
+  
+  weak var commentDelegate: CommentInputViewDelegate?
   
   // MARK: - Lifecycle
   
   override init(frame: CGRect) {
     super.init(frame: frame)
     configureUI()
-    textView.delegate = self
+    inputTextView.delegate = self
   }
   
   convenience init() {
@@ -62,40 +62,34 @@ final class CommentInputView: UIView {
   }
 }
 
-// MARK: - Helpers
-extension CommentInputView {
-  func setPostCommentBorderStyle() {
-    layer.cornerRadius = 12
-    layer.borderColor = UIColor.yg.gray1.cgColor
-    layer.borderWidth = 0.8
-  }
-  
-  func clearInputText() {
-    textView.text = nil
-  }
-}
-
 // MARK: - Private Helpers
 private extension CommentInputView {
   func configureUI() {
     setupUI()
+    layer.cornerRadius = 12
+    layer.borderColor = UIColor.yg.gray1.cgColor
+    layer.borderWidth = 0.8
   }
 }
 
 // MARK: - Action
 extension CommentInputView {
   @objc func didTapSendIcon() {
-    commentDelegate?.didTapSendIcon(textView.text)
+    commentDelegate?.didTapSendIcon(inputTextView.text)
+    inputTextView.text = nil
   }
 }
 
 // MARK: - UITextViewDelegate
+/// delegate = self를 했지만, delegate를 커스텀할 때는 이 함수들을 호출해야합니다.
 extension CommentInputView: UITextViewDelegate {
   func textViewDidBeginEditing(_ textView: UITextView) {
+    inputTextView.textViewDidBeginEditing(textView)
     sendIcon.isHidden = false
   }
   
   func textViewDidChange(_ textView: UITextView) {
+    inputTextView.textViewDidChange(textView)
     if textView.text == nil || textView.text.count == 0 {
       sendIcon.image = sendIcon.image?.setColor(.yg.gray2)
       sendIcon.isUserInteractionEnabled = false
@@ -106,6 +100,7 @@ extension CommentInputView: UITextViewDelegate {
   }
   
   func textViewDidEndEditing(_ textView: UITextView) {
+    inputTextView.textViewDidEndEditing(textView)
     guard textView.text.count <= 0 || textView.text == nil else {
       return
     }
@@ -116,7 +111,7 @@ extension CommentInputView: UITextViewDelegate {
 // MARK: - LayoutSupport
 extension CommentInputView: LayoutSupport {
   func addSubviews() {
-    [textView, sendIcon].forEach { addSubview($0) }
+    [inputTextView, sendIcon].forEach { addSubview($0) }
   }
   
   func setConstraints() {
@@ -125,10 +120,10 @@ extension CommentInputView: LayoutSupport {
   
   private var textViewConstraints: [NSLayoutConstraint] {
     return [
-      textView.leadingAnchor.constraint(equalTo: leadingAnchor),
-      textView.topAnchor.constraint(equalTo: topAnchor),
-      textView.bottomAnchor.constraint(equalTo: bottomAnchor),
-      textView.trailingAnchor.constraint(equalTo: trailingAnchor)]
+      inputTextView.leadingAnchor.constraint(equalTo: leadingAnchor),
+      inputTextView.topAnchor.constraint(equalTo: topAnchor),
+      inputTextView.bottomAnchor.constraint(equalTo: bottomAnchor),
+      inputTextView.trailingAnchor.constraint(equalTo: trailingAnchor)]
   }
   
   private var sendIconConstraints: [NSLayoutConstraint] {
