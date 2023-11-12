@@ -11,7 +11,7 @@ protocol CommentInputViewDelegate: AnyObject {
   func didTapSendIcon(_ text: String)
 }
 
-final class CommentInputView: InputTextView {
+final class CommentInputView: UIView {
   // MARK: - Properties
   private lazy var sendIcon = UIImageView(image: UIImage(named: "commentSend")?.setColor(.yg.gray2)).set {
     $0.translatesAutoresizingMaskIntoConstraints = false
@@ -22,30 +22,43 @@ final class CommentInputView: InputTextView {
     $0.addGestureRecognizer(tap)
   }
   
+  private let textView = {
+    let placeholder = InputTextView.PlaceholderInfo(
+      placeholderText: "댓글을 입력해주세요.",
+      position: .centerY,
+      inset: .init(top: 0, left: 10, bottom: 0, right: 40))
+    let inputTextView = InputTextView(placeholderInfo: placeholder)
+    inputTextView.font = UIFont(pretendard: .regular_400(fontSize: 14))
+    inputTextView.placeholder.font = inputTextView.font
+    inputTextView.textContainerInset = UIEdgeInsets(top: 10, left: 3.5, bottom: 10, right: 40)
+    return inputTextView
+  }()
+  
   weak var commentDelegate: CommentInputViewDelegate?
   
-  // MARK: - Lifecycle
-  convenience init() {
-    let placeholderInfo = PlaceholderInfo(
-      placeholderText: "댓글을 입력해주세요.",
-      position: .top,
-      inset: .init(top: 10, left: 10, bottom: 10, right: 40))
-    self.init(frame: .zero, textContainer: nil, placeholderInfo: placeholderInfo)
-    translatesAutoresizingMaskIntoConstraints = false
-    textContainerInset = UIEdgeInsets(top: 10, left: 3.5, bottom: 10, right: 40)
+  weak var textViewDelegate: UITextViewDelegate? {
+    get {
+      textView.delegate
+    } set {
+      textView.delegate = newValue
+    }
   }
   
-  override init(frame: CGRect, textContainer: NSTextContainer?, placeholderInfo: PlaceholderInfo) {
-    super.init(frame: frame, textContainer: textContainer, placeholderInfo: placeholderInfo)
+  // MARK: - Lifecycle
+  
+  override init(frame: CGRect) {
+    super.init(frame: frame)
     configureUI()
+    textView.delegate = self
+  }
+  
+  convenience init() {
+    self.init(frame: .zero)
+    translatesAutoresizingMaskIntoConstraints = false
   }
   
   required init?(coder: NSCoder) {
     nil
-  }
-  
-  override var intrinsicContentSize: CGSize {
-    return .init(width: 60, height: 40)
   }
 }
 
@@ -58,13 +71,13 @@ extension CommentInputView {
   }
   
   func clearInputText() {
-    text = nil
+    textView.text = nil
   }
 }
 
 // MARK: - Private Helpers
-extension CommentInputView {
-  private func configureUI() {
+private extension CommentInputView {
+  func configureUI() {
     setupUI()
   }
 }
@@ -72,20 +85,18 @@ extension CommentInputView {
 // MARK: - Action
 extension CommentInputView {
   @objc func didTapSendIcon() {
-    commentDelegate?.didTapSendIcon(text)
+    commentDelegate?.didTapSendIcon(textView.text)
   }
 }
 
 // MARK: - UITextViewDelegate
-extension CommentInputView {
-  override func textViewDidBeginEditing(_ textView: UITextView) {
-    super.textViewDidBeginEditing(textView)
+extension CommentInputView: UITextViewDelegate {
+  func textViewDidBeginEditing(_ textView: UITextView) {
     sendIcon.isHidden = false
   }
   
-  override func textViewDidChange(_ textView: UITextView) {
-    super.textViewDidChange(textView)
-    if text == nil || length == 0 {
+  func textViewDidChange(_ textView: UITextView) {
+    if textView.text == nil || textView.text.count == 0 {
       sendIcon.image = sendIcon.image?.setColor(.yg.gray2)
       sendIcon.isUserInteractionEnabled = false
     } else {
@@ -94,9 +105,8 @@ extension CommentInputView {
     }
   }
   
-  override func textViewDidEndEditing(_ textView: UITextView) {
-    super.textViewDidEndEditing(textView)
-    guard length <= 0 || text == nil else {
+  func textViewDidEndEditing(_ textView: UITextView) {
+    guard textView.text.count <= 0 || textView.text == nil else {
       return
     }
     sendIcon.isHidden = true
@@ -106,17 +116,25 @@ extension CommentInputView {
 // MARK: - LayoutSupport
 extension CommentInputView: LayoutSupport {
   func addSubviews() {
-    addSubview(sendIcon)
+    [textView, sendIcon].forEach { addSubview($0) }
   }
   
   func setConstraints() {
-    NSLayoutConstraint.activate(sendIconConstraints)
+    [sendIconConstraints, textViewConstraints].forEach { NSLayoutConstraint.activate($0) }
+  }
+  
+  private var textViewConstraints: [NSLayoutConstraint] {
+    return [
+      textView.leadingAnchor.constraint(equalTo: leadingAnchor),
+      textView.topAnchor.constraint(equalTo: topAnchor),
+      textView.bottomAnchor.constraint(equalTo: bottomAnchor),
+      textView.trailingAnchor.constraint(equalTo: trailingAnchor)]
   }
   
   private var sendIconConstraints: [NSLayoutConstraint] {
     return [
       sendIcon.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
-      sendIcon.centerYAnchor.constraint(equalTo: bottomAnchor, constant: -10),
+      sendIcon.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10),
       sendIcon.widthAnchor.constraint(equalToConstant: 20),
       sendIcon.heightAnchor.constraint(equalToConstant: 20)]
   }
