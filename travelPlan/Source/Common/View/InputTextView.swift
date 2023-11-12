@@ -9,7 +9,7 @@ import UIKit
 
 class InputTextView: UITextView {
   // MARK: - Properties
-  public var placeholder = BaseLabel(fontType: .medium_500(fontSize: 15)).set {
+  public var placeholder = BaseLabel(fontType: .medium_500(fontSize: 14)).set {
     $0.textColor = .yg.gray1
     $0.text = "텍스트를 입력해주세요."
   }
@@ -26,7 +26,7 @@ class InputTextView: UITextView {
   
   override var text: String! {
     didSet {
-      if !placeholder.isHidden && (text == nil || text.count == 0)  {
+      if !placeholder.isHidden && (text == nil || text.count == 0) {
         placeholder.isHidden = false
       }
     }
