@@ -27,6 +27,10 @@ final class PostProfileAndCommentView: BaseProfileAreaView {
     }
   }
   
+  var textLineheight: CGFloat {
+    commentInputView.lineHeight
+  }
+  
   // MARK: - Lifecycle
   init() {
     super.init(
