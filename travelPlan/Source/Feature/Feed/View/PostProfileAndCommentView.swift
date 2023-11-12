@@ -18,12 +18,12 @@ final class PostProfileAndCommentView: BaseProfileAreaView {
       commentInputView.commentDelegate = newValue
     }
   }
-  
+    
   weak var textViewDelegate: UITextViewDelegate? {
     get {
-      commentInputView.delegate
+      commentInputView.textViewDelegate
     } set {
-      commentInputView.delegate = newValue
+      commentInputView.textViewDelegate = newValue
     }
   }
   
@@ -38,5 +38,21 @@ final class PostProfileAndCommentView: BaseProfileAreaView {
   
   required init?(coder: NSCoder) {
     nil
+  }
+}
+
+// MARK: - Helpers
+/// 외부에서 textViewDelegate를 채택하면 이함수를 호출해야 합니다.
+extension PostProfileAndCommentView {
+  func textViewDidBeginEditing(_ textView: UITextView) {
+    commentInputView.textViewDidBeginEditing(textView)
+  }
+  
+  func textViewDidChange(_ textView: UITextView) {
+    commentInputView.textViewDidChange(textView)
+  }
+  
+  func textViewDidEndEditing(_ textView: UITextView) {
+    commentInputView.textViewDidEndEditing(textView)
   }
 }
