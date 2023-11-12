@@ -52,7 +52,7 @@ extension IconWithCountLabelStackView {
     axis = .horizontal
     spacing = 5
     distribution = .equalSpacing
-    alignment = .leading
+    alignment = .center
   }
 }
 
