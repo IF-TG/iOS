@@ -44,6 +44,10 @@ final class CommentInputView: UIView {
   
   weak var commentDelegate: CommentInputViewDelegate?
   
+  var lineHeight: CGFloat {
+    UIFont(pretendard: .regular_400(fontSize: 14))!.lineHeight
+  }
+  
   // MARK: - Lifecycle
   
   override init(frame: CGRect) {
