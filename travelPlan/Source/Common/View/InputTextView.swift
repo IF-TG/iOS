@@ -18,12 +18,6 @@ class InputTextView: UITextView {
   
   private let placeholderInfo: PlaceholderInfo
   
-  private var placeholderText: String? {
-    didSet {
-      placeholder.text = placeholderText
-    }
-  }
-  
   override var text: String! {
     didSet {
       if !placeholder.isHidden && (text == nil || text.count == 0) {
@@ -43,7 +37,7 @@ class InputTextView: UITextView {
     placeholderInfo: PlaceholderInfo
   ) {
     self.placeholderInfo = placeholderInfo
-    self.placeholderText = placeholderInfo.placeholderText
+    placeholder.text = placeholderInfo.placeholderText
     super.init(frame: frame, textContainer: textContainer)
     baseConfigureUI()
   }
