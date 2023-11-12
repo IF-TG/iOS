@@ -11,7 +11,6 @@ final class PostDetailContentImageCell: UITableViewCell {
   static let id = String(describing: PostDetailContentImageCell.self)
   
   enum Constant {
-    static let spacing: CGFloat = 10
     static let imageHeight: CGFloat = 235
   }
   
@@ -75,9 +74,9 @@ private extension PostDetailContentImageCell {
     let contentImageViewBottomConstriant = contentImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
     contentImageViewBottomConstriant.priority = .init(999)
     return [
-      contentImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constant.spacing),
-      contentImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Constant.spacing),
-      contentImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Constant.spacing),
+      contentImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+      contentImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
+      contentImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
       contentImageView.heightAnchor.constraint(equalToConstant: Constant.imageHeight),
       contentImageViewBottomConstriant]
   }
