@@ -10,12 +10,8 @@ import UIKit
 final class PostDetailContentTextCell: UITableViewCell {
   static let id = String(describing: PostDetailContentTextCell.self)
   
-  enum Constant {
-    static let spacing: CGFloat = 10
-  }
-  
   // MARK: - Properties
-  private let label = BaseLabel(fontType: .regular_400(fontSize: 14), lineHeight: 25).set {
+  private let label = BaseLabel(fontType: .regular_400(fontSize: 16), lineHeight: 25).set {
     $0.numberOfLines = 0
   }
 
@@ -69,9 +65,9 @@ private extension PostDetailContentTextCell {
     let labelBottomConstraint = label.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
     labelBottomConstraint.priority = .defaultHigh
     return [
-      label.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constant.spacing),
-      label.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Constant.spacing),
-      label.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Constant.spacing),
+      label.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 11),
+      label.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
+      label.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -11),
       labelBottomConstraint]
   }
 }
