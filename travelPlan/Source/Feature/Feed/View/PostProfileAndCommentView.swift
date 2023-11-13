@@ -71,4 +71,3 @@ extension PostProfileAndCommentView {
     commentInputView.textViewDidEndEditing(textView)
   }
 }
-
