@@ -16,6 +16,7 @@ final class PostDetailViewController: UIViewController {
     $0.separatorInset = .zero
     $0.backgroundColor = .white
     $0.scrollIndicatorInsets = .init(top: 0, left: -1, bottom: 13, right: -1)
+    $0.contentInset = .zero
     if #available(iOS 15.0, *) {
       $0.sectionHeaderTopPadding = 0
     }
@@ -31,6 +32,14 @@ final class PostDetailViewController: UIViewController {
     $0.register(PostDetailContentTextCell.self, forCellReuseIdentifier: PostDetailContentTextCell.id)
     $0.register(PostDetailContentImageCell.self, forCellReuseIdentifier: PostDetailContentImageCell.id)
     $0.register(PostDetailContentFooterView.self, forHeaderFooterViewReuseIdentifier: PostDetailContentFooterView.id)
+    
+    $0.register(PostDetailCommentHeader.self, forHeaderFooterViewReuseIdentifier: PostDetailCommentHeader.id)
+    $0.register(PostDetailReplyCell.self, forCellReuseIdentifier: PostDetailReplyCell.id)
+  }
+  
+  private let commentInputView = UIView(frame: .zero).set {
+    $0.translatesAutoresizingMaskIntoConstraints = false
+    $0.backgroundColor = .yellow
   }
   
   private let naviTitle = BaseLabel(fontType: .semiBold_600(fontSize: 16))
@@ -62,6 +71,12 @@ final class PostDetailViewController: UIViewController {
     configureUI()
   }
   
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    (self.tabBarController as? MainTabBarController)?.hideShadowLayer()
+    self.tabBarController?.tabBar.isHidden = true
+  }
+  
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     setTitleView()
@@ -70,6 +85,8 @@ final class PostDetailViewController: UIViewController {
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
     navigationController?.navigationBar.topItem?.titleView = nil
+    (self.tabBarController as? MainTabBarController)?.showShadowLayer()
+    self.tabBarController?.tabBar.isHidden = false
   }
 }
 
@@ -136,7 +153,9 @@ extension PostDetailViewController: PostDetailTableViewAdapterDelegate {
 
 extension PostDetailViewController: LayoutSupport {
   func addSubviews() {
-    view.addSubview(tableView)
+    [tableView, commentInputView].forEach {
+      view.addSubview($0)
+    }
   }
   
   func setConstraints() {
@@ -144,6 +163,11 @@ extension PostDetailViewController: LayoutSupport {
       tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
       tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
       tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-      tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)])
+      
+      commentInputView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+      commentInputView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+      commentInputView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+      commentInputView.heightAnchor.constraint(equalToConstant: 60),
+      commentInputView.topAnchor.constraint(equalTo: tableView.bottomAnchor)])
   }
 }

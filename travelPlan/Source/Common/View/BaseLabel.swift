@@ -9,7 +9,11 @@ import UIKit
 
 class BaseLabel: UILabel {
   // MARK: - Properties
-  private var fontType: UIFont.Pretendard
+  public var fontType: UIFont.Pretendard {
+    didSet {
+      setPretendardFont()
+    }
+  }
   
   private var lineHeight: CGFloat?
   
