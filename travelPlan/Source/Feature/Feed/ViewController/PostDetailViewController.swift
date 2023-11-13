@@ -15,7 +15,12 @@ final class PostDetailViewController: UIViewController {
     $0.estimatedRowHeight = 235
     $0.separatorInset = .zero
     $0.backgroundColor = .white
-    $0.scrollIndicatorInsets = .init(top: 0, left: -1, bottom: 13, right: -1)
+    $0.scrollIndicatorInsets = .init(top: 0, left: -1, bottom: 0, right: -1)
+    $0.tableFooterView = UIView(
+      frame: CGRect(origin: .zero,
+                    size: CGSize(width: CGFloat.leastNormalMagnitude,
+                                 height: CGFloat.leastNormalMagnitude)))
+
     $0.contentInset = .zero
     if #available(iOS 15.0, *) {
       $0.sectionHeaderTopPadding = 0
@@ -32,16 +37,16 @@ final class PostDetailViewController: UIViewController {
     $0.register(PostDetailContentTextCell.self, forCellReuseIdentifier: PostDetailContentTextCell.id)
     $0.register(PostDetailContentImageCell.self, forCellReuseIdentifier: PostDetailContentImageCell.id)
     $0.register(PostDetailContentFooterView.self, forHeaderFooterViewReuseIdentifier: PostDetailContentFooterView.id)
-    $0.register(PostHeartAndShareAreaHeaderView.self, forHeaderFooterViewReuseIdentifier: PostHeartAndShareAreaHeaderView.id)
+    $0.register(PostHeartAndShareAreaHeaderView.self, 
+                forHeaderFooterViewReuseIdentifier: PostHeartAndShareAreaHeaderView.id)
     
     $0.register(PostDetailCommentHeader.self, forHeaderFooterViewReuseIdentifier: PostDetailCommentHeader.id)
     $0.register(PostDetailReplyCell.self, forCellReuseIdentifier: PostDetailReplyCell.id)
   }
   
-  private let commentInputView = UIView(frame: .zero).set {
-    $0.translatesAutoresizingMaskIntoConstraints = false
-    $0.backgroundColor = .yellow
-  }
+  private let inputAccessory = PostDetailInputAccessoryView()
+  
+  private var inputAccessoryHeight: NSLayoutConstraint!
   
   private let naviTitle = BaseLabel(fontType: .semiBold_600(fontSize: 16))
   
@@ -97,6 +102,12 @@ private extension PostDetailViewController {
     view.backgroundColor = .white
     setupDefaultBackBarButtonItem(marginLeft: 0)
     setupUI()
+    
+    inputAccessory.updatedContentHeight = { [weak self] height in
+      self?.inputAccessoryHeight.isActive = false
+      self?.inputAccessoryHeight = self?.inputAccessory.heightAnchor.constraint(equalToConstant: height + 20)
+      self?.inputAccessoryHeight.isActive = true
+    }
   }
   
   func setTitleView() {
@@ -154,21 +165,28 @@ extension PostDetailViewController: PostDetailTableViewAdapterDelegate {
 
 extension PostDetailViewController: LayoutSupport {
   func addSubviews() {
-    [tableView, commentInputView].forEach {
+    [inputAccessory, tableView].forEach {
       view.addSubview($0)
     }
   }
   
   func setConstraints() {
+    tableView.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
+    inputAccessory.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
+    let tableViewBottomAnchor = tableView.bottomAnchor.constraint(equalTo: inputAccessory.topAnchor)
+    inputAccessoryHeight = inputAccessory.heightAnchor.constraint(
+      equalToConstant: inputAccessory.textLineHeight + CGFloat(40))
+    tableViewBottomAnchor.priority = .defaultLow
+    inputAccessoryHeight.priority = .defaultHigh
     NSLayoutConstraint.activate([
+      inputAccessory.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+      inputAccessory.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+      inputAccessory.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+       inputAccessoryHeight,
+      
       tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
       tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
       tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-      
-      commentInputView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-      commentInputView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-      commentInputView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-      commentInputView.heightAnchor.constraint(equalToConstant: 60),
-      commentInputView.topAnchor.constraint(equalTo: tableView.bottomAnchor)])
+      tableViewBottomAnchor])
   }
 }
