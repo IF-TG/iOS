@@ -16,4 +16,7 @@ protocol PostDetailTableViewDataSource: AnyObject {
   
   func numberOfItems(in section: Int) -> Int
   func postContentItem(at row: Int) -> PostDetailContentInfo
+  
+  func commentItem(in section: Int) -> BasePostDetailCommentInfo
+  func replyItem(at indexPath: IndexPath) -> PostReplyInfo
 }

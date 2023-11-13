@@ -128,6 +128,8 @@ class BaseProfileAreaView: UIView {
   private func setSubviewsPriority() {
     profileImageView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
     contentView.setContentHuggingPriority(.defaultLow, for: .horizontal)
+    contentView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+    profileImageView.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
   }
   
   private func configureLayout() {

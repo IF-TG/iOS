@@ -9,8 +9,10 @@ import UIKit
 
 final class PostDetailTableViewAdapter: NSObject {
   // MARK: - Properties
-  weak var dataSource: PostDetailTableViewDataSource?
+  private weak var dataSource: PostDetailTableViewDataSource?
   weak var delegate: PostDetailTableViewAdapterDelegate?
+  
+  private let defaultSection = 2
   
   // MARK: - Lifecycle
   init(
@@ -72,8 +74,14 @@ extension PostDetailTableViewAdapter: UITableViewDataSource {
         return cell
       }
     default:
-      /// 댓글
-      return .init(frame: .zero)
+      guard let cell = tableView.dequeueReusableCell(
+        withIdentifier: PostDetailReplyCell.id,
+        for: indexPath
+      ) as? PostDetailReplyCell else {
+        return .init(frame: .zero)
+      }
+      cell.configure(with: dataSource.replyItem(at: indexPath))
+      return cell
     }
   }
 }
@@ -93,15 +101,16 @@ extension PostDetailTableViewAdapter: UITableViewDelegate {
   }
   
   func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-    
     if cell is PostDetailTitleCell {
       delegate?.willDisplayTitle()
     }
+    // TODO: - 서버에서 만약 댓글달았을때 에대한 bool값 있으면 배경색 파랑 -> 원래색으로 돌아오는 피그마 ui추가.
   }
   
   func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
     guard let dataSource else { return nil }
-    if section == 0 {
+    switch section {
+    case 0:
       guard let header = tableView.dequeueReusableHeaderFooterView(
         withIdentifier: PostDetailCategoryHeaderView.id
       ) as? PostDetailCategoryHeaderView else {
@@ -109,8 +118,18 @@ extension PostDetailTableViewAdapter: UITableViewDelegate {
       }
       header.configure(with: dataSource.cateogry)
       return header
+    case 1:
+      return nil
+    default:
+      guard let commentHeader = tableView.dequeueReusableHeaderFooterView(
+        withIdentifier: PostDetailCommentHeader.id
+      ) as? PostDetailCommentHeader else {
+        return nil
+      }
+      commentHeader.configure(with: dataSource.commentItem(in: section))
+      return commentHeader
     }
-    return nil
+    
   }
   
   func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
@@ -140,22 +159,31 @@ extension PostDetailTableViewAdapter: UITableViewDelegate {
   }
   
   func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-    guard let sectionType: PostDetailSectionType = .init(rawValue: section) else { return 0 }
+    guard let sectionType: PostDetailSectionType = .init(rawValue: section) else { return .leastNonzeroMagnitude }
     switch sectionType {
     case .postDescription:
       return UITableView.automaticDimension
     case .postContent:
       return 11
     default:
-      return 0
+      return .leastNonzeroMagnitude
     }
   }
   
   func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-    if section == 0 {
+    guard 
+      let sectionType: PostDetailSectionType = .init(rawValue: section),
+      let dataSource
+    else { return 0 }
+    switch sectionType {
+    case .postDescription:
       return UITableView.automaticDimension
+    case .postContent:
+      return 0
+    default:
+      return (dataSource.numberOfSections - defaultSection <= 0)
+              ? .leastNonzeroMagnitude : UITableView.automaticDimension
     }
-    return 0
   }
   
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
