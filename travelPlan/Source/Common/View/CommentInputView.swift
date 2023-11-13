@@ -66,6 +66,17 @@ final class CommentInputView: UIView {
   }
 }
 
+// MARK: - Helpers
+extension CommentInputView {
+  func activeScrollableContent() {
+    inputTextView.isScrollEnabled = true
+  }
+  
+  func deactiveScrollableContent() {
+    inputTextView.isScrollEnabled = false
+  }
+}
+
 // MARK: - Private Helpers
 private extension CommentInputView {
   func configureUI() {
@@ -81,6 +92,7 @@ extension CommentInputView {
   @objc func didTapSendIcon() {
     commentDelegate?.didTapSendIcon(inputTextView.text)
     inputTextView.text = nil
+    sendIcon.image = sendIcon.image?.setColor(.yg.gray2)
   }
 }
 
@@ -134,6 +146,7 @@ extension CommentInputView: LayoutSupport {
     return [
       sendIcon.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
       sendIcon.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10),
+      sendIcon.topAnchor.constraint(greaterThanOrEqualTo: topAnchor, constant: 10),
       sendIcon.widthAnchor.constraint(equalToConstant: 20),
       sendIcon.heightAnchor.constraint(equalToConstant: 20)]
   }
