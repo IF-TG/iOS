@@ -46,6 +46,17 @@ final class PostProfileAndCommentView: BaseProfileAreaView {
 }
 
 // MARK: - Helpers
+extension PostProfileAndCommentView {
+  func activeScrollableContent() {
+    commentInputView.activeScrollableContent()
+  }
+  
+  func deactiveScrollableContent() {
+    commentInputView.deactiveScrollableContent()
+  }
+}
+
+// MARK: - UITextViewDelegate
 /// 외부에서 textViewDelegate를 채택하면 이함수를 호출해야 합니다.
 extension PostProfileAndCommentView {
   func textViewDidBeginEditing(_ textView: UITextView) {
@@ -60,3 +71,4 @@ extension PostProfileAndCommentView {
     commentInputView.textViewDidEndEditing(textView)
   }
 }
+
