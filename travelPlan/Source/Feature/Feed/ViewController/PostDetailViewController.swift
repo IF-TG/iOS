@@ -46,8 +46,6 @@ final class PostDetailViewController: UIViewController {
   
   private let inputAccessory = PostDetailInputAccessoryView()
   
-  private var inputAccessoryHeight: NSLayoutConstraint!
-  
   private let naviTitle = BaseLabel(fontType: .semiBold_600(fontSize: 16))
   
   private var naviTitleAnimator: UIViewPropertyAnimator?
@@ -56,6 +54,7 @@ final class PostDetailViewController: UIViewController {
   
   private let viewModel: PostDetailTableViewDataSource
   
+  // TODO: - 추후 comments section이 나올때 텍스트 input accessoryview를 보여주는것도 좋을것 같다.
   private var prevScrollDirection: UIScrollView.ScrollVerticalDirection = .down
   
   // MARK: - Lifecycle
@@ -102,17 +101,16 @@ private extension PostDetailViewController {
     view.backgroundColor = .white
     setupDefaultBackBarButtonItem(marginLeft: 0)
     setupUI()
-    
-    inputAccessory.updatedContentHeight = { [weak self] height in
-      self?.inputAccessoryHeight.isActive = false
-      self?.inputAccessoryHeight = self?.inputAccessory.heightAnchor.constraint(equalToConstant: height + 20)
-      self?.inputAccessoryHeight.isActive = true
-    }
+    setContentCompressionResistencePriorities()
   }
   
   func setTitleView() {
     navigationItem.titleView = naviTitle
     naviTitle.alpha = 0
+  }
+  func setContentCompressionResistencePriorities() {
+    tableView.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
+    inputAccessory.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
   }
 }
 
@@ -163,6 +161,7 @@ extension PostDetailViewController: PostDetailTableViewAdapterDelegate {
   }
 }
 
+// MARK: - LayoutSupport
 extension PostDetailViewController: LayoutSupport {
   func addSubviews() {
     [inputAccessory, tableView].forEach {
@@ -171,18 +170,13 @@ extension PostDetailViewController: LayoutSupport {
   }
   
   func setConstraints() {
-    tableView.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
-    inputAccessory.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
     let tableViewBottomAnchor = tableView.bottomAnchor.constraint(equalTo: inputAccessory.topAnchor)
-    inputAccessoryHeight = inputAccessory.heightAnchor.constraint(
-      equalToConstant: inputAccessory.textLineHeight + CGFloat(40))
     tableViewBottomAnchor.priority = .defaultLow
-    inputAccessoryHeight.priority = .defaultHigh
+    
     NSLayoutConstraint.activate([
       inputAccessory.leadingAnchor.constraint(equalTo: view.leadingAnchor),
       inputAccessory.trailingAnchor.constraint(equalTo: view.trailingAnchor),
       inputAccessory.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-       inputAccessoryHeight,
       
       tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
       tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
