@@ -32,6 +32,7 @@ final class PostDetailViewController: UIViewController {
     $0.register(PostDetailContentTextCell.self, forCellReuseIdentifier: PostDetailContentTextCell.id)
     $0.register(PostDetailContentImageCell.self, forCellReuseIdentifier: PostDetailContentImageCell.id)
     $0.register(PostDetailContentFooterView.self, forHeaderFooterViewReuseIdentifier: PostDetailContentFooterView.id)
+    $0.register(PostHeartAndShareAreaHeaderView.self, forHeaderFooterViewReuseIdentifier: PostHeartAndShareAreaHeaderView.id)
     
     $0.register(PostDetailCommentHeader.self, forHeaderFooterViewReuseIdentifier: PostDetailCommentHeader.id)
     $0.register(PostDetailReplyCell.self, forCellReuseIdentifier: PostDetailReplyCell.id)
