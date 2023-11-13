@@ -76,9 +76,9 @@ private extension PostFooterView {
 // MARK: - Helper
 extension PostFooterView {
   func configure(with data: PostFooterInfo?) {
-    setHeart(with: String(data?.heartCount ?? 0))
+    setHeart(with: data?.heartCount)
     setHeartIcon(with: data?.heartState ?? false)
-    setComment(with: String(data?.commentCount ?? 0))
+    setComment(with: data?.commentCount)
   }
   
   func updatePostHeartState() {
@@ -122,11 +122,11 @@ extension PostFooterView {
     heartStackView.icon.addGestureRecognizer(tap)
   }
   
-  private func setHeart(with text: String) {
+  private func setHeart(with text: String?) {
     heartStackView.countLabel.text = text
   }
   
-  private func setComment(with text: String) {
+  private func setComment(with text: String?) {
     commentStackView.countLabel.text = text
   }
 
