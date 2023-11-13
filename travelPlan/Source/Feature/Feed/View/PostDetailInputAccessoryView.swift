@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol PostDetailInputAccessoryViewDelegate: AnyObject {
+  func didTouchSendIcon(_ text: String)
+}
+
 final class PostDetailInputAccessoryView: UIView {
   // MARK: - Properties
   private let maximumTextLine = 3
@@ -23,13 +27,7 @@ final class PostDetailInputAccessoryView: UIView {
   
   private let contentView = PostProfileAndCommentView()
   
-  weak var commentInputViewDelegate: CommentInputViewDelegate? {
-    get {
-      contentView.commentInputViewDelegate
-    } set {
-      contentView.commentInputViewDelegate = newValue
-    }
-  }
+  weak var inputDelegate: PostDetailInputAccessoryViewDelegate?
   
   weak var textViewDelegate: UITextViewDelegate? {
     get {
@@ -52,6 +50,7 @@ final class PostDetailInputAccessoryView: UIView {
     super.init(frame: frame)
     setupUI()
     contentView.textViewDelegate = self
+    contentView.commentInputViewDelegate = self
   }
   
   convenience init() {
@@ -72,8 +71,8 @@ extension PostDetailInputAccessoryView {
   }
 }
 
-extension PostDetailInputAccessoryView {
-  
+// MARK: - Private Helpers
+private extension PostDetailInputAccessoryView {
   func isIncreasedTextLine(from estimatedHeight: CGFloat) -> Bool {
     return estimatedHeight <= originalHeight + textLineHeight * CGFloat(maximumTextLine)
   }
@@ -133,7 +132,14 @@ extension PostDetailInputAccessoryView: UITextViewDelegate {
   func textViewDidEndEditing(_ textView: UITextView) {
     contentView.textViewDidEndEditing(textView)
   }
+}
 
+// MARK: - CommentInputViewDelegate
+extension PostDetailInputAccessoryView: CommentInputViewDelegate {
+  func didTapSendIcon(_ text: String) {
+    inputDelegate?.didTouchSendIcon(text)
+    updateContentViewHeight(from: originalHeight)
+  }
 }
 
 // MARK: - LayoutSupport
@@ -146,7 +152,7 @@ extension PostDetailInputAccessoryView: LayoutSupport {
     contentViewHeightConstraint = contentView.heightAnchor.constraint(equalToConstant: originalHeight)
     NSLayoutConstraint.activate([
       contentView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 11),
-      contentView.topAnchor.constraint(greaterThanOrEqualTo: topAnchor, constant: 10),
+      contentView.topAnchor.constraint(equalTo: topAnchor, constant: 10),
       contentView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -11),
       contentView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10),
       contentViewHeightConstraint])
