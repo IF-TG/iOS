@@ -1,5 +1,5 @@
 //
-//  PostDetailInputAccessoryView.swift
+//  PostDetailInputAccessoryWrapper.swift
 //  travelPlan
 //
 //  Created by 양승현 on 11/11/23.
@@ -7,11 +7,11 @@
 
 import UIKit
 
-protocol PostDetailInputAccessoryViewDelegate: AnyObject {
+protocol PostDetailInputAccessoryWrapperDelegate: AnyObject {
   func didTouchSendIcon(_ text: String)
 }
 
-final class PostDetailInputAccessoryView: UIView {
+final class PostDetailInputAccessoryWrapper: UIView {
   // MARK: - Properties
   private let maximumTextLine = 3
   
@@ -27,7 +27,7 @@ final class PostDetailInputAccessoryView: UIView {
   
   private let contentView = PostProfileAndCommentView()
   
-  weak var inputDelegate: PostDetailInputAccessoryViewDelegate?
+  weak var inputDelegate: PostDetailInputAccessoryWrapperDelegate?
   
   weak var textViewDelegate: UITextViewDelegate? {
     get {
@@ -39,6 +39,14 @@ final class PostDetailInputAccessoryView: UIView {
   
   weak var profileDelegate: BaseProfileAreaViewDelegate?
   
+  override var inputAccessoryView: UIView? {
+    get {
+      contentView.inputAccessoryView
+    } set {
+      contentView.inputAccessoryView = newValue
+    }
+  }
+  
   var textLineHeight: CGFloat {
     contentView.textLineheight
   }
@@ -49,8 +57,21 @@ final class PostDetailInputAccessoryView: UIView {
   override init(frame: CGRect) {
     super.init(frame: frame)
     setupUI()
+    backgroundColor = .white
     contentView.textViewDelegate = self
     contentView.commentInputViewDelegate = self
+  }
+  
+  override var intrinsicContentSize: CGSize {
+    contentView.setScrollEnabled(false)
+    let size = contentView.sizeThatFits(CGSize(width: contentView.bounds.width, height: CGFloat.infinity))
+    let height = size.height + 20
+    if 40 + textLineHeight * 3 <= height {
+      return CGSize(width: bounds.width, height: max(height, 40 + textLineHeight * 3))
+    } else {
+      contentView.setScrollEnabled(true)
+      return CGSize(width: bounds.width, height: 40 + textLineHeight * 3)
+    }
   }
   
   convenience init() {
@@ -64,15 +85,23 @@ final class PostDetailInputAccessoryView: UIView {
 }
 
 // MARK: - Helpers
-extension PostDetailInputAccessoryView {
+extension PostDetailInputAccessoryWrapper {
   // TODO: - 로그인한 사용자는 프로필이미지 파일메니저나 캐싱으로 저장해두는게.. 그걸 가져오자
   func configure(with profileImageURL: String?) {
     contentView.configure(with: profileImageURL)
   }
+  
+  func showKeyboard() {
+    contentView.showKeyboard()
+  }
+  
+  func hideKeyboard() {
+    contentView.hideKeyboard()
+  }
 }
 
 // MARK: - Private Helpers
-private extension PostDetailInputAccessoryView {
+private extension PostDetailInputAccessoryWrapper {
   func isIncreasedTextLine(from estimatedHeight: CGFloat) -> Bool {
     return estimatedHeight <= originalHeight + textLineHeight * CGFloat(maximumTextLine)
   }
@@ -90,6 +119,7 @@ private extension PostDetailInputAccessoryView {
     contentViewHeightConstraint = contentView.heightAnchor.constraint(equalToConstant: height)
     contentViewHeightConstraint.isActive = true
     self.contentView.layoutIfNeeded()
+    super.invalidateIntrinsicContentSize()
   }
   
   func updateCursorPositionToUpperLine(_ textView: UITextView, from offsetY: CGFloat) {
@@ -99,7 +129,7 @@ private extension PostDetailInputAccessoryView {
 }
 
 // MARK: - UITextViewDelegate
-extension PostDetailInputAccessoryView: UITextViewDelegate {
+extension PostDetailInputAccessoryWrapper: UITextViewDelegate {
   func textViewDidChange(_ textView: UITextView) {
     contentView.textViewDidChange(textView)
     let newLineCount = textView.text.components(separatedBy: "\n").count - 1
@@ -131,11 +161,12 @@ extension PostDetailInputAccessoryView: UITextViewDelegate {
   
   func textViewDidEndEditing(_ textView: UITextView) {
     contentView.textViewDidEndEditing(textView)
+    textView.resignFirstResponder()
   }
 }
 
 // MARK: - CommentInputViewDelegate
-extension PostDetailInputAccessoryView: CommentInputViewDelegate {
+extension PostDetailInputAccessoryWrapper: CommentInputViewDelegate {
   func didTapSendIcon(_ text: String) {
     inputDelegate?.didTouchSendIcon(text)
     updateContentViewHeight(from: originalHeight)
@@ -143,7 +174,7 @@ extension PostDetailInputAccessoryView: CommentInputViewDelegate {
 }
 
 // MARK: - LayoutSupport
-extension PostDetailInputAccessoryView: LayoutSupport {
+extension PostDetailInputAccessoryWrapper: LayoutSupport {
   func addSubviews() {
     addSubview(contentView)
   }
@@ -154,7 +185,7 @@ extension PostDetailInputAccessoryView: LayoutSupport {
       contentView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 11),
       contentView.topAnchor.constraint(equalTo: topAnchor, constant: 10),
       contentView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -11),
-      contentView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10),
+      contentView.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor, constant: -10),
       contentViewHeightConstraint])
   }
 }
