@@ -86,6 +86,10 @@ class InputTextView: UITextView {
     }
     return size
   }
+  
+  deinit {
+    NotificationCenter.default.removeObserver(self)
+  }
 }
 
 // MARK: - Private Helpers
