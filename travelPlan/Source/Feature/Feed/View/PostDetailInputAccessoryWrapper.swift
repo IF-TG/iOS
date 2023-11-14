@@ -26,6 +26,7 @@ final class PostDetailInputAccessoryWrapper: UIView {
     backgroundColor = .white
     contentView.inputDelegate = self
     contentView.baseDelegate = self
+    configure(with: "tempProfile1")
   }
   
   override var intrinsicContentSize: CGSize {

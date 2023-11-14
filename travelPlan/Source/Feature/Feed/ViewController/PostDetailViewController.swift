@@ -66,7 +66,6 @@ final class PostDetailViewController: UITableViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    registerReusableViews()
     configureUI()
     inputAccessory.delegate = self
   }
