@@ -13,14 +13,13 @@ final class PostDetailViewController: UITableViewController {
   
   private let naviTitle = BaseLabel(fontType: .semiBold_600(fontSize: 16))
   
+  private let starButton = SearchStarButton(normalType: .black)
+  
   private var naviTitleAnimator: UIViewPropertyAnimator?
   
   private var adapter: PostDetailTableViewAdapter?
   
   private let viewModel: PostDetailTableViewDataSource
-  
-  // TODO: - 추후 comments section이 나올때 텍스트 input accessoryview를 보여주는것도 좋을것 같다.
-  private var prevScrollDirection: UIScrollView.ScrollVerticalDirection = .down
   
   override var canBecomeFirstResponder: Bool {
     return true
@@ -94,6 +93,10 @@ private extension PostDetailViewController {
   func configureUI() {
     view.backgroundColor = .white
     setupDefaultBackBarButtonItem(marginLeft: 0)
+    navigationItem.rightBarButtonItem = UIBarButtonItem(customView: starButton)
+    starButton.translatesAutoresizingMaskIntoConstraints = false
+    starButton.widthAnchor.constraint(equalToConstant: 24).isActive = true
+    starButton.heightAnchor.constraint(equalToConstant: 24).isActive = true
   }
   
   func setTitleView() {
