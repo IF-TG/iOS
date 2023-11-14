@@ -20,11 +20,19 @@ class InputTextView: UITextView {
   
   override var text: String! {
     didSet {
-      if !placeholder.isHidden && (text == nil || text.count == 0) {
-        placeholder.isHidden = false
-      }
+      placeholder.isHidden = !text.isEmpty
+      invalidateIntrinsicContentSize()
     }
   }
+  
+  override var font: UIFont? {
+    didSet {
+      placeholder.font = font
+      invalidateIntrinsicContentSize()
+    }
+  }
+  
+  var maxHeight: CGFloat = 0
   
   var length: Int {
     text.count
@@ -40,6 +48,7 @@ class InputTextView: UITextView {
     placeholder.text = placeholderInfo.placeholderText
     super.init(frame: frame, textContainer: textContainer)
     baseConfigureUI()
+    setTextDidChangedNotification()
   }
   
   convenience init(textContainer: NSTextContainer?, placeholderInfo: PlaceholderInfo = .init()) {
@@ -60,12 +69,38 @@ class InputTextView: UITextView {
   required init?(coder: NSCoder) {
     nil
   }
-  // MARK: - Helpers
   
-  // MARK: - Private Helpers
-  func baseConfigureUI() {
+  override var intrinsicContentSize: CGSize {
+    var size = super.intrinsicContentSize
+    if size.height == UIView.noIntrinsicMetric {
+      layoutManager.glyphRange(for: textContainer)
+      size.height = layoutManager.usedRect(for: textContainer)
+        .height + textContainerInset.top + textContainerInset.bottom
+    }
+    
+    if size.height > maxHeight {
+      size.height = maxHeight
+      if !isScrollEnabled { isScrollEnabled.toggle() }
+    } else if isScrollEnabled {
+      isScrollEnabled.toggle()
+    }
+    return size
+  }
+}
+
+// MARK: - Private Helpers
+extension InputTextView {
+  private func baseConfigureUI() {
     setPlaceholderLayout()
-    delegate = self
+    isScrollEnabled = false
+  }
+  
+  private func setTextDidChangedNotification() {
+    NotificationCenter.default.addObserver(
+      self,
+      selector: #selector(UITextInputDelegate.textDidChange(_:)),
+      name: UITextView.textDidChangeNotification,
+      object: self)
   }
 }
 
@@ -92,22 +127,10 @@ private extension InputTextView {
 }
 
 // MARK: - UITextViewDelegate
-extension InputTextView: UITextViewDelegate {
-  func textViewDidChange(_ textView: UITextView) {
-    guard let text = textView.text else { return }
-    placeholder.isHidden = text.isEmpty ? false : true
-  }
-  
-  func textViewDidBeginEditing(_ textView: UITextView) {
-    if isPlaceholderHiddenWhenTextBeginEditing {
-      placeholder.isHidden = true
-    }
-  }
-  
-  func textViewDidEndEditing(_ textView: UITextView) {
-    if textView.text == nil || length < 1 {
-      placeholder.isHidden = false
-    }
+extension InputTextView {
+  @objc private func textDidChange(_ note: Notification) {
+    placeholder.isHidden = !text.isEmpty
+    invalidateIntrinsicContentSize()
   }
 }
 
