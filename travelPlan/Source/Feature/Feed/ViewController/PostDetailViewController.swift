@@ -54,11 +54,13 @@ final class PostDetailViewController: UITableViewController {
     tableView.scrollIndicatorInsets = .init(top: 0, left: -1, bottom: 0, right: -1)
     let minimaiSize = CGSize(width: CGFloat.leastNormalMagnitude, height: CGFloat.leastNormalMagnitude)
     tableView.tableFooterView = UIView(frame: CGRect(origin: .zero, size: minimaiSize))
-    tableView.keyboardDismissMode = .onDrag
+    tableView.keyboardDismissMode = .interactive
     tableView.contentInset = .zero
     if #available(iOS 15.0, *) {
       tableView.sectionHeaderTopPadding = 0
     }
+    let tap = UITapGestureRecognizer(target: self, action: #selector(didTapTableView))
+    tableView.addGestureRecognizer(tap)
     registerReusableViews()
   }
   
@@ -130,6 +132,13 @@ private extension PostDetailViewController {
     tableView.register(
       PostDetailReplyCell.self,
       forCellReuseIdentifier: PostDetailReplyCell.id)
+  }
+}
+
+// MARK: - Actions
+extension PostDetailViewController {
+  @objc private func didTapTableView() {
+    inputAccessory.hideKeyboard()
   }
 }
 
