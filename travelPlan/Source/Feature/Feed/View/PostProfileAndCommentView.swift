@@ -11,19 +11,11 @@ final class PostProfileAndCommentView: BaseProfileAreaView {
   // MARK: - Properties
   private let commentInputView = CommentInputView()
   
-  weak var commentInputViewDelegate: CommentInputViewDelegate? {
+  weak var inputDelegate: CommentInputViewDelegate? {
     get {
-      commentInputView.commentDelegate
+      return commentInputView.delegate
     } set {
-      commentInputView.commentDelegate = newValue
-    }
-  }
-    
-  weak var textViewDelegate: UITextViewDelegate? {
-    get {
-      commentInputView.textViewDelegate
-    } set {
-      commentInputView.textViewDelegate = newValue
+      commentInputView.delegate = newValue
     }
   }
   
@@ -54,20 +46,16 @@ extension PostProfileAndCommentView {
   func deactiveScrollableContent() {
     commentInputView.deactiveScrollableContent()
   }
-}
-
-// MARK: - UITextViewDelegate
-/// 외부에서 textViewDelegate를 채택하면 이함수를 호출해야 합니다.
-extension PostProfileAndCommentView {
-  func textViewDidBeginEditing(_ textView: UITextView) {
-    commentInputView.textViewDidBeginEditing(textView)
+  
+  func showKeyboard() {
+    commentInputView.showKeyboard()
   }
   
-  func textViewDidChange(_ textView: UITextView) {
-    commentInputView.textViewDidChange(textView)
+  func hideKeyboard() {
+    commentInputView.hideKeyboard()
   }
   
-  func textViewDidEndEditing(_ textView: UITextView) {
-    commentInputView.textViewDidEndEditing(textView)
+  func setScrollEnabled(_ value: Bool) {
+    commentInputView.setScrollEnabled(value)
   }
 }
