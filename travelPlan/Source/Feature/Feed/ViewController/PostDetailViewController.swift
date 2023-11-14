@@ -97,6 +97,7 @@ private extension PostDetailViewController {
     starButton.translatesAutoresizingMaskIntoConstraints = false
     starButton.widthAnchor.constraint(equalToConstant: 24).isActive = true
     starButton.heightAnchor.constraint(equalToConstant: 24).isActive = true
+    starButton.addTarget(self, action: #selector(didTapStarButton), for: .touchUpInside)
   }
   
   func setTitleView() {
@@ -141,6 +142,10 @@ private extension PostDetailViewController {
 extension PostDetailViewController {
   @objc private func didTapTableView() {
     inputAccessory.hideKeyboard()
+  }
+  
+  @objc private func didTapStarButton() {
+    print("카운팅스타~ 밤하늘의 퍼어얼")
   }
 }
 
