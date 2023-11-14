@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol CommentInputViewDelegate: AnyObject {
+protocol CommentInputViewDelegate: UITextViewDelegate {
   func didTapSendIcon(_ text: String)
 }
 
@@ -22,7 +22,7 @@ final class CommentInputView: UIView {
     $0.addGestureRecognizer(tap)
   }
   
-  private let inputTextView: InputTextView = {
+  private lazy var inputTextView: InputTextView = {
     let placeholder = InputTextView.PlaceholderInfo(
       placeholderText: "댓글을 입력해주세요.",
       position: .centerY,
@@ -31,18 +31,11 @@ final class CommentInputView: UIView {
     inputTextView.font = UIFont(pretendard: .regular_400(fontSize: 14))
     inputTextView.placeholder.font = inputTextView.font
     inputTextView.textContainerInset = UIEdgeInsets(top: 10, left: 3.5, bottom: 10, right: 40)
+    inputTextView.maxHeight = 20 + lineHeight * 3
     return inputTextView
   }()
   
-  weak var textViewDelegate: UITextViewDelegate? {
-    get {
-      inputTextView.delegate
-    } set {
-      inputTextView.delegate = newValue
-    }
-  }
-  
-  weak var commentDelegate: CommentInputViewDelegate?
+  weak var delegate: CommentInputViewDelegate?
   
   var lineHeight: CGFloat {
     UIFont(pretendard: .regular_400(fontSize: 14))!.lineHeight
@@ -75,6 +68,18 @@ extension CommentInputView {
   func deactiveScrollableContent() {
     inputTextView.isScrollEnabled = false
   }
+  
+  func showKeyboard() {
+    inputTextView.becomeFirstResponder()
+  }
+  
+  func hideKeyboard() {
+    inputTextView.resignFirstResponder()
+  }
+  
+  func setScrollEnabled(_ value: Bool) {
+    inputTextView.isScrollEnabled = value
+  }
 }
 
 // MARK: - Private Helpers
@@ -90,22 +95,21 @@ private extension CommentInputView {
 // MARK: - Action
 extension CommentInputView {
   @objc func didTapSendIcon() {
-    commentDelegate?.didTapSendIcon(inputTextView.text)
+    delegate?.didTapSendIcon(inputTextView.text)
     inputTextView.text = nil
     sendIcon.image = sendIcon.image?.setColor(.yg.gray2)
   }
 }
 
 // MARK: - UITextViewDelegate
-/// delegate = self를 했지만, delegate를 커스텀할 때는 이 함수들을 호출해야합니다.
 extension CommentInputView: UITextViewDelegate {
   func textViewDidBeginEditing(_ textView: UITextView) {
-    inputTextView.textViewDidBeginEditing(textView)
+    delegate?.textViewDidBeginEditing?(textView)
     sendIcon.isHidden = false
   }
   
   func textViewDidChange(_ textView: UITextView) {
-    inputTextView.textViewDidChange(textView)
+    delegate?.textViewDidChange?(textView)
     if textView.text == nil || textView.text.count == 0 {
       sendIcon.image = sendIcon.image?.setColor(.yg.gray2)
       sendIcon.isUserInteractionEnabled = false
@@ -116,7 +120,7 @@ extension CommentInputView: UITextViewDelegate {
   }
   
   func textViewDidEndEditing(_ textView: UITextView) {
-    inputTextView.textViewDidEndEditing(textView)
+    delegate?.textViewDidEndEditing?(textView)
     guard textView.text.count <= 0 || textView.text == nil else {
       return
     }
@@ -146,8 +150,7 @@ extension CommentInputView: LayoutSupport {
     return [
       sendIcon.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
       sendIcon.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10),
-      sendIcon.topAnchor.constraint(greaterThanOrEqualTo: topAnchor, constant: 10),
-      sendIcon.widthAnchor.constraint(equalToConstant: 20),
-      sendIcon.heightAnchor.constraint(equalToConstant: 20)]
+      sendIcon.widthAnchor.constraint(equalToConstant: 17),
+      sendIcon.heightAnchor.constraint(equalToConstant: 17)]
   }
 }
