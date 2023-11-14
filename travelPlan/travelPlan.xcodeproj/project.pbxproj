@@ -82,7 +82,6 @@
 		151130182A04E5B00041DDA1 /* travelPlanUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151130172A04E5B00041DDA1 /* travelPlanUITestsLaunchTests.swift */; };
 		151DF0CF2AEE397000D5D55B /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 151DF0CE2AEE397000D5D55B /* Alamofire */; };
 		151DF0D22AEE39DA00D5D55B /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 151DF0D12AEE39DA00D5D55B /* SnapKit */; };
-		151DF0D42AEE39DA00D5D55B /* SnapKit-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 151DF0D32AEE39DA00D5D55B /* SnapKit-Dynamic */; };
 		151DF0D62AEE3C0700D5D55B /* SHCoordinator in Frameworks */ = {isa = PBXBuildFile; productRef = 151DF0D52AEE3C0700D5D55B /* SHCoordinator */; };
 		151DF0DA2AEE6DF700D5D55B /* NoticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151DF0D92AEE6DF700D5D55B /* NoticeViewController.swift */; };
 		151DF0DC2AEE6EB500D5D55B /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151DF0DB2AEE6EB500D5D55B /* NotificationViewController.swift */; };
@@ -216,7 +215,7 @@
 		15D388272AFF8AAA00039946 /* InputTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D388262AFF8AAA00039946 /* InputTextView.swift */; };
 		15D388292AFFA51C00039946 /* PostProfileAndCommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D388282AFFA51C00039946 /* PostProfileAndCommentView.swift */; };
 		15D3882B2AFFA56500039946 /* CommentInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D3882A2AFFA56500039946 /* CommentInputView.swift */; };
-		15D3882D2AFFBB5B00039946 /* PostDetailInputAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D3882C2AFFBB5B00039946 /* PostDetailInputAccessoryView.swift */; };
+		15D3882D2AFFBB5B00039946 /* PostDetailInputAccessoryWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D3882C2AFFBB5B00039946 /* PostDetailInputAccessoryWrapper.swift */; };
 		15D3882F2B01504900039946 /* IconWithCountLabelStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D3882E2B01504900039946 /* IconWithCountLabelStackView.swift */; };
 		15D388312B0159F600039946 /* PostHeartAndShareAreaHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D388302B0159F600039946 /* PostHeartAndShareAreaHeaderView.swift */; };
 		15D60D362AEB84FE0087FEC0 /* NotificationCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D60D352AEB84FE0087FEC0 /* NotificationCenterViewController.swift */; };
@@ -536,7 +535,7 @@
 		15D388262AFF8AAA00039946 /* InputTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputTextView.swift; sourceTree = "<group>"; };
 		15D388282AFFA51C00039946 /* PostProfileAndCommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostProfileAndCommentView.swift; sourceTree = "<group>"; };
 		15D3882A2AFFA56500039946 /* CommentInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentInputView.swift; sourceTree = "<group>"; };
-		15D3882C2AFFBB5B00039946 /* PostDetailInputAccessoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailInputAccessoryView.swift; sourceTree = "<group>"; };
+		15D3882C2AFFBB5B00039946 /* PostDetailInputAccessoryWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailInputAccessoryWrapper.swift; sourceTree = "<group>"; };
 		15D3882E2B01504900039946 /* IconWithCountLabelStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconWithCountLabelStackView.swift; sourceTree = "<group>"; };
 		15D388302B0159F600039946 /* PostHeartAndShareAreaHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostHeartAndShareAreaHeaderView.swift; sourceTree = "<group>"; };
 		15D60D352AEB84FE0087FEC0 /* NotificationCenterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCenterViewController.swift; sourceTree = "<group>"; };
@@ -643,7 +642,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				151DF0D42AEE39DA00D5D55B /* SnapKit-Dynamic in Frameworks */,
 				151DF0CF2AEE397000D5D55B /* Alamofire in Frameworks */,
 				151DF0D22AEE39DA00D5D55B /* SnapKit in Frameworks */,
 				151DF0D62AEE3C0700D5D55B /* SHCoordinator in Frameworks */,
@@ -1513,7 +1511,7 @@
 				159F38BE2AFAA329000A24C2 /* PostDetailTitleCell.swift */,
 				159F38C92AFAABF9000A24C2 /* PostDetailProfileAreaFooterView.swift */,
 				15D388282AFFA51C00039946 /* PostProfileAndCommentView.swift */,
-				15D3882C2AFFBB5B00039946 /* PostDetailInputAccessoryView.swift */,
+				15D3882C2AFFBB5B00039946 /* PostDetailInputAccessoryWrapper.swift */,
 				15D388302B0159F600039946 /* PostHeartAndShareAreaHeaderView.swift */,
 				15D388222AFE75E100039946 /* PostDetailReplyCell.swift */,
 			);
@@ -1823,7 +1821,6 @@
 			packageProductDependencies = (
 				151DF0CE2AEE397000D5D55B /* Alamofire */,
 				151DF0D12AEE39DA00D5D55B /* SnapKit */,
-				151DF0D32AEE39DA00D5D55B /* SnapKit-Dynamic */,
 				151DF0D52AEE3C0700D5D55B /* SHCoordinator */,
 			);
 			productName = travelPlan;
@@ -2231,7 +2228,7 @@
 				15C1F55C2AF37CA8005FDA15 /* NSMutableAttributedString+.swift in Sources */,
 				13A93EE92AD0065300FC4BBD /* SearchMoreDetailLayoutManager.swift in Sources */,
 				151DF1052AEEBE0F00D5D55B /* NoticeResponseDTO.swift in Sources */,
-				15D3882D2AFFBB5B00039946 /* PostDetailInputAccessoryView.swift in Sources */,
+				15D3882D2AFFBB5B00039946 /* PostDetailInputAccessoryWrapper.swift in Sources */,
 				1503F9372A4E1103002BC38D /* FavoriteCoordinator.swift in Sources */,
 				13405F352AF1002800382796 /* LoginPlayerSupporter.swift in Sources */,
 				157ADCB02AD06B5400D37680 /* FavoriteDirectorySettingView.swift in Sources */,
@@ -2610,11 +2607,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 151DF0D02AEE39DA00D5D55B /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
-		};
-		151DF0D32AEE39DA00D5D55B /* SnapKit-Dynamic */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 151DF0D02AEE39DA00D5D55B /* XCRemoteSwiftPackageReference "SnapKit" */;
-			productName = "SnapKit-Dynamic";
 		};
 		151DF0D52AEE3C0700D5D55B /* SHCoordinator */ = {
 			isa = XCSwiftPackageProductDependency;
