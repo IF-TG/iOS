@@ -15,7 +15,7 @@ final class PostDetailContentTextCell: UITableViewCell {
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.isScrollEnabled = false
     $0.font = UIFont(pretendard: .regular_400(fontSize: 16))
-    $0.setDraggingGestureToCopyInClipboard()
+    $0.setLongGestureForDraggingToCopyInClipboard()
   }
 
   // MARK: - Lifecycle
