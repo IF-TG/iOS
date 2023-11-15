@@ -229,6 +229,7 @@
 		15DA4C832ACD821F003A7900 /* EmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DA4C822ACD821F003A7900 /* EmptyStateView.swift */; };
 		15DD40452A5B862D002BC5F8 /* PostViewBottomSheetAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DD40442A5B862D002BC5F8 /* PostViewBottomSheetAdapter.swift */; };
 		15DD40482A5B8752002BC5F8 /* PostSearchFilterType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DD40472A5B8752002BC5F8 /* PostSearchFilterType.swift */; };
+		15DDB16F2B04799C001F6EAA /* UITextView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DDB16E2B04799C001F6EAA /* UITextView+.swift */; };
 		15DE36B62AB83DD40030CCCC /* PostFilteringBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DE36B52AB83DD40030CCCC /* PostFilteringBottomSheetViewController.swift */; };
 		15DE36B92AB853900030CCCC /* TravelThemeBottomSheetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DE36B82AB853900030CCCC /* TravelThemeBottomSheetCell.swift */; };
 		15E982BF2ACC95CC002B932F /* FavoriteDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E982BE2ACC95CC002B932F /* FavoriteDetailViewController.swift */; };
@@ -549,6 +550,7 @@
 		15DA4C822ACD821F003A7900 /* EmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateView.swift; sourceTree = "<group>"; };
 		15DD40442A5B862D002BC5F8 /* PostViewBottomSheetAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewBottomSheetAdapter.swift; sourceTree = "<group>"; };
 		15DD40472A5B8752002BC5F8 /* PostSearchFilterType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSearchFilterType.swift; sourceTree = "<group>"; };
+		15DDB16E2B04799C001F6EAA /* UITextView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+.swift"; sourceTree = "<group>"; };
 		15DE36B52AB83DD40030CCCC /* PostFilteringBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostFilteringBottomSheetViewController.swift; sourceTree = "<group>"; };
 		15DE36B82AB853900030CCCC /* TravelThemeBottomSheetCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelThemeBottomSheetCell.swift; sourceTree = "<group>"; };
 		15E982BE2ACC95CC002B932F /* FavoriteDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoriteDetailViewController.swift; sourceTree = "<group>"; };
@@ -1629,6 +1631,7 @@
 				1570FDB62AB1E29C006FBAA3 /* Notification+.swift */,
 				15C1F5602AF3D17D005FDA15 /* CALayer+.swift */,
 				15C1F55B2AF37CA8005FDA15 /* NSMutableAttributedString+.swift */,
+				15DDB16E2B04799C001F6EAA /* UITextView+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -2146,6 +2149,7 @@
 				15EF8CA62A0A19990068C744 /* CategoryViewType.swift in Sources */,
 				1550D9AF2ACAFAC10046569B /* FeedPostViewController.swift in Sources */,
 				158BEF812A0E2C9E00C27861 /* PostFooterView.swift in Sources */,
+				15DDB16F2B04799C001F6EAA /* UITextView+.swift in Sources */,
 				15FEB5E82A050A99000A5F33 /* UIControl+CombineInteraction.swift in Sources */,
 				157ADCA22ACFB55800D37680 /* FavoritePostViewAdapterDelegate.swift in Sources */,
 				15B4E5F02ACA6452001CF071 /* TravelReviewViewController.swift in Sources */,
