@@ -11,8 +11,11 @@ final class PostDetailContentTextCell: UITableViewCell {
   static let id = String(describing: PostDetailContentTextCell.self)
   
   // MARK: - Properties
-  private let label = BaseLabel(fontType: .regular_400(fontSize: 16), lineHeight: 25).set {
-    $0.numberOfLines = 0
+  private lazy var label = UITextView(frame: .zero, textContainer: nil).set {
+    $0.translatesAutoresizingMaskIntoConstraints = false
+    $0.isScrollEnabled = false
+    $0.font = UIFont(pretendard: .regular_400(fontSize: 16))
+    $0.setDraggingGestureToCopyInClipboard()
   }
 
   // MARK: - Lifecycle
