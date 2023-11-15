@@ -83,7 +83,6 @@ final class PostDetailViewController: UITableViewController {
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     setTitleView()
-    setKeyboardNotificationObserver()
   }
   
   override func viewWillDisappear(_ animated: Bool) {
@@ -104,110 +103,6 @@ private extension PostDetailViewController {
     starButton.widthAnchor.constraint(equalToConstant: 24).isActive = true
     starButton.heightAnchor.constraint(equalToConstant: 24).isActive = true
     starButton.addTarget(self, action: #selector(didTapStarButton), for: .touchUpInside)
-  }
-  
-  func setKeyboardNotificationObserver() {
-//    NotificationCenter.Publisher(
-//      center: .default,
-//      name: UIResponder.keyboardWillShowNotification,
-//      object: nil)
-//    .throttle(for: .seconds(0.2), scheduler: DispatchQueue.main, latest: false)
-//    .filter { [weak self] _ in self?.isHandlingKeyboardEvent == false }
-//    .compactMap { $0.userInfo }
-//    .map { dict -> CGFloat in
-//      let accessoryViewHeight = (dict[UIResponder
-//        .keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue.height ?? 0.0
-//      print(accessoryViewHeight)
-//      let keyboardAreaHeight = (dict[UIResponder
-//        .keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.height ?? 0.0
-//      return keyboardAreaHeight - accessoryViewHeight
-//    }
-//    .subscribe(on: DispatchQueue.main)
-//    .sink { [weak self] keyboardHeight in
-//      self?.setTableViewOffset(with: keyboardHeight)
-//    }
-//    .store(in: &notificationSubscriptions)
-//    
-//    NotificationCenter.Publisher(
-//      center: .default,
-//      name: UIResponder.keyboardWillHideNotification,
-//      object: nil)
-//    .throttle(for: .seconds(0.2), scheduler: DispatchQueue.main, latest: false)
-//    .filter { [weak self] _ in
-//      if self?.tableView.isDecelerating == true || self?.tableView.isDragging == true {
-//        self?.inputAccessory.hideKeyboard()
-//        return false
-//      }
-//      return true
-//    }
-//    .compactMap { $0.userInfo }
-//    .map { [weak self] dict -> CGFloat in
-//      let NSKeyboardHeight = (dict[UIResponder
-//        .keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.height ?? 0
-//      return -NSKeyboardHeight + (self?.inputAccessory.bounds.height ?? 0)
-//    }
-//    .subscribe(on: DispatchQueue.main)
-//    .sink { [weak self] keyboardHeight in
-//      self?.inputAccessory.isUserInteractionEnabled = false
-//      self?.isHandlingKeyboardEvent = true
-//      let offset = (self?.tableView.contentOffset.y ?? 0) + keyboardHeight
-//      self?.tableView.setContentOffset(.init(x: 0, y: offset), animated: false)
-//      self?.tableView.contentOffset.y += keyboardHeight
-//      DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
-//        self?.isHandlingKeyboardEvent = false
-//        self?.inputAccessory.isUserInteractionEnabled = true
-//      }
-//    }
-//    .store(in: &notificationSubscriptions)
-//    
-    NotificationCenter.default.addObserver(
-      self,
-      selector: #selector(keyboardWillShow(notification:)),
-      name: UIResponder.keyboardWillShowNotification,
-      object: nil)
-    NotificationCenter.default.addObserver(
-      self,
-      selector: #selector(keyboardWillHide(notification:)),
-      name: UIResponder.keyboardWillHideNotification,
-      object: nil)
-  }
-  
-    @objc private func keyboardWillShow(notification: NSNotification) {
-      print("키보드 사라짐")
-      if isHandlingKeyboardEvent { return }
-      guard let keyboardShowedNSSize = notification.userInfo?[
-        UIResponder.keyboardFrameEndUserInfoKey
-      ] as? NSValue else { return }
-      let keyboardHeight = keyboardShowedNSSize.cgRectValue.height
-      //tableView.contentOffset.y += -inputAccessory.bounds.height + keyboardHeight
-      
-      tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardHeight - inputAccessory.bounds.height, right: 0)
-    }
-  
-  @objc private func keyboardWillHide(notification: NSNotification) {
-    print("키보드 사라짐")
-    if tableView.isDecelerating || tableView.isDragging {
-      inputAccessory.hideKeyboard()
-      return
-    }
-    guard let keyboardShowedNSSize = notification.userInfo?[
-      UIResponder.keyboardFrameEndUserInfoKey
-    ] as? NSValue else { return }
-    
-    let keyboardHeight = keyboardShowedNSSize.cgRectValue.height
-    // tableView.contentOffset.y += inputAccessory.bounds.height - keyboardHeight
-    tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: inputAccessory.bounds.height, right: 0)
-    DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
-      self.isHandlingKeyboardEvent = false
-      self.inputAccessory.isUserInteractionEnabled = true
-    }
-  }
-  
-  private func setTableViewOffset(with keyboardHeight: CGFloat) {
-//    if isHandlingKeyboardEvent { return }
-    print("키보드 보임")
-    let offset = tableView.contentOffset.y + keyboardHeight
-    tableView.setContentOffset(.init(x: 0, y: offset), animated: false)
   }
   
   func setTitleView() {
