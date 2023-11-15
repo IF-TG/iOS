@@ -7,6 +7,7 @@
 
 import UIKit
 
+// MARK: - Append text in Clip board Helpers
 extension UITextView {
   func setTapGestureForDraggingToCopyInClipboard() {
     isUserInteractionEnabled = true
@@ -17,6 +18,18 @@ extension UITextView {
     addGestureRecognizer(gesture)
   }
   
+  func setLongGestureForDraggingToCopyInClipboard() {
+    isUserInteractionEnabled = true
+    isEditable = false
+    let gesture = UILongPressGestureRecognizer(
+      target: self,
+      action: #selector(handleLongGestureDragging))
+    addGestureRecognizer(gesture)
+  }
+}
+
+// MARK: - Append text in clip board Actions
+extension UITextView {
   @objc private func handleTapGestureDragging(_ gesture: UIPanGestureRecognizer) {
     if gesture.state == .ended {
       guard let selectedText else { return }
@@ -24,22 +37,17 @@ extension UITextView {
     }
   }
   
-  var selectedText: String? {
-    guard let range = selectedTextRange else { return nil }
-    return text(in: range)
-  }
-  
-  func setLongGestureForDraggingToCopyInClipboard() {
-    isUserInteractionEnabled = true
-    isEditable = false
-    let gesture = UILongPressGestureRecognizer(
-      target: self,
-      action: #selector(handleLongGestureDragging))
-  }
-  
   @objc private func handleLongGestureDragging(_ gesture: UILongPressGestureRecognizer) {
     guard gesture.state == .ended, let range = selectedTextRange, let text = text(in: range) else { return }
     UIPasteboard.general.string = text
   }
+
 }
 
+// MARK: - Heleprs
+extension UITextView {
+  var selectedText: String? {
+    guard let range = selectedTextRange else { return nil }
+    return text(in: range)
+  }
+}
