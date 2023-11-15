@@ -38,6 +38,7 @@ class PostCollectionView: UICollectionView {
   
   convenience init() {
     self.init(frame: .zero)
+    translatesAutoresizingMaskIntoConstraints = false
   }
   
   required init?(coder: NSCoder) {
@@ -94,7 +95,6 @@ extension PostCollectionView {
 // MARK: - Private helpers
 extension PostCollectionView {
   private func configureUI() {
-    translatesAutoresizingMaskIntoConstraints = false
     showsHorizontalScrollIndicator = false
     backgroundColor = Constant.backgroundColor
     register(
