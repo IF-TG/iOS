@@ -54,11 +54,14 @@
 		13405F7B2AFAA13700382796 /* SnapKit-Dynamic in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 13405F782AFAA13700382796 /* SnapKit-Dynamic */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		134CCB072AFD732F00D51D84 /* SnapKit-Dynamic in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 134CCB052AFD732F00D51D84 /* SnapKit-Dynamic */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		134CCB1A2AFFD3AB00D51D84 /* SnapKit-Dynamic in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 134CCB182AFFD3AB00D51D84 /* SnapKit-Dynamic */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		134CCB252AFFD45E00D51D84 /* Pods_travelPlan.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BED1D1EA23FD7081ED95862D /* Pods_travelPlan.framework */; };
 		134CCB282AFFD48A00D51D84 /* SnapKit-Dynamic in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 134CCB262AFFD48A00D51D84 /* SnapKit-Dynamic */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		134CCB322AFFD61900D51D84 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 134CCB312AFFD61900D51D84 /* SnapKit */; };
 		134CCB342AFFFB2900D51D84 /* ReviewWritingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 134CCB332AFFFB2900D51D84 /* ReviewWritingViewModel.swift */; };
 		134CCB372B001D5E00D51D84 /* SnapKit-Dynamic in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 134CCB352B001D5E00D51D84 /* SnapKit-Dynamic */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		134CCB492B014B4C00D51D84 /* SnapKit-Dynamic in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 134CCB472B014B4C00D51D84 /* SnapKit-Dynamic */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		134CCB542B014C3500D51D84 /* Pods_travelPlan.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BED1D1EA23FD7081ED95862D /* Pods_travelPlan.framework */; };
+		134CCB612B014E6E00D51D84 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 134CCB602B014E6E00D51D84 /* SnapKit */; };
+		134CCB632B014E8600D51D84 /* SnapKit-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 134CCB622B014E8600D51D84 /* SnapKit-Dynamic */; };
+		134CCB672B028D9C00D51D84 /* ReviewWritingContentViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 134CCB662B028D9C00D51D84 /* ReviewWritingContentViewDelegate.swift */; };
 		13606E882A9DDE7D00365F20 /* PostRecentSearchTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13606E872A9DDE7D00365F20 /* PostRecentSearchTagCell.swift */; };
 		13606E8C2A9F959F00365F20 /* PostRecommendationSearchHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13606E8B2A9F959F00365F20 /* PostRecommendationSearchHeaderView.swift */; };
 		13606E942AA187F500365F20 /* PostSearchTagLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13606E932AA187F500365F20 /* PostSearchTagLabel.swift */; };
@@ -320,6 +323,7 @@
 				134CCB072AFD732F00D51D84 /* SnapKit-Dynamic in Embed Frameworks */,
 				134CCB1A2AFFD3AB00D51D84 /* SnapKit-Dynamic in Embed Frameworks */,
 				134CCB282AFFD48A00D51D84 /* SnapKit-Dynamic in Embed Frameworks */,
+				134CCB492B014B4C00D51D84 /* SnapKit-Dynamic in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -375,6 +379,7 @@
 		13405F702AF6F05300382796 /* ReviewWritingPlanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWritingPlanView.swift; sourceTree = "<group>"; };
 		13405F762AF79CBD00382796 /* ReviewWritingBottomViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWritingBottomViewDelegate.swift; sourceTree = "<group>"; };
 		134CCB332AFFFB2900D51D84 /* ReviewWritingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWritingViewModel.swift; sourceTree = "<group>"; };
+		134CCB662B028D9C00D51D84 /* ReviewWritingContentViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWritingContentViewDelegate.swift; sourceTree = "<group>"; };
 		13606E872A9DDE7D00365F20 /* PostRecentSearchTagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostRecentSearchTagCell.swift; sourceTree = "<group>"; };
 		13606E8B2A9F959F00365F20 /* PostRecommendationSearchHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostRecommendationSearchHeaderView.swift; sourceTree = "<group>"; };
 		13606E932AA187F500365F20 /* PostSearchTagLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSearchTagLabel.swift; sourceTree = "<group>"; };
@@ -627,8 +632,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				134CCB252AFFD45E00D51D84 /* Pods_travelPlan.framework in Frameworks */,
-				134CCB322AFFD61900D51D84 /* SnapKit in Frameworks */,
+				134CCB632B014E8600D51D84 /* SnapKit-Dynamic in Frameworks */,
+				134CCB542B014C3500D51D84 /* Pods_travelPlan.framework in Frameworks */,
+				134CCB612B014E6E00D51D84 /* SnapKit in Frameworks */,
 				151DF0CF2AEE397000D5D55B /* Alamofire in Frameworks */,
 				151DF0D62AEE3C0700D5D55B /* SHCoordinator in Frameworks */,
 			);
@@ -767,6 +773,7 @@
 			isa = PBXGroup;
 			children = (
 				13405F762AF79CBD00382796 /* ReviewWritingBottomViewDelegate.swift */,
+				134CCB662B028D9C00D51D84 /* ReviewWritingContentViewDelegate.swift */,
 			);
 			path = ReviewWriting;
 			sourceTree = "<group>";
@@ -1804,8 +1811,8 @@
 			packageProductDependencies = (
 				151DF0CE2AEE397000D5D55B /* Alamofire */,
 				151DF0D52AEE3C0700D5D55B /* SHCoordinator */,
-				134CCB312AFFD61900D51D84 /* SnapKit */,
-				134CCB352B001D5E00D51D84 /* SnapKit-Dynamic */,
+				134CCB602B014E6E00D51D84 /* SnapKit */,
+				134CCB622B014E8600D51D84 /* SnapKit-Dynamic */,
 			);
 			productName = travelPlan;
 			productReference = 1594F52E29FD517E00A58F20 /* travelPlan.app */;
@@ -1846,7 +1853,7 @@
 			packageReferences = (
 				1503F9272A4E0603002BC38D /* XCRemoteSwiftPackageReference "SHCoordinator" */,
 				151DF0CD2AEE397000D5D55B /* XCRemoteSwiftPackageReference "Alamofire" */,
-				134CCB2C2AFFD5CD00D51D84 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				134CCB5F2B014E6E00D51D84 /* XCRemoteSwiftPackageReference "SnapKit" */,
 			);
 			productRefGroup = 1594F52F29FD517E00A58F20 /* Products */;
 			projectDirPath = "";
@@ -2132,6 +2139,7 @@
 				158BEFC92A0F6E8800C27861 /* PostThumbnailType.swift in Sources */,
 				15DA4C7F2ACD78C1003A7900 /* Int+.swift in Sources */,
 				1594F53229FD517E00A58F20 /* AppDelegate.swift in Sources */,
+				134CCB672B028D9C00D51D84 /* ReviewWritingContentViewDelegate.swift in Sources */,
 				13405F692AF4478400382796 /* NavigationTitleWithClickView.swift in Sources */,
 				15C1F5462AF2BF73005FDA15 /* NotificationViewAdapterDelegate.swift in Sources */,
 				158BEFC22A0EB45300C27861 /* UIFont+.swift in Sources */,
@@ -2437,9 +2445,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = BH624LXP8S;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = AC2LSYY779;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Source/Support/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -2453,9 +2463,10 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = SH.travelPlan123;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yeoga.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = Yeoga_AppStore;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2469,9 +2480,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = BH624LXP8S;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = AC2LSYY779;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Source/Support/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -2485,9 +2498,10 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = SH.travelPlanabc;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yeoga.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = Yeoga_AppStore;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2568,6 +2582,22 @@
 				minimumVersion = 5.6.0;
 			};
 		};
+		134CCB422B014B2600D51D84 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.6.0;
+			};
+		};
+		134CCB5F2B014E6E00D51D84 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.6.0;
+			};
+		};
 		1503F9272A4E0603002BC38D /* XCRemoteSwiftPackageReference "SHCoordinator" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SHcommit/SHCoordinator.git";
@@ -2615,14 +2645,24 @@
 			package = 134CCB202AFFD42E00D51D84 /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = "SnapKit-Dynamic";
 		};
-		134CCB312AFFD61900D51D84 /* SnapKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 134CCB2C2AFFD5CD00D51D84 /* XCRemoteSwiftPackageReference "SnapKit" */;
-			productName = SnapKit;
-		};
 		134CCB352B001D5E00D51D84 /* SnapKit-Dynamic */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 134CCB2C2AFFD5CD00D51D84 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = "SnapKit-Dynamic";
+		};
+		134CCB472B014B4C00D51D84 /* SnapKit-Dynamic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 134CCB422B014B2600D51D84 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = "SnapKit-Dynamic";
+		};
+		134CCB602B014E6E00D51D84 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 134CCB5F2B014E6E00D51D84 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+		134CCB622B014E8600D51D84 /* SnapKit-Dynamic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 134CCB5F2B014E6E00D51D84 /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = "SnapKit-Dynamic";
 		};
 		151DF0CE2AEE397000D5D55B /* Alamofire */ = {
