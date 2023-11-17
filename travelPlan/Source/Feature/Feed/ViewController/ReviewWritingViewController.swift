@@ -10,6 +10,11 @@ import SnapKit
 import Combine
 
 final class ReviewWritingViewController: UIViewController {
+  enum KeyboardState {
+    case willShow
+    case willHide
+  }
+  
   // MARK: - Properties
   weak var coordinator: ReviewWritingCoordinatorDelegate?
   
@@ -50,13 +55,9 @@ final class ReviewWritingViewController: UIViewController {
   private var scrollViewBottomConstraint: ConstraintMakerEditable?
   private let viewModel = ReviewWritingViewModel()
   private let input = ReviewWritingViewModel.Input()
-
-  // MARK: - LifeCycle
-  override func viewDidAppear(_ animated: Bool) {
-    super.viewDidAppear(animated)
-    contentView.safeAreaTopInset(topInset: view.safeAreaInsets.top)
-  }
+  private var isViewDidAppearFirstCalled = false
   
+  // MARK: - LifeCycle
   override func viewDidLoad() {
     super.viewDidLoad()
     setupUI()
@@ -64,7 +65,7 @@ final class ReviewWritingViewController: UIViewController {
     setupNavigationBar()
     bindNotificationCenter()
     addGestureRecognizer()
-    setClosures()
+    setContentViewClosures()
     
     bind()
   }
@@ -75,6 +76,16 @@ final class ReviewWritingViewController: UIViewController {
     (tabBarController as? MainTabBarController)?.hideShadowLayer()
   }
   
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    if !isViewDidAppearFirstCalled {
+      contentView.safeAreaTopInset(topInset: view.safeAreaInsets.top)
+      contentView.bottomViewHeight(bottomView.frame.height)
+      contentView.scrollViewHeight(scrollView.frame.height)
+      isViewDidAppearFirstCalled = true
+    }
+  }
+  
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
     tabBarController?.tabBar.isHidden = false
@@ -83,11 +94,6 @@ final class ReviewWritingViewController: UIViewController {
   
   deinit {
     print("deinit: \(Self.self)")
-  }
-  
-  override func viewDidLayoutSubviews() {
-    super.viewDidLayoutSubviews()
-    contentView.bottomViewHeight(bottomView.frame.height)
   }
 }
 
@@ -139,16 +145,16 @@ extension ReviewWritingViewController {
       .publisher(for: UIResponder.keyboardWillShowNotification)
       .receive(on: RunLoop.main)
       .sink { [weak self] notification in
-        guard let keyboardRect = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?
-          .cgRectValue,
+        guard let keyboardRect = (
+          notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue
+        )?.cgRectValue,
               let view = self?.view
         else { return }
+        
         let keyboardRectInScrollView = view.convert(keyboardRect, to: self?.scrollView)
           .origin.y - ReviewWritingContentView.Constant.LastView.bottomSpacing
         self?.contentView.keyboardY(keyboardRectInScrollView)
-        
-        self?.leftButton.setImage(self?.keyboardImage, for: .normal)
-        self?.leftButton.setTitle(nil, for: .normal)
+        self?.changeLeftButtonUI(currentState: .willShow)
       }
       .store(in: &subscriptions)
     
@@ -158,19 +164,21 @@ extension ReviewWritingViewController {
       .sink { [weak self] _ in
         self?.scrollView.verticalScrollIndicatorInsets.bottom = .zero
         self?.scrollView.contentInset.bottom = .zero
-
-        self?.leftButton.setImage(nil, for: .normal)
-        self?.leftButton.setTitle("취소", for: .normal)
+        self?.changeLeftButtonUI(currentState: .willHide)
       }
       .store(in: &subscriptions)
   }
   
-//  enum LeftButtonState {
-//    case
-//  }
-//  private func changeLeftButtonUI(state: LeftButtonState) {
-//    
-//  }
+  private func changeLeftButtonUI(currentState: KeyboardState) {
+    switch currentState {
+    case .willShow:
+      leftButton.setImage(keyboardImage, for: .normal)
+      leftButton.setTitle(nil, for: .normal)
+    case .willHide:
+      leftButton.setImage(nil, for: .normal)
+      leftButton.setTitle("취소", for: .normal)
+    }
+  }
   
   private func setupNavigationBar() {
     navigationItem.leftBarButtonItem = .init(customView: leftButton)
@@ -182,7 +190,7 @@ extension ReviewWritingViewController {
     view.backgroundColor = .white
   }
   
-  private func setClosures() {
+  private func setContentViewClosures() {
     contentView.scrollToLastView = { [weak self] cursorHeight, lastView in
       guard let scrollView = self?.scrollView else { return }
       let frameHeightIsSmallerThanContentHeight = scrollView.contentSize.height > scrollView.bounds.height
