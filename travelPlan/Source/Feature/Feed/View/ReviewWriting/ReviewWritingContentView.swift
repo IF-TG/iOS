@@ -70,11 +70,8 @@ final class ReviewWritingContentView: UIView {
   private var imageViewList = [UIImageView]()
   private var lastViewBottomConstraint: ConstraintMakerEditable?
   private lazy var lastView: UIView = messageTextView
-
   var scrollToLastView: ((_ cursorHeight: CGFloat, _ lastView: UIView) -> Void)?
 
-
-  
   // MARK: - LifeCycle
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -118,8 +115,8 @@ extension ReviewWritingContentView: LayoutSupport {
     }
     
     let estimatedHeight = messageTextView.sizeThatFits(
-      CGSize(width: messageTextView.frame.width, height: CGFloat.infinity))
-      .height
+      CGSize(width: messageTextView.frame.width, height: CGFloat.infinity)
+    ).height
     messageTextViewLastHeight = estimatedHeight
     textViewList.append((textView: messageTextView, lastChangedHeight: estimatedHeight))
     messageTextView.snp.makeConstraints {
@@ -175,10 +172,6 @@ extension ReviewWritingContentView: UITextViewDelegate {
   
   func textViewDidEndEditing(_ textView: UITextView) {
     configurePlaceholder(of: textView)
-  }
-  
-  // textView를 터치하거나 타이핑하는 경우
-  func textViewDidChangeSelection(_ textView: UITextView) {
   }
 }
 
@@ -318,7 +311,7 @@ extension ReviewWritingContentView {
   }
   
   /// 텍스트뷰의 마지막 문자로 커서가 이동합니다.
-  private func moveCursorPosition(textView: UITextView) {
+  private func moveCursorToLastPosition(at textView: UITextView) {
     guard let text = textView.text,
           let cursorPosition = textView.position(
             from: textView.beginningOfDocument,
@@ -345,7 +338,7 @@ extension ReviewWritingContentView {
     // lastView가 textView인 경우, 해당 textView 포커싱
     // lastView가 imageView인 경우, imageView 밑에 새로운 textView를 제약조건을 통해 추가
     if let textView = lastView as? UITextView {
-      moveCursorPosition(textView: textView)
+      moveCursorToLastPosition(at: textView)
     } else if lastView is UIImageView {
       let newTextView = createNewTextView()
       addLastView(lastView: newTextView)
