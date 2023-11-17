@@ -8,5 +8,5 @@
 import Foundation
 
 protocol ReviewWritingContentViewDelegate: AnyObject {
-  func changeContentOffsetY(with r: CGFloat)
+  func changeContentInset(bottomEdge: CGFloat)
 }
