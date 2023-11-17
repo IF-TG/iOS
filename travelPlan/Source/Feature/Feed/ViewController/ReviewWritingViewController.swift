@@ -79,7 +79,6 @@ final class ReviewWritingViewController: UIViewController {
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     if !isViewDidAppearFirstCalled {
-      contentView.safeAreaTopInset(topInset: view.safeAreaInsets.top)
       contentView.bottomViewHeight(bottomView.frame.height)
       contentView.scrollViewHeight(scrollView.frame.height)
       isViewDidAppearFirstCalled = true
@@ -92,6 +91,10 @@ final class ReviewWritingViewController: UIViewController {
     (tabBarController as? MainTabBarController)?.showShadowLayer()
   }
   
+  override func viewSafeAreaInsetsDidChange() {
+    super.viewSafeAreaInsetsDidChange()
+    contentView.safeAreaTopInset(topInset: view.safeAreaInsets.top)
+  }
   deinit {
     print("deinit: \(Self.self)")
   }
@@ -144,16 +147,7 @@ extension ReviewWritingViewController {
     NotificationCenter.default
       .publisher(for: UIResponder.keyboardWillShowNotification)
       .receive(on: RunLoop.main)
-      .sink { [weak self] notification in
-        guard let keyboardRect = (
-          notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue
-        )?.cgRectValue,
-              let view = self?.view
-        else { return }
-        
-        let keyboardRectInScrollView = view.convert(keyboardRect, to: self?.scrollView)
-          .origin.y - ReviewWritingContentView.Constant.LastView.bottomSpacing
-        self?.contentView.keyboardY(keyboardRectInScrollView)
+      .sink { [weak self] _ in
         self?.changeLeftButtonUI(currentState: .willShow)
       }
       .store(in: &subscriptions)
@@ -162,8 +156,7 @@ extension ReviewWritingViewController {
       .publisher(for: UIResponder.keyboardWillHideNotification)
       .receive(on: RunLoop.main)
       .sink { [weak self] _ in
-        self?.scrollView.verticalScrollIndicatorInsets.bottom = .zero
-        self?.scrollView.contentInset.bottom = .zero
+        self?.setScrollViewBottomInset(inset: .zero)
         self?.changeLeftButtonUI(currentState: .willHide)
       }
       .store(in: &subscriptions)
@@ -194,21 +187,25 @@ extension ReviewWritingViewController {
     contentView.scrollToLastView = { [weak self] cursorHeight, lastView in
       guard let scrollView = self?.scrollView else { return }
       let frameHeightIsSmallerThanContentHeight = scrollView.contentSize.height > scrollView.bounds.height
+      guard frameHeightIsSmallerThanContentHeight else { return }
       
-      if frameHeightIsSmallerThanContentHeight {
-        if lastView is UITextView {
-          scrollView.setContentOffset(
-            CGPoint(x: .zero, y: scrollView.contentOffset.y + cursorHeight),
-            animated: true
-          )
-        } else if lastView is UIImageView {
-          scrollView.setContentOffset(
-            CGPoint(x: .zero, y: scrollView.contentSize.height - scrollView.bounds.height),
-            animated: true
-          )
-        }
+      if lastView is UITextView {
+        scrollView.setContentOffset(
+          CGPoint(x: .zero, y: scrollView.contentOffset.y + cursorHeight),
+          animated: true
+        )
+      } else if lastView is UIImageView {
+        scrollView.setContentOffset(
+          CGPoint(x: .zero, y: scrollView.contentSize.height - scrollView.bounds.height),
+          animated: true
+        )
       }
     }
+  }
+  
+  private func setScrollViewBottomInset(inset: CGFloat) {
+    scrollView.verticalScrollIndicatorInsets.bottom = inset
+    scrollView.contentInset.bottom = inset
   }
 }
 
@@ -283,7 +280,6 @@ extension ReviewWritingViewController: ReviewWritingBottomViewDelegate {
 // MARK: - ReviewWritingContentDelegate
 extension ReviewWritingViewController: ReviewWritingContentViewDelegate {
   func changeContentInset(bottomEdge: CGFloat) {
-    scrollView.verticalScrollIndicatorInsets.bottom = bottomEdge
-    scrollView.contentInset.bottom = bottomEdge
+    setScrollViewBottomInset(inset: bottomEdge)
   }
 }

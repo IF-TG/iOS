@@ -18,22 +18,19 @@ final class ReviewWritingContentView: UIView {
   }
   
   struct ValueRelatedToScrolling {
-    var keyboardY: CGFloat?
     var shouldScrollToLastView = false
     var keyboardHeight: CGFloat?
     var scrollViewHeight: CGFloat?
     var cursorHeight: CGFloat?
-    /// 커서가 넘으면 스크롤이 되는 경계선의 bottom과 키보드의 top 사이의 spacing
-    var c: CGFloat {
+    var spacingFromCursorBoundaryToKeyboard: CGFloat {
       return Constant.LastView.bottomSpacing
     }
-    /// scrollView의 top과 커서가 넘으면 스크롤이 되는 경계선의 top 사이의 spacing
-    var v: CGFloat? {
+    var spacingFromScrollViewTopToCursorBoundary: CGFloat? {
       guard let b = self.keyboardHeight,
             let f = self.scrollViewHeight,
             let t = self.bottomViewHeight
       else { return nil }
-      return f-(b-t)-c
+      return f-(b-t)-spacingFromCursorBoundaryToKeyboard
     }
     var bottomViewHeight: CGFloat?
     var safeAreaTopInset: CGFloat?
@@ -151,7 +148,9 @@ extension ReviewWritingContentView: UITextViewDelegate {
     adjustHeight(of: textView)
     if let keyboardHeight = scrollValue.keyboardHeight,
        let bottomViewHeight = scrollValue.bottomViewHeight {
-      delegate?.changeContentInset(bottomEdge: keyboardHeight - bottomViewHeight + scrollValue.c)
+      delegate?.changeContentInset(
+        bottomEdge: keyboardHeight - bottomViewHeight + scrollValue.spacingFromCursorBoundaryToKeyboard
+      )
     }
     
     if textView === titleTextView {
@@ -188,7 +187,7 @@ extension ReviewWritingContentView {
   private func cursorIsUnderTheBoundary(at textView: UITextView) -> Bool? {
     self.layoutIfNeeded()
     guard let a = self.getCursorY(of: textView),
-          let v = scrollValue.v else { return nil }
+          let v = scrollValue.spacingFromScrollViewTopToCursorBoundary else { return nil }
     return a > v
   }
   
@@ -199,7 +198,9 @@ extension ReviewWritingContentView {
           scrollToFitContentOffset
     else { return }
     
-    self.delegate?.changeContentInset(bottomEdge: keyboardHeight - bottomViewHeight + scrollValue.c)
+    self.delegate?.changeContentInset(
+      bottomEdge: keyboardHeight - bottomViewHeight + scrollValue.spacingFromCursorBoundaryToKeyboard
+    )
   }
   
   private func getCursorHeight(of textView: UITextView) -> CGFloat? {
@@ -220,9 +221,8 @@ extension ReviewWritingContentView {
     NotificationCenter.default
       .publisher(for: UIResponder.keyboardWillShowNotification)
       .receive(on: RunLoop.main)
-      .sink { [weak self] notification in
-        guard let keyboardRect = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?
-          .cgRectValue else { return }
+      .compactMap { ($0.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue }
+      .sink { [weak self] keyboardRect in
         self?.scrollValue.keyboardHeight = keyboardRect.height
       }
       .store(in: &subscriptions)
@@ -331,10 +331,6 @@ extension ReviewWritingContentView {
 
 // MARK: - Helpers
 extension ReviewWritingContentView {
-  func keyboardY(_ keyboardRect: CGFloat) {
-    scrollValue.keyboardY = keyboardRect
-  }
-  
   func addImageView() {
     let imageView = UIImageView().set {
       $0.image = UIImage(named: "tempProfile1")
@@ -357,7 +353,7 @@ extension ReviewWritingContentView {
 //      textViewList.append((textView: newTextView, lastChangedHeight: newTextView.frame.height))
       if let keyboardHeight = scrollValue.keyboardHeight,
          let bottomViewHeight = scrollValue.bottomViewHeight {
-        self.delegate?.changeContentInset(bottomEdge: keyboardHeight - bottomViewHeight + scrollValue.c)
+        self.delegate?.changeContentInset(bottomEdge: keyboardHeight - bottomViewHeight + scrollValue.spacingFromCursorBoundaryToKeyboard)
       }
     }
     lastView.becomeFirstResponder()
