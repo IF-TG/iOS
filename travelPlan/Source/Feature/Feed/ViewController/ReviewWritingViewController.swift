@@ -40,7 +40,9 @@ final class ReviewWritingViewController: UIViewController {
     $0.addGestureRecognizer(tapGesture)
     $0.alwaysBounceVertical = true
   }
-  private let contentView = ReviewWritingContentView()
+  private lazy var contentView = ReviewWritingContentView().set {
+    $0.delegate = self
+  }
   private lazy var bottomView = ReviewWritingBottomView().set {
     $0.delegate = self
   }
@@ -50,6 +52,11 @@ final class ReviewWritingViewController: UIViewController {
   private let input = ReviewWritingViewModel.Input()
 
   // MARK: - LifeCycle
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    contentView.safeAreaTopInset(topInset: view.safeAreaInsets.top)
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     setupUI()
@@ -57,6 +64,8 @@ final class ReviewWritingViewController: UIViewController {
     setupNavigationBar()
     bindNotificationCenter()
     addGestureRecognizer()
+    setClosures()
+    
     bind()
   }
   
@@ -74,6 +83,11 @@ final class ReviewWritingViewController: UIViewController {
   
   deinit {
     print("deinit: \(Self.self)")
+  }
+  
+  override func viewDidLayoutSubviews() {
+    super.viewDidLayoutSubviews()
+    contentView.bottomViewHeight(bottomView.frame.height)
   }
 }
 
@@ -125,22 +139,13 @@ extension ReviewWritingViewController {
       .publisher(for: UIResponder.keyboardWillShowNotification)
       .receive(on: RunLoop.main)
       .sink { [weak self] notification in
-//        guard let bottomViewHeight = self?.bottomView.frame.height,
-//              let keyboardHeight = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?
-//          .cgRectValue.height else { return }
-//        
-//        if self?.scrollView.contentOffset.y == 0 {
-//          self?.scrollViewBottomConstraint?.constraint.update(inset: keyboardHeight - bottomViewHeight)
-//        }
-        
-        // textView를 터치했을 때, 키보드가 올라오는데,
-          // scrollView.contentOffset.y가 0이면 return
-          // scrollView.
-        // textView의 커서가 키보드보다 아래에 있는 경우, scrollVie
-        
-        
-        // scrollView.contentOffset.y가 조정
-          // 키보드가 떴을 때, 상수값 만큼 spacing
+        guard let keyboardRect = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?
+          .cgRectValue,
+              let view = self?.view
+        else { return }
+        let keyboardRectInScrollView = view.convert(keyboardRect, to: self?.scrollView)
+          .origin.y - ReviewWritingContentView.Constant.LastView.bottomSpacing
+        self?.contentView.keyboardY(keyboardRectInScrollView)
         
         self?.leftButton.setImage(self?.keyboardImage, for: .normal)
         self?.leftButton.setTitle(nil, for: .normal)
@@ -151,23 +156,21 @@ extension ReviewWritingViewController {
       .publisher(for: UIResponder.keyboardWillHideNotification)
       .receive(on: RunLoop.main)
       .sink { [weak self] _ in
+        self?.scrollView.verticalScrollIndicatorInsets.bottom = .zero
+        self?.scrollView.contentInset.bottom = .zero
+
         self?.leftButton.setImage(nil, for: .normal)
         self?.leftButton.setTitle("취소", for: .normal)
       }
       .store(in: &subscriptions)
-    
-    contentView.scrollToLastView = { [weak self] in
-      guard let scrollView = self?.scrollView else { return }
-      let frameHeightIsSmallerThanContentHeight = scrollView.contentSize.height > scrollView.bounds.height
-      
-      if frameHeightIsSmallerThanContentHeight {
-        scrollView.setContentOffset(
-          CGPoint(x: .zero, y: scrollView.contentSize.height - scrollView.bounds.height),
-          animated: true
-        )
-      }
-    }
   }
+  
+//  enum LeftButtonState {
+//    case
+//  }
+//  private func changeLeftButtonUI(state: LeftButtonState) {
+//    
+//  }
   
   private func setupNavigationBar() {
     navigationItem.leftBarButtonItem = .init(customView: leftButton)
@@ -177,6 +180,27 @@ extension ReviewWritingViewController {
   
   private func setupStyles() {
     view.backgroundColor = .white
+  }
+  
+  private func setClosures() {
+    contentView.scrollToLastView = { [weak self] cursorHeight, lastView in
+      guard let scrollView = self?.scrollView else { return }
+      let frameHeightIsSmallerThanContentHeight = scrollView.contentSize.height > scrollView.bounds.height
+      
+      if frameHeightIsSmallerThanContentHeight {
+        if lastView is UITextView {
+          scrollView.setContentOffset(
+            CGPoint(x: .zero, y: scrollView.contentOffset.y + cursorHeight),
+            animated: true
+          )
+        } else if lastView is UIImageView {
+          scrollView.setContentOffset(
+            CGPoint(x: .zero, y: scrollView.contentSize.height - scrollView.bounds.height),
+            animated: true
+          )
+        }
+      }
+    }
   }
 }
 
@@ -221,8 +245,6 @@ private extension ReviewWritingViewController {
   }
   
   @objc func didTapFinishButton() {
-    // TODO: - contentView에서 레이아웃이 잡혀있는 imageView의 개수를 bottomView에 띄우기
-      // - 만약 imageView가 하나도 없다면, cameraWarningLabel의 textColor 변경하기
     input.didTapFinishButton.send()
   }
   
@@ -247,5 +269,13 @@ extension ReviewWritingViewController: ReviewWritingBottomViewDelegate {
   
   func didTapCameraButton(_ button: UIButton) {
     input.didTapAlbumButton.send()
+  }
+}
+
+// MARK: - ReviewWritingContentDelegate
+extension ReviewWritingViewController: ReviewWritingContentViewDelegate {
+  func changeContentInset(bottomEdge: CGFloat) {
+    scrollView.verticalScrollIndicatorInsets.bottom = bottomEdge
+    scrollView.contentInset.bottom = bottomEdge
   }
 }

@@ -6,12 +6,21 @@
 //
 
 import UIKit
+import Combine
 import SnapKit
 
 final class ReviewWritingContentView: UIView {
+  enum Constant {
+    enum LastView {
+      static let bottomSpacing: CGFloat = 40
+    }
+  }
+  
   // MARK: - Properties
+  weak var delegate: ReviewWritingContentViewDelegate?
+  private var subscriptions = Set<AnyCancellable>()
   private lazy var titleTextView: UITextView = .init().set {
-    $0.text = "제목"
+    $0.text = "제목(최대 60자)"
     $0.font = .init(pretendard: .regular_400(fontSize: 22))
     $0.textColor = .yg.gray1
     $0.isScrollEnabled = false
@@ -35,18 +44,40 @@ final class ReviewWritingContentView: UIView {
     list.append(messageTextView)
     return list
   }()
+  private var messageTextViewLastHeight: CGFloat = 0
+  private var textViewList = [(textView: UITextView, lastChangedHeight: CGFloat)]()
   private var imageViewList = [UIImageView]()
   private var lastViewBottomConstraint: ConstraintMakerEditable?
   private lazy var lastView: UIView = messageTextView
   private var shouldScrollToLastView = false
-  var scrollToLastView: (() -> Void)?
+  private var keyboardY: CGFloat?
+  var scrollToLastView: ((_ cursorHeight: CGFloat, _ lastView: UIView) -> Void)?
+  private var keyboardHeight: CGFloat?
+  private var scrollViewHeight: CGFloat? {
+    superview?.frame.height
+  }
+  private var cursorHeight: CGFloat?
+  /// 커서가 넘으면 스크롤이 되는 경계선의 bottom과 키보드의 top 사이의 spacing
+  private var c: CGFloat {
+    return Constant.LastView.bottomSpacing
+  }
+  /// scrollView의 top과 커서가 넘으면 스크롤이 되는 경계선의 top 사이의 spacing
+  private var v: CGFloat? {
+    guard let b = self.keyboardHeight,
+          let f = self.scrollViewHeight,
+          let t = self.bottomViewHeight
+    else { return nil }
+    return f-(b-t)-c
+  }
+  private var bottomViewHeight: CGFloat?
+  private var safeAreaTopInset: CGFloat?
   
   // MARK: - LifeCycle
   override init(frame: CGRect) {
     super.init(frame: frame)
     setupUI()
+    bind()
   }
-  
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
@@ -54,7 +85,8 @@ final class ReviewWritingContentView: UIView {
   override func layoutSubviews() {
     super.layoutSubviews()
     if shouldScrollToLastView {
-      scrollToLastView?()
+      guard let h = self.cursorHeight else { return }
+      scrollToLastView?(h, lastView)
       shouldScrollToLastView = false
     }
   }
@@ -84,10 +116,12 @@ extension ReviewWritingContentView: LayoutSupport {
     let estimatedHeight = messageTextView.sizeThatFits(
       CGSize(width: messageTextView.frame.width, height: CGFloat.infinity))
       .height
+    messageTextViewLastHeight = estimatedHeight
+    textViewList.append((textView: messageTextView, lastChangedHeight: estimatedHeight))
     messageTextView.snp.makeConstraints {
       $0.top.equalTo(boundaryLineView.snp.bottom).offset(16)
       $0.leading.trailing.equalToSuperview()
-      self.lastViewBottomConstraint = $0.bottom.equalToSuperview().inset(40)
+      self.lastViewBottomConstraint = $0.bottom.equalToSuperview().inset(Constant.LastView.bottomSpacing)
       $0.height.equalTo(estimatedHeight)
     }
   }
@@ -95,9 +129,21 @@ extension ReviewWritingContentView: LayoutSupport {
 
 // MARK: - UITextViewDelegate
 extension ReviewWritingContentView: UITextViewDelegate {
+  func textViewDidBeginEditing(_ textView: UITextView) {
+    // TODO: - Bool 변수 사용해서 특정 조건일때만 호출되도록 하기
+    if textView === titleTextView || textView === messageTextView {
+      erasePlaceholder(of: textView)
+    }
+    // TODO: - Bool 변수 사용해서 h에 값 한번만 넣기
+    self.cursorHeight = getCursorHeight(of: textView)
+    manageScroll(at: textView)
+  }
+  
   func textViewDidChange(_ textView: UITextView) {
-      adjustHeight(of: textView)
-      
+    // TODO: - 오토레이아웃 성능 개선하기
+    adjustHeight(of: textView)
+    delegate?.changeContentInset(bottomEdge: keyboardHeight!-bottomViewHeight!+c)
+    
     if textView === titleTextView {
       limitTextStringCount(at: textView)
     }
@@ -118,22 +164,70 @@ extension ReviewWritingContentView: UITextViewDelegate {
     return true
   }
   
-  func textViewDidBeginEditing(_ textView: UITextView) {
-    if textView === titleTextView {
-      erasePlaceholder(of: textView)
-    } else if textView === messageTextView {
-      erasePlaceholder(of: textView)
-    }
+  func textViewDidEndEditing(_ textView: UITextView) {
+    configurePlaceholder(of: textView)
   }
   
-  func textViewDidEndEditing(_ textView: UITextView) {
-    // FIXME: - 타이핑 했다가 글을 전부 지우고 resignResponder를 할 때, adjustHeight(of:)함수 호출로 인해 텍스트 잘림 현상 해결하기
-    configurePlaceholder(of: textView)
+  // textView를 터치하거나 타이핑하는 경우
+  func textViewDidChangeSelection(_ textView: UITextView) {
   }
 }
 
 // MARK: - Private Helpers
 extension ReviewWritingContentView {
+  private func cursorIsUnderTheBoundary(at textView: UITextView) -> Bool? {
+    self.layoutIfNeeded()
+    guard let a = self.getCursorY(of: textView),
+          let v = self.v else { return nil }
+    return a > v
+  }
+  
+  private func manageScroll(at textView: UITextView) {
+    guard let keyboardHeight = self.keyboardHeight,
+          let bottomViewHeight = self.bottomViewHeight,
+          let scrollToFitContentOffset = self.cursorIsUnderTheBoundary(at: textView),
+          scrollToFitContentOffset
+    else { return }
+    
+    self.delegate?.changeContentInset(bottomEdge: keyboardHeight - bottomViewHeight + c)
+  }
+  
+  private func getCursorHeight(of textView: UITextView) -> CGFloat? {
+    guard let cursorFrame = cursorFrame(of: textView) else { return nil }
+    return cursorFrame.height
+  }
+  
+  /// ReviewWritingContentView의 좌표계를 기준으로 cursor의 y값을 반환합니다.
+  private func getCursorY(of textView: UITextView) -> CGFloat? {
+    guard let cursorFrame = cursorFrame(of: textView),
+          let safeAreaTopInset = self.safeAreaTopInset
+    else { return nil }
+    
+    return cursorFrame.origin.y - safeAreaTopInset
+  }
+  
+  private func bind() {
+    NotificationCenter.default
+      .publisher(for: UIResponder.keyboardWillShowNotification)
+      .receive(on: RunLoop.main)
+      .sink { [weak self] notification in
+        guard let keyboardRect = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?
+          .cgRectValue else { return }
+        self?.keyboardHeight = keyboardRect.height
+      }
+      .store(in: &subscriptions)
+  }
+  
+  /// window 좌표계를 기준으로 cursor의 frame을 반환합니다.
+  private func cursorFrame(of textView: UITextView) -> CGRect? {
+    guard let textRange = textView.selectedTextRange
+    else { return nil }
+    let cursorRectInTextView = textView.caretRect(for: textRange.start)
+    let cursorRectInWindow = textView.convert(cursorRectInTextView, to: nil)
+
+    return cursorRectInWindow
+  }
+  
   private func limitTextStringCount(at textView: UITextView) {
     if titleTextView.text.count > 60 {
       // TODO: - 최대 글자 수를 넘으면 글자에 대한 헬퍼 뷰를 띄워야합니다.
@@ -160,6 +254,7 @@ extension ReviewWritingContentView {
     }
   }
   
+  /// textView의 text를 기반으로 알맞은 autoLayout height으로 조정합니다.
   private func adjustHeight(of textView: UITextView) {
     let estimatedHeight = textView.sizeThatFits(
       CGSize(width: textView.frame.width, height: CGFloat.infinity)
@@ -170,20 +265,19 @@ extension ReviewWritingContentView {
     shouldScrollToLastView = true
   }
   
+  /// 제약조건 재설정 방식
+   /// 1. lastView의 bottom과 superView의 bottom을 제거
+   /// 2. lastView의 bottom과 view의 top 제약조건
+   /// 3. view의 bottom과 superView의 bottom 제약 조건
+     /// - 이때 view의 bottom과 superView의 bottom간의 constraints를 저장
+   /// 4. view를 lastView로 갱신
   private func addLastView(lastView view: UIView) {
-    // 제약조건 재설정 방식
-    // 1. lastView의 bottom과 superView의 bottom을 제거
-    // 2. lastView의 bottom과 view의 top 제약조건
-    // 3. view의 bottom과 superView의 bottom 제약 조건
-      // - 이때 view의 bottom과 superView의 bottom간의 constraints를 저장
-    // 4. view를 lastView로 갱신
-    
     lastViewBottomConstraint?.constraint.deactivate()
     addSubview(view)
     view.snp.makeConstraints {
       $0.leading.trailing.equalToSuperview()
       $0.top.equalTo(lastView.snp.bottom).offset(10)
-      lastViewBottomConstraint = $0.bottom.equalToSuperview().inset(40)
+      lastViewBottomConstraint = $0.bottom.equalToSuperview().inset(Constant.LastView.bottomSpacing)
     }
     lastView = view
     makeLastViewHeightConstraint()
@@ -213,8 +307,8 @@ extension ReviewWritingContentView {
     }
   }
   
+  /// 텍스트뷰의 마지막 문자로 커서가 이동합니다.
   private func moveCursorPosition(textView: UITextView) {
-    // 누른 텍스트 뷰의 마지막 문자에 커서 이동
     guard let text = textView.text,
           let cursorPosition = textView.position(
             from: textView.beginningOfDocument,
@@ -227,9 +321,16 @@ extension ReviewWritingContentView {
 
 // MARK: - Helpers
 extension ReviewWritingContentView {
+  func keyboardY(_ keyboardRect: CGFloat) {
+    self.keyboardY = keyboardRect
+  }
+  
   func addImageView() {
-    let imageView = UIImageView()
-    imageView.image = UIImage(named: "tempProfile1")
+    let imageView = UIImageView().set {
+      $0.image = UIImage(named: "tempProfile1")
+      $0.contentMode = .scaleAspectFill
+      $0.clipsToBounds = true
+    }
     imageViewList.append(imageView)
     addLastView(lastView: imageView)
   }
@@ -238,29 +339,26 @@ extension ReviewWritingContentView {
     // lastView가 textView인 경우, 해당 textView 포커싱
     // lastView가 imageView인 경우, imageView 밑에 새로운 textView를 제약조건을 통해 추가
     if let textView = lastView as? UITextView {
-      textView.becomeFirstResponder()
       moveCursorPosition(textView: textView)
     } else if lastView is UIImageView {
       let newTextView = createNewTextView()
       addLastView(lastView: newTextView)
-      newTextView.becomeFirstResponder()
+      self.layoutIfNeeded()
+//      textViewList.append((textView: newTextView, lastChangedHeight: newTextView.frame.height))
+      if let keyboardHeight = self.keyboardHeight,
+         let bottomViewHeight = self.bottomViewHeight {
+        self.delegate?.changeContentInset(bottomEdge: keyboardHeight - bottomViewHeight + c)
+      }
     }
+    lastView.becomeFirstResponder()
+  }
+  
+  func safeAreaTopInset(topInset: CGFloat) {
+    self.safeAreaTopInset = topInset
+  }
+  
+  func bottomViewHeight(_ bottomViewHeight: CGFloat) {
+    self.bottomViewHeight = bottomViewHeight
   }
 }
-
-// 버튼 클릭 시, 사진 추가
-// textView 아래에 이미지 추가(오토레이아웃)
-// 이미지는 1~20개 추가 가능
-// 맨 마지막 이미지 아래에 textView 추가
-
-// CASE: 키보드가 왔을 때
-// 키보드가 contentView의 lastView + padding을 가리는 경우
-  // - scrollView의 contentOffset을 조절해서 contentView를 보이게 한다.
-  // contentOffset 조절 방법:
-    //
-// 키보드가 contentView의 lastView + padding을 가리지 않는 경우
-  // - 그냥 놔둔다.
-
 // TODO: - messageTextView가 아닌 textView인 경우, textView가 비어있을때 키보드로 문자 삭제키를 누를 경우, textView를 제거
-  //  오토레이아웃 삭제..
-// TODO: - imageView 추가 시, LastView가 messageTextView인 경우, 미리 messageTextView 오토레이아웃 제거하기
