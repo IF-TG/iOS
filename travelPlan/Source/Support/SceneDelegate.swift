@@ -17,6 +17,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     let window = UIWindow(windowScene: windowScene)
     ApplicationCoordinator(window: window).set { $0.start() }
     window.makeKeyAndVisible()
+    
+    if #available(iOS 13.0, *) {
+      window.overrideUserInterfaceStyle = .light
+    }
   }
   
   func sceneWillEnterForeground(_ scene: UIScene) {

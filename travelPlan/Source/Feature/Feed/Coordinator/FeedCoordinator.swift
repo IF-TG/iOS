@@ -85,7 +85,7 @@ extension FeedCoordinator: FeedCoordinatorDelegate {
   }
   
   func showReviewWrite() {
-    let reviewViewController = TravelReviewViewController()
-    presenter?.pushViewController(reviewViewController, animated: true)
+    let reviewWritingCoordinator = ReviewWritingCoordinator(presenter: presenter)
+    addChild(with: reviewWritingCoordinator)
   }
 }
