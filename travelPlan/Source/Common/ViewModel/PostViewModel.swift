@@ -71,7 +71,7 @@ private extension PostViewModel {
             heartState: $0.isSelectedHeart,
             commentCount: $0.commentCount)
           
-          return PostInfo(header: headerInfo, content: contentInfo, footer: footerInfo)
+          return PostInfo(postId: $0.id, header: headerInfo, content: contentInfo, footer: footerInfo)
         }
       }).store(in: &subscriptions)
   }

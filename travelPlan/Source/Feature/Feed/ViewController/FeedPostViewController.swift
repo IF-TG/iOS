@@ -55,13 +55,13 @@ final class FeedPostViewController: UIViewController {
   }
   
   // MARK: - Lifecycle
-  init(with filterInfo: FeedPostSearchFilterInfo) {
+  init(with filterInfo: FeedPostSearchFilterInfo, postDelegator: PostViewAdapterDelegate?) {
     let viewModel = FeedPostViewModel(filterInfo: filterInfo, postUseCase: MockPostUseCase())
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
     bind()
     if filterInfo.travelTheme == .all {
-      postViewAdapter = PostViewAdapter(dataSource: viewModel, collectionView: postView)
+      postViewAdapter = PostViewAdapter(dataSource: viewModel, delegate: postDelegator, collectionView: postView)
       return
     }
     postView.register(
@@ -69,7 +69,7 @@ final class FeedPostViewController: UIViewController {
       forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
       withReuseIdentifier: PostSortingAreaView.id)
     updatePostViewLayout()
-    postViewAdapter = FeedPostViewAdapter(dataSource: viewModel, collectionView: postView)
+    postViewAdapter = FeedPostViewAdapter(dataSource: viewModel, delegate: postDelegator, collectionView: postView)
   }
   
   required init?(coder: NSCoder) {
