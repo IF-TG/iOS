@@ -18,7 +18,6 @@ final class ReviewWritingContentView: UIView {
   }
   
   struct ValueRelatedToScrolling {
-    var shouldScrollToLastView = false
     var keyboardHeight: CGFloat?
     var scrollViewHeight: CGFloat?
     var cursorHeight: CGFloat?
@@ -66,12 +65,13 @@ final class ReviewWritingContentView: UIView {
     return list
   }()
   private var messageTextViewLastHeight: CGFloat = 0
-  private var textViewList = [(textView: UITextView, lastChangedHeight: CGFloat)]()
   private var imageViewList = [UIImageView]()
   private var lastViewBottomConstraint: ConstraintMakerEditable?
   private lazy var lastView: UIView = messageTextView
+  private var textViewPreviousHeight: [UITextView: CGFloat] = [:]
   var scrollToLastView: ((_ cursorHeight: CGFloat, _ lastView: UIView) -> Void)?
-
+  var shouldScrollToLastView = false
+  var isTextViewDidBeginEditingFirstCalled = false
   // MARK: - LifeCycle
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -85,10 +85,10 @@ final class ReviewWritingContentView: UIView {
   
   override func layoutSubviews() {
     super.layoutSubviews()
-    if scrollValue.shouldScrollToLastView {
+    if shouldScrollToLastView {
       guard let h = scrollValue.cursorHeight else { return }
       scrollToLastView?(h, lastView)
-      scrollValue.shouldScrollToLastView = false
+      shouldScrollToLastView = false
     }
   }
 }
@@ -118,7 +118,6 @@ extension ReviewWritingContentView: LayoutSupport {
       CGSize(width: messageTextView.frame.width, height: CGFloat.infinity)
     ).height
     messageTextViewLastHeight = estimatedHeight
-    textViewList.append((textView: messageTextView, lastChangedHeight: estimatedHeight))
     messageTextView.snp.makeConstraints {
       $0.top.equalTo(boundaryLineView.snp.bottom).offset(16)
       $0.leading.trailing.equalToSuperview()
@@ -131,17 +130,18 @@ extension ReviewWritingContentView: LayoutSupport {
 // MARK: - UITextViewDelegate
 extension ReviewWritingContentView: UITextViewDelegate {
   func textViewDidBeginEditing(_ textView: UITextView) {
-    // TODO: - Bool 변수 사용해서 특정 조건일때만 호출되도록 하기
     if textView === titleTextView || textView === messageTextView {
       erasePlaceholder(of: textView)
     }
-    // TODO: - Bool 변수 사용해서 h에 값 한번만 넣기
-    scrollValue.cursorHeight = getCursorHeight(of: textView)
+
+    if !isTextViewDidBeginEditingFirstCalled {
+      scrollValue.cursorHeight = getCursorHeight(of: textView)
+      isTextViewDidBeginEditingFirstCalled = true
+    }
     manageScroll(at: textView)
   }
   
   func textViewDidChange(_ textView: UITextView) {
-    // TODO: - 오토레이아웃 성능 개선하기
     adjustHeight(of: textView)
     if let keyboardHeight = scrollValue.keyboardHeight,
        let bottomViewHeight = scrollValue.bottomViewHeight {
@@ -262,10 +262,16 @@ extension ReviewWritingContentView {
     let estimatedHeight = textView.sizeThatFits(
       CGSize(width: textView.frame.width, height: CGFloat.infinity)
     ).height
-    textView.snp.updateConstraints {
-      $0.height.equalTo(estimatedHeight)
+    
+    if let previousHeight = textViewPreviousHeight[textView], previousHeight != estimatedHeight {
+      textView.snp.updateConstraints {
+        $0.height.equalTo(estimatedHeight)
+      }
+      shouldScrollToLastView = true
+      textViewPreviousHeight[textView] = estimatedHeight
+    } else if textViewPreviousHeight[textView] == nil {
+      textViewPreviousHeight[textView] = estimatedHeight
     }
-    scrollValue.shouldScrollToLastView = true
   }
   
   /// 제약조건 재설정 방식
@@ -286,7 +292,7 @@ extension ReviewWritingContentView {
     makeLastViewHeightConstraint()
     
     view.layoutIfNeeded() // view는 lastView. 이 시점에 lastView의 height이 결정
-    scrollValue.shouldScrollToLastView = true
+    shouldScrollToLastView = true
   }
   
   private func makeLastViewHeightConstraint() {
@@ -343,10 +349,11 @@ extension ReviewWritingContentView {
       let newTextView = createNewTextView()
       addLastView(lastView: newTextView)
       self.layoutIfNeeded()
-//      textViewList.append((textView: newTextView, lastChangedHeight: newTextView.frame.height))
       if let keyboardHeight = scrollValue.keyboardHeight,
          let bottomViewHeight = scrollValue.bottomViewHeight {
-        self.delegate?.changeContentInset(bottomEdge: keyboardHeight - bottomViewHeight + scrollValue.spacingFromCursorBoundaryToKeyboard)
+        self.delegate?.changeContentInset(
+          bottomEdge: keyboardHeight - bottomViewHeight + scrollValue.spacingFromCursorBoundaryToKeyboard
+        )
       }
     }
     lastView.becomeFirstResponder()
