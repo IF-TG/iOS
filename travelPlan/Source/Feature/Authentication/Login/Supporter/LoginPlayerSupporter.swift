@@ -18,10 +18,6 @@ final class LoginPlayerSupporter {
   // MARK: - Properties
   private var player: AVPlayer?
   private var subscriptions = Set<AnyCancellable>()
-  
-  deinit {
-    NotificationCenter.default.removeObserver(self)
-  }
 }
 
 // MARK: - Helpers
