@@ -10,6 +10,7 @@ import SnapKit
 
 class PictureImageView: UIImageView {
   // MARK: - Properties
+  weak var delegate: PictureImageViewDelegate?
   private lazy var deleteButton = UIButton().set {
     $0.setImage(.init(systemName: "x.circle"), for: .normal)
     $0.addTarget(self, action: #selector(didTapDeleteButton(_:)), for: .touchUpInside)
@@ -26,6 +27,7 @@ class PictureImageView: UIImageView {
     image = .init(named: imageName)
     contentMode = .scaleAspectFill
     clipsToBounds = true
+    isUserInteractionEnabled = true
   }
   
   required init?(coder: NSCoder) {
@@ -59,6 +61,6 @@ extension PictureImageView {
 // MARK: - Actions
 private extension PictureImageView {
   @objc func didTapDeleteButton(_ sender: UIButton) {
-    print("버튼 클릭")
+    delegate?.didTapDeleteButton(sender)
   }
 }
