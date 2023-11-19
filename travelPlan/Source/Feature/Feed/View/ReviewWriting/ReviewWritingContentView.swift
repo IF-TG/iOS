@@ -233,7 +233,6 @@ extension ReviewWritingContentView {
   
   private func limitTextStringCount(at textView: UITextView) {
     if titleTextView.text.count > 60 {
-      // TODO: - 최대 글자 수를 넘으면 글자에 대한 헬퍼 뷰를 띄워야합니다.
       titleTextView.text.removeLast()
     }
   }
@@ -331,10 +330,8 @@ extension ReviewWritingContentView {
 // MARK: - Helpers
 extension ReviewWritingContentView {
   func addImageView() {
-    let imageView = UIImageView().set {
-      $0.image = UIImage(named: "tempProfile1")
-      $0.contentMode = .scaleAspectFill
-      $0.clipsToBounds = true
+    let imageView = PictureImageView(imageName: "tempProfile1").set {
+      $0.delegate = self
     }
     imageViewList.append(imageView)
     addLastView(lastView: imageView)
@@ -371,4 +368,14 @@ extension ReviewWritingContentView {
     scrollValue.scrollViewHeight = scrollViewHeight
   }
 }
+
+extension ReviewWritingContentView: PictureImageViewDelegate {
+  func didTapDeleteButton(_ sender: UIButton) {
+    print("이미지 삭제!")
+    // 이미지뷰 삭제
+    // 오토레이아웃 제거
+  }
+}
+
 // TODO: - messageTextView가 아닌 textView인 경우, textView가 비어있을때 키보드로 문자 삭제키를 누를 경우, textView를 제거
+// TODO: - imageView에 삭제버튼 만들고 기능 구현하기
