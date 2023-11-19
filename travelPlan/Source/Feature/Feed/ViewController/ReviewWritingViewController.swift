@@ -19,8 +19,7 @@ final class ReviewWritingViewController: UIViewController {
   weak var coordinator: ReviewWritingCoordinatorDelegate?
   
   private lazy var titleView = NavigationTitleWithClickView(title: "테마 설정", layoutType: .rightImage).set {
-    let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapTitleView))
-    $0.addGestureRecognizer(tapGesture)
+    self.addGestureRecognizer(from: $0, action: #selector(didTapTitleView))
   }
   
   private let keyboardImage: UIImage = .init(named: "keyboard") ?? .init(systemName: "keyboard")!
@@ -42,6 +41,8 @@ final class ReviewWritingViewController: UIViewController {
   
   private lazy var scrollView = UIScrollView().set {
     let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapScrollView))
+    tapGesture.cancelsTouchesInView = false
+    tapGesture.delegate = self
     $0.addGestureRecognizer(tapGesture)
     $0.alwaysBounceVertical = true
   }
@@ -64,7 +65,7 @@ final class ReviewWritingViewController: UIViewController {
     setupStyles()
     setupNavigationBar()
     bindNotificationCenter()
-    addGestureRecognizer()
+    addGestureRecognizer(from: self.view, action:  #selector(dismissKeyboard))
     setContentViewClosures()
     
     bind()
@@ -138,8 +139,8 @@ extension ReviewWritingViewController: ViewBindCase {
 
 // MARK: - Private Helpers
 extension ReviewWritingViewController {
-  private func addGestureRecognizer() {
-    let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+  private func addGestureRecognizer(from view: UIView, action: Selector?) {
+    let tapGesture = UITapGestureRecognizer(target: self, action: action)
     view.addGestureRecognizer(tapGesture)
   }
   
@@ -258,6 +259,7 @@ private extension ReviewWritingViewController {
   }
   
   @objc func didTapScrollView() {
+    print("didTapScrollView")
     input.didTapScrollView.send()
   }
   
@@ -281,5 +283,14 @@ extension ReviewWritingViewController: ReviewWritingBottomViewDelegate {
 extension ReviewWritingViewController: ReviewWritingContentViewDelegate {
   func changeContentInset(bottomEdge: CGFloat) {
     setScrollViewBottomInset(inset: bottomEdge)
+  }
+}
+
+extension ReviewWritingViewController: UIGestureRecognizerDelegate {
+  func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+    if touch.view !== scrollView {
+      return false
+    }
+    return true
   }
 }
