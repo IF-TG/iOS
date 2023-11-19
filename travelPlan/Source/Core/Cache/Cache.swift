@@ -86,3 +86,18 @@ public extension Cache {
     }
   }
 }
+
+// MARK: - Codable
+extension Cache: Codable where Key: Codable, Value: Codable {
+  public func encode(to encoder: Encoder) throws {
+    var container = encoder.singleValueContainer()
+    try container.encode(keyTracker.keys.compactMap { $0 })
+  }
+  
+  public convenience init(from decoder: Decoder) throws {
+    self.init()
+    let container = try decoder.singleValueContainer()
+    let entries = try container.decode([Entry].self)
+    entries.forEach { insert($0.value, forKey: $0.key)}
+  }
+}
