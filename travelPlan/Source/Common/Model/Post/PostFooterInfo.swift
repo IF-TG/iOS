@@ -9,9 +9,9 @@ import Foundation
 
 struct PostFooterInfo {
   // heart text
-  let heartCount: Int
+  let heartCount: String
   // 로그인한 유저가 하트를 눌렀는가?
   let heartState: Bool
   // comment text
-  let commentCount: Int
+  let commentCount: String
 }

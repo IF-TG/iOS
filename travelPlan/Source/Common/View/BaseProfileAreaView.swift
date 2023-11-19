@@ -17,6 +17,7 @@ class BaseProfileAreaView: UIView {
   enum ProfileLayoutType {
     case centerY
     case top
+    case bottom
   }
   
   enum ProfileInfoType {
@@ -151,10 +152,14 @@ class BaseProfileAreaView: UIView {
       profileImageView.leadingAnchor.constraint(equalTo: leadingAnchor),
       profileImageView.widthAnchor.constraint(equalToConstant: profileLayoutInfo.size.width),
       profileImageView.heightAnchor.constraint(equalToConstant: profileLayoutInfo.size.height)]
-    guard profileLayoutInfo.layoutType == .top else {
+    switch profileLayoutInfo.layoutType {
+    case .centerY:
       return constraints + [profileImageView.centerYAnchor.constraint(equalTo: centerYAnchor)]
+    case .top:
+      return constraints + [profileImageView.topAnchor.constraint(equalTo: topAnchor)]
+    case .bottom:
+      return constraints + [profileImageView.bottomAnchor.constraint(equalTo: bottomAnchor)]
     }
-    return constraints + [profileImageView.topAnchor.constraint(equalTo: topAnchor)]
   }
   
   private var contentViewConstraints: [NSLayoutConstraint] {

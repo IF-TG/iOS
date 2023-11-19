@@ -6,56 +6,38 @@
 //
 
 import UIKit
+import Combine
 
-final class PostDetailViewController: UIViewController {
-  private let tableView = UITableView(frame: .zero, style: .grouped).set {
-    $0.translatesAutoresizingMaskIntoConstraints = false
-    $0.separatorStyle = .none
-    $0.rowHeight = UITableView.automaticDimension
-    $0.estimatedRowHeight = 235
-    $0.separatorInset = .zero
-    $0.backgroundColor = .white
-    $0.scrollIndicatorInsets = .init(top: 0, left: -1, bottom: 13, right: -1)
-    $0.contentInset = .zero
-    if #available(iOS 15.0, *) {
-      $0.sectionHeaderTopPadding = 0
-    }
-    
-    $0.register(
-      PostDetailCategoryHeaderView.self,
-      forHeaderFooterViewReuseIdentifier: PostDetailCategoryHeaderView.id)
-    $0.register(PostDetailTitleCell.self, forCellReuseIdentifier: PostDetailTitleCell.id)
-    $0.register(
-      PostDetailProfileAreaFooterView.self,
-      forHeaderFooterViewReuseIdentifier: PostDetailProfileAreaFooterView.id)
-    
-    $0.register(PostDetailContentTextCell.self, forCellReuseIdentifier: PostDetailContentTextCell.id)
-    $0.register(PostDetailContentImageCell.self, forCellReuseIdentifier: PostDetailContentImageCell.id)
-    $0.register(PostDetailContentFooterView.self, forHeaderFooterViewReuseIdentifier: PostDetailContentFooterView.id)
-    
-    $0.register(PostDetailCommentHeader.self, forHeaderFooterViewReuseIdentifier: PostDetailCommentHeader.id)
-    $0.register(PostDetailReplyCell.self, forCellReuseIdentifier: PostDetailReplyCell.id)
-  }
-  
-  private let commentInputView = UIView(frame: .zero).set {
-    $0.translatesAutoresizingMaskIntoConstraints = false
-    $0.backgroundColor = .yellow
-  }
+final class PostDetailViewController: UITableViewController {
+  // MARK: - Properties
+  private let inputAccessory = PostDetailInputAccessoryWrapper()
   
   private let naviTitle = BaseLabel(fontType: .semiBold_600(fontSize: 16))
   
+  private let starButton = SearchStarButton(normalType: .black)
+  
   private var naviTitleAnimator: UIViewPropertyAnimator?
+  
+  private var isHandlingKeyboardEvent = false
   
   private var adapter: PostDetailTableViewAdapter?
   
   private let viewModel: PostDetailTableViewDataSource
   
-  private var prevScrollDirection: UIScrollView.ScrollVerticalDirection = .down
+  private var notificationSubscriptions = Set<AnyCancellable>()
   
+  override var canBecomeFirstResponder: Bool {
+    return true
+  }
+  
+  override var inputAccessoryView: UIView? {
+    return inputAccessory
+  }
+
   // MARK: - Lifecycle
   init(viewModel: PostDetailTableViewDataSource) {
     self.viewModel = viewModel
-    super.init(nibName: nil, bundle: nil)
+    super.init(style: .grouped)
     adapter = PostDetailTableViewAdapter(
       dataSource: viewModel,
       delegate: self,
@@ -66,9 +48,30 @@ final class PostDetailViewController: UIViewController {
     nil
   }
   
+  override func loadView() {
+    super.loadView()
+    tableView.separatorStyle = .none
+    tableView.rowHeight = UITableView.automaticDimension
+    tableView.estimatedRowHeight = 235
+    tableView.separatorInset = .zero
+    tableView.backgroundColor = .white
+    tableView.scrollIndicatorInsets = .init(top: 0, left: -1, bottom: 0, right: -1)
+    let minimaiSize = CGSize(width: CGFloat.leastNormalMagnitude, height: CGFloat.leastNormalMagnitude)
+    tableView.tableFooterView = UIView(frame: CGRect(origin: .zero, size: minimaiSize))
+    tableView.keyboardDismissMode = .interactive
+    tableView.contentInset = .zero
+    if #available(iOS 15.0, *) {
+      tableView.sectionHeaderTopPadding = 0
+    }
+    let tap = UITapGestureRecognizer(target: self, action: #selector(didTapTableView))
+    tableView.addGestureRecognizer(tap)
+    registerReusableViews()
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     configureUI()
+    inputAccessory.delegate = self
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -95,12 +98,64 @@ private extension PostDetailViewController {
   func configureUI() {
     view.backgroundColor = .white
     setupDefaultBackBarButtonItem(marginLeft: 0)
-    setupUI()
+    navigationItem.rightBarButtonItem = UIBarButtonItem(customView: starButton)
+    starButton.translatesAutoresizingMaskIntoConstraints = false
+    starButton.widthAnchor.constraint(equalToConstant: 24).isActive = true
+    starButton.heightAnchor.constraint(equalToConstant: 24).isActive = true
+    starButton.addTarget(self, action: #selector(didTapStarButton), for: .touchUpInside)
   }
   
   func setTitleView() {
     navigationItem.titleView = naviTitle
     naviTitle.alpha = 0
+  }
+  
+  func registerReusableViews() {
+    tableView.register(
+      PostDetailCategoryHeaderView.self,
+      forHeaderFooterViewReuseIdentifier: PostDetailCategoryHeaderView.id)
+    tableView.register(
+      PostDetailTitleCell.self,
+      forCellReuseIdentifier: PostDetailTitleCell.id)
+    tableView.register(
+      PostDetailProfileAreaFooterView.self,
+      forHeaderFooterViewReuseIdentifier: PostDetailProfileAreaFooterView.id)
+    
+    tableView.register(
+      PostDetailContentTextCell.self,
+      forCellReuseIdentifier: PostDetailContentTextCell.id)
+    tableView.register(
+      PostDetailContentImageCell.self,
+      forCellReuseIdentifier: PostDetailContentImageCell.id)
+    tableView.register(
+      PostDetailContentFooterView.self,
+      forHeaderFooterViewReuseIdentifier: PostDetailContentFooterView.id)
+    tableView.register(
+      PostHeartAndShareAreaHeaderView.self,
+      forHeaderFooterViewReuseIdentifier: PostHeartAndShareAreaHeaderView.id)
+    
+    tableView.register(
+      PostDetailCommentHeader.self,
+      forHeaderFooterViewReuseIdentifier: PostDetailCommentHeader.id)
+    tableView.register(
+      PostDetailReplyCell.self,
+      forCellReuseIdentifier: PostDetailReplyCell.id)
+  }
+}
+
+// MARK: - Actions
+extension PostDetailViewController {
+  @objc private func didTapTableView() {
+    inputAccessory.hideKeyboard()
+  }
+  
+  @objc private func didTapStarButton() {
+    print("카운팅스타~ 밤하늘의 퍼어얼")
+  }
+  
+  
+  @objc private func keyboardDidShow(notification: NSNotification) {
+    print("h키보드ㅏ 보여졋음")
   }
 }
 
@@ -151,23 +206,10 @@ extension PostDetailViewController: PostDetailTableViewAdapterDelegate {
   }
 }
 
-extension PostDetailViewController: LayoutSupport {
-  func addSubviews() {
-    [tableView, commentInputView].forEach {
-      view.addSubview($0)
-    }
-  }
-  
-  func setConstraints() {
-    NSLayoutConstraint.activate([
-      tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-      tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-      tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-      
-      commentInputView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-      commentInputView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-      commentInputView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-      commentInputView.heightAnchor.constraint(equalToConstant: 60),
-      commentInputView.topAnchor.constraint(equalTo: tableView.bottomAnchor)])
+// MARK: - PostDetailInputAccessoryWrapperDelegate
+extension PostDetailViewController: PostDetailInputAccessoryWrapperDelegate {
+  func didTouchSendIcon(_ text: String) {
+    // TODO: - 사용자가 섹션을 클릭했다면, 섹션값도 전달해야함(대댓글인경우)
+    print("DEBUG: \(text)")
   }
 }

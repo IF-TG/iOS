@@ -26,6 +26,7 @@ struct PostDetails {
 enum PostDetailSectionType: Int {
   case postDescription
   case postContent
+  case postHeartAndShareArea
   /// 2 이상부터는 comments가 있습니다.
   case comments
   
@@ -35,10 +36,14 @@ enum PostDetailSectionType: Int {
       self = .postDescription
     case 1:
       self = .postContent
+    case 2:
+      self = .postHeartAndShareArea
     default:
       self = .comments
     }
   }
+  
+  static let defaultNumberOfSections = 3
 }
 
 struct PostComment {
@@ -64,7 +69,7 @@ struct PostReply {
 }
 
 final class PostDetailViewModel {
-  private let DefaultSectionCount = 2
+  private let DefaultSectionCount = PostDetailSectionType.defaultNumberOfSections
   
   private var postDetails: PostDetails?
   
@@ -146,6 +151,8 @@ extension PostDetailViewModel: PostDetailTableViewDataSource {
       return 1
     case .postContent:
       return postDetails.postContents.count
+    case .postHeartAndShareArea:
+      return 0
     default:
       return comments[section-DefaultSectionCount].replies.count
     }
