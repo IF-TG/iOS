@@ -41,8 +41,6 @@ final class ReviewWritingViewController: UIViewController {
   
   private lazy var scrollView = UIScrollView().set {
     let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapScrollView))
-    tapGesture.cancelsTouchesInView = false
-    tapGesture.delegate = self
     $0.addGestureRecognizer(tapGesture)
     $0.alwaysBounceVertical = true
   }
@@ -65,7 +63,7 @@ final class ReviewWritingViewController: UIViewController {
     setupStyles()
     setupNavigationBar()
     bindNotificationCenter()
-    addGestureRecognizer(from: self.view, action:  #selector(dismissKeyboard))
+    addGestureRecognizer(from: self.view, action: #selector(didTapView))
     setContentViewClosures()
     
     bind()
@@ -259,11 +257,10 @@ private extension ReviewWritingViewController {
   }
   
   @objc func didTapScrollView() {
-    print("didTapScrollView")
     input.didTapScrollView.send()
   }
   
-  @objc func dismissKeyboard() {
+  @objc func didTapView() {
     input.didTapView.send()
   }
 }
@@ -283,14 +280,5 @@ extension ReviewWritingViewController: ReviewWritingBottomViewDelegate {
 extension ReviewWritingViewController: ReviewWritingContentViewDelegate {
   func changeContentInset(bottomEdge: CGFloat) {
     setScrollViewBottomInset(inset: bottomEdge)
-  }
-}
-
-extension ReviewWritingViewController: UIGestureRecognizerDelegate {
-  func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
-    if touch.view !== scrollView {
-      return false
-    }
-    return true
   }
 }
