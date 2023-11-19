@@ -9,7 +9,7 @@ import UIKit
 import Combine
 import SnapKit
 
-final class ReviewWritingContentView: UIView {
+final class ReviewWritingContentView: UIStackView {
   // MARK: - Nested
   enum Constant {
     enum LastView {
@@ -75,11 +75,14 @@ final class ReviewWritingContentView: UIView {
   // MARK: - LifeCycle
   override init(frame: CGRect) {
     super.init(frame: frame)
+    axis = .vertical
+    distribution = .equalSpacing
+    spacing = 8
     setupUI()
     bind()
   }
   
-  required init?(coder: NSCoder) {
+  required init(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
   
@@ -96,9 +99,18 @@ final class ReviewWritingContentView: UIView {
 // MARK: - LayoutSupport
 extension ReviewWritingContentView: LayoutSupport {
   func addSubviews() {
-    addSubview(titleTextView)
-    addSubview(boundaryLineView)
-    addSubview(messageTextView)
+    let spacerViews = (0..<3).map { _ in createSpacerView() }
+    _=[spacerViews[0],
+       titleTextView,
+       spacerViews[1],
+       boundaryLineView,
+       spacerViews[2],
+       messageTextView]
+      .map { addArrangedSubview($0) }
+    
+    spacerViews[0].heightAnchor.constraint(equalToConstant: 16).isActive = true
+    spacerViews[1].heightAnchor.constraint(equalToConstant: 16).isActive = true
+    spacerViews[2].heightAnchor.constraint(equalToConstant: 8).isActive = true
   }
   
   func setConstraints() {
@@ -324,6 +336,12 @@ extension ReviewWritingContentView {
           ) else { return }
     
     textView.selectedTextRange = textView.textRange(from: cursorPosition, to: cursorPosition)
+  }
+  
+  private func createSpacerView() -> UIView {
+    return UIView().set {
+      $0.backgroundColor = .clear
+    }
   }
 }
 
