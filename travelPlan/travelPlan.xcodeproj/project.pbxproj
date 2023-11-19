@@ -1156,6 +1156,14 @@
 			path = Mock;
 			sourceTree = "<group>";
 		};
+		1546DF182B0A653F00B49A55 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				15FFAC052AD6E8D80013DB57 /* Network */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
 		157176702A0BFA2F0015EC8C /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
@@ -1243,10 +1251,10 @@
 		1594F53029FD517E00A58F20 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				1546DF182B0A653F00B49A55 /* Core */,
 				151DF1062AEEC52200D5D55B /* Local */,
 				151DF0F72AEEB4A200D5D55B /* Data */,
 				151DF0ED2AEEADFC00D5D55B /* Domain */,
-				15FFAC052AD6E8D80013DB57 /* Network */,
 				15FEB5D82A050A99000A5F33 /* Common */,
 				1594F54629FD526900A58F20 /* Feature */,
 				1594F54529FD521000A58F20 /* Support */,
