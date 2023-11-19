@@ -82,6 +82,7 @@
 		13BF411D2ADBE42000F3F082 /* onboarding-video.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 13BF411C2ADBE42000F3F082 /* onboarding-video.mp4 */; };
 		13BF41202ADBEC8C00F3F082 /* LoginStartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13BF411F2ADBEC8C00F3F082 /* LoginStartView.swift */; };
 		13C32A3B2B09D8BF0046ED98 /* PictureImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C32A3A2B09D8BF0046ED98 /* PictureImageView.swift */; };
+		13C32A3D2B0A2FF30046ED98 /* PictureImageViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C32A3C2B0A2FF30046ED98 /* PictureImageViewDelegate.swift */; };
 		13C9C1AF2A17FFC400DF1FFF /* PostSearchHeaderViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C9C1AE2A17FFC400DF1FFF /* PostSearchHeaderViewDelegate.swift */; };
 		13C9C1B12A1806F500DF1FFF /* PostRecentSearchTagCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C9C1B02A1806F500DF1FFF /* PostRecentSearchTagCellDelegate.swift */; };
 		13CB6D322A1E9F6600D185B2 /* CautionAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CB6D312A1E9F6600D185B2 /* CautionAlertViewController.swift */; };
@@ -425,6 +426,7 @@
 		13BF411F2ADBEC8C00F3F082 /* LoginStartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginStartView.swift; sourceTree = "<group>"; };
 		13C07ECC2A13F454005F04CD /* PostSearchFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSearchFooterView.swift; sourceTree = "<group>"; };
 		13C32A3A2B09D8BF0046ED98 /* PictureImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PictureImageView.swift; sourceTree = "<group>"; };
+		13C32A3C2B0A2FF30046ED98 /* PictureImageViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PictureImageViewDelegate.swift; sourceTree = "<group>"; };
 		13C9C1AE2A17FFC400DF1FFF /* PostSearchHeaderViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSearchHeaderViewDelegate.swift; sourceTree = "<group>"; };
 		13C9C1B02A1806F500DF1FFF /* PostRecentSearchTagCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostRecentSearchTagCellDelegate.swift; sourceTree = "<group>"; };
 		13CB6D312A1E9F6600D185B2 /* CautionAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CautionAlertViewController.swift; sourceTree = "<group>"; };
@@ -817,6 +819,7 @@
 			children = (
 				13405F762AF79CBD00382796 /* ReviewWritingBottomViewDelegate.swift */,
 				134CCB662B028D9C00D51D84 /* ReviewWritingContentViewDelegate.swift */,
+				13C32A3C2B0A2FF30046ED98 /* PictureImageViewDelegate.swift */,
 			);
 			path = ReviewWriting;
 			sourceTree = "<group>";
@@ -2195,6 +2198,7 @@
 				13254FE32A05147200094218 /* MainTabBarController.swift in Sources */,
 				15DD40482A5B8752002BC5F8 /* PostSearchFilterType.swift in Sources */,
 				15F3763C2AFB7D1E00B3BF35 /* PostViewAdapterDelegate.swift in Sources */,
+				13C32A3D2B0A2FF30046ED98 /* PictureImageViewDelegate.swift in Sources */,
 				152AD4F02A189CFC008A2A11 /* FavoriteHeaderView.swift in Sources */,
 				15B9285D2AF9E3A2003A20D4 /* PostDetailProfileAreaView.swift in Sources */,
 				15EF8CA62A0A19990068C744 /* CategoryViewType.swift in Sources */,
