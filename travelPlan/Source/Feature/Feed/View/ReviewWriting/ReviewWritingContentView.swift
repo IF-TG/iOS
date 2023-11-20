@@ -65,7 +65,6 @@ final class ReviewWritingContentView: UIStackView {
     return list
   }()
   private var imageViewList = [UIImageView]()
-//  private lazy var lastView: UIView = messageTextView
   private var lastView: UIView? {
     arrangedSubviews.last
   }
