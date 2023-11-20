@@ -9,7 +9,7 @@ import UIKit
 import Combine
 import SnapKit
 
-final class ReviewWritingContentView: UIStackView {
+final class ReviewWritingContentView: UIView {
   // MARK: - Nested
   enum Constant {
     enum LastView {
@@ -36,6 +36,29 @@ final class ReviewWritingContentView: UIStackView {
   }
   
   // MARK: - Properties
+  private lazy var bottomSpacerView = createSpacerView()
+  private lazy var stackView: UIStackView = {
+    let stackView = UIStackView()
+    let spacerViews = (0..<3).map { _ in self.createSpacerView() }
+    _=[spacerViews[0],
+       self.titleTextView,
+       spacerViews[1],
+       self.boundaryLineView,
+       spacerViews[2],
+       self.messageTextView]
+      .map { stackView.addArrangedSubview($0) }
+    
+    spacerViews[0].heightAnchor.constraint(equalToConstant: 16).isActive = true
+    spacerViews[1].heightAnchor.constraint(equalToConstant: 16).isActive = true
+    spacerViews[2].heightAnchor.constraint(equalToConstant: 8).isActive = true
+    
+    stackView.axis = .vertical
+    stackView.distribution = .fill
+    stackView.spacing = 8
+    stackView.alignment = .fill
+    return stackView
+  }()
+  
   private var scrollValue = ValueRelatedToScrolling()
   weak var delegate: ReviewWritingContentViewDelegate?
   private var subscriptions = Set<AnyCancellable>()
@@ -70,14 +93,13 @@ final class ReviewWritingContentView: UIStackView {
   private lazy var lastView: UIView = messageTextView
   private var textViewPreviousHeight: [UITextView: CGFloat] = [:]
   var scrollToLastView: ((_ cursorHeight: CGFloat, _ lastView: UIView) -> Void)?
-  var shouldScrollToLastView = false
-  var isTextViewDidBeginEditingFirstCalled = false
+  private var shouldScrollToLastView = false
+  private var isTextViewDidBeginEditingFirstCalled = false
+  
   // MARK: - LifeCycle
   override init(frame: CGRect) {
     super.init(frame: frame)
-    axis = .vertical
-    distribution = .equalSpacing
-    spacing = 8
+    
     setupUI()
     bind()
   }
@@ -99,30 +121,24 @@ final class ReviewWritingContentView: UIStackView {
 // MARK: - LayoutSupport
 extension ReviewWritingContentView: LayoutSupport {
   func addSubviews() {
-    let spacerViews = (0..<3).map { _ in createSpacerView() }
-    _=[spacerViews[0],
-       titleTextView,
-       spacerViews[1],
-       boundaryLineView,
-       spacerViews[2],
-       messageTextView]
-      .map { addArrangedSubview($0) }
-    
-    spacerViews[0].heightAnchor.constraint(equalToConstant: 16).isActive = true
-    spacerViews[1].heightAnchor.constraint(equalToConstant: 16).isActive = true
-    spacerViews[2].heightAnchor.constraint(equalToConstant: 8).isActive = true
+    addSubview(stackView)
+    addSubview(bottomSpacerView)
   }
   
   func setConstraints() {
+    stackView.snp.makeConstraints {
+      $0.top.leading.trailing.equalToSuperview()
+      $0.bottom.equalTo(bottomSpacerView.snp.top)
+    }
+    bottomSpacerView.snp.makeConstraints {
+      $0.leading.trailing.bottom.equalToSuperview()
+      $0.height.equalTo(40)
+    }
     titleTextView.snp.makeConstraints {
-      $0.top.equalToSuperview().inset(24)
-      $0.leading.trailing.equalToSuperview()
       $0.height.equalTo(50)
     }
     
     boundaryLineView.snp.makeConstraints {
-      $0.top.equalTo(titleTextView.snp.bottom)
-      $0.leading.trailing.equalToSuperview().inset(2)
       $0.height.equalTo(1)
     }
     
@@ -131,9 +147,6 @@ extension ReviewWritingContentView: LayoutSupport {
     ).height
     messageTextViewLastHeight = estimatedHeight
     messageTextView.snp.makeConstraints {
-      $0.top.equalTo(boundaryLineView.snp.bottom).offset(16)
-      $0.leading.trailing.equalToSuperview()
-      self.lastViewBottomConstraint = $0.bottom.equalToSuperview().inset(Constant.LastView.bottomSpacing)
       $0.height.equalTo(estimatedHeight)
     }
   }
@@ -292,13 +305,14 @@ extension ReviewWritingContentView {
      /// - 이때 view의 bottom과 superView의 bottom간의 constraints를 저장
    /// 4. view를 lastView로 갱신
   private func addLastView(lastView view: UIView) {
-    lastViewBottomConstraint?.constraint.deactivate()
-    addSubview(view)
-    view.snp.makeConstraints {
-      $0.leading.trailing.equalToSuperview()
-      $0.top.equalTo(lastView.snp.bottom).offset(10)
-      lastViewBottomConstraint = $0.bottom.equalToSuperview().inset(Constant.LastView.bottomSpacing)
-    }
+//    lastViewBottomConstraint?.constraint.deactivate()
+//    addSubview(view)
+    stackView.addArrangedSubview(view)
+//    view.snp.makeConstraints {
+//      $0.leading.trailing.equalToSuperview()
+//      $0.top.equalTo(lastView.snp.bottom).offset(10)
+//      lastViewBottomConstraint = $0.bottom.equalToSuperview().inset(Constant.LastView.bottomSpacing)
+//    }
     lastView = view
     makeLastViewHeightConstraint()
     

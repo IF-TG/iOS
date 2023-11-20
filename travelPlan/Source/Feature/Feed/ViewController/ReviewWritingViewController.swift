@@ -225,7 +225,8 @@ extension ReviewWritingViewController: LayoutSupport {
     }
     
     contentView.snp.makeConstraints {
-      $0.edges.equalTo(scrollView.contentLayoutGuide)
+      $0.top.leading.trailing.equalTo(scrollView.contentLayoutGuide)
+      $0.bottom.equalToSuperview().inset(50)
       $0.width.equalTo(scrollView.frameLayoutGuide)
     }
     
