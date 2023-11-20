@@ -36,7 +36,7 @@ final class ReviewWritingContentView: UIView {
   }
   
   // MARK: - Properties
-  private lazy var bottomSpacerView = createSpacerView()
+//  private lazy var bottomSpacerView = createSpacerView()
   private lazy var stackView: UIStackView = {
     let stackView = UIStackView()
     let spacerViews = (0..<3).map { _ in self.createSpacerView() }
@@ -99,7 +99,6 @@ final class ReviewWritingContentView: UIView {
   // MARK: - LifeCycle
   override init(frame: CGRect) {
     super.init(frame: frame)
-    
     setupUI()
     bind()
   }
@@ -122,18 +121,17 @@ final class ReviewWritingContentView: UIView {
 extension ReviewWritingContentView: LayoutSupport {
   func addSubviews() {
     addSubview(stackView)
-    addSubview(bottomSpacerView)
+//    addSubview(bottomSpacerView)
   }
   
   func setConstraints() {
     stackView.snp.makeConstraints {
-      $0.top.leading.trailing.equalToSuperview()
-      $0.bottom.equalTo(bottomSpacerView.snp.top)
+      $0.edges.equalToSuperview()
     }
-    bottomSpacerView.snp.makeConstraints {
-      $0.leading.trailing.bottom.equalToSuperview()
-      $0.height.equalTo(40)
-    }
+//    bottomSpacerView.snp.makeConstraints {
+//      $0.leading.trailing.bottom.equalToSuperview()
+//      $0.height.equalTo(40)
+//    }
     titleTextView.snp.makeConstraints {
       $0.height.equalTo(50)
     }
@@ -305,17 +303,9 @@ extension ReviewWritingContentView {
      /// - 이때 view의 bottom과 superView의 bottom간의 constraints를 저장
    /// 4. view를 lastView로 갱신
   private func addLastView(lastView view: UIView) {
-//    lastViewBottomConstraint?.constraint.deactivate()
-//    addSubview(view)
     stackView.addArrangedSubview(view)
-//    view.snp.makeConstraints {
-//      $0.leading.trailing.equalToSuperview()
-//      $0.top.equalTo(lastView.snp.bottom).offset(10)
-//      lastViewBottomConstraint = $0.bottom.equalToSuperview().inset(Constant.LastView.bottomSpacing)
-//    }
     lastView = view
     makeLastViewHeightConstraint()
-    
     view.layoutIfNeeded() // view는 lastView. 이 시점에 lastView의 height이 결정
     shouldScrollToLastView = true
   }

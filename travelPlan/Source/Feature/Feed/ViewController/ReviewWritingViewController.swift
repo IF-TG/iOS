@@ -51,7 +51,7 @@ final class ReviewWritingViewController: UIViewController {
     $0.delegate = self
   }
   private var subscriptions = Set<AnyCancellable>()
-  private var scrollViewBottomConstraint: ConstraintMakerEditable?
+//  private var scrollViewBottomConstraint: ConstraintMakerEditable?
   private let viewModel = ReviewWritingViewModel()
   private let input = ReviewWritingViewModel.Input()
   private var isViewDidAppearFirstCalled = false
@@ -221,12 +221,12 @@ extension ReviewWritingViewController: LayoutSupport {
       $0.top.equalTo(view.safeAreaLayoutGuide)
       $0.leading.trailing.equalToSuperview().inset(15)
       $0.height.equalToSuperview().multipliedBy(0.73)
-      scrollViewBottomConstraint = $0.bottom.equalTo(bottomView.snp.top)
+      $0.bottom.equalTo(bottomView.snp.top)
     }
     
     contentView.snp.makeConstraints {
       $0.top.leading.trailing.equalTo(scrollView.contentLayoutGuide)
-      $0.bottom.equalToSuperview().inset(50)
+      $0.bottom.equalToSuperview().inset(40)
       $0.width.equalTo(scrollView.frameLayoutGuide)
     }
     
