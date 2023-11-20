@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct CacheConfiguration {
+public struct CacheConfiguration {
   let maximumCount: Int
   let memoryLimit: Int
   let entryLifetime: TimeInterval
