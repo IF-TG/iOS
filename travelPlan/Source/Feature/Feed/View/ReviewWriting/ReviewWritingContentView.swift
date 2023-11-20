@@ -9,7 +9,7 @@ import UIKit
 import Combine
 import SnapKit
 
-final class ReviewWritingContentView: UIView {
+final class ReviewWritingContentView: UIStackView {
   // MARK: - Nested
   enum Constant {
     enum LastView {
@@ -36,29 +36,6 @@ final class ReviewWritingContentView: UIView {
   }
   
   // MARK: - Properties
-//  private lazy var bottomSpacerView = createSpacerView()
-  private lazy var stackView: UIStackView = {
-    let stackView = UIStackView()
-    let spacerViews = (0..<3).map { _ in self.createSpacerView() }
-    _=[spacerViews[0],
-       self.titleTextView,
-       spacerViews[1],
-       self.boundaryLineView,
-       spacerViews[2],
-       self.messageTextView]
-      .map { stackView.addArrangedSubview($0) }
-    
-    spacerViews[0].heightAnchor.constraint(equalToConstant: 16).isActive = true
-    spacerViews[1].heightAnchor.constraint(equalToConstant: 16).isActive = true
-    spacerViews[2].heightAnchor.constraint(equalToConstant: 8).isActive = true
-    
-    stackView.axis = .vertical
-    stackView.distribution = .fill
-    stackView.spacing = 8
-    stackView.alignment = .fill
-    return stackView
-  }()
-  
   private var scrollValue = ValueRelatedToScrolling()
   weak var delegate: ReviewWritingContentViewDelegate?
   private var subscriptions = Set<AnyCancellable>()
@@ -87,10 +64,11 @@ final class ReviewWritingContentView: UIView {
     list.append(messageTextView)
     return list
   }()
-  private var messageTextViewLastHeight: CGFloat = 0
   private var imageViewList = [UIImageView]()
-  private var lastViewBottomConstraint: ConstraintMakerEditable?
-  private lazy var lastView: UIView = messageTextView
+//  private lazy var lastView: UIView = messageTextView
+  private var lastView: UIView? {
+    arrangedSubviews.last
+  }
   private var textViewPreviousHeight: [UITextView: CGFloat] = [:]
   var scrollToLastView: ((_ cursorHeight: CGFloat, _ lastView: UIView) -> Void)?
   private var shouldScrollToLastView = false
@@ -101,6 +79,11 @@ final class ReviewWritingContentView: UIView {
     super.init(frame: frame)
     setupUI()
     bind()
+    
+    axis = .vertical
+    distribution = .fill
+    spacing = 8
+    alignment = .fill
   }
   
   required init(coder: NSCoder) {
@@ -110,7 +93,10 @@ final class ReviewWritingContentView: UIView {
   override func layoutSubviews() {
     super.layoutSubviews()
     if shouldScrollToLastView {
-      guard let h = scrollValue.cursorHeight else { return }
+      guard let h = scrollValue.cursorHeight,
+            let lastView = lastView
+      else { return }
+      
       scrollToLastView?(h, lastView)
       shouldScrollToLastView = false
     }
@@ -120,18 +106,21 @@ final class ReviewWritingContentView: UIView {
 // MARK: - LayoutSupport
 extension ReviewWritingContentView: LayoutSupport {
   func addSubviews() {
-    addSubview(stackView)
-//    addSubview(bottomSpacerView)
+    let spacerViews = (0..<3).map { _ in self.createSpacerView() }
+    _=[spacerViews[0],
+       self.titleTextView,
+       spacerViews[1],
+       self.boundaryLineView,
+       spacerViews[2],
+       self.messageTextView]
+      .map { addArrangedSubview($0) }
+    
+    spacerViews[0].heightAnchor.constraint(equalToConstant: 16).isActive = true
+    spacerViews[1].heightAnchor.constraint(equalToConstant: 16).isActive = true
+    spacerViews[2].heightAnchor.constraint(equalToConstant: 8).isActive = true
   }
   
   func setConstraints() {
-    stackView.snp.makeConstraints {
-      $0.edges.equalToSuperview()
-    }
-//    bottomSpacerView.snp.makeConstraints {
-//      $0.leading.trailing.bottom.equalToSuperview()
-//      $0.height.equalTo(40)
-//    }
     titleTextView.snp.makeConstraints {
       $0.height.equalTo(50)
     }
@@ -143,7 +132,6 @@ extension ReviewWritingContentView: LayoutSupport {
     let estimatedHeight = messageTextView.sizeThatFits(
       CGSize(width: messageTextView.frame.width, height: CGFloat.infinity)
     ).height
-    messageTextViewLastHeight = estimatedHeight
     messageTextView.snp.makeConstraints {
       $0.height.equalTo(estimatedHeight)
     }
@@ -303,14 +291,14 @@ extension ReviewWritingContentView {
      /// - 이때 view의 bottom과 superView의 bottom간의 constraints를 저장
    /// 4. view를 lastView로 갱신
   private func addLastView(lastView view: UIView) {
-    stackView.addArrangedSubview(view)
-    lastView = view
+    addArrangedSubview(view)
     makeLastViewHeightConstraint()
     view.layoutIfNeeded() // view는 lastView. 이 시점에 lastView의 height이 결정
     shouldScrollToLastView = true
   }
   
   private func makeLastViewHeightConstraint() {
+    guard let lastView = lastView else { return }
     if lastView is UITextView {
       lastView.snp.makeConstraints {
         $0.height.equalTo(40)
@@ -375,7 +363,7 @@ extension ReviewWritingContentView {
         )
       }
     }
-    lastView.becomeFirstResponder()
+    lastView?.becomeFirstResponder()
   }
   
   func safeAreaTopInset(topInset: CGFloat) {
@@ -394,6 +382,7 @@ extension ReviewWritingContentView {
 extension ReviewWritingContentView: PictureImageViewDelegate {
   func didTapDeleteButton(_ sender: UIButton) {
     print("이미지 삭제!")
+//    sender.superview
     // 이미지뷰 삭제
     // 오토레이아웃 제거
   }
