@@ -27,7 +27,7 @@ final class CategoryPageView: UIView {
       animated: true)
   }
   
-  private var postPageView: UIView! {
+  private var postPageView: UIView? {
     postPageViewController.view
   }
     
@@ -37,7 +37,7 @@ final class CategoryPageView: UIView {
   
   private let viewModel: CategoryPageViewDataSource
   
-  private var adapter: CategoryPageViewAdapter!
+  private var adapter: CategoryPageViewAdapter?
   
   // MARK: - Lifecycle
   init(frame: CGRect, viewModel: CategoryPageViewDataSource, postDelegator: PostViewAdapterDelegate?) {
@@ -128,12 +128,12 @@ extension CategoryPageView: CategoryPageViewDelegate {
 // MARK: - LayoutSupport
 extension CategoryPageView: LayoutSupport {
   func addSubviews() {
-    _=[
-      postPageView,
-       travelMainThemeCategoryView
-    ].map {
-      addSubview($0)
+    addSubview(travelMainThemeCategoryView)
+    guard let postPageView else {
+      print("DEBUG: PostPageView 생성 x")
+      return
     }
+    addSubview(postPageView)
   }
   
   func setConstraints() {
@@ -158,6 +158,7 @@ private extension CategoryPageView {
   }
   
   var travelDetailThemePageViewConstraint: [NSLayoutConstraint] {
+    guard let postPageView else { return [] }
     return [
       postPageView.leadingAnchor.constraint(equalTo: leadingAnchor),
       postPageView.topAnchor.constraint(equalTo: travelMainThemeCategoryView.bottomAnchor),

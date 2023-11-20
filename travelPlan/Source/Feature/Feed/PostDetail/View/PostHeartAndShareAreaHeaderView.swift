@@ -1,25 +1,26 @@
 //
-//  PostFooterView.swift
+//  PostHeartAndShareAreaHeaderView.swift
 //  travelPlan
 //
-//  Created by 양승현 on 2023/05/12.
+//  Created by 양승현 on 11/13/23.
 //
 
 import UIKit
 
-class PostFooterView: UIView {
+final class PostHeartAndShareAreaHeaderView: UITableViewHeaderFooterView {
+  static let id = String(describing: PostHeartAndShareAreaHeaderView.self)
+  
   // MARK: - Properties
-  /// 초기 사용자가 포스트에 대해서 하트를 눌렀는지 상태 체크
   private var postHeartState: Bool? = false
   
   private let heartStackView = IconWithCountLabelStackView(
     iconInfo: .init(size: .init(width: 20, height: 20),
-                    iconPath: "unselectedHeart"), 
+                    iconPath: "unselectedHeart"),
     countInfo: .init(fontType: .regular_400(fontSize: 14), lineHeight: nil)
   ).set {
     $0.countLabel.textColor = .yg.gray4
-      $0.countLabel.text = "0"
-    }
+    $0.countLabel.text = "0"
+  }
   
   private let commentStackView = IconWithCountLabelStackView(
     iconInfo: .init(size: .init(width: 20, height: 20),
@@ -40,45 +41,34 @@ class PostFooterView: UIView {
     $0.addTarget(self, action: #selector(didTapShare), for: .touchUpInside)
   }
   
-  // MARK: - Initialization
-  override init(frame: CGRect) {
-    super.init(frame: frame)
-    configureUI()
+  private lazy var postOptionIcon = UIImageView().set {
+    $0.translatesAutoresizingMaskIntoConstraints = false
+    $0.contentMode = .scaleAspectFit
+    let image = UIImage(named: "feedOption")
+    $0.image = image
+    $0.isUserInteractionEnabled = true
+    let tap = UITapGestureRecognizer(target: self, action: #selector(didTapOption))
+    $0.addGestureRecognizer(tap)
+    
   }
   
-  convenience init() {
-    self.init(frame: .zero)
+  // MARK: - Lifecycle
+  override init(reuseIdentifier: String?) {
+    super.init(reuseIdentifier: reuseIdentifier)
+    configureUI()
   }
   
   required init?(coder: NSCoder) {
-    super.init(coder: coder)
-    configureUI()
+    nil
   }
 }
 
-// MARK: - Action
-private extension PostFooterView {
-  @objc func didTapHeart() {
-    // TODO: - 하트 취소, 수락 서버 갱신. 여기선 서버로 하트 취소한거 처리 해야합니다
-    updatePostHeartState()
-    print("DEBUG: 찜")
-  }
-  
-  @objc func didTapComment() {
-    print("커맨드 화면 이동")
-  }
-  
-  @objc func didTapShare() {
-    print("share 화면으로 이동")
-  }
-}
-
-// MARK: - Helper
-extension PostFooterView {
-  func configure(with data: PostFooterInfo?) {
-    setHeart(with: data?.heartCount)
-    setHeartIcon(with: data?.heartState ?? false)
-    setComment(with: data?.commentCount)
+// MARK: - Helpers
+extension PostHeartAndShareAreaHeaderView {
+  func configure(with info: PostFooterInfo?) {
+    heartStackView.setCountLabel(text: info?.heartCount)
+    commentStackView.setCountLabel(text: info?.commentCount)
+    setHeartIcon(with: info?.heartState ?? false)
   }
   
   func updatePostHeartState() {
@@ -99,10 +89,9 @@ extension PostFooterView {
   }
 }
 
-// MARK: - Private helper
-extension PostFooterView {
+// MARK: - Private Helpers
+extension PostHeartAndShareAreaHeaderView {
   private func configureUI() {
-    translatesAutoresizingMaskIntoConstraints = false
     setupUI()
     setCommentIconTapGesture()
     setHeartIconTapGesture()
@@ -110,26 +99,16 @@ extension PostFooterView {
   
   private func setCommentIconTapGesture() {
     commentStackView.icon.isUserInteractionEnabled = true
-    let tap = UITapGestureRecognizer(
-      target: self, action: #selector(didTapComment))
+    let tap = UITapGestureRecognizer(target: self, action: #selector(didTapComment))
     commentStackView.icon.addGestureRecognizer(tap)
   }
   
   private func setHeartIconTapGesture() {
     heartStackView.icon.isUserInteractionEnabled = true
-    let tap = UITapGestureRecognizer(
-      target: self, action: #selector(didTapHeart))
+    let tap = UITapGestureRecognizer(target: self, action: #selector(didTapHeart))
     heartStackView.icon.addGestureRecognizer(tap)
   }
   
-  private func setHeart(with text: String?) {
-    heartStackView.countLabel.text = text
-  }
-  
-  private func setComment(with text: String?) {
-    commentStackView.countLabel.text = text
-  }
-
   private func setHeartIcon(with state: Bool) {
     postHeartState = state
     if state {
@@ -158,53 +137,73 @@ extension PostFooterView {
       delay: 0,
       options: .curveEaseOut) {
         self.heartStackView.icon.alpha = 1.0
-    }
+      }
+  }
+}
+
+// MARK: - Actions
+private extension PostHeartAndShareAreaHeaderView {
+  @objc func didTapHeart() {
+    updatePostHeartState()
+    print("DEBUG: 찜")
+  }
+  
+  @objc func didTapComment() {
+    print("커맨드 화면 이동")
+  }
+  
+  @objc func didTapShare() {
+    print("share 화면으로 이동")
+  }
+  
+  @objc func didTapOption() {
+    print("option 화면으로 이동")
   }
 }
 
 // MARK: - LayoutSupport
-extension PostFooterView: LayoutSupport {
+extension PostHeartAndShareAreaHeaderView: LayoutSupport {
   func addSubviews() {
-    _=[
-      heartStackView,
-      commentStackView,
-      shareButton
-    ].map {
-      addSubview($0)
-    }
+    [heartStackView, 
+     commentStackView,
+     shareButton,
+     postOptionIcon
+    ].forEach { addSubview($0) }
   }
   
   func setConstraints() {
-    _=[
-      heartStackViewConstraint,
-      commentStackViewConstriant,
-      shareIconConstraint
-    ].map {
-      NSLayoutConstraint.activate($0)
-    }
-  }
-}
-
-// MARK: - LayoutSupport Constraints
-private extension PostFooterView {
-  typealias NSLayout = NSLayoutConstraint
-  var heartStackViewConstraint: [NSLayout] {
-    return [
-      heartStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 11),
-      heartStackView.centerYAnchor.constraint(equalTo: centerYAnchor)]
+    [heartStackViewConstraints,
+     commentStackViewConstriants,
+     shareIconConstraints,
+     postOptionIconConstraints].forEach { NSLayoutConstraint.activate($0) }
   }
   
-  var commentStackViewConstriant: [NSLayout] {
+  private var heartStackViewConstraints: [NSLayoutConstraint] {
+    return [
+      heartStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 11),
+      heartStackView.topAnchor.constraint(equalTo: topAnchor, constant: 12),
+      heartStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -12)]
+  }
+  
+  private var commentStackViewConstriants: [NSLayoutConstraint] {
     return [
       commentStackView.leadingAnchor.constraint( equalTo: heartStackView.trailingAnchor, constant: 12.5),
       commentStackView.centerYAnchor.constraint(equalTo: centerYAnchor)]
   }
   
-  var shareIconConstraint: [NSLayout] {
+  private var shareIconConstraints: [NSLayoutConstraint] {
     return [
-      shareButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -13.5),
       shareButton.centerYAnchor.constraint(equalTo: centerYAnchor),
-      shareButton.heightAnchor.constraint(equalToConstant: 15),
-      shareButton.widthAnchor.constraint(equalToConstant: 15)]
+      shareButton.heightAnchor.constraint(equalToConstant: 18),
+      shareButton.widthAnchor.constraint(equalToConstant: 18)]
+  }
+
+  private var postOptionIconConstraints: [NSLayoutConstraint] {
+    return [
+      postOptionIcon.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -21),
+      postOptionIcon.centerYAnchor.constraint(equalTo: centerYAnchor),
+      postOptionIcon.widthAnchor.constraint(equalToConstant: 24),
+      postOptionIcon.heightAnchor.constraint(equalToConstant: 18),
+      postOptionIcon.leadingAnchor.constraint(equalTo: shareButton.trailingAnchor, constant: 20)]
   }
 }

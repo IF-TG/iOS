@@ -81,6 +81,7 @@ final class FeedViewController: UIViewController {
   
   deinit {
     coordinator?.finish()
+    NotificationCenter.default.removeObserver(self)
   }
 }
 

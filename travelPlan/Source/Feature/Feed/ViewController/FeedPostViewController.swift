@@ -45,21 +45,11 @@ final class FeedPostViewController: UIViewController {
   
   private let input = Input()
   
-  override func loadView() {
-    view = postView
-  }
-  
-  override func viewDidLoad() {
-    super.viewDidLoad()
-    configureUI()
-  }
-  
   // MARK: - Lifecycle
   init(with filterInfo: FeedPostSearchFilterInfo, postDelegator: PostViewAdapterDelegate?) {
     let viewModel = FeedPostViewModel(filterInfo: filterInfo, postUseCase: MockPostUseCase())
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
-    bind()
     if filterInfo.travelTheme == .all {
       postViewAdapter = PostViewAdapter(dataSource: viewModel, delegate: postDelegator, collectionView: postView)
       return
@@ -70,6 +60,17 @@ final class FeedPostViewController: UIViewController {
       withReuseIdentifier: PostSortingAreaView.id)
     updatePostViewLayout()
     postViewAdapter = FeedPostViewAdapter(dataSource: viewModel, delegate: postDelegator, collectionView: postView)
+  }
+  
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    view.addSubview(postView)
+    NSLayoutConstraint.activate([
+      postView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+      postView.topAnchor.constraint(equalTo: view.topAnchor),
+      postView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+      postView.bottomAnchor.constraint(equalTo: view.bottomAnchor)])
+    bind()
   }
   
   required init?(coder: NSCoder) {
@@ -115,10 +116,6 @@ extension FeedPostViewController: ViewBindCase {
 
 // MARK: - Private Helpers
 extension FeedPostViewController {
-  private func configureUI() {
-    view.translatesAutoresizingMaskIntoConstraints = false
-  }
-  
   private func updatePostViewLayout() {
     let headerSize = NSCollectionLayoutSize(
       widthDimension: .fractionalWidth(1.0),

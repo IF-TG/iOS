@@ -67,9 +67,9 @@ private extension PostViewModel {
           let headerInfo = PostHeaderInfo(imageURL: $0.profileImageURL, contentInfo: headerContentInfo)
           let contentInfo = PostContentInfo(text: $0.contentText, thumbnailURLs: $0.thumbnailImageURls)
           let footerInfo = PostFooterInfo(
-            heartCount: $0.heartCount,
+            heartCount: "\($0.heartCount)",
             heartState: $0.isSelectedHeart,
-            commentCount: $0.commentCount)
+            commentCount: "\($0.commentCount)")
           
           return PostInfo(postId: $0.id, header: headerInfo, content: contentInfo, footer: footerInfo)
         }

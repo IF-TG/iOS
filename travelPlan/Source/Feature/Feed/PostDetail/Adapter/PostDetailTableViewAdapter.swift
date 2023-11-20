@@ -10,9 +10,10 @@ import UIKit
 final class PostDetailTableViewAdapter: NSObject {
   // MARK: - Properties
   private weak var dataSource: PostDetailTableViewDataSource?
+  
   weak var delegate: PostDetailTableViewAdapterDelegate?
   
-  private let defaultSection = 2
+  private let defaultSection = PostDetailSectionType.defaultNumberOfSections
   
   // MARK: - Lifecycle
   init(
@@ -108,9 +109,12 @@ extension PostDetailTableViewAdapter: UITableViewDelegate {
   }
   
   func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-    guard let dataSource else { return nil }
-    switch section {
-    case 0:
+    guard 
+      let dataSource,
+      let sectionType: PostDetailSectionType = .init(rawValue: section)
+    else { return nil }
+    switch sectionType {
+    case .postDescription:
       guard let header = tableView.dequeueReusableHeaderFooterView(
         withIdentifier: PostDetailCategoryHeaderView.id
       ) as? PostDetailCategoryHeaderView else {
@@ -118,8 +122,15 @@ extension PostDetailTableViewAdapter: UITableViewDelegate {
       }
       header.configure(with: dataSource.cateogry)
       return header
-    case 1:
+    case .postContent:
       return nil
+    case .postHeartAndShareArea:
+      guard let postHeartAreaHeader = tableView.dequeueReusableHeaderFooterView(
+        withIdentifier: PostHeartAndShareAreaHeaderView.id
+      ) as? PostHeartAndShareAreaHeaderView else {
+        return nil
+      }
+      return postHeartAreaHeader
     default:
       guard let commentHeader = tableView.dequeueReusableHeaderFooterView(
         withIdentifier: PostDetailCommentHeader.id
@@ -165,6 +176,8 @@ extension PostDetailTableViewAdapter: UITableViewDelegate {
       return UITableView.automaticDimension
     case .postContent:
       return 11
+    case .postHeartAndShareArea:
+      return .leastNonzeroMagnitude
     default:
       return .leastNonzeroMagnitude
     }
@@ -176,7 +189,8 @@ extension PostDetailTableViewAdapter: UITableViewDelegate {
       let dataSource
     else { return 0 }
     switch sectionType {
-    case .postDescription:
+    case .postDescription,
+        .postHeartAndShareArea:
       return UITableView.automaticDimension
     case .postContent:
       return 0

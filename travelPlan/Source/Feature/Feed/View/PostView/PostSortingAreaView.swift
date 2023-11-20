@@ -42,6 +42,10 @@ final class PostSortingAreaView: UICollectionReusableView {
   }
   
   required init?(coder: NSCoder) { fatalError() }
+  
+  deinit {
+    NotificationCenter.default.removeObserver(self)
+  }
 }
 
 // MARK: - Helpers
