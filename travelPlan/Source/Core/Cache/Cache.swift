@@ -51,6 +51,10 @@ public extension Cache {
   func removeValue(forKey key: Key) {
     wrappedCache.removeObject(forKey: WrappedKey(key))
   }
+  
+  func removeAll() {
+    wrappedCache.removeAllObjects()
+  }
 }
 
 // MARK: - Private Helpers
