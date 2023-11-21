@@ -13,10 +13,15 @@ final actor ImageMemoryCache {
 }
 
 // MARK: - ImageCachable
-extension ImageMemoryCache: ImageCachable {
+extension ImageMemoryCache: ImageMemoryCachable {
   func image(for url: String) -> UIImage? {
     guard let cached = cache[url] else {
-      return nil
+      guard let image = imageConverter.base64ToImage(url) else {
+        print("DEBUG: Image's Base64 형태가 잘못 되었습니다.")
+        return nil
+      }
+      cache[url] = image
+      return image
     }
     return cached
   }
