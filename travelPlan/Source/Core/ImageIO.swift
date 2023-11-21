@@ -9,41 +9,21 @@ import Foundation
 import CoreGraphics.CGImage
 import ImageIO
 
-struct ImageIO {
-  static func setDownsampled(atImageURL imageURL: URL, for size: CGSize) -> CGImage? {
+public struct ImageIO {
+  func setDownsampled(atImageURL imageURL: URL, for info: DownsampledOptions) -> CGImage? {
     let options = [kCGImageSourceShouldCache: false] as CFDictionary
     guard let imageSource = CGImageSourceCreateWithURL(imageURL as CFURL, options) else {
       return nil
     }
-    
-    let downsampleOptions = [
-      kCGImageSourceCreateThumbnailFromImageAlways: false,
-      kCGImageSourceShouldCacheImmediately: false,
-      kCGImageSourceCreateThumbnailWithTransform: true,
-      kCGImageSourceThumbnailMaxPixelSize: max(size.width, size.height)
-    ] as CFDictionary
-    
-    return CGImageSourceCreateThumbnailAtIndex(
-      imageSource,
-      0,
-      downsampleOptions)
+    return CGImageSourceCreateThumbnailAtIndex(imageSource, 0, info.rawValue)
   }
   
-  static func setDwonsampled(atImageData imageData: Data, for size: CGSize) -> CGImage? {
+  func setDwonsampled(atImageData imageData: Data, for info: DownsampledOptions) -> CGImage? {
     let options = [kCGImageSourceShouldCache: false] as CFDictionary
     guard let imageSource = CGImageSourceCreateWithData(imageData as CFData, options) else {
       return nil
     }
-    let downsampleOptions = [
-      kCGImageSourceCreateThumbnailFromImageAlways: false,
-      kCGImageSourceCreateThumbnailWithTransform: true,
-      kCGImageSourceShouldCacheImmediately: false,
-      kCGImageSourceThumbnailMaxPixelSize: Swift.max(size.width, size.height)
-    ] as CFDictionary
-    return CGImageSourceCreateThumbnailAtIndex(
-      imageSource,
-      0,
-      downsampleOptions)
+    return CGImageSourceCreateThumbnailAtIndex(imageSource, 0, info.rawValue)
   }
   
   func imageDimension(url: String) -> CGSize? {
