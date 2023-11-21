@@ -17,13 +17,12 @@ public final class Cache<Key: Hashable, Value> {
   // MARK: - Lifecycle
   init(
     dateProvider: @autoclosure @escaping () -> Date = Date.init(),
-    entryLifetime: TimeInterval = 6 * 60 * 60,
-    maximumEntryCount: Int = 100
+    configuration: Configuration = .init()
   ) {
     self.dateProvider = dateProvider
-    self.entryLifetime = entryLifetime
+    self.entryLifetime = configuration.entryLifetime
     wrappedCache.delegate = keyTracker
-    wrappedCache.countLimit = maximumEntryCount
+    wrappedCache.countLimit = configuration.maximumCount
   }
 }
 
