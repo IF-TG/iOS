@@ -34,12 +34,15 @@ extension ImageIOTests {
   
   func testImageIO_ImageDimension_ShouldReturnEqual() {
     // Arrange
-    let originalImage = UIImage(named: "tempThumbnail1")
-    
+    let originalImage = UIImage(named: "tempThumbnail1")!
+    let imageSourceCreateType: ImageIO.ImageSourceCreateType = .data(originalImage.jpegData(compressionQuality: 1)!)
+    let originalSize = CGSize(width: 1920, height: 1135)
+  
     // Act
-    
+    let resultDimension = sut.imageDimension(from: imageSourceCreateType)
     
     // Assert
-    XCTAssertFalse(true)
+    XCTAssertNotNil(resultDimension, "원래 이미지 데이터를 바탕으로 원본 크기를 구할때 크기는 nil이 아니어야 하는데 nil반환.")
+    XCTAssertEqual(originalSize, resultDimension!, "원래 이미지 크기랑 같아야하는데 일치하지 않음.")
   }
 }
