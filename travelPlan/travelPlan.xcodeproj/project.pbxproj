@@ -132,6 +132,7 @@
 		1546DF302B0AF4C100B49A55 /* ImageMemoryCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1546DF2F2B0AF4C100B49A55 /* ImageMemoryCache.swift */; };
 		1546DF322B0AF54300B49A55 /* ImageMemoryCachable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1546DF312B0AF54300B49A55 /* ImageMemoryCachable.swift */; };
 		1546DF392B0B29D700B49A55 /* ImageConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1546DF382B0B29D700B49A55 /* ImageConverter.swift */; };
+		1546DF3B2B0C5B7C00B49A55 /* ImageDiskCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1546DF3A2B0C5B7C00B49A55 /* ImageDiskCache.swift */; };
 		154ECA172AB0B5D40093AF25 /* TravelMainThemeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154ECA162AB0B5D40093AF25 /* TravelMainThemeType.swift */; };
 		1550D9AF2ACAFAC10046569B /* FeedPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1550D9AE2ACAFAC10046569B /* FeedPostViewController.swift */; };
 		1550D9B12ACB1D740046569B /* DevelopmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1550D9B02ACB1D740046569B /* DevelopmentViewController.swift */; };
@@ -478,6 +479,7 @@
 		1546DF2F2B0AF4C100B49A55 /* ImageMemoryCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageMemoryCache.swift; sourceTree = "<group>"; };
 		1546DF312B0AF54300B49A55 /* ImageMemoryCachable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageMemoryCachable.swift; sourceTree = "<group>"; };
 		1546DF382B0B29D700B49A55 /* ImageConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageConverter.swift; sourceTree = "<group>"; };
+		1546DF3A2B0C5B7C00B49A55 /* ImageDiskCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDiskCache.swift; sourceTree = "<group>"; };
 		154ECA162AB0B5D40093AF25 /* TravelMainThemeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelMainThemeType.swift; sourceTree = "<group>"; };
 		1550D9AE2ACAFAC10046569B /* FeedPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedPostViewController.swift; sourceTree = "<group>"; };
 		1550D9B02ACB1D740046569B /* DevelopmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevelopmentViewController.swift; sourceTree = "<group>"; };
@@ -1247,10 +1249,7 @@
 		1546DF222B0A6F9600B49A55 /* Cache */ = {
 			isa = PBXGroup;
 			children = (
-				1546DF232B0A70C900B49A55 /* Cache.swift */,
-				1546DF272B0A7CE400B49A55 /* Cache+Nested.swift */,
-				1546DF2F2B0AF4C100B49A55 /* ImageMemoryCache.swift */,
-				1546DF312B0AF54300B49A55 /* ImageMemoryCachable.swift */,
+				1546DF3C2B0C647C00B49A55 /* Module */,
 			);
 			path = Cache;
 			sourceTree = "<group>";
@@ -1261,6 +1260,18 @@
 				1546DF382B0B29D700B49A55 /* ImageConverter.swift */,
 			);
 			path = Image;
+			sourceTree = "<group>";
+		};
+		1546DF3C2B0C647C00B49A55 /* Module */ = {
+			isa = PBXGroup;
+			children = (
+				1546DF272B0A7CE400B49A55 /* Cache+Nested.swift */,
+				1546DF2F2B0AF4C100B49A55 /* ImageMemoryCache.swift */,
+				1546DF312B0AF54300B49A55 /* ImageMemoryCachable.swift */,
+				1546DF3A2B0C5B7C00B49A55 /* ImageDiskCache.swift */,
+				1546DF232B0A70C900B49A55 /* Cache.swift */,
+			);
+			path = Module;
 			sourceTree = "<group>";
 		};
 		157176702A0BFA2F0015EC8C /* Fonts */ = {
@@ -2326,6 +2337,7 @@
 				15D955AD2ADEA525002BF9C3 /* FeedViewModelable.swift in Sources */,
 				15DA4C832ACD821F003A7900 /* EmptyStateView.swift in Sources */,
 				151DF0EC2AEEAB2600D5D55B /* NoticeViewAdapterDelegate.swift in Sources */,
+				1546DF3B2B0C5B7C00B49A55 /* ImageDiskCache.swift in Sources */,
 				151DF0DA2AEE6DF700D5D55B /* NoticeViewController.swift in Sources */,
 				15FFAC332ADD4C480013DB57 /* PostViewAdapterDataSource.swift in Sources */,
 				15A4F28F2ACC11E5001AA51D /* ViewController.swift in Sources */,
