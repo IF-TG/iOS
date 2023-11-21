@@ -10,24 +10,16 @@ import CoreGraphics.CGImage
 import ImageIO
 
 public struct ImageIO {
-  func setDownsampled(atImageURL imageURL: URL, for info: DownsampledOptions) -> CGImage? {
+  func setDownsampledCGImage(at createType: ImageSourceCreateType, for info: DownsampledOptions) -> CGImage? {
     let options = [kCGImageSourceShouldCache: false] as CFDictionary
-    guard let imageSource = CGImageSourceCreateWithURL(imageURL as CFURL, options) else {
+    guard let imageSource = makeImageSource(at: createType, for: options) else {
       return nil
     }
     return CGImageSourceCreateThumbnailAtIndex(imageSource, 0, info.rawValue)
   }
   
-  func setDwonsampled(atImageData imageData: Data, for info: DownsampledOptions) -> CGImage? {
-    let options = [kCGImageSourceShouldCache: false] as CFDictionary
-    guard let imageSource = CGImageSourceCreateWithData(imageData as CFData, options) else {
-      return nil
-    }
-    return CGImageSourceCreateThumbnailAtIndex(imageSource, 0, info.rawValue)
-  }
-  
-  func imageDimension(from url: String) -> CGSize? {
-    guard let imageSource = CGImageSourceCreateWithURL(URL(string: url)! as CFURL, nil) else {
+  func imageDimension(from createType: ImageSourceCreateType) -> CGSize? {
+    guard let imageSource = makeImageSource(at: createType, for: nil) else {
       return nil
     }
     guard let imageCopyProperties = CGImageSourceCopyPropertiesAtIndex(imageSource, 0, nil) as? [CFString: Any] else {
@@ -38,12 +30,12 @@ public struct ImageIO {
     return CGSize(width: width, height: height)
   }
   
-  private func makeImageSource(at createType: ImageSourceCreateType, for info: DownsampledOptions?) -> CGImageSource? {
+  private func makeImageSource(at createType: ImageSourceCreateType, for options: CFDictionary?) -> CGImageSource? {
     switch createType {
     case .url(let url):
-      return CGImageSourceCreateWithURL(url as CFURL, info?.rawValue)
+      return CGImageSourceCreateWithURL(url as CFURL, options)
     case .data(let data):
-      return CGImageSourceCreateWithData(data as CFData, info?.rawValue)
+      return CGImageSourceCreateWithData(data as CFData, options)
     }
   }
 }
