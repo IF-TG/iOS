@@ -10,8 +10,8 @@ import ImageIO
 
 public extension ImageIO {
   enum ImageSourceCreateType {
-    case url
-    case data
+    case url(URL)
+    case data(Data)
   }
   
   struct DownsampledOptions: RawRepresentable {
