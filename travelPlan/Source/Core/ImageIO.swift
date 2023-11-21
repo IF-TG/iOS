@@ -22,11 +22,13 @@ public struct ImageIO {
     guard let imageSource = makeImageSource(at: createType, for: nil) else {
       return nil
     }
-    guard let imageCopyProperties = CGImageSourceCopyPropertiesAtIndex(imageSource, 0, nil) as? [CFString: Any] else {
+    guard
+      let imageCopyProperties = CGImageSourceCopyPropertiesAtIndex(imageSource, 0, nil
+      ) as? [CFString: CFTypeRef] else {
       return nil
     }
-    let width = imageCopyProperties[kCGImagePropertyWidth] as? CGFloat ?? 50
-    let height = imageCopyProperties[kCGImagePropertyHeight] as? CGFloat ?? 50
+    let width = imageCopyProperties[kCGImagePropertyPixelWidth] as? CGFloat ?? 50
+    let height = imageCopyProperties[kCGImagePropertyPixelHeight] as? CGFloat ?? 50
     return CGSize(width: width, height: height)
   }
   
