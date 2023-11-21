@@ -15,7 +15,7 @@ extension UIImage {
       return nil
     }
     
-    let downSampleOptions = [
+    let downsampleOptions = [
       kCGImageSourceCreateThumbnailFromImageAlways: false,
       kCGImageSourceShouldCacheImmediately: true,
       kCGImageSourceCreateThumbnailWithTransform: true,
@@ -25,7 +25,7 @@ extension UIImage {
     guard let downsampledImage = CGImageSourceCreateThumbnailAtIndex(
       imageSource,
       0,
-      downSampleOptions
+      downsampleOptions
     ) else {
       return nil
     }
