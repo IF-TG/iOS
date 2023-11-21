@@ -9,7 +9,7 @@ import UIKit
 import ImageIO
 
 extension UIImage {
-  func setDowndampled(at imageURL: URL, for size: CGSize) -> UIImage? {
+  func setDownsampled(at imageURL: URL, for size: CGSize) -> UIImage? {
     let options = [kCGImageSourceShouldCache: false] as CFDictionary
     guard let imageSource = CGImageSourceCreateWithURL(imageURL as CFURL, options) else {
       return nil
