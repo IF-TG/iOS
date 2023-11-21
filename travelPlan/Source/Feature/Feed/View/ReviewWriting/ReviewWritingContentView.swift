@@ -344,7 +344,8 @@ extension ReviewWritingContentView {
     setupLastView(lastView: imageView)
   }
   
-  func manageTextViewDisplay() {
+  /// 스크롤뷰 터치 시 lastView의 종류에 따라 화면에 보이
+  func manageContentOffsetYByLastView() {
     if let textView = lastView as? UITextView {
       moveCursorToLastPosition(at: textView)
     } else if lastView is UIImageView {

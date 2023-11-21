@@ -125,7 +125,7 @@ extension ReviewWritingViewController: ViewBindCase {
     case .keyboardDown:
       view.endEditing(true)
     case .manageTextViewDisplay:
-      contentView.manageTextViewDisplay()
+      contentView.manageContentOffsetYByLastView()
     case .presentThemeSetting:
       print("테마 설정 화면 띄우기")
     }
@@ -187,7 +187,9 @@ extension ReviewWritingViewController {
       let frameHeightIsSmallerThanContentHeight = scrollView.contentSize.height > scrollView.bounds.height
       guard frameHeightIsSmallerThanContentHeight else { return }
       
+      // 현재 뷰가 lastView가 아니고, textView이면
       if lastView is UITextView {
+        // TODO: - textView의 text line이 줄어들면 scrollView.contentOffset.y - cursorHeight를 하고, textView의 text line이 늘어나면 scrollView.contentOffset.y + cursorHeight를 해야 합니다.
         scrollView.setContentOffset(
           CGPoint(x: .zero, y: scrollView.contentOffset.y + cursorHeight),
           animated: true
@@ -249,6 +251,7 @@ private extension ReviewWritingViewController {
   }
   
   @objc func didTapFinishButton() {
+    // TODO: - contentView에 저장되어 있는 model을 viewModel로 전달해야합니다.
     input.didTapFinishButton.send()
   }
   
