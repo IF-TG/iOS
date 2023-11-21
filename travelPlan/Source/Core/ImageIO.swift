@@ -26,7 +26,7 @@ public struct ImageIO {
     return CGImageSourceCreateThumbnailAtIndex(imageSource, 0, info.rawValue)
   }
   
-  func imageDimension(url: String) -> CGSize? {
+  func imageDimension(from url: String) -> CGSize? {
     guard let imageSource = CGImageSourceCreateWithURL(URL(string: url)! as CFURL, nil) else {
       return nil
     }
@@ -36,5 +36,14 @@ public struct ImageIO {
     let width = imageCopyProperties[kCGImagePropertyWidth] as? CGFloat ?? 50
     let height = imageCopyProperties[kCGImagePropertyHeight] as? CGFloat ?? 50
     return CGSize(width: width, height: height)
+  }
+  
+  private func makeImageSource(at createType: ImageSourceCreateType, for info: DownsampledOptions?) -> CGImageSource? {
+    switch createType {
+    case .url(let url):
+      return CGImageSourceCreateWithURL(url as CFURL, info?.rawValue)
+    case .data(let data):
+      return CGImageSourceCreateWithData(data as CFData, info?.rawValue)
+    }
   }
 }
