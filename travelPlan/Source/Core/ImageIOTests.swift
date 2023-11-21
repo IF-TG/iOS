@@ -19,9 +19,10 @@ extension ImageIOTests {
     let originalImageData = originalImage.pngData()!
     let targetResizedSize = CGSize(width: 35, height: 35)
     let downsampledOptions = ImageIO.DownsampledOptions.init(imagePixelSize: targetResizedSize)
+    let imageSourceCreateType: ImageIO.ImageSourceCreateType = .data(originalImageData)
     
     // Act
-    let cgImage = sut.setDwonsampled(atImageData: originalImageData, for: downsampledOptions)
+    let cgImage = sut.setDownsampledCGImage(at: imageSourceCreateType, for: downsampledOptions)
     
     // Assert
     XCTAssertNotNil(cgImage, "다운샘플링된 이미지가 nil이 되면 안되는데 nil이 반환됨.")
