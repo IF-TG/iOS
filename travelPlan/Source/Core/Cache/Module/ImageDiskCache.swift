@@ -7,7 +7,7 @@
 
 import UIKit.UIImage
 
-class ImageDiskCache {
+public class ImageDiskCache {
   private var storage: FileManager {
     return FileManager.default
   }
@@ -26,15 +26,7 @@ class ImageDiskCache {
 }
 
 // MARK: - Helpers
-extension ImageDiskCache {
-  /// 경로 생성
-  func imageFileURL(for key: String) -> URL? {
-    if key.contains(".bin") {
-      return folderURL?.appendingPathComponent(key)
-    }
-    return folderURL?.appendingPathComponent("\(key).bin")
-  }
-  
+public extension ImageDiskCache {
   func loadImage(with key: String) -> UIImage? {
     guard
       let imageURL = imageFileURL(for: key),
@@ -47,11 +39,9 @@ extension ImageDiskCache {
     guard let imageURL = imageFileURL(for: key) else {
       return
     }
-    
     if !hasExistFile(atPath: imageURL.path) {
       storage.createFile(atPath: imageURL.path, contents: nil, attributes: nil)
     }
-    
     guard let data = image.jpegData(compressionQuality: 1) else {
       print("DEBUG: Image 데이터가 존재하지 않습니다.")
       return
@@ -72,7 +62,6 @@ extension ImageDiskCache {
       print("DEBUG: 파일이 없습니다.")
       return true
     }
-    
     do {
       try storage.removeItem(at: imageURL)
       return true
@@ -82,23 +71,11 @@ extension ImageDiskCache {
     }
   }
   
-  func hasExistFile(atPath path: String) -> Bool {
-    return storage.fileExists(atPath: path)
-  }
-  
-  func hasExistFile(atKey key: String) -> Bool {
-    guard let path = imageFileURL(for: key)?.path else {
-      return false
-    }
-    return hasExistFile(atPath: path)
-  }
-  
   func removeAllImages() {
     guard let folderURL else {
       print("DEBUG: .cache경로가 존재하지 않습니다.")
       return
     }
-    
     do {
       let imageFiles = try storage.contentsOfDirectory(atPath: folderURL.path)
       for imageFile in imageFiles {
@@ -110,8 +87,33 @@ extension ImageDiskCache {
       print("DEBUG: ImageDiskCache 디렉터리의 폴더 중 에러 발생: \(error.localizedDescription)")
     }
   }
+}
+
+// MARK: - Internal Helpers
+extension ImageDiskCache {
+  /// 경로 생성
+  internal func imageFileURL(for key: String) -> URL? {
+    if key.contains(".bin") {
+      return folderURL?.appendingPathComponent(key)
+    }
+    return folderURL?.appendingPathComponent("\(key).bin")
+  }
   
-  private func createCacheDirectory() {
+  internal func hasExistFile(atPath path: String) -> Bool {
+    return storage.fileExists(atPath: path)
+  }
+  
+  internal func hasExistFile(atKey key: String) -> Bool {
+    guard let path = imageFileURL(for: key)?.path else {
+      return false
+    }
+    return hasExistFile(atPath: path)
+  }
+}
+
+// MARK: - Private Helpers
+private extension ImageDiskCache {
+  func createCacheDirectory() {
     do {
       let cacheDirectoryURL = try FileManager.default.url(
         for: .cachesDirectory,

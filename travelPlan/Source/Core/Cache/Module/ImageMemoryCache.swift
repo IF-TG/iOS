@@ -7,13 +7,13 @@
 
 import UIKit
 
-final actor ImageMemoryCache {
+public final actor ImageMemoryCache {
   private let cache = Cache<String, UIImage>()
   private let imageConverter = ImageConverter()
 }
 
 // MARK: - ImageCachable
-extension ImageMemoryCache: ImageMemoryCachable {
+public extension ImageMemoryCache: ImageMemoryCachable {
   func image(for url: String) -> UIImage? {
     guard let cached = cache[url] else {
       guard let image = imageConverter.base64ToImage(url) else {
