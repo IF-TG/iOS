@@ -46,7 +46,9 @@ final class ReviewWritingContentView: UIStackView {
     $0.isScrollEnabled = false
     $0.delegate = self
   }
-  
+  var isMessageTextViewHidden: Bool {
+    messageTextView.isHidden
+  }
   private lazy var messageTextView: UITextView = .init().set {
     $0.text = "이번 여행에 대한 나의 후기를\n자유롭게 작성해보세요. :)"
     $0.font = .init(pretendard: .regular_400(fontSize: 16))
@@ -54,7 +56,7 @@ final class ReviewWritingContentView: UIStackView {
     $0.isScrollEnabled = false
     $0.delegate = self
   }
-  
+  private var messageTextViewInitialIndex: Int?
   private let boundaryLineView: UIView = .init().set {
     $0.backgroundColor = .yg.gray0
   }
@@ -113,6 +115,7 @@ extension ReviewWritingContentView: LayoutSupport {
        self.messageTextView]
       .map { addArrangedSubview($0) }
     
+    messageTextViewInitialIndex = arrangedSubviews.firstIndex(of: messageTextView)
     spacerViews[0].heightAnchor.constraint(equalToConstant: 16).isActive = true
     spacerViews[1].heightAnchor.constraint(equalToConstant: 16).isActive = true
     spacerViews[2].heightAnchor.constraint(equalToConstant: 8).isActive = true
@@ -366,16 +369,26 @@ extension ReviewWritingContentView {
   func scrollViewHeight(_ scrollViewHeight: CGFloat) {
     scrollValue.scrollViewHeight = scrollViewHeight
   }
+  
+  func hideMessageTextView() {
+    messageTextView.isHidden = true
+    messageTextView.alpha = 0
+  }
 }
 
 extension ReviewWritingContentView: PictureImageViewDelegate {
   func didTapDeleteButton(_ sender: UIButton) {
     guard let imageView = sender.superview as? PictureImageView else { return }
+    
+    if let imageViewIndex = arrangedSubviews.firstIndex(of: imageView),
+       messageTextViewInitialIndex == imageViewIndex - 1 {
+      messageTextView.isHidden = false
+      UIView.animate(withDuration: 0.3) {
+        self.messageTextView.alpha = 1
+      }
+    }
     removeArrangedSubview(imageView)
     imageView.remove()
     imageViewList.removeAll { $0 === imageView }
   }
 }
-
-// TODO: - messageTextView가 아닌 textView인 경우, textView가 비어있을때 키보드로 문자 삭제키를 누를 경우, textView를 제거
-  // textView가 빈 문자열일 때, 키보드의 delete키를 누르면 textView를 stackView에서 제거(참조 전부 제거해서 textView deinit 불리도록)
