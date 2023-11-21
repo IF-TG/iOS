@@ -29,7 +29,10 @@ class ImageDiskCache {
 extension ImageDiskCache {
   /// 경로 생성
   func imageFileURL(for key: String) -> URL? {
-    return folderURL?.appendingPathComponent("\(key).txt")
+    if key.contains(".bin") {
+      return folderURL?.appendingPathComponent(key)
+    }
+    return folderURL?.appendingPathComponent("\(key).bin")
   }
   
   func loadImage(with key: String) -> UIImage? {
@@ -46,7 +49,6 @@ extension ImageDiskCache {
     }
     
     if !hasExistFile(atPath: imageURL.path) {
-      print("파일 생성")
       storage.createFile(atPath: imageURL.path, contents: nil, attributes: nil)
     }
     
@@ -66,12 +68,18 @@ extension ImageDiskCache {
       print("DEBUG: Image 경로가 없습니다")
       return true
     }
-    guard storage.fileExists(atPath: imageURL.path) else {
+    guard hasExistFile(atPath: imageURL.path) else {
       print("DEBUG: 파일이 없습니다.")
       return true
     }
-    try? storage.removeItem(at: imageURL)
-    return true
+    
+    do {
+      try storage.removeItem(at: imageURL)
+      return true
+    } catch {
+      print("DEBUG: \(error.localizedDescription)")
+      return false
+    }
   }
   
   func hasExistFile(atPath path: String) -> Bool {
@@ -94,8 +102,9 @@ extension ImageDiskCache {
     do {
       let imageFiles = try storage.contentsOfDirectory(atPath: folderURL.path)
       for imageFile in imageFiles {
-        print("삭제할 파일", imageFile)
-        try? storage.removeItem(at: folderURL.appendingPathExtension(imageFile))
+        /// 여기서 imageFile은 진짜 이미지 파일 이름
+        /// 삭제할 경우 삭제할 해당 폴더의 전체 경로를 설정해줘야함
+        _=removeImage(with: imageFile)
       }
     } catch {
       print("DEBUG: ImageDiskCache 디렉터리의 폴더 중 에러 발생: \(error.localizedDescription)")
