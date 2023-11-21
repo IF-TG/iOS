@@ -33,6 +33,10 @@ class PictureImageView: UIImageView {
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
+  
+  deinit {
+    print("deinit: \(Self.self)")
+  }
 }
 
 // MARK: - LayoutSupport
