@@ -9,6 +9,11 @@ import Foundation
 import ImageIO
 
 public extension ImageIO {
+  enum ImageSourceCreateType {
+    case url
+    case data
+  }
+  
   struct DownsampledOptions: RawRepresentable {
     public typealias RawValue = CFDictionary
     
