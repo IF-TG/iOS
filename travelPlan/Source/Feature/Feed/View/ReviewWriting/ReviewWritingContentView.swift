@@ -68,7 +68,7 @@ final class ReviewWritingContentView: UIStackView {
   private var lastView: UIView? {
     arrangedSubviews.last
   }
-  private var textViewPreviousHeight: [UITextView: CGFloat] = [:]
+  private var textViewPreviousHeight: [UIView: CGFloat] = [:]
   var scrollToLastView: ((_ cursorHeight: CGFloat, _ lastView: UIView) -> Void)?
   private var shouldScrollToLastView = false
   private var isTextViewDidBeginEditingFirstCalled = false
@@ -95,7 +95,6 @@ final class ReviewWritingContentView: UIStackView {
       guard let h = scrollValue.cursorHeight,
             let lastView = lastView
       else { return }
-      
       scrollToLastView?(h, lastView)
       shouldScrollToLastView = false
     }
@@ -177,6 +176,17 @@ extension ReviewWritingContentView: UITextViewDelegate {
         return false
       }
     }
+    
+    if textView !== messageTextView,
+       textView !== titleTextView,
+       textView.text.isEmpty,
+       text == "" {
+      self.removeArrangedSubview(textView)
+      textView.removeFromSuperview()
+      // textViewList가 있다면 List도 제거해야 한다.
+      return true
+    }
+    
     return true
   }
   
@@ -266,7 +276,7 @@ extension ReviewWritingContentView {
     }
   }
   
-  /// textView의 text를 기반으로 알맞은 autoLayout height으로 조정합니다.
+  /// textView의 text의 size에 알맞은 height로 autoLayout을 update합니다.
   private func adjustHeight(of textView: UITextView) {
     let estimatedHeight = textView.sizeThatFits(
       CGSize(width: textView.frame.width, height: CGFloat.infinity)
@@ -276,37 +286,25 @@ extension ReviewWritingContentView {
       textView.snp.updateConstraints {
         $0.height.equalTo(estimatedHeight)
       }
-      shouldScrollToLastView = true
       textViewPreviousHeight[textView] = estimatedHeight
     } else if textViewPreviousHeight[textView] == nil {
       textViewPreviousHeight[textView] = estimatedHeight
     }
   }
   
-  /// 제약조건 재설정 방식
-   /// 1. lastView의 bottom과 superView의 bottom을 제거
-   /// 2. lastView의 bottom과 view의 top 제약조건
-   /// 3. view의 bottom과 superView의 bottom 제약 조건
-     /// - 이때 view의 bottom과 superView의 bottom간의 constraints를 저장
-   /// 4. view를 lastView로 갱신
-  private func addLastView(lastView view: UIView) {
+  private func setupLastView(lastView view: UIView) {
     addArrangedSubview(view)
-    makeLastViewHeightConstraint()
-    view.layoutIfNeeded() // view는 lastView. 이 시점에 lastView의 height이 결정
-    shouldScrollToLastView = true
-  }
-  
-  private func makeLastViewHeightConstraint() {
-    guard let lastView = lastView else { return }
-    if lastView is UITextView {
-      lastView.snp.makeConstraints {
+    if view is UITextView {
+      view.snp.makeConstraints {
         $0.height.equalTo(40)
       }
-    } else if lastView is UIImageView {
-      lastView.snp.makeConstraints {
+    } else if view is UIImageView {
+      view.snp.makeConstraints {
         $0.height.equalTo(100)
       }
     }
+    view.layoutIfNeeded() // view는 lastView. 이 시점에 lastView의 height이 결정
+    shouldScrollToLastView = true
   }
   
   private func createNewTextView() -> UITextView {
@@ -343,17 +341,15 @@ extension ReviewWritingContentView {
       $0.delegate = self
     }
     imageViewList.append(imageView)
-    addLastView(lastView: imageView)
+    setupLastView(lastView: imageView)
   }
   
   func manageTextViewDisplay() {
-    // lastView가 textView인 경우, 해당 textView 포커싱
-    // lastView가 imageView인 경우, imageView 밑에 새로운 textView를 제약조건을 통해 추가
     if let textView = lastView as? UITextView {
       moveCursorToLastPosition(at: textView)
     } else if lastView is UIImageView {
       let newTextView = createNewTextView()
-      addLastView(lastView: newTextView)
+      setupLastView(lastView: newTextView)
       self.layoutIfNeeded()
       if let keyboardHeight = scrollValue.keyboardHeight,
          let bottomViewHeight = scrollValue.bottomViewHeight {
@@ -380,12 +376,12 @@ extension ReviewWritingContentView {
 
 extension ReviewWritingContentView: PictureImageViewDelegate {
   func didTapDeleteButton(_ sender: UIButton) {
-    print("이미지 삭제!")
-//    sender.superview
-    // 이미지뷰 삭제
-    // 오토레이아웃 제거
+    guard let imageView = sender.superview as? PictureImageView else { return }
+    removeArrangedSubview(imageView)
+    imageView.remove()
+    imageViewList.removeAll { $0 === imageView }
   }
 }
 
 // TODO: - messageTextView가 아닌 textView인 경우, textView가 비어있을때 키보드로 문자 삭제키를 누를 경우, textView를 제거
-// TODO: - imageView에 삭제버튼 만들고 기능 구현하기
+  // textView가 빈 문자열일 때, 키보드의 delete키를 누르면 textView를 stackView에서 제거(참조 전부 제거해서 textView deinit 불리도록)
