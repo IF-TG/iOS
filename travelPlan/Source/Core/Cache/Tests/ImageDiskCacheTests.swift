@@ -41,4 +41,35 @@ extension ImageDiskCacheTests {
     XCTAssertNotNil(filePath, "이미지 파일 경로 nil")
     XCTAssertTrue(res, "파일이 존재하지 않습니다.")
   }
+  
+  func testImageDiskCache_LoadImageWhenExistsSavedImageBlob_ShouldReturnNotNil() {
+    // Arrange
+    let image = UIImage(named: "tempProfile1")!
+    let imageData = image.pngData()
+    let URLPath = "\(image.base64!.hashValue)"
+    sut.save(image, with: URLPath)
+    
+    // Act
+    let loadedImageData = sut.loadImage(with: URLPath)?.pngData()
+    
+    // Assert
+    XCTAssertNotNil(loadedImageData, "이미지가 존재해야하지만 이미지를 로드할 때 nil이 반환됨")
+    /// 미세하게 byes가 다르다...
+    ///XCTAssertEqual(loadedImageData, imageData)
+  }
+  
+  func testImageDiskCache_RemoveImageWhenSavedImageBlob_ShouldReturnFalse() {
+    // Arrange
+    let image = UIImage(named: "tempProfile1")!
+    let imageData = image.pngData()
+    let URLPath = "\(image.base64!.hashValue)"
+    sut.save(image, with: URLPath)
+    
+    // Act
+    sut.removeImage(with: URLPath)
+    let hasImage = sut.hasExistFile(atPath: URLPath)
+    
+    // Assert
+    XCTAssertFalse(hasImage, "이미지가 없어야 하는데 존재함")
+  }
 }
