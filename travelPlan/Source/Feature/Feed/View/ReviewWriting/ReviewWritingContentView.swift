@@ -144,7 +144,7 @@ extension ReviewWritingContentView: UITextViewDelegate {
     }
 
     if !isTextViewDidBeginEditingFirstCalled {
-      scrollValue.cursorHeight = getCursorHeight(of: textView)
+      scrollValue.cursorHeight = cursorFrame(of: textView)?.height
       isTextViewDidBeginEditingFirstCalled = true
     }
     manageScroll(at: textView)
@@ -181,12 +181,10 @@ extension ReviewWritingContentView: UITextViewDelegate {
        textView !== titleTextView,
        textView.text.isEmpty,
        text == "" {
-      self.removeArrangedSubview(textView)
+      removeArrangedSubview(textView)
       textView.removeFromSuperview()
-      // textViewList가 있다면 List도 제거해야 한다.
       return true
     }
-    
     return true
   }
   
@@ -214,11 +212,6 @@ extension ReviewWritingContentView {
     self.delegate?.changeContentInset(
       bottomEdge: keyboardHeight - bottomViewHeight + scrollValue.spacingFromCursorBoundaryToKeyboard
     )
-  }
-  
-  private func getCursorHeight(of textView: UITextView) -> CGFloat? {
-    guard let cursorFrame = cursorFrame(of: textView) else { return nil }
-    return cursorFrame.height
   }
   
   /// ReviewWritingContentView의 좌표계를 기준으로 cursor의 y값을 반환합니다.
@@ -276,7 +269,7 @@ extension ReviewWritingContentView {
     }
   }
   
-  /// textView의 text의 size에 알맞은 height로 autoLayout을 update합니다.
+  /// textView text와 알맞은 height로 autoLayout을 update합니다.
   private func adjustHeight(of textView: UITextView) {
     let estimatedHeight = textView.sizeThatFits(
       CGSize(width: textView.frame.width, height: CGFloat.infinity)
@@ -292,18 +285,18 @@ extension ReviewWritingContentView {
     }
   }
   
-  private func setupLastView(lastView view: UIView) {
-    addArrangedSubview(view)
-    if view is UITextView {
-      view.snp.makeConstraints {
+  private func setupLastView(lastView: UIView) {
+    addArrangedSubview(lastView)
+    if lastView is UITextView {
+      lastView.snp.makeConstraints {
         $0.height.equalTo(40)
       }
-    } else if view is UIImageView {
-      view.snp.makeConstraints {
+    } else if lastView is UIImageView {
+      lastView.snp.makeConstraints {
         $0.height.equalTo(100)
       }
     }
-    view.layoutIfNeeded() // view는 lastView. 이 시점에 lastView의 height이 결정
+    lastView.layoutIfNeeded()
     shouldScrollToLastView = true
   }
   
@@ -344,7 +337,7 @@ extension ReviewWritingContentView {
     setupLastView(lastView: imageView)
   }
   
-  /// 스크롤뷰 터치 시 lastView의 종류에 따라 화면에 보이
+  /// 스크롤뷰 터치 시 lastView의 종류에 따라 contentOffsetY를 관리합니다.
   func manageContentOffsetYByLastView() {
     if let textView = lastView as? UITextView {
       moveCursorToLastPosition(at: textView)

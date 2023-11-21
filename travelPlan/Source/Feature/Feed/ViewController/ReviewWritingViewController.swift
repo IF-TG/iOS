@@ -187,9 +187,7 @@ extension ReviewWritingViewController {
       let frameHeightIsSmallerThanContentHeight = scrollView.contentSize.height > scrollView.bounds.height
       guard frameHeightIsSmallerThanContentHeight else { return }
       
-      // 현재 뷰가 lastView가 아니고, textView이면
       if lastView is UITextView {
-        // TODO: - textView의 text line이 줄어들면 scrollView.contentOffset.y - cursorHeight를 하고, textView의 text line이 늘어나면 scrollView.contentOffset.y + cursorHeight를 해야 합니다.
         scrollView.setContentOffset(
           CGPoint(x: .zero, y: scrollView.contentOffset.y + cursorHeight),
           animated: true
