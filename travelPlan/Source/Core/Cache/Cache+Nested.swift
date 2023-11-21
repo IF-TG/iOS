@@ -50,6 +50,23 @@ internal extension Cache {
       keys.remove(entry.key)
     }
   }
+  
+  struct Configuration {
+    let maximumCount: Int
+    let memoryLimit: Int
+    let entryLifetime: TimeInterval
+    
+    init(
+      maximumCount: Int = 100,
+      memoryLimit: Int = 1024 * 1024 * 300,
+      entryLifetime: TimeInterval = 6 * 60 * 60
+    ) {
+      self.maximumCount = maximumCount
+      self.memoryLimit = memoryLimit
+      self.entryLifetime = entryLifetime
+    }
+  }
+
 }
 
 extension Cache.Entry: Codable where Key: Codable, Value: Codable {}
