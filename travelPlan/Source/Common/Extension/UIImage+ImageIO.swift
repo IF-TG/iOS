@@ -31,4 +31,16 @@ extension UIImage {
     }
     return UIImage(cgImage: downsampledImage)
   }
+  
+  func imageDimension(url: String) -> CGSize? {
+    guard let imageSource = CGImageSourceCreateWithURL(URL(string: url)! as CFURL, nil) else {
+      return nil
+    }
+    guard let imageCopyProperties = CGImageSourceCopyPropertiesAtIndex(imageSource, 0, nil) as? [CFString: Any] else {
+      return nil
+    }
+    let width = imageCopyProperties[kCGImagePropertyWidth] as? CGFloat ?? 50
+    let height = imageCopyProperties[kCGImagePropertyHeight] as? CGFloat ?? 50
+    return CGSize(width: width, height: height)
+  }
 }
