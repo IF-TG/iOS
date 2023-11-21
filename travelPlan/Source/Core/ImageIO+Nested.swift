@@ -12,10 +12,22 @@ public extension ImageIO {
   struct DownsampledOptions: RawRepresentable {
     public typealias RawValue = CFDictionary
     
-    var hasThumbnailAlwaysCreate: Bool = false
-    var shouldCacheImmediately: Bool = false
-    var hasTransformWhenCreate: Bool = true
-    var imagePixelSize: CGSize?
+    let hasThumbnailAlwaysCreate: Bool
+    let shouldCacheImmediately: Bool
+    let hasTransformWhenCreate: Bool
+    let imagePixelSize: CGSize?
+    
+    init(
+      hasThumbnailAlwaysCreate: Bool = false,
+      shouldCacheImmediately: Bool = false,
+      hasTransformWhenCreate: Bool = true,
+      imagePixelSize: CGSize?
+    ) {
+      self.hasThumbnailAlwaysCreate = hasThumbnailAlwaysCreate
+      self.shouldCacheImmediately = shouldCacheImmediately
+      self.hasTransformWhenCreate = hasTransformWhenCreate
+      self.imagePixelSize = imagePixelSize
+    }
     
     public init?(rawValue: RawValue) {
       nil
