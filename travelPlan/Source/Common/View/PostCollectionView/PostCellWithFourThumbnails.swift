@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class PostCellWithFourThumbnails: BasePostCell {
+final class PostCellWithFourThumbnails: UICollectionViewCell {
   static let id = String(describing: PostCellWithFourThumbnails.self)
   
   // MARK: - Nested
@@ -15,9 +15,15 @@ final class PostCellWithFourThumbnails: BasePostCell {
     private var imageViews: [UIImageView] = []
     init() {
       super.init(frame: .zero)
-      imageViews = (0...3).map { _ -> UIImageView in
+      imageViews = (0...3).map { index -> UIImageView in
         return UIImageView(frame: .zero).set {
           $0.contentMode = .scaleAspectFill
+          $0.clipsToBounds = true
+          if index == 0 {
+            $0.heightAnchor.constraint(equalToConstant: 118).isActive = true
+          } else {
+            $0.heightAnchor.constraint(equalToConstant: (118-1)/2).isActive = true
+          }
         }
       }
       let rightBottomStackView = UIStackView(arrangedSubviews: [imageViews[2], imageViews[3]])
@@ -45,13 +51,17 @@ final class PostCellWithFourThumbnails: BasePostCell {
   }
   
   // MARK: - Properties
-  private var thumbnailView: PostFourThumbnailsView?
+  private var thumbnailView: PostFourThumbnailsView
+  
+  private let postView: BasePostView
   
   // MARK: - Lifecycle
-  init(frame: CGRect) {
+  override init(frame: CGRect) {
     let contentView = PostFourThumbnailsView()
     self.thumbnailView = contentView
-    super.init(frame: frame, thumbnailView: contentView)
+    postView = BasePostView(frame: frame, thumbnailView: contentView)
+    super.init(frame: frame)
+    setupUI()
   }
   
   required init?(coder: NSCoder) {
@@ -60,12 +70,34 @@ final class PostCellWithFourThumbnails: BasePostCell {
   
   override func prepareForReuse() {
     super.prepareForReuse()
-    thumbnailView?.configureThumbnail(with: nil)
+    configure(with: nil)
   }
   
   // MARK: - Helpers
-  override func configure(with post: PostInfo?) {
-    super.configure(with: post)
-    thumbnailView?.configureThumbnail(with: post?.content.thumbnailURLs)
+  func configure(with post: PostInfo?) {
+    postView.configure(with: post)
+    thumbnailView.configureThumbnail(with: post?.content.thumbnailURLs)
+  }
+}
+
+// MARK: - PostCellEdgeDividable
+extension PostCellWithFourThumbnails: PostCellEdgeDividable {
+  func hideCellDivider() {
+    postView.hideCellDivider()
+  }
+}
+
+// MARK: - LayoutSupport
+extension PostCellWithFourThumbnails: LayoutSupport {
+  func addSubviews() {
+    contentView.addSubview(postView)
+  }
+  
+  func setConstraints() {
+    NSLayoutConstraint.activate([
+      postView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+      postView.topAnchor.constraint(equalTo: contentView.topAnchor),
+      postView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+      postView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)])
   }
 }

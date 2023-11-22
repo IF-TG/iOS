@@ -7,12 +7,11 @@
 
 import UIKit
 
-final class PostCellWithOneThumbnail: BasePostCell {
+final class PostCellWithOneThumbnail: UICollectionViewCell {
   // MARK: - Nested
   private final class PostOneThumbnailView: UIImageView {
     override init(frame: CGRect) {
       super.init(frame: frame)
-      translatesAutoresizingMaskIntoConstraints = false
       contentMode = .scaleAspectFill
     }
     
@@ -32,13 +31,18 @@ final class PostCellWithOneThumbnail: BasePostCell {
   static let id = String(describing: PostCellWithOneThumbnail.self)
   
   // MARK: - Properties
-  private var thumbnailView: PostOneThumbnailView?
+  private let thumbnailView: PostOneThumbnailView
+  
+  private let postView: BasePostView
   
   // MARK: - Lifecycle
-  init(frame: CGRect) {
+  override init(frame: CGRect) {
     let thumbnailView = PostOneThumbnailView(frame: .zero)
     self.thumbnailView = thumbnailView
-    super.init(frame: frame, thumbnailView: thumbnailView)
+    postView = BasePostView(frame: frame, thumbnailView: thumbnailView)
+    thumbnailView.heightAnchor.constraint(equalToConstant: 118).isActive = true
+    super.init(frame: frame)
+    setupUI()
   }
   
   required init?(coder: NSCoder) {
@@ -47,12 +51,34 @@ final class PostCellWithOneThumbnail: BasePostCell {
   
   override func prepareForReuse() {
     super.prepareForReuse()
-    thumbnailView?.configureThumbnail(with: nil)
+    configure(with: nil)
   }
   
   // MARK: - Helpers
-  override func configure(with post: PostInfo?) {
-    super.configure(with: post)
-    
+  func configure(with post: PostInfo?) {
+    postView.configure(with: post)
+    thumbnailView.configureThumbnail(with: post?.content.thumbnailURLs)
+  }
+}
+
+// MARK: - PostCellEdgeDividable
+extension PostCellWithOneThumbnail: PostCellEdgeDividable {
+  func hideCellDivider() {
+    postView.hideCellDivider()
+  }
+}
+
+// MARK: - LayoutSupport
+extension PostCellWithOneThumbnail: LayoutSupport {
+  func addSubviews() {
+    contentView.addSubview(postView)
+  }
+  
+  func setConstraints() {
+    NSLayoutConstraint.activate([
+      postView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+      postView.topAnchor.constraint(equalTo: contentView.topAnchor),
+      postView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+      postView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)])
   }
 }

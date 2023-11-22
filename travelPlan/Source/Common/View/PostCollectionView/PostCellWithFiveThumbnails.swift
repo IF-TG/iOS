@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class PostCellWithFiveThumbnails: BasePostCell {
+final class PostCellWithFiveThumbnails: UICollectionViewCell {
   static let id = String(describing: PostCellWithFiveThumbnails.self)
   
   // MARK: - Nested
@@ -15,8 +15,16 @@ final class PostCellWithFiveThumbnails: BasePostCell {
     private var imageViews: [UIImageView] = []
     init() {
       super.init(frame: .zero)
-      imageViews = (0...4).map { _ -> UIImageView in
-        return UIImageView(frame: .zero).set { $0.contentMode = .scaleAspectFill }
+      imageViews = (0...4).map { index -> UIImageView in
+        return UIImageView(frame: .zero).set {
+          $0.contentMode = .scaleAspectFill
+          $0.layer.masksToBounds = true
+          if index == 0 {
+            $0.heightAnchor.constraint(equalToConstant: 118).isActive = true
+          } else {
+            $0.heightAnchor.constraint(equalToConstant: (118-1)/2).isActive = true
+          }
+        }
       }
       let rightTopStackView = UIStackView(arrangedSubviews: [imageViews[1], imageViews[2]])
       let rightBottomStackView = UIStackView(arrangedSubviews: [imageViews[3], imageViews[4]])
@@ -24,9 +32,9 @@ final class PostCellWithFiveThumbnails: BasePostCell {
       [imageViews[0], rightContentStackView].forEach { addArrangedSubview($0) }
       
       self.configureDefaultPostThumbnail(with: .horizontal)
+      rightContentStackView.configureDefaultPostThumbnail(with: .vertical)
       rightTopStackView.configureDefaultPostThumbnail(with: .horizontal)
       rightBottomStackView.configureDefaultPostThumbnail(with: .horizontal)
-      rightContentStackView.configureDefaultPostThumbnail(with: .vertical)
     }
     
     required init(coder: NSCoder) {
@@ -45,13 +53,18 @@ final class PostCellWithFiveThumbnails: BasePostCell {
   }
   
   // MARK: - Properties
-  private var thumbnailView: PostFiveThumbnailsView?
+  private let thumbnailView: PostFiveThumbnailsView
+  
+  private let postView: BasePostView
   
   // MARK: - Lifecycle
-  init(frame: CGRect) {
+  override init(frame: CGRect) {
     let contentView = PostFiveThumbnailsView()
     self.thumbnailView = contentView
-    super.init(frame: frame, thumbnailView: contentView)
+    thumbnailView.clipsToBounds = true
+    postView = BasePostView(frame: frame, thumbnailView: contentView)
+    super.init(frame: frame)
+    setupUI()
   }
   
   required init?(coder: NSCoder) {
@@ -60,12 +73,34 @@ final class PostCellWithFiveThumbnails: BasePostCell {
   
   override func prepareForReuse() {
     super.prepareForReuse()
-    thumbnailView?.configureThumbnail(with: nil)
+    configure(with: nil)
   }
   
   // MARK: - Helpers
-  override func configure(with post: PostInfo?) {
-    super.configure(with: post)
-    thumbnailView?.configureThumbnail(with: post?.content.thumbnailURLs)
+  func configure(with post: PostInfo?) {
+    postView.configure(with: post)
+    thumbnailView.configureThumbnail(with: post?.content.thumbnailURLs)
+  }
+}
+
+// MARK: - PostCellEdgeDividable
+extension PostCellWithFiveThumbnails: PostCellEdgeDividable {
+  func hideCellDivider() {
+    postView.hideCellDivider()
+  }
+}
+
+// MARK: - LayoutSupport
+extension PostCellWithFiveThumbnails: LayoutSupport {
+  func addSubviews() {
+    contentView.addSubview(postView)
+  }
+  
+  func setConstraints() {
+    NSLayoutConstraint.activate([
+      postView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+      postView.topAnchor.constraint(equalTo: contentView.topAnchor),
+      postView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+      postView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)])
   }
 }

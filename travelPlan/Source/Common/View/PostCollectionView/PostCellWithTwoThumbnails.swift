@@ -7,18 +7,21 @@
 
 import UIKit
 
-final class PostCellWithTwoThumbnails: BasePostCell {
+final class PostCellWithTwoThumbnails: UICollectionViewCell {
   static let id = String(describing: PostCellWithTwoThumbnails.self)
   
   // MARK: - Nested
   private final class PostTwoThumbnailsView: UIStackView {
     private var imageViews: [UIImageView] = []
+    
     init() {
       super.init(frame: .zero)
       configureDefaultPostThumbnail(with: .horizontal)
       imageViews = (0...1).map { _ -> UIImageView in
         return UIImageView(frame: .zero).set {
           $0.contentMode = .scaleAspectFill
+          $0.heightAnchor.constraint(equalToConstant: 118).isActive = true
+          $0.clipsToBounds = true
         }
       }
       imageViews.forEach { addArrangedSubview($0) }
@@ -40,13 +43,17 @@ final class PostCellWithTwoThumbnails: BasePostCell {
   }
   
   // MARK: - Properties
-  private var thumbnailView: PostTwoThumbnailsView?
+  private let thumbnailView: PostTwoThumbnailsView
+  
+  private let postView: BasePostView
   
   // MARK: - Lifecycle
-  init(frame: CGRect) {
+  override init(frame: CGRect) {
     let contentView = PostTwoThumbnailsView()
     self.thumbnailView = contentView
-    super.init(frame: frame, thumbnailView: contentView)
+    postView = BasePostView(frame: frame, thumbnailView: contentView)
+    super.init(frame: frame)
+    setupUI()
   }
   
   required init?(coder: NSCoder) {
@@ -55,12 +62,34 @@ final class PostCellWithTwoThumbnails: BasePostCell {
   
   override func prepareForReuse() {
     super.prepareForReuse()
-    thumbnailView?.configureThumbnail(with: nil)
+    configure(with: nil)
   }
   
   // MARK: - Helpers
-  override func configure(with post: PostInfo?) {
-    super.configure(with: post)
-    thumbnailView?.configureThumbnail(with: post?.content.thumbnailURLs)
+  func configure(with post: PostInfo?) {
+    postView.configure(with: post)
+    thumbnailView.configureThumbnail(with: post?.content.thumbnailURLs)
+  }
+}
+
+// MARK: - PostCellEdgeDividable
+extension PostCellWithTwoThumbnails: PostCellEdgeDividable {
+  func hideCellDivider() {
+    postView.hideCellDivider()
+  }
+}
+
+// MARK: - LayoutSupport
+extension PostCellWithTwoThumbnails: LayoutSupport {
+  func addSubviews() {
+    contentView.addSubview(postView)
+  }
+  
+  func setConstraints() {
+    NSLayoutConstraint.activate([
+      postView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+      postView.topAnchor.constraint(equalTo: contentView.topAnchor),
+      postView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+      postView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)])
   }
 }

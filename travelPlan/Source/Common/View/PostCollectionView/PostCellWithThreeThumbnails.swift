@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class PostCellWithThreeThumbnails: BasePostCell {
+final class PostCellWithThreeThumbnails: UICollectionViewCell {
   static let id = String(describing: PostCellWithThreeThumbnails.self)
   
   // MARK: - Nested
@@ -19,6 +19,8 @@ final class PostCellWithThreeThumbnails: BasePostCell {
       imageViews = (0...2).map { _ -> UIImageView in
         return UIImageView(frame: .zero).set {
           $0.contentMode = .scaleAspectFill
+          $0.heightAnchor.constraint(equalToConstant: 118).isActive = true
+          $0.clipsToBounds = true
         }
       }
       imageViews.forEach { addArrangedSubview($0) }
@@ -40,13 +42,17 @@ final class PostCellWithThreeThumbnails: BasePostCell {
   }
   
   // MARK: - Properties
-  private var thumbnailView: PostThreeThumbnailsView?
+  private let thumbnailView: PostThreeThumbnailsView
+  
+  private let postView: BasePostView
   
   // MARK: - Lifecycle
-  init(frame: CGRect) {
+  override init(frame: CGRect) {
     let contentView = PostThreeThumbnailsView()
     self.thumbnailView = contentView
-    super.init(frame: frame, thumbnailView: contentView)
+    self.postView = BasePostView(frame: frame, thumbnailView: contentView)
+    super.init(frame: frame)
+    setupUI()
   }
   
   required init?(coder: NSCoder) {
@@ -55,12 +61,34 @@ final class PostCellWithThreeThumbnails: BasePostCell {
   
   override func prepareForReuse() {
     super.prepareForReuse()
-    thumbnailView?.configureThumbnail(with: nil)
+    configure(with: nil)
   }
   
   // MARK: - Helpers
-  override func configure(with post: PostInfo?) {
-    super.configure(with: post)
-    thumbnailView?.configureThumbnail(with: post?.content.thumbnailURLs)
+  func configure(with post: PostInfo?) {
+    postView.configure(with: post)
+    thumbnailView.configureThumbnail(with: post?.content.thumbnailURLs)
+  }
+}
+
+// MARK: - PostCellEdgeDividable
+extension PostCellWithThreeThumbnails: PostCellEdgeDividable {
+  func hideCellDivider() {
+    postView.hideCellDivider()
+  }
+}
+
+// MARK: - LayoutSupport
+extension PostCellWithThreeThumbnails: LayoutSupport {
+  func addSubviews() {
+    contentView.addSubview(postView)
+  }
+  
+  func setConstraints() {
+    NSLayoutConstraint.activate([
+      postView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+      postView.topAnchor.constraint(equalTo: contentView.topAnchor),
+      postView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+      postView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)])
   }
 }
