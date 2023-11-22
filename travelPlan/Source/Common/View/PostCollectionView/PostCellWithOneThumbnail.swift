@@ -20,7 +20,7 @@ final class PostCellWithOneThumbnail: BasePostCell {
       nil
     }
     
-    func setThumbnail(with images: [String]?) {
+    func configureThumbnail(with images: [String]?) {
       guard let images else {
         image = nil
         return

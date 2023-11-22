@@ -8,7 +8,7 @@
 import UIKit
 
 protocol BasePostCellThumbnailConfigurable: AnyObject {
-  func setThumbnail(with images: [String]?)
+  func configureThumbnail(with images: [String]?)
 }
 
 class BasePostCell: UICollectionViewCell {
@@ -49,7 +49,7 @@ class BasePostCell: UICollectionViewCell {
 extension BasePostCell {
   func configure(with post: PostInfo?) {
     headerView.configure(with: post?.header)
-    thumbnailView.setThumbnail(with: post?.content.thumbnailURLs)
+    thumbnailView.configureThumbnail(with: post?.content.thumbnailURLs)
     setReviewLabel(with: post?.content.text)
     footerView.configure(with: post?.footer)
     setCellDivieder(post == nil)
@@ -76,7 +76,7 @@ extension BasePostCell {
   
   func setReviewLabel(with content: String?) {
     reviewLabel.text = content
-    guard let content else { return }
+    if content == nil { return }
     reviewLabel.sizeToFit()
   }
   
