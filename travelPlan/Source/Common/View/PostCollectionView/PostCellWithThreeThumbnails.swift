@@ -8,7 +8,7 @@
 import UIKit
 
 final class PostCellWithThreeThumbnails: BasePostCell {
-  static let id = String(describing: PostCellWithTwoThumbnails.self)
+  static let id = String(describing: PostCellWithThreeThumbnails.self)
   
   // MARK: - Nested
   private final class PostThreeThumbnailsView: UIStackView {
