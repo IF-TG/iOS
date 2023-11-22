@@ -59,6 +59,9 @@ extension PostThumbnailView {
       isSetupfuncCalled = true
       setupUI()
     }
+    if imageURLs == nil {
+      isSetupfuncCalled = false
+    }
   }
 }
 
