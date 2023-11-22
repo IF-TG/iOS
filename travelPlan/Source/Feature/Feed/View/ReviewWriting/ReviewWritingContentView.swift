@@ -9,6 +9,23 @@ import UIKit
 import Combine
 import SnapKit
 
+struct ReviewWritingContentViewInfo {
+  var text: String?
+  var imageData: [Data]?
+  var isTextIndex: [Bool]?
+}
+
+struct TextDelimiter {
+  private(set) var index: Int = 0
+  private(set) var symbol = "∆∑©"
+  
+  mutating func getDelimiter() -> String {
+    let index = self.index
+    self.index += 1
+    return "{" + symbol + "\(index)" + "}"
+  }
+}
+
 final class ReviewWritingContentView: UIStackView {
   // MARK: - Nested
   enum Constant {
@@ -36,6 +53,7 @@ final class ReviewWritingContentView: UIStackView {
   }
   
   // MARK: - Properties
+  private var delimiter = TextDelimiter()
   private var scrollValue = ValueRelatedToScrolling()
   weak var delegate: ReviewWritingContentViewDelegate?
   private var subscriptions = Set<AnyCancellable>()
@@ -74,7 +92,7 @@ final class ReviewWritingContentView: UIStackView {
   var scrollToLastView: ((_ cursorHeight: CGFloat, _ lastView: UIView) -> Void)?
   private var shouldScrollToLastView = false
   private var isTextViewDidBeginEditingFirstCalled = false
-  
+
   // MARK: - LifeCycle
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -374,6 +392,26 @@ extension ReviewWritingContentView {
     messageTextView.isHidden = true
     messageTextView.alpha = 0
   }
+  
+//  func extractDataFromStackView() -> [ReviewWritingContentViewInfo] {
+//    var model = ReviewWritingContentViewInfo()
+//    for subview in arrangedSubviews {
+//      if let textView = subview as? UITextView,
+//         let text = textView.text {
+//        text + "{"
+//      } else if let imageView = subview as? UIImageView {
+//        
+//      }
+//    }
+//    
+//    /*
+//     데이터 저장 시만 고려하면 될듯
+//     Q:  글1{text구분자1}{image구분자1}글2{text구분자2} 글3{text구분자3}{image구분자2}
+//     1. String -> 글1{text구분자1}글2{text구분자2} 글3{text구분자3}
+//     2. [Bool] -> t f t t f
+//     
+//     */
+//  }
 }
 
 extension ReviewWritingContentView: PictureImageViewDelegate {
