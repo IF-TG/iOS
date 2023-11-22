@@ -46,9 +46,9 @@ extension PostViewAdapter: UICollectionViewDataSource {
     if indexPath.section == 1 {
       guard
         let cell = collectionView.dequeueReusableCell(
-          withReuseIdentifier: PostCell.id,
+          withReuseIdentifier: BasePostCell.id,
           for: indexPath
-        ) as? PostCell,
+        ) as? BasePostCell,
         let dataSource = dataSource
       else {
         return .init(frame: .zero)
@@ -63,7 +63,7 @@ extension PostViewAdapter: UICollectionViewDataSource {
 
 // MARK: - Private helper
 private extension PostViewAdapter {
-  func checkLastCell(_ cell: PostCell, indexPath: IndexPath) {
+  func checkLastCell(_ cell: BasePostCell, indexPath: IndexPath) {
     if let numberOfItems = dataSource?.numberOfItems, indexPath.item == numberOfItems - 1 {
       cell.hideCellDivider()
     }

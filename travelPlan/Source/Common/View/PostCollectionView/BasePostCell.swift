@@ -11,13 +11,9 @@ protocol BasePostCellThumbnailConfigurable: AnyObject {
   func setThumbnail(with images: [String]?)
 }
 
-class tempView: UIView & BasePostCellThumbnailConfigurable {
-  func setThumbnail(with images: [String]?) {
-    
-  }
-}
-
 final class BasePostCell: UICollectionViewCell {
+  static let id = String(describing: BasePostCell.self)
+  
   // MARK: - Properties
   private let headerView = PostHeaderView()
   
