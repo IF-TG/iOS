@@ -23,9 +23,9 @@ final class PostCellWithFourThumbnails: BasePostCell {
       let rightBottomStackView = UIStackView(arrangedSubviews: [imageViews[2], imageViews[3]])
       let rightContentStackView = UIStackView(arrangedSubviews: [imageViews[1], rightBottomStackView])
       [imageViews[0], rightContentStackView].forEach { addArrangedSubview($0) }
-      setStackView(self, axis: .horizontal)
-      setStackView(rightBottomStackView, axis: .horizontal)
-      setStackView(rightContentStackView, axis: .vertical)
+      self.configureDefaultPostThumbnail(with: .horizontal)
+      rightBottomStackView.configureDefaultPostThumbnail(with: .horizontal)
+      rightContentStackView.configureDefaultPostThumbnail(with: .vertical)
     }
     
     required init(coder: NSCoder) {
@@ -33,15 +33,6 @@ final class PostCellWithFourThumbnails: BasePostCell {
     }
     
     // MARK: - Helpers
-    func setStackView(_ stackView: UIStackView, axis: NSLayoutConstraint.Axis) {
-      _=stackView.set {
-        $0.axis = axis
-        $0.spacing = 1
-        $0.distribution = .equalSpacing
-        $0.alignment = .fill
-      }
-    }
-    
     func configureThumbnail(with images: [String]?) {
       guard let images else {
         imageViews.forEach { $0.image = nil }
