@@ -1297,7 +1297,6 @@
 		1594F52529FD517E00A58F20 = {
 			isa = PBXGroup;
 			children = (
-				13BF411C2ADBE42000F3F082 /* onboarding-video.mp4 */,
 				15F0A3F429FD58280049AB33 /* .swiftlint.yml */,
 				1594F53029FD517E00A58F20 /* Source */,
 				151130072A04E4EB0041DDA1 /* travelPlanTests */,
@@ -1336,6 +1335,7 @@
 			isa = PBXGroup;
 			children = (
 				157176702A0BFA2F0015EC8C /* Fonts */,
+				13BF411C2ADBE42000F3F082 /* onboarding-video.mp4 */,
 				1594F53129FD517E00A58F20 /* AppDelegate.swift */,
 				1594F53F29FD517F00A58F20 /* Info.plist */,
 				1594F53A29FD517F00A58F20 /* Assets.xcassets */,
