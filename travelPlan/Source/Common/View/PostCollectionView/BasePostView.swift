@@ -1,5 +1,5 @@
 //
-//  PostViewCell.swift
+//  BasePostView.swift
 //  travelPlan
 //
 //  Created by 양승현 on 2023/05/12.
@@ -7,13 +7,17 @@
 
 import UIKit
 
+protocol PostCellEdgeDividable: AnyObject {
+  func hideCellDivider()
+}
+
 final class BasePostView: UIView {
   // MARK: - Properties
   private let headerView = PostHeaderView()
   
   private lazy var optionButton = makeOptionButton()
   
-  private var thumbnailView: UIView = UIView()
+  private var thumbnailView: UIView
   
   private let reviewLabel = BaseLabel(fontType: .regular_400(fontSize: 14)).set {
     $0.numberOfLines = 3
@@ -26,11 +30,6 @@ final class BasePostView: UIView {
   // MARK: - Lifecycle
   init(frame: CGRect, thumbnailView: UIView) {
     self.thumbnailView = thumbnailView
-    super.init(frame: frame)
-    configureUI()
-  }
-  
-  override init(frame: CGRect) {
     super.init(frame: frame)
     configureUI()
   }
@@ -75,6 +74,10 @@ extension BasePostView {
   }
   
   private func configureUI() {
+    translatesAutoresizingMaskIntoConstraints = false
+    thumbnailView.layer.cornerRadius = 10
+    thumbnailView.clipsToBounds = true
+    thumbnailView.translatesAutoresizingMaskIntoConstraints = false
     setupUI()
     line.setConstraint(
       fromSuperView: self,
@@ -140,8 +143,7 @@ private extension BasePostView {
   var thumbnailViewConstraints: [NSLayoutConstraint] {
     [thumbnailView.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 8),
      thumbnailView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 11),
-     thumbnailView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -11),
-     thumbnailView.heightAnchor.constraint(equalToConstant: 119)]
+     thumbnailView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -11)]
   }
   
   var reviewLabelConstraints: [NSLayoutConstraint] {
@@ -151,14 +153,11 @@ private extension BasePostView {
   }
 
   var footerViewConstraints: [NSLayoutConstraint] {
-    let bottomConstraint = footerView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10)
-//    bottomConstraint.priority = .init(999)
-    return [
-      footerView.leadingAnchor.constraint(equalTo: leadingAnchor),
-      footerView.trailingAnchor.constraint(equalTo: trailingAnchor),
-      footerView.topAnchor.constraint(equalTo: reviewLabel.bottomAnchor, constant: 11),
-      footerView.heightAnchor.constraint(equalToConstant: 20),
-      bottomConstraint]
+    [footerView.leadingAnchor.constraint(equalTo: leadingAnchor),
+     footerView.trailingAnchor.constraint(equalTo: trailingAnchor),
+     footerView.topAnchor.constraint(equalTo: reviewLabel.bottomAnchor, constant: 11),
+     footerView.heightAnchor.constraint(equalToConstant: 20),
+     footerView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10)]
   }
   
   var optionButtonConstraints: [NSLayoutConstraint] {
