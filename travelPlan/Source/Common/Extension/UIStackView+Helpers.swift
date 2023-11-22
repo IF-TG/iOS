@@ -12,7 +12,6 @@ extension UIStackView {
   func configureDefaultPostThumbnail(with axis: NSLayoutConstraint.Axis) {
     self.axis = axis
     spacing = 1
-    distribution = .equalSpacing
-    alignment = .fill
+    distribution = .fillEqually
   }
 }
