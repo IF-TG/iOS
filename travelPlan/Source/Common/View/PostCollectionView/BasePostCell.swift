@@ -12,8 +12,6 @@ protocol BasePostCellThumbnailConfigurable: AnyObject {
 }
 
 class BasePostCell: UICollectionViewCell {
-  static let id = String(describing: BasePostCell.self)
-  
   // MARK: - Properties
   private let headerView = PostHeaderView()
   
