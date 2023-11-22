@@ -9,7 +9,7 @@ import UIKit
 
 final class PostCellWithOneThumbnail: BasePostCell {
   // MARK: - Nested
-  private final class PostOneThumbnailView: UIImageView, BasePostCellThumbnailConfigurable {
+  private final class PostOneThumbnailView: UIImageView {
     override init(frame: CGRect) {
       super.init(frame: frame)
       translatesAutoresizingMaskIntoConstraints = false
@@ -31,13 +31,28 @@ final class PostCellWithOneThumbnail: BasePostCell {
   
   static let id = String(describing: PostCellWithOneThumbnail.self)
   
+  // MARK: - Properties
+  private var thumbnailView: PostOneThumbnailView?
+  
   // MARK: - Lifecycle
   init(frame: CGRect) {
-    let contentView = PostOneThumbnailView(frame: .zero)
-    super.init(frame: frame, thumbnailView: contentView)
+    let thumbnailView = PostOneThumbnailView(frame: .zero)
+    self.thumbnailView = thumbnailView
+    super.init(frame: frame, thumbnailView: thumbnailView)
   }
   
   required init?(coder: NSCoder) {
     nil
+  }
+  
+  override func prepareForReuse() {
+    super.prepareForReuse()
+    thumbnailView?.configureThumbnail(with: nil)
+  }
+  
+  // MARK: - Helpers
+  override func configure(with post: PostInfo?) {
+    super.configure(with: post)
+    
   }
 }

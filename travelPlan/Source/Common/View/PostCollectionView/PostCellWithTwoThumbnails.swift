@@ -8,8 +8,10 @@
 import UIKit
 
 final class PostCellWithTwoThumbnails: BasePostCell {
+  static let id = String(describing: PostCellWithTwoThumbnails.self)
+  
   // MARK: - Nested
-  private final class PostTwoThumbnailsView: UIStackView, BasePostCellThumbnailConfigurable {
+  private final class PostTwoThumbnailsView: UIStackView {
     private var imageViews: [UIImageView] = []
     init() {
       super.init(frame: .zero)
@@ -34,16 +36,29 @@ final class PostCellWithTwoThumbnails: BasePostCell {
       }
     }
   }
-
-  static let id = String(describing: PostCellWithTwoThumbnails.self)
+  
+  // MARK: - Properties
+  private var thumbnailView: PostTwoThumbnailsView?
   
   // MARK: - Lifecycle
   init(frame: CGRect) {
     let contentView = PostTwoThumbnailsView()
+    self.thumbnailView = contentView
     super.init(frame: frame, thumbnailView: contentView)
   }
   
   required init?(coder: NSCoder) {
     nil
+  }
+  
+  override func prepareForReuse() {
+    super.prepareForReuse()
+    thumbnailView?.configureThumbnail(with: nil)
+  }
+  
+  // MARK: - Helpers
+  override func configure(with post: PostInfo?) {
+    super.configure(with: post)
+    thumbnailView?.configureThumbnail(with: post?.content.thumbnailURLs)
   }
 }

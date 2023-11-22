@@ -7,17 +7,13 @@
 
 import UIKit
 
-protocol BasePostCellThumbnailConfigurable: AnyObject {
-  func configureThumbnail(with images: [String]?)
-}
-
 class BasePostCell: UICollectionViewCell {
   // MARK: - Properties
   private let headerView = PostHeaderView()
   
   private lazy var optionButton = makeOptionButton()
   
-  private var thumbnailView: UIView & BasePostCellThumbnailConfigurable
+  private var thumbnailView: UIView
   
   private let reviewLabel = BaseLabel(fontType: .regular_400(fontSize: 14)).set {
     $0.numberOfLines = 3
@@ -28,7 +24,7 @@ class BasePostCell: UICollectionViewCell {
   private let line = OneUnitHeightLine(color: .yg.gray0)
   
   // MARK: - Lifecycle
-  init(frame: CGRect, thumbnailView: UIView & BasePostCellThumbnailConfigurable) {
+  init(frame: CGRect, thumbnailView: UIView) {
     self.thumbnailView = thumbnailView
     super.init(frame: frame)
     configureUI()
@@ -43,18 +39,17 @@ class BasePostCell: UICollectionViewCell {
     configure(with: nil)
     hideCellDivider()
   }
-}
-
-// MARK: - Helpers
-extension BasePostCell {
+  
   func configure(with post: PostInfo?) {
     headerView.configure(with: post?.header)
-    thumbnailView.configureThumbnail(with: post?.content.thumbnailURLs)
     setReviewLabel(with: post?.content.text)
     footerView.configure(with: post?.footer)
     setCellDivieder(post == nil)
   }
-  
+}
+
+// MARK: - Helpers
+extension BasePostCell {
   func hideCellDivider() {
     line.isHidden = true
   }
