@@ -7,13 +7,13 @@
 
 import UIKit
 
-class BasePostCell: UICollectionViewCell {
+final class BasePostView: UIView {
   // MARK: - Properties
   private let headerView = PostHeaderView()
   
   private lazy var optionButton = makeOptionButton()
   
-  private var thumbnailView: UIView
+  private var thumbnailView: UIView = UIView()
   
   private let reviewLabel = BaseLabel(fontType: .regular_400(fontSize: 14)).set {
     $0.numberOfLines = 3
@@ -30,14 +30,13 @@ class BasePostCell: UICollectionViewCell {
     configureUI()
   }
   
-  required init?(coder: NSCoder) {
-    nil
+  override init(frame: CGRect) {
+    super.init(frame: frame)
+    configureUI()
   }
   
-  override func prepareForReuse() {
-    super.prepareForReuse()
-    configure(with: nil)
-    hideCellDivider()
+  required init?(coder: NSCoder) {
+    nil
   }
   
   func configure(with post: PostInfo?) {
@@ -49,7 +48,7 @@ class BasePostCell: UICollectionViewCell {
 }
 
 // MARK: - Helpers
-extension BasePostCell {
+extension BasePostView {
   func hideCellDivider() {
     line.isHidden = true
   }
@@ -60,7 +59,7 @@ extension BasePostCell {
 }
 
 // MARK: - Private helpers
-extension BasePostCell {
+extension BasePostView {
   private func setCellDivieder(_ isVisible: Bool) {
     guard isVisible else {
       showCellDivider()
@@ -78,7 +77,7 @@ extension BasePostCell {
   private func configureUI() {
     setupUI()
     line.setConstraint(
-      fromSuperView: contentView,
+      fromSuperView: self,
       spacing: .init(leading: 11, trailing: 11))
   }
   
@@ -95,7 +94,7 @@ extension BasePostCell {
 }
 
 // MARK: - Action
-extension BasePostCell {
+extension BasePostView {
   @objc func didTapOption() {
     print("DEBUG: pop up option scene !!")
     UIView.touchAnimate(optionButton)
@@ -103,7 +102,7 @@ extension BasePostCell {
 }
 
 // MARK: - LayoutSupport
-extension BasePostCell: LayoutSupport {
+extension BasePostView: LayoutSupport {
   func addSubviews() {
     [
       headerView,
@@ -112,7 +111,7 @@ extension BasePostCell: LayoutSupport {
       footerView,
       optionButton
     ].forEach {
-      contentView.addSubview($0)
+      addSubview($0)
     }
   }
   
@@ -130,40 +129,42 @@ extension BasePostCell: LayoutSupport {
 }
 
 // MARK: - Private layoutsupport
-private extension BasePostCell {
+private extension BasePostView {
   var headViewConstraints: [NSLayoutConstraint] {
-    [headerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-     headerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8.5),
-     headerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -65),
+    [headerView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
+     headerView.topAnchor.constraint(equalTo: topAnchor, constant: 8.5),
+     headerView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -65),
      headerView.heightAnchor.constraint(equalToConstant: 43)]
   }
   
   var thumbnailViewConstraints: [NSLayoutConstraint] {
     [thumbnailView.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 8),
-     thumbnailView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 11),
-     thumbnailView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -11),
-     thumbnailView.heightAnchor.constraint(equalToConstant: 118)]
+     thumbnailView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 11),
+     thumbnailView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -11),
+     thumbnailView.heightAnchor.constraint(equalToConstant: 119)]
   }
   
   var reviewLabelConstraints: [NSLayoutConstraint] {
-    [reviewLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 11),
+    [reviewLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 11),
      reviewLabel.topAnchor.constraint(equalTo: thumbnailView.bottomAnchor, constant: 8),
-     reviewLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -11)]
+     reviewLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -11)]
   }
 
   var footerViewConstraints: [NSLayoutConstraint] {
+    let bottomConstraint = footerView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10)
+//    bottomConstraint.priority = .init(999)
     return [
-      footerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-      footerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+      footerView.leadingAnchor.constraint(equalTo: leadingAnchor),
+      footerView.trailingAnchor.constraint(equalTo: trailingAnchor),
       footerView.topAnchor.constraint(equalTo: reviewLabel.bottomAnchor, constant: 11),
       footerView.heightAnchor.constraint(equalToConstant: 20),
-      footerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)]
+      bottomConstraint]
   }
   
   var optionButtonConstraints: [NSLayoutConstraint] {
     [optionButton.widthAnchor.constraint(equalToConstant: 20),
      optionButton.heightAnchor.constraint(equalToConstant: 20),
-     optionButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15),
-     optionButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15)]
+     optionButton.topAnchor.constraint(equalTo: topAnchor, constant: 15),
+     optionButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15)]
   }
 }
