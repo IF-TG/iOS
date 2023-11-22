@@ -1,8 +1,71 @@
 //
-//  PostCellWithFiveThumbnail.swift
+//  PostCellWithFiveThumbnails.swift
 //  travelPlan
 //
 //  Created by 양승현 on 11/22/23.
 //
 
-import Foundation
+import UIKit
+
+final class PostCellWithFiveThumbnails: BasePostCell {
+  static let id = String(describing: PostCellWithFiveThumbnails.self)
+  
+  // MARK: - Nested
+  private final class PostFiveThumbnailsView: UIStackView {
+    private var imageViews: [UIImageView] = []
+    init() {
+      super.init(frame: .zero)
+      imageViews = (0...4).map { _ -> UIImageView in
+        return UIImageView(frame: .zero).set { $0.contentMode = .scaleAspectFill }
+      }
+      let rightTopStackView = UIStackView(arrangedSubviews: [imageViews[1], imageViews[2]])
+      let rightBottomStackView = UIStackView(arrangedSubviews: [imageViews[3], imageViews[4]])
+      let rightContentStackView = UIStackView(arrangedSubviews: [rightTopStackView, rightBottomStackView])
+      [imageViews[0], rightContentStackView].forEach { addArrangedSubview($0) }
+      
+      self.configureDefaultPostThumbnail(with: .horizontal)
+      rightTopStackView.configureDefaultPostThumbnail(with: .horizontal)
+      rightBottomStackView.configureDefaultPostThumbnail(with: .horizontal)
+      rightContentStackView.configureDefaultPostThumbnail(with: .vertical)
+    }
+    
+    required init(coder: NSCoder) {
+      fatalError()
+    }
+    
+    func configureThumbnail(with images: [String]?) {
+      guard let images else {
+        imageViews.forEach { $0.image = nil }
+        return
+      }
+      imageViews.enumerated().forEach {
+        $1.image = UIImage(named: images[$0])
+      }
+    }
+  }
+  
+  // MARK: - Properties
+  private var thumbnailView: PostFiveThumbnailsView?
+  
+  // MARK: - Lifecycle
+  init(frame: CGRect) {
+    let contentView = PostFiveThumbnailsView()
+    self.thumbnailView = contentView
+    super.init(frame: frame, thumbnailView: contentView)
+  }
+  
+  required init?(coder: NSCoder) {
+    nil
+  }
+  
+  override func prepareForReuse() {
+    super.prepareForReuse()
+    thumbnailView?.configureThumbnail(with: nil)
+  }
+  
+  // MARK: - Helpers
+  override func configure(with post: PostInfo?) {
+    super.configure(with: post)
+    thumbnailView?.configureThumbnail(with: post?.content.thumbnailURLs)
+  }
+}
