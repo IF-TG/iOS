@@ -15,13 +15,18 @@ final class PostCellWithTwoThumbnails: BasePostCell {
     private var imageViews: [UIImageView] = []
     init() {
       super.init(frame: .zero)
+      axis = .horizontal
+      spacing = 1
+      distribution = .equalSpacing
+      alignment = .fill
       imageViews = (0...1).map { _ -> UIImageView in
         return UIImageView(frame: .zero).set {
           $0.contentMode = .scaleAspectFill
         }
       }
+      imageViews.forEach { addArrangedSubview($0) }
     }
-    
+ 
     required init(coder: NSCoder) {
       fatalError()
     }
