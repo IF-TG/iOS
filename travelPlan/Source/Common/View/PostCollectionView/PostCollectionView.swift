@@ -95,8 +95,10 @@ extension PostCollectionView {
   private func configureUI() {
     showsHorizontalScrollIndicator = false
     backgroundColor = Constant.backgroundColor
-    register(
-      BasePostCell.self,
-      forCellWithReuseIdentifier: BasePostCell.id)
+    register(PostCellWithOneThumbnail.self, forCellWithReuseIdentifier: PostCellWithOneThumbnail.id)
+    register(PostCellWithTwoThumbnails.self, forCellWithReuseIdentifier: PostCellWithTwoThumbnails.id)
+    register(PostCellWithThreeThumbnails.self, forCellWithReuseIdentifier: PostCellWithThreeThumbnails.id)
+    register(PostCellWithFourThumbnails.self, forCellWithReuseIdentifier: PostCellWithFourThumbnails.id)
+    register(PostCellWithFiveThumbnails.self, forCellWithReuseIdentifier: PostCellWithFiveThumbnails.id)
   }
 }
