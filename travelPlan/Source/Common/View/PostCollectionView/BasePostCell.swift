@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class PostCell: UICollectionViewCell {
+final class BasePostCell: UICollectionViewCell {
   enum Constant {
     static var maximumHeight: CGFloat {
       HeaderView.height
@@ -65,7 +65,7 @@ final class PostCell: UICollectionViewCell {
     }
   }
   
-  static let id: String = String(describing: PostCell.self)
+  static let id: String = String(describing: BasePostCell.self)
   
   // MARK: - Properties
   private let headerView = PostHeaderView()
@@ -99,7 +99,7 @@ final class PostCell: UICollectionViewCell {
 }
 
 // MARK: - Helpers
-extension PostCell {
+extension BasePostCell {
   func configure(with post: PostInfo?) {
     vm = PostCellViewModel(postModel: post)
     headerView.configure(with: vm.headerModel)
@@ -118,7 +118,7 @@ extension PostCell {
 }
 
 // MARK: - Private helpers
-extension PostCell {
+extension BasePostCell {
   private func setCellDivieder(_ isVisible: Bool) {
     guard isVisible else {
       showCellDivider()
@@ -154,7 +154,7 @@ extension PostCell {
 }
 
 // MARK: - Action
-extension PostCell {
+extension BasePostCell {
   @objc func didTapOption() {
     print("DEBUG: pop up option scene !!")
     UIView.touchAnimate(optionButton)
@@ -162,7 +162,7 @@ extension PostCell {
 }
 
 // MARK: - LayoutSupport
-extension PostCell: LayoutSupport {
+extension BasePostCell: LayoutSupport {
   func addSubviews() {
     _=[
       headerView,
@@ -187,7 +187,7 @@ extension PostCell: LayoutSupport {
 }
 
 // MARK: - Private layoutsupport
-private extension PostCell {
+private extension BasePostCell {
   var headViewConstraints: [NSLayoutConstraint] {
     typealias Spacing = Constant.HeaderView.Spacing
     typealias Const = Constant.HeaderView
