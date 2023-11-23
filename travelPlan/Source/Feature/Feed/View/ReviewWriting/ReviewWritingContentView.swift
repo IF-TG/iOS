@@ -64,9 +64,7 @@ final class ReviewWritingContentView: UIStackView {
     $0.isScrollEnabled = false
     $0.delegate = self
   }
-  var isMessageTextViewHidden: Bool {
-    messageTextView.isHidden
-  }
+  private(set) var messageTextViewIsPlaceholder = false
   private lazy var messageTextView: UITextView = .init().set {
     $0.text = "이번 여행에 대한 나의 후기를\n자유롭게 작성해보세요. :)"
     $0.font = .init(pretendard: .regular_400(fontSize: 16))
@@ -273,6 +271,9 @@ extension ReviewWritingContentView {
   
   private func erasePlaceholder(of textView: UITextView) {
     guard textView.textColor == .yg.gray1 else { return }
+    if textView === messageTextView {
+      messageTextViewIsPlaceholder = false
+    }
     textView.text = nil
     textView.textColor = .yg.gray7
   }
@@ -285,6 +286,7 @@ extension ReviewWritingContentView {
       } else if textView === messageTextView {
         textView.textColor = .yg.gray1
         textView.text = "이번 여행에 대한 나의 후기를\n자유롭게 작성해보세요. :)"
+        messageTextViewIsPlaceholder = true
         adjustHeight(of: textView)
       }
     }
@@ -365,7 +367,7 @@ extension ReviewWritingContentView {
     } else if lastView is UIImageView {
       let newTextView = createNewTextView()
       setupLastView(lastView: newTextView)
-      self.layoutIfNeeded()
+      self.setNeedsLayout()
       if let keyboardHeight = scrollValue.keyboardHeight,
          let bottomViewHeight = scrollValue.bottomViewHeight {
         self.delegate?.changeContentInset(

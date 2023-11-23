@@ -273,7 +273,7 @@ extension ReviewWritingViewController: ReviewWritingBottomViewDelegate {
   }
   
   func didTapCameraButton(_ button: UIButton) {
-    if !contentView.isMessageTextViewHidden {
+    if contentView.messageTextViewIsPlaceholder {
       contentView.hideMessageTextView()
     }
     input.didTapAlbumButton.send()
