@@ -88,6 +88,7 @@ final class ReviewWritingContentView: UIStackView {
   }
   private var textViewPreviousHeight: [UIView: CGFloat] = [:]
   var scrollToLastView: ((_ cursorHeight: CGFloat?, _ lastView: UIView) -> Void)?
+  var imageViewUpdated: ((UIImageView) -> Void)?
   private var shouldScrollToLastView = false
   private var isTextViewDidBeginEditingFirstCalled = false
 
@@ -318,7 +319,6 @@ extension ReviewWritingContentView {
       }
     }
     lastView.layoutIfNeeded()
-//    lastView.setNeedsLayout()
     shouldScrollToLastView = true
   }
   
@@ -354,6 +354,8 @@ extension ReviewWritingContentView {
   func addImageView() {
     let imageView = PictureImageView(imageName: "tempProfile1").set {
       $0.delegate = self
+      let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapImageView(_:)))
+      $0.addGestureRecognizer(tapGesture)
     }
     imageViewList.append(imageView)
     setupLastView(lastView: imageView)
@@ -414,7 +416,6 @@ extension ReviewWritingContentView {
 //     */
 //  }
 }
-
 // MARK: - PictureImageViewDelegate
 extension ReviewWritingContentView: PictureImageViewDelegate {
   func didTapDeleteButton(_ sender: UIButton) {
@@ -429,7 +430,14 @@ extension ReviewWritingContentView: PictureImageViewDelegate {
       }
     }
     removeArrangedSubview(imageView)
-    imageView.remove()
+    imageView.removeFromSuperview()
     imageViewList.removeAll { $0 === imageView }
+  }
+}
+
+// MARK: - Actions
+extension ReviewWritingContentView {
+  @objc private func didTapImageView(_ imageView: UIImageView) {
+    imageViewUpdated?(imageView)
   }
 }

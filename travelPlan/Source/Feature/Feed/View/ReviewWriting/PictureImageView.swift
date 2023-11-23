@@ -54,14 +54,6 @@ extension PictureImageView: LayoutSupport {
   }
 }
 
-// MARK: - Helpers
-extension PictureImageView {
-  func remove() {
-    deleteButton.removeTarget(nil, action: nil, for: .allEvents)
-    removeFromSuperview()
-  }
-}
-
 // MARK: - Actions
 private extension PictureImageView {
   @objc func didTapDeleteButton(_ sender: UIButton) {
