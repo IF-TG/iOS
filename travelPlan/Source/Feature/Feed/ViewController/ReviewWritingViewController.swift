@@ -64,7 +64,7 @@ final class ReviewWritingViewController: UIViewController {
     setupNavigationBar()
     bindNotificationCenter()
     addGestureRecognizer(from: self.view, action: #selector(didTapView))
-    setClosures()
+    setContentViewClosures()
     
     bind()
   }
@@ -182,7 +182,7 @@ extension ReviewWritingViewController {
     view.backgroundColor = .white
   }
   
-  private func setClosures() {
+  private func setContentViewClosures() {
     contentView.scrollToLastView = { [weak self] cursorHeight, lastView in
       guard let scrollView = self?.scrollView else { return }
       let frameHeightIsSmallerThanContentHeight = scrollView.contentSize.height > scrollView.bounds.height
