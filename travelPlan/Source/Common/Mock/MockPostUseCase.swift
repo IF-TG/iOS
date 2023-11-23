@@ -61,22 +61,22 @@ extension PostEntity {
      (4...6).map { postThumbnailPath($0) },
      (7...10).map { postThumbnailPath($0) },
      (11...15).map { postThumbnailPath($0) },
-     [4,9,12,2].map { postThumbnailPath($0)},
-     [6,4,3].map { postThumbnailPath($0) },
-     [11,8].map { postThumbnailPath($0) },
-     [4,6,12,15,3].map { postThumbnailPath($0) }]
+     [4, 9, 12, 2].map { postThumbnailPath($0)},
+     [6, 4, 3].map { postThumbnailPath($0) },
+     [11, 8].map { postThumbnailPath($0) },
+     [4, 6, 12, 15, 3].map { postThumbnailPath($0) }]
   }
   private static var postHearts: [Int] {
     [0, 1040, 41, 548, 7, 2, 10, 4, 1]
   }
   private static var postComments: [Int] {
-    [0, 2, 10, 1, 38, 2, 4 ,22, 10]
+    [0, 2, 10, 1, 38, 2, 4, 22, 10]
   }
   static var mockData: [Self] {
     (0..<9).map {
       PostEntity(
         id: $0,
-        profileImageURL: profilePath(($0+1)%6),
+        profileImageURL: profilePath(($0+1)%5),
         title: titles[$0],
         userName: userNames[$0],
         duration: durationArray[$0],
