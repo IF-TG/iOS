@@ -187,7 +187,7 @@ extension ReviewWritingViewController {
       let frameHeightIsSmallerThanContentHeight = scrollView.contentSize.height > scrollView.bounds.height
       guard frameHeightIsSmallerThanContentHeight else { return }
       
-      if lastView is UITextView {
+      if lastView is UITextView, let cursorHeight = cursorHeight {
         scrollView.setContentOffset(
           CGPoint(x: .zero, y: scrollView.contentOffset.y + cursorHeight),
           animated: true

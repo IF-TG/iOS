@@ -64,7 +64,7 @@ final class ReviewWritingContentView: UIStackView {
     $0.isScrollEnabled = false
     $0.delegate = self
   }
-  private(set) var messageTextViewIsPlaceholder = false
+  private(set) var messageTextViewIsPlaceholder = true
   private lazy var messageTextView: UITextView = .init().set {
     $0.text = "이번 여행에 대한 나의 후기를\n자유롭게 작성해보세요. :)"
     $0.font = .init(pretendard: .regular_400(fontSize: 16))
@@ -87,7 +87,7 @@ final class ReviewWritingContentView: UIStackView {
     arrangedSubviews.last
   }
   private var textViewPreviousHeight: [UIView: CGFloat] = [:]
-  var scrollToLastView: ((_ cursorHeight: CGFloat, _ lastView: UIView) -> Void)?
+  var scrollToLastView: ((_ cursorHeight: CGFloat?, _ lastView: UIView) -> Void)?
   private var shouldScrollToLastView = false
   private var isTextViewDidBeginEditingFirstCalled = false
 
@@ -110,10 +110,8 @@ final class ReviewWritingContentView: UIStackView {
   override func layoutSubviews() {
     super.layoutSubviews()
     if shouldScrollToLastView {
-      guard let h = scrollValue.cursorHeight,
-            let lastView = lastView
-      else { return }
-      scrollToLastView?(h, lastView)
+      guard let lastView = lastView else { return }
+      scrollToLastView?(scrollValue.cursorHeight, lastView)
       shouldScrollToLastView = false
     }
   }
@@ -320,6 +318,7 @@ extension ReviewWritingContentView {
       }
     }
     lastView.layoutIfNeeded()
+//    lastView.setNeedsLayout()
     shouldScrollToLastView = true
   }
   
@@ -416,11 +415,13 @@ extension ReviewWritingContentView {
 //  }
 }
 
+// MARK: - PictureImageViewDelegate
 extension ReviewWritingContentView: PictureImageViewDelegate {
   func didTapDeleteButton(_ sender: UIButton) {
     guard let imageView = sender.superview as? PictureImageView else { return }
     
     if let imageViewIndex = arrangedSubviews.firstIndex(of: imageView),
+       lastView === imageView,
        messageTextViewInitialIndex == imageViewIndex - 1 {
       messageTextView.isHidden = false
       UIView.animate(withDuration: 0.3) {
