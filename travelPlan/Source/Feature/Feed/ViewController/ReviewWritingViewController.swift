@@ -41,6 +41,7 @@ final class ReviewWritingViewController: UIViewController {
   
   private lazy var scrollView = UIScrollView().set {
     let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapScrollView))
+    tapGesture.delegate = self
     $0.addGestureRecognizer(tapGesture)
     $0.alwaysBounceVertical = true
   }
@@ -54,7 +55,7 @@ final class ReviewWritingViewController: UIViewController {
   private let viewModel = ReviewWritingViewModel()
   private let input = ReviewWritingViewModel.Input()
   private var isViewDidAppearFirstCalled = false
-  
+  private weak var imageView: UIImageView?
   // MARK: - LifeCycle
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -63,7 +64,7 @@ final class ReviewWritingViewController: UIViewController {
     setupNavigationBar()
     bindNotificationCenter()
     addGestureRecognizer(from: self.view, action: #selector(didTapView))
-    setContentViewClosures()
+    setClosures()
     
     bind()
   }
@@ -181,7 +182,7 @@ extension ReviewWritingViewController {
     view.backgroundColor = .white
   }
   
-  private func setContentViewClosures() {
+  private func setClosures() {
     contentView.scrollToLastView = { [weak self] cursorHeight, lastView in
       guard let scrollView = self?.scrollView else { return }
       let frameHeightIsSmallerThanContentHeight = scrollView.contentSize.height > scrollView.bounds.height
@@ -198,6 +199,10 @@ extension ReviewWritingViewController {
           animated: true
         )
       }
+    }
+    
+    contentView.imageViewUpdated = { [weak self] newImageView in
+      self?.imageView = newImageView
     }
   }
   
@@ -258,6 +263,7 @@ private extension ReviewWritingViewController {
   }
   
   @objc func didTapScrollView() {
+    print("didTapScrollView")
     input.didTapScrollView.send()
   }
   
@@ -266,7 +272,7 @@ private extension ReviewWritingViewController {
   }
 }
 
-// MARK: - DefaultTapGestureDelegate
+// MARK: - ReviewWritingBottomViewDelegate
 extension ReviewWritingViewController: ReviewWritingBottomViewDelegate {
   func didTapPlanView(_ view: UIView) {
     input.didTapPlanView.send()
@@ -280,9 +286,19 @@ extension ReviewWritingViewController: ReviewWritingBottomViewDelegate {
   }
 }
 
-// MARK: - ReviewWritingContentDelegate
+// MARK: - ReviewWritingContentViewDelegate
 extension ReviewWritingViewController: ReviewWritingContentViewDelegate {
   func changeContentInset(bottomEdge: CGFloat) {
     setScrollViewBottomInset(inset: bottomEdge)
+  }
+}
+
+// MARK: - UIGestureRecognizerDelegate
+extension ReviewWritingViewController: UIGestureRecognizerDelegate {
+  func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+    if touch.view === self.imageView, gestureRecognizer.view === scrollView {
+      return false
+    }
+      return true
   }
 }
