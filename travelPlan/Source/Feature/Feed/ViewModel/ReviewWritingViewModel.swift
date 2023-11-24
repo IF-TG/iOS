@@ -31,11 +31,6 @@ final class ReviewWritingViewModel {
     case manageTextViewDisplay
     case presentThemeSetting
   }
-    
-  enum PopState {
-    case cancel
-    case finish
-  }
 }
 
 // MARK: - Helpers
@@ -57,7 +52,7 @@ extension ReviewWritingViewModel {
   
   private func didTapCancelButtonStream(_ input: Input) -> Output {
     return input.didTapCancelButton
-      .map { State.popViewController(.cancel) }
+      .map { State.popViewController }
       .eraseToAnyPublisher()
   }
   
@@ -101,7 +96,7 @@ extension ReviewWritingViewModel {
     return input.didTapFinishButton
       .map {
         // TODO: - content를 서버에 저장합니다.
-        return State.popViewController(.finish)
+        return State.popViewController
       }
       .eraseToAnyPublisher()
   }
