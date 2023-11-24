@@ -24,12 +24,17 @@ final class ReviewWritingViewModel {
   }
   
   enum State {
-    case popViewController
+    case popViewController(PopState)
     case presentAlbumViewController
     case presentPlan
     case keyboardDown
     case manageTextViewDisplay
     case presentThemeSetting
+  }
+    
+  enum PopState {
+    case cancel
+    case finish
   }
 }
 
@@ -52,7 +57,7 @@ extension ReviewWritingViewModel {
   
   private func didTapCancelButtonStream(_ input: Input) -> Output {
     return input.didTapCancelButton
-      .map { State.popViewController }
+      .map { State.popViewController(.cancel) }
       .eraseToAnyPublisher()
   }
   
@@ -96,7 +101,7 @@ extension ReviewWritingViewModel {
     return input.didTapFinishButton
       .map {
         // TODO: - content를 서버에 저장합니다.
-        return State.popViewController
+        return State.popViewController(.finish)
       }
       .eraseToAnyPublisher()
   }
