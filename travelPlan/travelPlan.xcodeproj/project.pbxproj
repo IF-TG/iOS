@@ -179,6 +179,9 @@
 		158BEFC72A0ED09800C27861 /* PostThumbnailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158BEFC62A0ED09800C27861 /* PostThumbnailView.swift */; };
 		158BEFC92A0F6E8800C27861 /* PostThumbnailType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158BEFC82A0F6E8800C27861 /* PostThumbnailType.swift */; };
 		158BEFD02A0FE2C000C27861 /* OneUnitHeightLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158BEFCF2A0FE2C000C27861 /* OneUnitHeightLine.swift */; };
+		158C6A372B0D138500C30856 /* ImageIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158C6A362B0D138500C30856 /* ImageIO.swift */; };
+		158C6A392B0D15C400C30856 /* ImageIO+Nested.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158C6A382B0D15C400C30856 /* ImageIO+Nested.swift */; };
+		158C6A3B2B0D231C00C30856 /* ImageIOTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158C6A3A2B0D231C00C30856 /* ImageIOTests.swift */; };
 		1594F53229FD517E00A58F20 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1594F53129FD517E00A58F20 /* AppDelegate.swift */; };
 		1594F53429FD517E00A58F20 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1594F53329FD517E00A58F20 /* SceneDelegate.swift */; };
 		1594F53B29FD517F00A58F20 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1594F53A29FD517F00A58F20 /* Assets.xcassets */; };
@@ -527,6 +530,9 @@
 		158BEFC62A0ED09800C27861 /* PostThumbnailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostThumbnailView.swift; sourceTree = "<group>"; };
 		158BEFC82A0F6E8800C27861 /* PostThumbnailType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostThumbnailType.swift; sourceTree = "<group>"; };
 		158BEFCF2A0FE2C000C27861 /* OneUnitHeightLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneUnitHeightLine.swift; sourceTree = "<group>"; };
+		158C6A362B0D138500C30856 /* ImageIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageIO.swift; sourceTree = "<group>"; };
+		158C6A382B0D15C400C30856 /* ImageIO+Nested.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageIO+Nested.swift"; sourceTree = "<group>"; };
+		158C6A3A2B0D231C00C30856 /* ImageIOTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageIOTests.swift; sourceTree = "<group>"; };
 		1594F52E29FD517E00A58F20 /* travelPlan.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = travelPlan.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1594F53129FD517E00A58F20 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1594F53329FD517E00A58F20 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -941,6 +947,32 @@
 			path = ViewController;
 			sourceTree = "<group>";
 		};
+		1509E39B2B10D38900DB3969 /* ImageIO */ = {
+			isa = PBXGroup;
+			children = (
+				1509E39C2B10D39100DB3969 /* Module */,
+				1509E39D2B10D39600DB3969 /* Tests */,
+			);
+			path = ImageIO;
+			sourceTree = "<group>";
+		};
+		1509E39C2B10D39100DB3969 /* Module */ = {
+			isa = PBXGroup;
+			children = (
+				158C6A382B0D15C400C30856 /* ImageIO+Nested.swift */,
+				158C6A362B0D138500C30856 /* ImageIO.swift */,
+			);
+			path = Module;
+			sourceTree = "<group>";
+		};
+		1509E39D2B10D39600DB3969 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				158C6A3A2B0D231C00C30856 /* ImageIOTests.swift */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
 		151130072A04E4EB0041DDA1 /* travelPlanTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -1173,6 +1205,7 @@
 		1546DF182B0A653F00B49A55 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				1509E39B2B10D38900DB3969 /* ImageIO */,
 				1546DF372B0B29CD00B49A55 /* Image */,
 				1546DF222B0A6F9600B49A55 /* Cache */,
 				15FFAC052AD6E8D80013DB57 /* Network */,
@@ -2136,6 +2169,7 @@
 				1546DF3F2B0C64E500B49A55 /* ImageDiskCacheTests.swift in Sources */,
 				15FFAC282ADC598E0013DB57 /* SessionProviderTests.swift in Sources */,
 				15FFAC2D2ADD03080013DB57 /* MockSession.swift in Sources */,
+				158C6A3B2B0D231C00C30856 /* ImageIOTests.swift in Sources */,
 				15FFAC202ADC322B0013DB57 /* EndpointTests.swift in Sources */,
 				15FFAC2E2ADD030F0013DB57 /* MockModels.swift in Sources */,
 				151130092A04E4EB0041DDA1 /* travelPlanTests.swift in Sources */,
@@ -2205,6 +2239,7 @@
 				1546DF242B0A70C900B49A55 /* Cache.swift in Sources */,
 				130304B02A28447900776A0D /* TravelDestinationCell.swift in Sources */,
 				158BEF882A0E33F700C27861 /* PostHeaderContentBottomView.swift in Sources */,
+				158C6A392B0D15C400C30856 /* ImageIO+Nested.swift in Sources */,
 				15FEB5E72A050A99000A5F33 /* UIButton+Combine.swift in Sources */,
 				15F376602AFBF22F00B3BF35 /* BasePostDetailCommentableView.swift in Sources */,
 				154ECA172AB0B5D40093AF25 /* TravelMainThemeType.swift in Sources */,
@@ -2274,6 +2309,7 @@
 				15CB23742A110FB4003EAF20 /* PostViewModel.swift in Sources */,
 				15EFB6C82AF51CFE00AA629C /* PostSearchCollectionViewAdapter.swift in Sources */,
 				157ADCA42ACFF31D00D37680 /* FavoritePostViewController.swift in Sources */,
+				158C6A372B0D138500C30856 /* ImageIO.swift in Sources */,
 				15C1F5422AF29CF7005FDA15 /* NotificationInfo.swift in Sources */,
 				131A11082AB5067E007BDD66 /* SearchMoreDetailViewModel.swift in Sources */,
 				15AF2C3E2A1147B100BEE166 /* UIImage+.swift in Sources */,
