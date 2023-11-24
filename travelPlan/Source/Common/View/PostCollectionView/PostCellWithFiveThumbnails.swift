@@ -19,7 +19,7 @@ final class PostCellWithFiveThumbnails: UICollectionViewCell {
         return UIImageView(frame: .zero).set {
           $0.contentMode = .scaleAspectFill
           $0.layer.masksToBounds = true
-          var height = index == 0 ? 118.0 : (118 - 1)/2.0
+          let height = index == 0 ? 118.0 : (118 - 1)/2.0
           $0.heightAnchor.constraint(equalToConstant: height).isActive = true
         }
       }
