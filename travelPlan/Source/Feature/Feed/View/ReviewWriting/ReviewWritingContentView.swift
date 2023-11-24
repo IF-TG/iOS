@@ -10,20 +10,9 @@ import Combine
 import SnapKit
 
 struct ReviewWritingContentViewInfo {
-  var text: String?
-  var imageData: [Data]?
-  var isTextIndex: [Bool]?
-}
-
-struct TextDelimiter {
-  private(set) var index: Int = 0
-  private(set) var symbol = "∆∑©"
-  
-  mutating func getDelimiter() -> String {
-    let index = self.index
-    self.index += 1
-    return "{" + symbol + "\(index)" + "}"
-  }
+  var text: String
+  var imageDataList: [Data]
+  var isTextIndex: [Bool]
 }
 
 final class ReviewWritingContentView: UIStackView {
@@ -53,7 +42,7 @@ final class ReviewWritingContentView: UIStackView {
   }
   
   // MARK: - Properties
-  private var delimiter = TextDelimiter()
+  private var delimiter = TextDelimiterHelper()
   private var scrollValue = ValueRelatedToScrolling()
   weak var delegate: ReviewWritingContentViewDelegate?
   private var subscriptions = Set<AnyCancellable>()
@@ -64,25 +53,26 @@ final class ReviewWritingContentView: UIStackView {
     $0.isScrollEnabled = false
     $0.delegate = self
   }
+  // MARK: - messageTextView의 placeholder 여부 네이밍 다시 지정하기
   private(set) var messageTextViewIsPlaceholder = true
-  private lazy var messageTextView: UITextView = .init().set {
+  private lazy var firstMessageTextView: UITextView = .init().set {
     $0.text = "이번 여행에 대한 나의 후기를\n자유롭게 작성해보세요. :)"
     $0.font = .init(pretendard: .regular_400(fontSize: 16))
     $0.textColor = .yg.gray1
     $0.isScrollEnabled = false
     $0.delegate = self
   }
-  private var messageTextViewInitialIndex: Int?
+  private var firstContentIndex: Int {
+    if !firstMessageTextView.isHidden {
+      return arrangedSubviews.firstIndex(of: firstMessageTextView)!
+    } else {
+      return arrangedSubviews.firstIndex(of: firstMessageTextView)! + 1
+    }
+  }
   private let boundaryLineView: UIView = .init().set {
     $0.backgroundColor = .yg.gray0
   }
   
-  private lazy var messageTextViewList: [UITextView] = {
-    var list = [UITextView]()
-    list.append(messageTextView)
-    return list
-  }()
-  private var imageViewList = [UIImageView]()
   private var lastView: UIView? {
     arrangedSubviews.last
   }
@@ -127,10 +117,9 @@ extension ReviewWritingContentView: LayoutSupport {
        spacerViews[1],
        self.boundaryLineView,
        spacerViews[2],
-       self.messageTextView]
+       self.firstMessageTextView]
       .map { addArrangedSubview($0) }
-    
-    messageTextViewInitialIndex = arrangedSubviews.firstIndex(of: messageTextView)
+  
     spacerViews[0].heightAnchor.constraint(equalToConstant: 16).isActive = true
     spacerViews[1].heightAnchor.constraint(equalToConstant: 16).isActive = true
     spacerViews[2].heightAnchor.constraint(equalToConstant: 8).isActive = true
@@ -145,10 +134,10 @@ extension ReviewWritingContentView: LayoutSupport {
       $0.height.equalTo(1)
     }
     
-    let estimatedHeight = messageTextView.sizeThatFits(
-      CGSize(width: messageTextView.frame.width, height: CGFloat.infinity)
+    let estimatedHeight = firstMessageTextView.sizeThatFits(
+      CGSize(width: firstMessageTextView.frame.width, height: CGFloat.infinity)
     ).height
-    messageTextView.snp.makeConstraints {
+    firstMessageTextView.snp.makeConstraints {
       $0.height.equalTo(estimatedHeight)
     }
   }
@@ -157,7 +146,7 @@ extension ReviewWritingContentView: LayoutSupport {
 // MARK: - UITextViewDelegate
 extension ReviewWritingContentView: UITextViewDelegate {
   func textViewDidBeginEditing(_ textView: UITextView) {
-    if textView === titleTextView || textView === messageTextView {
+    if textView === titleTextView || textView === firstMessageTextView {
       erasePlaceholder(of: textView)
     }
 
@@ -195,7 +184,7 @@ extension ReviewWritingContentView: UITextViewDelegate {
       }
     }
     
-    if textView !== messageTextView,
+    if textView !== firstMessageTextView,
        textView !== titleTextView,
        textView.text.isEmpty,
        text == "" {
@@ -270,7 +259,7 @@ extension ReviewWritingContentView {
   
   private func erasePlaceholder(of textView: UITextView) {
     guard textView.textColor == .yg.gray1 else { return }
-    if textView === messageTextView {
+    if textView === firstMessageTextView {
       messageTextViewIsPlaceholder = false
     }
     textView.text = nil
@@ -282,7 +271,7 @@ extension ReviewWritingContentView {
       if textView === titleTextView {
         textView.textColor = .yg.gray1
         textView.text = "제목"
-      } else if textView === messageTextView {
+      } else if textView === firstMessageTextView {
         textView.textColor = .yg.gray1
         textView.text = "이번 여행에 대한 나의 후기를\n자유롭게 작성해보세요. :)"
         messageTextViewIsPlaceholder = true
@@ -357,7 +346,6 @@ extension ReviewWritingContentView {
       let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapImageView(_:)))
       $0.addGestureRecognizer(tapGesture)
     }
-    imageViewList.append(imageView)
     setupLastView(lastView: imageView)
   }
   
@@ -392,29 +380,26 @@ extension ReviewWritingContentView {
   }
   
   func hideMessageTextView() {
-    messageTextView.isHidden = true
-    messageTextView.alpha = 0
+    firstMessageTextView.isHidden = true
+    firstMessageTextView.alpha = 0
   }
-  
-//  func extractDataFromStackView() -> [ReviewWritingContentViewInfo] {
-//    var model = ReviewWritingContentViewInfo()
-//    for subview in arrangedSubviews {
-//      if let textView = subview as? UITextView,
-//         let text = textView.text {
-//        text + "{"
-//      } else if let imageView = subview as? UIImageView {
-//        
-//      }
-//    }
-//    
-//    /*
-//     데이터 저장 시만 고려하면 될듯
-//     Q:  글1{text구분자1}{image구분자1}글2{text구분자2} 글3{text구분자3}{image구분자2}
-//     1. String -> 글1{text구분자1}글2{text구분자2} 글3{text구분자3}
-//     2. [Bool] -> t f t t f
-//     
-//     */
-//  }
+
+  func extractContentData() -> ReviewWritingContentViewInfo {
+    var model = ReviewWritingContentViewInfo(text: "", imageDataList: .init(), isTextIndex: .init())
+    
+    for i in firstContentIndex..<arrangedSubviews.count {
+      let subview = arrangedSubviews[i]
+      if let text = (subview as? UITextView)?.text {
+        let delimiter = delimiter.getDelimiter()
+        model.text += text + delimiter
+        model.isTextIndex.append(true)
+      } else if let imageData = (subview as? UIImageView)?.image?.jpegData(compressionQuality: 0.5) {
+        model.imageDataList.append(imageData)
+        model.isTextIndex.append(false)
+      }
+    }
+    return model
+  }
 }
 // MARK: - PictureImageViewDelegate
 extension ReviewWritingContentView: PictureImageViewDelegate {
@@ -423,15 +408,14 @@ extension ReviewWritingContentView: PictureImageViewDelegate {
     
     if let imageViewIndex = arrangedSubviews.firstIndex(of: imageView),
        lastView === imageView,
-       messageTextViewInitialIndex == imageViewIndex - 1 {
-      messageTextView.isHidden = false
+       firstContentIndex == imageViewIndex - 1 {
+      firstMessageTextView.isHidden = false
       UIView.animate(withDuration: 0.3) {
-        self.messageTextView.alpha = 1
+        self.firstMessageTextView.alpha = 1
       }
     }
     removeArrangedSubview(imageView)
     imageView.removeFromSuperview()
-    imageViewList.removeAll { $0 === imageView }
   }
 }
 

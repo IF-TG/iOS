@@ -15,7 +15,7 @@ final class ReviewWritingViewModel {
     let didTapTitleTextView: PassthroughSubject<Void, Never> = .init()
     let didTapCancelButton: PassthroughSubject<Void, Never> = .init()
     let didTapKeyboardDownButton: PassthroughSubject<Void, Never> = .init()
-    let didTapFinishButton: PassthroughSubject<Void, Never> = .init() // 작성 내용을 vm으로 전달
+    let didTapFinishButton: PassthroughSubject<ReviewWritingContentViewInfo, Never> = .init()
     let didTapAlbumButton: PassthroughSubject<Void, Never> = .init()
     let didTapPlanView: PassthroughSubject<Void, Never> = .init()
     let didTapNavigationTitleView: PassthroughSubject<Void, Never> = .init()
@@ -24,7 +24,7 @@ final class ReviewWritingViewModel {
   }
   
   enum State {
-    case popViewController(PopState)
+    case popViewController
     case presentAlbumViewController
     case presentPlan
     case keyboardDown
@@ -94,8 +94,9 @@ extension ReviewWritingViewModel {
   
   private func didTapFinishButtonStream(_ input: Input) -> Output {
     return input.didTapFinishButton
-      .map {
-        // TODO: - content를 서버에 저장합니다.
+      .map { [weak self] contentData in
+        // TODO: - contentData를 서버에 저장해야 합니다.
+        print("contentData: \(contentData)")
         return State.popViewController
       }
       .eraseToAnyPublisher()

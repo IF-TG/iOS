@@ -254,8 +254,8 @@ private extension ReviewWritingViewController {
   }
   
   @objc func didTapFinishButton() {
-    // TODO: - contentView에 저장되어 있는 model을 viewModel로 전달해야합니다.
-    input.didTapFinishButton.send()
+    let contentData = contentView.extractContentData()
+    input.didTapFinishButton.send(contentData)
   }
   
   @objc func didTapTitleView() {
