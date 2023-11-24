@@ -947,6 +947,32 @@
 			path = ViewController;
 			sourceTree = "<group>";
 		};
+		1509E39B2B10D38900DB3969 /* ImageIO */ = {
+			isa = PBXGroup;
+			children = (
+				1509E39C2B10D39100DB3969 /* Module */,
+				1509E39D2B10D39600DB3969 /* Tests */,
+			);
+			path = ImageIO;
+			sourceTree = "<group>";
+		};
+		1509E39C2B10D39100DB3969 /* Module */ = {
+			isa = PBXGroup;
+			children = (
+				158C6A382B0D15C400C30856 /* ImageIO+Nested.swift */,
+				158C6A362B0D138500C30856 /* ImageIO.swift */,
+			);
+			path = Module;
+			sourceTree = "<group>";
+		};
+		1509E39D2B10D39600DB3969 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				158C6A3A2B0D231C00C30856 /* ImageIOTests.swift */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
 		151130072A04E4EB0041DDA1 /* travelPlanTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -1179,9 +1205,7 @@
 		1546DF182B0A653F00B49A55 /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				158C6A382B0D15C400C30856 /* ImageIO+Nested.swift */,
-				158C6A362B0D138500C30856 /* ImageIO.swift */,
-				158C6A3A2B0D231C00C30856 /* ImageIOTests.swift */,
+				1509E39B2B10D38900DB3969 /* ImageIO */,
 				1546DF372B0B29CD00B49A55 /* Image */,
 				1546DF222B0A6F9600B49A55 /* Cache */,
 				15FFAC052AD6E8D80013DB57 /* Network */,
