@@ -55,6 +55,10 @@ extension PostThumbnailView {
 extension PostThumbnailView {
   func configure(with imageURLs: [String]?) {
     setImageViews(with: imageURLs)
+    if imageURLs == nil {
+      isSetupfuncCalled = false
+      return
+    }
     if !isSetupfuncCalled {
       isSetupfuncCalled = true
       setupUI()

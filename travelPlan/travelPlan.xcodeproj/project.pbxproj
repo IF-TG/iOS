@@ -51,10 +51,8 @@
 		13405F6F2AF6E6F200382796 /* ReviewWritingBottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13405F6E2AF6E6F200382796 /* ReviewWritingBottomView.swift */; };
 		13405F712AF6F05300382796 /* ReviewWritingPlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13405F702AF6F05300382796 /* ReviewWritingPlanView.swift */; };
 		13405F772AF79CBD00382796 /* ReviewWritingBottomViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13405F762AF79CBD00382796 /* ReviewWritingBottomViewDelegate.swift */; };
-		134CCB1A2AFFD3AB00D51D84 /* SnapKit-Dynamic in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 134CCB182AFFD3AB00D51D84 /* SnapKit-Dynamic */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		134CCB342AFFFB2900D51D84 /* ReviewWritingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 134CCB332AFFFB2900D51D84 /* ReviewWritingViewModel.swift */; };
 		134CCB542B014C3500D51D84 /* Pods_travelPlan.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BED1D1EA23FD7081ED95862D /* Pods_travelPlan.framework */; };
-		134CCB632B014E8600D51D84 /* SnapKit-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 134CCB622B014E8600D51D84 /* SnapKit-Dynamic */; };
 		134CCB672B028D9C00D51D84 /* ReviewWritingContentViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 134CCB662B028D9C00D51D84 /* ReviewWritingContentViewDelegate.swift */; };
 		13606E882A9DDE7D00365F20 /* PostRecentSearchTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13606E872A9DDE7D00365F20 /* PostRecentSearchTagCell.swift */; };
 		13606E8C2A9F959F00365F20 /* PostRecommendationSearchHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13606E8B2A9F959F00365F20 /* PostRecommendationSearchHeaderView.swift */; };
@@ -340,7 +338,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				134CCB1A2AFFD3AB00D51D84 /* SnapKit-Dynamic in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -677,7 +674,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				1508199E2B0A641B0039015D /* SnapKit in Frameworks */,
-				134CCB632B014E8600D51D84 /* SnapKit-Dynamic in Frameworks */,
 				134CCB542B014C3500D51D84 /* Pods_travelPlan.framework in Frameworks */,
 				151DF0CF2AEE397000D5D55B /* Alamofire in Frameworks */,
 				151DF0D62AEE3C0700D5D55B /* SHCoordinator in Frameworks */,
@@ -1939,7 +1935,6 @@
 				151DF0CE2AEE397000D5D55B /* Alamofire */,
 				151DF0D12AEE39DA00D5D55B /* SnapKit */,
 				151DF0D52AEE3C0700D5D55B /* SHCoordinator */,
-				134CCB622B014E8600D51D84 /* SnapKit-Dynamic */,
 			);
 			productName = travelPlan;
 			productReference = 1594F52E29FD517E00A58F20 /* travelPlan.app */;
@@ -2704,14 +2699,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		134CCB112AFE132900D51D84 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/SnapKit/SnapKit";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.6.0;
-			};
-		};
 		134CCB5F2B014E6E00D51D84 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
@@ -2747,16 +2734,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		134CCB182AFFD3AB00D51D84 /* SnapKit-Dynamic */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 134CCB112AFE132900D51D84 /* XCRemoteSwiftPackageReference "SnapKit" */;
-			productName = "SnapKit-Dynamic";
-		};
-		134CCB622B014E8600D51D84 /* SnapKit-Dynamic */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 134CCB5F2B014E6E00D51D84 /* XCRemoteSwiftPackageReference "SnapKit" */;
-			productName = "SnapKit-Dynamic";
-		};
 		151DF0CE2AEE397000D5D55B /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 151DF0CD2AEE397000D5D55B /* XCRemoteSwiftPackageReference "Alamofire" */;
