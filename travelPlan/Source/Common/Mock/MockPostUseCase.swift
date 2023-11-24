@@ -112,7 +112,7 @@ extension PostEntity {
      0, 2, 10, 1, 38, 2, 4, 22, 10]
   }
   static var mockData: [Self] {
-    (0..<9*2).map {
+    let data = (0..<9*2).map {
       PostEntity(
         id: $0,
         profileImageURL: profilePath($0%5),
@@ -125,5 +125,7 @@ extension PostEntity {
         heartCount: postHearts[$0],
         commentCount: postComments[$0])
     }
+    
+    return data + data + data + data
   }
 }
