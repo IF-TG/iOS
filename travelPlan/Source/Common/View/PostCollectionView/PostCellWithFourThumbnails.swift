@@ -19,11 +19,8 @@ final class PostCellWithFourThumbnails: UICollectionViewCell {
         return UIImageView(frame: .zero).set {
           $0.contentMode = .scaleAspectFill
           $0.clipsToBounds = true
-          if index == 0 {
-            $0.heightAnchor.constraint(equalToConstant: 118).isActive = true
-          } else {
-            $0.heightAnchor.constraint(equalToConstant: (118-1)/2).isActive = true
-          }
+          var height = index == 0 ? 118.0 : (118 - 1)/2.0
+          $0.heightAnchor.constraint(equalToConstant: height).isActive = true
         }
       }
       let rightBottomStackView = UIStackView(arrangedSubviews: [imageViews[2], imageViews[3]])
