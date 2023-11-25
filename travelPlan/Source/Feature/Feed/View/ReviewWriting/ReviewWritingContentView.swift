@@ -271,7 +271,8 @@ extension ReviewWritingContentView {
       if textView === titleTextView {
         textView.textColor = .yg.gray1
         textView.text = "제목"
-      } else if textView === firstMessageTextView {
+      } else if textView === firstMessageTextView,
+                lastView === firstMessageTextView {
         textView.textColor = .yg.gray1
         textView.text = "이번 여행에 대한 나의 후기를\n자유롭게 작성해보세요. :)"
         messageTextViewHasPlaceholder = true
