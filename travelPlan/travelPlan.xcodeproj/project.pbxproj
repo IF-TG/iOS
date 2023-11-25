@@ -51,7 +51,6 @@
 		13405F6F2AF6E6F200382796 /* ReviewWritingBottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13405F6E2AF6E6F200382796 /* ReviewWritingBottomView.swift */; };
 		13405F712AF6F05300382796 /* ReviewWritingPlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13405F702AF6F05300382796 /* ReviewWritingPlanView.swift */; };
 		13405F772AF79CBD00382796 /* ReviewWritingBottomViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13405F762AF79CBD00382796 /* ReviewWritingBottomViewDelegate.swift */; };
-		1344DA0E2B11401F0031CC7A /* TextDelimiterHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1344DA0D2B11401F0031CC7A /* TextDelimiterHelper.swift */; };
 		134CCB342AFFFB2900D51D84 /* ReviewWritingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 134CCB332AFFFB2900D51D84 /* ReviewWritingViewModel.swift */; };
 		134CCB672B028D9C00D51D84 /* ReviewWritingContentViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 134CCB662B028D9C00D51D84 /* ReviewWritingContentViewDelegate.swift */; };
 		13606E882A9DDE7D00365F20 /* PostRecentSearchTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13606E872A9DDE7D00365F20 /* PostRecentSearchTagCell.swift */; };
@@ -409,7 +408,6 @@
 		13405F6E2AF6E6F200382796 /* ReviewWritingBottomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWritingBottomView.swift; sourceTree = "<group>"; };
 		13405F702AF6F05300382796 /* ReviewWritingPlanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWritingPlanView.swift; sourceTree = "<group>"; };
 		13405F762AF79CBD00382796 /* ReviewWritingBottomViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWritingBottomViewDelegate.swift; sourceTree = "<group>"; };
-		1344DA0D2B11401F0031CC7A /* TextDelimiterHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextDelimiterHelper.swift; sourceTree = "<group>"; };
 		134CCB332AFFFB2900D51D84 /* ReviewWritingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWritingViewModel.swift; sourceTree = "<group>"; };
 		134CCB662B028D9C00D51D84 /* ReviewWritingContentViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWritingContentViewDelegate.swift; sourceTree = "<group>"; };
 		13606E872A9DDE7D00365F20 /* PostRecentSearchTagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostRecentSearchTagCell.swift; sourceTree = "<group>"; };
@@ -1640,7 +1638,6 @@
 			isa = PBXGroup;
 			children = (
 				15CB235D2A10B59E003EAF20 /* DateValidation */,
-				1344DA0D2B11401F0031CC7A /* TextDelimiterHelper.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -2241,7 +2238,6 @@
 				15D955AF2ADFB2F1002BF9C3 /* ShadowInfo.swift in Sources */,
 				151DF10A2AEEC58600D5D55B /* MockSession.swift in Sources */,
 				15F0D1D32A53095100D04773 /* PostViewAdapter.swift in Sources */,
-				1344DA0E2B11401F0031CC7A /* TextDelimiterHelper.swift in Sources */,
 				152AD5272A1B89D2008A2A11 /* FavoriteViewModel.swift in Sources */,
 				158BEF7F2A0E2C6E00C27861 /* PostContentView.swift in Sources */,
 				15FFAC0B2AD7C22B0013DB57 /* RequestType.swift in Sources */,
