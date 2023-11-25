@@ -12,8 +12,7 @@ import SnapKit
 struct ReviewWritingContentViewInfo {
   var text: String = ""
   var imageDataList: [Data] = .init()
-//  var isTextIndex: [Bool]
-  /// text이면 1, imageData이면 0
+  /// text이면 1, imageData이면 0 추가
   var isTextIndex: String = ""
 }
 
@@ -56,7 +55,7 @@ final class ReviewWritingContentView: UIStackView {
     $0.delegate = self
   }
   
-  private(set) var messageTextViewHasPlaceholder = true
+  private(set) var firstMessageTextViewHasPlaceholder = true
   private lazy var firstMessageTextView: UITextView = .init().set {
     $0.text = "이번 여행에 대한 나의 후기를\n자유롭게 작성해보세요. :)"
     $0.font = .init(pretendard: .regular_400(fontSize: 16))
@@ -266,7 +265,7 @@ extension ReviewWritingContentView {
   private func erasePlaceholder(of textView: UITextView) {
     guard textView.textColor == .yg.gray1 else { return }
     if textView === firstMessageTextView {
-      messageTextViewHasPlaceholder = false
+      firstMessageTextViewHasPlaceholder = false
     }
     textView.text = nil
     textView.textColor = .yg.gray7
@@ -281,7 +280,7 @@ extension ReviewWritingContentView {
                 lastView === firstMessageTextView {
         textView.textColor = .yg.gray1
         textView.text = "이번 여행에 대한 나의 후기를\n자유롭게 작성해보세요. :)"
-        messageTextViewHasPlaceholder = true
+        firstMessageTextViewHasPlaceholder = true
         adjustHeight(of: textView)
       }
     }
@@ -401,7 +400,7 @@ extension ReviewWritingContentView {
 
   func extractContentData() -> ReviewWritingContentViewInfo {
     var model = ReviewWritingContentViewInfo()
-    guard !messageTextViewHasPlaceholder else { return model }
+    guard !firstMessageTextViewHasPlaceholder else { return model }
     
     for i in firstContentIndex..<arrangedSubviews.count {
       let subview = arrangedSubviews[i]
