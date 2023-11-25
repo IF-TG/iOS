@@ -26,7 +26,6 @@ final class ReviewWritingContentView: UIStackView {
       static let placeholder = "이번 여행에 대한 나의 후기를\n자유롭게 작성해보세요. :)"
     }
     static let delimiter = "∆∑©"
-    
   }
   
   enum MessageTextViewVisibilityState {
