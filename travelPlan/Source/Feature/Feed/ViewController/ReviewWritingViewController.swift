@@ -79,7 +79,6 @@ final class ReviewWritingViewController: UIViewController {
     super.viewDidAppear(animated)
     if !isViewDidAppearFirstCalled {
       contentView.bottomViewHeight(bottomView.frame.height)
-      contentView.scrollViewHeight(scrollView.frame.height)
       isViewDidAppearFirstCalled = true
     }
   }
@@ -264,7 +263,6 @@ private extension ReviewWritingViewController {
   }
   
   @objc func didTapScrollView() {
-    print("didTapScrollView")
     input.didTapScrollView.send()
   }
   
@@ -280,7 +278,7 @@ extension ReviewWritingViewController: ReviewWritingBottomViewDelegate {
   }
   
   func didTapCameraButton(_ button: UIButton) {
-    if contentView.firstMessageTextViewHasPlaceholder {
+    if contentView.firstMessageTextViewTextIsPlaceholder {
       contentView.hideMessageTextView()
     }
     input.didTapAlbumButton.send()

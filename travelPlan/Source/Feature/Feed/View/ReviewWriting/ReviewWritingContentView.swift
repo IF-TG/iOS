@@ -22,6 +22,16 @@ final class ReviewWritingContentView: UIStackView {
     enum LastView {
       static let bottomSpacing: CGFloat = 40
     }
+    enum firstMessageTextView {
+      static let placeholder = "이번 여행에 대한 나의 후기를\n자유롭게 작성해보세요. :)"
+    }
+    static let delimiter = "∆∑©"
+    
+  }
+  
+  enum MessageTextViewVisibilityState {
+    case visible
+    case invisible
   }
   
   struct ValueRelatedToScrolling {
@@ -43,8 +53,7 @@ final class ReviewWritingContentView: UIStackView {
   }
   
   // MARK: - Properties
-  private var delimiter = TextDelimiterHelper()
-  private var scrollValue = ValueRelatedToScrolling()
+  private lazy var scrollValue = ValueRelatedToScrolling(scrollViewHeight: superview?.frame.height)
   weak var delegate: ReviewWritingContentViewDelegate?
   private var subscriptions = Set<AnyCancellable>()
   private lazy var titleTextView: UITextView = .init().set {
@@ -55,9 +64,9 @@ final class ReviewWritingContentView: UIStackView {
     $0.delegate = self
   }
   
-  private(set) var firstMessageTextViewHasPlaceholder = true
+  private(set) var firstMessageTextViewTextIsPlaceholder = true
   private lazy var firstMessageTextView: UITextView = .init().set {
-    $0.text = "이번 여행에 대한 나의 후기를\n자유롭게 작성해보세요. :)"
+    $0.text = Constant.firstMessageTextView.placeholder
     $0.font = .init(pretendard: .regular_400(fontSize: 16))
     $0.textColor = .yg.gray1
     $0.isScrollEnabled = false
@@ -152,17 +161,12 @@ extension ReviewWritingContentView: UITextViewDelegate {
       scrollValue.cursorHeight = cursorFrame(of: textView)?.height
       isTextViewDidBeginEditingFirstCalled = true
     }
-    manageScroll(at: textView)
+    manageScrollIfCursorIsUnderTheBoundary(at: textView)
   }
   
   func textViewDidChange(_ textView: UITextView) {
     adjustHeight(of: textView)
-    if let keyboardHeight = scrollValue.keyboardHeight,
-       let bottomViewHeight = scrollValue.bottomViewHeight {
-      delegate?.changeContentInset(
-        bottomEdge: keyboardHeight - bottomViewHeight + scrollValue.spacingFromCursorBoundaryToKeyboard
-      )
-    }
+    changeContentInset()
     
     if textView === titleTextView {
       limitTextStringCount(at: textView)
@@ -189,12 +193,10 @@ extension ReviewWritingContentView: UITextViewDelegate {
       arrangedSubviews[indexOfViewToBeRemoved-1].becomeFirstResponder()
       removeArrangedSubview(textView)
       textView.removeFromSuperview()
-      // FIXME: - 제일 먼저 이미지 추가하고, texting한 뒤에 이미지 제거하고 deleteKey를 통해 textView를 제거하면 firstMessageTextView가 타이핑 되어야 하는데, 이때 뷰 계층에서는 firstMessageTextView의 text가 보이지만, 시뮬에서는 안보이는 문제 해결하기
-      //
+      
       if arrangedSubviews[indexOfViewToBeRemoved-1] === firstMessageTextView {
-        firstMessageTextView.isHidden = false
+        updateFirstMessageTextViewVisibility(state: .visible)
       }
-      //
       return true
     }
     return true
@@ -214,16 +216,11 @@ extension ReviewWritingContentView {
     return a > v
   }
   
-  private func manageScroll(at textView: UITextView) {
-    guard let keyboardHeight = scrollValue.keyboardHeight,
-          let bottomViewHeight = scrollValue.bottomViewHeight,
-          let scrollToFitContentOffset = cursorIsUnderTheBoundary(at: textView),
+  private func manageScrollIfCursorIsUnderTheBoundary(at textView: UITextView) {
+    guard let scrollToFitContentOffset = cursorIsUnderTheBoundary(at: textView),
           scrollToFitContentOffset
     else { return }
-    
-    self.delegate?.changeContentInset(
-      bottomEdge: keyboardHeight - bottomViewHeight + scrollValue.spacingFromCursorBoundaryToKeyboard
-    )
+    changeContentInset()
   }
   
   /// ReviewWritingContentView의 좌표계를 기준으로 cursor의 y값을 반환합니다.
@@ -240,8 +237,10 @@ extension ReviewWritingContentView {
       .publisher(for: UIResponder.keyboardWillShowNotification)
       .receive(on: RunLoop.main)
       .compactMap { ($0.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue }
+      .first()
       .sink { [weak self] keyboardRect in
         self?.scrollValue.keyboardHeight = keyboardRect.height
+        self?.changeContentInset()
       }
       .store(in: &subscriptions)
   }
@@ -265,7 +264,7 @@ extension ReviewWritingContentView {
   private func erasePlaceholder(of textView: UITextView) {
     guard textView.textColor == .yg.gray1 else { return }
     if textView === firstMessageTextView {
-      firstMessageTextViewHasPlaceholder = false
+      firstMessageTextViewTextIsPlaceholder = false
     }
     textView.text = nil
     textView.textColor = .yg.gray7
@@ -279,8 +278,8 @@ extension ReviewWritingContentView {
       } else if textView === firstMessageTextView,
                 lastView === firstMessageTextView {
         textView.textColor = .yg.gray1
-        textView.text = "이번 여행에 대한 나의 후기를\n자유롭게 작성해보세요. :)"
-        firstMessageTextViewHasPlaceholder = true
+        textView.text = Constant.firstMessageTextView.placeholder
+        firstMessageTextViewTextIsPlaceholder = true
         adjustHeight(of: textView)
       }
     }
@@ -349,6 +348,28 @@ extension ReviewWritingContentView {
     spacing = 8
     alignment = .fill
   }
+  
+  private func changeContentInset() {
+    if let keyboardHeight = scrollValue.keyboardHeight,
+       let bottomViewHeight = scrollValue.bottomViewHeight {
+      delegate?.changeContentInset(
+        bottomEdge: keyboardHeight - bottomViewHeight + scrollValue.spacingFromCursorBoundaryToKeyboard
+      )
+    }
+  }
+  
+  private func updateFirstMessageTextViewVisibility(state: MessageTextViewVisibilityState) {
+    switch state {
+    case .visible:
+      firstMessageTextView.isHidden = false
+      UIView.animate(withDuration: 0.3) {
+        self.firstMessageTextView.alpha = 1
+      }
+    case .invisible:
+      firstMessageTextView.isHidden = true
+      firstMessageTextView.alpha = 0
+    }
+  }
 }
 
 // MARK: - Helpers
@@ -371,12 +392,7 @@ extension ReviewWritingContentView {
       let newTextView = createNewTextView()
       setupLastView(lastView: newTextView)
       self.setNeedsLayout()
-      if let keyboardHeight = scrollValue.keyboardHeight,
-         let bottomViewHeight = scrollValue.bottomViewHeight {
-        self.delegate?.changeContentInset(
-          bottomEdge: keyboardHeight - bottomViewHeight + scrollValue.spacingFromCursorBoundaryToKeyboard
-        )
-      }
+      changeContentInset()
     }
     lastView?.becomeFirstResponder()
   }
@@ -389,25 +405,18 @@ extension ReviewWritingContentView {
     scrollValue.bottomViewHeight = bottomViewHeight
   }
   
-  func scrollViewHeight(_ scrollViewHeight: CGFloat) {
-    scrollValue.scrollViewHeight = scrollViewHeight
-  }
-  
   func hideMessageTextView() {
-    firstMessageTextView.isHidden = true
-    firstMessageTextView.alpha = 0
+    updateFirstMessageTextViewVisibility(state: .invisible)
   }
 
   func extractContentData() -> ReviewWritingContentViewInfo {
     var model = ReviewWritingContentViewInfo()
-    guard !firstMessageTextViewHasPlaceholder else { return model }
+    guard !(lastView === firstMessageTextView && firstMessageTextViewTextIsPlaceholder) else { return model }
     
     for i in firstContentIndex..<arrangedSubviews.count {
       let subview = arrangedSubviews[i]
-      if let text = (subview as? UITextView)?.text,
-         !firstMessageTextView.isHidden {
-        let delimiter = delimiter.getDelimiter()
-        model.text += text + delimiter
+      if let text = (subview as? UITextView)?.text {
+        model.text += text + Constant.delimiter
         model.isTextIndex.append("1")
       } else if let imageData = (subview as? UIImageView)?.image?.jpegData(compressionQuality: 0.5) {
         model.imageDataList.append(imageData)
@@ -423,12 +432,8 @@ extension ReviewWritingContentView: PictureImageViewDelegate {
     guard let imageView = sender.superview as? PictureImageView else { return }
     if lastView === imageView,
        let imageViewIndex = arrangedSubviews.firstIndex(of: imageView),
-       let firstMessageTextViewIndex = arrangedSubviews.firstIndex(of: firstMessageTextView),
-       firstMessageTextViewIndex == imageViewIndex - 1 {
-      firstMessageTextView.isHidden = false
-      UIView.animate(withDuration: 0.3) {
-        self.firstMessageTextView.alpha = 1
-      }
+       arrangedSubviews.firstIndex(of: firstMessageTextView)! == imageViewIndex - 1 {
+      updateFirstMessageTextViewVisibility(state: .visible)
     }
     
     removeArrangedSubview(imageView)
