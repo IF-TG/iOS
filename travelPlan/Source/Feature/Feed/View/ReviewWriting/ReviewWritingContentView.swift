@@ -185,7 +185,9 @@ extension ReviewWritingContentView: UITextViewDelegate {
     if textView !== firstMessageTextView,
        textView !== titleTextView,
        textView.text.isEmpty,
-       text == "" {
+       text == "",
+       let indexOfViewToBeRemoved = arrangedSubviews.firstIndex(of: textView) {
+      arrangedSubviews[indexOfViewToBeRemoved-1].becomeFirstResponder()
       removeArrangedSubview(textView)
       textView.removeFromSuperview()
       return true
