@@ -53,8 +53,8 @@ final class ReviewWritingContentView: UIStackView {
     $0.isScrollEnabled = false
     $0.delegate = self
   }
-  // MARK: - messageTextView의 placeholder 여부 네이밍 다시 지정하기
-  private(set) var messageTextViewIsPlaceholder = true
+  
+  private(set) var messageTextViewHasPlaceholder = true
   private lazy var firstMessageTextView: UITextView = .init().set {
     $0.text = "이번 여행에 대한 나의 후기를\n자유롭게 작성해보세요. :)"
     $0.font = .init(pretendard: .regular_400(fontSize: 16))
@@ -62,6 +62,7 @@ final class ReviewWritingContentView: UIStackView {
     $0.isScrollEnabled = false
     $0.delegate = self
   }
+  /// placeholder 여부에 따라 textView를 hidden 처리하므로, 그에 맞게 indexing
   private var firstContentIndex: Int {
     if !firstMessageTextView.isHidden {
       return arrangedSubviews.firstIndex(of: firstMessageTextView)!
@@ -176,7 +177,6 @@ extension ReviewWritingContentView: UITextViewDelegate {
     shouldChangeTextIn range: NSRange,
     replacementText text: String
   ) -> Bool {
-    // 제목설정 시, return키 금지
     if textView === titleTextView {
       let tapReturnKey = text == "\n"
       if tapReturnKey {
@@ -260,7 +260,7 @@ extension ReviewWritingContentView {
   private func erasePlaceholder(of textView: UITextView) {
     guard textView.textColor == .yg.gray1 else { return }
     if textView === firstMessageTextView {
-      messageTextViewIsPlaceholder = false
+      messageTextViewHasPlaceholder = false
     }
     textView.text = nil
     textView.textColor = .yg.gray7
@@ -274,7 +274,7 @@ extension ReviewWritingContentView {
       } else if textView === firstMessageTextView {
         textView.textColor = .yg.gray1
         textView.text = "이번 여행에 대한 나의 후기를\n자유롭게 작성해보세요. :)"
-        messageTextViewIsPlaceholder = true
+        messageTextViewHasPlaceholder = true
         adjustHeight(of: textView)
       }
     }
@@ -389,7 +389,8 @@ extension ReviewWritingContentView {
     
     for i in firstContentIndex..<arrangedSubviews.count {
       let subview = arrangedSubviews[i]
-      if let text = (subview as? UITextView)?.text {
+      if let text = (subview as? UITextView)?.text,
+         !messageTextViewHasPlaceholder {
         let delimiter = delimiter.getDelimiter()
         model.text += text + delimiter
         model.isTextIndex.append(true)
@@ -405,15 +406,16 @@ extension ReviewWritingContentView {
 extension ReviewWritingContentView: PictureImageViewDelegate {
   func didTapDeleteButton(_ sender: UIButton) {
     guard let imageView = sender.superview as? PictureImageView else { return }
-    
-    if let imageViewIndex = arrangedSubviews.firstIndex(of: imageView),
-       lastView === imageView,
-       firstContentIndex == imageViewIndex - 1 {
+    if lastView === imageView,
+       let imageViewIndex = arrangedSubviews.firstIndex(of: imageView),
+       let firstMessageTextViewIndex = arrangedSubviews.firstIndex(of: firstMessageTextView),
+       firstMessageTextViewIndex == imageViewIndex - 1 {
       firstMessageTextView.isHidden = false
       UIView.animate(withDuration: 0.3) {
         self.firstMessageTextView.alpha = 1
       }
     }
+    
     removeArrangedSubview(imageView)
     imageView.removeFromSuperview()
   }

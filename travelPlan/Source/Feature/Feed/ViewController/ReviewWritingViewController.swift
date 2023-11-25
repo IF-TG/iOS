@@ -202,6 +202,7 @@ extension ReviewWritingViewController {
     }
     
     contentView.imageViewUpdated = { [weak self] newImageView in
+      print("imageView tapped")
       self?.imageView = newImageView
     }
   }
@@ -279,7 +280,7 @@ extension ReviewWritingViewController: ReviewWritingBottomViewDelegate {
   }
   
   func didTapCameraButton(_ button: UIButton) {
-    if contentView.messageTextViewIsPlaceholder {
+    if contentView.messageTextViewHasPlaceholder {
       contentView.hideMessageTextView()
     }
     input.didTapAlbumButton.send()
