@@ -10,9 +10,11 @@ import Combine
 import SnapKit
 
 struct ReviewWritingContentViewInfo {
-  var text: String
-  var imageDataList: [Data]
-  var isTextIndex: [Bool]
+  var text: String = ""
+  var imageDataList: [Data] = .init()
+//  var isTextIndex: [Bool]
+  /// text이면 1, imageData이면 0
+  var isTextIndex: String = ""
 }
 
 final class ReviewWritingContentView: UIStackView {
@@ -88,11 +90,7 @@ final class ReviewWritingContentView: UIStackView {
     super.init(frame: frame)
     setupUI()
     bind()
-    
-    axis = .vertical
-    distribution = .fill
-    spacing = 8
-    alignment = .fill
+    configure()
   }
   
   required init(coder: NSCoder) {
@@ -336,10 +334,18 @@ extension ReviewWritingContentView {
       $0.backgroundColor = .clear
     }
   }
+  
+  private func configure() {
+    axis = .vertical
+    distribution = .fill
+    spacing = 8
+    alignment = .fill
+  }
 }
 
 // MARK: - Helpers
 extension ReviewWritingContentView {
+  /// imageView를 생성해서 stackView 계층에 추가합니다.
   func addImageView() {
     let imageView = PictureImageView(imageName: "tempProfile1").set {
       $0.delegate = self
@@ -385,18 +391,19 @@ extension ReviewWritingContentView {
   }
 
   func extractContentData() -> ReviewWritingContentViewInfo {
-    var model = ReviewWritingContentViewInfo(text: "", imageDataList: .init(), isTextIndex: .init())
+    var model = ReviewWritingContentViewInfo()
+    guard !messageTextViewHasPlaceholder else { return model }
     
     for i in firstContentIndex..<arrangedSubviews.count {
       let subview = arrangedSubviews[i]
       if let text = (subview as? UITextView)?.text,
-         !messageTextViewHasPlaceholder {
+         !firstMessageTextView.isHidden {
         let delimiter = delimiter.getDelimiter()
         model.text += text + delimiter
-        model.isTextIndex.append(true)
+        model.isTextIndex.append("1")
       } else if let imageData = (subview as? UIImageView)?.image?.jpegData(compressionQuality: 0.5) {
         model.imageDataList.append(imageData)
-        model.isTextIndex.append(false)
+        model.isTextIndex.append("0")
       }
     }
     return model
