@@ -190,6 +190,12 @@ extension ReviewWritingContentView: UITextViewDelegate {
       arrangedSubviews[indexOfViewToBeRemoved-1].becomeFirstResponder()
       removeArrangedSubview(textView)
       textView.removeFromSuperview()
+      // FIXME: - 제일 먼저 이미지 추가하고, texting한 뒤에 이미지 제거하고 deleteKey를 통해 textView를 제거하면 firstMessageTextView가 타이핑 되어야 하는데, 이때 뷰 계층에서는 firstMessageTextView의 text가 보이지만, 시뮬에서는 안보이는 문제 해결하기
+      //
+      if arrangedSubviews[indexOfViewToBeRemoved-1] === firstMessageTextView {
+        firstMessageTextView.isHidden = false
+      }
+      //
       return true
     }
     return true
