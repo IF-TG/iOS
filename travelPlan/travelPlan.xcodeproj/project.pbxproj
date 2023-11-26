@@ -182,13 +182,13 @@
 		1594F53429FD517E00A58F20 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1594F53329FD517E00A58F20 /* SceneDelegate.swift */; };
 		1594F53B29FD517F00A58F20 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1594F53A29FD517F00A58F20 /* Assets.xcassets */; };
 		1594F53E29FD517F00A58F20 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1594F53C29FD517F00A58F20 /* LaunchScreen.storyboard */; };
+		159958762B0D988400B2E4DC /* Palette.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 159958752B0D988400B2E4DC /* Palette.xcassets */; };
 		159958792B0DC51900B2E4DC /* PostCellWithOneThumbnail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159958782B0DC51900B2E4DC /* PostCellWithOneThumbnail.swift */; };
 		1599587B2B0DC55700B2E4DC /* PostCellWithTwoThumbnails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1599587A2B0DC55700B2E4DC /* PostCellWithTwoThumbnails.swift */; };
 		1599587D2B0DC56200B2E4DC /* PostCellWithThreeThumbnails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1599587C2B0DC56200B2E4DC /* PostCellWithThreeThumbnails.swift */; };
 		1599587F2B0DC56D00B2E4DC /* PostCellWithFourThumbnails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1599587E2B0DC56D00B2E4DC /* PostCellWithFourThumbnails.swift */; };
 		159958812B0DC57600B2E4DC /* PostCellWithFiveThumbnails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159958802B0DC57600B2E4DC /* PostCellWithFiveThumbnails.swift */; };
 		159958832B0DDFED00B2E4DC /* UIStackView+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159958822B0DDFED00B2E4DC /* UIStackView+Helpers.swift */; };
-		159958762B0D988400B2E4DC /* Palette.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 159958752B0D988400B2E4DC /* Palette.xcassets */; };
 		159F38BB2AFA9F32000A24C2 /* PostDetailCategoryHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159F38BA2AFA9F32000A24C2 /* PostDetailCategoryHeaderView.swift */; };
 		159F38BD2AFAA1F7000A24C2 /* PostDetailCategoryHeaderViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159F38BC2AFAA1F7000A24C2 /* PostDetailCategoryHeaderViewDelegate.swift */; };
 		159F38BF2AFAA329000A24C2 /* PostDetailTitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159F38BE2AFAA329000A24C2 /* PostDetailTitleCell.swift */; };
@@ -292,6 +292,7 @@
 		15FB47EE2AC176FD0033AA18 /* UISpacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152AD4ED2A1891DB008A2A11 /* UISpacing.swift */; };
 		15FB47EF2AC1772C0033AA18 /* PostRecommendationSearchTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1325502E2A0B4BD700094218 /* PostRecommendationSearchTagCell.swift */; };
 		15FB47F12AC1DCEF0033AA18 /* TravelMainThemeCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FB47F02AC1DCEF0033AA18 /* TravelMainThemeCollectionView.swift */; };
+		15FBA7E52B1343CB00C9B1E7 /* PostThumbnailValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FBA7E42B1343CB00C9B1E7 /* PostThumbnailValue.swift */; };
 		15FC90D62ACC1BB50033A1E5 /* PrimaryColorToneRoundButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FC90D52ACC1BB50033A1E5 /* PrimaryColorToneRoundButton.swift */; };
 		15FC90D92ACC56280033A1E5 /* FavoriteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152AD4E72A188D33008A2A11 /* FavoriteTableViewCell.swift */; };
 		15FDCC912AE03F4A00716CC6 /* InnerRoundRectReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FDCC902AE03F4A00716CC6 /* InnerRoundRectReusableView.swift */; };
@@ -539,13 +540,13 @@
 		1594F53A29FD517F00A58F20 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1594F53D29FD517F00A58F20 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1594F53F29FD517F00A58F20 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		159958752B0D988400B2E4DC /* Palette.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Palette.xcassets; sourceTree = "<group>"; };
 		159958782B0DC51900B2E4DC /* PostCellWithOneThumbnail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCellWithOneThumbnail.swift; sourceTree = "<group>"; };
 		1599587A2B0DC55700B2E4DC /* PostCellWithTwoThumbnails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCellWithTwoThumbnails.swift; sourceTree = "<group>"; };
 		1599587C2B0DC56200B2E4DC /* PostCellWithThreeThumbnails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCellWithThreeThumbnails.swift; sourceTree = "<group>"; };
 		1599587E2B0DC56D00B2E4DC /* PostCellWithFourThumbnails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCellWithFourThumbnails.swift; sourceTree = "<group>"; };
 		159958802B0DC57600B2E4DC /* PostCellWithFiveThumbnails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCellWithFiveThumbnails.swift; sourceTree = "<group>"; };
 		159958822B0DDFED00B2E4DC /* UIStackView+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+Helpers.swift"; sourceTree = "<group>"; };
-		159958752B0D988400B2E4DC /* Palette.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Palette.xcassets; sourceTree = "<group>"; };
 		159F38BA2AFA9F32000A24C2 /* PostDetailCategoryHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailCategoryHeaderView.swift; sourceTree = "<group>"; };
 		159F38BC2AFAA1F7000A24C2 /* PostDetailCategoryHeaderViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailCategoryHeaderViewDelegate.swift; sourceTree = "<group>"; };
 		159F38BE2AFAA329000A24C2 /* PostDetailTitleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailTitleCell.swift; sourceTree = "<group>"; };
@@ -643,6 +644,7 @@
 		15F376632AFE134400B3BF35 /* PostReplyEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostReplyEntity.swift; sourceTree = "<group>"; };
 		15FB47D62AC0407D0033AA18 /* FeedPostSearchFilterInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedPostSearchFilterInfo.swift; sourceTree = "<group>"; };
 		15FB47F02AC1DCEF0033AA18 /* TravelMainThemeCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelMainThemeCollectionView.swift; sourceTree = "<group>"; };
+		15FBA7E42B1343CB00C9B1E7 /* PostThumbnailValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostThumbnailValue.swift; sourceTree = "<group>"; };
 		15FC90D52ACC1BB50033A1E5 /* PrimaryColorToneRoundButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryColorToneRoundButton.swift; sourceTree = "<group>"; };
 		15FDCC902AE03F4A00716CC6 /* InnerRoundRectReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InnerRoundRectReusableView.swift; sourceTree = "<group>"; };
 		15FEB5DA2A050A99000A5F33 /* UIControl+Combine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIControl+Combine.swift"; sourceTree = "<group>"; };
@@ -1055,6 +1057,7 @@
 				151DF0EF2AEEAE2100D5D55B /* NoticeEntity.swift */,
 				15F376612AFE132900B3BF35 /* PostCommentEntity.swift */,
 				15F376632AFE134400B3BF35 /* PostReplyEntity.swift */,
+				15FBA7E42B1343CB00C9B1E7 /* PostThumbnailValue.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -2426,6 +2429,7 @@
 				151DF0FE2AEEBBE200D5D55B /* DefaultNotificationRepository.swift in Sources */,
 				158BEF792A0E27BD00C27861 /* PostCollectionView.swift in Sources */,
 				1594F53429FD517E00A58F20 /* SceneDelegate.swift in Sources */,
+				15FBA7E52B1343CB00C9B1E7 /* PostThumbnailValue.swift in Sources */,
 				13BF40F52AD712EC00F3F082 /* UIViewController+TitleView.swift in Sources */,
 				13A6C2DB2AB782A100EABD76 /* UIViewController+BackBarButtonItem.swift in Sources */,
 				13300FA42AC0688300952757 /* BaseDestinationView.swift in Sources */,
