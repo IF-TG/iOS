@@ -53,8 +53,10 @@ final class PostCellWithOneThumbnail: UICollectionViewCell {
     super.prepareForReuse()
     configure(with: nil)
   }
-  
-  // MARK: - Helpers
+}
+
+// MARK: - CellConfigurable
+extension PostCellWithOneThumbnail: CellConfigurable {
   func configure(with post: PostInfo?) {
     postView.configure(with: post)
     thumbnailView.configureThumbnail(with: post?.content.thumbnailURLs)

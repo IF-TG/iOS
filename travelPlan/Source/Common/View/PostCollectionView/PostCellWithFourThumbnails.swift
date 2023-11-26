@@ -69,11 +69,13 @@ final class PostCellWithFourThumbnails: UICollectionViewCell {
     super.prepareForReuse()
     configure(with: nil)
   }
-  
-  // MARK: - Helpers
-  func configure(with post: PostInfo?) {
-    postView.configure(with: post)
-    thumbnailView.configureThumbnail(with: post?.content.thumbnailURLs)
+}
+
+// MARK: - CellConfigurable
+extension PostCellWithFourThumbnails: CellConfigurable {
+  func configure(with info: PostInfo?) {
+    postView.configure(with: info)
+    thumbnailView.configureThumbnail(with: info?.content.thumbnailURLs)
   }
 }
 
