@@ -43,49 +43,48 @@ extension PostViewAdapter: UICollectionViewDataSource {
     _ collectionView: UICollectionView,
     cellForItemAt indexPath: IndexPath
   ) -> UICollectionViewCell {
-    if indexPath.section == 1, let thumbnails = dataSource?.numberOfThumbnailsInPost(at: indexPath.row) {
-      guard let postItem = dataSource?.postItem(at: indexPath.row) else { return .init() }
-      switch thumbnails {
-      case 1:
-        guard let cell = collectionView.dequeueReusableCell(
-          withReuseIdentifier: PostCellWithOneThumbnail.id, for: indexPath
-        ) as? PostCellWithOneThumbnail else { return .init() }
-        cell.configure(with: postItem)
-        checkLastCell(cell, indexPath: indexPath)
-        return cell
-      case 2:
-        guard let cell = collectionView.dequeueReusableCell(
-          withReuseIdentifier: PostCellWithTwoThumbnails.id, for: indexPath
-        ) as? PostCellWithTwoThumbnails else { return .init(frame: .zero) }
-        cell.configure(with: postItem)
-        checkLastCell(cell, indexPath: indexPath)
-        return cell
-      case 3:
-        guard let cell = collectionView.dequeueReusableCell(
-          withReuseIdentifier: PostCellWithThreeThumbnails.id, for: indexPath
-        ) as? PostCellWithThreeThumbnails else { return .init(frame: .zero) }
-        cell.configure(with: postItem)
-        checkLastCell(cell, indexPath: indexPath)
-        return cell
-      case 4:
-        guard let cell = collectionView.dequeueReusableCell(
-          withReuseIdentifier: PostCellWithFourThumbnails.id, for: indexPath
-        ) as? PostCellWithFourThumbnails else { return .init(frame: .zero) }
-        cell.configure(with: postItem)
-        checkLastCell(cell, indexPath: indexPath)
-        return cell
-      case 5:
-        guard let cell = collectionView.dequeueReusableCell(
-          withReuseIdentifier: PostCellWithFiveThumbnails.id, for: indexPath
-        ) as? PostCellWithFiveThumbnails else { return .init(frame: .zero) }
-        cell.configure(with: postItem)
-        checkLastCell(cell, indexPath: indexPath)
-        return cell
-      default:
-        return .init(frame: .zero)
-      }
+    guard
+      indexPath.section == 1,
+      let numberOfThumbnails = dataSource?.numberOfThumbnailsInPost(at: indexPath.row),
+      let postItem = dataSource?.postItem(at: indexPath.row)
+    else { return .init(frame: .zero) }
+    switch numberOfThumbnails {
+    case .one:
+      guard let cell = collectionView.dequeueReusableCell(
+        withReuseIdentifier: PostCellWithOneThumbnail.id, for: indexPath
+      ) as? PostCellWithOneThumbnail else { return .init(frame: .zero) }
+      cell.configure(with: postItem)
+      checkLastCell(cell, indexPath: indexPath)
+      return cell
+    case .two:
+      guard let cell = collectionView.dequeueReusableCell(
+        withReuseIdentifier: PostCellWithTwoThumbnails.id, for: indexPath
+      ) as? PostCellWithTwoThumbnails else { return .init(frame: .zero) }
+      cell.configure(with: postItem)
+      checkLastCell(cell, indexPath: indexPath)
+      return cell
+    case .three:
+      guard let cell = collectionView.dequeueReusableCell(
+        withReuseIdentifier: PostCellWithThreeThumbnails.id, for: indexPath
+      ) as? PostCellWithThreeThumbnails else { return .init(frame: .zero) }
+      cell.configure(with: postItem)
+      checkLastCell(cell, indexPath: indexPath)
+      return cell
+    case .four:
+      guard let cell = collectionView.dequeueReusableCell(
+        withReuseIdentifier: PostCellWithFourThumbnails.id, for: indexPath
+      ) as? PostCellWithFourThumbnails else { return .init(frame: .zero) }
+      cell.configure(with: postItem)
+      checkLastCell(cell, indexPath: indexPath)
+      return cell
+    case .five:
+      guard let cell = collectionView.dequeueReusableCell(
+        withReuseIdentifier: PostCellWithFiveThumbnails.id, for: indexPath
+      ) as? PostCellWithFiveThumbnails else { return .init(frame: .zero) }
+      cell.configure(with: postItem)
+      checkLastCell(cell, indexPath: indexPath)
+      return cell
     }
-    return .init(frame: .zero)
   }
 }
 
