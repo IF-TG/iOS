@@ -57,7 +57,7 @@ extension PostViewAdapter: UICollectionViewDataSource {
 
 // MARK: - Private helper
 private extension PostViewAdapter {
-  func checkLastCell(_ cell: (UICollectionViewCell & PostCellEdgeDividable)?, indexPath: IndexPath) {
+  func checkLastCell(_ cell: (PostCellEdgeDividable)?, indexPath: IndexPath) {
     if let numberOfItems = dataSource?.numberOfItems, indexPath.item == numberOfItems - 1 {
       cell?.hideCellDivider()
     }
