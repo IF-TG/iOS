@@ -65,8 +65,8 @@ final class PostCellWithThreeThumbnails: UICollectionViewCell {
   }
 }
 
-// MARK: - CellConfigurable
-extension PostCellWithThreeThumbnails: CellConfigurable {
+// MARK: - PostCellConfigurable
+extension PostCellWithThreeThumbnails: PostCellConfigurable {
   func configure(with info: PostInfo?) {
     postView.configure(with: info)
     thumbnailView.configureThumbnail(with: info?.content.thumbnailURLs)

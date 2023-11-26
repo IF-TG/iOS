@@ -8,6 +8,8 @@
 import UIKit
 
 final class PostCellWithOneThumbnail: UICollectionViewCell {
+  static let id = String(describing: PostCellWithOneThumbnail.self) 
+  
   // MARK: - Nested
   private final class PostOneThumbnailView: UIImageView {
     override init(frame: CGRect) {
@@ -27,8 +29,6 @@ final class PostCellWithOneThumbnail: UICollectionViewCell {
       image = UIImage(named: images[0])
     }
   }
-  
-  static let id = String(describing: PostCellWithOneThumbnail.self)
   
   // MARK: - Properties
   private let thumbnailView: PostOneThumbnailView
@@ -55,8 +55,8 @@ final class PostCellWithOneThumbnail: UICollectionViewCell {
   }
 }
 
-// MARK: - CellConfigurable
-extension PostCellWithOneThumbnail: CellConfigurable {
+// MARK: - PostCellConfigurable
+extension PostCellWithOneThumbnail: PostCellConfigurable {
   func configure(with post: PostInfo?) {
     postView.configure(with: post)
     thumbnailView.configureThumbnail(with: post?.content.thumbnailURLs)
