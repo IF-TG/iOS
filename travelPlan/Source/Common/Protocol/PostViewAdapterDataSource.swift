@@ -7,6 +7,6 @@
 
 protocol PostViewAdapterDataSource: AnyObject {
   var numberOfItems: Int { get }
-  func numberOfThumbnailsInPost(at index: Int) -> Int
+  func numberOfThumbnailsInPost(at index: Int) -> PostThumbnailCountValue
   func postItem(at index: Int) -> PostInfo
 }
