@@ -123,7 +123,6 @@ class SearchMoreDetailViewController: UIViewController {
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
     removeNavigationBackground()
-    setNavigationBarAppearance(with: appearance)
   }
 }
 
@@ -182,12 +181,6 @@ extension SearchMoreDetailViewController {
   private func removeNavigationBackground() {
     appearance.backgroundColor = nil
     appearance.shadowColor = nil
-  }
-  
-  /// appearance의 값을 변경 후, 해당 함수를 호출해야만 변경된 값이 적용됩니다.
-  private func setNavigationBarAppearance(with appearance: UINavigationBarAppearance) {
-    navigationController?.navigationBar.standardAppearance = appearance
-    navigationController?.navigationBar.scrollEdgeAppearance = appearance
   }
   
   private func setupStyles() {
@@ -324,7 +317,7 @@ extension SearchMoreDetailViewController: UICollectionViewDelegate {
     headerView.alpha = headerViewAlpha
     appearance.backgroundEffect = .none // 내비게이션 반투명도 제거
     backButton.imageView?.tintColor = changeBackButtonTintColor(with: headerViewAlpha)
-    setNavigationBarAppearance(with: appearance)
+    navigationItem.standardAppearance = appearance // appearance의 값을 변경 후 standardAppearance에 저장해야 적용됩니다.
   }
   
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
