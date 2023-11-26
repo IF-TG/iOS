@@ -13,7 +13,7 @@ public final actor ImageMemoryCache {
 }
 
 // MARK: - ImageCachable
-public extension ImageMemoryCache: ImageMemoryCachable {
+extension ImageMemoryCache: ImageMemoryCachable {
   func image(for url: String) -> UIImage? {
     guard let cached = cache[url] else {
       guard let image = imageConverter.base64ToImage(url) else {
