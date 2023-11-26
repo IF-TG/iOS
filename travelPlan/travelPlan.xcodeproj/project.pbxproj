@@ -157,7 +157,6 @@
 		158695992AE621010087CCB3 /* FeedPostViewModelable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158695982AE621010087CCB3 /* FeedPostViewModelable.swift */; };
 		1586D3042AB193F7001D4A80 /* Season.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1586D3032AB193F7001D4A80 /* Season.swift */; };
 		15889D4C2AE0375700B1CB31 /* SearchDetailHeaderInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A93EE62ACDE4AB00FC4BBD /* SearchDetailHeaderInfo.swift */; };
-		158BE8862B0E84D60053FFE7 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 158BE8852B0E84D60053FFE7 /* SnapKit */; };
 		158BEF772A0E279700C27861 /* BasePostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158BEF762A0E279700C27861 /* BasePostView.swift */; };
 		158BEF792A0E27BD00C27861 /* PostCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158BEF782A0E27BD00C27861 /* PostCollectionView.swift */; };
 		158BEF812A0E2C9E00C27861 /* PostFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158BEF802A0E2C9E00C27861 /* PostFooterView.swift */; };
@@ -706,7 +705,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				134CCB542B014C3500D51D84 /* Pods_travelPlan.framework in Frameworks */,
-				158BE8862B0E84D60053FFE7 /* SnapKit in Frameworks */,
 				151DF0CF2AEE397000D5D55B /* Alamofire in Frameworks */,
 				151DF0D62AEE3C0700D5D55B /* SHCoordinator in Frameworks */,
 			);
@@ -2038,7 +2036,6 @@
 			packageProductDependencies = (
 				151DF0CE2AEE397000D5D55B /* Alamofire */,
 				151DF0D52AEE3C0700D5D55B /* SHCoordinator */,
-				158BE8852B0E84D60053FFE7 /* SnapKit */,
 			);
 			productName = travelPlan;
 			productReference = 1594F52E29FD517E00A58F20 /* travelPlan.app */;
@@ -2079,7 +2076,6 @@
 			packageReferences = (
 				1503F9272A4E0603002BC38D /* XCRemoteSwiftPackageReference "SHCoordinator" */,
 				151DF0CD2AEE397000D5D55B /* XCRemoteSwiftPackageReference "Alamofire" */,
-				158BE8842B0E84D60053FFE7 /* XCRemoteSwiftPackageReference "SnapKit" */,
 			);
 			productRefGroup = 1594F52F29FD517E00A58F20 /* Products */;
 			projectDirPath = "";
@@ -2835,14 +2831,6 @@
 				minimumVersion = 5.8.1;
 			};
 		};
-		158BE8842B0E84D60053FFE7 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.0.1;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -2855,11 +2843,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 1503F9272A4E0603002BC38D /* XCRemoteSwiftPackageReference "SHCoordinator" */;
 			productName = SHCoordinator;
-		};
-		158BE8852B0E84D60053FFE7 /* SnapKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 158BE8842B0E84D60053FFE7 /* XCRemoteSwiftPackageReference "SnapKit" */;
-			productName = SnapKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
