@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// Feed탭의 포스트(사용자 여행 경험 후기)글은 1~5개의 이미지를 갖습니다.
 @propertyWrapper
 struct PostThumbnailValue {
   private let minThumbanils = 1
