@@ -239,6 +239,7 @@ extension ReviewWritingContentView {
       .first()
       .sink { [weak self] keyboardRect in
         self?.scrollValue.keyboardHeight = keyboardRect.height
+        // TODO: - changeContentInset() 중복호출에 대한 문제는 아직까진 없지만, 중복호출 고려해서 리빌딩하기
         self?.changeContentInset()
       }
       .store(in: &subscriptions)
