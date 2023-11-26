@@ -92,6 +92,7 @@
 		151130092A04E4EB0041DDA1 /* travelPlanTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151130082A04E4EB0041DDA1 /* travelPlanTests.swift */; };
 		151130162A04E5B00041DDA1 /* travelPlanUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151130152A04E5B00041DDA1 /* travelPlanUITests.swift */; };
 		151130182A04E5B00041DDA1 /* travelPlanUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151130172A04E5B00041DDA1 /* travelPlanUITestsLaunchTests.swift */; };
+		1519412B2B138F7E00D9B6BF /* PostCellConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1519412A2B138F7E00D9B6BF /* PostCellConfigurable.swift */; };
 		151DF0CF2AEE397000D5D55B /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 151DF0CE2AEE397000D5D55B /* Alamofire */; };
 		151DF0D62AEE3C0700D5D55B /* SHCoordinator in Frameworks */ = {isa = PBXBuildFile; productRef = 151DF0D52AEE3C0700D5D55B /* SHCoordinator */; };
 		151DF0DA2AEE6DF700D5D55B /* NoticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151DF0D92AEE6DF700D5D55B /* NoticeViewController.swift */; };
@@ -174,7 +175,6 @@
 		158BEFC02A0EB2A500C27861 /* Pretendard-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 158BEFB72A0EB2A500C27861 /* Pretendard-Black.ttf */; };
 		158BEFC22A0EB45300C27861 /* UIFont+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158BEFC12A0EB45300C27861 /* UIFont+.swift */; };
 		158BEFC42A0EC8A100C27861 /* UIView+CustomAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158BEFC32A0EC8A100C27861 /* UIView+CustomAnimation.swift */; };
-		158BEFC92A0F6E8800C27861 /* PostThumbnailType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158BEFC82A0F6E8800C27861 /* PostThumbnailType.swift */; };
 		158BEFD02A0FE2C000C27861 /* OneUnitHeightLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158BEFCF2A0FE2C000C27861 /* OneUnitHeightLine.swift */; };
 		158C6A372B0D138500C30856 /* ImageIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158C6A362B0D138500C30856 /* ImageIO.swift */; };
 		158C6A392B0D15C400C30856 /* ImageIO+Nested.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158C6A382B0D15C400C30856 /* ImageIO+Nested.swift */; };
@@ -456,6 +456,7 @@
 		151130132A04E5B00041DDA1 /* travelPlanUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = travelPlanUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		151130152A04E5B00041DDA1 /* travelPlanUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = travelPlanUITests.swift; sourceTree = "<group>"; };
 		151130172A04E5B00041DDA1 /* travelPlanUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = travelPlanUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		1519412A2B138F7E00D9B6BF /* PostCellConfigurable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCellConfigurable.swift; sourceTree = "<group>"; };
 		151DF0D92AEE6DF700D5D55B /* NoticeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeViewController.swift; sourceTree = "<group>"; };
 		151DF0DB2AEE6EB500D5D55B /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
 		151DF0DD2AEE709800D5D55B /* Bool+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bool+.swift"; sourceTree = "<group>"; };
@@ -532,7 +533,6 @@
 		158BEFB72A0EB2A500C27861 /* Pretendard-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Black.ttf"; sourceTree = "<group>"; };
 		158BEFC12A0EB45300C27861 /* UIFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+.swift"; sourceTree = "<group>"; };
 		158BEFC32A0EC8A100C27861 /* UIView+CustomAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+CustomAnimation.swift"; sourceTree = "<group>"; };
-		158BEFC82A0F6E8800C27861 /* PostThumbnailType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostThumbnailType.swift; sourceTree = "<group>"; };
 		158BEFCF2A0FE2C000C27861 /* OneUnitHeightLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneUnitHeightLine.swift; sourceTree = "<group>"; };
 		158C6A362B0D138500C30856 /* ImageIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageIO.swift; sourceTree = "<group>"; };
 		158C6A382B0D15C400C30856 /* ImageIO+Nested.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageIO+Nested.swift"; sourceTree = "<group>"; };
@@ -1861,6 +1861,7 @@
 				13300FAB2AC0883200952757 /* UICompositionalLayoutCreatable.swift */,
 				15A4F28C2ACC1025001AA51D /* Toggable.swift */,
 				15FFAC322ADD4C480013DB57 /* PostViewAdapterDataSource.swift */,
+				1519412A2B138F7E00D9B6BF /* PostCellConfigurable.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -1950,7 +1951,6 @@
 				15FFAC372ADD501B0013DB57 /* PostInfo.swift */,
 				15CB23652A10B7F1003EAF20 /* PostContentInfo.swift */,
 				15CB235A2A109CA4003EAF20 /* PostHeaderContentBottomInfo.swift */,
-				158BEFC82A0F6E8800C27861 /* PostThumbnailType.swift */,
 				15CB23682A10B9CF003EAF20 /* PostFooterInfo.swift */,
 				15FFAC392ADE47910013DB57 /* PostHeaderInfo.swift */,
 				15FFAC3B2ADE50880013DB57 /* PostHeaderContentInfo.swift */,
@@ -2392,7 +2392,6 @@
 				13A93EFB2AD1EA6B00FC4BBD /* TravelDestinationModel.swift in Sources */,
 				15E982BF2ACC95CC002B932F /* FavoriteDetailViewController.swift in Sources */,
 				158695952AE54D010087CCB3 /* FeedPostViewAdapterDataSource.swift in Sources */,
-				158BEFC92A0F6E8800C27861 /* PostThumbnailType.swift in Sources */,
 				15DA4C7F2ACD78C1003A7900 /* Int+.swift in Sources */,
 				1599587D2B0DC56200B2E4DC /* PostCellWithThreeThumbnails.swift in Sources */,
 				159F38CA2AFAABF9000A24C2 /* PostDetailProfileAreaFooterView.swift in Sources */,
@@ -2413,6 +2412,7 @@
 				15A4F28F2ACC11E5001AA51D /* ViewController.swift in Sources */,
 				157ADCB42AD07ED600D37680 /* SearchWithCancelView.swift in Sources */,
 				1303047B2A24938700776A0D /* SearchView.swift in Sources */,
+				1519412B2B138F7E00D9B6BF /* PostCellConfigurable.swift in Sources */,
 				15FEB5E52A050A99000A5F33 /* UIControl+Combine.swift in Sources */,
 				13C9C1AF2A17FFC400DF1FFF /* PostSearchHeaderViewDelegate.swift in Sources */,
 				15FFAC092AD7C1260013DB57 /* Requestable.swift in Sources */,
