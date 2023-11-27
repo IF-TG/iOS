@@ -19,8 +19,7 @@ final class ReviewWritingViewController: UIViewController {
   weak var coordinator: ReviewWritingCoordinatorDelegate?
   
   private lazy var titleView = NavigationTitleWithClickView(title: "테마 설정", layoutType: .rightImage).set {
-    let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapTitleView))
-    $0.addGestureRecognizer(tapGesture)
+    self.addGestureRecognizer(from: $0, action: #selector(didTapTitleView))
   }
   
   private let keyboardImage: UIImage = .init(named: "keyboard") ?? .init(systemName: "keyboard")!
@@ -42,6 +41,7 @@ final class ReviewWritingViewController: UIViewController {
   
   private lazy var scrollView = UIScrollView().set {
     let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapScrollView))
+    tapGesture.delegate = self
     $0.addGestureRecognizer(tapGesture)
     $0.alwaysBounceVertical = true
   }
@@ -52,11 +52,10 @@ final class ReviewWritingViewController: UIViewController {
     $0.delegate = self
   }
   private var subscriptions = Set<AnyCancellable>()
-  private var scrollViewBottomConstraint: ConstraintMakerEditable?
   private let viewModel = ReviewWritingViewModel()
   private let input = ReviewWritingViewModel.Input()
   private var isViewDidAppearFirstCalled = false
-  
+  private weak var imageView: UIImageView?
   // MARK: - LifeCycle
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -64,7 +63,7 @@ final class ReviewWritingViewController: UIViewController {
     setupStyles()
     setupNavigationBar()
     bindNotificationCenter()
-    addGestureRecognizer()
+    addGestureRecognizer(from: self.view, action: #selector(didTapView))
     setContentViewClosures()
     
     bind()
@@ -80,7 +79,6 @@ final class ReviewWritingViewController: UIViewController {
     super.viewDidAppear(animated)
     if !isViewDidAppearFirstCalled {
       contentView.bottomViewHeight(bottomView.frame.height)
-      contentView.scrollViewHeight(scrollView.frame.height)
       isViewDidAppearFirstCalled = true
     }
   }
@@ -127,7 +125,7 @@ extension ReviewWritingViewController: ViewBindCase {
     case .keyboardDown:
       view.endEditing(true)
     case .manageTextViewDisplay:
-      contentView.manageTextViewDisplay()
+      contentView.manageContentOffsetYByLastView()
     case .presentThemeSetting:
       print("테마 설정 화면 띄우기")
     }
@@ -138,8 +136,8 @@ extension ReviewWritingViewController: ViewBindCase {
 
 // MARK: - Private Helpers
 extension ReviewWritingViewController {
-  private func addGestureRecognizer() {
-    let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+  private func addGestureRecognizer(from view: UIView, action: Selector?) {
+    let tapGesture = UITapGestureRecognizer(target: self, action: action)
     view.addGestureRecognizer(tapGesture)
   }
   
@@ -189,7 +187,7 @@ extension ReviewWritingViewController {
       let frameHeightIsSmallerThanContentHeight = scrollView.contentSize.height > scrollView.bounds.height
       guard frameHeightIsSmallerThanContentHeight else { return }
       
-      if lastView is UITextView {
+      if lastView is UITextView, let cursorHeight = cursorHeight {
         scrollView.setContentOffset(
           CGPoint(x: .zero, y: scrollView.contentOffset.y + cursorHeight),
           animated: true
@@ -200,6 +198,11 @@ extension ReviewWritingViewController {
           animated: true
         )
       }
+    }
+    
+    contentView.imageViewUpdated = { [weak self] newImageView in
+      print("imageView tapped")
+      self?.imageView = newImageView
     }
   }
   
@@ -222,11 +225,12 @@ extension ReviewWritingViewController: LayoutSupport {
       $0.top.equalTo(view.safeAreaLayoutGuide)
       $0.leading.trailing.equalToSuperview().inset(15)
       $0.height.equalToSuperview().multipliedBy(0.73)
-      scrollViewBottomConstraint = $0.bottom.equalTo(bottomView.snp.top)
+      $0.bottom.equalTo(bottomView.snp.top)
     }
     
     contentView.snp.makeConstraints {
-      $0.edges.equalTo(scrollView.contentLayoutGuide)
+      $0.top.leading.trailing.equalTo(scrollView.contentLayoutGuide)
+      $0.bottom.equalToSuperview().inset(80)
       $0.width.equalTo(scrollView.frameLayoutGuide)
     }
     
@@ -250,7 +254,8 @@ private extension ReviewWritingViewController {
   }
   
   @objc func didTapFinishButton() {
-    input.didTapFinishButton.send()
+    let contentData = contentView.extractContentData()
+    input.didTapFinishButton.send(contentData)
   }
   
   @objc func didTapTitleView() {
@@ -261,25 +266,38 @@ private extension ReviewWritingViewController {
     input.didTapScrollView.send()
   }
   
-  @objc func dismissKeyboard() {
+  @objc func didTapView() {
     input.didTapView.send()
   }
 }
 
-// MARK: - DefaultTapGestureDelegate
+// MARK: - ReviewWritingBottomViewDelegate
 extension ReviewWritingViewController: ReviewWritingBottomViewDelegate {
   func didTapPlanView(_ view: UIView) {
     input.didTapPlanView.send()
   }
   
   func didTapCameraButton(_ button: UIButton) {
+    if contentView.firstMessageTextViewTextIsPlaceholder {
+      contentView.hideMessageTextView()
+    }
     input.didTapAlbumButton.send()
   }
 }
 
-// MARK: - ReviewWritingContentDelegate
+// MARK: - ReviewWritingContentViewDelegate
 extension ReviewWritingViewController: ReviewWritingContentViewDelegate {
   func changeContentInset(bottomEdge: CGFloat) {
     setScrollViewBottomInset(inset: bottomEdge)
+  }
+}
+
+// MARK: - UIGestureRecognizerDelegate
+extension ReviewWritingViewController: UIGestureRecognizerDelegate {
+  func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+    if touch.view === self.imageView, gestureRecognizer.view === scrollView {
+      return false
+    }
+      return true
   }
 }
