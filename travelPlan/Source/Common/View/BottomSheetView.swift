@@ -13,7 +13,6 @@ protocol BottomSheetViewDelegate: AnyObject {
 
 class BottomSheetView: UIView {
   enum Constants {
-    static let cornerRadius: CGFloat = 8
     enum TopView {
       static let height: CGFloat = 30
     }
@@ -40,50 +39,24 @@ class BottomSheetView: UIView {
     $0.isUserInteractionEnabled = false
   }
   
-  private var contentView = UIView(frame: .zero).set {
-    $0.translatesAutoresizingMaskIntoConstraints = false
-  }
+  private var contentView: UIView
   
   weak var baseDelegate: BottomSheetViewDelegate?
   
   // MARK: - Lifecycle
-  override init(frame: CGRect) {
+  /// upperEdgeRadius는 바텀시트 상단의 radius입니다.
+  init(frame: CGRect, contentView: UIView, upperEdgeRadius: CGFloat = 8) {
+    self.contentView = contentView
     super.init(frame: frame)
     configureUI()
-    layer.cornerRadius = Constants.cornerRadius
+    layer.cornerRadius = upperEdgeRadius
   }
   
-  required init?(coder: NSCoder) {
-    super.init(coder: coder)
-    configureUI()
-    layer.cornerRadius = Constants.cornerRadius
-  }
+  required init?(coder: NSCoder) { nil }
   
-  convenience init() {
-    self.init(frame: .zero)
+  convenience init(contentView: UIView, upperEdgeRadius: CGFloat = 8) {
+    self.init(frame: .zero, contentView: contentView, upperEdgeRadius: upperEdgeRadius)
     translatesAutoresizingMaskIntoConstraints = false
-  }
-  
-  init(radius: CGFloat) {
-    super.init(frame: .zero)
-    translatesAutoresizingMaskIntoConstraints = false
-    layer.cornerRadius = radius
-    configureUI()
-  }
-  
-  // MARK: - Helper
-  func setContentView(_ contentView: UIView) {
-    self.contentView.addSubview(contentView)
-    NSLayoutConstraint.activate([
-      contentView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
-      contentView.topAnchor.constraint(equalTo: self.contentView.topAnchor),
-      contentView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor),
-      contentView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor)])
-    layoutIfNeeded()
-  }
-  
-  func setCornerRadius(_ radius: CGFloat) {
-    layer.cornerRadius = Constants.cornerRadius
   }
   
   // MARK: - Private helper

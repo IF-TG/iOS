@@ -43,20 +43,21 @@ class BaseBottomSheetViewController: UIViewController {
   private var isShowedWithKeyBoard = false
 
   // MARK: - Lifecycle
-  init(mode: ContentMode, radius: CGFloat) {
+  init(contentView: UIView, mode: ContentMode, radius: CGFloat) {
     contentMode = mode
-    bottomSheetView = BottomSheetView(radius: radius)
+    bottomSheetView = BottomSheetView(contentView: contentView, upperEdgeRadius: radius)
     super.init(nibName: nil, bundle: nil)
   }
   
   init(
+    contentView: UIView,
     mode: ContentMode,
     radius: CGFloat = 8,
     isShowedKeyBoard: Bool
   ) {
     self.isShowedWithKeyBoard = isShowedKeyBoard
     self.contentMode = mode
-    bottomSheetView = BottomSheetView(radius: radius)
+    bottomSheetView = BottomSheetView(contentView: contentView, upperEdgeRadius: radius)
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -103,16 +104,6 @@ class BaseBottomSheetViewController: UIViewController {
         dismiss(animated: false)
       }
     }
-  }
-  
-  // MARK: - Helper
-  func setContentView(_ contentView: UIView) {
-    bottomSheetView.setContentView(contentView)
-    setBottomSheetOriginProperties()
-  }
-  
-  func setCornerRadius(_ radius: CGFloat) {
-    bottomSheetView.setCornerRadius(radius)
   }
   
   // MARK: - Private helper

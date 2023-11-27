@@ -21,10 +21,7 @@ final class PostFilteringBottomSheetViewController: BaseBottomSheetViewControlle
   }
   
   // MARK: - Properties
-  private let contentView = UIView(frame: .zero).set {
-    $0.translatesAutoresizingMaskIntoConstraints = false
-    $0.backgroundColor = .white
-  }
+  private let contentView: UIView
   
   private lazy var tableView = UITableView(frame: .zero, style: .plain).set {
     $0.translatesAutoresizingMaskIntoConstraints = false
@@ -51,25 +48,24 @@ final class PostFilteringBottomSheetViewController: BaseBottomSheetViewControlle
     bottomSheetMode: BaseBottomSheetViewController.ContentMode,
     sortingType: PostSearchFilterType
   ) {
+    let contentView = UIView(frame: .zero).set {
+      $0.translatesAutoresizingMaskIntoConstraints = false
+      $0.backgroundColor = .white
+    }
+    self.contentView = contentView
     self.sortingType = sortingType
-    super.init(mode: bottomSheetMode, radius: 8)
+    super.init(contentView: contentView, mode: bottomSheetMode, radius: 8)
   }
   
-  required init?(coder: NSCoder) {
-    sortingType = .travelOrder
-    super.init(coder: coder)
-  }
+  required init?(coder: NSCoder) { nil }
   
   override func viewDidLoad() {
     guard sortingType.subCateogryTitles != TravelRegion.toKoreanList else {
       setTableViewPosition()
-      setContentView(contentView)
       super.viewDidLoad()
       return
     }
-    
     super.viewDidLoad()
-    setContentView(contentView)
     setTableViewPosition()
   }
   
