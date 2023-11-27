@@ -85,10 +85,12 @@ private extension SettingViewController {
   func configureUI() {
     view.backgroundColor = .yg.gray00Background
     let settingLabels = makeSettingLabels()
+    // TODO: - 추후 한정된 타입으로 변경해야함.
     setStackView(index: 0, from: (0...1).map { settingLabels[$0] })
     setStackView(index: 1, from: (2...5).map { settingLabels[$0] })
     setStackView(index: 2, from: (6...8).map { settingLabels[$0] })
     setStackView(index: 3, from: (9...9).map { settingLabels[$0] })
+    [0, 2, 6, 9].forEach { settingLabels[$0].isUserInteractionEnabled = false }
     setupUI()
   }
   
