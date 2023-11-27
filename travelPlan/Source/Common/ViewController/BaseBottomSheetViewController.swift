@@ -45,7 +45,7 @@ class BaseBottomSheetViewController: UIViewController {
   // MARK: - Lifecycle
   init(contentView: UIView, mode: ContentMode, radius: CGFloat) {
     contentMode = mode
-    bottomSheetView = BottomSheetView(contentView: contentView, upperEdgeRadius: radius)
+    bottomSheetView = BottomSheetView(contentView: contentView, bottomSheetInfo: .init(upperEdgeRadius: radius))
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -57,7 +57,7 @@ class BaseBottomSheetViewController: UIViewController {
   ) {
     self.isShowedWithKeyBoard = isShowedKeyBoard
     self.contentMode = mode
-    bottomSheetView = BottomSheetView(contentView: contentView, upperEdgeRadius: radius)
+    bottomSheetView = BottomSheetView(contentView: contentView, bottomSheetInfo: .init(upperEdgeRadius: radius))
     super.init(nibName: nil, bundle: nil)
   }
   

@@ -41,21 +41,25 @@ class BottomSheetView: UIView {
   
   private var contentView: UIView
   
+  private var bottomSheetTopAreaHeight: CGFloat
+  
   weak var baseDelegate: BottomSheetViewDelegate?
   
   // MARK: - Lifecycle
   /// upperEdgeRadius는 바텀시트 상단의 radius입니다.
-  init(frame: CGRect, contentView: UIView, upperEdgeRadius: CGFloat = 8) {
+  init(frame: CGRect, contentView: UIView, bottomSheetInfo: BottomSheetInfo) {
     self.contentView = contentView
+    bottomSheetTopAreaHeight = bottomSheetInfo.topAreaHeight
     super.init(frame: frame)
+    
     configureUI()
-    layer.cornerRadius = upperEdgeRadius
+    layer.cornerRadius = bottomSheetInfo.upperEdgeRadius
   }
   
   required init?(coder: NSCoder) { nil }
   
-  convenience init(contentView: UIView, upperEdgeRadius: CGFloat = 8) {
-    self.init(frame: .zero, contentView: contentView, upperEdgeRadius: upperEdgeRadius)
+  convenience init(contentView: UIView, bottomSheetInfo: BottomSheetInfo = .init(topAreaHeight: 30, upperEdgeRadius: 8)) {
+    self.init(frame: .zero, contentView: contentView, bottomSheetInfo: bottomSheetInfo)
     translatesAutoresizingMaskIntoConstraints = false
   }
   
@@ -112,7 +116,7 @@ private extension BottomSheetView {
         equalTo: trailingAnchor),
       topView.topAnchor.constraint(
         equalTo: topAnchor),
-      topView.heightAnchor.constraint(equalToConstant: Const.height)]
+      topView.heightAnchor.constraint(equalToConstant: bottomSheetTopAreaHeight)]
   }
   
   var topIndicatorViewConstraints: [NSLayoutConstraint] {
@@ -133,5 +137,20 @@ private extension BottomSheetView {
       contentView.trailingAnchor.constraint(equalTo: trailingAnchor),
       contentView.topAnchor.constraint(equalTo: topView.bottomAnchor),
       contentView.bottomAnchor.constraint(equalTo: bottomAnchor)]
+  }
+}
+
+// MARK: - Nested
+extension BottomSheetView {
+  struct BottomSheetInfo {
+    /// 바텀시트 뷰 위쪽 터치 영역 뷰 ( 안에 터치 바 있습니다 )
+    let topAreaHeight: CGFloat
+    let upperEdgeRadius: CGFloat
+    
+    /// 기본 30
+    init(topAreaHeight: CGFloat = 30, upperEdgeRadius: CGFloat) {
+      self.topAreaHeight = topAreaHeight
+      self.upperEdgeRadius = upperEdgeRadius
+    }
   }
 }
