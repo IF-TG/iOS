@@ -29,11 +29,11 @@ import UIKit.UIColor
   var fontType: UIFont.Pretendard {
     switch self {
     case .accountSetting, .activitySetting, .service:
-      return .semiBold_600(fontSize: 16)
+      return .semiBold_600(fontSize: 18)
     case .versionInformation:
-      return .regular_400(fontSize: 13)
+      return .regular_400(fontSize: 16)
     default:
-      return .medium_500(fontSize: 14)
+      return .medium_500(fontSize: 16)
     }
   }
   
