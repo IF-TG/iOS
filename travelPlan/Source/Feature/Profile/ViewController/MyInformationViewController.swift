@@ -53,6 +53,7 @@ final class MyInformationViewController: UIViewController {
     $0.text = "저장"
     $0.textColor = .yg.gray1
     $0.textAlignment = .right
+    $0.isUserInteractionEnabled = false
     $0.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapStoreLabel)))
   }
   
@@ -120,15 +121,27 @@ private extension MyInformationViewController {
       .changed
       .debounce(for: 0.2, scheduler: RunLoop.main)
       .sink { [weak self] in
-      if (2...15).contains($0.count) {
-        // TODO: - 서버에 이 이름을 가진 유저가 있는지 체크 후 inputTextField 상태 변경해야합니다.
-        // 이때 네비바 '저장' 레이블 상태도 변경해야합니다.
-        self?.inputTextField.textState = .available
-      } else if $0.count == 0 || $0.isEmpty {
-        self?.inputTextField.textState = .initial
-      } else {
-        self?.inputTextField.textState = .overflow
-      }
+        if (3...15).contains($0.count) {
+          // TODO: - 서버에 이 이름을 가진 유저가 있는지 체크 후 inputTextField 상태 변경해야합니다.
+          // 이때 네비바 '저장' 레이블 상태도 변경해야합니다.
+          self?.inputTextField.textState = .available
+          self?.inputNoticeLabel.textColor = .yg.primary
+          self?.storeLabel.isUserInteractionEnabled = true
+          self?.storeLabel.textColor = .yg.primary
+        } else if $0.count == 0 || $0.isEmpty {
+          self?.inputTextField.textState = .initial
+        } else if (1...3).contains($0.count) {
+          self?.inputTextField.textState = .underflow
+          self?.inputNoticeLabel.textColor = .yg.red2
+        } else {
+          self?.inputTextField.textState = .overflow
+          self?.inputNoticeLabel.textColor = .yg.red2
+        }
+        if self?.inputTextField.textState != .available {
+          self?.storeLabel.isUserInteractionEnabled = false
+          self?.storeLabel.textColor = .yg.gray1
+        }
+        self?.inputNoticeLabel.text = self?.inputTextField.textState.quotation
     }.store(in: &subscriptions)
   }
 }
@@ -141,7 +154,10 @@ extension MyInformationViewController {
   
   @objc func didTapStoreLabel() {
     // TODO: - 서버에 변경된 내용 보내서 변경해야합니다.
-    
+    storeLabel.textColor = .yg.gray1
+    storeLabel.isUserInteractionEnabled = false
+    inputTextField.textState = .normal
+    inputNoticeLabel.text = ""
   }
 }
 
