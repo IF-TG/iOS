@@ -48,7 +48,15 @@ final class SettingUserNameTextField: UITextField {
     }
     
     var noticeIconPath: String {
-      ""
+      switch self {
+      case .duplicated, .overflow:
+        return "x-circle-delete"
+      case .available:
+        return "v-circle-success"
+      default:
+        /// 옵셔널 지정 생성자의 장점은 init을 할수없다면 nil반환한다는것입니다.
+        return ""
+      }
     }
   }
   
@@ -58,9 +66,7 @@ final class SettingUserNameTextField: UITextField {
   @Published var textState: State = .initial {
     didSet {
       layer.borderColor = textState.borderColor
-      if textState != .normal {
-        noticeIcon.image = UIImage(named: textState.noticeIconPath)
-      }
+      noticeIcon.image = UIImage(named: textState.noticeIconPath)
     }
   }
   
