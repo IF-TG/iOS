@@ -52,6 +52,8 @@ final class SettingUserNameTextField: UITextField {
     }
   }
   
+  private var isSpaceViewSet = false
+  
   /// 서버에 체크 후 사용가능한지에 따라 textState를 변화해야합니다.
   @Published var textState: State = .initial {
     didSet {
@@ -95,11 +97,14 @@ extension SettingUserNameTextField {
   func configureUI() {
     layer.borderWidth = 1.5
     layer.cornerRadius = 5
-    let leftPaddingView = UIView(frame: .init(x: 0, y: 0, width: 10, height: frame.height))
-    let rightPaddingView = UIView(frame: .init(x: 0, y: 0, width: 40.5, height: frame.height))
+    layer.borderColor = textState.borderColor
+    setupUI()
+    let leftPaddingView = UIView(frame: .init(x: 0, y: 0, width: 10, height: CGFloat.leastNormalMagnitude))
+    let rightPaddingView = UIView(frame: .init(x: 0, y: 0, width: 40.5, height: CGFloat.leastNormalMagnitude))
     leftView = leftPaddingView
     rightView = rightPaddingView
-    setupUI()
+    leftViewMode = .always
+    rightViewMode = .always
   }
 }
 
