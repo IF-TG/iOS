@@ -10,6 +10,8 @@ import SHCoordinator
 
 protocol ProfileCoordinatorDelegate: AnyObject {
   func finish()
+  
+  func showMyInformationPage()
 }
 
 final class ProfileCoordinator: FlowCoordinator {
@@ -31,4 +33,9 @@ final class ProfileCoordinator: FlowCoordinator {
 }
 
 // MARK: - ProfileCoordinatorDelegate
-extension ProfileCoordinator: ProfileCoordinatorDelegate {}
+extension ProfileCoordinator: ProfileCoordinatorDelegate {
+  func showMyInformationPage() {
+    let viewController = MyInformationViewController()
+    presenter?.pushViewController(viewController, animated: true)
+  }
+}
