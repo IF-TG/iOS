@@ -31,10 +31,15 @@ final class MyInformationViewController: UIViewController {
   
   private let connectedSNSStackView = ConnectedSNSStackView()
   
-  private let logoutLabel = BaseLabel(fontType: .regular_400(fontSize: 14), lineHeight: 46).set {
+  private lazy var logoutLabel = BaseLabel(fontType: .regular_400(fontSize: 14)).set {
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.text = "로그아웃"
     $0.textColor = .yg.gray3
+    $0.sizeToFit()
+    let rightLayer = CALayer()
+    rightLayer.frame = CGRect(x: 0, y: $0.bounds.height-1, width: $0.bounds.width, height: 1)
+    rightLayer.backgroundColor = UIColor.yg.gray3.cgColor
+    $0.layer.addSublayer(rightLayer)
   }
   
   private var isLogoutBottomLineDrawn = false
@@ -56,10 +61,6 @@ final class MyInformationViewController: UIViewController {
     super.viewDidAppear(animated)
     if !isLogoutBottomLineDrawn {
       isLogoutBottomLineDrawn.toggle()
-      let rightLayer = CALayer()
-      rightLayer.frame = CGRect(x: 0, y: 0, width: logoutLabel.bounds.width, height: logoutLabel.bounds.height-1)
-      rightLayer.backgroundColor = UIColor.yg.gray3.cgColor
-      logoutLabel.layer.addSublayer(rightLayer)
     }
   }
 }
@@ -105,9 +106,9 @@ extension MyInformationViewController: LayoutSupport {
       connectedSNSStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -71.5),
       
       logoutLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-      logoutLabel.topAnchor.constraint(equalTo: connectedSNSStackView.bottomAnchor, constant: 17),
+      logoutLabel.topAnchor.constraint(equalTo: connectedSNSStackView.bottomAnchor, constant: 25),
       
       withdrawalLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-      withdrawalLabel.topAnchor.constraint(equalTo: logoutLabel.bottomAnchor)])
+      withdrawalLabel.topAnchor.constraint(equalTo: logoutLabel.bottomAnchor, constant: 8)])
   }
 }
