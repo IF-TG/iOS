@@ -69,6 +69,30 @@ private extension MyInformationViewController {
     baseAppearance.backgroundColor = .white
     navigationItem.standardAppearance = baseAppearance
     navigationItem.scrollEdgeAppearance = baseAppearance
+    let backButton = UIButton(frame: .zero).set {
+      $0.setImage(UIImage(named: "back"), for: .normal)
+      $0.widthAnchor.constraint(equalToConstant: 55).isActive = true
+      $0.heightAnchor.constraint(equalToConstant: 24).isActive = true
+      $0.addTarget(self, action: #selector(didTapBackBarButton(_:)), for: .touchUpInside)
+      let paragraphStyle = NSMutableParagraphStyle()
+      paragraphStyle.alignment = .left
+      let attributes = [
+        .foregroundColor: UIColor.yg.gray7,
+        .font: UIFont(pretendard: .medium_500(fontSize: 16)) ?? .systemFont(ofSize: 16),
+        .paragraphStyle: paragraphStyle
+      ] as [NSAttributedString.Key: Any]
+      let attributedString = NSAttributedString(string: "MY", attributes: attributes)
+      $0.setAttributedTitle(attributedString, for: .normal)
+    }
+    navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
+  
+  }
+}
+
+// MARK: - Actions
+extension MyInformationViewController {
+  @objc func didTapBackBarButton(_ sender: Any) {
+    navigationController?.popViewController(animated: true)
   }
 }
 
