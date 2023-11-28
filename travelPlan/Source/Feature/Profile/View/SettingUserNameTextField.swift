@@ -67,6 +67,12 @@ final class SettingUserNameTextField: UITextField {
   // MARK: - Lifecycle
   override init(frame: CGRect) {
     super.init(frame: frame)
+    configureUI()
+  }
+  
+  convenience init() {
+    self.init(frame: .zero)
+    translatesAutoresizingMaskIntoConstraints = false
   }
   
   required init?(coder: NSCoder) {
