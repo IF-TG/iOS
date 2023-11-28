@@ -11,6 +11,8 @@ import Combine
 final class SettingUserNameTextField: UITextField {
   // MARK: - Nested
   enum State {
+    case initial
+    
     case normal
     // 새로운 닉네임 변환 가능
     case available
@@ -21,7 +23,7 @@ final class SettingUserNameTextField: UITextField {
     
     var quotation: String {
       switch self {
-      case .normal:
+      case .normal, .initial:
         return ""
       case .available:
         return "사용 가능한 닉네임입니다"
@@ -34,6 +36,8 @@ final class SettingUserNameTextField: UITextField {
     
     var borderColor: CGColor {
       switch self {
+      case .initial:
+        return UIColor.yg.gray2.cgColor
       case .normal:
         return UIColor.yg.gray5.cgColor
       case .available:
@@ -49,7 +53,7 @@ final class SettingUserNameTextField: UITextField {
   }
   
   /// 서버에 체크 후 사용가능한지에 따라 textState를 변화해야합니다.
-  @Published var textState: State = .normal {
+  @Published var textState: State = .initial {
     didSet {
       layer.borderColor = textState.borderColor
       if textState != .normal {
