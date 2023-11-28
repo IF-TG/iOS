@@ -15,7 +15,7 @@ class BottomSheetView: UIView {
   enum Constants {
     static let cornerRadius: CGFloat = 8
     enum TopView {
-      static let height: CGFloat = 20
+      static let height: CGFloat = 30
     }
     
     enum TopIndicatorView {
