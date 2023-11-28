@@ -10,7 +10,6 @@ import UIKit
 final class OperationGuideViewController: BaseSettingViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
-    configureUI()
     let highlightInfo = HighlightFontInfo(
       fontType: .semiBold_600(fontSize: 15),
       lineHeight: 23,
@@ -36,18 +35,6 @@ final class OperationGuideViewController: BaseSettingViewController {
 
 // MARK: - Private Helpers
 extension OperationGuideViewController {
-  func configureUI() {
-    view.backgroundColor = .yg.gray00Background
-    let appearance = UINavigationBarAppearance()
-    appearance.backgroundColor = .white
-    navigationItem.standardAppearance = appearance
-    navigationItem.scrollEdgeAppearance = appearance
-    navigationItem.titleView = BaseLabel(fontType: .semiBold_600(fontSize: 18), lineHeight: 22).set {
-      $0.text = "이용안내"
-      $0.textColor = .yg.gray7
-    }
-  }
-  
   fileprivate var yeogaUsageText: String {
     """
     안녕하세요.
