@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 final class MyInformationViewController: UIViewController {
   // MARK: - Properties
@@ -55,10 +56,13 @@ final class MyInformationViewController: UIViewController {
     $0.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapStoreLabel)))
   }
   
+  private var subscriptions = Set<AnyCancellable>()
+  
   // MARK: - Lifecycle
   override func viewDidLoad() {
     super.viewDidLoad()
     configureUI()
+    bind()
   }
 }
 
@@ -109,6 +113,23 @@ private extension MyInformationViewController {
   
   func setNaviRightBarButton() {
     navigationItem.rightBarButtonItem = UIBarButtonItem(customView: storeLabel)
+  }
+  
+  func bind() {
+    inputTextField
+      .changed
+      .debounce(for: 0.2, scheduler: RunLoop.main)
+      .sink { [weak self] in
+      if (2...15).contains($0.count) {
+        // TODO: - 서버에 이 이름을 가진 유저가 있는지 체크 후 inputTextField 상태 변경해야합니다.
+        // 이때 네비바 '저장' 레이블 상태도 변경해야합니다.
+        self?.inputTextField.textState = .available
+      } else if $0.count == 0 || $0.isEmpty {
+        self?.inputTextField.textState = .initial
+      } else {
+        self?.inputTextField.textState = .overflow
+      }
+    }.store(in: &subscriptions)
   }
 }
 
