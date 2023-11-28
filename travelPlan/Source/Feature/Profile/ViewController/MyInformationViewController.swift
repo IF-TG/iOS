@@ -60,15 +60,27 @@ private extension MyInformationViewController {
   func configureUI() {
     view.backgroundColor = .yg.gray00Background
     setupUI()
+    setNaviTitle()
+    setNaviAppearance()
+    setBackBarButton()
+  }
+  
+  func setNaviTitle() {
     navigationItem.titleView = BaseLabel(fontType: .semiBold_600(fontSize: 18)).set {
       $0.textAlignment = .center
       $0.text = "내 정보"
       $0.textColor = .yg.gray7
     }
+  }
+  
+  func setNaviAppearance() {
     let baseAppearance = UINavigationBarAppearance()
     baseAppearance.backgroundColor = .white
     navigationItem.standardAppearance = baseAppearance
     navigationItem.scrollEdgeAppearance = baseAppearance
+  }
+  
+  func setBackBarButton() {
     let backButton = UIButton(frame: .zero).set {
       $0.setImage(UIImage(named: "back"), for: .normal)
       $0.widthAnchor.constraint(equalToConstant: 55).isActive = true
@@ -85,7 +97,6 @@ private extension MyInformationViewController {
       $0.setAttributedTitle(attributedString, for: .normal)
     }
     navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
-  
   }
 }
 
