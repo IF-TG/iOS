@@ -183,7 +183,10 @@ private extension SettingViewController {
     }
     UIView.animate(withDuration: 0.17, animations: {
       targetLabel.layer.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.1).cgColor
-    }, completion: { _ in
+    }, completion: { [weak self] _ in
+      if settingType == .operationGuide {
+        self?.coordinator?.showOperationGuidePage()
+      }
       print("\(settingType.rawValue ) 화면으로 이동해야합니다. 타입: \(settingType.self)")
       UIView.animate(withDuration: 0.13, animations: {
         targetLabel.layer.backgroundColor = UIColor.white.cgColor
