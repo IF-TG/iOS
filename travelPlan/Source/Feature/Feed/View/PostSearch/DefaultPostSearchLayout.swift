@@ -8,7 +8,8 @@
 import UIKit
 
 // MARK: - PostSearchLayout
-class DefaultPostSearchLayout: PostSearchLayout {
+class DefaultPostSearchLayout: CompositionalLayoutCreatable {
+  
   enum Constants {
     enum Recommendation {
       enum Item {
@@ -61,7 +62,7 @@ class DefaultPostSearchLayout: PostSearchLayout {
     }
   }
   
-  func createLayout() -> UICollectionViewCompositionalLayout {
+  func makeLayout() -> UICollectionViewCompositionalLayout {
     return UICollectionViewCompositionalLayout { [weak self] section, _ in
       switch section {
       case PostSearchSection.recommendation.rawValue:
