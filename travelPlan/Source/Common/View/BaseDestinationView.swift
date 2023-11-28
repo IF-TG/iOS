@@ -105,8 +105,8 @@ extension BaseDestinationView {
     starButton.isSelected.toggle()
   }
   
-  func configure(centerModel: CenterView.ModelType) {
-    centerView.configure(model: centerModel)
+  func configure(centerModel: CenterView.Info) {
+    centerView.configure(with: centerModel)
   }
   
   func configure(imageURL: String?, isSelectedButton: Bool) {

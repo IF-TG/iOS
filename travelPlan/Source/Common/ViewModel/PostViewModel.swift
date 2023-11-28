@@ -88,6 +88,10 @@ private extension PostViewModel {
 
 // MARK: - PostViewAdapterDataSource
 extension PostViewModel: PostViewAdapterDataSource {
+  func numberOfThumbnailsInPost(at index: Int) -> PostThumbnailCountValue {
+    return PostThumbnailCountValue(postItem(at: index).content.thumbnailURLs.count)
+  }
+  
   var numberOfItems: Int {
     posts.count
   }
