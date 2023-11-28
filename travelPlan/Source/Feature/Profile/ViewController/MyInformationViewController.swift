@@ -83,6 +83,7 @@ final class MyInformationViewController: UIViewController {
 // MARK: - Private Helpers
 private extension MyInformationViewController {
   func configureUI() {
+    modalPresentationStyle = .fullScreen
     view.backgroundColor = .yg.gray00Background
     setupUI()
     setNaviTitle()
@@ -181,21 +182,21 @@ extension MyInformationViewController {
     guard let selectedLabel = gesture.view as? UILabel, let text = selectedLabel.text else {
       return
     }
+    dismiss(animated: false)
+    let picker = UIImagePickerController()
+    picker.allowsEditing = true
+    picker.delegate = self
     switch text {
     case "사진 찍기":
-      print("앨범에서 선택하도록 이동해야합니다.")
-      dismiss(animated: false)
+      picker.sourceType = .camera
+      picker.cameraDevice = .rear
+      picker.cameraCaptureMode = .photo
     case "앨범에서 선택":
-      dismiss(animated: false)
-      let picker = UIImagePickerController()
       picker.sourceType = .photoLibrary
-      picker.delegate = self
-      picker.allowsEditing = true
-      modalPresentationStyle = .fullScreen
-      present(picker, animated: true)
     default:
-      print("잘못된 텍스트입니다.")
+      return
     }
+    present(picker, animated: true)
   }
   
   @objc func didTapProfile() {
@@ -234,7 +235,6 @@ extension MyInformationViewController {
 
 // MARK: - UIImagePickerControllerDelegate
 extension MyInformationViewController: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
-  
   func imagePickerController(
     _ picker: UIImagePickerController,
     didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
