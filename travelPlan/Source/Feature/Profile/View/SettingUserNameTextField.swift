@@ -21,6 +21,9 @@ final class SettingUserNameTextField: UITextField {
     // 입력된 길이 초과
     case overflow
     
+    // 더 입력해야합니다.
+    case underflow
+    
     var quotation: String {
       switch self {
       case .normal, .initial:
@@ -30,7 +33,9 @@ final class SettingUserNameTextField: UITextField {
       case .duplicated:
         return "중복된 닉네임입니다. 바꿔주세요."
       case .overflow:
-        return "닉네임 "
+        return "닉네임 제한길이를 초과했습니다."
+      case .underflow:
+        return "닉네임 제한길이를 만족해야 합니다."
       }
     }
     
@@ -42,14 +47,14 @@ final class SettingUserNameTextField: UITextField {
         return UIColor.yg.gray5.cgColor
       case .available:
         return UIColor.yg.primary.cgColor
-      case .duplicated, .overflow:
+      case .duplicated, .overflow, .underflow:
         return UIColor.yg.red2.cgColor
       }
     }
     
     var noticeIconPath: String {
       switch self {
-      case .duplicated, .overflow:
+      case .duplicated, .overflow, .underflow:
         return "x-circle-delete"
       case .available:
         return "v-circle-success"
