@@ -54,7 +54,7 @@ extension ConnectedSNSStackView {
 // MARK: - Private Helpers
 private extension ConnectedSNSStackView {
   func makeImageView(with name: String) -> UIImageView {
-    return UIImageView(image: UIImage(named: name + "-icon-small")).set {
+    return UIImageView(image: UIImage(named: name + "-logo-small")).set {
       $0.contentMode = .scaleAspectFill
       $0.alpha = 0.3
       $0.widthAnchor.constraint(equalToConstant: 34).isActive = true
