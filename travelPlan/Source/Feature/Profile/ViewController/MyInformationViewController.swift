@@ -177,13 +177,54 @@ extension MyInformationViewController {
     setSubviewsDefaultUI()
   }
   
+  @objc func didTapBottomSheetComponent(_ gesture: UITapGestureRecognizer) {
+    print("hi")
+    guard let selectedLabel = gesture.view as? UILabel, let text = selectedLabel.text else {
+      return
+    }
+    switch text {
+    case "사진 찍기":
+      print("사진찍기로 이동해야합니다")
+      dismiss(animated: true)
+      let picker = UIImagePickerController()
+      picker.sourceType = .photoLibrary
+      picker.delegate = self
+      picker.allowsEditing = true
+      modalPresentationStyle = .fullScreen
+      present(picker, animated: true)
+    case "앨범에서 선택":
+      print("앨범에서 선택하도록 이동해야합니다.")
+      dismiss(animated: true)
+    default:
+      print("잘못된 텍스트입니다.")
+    }
+  }
+  
   @objc func didTapProfile() {
-    let picker = UIImagePickerController()
-    picker.sourceType = .photoLibrary
-    picker.delegate = self
-    picker.allowsEditing = true
-    modalPresentationStyle = .fullScreen
-    present(picker, animated: true)
+    let bottomSheet = BaseBottomSheetViewController(mode: .couldBeFull, radius: 13)
+    let titles = ["사진 찍기", "앨범에서 선택"]
+    let labels = (0...1).map { index in
+      return BasePaddingLabel(
+        padding: .init(top: 15, left: 35, bottom: 15, right: 35),
+        fontType: .semiBold_600(fontSize: 16),
+        lineHeight: 25
+      ).set {
+        $0.isUserInteractionEnabled = true
+        $0.text = titles[index]
+        $0.textColor = .yg.gray5
+        $0.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapBottomSheetComponent)))
+      }
+    }
+    let stackView = UIStackView(arrangedSubviews: labels).set {
+      $0.translatesAutoresizingMaskIntoConstraints = false
+      $0.isUserInteractionEnabled = true
+      $0.axis = .vertical
+      $0.spacing = 0
+      $0.distribution = .fillEqually
+      $0.backgroundColor = .white
+    }
+    bottomSheet.setContentView(stackView)
+    presentBottomSheet(bottomSheet)
   }
 }
 
