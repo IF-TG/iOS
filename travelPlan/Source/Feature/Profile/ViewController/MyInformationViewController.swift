@@ -178,23 +178,21 @@ extension MyInformationViewController {
   }
   
   @objc func didTapBottomSheetComponent(_ gesture: UITapGestureRecognizer) {
-    print("hi")
     guard let selectedLabel = gesture.view as? UILabel, let text = selectedLabel.text else {
       return
     }
     switch text {
     case "사진 찍기":
-      print("사진찍기로 이동해야합니다")
-      dismiss(animated: true)
+      print("앨범에서 선택하도록 이동해야합니다.")
+      dismiss(animated: false)
+    case "앨범에서 선택":
+      dismiss(animated: false)
       let picker = UIImagePickerController()
       picker.sourceType = .photoLibrary
       picker.delegate = self
       picker.allowsEditing = true
       modalPresentationStyle = .fullScreen
       present(picker, animated: true)
-    case "앨범에서 선택":
-      print("앨범에서 선택하도록 이동해야합니다.")
-      dismiss(animated: true)
     default:
       print("잘못된 텍스트입니다.")
     }
@@ -202,6 +200,12 @@ extension MyInformationViewController {
   
   @objc func didTapProfile() {
     let bottomSheet = BaseBottomSheetViewController(mode: .couldBeFull, radius: 13)
+    let dividers: [UIView] = (0...1).map { _ in
+      return UIView(frame: .zero).set {
+        $0.heightAnchor.constraint(equalToConstant: 0.7).isActive = true
+        $0.backgroundColor = .yg.gray1
+      }
+    }
     let titles = ["사진 찍기", "앨범에서 선택"]
     let labels = (0...1).map { index in
       return BasePaddingLabel(
@@ -215,12 +219,12 @@ extension MyInformationViewController {
         $0.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapBottomSheetComponent)))
       }
     }
-    let stackView = UIStackView(arrangedSubviews: labels).set {
+    let stackView = UIStackView(arrangedSubviews: [labels[0], dividers[0], labels[1], dividers[1]]).set {
       $0.translatesAutoresizingMaskIntoConstraints = false
       $0.isUserInteractionEnabled = true
       $0.axis = .vertical
       $0.spacing = 0
-      $0.distribution = .fillEqually
+      $0.distribution = .fill
       $0.backgroundColor = .white
     }
     bottomSheet.setContentView(stackView)
