@@ -23,7 +23,11 @@ final class ConnectedSNSStackView: UIStackView {
     appleIcon = makeImageView(with: "apple")
     googleIcon = makeImageView(with: "google")
     [kakaoIcon, appleIcon, googleIcon].forEach { addArrangedSubview($0) }
-    
+  }
+  
+  convenience init() {
+    self.init(frame: .zero)
+    translatesAutoresizingMaskIntoConstraints = false
   }
   
   required init(coder: NSCoder) {
