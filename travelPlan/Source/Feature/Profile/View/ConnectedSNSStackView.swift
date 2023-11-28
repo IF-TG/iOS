@@ -18,7 +18,8 @@ final class ConnectedSNSStackView: UIStackView {
     super.init(frame: frame)
     axis = .horizontal
     spacing = 65
-    distribution = .fillEqually
+    distribution = .equalSpacing
+    
     kakaoIcon = makeImageView(with: "kakao")
     appleIcon = makeImageView(with: "apple")
     googleIcon = makeImageView(with: "google")

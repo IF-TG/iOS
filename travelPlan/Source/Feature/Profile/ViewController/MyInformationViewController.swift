@@ -167,6 +167,7 @@ extension MyInformationViewController {
     picker.sourceType = .photoLibrary
     picker.delegate = self
     picker.allowsEditing = true
+    modalPresentationStyle = .overFullScreen
     present(picker, animated: true)
   }
 }
@@ -176,10 +177,10 @@ extension MyInformationViewController: UIImagePickerControllerDelegate & UINavig
   
   func imagePickerController(
     _ picker: UIImagePickerController,
-    didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]
+    didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
   ) {
-    if let iamge = info[UIImagePickerController.InfoKey(rawValue: "UIImagePickerControllerEditedImage")] as? UIImage {
-      return
+    if let image = info[.editedImage] as? UIImage {
+      profileImageView.setImage(image)
     }
     picker.dismiss(animated: true, completion: nil)
   }
@@ -187,9 +188,7 @@ extension MyInformationViewController: UIImagePickerControllerDelegate & UINavig
   func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
     picker.dismiss(animated: true, completion: nil)
   }
-  
 }
-
 
 // MARK: - LayoutSupport
 extension MyInformationViewController: LayoutSupport {
@@ -227,7 +226,6 @@ extension MyInformationViewController: LayoutSupport {
       connectedSNSLabel.topAnchor.constraint(equalTo: inputTextField.bottomAnchor, constant: 16),
       
       connectedSNSStackView.topAnchor.constraint(equalTo: connectedSNSLabel.bottomAnchor, constant: 17),
-      connectedSNSStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
       connectedSNSStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 71.5),
       connectedSNSStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -71.5),
       
