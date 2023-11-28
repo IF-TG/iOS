@@ -2,8 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSCameraUsageDescription</key>
+	<string>카메라에 접근할 권한이 필요합니다.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Please allow access.</string>
+	<string>앨범에 접근할 권한이 필요합니다.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Pretendard-Black.ttf</string>
