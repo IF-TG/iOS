@@ -34,7 +34,6 @@ final class SettingMyProfileView: UIView {
   override init(frame: CGRect) {
     super.init(frame: frame)
     setupUI()
-    backgroundColor = .systemPink
   }
   
   convenience init() {
