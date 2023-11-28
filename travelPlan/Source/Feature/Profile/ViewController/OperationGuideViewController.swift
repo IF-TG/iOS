@@ -1,5 +1,5 @@
 //
-//  YeogaUsageViewController.swift
+//  OperationGuideViewController.swift
 //  travelPlan
 //
 //  Created by 양승현 on 11/29/23.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class YeogaUsageViewController: UIViewController {
+final class OperationGuideViewController: BaseSettingViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     configureUI()
@@ -35,7 +35,7 @@ final class YeogaUsageViewController: UIViewController {
 }
 
 // MARK: - Private Helpers
-extension YeogaUsageViewController {
+extension OperationGuideViewController {
   func configureUI() {
     view.backgroundColor = .yg.gray00Background
     let appearance = UINavigationBarAppearance()
