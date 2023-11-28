@@ -48,6 +48,13 @@ final class MyInformationViewController: UIViewController {
     $0.text = "회원탈퇴"
   }
   
+  private lazy var storeLabel = BaseLabel(fontType: .medium_500(fontSize: 16)).set {
+    $0.text = "저장"
+    $0.textColor = .yg.gray1
+    $0.textAlignment = .right
+    $0.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapStoreLabel)))
+  }
+  
   // MARK: - Lifecycle
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -63,6 +70,7 @@ private extension MyInformationViewController {
     setNaviTitle()
     setNaviAppearance()
     setBackBarButton()
+    setNaviRightBarButton()
   }
   
   func setNaviTitle() {
@@ -98,12 +106,21 @@ private extension MyInformationViewController {
     }
     navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
   }
+  
+  func setNaviRightBarButton() {
+    navigationItem.rightBarButtonItem = UIBarButtonItem(customView: storeLabel)
+  }
 }
 
 // MARK: - Actions
 extension MyInformationViewController {
   @objc func didTapBackBarButton(_ sender: Any) {
     navigationController?.popViewController(animated: true)
+  }
+  
+  @objc func didTapStoreLabel() {
+    // TODO: - 서버에 변경된 내용 보내서 변경해야합니다.
+    
   }
 }
 
