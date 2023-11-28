@@ -157,6 +157,13 @@ private extension MyInformationViewController {
         self?.inputNoticeLabel.text = self?.inputTextField.textState.quotation
     }.store(in: &subscriptions)
   }
+  
+  func setSubviewsDefaultUI() {
+    storeLabel.textColor = .yg.gray1
+    storeLabel.isUserInteractionEnabled = false
+    inputTextField.textState = .normal
+    inputNoticeLabel.text = ""
+  }
 }
 
 // MARK: - Actions
@@ -167,10 +174,7 @@ extension MyInformationViewController {
   
   @objc func didTapStoreLabel() {
     // TODO: - 서버에 변경된 내용 보내서 변경해야합니다.
-    storeLabel.textColor = .yg.gray1
-    storeLabel.isUserInteractionEnabled = false
-    inputTextField.textState = .normal
-    inputNoticeLabel.text = ""
+    setSubviewsDefaultUI()
   }
   
   @objc func didTapProfile() {
@@ -178,7 +182,6 @@ extension MyInformationViewController {
     picker.sourceType = .photoLibrary
     picker.delegate = self
     picker.allowsEditing = true
-    modalPresentationStyle = .overFullScreen
     present(picker, animated: true)
   }
 }
