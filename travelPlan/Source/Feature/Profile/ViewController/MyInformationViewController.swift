@@ -67,6 +67,17 @@ final class MyInformationViewController: UIViewController {
     configureUI()
     bind()
   }
+  
+  override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    super.touchesBegan(touches, with: event)
+    if let touch = touches.first {
+      let point = touch.location(in: view)
+      guard inputTextField.isFirstResponder else { return }
+      if !inputTextField.frame.contains(point) {
+        inputTextField.resignFirstResponder()
+      }
+    }
+  }
 }
 
 // MARK: - Private Helpers
