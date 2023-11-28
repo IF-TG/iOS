@@ -42,8 +42,6 @@ final class MyInformationViewController: UIViewController {
     $0.layer.addSublayer(rightLayer)
   }
   
-  private var isLogoutBottomLineDrawn = false
-  
   private let withdrawalLabel = BaseLabel(fontType: .regular_400(fontSize: 14), lineHeight: 46).set {
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.textColor = .yg.red2
@@ -53,15 +51,24 @@ final class MyInformationViewController: UIViewController {
   // MARK: - Lifecycle
   override func viewDidLoad() {
     super.viewDidLoad()
+    configureUI()
+  }
+}
+
+// MARK: - Private Helpers
+private extension MyInformationViewController {
+  func configureUI() {
     view.backgroundColor = .yg.gray00Background
     setupUI()
-  }
-  
-  override func viewDidAppear(_ animated: Bool) {
-    super.viewDidAppear(animated)
-    if !isLogoutBottomLineDrawn {
-      isLogoutBottomLineDrawn.toggle()
+    navigationItem.titleView = BaseLabel(fontType: .semiBold_600(fontSize: 18)).set {
+      $0.textAlignment = .center
+      $0.text = "내 정보"
+      $0.textColor = .yg.gray7
     }
+    let baseAppearance = UINavigationBarAppearance()
+    baseAppearance.backgroundColor = .white
+    navigationItem.standardAppearance = baseAppearance
+    navigationItem.scrollEdgeAppearance = baseAppearance
   }
 }
 
