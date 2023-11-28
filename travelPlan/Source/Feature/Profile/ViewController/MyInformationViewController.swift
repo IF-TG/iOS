@@ -182,6 +182,7 @@ extension MyInformationViewController {
     picker.sourceType = .photoLibrary
     picker.delegate = self
     picker.allowsEditing = true
+    modalPresentationStyle = .fullScreen
     present(picker, animated: true)
   }
 }
