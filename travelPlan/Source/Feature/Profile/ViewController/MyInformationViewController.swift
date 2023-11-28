@@ -10,7 +10,9 @@ import Combine
 
 final class MyInformationViewController: UIViewController {
   // MARK: - Properties
-  private let profileImageView = SettingMyProfileView()
+  private lazy var profileImageView = SettingMyProfileView().set {
+    $0.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapProfile)))
+  }
   
   private let nicknameLabel = BaseLabel(fontType: .semiBold_600(fontSize: 18), lineHeight: 38).set {
     $0.translatesAutoresizingMaskIntoConstraints = false
@@ -159,7 +161,35 @@ extension MyInformationViewController {
     inputTextField.textState = .normal
     inputNoticeLabel.text = ""
   }
+  
+  @objc func didTapProfile() {
+    let picker = UIImagePickerController()
+    picker.sourceType = .photoLibrary
+    picker.delegate = self
+    picker.allowsEditing = true
+    present(picker, animated: true)
+  }
 }
+
+// MARK: - UIImagePickerControllerDelegate
+extension MyInformationViewController: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
+  
+  func imagePickerController(
+    _ picker: UIImagePickerController,
+    didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]
+  ) {
+    if let iamge = info[UIImagePickerController.InfoKey(rawValue: "UIImagePickerControllerEditedImage")] as? UIImage {
+      return
+    }
+    picker.dismiss(animated: true, completion: nil)
+  }
+  
+  func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+    picker.dismiss(animated: true, completion: nil)
+  }
+  
+}
+
 
 // MARK: - LayoutSupport
 extension MyInformationViewController: LayoutSupport {
