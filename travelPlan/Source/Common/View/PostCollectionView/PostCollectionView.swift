@@ -11,9 +11,7 @@ import Combine
 class PostCollectionView: UICollectionView {
   enum Constant {
     enum Layout {
-      static var estimatedCellHeight: CGFloat {
-        PostCell.Constant.maximumHeight
-      }
+      static let estimatedCellHeight: CGFloat = 289 - 33.42
       static let groupInset: NSDirectionalEdgeInsets = .init(top: 10, leading: 10, bottom: 10, trailing: 10)
     }
     static let backgroundColor: UIColor = .yg.gray00Background
@@ -97,8 +95,10 @@ extension PostCollectionView {
   private func configureUI() {
     showsHorizontalScrollIndicator = false
     backgroundColor = Constant.backgroundColor
-    register(
-      PostCell.self,
-      forCellWithReuseIdentifier: PostCell.id)
+    register(PostCellWithOneThumbnail.self, forCellWithReuseIdentifier: PostCellWithOneThumbnail.id)
+    register(PostCellWithTwoThumbnails.self, forCellWithReuseIdentifier: PostCellWithTwoThumbnails.id)
+    register(PostCellWithThreeThumbnails.self, forCellWithReuseIdentifier: PostCellWithThreeThumbnails.id)
+    register(PostCellWithFourThumbnails.self, forCellWithReuseIdentifier: PostCellWithFourThumbnails.id)
+    register(PostCellWithFiveThumbnails.self, forCellWithReuseIdentifier: PostCellWithFiveThumbnails.id)
   }
 }

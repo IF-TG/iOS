@@ -78,10 +78,12 @@ extension LeftAlignThreeLabelsView {
 
 // MARK: - ConfigurableCenterView
 extension LeftAlignThreeLabelsView: CellConfigurable {
-  func configure(model: Model) {
-    titleLabel.text = model.place
-    secondLabel.text = model.category
-    thirdLabel.text = model.location
+  typealias Info = Model
+  
+  func configure(with info: Info?) {
+    titleLabel.text = info?.place
+    secondLabel.text = info?.category
+    thirdLabel.text = info?.location
   }
 }
 
