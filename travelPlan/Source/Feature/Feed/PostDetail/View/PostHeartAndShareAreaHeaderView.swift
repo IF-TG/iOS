@@ -13,23 +13,23 @@ final class PostHeartAndShareAreaHeaderView: UITableViewHeaderFooterView {
   // MARK: - Properties
   private var postHeartState: Bool? = false
   
-  private let heartStackView = IconWithCountLabelStackView(
+  private let heartStackView = IconWithLabelStackView(
     iconInfo: .init(size: .init(width: 20, height: 20),
                     iconPath: "unselectedHeart"),
     countInfo: .init(fontType: .regular_400(fontSize: 14), lineHeight: nil)
   ).set {
-    $0.countLabel.textColor = .yg.gray4
-    $0.countLabel.text = "0"
+    $0.label.textColor = .yg.gray4
+    $0.label.text = "0"
   }
   
-  private let commentStackView = IconWithCountLabelStackView(
+  private let commentStackView = IconWithLabelStackView(
     iconInfo: .init(size: .init(width: 20, height: 20),
                     iconPath: "feedComment"),
     countInfo: .init(fontType: .regular_400(fontSize: 14), lineHeight: nil)
   ).set {
     $0.icon.image = $0.icon.image?.setColor(.yg.gray4)
-    $0.countLabel.textColor = .yg.gray4
-    $0.countLabel.text = "0"
+    $0.label.textColor = .yg.gray4
+    $0.label.text = "0"
   }
   
   private lazy var shareButton = UIButton().set {
