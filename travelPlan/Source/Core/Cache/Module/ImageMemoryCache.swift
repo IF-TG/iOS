@@ -14,7 +14,7 @@ public final actor ImageMemoryCache {
 
 // MARK: - ImageCachable
 extension ImageMemoryCache: ImageMemoryCachable {
-  func image(for url: String) -> UIImage? {
+  public func image(for url: String) -> UIImage? {
     guard let cached = cache[url] else {
       guard let image = imageConverter.base64ToImage(url) else {
         print("DEBUG: Image's Base64 형태가 잘못 되었습니다.")
@@ -26,19 +26,19 @@ extension ImageMemoryCache: ImageMemoryCachable {
     return cached
   }
   
-  func insert(_ image: UIImage, forKey url: String) {
+  public func insert(_ image: UIImage, forKey url: String) {
     cache[url] = image
   }
   
-  func removeImage(for url: String) {
+  public func removeImage(for url: String) {
     cache[url] = nil
   }
   
-  nonisolated func removeAllImages() {
+  public nonisolated func removeAllImages() {
     cache.removeAll()
   }
   
-  subscript(url: String) -> UIImage? {
+  public subscript(url: String) -> UIImage? {
     get {
       return image(for: url)
     }

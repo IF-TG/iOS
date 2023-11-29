@@ -279,6 +279,10 @@
 		15F0D1B92A524E1F00D04773 /* PostChevronLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F0D1B82A524E1F00D04773 /* PostChevronLabel.swift */; };
 		15F0D1BE2A52940F00D04773 /* PostViewBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F0D1BD2A52940F00D04773 /* PostViewBottomSheetViewController.swift */; };
 		15F0D1D32A53095100D04773 /* PostViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F0D1D22A53095100D04773 /* PostViewAdapter.swift */; };
+		15F2A0182B14E32B0014603D /* MyInformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F2A0172B14E32B0014603D /* MyInformationViewController.swift */; };
+		15F2A01C2B14E4E50014603D /* SettingMyProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F2A01B2B14E4E50014603D /* SettingMyProfileView.swift */; };
+		15F2A01E2B1584880014603D /* SettingUserNameTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F2A01D2B1584880014603D /* SettingUserNameTextField.swift */; };
+		15F2A0202B15AEA10014603D /* ConnectedSNSStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F2A01F2B15AEA10014603D /* ConnectedSNSStackView.swift */; };
 		15F36A152AB1961F00971803 /* TravelRegion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F36A142AB1961F00971803 /* TravelRegion.swift */; };
 		15F36A182AB1986000971803 /* TravelTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F36A172AB1986000971803 /* TravelTheme.swift */; };
 		15F36A1A2AB1A18200971803 /* CaseIterable+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F36A192AB1A18200971803 /* CaseIterable+.swift */; };
@@ -636,6 +640,10 @@
 		15F0D1B82A524E1F00D04773 /* PostChevronLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostChevronLabel.swift; sourceTree = "<group>"; };
 		15F0D1BD2A52940F00D04773 /* PostViewBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewBottomSheetViewController.swift; sourceTree = "<group>"; };
 		15F0D1D22A53095100D04773 /* PostViewAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewAdapter.swift; sourceTree = "<group>"; };
+		15F2A0172B14E32B0014603D /* MyInformationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInformationViewController.swift; sourceTree = "<group>"; };
+		15F2A01B2B14E4E50014603D /* SettingMyProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingMyProfileView.swift; sourceTree = "<group>"; };
+		15F2A01D2B1584880014603D /* SettingUserNameTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingUserNameTextField.swift; sourceTree = "<group>"; };
+		15F2A01F2B15AEA10014603D /* ConnectedSNSStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectedSNSStackView.swift; sourceTree = "<group>"; };
 		15F36A142AB1961F00971803 /* TravelRegion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelRegion.swift; sourceTree = "<group>"; };
 		15F36A172AB1986000971803 /* TravelTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelTheme.swift; sourceTree = "<group>"; };
 		15F36A192AB1A18200971803 /* CaseIterable+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CaseIterable+.swift"; sourceTree = "<group>"; };
@@ -955,6 +963,7 @@
 			children = (
 				13254FEC2A0515D800094218 /* SettingViewController.swift */,
 				15C1F5622AF408D3005FDA15 /* ProfileViewController+SettingType.swift */,
+				15F2A0172B14E32B0014603D /* MyInformationViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -1612,6 +1621,9 @@
 			isa = PBXGroup;
 			children = (
 				15C1F55E2AF3CDD4005FDA15 /* SettingTopSheetView.swift */,
+				15F2A01B2B14E4E50014603D /* SettingMyProfileView.swift */,
+				15F2A01D2B1584880014603D /* SettingUserNameTextField.swift */,
+				15F2A01F2B15AEA10014603D /* ConnectedSNSStackView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -2233,6 +2245,7 @@
 				15CB23612A10B5E3003EAF20 /* DateValidationProtocol.swift in Sources */,
 				13405F002AECF76300382796 /* BaseLoginButton.swift in Sources */,
 				15E982C12ACD16A2002B932F /* FavoriteDetailMenuAreaView.swift in Sources */,
+				15F2A01C2B14E4E50014603D /* SettingMyProfileView.swift in Sources */,
 				152AD4F62A18B6C3008A2A11 /* FavoriteHeaderImageViews.swift in Sources */,
 				15C1F55A2AF37092005FDA15 /* BaseLabel.swift in Sources */,
 				157ADCA02ACFB33100D37680 /* UIScrollView+.swift in Sources */,
@@ -2247,6 +2260,8 @@
 				151DF10A2AEEC58600D5D55B /* MockSession.swift in Sources */,
 				15F0D1D32A53095100D04773 /* PostViewAdapter.swift in Sources */,
 				152AD5272A1B89D2008A2A11 /* FavoriteViewModel.swift in Sources */,
+				15F2A01E2B1584880014603D /* SettingUserNameTextField.swift in Sources */,
+				158BEF7F2A0E2C6E00C27861 /* PostContentView.swift in Sources */,
 				15FFAC0B2AD7C22B0013DB57 /* RequestType.swift in Sources */,
 				15710CB82A132C630023C19E /* FeedPostSearchBarItem.swift in Sources */,
 				131A110A2AB509FB007BDD66 /* UIView+roundCorners.swift in Sources */,
@@ -2386,6 +2401,7 @@
 				15FEB5E82A050A99000A5F33 /* UIControl+CombineInteraction.swift in Sources */,
 				157ADCA22ACFB55800D37680 /* FavoritePostViewAdapterDelegate.swift in Sources */,
 				1550D9B12ACB1D740046569B /* DevelopmentViewController.swift in Sources */,
+				15F2A0182B14E32B0014603D /* MyInformationViewController.swift in Sources */,
 				13254FF02A0549D200094218 /* TabBarCase.swift in Sources */,
 				13254FEB2A0515C700094218 /* FavoriteViewController.swift in Sources */,
 				151DF0E72AEEA76500D5D55B /* NoticeViewModel.swift in Sources */,
@@ -2500,6 +2516,7 @@
 				159958812B0DC57600B2E4DC /* PostCellWithFiveThumbnails.swift in Sources */,
 				15F376642AFE134400B3BF35 /* PostReplyEntity.swift in Sources */,
 				1390CC5D2A8BADEC00E34DC3 /* TitleWithButtonHeaderViewDelegate.swift in Sources */,
+				15F2A0202B15AEA10014603D /* ConnectedSNSStackView.swift in Sources */,
 				13CB6D362A20E12B00D185B2 /* CALayer+Border.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
