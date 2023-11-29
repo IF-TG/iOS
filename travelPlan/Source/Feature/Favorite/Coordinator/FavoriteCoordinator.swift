@@ -36,8 +36,11 @@ extension FavoriteCoordinator {
     mode: BaseBottomSheetViewController.ContentMode,
     contentView: FavoriteDirectorySettingView
   ) -> BaseBottomSheetViewController {
-    let settingViewController = BaseBottomSheetViewController(mode: mode, radius: 25, isShowedKeyBoard: true)
-    settingViewController.setContentView(contentView)
+    let settingViewController = BaseBottomSheetViewController(
+      contentView: contentView,
+      mode: mode,
+      radius: 25,
+      isShowedKeyBoard: true)
     settingViewController.dismissHandler = {
       contentView.hideKeyboard()
     }
