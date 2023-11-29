@@ -26,6 +26,7 @@ public extension UIGestureRecognizer {
         .pan: UIPanGestureRecognizer(),
         .pinch: UIPinchGestureRecognizer()
       ] as [GestureType: UIGestureRecognizer]
+      return dict[self] ?? UITapGestureRecognizer()
     }
   }
 }
