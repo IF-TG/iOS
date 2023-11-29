@@ -46,7 +46,10 @@ private extension CustomerServiceViewController {
   func handleContentView() {
     contentViewSubscription = contentView
       .tapGesture
-      .filter { MFMailComposeViewController.canSendMail() }
+      .filter { [weak self] in
+        if !MFMailComposeViewController.canSendMail() { self?.showAlertForFailureToOpenMessage() }
+        return MFMailComposeViewController.canSendMail()
+      }
       .sink { [weak self] _ in
         let mail = MFMailComposeViewController()
         mail.mailComposeDelegate = self
@@ -57,12 +60,28 @@ private extension CustomerServiceViewController {
           isHTML: true)
         self?.present(mail, animated: true)
       }
-
   }
   
+  private func showAlertForFailureToOpenMessage() {
+    let alert = UIAlertController(
+      title: "메일 전송 실패",
+      message: "메일을 보내려면 'Mail' 앱이 필요합니다. App Store에서 해당 앱을 복원하거나 이메일 설정을 확인하고 다시 시도해주세요.",
+      preferredStyle: .alert)
+    let gotoAppStore = UIAlertAction(title: "App Store로 이동하기", style: .default) { _ in
+      guard
+        let url = URL(string: "https://apps.apple.com/kr/app/mail/id1108187098"),
+        UIApplication.shared.canOpenURL(url)
+      else { return }
+      UIApplication.shared.open(url, options: [:], completionHandler: nil)
+    }
+    let cancel = UIAlertAction(title: "취소", style: .destructive, handler: nil)
+    [gotoAppStore, cancel].forEach { alert.addAction($0) }
+  }
+
   private var defaultMeessage: String {
     """
-    <p style="font-family: Arial, sans-serif; color: #333; background-color: #f0f0f0; padding: 20px; margin: 0; white-space: pre-wrap;">
+    <p style="font-family: Arial, sans-serif; color: #333; background-color: #f0f0f0; 
+    padding: 20px; margin: 0; white-space: pre-wrap;">
     안녕하세요. "<span style="font-weight: bold; color: #1BA0EB;">여행을 가다"</span> 여가팀입니다.
     <br>
     - 문의사항이나 버그, 새선사항 등은 아래에 작성해주세요.
