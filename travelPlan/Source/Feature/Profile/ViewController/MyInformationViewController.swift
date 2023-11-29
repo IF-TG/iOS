@@ -200,7 +200,6 @@ extension MyInformationViewController {
   }
   
   @objc func didTapProfile() {
-    let bottomSheet = BaseBottomSheetViewController(mode: .couldBeFull, radius: 13)
     let dividers: [UIView] = (0...1).map { _ in
       return UIView(frame: .zero).set {
         $0.heightAnchor.constraint(equalToConstant: 0.7).isActive = true
@@ -228,7 +227,7 @@ extension MyInformationViewController {
       $0.distribution = .fill
       $0.backgroundColor = .white
     }
-    bottomSheet.setContentView(stackView)
+    let bottomSheet = BaseBottomSheetViewController(contentView: stackView, mode: .couldBeFull, radius: 13)
     presentBottomSheet(bottomSheet)
   }
 }

@@ -189,6 +189,8 @@ private extension SettingViewController {
       switch settingType {
       case .myInformation:
         self?.coordinator?.showMyInformationPage()
+      case .operationGuide:
+        self?.coordinator?.showOperationGuidePage()
       default:
         print("\(settingType.rawValue ) 화면으로 이동해야합니다. 타입: \(settingType.self)")
       }
