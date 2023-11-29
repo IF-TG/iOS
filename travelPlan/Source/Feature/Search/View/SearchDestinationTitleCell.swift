@@ -59,7 +59,7 @@ final class SearchDestinationTitleCell: UICollectionViewCell {
     $0.addTarget(self, action: #selector(didTapHeartButton), for: .touchUpInside)
   }
   private let heartCountLabel = UILabel().set {
-    $0.text = "+999"
+    $0.text = "+1"
     $0.textColor = .yg.gray6
     $0.font = .init(pretendard: .regular_400(fontSize: 14))
   }
@@ -79,7 +79,9 @@ final class SearchDestinationTitleCell: UICollectionViewCell {
   
   override func layoutSubviews() {
     super.layoutSubviews()
-    print("[cell layoutSubViews 내부] addressLabel size: \(addressLabel.frame.size)")
+    print("[[cell의 layoutSubViews 내부]] addressLabel.text: \(addressLabel.text)")
+    print("[[cell의 layoutSubViews 내부]] addressLabel.frame.size: \(addressLabel.frame.size)")
+    print("[[cell의 layoutSubviews 내부]] addressLabel.intrinsicContentSize: \(addressLabel.intrinsicContentSize)")
   }
 }
 
@@ -109,7 +111,8 @@ extension SearchDestinationTitleCell: LayoutSupport {
       $0.top.equalToSuperview().inset(20)
       $0.leading.equalToSuperview().inset(16)
       $0.bottom.equalTo(mapImageView.snp.top).offset(-20)
-      $0.width.equalTo(228)
+//      $0.width.equalTo(228)
+      $0.trailing.lessThanOrEqualTo(heartStackView.snp.leading).offset(-38)
     }
     
     mapImageView.snp.makeConstraints {
@@ -131,7 +134,6 @@ extension SearchDestinationTitleCell: LayoutSupport {
     
     heartStackView.snp.makeConstraints {
       $0.centerY.equalToSuperview()
-//      $0.top.equalToSuperview().inset(20)
       $0.trailing.equalToSuperview().inset(16)
     }
   }
@@ -142,22 +144,30 @@ extension SearchDestinationTitleCell {
   func configure(title: String?, address: String?) {
     titleLabel.text = title
     addressLabel.text = address
+    print("2. configure 호출됨. 이때 addressLabel.text는 \(addressLabel.text)")
   }
   
   func updateToggleButtonVisibility() {
     addressLabel.layoutIfNeeded()
-    let decreaseLabelWidth = addressLabel.intrinsicContentSize == addressLabel.frame.size
-    if decreaseLabelWidth {
-
-      toggleButton.isHidden = true
-    }
+    print("4. updateToggleButtonVisibility가 호출됨")
+    
+    print("[[addressLabel의 layoutIfNeeded호출 직후] addressLabel.text: \(addressLabel.text)")
+    print("[[addressLabel의 layoutIfNeeded호출 직후] addressLabel.frame.size: \(addressLabel.frame.size)")
+    print("[[addressLabel의 layoutIfNeeded호출 직후] addressLabel.intrinsicContentSize: \(addressLabel.intrinsicContentSize)")
+    
+    
+    
   }
 }
-
+//    let decreaseLabelWidth = addressLabel.intrinsicContentSize == addressLabel.frame.size
+//    if decreaseLabelWidth {
+//
+//      toggleButton.isHidden = true
+//    }
 // MARK: - Private Helpers
 extension SearchDestinationTitleCell {
   private func setupContentCompressionResistancePriorities() {
-    titleLabel.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
+//    titleLabel.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
     addressLabel.setContentCompressionResistancePriority(.fittingSizeLevel, for: .horizontal)
   }
   
