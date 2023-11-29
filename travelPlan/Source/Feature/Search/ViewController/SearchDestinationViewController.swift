@@ -38,12 +38,15 @@ class SearchDestinationViewController: UIViewController {
   }
   private lazy var collectionView = UICollectionView(
     frame: .zero,
-    collectionViewLayout: .init()
+    collectionViewLayout: SearchDestinationCollectionViewLayout().makeLayout()
   ).set {
     $0.backgroundColor = .yg.littleWhite
     $0.register(SearchDestinationTitleCell.self, forCellWithReuseIdentifier: SearchDestinationTitleCell.id)
     $0.dataSource = self
+    $0.delegate = self
   }
+  private var collectionViewWillDisplayIsFirstCalled = false
+  
   // MARK: - LifeCycle
   init(type: DestinationType) {
     self.type = type
@@ -129,11 +132,26 @@ extension SearchDestinationViewController: UICollectionViewDataSource {
       for: indexPath
     ) as? SearchDestinationTitleCell else { return .init() }
     
+//    cell.configure(title: "대전시립미술관", address: "대전광역시 서구 둔산대로117번길 155")
+    cell.configure(title: "대전시립미술관", address: "대전광역시")
     return cell
   }
 }
 
-// MARK: - UICollectionViewDelegate
-//extension SearchDestinationViewController: UICollectionViewDelegateFlowLayout {
-//
-//}
+extension SearchDestinationViewController: UICollectionViewDelegate {
+  func collectionView(
+    _ collectionView: UICollectionView,
+    willDisplay cell: UICollectionViewCell,
+    forItemAt indexPath: IndexPath
+  ) {
+    guard let titleCell = collectionView.dequeueReusableCell(
+      withReuseIdentifier: SearchDestinationTitleCell.id,
+      for: indexPath
+    ) as? SearchDestinationTitleCell else { return }
+    
+    if !collectionViewWillDisplayIsFirstCalled {
+      titleCell.updateToggleButtonVisibility()
+      collectionViewWillDisplayIsFirstCalled = true
+    }
+  }
+}
