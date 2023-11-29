@@ -322,5 +322,8 @@ extension SearchMoreDetailViewController: UICollectionViewDelegate {
   
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     input.didSelectItem.send(indexPath)
+    
+    // TODO: - will erase
+    navigationController?.pushViewController(SearchDestinationViewController(type: .festival), animated: true)
   }
 }
