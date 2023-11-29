@@ -49,7 +49,6 @@ final class PostCellWithThreeThumbnails: UICollectionViewCell {
         let size = CGSize(width: width, height: 118)
         if let image = imageCache[images[index]] {
           imageView.image = image
-          print("yes")
           return
         }
         let operation = BlockOperation { [weak self] in
