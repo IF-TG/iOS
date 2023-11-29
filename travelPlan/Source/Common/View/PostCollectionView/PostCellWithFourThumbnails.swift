@@ -44,14 +44,13 @@ final class PostCellWithFourThumbnails: UICollectionViewCell {
     }
     
     // MARK: - Helpers
-    func configureThumbnail(with images: [CIImage]?, forKey keys: [String]?) {
+    func configureThumbnail(with images: [String]?) {
       imageLoadQueue.cancelAllOperations()
-      guard let images, let keys else {
+      guard let images else {
         imageViews.forEach { $0.image = nil }
         return
       }
        
-      
       imageViews.enumerated().forEach { index, imageView in
         let width = (UIScreen.main.bounds.width - 43) / 2
         let size = CGSize(width: width, height: 118)
@@ -103,7 +102,7 @@ final class PostCellWithFourThumbnails: UICollectionViewCell {
 extension PostCellWithFourThumbnails: PostCellConfigurable {
   func configure(with info: PostInfo?) {
     postView.configure(with: info)
-    thumbnailView.configureThumbnail(with: info?.content.thumbnailCIImages)
+    thumbnailView.configureThumbnail(with: info?.content.thumbnailURLs)
   }
 }
 
