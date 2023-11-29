@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SettingViewController: UIViewController {
+final class SettingViewController: UIViewController {
   enum Constant {
     enum TopSheetView {
       static let height: CGFloat = 253
