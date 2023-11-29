@@ -54,7 +54,7 @@ public extension UIGestureRecognizer {
     private let view: UIView
     
     // MARK: - Lifecycle
-    init(gestureRecognizer: Gesture, view: UIView) {
+    init(view: UIView, gestureRecognizer: Gesture) {
       self.gestureRecognizer = gestureRecognizer
       self.view = view
     }
