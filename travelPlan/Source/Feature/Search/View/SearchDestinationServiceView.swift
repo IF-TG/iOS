@@ -31,7 +31,6 @@ class SearchDestinationServiceView: UIView {
     super.init(frame: frame)
     setupUI()
     setupStyles()
-    
   }
   
   required init?(coder: NSCoder) {
@@ -49,7 +48,16 @@ extension SearchDestinationServiceView: LayoutSupport {
   func setConstraints() {
     imageView.snp.makeConstraints {
       $0.top.equalToSuperview().inset(16)
-      
+      $0.leading.trailing.equalToSuperview().inset(27.5)
+      $0.size.equalTo(25)
+    }
+    
+    titleLabel.snp.makeConstraints {
+      $0.top.equalTo(imageView.snp.bottom).offset(16)
+      $0.leading.lessThanOrEqualToSuperview().inset(8.5)
+      $0.trailing.lessThanOrEqualToSuperview().inset(8.5)
+      $0.centerX.equalToSuperview()
+      $0.bottom.equalToSuperview().inset(8)
     }
   }
 }
