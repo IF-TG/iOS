@@ -13,6 +13,13 @@ final class PostCellWithTwoThumbnails: UICollectionViewCell {
   // MARK: - Nested
   private final class PostTwoThumbnailsView: UIStackView {
     private var imageViews: [UIImageView] = []
+    private let imageIO = ImageIO()
+    private let imageLoadQueue = {
+      $0.name = "TwoImageLoadQueue"
+      $0.maxConcurrentOperationCount = 2
+      return $0
+    }(OperationQueue())
+    private let imageCache = ImageMemoryCache()
     
     init() {
       super.init(frame: .zero)
@@ -32,12 +39,30 @@ final class PostCellWithTwoThumbnails: UICollectionViewCell {
     }
     
     func configureThumbnail(with images: [String]?) {
+      imageLoadQueue.cancelAllOperations()
       guard let images else {
         imageViews.forEach { $0.image = nil }
         return
       }
-      imageViews.enumerated().forEach {
-        $1.image = UIImage(named: images[$0])
+      imageViews.enumerated().forEach { index, imageView in
+        let width = (UIScreen.main.bounds.width - 43) / 2
+        let size = CGSize(width: width, height: 118)
+        if let image = imageCache[images[index]] {
+          imageView.image = image
+          return
+        }
+        let operation = BlockOperation { [weak self] in
+          let data = UIImage(named: images[index])!.pngData()!
+          let createType = ImageIO.ImageSourceCreateType.data(data)
+          let options = ImageIO.DownsampledOptions(imagePixelSize: size)
+          guard let cgImage = self?.imageIO.setDownsampledCGImage(at: createType, for: options) else { return }
+          DispatchQueue.main.async {
+            imageView.image = UIImage(cgImage: cgImage)
+            self?.imageCache[images[index]] = imageView.image
+          }
+        }
+        imageLoadQueue.addOperation(operation)
+
       }
     }
   }

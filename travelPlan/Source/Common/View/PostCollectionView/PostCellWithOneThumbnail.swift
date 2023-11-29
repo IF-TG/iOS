@@ -12,9 +12,18 @@ final class PostCellWithOneThumbnail: UICollectionViewCell {
   
   // MARK: - Nested
   private final class PostOneThumbnailView: UIImageView {
+    private let imageIO = ImageIO()
+    private let imageLoadQueue = {
+      $0.name = "TwoImageLoadQueue"
+      $0.maxConcurrentOperationCount = 2
+      return $0
+    }(OperationQueue())
+    private let imageCache = ImageMemoryCache()
+    
     override init(frame: CGRect) {
       super.init(frame: frame)
       contentMode = .scaleAspectFill
+      
     }
     
     required init?(coder: NSCoder) {
@@ -22,11 +31,28 @@ final class PostCellWithOneThumbnail: UICollectionViewCell {
     }
     
     func configureThumbnail(with images: [String]?) {
+      imageLoadQueue.cancelAllOperations()
       guard let images else {
         image = nil
         return
       }
-      image = UIImage(named: images[0])
+      let width = (UIScreen.main.bounds.width - 43) / 2
+      let size = CGSize(width: width, height: 118)
+      if let image = imageCache[images[0]] {
+        self.image = image
+        return
+      }
+      let operation = BlockOperation { [weak self] in
+        let data = UIImage(named: images[0])!.pngData()!
+        let createType = ImageIO.ImageSourceCreateType.data(data)
+        let options = ImageIO.DownsampledOptions(imagePixelSize: size)
+        guard let cgImage = self?.imageIO.setDownsampledCGImage(at: createType, for: options) else { return }
+        DispatchQueue.main.async {
+          self?.image = UIImage(cgImage: cgImage)
+          self?.imageCache[images[0]] = self?.image
+        }
+      }
+      imageLoadQueue.addOperation(operation)
     }
   }
   
