@@ -12,6 +12,7 @@ protocol ProfileCoordinatorDelegate: AnyObject {
   func finish()
   func showOperationGuidePage()
   func showMyInformationPage()
+  func showCustomerServicePage()
 }
 
 final class ProfileCoordinator: FlowCoordinator {
@@ -41,6 +42,11 @@ extension ProfileCoordinator: ProfileCoordinatorDelegate {
   
   func showMyInformationPage() {
     let viewController = MyInformationViewController()
+    presenter?.pushViewController(viewController, animated: true)
+  }
+  
+  func showCustomerServicePage() {
+    let viewController = CustomerServiceViewController(navigationTitle: "고객센터")
     presenter?.pushViewController(viewController, animated: true)
   }
 }
