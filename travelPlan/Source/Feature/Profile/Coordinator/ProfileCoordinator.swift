@@ -11,6 +11,7 @@ import SHCoordinator
 protocol ProfileCoordinatorDelegate: AnyObject {
   func finish()
   func showOperationGuidePage()
+  func showMyInformationPage()
 }
 
 final class ProfileCoordinator: FlowCoordinator {
@@ -36,5 +37,10 @@ extension ProfileCoordinator: ProfileCoordinatorDelegate {
   func showOperationGuidePage() {
     let operationGuidePage = OperationGuideViewController(navigationTitle: "이용안내")
     presenter?.pushViewController(operationGuidePage, animated: true)
+  }
+  
+  func showMyInformationPage() {
+    let viewController = MyInformationViewController()
+    presenter?.pushViewController(viewController, animated: true)
   }
 }
