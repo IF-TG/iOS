@@ -12,16 +12,21 @@ final class CustomerServiceViewController: BaseSettingViewController {
   // MARK: - Properties
   private lazy var mailServiceView = IconWithLabelStackView(
     iconInfo: .init(size: .init(width: 24, height: 24), iconPath: "mail-icon"),
-    countInfo: .init(fontType: .medium_500(fontSize: 16), lineHeight: 30)
+    countInfo: .init(fontType: .medium_500(fontSize: 16), lineHeight: nil)
   ).set {
+    $0.setCountLabel(text: "메일 문의")
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.spacing = 16
-    $0.setCountLabel(text: "메일 문의")
+    $0.distribution = .fillProportionally
+    $0.alignment = .center
+    $0.backgroundColor = .none
+    
   }
   
   private let contentView = UIView(frame: .zero).set {
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.layer.cornerRadius = 10
+    $0.backgroundColor = .white
   }
   
   // MARK: - Lifecycle
@@ -40,12 +45,12 @@ extension CustomerServiceViewController: LayoutSupport {
   
   func setConstraints() {
     NSLayoutConstraint.activate([
-      mailServiceView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-      mailServiceView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
-      mailServiceView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-      mailServiceView.heightAnchor.constraint(equalToConstant: 52),
+      contentView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+      contentView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+      contentView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+      contentView.heightAnchor.constraint(equalToConstant: 52),
     
-      contentView.leadingAnchor.constraint(equalTo: mailServiceView.leadingAnchor, constant: 20),
-      contentView.centerYAnchor.constraint(equalTo: mailServiceView.centerYAnchor)])
+      mailServiceView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+      mailServiceView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)])
   }
 }
