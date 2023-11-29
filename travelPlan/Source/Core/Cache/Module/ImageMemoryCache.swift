@@ -7,14 +7,17 @@
 
 import UIKit
 
-public final actor ImageMemoryCache {
+public final class ImageMemoryCache {
   private let cache = Cache<String, UIImage>()
   private let imageConverter = ImageConverter()
+  private let lock = NSLock()
 }
 
 // MARK: - ImageCachable
 extension ImageMemoryCache: ImageMemoryCachable {
   public func image(for url: String) -> UIImage? {
+    lock.lock()
+    defer { lock.unlock() }
     guard let cached = cache[url] else {
       guard let image = imageConverter.base64ToImage(url) else {
         print("DEBUG: Image's Base64 형태가 잘못 되었습니다.")
@@ -27,14 +30,16 @@ extension ImageMemoryCache: ImageMemoryCachable {
   }
   
   public func insert(_ image: UIImage, forKey url: String) {
-    cache[url] = image
+    lock.lock()
+    defer { lock.unlock() }
+    cache.insert(image, forKey: url)
   }
   
   public func removeImage(for url: String) {
     cache[url] = nil
   }
   
-  public nonisolated func removeAllImages() {
+  public func removeAllImages() {
     cache.removeAll()
   }
   
