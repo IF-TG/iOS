@@ -76,13 +76,6 @@ final class SearchDestinationTitleCell: UICollectionViewCell {
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
-  
-  override func layoutSubviews() {
-    super.layoutSubviews()
-    print("[[cell의 layoutSubViews 내부]] addressLabel.text: \(addressLabel.text)")
-    print("[[cell의 layoutSubViews 내부]] addressLabel.frame.size: \(addressLabel.frame.size)")
-    print("[[cell의 layoutSubviews 내부]] addressLabel.intrinsicContentSize: \(addressLabel.intrinsicContentSize)")
-  }
 }
 
 // MARK: - LayoutSupport
@@ -106,12 +99,10 @@ extension SearchDestinationTitleCell: LayoutSupport {
   func setConstraints() {
     setupContentCompressionResistancePriorities()
     
-    // FIXME: - 분명 vertical 오토레이아웃 설정 잘 한것 같은데, text 많아지면 titleLabel이 잘리는 현상 해결하기..
     titleLabel.snp.makeConstraints {
       $0.top.equalToSuperview().inset(20)
       $0.leading.equalToSuperview().inset(16)
       $0.bottom.equalTo(mapImageView.snp.top).offset(-20)
-//      $0.width.equalTo(228)
       $0.trailing.lessThanOrEqualTo(heartStackView.snp.leading).offset(-38)
     }
     
@@ -128,7 +119,7 @@ extension SearchDestinationTitleCell: LayoutSupport {
     
     copyStackView.snp.makeConstraints {
       $0.leading.equalTo(addressLabel.snp.trailing)
-      $0.trailing.lessThanOrEqualTo(heartStackView.snp.leading).offset(-41)
+      $0.trailing.lessThanOrEqualToSuperview().inset(90)
       $0.centerY.equalTo(mapImageView)
     }
     
@@ -144,26 +135,20 @@ extension SearchDestinationTitleCell {
   func configure(title: String?, address: String?) {
     titleLabel.text = title
     addressLabel.text = address
-    print("2. configure 호출됨. 이때 addressLabel.text는 \(addressLabel.text)")
   }
   
   func updateToggleButtonVisibility() {
     addressLabel.layoutIfNeeded()
-    print("4. updateToggleButtonVisibility가 호출됨")
     
-    print("[[addressLabel의 layoutIfNeeded호출 직후] addressLabel.text: \(addressLabel.text)")
-    print("[[addressLabel의 layoutIfNeeded호출 직후] addressLabel.frame.size: \(addressLabel.frame.size)")
-    print("[[addressLabel의 layoutIfNeeded호출 직후] addressLabel.intrinsicContentSize: \(addressLabel.intrinsicContentSize)")
-    
-    
-    
+    let decreaseLabelWidth = addressLabel.intrinsicContentSize != addressLabel.frame.size
+    if decreaseLabelWidth {
+      toggleButton.isHidden = false
+    } else {
+      toggleButton.isHidden = true
+    }
   }
 }
-//    let decreaseLabelWidth = addressLabel.intrinsicContentSize == addressLabel.frame.size
-//    if decreaseLabelWidth {
-//
-//      toggleButton.isHidden = true
-//    }
+
 // MARK: - Private Helpers
 extension SearchDestinationTitleCell {
   private func setupContentCompressionResistancePriorities() {

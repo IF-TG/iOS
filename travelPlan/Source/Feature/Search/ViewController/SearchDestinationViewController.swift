@@ -131,12 +131,13 @@ extension SearchDestinationViewController: UICollectionViewDataSource {
       withReuseIdentifier: SearchDestinationTitleCell.id,
       for: indexPath
     ) as? SearchDestinationTitleCell else { return .init() }
-    print("1. cellForItemAt 호출됨")
-    cell.configure(title: "대전시립미술관미술관미술관미술관미술관미술관미술관미술관미술관미술관미술관미술관미술관", address: "대전광역시")
+    //    cell.configure(title: "대전시립미술관", address: "대전광역시 서구 둔산대로117번길 155")
+    cell.configure(title: "대전시립미술관미술관미술관미술관미술관미술관미술관미술관미술관미술관미술관미술관미술관",
+                   address: "대전광역시대전광역시대전광역시대전광역시대전광역시대전광역시")
     return cell
   }
 }
-//    cell.configure(title: "대전시립미술관", address: "대전광역시 서구 둔산대로117번길 155")
+
 // MARK: - UICollectionViewDelegate
 extension SearchDestinationViewController: UICollectionViewDelegate {
   func collectionView(
@@ -144,14 +145,7 @@ extension SearchDestinationViewController: UICollectionViewDelegate {
     willDisplay cell: UICollectionViewCell,
     forItemAt indexPath: IndexPath
   ) {
-    guard let titleCell = collectionView.dequeueReusableCell(
-      withReuseIdentifier: SearchDestinationTitleCell.id,
-      for: indexPath
-    ) as? SearchDestinationTitleCell else { return }
-    if !collectionViewWillDisplayIsFirstCalled {
-      print("3. willDisplay호출됨.")
-      titleCell.updateToggleButtonVisibility()
-      collectionViewWillDisplayIsFirstCalled = true
-    }
+    guard let titleCell = cell as? SearchDestinationTitleCell else { return }
+    titleCell.updateToggleButtonVisibility()
   }
 }
