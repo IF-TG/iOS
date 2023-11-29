@@ -271,6 +271,8 @@ extension SearchViewController: UICollectionViewDelegate {
   ) {
     // pushTODO: - detailVC 화면 전환
     print("[\(indexPath.section), \(indexPath.item)] clicked")
+    // TODO: - will erase
+    navigationController?.pushViewController(SearchDestinationViewController(type: .festival), animated: true)
   }
 }
 
