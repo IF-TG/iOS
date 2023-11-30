@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SettingViewController: UIViewController {
+final class SettingViewController: UIViewController {
   enum Constant {
     enum TopSheetView {
       static let height: CGFloat = 253
@@ -191,6 +191,8 @@ private extension SettingViewController {
         self?.coordinator?.showMyInformationPage()
       case .operationGuide:
         self?.coordinator?.showOperationGuidePage()
+      case .customerService:
+        self?.coordinator?.showCustomerServicePage()
       default:
         print("\(settingType.rawValue ) 화면으로 이동해야합니다. 타입: \(settingType.self)")
       }

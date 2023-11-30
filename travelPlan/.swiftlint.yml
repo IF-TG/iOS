@@ -3,6 +3,7 @@ excluded:
     - Libraries
     - travelPlanTests/
     - travelPlanUITests/
+    - Source/Common/Extension/UIDevice+modelName.swift
 
 included:
 
