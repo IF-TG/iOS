@@ -13,8 +13,22 @@ class PlanViewController: UIViewController {
   // MARK: - Lifecycle
   override func viewDidLoad() {
     super.viewDidLoad()
-    view.backgroundColor = .cyan.withAlphaComponent(0.3)
-    // Do any additional setup after loading the view.
+    let scrollView = UIScrollView(frame: .zero)
+    view.addSubview(scrollView)
+    scrollView.translatesAutoresizingMaskIntoConstraints = false
+    let imageView = UIImageView(image: UIImage(named: "tempPlanPage"))
+    imageView.translatesAutoresizingMaskIntoConstraints = false
+    imageView.heightAnchor.constraint(equalToConstant: 1123).isActive = true
+    scrollView.addSubview(imageView)
+    NSLayoutConstraint.activate([
+      scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+      scrollView.topAnchor.constraint(equalTo: view.topAnchor, constant: -47-44),
+      scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+      scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+      imageView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor),
+      imageView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
+      imageView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor),
+      imageView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor)])
   }
   
   deinit {
