@@ -12,23 +12,23 @@ class PostFooterView: UIView {
   /// 초기 사용자가 포스트에 대해서 하트를 눌렀는지 상태 체크
   private var postHeartState: Bool? = false
   
-  private let heartStackView = IconWithCountLabelStackView(
+  private let heartStackView = IconWithLabelStackView(
     iconInfo: .init(size: .init(width: 20, height: 20),
                     iconPath: "unselectedHeart"), 
     countInfo: .init(fontType: .regular_400(fontSize: 14), lineHeight: nil)
   ).set {
-    $0.countLabel.textColor = .yg.gray4
-      $0.countLabel.text = "0"
+    $0.label.textColor = .yg.gray4
+      $0.label.text = "0"
     }
   
-  private let commentStackView = IconWithCountLabelStackView(
+  private let commentStackView = IconWithLabelStackView(
     iconInfo: .init(size: .init(width: 20, height: 20),
                     iconPath: "feedComment"),
     countInfo: .init(fontType: .regular_400(fontSize: 14), lineHeight: nil)
   ).set {
     $0.icon.image = $0.icon.image?.setColor(.yg.gray4)
-    $0.countLabel.textColor = .yg.gray4
-    $0.countLabel.text = "0"
+    $0.label.textColor = .yg.gray4
+    $0.label.text = "0"
   }
   
   private lazy var shareButton = UIButton().set {
@@ -123,11 +123,11 @@ extension PostFooterView {
   }
   
   private func setHeart(with text: String?) {
-    heartStackView.countLabel.text = text
+    heartStackView.label.text = text
   }
   
   private func setComment(with text: String?) {
-    commentStackView.countLabel.text = text
+    commentStackView.label.text = text
   }
 
   private func setHeartIcon(with state: Bool) {

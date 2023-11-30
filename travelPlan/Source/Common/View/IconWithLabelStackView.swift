@@ -1,5 +1,5 @@
 //
-//  IconWithCountLabelStackView.swift
+//  IconWithLabelStackView.swift
 //  travelPlan
 //
 //  Created by 양승현 on 11/13/23.
@@ -7,16 +7,16 @@
 
 import UIKit
 
-class IconWithCountLabelStackView: UIStackView {
+class IconWithLabelStackView: UIStackView {
   public let icon: UIImageView
   
-  public let countLabel: BaseLabel
+  public let label: BaseLabel
   
   init(frame: CGRect, iconInfo: IconInfo, countInfo: CountLabelInfo) {
     icon = UIImageView(image: UIImage(named: iconInfo.iconPath)).set {
       $0.contentMode = .scaleToFill
     }
-    countLabel = BaseLabel(fontType: countInfo.fontType, lineHeight: countInfo.lineHeight)
+    label = BaseLabel(fontType: countInfo.fontType, lineHeight: countInfo.lineHeight)
     super.init(frame: frame)
     configureUI()
     
@@ -38,17 +38,17 @@ class IconWithCountLabelStackView: UIStackView {
 }
 
 // MARK: - Helpers
-extension IconWithCountLabelStackView {
+extension IconWithLabelStackView {
   func setCountLabel(text: String?) {
-    countLabel.text = text
+    label.text = text
   }
 }
 
 // MARK: - Private Helpers
-extension IconWithCountLabelStackView {
+extension IconWithLabelStackView {
   private func configureUI() {
     addArrangedSubview(icon)
-    addArrangedSubview(countLabel)
+    addArrangedSubview(label)
     axis = .horizontal
     spacing = 5
     distribution = .equalSpacing
@@ -57,7 +57,7 @@ extension IconWithCountLabelStackView {
 }
 
 // MARK: - Utils
-extension IconWithCountLabelStackView {
+extension IconWithLabelStackView {
   struct IconInfo {
     let size: CGSize
     let iconPath: String
