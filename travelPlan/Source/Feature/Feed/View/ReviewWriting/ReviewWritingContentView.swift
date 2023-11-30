@@ -309,7 +309,7 @@ extension ReviewWritingContentView {
       }
     } else if lastView is UIImageView {
       lastView.snp.makeConstraints {
-        $0.height.equalTo(100)
+        $0.height.equalTo(250)
       }
     }
     lastView.layoutIfNeeded()
@@ -424,6 +424,16 @@ extension ReviewWritingContentView {
       }
     }
     return model
+  }
+  
+  func addImageView(image: UIImage) {
+    let imageView = PictureImageView(frame: .zero, image: image).set {
+      $0.delegate = self
+      $0.contentMode = .scaleToFill
+      let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapImageView(_:)))
+      $0.addGestureRecognizer(tapGesture)
+    }
+    setupLastView(lastView: imageView)
   }
 }
 // MARK: - PictureImageViewDelegate

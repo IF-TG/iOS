@@ -28,3 +28,15 @@ extension UIImage {
     jpegData(compressionQuality: 1)?.base64EncodedString()
   }
 }
+
+extension UIImage {
+  static func transformImageSize(named: String, size: CGSize) -> UIImage? {
+    guard let originalImageData = UIImage(named: named)?.pngData() else { return nil }
+    let downSampledOptions = ImageIO.DownsampledOptions.init(imagePixelSize: size)
+    let imageType = ImageIO.ImageSourceCreateType.data(originalImageData)
+    
+    guard let cgImage = ImageIO().setDownsampledCGImage(at: imageType, for: downSampledOptions) else { return nil }
+    
+    return UIImage(cgImage: cgImage)
+  }
+}
