@@ -56,6 +56,7 @@ final class ReviewWritingViewController: UIViewController {
   private let input = ReviewWritingViewModel.Input()
   private var isViewDidAppearFirstCalled = false
   private weak var imageView: UIImageView?
+  
   // MARK: - LifeCycle
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -119,7 +120,11 @@ extension ReviewWritingViewController: ViewBindCase {
     case .popViewController:
       coordinator?.finish(withAnimated: true)
     case .presentAlbumViewController:
-      contentView.addImageView()
+      let picker = UIImagePickerController()
+      picker.sourceType = .photoLibrary
+      picker.delegate = self
+      picker.allowsEditing = true
+      present(picker, animated: true)
     case .presentPlan:
       print("플랜화면 띄우기")
     case .keyboardDown:
@@ -301,3 +306,18 @@ extension ReviewWritingViewController: UIGestureRecognizerDelegate {
       return true
   }
 }
+
+
+extension ReviewWritingViewController: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
+  func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    guard let image = info[
+      UIImagePickerController.InfoKey(rawValue: "UIImagePickerControllerEditedImage")
+    ] as? UIImage else {
+      picker.dismiss(animated: true, completion: nil)
+      return
+    }
+    contentView.addImageView(image: image)
+    picker.dismiss(animated: true, completion: nil)
+  }
+}
+

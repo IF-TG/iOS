@@ -123,8 +123,10 @@ extension SearchViewController: ViewBindCase {
     switch state {
     case .goDownKeyboard:
       searchView.endEditing(true)
-    case .gotoSearch:
-      print("해당 text를 기반으로 vc 전환")
+    case let .gotoSearch:
+      // FIXME: - mock 제거하고, 실제로는 search
+      coordinator?.showSearchDetail(type: .camping)
+//      navigationController?.pushViewController(MockSearchDestinationViewController(), animated: true)
     case let .showSearchMoreDetail(sectionType):
       coordinator?.showSearchDetail(type: sectionType)
     case .none:

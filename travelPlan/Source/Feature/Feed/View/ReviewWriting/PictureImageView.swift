@@ -21,6 +21,16 @@ class PictureImageView: UIImageView {
     self.init(frame: .zero, imageName: imageName)
   }
   
+  init(frame: CGRect, image: UIImage) {
+    super.init(frame: frame)
+    setupUI()
+    self.image = image
+//    image = .init(named: imageName)
+    contentMode = .scaleAspectFill
+    clipsToBounds = true
+    isUserInteractionEnabled = true
+  }
+  
   init(frame: CGRect, imageName: String) {
     super.init(frame: frame)
     setupUI()

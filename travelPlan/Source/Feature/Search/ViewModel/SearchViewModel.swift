@@ -144,7 +144,14 @@ extension SearchViewModel {
                              thirdText: $0.location,
                              isSelectedButton: $0.isSelectedButton)
     }
-    let campingCellViewModels = campingModels.map { TravelDestinationCellViewModel(model: $0) }
+    
+    
+    // let campingCellViewModels = campingModels.map { TravelDestinationCellViewModel(model: $0) }
+    let campingCellViewModels = stride(from: campingModels.count-1, through: 0, by: -1).map {
+      TravelDestinationCellViewModel(model: campingModels[$0])
+    }
+    
+    
     let famousHeader = "야영, 레포츠 어떠세요? 🏕️"
     dataSource.append(SearchSectionModel(itemType: .camping(campingCellViewModels), headerTitle: famousHeader))
     

@@ -78,14 +78,14 @@ final class PostSearchViewController: UIViewController {
     $0.delegate = self
   }
   
-  private let compositionalLayout: PostSearchLayout = DefaultPostSearchLayout()
+  private let compositionalLayout: CompositionalLayoutCreatable = DefaultPostSearchLayout()
   private lazy var collectionViewAdapter = PostSearchCollectionViewAdapter(
     dataSource: self.viewModel,
     delegate: self
   )
   private lazy var collectionView: UICollectionView = UICollectionView(
     frame: .zero,
-    collectionViewLayout: compositionalLayout.createLayout()
+    collectionViewLayout: compositionalLayout.makeLayout()
   ).set {
     $0.delegate = self.collectionViewAdapter
     $0.dataSource = self.collectionViewAdapter
