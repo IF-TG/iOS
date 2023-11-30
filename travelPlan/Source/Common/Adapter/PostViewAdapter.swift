@@ -43,57 +43,52 @@ extension PostViewAdapter: UICollectionViewDataSource {
     _ collectionView: UICollectionView,
     cellForItemAt indexPath: IndexPath
   ) -> UICollectionViewCell {
-    if indexPath.section == 1, let thumbnails = dataSource?.numberOfThumbnailsInPost(at: indexPath.row) {
-      guard let postItem = dataSource?.postItem(at: indexPath.row) else { return .init() }
-      switch thumbnails {
-      case 1:
-        guard let cell = collectionView.dequeueReusableCell(
-          withReuseIdentifier: PostCellWithOneThumbnail.id, for: indexPath
-        ) as? PostCellWithOneThumbnail else { return .init() }
-        cell.configure(with: postItem)
-        checkLastCell(cell, indexPath: indexPath)
-        return cell
-      case 2:
-        guard let cell = collectionView.dequeueReusableCell(
-          withReuseIdentifier: PostCellWithTwoThumbnails.id, for: indexPath
-        ) as? PostCellWithTwoThumbnails else { return .init(frame: .zero) }
-        cell.configure(with: postItem)
-        checkLastCell(cell, indexPath: indexPath)
-        return cell
-      case 3:
-        guard let cell = collectionView.dequeueReusableCell(
-          withReuseIdentifier: PostCellWithThreeThumbnails.id, for: indexPath
-        ) as? PostCellWithThreeThumbnails else { return .init(frame: .zero) }
-        cell.configure(with: postItem)
-        checkLastCell(cell, indexPath: indexPath)
-        return cell
-      case 4:
-        guard let cell = collectionView.dequeueReusableCell(
-          withReuseIdentifier: PostCellWithFourThumbnails.id, for: indexPath
-        ) as? PostCellWithFourThumbnails else { return .init(frame: .zero) }
-        cell.configure(with: postItem)
-        checkLastCell(cell, indexPath: indexPath)
-        return cell
-      case 5:
-        guard let cell = collectionView.dequeueReusableCell(
-          withReuseIdentifier: PostCellWithFiveThumbnails.id, for: indexPath
-        ) as? PostCellWithFiveThumbnails else { return .init(frame: .zero) }
-        cell.configure(with: postItem)
-        checkLastCell(cell, indexPath: indexPath)
-        return cell
-      default:
-        return .init(frame: .zero)
-      }
-    }
-    return .init(frame: .zero)
+    guard
+      indexPath.section == 1,
+      let numberOfThumbnails = dataSource?.numberOfThumbnailsInPost(at: indexPath.row),
+      let postItem = dataSource?.postItem(at: indexPath.row) 
+    else { return .init(frame: .zero) }
+    let cell = makePostCell(collectionView, cellForItemAt: indexPath, with: numberOfThumbnails)
+    cell?.configure(with: postItem)
+    checkLastCell(cell, indexPath: indexPath)
+    return cell ?? .init(frame: .zero)
   }
 }
 
 // MARK: - Private helper
 private extension PostViewAdapter {
-  func checkLastCell(_ cell: UICollectionViewCell & PostCellEdgeDividable, indexPath: IndexPath) {
+  func checkLastCell(_ cell: PostCellEdgeDividable?, indexPath: IndexPath) {
     if let numberOfItems = dataSource?.numberOfItems, indexPath.item == numberOfItems - 1 {
-      cell.hideCellDivider()
+      cell?.hideCellDivider()
+    }
+  }
+  
+  func makePostCell(
+    _ collectionView: UICollectionView,
+    cellForItemAt indexPath: IndexPath,
+    with numberOfThumbnails: PostThumbnailCountValue
+  ) -> (any UICollectionViewCell & PostCellConfigurable & PostCellEdgeDividable)? {
+    switch numberOfThumbnails {
+    case .one:
+      return collectionView.dequeueReusableCell(
+        withReuseIdentifier: PostCellWithOneThumbnail.id, for: indexPath
+      ) as? PostCellWithOneThumbnail
+    case .two:
+      return collectionView.dequeueReusableCell(
+        withReuseIdentifier: PostCellWithTwoThumbnails.id, for: indexPath
+      ) as? PostCellWithTwoThumbnails
+    case .three:
+      return collectionView.dequeueReusableCell(
+        withReuseIdentifier: PostCellWithThreeThumbnails.id, for: indexPath
+      ) as? PostCellWithThreeThumbnails
+    case .four:
+      return collectionView.dequeueReusableCell(
+        withReuseIdentifier: PostCellWithFourThumbnails.id, for: indexPath
+      ) as? PostCellWithFourThumbnails
+    case .five:
+      return collectionView.dequeueReusableCell(
+        withReuseIdentifier: PostCellWithFiveThumbnails.id, for: indexPath
+      ) as? PostCellWithFiveThumbnails
     }
   }
 }

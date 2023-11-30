@@ -72,11 +72,13 @@ final class PostCellWithFiveThumbnails: UICollectionViewCell {
     super.prepareForReuse()
     configure(with: nil)
   }
-  
-  // MARK: - Helpers
-  func configure(with post: PostInfo?) {
-    postView.configure(with: post)
-    thumbnailView.configureThumbnail(with: post?.content.thumbnailURLs)
+}
+
+// MARK: - PostCellConfigurable
+extension PostCellWithFiveThumbnails: PostCellConfigurable {
+  func configure(with info: PostInfo?) {
+    postView.configure(with: info)
+    thumbnailView.configureThumbnail(with: info?.content.thumbnailURLs)
   }
 }
 

@@ -13,9 +13,8 @@ protocol BottomSheetViewDelegate: AnyObject {
 
 class BottomSheetView: UIView {
   enum Constants {
-    static let cornerRadius: CGFloat = 8
     enum TopView {
-      static let height: CGFloat = 20
+      static let height: CGFloat = 30
     }
     
     enum TopIndicatorView {
@@ -40,50 +39,28 @@ class BottomSheetView: UIView {
     $0.isUserInteractionEnabled = false
   }
   
-  private var contentView = UIView(frame: .zero).set {
-    $0.translatesAutoresizingMaskIntoConstraints = false
-  }
+  private var contentView: UIView
+  
+  private var bottomSheetTopAreaHeight: CGFloat
   
   weak var baseDelegate: BottomSheetViewDelegate?
   
   // MARK: - Lifecycle
-  override init(frame: CGRect) {
+  /// upperEdgeRadius는 바텀시트 상단의 radius입니다.
+  init(frame: CGRect, contentView: UIView, bottomSheetInfo: BottomSheetInfo) {
+    self.contentView = contentView
+    bottomSheetTopAreaHeight = bottomSheetInfo.topAreaHeight
     super.init(frame: frame)
+    
     configureUI()
-    layer.cornerRadius = Constants.cornerRadius
+    layer.cornerRadius = bottomSheetInfo.upperEdgeRadius
   }
   
-  required init?(coder: NSCoder) {
-    super.init(coder: coder)
-    configureUI()
-    layer.cornerRadius = Constants.cornerRadius
-  }
+  required init?(coder: NSCoder) { nil }
   
-  convenience init() {
-    self.init(frame: .zero)
+  convenience init(contentView: UIView, bottomSheetInfo: BottomSheetInfo = .init(topAreaHeight: 30, upperEdgeRadius: 8)) {
+    self.init(frame: .zero, contentView: contentView, bottomSheetInfo: bottomSheetInfo)
     translatesAutoresizingMaskIntoConstraints = false
-  }
-  
-  init(radius: CGFloat) {
-    super.init(frame: .zero)
-    translatesAutoresizingMaskIntoConstraints = false
-    layer.cornerRadius = radius
-    configureUI()
-  }
-  
-  // MARK: - Helper
-  func setContentView(_ contentView: UIView) {
-    self.contentView.addSubview(contentView)
-    NSLayoutConstraint.activate([
-      contentView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
-      contentView.topAnchor.constraint(equalTo: self.contentView.topAnchor),
-      contentView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor),
-      contentView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor)])
-    layoutIfNeeded()
-  }
-  
-  func setCornerRadius(_ radius: CGFloat) {
-    layer.cornerRadius = Constants.cornerRadius
   }
   
   // MARK: - Private helper
@@ -139,7 +116,7 @@ private extension BottomSheetView {
         equalTo: trailingAnchor),
       topView.topAnchor.constraint(
         equalTo: topAnchor),
-      topView.heightAnchor.constraint(equalToConstant: Const.height)]
+      topView.heightAnchor.constraint(equalToConstant: bottomSheetTopAreaHeight)]
   }
   
   var topIndicatorViewConstraints: [NSLayoutConstraint] {
@@ -160,5 +137,20 @@ private extension BottomSheetView {
       contentView.trailingAnchor.constraint(equalTo: trailingAnchor),
       contentView.topAnchor.constraint(equalTo: topView.bottomAnchor),
       contentView.bottomAnchor.constraint(equalTo: bottomAnchor)]
+  }
+}
+
+// MARK: - Nested
+extension BottomSheetView {
+  struct BottomSheetInfo {
+    /// 바텀시트 뷰 위쪽 터치 영역 뷰 ( 안에 터치 바 있습니다 )
+    let topAreaHeight: CGFloat
+    let upperEdgeRadius: CGFloat
+    
+    /// 기본 30
+    init(topAreaHeight: CGFloat = 30, upperEdgeRadius: CGFloat) {
+      self.topAreaHeight = topAreaHeight
+      self.upperEdgeRadius = upperEdgeRadius
+    }
   }
 }

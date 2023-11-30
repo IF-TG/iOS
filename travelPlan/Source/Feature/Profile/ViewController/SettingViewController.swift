@@ -85,10 +85,12 @@ private extension SettingViewController {
   func configureUI() {
     view.backgroundColor = .yg.gray00Background
     let settingLabels = makeSettingLabels()
+    // TODO: - 추후 한정된 타입으로 변경해야함.
     setStackView(index: 0, from: (0...1).map { settingLabels[$0] })
     setStackView(index: 1, from: (2...5).map { settingLabels[$0] })
     setStackView(index: 2, from: (6...8).map { settingLabels[$0] })
     setStackView(index: 3, from: (9...9).map { settingLabels[$0] })
+    [0, 2, 6, 9].forEach { settingLabels[$0].isUserInteractionEnabled = false }
     setupUI()
   }
   
@@ -183,8 +185,15 @@ private extension SettingViewController {
     }
     UIView.animate(withDuration: 0.17, animations: {
       targetLabel.layer.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.1).cgColor
-    }, completion: { _ in
-      print("\(settingType.rawValue ) 화면으로 이동해야합니다. 타입: \(settingType.self)")
+    }, completion: { [weak self] _ in
+      switch settingType {
+      case .myInformation:
+        self?.coordinator?.showMyInformationPage()
+      case .operationGuide:
+        self?.coordinator?.showOperationGuidePage()
+      default:
+        print("\(settingType.rawValue ) 화면으로 이동해야합니다. 타입: \(settingType.self)")
+      }
       UIView.animate(withDuration: 0.13, animations: {
         targetLabel.layer.backgroundColor = UIColor.white.cgColor
       })
