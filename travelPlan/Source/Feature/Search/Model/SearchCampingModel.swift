@@ -29,12 +29,12 @@ extension SearchCampingModel {
     .init(id: 1, imagePath: "oncheonjeep",
           place: "온천집", location: "대전", category: "음식점", isSelectedButton: false),
     .init(id: 1, imagePath: "taepyeongsokookbob",
-          place: "태평소국밥", location: "대전", category: "음식점", isSelectedButton: false),
-    .init(id: 1, imagePath: "tempThumbnail12",
-          place: "관광 장소명", location: "부산", category: "관광 카테고리", isSelectedButton: false),
-    .init(id: 1, imagePath: "tempThumbnail13",
-          place: "관광 장소명", location: "대구", category: "관광 카테고리", isSelectedButton: false),
-    .init(id: 1, imagePath: "tempThumbnail14",
-          place: "관광 장소명", location: "경기", category: "관광 카테고리", isSelectedButton: false)
+          place: "태평소국밥", location: "대전", category: "음식점", isSelectedButton: true),
+    .init(id: 1, imagePath: "seomun",
+          place: "서문애수육국밥", location: "대전", category: "음식점", isSelectedButton: false),
+    .init(id: 1, imagePath: "chiangmai",
+          place: "치앙마이방콕", location: "대전", category: "음식점", isSelectedButton: true),
+    .init(id: 1, imagePath: "taehwajang",
+          place: "태화장", location: "대전", category: "음식점", isSelectedButton: false)
   ]
 }

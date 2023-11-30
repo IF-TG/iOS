@@ -158,7 +158,7 @@ extension SearchDestinationTitleCell {
   
   private func setupStyles() {
     contentView.layer.cornerRadius = 20
-    contentView.backgroundColor = .systemRed.withAlphaComponent(0.2)
+    contentView.backgroundColor = .black.withAlphaComponent(0.1)
   }
 }
 

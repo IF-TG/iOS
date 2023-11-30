@@ -8,24 +8,24 @@
 import UIKit
 import SnapKit
 
+struct SearchDestinationServiceTypeViewInfo {
+  let imageName: String
+  let title: String
+}
+
 class SearchDestinationServiceCell: UICollectionViewCell {
   // MARK: - Properties
+  static let id = String(describing: SearchDestinationServiceCell.self)
+  private var onceConfigure = false
   private let stackView = UIStackView().set {
     $0.axis = .horizontal
-    $0.alignment = .center
     $0.distribution = .fillEqually
-    $0.spacing = 20
-  }
-  
-  private let titleLabel = UILabel().set {
-    $0.text = "제목"
-    $0.font = .init(pretendard: .medium_500(fontSize: 12))
-    $0.textColor = .yg.gray6
   }
   
   // MARK: - LifeCycle
   override init(frame: CGRect) {
     super.init(frame: frame)
+    setupUI()
   }
   
   required init?(coder: NSCoder) {
@@ -42,6 +42,23 @@ extension SearchDestinationServiceCell: LayoutSupport {
   func setConstraints() {
     stackView.snp.makeConstraints {
       $0.edges.equalToSuperview()
+    }
+  }
+}
+
+// MARK: - Helpers
+extension SearchDestinationServiceCell {
+  func configure(models: [SearchDestinationServiceTypeViewInfo]) {
+    if !onceConfigure {
+      for model in models {
+        let serviceTypeView = SearchDestinationServiceTypeView(title: model.title, imageName: model.imageName)
+        
+        stackView.addArrangedSubview(serviceTypeView)
+        serviceTypeView.snp.makeConstraints {
+          $0.height.equalTo(91)
+        }
+      }
+      onceConfigure = true
     }
   }
 }

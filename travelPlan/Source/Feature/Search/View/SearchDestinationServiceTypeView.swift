@@ -14,6 +14,7 @@ final class SearchDestinationServiceTypeView: UIView {
     $0.font = .init(pretendard: .medium_500(fontSize: 12))
     $0.textColor = .yg.gray6
     $0.numberOfLines = 2
+    $0.textAlignment = .center
   }
   
   private let imageView = UIImageView().set {
@@ -63,6 +64,6 @@ extension SearchDestinationServiceTypeView: LayoutSupport {
 // MARK: - Private Helpers
 extension SearchDestinationServiceTypeView {
   private func setupStyles() {
-    backgroundColor = .brown
+    
   }
 }
