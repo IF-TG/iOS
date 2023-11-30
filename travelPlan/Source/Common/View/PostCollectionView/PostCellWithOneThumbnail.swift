@@ -36,7 +36,7 @@ final class PostCellWithOneThumbnail: UICollectionViewCell {
         image = nil
         return
       }
-      let width = (UIScreen.main.bounds.width - 43) / 2
+      let width = UIScreen.main.bounds.width - 43
       let size = CGSize(width: width, height: 118)
       if let image = imageCache[images[0]] {
         self.image = image
