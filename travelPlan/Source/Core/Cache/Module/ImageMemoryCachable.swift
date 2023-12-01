@@ -7,7 +7,7 @@
 
 import UIKit
 
-public protocol ImageMemoryCachable: Actor {
+public protocol ImageMemoryCachable: AnyObject {
   func image(for url: String) -> UIImage?
   func insert(_ image: UIImage, forKey url: String)
   func removeImage(for url: String)

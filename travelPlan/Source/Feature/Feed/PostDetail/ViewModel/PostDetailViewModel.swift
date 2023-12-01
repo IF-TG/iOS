@@ -79,6 +79,20 @@ final class PostDetailViewModel {
     postDetails = fetchMockAllData()
     comments = fetchMockAllComments()
   }
+  
+  // MARK: - Mock Helpers
+  func appendComment(_ text: String) {
+    let comment = PostComment(
+      id: 23,
+      userProfileURL: "tempProfile3",
+      userName: "신짱구",
+      timestamp: "방금",
+      comment: text,
+      isOnHeart: false,
+      heartCountText: "0",
+      replies: [])
+    comments.append(comment)
+  }
 }
 
 // MARK: - PostDetailTableViewDataSource

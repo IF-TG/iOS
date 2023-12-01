@@ -8,26 +8,22 @@
 import Foundation
 
 internal extension Cache {
-  final class WrappedKey: Equatable {
+  final class WrappedKey: NSObject {
     let key: Key
-    var hash: Int { return key.hashValue }
     
-    init(_ key: Key) {
-      self.key = key
-    }
+    init(_ key: Key) { self.key = key }
     
-    func isEqual(_ object: Any?) -> Bool {
-      guard let target = object as? WrappedKey else {
+    override var hash: Int { return key.hashValue }
+    
+    override func isEqual(_ object: Any?) -> Bool {
+      guard let value = object as? WrappedKey else {
         return false
       }
-      return target.key == key
-    }
-    
-    static func == (lhs: Cache<Key, Value>.WrappedKey, rhs: Cache<Key, Value>.WrappedKey) -> Bool {
-      return lhs.hash == rhs.hash
+      
+      return value.key == key
     }
   }
-  
+
   final class Entry {
     let key: Key
     let value: Value

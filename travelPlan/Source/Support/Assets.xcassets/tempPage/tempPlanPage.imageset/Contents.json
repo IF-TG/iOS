@@ -1,15 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "tempTravelReviewPage.png",
+      "filename" : "image 233.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "image 233@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "image 233@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
