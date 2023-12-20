@@ -45,13 +45,16 @@ final class FeedPostViewController: UIViewController {
   
   private let input = Input()
   
+  weak var delegate: FeedPostViewControllerDelegate?
+  
   // MARK: - Lifecycle
-  init(with filterInfo: FeedPostSearchFilterInfo, postDelegator: PostViewAdapterDelegate?) {
+  init(with filterInfo: FeedPostSearchFilterInfo) {
     let viewModel = FeedPostViewModel(filterInfo: filterInfo, postUseCase: MockPostUseCase())
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
     if filterInfo.travelTheme == .all {
-      postViewAdapter = PostViewAdapter(dataSource: viewModel, delegate: postDelegator, collectionView: postView)
+      postViewAdapter = PostViewAdapter(dataSource: viewModel, collectionView: postView)
+      postViewAdapter?.baseDelegate = self
       return
     }
     postView.register(
@@ -59,7 +62,8 @@ final class FeedPostViewController: UIViewController {
       forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
       withReuseIdentifier: PostSortingAreaView.id)
     updatePostViewLayout()
-    postViewAdapter = FeedPostViewAdapter(dataSource: viewModel, delegate: postDelegator, collectionView: postView)
+    postViewAdapter = FeedPostViewAdapter(dataSource: viewModel, collectionView: postView)
+    postViewAdapter?.baseDelegate = self
   }
   
   override func viewDidLoad() {
@@ -86,6 +90,37 @@ extension FeedPostViewController {
   
   func setDefaultOrderUI() {
     sortingHeader?.setDefaultOrderUI()
+  }
+}
+
+// MARK: - PostViewAdapterDelegate
+extension FeedPostViewController: PostViewAdapterDelegate {
+  func didTapPost(with postId: Int) {
+    delegate?.didTapPost(with: postId)
+  }
+  
+  func didTapHeart(in cell: UICollectionViewCell) {
+    guard let indexPath = postView.indexPath(for: cell) else { return }
+    let item = viewModel.postItem(at: indexPath.row)
+    // TODO: - 뷰모델을 통해 하트 증가 서버에 호출
+  }
+  
+  func didTapComment(in cell: UICollectionViewCell) {
+    guard let indexPath = postView.indexPath(for: cell) else { return }
+    let item = viewModel.postItem(at: indexPath.row)
+    delegate?.didTapComment(with: item.postId)
+  }
+  
+  func didTapShare(in cell: UICollectionViewCell) {
+    guard let indexPath = postView.indexPath(for: cell) else { return }
+    let item = viewModel.postItem(at: indexPath.row)
+    delegate?.didTapShare(with: item.postId)
+  }
+  
+  func didTapOption(in cell: UICollectionViewCell) {
+    guard let indexPath = postView.indexPath(for: cell) else { return }
+    let item = viewModel.postItem(at: indexPath.row)
+    delegate?.didTapOption(with: item.postId)
   }
 }
 
