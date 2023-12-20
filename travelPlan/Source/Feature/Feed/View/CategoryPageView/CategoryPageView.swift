@@ -30,8 +30,6 @@ final class CategoryPageView: UIView {
   private var postPageView: UIView? {
     postPageViewController.view
   }
-    
-  weak var postDelegator: PostViewAdapterDelegate?
   
   private var presentedPageViewIndex = 0
   
@@ -39,10 +37,16 @@ final class CategoryPageView: UIView {
   
   private var adapter: CategoryPageViewAdapter?
   
+  weak var postViewDelegate: FeedPostViewControllerDelegate?
+  
   // MARK: - Lifecycle
-  init(frame: CGRect, viewModel: CategoryPageViewDataSource, postDelegator: PostViewAdapterDelegate?) {
+  init(
+    frame: CGRect,
+    viewModel: CategoryPageViewDataSource,
+    postViewDelegate: FeedPostViewControllerDelegate?
+  ) {
     self.viewModel = viewModel
-    self.postDelegator = postDelegator
+    self.postViewDelegate = postViewDelegate
     super.init(frame: frame)
     configureUI()
     adapter = CategoryPageViewAdapter(
@@ -80,7 +84,9 @@ private extension CategoryPageView {
       if $0+1 == viewModel.numberOfItems {
         return DevelopmentViewController(nibName: nil, bundle: nil)
       }
-      return FeedPostViewController(with: filterInfo, postDelegator: postDelegator)
+      let feedPostViewController = FeedPostViewController(with: filterInfo)
+      feedPostViewController.delegate = postViewDelegate
+      return feedPostViewController
     }
     setupUI()
   }
