@@ -72,7 +72,10 @@ final class FeedViewController: UIViewController {
   init(viewModel: any FeedViewModelable) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
-    self.categoryPageView = CategoryPageView(frame: .zero, viewModel: CategoryPageViewModel(), postDelegator: self)
+    self.categoryPageView = CategoryPageView(
+      frame: .zero,
+      viewModel: CategoryPageViewModel(),
+      postViewDelegate: self)
   }
   
   required init(coder: NSCoder) {
@@ -213,8 +216,23 @@ extension FeedViewController: ViewBindCase {
   }
 }
 
-// MARK: - FeedPostViewAdapterDelegate
-extension FeedViewController: PostViewAdapterDelegate {
+// MARK: - FeedPostViewControllerDelegate
+extension FeedViewController: FeedPostViewControllerDelegate {
+  func didTapComment(with postId: Int) {
+    // TODO: - 포스트 상세 화면으로 이동해야 합니다.
+    print("DEBUG: Goto post detail comment section \(postId)")
+  }
+  
+  func didTapShare(with postId: Int) {
+    // TODO: - Share 화면으로 이동해야 합니다.
+    print("DEBUG: Goto post share page \(postId)")
+  }
+  
+  func didTapOption(with postId: Int) {
+    // TODO: - Option 화면으로 이동해야 합니디.
+    print("DEBUG: Goto post option page \(postId)")
+  }
+  
   func didTapPost(with postId: Int) {
     coordinator?.showPostDetailPage()
   }
