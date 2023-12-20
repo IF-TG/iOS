@@ -40,6 +40,8 @@ class PostFooterView: UIView {
     $0.addTarget(self, action: #selector(didTapShare), for: .touchUpInside)
   }
   
+  weak var delegate: PostFooterViewDelegate?
+  
   // MARK: - Initialization
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -59,17 +61,16 @@ class PostFooterView: UIView {
 // MARK: - Action
 private extension PostFooterView {
   @objc func didTapHeart() {
-    // TODO: - 하트 취소, 수락 서버 갱신. 여기선 서버로 하트 취소한거 처리 해야합니다
     updatePostHeartState()
-    print("DEBUG: 찜")
+    delegate?.didTapHeart()
   }
   
   @objc func didTapComment() {
-    print("커맨드 화면 이동")
+    delegate?.didTapComment()
   }
   
   @objc func didTapShare() {
-    print("share 화면으로 이동")
+    delegate?.didTapShare()
   }
 }
 
@@ -83,6 +84,7 @@ extension PostFooterView {
   
   func updatePostHeartState() {
     /// 여기서 서버 포스트에 대한 로그인 사용자 포스트 상태 관련 처리
+    // TODO: - 개수도 증가해야함.
     guard let heartState = postHeartState else {
       setHeartIcon(with: false)
       postHeartState = false
@@ -133,7 +135,7 @@ extension PostFooterView {
   private func setHeartIcon(with state: Bool) {
     postHeartState = state
     if state {
-      heartStackView.icon.image = UIImage(named: "selectedHeart")?.setColor(.yg.red)
+      heartStackView.icon.image = UIImage(named: "selectedHeart")?.setColor(.yg.re
     } else {
       // 하트 취소
       heartStackView.icon.image = UIImage(named: "unselectedHeart")?.setColor(.yg.red)
