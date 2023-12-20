@@ -150,6 +150,10 @@
 		154ECA172AB0B5D40093AF25 /* TravelMainThemeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154ECA162AB0B5D40093AF25 /* TravelMainThemeType.swift */; };
 		1550D9AF2ACAFAC10046569B /* FeedPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1550D9AE2ACAFAC10046569B /* FeedPostViewController.swift */; };
 		1550D9B12ACB1D740046569B /* DevelopmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1550D9B02ACB1D740046569B /* DevelopmentViewController.swift */; };
+		155A99672B330E07003552AA /* PostCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155A99662B330E07003552AA /* PostCellDelegate.swift */; };
+		155A99692B3328D1003552AA /* FeedPostViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155A99682B3328D1003552AA /* FeedPostViewControllerDelegate.swift */; };
+		155A996B2B3342AB003552AA /* PostFooterViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155A996A2B3342AB003552AA /* PostFooterViewDelegate.swift */; };
+		155A996D2B33438B003552AA /* BasePostViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155A996C2B33438B003552AA /* BasePostViewDelegate.swift */; };
 		155EE41F2B1660D000D4D221 /* OperationGuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155EE41E2B1660D000D4D221 /* OperationGuideViewController.swift */; };
 		156759B12A0D774500849CE2 /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156759B02A0D774500849CE2 /* FeedViewModel.swift */; };
 		1570FDB22AB1B616006FBAA3 /* TravelOrderType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1570FDB12AB1B616006FBAA3 /* TravelOrderType.swift */; };
@@ -526,6 +530,10 @@
 		154ECA162AB0B5D40093AF25 /* TravelMainThemeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelMainThemeType.swift; sourceTree = "<group>"; };
 		1550D9AE2ACAFAC10046569B /* FeedPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedPostViewController.swift; sourceTree = "<group>"; };
 		1550D9B02ACB1D740046569B /* DevelopmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevelopmentViewController.swift; sourceTree = "<group>"; };
+		155A99662B330E07003552AA /* PostCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCellDelegate.swift; sourceTree = "<group>"; };
+		155A99682B3328D1003552AA /* FeedPostViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedPostViewControllerDelegate.swift; sourceTree = "<group>"; };
+		155A996A2B3342AB003552AA /* PostFooterViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostFooterViewDelegate.swift; sourceTree = "<group>"; };
+		155A996C2B33438B003552AA /* BasePostViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasePostViewDelegate.swift; sourceTree = "<group>"; };
 		155EE41E2B1660D000D4D221 /* OperationGuideViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationGuideViewController.swift; sourceTree = "<group>"; };
 		156759B02A0D774500849CE2 /* FeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
 		1570FDB12AB1B616006FBAA3 /* TravelOrderType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelOrderType.swift; sourceTree = "<group>"; };
@@ -770,6 +778,9 @@
 				13300FA92AC0812900952757 /* StarButtonDelegate.swift */,
 				1390CC5C2A8BADEC00E34DC3 /* TitleWithButtonHeaderViewDelegate.swift */,
 				13CB6D332A1FEC6D00D185B2 /* CautionAlertViewControllerDelegate.swift */,
+				155A99662B330E07003552AA /* PostCellDelegate.swift */,
+				155A996A2B3342AB003552AA /* PostFooterViewDelegate.swift */,
+				155A996C2B33438B003552AA /* BasePostViewDelegate.swift */,
 			);
 			path = Delegate;
 			sourceTree = "<group>";
@@ -1765,6 +1776,7 @@
 				15EA48C92A539D7B00F4B391 /* MoreMenuViewDelegate.swift */,
 				158695942AE54D010087CCB3 /* FeedPostViewAdapterDataSource.swift */,
 				15F3763B2AFB7D1E00B3BF35 /* PostViewAdapterDelegate.swift */,
+				155A99682B3328D1003552AA /* FeedPostViewControllerDelegate.swift */,
 			);
 			path = PostView;
 			sourceTree = "<group>";
@@ -2304,6 +2316,7 @@
 				15F2A01E2B1584880014603D /* SettingUserNameTextField.swift in Sources */,
 				15FFAC0B2AD7C22B0013DB57 /* RequestType.swift in Sources */,
 				15710CB82A132C630023C19E /* FeedPostSearchBarItem.swift in Sources */,
+				155A996B2B3342AB003552AA /* PostFooterViewDelegate.swift in Sources */,
 				131A110A2AB509FB007BDD66 /* UIView+roundCorners.swift in Sources */,
 				13606E8C2A9F959F00365F20 /* PostRecommendationSearchHeaderView.swift in Sources */,
 				13813A232AAA459900AF6AEB /* PostSearchCollectionViewDelegate.swift in Sources */,
@@ -2336,6 +2349,7 @@
 				15D867CD2AD4003E00F35811 /* FavoriteViewModelable.swift in Sources */,
 				152AD52A2A1B8D6E008A2A11 /* MockFavoriteUseCase.swift in Sources */,
 				139DEE102B16ADF300363E7B /* SearchDestinationServiceCell.swift in Sources */,
+				155A99692B3328D1003552AA /* FeedPostViewControllerDelegate.swift in Sources */,
 				15FFABFF2AD5D57B0013DB57 /* FavoriteCellInfo.swift in Sources */,
 				15A4F28B2ACC072A001AA51D /* PrimaryColorToneRoundLabel.swift in Sources */,
 				1325508E2A13EE8E00094218 /* PostRecentSearchHeaderView.swift in Sources */,
@@ -2443,6 +2457,7 @@
 				1546DF392B0B29D700B49A55 /* ImageConverter.swift in Sources */,
 				15F3763C2AFB7D1E00B3BF35 /* PostViewAdapterDelegate.swift in Sources */,
 				13C32A3D2B0A2FF30046ED98 /* PictureImageViewDelegate.swift in Sources */,
+				155A996D2B33438B003552AA /* BasePostViewDelegate.swift in Sources */,
 				152AD4F02A189CFC008A2A11 /* FavoriteHeaderView.swift in Sources */,
 				15B9285D2AF9E3A2003A20D4 /* PostDetailProfileAreaView.swift in Sources */,
 				15EF8CA62A0A19990068C744 /* CategoryViewType.swift in Sources */,
@@ -2456,6 +2471,7 @@
 				13254FF02A0549D200094218 /* TabBarCase.swift in Sources */,
 				13254FEB2A0515C700094218 /* FavoriteViewController.swift in Sources */,
 				151DF0E72AEEA76500D5D55B /* NoticeViewModel.swift in Sources */,
+				155A99672B330E07003552AA /* PostCellDelegate.swift in Sources */,
 				13A93EFB2AD1EA6B00FC4BBD /* TravelDestinationModel.swift in Sources */,
 				15E982BF2ACC95CC002B932F /* FavoriteDetailViewController.swift in Sources */,
 				158695952AE54D010087CCB3 /* FeedPostViewAdapterDataSource.swift in Sources */,
