@@ -34,8 +34,9 @@ final class FavoritePostViewController: EmptyStateBasedContentViewController {
       emptyState: .emptyTravelPost)
     postAdapter = FavoritePostViewAdapter(
       dataSource: postViewModel,
-      delegate: self,
       collectionView: postCollectionView)
+    postAdapter.delegate = self
+    postAdapter.baseDelegate = self
     bind()
   }
   
@@ -57,12 +58,35 @@ private extension FavoritePostViewController {
   }
 }
 
-// MARK: - FavoritePostViewAdapterDelegate
-extension FavoritePostViewController: FavoritePostViewAdapterDelegate {
+// MARK: - PostViewAdapterDelegate
+extension FavoritePostViewController: PostViewAdapterDelegate {
+  func didTapHeart(in cell: UICollectionViewCell) {
+    guard let indexPath = postCollectionView.indexPath(for: cell) else { return }
+    print(indexPath)
+  }
+  
+  func didTapComment(in cell: UICollectionViewCell) {
+    guard let indexPath = postCollectionView.indexPath(for: cell) else { return }
+    print(indexPath)
+  }
+  
+  func didTapShare(in cell: UICollectionViewCell) {
+    guard let indexPath = postCollectionView.indexPath(for: cell) else { return }
+    print(indexPath)
+  }
+  
+  func didTapOption(in cell: UICollectionViewCell) {
+    guard let indexPath = postCollectionView.indexPath(for: cell) else { return }
+    print(indexPath)
+  }
+  
   func didTapPost(with postId: Int) {
     print("특정 포스트 상세 화면으로 이동")
   }
-  
+}
+
+// MARK: - FavoritePostViewAdapterDelegate
+extension FavoritePostViewController: FavoritePostViewAdapterDelegate {
   func scrollDidScroll(
     _ scrollView: UIScrollView,
     scrollYPosition: CGFloat,
