@@ -27,11 +27,14 @@ final class BasePostView: UIView {
   
   private let line = OneUnitHeightLine(color: .yg.gray0)
   
+  weak var delegate: BasePostViewDelegate?
+  
   // MARK: - Lifecycle
   init(frame: CGRect, thumbnailView: UIView) {
     self.thumbnailView = thumbnailView
     super.init(frame: frame)
     configureUI()
+    footerView.delegate = self
   }
   
   required init?(coder: NSCoder) {
@@ -99,8 +102,22 @@ extension BasePostView {
 // MARK: - Action
 extension BasePostView {
   @objc func didTapOption() {
-    print("DEBUG: pop up option scene !!")
-    UIView.touchAnimate(optionButton)
+    delegate?.didTapOptionButton()
+  }
+}
+
+// MARK: - PostFooterViewDelegate
+extension BasePostView: PostFooterViewDelegate {
+  func didTapHeart() {
+    delegate?.didTapHeart()
+  }
+  
+  func didTapComment() {
+    delegate?.didTapComment()
+  }
+  
+  func didTapShare() {
+    delegate?.didTapShare()
   }
 }
 
