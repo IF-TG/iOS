@@ -14,11 +14,10 @@ final class FeedPostViewAdapter: PostViewAdapter {
   // MARK: - Lifecycle
   init(
     dataSource: FeedPostViewAdapterDataSource?,
-    delegate: PostViewAdapterDelegate?,
     collectionView: UICollectionView?
   ) {
     feedDataSource = dataSource
-    super.init(dataSource: dataSource, delegate: delegate, collectionView: collectionView)
+    super.init(dataSource: dataSource, collectionView: collectionView)
   }
 }
 
