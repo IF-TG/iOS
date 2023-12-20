@@ -135,7 +135,7 @@ extension PostFooterView {
   private func setHeartIcon(with state: Bool) {
     postHeartState = state
     if state {
-      heartStackView.icon.image = UIImage(named: "selectedHeart")?.setColor(.yg.re
+      heartStackView.icon.image = UIImage(named: "selectedHeart")?.setColor(.yg.red)
     } else {
       // 하트 취소
       heartStackView.icon.image = UIImage(named: "unselectedHeart")?.setColor(.yg.red)
