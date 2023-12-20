@@ -79,6 +79,8 @@ final class PostCellWithFourThumbnails: UICollectionViewCell {
   
   private let postView: BasePostView
   
+  weak var delegate: PostCellDelegate?
+  
   // MARK: - Lifecycle
   override init(frame: CGRect) {
     let contentView = PostFourThumbnailsView()
@@ -86,6 +88,7 @@ final class PostCellWithFourThumbnails: UICollectionViewCell {
     postView = BasePostView(frame: frame, thumbnailView: contentView)
     super.init(frame: frame)
     setupUI()
+    postView.delegate = self
   }
   
   required init?(coder: NSCoder) {
@@ -110,6 +113,25 @@ extension PostCellWithFourThumbnails: PostCellConfigurable {
 extension PostCellWithFourThumbnails: PostCellEdgeDividable {
   func hideCellDivider() {
     postView.hideCellDivider()
+  }
+}
+
+// MARK: - BasePostViewDelegate
+extension PostCellWithFourThumbnails: BasePostViewDelegate {
+  func didTapOptionButton() {
+    delegate?.didTapOption(in: self)
+  }
+  
+  func didTapHeart() {
+    delegate?.didTapHeart(in: self)
+  }
+  
+  func didTapComment() {
+    delegate?.didTapComment(in: self)
+  }
+  
+  func didTapShare() {
+    delegate?.didTapShare(in: self)
   }
 }
 

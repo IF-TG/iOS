@@ -72,6 +72,8 @@ final class PostCellWithTwoThumbnails: UICollectionViewCell {
   
   private let postView: BasePostView
   
+  weak var delegate: PostCellDelegate?
+  
   // MARK: - Lifecycle
   override init(frame: CGRect) {
     let contentView = PostTwoThumbnailsView()
@@ -79,6 +81,7 @@ final class PostCellWithTwoThumbnails: UICollectionViewCell {
     postView = BasePostView(frame: frame, thumbnailView: contentView)
     super.init(frame: frame)
     setupUI()
+    postView.delegate = self
   }
   
   required init?(coder: NSCoder) {
@@ -103,6 +106,25 @@ extension PostCellWithTwoThumbnails: PostCellConfigurable {
 extension PostCellWithTwoThumbnails: PostCellEdgeDividable {
   func hideCellDivider() {
     postView.hideCellDivider()
+  }
+}
+
+// MARK: - BasePostViewDelegate
+extension PostCellWithTwoThumbnails: BasePostViewDelegate {
+  func didTapOptionButton() {
+    delegate?.didTapOption(in: self)
+  }
+  
+  func didTapHeart() {
+    delegate?.didTapHeart(in: self)
+  }
+  
+  func didTapComment() {
+    delegate?.didTapComment(in: self)
+  }
+  
+  func didTapShare() {
+    delegate?.didTapShare(in: self)
   }
 }
 
