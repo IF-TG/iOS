@@ -12,12 +12,10 @@ class PostViewAdapter: NSObject {
   weak var baseDelegate: PostViewAdapterDelegate?
   init(
     dataSource: PostViewAdapterDataSource? = nil,
-    delegate: PostViewAdapterDelegate? = nil,
     collectionView: UICollectionView?
   ) {
     super.init()
     self.dataSource = dataSource
-    self.baseDelegate = delegate
     collectionView?.dataSource = self
     collectionView?.delegate = self
   }
@@ -48,8 +46,9 @@ extension PostViewAdapter: UICollectionViewDataSource {
       let numberOfThumbnails = dataSource?.numberOfThumbnailsInPost(at: indexPath.row),
       let postItem = dataSource?.postItem(at: indexPath.row) 
     else { return .init(frame: .zero) }
-    let cell = makePostCell(collectionView, cellForItemAt: indexPath, with: numberOfThumbnails)
+    var cell = makePostCell(collectionView, cellForItemAt: indexPath, with: numberOfThumbnails)
     cell?.configure(with: postItem)
+    cell?.delegate = self
     checkLastCell(cell, indexPath: indexPath)
     return cell ?? .init(frame: .zero)
   }
@@ -98,5 +97,24 @@ extension PostViewAdapter: UICollectionViewDelegate {
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     guard let dataSource else { return }
     baseDelegate?.didTapPost(with: dataSource.postItem(at: indexPath.row).postId)
+  }
+}
+
+// MARK: - PostCellDelegate
+extension PostViewAdapter: PostCellDelegate {
+  func didTapHeart(in cell: UICollectionViewCell) {
+    baseDelegate?.didTapHeart(in: cell)
+  }
+  
+  func didTapComment(in cell: UICollectionViewCell) {
+    baseDelegate?.didTapComment(in: cell)
+  }
+  
+  func didTapShare(in cell: UICollectionViewCell) {
+    baseDelegate?.didTapShare(in: cell)
+  }
+  
+  func didTapOption(in cell: UICollectionViewCell) {
+    baseDelegate?.didTapOption(in: cell)
   }
 }
