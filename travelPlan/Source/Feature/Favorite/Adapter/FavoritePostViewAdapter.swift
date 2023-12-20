@@ -14,12 +14,9 @@ final class FavoritePostViewAdapter: PostViewAdapter {
   
   init(
     dataSource: PostViewAdapterDataSource?,
-    delegate: FavoritePostViewAdapterDelegate?,
     collectionView: PostCollectionView?
   ) {
-    self.delegate = delegate
-    super.init(dataSource: dataSource, delegate: delegate, collectionView: collectionView)
-    collectionView?.delegate = self
+    super.init(dataSource: dataSource, collectionView: collectionView)
   }
 }
 
