@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol FavoritePostViewAdapterDelegate: PostViewAdapterDelegate {
+protocol FavoritePostViewAdapterDelegate: AnyObject {
   func scrollDidScroll(
     _ scrollView: UIScrollView,
     scrollYPosition: CGFloat,
