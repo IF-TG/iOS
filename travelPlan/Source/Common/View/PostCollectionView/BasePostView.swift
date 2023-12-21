@@ -78,6 +78,8 @@ extension BasePostView {
   
   private func configureUI() {
     translatesAutoresizingMaskIntoConstraints = false
+    layer.backgroundColor = UIColor.yg.littleWhite.cgColor
+    layer.cornerRadius = 8
     thumbnailView.layer.cornerRadius = 10
     thumbnailView.clipsToBounds = true
     thumbnailView.translatesAutoresizingMaskIntoConstraints = false
