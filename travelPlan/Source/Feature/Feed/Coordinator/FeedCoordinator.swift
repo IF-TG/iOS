@@ -16,6 +16,7 @@ protocol FeedCoordinatorDelegate: FlowCoordinatorDelegate {
   func showPostOrderFilteringBottomSheet()
   func showReviewWrite()
   func showPostDetailPage()
+  func showPostShare(with activityItems: [Any])
 }
 
 final class FeedCoordinator: FlowCoordinator {
@@ -87,5 +88,12 @@ extension FeedCoordinator: FeedCoordinatorDelegate {
   func showReviewWrite() {
     let reviewWritingCoordinator = ReviewWritingCoordinator(presenter: presenter)
     addChild(with: reviewWritingCoordinator)
+  }
+  func showPostShare(with activityItems: [Any]) {
+    let activityVC = UIActivityViewController(
+      activityItems: activityItems,
+      applicationActivities: nil)
+    
+    viewController?.present(activityVC, animated: true, completion: nil)
   }
 }
