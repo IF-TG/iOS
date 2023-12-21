@@ -114,7 +114,15 @@ extension FeedPostViewController: PostViewAdapterDelegate {
   func didTapShare(in cell: UICollectionViewCell) {
     guard let indexPath = postView.indexPath(for: cell) else { return }
     let item = viewModel.postItem(at: indexPath.row)
-    delegate?.didTapShare(with: item.postId)
+    let renderer = UIGraphicsImageRenderer(size: cell.bounds.size)
+    let image = renderer.image { context in
+      cell.layer.render(in: context.cgContext)
+    }
+    
+    delegate?.didTapShare(
+      with: item.postId,
+      title: item.header.contentInfo.title,
+      contentImage: image)
   }
   
   func didTapOption(in cell: UICollectionViewCell) {
