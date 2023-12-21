@@ -223,9 +223,14 @@ extension FeedViewController: FeedPostViewControllerDelegate {
     print("DEBUG: Goto post detail comment section \(postId)")
   }
   
-  func didTapShare(with postId: Int) {
-    // TODO: - Share 화면으로 이동해야 합니다.
-    print("DEBUG: Goto post share page \(postId)")
+  func didTapShare(with postId: Int, title: String?, contentImage: UIImage) {
+    guard let title else {
+      // TODO: - 알림창 띄우면서 이 컨텐츠는 현재 공유 불가능하다?
+      return
+    }
+    let item = PostActivityItemSource(image: contentImage, title: title)
+    let activityItems: [Any] = [item, postId]
+    coordinator?.showPostShare(with: activityItems)
   }
   
   func didTapOption(with postId: Int) {
