@@ -2,6 +2,17 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+  <key>CFBundleURLTypes</key>
+  <array>
+    <dict>
+      <key>CFBundleURLName</key>
+      <string>app.yeoga.com</string>
+      <key>CFBundleURLSchemes</key>
+      <array>
+        <string>yeoga</string>
+      </array>
+    </dict>
+  </array>
 	<key>NSCameraUsageDescription</key>
 	<string>카메라에 접근할 권한이 필요합니다.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
