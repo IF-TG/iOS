@@ -9,4 +9,5 @@ import Foundation
 
 protocol ReviewWritingContentViewDelegate: AnyObject {
   func changeContentInset(bottomEdge: CGFloat)
+  func finishButton(isEnabled: Bool)
 }
