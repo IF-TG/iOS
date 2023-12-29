@@ -35,7 +35,7 @@ final class ReviewWritingViewController: UIViewController {
   private lazy var finishButton = UIButton().set {
     $0.addTarget(self, action: #selector(didTapFinishButton), for: .touchUpInside)
     $0.setTitle("완료", for: .normal)
-    $0.setTitleColor(.yg.primary, for: .normal)
+    $0.setTitleColor(.yg.gray1, for: .normal)
     $0.titleLabel?.font = .init(pretendard: .regular_400(fontSize: 16))
   }
   
@@ -74,6 +74,7 @@ final class ReviewWritingViewController: UIViewController {
     super.viewWillAppear(animated)
     tabBarController?.tabBar.isHidden = true
     (tabBarController as? MainTabBarController)?.hideShadowLayer()
+    finishButton.isEnabled = false
   }
   
   override func viewDidAppear(_ animated: Bool) {
@@ -209,7 +210,7 @@ extension ReviewWritingViewController {
       print("imageView tapped")
       self?.imageView = newImageView
     }
-  }
+  }     
   
   private func setScrollViewBottomInset(inset: CGFloat) {
     scrollView.verticalScrollIndicatorInsets.bottom = inset
@@ -295,29 +296,43 @@ extension ReviewWritingViewController: ReviewWritingContentViewDelegate {
   func changeContentInset(bottomEdge: CGFloat) {
     setScrollViewBottomInset(inset: bottomEdge)
   }
+  
+  func finishButton(isEnabled: Bool) {
+    finishButton.isEnabled = isEnabled
+    if isEnabled {
+      finishButton.setTitleColor(.yg.primary, for: .normal)
+    } else {
+      finishButton.setTitleColor(.yg.gray1, for: .normal)
+    }
+  }
 }
 
 // MARK: - UIGestureRecognizerDelegate
 extension ReviewWritingViewController: UIGestureRecognizerDelegate {
-  func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+  func gestureRecognizer(
+    _ gestureRecognizer: UIGestureRecognizer,
+    shouldReceive touch: UITouch
+  ) -> Bool {
     if touch.view === self.imageView, gestureRecognizer.view === scrollView {
       return false
     }
-      return true
+    return true
   }
 }
 
-
 extension ReviewWritingViewController: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
-  func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+  func imagePickerController(
+    _ picker: UIImagePickerController,
+    didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
+  ) {
     guard let image = info[
       UIImagePickerController.InfoKey(rawValue: "UIImagePickerControllerEditedImage")
     ] as? UIImage else {
       picker.dismiss(animated: true, completion: nil)
       return
     }
+    
     contentView.addImageView(image: image)
     picker.dismiss(animated: true, completion: nil)
   }
 }
-

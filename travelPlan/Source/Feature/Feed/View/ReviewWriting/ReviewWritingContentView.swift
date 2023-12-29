@@ -91,7 +91,8 @@ final class ReviewWritingContentView: UIStackView {
   var imageViewUpdated: ((UIImageView) -> Void)?
   private var shouldScrollToLastView = false
   private var isTextViewDidBeginEditingFirstCalled = false
-
+  private let imageViewPublisher = PassthroughSubject<Bool, Never>()
+  
   // MARK: - LifeCycle
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -112,6 +113,8 @@ final class ReviewWritingContentView: UIStackView {
       shouldScrollToLastView = false
     }
   }
+  
+  
 }
 
 // MARK: - LayoutSupport
@@ -243,6 +246,36 @@ extension ReviewWritingContentView {
         self?.changeContentInset()
       }
       .store(in: &subscriptions)
+    
+    let titleTextViewPublisher = NotificationCenter.default
+      .publisher(for: UITextView.textDidChangeNotification, object: titleTextView)
+      .map { return ($0.object as? UITextView)?.text != "" }
+    
+    let firstMessageTextViewPublisher = NotificationCenter.default
+      .publisher(for: UITextView.textDidChangeNotification, object: firstMessageTextView)
+      .map { [weak self] _ in
+        guard let self = self else { return false }
+        
+        if self.firstMessageTextView.text != "" {
+          return true
+        } else if arrangedSubviews.contains(where: { $0 is UIImageView }) {
+          return true
+        } else {
+          return false
+        }
+      }
+    
+    Publishers.CombineLatest3(
+      titleTextViewPublisher,
+      firstMessageTextViewPublisher,
+      imageViewPublisher
+    )
+    .map { $0 && $1 && $2 }
+    .receive(on: RunLoop.main)
+    .sink { [weak self] isEnabled in
+      self?.delegate?.finishButton(isEnabled: isEnabled)
+    }
+    .store(in: &subscriptions)
   }
   
   /// window 좌표계를 기준으로 cursor의 frame을 반환합니다.
@@ -274,7 +307,7 @@ extension ReviewWritingContentView {
     if textView.text.isEmpty {
       if textView === titleTextView {
         textView.textColor = .yg.gray1
-        textView.text = "제목"
+        textView.text = "제목(최대 60자)"
       } else if textView === firstMessageTextView,
                 lastView === firstMessageTextView {
         textView.textColor = .yg.gray1
@@ -311,6 +344,7 @@ extension ReviewWritingContentView {
       lastView.snp.makeConstraints {
         $0.height.equalTo(250)
       }
+      imageViewPublisher.send(true)
     }
     lastView.layoutIfNeeded()
     shouldScrollToLastView = true
@@ -436,6 +470,7 @@ extension ReviewWritingContentView {
     setupLastView(lastView: imageView)
   }
 }
+
 // MARK: - PictureImageViewDelegate
 extension ReviewWritingContentView: PictureImageViewDelegate {
   func didTapDeleteButton(_ sender: UIButton) {
@@ -447,6 +482,11 @@ extension ReviewWritingContentView: PictureImageViewDelegate {
     }
     
     removeArrangedSubview(imageView)
+    if arrangedSubviews.contains(where: { $0 is UIImageView }) {
+      imageViewPublisher.send(true)
+    } else {
+      imageViewPublisher.send(false)
+    }
     imageView.removeFromSuperview()
   }
 }
