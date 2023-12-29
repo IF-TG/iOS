@@ -23,12 +23,12 @@ struct SearchFestivalModel {
 // MARK: - Mock
 extension SearchFestivalModel {
   static var mockModels: [SearchFestivalModel] = [
-    .init(id: 1, imagePath: "tempThumbnail1", title: "축제1",
-          startDate: Date(), endDate: Date(), isSelectedButton: false, location: "서울"),
-    .init(id: 2, imagePath: "tempThumbnail2", title: "축제1",
-          startDate: Date(), endDate: Date(), isSelectedButton: false, location: "서울"),
-    .init(id: 3, imagePath: "tempThumbnail3", title: "축제1",
-          startDate: Date(), endDate: Date(), isSelectedButton: false, location: "서울"),
+    .init(id: 1, imagePath: "tempThumbnail1", title: "대관령눈꽃축제",
+          startDate: Date(), endDate: Date(), isSelectedButton: false, location: "강원도 평창"),
+    .init(id: 2, imagePath: "tempThumbnail2", title: "부안붉은노을축제",
+          startDate: Date(), endDate: Date(), isSelectedButton: false, location: "전라북도 부안"),
+    .init(id: 3, imagePath: "tempThumbnail3", title: "고창갯벌축제",
+          startDate: Date(), endDate: Date(), isSelectedButton: false, location: "전라북도 고창"),
     .init(id: 4, imagePath: "tempThumbnail4", title: "축제1",
           startDate: Date(), endDate: Date(), isSelectedButton: false, location: "서울"),
     .init(id: 5, imagePath: "tempThumbnail5", title: "축제1",

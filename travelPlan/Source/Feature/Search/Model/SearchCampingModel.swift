@@ -35,6 +35,6 @@ extension SearchCampingModel {
     .init(id: 1, imagePath: "chiangmai",
           place: "치앙마이방콕", location: "대전", category: "음식점", isSelectedButton: true),
     .init(id: 1, imagePath: "taehwajang",
-          place: "태화장", location: "대전", category: "음식점", isSelectedButton: false)
+          place: "무주 스키장", location: "대전", category: "음식점", isSelectedButton: false)
   ]
 }
