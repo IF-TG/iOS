@@ -24,19 +24,12 @@ final class ReviewWritingViewController: UIViewController {
   
   private let keyboardImage: UIImage = .init(named: "keyboard") ?? .init(systemName: "keyboard")!
   
-  private lazy var leftButton = UIButton().set {
-    $0.addTarget(self, action: #selector(didTapLeftButton), for: .touchUpInside)
-    $0.setTitle("취소", for: .normal)
-    $0.setTitleColor(.yg.gray7, for: .normal)
-    $0.setTitleColor(.yg.gray7.withAlphaComponent(0.1), for: .highlighted)
-    $0.titleLabel?.font = .init(pretendard: .regular_400(fontSize: 16))
+  private lazy var cancelButton = BaseNavigationLeftButton().set {
+    $0.addTarget(self, action: #selector(didTapCancelButton), for: .touchUpInside)
   }
   
-  private lazy var finishButton = UIButton().set {
+  private lazy var finishButton = BaseNavigationRightButton().set {
     $0.addTarget(self, action: #selector(didTapFinishButton), for: .touchUpInside)
-    $0.setTitle("완료", for: .normal)
-    $0.setTitleColor(.yg.gray1, for: .normal)
-    $0.titleLabel?.font = .init(pretendard: .regular_400(fontSize: 16))
   }
   
   private lazy var scrollView = UIScrollView().set {
@@ -169,16 +162,16 @@ extension ReviewWritingViewController {
   private func changeLeftButtonUI(currentState: KeyboardState) {
     switch currentState {
     case .willShow:
-      leftButton.setImage(keyboardImage, for: .normal)
-      leftButton.setTitle(nil, for: .normal)
+      cancelButton.setImage(keyboardImage, for: .normal)
+      cancelButton.setTitle(nil, for: .normal)
     case .willHide:
-      leftButton.setImage(nil, for: .normal)
-      leftButton.setTitle("취소", for: .normal)
+      cancelButton.setImage(nil, for: .normal)
+      cancelButton.setTitle("취소", for: .normal)
     }
   }
   
   private func setupNavigationBar() {
-    navigationItem.leftBarButtonItem = .init(customView: leftButton)
+    navigationItem.leftBarButtonItem = .init(customView: cancelButton)
     navigationItem.rightBarButtonItem = .init(customView: finishButton)
     navigationItem.titleView = titleView
   }
@@ -249,8 +242,8 @@ extension ReviewWritingViewController: LayoutSupport {
 
 // MARK: - Actions
 private extension ReviewWritingViewController {
-  @objc func didTapLeftButton() {
-    let keyboardIsOnScreen = leftButton.image(for: .normal) != nil
+  @objc func didTapCancelButton() {
+    let keyboardIsOnScreen = cancelButton.image(for: .normal) != nil
     
     if keyboardIsOnScreen {
       input.didTapKeyboardDownButton.send()
