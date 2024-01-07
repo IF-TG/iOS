@@ -61,6 +61,7 @@
 		1343840F2B480BF5005034E0 /* PhotoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1343840E2B480BF5005034E0 /* PhotoService.swift */; };
 		134384112B480C9E005034E0 /* ReviewWriteAlbumService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 134384102B480C9E005034E0 /* ReviewWriteAlbumService.swift */; };
 		134384152B495C0E005034E0 /* ReviewWritePhotoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 134384142B495C0E005034E0 /* ReviewWritePhotoService.swift */; };
+		134384182B4A9522005034E0 /* PhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 134384172B4A9522005034E0 /* PhotoCell.swift */; };
 		1344DA102B13A8C70031CC7A /* SearchDestinationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1344DA0F2B13A8C70031CC7A /* SearchDestinationViewController.swift */; };
 		1344DA142B14F5770031CC7A /* SearchDestinationTitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1344DA132B14F5770031CC7A /* SearchDestinationTitleCell.swift */; };
 		134CCB342AFFFB2900D51D84 /* ReviewWritingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 134CCB332AFFFB2900D51D84 /* ReviewWritingViewModel.swift */; };
@@ -447,6 +448,7 @@
 		1343840E2B480BF5005034E0 /* PhotoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoService.swift; sourceTree = "<group>"; };
 		134384102B480C9E005034E0 /* ReviewWriteAlbumService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWriteAlbumService.swift; sourceTree = "<group>"; };
 		134384142B495C0E005034E0 /* ReviewWritePhotoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWritePhotoService.swift; sourceTree = "<group>"; };
+		134384172B4A9522005034E0 /* PhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCell.swift; sourceTree = "<group>"; };
 		1344DA0F2B13A8C70031CC7A /* SearchDestinationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDestinationViewController.swift; sourceTree = "<group>"; };
 		1344DA132B14F5770031CC7A /* SearchDestinationTitleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDestinationTitleCell.swift; sourceTree = "<group>"; };
 		134CCB332AFFFB2900D51D84 /* ReviewWritingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWritingViewModel.swift; sourceTree = "<group>"; };
@@ -919,6 +921,7 @@
 		134383FA2B47ECEF005034E0 /* Album */ = {
 			isa = PBXGroup;
 			children = (
+				134384162B4A950C005034E0 /* View */,
 				134384062B480051005034E0 /* ViewController */,
 				134384002B47F8A1005034E0 /* Model */,
 				134383FB2B47ED03005034E0 /* Service */,
@@ -971,6 +974,15 @@
 				1343840C2B4803FE005034E0 /* BaseNavigationRightButton.swift */,
 			);
 			path = Navigation;
+			sourceTree = "<group>";
+		};
+		134384162B4A950C005034E0 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				134384172B4A9522005034E0 /* PhotoCell.swift */,
+			);
+			name = View;
+			path = "퍋ㅈ";
 			sourceTree = "<group>";
 		};
 		13606E8F2A9F983F00365F20 /* TagCell */ = {
@@ -2536,6 +2548,7 @@
 				15FEB5E82A050A99000A5F33 /* UIControl+CombineInteraction.swift in Sources */,
 				157ADCA22ACFB55800D37680 /* FavoritePostViewAdapterDelegate.swift in Sources */,
 				1550D9B12ACB1D740046569B /* DevelopmentViewController.swift in Sources */,
+				134384182B4A9522005034E0 /* PhotoCell.swift in Sources */,
 				15F2A0182B14E32B0014603D /* MyInformationViewController.swift in Sources */,
 				13254FF02A0549D200094218 /* TabBarCase.swift in Sources */,
 				13254FEB2A0515C700094218 /* FavoriteViewController.swift in Sources */,
