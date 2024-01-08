@@ -17,11 +17,16 @@ enum SelectionOrder {
 struct PhotoCellInfo {
   let asset: PHAsset
   let image: UIImage?
-  let selectedOrder: SelectionOrder
+  var selectedOrder: SelectionOrder
 }
 
 final class PhotoCell: UICollectionViewCell {
+  
   // MARK: - Properties
+  static var id: String {
+    return String(describing: Self.self)
+  }
+  
   private let imageView: UIImageView = .init().set {
     $0.contentMode = .scaleAspectFill
   }
