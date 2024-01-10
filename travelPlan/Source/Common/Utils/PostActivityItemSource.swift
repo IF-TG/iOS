@@ -19,12 +19,8 @@ final class PostActivityItemSource: NSObject, UIActivityItemSource {
     self.image = image
     self.title = title
     self.postId = postId
-    guard let icon = UIImage(named: "AppIcon") else { 
-      super.init()
-      return
-    }
     metadata = {
-      $0.iconProvider = NSItemProvider(object: icon)
+      $0.iconProvider = NSItemProvider(contentsOf: Bundle.main.url(forResource: "AppIcon", withExtension: "png"))
       $0.title = title
       if let deepLinkURL = URL(string: "yeoga://post/\(postId)") {
         $0.originalURL = deepLinkURL
