@@ -113,8 +113,6 @@ final class ReviewWritingContentView: UIStackView {
       shouldScrollToLastView = false
     }
   }
-  
-  
 }
 
 // MARK: - LayoutSupport
