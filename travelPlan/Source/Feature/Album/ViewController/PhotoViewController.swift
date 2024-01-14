@@ -12,7 +12,7 @@ import Photos
 final class PhotoViewController: UIViewController {
   // MARK: - Nested
   private enum Const {
-    static let numberOfColumns = 3.0
+    static let numberOfColumns = 4.0
     static let cellSpace = 1.0
     static let length = (UIScreen.main.bounds.size.width - cellSpace * (numberOfColumns - 1)) / numberOfColumns
     static let cellSize = CGSize(width: length, height: length)
@@ -20,12 +20,13 @@ final class PhotoViewController: UIViewController {
   }
   
   // MARK: - Properties
+  weak var coordinator: PhotoCoordinator?
   private var dataSource = [PhotoCellInfo]()
   private lazy var collectionView: UICollectionView = .init(
     frame: .zero,
     collectionViewLayout: UICollectionViewFlowLayout().set {
       $0.minimumLineSpacing = 1
-      $0.minimumInteritemSpacing = 0
+      $0.minimumInteritemSpacing = 1
       $0.itemSize = Const.cellSize
     }
   ).set {
@@ -57,6 +58,7 @@ final class PhotoViewController: UIViewController {
   private let albumService: AlbumService = ReviewWriteAlbumService()
   private let photoService: PhotoService = ReviewWritePhotoService()
   private var albums = [PHFetchResult<PHAsset>]()
+  
   // index: order-1
   // element: indexPath.item
   private var selectedIndexArray = [Int]()
@@ -65,6 +67,7 @@ final class PhotoViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     setupUI()
+    setupStyles()
     setupNavigationBar()
     loadAlbums(completion: { [weak self] in
       self?.loadImages()
@@ -81,6 +84,10 @@ final class PhotoViewController: UIViewController {
     super.viewWillDisappear(animated)
     tabBarController?.tabBar.isHidden = false
     (tabBarController as? MainTabBarController)?.showShadowLayer()
+  }
+  
+  deinit {
+    print("deinit: \(Self.self)")
   }
 }
 
@@ -150,6 +157,8 @@ extension PhotoViewController: UICollectionViewDelegateFlowLayout {
       }
       newIndexPaths = [indexPath] + selectedIndexArray.map { IndexPath(item: $0, section: 0) }
     } else {
+      guard selectedIndexArray.count < 20 else { return }
+      
       selectedIndexArray.append(indexPath.item)
       dataSource[indexPath.item].selectedOrder = .selected(selectedIndexArray.count)
       newIndexPaths = selectedIndexArray.map { IndexPath(item: $0, section: .zero) }
@@ -172,6 +181,10 @@ extension PhotoViewController {
       self?.albums = albumInfos.map(\.album)
       completion()
     }
+  }
+  
+  private func setupStyles() {
+    view.backgroundColor = .white
   }
   
   private func setupNavigationBar() {
@@ -198,13 +211,41 @@ extension PhotoViewController {
 private extension PhotoViewController {
   @objc func didTapCancelButton(_ sender: UIButton) {
     print("취소 버튼 클릭")
+    coordinator?.finish(withAnimated: true)
   }
   
   @objc func didTapFinishButton(_ sender: UIButton) {
     print("완료 버튼 클릭")
+    coordinator?.finish(withAnimated: true)
   }
   
   @objc func didTapTitleView() {
     print("최근항목 선택됨")
+  }
+}
+
+// MARK: - PhotoCellDelegate
+extension PhotoViewController: PhotoCellDelegate {
+  func didTapOrderView(_ view: UIView) {
+    
+  }
+}
+
+// MARK: - UINavigationControllerDelegate
+extension PhotoViewController: UINavigationControllerDelegate {
+  func navigationController(
+    _ navigationController: UINavigationController,
+    animationControllerFor operation: UINavigationController.Operation,
+    from fromVC: UIViewController,
+    to toVC: UIViewController
+  ) -> UIViewControllerAnimatedTransitioning? {
+    
+    if operation == .push && toVC is PhotoViewController {
+      return SlideUpAnimator()
+    } else if operation == .pop && fromVC is PhotoViewController {
+      return SlideDownAnimator()
+    } else {
+      return nil
+    }
   }
 }
