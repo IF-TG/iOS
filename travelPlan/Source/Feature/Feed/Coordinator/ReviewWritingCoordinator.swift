@@ -9,7 +9,7 @@ import UIKit
 import SHCoordinator
 
 protocol ReviewWritingCoordinatorDelegate: FlowCoordinatorDelegate {
-  
+  func showPhotoViewController()
 }
 
 final class ReviewWritingCoordinator: FlowCoordinator {
@@ -17,12 +17,6 @@ final class ReviewWritingCoordinator: FlowCoordinator {
   var parent: FlowCoordinator?
   var child: [FlowCoordinator] = []
   var presenter: UINavigationController?
-  
-  func start() {
-    let vc = ReviewWritingViewController()
-    vc.coordinator = self
-    presenter?.pushViewController(vc, animated: true)
-  }
   
   // MARK: - LifeCycle
   init(presenter: UINavigationController?) {
@@ -32,8 +26,18 @@ final class ReviewWritingCoordinator: FlowCoordinator {
   deinit {
     print("deinit: \(Self.self)")
   }
+  
+  // MARK: - Helper
+  func start() {
+    let vc = ReviewWritingViewController()
+    vc.coordinator = self
+    presenter?.pushViewController(vc, animated: true)
+  }
 }
 
 extension ReviewWritingCoordinator: ReviewWritingCoordinatorDelegate {
-  
+  func showPhotoViewController() {
+    let childCoordinator = PhotoCoordinator(presenter: presenter)
+    addChild(with: childCoordinator)
+  }
 }
