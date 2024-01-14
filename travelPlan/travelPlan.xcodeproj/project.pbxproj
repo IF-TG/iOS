@@ -95,7 +95,11 @@
 		13CB6D322A1E9F6600D185B2 /* CautionAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CB6D312A1E9F6600D185B2 /* CautionAlertViewController.swift */; };
 		13CB6D342A1FEC6D00D185B2 /* CautionAlertViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CB6D332A1FEC6D00D185B2 /* CautionAlertViewControllerDelegate.swift */; };
 		13CB6D362A20E12B00D185B2 /* CALayer+Border.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CB6D352A20E12B00D185B2 /* CALayer+Border.swift */; };
+		13E746772B4D303E007D5C15 /* PhotoCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E746762B4D303E007D5C15 /* PhotoCellDelegate.swift */; };
 		13E913932B0F3ECF00E15B11 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 13E913922B0F3ECF00E15B11 /* SnapKit */; };
+		13F6DAC82B5248EF00573B86 /* SlideUpAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F6DAC72B5248EF00573B86 /* SlideUpAnimator.swift */; };
+		13F6DACA2B52711E00573B86 /* SlideDownAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F6DAC92B52711E00573B86 /* SlideDownAnimator.swift */; };
+		13F6DACD2B53A5D400573B86 /* PhotoCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F6DACC2B53A5D400573B86 /* PhotoCoordinator.swift */; };
 		13FE64772A5C378D007D9A53 /* SearchCampingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13FE64762A5C378D007D9A53 /* SearchCampingModel.swift */; };
 		1503F92B2A4E068E002BC38D /* ApplicationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1503F92A2A4E068E002BC38D /* ApplicationCoordinator.swift */; };
 		1503F92E2A4E083C002BC38D /* LoginCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1503F92D2A4E083C002BC38D /* LoginCoordinator.swift */; };
@@ -486,6 +490,10 @@
 		13CB6D312A1E9F6600D185B2 /* CautionAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CautionAlertViewController.swift; sourceTree = "<group>"; };
 		13CB6D332A1FEC6D00D185B2 /* CautionAlertViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CautionAlertViewControllerDelegate.swift; sourceTree = "<group>"; };
 		13CB6D352A20E12B00D185B2 /* CALayer+Border.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+Border.swift"; sourceTree = "<group>"; };
+		13E746762B4D303E007D5C15 /* PhotoCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCellDelegate.swift; sourceTree = "<group>"; };
+		13F6DAC72B5248EF00573B86 /* SlideUpAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideUpAnimator.swift; sourceTree = "<group>"; };
+		13F6DAC92B52711E00573B86 /* SlideDownAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideDownAnimator.swift; sourceTree = "<group>"; };
+		13F6DACC2B53A5D400573B86 /* PhotoCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCoordinator.swift; sourceTree = "<group>"; };
 		13FE64762A5C378D007D9A53 /* SearchCampingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCampingModel.swift; sourceTree = "<group>"; };
 		13FE64782A5C3900007D9A53 /* TravelDestinationCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelDestinationCellViewModel.swift; sourceTree = "<group>"; };
 		1503F92A2A4E068E002BC38D /* ApplicationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationCoordinator.swift; sourceTree = "<group>"; };
@@ -921,7 +929,9 @@
 		134383FA2B47ECEF005034E0 /* Album */ = {
 			isa = PBXGroup;
 			children = (
-				134384162B4A950C005034E0 /* View */,
+				13F6DACB2B53A5A800573B86 /* Coordinator */,
+				13E746752B4D3031007D5C15 /* Protocol */,
+				13F6DACF2B53F83B00573B86 /* View */,
 				134384062B480051005034E0 /* ViewController */,
 				134384002B47F8A1005034E0 /* Model */,
 				134383FB2B47ED03005034E0 /* Service */,
@@ -976,15 +986,6 @@
 			path = Navigation;
 			sourceTree = "<group>";
 		};
-		134384162B4A950C005034E0 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				134384172B4A9522005034E0 /* PhotoCell.swift */,
-			);
-			name = View;
-			path = "퍋ㅈ";
-			sourceTree = "<group>";
-		};
 		13606E8F2A9F983F00365F20 /* TagCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -1016,6 +1017,32 @@
 				13405F032AED899800382796 /* KakaoLoginButton.swift */,
 				13405F052AEE17B100382796 /* AppleLoginButton.swift */,
 				13405F072AEE212500382796 /* GoogleLoginButton.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		13E746752B4D3031007D5C15 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				13E746762B4D303E007D5C15 /* PhotoCellDelegate.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
+		13F6DACB2B53A5A800573B86 /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				13F6DACC2B53A5D400573B86 /* PhotoCoordinator.swift */,
+			);
+			path = Coordinator;
+			sourceTree = "<group>";
+		};
+		13F6DACF2B53F83B00573B86 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				134384172B4A9522005034E0 /* PhotoCell.swift */,
+				13F6DAC72B5248EF00573B86 /* SlideUpAnimator.swift */,
+				13F6DAC92B52711E00573B86 /* SlideDownAnimator.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -2409,6 +2436,7 @@
 				152AD51B2A1A0447008A2A11 /* FavoriteTableViewAdapter.swift in Sources */,
 				15F0D1BE2A52940F00D04773 /* PostViewBottomSheetViewController.swift in Sources */,
 				157ADC9E2ACFAAFA00D37680 /* FavoritePostViewAdapter.swift in Sources */,
+				13E746772B4D303E007D5C15 /* PhotoCellDelegate.swift in Sources */,
 				15C83F8A2AB2134D00DDB536 /* BottomSheetView.swift in Sources */,
 				1503F92B2A4E068E002BC38D /* ApplicationCoordinator.swift in Sources */,
 				13405F042AED899800382796 /* KakaoLoginButton.swift in Sources */,
@@ -2492,6 +2520,7 @@
 				15AF2C3E2A1147B100BEE166 /* UIImage+.swift in Sources */,
 				13300FAC2AC0883200952757 /* UICompositionalLayoutCreatable.swift in Sources */,
 				151BDAD82B16EF96002F36C3 /* UIGestureRecognizer+GestureType.swift in Sources */,
+				13F6DAC82B5248EF00573B86 /* SlideUpAnimator.swift in Sources */,
 				15EB3A222AC99FCA0025FFB4 /* PostHeaderView.swift in Sources */,
 				15F0D1B92A524E1F00D04773 /* PostChevronLabel.swift in Sources */,
 				15C1F55F2AF3CDD4005FDA15 /* SettingTopSheetView.swift in Sources */,
@@ -2589,6 +2618,7 @@
 				15FFAC152ADA83E00013DB57 /* SessionProvider.swift in Sources */,
 				134384112B480C9E005034E0 /* ReviewWriteAlbumService.swift in Sources */,
 				15710CBC2A132DD00023C19E /* FeedAppTitleBarItem.swift in Sources */,
+				13F6DACD2B53A5D400573B86 /* PhotoCoordinator.swift in Sources */,
 				151DF0E42AEE990400D5D55B /* NoticeViewAdapter.swift in Sources */,
 				15F36A1A2AB1A18200971803 /* CaseIterable+.swift in Sources */,
 				15CB23692A10B9CF003EAF20 /* PostFooterInfo.swift in Sources */,
@@ -2609,6 +2639,7 @@
 				13A6C2DB2AB782A100EABD76 /* UIViewController+BackBarButtonItem.swift in Sources */,
 				13300FA42AC0688300952757 /* BaseDestinationView.swift in Sources */,
 				15D388272AFF8AAA00039946 /* InputTextView.swift in Sources */,
+				13F6DACA2B52711E00573B86 /* SlideDownAnimator.swift in Sources */,
 				13A93EE52ACDE0EC00FC4BBD /* SearchDetailHeaderView.swift in Sources */,
 				15259DEC2ACAAAB200C14F62 /* LocationSearchViewController.swift in Sources */,
 				15BB01B62A1EB5000035B486 /* LoginViewController.swift in Sources */,
