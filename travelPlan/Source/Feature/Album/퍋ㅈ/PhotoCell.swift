@@ -21,31 +21,47 @@ struct PhotoCellInfo {
 }
 
 final class PhotoCell: UICollectionViewCell {
+  // MARK: - Nested
+  enum Const {
+    static let orderViewSize: CGFloat = 20
+  }
   
   // MARK: - Properties
+  weak var delegate: PhotoCellDelegate?
+  
   static var id: String {
     return String(describing: Self.self)
   }
   
   private let imageView: UIImageView = .init().set {
     $0.contentMode = .scaleAspectFill
+    $0.layer.masksToBounds = true
   }
   
   private let highlightedView: UIView = .init().set {
     $0.backgroundColor = .clear
-    $0.layer.borderWidth = 2
-    $0.layer.borderColor = UIColor.green.cgColor
     $0.isUserInteractionEnabled = false
   }
   
+  private lazy var orderView: UIView = .init().set {
+    $0.backgroundColor = .yg.gray00Background.withAlphaComponent(0.3)
+    $0.layer.borderColor = UIColor.yg.littleWhite.cgColor
+    $0.layer.borderWidth = 1
+    $0.layer.cornerRadius = Const.orderViewSize / 2
+    let tapGesture = UITapGestureRecognizer()
+    tapGesture.addTarget(self, action: #selector(didTapOrderView(_:)))
+    $0.addGestureRecognizer(tapGesture)
+  }
+  
   private let orderLabel: UILabel = .init().set {
-    $0.textColor = .green
+    $0.textColor = .yg.gray00Background
+    $0.font = .init(pretendard: .medium_500(fontSize: 14))
+    $0.clipsToBounds = true
   }
   
   // MARK: - LifeCycle
   override init(frame: CGRect) {
     super.init(frame: frame)
-//    layer.masksToBounds = true // 이 값을 안주면 이미지가 셀의 다른 영역을 침범하는 영향을 준다
     setupUI()
   }
   
@@ -60,10 +76,18 @@ extension PhotoCell {
     imageView.image = info?.image
     
     if case let .selected(order) = info?.selectedOrder {
+      highlightedView.backgroundColor = .white.withAlphaComponent(0.5)
+      orderView.backgroundColor = .yg.primary
+      orderView.layer.borderColor = UIColor.clear.cgColor
+      orderView.layer.borderWidth = 0
       orderLabel.text = String(order)
-      highlightedView.isHidden = false
+      orderLabel.isHidden = false
     } else {
-      highlightedView.isHidden = true
+      highlightedView.backgroundColor = .clear
+      orderView.backgroundColor = .yg.gray00Background.withAlphaComponent(0.3)
+      orderView.layer.borderColor = UIColor.yg.littleWhite.cgColor
+      orderView.layer.borderWidth = 1
+      orderLabel.isHidden = true
     }
   }
 }
@@ -73,7 +97,8 @@ extension PhotoCell: LayoutSupport {
   func addSubviews() {
     contentView.addSubview(imageView)
     imageView.addSubview(highlightedView)
-    highlightedView.addSubview(orderLabel)
+    highlightedView.addSubview(orderView)
+    orderView.addSubview(orderLabel)
   }
   
   func setConstraints() {
@@ -85,8 +110,21 @@ extension PhotoCell: LayoutSupport {
       $0.edges.equalToSuperview()
     }
     
-    orderLabel.snp.makeConstraints {
-      $0.leading.top.equalToSuperview().inset(4)
+    orderView.snp.makeConstraints {
+      $0.top.trailing.equalToSuperview().inset(7)
+      $0.size.equalTo(Const.orderViewSize)
     }
+    
+    orderLabel.snp.makeConstraints {
+      $0.center.equalToSuperview()
+    }
+  }
+}
+
+// MARK: - Action
+private extension PhotoCell {
+  @objc func didTapOrderView(_ view: UIView) {
+    delegate?.didTapOrderView(view)
+    print("사진 체크!")
   }
 }
