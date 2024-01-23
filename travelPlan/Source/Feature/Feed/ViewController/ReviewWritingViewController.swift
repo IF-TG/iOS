@@ -88,6 +88,7 @@ final class ReviewWritingViewController: UIViewController {
     super.viewSafeAreaInsetsDidChange()
     contentView.safeAreaTopInset(topInset: view.safeAreaInsets.top)
   }
+  
   deinit {
     print("deinit: \(Self.self)")
   }
@@ -114,11 +115,7 @@ extension ReviewWritingViewController: ViewBindCase {
     case .popViewController:
       coordinator?.finish(withAnimated: true)
     case .presentAlbumViewController:
-      let picker = UIImagePickerController()
-      picker.sourceType = .photoLibrary
-      picker.delegate = self
-      picker.allowsEditing = true
-      present(picker, animated: true)
+      coordinator?.showPhotoViewController()
     case .presentPlan:
       print("플랜화면 띄우기")
     case .keyboardDown:
@@ -277,9 +274,9 @@ extension ReviewWritingViewController: ReviewWritingBottomViewDelegate {
   }
   
   func didTapCameraButton(_ button: UIButton) {
-    if contentView.firstMessageTextViewTextIsPlaceholder {
-      contentView.hideMessageTextView()
-    }
+//    if contentView.firstMessageTextViewTextIsPlaceholder {
+//      contentView.hideMessageTextView()
+//    }
     input.didTapAlbumButton.send()
   }
 }
@@ -313,19 +310,20 @@ extension ReviewWritingViewController: UIGestureRecognizerDelegate {
   }
 }
 
-extension ReviewWritingViewController: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
-  func imagePickerController(
-    _ picker: UIImagePickerController,
-    didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
-  ) {
-    guard let image = info[
-      UIImagePickerController.InfoKey(rawValue: "UIImagePickerControllerEditedImage")
-    ] as? UIImage else {
-      picker.dismiss(animated: true, completion: nil)
-      return
-    }
-    
-    contentView.addImageView(image: image)
-    picker.dismiss(animated: true, completion: nil)
-  }
-}
+// MARK: - UIImagePickerControllerDelegate & UINavigationControllerDelegate
+//extension ReviewWritingViewController: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
+//  func imagePickerController(
+//    _ picker: UIImagePickerController,
+//    didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
+//  ) {
+//    guard let image = info[
+//      UIImagePickerController.InfoKey(rawValue: "UIImagePickerControllerEditedImage")
+//    ] as? UIImage else {
+//      picker.dismiss(animated: true, completion: nil)
+//      return
+//    }
+//    
+//    contentView.addImageView(image: image)
+//    picker.dismiss(animated: true, completion: nil)
+//  }
+//}
