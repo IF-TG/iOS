@@ -33,7 +33,7 @@ final class PhotoViewController: UIViewController {
     $0.register(PhotoCell.self, forCellWithReuseIdentifier: PhotoCell.id)
     $0.backgroundColor = .clear
     $0.showsHorizontalScrollIndicator = false
-    $0.delegate = self
+//    $0.delegate = self
     $0.dataSource = self
   }
   
@@ -123,6 +123,8 @@ extension PhotoViewController: UICollectionViewDataSource {
       for: indexPath
     ) as? PhotoCell else { return .init() }
     
+    cell.delegate = self
+    
     let imageInfo = dataSource[indexPath.item]
     let asset = imageInfo.asset
     let imageSize = CGSize(width: Const.cellSize.width * Const.scale,
@@ -139,34 +141,34 @@ extension PhotoViewController: UICollectionViewDataSource {
 }
 
 // MARK: - UICollectionViewDelegateFlowLayout
-extension PhotoViewController: UICollectionViewDelegateFlowLayout {
-  func collectionView(
-    _ collectionView: UICollectionView,
-    didSelectItemAt indexPath: IndexPath
-  ) {
-    let cellInfo = dataSource[indexPath.item]
-    let newIndexPaths: [IndexPath]
-    if case .selected = cellInfo.selectedOrder {
-      dataSource[indexPath.item].selectedOrder = .none
-      selectedIndexArray.removeAll(where: { $0 == indexPath.item })
-      
-      for (order, index) in selectedIndexArray.enumerated() {
-        let order = order + 1
-        let prev = dataSource[index]
-        dataSource[index] = PhotoCellInfo(asset: prev.asset, image: prev.image, selectedOrder: .selected(order))
-      }
-      newIndexPaths = [indexPath] + selectedIndexArray.map { IndexPath(item: $0, section: 0) }
-    } else {
-      guard selectedIndexArray.count < 20 else { return }
-      
-      selectedIndexArray.append(indexPath.item)
-      dataSource[indexPath.item].selectedOrder = .selected(selectedIndexArray.count)
-      newIndexPaths = selectedIndexArray.map { IndexPath(item: $0, section: .zero) }
-    }
-    
-    update(indexPaths: newIndexPaths)
-  }
-}
+//extension PhotoViewController: UICollectionViewDelegateFlowLayout {
+//  func collectionView(
+//    _ collectionView: UICollectionView,
+//    didSelectItemAt indexPath: IndexPath
+//  ) {
+//    let cellInfo = dataSource[indexPath.item]
+//    let newIndexPaths: [IndexPath]
+//    if case .selected = cellInfo.selectedOrder {
+//      dataSource[indexPath.item].selectedOrder = .none
+//      selectedIndexArray.removeAll(where: { $0 == indexPath.item })
+//      
+//      for (order, index) in selectedIndexArray.enumerated() {
+//        let order = order + 1
+//        let prev = dataSource[index]
+//        dataSource[index] = PhotoCellInfo(asset: prev.asset, image: prev.image, selectedOrder: .selected(order))
+//      }
+//      newIndexPaths = [indexPath] + selectedIndexArray.map { IndexPath(item: $0, section: 0) }
+//    } else {
+//      guard selectedIndexArray.count < 20 else { return }
+//      
+//      selectedIndexArray.append(indexPath.item)
+//      dataSource[indexPath.item].selectedOrder = .selected(selectedIndexArray.count)
+//      newIndexPaths = selectedIndexArray.map { IndexPath(item: $0, section: .zero) }
+//    }
+//    
+//    update(indexPaths: newIndexPaths)
+//  }
+//}
 
 // MARK: - Private Helpers
 extension PhotoViewController {
@@ -226,8 +228,37 @@ private extension PhotoViewController {
 
 // MARK: - PhotoCellDelegate
 extension PhotoViewController: PhotoCellDelegate {
-  func didTapOrderView(_ view: UIView) {
-    
+  func touchBegan(_ cell: UICollectionViewCell, quadrant: PhotoCell.Quadrant) {
+    switch quadrant {
+    case .first:
+      guard let indexPath = collectionView.indexPath(for: cell) else { return }
+      
+      let cellInfo = dataSource[indexPath.item]
+      let newIndexPaths: [IndexPath]
+      if case .selected = cellInfo.selectedOrder {
+        dataSource[indexPath.item].selectedOrder = .none
+        selectedIndexArray.removeAll(where: { $0 == indexPath.item })
+        
+        for (order, index) in selectedIndexArray.enumerated() {
+          let order = order + 1
+          let prev = dataSource[index]
+          dataSource[index] = PhotoCellInfo(asset: prev.asset, image: prev.image, selectedOrder: .selected(order))
+        }
+        newIndexPaths = [indexPath] + selectedIndexArray.map { IndexPath(item: $0, section: 0) }
+      } else {
+        guard selectedIndexArray.count < 20 else { return }
+        
+        selectedIndexArray.append(indexPath.item)
+        dataSource[indexPath.item].selectedOrder = .selected(selectedIndexArray.count)
+        newIndexPaths = selectedIndexArray.map { IndexPath(item: $0, section: .zero) }
+      }
+      
+      update(indexPaths: newIndexPaths)
+    case .else:
+      print("연관값으로 image넘겨서 imageDetailVC 열기")
+      // TODO: - 연관값으로 image넘겨서 imageDetailVC 열기
+      break
+    }
   }
 }
 

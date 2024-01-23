@@ -22,6 +22,11 @@ struct PhotoCellInfo {
 
 final class PhotoCell: UICollectionViewCell {
   // MARK: - Nested
+  enum Quadrant {
+    case first
+    case `else`
+  }
+  
   enum Const {
     static let orderViewSize: CGFloat = 20
   }
@@ -48,9 +53,9 @@ final class PhotoCell: UICollectionViewCell {
     $0.layer.borderColor = UIColor.yg.littleWhite.cgColor
     $0.layer.borderWidth = 1
     $0.layer.cornerRadius = Const.orderViewSize / 2
-    let tapGesture = UITapGestureRecognizer()
-    tapGesture.addTarget(self, action: #selector(didTapOrderView(_:)))
-    $0.addGestureRecognizer(tapGesture)
+//    let tapGesture = UITapGestureRecognizer()
+//    tapGesture.addTarget(self, action: #selector(didTapOrderView(_:)))
+//    $0.addGestureRecognizer(tapGesture)
   }
   
   private let orderLabel: UILabel = .init().set {
@@ -67,6 +72,19 @@ final class PhotoCell: UICollectionViewCell {
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+  
+  override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    super.touchesBegan(touches, with: event)
+    guard let touch = touches.first else { return }
+    
+    let point = touch.location(in: self)
+    if point.x >= self.frame.width / 2,
+       point.y <= self.frame.height / 2 {
+      delegate?.touchBegan(self, quadrant: .first)
+    } else {
+      delegate?.touchBegan(self, quadrant: .else)
+    }
   }
 }
 
@@ -123,8 +141,8 @@ extension PhotoCell: LayoutSupport {
 
 // MARK: - Action
 private extension PhotoCell {
-  @objc func didTapOrderView(_ view: UIView) {
-    delegate?.didTapOrderView(view)
-    print("사진 체크!")
-  }
+//  @objc func didTapOrderView(_ view: UIView) {
+//    delegate?.didTapOrderView(view)
+//    print("사진 체크!")
+//  }
 }
