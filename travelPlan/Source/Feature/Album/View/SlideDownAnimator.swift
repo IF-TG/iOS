@@ -13,9 +13,14 @@ class SlideDownAnimator: NSObject, UIViewControllerAnimatedTransitioning {
   }
   
   func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
-    guard let fromView = transitionContext.view(forKey: .from) else { return }
+    guard let fromView = transitionContext.view(forKey: .from),
+    let toView = transitionContext.view(forKey: .to) else { return }
+    
+    let containerView = transitionContext.containerView
+    containerView.insertSubview(toView, belowSubview: fromView)
+    
     UIView.animate(
-      withDuration: 0.5,
+      withDuration: transitionDuration(using: transitionContext),
       animations: {
         fromView.transform = .identity
       }) { completed in
