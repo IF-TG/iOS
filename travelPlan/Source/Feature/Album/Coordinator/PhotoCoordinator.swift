@@ -26,9 +26,9 @@ final class PhotoCoordinator: FlowCoordinator {
   // MARK: - Helpers
   func start() {
     let vc = PhotoViewController()
+    presenter?.delegate = vc
     // TODO: - viewModel 추가하기
     vc.coordinator = self
-    presenter?.delegate = vc
     presenter?.pushViewController(vc, animated: true)
   }
 }

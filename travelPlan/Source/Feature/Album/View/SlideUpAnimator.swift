@@ -26,7 +26,7 @@ class SlideUpAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     }
     
     UIView.animate(
-      withDuration: 0.5,
+      withDuration: transitionDuration(using: transitionContext),
       animations: {
         toView.transform = .init(translationX: 0, y: -containerView.frame.height)
       }) { completed in

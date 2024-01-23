@@ -240,9 +240,9 @@ extension PhotoViewController: UINavigationControllerDelegate {
     to toVC: UIViewController
   ) -> UIViewControllerAnimatedTransitioning? {
     
-    if operation == .push && toVC is PhotoViewController {
+    if operation == .push {
       return SlideUpAnimator()
-    } else if operation == .pop && fromVC is PhotoViewController {
+    } else if operation == .pop {
       return SlideDownAnimator()
     } else {
       return nil
