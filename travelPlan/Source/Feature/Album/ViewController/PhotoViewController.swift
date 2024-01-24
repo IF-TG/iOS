@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import Photos
+import Combine
 
 final class PhotoViewController: UIViewController {
   // MARK: - Nested
@@ -33,7 +34,6 @@ final class PhotoViewController: UIViewController {
     $0.register(PhotoCell.self, forCellWithReuseIdentifier: PhotoCell.id)
     $0.backgroundColor = .clear
     $0.showsHorizontalScrollIndicator = false
-//    $0.delegate = self
     $0.dataSource = self
   }
   
@@ -59,9 +59,10 @@ final class PhotoViewController: UIViewController {
   private let photoService: PhotoService = ReviewWritePhotoService()
   private var albums = [PHFetchResult<PHAsset>]()
   
-  // index: order-1
-  // element: indexPath.item
-  private var selectedIndexArray = [Int]()
+  /// - index: order-1
+  /// - element: indexPath.item
+  @Published private var selectedIndexArray = [Int]()
+  private var subscriptions = Set<AnyCancellable>()
   
   // MARK: - LifeCycle
   override func viewDidLoad() {
@@ -69,6 +70,7 @@ final class PhotoViewController: UIViewController {
     setupUI()
     setupStyles()
     setupNavigationBar()
+    bind()
     loadAlbums(completion: { [weak self] in
       self?.loadImages()
     })
@@ -140,36 +142,6 @@ extension PhotoViewController: UICollectionViewDataSource {
   }
 }
 
-// MARK: - UICollectionViewDelegateFlowLayout
-//extension PhotoViewController: UICollectionViewDelegateFlowLayout {
-//  func collectionView(
-//    _ collectionView: UICollectionView,
-//    didSelectItemAt indexPath: IndexPath
-//  ) {
-//    let cellInfo = dataSource[indexPath.item]
-//    let newIndexPaths: [IndexPath]
-//    if case .selected = cellInfo.selectedOrder {
-//      dataSource[indexPath.item].selectedOrder = .none
-//      selectedIndexArray.removeAll(where: { $0 == indexPath.item })
-//      
-//      for (order, index) in selectedIndexArray.enumerated() {
-//        let order = order + 1
-//        let prev = dataSource[index]
-//        dataSource[index] = PhotoCellInfo(asset: prev.asset, image: prev.image, selectedOrder: .selected(order))
-//      }
-//      newIndexPaths = [indexPath] + selectedIndexArray.map { IndexPath(item: $0, section: 0) }
-//    } else {
-//      guard selectedIndexArray.count < 20 else { return }
-//      
-//      selectedIndexArray.append(indexPath.item)
-//      dataSource[indexPath.item].selectedOrder = .selected(selectedIndexArray.count)
-//      newIndexPaths = selectedIndexArray.map { IndexPath(item: $0, section: .zero) }
-//    }
-//    
-//    update(indexPaths: newIndexPaths)
-//  }
-//}
-
 // MARK: - Private Helpers
 extension PhotoViewController {
   private func update(indexPaths: [IndexPath]) {
@@ -206,6 +178,20 @@ extension PhotoViewController {
       self?.dataSource = assets.map { PhotoCellInfo(asset: $0, image: nil, selectedOrder: .none) }
       self?.collectionView.reloadData()
     }
+  }
+  
+  private func bind() {
+    $selectedIndexArray
+      .sink { [weak self] arr in
+        if arr.count > 0 {
+          self?.finishButton.isEnabled = true
+          self?.finishButton.setTitleColor(.yg.primary, for: .normal)
+        } else {
+          self?.finishButton.isEnabled = false
+          self?.finishButton.setTitleColor(.yg.gray1, for: .normal)
+        }
+      }
+      .store(in: &subscriptions)
   }
 }
 
