@@ -30,5 +30,6 @@ extension BaseNavigationRightButton {
     setTitle("완료", for: .normal)
     setTitleColor(.yg.gray1, for: .normal)
     titleLabel?.font = .init(pretendard: .regular_400(fontSize: 16))
+    isEnabled = false
   }
 }
