@@ -287,7 +287,7 @@ extension ReviewWritingViewController: ReviewWritingContentViewDelegate {
     setScrollViewBottomInset(inset: bottomEdge)
   }
   
-  func finishButton(isEnabled: Bool) {
+  func handleFinishButtonTitleColor(isEnabled: Bool) {
     finishButton.isEnabled = isEnabled
     if isEnabled {
       finishButton.setTitleColor(.yg.primary, for: .normal)

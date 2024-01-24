@@ -271,7 +271,7 @@ extension ReviewWritingContentView {
     .map { $0 && $1 && $2 }
     .receive(on: RunLoop.main)
     .sink { [weak self] isEnabled in
-      self?.delegate?.finishButton(isEnabled: isEnabled)
+      self?.delegate?.handleFinishButtonTitleColor(isEnabled: isEnabled)
     }
     .store(in: &subscriptions)
   }
