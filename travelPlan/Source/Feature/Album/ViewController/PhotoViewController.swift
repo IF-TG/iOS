@@ -63,6 +63,7 @@ final class PhotoViewController: UIViewController {
   /// - element: indexPath.item
   @Published private var selectedIndexArray = [Int]()
   private var subscriptions = Set<AnyCancellable>()
+  var imageCompletionHandler: (([UIImage]) -> Void)?
   
   // MARK: - LifeCycle
   override func viewDidLoad() {
@@ -203,7 +204,26 @@ private extension PhotoViewController {
   }
   
   @objc func didTapFinishButton(_ sender: UIButton) {
-    print("완료 버튼 클릭")
+    print("1. 완료 버튼 클릭")
+    var imageList = Array(repeating: UIImage(), count: selectedIndexArray.count)
+    let group = DispatchGroup()
+    for (i, indexPathItem) in selectedIndexArray.enumerated() {
+      group.enter()
+      photoService.fetchImage(
+        asset: dataSource[indexPathItem].asset,
+        size: CGSize(width: UIScreen.main.bounds.width - 15 * 2,
+                     height: CGFloat.greatestFiniteMagnitude),
+        contentMode: .aspectFit) { image in
+          imageList[i] = image
+          group.leave()
+        }
+    }
+    
+    group.notify(queue: .main) { [weak self] in
+      guard let self = self else { return }
+      self.imageCompletionHandler?(imageList)
+    }
+    
     coordinator?.finish(withAnimated: true)
   }
   
@@ -221,6 +241,7 @@ extension PhotoViewController: PhotoCellDelegate {
       
       let cellInfo = dataSource[indexPath.item]
       let newIndexPaths: [IndexPath]
+      
       if case .selected = cellInfo.selectedOrder {
         dataSource[indexPath.item].selectedOrder = .none
         selectedIndexArray.removeAll(where: { $0 == indexPath.item })

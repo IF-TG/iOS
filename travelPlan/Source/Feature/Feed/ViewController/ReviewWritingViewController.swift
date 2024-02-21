@@ -266,6 +266,14 @@ private extension ReviewWritingViewController {
     input.didTapView.send()
   }
 }
+// MARK: - Helpers
+extension ReviewWritingViewController {
+  func setImageView(to images: [UIImage]) {
+    for image in images {
+      contentView.addImageView(image: image)
+    }
+  }
+}
 
 // MARK: - ReviewWritingBottomViewDelegate
 extension ReviewWritingViewController: ReviewWritingBottomViewDelegate {
