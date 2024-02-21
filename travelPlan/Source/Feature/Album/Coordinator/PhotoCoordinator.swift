@@ -25,7 +25,12 @@ final class PhotoCoordinator: FlowCoordinator {
   
   // MARK: - Helpers
   func start() {
+    guard let reviewWritingVC = presenter?.viewControllers.last as? ReviewWritingViewController else { return }
+    
     let vc = PhotoViewController()
+    vc.imageCompletionHandler = { images in
+      reviewWritingVC.setImageView(to: images)
+    }
     presenter?.delegate = vc
     // TODO: - viewModel 추가하기
     vc.coordinator = self
