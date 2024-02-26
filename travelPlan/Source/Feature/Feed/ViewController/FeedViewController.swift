@@ -228,8 +228,8 @@ extension FeedViewController: FeedPostViewControllerDelegate {
       // TODO: - 알림창 띄우면서 이 컨텐츠는 현재 공유 불가능하다?
       return
     }
-    let item = PostActivityItemSource(image: contentImage, title: title)
-    let activityItems: [Any] = [item, postId]
+    let item = PostActivityItemSource(image: contentImage, title: title, postId: postId)
+    let activityItems: [Any] = [item]
     coordinator?.showPostShare(with: activityItems)
   }
   
