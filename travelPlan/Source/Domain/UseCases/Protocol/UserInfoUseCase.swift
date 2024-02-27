@@ -8,5 +8,6 @@
 import Combine
 
 protocol UserInfoUseCase {
-  func isDuplicatedName(with name: String) -> Bool 
+  var isDuplicatedName: CurrentValueSubject<Bool, Never> { get }
+  func isDuplicatedName(with name: String)
 }
