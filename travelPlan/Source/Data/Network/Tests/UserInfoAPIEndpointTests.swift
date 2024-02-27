@@ -6,30 +6,45 @@
 //
 
 import XCTest
+@testable import travelPlan
 
 final class UserInfoAPIEndpointTests: XCTestCase {
-
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+  // MARK: - Properties
+  var sut: UserInfoAPIEndpoint = UserInfoAPIEndpoint.default
+  let mockSession = MockSession.default
+  var expectation: XCTestExpectation!
+  
+  override func setUp() {
+    super.setUp()
+    MockUrlProtocol.requestHandler = { _ in return ((HTTPURLResponse(), Data())) }
+    expectation = expectation(description: "finish")
+  }
+  
+  override func tearDown() {
+    super.tearDown()
+    expectation = nil
+  }
+  
+  // MARK: - Tests
+  /// 계속 테스트 실패했는데 이유가 dataRequest의 convertible에서 urlRequest 객체 생성이 안됬다. 그 이유는 host에 로컬포트번호를 작성하지 않고 그냥 scheme에 scheme + :// + localhost:8080까지 썼기 때문에 url형식이 잘못됬다.
+  func testUserInfoAPIEndpoint_isDuplicatedName함수의Endpoint를통해makeRequest호출할때AbsoluteURL이정확한지_ShouldReturnEqual() {
+    // Arrange
+    let targetURL = URL(string: "http://localhost:8080/nickname?nickname=토익은어려워")
+    let requestDTO = UserNicknameRequestDTO(nickname: "토익은어려워")
+    let userNicknameEndpoint = sut.isDuplicatedNickname(with: requestDTO)
+    
+    // Act
+    DispatchQueue.global().async { [unowned self] in
+      let dataRequest = try? userNicknameEndpoint.makeRequest(from: mockSession)
+      
+      // Assert
+      XCTAssertNotNil(dataRequest, "UserIfnoAPIEndpoint의 isDuplicatedName()에서 DataRequest를 반환해야 하는데 nil 반환")
+      XCTAssertNotNil(
+        dataRequest?.convertible.urlRequest,
+        "UserIfnoAPIEndpoint의 isDuplicatedName()에서 DataRequest의 urlRequest를 반환해야하는데 nil 반환")
+      XCTAssertEqual(dataRequest?.convertible.urlRequest?.url, targetURL)
+      expectation.fulfill()
     }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
-    }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
-
+    wait(for: [expectation], timeout: 10)
+  }
 }
