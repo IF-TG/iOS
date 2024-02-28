@@ -11,8 +11,11 @@ import Foundation
 
 final class SessionProvider {
   let session: Session
-  init(session: Session = .default) {
+  private let timeout: Double
+  init(session: Session = .default, timeout: Double = 30) {
     self.session = session
+    self.timeout = timeout
+    session.sessionConfiguration.timeoutIntervalForRequest = timeout
   }
 }
 
