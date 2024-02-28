@@ -6,3 +6,9 @@
 //
 
 import Foundation
+
+struct LoginAPIEndPoints {
+  static func getAuthToken(path: String) -> Endpoint<LoginResponseDTO> {
+    
+  }
+}

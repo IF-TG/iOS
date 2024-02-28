@@ -6,3 +6,8 @@
 //
 
 import Foundation
+
+struct LoginRequestDTO: Encodable {
+  let authCode: String
+  let identityToken: String
+}
