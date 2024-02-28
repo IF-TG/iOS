@@ -17,7 +17,6 @@ final class Endpoint<ResponseDTO>: NetworkInteractionable where ResponseDTO: Dec
   var requestType: RequestType
   var headers: HTTPHeaders?
   var interceptor: RequestInterceptor?
-  var timeout: Int
   
   // MARK: - Lifecycle
   init(
@@ -28,7 +27,6 @@ final class Endpoint<ResponseDTO>: NetworkInteractionable where ResponseDTO: Dec
     parameters: Encodable?,
     requestType: RequestType,
     headers: HTTPHeaders? = ["Content-Type": "application/json"],
-    timeout: Int = 15,
     interceptor: RequestInterceptor? = nil
   ) {
     self.scheme = scheme
@@ -38,7 +36,6 @@ final class Endpoint<ResponseDTO>: NetworkInteractionable where ResponseDTO: Dec
     self.parameters = parameters
     self.requestType = requestType
     self.headers = headers
-    self.timeout = timeout
     self.interceptor = interceptor
   }
 }
