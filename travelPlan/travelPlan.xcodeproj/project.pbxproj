@@ -15,6 +15,12 @@
 		130304B02A28447900776A0D /* TravelDestinationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130304AF2A28447900776A0D /* TravelDestinationCell.swift */; };
 		130369662AEC3AA2007E980C /* NSRange+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130369652AEC3AA2007E980C /* NSRange+.swift */; };
 		130B9AE32A684D3D0072A0CF /* MainSearchLayoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130B9AE22A684D3D0072A0CF /* MainSearchLayoutManager.swift */; };
+		130CF3682B8E87490051DEE8 /* LoginUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130CF3672B8E87490051DEE8 /* LoginUseCase.swift */; };
+		130CF36C2B8F3D770051DEE8 /* DefaultLoginRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130CF36B2B8F3D770051DEE8 /* DefaultLoginRepository.swift */; };
+		130CF36E2B8F3DD60051DEE8 /* LoginRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130CF36D2B8F3DD60051DEE8 /* LoginRepository.swift */; };
+		130CF3712B8F855F0051DEE8 /* LoginRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130CF3702B8F855F0051DEE8 /* LoginRequestDTO.swift */; };
+		130CF3732B8F8A040051DEE8 /* LoginAPIEndPoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130CF3722B8F8A040051DEE8 /* LoginAPIEndPoints.swift */; };
+		130CF3752B8F8AC40051DEE8 /* LoginResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130CF3742B8F8AC40051DEE8 /* LoginResponseDTO.swift */; };
 		130FA91F2A359EE300E739C5 /* SearchViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130FA91E2A359EE300E739C5 /* SearchViewDelegate.swift */; };
 		131A11062AB4CD1A007BDD66 /* SearchMoreDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131A11052AB4CD1A007BDD66 /* SearchMoreDetailViewController.swift */; };
 		131A11082AB5067E007BDD66 /* SearchMoreDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131A11072AB5067E007BDD66 /* SearchMoreDetailViewModel.swift */; };
@@ -405,6 +411,12 @@
 		130304AF2A28447900776A0D /* TravelDestinationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelDestinationCell.swift; sourceTree = "<group>"; };
 		130369652AEC3AA2007E980C /* NSRange+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSRange+.swift"; sourceTree = "<group>"; };
 		130B9AE22A684D3D0072A0CF /* MainSearchLayoutManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSearchLayoutManager.swift; sourceTree = "<group>"; };
+		130CF3672B8E87490051DEE8 /* LoginUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginUseCase.swift; sourceTree = "<group>"; };
+		130CF36B2B8F3D770051DEE8 /* DefaultLoginRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultLoginRepository.swift; sourceTree = "<group>"; };
+		130CF36D2B8F3DD60051DEE8 /* LoginRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRepository.swift; sourceTree = "<group>"; };
+		130CF3702B8F855F0051DEE8 /* LoginRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRequestDTO.swift; sourceTree = "<group>"; };
+		130CF3722B8F8A040051DEE8 /* LoginAPIEndPoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginAPIEndPoints.swift; sourceTree = "<group>"; };
+		130CF3742B8F8AC40051DEE8 /* LoginResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginResponseDTO.swift; sourceTree = "<group>"; };
 		130FA91E2A359EE300E739C5 /* SearchViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewDelegate.swift; sourceTree = "<group>"; };
 		131A11052AB4CD1A007BDD66 /* SearchMoreDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMoreDetailViewController.swift; sourceTree = "<group>"; };
 		131A11072AB5067E007BDD66 /* SearchMoreDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMoreDetailViewModel.swift; sourceTree = "<group>"; };
@@ -465,6 +477,7 @@
 		13606E972AA4F26500365F20 /* DefaultPostSearchLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultPostSearchLayout.swift; sourceTree = "<group>"; };
 		1364FBE32B611DA400D89FC9 /* PhotoDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoDetailViewController.swift; sourceTree = "<group>"; };
 		1364FBE52B61A8EA00D89FC9 /* PhotoViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewControllerDelegate.swift; sourceTree = "<group>"; };
+		137F19242B85F1F3008408AD /* travelPlan.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = travelPlan.entitlements; sourceTree = "<group>"; };
 		13813A1D2AA9FC2200AF6AEB /* PostSearchCollectionViewAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSearchCollectionViewAdapter.swift; sourceTree = "<group>"; };
 		13813A202AAA458000AF6AEB /* PostSearchCollectionViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSearchCollectionViewDataSource.swift; sourceTree = "<group>"; };
 		13813A222AAA459900AF6AEB /* PostSearchCollectionViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSearchCollectionViewDelegate.swift; sourceTree = "<group>"; };
@@ -866,6 +879,14 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		130CF36F2B8F85390051DEE8 /* RequestDTO */ = {
+			isa = PBXGroup;
+			children = (
+				130CF3702B8F855F0051DEE8 /* LoginRequestDTO.swift */,
+			);
+			path = RequestDTO;
+			sourceTree = "<group>";
+		};
 		130FA91D2A359ED500E739C5 /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
@@ -1246,6 +1267,7 @@
 			children = (
 				151DF0F12AEEB27400D5D55B /* Protocol */,
 				151DF0F52AEEB2D200D5D55B /* DefaultNoticeUseCase.swift */,
+				130CF3672B8E87490051DEE8 /* LoginUseCase.swift */,
 			);
 			path = UseCases;
 			sourceTree = "<group>";
@@ -1263,6 +1285,7 @@
 			isa = PBXGroup;
 			children = (
 				151DF0FD2AEEBBE200D5D55B /* DefaultNotificationRepository.swift */,
+				130CF36B2B8F3D770051DEE8 /* DefaultLoginRepository.swift */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
@@ -1279,6 +1302,7 @@
 			isa = PBXGroup;
 			children = (
 				151DF0FB2AEEBA0100D5D55B /* NotificationRepository.swift */,
+				130CF36D2B8F3DD60051DEE8 /* LoginRepository.swift */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
@@ -1286,8 +1310,10 @@
 		151DF0FF2AEEBC0700D5D55B /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				130CF36F2B8F85390051DEE8 /* RequestDTO */,
 				151DF1022AEEBDE100D5D55B /* ResponseDTO */,
 				151DF1002AEEBD0A00D5D55B /* NotificationAPIEndpoints.swift */,
+				130CF3722B8F8A040051DEE8 /* LoginAPIEndPoints.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -1296,6 +1322,7 @@
 			isa = PBXGroup;
 			children = (
 				151DF1042AEEBE0F00D5D55B /* NoticeResponseDTO.swift */,
+				130CF3742B8F8AC40051DEE8 /* LoginResponseDTO.swift */,
 			);
 			path = ResponseDTO;
 			sourceTree = "<group>";
@@ -1561,6 +1588,7 @@
 		1594F52529FD517E00A58F20 = {
 			isa = PBXGroup;
 			children = (
+				137F19242B85F1F3008408AD /* travelPlan.entitlements */,
 				15F0A3F429FD58280049AB33 /* .swiftlint.yml */,
 				1594F53029FD517E00A58F20 /* Source */,
 				151130072A04E4EB0041DDA1 /* travelPlanTests */,
@@ -2404,6 +2432,7 @@
 				15FC90D62ACC1BB50033A1E5 /* PrimaryColorToneRoundButton.swift in Sources */,
 				15D3882F2B01504900039946 /* IconWithLabelStackView.swift in Sources */,
 				1586D3042AB193F7001D4A80 /* Season.swift in Sources */,
+				130CF3732B8F8A040051DEE8 /* LoginAPIEndPoints.swift in Sources */,
 				15B9285B2AF9DEAA003A20D4 /* PostDetailViewController.swift in Sources */,
 				15FFAC012AD5D6710013DB57 /* FavoriteDirectorySettingViewDelegate.swift in Sources */,
 				158695932AE5455B0087CCB3 /* FeedPostViewAdapter.swift in Sources */,
@@ -2478,8 +2507,10 @@
 				13BF40F32AD6F1D600F3F082 /* BaseNavigationTitleView.swift in Sources */,
 				139DEDEB2B163D9A00363E7B /* SearchDestinationCollectionViewLayout.swift in Sources */,
 				15F36A1C2AB1A45600971803 /* TravelPartner.swift in Sources */,
+				130CF3712B8F855F0051DEE8 /* LoginRequestDTO.swift in Sources */,
 				1503F9402A4E1327002BC38D /* FeedCoordinator.swift in Sources */,
 				15EB3A012AC3477B0025FFB4 /* PostHeaderContentView.swift in Sources */,
+				130CF36C2B8F3D770051DEE8 /* DefaultLoginRepository.swift in Sources */,
 				13254FED2A0515D800094218 /* SettingViewController.swift in Sources */,
 				13CB6D322A1E9F6600D185B2 /* CautionAlertViewController.swift in Sources */,
 				130369662AEC3AA2007E980C /* NSRange+.swift in Sources */,
@@ -2508,6 +2539,7 @@
 				15889D4C2AE0375700B1CB31 /* SearchDetailHeaderInfo.swift in Sources */,
 				1344DA102B13A8C70031CC7A /* SearchDestinationViewController.swift in Sources */,
 				13300FAA2AC0812900952757 /* StarButtonDelegate.swift in Sources */,
+				130CF3682B8E87490051DEE8 /* LoginUseCase.swift in Sources */,
 				1503F93A2A4E1260002BC38D /* SearchCoordinator.swift in Sources */,
 				15FEB5E62A050A99000A5F33 /* UISwitch+Combine.swift in Sources */,
 				15EA48CA2A539D7B00F4B391 /* MoreMenuViewDelegate.swift in Sources */,
@@ -2521,6 +2553,7 @@
 				157ADCA42ACFF31D00D37680 /* FavoritePostViewController.swift in Sources */,
 				134384082B48005F005034E0 /* PhotoViewController.swift in Sources */,
 				158C6A372B0D138500C30856 /* ImageIO.swift in Sources */,
+				130CF3752B8F8AC40051DEE8 /* LoginResponseDTO.swift in Sources */,
 				15C1F5422AF29CF7005FDA15 /* NotificationInfo.swift in Sources */,
 				131A11082AB5067E007BDD66 /* SearchMoreDetailViewModel.swift in Sources */,
 				151BDADC2B16FE8B002F36C3 /* UIDevice+modelName.swift in Sources */,
@@ -2614,6 +2647,7 @@
 				15FFAC332ADD4C480013DB57 /* PostViewAdapterDataSource.swift in Sources */,
 				15A4F28F2ACC11E5001AA51D /* ViewController.swift in Sources */,
 				157ADCB42AD07ED600D37680 /* SearchWithCancelView.swift in Sources */,
+				130CF36E2B8F3DD60051DEE8 /* LoginRepository.swift in Sources */,
 				1303047B2A24938700776A0D /* SearchView.swift in Sources */,
 				1519412B2B138F7E00D9B6BF /* PostCellConfigurable.swift in Sources */,
 				15FEB5E52A050A99000A5F33 /* UIControl+Combine.swift in Sources */,
@@ -2931,6 +2965,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = travelPlan.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
@@ -2966,6 +3001,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = travelPlan.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
