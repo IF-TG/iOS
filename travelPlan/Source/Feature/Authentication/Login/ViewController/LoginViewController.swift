@@ -7,8 +7,9 @@
 
 import UIKit
 import Combine
+import AuthenticationServices
 
-class LoginViewController: UIViewController {
+final class LoginViewController: UIViewController {
   // MARK: - Properteis
   var vm: LoginViewModel!
   private var subscriptions = Set<AnyCancellable>()
@@ -146,8 +147,50 @@ extension LoginViewController: LoginButtonDelegate {
       input.didTapKakaoButton.send()
     } else if button is AppleLoginButton {
       input.didTapAppleButton.send()
+      
+      let idProvider = ASAuthorizationAppleIDProvider()
+      let request = idProvider.createRequest()
+      request.requestedScopes = [.fullName, .email]
+      
+      let authorizationController = ASAuthorizationController(authorizationRequests: [request])
+      authorizationController.delegate = self
+      authorizationController.presentationContextProvider = self
+      authorizationController.performRequests()
+      
     } else if button is GoogleLoginButton {
       input.didTapGoogleButton.send()
     }
+  }
+}
+
+// MARK: - ASAuthorizationControllerDelegate
+extension LoginViewController: ASAuthorizationControllerDelegate {
+  func authorizationController(
+    controller: ASAuthorizationController,
+    didCompleteWithAuthorization authorization: ASAuthorization
+  ) {
+    if let credential = authorization.credential as? ASAuthorizationAppleIDCredential {
+      if let authorizationCode = credential.authorizationCode,
+         let identityToken = credential.identityToken {
+        let authString = authorizationCode.base64EncodedString()
+        let tokenString = identityToken.base64EncodedString()
+        input.didCompleteWithAuthorization.send((authString, tokenString))
+        // TODO: - 백엔드에게 authCode, identityCode 전송해서 accessToken, refreshToken 받아오기
+      }
+    }
+  }
+  
+  func authorizationController(
+    controller: ASAuthorizationController,
+    didCompleteWithError error: Error
+  ) {
+    
+  }
+}
+
+// MARK: - ASAuthorizationControllerPresentationContextProviding
+extension LoginViewController: ASAuthorizationControllerPresentationContextProviding {
+  func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+    return self.view.window!
   }
 }
