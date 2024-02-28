@@ -18,4 +18,23 @@ struct MyInformationViewModel {
     case duplicatedNickname
     case availableNickname
   }
+  
+  // MARK: - Dependencies
+  private let userInfoUseCase: UserInfoUseCase
+  
+  // MARK: - Properties
+  
+  // MARK: - Lifecycle
+  init(userInfoUseCase: UserInfoUseCase) {
+    self.userInfoUseCase = userInfoUseCase
+  }
+}
+
+// MARK: - MyInformationViewModelable
+extension MyInformationViewModel: MyInformationViewModelable {
+  func transform(_ input: Input) -> AnyPublisher<State, Never> {
+    return input.isDuplicatedUserName.map { _ in
+      return .none
+    }.eraseToAnyPublisher()
+  }
 }
