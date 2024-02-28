@@ -100,7 +100,9 @@ extension MyInformationViewController: ViewBindCase {
   typealias State = MyInformationViewModel.State
   
   func bind() {
-        bindInputTextField()
+    bindInputTextField()
+    let output = viewModel.transform(input)
+    output.sink { [weak self] in self?.render($0) }.store(in: &subscriptions)
   }
   
   func render(_ state: MyInformationViewModel.State) {
