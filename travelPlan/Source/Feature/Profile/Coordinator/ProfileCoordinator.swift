@@ -54,8 +54,23 @@ extension ProfileCoordinator: ProfileCoordinatorDelegate {
         print("Task completed successfully")
       }
     }
+    // Mock session주입
+    let mockSession = MockSession.default
+    let json = """
+      {
+        "result": false,
+        "status": "OK",
+        "statusCode": "200",
+        "message": "success"
+      }
+      """
+    MockUrlProtocol.requestHandler = { _ in
+      let responseData = json.data(using: .utf8)!
+      return ((HTTPURLResponse(), responseData))
+    }
     let session = Session(configuration: sessionConfiguration, eventMonitors: [monitor])
-    let sessionProvider = SessionProvider(session: session)
+    
+    let sessionProvider = SessionProvider(session: mockSession)
     let userInfoRepository = DefaultUserInfoRepository(service: sessionProvider)
     let userInfoUseCase = DefaultUserInfoUseCase(userInfoRepository: userInfoRepository)
     let viewModel = MyInformationViewModel(userInfoUseCase: userInfoUseCase)
