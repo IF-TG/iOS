@@ -8,6 +8,6 @@
 import Combine
 
 protocol UserInfoUseCase {
-  var isDuplicatedName: Bool? { get }
+  var isDuplicatedName: PassthroughSubject<Bool, Never> { get }
   func isDuplicatedName(with name: String)
 }

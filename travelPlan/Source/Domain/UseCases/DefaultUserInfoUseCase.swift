@@ -12,7 +12,7 @@ final class DefaultUserInfoUseCase: UserInfoUseCase {
   private let userInfoRepository: UserInfoRepository
   
   // MARK: - Properties
-  @Published var isDuplicatedName: Bool?
+  var isDuplicatedName = PassthroughSubject<Bool, Never>()
   
   var subscription: AnyCancellable?
   
@@ -23,7 +23,7 @@ final class DefaultUserInfoUseCase: UserInfoUseCase {
   
   func isDuplicatedName(with name: String) {
     subscription = userInfoRepository.isDuplicatedName(with: name).sink { [weak self] in
-      self?.isDuplicatedName = $0
+      self?.isDuplicatedName.send($0)
     }
   }
 }
