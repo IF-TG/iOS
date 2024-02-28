@@ -6,30 +6,69 @@
 //
 
 import XCTest
+import Combine
+@testable import travelPlan
 
 final class MyInformationViewModelTests: XCTestCase {
+  // MARK: - Properties
+  var sut: (any MyInformationViewModelable)!
+  var input: MyInformationViewModel.Input!
+  let mockSession = MockSession.default
+  var expectation: XCTestExpectation!
+  var subscription: AnyCancellable?
+  
+  // MARK: - Lifecycle
+  override func setUp() {
+    super.setUp()
+    let sessionProvider = SessionProvider(session: mockSession)
+    let repository = DefaultUserInfoRepository(service: sessionProvider)
+    let useCase = DefaultUserInfoUseCase(userInfoRepository: repository)
+    sut = MyInformationViewModel(userInfoUseCase: useCase)
+    expectation = expectation(description: "Output received")
+    input = MyInformationViewModel.Input()
+  }
+  
+  override func tearDown() {
+    super.tearDown()
+    sut = nil
+    expectation = nil
+    subscription = nil
+    input = nil
+  }
+}
 
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+extension MyInformationViewModelTests {
+  func testMyInformationVM_사용자가입력한닉네임이중복일때_ShouldReturnTrue() {
+    // Arrange
+    let json = """
+      {
+        "result": true,
+        "status": "OK",
+        "statusCode": "200",
+        "message": "success"
+      }
+      """
+    MockUrlProtocol.requestHandler = { _ in
+      let responseData = json.data(using: .utf8)!
+      return ((HTTPURLResponse(), responseData))
     }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    
+    // Act
+    let output = sut.transform(input)
+    subscription = output.sink { [unowned self] viewControllerState in
+      // Assert
+      switch viewControllerState {
+      case .duplicatedNickname:
+        XCTAssert(true)
+        expectation.fulfill()
+      case .availableNickname:
+        XCTAssert(false, "MyInformationVM에서 사용자가 입력한 닉네임 중복 체크 로직에서 true가 나와야 하는데 false가 나옴")
+        expectation.fulfill()
+      default:
+        break
+      }
     }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
-    }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
-
+    input.isDuplicatedUserName.send("이름새로지었음")
+    wait(for: [expectation], timeout: 10)
+  }
 }
