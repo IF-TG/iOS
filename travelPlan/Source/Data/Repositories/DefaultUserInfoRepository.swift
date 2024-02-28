@@ -23,7 +23,7 @@ final class DefaultUserInfoRepository {
 extension DefaultUserInfoRepository: UserInfoRepository {
   func isDuplicatedName(with name: String) -> Future<Bool, Never> {
     let reqeustDTO = UserNicknameRequestDTO(nickname: name)
-    let endpoint = UserInfoAPIEndpoint.default.isDuplicatedNickname(with: reqeustDTO)
+    let endpoint = UserInfoAPIEndpoint.isDuplicatedNickname(with: reqeustDTO)
     return .init { [weak self] promise in
       self?.subscription = self?.service
         .request(endpoint: endpoint)
