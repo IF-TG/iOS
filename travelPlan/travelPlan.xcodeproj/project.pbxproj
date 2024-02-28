@@ -272,6 +272,7 @@
 		15D6559A2B8E1CCB00466FEC /* UserInfoAPIEndpointTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D655992B8E1CCB00466FEC /* UserInfoAPIEndpointTests.swift */; };
 		15D6559D2B8F6F3800466FEC /* MyInformationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D6559C2B8F6F3800466FEC /* MyInformationViewModel.swift */; };
 		15D655A02B8F6F6300466FEC /* MyInformationViewModelable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D6559F2B8F6F6300466FEC /* MyInformationViewModelable.swift */; };
+		15D655A42B8F829800466FEC /* MyInformationViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D655A32B8F829800466FEC /* MyInformationViewModelTests.swift */; };
 		15D867CD2AD4003E00F35811 /* FavoriteViewModelable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D867CC2AD4003E00F35811 /* FavoriteViewModelable.swift */; };
 		15D867CF2AD427EC00F35811 /* FavoriteDetailCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D867CE2AD427EC00F35811 /* FavoriteDetailCoordinator.swift */; };
 		15D955AD2ADEA525002BF9C3 /* FeedViewModelable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D955AC2ADEA525002BF9C3 /* FeedViewModelable.swift */; };
@@ -660,6 +661,7 @@
 		15D655992B8E1CCB00466FEC /* UserInfoAPIEndpointTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoAPIEndpointTests.swift; sourceTree = "<group>"; };
 		15D6559C2B8F6F3800466FEC /* MyInformationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInformationViewModel.swift; sourceTree = "<group>"; };
 		15D6559F2B8F6F6300466FEC /* MyInformationViewModelable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInformationViewModelable.swift; sourceTree = "<group>"; };
+		15D655A32B8F829800466FEC /* MyInformationViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInformationViewModelTests.swift; sourceTree = "<group>"; };
 		15D867CC2AD4003E00F35811 /* FavoriteViewModelable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteViewModelable.swift; sourceTree = "<group>"; };
 		15D867CE2AD427EC00F35811 /* FavoriteDetailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteDetailCoordinator.swift; sourceTree = "<group>"; };
 		15D955AC2ADEA525002BF9C3 /* FeedViewModelable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModelable.swift; sourceTree = "<group>"; };
@@ -1056,6 +1058,7 @@
 		151130072A04E4EB0041DDA1 /* travelPlanTests */ = {
 			isa = PBXGroup;
 			children = (
+				15D655A12B8F820100466FEC /* Presentation */,
 				151130082A04E4EB0041DDA1 /* travelPlanTests.swift */,
 			);
 			path = travelPlanTests;
@@ -1820,6 +1823,30 @@
 			path = Protocol;
 			sourceTree = "<group>";
 		};
+		15D655A12B8F820100466FEC /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				15D655A22B8F824C00466FEC /* Profile */,
+			);
+			path = Presentation;
+			sourceTree = "<group>";
+		};
+		15D655A22B8F824C00466FEC /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				15D655A52B8F848400466FEC /* Mock */,
+				15D655A32B8F829800466FEC /* MyInformationViewModelTests.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		15D655A52B8F848400466FEC /* Mock */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Mock;
+			sourceTree = "<group>";
+		};
 		15DE36B72AB84FDC0030CCCC /* BottomSheet */ = {
 			isa = PBXGroup;
 			children = (
@@ -2322,6 +2349,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				15D6559A2B8E1CCB00466FEC /* UserInfoAPIEndpointTests.swift in Sources */,
+				15D655A42B8F829800466FEC /* MyInformationViewModelTests.swift in Sources */,
 				15D655922B8E169100466FEC /* UserInfoUseCaseTests.swift in Sources */,
 				15FFAC2F2ADD03130013DB57 /* MockUserEndpoint.swift in Sources */,
 				1546DF3F2B0C64E500B49A55 /* ImageDiskCacheTests.swift in Sources */,
