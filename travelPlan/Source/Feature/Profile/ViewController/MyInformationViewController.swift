@@ -100,25 +100,7 @@ extension MyInformationViewController: ViewBindCase {
   typealias State = MyInformationViewModel.State
   
   func bind() {
-    inputTextField
-      .changed
-      .debounce(for: 0.2, scheduler: RunLoop.main)
-      .sink { [weak self] in
-        if (3...15).contains($0.count) {
-          self?.input.isDuplicatedUserName.send($0)
-        } else if $0.count == 0 || $0.isEmpty {
-          self?.inputTextField.textState = .initial
-        } else if (1...3).contains($0.count) {
-          /// 닉네임 글자 최소 넘지 못함.
-          self?.inputTextField.textState = .underflow
-          self?.inputNoticeLabel.textColor = .yg.red2
-        } else {
-          /// 닉네임 글자 넘음
-          self?.inputTextField.textState = .overflow
-          self?.inputNoticeLabel.textColor = .yg.red2
-        }
-        self?.inputNoticeLabel.text = self?.inputTextField.textState.quotation
-      }.store(in: &subscriptions)
+        bindInputTextField()
   }
   
   func render(_ state: MyInformationViewModel.State) {
@@ -141,6 +123,28 @@ extension MyInformationViewController: ViewBindCase {
 
 // MARK: - Private Helpers
 private extension MyInformationViewController {
+  func bindInputTextField() {
+    inputTextField
+      .changed
+      .debounce(for: 0.2, scheduler: RunLoop.main)
+      .sink { [weak self] in
+        if (3...15).contains($0.count) {
+          self?.input.isDuplicatedUserName.send($0)
+        } else if $0.count == 0 || $0.isEmpty {
+          self?.inputTextField.textState = .initial
+        } else if (1...3).contains($0.count) {
+          /// 닉네임 글자 최소 넘지 못함.
+          self?.inputTextField.textState = .underflow
+          self?.inputNoticeLabel.textColor = .yg.red2
+        } else {
+          /// 닉네임 글자 넘음
+          self?.inputTextField.textState = .overflow
+          self?.inputNoticeLabel.textColor = .yg.red2
+        }
+        self?.inputNoticeLabel.text = self?.inputTextField.textState.quotation
+      }.store(in: &subscriptions)
+  }
+  
   func configureUI() {
     modalPresentationStyle = .fullScreen
     view.backgroundColor = .yg.gray00Background
