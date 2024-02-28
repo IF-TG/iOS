@@ -7,6 +7,7 @@
 
 import UIKit
 import SHCoordinator
+import Alamofire
 
 protocol ProfileCoordinatorDelegate: AnyObject {
   func finish()
@@ -41,7 +42,11 @@ extension ProfileCoordinator: ProfileCoordinatorDelegate {
   }
   
   func showMyInformationPage() {
-    let viewController = MyInformationViewController()
+    let session = SessionProvider(session: .default)
+    let userInfoRepository = DefaultUserInfoRepository(service: session)
+    let userInfoUseCase = DefaultUserInfoUseCase(userInfoRepository: userInfoRepository)
+    let viewModel = MyInformationViewModel(userInfoUseCase: userInfoUseCase)
+    let viewController = MyInformationViewController(viewModel: viewModel)
     presenter?.pushViewController(viewController, animated: true)
   }
   
