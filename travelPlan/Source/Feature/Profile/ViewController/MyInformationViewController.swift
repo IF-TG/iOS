@@ -112,11 +112,13 @@ extension MyInformationViewController: ViewBindCase {
     case .duplicatedNickname:
       storeLabel.isUserInteractionEnabled = false
       storeLabel.textColor = .yg.gray1
+      inputNoticeLabel.text = inputTextField.textState.quotation
     case .availableNickname:
       inputTextField.textState = .available
       inputNoticeLabel.textColor = .yg.primary
       storeLabel.isUserInteractionEnabled = true
       storeLabel.textColor = .yg.primary
+      inputNoticeLabel.text = inputTextField.textState.quotation
     }
   }
   
@@ -134,7 +136,7 @@ private extension MyInformationViewController {
           self?.input.isDuplicatedUserName.send($0)
         } else if $0.count == 0 || $0.isEmpty {
           self?.inputTextField.textState = .initial
-        } else if (1...3).contains($0.count) {
+        } else if (1...2).contains($0.count) {
           /// 닉네임 글자 최소 넘지 못함.
           self?.inputTextField.textState = .underflow
           self?.inputNoticeLabel.textColor = .yg.red2
@@ -142,6 +144,10 @@ private extension MyInformationViewController {
           /// 닉네임 글자 넘음
           self?.inputTextField.textState = .overflow
           self?.inputNoticeLabel.textColor = .yg.red2
+        }
+        if self?.inputTextField.textState != .available {
+          self?.storeLabel.isUserInteractionEnabled = false
+          self?.storeLabel.textColor = .yg.gray1
         }
         self?.inputNoticeLabel.text = self?.inputTextField.textState.quotation
       }.store(in: &subscriptions)
