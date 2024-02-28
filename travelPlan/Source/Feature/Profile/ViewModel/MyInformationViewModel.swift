@@ -15,5 +15,7 @@ struct MyInformationViewModel {
   
   enum State {
     case none
+    case duplicatedNickname
+    case availableNickname
   }
 }
