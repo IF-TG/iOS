@@ -59,7 +59,18 @@ final class MyInformationViewController: UIViewController {
     $0.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapStoreLabel)))
   }
   
+  private let viewModel: any MyInformationViewModelable
+  
   private var subscriptions = Set<AnyCancellable>()
+  
+  init(viewModel: any MyInformationViewModelable) {
+    self.viewModel = viewModel
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
   
   // MARK: - Lifecycle
   override func viewDidLoad() {
@@ -93,19 +104,25 @@ extension MyInformationViewController: ViewBindCase {
       .sink { [weak self] in
         if (3...15).contains($0.count) {
           // TODO: - 서버에 이 이름을 가진 유저가 있는지 체크 후 inputTextField 상태 변경해야합니다.
+          
+          /// 이용가능한 글인 경우 서버에 중복 여부 확인하기
           self?.inputTextField.textState = .available
           self?.inputNoticeLabel.textColor = .yg.primary
           self?.storeLabel.isUserInteractionEnabled = true
           self?.storeLabel.textColor = .yg.primary
+          
         } else if $0.count == 0 || $0.isEmpty {
           self?.inputTextField.textState = .initial
         } else if (1...3).contains($0.count) {
+          /// 닉네임 글자 최소 넘지 못함.
           self?.inputTextField.textState = .underflow
           self?.inputNoticeLabel.textColor = .yg.red2
         } else {
+          /// 닉네임 글자 넘음
           self?.inputTextField.textState = .overflow
           self?.inputNoticeLabel.textColor = .yg.red2
         }
+        /// 텍스트 이용 불가능하면 정지
         if self?.inputTextField.textState != .available {
           self?.storeLabel.isUserInteractionEnabled = false
           self?.storeLabel.textColor = .yg.gray1
@@ -117,6 +134,10 @@ extension MyInformationViewController: ViewBindCase {
   func render(_ state: MyInformationViewModel.State) {
     switch state {
     case .none:
+      break
+    case .duplicatedNickname:
+      break
+    case .availableNickname:
       break
     }
   }
