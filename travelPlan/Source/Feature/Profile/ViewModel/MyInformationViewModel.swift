@@ -32,9 +32,28 @@ struct MyInformationViewModel {
 
 // MARK: - MyInformationViewModelable
 extension MyInformationViewModel: MyInformationViewModelable {
-  func transform(_ input: Input) -> AnyPublisher<State, Never> {
-    return input.isDuplicatedUserName.map { _ in
+  func transform(_ input: Input) -> Output {
+    let isDuplicatedUserName = isDuplicatedUserNameStream(input: input)
+    let checkDuplicatedUserName = checkDuplicatedUserNameStream()
+    return Publishers.MergeMany([
+      isDuplicatedUserName,
+      checkDuplicatedUserName]
+    ).eraseToAnyPublisher()
+  }
+}
+
+// MARK: - Private Helpers
+private extension MyInformationViewModel {
+  func isDuplicatedUserNameStream(input: Input) -> Output {
+    return input.isDuplicatedUserName.map { nickname in
+      userInfoUseCase.isDuplicatedName(with: nickname)
       return .none
+    }.eraseToAnyPublisher()
+  }
+  
+  func checkDuplicatedUserNameStream() -> Output {
+    userInfoUseCase.isDuplicatedName.map { isDuplicatedUserName -> State in
+      return isDuplicatedUserName ? .duplicatedNickname : .availableNickname
     }.eraseToAnyPublisher()
   }
 }
