@@ -20,4 +20,14 @@ struct UserInfoAPIEndpoint {
       parameters: requestDTO,
       requestType: .userNameDuplicateCheck)
   }
+  
+  static func updateUserNickname(
+    with requestDTO: UserNicknamePatchRequestDTO
+  ) -> Endpoint<CommonDTO<Bool>> {
+    return Endpoint<CommonDTO<Bool>>(
+    scheme: "http",
+    prefixPath: "",
+    parameters: "localhost:8080",
+    requestType: .userNameDuplicateCheck)
+  }
 }
