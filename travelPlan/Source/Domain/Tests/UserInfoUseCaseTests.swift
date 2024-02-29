@@ -32,7 +32,8 @@ final class UserInfoUseCaseTests: XCTestCase {
   
   // MARK: - Tests
   func testUserInfoUseCase_사용자의이름이중복됬는지여부를확인할때_ShouldRetrunTrue() {
-    subscription = sut.isDuplicatedName.sink { [unowned self] requestedValue in
+    subscription = sut.isDuplicatedName.sink { _ in
+    } receiveValue: { [unowned self] requestedValue in
       // Assert
       XCTAssertTrue(requestedValue, "isDuplicatedName 변수 반환값이 true여야 하지만 false 반환")
       expectation.fulfill()
