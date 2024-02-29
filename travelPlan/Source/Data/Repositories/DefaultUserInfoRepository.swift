@@ -11,7 +11,7 @@ final class DefaultUserInfoRepository {
   // MARK: - Properties
   private let service: Sessionable
   
-  private var subscription: AnyCancellable?
+  private var subscription = Set<AnyCancellable>()
   
   // MARK: - Lifecycle
   init(service: Sessionable) {
@@ -25,8 +25,12 @@ extension DefaultUserInfoRepository: UserInfoRepository {
     let reqeustDTO = UserNicknameRequestDTO(nickname: name)
     let endpoint = UserInfoAPIEndpoint.isDuplicatedNickname(with: reqeustDTO)
     return .init { [weak self] promise in
-      self?.subscription = self?.service
-        .request(endpoint: endpoint)
+      guard var subscription = self?.subscription else {
+        // TODO: - 에러 타입 적용해야함
+        promise(.success(false))
+        return
+      }
+      self?.service.request(endpoint: endpoint)
         .sink { completion in
           switch completion {
           case .finished:
@@ -36,7 +40,7 @@ extension DefaultUserInfoRepository: UserInfoRepository {
           }
         } receiveValue: { responseDTO in
           promise(.success(responseDTO.result))
-        }
+        }.store(in: &subscription)
     }
   }
 }
