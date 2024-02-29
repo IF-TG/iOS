@@ -15,6 +15,7 @@ enum NetworkError {
     case other(Swift.Error)
   }
   enum ServerError {
+    case general(Error)
     case timeout
     case noInternetConnect
     case decodingError(Swift.DecodingError)
@@ -57,9 +58,11 @@ extension NetworkError: LocalizedError {
     case .internalServerProblem:
       return "DEBUG: Internal server problem"
     case .decodingError(let error):
-      return "Decoding error: \(error.localizedDescription)"
+      return "DEBUG: Decoding error: \(error.localizedDescription)"
     case .other(statusCode: let statusCode, response: let response):
       return "DEBUG: other error: Status code \(statusCode), Response: \(response.description)"
+    case .general(let error as NSError):
+      return "DEBUG: Error occured: \(error.localizedDescription)"
     }
   }
 }
