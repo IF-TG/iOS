@@ -12,7 +12,7 @@ final class DefaultUserInfoUseCase: UserInfoUseCase {
   private let userInfoRepository: UserInfoRepository
   
   // MARK: - Properties
-  var isDuplicatedName = PassthroughSubject<Bool, Never>()
+  var isDuplicatedName = PassthroughSubject<Bool, MainError>()
   
   var isNicknameUpdated = PassthroughSubject<Bool, MainError>()
   
@@ -24,9 +24,17 @@ final class DefaultUserInfoUseCase: UserInfoUseCase {
   }
   
   func isDuplicatedName(with name: String) {
-    userInfoRepository.isDuplicatedName(with: name).sink { [weak self] in
-      self?.isDuplicatedName.send($0)
-    }.store(in: &subscriptions)
+    userInfoRepository.isDuplicatedName(with: name)
+      .sink { [weak self] completion in
+        switch completion {
+        case .finished:
+          break
+        case .failure(let error):
+          self?.isDuplicatedName.send(completion: .failure(error))
+        }
+      } receiveValue: { [weak self] result in
+        self?.isDuplicatedName.send(result)
+      }.store(in: &subscriptions)
   }
   
   func updateNickname(with name: String) {
