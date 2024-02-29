@@ -7,6 +7,7 @@
 
 import UIKit
 import SHCoordinator
+import Alamofire
 
 protocol ProfileCoordinatorDelegate: AnyObject {
   func finish()
@@ -41,7 +42,39 @@ extension ProfileCoordinator: ProfileCoordinatorDelegate {
   }
   
   func showMyInformationPage() {
-    let viewController = MyInformationViewController()
+    let sessionConfiguration = URLSessionConfiguration.default
+    sessionConfiguration.timeoutIntervalForRequest = 5
+    let monitor = ClosureEventMonitor()
+    monitor.requestDidResume = { request in print("MyInformationVC task 요청 시자그!: \(request)") }
+    monitor.requestDidFinish = { request in print("MyInformationVC 요청 끝: \(request)") }
+    monitor.taskDidComplete = { _, _, error in
+      if let error = error {
+        print("Task completed with error: \(error)")
+      } else {
+        print("Task completed successfully")
+      }
+    }
+    // Mock session주입
+    let mockSession = MockSession.default
+    let json = """
+      {
+        "result": false,
+        "status": "OK",
+        "statusCode": "200",
+        "message": "success"
+      }
+      """
+    MockUrlProtocol.requestHandler = { _ in
+      let responseData = json.data(using: .utf8)!
+      return ((HTTPURLResponse(), responseData))
+    }
+    let session = Session(configuration: sessionConfiguration, eventMonitors: [monitor])
+    
+    let sessionProvider = SessionProvider(session: mockSession)
+    let userInfoRepository = DefaultUserInfoRepository(service: sessionProvider)
+    let userInfoUseCase = DefaultUserInfoUseCase(userInfoRepository: userInfoRepository)
+    let viewModel = MyInformationViewModel(userInfoUseCase: userInfoUseCase)
+    let viewController = MyInformationViewController(viewModel: viewModel)
     presenter?.pushViewController(viewController, animated: true)
   }
   

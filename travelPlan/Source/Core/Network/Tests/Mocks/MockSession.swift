@@ -11,6 +11,7 @@ import Foundation
 class MockSession {
   static var `default`: Session {
     let configuration = URLSessionConfiguration.af.default
+    configuration.timeoutIntervalForRequest = 3
     configuration.protocolClasses = [MockUrlProtocol.self] + (configuration.protocolClasses ?? [])
     return Session(configuration: configuration)
   }

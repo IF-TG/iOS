@@ -6,32 +6,41 @@
 //
 
 import XCTest
+import Combine
 @testable import travelPlan
 
 final class UserInfoUseCaseTests: XCTestCase {
   // MARK: - Properties
   var sut: UserInfoUseCase!
+  var subscription: AnyCancellable?
   let mockUserInfoRepository = MockUserInfoRepository()
+  var expectation: XCTestExpectation!
   
   // MARK: - Lifecycle
   override func setUp() {
     super.setUp()
     sut = DefaultUserInfoUseCase(userInfoRepository: mockUserInfoRepository)
+    expectation = XCTestExpectation(description: "Finish")
   }
   
   override func tearDown() {
     super.tearDown()
     sut = nil
+    subscription = nil
+    expectation = nil
   }
   
   // MARK: - Tests
   func testUserInfoUseCase_사용자의이름이중복됬는지여부를확인할때_ShouldRetrunTrue() {
+    subscription = sut.isDuplicatedName.sink { [unowned self] requestedValue in
+      // Assert
+      XCTAssertTrue(requestedValue, "isDuplicatedName 변수 반환값이 true여야 하지만 false 반환")
+      expectation.fulfill()
+    }
+    
     // Act
     sut.isDuplicatedName(with: "토익은 어려워")
-    let requestedValue = sut.isDuplicatedName
     
-    // Assert
-    XCTAssertNotNil(requestedValue, "isDuplicatedName 변수 반환값이 bool이어야 하는데 옵셔널 값임")
-    XCTAssertTrue(requestedValue!, "isDuplicatedName 변수 반환값이 true여야 하지만 false 반환")
+    wait(for: [expectation], timeout: 5)
   }
 }

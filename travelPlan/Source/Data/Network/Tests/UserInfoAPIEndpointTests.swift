@@ -10,7 +10,7 @@ import XCTest
 
 final class UserInfoAPIEndpointTests: XCTestCase {
   // MARK: - Properties
-  var sut: UserInfoAPIEndpoint = UserInfoAPIEndpoint.default
+  typealias sut = UserInfoAPIEndpoint
   let mockSession = MockSession.default
   var expectation: XCTestExpectation!
   
