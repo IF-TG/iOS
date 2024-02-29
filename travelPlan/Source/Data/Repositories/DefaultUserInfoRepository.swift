@@ -43,4 +43,28 @@ extension DefaultUserInfoRepository: UserInfoRepository {
         }.store(in: &subscription)
     }
   }
+  
+  func updateUserNickname(with name: String) -> Future<Bool, MainError> {
+    //TODO: - 로그인 중인 사용자의 userId를 키체인이나 유저디폴츠에서 가져와야 합니다.
+    let requestDTO = UserNicknamePatchRequestDTO(nickname: name, userId: 000)
+    let endpoint = UserInfoAPIEndpoint.updateUserNickname(with: requestDTO)
+    return .init { [weak self] promise in
+      guard var subscription = self?.subscription else {
+        promise(.failure(.referenceError(.weakSelfError)))
+        return
+      }
+      self?.service.request(endpoint: endpoint)
+        .mapError { MainError.networkError($0) }
+        .sink { completion in
+          switch completion {
+          case .finished:
+            return
+          case .failure(let error):
+            promise(.failure(error))
+          }
+        } receiveValue: { responseDTO in
+          promise(.success(responseDTO.result))
+        }.store(in: &subscription)
+    }
+  }
 }
