@@ -8,7 +8,13 @@
 import Combine
 
 final class MockUserInfoRepository: UserInfoRepository {
-  func isDuplicatedName(with name: String) -> Future<Bool, Never> {
+  // 임시
+  func updateUserNickname(with name: String) -> Future<Bool, MainError> {
+    return .init { $0(.success(true))}
+  }
+  
+  /// 만약 사용자가 "토익은 어려워"라는 닉네임을 입력했을 때 가정
+  func isDuplicatedName(with name: String) -> Future<Bool, MainError> {
     if name == "토익은 어려워" {
       return .init { promise in promise(.success(true)) }
     }
