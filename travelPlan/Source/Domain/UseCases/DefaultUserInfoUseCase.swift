@@ -14,7 +14,9 @@ final class DefaultUserInfoUseCase: UserInfoUseCase {
   // MARK: - Properties
   var isDuplicatedName = PassthroughSubject<Bool, Never>()
   
-  var subscription: AnyCancellable?
+  var isNicknameUpdated = PassthroughSubject<Bool, MainError>()
+  
+  private var subscriptions = Set<AnyCancellable>()
   
   // MARK: - Lifecycle
   init(userInfoRepository: UserInfoRepository) {
@@ -22,8 +24,22 @@ final class DefaultUserInfoUseCase: UserInfoUseCase {
   }
   
   func isDuplicatedName(with name: String) {
-    subscription = userInfoRepository.isDuplicatedName(with: name).sink { [weak self] in
+    userInfoRepository.isDuplicatedName(with: name).sink { [weak self] in
       self?.isDuplicatedName.send($0)
-    }
+    }.store(in: &subscriptions)
+  }
+  
+  func updateNickname(with name: String) {
+    userInfoRepository.updateUserNickname(with: name)
+      .sink { [weak self] completion in
+        switch completion {
+        case .finished:
+          return
+        case .failure(let error):
+          self?.isNicknameUpdated.send(completion: .failure(error))
+        }
+      } receiveValue: { [weak self] result in
+        self?.isNicknameUpdated.send(result)
+      }.store(in: &subscriptions)
   }
 }
