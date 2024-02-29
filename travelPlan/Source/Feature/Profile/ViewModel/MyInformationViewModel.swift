@@ -10,7 +10,7 @@ import Combine
 
 struct MyInformationViewModel {
   struct Input {
-    let isDuplicatedUserName: PassthroughSubject<String, Never> = .init()
+    let isDuplicatedUserName: PassthroughSubject<String, MainError> = .init()
   }
   
   enum State {
