@@ -6,10 +6,11 @@
 //
 
 import Foundation
+import Alamofire
 
 enum MainError: Swift.Error {
   case general(String)
-  case networkError(NetworkError)
+  case networkError(AFError)
   case referenceError(ReferenceError)
 }
 
