@@ -9,7 +9,7 @@ import Foundation
 
 struct UserInfoAPIEndpoint {
   /// 사용자의 이름이 중복인지 확인할 때 사용합니다.
-  static func isDuplicatedNickname(
+  static func checkIfNicknameDuplicate(
     with requestDTO: UserNicknameRequestDTO
   ) -> Endpoint<CommonDTO<Bool>> {
     return Endpoint<CommonDTO<Bool>>(

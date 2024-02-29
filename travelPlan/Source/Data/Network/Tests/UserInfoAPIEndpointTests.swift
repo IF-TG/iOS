@@ -31,7 +31,7 @@ final class UserInfoAPIEndpointTests: XCTestCase {
     // Arrange
     let targetURL = URL(string: "http://localhost:8080/nickname?nickname=토익은어려워")
     let requestDTO = UserNicknameRequestDTO(nickname: "토익은어려워")
-    let userNicknameEndpoint = sut.isDuplicatedNickname(with: requestDTO)
+    let userNicknameEndpoint = sut.checkIfNicknameDuplicate(with: requestDTO)
     
     // Act
     DispatchQueue.global().async { [unowned self] in

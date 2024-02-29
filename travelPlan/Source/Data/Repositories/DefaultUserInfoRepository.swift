@@ -21,9 +21,9 @@ final class DefaultUserInfoRepository {
 
 // MARK: - UserInfoRepository
 extension DefaultUserInfoRepository: UserInfoRepository {
-  func isDuplicatedName(with name: String) -> Future<Bool, MainError> {
+  func checkIfUserNicknameDuplicate(with name: String) -> Future<Bool, MainError> {
     let reqeustDTO = UserNicknameRequestDTO(nickname: name)
-    let endpoint = UserInfoAPIEndpoint.isDuplicatedNickname(with: reqeustDTO)
+    let endpoint = UserInfoAPIEndpoint.checkIfNicknameDuplicate(with: reqeustDTO)
     return .init { [unowned self] promise in
       service.request(endpoint: endpoint)
         .mapError { MainError.networkError($0) }

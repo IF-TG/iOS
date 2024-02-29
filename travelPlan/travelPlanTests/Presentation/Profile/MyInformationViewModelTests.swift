@@ -70,7 +70,7 @@ extension MyInformationViewModelTests {
         break
       }
     }
-    input.isDuplicatedUserName.send("이름새로지었음")
+    input.isNicknameDuplicated.send("이름새로지었음")
     wait(for: [expectation], timeout: 6)
   }
 }

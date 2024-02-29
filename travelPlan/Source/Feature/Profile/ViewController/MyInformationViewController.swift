@@ -154,7 +154,7 @@ private extension MyInformationViewController {
       .debounce(for: 0.2, scheduler: RunLoop.main)
       .sink { [weak self] in
         if (3...15).contains($0.count) {
-          self?.input.isDuplicatedUserName.send($0)
+          self?.input.isNicknameDuplicated.send($0)
         } else if $0.count == 0 || $0.isEmpty {
           self?.inputTextField.textState = .initial
         } else if (1...2).contains($0.count) {
