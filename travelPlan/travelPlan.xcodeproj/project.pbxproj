@@ -21,6 +21,7 @@
 		130CF3712B8F855F0051DEE8 /* LoginRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130CF3702B8F855F0051DEE8 /* LoginRequestDTO.swift */; };
 		130CF3732B8F8A040051DEE8 /* LoginAPIEndPoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130CF3722B8F8A040051DEE8 /* LoginAPIEndPoints.swift */; };
 		130CF3752B8F8AC40051DEE8 /* LoginResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130CF3742B8F8AC40051DEE8 /* LoginResponseDTO.swift */; };
+		130CF3812B91062D0051DEE8 /* KeyChainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130CF3802B91062D0051DEE8 /* KeyChainManager.swift */; };
 		130FA91F2A359EE300E739C5 /* SearchViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130FA91E2A359EE300E739C5 /* SearchViewDelegate.swift */; };
 		131A11062AB4CD1A007BDD66 /* SearchMoreDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131A11052AB4CD1A007BDD66 /* SearchMoreDetailViewController.swift */; };
 		131A11082AB5067E007BDD66 /* SearchMoreDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131A11072AB5067E007BDD66 /* SearchMoreDetailViewModel.swift */; };
@@ -417,6 +418,7 @@
 		130CF3702B8F855F0051DEE8 /* LoginRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRequestDTO.swift; sourceTree = "<group>"; };
 		130CF3722B8F8A040051DEE8 /* LoginAPIEndPoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginAPIEndPoints.swift; sourceTree = "<group>"; };
 		130CF3742B8F8AC40051DEE8 /* LoginResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginResponseDTO.swift; sourceTree = "<group>"; };
+		130CF3802B91062D0051DEE8 /* KeyChainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainManager.swift; sourceTree = "<group>"; };
 		130FA91E2A359EE300E739C5 /* SearchViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewDelegate.swift; sourceTree = "<group>"; };
 		131A11052AB4CD1A007BDD66 /* SearchMoreDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMoreDetailViewController.swift; sourceTree = "<group>"; };
 		131A11072AB5067E007BDD66 /* SearchMoreDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMoreDetailViewModel.swift; sourceTree = "<group>"; };
@@ -885,6 +887,14 @@
 				130CF3702B8F855F0051DEE8 /* LoginRequestDTO.swift */,
 			);
 			path = RequestDTO;
+			sourceTree = "<group>";
+		};
+		130CF37F2B9106120051DEE8 /* LocalDB */ = {
+			isa = PBXGroup;
+			children = (
+				130CF3802B91062D0051DEE8 /* KeyChainManager.swift */,
+			);
+			path = LocalDB;
 			sourceTree = "<group>";
 		};
 		130FA91D2A359ED500E739C5 /* Protocol */ = {
@@ -1412,6 +1422,7 @@
 		1546DF182B0A653F00B49A55 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				130CF37F2B9106120051DEE8 /* LocalDB */,
 				1509E39B2B10D38900DB3969 /* ImageIO */,
 				1546DF372B0B29CD00B49A55 /* Image */,
 				1546DF222B0A6F9600B49A55 /* Cache */,
@@ -2645,6 +2656,7 @@
 				1546DF3B2B0C5B7C00B49A55 /* ImageDiskCache.swift in Sources */,
 				151DF0DA2AEE6DF700D5D55B /* NoticeViewController.swift in Sources */,
 				15FFAC332ADD4C480013DB57 /* PostViewAdapterDataSource.swift in Sources */,
+				130CF3812B91062D0051DEE8 /* KeyChainManager.swift in Sources */,
 				15A4F28F2ACC11E5001AA51D /* ViewController.swift in Sources */,
 				157ADCB42AD07ED600D37680 /* SearchWithCancelView.swift in Sources */,
 				130CF36E2B8F3DD60051DEE8 /* LoginRepository.swift in Sources */,
