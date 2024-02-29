@@ -27,7 +27,7 @@ final class UserInfoAPIEndpointTests: XCTestCase {
   
   // MARK: - Tests
   /// 계속 테스트 실패했는데 이유가 dataRequest의 convertible에서 urlRequest 객체 생성이 안됬다. 그 이유는 host에 로컬포트번호를 작성하지 않고 그냥 scheme에 scheme + :// + localhost:8080까지 썼기 때문에 url형식이 잘못됬다.
-  func testUserInfoAPIEndpoint_isDuplicatedName함수의Endpoint를통해makeRequest호출할때AbsoluteURL이정확한지_ShouldReturnEqual() {
+  func testUserInfoAPIEndpoint_checkIfNicknameDuplicate함수의Endpoint를통해makeRequest호출할때AbsoluteURL이정확한지_ShouldReturnEqual() {
     // Arrange
     let targetURL = URL(string: "http://localhost:8080/nickname?nickname=토익은어려워")
     let requestDTO = UserNicknameRequestDTO(nickname: "토익은어려워")
