@@ -8,7 +8,7 @@
 import Combine
 
 protocol UserInfoUseCase {
-  var isDuplicatedName: PassthroughSubject<Bool, Never> { get }
+  var isDuplicatedName: PassthroughSubject<Bool, MainError> { get }
   var isNicknameUpdated: PassthroughSubject<Bool, MainError> { get }
   
   func isDuplicatedName(with name: String)
