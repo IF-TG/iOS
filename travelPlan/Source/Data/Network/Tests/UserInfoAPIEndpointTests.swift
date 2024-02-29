@@ -17,7 +17,6 @@ final class UserInfoAPIEndpointTests: XCTestCase {
   override func setUp() {
     super.setUp()
     MockUrlProtocol.requestHandler = { _ in return ((HTTPURLResponse(), Data())) }
-    expectation = expectation(description: "finish")
   }
   
   override func tearDown() {
@@ -32,16 +31,37 @@ final class UserInfoAPIEndpointTests: XCTestCase {
     let targetURL = URL(string: "http://localhost:8080/nickname?nickname=토익은어려워")
     let requestDTO = UserNicknameRequestDTO(nickname: "토익은어려워")
     let userNicknameEndpoint = sut.checkIfNicknameDuplicate(with: requestDTO)
-    
+    expectation = expectation(description: "CheckIfNicknameDuplicate finish")
     // Act
     DispatchQueue.global().async { [unowned self] in
       let dataRequest = try? userNicknameEndpoint.makeRequest(from: mockSession)
       
       // Assert
-      XCTAssertNotNil(dataRequest, "UserIfnoAPIEndpoint의 isDuplicatedName()에서 DataRequest를 반환해야 하는데 nil 반환")
+      XCTAssertNotNil(dataRequest, "UserIfnoAPIEndpoint의 checkIfNicknameDuplicate()에서 DataRequest를 반환해야 하는데 nil 반환")
       XCTAssertNotNil(
         dataRequest?.convertible.urlRequest,
-        "UserIfnoAPIEndpoint의 isDuplicatedName()에서 DataRequest의 urlRequest를 반환해야하는데 nil 반환")
+        "UserIfnoAPIEndpoint의 checkIfNicknameDuplicate()에서 DataRequest의 urlRequest를 반환해야하는데 nil 반환")
+      XCTAssertEqual(dataRequest?.convertible.urlRequest?.url, targetURL)
+      expectation.fulfill()
+    }
+    wait(for: [expectation], timeout: 10)
+  }
+  
+  func testUserInfoAPIEndpoint_UpdateUserNickname를_통해_makeRequest를_호출할때_AbsoluteURL이_정확한지_ShouldReturnEqual() {
+    // Arrange
+    let targetURL = URL(string: "http://localhost:8080/nickname?nickname=이름추천부탁&userId=7")
+    let requestDTO = UserNicknamePatchRequestDTO(nickname: "이름추천부탁", userId: 7)
+    let endpoint = sut.updateUserNickname(with: requestDTO)
+    expectation = expectation(description: "UpdateUserNickname finish")
+    // Act
+    DispatchQueue.global().async { [unowned self] in
+      let dataRequest = try? endpoint.makeRequest(from: mockSession)
+      
+      // Assert
+      XCTAssertNotNil(dataRequest, "UserIfnoAPIEndpoint의 updateUserNickname()에서 DataRequest를 반환해야 하는데 nil 반환")
+      XCTAssertNotNil(
+        dataRequest?.convertible.urlRequest,
+        "UserIfnoAPIEndpoint의 updateUserNickname()에서 DataRequest의 urlRequest를 반환해야하는데 nil 반환")
       XCTAssertEqual(dataRequest?.convertible.urlRequest?.url, targetURL)
       expectation.fulfill()
     }
