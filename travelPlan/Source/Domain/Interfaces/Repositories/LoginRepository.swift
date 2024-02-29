@@ -11,5 +11,5 @@ protocol LoginRepository {
   func fetchAuthToken(
     authCode: String,
     identityToken: String
-  ) -> AnyPublisher<AuthToken, Never>
+  ) -> AnyPublisher<Bool, Never>
 }
