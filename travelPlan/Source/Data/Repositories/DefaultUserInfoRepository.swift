@@ -21,13 +21,12 @@ final class DefaultUserInfoRepository {
 
 // MARK: - UserInfoRepository
 extension DefaultUserInfoRepository: UserInfoRepository {
-  func isDuplicatedName(with name: String) -> Future<Bool, Never> {
+  func isDuplicatedName(with name: String) -> Future<Bool, MainError> {
     let reqeustDTO = UserNicknameRequestDTO(nickname: name)
     let endpoint = UserInfoAPIEndpoint.isDuplicatedNickname(with: reqeustDTO)
     return .init { [weak self] promise in
       guard var subscription = self?.subscription else {
-        // TODO: - 에러 타입 적용해야함
-        promise(.success(false))
+        promise(.failure(.referenceError(.weakSelfError)))
         return
       }
       self?.service.request(endpoint: endpoint)
@@ -36,7 +35,7 @@ extension DefaultUserInfoRepository: UserInfoRepository {
           case .finished:
             return
           case .failure(let error):
-            print("DEBUG: isDuplicatedName(with:) 파싱할때 에러 발생\n  \(error.localizedDescription)")
+            promise(.failure(.networkError(error)))
           }
         } receiveValue: { responseDTO in
           promise(.success(responseDTO.result))
