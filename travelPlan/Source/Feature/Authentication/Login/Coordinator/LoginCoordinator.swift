@@ -25,7 +25,12 @@ final class LoginCoordinator: FlowCoordinator {
   }
   
   func start() {
-    let loginVM = LoginViewModel()
+    let mockSession = MockSession.default
+    let service = SessionProvider(session: mockSession)
+    let keyChainManager = DefaultKeyChainManager()
+    let repository = DefaultLoginRepository(session: service, keyChainManager: keyChainManager)
+    let useCase = DefaultLoginUseCase(loginRepository: repository)
+    let loginVM = LoginViewModel(loginUseCase: useCase)
     let loginViewController = LoginViewController(vm: loginVM)
     viewController = loginViewController
     loginViewController.coordinator = self
