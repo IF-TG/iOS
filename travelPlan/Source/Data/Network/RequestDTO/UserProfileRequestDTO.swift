@@ -9,4 +9,5 @@ import Foundation
 
 struct UserProfileRequestDTO: Encodable {
   let profile: String
+  let userID: Int
 }
