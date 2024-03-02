@@ -39,7 +39,7 @@ struct UserInfoAPIEndpoint {
     return Endpoint<CommonDTO<UserProfileResponseDTO>>(
       scheme: "http",
       host: "localhost:8080",
-      method: .put,
+      method: .post,
       prefixPath: prefixPath,
       parameters: requestDTO,
       requestType: .userProfileUpdate)
