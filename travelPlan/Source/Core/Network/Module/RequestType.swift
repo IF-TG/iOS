@@ -12,6 +12,7 @@ enum RequestType {
   /// 사용자 이름 중복 체크와 사용자 이름 업데이트 두 개의 로직에서 사용중
   case userNameDuplicateCheck
   case custom(String)
+  case userProfileUpdate
   
   var path: String {
     switch self {
@@ -19,6 +20,8 @@ enum RequestType {
       return ""
     case .userNameDuplicateCheck:
       return "nickname"
+    case .userProfileUpdate:
+      return "upload"
     case .custom(let requestPath):
       return requestPath
     }
