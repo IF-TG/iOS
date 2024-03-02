@@ -23,9 +23,8 @@ final class EndpointTests: XCTestCase {
       scheme: "http",
       host: "test.com",
       method: .get,
-      prefixPath: "/user",
-      parameters: mockRequestModel,
-      requestType: .custom("name-update"))
+      parameters: [.query(mockRequestModel)],
+      requestType: .custom("user/name-update"))
     MockUrlProtocol.requestHandler = { _ in
       return ((HTTPURLResponse(), Data()))
     }
