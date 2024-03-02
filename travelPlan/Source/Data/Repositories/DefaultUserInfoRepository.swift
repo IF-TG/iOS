@@ -8,9 +8,10 @@
 import Combine
 
 final class DefaultUserInfoRepository {
-  // MARK: - Properties
+  // MARK: - Dependencies
   private let service: Sessionable
   
+  // MARK: - Properties
   private var subscriptions = Set<AnyCancellable>()
   
   // MARK: - Lifecycle
@@ -56,6 +57,24 @@ extension DefaultUserInfoRepository: UserInfoRepository {
           }
         } receiveValue: { responseDTO in
           promise(.success(responseDTO.result))
+        }.store(in: &subscriptions)
+    }
+  }
+  
+  func updateProfile(with profile: String) -> Future<Bool, MainError> {
+    // TODO: - UserDefaults 관리 담당 객체를 통해 로그인 한 사용자의 userID를 가져와야 합니다.
+    let requestDTO = UserProfileRequestDTO(profile: profile, userID: 13)
+    let endpoint = UserInfoAPIEndpoint.updateProfile(with: requestDTO)
+    return Future<Bool, MainError> { [unowned self] promise in
+      service.request(endpoint: endpoint)
+        .mapError { MainError.networkError($0) }
+        .sink { completion in
+          if case .failure(let error) = completion {
+            promise(.failure(error))
+          }
+        } receiveValue: { responseDTO in
+          let isSucceed = (200...299).contains(Int(responseDTO.status) ?? -1)
+          promise(.success(isSucceed))
         }.store(in: &subscriptions)
     }
   }
