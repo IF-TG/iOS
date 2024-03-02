@@ -24,7 +24,6 @@ final class MyInformationViewModelTests: XCTestCase {
     let repository = DefaultUserInfoRepository(service: sessionProvider)
     let useCase = DefaultUserInfoUseCase(userInfoRepository: repository)
     sut = MyInformationViewModel(userInfoUseCase: useCase)
-    expectation = expectation(description: "Output received")
     input = MyInformationViewModel.Input()
   }
   
@@ -52,10 +51,13 @@ extension MyInformationViewModelTests {
       let responseData = json.data(using: .utf8)!
       return ((HTTPURLResponse(), responseData))
     }
+    expectation = expectation(description: "isDuplicatedUserNameExpectation.")
     
     // Act
     let output = sut.transform(input)
-    subscription = output.sink { [unowned self] viewControllerState in
+    subscription = output.sink { [unowned self] _ in
+      expectation.fulfill()
+    } receiveValue: { [unowned self] viewControllerState in
       // Assert
       switch viewControllerState {
       case .duplicatedNickname:
@@ -68,7 +70,7 @@ extension MyInformationViewModelTests {
         break
       }
     }
-    input.isDuplicatedUserName.send("이름새로지었음")
-    wait(for: [expectation], timeout: 10)
+    input.isNicknameDuplicated.send("이름새로지었음")
+    wait(for: [expectation], timeout: 6)
   }
 }

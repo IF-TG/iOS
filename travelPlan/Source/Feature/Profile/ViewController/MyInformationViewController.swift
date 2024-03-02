@@ -96,13 +96,24 @@ final class MyInformationViewController: UIViewController {
 // MARK: - ViewBindCase
 extension MyInformationViewController: ViewBindCase {
   typealias Input = MyInformationViewModel.Input
-  typealias ErrorType = Error
+  typealias ErrorType = MainError
   typealias State = MyInformationViewModel.State
   
   func bind() {
     bindInputTextField()
     let output = viewModel.transform(input)
-    output.sink { [weak self] in self?.render($0) }.store(in: &subscriptions)
+    output
+      .receive(on: DispatchQueue.main)
+      .sink { [weak self] completion in
+        switch completion {
+        case .finished:
+          return
+        case .failure(let error):
+          self?.handleError(error)
+        }
+      } receiveValue: { [weak self] state in
+        self?.render(state)
+      }.store(in: &subscriptions)
   }
   
   func render(_ state: MyInformationViewModel.State) {
@@ -122,7 +133,17 @@ extension MyInformationViewController: ViewBindCase {
     }
   }
   
-  func handleError(_ error: ErrorType) { }
+  func handleError(_ error: ErrorType) {
+    // TODO: - 추후 알림창에 표현하기
+    switch error {
+    case .general(let string):
+      print(string.description)
+    case .networkError(let error):
+      print(error.localizedDescription)
+    case .referenceError(let error):
+      print(error.localizedDescription)
+    }
+  }
 }
 
 // MARK: - Private Helpers
@@ -133,7 +154,7 @@ private extension MyInformationViewController {
       .debounce(for: 0.2, scheduler: RunLoop.main)
       .sink { [weak self] in
         if (3...15).contains($0.count) {
-          self?.input.isDuplicatedUserName.send($0)
+          self?.input.isNicknameDuplicated.send($0)
         } else if $0.count == 0 || $0.isEmpty {
           self?.inputTextField.textState = .initial
         } else if (1...2).contains($0.count) {

@@ -17,7 +17,6 @@ final class UserInfoAPIEndpointTests: XCTestCase {
   override func setUp() {
     super.setUp()
     MockUrlProtocol.requestHandler = { _ in return ((HTTPURLResponse(), Data())) }
-    expectation = expectation(description: "finish")
   }
   
   override func tearDown() {
@@ -27,21 +26,42 @@ final class UserInfoAPIEndpointTests: XCTestCase {
   
   // MARK: - Tests
   /// 계속 테스트 실패했는데 이유가 dataRequest의 convertible에서 urlRequest 객체 생성이 안됬다. 그 이유는 host에 로컬포트번호를 작성하지 않고 그냥 scheme에 scheme + :// + localhost:8080까지 썼기 때문에 url형식이 잘못됬다.
-  func testUserInfoAPIEndpoint_isDuplicatedName함수의Endpoint를통해makeRequest호출할때AbsoluteURL이정확한지_ShouldReturnEqual() {
+  func testUserInfoAPIEndpoint_checkIfNicknameDuplicate함수의Endpoint를통해makeRequest호출할때AbsoluteURL이정확한지_ShouldReturnEqual() {
     // Arrange
     let targetURL = URL(string: "http://localhost:8080/nickname?nickname=토익은어려워")
     let requestDTO = UserNicknameRequestDTO(nickname: "토익은어려워")
-    let userNicknameEndpoint = sut.isDuplicatedNickname(with: requestDTO)
-    
+    let userNicknameEndpoint = sut.checkIfNicknameDuplicate(with: requestDTO)
+    expectation = expectation(description: "CheckIfNicknameDuplicate finish")
     // Act
     DispatchQueue.global().async { [unowned self] in
       let dataRequest = try? userNicknameEndpoint.makeRequest(from: mockSession)
       
       // Assert
-      XCTAssertNotNil(dataRequest, "UserIfnoAPIEndpoint의 isDuplicatedName()에서 DataRequest를 반환해야 하는데 nil 반환")
+      XCTAssertNotNil(dataRequest, "UserIfnoAPIEndpoint의 checkIfNicknameDuplicate()에서 DataRequest를 반환해야 하는데 nil 반환")
       XCTAssertNotNil(
         dataRequest?.convertible.urlRequest,
-        "UserIfnoAPIEndpoint의 isDuplicatedName()에서 DataRequest의 urlRequest를 반환해야하는데 nil 반환")
+        "UserIfnoAPIEndpoint의 checkIfNicknameDuplicate()에서 DataRequest의 urlRequest를 반환해야하는데 nil 반환")
+      XCTAssertEqual(dataRequest?.convertible.urlRequest?.url, targetURL)
+      expectation.fulfill()
+    }
+    wait(for: [expectation], timeout: 10)
+  }
+  
+  func testUserInfoAPIEndpoint_UpdateUserNickname를_통해_makeRequest를_호출할때_AbsoluteURL이_정확한지_ShouldReturnEqual() {
+    // Arrange
+    let targetURL = URL(string: "http://localhost:8080/nickname?nickname=이름추천부탁&userId=7")
+    let requestDTO = UserNicknamePatchRequestDTO(nickname: "이름추천부탁", userId: 7)
+    let endpoint = sut.updateUserNickname(with: requestDTO)
+    expectation = expectation(description: "UpdateUserNickname finish")
+    // Act
+    DispatchQueue.global().async { [unowned self] in
+      let dataRequest = try? endpoint.makeRequest(from: mockSession)
+      
+      // Assert
+      XCTAssertNotNil(dataRequest, "UserIfnoAPIEndpoint의 updateUserNickname()에서 DataRequest를 반환해야 하는데 nil 반환")
+      XCTAssertNotNil(
+        dataRequest?.convertible.urlRequest,
+        "UserIfnoAPIEndpoint의 updateUserNickname()에서 DataRequest의 urlRequest를 반환해야하는데 nil 반환")
       XCTAssertEqual(dataRequest?.convertible.urlRequest?.url, targetURL)
       expectation.fulfill()
     }
