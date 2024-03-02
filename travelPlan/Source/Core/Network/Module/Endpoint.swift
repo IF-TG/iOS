@@ -8,12 +8,13 @@
 import Alamofire
 
 final class Endpoint<ResponseDTO>: NetworkInteractionable where ResponseDTO: Decodable {
+  
   // MARK: - Properties
   var scheme: String
   var host: String
   var method: HTTPMethod
   var prefixPath: String
-  var parameters: Encodable?
+  var parameters: [ParameterType]?
   var requestType: RequestType
   var headers: HTTPHeaders?
   var interceptor: RequestInterceptor?
@@ -24,7 +25,7 @@ final class Endpoint<ResponseDTO>: NetworkInteractionable where ResponseDTO: Dec
     host: String = "호스트 미정",
     method: HTTPMethod = .get,
     prefixPath: String = "미정",
-    parameters: Encodable?,
+    parameters: [ParameterType]?,
     requestType: RequestType,
     headers: HTTPHeaders? = ["Content-Type": "application/json"],
     interceptor: RequestInterceptor? = nil
