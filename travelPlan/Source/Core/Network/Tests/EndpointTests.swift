@@ -6,6 +6,7 @@
 //
 
 import XCTest
+import Alamofire
 @testable import travelPlan
 
 final class EndpointTests: XCTestCase {
@@ -96,5 +97,38 @@ extension EndpointTests {
     }
     
     wait(for: [expectation], timeout: 10)
+  }
+  
+  func testEndPoint_makeRequest할때_두개의Parameters가_사용될_경우_AbsoluteURL이_잘_만들어지는지_shouldReturnEqaul() {
+    // Arrange
+    // 이 객체가 url의 query param에 담겨야 합니다.
+    struct TempQueryParameterReqeustDTO: Encodable {
+      // 만약 사용자 액세스 토큰을 HTTP header말고 query param에 같이 보내야 한다면?
+      let accessToken: String
+    }
+    
+    let targetURL = URL(string: "http://test.com/user/name-update?accessToken=ab1@2")
+    let mockReqeustQueryParamDTO = TempQueryParameterReqeustDTO(accessToken: "ab1@2")
+    mockRequestModel = UserNameRequestDTO(name: "배고프다", id: 777)
+    sut = Endpoint(
+      scheme: "http",
+      host: "test.com",
+      method: .post,
+      parameters: [.query(mockReqeustQueryParamDTO), .body(mockRequestModel)],
+      requestType: .custom("user/name-update"))
+    var dataRequest: DataRequest?
+    
+    // Act
+    DispatchQueue.global().async { [unowned self] in
+      dataRequest = try? sut.makeRequest(from: mockSession)
+      expectation.fulfill()
+    }
+    wait(for: [expectation], timeout: 10)
+    
+    // Assert
+    XCTAssertNotNil(dataRequest, "DataRequest를 반환해야하는데 nil반환")
+    XCTAssertNotNil(dataRequest?.convertible.urlRequest, "DataRequest의 urlRequest를 반환해야하는데 nil반환")
+    XCTAssertEqual(
+      dataRequest?.convertible.urlRequest?.url, targetURL)
   }
 }
