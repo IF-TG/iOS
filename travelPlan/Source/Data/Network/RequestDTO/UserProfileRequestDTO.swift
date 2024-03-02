@@ -6,3 +6,7 @@
 //
 
 import Foundation
+
+struct UserProfileRequestDTO: Decodable {
+  let profile: String
+}
