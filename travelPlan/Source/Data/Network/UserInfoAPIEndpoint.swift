@@ -16,8 +16,7 @@ struct UserInfoAPIEndpoint {
       scheme: "http",
       host: "localhost:8080",
       method: .get,
-      prefixPath: "",
-      parameters: requestDTO,
+      parameters: [.query(requestDTO)],
       requestType: .userNameDuplicateCheck)
   }
   
@@ -27,8 +26,7 @@ struct UserInfoAPIEndpoint {
     return Endpoint<CommonDTO<Bool>>(
     scheme: "http",
     host: "localhost:8080",
-    prefixPath: "",
-    parameters: requestDTO,
+    parameters: [.query(requestDTO)],
     requestType: .userNameDuplicateCheck)
   }
 }

@@ -11,7 +11,6 @@ struct NotificationAPIEndpoints {
   static func fetchNotices() -> Endpoint<[NoticeResponseDTO]> {
     return Endpoint<[NoticeResponseDTO]>(
       host: "v1/", 
-      prefixPath: "temp",
       parameters: nil,
       requestType: .none)
   }
