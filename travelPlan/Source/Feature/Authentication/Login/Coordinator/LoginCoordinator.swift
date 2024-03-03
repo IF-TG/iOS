@@ -31,7 +31,7 @@ final class LoginCoordinator: FlowCoordinator {
     let repository = DefaultLoginRepository(session: service, keyChainManager: keyChainManager)
     let useCase = DefaultLoginUseCase(loginRepository: repository)
     let loginVM = LoginViewModel(loginUseCase: useCase)
-    let loginViewController = LoginViewController(vm: loginVM)
+    let loginViewController = LoginViewController(viewModel: loginVM)
     viewController = loginViewController
     loginViewController.coordinator = self
     presenter?.viewControllers = [loginViewController]
