@@ -9,6 +9,6 @@ import Foundation
 import Combine
 
 protocol LoginStrategy {
-  var loginPublisher: PassthroughSubject<AuthToken, AuthServiceError> { get }
+  var resultPublisher: PassthroughSubject<AuthenticationResponseValue, AuthenticationServiceError> { get }
   func login()
 }
