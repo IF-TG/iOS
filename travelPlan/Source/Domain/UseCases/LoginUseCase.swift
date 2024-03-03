@@ -10,7 +10,7 @@ import Combine
 protocol LoginUseCase {
   func execute(
     requestValue: LoginRequestValue
-  ) -> AnyPublisher<Bool, Error>
+  ) -> AnyPublisher<Bool, Never>
 }
 
 final class DefaultLoginUseCase {
@@ -25,11 +25,13 @@ final class DefaultLoginUseCase {
 
 // MARK: - LoginUseCase
 extension DefaultLoginUseCase: LoginUseCase {
-  func execute(requestValue: LoginRequestValue) -> AnyPublisher<Bool, Error> {
+  func execute(requestValue: LoginRequestValue) -> AnyPublisher<Bool, Never> {
     switch requestValue.loginType {
     case .apple:
-      return loginRepository.fetchAuthToken(authCode: requestValue.authorizationCode,
-                                            identityToken: requestValue.identityToken)
+      return loginRepository.fetchAuthToken(
+        authCode: requestValue.authorizationCode,
+        identityToken: requestValue.identityToken
+      ).eraseToAnyPublisher()
     }
   }
 }
