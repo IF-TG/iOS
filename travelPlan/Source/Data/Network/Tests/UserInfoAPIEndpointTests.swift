@@ -38,10 +38,10 @@ final class UserInfoAPIEndpointTests: XCTestCase {
       let dataRequest = try? userNicknameEndpoint.makeRequest(from: mockSession)
       
       // Assert
-      XCTAssertNotNil(dataRequest, "UserIfnoAPIEndpoint의 checkIfNicknameDuplicate()에서 DataRequest를 반환해야 하는데 nil 반환")
+      XCTAssertNotNil(dataRequest, "UserInfoAPIEndpoint의 checkIfNicknameDuplicate()에서 DataRequest를 반환해야 하는데 nil 반환")
       XCTAssertNotNil(
         dataRequest?.convertible.urlRequest,
-        "UserIfnoAPIEndpoint의 checkIfNicknameDuplicate()에서 DataRequest의 urlRequest를 반환해야하는데 nil 반환")
+        "UserInfoAPIEndpoint의 checkIfNicknameDuplicate()에서 DataRequest의 urlRequest를 반환해야하는데 nil 반환")
       XCTAssertEqual(dataRequest?.convertible.urlRequest?.url, targetURL)
       expectation.fulfill()
     }
@@ -59,10 +59,10 @@ final class UserInfoAPIEndpointTests: XCTestCase {
       let dataRequest = try? endpoint.makeRequest(from: mockSession)
       
       // Assert
-      XCTAssertNotNil(dataRequest, "UserIfnoAPIEndpoint의 updateUserNickname()에서 DataRequest를 반환해야 하는데 nil 반환")
+      XCTAssertNotNil(dataRequest, "UserInfoAPIEndpoint의 updateUserNickname()에서 DataRequest를 반환해야 하는데 nil 반환")
       XCTAssertNotNil(
         dataRequest?.convertible.urlRequest,
-        "UserIfnoAPIEndpoint의 updateUserNickname()에서 DataRequest의 urlRequest를 반환해야하는데 nil 반환")
+        "UserInfoAPIEndpoint의 updateUserNickname()에서 DataRequest의 urlRequest를 반환해야하는데 nil 반환")
       XCTAssertEqual(dataRequest?.convertible.urlRequest?.url, targetURL)
       expectation.fulfill()
     }
@@ -76,7 +76,7 @@ final class UserInfoAPIEndpointTests: XCTestCase {
     let requestDTO = UserProfileRequestDTO(profile: "test1234")
     let endpoint = sut.updateProfile(withQuery: queryRequestDTO, body: requestDTO)
     var dataRequest: DataRequest?
-    expectation = expectation(description: "UpdatePRofile finish")
+    expectation = expectation(description: "UpdateProfile finish")
     
     // Act
     DispatchQueue.global().async { [unowned self] in
@@ -86,10 +86,10 @@ final class UserInfoAPIEndpointTests: XCTestCase {
     wait(for: [expectation], timeout: 10)
     
     // Assert
-    XCTAssertNotNil(dataRequest, "UserIfnoAPIEndpoint의 updateProfile(withQuery:body:)에서 DataRequest를 반환해야 하는데 nil 반환")
+    XCTAssertNotNil(dataRequest, "UserInfoAPIEndpoint의 updateProfile(withQuery:body:)에서 DataRequest를 반환해야 하는데 nil 반환")
     XCTAssertNotNil(
       dataRequest?.convertible.urlRequest,
-      "UserIfnoAPIEndpoint의 updatePRofile(withQuery:body:)에서 DataRequest의 urlRequest를 반환해야하는데 nil 반환")
+      "UserInfoAPIEndpoint의 updateProfile(withQuery:body:)에서 DataRequest의 urlRequest를 반환해야하는데 nil 반환")
     XCTAssertEqual(dataRequest?.convertible.urlRequest?.url, targetURL)
   }
 }
