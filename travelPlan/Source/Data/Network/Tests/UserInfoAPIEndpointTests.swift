@@ -86,10 +86,10 @@ final class UserInfoAPIEndpointTests: XCTestCase {
     wait(for: [expectation], timeout: 10)
     
     // Assert
-    XCTAssertNotNil(dataRequest, "UserIfnoAPIEndpoint의 updateUserNickname()에서 DataRequest를 반환해야 하는데 nil 반환")
+    XCTAssertNotNil(dataRequest, "UserIfnoAPIEndpoint의 updateProfile(withQuery:body:)에서 DataRequest를 반환해야 하는데 nil 반환")
     XCTAssertNotNil(
       dataRequest?.convertible.urlRequest,
-      "UserIfnoAPIEndpoint의 updateUserNickname()에서 DataRequest의 urlRequest를 반환해야하는데 nil 반환")
+      "UserIfnoAPIEndpoint의 updatePRofile(withQuery:body:)에서 DataRequest의 urlRequest를 반환해야하는데 nil 반환")
     XCTAssertEqual(dataRequest?.convertible.urlRequest?.url, targetURL)
   }
 }
