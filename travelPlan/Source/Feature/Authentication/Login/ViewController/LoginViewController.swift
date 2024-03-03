@@ -7,11 +7,10 @@
 
 import UIKit
 import Combine
-import AuthenticationServices
 
 final class LoginViewController: UIViewController {
   // MARK: - Properteis
-  var vm: LoginViewModel!
+  var viewModel: LoginViewModel!
   private var subscriptions = Set<AnyCancellable>()
   weak var coordinator: LoginCoordinatorDelegate?
   
@@ -20,7 +19,7 @@ final class LoginViewController: UIViewController {
   }
   private let input = LoginViewModel.Input()
   private let loginPlayerSupporter = LoginPlayerSupporter()
-  
+  private let authService = AuthenticationService()
   // MARK: - Lifecycle
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -31,13 +30,9 @@ final class LoginViewController: UIViewController {
     input.viewDidLoad.send()
   }
   
-  private override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-    super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-  }
-  
-  convenience init(vm: LoginViewModel) {
-    self.init(nibName: nil, bundle: nil)
-    self.vm = vm
+  init(viewModel: LoginViewModel) {
+    self.viewModel = viewModel
+    super.init(nibName: nil, bundle: nil)
   }
   
   required init?(coder: NSCoder) {
@@ -66,7 +61,7 @@ extension LoginViewController: ViewBindCase {
   typealias State = LoginViewModel.State
   
   func bind() {
-    let output = vm.transform(input)
+    let output = viewModel.transform(input)
     output.sink { [weak self] completion in
       switch completion {
       case .finished: 
@@ -88,13 +83,10 @@ extension LoginViewController: ViewBindCase {
       print("appear")
     case .viewLoad:
       print("viewLoaded")
-    case .presentKakao:
-      // TODO: - 카카오 연동 후 인증된 후에 피드로가야합니다. 지금은 바로 갑니다.
+    case .performAuthRequest(let oauthType):
+      performAuthRequest(from: oauthType)
+    case .presentFeed:
       coordinator?.showFeedPage()
-    case .presentApple:
-      print("Apple 로그인 화면 띄워짐")
-    case .presentGoogle:
-      print("Google 로그인 화면 띄워짐")
     }
   }
   
@@ -126,6 +118,23 @@ extension LoginViewController {
     navigationController?.navigationBar.isHidden = true
     view.backgroundColor = .white
   }
+  
+  private func performAuthRequest(from oauthType: OAuthType) {
+    switch oauthType {
+    case .apple:
+      authService.setLoginStrategy(AppleLoginStrategy(viewController: self))
+      authService.performLogin()
+        .receive(on: RunLoop.main)
+        .sink { completion in
+          if case let .failure(error) = completion {
+            print("authService.performLogin() error: \(error)")
+          }
+        } receiveValue: { [weak self] authToken in
+          self?.input.didCompleteWithAuthorization.send(authToken)
+        }
+        .store(in: &subscriptions)
+    }
+  }
 }
 
 // MARK: - LayoutSupport
@@ -144,53 +153,13 @@ extension LoginViewController: LayoutSupport {
 extension LoginViewController: LoginButtonDelegate {
   func loginButton(_ button: UIButton) {
     if button is KakaoLoginButton {
-      input.didTapKakaoButton.send()
+      print("DEBUG: 로그인 기능이 아직 구현되지 않았습니다.")
+//      input.didTapLoginButton.send(.kakao)
     } else if button is AppleLoginButton {
-      input.didTapAppleButton.send()
-      
-      let idProvider = ASAuthorizationAppleIDProvider()
-      let request = idProvider.createRequest()
-      request.requestedScopes = [.fullName, .email]
-      
-      let authorizationController = ASAuthorizationController(authorizationRequests: [request])
-      authorizationController.delegate = self
-      authorizationController.presentationContextProvider = self
-      authorizationController.performRequests()
-      
+      input.didTapLoginButton.send(.apple)
     } else if button is GoogleLoginButton {
-      input.didTapGoogleButton.send()
+      print("DEBUG: 로그인 기능이 아직 구현되지 않았습니다.")
+//      input.didTapLoginButton.send(.google)
     }
-  }
-}
-
-// MARK: - ASAuthorizationControllerDelegate
-extension LoginViewController: ASAuthorizationControllerDelegate {
-  func authorizationController(
-    controller: ASAuthorizationController,
-    didCompleteWithAuthorization authorization: ASAuthorization
-  ) {
-    if let credential = authorization.credential as? ASAuthorizationAppleIDCredential {
-      if let authorizationCode = credential.authorizationCode,
-         let identityToken = credential.identityToken {
-        let authString = authorizationCode.base64EncodedString()
-        let tokenString = identityToken.base64EncodedString()
-        input.didCompleteWithAuthorization.send((authString, tokenString))
-        // TODO: - 백엔드에게 authCode, identityCode 전송해서 accessToken, refreshToken 받아오기
-      }
-    }
-  }
-  
-  func authorizationController(
-    controller: ASAuthorizationController,
-    didCompleteWithError error: Error
-  ) {
-    
-  }
-}
-
-// MARK: - ASAuthorizationControllerPresentationContextProviding
-extension LoginViewController: ASAuthorizationControllerPresentationContextProviding {
-  func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
-    return self.view.window!
   }
 }
