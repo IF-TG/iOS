@@ -21,7 +21,7 @@ enum RequestType {
     case .userNameDuplicateCheck:
       return "nickname"
     case .userProfileUpdate:
-      return "upload"
+      return "profile/upload"
     case .custom(let requestPath):
       return requestPath
     }

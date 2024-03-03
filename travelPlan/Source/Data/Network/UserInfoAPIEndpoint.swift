@@ -8,7 +8,6 @@
 import Foundation
 
 struct UserInfoAPIEndpoint {
-  private static let prefixPath = "profile"
   /// 사용자의 이름이 중복인지 확인할 때 사용합니다.
   static func checkIfNicknameDuplicate(
     with requestDTO: UserNicknameRequestDTO
@@ -17,8 +16,7 @@ struct UserInfoAPIEndpoint {
       scheme: "http",
       host: "localhost:8080",
       method: .get,
-      prefixPath: "",
-      parameters: requestDTO,
+      parameters: [.query(requestDTO)],
       requestType: .userNameDuplicateCheck)
   }
   
@@ -28,8 +26,7 @@ struct UserInfoAPIEndpoint {
     return Endpoint<CommonDTO<Bool>>(
     scheme: "http",
     host: "localhost:8080",
-    prefixPath: "",
-    parameters: requestDTO,
+    parameters: [.query(requestDTO)],
     requestType: .userNameDuplicateCheck)
   }
   
@@ -40,8 +37,7 @@ struct UserInfoAPIEndpoint {
       scheme: "http",
       host: "localhost:8080",
       method: .post,
-      prefixPath: prefixPath,
-      parameters: requestDTO,
+      parameters: [.body(requestDTO)],
       requestType: .userProfileUpdate)
   }
 }

@@ -18,8 +18,7 @@ final class MockUserEndpoint {
       scheme: "https",
       host: "test.com",
       method: .post,
-      prefixPath: "/user",
-      parameters: requestDTO,
+      parameters: [.query(requestDTO)],
       requestType: .custom("name-update"))
   }
 }
