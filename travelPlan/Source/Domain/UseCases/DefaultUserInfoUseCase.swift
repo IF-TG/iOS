@@ -5,6 +5,7 @@
 //  Created by 양승현 on 2/27/24.
 //
 
+import Foundation
 import Combine
 
 final class DefaultUserInfoUseCase: UserInfoUseCase {
@@ -15,6 +16,8 @@ final class DefaultUserInfoUseCase: UserInfoUseCase {
   var isNicknameDuplicated = PassthroughSubject<Bool, MainError>()
   
   var isNicknameUpdated = PassthroughSubject<Bool, MainError>()
+  
+  var isProfileUpdated = PassthroughSubject<Bool, MainError>()
   
   private var subscriptions = Set<AnyCancellable>()
   
@@ -48,6 +51,18 @@ final class DefaultUserInfoUseCase: UserInfoUseCase {
         }
       } receiveValue: { [weak self] result in
         self?.isNicknameUpdated.send(result)
+      }.store(in: &subscriptions)
+  }
+  
+  func updateProfile(with base64String: String) {
+    userInfoRepository.updateProfile(with: base64String)
+      .receive(on: DispatchQueue.main)
+      .sink { [weak self] completion in
+        if case .failure(let error) = completion {
+          self?.isProfileUpdated.send(completion: .failure(error))
+        }
+      } receiveValue: { [weak self] result in
+        self?.isProfileUpdated.send(result)
       }.store(in: &subscriptions)
   }
 }
