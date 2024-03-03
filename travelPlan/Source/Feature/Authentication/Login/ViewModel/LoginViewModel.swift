@@ -13,20 +13,17 @@ final class LoginViewModel {
   struct Input {
     let viewWillAppear: PassthroughSubject<Void, Never>
     let viewDidLoad: PassthroughSubject<Void, Never>
-    let didTapKakaoButton: PassthroughSubject<Void, ErrorType>
-    let didTapAppleButton: PassthroughSubject<Void, ErrorType>
-    let didTapGoogleButton: PassthroughSubject<Void, ErrorType>
+    let didTapLoginButton: PassthroughSubject<OAuthType, ErrorType>
+    let didCompleteWithAuthorization: PassthroughSubject<AuthenticationResponseValue, Never>
     
     init(viewWillAppear: PassthroughSubject<Void, Never> = .init(),
          viewDidLoad: PassthroughSubject<Void, Never> = .init(),
-         didTapKakaoButton: PassthroughSubject<Void, ErrorType> = .init(),
-         didTapAppleButton: PassthroughSubject<Void, ErrorType> = .init(),
-         didTapGoogleButton: PassthroughSubject<Void, ErrorType> = .init()) {
+         didTapLoginButton: PassthroughSubject<OAuthType, ErrorType> = .init(),
+         didCompleteWithAuthorization: PassthroughSubject<AuthenticationResponseValue, Never> = .init()) {
       self.viewWillAppear = viewWillAppear
       self.viewDidLoad = viewDidLoad
-      self.didTapKakaoButton = didTapKakaoButton
-      self.didTapAppleButton = didTapAppleButton
-      self.didTapGoogleButton = didTapGoogleButton
+      self.didTapLoginButton = didTapLoginButton
+      self.didCompleteWithAuthorization = didCompleteWithAuthorization
     }
   }
   enum ErrorType: Error {
@@ -37,11 +34,17 @@ final class LoginViewModel {
     case appear
     case viewLoad
     case none
-    case presentKakao
-    case presentApple
-    case presentGoogle
+    case performAuthRequest(OAuthType)
+    case presentFeed
   }
+  
   // MARK: - Properties
+  private let loginUseCase: LoginUseCase
+  
+  // MARK: - LifeCycle
+  init(loginUseCase: LoginUseCase) {
+    self.loginUseCase = loginUseCase
+  }
 }
 
 // MARK: - ViewModelCase
@@ -51,9 +54,8 @@ extension LoginViewModel: ViewModelCase {
       .MergeMany([
         viewWillAppearStream(input),
         viewDidLoadStream(input),
-        didTapKakaoButtonStream(input),
-        didTapAppleButtonStream(input),
-        didTapGoogleButtonStream(input)
+        didTapLoginButtonStream(input),
+        didCompleteWithAuthorizationStream(input)
       ])
       .eraseToAnyPublisher()
   }
@@ -61,34 +63,32 @@ extension LoginViewModel: ViewModelCase {
 
 // MARK: - Input operator chain Flow
 private extension LoginViewModel {
-  private func didTapKakaoButtonStream(_ input: Input) -> Output {
+  private func didCompleteWithAuthorizationStream(_ input: Input) -> Output {
     return input
-      .didTapKakaoButton
-      .tryMap { [weak self] _ in
-        // TODO: - Kakako 로그인 화면 구현하기
-        return State.presentKakao
+      .didCompleteWithAuthorization
+      .flatMap { [weak self] responseValue in
+        guard let self = self else {
+          return Just(State.none).eraseToAnyPublisher()
+        }
+        return self.loginUseCase
+          .execute(requestValue: .init(
+            loginType: .apple,
+            authorizationCode: responseValue.authorizationCode,
+            identityToken: responseValue.identityToken))
+          .map { isLoggedIn in
+            return isLoggedIn ? State.presentFeed : State.none
+          }
+          .eraseToAnyPublisher()
       }
-      .mapError { $0 as? ErrorType ?? .unexpectedError }
+      .setFailureType(to: ErrorType.self)
       .eraseToAnyPublisher()
   }
   
-  private func didTapAppleButtonStream(_ input: Input) -> Output {
+  private func didTapLoginButtonStream(_ input: Input) -> Output {
     return input
-      .didTapAppleButton
-      .tryMap { [weak self] _ in
-        // TODO: - Apple 로그인 화면 구현하기
-        return State.presentApple
-      }
-      .mapError { $0 as? ErrorType ?? .unexpectedError }
-      .eraseToAnyPublisher()
-  }
-  
-  private func didTapGoogleButtonStream(_ input: Input) -> Output {
-    return input
-      .didTapGoogleButton
-      .tryMap { [weak self] _ in
-        // TODO: - Google 로그인 화면 구현하기
-        return State.presentGoogle
+      .didTapLoginButton
+      .tryMap { oauthType in
+        return State.performAuthRequest(oauthType)
       }
       .mapError { $0 as? ErrorType ?? .unexpectedError }
       .eraseToAnyPublisher()
