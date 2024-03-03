@@ -20,4 +20,9 @@ final class MockUserInfoRepository: UserInfoRepository {
     }
     return .init { $0(.success(false))}
   }
+  
+  // 임시
+  func updateProfile(with profile: String) -> Future<Bool, MainError> {
+    return .init { promise in promise(.success(true))}
+  }
 }
