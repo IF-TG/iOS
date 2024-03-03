@@ -72,8 +72,9 @@ final class UserInfoAPIEndpointTests: XCTestCase {
   func testUserInfoAPIEndpoint_UpdateProfile함수를_통해_makeRequest함수_호출할때_AbsoluteURL이_정확한지_ShouldReturnEqual() {
     // Arrange
     let targetURL = URL(string: "http://localhost:8080/profile/upload?userId=13")
-    let requestDTO = UserProfileRequestDTO(profile: "test1234", userID: 13)
-    let endpoint = sut.updateProfile(with: requestDTO)
+    let queryRequestDTO = UserIdReqeustDTO(userId: 13)
+    let requestDTO = UserProfileRequestDTO(profile: "test1234")
+    let endpoint = sut.updateProfile(withQuery: queryRequestDTO, body: requestDTO)
     var dataRequest: DataRequest?
     expectation = expectation(description: "UpdatePRofile finish")
     
