@@ -31,13 +31,14 @@ struct UserInfoAPIEndpoint {
   }
   
   static func updateProfile(
-    with requestDTO: UserProfileRequestDTO
+    withQuery queryRequestDTO: UserIdReqeustDTO,
+    body bodyReqeustDTO: UserProfileRequestDTO
   ) -> Endpoint<CommonDTO<UserProfileResponseDTO>> {
     return Endpoint<CommonDTO<UserProfileResponseDTO>>(
       scheme: "http",
       host: "localhost:8080",
       method: .post,
-      parameters: [.body(requestDTO)],
+      parameters: [.query(queryRequestDTO), .body(bodyReqeustDTO)],
       requestType: .userProfileUpdate)
   }
 }
