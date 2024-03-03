@@ -37,14 +37,7 @@ extension DefaultLoginUseCase: LoginUseCase {
 }
 
 struct LoginRequestValue {
-  enum LoginType: String {
-    case apple
-    //    case kakao
-    //    case naver
-    //    case google
-  }
-  
-  let loginType: LoginType
+  let loginType: OAuthType
   let authorizationCode: String
   let identityToken: String
 }
