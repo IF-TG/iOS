@@ -9,7 +9,7 @@ import Foundation
 
 enum OAuthType: String {
   case apple
-  case kakao
-  case naver
-  case google
+//  case kakao
+//  case google
+//  case naver
 }
