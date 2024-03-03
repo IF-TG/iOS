@@ -6,6 +6,7 @@
 //
 
 import XCTest
+import Alamofire
 @testable import travelPlan
 
 final class UserInfoAPIEndpointTests: XCTestCase {
@@ -66,5 +67,28 @@ final class UserInfoAPIEndpointTests: XCTestCase {
       expectation.fulfill()
     }
     wait(for: [expectation], timeout: 10)
+  }
+  
+  func testUserInfoAPIEndpoint_UpdateProfile함수를_통해_makeRequest함수_호출할때_AbsoluteURL이_정확한지_ShouldReturnEqual() {
+    // Arrange
+    let targetURL = URL(string: "http://localhost:8080/profile/upload?userId=13")
+    let requestDTO = UserProfileRequestDTO(profile: "test1234", userID: 13)
+    let endpoint = sut.updateProfile(with: requestDTO)
+    var dataRequest: DataRequest?
+    expectation = expectation(description: "UpdatePRofile finish")
+    
+    // Act
+    DispatchQueue.global().async { [unowned self] in
+      dataRequest = try? endpoint.makeRequest(from: mockSession)
+      expectation.fulfill()
+    }
+    wait(for: [expectation], timeout: 10)
+    
+    // Assert
+    XCTAssertNotNil(dataRequest, "UserIfnoAPIEndpoint의 updateUserNickname()에서 DataRequest를 반환해야 하는데 nil 반환")
+    XCTAssertNotNil(
+      dataRequest?.convertible.urlRequest,
+      "UserIfnoAPIEndpoint의 updateUserNickname()에서 DataRequest의 urlRequest를 반환해야하는데 nil 반환")
+    XCTAssertEqual(dataRequest?.convertible.urlRequest?.url, targetURL)
   }
 }
