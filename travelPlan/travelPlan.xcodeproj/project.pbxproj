@@ -245,6 +245,7 @@
 		15C1F55F2AF3CDD4005FDA15 /* SettingTopSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C1F55E2AF3CDD4005FDA15 /* SettingTopSheetView.swift */; };
 		15C1F5612AF3D17D005FDA15 /* CALayer+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C1F5602AF3D17D005FDA15 /* CALayer+.swift */; };
 		15C1F5632AF408D3005FDA15 /* SettingType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C1F5622AF408D3005FDA15 /* SettingType.swift */; };
+		15C7A51A2B94DA2800C79E27 /* UserIdReqeustDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C7A5192B94DA2800C79E27 /* UserIdReqeustDTO.swift */; };
 		15C83F882AB2055E00DDB536 /* BaseBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C83F872AB2055E00DDB536 /* BaseBottomSheetViewController.swift */; };
 		15C83F8A2AB2134D00DDB536 /* BottomSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C83F892AB2134D00DDB536 /* BottomSheetView.swift */; };
 		15CB235B2A109CA4003EAF20 /* PostHeaderContentBottomInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15CB235A2A109CA4003EAF20 /* PostHeaderContentBottomInfo.swift */; };
@@ -641,6 +642,7 @@
 		15C1F55E2AF3CDD4005FDA15 /* SettingTopSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTopSheetView.swift; sourceTree = "<group>"; };
 		15C1F5602AF3D17D005FDA15 /* CALayer+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+.swift"; sourceTree = "<group>"; };
 		15C1F5622AF408D3005FDA15 /* SettingType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingType.swift; sourceTree = "<group>"; };
+		15C7A5192B94DA2800C79E27 /* UserIdReqeustDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserIdReqeustDTO.swift; sourceTree = "<group>"; };
 		15C83F872AB2055E00DDB536 /* BaseBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseBottomSheetViewController.swift; sourceTree = "<group>"; };
 		15C83F892AB2134D00DDB536 /* BottomSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetView.swift; sourceTree = "<group>"; };
 		15CB235A2A109CA4003EAF20 /* PostHeaderContentBottomInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostHeaderContentBottomInfo.swift; sourceTree = "<group>"; };
@@ -1802,6 +1804,7 @@
 				15D655862B8E0ABF00466FEC /* UserNicknameRequestDTO.swift */,
 				155D0BAB2B90CB5B0042DFB6 /* UserNicknamePatchRequestDTO.swift */,
 				153FA90C2B937D9E006CF3C3 /* UserProfileRequestDTO.swift */,
+				15C7A5192B94DA2800C79E27 /* UserIdReqeustDTO.swift */,
 			);
 			path = RequestDTO;
 			sourceTree = "<group>";
@@ -2607,6 +2610,7 @@
 				15F2A0182B14E32B0014603D /* MyInformationViewController.swift in Sources */,
 				155D0BAC2B90CB5B0042DFB6 /* UserNicknamePatchRequestDTO.swift in Sources */,
 				13254FF02A0549D200094218 /* TabBarCase.swift in Sources */,
+				15C7A51A2B94DA2800C79E27 /* UserIdReqeustDTO.swift in Sources */,
 				13254FEB2A0515C700094218 /* FavoriteViewController.swift in Sources */,
 				151DF0E72AEEA76500D5D55B /* NoticeViewModel.swift in Sources */,
 				13A93EFB2AD1EA6B00FC4BBD /* TravelDestinationModel.swift in Sources */,
