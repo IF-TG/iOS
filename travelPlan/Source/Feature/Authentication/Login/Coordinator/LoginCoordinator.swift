@@ -25,6 +25,22 @@ final class LoginCoordinator: FlowCoordinator {
   }
   
   func start() {
+    let json = """
+      {
+        "result": {
+          "accessToken": "String",
+          "refreshToken": "String"
+          },
+        "status": "OK",
+        "statusCode": "200",
+        "message": "success"
+      }
+      """
+    MockUrlProtocol.requestHandler = { _ in
+      let responseData = json.data(using: .utf8)!
+      return ((HTTPURLResponse(), responseData))
+    }
+    
     let mockSession = MockSession.default
     let service = SessionProvider(session: mockSession)
     let keyChainManager = DefaultKeyChainManager()
