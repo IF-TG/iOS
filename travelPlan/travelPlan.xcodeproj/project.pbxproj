@@ -23,6 +23,10 @@
 		130CF3752B8F8AC40051DEE8 /* LoginResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130CF3742B8F8AC40051DEE8 /* LoginResponseDTO.swift */; };
 		130CF3812B91062D0051DEE8 /* KeyChainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130CF3802B91062D0051DEE8 /* KeyChainManager.swift */; };
 		130CF3842B9248750051DEE8 /* OAuthType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130CF3832B9248750051DEE8 /* OAuthType.swift */; };
+		130CF38B2B9347790051DEE8 /* LoginStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130CF38A2B9347790051DEE8 /* LoginStrategy.swift */; };
+		130CF38D2B9347CF0051DEE8 /* AppleLoginStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130CF38C2B9347CF0051DEE8 /* AppleLoginStrategy.swift */; };
+		130CF38F2B9356370051DEE8 /* AuthenticationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130CF38E2B9356370051DEE8 /* AuthenticationService.swift */; };
+		130CF3922B94954A0051DEE8 /* DefaultKeyChainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130CF3912B94954A0051DEE8 /* DefaultKeyChainManager.swift */; };
 		130FA91F2A359EE300E739C5 /* SearchViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130FA91E2A359EE300E739C5 /* SearchViewDelegate.swift */; };
 		131A11062AB4CD1A007BDD66 /* SearchMoreDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131A11052AB4CD1A007BDD66 /* SearchMoreDetailViewController.swift */; };
 		131A11082AB5067E007BDD66 /* SearchMoreDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131A11072AB5067E007BDD66 /* SearchMoreDetailViewModel.swift */; };
@@ -421,6 +425,10 @@
 		130CF3742B8F8AC40051DEE8 /* LoginResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginResponseDTO.swift; sourceTree = "<group>"; };
 		130CF3802B91062D0051DEE8 /* KeyChainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainManager.swift; sourceTree = "<group>"; };
 		130CF3832B9248750051DEE8 /* OAuthType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthType.swift; sourceTree = "<group>"; };
+		130CF38A2B9347790051DEE8 /* LoginStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginStrategy.swift; sourceTree = "<group>"; };
+		130CF38C2B9347CF0051DEE8 /* AppleLoginStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleLoginStrategy.swift; sourceTree = "<group>"; };
+		130CF38E2B9356370051DEE8 /* AuthenticationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationService.swift; sourceTree = "<group>"; };
+		130CF3912B94954A0051DEE8 /* DefaultKeyChainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultKeyChainManager.swift; sourceTree = "<group>"; };
 		130FA91E2A359EE300E739C5 /* SearchViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewDelegate.swift; sourceTree = "<group>"; };
 		131A11052AB4CD1A007BDD66 /* SearchMoreDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMoreDetailViewController.swift; sourceTree = "<group>"; };
 		131A11072AB5067E007BDD66 /* SearchMoreDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMoreDetailViewModel.swift; sourceTree = "<group>"; };
@@ -894,7 +902,8 @@
 		130CF37F2B9106120051DEE8 /* LocalDB */ = {
 			isa = PBXGroup;
 			children = (
-				130CF3802B91062D0051DEE8 /* KeyChainManager.swift */,
+				130CF3902B9495340051DEE8 /* Protocol */,
+				130CF3912B94954A0051DEE8 /* DefaultKeyChainManager.swift */,
 			);
 			path = LocalDB;
 			sourceTree = "<group>";
@@ -905,6 +914,23 @@
 				130CF3832B9248750051DEE8 /* OAuthType.swift */,
 			);
 			path = Enum;
+			sourceTree = "<group>";
+		};
+		130CF3892B9347650051DEE8 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				130CF38C2B9347CF0051DEE8 /* AppleLoginStrategy.swift */,
+				130CF38E2B9356370051DEE8 /* AuthenticationService.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+		130CF3902B9495340051DEE8 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				130CF3802B91062D0051DEE8 /* KeyChainManager.swift */,
+			);
+			path = Protocol;
 			sourceTree = "<group>";
 		};
 		130FA91D2A359ED500E739C5 /* Protocol */ = {
@@ -938,6 +964,7 @@
 			isa = PBXGroup;
 			children = (
 				13405F0A2AEEF1E400382796 /* LoginButtonDelegate.swift */,
+				130CF38A2B9347790051DEE8 /* LoginStrategy.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -1713,6 +1740,7 @@
 		15BB01B02A1EB4CF0035B486 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				130CF3892B9347650051DEE8 /* Service */,
 				13405F362AF1552E00382796 /* Supporter */,
 				13405F092AEEF1CA00382796 /* Protocol */,
 				13BF411E2ADBEC4100F3F082 /* View */,
@@ -2474,6 +2502,7 @@
 				15A4F28D2ACC1025001AA51D /* Toggable.swift in Sources */,
 				15D955AF2ADFB2F1002BF9C3 /* ShadowInfo.swift in Sources */,
 				151DF10A2AEEC58600D5D55B /* MockSession.swift in Sources */,
+				130CF3922B94954A0051DEE8 /* DefaultKeyChainManager.swift in Sources */,
 				15F0D1D32A53095100D04773 /* PostViewAdapter.swift in Sources */,
 				152AD5272A1B89D2008A2A11 /* FavoriteViewModel.swift in Sources */,
 				15F2A01E2B1584880014603D /* SettingUserNameTextField.swift in Sources */,
@@ -2696,6 +2725,7 @@
 				15B9286B2AFA4463003A20D4 /* PostDetailTableViewDataSource.swift in Sources */,
 				15B928612AFA3309003A20D4 /* PostDetailContentTextCell.swift in Sources */,
 				134383FD2B47ED12005034E0 /* PhotoAuthService.swift in Sources */,
+				130CF38B2B9347790051DEE8 /* LoginStrategy.swift in Sources */,
 				13274C5C2A59B4AD001F141C /* SearchFestivalModel.swift in Sources */,
 				151DF0FE2AEEBBE200D5D55B /* DefaultNotificationRepository.swift in Sources */,
 				158BEF792A0E27BD00C27861 /* PostCollectionView.swift in Sources */,
@@ -2722,6 +2752,7 @@
 				15C1F53C2AF27043005FDA15 /* NotificationViewAdapter.swift in Sources */,
 				1546DF302B0AF4C100B49A55 /* ImageMemoryCache.swift in Sources */,
 				15B928692AFA3F63003A20D4 /* PostDetailContentInfo.swift in Sources */,
+				130CF38D2B9347CF0051DEE8 /* AppleLoginStrategy.swift in Sources */,
 				151BDAD62B16EE07002F36C3 /* UIView+Combine.swift in Sources */,
 				13405F0B2AEEF1E400382796 /* LoginButtonDelegate.swift in Sources */,
 				15FFAC402ADE52120013DB57 /* MockPostUseCase.swift in Sources */,
@@ -2742,6 +2773,7 @@
 				134384022B47F8B9005034E0 /* MediaType.swift in Sources */,
 				13A93EE92AD0065300FC4BBD /* SearchMoreDetailLayoutManager.swift in Sources */,
 				151DF1052AEEBE0F00D5D55B /* NoticeResponseDTO.swift in Sources */,
+				130CF38F2B9356370051DEE8 /* AuthenticationService.swift in Sources */,
 				15D3882D2AFFBB5B00039946 /* PostDetailInputAccessoryWrapper.swift in Sources */,
 				1503F9372A4E1103002BC38D /* FavoriteCoordinator.swift in Sources */,
 				1599587F2B0DC56D00B2E4DC /* PostCellWithFourThumbnails.swift in Sources */,
