@@ -59,7 +59,20 @@ final class MyInformationViewController: UIViewController {
     $0.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapStoreLabel)))
   }
   
+  private let input = MyInformationViewModel.Input()
+  
+  private let viewModel: any MyInformationViewModelable
+  
   private var subscriptions = Set<AnyCancellable>()
+  
+  init(viewModel: any MyInformationViewModelable) {
+    self.viewModel = viewModel
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
   
   // MARK: - Lifecycle
   override func viewDidLoad() {
@@ -80,8 +93,87 @@ final class MyInformationViewController: UIViewController {
   }
 }
 
+// MARK: - ViewBindCase
+extension MyInformationViewController: ViewBindCase {
+  typealias Input = MyInformationViewModel.Input
+  typealias ErrorType = MainError
+  typealias State = MyInformationViewModel.State
+  
+  func bind() {
+    bindInputTextField()
+    let output = viewModel.transform(input)
+    output
+      .receive(on: DispatchQueue.main)
+      .sink { [weak self] completion in
+        switch completion {
+        case .finished:
+          return
+        case .failure(let error):
+          self?.handleError(error)
+        }
+      } receiveValue: { [weak self] state in
+        self?.render(state)
+      }.store(in: &subscriptions)
+  }
+  
+  func render(_ state: MyInformationViewModel.State) {
+    switch state {
+    case .none:
+      break
+    case .duplicatedNickname:
+      storeLabel.isUserInteractionEnabled = false
+      storeLabel.textColor = .yg.gray1
+      inputNoticeLabel.text = inputTextField.textState.quotation
+    case .availableNickname:
+      inputTextField.textState = .available
+      inputNoticeLabel.textColor = .yg.primary
+      storeLabel.isUserInteractionEnabled = true
+      storeLabel.textColor = .yg.primary
+      inputNoticeLabel.text = inputTextField.textState.quotation
+    }
+  }
+  
+  func handleError(_ error: ErrorType) {
+    // TODO: - 추후 알림창에 표현하기
+    switch error {
+    case .general(let string):
+      print(string.description)
+    case .networkError(let error):
+      print(error.localizedDescription)
+    case .referenceError(let error):
+      print(error.localizedDescription)
+    }
+  }
+}
+
 // MARK: - Private Helpers
 private extension MyInformationViewController {
+  func bindInputTextField() {
+    inputTextField
+      .changed
+      .debounce(for: 0.2, scheduler: RunLoop.main)
+      .sink { [weak self] in
+        if (3...15).contains($0.count) {
+          self?.input.isNicknameDuplicated.send($0)
+        } else if $0.count == 0 || $0.isEmpty {
+          self?.inputTextField.textState = .initial
+        } else if (1...2).contains($0.count) {
+          /// 닉네임 글자 최소 넘지 못함.
+          self?.inputTextField.textState = .underflow
+          self?.inputNoticeLabel.textColor = .yg.red2
+        } else {
+          /// 닉네임 글자 넘음
+          self?.inputTextField.textState = .overflow
+          self?.inputNoticeLabel.textColor = .yg.red2
+        }
+        if self?.inputTextField.textState != .available {
+          self?.storeLabel.isUserInteractionEnabled = false
+          self?.storeLabel.textColor = .yg.gray1
+        }
+        self?.inputNoticeLabel.text = self?.inputTextField.textState.quotation
+      }.store(in: &subscriptions)
+  }
+  
   func configureUI() {
     modalPresentationStyle = .fullScreen
     view.backgroundColor = .yg.gray00Background
@@ -128,35 +220,6 @@ private extension MyInformationViewController {
   
   func setNaviRightBarButton() {
     navigationItem.rightBarButtonItem = UIBarButtonItem(customView: storeLabel)
-  }
-  
-  func bind() {
-    inputTextField
-      .changed
-      .debounce(for: 0.2, scheduler: RunLoop.main)
-      .sink { [weak self] in
-        if (3...15).contains($0.count) {
-          // TODO: - 서버에 이 이름을 가진 유저가 있는지 체크 후 inputTextField 상태 변경해야합니다.
-          // 이때 네비바 '저장' 레이블 상태도 변경해야합니다.
-          self?.inputTextField.textState = .available
-          self?.inputNoticeLabel.textColor = .yg.primary
-          self?.storeLabel.isUserInteractionEnabled = true
-          self?.storeLabel.textColor = .yg.primary
-        } else if $0.count == 0 || $0.isEmpty {
-          self?.inputTextField.textState = .initial
-        } else if (1...3).contains($0.count) {
-          self?.inputTextField.textState = .underflow
-          self?.inputNoticeLabel.textColor = .yg.red2
-        } else {
-          self?.inputTextField.textState = .overflow
-          self?.inputNoticeLabel.textColor = .yg.red2
-        }
-        if self?.inputTextField.textState != .available {
-          self?.storeLabel.isUserInteractionEnabled = false
-          self?.storeLabel.textColor = .yg.gray1
-        }
-        self?.inputNoticeLabel.text = self?.inputTextField.textState.quotation
-    }.store(in: &subscriptions)
   }
   
   func setSubviewsDefaultUI() {

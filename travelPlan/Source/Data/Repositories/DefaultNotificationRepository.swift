@@ -22,7 +22,7 @@ final class DefaultNotificationRepository {
 // MARK: - NotificationRepository
 extension DefaultNotificationRepository: NotificationRepository {
   func fetchNotices() -> Future<[NoticeEntity], Never> {
-    let noticeEndpoint = NotificationAPIEndpoints.default.fetchNotices()
+    let noticeEndpoint = NotificationAPIEndpoints.fetchNotices()
     return .init { [weak self] promise in
       self?.subscription = self?.service
         .request(endpoint: noticeEndpoint)
