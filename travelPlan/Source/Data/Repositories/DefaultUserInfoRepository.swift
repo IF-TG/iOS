@@ -63,8 +63,9 @@ extension DefaultUserInfoRepository: UserInfoRepository {
   
   func updateProfile(with profile: String) -> Future<Bool, MainError> {
     // TODO: - UserDefaults 관리 담당 객체를 통해 로그인 한 사용자의 userID를 가져와야 합니다.
-    let requestDTO = UserProfileRequestDTO(profile: profile, userID: 13)
-    let endpoint = UserInfoAPIEndpoint.updateProfile(with: requestDTO)
+    let userIdReqeustDTO = UserIdReqeustDTO(userId: 13)
+    let reqeustDTO = UserProfileRequestDTO(profile: profile)
+    let endpoint = UserInfoAPIEndpoint.updateProfile(withQuery: userIdReqeustDTO, body: reqeustDTO)
     return Future<Bool, MainError> { [unowned self] promise in
       service.request(endpoint: endpoint)
         .mapError { MainError.networkError($0) }
