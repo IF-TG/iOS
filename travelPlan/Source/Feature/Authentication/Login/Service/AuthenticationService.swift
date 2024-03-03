@@ -8,6 +8,15 @@
 import Foundation
 import Combine
 
+struct AuthenticationResponseValue {
+  let authorizationCode: String
+  let identityToken: String
+}
+
+enum AuthenticationServiceError: Error {
+  case noStrategy
+}
+
 final class AuthenticationService {
   // MARK: - Properties
   private var loginStrategy: LoginStrategy?
@@ -17,15 +26,12 @@ final class AuthenticationService {
     self.loginStrategy = strategy
   }
   
-  func performLogin() -> AnyPublisher<AuthToken, AuthServiceError> {
+  func performLogin() -> AnyPublisher<AuthenticationResponseValue, AuthenticationServiceError> {
     guard let loginStrategy = loginStrategy else {
-      return Fail<AuthToken, AuthServiceError>(error: .noStrategy).eraseToAnyPublisher()
+      return Fail<AuthenticationResponseValue, AuthenticationServiceError>(error: .noStrategy)
+        .eraseToAnyPublisher()
     }
     loginStrategy.login()
-    return loginStrategy.loginPublisher.eraseToAnyPublisher()
+    return loginStrategy.resultPublisher.eraseToAnyPublisher()
   }
-}
-
-enum AuthServiceError: Error {
-  case noStrategy
 }

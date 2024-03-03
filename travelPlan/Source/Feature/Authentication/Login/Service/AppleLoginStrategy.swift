@@ -10,10 +10,9 @@ import AuthenticationServices
 import Combine
 
 final class AppleLoginStrategy: NSObject, LoginStrategy {
-  
   // MARK: - Properties
   weak var viewController: UIViewController?
-  let loginPublisher = PassthroughSubject<AuthToken, AuthServiceError>()
+  let resultPublisher = PassthroughSubject<AuthenticationResponseValue, AuthenticationServiceError>()
   
   // MARK: - LifeCycle
   init(viewController: UIViewController) {
@@ -41,10 +40,11 @@ extension AppleLoginStrategy: ASAuthorizationControllerDelegate {
     if let credential = authorization.credential as? ASAuthorizationAppleIDCredential {
       if let authorizationCode = credential.authorizationCode,
          let identityToken = credential.identityToken {
-        let authString = authorizationCode.base64EncodedString()
-        let tokenString = identityToken.base64EncodedString()
-        let authToken = AuthToken(accessToken: authString, refreshToken: tokenString)
-        loginPublisher.send(authToken)
+        let authResponse = AuthenticationResponseValue(
+          authorizationCode: authorizationCode.base64EncodedString(),
+          identityToken: identityToken.base64EncodedString()
+        )
+        resultPublisher.send(authResponse)
       }
     }
   }
