@@ -21,8 +21,12 @@ final class MockUserInfoRepository: UserInfoRepository {
     return .init { $0(.success(false))}
   }
   
-  // 임시
   func updateProfile(with profile: String) -> Future<Bool, MainError> {
-    return .init { promise in promise(.success(true))}
+    return .init { promise in
+      if profile == "base64인코딩된데이터" {
+        promise(.success(true))
+      }
+      promise(.success(false))
+    }
   }
 }
