@@ -161,6 +161,25 @@ final class UserInfoUseCaseTests: XCTestCase {
       "saveProfile()함수를통해 서버에 호출한 결과로 isProfileSaved프로퍼티가 false가 반환되야하는데 true반환됨.")
   }
   
+  func testUserInfoUseCase_deleteProfile함수를통해_프로필삭제했을때_isProfileDeleted프로퍼티_ShouldReturnTrue() {
+    // Arrange
+    var resultValue = false
+    
+    // Act
+    subscription = sut.isProfileDeleted.sink { _ in
+    } receiveValue: { [unowned self] in
+      resultValue = $0
+      expectation.fulfill()
+    }
+    sut.deleteProfile()
+    wait(for: [expectation], timeout: 4)
+    
+    // Assert
+    XCTAssertTrue(
+      resultValue,
+      "deleteProfile()함수를통해 서버에 호출한 결과로 isProfileDeleted프로퍼티가 false가 반환되야하는데 true반환됨.")
+  }
+  
   func testUserInfoUseCase_fetchProfile함수를통해_사용자의프로필을받아올때_fetchedProfile프로퍼티_반환값이예상값과일치하는지_ShouldReturnEqual() {
     // Arrange
     let expectedProfileEntity = ProfileImageEntity(image: "hi")
