@@ -150,7 +150,7 @@ final class UserInfoAPIEndpointTests: XCTestCase {
     let targetURL = URL(string: "http://localhost:8080/profile/upload?userId=13")
     let queryRequestDTO = UserIdReqeustDTO(userId: 13)
     let requestDTO = UserProfileRequestDTO(profile: "test1234")
-    let endpoint = sut.updateProfile(withQuery: queryRequestDTO, body: requestDTO)
+    let endpoint = sut.saveProfile(withQuery: queryRequestDTO, body: requestDTO)
     var dataRequest: DataRequest?
     let expectedJsonString = "profile=test1234"
     expectation = expectation(description: "saveProfile finish")
@@ -173,4 +173,27 @@ final class UserInfoAPIEndpointTests: XCTestCase {
     XCTAssertEqual(testString, expectedJsonString)
   }
 
+  func testUserInfoAPIEndpiont_DeleteProfile함수를_통해_makeRequest함수_호출할때_AbsoluteURL이_정확한지_ShouldReturnEqual() {
+    // Arrange
+    let targetURL = URL(string: "http://localhost:8080/profile?userId=13")
+    let mockRequestDTO = UserIdReqeustDTO(userId: 13)
+    let endpoint = sut.deleteProfile(with: mockRequestDTO)
+    var dataRequest: DataRequest?
+    let expectedJsonString = "profile=test1234"
+    expectation = expectation(description: "saveProfile finish")
+    
+    // Act
+    DispatchQueue.global().async { [unowned self] in
+      dataRequest = try? endpoint.makeRequest(from: mockSession)
+      expectation.fulfill()
+    }
+    wait(for: [expectation], timeout: 10)
+    
+    // Assert
+    XCTAssertNotNil(dataRequest, "UserInfoAPIEndpoint의 deleteProfile(with:)에서 DataRequest를 반환해야 하는데 nil 반환")
+    XCTAssertNotNil(
+      dataRequest?.convertible.urlRequest,
+      "UserInfoAPIEndpoint의 deleteProfile(with:)에서 DataRequest의 urlRequest를 반환해야하는데 nil 반환")
+    XCTAssertEqual(dataRequest?.convertible.urlRequest?.url, targetURL)
+  }
 }
