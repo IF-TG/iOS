@@ -57,4 +57,15 @@ extension UserInfoAPIEndpoint {
       parameters: [.query(queryReqeustDTO), .body(bodyReqeustDTO)],
       requestType: .userProfileSave)
   }
+  
+  static func deleteProfile(
+    with requestDTO: UserIdReqeustDTO
+  ) -> Endpoint<CommonDTO<Bool>> {
+    return Endpoint<CommonDTO<Bool>>(
+      scheme: "http",
+      host: "localhost:8080",
+      method: .delete,
+      parameters: [.query(requestDTO)],
+      requestType: .userProfileDelete)
+  }
 }
