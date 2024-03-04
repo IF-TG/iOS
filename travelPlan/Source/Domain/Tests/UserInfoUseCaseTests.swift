@@ -31,7 +31,7 @@ final class UserInfoUseCaseTests: XCTestCase {
   }
   
   // MARK: - Tests
-  func testUserInfoUseCase_사용자의이름이중복됬는지여부를확인할때_ShouldRetrunTrue() {
+  func testUserInfoUseCase_isNicknameDuplicate함수를통해_사용자의이름이중복됬는지여부를확인할때_ShouldRetrunTrue() {
     subscription = sut.isNicknameDuplicated.sink { _ in
     } receiveValue: { [unowned self] requestedValue in
       // Assert
