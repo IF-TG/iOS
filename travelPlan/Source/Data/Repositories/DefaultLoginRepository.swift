@@ -18,6 +18,10 @@ final class DefaultLoginRepository {
     self.session = session
     self.keyChainManager = keyChainManager
   }
+  
+  deinit {
+    print("deinit: \(Self.self)")
+  }
 }
 
 // MARK: - LoginRepository

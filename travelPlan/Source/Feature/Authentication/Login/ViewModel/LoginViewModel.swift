@@ -11,17 +11,12 @@ final class LoginViewModel {
   typealias Output = AnyPublisher<State, ErrorType>
   
   struct Input {
-    let viewWillAppear: PassthroughSubject<Void, Never>
-    let viewDidLoad: PassthroughSubject<Void, Never>
     let didTapLoginButton: PassthroughSubject<OAuthType, ErrorType>
     let didCompleteWithAuthorization: PassthroughSubject<AuthenticationResponseValue, Never>
     
-    init(viewWillAppear: PassthroughSubject<Void, Never> = .init(),
-         viewDidLoad: PassthroughSubject<Void, Never> = .init(),
-         didTapLoginButton: PassthroughSubject<OAuthType, ErrorType> = .init(),
+    init(didTapLoginButton: PassthroughSubject<OAuthType, ErrorType> = .init(),
          didCompleteWithAuthorization: PassthroughSubject<AuthenticationResponseValue, Never> = .init()) {
-      self.viewWillAppear = viewWillAppear
-      self.viewDidLoad = viewDidLoad
+
       self.didTapLoginButton = didTapLoginButton
       self.didCompleteWithAuthorization = didCompleteWithAuthorization
     }
@@ -31,8 +26,6 @@ final class LoginViewModel {
     case unexpectedError
   }
   enum State {
-    case appear
-    case viewLoad
     case none
     case performAuthRequest(OAuthType)
     case presentFeed
@@ -45,6 +38,10 @@ final class LoginViewModel {
   init(loginUseCase: LoginUseCase) {
     self.loginUseCase = loginUseCase
   }
+  
+  deinit {
+    print("deinit: \(Self.self)")
+  }
 }
 
 // MARK: - ViewModelCase
@@ -52,8 +49,6 @@ extension LoginViewModel: ViewModelCase {
   func transform(_ input: Input) -> Output {
     return Publishers
       .MergeMany([
-        viewWillAppearStream(input),
-        viewDidLoadStream(input),
         didTapLoginButtonStream(input),
         didCompleteWithAuthorizationStream(input)
       ])
@@ -90,22 +85,6 @@ private extension LoginViewModel {
       .tryMap { oauthType in
         return State.performAuthRequest(oauthType)
       }
-      .mapError { $0 as? ErrorType ?? .unexpectedError }
-      .eraseToAnyPublisher()
-  }
-  
-  private func viewWillAppearStream(_ input: Input) -> Output {
-    return input
-      .viewWillAppear
-      .tryMap { return .appear }
-      .mapError { $0 as? ErrorType ?? .unexpectedError }
-      .eraseToAnyPublisher()
-  }
-  
-  private func viewDidLoadStream(_ input: Input) -> Output {
-    return input
-      .viewDidLoad
-      .tryMap { return .viewLoad }
       .mapError { $0 as? ErrorType ?? .unexpectedError }
       .eraseToAnyPublisher()
   }

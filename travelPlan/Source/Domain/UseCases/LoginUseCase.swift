@@ -21,6 +21,10 @@ final class DefaultLoginUseCase {
   init(loginRepository: LoginRepository) {
     self.loginRepository = loginRepository
   }
+  
+  deinit {
+    print("deinit: \(Self.self)")
+  }
 }
 
 // MARK: - LoginUseCase
@@ -40,9 +44,4 @@ struct LoginRequestValue {
   let loginType: OAuthType
   let authorizationCode: String
   let identityToken: String
-}
-
-struct AuthToken {
-  let accessToken: String
-  let refreshToken: String
 }

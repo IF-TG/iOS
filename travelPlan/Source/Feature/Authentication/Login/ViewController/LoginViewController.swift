@@ -20,6 +20,7 @@ final class LoginViewController: UIViewController {
   private let input = LoginViewModel.Input()
   private let loginPlayerSupporter = LoginPlayerSupporter()
   private let authService = AuthenticationService()
+  
   // MARK: - Lifecycle
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -27,7 +28,6 @@ final class LoginViewController: UIViewController {
     setupUI()
     setupStyles()
     bind()
-    input.viewDidLoad.send()
   }
   
   init(viewModel: LoginViewModel) {
@@ -39,17 +39,13 @@ final class LoginViewController: UIViewController {
     fatalError("init(coder:) has not been implemented")
   }
   
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    input.viewWillAppear.send()
-  }
-  
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
     navigationController?.navigationBar.isHidden = false
   }
   
   deinit {
+    print("deinit: \(Self.self)")
     coordinator?.finish()
   }
 }
@@ -77,16 +73,12 @@ extension LoginViewController: ViewBindCase {
   
   func render(_ state: State) {
     switch state {
-    case .none:
-      print("none")
-    case .appear:
-      print("appear")
-    case .viewLoad:
-      print("viewLoaded")
     case .performAuthRequest(let oauthType):
       performAuthRequest(from: oauthType)
     case .presentFeed:
       coordinator?.showFeedPage()
+    case .none:
+      break
     }
   }
   

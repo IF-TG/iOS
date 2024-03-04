@@ -21,6 +21,11 @@ final class AuthenticationService {
   // MARK: - Properties
   private var loginStrategy: LoginStrategy?
   
+  // MARK: - LifeCycle
+  deinit {
+    print("deinit: \(Self.self)")
+  }
+  
   // MARK: - Helpers
   func setLoginStrategy(_ strategy: LoginStrategy) {
     self.loginStrategy = strategy
