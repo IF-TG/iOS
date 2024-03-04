@@ -45,6 +45,44 @@ final class UserInfoUseCaseTests: XCTestCase {
     wait(for: [expectation], timeout: 5)
   }
   
+  func testUserInfoUseCase_updateNickname함수를통해_이름업데이트할때_이미_다른사용자가_사용중인이름이라면_ShouldReturnFalse() {
+    // Arrange
+    var testResultValue = true
+    
+    // Act
+    subscription = sut.isNicknameUpdated.sink { _ in
+    } receiveValue: { [unowned self] in
+      testResultValue = $0
+      expectation.fulfill()
+    }
+    sut.updateNickname(with: "토익은정말어려워")
+    wait(for: [expectation], timeout: 5)
+    
+    // Assert
+    XCTAssertFalse(
+      testResultValue,
+      "isNicknameUpdated 반환 값이 true여야 하지만 false반환")
+  }
+  
+  func testUserInfoUseCase_updateNickname함수를통해_이름업데이트할때_성공적으로_변경됬다면_ShouldReturnTrue() {
+    // Arrange
+    var testResultValue = false
+    
+    // Act
+    subscription = sut.isNicknameUpdated.sink { _ in
+    } receiveValue: { [unowned self] in
+      testResultValue = $0
+      expectation.fulfill()
+    }
+    sut.updateNickname(with: "어려운건 정복해나가는 맛이 있는거지")
+    wait(for: [expectation], timeout: 3.1)
+    
+    // Assert
+    XCTAssertTrue(
+      testResultValue,
+      "isNicknameUpdated 반환 값이 true여야 하지만 false반환")
+  }
+  
   func testUserInfoUseCase_fetchProfile함수를통해_사용자의프로필을받아올때_fetchedProfile프로퍼티_반환값이예상값과일치하는지_ShouldReturnEqual() {
     // Arrange
     var expectedProfileEntity = ProfileImageEntity(image: "hi")
