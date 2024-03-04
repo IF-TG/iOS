@@ -29,4 +29,8 @@ final class MockUserInfoRepository: UserInfoRepository {
       promise(.success(false))
     }
   }
+  
+  func saveProfile(with profile: String) -> Future<Bool, MainError> {
+    return .init { $0(.success(true)) }
+  }
 }
