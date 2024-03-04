@@ -19,7 +19,7 @@ final class DefaultUserInfoUseCase: UserInfoUseCase {
   
   var isProfileUpdated = PassthroughSubject<Bool, MainError>()
   
-  var isProfileSaved: PassthroughSubject<Bool, MainError>
+  var isProfileSaved = PassthroughSubject<Bool, MainError>()
   
   private var subscriptions = Set<AnyCancellable>()
   
