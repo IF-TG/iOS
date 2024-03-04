@@ -8,9 +8,10 @@
 import Combine
 
 final class MockUserInfoRepository: UserInfoRepository {
-  // 임시
   func updateUserNickname(with name: String) -> Future<Bool, MainError> {
-    return .init { $0(.success(true))}
+    return .init { promise in
+      promise(.success(name == "어려운건 정복해나가는 맛이 있는거지"))
+    }
   }
   
   /// 만약 사용자가 "토익은 어려워"라는 닉네임을 입력했을 때 가정
