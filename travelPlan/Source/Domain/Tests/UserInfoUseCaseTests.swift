@@ -83,7 +83,7 @@ final class UserInfoUseCaseTests: XCTestCase {
       "isNicknameUpdated 반환 값이 true여야 하지만 false반환")
   }
   
-  func testuserInfoUseCase_updateProfile함수를통해_프로필업데이트성공적일때_isProfileUpdated프로퍼티가_ShouldReturnEqual() {
+  func testUserInfoUseCase_updateProfile함수를통해_프로필업데이트성공적일때_isProfileUpdated프로퍼티가_ShouldReturnEqual() {
     // Arrange
     var resultValue = false
     let expectedValue = true
@@ -104,7 +104,7 @@ final class UserInfoUseCaseTests: XCTestCase {
       "updateProfile()함수를통해 서버에 호출한 결과로 isProfileUdpated프로퍼티가 true가 반환되야하는데 false반환됨.")
   }
   
-  func testuserInfoUseCase_updateProfile함수를통해_프로필업데이트가실패했을때_isProfileUpdated프로퍼티가_ShouldReturnFalse() {
+  func testUserInfoUseCase_updateProfile함수를통해_프로필업데이트가실패했을때_isProfileUpdated프로퍼티가_ShouldReturnFalse() {
     // Arrange
     var resultValue = true
     
@@ -121,6 +121,44 @@ final class UserInfoUseCaseTests: XCTestCase {
     XCTAssertFalse(
       resultValue,
       "updateProfile()함수를통해 서버에 호출한 결과로 isProfileUdpated프로퍼티가 false가 반환되야하는데 true반환됨.")
+  }
+  
+  func testUserInfoUseCase_saveProfile함수를통해_프로필저장이_성공했을때_isProfileSaved프로퍼티_ShouldReturnTrue() {
+    // Arrange
+    var resultValue = false
+    
+    // Act
+    subscription = sut.isProfileSaved.sink { _ in
+    } receiveValue: { [unowned self] in
+      resultValue = $0
+      expectation.fulfill()
+    }
+    sut.saveProfile(with: "성장해나가자보자구!!!")
+    wait(for: [expectation], timeout: 4)
+    
+    // Assert
+    XCTAssertTrue(
+      resultValue,
+      "saveProfile()함수를통해 서버에 호출한 결과로 isProfileSaved프로퍼티가 true가 반환되야하는데 false반환됨.")
+  }
+  
+  func testUserInfoUseCase_saveProfile함수를통해_프로필저장이_실패했을때_isProfileSaved프로퍼티_ShouldReturnFalse() {
+    // Arrange
+    var resultValue = true
+    
+    // Act
+    subscription = sut.isProfileSaved.sink { _ in
+    } receiveValue: { [unowned self] in
+      resultValue = $0
+      expectation.fulfill()
+    }
+    sut.saveProfile(with: "!!!!")
+    wait(for: [expectation], timeout: 4)
+    
+    // Assert
+    XCTAssertFalse(
+      resultValue,
+      "saveProfile()함수를통해 서버에 호출한 결과로 isProfileSaved프로퍼티가 false가 반환되야하는데 true반환됨.")
   }
   
   func testUserInfoUseCase_fetchProfile함수를통해_사용자의프로필을받아올때_fetchedProfile프로퍼티_반환값이예상값과일치하는지_ShouldReturnEqual() {
