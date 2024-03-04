@@ -14,6 +14,7 @@ enum RequestType {
   case custom(String)
   case userProfileUpdate
   case userProfileSave
+  case userProfileDelete
   
   var path: String {
     switch self {
@@ -25,6 +26,8 @@ enum RequestType {
       return "profile/upload"
     case .userProfileSave:
       return "profile/upload"
+    case .userProfileDelete:
+      return "profile"
     case .custom(let requestPath):
       return requestPath
     }
