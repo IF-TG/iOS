@@ -29,7 +29,10 @@ struct UserInfoAPIEndpoint {
     parameters: [.query(requestDTO)],
     requestType: .userNameDuplicateCheck)
   }
-  
+}
+
+/// About profile CRUD
+extension UserInfoAPIEndpoint {
   static func updateProfile(
     withQuery queryRequestDTO: UserIdReqeustDTO,
     body bodyReqeustDTO: UserProfileRequestDTO
@@ -37,7 +40,7 @@ struct UserInfoAPIEndpoint {
     return Endpoint<CommonDTO<UserProfileResponseDTO>>(
       scheme: "http",
       host: "localhost:8080",
-      method: .post,
+      method: .put,
       parameters: [.query(queryRequestDTO), .body(bodyReqeustDTO)],
       requestType: .userProfileUpdate)
   }
