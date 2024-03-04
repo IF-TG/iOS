@@ -98,4 +98,21 @@ extension DefaultUserInfoRepository: UserInfoRepository {
         }.store(in: &subscriptions)
     }
   }
+  
+  func deleteProfile() -> Future<Bool, MainError> {
+    // TODO: - UserDefaults 관리 담당 객체를 통해 로그인 한 사용자의 userID를 가져와야 합니다.
+    let requestDTO = UserIdReqeustDTO(userId: 13)
+    let endpoint = UserInfoAPIEndpoint.deleteProfile(with: requestDTO)
+    return Future<Bool, MainError> { [unowned self] promise in
+      service.request(endpoint: endpoint)
+        .mapError { MainError.networkError($0) }
+        .sink { completion in
+          if case .failure(let error) = completion {
+            promise(.failure(error))
+          }
+        } receiveValue: { responseDTO in
+          promise(.success(responseDTO.result))
+        }.store(in: &subscriptions)
+    }
+  }
 }
