@@ -21,6 +21,8 @@ final class DefaultUserInfoUseCase: UserInfoUseCase {
   
   var isProfileSaved = PassthroughSubject<Bool, MainError>()
   
+  var isProfileDeleted = PassthroughSubject<Bool, MainError>()
+  
   private var subscriptions = Set<AnyCancellable>()
   
   // MARK: - Lifecycle
@@ -74,6 +76,18 @@ final class DefaultUserInfoUseCase: UserInfoUseCase {
       .sink { [weak self] completion in
         if case .failure(let error) = completion {
           self?.isProfileSaved.send(completion: .failure(error))
+        }
+      } receiveValue: { [weak self] result in
+        self?.isProfileSaved.send(result)
+      }.store(in: &subscriptions)
+  }
+  
+  func deleteProfile() {
+    userInfoRepository.deleteProfile()
+      .receive(on: DispatchQueue.main)
+      .sink { [weak self] completion in
+        if case .failure(let error) = completion {
+          self?.isProfileDeleted.send(completion: .failure(error))
         }
       } receiveValue: { [weak self] result in
         self?.isProfileSaved.send(result)
