@@ -92,7 +92,7 @@ final class DefaultUserInfoUseCase: UserInfoUseCase {
           self?.isProfileDeleted.send(completion: .failure(error))
         }
       } receiveValue: { [weak self] result in
-        self?.isProfileSaved.send(result)
+        self?.isProfileDeleted.send(result)
       }.store(in: &subscriptions)
   }
   
