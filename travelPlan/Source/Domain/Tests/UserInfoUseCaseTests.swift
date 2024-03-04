@@ -83,9 +83,49 @@ final class UserInfoUseCaseTests: XCTestCase {
       "isNicknameUpdated 반환 값이 true여야 하지만 false반환")
   }
   
+  func testuserInfoUseCase_updateProfile함수를통해_프로필업데이트성공적일때_isProfileUpdated프로퍼티가_ShouldReturnEqual() {
+    // Arrange
+    var resultValue = false
+    let expectedValue = true
+    
+    // Act
+    subscription = sut.isProfileUpdated.sink { _ in
+    } receiveValue: { [unowned self] in
+      resultValue = $0
+      expectation.fulfill()
+    }
+    sut.updateProfile(with: "base64인코딩된데이터")
+    wait(for: [expectation], timeout: 3.00001)
+    
+    // Assert
+    XCTAssertEqual(
+      resultValue,
+      expectedValue,
+      "updateProfile()함수를통해 서버에 호출한 결과로 isProfileUdpated프로퍼티가 true가 반환되야하는데 false반환됨.")
+  }
+  
+  func testuserInfoUseCase_updateProfile함수를통해_프로필업데이트가실패했을때_isProfileUpdated프로퍼티가_ShouldReturnFalse() {
+    // Arrange
+    var resultValue = true
+    
+    // Act
+    subscription = sut.isProfileUpdated.sink { _ in
+    } receiveValue: { [unowned self] in
+      resultValue = $0
+      expectation.fulfill()
+    }
+    sut.updateProfile(with: "무슨이유에서인지실패..")
+    wait(for: [expectation], timeout: 3.00001)
+    
+    // Assert
+    XCTAssertFalse(
+      resultValue,
+      "updateProfile()함수를통해 서버에 호출한 결과로 isProfileUdpated프로퍼티가 false가 반환되야하는데 true반환됨.")
+  }
+  
   func testUserInfoUseCase_fetchProfile함수를통해_사용자의프로필을받아올때_fetchedProfile프로퍼티_반환값이예상값과일치하는지_ShouldReturnEqual() {
     // Arrange
-    var expectedProfileEntity = ProfileImageEntity(image: "hi")
+    let expectedProfileEntity = ProfileImageEntity(image: "hi")
     var requestedProfileEntity = ProfileImageEntity(image: "")
     
     // Act
