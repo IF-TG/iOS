@@ -32,7 +32,9 @@ final class MockUserInfoRepository: UserInfoRepository {
   }
   
   func saveProfile(with profile: String) -> Future<Bool, MainError> {
-    return .init { $0(.success(true)) }
+    return .init { promise in
+      promise(.success(profile == "성장해나가자보자구!!!"))
+    }
   }
   
   func deleteProfile() -> Future<Bool, MainError> {
