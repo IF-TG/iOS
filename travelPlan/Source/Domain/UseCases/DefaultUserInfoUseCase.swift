@@ -23,6 +23,8 @@ final class DefaultUserInfoUseCase: UserInfoUseCase {
   
   var isProfileDeleted = PassthroughSubject<Bool, MainError>()
   
+  var fetchedProfile = PassthroughSubject<ProfileImageEntity, MainError>()
+  
   private var subscriptions = Set<AnyCancellable>()
   
   // MARK: - Lifecycle
@@ -91,6 +93,17 @@ final class DefaultUserInfoUseCase: UserInfoUseCase {
         }
       } receiveValue: { [weak self] result in
         self?.isProfileSaved.send(result)
+      }.store(in: &subscriptions)
+  }
+  
+  func fetchProfile() {
+    userInfoRepository.fetchProfile()
+      .receive(on: DispatchQueue.main)
+      .sink { [weak self] completion in
+        guard case .failure(let error) = completion else { return }
+        self?.fetchedProfile.send(completion: .failure(error))
+      } receiveValue: { [weak self] entity in
+        self?.fetchedProfile.send(entity)
       }.store(in: &subscriptions)
   }
 }
