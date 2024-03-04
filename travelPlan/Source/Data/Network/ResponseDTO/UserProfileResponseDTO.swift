@@ -9,7 +9,7 @@ import Foundation
 
 struct UserProfileResponseDTO: Decodable {
   let imageURL: String
-  let userID: String
+  let userID: Int64
   
   enum CodingKeys: String, CodingKey {
     case imageURL = "imageUrl"
@@ -19,7 +19,7 @@ struct UserProfileResponseDTO: Decodable {
   init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
     self.imageURL = try container.decode(String.self, forKey: .imageURL)
-    self.userID = try container.decode(String.self, forKey: .userID)
+    self.userID = try container.decode(Int64.self, forKey: .userID)
   }
 }
 
