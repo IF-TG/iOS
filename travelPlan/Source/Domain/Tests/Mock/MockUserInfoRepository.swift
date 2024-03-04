@@ -34,7 +34,7 @@ final class MockUserInfoRepository: UserInfoRepository {
     return .init { $0(.success(true)) }
   }
   
-  func deleteProfile(with profile: String) -> Future<Bool, MainError> {
+  func deleteProfile() -> Future<Bool, MainError> {
     return .init { $0(.success(true)) }
   }
 }

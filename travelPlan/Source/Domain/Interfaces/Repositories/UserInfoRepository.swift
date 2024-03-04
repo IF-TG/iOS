@@ -13,5 +13,5 @@ protocol UserInfoRepository {
   func updateUserNickname(with name: String) -> Future<Bool, MainError>
   func updateProfile(with profile: String) -> Future<Bool, MainError>
   func saveProfile(with profile: String) -> Future<Bool, MainError>
-  func deleteProfile(with profile: String) -> Future<Bool, MainError>
+  func deleteProfile() -> Future<Bool, MainError>
 }
