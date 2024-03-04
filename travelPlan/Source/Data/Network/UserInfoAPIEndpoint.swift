@@ -32,6 +32,7 @@ struct UserInfoAPIEndpoint {
 }
 
 /// About profile CRUD
+/// 이미 디비에 존재하는 프로필에 save호출 시 서버에 중복 저장 될 수 있습니다.
 extension UserInfoAPIEndpoint {
   static func updateProfile(
     withQuery queryRequestDTO: UserIdReqeustDTO,
@@ -43,5 +44,17 @@ extension UserInfoAPIEndpoint {
       method: .put,
       parameters: [.query(queryRequestDTO), .body(bodyReqeustDTO)],
       requestType: .userProfileUpdate)
+  }
+  
+  static func saveProfile(
+    withQuery queryReqeustDTO: UserIdReqeustDTO,
+    body bodyReqeustDTO: UserProfileRequestDTO
+  ) -> Endpoint<CommonDTO<UserProfileResponseDTO>> {
+    return Endpoint<CommonDTO<UserProfileResponseDTO>>(
+      scheme: "http",
+      host: "localhost:8080",
+      method: .post,
+      parameters: [.query(queryReqeustDTO), .body(bodyReqeustDTO)],
+      requestType: .userProfileSave)
   }
 }
