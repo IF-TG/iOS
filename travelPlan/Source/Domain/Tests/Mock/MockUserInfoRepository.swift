@@ -37,4 +37,8 @@ final class MockUserInfoRepository: UserInfoRepository {
   func deleteProfile() -> Future<Bool, MainError> {
     return .init { $0(.success(true)) }
   }
+  
+  func fetchProfile() -> Future<ProfileImageEntity, MainError> {
+    return .init { $0(.success(ProfileImageEntity(image: "hi"))) }
+  }
 }
