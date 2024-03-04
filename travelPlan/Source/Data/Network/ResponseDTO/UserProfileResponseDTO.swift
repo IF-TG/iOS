@@ -22,3 +22,10 @@ struct UserProfileResponseDTO: Decodable {
     self.userID = try container.decode(String.self, forKey: .userID)
   }
 }
+
+// MARK: - Mappings to Domain
+extension UserProfileResponseDTO {
+  func toDomain() -> ProfileImageEntity {
+    return .init(image: imageURL)
+  }
+}
