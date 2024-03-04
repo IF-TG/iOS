@@ -44,4 +44,25 @@ final class UserInfoUseCaseTests: XCTestCase {
     
     wait(for: [expectation], timeout: 5)
   }
+  
+  func testUserInfoUseCase_fetchProfile함수를통해_사용자의프로필을받아올때_fetchedProfile프로퍼티_반환값이예상값과일치하는지_ShouldReturnEqual() {
+    // Arrange
+    var expectedProfileEntity = ProfileImageEntity(image: "hi")
+    var requestedProfileEntity = ProfileImageEntity(image: "")
+    
+    // Act
+    subscription = sut.fetchedProfile.sink { _ in
+    } receiveValue: { [unowned self] requestedValue in
+      requestedProfileEntity = requestedValue
+      expectation.fulfill()
+    }
+    sut.fetchProfile()
+    wait(for: [expectation], timeout: 5)
+    
+    // Assert
+    XCTAssertEqual(
+      expectedProfileEntity.image,
+      requestedProfileEntity.image,
+      "isDuplicatedName 변수 반환값이 true여야 하지만 false 반환")
+  }
 }
