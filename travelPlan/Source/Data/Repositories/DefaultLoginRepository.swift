@@ -28,15 +28,16 @@ extension DefaultLoginRepository: LoginRepository {
       let endpoint = LoginAPIEndPoints.getAppleAuthToken(requestDTO: requestDTO)
       self.session
         .request(endpoint: endpoint)
+        .map { $0.result }
         .sink { completion in
           if case let .failure(error) = completion {
             print("DEBUG: \(error.localizedDescription)")
             promise(.success(false))
           }
-        } receiveValue: { [weak self] response in
+        } receiveValue: { [weak self] responseDTO in
           guard let self = self else { return }
-          keyChainManager.addToken(response.accessToken, forKey: .accessToken)
-          keyChainManager.addToken(response.refreshToken, forKey: .refreshToken)
+          keyChainManager.addToken(responseDTO.accessToken, forKey: .accessToken)
+          keyChainManager.addToken(responseDTO.refreshToken, forKey: .refreshToken)
           promise(.success(true))
         }
         .store(in: &self.subscriptions)

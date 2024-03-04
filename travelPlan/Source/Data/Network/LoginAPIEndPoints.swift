@@ -8,8 +8,8 @@
 import Foundation
 
 struct LoginAPIEndPoints {
-  static func getAppleAuthToken(requestDTO body: LoginRequestDTO) -> Endpoint<LoginResponseDTO> {
-    return Endpoint<LoginResponseDTO>(
+  static func getAppleAuthToken(requestDTO body: LoginRequestDTO) -> Endpoint<CommonDTO<LoginResponseDTO>> {
+    return Endpoint<CommonDTO<LoginResponseDTO>>(
       scheme: "https",
       host: "test.com",
       method: .post,
