@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum TravelRegion: String, CaseIterable {
+@frozen enum TravelRegion: String, CaseIterable {
   case seoul = "서울"
   case busan = "부산"
   case incheon = "인천"

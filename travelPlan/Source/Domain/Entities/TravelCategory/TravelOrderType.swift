@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum TravelOrderType: String, CaseIterable, Equatable {
+@frozen enum TravelOrderType: String, CaseIterable, Equatable {
   case newest = "최신순"
   case popularity = "인기순"
 }

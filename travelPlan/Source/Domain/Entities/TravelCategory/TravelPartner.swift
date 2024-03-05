@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum TravelPartner: String, CaseIterable {
+@frozen enum TravelPartner: String, CaseIterable {
   case alone = "혼자"
   case family = "가족과 함께"
   case parents = "부모님과 함께"
