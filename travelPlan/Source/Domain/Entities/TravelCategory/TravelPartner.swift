@@ -16,3 +16,25 @@ enum TravelPartner: String, CaseIterable {
   case friend = "친구와 함께"
   case pet = "애완견과 함게"
 }
+
+// MARK: - Mappings toDTO
+extension TravelPartner {
+  func toDTO() -> String {
+    return switch self {
+    case .alone:
+      "ALONE"
+    case .family:
+      "FAMILY"
+    case .parents:
+      "PARENTS"
+    case .children:
+      "WITH_CHILDREN"
+    case .lover:
+      "PARTNER"
+    case .friend:
+      "FRIEND"
+    case .pet:
+      "PET"
+    }
+  }
+}
