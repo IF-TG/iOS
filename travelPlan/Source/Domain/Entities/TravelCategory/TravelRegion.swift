@@ -27,6 +27,50 @@ import Foundation
   case jejuSpecialSelfGoverningProvince = "제주특별자치도"
 }
 
+// MARK: - RawRepresentable
+extension TravelRegion: RawRepresentable {
+  init?(rawValue: String) {
+    switch rawValue {
+    case "SEOUL":
+      self = .seoul
+    case "BUSAN":
+      self = .busan
+    case "INCHEON":
+      self = .incheon
+    case "DAEGU":
+      self = .daegu
+    case "GWANGJU":
+      self = .gwangju
+    case "DAEJEON":
+      self = .daejeon
+    case "ULSAN":
+      self = .ulsan
+    case "SEJONG":
+      self = .sejong
+    case "GYEONGGI":
+      self = .gyeonggido
+    case "CHUNGBUK":
+      self = .chungcheongbukdo
+    case "CHUNGNAM":
+      self = .chungcheongnamdo
+    case "JEONBUK":
+      self = .jeollabukdo
+    case "JEONNAM":
+      self = .jeollanamdo
+    case "GYEONGBUK":
+      self = .gyeongsangbukdo
+    case "GYEONGNAM":
+      self = .gyeongsangnamdo
+    case "GANGWON":
+      self = .gangwonSpecialSelfGoverningProvince
+    case "JEJU":
+      self = .jejuSpecialSelfGoverningProvince
+    default:
+      return nil
+    }
+  }
+}
+
 // MARK: - Mappings toDTO
 extension TravelRegion {
   func toDTO() -> String {
