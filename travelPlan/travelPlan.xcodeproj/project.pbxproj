@@ -132,6 +132,7 @@
 		15259DEA2ACAA9D800C14F62 /* SearchFestivalCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13274C592A59AD29001F141C /* SearchFestivalCellViewModel.swift */; };
 		15259DEB2ACAA9F600C14F62 /* PostSearchFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C07ECC2A13F454005F04CD /* PostSearchFooterView.swift */; };
 		15259DEC2ACAAAB200C14F62 /* LocationSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EF8C042A0829FD0068C744 /* LocationSearchViewController.swift */; };
+		152603D72B97A4BC00634299 /* PostsRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152603D62B97A4BC00634299 /* PostsRequestDTO.swift */; };
 		152AD4F02A189CFC008A2A11 /* FavoriteHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152AD4EF2A189CFC008A2A11 /* FavoriteHeaderView.swift */; };
 		152AD4F62A18B6C3008A2A11 /* FavoriteHeaderImageViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152AD4F52A18B6C3008A2A11 /* FavoriteHeaderImageViews.swift */; };
 		152AD51B2A1A0447008A2A11 /* FavoriteTableViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152AD51A2A1A0447008A2A11 /* FavoriteTableViewAdapter.swift */; };
@@ -213,6 +214,7 @@
 		159F38BF2AFAA329000A24C2 /* PostDetailTitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159F38BE2AFAA329000A24C2 /* PostDetailTitleCell.swift */; };
 		159F38CA2AFAABF9000A24C2 /* PostDetailProfileAreaFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159F38C92AFAABF9000A24C2 /* PostDetailProfileAreaFooterView.swift */; };
 		15A0E19F2B97A3BD0047D662 /* PostResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A0E19E2B97A3BC0047D662 /* PostResponseDTO.swift */; };
+		15A0E1A12B97A3FD0047D662 /* PostContainerResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A0E1A02B97A3FD0047D662 /* PostContainerResponseDTO.swift */; };
 		15A4F28B2ACC072A001AA51D /* PrimaryColorToneRoundLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A4F28A2ACC072A001AA51D /* PrimaryColorToneRoundLabel.swift */; };
 		15A4F28D2ACC1025001AA51D /* Toggable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A4F28C2ACC1025001AA51D /* Toggable.swift */; };
 		15A4F28F2ACC11E5001AA51D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A4F28E2ACC11E5001AA51D /* ViewController.swift */; };
@@ -524,6 +526,7 @@
 		151DF10C2AEEC77800D5D55B /* MockUrlProtocol+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MockUrlProtocol+.swift"; sourceTree = "<group>"; };
 		151DF10E2AEECBB400D5D55B /* mock_response_notice.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = mock_response_notice.json; sourceTree = "<group>"; };
 		151DF1112AEECDDD00D5D55B /* NoticeViewModelable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeViewModelable.swift; sourceTree = "<group>"; };
+		152603D62B97A4BC00634299 /* PostsRequestDTO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostsRequestDTO.swift; sourceTree = "<group>"; };
 		152AD4E72A188D33008A2A11 /* FavoriteTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteTableViewCell.swift; sourceTree = "<group>"; };
 		152AD4ED2A1891DB008A2A11 /* UISpacing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UISpacing.swift; sourceTree = "<group>"; };
 		152AD4EF2A189CFC008A2A11 /* FavoriteHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteHeaderView.swift; sourceTree = "<group>"; };
@@ -609,6 +612,7 @@
 		159F38BE2AFAA329000A24C2 /* PostDetailTitleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailTitleCell.swift; sourceTree = "<group>"; };
 		159F38C92AFAABF9000A24C2 /* PostDetailProfileAreaFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailProfileAreaFooterView.swift; sourceTree = "<group>"; };
 		15A0E19E2B97A3BC0047D662 /* PostResponseDTO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostResponseDTO.swift; sourceTree = "<group>"; };
+		15A0E1A02B97A3FD0047D662 /* PostContainerResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostContainerResponseDTO.swift; sourceTree = "<group>"; };
 		15A4F28A2ACC072A001AA51D /* PrimaryColorToneRoundLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryColorToneRoundLabel.swift; sourceTree = "<group>"; };
 		15A4F28C2ACC1025001AA51D /* Toggable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toggable.swift; sourceTree = "<group>"; };
 		15A4F28E2ACC11E5001AA51D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -1223,6 +1227,7 @@
 				151DF1042AEEBE0F00D5D55B /* NoticeResponseDTO.swift */,
 				15A0E19E2B97A3BC0047D662 /* PostResponseDTO.swift */,
 				15D655832B8E085300466FEC /* CommonDTO.swift */,
+				15A0E1A02B97A3FD0047D662 /* PostContainerResponseDTO.swift */,
 			);
 			path = ResponseDTO;
 			sourceTree = "<group>";
@@ -1813,6 +1818,7 @@
 			isa = PBXGroup;
 			children = (
 				15D655862B8E0ABF00466FEC /* UserNicknameRequestDTO.swift */,
+				152603D62B97A4BC00634299 /* PostsRequestDTO.swift */,
 				155D0BAB2B90CB5B0042DFB6 /* UserNicknamePatchRequestDTO.swift */,
 			);
 			path = RequestDTO;
@@ -2466,6 +2472,7 @@
 				154ECA172AB0B5D40093AF25 /* TravelMainThemeType.swift in Sources */,
 				15D37F7D2B977DF7000E8FDB /* PostUseCase.swift in Sources */,
 				152AD51B2A1A0447008A2A11 /* FavoriteTableViewAdapter.swift in Sources */,
+				15A0E1A12B97A3FD0047D662 /* PostContainerResponseDTO.swift in Sources */,
 				155D0BB72B90DAB10042DFB6 /* MainError.swift in Sources */,
 				15F0D1BE2A52940F00D04773 /* PostViewBottomSheetViewController.swift in Sources */,
 				157ADC9E2ACFAAFA00D37680 /* FavoritePostViewAdapter.swift in Sources */,
@@ -2671,6 +2678,7 @@
 				15259DEC2ACAAAB200C14F62 /* LocationSearchViewController.swift in Sources */,
 				15BB01B62A1EB5000035B486 /* LoginViewController.swift in Sources */,
 				13606E882A9DDE7D00365F20 /* PostRecentSearchTagCell.swift in Sources */,
+				152603D72B97A4BC00634299 /* PostsRequestDTO.swift in Sources */,
 				13254FE92A0515A900094218 /* PlanViewController.swift in Sources */,
 				15FFAC3C2ADE50880013DB57 /* PostHeaderContentInfo.swift in Sources */,
 				13606E942AA187F500365F20 /* PostSearchTagLabel.swift in Sources */,
