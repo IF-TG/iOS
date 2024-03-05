@@ -13,3 +13,19 @@ enum Season: String, CaseIterable {
   case fall = "가을"
   case winter = "겨울"
 }
+
+// MARK: - Mappings toDTO
+extension Season {
+  func toDTO() -> String {
+    return switch self {
+    case .spring:
+      "SPRING"
+    case .summer:
+      "SUMMER"
+    case .fall:
+      "AUTUMN"
+    case .winter:
+      "WINTER"
+    }
+  }
+}
