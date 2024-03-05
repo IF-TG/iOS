@@ -212,6 +212,7 @@
 		159F38BD2AFAA1F7000A24C2 /* PostDetailCategoryHeaderViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159F38BC2AFAA1F7000A24C2 /* PostDetailCategoryHeaderViewDelegate.swift */; };
 		159F38BF2AFAA329000A24C2 /* PostDetailTitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159F38BE2AFAA329000A24C2 /* PostDetailTitleCell.swift */; };
 		159F38CA2AFAABF9000A24C2 /* PostDetailProfileAreaFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159F38C92AFAABF9000A24C2 /* PostDetailProfileAreaFooterView.swift */; };
+		15A0E19F2B97A3BD0047D662 /* PostResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A0E19E2B97A3BC0047D662 /* PostResponseDTO.swift */; };
 		15A4F28B2ACC072A001AA51D /* PrimaryColorToneRoundLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A4F28A2ACC072A001AA51D /* PrimaryColorToneRoundLabel.swift */; };
 		15A4F28D2ACC1025001AA51D /* Toggable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A4F28C2ACC1025001AA51D /* Toggable.swift */; };
 		15A4F28F2ACC11E5001AA51D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A4F28E2ACC11E5001AA51D /* ViewController.swift */; };
@@ -607,6 +608,7 @@
 		159F38BC2AFAA1F7000A24C2 /* PostDetailCategoryHeaderViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailCategoryHeaderViewDelegate.swift; sourceTree = "<group>"; };
 		159F38BE2AFAA329000A24C2 /* PostDetailTitleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailTitleCell.swift; sourceTree = "<group>"; };
 		159F38C92AFAABF9000A24C2 /* PostDetailProfileAreaFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailProfileAreaFooterView.swift; sourceTree = "<group>"; };
+		15A0E19E2B97A3BC0047D662 /* PostResponseDTO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostResponseDTO.swift; sourceTree = "<group>"; };
 		15A4F28A2ACC072A001AA51D /* PrimaryColorToneRoundLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryColorToneRoundLabel.swift; sourceTree = "<group>"; };
 		15A4F28C2ACC1025001AA51D /* Toggable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toggable.swift; sourceTree = "<group>"; };
 		15A4F28E2ACC11E5001AA51D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -1219,6 +1221,7 @@
 			isa = PBXGroup;
 			children = (
 				151DF1042AEEBE0F00D5D55B /* NoticeResponseDTO.swift */,
+				15A0E19E2B97A3BC0047D662 /* PostResponseDTO.swift */,
 				15D655832B8E085300466FEC /* CommonDTO.swift */,
 			);
 			path = ResponseDTO;
@@ -2626,6 +2629,7 @@
 				15D955AD2ADEA525002BF9C3 /* FeedViewModelable.swift in Sources */,
 				15DA4C832ACD821F003A7900 /* EmptyStateView.swift in Sources */,
 				151DF0EC2AEEAB2600D5D55B /* NoticeViewAdapterDelegate.swift in Sources */,
+				15A0E19F2B97A3BD0047D662 /* PostResponseDTO.swift in Sources */,
 				139DEE3A2B17CAC900363E7B /* SearchDestinationServiceTypeView.swift in Sources */,
 				1546DF3B2B0C5B7C00B49A55 /* ImageDiskCache.swift in Sources */,
 				151DF0DA2AEE6DF700D5D55B /* NoticeViewController.swift in Sources */,
