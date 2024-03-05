@@ -8,6 +8,7 @@
 import Foundation
 
 enum PostFilterOptions {
+  // TODO: - 이것도 TravelOrderType associated value줘야 할거같은데,
   case travelOrder
   case travelMainTheme(TravelMainThemeType)
   
