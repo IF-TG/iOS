@@ -16,6 +16,7 @@ enum TravelTheme: String, CaseIterable {
   case festivals = "축제"
 }
 
+// MARK: - Mappings toDTO
 extension TravelTheme {
   func toDTO() -> String {
     return switch self {
