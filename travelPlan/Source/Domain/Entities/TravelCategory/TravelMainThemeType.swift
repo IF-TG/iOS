@@ -97,3 +97,23 @@ extension TravelMainThemeType: RawRepresentable {
     }
   }
 }
+
+// MARK: - Mappings toDTO
+extension TravelMainThemeType {
+  func toDTO() -> String {
+    return switch self {
+    case .all:
+      ""
+    case .season(let season):
+      season.toDTO()
+    case .region(let region):
+      region.toDTO()
+    case .travelTheme(let theme):
+      theme.toDTO()
+    case .partner(let partner):
+      partner.toDTO()
+    case .categoryDevelop:
+      ""
+    }
+  }
+}
