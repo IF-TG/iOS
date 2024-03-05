@@ -58,7 +58,7 @@ final class CategoryPageView: UIView {
 
 // MARK: - Helpers
 extension CategoryPageView {
-  func setDefaultSortingHeaderUI(from sortingType: PostSearchFilterType) {
+  func setDefaultSortingHeaderUI(from sortingType: PostFilterOptions) {
     guard let targetViewController = postPageViewController.viewControllers?
       .first as? FeedPostViewController
     else { return }

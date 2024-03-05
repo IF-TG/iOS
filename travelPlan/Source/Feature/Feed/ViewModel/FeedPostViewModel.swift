@@ -10,12 +10,12 @@ import Combine
 
 class FeedPostViewModel: PostViewModel {
   // MARK: - Properties
-  private let filterInfo: FeedPostSearchFilterInfo
+  private let filterInfo: PostFilterInfo
   
   private let postUseCase: TempPostUseCase
   
   // MARK: - Lifecycle
-  init(filterInfo: FeedPostSearchFilterInfo, postUseCase: TempPostUseCase) {
+  init(filterInfo: PostFilterInfo, postUseCase: TempPostUseCase) {
     self.postUseCase = postUseCase
     self.filterInfo = filterInfo
     super.init(postUseCase: postUseCase)
@@ -45,7 +45,7 @@ private extension FeedPostViewModel {
 
 // MARK: - FeedPostViewAdapterDataSource
 extension FeedPostViewModel: FeedPostViewAdapterDataSource {
-  var headerItem: PostSearchFilterType {
+  var headerItem: PostFilterOptions {
     return .travelMainTheme(filterInfo.travelTheme)
   }
 }

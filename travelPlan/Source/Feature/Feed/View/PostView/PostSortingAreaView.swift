@@ -50,7 +50,7 @@ final class PostSortingAreaView: UICollectionReusableView {
 
 // MARK: - Helpers
 extension PostSortingAreaView {
-  func configure(with sortingType: PostSearchFilterType) {
+  func configure(with sortingType: PostFilterOptions) {
     travelThemeChevronView.configure(with: sortingType)
   }
   
@@ -88,9 +88,9 @@ extension PostSortingAreaView: LayoutSupport {
 extension PostSortingAreaView: MoreMenuViewDelegate {
   func moreMenuView(
     _ moreMenuView: PostChevronLabel,
-    didSelectedType type: PostSearchFilterType
+    didSelectedType type: PostFilterOptions
   ) {
-    let data: [Notification.Name: PostSearchFilterType] = [.TravelCategoryDetailSelected: type]
+    let data: [Notification.Name: PostFilterOptions] = [.TravelCategoryDetailSelected: type]
     NotificationCenter.default.post(
       name: .TravelCategoryDetailSelected,
       object: nil,
