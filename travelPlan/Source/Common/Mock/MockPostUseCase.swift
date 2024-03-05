@@ -10,7 +10,7 @@ import Combine
 import Foundation
 
 // 임시
-struct MockPostUseCase: PostUseCase {
+struct MockPostUseCase: TempPostUseCase {
   func fetchPosts() -> Future<[PostEntity], AFError> {
     return Future { promise in
       DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {

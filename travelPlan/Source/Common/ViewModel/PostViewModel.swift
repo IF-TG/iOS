@@ -9,7 +9,7 @@ import Alamofire
 import Combine
 import Foundation
 
-protocol PostUseCase {
+protocol TempPostUseCase {
   func fetchPosts() -> Future<[PostEntity], AFError>
 }
 
@@ -32,11 +32,11 @@ class PostViewModel {
   // MARK: - Properties
   @Published private(set) var posts: [PostInfo] = []
   
-  private let defaultUseCase: PostUseCase
+  private let defaultUseCase: TempPostUseCase
   
   private var subscriptions = Set<AnyCancellable>()
   
-  init(postUseCase: PostUseCase) {
+  init(postUseCase: TempPostUseCase) {
     defaultUseCase = postUseCase
     
     bindData()

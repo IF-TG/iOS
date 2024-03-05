@@ -12,10 +12,10 @@ class FeedPostViewModel: PostViewModel {
   // MARK: - Properties
   private let filterInfo: FeedPostSearchFilterInfo
   
-  private let postUseCase: PostUseCase
+  private let postUseCase: TempPostUseCase
   
   // MARK: - Lifecycle
-  init(filterInfo: FeedPostSearchFilterInfo, postUseCase: PostUseCase) {
+  init(filterInfo: FeedPostSearchFilterInfo, postUseCase: TempPostUseCase) {
     self.postUseCase = postUseCase
     self.filterInfo = filterInfo
     super.init(postUseCase: postUseCase)
