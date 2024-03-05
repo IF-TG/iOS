@@ -17,6 +17,30 @@ import Foundation
   case pet = "애완견과 함게"
 }
 
+// MARK: - RawRepresentable
+extension TravelPartner: RawRepresentable {
+  init?(rawValue: String) {
+    switch rawValue {
+    case "ALONE":
+      self = .alone
+    case "FAMILY":
+      self = .family
+    case "PARENTS":
+      self = .parents
+    case "WITH_CHILDREN":
+      self = .children
+    case "PARTNER":
+      self = .lover
+    case "FRIEND":
+      self = .friend
+    case "PET":
+      self = .pet
+    default:
+      return nil
+    }
+  }
+}
+
 // MARK: - Mappings toDTO
 extension TravelPartner {
   func toDTO() -> String {
