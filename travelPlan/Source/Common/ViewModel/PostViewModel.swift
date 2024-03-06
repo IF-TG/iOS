@@ -10,11 +10,11 @@ import Combine
 import Foundation
 
 protocol TempPostUseCase {
-  func fetchPosts() -> Future<[PostEntity], AFError>
+  func fetchPosts() -> Future<[TempPostEntity], AFError>
 }
 
 // FIXME: - 임시적으로 추가했습니다.
-struct PostEntity {
+struct TempPostEntity {
   let id: Int
   let profileImageURL: String
   let title: String
