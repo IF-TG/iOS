@@ -27,8 +27,8 @@ struct TravelThemeMapper {
     }
   }
   
-  static func toDTO(_ theme: TravelTheme) -> String {
-    return switch theme {
+  static func toDTO(_ requestValue: TravelTheme) -> String {
+    return switch requestValue {
     case .relaxation:
       "REST"
     case .shopping:

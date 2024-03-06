@@ -29,8 +29,8 @@ struct TravelPartnerMapper {
     }
   }
   
-  static func toDTO(_ partner: TravelPartner) -> String {
-    return switch partner {
+  static func toDTO(_ requestValue: TravelPartner) -> String {
+    return switch requestValue {
     case .alone:
       "ALONE"
     case .family:

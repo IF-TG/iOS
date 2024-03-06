@@ -49,8 +49,8 @@ struct TravelRegionMapper {
     }
   }
   
-  static func toDTO(_ theme: TravelRegion) -> String {
-    return switch theme {
+  static func toDTO(_ requestValue: TravelRegion) -> String {
+    return switch requestValue {
     case .seoul:
       "SEOUL"
     case .busan:

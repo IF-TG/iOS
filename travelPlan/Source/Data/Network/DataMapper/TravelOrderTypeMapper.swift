@@ -19,8 +19,8 @@ struct TravelOrderTypeMapper {
     }
   }
   
-  static func toDTO(_ theme: TravelOrderType) -> String {
-    return switch theme {
+  static func toDTO(_ requestValue: TravelOrderType) -> String {
+    return switch requestValue {
     case .newest:
       "RECENT_ORDER"
     case .popularity:
