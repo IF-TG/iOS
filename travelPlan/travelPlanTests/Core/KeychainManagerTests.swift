@@ -13,6 +13,7 @@ final class KeychainManagerTests: XCTestCase {
   var sut: KeychainManager!
   var key: String!
   var value: Data!
+  
   // MARK: - LifeCycle
   override func setUp() {
     sut = KeychainManager.shared
