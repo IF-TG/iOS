@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct PostEntity {
+struct Post {
   let liked: Bool
   let sort: Bool
   let post: Post
@@ -15,7 +15,7 @@ struct PostEntity {
 }
 
 // MARK: - Nested
-extension PostEntity {
+extension Post {
   struct Post {
     let postID: Int64
     let title: String
