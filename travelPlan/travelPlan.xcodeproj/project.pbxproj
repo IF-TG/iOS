@@ -332,6 +332,12 @@
 		15FB47EF2AC1772C0033AA18 /* PostRecommendationSearchTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1325502E2A0B4BD700094218 /* PostRecommendationSearchTagCell.swift */; };
 		15FB47F12AC1DCEF0033AA18 /* TravelMainThemeCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FB47F02AC1DCEF0033AA18 /* TravelMainThemeCollectionView.swift */; };
 		15FBA7E52B1343CB00C9B1E7 /* PostThumbnailValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FBA7E42B1343CB00C9B1E7 /* PostThumbnailValue.swift */; };
+		15FBD5CE2B98D13D00076115 /* TravelPartnerMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FBD5CD2B98D13D00076115 /* TravelPartnerMapper.swift */; };
+		15FBD5D02B98D90500076115 /* TravelThemeMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FBD5CF2B98D90500076115 /* TravelThemeMapper.swift */; };
+		15FBD5D22B98DA0E00076115 /* TravelOrderTypeMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FBD5D12B98DA0E00076115 /* TravelOrderTypeMapper.swift */; };
+		15FBD5D42B98DAB000076115 /* TravelRegionMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FBD5D32B98DAB000076115 /* TravelRegionMapper.swift */; };
+		15FBD5D62B98DB5F00076115 /* SeasonMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FBD5D52B98DB5F00076115 /* SeasonMapper.swift */; };
+		15FBD5D82B98DC6E00076115 /* TravelMainThemeTypeMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FBD5D72B98DC6E00076115 /* TravelMainThemeTypeMapper.swift */; };
 		15FC90D62ACC1BB50033A1E5 /* PrimaryColorToneRoundButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FC90D52ACC1BB50033A1E5 /* PrimaryColorToneRoundButton.swift */; };
 		15FC90D92ACC56280033A1E5 /* FavoriteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152AD4E72A188D33008A2A11 /* FavoriteTableViewCell.swift */; };
 		15FDCC912AE03F4A00716CC6 /* InnerRoundRectReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FDCC902AE03F4A00716CC6 /* InnerRoundRectReusableView.swift */; };
@@ -724,6 +730,12 @@
 		15FB47D62AC0407D0033AA18 /* PostFilterInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostFilterInfo.swift; sourceTree = "<group>"; };
 		15FB47F02AC1DCEF0033AA18 /* TravelMainThemeCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelMainThemeCollectionView.swift; sourceTree = "<group>"; };
 		15FBA7E42B1343CB00C9B1E7 /* PostThumbnailValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostThumbnailValue.swift; sourceTree = "<group>"; };
+		15FBD5CD2B98D13D00076115 /* TravelPartnerMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelPartnerMapper.swift; sourceTree = "<group>"; };
+		15FBD5CF2B98D90500076115 /* TravelThemeMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelThemeMapper.swift; sourceTree = "<group>"; };
+		15FBD5D12B98DA0E00076115 /* TravelOrderTypeMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelOrderTypeMapper.swift; sourceTree = "<group>"; };
+		15FBD5D32B98DAB000076115 /* TravelRegionMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelRegionMapper.swift; sourceTree = "<group>"; };
+		15FBD5D52B98DB5F00076115 /* SeasonMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonMapper.swift; sourceTree = "<group>"; };
+		15FBD5D72B98DC6E00076115 /* TravelMainThemeTypeMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelMainThemeTypeMapper.swift; sourceTree = "<group>"; };
 		15FC90D52ACC1BB50033A1E5 /* PrimaryColorToneRoundButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryColorToneRoundButton.swift; sourceTree = "<group>"; };
 		15FDCC902AE03F4A00716CC6 /* InnerRoundRectReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InnerRoundRectReusableView.swift; sourceTree = "<group>"; };
 		15FEB5DA2A050A99000A5F33 /* UIControl+Combine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIControl+Combine.swift"; sourceTree = "<group>"; };
@@ -1212,6 +1224,7 @@
 		151DF0FF2AEEBC0700D5D55B /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				15FBD5CC2B98D00200076115 /* DataMapper */,
 				15D655852B8E0A5A00466FEC /* RequestDTO */,
 				151DF1022AEEBDE100D5D55B /* ResponseDTO */,
 				15D655962B8E1C6900466FEC /* Tests */,
@@ -1987,6 +2000,19 @@
 			path = CategoryPageViewAdapterProtocol;
 			sourceTree = "<group>";
 		};
+		15FBD5CC2B98D00200076115 /* DataMapper */ = {
+			isa = PBXGroup;
+			children = (
+				15FBD5CD2B98D13D00076115 /* TravelPartnerMapper.swift */,
+				15FBD5CF2B98D90500076115 /* TravelThemeMapper.swift */,
+				15FBD5D12B98DA0E00076115 /* TravelOrderTypeMapper.swift */,
+				15FBD5D32B98DAB000076115 /* TravelRegionMapper.swift */,
+				15FBD5D52B98DB5F00076115 /* SeasonMapper.swift */,
+				15FBD5D72B98DC6E00076115 /* TravelMainThemeTypeMapper.swift */,
+			);
+			path = DataMapper;
+			sourceTree = "<group>";
+		};
 		15FEB5D82A050A99000A5F33 /* Common */ = {
 			isa = PBXGroup;
 			children = (
@@ -2420,8 +2446,10 @@
 				13405F082AEE212500382796 /* GoogleLoginButton.swift in Sources */,
 				15259DEA2ACAA9D800C14F62 /* SearchFestivalCellViewModel.swift in Sources */,
 				15CC64142A1DD4EF00857446 /* ConvenienceInit.swift in Sources */,
+				15FBD5D22B98DA0E00076115 /* TravelOrderTypeMapper.swift in Sources */,
 				15D655952B8E17D400466FEC /* MockUserInfoRepository.swift in Sources */,
 				1503F9312A4E0A4F002BC38D /* MainCoordinator.swift in Sources */,
+				15FBD5D82B98DC6E00076115 /* TravelMainThemeTypeMapper.swift in Sources */,
 				15DE36B92AB853900030CCCC /* TravelThemeBottomSheetCell.swift in Sources */,
 				15F3765E2AFBF1A500B3BF35 /* PostDetailCommentHeader.swift in Sources */,
 				151DF0DC2AEE6EB500D5D55B /* NotificationViewController.swift in Sources */,
@@ -2579,6 +2607,7 @@
 				15BB01B82A1EB5070035B486 /* LoginViewModel.swift in Sources */,
 				1599587B2B0DC55700B2E4DC /* PostCellWithTwoThumbnails.swift in Sources */,
 				15FB47F12AC1DCEF0033AA18 /* TravelMainThemeCollectionView.swift in Sources */,
+				15FBD5D62B98DB5F00076115 /* SeasonMapper.swift in Sources */,
 				15C1F53E2AF2904C005FDA15 /* NotificationCell.swift in Sources */,
 				158BEFC42A0EC8A100C27861 /* UIView+CustomAnimation.swift in Sources */,
 				151DF0EA2AEEA7BA00D5D55B /* NoticeViewAdapterDataSource.swift in Sources */,
@@ -2632,6 +2661,7 @@
 				158BEFC22A0EB45300C27861 /* UIFont+.swift in Sources */,
 				158695992AE621010087CCB3 /* FeedPostViewModelable.swift in Sources */,
 				13405F6B2AF665B100382796 /* ReviewWritingCoordinator.swift in Sources */,
+				15FBD5CE2B98D13D00076115 /* TravelPartnerMapper.swift in Sources */,
 				15B4E5F12ACAA947001CF071 /* SearchStarButton.swift in Sources */,
 				15D955AD2ADEA525002BF9C3 /* FeedViewModelable.swift in Sources */,
 				15DA4C832ACD821F003A7900 /* EmptyStateView.swift in Sources */,
@@ -2686,6 +2716,7 @@
 				15FFAC072AD6ED5B0013DB57 /* Endpoint.swift in Sources */,
 				15CB235F2A10B5B8003EAF20 /* DateValidationManager.swift in Sources */,
 				15EF8CA32A0A197C0068C744 /* CategoryPageView.swift in Sources */,
+				15FBD5D02B98D90500076115 /* TravelThemeMapper.swift in Sources */,
 				159958832B0DDFED00B2E4DC /* UIStackView+Helpers.swift in Sources */,
 				15B928652AFA3980003A20D4 /* PostDetailContentFooterView.swift in Sources */,
 				15C1F53C2AF27043005FDA15 /* NotificationViewAdapter.swift in Sources */,
@@ -2724,6 +2755,7 @@
 				15FFABFD2AD5C75A0013DB57 /* FavoriteTableViewCellDelegate.swift in Sources */,
 				13A93EF92AD1CA0200FC4BBD /* SearchTopTenCellViewModel.swift in Sources */,
 				13606E982AA4F26500365F20 /* DefaultPostSearchLayout.swift in Sources */,
+				15FBD5D42B98DAB000076115 /* TravelRegionMapper.swift in Sources */,
 				15D60D382AEB874B0087FEC0 /* NotificationCenterCoordinator.swift in Sources */,
 				15FB47EE2AC176FD0033AA18 /* UISpacing.swift in Sources */,
 				15CB236F2A10C314003EAF20 /* PostCellViewModel.swift in Sources */,
