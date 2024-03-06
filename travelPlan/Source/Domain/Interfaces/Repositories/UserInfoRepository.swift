@@ -11,4 +11,8 @@ import Combine
 protocol UserInfoRepository {
   func checkIfUserNicknameDuplicate(with name: String) -> Future<Bool, MainError>
   func updateUserNickname(with name: String) -> Future<Bool, MainError>
+  func updateProfile(with profile: String) -> Future<Bool, MainError>
+  func saveProfile(with profile: String) -> Future<Bool, MainError>
+  func deleteProfile() -> Future<Bool, MainError>
+  func fetchProfile() -> Future<ProfileImageEntity, MainError>
 }

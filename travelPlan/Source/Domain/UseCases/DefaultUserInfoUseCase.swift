@@ -5,6 +5,7 @@
 //  Created by 양승현 on 2/27/24.
 //
 
+import Foundation
 import Combine
 
 final class DefaultUserInfoUseCase: UserInfoUseCase {
@@ -15,6 +16,14 @@ final class DefaultUserInfoUseCase: UserInfoUseCase {
   var isNicknameDuplicated = PassthroughSubject<Bool, MainError>()
   
   var isNicknameUpdated = PassthroughSubject<Bool, MainError>()
+  
+  var isProfileUpdated = PassthroughSubject<Bool, MainError>()
+  
+  var isProfileSaved = PassthroughSubject<Bool, MainError>()
+  
+  var isProfileDeleted = PassthroughSubject<Bool, MainError>()
+  
+  var fetchedProfile = PassthroughSubject<ProfileImageEntity, MainError>()
   
   private var subscriptions = Set<AnyCancellable>()
   
@@ -48,6 +57,53 @@ final class DefaultUserInfoUseCase: UserInfoUseCase {
         }
       } receiveValue: { [weak self] result in
         self?.isNicknameUpdated.send(result)
+      }.store(in: &subscriptions)
+  }
+  
+  func updateProfile(with base64String: String) {
+    userInfoRepository.updateProfile(with: base64String)
+      .receive(on: DispatchQueue.main)
+      .sink { [weak self] completion in
+        if case .failure(let error) = completion {
+          self?.isProfileUpdated.send(completion: .failure(error))
+        }
+      } receiveValue: { [weak self] result in
+        self?.isProfileUpdated.send(result)
+      }.store(in: &subscriptions)
+  }
+  
+  func saveProfile(with base64String: String) {
+    userInfoRepository.saveProfile(with: base64String)
+      .receive(on: DispatchQueue.main)
+      .sink { [weak self] completion in
+        if case .failure(let error) = completion {
+          self?.isProfileSaved.send(completion: .failure(error))
+        }
+      } receiveValue: { [weak self] result in
+        self?.isProfileSaved.send(result)
+      }.store(in: &subscriptions)
+  }
+  
+  func deleteProfile() {
+    userInfoRepository.deleteProfile()
+      .receive(on: DispatchQueue.main)
+      .sink { [weak self] completion in
+        if case .failure(let error) = completion {
+          self?.isProfileDeleted.send(completion: .failure(error))
+        }
+      } receiveValue: { [weak self] result in
+        self?.isProfileDeleted.send(result)
+      }.store(in: &subscriptions)
+  }
+  
+  func fetchProfile() {
+    userInfoRepository.fetchProfile()
+      .receive(on: DispatchQueue.main)
+      .sink { [weak self] completion in
+        guard case .failure(let error) = completion else { return }
+        self?.fetchedProfile.send(completion: .failure(error))
+      } receiveValue: { [weak self] entity in
+        self?.fetchedProfile.send(entity)
       }.store(in: &subscriptions)
   }
 }
