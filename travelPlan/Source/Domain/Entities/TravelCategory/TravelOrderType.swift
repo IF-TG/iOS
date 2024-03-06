@@ -11,15 +11,3 @@ import Foundation
   case newest = "최신순"
   case popularity = "인기순"
 }
-
-// MARK: - Mappings toDTO
-extension TravelOrderType {
-  func toDTO() -> String {
-    return switch self {
-    case .newest:
-      "RECENT_ORDER"
-    case .popularity:
-      "RECOMMEND_ORDER"
-    }
-  }
-}
