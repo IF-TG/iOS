@@ -13,6 +13,12 @@ protocol LoginUseCase {
   ) -> AnyPublisher<Bool, Never>
 }
 
+struct LoginRequestValue {
+  let loginType: OAuthType
+  let authorizationCode: String
+  let identityToken: String
+}
+
 final class DefaultLoginUseCase {
   // MARK: - Properties
   private let loginRepository: LoginRepository
@@ -38,10 +44,4 @@ extension DefaultLoginUseCase: LoginUseCase {
       ).eraseToAnyPublisher()
     }
   }
-}
-
-struct LoginRequestValue {
-  let loginType: OAuthType
-  let authorizationCode: String
-  let identityToken: String
 }

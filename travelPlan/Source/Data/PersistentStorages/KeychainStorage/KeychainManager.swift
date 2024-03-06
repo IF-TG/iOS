@@ -8,9 +8,15 @@
 import Foundation
 
 class KeychainManager {
+  // MARK: - Properties
   static let shared = KeychainManager()
-  private init() { }
   
+  // MARK: - LifeCycle
+  private init() { }
+}
+
+// MARK: - Helpers
+extension KeychainManager {
   @discardableResult
   func add(key: String, value: Data?) -> Bool {
     let query: NSDictionary = [
