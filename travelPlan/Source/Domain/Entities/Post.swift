@@ -9,8 +9,6 @@ import Foundation
 
 struct Post {
   let liked: Bool
-  // TODO: - 이게 왜 string? 어떤거 의미하는지 물어보기
-  let sort: String
   let detail: PostDetail
   let author: Author
 }
