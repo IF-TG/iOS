@@ -170,7 +170,10 @@
 		152AD5202A1A09E8008A2A11 /* FavoriteTableViewAdapterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152AD51F2A1A09E8008A2A11 /* FavoriteTableViewAdapterDelegate.swift */; };
 		152AD5272A1B89D2008A2A11 /* FavoriteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152AD5262A1B89D2008A2A11 /* FavoriteViewModel.swift */; };
 		152AD52A2A1B8D6E008A2A11 /* MockFavoriteUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152AD5292A1B8D6E008A2A11 /* MockFavoriteUseCase.swift */; };
+		15329CEC2B96171B005FC033 /* ProfileImageEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15329CEB2B96171B005FC033 /* ProfileImageEntity.swift */; };
 		153841D72A5642A9004C41D1 /* PostViewBottomSheetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153841D62A5642A9004C41D1 /* PostViewBottomSheetCell.swift */; };
+		153FA90D2B937D9E006CF3C3 /* UserProfileRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153FA90C2B937D9E006CF3C3 /* UserProfileRequestDTO.swift */; };
+		153FA90F2B937E12006CF3C3 /* UserProfileResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153FA90E2B937E12006CF3C3 /* UserProfileResponseDTO.swift */; };
 		153FA9112B938C19006CF3C3 /* ParameterType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153FA9102B938C19006CF3C3 /* ParameterType.swift */; };
 		1546DF242B0A70C900B49A55 /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1546DF232B0A70C900B49A55 /* Cache.swift */; };
 		1546DF282B0A7CE400B49A55 /* Cache+Nested.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1546DF272B0A7CE400B49A55 /* Cache+Nested.swift */; };
@@ -274,6 +277,7 @@
 		15C1F55F2AF3CDD4005FDA15 /* SettingTopSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C1F55E2AF3CDD4005FDA15 /* SettingTopSheetView.swift */; };
 		15C1F5612AF3D17D005FDA15 /* CALayer+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C1F5602AF3D17D005FDA15 /* CALayer+.swift */; };
 		15C1F5632AF408D3005FDA15 /* SettingType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C1F5622AF408D3005FDA15 /* SettingType.swift */; };
+		15C7A51A2B94DA2800C79E27 /* UserIdReqeustDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C7A5192B94DA2800C79E27 /* UserIdReqeustDTO.swift */; };
 		15C83F882AB2055E00DDB536 /* BaseBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C83F872AB2055E00DDB536 /* BaseBottomSheetViewController.swift */; };
 		15C83F8A2AB2134D00DDB536 /* BottomSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C83F892AB2134D00DDB536 /* BottomSheetView.swift */; };
 		15CB235B2A109CA4003EAF20 /* PostHeaderContentBottomInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15CB235A2A109CA4003EAF20 /* PostHeaderContentBottomInfo.swift */; };
@@ -595,7 +599,10 @@
 		152AD51F2A1A09E8008A2A11 /* FavoriteTableViewAdapterDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteTableViewAdapterDelegate.swift; sourceTree = "<group>"; };
 		152AD5262A1B89D2008A2A11 /* FavoriteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteViewModel.swift; sourceTree = "<group>"; };
 		152AD5292A1B8D6E008A2A11 /* MockFavoriteUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockFavoriteUseCase.swift; sourceTree = "<group>"; };
+		15329CEB2B96171B005FC033 /* ProfileImageEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageEntity.swift; sourceTree = "<group>"; };
 		153841D62A5642A9004C41D1 /* PostViewBottomSheetCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewBottomSheetCell.swift; sourceTree = "<group>"; };
+		153FA90C2B937D9E006CF3C3 /* UserProfileRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileRequestDTO.swift; sourceTree = "<group>"; };
+		153FA90E2B937E12006CF3C3 /* UserProfileResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileResponseDTO.swift; sourceTree = "<group>"; };
 		153FA9102B938C19006CF3C3 /* ParameterType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParameterType.swift; sourceTree = "<group>"; };
 		1546DF232B0A70C900B49A55 /* Cache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cache.swift; sourceTree = "<group>"; };
 		1546DF272B0A7CE400B49A55 /* Cache+Nested.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Cache+Nested.swift"; sourceTree = "<group>"; };
@@ -700,6 +707,7 @@
 		15C1F55E2AF3CDD4005FDA15 /* SettingTopSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTopSheetView.swift; sourceTree = "<group>"; };
 		15C1F5602AF3D17D005FDA15 /* CALayer+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+.swift"; sourceTree = "<group>"; };
 		15C1F5622AF408D3005FDA15 /* SettingType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingType.swift; sourceTree = "<group>"; };
+		15C7A5192B94DA2800C79E27 /* UserIdReqeustDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserIdReqeustDTO.swift; sourceTree = "<group>"; };
 		15C83F872AB2055E00DDB536 /* BaseBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseBottomSheetViewController.swift; sourceTree = "<group>"; };
 		15C83F892AB2134D00DDB536 /* BottomSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetView.swift; sourceTree = "<group>"; };
 		15CB235A2A109CA4003EAF20 /* PostHeaderContentBottomInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostHeaderContentBottomInfo.swift; sourceTree = "<group>"; };
@@ -1355,6 +1363,7 @@
 				15F376632AFE134400B3BF35 /* PostReplyEntity.swift */,
 				15C1F5622AF408D3005FDA15 /* SettingType.swift */,
 				15FBA7E42B1343CB00C9B1E7 /* PostThumbnailValue.swift */,
+				15329CEB2B96171B005FC033 /* ProfileImageEntity.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -1437,6 +1446,7 @@
 				151DF1042AEEBE0F00D5D55B /* NoticeResponseDTO.swift */,
 				130CF3742B8F8AC40051DEE8 /* LoginResponseDTO.swift */,
 				15D655832B8E085300466FEC /* CommonDTO.swift */,
+				153FA90E2B937E12006CF3C3 /* UserProfileResponseDTO.swift */,
 			);
 			path = ResponseDTO;
 			sourceTree = "<group>";
@@ -2018,6 +2028,8 @@
 			children = (
 				15D655862B8E0ABF00466FEC /* UserNicknameRequestDTO.swift */,
 				155D0BAB2B90CB5B0042DFB6 /* UserNicknamePatchRequestDTO.swift */,
+				153FA90C2B937D9E006CF3C3 /* UserProfileRequestDTO.swift */,
+				15C7A5192B94DA2800C79E27 /* UserIdReqeustDTO.swift */,
 			);
 			path = RequestDTO;
 			sourceTree = "<group>";
@@ -2691,6 +2703,7 @@
 				13BF41202ADBEC8C00F3F082 /* LoginStartView.swift in Sources */,
 				151DF0F62AEEB2D200D5D55B /* DefaultNoticeUseCase.swift in Sources */,
 				15FFABFB2AD5B6FC0013DB57 /* BasePaddingLabel.swift in Sources */,
+				153FA90F2B937E12006CF3C3 /* UserProfileResponseDTO.swift in Sources */,
 				151DF1012AEEBD0A00D5D55B /* NotificationAPIEndpoints.swift in Sources */,
 				15259DE92ACAA98F00C14F62 /* TravelDestinationCellViewModel.swift in Sources */,
 				15EB39E62AC303C90025FFB4 /* BaseProfileAreaView.swift in Sources */,
@@ -2700,6 +2713,7 @@
 				1343840B2B480360005034E0 /* BaseNavigationLeftButton.swift in Sources */,
 				15F0D1B42A51BFB800D04773 /* PostSearchCoordiantor.swift in Sources */,
 				15F0D19A2A4EF49700D04773 /* CategoryPageViewAdapter.swift in Sources */,
+				153FA90D2B937D9E006CF3C3 /* UserProfileRequestDTO.swift in Sources */,
 				15D867CD2AD4003E00F35811 /* FavoriteViewModelable.swift in Sources */,
 				152AD52A2A1B8D6E008A2A11 /* MockFavoriteUseCase.swift in Sources */,
 				139DEE102B16ADF300363E7B /* SearchDestinationServiceCell.swift in Sources */,
@@ -2842,6 +2856,7 @@
 				15F2A0182B14E32B0014603D /* MyInformationViewController.swift in Sources */,
 				155D0BAC2B90CB5B0042DFB6 /* UserNicknamePatchRequestDTO.swift in Sources */,
 				13254FF02A0549D200094218 /* TabBarCase.swift in Sources */,
+				15C7A51A2B94DA2800C79E27 /* UserIdReqeustDTO.swift in Sources */,
 				13254FEB2A0515C700094218 /* FavoriteViewController.swift in Sources */,
 				151DF0E72AEEA76500D5D55B /* NoticeViewModel.swift in Sources */,
 				13A93EFB2AD1EA6B00FC4BBD /* TravelDestinationModel.swift in Sources */,
@@ -2879,6 +2894,7 @@
 				13A93EF72AD0AD2700FC4BBD /* SearchTopTenCell.swift in Sources */,
 				15D388232AFE75E100039946 /* PostDetailReplyCell.swift in Sources */,
 				13254FFB2A08AD8700094218 /* PostSearchViewController.swift in Sources */,
+				15329CEC2B96171B005FC033 /* ProfileImageEntity.swift in Sources */,
 				15C83F882AB2055E00DDB536 /* BaseBottomSheetViewController.swift in Sources */,
 				15FFAC152ADA83E00013DB57 /* SessionProvider.swift in Sources */,
 				134384112B480C9E005034E0 /* ReviewWriteAlbumService.swift in Sources */,
