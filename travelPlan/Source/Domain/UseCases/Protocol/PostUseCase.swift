@@ -5,8 +5,10 @@
 //  Created by 양승현 on 3/6/24.
 //
 
-import Foundation
+import Combine
 
 protocol PostUseCase {
-  func fetchPosts()
+  var postContainers: PassthroughSubject<[PostContainer], MainError> { get }
+  
+  func fetchPosts(with page: PostsPage)
 }
