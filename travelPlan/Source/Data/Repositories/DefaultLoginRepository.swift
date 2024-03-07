@@ -11,12 +11,10 @@ final class DefaultLoginRepository {
   // MARK: - Properties
   private let session: Sessionable
   private var subscriptions = Set<AnyCancellable>()
-  private let keyChainManager: KeyChainManager
   
   // MARK: - LifeCycle
-  init(session: Sessionable, keyChainManager: KeyChainManager) {
+  init(session: Sessionable) {
     self.session = session
-    self.keyChainManager = keyChainManager
   }
   
   deinit {
@@ -26,8 +24,8 @@ final class DefaultLoginRepository {
 
 // MARK: - LoginRepository
 extension DefaultLoginRepository: LoginRepository {
-  func fetchAuthToken(authCode: String, identityToken: String) -> AnyPublisher<Bool, Never> {
-    return Future { promise in
+  func fetchAuthToken(authCode: String, identityToken: String) -> AnyPublisher<Bool, MainError> {
+    return Future<Bool, MainError> { promise in
       let requestDTO = LoginRequestDTO(authCode: authCode, identityToken: identityToken)
       let endpoint = LoginAPIEndPoints.getAppleAuthToken(requestDTO: requestDTO)
       self.session
@@ -36,12 +34,17 @@ extension DefaultLoginRepository: LoginRepository {
         .sink { completion in
           if case let .failure(error) = completion {
             print("DEBUG: \(error.localizedDescription)")
-            promise(.success(false))
+            promise(.failure(.networkError(error)))
           }
-        } receiveValue: { [weak self] responseDTO in
-          guard let self = self else { return }
-          keyChainManager.addToken(responseDTO.accessToken, forKey: .accessToken)
-          keyChainManager.addToken(responseDTO.refreshToken, forKey: .refreshToken)
+        } receiveValue: { responseDTO in
+          KeychainManager.shared.add(
+            key: KeychainKey.accessToken.rawValue,
+            value: responseDTO.accessToken.data(using: .utf8)
+          )
+          KeychainManager.shared.add(
+            key: KeychainKey.refreshToken.rawValue,
+            value: responseDTO.refreshToken.data(using: .utf8)
+          )
           promise(.success(true))
         }
         .store(in: &self.subscriptions)
