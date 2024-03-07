@@ -13,8 +13,8 @@ enum MockResponseType {
   
   var filePath: String {
     let dict: [Self: String] = [
-      .notice: "mock_response_notice.json.",
-      .postContainerResponse: "mock_postContainerResponse"
+      .notice: "mock_response_notice",
+      .postContainerResponse: "mock_response_postContainer"
     ]
     return dict[self]!
   }
