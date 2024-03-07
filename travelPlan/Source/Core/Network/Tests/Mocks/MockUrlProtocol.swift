@@ -39,7 +39,7 @@ class MockUrlProtocol: URLProtocol {
 
 // MARK: - Helpers
 extension MockUrlProtocol {
-  static func loadMockData(with: MockUrlProtocol.MockResponseDTOType) -> Data {
+  static func loadMockData(with: MockResponseType) -> Data {
     guard let path = Bundle.main.path(forResource: with.filePath, ofType: "json") else {
       return Data()
     }
