@@ -19,21 +19,5 @@ extension PostsPage {
   struct Category {
     let mainTheme: TravelMainThemeType
     let orderBy: TravelOrderType
-    var subTheme: String? {
-      switch mainTheme {
-      case .all:
-        nil
-      case .season(let season):
-        season.rawValue
-      case .region(let travelRegion):
-        travelRegion.rawValue
-      case .travelTheme(let travelTheme):
-        travelTheme.rawValue
-      case .partner(let travelPartner):
-        travelPartner.rawValue
-      case .categoryDevelop:
-        nil
-      }
-    }
   }
 }
