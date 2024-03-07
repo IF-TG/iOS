@@ -1750,7 +1750,7 @@
 				151DF0F72AEEB4A200D5D55B /* Data */,
 				151DF0ED2AEEADFC00D5D55B /* Domain */,
 				15FEB5D82A050A99000A5F33 /* Common */,
-				1594F54629FD526900A58F20 /* Feature */,
+				1594F54629FD526900A58F20 /* Presentation */,
 				1594F54529FD521000A58F20 /* Support */,
 			);
 			path = Source;
@@ -1771,7 +1771,7 @@
 			path = Support;
 			sourceTree = "<group>";
 		};
-		1594F54629FD526900A58F20 /* Feature */ = {
+		1594F54629FD526900A58F20 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
 				1503F92A2A4E068E002BC38D /* ApplicationCoordinator.swift */,
@@ -1785,7 +1785,7 @@
 				15BED2FD2A0824A900F86321 /* Plan */,
 				15BED2FB2A08236300F86321 /* Feed */,
 			);
-			path = Feature;
+			path = Presentation;
 			sourceTree = "<group>";
 		};
 		1594F54729FD527100A58F20 /* Main */ = {
