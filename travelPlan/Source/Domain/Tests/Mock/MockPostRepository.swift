@@ -25,7 +25,7 @@ final class MockPostRepository: PostRepository {
     let endpoint = Endpoint.fetchPosts(with: requestDTO)
     
     MockUrlProtocol.requestHandler = { _ in
-      let mockData = MockUrlProtocol.loadMockData(with: .postContainerResponse)
+      let mockData = MockResponseType.postContainerResponse.mockDataLoader
       return ((HTTPURLResponse(), mockData))
     }
     

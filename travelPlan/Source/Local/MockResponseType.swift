@@ -18,4 +18,14 @@ enum MockResponseType {
     ]
     return dict[self]!
   }
+  
+  var mockDataLoader: Data {
+    guard let path = Bundle.main.path(forResource: filePath, ofType: "json") else {
+      return Data()
+    }
+    guard let jsonStr = try? String(contentsOfFile: path) else {
+      return Data()
+    }
+    return jsonStr.data(using: .utf8) ?? Data()
+  }
 }
