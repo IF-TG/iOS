@@ -11,13 +11,13 @@ struct Post {
   let liked: Bool
   // TODO: - 이게 왜 string? 어떤거 의미하는지 물어보기
   let sort: String
-  let post: Post
+  let post: PostDetail
   let author: Author
 }
 
 // MARK: - Nested
 extension Post {
-  struct Post {
+  struct PostDetail {
     let postID: Int64
     let title: String
     let postImages: [PostImage]
