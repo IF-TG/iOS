@@ -122,3 +122,20 @@ extension PostResponseDTO {
     }
   }
 }
+
+// MARK: - Mappings DTO
+extension PostResponseDTO {
+  func toDomain() -> Post.PostDetail
+  {
+    return Post.PostDetail(
+      postID: postDetail.postID,
+      title: postDetail.title,
+      postImages: postDetail.postImages.map{ $0.toDomain() },
+      content: postDetail.content,
+      likes: postDetail.likes,
+      comments: postDetail.comments,
+      location: postDetail.location.toDomain(),
+      createAt: postDetail.createAt,
+      tripDate: postDetail.tripDate.toDomain())
+  }
+}
