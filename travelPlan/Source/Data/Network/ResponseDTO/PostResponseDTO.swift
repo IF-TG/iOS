@@ -54,6 +54,20 @@ extension PostResponseDTO {
       case createAt
       case tripDate
     }
+    
+    func toDomain() -> Post.PostDetail {
+      return Post.PostDetail(
+        postID: postID,
+        title: title,
+        postImages: postImages.map{ $0.toDomain() },
+        content: content,
+        likes: likes,
+        comments: comments,
+        location: location.toDomain(),
+        createAt: createAt,
+        tripDate: tripDate.toDomain())
+    }
+
   }
   
   struct PostImage: Decodable {
@@ -120,22 +134,5 @@ extension PostResponseDTO {
     func toDomain() -> Post.Location {
       return .init(x: x, y: y)
     }
-  }
-}
-
-// MARK: - Mappings DTO
-extension PostResponseDTO {
-  func toDomain() -> Post.PostDetail
-  {
-    return Post.PostDetail(
-      postID: postDetail.postID,
-      title: postDetail.title,
-      postImages: postDetail.postImages.map{ $0.toDomain() },
-      content: postDetail.content,
-      likes: postDetail.likes,
-      comments: postDetail.comments,
-      location: postDetail.location.toDomain(),
-      createAt: postDetail.createAt,
-      tripDate: postDetail.tripDate.toDomain())
   }
 }
