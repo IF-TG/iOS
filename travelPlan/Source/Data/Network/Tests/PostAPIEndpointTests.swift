@@ -28,7 +28,7 @@ final class PostAPIEndpointTests: XCTestCase {
   // MARK: - Tests
   func testPostAPIEndpoint_fetchPosts함수를통해_makeRequest호출시_AbsoluteURL이_정확한지_ShouldReturnEqual() {
     // Arrange
-    let expectedURL = URL(string: "http://localhost:8080/posts?page=0&perPage=20&orderMethod=RECENT_ORDER&mainCategory=SEASON&subCategory=SPRING&userId=13")
+    let expectedURL = URL(string: "http://localhost:8080/posts?mainCategory=SEASON&orderMethod=RECENT_ORDER&page=0&perPage=20&subCategory=SPRING&userId=13")
     let mockRequestDTO = PostsRequestDTO(
       page: 0, perPage: 20, orderMethod: "RECENT_ORDER", mainCategory: "SEASON", subCategory: "SPRING", userId: 13)
     let endpoint = sut.fetchPosts(with: mockRequestDTO)
