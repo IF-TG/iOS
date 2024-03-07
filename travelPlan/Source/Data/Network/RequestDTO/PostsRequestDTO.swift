@@ -12,6 +12,6 @@ struct PostsRequestDTO: Encodable {
   let perPage: Int32
   let orderMethod: String
   let mainCategory: String
-  let subCategory: String
+  let subCategory: String?
   let userId: Int64
 }
