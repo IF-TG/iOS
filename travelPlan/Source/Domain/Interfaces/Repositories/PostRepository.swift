@@ -8,5 +8,5 @@
 import Combine
 
 protocol PostRepository {
-  func fetchPosts(with page: PostsPage) -> Future<Post, MainError>
+  func fetchPosts(with page: PostsPage) -> Future<[PostContainer], MainError>
 }
