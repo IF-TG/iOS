@@ -37,6 +37,7 @@ extension DefaultLoginRepository: LoginRepository {
             promise(.failure(.networkError(error)))
           }
         } receiveValue: { responseDTO in
+          // TODO: - 두 token이 모두 저장되면 userDefaults에 로그인 여부 true 저장, token 하나라도 저장안되면 저장된 token도 delete 하고 userDafaults false 저장
           KeychainManager.shared.add(
             key: KeychainKey.accessToken.rawValue,
             value: responseDTO.accessToken.data(using: .utf8)
