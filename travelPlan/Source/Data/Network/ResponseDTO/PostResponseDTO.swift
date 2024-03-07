@@ -92,6 +92,10 @@ extension PostResponseDTO {
       case profile = "profileImgUri"
       case nickname = "nickname"
     }
+    
+    func toDomain() -> Post.Author {
+      .init(profileUri: profile, nickname: nickname)
+    }
   }
   
   struct TripDate: Decodable {
