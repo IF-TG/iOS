@@ -8,7 +8,7 @@
 import Foundation
 
 struct TravelMainThemeTypeMapper {
-  static func toDTO(_ requestValue: TravelMainThemeType) -> String {
+  static func toMainCategoryDTO(_ requestValue: TravelMainThemeType) -> String {
     return switch requestValue {
     case .all:
       "ORIGINAL"
@@ -22,6 +22,23 @@ struct TravelMainThemeTypeMapper {
       "COMPANION"
     case .categoryDevelop:
       ""
+    }
+  }
+  
+  static func toSubCategoryDTO(_ requestValue: TravelMainThemeType) -> String? {
+    return switch requestValue {
+    case .all:
+      nil
+    case .season(let season):
+      SeasonMapper.toDTO(season)
+    case .region(let travelRegion):
+      TravelRegionMapper.toDTO(travelRegion)
+    case .travelTheme(let travelTheme):
+      TravelThemeMapper.toDTO(travelTheme)
+    case .partner(let travelPartner):
+      TravelPartnerMapper.toDTO(travelPartner)
+    case .categoryDevelop:
+      nil
     }
   }
 }
