@@ -9,7 +9,8 @@ import Foundation
 
 struct Post {
   let liked: Bool
-  let sort: Bool
+  // TODO: - 이게 왜 string? 어떤거 의미하는지 물어보기
+  let sort: String
   let post: Post
   let author: Author
 }
@@ -19,7 +20,7 @@ extension Post {
   struct Post {
     let postID: Int64
     let title: String
-    let thumbnails: [Thumbnail]
+    let postImages: [PostImage]
     let content: String
     let likes: Int32
     let comments: Int32
@@ -28,7 +29,7 @@ extension Post {
     let tripDate: TripDate
   }
   
-  struct Thumbnail {
+  struct PostImage {
     let imageUri: String
     let sort: Int32
   }
