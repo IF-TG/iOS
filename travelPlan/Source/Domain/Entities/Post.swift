@@ -11,7 +11,7 @@ struct Post {
   let liked: Bool
   // TODO: - 이게 왜 string? 어떤거 의미하는지 물어보기
   let sort: String
-  let post: PostDetail
+  let detail: PostDetail
   let author: Author
 }
 
