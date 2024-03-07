@@ -22,3 +22,13 @@ struct PostContainerResponseDTO: Decodable {
     self.thumbnails = try container.decode([String].self, forKey: .thumbnails)
   }
 }
+
+// MARK: - Mappings DTO
+extension PostContainerResponseDTO {
+  func toDomain() -> PostContainer {
+    let detail = post.postDetail.toDomain()
+    let author = post.author.toDomain()
+    let post = Post(liked: self.post.liked, detail: detail, author: author)
+    return .init(post: post, thumbnails: thumbnails)
+  }
+}
