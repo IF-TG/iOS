@@ -90,8 +90,6 @@ extension PostResponseDTO {
   }
 }
 
-
-
 // MARK: - Mappings DTO
 extension PostResponseDTO {
   func toDomain() -> Post.PostDetail {
