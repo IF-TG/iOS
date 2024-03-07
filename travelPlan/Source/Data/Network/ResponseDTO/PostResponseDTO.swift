@@ -12,14 +12,14 @@ struct PostResponseDTO: Decodable {
   let author: Author
   let tripDate: TripDate
   let category: Category
-  let post: Post
+  let postDetail: PostDetail
   let liked: Bool
   
   enum CodingKeys: String, CodingKey {
     case author
     case tripDate
     case category
-    case post
+    case postDetail
     case liked
   }
   
@@ -28,14 +28,14 @@ struct PostResponseDTO: Decodable {
     self.author = try container.decode(PostResponseDTO.Author.self, forKey: .author)
     self.tripDate = try container.decode(PostResponseDTO.TripDate.self, forKey: .tripDate)
     self.category = try container.decode(PostResponseDTO.Category.self, forKey: .category)
-    self.post = try container.decode(PostResponseDTO.Post.self, forKey: .post)
+    self.postDetail = try container.decode(PostResponseDTO.PostDetail.self, forKey: .postDetail)
     self.liked = try container.decode(Bool.self, forKey: .liked)
   }
 }
 
 // MARK: - Nested
 extension PostResponseDTO {
-  struct Post: Decodable {
+  struct PostDetail: Decodable {
     let postID: Int64
     let postImages: [PostImage]
     let title: String
@@ -110,5 +110,4 @@ extension PostResponseDTO {
       case y = "mapY"
     }
   }
-  
 }
