@@ -10,14 +10,12 @@ import Foundation
 struct PostResponseDTO: Decodable {
   // MARK: - Properties
   let author: Author
-  let tripDate: TripDate
   let category: Category
   let postDetail: PostDetail
   let liked: Bool
   
   enum CodingKeys: String, CodingKey {
     case author
-    case tripDate
     case category
     case postDetail
     case liked
@@ -26,7 +24,6 @@ struct PostResponseDTO: Decodable {
   init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
     self.author = try container.decode(PostResponseDTO.Author.self, forKey: .author)
-    self.tripDate = try container.decode(PostResponseDTO.TripDate.self, forKey: .tripDate)
     self.category = try container.decode(PostResponseDTO.Category.self, forKey: .category)
     self.postDetail = try container.decode(PostResponseDTO.PostDetail.self, forKey: .postDetail)
     self.liked = try container.decode(Bool.self, forKey: .liked)
@@ -44,6 +41,7 @@ extension PostResponseDTO {
     let comments: Int32
     let location: Location
     let createAt: String
+    let tripDate: TripDate
     
     enum CodingKeys: String, CodingKey {
       case postImages
@@ -54,6 +52,7 @@ extension PostResponseDTO {
       case comments = "commentNum"
       case location
       case createAt
+      case tripDate
     }
   }
   
@@ -64,6 +63,10 @@ extension PostResponseDTO {
     private enum CodingKeys: String, CodingKey {
       case image = "img"
       case sort
+    }
+    
+    func toDomain() -> Post.PostImage {
+      return .init(imageUri: image, sort: sort)
     }
   }
   
@@ -84,6 +87,10 @@ extension PostResponseDTO {
     private enum CodingKeys: String, CodingKey {
       case start = "startDate"
       case end = "endDate"
+    }
+    
+    func toDomain() -> Post.TripDate {
+      return .init(start: start, end: end)
     }
   }
   
@@ -108,6 +115,10 @@ extension PostResponseDTO {
     private enum CodingKeys: String, CodingKey {
       case x = "mapX"
       case y = "mapY"
+    }
+    
+    func toDomain() -> Post.Location {
+      return .init(x: x, y: y)
     }
   }
 }
