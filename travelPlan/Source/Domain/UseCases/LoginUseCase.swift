@@ -10,7 +10,7 @@ import Combine
 protocol LoginUseCase {
   func execute(
     requestValue: LoginRequestValue
-  ) -> AnyPublisher<Bool, Never>
+  ) -> AnyPublisher<Bool, MainError>
 }
 
 struct LoginRequestValue {
@@ -35,7 +35,7 @@ final class DefaultLoginUseCase {
 
 // MARK: - LoginUseCase
 extension DefaultLoginUseCase: LoginUseCase {
-  func execute(requestValue: LoginRequestValue) -> AnyPublisher<Bool, Never> {
+  func execute(requestValue: LoginRequestValue) -> AnyPublisher<Bool, MainError> {
     switch requestValue.loginType {
     case .apple:
       return loginRepository.fetchAuthToken(

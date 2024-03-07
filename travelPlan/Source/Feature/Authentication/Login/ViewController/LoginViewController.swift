@@ -58,12 +58,12 @@ extension LoginViewController: ViewBindCase {
   
   func bind() {
     let output = viewModel.transform(input)
-    output.sink { [weak self] completion in
+    output.sink { completion in
       switch completion {
       case .finished: 
         break
       case .failure(let error):
-        self?.handleError(error)
+        break
       }
     } receiveValue: { [weak self] in
       self?.render($0)
@@ -82,14 +82,7 @@ extension LoginViewController: ViewBindCase {
     }
   }
   
-  func handleError(_ error: ErrorType) {
-    switch error {
-    case .none:
-      print("none")
-    case .unexpectedError:
-      print("unexpectedError")
-    }
-  }
+  func handleError(_ error: ErrorType) { }
 }
 
 // MARK: - Helpers
@@ -118,8 +111,11 @@ extension LoginViewController {
       authService.performLogin()
         .receive(on: RunLoop.main)
         .sink { completion in
-          if case let .failure(error) = completion {
-            print("authService.performLogin() error: \(error)")
+          switch completion {
+          case .finished:
+            return
+          case let .failure(error):
+            print(error)
           }
         } receiveValue: { [weak self] authToken in
           self?.input.didCompleteWithAuthorization.send(authToken)
