@@ -9,55 +9,55 @@ import Foundation
 
 struct PostResponseDTO: Decodable {
   // MARK: - Properties
-  let user: User
-  let dateInfo: DateInfo
-  let postImages: [PostThumbnail]
+  let author: Author
+  let tripDate: TripDate
   let category: Category
-  let postID: Int64
-  let title: String
-  let content: String
-  let likes: Int32
-  let comments: Int32
-  let location: Location
+  let post: Post
   let liked: Bool
-  let sort: String
   
   enum CodingKeys: String, CodingKey {
-    case user
-    case dateInfo
-    case postImages
+    case author
+    case tripDate
     case category
-    case postID = "postId"
-    case title
-    case content
-    case likes = "likeNum"
-    case comments = "commentNum"
-    case location
+    case post
     case liked
-    case sort
   }
   
   init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
-    self.user = try container.decode(PostResponseDTO.User.self, forKey: .user)
-    self.dateInfo = try container.decode(PostResponseDTO.DateInfo.self, forKey: .dateInfo)
-    self.postImages = try container.decode([PostResponseDTO.PostThumbnail].self, forKey: .postImages)
+    self.author = try container.decode(PostResponseDTO.Author.self, forKey: .author)
+    self.tripDate = try container.decode(PostResponseDTO.TripDate.self, forKey: .tripDate)
     self.category = try container.decode(PostResponseDTO.Category.self, forKey: .category)
-    self.postID = try container.decode(Int64.self, forKey: .postID)
-    self.title = try container.decode(String.self, forKey: .title)
-    self.content = try container.decode(String.self, forKey: .content)
-    self.likes = try container.decode(Int32.self, forKey: .likes)
-    self.comments = try container.decode(Int32.self, forKey: .comments)
-    self.location = try container.decode(PostResponseDTO.Location.self, forKey: .location)
+    self.post = try container.decode(PostResponseDTO.Post.self, forKey: .post)
     self.liked = try container.decode(Bool.self, forKey: .liked)
-    self.sort = try container.decode(String.self, forKey: .sort)
   }
-  
 }
 
 // MARK: - Nested
 extension PostResponseDTO {
-  struct PostThumbnail: Decodable {
+  struct Post: Decodable {
+    let postID: Int64
+    let postImages: [PostImage]
+    let title: String
+    let content: String
+    let likes: Int32
+    let comments: Int32
+    let location: Location
+    let createAt: String
+    
+    enum CodingKeys: String, CodingKey {
+      case postImages
+      case postID = "postId"
+      case title
+      case content
+      case likes = "likeNum"
+      case comments = "commentNum"
+      case location
+      case createAt
+    }
+  }
+  
+  struct PostImage: Decodable {
     let image: String
     let sort: Int32
     
@@ -67,7 +67,7 @@ extension PostResponseDTO {
     }
   }
   
-  struct User: Decodable {
+  struct Author: Decodable {
     let profile: String
     let nickname: String
     
@@ -77,15 +77,13 @@ extension PostResponseDTO {
     }
   }
   
-  struct DateInfo: Decodable {
-    let createAt: String
-    let travelStart: String
-    let travelEnd: String
+  struct TripDate: Decodable {
+    let start: String
+    let end: String
     
     private enum CodingKeys: String, CodingKey {
-      case createAt
-      case travelStart = "startDate"
-      case travelEnd = "endDate"
+      case start = "startDate"
+      case end = "endDate"
     }
   }
   
