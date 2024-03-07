@@ -87,7 +87,6 @@
 		13813A232AAA459900AF6AEB /* PostSearchCollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13813A222AAA459900AF6AEB /* PostSearchCollectionViewDelegate.swift */; };
 		1383C81C2B97F44800830F1A /* KeychainManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1383C81B2B97F44800830F1A /* KeychainManagerTests.swift */; };
 		1383C81F2B9815B700830F1A /* KeychainKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1383C81E2B9815B700830F1A /* KeychainKey.swift */; };
-		1383C8222B98528500830F1A /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1383C8212B98528400830F1A /* UserDefaultsManager.swift */; };
 		1390CC5D2A8BADEC00E34DC3 /* TitleWithButtonHeaderViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1390CC5C2A8BADEC00E34DC3 /* TitleWithButtonHeaderViewDelegate.swift */; };
 		139DEDEB2B163D9A00363E7B /* SearchDestinationCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139DEDEA2B163D9A00363E7B /* SearchDestinationCollectionViewLayout.swift */; };
 		139DEE102B16ADF300363E7B /* SearchDestinationServiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139DEE0F2B16ADF300363E7B /* SearchDestinationServiceCell.swift */; };
@@ -517,7 +516,6 @@
 		13813A222AAA459900AF6AEB /* PostSearchCollectionViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSearchCollectionViewDelegate.swift; sourceTree = "<group>"; };
 		1383C81B2B97F44800830F1A /* KeychainManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManagerTests.swift; sourceTree = "<group>"; };
 		1383C81E2B9815B700830F1A /* KeychainKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainKey.swift; sourceTree = "<group>"; };
-		1383C8212B98528400830F1A /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 		1390CC5C2A8BADEC00E34DC3 /* TitleWithButtonHeaderViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleWithButtonHeaderViewDelegate.swift; sourceTree = "<group>"; };
 		1390CC6E2A8E0B2800E34DC3 /* SearchStarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchStarButton.swift; sourceTree = "<group>"; };
 		139DEDEA2B163D9A00363E7B /* SearchDestinationCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDestinationCollectionViewLayout.swift; sourceTree = "<group>"; };
@@ -1140,7 +1138,6 @@
 		1383C8252B9864B700830F1A /* UserDefaultsStorage */ = {
 			isa = PBXGroup;
 			children = (
-				1383C8212B98528400830F1A /* UserDefaultsManager.swift */,
 			);
 			path = UserDefaultsStorage;
 			sourceTree = "<group>";
@@ -2698,7 +2695,6 @@
 				13E746772B4D303E007D5C15 /* PhotoCellDelegate.swift in Sources */,
 				15C83F8A2AB2134D00DDB536 /* BottomSheetView.swift in Sources */,
 				1503F92B2A4E068E002BC38D /* ApplicationCoordinator.swift in Sources */,
-				1383C8222B98528500830F1A /* UserDefaultsManager.swift in Sources */,
 				13405F042AED899800382796 /* KakaoLoginButton.swift in Sources */,
 				13BF41202ADBEC8C00F3F082 /* LoginStartView.swift in Sources */,
 				151DF0F62AEEB2D200D5D55B /* DefaultNoticeUseCase.swift in Sources */,
