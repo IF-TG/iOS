@@ -1,5 +1,6 @@
 excluded:
     - Pods
+    - "**/*Tests.swift"
     - Libraries
     - travelPlanTests/
     - travelPlanUITests/

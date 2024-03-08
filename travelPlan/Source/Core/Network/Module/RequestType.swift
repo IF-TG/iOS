@@ -13,6 +13,10 @@ enum RequestType {
   case userNameDuplicateCheck
   case post(Post)
   case custom(String)
+  case userProfileUpdate
+  case userProfileSave
+  case userProfileDelete
+  case userProfileFetch
   
   var path: String {
     switch self {
@@ -20,8 +24,19 @@ enum RequestType {
       return ""
     case .userNameDuplicateCheck:
       return "nickname"
+<<<<<<< HEAD
     case .post(let post):
       return post.path
+=======
+    case .userProfileUpdate:
+      return "profile/upload"
+    case .userProfileSave:
+      return "profile/upload"
+    case .userProfileDelete:
+      return "profile"
+    case .userProfileFetch:
+      return "profile/original"
+>>>>>>> 220fedaf531e35b62800cc1c640812d7f5e17c02
     case .custom(let requestPath):
       return requestPath
     }
