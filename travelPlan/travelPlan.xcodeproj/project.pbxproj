@@ -1289,6 +1289,7 @@
 		151DF1062AEEC52200D5D55B /* Local */ = {
 			isa = PBXGroup;
 			children = (
+				15EE7F8E2B9AEF5D007A9C42 /* Network */,
 				151DF1072AEEC53400D5D55B /* MockJson */,
 				15E9E5F72B9A45A600C2F1F7 /* MockResponseType.swift */,
 			);
@@ -1976,6 +1977,15 @@
 			path = PostView;
 			sourceTree = "<group>";
 		};
+		15EE7F8E2B9AEF5D007A9C42 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				15FFAC1B2ADC2BC20013DB57 /* MockSession.swift */,
+				15FFAC192ADC1C9D0013DB57 /* MockUrlProtocol.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
 		15EF8C932A0A185D0068C744 /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -2177,8 +2187,6 @@
 		15FFAC182ADA94920013DB57 /* Mocks */ = {
 			isa = PBXGroup;
 			children = (
-				15FFAC192ADC1C9D0013DB57 /* MockUrlProtocol.swift */,
-				15FFAC1B2ADC2BC20013DB57 /* MockSession.swift */,
 				15FFAC212ADC335F0013DB57 /* MockModels.swift */,
 				15FFAC2A2ADCD7370013DB57 /* MockUserEndpoint.swift */,
 			);
