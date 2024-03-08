@@ -12,33 +12,21 @@ enum RequestType {
   /// 사용자 이름 중복 체크와 사용자 이름 업데이트 두 개의 로직에서 사용중
   case userNameDuplicateCheck
   case post(Post)
+  case userProfile(UserProfile)
   case custom(String)
-  case userProfileUpdate
-  case userProfileSave
-  case userProfileDelete
-  case userProfileFetch
   
   var path: String {
-    switch self {
+    return switch self {
     case .none:
-      return ""
+      ""
     case .userNameDuplicateCheck:
-      return "nickname"
-<<<<<<< HEAD
+      "nickname"
     case .post(let post):
-      return post.path
-=======
-    case .userProfileUpdate:
-      return "profile/upload"
-    case .userProfileSave:
-      return "profile/upload"
-    case .userProfileDelete:
-      return "profile"
-    case .userProfileFetch:
-      return "profile/original"
->>>>>>> 220fedaf531e35b62800cc1c640812d7f5e17c02
+      post.path
+    case .userProfile(let profile):
+      profile.path
     case .custom(let requestPath):
-      return requestPath
+      requestPath
     }
   }
 }
@@ -52,6 +40,30 @@ extension RequestType {
       switch self {
       case .postsFetch:
          "posts"
+      }
+    }
+  }
+  
+  enum UserProfile {
+    case update
+    case save
+    case delete
+    case fetch
+    
+    var path: String {
+      "profile" + relativePath
+    }
+    
+    private var relativePath: String {
+      return switch self {
+      case .update:
+        "/upload"
+      case .save:
+        "/upload"
+      case .delete:
+        ""
+      case .fetch:
+        "/original"
       }
     }
   }
