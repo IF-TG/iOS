@@ -8,7 +8,7 @@
 import Foundation
 
 struct TravelPartnerMapper {
-  static func fromDTO(_ dto: String) -> TravelPartner? {
+  static func toDomain(_ dto: String) -> TravelPartner? {
     return switch dto {
     case "ALONE":
         .alone

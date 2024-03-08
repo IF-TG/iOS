@@ -8,7 +8,7 @@
 import Foundation
 
 struct TravelOrderTypeMapper {
-  static func fromDTO(_ dto: String) -> TravelOrderType? {
+  static func toDomain(_ dto: String) -> TravelOrderType? {
     return switch dto {
     case "RECENT_ORDER":
         .newest

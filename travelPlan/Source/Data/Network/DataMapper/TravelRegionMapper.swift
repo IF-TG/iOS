@@ -8,7 +8,7 @@
 import Foundation
 
 struct TravelRegionMapper {
-  static func fromDTO(_ dto: String) -> TravelRegion? {
+  static func toDomain(_ dto: String) -> TravelRegion? {
     return switch dto {
     case "SEOUL":
         .seoul

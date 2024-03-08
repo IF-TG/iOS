@@ -8,7 +8,7 @@
 import Foundation
 
 struct TravelThemeMapper {
-  static func fromDTO(_ dto: String) -> TravelTheme? {
+  static func toDomain(_ dto: String) -> TravelTheme? {
     return switch dto {
     case "REST":
         .relaxation

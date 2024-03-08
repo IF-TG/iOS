@@ -8,7 +8,7 @@
 import Foundation
 
 struct SeasonMapper {
-  static func fromDTO(_ dto: String) -> Season? {
+  static func toDomain(_ dto: String) -> Season? {
     return switch dto {
     case "SPRING":
         .spring
