@@ -8,21 +8,26 @@
 import Foundation
 import Combine
 
-struct MyInformationViewModel {
+final class MyInformationViewModel {
   struct Input {
     let isNicknameDuplicated: PassthroughSubject<String, MainError> = .init()
+    let tapStoreButton: PassthroughSubject<Void, MainError> = .init()
   }
   
   enum State {
     case none
     case duplicatedNickname
     case availableNickname
+    case correctionSaved
+    case correctionNotSaved
   }
   
   // MARK: - Dependencies
   private let userInfoUseCase: UserInfoUseCase
   
   // MARK: - Properties
+  private var hasProfileChanged = false
+  private var changedNameAvailable = false
   
   // MARK: - Lifecycle
   init(userInfoUseCase: UserInfoUseCase) {
@@ -45,14 +50,15 @@ extension MyInformationViewModel: MyInformationViewModelable {
 // MARK: - Private Helpers
 private extension MyInformationViewModel {
   func isDuplicatedUserNameStream(input: Input) -> Output {
-    return input.isNicknameDuplicated.map { nickname in
-      userInfoUseCase.checkIfNicknameDuplicate(with: nickname)
+    return input.isNicknameDuplicated.map { [weak self] nickname in
+      self?.userInfoUseCase.checkIfNicknameDuplicate(with: nickname)
       return .none
     }.eraseToAnyPublisher()
   }
   
   func checkDuplicatedUserNameStream() -> Output {
-    userInfoUseCase.isNicknameDuplicated.map { isDuplicatedUserName -> State in
+    userInfoUseCase.isNicknameDuplicated.map { [weak self] isDuplicatedUserName -> State in
+      self?.changedNameAvailable = isDuplicatedUserName
       return isDuplicatedUserName ? .duplicatedNickname : .availableNickname
     }.eraseToAnyPublisher()
   }
