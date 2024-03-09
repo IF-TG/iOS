@@ -23,7 +23,7 @@ final class AppleLoginStrategy: NSObject, LoginStrategy {
   func login() {
     let idProvider = ASAuthorizationAppleIDProvider()
     let request = idProvider.createRequest()
-    request.requestedScopes = [.fullName, .email]
+    request.requestedScopes = [.fullName]
     
     authorizationController = ASAuthorizationController(authorizationRequests: [request])
     authorizationController?.delegate = self
@@ -61,6 +61,9 @@ extension AppleLoginStrategy: ASAuthorizationControllerDelegate {
 // MARK: - ASAuthorizationControllerPresentationContextProviding
 extension AppleLoginStrategy: ASAuthorizationControllerPresentationContextProviding {
   func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
-    return viewController?.view.window ?? .init()
+    guard let vc = viewController, let window = vc.view.window else {
+      fatalError("viewController가 nil입니다.")
+    }
+    return window
   }
 }
