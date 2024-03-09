@@ -16,6 +16,7 @@ final class MyInformationViewModel {
   
   enum State {
     case none
+    case networkProcessing
     case duplicatedNickname
     case availableNickname
     case correctionSaved
@@ -40,6 +41,7 @@ extension MyInformationViewModel: MyInformationViewModelable {
   func transform(_ input: Input) -> Output {
     let isDuplicatedUserName = isDuplicatedUserNameStream(input: input)
     let checkDuplicatedUserName = checkDuplicatedUserNameStream()
+    
     return Publishers.MergeMany([
       isDuplicatedUserName,
       checkDuplicatedUserName]
@@ -60,6 +62,13 @@ private extension MyInformationViewModel {
     userInfoUseCase.isNicknameDuplicated.map { [weak self] isDuplicatedUserName -> State in
       self?.changedNameAvailable = isDuplicatedUserName
       return isDuplicatedUserName ? .duplicatedNickname : .availableNickname
+    }.eraseToAnyPublisher()
+  }
+  
+  func tapStoreButtonStream(input: Input) -> Output {
+    return input.tapStoreButton.map { _ -> State in
+      
+      return .networkProcessing
     }.eraseToAnyPublisher()
   }
 }
