@@ -10,8 +10,9 @@ import Combine
 
 final class MyInformationViewModel {
   struct Input {
+    typealias UserEditableElement = (nickname: String?, profileImage: String?)
     let isNicknameDuplicated: PassthroughSubject<String, MainError> = .init()
-    let tapStoreButton: PassthroughSubject<Void, MainError> = .init()
+    let tapStoreButton: PassthroughSubject<UserEditableElement, MainError> = .init()
   }
   
   enum State {
@@ -66,9 +67,15 @@ private extension MyInformationViewModel {
   }
   
   func tapStoreButtonStream(input: Input) -> Output {
-    return input.tapStoreButton.map { _ -> State in
-      
-      return .networkProcessing
-    }.eraseToAnyPublisher()
+    return input.tapStoreButton
+      .map { [weak self] (nickname, image) -> State in
+        if self?.changedNameAvailable == true, let nickname = nickname {
+          self?.userInfoUseCase.updateNickname(with: nickname)
+        }
+        if self?.hasProfileChanged == true, let image = image {
+          self?.userInfoUseCase.updateProfile(with: image)
+        }
+        return .networkProcessing
+      }.eraseToAnyPublisher()
   }
 }
