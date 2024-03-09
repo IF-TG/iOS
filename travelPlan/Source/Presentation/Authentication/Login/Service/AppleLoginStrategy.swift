@@ -13,21 +13,22 @@ final class AppleLoginStrategy: NSObject, LoginStrategy {
   // MARK: - Properties
   weak var viewController: UIViewController?
   let resultPublisher = PassthroughSubject<AuthenticationResponseValue, AuthenticationServiceError>()
+  private var authorizationController: ASAuthorizationController?
   
   // MARK: - LifeCycle
   init(viewController: UIViewController) {
     self.viewController = viewController
   }
-
+  
   func login() {
     let idProvider = ASAuthorizationAppleIDProvider()
     let request = idProvider.createRequest()
     request.requestedScopes = [.fullName, .email]
     
-    let authorizationController = ASAuthorizationController(authorizationRequests: [request])
-    authorizationController.delegate = self
-    authorizationController.presentationContextProvider = self
-    authorizationController.performRequests()
+    authorizationController = ASAuthorizationController(authorizationRequests: [request])
+    authorizationController?.delegate = self
+    authorizationController?.presentationContextProvider = self
+    authorizationController?.performRequests()
   }
 }
 
