@@ -153,11 +153,13 @@ private extension MyInformationViewController {
       .changed
       .debounce(for: 0.2, scheduler: RunLoop.main)
       .sink { [weak self] in
-        if (3...15).contains($0.count) {
+        let isNicknameAvailable = (3...15).contains($0.count)
+        let isNicknameWithinMinimumRange = (1...2).contains($0.count)
+        if isNicknameAvailable {
           self?.input.isNicknameDuplicated.send($0)
         } else if $0.count == 0 || $0.isEmpty {
           self?.inputTextField.textState = .initial
-        } else if (1...2).contains($0.count) {
+        } else if isNicknameWithinMinimumRange {
           /// 닉네임 글자 최소 넘지 못함.
           self?.inputTextField.textState = .underflow
           self?.inputNoticeLabel.textColor = .yg.red2
