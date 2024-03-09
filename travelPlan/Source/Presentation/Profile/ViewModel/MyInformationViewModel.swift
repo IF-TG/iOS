@@ -54,7 +54,7 @@ private extension MyInformationViewModel {
   func isDuplicatedUserNameStream(input: Input) -> Output {
     return input.isNicknameDuplicated.map { [weak self] nickname in
       self?.userInfoUseCase.checkIfNicknameDuplicate(with: nickname)
-      return .none
+      return .networkProcessing
     }.eraseToAnyPublisher()
   }
   
