@@ -52,13 +52,12 @@ extension MyInformationViewModel: MyInformationViewModelable {
     let isDuplicatedUserName = isDuplicatedUserNameStream(input: input)
     let checkDuplicatedUserName = checkDuplicatedUserNameStream()
     
-    
     return Publishers.MergeMany([
       isDuplicatedUserName,
       checkDuplicatedUserName,
       hasNicknameUpdatedStream(),
       hasProfileUpdatedStream(),
-      hasBothNameAndProfileUPdatedStream()]
+      hasBothNameAndProfileUpdatedStream()]
     ).eraseToAnyPublisher()
   }
 }
@@ -128,7 +127,7 @@ private extension MyInformationViewModel {
   }
 
   /// 프로필, 이미지 둘다 업데이트되는 경우 두개의 경우를 받은 후에 State를 반환합니다.
-  func hasBothNameAndProfileUPdatedStream() -> Output {
+  func hasBothNameAndProfileUpdatedStream() -> Output {
     return bothNameAndProfileUpdatedPublisher
       .map { [weak self] (updatedNameResult, updatedProfileResult) -> State in
         self?.isProcessingBothNameAndProfile = false
