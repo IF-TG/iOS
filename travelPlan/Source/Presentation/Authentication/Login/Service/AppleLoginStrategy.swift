@@ -16,8 +16,8 @@ final class AppleLoginStrategy: NSObject, LoginStrategy {
   private var authorizationController: ASAuthorizationController?
   
   // MARK: - LifeCycle
-  init(viewController: UIViewController) {
-    self.viewController = viewController
+  override init() {
+    super.init()
   }
   
   func login() {
@@ -61,9 +61,10 @@ extension AppleLoginStrategy: ASAuthorizationControllerDelegate {
 // MARK: - ASAuthorizationControllerPresentationContextProviding
 extension AppleLoginStrategy: ASAuthorizationControllerPresentationContextProviding {
   func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
-    guard let vc = viewController, let window = vc.view.window else {
-      fatalError("viewController가 nil입니다.")
-    }
-    return window
+    return UIApplication.shared.connectedScenes
+      .filter { $0.activationState == .foregroundActive }
+      .compactMap { $0 as? UIWindowScene }
+      .first!.windows
+      .filter { $0.isKeyWindow }.first!
   }
 }
