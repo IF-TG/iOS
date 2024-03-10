@@ -10,7 +10,10 @@ import Combine
 
 final class MyInformationViewModel {
   struct Input {
-    typealias UserEditableElement = (nickname: String?, profileImage: String?)
+    struct UserEditableElement {
+      let nickname: String?
+      let profileImage: String?
+    }
     let isNicknameDuplicated: PassthroughSubject<String, MainError> = .init()
     let tapStoreButton: PassthroughSubject<UserEditableElement, MainError> = .init()
   }
