@@ -124,12 +124,14 @@ extension MyInformationViewController: ViewBindCase {
       storeLabel.isUserInteractionEnabled = false
       storeLabel.textColor = .yg.gray1
       inputNoticeLabel.text = inputTextField.textState.quotation
+      stopIndicator()
     case .availableNickname:
       inputTextField.textState = .available
       inputNoticeLabel.textColor = .yg.primary
       storeLabel.isUserInteractionEnabled = true
       storeLabel.textColor = .yg.primary
       inputNoticeLabel.text = inputTextField.textState.quotation
+      stopIndicator()
     case .correctionSaved:
       stopIndicator()
       setSubviewsDefaultUI()
