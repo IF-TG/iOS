@@ -50,14 +50,11 @@ final class MyInformationViewModel {
 // MARK: - MyInformationViewModelable
 extension MyInformationViewModel: MyInformationViewModelable {
   func transform(_ input: Input) -> Output {
-    let isDuplicatedUserName = isDuplicatedUserNameStream(input: input)
-    let checkDuplicatedUserName = checkDuplicatedUserNameStream()
-    let selectProfile = selectProfileStream(input: input)
-    
     return Publishers.MergeMany([
-      isDuplicatedUserName,
-      checkDuplicatedUserName,
+      isDuplicatedUserNameStream(input: input),
+      checkDuplicatedUserNameStream(),
       selectProfileStream(input: input),
+      tapStoreButtonStream(input: input),
       hasNicknameUpdatedStream(),
       hasProfileUpdatedStream(),
       hasBothNameAndProfileUpdatedStream()]
