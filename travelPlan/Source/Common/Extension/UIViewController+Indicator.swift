@@ -12,6 +12,12 @@ extension UIViewController {
   private static var overlayViewTag: Int { return 998 }
   
   func startIndicator() {
+    if let indicator = view.subviews
+      .filter({ $0.tag == UIViewController.activityIndicatorTag }).first as? UIActivityIndicatorView {
+      /// 이미 인디케이터가 화면에 추가된 경우, 기존의 인디케이터를 사용
+      return
+    }
+    
     let indicator = UIActivityIndicatorView(style: .large)
     indicator.center = view.center
     indicator.tag = UIViewController.activityIndicatorTag
