@@ -315,6 +315,7 @@ extension MyInformationViewController: UIImagePickerControllerDelegate & UINavig
   ) {
     if let image = info[.editedImage] as? UIImage {
       profileImageView.setImage(image)
+      input.selectProfile.send(image.base64)
     }
     picker.dismiss(animated: true, completion: nil)
   }
