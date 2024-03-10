@@ -56,7 +56,9 @@ final class MockUserInfoUseCase: UserInfoUseCase {
       let responseData = json.data(using: .utf8)!
       return ((HTTPURLResponse(), responseData))
     }
-    defaultUserInfoUseCase.checkIfNicknameDuplicate(with: name)
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+      self.defaultUserInfoUseCase.checkIfNicknameDuplicate(with: name)
+    }
   }
   
   func updateNickname(with name: String) {
@@ -72,7 +74,9 @@ final class MockUserInfoUseCase: UserInfoUseCase {
       let responseData = json.data(using: .utf8)!
       return ((HTTPURLResponse(), responseData))
     }
-    defaultUserInfoUseCase.updateNickname(with: name)
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+      self.defaultUserInfoUseCase.updateNickname(with: name)
+    }
   }
   
   func updateProfile(with base64String: String) {
@@ -91,7 +95,9 @@ final class MockUserInfoUseCase: UserInfoUseCase {
       let responseData = json.data(using: .utf8)!
       return ((HTTPURLResponse(), responseData))
     }
-    defaultUserInfoUseCase.updateProfile(with: base64String)
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+      self.defaultUserInfoUseCase.updateProfile(with: base64String)
+    }
   }
   
   func saveProfile(with base64String: String) {
@@ -110,7 +116,9 @@ final class MockUserInfoUseCase: UserInfoUseCase {
       let responseData = json.data(using: .utf8)!
       return ((HTTPURLResponse(), responseData))
     }
-    defaultUserInfoUseCase.saveProfile(with: base64String)
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+      self.defaultUserInfoUseCase.saveProfile(with: base64String)
+    }
   }
   
   func deleteProfile() {
@@ -126,7 +134,9 @@ final class MockUserInfoUseCase: UserInfoUseCase {
       let responseData = json.data(using: .utf8)!
       return ((HTTPURLResponse(), responseData))
     }
-    defaultUserInfoUseCase.deleteProfile()
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+      self.defaultUserInfoUseCase.deleteProfile()
+    }
   }
   
   func fetchProfile() {
@@ -141,7 +151,8 @@ final class MockUserInfoUseCase: UserInfoUseCase {
             "message": "success"
           }
           """
-
-    defaultUserInfoUseCase.fetchProfile()
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+      self.defaultUserInfoUseCase.fetchProfile()
+    }
   }
 }
