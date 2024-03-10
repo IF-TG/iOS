@@ -27,6 +27,7 @@
 		130CF38D2B9347CF0051DEE8 /* AppleLoginStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130CF38C2B9347CF0051DEE8 /* AppleLoginStrategy.swift */; };
 		130CF38F2B9356370051DEE8 /* AuthenticationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130CF38E2B9356370051DEE8 /* AuthenticationService.swift */; };
 		130FA91F2A359EE300E739C5 /* SearchViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130FA91E2A359EE300E739C5 /* SearchViewDelegate.swift */; };
+		130FE14E2B9CEDE900BFFBE6 /* NaverLoginStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130FE14D2B9CEDE900BFFBE6 /* NaverLoginStrategy.swift */; };
 		131A11062AB4CD1A007BDD66 /* SearchMoreDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131A11052AB4CD1A007BDD66 /* SearchMoreDetailViewController.swift */; };
 		131A11082AB5067E007BDD66 /* SearchMoreDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131A11072AB5067E007BDD66 /* SearchMoreDetailViewModel.swift */; };
 		131A110A2AB509FB007BDD66 /* UIView+roundCorners.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131A11092AB509FB007BDD66 /* UIView+roundCorners.swift */; };
@@ -451,6 +452,7 @@
 		130CF38C2B9347CF0051DEE8 /* AppleLoginStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleLoginStrategy.swift; sourceTree = "<group>"; };
 		130CF38E2B9356370051DEE8 /* AuthenticationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationService.swift; sourceTree = "<group>"; };
 		130FA91E2A359EE300E739C5 /* SearchViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewDelegate.swift; sourceTree = "<group>"; };
+		130FE14D2B9CEDE900BFFBE6 /* NaverLoginStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaverLoginStrategy.swift; sourceTree = "<group>"; };
 		131A11052AB4CD1A007BDD66 /* SearchMoreDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMoreDetailViewController.swift; sourceTree = "<group>"; };
 		131A11072AB5067E007BDD66 /* SearchMoreDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMoreDetailViewModel.swift; sourceTree = "<group>"; };
 		131A11092AB509FB007BDD66 /* UIView+roundCorners.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+roundCorners.swift"; sourceTree = "<group>"; };
@@ -956,6 +958,7 @@
 			children = (
 				130CF38C2B9347CF0051DEE8 /* AppleLoginStrategy.swift */,
 				130CF38E2B9356370051DEE8 /* AuthenticationService.swift */,
+				130FE14D2B9CEDE900BFFBE6 /* NaverLoginStrategy.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -2917,6 +2920,7 @@
 				13A6C2DB2AB782A100EABD76 /* UIViewController+BackBarButtonItem.swift in Sources */,
 				13300FA42AC0688300952757 /* BaseDestinationView.swift in Sources */,
 				15D388272AFF8AAA00039946 /* InputTextView.swift in Sources */,
+				130FE14E2B9CEDE900BFFBE6 /* NaverLoginStrategy.swift in Sources */,
 				13F6DACA2B52711E00573B86 /* SlideDownAnimator.swift in Sources */,
 				13A93EE52ACDE0EC00FC4BBD /* SearchDetailHeaderView.swift in Sources */,
 				15259DEC2ACAAAB200C14F62 /* LocationSearchViewController.swift in Sources */,
