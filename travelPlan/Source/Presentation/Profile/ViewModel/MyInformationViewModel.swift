@@ -30,10 +30,19 @@ final class MyInformationViewModel {
   // MARK: - Properties
   private var hasProfileChanged = false
   private var changedNameAvailable = false
+  private var isProcessingBothNameAndProfile = false
+  
+  /// 이미지, 프로필 둘 다 변경됬을 경우 완료를 알려주는 퍼블리셔
+  private var bothNameAndProfileUpdatedPublisher: AnyPublisher<(Bool, Bool), MainError>
+  private var hasUserInfoUpdatedPublisehr = PassthroughSubject<Bool, MainError>()
   
   // MARK: - Lifecycle
   init(userInfoUseCase: UserInfoUseCase) {
     self.userInfoUseCase = userInfoUseCase
+    bothNameAndProfileUpdatedPublisher = Publishers.Zip(
+      userInfoUseCase.isNicknameUpdated,
+      userInfoUseCase.isProfileUpdated
+    ).eraseToAnyPublisher()
   }
 }
 
@@ -43,9 +52,13 @@ extension MyInformationViewModel: MyInformationViewModelable {
     let isDuplicatedUserName = isDuplicatedUserNameStream(input: input)
     let checkDuplicatedUserName = checkDuplicatedUserNameStream()
     
+    
     return Publishers.MergeMany([
       isDuplicatedUserName,
-      checkDuplicatedUserName]
+      checkDuplicatedUserName,
+      hasNicknameUpdatedStream(),
+      hasProfileUpdatedStream(),
+      hasBothNameAndProfileUPdatedStream()]
     ).eraseToAnyPublisher()
   }
 }
@@ -69,13 +82,57 @@ private extension MyInformationViewModel {
   func tapStoreButtonStream(input: Input) -> Output {
     return input.tapStoreButton
       .map { [weak self] (nickname, image) -> State in
+        if self?.changedNameAvailable == self?.hasProfileChanged {
+          self?.isProcessingBothNameAndProfile = true
+        }
         if self?.changedNameAvailable == true, let nickname = nickname {
           self?.userInfoUseCase.updateNickname(with: nickname)
+          self?.changedNameAvailable = false
         }
         if self?.hasProfileChanged == true, let image = image {
+          // TODO: - 아.. 처음일경우 save. 두번쨰이상일경우 update 호출해야한다.
+          // userDefaults에 사용자의 프로필이 최초 등록됬는지 여부도 확인해야한다..
           self?.userInfoUseCase.updateProfile(with: image)
+          self?.hasProfileChanged = false
         }
         return .networkProcessing
+      }.eraseToAnyPublisher()
+  }
+
+  func hasNicknameUpdatedStream() -> Output {
+    return userInfoUseCase.isNicknameUpdated
+      .map { [weak self] result -> State in
+        guard self?.isProcessingBothNameAndProfile == true else {
+          /// bothNameAndProfileUpdatePublisher를 통해서 저장 결과를 반영합니다.
+          return .none
+        }
+        if result {
+          return .correctionSaved
+        }
+        return .correctionNotSaved
+      }.eraseToAnyPublisher()
+  }
+  
+  func hasProfileUpdatedStream() -> Output {
+    return userInfoUseCase.isProfileUpdated
+      .map { [weak self] result -> State in
+        guard self?.isProcessingBothNameAndProfile == true else {
+          /// bothNameAndProfileUpdatePublisher를 통해서 저장 결과를 반영합니다.
+          return .none
+        }
+        return result ? .correctionSaved : .correctionNotSaved
+      }.eraseToAnyPublisher()
+
+  }
+
+  /// 프로필, 이미지 둘다 업데이트되는 경우 두개의 경우를 받은 후에 State를 반환합니다.
+  func hasBothNameAndProfileUPdatedStream() -> Output {
+    return bothNameAndProfileUpdatedPublisher
+      .map { (updatedNameResult, updatedProfileResult) -> State in
+        if updatedNameResult == updatedNameResult {
+          return .correctionSaved
+        }
+        return .correctionNotSaved
       }.eraseToAnyPublisher()
   }
 }
