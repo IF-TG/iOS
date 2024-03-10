@@ -169,6 +169,8 @@
 		152AD5202A1A09E8008A2A11 /* FavoriteTableViewAdapterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152AD51F2A1A09E8008A2A11 /* FavoriteTableViewAdapterDelegate.swift */; };
 		152AD5272A1B89D2008A2A11 /* FavoriteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152AD5262A1B89D2008A2A11 /* FavoriteViewModel.swift */; };
 		152AD52A2A1B8D6E008A2A11 /* MockFavoriteUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152AD5292A1B8D6E008A2A11 /* MockFavoriteUseCase.swift */; };
+		15302C552B9E23E900B1EA3F /* UIViewController+Indicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15302C542B9E23E900B1EA3F /* UIViewController+Indicator.swift */; };
+		15302C572B9E29B900B1EA3F /* MockUserInfoUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15302C562B9E29B900B1EA3F /* MockUserInfoUseCase.swift */; };
 		15329CEC2B96171B005FC033 /* ProfileImageEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15329CEB2B96171B005FC033 /* ProfileImageEntity.swift */; };
 		153841D72A5642A9004C41D1 /* PostViewBottomSheetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153841D62A5642A9004C41D1 /* PostViewBottomSheetCell.swift */; };
 		153FA90D2B937D9E006CF3C3 /* UserProfileRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153FA90C2B937D9E006CF3C3 /* UserProfileRequestDTO.swift */; };
@@ -597,6 +599,8 @@
 		152AD51F2A1A09E8008A2A11 /* FavoriteTableViewAdapterDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteTableViewAdapterDelegate.swift; sourceTree = "<group>"; };
 		152AD5262A1B89D2008A2A11 /* FavoriteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteViewModel.swift; sourceTree = "<group>"; };
 		152AD5292A1B8D6E008A2A11 /* MockFavoriteUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockFavoriteUseCase.swift; sourceTree = "<group>"; };
+		15302C542B9E23E900B1EA3F /* UIViewController+Indicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Indicator.swift"; sourceTree = "<group>"; };
+		15302C562B9E29B900B1EA3F /* MockUserInfoUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUserInfoUseCase.swift; sourceTree = "<group>"; };
 		15329CEB2B96171B005FC033 /* ProfileImageEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageEntity.swift; sourceTree = "<group>"; };
 		153841D62A5642A9004C41D1 /* PostViewBottomSheetCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewBottomSheetCell.swift; sourceTree = "<group>"; };
 		153FA90C2B937D9E006CF3C3 /* UserProfileRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileRequestDTO.swift; sourceTree = "<group>"; };
@@ -2044,6 +2048,7 @@
 			isa = PBXGroup;
 			children = (
 				15D655942B8E17D400466FEC /* MockUserInfoRepository.swift */,
+				15302C562B9E29B900B1EA3F /* MockUserInfoUseCase.swift */,
 			);
 			path = Mock;
 			sourceTree = "<group>";
@@ -2262,6 +2267,7 @@
 				159958822B0DDFED00B2E4DC /* UIStackView+Helpers.swift */,
 				151BDADB2B16FE8B002F36C3 /* UIDevice+modelName.swift */,
 				151BDADD2B17002E002F36C3 /* Bundle+Helpers.swift */,
+				15302C542B9E23E900B1EA3F /* UIViewController+Indicator.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -2655,6 +2661,7 @@
 				15FFAC012AD5D6710013DB57 /* FavoriteDirectorySettingViewDelegate.swift in Sources */,
 				158695932AE5455B0087CCB3 /* FeedPostViewAdapter.swift in Sources */,
 				15CB23612A10B5E3003EAF20 /* DateValidationProtocol.swift in Sources */,
+				15302C572B9E29B900B1EA3F /* MockUserInfoUseCase.swift in Sources */,
 				13405F002AECF76300382796 /* BaseLoginButton.swift in Sources */,
 				15E982C12ACD16A2002B932F /* FavoriteDetailMenuAreaView.swift in Sources */,
 				15F2A01C2B14E4E50014603D /* SettingMyProfileView.swift in Sources */,
@@ -2912,6 +2919,7 @@
 				151DF0FE2AEEBBE200D5D55B /* DefaultNotificationRepository.swift in Sources */,
 				158BEF792A0E27BD00C27861 /* PostCollectionView.swift in Sources */,
 				1594F53429FD517E00A58F20 /* SceneDelegate.swift in Sources */,
+				15302C552B9E23E900B1EA3F /* UIViewController+Indicator.swift in Sources */,
 				15FBA7E52B1343CB00C9B1E7 /* PostThumbnailValue.swift in Sources */,
 				13BF40F52AD712EC00F3F082 /* UIViewController+TitleView.swift in Sources */,
 				13A6C2DB2AB782A100EABD76 /* UIViewController+BackBarButtonItem.swift in Sources */,
