@@ -26,6 +26,7 @@ struct UserInfoAPIEndpoint {
     return Endpoint<CommonDTO<Bool>>(
     scheme: "http",
     host: "localhost:8080",
+    method: .patch,
     parameters: [.query(requestDTO)],
     requestType: .userNameDuplicateCheck)
   }
