@@ -131,13 +131,13 @@ extension MyInformationViewController: ViewBindCase {
       storeLabel.textColor = .yg.primary
       inputNoticeLabel.text = inputTextField.textState.quotation
     case .correctionSaved:
-      // TODO: - 저장 성공시 알림창 응답.
-      break
+      stopIndicator()
+      setSubviewsDefaultUI()
     case .correctionNotSaved:
       // TODO: - 저장 실패시 알림창 응답.
-      break
+      stopIndicator()
     case .networkProcessing:
-      break
+      startIndicator()
     }
   }
   
@@ -248,9 +248,6 @@ extension MyInformationViewController {
   
   @objc func didTapStoreLabel() {
     input.tapStoreButton.send()
-    
-    // TODO: - 서버에 변경된 내용 보내서 변경해야합니다. -- 서버 응답 상황에 따라 저장될지 등을 결정해야합ㄴ디ㅏ.
-    setSubviewsDefaultUI()
   }
   
   @objc func didTapBottomSheetComponent(_ gesture: UITapGestureRecognizer) {
