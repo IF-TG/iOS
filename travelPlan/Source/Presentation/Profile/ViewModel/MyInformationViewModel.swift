@@ -84,7 +84,7 @@ private extension MyInformationViewModel {
   
   func checkDuplicatedUserNameStream() -> Output {
     userInfoUseCase.isNicknameDuplicated.map { [weak self] isDuplicatedUserName -> State in
-      self?.changedNameAvailable = isDuplicatedUserName
+      self?.changedNameAvailable = !isDuplicatedUserName
       if isDuplicatedUserName {
         self?.editedUserNickname = nil
       }
