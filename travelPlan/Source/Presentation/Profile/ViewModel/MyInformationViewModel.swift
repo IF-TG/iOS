@@ -90,8 +90,10 @@ private extension MyInformationViewModel {
           self?.changedNameAvailable = false
         }
         if self?.hasProfileChanged == true, let image = image {
-          // TODO: - 아.. 처음일경우 save. 두번쨰이상일경우 update 호출해야한다.
-          // userDefaults에 사용자의 프로필이 최초 등록됬는지 여부도 확인해야한다..
+          // TODO: - 프로필 처음 저장 여부 파악해야합니다. 두번쨰이상일경우 update 호출해야합니다.
+          /// userDefaults에 사용자의 프로필이 서버에 저장되어있는지 최초 확인해야합니다.
+          /// 최초로 저장되어있다면, 그 다음부터는 update를 통해서만 (delete -> save) 서버에 추가해야한다고 합니다.
+          /// 맨 처음 가입해서 들어올떄 자동으로 최초 한번 기본이미지 저장하는게 편할것 같습니다..
           self?.userInfoUseCase.updateProfile(with: image)
           self?.hasProfileChanged = false
         }
@@ -128,7 +130,8 @@ private extension MyInformationViewModel {
   /// 프로필, 이미지 둘다 업데이트되는 경우 두개의 경우를 받은 후에 State를 반환합니다.
   func hasBothNameAndProfileUPdatedStream() -> Output {
     return bothNameAndProfileUpdatedPublisher
-      .map { (updatedNameResult, updatedProfileResult) -> State in
+      .map { [weak self] (updatedNameResult, updatedProfileResult) -> State in
+        self?.isProcessingBothNameAndProfile = false
         if updatedNameResult == updatedNameResult {
           return .correctionSaved
         }
