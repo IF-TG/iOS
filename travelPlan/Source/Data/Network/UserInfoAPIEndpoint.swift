@@ -44,7 +44,7 @@ extension UserInfoAPIEndpoint {
       host: "localhost:8080",
       method: .put,
       parameters: [.query(queryRequestDTO), .body(bodyReqeustDTO)],
-      requestType: .userProfileUpdate)
+      requestType: .userProfile(.update))
   }
   
   static func saveProfile(
@@ -56,7 +56,7 @@ extension UserInfoAPIEndpoint {
       host: "localhost:8080",
       method: .post,
       parameters: [.query(queryReqeustDTO), .body(bodyReqeustDTO)],
-      requestType: .userProfileSave)
+      requestType: .userProfile(.save))
   }
   
   static func deleteProfile(
@@ -67,7 +67,7 @@ extension UserInfoAPIEndpoint {
       host: "localhost:8080",
       method: .delete,
       parameters: [.query(requestDTO)],
-      requestType: .userProfileDelete)
+      requestType: .userProfile(.delete))
   }
   
   static func fetchProfile(
@@ -78,6 +78,6 @@ extension UserInfoAPIEndpoint {
       host: "localhost:8080",
       method: .get,
       parameters: [.query(requestDTO)],
-      requestType: .userProfileFetch)
+      requestType: .userProfile(.fetch))
   }
 }

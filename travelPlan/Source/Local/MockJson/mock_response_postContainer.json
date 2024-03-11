@@ -1,0 +1,157 @@
+{
+  "result": [
+    {
+      "thumbnailUri": [
+        "tempThumbnail0", "tempThumbnail1", "tempThumbnail2"
+      ],
+      "post": {
+        "postId": 0,
+        "profileImgUri": "tempProfile1",
+        "title": "포스트1",
+        "nickname": "Capturing the Beauty of Ocean Bliss",
+        "startDate": "2024.03.08",
+        "endDate": "2024.03.09",
+        "postImgUri": [
+          {
+            "img": "tempThumbnail0",
+            "sort": 0
+          },
+          {
+            "img": "tempThumbnail1",
+            "sort": 1
+          },
+          {
+            "img": "tempThumbnail2",
+            "sort": 2
+          }
+        ],
+        "content": "여행여행컨텐츠컨텐츠~~~~",
+        "likeNum": 20,
+        "commentNum": 12,
+        "createAt": "2024.03.11",
+        "themes": [
+          "REST"
+        ],
+        "regions": [
+          "BUSAN"
+        ],
+        "seasons": [
+          "SPRING", "SUMMER"
+        ],
+        "companions": [
+          "FAMILY", "PET"
+        ],
+        "mapX": 123.9325930,
+        "mapY": 103.2934093,
+        "liked": true
+      }
+    },
+    {
+      "thumbnailUri": [
+        "tempThumbnail4", "tempThumbnail2", "tempThumbnail5", "tempThumbnai6"
+      ],
+      "post": {
+        "postId": 1,
+        "profileImgUri": "tempProfile2",
+        "title": "포스트11",
+        "nickname": "닉네임2",
+        "startDate": "2024.04.08",
+        "endDate": "2024.04.09",
+        "postImgUri": [
+          {
+            "img": "tempThumbnail4",
+            "sort": 0
+          },
+          {
+            "img": "tempThumbnail2",
+            "sort": 1
+          },
+          {
+            "img": "tempThumbnail5",
+            "sort": 2
+          },
+          {
+            "img": "tempThumbnai6",
+            "sort": 3
+          }
+        ],
+        "content": "여행여행컨텐츠컨텐츠~~~~",
+        "likeNum": 11,
+        "commentNum": 131,
+        "createAt": "2024.04.11",
+        "themes": [
+          "REST", "SHOPPING", "CAMPING_GLAMPING"
+        ],
+        "regions": [
+          "BUSAN", "CHUNGBUK", "CHUNGNAM"
+        ],
+        "seasons": [
+          "AUTUMN", "SUMMER"
+        ],
+        "companions": [
+          "FRIEND", "PET", "WITH_CHILDREN"
+        ],
+        "mapX": 113.4325930,
+        "mapY": 123.2934093,
+        "liked": true
+      }
+    },
+    {
+      "thumbnailUri": [
+        "tempThumbnail15", "tempThumbnail13", "tempThumbnail11", "tempThumbnail12", "tempThumbnail14"
+      ],
+      "post": {
+        "postId": 0,
+        "profileImgUri": "tempProfile3",
+        "title": "포스트3",
+        "nickname": "닉네임3",
+        "startDate": "2024.03.08",
+        "endDate": "2024.03.09",
+        "postImgUri": [
+          {
+            "img": "tempThumbnail15",
+            "sort": 0
+          },
+          {
+            "img": "tempThumbnail13",
+            "sort": 1
+          },
+          {
+            "img": "tempThumbnail11",
+            "sort": 2
+          },
+          {
+            "img": "tempThumbnail12",
+            "sort": 3
+          },
+          {
+            "img": "tempThumbnail14",
+            "sort": 4
+          }
+        ],
+        "content": "여행여행컨텐츠컨텐츠~~~~",
+        "likeNum": 222,
+        "commentNum": 1222,
+        "createAt": "2024.03.11",
+        "themes": [
+          "FESTIVAL"
+        ],
+        "regions": [
+          "GYEONGNAM", "SEJONG", "ULSAN"
+        ],
+        "seasons": [
+          "SPRING", "SUMMER"
+        ],
+        "companions": [
+          "PET", "ALONE"
+        ],
+        "mapX": 123.9325930,
+        "mapY": 103.2934093,
+        "liked": true
+      }
+    }
+  ],
+  "status": "OK",
+  "statusCode": "200",
+  "message": "무야호~~"
+}

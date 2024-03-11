@@ -1,5 +1,5 @@
 //
-//  PostSearchFilterType.swift
+//  PostFilterOptions.swift
 //  travelPlan
 //
 //  Created by 양승현 on 2023/07/10.
@@ -7,7 +7,8 @@
 
 import Foundation
 
-enum PostSearchFilterType {
+enum PostFilterOptions {
+  // TODO: - 이것도 TravelOrderType associated value줘야 할거같은데,
   case travelOrder
   case travelMainTheme(TravelMainThemeType)
   
@@ -33,7 +34,7 @@ enum PostSearchFilterType {
 }
 
 // MARK: - RawRepresentable
-extension PostSearchFilterType: RawRepresentable {
+extension PostFilterOptions: RawRepresentable {
   init?(rawValue: String) {
     switch rawValue {
     case "최신순":

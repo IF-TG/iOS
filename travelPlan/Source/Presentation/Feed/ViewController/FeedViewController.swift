@@ -140,7 +140,7 @@ extension FeedViewController {
   @objc func handleNotificaiton(_ noti: Notification) {
     let notiKey = Notification.Name.TravelCategoryDetailSelected
     guard
-      let type = noti.userInfo?[notiKey] as? PostSearchFilterType
+      let type = noti.userInfo?[notiKey] as? PostFilterOptions
     else {
       NSLog("DEBUG: 데이터 못받았어... feedVC에서 from MoreCategoryView..")
       return

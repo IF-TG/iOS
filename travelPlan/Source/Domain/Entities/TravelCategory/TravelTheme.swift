@@ -7,13 +7,11 @@
 
 import Foundation
 
-enum TravelTheme: String, CaseIterable {
+@frozen enum TravelTheme: String, CaseIterable {
   case relaxation = "휴식"
   case shopping = "쇼핑"
   case campingGlamping = "캠핑/글램핑"
   case adventure = "모험"
   case local = "현지 체험"
-  case experiences = "경험"
   case festivals = "축제"
-  case tourism = "관광"
 }

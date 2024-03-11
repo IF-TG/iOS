@@ -12,5 +12,5 @@ protocol CategoryPageViewDataSource: AnyObject {
   
   func cellItem(at index: Int) -> TravelMainCategoryViewCellInfo
   func travelMainCategoryTitle(at index: Int) -> String
-  func postSearchFilterItem(at index: Int) -> FeedPostSearchFilterInfo
+  func postSearchFilterItem(at index: Int) -> PostFilterInfo
 }

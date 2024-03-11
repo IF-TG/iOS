@@ -9,12 +9,12 @@ import Alamofire
 import Combine
 import Foundation
 
-protocol PostUseCase {
-  func fetchPosts() -> Future<[PostEntity], AFError>
+protocol TempPostUseCase {
+  func fetchPosts() -> Future<[TempPostEntity], AFError>
 }
 
 // FIXME: - 임시적으로 추가했습니다.
-struct PostEntity {
+struct TempPostEntity {
   let id: Int
   let profileImageURL: String
   let title: String
@@ -32,11 +32,11 @@ class PostViewModel {
   // MARK: - Properties
   @Published private(set) var posts: [PostInfo] = []
   
-  private let defaultUseCase: PostUseCase
+  private let defaultUseCase: TempPostUseCase
   
   private var subscriptions = Set<AnyCancellable>()
   
-  init(postUseCase: PostUseCase) {
+  init(postUseCase: TempPostUseCase) {
     defaultUseCase = postUseCase
     
     bindData()
