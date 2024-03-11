@@ -122,7 +122,6 @@ extension MyInformationViewController: ViewBindCase {
     case .none:
       break
     case .duplicatedNickname:
-      print("hi")
       inputTextField.textState = .duplicated
       stopIndicator()
     case .availableNickname:
