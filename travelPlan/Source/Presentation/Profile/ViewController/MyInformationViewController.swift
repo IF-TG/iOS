@@ -101,6 +101,7 @@ extension MyInformationViewController: ViewBindCase {
   
   func bind() {
     bindInputTextField()
+    bindInputTextFieldTextState()
     let output = viewModel.transform(input)
     output
       .receive(on: DispatchQueue.main)
@@ -121,19 +122,15 @@ extension MyInformationViewController: ViewBindCase {
     case .none:
       break
     case .duplicatedNickname:
-      storeLabel.isUserInteractionEnabled = false
-      storeLabel.textColor = .yg.gray1
-      inputNoticeLabel.text = inputTextField.textState.quotation
+      print("hi")
+      inputTextField.textState = .duplicated
       stopIndicator()
     case .availableNickname:
       inputTextField.textState = .available
-      inputNoticeLabel.textColor = .yg.primary
-      storeLabel.isUserInteractionEnabled = true
-      storeLabel.textColor = .yg.primary
-      inputNoticeLabel.text = inputTextField.textState.quotation
       stopIndicator()
     case .correctionSaved:
       stopIndicator()
+      // TODO: - 저장 성공 알림창 응답.+ (닉네임, 이미지 bool) 받고 칸 갱신
       setSubviewsDefaultUI()
     case .correctionNotSaved:
       // TODO: - 저장 실패시 알림창 응답.
@@ -165,24 +162,47 @@ private extension MyInformationViewController {
       .sink { [weak self] in
         let isNicknameAvailable = (3...15).contains($0.count)
         let isNicknameWithinMinimumRange = (1...2).contains($0.count)
+        let isInputTextfieldEmpty = $0.count == 0 || $0.isEmpty
         if isNicknameAvailable {
           self?.input.isNicknameDuplicated.send($0)
-        } else if $0.count == 0 || $0.isEmpty {
+        } else if isInputTextfieldEmpty {
           self?.inputTextField.textState = .initial
         } else if isNicknameWithinMinimumRange {
-          /// 닉네임 글자 최소 넘지 못함.
           self?.inputTextField.textState = .underflow
-          self?.inputNoticeLabel.textColor = .yg.red2
         } else {
           /// 닉네임 글자 넘음
           self?.inputTextField.textState = .overflow
-          self?.inputNoticeLabel.textColor = .yg.red2
         }
         if self?.inputTextField.textState != .available {
           self?.storeLabel.isUserInteractionEnabled = false
           self?.storeLabel.textColor = .yg.gray1
         }
         self?.inputNoticeLabel.text = self?.inputTextField.textState.quotation
+      }.store(in: &subscriptions)
+  }
+  
+  func bindInputTextFieldTextState() {
+    inputTextField.$textState
+      .receive(on: DispatchQueue.main)
+      .sink { [weak self] state in
+        if state == .duplicated {
+          self?.inputNoticeLabel.text = self?.inputTextField.textState.quotation
+          self?.inputNoticeLabel.textColor = .yg.red2
+          self?.storeLabel.isUserInteractionEnabled = false
+          self?.storeLabel.textColor = .yg.gray1
+        }
+        if state == .available {
+          self?.inputNoticeLabel.textColor = .yg.primary
+          self?.inputNoticeLabel.text = self?.inputTextField.textState.quotation
+          self?.storeLabel.isUserInteractionEnabled = true
+          self?.storeLabel.textColor = .yg.primary
+        }
+        if state == .underflow {
+          self?.inputNoticeLabel.textColor = .yg.red2
+        }
+        if state == .overflow {
+          self?.inputNoticeLabel.textColor = .yg.red2
+        }
       }.store(in: &subscriptions)
   }
   
