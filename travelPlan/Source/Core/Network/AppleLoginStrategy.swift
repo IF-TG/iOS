@@ -54,7 +54,8 @@ extension AppleLoginStrategy: ASAuthorizationControllerDelegate {
     controller: ASAuthorizationController,
     didCompleteWithError error: Error
   ) {
-    print("handle error: \(error.localizedDescription)")
+    // TODO: - 해당 에러에 대응하는 로직을 추가해야합니다.
+    resultPublisher.send(completion: .failure(.authError(error)))
   }
 }
 

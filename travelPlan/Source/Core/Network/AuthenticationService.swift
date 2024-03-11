@@ -15,6 +15,7 @@ struct AuthenticationResponseValue {
 
 enum AuthenticationServiceError: Error {
   case noStrategy
+  case authError(Error)
 }
 
 final class AuthenticationService {
