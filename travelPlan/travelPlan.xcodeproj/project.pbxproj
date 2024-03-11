@@ -254,6 +254,9 @@
 		15A4F28B2ACC072A001AA51D /* PrimaryColorToneRoundLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A4F28A2ACC072A001AA51D /* PrimaryColorToneRoundLabel.swift */; };
 		15A4F28D2ACC1025001AA51D /* Toggable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A4F28C2ACC1025001AA51D /* Toggable.swift */; };
 		15A4F28F2ACC11E5001AA51D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A4F28E2ACC11E5001AA51D /* ViewController.swift */; };
+		15A7A8EE2B9F6B1D00CA9A79 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A7A8ED2B9F6B1D00CA9A79 /* UserDefaultsManager.swift */; };
+		15A7A8F02B9F6BF100CA9A79 /* UserDefaultsManager+User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A7A8EF2B9F6BF100CA9A79 /* UserDefaultsManager+User.swift */; };
+		15A7A8F22B9F6C1700CA9A79 /* UserEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A7A8F12B9F6C1700CA9A79 /* UserEntity.swift */; };
 		15AF2C3E2A1147B100BEE166 /* UIImage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15AF2C3D2A1147B100BEE166 /* UIImage+.swift */; };
 		15B4E5F12ACAA947001CF071 /* SearchStarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1390CC6E2A8E0B2800E34DC3 /* SearchStarButton.swift */; };
 		15B9285B2AF9DEAA003A20D4 /* PostDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B9285A2AF9DEAA003A20D4 /* PostDetailViewController.swift */; };
@@ -707,6 +710,9 @@
 		15A4F28A2ACC072A001AA51D /* PrimaryColorToneRoundLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryColorToneRoundLabel.swift; sourceTree = "<group>"; };
 		15A4F28C2ACC1025001AA51D /* Toggable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toggable.swift; sourceTree = "<group>"; };
 		15A4F28E2ACC11E5001AA51D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		15A7A8ED2B9F6B1D00CA9A79 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
+		15A7A8EF2B9F6BF100CA9A79 /* UserDefaultsManager+User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaultsManager+User.swift"; sourceTree = "<group>"; };
+		15A7A8F12B9F6C1700CA9A79 /* UserEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserEntity.swift; sourceTree = "<group>"; };
 		15AF2C3D2A1147B100BEE166 /* UIImage+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+.swift"; sourceTree = "<group>"; };
 		15B9285A2AF9DEAA003A20D4 /* PostDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailViewController.swift; sourceTree = "<group>"; };
 		15B9285C2AF9E3A2003A20D4 /* PostDetailProfileAreaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailProfileAreaView.swift; sourceTree = "<group>"; };
@@ -1166,7 +1172,7 @@
 		1383C8232B98646B00830F1A /* PersistentStorages */ = {
 			isa = PBXGroup;
 			children = (
-				1383C8252B9864B700830F1A /* UserDefaultsStorage */,
+				15A7A8EC2B9F6B0500CA9A79 /* UserDefaultsStorage */,
 				1383C8242B9864A700830F1A /* KeychainStorage */,
 			);
 			path = PersistentStorages;
@@ -1179,13 +1185,6 @@
 				1383C81E2B9815B700830F1A /* KeychainKey.swift */,
 			);
 			path = KeychainStorage;
-			sourceTree = "<group>";
-		};
-		1383C8252B9864B700830F1A /* UserDefaultsStorage */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = UserDefaultsStorage;
 			sourceTree = "<group>";
 		};
 		13BF411E2ADBEC4100F3F082 /* View */ = {
@@ -1411,6 +1410,7 @@
 				15FBD5DF2B98E5FD00076115 /* PostsPage.swift */,
 				15E9E5EB2B9A31D000C2F1F7 /* PostContainer.swift */,
 				15329CEB2B96171B005FC033 /* ProfileImageEntity.swift */,
+				15A7A8F12B9F6C1700CA9A79 /* UserEntity.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -1861,6 +1861,15 @@
 				13254FE22A05147200094218 /* MainTabBarController.swift */,
 			);
 			path = ViewController;
+			sourceTree = "<group>";
+		};
+		15A7A8EC2B9F6B0500CA9A79 /* UserDefaultsStorage */ = {
+			isa = PBXGroup;
+			children = (
+				15A7A8ED2B9F6B1D00CA9A79 /* UserDefaultsManager.swift */,
+				15A7A8EF2B9F6BF100CA9A79 /* UserDefaultsManager+User.swift */,
+			);
+			path = UserDefaultsStorage;
 			sourceTree = "<group>";
 		};
 		15BB01AE2A1EB4890035B486 /* Authentication */ = {
@@ -2916,6 +2925,7 @@
 				15BB01B82A1EB5070035B486 /* LoginViewModel.swift in Sources */,
 				1599587B2B0DC55700B2E4DC /* PostCellWithTwoThumbnails.swift in Sources */,
 				15FB47F12AC1DCEF0033AA18 /* TravelMainThemeCollectionView.swift in Sources */,
+				15A7A8F02B9F6BF100CA9A79 /* UserDefaultsManager+User.swift in Sources */,
 				15FBD5D62B98DB5F00076115 /* SeasonMapper.swift in Sources */,
 				15C1F53E2AF2904C005FDA15 /* NotificationCell.swift in Sources */,
 				158BEFC42A0EC8A100C27861 /* UIView+CustomAnimation.swift in Sources */,
@@ -2958,6 +2968,7 @@
 				15F2A0182B14E32B0014603D /* MyInformationViewController.swift in Sources */,
 				155D0BAC2B90CB5B0042DFB6 /* UserNicknamePatchRequestDTO.swift in Sources */,
 				13254FF02A0549D200094218 /* TabBarCase.swift in Sources */,
+				15A7A8EE2B9F6B1D00CA9A79 /* UserDefaultsManager.swift in Sources */,
 				15C7A51A2B94DA2800C79E27 /* UserIdReqeustDTO.swift in Sources */,
 				13254FEB2A0515C700094218 /* FavoriteViewController.swift in Sources */,
 				151DF0E72AEEA76500D5D55B /* NoticeViewModel.swift in Sources */,
@@ -3087,6 +3098,7 @@
 				15FBD5D42B98DAB000076115 /* TravelRegionMapper.swift in Sources */,
 				15D60D382AEB874B0087FEC0 /* NotificationCenterCoordinator.swift in Sources */,
 				15FB47EE2AC176FD0033AA18 /* UISpacing.swift in Sources */,
+				15A7A8F22B9F6C1700CA9A79 /* UserEntity.swift in Sources */,
 				15CB236F2A10C314003EAF20 /* PostCellViewModel.swift in Sources */,
 				15FBD5DC2B98E32C00076115 /* PostAPIEndpoint.swift in Sources */,
 				13C9C1B12A1806F500DF1FFF /* PostRecentSearchTagCellDelegate.swift in Sources */,
