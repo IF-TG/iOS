@@ -114,21 +114,18 @@ private extension MyInformationViewModel {
   func hasNicknameUpdatedStream() -> Output {
     return userInfoUseCase.isNicknameUpdated
       .map { [weak self] result -> State in
-        guard self?.isProcessingBothNameAndProfile == true else {
+        if self?.isProcessingBothNameAndProfile == true {
           /// bothNameAndProfileUpdatePublisher를 통해서 저장 결과를 반영합니다.
           return .none
         }
-        if result {
-          return .correctionSaved
-        }
-        return .correctionNotSaved
+        return result ? .correctionSaved : .correctionNotSaved
       }.eraseToAnyPublisher()
   }
   
   func hasProfileUpdatedStream() -> Output {
     return userInfoUseCase.isProfileUpdated
       .map { [weak self] result -> State in
-        guard self?.isProcessingBothNameAndProfile == true else {
+        if self?.isProcessingBothNameAndProfile == true {
           /// bothNameAndProfileUpdatePublisher를 통해서 저장 결과를 반영합니다.
           return .none
         }
