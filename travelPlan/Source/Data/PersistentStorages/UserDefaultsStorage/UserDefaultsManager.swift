@@ -10,9 +10,10 @@ import Foundation
 final class UserDefaultsManager {
   enum Key: String {
     case isLoggedIn
-    case userInfo
+    case user
   }
   
+  /// Key를 사용하지 않을 경우 subscript를 통해 직접 문자열로 UserDefaults에 저장할 수 있습니다.
   static subscript(_ key: Key) -> Any? {
     get {
       UserDefaults.standard.value(forKey: key.rawValue)
@@ -46,4 +47,3 @@ final class UserDefaultsManager {
     return nil
   }
 }
-
