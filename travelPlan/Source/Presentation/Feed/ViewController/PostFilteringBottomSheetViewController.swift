@@ -35,7 +35,7 @@ final class PostFilteringBottomSheetViewController: BaseBottomSheetViewControlle
     $0.delegate = self
   }
   
-  private(set) var sortingType: PostSearchFilterType
+  private(set) var sortingType: PostFilterOptions
   
   private lazy var titles: [String] = sortingType.subCateogryTitles
   
@@ -46,7 +46,7 @@ final class PostFilteringBottomSheetViewController: BaseBottomSheetViewControlle
   // MARK: - Lifecycle
   init(
     bottomSheetMode: BaseBottomSheetViewController.ContentMode,
-    sortingType: PostSearchFilterType
+    sortingType: PostFilterOptions
   ) {
     let contentView = UIView(frame: .zero).set {
       $0.translatesAutoresizingMaskIntoConstraints = false

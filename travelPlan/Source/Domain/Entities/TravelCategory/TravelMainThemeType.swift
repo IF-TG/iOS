@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum TravelMainThemeType: CaseIterable {
+@frozen enum TravelMainThemeType: CaseIterable {
   case all
   case season(Season)
   case region(TravelRegion)

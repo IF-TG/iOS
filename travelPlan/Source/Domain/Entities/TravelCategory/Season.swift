@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum Season: String, CaseIterable {
+@frozen enum Season: String, CaseIterable {
   case spring = "봄"
   case summer = "여름"
   case fall = "가을"
