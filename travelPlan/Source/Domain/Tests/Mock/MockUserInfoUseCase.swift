@@ -44,9 +44,14 @@ final class MockUserInfoUseCase: UserInfoUseCase {
   }
   
   func checkIfNicknameDuplicate(with name: String) {
+    var mockResult = false
+    if name == "무야호" {
+      /// 무야호일 경우 중복된 이름.
+      mockResult = true
+    }
     let json = """
           {
-            "result": false,
+            "result": \(mockResult),
             "status": "OK",
             "statusCode": "200",
             "message": "success"
