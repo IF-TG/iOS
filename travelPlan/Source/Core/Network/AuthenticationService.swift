@@ -7,6 +7,7 @@
 
 import Foundation
 import Combine
+import Alamofire
 
 struct AuthenticationResponseValue {
   let authorizationCode: String
@@ -18,13 +19,26 @@ enum AuthenticationServiceError: Error {
   case authError(Error)
 }
 
-final class AuthenticationService {
+protocol AuthenticationService {
+  var loginStrategy: LoginStrategy? { get }
+  var session: Sessionable { get }
+  func setLoginStrategy(_ strategy: LoginStrategy)
+  func performLogin() -> AnyPublisher<AuthenticationResponseValue, AuthenticationServiceError>
+}
+
+final class DefaultAuthenticationService: AuthenticationService {
   // MARK: - Properties
-  private var loginStrategy: LoginStrategy?
+  var loginStrategy: LoginStrategy?
+  let session: Sessionable
   
-  // MARK: - Helpers
+  // MARK: - LifeCycle
+  init(session: Sessionable) {
+    self.session = session
+  }
+  
   func setLoginStrategy(_ strategy: LoginStrategy) {
     self.loginStrategy = strategy
+    self.loginStrategy?.session = session
   }
   
   func performLogin() -> AnyPublisher<AuthenticationResponseValue, AuthenticationServiceError> {
