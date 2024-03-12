@@ -70,6 +70,8 @@ private extension LoginViewModel {
             authorizationCode: responseValue.authorizationCode,
             identityToken: responseValue.identityToken))
           .map { isLoggedIn in
+            // MARK: - 로그인이 완료될 경우 사용자의 정보(아이디, 이름, 프로필이 서버에 저장됬는지 여부, 프로필 이미지)를 받은 후에 메인 화면으로
+            // 넘어와야 합니다.
             return isLoggedIn ? State.presentFeed : State.none
           }
           .catch { error in
