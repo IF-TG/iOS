@@ -90,4 +90,16 @@ extension UserDefaultsManager.User {
     UserDefaultsManager[.user] = userDict
     return true
   }
+  
+  @discardableResult
+  static func deleteProfile() -> Bool {
+    guard var user = user else {
+      print("DEBUG: 사용자의 프로필이 저장되지 않았습니다.")
+      return false
+    }
+    user.profileURL = nil
+    let userDict = convertToDictionary(from: user)
+    UserDefaultsManager[.user] = userDict
+    return true
+  }
 }
