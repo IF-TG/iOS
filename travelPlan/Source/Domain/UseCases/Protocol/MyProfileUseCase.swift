@@ -14,6 +14,7 @@ protocol MyProfileUseCase {
   var isProfileSaved: PassthroughSubject<Bool, MainError> { get }
   var isProfileDeleted: PassthroughSubject<Bool, MainError> { get }
   var fetchedProfile: PassthroughSubject<ProfileImageEntity, MainError> { get }
+  var isProfileSavedInServer: Bool { get }
   
   func checkIfNicknameDuplicate(with name: String)
   func updateNickname(with name: String)

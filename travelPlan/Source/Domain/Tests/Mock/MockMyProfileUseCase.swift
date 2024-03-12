@@ -9,7 +9,6 @@ import Foundation
 import Combine
 
 final class MockMyProfileUseCase: MyProfileUseCase {
-  
   init() {
     // Mock session주입
     let mockSession = MockSession.default
@@ -17,7 +16,12 @@ final class MockMyProfileUseCase: MyProfileUseCase {
     let myProfileRepository = DefaultMyProfileRepository(service: sessionProvider)
     defaultMyProfileUseCase = DefaultMyProfileUseCase(myProfileRepository: myProfileRepository)
   }
+  
   private let defaultMyProfileUseCase: MyProfileUseCase
+  
+  var isProfileSavedInServer: Bool {
+    defaultMyProfileUseCase.isProfileSavedInServer
+  }
   
   var isNicknameDuplicated: PassthroughSubject<Bool, MainError> {
     defaultMyProfileUseCase.isNicknameDuplicated

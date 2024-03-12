@@ -24,6 +24,10 @@ final class DefaultMyProfileRepository {
 
 // MARK: - MyProfileRepository
 extension DefaultMyProfileRepository: MyProfileRepository {
+  var isProfileSavedInServer: Bool {
+    MyInfoManager.isSavedProfileInserver
+  }
+  
   func checkIfUserNicknameDuplicate(with name: String) -> Future<Bool, MainError> {
     let reqeustDTO = UserNicknameRequestDTO(nickname: name)
     let endpoint = UserInfoAPIEndpoint.checkIfNicknameDuplicate(with: reqeustDTO)

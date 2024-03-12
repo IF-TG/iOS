@@ -15,4 +15,5 @@ protocol MyProfileRepository {
   func saveProfile(with profile: String) -> Future<Bool, MainError>
   func deleteProfile() -> Future<Bool, MainError>
   func fetchProfile() -> Future<ProfileImageEntity, MainError>
+  var isProfileSavedInServer: Bool { get }
 }

@@ -8,6 +8,8 @@
 import Combine
 
 final class MockMyProfileRepository: MyProfileRepository {
+  var isProfileSavedInServer: Bool = false
+  
   func updateUserNickname(with name: String) -> Future<Bool, MainError> {
     return .init { promise in
       promise(.success(name == "어려운건 정복해나가는 맛이 있는거지"))

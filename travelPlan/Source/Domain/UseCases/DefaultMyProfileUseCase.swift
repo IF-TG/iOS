@@ -25,6 +25,10 @@ final class DefaultMyProfileUseCase: MyProfileUseCase {
   
   var fetchedProfile = PassthroughSubject<ProfileImageEntity, MainError>()
   
+  var isProfileSavedInServer: Bool {
+    myProfileRepository.isProfileSavedInServer
+  }
+  
   private var subscriptions = Set<AnyCancellable>()
   
   // MARK: - Lifecycle
