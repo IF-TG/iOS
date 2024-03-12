@@ -71,6 +71,7 @@ extension DefaultMyProfileRepository: MyProfileRepository {
     }
   }
   
+  /// 업데이트는 서버 로직에서 삭제 -> 저장을 한번에 하는 기능입니다.
   func updateProfile(with profile: String) -> Future<Bool, MainError> {
     guard let loggedInUserId = MyInfoManager.id else {
       return Future { promise in
@@ -114,6 +115,7 @@ extension DefaultMyProfileRepository: MyProfileRepository {
             promise(.failure(error))
           }
         } receiveValue: { responseDTO in
+          MyInfoManager.updateProfileURL(with: profile)
           let isSucceed = (200...299).contains(Int(responseDTO.status) ?? -1)
           promise(.success(isSucceed))
         }.store(in: &subscriptions)
