@@ -1,5 +1,5 @@
 //
-//  MockUserInfoRepository.swift
+//  MockMyProfileRepository.swift
 //  travelPlan
 //
 //  Created by 양승현 on 2/27/24.
@@ -7,7 +7,7 @@
 
 import Combine
 
-final class MockUserInfoRepository: UserInfoRepository {
+final class MockMyProfileRepository: MyProfileRepository {
   func updateUserNickname(with name: String) -> Future<Bool, MainError> {
     return .init { promise in
       promise(.success(name == "어려운건 정복해나가는 맛이 있는거지"))

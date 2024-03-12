@@ -1,5 +1,5 @@
 //
-//  DefaultUserInfoUseCase.swift
+//  DefaultMyProfileUseCase.swift
 //  travelPlan
 //
 //  Created by 양승현 on 2/27/24.
@@ -8,9 +8,9 @@
 import Foundation
 import Combine
 
-final class DefaultUserInfoUseCase: UserInfoUseCase {
+final class DefaultMyProfileUseCase: MyProfileUseCase {
   // MARK: - Dependencies
-  private let userInfoRepository: UserInfoRepository
+  private let myProfileRepository: MyProfileRepository
   
   // MARK: - Properties
   var isNicknameDuplicated = PassthroughSubject<Bool, MainError>()
@@ -28,12 +28,12 @@ final class DefaultUserInfoUseCase: UserInfoUseCase {
   private var subscriptions = Set<AnyCancellable>()
   
   // MARK: - Lifecycle
-  init(userInfoRepository: UserInfoRepository) {
-    self.userInfoRepository = userInfoRepository
+  init(myProfileRepository: MyProfileRepository) {
+    self.myProfileRepository = myProfileRepository
   }
   
   func checkIfNicknameDuplicate(with name: String) {
-    userInfoRepository.checkIfUserNicknameDuplicate(with: name)
+    myProfileRepository.checkIfUserNicknameDuplicate(with: name)
       .sink { [weak self] completion in
         switch completion {
         case .finished:
@@ -47,7 +47,7 @@ final class DefaultUserInfoUseCase: UserInfoUseCase {
   }
   
   func updateNickname(with name: String) {
-    userInfoRepository.updateUserNickname(with: name)
+    myProfileRepository.updateUserNickname(with: name)
       .sink { [weak self] completion in
         switch completion {
         case .finished:
@@ -61,7 +61,7 @@ final class DefaultUserInfoUseCase: UserInfoUseCase {
   }
   
   func updateProfile(with base64String: String) {
-    userInfoRepository.updateProfile(with: base64String)
+    myProfileRepository.updateProfile(with: base64String)
       .receive(on: DispatchQueue.main)
       .sink { [weak self] completion in
         if case .failure(let error) = completion {
@@ -73,7 +73,7 @@ final class DefaultUserInfoUseCase: UserInfoUseCase {
   }
   
   func saveProfile(with base64String: String) {
-    userInfoRepository.saveProfile(with: base64String)
+    myProfileRepository.saveProfile(with: base64String)
       .receive(on: DispatchQueue.main)
       .sink { [weak self] completion in
         if case .failure(let error) = completion {
@@ -85,7 +85,7 @@ final class DefaultUserInfoUseCase: UserInfoUseCase {
   }
   
   func deleteProfile() {
-    userInfoRepository.deleteProfile()
+    myProfileRepository.deleteProfile()
       .receive(on: DispatchQueue.main)
       .sink { [weak self] completion in
         if case .failure(let error) = completion {
@@ -97,7 +97,7 @@ final class DefaultUserInfoUseCase: UserInfoUseCase {
   }
   
   func fetchProfile() {
-    userInfoRepository.fetchProfile()
+    myProfileRepository.fetchProfile()
       .receive(on: DispatchQueue.main)
       .sink { [weak self] completion in
         guard case .failure(let error) = completion else { return }

@@ -1,5 +1,5 @@
 //
-//  DefaultUserInfoRepository.swift
+//  DefaultMyProfileRepository.swift
 //  travelPlan
 //
 //  Created by 양승현 on 2/27/24.
@@ -7,9 +7,10 @@
 
 import Combine
 
-final class DefaultUserInfoRepository {
+final class DefaultMyProfileRepository {
   // MARK: - Dependencies
   private let service: Sessionable
+  private typealias MyInfoManager = UserDefaultsManager.User
   
   // MARK: - Properties
   private var subscriptions = Set<AnyCancellable>()
@@ -20,8 +21,8 @@ final class DefaultUserInfoRepository {
   }
 }
 
-// MARK: - UserInfoRepository
-extension DefaultUserInfoRepository: UserInfoRepository {
+// MARK: - MyProfileRepository
+extension DefaultMyProfileRepository: MyProfileRepository {
   func checkIfUserNicknameDuplicate(with name: String) -> Future<Bool, MainError> {
     let reqeustDTO = UserNicknameRequestDTO(nickname: name)
     let endpoint = UserInfoAPIEndpoint.checkIfNicknameDuplicate(with: reqeustDTO)

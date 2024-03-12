@@ -1,5 +1,5 @@
 //
-//  UserInfoUseCase.swift
+//  MyProfileUseCase.swift
 //  travelPlan
 //
 //  Created by 양승현 on 2/27/24.
@@ -7,7 +7,7 @@
 
 import Combine
 
-protocol UserInfoUseCase {
+protocol MyProfileUseCase {
   var isNicknameDuplicated: PassthroughSubject<Bool, MainError> { get }
   var isNicknameUpdated: PassthroughSubject<Bool, MainError> { get }
   var isProfileUpdated: PassthroughSubject<Bool, MainError> { get }

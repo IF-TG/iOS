@@ -55,8 +55,8 @@ extension ProfileCoordinator: ProfileCoordinatorDelegate {
       }
     }
     //let session = Session(configuration: sessionConfiguration, eventMonitors: [monitor])
-    let mockUserInfoUseCase = MockUserInfoUseCase()
-    let viewModel = MyInformationViewModel(userInfoUseCase: mockUserInfoUseCase)
+    let mockMyProfileUseCase = MockMyProfileUseCase()
+    let viewModel = MyInformationViewModel(myProfileUseCase: mockMyProfileUseCase)
     let viewController = MyInformationViewController(viewModel: viewModel)
     presenter?.pushViewController(viewController, animated: true)
   }

@@ -25,7 +25,7 @@ final class MyInformationViewModel {
   }
   
   // MARK: - Dependencies
-  private let userInfoUseCase: UserInfoUseCase
+  private let myProfileUseCase: MyProfileUseCase
   
   // MARK: - Properties
   private var editedUserProfileImage: String?
@@ -38,11 +38,11 @@ final class MyInformationViewModel {
   private var hasUserInfoUpdatedPublisehr = PassthroughSubject<Bool, MainError>()
   
   // MARK: - Lifecycle
-  init(userInfoUseCase: UserInfoUseCase) {
-    self.userInfoUseCase = userInfoUseCase
+  init(myProfileUseCase: MyProfileUseCase) {
+    self.myProfileUseCase = myProfileUseCase
     bothNameAndProfileUpdatedPublisher = Publishers.Zip(
-      userInfoUseCase.isNicknameUpdated,
-      userInfoUseCase.isProfileUpdated
+      myProfileUseCase.isNicknameUpdated,
+      myProfileUseCase.isProfileUpdated
     ).eraseToAnyPublisher()
   }
 }
@@ -74,13 +74,13 @@ private extension MyInformationViewModel {
   func isDuplicatedUserNameStream(input: Input) -> Output {
     return input.isNicknameDuplicated.map { [weak self] nickname in
       self?.editedUserNickname = nickname
-      self?.userInfoUseCase.checkIfNicknameDuplicate(with: nickname)
+      self?.myProfileUseCase.checkIfNicknameDuplicate(with: nickname)
       return .networkProcessing
     }.eraseToAnyPublisher()
   }
   
   func checkDuplicatedUserNameStream() -> Output {
-    userInfoUseCase.isNicknameDuplicated.map { [weak self] isDuplicatedUserName -> State in
+    myProfileUseCase.isNicknameDuplicated.map { [weak self] isDuplicatedUserName -> State in
       self?.changedNameAvailable = !isDuplicatedUserName
       if isDuplicatedUserName {
         self?.editedUserNickname = nil
@@ -96,7 +96,7 @@ private extension MyInformationViewModel {
           self?.isProcessingBothNameAndProfile = true
         }
         if self?.changedNameAvailable == true, let nickname = self?.editedUserNickname {
-          self?.userInfoUseCase.updateNickname(with: nickname)
+          self?.myProfileUseCase.updateNickname(with: nickname)
           self?.changedNameAvailable = false
         }
         if let image = self?.editedUserProfileImage {
@@ -104,7 +104,7 @@ private extension MyInformationViewModel {
           /// userDefaults에 사용자의 프로필이 서버에 저장되어있는지 최초 확인해야합니다.
           /// 최초로 저장되어있다면, 그 다음부터는 update를 통해서만 (delete -> save) 서버에 추가해야한다고 합니다.
           /// 맨 처음 가입해서 들어올떄 자동으로 최초 한번 기본이미지 저장하는게 편할것 같습니다..
-          self?.userInfoUseCase.updateProfile(with: image)
+          self?.myProfileUseCase.updateProfile(with: image)
           self?.editedUserProfileImage = nil
         }
         return .networkProcessing
@@ -112,7 +112,7 @@ private extension MyInformationViewModel {
   }
 
   func hasNicknameUpdatedStream() -> Output {
-    return userInfoUseCase.isNicknameUpdated
+    return myProfileUseCase.isNicknameUpdated
       .map { [weak self] result -> State in
         if self?.isProcessingBothNameAndProfile == true {
           /// bothNameAndProfileUpdatePublisher를 통해서 저장 결과를 반영합니다.
@@ -123,7 +123,7 @@ private extension MyInformationViewModel {
   }
   
   func hasProfileUpdatedStream() -> Output {
-    return userInfoUseCase.isProfileUpdated
+    return myProfileUseCase.isProfileUpdated
       .map { [weak self] result -> State in
         if self?.isProcessingBothNameAndProfile == true {
           /// bothNameAndProfileUpdatePublisher를 통해서 저장 결과를 반영합니다.

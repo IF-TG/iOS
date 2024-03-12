@@ -1,5 +1,5 @@
 //
-//  MockUserInfoUseCase.swift
+//  MockMyProfileUseCase.swift
 //  travelPlan
 //
 //  Created by 양승현 on 3/11/24.
@@ -8,39 +8,39 @@
 import Foundation
 import Combine
 
-final class MockUserInfoUseCase: UserInfoUseCase {
+final class MockMyProfileUseCase: MyProfileUseCase {
   
   init() {
     // Mock session주입
     let mockSession = MockSession.default
     let sessionProvider = SessionProvider(session: mockSession)
-    let userInfoRepository = DefaultUserInfoRepository(service: sessionProvider)
-    defaultUserInfoUseCase = DefaultUserInfoUseCase(userInfoRepository: userInfoRepository)
+    let myProfileRepository = DefaultMyProfileRepository(service: sessionProvider)
+    defaultMyProfileUseCase = DefaultMyProfileUseCase(myProfileRepository: myProfileRepository)
   }
-  private let defaultUserInfoUseCase: UserInfoUseCase
+  private let defaultMyProfileUseCase: MyProfileUseCase
   
   var isNicknameDuplicated: PassthroughSubject<Bool, MainError> {
-    defaultUserInfoUseCase.isNicknameDuplicated
+    defaultMyProfileUseCase.isNicknameDuplicated
   }
   
   var isNicknameUpdated: PassthroughSubject<Bool, MainError> {
-    defaultUserInfoUseCase.isNicknameUpdated
+    defaultMyProfileUseCase.isNicknameUpdated
   }
   
   var isProfileUpdated: PassthroughSubject<Bool, MainError> {
-    defaultUserInfoUseCase.isProfileUpdated
+    defaultMyProfileUseCase.isProfileUpdated
   }
   
   var isProfileSaved: PassthroughSubject<Bool, MainError> {
-    defaultUserInfoUseCase.isProfileSaved
+    defaultMyProfileUseCase.isProfileSaved
   }
   
   var isProfileDeleted: PassthroughSubject<Bool, MainError> {
-    defaultUserInfoUseCase.isProfileDeleted
+    defaultMyProfileUseCase.isProfileDeleted
   }
   
   var fetchedProfile: PassthroughSubject<ProfileImageEntity, MainError> {
-    defaultUserInfoUseCase.fetchedProfile
+    defaultMyProfileUseCase.fetchedProfile
   }
   
   func checkIfNicknameDuplicate(with name: String) {
@@ -62,7 +62,7 @@ final class MockUserInfoUseCase: UserInfoUseCase {
       return ((HTTPURLResponse(), responseData))
     }
     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-      self.defaultUserInfoUseCase.checkIfNicknameDuplicate(with: name)
+      self.defaultMyProfileUseCase.checkIfNicknameDuplicate(with: name)
     }
   }
   
@@ -80,7 +80,7 @@ final class MockUserInfoUseCase: UserInfoUseCase {
       return ((HTTPURLResponse(), responseData))
     }
     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-      self.defaultUserInfoUseCase.updateNickname(with: name)
+      self.defaultMyProfileUseCase.updateNickname(with: name)
     }
   }
   
@@ -101,7 +101,7 @@ final class MockUserInfoUseCase: UserInfoUseCase {
       return ((HTTPURLResponse(), responseData))
     }
     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-      self.defaultUserInfoUseCase.updateProfile(with: base64String)
+      self.defaultMyProfileUseCase.updateProfile(with: base64String)
     }
   }
   
@@ -122,7 +122,7 @@ final class MockUserInfoUseCase: UserInfoUseCase {
       return ((HTTPURLResponse(), responseData))
     }
     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-      self.defaultUserInfoUseCase.saveProfile(with: base64String)
+      self.defaultMyProfileUseCase.saveProfile(with: base64String)
     }
   }
   
@@ -140,7 +140,7 @@ final class MockUserInfoUseCase: UserInfoUseCase {
       return ((HTTPURLResponse(), responseData))
     }
     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-      self.defaultUserInfoUseCase.deleteProfile()
+      self.defaultMyProfileUseCase.deleteProfile()
     }
   }
   
@@ -157,7 +157,7 @@ final class MockUserInfoUseCase: UserInfoUseCase {
           }
           """
     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-      self.defaultUserInfoUseCase.fetchProfile()
+      self.defaultMyProfileUseCase.fetchProfile()
     }
   }
 }

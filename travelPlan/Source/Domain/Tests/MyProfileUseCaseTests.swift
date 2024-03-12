@@ -1,5 +1,5 @@
 //
-//  UserInfoUseCaseTests.swift
+//  MyProfileUseCaseTests.swift
 //  travelPlanTests
 //
 //  Created by 양승현 on 2/27/24.
@@ -9,17 +9,17 @@ import XCTest
 import Combine
 @testable import travelPlan
 
-final class UserInfoUseCaseTests: XCTestCase {
+final class MyProfileUseCaseTests: XCTestCase {
   // MARK: - Properties
-  var sut: UserInfoUseCase!
+  var sut: MyProfileUseCase!
   var subscription: AnyCancellable?
-  let mockUserInfoRepository = MockUserInfoRepository()
+  let mockMyProfileRepository = MockMyProfileRepository()
   var expectation: XCTestExpectation!
   
   // MARK: - Lifecycle
   override func setUp() {
     super.setUp()
-    sut = DefaultUserInfoUseCase(userInfoRepository: mockUserInfoRepository)
+    sut = DefaultMyProfileUseCase(myProfileRepository: mockMyProfileRepository)
     expectation = XCTestExpectation(description: "Finish")
   }
   
@@ -31,7 +31,7 @@ final class UserInfoUseCaseTests: XCTestCase {
   }
   
   // MARK: - Tests
-  func testUserInfoUseCase_checkIfNicknameDuplicate함수를통해_사용자의이름이중복됬는지여부를확인할때_ShouldRetrunTrue() {
+  func testMyProfileUseCase_checkIfNicknameDuplicate함수를통해_사용자의이름이중복됬는지여부를확인할때_ShouldRetrunTrue() {
     subscription = sut.isNicknameDuplicated.sink { _ in
     } receiveValue: { [unowned self] requestedValue in
       // Assert
@@ -45,7 +45,7 @@ final class UserInfoUseCaseTests: XCTestCase {
     wait(for: [expectation], timeout: 5)
   }
   
-  func testUserInfoUseCase_updateNickname함수를통해_이름업데이트할때_이미_다른사용자가_사용중인이름이라면_ShouldReturnFalse() {
+  func testMyProfileUseCase_updateNickname함수를통해_이름업데이트할때_이미_다른사용자가_사용중인이름이라면_ShouldReturnFalse() {
     // Arrange
     var testResultValue = true
     
@@ -64,7 +64,7 @@ final class UserInfoUseCaseTests: XCTestCase {
       "isNicknameUpdated 반환 값이 true여야 하지만 false반환")
   }
   
-  func testUserInfoUseCase_updateNickname함수를통해_이름업데이트할때_성공적으로_변경됬다면_ShouldReturnTrue() {
+  func testMyProfileUseCase_updateNickname함수를통해_이름업데이트할때_성공적으로_변경됬다면_ShouldReturnTrue() {
     // Arrange
     var testResultValue = false
     
@@ -83,7 +83,7 @@ final class UserInfoUseCaseTests: XCTestCase {
       "isNicknameUpdated 반환 값이 true여야 하지만 false반환")
   }
   
-  func testUserInfoUseCase_updateProfile함수를통해_프로필업데이트성공적일때_isProfileUpdated프로퍼티가_ShouldReturnEqual() {
+  func testMyProfileUseCase_updateProfile함수를통해_프로필업데이트성공적일때_isProfileUpdated프로퍼티가_ShouldReturnEqual() {
     // Arrange
     var resultValue = false
     let expectedValue = true
@@ -104,7 +104,7 @@ final class UserInfoUseCaseTests: XCTestCase {
       "updateProfile()함수를통해 서버에 호출한 결과로 isProfileUdpated프로퍼티가 true가 반환되야하는데 false반환됨.")
   }
   
-  func testUserInfoUseCase_updateProfile함수를통해_프로필업데이트가실패했을때_isProfileUpdated프로퍼티가_ShouldReturnFalse() {
+  func testMyProfileUseCase_updateProfile함수를통해_프로필업데이트가실패했을때_isProfileUpdated프로퍼티가_ShouldReturnFalse() {
     // Arrange
     var resultValue = true
     
@@ -123,7 +123,7 @@ final class UserInfoUseCaseTests: XCTestCase {
       "updateProfile()함수를통해 서버에 호출한 결과로 isProfileUdpated프로퍼티가 false가 반환되야하는데 true반환됨.")
   }
   
-  func testUserInfoUseCase_saveProfile함수를통해_프로필저장이_성공했을때_isProfileSaved프로퍼티_ShouldReturnTrue() {
+  func testMyProfileUseCase_saveProfile함수를통해_프로필저장이_성공했을때_isProfileSaved프로퍼티_ShouldReturnTrue() {
     // Arrange
     var resultValue = false
     
@@ -142,7 +142,7 @@ final class UserInfoUseCaseTests: XCTestCase {
       "saveProfile()함수를통해 서버에 호출한 결과로 isProfileSaved프로퍼티가 true가 반환되야하는데 false반환됨.")
   }
   
-  func testUserInfoUseCase_saveProfile함수를통해_프로필저장이_실패했을때_isProfileSaved프로퍼티_ShouldReturnFalse() {
+  func testMyProfileUseCase_saveProfile함수를통해_프로필저장이_실패했을때_isProfileSaved프로퍼티_ShouldReturnFalse() {
     // Arrange
     var resultValue = true
     
@@ -161,7 +161,7 @@ final class UserInfoUseCaseTests: XCTestCase {
       "saveProfile()함수를통해 서버에 호출한 결과로 isProfileSaved프로퍼티가 false가 반환되야하는데 true반환됨.")
   }
   
-  func testUserInfoUseCase_deleteProfile함수를통해_프로필삭제했을때_isProfileDeleted프로퍼티_ShouldReturnTrue() {
+  func testMyProfileUseCase_deleteProfile함수를통해_프로필삭제했을때_isProfileDeleted프로퍼티_ShouldReturnTrue() {
     // Arrange
     var resultValue = false
     
@@ -180,7 +180,7 @@ final class UserInfoUseCaseTests: XCTestCase {
       "deleteProfile()함수를통해 서버에 호출한 결과로 isProfileDeleted프로퍼티가 false가 반환되야하는데 true반환됨.")
   }
   
-  func testUserInfoUseCase_fetchProfile함수를통해_사용자의프로필을받아올때_fetchedProfile프로퍼티_반환값이예상값과일치하는지_ShouldReturnEqual() {
+  func testMyProfileUseCase_fetchProfile함수를통해_사용자의프로필을받아올때_fetchedProfile프로퍼티_반환값이예상값과일치하는지_ShouldReturnEqual() {
     // Arrange
     let expectedProfileEntity = ProfileImageEntity(image: "hi")
     var requestedProfileEntity = ProfileImageEntity(image: "")
