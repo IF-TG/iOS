@@ -41,7 +41,10 @@ extension UserDefaultsManager.User {
   }
   
   static var isSavedProfileInserver: Bool {
-    user?.isSavedProfileInServer ?? false
+    guard user?.profileURL == nil else {
+      return true
+    }
+    return false
   }
   
   static var id: Int64? {
