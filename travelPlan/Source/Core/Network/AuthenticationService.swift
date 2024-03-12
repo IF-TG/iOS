@@ -9,11 +9,6 @@ import Foundation
 import Combine
 import Alamofire
 
-struct AuthenticationResponseValue {
-  let authorizationCode: String
-  let identityToken: String
-}
-
 enum AuthenticationServiceError: Error {
   case noStrategy
   case authError(Error)
@@ -23,7 +18,7 @@ protocol AuthenticationService {
   var loginStrategy: LoginStrategy? { get }
   var session: Sessionable { get }
   func setLoginStrategy(_ strategy: LoginStrategy)
-  func performLogin() -> AnyPublisher<AuthenticationResponseValue, AuthenticationServiceError>
+  func performLogin() -> AnyPublisher<JWTResponseDTO, MainError>
 }
 
 final class DefaultAuthenticationService: AuthenticationService {
@@ -41,12 +36,14 @@ final class DefaultAuthenticationService: AuthenticationService {
     self.loginStrategy?.session = session
   }
   
-  func performLogin() -> AnyPublisher<AuthenticationResponseValue, AuthenticationServiceError> {
+  // keychain의 저장 성공여부를 반환
+  func performLogin() -> AnyPublisher<JWTResponseDTO, MainError> {
     guard let loginStrategy = loginStrategy else {
-      return Fail<AuthenticationResponseValue, AuthenticationServiceError>(error: .noStrategy)
+      return Fail(error: .authService(.noStrategy))
         .eraseToAnyPublisher()
     }
     loginStrategy.login()
+    // resultPublisher의 value를 받아 keychain에게 넘기고 로직 수행
     return loginStrategy.resultPublisher.eraseToAnyPublisher()
   }
 }
