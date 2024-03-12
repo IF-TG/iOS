@@ -8,7 +8,7 @@
 import Foundation
 
 struct UserEntity {
-  let id: String
+  let id: Int64
   var nickname: String
   var profileURL: String?
   /// 프로필을 변경하기 전에 최초 프로필이 저장되어 있는지 여부를 파악해야합니다.
