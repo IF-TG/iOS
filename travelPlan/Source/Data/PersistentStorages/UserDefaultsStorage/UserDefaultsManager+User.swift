@@ -8,32 +8,30 @@
 import Foundation
 
 // MARK: - Nested
-extension UserDefaultsManager.Key {
-  enum User: String {
-    case id
-    case nickname
-    case profileURL
-    case isSavedProfile
+extension UserDefaultsManager {
+  struct User {
+    enum Key: String {
+      case id
+      case nickname
+      case profileURL
+      case isSavedProfileInServer
+    }
   }
 }
 
 // MARK: - Utils
-extension UserDefaultsManager {
+extension UserDefaultsManager.User {
   static func convertToDictionary(from user: UserEntity) -> [String: Any] {
     return [
-      Key.User.id.rawValue: user.id,
-      Key.User.nickname.rawValue: user.nickname,
-      Key.User.profileURL.rawValue: user.profileURL ?? "",
-      Key.User.isSavedProfile.rawValue: user.isSavedProfile]
+      Key.id.rawValue: user.id,
+      Key.nickname.rawValue: user.nickname,
+      Key.profileURL.rawValue: user.profileURL ?? "",
+      Key.isSavedProfileInServer.rawValue: user.isSavedProfileInServer]
   }
 }
 
 // MARK: - CRUD Helpers
-extension UserDefaultsManager {
-  static func setUser(with user: UserEntity) {
-    UserDefaultsManager[.user] = convertToDictionary(from: user)
-  }
-  
+extension UserDefaultsManager.User {
   static var userNickname: String? {
     user?.nickname
   }
@@ -42,32 +40,35 @@ extension UserDefaultsManager {
     user?.profileURL
   }
   
+  static var isSavedProfileInserver: Bool {
+    user?.isSavedProfileInServer ?? false
+  }
+  
+  static var id: Int64? {
+    user?.id
+  }
+  
   static var user: UserEntity? {
     guard
       let user = UserDefaultsManager[.user] as? [String: Any],
-      let id = user[Key.User.id.rawValue] as? String,
-      let nickname = user[Key.User.nickname.rawValue] as? String,
-      let isSavedProfile = user[Key.User.isSavedProfile.rawValue] as? Bool
+      let id = user[Key.id.rawValue] as? Int64,
+      let nickname = user[Key.nickname.rawValue] as? String,
+      let isSavedProfileInServer = user[Key.isSavedProfileInServer.rawValue] as? Bool
     else { return nil }
-    let profileURL = user[Key.User.profileURL.rawValue] as? String
+    let profileURL = user[Key.profileURL.rawValue] as? String
     return UserEntity(
       id: id,
       nickname: nickname,
       profileURL: profileURL,
-      isSavedProfile: isSavedProfile)
+      isSavedProfileInServer: isSavedProfileInServer)
+  }
+  
+  static func setUser(with user: UserEntity) {
+    UserDefaultsManager[.user] = convertToDictionary(from: user)
   }
   
   @discardableResult
-  static func updateUserProfile(with url: String) -> Bool {
-    guard var user = user else { return false }
-    user.profileURL = url
-    let userDict = convertToDictionary(from: user)
-    UserDefaultsManager[.user] = userDict
-    return true
-  }
-  
-  @discardableResult
-  static func updateUserNickname(with nickname: String) -> Bool {
+  static func updateNickname(with nickname: String) -> Bool {
     guard var user = user else {
       print("DEBUG: 사용자의 이름이 저장되지 않았습니다.")
       return false
@@ -79,7 +80,7 @@ extension UserDefaultsManager {
   }
   
   @discardableResult
-  static func updateUserProfileURL(with url: String) -> Bool {
+  static func updateProfileURL(with url: String) -> Bool {
     guard var user = user else {
       print("DEBUG: 사용자의 프로필이 저장되지 않았습니다.")
       return false
