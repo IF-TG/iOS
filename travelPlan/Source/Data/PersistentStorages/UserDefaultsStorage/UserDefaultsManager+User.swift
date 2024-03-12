@@ -40,7 +40,7 @@ extension UserDefaultsManager.User {
     user?.profileURL
   }
   
-  static var isSavedProfileInserver: Bool {
+  static var isSavedProfileInServer: Bool {
     guard user?.profileURL == nil else {
       return true
     }

@@ -25,7 +25,7 @@ final class DefaultMyProfileRepository {
 // MARK: - MyProfileRepository
 extension DefaultMyProfileRepository: MyProfileRepository {
   var isProfileSavedInServer: Bool {
-    MyInfoManager.isSavedProfileInserver
+    MyInfoManager.isSavedProfileInServer
   }
   
   func checkIfUserNicknameDuplicate(with name: String) -> Future<Bool, MainError> {
