@@ -21,9 +21,9 @@ final class MyInformationViewModelTests: XCTestCase {
   override func setUp() {
     super.setUp()
     let sessionProvider = SessionProvider(session: mockSession)
-    let repository = DefaultUserInfoRepository(service: sessionProvider)
-    let useCase = DefaultUserInfoUseCase(userInfoRepository: repository)
-    sut = MyInformationViewModel(userInfoUseCase: useCase)
+    let repository = DefaultMyProfileRepository(service: sessionProvider)
+    let useCase = DefaultMyProfileUseCase(myProfileRepository: repository)
+    sut = MyInformationViewModel(myProfileUseCase: useCase)
     input = MyInformationViewModel.Input()
   }
   
