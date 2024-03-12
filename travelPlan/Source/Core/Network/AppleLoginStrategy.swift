@@ -8,12 +8,15 @@
 import UIKit
 import AuthenticationServices
 import Combine
+import Alamofire
 
 final class AppleLoginStrategy: NSObject, LoginStrategy {
   // MARK: - Properties
   weak var viewController: UIViewController?
-  let resultPublisher = PassthroughSubject<AuthenticationResponseValue, AuthenticationServiceError>()
+  let resultPublisher = PassthroughSubject<JWTResponseDTO, MainError>()
   private var authorizationController: ASAuthorizationController?
+  var session: Sessionable?
+  private var subscriptions = Set<AnyCancellable>()
   
   // MARK: - LifeCycle
   override init() {
@@ -38,16 +41,24 @@ extension AppleLoginStrategy: ASAuthorizationControllerDelegate {
     controller: ASAuthorizationController,
     didCompleteWithAuthorization authorization: ASAuthorization
   ) {
-    if let credential = authorization.credential as? ASAuthorizationAppleIDCredential {
-      if let authorizationCode = credential.authorizationCode,
-         let identityToken = credential.identityToken {
-        let authResponse = AuthenticationResponseValue(
-          authorizationCode: authorizationCode.base64EncodedString(),
-          identityToken: identityToken.base64EncodedString()
-        )
-        resultPublisher.send(authResponse)
-      }
-    }
+    guard let credential = authorization.credential as? ASAuthorizationAppleIDCredential,
+          let authorizationCode = credential.authorizationCode,
+          let identityToken = credential.identityToken else { return }
+    let requestDTO = LoginRequestDTO(
+      authorizationCode: authorizationCode.base64EncodedString(),
+      identityToken: identityToken.base64EncodedString()
+    )
+    let endpoints = LoginAPIEndPoints.getAppleAuthToken(requestDTO: requestDTO)
+    session?
+      .request(endpoint: endpoints)
+      .sink(receiveCompletion: { [weak self] completion in
+        if case .failure(let error) = completion {
+          self?.resultPublisher.send(completion: .failure(.networkError(error)))
+        }
+      }, receiveValue: { [weak self] responseDTO in
+        self?.resultPublisher.send(responseDTO)
+      })
+      .store(in: &subscriptions)
   }
   
   func authorizationController(
@@ -55,7 +66,7 @@ extension AppleLoginStrategy: ASAuthorizationControllerDelegate {
     didCompleteWithError error: Error
   ) {
     // TODO: - 해당 에러에 대응하는 로직을 추가해야합니다.
-    resultPublisher.send(completion: .failure(.authError(error)))
+//    resultPublisher.send(completion: .failure(.networkError(에러주입)))
   }
 }
 
