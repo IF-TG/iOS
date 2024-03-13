@@ -9,14 +9,8 @@ import Combine
 
 protocol LoginUseCase {
   func execute(
-    requestValue: LoginRequestValue
+    type: OAuthType
   ) -> AnyPublisher<Bool, MainError>
-}
-
-struct LoginRequestValue {
-  let loginType: OAuthType
-  let authorizationCode: String
-  let identityToken: String
 }
 
 final class DefaultLoginUseCase {
@@ -35,13 +29,9 @@ final class DefaultLoginUseCase {
 
 // MARK: - LoginUseCase
 extension DefaultLoginUseCase: LoginUseCase {
-  func execute(requestValue: LoginRequestValue) -> AnyPublisher<Bool, MainError> {
-    switch requestValue.loginType {
-    case .apple:
-      return loginRepository.fetchAuthToken(
-        authCode: requestValue.authorizationCode,
-        identityToken: requestValue.identityToken
-      ).eraseToAnyPublisher()
-    }
+  func execute(type: OAuthType) -> AnyPublisher<Bool, MainError> {
+    return loginRepository
+      .performLogin(type: OAuthType)
+      .eraseToAnyPublisher()
   }
 }
