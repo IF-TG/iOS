@@ -56,18 +56,11 @@ extension LoginViewController: ViewBindCase {
   typealias State = LoginViewModel.State
   
   func bind() {
-    let output = viewModel.transform(input)
-    output.sink { completion in
-      switch completion {
-      case .finished: 
-        break
-      case .failure(let error):
-        break
-      }
-    } receiveValue: { [weak self] in
-      self?.render($0)
-    }.store(in: &subscriptions)
-    
+    viewModel.transform(input)
+      .sink(receiveValue: { [weak self] in
+        self?.render($0)
+      })
+      .store(in: &subscriptions)
   }
   
   func render(_ state: State) {
