@@ -31,7 +31,7 @@ final class DefaultLoginUseCase {
 extension DefaultLoginUseCase: LoginUseCase {
   func execute(type: OAuthType) -> AnyPublisher<Bool, MainError> {
     return loginRepository
-      .performLogin(type: OAuthType)
+      .performLogin(type: type)
       .eraseToAnyPublisher()
   }
 }
