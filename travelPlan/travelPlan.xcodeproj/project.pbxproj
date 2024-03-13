@@ -20,7 +20,6 @@
 		130CF36E2B8F3DD60051DEE8 /* LoginRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130CF36D2B8F3DD60051DEE8 /* LoginRepository.swift */; };
 		130CF3712B8F855F0051DEE8 /* LoginRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130CF3702B8F855F0051DEE8 /* LoginRequestDTO.swift */; };
 		130CF3732B8F8A040051DEE8 /* LoginAPIEndPoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130CF3722B8F8A040051DEE8 /* LoginAPIEndPoints.swift */; };
-		130CF3752B8F8AC40051DEE8 /* LoginResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130CF3742B8F8AC40051DEE8 /* LoginResponseDTO.swift */; };
 		130CF3812B91062D0051DEE8 /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130CF3802B91062D0051DEE8 /* KeychainManager.swift */; };
 		130CF3842B9248750051DEE8 /* OAuthType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130CF3832B9248750051DEE8 /* OAuthType.swift */; };
 		130CF38B2B9347790051DEE8 /* LoginStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130CF38A2B9347790051DEE8 /* LoginStrategy.swift */; };
@@ -50,6 +49,8 @@
 		13300FAE2AC2093D00952757 /* SearchSectionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13300FAD2AC2093D00952757 /* SearchSectionType.swift */; };
 		13333CBF2ABDE86A005AB50B /* LeftAlignThreeLabelsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13333CBE2ABDE86A005AB50B /* LeftAlignThreeLabelsView.swift */; };
 		133531ED2B9F4B22000A4D9E /* NaverLoginFirstResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 133531EC2B9F4B22000A4D9E /* NaverLoginFirstResponseDTO.swift */; };
+		133531F42BA0D3CB000A4D9E /* JWTResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 133531F32BA0D3CB000A4D9E /* JWTResponseDTO.swift */; };
+		133531F72BA0F030000A4D9E /* LoginResponseStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 133531F62BA0F030000A4D9E /* LoginResponseStorage.swift */; };
 		13405EFC2AECEBD800382796 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13405EFB2AECEBD700382796 /* LoginView.swift */; };
 		13405F002AECF76300382796 /* BaseLoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13405EFF2AECF76300382796 /* BaseLoginButton.swift */; };
 		13405F042AED899800382796 /* KakaoLoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13405F032AED899800382796 /* KakaoLoginButton.swift */; };
@@ -446,7 +447,6 @@
 		130CF36D2B8F3DD60051DEE8 /* LoginRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRepository.swift; sourceTree = "<group>"; };
 		130CF3702B8F855F0051DEE8 /* LoginRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRequestDTO.swift; sourceTree = "<group>"; };
 		130CF3722B8F8A040051DEE8 /* LoginAPIEndPoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginAPIEndPoints.swift; sourceTree = "<group>"; };
-		130CF3742B8F8AC40051DEE8 /* LoginResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginResponseDTO.swift; sourceTree = "<group>"; };
 		130CF3802B91062D0051DEE8 /* KeychainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
 		130CF3832B9248750051DEE8 /* OAuthType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthType.swift; sourceTree = "<group>"; };
 		130CF38A2B9347790051DEE8 /* LoginStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginStrategy.swift; sourceTree = "<group>"; };
@@ -479,6 +479,8 @@
 		13300FAD2AC2093D00952757 /* SearchSectionType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchSectionType.swift; sourceTree = "<group>"; };
 		13333CBE2ABDE86A005AB50B /* LeftAlignThreeLabelsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftAlignThreeLabelsView.swift; sourceTree = "<group>"; };
 		133531EC2B9F4B22000A4D9E /* NaverLoginFirstResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaverLoginFirstResponseDTO.swift; sourceTree = "<group>"; };
+		133531F32BA0D3CB000A4D9E /* JWTResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JWTResponseDTO.swift; sourceTree = "<group>"; };
+		133531F62BA0F030000A4D9E /* LoginResponseStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginResponseStorage.swift; sourceTree = "<group>"; };
 		13405EFB2AECEBD700382796 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		13405EFF2AECF76300382796 /* BaseLoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseLoginButton.swift; sourceTree = "<group>"; };
 		13405F032AED899800382796 /* KakaoLoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoLoginButton.swift; sourceTree = "<group>"; };
@@ -982,6 +984,14 @@
 			path = PostSearch;
 			sourceTree = "<group>";
 		};
+		133531F52BA0EE99000A4D9E /* LoginResponseStorage */ = {
+			isa = PBXGroup;
+			children = (
+				133531F62BA0F030000A4D9E /* LoginResponseStorage.swift */,
+			);
+			path = LoginResponseStorage;
+			sourceTree = "<group>";
+		};
 		13405F092AEEF1CA00382796 /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
@@ -1114,6 +1124,7 @@
 		1383C8232B98646B00830F1A /* PersistentStorages */ = {
 			isa = PBXGroup;
 			children = (
+				133531F52BA0EE99000A4D9E /* LoginResponseStorage */,
 				1383C8252B9864B700830F1A /* UserDefaultsStorage */,
 				1383C8242B9864A700830F1A /* KeychainStorage */,
 			);
@@ -1435,10 +1446,10 @@
 			isa = PBXGroup;
 			children = (
 				151DF1042AEEBE0F00D5D55B /* NoticeResponseDTO.swift */,
-				130CF3742B8F8AC40051DEE8 /* LoginResponseDTO.swift */,
 				15D655832B8E085300466FEC /* CommonDTO.swift */,
 				153FA90E2B937E12006CF3C3 /* UserProfileResponseDTO.swift */,
 				133531EC2B9F4B22000A4D9E /* NaverLoginFirstResponseDTO.swift */,
+				133531F32BA0D3CB000A4D9E /* JWTResponseDTO.swift */,
 			);
 			path = ResponseDTO;
 			sourceTree = "<group>";
@@ -2646,6 +2657,7 @@
 				15EF8C9D2A0A19190068C744 /* TravelMainCategoryViewCell.swift in Sources */,
 				15FC90D62ACC1BB50033A1E5 /* PrimaryColorToneRoundButton.swift in Sources */,
 				15D655842B8E085300466FEC /* CommonDTO.swift in Sources */,
+				133531F42BA0D3CB000A4D9E /* JWTResponseDTO.swift in Sources */,
 				15D3882F2B01504900039946 /* IconWithLabelStackView.swift in Sources */,
 				1586D3042AB193F7001D4A80 /* Season.swift in Sources */,
 				130CF3732B8F8A040051DEE8 /* LoginAPIEndPoints.swift in Sources */,
@@ -2670,6 +2682,7 @@
 				15D955AF2ADFB2F1002BF9C3 /* ShadowInfo.swift in Sources */,
 				151DF10A2AEEC58600D5D55B /* MockSession.swift in Sources */,
 				15F0D1D32A53095100D04773 /* PostViewAdapter.swift in Sources */,
+				133531F72BA0F030000A4D9E /* LoginResponseStorage.swift in Sources */,
 				152AD5272A1B89D2008A2A11 /* FavoriteViewModel.swift in Sources */,
 				15F2A01E2B1584880014603D /* SettingUserNameTextField.swift in Sources */,
 				15FFAC0B2AD7C22B0013DB57 /* RequestType.swift in Sources */,
@@ -2779,7 +2792,6 @@
 				157ADCA42ACFF31D00D37680 /* FavoritePostViewController.swift in Sources */,
 				134384082B48005F005034E0 /* PhotoViewController.swift in Sources */,
 				158C6A372B0D138500C30856 /* ImageIO.swift in Sources */,
-				130CF3752B8F8AC40051DEE8 /* LoginResponseDTO.swift in Sources */,
 				15C1F5422AF29CF7005FDA15 /* NotificationInfo.swift in Sources */,
 				131A11082AB5067E007BDD66 /* SearchMoreDetailViewModel.swift in Sources */,
 				151BDADC2B16FE8B002F36C3 /* UIDevice+modelName.swift in Sources */,
