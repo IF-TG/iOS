@@ -9,11 +9,10 @@ import Combine
 import Foundation
 
 final class LoginViewModel {
+  // MARK: - Nested
   struct Input {
     let didTapLoginButton: PassthroughSubject<OAuthType, Never>
-    
     init(didTapLoginButton: PassthroughSubject<OAuthType, Never> = .init()) {
-
       self.didTapLoginButton = didTapLoginButton
     }
   }
@@ -51,33 +50,6 @@ extension LoginViewModel: ViewModelCase {
 
 // MARK: - Input operator chain Flow
 private extension LoginViewModel {
-//  private func didCompleteWithAuthorizationStream(_ input: Input) -> Output {
-//    return input
-//      .didCompleteWithAuthorization
-//      .flatMap { [weak self] responseValue in
-//        guard let self = self else {
-//          return Just(State.none)
-//            .eraseToAnyPublisher()
-//        }
-//        
-//        return self.loginUseCase
-//          .execute(requestValue: .init(
-//            loginType: .apple,
-//            authorizationCode: responseValue.authorizationCode,
-//            identityToken: responseValue.identityToken))
-//          .map { isLoggedIn in
-//            return isLoggedIn ? State.presentFeed : State.none
-//          }
-//          .catch { error in
-//            // TODO: - 추후 Error를 핸들링해야합니다.
-//            print(error)
-//            return Just(State.none)
-//          }
-//          .eraseToAnyPublisher()
-//      }
-//      .eraseToAnyPublisher()
-//  }
-  
   private func didTapLoginButtonStream(_ input: Input) -> Output {
     return input
       .didTapLoginButton
