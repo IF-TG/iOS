@@ -11,35 +11,31 @@ import Alamofire
 
 enum AuthenticationServiceError: Error {
   case noStrategy
-  case authError(Error)
 }
 
 protocol AuthenticationService {
-  var loginStrategy: LoginStrategy? { get }
-  var session: Sessionable { get }
   func setLoginStrategy(_ strategy: LoginStrategy)
-  func performLogin() -> AnyPublisher<JWTResponseDTO, MainError>
+  func performLogin() -> AnyPublisher<JWTResponseDTO, Error>
 }
 
 final class DefaultAuthenticationService: AuthenticationService {
   // MARK: - Properties
   var loginStrategy: LoginStrategy?
-  let session: Sessionable
+  private let sessionProvider: Sessionable
   
   // MARK: - LifeCycle
-  init(session: Sessionable) {
-    self.session = session
+  init(sessionProvider: Sessionable) {
+    self.sessionProvider = sessionProvider
   }
   
   func setLoginStrategy(_ strategy: LoginStrategy) {
     self.loginStrategy = strategy
-    self.loginStrategy?.session = session
   }
   
   // keychain의 저장 성공여부를 반환
-  func performLogin() -> AnyPublisher<JWTResponseDTO, MainError> {
+  func performLogin() -> AnyPublisher<JWTResponseDTO, Error> {
     guard let loginStrategy = loginStrategy else {
-      return Fail(error: .authService(.noStrategy))
+      return Fail(error: AuthenticationServiceError.noStrategy)
         .eraseToAnyPublisher()
     }
     loginStrategy.login()

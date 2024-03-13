@@ -12,13 +12,17 @@ import Alamofire
 
 final class AppleLoginStrategy: NSObject, LoginStrategy {
   // MARK: - Properties
-  weak var viewController: UIViewController?
-  let resultPublisher = PassthroughSubject<JWTResponseDTO, MainError>()
   private var authorizationController: ASAuthorizationController?
-  var session: Sessionable?
   private var subscriptions = Set<AnyCancellable>()
+  let resultPublisher = PassthroughSubject<JWTResponseDTO, Error>()
+  weak var viewController: UIViewController?
+  var session: Sessionable?
   
   // MARK: - LifeCycle
+  
+  init(session: Sessionable) {
+    self.session = session
+  }
   override init() {
     super.init()
   }
@@ -53,7 +57,7 @@ extension AppleLoginStrategy: ASAuthorizationControllerDelegate {
       .request(endpoint: endpoints)
       .sink(receiveCompletion: { [weak self] completion in
         if case .failure(let error) = completion {
-          self?.resultPublisher.send(completion: .failure(.networkError(error)))
+          self?.resultPublisher.send(completion: .failure(error))
         }
       }, receiveValue: { [weak self] responseDTO in
         self?.resultPublisher.send(responseDTO)
@@ -65,8 +69,7 @@ extension AppleLoginStrategy: ASAuthorizationControllerDelegate {
     controller: ASAuthorizationController,
     didCompleteWithError error: Error
   ) {
-    // TODO: - 해당 에러에 대응하는 로직을 추가해야합니다.
-//    resultPublisher.send(completion: .failure(.networkError(에러주입)))
+    resultPublisher.send(completion: .failure(error))
   }
 }
 

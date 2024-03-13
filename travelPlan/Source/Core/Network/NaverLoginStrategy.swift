@@ -10,8 +10,8 @@ import Combine
 import Alamofire
 
 //final class NaverLoginStrategy: LoginStrategy {
-//  var session: Sessionable?
-//  let resultPublisher = PassthroughSubject<JWTResponseDTO, AuthenticationServiceError>()
+//  private var session: Sessionable?
+//  let resultPublisher = PassthroughSubject<JWTResponseDTO, Error>()
 //
 //  func login() {
 //    let endpoint = LoginAPIEndPoints.getFirstRedirectURL()

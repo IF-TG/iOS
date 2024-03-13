@@ -10,7 +10,6 @@ import Combine
 import Alamofire
 
 protocol LoginStrategy {
-  var resultPublisher: PassthroughSubject<JWTResponseDTO, MainError> { get }
-  var session: Sessionable? { get set }
+  var resultPublisher: PassthroughSubject<JWTResponseDTO, Error> { get }
   func login()
 }

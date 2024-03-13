@@ -26,12 +26,14 @@ final class DefaultLoginRepository: LoginRepository {
 
 // MARK: - LoginRepository
 extension DefaultLoginRepository {
-  func performLogin(type: OAuthType) -> AnyPublisher<Bool, MainError> {
+  func performLogin(type: OAuthType) -> AnyPublisher<Bool, Error> {
     switch type {
     case .apple:
       authService.setLoginStrategy(AppleLoginStrategy())
       authService.performLogin()
         .map { [weak self] jwtDTO in
+          self?.loginResponseStorage
+          
           // TODO: - keychainStorage에서 Bool 타입을 반환해야합니다.
           KeychainManager.shared.add(
             key: KeychainKey.accessToken.rawValue,

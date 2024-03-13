@@ -10,10 +10,11 @@ import Combine
 protocol LoginUseCase {
   func execute(
     type: OAuthType
-  ) -> AnyPublisher<Bool, MainError>
+  ) -> AnyPublisher<Bool, Error>
 }
 
 final class DefaultLoginUseCase {
+  
   // MARK: - Properties
   private let loginRepository: LoginRepository
   
@@ -29,7 +30,7 @@ final class DefaultLoginUseCase {
 
 // MARK: - LoginUseCase
 extension DefaultLoginUseCase: LoginUseCase {
-  func execute(type: OAuthType) -> AnyPublisher<Bool, MainError> {
+  func execute(type: OAuthType) -> AnyPublisher<Bool, Error> {
     return loginRepository
       .performLogin(type: type)
       .eraseToAnyPublisher()
