@@ -6,23 +6,20 @@
 //
 
 import Combine
+import Foundation
 
 final class LoginViewModel {
   struct Input {
     let didTapLoginButton: PassthroughSubject<OAuthType, Never>
-    let didCompleteWithAuthorization: PassthroughSubject<AuthenticationResponseValue, Never>
     
-    init(didTapLoginButton: PassthroughSubject<OAuthType, Never> = .init(),
-         didCompleteWithAuthorization: PassthroughSubject<AuthenticationResponseValue, Never> = .init()) {
+    init(didTapLoginButton: PassthroughSubject<OAuthType, Never> = .init()) {
 
       self.didTapLoginButton = didTapLoginButton
-      self.didCompleteWithAuthorization = didCompleteWithAuthorization
     }
   }
   
   enum State {
     case none
-    case performAuthRequest(OAuthType)
     case presentFeed
   }
   
@@ -46,8 +43,7 @@ extension LoginViewModel: ViewModelCase {
   func transform(_ input: Input) -> Output {
     return Publishers
       .MergeMany([
-        didTapLoginButtonStream(input),
-        didCompleteWithAuthorizationStream(input)
+        didTapLoginButtonStream(input)
       ])
       .eraseToAnyPublisher()
   }
@@ -55,38 +51,50 @@ extension LoginViewModel: ViewModelCase {
 
 // MARK: - Input operator chain Flow
 private extension LoginViewModel {
-  private func didCompleteWithAuthorizationStream(_ input: Input) -> Output {
-    return input
-      .didCompleteWithAuthorization
-      .flatMap { [weak self] responseValue in
-        guard let self = self else {
-          return Just(State.none)
-            .eraseToAnyPublisher()
-        }
-        
-        return self.loginUseCase
-          .execute(requestValue: .init(
-            loginType: .apple,
-            authorizationCode: responseValue.authorizationCode,
-            identityToken: responseValue.identityToken))
-          .map { isLoggedIn in
-            return isLoggedIn ? State.presentFeed : State.none
-          }
-          .catch { error in
-            // TODO: - 추후 Error를 핸들링해야합니다.
-            print(error)
-            return Just(State.none)
-          }
-          .eraseToAnyPublisher()
-      }
-      .eraseToAnyPublisher()
-  }
+//  private func didCompleteWithAuthorizationStream(_ input: Input) -> Output {
+//    return input
+//      .didCompleteWithAuthorization
+//      .flatMap { [weak self] responseValue in
+//        guard let self = self else {
+//          return Just(State.none)
+//            .eraseToAnyPublisher()
+//        }
+//        
+//        return self.loginUseCase
+//          .execute(requestValue: .init(
+//            loginType: .apple,
+//            authorizationCode: responseValue.authorizationCode,
+//            identityToken: responseValue.identityToken))
+//          .map { isLoggedIn in
+//            return isLoggedIn ? State.presentFeed : State.none
+//          }
+//          .catch { error in
+//            // TODO: - 추후 Error를 핸들링해야합니다.
+//            print(error)
+//            return Just(State.none)
+//          }
+//          .eraseToAnyPublisher()
+//      }
+//      .eraseToAnyPublisher()
+//  }
   
   private func didTapLoginButtonStream(_ input: Input) -> Output {
     return input
       .didTapLoginButton
-      .map { oauthType in
-        return State.performAuthRequest(oauthType)
+      .flatMap { oauthType in
+        loginUseCase.execute(type: oaythType)
+          .receive(on: RunLoop.main)
+          .map { isSavedTokenInKeychain in
+            if isSavedTokenInKeychain {
+              return .presentFeed
+            } else {
+              return .none
+            }
+          }
+          .catch({ error in
+            Just(State.none)
+          })
+          .eraseToAnyPublisher()
       }
       .eraseToAnyPublisher()
   }
