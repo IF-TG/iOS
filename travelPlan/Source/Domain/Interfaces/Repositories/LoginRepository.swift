@@ -8,5 +8,5 @@
 import Combine
 
 protocol LoginRepository {
-  func performLogin(type: OAuthType)
+  func performLogin(type: OAuthType) -> AnyPublisher<Bool, MainError>
 }
