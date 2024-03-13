@@ -81,8 +81,10 @@ private extension LoginViewModel {
   private func didTapLoginButtonStream(_ input: Input) -> Output {
     return input
       .didTapLoginButton
-      .flatMap { oauthType in
-        loginUseCase.execute(type: oaythType)
+      .flatMap { [weak self] oauthType in
+        guard let self = self else { return Just(State.none).eraseToAnyPublisher() }
+        
+        return self.loginUseCase.execute(type: oauthType)
           .receive(on: RunLoop.main)
           .map { isSavedTokenInKeychain in
             if isSavedTokenInKeychain {

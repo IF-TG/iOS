@@ -19,7 +19,6 @@ final class LoginViewController: UIViewController {
   }
   private let input = LoginViewModel.Input()
   private let loginPlayerSupporter = LoginPlayerSupporter()
-  private let authService = AuthenticationService()
   
   // MARK: - Lifecycle
   override func viewDidLoad() {
@@ -73,8 +72,6 @@ extension LoginViewController: ViewBindCase {
   
   func render(_ state: State) {
     switch state {
-    case .performAuthRequest(let oauthType):
-      performAuthRequest(from: oauthType)
     case .presentFeed:
       coordinator?.showFeedPage()
     case .none:
@@ -102,26 +99,6 @@ extension LoginViewController {
   private func setupStyles() {
     navigationController?.navigationBar.isHidden = true
     view.backgroundColor = .white
-  }
-  
-  private func performAuthRequest(from oauthType: OAuthType) {
-    switch oauthType {
-    case .apple:
-      authService.setLoginStrategy(AppleLoginStrategy(viewController: self))
-      authService.performLogin()
-        .receive(on: RunLoop.main)
-        .sink { completion in
-          switch completion {
-          case .finished:
-            return
-          case let .failure(error):
-            print(error)
-          }
-        } receiveValue: { [weak self] authToken in
-          self?.input.didCompleteWithAuthorization.send(authToken)
-        }
-        .store(in: &subscriptions)
-    }
   }
 }
 
