@@ -19,8 +19,8 @@ final class DefaultLoginRepository {
   // MARK: - Properties
   private var subscriptions = Set<AnyCancellable>()
   private let loginResponseStorage = KeychainLoginResponseStorage()
-  let authService: AuthenticationService
-  let loginResultStorage: LoginResultStorage
+  private let loginResultStorage: LoginResultStorage
+  private let authService: AuthenticationService
 
   // MARK: - LifeCycle
   init(authService: AuthenticationService, loginResultStorage: LoginResultStorage) {

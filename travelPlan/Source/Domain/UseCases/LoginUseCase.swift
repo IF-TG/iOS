@@ -14,7 +14,6 @@ protocol LoginUseCase {
 }
 
 final class DefaultLoginUseCase {
-  
   // MARK: - Properties
   private let loginRepository: LoginRepository
   
