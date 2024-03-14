@@ -26,7 +26,6 @@
 		130CF38D2B9347CF0051DEE8 /* AppleLoginStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130CF38C2B9347CF0051DEE8 /* AppleLoginStrategy.swift */; };
 		130CF38F2B9356370051DEE8 /* AuthenticationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130CF38E2B9356370051DEE8 /* AuthenticationService.swift */; };
 		130FA91F2A359EE300E739C5 /* SearchViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130FA91E2A359EE300E739C5 /* SearchViewDelegate.swift */; };
-		130FE14E2B9CEDE900BFFBE6 /* NaverLoginStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130FE14D2B9CEDE900BFFBE6 /* NaverLoginStrategy.swift */; };
 		131A11062AB4CD1A007BDD66 /* SearchMoreDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131A11052AB4CD1A007BDD66 /* SearchMoreDetailViewController.swift */; };
 		131A11082AB5067E007BDD66 /* SearchMoreDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131A11072AB5067E007BDD66 /* SearchMoreDetailViewModel.swift */; };
 		131A110A2AB509FB007BDD66 /* UIView+roundCorners.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131A11092AB509FB007BDD66 /* UIView+roundCorners.swift */; };
@@ -48,7 +47,6 @@
 		13300FAC2AC0883200952757 /* UICompositionalLayoutCreatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13300FAB2AC0883200952757 /* UICompositionalLayoutCreatable.swift */; };
 		13300FAE2AC2093D00952757 /* SearchSectionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13300FAD2AC2093D00952757 /* SearchSectionType.swift */; };
 		13333CBF2ABDE86A005AB50B /* LeftAlignThreeLabelsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13333CBE2ABDE86A005AB50B /* LeftAlignThreeLabelsView.swift */; };
-		133531ED2B9F4B22000A4D9E /* NaverLoginFirstResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 133531EC2B9F4B22000A4D9E /* NaverLoginFirstResponseDTO.swift */; };
 		133531F42BA0D3CB000A4D9E /* JWTResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 133531F32BA0D3CB000A4D9E /* JWTResponseDTO.swift */; };
 		133531F92BA1A0B8000A4D9E /* KeychainLoginResponseStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 133531F82BA1A0B8000A4D9E /* KeychainLoginResponseStorage.swift */; };
 		133531FE2BA2D270000A4D9E /* LoginResultStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 133531FD2BA2D270000A4D9E /* LoginResultStorage.swift */; };
@@ -455,7 +453,6 @@
 		130CF38C2B9347CF0051DEE8 /* AppleLoginStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleLoginStrategy.swift; sourceTree = "<group>"; };
 		130CF38E2B9356370051DEE8 /* AuthenticationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationService.swift; sourceTree = "<group>"; };
 		130FA91E2A359EE300E739C5 /* SearchViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewDelegate.swift; sourceTree = "<group>"; };
-		130FE14D2B9CEDE900BFFBE6 /* NaverLoginStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaverLoginStrategy.swift; sourceTree = "<group>"; };
 		131A11052AB4CD1A007BDD66 /* SearchMoreDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMoreDetailViewController.swift; sourceTree = "<group>"; };
 		131A11072AB5067E007BDD66 /* SearchMoreDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMoreDetailViewModel.swift; sourceTree = "<group>"; };
 		131A11092AB509FB007BDD66 /* UIView+roundCorners.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+roundCorners.swift"; sourceTree = "<group>"; };
@@ -480,7 +477,6 @@
 		13300FAB2AC0883200952757 /* UICompositionalLayoutCreatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICompositionalLayoutCreatable.swift; sourceTree = "<group>"; };
 		13300FAD2AC2093D00952757 /* SearchSectionType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchSectionType.swift; sourceTree = "<group>"; };
 		13333CBE2ABDE86A005AB50B /* LeftAlignThreeLabelsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftAlignThreeLabelsView.swift; sourceTree = "<group>"; };
-		133531EC2B9F4B22000A4D9E /* NaverLoginFirstResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaverLoginFirstResponseDTO.swift; sourceTree = "<group>"; };
 		133531F32BA0D3CB000A4D9E /* JWTResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JWTResponseDTO.swift; sourceTree = "<group>"; };
 		133531F82BA1A0B8000A4D9E /* KeychainLoginResponseStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainLoginResponseStorage.swift; sourceTree = "<group>"; };
 		133531FD2BA2D270000A4D9E /* LoginResultStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginResultStorage.swift; sourceTree = "<group>"; };
@@ -1462,7 +1458,6 @@
 				151DF1042AEEBE0F00D5D55B /* NoticeResponseDTO.swift */,
 				15D655832B8E085300466FEC /* CommonDTO.swift */,
 				153FA90E2B937E12006CF3C3 /* UserProfileResponseDTO.swift */,
-				133531EC2B9F4B22000A4D9E /* NaverLoginFirstResponseDTO.swift */,
 				133531F32BA0D3CB000A4D9E /* JWTResponseDTO.swift */,
 			);
 			path = ResponseDTO;
@@ -2307,7 +2302,6 @@
 				130CF38E2B9356370051DEE8 /* AuthenticationService.swift */,
 				130CF38A2B9347790051DEE8 /* LoginStrategy.swift */,
 				130CF38C2B9347CF0051DEE8 /* AppleLoginStrategy.swift */,
-				130FE14D2B9CEDE900BFFBE6 /* NaverLoginStrategy.swift */,
 				15FFAC172ADA92500013DB57 /* Module */,
 				15FFAC162ADA90C50013DB57 /* Tests */,
 			);
@@ -2866,7 +2860,6 @@
 				13C32A3D2B0A2FF30046ED98 /* PictureImageViewDelegate.swift in Sources */,
 				152AD4F02A189CFC008A2A11 /* FavoriteHeaderView.swift in Sources */,
 				15B9285D2AF9E3A2003A20D4 /* PostDetailProfileAreaView.swift in Sources */,
-				133531ED2B9F4B22000A4D9E /* NaverLoginFirstResponseDTO.swift in Sources */,
 				15EF8CA62A0A19990068C744 /* CategoryViewType.swift in Sources */,
 				1550D9AF2ACAFAC10046569B /* FeedPostViewController.swift in Sources */,
 				158BEF812A0E2C9E00C27861 /* PostFooterView.swift in Sources */,
@@ -2944,7 +2937,6 @@
 				133532002BA2D3E3000A4D9E /* UserDefaultsLoginResultStorage.swift in Sources */,
 				13300FA42AC0688300952757 /* BaseDestinationView.swift in Sources */,
 				15D388272AFF8AAA00039946 /* InputTextView.swift in Sources */,
-				130FE14E2B9CEDE900BFFBE6 /* NaverLoginStrategy.swift in Sources */,
 				13F6DACA2B52711E00573B86 /* SlideDownAnimator.swift in Sources */,
 				13A93EE52ACDE0EC00FC4BBD /* SearchDetailHeaderView.swift in Sources */,
 				15259DEC2ACAAAB200C14F62 /* LocationSearchViewController.swift in Sources */,
