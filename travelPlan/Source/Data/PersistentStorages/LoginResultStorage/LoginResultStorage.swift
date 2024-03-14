@@ -9,5 +9,5 @@ import Foundation
 
 protocol LoginResultStorage {
   @discardableResult
-  func save(forResult result: Bool) -> Bool
+  func save() -> Bool
 }

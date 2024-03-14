@@ -39,7 +39,6 @@ final class DefaultAuthenticationService: AuthenticationService {
         .eraseToAnyPublisher()
     }
     loginStrategy.login()
-    // resultPublisher의 value를 받아 keychain에게 넘기고 로직 수행
     return loginStrategy.resultPublisher.eraseToAnyPublisher()
   }
 }
