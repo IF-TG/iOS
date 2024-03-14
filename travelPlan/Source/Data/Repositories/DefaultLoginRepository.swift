@@ -8,9 +8,10 @@
 import Combine
 
 enum DefaultLoginRepositoryError: Error {
-  case keychainSavingFailed
+  case tokensSavingFailed
   case taskAlreadyCancelled
   case invalidPlatform
+  case loginResultSavingFailed
 }
 
 final class DefaultLoginRepository: LoginRepository {
@@ -43,8 +44,14 @@ extension DefaultLoginRepository {
             throw DefaultLoginRepositoryError.taskAlreadyCancelled
           }
           guard self.loginResponseStorage.saveTokens(jwtDTO: jwtDTO) else {
-            throw DefaultLoginRepositoryError.keychainSavingFailed
+            throw DefaultLoginRepositoryError.tokensSavingFailed
           }
+          // TODO: - loginResultStorage를 통해 save합니다.
+//          if loginResultStorage.save() {
+//            return true
+//          } else {
+//            throw DefaultLoginRepositoryError.loginResultSavingFailed
+//          }
           return true
         }
         .eraseToAnyPublisher()
