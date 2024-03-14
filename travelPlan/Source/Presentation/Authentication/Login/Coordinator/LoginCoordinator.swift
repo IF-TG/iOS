@@ -29,8 +29,8 @@ final class LoginCoordinator: FlowCoordinator {
       {
         "accessToken": "StringAbc",
         "refreshToken": "StringAbcd",
-        "accessTokenExpiresIn: 3600000,
-        "refreshTokenExpiresIn: 1200000000
+        "accessTokenExpiresIn": 3600000,
+        "refreshTokenExpiresIn": 1200000000
       }
     """
     MockUrlProtocol.requestHandler = { _ in
