@@ -1,5 +1,5 @@
 //
-//  DefaultLoginKeychainStorage.swift
+//  KeychainLoginResponseStorage.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 3/13/24.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class DefaultLoginKeychainStorage {
+final class KeychainLoginResponseStorage {
   func saveTokens(jwtDTO: JWTResponseDTO) -> Bool {
     let toSaveKeys = [
       KeychainKey.accessToken.rawValue,
@@ -22,21 +22,18 @@ final class DefaultLoginKeychainStorage {
       convertToData(for: makeTokenDeadlineSec(token: jwtDTO.refreshTokenExpiresIn))
     ]
     
-    // 하나씩 저장을 하다가 하나라도 false이면 나머지 전부 제거
-    for i in 0..<toSaveKeys.count {
-      if !KeychainManager.shared.add(key: toSaveKeys[i], data: toSaveDatas[i]) {
-        for j in 0..<i {
-          KeychainManager.shared.delete(key: toSaveKeys[j])
-        }
-        return false
+    for i in 0..<toSaveKeys.count where !KeychainManager.shared.add(key: toSaveKeys[i], data: toSaveDatas[i]) {
+      for j in 0..<i {
+        KeychainManager.shared.delete(key: toSaveKeys[j])
       }
+      return false
     }
     return true
   }
 }
 
 // MARK: - Private Helpers
-extension DefaultLoginKeychainStorage {
+extension KeychainLoginResponseStorage {
   private func makeTokenDeadlineSec(token: Int) -> TimeInterval {
     return TimeInterval(token) + Date().timeIntervalSince1970
   }
@@ -53,4 +50,3 @@ extension DefaultLoginKeychainStorage {
 // 150
 // 87100 + 150 = 87250 // 먼저 저장한값(당시 now + ExpiresIn)이 현재 값(now)보다 작으면 만료 안된 상태
 // 88000
-
