@@ -16,7 +16,7 @@ final class KeychainManagerTests: XCTestCase {
   var data: Data!
   
   // MARK: - LifeCycle
-  class override func setUp() {
+  override func setUp() {
     sut = KeychainManager.shared
     key = UUID().uuidString
     notRegistedKey = UUID().uuidString
@@ -24,17 +24,14 @@ final class KeychainManagerTests: XCTestCase {
   }
   
   override func tearDown() {
-    sut.delete(key: key)
-  }
-  
-  class override func tearDown() {
-    sut.delete(key: key)
     defer {
       key = nil
       notRegistedKey = nil
       sut = nil
       data = nil
     }
+    
+    sut.delete(key: key)
   }
 }
 
@@ -45,20 +42,47 @@ extension KeychainManagerTests {
   // MARK: - Create
   func testKeychainManager_키체인성공적으로추가되면_shouldReturnTrue() {
     // Arrange
-    let key = self.key
+    let key = self.key!
     let data = self.data
     
     // Act
-    let result = sut.add(key: key,data: data)
+    let result = sut.add(key: key, data: data)
+    
+    // Assert
+    XCTAssertTrue(result)
+  }
+  
+  func testKeychainManager_키체인add했는데_같은data로_또_add시_shouldReturnTrue() {
+    // Arrange
+    let key = self.key!
+    let data = self.data
+    sut.add(key: key, data: data)
+    
+    // Act
+    let result = sut.add(key: key, data: data)
+    
+    // Assert
+    XCTAssertTrue(result)
+  }
+  
+  func testKeychainManager_키체인add했는데_다른data로_또_add시_shouldReturnTrue() {
+    // Arrange
+    let key = self.key!
+    let data = self.data
+    sut.add(key: key, data: data)
+    
+    // Act
+    let newData = "새로운데이터".data(using: .utf8)
+    let result = sut.add(key: key, data: newData)
     
     // Assert
     XCTAssertTrue(result)
   }
   
   // MARK: - Read
-  func testKeychainManager_키체인성공적으로로드되면_shouldReturnTrue() {
+  func testKeychainManager_키체인성공적으로로드되면_shouldReturnOptionalData() {
     // Arrange
-    let key = self.key
+    let key = self.key!
     let data = self.data
     sut.add(key: key, data: data)
     
@@ -69,23 +93,22 @@ extension KeychainManagerTests {
     XCTAssertEqual(result, data)
   }
   
-  func testKeychainManager_키체인key없는데_load메소드호출하면_shouldReturnFalse() {
+  func testKeychainManager_키체인key없는데_load메소드호출하면_shouldReturnNil() {
     // Arrange
-    let key = self.key
     let data = self.data
-    let notRegistedKey = self.notRegistedKey
+    let notRegistedKey = self.notRegistedKey!
     
     // Act
     let result = sut.load(key: notRegistedKey)
     
     // Assert
-    XCTAssertFalse(result)
+    XCTAssertNil(result)
   }
   
   // MARK: - Update
   func testKeychainManager_키체인성공적으로업데이트되면_shouldReturnTrue() {
     // Arrange
-    let key = self.key
+    let key = self.key!
     let data = self.data
     sut.add(key: key, data: data)
     
@@ -99,7 +122,7 @@ extension KeychainManagerTests {
   
   func testKeychainManager_등록된키가없는데_업데이트하면_shouldReturnFalse() {
     // Arrange
-    let notRegistedKey = self.notRegistedKey
+    let notRegistedKey = self.notRegistedKey!
     let data = self.data
     
     // Act
@@ -109,14 +132,25 @@ extension KeychainManagerTests {
     XCTAssertFalse(result)
   }
   
-  // TODO: - 동일한 데이터값을 넣었을 때, update가 true인지 false인지 확인하고 testCase추가하기
+  func testKeychainManager_동일한_데이터로_update하면_shouldReturnFalse() {
+    // Arrange
+    let key = self.key!
+    let data = self.data
+    
+    // Act
+    sut.update(key: key, data: data)
+    let result = sut.update(key: key, data: data)
+    
+    // Assert
+    XCTAssertFalse(result)
+  }
   
   // MARK: - Delete
   func testKeychainManager_키체인성공적으로삭제되면_shouldReturnTrue() {
     // Arrange
-    let key = self.key
+    let key = self.key!
     let data = self.data
-    sut.add(key: key, value: data)
+    sut.add(key: key, data: data)
     
     // Act
     let result = sut.delete(key: key)
@@ -127,7 +161,7 @@ extension KeychainManagerTests {
   
   func testKeychainManager_등록되어있지않은키를_delete_하면_shouldReturnFalse() {
     // Arrange
-    let notRegistedKey = self.notRegistedKey
+    let notRegistedKey = self.notRegistedKey!
     
     // Act
     let result = sut.delete(key: notRegistedKey)
