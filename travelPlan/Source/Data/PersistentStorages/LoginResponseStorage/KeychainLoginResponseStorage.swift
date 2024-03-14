@@ -42,11 +42,3 @@ extension KeychainLoginResponseStorage {
     return withUnsafeBytes(of: value) { Data($0) }
   }
 }
-/*
- // access token과 refresh token모두 저장한 적 없으면 저장하고 true
- access 만료시간이 갱신되거나 최초로 저장받으면, 시작 날짜 년월일시분초를 저장.
- 앱 시작 시, 로그인을 했었는데 access 만료기간이 만료 되었으면 서버로부터 access와 refresh 다시 요청
- */
-// 150
-// 87100 + 150 = 87250 // 먼저 저장한값(당시 now + ExpiresIn)이 현재 값(now)보다 작으면 만료 안된 상태
-// 88000
