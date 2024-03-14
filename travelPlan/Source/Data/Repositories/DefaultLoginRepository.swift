@@ -7,16 +7,23 @@
 
 import Combine
 
+enum DefaultLoginRepositoryError: Error {
+  case keychainSavingFailed
+  case taskAlreadyCancelled
+  case invalidPlatform
+}
+
 final class DefaultLoginRepository: LoginRepository {
   // MARK: - Properties
   private var subscriptions = Set<AnyCancellable>()
   let authService: AuthenticationService
-  let loginResponseStorage: DefaultLoginKeychainStorage
+  let loginKeychainStorage: LoginResponseKeychainStorage
+  let loginResultStorage: LoginResultStorage
 
   // MARK: - LifeCycle
-  init(authService: AuthenticationService, loginResponseStorage: LoginResponseStorage) {
+  init(authService: AuthenticationService, loginResultStorage) {
     self.authService = authService
-    self.loginResponseStorage = loginResponseStorage
+    self.loginKeychainStorage = loginKeychainStorage
   }
   
   deinit {
@@ -30,38 +37,17 @@ extension DefaultLoginRepository {
     switch type {
     case .apple:
       authService.setLoginStrategy(AppleLoginStrategy())
-      authService.performLogin()
-        .map { [weak self] jwtDTO in
-          self?.loginResponseStorage
-          
-          // TODO: - keychainStorage에서 Bool 타입을 반환해야합니다.
-          KeychainManager.shared.add(
-            key: KeychainKey.accessToken.rawValue,
-            value: jwtDTO.accessToken.data(using: .utf8)
-          )
-          KeychainManager.shared.add(
-            key: KeychainKey.refreshToken.rawValue,
-            value: jwtDTO.refreshToken.data(using: .utf8)
-          )
+      return authService.performLogin()
+        .tryMap { [weak self] jwtDTO in
+          guard let self = self else {
+            throw DefaultLoginRepositoryError.taskAlreadyCancelled
+          }
+          guard self.loginKeychainStorage.saveTokens(jwtDTO: jwtDTO) else {
+            throw DefaultLoginRepositoryError.keychainSavingFailed
+          }
+          return true
         }
         .eraseToAnyPublisher()
     }
   }
-  
-  // 1. ios->back, back->ios
-  // 2. ios->naver, naver->ios
-  // 3. ios->back, back->ios
-//  func performNaverLogin() {
-//    authService.setLoginStrategy(NaverLoginStrategy())
-//    authService
-//      .performLogin()
-//      .sink { completion in
-//        if case let .failure(error) = completion {
-//          print("auth error: \(error)")
-//        }
-//      } receiveValue: { responseValue in
-//        
-//      }
-//      .store(in: &subscriptions)
-//  }
 }
