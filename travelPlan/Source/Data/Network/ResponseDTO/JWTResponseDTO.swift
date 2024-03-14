@@ -10,6 +10,6 @@ import Foundation
 struct JWTResponseDTO: Decodable {
   let accessToken: String
   let refreshToken: String
-  let accessTokenExpiresIn: Int
-  let refreshTokenExpiresIn: Int
+  let accessTokenExpiresIn: Double
+  let refreshTokenExpiresIn: Double
 }
