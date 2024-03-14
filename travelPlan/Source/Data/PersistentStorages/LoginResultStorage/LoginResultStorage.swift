@@ -6,3 +6,8 @@
 //
 
 import Foundation
+
+protocol LoginResultStorage {
+  @discardableResult
+  func save(forResult result: Bool) -> Bool
+}
