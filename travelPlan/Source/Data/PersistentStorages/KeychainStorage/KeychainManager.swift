@@ -18,11 +18,11 @@ class KeychainManager {
 // MARK: - Helpers
 extension KeychainManager {
   @discardableResult
-  func add(key: String, value: Data?) -> Bool {
+  func add(key: String, data: Data?) -> Bool {
     let query: NSDictionary = [
       kSecClass: kSecClassGenericPassword,
       kSecAttrAccount: key,
-      kSecValueData: value as Any
+      kSecValueData: data as Any
     ]
     let status = SecItemAdd(query, nil)
     guard status == errSecSuccess else {
@@ -50,12 +50,12 @@ extension KeychainManager {
   }
   
   @discardableResult
-  func update(key: String, value: Data?) -> Bool {
+  func update(key: String, data: Data?) -> Bool {
     let prevQuery: NSDictionary = [
       kSecClass: kSecClassGenericPassword,
       kSecAttrAccount: key
     ]
-    let updateQuery: NSDictionary = [kSecValueData: value as Any]
+    let updateQuery: NSDictionary = [kSecValueData: data as Any]
     let status = SecItemUpdate(prevQuery, updateQuery)
     guard status == errSecSuccess else {
       print("DEBUG: \(String(describing: SecCopyErrorMessageString(status, nil)))")
