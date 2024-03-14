@@ -6,6 +6,7 @@
 //
 
 import Combine
+import Foundation
 
 enum DefaultLoginRepositoryError: Error {
   case tokensSavingFailed
@@ -14,7 +15,7 @@ enum DefaultLoginRepositoryError: Error {
   case loginResultSavingFailed
 }
 
-final class DefaultLoginRepository: LoginRepository {
+final class DefaultLoginRepository {
   // MARK: - Properties
   private var subscriptions = Set<AnyCancellable>()
   private let loginResponseStorage = KeychainLoginResponseStorage()
@@ -33,12 +34,13 @@ final class DefaultLoginRepository: LoginRepository {
 }
 
 // MARK: - LoginRepository
-extension DefaultLoginRepository {
+extension DefaultLoginRepository: LoginRepository {
   func performLogin(type: OAuthType) -> AnyPublisher<Bool, Error> {
     switch type {
     case .apple:
       authService.setLoginStrategy(AppleLoginStrategy())
       return authService.performLogin()
+        .receive(on: DispatchQueue.global(qos: .userInitiated))
         .tryMap { [weak self] jwtDTO in
           guard let self = self else {
             throw DefaultLoginRepositoryError.taskAlreadyCancelled

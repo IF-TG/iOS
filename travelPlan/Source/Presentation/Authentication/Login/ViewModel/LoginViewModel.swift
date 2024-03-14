@@ -65,9 +65,10 @@ private extension LoginViewModel {
               return .none
             }
           }
-          .catch({ error in
-            Just(State.none)
-          })
+          .catch { error in
+            print("error: \(error.localizedDescription)")
+            return Just(State.none).eraseToAnyPublisher()
+          }
           .eraseToAnyPublisher()
       }
       .eraseToAnyPublisher()
