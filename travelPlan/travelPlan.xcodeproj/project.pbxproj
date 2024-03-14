@@ -50,7 +50,8 @@
 		13333CBF2ABDE86A005AB50B /* LeftAlignThreeLabelsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13333CBE2ABDE86A005AB50B /* LeftAlignThreeLabelsView.swift */; };
 		133531ED2B9F4B22000A4D9E /* NaverLoginFirstResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 133531EC2B9F4B22000A4D9E /* NaverLoginFirstResponseDTO.swift */; };
 		133531F42BA0D3CB000A4D9E /* JWTResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 133531F32BA0D3CB000A4D9E /* JWTResponseDTO.swift */; };
-		133531F92BA1A0B8000A4D9E /* LoginKeychainStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 133531F82BA1A0B8000A4D9E /* LoginKeychainStorage.swift */; };
+		133531F92BA1A0B8000A4D9E /* DefaultLoginKeychainStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 133531F82BA1A0B8000A4D9E /* DefaultLoginKeychainStorage.swift */; };
+		133531FB2BA2BD39000A4D9E /* LoginKeychainStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 133531FA2BA2BD39000A4D9E /* LoginKeychainStorage.swift */; };
 		13405EFC2AECEBD800382796 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13405EFB2AECEBD700382796 /* LoginView.swift */; };
 		13405F002AECF76300382796 /* BaseLoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13405EFF2AECF76300382796 /* BaseLoginButton.swift */; };
 		13405F042AED899800382796 /* KakaoLoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13405F032AED899800382796 /* KakaoLoginButton.swift */; };
@@ -480,7 +481,8 @@
 		13333CBE2ABDE86A005AB50B /* LeftAlignThreeLabelsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftAlignThreeLabelsView.swift; sourceTree = "<group>"; };
 		133531EC2B9F4B22000A4D9E /* NaverLoginFirstResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaverLoginFirstResponseDTO.swift; sourceTree = "<group>"; };
 		133531F32BA0D3CB000A4D9E /* JWTResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JWTResponseDTO.swift; sourceTree = "<group>"; };
-		133531F82BA1A0B8000A4D9E /* LoginKeychainStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginKeychainStorage.swift; sourceTree = "<group>"; };
+		133531F82BA1A0B8000A4D9E /* DefaultLoginKeychainStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultLoginKeychainStorage.swift; sourceTree = "<group>"; };
+		133531FA2BA2BD39000A4D9E /* LoginKeychainStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginKeychainStorage.swift; sourceTree = "<group>"; };
 		13405EFB2AECEBD700382796 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		13405EFF2AECF76300382796 /* BaseLoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseLoginButton.swift; sourceTree = "<group>"; };
 		13405F032AED899800382796 /* KakaoLoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoLoginButton.swift; sourceTree = "<group>"; };
@@ -987,7 +989,8 @@
 		133531F52BA0EE99000A4D9E /* LoginResponseStorage */ = {
 			isa = PBXGroup;
 			children = (
-				133531F82BA1A0B8000A4D9E /* LoginKeychainStorage.swift */,
+				133531F82BA1A0B8000A4D9E /* DefaultLoginKeychainStorage.swift */,
+				133531FA2BA2BD39000A4D9E /* LoginKeychainStorage.swift */,
 			);
 			path = LoginResponseStorage;
 			sourceTree = "<group>";
@@ -2677,6 +2680,7 @@
 				151DF0FC2AEEBA0100D5D55B /* NotificationRepository.swift in Sources */,
 				15FEB5EC2A050A99000A5F33 /* ViewModelProtocols.swift in Sources */,
 				159F38BB2AFA9F32000A24C2 /* PostDetailCategoryHeaderView.swift in Sources */,
+				133531FB2BA2BD39000A4D9E /* LoginKeychainStorage.swift in Sources */,
 				15C1F5632AF408D3005FDA15 /* SettingType.swift in Sources */,
 				15A4F28D2ACC1025001AA51D /* Toggable.swift in Sources */,
 				15D955AF2ADFB2F1002BF9C3 /* ShadowInfo.swift in Sources */,
@@ -2741,7 +2745,7 @@
 				15B928672AFA3D93003A20D4 /* PostDetailTableViewAdapter.swift in Sources */,
 				134384152B495C0E005034E0 /* ReviewWritePhotoService.swift in Sources */,
 				13BF40F32AD6F1D600F3F082 /* BaseNavigationTitleView.swift in Sources */,
-				133531F92BA1A0B8000A4D9E /* LoginKeychainStorage.swift in Sources */,
+				133531F92BA1A0B8000A4D9E /* DefaultLoginKeychainStorage.swift in Sources */,
 				139DEDEB2B163D9A00363E7B /* SearchDestinationCollectionViewLayout.swift in Sources */,
 				15F36A1C2AB1A45600971803 /* TravelPartner.swift in Sources */,
 				130CF3712B8F855F0051DEE8 /* LoginRequestDTO.swift in Sources */,
