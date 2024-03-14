@@ -34,8 +34,8 @@ final class KeychainLoginResponseStorage {
 
 // MARK: - Private Helpers
 extension KeychainLoginResponseStorage {
-  private func makeTokenDeadlineSec(token: Int) -> TimeInterval {
-    return TimeInterval(token) + Date().timeIntervalSince1970
+  private func makeTokenDeadlineSec(token: Double) -> TimeInterval {
+    return TimeInterval(token / 1000) + Date().timeIntervalSince1970
   }
   
   private func convertToData(for value: Double) -> Data {
