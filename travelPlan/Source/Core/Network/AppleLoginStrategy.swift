@@ -8,21 +8,16 @@
 import UIKit
 import AuthenticationServices
 import Combine
-import Alamofire
 
 final class AppleLoginStrategy: NSObject, LoginStrategy {
   // MARK: - Properties
   private var authorizationController: ASAuthorizationController?
   private var subscriptions = Set<AnyCancellable>()
+  var sessionable: Sessionable?
   let resultPublisher = PassthroughSubject<JWTResponseDTO, Error>()
   weak var viewController: UIViewController?
-  var session: Sessionable?
   
   // MARK: - LifeCycle
-  
-  init(session: Sessionable) {
-    self.session = session
-  }
   override init() {
     super.init()
   }
@@ -53,14 +48,15 @@ extension AppleLoginStrategy: ASAuthorizationControllerDelegate {
       identityToken: identityToken.base64EncodedString()
     )
     let endpoints = LoginAPIEndPoints.getAppleAuthToken(requestDTO: requestDTO)
-    session?
+    sessionable?
       .request(endpoint: endpoints)
       .sink(receiveCompletion: { [weak self] completion in
         if case .failure(let error) = completion {
           self?.resultPublisher.send(completion: .failure(error))
         }
       }, receiveValue: { [weak self] responseDTO in
-        self?.resultPublisher.send(responseDTO)
+        self?.resultPublisher
+          .send(responseDTO)
       })
       .store(in: &subscriptions)
   }

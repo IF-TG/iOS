@@ -14,6 +14,7 @@ enum AuthenticationServiceError: Error {
 }
 
 protocol AuthenticationService {
+  var sessionProvider: Sessionable { get }
   func setLoginStrategy(_ strategy: LoginStrategy)
   func performLogin() -> AnyPublisher<JWTResponseDTO, Error>
 }
@@ -21,7 +22,7 @@ protocol AuthenticationService {
 final class DefaultAuthenticationService: AuthenticationService {
   // MARK: - Properties
   var loginStrategy: LoginStrategy?
-  private let sessionProvider: Sessionable
+  let sessionProvider: Sessionable
   
   // MARK: - LifeCycle
   init(sessionProvider: Sessionable) {
@@ -30,9 +31,9 @@ final class DefaultAuthenticationService: AuthenticationService {
   
   func setLoginStrategy(_ strategy: LoginStrategy) {
     self.loginStrategy = strategy
+    self.loginStrategy?.sessionable = sessionProvider
   }
   
-  // keychain의 저장 성공여부를 반환
   func performLogin() -> AnyPublisher<JWTResponseDTO, Error> {
     guard let loginStrategy = loginStrategy else {
       return Fail(error: AuthenticationServiceError.noStrategy)
