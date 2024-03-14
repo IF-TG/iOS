@@ -27,15 +27,12 @@ final class LoginCoordinator: FlowCoordinator {
   func start() {
     let json = """
       {
-        "result": {
-          "accessToken": "String",
-          "refreshToken": "String"
-          },
-        "status": "OK",
-        "statusCode": "200",
-        "message": "success"
+        "accessToken": "StringAbc",
+        "refreshToken": "StringAbcd",
+        "accessTokenExpiresIn: 3600000,
+        "refreshTokenExpiresIn: 1200000000
       }
-      """
+    """
     MockUrlProtocol.requestHandler = { _ in
       let responseData = json.data(using: .utf8)!
       return ((HTTPURLResponse(), responseData))
