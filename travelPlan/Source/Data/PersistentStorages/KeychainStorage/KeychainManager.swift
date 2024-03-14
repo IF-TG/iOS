@@ -24,6 +24,7 @@ extension KeychainManager {
       kSecAttrAccount: key,
       kSecValueData: data as Any
     ]
+    SecItemDelete(query)
     let status = SecItemAdd(query, nil)
     guard status == errSecSuccess else {
       print("DEBUG: \(String(describing: SecCopyErrorMessageString(status, nil)))")
