@@ -12,7 +12,6 @@ enum MainError: Swift.Error {
   case general(String)
   case networkError(AFError)
   case referenceError(ReferenceError)
-  case authService(AuthenticationServiceError)
 }
 
 // MARK: - CustomStringConvertible
@@ -25,8 +24,6 @@ extension MainError: CustomStringConvertible {
       return "DEBUG: Network error occured: \(networkError.localizedDescription)"
     case .referenceError(let referenceError):
       return "DEBUG: Reference error occured: \(referenceError.localizedDescription)"
-    default:
-      return "DEBUG: MainError occured: \(self.localizedDescription)"
     }
   }
 }
