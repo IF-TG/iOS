@@ -44,8 +44,8 @@ final class LoginCoordinator: FlowCoordinator {
     let mockSession = MockSession.default
     let sessionProvider = SessionProvider(session: mockSession)
     let authService = DefaultAuthenticationService(sessionProvider: sessionProvider)
-    let loginRepositoryStorage = LoginResponseStorage()
-    let repository = DefaultLoginRepository(authService: authService, loginResponseStorage: loginRepositoryStorage)
+    let loginResultStorage = UserDefaultsLoginResultStorage()
+    let repository = DefaultLoginRepository(authService: authService, loginResultStorage: loginResultStorage)
     let useCase = DefaultLoginUseCase(loginRepository: repository)
     let loginVM = LoginViewModel(loginUseCase: useCase)
     let loginViewController = LoginViewController(viewModel: loginVM)

@@ -16,14 +16,14 @@ enum DefaultLoginRepositoryError: Error {
 final class DefaultLoginRepository: LoginRepository {
   // MARK: - Properties
   private var subscriptions = Set<AnyCancellable>()
+  private let loginResponseStorage = KeychainLoginResponseStorage()
   let authService: AuthenticationService
-  let loginKeychainStorage: LoginResponseKeychainStorage
   let loginResultStorage: LoginResultStorage
 
   // MARK: - LifeCycle
-  init(authService: AuthenticationService, loginResultStorage) {
+  init(authService: AuthenticationService, loginResultStorage: LoginResultStorage) {
     self.authService = authService
-    self.loginKeychainStorage = loginKeychainStorage
+    self.loginResultStorage = loginResultStorage
   }
   
   deinit {
@@ -42,7 +42,7 @@ extension DefaultLoginRepository {
           guard let self = self else {
             throw DefaultLoginRepositoryError.taskAlreadyCancelled
           }
-          guard self.loginKeychainStorage.saveTokens(jwtDTO: jwtDTO) else {
+          guard self.loginResponseStorage.saveTokens(jwtDTO: jwtDTO) else {
             throw DefaultLoginRepositoryError.keychainSavingFailed
           }
           return true
