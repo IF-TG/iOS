@@ -12,7 +12,7 @@ protocol PostViewBottomSheetAdapterDataSource: AnyObject {
   // testtest아직안구현FIXME: - 아직안구현
   func PostViewBottomSheetCellItem(
     at index: Int,
-    detailCategoryCase: PostSearchFilterType
+    detailCategoryCase: PostFilterOptions
   ) -> String
   
 }

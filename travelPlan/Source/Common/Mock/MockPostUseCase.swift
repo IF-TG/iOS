@@ -10,18 +10,18 @@ import Combine
 import Foundation
 
 // 임시
-struct MockPostUseCase: PostUseCase {
-  func fetchPosts() -> Future<[PostEntity], AFError> {
+struct MockPostUseCase: TempPostUseCase {
+  func fetchPosts() -> Future<[TempPostEntity], AFError> {
     return Future { promise in
       DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
-        promise(.success(PostEntity.mockData))
+        promise(.success(TempPostEntity.mockData))
       }
     }
   }
 }
 
 // 임시
-extension PostEntity {
+extension TempPostEntity {
   private static func postThumbnailPath(_ index: Int) -> String { return "tempThumbnail\(index)" }
   private static func profilePath(_ index: Int) -> String { return "tempProfile\(index+1)" }
   private static var titles: [String] {
@@ -113,7 +113,7 @@ extension PostEntity {
   }
   static var mockData: [Self] {
     let data = (0..<9*2).map {
-      PostEntity(
+      TempPostEntity(
         id: $0,
         profileImageURL: profilePath($0%5),
         title: titles[$0],
