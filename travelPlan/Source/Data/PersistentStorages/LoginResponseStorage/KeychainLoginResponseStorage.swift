@@ -18,8 +18,8 @@ final class KeychainLoginResponseStorage {
     let toSaveDatas = [
       jwtDTO.accessToken.data(using: .utf8),
       jwtDTO.refreshToken.data(using: .utf8),
-      convertToData(for: makeTokenDeadlineSec(tokenExpiresIn: jwtDTO.accessTokenExpiresIn)),
-      convertToData(for: makeTokenDeadlineSec(tokenExpiresIn: jwtDTO.refreshTokenExpiresIn))
+      makeTokenDeadlineSec(tokenExpiresIn: jwtDTO.accessTokenExpiresIn).toData(),
+      makeTokenDeadlineSec(tokenExpiresIn: jwtDTO.refreshTokenExpiresIn).toData()
     ]
     
     for i in 0..<toSaveKeys.count where !KeychainManager.shared.add(key: toSaveKeys[i], data: toSaveDatas[i]) {
@@ -36,9 +36,5 @@ final class KeychainLoginResponseStorage {
 extension KeychainLoginResponseStorage {
   private func makeTokenDeadlineSec(tokenExpiresIn: Double) -> TimeInterval {
     return TimeInterval(tokenExpiresIn / 1000) + Date().timeIntervalSince1970
-  }
-  
-  private func convertToData(for value: Double) -> Data {
-    return withUnsafeBytes(of: value) { Data($0) }
   }
 }
