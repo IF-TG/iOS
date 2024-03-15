@@ -949,14 +949,6 @@
 			path = RequestDTO;
 			sourceTree = "<group>";
 		};
-		130CF3822B92486E0051DEE8 /* Enum */ = {
-			isa = PBXGroup;
-			children = (
-				130CF3832B9248750051DEE8 /* OAuthType.swift */,
-			);
-			path = Enum;
-			sourceTree = "<group>";
-		};
 		130FA91D2A359ED500E739C5 /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
@@ -1370,6 +1362,7 @@
 		151DF0EE2AEEAE1100D5D55B /* Entities */ = {
 			isa = PBXGroup;
 			children = (
+				130CF3832B9248750051DEE8 /* OAuthType.swift */,
 				151DF0EF2AEEAE2100D5D55B /* NoticeEntity.swift */,
 				15F376612AFE132900B3BF35 /* PostCommentEntity.swift */,
 				15F376632AFE134400B3BF35 /* PostReplyEntity.swift */,
@@ -2218,7 +2211,6 @@
 		15FEB5D82A050A99000A5F33 /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				130CF3822B92486E0051DEE8 /* Enum */,
 				155D0BAF2B90D3980042DFB6 /* Error */,
 				15FFAC3E2ADE52030013DB57 /* Mock */,
 				15FFAC352ADD4DED0013DB57 /* ViewModel */,
