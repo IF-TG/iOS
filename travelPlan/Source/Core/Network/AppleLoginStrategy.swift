@@ -15,7 +15,6 @@ final class AppleLoginStrategy: NSObject, LoginStrategy {
   private var subscriptions = Set<AnyCancellable>()
   var sessionable: Sessionable?
   let resultPublisher = PassthroughSubject<JWTResponseDTO, Error>()
-  weak var viewController: UIViewController?
   
   // MARK: - LifeCycle
   override init() {
