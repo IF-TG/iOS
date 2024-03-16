@@ -13,6 +13,7 @@ final class MyInformationViewModel {
     let isNicknameDuplicated: PassthroughSubject<String, MainError> = .init()
     let selectProfile: PassthroughSubject<String?, MainError> = .init()
     let tapStoreButton: PassthroughSubject<Void, MainError> = .init()
+    let tapBackButton: PassthroughSubject<Void, MainError> = .init()
   }
   
   enum State {
@@ -22,6 +23,7 @@ final class MyInformationViewModel {
     case availableNickname
     case correctionSaved
     case correctionNotSaved
+    case wannaOutThisPage(userInfoHasChanged: Bool)
   }
   
   // MARK: - Dependencies
@@ -57,7 +59,8 @@ extension MyInformationViewModel: MyInformationViewModelable {
       tapStoreButtonStream(input: input),
       hasNicknameUpdatedStream(),
       hasProfileUpdatedStream(),
-      hasBothNameAndProfileUpdatedStream()]
+      hasBothNameAndProfileUpdatedStream(),
+      tapBackBarButtonStream(input: input)]
     ).eraseToAnyPublisher()
   }
 }
@@ -147,5 +150,20 @@ private extension MyInformationViewModel {
         }
         return .correctionNotSaved
       }.eraseToAnyPublisher()
+  }
+  
+  func tapBackBarButtonStream(input: Input) -> Output {
+    return input.tapStoreButton
+      .map { [weak self] _ -> State in
+        let hasUserEdited = self?.hasUserEditedInfo()
+        return .wannaOutThisPage(userInfoHasChanged: hasUserEdited ?? false)
+      }.eraseToAnyPublisher()
+  }
+  
+  func hasUserEditedInfo() -> Bool {
+    if changedNameAvailable || editedUserProfileImage != nil {
+      return true
+    }
+    return false
   }
 }
