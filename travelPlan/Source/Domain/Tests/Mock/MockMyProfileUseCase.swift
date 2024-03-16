@@ -65,7 +65,7 @@ final class MockMyProfileUseCase: MyProfileUseCase {
       let responseData = json.data(using: .utf8)!
       return ((HTTPURLResponse(), responseData))
     }
-    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+    DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.5) {
       self.defaultMyProfileUseCase.checkIfNicknameDuplicate(with: name)
     }
   }
@@ -83,7 +83,7 @@ final class MockMyProfileUseCase: MyProfileUseCase {
       let responseData = json.data(using: .utf8)!
       return ((HTTPURLResponse(), responseData))
     }
-    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+    DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.5) {
       self.defaultMyProfileUseCase.updateNickname(with: name)
     }
   }
@@ -104,7 +104,7 @@ final class MockMyProfileUseCase: MyProfileUseCase {
       let responseData = json.data(using: .utf8)!
       return ((HTTPURLResponse(), responseData))
     }
-    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+    DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.5) {
       self.defaultMyProfileUseCase.updateProfile(with: base64String)
     }
   }
@@ -125,7 +125,7 @@ final class MockMyProfileUseCase: MyProfileUseCase {
       let responseData = json.data(using: .utf8)!
       return ((HTTPURLResponse(), responseData))
     }
-    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+    DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.5) {
       self.defaultMyProfileUseCase.saveProfile(with: base64String)
     }
   }
@@ -143,7 +143,7 @@ final class MockMyProfileUseCase: MyProfileUseCase {
       let responseData = json.data(using: .utf8)!
       return ((HTTPURLResponse(), responseData))
     }
-    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+    DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.5) {
       self.defaultMyProfileUseCase.deleteProfile()
     }
   }
@@ -160,7 +160,7 @@ final class MockMyProfileUseCase: MyProfileUseCase {
             "message": "success"
           }
           """
-    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+    DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.5) {
       self.defaultMyProfileUseCase.fetchProfile()
     }
   }
