@@ -8,9 +8,11 @@
 import UIKit
 import SHCoordinator
 import Alamofire
+import Combine
 
 protocol MyInformationCoordinatorDelegate: FlowCoordinatorDelegate {
   func showConfirmationAlertPage()
+  func showBottomSheetAlbum()
 }
 
 final class MyInformationCoordinator: FlowCoordinator {
@@ -20,6 +22,8 @@ final class MyInformationCoordinator: FlowCoordinator {
   var presenter: UINavigationController?
   
   var viewController: UIViewController?
+  
+  var alubmImageChoiceSubscription: AnyCancellable?
   
   init(presenter: UINavigationController?) {
     self.presenter = presenter
@@ -57,5 +61,16 @@ extension MyInformationCoordinator: MyInformationCoordinatorDelegate {
     let no = UIAlertAction(title: "아니요", style: .cancel)
     [yes, no].forEach { alert.addAction($0) }
     viewController?.present(alert, animated: true, completion: nil)
+  }
+  
+  func showBottomSheetAlbum() {
+    let albumSheet = MyInformationAlbumSheetViewController()
+    alubmImageChoiceSubscription = albumSheet.$hasSelectedProfile
+      .subscribe(on: DispatchQueue.main)
+      .compactMap { $0 }
+      .sink { [weak self] image in
+        (self?.viewController as? MyInformationViewController)?.handleSelectedImage(with: image)
+      }
+    viewController?.presentBottomSheet(albumSheet)
   }
 }
