@@ -13,3 +13,12 @@ extension Int {
     return String(format: "%02d", self)
   }
 }
+
+extension Int {
+  /// Data 타입으로 변환 후 반환합니다.
+  func toData() -> Data {
+    return withUnsafeBytes(of: self) { pointer in
+      return Data(pointer)
+    }
+  }
+}

@@ -11,13 +11,14 @@ import Combine
 
 final class AppleLoginStrategy: NSObject, LoginStrategy {
   // MARK: - Properties
-  weak var viewController: UIViewController?
-  let resultPublisher = PassthroughSubject<AuthenticationResponseValue, AuthenticationServiceError>()
   private var authorizationController: ASAuthorizationController?
+  private var subscriptions = Set<AnyCancellable>()
+  var sessionable: Sessionable?
+  let resultPublisher = PassthroughSubject<JWTResponseDTO, Error>()
   
   // MARK: - LifeCycle
-  init(viewController: UIViewController) {
-    self.viewController = viewController
+  override init() {
+    super.init()
   }
   
   func login() {
@@ -38,32 +39,42 @@ extension AppleLoginStrategy: ASAuthorizationControllerDelegate {
     controller: ASAuthorizationController,
     didCompleteWithAuthorization authorization: ASAuthorization
   ) {
-    if let credential = authorization.credential as? ASAuthorizationAppleIDCredential {
-      if let authorizationCode = credential.authorizationCode,
-         let identityToken = credential.identityToken {
-        let authResponse = AuthenticationResponseValue(
-          authorizationCode: authorizationCode.base64EncodedString(),
-          identityToken: identityToken.base64EncodedString()
-        )
-        resultPublisher.send(authResponse)
-      }
-    }
+    guard let credential = authorization.credential as? ASAuthorizationAppleIDCredential,
+          let authorizationCode = credential.authorizationCode,
+          let identityToken = credential.identityToken else { return }
+    let requestDTO = LoginRequestDTO(
+      authorizationCode: authorizationCode.base64EncodedString(),
+      identityToken: identityToken.base64EncodedString()
+    )
+    let endpoints = LoginAPIEndPoints.getAppleAuthToken(requestDTO: requestDTO)
+    sessionable?
+      .request(endpoint: endpoints)
+      .sink(receiveCompletion: { [weak self] completion in
+        if case .failure(let error) = completion {
+          self?.resultPublisher.send(completion: .failure(error))
+        }
+      }, receiveValue: { [weak self] responseDTO in
+        self?.resultPublisher
+          .send(responseDTO)
+      })
+      .store(in: &subscriptions)
   }
   
   func authorizationController(
     controller: ASAuthorizationController,
     didCompleteWithError error: Error
   ) {
-    print("handle error: \(error.localizedDescription)")
+    resultPublisher.send(completion: .failure(error))
   }
 }
 
 // MARK: - ASAuthorizationControllerPresentationContextProviding
 extension AppleLoginStrategy: ASAuthorizationControllerPresentationContextProviding {
   func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
-    guard let vc = viewController, let window = vc.view.window else {
-      fatalError("viewController가 nil입니다.")
-    }
-    return window
+    return UIApplication.shared.connectedScenes
+      .filter { $0.activationState == .foregroundActive }
+      .compactMap { $0 as? UIWindowScene }
+      .first!.windows
+      .filter { $0.isKeyWindow }.first!
   }
 }
