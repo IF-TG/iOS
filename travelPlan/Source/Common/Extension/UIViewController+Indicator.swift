@@ -40,27 +40,24 @@ class DefaultActivityIndicatorView: UIActivityIndicatorView {
 }
 
 extension UIViewController {
-  private static var activityIndicatorTag: Int { return 999 }
+  var activeIndicator: UIActivityIndicatorView? {
+    view.subviews
+      .filter { $0 is DefaultActivityIndicatorView }
+      .compactMap { $0 as? UIActivityIndicatorView }
+      .first
+  }
   
   func startIndicator() {
-    if let indicator = view.subviews
-      .filter({ $0.tag == UIViewController.activityIndicatorTag }).first as? UIActivityIndicatorView {
-      /// 이미 인디케이터가 화면에 추가된 경우, 기존의 인디케이터를 사용
-      return
-    }
-    
+    guard activeIndicator == nil else { return }
     let indicator = DefaultActivityIndicatorView(style: .large)
     indicator.center = view.center
-    indicator.tag = UIViewController.activityIndicatorTag
     view.addSubview(indicator)
+    view.bringSubviewToFront(indicator)
     indicator.startAnimating()
   }
   
   func stopIndicator() {
-    if let indicator = view.subviews
-      .filter({ $0.tag == UIViewController.activityIndicatorTag }).first as? UIActivityIndicatorView {
-      indicator.stopAnimating()
-      indicator.removeFromSuperview()
-    }
+    activeIndicator?.stopAnimating()
+    activeIndicator?.removeFromSuperview()
   }
 }
