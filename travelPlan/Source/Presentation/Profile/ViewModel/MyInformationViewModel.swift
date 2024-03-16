@@ -23,7 +23,7 @@ final class MyInformationViewModel {
     case availableNickname
     case correctionSaved
     case correctionNotSaved
-    case wannaOutThisPage(userInfoHasChanged: Bool)
+    case wannaLeaveThisPage(userInfoHasChanged: Bool)
   }
   
   // MARK: - Dependencies
@@ -156,7 +156,7 @@ private extension MyInformationViewModel {
     return input.tapStoreButton
       .map { [weak self] _ -> State in
         let hasUserEdited = self?.hasUserEditedInfo()
-        return .wannaOutThisPage(userInfoHasChanged: hasUserEdited ?? false)
+        return .wannaLeaveThisPage(userInfoHasChanged: hasUserEdited ?? false)
       }.eraseToAnyPublisher()
   }
   
