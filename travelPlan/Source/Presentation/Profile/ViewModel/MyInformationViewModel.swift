@@ -23,7 +23,7 @@ final class MyInformationViewModel {
     case availableNickname
     case correctionSaved
     case correctionNotSaved
-    case wannaLeaveThisPage(userInfoHasChanged: Bool)
+    case wannaLeaveThisPage(hasUserEditedInfo: Bool)
   }
   
   // MARK: - Dependencies
@@ -153,10 +153,10 @@ private extension MyInformationViewModel {
   }
   
   func tapBackBarButtonStream(input: Input) -> Output {
-    return input.tapStoreButton
+    return input.tapBackButton
       .map { [weak self] _ -> State in
-        let hasUserEdited = self?.hasUserEditedInfo()
-        return .wannaLeaveThisPage(userInfoHasChanged: hasUserEdited ?? false)
+        let hasUserEditedInfo = self?.hasUserEditedInfo()
+        return .wannaLeaveThisPage(hasUserEditedInfo: hasUserEditedInfo ?? false)
       }.eraseToAnyPublisher()
   }
   
