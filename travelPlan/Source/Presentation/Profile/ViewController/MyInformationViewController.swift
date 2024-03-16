@@ -65,6 +65,8 @@ final class MyInformationViewController: UIViewController {
   
   private var subscriptions = Set<AnyCancellable>()
   
+  weak var coordinator: MyInformationCoordinatorDelegate?
+  
   init(viewModel: any MyInformationViewModelable) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
@@ -121,21 +123,20 @@ extension MyInformationViewController: ViewBindCase {
     switch state {
     case .none:
       break
-    case .duplicatedNickname:
-      inputTextField.textState = .duplicated
-      stopIndicator()
-    case .availableNickname:
-      inputTextField.textState = .available
-      stopIndicator()
     case .correctionSaved:
       stopIndicator()
-      // TODO: - 저장 성공 알림창 응답.+ (닉네임, 이미지 bool) 받고 칸 갱신
       setSubviewsDefaultUI()
     case .correctionNotSaved:
       // TODO: - 저장 실패시 알림창 응답.
       stopIndicator()
     case .networkProcessing:
       startIndicator()
+    case .wannaLeaveThisPage(let hasUserEditedInfo):
+      handleWhenUserWantToLeaveThisPage(with: hasUserEditedInfo)
+    case .savableState(let isStateSavable):
+      handleSavableState(isStateSavable)
+    case .nicknameState(let state):
+      inputTextField.textState = state
     }
   }
   
@@ -152,31 +153,24 @@ extension MyInformationViewController: ViewBindCase {
   }
 }
 
+// MARK: - Helpers
+extension MyInformationViewController {
+  func handleSelectedImage(with image: UIImage) {
+    profileImageView.setImage(image)
+    input.selectProfile.send(image.base64)
+    let savableTextStates: [SettingUserNameTextField.State] = [.available, .default]
+    if savableTextStates.contains(inputTextField.textState) {
+      setStoreLabelAvailable()
+    }
+  }
+}
+
 // MARK: - Private Helpers
 private extension MyInformationViewController {
   func bindInputTextField() {
-    inputTextField
-      .changed
-      .debounce(for: 0.2, scheduler: RunLoop.main)
-      .sink { [weak self] in
-        let isNicknameAvailable = (3...15).contains($0.count)
-        let isNicknameWithinMinimumRange = (1...2).contains($0.count)
-        let isInputTextfieldEmpty = $0.count == 0 || $0.isEmpty
-        if isNicknameAvailable {
-          self?.input.isNicknameDuplicated.send($0)
-        } else if isInputTextfieldEmpty {
-          self?.inputTextField.textState = .initial
-        } else if isNicknameWithinMinimumRange {
-          self?.inputTextField.textState = .underflow
-        } else {
-          /// 닉네임 글자 넘음
-          self?.inputTextField.textState = .overflow
-        }
-        if self?.inputTextField.textState != .available {
-          self?.storeLabel.isUserInteractionEnabled = false
-          self?.storeLabel.textColor = .yg.gray1
-        }
-        self?.inputNoticeLabel.text = self?.inputTextField.textState.quotation
+    inputTextField.changed
+      .sink { [weak self] text in
+        self?.input.inputNickname.send(text)
       }.store(in: &subscriptions)
   }
   
@@ -184,25 +178,36 @@ private extension MyInformationViewController {
     inputTextField.$textState
       .receive(on: DispatchQueue.main)
       .sink { [weak self] state in
-        if state == .duplicated {
-          self?.inputNoticeLabel.text = self?.inputTextField.textState.quotation
-          self?.inputNoticeLabel.textColor = .yg.red2
-          self?.storeLabel.isUserInteractionEnabled = false
-          self?.storeLabel.textColor = .yg.gray1
-        }
         if state == .available {
+          self?.stopIndicator()
           self?.inputNoticeLabel.textColor = .yg.primary
           self?.inputNoticeLabel.text = self?.inputTextField.textState.quotation
-          self?.storeLabel.isUserInteractionEnabled = true
-          self?.storeLabel.textColor = .yg.primary
+          self?.setStoreLabelAvailable()
+          return
         }
-        if state == .underflow {
-          self?.inputNoticeLabel.textColor = .yg.red2
+        if state == .default {
+          self?.stopIndicator()
+          self?.input.defaultNickname.send()
+          return
         }
-        if state == .overflow {
-          self?.inputNoticeLabel.textColor = .yg.red2
+        if state == .duplicated {
+          self?.stopIndicator()
         }
+        // state가 duplicated, overflow, underflow인 경우
+        self?.inputNoticeLabel.text = self?.inputTextField.textState.quotation
+        self?.inputNoticeLabel.textColor = .yg.red2
+        self?.setStoreLabelUnavailable()
       }.store(in: &subscriptions)
+  }
+  
+  func setStoreLabelAvailable() {
+    storeLabel.isUserInteractionEnabled = true
+    storeLabel.textColor = .yg.primary
+  }
+  
+  func setStoreLabelUnavailable() {
+    storeLabel.isUserInteractionEnabled = false
+    storeLabel.textColor = .yg.gray1
   }
   
   func configureUI() {
@@ -254,92 +259,40 @@ private extension MyInformationViewController {
   }
   
   func setSubviewsDefaultUI() {
-    storeLabel.textColor = .yg.gray1
-    storeLabel.isUserInteractionEnabled = false
-    inputTextField.textState = .normal
+    setStoreLabelUnavailable()
+    inputTextField.textState = .default
     inputNoticeLabel.text = ""
+  }
+  
+  func handleWhenUserWantToLeaveThisPage(with hasUserEditedInfo: Bool ) {
+    guard hasUserEditedInfo else {
+      coordinator?.finish(withAnimated: true)
+      return
+    }
+    coordinator?.showConfirmationAlertPage()
+  }
+  
+  func handleSavableState(_ isStateSavable: Bool) {
+    if isStateSavable {
+      setStoreLabelAvailable()
+      return
+    }
+    setStoreLabelUnavailable()
   }
 }
 
 // MARK: - Actions
 extension MyInformationViewController {
   @objc func didTapBackBarButton(_ sender: Any) {
-    navigationController?.popViewController(animated: true)
+    input.tapBackButton.send()
   }
   
   @objc func didTapStoreLabel() {
     input.tapStoreButton.send()
   }
   
-  @objc func didTapBottomSheetComponent(_ gesture: UITapGestureRecognizer) {
-    guard let selectedLabel = gesture.view as? UILabel, let text = selectedLabel.text else {
-      return
-    }
-    dismiss(animated: false)
-    let picker = UIImagePickerController()
-    picker.allowsEditing = true
-    picker.delegate = self
-    switch text {
-    case "사진 찍기":
-      picker.sourceType = .camera
-      picker.cameraDevice = .rear
-      picker.cameraCaptureMode = .photo
-    case "앨범에서 선택":
-      picker.sourceType = .photoLibrary
-    default:
-      return
-    }
-    present(picker, animated: true)
-  }
-  
   @objc func didTapProfile() {
-    let dividers: [UIView] = (0...1).map { _ in
-      return UIView(frame: .zero).set {
-        $0.heightAnchor.constraint(equalToConstant: 0.7).isActive = true
-        $0.backgroundColor = .yg.gray1
-      }
-    }
-    let titles = ["사진 찍기", "앨범에서 선택"]
-    let labels = (0...1).map { index in
-      return BasePaddingLabel(
-        padding: .init(top: 15, left: 35, bottom: 15, right: 35),
-        fontType: .semiBold_600(fontSize: 16),
-        lineHeight: 25
-      ).set {
-        $0.isUserInteractionEnabled = true
-        $0.text = titles[index]
-        $0.textColor = .yg.gray5
-        $0.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapBottomSheetComponent)))
-      }
-    }
-    let stackView = UIStackView(arrangedSubviews: [labels[0], dividers[0], labels[1], dividers[1]]).set {
-      $0.translatesAutoresizingMaskIntoConstraints = false
-      $0.isUserInteractionEnabled = true
-      $0.axis = .vertical
-      $0.spacing = 0
-      $0.distribution = .fill
-      $0.backgroundColor = .white
-    }
-    let bottomSheet = BaseBottomSheetViewController(contentView: stackView, mode: .couldBeFull, radius: 13)
-    presentBottomSheet(bottomSheet)
-  }
-}
-
-// MARK: - UIImagePickerControllerDelegate
-extension MyInformationViewController: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
-  func imagePickerController(
-    _ picker: UIImagePickerController,
-    didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
-  ) {
-    if let image = info[.editedImage] as? UIImage {
-      profileImageView.setImage(image)
-      input.selectProfile.send(image.base64)
-    }
-    picker.dismiss(animated: true, completion: nil)
-  }
-  
-  func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-    picker.dismiss(animated: true, completion: nil)
+    coordinator?.showBottomSheetAlbum()
   }
 }
 
