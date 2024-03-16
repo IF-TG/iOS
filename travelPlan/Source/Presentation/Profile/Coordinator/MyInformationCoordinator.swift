@@ -9,8 +9,8 @@ import UIKit
 import SHCoordinator
 import Alamofire
 
-protocol MyInformationCoordinatorDelegate: AnyObject {
-  func finish()
+protocol MyInformationCoordinatorDelegate: FlowCoordinatorDelegate {
+  func showConfirmationAlertPage()
 }
 
 final class MyInformationCoordinator: FlowCoordinator {
@@ -18,6 +18,8 @@ final class MyInformationCoordinator: FlowCoordinator {
   var child: [FlowCoordinator] = []
   
   var presenter: UINavigationController?
+  
+  var viewController: UIViewController?
   
   init(presenter: UINavigationController?) {
     self.presenter = presenter
@@ -41,8 +43,19 @@ final class MyInformationCoordinator: FlowCoordinator {
     let viewModel = MyInformationViewModel(myProfileUseCase: mockMyProfileUseCase)
     let viewController = MyInformationViewController(viewModel: viewModel)
     viewController.coordinator = self
+    self.viewController = viewController
     presenter?.pushViewController(viewController, animated: true)
   }
 }
 
-extension MyInformationCoordinator: MyInformationCoordinatorDelegate { }
+extension MyInformationCoordinator: MyInformationCoordinatorDelegate {
+  func showConfirmationAlertPage() {
+    let alert = UIAlertController(title: nil, message: "프로필을 수정하지 않으시겠습니까?", preferredStyle: .alert)
+    let yes = UIAlertAction(title: "예", style: .default) { [weak self] _ in
+      self?.finish(withAnimated: true)
+    }
+    let no = UIAlertAction(title: "아니요", style: .cancel)
+    [yes, no].forEach { alert.addAction($0) }
+    viewController?.present(alert, animated: true, completion: nil)
+  }
+}
