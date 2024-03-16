@@ -6,6 +6,7 @@
 //
 
 import Combine
+import Foundation
 
 final class DefaultMyProfileRepository {
   // MARK: - Dependencies
