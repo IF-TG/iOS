@@ -14,13 +14,15 @@ final class MyInformationViewModel {
     let selectProfile: PassthroughSubject<String?, MainError> = .init()
     let tapStoreButton: PassthroughSubject<Void, MainError> = .init()
     let tapBackButton: PassthroughSubject<Void, MainError> = .init()
+    let defaultNickname: PassthroughSubject<Void, MainError> = .init()
+    let inputNickname: PassthroughSubject<String, MainError> = .init()
   }
   
   enum State {
     case none
     case networkProcessing
-    case duplicatedNickname
-    case availableNickname
+    case savableState(Bool)
+    case nicknameState(SettingUserNameTextField.State)
     case correctionSaved
     case correctionNotSaved
     case wannaLeaveThisPage(hasUserEditedInfo: Bool)
@@ -53,14 +55,15 @@ final class MyInformationViewModel {
 extension MyInformationViewModel: MyInformationViewModelable {
   func transform(_ input: Input) -> Output {
     return Publishers.MergeMany([
-      isDuplicatedUserNameStream(input: input),
       checkDuplicatedUserNameStream(),
       selectProfileStream(input: input),
       tapStoreButtonStream(input: input),
       hasNicknameUpdatedStream(),
       hasProfileUpdatedStream(),
       hasBothNameAndProfileUpdatedStream(),
-      tapBackBarButtonStream(input: input)]
+      tapBackBarButtonStream(input: input),
+      defaultNicknameStream(input: input),
+      inputNicknameStream(input: input)]
     ).eraseToAnyPublisher()
   }
 }
@@ -74,21 +77,14 @@ private extension MyInformationViewModel {
     }.eraseToAnyPublisher()
   }
   
-  func isDuplicatedUserNameStream(input: Input) -> Output {
-    return input.isNicknameDuplicated.map { [weak self] nickname in
-      self?.editedUserNickname = nickname
-      self?.myProfileUseCase.checkIfNicknameDuplicate(with: nickname)
-      return .networkProcessing
-    }.eraseToAnyPublisher()
-  }
-  
   func checkDuplicatedUserNameStream() -> Output {
     myProfileUseCase.isNicknameDuplicated.map { [weak self] isDuplicatedUserName -> State in
       self?.changedNameAvailable = !isDuplicatedUserName
       if isDuplicatedUserName {
         self?.editedUserNickname = nil
       }
-      return isDuplicatedUserName ? .duplicatedNickname : .availableNickname
+      print(isDuplicatedUserName)
+      return .nicknameState(isDuplicatedUserName ? .duplicated : .available)
     }.eraseToAnyPublisher()
   }
   
@@ -165,5 +161,40 @@ private extension MyInformationViewModel {
       return true
     }
     return false
+  }
+  
+  func defaultNicknameStream(input: Input) -> Output {
+    return input.defaultNickname
+      .map { [weak self] _ -> State in
+        if self?.editedUserProfileImage != nil {
+          return .savableState(true)
+        }
+        return .savableState(false)
+      }.eraseToAnyPublisher()
+  }
+  
+  func inputNicknameStream(input: Input) -> Output {
+    return input.inputNickname
+      .debounce(for: 0.2, scheduler: RunLoop.main)
+      .map { [weak self] editedNickname -> State in
+        let isNicknameAvailable = (3...15).contains(editedNickname.count)
+        let isNicknameWithinMinimumRange = (0...2).contains(editedNickname.count) || editedNickname.isEmpty
+        if isNicknameAvailable {
+          self?.editedUserNickname = editedNickname
+          self?.myProfileUseCase.checkIfNicknameDuplicate(with: editedNickname)
+          return .networkProcessing
+        }
+        if isNicknameWithinMinimumRange {
+          return .nicknameState(.underflow)
+        }
+        if editedNickname.count > 15 {
+          return .nicknameState(.overflow)
+        }
+        // TODO: - 사용자의 닉네임과 같은 경우. 유저디폴츠에서 가져와야합니다.
+        if editedNickname == "야호호" {
+          return .nicknameState(.default)
+        }
+        return .none
+      }.eraseToAnyPublisher()
   }
 }
