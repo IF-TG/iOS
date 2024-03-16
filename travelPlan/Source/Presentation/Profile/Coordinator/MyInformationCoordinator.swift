@@ -40,6 +40,7 @@ final class MyInformationCoordinator: FlowCoordinator {
     let mockMyProfileUseCase = MockMyProfileUseCase()
     let viewModel = MyInformationViewModel(myProfileUseCase: mockMyProfileUseCase)
     let viewController = MyInformationViewController(viewModel: viewModel)
+    viewController.coordinator = self
     presenter?.pushViewController(viewController, animated: true)
   }
 }
