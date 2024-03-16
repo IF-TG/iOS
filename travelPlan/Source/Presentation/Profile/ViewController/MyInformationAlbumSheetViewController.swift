@@ -9,6 +9,12 @@ import UIKit
 import Combine
 
 final class MyInformationAlbumSheetViewController: BaseBottomSheetViewController {
+  // MARK: - Nested
+  enum Menu: String, CaseIterable {
+    case camera = "사진 찍기"
+    case album = "엘범에서 선택"
+  }
+  
   // MARK: - Properties
   @Published var hasSelectedProfile: UIImage?
   
@@ -20,15 +26,14 @@ final class MyInformationAlbumSheetViewController: BaseBottomSheetViewController
         $0.backgroundColor = .yg.gray1
       }
     }
-    let titles = ["사진 찍기", "앨범에서 선택"]
-    let labels = (0...1).map { index in
+    let labels = Menu.allCases.map { menu in
       return BasePaddingLabel(
         padding: .init(top: 15, left: 35, bottom: 15, right: 35),
         fontType: .semiBold_600(fontSize: 16),
         lineHeight: 25
       ).set {
         $0.isUserInteractionEnabled = true
-        $0.text = titles[index]
+        $0.text = menu.rawValue
         $0.textColor = .yg.gray5
       }
     }
@@ -57,16 +62,16 @@ extension MyInformationAlbumSheetViewController {
     guard let selectedLabel = gesture.view as? UILabel, let text = selectedLabel.text else {
       return
     }
-    dismiss(animated: false)
     let picker = UIImagePickerController()
     picker.allowsEditing = true
     picker.delegate = self
-    switch text {
-    case "사진 찍기":
+    let menu = Menu(rawValue: text)
+    switch menu {
+    case .camera:
       picker.sourceType = .camera
       picker.cameraDevice = .rear
       picker.cameraCaptureMode = .photo
-    case "앨범에서 선택":
+    case .album:
       picker.sourceType = .photoLibrary
     default:
       return
@@ -85,9 +90,11 @@ extension MyInformationAlbumSheetViewController: UIImagePickerControllerDelegate
       hasSelectedProfile = image
     }
     picker.dismiss(animated: true, completion: nil)
+    dismiss(animated: false)
   }
   
   func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
     picker.dismiss(animated: true, completion: nil)
+    dismiss(animated: false)
   }
 }
