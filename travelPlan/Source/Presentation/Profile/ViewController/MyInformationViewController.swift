@@ -59,17 +59,11 @@ final class MyInformationViewController: UIViewController {
     $0.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapStoreLabel)))
   }
   
-  private var input = MyInformationViewModel.Input()
+  private let input = MyInformationViewModel.Input()
   
   private let viewModel: any MyInformationViewModelable
   
   private var subscriptions = Set<AnyCancellable>()
-  
-  private var errorHandler = PassthroughSubject<String, Never>()
-  
-  private var outputSubscription: AnyCancellable?
-  
-  private var errorSubscription: AnyCancellable?
   
   weak var coordinator: MyInformationCoordinatorDelegate?
   
@@ -86,34 +80,16 @@ final class MyInformationViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     configureUI()
-    bindInputTextField()
-    bindInputTextFieldTextState()
     bind()
-    
-    errorSubscription = errorHandler
-      .subscribe(on: DispatchQueue.global(qos: .default))
-      .receive(on: DispatchQueue.main)
-      .sink { [weak self] errorDescription in
-        self?.input = .init()
-        self?.setStoreLabelAvailable()
-        self?.coordinator?.showAlertForError(with: errorDescription, completion: {
-          if self?.outputSubscription == nil {
-            self?.bindInputTextField()
-            self?.bindInputTextFieldTextState()
-            self?.bind()
-          }
-        })
-    }
   }
   
   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
     super.touchesBegan(touches, with: event)
-    if let touch = touches.first {
-      let point = touch.location(in: view)
-      guard inputTextField.isFirstResponder else { return }
-      if !inputTextField.frame.contains(point) {
-        inputTextField.resignFirstResponder()
-      }
+    guard let touch = touches.first else { return }
+    let point = touch.location(in: view)
+    guard inputTextField.isFirstResponder else { return }
+    if !inputTextField.frame.contains(point) {
+      inputTextField.resignFirstResponder()
     }
   }
 }
@@ -121,12 +97,14 @@ final class MyInformationViewController: UIViewController {
 // MARK: - ViewBindCase
 extension MyInformationViewController: ViewBindCase {
   typealias Input = MyInformationViewModel.Input
-  typealias ErrorType = MyInforMationViewModelError
+  typealias ErrorType = Error
   typealias State = MyInformationViewModel.State
   
   func bind() {
+    bindInputTextField()
+    bindInputTextFieldTextState()
     let output = viewModel.transform(input)
-    outputSubscription = output
+    output
       .receive(on: DispatchQueue.main)
       .sink { [weak self] completion in
         self?.stopIndicator()
@@ -138,7 +116,7 @@ extension MyInformationViewController: ViewBindCase {
         }
       } receiveValue: { [weak self] state in
         self?.render(state)
-      }
+      }.store(in: &subscriptions)
   }
   
   func render(_ state: MyInformationViewModel.State) {
@@ -149,8 +127,8 @@ extension MyInformationViewController: ViewBindCase {
       stopIndicator()
       setSubviewsDefaultUI()
     case .correctionNotSaved:
-      coordinator?.showAlertForError(with: "저장에 실패했습니다", completion: nil)
       stopIndicator()
+      coordinator?.showAlertForError(with: "저장에 실패했습니다", completion: nil)
     case .networkProcessing:
       startIndicator()
     case .wannaLeaveThisPage(let hasUserEditedInfo):
@@ -159,22 +137,14 @@ extension MyInformationViewController: ViewBindCase {
       handleSavableState(isStateSavable)
     case .nicknameState(let state):
       inputTextField.textState = state
+    case .unexpectedError(description: let description):
+      stopIndicator()
+      coordinator?.showAlertForError(with: "에러가 발생했습니다\n\(description)", completion: nil)
+      setStoreLabelAvailable()
     }
   }
   
-  func handleError(_ error: ErrorType) {
-    outputSubscription = nil
-    subscriptions = Set<AnyCancellable>()
-    let errorDescription = switch error {
-    case .userInformationNotFound(let description):
-      description
-    case .unknown(let description):
-      description
-    case .connectionError(let connectionError):
-      connectionError.localizedDescription
-    }
-    errorHandler.send(errorDescription)
-  }
+  func handleError(_ error: ErrorType) { }
 }
 
 // MARK: - Helpers
