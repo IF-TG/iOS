@@ -13,6 +13,7 @@ import Combine
 protocol MyInformationCoordinatorDelegate: FlowCoordinatorDelegate {
   func showConfirmationAlertPage()
   func showBottomSheetAlbum()
+  func showAlertForError(with description: String)
 }
 
 final class MyInformationCoordinator: FlowCoordinator {
@@ -72,5 +73,12 @@ extension MyInformationCoordinator: MyInformationCoordinatorDelegate {
         (self?.viewController as? MyInformationViewController)?.handleSelectedImage(with: image)
       }
     viewController?.presentBottomSheet(albumSheet)
+  }
+  
+  func showAlertForError(with description: String) {
+    let alert = UIAlertController(title: nil, message: description, preferredStyle: .alert).set {
+      $0.addAction(UIAlertAction(title: "OK", style: .default))
+    }
+    viewController?.present(alert, animated: true)
   }
 }
