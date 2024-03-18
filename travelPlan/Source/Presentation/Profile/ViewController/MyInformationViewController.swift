@@ -59,7 +59,7 @@ final class MyInformationViewController: UIViewController {
     $0.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapStoreLabel)))
   }
   
-  private let input = MyInformationViewModel.Input()
+  private var input = MyInformationViewModel.Input()
   
   private let viewModel: any MyInformationViewModelable
   
@@ -80,6 +80,8 @@ final class MyInformationViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     configureUI()
+    bindInputTextField()
+    bindInputTextFieldTextState()
     bind()
   }
   
@@ -98,12 +100,10 @@ final class MyInformationViewController: UIViewController {
 // MARK: - ViewBindCase
 extension MyInformationViewController: ViewBindCase {
   typealias Input = MyInformationViewModel.Input
-  typealias ErrorType = MainError
+  typealias ErrorType = MyInforMationViewModelError
   typealias State = MyInformationViewModel.State
   
   func bind() {
-    bindInputTextField()
-    bindInputTextFieldTextState()
     let output = viewModel.transform(input)
     output
       .receive(on: DispatchQueue.main)
@@ -127,7 +127,7 @@ extension MyInformationViewController: ViewBindCase {
       stopIndicator()
       setSubviewsDefaultUI()
     case .correctionNotSaved:
-      // TODO: - 저장 실패시 알림창 응답.
+      coordinator?.showAlertForError(with: "저장에 실패했습니다")
       stopIndicator()
     case .networkProcessing:
       startIndicator()
@@ -141,15 +141,18 @@ extension MyInformationViewController: ViewBindCase {
   }
   
   func handleError(_ error: ErrorType) {
-    // TODO: - 추후 알림창에 표현하기
-    switch error {
-    case .general(let string):
-      print(string.description)
-    case .networkError(let error):
-      print(error.localizedDescription)
-    case .referenceError(let error):
-      print(error.localizedDescription)
+    stopIndicator()
+    input = .init()
+    bind()
+    var errorDescription = switch error {
+    case .userInformationNotFound(let description):
+      description
+    case .unknown(let description):
+      description
+    case .connectionError(let connectionError):
+      connectionError.localizedDescription
     }
+    coordinator?.showAlertForError(with: errorDescription)
   }
 }
 
