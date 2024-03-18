@@ -16,11 +16,11 @@ enum MyProfileRepositoryError: LocalizedError {
 
 /// 사용자 정보 CRUD 관련 레포지토리
 protocol MyProfileRepository {
-  func checkIfUserNicknameDuplicate(with name: String) -> Future<Bool, MyProfileRepositoryError>
-  func updateUserNickname(with name: String) -> Future<Bool, MyProfileRepositoryError>
-  func updateProfile(with profile: String) -> Future<Bool, MyProfileRepositoryError>
-  func saveProfile(with profile: String) -> Future<Bool, MyProfileRepositoryError>
-  func deleteProfile() -> Future<Bool, MyProfileRepositoryError>
-  func fetchProfile() -> Future<ProfileImageEntity, MyProfileRepositoryError>
+  func checkIfUserNicknameDuplicate(with name: String) -> Future<Bool, Error>
+  func updateUserNickname(with name: String) -> Future<Bool, Error>
+  func updateProfile(with profile: String) -> Future<Bool, Error>
+  func saveProfile(with profile: String) -> Future<Bool, Error>
+  func deleteProfile() -> Future<Bool, Error>
+  func fetchProfile() -> Future<ProfileImageEntity, Error>
   var isProfileSavedInServer: Bool { get }
 }
