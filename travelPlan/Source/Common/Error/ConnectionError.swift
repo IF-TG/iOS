@@ -6,3 +6,17 @@
 //
 
 import Foundation
+
+enum ConnectionError: LocalizedError {
+  case invalidInternetConnection
+  case unavailableServer
+  
+  var errorDescription: String? {
+    switch self {
+    case .invalidInternetConnection:
+      NSLocalizedString("인터넷 연결이 유효하지 않습니다. 네트워크 설정을 확인하세요.", comment: "")
+    case .unavailableServer:
+      NSLocalizedString("서버에 연결할 수 없습니다. 나중에 다시 시도하세요.", comment: "")
+    }
+  }
+}
