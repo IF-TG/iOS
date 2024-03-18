@@ -10,14 +10,14 @@ import Foundation
 
 // MARK: - Publisher extension
 private extension Publisher {
-  func mapMyProfileRepositoryError<E>(
+  func mapMyProfileUsecaseError<E>(
     _ transform: @escaping (Self.Failure) -> E
-  ) -> Publishers.MapError<Self, MyProfileRepositoryError> {
-    return self.mapError { error -> MyProfileRepositoryError in
+  ) -> Publishers.MapError<Self, Error> {
+    return self.mapError { error -> MyProfileUseCaseError in
       if let connectionError = error.asAFError?.mapConnectionError {
-        return MyProfileRepositoryError.networkError(connectionError)
+        return MyProfileUseCaseError.networkError(connectionError)
       }
-      return MyProfileRepositoryError.unknown(description: error.localizedDescription)
+      return MyProfileUseCaseError.unknown(error.localizedDescription)
     }
   }
 }
@@ -43,17 +43,12 @@ extension DefaultMyProfileRepository: MyProfileRepository {
     MyInfoManager.isSavedProfileInServer
   }
   
-  func checkIfUserNicknameDuplicate(with name: String) -> Future<Bool, MyProfileRepositoryError> {
+  func checkIfUserNicknameDuplicate(with name: String) -> Future<Bool, Error> {
     let reqeustDTO = UserNicknameRequestDTO(nickname: name)
     let endpoint = UserInfoAPIEndpoint.checkIfNicknameDuplicate(with: reqeustDTO)
     return .init { [unowned self] promise in
       service.request(endpoint: endpoint)
-        .mapError({ error in
-          if let connectionError = error.mapConnectionError {
-            return MyProfileRepositoryError.networkError(connectionError)
-          }
-          return MyProfileRepositoryError.unknown(description: error.localizedDescription)
-        })
+        .mapMyProfileUsecaseError { $0 }
         .sink { completion in
           switch completion {
           case .finished:
@@ -67,10 +62,10 @@ extension DefaultMyProfileRepository: MyProfileRepository {
     }
   }
   
-  func updateUserNickname(with name: String) -> Future<Bool, MyProfileRepositoryError> {
+  func updateUserNickname(with name: String) -> Future<Bool, Error> {
     guard let loggedInUserId = MyInfoManager.id else {
       return Future { promise in
-        promise(.failure(.invaildUserId))
+        promise(.failure(MyProfileUseCaseError.invalidUserId))
       }
     }
     
@@ -78,7 +73,7 @@ extension DefaultMyProfileRepository: MyProfileRepository {
     let endpoint = UserInfoAPIEndpoint.updateUserNickname(with: requestDTO)
     return .init { [unowned self] promise in
       service.request(endpoint: endpoint)
-        .mapMyProfileRepositoryError { $0 }
+        .mapMyProfileUsecaseError { $0 }
         .sink { completion in
           switch completion {
           case .finished:
@@ -96,19 +91,19 @@ extension DefaultMyProfileRepository: MyProfileRepository {
   }
   
   /// 업데이트는 서버 로직에서 삭제 -> 저장을 한번에 하는 기능입니다.
-  func updateProfile(with profile: String) -> Future<Bool, MyProfileRepositoryError> {
+  func updateProfile(with profile: String) -> Future<Bool, Error> {
     guard let loggedInUserId = MyInfoManager.id else {
       return Future { promise in
-        promise(.failure(.invaildUserId))
+        promise(.failure(MyProfileUseCaseError.invalidUserId))
       }
     }
     
     let userIdReqeustDTO = UserIdReqeustDTO(userId: loggedInUserId)
     let reqeustDTO = UserProfileRequestDTO(profile: profile)
     let endpoint = UserInfoAPIEndpoint.updateProfile(withQuery: userIdReqeustDTO, body: reqeustDTO)
-    return Future<Bool, MyProfileRepositoryError> { [unowned self] promise in
+    return Future<Bool, Error> { [unowned self] promise in
       service.request(endpoint: endpoint)
-        .mapMyProfileRepositoryError { $0 }
+        .mapMyProfileUsecaseError { $0 }
         .sink { completion in
           if case .failure(let error) = completion {
             promise(.failure(error))
@@ -121,19 +116,19 @@ extension DefaultMyProfileRepository: MyProfileRepository {
     }
   }
   
-  func saveProfile(with profile: String) -> Future<Bool, MyProfileRepositoryError> {
+  func saveProfile(with profile: String) -> Future<Bool, Error> {
     guard let loggedInUserId = MyInfoManager.id else {
       return Future { promise in
-        promise(.failure(.invaildUserId))
+        promise(.failure(MyProfileUseCaseError.invalidUserId))
       }
     }
     
     let userIdRequestDTO = UserIdReqeustDTO(userId: loggedInUserId)
     let requestDTO = UserProfileRequestDTO(profile: profile)
     let endpoint = UserInfoAPIEndpoint.saveProfile(withQuery: userIdRequestDTO, body: requestDTO)
-    return Future<Bool, MyProfileRepositoryError> { [unowned self] promise in
+    return Future<Bool, Error> { [unowned self] promise in
       service.request(endpoint: endpoint)
-        .mapMyProfileRepositoryError { $0 }
+        .mapMyProfileUsecaseError { $0 }
         .sink { completion in
           if case .failure(let error) = completion {
             promise(.failure(error))
@@ -146,18 +141,18 @@ extension DefaultMyProfileRepository: MyProfileRepository {
     }
   }
   
-  func deleteProfile() -> Future<Bool, MyProfileRepositoryError> {
+  func deleteProfile() -> Future<Bool, Error> {
     guard let loggedInUserId = MyInfoManager.id else {
       return Future { promise in
-        promise(.failure(.invaildUserId))
+        promise(.failure(MyProfileUseCaseError.invalidUserId))
       }
     }
     
     let requestDTO = UserIdReqeustDTO(userId: loggedInUserId)
     let endpoint = UserInfoAPIEndpoint.deleteProfile(with: requestDTO)
-    return Future<Bool, MyProfileRepositoryError> { [unowned self] promise in
+    return Future<Bool, Error> { [unowned self] promise in
       service.request(endpoint: endpoint)
-        .mapMyProfileRepositoryError { $0 }
+        .mapMyProfileUsecaseError { $0 }
         .sink { completion in
           if case .failure(let error) = completion {
             promise(.failure(error))
@@ -169,7 +164,7 @@ extension DefaultMyProfileRepository: MyProfileRepository {
     }
   }
   
-  func fetchProfile() -> Future<ProfileImageEntity, MyProfileRepositoryError> {
+  func fetchProfile() -> Future<ProfileImageEntity, Error> {
     // UserDefaults 확인
     if let imageURL = MyInfoManager.userProfileURL {
       return Future { promise in
@@ -179,14 +174,14 @@ extension DefaultMyProfileRepository: MyProfileRepository {
     
     guard let loggedInUserId = MyInfoManager.id else {
       return Future { promise in
-        promise(.failure(.invaildUserId))
+        promise(.failure(MyProfileUseCaseError.invalidUserId))
       }
     }
     
     // 프로필 없는 경우 서버에서 불러오기
     return Future { [unowned self] promise in
       othersProfileRepository.fetchProfile(with: loggedInUserId)
-        .mapMyProfileRepositoryError { $0 }
+        .mapMyProfileUsecaseError { $0 }
         .sink { completion in
           if case .failure(let error) = completion {
             promise(.failure(error))
