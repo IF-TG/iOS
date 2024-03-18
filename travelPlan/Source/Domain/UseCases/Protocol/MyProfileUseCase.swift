@@ -6,14 +6,29 @@
 //
 
 import Combine
+import Foundation
+
+enum MyProfileUseCaseError: LocalizedError {
+  case invalidUserId
+  case networkError(ConnectionError)
+  
+  var errorDescription: String? {
+    switch self {
+    case .invalidUserId:
+      NSLocalizedString("로그인 정보가 유효하지 않습니다.", comment: "")
+    case .networkError(let connectionError):
+      connectionError.errorDescription
+    }
+  }
+}
 
 protocol MyProfileUseCase {
-  var isNicknameDuplicated: PassthroughSubject<Bool, MainError> { get }
-  var isNicknameUpdated: PassthroughSubject<Bool, MainError> { get }
-  var isProfileUpdated: PassthroughSubject<Bool, MainError> { get }
-  var isProfileSaved: PassthroughSubject<Bool, MainError> { get }
-  var isProfileDeleted: PassthroughSubject<Bool, MainError> { get }
-  var fetchedProfile: PassthroughSubject<ProfileImageEntity, MainError> { get }
+  var isNicknameDuplicated: PassthroughSubject<Bool, Error> { get }
+  var isNicknameUpdated: PassthroughSubject<Bool, Error> { get }
+  var isProfileUpdated: PassthroughSubject<Bool, Error> { get }
+  var isProfileSaved: PassthroughSubject<Bool, Error> { get }
+  var isProfileDeleted: PassthroughSubject<Bool, Error> { get }
+  var fetchedProfile: PassthroughSubject<ProfileImageEntity, Error> { get }
   var isProfileSavedInServer: Bool { get }
   
   func checkIfNicknameDuplicate(with name: String)

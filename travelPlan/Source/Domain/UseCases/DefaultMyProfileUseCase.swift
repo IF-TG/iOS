@@ -13,17 +13,17 @@ final class DefaultMyProfileUseCase: MyProfileUseCase {
   private let myProfileRepository: MyProfileRepository
   
   // MARK: - Properties
-  var isNicknameDuplicated = PassthroughSubject<Bool, MainError>()
+  var isNicknameDuplicated = PassthroughSubject<Bool, Error>()
   
-  var isNicknameUpdated = PassthroughSubject<Bool, MainError>()
+  var isNicknameUpdated = PassthroughSubject<Bool, Error>()
   
-  var isProfileUpdated = PassthroughSubject<Bool, MainError>()
+  var isProfileUpdated = PassthroughSubject<Bool, Error>()
   
-  var isProfileSaved = PassthroughSubject<Bool, MainError>()
+  var isProfileSaved = PassthroughSubject<Bool, Error>()
   
-  var isProfileDeleted = PassthroughSubject<Bool, MainError>()
+  var isProfileDeleted = PassthroughSubject<Bool, Error>()
   
-  var fetchedProfile = PassthroughSubject<ProfileImageEntity, MainError>()
+  var fetchedProfile = PassthroughSubject<ProfileImageEntity, Error>()
   
   var isProfileSavedInServer: Bool {
     myProfileRepository.isProfileSavedInServer

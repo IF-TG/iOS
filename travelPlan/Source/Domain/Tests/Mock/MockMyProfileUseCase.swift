@@ -23,27 +23,27 @@ final class MockMyProfileUseCase: MyProfileUseCase {
     defaultMyProfileUseCase.isProfileSavedInServer
   }
   
-  var isNicknameDuplicated: PassthroughSubject<Bool, MainError> {
+  var isNicknameDuplicated: PassthroughSubject<Bool, Error> {
     defaultMyProfileUseCase.isNicknameDuplicated
   }
   
-  var isNicknameUpdated: PassthroughSubject<Bool, MainError> {
+  var isNicknameUpdated: PassthroughSubject<Bool, Error> {
     defaultMyProfileUseCase.isNicknameUpdated
   }
   
-  var isProfileUpdated: PassthroughSubject<Bool, MainError> {
+  var isProfileUpdated: PassthroughSubject<Bool, Error> {
     defaultMyProfileUseCase.isProfileUpdated
   }
   
-  var isProfileSaved: PassthroughSubject<Bool, MainError> {
+  var isProfileSaved: PassthroughSubject<Bool, Error> {
     defaultMyProfileUseCase.isProfileSaved
   }
   
-  var isProfileDeleted: PassthroughSubject<Bool, MainError> {
+  var isProfileDeleted: PassthroughSubject<Bool, Error> {
     defaultMyProfileUseCase.isProfileDeleted
   }
   
-  var fetchedProfile: PassthroughSubject<ProfileImageEntity, MainError> {
+  var fetchedProfile: PassthroughSubject<ProfileImageEntity, Error> {
     defaultMyProfileUseCase.fetchedProfile
   }
   
