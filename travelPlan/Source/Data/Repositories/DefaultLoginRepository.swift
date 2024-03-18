@@ -6,15 +6,26 @@
 //
 
 import Combine
+import Foundation
+
+enum DefaultLoginRepositoryError: Error {
+  case tokensSavingFailed
+  case taskAlreadyCancelled
+  case invalidPlatform
+  case loginResultSavingFailed
+}
 
 final class DefaultLoginRepository {
   // MARK: - Properties
-  private let session: Sessionable
   private var subscriptions = Set<AnyCancellable>()
-  
+  private let loginResponseStorage = KeychainLoginResponseStorage()
+  private let loginResultStorage: LoginResultStorage
+  private let authService: AuthenticationService
+
   // MARK: - LifeCycle
-  init(session: Sessionable) {
-    self.session = session
+  init(authService: AuthenticationService, loginResultStorage: LoginResultStorage) {
+    self.authService = authService
+    self.loginResultStorage = loginResultStorage
   }
   
   deinit {
@@ -24,31 +35,31 @@ final class DefaultLoginRepository {
 
 // MARK: - LoginRepository
 extension DefaultLoginRepository: LoginRepository {
-  func fetchAuthToken(authCode: String, identityToken: String) -> AnyPublisher<Bool, MainError> {
-    return Future<Bool, MainError> { promise in
-      let requestDTO = LoginRequestDTO(authCode: authCode, identityToken: identityToken)
-      let endpoint = LoginAPIEndPoints.getAppleAuthToken(requestDTO: requestDTO)
-      self.session
-        .request(endpoint: endpoint)
-        .map { $0.result }
-        .sink { completion in
-          if case let .failure(error) = completion {
-            print("DEBUG: \(error.localizedDescription)")
-            promise(.failure(.networkError(error)))
-          }
-        } receiveValue: { responseDTO in
-          // TODO: - 두 token이 모두 저장되면 userDefaults에 로그인 여부 true 저장, token 하나라도 저장안되면 저장된 token도 delete 하고 userDafaults false 저장
-          KeychainManager.shared.add(
-            key: KeychainKey.accessToken.rawValue,
-            value: responseDTO.accessToken.data(using: .utf8)
-          )
-          KeychainManager.shared.add(
-            key: KeychainKey.refreshToken.rawValue,
-            value: responseDTO.refreshToken.data(using: .utf8)
-          )
-          promise(.success(true))
+  func performLogin(type: OAuthType) -> AnyPublisher<Bool, Error> {
+    switch type {
+    case .apple:
+      authService.setLoginStrategy(AppleLoginStrategy())
+      
+      // TODO: - 여기에서 case 추가하고 service에 구체 Strategy객체 주입
+    }
+    
+    return authService.performLogin()
+      .receive(on: DispatchQueue.global(qos: .userInitiated))
+      .tryMap { [weak self] jwtDTO in
+        guard let self = self else {
+          throw DefaultLoginRepositoryError.taskAlreadyCancelled
         }
-        .store(in: &self.subscriptions)
-    }.eraseToAnyPublisher()
+        guard self.loginResponseStorage.saveTokens(jwtDTO: jwtDTO) else {
+          throw DefaultLoginRepositoryError.tokensSavingFailed
+        }
+        // TODO: - loginResultStorage를 통해 save합니다.
+//          if loginResultStorage.save() {
+//            return true
+//          } else {
+//            throw DefaultLoginRepositoryError.loginResultSavingFailed
+//          }
+        return true
+      }
+      .eraseToAnyPublisher()
   }
 }

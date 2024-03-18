@@ -8,8 +8,5 @@
 import Combine
 
 protocol LoginRepository {
-  func fetchAuthToken(
-    authCode: String,
-    identityToken: String
-  ) -> AnyPublisher<Bool, MainError>
+  func performLogin(type: OAuthType) -> AnyPublisher<Bool, Error>
 }

@@ -9,6 +9,7 @@ import Foundation
 import Combine
 
 protocol LoginStrategy {
-  var resultPublisher: PassthroughSubject<AuthenticationResponseValue, AuthenticationServiceError> { get }
+  var resultPublisher: PassthroughSubject<JWTResponseDTO, Error> { get }
+  var sessionable: Sessionable? { get set }
   func login()
 }

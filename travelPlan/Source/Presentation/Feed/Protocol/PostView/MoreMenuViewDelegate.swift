@@ -8,5 +8,5 @@
 protocol MoreMenuViewDelegate: AnyObject {
   func moreMenuView(
     _ postChevronLabel: PostChevronLabel,
-    didSelectedType type: PostSearchFilterType)
+    didSelectedType type: PostFilterOptions)
 }

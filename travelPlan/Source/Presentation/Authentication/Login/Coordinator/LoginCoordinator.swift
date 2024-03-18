@@ -27,23 +27,22 @@ final class LoginCoordinator: FlowCoordinator {
   func start() {
     let json = """
       {
-        "result": {
-          "accessToken": "String",
-          "refreshToken": "String"
-          },
-        "status": "OK",
-        "statusCode": "200",
-        "message": "success"
+        "accessToken": "StringAbc",
+        "refreshToken": "StringAbcd",
+        "accessTokenExpiresIn": 3600000,
+        "refreshTokenExpiresIn": 1200000000
       }
-      """
+    """
     MockUrlProtocol.requestHandler = { _ in
       let responseData = json.data(using: .utf8)!
       return ((HTTPURLResponse(), responseData))
     }
     
     let mockSession = MockSession.default
-    let service = SessionProvider(session: mockSession)
-    let repository = DefaultLoginRepository(session: service)
+    let sessionProvider = SessionProvider(session: mockSession)
+    let authService = DefaultAuthenticationService(sessionProvider: sessionProvider)
+    let loginResultStorage = UserDefaultsLoginResultStorage()
+    let repository = DefaultLoginRepository(authService: authService, loginResultStorage: loginResultStorage)
     let useCase = DefaultLoginUseCase(loginRepository: repository)
     let loginVM = LoginViewModel(loginUseCase: useCase)
     let loginViewController = LoginViewController(viewModel: loginVM)

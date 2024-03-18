@@ -39,14 +39,14 @@ final class FeedPostViewController: UIViewController {
     ) as? PostSortingAreaView
   }
   
-  var themeType: PostSearchFilterType {
+  var themeType: PostFilterOptions {
     viewModel.headerItem
   }
   
   private let input = Input()
   
   // MARK: - Lifecycle
-  init(with filterInfo: FeedPostSearchFilterInfo, postDelegator: PostViewAdapterDelegate?) {
+  init(with filterInfo: PostFilterInfo, postDelegator: PostViewAdapterDelegate?) {
     let viewModel = FeedPostViewModel(filterInfo: filterInfo, postUseCase: MockPostUseCase())
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)

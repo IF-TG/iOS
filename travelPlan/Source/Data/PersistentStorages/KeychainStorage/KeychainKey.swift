@@ -10,4 +10,6 @@ import Foundation
 enum KeychainKey: String {
   case accessToken
   case refreshToken
+  case accessTokenDeadlineSec
+  case refreshTokenDeadlineSec
 }

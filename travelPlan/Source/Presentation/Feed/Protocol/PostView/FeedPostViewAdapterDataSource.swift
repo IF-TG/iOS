@@ -6,5 +6,5 @@
 //
 
 protocol FeedPostViewAdapterDataSource: PostViewAdapterDataSource {
-  var headerItem: PostSearchFilterType { get }
+  var headerItem: PostFilterOptions { get }
 }
