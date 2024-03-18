@@ -23,18 +23,12 @@ enum MyProfileUseCaseError: LocalizedError {
 }
 
 protocol MyProfileUseCase {
-  var isNicknameDuplicated: PassthroughSubject<Bool, Error> { get }
-  var isNicknameUpdated: PassthroughSubject<Bool, Error> { get }
-  var isProfileUpdated: PassthroughSubject<Bool, Error> { get }
-  var isProfileSaved: PassthroughSubject<Bool, Error> { get }
-  var isProfileDeleted: PassthroughSubject<Bool, Error> { get }
-  var fetchedProfile: PassthroughSubject<ProfileImageEntity, Error> { get }
   var isProfileSavedInServer: Bool { get }
   
-  func checkIfNicknameDuplicate(with name: String)
-  func updateNickname(with name: String)
-  func updateProfile(with base64String: String)
-  func saveProfile(with base64String: String)
-  func deleteProfile()
-  func fetchProfile()
+  func checkIfNicknameDuplicate(with name: String) -> AnyPublisher<Bool, Error>
+  func updateNickname(with name: String) -> AnyPublisher<Bool, Error>
+  func updateProfile(with base64String: String) -> AnyPublisher<Bool, Error>
+  func saveProfile(with base64String: String) -> AnyPublisher<Bool, Error>
+  func deleteProfile() -> AnyPublisher<Bool, Error>
+  func fetchProfile() -> AnyPublisher<ProfileImageEntity, Error>
 }
