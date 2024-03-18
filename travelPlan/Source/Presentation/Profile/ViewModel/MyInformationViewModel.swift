@@ -8,14 +8,50 @@
 import Foundation
 import Combine
 
+// MARK: - Error
+enum MyInforMationViewError: LocalizedError {
+  case unknown(description: String)
+  case userInformationNotFound(description: String)
+  case connectionError(ConnectionError)
+  
+  var errorDescription: String? {
+    switch self {
+    case .unknown(let description):
+      NSLocalizedString(description, comment: "")
+    case .userInformationNotFound(let description):
+      NSLocalizedString(description, comment: "")
+    case .connectionError(let connectionError):
+      connectionError.localizedDescription
+    }
+  }
+}
+
+// MARK: - Extension
+private extension Publisher {
+  func mapViewModelError<E>(_ transform: @escaping (Self.Failure) -> E) -> Publishers.MapError<Self, MyInforMationViewError> {
+    return self.mapError { error -> MyInforMationViewError in
+      if let useCaseError = error as? MyProfileUseCaseError {
+        return switch useCaseError {
+        case .invalidUserId:
+          MyInforMationViewError.userInformationNotFound(description: useCaseError.localizedDescription)
+        case .networkError(let connectionError):
+          MyInforMationViewError.connectionError(connectionError)
+        }
+      }
+      return MyInforMationViewError.unknown(description: error.localizedDescription)
+    }
+  }
+}
+
+// MARK: - MyInformationViewModel
 final class MyInformationViewModel {
   struct Input {
-    let isNicknameDuplicated: PassthroughSubject<String, MainError> = .init()
-    let selectProfile: PassthroughSubject<String?, MainError> = .init()
-    let tapStoreButton: PassthroughSubject<Void, MainError> = .init()
-    let tapBackButton: PassthroughSubject<Void, MainError> = .init()
-    let defaultNickname: PassthroughSubject<Void, MainError> = .init()
-    let inputNickname: PassthroughSubject<String, MainError> = .init()
+    let isNicknameDuplicated: PassthroughSubject<String, MyInforMationViewError> = .init()
+    let selectProfile: PassthroughSubject<String?, MyInforMationViewError> = .init()
+    let tapStoreButton: PassthroughSubject<Void, MyInforMationViewError> = .init()
+    let tapBackButton: PassthroughSubject<Void, MyInforMationViewError> = .init()
+    let defaultNickname: PassthroughSubject<Void, MyInforMationViewError> = .init()
+    let inputNickname: PassthroughSubject<String, MyInforMationViewError> = .init()
   }
   
   enum State {
@@ -38,15 +74,15 @@ final class MyInformationViewModel {
   private var isProcessingBothNameAndProfile = false
   
   /// 이미지, 프로필 둘 다 변경됬을 경우 완료를 알려주는 퍼블리셔
-  private var bothNameAndProfileUpdatedPublisher: AnyPublisher<(Bool, Bool), MainError>
-  private var hasUserInfoUpdatedPublisehr = PassthroughSubject<Bool, MainError>()
+  private var bothNameAndProfileUpdatedPublisher: AnyPublisher<(Bool, Bool), MyInforMationViewError>
+  private var hasUserInfoUpdatedPublisehr = PassthroughSubject<Bool, MyInforMationViewError>()
   
   // MARK: - Lifecycle
   init(myProfileUseCase: MyProfileUseCase) {
     self.myProfileUseCase = myProfileUseCase
     bothNameAndProfileUpdatedPublisher = Publishers.Zip(
-      myProfileUseCase.isNicknameUpdated,
-      myProfileUseCase.isProfileUpdated
+      myProfileUseCase.isNicknameUpdated.mapViewModelError{ $0 },
+      myProfileUseCase.isProfileUpdated.mapViewModelError { $0 }
     ).eraseToAnyPublisher()
   }
 }
@@ -85,7 +121,9 @@ private extension MyInformationViewModel {
       }
       print(isDuplicatedUserName)
       return .nicknameState(isDuplicatedUserName ? .duplicated : .available)
-    }.eraseToAnyPublisher()
+    }
+    .mapViewModelError { $0 }
+    .eraseToAnyPublisher()
   }
   
   func tapStoreButtonStream(input: Input) -> Output {
@@ -110,7 +148,9 @@ private extension MyInformationViewModel {
           self?.editedUserProfileImage = nil
         }
         return .networkProcessing
-      }.eraseToAnyPublisher()
+      }
+      .mapViewModelError { $0 }
+      .eraseToAnyPublisher()
   }
 
   func hasNicknameUpdatedStream() -> Output {
@@ -121,7 +161,9 @@ private extension MyInformationViewModel {
           return .none
         }
         return result ? .correctionSaved : .correctionNotSaved
-      }.eraseToAnyPublisher()
+      }
+      .mapViewModelError { $0 }
+      .eraseToAnyPublisher()
   }
   
   func hasProfileUpdatedStream() -> Output {
@@ -132,7 +174,9 @@ private extension MyInformationViewModel {
           return .none
         }
         return result ? .correctionSaved : .correctionNotSaved
-      }.eraseToAnyPublisher()
+      }
+      .mapViewModelError { $0 }
+      .eraseToAnyPublisher()
 
   }
 
