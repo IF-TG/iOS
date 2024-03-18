@@ -38,6 +38,8 @@ private extension Publisher {
           MyInforMationViewModelError.userInformationNotFound(description: useCaseError.localizedDescription)
         case .networkError(let connectionError):
           MyInforMationViewModelError.connectionError(connectionError)
+        case .unknown(let errorDescription):
+          MyInforMationViewModelError.unknown(description: errorDescription)
         }
       }
       return MyInforMationViewModelError.unknown(description: error.localizedDescription)
@@ -48,12 +50,12 @@ private extension Publisher {
 // MARK: - MyInformationViewModel
 final class MyInformationViewModel {
   struct Input {
-    let isNicknameDuplicated: PassthroughSubject<String, MyInforMationViewModelError> = .init()
-    let selectProfile: PassthroughSubject<String?, MyInforMationViewModelError> = .init()
-    let tapStoreButton: PassthroughSubject<Void, MyInforMationViewModelError> = .init()
-    let tapBackButton: PassthroughSubject<Void, MyInforMationViewModelError> = .init()
-    let defaultNickname: PassthroughSubject<Void, MyInforMationViewModelError> = .init()
-    let inputNickname: PassthroughSubject<String, MyInforMationViewModelError> = .init()
+    let isNicknameDuplicated: PassthroughSubject<String, Never> = .init()
+    let selectProfile: PassthroughSubject<String?, Never> = .init()
+    let tapStoreButton: PassthroughSubject<Void, Never> = .init()
+    let tapBackButton: PassthroughSubject<Void, Never> = .init()
+    let defaultNickname: PassthroughSubject<Void, Never> = .init()
+    let inputNickname: PassthroughSubject<String, Never> = .init()
   }
   
   enum State {
@@ -64,10 +66,11 @@ final class MyInformationViewModel {
     case correctionSaved
     case correctionNotSaved
     case wannaLeaveThisPage(hasUserEditedInfo: Bool)
+    case unexpectedError(description: String)
   }
   
   // MARK: - Dependencies
-  private let myProfileUseCase: MyProfileUseCase
+  private var myProfileUseCase: MyProfileUseCase
   
   // MARK: - Properties
   private var editedUserProfileImage: String?
@@ -75,12 +78,17 @@ final class MyInformationViewModel {
   private var changedNameAvailable = false
   private var isProcessingBothNameAndProfile = false
   
-  /// 이미지, 프로필 둘 다 변경됬을 경우 완료를 알려주는 퍼블리셔
-  private var bothNameAndProfileUpdatedPublisher: AnyPublisher<(Bool, Bool), MyInforMationViewModelError>
-  private var updatedNicknameNotifier = PassthroughSubject<Bool, MyInforMationViewModelError>()
-  private var updatedProfileNotifier = PassthroughSubject<Bool, MyInforMationViewModelError>()
-  private var hasUserInfoUpdatedPublisehr = PassthroughSubject<Bool, MyInforMationViewModelError>()
+  private var subscriptions = Set<AnyCancellable>()
   
+  /// 이미지, 프로필 둘 다 변경됬을 경우 완료를 알려주는 퍼블리셔
+  private let bothNameAndProfileUpdatedPublisher: AnyPublisher<(Bool, Bool), Never>
+  private let updatedNicknameNotifier = PassthroughSubject<Bool, Never>()
+  private let updatedProfileNotifier = PassthroughSubject<Bool, Never>()
+  private let nicknameUpdateSubject = PassthroughSubject<String, Never>()
+  private let duplicatedNicknameCheckSubject = PassthroughSubject<String, Never>()
+  private let profileUpdateSubject = PassthroughSubject<String, Never>()
+  private let profileSaveSubject = PassthroughSubject<String, Never>()
+
   // MARK: - Lifecycle
   init(myProfileUseCase: MyProfileUseCase) {
     self.myProfileUseCase = myProfileUseCase
@@ -97,18 +105,40 @@ extension MyInformationViewModel: MyInformationViewModelable {
       checkDuplicatedUserNameStream(),
       selectProfileStream(input: input),
       tapStoreButtonStream(input: input),
-      hasNicknameUpdatedStream(),
-      hasProfileUpdatedStream(),
       hasBothNameAndProfileUpdatedStream(),
       tapBackBarButtonStream(input: input),
       defaultNicknameStream(input: input),
-      inputNicknameStream(input: input)]
+      inputNicknameStream(input: input),
+      updateNicknameSubjectStream()]
     ).eraseToAnyPublisher()
   }
 }
 
 // MARK: - Private Helpers
 private extension MyInformationViewModel {
+  func updateNicknameSubjectStream() -> Output {
+    return nicknameUpdateSubject
+      .flatMap { [weak self] nickname in
+      return self?.myProfileUseCase.updateNickname(with: nickname)
+          .mapViewModelError { $0 }
+        .map { [weak self] result in
+          if self?.isProcessingBothNameAndProfile == true {
+            self?.updatedNicknameNotifier.send(result)
+          }
+          if result {
+            self?.changedNameAvailable = false
+          }
+          return result ? .correctionSaved : .correctionNotSaved
+        }.catch { error in
+          return Just(State.unexpectedError(description: error.errorDescription ?? "앱 동작 에러가 발생됬습니다."))
+            .eraseToAnyPublisher()
+        }
+        .eraseToAnyPublisher() ?? Just(
+          State.unexpectedError(description: "앱 동작 에러가 발생됬습니다.")).eraseToAnyPublisher()
+    }
+    .eraseToAnyPublisher()
+  }
+  
   func selectProfileStream(input: Input) -> Output {
     return input.selectProfile.map { [weak self] base64Image -> State in
       self?.editedUserProfileImage = base64Image
@@ -117,16 +147,22 @@ private extension MyInformationViewModel {
   }
   
   func checkDuplicatedUserNameStream() -> Output {
-    myProfileUseCase.isNicknameDuplicated.map { [weak self] isDuplicatedUserName -> State in
-      self?.changedNameAvailable = !isDuplicatedUserName
-      if isDuplicatedUserName {
-        self?.editedUserNickname = nil
-      }
-      print(isDuplicatedUserName)
-      return .nicknameState(isDuplicatedUserName ? .duplicated : .available)
-    }
-    .mapViewModelError { $0 }
-    .eraseToAnyPublisher()
+    duplicatedNicknameCheckSubject.flatMap { [weak self] nickname in
+      return self?.myProfileUseCase.checkIfNicknameDuplicate(with: nickname)
+        .mapViewModelError { $0 }
+        .map { [weak self] isNicknameDuplicated -> State in
+          self?.changedNameAvailable = !isNicknameDuplicated
+          if isNicknameDuplicated {
+            self?.editedUserNickname = nil
+          }
+          return .nicknameState(isNicknameDuplicated ? .duplicated : .available)
+        }.catch { error in
+          return Just(State.unexpectedError(description: error.localizedDescription))
+            .eraseToAnyPublisher()
+        }.eraseToAnyPublisher() ?? Just(
+          .unexpectedError(description: "앱 내부 참조 에러가 발생됬습니다.")
+        ).eraseToAnyPublisher()
+    }.eraseToAnyPublisher()
   }
   
   func tapStoreButtonStream(input: Input) -> Output {
@@ -136,55 +172,62 @@ private extension MyInformationViewModel {
           self?.isProcessingBothNameAndProfile = true
         }
         if self?.changedNameAvailable == true, let nickname = self?.editedUserNickname {
-          self?.myProfileUseCase.updateNickname(with: nickname)
+          self?.nicknameUpdateSubject.send(nickname)
         }
         if let image = self?.editedUserProfileImage {
           /// userDefaults에 사용자의 프로필이 서버에 저장되어있는지 최초 확인해야합니다.
           /// 최초로 저장되어있다면, 그 다음부터는 update를 통해서만 (delete -> save) 서버에 추가해야한다고 합니다.
           /// 맨 처음 가입해서 들어올떄 자동으로 최초 한번 기본이미지 저장하는게 편할것 같습니다...
           if self?.myProfileUseCase.isProfileSavedInServer == true {
-            self?.myProfileUseCase.updateProfile(with: image)
+            self?.profileUpdateSubject.send(image)
           } else {
-            self?.myProfileUseCase.saveProfile(with: image)
+            self?.profileSaveSubject.send(image)
           }
         }
         return .networkProcessing
-      }
-      .mapViewModelError { $0 }
-      .eraseToAnyPublisher()
-  }
-
-  func hasNicknameUpdatedStream() -> Output {
-    return myProfileUseCase.isNicknameUpdated
-      .map { [weak self] result -> State in
-        if self?.isProcessingBothNameAndProfile == true {
-          self?.updatedNicknameNotifier.send(result)
-          return .none
-        }
-        if result {
-          self?.changedNameAvailable = false
-        }
-        return result ? .correctionSaved : .correctionNotSaved
-      }
-      .mapViewModelError { $0 }
-      .eraseToAnyPublisher()
+      }.eraseToAnyPublisher()
   }
   
-  func hasProfileUpdatedStream() -> Output {
-    return myProfileUseCase.isProfileUpdated
-      .map { [weak self] result -> State in
-        if self?.isProcessingBothNameAndProfile == true {
-          self?.updatedProfileNotifier.send(result)
-          return .none
-        }
-        if result {
-          self?.editedUserProfileImage = nil
-        }
-        return result ? .correctionSaved : .correctionNotSaved
-      }
-      .mapViewModelError { $0 }
-      .eraseToAnyPublisher()
-
+  func updateProfileStream() -> Output {
+    profileUpdateSubject.flatMap { [weak self] imageString -> Output in
+      return self?.myProfileUseCase.updateProfile(with: imageString)
+        .mapViewModelError { $0 }
+        .map { [weak self] result -> State in
+          if self?.isProcessingBothNameAndProfile == true {
+            self?.updatedProfileNotifier.send(result)
+            return .networkProcessing
+          }
+          if result {
+            self?.editedUserProfileImage = nil
+          }
+          return result ? .correctionSaved : .correctionNotSaved
+        }.catch { error in
+          Just(.unexpectedError(description: error.localizedDescription))
+        }.eraseToAnyPublisher() ?? Just(
+          .unexpectedError(description: "앱 내부 참조 에러가 발생했습니다."))
+        .eraseToAnyPublisher()
+    }.eraseToAnyPublisher()
+  }
+  
+  func saveProfileStream() -> Output {
+    profileSaveSubject.flatMap { [weak self] imageString -> Output in
+      return self?.myProfileUseCase.saveProfile(with: imageString)
+        .mapViewModelError { $0 }
+        .map { [weak self] result -> State in
+          if self?.isProcessingBothNameAndProfile == true {
+            self?.updatedProfileNotifier.send(result)
+            return .networkProcessing
+          }
+          if result {
+            self?.editedUserProfileImage = nil
+          }
+          return result ? .correctionSaved : .correctionNotSaved
+        }.catch { error in
+          Just(.unexpectedError(description: error.localizedDescription))
+        }.eraseToAnyPublisher() ?? Just(
+          .unexpectedError(description: "앱 내부 참조 에러가 발생했습니다.")
+        ).eraseToAnyPublisher()
+    }.eraseToAnyPublisher()
   }
 
   /// 프로필, 이미지 둘다 업데이트되는 경우 두개의 경우를 받은 후에 State를 반환합니다.
@@ -234,7 +277,7 @@ private extension MyInformationViewModel {
         let isNicknameWithinMinimumRange = (0...2).contains(editedNickname.count) || editedNickname.isEmpty
         if isNicknameAvailable {
           self?.editedUserNickname = editedNickname
-          self?.myProfileUseCase.checkIfNicknameDuplicate(with: editedNickname)
+          self?.duplicatedNicknameCheckSubject.send(editedNickname)
           return .networkProcessing
         }
         if isNicknameWithinMinimumRange {
