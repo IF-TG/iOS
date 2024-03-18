@@ -28,7 +28,9 @@ enum MyInforMationViewModelError: LocalizedError {
 
 // MARK: - Extension
 private extension Publisher {
-  func mapViewModelError<E>(_ transform: @escaping (Self.Failure) -> E) -> Publishers.MapError<Self, MyInforMationViewModelError> {
+  func mapViewModelError<E>(
+    _ transform: @escaping (Self.Failure) -> E
+  ) -> Publishers.MapError<Self, MyInforMationViewModelError> {
     return self.mapError { error -> MyInforMationViewModelError in
       if let useCaseError = error as? MyProfileUseCaseError {
         return switch useCaseError {
@@ -75,15 +77,16 @@ final class MyInformationViewModel {
   
   /// 이미지, 프로필 둘 다 변경됬을 경우 완료를 알려주는 퍼블리셔
   private var bothNameAndProfileUpdatedPublisher: AnyPublisher<(Bool, Bool), MyInforMationViewModelError>
+  private var updatedNicknameNotifier = PassthroughSubject<Bool, MyInforMationViewModelError>()
+  private var updatedProfileNotifier = PassthroughSubject<Bool, MyInforMationViewModelError>()
   private var hasUserInfoUpdatedPublisehr = PassthroughSubject<Bool, MyInforMationViewModelError>()
   
   // MARK: - Lifecycle
   init(myProfileUseCase: MyProfileUseCase) {
     self.myProfileUseCase = myProfileUseCase
     bothNameAndProfileUpdatedPublisher = Publishers.Zip(
-      myProfileUseCase.isNicknameUpdated.mapViewModelError{ $0 },
-      myProfileUseCase.isProfileUpdated.mapViewModelError { $0 }
-    ).eraseToAnyPublisher()
+      updatedNicknameNotifier,
+      updatedProfileNotifier).eraseToAnyPublisher()
   }
 }
 
@@ -157,7 +160,7 @@ private extension MyInformationViewModel {
     return myProfileUseCase.isNicknameUpdated
       .map { [weak self] result -> State in
         if self?.isProcessingBothNameAndProfile == true {
-          /// bothNameAndProfileUpdatePublisher를 통해서 저장 결과를 반영합니다.
+          self?.updatedNicknameNotifier.send(result)
           return .none
         }
         return result ? .correctionSaved : .correctionNotSaved
@@ -170,7 +173,7 @@ private extension MyInformationViewModel {
     return myProfileUseCase.isProfileUpdated
       .map { [weak self] result -> State in
         if self?.isProcessingBothNameAndProfile == true {
-          /// bothNameAndProfileUpdatePublisher를 통해서 저장 결과를 반영합니다.
+          self?.updatedProfileNotifier.send(result)
           return .none
         }
         return result ? .correctionSaved : .correctionNotSaved
