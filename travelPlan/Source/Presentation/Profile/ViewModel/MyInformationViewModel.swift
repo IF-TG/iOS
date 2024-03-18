@@ -137,7 +137,6 @@ private extension MyInformationViewModel {
         }
         if self?.changedNameAvailable == true, let nickname = self?.editedUserNickname {
           self?.myProfileUseCase.updateNickname(with: nickname)
-          self?.changedNameAvailable = false
         }
         if let image = self?.editedUserProfileImage {
           /// userDefaults에 사용자의 프로필이 서버에 저장되어있는지 최초 확인해야합니다.
@@ -148,7 +147,6 @@ private extension MyInformationViewModel {
           } else {
             self?.myProfileUseCase.saveProfile(with: image)
           }
-          self?.editedUserProfileImage = nil
         }
         return .networkProcessing
       }
@@ -163,6 +161,9 @@ private extension MyInformationViewModel {
           self?.updatedNicknameNotifier.send(result)
           return .none
         }
+        if result {
+          self?.changedNameAvailable = false
+        }
         return result ? .correctionSaved : .correctionNotSaved
       }
       .mapViewModelError { $0 }
@@ -175,6 +176,9 @@ private extension MyInformationViewModel {
         if self?.isProcessingBothNameAndProfile == true {
           self?.updatedProfileNotifier.send(result)
           return .none
+        }
+        if result {
+          self?.editedUserProfileImage = nil
         }
         return result ? .correctionSaved : .correctionNotSaved
       }
@@ -189,6 +193,8 @@ private extension MyInformationViewModel {
       .map { [weak self] (updatedNameResult, updatedProfileResult) -> State in
         self?.isProcessingBothNameAndProfile = false
         if updatedNameResult == updatedProfileResult {
+          self?.changedNameAvailable = false
+          self?.editedUserProfileImage = nil
           return .correctionSaved
         }
         return .correctionNotSaved
