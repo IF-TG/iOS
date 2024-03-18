@@ -17,37 +17,15 @@ final class MockMyProfileUseCase: MyProfileUseCase {
     defaultMyProfileUseCase = DefaultMyProfileUseCase(myProfileRepository: myProfileRepository)
   }
   
-  private let defaultMyProfileUseCase: MyProfileUseCase
+  private var defaultMyProfileUseCase: MyProfileUseCase
+  
+  private var subscriptions = Set<AnyCancellable>()
   
   var isProfileSavedInServer: Bool {
     defaultMyProfileUseCase.isProfileSavedInServer
   }
   
-  var isNicknameDuplicated: PassthroughSubject<Bool, Error> {
-    defaultMyProfileUseCase.isNicknameDuplicated
-  }
-  
-  var isNicknameUpdated: PassthroughSubject<Bool, Error> {
-    defaultMyProfileUseCase.isNicknameUpdated
-  }
-  
-  var isProfileUpdated: PassthroughSubject<Bool, Error> {
-    defaultMyProfileUseCase.isProfileUpdated
-  }
-  
-  var isProfileSaved: PassthroughSubject<Bool, Error> {
-    defaultMyProfileUseCase.isProfileSaved
-  }
-  
-  var isProfileDeleted: PassthroughSubject<Bool, Error> {
-    defaultMyProfileUseCase.isProfileDeleted
-  }
-  
-  var fetchedProfile: PassthroughSubject<ProfileImageEntity, Error> {
-    defaultMyProfileUseCase.fetchedProfile
-  }
-  
-  func checkIfNicknameDuplicate(with name: String) {
+  func checkIfNicknameDuplicate(with name: String) -> AnyPublisher<Bool, any Error> {
     var mockResult = false
     if name == "무야호" {
       /// 무야호일 경우 중복된 이름.
@@ -65,12 +43,23 @@ final class MockMyProfileUseCase: MyProfileUseCase {
       let responseData = json.data(using: .utf8)!
       return ((HTTPURLResponse(), responseData))
     }
-    DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.5) {
-      self.defaultMyProfileUseCase.checkIfNicknameDuplicate(with: name)
-    }
+    return Future<Bool, Error> { promise in
+      DispatchQueue.global(qos: .background).async {
+        self.defaultMyProfileUseCase.checkIfNicknameDuplicate(with: name)
+          .delay(for: .seconds(0.5), scheduler: DispatchQueue.global(qos: .background))
+          .sink { completion in
+            if case .failure(let error) = completion {
+              promise(.failure(error))
+            }
+          } receiveValue: { result in
+            promise(.success(result))
+          }.store(in: &self.subscriptions)
+        
+      }
+    }.eraseToAnyPublisher()
   }
-  
-  func updateNickname(with name: String) {
+
+  func updateNickname(with name: String) -> AnyPublisher<Bool, any Error> {
     let json = """
           {
             "result": true,
@@ -83,12 +72,23 @@ final class MockMyProfileUseCase: MyProfileUseCase {
       let responseData = json.data(using: .utf8)!
       return ((HTTPURLResponse(), responseData))
     }
-    DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.5) {
-      self.defaultMyProfileUseCase.updateNickname(with: name)
-    }
+    return Future<Bool, Error> { promise in
+      DispatchQueue.global(qos: .background).async {
+        self.defaultMyProfileUseCase.updateNickname(with: name)
+          .delay(for: .seconds(0.5), scheduler: DispatchQueue.global(qos: .background))
+          .sink { completion in
+            if case .failure(let error) = completion {
+              promise(.failure(error))
+            }
+          } receiveValue: { result in
+            promise(.success(result))
+          }.store(in: &self.subscriptions)
+
+      }
+    }.eraseToAnyPublisher()
   }
   
-  func updateProfile(with base64String: String) {
+  func updateProfile(with base64String: String) -> AnyPublisher<Bool, any Error> {
     let json = """
           {
             "result": {
@@ -104,12 +104,23 @@ final class MockMyProfileUseCase: MyProfileUseCase {
       let responseData = json.data(using: .utf8)!
       return ((HTTPURLResponse(), responseData))
     }
-    DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.5) {
-      self.defaultMyProfileUseCase.updateProfile(with: base64String)
-    }
+    return Future<Bool, Error> { promise in
+      DispatchQueue.global(qos: .background).async {
+        self.defaultMyProfileUseCase.updateProfile(with: base64String)
+          .delay(for: .seconds(0.5), scheduler: DispatchQueue.global(qos: .background))
+          .sink { completion in
+            if case .failure(let error) = completion {
+              promise(.failure(error))
+            }
+          } receiveValue: { result in
+            promise(.success(result))
+          }.store(in: &self.subscriptions)
+        
+      }
+    }.eraseToAnyPublisher()
   }
   
-  func saveProfile(with base64String: String) {
+  func saveProfile(with base64String: String) -> AnyPublisher<Bool, any Error> {
     let json = """
           {
             "result": {
@@ -125,12 +136,23 @@ final class MockMyProfileUseCase: MyProfileUseCase {
       let responseData = json.data(using: .utf8)!
       return ((HTTPURLResponse(), responseData))
     }
-    DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.5) {
-      self.defaultMyProfileUseCase.saveProfile(with: base64String)
-    }
+    return Future<Bool, Error> { promise in
+      DispatchQueue.global(qos: .background).async {
+        self.defaultMyProfileUseCase.saveProfile(with: base64String)
+          .delay(for: .seconds(0.5), scheduler: DispatchQueue.global(qos: .background))
+          .sink { completion in
+            if case .failure(let error) = completion {
+              promise(.failure(error))
+            }
+          } receiveValue: { result in
+            promise(.success(result))
+          }.store(in: &self.subscriptions)
+        
+      }
+    }.eraseToAnyPublisher()
   }
   
-  func deleteProfile() {
+  func deleteProfile() -> AnyPublisher<Bool, any Error> {
     let json = """
           {
             "result": true,
@@ -143,12 +165,23 @@ final class MockMyProfileUseCase: MyProfileUseCase {
       let responseData = json.data(using: .utf8)!
       return ((HTTPURLResponse(), responseData))
     }
-    DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.5) {
-      self.defaultMyProfileUseCase.deleteProfile()
-    }
+    return Future<Bool, Error> { promise in
+      DispatchQueue.global(qos: .background).async {
+        self.defaultMyProfileUseCase.deleteProfile()
+          .delay(for: .seconds(0.5), scheduler: DispatchQueue.global(qos: .background))
+          .sink { completion in
+            if case .failure(let error) = completion {
+              promise(.failure(error))
+            }
+          } receiveValue: { result in
+            promise(.success(result))
+          }.store(in: &self.subscriptions)
+        
+      }
+    }.eraseToAnyPublisher()
   }
   
-  func fetchProfile() {
+  func fetchProfile() -> AnyPublisher<ProfileImageEntity, any Error> {
     let json = """
           {
             "result": {
@@ -160,8 +193,23 @@ final class MockMyProfileUseCase: MyProfileUseCase {
             "message": "success"
           }
           """
-    DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.5) {
-      self.defaultMyProfileUseCase.fetchProfile()
+    MockUrlProtocol.requestHandler = { _ in
+      let responseData = json.data(using: .utf8)!
+      return ((HTTPURLResponse(), responseData))
     }
+    return Future<ProfileImageEntity, Error> { promise in
+      DispatchQueue.global(qos: .background).async {
+        self.defaultMyProfileUseCase.fetchProfile()
+          .delay(for: .seconds(0.5), scheduler: DispatchQueue.global(qos: .background))
+          .sink { completion in
+            if case .failure(let error) = completion {
+              promise(.failure(error))
+            }
+          } receiveValue: { result in
+            promise(.success(result))
+          }.store(in: &self.subscriptions)
+        
+      }
+    }.eraseToAnyPublisher()
   }
 }
