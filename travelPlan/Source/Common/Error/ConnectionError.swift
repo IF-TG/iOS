@@ -40,6 +40,6 @@ extension AFError {
       }
     default:
       return nil
-    }    
+    }
   }
 }
