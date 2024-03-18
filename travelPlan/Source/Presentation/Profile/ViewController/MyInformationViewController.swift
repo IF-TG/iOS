@@ -65,6 +65,12 @@ final class MyInformationViewController: UIViewController {
   
   private var subscriptions = Set<AnyCancellable>()
   
+  private var errorHandler = PassthroughSubject<String, Never>()
+  
+  private var outputSubscription: AnyCancellable?
+  
+  private var errorSubscription: AnyCancellable?
+  
   weak var coordinator: MyInformationCoordinatorDelegate?
   
   init(viewModel: any MyInformationViewModelable) {
@@ -83,6 +89,21 @@ final class MyInformationViewController: UIViewController {
     bindInputTextField()
     bindInputTextFieldTextState()
     bind()
+    
+    errorSubscription = errorHandler
+      .subscribe(on: DispatchQueue.global(qos: .default))
+      .receive(on: DispatchQueue.main)
+      .sink { [weak self] errorDescription in
+        self?.input = .init()
+        self?.setStoreLabelAvailable()
+        self?.coordinator?.showAlertForError(with: errorDescription, completion: {
+          if self?.outputSubscription == nil {
+            self?.bindInputTextField()
+            self?.bindInputTextFieldTextState()
+            self?.bind()
+          }
+        })
+    }
   }
   
   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -105,18 +126,19 @@ extension MyInformationViewController: ViewBindCase {
   
   func bind() {
     let output = viewModel.transform(input)
-    output
+    outputSubscription = output
       .receive(on: DispatchQueue.main)
       .sink { [weak self] completion in
+        self?.stopIndicator()
         switch completion {
         case .finished:
-          return
+          break
         case .failure(let error):
           self?.handleError(error)
         }
       } receiveValue: { [weak self] state in
         self?.render(state)
-      }.store(in: &subscriptions)
+      }
   }
   
   func render(_ state: MyInformationViewModel.State) {
@@ -127,7 +149,7 @@ extension MyInformationViewController: ViewBindCase {
       stopIndicator()
       setSubviewsDefaultUI()
     case .correctionNotSaved:
-      coordinator?.showAlertForError(with: "저장에 실패했습니다")
+      coordinator?.showAlertForError(with: "저장에 실패했습니다", completion: nil)
       stopIndicator()
     case .networkProcessing:
       startIndicator()
@@ -141,10 +163,9 @@ extension MyInformationViewController: ViewBindCase {
   }
   
   func handleError(_ error: ErrorType) {
-    stopIndicator()
-    input = .init()
-    bind()
-    var errorDescription = switch error {
+    outputSubscription = nil
+    subscriptions = Set<AnyCancellable>()
+    let errorDescription = switch error {
     case .userInformationNotFound(let description):
       description
     case .unknown(let description):
@@ -152,7 +173,7 @@ extension MyInformationViewController: ViewBindCase {
     case .connectionError(let connectionError):
       connectionError.localizedDescription
     }
-    coordinator?.showAlertForError(with: errorDescription)
+    errorHandler.send(errorDescription)
   }
 }
 
