@@ -6,23 +6,19 @@
 //
 
 import Combine
+import Foundation
 
 final class LoginViewModel {
+  // MARK: - Nested
   struct Input {
     let didTapLoginButton: PassthroughSubject<OAuthType, Never>
-    let didCompleteWithAuthorization: PassthroughSubject<AuthenticationResponseValue, Never>
-    
-    init(didTapLoginButton: PassthroughSubject<OAuthType, Never> = .init(),
-         didCompleteWithAuthorization: PassthroughSubject<AuthenticationResponseValue, Never> = .init()) {
-
+    init(didTapLoginButton: PassthroughSubject<OAuthType, Never> = .init()) {
       self.didTapLoginButton = didTapLoginButton
-      self.didCompleteWithAuthorization = didCompleteWithAuthorization
     }
   }
   
   enum State {
     case none
-    case performAuthRequest(OAuthType)
     case presentFeed
   }
   
@@ -46,8 +42,7 @@ extension LoginViewModel: ViewModelCase {
   func transform(_ input: Input) -> Output {
     return Publishers
       .MergeMany([
-        didTapLoginButtonStream(input),
-        didCompleteWithAuthorizationStream(input)
+        didTapLoginButtonStream(input)
       ])
       .eraseToAnyPublisher()
   }
@@ -55,15 +50,13 @@ extension LoginViewModel: ViewModelCase {
 
 // MARK: - Input operator chain Flow
 private extension LoginViewModel {
-  private func didCompleteWithAuthorizationStream(_ input: Input) -> Output {
+  private func didTapLoginButtonStream(_ input: Input) -> Output {
     return input
-      .didCompleteWithAuthorization
-      .flatMap { [weak self] responseValue in
-        guard let self = self else {
-          return Just(State.none)
-            .eraseToAnyPublisher()
-        }
+      .didTapLoginButton
+      .flatMap { [weak self] oauthType in
+        guard let self = self else { return Just(State.none).eraseToAnyPublisher() }
         
+<<<<<<< HEAD
         return self.loginUseCase
           .execute(requestValue: .init(
             loginType: .apple,
@@ -74,22 +67,22 @@ private extension LoginViewModel {
             // 받은 후에 UserDefaultsManager.setUser에 저장 후 메인 화면으로 넘어와야 합니다.
             // 프로필 최초 저장은 프로필 url이 있는 경우 true로 설정해야합니다.
             return isLoggedIn ? State.presentFeed : State.none
+=======
+        return self.loginUseCase.execute(type: oauthType)
+          .receive(on: RunLoop.main)
+          .map { isSavedTokenInKeychain in
+            if isSavedTokenInKeychain {
+              return .presentFeed
+            } else {
+              return .none
+            }
+>>>>>>> 02c74f799dc34ed1ff76ee1c0b7fef6351713e9e
           }
           .catch { error in
-            // TODO: - 추후 Error를 핸들링해야합니다.
-            print(error)
-            return Just(State.none)
+            print("error: \(error.localizedDescription)")
+            return Just(State.none).eraseToAnyPublisher()
           }
           .eraseToAnyPublisher()
-      }
-      .eraseToAnyPublisher()
-  }
-  
-  private func didTapLoginButtonStream(_ input: Input) -> Output {
-    return input
-      .didTapLoginButton
-      .map { oauthType in
-        return State.performAuthRequest(oauthType)
       }
       .eraseToAnyPublisher()
   }

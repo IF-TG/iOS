@@ -20,7 +20,6 @@
 		130CF36E2B8F3DD60051DEE8 /* LoginRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130CF36D2B8F3DD60051DEE8 /* LoginRepository.swift */; };
 		130CF3712B8F855F0051DEE8 /* LoginRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130CF3702B8F855F0051DEE8 /* LoginRequestDTO.swift */; };
 		130CF3732B8F8A040051DEE8 /* LoginAPIEndPoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130CF3722B8F8A040051DEE8 /* LoginAPIEndPoints.swift */; };
-		130CF3752B8F8AC40051DEE8 /* LoginResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130CF3742B8F8AC40051DEE8 /* LoginResponseDTO.swift */; };
 		130CF3812B91062D0051DEE8 /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130CF3802B91062D0051DEE8 /* KeychainManager.swift */; };
 		130CF3842B9248750051DEE8 /* OAuthType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130CF3832B9248750051DEE8 /* OAuthType.swift */; };
 		130CF38B2B9347790051DEE8 /* LoginStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130CF38A2B9347790051DEE8 /* LoginStrategy.swift */; };
@@ -48,6 +47,13 @@
 		13300FAC2AC0883200952757 /* UICompositionalLayoutCreatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13300FAB2AC0883200952757 /* UICompositionalLayoutCreatable.swift */; };
 		13300FAE2AC2093D00952757 /* SearchSectionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13300FAD2AC2093D00952757 /* SearchSectionType.swift */; };
 		13333CBF2ABDE86A005AB50B /* LeftAlignThreeLabelsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13333CBE2ABDE86A005AB50B /* LeftAlignThreeLabelsView.swift */; };
+		133531F42BA0D3CB000A4D9E /* JWTResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 133531F32BA0D3CB000A4D9E /* JWTResponseDTO.swift */; };
+		133531F92BA1A0B8000A4D9E /* KeychainLoginResponseStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 133531F82BA1A0B8000A4D9E /* KeychainLoginResponseStorage.swift */; };
+		133531FE2BA2D270000A4D9E /* LoginResultStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 133531FD2BA2D270000A4D9E /* LoginResultStorage.swift */; };
+		133532002BA2D3E3000A4D9E /* UserDefaultsLoginResultStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 133531FF2BA2D3E3000A4D9E /* UserDefaultsLoginResultStorage.swift */; };
+		133532042BA42DDE000A4D9E /* Double+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 133532032BA42DDE000A4D9E /* Double+.swift */; };
+		133532062BA42F6E000A4D9E /* Data+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 133532052BA42F6E000A4D9E /* Data+.swift */; };
+		1335320E2BA469E3000A4D9E /* DataConverterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1335320D2BA469E3000A4D9E /* DataConverterTests.swift */; };
 		13405EFC2AECEBD800382796 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13405EFB2AECEBD700382796 /* LoginView.swift */; };
 		13405F002AECF76300382796 /* BaseLoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13405EFF2AECF76300382796 /* BaseLoginButton.swift */; };
 		13405F042AED899800382796 /* KakaoLoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13405F032AED899800382796 /* KakaoLoginButton.swift */; };
@@ -476,7 +482,6 @@
 		130CF36D2B8F3DD60051DEE8 /* LoginRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRepository.swift; sourceTree = "<group>"; };
 		130CF3702B8F855F0051DEE8 /* LoginRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRequestDTO.swift; sourceTree = "<group>"; };
 		130CF3722B8F8A040051DEE8 /* LoginAPIEndPoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginAPIEndPoints.swift; sourceTree = "<group>"; };
-		130CF3742B8F8AC40051DEE8 /* LoginResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginResponseDTO.swift; sourceTree = "<group>"; };
 		130CF3802B91062D0051DEE8 /* KeychainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
 		130CF3832B9248750051DEE8 /* OAuthType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthType.swift; sourceTree = "<group>"; };
 		130CF38A2B9347790051DEE8 /* LoginStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginStrategy.swift; sourceTree = "<group>"; };
@@ -507,6 +512,13 @@
 		13300FAB2AC0883200952757 /* UICompositionalLayoutCreatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICompositionalLayoutCreatable.swift; sourceTree = "<group>"; };
 		13300FAD2AC2093D00952757 /* SearchSectionType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchSectionType.swift; sourceTree = "<group>"; };
 		13333CBE2ABDE86A005AB50B /* LeftAlignThreeLabelsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftAlignThreeLabelsView.swift; sourceTree = "<group>"; };
+		133531F32BA0D3CB000A4D9E /* JWTResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JWTResponseDTO.swift; sourceTree = "<group>"; };
+		133531F82BA1A0B8000A4D9E /* KeychainLoginResponseStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainLoginResponseStorage.swift; sourceTree = "<group>"; };
+		133531FD2BA2D270000A4D9E /* LoginResultStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginResultStorage.swift; sourceTree = "<group>"; };
+		133531FF2BA2D3E3000A4D9E /* UserDefaultsLoginResultStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsLoginResultStorage.swift; sourceTree = "<group>"; };
+		133532032BA42DDE000A4D9E /* Double+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+.swift"; sourceTree = "<group>"; };
+		133532052BA42F6E000A4D9E /* Data+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+.swift"; sourceTree = "<group>"; };
+		1335320D2BA469E3000A4D9E /* DataConverterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataConverterTests.swift; sourceTree = "<group>"; };
 		13405EFB2AECEBD700382796 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		13405EFF2AECF76300382796 /* BaseLoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseLoginButton.swift; sourceTree = "<group>"; };
 		13405F032AED899800382796 /* KakaoLoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoLoginButton.swift; sourceTree = "<group>"; };
@@ -1005,23 +1017,6 @@
 			path = RequestDTO;
 			sourceTree = "<group>";
 		};
-		130CF3822B92486E0051DEE8 /* Enum */ = {
-			isa = PBXGroup;
-			children = (
-				130CF3832B9248750051DEE8 /* OAuthType.swift */,
-			);
-			path = Enum;
-			sourceTree = "<group>";
-		};
-		130CF3892B9347650051DEE8 /* Service */ = {
-			isa = PBXGroup;
-			children = (
-				130CF38C2B9347CF0051DEE8 /* AppleLoginStrategy.swift */,
-				130CF38E2B9356370051DEE8 /* AuthenticationService.swift */,
-			);
-			path = Service;
-			sourceTree = "<group>";
-		};
 		130FA91D2A359ED500E739C5 /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
@@ -1049,11 +1044,43 @@
 			path = PostSearch;
 			sourceTree = "<group>";
 		};
+		133531F52BA0EE99000A4D9E /* LoginResponseStorage */ = {
+			isa = PBXGroup;
+			children = (
+				133531F82BA1A0B8000A4D9E /* KeychainLoginResponseStorage.swift */,
+			);
+			path = LoginResponseStorage;
+			sourceTree = "<group>";
+		};
+		133531FC2BA2D228000A4D9E /* LoginResultStorage */ = {
+			isa = PBXGroup;
+			children = (
+				133531FD2BA2D270000A4D9E /* LoginResultStorage.swift */,
+				133531FF2BA2D3E3000A4D9E /* UserDefaultsLoginResultStorage.swift */,
+			);
+			path = LoginResultStorage;
+			sourceTree = "<group>";
+		};
+		133532072BA46597000A4D9E /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				133532082BA465AB000A4D9E /* Extension */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		133532082BA465AB000A4D9E /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				1335320D2BA469E3000A4D9E /* DataConverterTests.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
 		13405F092AEEF1CA00382796 /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
 				13405F0A2AEEF1E400382796 /* LoginButtonDelegate.swift */,
-				130CF38A2B9347790051DEE8 /* LoginStrategy.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -1183,6 +1210,9 @@
 			isa = PBXGroup;
 			children = (
 				15A7A8EC2B9F6B0500CA9A79 /* UserDefaultsStorage */,
+				133531FC2BA2D228000A4D9E /* LoginResultStorage */,
+				133531F52BA0EE99000A4D9E /* LoginResponseStorage */,
+				1383C8252B9864B700830F1A /* UserDefaultsStorage */,
 				1383C8242B9864A700830F1A /* KeychainStorage */,
 			);
 			path = PersistentStorages;
@@ -1339,6 +1369,7 @@
 		151130072A04E4EB0041DDA1 /* travelPlanTests */ = {
 			isa = PBXGroup;
 			children = (
+				133532072BA46597000A4D9E /* Common */,
 				1383C81A2B97F3D500830F1A /* Core */,
 				15D655A12B8F820100466FEC /* Presentation */,
 				151130082A04E4EB0041DDA1 /* travelPlanTests.swift */,
@@ -1412,6 +1443,7 @@
 		151DF0EE2AEEAE1100D5D55B /* Entities */ = {
 			isa = PBXGroup;
 			children = (
+				130CF3832B9248750051DEE8 /* OAuthType.swift */,
 				15D37F7E2B978309000E8FDB /* TravelCategory */,
 				151DF0EF2AEEAE2100D5D55B /* NoticeEntity.swift */,
 				15F376612AFE132900B3BF35 /* PostCommentEntity.swift */,
@@ -1516,6 +1548,7 @@
 				15D655832B8E085300466FEC /* CommonDTO.swift */,
 				15A0E1A02B97A3FD0047D662 /* PostContainerResponseDTO.swift */,
 				153FA90E2B937E12006CF3C3 /* UserProfileResponseDTO.swift */,
+				133531F32BA0D3CB000A4D9E /* JWTResponseDTO.swift */,
 			);
 			path = ResponseDTO;
 			sourceTree = "<group>";
@@ -1906,7 +1939,6 @@
 		15BB01B02A1EB4CF0035B486 /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				130CF3892B9347650051DEE8 /* Service */,
 				13405F362AF1552E00382796 /* Supporter */,
 				13405F092AEEF1CA00382796 /* Protocol */,
 				13BF411E2ADBEC4100F3F082 /* View */,
@@ -2321,7 +2353,6 @@
 		15FEB5D82A050A99000A5F33 /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				130CF3822B92486E0051DEE8 /* Enum */,
 				155D0BAF2B90D3980042DFB6 /* Error */,
 				15FFAC3E2ADE52030013DB57 /* Mock */,
 				15FFAC352ADD4DED0013DB57 /* ViewModel */,
@@ -2380,6 +2411,8 @@
 				151BDADB2B16FE8B002F36C3 /* UIDevice+modelName.swift */,
 				151BDADD2B17002E002F36C3 /* Bundle+Helpers.swift */,
 				15302C542B9E23E900B1EA3F /* UIViewController+Indicator.swift */,
+				133532032BA42DDE000A4D9E /* Double+.swift */,
+				133532052BA42F6E000A4D9E /* Data+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -2403,6 +2436,9 @@
 		15FFAC052AD6E8D80013DB57 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				130CF38E2B9356370051DEE8 /* AuthenticationService.swift */,
+				130CF38A2B9347790051DEE8 /* LoginStrategy.swift */,
+				130CF38C2B9347CF0051DEE8 /* AppleLoginStrategy.swift */,
 				15FFAC172ADA92500013DB57 /* Module */,
 				15FFAC162ADA90C50013DB57 /* Tests */,
 			);
@@ -2721,6 +2757,7 @@
 			files = (
 				15D6559A2B8E1CCB00466FEC /* UserInfoAPIEndpointTests.swift in Sources */,
 				15D655A42B8F829800466FEC /* MyInformationViewModelTests.swift in Sources */,
+				1335320E2BA469E3000A4D9E /* DataConverterTests.swift in Sources */,
 				1383C81C2B97F44800830F1A /* KeychainManagerTests.swift in Sources */,
 				15D655922B8E169100466FEC /* MyProfileUseCaseTests.swift in Sources */,
 				15FFAC2F2ADD03130013DB57 /* MockUserEndpoint.swift in Sources */,
@@ -2760,6 +2797,7 @@
 				15FBD5D22B98DA0E00076115 /* TravelOrderTypeMapper.swift in Sources */,
 				15D655952B8E17D400466FEC /* MockMyProfileRepository.swift in Sources */,
 				1503F9312A4E0A4F002BC38D /* MainCoordinator.swift in Sources */,
+				133532062BA42F6E000A4D9E /* Data+.swift in Sources */,
 				15FBD5D82B98DC6E00076115 /* TravelMainThemeTypeMapper.swift in Sources */,
 				1364FBE62B61A8EA00D89FC9 /* PhotoViewControllerDelegate.swift in Sources */,
 				15DE36B92AB853900030CCCC /* TravelThemeBottomSheetCell.swift in Sources */,
@@ -2771,6 +2809,7 @@
 				15EF8C9D2A0A19190068C744 /* TravelMainCategoryViewCell.swift in Sources */,
 				15FC90D62ACC1BB50033A1E5 /* PrimaryColorToneRoundButton.swift in Sources */,
 				15D655842B8E085300466FEC /* CommonDTO.swift in Sources */,
+				133531F42BA0D3CB000A4D9E /* JWTResponseDTO.swift in Sources */,
 				15D3882F2B01504900039946 /* IconWithLabelStackView.swift in Sources */,
 				1586D3042AB193F7001D4A80 /* Season.swift in Sources */,
 				130CF3732B8F8A040051DEE8 /* LoginAPIEndPoints.swift in Sources */,
@@ -2858,11 +2897,13 @@
 				15B928672AFA3D93003A20D4 /* PostDetailTableViewAdapter.swift in Sources */,
 				134384152B495C0E005034E0 /* ReviewWritePhotoService.swift in Sources */,
 				13BF40F32AD6F1D600F3F082 /* BaseNavigationTitleView.swift in Sources */,
+				133531F92BA1A0B8000A4D9E /* KeychainLoginResponseStorage.swift in Sources */,
 				139DEDEB2B163D9A00363E7B /* SearchDestinationCollectionViewLayout.swift in Sources */,
 				15F36A1C2AB1A45600971803 /* TravelPartner.swift in Sources */,
 				130CF3712B8F855F0051DEE8 /* LoginRequestDTO.swift in Sources */,
 				1503F9402A4E1327002BC38D /* FeedCoordinator.swift in Sources */,
 				15EB3A012AC3477B0025FFB4 /* PostHeaderContentView.swift in Sources */,
+				133531FE2BA2D270000A4D9E /* LoginResultStorage.swift in Sources */,
 				130CF36C2B8F3D770051DEE8 /* DefaultLoginRepository.swift in Sources */,
 				13254FED2A0515D800094218 /* SettingViewController.swift in Sources */,
 				13CB6D322A1E9F6600D185B2 /* CautionAlertViewController.swift in Sources */,
@@ -2910,7 +2951,6 @@
 				157ADCA42ACFF31D00D37680 /* FavoritePostViewController.swift in Sources */,
 				134384082B48005F005034E0 /* PhotoViewController.swift in Sources */,
 				158C6A372B0D138500C30856 /* ImageIO.swift in Sources */,
-				130CF3752B8F8AC40051DEE8 /* LoginResponseDTO.swift in Sources */,
 				15C1F5422AF29CF7005FDA15 /* NotificationInfo.swift in Sources */,
 				131A11082AB5067E007BDD66 /* SearchMoreDetailViewModel.swift in Sources */,
 				151BDADC2B16FE8B002F36C3 /* UIDevice+modelName.swift in Sources */,
@@ -2942,6 +2982,7 @@
 				1599587B2B0DC55700B2E4DC /* PostCellWithTwoThumbnails.swift in Sources */,
 				15FB47F12AC1DCEF0033AA18 /* TravelMainThemeCollectionView.swift in Sources */,
 				15A7A8F02B9F6BF100CA9A79 /* UserDefaultsManager+User.swift in Sources */,
+				133532042BA42DDE000A4D9E /* Double+.swift in Sources */,
 				15FBD5D62B98DB5F00076115 /* SeasonMapper.swift in Sources */,
 				15C1F53E2AF2904C005FDA15 /* NotificationCell.swift in Sources */,
 				158BEFC42A0EC8A100C27861 /* UIView+CustomAnimation.swift in Sources */,
@@ -3055,6 +3096,7 @@
 				15E9E5F82B9A45A600C2F1F7 /* MockResponseType.swift in Sources */,
 				13BF40F52AD712EC00F3F082 /* UIViewController+TitleView.swift in Sources */,
 				13A6C2DB2AB782A100EABD76 /* UIViewController+BackBarButtonItem.swift in Sources */,
+				133532002BA2D3E3000A4D9E /* UserDefaultsLoginResultStorage.swift in Sources */,
 				13300FA42AC0688300952757 /* BaseDestinationView.swift in Sources */,
 				15D388272AFF8AAA00039946 /* InputTextView.swift in Sources */,
 				13F6DACA2B52711E00573B86 /* SlideDownAnimator.swift in Sources */,
