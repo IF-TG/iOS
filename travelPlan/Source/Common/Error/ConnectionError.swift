@@ -30,6 +30,7 @@ extension AFError {
       if error.code == .notConnectedToInternet {
         return .invalidInternetConnection
       }
+      return nil
     case .responseValidationFailed(let reason):
       switch reason {
       case .unacceptableStatusCode(code: 404...599):
@@ -39,6 +40,6 @@ extension AFError {
       }
     default:
       return nil
-    }
+    }    
   }
 }
