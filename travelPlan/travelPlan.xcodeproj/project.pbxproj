@@ -320,7 +320,7 @@
 		15D6558D2B8E110500466FEC /* MyProfileUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D6558C2B8E110500466FEC /* MyProfileUseCase.swift */; };
 		15D6558F2B8E11AC00466FEC /* DefaultMyProfileUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D6558E2B8E11AC00466FEC /* DefaultMyProfileUseCase.swift */; };
 		15D655922B8E169100466FEC /* MyProfileUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D655912B8E169100466FEC /* MyProfileUseCaseTests.swift */; };
-		15D655952B8E17D400466FEC /* MockUserInfoRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D655942B8E17D400466FEC /* MockUserInfoRepository.swift */; };
+		15D655952B8E17D400466FEC /* MockMyProfileRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D655942B8E17D400466FEC /* MockMyProfileRepository.swift */; };
 		15D6559A2B8E1CCB00466FEC /* UserInfoAPIEndpointTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D655992B8E1CCB00466FEC /* UserInfoAPIEndpointTests.swift */; };
 		15D6559D2B8F6F3800466FEC /* MyInformationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D6559C2B8F6F3800466FEC /* MyInformationViewModel.swift */; };
 		15D655A02B8F6F6300466FEC /* MyInformationViewModelable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D6559F2B8F6F6300466FEC /* MyInformationViewModelable.swift */; };
@@ -396,6 +396,7 @@
 		15FBD5E42B98E94800076115 /* PostAPIEndpointTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FBD5E32B98E94800076115 /* PostAPIEndpointTests.swift */; };
 		15FC90D62ACC1BB50033A1E5 /* PrimaryColorToneRoundButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FC90D52ACC1BB50033A1E5 /* PrimaryColorToneRoundButton.swift */; };
 		15FC90D92ACC56280033A1E5 /* FavoriteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152AD4E72A188D33008A2A11 /* FavoriteTableViewCell.swift */; };
+		15FC93C92BA7BDAD00430D8A /* ConnectionError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FC93C82BA7BDAD00430D8A /* ConnectionError.swift */; };
 		15FDCC912AE03F4A00716CC6 /* InnerRoundRectReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FDCC902AE03F4A00716CC6 /* InnerRoundRectReusableView.swift */; };
 		15FEB5E52A050A99000A5F33 /* UIControl+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FEB5DA2A050A99000A5F33 /* UIControl+Combine.swift */; };
 		15FEB5E62A050A99000A5F33 /* UISwitch+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FEB5DB2A050A99000A5F33 /* UISwitch+Combine.swift */; };
@@ -778,7 +779,7 @@
 		15D6558C2B8E110500466FEC /* MyProfileUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileUseCase.swift; sourceTree = "<group>"; };
 		15D6558E2B8E11AC00466FEC /* DefaultMyProfileUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultMyProfileUseCase.swift; sourceTree = "<group>"; };
 		15D655912B8E169100466FEC /* MyProfileUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileUseCaseTests.swift; sourceTree = "<group>"; };
-		15D655942B8E17D400466FEC /* MockUserInfoRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUserInfoRepository.swift; sourceTree = "<group>"; };
+		15D655942B8E17D400466FEC /* MockMyProfileRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockMyProfileRepository.swift; sourceTree = "<group>"; };
 		15D655992B8E1CCB00466FEC /* UserInfoAPIEndpointTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoAPIEndpointTests.swift; sourceTree = "<group>"; };
 		15D6559C2B8F6F3800466FEC /* MyInformationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInformationViewModel.swift; sourceTree = "<group>"; };
 		15D6559F2B8F6F6300466FEC /* MyInformationViewModelable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInformationViewModelable.swift; sourceTree = "<group>"; };
@@ -848,6 +849,7 @@
 		15FBD5DF2B98E5FD00076115 /* PostsPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsPage.swift; sourceTree = "<group>"; };
 		15FBD5E32B98E94800076115 /* PostAPIEndpointTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostAPIEndpointTests.swift; sourceTree = "<group>"; };
 		15FC90D52ACC1BB50033A1E5 /* PrimaryColorToneRoundButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryColorToneRoundButton.swift; sourceTree = "<group>"; };
+		15FC93C82BA7BDAD00430D8A /* ConnectionError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionError.swift; sourceTree = "<group>"; };
 		15FDCC902AE03F4A00716CC6 /* InnerRoundRectReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InnerRoundRectReusableView.swift; sourceTree = "<group>"; };
 		15FEB5DA2A050A99000A5F33 /* UIControl+Combine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIControl+Combine.swift"; sourceTree = "<group>"; };
 		15FEB5DB2A050A99000A5F33 /* UISwitch+Combine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UISwitch+Combine.swift"; sourceTree = "<group>"; };
@@ -1723,6 +1725,7 @@
 			children = (
 				155D0BB42B90D9390042DFB6 /* ReferenceError.swift */,
 				155D0BB62B90DAB10042DFB6 /* MainError.swift */,
+				15FC93C82BA7BDAD00430D8A /* ConnectionError.swift */,
 			);
 			path = Error;
 			sourceTree = "<group>";
@@ -2139,7 +2142,7 @@
 		15D655932B8E16B600466FEC /* Mock */ = {
 			isa = PBXGroup;
 			children = (
-				15D655942B8E17D400466FEC /* MockUserInfoRepository.swift */,
+				15D655942B8E17D400466FEC /* MockMyProfileRepository.swift */,
 				15302C562B9E29B900B1EA3F /* MockMyProfileUseCase.swift */,
 				15E9E5F12B9A35F300C2F1F7 /* MockPostRepository.swift */,
 			);
@@ -2755,7 +2758,7 @@
 				15259DEA2ACAA9D800C14F62 /* SearchFestivalCellViewModel.swift in Sources */,
 				15CC64142A1DD4EF00857446 /* ConvenienceInit.swift in Sources */,
 				15FBD5D22B98DA0E00076115 /* TravelOrderTypeMapper.swift in Sources */,
-				15D655952B8E17D400466FEC /* MockUserInfoRepository.swift in Sources */,
+				15D655952B8E17D400466FEC /* MockMyProfileRepository.swift in Sources */,
 				1503F9312A4E0A4F002BC38D /* MainCoordinator.swift in Sources */,
 				15FBD5D82B98DC6E00076115 /* TravelMainThemeTypeMapper.swift in Sources */,
 				1364FBE62B61A8EA00D89FC9 /* PhotoViewControllerDelegate.swift in Sources */,
@@ -2955,6 +2958,7 @@
 				15F36A152AB1961F00971803 /* TravelRegion.swift in Sources */,
 				15F376622AFE132900B3BF35 /* PostCommentEntity.swift in Sources */,
 				15DD40452A5B862D002BC5F8 /* PostViewBottomSheetAdapter.swift in Sources */,
+				15FC93C92BA7BDAD00430D8A /* ConnectionError.swift in Sources */,
 				13405F6F2AF6E6F200382796 /* ReviewWritingBottomView.swift in Sources */,
 				15FBD5E02B98E5FD00076115 /* PostsPage.swift in Sources */,
 				15710CBA2A132C760023C19E /* FeedNotificationBarItem.swift in Sources */,
