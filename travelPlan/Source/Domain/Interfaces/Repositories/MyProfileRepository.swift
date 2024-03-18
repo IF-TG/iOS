@@ -11,6 +11,7 @@ import Combine
 enum MyProfileRepositoryError: LocalizedError {
   case invaildUserId
   case networkError(ConnectionError)
+  case unknown(description: String)
 }
 
 /// 사용자 정보 CRUD 관련 레포지토리
