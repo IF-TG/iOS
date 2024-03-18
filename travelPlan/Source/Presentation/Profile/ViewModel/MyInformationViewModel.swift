@@ -9,7 +9,7 @@ import Foundation
 import Combine
 
 // MARK: - Error
-enum MyInforMationViewError: LocalizedError {
+enum MyInforMationViewModelError: LocalizedError {
   case unknown(description: String)
   case userInformationNotFound(description: String)
   case connectionError(ConnectionError)
@@ -28,17 +28,17 @@ enum MyInforMationViewError: LocalizedError {
 
 // MARK: - Extension
 private extension Publisher {
-  func mapViewModelError<E>(_ transform: @escaping (Self.Failure) -> E) -> Publishers.MapError<Self, MyInforMationViewError> {
-    return self.mapError { error -> MyInforMationViewError in
+  func mapViewModelError<E>(_ transform: @escaping (Self.Failure) -> E) -> Publishers.MapError<Self, MyInforMationViewModelError> {
+    return self.mapError { error -> MyInforMationViewModelError in
       if let useCaseError = error as? MyProfileUseCaseError {
         return switch useCaseError {
         case .invalidUserId:
-          MyInforMationViewError.userInformationNotFound(description: useCaseError.localizedDescription)
+          MyInforMationViewModelError.userInformationNotFound(description: useCaseError.localizedDescription)
         case .networkError(let connectionError):
-          MyInforMationViewError.connectionError(connectionError)
+          MyInforMationViewModelError.connectionError(connectionError)
         }
       }
-      return MyInforMationViewError.unknown(description: error.localizedDescription)
+      return MyInforMationViewModelError.unknown(description: error.localizedDescription)
     }
   }
 }
@@ -46,12 +46,12 @@ private extension Publisher {
 // MARK: - MyInformationViewModel
 final class MyInformationViewModel {
   struct Input {
-    let isNicknameDuplicated: PassthroughSubject<String, MyInforMationViewError> = .init()
-    let selectProfile: PassthroughSubject<String?, MyInforMationViewError> = .init()
-    let tapStoreButton: PassthroughSubject<Void, MyInforMationViewError> = .init()
-    let tapBackButton: PassthroughSubject<Void, MyInforMationViewError> = .init()
-    let defaultNickname: PassthroughSubject<Void, MyInforMationViewError> = .init()
-    let inputNickname: PassthroughSubject<String, MyInforMationViewError> = .init()
+    let isNicknameDuplicated: PassthroughSubject<String, MyInforMationViewModelError> = .init()
+    let selectProfile: PassthroughSubject<String?, MyInforMationViewModelError> = .init()
+    let tapStoreButton: PassthroughSubject<Void, MyInforMationViewModelError> = .init()
+    let tapBackButton: PassthroughSubject<Void, MyInforMationViewModelError> = .init()
+    let defaultNickname: PassthroughSubject<Void, MyInforMationViewModelError> = .init()
+    let inputNickname: PassthroughSubject<String, MyInforMationViewModelError> = .init()
   }
   
   enum State {
@@ -74,8 +74,8 @@ final class MyInformationViewModel {
   private var isProcessingBothNameAndProfile = false
   
   /// 이미지, 프로필 둘 다 변경됬을 경우 완료를 알려주는 퍼블리셔
-  private var bothNameAndProfileUpdatedPublisher: AnyPublisher<(Bool, Bool), MyInforMationViewError>
-  private var hasUserInfoUpdatedPublisehr = PassthroughSubject<Bool, MyInforMationViewError>()
+  private var bothNameAndProfileUpdatedPublisher: AnyPublisher<(Bool, Bool), MyInforMationViewModelError>
+  private var hasUserInfoUpdatedPublisehr = PassthroughSubject<Bool, MyInforMationViewModelError>()
   
   // MARK: - Lifecycle
   init(myProfileUseCase: MyProfileUseCase) {
