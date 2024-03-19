@@ -95,8 +95,8 @@ final class MockMyProfileUseCase: MyProfileUseCase {
     let json = """
           {
             "result": {
-              imageUrl: \(base64String),
-              userId: 1
+              "imageUrl": "\(base64String)",
+              "userId": 1
             },
             "status": "OK",
             "statusCode": "200",
@@ -127,8 +127,8 @@ final class MockMyProfileUseCase: MyProfileUseCase {
     let json = """
           {
             "result": {
-              imageUrl: \(base64String),
-              userId: 1
+              "imageUrl": "\(base64String)",
+              "userId": 1
             },
             "status": "OK",
             "statusCode": "200",
@@ -150,7 +150,6 @@ final class MockMyProfileUseCase: MyProfileUseCase {
           } receiveValue: { result in
             promise(.success(result))
           }.store(in: &self.subscriptions)
-        
       }
     }.eraseToAnyPublisher()
   }
@@ -188,8 +187,8 @@ final class MockMyProfileUseCase: MyProfileUseCase {
     let json = """
           {
             "result": {
-              imageUrl: "베이스64인코딩된이미지문자열....",
-              userId: 1
+              "imageUrl": "성장해 나가 보자구!!!",
+              "userId": 1
             },
             "status": "OK",
             "statusCode": "200",
