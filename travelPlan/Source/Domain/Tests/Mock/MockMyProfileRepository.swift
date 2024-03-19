@@ -26,16 +26,13 @@ final class MockMyProfileRepository: MyProfileRepository {
   
   func updateProfile(with profile: String) -> Future<Bool, Error> {
     return .init { promise in
-      if profile == "base64인코딩된데이터" {
-        promise(.success(true))
-      }
-      promise(.success(false))
+      promise(.success(true))
     }
   }
   
   func saveProfile(with profile: String) -> Future<Bool, Error> {
     return .init { promise in
-      promise(.success(profile == "성장해나가자보자구!!!"))
+      promise(.success(true))
     }
   }
   
