@@ -20,9 +20,7 @@ final class MyInformationViewModelTests: XCTestCase {
   // MARK: - Lifecycle
   override func setUp() {
     super.setUp()
-    let sessionProvider = SessionProvider(session: mockSession)
-    let repository = DefaultMyProfileRepository(service: sessionProvider)
-    let useCase = DefaultMyProfileUseCase(myProfileRepository: repository)
+    let useCase = MockMyProfileUseCase()
     sut = MyInformationViewModel(myProfileUseCase: useCase)
     input = MyInformationViewModel.Input()
   }
@@ -38,39 +36,33 @@ final class MyInformationViewModelTests: XCTestCase {
 
 extension MyInformationViewModelTests {
   func testMyInformationVM_사용자가입력한닉네임이중복일때_ShouldReturnTrue() {
-    // Arrange
-    let json = """
-      {
-        "result": true,
-        "status": "OK",
-        "statusCode": "200",
-        "message": "success"
-      }
-      """
-    MockUrlProtocol.requestHandler = { _ in
-      let responseData = json.data(using: .utf8)!
-      return ((HTTPURLResponse(), responseData))
-    }
-    expectation = expectation(description: "isDuplicatedUserNameExpectation.")
+    expectation = expectation(description: "MyInformationVM Input.inputNickname.")
+    expectation.expectedFulfillmentCount = 2
     
     // Act
     let output = sut.transform(input)
-    subscription = output.sink { [unowned self] _ in
+    subscription = output.sink { [unowned self] completion in
       expectation.fulfill()
     } receiveValue: { [unowned self] viewControllerState in
       // Assert
       switch viewControllerState {
-      case .duplicatedNickname:
+      case .nicknameState(.duplicated):
         XCTAssert(true)
         expectation.fulfill()
-      case .availableNickname:
-        XCTAssert(false, "MyInformationVM에서 사용자가 입력한 닉네임 중복 체크 로직에서 true가 나와야 하는데 false가 나옴")
+      case .nicknameState(.available):
+        XCTAssert(false, "MyInformationVM에서 사용자가 입력한 닉네임 중복 체크 로직에서 중복 true가 나와야 하는데 false가 나옴")
+        expectation.fulfill()
+      case .unexpectedError(let description):
+        XCTAssert(false, "얘기치 못한 에러 발생: \(description)")
+        expectation.fulfill()
+      case .networkProcessing:
         expectation.fulfill()
       default:
+        XCTAssertFalse(true, "예기치 못한 viewController's state 발생")
         break
       }
     }
-    input.isNicknameDuplicated.send("이름새로지었음")
+    input.inputNickname.send("무야호")
     wait(for: [expectation], timeout: 6)
   }
 }
