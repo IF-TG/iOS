@@ -72,7 +72,7 @@
 		134383FF2B47F876005034E0 /* AlbumService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 134383FE2B47F876005034E0 /* AlbumService.swift */; };
 		134384022B47F8B9005034E0 /* MediaType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 134384012B47F8B9005034E0 /* MediaType.swift */; };
 		134384042B47F90E005034E0 /* AlbumInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 134384032B47F90E005034E0 /* AlbumInfo.swift */; };
-		134384082B48005F005034E0 /* PhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 134384072B48005F005034E0 /* PhotoViewController.swift */; };
+		134384082B48005F005034E0 /* AlbumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 134384072B48005F005034E0 /* AlbumViewController.swift */; };
 		1343840B2B480360005034E0 /* BaseNavigationLeftButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1343840A2B480360005034E0 /* BaseNavigationLeftButton.swift */; };
 		1343840D2B4803FE005034E0 /* BaseNavigationRightButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1343840C2B4803FE005034E0 /* BaseNavigationRightButton.swift */; };
 		1343840F2B480BF5005034E0 /* PhotoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1343840E2B480BF5005034E0 /* PhotoService.swift */; };
@@ -120,7 +120,7 @@
 		13E913932B0F3ECF00E15B11 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 13E913922B0F3ECF00E15B11 /* SnapKit */; };
 		13F6DAC82B5248EF00573B86 /* SlideUpAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F6DAC72B5248EF00573B86 /* SlideUpAnimator.swift */; };
 		13F6DACA2B52711E00573B86 /* SlideDownAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F6DAC92B52711E00573B86 /* SlideDownAnimator.swift */; };
-		13F6DACD2B53A5D400573B86 /* PhotoCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F6DACC2B53A5D400573B86 /* PhotoCoordinator.swift */; };
+		13F6DACD2B53A5D400573B86 /* AlbumCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F6DACC2B53A5D400573B86 /* AlbumCoordinator.swift */; };
 		13FE64772A5C378D007D9A53 /* SearchCampingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13FE64762A5C378D007D9A53 /* SearchCampingModel.swift */; };
 		1503F92B2A4E068E002BC38D /* ApplicationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1503F92A2A4E068E002BC38D /* ApplicationCoordinator.swift */; };
 		1503F92E2A4E083C002BC38D /* LoginCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1503F92D2A4E083C002BC38D /* LoginCoordinator.swift */; };
@@ -527,7 +527,7 @@
 		134383FE2B47F876005034E0 /* AlbumService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumService.swift; sourceTree = "<group>"; };
 		134384012B47F8B9005034E0 /* MediaType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaType.swift; sourceTree = "<group>"; };
 		134384032B47F90E005034E0 /* AlbumInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumInfo.swift; sourceTree = "<group>"; };
-		134384072B48005F005034E0 /* PhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewController.swift; sourceTree = "<group>"; };
+		134384072B48005F005034E0 /* AlbumViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumViewController.swift; sourceTree = "<group>"; };
 		1343840A2B480360005034E0 /* BaseNavigationLeftButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNavigationLeftButton.swift; sourceTree = "<group>"; };
 		1343840C2B4803FE005034E0 /* BaseNavigationRightButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNavigationRightButton.swift; sourceTree = "<group>"; };
 		1343840E2B480BF5005034E0 /* PhotoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoService.swift; sourceTree = "<group>"; };
@@ -579,7 +579,7 @@
 		13E746762B4D303E007D5C15 /* PhotoCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCellDelegate.swift; sourceTree = "<group>"; };
 		13F6DAC72B5248EF00573B86 /* SlideUpAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideUpAnimator.swift; sourceTree = "<group>"; };
 		13F6DAC92B52711E00573B86 /* SlideDownAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideDownAnimator.swift; sourceTree = "<group>"; };
-		13F6DACC2B53A5D400573B86 /* PhotoCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCoordinator.swift; sourceTree = "<group>"; };
+		13F6DACC2B53A5D400573B86 /* AlbumCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumCoordinator.swift; sourceTree = "<group>"; };
 		13FE64762A5C378D007D9A53 /* SearchCampingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCampingModel.swift; sourceTree = "<group>"; };
 		13FE64782A5C3900007D9A53 /* TravelDestinationCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelDestinationCellViewModel.swift; sourceTree = "<group>"; };
 		1503F92A2A4E068E002BC38D /* ApplicationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationCoordinator.swift; sourceTree = "<group>"; };
@@ -1097,6 +1097,7 @@
 		134383FA2B47ECEF005034E0 /* Album */ = {
 			isa = PBXGroup;
 			children = (
+				135A07BE2BA948FE003D6C4D /* ViewModel */,
 				13F6DACB2B53A5A800573B86 /* Coordinator */,
 				13E746752B4D3031007D5C15 /* Protocol */,
 				13F6DACF2B53F83B00573B86 /* View */,
@@ -1139,7 +1140,7 @@
 		134384062B480051005034E0 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				134384072B48005F005034E0 /* PhotoViewController.swift */,
+				134384072B48005F005034E0 /* AlbumViewController.swift */,
 				1364FBE32B611DA400D89FC9 /* PhotoDetailViewController.swift */,
 			);
 			path = ViewController;
@@ -1153,6 +1154,13 @@
 				1343840C2B4803FE005034E0 /* BaseNavigationRightButton.swift */,
 			);
 			path = Navigation;
+			sourceTree = "<group>";
+		};
+		135A07BE2BA948FE003D6C4D /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		13606E8F2A9F983F00365F20 /* TagCell */ = {
@@ -1237,7 +1245,7 @@
 		13F6DACB2B53A5A800573B86 /* Coordinator */ = {
 			isa = PBXGroup;
 			children = (
-				13F6DACC2B53A5D400573B86 /* PhotoCoordinator.swift */,
+				13F6DACC2B53A5D400573B86 /* AlbumCoordinator.swift */,
 			);
 			path = Coordinator;
 			sourceTree = "<group>";
@@ -1525,7 +1533,6 @@
 			children = (
 				151DF1042AEEBE0F00D5D55B /* NoticeResponseDTO.swift */,
 				15A0E19E2B97A3BC0047D662 /* PostResponseDTO.swift */,
-				130CF3742B8F8AC40051DEE8 /* LoginResponseDTO.swift */,
 				15D655832B8E085300466FEC /* CommonDTO.swift */,
 				15A0E1A02B97A3FD0047D662 /* PostContainerResponseDTO.swift */,
 				153FA90E2B937E12006CF3C3 /* UserProfileResponseDTO.swift */,
@@ -2917,7 +2924,7 @@
 				15CB23742A110FB4003EAF20 /* PostViewModel.swift in Sources */,
 				15EFB6C82AF51CFE00AA629C /* PostSearchCollectionViewAdapter.swift in Sources */,
 				157ADCA42ACFF31D00D37680 /* FavoritePostViewController.swift in Sources */,
-				134384082B48005F005034E0 /* PhotoViewController.swift in Sources */,
+				134384082B48005F005034E0 /* AlbumViewController.swift in Sources */,
 				158C6A372B0D138500C30856 /* ImageIO.swift in Sources */,
 				15C1F5422AF29CF7005FDA15 /* NotificationInfo.swift in Sources */,
 				131A11082AB5067E007BDD66 /* SearchMoreDetailViewModel.swift in Sources */,
@@ -3037,7 +3044,7 @@
 				15FFAC152ADA83E00013DB57 /* SessionProvider.swift in Sources */,
 				134384112B480C9E005034E0 /* ReviewWriteAlbumService.swift in Sources */,
 				15710CBC2A132DD00023C19E /* FeedAppTitleBarItem.swift in Sources */,
-				13F6DACD2B53A5D400573B86 /* PhotoCoordinator.swift in Sources */,
+				13F6DACD2B53A5D400573B86 /* AlbumCoordinator.swift in Sources */,
 				151DF0E42AEE990400D5D55B /* NoticeViewAdapter.swift in Sources */,
 				15F36A1A2AB1A18200971803 /* CaseIterable+.swift in Sources */,
 				15CB23692A10B9CF003EAF20 /* PostFooterInfo.swift in Sources */,
