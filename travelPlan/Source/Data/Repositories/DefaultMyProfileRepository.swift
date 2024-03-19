@@ -27,14 +27,20 @@ final class DefaultMyProfileRepository {
   private let service: Sessionable
   private lazy var othersProfileRepository = DefaultOthersProfileRepository(service: service)
   private let loggedInUserRepository: LoggedInUserRepository
+  private let backgroundQueue: DispatchQueue
   
   // MARK: - Properties
   private var subscriptions = Set<AnyCancellable>()
   
   // MARK: - Lifecycle
-  init(service: Sessionable, loggedInUserRepository: LoggedInUserRepository) {
+  init(
+    service: Sessionable,
+    loggedInUserRepository: LoggedInUserRepository,
+    backgroundQueue: DispatchQueue = .global(qos: .default)
+  ) {
     self.service = service
     self.loggedInUserRepository = loggedInUserRepository
+    self.backgroundQueue = backgroundQueue
   }
 }
 
@@ -49,6 +55,7 @@ extension DefaultMyProfileRepository: MyProfileRepository {
     let endpoint = UserInfoAPIEndpoint.checkIfNicknameDuplicate(with: reqeustDTO)
     return .init { [unowned self] promise in
       service.request(endpoint: endpoint)
+        .subscribe(on: backgroundQueue)
         .mapMyProfileUsecaseError { $0 }
         .sink { completion in
           switch completion {
@@ -74,6 +81,7 @@ extension DefaultMyProfileRepository: MyProfileRepository {
     let endpoint = UserInfoAPIEndpoint.updateUserNickname(with: requestDTO)
     return .init { [unowned self] promise in
       service.request(endpoint: endpoint)
+        .subscribe(on: backgroundQueue)
         .mapMyProfileUsecaseError { $0 }
         .sink { completion in
           switch completion {
@@ -104,6 +112,7 @@ extension DefaultMyProfileRepository: MyProfileRepository {
     let endpoint = UserInfoAPIEndpoint.updateProfile(withQuery: userIdReqeustDTO, body: reqeustDTO)
     return Future<Bool, Error> { [unowned self] promise in
       service.request(endpoint: endpoint)
+        .subscribe(on: backgroundQueue)
         .mapMyProfileUsecaseError { $0 }
         .sink { completion in
           if case .failure(let error) = completion {
@@ -129,6 +138,7 @@ extension DefaultMyProfileRepository: MyProfileRepository {
     let endpoint = UserInfoAPIEndpoint.saveProfile(withQuery: userIdRequestDTO, body: requestDTO)
     return Future<Bool, Error> { [unowned self] promise in
       service.request(endpoint: endpoint)
+        .subscribe(on: backgroundQueue)
         .mapMyProfileUsecaseError { $0 }
         .sink { completion in
           if case .failure(let error) = completion {
@@ -153,6 +163,7 @@ extension DefaultMyProfileRepository: MyProfileRepository {
     let endpoint = UserInfoAPIEndpoint.deleteProfile(with: requestDTO)
     return Future<Bool, Error> { [unowned self] promise in
       service.request(endpoint: endpoint)
+        .subscribe(on: backgroundQueue)
         .mapMyProfileUsecaseError { $0 }
         .sink { completion in
           if case .failure(let error) = completion {
@@ -182,6 +193,7 @@ extension DefaultMyProfileRepository: MyProfileRepository {
     // 프로필 없는 경우 서버에서 불러오기
     return Future { [unowned self] promise in
       othersProfileRepository.fetchProfile(with: loggedInUserId)
+        .subscribe(on: backgroundQueue)
         .mapMyProfileUsecaseError { $0 }
         .sink { completion in
           if case .failure(let error) = completion {
