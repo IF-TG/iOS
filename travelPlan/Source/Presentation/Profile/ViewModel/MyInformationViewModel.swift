@@ -69,7 +69,8 @@ final class MyInformationViewModel {
   }
   
   // MARK: - Dependencies
-  private var myProfileUseCase: MyProfileUseCase
+  private let myProfileUseCase: MyProfileUseCase
+  private let loggedInUserUseCase: LoggedInUserUseCase
   
   // MARK: - Properties
   private var editedUserProfileImage: String?
@@ -90,8 +91,9 @@ final class MyInformationViewModel {
   private let profileSaveSubject = PassthroughSubject<String, Never>()
 
   // MARK: - Lifecycle
-  init(myProfileUseCase: MyProfileUseCase) {
+  init(myProfileUseCase: MyProfileUseCase, loggedInUserUseCase: LoggedInUserUseCase) {
     self.myProfileUseCase = myProfileUseCase
+    self.loggedInUserUseCase = loggedInUserUseCase
     bothNameAndProfileUpdatedPublisher = Publishers.Zip(
       updatedNicknameNotifier,
       updatedProfileNotifier).eraseToAnyPublisher()
@@ -301,8 +303,11 @@ private extension MyInformationViewModel {
         if editedNickname.count > 15 {
           return .nicknameState(.overflow)
         }
-        // TODO: - 사용자의 닉네임과 같은 경우. 유저디폴츠에서 가져와야합니다.
-        if editedNickname == "야호호" {
+        guard let loggedInUserNickname = self?.loggedInUserUseCase.nickname else {
+          // FIXME: - 이런경우 로그아웃 시켜야하나?.?
+          return .unexpectedError(description: "로그인한 사용자의 정보가 일치하지 않습니다.")
+        }
+        if editedNickname == loggedInUserNickname {
           return .nicknameState(.default)
         }
         return .none
