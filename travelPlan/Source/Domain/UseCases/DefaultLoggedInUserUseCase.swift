@@ -42,14 +42,17 @@ final class DefaultLoggedInUserUseCase: LoggedInUserUseCase {
     loggedInUserRepository.setUser(with: userInfo)
   }
   
+  @discardableResult
   func updateNickname(with nickname: String) -> Bool {
     return loggedInUserRepository.updateNickname(with: nickname)
   }
   
+  @discardableResult
   func updateProfileURL(with url: String) -> Bool {
     return loggedInUserRepository.updateProfileURL(with: url)
   }
   
+  @discardableResult
   func deleteProfile() -> Bool {
     return loggedInUserRepository.deleteProfile()
   }

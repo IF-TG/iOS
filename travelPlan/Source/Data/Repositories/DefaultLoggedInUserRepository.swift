@@ -16,7 +16,7 @@ final class DefaultLoggedInUserRepository: LoggedInUserRepository {
     storage.nickname
   }
   
-  var profileURL: String?  {
+  var profileURL: String? {
     storage.profileURL
   }
   
@@ -42,14 +42,17 @@ final class DefaultLoggedInUserRepository: LoggedInUserRepository {
     storage.setUser(with: userInfo)
   }
   
+  @discardableResult
   func updateNickname(with nickname: String) -> Bool {
     storage.updateNickname(with: nickname)
   }
   
+  @discardableResult
   func updateProfileURL(with url: String) -> Bool {
     storage.updateProfileURL(with: url)
   }
   
+  @discardableResult
   func deleteProfile() -> Bool {
     storage.deleteProfile()
   }

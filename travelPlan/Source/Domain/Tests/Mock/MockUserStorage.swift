@@ -30,14 +30,17 @@ final class MockUserStorage: UserStorage {
   
   func setUser(with userInfo: UserEntity) { }
   
+  @discardableResult
   func updateNickname(with nickname: String) -> Bool {
     return true
   }
   
+  @discardableResult
   func updateProfileURL(with url: String) -> Bool {
     return true
   }
   
+  @discardableResult
   func deleteProfile() -> Bool {
     return true
   }
