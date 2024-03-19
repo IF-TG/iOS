@@ -119,7 +119,7 @@ extension DefaultMyProfileRepository: MyProfileRepository {
             promise(.failure(error))
           }
         } receiveValue: { [weak self] responseDTO in
-          let isSucceed = (200...299).contains(Int(responseDTO.status) ?? -1)
+          let isSucceed = (200...299).contains(Int(responseDTO.statusCode) ?? -1)
           self?.loggedInUserRepository.updateProfileURL(with: responseDTO.result.imageURL)
           promise(.success(isSucceed))
         }.store(in: &subscriptions)
@@ -146,7 +146,7 @@ extension DefaultMyProfileRepository: MyProfileRepository {
           }
         } receiveValue: { [weak self] responseDTO in
           self?.loggedInUserRepository.updateProfileURL(with: profile)
-          let isSucceed = (200...299).contains(Int(responseDTO.status) ?? -1)
+          let isSucceed = (200...299).contains(Int(responseDTO.statusCode) ?? -1)
           promise(.success(isSucceed))
         }.store(in: &subscriptions)
     }
