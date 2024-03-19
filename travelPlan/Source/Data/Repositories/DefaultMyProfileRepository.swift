@@ -26,21 +26,22 @@ final class DefaultMyProfileRepository {
   // MARK: - Dependencies
   private let service: Sessionable
   private lazy var othersProfileRepository = DefaultOthersProfileRepository(service: service)
-  private typealias MyInfoManager = UserDefaultsManager.User
+  private let loggedInUserRepository: LoggedInUserRepository
   
   // MARK: - Properties
   private var subscriptions = Set<AnyCancellable>()
   
   // MARK: - Lifecycle
-  init(service: Sessionable) {
+  init(service: Sessionable, loggedInUserRepository: LoggedInUserRepository) {
     self.service = service
+    self.loggedInUserRepository = loggedInUserRepository
   }
 }
 
 // MARK: - MyProfileRepository
 extension DefaultMyProfileRepository: MyProfileRepository {
   var isProfileSavedInServer: Bool {
-    MyInfoManager.isSavedProfileInServer
+    loggedInUserRepository.isSavedProfileInServer
   }
   
   func checkIfUserNicknameDuplicate(with name: String) -> Future<Bool, Error> {
@@ -63,7 +64,7 @@ extension DefaultMyProfileRepository: MyProfileRepository {
   }
   
   func updateUserNickname(with name: String) -> Future<Bool, Error> {
-    guard let loggedInUserId = MyInfoManager.id else {
+    guard let loggedInUserId = loggedInUserRepository.id else {
       return Future { promise in
         promise(.failure(MyProfileUseCaseError.invalidUserId))
       }
@@ -81,9 +82,9 @@ extension DefaultMyProfileRepository: MyProfileRepository {
           case .failure(let error):
             promise(.failure(error))
           }
-        } receiveValue: { responseDTO in
+        } receiveValue: { [weak self] responseDTO in
           if responseDTO.result {
-            MyInfoManager.updateNickname(with: name)
+            self?.loggedInUserRepository.updateNickname(with: name)
           }
           promise(.success(responseDTO.result))
         }.store(in: &subscriptions)
@@ -92,7 +93,7 @@ extension DefaultMyProfileRepository: MyProfileRepository {
   
   /// 업데이트는 서버 로직에서 삭제 -> 저장을 한번에 하는 기능입니다.
   func updateProfile(with profile: String) -> Future<Bool, Error> {
-    guard let loggedInUserId = MyInfoManager.id else {
+    guard let loggedInUserId = loggedInUserRepository.id else {
       return Future { promise in
         promise(.failure(MyProfileUseCaseError.invalidUserId))
       }
@@ -108,16 +109,16 @@ extension DefaultMyProfileRepository: MyProfileRepository {
           if case .failure(let error) = completion {
             promise(.failure(error))
           }
-        } receiveValue: { responseDTO in
+        } receiveValue: { [weak self] responseDTO in
           let isSucceed = (200...299).contains(Int(responseDTO.status) ?? -1)
-          MyInfoManager.updateProfileURL(with: responseDTO.result.imageURL)
+          self?.loggedInUserRepository.updateProfileURL(with: responseDTO.result.imageURL)
           promise(.success(isSucceed))
         }.store(in: &subscriptions)
     }
   }
   
   func saveProfile(with profile: String) -> Future<Bool, Error> {
-    guard let loggedInUserId = MyInfoManager.id else {
+    guard let loggedInUserId = loggedInUserRepository.id else {
       return Future { promise in
         promise(.failure(MyProfileUseCaseError.invalidUserId))
       }
@@ -133,8 +134,8 @@ extension DefaultMyProfileRepository: MyProfileRepository {
           if case .failure(let error) = completion {
             promise(.failure(error))
           }
-        } receiveValue: { responseDTO in
-          MyInfoManager.updateProfileURL(with: profile)
+        } receiveValue: { [weak self] responseDTO in
+          self?.loggedInUserRepository.updateProfileURL(with: profile)
           let isSucceed = (200...299).contains(Int(responseDTO.status) ?? -1)
           promise(.success(isSucceed))
         }.store(in: &subscriptions)
@@ -142,7 +143,7 @@ extension DefaultMyProfileRepository: MyProfileRepository {
   }
   
   func deleteProfile() -> Future<Bool, Error> {
-    guard let loggedInUserId = MyInfoManager.id else {
+    guard let loggedInUserId = loggedInUserRepository.id else {
       return Future { promise in
         promise(.failure(MyProfileUseCaseError.invalidUserId))
       }
@@ -157,8 +158,8 @@ extension DefaultMyProfileRepository: MyProfileRepository {
           if case .failure(let error) = completion {
             promise(.failure(error))
           }
-        } receiveValue: { responseDTO in
-          MyInfoManager.deleteProfile()
+        } receiveValue: { [weak self] responseDTO in
+          self?.loggedInUserRepository.deleteProfile()
           promise(.success(responseDTO.result))
         }.store(in: &subscriptions)
     }
@@ -166,13 +167,13 @@ extension DefaultMyProfileRepository: MyProfileRepository {
   
   func fetchProfile() -> Future<ProfileImageEntity, Error> {
     // UserDefaults 확인
-    if let imageURL = MyInfoManager.userProfileURL {
+    if let imageURL = loggedInUserRepository.profileURL {
       return Future { promise in
         promise(.success(.init(image: imageURL)))
       }
     }
     
-    guard let loggedInUserId = MyInfoManager.id else {
+    guard let loggedInUserId = loggedInUserRepository.id else {
       return Future { promise in
         promise(.failure(MyProfileUseCaseError.invalidUserId))
       }
@@ -186,8 +187,8 @@ extension DefaultMyProfileRepository: MyProfileRepository {
           if case .failure(let error) = completion {
             promise(.failure(error))
           }
-        } receiveValue: { profileImageEntity in
-          MyInfoManager.updateProfileURL(with: profileImageEntity.image)
+        } receiveValue: { [weak self] profileImageEntity in
+          self?.loggedInUserRepository.updateProfileURL(with: profileImageEntity.image)
           promise(.success(profileImageEntity))
         }.store(in: &subscriptions)
     }
