@@ -8,20 +8,6 @@
 import Foundation
 import Combine
 
-// MARK: - Publisher extension
-private extension Publisher {
-  func mapMyProfileUseCaseError<E>(
-    _ transform: @escaping (Self.Failure) -> E
-  ) -> Publishers.MapError<Self, Error> {
-    return self.mapError { error -> Error in
-      if let connectionError = error.asAFError?.mapConnectionError {
-        return MyProfileRepositoryError.networkError(connectionError)
-      }
-      return MyProfileRepositoryError.unknown(description: error.localizedDescription)
-    }
-  }
-}
-
 final class DefaultMyProfileUseCase: MyProfileUseCase {
   // MARK: - Dependencies
   private let myProfileRepository: MyProfileRepository
