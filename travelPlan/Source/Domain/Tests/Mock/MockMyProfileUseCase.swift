@@ -13,7 +13,10 @@ final class MockMyProfileUseCase: MyProfileUseCase {
     // Mock session주입
     let mockSession = MockSession.default
     let sessionProvider = SessionProvider(session: mockSession)
-    let myProfileRepository = DefaultMyProfileRepository(service: sessionProvider)
+    let mockUserStorage = MockUserStorage()
+    let myProfileRepository = DefaultMyProfileRepository(
+      service: sessionProvider,
+      loggedInUserRepository: DefaultLoggedInUserRepository(storage: mockUserStorage))
     defaultMyProfileUseCase = DefaultMyProfileUseCase(myProfileRepository: myProfileRepository)
   }
   
