@@ -50,12 +50,11 @@ private extension Publisher {
 // MARK: - MyInformationViewModel
 final class MyInformationViewModel {
   struct Input {
-    let isNicknameDuplicated: PassthroughSubject<String, Never> = .init()
-    let selectProfile: PassthroughSubject<String?, Never> = .init()
-    let tapStoreButton: PassthroughSubject<Void, Never> = .init()
-    let tapBackButton: PassthroughSubject<Void, Never> = .init()
+    let profileSelect: PassthroughSubject<String?, Never> = .init()
+    let saveButtonTap: PassthroughSubject<Void, Never> = .init()
+    let backBarButtonTap: PassthroughSubject<Void, Never> = .init()
     let defaultNickname: PassthroughSubject<Void, Never> = .init()
-    let inputNickname: PassthroughSubject<String, Never> = .init()
+    let revisedNicknameInput: PassthroughSubject<String, Never> = .init()
   }
   
   enum State {
@@ -140,7 +139,7 @@ private extension MyInformationViewModel {
   }
   
   func selectProfileStream(input: Input) -> Output {
-    return input.selectProfile.map { [weak self] base64Image -> State in
+    return input.profileSelect.map { [weak self] base64Image -> State in
       self?.editedUserProfileImage = base64Image
       return .none
     }.eraseToAnyPublisher()
@@ -166,7 +165,7 @@ private extension MyInformationViewModel {
   }
   
   func tapStoreButtonStream(input: Input) -> Output {
-    return input.tapStoreButton
+    return input.saveButtonTap
       .map { [weak self] _ -> State in
         if self?.changedNameAvailable == true, self?.editedUserProfileImage != nil {
           self?.isProcessingBothNameAndProfile = true
@@ -245,7 +244,7 @@ private extension MyInformationViewModel {
   }
   
   func tapBackBarButtonStream(input: Input) -> Output {
-    return input.tapBackButton
+    return input.backBarButtonTap
       .map { [weak self] _ -> State in
         let hasUserEditedInfo = self?.hasUserEditedInfo()
         return .wannaLeaveThisPage(hasUserEditedInfo: hasUserEditedInfo ?? false)
@@ -270,7 +269,7 @@ private extension MyInformationViewModel {
   }
   
   func inputNicknameStream(input: Input) -> Output {
-    return input.inputNickname
+    return input.revisedNicknameInput
       .debounce(for: 0.2, scheduler: RunLoop.main)
       .map { [weak self] editedNickname -> State in
         let isNicknameAvailable = (3...15).contains(editedNickname.count)

@@ -62,7 +62,7 @@ extension MyInformationViewModelTests {
         break
       }
     }
-    input.inputNickname.send("무야호")
+    input.revisedNicknameInput.send("무야호")
     wait(for: [expectation], timeout: 6)
   }
 }

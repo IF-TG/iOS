@@ -151,7 +151,7 @@ extension MyInformationViewController: ViewBindCase {
 extension MyInformationViewController {
   func handleSelectedImage(with image: UIImage) {
     profileImageView.setImage(image)
-    input.selectProfile.send(image.base64)
+    input.profileSelect.send(image.base64)
     let savableTextStates: [SettingUserNameTextField.State] = [.available, .default]
     if savableTextStates.contains(inputTextField.textState) {
       setStoreLabelAvailable()
@@ -164,7 +164,7 @@ private extension MyInformationViewController {
   func bindInputTextField() {
     inputTextField.changed
       .sink { [weak self] text in
-        self?.input.inputNickname.send(text)
+        self?.input.revisedNicknameInput.send(text)
       }.store(in: &subscriptions)
   }
   
@@ -278,11 +278,11 @@ private extension MyInformationViewController {
 // MARK: - Actions
 extension MyInformationViewController {
   @objc func didTapBackBarButton(_ sender: Any) {
-    input.tapBackButton.send()
+    input.backBarButtonTap.send()
   }
   
   @objc func didTapStoreLabel() {
-    input.tapStoreButton.send()
+    input.saveButtonTap.send()
   }
   
   @objc func didTapProfile() {
