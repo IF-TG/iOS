@@ -1,5 +1,5 @@
 //
-//  PhotoViewController.swift
+//  AlbumViewController.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 1/5/24.
@@ -10,7 +10,7 @@ import SnapKit
 import Photos
 import Combine
 
-final class PhotoViewController: UIViewController {
+final class AlbumViewController: UIViewController {
   // MARK: - Nested
   private enum Const {
     static let numberOfColumns = 4.0
@@ -21,7 +21,7 @@ final class PhotoViewController: UIViewController {
   }
   
   // MARK: - Properties
-  weak var coordinator: PhotoCoordinator?
+  weak var coordinator: AlbumCoordinator?
   private var dataSource = [PhotoCellInfo]()
   private lazy var collectionView: UICollectionView = .init(
     frame: .zero,
@@ -90,12 +90,12 @@ final class PhotoViewController: UIViewController {
   }
   
   deinit {
-    print("deinit: \(Self.self)")
+    print("deinit: \(AlbumViewController.self)")
   }
 }
 
 // MARK: - LayoutSupport
-extension PhotoViewController: LayoutSupport {
+extension AlbumViewController: LayoutSupport {
   func addSubviews() {
     view.addSubview(collectionView)
   }
@@ -109,7 +109,7 @@ extension PhotoViewController: LayoutSupport {
 }
 
 // MARK: - UICollectionViewDataSource
-extension PhotoViewController: UICollectionViewDataSource {
+extension AlbumViewController: UICollectionViewDataSource {
   func collectionView(
     _ collectionView: UICollectionView,
     numberOfItemsInSection section: Int
@@ -144,7 +144,7 @@ extension PhotoViewController: UICollectionViewDataSource {
 }
 
 // MARK: - Private Helpers
-extension PhotoViewController {
+extension AlbumViewController {
   private func update(indexPaths: [IndexPath]) {
     collectionView.performBatchUpdates {
       collectionView.reloadItems(at: indexPaths)
@@ -197,7 +197,7 @@ extension PhotoViewController {
 }
 
 // MARK: - Actions
-private extension PhotoViewController {
+private extension AlbumViewController {
   @objc func didTapCancelButton(_ sender: UIButton) {
     print("취소 버튼 클릭")
     coordinator?.finish(withAnimated: true)
@@ -233,7 +233,7 @@ private extension PhotoViewController {
 }
 
 // MARK: - PhotoCellDelegate
-extension PhotoViewController: PhotoCellDelegate {
+extension AlbumViewController: PhotoCellDelegate {
   func touchBegan(_ cell: UICollectionViewCell, quadrant: PhotoCell.Quadrant) {
     switch quadrant {
     case .first:
@@ -270,7 +270,7 @@ extension PhotoViewController: PhotoCellDelegate {
 }
 
 // MARK: - UINavigationControllerDelegate
-extension PhotoViewController: UINavigationControllerDelegate {
+extension AlbumViewController: UINavigationControllerDelegate {
   func navigationController(
     _ navigationController: UINavigationController,
     animationControllerFor operation: UINavigationController.Operation,

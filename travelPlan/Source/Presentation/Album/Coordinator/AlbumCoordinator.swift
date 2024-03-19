@@ -1,5 +1,5 @@
 //
-//  PhotoCoordinator.swift
+//  AlbumCoordinator.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 1/14/24.
@@ -8,7 +8,7 @@
 import UIKit
 import SHCoordinator
 
-final class PhotoCoordinator: FlowCoordinator {
+final class AlbumCoordinator: FlowCoordinator {
   // MARK: - Properties
   var parent: FlowCoordinator?
   var child: [FlowCoordinator] = []
@@ -20,14 +20,14 @@ final class PhotoCoordinator: FlowCoordinator {
   }
   
   deinit {
-    print("deinit: \(Self.self)")
+    print("deinit: \(AlbumCoordinator.self)")
   }
   
   // MARK: - Helpers
   func start() {
     guard let reviewWritingVC = presenter?.viewControllers.last as? ReviewWritingViewController else { return }
     
-    let vc = PhotoViewController()
+    let vc = AlbumViewController()
     vc.imageCompletionHandler = { images in
       reviewWritingVC.setImageView(to: images)
     }
