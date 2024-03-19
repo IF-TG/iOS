@@ -43,9 +43,14 @@ final class MyInformationCoordinator: FlowCoordinator {
         print("Task completed successfully")
       }
     }
-    //let session = Session(configuration: sessionConfiguration, eventMonitors: [monitor])
+    // let session = Session(configuration: sessionConfiguration, eventMonitors: [monitor])
     let mockMyProfileUseCase = MockMyProfileUseCase()
-    let viewModel = MyInformationViewModel(myProfileUseCase: mockMyProfileUseCase)
+    let mockUserStorage = MockUserStorage()
+    let loggedInUserRepository = DefaultLoggedInUserRepository(storage: mockUserStorage)
+    let loggedInUserUseCase = DefaultLoggedInUserUseCase(loggedInUserRepository: loggedInUserRepository)
+    let viewModel = MyInformationViewModel(
+      myProfileUseCase: mockMyProfileUseCase,
+      loggedInUserUseCase: loggedInUserUseCase)
     let viewController = MyInformationViewController(viewModel: viewModel)
     viewController.coordinator = self
     self.viewController = viewController
