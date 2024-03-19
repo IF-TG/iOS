@@ -126,6 +126,7 @@ extension MyInformationViewController: ViewBindCase {
     case .correctionSaved:
       stopIndicator()
       setSubviewsDefaultUI()
+      coordinator?.showAlertForError(with: "저장을 완료했습니다", completion: nil)
     case .correctionNotSaved:
       stopIndicator()
       coordinator?.showAlertForError(with: "저장에 실패했습니다", completion: nil)
