@@ -265,9 +265,15 @@
 		15A4F28D2ACC1025001AA51D /* Toggable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A4F28C2ACC1025001AA51D /* Toggable.swift */; };
 		15A4F28F2ACC11E5001AA51D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A4F28E2ACC11E5001AA51D /* ViewController.swift */; };
 		15A7A8EE2B9F6B1D00CA9A79 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A7A8ED2B9F6B1D00CA9A79 /* UserDefaultsManager.swift */; };
-		15A7A8F02B9F6BF100CA9A79 /* UserDefaultsManager+User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A7A8EF2B9F6BF100CA9A79 /* UserDefaultsManager+User.swift */; };
 		15A7A8F22B9F6C1700CA9A79 /* UserEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A7A8F12B9F6C1700CA9A79 /* UserEntity.swift */; };
 		15AF2C3E2A1147B100BEE166 /* UIImage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15AF2C3D2A1147B100BEE166 /* UIImage+.swift */; };
+		15B01DA32BA93A1000BE9F98 /* UserStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B01DA22BA93A1000BE9F98 /* UserStorage.swift */; };
+		15B01DA52BA93B5400BE9F98 /* UserDefaultsUserStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B01DA42BA93B5400BE9F98 /* UserDefaultsUserStorage.swift */; };
+		15B01DA72BA941D800BE9F98 /* LoggedInUserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B01DA62BA941D800BE9F98 /* LoggedInUserRepository.swift */; };
+		15B01DA92BA9425E00BE9F98 /* DefaultLoggedInUserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B01DA82BA9425E00BE9F98 /* DefaultLoggedInUserRepository.swift */; };
+		15B01DAB2BA9472300BE9F98 /* MockUserStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B01DAA2BA9472300BE9F98 /* MockUserStorage.swift */; };
+		15B01DAD2BA95A2500BE9F98 /* LoggedInUserUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B01DAC2BA95A2500BE9F98 /* LoggedInUserUseCase.swift */; };
+		15B01DAF2BA95A4600BE9F98 /* DefaultLoggedInUserUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B01DAE2BA95A4600BE9F98 /* DefaultLoggedInUserUseCase.swift */; };
 		15B4E5F12ACAA947001CF071 /* SearchStarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1390CC6E2A8E0B2800E34DC3 /* SearchStarButton.swift */; };
 		15B9285B2AF9DEAA003A20D4 /* PostDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B9285A2AF9DEAA003A20D4 /* PostDetailViewController.swift */; };
 		15B9285D2AF9E3A2003A20D4 /* PostDetailProfileAreaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B9285C2AF9E3A2003A20D4 /* PostDetailProfileAreaView.swift */; };
@@ -732,9 +738,15 @@
 		15A4F28C2ACC1025001AA51D /* Toggable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toggable.swift; sourceTree = "<group>"; };
 		15A4F28E2ACC11E5001AA51D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		15A7A8ED2B9F6B1D00CA9A79 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
-		15A7A8EF2B9F6BF100CA9A79 /* UserDefaultsManager+User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaultsManager+User.swift"; sourceTree = "<group>"; };
 		15A7A8F12B9F6C1700CA9A79 /* UserEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserEntity.swift; sourceTree = "<group>"; };
 		15AF2C3D2A1147B100BEE166 /* UIImage+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+.swift"; sourceTree = "<group>"; };
+		15B01DA22BA93A1000BE9F98 /* UserStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStorage.swift; sourceTree = "<group>"; };
+		15B01DA42BA93B5400BE9F98 /* UserDefaultsUserStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsUserStorage.swift; sourceTree = "<group>"; };
+		15B01DA62BA941D800BE9F98 /* LoggedInUserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedInUserRepository.swift; sourceTree = "<group>"; };
+		15B01DA82BA9425E00BE9F98 /* DefaultLoggedInUserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultLoggedInUserRepository.swift; sourceTree = "<group>"; };
+		15B01DAA2BA9472300BE9F98 /* MockUserStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUserStorage.swift; sourceTree = "<group>"; };
+		15B01DAC2BA95A2500BE9F98 /* LoggedInUserUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedInUserUseCase.swift; sourceTree = "<group>"; };
+		15B01DAE2BA95A4600BE9F98 /* DefaultLoggedInUserUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultLoggedInUserUseCase.swift; sourceTree = "<group>"; };
 		15B9285A2AF9DEAA003A20D4 /* PostDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailViewController.swift; sourceTree = "<group>"; };
 		15B9285C2AF9E3A2003A20D4 /* PostDetailProfileAreaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailProfileAreaView.swift; sourceTree = "<group>"; };
 		15B9285E2AFA2D89003A20D4 /* PostDetailContentImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailContentImageCell.swift; sourceTree = "<group>"; };
@@ -1209,10 +1221,10 @@
 		1383C8232B98646B00830F1A /* PersistentStorages */ = {
 			isa = PBXGroup;
 			children = (
+				15B01DA12BA939FB00BE9F98 /* UserStorage */,
 				15A7A8EC2B9F6B0500CA9A79 /* UserDefaultsStorage */,
 				133531FC2BA2D228000A4D9E /* LoginResultStorage */,
 				133531F52BA0EE99000A4D9E /* LoginResponseStorage */,
-				1383C8252B9864B700830F1A /* UserDefaultsStorage */,
 				1383C8242B9864A700830F1A /* KeychainStorage */,
 			);
 			path = PersistentStorages;
@@ -1465,6 +1477,7 @@
 				151DF0F32AEEB29500D5D55B /* NoticeUseCase.swift */,
 				15D6558C2B8E110500466FEC /* MyProfileUseCase.swift */,
 				15D37F7C2B977DF7000E8FDB /* PostUseCase.swift */,
+				15B01DAC2BA95A2500BE9F98 /* LoggedInUserUseCase.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -1477,6 +1490,7 @@
 				130CF3672B8E87490051DEE8 /* LoginUseCase.swift */,
 				15D6558E2B8E11AC00466FEC /* DefaultMyProfileUseCase.swift */,
 				15E9E5ED2B9A345800C2F1F7 /* DefaultPostUseCase.swift */,
+				15B01DAE2BA95A4600BE9F98 /* DefaultLoggedInUserUseCase.swift */,
 			);
 			path = UseCases;
 			sourceTree = "<group>";
@@ -1499,6 +1513,7 @@
 				151DF0FD2AEEBBE200D5D55B /* DefaultNotificationRepository.swift */,
 				15E9E5E92B9A1CA500C2F1F7 /* DefaultPostRepository.swift */,
 				152715442BA0D60F0077D033 /* DefaultOthersProfileRepository.swift */,
+				15B01DA82BA9425E00BE9F98 /* DefaultLoggedInUserRepository.swift */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
@@ -1519,6 +1534,7 @@
 				15D655882B8E0EC600466FEC /* MyProfileRepository.swift */,
 				15FBD5DD2B98E4F100076115 /* PostRepository.swift */,
 				152715402BA0D5AE0077D033 /* UserRepository.swift */,
+				15B01DA62BA941D800BE9F98 /* LoggedInUserRepository.swift */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
@@ -1544,7 +1560,6 @@
 			children = (
 				151DF1042AEEBE0F00D5D55B /* NoticeResponseDTO.swift */,
 				15A0E19E2B97A3BC0047D662 /* PostResponseDTO.swift */,
-				130CF3742B8F8AC40051DEE8 /* LoginResponseDTO.swift */,
 				15D655832B8E085300466FEC /* CommonDTO.swift */,
 				15A0E1A02B97A3FD0047D662 /* PostContainerResponseDTO.swift */,
 				153FA90E2B937E12006CF3C3 /* UserProfileResponseDTO.swift */,
@@ -1915,9 +1930,17 @@
 			isa = PBXGroup;
 			children = (
 				15A7A8ED2B9F6B1D00CA9A79 /* UserDefaultsManager.swift */,
-				15A7A8EF2B9F6BF100CA9A79 /* UserDefaultsManager+User.swift */,
 			);
 			path = UserDefaultsStorage;
+			sourceTree = "<group>";
+		};
+		15B01DA12BA939FB00BE9F98 /* UserStorage */ = {
+			isa = PBXGroup;
+			children = (
+				15B01DA22BA93A1000BE9F98 /* UserStorage.swift */,
+				15B01DA42BA93B5400BE9F98 /* UserDefaultsUserStorage.swift */,
+			);
+			path = UserStorage;
 			sourceTree = "<group>";
 		};
 		15BB01AE2A1EB4890035B486 /* Authentication */ = {
@@ -2177,6 +2200,7 @@
 				15D655942B8E17D400466FEC /* MockMyProfileRepository.swift */,
 				15302C562B9E29B900B1EA3F /* MockMyProfileUseCase.swift */,
 				15E9E5F12B9A35F300C2F1F7 /* MockPostRepository.swift */,
+				15B01DAA2BA9472300BE9F98 /* MockUserStorage.swift */,
 			);
 			path = Mock;
 			sourceTree = "<group>";
@@ -2865,6 +2889,7 @@
 				15E9E5F22B9A35F300C2F1F7 /* MockPostRepository.swift in Sources */,
 				151DF0F62AEEB2D200D5D55B /* DefaultNoticeUseCase.swift in Sources */,
 				15FFABFB2AD5B6FC0013DB57 /* BasePaddingLabel.swift in Sources */,
+				15B01DA32BA93A1000BE9F98 /* UserStorage.swift in Sources */,
 				153FA90F2B937E12006CF3C3 /* UserProfileResponseDTO.swift in Sources */,
 				151DF1012AEEBD0A00D5D55B /* NotificationAPIEndpoints.swift in Sources */,
 				15259DE92ACAA98F00C14F62 /* TravelDestinationCellViewModel.swift in Sources */,
@@ -2981,7 +3006,6 @@
 				152715412BA0D5AE0077D033 /* UserRepository.swift in Sources */,
 				1599587B2B0DC55700B2E4DC /* PostCellWithTwoThumbnails.swift in Sources */,
 				15FB47F12AC1DCEF0033AA18 /* TravelMainThemeCollectionView.swift in Sources */,
-				15A7A8F02B9F6BF100CA9A79 /* UserDefaultsManager+User.swift in Sources */,
 				133532042BA42DDE000A4D9E /* Double+.swift in Sources */,
 				15FBD5D62B98DB5F00076115 /* SeasonMapper.swift in Sources */,
 				15C1F53E2AF2904C005FDA15 /* NotificationCell.swift in Sources */,
@@ -3005,6 +3029,7 @@
 				15710CBA2A132C760023C19E /* FeedNotificationBarItem.swift in Sources */,
 				15D867CF2AD427EC00F35811 /* FavoriteDetailCoordinator.swift in Sources */,
 				15D6558B2B8E0F8500466FEC /* DefaultMyProfileRepository.swift in Sources */,
+				15B01DAF2BA95A4600BE9F98 /* DefaultLoggedInUserUseCase.swift in Sources */,
 				151DF0F02AEEAE2100D5D55B /* NoticeEntity.swift in Sources */,
 				157ADCAC2AD008EE00D37680 /* FavoriteDetailMenuViewConfigurable.swift in Sources */,
 				15D6558D2B8E110500466FEC /* MyProfileUseCase.swift in Sources */,
@@ -3013,6 +3038,7 @@
 				15FBD5DA2B98DFD000076115 /* Post.swift in Sources */,
 				1546DF392B0B29D700B49A55 /* ImageConverter.swift in Sources */,
 				15F3763C2AFB7D1E00B3BF35 /* PostViewAdapterDelegate.swift in Sources */,
+				15B01DA52BA93B5400BE9F98 /* UserDefaultsUserStorage.swift in Sources */,
 				13C32A3D2B0A2FF30046ED98 /* PictureImageViewDelegate.swift in Sources */,
 				152AD4F02A189CFC008A2A11 /* FavoriteHeaderView.swift in Sources */,
 				15B9285D2AF9E3A2003A20D4 /* PostDetailProfileAreaView.swift in Sources */,
@@ -3045,6 +3071,7 @@
 				158695992AE621010087CCB3 /* FeedPostViewModelable.swift in Sources */,
 				13405F6B2AF665B100382796 /* ReviewWritingCoordinator.swift in Sources */,
 				15FBD5CE2B98D13D00076115 /* TravelPartnerMapper.swift in Sources */,
+				15B01DA92BA9425E00BE9F98 /* DefaultLoggedInUserRepository.swift in Sources */,
 				15B4E5F12ACAA947001CF071 /* SearchStarButton.swift in Sources */,
 				15D955AD2ADEA525002BF9C3 /* FeedViewModelable.swift in Sources */,
 				15DA4C832ACD821F003A7900 /* EmptyStateView.swift in Sources */,
@@ -3052,6 +3079,7 @@
 				15A0E19F2B97A3BD0047D662 /* PostResponseDTO.swift in Sources */,
 				139DEE3A2B17CAC900363E7B /* SearchDestinationServiceTypeView.swift in Sources */,
 				1546DF3B2B0C5B7C00B49A55 /* ImageDiskCache.swift in Sources */,
+				15B01DAD2BA95A2500BE9F98 /* LoggedInUserUseCase.swift in Sources */,
 				151DF0DA2AEE6DF700D5D55B /* NoticeViewController.swift in Sources */,
 				15FFAC332ADD4C480013DB57 /* PostViewAdapterDataSource.swift in Sources */,
 				130CF3812B91062D0051DEE8 /* KeychainManager.swift in Sources */,
@@ -3153,7 +3181,9 @@
 				159F38BF2AFAA329000A24C2 /* PostDetailTitleCell.swift in Sources */,
 				15FEB5EA2A050A99000A5F33 /* UIColor+.swift in Sources */,
 				15FFABFD2AD5C75A0013DB57 /* FavoriteTableViewCellDelegate.swift in Sources */,
+				15B01DA72BA941D800BE9F98 /* LoggedInUserRepository.swift in Sources */,
 				13A93EF92AD1CA0200FC4BBD /* SearchTopTenCellViewModel.swift in Sources */,
+				15B01DAB2BA9472300BE9F98 /* MockUserStorage.swift in Sources */,
 				13606E982AA4F26500365F20 /* DefaultPostSearchLayout.swift in Sources */,
 				15FBD5D42B98DAB000076115 /* TravelRegionMapper.swift in Sources */,
 				15D60D382AEB874B0087FEC0 /* NotificationCenterCoordinator.swift in Sources */,
