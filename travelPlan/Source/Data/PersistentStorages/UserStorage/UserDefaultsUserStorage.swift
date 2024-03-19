@@ -19,11 +19,16 @@ final class UserDefaultsUserStorage {
   
   // MARK: - Properties
   private typealias userDefaults = UserDefaultsManager
+  
+  private let backgroundQueue: DispatchQueue
+  
+  init(backgroundQueue: DispatchQueue = DispatchQueue.global(qos: .userInitiated)) {
+    self.backgroundQueue = backgroundQueue
+  }
 }
 
 // MARK: - UserStorage
 extension UserDefaultsUserStorage: UserStorage {
-
   var nickname: String? {
     user?.nickname
   }
@@ -59,7 +64,9 @@ extension UserDefaultsUserStorage: UserStorage {
   }
   
   func setUser(with userInfo: UserEntity) {
-    userDefaults[.user] = convertToDictionary(from: userInfo)
+    backgroundQueue.async { [weak self] in
+      userDefaults[.user] = self?.convertToDictionary(from: userInfo)
+    }
   }
   
   func updateNickname(with nickname: String) -> Bool {
@@ -67,9 +74,11 @@ extension UserDefaultsUserStorage: UserStorage {
       os_log("DEBUG: 사용자의 이름이 저장되지 않았습니다.", log: OSLog.default, type: .error)
       return false
     }
-    user.nickname = nickname
-    let userDict = convertToDictionary(from: user)
-    UserDefaultsManager[.user] = userDict
+    backgroundQueue.async { [weak self] in
+      user.nickname = nickname
+      let userDict = self?.convertToDictionary(from: user)
+      UserDefaultsManager[.user] = userDict
+    }
     return true
   }
   
@@ -78,9 +87,11 @@ extension UserDefaultsUserStorage: UserStorage {
       os_log("DEBUG: 사용자의 프로필이 저장되지 않았습니다.", log: OSLog.default, type: .error)
       return false
     }
-    user.profileURL = url
-    let userDict = convertToDictionary(from: user)
-    UserDefaultsManager[.user] = userDict
+    backgroundQueue.async { [weak self] in
+      user.profileURL = url
+      let userDict = self?.convertToDictionary(from: user)
+      UserDefaultsManager[.user] = userDict
+    }
     return true
   }
   
@@ -89,9 +100,11 @@ extension UserDefaultsUserStorage: UserStorage {
       os_log("DEBUG: 사용자의 프로필이 저장되지 않았습니다.", log: OSLog.default, type: .error)
       return false
     }
-    user.profileURL = nil
-    let userDict = convertToDictionary(from: user)
-    UserDefaultsManager[.user] = userDict
+    backgroundQueue.async { [weak self] in
+      user.profileURL = nil
+      let userDict = self?.convertToDictionary(from: user)
+      UserDefaultsManager[.user] = userDict
+    }
     return true
   }
 }
