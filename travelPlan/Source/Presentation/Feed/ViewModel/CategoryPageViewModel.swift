@@ -22,7 +22,7 @@ final class CategoryPageViewModel {
       .init(cagtegoryTitle: $0.rawValue, imagePath: $0.imagePath)
     }
   
-  private lazy var postSearchFilterInfoList: [PostFilterInfo] = travelMainCategory.map {
+  private lazy var postCateogryList: [PostCategory] = travelMainCategory.map {
     .init(travelTheme: $0, travelOrder: .newest)
   }
 }
@@ -41,7 +41,7 @@ extension CategoryPageViewModel: CategoryPageViewDataSource {
     travelCategoryItems.count
   }
   
-  func postSearchFilterItem(at index: Int) -> PostFilterInfo {
-    return postSearchFilterInfoList[index]
+  func postSearchFilterItem(at index: Int) -> PostCategory {
+    return postCateogryList[index]
   }
 }

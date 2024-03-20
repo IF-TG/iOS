@@ -5,7 +5,7 @@
 //  Created by 양승현 on 2023/09/24.
 //
 
-struct PostFilterInfo {
+struct PostCategory {
   var travelTheme: TravelMainThemeType
   var travelOrder: TravelOrderType
 }

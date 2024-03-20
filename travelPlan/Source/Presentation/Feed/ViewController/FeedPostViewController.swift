@@ -46,7 +46,7 @@ final class FeedPostViewController: UIViewController {
   private let input = Input()
   
   // MARK: - Lifecycle
-  init(with filterInfo: PostFilterInfo, postDelegator: PostViewAdapterDelegate?) {
+  init(with filterInfo: PostCategory, postDelegator: PostViewAdapterDelegate?) {
     let viewModel = FeedPostViewModel(filterInfo: filterInfo, postUseCase: MockPostUseCase())
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
