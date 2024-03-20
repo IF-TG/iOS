@@ -16,15 +16,15 @@ final class FavoritePostViewModel: PostViewModel {
   // MARK: - Properties
   var posts: [PostInfo] = []
   
-  var thumbnails: [[String]] = []
+  var postDetailedThumbnails: [[String]] = []
   
   var perPage: Int32 = 10
   
-  var currentPage: Int32 = 0
+  var currentPage: Int32 = 1
   
   var nextPage: Int32 { hasMorePages ? currentPage + 1 : currentPage }
   
-  var totalPostsCount: Int32 = 0
+  var totalPostsCount: Int32 = 100
   
   var hasMorePages: Bool {
     let totalPageCount = totalPostsCount/perPage
@@ -41,7 +41,7 @@ final class FavoritePostViewModel: PostViewModel {
 
 // MARK: - PostDataSource
 extension FavoritePostViewModel {
-  func fetchPosts() -> AnyPublisher<[Post], any Error> {
+  func fetchPosts() -> AnyPublisher<[PostContainer], any Error> {
     Empty().eraseToAnyPublisher()
   }
 }
@@ -53,7 +53,7 @@ extension FavoritePostViewModel {
   }
   
   func numberOfThumbnailsInPost(at index: Int) -> PostThumbnailCountValue {
-    .init(thumbnails[index].count)
+    .init(posts[index].content.thumbnailURLs.count)
   }
   
   func postItem(at index: Int) -> PostInfo {
