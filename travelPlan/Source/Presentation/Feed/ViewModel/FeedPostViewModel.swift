@@ -65,6 +65,7 @@ private extension FeedPostViewModel {
         self?.nextPageLoadingStartSubject.send()
         return self?.fetchPosts()
           .map { [weak self] postContainers -> State in
+            self?.isPaging = false
             self?.appendPosts(postContainers)
             return .nextPage
           }.catch { error in
@@ -94,7 +95,8 @@ private extension FeedPostViewModel {
   }
   
   func nextPageLoadingStartSubjectStream() -> Output {
-    nextPageLoadingStartSubject.map { _ -> State in
+    nextPageLoadingStartSubject.map { [weak self] _ -> State in
+      self?.isPaging = true
       return .loadingNextPage
     }.eraseToAnyPublisher()
   }
