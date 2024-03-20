@@ -100,5 +100,6 @@ extension PostCollectionView {
     register(PostCellWithThreeThumbnails.self, forCellWithReuseIdentifier: PostCellWithThreeThumbnails.id)
     register(PostCellWithFourThumbnails.self, forCellWithReuseIdentifier: PostCellWithFourThumbnails.id)
     register(PostCellWithFiveThumbnails.self, forCellWithReuseIdentifier: PostCellWithFiveThumbnails.id)
+    register(BottomNextPageIndicatorCell.self, forCellWithReuseIdentifier: BottomNextPageIndicatorCell.identifier)
   }
 }
