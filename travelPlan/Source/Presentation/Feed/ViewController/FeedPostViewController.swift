@@ -15,9 +15,11 @@ struct FeedPostViewControllerInput {
 
 enum FeedPostViewControllerState {
   case refresh
-  case networkProcessing
+  case refreshingPage
   case nextPage
+  case loadingNextPage
   case unexpectedError(description: String)
+  case noMorePage
   case none
 }
 
@@ -42,7 +44,6 @@ final class FeedPostViewController: UIViewController {
   private let input = Input()
   
   // MARK: - Lifecycle
-  // 아.. 포스트 델리겡티터? 얘를통해서 FeedVC에서 postDetail 프레젠테이션해주네,, 이거말고 여기서 할수는 없나??
   // TODO: - 3.20.12시. 해야할것:  이제 스크롤할 때마다 20 maxCount 넘는경우 nextPage전달해줘야함.
   // 그리고 postCategory도 이거 VM내부에서 init시점에 받도록 리빌딩해야함. 포스트 딜리게이터도 여기 내부에서 처리해도 될듯?
   // 스크롤 시점에 스크롤 높이 측정해서 content scroll범위보다 큰지 파악 후 nextpage input날려야함.
@@ -104,19 +105,25 @@ extension FeedPostViewController: ViewBindCase {
   
   func render(_ state: FeedPostViewControllerState) {
     switch state {
-//    case .updatePosts:
-//      postView.reloadData()
+    case .refreshingPage:
+      // 컬랙션 뷰 위에 동작되는 인디케이터 시작
+      break
     case .refresh:
-      // stopIndicator()
+      // 컬랙션뷰 위에서 동작되는 인디케이터 스탑
       postView.reloadData()
-    case .networkProcessing:
-      // startIndicator()
+    case .loadingNextPage:
+      // 컬랙션 뷰 아래 동작되는 인디케이터 시작
       break
     case .nextPage:
+      // 컬랙션뷰 아래에서 동작되는 인디케이터 스탑
       postView.reloadData()
     case .unexpectedError(let description):
+      // 코디네이터에서 알림창 호출
       print("에러발생 :\(description)")
     case .none:
+      break
+    case .noMorePage:
+      // 아래서 작동되는 인디케이터 멈추기
       break
     }
   }
@@ -150,7 +157,7 @@ extension FeedPostViewController: PostViewAdapterDelegate {
   }
   
   func scrollToNextPage() {
-    
+    input.nextPage.send()
   }
 }
 
