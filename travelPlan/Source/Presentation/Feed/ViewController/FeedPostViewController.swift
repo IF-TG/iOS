@@ -46,13 +46,13 @@ final class FeedPostViewController: UIViewController {
   private let input = Input()
   
   // MARK: - Lifecycle
-  init(with filterInfo: PostCategory, postDelegator: PostViewAdapterDelegate?) {
+  init(with postCategory: PostCategory, postDelegator: PostViewAdapterDelegate?) {
     // TODO: - Coordinator로 빼야함
     let postUseCase = DefaultPostUseCase(postRepository: MockPostRepository())
-    let viewModel = FeedPostViewModel(filterInfo: filterInfo, postUseCase: postUseCase)
+    let viewModel = FeedPostViewModel(filterInfo: postCategory, postUseCase: postUseCase)
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
-    if filterInfo.travelTheme == .all {
+    if postCategory.mainTheme == .all {
       postViewAdapter = PostViewAdapter(dataSource: viewModel, delegate: postDelegator, collectionView: postView)
       return
     }

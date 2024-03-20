@@ -53,9 +53,9 @@ private extension FeedPostViewModel {
 // MARK: - PostDataSource
 extension FeedPostViewModel {
   func fetchPosts() -> AnyPublisher<[Post], any Error> {
-    let category = PostsPage.Category(
-      mainTheme: category.travelTheme,
-      orderBy: category.travelOrder)
+    let category = PostCategory(
+      mainTheme: category.mainTheme,
+      orderBy: category.orderBy)
     let postFetchRequestValue = PostFetchRequestValue(
       page: page,
       perPage: perPage,
@@ -73,7 +73,7 @@ extension FeedPostViewModel {
 // MARK: - FeedPostViewAdapterDataSource
 extension FeedPostViewModel: FeedPostViewAdapterDataSource {
   var headerItem: PostFilterOptions {
-    return .travelMainTheme(category.travelTheme)
+    return .travelMainTheme(category.mainTheme)
   }
   
   var numberOfItems: Int {

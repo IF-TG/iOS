@@ -23,7 +23,7 @@ final class CategoryPageViewModel {
     }
   
   private lazy var postCateogryList: [PostCategory] = travelMainCategory.map {
-    .init(travelTheme: $0, travelOrder: .newest)
+    .init(mainTheme: $0, orderBy: .newest)
   }
 }
 

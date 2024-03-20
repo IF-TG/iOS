@@ -19,7 +19,7 @@ final class DefaultPostRepository: PostRepository {
     self.service = service
   }
   
-  func fetchPosts(page: Int32, perPage: Int32, category: PostsPage.Category) -> Future<[PostContainer], Error> {
+  func fetchPosts(page: Int32, perPage: Int32, category: PostCategory) -> Future<[PostContainer], Error> {
     let travelOrder = TravelOrderTypeMapper.toDTO(category.orderBy)
     let travelMainCategory = TravelMainThemeTypeMapper.toMainCategoryDTO(category.mainTheme)
     let travelSubCategory = TravelMainThemeTypeMapper.toSubCategoryDTO(category.mainTheme)

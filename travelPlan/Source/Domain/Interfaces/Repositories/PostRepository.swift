@@ -8,5 +8,5 @@
 import Combine
 
 protocol PostRepository {
-  func fetchPosts(page: Int32, perPage: Int32, category: PostsPage.Category) -> Future<[PostContainer], Error>
+  func fetchPosts(page: Int32, perPage: Int32, category: PostCategory) -> Future<[PostContainer], Error>
 }

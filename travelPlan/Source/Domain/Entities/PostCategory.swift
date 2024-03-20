@@ -6,6 +6,6 @@
 //
 
 struct PostCategory {
-  var travelTheme: TravelMainThemeType
-  var travelOrder: TravelOrderType
+  let mainTheme: TravelMainThemeType
+  let orderBy: TravelOrderType
 }
