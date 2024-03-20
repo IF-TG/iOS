@@ -10,6 +10,10 @@ import UIKit
 class PostViewAdapter: NSObject {
   weak var dataSource: PostViewAdapterDataSource?
   weak var baseDelegate: PostViewAdapterDelegate?
+  
+  private var isPaging: Bool { dataSource?.isPaging ?? false }
+  private var hasMorePages: Bool { dataSource?.hasMorePages ?? false }
+  
   init(
     dataSource: PostViewAdapterDataSource? = nil,
     collectionView: UICollectionView?
@@ -24,32 +28,51 @@ class PostViewAdapter: NSObject {
 // MARK: - UICollectionViewDataSource
 extension PostViewAdapter: UICollectionViewDataSource {
   func numberOfSections(in collectionView: UICollectionView) -> Int {
-    return 2
+    return PostViewSection.count
   }
   
   func collectionView(
     _ collectionView: UICollectionView, 
     numberOfItemsInSection section: Int
   ) -> Int {
-    if section == 1, let numberOfItems = dataSource?.numberOfItems {
-      return numberOfItems
+    let postSection = PostViewSection(rawValue: section)
+    return switch postSection {
+    case .category:
+      0
+    case .post:
+      dataSource?.numberOfItems ?? 0
+    case .bottomRefresh:
+      isPaging && hasMorePages ? 1 : 0
+    default:
+      0
     }
-    return 0
   }
   
   func collectionView(
     _ collectionView: UICollectionView,
     cellForItemAt indexPath: IndexPath
   ) -> UICollectionViewCell {
-    guard
-      indexPath.section == 1,
-      let numberOfThumbnails = dataSource?.numberOfThumbnailsInPost(at: indexPath.row),
-      let postItem = dataSource?.postItem(at: indexPath.row) 
-    else { return .init(frame: .zero) }
-    let cell = makePostCell(collectionView, cellForItemAt: indexPath, with: numberOfThumbnails)
-    cell?.configure(with: postItem)
-    checkLastCell(cell, indexPath: indexPath)
-    return cell ?? .init(frame: .zero)
+    let postSection = PostViewSection(rawValue: indexPath.section)
+    if postSection == .post {
+      guard
+        let numberOfThumbnails = dataSource?.numberOfThumbnailsInPost(at: indexPath.row),
+        let postItem = dataSource?.postItem(at: indexPath.row)
+      else { return .init(frame: .zero) }
+      let cell = makePostCell(collectionView, cellForItemAt: indexPath, with: numberOfThumbnails)
+      cell?.configure(with: postItem)
+      checkLastCell(cell, indexPath: indexPath)
+      return cell ?? .init(frame: .zero)
+    }
+    if postSection == .bottomRefresh {
+      guard let cell = collectionView.dequeueReusableCell(
+        withReuseIdentifier: BottomNextPageIndicatorCell.identifier,
+        for: indexPath
+      ) as? BottomNextPageIndicatorCell else {
+        return .init(frame: .zero)
+      }
+      cell.startIndicator()
+    }
+    return .init(frame: .zero)
   }
   
   func scrollViewDidScroll(_ scrollView: UIScrollView) {
