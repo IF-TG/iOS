@@ -50,7 +50,9 @@ extension FeedPostViewModel: FeedPostViewModelable {
   func transform(_ input: Input) -> AnyPublisher<State, Never> {
     return Publishers.MergeMany([
       nextPageStream(input),
-      feedRefreshStream(input)]
+      feedRefreshStream(input),
+      nextPageLoadingStartSubjectStream(),
+      refreshingStartSubjectStream()]
     ).eraseToAnyPublisher()
   }
 }
@@ -93,6 +95,18 @@ private extension FeedPostViewModel {
             State.unexpectedError(description: "앱 동작 중 에러가 발생됬습니다.")
           ).eraseToAnyPublisher()
       }.eraseToAnyPublisher()
+  }
+  
+  func nextPageLoadingStartSubjectStream() -> Output {
+    nextPageLoadingStartSubject.map { _ -> State in
+      return .loadingNextPage
+    }.eraseToAnyPublisher()
+  }
+  
+  func refreshingStartSubjectStream() -> Output {
+    refreshingStartSubject.map { _ -> State in
+      return .refreshingPage
+    }.eraseToAnyPublisher()
   }
   
   func appendPosts(_ postContainers: [PostContainer]) {
