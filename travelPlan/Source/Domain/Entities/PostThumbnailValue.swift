@@ -38,8 +38,7 @@ import Foundation
     case 5:
       self = .five
     default:
-      self = .one
+      self = .five
     }
   }
 }
-
