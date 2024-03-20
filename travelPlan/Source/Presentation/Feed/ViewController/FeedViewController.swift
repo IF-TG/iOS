@@ -69,12 +69,12 @@ final class FeedViewController: UIViewController {
     configureUI()
   }
   
-  init(viewModel: any FeedViewModelable) {
+  init(viewModel: any FeedViewModelable, categoryPageViewModel: CategoryPageViewDataSource) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
     self.categoryPageView = CategoryPageView(
       frame: .zero,
-      viewModel: CategoryPageViewModel())
+      viewModel: categoryPageViewModel)
   }
   
   required init(coder: NSCoder) {
