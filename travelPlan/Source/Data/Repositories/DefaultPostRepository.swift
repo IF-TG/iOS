@@ -13,27 +13,27 @@ final class DefaultPostRepository: PostRepository {
   private let service: Sessionable
   typealias Endpoint = PostAPIEndpoint
   
-  private var subscriptions = Set<AnyCancellable>()
+  private var subscriptions = Set<AnyCancellable?>()
   
   init(service: Sessionable) {
     self.service = service
   }
   
-  func fetchPosts(with page: PostsPage) -> Future<[PostContainer], MainError> {
-    let travelOrder = TravelOrderTypeMapper.toDTO(page.category.orderBy)
-    let travelMainCategory = TravelMainThemeTypeMapper.toMainCategoryDTO(page.category.mainTheme)
-    let travelSubCategory = TravelMainThemeTypeMapper.toSubCategoryDTO(page.category.mainTheme)
+  func fetchPosts(page: Int32, perPage: Int32, category: PostsPage.Category) -> Future<[PostContainer], Error> {
+    let travelOrder = TravelOrderTypeMapper.toDTO(category.orderBy)
+    let travelMainCategory = TravelMainThemeTypeMapper.toMainCategoryDTO(category.mainTheme)
+    let travelSubCategory = TravelMainThemeTypeMapper.toSubCategoryDTO(category.mainTheme)
     // TODO: - 유저디폴츠같은 저장소에서 id가져와야 합니다.
     let requestDTO = PostsRequestDTO(
-      page: Int32(page.page),
-      perPage: Int32(page.perPage),
+      page: page,
+      perPage: perPage,
       orderMethod: travelOrder,
       mainCategory: travelMainCategory,
       subCategory: travelSubCategory,
       userId: 13)
     let endpoint = Endpoint.fetchPosts(with: requestDTO)
-    return .init { [unowned self] promise in
-      service.request(endpoint: endpoint)
+    return Future<[PostContainer], Error> { [weak self] promise in
+      let subscription = self?.service.request(endpoint: endpoint)
         .mapError { MainError.networkError($0) }
         .sink { completion in
           if case .failure(let error) = completion {
@@ -42,7 +42,8 @@ final class DefaultPostRepository: PostRepository {
         } receiveValue: { responseDTO in
           let postContainers = responseDTO.result.map { $0.toDomain() }
           promise(.success(postContainers))
-        }.store(in: &subscriptions)
+        }
+      self?.subscriptions.insert(subscription)
     }
   }
 }
