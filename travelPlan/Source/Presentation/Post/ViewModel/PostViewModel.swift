@@ -10,8 +10,8 @@ import Foundation
 
 protocol PostDataSource {
   var posts: [PostInfo] { get }
-  var page: Int { get }
-  var perPage: Int { get }
+  var page: Int32 { get }
+  var perPage: Int32 { get }
   
   func fetchPosts() -> AnyPublisher<Post, Error>
 }
