@@ -47,7 +47,9 @@ final class FeedPostViewController: UIViewController {
   
   // MARK: - Lifecycle
   init(with filterInfo: PostCategory, postDelegator: PostViewAdapterDelegate?) {
-    let viewModel = FeedPostViewModel(filterInfo: filterInfo, postUseCase: MockPostUseCase())
+    // TODO: - Coordinator로 빼야함
+    let postUseCase = DefaultPostUseCase(postRepository: MockPostRepository())
+    let viewModel = FeedPostViewModel(filterInfo: filterInfo, postUseCase: postUseCase)
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
     if filterInfo.travelTheme == .all {
