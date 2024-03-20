@@ -8,8 +8,8 @@
 import Combine
 
 struct PostFetchRequestValue {
-  let page: Int
-  let perPage: Int
+  let page: Int32
+  let perPage: Int32
   let category: Post.Category
 }
 
