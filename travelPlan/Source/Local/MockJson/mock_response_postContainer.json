@@ -2,7 +2,7 @@
   "result": [
     {
       "thumbnailUri": [
-        "tempThumbnail0", "tempThumbnail1", "tempThumbnail2"
+        "tempThumbnail3", "tempThumbnail1", "tempThumbnail2"
       ],
       "post": {
         "postId": 0,
@@ -13,7 +13,7 @@
         "endDate": "2024.03.09",
         "postImgUri": [
           {
-            "img": "tempThumbnail0",
+            "img": "tempThumbnail3",
             "sort": 0
           },
           {
