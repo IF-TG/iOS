@@ -7,6 +7,12 @@
 
 import Combine
 
+struct PostFetchRequestValue {
+  let page: Int
+  let perPage: Int
+  let category: Post.Category
+}
+
 protocol PostUseCase {  
-  func fetchPosts(with page: PostsPage) -> AnyPublisher<[PostContainer], Error>
+  func fetchPosts(with page: PostFetchRequestValue) -> AnyPublisher<[PostContainer], Error>
 }
