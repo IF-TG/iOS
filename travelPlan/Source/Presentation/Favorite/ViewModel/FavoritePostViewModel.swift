@@ -8,6 +8,7 @@
 import Foundation
 import Combine
 
+// TODO: - PostViewModel을 임시로 준수했습니다. 찜한 포스트를 불러오는 api를 구현 후 적용해야합니다.
 final class FavoritePostViewModel: PostViewModel {
   // MARK: - Dependencies
   let postUseCase: PostUseCase
