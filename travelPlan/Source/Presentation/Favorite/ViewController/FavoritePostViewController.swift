@@ -47,13 +47,14 @@ final class FavoritePostViewController: EmptyStateBasedContentViewController {
 // MARK: - Private Helpers
 private extension FavoritePostViewController {
   func bind() {
-    subscription = postViewModel.$posts
-      .receive(on: DispatchQueue.main)
-      .sink { [weak self] in
-        self?.hasItem.send($0.count == 0 ? false : true)
-        self?.postCollectionView.reloadData()
-        self?.postUpdatedHandler?($0.count)
-      }
+    // TODO: - Favorite posts fetch로직을 구현후 적용해야합니다.
+//    subscription = postViewModel.$posts
+//      .receive(on: DispatchQueue.main)
+//      .sink { [weak self] in
+//        self?.hasItem.send($0.count == 0 ? false : true)
+//        self?.postCollectionView.reloadData()
+//        self?.postUpdatedHandler?($0.count)
+//      }
   }
 }
 
