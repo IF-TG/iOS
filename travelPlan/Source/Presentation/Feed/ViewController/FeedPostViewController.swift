@@ -15,7 +15,6 @@ struct FeedPostViewControllerInput {
 
 enum FeedPostViewControllerState {
   case refresh
-  case refreshingPage
   case nextPage
   case loadingNextPage
   case unexpectedError(description: String)
@@ -40,6 +39,8 @@ final class FeedPostViewController: UIViewController {
       at: indexPath
     ) as? PostSortingAreaView
   }
+  
+  private let refresher = UIRefreshControl()
 
   private let input = Input()
   
@@ -97,6 +98,7 @@ extension FeedPostViewController: ViewBindCase {
   typealias State = FeedPostViewControllerState
   
   func bind() {
+    refresher.addTarget(self, action: #selector(refreshNotifications), for: .valueChanged)
     let output = viewModel.transform(input)
     subscription = output.receive(on: DispatchQueue.main).sink { [unowned self] state in
       render(state)
@@ -105,12 +107,9 @@ extension FeedPostViewController: ViewBindCase {
   
   func render(_ state: FeedPostViewControllerState) {
     switch state {
-    case .refreshingPage:
-      // 컬랙션 뷰 위에 동작되는 인디케이터 시작
-      break
     case .refresh:
-      // 컬랙션뷰 위에서 동작되는 인디케이터 스탑
       postView.reloadData()
+      refresher.endRefreshing()
     case .loadingNextPage:
       // 컬랙션 뷰 아래 동작되는 인디케이터 시작
       break
@@ -145,6 +144,13 @@ extension FeedPostViewController {
       $0.boundarySupplementaryItems = [headerElement]
     }
     postView.collectionViewLayout = postView.makeLayout(withCustomSection: tempSection)
+  }
+}
+
+// MARK: - Actions
+private extension FeedPostViewController {
+  @objc func refreshNotifications() {
+    input.feedRefresh.send()
   }
 }
 

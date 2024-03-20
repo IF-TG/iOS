@@ -36,8 +36,6 @@ class FeedPostViewModel: PostViewModel {
   
   private let nextPageLoadingStartSubject = PassthroughSubject<Void, Never>()
   
-  private let refreshingStartSubject = PassthroughSubject<Void, Never>()
-  
   // MARK: - Lifecycle
   init(postCategory: PostCategory, postUseCase: PostUseCase) {
     self.postUseCase = postUseCase
@@ -51,8 +49,7 @@ extension FeedPostViewModel: FeedPostViewModelable {
     return Publishers.MergeMany([
       nextPageStream(input),
       feedRefreshStream(input),
-      nextPageLoadingStartSubjectStream(),
-      refreshingStartSubjectStream()]
+      nextPageLoadingStartSubjectStream()]
     ).eraseToAnyPublisher()
   }
 }
@@ -84,7 +81,6 @@ private extension FeedPostViewModel {
     return input.nextPage
       .flatMap { [weak self] in
         self?.removeAllPage()
-        self?.refreshingStartSubject.send()
         return self?.fetchPosts()
           .map { postContainers -> State in
             self?.appendPosts(postContainers)
@@ -100,12 +96,6 @@ private extension FeedPostViewModel {
   func nextPageLoadingStartSubjectStream() -> Output {
     nextPageLoadingStartSubject.map { _ -> State in
       return .loadingNextPage
-    }.eraseToAnyPublisher()
-  }
-  
-  func refreshingStartSubjectStream() -> Output {
-    refreshingStartSubject.map { _ -> State in
-      return .refreshingPage
     }.eraseToAnyPublisher()
   }
   
