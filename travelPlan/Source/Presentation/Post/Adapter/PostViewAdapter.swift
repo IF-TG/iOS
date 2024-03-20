@@ -53,6 +53,17 @@ extension PostViewAdapter: UICollectionViewDataSource {
     checkLastCell(cell, indexPath: indexPath)
     return cell ?? .init(frame: .zero)
   }
+  
+  func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    let offsetY = scrollView.contentOffset.y
+    let contentHeight = scrollView.contentSize.height
+    let scrollViewHeight = scrollView.frame.height
+    let scrollableHeight = contentHeight - scrollViewHeight
+    
+    if offsetY > scrollableHeight {
+      baseDelegate?.scrollToNextPage()
+    }
+  }
 }
 
 // MARK: - Private helper
