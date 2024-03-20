@@ -18,9 +18,20 @@ final class FavoritePostViewModel: PostViewModel {
   
   var thumbnails: [[String]] = []
   
-  var page: Int32 = 0
-  
   var perPage: Int32 = 10
+  
+  var currentPage: Int32 = 0
+  
+  var nextPage: Int32 { hasMorePages ? currentPage + 1 : currentPage }
+  
+  var totalPostsCount: Int32 = 0
+  
+  var hasMorePages: Bool {
+    let totalPageCount = totalPostsCount/perPage
+    return currentPage < totalPageCount
+  }
+  
+  var isPaging: Bool = false
   
   // MARK: - Lifecycle
   init(postUseCase: PostUseCase) {
