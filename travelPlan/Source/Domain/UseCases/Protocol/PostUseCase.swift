@@ -10,7 +10,7 @@ import Combine
 struct PostFetchRequestValue {
   let page: Int32
   let perPage: Int32
-  let category: Post.Category
+  let category: PostsPage.Category
 }
 
 protocol PostUseCase {  
