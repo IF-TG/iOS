@@ -5,6 +5,7 @@
 //  Created by 양승현 on 3/8/24.
 //
 
+import Foundation
 import Combine
 
 final class DefaultPostUseCase: PostUseCase {
@@ -12,8 +13,6 @@ final class DefaultPostUseCase: PostUseCase {
   private let postRepository: PostRepository
   
   // MARK: - Properties
-  var postContainers = PassthroughSubject<[PostContainer], MainError>()
-  
   private var subscriptions = Set<AnyCancellable>()
   
   // MARK: - Lifecycle
@@ -21,14 +20,10 @@ final class DefaultPostUseCase: PostUseCase {
     self.postRepository = postRepository
   }
   
-  func fetchPosts(with page: PostsPage) {
+  func fetchPosts(with page: PostsPage) -> AnyPublisher<[PostContainer], any Error> {
     postRepository.fetchPosts(with: page)
-      .sink { [weak self] completion in
-        if case .failure(let error) = completion {
-          self?.postContainers.send(completion: .failure(error))
-        }
-      } receiveValue: { [weak self] result in
-        self?.postContainers.send(result)
-      }.store(in: &subscriptions)
+      .subscribe(on: DispatchQueue.global(qos: .userInteractive))
+      .mapError { $0 }
+      .eraseToAnyPublisher()
   }
 }
