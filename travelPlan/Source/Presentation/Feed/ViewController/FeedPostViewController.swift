@@ -108,10 +108,8 @@ extension FeedPostViewController: ViewBindCase {
       postView.reloadData()
       refresher.endRefreshing()
     case .loadingNextPage:
-      // 컬랙션 뷰 아래 동작되는 인디케이터 시작
-      break
+      postView.reloadSections(IndexSet(integer: PostViewSection.bottomRefresh.rawValue))
     case .nextPage:
-      // 컬랙션뷰 아래에서 동작되는 인디케이터 스탑
       postView.reloadData()
     case .unexpectedError(let description):
       // 코디네이터에서 알림창 호출
