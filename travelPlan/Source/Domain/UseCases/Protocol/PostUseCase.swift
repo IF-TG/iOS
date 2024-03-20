@@ -7,8 +7,6 @@
 
 import Combine
 
-protocol PostUseCase {
-  var postContainers: PassthroughSubject<[PostContainer], MainError> { get }
-  
-  func fetchPosts(with page: PostsPage)
+protocol PostUseCase {  
+  func fetchPosts(with page: PostsPage) -> AnyPublisher<[PostContainer], Error>
 }
