@@ -22,7 +22,7 @@ class FeedPostViewModel: PostViewModel {
   
   var isPaging: Bool = false
   
-  // TODO: - 서버한테 totalPostsCount나 totalPage 추가해야한다고해야합니다. 어느 페이지가 끝인지 알수없어서 무한 요청 갈수도 있음.
+  // FIXME: - 서버한테 전체 개수 요청했습니다. 추후에 responseDTO랑 전부 바꿔서 여기에 값 넣어야 합니다.
   var totalPostsCount: Int32 = 3
   
   var hasMorePages: Bool {
@@ -54,6 +54,11 @@ extension FeedPostViewModel: FeedPostViewModelable {
 // MARK: - Private Helpers
 private extension FeedPostViewModel {
   func nextPageStream(_ input: Input) -> Output {
+    if !hasMorePages {
+      return input.nextPage.map { _ -> State in
+        return .noMorePage
+      }.eraseToAnyPublisher()
+    }
     return input.nextPage
       .flatMap { [weak self] _ in
         return self?.fetchPosts()
