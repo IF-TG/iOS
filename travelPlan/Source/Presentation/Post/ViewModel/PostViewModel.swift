@@ -10,10 +10,11 @@ import Foundation
 
 protocol PostDataSource {
   var posts: [PostInfo] { get }
+  var thumbnails: [[String]] { get }
   var page: Int32 { get }
   var perPage: Int32 { get }
   
-  func fetchPosts() -> AnyPublisher<Post, Error>
+  func fetchPosts() -> AnyPublisher<[Post], Error>
 }
 
 typealias PostViewModel = PostDataSource & PostViewAdapterDataSource
