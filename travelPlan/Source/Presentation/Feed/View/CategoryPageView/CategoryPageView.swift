@@ -77,7 +77,13 @@ private extension CategoryPageView {
       if $0+1 == viewModel.numberOfItems {
         return DevelopmentViewController(nibName: nil, bundle: nil)
       }
-      return FeedPostViewController(with: feedCategory)
+      let postUseCase = DefaultPostUseCase(postRepository: MockPostRepository())
+      let viewModel = FeedPostViewModel(postCategory: feedCategory, postUseCase: postUseCase)
+      
+      return FeedPostViewController(
+        with: feedCategory,
+        viewModel: viewModel)
+      // TODO: - 코디네이터로 이동해보리어야함
     }
     setupUI()
   }
