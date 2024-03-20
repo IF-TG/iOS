@@ -10,18 +10,19 @@ import Combine
 
 struct FeedPostViewControllerInput {
   let viewDidLoad: PassthroughSubject<Void, Never> = .init()
+  let feedRefresh: PassthroughSubject<Void, Never> = .init()
+  let nextPage: PassthroughSubject<Void, Never> = .init()
 }
 
 enum FeedPostViewControllerState {
-  case updatePosts
+  case refresh
+  case networkProcessing
+  case nextPage
+  case unexpectedError(description: String)
   case none
 }
 
 final class FeedPostViewController: UIViewController {
-  enum Constant {
-    static let postViewSortingHeaderHeight: CGFloat = 36
-  }
-  
   // MARK: - Properties
   private let postView = PostCollectionView()
   
@@ -46,10 +47,11 @@ final class FeedPostViewController: UIViewController {
   private let input = Input()
   
   // MARK: - Lifecycle
+  // 아.. 포스트 델리겡티터? 얘를통해서 FeedVC에서 postDetail 프레젠테이션해주네,, 이거말고 여기서 할수는 없나??
   init(with postCategory: PostCategory, postDelegator: PostViewAdapterDelegate?) {
     // TODO: - Coordinator로 빼야함
     let postUseCase = DefaultPostUseCase(postRepository: MockPostRepository())
-    let viewModel = FeedPostViewModel(filterInfo: postCategory, postUseCase: postUseCase)
+    let viewModel = FeedPostViewModel(postCategory: postCategory, postUseCase: postUseCase)
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
     if postCategory.mainTheme == .all {
@@ -66,12 +68,7 @@ final class FeedPostViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    view.addSubview(postView)
-    NSLayoutConstraint.activate([
-      postView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-      postView.topAnchor.constraint(equalTo: view.topAnchor),
-      postView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-      postView.bottomAnchor.constraint(equalTo: view.bottomAnchor)])
+    setupUI()
     bind()
   }
   
@@ -121,7 +118,7 @@ extension FeedPostViewController {
   private func updatePostViewLayout() {
     let headerSize = NSCollectionLayoutSize(
       widthDimension: .fractionalWidth(1.0),
-      heightDimension: .estimated(Constant.postViewSortingHeaderHeight))
+      heightDimension: .estimated(36))
     let headerElement = NSCollectionLayoutBoundarySupplementaryItem(
       layoutSize: headerSize,
       elementKind: UICollectionView.elementKindSectionHeader,
@@ -130,5 +127,20 @@ extension FeedPostViewController {
       $0.boundarySupplementaryItems = [headerElement]
     }
     postView.collectionViewLayout = postView.makeLayout(withCustomSection: tempSection)
+  }
+}
+
+// MARK: - LayoutSupport
+extension FeedPostViewController: LayoutSupport {
+  func addSubviews() {
+    view.addSubview(postView)
+  }
+  
+  func setConstraints() {
+    NSLayoutConstraint.activate([
+      postView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+      postView.topAnchor.constraint(equalTo: view.topAnchor),
+      postView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+      postView.bottomAnchor.constraint(equalTo: view.bottomAnchor)])
   }
 }
