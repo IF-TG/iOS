@@ -10,7 +10,7 @@ import Foundation
 
 protocol PostDataSource {
   var posts: [PostInfo] { get }
-  var thumbnails: [[String]] { get }
+  var postDetailedThumbnails: [[String]] { get }
   var currentPage: Int32 { get }
   var nextPage: Int32 { get }
   var totalPostsCount: Int32 { get }
@@ -18,7 +18,7 @@ protocol PostDataSource {
   var perPage: Int32 { get }
   var isPaging: Bool { get }
   
-  func fetchPosts() -> AnyPublisher<[Post], Error>
+  func fetchPosts() -> AnyPublisher<[PostContainer], Error>
 }
 
 typealias PostViewModel = PostDataSource & PostViewAdapterDataSource
