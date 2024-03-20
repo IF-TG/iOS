@@ -72,7 +72,9 @@ final class FeedViewController: UIViewController {
   init(viewModel: any FeedViewModelable) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
-    self.categoryPageView = CategoryPageView(frame: .zero, viewModel: CategoryPageViewModel(), postDelegator: self)
+    self.categoryPageView = CategoryPageView(
+      frame: .zero,
+      viewModel: CategoryPageViewModel())
   }
   
   required init(coder: NSCoder) {
@@ -210,13 +212,6 @@ extension FeedViewController: ViewBindCase {
     case .none:
       break
     }
-  }
-}
-
-// MARK: - FeedPostViewAdapterDelegate
-extension FeedViewController: PostViewAdapterDelegate {
-  func didTapPost(with postId: Int) {
-    coordinator?.showPostDetailPage()
   }
 }
 

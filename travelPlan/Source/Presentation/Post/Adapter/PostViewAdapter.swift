@@ -12,12 +12,10 @@ class PostViewAdapter: NSObject {
   weak var baseDelegate: PostViewAdapterDelegate?
   init(
     dataSource: PostViewAdapterDataSource? = nil,
-    delegate: PostViewAdapterDelegate? = nil,
     collectionView: UICollectionView?
   ) {
     super.init()
     self.dataSource = dataSource
-    self.baseDelegate = delegate
     collectionView?.dataSource = self
     collectionView?.delegate = self
   }

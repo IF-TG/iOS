@@ -34,7 +34,6 @@ final class FavoritePostViewController: EmptyStateBasedContentViewController {
       emptyState: .emptyTravelPost)
     postAdapter = FavoritePostViewAdapter(
       dataSource: postViewModel,
-      delegate: self,
       collectionView: postCollectionView)
     bind()
   }
@@ -60,6 +59,10 @@ private extension FavoritePostViewController {
 
 // MARK: - FavoritePostViewAdapterDelegate
 extension FavoritePostViewController: FavoritePostViewAdapterDelegate {
+  func scrollToNextPage() {
+    // TODO: - 서버에게 다음 페이지 호출로직 ..
+  }
+  
   func didTapPost(with postId: Int) {
     print("특정 포스트 상세 화면으로 이동")
   }
