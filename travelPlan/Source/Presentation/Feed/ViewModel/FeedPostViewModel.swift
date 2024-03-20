@@ -10,15 +10,22 @@ import Combine
 
 class FeedPostViewModel: PostViewModel {
   // MARK: - Properties
-  private let filterInfo: PostFilterInfo
+  var page: Int32 = 0
   
-  private let postUseCase: TempPostUseCase
+  let perPage: Int32 = 10
+  
+  var posts: [PostInfo] = []
+  
+  var thumbnails: [[String]] = []
+  
+  private let category: PostCategory
+  
+  private let postUseCase: PostUseCase
   
   // MARK: - Lifecycle
-  init(filterInfo: PostFilterInfo, postUseCase: TempPostUseCase) {
+  init(filterInfo: PostCategory, postUseCase: PostUseCase) {
     self.postUseCase = postUseCase
-    self.filterInfo = filterInfo
-    super.init(postUseCase: postUseCase)
+    self.category = filterInfo
   }
 }
 
@@ -39,13 +46,45 @@ private extension FeedPostViewModel {
       .eraseToAnyPublisher()
   }
   func postsStream() -> Output {
-    return $posts.map { _ in .updatePosts }.eraseToAnyPublisher()
+    return Just(State.none).eraseToAnyPublisher()
+  }
+}
+
+// MARK: - PostDataSource
+extension FeedPostViewModel {
+  func fetchPosts() -> AnyPublisher<[Post], any Error> {
+    let category = PostsPage.Category(
+      mainTheme: category.travelTheme,
+      orderBy: category.travelOrder)
+    let postFetchRequestValue = PostFetchRequestValue(
+      page: page,
+      perPage: perPage,
+      category: category)
+    return postUseCase.fetchPosts(with: postFetchRequestValue)
+      .map { postContainers in
+        postContainers.map { [weak self] postContainer in
+          self?.thumbnails.append(postContainer.thumbnails)
+          return postContainer.post
+        }
+      }.eraseToAnyPublisher()
   }
 }
 
 // MARK: - FeedPostViewAdapterDataSource
 extension FeedPostViewModel: FeedPostViewAdapterDataSource {
   var headerItem: PostFilterOptions {
-    return .travelMainTheme(filterInfo.travelTheme)
+    return .travelMainTheme(category.travelTheme)
+  }
+  
+  var numberOfItems: Int {
+    posts.count
+  }
+  
+  func numberOfThumbnailsInPost(at index: Int) -> PostThumbnailCountValue {
+    return PostThumbnailCountValue(postItem(at: index).content.thumbnailURLs.count)
+  }
+  
+  func postItem(at index: Int) -> PostInfo {
+    return posts[index]
   }
 }
