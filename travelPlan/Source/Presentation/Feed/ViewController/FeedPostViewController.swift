@@ -45,9 +45,6 @@ final class FeedPostViewController: UIViewController {
   private let input = Input()
   
   // MARK: - Lifecycle
-  // TODO: - 3.20.12시. 해야할것:  이제 스크롤할 때마다 20 maxCount 넘는경우 nextPage전달해줘야함.
-  // 그리고 postCategory도 이거 VM내부에서 init시점에 받도록 리빌딩해야함. 포스트 딜리게이터도 여기 내부에서 처리해도 될듯?
-  // 스크롤 시점에 스크롤 높이 측정해서 content scroll범위보다 큰지 파악 후 nextpage input날려야함.
   init(
     with feedCategory: PostCategory,
     viewModel: any FeedPostViewModelable & FeedPostViewAdapterDataSource
