@@ -117,7 +117,6 @@ extension FeedPostViewController: ViewBindCase {
     case .none:
       break
     case .noMorePage:
-      // 아래서 작동되는 인디케이터 멈추기
       break
     }
   }
