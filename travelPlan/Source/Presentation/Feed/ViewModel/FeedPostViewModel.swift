@@ -22,7 +22,7 @@ class FeedPostViewModel: PostViewModel {
   
   var isPaging: Bool = false
   
-  // TODO: - 서버한테 totalPostsCount나 totalPage추가해야한다고해야함. 어느페이지가 끝인지 알수없어서 무한 요청 갈수도 있음.
+  // TODO: - 서버한테 totalPostsCount나 totalPage 추가해야한다고해야합니다. 어느 페이지가 끝인지 알수없어서 무한 요청 갈수도 있음.
   var totalPostsCount: Int32 = 3
   
   var hasMorePages: Bool {
@@ -38,34 +38,6 @@ class FeedPostViewModel: PostViewModel {
   init(postCategory: PostCategory, postUseCase: PostUseCase) {
     self.postUseCase = postUseCase
     self.category = postCategory
-  }
-}
-
-struct PostMapper {
-  static func toPostInfo(_ post: Post, thumbnails: [String]) -> PostInfo {
-    // TODO: - 서버에서 tripDate어떻게주는지 알아야함
-    let postHeaderContentBottomInfo = PostHeaderContentBottomInfo(
-      userName: post.author.nickname,
-      duration: "\(post.detail.tripDate.start) ~ \(post.detail.tripDate.end)",
-      yearMonthDayRange: "3일")
-    let postHeaderContentInfo = PostHeaderContentInfo(
-      title: post.detail.title,
-      bottomViewInfo: postHeaderContentBottomInfo)
-    let postHeaderInfo = PostHeaderInfo(
-      imageURL: post.author.profileUri,
-      contentInfo: postHeaderContentInfo)
-    let postContentInfo = PostContentInfo(
-      text: post.detail.content,
-      thumbnailURLs: thumbnails)
-    let postFooterInfo = PostFooterInfo(
-      heartCount: String(post.detail.likes),
-      heartState: post.liked,
-      commentCount: String(post.detail.comments))
-    return PostInfo(
-      postId: Int(post.detail.postID),
-      header: postHeaderInfo,
-      content: postContentInfo,
-      footer: postFooterInfo)
   }
 }
 
@@ -104,7 +76,7 @@ private extension FeedPostViewModel {
         return self?.fetchPosts()
           .map { postContainers -> State in
             self?.appendPosts(postContainers)
-            return .nextPage
+            return .refresh
           }.catch { error in
             return Just(State.unexpectedError(description: error.localizedDescription))
           }.eraseToAnyPublisher() ?? Just(
