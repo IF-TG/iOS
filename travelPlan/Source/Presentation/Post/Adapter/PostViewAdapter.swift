@@ -100,25 +100,25 @@ private extension PostViewAdapter {
     cellForItemAt indexPath: IndexPath,
     with numberOfThumbnails: PostThumbnailCountValue
   ) -> (any UICollectionViewCell & PostCellConfigurable & PostCellEdgeDividable)? {
-    switch numberOfThumbnails {
+    return switch numberOfThumbnails {
     case .one:
-      return collectionView.dequeueReusableCell(
+      collectionView.dequeueReusableCell(
         withReuseIdentifier: PostCellWithOneThumbnail.id, for: indexPath
       ) as? PostCellWithOneThumbnail
     case .two:
-      return collectionView.dequeueReusableCell(
+      collectionView.dequeueReusableCell(
         withReuseIdentifier: PostCellWithTwoThumbnails.id, for: indexPath
       ) as? PostCellWithTwoThumbnails
     case .three:
-      return collectionView.dequeueReusableCell(
+      collectionView.dequeueReusableCell(
         withReuseIdentifier: PostCellWithThreeThumbnails.id, for: indexPath
       ) as? PostCellWithThreeThumbnails
     case .four:
-      return collectionView.dequeueReusableCell(
+      collectionView.dequeueReusableCell(
         withReuseIdentifier: PostCellWithFourThumbnails.id, for: indexPath
       ) as? PostCellWithFourThumbnails
     case .five:
-      return collectionView.dequeueReusableCell(
+      collectionView.dequeueReusableCell(
         withReuseIdentifier: PostCellWithFiveThumbnails.id, for: indexPath
       ) as? PostCellWithFiveThumbnails
     }
