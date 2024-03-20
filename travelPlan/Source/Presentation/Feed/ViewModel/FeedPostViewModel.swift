@@ -34,6 +34,10 @@ class FeedPostViewModel: PostViewModel {
   
   private let postUseCase: PostUseCase
   
+  private let nextPageLoadingStartSubject = PassthroughSubject<Void, Never>()
+  
+  private let refreshingStartSubject = PassthroughSubject<Void, Never>()
+  
   // MARK: - Lifecycle
   init(postCategory: PostCategory, postUseCase: PostUseCase) {
     self.postUseCase = postUseCase
@@ -54,13 +58,12 @@ extension FeedPostViewModel: FeedPostViewModelable {
 // MARK: - Private Helpers
 private extension FeedPostViewModel {
   func nextPageStream(_ input: Input) -> Output {
-    if !hasMorePages {
-      return input.nextPage.map { _ -> State in
-        return .noMorePage
-      }.eraseToAnyPublisher()
-    }
     return input.nextPage
-      .flatMap { [weak self] _ in
+      .flatMap { [weak self] in
+        if let hasMorePages = self?.hasMorePages, !hasMorePages {
+          return Just(State.noMorePage).eraseToAnyPublisher()
+        }
+        self?.nextPageLoadingStartSubject.send()
         return self?.fetchPosts()
           .map { [weak self] postContainers -> State in
             self?.appendPosts(postContainers)
@@ -71,13 +74,15 @@ private extension FeedPostViewModel {
           }.eraseToAnyPublisher() ?? Just(
             State.unexpectedError(description: "앱 동작 에러가 발생됬습니다.")
           ).eraseToAnyPublisher()
-      }.eraseToAnyPublisher()
+      }
+      .eraseToAnyPublisher()
   }
   
   func feedRefreshStream(_ input: Input) -> Output {
     return input.nextPage
       .flatMap { [weak self] in
         self?.removeAllPage()
+        self?.refreshingStartSubject.send()
         return self?.fetchPosts()
           .map { postContainers -> State in
             self?.appendPosts(postContainers)
