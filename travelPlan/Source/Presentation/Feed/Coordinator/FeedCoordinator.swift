@@ -15,7 +15,6 @@ protocol FeedCoordinatorDelegate: FlowCoordinatorDelegate {
   func showPostMainThemeFilteringBottomSheet(sortingType: TravelMainThemeType)
   func showPostOrderFilteringBottomSheet()
   func showReviewWrite()
-  func showPostDetailPage()
 }
 
 final class FeedCoordinator: FlowCoordinator {
@@ -43,11 +42,7 @@ final class FeedCoordinator: FlowCoordinator {
 }
 
 // MARK: - FeedCoordinatorDelegate
-extension FeedCoordinator: FeedCoordinatorDelegate {
-  func showPostDetailPage() {
-    presenter?.pushViewController(PostDetailViewController(viewModel: PostDetailViewModel()), animated: true)
-  }
-  
+extension FeedCoordinator: FeedCoordinatorDelegate {  
   func showPostSearch() {
     let childCoordinator = PostSearchCoordinator(presenter: presenter)
     addChild(with: childCoordinator)
