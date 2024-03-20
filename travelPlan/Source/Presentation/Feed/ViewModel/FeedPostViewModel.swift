@@ -10,22 +10,62 @@ import Combine
 
 class FeedPostViewModel: PostViewModel {
   // MARK: - Properties
-  var page: Int32 = 0
+  var currentPage: Int32 = 1
+  
+  var nextPage: Int32 { hasMorePages ? currentPage + 1 : currentPage }
   
   let perPage: Int32 = 10
   
   var posts: [PostInfo] = []
   
-  var thumbnails: [[String]] = []
+  var postDetailedThumbnails: [[String]] = []
+  
+  var isPaging: Bool = false
+  
+  // TODO: - 서버한테 totalPostsCount나 totalPage추가해야한다고해야함. 어느페이지가 끝인지 알수없어서 무한 요청 갈수도 있음.
+  var totalPostsCount: Int32 = 3
+  
+  var hasMorePages: Bool {
+    let totalPageCount = totalPostsCount/perPage
+    return currentPage < totalPageCount
+  }
   
   private let category: PostCategory
   
   private let postUseCase: PostUseCase
   
   // MARK: - Lifecycle
-  init(filterInfo: PostCategory, postUseCase: PostUseCase) {
+  init(postCategory: PostCategory, postUseCase: PostUseCase) {
     self.postUseCase = postUseCase
-    self.category = filterInfo
+    self.category = postCategory
+  }
+}
+
+struct PostMapper {
+  static func toPostInfo(_ post: Post, thumbnails: [String]) -> PostInfo {
+    // TODO: - 서버에서 tripDate어떻게주는지 알아야함
+    let postHeaderContentBottomInfo = PostHeaderContentBottomInfo(
+      userName: post.author.nickname,
+      duration: "\(post.detail.tripDate.start) ~ \(post.detail.tripDate.end)",
+      yearMonthDayRange: "3일")
+    let postHeaderContentInfo = PostHeaderContentInfo(
+      title: post.detail.title,
+      bottomViewInfo: postHeaderContentBottomInfo)
+    let postHeaderInfo = PostHeaderInfo(
+      imageURL: post.author.profileUri,
+      contentInfo: postHeaderContentInfo)
+    let postContentInfo = PostContentInfo(
+      text: post.detail.content,
+      thumbnailURLs: thumbnails)
+    let postFooterInfo = PostFooterInfo(
+      heartCount: String(post.detail.likes),
+      heartState: post.liked,
+      commentCount: String(post.detail.comments))
+    return PostInfo(
+      postId: Int(post.detail.postID),
+      header: postHeaderInfo,
+      content: postContentInfo,
+      footer: postFooterInfo)
   }
 }
 
@@ -33,40 +73,81 @@ class FeedPostViewModel: PostViewModel {
 extension FeedPostViewModel: FeedPostViewModelable {
   func transform(_ input: Input) -> AnyPublisher<State, Never> {
     return Publishers.MergeMany([
-      viewDidLoadStream(input),
-      postsStream()]
+      nextPageStream(input),
+      feedRefreshStream(input)]
     ).eraseToAnyPublisher()
   }
 }
 
+// MARK: - Private Helpers
 private extension FeedPostViewModel {
-  func viewDidLoadStream(_ input: Input) -> Output {
-    return input.viewDidLoad
-      .map {_ in return .none }
-      .eraseToAnyPublisher()
+  func nextPageStream(_ input: Input) -> Output {
+    return input.nextPage
+      .flatMap { [weak self] _ in
+        return self?.fetchPosts()
+          .map { [weak self] postContainers -> State in
+            self?.appendPosts(postContainers)
+            return .nextPage
+          }.catch { error in
+            // TODO: - 에러는 어떻게 처리할까? 경우를 따져보자. 레포, 유즈케이스 에러.... .. 레포가 다른데서도 사용된다면? 어느에러를 던져야지?
+            return Just(State.unexpectedError(description: error.localizedDescription))
+          }.eraseToAnyPublisher() ?? Just(
+            State.unexpectedError(description: "앱 동작 에러가 발생됬습니다.")
+          ).eraseToAnyPublisher()
+      }.eraseToAnyPublisher()
   }
-  func postsStream() -> Output {
-    return Just(State.none).eraseToAnyPublisher()
+  
+  func feedRefreshStream(_ input: Input) -> Output {
+    return input.nextPage
+      .flatMap { [weak self] in
+        self?.removeAllPage()
+        return self?.fetchPosts()
+          .map { postContainers -> State in
+            self?.appendPosts(postContainers)
+            return .nextPage
+          }.catch { error in
+            return Just(State.unexpectedError(description: error.localizedDescription))
+          }.eraseToAnyPublisher() ?? Just(
+            State.unexpectedError(description: "앱 동작 중 에러가 발생됬습니다.")
+          ).eraseToAnyPublisher()
+      }.eraseToAnyPublisher()
+  }
+  
+  func appendPosts(_ postContainers: [PostContainer]) {
+    let loadedPosts = postContainers.map { postContainer in
+      return PostMapper.toPostInfo(postContainer.post, thumbnails: postContainer.thumbnails)
+    }
+    posts.append(contentsOf: loadedPosts)
+  }
+  
+  func removeAllPage() {
+    currentPage = 1
+    posts.removeAll()
+    postDetailedThumbnails.removeAll()
   }
 }
 
 // MARK: - PostDataSource
 extension FeedPostViewModel {
-  func fetchPosts() -> AnyPublisher<[Post], any Error> {
+  // 이를 호출할때 hasMorePages가 false라면 에러 던지자. 더이상 페이지 없다고
+  func fetchPosts() -> AnyPublisher<[PostContainer], any Error> {
     let category = PostCategory(
       mainTheme: category.mainTheme,
       orderBy: category.orderBy)
     let postFetchRequestValue = PostFetchRequestValue(
-      page: page,
+      page: nextPage,
       perPage: perPage,
       category: category)
     return postUseCase.fetchPosts(with: postFetchRequestValue)
-      .map { postContainers in
-        postContainers.map { [weak self] postContainer in
-          self?.thumbnails.append(postContainer.thumbnails)
-          return postContainer.post
+      .map { [weak self] postContainers in
+        postContainers.forEach { postContainer in
+          self?.postDetailedThumbnails.append(postContainer.post.detail.postImages.map { $0.imageUri })
         }
-      }.eraseToAnyPublisher()
+        self?.currentPage += 1
+        self?.isPaging = false
+        return postContainers
+      }
+      .eraseToAnyPublisher()
   }
 }
 
