@@ -82,8 +82,9 @@ private extension FeedPostViewModel {
         return self?.fetchPosts()
           .delay(for: .seconds(3), scheduler: DispatchQueue.global(qos: .background))
           .map { [weak self] _ -> State in
-            self?.isPaging = false
-            return .nextPage
+            return .nextPage {
+              self?.isPaging = false
+            }
           }.catch { error in
             // TODO: - 에러는 어떻게 처리할까? 경우를 따져보자. 레포, 유즈케이스 에러.... .. 레포가 다른데서도 사용된다면? 어느에러를 던져야지?
             return Just(State.unexpectedError(description: error.localizedDescription))
@@ -150,7 +151,6 @@ extension FeedPostViewModel {
           self?.postDetailedThumbnails.append(postContainer.post.detail.postImages.map { $0.imageUri })
         }
         self?.currentPage += 1
-        self?.isPaging = false
         self?.totalPostsCount = Int32(postContainers.first?.totalPosts ?? 1)
         self?.appendPosts(postContainers)
         return postContainers

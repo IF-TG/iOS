@@ -17,7 +17,7 @@ struct FeedPostViewControllerInput {
 enum FeedPostViewControllerState {
   case viewDidLoad
   case refresh
-  case nextPage
+  case nextPage(reloadCompletion: ()->Void)
   case loadingNextPage
   case unexpectedError(description: String)
   case noMorePage
@@ -112,8 +112,9 @@ extension FeedPostViewController: ViewBindCase {
       refresher.endRefreshing()
     case .loadingNextPage:
       postView.reloadSections(IndexSet(integer: PostViewSection.bottomRefresh.rawValue))
-    case .nextPage:
+    case .nextPage(let completion):
       postView.reloadData()
+      completion()
     case .unexpectedError(let description):
       // 코디네이터에서 알림창 호출
       print("에러발생 :\(description)")
