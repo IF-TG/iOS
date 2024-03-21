@@ -50,11 +50,14 @@ class PostCollectionView: UICollectionView {
 extension PostCollectionView {
   func makeLayout(withCustomSection customSection: NSCollectionLayoutSection? = nil) -> UICollectionViewLayout {
     return UICollectionViewCompositionalLayout { [weak self] (sectionIndex, _) -> NSCollectionLayoutSection? in
-      switch sectionIndex {
-      case 0:
+      let section = PostViewSection(rawValue: sectionIndex)
+      switch section {
+      case .category:
         return customSection ?? self?.tempSection
-      case 1:
+      case .post:
         return self?.postSection
+      case .bottomRefresh:
+        return self?.refreshSection
       default:
         return nil
       }
@@ -70,6 +73,15 @@ extension PostCollectionView {
     let group = NSCollectionLayoutGroup.vertical(
       layoutSize: .init(widthDimension: .absolute(1), heightDimension: .absolute(0.1)),
       subitems: [item])
+    return NSCollectionLayoutSection(group: group)
+  }
+  
+  var refreshSection: NSCollectionLayoutSection {
+    let size = NSCollectionLayoutSize(
+      widthDimension: .fractionalWidth(1),
+      heightDimension: .estimated(45))
+    let item = NSCollectionLayoutItem(layoutSize: size)
+    let group = NSCollectionLayoutGroup.vertical(layoutSize: size, subitems: [item])
     return NSCollectionLayoutSection(group: group)
   }
   
@@ -100,6 +112,7 @@ extension PostCollectionView {
     register(PostCellWithThreeThumbnails.self, forCellWithReuseIdentifier: PostCellWithThreeThumbnails.id)
     register(PostCellWithFourThumbnails.self, forCellWithReuseIdentifier: PostCellWithFourThumbnails.id)
     register(PostCellWithFiveThumbnails.self, forCellWithReuseIdentifier: PostCellWithFiveThumbnails.id)
-    register(BottomNextPageIndicatorCell.self, forCellWithReuseIdentifier: BottomNextPageIndicatorCell.identifier)
+    let nextPageCellNib = UINib(nibName: "BottomNextPageIndicatorCell", bundle: nil)
+    register(nextPageCellNib, forCellWithReuseIdentifier: BottomNextPageIndicatorCell.identifier)
   }
 }
