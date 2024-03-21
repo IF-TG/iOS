@@ -11,9 +11,11 @@ import Combine
 struct FeedPostViewControllerInput {
   let feedRefresh: PassthroughSubject<Void, Never> = .init()
   let nextPage: PassthroughSubject<Void, Never> = .init()
+  let viewDidLoad: PassthroughSubject<Void, Never> = .init()
 }
 
 enum FeedPostViewControllerState {
+  case viewDidLoad
   case refresh
   case nextPage
   case loadingNextPage
@@ -51,6 +53,7 @@ final class FeedPostViewController: UIViewController {
   ) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
+    postView.refreshControl = refresher
     if feedCategory.mainTheme == .all {
       postViewAdapter = PostViewAdapter(dataSource: viewModel, collectionView: postView)
       postViewAdapter?.baseDelegate = self
@@ -69,7 +72,7 @@ final class FeedPostViewController: UIViewController {
     super.viewDidLoad()
     setupUI()
     bind()
-    input.nextPage.send()
+    input.viewDidLoad.send()
   }
   
   required init?(coder: NSCoder) {
@@ -117,7 +120,9 @@ extension FeedPostViewController: ViewBindCase {
     case .none:
       break
     case .noMorePage:
-      break
+      print("noMorePage")
+    case .viewDidLoad:
+      postView.reloadData()
     }
   }
   
