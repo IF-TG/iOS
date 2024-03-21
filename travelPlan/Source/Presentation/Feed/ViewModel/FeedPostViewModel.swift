@@ -22,6 +22,8 @@ class FeedPostViewModel: PostViewModel {
   
   var isPaging: Bool = false
   
+  var isRefreshing: Bool = false
+  
   // FIXME: - 서버한테 전체 개수 요청했습니다. 추후에 responseDTO랑 전부 바꿔서 여기에 값 넣어야 합니다.
   var totalPostsCount: Int32 = 0
   
@@ -95,7 +97,7 @@ private extension FeedPostViewModel {
   func feedRefreshStream(_ input: Input) -> Output {
     return input.feedRefresh
       .flatMap { [weak self] in
-        self?.removeAllPage()
+        self?.isRefreshing = true
         return self?.fetchPosts()
           .map { _ -> State in
             return .refresh
@@ -140,6 +142,10 @@ extension FeedPostViewModel {
       category: category)
     return postUseCase.fetchPosts(with: postFetchRequestValue)
       .map { [weak self] postContainers in
+        if self?.isRefreshing == true {
+          self?.removeAllPage()
+          self?.isRefreshing = false
+        }
         postContainers.forEach { postContainer in
           self?.postDetailedThumbnails.append(postContainer.post.detail.postImages.map { $0.imageUri })
         }
