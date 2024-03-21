@@ -48,7 +48,7 @@ final class FeedPostViewController: UIViewController {
   
   // MARK: - Lifecycle
   init(
-    with feedCategory: PostCategory,
+    type feedCategory: PostCategory,
     viewModel: any FeedPostViewModelable & FeedPostViewAdapterDataSource
   ) {
     self.viewModel = viewModel
