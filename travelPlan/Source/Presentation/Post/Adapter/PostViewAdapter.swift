@@ -54,8 +54,7 @@ extension PostViewAdapter: UICollectionViewDataSource {
   ) -> UICollectionViewCell {
     let postSection = PostViewSection(rawValue: indexPath.section)
     if postSection == .post {
-      guard
-        let numberOfThumbnails = dataSource?.numberOfThumbnailsInPost(at: indexPath.row),
+      guard let numberOfThumbnails = dataSource?.numberOfThumbnailsInPost(at: indexPath.row),
         let postItem = dataSource?.postItem(at: indexPath.row)
       else { return .init(frame: .zero) }
       let cell = makePostCell(collectionView, cellForItemAt: indexPath, with: numberOfThumbnails)
@@ -71,6 +70,7 @@ extension PostViewAdapter: UICollectionViewDataSource {
         return .init(frame: .zero)
       }
       cell.startIndicator()
+      return cell
     }
     return .init(frame: .zero)
   }
@@ -80,8 +80,9 @@ extension PostViewAdapter: UICollectionViewDataSource {
     let contentHeight = scrollView.contentSize.height
     let scrollViewHeight = scrollView.frame.height
     let scrollableHeight = contentHeight - scrollViewHeight
-    
-    if offsetY > scrollableHeight {
+    let doesTheUserWantToGoToTheNextPage = offsetY > scrollableHeight
+    let isTheNextPageAvailable = !isPaging && dataSource?.hasMorePages ?? false
+    if doesTheUserWantToGoToTheNextPage && isTheNextPageAvailable {
       baseDelegate?.scrollToNextPage()
     }
   }
