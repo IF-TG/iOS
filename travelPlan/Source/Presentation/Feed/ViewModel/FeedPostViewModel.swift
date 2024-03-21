@@ -10,11 +10,11 @@ import Combine
 
 class FeedPostViewModel: PostViewModel {
   // MARK: - Properties
-  var currentPage: Int32 = 1
+  var currentPage: Int32 = 0
   
   var nextPage: Int32 { hasMorePages ? currentPage + 1 : currentPage }
   
-  let perPage: Int32 = 10
+  let perPage: Int32 = 5
   
   var posts: [PostInfo] = []
   
@@ -23,7 +23,7 @@ class FeedPostViewModel: PostViewModel {
   var isPaging: Bool = false
   
   // FIXME: - 서버한테 전체 개수 요청했습니다. 추후에 responseDTO랑 전부 바꿔서 여기에 값 넣어야 합니다.
-  var totalPostsCount: Int32 = 3
+  var totalPostsCount: Int32 = 0
   
   var hasMorePages: Bool {
     let totalPageCount = totalPostsCount/perPage
@@ -47,6 +47,7 @@ class FeedPostViewModel: PostViewModel {
 extension FeedPostViewModel: FeedPostViewModelable {
   func transform(_ input: Input) -> AnyPublisher<State, Never> {
     return Publishers.MergeMany([
+      viewDidLoadStream(input),
       nextPageStream(input),
       feedRefreshStream(input),
       nextPageLoadingStartSubjectStream()]
@@ -56,17 +57,30 @@ extension FeedPostViewModel: FeedPostViewModelable {
 
 // MARK: - Private Helpers
 private extension FeedPostViewModel {
+  func viewDidLoadStream(_ input: Input) -> Output {
+    return input.viewDidLoad.flatMap { [weak self] _ in
+      return self?.fetchPosts()
+        .map { _ in State.viewDidLoad }
+        .catch { error in
+          return Just(State.unexpectedError(description: error.localizedDescription))
+        }.eraseToAnyPublisher() ?? Just(
+          State.unexpectedError(description: "앱 동작 에러가 발생됬습니다.")
+        ).eraseToAnyPublisher()
+    }.eraseToAnyPublisher()
+  }
+  
   func nextPageStream(_ input: Input) -> Output {
     return input.nextPage
       .flatMap { [weak self] in
         if let hasMorePages = self?.hasMorePages, !hasMorePages {
           return Just(State.noMorePage).eraseToAnyPublisher()
         }
+        self?.isPaging = true
         self?.nextPageLoadingStartSubject.send()
         return self?.fetchPosts()
-          .map { [weak self] postContainers -> State in
+          .delay(for: .seconds(3), scheduler: DispatchQueue.global(qos: .background))
+          .map { [weak self] _ -> State in
             self?.isPaging = false
-            self?.appendPosts(postContainers)
             return .nextPage
           }.catch { error in
             // TODO: - 에러는 어떻게 처리할까? 경우를 따져보자. 레포, 유즈케이스 에러.... .. 레포가 다른데서도 사용된다면? 어느에러를 던져야지?
@@ -79,12 +93,11 @@ private extension FeedPostViewModel {
   }
   
   func feedRefreshStream(_ input: Input) -> Output {
-    return input.nextPage
+    return input.feedRefresh
       .flatMap { [weak self] in
         self?.removeAllPage()
         return self?.fetchPosts()
-          .map { postContainers -> State in
-            self?.appendPosts(postContainers)
+          .map { _ -> State in
             return .refresh
           }.catch { error in
             return Just(State.unexpectedError(description: error.localizedDescription))
@@ -95,8 +108,7 @@ private extension FeedPostViewModel {
   }
   
   func nextPageLoadingStartSubjectStream() -> Output {
-    nextPageLoadingStartSubject.map { [weak self] _ -> State in
-      self?.isPaging = true
+    nextPageLoadingStartSubject.map { _ -> State in
       return .loadingNextPage
     }.eraseToAnyPublisher()
   }
@@ -109,7 +121,7 @@ private extension FeedPostViewModel {
   }
   
   func removeAllPage() {
-    currentPage = 1
+    currentPage = 0
     posts.removeAll()
     postDetailedThumbnails.removeAll()
   }
@@ -133,6 +145,8 @@ extension FeedPostViewModel {
         }
         self?.currentPage += 1
         self?.isPaging = false
+        self?.totalPostsCount = Int32(postContainers.first?.totalPosts ?? 1)
+        self?.appendPosts(postContainers)
         return postContainers
       }
       .eraseToAnyPublisher()
