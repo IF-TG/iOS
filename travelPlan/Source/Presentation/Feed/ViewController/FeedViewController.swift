@@ -217,6 +217,7 @@ extension FeedViewController: ViewBindCase {
 
 // MARK: - TravelThemeBottomSheetDelegate
 extension FeedViewController: TravelThemeBottomSheetDelegate {
+  // TODO: - 이것도 그냥 FeedPostVC로 전달하기만하자 여기서 처리하지말구
   func travelThemeBottomSheetViewController(
     _ viewController: PostFilteringBottomSheetViewController,
     didSelectTitle title: String?
