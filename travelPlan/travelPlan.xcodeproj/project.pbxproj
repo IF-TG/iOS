@@ -201,6 +201,7 @@
 		15710CBA2A132C760023C19E /* FeedNotificationBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15710CB92A132C760023C19E /* FeedNotificationBarItem.swift */; };
 		15710CBC2A132DD00023C19E /* FeedAppTitleBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15710CBB2A132DD00023C19E /* FeedAppTitleBarItem.swift */; };
 		157176782A0C21C90015EC8C /* UIColor+AppPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157176772A0C21C90015EC8C /* UIColor+AppPalette.swift */; };
+		15733BB22BACA24E007531BA /* MockResponseType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E9E5F72B9A45A600C2F1F7 /* MockResponseType.swift */; };
 		157ADC9E2ACFAAFA00D37680 /* FavoritePostViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157ADC9D2ACFAAFA00D37680 /* FavoritePostViewAdapter.swift */; };
 		157ADCA02ACFB33100D37680 /* UIScrollView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157ADC9F2ACFB33100D37680 /* UIScrollView+.swift */; };
 		157ADCA22ACFB55800D37680 /* FavoritePostViewAdapterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157ADCA12ACFB55800D37680 /* FavoritePostViewAdapterDelegate.swift */; };
@@ -989,14 +990,6 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		130CF36F2B8F85390051DEE8 /* RequestDTO */ = {
-			isa = PBXGroup;
-			children = (
-				130CF3702B8F855F0051DEE8 /* LoginRequestDTO.swift */,
-			);
-			path = RequestDTO;
-			sourceTree = "<group>";
-		};
 		130FA91D2A359ED500E739C5 /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
@@ -1191,7 +1184,6 @@
 			children = (
 				133531FC2BA2D228000A4D9E /* LoginResultStorage */,
 				133531F52BA0EE99000A4D9E /* LoginResponseStorage */,
-				1383C8252B9864B700830F1A /* UserDefaultsStorage */,
 				1383C8242B9864A700830F1A /* KeychainStorage */,
 			);
 			path = PersistentStorages;
@@ -1204,13 +1196,6 @@
 				1383C81E2B9815B700830F1A /* KeychainKey.swift */,
 			);
 			path = KeychainStorage;
-			sourceTree = "<group>";
-		};
-		1383C8252B9864B700830F1A /* UserDefaultsStorage */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = UserDefaultsStorage;
 			sourceTree = "<group>";
 		};
 		13BF411E2ADBEC4100F3F082 /* View */ = {
@@ -1508,7 +1493,6 @@
 			isa = PBXGroup;
 			children = (
 				15FBD5CC2B98D00200076115 /* DataMapper */,
-				130CF36F2B8F85390051DEE8 /* RequestDTO */,
 				15D655852B8E0A5A00466FEC /* RequestDTO */,
 				151DF1022AEEBDE100D5D55B /* ResponseDTO */,
 				15D655962B8E1C6900466FEC /* Tests */,
@@ -1525,7 +1509,6 @@
 			children = (
 				151DF1042AEEBE0F00D5D55B /* NoticeResponseDTO.swift */,
 				15A0E19E2B97A3BC0047D662 /* PostResponseDTO.swift */,
-				130CF3742B8F8AC40051DEE8 /* LoginResponseDTO.swift */,
 				15D655832B8E085300466FEC /* CommonDTO.swift */,
 				15A0E1A02B97A3FD0047D662 /* PostContainerResponseDTO.swift */,
 				153FA90E2B937E12006CF3C3 /* UserProfileResponseDTO.swift */,
@@ -1539,7 +1522,6 @@
 			children = (
 				15EE7F8E2B9AEF5D007A9C42 /* Network */,
 				151DF1072AEEC53400D5D55B /* MockJson */,
-				15E9E5F72B9A45A600C2F1F7 /* MockResponseType.swift */,
 			);
 			path = Local;
 			sourceTree = "<group>";
@@ -2123,6 +2105,7 @@
 		15D655852B8E0A5A00466FEC /* RequestDTO */ = {
 			isa = PBXGroup;
 			children = (
+				130CF3702B8F855F0051DEE8 /* LoginRequestDTO.swift */,
 				15D655862B8E0ABF00466FEC /* UserNicknameRequestDTO.swift */,
 				152603D62B97A4BC00634299 /* PostsRequestDTO.swift */,
 				155D0BAB2B90CB5B0042DFB6 /* UserNicknamePatchRequestDTO.swift */,
@@ -2230,6 +2213,7 @@
 		15EE7F8E2B9AEF5D007A9C42 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				15E9E5F72B9A45A600C2F1F7 /* MockResponseType.swift */,
 				15FFAC1B2ADC2BC20013DB57 /* MockSession.swift */,
 				15FFAC192ADC1C9D0013DB57 /* MockUrlProtocol.swift */,
 			);
@@ -2732,6 +2716,7 @@
 				15FFAC2F2ADD03130013DB57 /* MockUserEndpoint.swift in Sources */,
 				1546DF3F2B0C64E500B49A55 /* ImageDiskCacheTests.swift in Sources */,
 				15FFAC282ADC598E0013DB57 /* SessionProviderTests.swift in Sources */,
+				15733BB22BACA24E007531BA /* MockResponseType.swift in Sources */,
 				15FBD5E42B98E94800076115 /* PostAPIEndpointTests.swift in Sources */,
 				15E9E5F02B9A359B00C2F1F7 /* PostUseCaseTests.swift in Sources */,
 				15FFAC2D2ADD03080013DB57 /* MockSession.swift in Sources */,
