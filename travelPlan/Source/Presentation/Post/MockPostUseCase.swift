@@ -18,10 +18,10 @@ final class MockPostUseCaseForPaging: PostUseCase {
     if index > totalPage {
       return Fail(error: PostUseCaseError.noMorePage).eraseToAnyPublisher()
     }
-    let responseData = (index..<index+10).map {
+    let responseData = (index..<index+5).map {
       mockData[$0]
     }
-    index+=10
+    index+=5
     return Just(responseData)
       .delay(for: .seconds(1.2), scheduler: DispatchQueue.global(qos: .background))
       .setFailureType(to: PostUseCaseError.self)
