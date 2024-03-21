@@ -77,8 +77,10 @@ private extension CategoryPageView {
       if $0+1 == viewModel.numberOfItems {
         return DevelopmentViewController(nibName: nil, bundle: nil)
       }
-      let postUseCase = DefaultPostUseCase(postRepository: MockPostRepository())
-      let viewModel = FeedPostViewModel(postCategory: feedCategory, postUseCase: postUseCase)
+      // FIXME: - 실제로 서버 통신하게된다면 DefaultPostUseCase써야합니다. 지금은 페이징 테스트때문에 MockPostUseCaseForPaging을 사용합니다.
+      //let postUseCase = DefaultPostUseCase(postRepository: MockPostRepository())
+      let mockPostUseCase = MockPostUseCaseForPaging()
+      let viewModel = FeedPostViewModel(postCategory: feedCategory, postUseCase: mockPostUseCase)
       
       return FeedPostViewController(
         with: feedCategory,
