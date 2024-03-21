@@ -163,6 +163,7 @@
 		151DF10B2AEEC58900D5D55B /* MockUrlProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFAC192ADC1C9D0013DB57 /* MockUrlProtocol.swift */; };
 		151DF10F2AEECBB400D5D55B /* mock_response_notice.json in Resources */ = {isa = PBXBuildFile; fileRef = 151DF10E2AEECBB400D5D55B /* mock_response_notice.json */; };
 		151DF1122AEECDDD00D5D55B /* NoticeViewModelable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151DF1112AEECDDD00D5D55B /* NoticeViewModelable.swift */; };
+		1524A4A52BABEAA5002C639A /* MockPostUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1524A4A42BABEAA5002C639A /* MockPostUseCase.swift */; };
 		15259DE92ACAA98F00C14F62 /* TravelDestinationCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13FE64782A5C3900007D9A53 /* TravelDestinationCellViewModel.swift */; };
 		15259DEA2ACAA9D800C14F62 /* SearchFestivalCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13274C592A59AD29001F141C /* SearchFestivalCellViewModel.swift */; };
 		15259DEB2ACAA9F600C14F62 /* PostSearchFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C07ECC2A13F454005F04CD /* PostSearchFooterView.swift */; };
@@ -624,6 +625,7 @@
 		151DF1042AEEBE0F00D5D55B /* NoticeResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeResponseDTO.swift; sourceTree = "<group>"; };
 		151DF10E2AEECBB400D5D55B /* mock_response_notice.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = mock_response_notice.json; sourceTree = "<group>"; };
 		151DF1112AEECDDD00D5D55B /* NoticeViewModelable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeViewModelable.swift; sourceTree = "<group>"; };
+		1524A4A42BABEAA5002C639A /* MockPostUseCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockPostUseCase.swift; sourceTree = "<group>"; };
 		152603D62B97A4BC00634299 /* PostsRequestDTO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostsRequestDTO.swift; sourceTree = "<group>"; };
 		152834D42BAB4DED00453DD1 /* PostViewSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewSection.swift; sourceTree = "<group>"; };
 		152AD4E72A188D33008A2A11 /* FavoriteTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteTableViewCell.swift; sourceTree = "<group>"; };
@@ -1432,8 +1434,8 @@
 		151DF0EE2AEEAE1100D5D55B /* Entities */ = {
 			isa = PBXGroup;
 			children = (
-				130CF3832B9248750051DEE8 /* OAuthType.swift */,
 				15D37F7E2B978309000E8FDB /* TravelCategory */,
+				130CF3832B9248750051DEE8 /* OAuthType.swift */,
 				151DF0EF2AEEAE2100D5D55B /* NoticeEntity.swift */,
 				15F376612AFE132900B3BF35 /* PostCommentEntity.swift */,
 				15F376632AFE134400B3BF35 /* PostReplyEntity.swift */,
@@ -2203,6 +2205,7 @@
 		15D7C48B2BAA0C3300BBD5EB /* Post */ = {
 			isa = PBXGroup;
 			children = (
+				1524A4A42BABEAA5002C639A /* MockPostUseCase.swift */,
 				15D7C48F2BAA0D5100BBD5EB /* Protocol */,
 				15D7C48E2BAA0CB500BBD5EB /* Model */,
 				15D7C48D2BAA0C7B00BBD5EB /* View */,
@@ -2855,6 +2858,7 @@
 				15FFABFB2AD5B6FC0013DB57 /* BasePaddingLabel.swift in Sources */,
 				153FA90F2B937E12006CF3C3 /* UserProfileResponseDTO.swift in Sources */,
 				151DF1012AEEBD0A00D5D55B /* NotificationAPIEndpoints.swift in Sources */,
+				1524A4A52BABEAA5002C639A /* MockPostUseCase.swift in Sources */,
 				15259DE92ACAA98F00C14F62 /* TravelDestinationCellViewModel.swift in Sources */,
 				15EB39E62AC303C90025FFB4 /* BaseProfileAreaView.swift in Sources */,
 				15FFAC3A2ADE47910013DB57 /* PostHeaderInfo.swift in Sources */,
