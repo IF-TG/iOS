@@ -24,6 +24,7 @@ final class FeedPostCoordinator: FlowCoordinator {
   }
   
   func start() {
+// FIXME: - 실제로 서버 통신하게된다면 DefaultPostUseCase써야합니다. 지금은 페이징 테스트때문에 MockPostUseCaseForPaging을 사용합니다.
 //    mockPostRepository의 경우 mock_response_postContainer.swift 파일에 3개의 포스트밖에 없어서
 //    페이징을 할 수 없습니다.
 //    let mockPostRepository = MockPostRepository()
