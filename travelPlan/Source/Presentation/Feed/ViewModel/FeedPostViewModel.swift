@@ -32,7 +32,7 @@ class FeedPostViewModel: PostViewModel {
     return currentPage < totalPageCount
   }
   
-  private let category: PostCategory
+  private var category: PostCategory
   
   private let postUseCase: PostUseCase
   
@@ -49,6 +49,8 @@ class FeedPostViewModel: PostViewModel {
 extension FeedPostViewModel: FeedPostViewModelable {
   func transform(_ input: Input) -> AnyPublisher<State, Never> {
     return Publishers.MergeMany([
+      notifiedOrderFilterRequestStream(input),
+      notifiedMainThemeFilterRequestStream(input),
       viewDidLoadStream(input),
       nextPageStream(input),
       feedRefreshStream(input),
@@ -59,6 +61,33 @@ extension FeedPostViewModel: FeedPostViewModelable {
 
 // MARK: - Private Helpers
 private extension FeedPostViewModel {
+  func notifiedOrderFilterRequestStream(_ input: Input) -> Output {
+    return input.notifiedOrderFilterRequest
+      .map { selectedOrderType in
+        return .none
+      }.eraseToAnyPublisher()
+  }
+  
+  func notifiedMainThemeFilterRequestStream(_ input: Input) -> Output {
+    return input.notifiedMainThemeFilterRequest
+      .map { selectedMainTheme in
+        switch selectedMainTheme {
+        case .partner(let partner):
+          break
+        case .region(let region):
+          break
+        case .season(let season):
+          break
+        case .travelTheme(let theme):
+          break
+
+        default:
+          return .none
+        }
+        return .none
+      }.eraseToAnyPublisher()
+  }
+  
   func viewDidLoadStream(_ input: Input) -> Output {
     return input.viewDidLoad.flatMap { [weak self] _ in
       return self?.fetchPosts()
