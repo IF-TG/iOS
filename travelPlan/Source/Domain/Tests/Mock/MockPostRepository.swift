@@ -16,7 +16,7 @@ final class MockPostRepository: PostRepository {
   
   typealias Endpoint = PostAPIEndpoint
   
-  func fetchPosts(page: Int32, perPage: Int32, category: PostCategory) -> Future<[PostContainer], any Error> {
+  func fetchPosts(page: Int32, perPage: Int32, category: PostCategory) -> Future<PostsPage, any Error> {
     MockUrlProtocol.requestHandler = { _ in
       let mockData = MockResponseType.postContainerResponse.mockDataLoader
       return ((HTTPURLResponse(), mockData))
