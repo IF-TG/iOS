@@ -82,7 +82,7 @@ extension FeedCoordinator: FeedCoordinatorDelegate {
     presenter?.present(sheetViewController, animated: false)
   }
   
-  // FIXME: - 피드 탭에서 분류, 최신순 title은 그대로 두고 이제 바텀시트 올라올 때 선택됬던거는 얕은 회식으로 표시?
+  // FIXME: - 피드 탭에서 분류, 정렬 title은 그대로 두고 이제 바텀시트 올라올 때 선택됬던거는 얕은 회식으로 표시?
   // 카테고리 선정시 옆에 태그 형식으로 붙여주는것도 괜찮은 선택지,,
   func showPostMainThemeCategoryBottomSheet(mainTheme: TravelMainThemeType) {
     let bottomSheet = PostMainThemeCategoryBottomSheet(mainTheme: mainTheme)

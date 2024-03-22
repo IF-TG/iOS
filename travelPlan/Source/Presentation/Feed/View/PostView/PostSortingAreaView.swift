@@ -29,7 +29,7 @@ final class PostSortingAreaView: UICollectionReusableView {
   /// 분류
   private var travelThemeChevronView = PostChevronLabel()
   
-  /// 최신순
+  /// 정렬
   private var travelTrendChevronView = PostChevronLabel()
   
   // MARK: - LifeCycle
