@@ -24,6 +24,8 @@ class FeedPostViewModel: PostViewModel {
   
   var isRefreshing: Bool = false
   
+  var isPostFiltering: Bool = false
+  
   // FIXME: - 서버한테 전체 개수 요청했습니다. 추후에 responseDTO랑 전부 바꿔서 여기에 값 넣어야 합니다.
   var totalPostsCount: Int32 = 0
   
@@ -69,7 +71,8 @@ extension FeedPostViewModel: FeedPostViewModelable {
 // MARK: - Private Helpers
 private extension FeedPostViewModel {
   func postFilterLoadingStartSubjectStream() -> Output {
-    postFilterLoadingStartSubject.map { _ -> State in
+    postFilterLoadingStartSubject.map { [weak self] _ -> State in
+      self?.isPostFiltering = true
       return .postFilterLoading
     }.eraseToAnyPublisher()
   }
@@ -83,8 +86,14 @@ private extension FeedPostViewModel {
         }
         self?.userSelectedCategory = PostCategory(mainTheme: mainTheme, orderBy: selectedOrderType)
         self?.postFilterLoadingStartSubject.send()
-        // TODO: - fetchPosts()호출요.
-        return Just(State.none).eraseToAnyPublisher()
+        return self?.fetchPosts()
+          .map { _ -> State in
+            return .postFilterLoaded
+          }.catch { error in
+            return Just(State.unexpectedError(description: error.localizedDescription))
+          }.eraseToAnyPublisher() ?? Just(
+            State.unexpectedError(description: "앱 내부 동작 에러가 발생됬습니다.")
+          ).eraseToAnyPublisher()
       }.eraseToAnyPublisher()
   }
   
@@ -108,8 +117,14 @@ private extension FeedPostViewModel {
           return Just(State.none).eraseToAnyPublisher()
         }
         self?.postFilterLoadingStartSubject.send()
-        // TODO: - 서버 호출해야함둥..
-        return Just(State.none).eraseToAnyPublisher()
+        return self?.fetchPosts()
+          .map { _ -> State in
+            return .postFilterLoaded
+          }.catch { error in
+            return Just(State.unexpectedError(description: error.localizedDescription))
+          }.eraseToAnyPublisher() ?? Just(
+            State.unexpectedError(description: "앱 내부 동작 에러가 발생됬습니다.")
+          ).eraseToAnyPublisher()
       }.eraseToAnyPublisher()
   }
   
@@ -194,9 +209,10 @@ extension FeedPostViewModel {
       category: userSelectedCategory)
     return postUseCase.fetchPosts(with: postFetchRequestValue)
       .map { [weak self] postContainers in
-        if self?.isRefreshing == true {
+        if self?.isRefreshing == true || self?.isPostFiltering == true {
           self?.removeAllPage()
           self?.isRefreshing = false
+          self?.isPostFiltering = false
         }
         if let userSelectedCategory = self?.userSelectedCategory {
           self?.category = userSelectedCategory
