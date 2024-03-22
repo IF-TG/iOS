@@ -46,8 +46,8 @@ final class PostUseCaseTests: XCTestCase {
         result = false
         self.expectation.fulfill()
       }
-    }, receiveValue: { postContainers in
-      print("DEBUG: 값을 성공적으로 받음\n\(postContainers.description)")
+    }, receiveValue: { postsPage in
+      print("DEBUG: 값을 성공적으로 받음\n\(postsPage.posts.description)")
       result = true
       self.expectation.fulfill()
     })
