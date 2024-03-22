@@ -12,6 +12,17 @@ struct FeedPostViewControllerInput {
   let feedRefresh: PassthroughSubject<Void, Never> = .init()
   let nextPage: PassthroughSubject<Void, Never> = .init()
   let viewDidLoad: PassthroughSubject<Void, Never> = .init()
+  let notifiedOrderFilterRequest: PassthroughSubject<TravelOrderType, Never>
+  let notifiedMainThemeFilterRequest: PassthroughSubject<TravelMainThemeType, Never>
+  
+  init(
+    notifiedOrderFilterRequest: PassthroughSubject<TravelOrderType, Never>,
+    notifiedMainThemeFilterRequest: PassthroughSubject<TravelMainThemeType, Never>
+  ) {
+    self.notifiedOrderFilterRequest = notifiedOrderFilterRequest
+    self.notifiedMainThemeFilterRequest = notifiedMainThemeFilterRequest
+  }
+  
 }
 
 enum FeedPostViewControllerState {
@@ -48,7 +59,9 @@ final class FeedPostViewController: UIViewController {
   
   private let mainThemeFilterNotifier = PassthroughSubject<TravelMainThemeType, Never>()
 
-  private let input = Input()
+  private lazy var input = Input(
+    notifiedOrderFilterRequest: orderFilterNotifier,
+    notifiedMainThemeFilterRequest: mainThemeFilterNotifier)
   
   // MARK: - Lifecycle
   init(
