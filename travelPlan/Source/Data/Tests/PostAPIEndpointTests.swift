@@ -16,6 +16,7 @@ final class PostAPIEndpointTests: XCTestCase {
   var expectation: XCTestExpectation!
   let mockPage = Int32(1)
   let mockPerPage = Int32(5)
+  let mockUserId = Int64(1)
   var dataRequest: DataRequest?
   let baseURL = "http://localhost:8080/posts"
   
@@ -54,16 +55,16 @@ final class PostAPIEndpointTests: XCTestCase {
   }
 }
 
-/// PostCategory에 담긴 정보 기반으로 reqeustDTO 생성 후 요청시 absoluteURL 이 정확히 반영되는지 테스트
+/// PostCategory에 담긴 정보 중 mainTheme와 associatedValue을 기반으로 reqeustDTO 생성 후 요청시 absoluteURL 이 정확히 반영되는지 테스트
 /// CategoryMapper기반으로 PostCategory -> requestDTO로 변환.
+/// mainTheme의 associated value는 subCategory로 변환되야 합니다.
 extension PostAPIEndpointTests {
   
   /// subCategory가 nil인 경우 url 구성할 때 관련 key, value가 사라지는거 확인.
   func testPostAPIEndpoint_MainTheme_all타입_ReqeustDTO요청시_AbsoluteURL이_정확한지반영되는지_ShouldReturnTrue() {
     // Arrange
     let mockCategory = PostCategory(mainTheme: .all, orderBy: .newest)
-    let mockRequestDTO = PostsRequestDTO.makeRequestDTO(
-      page: mockPage, perPage: mockPerPage, category: mockCategory, userId: 1)
+    let mockRequestDTO = makePostsReqeustDTO(with: mockCategory)
     let expectedURL = URL(string: "\(baseURL)?mainCategory=ORIGINAL&orderMethod=RECENT_ORDER&page=\(mockPage)&perPage=\(mockPerPage)&userId=1")
     let endpoint = sut.fetchPosts(with: mockRequestDTO)
     
@@ -81,9 +82,25 @@ extension PostAPIEndpointTests {
   func testPostAPIEndpoint_MainTheme_season_spring타입_RequestDTO요청시_AbsoluteURL이_정확히반영되는지_ShouldReturnTrue() {
     // Arrange
     let mockCategory = PostCategory(mainTheme: .season(.spring), orderBy: .newest)
-    let mockRequestDTO = PostsRequestDTO.makeRequestDTO(
-      page: mockPage, perPage: mockPerPage, category: mockCategory, userId: 1)
-    let expectedURL = URL(string: "\(baseURL)?mainCategory=SEASON&orderMethod=RECENT_ORDER&page=\(mockPage)&perPage=\(mockPerPage)&subCategory=SPRING&userId=1")
+    let mockRequestDTO = makePostsReqeustDTO(with: mockCategory)
+    let expectedURL = URL(string: "\(baseURL)?mainCategory=SEASON&orderMethod=RECENT_ORDER&page=\(mockPage)&perPage=\(mockPerPage)&subCategory=SPRING&userId=\(mockUserId)")
+    let endpoint = sut.fetchPosts(with: mockRequestDTO)
+    
+    // Act
+    makeRequest(fromFetchPosts: endpoint)
+    
+    // Assert
+    XCTAssertNotNil(
+      dataRequest?.convertible.urlRequest,
+      "PostAPIEndpoint의 fetchPosts()에서 DataRequest의 urlRequest를 반환해야하는데 nil 반환")
+    XCTAssertEqual(dataRequest?.convertible.urlRequest?.url, expectedURL)
+  }
+  
+  func testPostAPIEndpoint_MainTheme_Region_JEJU타입_RequestDTO요청시_AbsoluteURL이_정확히반영되는지_ShouldRetrunTrue() {
+    // Arrange
+    let mockCategory = PostCategory(mainTheme: .region(.jejuSpecialSelfGoverningProvince), orderBy: .newest)
+    let mockRequestDTO = makePostsReqeustDTO(with: mockCategory)
+    let expectedURL = URL(string: "\(baseURL)?mainCategory=REGION&orderMethod=RECENT_ORDER&page=\(mockPage)&perPage=\(mockPerPage)&subCategory=JEJU&userId=\(mockUserId)")
     let endpoint = sut.fetchPosts(with: mockRequestDTO)
     
     // Act
@@ -107,5 +124,9 @@ private extension PostAPIEndpointTests {
       expectation.fulfill()
     }
     wait(for: [expectation], timeout: 7)
+  }
+  
+  func makePostsReqeustDTO(with category: PostCategory) -> PostsRequestDTO {
+    return PostsRequestDTO.makeRequestDTO(page: mockPage, perPage: mockPerPage, category: category, userId: mockUserId)
   }
 }
