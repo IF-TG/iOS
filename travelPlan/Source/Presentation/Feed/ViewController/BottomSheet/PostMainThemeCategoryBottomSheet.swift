@@ -6,3 +6,53 @@
 //
 
 import Foundation
+
+protocol PostMainThemeCategoryBottomSheetDelegate: BasePostCategoryBottomSheetDelegate
+where Category == TravelMainThemeType {}
+
+final class PostMainThemeCategoryBottomSheet: BasePostCategoryBottomSheet {
+  // MARK: - Properties
+  private let mainTheme: TravelMainThemeType
+  
+  weak var delegate: (any PostMainThemeCategoryBottomSheetDelegate)?
+  
+  // MARK: - Lifecycle
+  init(mainTheme: TravelMainThemeType) {
+    self.mainTheme = mainTheme
+    var bottomSheetMode: BaseBottomSheetViewController.ContentMode
+    if mainTheme.rawValue == TravelMainThemeType.region(.busan).rawValue {
+      bottomSheetMode = .full
+    } else {
+      bottomSheetMode = .couldBeFull
+    }
+    
+    super.init(bottomSheetMode: bottomSheetMode, titles: mainTheme.titles)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
+  override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
+    super.dismiss(animated: flag, completion: completion)
+    guard let selectedTitle else { return }
+    var selectedMainTheme: TravelMainThemeType
+    switch mainTheme {
+    case .season(_):
+      guard let season = Season(rawValue: selectedTitle) else { return }
+        selectedMainTheme = .season(season)
+    case .region(let travelRegion):
+      guard let region = TravelRegion(rawValue: selectedTitle) else { return }
+      selectedMainTheme = .region(region)
+    case .travelTheme(let travelTheme):
+      guard let theme = TravelTheme(rawValue: selectedTitle) else { return }
+      selectedMainTheme = .travelTheme(theme)
+    case .partner(let travelPartner):
+      guard let partner = TravelPartner(rawValue: selectedTitle) else { return }
+      selectedMainTheme = .partner(partner)
+    default:
+      return
+    }
+    delegate?.notifySelectedCategory(selectedMainTheme)
+  }
+}
