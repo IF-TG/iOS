@@ -20,7 +20,7 @@ final class SettingMyProfileView: UIView {
     $0.autoresizingMask = [.flexibleWidth, .flexibleHeight]
     $0.layer.cornerRadius = SettingMyProfileView.size/2
     // TODO: - 파일매니저를 통해 사용자 프로필이 등록되어있는지 찾기. 없다면 기본 프로필아이콘 적용
-    $0.image = UIImage(named: "defaultProfileIcon")
+    $0.image = UIImage(named: "default_profile_icon")
     self?.isDefaultState = true
   }
   
