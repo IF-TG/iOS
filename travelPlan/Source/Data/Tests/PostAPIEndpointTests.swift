@@ -18,7 +18,7 @@ final class PostAPIEndpointTests: XCTestCase {
   let mockPerPage = Int32(5)
   var dataRequest: DataRequest?
   let baseURL = "http://localhost:8080/posts"
-
+  
   override func setUp() {
     super.setUp()
     MockUrlProtocol.requestHandler = { _ in return ((HTTPURLResponse(), Data())) }
@@ -52,6 +52,11 @@ final class PostAPIEndpointTests: XCTestCase {
       "PostAPIEndpoint의 fetchPosts()에서 DataRequest의 urlRequest를 반환해야하는데 nil 반환")
     XCTAssertEqual(dataRequest?.convertible.urlRequest?.url, expectedURL)
   }
+}
+
+/// PostCategory에 담긴 정보 기반으로 reqeustDTO 생성 후 요청시 absoluteURL 이 정확히 반영되는지 테스트
+/// CategoryMapper기반으로 PostCategory -> requestDTO로 변환.
+extension PostAPIEndpointTests {
   
   /// subCategory가 nil인 경우 url 구성할 때 관련 key, value가 사라지는거 확인.
   func testPostAPIEndpoint_MainTheme_all타입_ReqeustDTO요청시_AbsoluteURL이_정확한지반영되는지_ShouldReturnTrue() {
@@ -89,7 +94,6 @@ final class PostAPIEndpointTests: XCTestCase {
       dataRequest?.convertible.urlRequest,
       "PostAPIEndpoint의 fetchPosts()에서 DataRequest의 urlRequest를 반환해야하는데 nil 반환")
     XCTAssertEqual(dataRequest?.convertible.urlRequest?.url, expectedURL)
-
   }
 }
 
