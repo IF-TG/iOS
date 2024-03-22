@@ -54,14 +54,14 @@ final class CategoryPageView: UIView {
 
 // MARK: - Helpers
 extension CategoryPageView {
-  func setOrderCategoryHeaderDefaultUI(type: TravelOrderType) {
+  func setOrderCategoryHeaderDefaultUI() {
     guard let targetViewController = postPageViewController.viewControllers?
       .first as? FeedPostViewController 
     else { return }
     targetViewController.setDefaultOrderUI()
   }
   
-  func setMainThemeCategoryHeaderDefaultUI(type: TravelMainThemeType) {
+  func setMainThemeCategoryHeaderDefaultUI() {
     guard let targetViewController = postPageViewController.viewControllers?
       .first as? FeedPostViewController
     else { return }
