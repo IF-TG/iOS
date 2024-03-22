@@ -224,20 +224,14 @@ extension FeedViewController: ViewBindCase {
 // MARK: - PostOrderCategoryBottomSheetDelegate
 extension FeedViewController: PostOrderCategoryBottomSheetDelegate {
   func notifySelectedOrder(_ category: TravelOrderType?) {
-    categoryPageView.setOrderCategoryHeaderDefaultUI()
-    print(category?.rawValue)
-    categoryPageView
-    // TODO: - 서버에서 데이터 요청 후 특정 정렬된 posts로 리로드.
-    // 소분류 let type = viewController.travelThemeType.rawValue
-    // 특정 상세 카테고리 title
+    categoryPageView.handleOrderTypeFilter(with: category)
   }
 }
 
 // MARK: - PostMainThemeCategoryBottomSheetDelegate
 extension FeedViewController: PostMainThemeCategoryBottomSheetDelegate {
   func notifySelectedMainTheme(_ category: TravelMainThemeType?) {
-    print(category?.rawValue)
-    categoryPageView.setMainThemeCategoryHeaderDefaultUI()
+    categoryPageView.handleMainThemeFilter(with: category)
   }
 }
 
