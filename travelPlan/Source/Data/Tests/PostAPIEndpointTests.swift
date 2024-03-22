@@ -17,7 +17,7 @@ final class PostAPIEndpointTests: XCTestCase {
   let mockPage = Int32(1)
   let mockPerPage = Int32(5)
   var dataRequest: DataRequest?
-  
+
   override func setUp() {
     super.setUp()
     MockUrlProtocol.requestHandler = { _ in return ((HTTPURLResponse(), Data())) }
@@ -45,6 +45,30 @@ final class PostAPIEndpointTests: XCTestCase {
       expectation.fulfill()
     }
     wait(for: [expectation], timeout: 10)
+    
+    // Assert
+    XCTAssertNotNil(
+      dataRequest?.convertible.urlRequest,
+      "PostAPIEndpoint의 fetchPosts()에서 DataRequest의 urlRequest를 반환해야하는데 nil 반환")
+    XCTAssertEqual(dataRequest?.convertible.urlRequest?.url, expectedURL)
+  }
+  
+  /// subCategory가 nil인 경우 url 구성할 때 관련 key, value가 사라지는거 확인.
+  func testPostAPIEndpoint_MainTheme_all타입_ReqeustDTO요청시_AbsoluteURL이_정확한지반영되는지_ShouldReturnTrue() {
+    // Arrange
+    let mockCategory = PostCategory(mainTheme: .all, orderBy: .newest)
+    let mainCategory = TravelMainThemeTypeMapper.toMainCategoryDTO(mockCategory.mainTheme)
+    let subCategory = TravelMainThemeTypeMapper.toSubCategoryDTO(mockCategory.mainTheme)
+    let orderBy = TravelOrderTypeMapper.toDTO(mockCategory.orderBy)
+    let mockRequestDTO = PostsRequestDTO(
+      page: mockPage, perPage: mockPerPage, orderMethod: orderBy,
+      mainCategory: mainCategory, subCategory: subCategory, userId: 1)
+    let expectedURL = URL(string: "http://localhost:8080/posts?mainCategory=ORIGINAL&orderMethod=RECENT_ORDER&page=\(mockPage)&perPage=\(mockPerPage)&userId=1")
+    let endpoint = sut.fetchPosts(with: mockRequestDTO)
+    
+
+    // Act
+    makeRequest(fromFetchPosts: endpoint)
     
     // Assert
     XCTAssertNotNil(
