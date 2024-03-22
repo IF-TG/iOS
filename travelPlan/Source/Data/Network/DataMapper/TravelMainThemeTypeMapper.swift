@@ -26,19 +26,23 @@ struct TravelMainThemeTypeMapper {
   }
   
   static func toSubCategoryDTO(_ requestValue: TravelMainThemeType) -> String? {
-    return switch requestValue {
+    switch requestValue {
     case .all:
-      nil
+      return nil
     case .season(let season):
-      SeasonMapper.toDTO(season)
+      guard let season else { return nil }
+      return SeasonMapper.toDTO(season)
     case .region(let travelRegion):
-      TravelRegionMapper.toDTO(travelRegion)
+      guard let travelRegion else { return nil }
+      return TravelRegionMapper.toDTO(travelRegion)
     case .travelTheme(let travelTheme):
-      TravelThemeMapper.toDTO(travelTheme)
+      guard let travelTheme else { return nil }
+      return TravelThemeMapper.toDTO(travelTheme)
     case .partner(let travelPartner):
-      TravelPartnerMapper.toDTO(travelPartner)
+      guard let travelPartner else { return nil }
+      return TravelPartnerMapper.toDTO(travelPartner)
     case .categoryDevelop:
-      nil
+      return nil
     }
   }
 }
