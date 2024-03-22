@@ -7,18 +7,7 @@
 
 import Foundation
 
-@frozen enum TravelOrderType: String, CaseIterable, Equatable, RawRepresentable {
+@frozen enum TravelOrderType: String, CaseIterable, Equatable {
   case newest = "최신순"
   case popularity = "인기순"
-  
-  init?(rawValue: String) {
-    switch rawValue {
-    case TravelOrderType.newest.rawValue:
-      self = .newest
-    case TravelOrderType.popularity.rawValue:
-      self = .popularity
-    default:
-      return nil
-    }
-  }
 }
