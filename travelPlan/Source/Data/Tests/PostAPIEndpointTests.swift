@@ -148,6 +148,27 @@ extension PostAPIEndpointTests {
   }
 }
 
+/// PostCategory에 담긴 정보 중 mainTheme에서 associatedValue없이 reqeustDTO 생성 후 요청시 absoluteURL 이 정확히 반영되는지 테스트
+/// CategoryMapper기반으로 PostCategory -> requestDTO로 변환.
+extension PostAPIEndpointTests {
+  func testPostAPIEndpoint_MainTheme_Partner_AssociatedValue없이DTO요청시_AbsoluteURL이_정확히_반영되는지_ShouldReturnTrue() {
+    // Arrange
+    let mockCategory = PostCategory(mainTheme: .partner(nil), orderBy: .newest)
+    let mockRequestDTO = makePostsReqeustDTO(with: mockCategory)
+    let expectedURL = URL(string: "\(baseURL)?mainCategory=COMPANION&orderMethod=RECENT_ORDER&page=\(mockPage)&perPage=\(mockPerPage)&userId=\(mockUserId)")
+    let endpoint = sut.fetchPosts(with: mockRequestDTO)
+    
+    // Act
+    makeRequest(fromFetchPosts: endpoint)
+    
+    // Assert
+    XCTAssertNotNil(
+      dataRequest?.convertible.urlRequest,
+      "PostAPIEndpoint의 fetchPosts()에서 DataRequest의 urlRequest를 반환해야하는데 nil 반환")
+    XCTAssertEqual(dataRequest?.convertible.urlRequest?.url, expectedURL)
+  }
+}
+
 // MARK: - Private Helpers
 private extension PostAPIEndpointTests {
   func makeRequest(
