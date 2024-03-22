@@ -42,6 +42,8 @@ class FeedPostViewModel: PostViewModel {
   
   private let nextPageLoadingStartSubject = PassthroughSubject<Void, Never>()
   
+  private let postFilterLoadingStartSubject = PassthroughSubject<Void, Never>()
+  
   // MARK: - Lifecycle
   init(postCategory: PostCategory, postUseCase: PostUseCase) {
     self.postUseCase = postUseCase
@@ -67,22 +69,24 @@ extension FeedPostViewModel: FeedPostViewModelable {
 private extension FeedPostViewModel {
   func notifiedOrderFilterRequestStream(_ input: Input) -> Output {
     return input.notifiedOrderFilterRequest
-      .map { [weak self] selectedOrderType in
+      .flatMap { [weak self] selectedOrderType in
         guard let mainTheme = self?.category.mainTheme else {
-          return .unexpectedError(description: "앱 내부 동작 에러가 발생됬습니다")
+          return Just(State.unexpectedError(description: "앱 내부 동작 에러가 발생됬습니다"))
+            .eraseToAnyPublisher()
         }
         self?.userSelectedCategory = PostCategory(mainTheme: mainTheme, orderBy: selectedOrderType)
         
         // TODO: - fetchPosts()호출요.
-        return .none
+        return Just(State.none).eraseToAnyPublisher()
       }.eraseToAnyPublisher()
   }
   
   func notifiedMainThemeFilterRequestStream(_ input: Input) -> Output {
     return input.notifiedMainThemeFilterRequest
-      .map { [weak self] selectedMainTheme in
+      .flatMap { [weak self] selectedMainTheme in
         guard let orderType = self?.category.orderBy else {
-          return .unexpectedError(description: "앱 내부 동작 에러가 발생됬습니다.")
+          return Just(State.unexpectedError(description: "앱 내부 동작 에러가 발생됬습니다."))
+            .eraseToAnyPublisher()
         }
         switch selectedMainTheme {
         case .partner(let partner):
@@ -94,11 +98,10 @@ private extension FeedPostViewModel {
         case .travelTheme(let theme):
           self?.userSelectedCategory = PostCategory(mainTheme: .travelTheme(theme), orderBy: orderType)
         default:
-          return .none
+          return Just(State.none).eraseToAnyPublisher()
         }
         // TODO: - 서버 호출해야함둥..
-        
-        return .none
+        return Just(State.none).eraseToAnyPublisher()
       }.eraseToAnyPublisher()
   }
   
