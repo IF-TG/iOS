@@ -34,6 +34,10 @@ class FeedPostViewModel: PostViewModel {
   
   private var category: PostCategory
   
+  /// 사용자가 선택한 카테고리는 요청이 완료되야만 category에 사용자가 요청했던 데이터를 보여줌과
+  ///   동시에 category 사용자가 선택한 카테고리로  업데이트 해야합니다.
+  private lazy var userSelectedCategory: PostCategory = category
+  
   private let postUseCase: PostUseCase
   
   private let nextPageLoadingStartSubject = PassthroughSubject<Void, Never>()
@@ -63,27 +67,37 @@ extension FeedPostViewModel: FeedPostViewModelable {
 private extension FeedPostViewModel {
   func notifiedOrderFilterRequestStream(_ input: Input) -> Output {
     return input.notifiedOrderFilterRequest
-      .map { selectedOrderType in
+      .map { [weak self] selectedOrderType in
+        guard let mainTheme = self?.category.mainTheme else {
+          return .unexpectedError(description: "앱 내부 동작 에러가 발생됬습니다")
+        }
+        self?.userSelectedCategory = PostCategory(mainTheme: mainTheme, orderBy: selectedOrderType)
+        
+        // TODO: - fetchPosts()호출요.
         return .none
       }.eraseToAnyPublisher()
   }
   
   func notifiedMainThemeFilterRequestStream(_ input: Input) -> Output {
     return input.notifiedMainThemeFilterRequest
-      .map { selectedMainTheme in
+      .map { [weak self] selectedMainTheme in
+        guard let orderType = self?.category.orderBy else {
+          return .unexpectedError(description: "앱 내부 동작 에러가 발생됬습니다.")
+        }
         switch selectedMainTheme {
         case .partner(let partner):
-          break
+          self?.userSelectedCategory = PostCategory(mainTheme: .partner(partner), orderBy: orderType)
         case .region(let region):
-          break
+          self?.userSelectedCategory = PostCategory(mainTheme: .region(region), orderBy: orderType)
         case .season(let season):
-          break
+          self?.userSelectedCategory = PostCategory(mainTheme: .season(season), orderBy: orderType)
         case .travelTheme(let theme):
-          break
-
+          self?.userSelectedCategory = PostCategory(mainTheme: .travelTheme(theme), orderBy: orderType)
         default:
           return .none
         }
+        // TODO: - 서버 호출해야함둥..
+        
         return .none
       }.eraseToAnyPublisher()
   }
@@ -163,18 +177,18 @@ private extension FeedPostViewModel {
 extension FeedPostViewModel {
   // 이를 호출할때 hasMorePages가 false라면 에러 던지자. 더이상 페이지 없다고
   func fetchPosts() -> AnyPublisher<[PostContainer], any Error> {
-    let category = PostCategory(
-      mainTheme: category.mainTheme,
-      orderBy: category.orderBy)
     let postFetchRequestValue = PostFetchRequestValue(
       page: nextPage,
       perPage: perPage,
-      category: category)
+      category: userSelectedCategory)
     return postUseCase.fetchPosts(with: postFetchRequestValue)
       .map { [weak self] postContainers in
         if self?.isRefreshing == true {
           self?.removeAllPage()
           self?.isRefreshing = false
+        }
+        if let userSelectedCategory = self?.userSelectedCategory {
+          self?.category = userSelectedCategory
         }
         postContainers.forEach { postContainer in
           self?.postDetailedThumbnails.append(postContainer.post.detail.postImages.map { $0.imageUri })
