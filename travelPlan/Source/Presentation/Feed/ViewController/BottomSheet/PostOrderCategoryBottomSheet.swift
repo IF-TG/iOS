@@ -8,7 +8,7 @@
 import UIKit
 
 protocol PostOrderCategoryBottomSheetDelegate: AnyObject {
-  func notifySelectedOrder(_ category: TravelOrderType)
+  func notifySelectedOrder(_ category: TravelOrderType?)
 }
 
 final class PostOrderCategoryBottomSheet: BasePostCategoryBottomSheet {
@@ -27,7 +27,10 @@ final class PostOrderCategoryBottomSheet: BasePostCategoryBottomSheet {
     guard
       let selectedTitle,
       let selectedOrderType = TravelOrderType(rawValue: selectedTitle)
-    else { return }
+    else {
+      delegate?.notifySelectedOrder(nil)
+      return
+    }
     delegate?.notifySelectedOrder(selectedOrderType)
   }
 }

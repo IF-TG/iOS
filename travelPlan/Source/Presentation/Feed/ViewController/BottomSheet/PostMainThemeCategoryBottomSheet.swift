@@ -8,7 +8,7 @@
 import Foundation
 
 protocol PostMainThemeCategoryBottomSheetDelegate: AnyObject {
-  func notifySelectedMainTheme(_ category: TravelMainThemeType)
+  func notifySelectedMainTheme(_ category: TravelMainThemeType?)
 }
 
 final class PostMainThemeCategoryBottomSheet: BasePostCategoryBottomSheet {
@@ -36,8 +36,11 @@ final class PostMainThemeCategoryBottomSheet: BasePostCategoryBottomSheet {
   
   override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
     super.dismiss(animated: flag, completion: completion)
-    guard let selectedTitle else { return }
-    var selectedMainTheme: TravelMainThemeType
+    guard let selectedTitle else {
+      delegate?.notifySelectedMainTheme(nil)
+      return
+    }
+    var selectedMainTheme: TravelMainThemeType?
     switch mainTheme {
     case .season(_):
       guard let season = Season(rawValue: selectedTitle) else { return }
@@ -52,7 +55,7 @@ final class PostMainThemeCategoryBottomSheet: BasePostCategoryBottomSheet {
       guard let partner = TravelPartner(rawValue: selectedTitle) else { return }
       selectedMainTheme = .partner(partner)
     default:
-      return
+      break
     }
     delegate?.notifySelectedMainTheme(selectedMainTheme)
   }
