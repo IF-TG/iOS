@@ -9,21 +9,23 @@ import Foundation
 
 final class CategoryPageViewModel {
   // MARK: - Properties
-  private var travelMainCategory: [TravelMainThemeType] {
-    TravelMainThemeType.allCases
-  }
+  private let travelMainCategoryTitles: [String]
   
-  private lazy var travelMainCategoryTitles: [String] = {
-    travelMainCategory.map { $0.rawValue }
-  }()
+  private let travelCategoryItems: [TravelMainCategoryViewCellInfo]
   
-  private lazy var travelCategoryItems: [TravelMainCategoryViewCellInfo] = travelMainCategory
-    .map {
+  private let postCategoryList: [PostCategory]
+  
+  init() {
+    let mainThemes = TravelMainThemeType.allCases
+    
+    travelMainCategoryTitles = mainThemes.map { $0.rawValue }
+    travelCategoryItems = mainThemes.map {
       .init(cagtegoryTitle: $0.rawValue, imagePath: $0.imagePath)
     }
-  
-  private lazy var postCateogryList: [PostCategory] = travelMainCategory.map {
-    .init(mainTheme: $0, orderBy: .newest)
+    postCategoryList = mainThemes.map {
+      let postCategory = PostCategory(mainTheme: $0, orderBy: .newest)
+      return postCategory
+    }
   }
 }
 
@@ -42,6 +44,6 @@ extension CategoryPageViewModel: CategoryPageViewDataSource {
   }
   
   func postSearchFilterItem(at index: Int) -> PostCategory {
-    return postCateogryList[index]
+    return postCategoryList[index]
   }
 }
