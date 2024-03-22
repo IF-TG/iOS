@@ -10,10 +10,14 @@ import XCTest
 @testable import travelPlan
 
 final class PostAPIEndpointTests: XCTestCase {
+  
   typealias sut = PostAPIEndpoint
   let mockSession = MockSession.default
   var expectation: XCTestExpectation!
-
+  let mockPage = Int32(1)
+  let mockPerPage = Int32(5)
+  var dataRequest: DataRequest?
+  
   override func setUp() {
     super.setUp()
     MockUrlProtocol.requestHandler = { _ in return ((HTTPURLResponse(), Data())) }
@@ -23,6 +27,7 @@ final class PostAPIEndpointTests: XCTestCase {
   override func tearDown() {
     super.tearDown()
     expectation = nil
+    dataRequest = nil
   }
   
   // MARK: - Tests
@@ -46,5 +51,18 @@ final class PostAPIEndpointTests: XCTestCase {
       dataRequest?.convertible.urlRequest,
       "PostAPIEndpoint의 fetchPosts()에서 DataRequest의 urlRequest를 반환해야하는데 nil 반환")
     XCTAssertEqual(dataRequest?.convertible.urlRequest?.url, expectedURL)
+  }
+}
+
+// MARK: - Private Helpers
+private extension PostAPIEndpointTests {
+  func makeRequest(
+    fromFetchPosts endpoint: Endpoint<CommonDTO<[PostContainerResponseDTO]>>
+  ) {
+    DispatchQueue.global(qos: .background).async { [unowned self] in
+      dataRequest = try? endpoint.makeRequest(from: mockSession)
+      expectation.fulfill()
+    }
+    wait(for: [expectation], timeout: 7)
   }
 }
