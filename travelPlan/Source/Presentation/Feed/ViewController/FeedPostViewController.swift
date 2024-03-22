@@ -32,6 +32,8 @@ enum FeedPostViewControllerState {
   case loadingNextPage
   case unexpectedError(description: String)
   case noMorePage
+  case postFilterLoading
+  case postFilterLoaded
   case none
 }
 
@@ -144,6 +146,11 @@ extension FeedPostViewController: ViewBindCase {
     case .noMorePage:
       print("noMorePage")
     case .viewDidLoad:
+      postView.reloadData()
+    case .postFilterLoading:
+      startIndicator()
+    case .postFilterLoaded:
+      stopIndicator()
       postView.reloadData()
     }
   }
