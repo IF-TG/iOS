@@ -17,7 +17,7 @@ struct FeedPostViewControllerInput {
 enum FeedPostViewControllerState {
   case viewDidLoad
   case refresh
-  case nextPage(reloadCompletion: ()->Void)
+  case nextPage(reloadCompletion: () -> Void)
   case loadingNextPage
   case unexpectedError(description: String)
   case noMorePage
