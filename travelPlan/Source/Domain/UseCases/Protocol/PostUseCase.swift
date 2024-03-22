@@ -26,5 +26,5 @@ struct PostFetchRequestValue {
 }
 
 protocol PostUseCase {  
-  func fetchPosts(with page: PostFetchRequestValue) -> AnyPublisher<[PostContainer], Error>
+  func fetchPosts(with page: PostFetchRequestValue) -> AnyPublisher<PostsPage, Error>
 }

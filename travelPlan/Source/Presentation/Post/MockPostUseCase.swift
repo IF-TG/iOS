@@ -10,17 +10,20 @@ import Combine
 import Foundation
 
 final class MockPostUseCaseForPaging: PostUseCase {
-  private let totalPage = 18*4
+  private static let recurCount = 4
+  private let totalPage = 18*MockPostUseCaseForPaging.recurCount
   private var index = 0
   func fetchPosts(
     with page: PostFetchRequestValue
-  ) -> AnyPublisher<[PostContainer], any Error> {
+  ) -> AnyPublisher<PostsPage, any Error> {
     if index > totalPage {
       return Fail(error: PostUseCaseError.noMorePage).eraseToAnyPublisher()
     }
-    let responseData = (index..<index+5).map {
-      mockData[$0]
-    }
+    let responseData = {
+      let nextPosts = (index..<index+5).map { mockPostPage.posts[$0] }
+      let nextThumbnails = (index..<index+5).map { mockPostPage.thumbnails[$0] }
+      return PostsPage(totalPosts: Int64(totalPage), posts: nextPosts, thumbnails: nextThumbnails)
+    }()
     index+=5
     return Just(responseData)
       .delay(for: .seconds(1.2), scheduler: DispatchQueue.global(qos: .background))
@@ -118,8 +121,8 @@ final class MockPostUseCaseForPaging: PostUseCase {
     
      0, 2, 10, 1, 38, 2, 4, 22, 10]
   }
-  lazy var mockData: [PostContainer] = {
-    let data: [PostContainer] = (0..<9*2).map { i in
+  func makeMockPostsContainers() -> [PostContainer] {
+    return (0..<9*2).map { i -> PostContainer in
       let tripDate: Post.TripDate = {
         var str: String = self.ymdArray[i]
         let startAndEnd: [String] = str.components(separatedBy: " ~ ").map { String($0) }
@@ -143,9 +146,22 @@ final class MockPostUseCaseForPaging: PostUseCase {
         author: .init(
           profileUri: profilePath(i%5),
           nickname: userNames[i]))
-      return PostContainer(post: post, thumbnails: postContentThumbnails[i], totalPosts: 18*4)
+      return PostContainer(post: post, thumbnail: .init(urls: postContentThumbnails[i]),
+                           totalPosts: Int64(18*MockPostUseCaseForPaging.recurCount))
     }
+  }
+  
+  lazy var mockPostPage: PostsPage = {
+    let mockPostContainers = makeMockPostsContainers()
+    let posts = mockPostContainers.map { $0.post }
+    let thumbnails = mockPostContainers.map { $0.thumbnail }
     
-    return data + data + data + data
+    let recurredPosts = (0..<MockPostUseCaseForPaging.recurCount).map { _ in return posts }
+    let recurredThumbnails = (0..<MockPostUseCaseForPaging.recurCount).map { _ in return thumbnails }
+    let postsPage = PostsPage(
+      totalPosts: Int64(totalPage),
+      posts: recurredPosts.flatMap { $0 },
+      thumbnails: recurredThumbnails.flatMap { $0 })
+    return postsPage
   }()
 }

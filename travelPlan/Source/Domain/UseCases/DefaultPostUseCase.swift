@@ -17,7 +17,7 @@ final class DefaultPostUseCase: PostUseCase {
     self.postRepository = postRepository
   }
   
-  func fetchPosts(with page: PostFetchRequestValue) -> AnyPublisher<[PostContainer], any Error> {
+  func fetchPosts(with page: PostFetchRequestValue) -> AnyPublisher<PostsPage, any Error> {
     return postRepository.fetchPosts(
       page: page.page,
       perPage: page.perPage,
