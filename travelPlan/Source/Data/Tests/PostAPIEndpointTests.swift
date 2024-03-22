@@ -57,12 +57,8 @@ final class PostAPIEndpointTests: XCTestCase {
   func testPostAPIEndpoint_MainTheme_all타입_ReqeustDTO요청시_AbsoluteURL이_정확한지반영되는지_ShouldReturnTrue() {
     // Arrange
     let mockCategory = PostCategory(mainTheme: .all, orderBy: .newest)
-    let mainCategory = TravelMainThemeTypeMapper.toMainCategoryDTO(mockCategory.mainTheme)
-    let subCategory = TravelMainThemeTypeMapper.toSubCategoryDTO(mockCategory.mainTheme)
-    let orderBy = TravelOrderTypeMapper.toDTO(mockCategory.orderBy)
-    let mockRequestDTO = PostsRequestDTO(
-      page: mockPage, perPage: mockPerPage, orderMethod: orderBy,
-      mainCategory: mainCategory, subCategory: subCategory, userId: 1)
+    let mockRequestDTO = PostsRequestDTO.makeRequestDTO(
+      page: mockPage, perPage: mockPerPage, category: mockCategory, userId: 1)
     let expectedURL = URL(string: "\(baseURL)?mainCategory=ORIGINAL&orderMethod=RECENT_ORDER&page=\(mockPage)&perPage=\(mockPerPage)&userId=1")
     let endpoint = sut.fetchPosts(with: mockRequestDTO)
     
@@ -80,14 +76,10 @@ final class PostAPIEndpointTests: XCTestCase {
   func testPostAPIEndpoint_MainTheme_season_spring타입_RequestDTO요청시_AbsoluteURL이_정확히반영되는지_ShouldReturnTrue() {
     // Arrange
     let mockCategory = PostCategory(mainTheme: .season(.spring), orderBy: .newest)
-    let mockMainCategoryDTO = TravelMainThemeTypeMapper.toMainCategoryDTO(mockCategory.mainTheme)
-    let mockSubCategoryDTO = TravelMainThemeTypeMapper.toSubCategoryDTO(mockCategory.mainTheme)
-    let orderByDTO = TravelOrderTypeMapper.toDTO(mockCategory.orderBy)
-    let mockReqeustDTO = PostsRequestDTO(
-      page: mockPage, perPage: mockPerPage, orderMethod: orderByDTO,
-      mainCategory: mockMainCategoryDTO, subCategory: mockSubCategoryDTO, userId: Int64(1))
+    let mockRequestDTO = PostsRequestDTO.makeRequestDTO(
+      page: mockPage, perPage: mockPerPage, category: mockCategory, userId: 1)
     let expectedURL = URL(string: "\(baseURL)?mainCategory=SEASON&orderMethod=RECENT_ORDER&page=\(mockPage)&perPage=\(mockPerPage)&subCategory=SPRING&userId=1")
-    let endpoint = sut.fetchPosts(with: mockReqeustDTO)
+    let endpoint = sut.fetchPosts(with: mockRequestDTO)
     
     // Act
     makeRequest(fromFetchPosts: endpoint)
