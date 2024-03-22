@@ -55,6 +55,7 @@ class FeedPostViewModel: PostViewModel {
 extension FeedPostViewModel: FeedPostViewModelable {
   func transform(_ input: Input) -> AnyPublisher<State, Never> {
     return Publishers.MergeMany([
+      postFilterLoadingStartSubjectStream(),
       notifiedOrderFilterRequestStream(input),
       notifiedMainThemeFilterRequestStream(input),
       viewDidLoadStream(input),
@@ -67,6 +68,12 @@ extension FeedPostViewModel: FeedPostViewModelable {
 
 // MARK: - Private Helpers
 private extension FeedPostViewModel {
+  func postFilterLoadingStartSubjectStream() -> Output {
+    postFilterLoadingStartSubject.map { _ -> State in
+      return .postFilterLoading
+    }.eraseToAnyPublisher()
+  }
+  
   func notifiedOrderFilterRequestStream(_ input: Input) -> Output {
     return input.notifiedOrderFilterRequest
       .flatMap { [weak self] selectedOrderType in
@@ -75,7 +82,7 @@ private extension FeedPostViewModel {
             .eraseToAnyPublisher()
         }
         self?.userSelectedCategory = PostCategory(mainTheme: mainTheme, orderBy: selectedOrderType)
-        
+        self?.postFilterLoadingStartSubject.send()
         // TODO: - fetchPosts()호출요.
         return Just(State.none).eraseToAnyPublisher()
       }.eraseToAnyPublisher()
@@ -100,6 +107,7 @@ private extension FeedPostViewModel {
         default:
           return Just(State.none).eraseToAnyPublisher()
         }
+        self?.postFilterLoadingStartSubject.send()
         // TODO: - 서버 호출해야함둥..
         return Just(State.none).eraseToAnyPublisher()
       }.eraseToAnyPublisher()
