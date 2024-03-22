@@ -167,6 +167,23 @@ extension PostAPIEndpointTests {
       "PostAPIEndpoint의 fetchPosts()에서 DataRequest의 urlRequest를 반환해야하는데 nil 반환")
     XCTAssertEqual(dataRequest?.convertible.urlRequest?.url, expectedURL)
   }
+  
+  func testPostAPIEndpoint_WhenMainThemeRegionRequestWithoutAssociateValue_IsPreciseAbsoluteURLReflected_ShouldReturnTrue() {
+    // Arrange
+    let mockCategory = PostCategory(mainTheme: .region(nil), orderBy: .newest)
+    let mockRequestDTO = makePostsReqeustDTO(with: mockCategory)
+    let expectedURL = URL(string: "\(baseURL)?mainCategory=REGION&orderMethod=RECENT_ORDER&page=\(mockPage)&perPage=\(mockPerPage)&userId=\(mockUserId)")
+    let endpoint = sut.fetchPosts(with: mockRequestDTO)
+    
+    // Act
+    makeRequest(fromFetchPosts: endpoint)
+    
+    // Assert
+    XCTAssertNotNil(
+      dataRequest?.convertible.urlRequest,
+      "PostAPIEndpoint의 fetchPosts()에서 DataRequest의 urlRequest를 반환해야하는데 nil 반환")
+    XCTAssertEqual(dataRequest?.convertible.urlRequest?.url, expectedURL)
+  }
 }
 
 // MARK: - Private Helpers
