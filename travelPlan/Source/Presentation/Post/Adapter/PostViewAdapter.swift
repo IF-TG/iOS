@@ -10,14 +10,16 @@ import UIKit
 class PostViewAdapter: NSObject {
   weak var dataSource: PostViewAdapterDataSource?
   weak var baseDelegate: PostViewAdapterDelegate?
+  
+  private var isPaging: Bool { dataSource?.isPaging ?? false }
+  private var hasMorePages: Bool { dataSource?.hasMorePages ?? false }
+  
   init(
     dataSource: PostViewAdapterDataSource? = nil,
-    delegate: PostViewAdapterDelegate? = nil,
     collectionView: UICollectionView?
   ) {
     super.init()
     self.dataSource = dataSource
-    self.baseDelegate = delegate
     collectionView?.dataSource = self
     collectionView?.delegate = self
   }
@@ -26,32 +28,63 @@ class PostViewAdapter: NSObject {
 // MARK: - UICollectionViewDataSource
 extension PostViewAdapter: UICollectionViewDataSource {
   func numberOfSections(in collectionView: UICollectionView) -> Int {
-    return 2
+    return PostViewSection.count
   }
   
   func collectionView(
     _ collectionView: UICollectionView, 
     numberOfItemsInSection section: Int
   ) -> Int {
-    if section == 1, let numberOfItems = dataSource?.numberOfItems {
-      return numberOfItems
+    let postSection = PostViewSection(rawValue: section)
+    return switch postSection {
+    case .category:
+      0
+    case .post:
+      dataSource?.numberOfItems ?? 0
+    case .bottomRefresh:
+      isPaging && hasMorePages ? 1 : 0
+    default:
+      0
     }
-    return 0
   }
   
   func collectionView(
     _ collectionView: UICollectionView,
     cellForItemAt indexPath: IndexPath
   ) -> UICollectionViewCell {
-    guard
-      indexPath.section == 1,
-      let numberOfThumbnails = dataSource?.numberOfThumbnailsInPost(at: indexPath.row),
-      let postItem = dataSource?.postItem(at: indexPath.row) 
-    else { return .init(frame: .zero) }
-    let cell = makePostCell(collectionView, cellForItemAt: indexPath, with: numberOfThumbnails)
-    cell?.configure(with: postItem)
-    checkLastCell(cell, indexPath: indexPath)
-    return cell ?? .init(frame: .zero)
+    let postSection = PostViewSection(rawValue: indexPath.section)
+    if postSection == .post {
+      guard let numberOfThumbnails = dataSource?.numberOfThumbnailsInPost(at: indexPath.row),
+        let postItem = dataSource?.postItem(at: indexPath.row)
+      else { return .init(frame: .zero) }
+      let cell = makePostCell(collectionView, cellForItemAt: indexPath, with: numberOfThumbnails)
+      cell?.configure(with: postItem)
+      checkLastCell(cell, indexPath: indexPath)
+      return cell ?? .init(frame: .zero)
+    }
+    if postSection == .bottomRefresh {
+      guard let cell = collectionView.dequeueReusableCell(
+        withReuseIdentifier: BottomNextPageIndicatorCell.identifier,
+        for: indexPath
+      ) as? BottomNextPageIndicatorCell else {
+        return .init(frame: .zero)
+      }
+      cell.startIndicator()
+      return cell
+    }
+    return .init(frame: .zero)
+  }
+  
+  func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    let offsetY = scrollView.contentOffset.y
+    let contentHeight = scrollView.contentSize.height
+    let scrollViewHeight = scrollView.frame.height
+    let scrollableHeight = contentHeight - scrollViewHeight
+    let doesTheUserWantToGoToTheNextPage = offsetY > scrollableHeight
+    let isTheNextPageAvailable = !isPaging && dataSource?.hasMorePages ?? false
+    if doesTheUserWantToGoToTheNextPage && isTheNextPageAvailable {
+      baseDelegate?.scrollToNextPage()
+    }
   }
 }
 
@@ -68,25 +101,25 @@ private extension PostViewAdapter {
     cellForItemAt indexPath: IndexPath,
     with numberOfThumbnails: PostThumbnailCountValue
   ) -> (any UICollectionViewCell & PostCellConfigurable & PostCellEdgeDividable)? {
-    switch numberOfThumbnails {
+    return switch numberOfThumbnails {
     case .one:
-      return collectionView.dequeueReusableCell(
+      collectionView.dequeueReusableCell(
         withReuseIdentifier: PostCellWithOneThumbnail.id, for: indexPath
       ) as? PostCellWithOneThumbnail
     case .two:
-      return collectionView.dequeueReusableCell(
+      collectionView.dequeueReusableCell(
         withReuseIdentifier: PostCellWithTwoThumbnails.id, for: indexPath
       ) as? PostCellWithTwoThumbnails
     case .three:
-      return collectionView.dequeueReusableCell(
+      collectionView.dequeueReusableCell(
         withReuseIdentifier: PostCellWithThreeThumbnails.id, for: indexPath
       ) as? PostCellWithThreeThumbnails
     case .four:
-      return collectionView.dequeueReusableCell(
+      collectionView.dequeueReusableCell(
         withReuseIdentifier: PostCellWithFourThumbnails.id, for: indexPath
       ) as? PostCellWithFourThumbnails
     case .five:
-      return collectionView.dequeueReusableCell(
+      collectionView.dequeueReusableCell(
         withReuseIdentifier: PostCellWithFiveThumbnails.id, for: indexPath
       ) as? PostCellWithFiveThumbnails
     }

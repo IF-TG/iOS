@@ -12,32 +12,15 @@ final class MockPostRepository: PostRepository {
   let mockService = SessionProvider(session: MockSession.default)
   var subscription = Set<AnyCancellable>()
   
+  private lazy var postRepository = DefaultPostRepository(service: mockService)
+  
   typealias Endpoint = PostAPIEndpoint
   
-  func fetchPosts(with page: PostsPage) -> Future<[PostContainer], MainError> {
-    let requestDTO = PostsRequestDTO(
-      page: 0,
-      perPage: 20,
-      orderMethod: "임시",
-      mainCategory: "임시",
-      subCategory: "임시",
-      userId: 3)
-    let endpoint = Endpoint.fetchPosts(with: requestDTO)
-    
+  func fetchPosts(page: Int32, perPage: Int32, category: PostCategory) -> Future<[PostContainer], any Error> {
     MockUrlProtocol.requestHandler = { _ in
       let mockData = MockResponseType.postContainerResponse.mockDataLoader
       return ((HTTPURLResponse(), mockData))
     }
-    
-    return .init { [unowned self] promise in
-      mockService.request(endpoint: endpoint)
-        .sink { completion in
-          if case .failure(let error) = completion {
-            promise(.failure(MainError.networkError(error)))
-          }
-        } receiveValue: { responseDTO in
-          promise(.success(responseDTO.result.map { $0.toDomain() }))
-        }.store(in: &subscription)
-    }
+    return postRepository.fetchPosts(page: page, perPage: perPage, category: category)
   }
 }

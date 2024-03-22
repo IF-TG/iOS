@@ -9,19 +9,35 @@ import UIKit
 import Combine
 
 struct FeedPostViewControllerInput {
+  let feedRefresh: PassthroughSubject<Void, Never> = .init()
+  let nextPage: PassthroughSubject<Void, Never> = .init()
   let viewDidLoad: PassthroughSubject<Void, Never> = .init()
+  let notifiedOrderFilterRequest: PassthroughSubject<TravelOrderType, Never>
+  let notifiedMainThemeFilterRequest: PassthroughSubject<TravelMainThemeType, Never>
+  
+  init(
+    notifiedOrderFilterRequest: PassthroughSubject<TravelOrderType, Never>,
+    notifiedMainThemeFilterRequest: PassthroughSubject<TravelMainThemeType, Never>
+  ) {
+    self.notifiedOrderFilterRequest = notifiedOrderFilterRequest
+    self.notifiedMainThemeFilterRequest = notifiedMainThemeFilterRequest
+  }
+  
 }
 
 enum FeedPostViewControllerState {
-  case updatePosts
+  case viewDidLoad
+  case refresh
+  case nextPage(reloadCompletion: () -> Void)
+  case loadingNextPage
+  case unexpectedError(description: String)
+  case noMorePage
+  case postFilterLoading
+  case postFilterLoaded
   case none
 }
 
 final class FeedPostViewController: UIViewController {
-  enum Constant {
-    static let postViewSortingHeaderHeight: CGFloat = 36
-  }
-  
   // MARK: - Properties
   private let postView = PostCollectionView()
   
@@ -39,19 +55,27 @@ final class FeedPostViewController: UIViewController {
     ) as? PostSortingAreaView
   }
   
-  var themeType: PostFilterOptions {
-    viewModel.headerItem
-  }
+  private let refresher = UIRefreshControl()
   
-  private let input = Input()
+  private let orderFilterNotifier = PassthroughSubject<TravelOrderType, Never>()
+  
+  private let mainThemeFilterNotifier = PassthroughSubject<TravelMainThemeType, Never>()
+
+  private lazy var input = Input(
+    notifiedOrderFilterRequest: orderFilterNotifier,
+    notifiedMainThemeFilterRequest: mainThemeFilterNotifier)
   
   // MARK: - Lifecycle
-  init(with filterInfo: PostFilterInfo, postDelegator: PostViewAdapterDelegate?) {
-    let viewModel = FeedPostViewModel(filterInfo: filterInfo, postUseCase: MockPostUseCase())
+  init(
+    type feedCategory: PostCategory,
+    viewModel: any FeedPostViewModelable & FeedPostViewAdapterDataSource
+  ) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
-    if filterInfo.travelTheme == .all {
-      postViewAdapter = PostViewAdapter(dataSource: viewModel, delegate: postDelegator, collectionView: postView)
+    postView.refreshControl = refresher
+    if feedCategory.mainTheme == .all {
+      postViewAdapter = PostViewAdapter(dataSource: viewModel, collectionView: postView)
+      postViewAdapter?.baseDelegate = self
       return
     }
     postView.register(
@@ -59,18 +83,15 @@ final class FeedPostViewController: UIViewController {
       forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
       withReuseIdentifier: PostSortingAreaView.id)
     updatePostViewLayout()
-    postViewAdapter = FeedPostViewAdapter(dataSource: viewModel, delegate: postDelegator, collectionView: postView)
+    postViewAdapter = FeedPostViewAdapter(dataSource: viewModel, collectionView: postView)
+    postViewAdapter?.baseDelegate = self
   }
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    view.addSubview(postView)
-    NSLayoutConstraint.activate([
-      postView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-      postView.topAnchor.constraint(equalTo: view.topAnchor),
-      postView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-      postView.bottomAnchor.constraint(equalTo: view.bottomAnchor)])
+    setupUI()
     bind()
+    input.viewDidLoad.send()
   }
   
   required init?(coder: NSCoder) {
@@ -80,12 +101,16 @@ final class FeedPostViewController: UIViewController {
 
 // MARK: - Helpers
 extension FeedPostViewController {
-  func setDefaultThemeUI() {
-    sortingHeader?.setDefaultThemeUI()
+  func handleOrderTypeFilter(with orderType: TravelOrderType?) {
+    sortingHeader?.setDefaultOrderUI()
+    guard let orderType else { return }
+    orderFilterNotifier.send(orderType)
   }
   
-  func setDefaultOrderUI() {
-    sortingHeader?.setDefaultOrderUI()
+  func handleMainThemeFilter(with mainTheme: TravelMainThemeType?) {
+    sortingHeader?.setDefaultThemeUI()
+    guard let mainTheme else { return }
+    mainThemeFilterNotifier.send(mainTheme)
   }
 }
 
@@ -96,6 +121,7 @@ extension FeedPostViewController: ViewBindCase {
   typealias State = FeedPostViewControllerState
   
   func bind() {
+    refresher.addTarget(self, action: #selector(refreshNotifications), for: .valueChanged)
     let output = viewModel.transform(input)
     subscription = output.receive(on: DispatchQueue.main).sink { [unowned self] state in
       render(state)
@@ -104,9 +130,27 @@ extension FeedPostViewController: ViewBindCase {
   
   func render(_ state: FeedPostViewControllerState) {
     switch state {
+    case .refresh:
+      postView.reloadData()
+      refresher.endRefreshing()
+    case .loadingNextPage:
+      postView.reloadSections(IndexSet(integer: PostViewSection.bottomRefresh.rawValue))
+    case .nextPage(let completion):
+      postView.reloadData()
+      completion()
+    case .unexpectedError(let description):
+      // 코디네이터에서 알림창 호출
+      print("에러발생 :\(description)")
     case .none:
       break
-    case .updatePosts:
+    case .noMorePage:
+      print("noMorePage")
+    case .viewDidLoad:
+      postView.reloadData()
+    case .postFilterLoading:
+      startIndicator()
+    case .postFilterLoaded:
+      stopIndicator()
       postView.reloadData()
     }
   }
@@ -119,7 +163,7 @@ extension FeedPostViewController {
   private func updatePostViewLayout() {
     let headerSize = NSCollectionLayoutSize(
       widthDimension: .fractionalWidth(1.0),
-      heightDimension: .estimated(Constant.postViewSortingHeaderHeight))
+      heightDimension: .estimated(36))
     let headerElement = NSCollectionLayoutBoundarySupplementaryItem(
       layoutSize: headerSize,
       elementKind: UICollectionView.elementKindSectionHeader,
@@ -128,5 +172,40 @@ extension FeedPostViewController {
       $0.boundarySupplementaryItems = [headerElement]
     }
     postView.collectionViewLayout = postView.makeLayout(withCustomSection: tempSection)
+  }
+}
+
+// MARK: - Actions
+private extension FeedPostViewController {
+  @objc func refreshNotifications() {
+    input.feedRefresh.send()
+  }
+}
+
+// MARK: - PostViewAdapterDelegate
+extension FeedPostViewController: PostViewAdapterDelegate {
+  func didTapPost(with postId: Int) {
+    // 포스트 상세 화면으로 가야함
+    //    presenter?.pushViewController(PostDetailViewController(viewModel: PostDetailViewModel()), animated: true)
+    // 근데 FeedPostCoordiantor만들어버리자 그냥;
+  }
+  
+  func scrollToNextPage() {
+    input.nextPage.send()
+  }
+}
+
+// MARK: - LayoutSupport
+extension FeedPostViewController: LayoutSupport {
+  func addSubviews() {
+    view.addSubview(postView)
+  }
+  
+  func setConstraints() {
+    NSLayoutConstraint.activate([
+      postView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+      postView.topAnchor.constraint(equalTo: view.topAnchor),
+      postView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+      postView.bottomAnchor.constraint(equalTo: view.bottomAnchor)])
   }
 }

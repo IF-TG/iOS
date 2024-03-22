@@ -14,17 +14,16 @@ final class FavoritePostViewAdapter: PostViewAdapter {
   
   init(
     dataSource: PostViewAdapterDataSource?,
-    delegate: FavoritePostViewAdapterDelegate?,
     collectionView: PostCollectionView?
   ) {
-    self.delegate = delegate
-    super.init(dataSource: dataSource, delegate: delegate, collectionView: collectionView)
+    super.init(dataSource: dataSource, collectionView: collectionView)
     collectionView?.delegate = self
   }
 }
 
 extension FavoritePostViewAdapter {
-  func scrollViewDidScroll(_ scrollView: UIScrollView) {
+  override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    super.scrollViewDidScroll(scrollView)
     guard scrollView.contentOffset.y >= 0 else {
       return
     }

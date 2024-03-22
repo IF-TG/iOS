@@ -69,10 +69,17 @@ final class FeedViewController: UIViewController {
     configureUI()
   }
   
-  init(viewModel: any FeedViewModelable) {
+  init(
+    viewModel: any FeedViewModelable,
+    categoryPageViewModel: CategoryPageViewDataSource,
+    pageViews: [UIViewController]
+  ) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
-    self.categoryPageView = CategoryPageView(frame: .zero, viewModel: CategoryPageViewModel(), postDelegator: self)
+    self.categoryPageView = CategoryPageView(
+      frame: .zero,
+      viewModel: categoryPageViewModel,
+    pageViews: pageViews)
   }
   
   required init(coder: NSCoder) {
@@ -137,6 +144,7 @@ extension FeedViewController {
 
 // MARK: - Actions
 extension FeedViewController {
+  /// PostSortingAreaView의 moreMenuView에서 정렬, 분류 뷰를 클릭시 전달하는 노티를 받습니다.
   @objc func handleNotificaiton(_ noti: Notification) {
     let notiKey = Notification.Name.TravelCategoryDetailSelected
     guard
@@ -149,9 +157,9 @@ extension FeedViewController {
     case .travelOrder:
       // 1. 지금은 일차적으로 모든 경우에 대해서 토탈, 소팅으로만 했는데 이제 cell별로 분류해서 카테고리가 계절인지, 지역탐방인지 등등 파악해야해서
       // 2. postview의 footer에서 라인 과 간격을 10으로 수정했다는데 ,,, 뭔지모르겠어서 다시 확인해봐야해
-      coordinator?.showPostOrderFilteringBottomSheet()
-    case .travelMainTheme(let themeType):
-      coordinator?.showPostMainThemeFilteringBottomSheet(sortingType: themeType)
+      coordinator?.showPostOrderCategoryBottomSheet()
+    case .travelMainTheme(let mainTheme):
+      coordinator?.showPostMainThemeCategoryBottomSheet(mainTheme: mainTheme)
     }
   }
 }
@@ -213,24 +221,17 @@ extension FeedViewController: ViewBindCase {
   }
 }
 
-// MARK: - FeedPostViewAdapterDelegate
-extension FeedViewController: PostViewAdapterDelegate {
-  func didTapPost(with postId: Int) {
-    coordinator?.showPostDetailPage()
+// MARK: - PostOrderCategoryBottomSheetDelegate
+extension FeedViewController: PostOrderCategoryBottomSheetDelegate {
+  func notifySelectedOrder(_ category: TravelOrderType?) {
+    categoryPageView.handleOrderTypeFilter(with: category)
   }
 }
 
-// MARK: - TravelThemeBottomSheetDelegate
-extension FeedViewController: TravelThemeBottomSheetDelegate {
-  func travelThemeBottomSheetViewController(
-    _ viewController: PostFilteringBottomSheetViewController,
-    didSelectTitle title: String?
-  ) {
-    categoryPageView.setDefaultSortingHeaderUI(from: viewController.sortingType)
-    guard title != nil else { return }
-    // TODO: - 서버에서 데이터 요청 후 특정 정렬된 posts로 리로드.
-    // 소분류 let type = viewController.travelThemeType.rawValue
-    // 특정 상세 카테고리 title
+// MARK: - PostMainThemeCategoryBottomSheetDelegate
+extension FeedViewController: PostMainThemeCategoryBottomSheetDelegate {
+  func notifySelectedMainTheme(_ category: TravelMainThemeType?) {
+    categoryPageView.handleMainThemeFilter(with: category)
   }
 }
 
