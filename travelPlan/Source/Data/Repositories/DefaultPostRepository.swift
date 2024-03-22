@@ -19,7 +19,7 @@ final class DefaultPostRepository: PostRepository {
     self.service = service
   }
   
-  func fetchPosts(page: Int32, perPage: Int32, category: PostCategory) -> Future<[PostContainer], Error> {
+  func fetchPosts(page: Int32, perPage: Int32, category: PostCategory) -> Future<PostsPage, Error> {
     let travelOrder = TravelOrderTypeMapper.toDTO(category.orderBy)
     let travelMainCategory = TravelMainThemeTypeMapper.toMainCategoryDTO(category.mainTheme)
     let travelSubCategory = TravelMainThemeTypeMapper.toSubCategoryDTO(category.mainTheme)
@@ -32,7 +32,7 @@ final class DefaultPostRepository: PostRepository {
       subCategory: travelSubCategory,
       userId: 13)
     let endpoint = Endpoint.fetchPosts(with: requestDTO)
-    return Future<[PostContainer], Error> { [weak self] promise in
+    return Future<PostsPage, Error> { [weak self] promise in
       let subscription = self?.service.request(endpoint: endpoint)
         .mapError { MainError.networkError($0) }
         .sink { completion in
@@ -41,7 +41,16 @@ final class DefaultPostRepository: PostRepository {
           }
         } receiveValue: { responseDTO in
           let postContainers = responseDTO.result.map { $0.toDomain() }
-          promise(.success(postContainers))
+          guard let totalPages = postContainers.first?.totalPosts else {
+            // 반드시 필요로한 totalPage가 없는 경우
+            promise(.failure(ConnectionError.missingRequiredData))
+            return
+          }
+          let postsPage = PostsPage(
+            totalPosts: totalPages,
+            posts: postContainers.map { $0.post },
+            thumbnails: postContainers.map { $0.thumbnail })
+          promise(.success(postsPage))
         }
       self?.subscriptions.insert(subscription)
     }
