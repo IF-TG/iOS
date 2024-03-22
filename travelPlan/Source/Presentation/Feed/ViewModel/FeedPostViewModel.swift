@@ -185,9 +185,9 @@ private extension FeedPostViewModel {
     }.eraseToAnyPublisher()
   }
   
-  func appendPosts(_ postContainers: [PostContainer]) {
-    let loadedPosts = postContainers.map { postContainer in
-      return PostMapper.toPostInfo(postContainer.post, thumbnails: postContainer.thumbnails)
+  func appendPosts(_ postPages: PostsPage) {
+    let loadedPosts = postPages.posts.enumerated().map {
+      return PostMapper.toPostInfo($1, thumbnails: postPages.thumbnails[$0].urls)
     }
     posts.append(contentsOf: loadedPosts)
   }
@@ -202,13 +202,13 @@ private extension FeedPostViewModel {
 // MARK: - PostDataSource
 extension FeedPostViewModel {
   // 이를 호출할때 hasMorePages가 false라면 에러 던지자. 더이상 페이지 없다고
-  func fetchPosts() -> AnyPublisher<[PostContainer], any Error> {
+  func fetchPosts() -> AnyPublisher<Void, any Error> {
     let postFetchRequestValue = PostFetchRequestValue(
       page: nextPage,
       perPage: perPage,
       category: userSelectedCategory)
     return postUseCase.fetchPosts(with: postFetchRequestValue)
-      .map { [weak self] postContainers in
+      .map { [weak self] postsPage in
         if self?.isRefreshing == true || self?.isPostFiltering == true {
           self?.removeAllPage()
           self?.isRefreshing = false
@@ -217,15 +217,14 @@ extension FeedPostViewModel {
         if let userSelectedCategory = self?.userSelectedCategory {
           self?.category = userSelectedCategory
         }
-        postContainers.forEach { postContainer in
-          self?.postDetailedThumbnails.append(postContainer.post.detail.postImages.map { $0.imageUri })
+        postsPage.posts.forEach { post in
+          let postDetailImages = post.detail.postImages.map { $0.imageUri }
+          self?.postDetailedThumbnails.append(postDetailImages)
         }
         self?.currentPage += 1
-        self?.totalPostsCount = Int32(postContainers.first?.totalPosts ?? 1)
-        self?.appendPosts(postContainers)
-        return postContainers
-      }
-      .eraseToAnyPublisher()
+        self?.totalPostsCount = Int32(postsPage.totalPosts)
+        self?.appendPosts(postsPage)
+      }.eraseToAnyPublisher()
   }
 }
 
