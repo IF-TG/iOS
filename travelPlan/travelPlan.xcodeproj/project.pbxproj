@@ -207,6 +207,7 @@
 		15710CBA2A132C760023C19E /* FeedNotificationBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15710CB92A132C760023C19E /* FeedNotificationBarItem.swift */; };
 		15710CBC2A132DD00023C19E /* FeedAppTitleBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15710CBB2A132DD00023C19E /* FeedAppTitleBarItem.swift */; };
 		157176782A0C21C90015EC8C /* UIColor+AppPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157176772A0C21C90015EC8C /* UIColor+AppPalette.swift */; };
+		15733BB22BACA24E007531BA /* MockResponseType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E9E5F72B9A45A600C2F1F7 /* MockResponseType.swift */; };
 		157ADC9E2ACFAAFA00D37680 /* FavoritePostViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157ADC9D2ACFAAFA00D37680 /* FavoritePostViewAdapter.swift */; };
 		157ADCA02ACFB33100D37680 /* UIScrollView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157ADC9F2ACFB33100D37680 /* UIScrollView+.swift */; };
 		157ADCA22ACFB55800D37680 /* FavoritePostViewAdapterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157ADCA12ACFB55800D37680 /* FavoritePostViewAdapterDelegate.swift */; };
@@ -948,7 +949,6 @@
 				13CB6D312A1E9F6600D185B2 /* CautionAlertViewController.swift */,
 				15C83F872AB2055E00DDB536 /* BaseBottomSheetViewController.swift */,
 				15EA6B342ACEF627002783F0 /* EmptyStateBasedContentViewController.swift */,
-				15A4F28E2ACC11E5001AA51D /* ViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -1019,14 +1019,6 @@
 				13A93EE62ACDE4AB00FC4BBD /* SearchDetailHeaderInfo.swift */,
 			);
 			path = Model;
-			sourceTree = "<group>";
-		};
-		130CF36F2B8F85390051DEE8 /* RequestDTO */ = {
-			isa = PBXGroup;
-			children = (
-				130CF3702B8F855F0051DEE8 /* LoginRequestDTO.swift */,
-			);
-			path = RequestDTO;
 			sourceTree = "<group>";
 		};
 		130FA91D2A359ED500E739C5 /* Protocol */ = {
@@ -1543,7 +1535,6 @@
 			isa = PBXGroup;
 			children = (
 				15FBD5CC2B98D00200076115 /* DataMapper */,
-				130CF36F2B8F85390051DEE8 /* RequestDTO */,
 				15D655852B8E0A5A00466FEC /* RequestDTO */,
 				151DF1022AEEBDE100D5D55B /* ResponseDTO */,
 				15D655962B8E1C6900466FEC /* Tests */,
@@ -1573,7 +1564,6 @@
 			children = (
 				15EE7F8E2B9AEF5D007A9C42 /* Network */,
 				151DF1072AEEC53400D5D55B /* MockJson */,
-				15E9E5F72B9A45A600C2F1F7 /* MockResponseType.swift */,
 			);
 			path = Local;
 			sourceTree = "<group>";
@@ -1598,17 +1588,6 @@
 				15FFABFE2AD5D57B0013DB57 /* FavoriteCellInfo.swift */,
 			);
 			path = View;
-			sourceTree = "<group>";
-		};
-		152AD4EC2A1891C4008A2A11 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				15FFAC362ADD4FD80013DB57 /* Post */,
-				15E7203B2AB1935200CE3611 /* TravelTheme */,
-				152AD4ED2A1891DB008A2A11 /* UISpacing.swift */,
-				15D955AE2ADFB2F1002BF9C3 /* ShadowInfo.swift */,
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		152AD5192A1A0420008A2A11 /* Adapter */ = {
@@ -1815,7 +1794,6 @@
 			isa = PBXGroup;
 			children = (
 				134384092B480343005034E0 /* Navigation */,
-				15FFAC312ADD4A770013DB57 /* PostCollectionView */,
 				13405EFF2AECF76300382796 /* BaseLoginButton.swift */,
 				15C1F5592AF37092005FDA15 /* BaseLabel.swift */,
 				15D388262AFF8AAA00039946 /* InputTextView.swift */,
@@ -1895,6 +1873,8 @@
 			isa = PBXGroup;
 			children = (
 				1503F92A2A4E068E002BC38D /* ApplicationCoordinator.swift */,
+				1546DF1A2B0A6CE700B49A55 /* PostDetail */,
+				15D7C48B2BAA0C3300BBD5EB /* Post */,
 				134383FA2B47ECEF005034E0 /* Album */,
 				15D60D472AED08590087FEC0 /* Notification */,
 				15BB01AE2A1EB4890035B486 /* Authentication */,
@@ -1983,7 +1963,6 @@
 		15BED2FB2A08236300F86321 /* Feed */ = {
 			isa = PBXGroup;
 			children = (
-				1546DF1A2B0A6CE700B49A55 /* PostDetail */,
 				15F0D1982A4EF48A00D04773 /* Adapter */,
 				1503F93E2A4E131F002BC38D /* Coordinator */,
 				15C92C122A0AD21E00376D1B /* Protocol */,
@@ -2113,6 +2092,8 @@
 		15CB235C2A10B598003EAF20 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				152AD4ED2A1891DB008A2A11 /* UISpacing.swift */,
+				15D955AE2ADFB2F1002BF9C3 /* ShadowInfo.swift */,
 				15CB235D2A10B59E003EAF20 /* DateValidation */,
 			);
 			path = Utils;
@@ -2175,6 +2156,7 @@
 		15D655852B8E0A5A00466FEC /* RequestDTO */ = {
 			isa = PBXGroup;
 			children = (
+				130CF3702B8F855F0051DEE8 /* LoginRequestDTO.swift */,
 				15D655862B8E0ABF00466FEC /* UserNicknameRequestDTO.swift */,
 				152603D62B97A4BC00634299 /* PostsRequestDTO.swift */,
 				155D0BAB2B90CB5B0042DFB6 /* UserNicknamePatchRequestDTO.swift */,
@@ -2254,21 +2236,73 @@
 			path = Mock;
 			sourceTree = "<group>";
 		};
+		15D7C48B2BAA0C3300BBD5EB /* Post */ = {
+			isa = PBXGroup;
+			children = (
+				15FFAC3E2ADE52030013DB57 /* Mock */,
+				15D7C48F2BAA0D5100BBD5EB /* Protocol */,
+				15D7C48E2BAA0CB500BBD5EB /* Model */,
+				15D7C48D2BAA0C7B00BBD5EB /* View */,
+				15D7C48C2BAA0C6300BBD5EB /* ViewController */,
+				15FFAC342ADD4C990013DB57 /* Adapter */,
+				15FFAC352ADD4DED0013DB57 /* ViewModel */,
+			);
+			path = Post;
+			sourceTree = "<group>";
+		};
+		15D7C48C2BAA0C6300BBD5EB /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		15D7C48D2BAA0C7B00BBD5EB /* View */ = {
+			isa = PBXGroup;
+			children = (
+				158BEF782A0E27BD00C27861 /* PostCollectionView.swift */,
+				158BEF762A0E279700C27861 /* BasePostView.swift */,
+				158BEF7C2A0E2C5F00C27861 /* PostHeaderView.swift */,
+				158BEF802A0E2C9E00C27861 /* PostFooterView.swift */,
+				15EB3A002AC3477B0025FFB4 /* PostHeaderContentView.swift */,
+				158BEF872A0E33F700C27861 /* PostHeaderContentBottomView.swift */,
+				159958782B0DC51900B2E4DC /* PostCellWithOneThumbnail.swift */,
+				1599587A2B0DC55700B2E4DC /* PostCellWithTwoThumbnails.swift */,
+				1599587C2B0DC56200B2E4DC /* PostCellWithThreeThumbnails.swift */,
+				1599587E2B0DC56D00B2E4DC /* PostCellWithFourThumbnails.swift */,
+				159958802B0DC57600B2E4DC /* PostCellWithFiveThumbnails.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		15D7C48E2BAA0CB500BBD5EB /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				15FFAC372ADD501B0013DB57 /* PostInfo.swift */,
+				15CB23652A10B7F1003EAF20 /* PostContentInfo.swift */,
+				15CB235A2A109CA4003EAF20 /* PostHeaderContentBottomInfo.swift */,
+				15CB23682A10B9CF003EAF20 /* PostFooterInfo.swift */,
+				15FFAC392ADE47910013DB57 /* PostHeaderInfo.swift */,
+				15FFAC3B2ADE50880013DB57 /* PostHeaderContentInfo.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		15D7C48F2BAA0D5100BBD5EB /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				1519412A2B138F7E00D9B6BF /* PostCellConfigurable.swift */,
+				15FFAC322ADD4C480013DB57 /* PostViewAdapterDataSource.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
 		15DE36B72AB84FDC0030CCCC /* BottomSheet */ = {
 			isa = PBXGroup;
 			children = (
 				15DE36B82AB853900030CCCC /* TravelThemeBottomSheetCell.swift */,
 			);
 			path = BottomSheet;
-			sourceTree = "<group>";
-		};
-		15E7203B2AB1935200CE3611 /* TravelTheme */ = {
-			isa = PBXGroup;
-			children = (
-				15DD40472A5B8752002BC5F8 /* PostFilterOptions.swift */,
-				15FB47D62AC0407D0033AA18 /* PostFilterInfo.swift */,
-			);
-			path = TravelTheme;
 			sourceTree = "<group>";
 		};
 		15EA48CC2A539DA300F4B391 /* PostView */ = {
@@ -2284,6 +2318,7 @@
 		15EE7F8E2B9AEF5D007A9C42 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				15E9E5F72B9A45A600C2F1F7 /* MockResponseType.swift */,
 				15FFAC1B2ADC2BC20013DB57 /* MockSession.swift */,
 				15FFAC192ADC1C9D0013DB57 /* MockUrlProtocol.swift */,
 			);
@@ -2337,6 +2372,8 @@
 		15EF8CA42A0A198B0068C744 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				15DD40472A5B8752002BC5F8 /* PostFilterOptions.swift */,
+				15FB47D62AC0407D0033AA18 /* PostFilterInfo.swift */,
 				132550272A0ABBDA00094218 /* PostSearchSectionItemModel.swift */,
 			);
 			path = Model;
@@ -2378,11 +2415,7 @@
 			isa = PBXGroup;
 			children = (
 				155D0BAF2B90D3980042DFB6 /* Error */,
-				15FFAC3E2ADE52030013DB57 /* Mock */,
-				15FFAC352ADD4DED0013DB57 /* ViewModel */,
-				15FFAC342ADD4C990013DB57 /* Adapter */,
 				130304732A2147A000776A0D /* ViewController */,
-				152AD4EC2A1891C4008A2A11 /* Model */,
 				15CB235C2A10B598003EAF20 /* Utils */,
 				158BEFCE2A0FE0B300C27861 /* View */,
 				15FEB5D92A050A99000A5F33 /* CombineCocoa */,
@@ -2451,8 +2484,6 @@
 				15FEB5E42A050A99000A5F33 /* LayoutSupport.swift */,
 				13300FAB2AC0883200952757 /* UICompositionalLayoutCreatable.swift */,
 				15A4F28C2ACC1025001AA51D /* Toggable.swift */,
-				15FFAC322ADD4C480013DB57 /* PostViewAdapterDataSource.swift */,
-				1519412A2B138F7E00D9B6BF /* PostCellConfigurable.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -2503,24 +2534,6 @@
 			path = Mocks;
 			sourceTree = "<group>";
 		};
-		15FFAC312ADD4A770013DB57 /* PostCollectionView */ = {
-			isa = PBXGroup;
-			children = (
-				158BEF782A0E27BD00C27861 /* PostCollectionView.swift */,
-				158BEF762A0E279700C27861 /* BasePostView.swift */,
-				158BEF7C2A0E2C5F00C27861 /* PostHeaderView.swift */,
-				158BEF802A0E2C9E00C27861 /* PostFooterView.swift */,
-				15EB3A002AC3477B0025FFB4 /* PostHeaderContentView.swift */,
-				158BEF872A0E33F700C27861 /* PostHeaderContentBottomView.swift */,
-				159958782B0DC51900B2E4DC /* PostCellWithOneThumbnail.swift */,
-				1599587A2B0DC55700B2E4DC /* PostCellWithTwoThumbnails.swift */,
-				1599587C2B0DC56200B2E4DC /* PostCellWithThreeThumbnails.swift */,
-				1599587E2B0DC56D00B2E4DC /* PostCellWithFourThumbnails.swift */,
-				159958802B0DC57600B2E4DC /* PostCellWithFiveThumbnails.swift */,
-			);
-			path = PostCollectionView;
-			sourceTree = "<group>";
-		};
 		15FFAC342ADD4C990013DB57 /* Adapter */ = {
 			isa = PBXGroup;
 			children = (
@@ -2536,19 +2549,6 @@
 				15CB23732A110FB4003EAF20 /* PostViewModel.swift */,
 			);
 			path = ViewModel;
-			sourceTree = "<group>";
-		};
-		15FFAC362ADD4FD80013DB57 /* Post */ = {
-			isa = PBXGroup;
-			children = (
-				15FFAC372ADD501B0013DB57 /* PostInfo.swift */,
-				15CB23652A10B7F1003EAF20 /* PostContentInfo.swift */,
-				15CB235A2A109CA4003EAF20 /* PostHeaderContentBottomInfo.swift */,
-				15CB23682A10B9CF003EAF20 /* PostFooterInfo.swift */,
-				15FFAC392ADE47910013DB57 /* PostHeaderInfo.swift */,
-				15FFAC3B2ADE50880013DB57 /* PostHeaderContentInfo.swift */,
-			);
-			path = Post;
 			sourceTree = "<group>";
 		};
 		15FFAC3E2ADE52030013DB57 /* Mock */ = {
@@ -2787,6 +2787,7 @@
 				15FFAC2F2ADD03130013DB57 /* MockUserEndpoint.swift in Sources */,
 				1546DF3F2B0C64E500B49A55 /* ImageDiskCacheTests.swift in Sources */,
 				15FFAC282ADC598E0013DB57 /* SessionProviderTests.swift in Sources */,
+				15733BB22BACA24E007531BA /* MockResponseType.swift in Sources */,
 				15FBD5E42B98E94800076115 /* PostAPIEndpointTests.swift in Sources */,
 				15E9E5F02B9A359B00C2F1F7 /* PostUseCaseTests.swift in Sources */,
 				15FFAC2D2ADD03080013DB57 /* MockSession.swift in Sources */,
@@ -3083,7 +3084,6 @@
 				151DF0DA2AEE6DF700D5D55B /* NoticeViewController.swift in Sources */,
 				15FFAC332ADD4C480013DB57 /* PostViewAdapterDataSource.swift in Sources */,
 				130CF3812B91062D0051DEE8 /* KeychainManager.swift in Sources */,
-				15A4F28F2ACC11E5001AA51D /* ViewController.swift in Sources */,
 				157ADCB42AD07ED600D37680 /* SearchWithCancelView.swift in Sources */,
 				130CF36E2B8F3DD60051DEE8 /* LoginRepository.swift in Sources */,
 				1303047B2A24938700776A0D /* SearchView.swift in Sources */,
