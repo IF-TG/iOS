@@ -7,35 +7,9 @@
 
 import UIKit
 
-protocol TravelThemeBottomSheetDelegate: AnyObject {
-  func notifySelectedFilterOption(_ type: PostFilterOptions?)
-}
-
-protocol PostOrderCategoryBottomSheetDelegate: BasePostCategoryBottomSheetDelegate
-where Category == TravelOrderType {}
-
 protocol BasePostCategoryBottomSheetDelegate: AnyObject {
   associatedtype Category: RawRepresentable
   func notifySelectedCategory(_ category: Category)
-}
-
-final class PostOrderCategoryBottomSheet: BasePostCategoryBottomSheet {
-  init() {
-    super.init(bottomSheetMode: .couldBeFull, titles: TravelOrderType.toKoreanList)
-  }
-  
-  required init?(coder: NSCoder) { nil }
-  
-  weak var delegate: (any PostOrderCategoryBottomSheetDelegate)?
-  
-  override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
-    super.dismiss(animated: flag, completion: completion)
-    guard 
-      let selectedTitle,
-      let selectedOrderType = TravelOrderType(rawValue: selectedTitle)
-    else { return }
-    delegate?.notifySelectedCategory(selectedOrderType)
-  }
 }
 
 class BasePostCategoryBottomSheet: BaseBottomSheetViewController {
