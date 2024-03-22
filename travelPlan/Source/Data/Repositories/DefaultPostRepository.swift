@@ -20,17 +20,8 @@ final class DefaultPostRepository: PostRepository {
   }
   
   func fetchPosts(page: Int32, perPage: Int32, category: PostCategory) -> Future<PostsPage, Error> {
-    let travelOrder = TravelOrderTypeMapper.toDTO(category.orderBy)
-    let travelMainCategory = TravelMainThemeTypeMapper.toMainCategoryDTO(category.mainTheme)
-    let travelSubCategory = TravelMainThemeTypeMapper.toSubCategoryDTO(category.mainTheme)
     // TODO: - 유저디폴츠같은 저장소에서 id가져와야 합니다.
-    let requestDTO = PostsRequestDTO(
-      page: page,
-      perPage: perPage,
-      orderMethod: travelOrder,
-      mainCategory: travelMainCategory,
-      subCategory: travelSubCategory,
-      userId: 13)
+    let requestDTO = PostsRequestDTO.makeRequestDTO(page: page, perPage: perPage, category: category, userId: 111111)
     let endpoint = Endpoint.fetchPosts(with: requestDTO)
     return Future<PostsPage, Error> { [weak self] promise in
       let subscription = self?.service.request(endpoint: endpoint)
