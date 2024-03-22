@@ -138,6 +138,7 @@
 		151130162A04E5B00041DDA1 /* travelPlanUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151130152A04E5B00041DDA1 /* travelPlanUITests.swift */; };
 		151130182A04E5B00041DDA1 /* travelPlanUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151130172A04E5B00041DDA1 /* travelPlanUITestsLaunchTests.swift */; };
 		1519412B2B138F7E00D9B6BF /* PostCellConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1519412A2B138F7E00D9B6BF /* PostCellConfigurable.swift */; };
+		15198E942BADDCDD0011930D /* PostRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15198E932BADDCDD0011930D /* PostRepositoryTests.swift */; };
 		151BDAD42B16E8EA002F36C3 /* UIGestureRecognizer+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151BDAD32B16E8EA002F36C3 /* UIGestureRecognizer+Combine.swift */; };
 		151BDAD62B16EE07002F36C3 /* UIView+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151BDAD52B16EE07002F36C3 /* UIView+Combine.swift */; };
 		151BDAD82B16EF96002F36C3 /* UIGestureRecognizer+GestureType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151BDAD72B16EF96002F36C3 /* UIGestureRecognizer+GestureType.swift */; };
@@ -264,7 +265,6 @@
 		15A0E1A12B97A3FD0047D662 /* PostContainerResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A0E1A02B97A3FD0047D662 /* PostContainerResponseDTO.swift */; };
 		15A4F28B2ACC072A001AA51D /* PrimaryColorToneRoundLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A4F28A2ACC072A001AA51D /* PrimaryColorToneRoundLabel.swift */; };
 		15A4F28D2ACC1025001AA51D /* Toggable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A4F28C2ACC1025001AA51D /* Toggable.swift */; };
-		15A4F28F2ACC11E5001AA51D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A4F28E2ACC11E5001AA51D /* ViewController.swift */; };
 		15A7A8EE2B9F6B1D00CA9A79 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A7A8ED2B9F6B1D00CA9A79 /* UserDefaultsManager.swift */; };
 		15A7A8F22B9F6C1700CA9A79 /* UserEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A7A8F12B9F6C1700CA9A79 /* UserEntity.swift */; };
 		15AF2C3E2A1147B100BEE166 /* UIImage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15AF2C3D2A1147B100BEE166 /* UIImage+.swift */; };
@@ -617,6 +617,7 @@
 		151130152A04E5B00041DDA1 /* travelPlanUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = travelPlanUITests.swift; sourceTree = "<group>"; };
 		151130172A04E5B00041DDA1 /* travelPlanUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = travelPlanUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		1519412A2B138F7E00D9B6BF /* PostCellConfigurable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCellConfigurable.swift; sourceTree = "<group>"; };
+		15198E932BADDCDD0011930D /* PostRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostRepositoryTests.swift; sourceTree = "<group>"; };
 		151BDAD32B16E8EA002F36C3 /* UIGestureRecognizer+Combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIGestureRecognizer+Combine.swift"; sourceTree = "<group>"; };
 		151BDAD52B16EE07002F36C3 /* UIView+Combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Combine.swift"; sourceTree = "<group>"; };
 		151BDAD72B16EF96002F36C3 /* UIGestureRecognizer+GestureType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIGestureRecognizer+GestureType.swift"; sourceTree = "<group>"; };
@@ -737,7 +738,6 @@
 		15A0E1A02B97A3FD0047D662 /* PostContainerResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostContainerResponseDTO.swift; sourceTree = "<group>"; };
 		15A4F28A2ACC072A001AA51D /* PrimaryColorToneRoundLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryColorToneRoundLabel.swift; sourceTree = "<group>"; };
 		15A4F28C2ACC1025001AA51D /* Toggable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toggable.swift; sourceTree = "<group>"; };
-		15A4F28E2ACC11E5001AA51D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		15A7A8ED2B9F6B1D00CA9A79 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 		15A7A8F12B9F6C1700CA9A79 /* UserEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserEntity.swift; sourceTree = "<group>"; };
 		15AF2C3D2A1147B100BEE166 /* UIImage+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+.swift"; sourceTree = "<group>"; };
@@ -1493,6 +1493,7 @@
 				1383C8232B98646B00830F1A /* PersistentStorages */,
 				151DF0FF2AEEBC0700D5D55B /* Network */,
 				151DF0F82AEEB89100D5D55B /* Repositories */,
+				15D655962B8E1C6900466FEC /* Tests */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -1537,7 +1538,6 @@
 				15FBD5CC2B98D00200076115 /* DataMapper */,
 				15D655852B8E0A5A00466FEC /* RequestDTO */,
 				151DF1022AEEBDE100D5D55B /* ResponseDTO */,
-				15D655962B8E1C6900466FEC /* Tests */,
 				151DF1002AEEBD0A00D5D55B /* NotificationAPIEndpoints.swift */,
 				130CF3722B8F8A040051DEE8 /* LoginAPIEndPoints.swift */,
 				15D655812B8E079200466FEC /* UserInfoAPIEndpoint.swift */,
@@ -2192,6 +2192,7 @@
 			children = (
 				15D655992B8E1CCB00466FEC /* UserInfoAPIEndpointTests.swift */,
 				15FBD5E32B98E94800076115 /* PostAPIEndpointTests.swift */,
+				15198E932BADDCDD0011930D /* PostRepositoryTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -2782,6 +2783,7 @@
 				15D6559A2B8E1CCB00466FEC /* UserInfoAPIEndpointTests.swift in Sources */,
 				15D655A42B8F829800466FEC /* MyInformationViewModelTests.swift in Sources */,
 				1335320E2BA469E3000A4D9E /* DataConverterTests.swift in Sources */,
+				15198E942BADDCDD0011930D /* PostRepositoryTests.swift in Sources */,
 				1383C81C2B97F44800830F1A /* KeychainManagerTests.swift in Sources */,
 				15D655922B8E169100466FEC /* MyProfileUseCaseTests.swift in Sources */,
 				15FFAC2F2ADD03130013DB57 /* MockUserEndpoint.swift in Sources */,
