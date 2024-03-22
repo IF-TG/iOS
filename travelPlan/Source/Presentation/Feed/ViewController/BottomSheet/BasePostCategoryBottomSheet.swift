@@ -7,11 +7,6 @@
 
 import UIKit
 
-protocol BasePostCategoryBottomSheetDelegate: AnyObject {
-  associatedtype Category: RawRepresentable
-  func notifySelectedCategory(_ category: Category)
-}
-
 class BasePostCategoryBottomSheet: BaseBottomSheetViewController {
   // MARK: - Properties
   private let contentView: UIView

@@ -7,8 +7,9 @@
 
 import Foundation
 
-protocol PostMainThemeCategoryBottomSheetDelegate: BasePostCategoryBottomSheetDelegate
-where Category == TravelMainThemeType {}
+protocol PostMainThemeCategoryBottomSheetDelegate: AnyObject {
+  func notifySelectedMainTheme(_ category: TravelMainThemeType)
+}
 
 final class PostMainThemeCategoryBottomSheet: BasePostCategoryBottomSheet {
   // MARK: - Properties
@@ -41,18 +42,18 @@ final class PostMainThemeCategoryBottomSheet: BasePostCategoryBottomSheet {
     case .season(_):
       guard let season = Season(rawValue: selectedTitle) else { return }
         selectedMainTheme = .season(season)
-    case .region(let travelRegion):
+    case .region(_):
       guard let region = TravelRegion(rawValue: selectedTitle) else { return }
       selectedMainTheme = .region(region)
-    case .travelTheme(let travelTheme):
+    case .travelTheme(_):
       guard let theme = TravelTheme(rawValue: selectedTitle) else { return }
       selectedMainTheme = .travelTheme(theme)
-    case .partner(let travelPartner):
+    case .partner(_):
       guard let partner = TravelPartner(rawValue: selectedTitle) else { return }
       selectedMainTheme = .partner(partner)
     default:
       return
     }
-    delegate?.notifySelectedCategory(selectedMainTheme)
+    delegate?.notifySelectedMainTheme(selectedMainTheme)
   }
 }
