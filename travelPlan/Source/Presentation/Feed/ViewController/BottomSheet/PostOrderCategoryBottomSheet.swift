@@ -11,13 +11,15 @@ protocol PostOrderCategoryBottomSheetDelegate: BasePostCategoryBottomSheetDelega
 where Category == TravelOrderType {}
 
 final class PostOrderCategoryBottomSheet: BasePostCategoryBottomSheet {
+  // MARK: - Properties
+  weak var delegate: (any PostOrderCategoryBottomSheetDelegate)?
+  
+  // MARK: - Lifecycle
   init() {
     super.init(bottomSheetMode: .couldBeFull, titles: TravelOrderType.toKoreanList)
   }
   
   required init?(coder: NSCoder) { nil }
-  
-  weak var delegate: (any PostOrderCategoryBottomSheetDelegate)?
   
   override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
     super.dismiss(animated: flag, completion: completion)
