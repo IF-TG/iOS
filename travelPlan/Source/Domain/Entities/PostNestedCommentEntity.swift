@@ -1,11 +1,11 @@
 //
-//  PostReplyEntity.swift
+//  PostNestedCommentEntity.swift
 //  travelPlan
 //
 //  Created by 양승현 on 11/10/23.
 //
 
-struct PostReplyEntity {
+struct PostNestedCommentEntity {
   let id: Int64
   let userProfileURL: String
   let userName: String
