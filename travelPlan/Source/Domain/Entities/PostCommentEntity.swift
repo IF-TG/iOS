@@ -14,6 +14,6 @@ struct PostCommentEntity {
   let isDeleted: Bool
   let isOnHeart: Bool
   let isBlocked: Bool
-  let hearts: Int64
+  let hearts: Int32
   let nestedComments: [PostNestedCommentEntity]
 }
