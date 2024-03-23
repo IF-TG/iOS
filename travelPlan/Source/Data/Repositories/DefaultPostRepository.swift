@@ -13,7 +13,7 @@ final class DefaultPostRepository: PostRepository {
   private let service: Sessionable
   typealias Endpoint = PostAPIEndpoint
   
-  private var subscriptions = Set<AnyCancellable>()
+  private var subscriptions = Set<AnyCancellable?>()
   
   init(service: Sessionable) {
     self.service = service
@@ -43,11 +43,6 @@ final class DefaultPostRepository: PostRepository {
           let postContainers = responseDTO.result.map { $0.toDomain() }
           promise(.success(postContainers))
         }
-      guard let subscription else {
-        // TODO: - 추후에 앱 내부 에러로 변경. 앱 내부 에러 만드는거 추천
-        promise(.failure(MainError.referenceError(.weakSelfError)))
-        return
-      }
       self?.subscriptions.insert(subscription)
     }
   }
@@ -55,25 +50,21 @@ final class DefaultPostRepository: PostRepository {
   func fetchComments(page: Int32, perPage: Int32, postId: Int64) -> Future<PostCommentContainerEntity, any Error> {
     let requestDTO = PostCommentsRequestDTO(page: page, perPage: perPage, postId: postId)
     let endpoint = Endpoint.fetchComments(with: requestDTO)
-    return Future() { [weak self] promise in
+    return Future { [weak self] promise in
       let subscription = self?.service.request(endpoint: endpoint)
-        .mapError { $0.mapConnectionError ?? .unavailableServer }
+        .mapError {
+          return $0.mapConnectionError ?? .unavailableServer }
         .map { $0.result }
-        .sink(receiveCompletion: { completion in
+        .sink { completion in
           if case .failure(let error) = completion {
             promise(.failure(error))
           }
-        }, receiveValue: { response in
+        } receiveValue: { response in
           let mappedResult = PostCommentContainerEntity(
             comments: response.comments.map { $0.toDomain() },
             isFavorited: response.isFavorited)
           promise(.success(mappedResult))
-        })
-      guard let subscription else {
-        // TODO: - 추후에 앱 내부 에러로 변경. 앱 내부 에러 만드는거 추천
-        promise(.failure(ConnectionError.unavailableServer))
-        return
-      }
+        }
       self?.subscriptions.insert(subscription)
     }
   }
