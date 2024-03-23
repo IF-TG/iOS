@@ -6,3 +6,13 @@
 //
 
 import Foundation
+
+struct PostCommentContainerResponseDTO: Decodable {
+  let comments: [PostCommentResponseDTO]
+  let isFavorited: Bool
+  
+  enum CodingKeys: String, CodingKey {
+    case comments = "commentList"
+    case isFavorited = "scraped"
+  }
+}
