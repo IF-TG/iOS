@@ -6,3 +6,9 @@
 //
 
 import Foundation
+
+struct PostCommentsRequestDTO: Encodable {
+  let page: Int32
+  let perPage: Int32
+  let postId: Int64
+}
