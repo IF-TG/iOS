@@ -9,10 +9,17 @@ import Combine
 import Foundation
 
 final class MockPostRepository: PostRepository {
-  let mockService = SessionProvider(session: MockSession.default)
+  let mockService: Sessionable
   var subscription = Set<AnyCancellable>()
   
+  let repository: PostRepository
+  
   typealias Endpoint = PostAPIEndpoint
+  
+  init() {
+    self.mockService = SessionProvider(session: MockSession.default)
+    self.repository = DefaultPostRepository(service: mockService)
+  }
   
   func fetchPosts(with page: PostsPage) -> Future<[PostContainer], MainError> {
     let requestDTO = PostsRequestDTO(
@@ -43,8 +50,18 @@ final class MockPostRepository: PostRepository {
   
   // FIXME: - MockPostRepository를 사용하거나 테스트하게 된다면 로직을 변경해야합니다.
   func fetchComments(page: Int32, perPage: Int32, postId: Int64) -> Future<PostCommentContainerEntity, any Error> {
-    return Future { promise in
-      promise(.failure(ConnectionError.unavailableServer))
+    MockUrlProtocol.requestHandler = { _ in
+      let mockData = MockResponseType.postCommentContainerResponse.mockDataLoader
+      return ((HTTPURLResponse(), mockData))
+    }
+    return Future { [unowned self] promise in
+      repository.fetchComments(page: page, perPage: perPage, postId: postId).sink { completion in
+        if case .failure(let error) = completion {
+          promise(.failure(error))
+        }
+      } receiveValue: { containerEntity in
+        promise(.success(containerEntity))
+      }.store(in: &subscription)
     }
   }
 }
