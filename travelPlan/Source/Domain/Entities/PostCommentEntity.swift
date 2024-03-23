@@ -6,14 +6,14 @@
 //
 
 struct PostCommentEntity {
-  let id: Int64
+  let commentId: Int64
   let userProfileURL: String
   let userName: String
   let timestamp: String
   let comment: String
-  let deleted: Bool
+  let isDeleted: Bool
   let isOnHeart: Bool
-  let blocked: Bool
-  let heartCountText: String
-  let replies: [PostReplyEntity]
+  let isBlocked: Bool
+  let hearts: Int64
+  let nestedComments: [PostNestedCommentEntity]
 }
