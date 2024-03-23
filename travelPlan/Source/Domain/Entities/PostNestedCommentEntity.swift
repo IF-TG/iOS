@@ -11,6 +11,6 @@ struct PostNestedCommentEntity {
   let nickname: String
   let timestamp: String
   let comment: String
-  let hearts: String
+  let hearts: Int32
   let isOnHeart: Bool
 }
