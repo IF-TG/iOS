@@ -6,3 +6,8 @@
 //
 
 import Foundation
+
+struct PostCommentContainerEntity {
+  let comments: [PostCommentEntity]
+  let isFavorited: Bool
+}
