@@ -40,4 +40,11 @@ final class MockPostRepository: PostRepository {
         }.store(in: &subscription)
     }
   }
+  
+  // FIXME: - MockPostRepository를 사용하거나 테스트하게 된다면 로직을 변경해야합니다.
+  func fetchComments(page: Int32, perPage: Int32, postId: Int64) -> Future<PostCommentContainerEntity, any Error> {
+    return Future { promise in
+      promise(.failure(ConnectionError.unavailableServer))
+    }
+  }
 }
