@@ -14,11 +14,10 @@ final class FeedPostViewAdapter: PostViewAdapter {
   // MARK: - Lifecycle
   init(
     dataSource: FeedPostViewAdapterDataSource?,
-    delegate: PostViewAdapterDelegate?,
     collectionView: UICollectionView?
   ) {
     feedDataSource = dataSource
-    super.init(dataSource: dataSource, delegate: delegate, collectionView: collectionView)
+    super.init(dataSource: dataSource, collectionView: collectionView)
   }
 }
 
@@ -29,7 +28,8 @@ extension FeedPostViewAdapter {
     viewForSupplementaryElementOfKind kind: String,
     at indexPath: IndexPath
   ) -> UICollectionReusableView {
-    if kind == UICollectionView.elementKindSectionHeader, indexPath.section == 0 {
+    if kind == UICollectionView.elementKindSectionHeader,
+       indexPath.section == PostViewSection.category.rawValue {
       guard
         let dataSource = feedDataSource,
         let header = collectionView.dequeueReusableSupplementaryView(

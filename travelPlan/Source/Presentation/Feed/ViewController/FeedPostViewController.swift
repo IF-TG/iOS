@@ -8,24 +8,9 @@
 import UIKit
 import Combine
 
-struct FeedPostViewControllerInput {
-  let viewDidLoad: PassthroughSubject<Void, Never> = .init()
-}
-
-enum FeedPostViewControllerState {
-  case updatePosts
-  case none
-}
-
 final class FeedPostViewController: UIViewController {
-  enum Constant {
-    static let postViewSortingHeaderHeight: CGFloat = 36
-  }
-  
   // MARK: - Properties
   private let postView = PostCollectionView()
-  
-  private let viewModel: any FeedPostViewModelable & FeedPostViewAdapterDataSource
     
   private var postViewAdapter: PostViewAdapter?
   
@@ -39,19 +24,23 @@ final class FeedPostViewController: UIViewController {
     ) as? PostSortingAreaView
   }
   
-  var themeType: PostFilterOptions {
-    viewModel.headerItem
-  }
+  private let refresher = UIRefreshControl()
   
-  private let input = Input()
+  private let viewModel: any FeedPostViewModelable & FeedPostViewAdapterDataSource
+
+  private let input = FeedPostViewModel.Input()
   
   // MARK: - Lifecycle
-  init(with filterInfo: PostFilterInfo, postDelegator: PostViewAdapterDelegate?) {
-    let viewModel = FeedPostViewModel(filterInfo: filterInfo, postUseCase: MockPostUseCase())
+  init(
+    type feedCategory: PostCategory,
+    viewModel: any FeedPostViewModelable & FeedPostViewAdapterDataSource
+  ) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
-    if filterInfo.travelTheme == .all {
-      postViewAdapter = PostViewAdapter(dataSource: viewModel, delegate: postDelegator, collectionView: postView)
+    postView.refreshControl = refresher
+    if feedCategory.mainTheme == .all {
+      postViewAdapter = PostViewAdapter(dataSource: viewModel, collectionView: postView)
+      postViewAdapter?.baseDelegate = self
       return
     }
     postView.register(
@@ -59,18 +48,15 @@ final class FeedPostViewController: UIViewController {
       forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
       withReuseIdentifier: PostSortingAreaView.id)
     updatePostViewLayout()
-    postViewAdapter = FeedPostViewAdapter(dataSource: viewModel, delegate: postDelegator, collectionView: postView)
+    postViewAdapter = FeedPostViewAdapter(dataSource: viewModel, collectionView: postView)
+    postViewAdapter?.baseDelegate = self
   }
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    view.addSubview(postView)
-    NSLayoutConstraint.activate([
-      postView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-      postView.topAnchor.constraint(equalTo: view.topAnchor),
-      postView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-      postView.bottomAnchor.constraint(equalTo: view.bottomAnchor)])
+    setupUI()
     bind()
+    input.viewDidLoad.send()
   }
   
   required init?(coder: NSCoder) {
@@ -91,22 +77,36 @@ extension FeedPostViewController {
 
 // MARK: - ViewBindCase
 extension FeedPostViewController: ViewBindCase {
-  typealias Input = FeedPostViewControllerInput
+  typealias Input = FeedPostViewModel.Input
   typealias ErrorType = Error
-  typealias State = FeedPostViewControllerState
+  typealias State = FeedPostViewModel.State
   
   func bind() {
+    refresher.addTarget(self, action: #selector(refreshNotifications), for: .valueChanged)
     let output = viewModel.transform(input)
     subscription = output.receive(on: DispatchQueue.main).sink { [unowned self] state in
       render(state)
     }
   }
   
-  func render(_ state: FeedPostViewControllerState) {
+  func render(_ state: State) {
     switch state {
+    case .refresh:
+      postView.reloadData()
+      refresher.endRefreshing()
+    case .loadingNextPage:
+      postView.reloadSections(IndexSet(integer: PostViewSection.bottomRefresh.rawValue))
+    case .nextPage(let completion):
+      postView.reloadData()
+      completion()
+    case .unexpectedError(let description):
+      // 코디네이터에서 알림창 호출
+      print("에러발생 :\(description)")
     case .none:
       break
-    case .updatePosts:
+    case .noMorePage:
+      print("noMorePage")
+    case .viewDidLoad:
       postView.reloadData()
     }
   }
@@ -119,7 +119,7 @@ extension FeedPostViewController {
   private func updatePostViewLayout() {
     let headerSize = NSCollectionLayoutSize(
       widthDimension: .fractionalWidth(1.0),
-      heightDimension: .estimated(Constant.postViewSortingHeaderHeight))
+      heightDimension: .estimated(36))
     let headerElement = NSCollectionLayoutBoundarySupplementaryItem(
       layoutSize: headerSize,
       elementKind: UICollectionView.elementKindSectionHeader,
@@ -128,5 +128,40 @@ extension FeedPostViewController {
       $0.boundarySupplementaryItems = [headerElement]
     }
     postView.collectionViewLayout = postView.makeLayout(withCustomSection: tempSection)
+  }
+}
+
+// MARK: - Actions
+private extension FeedPostViewController {
+  @objc func refreshNotifications() {
+    input.feedRefresh.send()
+  }
+}
+
+// MARK: - PostViewAdapterDelegate
+extension FeedPostViewController: PostViewAdapterDelegate {
+  func didTapPost(with postId: Int) {
+    // 포스트 상세 화면으로 가야함
+    //    presenter?.pushViewController(PostDetailViewController(viewModel: PostDetailViewModel()), animated: true)
+    // 근데 FeedPostCoordiantor만들어버리자 그냥;
+  }
+  
+  func scrollToNextPage() {
+    input.nextPage.send()
+  }
+}
+
+// MARK: - LayoutSupport
+extension FeedPostViewController: LayoutSupport {
+  func addSubviews() {
+    view.addSubview(postView)
+  }
+  
+  func setConstraints() {
+    NSLayoutConstraint.activate([
+      postView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+      postView.topAnchor.constraint(equalTo: view.topAnchor),
+      postView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+      postView.bottomAnchor.constraint(equalTo: view.bottomAnchor)])
   }
 }

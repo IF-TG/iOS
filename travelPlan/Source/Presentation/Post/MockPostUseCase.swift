@@ -9,22 +9,29 @@ import Alamofire
 import Combine
 import Foundation
 
-// 임시
-struct MockPostUseCase: TempPostUseCase {
-  func fetchPosts() -> Future<[TempPostEntity], AFError> {
-    return Future { promise in
-      DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
-        promise(.success(TempPostEntity.mockData))
-      }
+final class MockPostUseCaseForPaging: PostUseCase {
+  private let totalPage = 18*4
+  private var index = 0
+  func fetchPosts(
+    with page: PostFetchRequestValue
+  ) -> AnyPublisher<[PostContainer], any Error> {
+    if index > totalPage {
+      return Fail(error: PostUseCaseError.noMorePage).eraseToAnyPublisher()
     }
+    let responseData = (index..<index+5).map {
+      mockData[$0]
+    }
+    index+=5
+    return Just(responseData)
+      .delay(for: .seconds(1.2), scheduler: DispatchQueue.global(qos: .background))
+      .setFailureType(to: PostUseCaseError.self)
+      .mapError { $0 as Error }
+      .eraseToAnyPublisher()
   }
-}
 
-// 임시
-extension TempPostEntity {
-  private static func postThumbnailPath(_ index: Int) -> String { return "tempThumbnail\(index)" }
-  private static func profilePath(_ index: Int) -> String { return "tempProfile\(index+1)" }
-  private static var titles: [String] {
+  private func postThumbnailPath(_ index: Int) -> String { return "tempThumbnail\(index)" }
+  private func profilePath(_ index: Int) -> String { return "tempProfile\(index+1)" }
+  private var titles: [String] {
     ["Capturing the Beauty of Ocean Bliss", "영롱한 바다",
      "거, 갈땐 가더라도 커피 한잔 정도는 괜찮잖나.. ", "맛과 향의 여행", 
      "또 가고 싶다..", "떠나요 둘이서", "신나는 여행~~", "여수 밤바다", "분위기 좋은 카페~",
@@ -33,21 +40,21 @@ extension TempPostEntity {
      "거, 갈땐 가더라도 커피 한잔 정도는 괜찮잖나.. ", "맛과 향의 여행",
      "또 가고 싶다..", "떠나요 둘이서", "신나는 여행~~", "여수 밤바다", "분위기 좋은 카페~"]
   }
-  private static var userNames: [String] {
+  private var userNames: [String] {
     ["Wanderlust_Journey", "SoulRebel", "용감한모험가", "커피맨", "모던스타일",
      "네트워킹마스터", "알고리즘 전문가", "concurrency Master", "자 가보자고~",
     
      "Wanderlust_Journey", "SoulRebel", "용감한모험가", "커피맨", "모던스타일",
      "네트워킹마스터", "알고리즘 전문가", "concurrency Master", "자 가보자고~"]
   }
-  private static var durationArray: [String] {
+  private var durationArray: [String] {
     ["한달", "7일", "3일", "12일", "60일",
      "7일", "14일", "20일", "2일",
     
      "한달", "7일", "3일", "12일", "60일",
      "7일", "14일", "20일", "2일"]
   }
-  private static var ymdArray: [String] {
+  private var ymdArray: [String] {
     ["2023.03.16 ~ 2023.04.15", "2023.04.03 ~ 2023.04.09", "2023.04.17 ~ 2023.04.19",
      "2023.03.19 ~ 2023.03.30", "2023.03.15 ~ 2023.05.13",
      "2023.03.18 ~ 2023.03.24", "2023.03.07 ~ 2023.03.20", "2023.04.03 ~ 2023.04.22", "2023.04.11 ~ 2023.04.12",
@@ -56,7 +63,7 @@ extension TempPostEntity {
      "2023.03.19 ~ 2023.03.30", "2023.03.15 ~ 2023.05.13",
      "2023.03.18 ~ 2023.03.24", "2023.03.07 ~ 2023.03.20", "2023.04.03 ~ 2023.04.22", "2023.04.11 ~ 2023.04.12"]
   }
-  private static var postContentTexts: [String] {
+  private var postContentTexts: [String] {
     ["여름 여름 여름 여름~~~~ ",
      "발리의 푸른 바다와 화려한 저녁 일몰은 정말로 멋있었어요. 휴양의 천국입니다! 대박 다음에 또 와야겠어요",
      "이번 여행에서는 평소에 느끼지 못한 여유와 힐링을 느낄 수 있었습니다.",
@@ -80,7 +87,7 @@ extension TempPostEntity {
      "공항에 가이드를 처음 대면했을때 참 쉽지 않은 여행이 되겠구나 라는 느낌을 가졌습니다. 그래도 비행기에 타니 여행이 기대가 됬었어요."
     ]
   }
-  private static var postContentThumbnails: [[String]] {
+  private var postContentThumbnails: [[String]] {
     [[1].map { postThumbnailPath($0) },
      [2, 3].map { postThumbnailPath($0) },
      (4...6).map { postThumbnailPath($0) },
@@ -101,31 +108,44 @@ extension TempPostEntity {
      [11, 8].map { postThumbnailPath($0) },
      [4, 6, 12, 15, 3].map { postThumbnailPath($0) }]
   }
-  private static var postHearts: [Int] {
+  private var postHearts: [Int] {
     [0, 1040, 41, 548, 7, 2, 10, 4, 1,
     
      0, 1040, 41, 548, 7, 2, 10, 4, 1]
   }
-  private static var postComments: [Int] {
+  private var postComments: [Int] {
     [0, 2, 10, 1, 38, 2, 4, 22, 10,
     
      0, 2, 10, 1, 38, 2, 4, 22, 10]
   }
-  static var mockData: [Self] {
-    let data = (0..<9*2).map {
-      TempPostEntity(
-        id: $0,
-        profileImageURL: profilePath($0%5),
-        title: titles[$0],
-        userName: userNames[$0],
-        duration: durationArray[$0],
-        yearMonthDayRange: ymdArray[$0],
-        thumbnailImageURls: postContentThumbnails[$0],
-        contentText: postContentTexts[$0],
-        heartCount: postHearts[$0],
-        commentCount: postComments[$0])
+  lazy var mockData: [PostContainer] = {
+    let data: [PostContainer] = (0..<9*2).map { i in
+      let tripDate: Post.TripDate = {
+        var str: String = self.ymdArray[i]
+        let startAndEnd: [String] = str.components(separatedBy: " ~ ").map { String($0) }
+        return Post.TripDate(start: startAndEnd[0], end: startAndEnd[1])
+      }()
+      let postDetail = Post.PostDetail.init(
+        postID: Int64(i),
+        title: titles[i],
+        postImages: postContentThumbnails[i].enumerated().map { (idx, imageString) in
+          return Post.PostImage(imageUri: imageString, sort: Int32(idx))
+        },
+        content: postContentTexts[i],
+        likes: Int32(postHearts[i]),
+        comments: Int32(postComments[i]),
+        location: .init(x: -1.0, y: -1.0),
+        createAt: "24.3.21",
+        tripDate: tripDate)
+      let post = Post(
+        liked: i % 2 == 0,
+        detail: postDetail,
+        author: .init(
+          profileUri: profilePath(i%5),
+          nickname: userNames[i]))
+      return PostContainer(post: post, thumbnails: postContentThumbnails[i], totalPosts: 18*4)
     }
     
     return data + data + data + data
-  }
+  }()
 }

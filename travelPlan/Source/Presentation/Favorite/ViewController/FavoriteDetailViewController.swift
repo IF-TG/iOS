@@ -92,7 +92,12 @@ final class FavoriteDetailViewController: UIViewController {
 // MARK: - Private Helpers
 private extension FavoriteDetailViewController {
   func configureUI() {
-    let postViewModel = PostViewModel(postUseCase: MockPostUseCase())
+    // TODO: - Favorite posts불러오는 api 구현해야합니다.
+    let mockSession = MockSession.default
+    let serviceProvider = SessionProvider(session: mockSession)
+    let defaultPostRepository = DefaultPostRepository(service: serviceProvider)
+    let defaultPostUseCase = DefaultPostUseCase(postRepository: defaultPostRepository)
+    let postViewModel = FavoritePostViewModel(postUseCase: defaultPostUseCase)
     let favoritePostViewController = FavoritePostViewController(postViewModel: postViewModel)
     favoritePostViewController.delegate = self
     favoritePostViewController.postUpdatedHandler = { [weak self] count in
