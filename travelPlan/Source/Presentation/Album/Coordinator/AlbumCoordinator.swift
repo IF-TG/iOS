@@ -26,8 +26,9 @@ final class AlbumCoordinator: FlowCoordinator {
   // MARK: - Helpers
   func start() {
     guard let reviewWritingVC = presenter?.viewControllers.last as? ReviewWritingViewController else { return }
-    
-    let vc = AlbumViewController()
+    let albumUsecase = DefaultAlbumUseCase()
+    let viewModel = DefaultAlbumViewModel(albumUseCase: albumUsecase)
+    let vc = AlbumViewController(viewModel: viewModel)
     vc.imageCompletionHandler = { images in
       reviewWritingVC.setImageView(to: images)
     }
