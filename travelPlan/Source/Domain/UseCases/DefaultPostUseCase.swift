@@ -6,10 +6,13 @@
 //
 
 import Combine
+import Foundation
 
 final class DefaultPostUseCase: PostUseCase {
   // MARK: - Dependencies
   private let postRepository: PostRepository
+  
+  private let backgroundQueue: DispatchQueue
   
   // MARK: - Properties
   var postContainers = PassthroughSubject<[PostContainer], MainError>()
@@ -17,8 +20,9 @@ final class DefaultPostUseCase: PostUseCase {
   private var subscriptions = Set<AnyCancellable>()
   
   // MARK: - Lifecycle
-  init(postRepository: PostRepository) {
+  init(postRepository: PostRepository, backgroundQueue: DispatchQueue = .global(qos: .default)) {
     self.postRepository = postRepository
+    self.backgroundQueue = backgroundQueue
   }
   
   func fetchPosts(with page: PostsPage) {
@@ -30,5 +34,16 @@ final class DefaultPostUseCase: PostUseCase {
       } receiveValue: { [weak self] result in
         self?.postContainers.send(result)
       }.store(in: &subscriptions)
+  }
+  
+  func fetchComments(
+    with requestValue: PostCommentsReqeustValue
+  ) -> AnyPublisher<PostCommentContainerEntity, any Error> {
+    postRepository.fetchComments(
+      page: requestValue.page,
+      perPage: requestValue.perPage,
+      postId: requestValue.postId)
+    .subscribe(on: backgroundQueue)
+    .eraseToAnyPublisher()
   }
 }
