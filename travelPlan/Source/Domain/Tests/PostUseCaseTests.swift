@@ -30,8 +30,9 @@ final class PostUseCaseTests: XCTestCase {
     subscription = nil
     expectation = nil
   }
-  
-  // MARK: - Tests
+}
+// MARK: - PostUseCase.fetchPosts Tests
+extension PostUseCaseTests {
   func testPostUseCase_fetchPosts함수를통해_postContainer배열값을_받았는지_responseDTO검증_shouldReturnTrue() {
     // Arrange
     let mockPostsPage = PostsPage(page: 1, perPage: 1, category: .init(mainTheme: .all, orderBy: .newest), posts: [])
