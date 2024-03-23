@@ -14,5 +14,5 @@ protocol PostRepository {
     page: Int32,
     perPage: Int32,
     postId: Int64
-  ) -> Future<[PostCommentContainerEntity], Error>
+  ) -> Future<PostCommentContainerEntity, Error>
 }
