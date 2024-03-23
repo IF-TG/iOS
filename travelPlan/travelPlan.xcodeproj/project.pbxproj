@@ -287,6 +287,8 @@
 		15B9286F2AFA49C4003A20D4 /* PostDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B9286E2AFA49C4003A20D4 /* PostDetailViewModel.swift */; };
 		15BB01B62A1EB5000035B486 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BB01B52A1EB5000035B486 /* LoginViewController.swift */; };
 		15BB01B82A1EB5070035B486 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BB01B72A1EB5070035B486 /* LoginViewModel.swift */; };
+		15BE6BD42BAEF83D009A2568 /* mock_response_postCommentContainer.json in Resources */ = {isa = PBXBuildFile; fileRef = 15BE6BD32BAEF82A009A2568 /* mock_response_postCommentContainer.json */; };
+		15BE6BD52BAEF8B6009A2568 /* mock_response_postCommentContainer.json in Resources */ = {isa = PBXBuildFile; fileRef = 15BE6BD32BAEF82A009A2568 /* mock_response_postCommentContainer.json */; };
 		15C1F53A2AF25FE4005FDA15 /* BaseNotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C1F5392AF25FE4005FDA15 /* BaseNotificationCell.swift */; };
 		15C1F53C2AF27043005FDA15 /* NotificationViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C1F53B2AF27043005FDA15 /* NotificationViewAdapter.swift */; };
 		15C1F53E2AF2904C005FDA15 /* NotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C1F53D2AF2904C005FDA15 /* NotificationCell.swift */; };
@@ -764,6 +766,7 @@
 		15B9286E2AFA49C4003A20D4 /* PostDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailViewModel.swift; sourceTree = "<group>"; };
 		15BB01B52A1EB5000035B486 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		15BB01B72A1EB5070035B486 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		15BE6BD32BAEF82A009A2568 /* mock_response_postCommentContainer.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = mock_response_postCommentContainer.json; sourceTree = "<group>"; };
 		15C1F5392AF25FE4005FDA15 /* BaseNotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNotificationCell.swift; sourceTree = "<group>"; };
 		15C1F53B2AF27043005FDA15 /* NotificationViewAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewAdapter.swift; sourceTree = "<group>"; };
 		15C1F53D2AF2904C005FDA15 /* NotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCell.swift; sourceTree = "<group>"; };
@@ -1588,6 +1591,7 @@
 			children = (
 				151DF10E2AEECBB400D5D55B /* mock_response_notice.json */,
 				158E81F42B9A4D3F0080CCA8 /* mock_response_postContainer.json */,
+				15BE6BD32BAEF82A009A2568 /* mock_response_postCommentContainer.json */,
 			);
 			path = MockJson;
 			sourceTree = "<group>";
@@ -2711,6 +2715,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				158E81F62B9A4D3F0080CCA8 /* mock_response_postContainer.json in Resources */,
+				15BE6BD52BAEF8B6009A2568 /* mock_response_postCommentContainer.json in Resources */,
 				15E9E5FA2B9A49DA00C2F1F7 /* mock_response_notice.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2731,6 +2736,7 @@
 				158BEFBB2A0EB2A500C27861 /* Pretendard-Regular.ttf in Resources */,
 				15F0A3F529FD58280049AB33 /* .swiftlint.yml in Resources */,
 				1594F53E29FD517F00A58F20 /* LaunchScreen.storyboard in Resources */,
+				15BE6BD42BAEF83D009A2568 /* mock_response_postCommentContainer.json in Resources */,
 				159958762B0D988400B2E4DC /* Palette.xcassets in Resources */,
 				158BEFBC2A0EB2A500C27861 /* Pretendard-SemiBold.ttf in Resources */,
 				158BEFBF2A0EB2A500C27861 /* Pretendard-Thin.ttf in Resources */,
