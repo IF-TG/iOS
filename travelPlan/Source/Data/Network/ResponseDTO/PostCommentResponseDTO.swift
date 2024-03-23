@@ -50,6 +50,16 @@ struct PostCommentResponseDTO: Decodable {
 // MARK: - Mappings to Domain
 extension PostCommentResponseDTO {
   func toDomain() -> PostCommentEntity {
-    
+    return PostCommentEntity(
+      commentId: commentId,
+      userProfileURL: userProfileURL,
+      userName: nickname,
+      timestamp: timestamp,
+      comment: comment,
+      isDeleted: isDeleted,
+      isOnHeart: isOnHeart,
+      isBlocked: isBlocked,
+      hearts: hearts,
+      nestedComments: nestedComments.map { $0.toDomain() })
   }
 }
