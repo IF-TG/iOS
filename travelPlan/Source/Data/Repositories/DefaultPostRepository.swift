@@ -53,7 +53,7 @@ final class DefaultPostRepository: PostRepository {
     return Future { [weak self] promise in
       let subscription = self?.service.request(endpoint: endpoint)
         .mapError {
-          return $0.mapConnectionError ?? .unavailableServer }
+          return $0.asConnectionError }
         .map { $0.result }
         .sink { completion in
           if case .failure(let error) = completion {
