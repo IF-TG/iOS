@@ -21,7 +21,7 @@ final class MyInformationViewModelTests: XCTestCase {
   override func setUp() {
     super.setUp()
     let useCase = MockMyProfileUseCase()
-    sut = MyInformationViewModel(myProfileUseCase: useCase)
+    sut = MyInformationViewModel(myProfileUseCase: useCase, loggedInUserUseCase: DefaultLoggedInUserUseCase(loggedInUserRepository: DefaultLoggedInUserRepository(storage: MockUserStorage())))
     input = MyInformationViewModel.Input()
   }
   
