@@ -308,6 +308,9 @@
 		15CAEF7F2BAED14C008AEDB1 /* PostCommentsRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15CAEF7E2BAED14C008AEDB1 /* PostCommentsRequestDTO.swift */; };
 		15CAEF822BAED183008AEDB1 /* PostCommentResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15CAEF802BAED183008AEDB1 /* PostCommentResponseDTO.swift */; };
 		15CAEF832BAED183008AEDB1 /* PostNestedCommentResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15CAEF812BAED183008AEDB1 /* PostNestedCommentResponseDTO.swift */; };
+		15CAEF852BAED1D8008AEDB1 /* PostCommentContainerResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15CAEF842BAED1D8008AEDB1 /* PostCommentContainerResponseDTO.swift */; };
+		15CAEF872BAED25C008AEDB1 /* PostCommentContainerEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15CAEF862BAED25C008AEDB1 /* PostCommentContainerEntity.swift */; };
+		15CAEF892BAED300008AEDB1 /* CommentAPIEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15CAEF882BAED300008AEDB1 /* CommentAPIEndpoint.swift */; };
 		15CB235B2A109CA4003EAF20 /* PostHeaderContentBottomInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15CB235A2A109CA4003EAF20 /* PostHeaderContentBottomInfo.swift */; };
 		15CB235F2A10B5B8003EAF20 /* DateValidationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15CB235E2A10B5B8003EAF20 /* DateValidationManager.swift */; };
 		15CB23612A10B5E3003EAF20 /* DateValidationProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15CB23602A10B5E3003EAF20 /* DateValidationProtocol.swift */; };
@@ -782,6 +785,9 @@
 		15CAEF7E2BAED14C008AEDB1 /* PostCommentsRequestDTO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostCommentsRequestDTO.swift; sourceTree = "<group>"; };
 		15CAEF802BAED183008AEDB1 /* PostCommentResponseDTO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostCommentResponseDTO.swift; sourceTree = "<group>"; };
 		15CAEF812BAED183008AEDB1 /* PostNestedCommentResponseDTO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostNestedCommentResponseDTO.swift; sourceTree = "<group>"; };
+		15CAEF842BAED1D8008AEDB1 /* PostCommentContainerResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCommentContainerResponseDTO.swift; sourceTree = "<group>"; };
+		15CAEF862BAED25C008AEDB1 /* PostCommentContainerEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCommentContainerEntity.swift; sourceTree = "<group>"; };
+		15CAEF882BAED300008AEDB1 /* CommentAPIEndpoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentAPIEndpoint.swift; sourceTree = "<group>"; };
 		15CB235A2A109CA4003EAF20 /* PostHeaderContentBottomInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostHeaderContentBottomInfo.swift; sourceTree = "<group>"; };
 		15CB235E2A10B5B8003EAF20 /* DateValidationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateValidationManager.swift; sourceTree = "<group>"; };
 		15CB23602A10B5E3003EAF20 /* DateValidationProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateValidationProtocol.swift; sourceTree = "<group>"; };
@@ -1456,6 +1462,7 @@
 				151DF0EF2AEEAE2100D5D55B /* NoticeEntity.swift */,
 				15F376612AFE132900B3BF35 /* PostCommentEntity.swift */,
 				15CAEF7C2BAED114008AEDB1 /* PostNestedCommentEntity.swift */,
+				15CAEF862BAED25C008AEDB1 /* PostCommentContainerEntity.swift */,
 				15C1F5622AF408D3005FDA15 /* SettingType.swift */,
 				15FBA7E42B1343CB00C9B1E7 /* PostThumbnailValue.swift */,
 				15FBD5D92B98DFD000076115 /* Post.swift */,
@@ -1544,6 +1551,7 @@
 				15D655962B8E1C6900466FEC /* Tests */,
 				151DF1002AEEBD0A00D5D55B /* NotificationAPIEndpoints.swift */,
 				130CF3722B8F8A040051DEE8 /* LoginAPIEndPoints.swift */,
+				15CAEF882BAED300008AEDB1 /* CommentAPIEndpoint.swift */,
 				15D655812B8E079200466FEC /* UserInfoAPIEndpoint.swift */,
 				15FBD5DB2B98E32C00076115 /* PostAPIEndpoint.swift */,
 			);
@@ -1561,6 +1569,7 @@
 				15A0E1A02B97A3FD0047D662 /* PostContainerResponseDTO.swift */,
 				153FA90E2B937E12006CF3C3 /* UserProfileResponseDTO.swift */,
 				133531F32BA0D3CB000A4D9E /* JWTResponseDTO.swift */,
+				15CAEF842BAED1D8008AEDB1 /* PostCommentContainerResponseDTO.swift */,
 			);
 			path = ResponseDTO;
 			sourceTree = "<group>";
@@ -2851,6 +2860,7 @@
 				15CB23612A10B5E3003EAF20 /* DateValidationProtocol.swift in Sources */,
 				15302C572B9E29B900B1EA3F /* MockMyProfileUseCase.swift in Sources */,
 				13405F002AECF76300382796 /* BaseLoginButton.swift in Sources */,
+				15CAEF892BAED300008AEDB1 /* CommentAPIEndpoint.swift in Sources */,
 				15E982C12ACD16A2002B932F /* FavoriteDetailMenuAreaView.swift in Sources */,
 				15F2A01C2B14E4E50014603D /* SettingMyProfileView.swift in Sources */,
 				152AD4F62A18B6C3008A2A11 /* FavoriteHeaderImageViews.swift in Sources */,
@@ -3019,6 +3029,7 @@
 				15FB47F12AC1DCEF0033AA18 /* TravelMainThemeCollectionView.swift in Sources */,
 				133532042BA42DDE000A4D9E /* Double+.swift in Sources */,
 				15FBD5D62B98DB5F00076115 /* SeasonMapper.swift in Sources */,
+				15CAEF872BAED25C008AEDB1 /* PostCommentContainerEntity.swift in Sources */,
 				15C1F53E2AF2904C005FDA15 /* NotificationCell.swift in Sources */,
 				158BEFC42A0EC8A100C27861 /* UIView+CustomAnimation.swift in Sources */,
 				151DF0EA2AEEA7BA00D5D55B /* NoticeViewAdapterDataSource.swift in Sources */,
@@ -3132,6 +3143,7 @@
 				1594F53429FD517E00A58F20 /* SceneDelegate.swift in Sources */,
 				15302C552B9E23E900B1EA3F /* UIViewController+Indicator.swift in Sources */,
 				15FBA7E52B1343CB00C9B1E7 /* PostThumbnailValue.swift in Sources */,
+				15CAEF852BAED1D8008AEDB1 /* PostCommentContainerResponseDTO.swift in Sources */,
 				15E9E5F82B9A45A600C2F1F7 /* MockResponseType.swift in Sources */,
 				13BF40F52AD712EC00F3F082 /* UIViewController+TitleView.swift in Sources */,
 				13A6C2DB2AB782A100EABD76 /* UIViewController+BackBarButtonItem.swift in Sources */,
