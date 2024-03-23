@@ -25,10 +25,10 @@ struct PostCommentResponseDTO: Decodable {
     case nickname
     case timestamp = "createAt"
     case comment
-    case isDeleted = "isDeleted"
+    case isDeleted = "deleted"
     case isOnHeart = "liked"
     case hearts = "likeNum"
-    case isBlocked = "isBlocked"
+    case isBlocked = "blocked"
     case nestedComments = "nestedCommentDtoList"
   }
   
@@ -44,6 +44,7 @@ struct PostCommentResponseDTO: Decodable {
     self.hearts = try container.decode(Int32.self, forKey: .hearts)
     self.isBlocked = try container.decode(Bool.self, forKey: .isBlocked)
     self.nestedComments = try container.decode([PostNestedCommentResponseDTO].self, forKey: .nestedComments)
+  
   }
 }
 
