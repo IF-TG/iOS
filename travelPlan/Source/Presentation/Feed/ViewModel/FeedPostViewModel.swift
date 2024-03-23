@@ -9,6 +9,34 @@ import Foundation
 import Combine
 
 class FeedPostViewModel: PostViewModel {
+  struct Input {
+    let feedRefresh: PassthroughSubject<Void, Never> = .init()
+    let nextPage: PassthroughSubject<Void, Never> = .init()
+    let viewDidLoad: PassthroughSubject<Void, Never> = .init()
+    let notifiedOrderFilterRequest: PassthroughSubject<TravelOrderType, Never>
+    let notifiedMainThemeFilterRequest: PassthroughSubject<TravelMainThemeType, Never>
+    
+    init(
+      notifiedOrderFilterRequest: PassthroughSubject<TravelOrderType, Never>,
+      notifiedMainThemeFilterRequest: PassthroughSubject<TravelMainThemeType, Never>
+    ) {
+      self.notifiedOrderFilterRequest = notifiedOrderFilterRequest
+      self.notifiedMainThemeFilterRequest = notifiedMainThemeFilterRequest
+    }
+  }
+  
+  enum State {
+    case viewDidLoad
+    case refresh
+    case nextPage(reloadCompletion: () -> Void)
+    case loadingNextPage
+    case unexpectedError(description: String)
+    case noMorePage
+    case postFilterLoading
+    case postFilterLoaded
+    case none
+  }
+  
   // MARK: - Properties
   var currentPage: Int32 = 0
   
