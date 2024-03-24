@@ -104,6 +104,10 @@ extension MockPostCommentRepository {
   }
   
   func toggleCommentHeart(commentId: Int64) -> Future<ToggledPostCommentHeartEntity, any Error> {
+    MockUrlProtocol.requestHandler = { _ in
+      let mock = MockResponseType.postComment(.whenCommentHeartToggle).mockDataLoader
+      return ((HTTPURLResponse(), mock))
+    }
     return Future { promise in
       DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.5) { [weak self] in
         let subscription = self?.repository
