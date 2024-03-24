@@ -8,11 +8,20 @@
 import UIKit
 import SnapKit
 import Combine
+import Photos
 
 final class ReviewWritingViewController: UIViewController {
+  // MARK: - Nested
   enum KeyboardState {
     case willShow
     case willHide
+  }
+  
+  enum Constant {
+    enum ScrollView {
+      static let leading: CGFloat = 15
+      static let trailing: CGFloat = 15
+    }
   }
   
   // MARK: - Properties
@@ -219,7 +228,7 @@ extension ReviewWritingViewController: LayoutSupport {
   func setConstraints() {
     scrollView.snp.makeConstraints {
       $0.top.equalTo(view.safeAreaLayoutGuide)
-      $0.leading.trailing.equalToSuperview().inset(15)
+      $0.leading.trailing.equalToSuperview().inset(Constant.ScrollView.leading)
       $0.height.equalToSuperview().multipliedBy(0.73)
       $0.bottom.equalTo(bottomView.snp.top)
     }
@@ -268,9 +277,20 @@ private extension ReviewWritingViewController {
 }
 // MARK: - Helpers
 extension ReviewWritingViewController {
-  func setImageView(to images: [UIImage]) {
-    for image in images {
-      contentView.addImageView(image: image)
+  func setupImage(assets: [PHAsset], photoService: any PhotoService) {
+    let size = CGSize(
+      width: UIScreen.main.bounds.width -
+      (Constant.ScrollView.leading + Constant.ScrollView.trailing) * 2,
+      height: CGFloat.greatestFiniteMagnitude
+    )
+    for asset in assets {
+      photoService.fetchImage(
+        asset: asset,
+        size: size,
+        contentMode: .aspectFit
+      ) { [weak self] image in
+        self?.contentView.addImageView(image: image)
+      }
     }
   }
 }
