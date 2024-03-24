@@ -82,10 +82,24 @@ extension MockPostCommentRepository {
     }
   }
   
-  /// 임시 구현
   func fetchComments(page: Int32, perPage: Int32, postId: Int64) -> Future<[PostCommentEntity], any Error> {
+    MockUrlProtocol.requestHandler = { _ in
+      let mock = MockResponseType.postComment(.whenCommentsFetch).mockDataLoader
+      return ((HTTPURLResponse(), mock))
+    }
     return Future { promise in
-      promise(.failure(ReferenceError.invalidReference))
+      DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.5) { [weak self] in
+        let subscription = self?.repository
+          .fetchComments(page: page, perPage: perPage, postId: postId)
+          .sink { completion in
+            if case .failure(let error) = completion {
+              promise(.failure(error))
+            }
+          } receiveValue: { postCommentEntities in
+            promise(.success(postCommentEntities))
+          }
+        self?.subscriptions.insert(subscription)
+      }
     }
   }
 }
