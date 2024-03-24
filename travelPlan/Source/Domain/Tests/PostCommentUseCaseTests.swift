@@ -100,4 +100,30 @@ extension PostCommentUseCaseTests {
     checkIfUnexpectedErrorOccured(unexpectedError)
     XCTAssertTrue(result, notReceivedErrorMessage)
   }
+  
+  func testPostCommentUseCase_deleteComment함수호출시_데이터삭제인true를받았는지_ShouldReturnTrue() {
+    // Arrange
+    var result = false
+    var unexpectedError: Error?
+    testFunctionName = "deleteComment"
+    
+    // Act
+    subscription = sut.deleteComment(commentId: 1)
+      .sink { [unowned self] completion in
+        if case .failure(let error) = completion {
+          unexpectedError = error
+        }
+        expectation.fulfill()
+      } receiveValue: { [unowned self] entity in
+        print("DEBUG: 값을 성공적으로 받았습니다~\n\n:\(entity)")
+        result = true
+        expectation.fulfill()
+      }
+    wait(for: [expectation], timeout: 7.777777777)
+    
+    // Assert
+    checkIfUnexpectedErrorOccured(unexpectedError)
+    XCTAssertTrue(result, notReceivedErrorMessage)
+
+  }
 }
