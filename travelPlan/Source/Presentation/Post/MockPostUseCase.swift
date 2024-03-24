@@ -12,7 +12,7 @@ import Foundation
 final class MockPostUseCaseForPaging: PostUseCase {
   /// MockPostUseCaseForPaging에서 fetchComments는 미구현.
   func fetchComments(
-    with requestValue: PostCommentsReqeustValue
+    with requestValue: PostCommentsRequestValue
   ) -> AnyPublisher<PostCommentContainerEntity, any Error> {
     Empty().eraseToAnyPublisher()
   }
