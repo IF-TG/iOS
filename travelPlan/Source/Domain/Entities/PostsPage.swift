@@ -10,14 +10,14 @@ import Foundation
 struct PostsPage {
   let page: Int
   let perPage: Int
-  let category: Category
+  let category: PostCategory
   let posts: [Post]
 }
-
-// MARK: - Nested
-extension PostsPage {
-  struct Category {
-    let mainTheme: TravelMainThemeType
-    let orderBy: TravelOrderType
-  }
-}
+//
+//// MARK: - Nested
+//extension PostsPage {
+//  struct Category {
+//    let mainTheme: TravelMainThemeType
+//    let orderBy: TravelOrderType
+//  }
+//}

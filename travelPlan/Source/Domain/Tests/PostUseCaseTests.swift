@@ -35,23 +35,24 @@ final class PostUseCaseTests: XCTestCase {
 extension PostUseCaseTests {
   func testPostUseCase_fetchPosts함수를통해_postContainer배열값을_받았는지_responseDTO검증_shouldReturnTrue() {
     // Arrange
-    let mockPostsPage = PostsPage(page: 1, perPage: 1, category: .init(mainTheme: .all, orderBy: .newest), posts: [])
-    var result = false
-    var unexpectedError: MainError?
+    let mockCategory = PostCategory(mainTheme: .all, orderBy: .newest)
+    let mockPostFetchRequestValue = PostFetchRequestValue(page: 0, perPage: 10, category: mockCategory)
+    var result: Bool = false
+    var unexpectedError: Error?
     
     // Act
-    subscription = sut.postContainers
-      .sink(receiveCompletion: { [unowned self] completion in
-        if case .failure(let error) = completion { unexpectedError = error }
+    subscription = sut.fetchPosts(with: mockPostFetchRequestValue).sink(receiveCompletion: { completion in
+      if case .failure(let error) = completion {
+        unexpectedError = error
         result = false
-        expectation.fulfill()
-      }, receiveValue: { [unowned self] postContainers in
-        print("DEBUG: 값을 성공적으로 받음\n\(postContainers.description)")
-        result = true
-        expectation.fulfill()
-      })
+        self.expectation.fulfill()
+      }
+    }, receiveValue: { postContainers in
+      print("DEBUG: 값을 성공적으로 받음\n\(postContainers.description)")
+      result = true
+      self.expectation.fulfill()
+    })
     
-    sut.fetchPosts(with: mockPostsPage)
     wait(for: [expectation], timeout: 7)
     
     // Assert
@@ -60,7 +61,7 @@ extension PostUseCaseTests {
         false,
         """
           testPostUseCase의 fetchPosts()를 호출했을 때 postContainer값을 성공적으로 받아야 하지만 에러가 발생됨
-          Error description:\(unexpectedError.description)
+          Error description:\(unexpectedError.localizedDescription)
         """)
     }
     

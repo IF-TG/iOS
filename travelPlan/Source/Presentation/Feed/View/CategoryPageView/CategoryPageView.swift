@@ -11,27 +11,22 @@ import UIKit
 final class CategoryPageView: UIView {
   // MARK: - Properties
   /// 전체, 계절, 지역 ... 7개 테마 카테고리 뷰
-  private let travelMainThemeCategoryView = TravelMainThemeCategoryAreaView()
+  private let travelMainThemeView = TravelMainThemeCategoryAreaView()
   
-  /// 7개 테마 카테고리에 대한 상세 뷰
-  private var pageViewDataSource: [UIViewController]!
+  /// 7개 테마 카테고리에 대한 상세 페이지 뷰
+  private var pageViews: [UIViewController]!
   
   private lazy var postPageViewController = UIPageViewController(
     transitionStyle: .scroll,
     navigationOrientation: .horizontal
   ).set {
     $0.view.translatesAutoresizingMaskIntoConstraints = false
-    $0.setViewControllers(
-      [pageViewDataSource[0]],
-      direction: .forward,
-      animated: true)
+    $0.setViewControllers([pageViews[0]], direction: .forward, animated: true)
   }
   
   private var postPageView: UIView? {
     postPageViewController.view
   }
-    
-  weak var postDelegator: PostViewAdapterDelegate?
   
   private var presentedPageViewIndex = 0
   
@@ -40,15 +35,16 @@ final class CategoryPageView: UIView {
   private var adapter: CategoryPageViewAdapter?
   
   // MARK: - Lifecycle
-  init(frame: CGRect, viewModel: CategoryPageViewDataSource, postDelegator: PostViewAdapterDelegate?) {
+  init(frame: CGRect, viewModel: CategoryPageViewDataSource, pageViews: [UIViewController]) {
     self.viewModel = viewModel
-    self.postDelegator = postDelegator
+    self.pageViews = pageViews
     super.init(frame: frame)
-    configureUI()
+    translatesAutoresizingMaskIntoConstraints = false
+    setupUI()
     adapter = CategoryPageViewAdapter(
       dataSource: viewModel,
       delegate: self,
-      travelThemeCollectionView: travelMainThemeCategoryView.travelThemeCategoryView)
+      travelThemeCollectionView: travelMainThemeView.travelThemeCategoryView)
   }
   
   required init?(coder: NSCoder) {
@@ -73,18 +69,6 @@ extension CategoryPageView {
 
 // MARK: - Private Helpers
 private extension CategoryPageView {
-  func configureUI() {
-    translatesAutoresizingMaskIntoConstraints = false
-    pageViewDataSource = (0..<viewModel.numberOfItems).map {
-      let filterInfo = viewModel.postSearchFilterItem(at: $0)
-      if $0+1 == viewModel.numberOfItems {
-        return DevelopmentViewController(nibName: nil, bundle: nil)
-      }
-      return FeedPostViewController(with: filterInfo, postDelegator: postDelegator)
-    }
-    setupUI()
-  }
-  
   func showCurrentPageView(fromSelectedIndex selectedIndex: Int) {
     guard selectedIndex != presentedPageViewIndex else { return }
     var direction: UIPageViewController.NavigationDirection
@@ -95,7 +79,7 @@ private extension CategoryPageView {
   
   func setCurrentPage(with direction: UIPageViewController.NavigationDirection) {
     postPageViewController.setViewControllers(
-      [pageViewDataSource[presentedPageViewIndex]],
+      [pageViews[presentedPageViewIndex]],
       direction: direction,
       animated: true)
   }
@@ -108,7 +92,7 @@ extension CategoryPageView: CategoryPageViewDelegate {
     willDisplayFirstCell cell: UICollectionViewCell,
     scrollBarLeadingInset leadingInset: CGFloat
   ) {
-    travelMainThemeCategoryView.drawScrollBar(
+    travelMainThemeView.drawScrollBar(
       layoutTargetCell: cell,
       leadingInset: leadingInset,
       animation: false)
@@ -121,14 +105,14 @@ extension CategoryPageView: CategoryPageViewDelegate {
   ) {
     let cell = collectionView.cellForItem(at: indexPath)
     showCurrentPageView(fromSelectedIndex: indexPath.row)
-    travelMainThemeCategoryView.drawScrollBar(layoutTargetCell: cell, leadingInset: inset)
+    travelMainThemeView.drawScrollBar(layoutTargetCell: cell, leadingInset: inset)
   }
 }
 
 // MARK: - LayoutSupport
 extension CategoryPageView: LayoutSupport {
   func addSubviews() {
-    addSubview(travelMainThemeCategoryView)
+    addSubview(travelMainThemeView)
     guard let postPageView else {
       print("DEBUG: PostPageView 생성 x")
       return
@@ -151,17 +135,17 @@ private extension CategoryPageView {
   var categoryViewConstraint: [NSLayoutConstraint] {
     typealias Const = TravelMainThemeCategoryAreaView.Constant
     return [
-      travelMainThemeCategoryView.topAnchor.constraint(equalTo: topAnchor),
-      travelMainThemeCategoryView.leadingAnchor.constraint(equalTo: leadingAnchor),
-      travelMainThemeCategoryView.trailingAnchor.constraint(equalTo: trailingAnchor),
-      travelMainThemeCategoryView.heightAnchor.constraint(equalToConstant: Const.size.height)]
+      travelMainThemeView.topAnchor.constraint(equalTo: topAnchor),
+      travelMainThemeView.leadingAnchor.constraint(equalTo: leadingAnchor),
+      travelMainThemeView.trailingAnchor.constraint(equalTo: trailingAnchor),
+      travelMainThemeView.heightAnchor.constraint(equalToConstant: Const.size.height)]
   }
   
   var travelDetailThemePageViewConstraint: [NSLayoutConstraint] {
     guard let postPageView else { return [] }
     return [
       postPageView.leadingAnchor.constraint(equalTo: leadingAnchor),
-      postPageView.topAnchor.constraint(equalTo: travelMainThemeCategoryView.bottomAnchor),
+      postPageView.topAnchor.constraint(equalTo: travelMainThemeView.bottomAnchor),
       postPageView.trailingAnchor.constraint(equalTo: trailingAnchor),
       postPageView.bottomAnchor.constraint(equalTo: bottomAnchor)]
   }
