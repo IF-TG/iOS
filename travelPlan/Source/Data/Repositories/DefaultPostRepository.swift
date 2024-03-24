@@ -32,7 +32,7 @@ final class DefaultPostRepository: PostRepository {
       subCategory: travelSubCategory,
       userId: 13)
     let endpoint = Endpoint.fetchPosts(with: requestDTO)
-    return Future<[PostContainer], Error> { [weak self] promise in
+    return Future { [weak self] promise in
       let subscription = self?.service.request(endpoint: endpoint)
         .mapError { MainError.networkError($0) }
         .sink { completion in
@@ -42,6 +42,28 @@ final class DefaultPostRepository: PostRepository {
         } receiveValue: { responseDTO in
           let postContainers = responseDTO.result.map { $0.toDomain() }
           promise(.success(postContainers))
+        }
+      self?.subscriptions.insert(subscription)
+    }
+  }
+  
+  func fetchComments(page: Int32, perPage: Int32, postId: Int64) -> Future<PostCommentContainerEntity, any Error> {
+    let requestDTO = PostCommentsRequestDTO(page: page, perPage: perPage, postId: postId)
+    let endpoint = Endpoint.fetchComments(with: requestDTO)
+    return Future { [weak self] promise in
+      let subscription = self?.service.request(endpoint: endpoint)
+        .mapError {
+          return $0.mapConnectionError ?? .unavailableServer }
+        .map { $0.result }
+        .sink { completion in
+          if case .failure(let error) = completion {
+            promise(.failure(error))
+          }
+        } receiveValue: { response in
+          let mappedResult = PostCommentContainerEntity(
+            comments: response.comments.map { $0.toDomain() },
+            isFavorited: response.isFavorited)
+          promise(.success(mappedResult))
         }
       self?.subscriptions.insert(subscription)
     }

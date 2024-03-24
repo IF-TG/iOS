@@ -35,11 +35,14 @@ enum RequestType {
 extension RequestType {
   enum Post {
     case postsFetch
+    case postCommentsFetch
     
     var path: String {
       switch self {
       case .postsFetch:
          "posts"
+      case .postCommentsFetch:
+        "post/detail"
       }
     }
   }
