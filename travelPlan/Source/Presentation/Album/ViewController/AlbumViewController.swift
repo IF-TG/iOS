@@ -53,7 +53,7 @@ final class AlbumViewController: UIViewController {
   }
   
   private var subscriptions = Set<AnyCancellable>()
-  var imageCompletionHandler: (([UIImage]) -> Void)?
+  var finishButtonHandler: (([PHAsset]) -> Void)?
   private let viewModel: any AlbumViewModelable
   private let input = AlbumViewModelInput()
   
@@ -197,6 +197,11 @@ extension AlbumViewController {
           self?.update(indexPaths: indexPaths)
         case .activateFinishButton(let basis):
           self?.decideFinishButtonState(basis)
+        case.popViewController:
+          self?.coordinator?.finish(withAnimated: true)
+        case .deliverAssets(let selectedAssets):
+          self?.finishButtonHandler?(selectedAssets)
+          self?.coordinator?.finish(withAnimated: true)
         }
       }
       .store(in: &subscriptions)
@@ -206,33 +211,11 @@ extension AlbumViewController {
 // MARK: - Actions
 private extension AlbumViewController {
   @objc func didTapCancelButton(_ sender: UIButton) {
-    print("취소 버튼 클릭")
-    coordinator?.finish(withAnimated: true)
+    input.didTapCancelButton.send()
   }
   
   @objc func didTapFinishButton(_ sender: UIButton) {
-//    print("1. 완료 버튼 클릭")
-//    var imageList = Array(repeating: UIImage(), count: selectedIndexArray.count)
-//    let group = DispatchGroup()
-//    for (i, indexPathItem) in selectedIndexArray.enumerated() {
-//      group.enter()
-    
-//      photoService.fetchImage(
-//        asset: viewModel.dataSource[indexPathItem].asset,
-//        size: CGSize(width: UIScreen.main.bounds.width - 15 * 2,
-//                     height: CGFloat.greatestFiniteMagnitude),
-//        contentMode: .aspectFit) { image in
-//          imageList[i] = image
-//          group.leave()
-//        }
-//    }
-    
-//    group.notify(queue: .main) { [weak self] in
-//      guard let self = self else { return }
-//      self.imageCompletionHandler?(imageList)
-//    }
-//    
-//    coordinator?.finish(withAnimated: true)
+    input.didTapFinishButton.send()
   }
   
   @objc func didTapTitleView() {
