@@ -52,16 +52,6 @@ final class AlbumViewController: UIViewController {
     self.addGestureRecognizer(from: $0, action: #selector(didTapTitleView))
   }
   
-//  private var currentAlbumIndex = 0 {
-//    didSet { loadImages() }
-//  }
-//  private let albumService: AlbumService = ReviewWriteAlbumService()
-//  private let photoService: PhotoService = ReviewWritePhotoService()
-//  private var albums = [PHFetchResult<PHAsset>]()
-  
-  /// - index: order-1
-  /// - element: indexPath.item
-//  @Published private var selectedIndexArray = [Int]()
   private var subscriptions = Set<AnyCancellable>()
   var imageCompletionHandler: (([UIImage]) -> Void)?
   private let viewModel: any AlbumViewModelable
@@ -84,10 +74,7 @@ final class AlbumViewController: UIViewController {
     setupStyles()
     setupNavigationBar()
     bind()
-    input.viewDidLoad.send(.image)
-//    loadAlbums(completion: { [weak self] in
-//      self?.loadImages()
-//    })
+    input.viewDidLoad.send()
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -145,13 +132,16 @@ extension AlbumViewController: UICollectionViewDataSource {
       width: Const.cellSize.width * Const.scale,
       height: Const.cellSize.height * Const.scale
     )
+    let photoModel = viewModel.dataSource[indexPath.item]
+    
     photoService.fetchImage(
-      asset: viewModel.dataSource[indexPath.item].asset,
+      asset: photoModel.asset,
       size: imageSize,
-      contentMode: .aspectFit) { [weak cell] image in
-        let cellInfo = PhotoCellInfo(image: image, selectedOrder: .none)
-        cell?.configure(with: cellInfo)
-      }
+      contentMode: .aspectFit
+    ) { [weak cell] image in
+      let cellInfo = PhotoCellInfo(image: image, selectedOrder: photoModel.selectedOrder)
+      cell?.configure(with: cellInfo)
+    }
 
     return cell
   }
@@ -164,13 +154,6 @@ extension AlbumViewController {
       collectionView.reloadItems(at: indexPaths)
     }
   }
-  
-//  private func loadAlbums(completion: @escaping () -> Void) {
-//    albumService.getAlbums(mediaType: .image) { [weak self] albumEntities in
-//      self?.albums = albumEntities.map(\.album)
-//      completion()
-//    }
-//  }
   
   private func setupStyles() {
     view.backgroundColor = .white
@@ -187,13 +170,15 @@ extension AlbumViewController {
     view.addGestureRecognizer(tapGesture)
   }
   
-//  private func loadImages() {
-//    let album = albums[currentAlbumIndex]
-//    photoService.convertAlbumToPHAssets(album: album) { [weak self] assets in
-//      self?.dataSource = assets.map { PhotoEntity(asset: $0, image: nil, selectedOrder: .none) }
-//      self?.collectionView.reloadData()
-//    }
-//  }
+  private func decideFinishButtonState(_ shouldAvtivate: Bool) {
+    if shouldAvtivate {
+      self.finishButton.isEnabled = true
+      self.finishButton.setTitleColor(.yg.primary, for: .normal)
+    } else {
+      self.finishButton.isEnabled = false
+      self.finishButton.setTitleColor(.yg.gray1, for: .normal)
+    }
+  }
   
   private func bind() {
     let output = viewModel.transform(input)
@@ -204,24 +189,17 @@ extension AlbumViewController {
         case .none:
           break
         case .showDetailPhoto:
+          // TODO: - 사진확대화면을 보여줘야합니다.
           break
-        case .reload:
+        case .reloadData:
           self?.collectionView.reloadData()
+        case .reloadItem(let indexPaths):
+          self?.update(indexPaths: indexPaths)
+        case .activateFinishButton(let basis):
+          self?.decideFinishButtonState(basis)
         }
       }
       .store(in: &subscriptions)
-    
-//    $selectedIndexArray
-//      .sink { [weak self] arr in
-//        if arr.count > 0 {
-//          self?.finishButton.isEnabled = true
-//          self?.finishButton.setTitleColor(.yg.primary, for: .normal)
-//        } else {
-//          self?.finishButton.isEnabled = false
-//          self?.finishButton.setTitleColor(.yg.gray1, for: .normal)
-//        }
-//      }
-//      .store(in: &subscriptions)
   }
 }
 
@@ -265,37 +243,12 @@ private extension AlbumViewController {
 // MARK: - PhotoCellDelegate
 extension AlbumViewController: PhotoCellDelegate {
   func touchBegan(_ cell: UICollectionViewCell, quadrant: PhotoCellQuadrant) {
-//    switch quadrant {
-//    case .first:
-//      guard let indexPath = collectionView.indexPath(for: cell) else { return }
-//      
-//      let cellInfo = dataSource[indexPath.item]
-//      let newIndexPaths: [IndexPath]
-//      
-//      if case .selected = cellInfo.selectedOrder {
-//        dataSource[indexPath.item].selectedOrder = .none
-//        selectedIndexArray.removeAll(where: { $0 == indexPath.item })
-//        
-//        for (order, index) in selectedIndexArray.enumerated() {
-//          let order = order + 1
-//          let prev = dataSource[index]
-//          dataSource[index] = PhotoEntity(asset: prev.asset, image: prev.image, selectedOrder: .selected(order))
-//        }
-//        newIndexPaths = [indexPath] + selectedIndexArray.map { IndexPath(item: $0, section: 0) }
-//      } else {
-//        guard selectedIndexArray.count < 20 else { return }
-//        
-//        selectedIndexArray.append(indexPath.item)
-//        dataSource[indexPath.item].selectedOrder = .selected(selectedIndexArray.count)
-//        newIndexPaths = selectedIndexArray.map { IndexPath(item: $0, section: .zero) }
-//      }
-//      
-//      update(indexPaths: newIndexPaths) // UI로직
-//    case .else:
-//      print("연관값으로 image넘겨서 imageDetailVC 열기")
-//      // TODO: - 연관값으로 image넘겨서 imageDetailVC 열기
-//      break
-//    }
+    guard let indexPath = collectionView.indexPath(for: cell) else { return }
+    if case .first = quadrant {
+      input.touchedFirstQuadrant.send(indexPath)
+    } else {
+      input.touchedElseQuadrant.send(indexPath)
+    }
   }
 }
 
