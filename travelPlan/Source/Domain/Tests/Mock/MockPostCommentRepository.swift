@@ -61,4 +61,10 @@ extension MockPostCommentRepository {
       }
     }
   }
+  
+  func deleteComment(commentId: Int64) -> Future<Bool, any Error> {
+    return Future { promise in
+      promise(.failure(ReferenceError.invalidReference))
+    }
+  }
 }
