@@ -68,4 +68,26 @@ final class PostCommentAPIEndpointTests: XCTestCase {
       "PostAPIEndpoint의 updateComment()에서 DataRequest의 urlRequest를 반환해야하는데 nil 반환")
     XCTAssertEqual(dataRequest?.convertible.urlRequest?.url, expectedURL)
   }
+  
+  func testPostCommentAPIEndpoint_deleteComment함수호출시_DataRequest과AbsoluteURL이_정확한지_ShouldReturnEqual() {
+    // Arrange
+    let expectedURL = URL(string: "http://localhost:8080/comment?commentId=1")
+    let mockRequestDTO = PostCommentDeleteRequestDTO(commentId: 1)
+    
+    let endpoint = sut.deleteComment(with: mockRequestDTO)
+    var dataRequest: DataRequest?
+    
+    // Act
+    DispatchQueue.global(qos: .background).async { [unowned self] in
+      dataRequest = try? endpoint.makeRequest(from: mockSession)
+      expectation.fulfill()
+    }
+    wait(for: [expectation], timeout: 10)
+    
+    // Assert
+    XCTAssertNotNil(
+      dataRequest?.convertible.urlRequest,
+      "PostAPIEndpoint의 deleteComment()에서 DataRequest의 urlRequest를 반환해야하는데 nil 반환")
+    XCTAssertEqual(dataRequest?.convertible.urlRequest?.url, expectedURL)
+  }
 }
