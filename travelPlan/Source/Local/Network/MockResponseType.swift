@@ -41,13 +41,15 @@ enum MockResponseType {
     case whenCommentUpdate
     case whenCommentDelete
     case whenCommentsFetch
+    case whenCommentHeartToggle
     
     var filePath: String {
       let dict = [
         .whenCommentSend: "mock_response_postComments_whenCommentSend",
         .whenCommentUpdate: "mock_postComment_update_response",
         .whenCommentDelete: "mock_postComment_delete_response",
-        .whenCommentsFetch: "mock_postComment_fetchComments_response"
+        .whenCommentsFetch: "mock_postComment_fetchComments_response",
+        .whenCommentHeartToggle: "mock_postComment_toggleCommentHeart_response"
       ] as [Self: String]
       return dict[self]!
     }
