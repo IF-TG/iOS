@@ -78,6 +78,7 @@ extension RequestType {
     case send
     case update
     case delete
+    case fetch
     
     var path: String {
       "comment"
