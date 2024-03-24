@@ -9,8 +9,6 @@ import UIKit
 import Photos
 
 protocol PhotoService {
-  func convertAlbumToPHAssets(album: PHFetchResult<PHAsset>, 
-                              completion: @escaping ([PHAsset]) -> Void)
   func fetchImage(asset: PHAsset,
                   size: CGSize,
                   contentMode: PHImageContentMode,
