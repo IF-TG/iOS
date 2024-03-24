@@ -88,10 +88,6 @@ final class AlbumViewController: UIViewController {
     tabBarController?.tabBar.isHidden = false
     (tabBarController as? MainTabBarController)?.showShadowLayer()
   }
-  
-  deinit {
-    print("deinit: \(AlbumViewController.self)")
-  }
 }
 
 // MARK: - LayoutSupport
