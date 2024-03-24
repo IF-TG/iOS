@@ -9,6 +9,7 @@ import UIKit
 import Photos
 
 protocol PhotoService {
+  /// PHAsset을 image로 변환하는 메소드입니다.
   func fetchImage(asset: PHAsset,
                   size: CGSize,
                   contentMode: PHImageContentMode,

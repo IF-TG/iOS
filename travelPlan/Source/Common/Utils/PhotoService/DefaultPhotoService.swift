@@ -10,7 +10,7 @@ import UIKit
 
 final class DefaultPhotoService {
   // MARK: - Properties
-  private let imageManager = PHCachingImageManager()
+  private let imageManager = PHCachingImageManager.default()
 }
 
 // MARK: - PhotoService
