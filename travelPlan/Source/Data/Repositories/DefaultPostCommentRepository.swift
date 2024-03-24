@@ -45,4 +45,27 @@ final class DefaultPostCommentRepository: PostCommentRepository {
       self?.subscriptions.insert(subscription)
     }
   }
+  
+  func updateComment(commentId: Int64, comment: String) -> Future<UpdatedPostCommentEntity, any Error> {
+    let requestDTO = PostCommentUpdateRequestDTO(commentId: commentId, comment: comment)
+    return Future { [weak self] promise in
+      guard let backgroundQueue = self?.backgroundQueue else {
+        promise(.failure(ReferenceError.invalidReference))
+        return
+      }
+      let subscription = self?.service.request(endpoint: endpoint.updateComment(with: requestDTO))
+        .subscribe(on: backgroundQueue)
+        .mapConnectionError { $0 }
+        .map { $0.result }
+        .sink { completion in
+          if case .failure(let error) = completion {
+            promise(.failure(error))
+          }
+        } receiveValue: { responseDTO in
+          let updatedPostCommentEntity = responseDTO.toDomain()
+          promise(.success(updatedPostCommentEntity))
+        }
+      self?.subscriptions.insert(subscription)
+    }
+  }
 }
