@@ -14,4 +14,6 @@ protocol PostCommentUseCase {
   func updateComment(commentId: Int64, comment: String) -> AnyPublisher<UpdatedPostCommentEntity, Error>
   
   func deleteComment(commentId: Int64) -> AnyPublisher<Bool, Error>
+  
+  func fetchComments(with requestValue: PostCommentsReqeustValue) -> AnyPublisher<PostCommentEntity, Error>
 }
