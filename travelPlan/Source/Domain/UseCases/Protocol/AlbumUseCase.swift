@@ -7,8 +7,8 @@
 
 import Foundation
 import Photos
-//import Combine
 
 protocol AlbumUseCase {
-  func getPhotos(mediaType: MediaType) -> [PHAsset]
+  func getAssets() -> [PHAsset]
+  var maxSelectedImageCount: Int { get }
 }
