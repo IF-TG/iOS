@@ -143,6 +143,7 @@
 		1518BC1B2BB022D100FD1A74 /* mock_postComment_update_response.json in Resources */ = {isa = PBXBuildFile; fileRef = 1518BC1A2BB022D100FD1A74 /* mock_postComment_update_response.json */; };
 		1518BC1D2BB02A2800FD1A74 /* PostCommentDeleteRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1518BC1C2BB02A2800FD1A74 /* PostCommentDeleteRequestDTO.swift */; };
 		1518BC1F2BB02DEE00FD1A74 /* mock_postComment_delete_response.json in Resources */ = {isa = PBXBuildFile; fileRef = 1518BC1E2BB02DEE00FD1A74 /* mock_postComment_delete_response.json */; };
+		1518BC212BB03BF300FD1A74 /* mock_postComment_fetchComments_response.json in Resources */ = {isa = PBXBuildFile; fileRef = 1518BC202BB03BF300FD1A74 /* mock_postComment_fetchComments_response.json */; };
 		1519412B2B138F7E00D9B6BF /* PostCellConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1519412A2B138F7E00D9B6BF /* PostCellConfigurable.swift */; };
 		151BDAD42B16E8EA002F36C3 /* UIGestureRecognizer+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151BDAD32B16E8EA002F36C3 /* UIGestureRecognizer+Combine.swift */; };
 		151BDAD62B16EE07002F36C3 /* UIView+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151BDAD52B16EE07002F36C3 /* UIView+Combine.swift */; };
@@ -649,6 +650,7 @@
 		1518BC1A2BB022D100FD1A74 /* mock_postComment_update_response.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = mock_postComment_update_response.json; sourceTree = "<group>"; };
 		1518BC1C2BB02A2800FD1A74 /* PostCommentDeleteRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCommentDeleteRequestDTO.swift; sourceTree = "<group>"; };
 		1518BC1E2BB02DEE00FD1A74 /* mock_postComment_delete_response.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = mock_postComment_delete_response.json; sourceTree = "<group>"; };
+		1518BC202BB03BF300FD1A74 /* mock_postComment_fetchComments_response.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = mock_postComment_fetchComments_response.json; sourceTree = "<group>"; };
 		1519412A2B138F7E00D9B6BF /* PostCellConfigurable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCellConfigurable.swift; sourceTree = "<group>"; };
 		151BDAD32B16E8EA002F36C3 /* UIGestureRecognizer+Combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIGestureRecognizer+Combine.swift"; sourceTree = "<group>"; };
 		151BDAD52B16EE07002F36C3 /* UIView+Combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Combine.swift"; sourceTree = "<group>"; };
@@ -2036,6 +2038,7 @@
 				15BE6BEE2BAF1FD4009A2568 /* mock_response_postComments_whenCommentSend.json */,
 				1518BC1A2BB022D100FD1A74 /* mock_postComment_update_response.json */,
 				1518BC1E2BB02DEE00FD1A74 /* mock_postComment_delete_response.json */,
+				1518BC202BB03BF300FD1A74 /* mock_postComment_fetchComments_response.json */,
 			);
 			path = PostComment;
 			sourceTree = "<group>";
@@ -2810,6 +2813,7 @@
 				158BEFBC2A0EB2A500C27861 /* Pretendard-SemiBold.ttf in Resources */,
 				1518BC1F2BB02DEE00FD1A74 /* mock_postComment_delete_response.json in Resources */,
 				158BEFBF2A0EB2A500C27861 /* Pretendard-Thin.ttf in Resources */,
+				1518BC212BB03BF300FD1A74 /* mock_postComment_fetchComments_response.json in Resources */,
 				15E1550D2BAB47F400582E12 /* BottomNextPageIndicatorCell.xib in Resources */,
 				1518BC1B2BB022D100FD1A74 /* mock_postComment_update_response.json in Resources */,
 				158BEFBA2A0EB2A500C27861 /* Pretendard-Bold.ttf in Resources */,
