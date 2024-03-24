@@ -12,8 +12,8 @@ import Photos
 final class DefaultAlbumUseCase {
   // MARK: - Properties
   private let sortDescriptors = [
-    NSSortDescriptor(key: "creationDate", ascending: false),
-    NSSortDescriptor(key: "modificationDate", ascending: false)
+    NSSortDescriptor(key: "creationDate", ascending: false), // 가장 최근에 생성된 사진순
+    NSSortDescriptor(key: "modificationDate", ascending: false) // 가장 최근에 수정된 사진순
   ]
   
   private var photoEntity = [PhotoEntity]()
