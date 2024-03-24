@@ -60,10 +60,7 @@ final class DefaultPostRepository: PostRepository {
             promise(.failure(error))
           }
         } receiveValue: { response in
-          let mappedResult = PostCommentContainerEntity(
-            comments: response.comments.map { $0.toDomain() },
-            isFavorited: response.isFavorited)
-          promise(.success(mappedResult))
+          promise(.success(response.toDomain()))
         }
       self?.subscriptions.insert(subscription)
     }
