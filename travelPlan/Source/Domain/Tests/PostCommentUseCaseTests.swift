@@ -48,8 +48,8 @@ private extension PostCommentUseCaseTests {
   }
 }
 
-/// jsonString 목데이터 주입시 decodable이 되는지.
-///  특정 entity로 mapping이 되는지 테스트
+/// JsonString 목데이터 주입시 response data가 특정 responseDTO로 decodable이 되는지 테스트
+/// decoded된 responseDTO가 특정 entity로 mapping이 되는지 테스트
 extension PostCommentUseCaseTests {
   func testPostCommentUseCase_sendComment함수호출시_postCommentEntity를받았는지_ShouldReturnTrue() {
     // Arrange
