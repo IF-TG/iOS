@@ -81,4 +81,11 @@ extension MockPostCommentRepository {
       }
     }
   }
+  
+  /// 임시 구현
+  func fetchComments(page: Int32, perPage: Int32, postId: Int64) -> Future<[PostCommentEntity], any Error> {
+    return Future { promise in
+      promise(.failure(ReferenceError.invalidReference))
+    }
+  }
 }
