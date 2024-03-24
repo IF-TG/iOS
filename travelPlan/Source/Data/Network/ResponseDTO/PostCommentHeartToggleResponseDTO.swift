@@ -16,3 +16,13 @@ struct PostCommentHeartToggleResponseDTO: Decodable {
     case isOnHeart = "value"
   }
 }
+
+
+// MARK: - Mappings to Domain
+extension PostCommentHeartToggleResponseDTO {
+  func toDomain() -> ToggledPostCommentHeartEntity {
+    return ToggledPostCommentHeartEntity(
+      id: id,
+      isOnHeart: isOnHeart)
+  }
+}
