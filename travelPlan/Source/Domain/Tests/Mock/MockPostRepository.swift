@@ -15,7 +15,6 @@ final class MockPostRepository: PostRepository {
   var subscriptions = Set<AnyCancellable?>()
   let postRepository: PostRepository
   
-  
   init() {
     self.mockService = SessionProvider(session: MockSession.default)
     self.postRepository = DefaultPostRepository(service: mockService)
@@ -39,7 +38,11 @@ final class MockPostRepository: PostRepository {
       return ((HTTPURLResponse(), mockData))
     }
     return Future { [weak self] promise in
-      let subscription = self?.postRepository.fetchComments(page: page, perPage: perPage, postId: postId).sink { completion in
+      let subscription = self?.postRepository.fetchComments(
+        page: page,
+        perPage: perPage,
+        postId: postId
+      ).sink { completion in
         if case .failure(let error) = completion {
           promise(.failure(error))
         }
