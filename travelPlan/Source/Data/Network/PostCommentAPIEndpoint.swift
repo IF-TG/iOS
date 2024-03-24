@@ -43,7 +43,7 @@ struct PostCommentAPIEndpoint {
   
   static func fetchComments(
     with requestDTO: PostCommentsRequestDTO
-  ) -> Endpoint<CommonDTO<[PostCommentResponseDTO]>> {
+  ) -> Endpoint<[PostCommentResponseDTO]> {
     return Endpoint(
       scheme: "http",
       host: "localhost:8080",
