@@ -14,6 +14,7 @@ final class PostCommentUseCaseTests: XCTestCase {
   var subscription: AnyCancellable?
   let mockPostCommentRepository = MockPostCommentRepository()
   var expectation = XCTestExpectation(description: "PostCommentUseCase test!")
+  var testFunctionName: String = ""
   
   // MARK: - Lifecycle
   override func setUp() {
@@ -25,9 +26,31 @@ final class PostCommentUseCaseTests: XCTestCase {
     super.tearDown()
     sut = nil
     subscription = nil
+    testFunctionName = ""
   }
 }
 
+// MARK: - Helpers
+private extension PostCommentUseCaseTests {
+  func checkIfUnexpectedErrorOccured(_ error: Error?) {
+    guard let error else { return }
+    XCTAssert(
+      false,
+        """
+          testPostCommentUseCase's \(testFunctionName) 함수 호출시 entity를 받아야 하지만 에러가 발생됬습니다.
+          Occured error description: \(error.localizedDescription)
+        """
+    )
+  }
+  
+  var notReceivedErrorMessage: String {
+    "testPostCommentUseCase의 \(testFunctionName)()를 호출했을 때 Entity를 받아야 하지만 upstream이 종료됬습니다"
+  }
+}
+
+
+/// jsonString 목데이터 주입시 decodable이 되는지.
+///  특정 entity로 mapping이 되는지 테스트
 extension PostCommentUseCaseTests {
   func testPostCommentUseCase_sendComment함수호출시_postCommentEntity를받았는지_ShouldReturnTrue() {
     // Arrange
@@ -49,18 +72,7 @@ extension PostCommentUseCaseTests {
     wait(for: [expectation], timeout: 7.777777777)
     
     // Assert
-    if let unexpectedError {
-      XCTAssert(
-        false,
-        """
-          testPostCommentUseCase's sendComemnt 함수 호출시 postCommentEntity를 받아야 하지만 에러가 발생됬습니다.
-          Occured error description: \(unexpectedError.localizedDescription)
-        """
-      )
-    }
-    XCTAssertTrue(
-      result,
-    "testPostCommentUseCase의 sendComment()를 호출했을 때 postCommentEntity를 받아야 하지만 upstream이 종료됬습니다")
-        
+    checkIfUnexpectedErrorOccured(unexpectedError)
+    XCTAssertTrue(result, notReceivedErrorMessage)
   }
 }
