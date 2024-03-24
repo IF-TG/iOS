@@ -25,16 +25,17 @@ final class AlbumCoordinator: FlowCoordinator {
   
   // MARK: - Helpers
   func start() {
-    guard let reviewWritingVC = presenter?.viewControllers.last as? ReviewWritingViewController else { return }
+    guard let reviewWritingViewController = presenter?.viewControllers.last 
+            as? ReviewWritingViewController else { return }
     let albumUsecase = DefaultAlbumUseCase()
     let viewModel = DefaultAlbumViewModel(albumUseCase: albumUsecase)
-    let viewController = AlbumViewController(viewModel: viewModel, photoService: DefaultPhotoService())
-    viewController.imageCompletionHandler = { images in
-      reviewWritingVC.setImageView(to: images)
+    let photoService = DefaultPhotoService()
+    let albumViewController = AlbumViewController(viewModel: viewModel, photoService: photoService)
+    albumViewController.finishButtonHandler = { assets in
+      reviewWritingViewController.setupImage(assets: assets, photoService: photoService)
     }
-    presenter?.delegate = viewController
-    // TODO: - viewModel 추가하기
-    viewController.coordinator = self
-    presenter?.pushViewController(viewController, animated: true)
+    presenter?.delegate = albumViewController
+    albumViewController.coordinator = self
+    presenter?.pushViewController(albumViewController, animated: true)
   }
 }
