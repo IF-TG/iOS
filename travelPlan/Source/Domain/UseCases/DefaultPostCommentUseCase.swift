@@ -28,4 +28,10 @@ final class DefaultPostCommentUseCase: PostCommentUseCase {
       .updateComment(commentId: commentId, comment: comment)
       .eraseToAnyPublisher()
   }
+  
+  func deleteComment(commentId: Int64) -> AnyPublisher<Bool, any Error> {
+    return postCommentRepository
+      .deleteComment(commentId: commentId)
+      .eraseToAnyPublisher()
+  }
 }
