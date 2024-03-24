@@ -10,11 +10,13 @@ import Foundation
 enum MockResponseType {
   case notice
   case postContainerResponse
+  case postCommentContainerResponse
   
   var filePath: String {
     let dict: [Self: String] = [
       .notice: "mock_response_notice",
-      .postContainerResponse: "mock_response_postContainer"
+      .postContainerResponse: "mock_response_postContainer",
+      .postCommentContainerResponse: "mock_response_postCommentContainer"
     ]
     return dict[self]!
   }

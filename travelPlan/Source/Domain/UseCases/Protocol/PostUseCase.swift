@@ -8,6 +8,18 @@
 import Combine
 import Foundation
 
+struct PostFetchRequestValue {
+  let page: Int32
+  let perPage: Int32
+  let category: PostCategory
+}
+
+struct PostCommentsReqeustValue {
+  let page: Int32
+  let perPage: Int32
+  let postId: Int64
+}
+
 enum PostUseCaseError: LocalizedError {
   case noMorePage
   
@@ -19,12 +31,10 @@ enum PostUseCaseError: LocalizedError {
   }
 }
 
-struct PostFetchRequestValue {
-  let page: Int32
-  let perPage: Int32
-  let category: PostCategory
-}
-
 protocol PostUseCase {  
   func fetchPosts(with page: PostFetchRequestValue) -> AnyPublisher<PostsPage, Error>
+  
+  func fetchComments(
+    with requestValue: PostCommentsReqeustValue
+  ) -> AnyPublisher<PostCommentContainerEntity, Error>
 }

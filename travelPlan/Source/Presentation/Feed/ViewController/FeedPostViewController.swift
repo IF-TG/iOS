@@ -8,40 +8,9 @@
 import UIKit
 import Combine
 
-struct FeedPostViewControllerInput {
-  let feedRefresh: PassthroughSubject<Void, Never> = .init()
-  let nextPage: PassthroughSubject<Void, Never> = .init()
-  let viewDidLoad: PassthroughSubject<Void, Never> = .init()
-  let notifiedOrderFilterRequest: PassthroughSubject<TravelOrderType, Never>
-  let notifiedMainThemeFilterRequest: PassthroughSubject<TravelMainThemeType, Never>
-  
-  init(
-    notifiedOrderFilterRequest: PassthroughSubject<TravelOrderType, Never>,
-    notifiedMainThemeFilterRequest: PassthroughSubject<TravelMainThemeType, Never>
-  ) {
-    self.notifiedOrderFilterRequest = notifiedOrderFilterRequest
-    self.notifiedMainThemeFilterRequest = notifiedMainThemeFilterRequest
-  }
-  
-}
-
-enum FeedPostViewControllerState {
-  case viewDidLoad
-  case refresh
-  case nextPage(reloadCompletion: () -> Void)
-  case loadingNextPage
-  case unexpectedError(description: String)
-  case noMorePage
-  case postFilterLoading
-  case postFilterLoaded
-  case none
-}
-
 final class FeedPostViewController: UIViewController {
   // MARK: - Properties
   private let postView = PostCollectionView()
-  
-  private let viewModel: any FeedPostViewModelable & FeedPostViewAdapterDataSource
     
   private var postViewAdapter: PostViewAdapter?
   
@@ -61,7 +30,10 @@ final class FeedPostViewController: UIViewController {
   
   private let mainThemeFilterNotifier = PassthroughSubject<TravelMainThemeType, Never>()
 
-  private lazy var input = Input(
+
+  private let viewModel: any FeedPostViewModelable & FeedPostViewAdapterDataSource
+
+  private lazy var input = FeedPostViewModel.Input(
     notifiedOrderFilterRequest: orderFilterNotifier,
     notifiedMainThemeFilterRequest: mainThemeFilterNotifier)
   
@@ -116,9 +88,9 @@ extension FeedPostViewController {
 
 // MARK: - ViewBindCase
 extension FeedPostViewController: ViewBindCase {
-  typealias Input = FeedPostViewControllerInput
+  typealias Input = FeedPostViewModel.Input
   typealias ErrorType = Error
-  typealias State = FeedPostViewControllerState
+  typealias State = FeedPostViewModel.State
   
   func bind() {
     refresher.addTarget(self, action: #selector(refreshNotifications), for: .valueChanged)
@@ -128,7 +100,7 @@ extension FeedPostViewController: ViewBindCase {
     }
   }
   
-  func render(_ state: FeedPostViewControllerState) {
+  func render(_ state: State) {
     switch state {
     case .refresh:
       postView.reloadData()
