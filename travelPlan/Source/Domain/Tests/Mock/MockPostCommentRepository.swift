@@ -102,4 +102,11 @@ extension MockPostCommentRepository {
       }
     }
   }
+  
+  /// 임시 구현
+  func toggleCommentHeart(commentId: Int64) -> Future<ToggledPostCommentHeartEntity, any Error> {
+    return Future { promise in
+      promise(.failure(ReferenceError.invalidReference))
+    }
+  }
 }
