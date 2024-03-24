@@ -103,7 +103,6 @@ extension MockPostCommentRepository {
     }
   }
   
-  /// 임시 구현
   func toggleCommentHeart(commentId: Int64) -> Future<ToggledPostCommentHeartEntity, any Error> {
     return Future { promise in
       DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.5) { [weak self] in
