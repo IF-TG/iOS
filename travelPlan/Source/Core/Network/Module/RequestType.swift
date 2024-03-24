@@ -76,6 +76,7 @@ extension RequestType {
   
   enum PostComment {
     case send
+    case update
     
     var path: String {
       "comment"
