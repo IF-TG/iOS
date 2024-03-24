@@ -22,7 +22,7 @@ final class AlbumViewController: UIViewController {
   
   // MARK: - Properties
   weak var coordinator: AlbumCoordinator?
-  private var dataSource = [PhotoCellInfo]()
+  private let photoService: any PhotoService
   private lazy var collectionView: UICollectionView = .init(
     frame: .zero,
     collectionViewLayout: UICollectionViewFlowLayout().set {
@@ -52,29 +52,42 @@ final class AlbumViewController: UIViewController {
     self.addGestureRecognizer(from: $0, action: #selector(didTapTitleView))
   }
   
-  private var currentAlbumIndex = 0 {
-    didSet { loadImages() }
-  }
-  private let albumService: AlbumService = ReviewWriteAlbumService()
-  private let photoService: PhotoService = ReviewWritePhotoService()
-  private var albums = [PHFetchResult<PHAsset>]()
+//  private var currentAlbumIndex = 0 {
+//    didSet { loadImages() }
+//  }
+//  private let albumService: AlbumService = ReviewWriteAlbumService()
+//  private let photoService: PhotoService = ReviewWritePhotoService()
+//  private var albums = [PHFetchResult<PHAsset>]()
   
   /// - index: order-1
   /// - element: indexPath.item
-  @Published private var selectedIndexArray = [Int]()
+//  @Published private var selectedIndexArray = [Int]()
   private var subscriptions = Set<AnyCancellable>()
   var imageCompletionHandler: (([UIImage]) -> Void)?
+  private let viewModel: any AlbumViewModelable
+  private let input = AlbumViewModelInput()
   
   // MARK: - LifeCycle
+  init(viewModel: any AlbumViewModelable, photoService: any PhotoService) {
+    self.viewModel = viewModel
+    self.photoService = photoService
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     setupUI()
     setupStyles()
     setupNavigationBar()
     bind()
-    loadAlbums(completion: { [weak self] in
-      self?.loadImages()
-    })
+    input.viewDidLoad.send(.image)
+//    loadAlbums(completion: { [weak self] in
+//      self?.loadImages()
+//    })
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -114,7 +127,7 @@ extension AlbumViewController: UICollectionViewDataSource {
     _ collectionView: UICollectionView,
     numberOfItemsInSection section: Int
   ) -> Int {
-    dataSource.count
+    viewModel.dataSource.count
   }
   
   func collectionView(
@@ -128,17 +141,18 @@ extension AlbumViewController: UICollectionViewDataSource {
     
     cell.delegate = self
     
-    let imageInfo = dataSource[indexPath.item]
-    let asset = imageInfo.asset
-    let imageSize = CGSize(width: Const.cellSize.width * Const.scale,
-                           height: Const.cellSize.height * Const.scale)
+    let imageSize = CGSize(
+      width: Const.cellSize.width * Const.scale,
+      height: Const.cellSize.height * Const.scale
+    )
     photoService.fetchImage(
-      asset: asset,
+      asset: viewModel.dataSource[indexPath.item].asset,
       size: imageSize,
       contentMode: .aspectFit) { [weak cell] image in
-        let cellInfo = PhotoCellInfo(asset: asset, image: image, selectedOrder: imageInfo.selectedOrder)
+        let cellInfo = PhotoCellInfo(image: image, selectedOrder: .none)
         cell?.configure(with: cellInfo)
       }
+
     return cell
   }
 }
@@ -151,12 +165,12 @@ extension AlbumViewController {
     }
   }
   
-  private func loadAlbums(completion: @escaping () -> Void) {
-    albumService.getAlbums(mediaType: .image) { [weak self] albumInfos in
-      self?.albums = albumInfos.map(\.album)
-      completion()
-    }
-  }
+//  private func loadAlbums(completion: @escaping () -> Void) {
+//    albumService.getAlbums(mediaType: .image) { [weak self] albumEntities in
+//      self?.albums = albumEntities.map(\.album)
+//      completion()
+//    }
+//  }
   
   private func setupStyles() {
     view.backgroundColor = .white
@@ -173,26 +187,41 @@ extension AlbumViewController {
     view.addGestureRecognizer(tapGesture)
   }
   
-  private func loadImages() {
-    let album = albums[currentAlbumIndex]
-    photoService.convertAlbumToPHAssets(album: album) { [weak self] assets in
-      self?.dataSource = assets.map { PhotoCellInfo(asset: $0, image: nil, selectedOrder: .none) }
-      self?.collectionView.reloadData()
-    }
-  }
+//  private func loadImages() {
+//    let album = albums[currentAlbumIndex]
+//    photoService.convertAlbumToPHAssets(album: album) { [weak self] assets in
+//      self?.dataSource = assets.map { PhotoEntity(asset: $0, image: nil, selectedOrder: .none) }
+//      self?.collectionView.reloadData()
+//    }
+//  }
   
   private func bind() {
-    $selectedIndexArray
-      .sink { [weak self] arr in
-        if arr.count > 0 {
-          self?.finishButton.isEnabled = true
-          self?.finishButton.setTitleColor(.yg.primary, for: .normal)
-        } else {
-          self?.finishButton.isEnabled = false
-          self?.finishButton.setTitleColor(.yg.gray1, for: .normal)
+    let output = viewModel.transform(input)
+    output
+      .receive(on: RunLoop.main)
+      .sink { [weak self] state in
+        switch state {
+        case .none:
+          break
+        case .showDetailPhoto:
+          break
+        case .reload:
+          self?.collectionView.reloadData()
         }
       }
       .store(in: &subscriptions)
+    
+//    $selectedIndexArray
+//      .sink { [weak self] arr in
+//        if arr.count > 0 {
+//          self?.finishButton.isEnabled = true
+//          self?.finishButton.setTitleColor(.yg.primary, for: .normal)
+//        } else {
+//          self?.finishButton.isEnabled = false
+//          self?.finishButton.setTitleColor(.yg.gray1, for: .normal)
+//        }
+//      }
+//      .store(in: &subscriptions)
   }
 }
 
@@ -204,27 +233,28 @@ private extension AlbumViewController {
   }
   
   @objc func didTapFinishButton(_ sender: UIButton) {
-    print("1. 완료 버튼 클릭")
-    var imageList = Array(repeating: UIImage(), count: selectedIndexArray.count)
-    let group = DispatchGroup()
-    for (i, indexPathItem) in selectedIndexArray.enumerated() {
-      group.enter()
-      photoService.fetchImage(
-        asset: dataSource[indexPathItem].asset,
-        size: CGSize(width: UIScreen.main.bounds.width - 15 * 2,
-                     height: CGFloat.greatestFiniteMagnitude),
-        contentMode: .aspectFit) { image in
-          imageList[i] = image
-          group.leave()
-        }
-    }
+//    print("1. 완료 버튼 클릭")
+//    var imageList = Array(repeating: UIImage(), count: selectedIndexArray.count)
+//    let group = DispatchGroup()
+//    for (i, indexPathItem) in selectedIndexArray.enumerated() {
+//      group.enter()
     
-    group.notify(queue: .main) { [weak self] in
-      guard let self = self else { return }
-      self.imageCompletionHandler?(imageList)
-    }
+//      photoService.fetchImage(
+//        asset: viewModel.dataSource[indexPathItem].asset,
+//        size: CGSize(width: UIScreen.main.bounds.width - 15 * 2,
+//                     height: CGFloat.greatestFiniteMagnitude),
+//        contentMode: .aspectFit) { image in
+//          imageList[i] = image
+//          group.leave()
+//        }
+//    }
     
-    coordinator?.finish(withAnimated: true)
+//    group.notify(queue: .main) { [weak self] in
+//      guard let self = self else { return }
+//      self.imageCompletionHandler?(imageList)
+//    }
+//    
+//    coordinator?.finish(withAnimated: true)
   }
   
   @objc func didTapTitleView() {
@@ -234,38 +264,38 @@ private extension AlbumViewController {
 
 // MARK: - PhotoCellDelegate
 extension AlbumViewController: PhotoCellDelegate {
-  func touchBegan(_ cell: UICollectionViewCell, quadrant: PhotoCell.Quadrant) {
-    switch quadrant {
-    case .first:
-      guard let indexPath = collectionView.indexPath(for: cell) else { return }
-      
-      let cellInfo = dataSource[indexPath.item]
-      let newIndexPaths: [IndexPath]
-      
-      if case .selected = cellInfo.selectedOrder {
-        dataSource[indexPath.item].selectedOrder = .none
-        selectedIndexArray.removeAll(where: { $0 == indexPath.item })
-        
-        for (order, index) in selectedIndexArray.enumerated() {
-          let order = order + 1
-          let prev = dataSource[index]
-          dataSource[index] = PhotoCellInfo(asset: prev.asset, image: prev.image, selectedOrder: .selected(order))
-        }
-        newIndexPaths = [indexPath] + selectedIndexArray.map { IndexPath(item: $0, section: 0) }
-      } else {
-        guard selectedIndexArray.count < 20 else { return }
-        
-        selectedIndexArray.append(indexPath.item)
-        dataSource[indexPath.item].selectedOrder = .selected(selectedIndexArray.count)
-        newIndexPaths = selectedIndexArray.map { IndexPath(item: $0, section: .zero) }
-      }
-      
-      update(indexPaths: newIndexPaths)
-    case .else:
-      print("연관값으로 image넘겨서 imageDetailVC 열기")
-      // TODO: - 연관값으로 image넘겨서 imageDetailVC 열기
-      break
-    }
+  func touchBegan(_ cell: UICollectionViewCell, quadrant: PhotoCellQuadrant) {
+//    switch quadrant {
+//    case .first:
+//      guard let indexPath = collectionView.indexPath(for: cell) else { return }
+//      
+//      let cellInfo = dataSource[indexPath.item]
+//      let newIndexPaths: [IndexPath]
+//      
+//      if case .selected = cellInfo.selectedOrder {
+//        dataSource[indexPath.item].selectedOrder = .none
+//        selectedIndexArray.removeAll(where: { $0 == indexPath.item })
+//        
+//        for (order, index) in selectedIndexArray.enumerated() {
+//          let order = order + 1
+//          let prev = dataSource[index]
+//          dataSource[index] = PhotoEntity(asset: prev.asset, image: prev.image, selectedOrder: .selected(order))
+//        }
+//        newIndexPaths = [indexPath] + selectedIndexArray.map { IndexPath(item: $0, section: 0) }
+//      } else {
+//        guard selectedIndexArray.count < 20 else { return }
+//        
+//        selectedIndexArray.append(indexPath.item)
+//        dataSource[indexPath.item].selectedOrder = .selected(selectedIndexArray.count)
+//        newIndexPaths = selectedIndexArray.map { IndexPath(item: $0, section: .zero) }
+//      }
+//      
+//      update(indexPaths: newIndexPaths) // UI로직
+//    case .else:
+//      print("연관값으로 image넘겨서 imageDetailVC 열기")
+//      // TODO: - 연관값으로 image넘겨서 imageDetailVC 열기
+//      break
+//    }
   }
 }
 
