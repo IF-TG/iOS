@@ -90,4 +90,29 @@ final class DefaultPostCommentRepository: PostCommentRepository {
       self?.subscriptions.insert(subscription)
     }
   }
+  
+  func fetchComments(
+    page: Int32,
+    perPage: Int32,
+    postId: Int64
+  ) -> Future<[PostCommentEntity], any Error> {
+    let requestDTO = PostCommentsRequestDTO(page: page, perPage: perPage, postId: postId)
+    return Future { [weak self] promise in
+      guard let backgroundQueue = self?.backgroundQueue else {
+        promise(.failure(ReferenceError.invalidReference))
+        return
+      }
+      let subscription = self?.service.request(endpoint: endpoint.fetchComments(with: requestDTO))
+        .subscribe(on: backgroundQueue)
+        .mapConnectionError { $0 }
+        .sink { completion in
+          if case .failure(let error) = completion {
+            promise(.failure(error))
+          }
+        } receiveValue: { responseDTO in
+          promise(.success(responseDTO.map { $0.toDomain() }))
+        }
+      self?.subscriptions.insert(subscription)
+    }
+  }
 }
