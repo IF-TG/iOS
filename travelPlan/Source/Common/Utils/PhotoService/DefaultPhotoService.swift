@@ -19,10 +19,12 @@ extension DefaultPhotoService: PhotoService {
     asset: PHAsset,
     size: CGSize,
     contentMode: PHImageContentMode,
+    resizeModeOption: PHImageRequestOptionsResizeMode,
     completion: @escaping (UIImage) -> Void
   ) {
     let options = PHImageRequestOptions().set {
       $0.deliveryMode = .highQualityFormat
+      $0.resizeMode = resizeModeOption
     }
     
     imageManager.requestImage(
