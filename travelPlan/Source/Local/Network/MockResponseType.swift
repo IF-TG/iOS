@@ -12,13 +12,15 @@ enum MockResponseType {
   case postContainerResponse
   case postCommentContainerResponse
   case postCommentResponseWhenCommentSend
+  case postCommentResponseWhenCommentUpdated
   
   var filePath: String {
     let dict: [Self: String] = [
       .notice: "mock_response_notice",
       .postContainerResponse: "mock_response_postContainer",
       .postCommentContainerResponse: "mock_response_postCommentContainer",
-      .postCommentResponseWhenCommentSend: "mock_response_postComments_whenCommentSend"
+      .postCommentResponseWhenCommentSend: "mock_response_postComments_whenCommentSend",
+      .postCommentResponseWhenCommentUpdated: "mock_postComment_update_response"
     ]
     return dict[self]!
   }
