@@ -7,7 +7,6 @@
 
 import Foundation
 import Combine
-import Foundation
 
 final class DefaultPostUseCase: PostUseCase {
   // MARK: - Dependencies
