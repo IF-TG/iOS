@@ -68,7 +68,6 @@
 		13405F6F2AF6E6F200382796 /* ReviewWritingBottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13405F6E2AF6E6F200382796 /* ReviewWritingBottomView.swift */; };
 		13405F712AF6F05300382796 /* ReviewWritingPlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13405F702AF6F05300382796 /* ReviewWritingPlanView.swift */; };
 		13405F772AF79CBD00382796 /* ReviewWritingBottomViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13405F762AF79CBD00382796 /* ReviewWritingBottomViewDelegate.swift */; };
-		134383FD2B47ED12005034E0 /* PhotoAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 134383FC2B47ED12005034E0 /* PhotoAuthService.swift */; };
 		134384022B47F8B9005034E0 /* MediaType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 134384012B47F8B9005034E0 /* MediaType.swift */; };
 		134384082B48005F005034E0 /* AlbumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 134384072B48005F005034E0 /* AlbumViewController.swift */; };
 		1343840B2B480360005034E0 /* BaseNavigationLeftButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1343840A2B480360005034E0 /* BaseNavigationLeftButton.swift */; };
@@ -524,7 +523,6 @@
 		13405F6E2AF6E6F200382796 /* ReviewWritingBottomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWritingBottomView.swift; sourceTree = "<group>"; };
 		13405F702AF6F05300382796 /* ReviewWritingPlanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWritingPlanView.swift; sourceTree = "<group>"; };
 		13405F762AF79CBD00382796 /* ReviewWritingBottomViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWritingBottomViewDelegate.swift; sourceTree = "<group>"; };
-		134383FC2B47ED12005034E0 /* PhotoAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAuthService.swift; sourceTree = "<group>"; };
 		134384012B47F8B9005034E0 /* MediaType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaType.swift; sourceTree = "<group>"; };
 		134384072B48005F005034E0 /* AlbumViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumViewController.swift; sourceTree = "<group>"; };
 		1343840A2B480360005034E0 /* BaseNavigationLeftButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNavigationLeftButton.swift; sourceTree = "<group>"; };
@@ -1105,18 +1103,8 @@
 				13F6DACF2B53F83B00573B86 /* View */,
 				134384062B480051005034E0 /* ViewController */,
 				134384002B47F8A1005034E0 /* Model */,
-				134383FB2B47ED03005034E0 /* Service */,
 			);
 			path = Album;
-			sourceTree = "<group>";
-		};
-		134383FB2B47ED03005034E0 /* Service */ = {
-			isa = PBXGroup;
-			children = (
-				134384052B47F96E005034E0 /* Protocol */,
-				134384142B495C0E005034E0 /* DefaultPhotoService.swift */,
-			);
-			path = Service;
 			sourceTree = "<group>";
 		};
 		134384002B47F8A1005034E0 /* Model */ = {
@@ -1124,15 +1112,6 @@
 			children = (
 			);
 			path = Model;
-			sourceTree = "<group>";
-		};
-		134384052B47F96E005034E0 /* Protocol */ = {
-			isa = PBXGroup;
-			children = (
-				134383FC2B47ED12005034E0 /* PhotoAuthService.swift */,
-				1343840E2B480BF5005034E0 /* PhotoService.swift */,
-			);
-			path = Protocol;
 			sourceTree = "<group>";
 		};
 		134384062B480051005034E0 /* ViewController */ = {
@@ -1160,6 +1139,15 @@
 				135A07BF2BA94A9C003D6C4D /* AlbumViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		135A07CB2BB0B4EE003D6C4D /* PhotoService */ = {
+			isa = PBXGroup;
+			children = (
+				1343840E2B480BF5005034E0 /* PhotoService.swift */,
+				134384142B495C0E005034E0 /* DefaultPhotoService.swift */,
+			);
+			path = PhotoService;
 			sourceTree = "<group>";
 		};
 		13606E8F2A9F983F00365F20 /* TagCell */ = {
@@ -1870,8 +1858,8 @@
 			isa = PBXGroup;
 			children = (
 				1503F92A2A4E068E002BC38D /* ApplicationCoordinator.swift */,
-				134383FA2B47ECEF005034E0 /* Album */,
 				15D60D472AED08590087FEC0 /* Notification */,
+				134383FA2B47ECEF005034E0 /* Album */,
 				15BB01AE2A1EB4890035B486 /* Authentication */,
 				15BED3032A0825BB00F86321 /* Profile */,
 				1594F54729FD527100A58F20 /* Main */,
@@ -2071,6 +2059,7 @@
 		15CB235C2A10B598003EAF20 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				135A07CB2BB0B4EE003D6C4D /* PhotoService */,
 				15CB235D2A10B59E003EAF20 /* DateValidation */,
 			);
 			path = Utils;
@@ -3058,7 +3047,6 @@
 				15C1F53A2AF25FE4005FDA15 /* BaseNotificationCell.swift in Sources */,
 				15B9286B2AFA4463003A20D4 /* PostDetailTableViewDataSource.swift in Sources */,
 				15B928612AFA3309003A20D4 /* PostDetailContentTextCell.swift in Sources */,
-				134383FD2B47ED12005034E0 /* PhotoAuthService.swift in Sources */,
 				130CF38B2B9347790051DEE8 /* LoginStrategy.swift in Sources */,
 				13274C5C2A59B4AD001F141C /* SearchFestivalModel.swift in Sources */,
 				151DF0FE2AEEBBE200D5D55B /* DefaultNotificationRepository.swift in Sources */,
