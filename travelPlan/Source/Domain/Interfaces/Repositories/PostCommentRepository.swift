@@ -10,5 +10,5 @@ import Combine
 protocol PostCommentRepository {
   func sendComment(postId: Int64, comment: String) -> Future<PostCommentEntity, Error>
   
-  func updateComment(commentId:Int64, comment: String) -> Future<UpdatedPostCommentEntity, Error>
+  func updateComment(commentId: Int64, comment: String) -> Future<UpdatedPostCommentEntity, Error>
 }
