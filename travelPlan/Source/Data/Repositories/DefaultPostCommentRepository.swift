@@ -68,4 +68,26 @@ final class DefaultPostCommentRepository: PostCommentRepository {
       self?.subscriptions.insert(subscription)
     }
   }
+  
+  func deleteComment(commentId: Int64) -> Future<Bool, any Error> {
+    let requestDTO = PostCommentDeleteRequestDTO(commentId: commentId)
+    return Future { [weak self] promise in
+      guard let backgroundQueue = self?.backgroundQueue else {
+        promise(.failure(ReferenceError.invalidReference))
+        return
+      }
+      let subscription = self?.service.request(endpoint: endpoint.deleteComment(with: requestDTO))
+        .subscribe(on: backgroundQueue)
+        .mapConnectionError { $0 }
+        .map { $0.result }
+        .sink { completion in
+          if case .failure(let error) = completion {
+            promise(.failure(error))
+          }
+        } receiveValue: { result in
+          promise(.success(result))
+        }
+      self?.subscriptions.insert(subscription)
+    }
+  }
 }
