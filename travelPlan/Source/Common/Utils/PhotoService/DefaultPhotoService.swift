@@ -29,10 +29,13 @@ extension DefaultPhotoService: PhotoService {
       for: asset,
       targetSize: size,
       contentMode: contentMode,
-      options: options) { image, _ in
-        guard let image else { return }
-        
+      options: options
+    ) { image, _ in
+      guard let image else { return }
+      
+      DispatchQueue.main.async {
         completion(image)
       }
+    }
   }
 }
