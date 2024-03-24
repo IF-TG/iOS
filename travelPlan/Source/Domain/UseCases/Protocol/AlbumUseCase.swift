@@ -6,8 +6,9 @@
 //
 
 import Foundation
-import Combine
+import Photos
+//import Combine
 
 protocol AlbumUseCase {
-  func getAlbums(mediaType: MediaType) -> AnyPublisher<[AlbumInfo], Never>
+  func getPhotos(mediaType: MediaType) -> [PHAsset]
 }
