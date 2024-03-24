@@ -15,7 +15,6 @@ protocol FeedCoordinatorDelegate: FlowCoordinatorDelegate {
   func showPostMainThemeFilteringBottomSheet(sortingType: TravelMainThemeType)
   func showPostOrderFilteringBottomSheet()
   func showReviewWrite()
-  func showPostDetailPage()
 }
 
 final class FeedCoordinator: FlowCoordinator {
@@ -33,19 +32,41 @@ final class FeedCoordinator: FlowCoordinator {
   // MARK: - Helpers
   func start() {
     let feedViewModel = FeedViewModel()
-    let vc = FeedViewController(viewModel: feedViewModel)
+    let categoryPageViewModel = CategoryPageViewModel()
+    let pageViews = makeFeedPageViews(with: categoryPageViewModel)
+    let vc = FeedViewController(
+      viewModel: feedViewModel,
+      categoryPageViewModel: categoryPageViewModel, 
+      pageViews: pageViews)
     viewController = vc
     vc.coordinator = self
     presenter?.pushViewController(vc, animated: true)
   }
+  
+  private func makeFeedPageViews(
+    with categoryPageViewModel: CategoryPageViewDataSource
+  ) -> [UIViewController] {
+    return (0..<categoryPageViewModel.numberOfItems).map {
+      let feedCategory = categoryPageViewModel.postSearchFilterItem(at: $0)
+      if $0 + 1 == categoryPageViewModel.numberOfItems {
+        return DevelopmentViewController()
+      }
+      // FIXME: - 실제로 서버 통신하게된다면 DefaultPostUseCase 써야합니다.
+      // 지금은 페이징 테스트때문에 MockPostUseCaseForPaging을 사용합니다.
+      // MockPostRepository()를 통해서 실제 서버의 resopnseDTO를 decodable한 데이터들을 처럼
+      // mock json을 받을 수 있지만 포스트가 3개 정보밖에 없습니다.
+      // let postUseCase = DefaultPostUseCase(postRepository: MockPostRepository())
+      let mockPostUseCase = MockPostUseCaseForPaging()
+      let viewModel = FeedPostViewModel(postCategory: feedCategory, postUseCase: mockPostUseCase)
+      return FeedPostViewController(
+        type: feedCategory,
+        viewModel: viewModel)
+    }
+  }
 }
 
 // MARK: - FeedCoordinatorDelegate
-extension FeedCoordinator: FeedCoordinatorDelegate {
-  func showPostDetailPage() {
-    presenter?.pushViewController(PostDetailViewController(viewModel: PostDetailViewModel()), animated: true)
-  }
-  
+extension FeedCoordinator: FeedCoordinatorDelegate {  
   func showPostSearch() {
     let childCoordinator = PostSearchCoordinator(presenter: presenter)
     addChild(with: childCoordinator)

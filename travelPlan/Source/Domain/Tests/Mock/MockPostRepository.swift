@@ -9,43 +9,28 @@ import Combine
 import Foundation
 
 final class MockPostRepository: PostRepository {
-  let mockService: Sessionable
-  var subscription = Set<AnyCancellable>()
-  
-  let repository: PostRepository
-  
   typealias Endpoint = PostAPIEndpoint
+  
+  let mockService: Sessionable
+  var subscriptions = Set<AnyCancellable?>()
+  let postRepository: PostRepository
+  
   
   init() {
     self.mockService = SessionProvider(session: MockSession.default)
-    self.repository = DefaultPostRepository(service: mockService)
+    self.postRepository = DefaultPostRepository(service: mockService)
   }
   
-  func fetchPosts(with page: PostsPage) -> Future<[PostContainer], MainError> {
-    let requestDTO = PostsRequestDTO(
-      page: 0,
-      perPage: 20,
-      orderMethod: "임시",
-      mainCategory: "임시",
-      subCategory: "임시",
-      userId: 3)
-    let endpoint = Endpoint.fetchPosts(with: requestDTO)
-    
+  func fetchPosts(
+    page: Int32,
+    perPage: Int32,
+    category: PostCategory
+  ) -> Future<[PostContainer], any Error> {
     MockUrlProtocol.requestHandler = { _ in
       let mockData = MockResponseType.postContainerResponse.mockDataLoader
       return ((HTTPURLResponse(), mockData))
     }
-    
-    return .init { [unowned self] promise in
-      mockService.request(endpoint: endpoint)
-        .sink { completion in
-          if case .failure(let error) = completion {
-            promise(.failure(MainError.networkError(error)))
-          }
-        } receiveValue: { responseDTO in
-          promise(.success(responseDTO.result.map { $0.toDomain() }))
-        }.store(in: &subscription)
-    }
+    return postRepository.fetchPosts(page: page, perPage: perPage, category: category)
   }
   
   func fetchComments(page: Int32, perPage: Int32, postId: Int64) -> Future<PostCommentContainerEntity, any Error> {
@@ -53,14 +38,15 @@ final class MockPostRepository: PostRepository {
       let mockData = MockResponseType.postCommentContainerResponse.mockDataLoader
       return ((HTTPURLResponse(), mockData))
     }
-    return Future { [unowned self] promise in
-      repository.fetchComments(page: page, perPage: perPage, postId: postId).sink { completion in
+    return Future { [weak self] promise in
+      let subscription = self?.postRepository.fetchComments(page: page, perPage: perPage, postId: postId).sink { completion in
         if case .failure(let error) = completion {
           promise(.failure(error))
         }
       } receiveValue: { containerEntity in
         promise(.success(containerEntity))
-      }.store(in: &subscription)
+      }
+      self?.subscriptions.insert(subscription)
     }
   }
 }

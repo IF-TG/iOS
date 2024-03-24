@@ -31,21 +31,6 @@ struct PostCommentResponseDTO: Decodable {
     case isBlocked = "blocked"
     case nestedComments = "nestedCommentDtoList"
   }
-  
-  init(from decoder: any Decoder) throws {
-    let container = try decoder.container(keyedBy: CodingKeys.self)
-    self.commentId = try container.decode(Int64.self, forKey: .commentId)
-    self.userProfileURL = try container.decode(String.self, forKey: .userProfileURL)
-    self.nickname = try container.decode(String.self, forKey: .nickname)
-    self.timestamp = try container.decode(String.self, forKey: .timestamp)
-    self.comment = try container.decode(String.self, forKey: .comment)
-    self.isDeleted = try container.decode(Bool.self, forKey: .isDeleted)
-    self.isOnHeart = try container.decode(Bool.self, forKey: .isOnHeart)
-    self.hearts = try container.decode(Int32.self, forKey: .hearts)
-    self.isBlocked = try container.decode(Bool.self, forKey: .isBlocked)
-    self.nestedComments = try container.decode([PostNestedCommentResponseDTO].self, forKey: .nestedComments)
-  
-  }
 }
 
 // MARK: - Mappings to Domain
