@@ -69,6 +69,11 @@ final class PhotoCell: UICollectionViewCell {
     fatalError("init(coder:) has not been implemented")
   }
   
+  override func prepareForReuse() {
+    super.prepareForReuse()
+    imageView.image = nil
+  }
+  
   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
     super.touchesBegan(touches, with: event)
     guard let touch = touches.first else { return }
