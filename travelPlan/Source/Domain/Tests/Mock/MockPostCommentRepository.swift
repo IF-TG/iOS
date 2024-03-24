@@ -63,8 +63,22 @@ extension MockPostCommentRepository {
   }
   
   func deleteComment(commentId: Int64) -> Future<Bool, any Error> {
+    MockUrlProtocol.requestHandler = { _ in
+      let mock = MockResponseType.postComment(.whenCommentDelete).mockDataLoader
+      return ((HTTPURLResponse(), mock))
+    }
     return Future { promise in
-      promise(.failure(ReferenceError.invalidReference))
+      DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.5) { [weak self] in
+        let subscription = self?.repository.deleteComment(commentId: commentId)
+          .sink { completion in
+            if case .failure(let error) = completion {
+              promise(.failure(error))
+            }
+          } receiveValue: { result in
+            promise(.success(result))
+          }
+        self?.subscriptions.insert(subscription)
+      }
     }
   }
 }
