@@ -41,4 +41,10 @@ extension MockPostCommentRepository {
       }
     }
   }
+  
+  func updateComment(commentId: Int64, comment: String) -> Future<UpdatedPostCommentEntity, any Error> {
+    return Future() { promise in
+      promise(.failure(ReferenceError.invalidReference))
+    }
+  }
 }
