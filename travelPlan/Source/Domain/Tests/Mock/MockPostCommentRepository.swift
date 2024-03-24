@@ -43,8 +43,22 @@ extension MockPostCommentRepository {
   }
   
   func updateComment(commentId: Int64, comment: String) -> Future<UpdatedPostCommentEntity, any Error> {
-    return Future() { promise in
-      promise(.failure(ReferenceError.invalidReference))
+    MockUrlProtocol.requestHandler = { _ in
+      let mock = MockResponseType.postCommentResponseWhenCommentUpdated.mockDataLoader
+      return ((HTTPURLResponse(), mock))
+    }
+    return Future { promise in
+      DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.5) { [weak self] in
+        let subscription = self?.repository.updateComment(commentId: commentId, comment: comment)
+          .sink { completion in
+            if case .failure(let error) = completion {
+              promise(.failure(error))
+            }
+          } receiveValue: { updatedPostCommentEntity in
+            promise(.success(updatedPostCommentEntity))
+          }
+        self?.subscriptions.insert(subscription)
+      }
     }
   }
 }
