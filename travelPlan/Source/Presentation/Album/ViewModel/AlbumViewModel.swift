@@ -23,6 +23,8 @@ struct AlbumViewModelInput {
   let didSelectPhoto: PassthroughSubject<IndexPath, Never> = .init()
   let touchedFirstQuadrant: PassthroughSubject<IndexPath, Never> = .init()
   let touchedElseQuadrant: PassthroughSubject<IndexPath, Never> = .init()
+  let didTapCancelButton: PassthroughSubject<Void, Never> = .init()
+  let didTapFinishButton: PassthroughSubject<Void, Never> = .init()
 }
 
 enum AlbumViewModelState {
@@ -31,6 +33,8 @@ enum AlbumViewModelState {
   case reloadItem([IndexPath])
   case reloadData
   case none
+  case popViewController
+  case deliverAssets([PHAsset])
 }
 
 struct PhotoModel {
@@ -61,7 +65,9 @@ extension DefaultAlbumViewModel: AlbumViewModelable {
       viewDidLoadStream(input),
       touchedFirstQuadrantStream(input),
       touchedElseQuadrantStream(input),
-      selectedIndexArrayStream(input)
+      selectedIndexArrayStream(input),
+      didTapFinishButtonStream(input),
+      didTapCancelButtonStream(input)
     )
     .eraseToAnyPublisher()
   }
@@ -69,6 +75,27 @@ extension DefaultAlbumViewModel: AlbumViewModelable {
 
 // MARK: - Private Helpers
 extension DefaultAlbumViewModel {
+  private func didTapCancelButtonStream(_ input: Input) -> Output {
+    return input
+      .didTapCancelButton
+      .map { State.popViewController }
+      .eraseToAnyPublisher()
+  }
+  
+  private func didTapFinishButtonStream(_ input: Input) -> Output {
+    return input
+      .didTapFinishButton
+      .map { [weak self] in
+        guard let self else { return State.none }
+        
+        let selectedAssets = self.selectedIndexArray.map { indexPathItem in
+          return self.dataSource[indexPathItem].asset
+        }
+        return State.deliverAssets(selectedAssets)
+      }
+      .eraseToAnyPublisher()
+  }
+  
   private func selectedIndexArrayStream(_ input: Input) -> Output {
     return $selectedIndexArray
       .map { $0.count > 0 ? State.activateFinishButton(true) : State.activateFinishButton(false) }
