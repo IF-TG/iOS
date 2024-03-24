@@ -5,30 +5,39 @@
 //  Created by 양승현 on 3/8/24.
 //
 
+import Foundation
 import Combine
+import Foundation
 
 final class DefaultPostUseCase: PostUseCase {
   // MARK: - Dependencies
   private let postRepository: PostRepository
   
-  // MARK: - Properties
-  var postContainers = PassthroughSubject<[PostContainer], MainError>()
-  
-  private var subscriptions = Set<AnyCancellable>()
-  
+  private let backgroundQueue: DispatchQueue
+
   // MARK: - Lifecycle
-  init(postRepository: PostRepository) {
+  init(postRepository: PostRepository, backgroundQueue: DispatchQueue = .global(qos: .default)) {
     self.postRepository = postRepository
+    self.backgroundQueue = backgroundQueue
   }
   
-  func fetchPosts(with page: PostsPage) {
-    postRepository.fetchPosts(with: page)
-      .sink { [weak self] completion in
-        if case .failure(let error) = completion {
-          self?.postContainers.send(completion: .failure(error))
-        }
-      } receiveValue: { [weak self] result in
-        self?.postContainers.send(result)
-      }.store(in: &subscriptions)
+  func fetchPosts(with page: PostFetchRequestValue) -> AnyPublisher<[PostContainer], any Error> {
+    return postRepository.fetchPosts(
+      page: page.page,
+      perPage: page.perPage,
+      category: page.category)
+    .subscribe(on: DispatchQueue.global(qos: .userInteractive))
+    .eraseToAnyPublisher()
+  }
+  
+  func fetchComments(
+    with requestValue: PostCommentsReqeustValue
+  ) -> AnyPublisher<PostCommentContainerEntity, any Error> {
+    postRepository.fetchComments(
+      page: requestValue.page,
+      perPage: requestValue.perPage,
+      postId: requestValue.postId)
+    .subscribe(on: backgroundQueue)
+    .eraseToAnyPublisher()
   }
 }

@@ -69,10 +69,17 @@ final class FeedViewController: UIViewController {
     configureUI()
   }
   
-  init(viewModel: any FeedViewModelable) {
+  init(
+    viewModel: any FeedViewModelable,
+    categoryPageViewModel: CategoryPageViewDataSource,
+    pageViews: [UIViewController]
+  ) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
-    self.categoryPageView = CategoryPageView(frame: .zero, viewModel: CategoryPageViewModel(), postDelegator: self)
+    self.categoryPageView = CategoryPageView(
+      frame: .zero,
+      viewModel: categoryPageViewModel,
+    pageViews: pageViews)
   }
   
   required init(coder: NSCoder) {
@@ -213,15 +220,9 @@ extension FeedViewController: ViewBindCase {
   }
 }
 
-// MARK: - FeedPostViewAdapterDelegate
-extension FeedViewController: PostViewAdapterDelegate {
-  func didTapPost(with postId: Int) {
-    coordinator?.showPostDetailPage()
-  }
-}
-
 // MARK: - TravelThemeBottomSheetDelegate
 extension FeedViewController: TravelThemeBottomSheetDelegate {
+  // TODO: - 이것도 그냥 FeedPostVC로 전달하기만하자 여기서 처리하지말구
   func travelThemeBottomSheetViewController(
     _ viewController: PostFilteringBottomSheetViewController,
     didSelectTitle title: String?

@@ -8,6 +8,6 @@
 import Combine
 
 protocol FeedPostViewModelable: ViewModelable
-where Input == FeedPostViewControllerInput,
-      State == FeedPostViewControllerState,
+where Input == FeedPostViewModel.Input,
+      State == FeedPostViewModel.State,
       Output == AnyPublisher<State, Never> { }

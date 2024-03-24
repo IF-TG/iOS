@@ -2,7 +2,7 @@
   "result": [
     {
       "thumbnailUri": [
-        "tempThumbnail0", "tempThumbnail1", "tempThumbnail2"
+        "tempThumbnail3", "tempThumbnail1", "tempThumbnail2"
       ],
       "post": {
         "postId": 0,
@@ -13,7 +13,7 @@
         "endDate": "2024.03.09",
         "postImgUri": [
           {
-            "img": "tempThumbnail0",
+            "img": "tempThumbnail3",
             "sort": 0
           },
           {
@@ -44,11 +44,12 @@
         "mapX": 123.9325930,
         "mapY": 103.2934093,
         "liked": true
-      }
+      },
+      "totalPosts": 3
     },
     {
       "thumbnailUri": [
-        "tempThumbnail4", "tempThumbnail2", "tempThumbnail5", "tempThumbnai6"
+        "tempThumbnail4", "tempThumbnail2", "tempThumbnail5", "tempThumbnail6"
       ],
       "post": {
         "postId": 1,
@@ -71,7 +72,7 @@
             "sort": 2
           },
           {
-            "img": "tempThumbnai6",
+            "img": "tempThumbnail6",
             "sort": 3
           }
         ],
@@ -94,7 +95,8 @@
         "mapX": 113.4325930,
         "mapY": 123.2934093,
         "liked": true
-      }
+      },
+      "totalPosts": 3
     },
     {
       "thumbnailUri": [
@@ -148,7 +150,8 @@
         "mapX": 123.9325930,
         "mapY": 103.2934093,
         "liked": true
-      }
+      },
+      "totalPosts": 3
     }
   ],
   "status": "OK",

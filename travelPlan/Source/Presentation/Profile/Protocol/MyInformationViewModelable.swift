@@ -10,4 +10,4 @@ import Combine
 protocol MyInformationViewModelable: ViewModelable
 where Input == MyInformationViewModel.Input,
       State == MyInformationViewModel.State,
-      Output == AnyPublisher<State, MainError> { }
+      Output == AnyPublisher<State, Never> { }

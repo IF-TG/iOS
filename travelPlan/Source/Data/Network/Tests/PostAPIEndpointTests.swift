@@ -48,3 +48,28 @@ final class PostAPIEndpointTests: XCTestCase {
     XCTAssertEqual(dataRequest?.convertible.urlRequest?.url, expectedURL)
   }
 }
+
+// MARK: - PostAPIEndpoint.fetchComments test
+extension PostAPIEndpointTests {
+  func testPostAPIEndpoint_FetchPosts함수_makeRequest호출시_AbsoluteURL이_정확한지_ShouldReturnEqual() {
+    // Arrange
+    let expectedURL = URL(string: "http://localhost:8080/post/detail?page=1&perPage=5&postId=1")
+    let mockRequestDTO = PostCommentsRequestDTO(page: 1, perPage: 5, postId: 1)
+    
+    let endpoint = sut.fetchComments(with: mockRequestDTO)
+    var dataRequest: DataRequest?
+    
+    // Act
+    DispatchQueue.global(qos: .background).async { [unowned self] in
+      dataRequest = try? endpoint.makeRequest(from: mockSession)
+      expectation.fulfill()
+    }
+    wait(for: [expectation], timeout: 10)
+    
+    // Assert
+    XCTAssertNotNil(
+      dataRequest?.convertible.urlRequest,
+      "PostAPIEndpoint의 fetchComments()에서 DataRequest의 urlRequest를 반환해야하는데 nil 반환")
+    XCTAssertEqual(dataRequest?.convertible.urlRequest?.url, expectedURL)
+  }
+}

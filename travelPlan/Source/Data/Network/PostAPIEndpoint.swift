@@ -18,4 +18,15 @@ struct PostAPIEndpoint {
       parameters: [.query(requestDTO)],
       requestType: .post(.postsFetch))
   }
+  
+  static func fetchComments(
+    with requestDTO: PostCommentsRequestDTO
+  ) -> Endpoint<CommonDTO<PostCommentContainerResponseDTO>> {
+    return Endpoint(
+      scheme: "http",
+      host: "localhost:8080",
+      method: .get,
+      parameters: [.query(requestDTO)],
+      requestType: .post(.postCommentsFetch))
+  }
 }

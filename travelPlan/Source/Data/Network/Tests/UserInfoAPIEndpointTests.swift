@@ -50,7 +50,7 @@ final class UserInfoAPIEndpointTests: XCTestCase {
   
   func testUserInfoAPIEndpoint_UpdateUserNickname를_통해_makeRequest를_호출할때_AbsoluteURL이_정확한지_ShouldReturnEqual() {
     // Arrange
-    let targetURL = URL(string: "http://localhost:8080/nickname?nickname=이름추천부탁&userId=7")
+    let targetURL = URL(string: "http://localhost:8080/nickname")
     let requestDTO = UserNicknamePatchRequestDTO(nickname: "이름추천부탁", userId: 7)
     let endpoint = sut.updateUserNickname(with: requestDTO)
     expectation = expectation(description: "UpdateUserNickname finish")
