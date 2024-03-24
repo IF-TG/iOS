@@ -115,4 +115,28 @@ final class DefaultPostCommentRepository: PostCommentRepository {
       self?.subscriptions.insert(subscription)
     }
   }
+  
+  func toggleCommentHeart(
+    commentId: Int64
+  ) -> Future<ToggledPostCommentHeartEntity, any Error> {
+    let requestDTO = PostCommentHeartToggleRequestDTO(id: commentId)
+    return Future { [weak self] promise in
+      guard let backgroundQueue = self?.backgroundQueue else {
+        promise(.failure(ReferenceError.invalidReference))
+        return
+      }
+      let subscription = self?.service.request(endpoint: endpoint.toggleCommentHeart(with: requestDTO))
+        .subscribe(on: backgroundQueue)
+        .mapConnectionError { $0 }
+        .map { $0.result }
+        .sink { completion in
+          if case .failure(let error) = completion {
+            promise(.failure(error))
+          }
+        } receiveValue: { responseDTO in
+          promise(.success(responseDTO.toDomain()))
+        }
+      self?.subscriptions.insert(subscription)
+    }
+  }
 }
