@@ -26,15 +26,12 @@ struct PhotoCellInfo {
 
 final class PhotoCell: UICollectionViewCell {
   // MARK: - Nested
-  
-  
   enum Const {
     static let orderViewSize: CGFloat = 20
   }
   
   // MARK: - Properties
   weak var delegate: PhotoCellDelegate?
-  
   static var id: String {
     return String(describing: Self.self)
   }
@@ -49,14 +46,11 @@ final class PhotoCell: UICollectionViewCell {
     $0.isUserInteractionEnabled = false
   }
   
-  private lazy var orderView: UIView = .init().set {
+  private let orderView: UIView = .init().set {
     $0.backgroundColor = .yg.gray00Background.withAlphaComponent(0.3)
     $0.layer.borderColor = UIColor.yg.littleWhite.cgColor
     $0.layer.borderWidth = 1
     $0.layer.cornerRadius = Const.orderViewSize / 2
-//    let tapGesture = UITapGestureRecognizer()
-//    tapGesture.addTarget(self, action: #selector(didTapOrderView(_:)))
-//    $0.addGestureRecognizer(tapGesture)
   }
   
   private let orderLabel: UILabel = .init().set {
@@ -91,10 +85,9 @@ final class PhotoCell: UICollectionViewCell {
 
 // MARK: - Helpers
 extension PhotoCell {
-  func configure(with photoInfo: PhotoCellInfo) {
-    imageView.image = photoInfo.image
-    
-    if case let .selected(order) = photoInfo.selectedOrder {
+  func configure(with cellInfo: PhotoCellInfo) {
+    imageView.image = cellInfo.image
+    if case let .selected(order) = cellInfo.selectedOrder {
       highlightedView.backgroundColor = .white.withAlphaComponent(0.5)
       orderView.backgroundColor = .yg.primary
       orderView.layer.borderColor = UIColor.clear.cgColor
@@ -138,9 +131,4 @@ extension PhotoCell: LayoutSupport {
       $0.center.equalToSuperview()
     }
   }
-}
-
-// MARK: - Action
-private extension PhotoCell {
-
 }
