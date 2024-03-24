@@ -83,7 +83,7 @@ extension RequestType {
     
     var path: String {
       if case .heartToggle = self {
-        return "/like"
+        return "comment/like"
       }
       return "comment"
     }
