@@ -1,5 +1,5 @@
 //
-//  ReviewWritePhotoService.swift
+//  DefaultPhotoService.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 1/6/24.
@@ -8,24 +8,13 @@
 import Photos
 import UIKit
 
-final class ReviewWritePhotoService: PhotoService {
+final class DefaultPhotoService {
   // MARK: - Properties
   private let imageManager = PHCachingImageManager()
-  
-  // MARK: - Helpers
-  func convertAlbumToPHAssets(
-    album: PHFetchResult<PHAsset>,
-    completion: @escaping ([PHAsset]) -> Void
-  ) {
-    var assets = [PHAsset]()
-    defer { completion(assets) }
-    
-    guard 0 < album.count else { return }
-    album.enumerateObjects { asset, _, _ in
-      assets.append(asset)
-    }
-  }
-  
+}
+
+// MARK: - PhotoService
+extension DefaultPhotoService: PhotoService {
   func fetchImage(
     asset: PHAsset,
     size: CGSize,
@@ -46,6 +35,4 @@ final class ReviewWritePhotoService: PhotoService {
         completion(image)
       }
   }
-  
-  
 }
