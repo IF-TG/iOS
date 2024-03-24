@@ -55,6 +55,7 @@ extension PostCommentUseCaseTests {
     // Arrange
     var result = false
     var unexpectedError: Error?
+    testFunctionName = "sendComment"
     
     // Act
     subscription = sut.sendComment(postId: 1, comment: "코멘트!")
@@ -79,6 +80,7 @@ extension PostCommentUseCaseTests {
     // Arrange
     var result = false
     var unexpectedError: Error?
+    testFunctionName = "updateComment"
     
     // Act
     subscription = sut.updateComment(commentId: 1, comment: "정상을 향해~ (등산가야지~..~)")
@@ -98,5 +100,4 @@ extension PostCommentUseCaseTests {
     checkIfUnexpectedErrorOccured(unexpectedError)
     XCTAssertTrue(result, notReceivedErrorMessage)
   }
-
 }
