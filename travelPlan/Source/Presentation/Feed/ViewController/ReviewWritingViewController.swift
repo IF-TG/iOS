@@ -278,16 +278,12 @@ private extension ReviewWritingViewController {
 // MARK: - Helpers
 extension ReviewWritingViewController {
   func setupImage(assets: [PHAsset], photoService: any PhotoService) {
-    let size = CGSize(
-      width: UIScreen.main.bounds.width -
-      (Constant.ScrollView.leading + Constant.ScrollView.trailing) * 2,
-      height: CGFloat.greatestFiniteMagnitude
-    )
     for asset in assets {
       photoService.fetchImage(
         asset: asset,
-        size: size,
-        contentMode: .aspectFit
+        size: PHImageManagerMaximumSize,
+        contentMode: .aspectFit,
+        resizeModeOption: .none
       ) { [weak self] image in
         self?.contentView.addImageView(image: image)
       }

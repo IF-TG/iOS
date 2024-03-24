@@ -133,7 +133,8 @@ extension AlbumViewController: UICollectionViewDataSource {
     photoService.fetchImage(
       asset: photoModel.asset,
       size: imageSize,
-      contentMode: .aspectFit
+      contentMode: .aspectFit,
+      resizeModeOption: .fast
     ) { [weak cell] image in
       let cellInfo = PhotoCellInfo(image: image, selectedOrder: photoModel.selectedOrder)
       cell?.configure(with: cellInfo)
