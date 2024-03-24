@@ -18,7 +18,14 @@ final class DefaultPostCommentUseCase: PostCommentUseCase {
   }
   
   func sendComment(postId: Int64, comment: String) -> AnyPublisher<PostCommentEntity, any Error> {
-    postCommentRepository.sendComment(postId: postId, comment: comment)
+    return postCommentRepository
+      .sendComment(postId: postId, comment: comment)
+      .eraseToAnyPublisher()
+  }
+  
+  func updateComment(commentId: Int64, comment: String) -> AnyPublisher<UpdatedPostCommentEntity, any Error> {
+    return postCommentRepository
+      .updateComment(commentId: commentId, comment: comment)
       .eraseToAnyPublisher()
   }
 }
