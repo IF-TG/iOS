@@ -13,7 +13,7 @@ struct PostCommentUpdateResponseDTO: Decodable {
 }
 
 // MARK: - Mappings to Domain
-extension PostCommentUpdateRequestDTO {
+extension PostCommentUpdateResponseDTO {
   func toDomain() -> UpdatedPostCommentEntity {
     return UpdatedPostCommentEntity(
       commentId: commentId,
