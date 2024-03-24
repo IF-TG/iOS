@@ -24,7 +24,7 @@ final class MockPostCommentRepository: PostCommentRepository {
 extension MockPostCommentRepository {
   func sendComment(postId: Int64, comment: String) -> Future<PostCommentEntity, any Error> {
     MockUrlProtocol.requestHandler = { _ in
-      let mockData = MockResponseType.postCommentResponseWhenCommentSend.mockDataLoader
+      let mockData = MockResponseType.postComment(.whenCommentSend).mockDataLoader
       return ((HTTPURLResponse(), mockData))
     }
     return Future { promise in
@@ -44,7 +44,7 @@ extension MockPostCommentRepository {
   
   func updateComment(commentId: Int64, comment: String) -> Future<UpdatedPostCommentEntity, any Error> {
     MockUrlProtocol.requestHandler = { _ in
-      let mock = MockResponseType.postCommentResponseWhenCommentUpdated.mockDataLoader
+      let mock = MockResponseType.postComment(.whenCommentUpdate).mockDataLoader
       return ((HTTPURLResponse(), mock))
     }
     return Future { promise in
