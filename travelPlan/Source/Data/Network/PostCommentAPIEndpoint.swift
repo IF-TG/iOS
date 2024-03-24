@@ -29,4 +29,15 @@ struct PostCommentAPIEndpoint {
       parameters: [.body(requestDTO)],
       requestType: .postComment(.update))
   }
+  
+  static func deleteComment(
+    with requestDTO: PostCommentDeleteRequestDTO
+  ) -> Endpoint<CommonDTO<Bool>> {
+    return Endpoint(
+      scheme: "http",
+      host: "localhost:8080",
+      method: .delete,
+      parameters: [.query(requestDTO)],
+      requestType: .postComment(.delete))
+  }
 }
