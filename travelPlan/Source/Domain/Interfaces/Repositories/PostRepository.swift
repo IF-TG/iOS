@@ -8,5 +8,15 @@
 import Combine
 
 protocol PostRepository {
-  func fetchPosts(page: Int32, perPage: Int32, category: PostCategory) -> Future<PostsPage, Error>
+  func fetchPosts(
+    page: Int32,
+    perPage: Int32, 
+    category: PostCategory
+  ) -> Future<PostsPage, Error>
+  
+  func fetchComments(
+    page: Int32,
+    perPage: Int32,
+    postId: Int64
+  ) -> Future<PostCommentContainerEntity, Error>
 }

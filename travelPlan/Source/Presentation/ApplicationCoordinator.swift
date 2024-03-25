@@ -29,10 +29,10 @@ final class ApplicationCoordinator: FlowCoordinator {
   func start() {
     // 루트 코디네이터는 parent가 nil 입니다.
     parent = nil
-    guard isSignIn else {
-      gotoLoginPage()
-      return
-    }
+//    guard isSignIn else {
+//      gotoLoginPage()
+//      return
+//    }
     gotoMainTapFeedPage()
   }
   

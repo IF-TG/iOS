@@ -8,5 +8,5 @@
 import UIKit.UICollectionViewCell
 
 protocol PhotoCellDelegate: AnyObject {
-  func touchBegan(_ cell: UICollectionViewCell, quadrant: PhotoCell.Quadrant)
+  func touchBegan(_ cell: UICollectionViewCell, quadrant: PhotoCellQuadrant)
 }

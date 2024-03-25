@@ -37,7 +37,7 @@ final class ReviewWritingCoordinator: FlowCoordinator {
 
 extension ReviewWritingCoordinator: ReviewWritingCoordinatorDelegate {
   func showPhotoViewController() {
-    let childCoordinator = PhotoCoordinator(presenter: presenter)
+    let childCoordinator = AlbumCoordinator(presenter: presenter)
     addChild(with: childCoordinator)
   }
 }
