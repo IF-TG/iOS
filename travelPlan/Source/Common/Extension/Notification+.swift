@@ -8,7 +8,7 @@
 import Foundation
 
 extension Notification.Name {
-  /// FeedPage에서 분류 및 최신순 눌렀을 때
+  /// FeedPage에서 분류 및 정렬 눌렀을 때
   static let TravelCategoryDetailSelected = Notification
     .Name("travelCategoryDetailSelected")
 }
