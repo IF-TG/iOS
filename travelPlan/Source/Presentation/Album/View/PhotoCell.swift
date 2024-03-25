@@ -72,6 +72,11 @@ final class PhotoCell: UICollectionViewCell {
   override func prepareForReuse() {
     super.prepareForReuse()
     imageView.image = nil
+    highlightedView.backgroundColor = .clear
+    orderView.backgroundColor = .yg.gray00Background.withAlphaComponent(0.3)
+    orderView.layer.borderColor = UIColor.yg.littleWhite.cgColor
+    orderView.layer.borderWidth = 1
+    orderLabel.text = ""
   }
   
   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -98,13 +103,6 @@ extension PhotoCell {
       orderView.layer.borderColor = UIColor.clear.cgColor
       orderView.layer.borderWidth = 0
       orderLabel.text = String(order)
-      orderLabel.isHidden = false
-    } else {
-      highlightedView.backgroundColor = .clear
-      orderView.backgroundColor = .yg.gray00Background.withAlphaComponent(0.3)
-      orderView.layer.borderColor = UIColor.yg.littleWhite.cgColor
-      orderView.layer.borderWidth = 1
-      orderLabel.isHidden = true
     }
   }
 }
