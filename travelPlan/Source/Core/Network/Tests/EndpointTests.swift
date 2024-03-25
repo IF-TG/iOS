@@ -43,7 +43,7 @@ final class EndpointTests: XCTestCase {
 extension EndpointTests {
   func testMakeRequest_DataRequest의AbsoluteURL검사할때_ShouldReturnEqaul() {
     // Arrange
-    let targetURL = URL(string: "http://test.com/user/name-update?id=777&name=배고프다")
+    let targetURL = URL(string: "http://test.com/user/name-update?commentId=777&name=배고프다")
     
     // Act
     DispatchQueue.global().async { [unowned self] in
@@ -144,7 +144,7 @@ extension EndpointTests {
     
     let mockReqeustQueryParamDTO = TempQueryParameterReqeustDTO(accessToken: "ab1@2")
     mockRequestModel = UserNameRequestDTO(name: "nice", id: 777)
-    let expectedJsonString = "id=\(mockRequestModel.id)&name=\(mockRequestModel.name)"
+    let expectedJsonString = "commentId=\(mockRequestModel.id)&name=\(mockRequestModel.name)"
     sut = Endpoint(
       scheme: "http",
       host: "test.com",

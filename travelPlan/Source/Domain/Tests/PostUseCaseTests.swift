@@ -30,8 +30,9 @@ final class PostUseCaseTests: XCTestCase {
     subscription = nil
     expectation = nil
   }
-  
-  // MARK: - Tests
+}
+// MARK: - PostUseCase.fetchPosts Tests
+extension PostUseCaseTests {
   func testPostUseCase_fetchPosts함수를통해_postContainer배열값을_받았는지_responseDTO검증_shouldReturnTrue() {
     // Arrange
     let mockCategory = PostCategory(mainTheme: .all, orderBy: .newest)
@@ -67,5 +68,45 @@ final class PostUseCaseTests: XCTestCase {
     XCTAssertTrue(
       result,
       "testPostUseCase의 fetchPosts()를 호출했을 때 postContainer값을 받아야하지만, 퍼블리셔의 upstream이 종료됨")
+  }
+}
+
+// MARK: - PostUseCase.fetchComments()
+extension PostUseCaseTests {
+  func testPostUseCase_fetchComments함수를통해_mockJson을디코딩해_PostCommentContainer를_받는경우_ShouldReturnTrue() {
+    // Arrange
+    let mockReqeustValue = PostCommentsReqeustValue(page: 1, perPage: 5, postId: 1)
+    var result = false
+    var unexpectedError: Error?
+    
+    // Act
+    subscription = sut.fetchComments(with: mockReqeustValue)
+      .sink(receiveCompletion: { [unowned self] completion in
+        if case .failure(let error) = completion {
+          unexpectedError = error
+          expectation.fulfill()
+        }
+        result = true
+        expectation.fulfill()
+      }, receiveValue: { [unowned self] postCommentContainerEntity in
+        NSLog("DEBUG: \(postCommentContainerEntity.comments.description)")
+        result = true
+        expectation.fulfill()
+      })
+   wait(for: [expectation], timeout: 7)
+    
+    // Assert
+    if let unexpectedError {
+      XCTAssert(
+        false,
+        """
+          PostUseCase의 fetchComments()를 호출했을 때 postCommentContainerEntity값을 성공적으로 받아야 하지만 에러 발생됨
+          Error description:\(unexpectedError.localizedDescription)
+        """)
+    }
+    
+    XCTAssertTrue(
+      result,
+      "PostUseCase의 fetchComments()를 호출했을 때 postCommentContainerEntity값을 받아야하지만, 퍼블리셔의 upstream이 종료됨")
   }
 }

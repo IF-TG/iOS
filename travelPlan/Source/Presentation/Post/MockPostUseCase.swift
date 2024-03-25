@@ -10,6 +10,13 @@ import Combine
 import Foundation
 
 final class MockPostUseCaseForPaging: PostUseCase {
+  /// MockPostUseCaseForPaging에서 fetchComments는 미구현.
+  func fetchComments(
+    with requestValue: PostCommentsReqeustValue
+  ) -> AnyPublisher<PostCommentContainerEntity, any Error> {
+    Empty().eraseToAnyPublisher()
+  }
+  
   private let totalPage = 18*4
   private var index = 0
   func fetchPosts(
