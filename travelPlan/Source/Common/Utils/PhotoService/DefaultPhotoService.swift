@@ -34,8 +34,7 @@ extension DefaultPhotoService: PhotoService {
       options: options
     ) { image, _ in
       guard let image else { return }
-      
-        completion(image)
+      completion(image)
     }
   }
 }
