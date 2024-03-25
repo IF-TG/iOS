@@ -22,10 +22,14 @@ final class MyInformationViewModelTests: XCTestCase {
     super.setUp()
     let useCase = MockMyProfileUseCase()
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> bed9fcb71b2c6e01914b80194e42fca619aed1a1
     let mockUserStorage = MockUserStorage()
     let loggedInUserRepository = DefaultLoggedInUserRepository(storage: mockUserStorage)
     let loggedInUserUseCase = DefaultLoggedInUserUseCase(loggedInUserRepository: loggedInUserRepository)
     sut = MyInformationViewModel(myProfileUseCase: useCase, loggedInUserUseCase: loggedInUserUseCase)
+<<<<<<< HEAD
 =======
     let mockStroage = MockUserStorage()
     let defaultLoggedInUserRepository = DefaultLoggedInUserRepository(storage: mockStroage)
@@ -34,6 +38,8 @@ final class MyInformationViewModelTests: XCTestCase {
       myProfileUseCase: useCase,
       loggedInUserUseCase: defaultLoggedInUserUseCase)
 >>>>>>> f2fda904791ded5e5cecceb84f42912dbafe4d52
+=======
+>>>>>>> bed9fcb71b2c6e01914b80194e42fca619aed1a1
     input = MyInformationViewModel.Input()
   }
   

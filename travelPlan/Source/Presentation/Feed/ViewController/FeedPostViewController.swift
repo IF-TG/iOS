@@ -29,7 +29,7 @@ final class FeedPostViewController: UIViewController {
   private let orderFilterNotifier = PassthroughSubject<TravelOrderType, Never>()
   
   private let mainThemeFilterNotifier = PassthroughSubject<TravelMainThemeType, Never>()
-  
+
   private let viewModel: any FeedPostViewModelable & FeedPostViewAdapterDataSource
 
   private lazy var input = FeedPostViewModel.Input(

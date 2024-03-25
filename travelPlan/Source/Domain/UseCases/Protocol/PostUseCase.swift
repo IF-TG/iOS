@@ -31,8 +31,7 @@ enum PostUseCaseError: LocalizedError {
   }
 }
 
-
-protocol PostUseCase {  
+protocol PostUseCase {
   func fetchPosts(
     with page: PostFetchRequestValue
   ) -> AnyPublisher<PostsPage, Error>
