@@ -35,9 +35,7 @@ extension DefaultPhotoService: PhotoService {
     ) { image, _ in
       guard let image else { return }
       
-      DispatchQueue.main.async {
         completion(image)
-      }
     }
   }
 }
