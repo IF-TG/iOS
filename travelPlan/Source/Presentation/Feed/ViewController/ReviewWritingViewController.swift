@@ -278,13 +278,26 @@ private extension ReviewWritingViewController {
 // MARK: - Helpers
 extension ReviewWritingViewController {
   func setupImage(assets: [PHAsset], photoService: any PhotoService) {
-    for asset in assets {
+    let group = DispatchGroup()
+    var images: [(Int, UIImage)] = []
+    
+    for (index, asset) in assets.enumerated() {
+      group.enter()
       photoService.fetchImage(
         asset: asset,
         size: PHImageManagerMaximumSize,
         contentMode: .aspectFit,
         resizeModeOption: .none
-      ) { [weak self] image in
+      ) { image in
+        images.append((index, image))
+        group.leave()
+      }
+    }
+    
+    group.notify(queue: .main) { [weak self] in
+      let sortedImages = images.sorted { $0.0 < $1.0 }.map { $0.1 }
+      
+      for image in sortedImages {
         self?.contentView.addImageView(image: image)
       }
     }
