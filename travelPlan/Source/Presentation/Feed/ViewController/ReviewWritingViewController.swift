@@ -310,7 +310,7 @@ extension ReviewWritingViewController: ReviewWritingBottomViewDelegate {
     input.didTapPlanView.send()
   }
   
-  func didTapCameraButton(_ button: UIButton) {
+  func didTapAlbumButton(_ button: UIButton) {
 //    if contentView.firstMessageTextViewTextIsPlaceholder {
 //      contentView.hideMessageTextView()
 //    }
