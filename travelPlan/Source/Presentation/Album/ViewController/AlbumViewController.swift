@@ -136,8 +136,10 @@ extension AlbumViewController: UICollectionViewDataSource {
       contentMode: .aspectFit,
       resizeModeOption: .fast
     ) { [weak cell] image in
-      let cellInfo = PhotoCellInfo(image: image, selectedOrder: photoModel.selectedOrder)
-      cell?.configure(with: cellInfo)
+      DispatchQueue.main.async {
+        let cellInfo = PhotoCellInfo(image: image, selectedOrder: photoModel.selectedOrder)
+        cell?.configure(with: cellInfo)
+      }
     }
 
     return cell
