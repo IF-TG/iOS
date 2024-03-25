@@ -63,9 +63,13 @@ extension AFError {
 extension Publisher where Self.Failure == AFError {
   func mapConnectionError<E: Error>(
     _ transform: @escaping (Self.Failure) -> E
-  ) -> Publishers.MapError<Self, Error>  {
+  ) -> Publishers.MapError<Self, Error> {
     return self.mapError { error in
       error.asConnectionError
     }
+  }
+  
+  func mapConnectionError() -> Publishers.MapError<Self, Error> {
+    return self.mapError { $0.asConnectionError }
   }
 }
