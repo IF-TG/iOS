@@ -338,10 +338,13 @@ extension ReviewWritingContentView {
       lastView.snp.makeConstraints {
         $0.height.equalTo(40)
       }
-    } else if lastView is UIImageView {
+    } else if let imageSize = (lastView as? UIImageView)?.image?.size {
+      let aspectRatio = imageSize.width / imageSize.height // 종횡비 = 가로:세로
+      // height AutoLayout을 width * (1 / aspectRatio)로 정의
       lastView.snp.makeConstraints {
-        $0.height.equalTo(250)
+        $0.height.equalTo(lastView.snp.width).multipliedBy(1 / aspectRatio)
       }
+      
       imageViewPublisher.send(true)
     }
     lastView.layoutIfNeeded()
@@ -406,16 +409,6 @@ extension ReviewWritingContentView {
 
 // MARK: - Helpers
 extension ReviewWritingContentView {
-  /// imageView를 생성해서 stackView 계층에 추가합니다.
-  func addImageView() {
-    let imageView = PictureImageView(imageName: "tempProfile1").set {
-      $0.delegate = self
-      let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapImageView(_:)))
-      $0.addGestureRecognizer(tapGesture)
-    }
-    setupLastView(lastView: imageView)
-  }
-  
   /// 스크롤뷰 터치 시 lastView의 종류에 따라 contentOffsetY를 관리합니다.
   func manageContentOffsetYByLastView() {
     if let textView = lastView as? UITextView {
@@ -466,6 +459,12 @@ extension ReviewWritingContentView {
       $0.addGestureRecognizer(tapGesture)
     }
     setupLastView(lastView: imageView)
+    
+    if firstMessageTextViewTextIsPlaceholder {
+      firstMessageTextView.isHidden = true
+    } else {
+      firstMessageTextView.isHidden = false
+    }
   }
 }
 

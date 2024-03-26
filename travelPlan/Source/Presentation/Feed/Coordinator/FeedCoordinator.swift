@@ -12,8 +12,8 @@ protocol FeedCoordinatorDelegate: FlowCoordinatorDelegate {
   func showPostSearch()
   func showNotification()
   func showTotalBottomSheet()
-  func showPostMainThemeFilteringBottomSheet(sortingType: TravelMainThemeType)
-  func showPostOrderFilteringBottomSheet()
+  func showPostMainThemeCategoryBottomSheet(mainTheme: TravelMainThemeType)
+  func showPostOrderCategoryBottomSheet()
   func showReviewWrite()
 }
 
@@ -82,27 +82,18 @@ extension FeedCoordinator: FeedCoordinatorDelegate {
     presenter?.present(sheetViewController, animated: false)
   }
   
-  func showPostMainThemeFilteringBottomSheet(sortingType: TravelMainThemeType) {
-    var bottomSheetViewController: PostFilteringBottomSheetViewController
-    if sortingType.rawValue == "지역" {
-      bottomSheetViewController = PostFilteringBottomSheetViewController(
-        bottomSheetMode: .full,
-        sortingType: .travelMainTheme(.region(.busan)))
-    } else {
-      bottomSheetViewController = PostFilteringBottomSheetViewController(
-        bottomSheetMode: .couldBeFull,
-        sortingType: .travelMainTheme(sortingType))
-    }
-    bottomSheetViewController.delegate = viewController
-    presenter?.presentBottomSheet(bottomSheetViewController)
+  // FIXME: - 피드 탭에서 분류, 정렬 title은 그대로 두고 이제 바텀시트 올라올 때 선택됬던거는 얕은 회식으로 표시?
+  // 카테고리 선정시 옆에 태그 형식으로 붙여주는것도 괜찮은 선택지,,
+  func showPostMainThemeCategoryBottomSheet(mainTheme: TravelMainThemeType) {
+    let bottomSheet = PostMainThemeCategoryBottomSheet(mainTheme: mainTheme)
+    bottomSheet.delegate = viewController
+    presenter?.presentBottomSheet(bottomSheet)
   }
   
-  func showPostOrderFilteringBottomSheet() {
-    let bottomSheetViewController = PostFilteringBottomSheetViewController(
-      bottomSheetMode: .couldBeFull,
-      sortingType: .travelOrder)
-    bottomSheetViewController.delegate = viewController
-    presenter?.presentBottomSheet(bottomSheetViewController)
+  func showPostOrderCategoryBottomSheet() {
+    let bottomSheet = PostOrderCategoryBottomSheet()
+    bottomSheet.delegate = viewController
+    presenter?.presentBottomSheet(bottomSheet)
   }
   
   func showReviewWrite() {
