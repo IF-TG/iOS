@@ -18,7 +18,7 @@ final class DefaultPostNestedCommentRepository: PostNestedCommentRepository {
   private var subscriptions = Set<AnyCancellable?>()
   
   // MARK: - Lifecycle
-  init(service: Sessionable, backgroundQueue: DispatchQueue) {
+  init(service: Sessionable, backgroundQueue: DispatchQueue = DispatchQueue.global(qos: .background)) {
     self.service = service
     self.backgroundQueue = backgroundQueue
   }
