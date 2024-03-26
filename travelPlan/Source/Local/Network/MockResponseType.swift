@@ -11,16 +11,19 @@ enum MockResponseType {
   case notice
   case postContainerResponse
   case postCommentContainerResponse
-  case postCommentResponseWhenCommentSend
+  case postComment(PostCommentResponse)
   
   var filePath: String {
-    let dict: [Self: String] = [
-      .notice: "mock_response_notice",
-      .postContainerResponse: "mock_response_postContainer",
-      .postCommentContainerResponse: "mock_response_postCommentContainer",
-      .postCommentResponseWhenCommentSend: "mock_response_postComments_whenCommentSend"
-    ]
-    return dict[self]!
+    return switch self {
+    case .notice:
+      "mock_response_notice"
+    case .postComment(let comment):
+      comment.filePath
+    case .postContainerResponse:
+      "mock_response_postContainer"
+    case .postCommentContainerResponse:
+      "mock_response_postCommentContainer"
+    }
   }
   
   var mockDataLoader: Data {
@@ -31,5 +34,20 @@ enum MockResponseType {
       return Data()
     }
     return jsonStr.data(using: .utf8) ?? Data()
+  }
+  
+  enum PostCommentResponse {
+    case whenCommentSend
+    case whenCommentUpdate
+    case whenCommentDelete
+    
+    var filePath: String {
+      let dict = [
+        .whenCommentSend: "mock_response_postComments_whenCommentSend",
+        .whenCommentUpdate: "mock_postComment_update_response",
+        .whenCommentDelete: "mock_postComment_delete_response"
+      ] as [Self: String]
+      return dict[self]!
+    }
   }
 }

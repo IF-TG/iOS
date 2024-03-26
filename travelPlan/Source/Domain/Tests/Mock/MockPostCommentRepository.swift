@@ -24,7 +24,7 @@ final class MockPostCommentRepository: PostCommentRepository {
 extension MockPostCommentRepository {
   func sendComment(postId: Int64, comment: String) -> Future<PostCommentEntity, any Error> {
     MockUrlProtocol.requestHandler = { _ in
-      let mockData = MockResponseType.postCommentResponseWhenCommentSend.mockDataLoader
+      let mockData = MockResponseType.postComment(.whenCommentSend).mockDataLoader
       return ((HTTPURLResponse(), mockData))
     }
     return Future { promise in
@@ -36,6 +36,46 @@ extension MockPostCommentRepository {
             }
           } receiveValue: { postCommentEntity in
             promise(.success(postCommentEntity))
+          }
+        self?.subscriptions.insert(subscription)
+      }
+    }
+  }
+  
+  func updateComment(commentId: Int64, comment: String) -> Future<UpdatedPostCommentEntity, any Error> {
+    MockUrlProtocol.requestHandler = { _ in
+      let mock = MockResponseType.postComment(.whenCommentUpdate).mockDataLoader
+      return ((HTTPURLResponse(), mock))
+    }
+    return Future { promise in
+      DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.5) { [weak self] in
+        let subscription = self?.repository.updateComment(commentId: commentId, comment: comment)
+          .sink { completion in
+            if case .failure(let error) = completion {
+              promise(.failure(error))
+            }
+          } receiveValue: { updatedPostCommentEntity in
+            promise(.success(updatedPostCommentEntity))
+          }
+        self?.subscriptions.insert(subscription)
+      }
+    }
+  }
+  
+  func deleteComment(commentId: Int64) -> Future<Bool, any Error> {
+    MockUrlProtocol.requestHandler = { _ in
+      let mock = MockResponseType.postComment(.whenCommentDelete).mockDataLoader
+      return ((HTTPURLResponse(), mock))
+    }
+    return Future { promise in
+      DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.5) { [weak self] in
+        let subscription = self?.repository.deleteComment(commentId: commentId)
+          .sink { completion in
+            if case .failure(let error) = completion {
+              promise(.failure(error))
+            }
+          } receiveValue: { result in
+            promise(.success(result))
           }
         self?.subscriptions.insert(subscription)
       }

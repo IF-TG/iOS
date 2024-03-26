@@ -10,4 +10,8 @@ import Combine
 
 protocol PostCommentUseCase {
   func sendComment(postId: Int64, comment: String) -> AnyPublisher<PostCommentEntity, Error>
+  
+  func updateComment(commentId: Int64, comment: String) -> AnyPublisher<UpdatedPostCommentEntity, Error>
+  
+  func deleteComment(commentId: Int64) -> AnyPublisher<Bool, Error>
 }
