@@ -8,21 +8,15 @@
 import Foundation
 
 enum ReferenceError: Swift.Error {
-  case weakSelfError
-  case unownedSelfError
-  case other(String)
+  case invalidReference
 }
 
 // MARK: - LocalizedError
 extension ReferenceError: LocalizedError {
   var errorDescription: String? {
     switch self {
-    case .weakSelfError:
-      return NSLocalizedString("DEBUG: Weak self reference error occurred", comment: "")
-    case .unownedSelfError:
-      return NSLocalizedString("DEBUG: Unowned self reference error occurred", comment: "")
-    case .other(let description):
-      return "DEBUG: Unexpected reference error occured: \(description)"
+    case .invalidReference:
+      NSLocalizedString("클라이언트에서 에러가 발생했습니다.", comment: "")
     }
   }
 }

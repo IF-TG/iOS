@@ -14,6 +14,7 @@ enum RequestType {
   case post(Post)
   case userProfile(UserProfile)
   case custom(String)
+  case postComment(PostComment)
   
   var path: String {
     return switch self {
@@ -27,6 +28,8 @@ enum RequestType {
       profile.path
     case .custom(let requestPath):
       requestPath
+    case .postComment(let postComment):
+      postComment.path
     }
   }
 }
@@ -68,6 +71,14 @@ extension RequestType {
       case .fetch:
         "/original"
       }
+    }
+  }
+  
+  enum PostComment {
+    case send
+    
+    var path: String {
+      "comment"
     }
   }
 }
