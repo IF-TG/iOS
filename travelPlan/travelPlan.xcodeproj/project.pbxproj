@@ -1905,8 +1905,8 @@
 		1594F54629FD526900A58F20 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
-				15BB01B02A1EB4CF0035B486 /* Login */,
 				1503F92A2A4E068E002BC38D /* ApplicationCoordinator.swift */,
+				15BB01B02A1EB4CF0035B486 /* Login */,
 				1546DF1A2B0A6CE700B49A55 /* PostDetail */,
 				15D7C48B2BAA0C3300BBD5EB /* Post */,
 				15D60D472AED08590087FEC0 /* Notification */,
