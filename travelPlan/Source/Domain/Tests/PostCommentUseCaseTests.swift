@@ -30,24 +30,6 @@ final class PostCommentUseCaseTests: XCTestCase {
   }
 }
 
-// MARK: - Helpers
-private extension PostCommentUseCaseTests {
-  func checkIfUnexpectedErrorOccured(_ error: Error?) {
-    guard let error else { return }
-    XCTAssert(
-      false,
-        """
-          testPostCommentUseCase's \(testFunctionName) 함수 호출시 entity를 받아야 하지만 에러가 발생됬습니다.
-          Occured error description: \(error.localizedDescription)
-        """
-    )
-  }
-  
-  var notReceivedErrorMessage: String {
-    "testPostCommentUseCase의 \(testFunctionName)()를 호출했을 때 Entity를 받아야 하지만 upstream이 종료됬습니다"
-  }
-}
-
 /// JsonString 목데이터 주입시 response data가 특정 responseDTO로 decodable이 되는지 테스트
 /// decoded된 responseDTO가 특정 entity로 mapping이 되는지 테스트
 extension PostCommentUseCaseTests {
@@ -55,7 +37,6 @@ extension PostCommentUseCaseTests {
     // Arrange
     var result = false
     var unexpectedError: Error?
-    testFunctionName = "sendComment"
     
     // Act
     subscription = sut.sendComment(postId: 1, comment: "코멘트!")
@@ -72,7 +53,7 @@ extension PostCommentUseCaseTests {
     wait(for: [expectation], timeout: 10)
     
     // Assert
-    checkIfUnexpectedErrorOccured(unexpectedError)
+    checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "sendComment")
     XCTAssertTrue(result, notReceivedErrorMessage)
   }
   
@@ -80,7 +61,6 @@ extension PostCommentUseCaseTests {
     // Arrange
     var result = false
     var unexpectedError: Error?
-    testFunctionName = "updateComment"
     
     // Act
     subscription = sut.updateComment(commentId: 1, comment: "정상을 향해~ (등산가야지~..~)")
@@ -97,7 +77,7 @@ extension PostCommentUseCaseTests {
     wait(for: [expectation], timeout: 7.777777777)
     
     // Assert
-    checkIfUnexpectedErrorOccured(unexpectedError)
+    checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "updateComment")
     XCTAssertTrue(result, notReceivedErrorMessage)
   }
   
@@ -105,7 +85,6 @@ extension PostCommentUseCaseTests {
     // Arrange
     var result = false
     var unexpectedError: Error?
-    testFunctionName = "deleteComment"
     
     // Act
     subscription = sut.deleteComment(commentId: 1)
@@ -122,7 +101,7 @@ extension PostCommentUseCaseTests {
     wait(for: [expectation], timeout: 10)
     
     // Assert
-    checkIfUnexpectedErrorOccured(unexpectedError)
+    checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "deleteComment")
     XCTAssertTrue(result, notReceivedErrorMessage)
 
   }
