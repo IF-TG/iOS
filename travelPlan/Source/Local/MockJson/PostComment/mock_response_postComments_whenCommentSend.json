@@ -1,0 +1,27 @@
+{
+  "result": {
+    "commentId": 123,
+    "profileImgUri": "tempProfile1",
+    "nickname": "짱구",
+    "createAt": "2024-03-22T12:00:00Z",
+    "comment": "봄봄봄 봄이 왔네요호호호홓~~~\n\n하하하핳. ",
+    "nestedCommentDtoList": [
+      {
+        "nestedCommentId": 455,
+        "profileImgUri": "tempProfile2",
+        "nickname": "맹구",
+        "crateAt": "2024-03-22T12:30:00Z",
+        "comment": "근데 아직 봄 꽃들이 덜 핀거 같지 않나요?",
+        "likeNum": 12,
+        "liked": true
+      }
+    ],
+    "deleted": false,
+    "liked": true,
+    "likeNum": 11,
+    "blocked": false
+  },
+  "status": "OK",
+  "statusCode": "200",
+  "message": "Success"
+}

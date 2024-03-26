@@ -31,7 +31,6 @@ enum PostUseCaseError: LocalizedError {
   }
 }
 
-
 protocol PostUseCase {
   func fetchComments(
     with requestValue: PostCommentsReqeustValue

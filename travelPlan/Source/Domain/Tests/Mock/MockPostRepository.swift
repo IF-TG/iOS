@@ -33,7 +33,6 @@ final class MockPostRepository: PostRepository {
     return postRepository.fetchPosts(page: page, perPage: perPage, category: category)
   }
   
-  // FIXME: - MockPostRepository를 사용하거나 테스트하게 된다면 로직을 변경해야합니다.
   func fetchComments(page: Int32, perPage: Int32, postId: Int64) -> Future<PostCommentContainerEntity, any Error> {
     MockUrlProtocol.requestHandler = { _ in
       let mockData = MockResponseType.postCommentContainerResponse.mockDataLoader
