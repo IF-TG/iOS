@@ -15,6 +15,7 @@ enum RequestType {
   case userProfile(UserProfile)
   case custom(String)
   case postComment(PostComment)
+  case postNestedComment(PostNestedComment)
   
   var path: String {
     return switch self {
@@ -30,6 +31,8 @@ enum RequestType {
       requestPath
     case .postComment(let postComment):
       postComment.path
+    case .postNestedComment(let nestedComment):
+      nestedComment.path
     }
   }
 }
@@ -46,6 +49,21 @@ extension RequestType {
          "posts"
       case .postCommentsFetch:
         "post/detail"
+      }
+    }
+  }
+  
+  enum PostNestedComment {
+    case send
+    
+    var path: String {
+      return "comment" + self.relativePath
+    }
+    
+    private var relativePath: String {
+      switch self {
+      case .send:
+        "/nestedComment"
       }
     }
   }
