@@ -12,12 +12,15 @@ enum MockResponseType {
   case postContainerResponse
   case postCommentContainerResponse
   case postComment(PostCommentResponse)
+  case postNestedComment(PostNestedCommentResponse)
   
   var filePath: String {
     return switch self {
     case .notice:
       "mock_response_notice"
     case .postComment(let comment):
+      comment.filePath
+    case .postNestedComment(let comment):
       comment.filePath
     case .postContainerResponse:
       "mock_response_postContainer"
@@ -48,6 +51,16 @@ enum MockResponseType {
         .whenCommentDelete: "mock_postComment_delete_response"
       ] as [Self: String]
       return dict[self]!
+    }
+  }
+  
+  enum PostNestedCommentResponse {
+    case whenCommentSend
+    
+    var filePath: String {
+      [
+        .whenCommentSend: "mock_postComment_send_response"
+      ] [self]!
     }
   }
 }
