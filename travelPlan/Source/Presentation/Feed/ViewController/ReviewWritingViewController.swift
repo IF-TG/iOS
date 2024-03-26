@@ -8,11 +8,20 @@
 import UIKit
 import SnapKit
 import Combine
+import Photos
 
 final class ReviewWritingViewController: UIViewController {
+  // MARK: - Nested
   enum KeyboardState {
     case willShow
     case willHide
+  }
+  
+  enum Constant {
+    enum ScrollView {
+      static let leading: CGFloat = 15
+      static let trailing: CGFloat = 15
+    }
   }
   
   // MARK: - Properties
@@ -219,7 +228,7 @@ extension ReviewWritingViewController: LayoutSupport {
   func setConstraints() {
     scrollView.snp.makeConstraints {
       $0.top.equalTo(view.safeAreaLayoutGuide)
-      $0.leading.trailing.equalToSuperview().inset(15)
+      $0.leading.trailing.equalToSuperview().inset(Constant.ScrollView.leading)
       $0.height.equalToSuperview().multipliedBy(0.73)
       $0.bottom.equalTo(bottomView.snp.top)
     }
@@ -268,9 +277,29 @@ private extension ReviewWritingViewController {
 }
 // MARK: - Helpers
 extension ReviewWritingViewController {
-  func setImageView(to images: [UIImage]) {
-    for image in images {
-      contentView.addImageView(image: image)
+  func setupImage(assets: [PHAsset], photoService: any PhotoService) {
+    let group = DispatchGroup()
+    var images: [(Int, UIImage)] = []
+    
+    for (index, asset) in assets.enumerated() {
+      group.enter()
+      photoService.fetchImage(
+        asset: asset,
+        size: PHImageManagerMaximumSize,
+        contentMode: .aspectFit,
+        resizeModeOption: .none
+      ) { image in
+        images.append((index, image))
+        group.leave()
+      }
+    }
+    
+    group.notify(queue: .main) { [weak self] in
+      let sortedImages = images.sorted { $0.0 < $1.0 }.map { $0.1 }
+      
+      for image in sortedImages {
+        self?.contentView.addImageView(image: image)
+      }
     }
   }
 }
@@ -317,21 +346,3 @@ extension ReviewWritingViewController: UIGestureRecognizerDelegate {
     return true
   }
 }
-
-// MARK: - UIImagePickerControllerDelegate & UINavigationControllerDelegate
-//extension ReviewWritingViewController: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
-//  func imagePickerController(
-//    _ picker: UIImagePickerController,
-//    didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
-//  ) {
-//    guard let image = info[
-//      UIImagePickerController.InfoKey(rawValue: "UIImagePickerControllerEditedImage")
-//    ] as? UIImage else {
-//      picker.dismiss(animated: true, completion: nil)
-//      return
-//    }
-//    
-//    contentView.addImageView(image: image)
-//    picker.dismiss(animated: true, completion: nil)
-//  }
-//}

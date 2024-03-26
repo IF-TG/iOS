@@ -11,13 +11,13 @@ final class PostSortingAreaView: UICollectionReusableView {
   static let id = String(describing: PostSortingAreaView.self)
   
   enum Constant {
-    enum TravelThemeChevronView {
+    enum TravelMainThemeChevronView {
       enum Spacing {
         static let leading: CGFloat = 16
         static let top: CGFloat = 10
       }
     }
-    enum TravelTrendChevronView {
+    enum TravelOrderChevronView {
       enum Spacing {
         static let leading: CGFloat = 10
         static let top: CGFloat = 10
@@ -27,18 +27,18 @@ final class PostSortingAreaView: UICollectionReusableView {
   
   // MARK: - Properties
   /// 분류
-  private var travelThemeChevronView = PostChevronLabel()
+  private var travelMainThemeChevronView = PostChevronLabel()
   
-  /// 최신순
-  private var travelTrendChevronView = PostChevronLabel()
+  /// 정렬
+  private var travelOrderChevronView = PostChevronLabel()
   
   // MARK: - LifeCycle
   override init(frame: CGRect) {
     super.init(frame: frame)
-    travelTrendChevronView.configure(with: .travelOrder)
+    travelOrderChevronView.configure(with: .travelOrder)
     setupUI()
-    travelThemeChevronView.delegate = self
-    travelTrendChevronView.delegate = self
+    travelMainThemeChevronView.delegate = self
+    travelOrderChevronView.delegate = self
   }
   
   required init?(coder: NSCoder) { fatalError() }
@@ -51,15 +51,15 @@ final class PostSortingAreaView: UICollectionReusableView {
 // MARK: - Helpers
 extension PostSortingAreaView {
   func configure(with sortingType: PostFilterOptions) {
-    travelThemeChevronView.configure(with: sortingType)
+    travelMainThemeChevronView.configure(with: sortingType)
   }
   
   func setDefaultThemeUI() {
-    travelThemeChevronView.isSelected = false
+    travelMainThemeChevronView.isSelected = false
   }
   
   func setDefaultOrderUI() {
-    travelTrendChevronView.isSelected = false
+    travelOrderChevronView.isSelected = false
   }
 }
 
@@ -67,8 +67,8 @@ extension PostSortingAreaView {
 extension PostSortingAreaView: LayoutSupport {
   func addSubviews() {
     _=[
-      travelThemeChevronView,
-      travelTrendChevronView
+      travelMainThemeChevronView,
+      travelOrderChevronView
     ].map {
       addSubview($0)
     }
@@ -101,19 +101,19 @@ extension PostSortingAreaView: MoreMenuViewDelegate {
 // MARK: - Private layoutsupport
 private extension PostSortingAreaView {
   var travelThemeMenuViewConstraints: [NSLayoutConstraint] {
-    typealias Inset = Constant.TravelThemeChevronView.Spacing
+    typealias Inset = Constant.TravelMainThemeChevronView.Spacing
     return [
-      travelThemeChevronView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Inset.leading),
-      travelThemeChevronView.topAnchor.constraint(equalTo: topAnchor, constant: Inset.top),
-      travelThemeChevronView.bottomAnchor.constraint(equalTo: bottomAnchor)]
+      travelMainThemeChevronView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Inset.leading),
+      travelMainThemeChevronView.topAnchor.constraint(equalTo: topAnchor, constant: Inset.top),
+      travelMainThemeChevronView.bottomAnchor.constraint(equalTo: bottomAnchor)]
   }
   
   var travelTrendMenuViewConstraints: [NSLayoutConstraint] {
-    typealias Inset = Constant.TravelTrendChevronView.Spacing
+    typealias Inset = Constant.TravelOrderChevronView.Spacing
     return [
-      travelTrendChevronView.leadingAnchor.constraint(
-        equalTo: travelThemeChevronView.trailingAnchor,
+      travelOrderChevronView.leadingAnchor.constraint(
+        equalTo: travelMainThemeChevronView.trailingAnchor,
         constant: Inset.leading),
-      travelTrendChevronView.centerYAnchor.constraint(equalTo: travelThemeChevronView.centerYAnchor)]
+      travelOrderChevronView.centerYAnchor.constraint(equalTo: travelMainThemeChevronView.centerYAnchor)]
   }
 }

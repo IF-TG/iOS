@@ -7,7 +7,6 @@
 
 import Foundation
 import Combine
-import Foundation
 
 final class DefaultPostUseCase: PostUseCase {
   // MARK: - Dependencies
@@ -21,7 +20,7 @@ final class DefaultPostUseCase: PostUseCase {
     self.backgroundQueue = backgroundQueue
   }
   
-  func fetchPosts(with page: PostFetchRequestValue) -> AnyPublisher<[PostContainer], any Error> {
+  func fetchPosts(with page: PostFetchRequestValue) -> AnyPublisher<PostsPage, any Error> {
     return postRepository.fetchPosts(
       page: page.page,
       perPage: page.perPage,

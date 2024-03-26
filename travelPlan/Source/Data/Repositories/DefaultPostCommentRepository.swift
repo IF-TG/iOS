@@ -32,7 +32,7 @@ final class DefaultPostCommentRepository: PostCommentRepository {
       }
       let subscription = self?.service.request(endpoint: endpoint.sendComment(with: requestDTO))
         .subscribe(on: backgroundQueue)
-        .mapConnectionError { $0 }
+        .mapConnectionError()
         .map { $0.result }
         .sink { completion in
           if case .failure(let error) = completion {
