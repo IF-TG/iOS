@@ -18,7 +18,7 @@ protocol PostDataSource {
   var perPage: Int32 { get }
   var isPaging: Bool { get }
   
-  func fetchPosts() -> AnyPublisher<[PostContainer], Error>
+  func fetchPosts() -> AnyPublisher<Void, Error>
 }
 
 typealias PostViewModel = PostDataSource & PostViewAdapterDataSource

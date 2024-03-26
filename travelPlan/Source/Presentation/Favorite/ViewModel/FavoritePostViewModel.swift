@@ -41,7 +41,7 @@ final class FavoritePostViewModel: PostViewModel {
 
 // MARK: - PostDataSource
 extension FavoritePostViewModel {
-  func fetchPosts() -> AnyPublisher<[PostContainer], any Error> {
+  func fetchPosts() -> AnyPublisher<Void, any Error> {
     Empty().eraseToAnyPublisher()
   }
 }
