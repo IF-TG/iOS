@@ -34,4 +34,10 @@ final class DefaultPostCommentUseCase: PostCommentUseCase {
       .deleteComment(commentId: commentId)
       .eraseToAnyPublisher()
   }
+  
+  func fetchComments(with requestValue: PostCommentsRequestValue) -> AnyPublisher<[PostCommentEntity], any Error> {
+    return postCommentRepository
+      .fetchComments(page: requestValue.page, perPage: requestValue.perPage, postId: requestValue.postId)
+      .eraseToAnyPublisher()
+  }
 }

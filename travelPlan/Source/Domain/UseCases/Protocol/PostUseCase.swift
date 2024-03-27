@@ -14,7 +14,7 @@ struct PostFetchRequestValue {
   let category: PostCategory
 }
 
-struct PostCommentsReqeustValue {
+struct PostCommentsRequestValue {
   let page: Int32
   let perPage: Int32
   let postId: Int64
@@ -37,6 +37,6 @@ protocol PostUseCase {
   ) -> AnyPublisher<PostsPage, Error>
   
   func fetchComments(
-    with requestValue: PostCommentsReqeustValue
+    with requestValue: PostCommentsRequestValue
   ) -> AnyPublisher<PostCommentContainerEntity, Error>
 }
