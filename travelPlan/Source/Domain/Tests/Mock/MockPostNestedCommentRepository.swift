@@ -66,9 +66,24 @@ final class MockPostNestedCommentRepository: PostNestedCommentRepository {
   }
   
   func deleteNestedComment(nestedCommentId: Int64) -> Future<Bool, any Error> {
+    MockUrlProtocol.requestHandler = { _ in
+      let mockData = MockResponseType.postNestedComment(.whenCommentDelete).mockDataLoader
+      return ((HTTPURLResponse(), mockData))
+    }
+
     return Future { promise in
-      // protocol 임시 준수
-      promise(.failure(ReferenceError.invalidReference))
+      DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.5) { [weak self] in
+        let subscription = self?.wrappedRepository
+          .deleteNestedComment(nestedCommentId: nestedCommentId)
+          .sink { completion in
+            if case .failure(let error) = completion {
+              promise(.failure(error))
+            }
+          } receiveValue: { result in
+            promise(.success(result))
+          }
+        self?.subscriptions.insert(subscription)
+      }
     }
   }
 }
