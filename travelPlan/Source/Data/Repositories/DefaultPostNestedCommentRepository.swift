@@ -80,4 +80,27 @@ final class DefaultPostNestedCommentRepository: PostNestedCommentRepository {
       self?.subscriptions.insert(subscription)
     }
   }
+  
+  func deleteNestedComment(nestedCommentId: Int64) -> Future<Bool, any Error> {
+    let requestDTO = PostNestedCommentDeleteRequestDTO(nestedCommentId: nestedCommentId)
+    return Future { [weak self] promise in
+      guard let backgroundQueue = self?.backgroundQueue else {
+        promise(.failure(ReferenceError.invalidReference))
+        return
+      }
+      let subscription = self?.service
+        .request(endpoint: endpoint.deleteNestedComment(with: requestDTO))
+        .subscribe(on: backgroundQueue)
+        .mapConnectionError()
+        .map { $0.result }
+        .sink { completion in
+          if case .failure(let error) = completion {
+            promise(.failure(error))
+          }
+        } receiveValue: { responseDTO in
+          promise(.success(responseDTO))
+        }
+      self?.subscriptions.insert(subscription)
+    }
+  }
 }
