@@ -59,7 +59,7 @@ enum MockResponseType {
     
     var filePath: String {
       [
-        .whenCommentSend: "mock_postComment_send_response"
+        .whenCommentSend: "mock_postNestedComment_send_response"
       ] [self]!
     }
   }
