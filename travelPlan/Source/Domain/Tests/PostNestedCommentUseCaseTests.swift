@@ -55,7 +55,31 @@ extension PostNestedCommentUseCaseTests {
     wait(for: [expectation], timeout: 7)
     
     // Assert
-    checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "sendComment")
+    checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "sendNestedComment")
+    XCTAssertTrue(result, notReceivedErrorMessage)
+  }
+  
+  func testPostNestedComemntUseCase_updateNestedComment함수호출시_연관entity를받았는지_ShouldReturnTrue() {
+    // Arrange
+    var result = false
+    var unexpectedError: Error?
+    
+    // Act
+    subscription = sut.updateNestedComment(nestedCommentId: 333, comment: "대댓글 대댓글수정")
+      .sink { [unowned self] completion in
+        if case .failure(let error) = completion {
+          unexpectedError = error
+        }
+        expectation.fulfill()
+      } receiveValue: { [unowned self] response in
+        print("DEBUG: 값을 성공적으로 받았습니다~\n\n:\(response)")
+        result = true
+        expectation.fulfill()
+      }
+    wait(for: [expectation], timeout: 7)
+    
+    // Assert
+    checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "updateNestedComment")
     XCTAssertTrue(result, notReceivedErrorMessage)
   }
 }
