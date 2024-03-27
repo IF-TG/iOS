@@ -29,4 +29,15 @@ struct PostNestedCommentAPIEndpoint {
       parameters: [.body(requestDTO)],
       requestType: .postNestedComment(.update))
   }
+  
+  static func deleteNestedComment(
+    with requestDTO: PostNestedCommentDeleteRequestDTO
+  ) -> Endpoint<CommonDTO<Bool>> {
+    return Endpoint(
+      scheme: "http",
+      host: "localhost:8080",
+      method: .delete,
+      parameters: [.query(requestDTO)], 
+      requestType: .postNestedComment(.delete))
+  }
 }
