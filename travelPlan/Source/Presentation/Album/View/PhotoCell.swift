@@ -14,26 +14,24 @@ enum SelectionOrder {
   case selected(Int)
 }
 
+enum PhotoCellQuadrant {
+  case first
+  case `else`
+}
+
 struct PhotoCellInfo {
-  let asset: PHAsset
   let image: UIImage?
-  var selectedOrder: SelectionOrder
+  let selectedOrder: SelectionOrder
 }
 
 final class PhotoCell: UICollectionViewCell {
   // MARK: - Nested
-  enum Quadrant {
-    case first
-    case `else`
-  }
-  
   enum Const {
     static let orderViewSize: CGFloat = 20
   }
   
   // MARK: - Properties
   weak var delegate: PhotoCellDelegate?
-  
   static var id: String {
     return String(describing: Self.self)
   }
@@ -48,14 +46,11 @@ final class PhotoCell: UICollectionViewCell {
     $0.isUserInteractionEnabled = false
   }
   
-  private lazy var orderView: UIView = .init().set {
+  private let orderView: UIView = .init().set {
     $0.backgroundColor = .yg.gray00Background.withAlphaComponent(0.3)
     $0.layer.borderColor = UIColor.yg.littleWhite.cgColor
     $0.layer.borderWidth = 1
     $0.layer.cornerRadius = Const.orderViewSize / 2
-//    let tapGesture = UITapGestureRecognizer()
-//    tapGesture.addTarget(self, action: #selector(didTapOrderView(_:)))
-//    $0.addGestureRecognizer(tapGesture)
   }
   
   private let orderLabel: UILabel = .init().set {
@@ -74,6 +69,16 @@ final class PhotoCell: UICollectionViewCell {
     fatalError("init(coder:) has not been implemented")
   }
   
+  override func prepareForReuse() {
+    super.prepareForReuse()
+    imageView.image = nil
+    highlightedView.backgroundColor = .clear
+    orderView.backgroundColor = .yg.gray00Background.withAlphaComponent(0.3)
+    orderView.layer.borderColor = UIColor.yg.littleWhite.cgColor
+    orderView.layer.borderWidth = 1
+    orderLabel.text = ""
+  }
+  
   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
     super.touchesBegan(touches, with: event)
     guard let touch = touches.first else { return }
@@ -90,22 +95,14 @@ final class PhotoCell: UICollectionViewCell {
 
 // MARK: - Helpers
 extension PhotoCell {
-  func configure(with info: PhotoCellInfo?) {
-    imageView.image = info?.image
-    
-    if case let .selected(order) = info?.selectedOrder {
+  func configure(with cellInfo: PhotoCellInfo) {
+    imageView.image = cellInfo.image
+    if case let .selected(order) = cellInfo.selectedOrder {
       highlightedView.backgroundColor = .white.withAlphaComponent(0.5)
       orderView.backgroundColor = .yg.primary
       orderView.layer.borderColor = UIColor.clear.cgColor
       orderView.layer.borderWidth = 0
       orderLabel.text = String(order)
-      orderLabel.isHidden = false
-    } else {
-      highlightedView.backgroundColor = .clear
-      orderView.backgroundColor = .yg.gray00Background.withAlphaComponent(0.3)
-      orderView.layer.borderColor = UIColor.yg.littleWhite.cgColor
-      orderView.layer.borderWidth = 1
-      orderLabel.isHidden = true
     }
   }
 }
@@ -137,12 +134,4 @@ extension PhotoCell: LayoutSupport {
       $0.center.equalToSuperview()
     }
   }
-}
-
-// MARK: - Action
-private extension PhotoCell {
-//  @objc func didTapOrderView(_ view: UIView) {
-//    delegate?.didTapOrderView(view)
-//    print("사진 체크!")
-//  }
 }

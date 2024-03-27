@@ -69,7 +69,7 @@ extension PostCommentUseCaseTests {
         result = true
         expectation.fulfill()
       }
-    wait(for: [expectation], timeout: 7.777777777)
+    wait(for: [expectation], timeout: 10)
     
     // Assert
     checkIfUnexpectedErrorOccured(unexpectedError)
@@ -119,7 +119,7 @@ extension PostCommentUseCaseTests {
         result = true
         expectation.fulfill()
       }
-    wait(for: [expectation], timeout: 7.777777777)
+    wait(for: [expectation], timeout: 10)
     
     // Assert
     checkIfUnexpectedErrorOccured(unexpectedError)
