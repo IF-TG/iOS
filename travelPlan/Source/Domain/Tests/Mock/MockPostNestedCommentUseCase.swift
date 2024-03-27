@@ -44,4 +44,10 @@ final class MockPostNestedCommentRepository: PostNestedCommentRepository {
     }
   }
   
+  func updateNestedComment(nestedCommentId: Int64, comment: String) -> Future<Bool, any Error> {
+    return Future { promise in
+      // 프로토콜 임시 준수
+      promise(.failure(ReferenceError.invalidReference))
+    }
+  }
 }
