@@ -45,8 +45,23 @@ final class MockPostNestedCommentRepository: PostNestedCommentRepository {
   }
   
   func updateNestedComment(nestedCommentId: Int64, comment: String) -> Future<Bool, any Error> {
+    MockUrlProtocol.requestHandler = { _ in
+      let mockData = MockResponseType.postNestedComment(.whenCommentUpdate).mockDataLoader
+      return ((HTTPURLResponse(), mockData))
+    }
     return Future { promise in
-      // 프로토콜 임시 준수
+      DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.5) { [weak self] in
+        let subscription = self?.wrappedRepository
+          .updateNestedComment(nestedCommentId: nestedCommentId, comment: comment)
+          .sink { completion in
+            if case .failure(let error) = completion {
+              promise(.failure(error))
+            }
+          } receiveValue: { result in
+            promise(.success(result))
+          }
+        self?.subscriptions.insert(subscription)
+      }
       promise(.failure(ReferenceError.invalidReference))
     }
   }
