@@ -1,5 +1,5 @@
 //
-//  MockPostNestedCommentUseCase.swift
+//  MockPostNestedCommentRepository.swift
 //  travelPlan
 //
 //  Created by 양승현 on 3/27/24.
@@ -62,6 +62,13 @@ final class MockPostNestedCommentRepository: PostNestedCommentRepository {
           }
         self?.subscriptions.insert(subscription)
       }
+    }
+  }
+  
+  func deleteNestedComment(nestedCommentId: Int64) -> Future<Bool, any Error> {
+    return Future { promise in
+      // protocol 임시 준수
+      promise(.failure(ReferenceError.invalidReference))
     }
   }
 }
