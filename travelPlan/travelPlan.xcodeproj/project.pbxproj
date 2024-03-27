@@ -143,6 +143,10 @@
 		1518BC1D2BB02A2800FD1A74 /* PostCommentDeleteRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1518BC1C2BB02A2800FD1A74 /* PostCommentDeleteRequestDTO.swift */; };
 		1518BC1F2BB02DEE00FD1A74 /* mock_postComment_delete_response.json in Resources */ = {isa = PBXBuildFile; fileRef = 1518BC1E2BB02DEE00FD1A74 /* mock_postComment_delete_response.json */; };
 		1518BC212BB03BF300FD1A74 /* mock_postComment_fetchComments_response.json in Resources */ = {isa = PBXBuildFile; fileRef = 1518BC202BB03BF300FD1A74 /* mock_postComment_fetchComments_response.json */; };
+		1518BC232BB0415500FD1A74 /* PostCommentHeartToggleRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1518BC222BB0415500FD1A74 /* PostCommentHeartToggleRequestDTO.swift */; };
+		1518BC252BB0426B00FD1A74 /* PostCommentHeartToggleResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1518BC242BB0426B00FD1A74 /* PostCommentHeartToggleResponseDTO.swift */; };
+		1518BC272BB044ED00FD1A74 /* ToggledPostCommentHeartEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1518BC262BB044ED00FD1A74 /* ToggledPostCommentHeartEntity.swift */; };
+		1518BC292BB0486400FD1A74 /* mock_postComment_toggleCommentHeart_response.json in Resources */ = {isa = PBXBuildFile; fileRef = 1518BC282BB0486400FD1A74 /* mock_postComment_toggleCommentHeart_response.json */; };
 		1519412B2B138F7E00D9B6BF /* PostCellConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1519412A2B138F7E00D9B6BF /* PostCellConfigurable.swift */; };
 		15198E962BADE2BB0011930D /* PostThumbnails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15198E952BADE2BB0011930D /* PostThumbnails.swift */; };
 		151BDAD42B16E8EA002F36C3 /* UIGestureRecognizer+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151BDAD32B16E8EA002F36C3 /* UIGestureRecognizer+Combine.swift */; };
@@ -652,6 +656,10 @@
 		1518BC1C2BB02A2800FD1A74 /* PostCommentDeleteRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCommentDeleteRequestDTO.swift; sourceTree = "<group>"; };
 		1518BC1E2BB02DEE00FD1A74 /* mock_postComment_delete_response.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = mock_postComment_delete_response.json; sourceTree = "<group>"; };
 		1518BC202BB03BF300FD1A74 /* mock_postComment_fetchComments_response.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = mock_postComment_fetchComments_response.json; sourceTree = "<group>"; };
+		1518BC222BB0415500FD1A74 /* PostCommentHeartToggleRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCommentHeartToggleRequestDTO.swift; sourceTree = "<group>"; };
+		1518BC242BB0426B00FD1A74 /* PostCommentHeartToggleResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCommentHeartToggleResponseDTO.swift; sourceTree = "<group>"; };
+		1518BC262BB044ED00FD1A74 /* ToggledPostCommentHeartEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToggledPostCommentHeartEntity.swift; sourceTree = "<group>"; };
+		1518BC282BB0486400FD1A74 /* mock_postComment_toggleCommentHeart_response.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = mock_postComment_toggleCommentHeart_response.json; sourceTree = "<group>"; };
 		1519412A2B138F7E00D9B6BF /* PostCellConfigurable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCellConfigurable.swift; sourceTree = "<group>"; };
 		15198E952BADE2BB0011930D /* PostThumbnails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostThumbnails.swift; sourceTree = "<group>"; };
 		151BDAD32B16E8EA002F36C3 /* UIGestureRecognizer+Combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIGestureRecognizer+Combine.swift"; sourceTree = "<group>"; };
@@ -1511,6 +1519,7 @@
 				15329CEB2B96171B005FC033 /* ProfileImageEntity.swift */,
 				15A7A8F12B9F6C1700CA9A79 /* UserEntity.swift */,
 				1518BC162BB01BB300FD1A74 /* UpdatedPostCommentEntity.swift */,
+				1518BC262BB044ED00FD1A74 /* ToggledPostCommentHeartEntity.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -1618,6 +1627,7 @@
 				133531F32BA0D3CB000A4D9E /* JWTResponseDTO.swift */,
 				15CAEF842BAED1D8008AEDB1 /* PostCommentContainerResponseDTO.swift */,
 				1518BC122BB00DB200FD1A74 /* PostCommentUpdateResponseDTO.swift */,
+				1518BC242BB0426B00FD1A74 /* PostCommentHeartToggleResponseDTO.swift */,
 			);
 			path = ResponseDTO;
 			sourceTree = "<group>";
@@ -2054,6 +2064,7 @@
 				1518BC1A2BB022D100FD1A74 /* mock_postComment_update_response.json */,
 				1518BC1E2BB02DEE00FD1A74 /* mock_postComment_delete_response.json */,
 				1518BC202BB03BF300FD1A74 /* mock_postComment_fetchComments_response.json */,
+				1518BC282BB0486400FD1A74 /* mock_postComment_toggleCommentHeart_response.json */,
 			);
 			path = PostComment;
 			sourceTree = "<group>";
@@ -2266,6 +2277,7 @@
 				15BE6BD72BAF05F3009A2568 /* PostCommentSendingRequestDTO.swift */,
 				1518BC142BB00E1100FD1A74 /* PostCommentUpdateRequestDTO.swift */,
 				1518BC1C2BB02A2800FD1A74 /* PostCommentDeleteRequestDTO.swift */,
+				1518BC222BB0415500FD1A74 /* PostCommentHeartToggleRequestDTO.swift */,
 			);
 			path = RequestDTO;
 			sourceTree = "<group>";
@@ -2820,6 +2832,7 @@
 			files = (
 				158E81F52B9A4D3F0080CCA8 /* mock_response_postContainer.json in Resources */,
 				13BF411D2ADBE42000F3F082 /* onboarding-video.mp4 in Resources */,
+				1518BC292BB0486400FD1A74 /* mock_postComment_toggleCommentHeart_response.json in Resources */,
 				158BEFBB2A0EB2A500C27861 /* Pretendard-Regular.ttf in Resources */,
 				15F0A3F529FD58280049AB33 /* .swiftlint.yml in Resources */,
 				15BE6BEF2BAF1FD4009A2568 /* mock_response_postComments_whenCommentSend.json in Resources */,
@@ -2992,6 +3005,7 @@
 				13606E8C2A9F959F00365F20 /* PostRecommendationSearchHeaderView.swift in Sources */,
 				13813A232AAA459900AF6AEB /* PostSearchCollectionViewDelegate.swift in Sources */,
 				15C1F5402AF29CDE005FDA15 /* NotificationIconType.swift in Sources */,
+				1518BC232BB0415500FD1A74 /* PostCommentHeartToggleRequestDTO.swift in Sources */,
 				1546DF242B0A70C900B49A55 /* Cache.swift in Sources */,
 				155EE41F2B1660D000D4D221 /* OperationGuideViewController.swift in Sources */,
 				130304B02A28447900776A0D /* TravelDestinationCell.swift in Sources */,
@@ -3187,6 +3201,7 @@
 				1550D9B12ACB1D740046569B /* DevelopmentViewController.swift in Sources */,
 				134384182B4A9522005034E0 /* PhotoCell.swift in Sources */,
 				15F2A0182B14E32B0014603D /* MyInformationViewController.swift in Sources */,
+				1518BC252BB0426B00FD1A74 /* PostCommentHeartToggleResponseDTO.swift in Sources */,
 				155D0BAC2B90CB5B0042DFB6 /* UserNicknamePatchRequestDTO.swift in Sources */,
 				13254FF02A0549D200094218 /* TabBarCase.swift in Sources */,
 				15A7A8EE2B9F6B1D00CA9A79 /* UserDefaultsManager.swift in Sources */,
@@ -3196,6 +3211,7 @@
 				13A93EFB2AD1EA6B00FC4BBD /* TravelDestinationModel.swift in Sources */,
 				15E982BF2ACC95CC002B932F /* FavoriteDetailViewController.swift in Sources */,
 				158695952AE54D010087CCB3 /* FeedPostViewAdapterDataSource.swift in Sources */,
+				1518BC272BB044ED00FD1A74 /* ToggledPostCommentHeartEntity.swift in Sources */,
 				15DA4C7F2ACD78C1003A7900 /* Int+.swift in Sources */,
 				1599587D2B0DC56200B2E4DC /* PostCellWithThreeThumbnails.swift in Sources */,
 				159F38CA2AFAABF9000A24C2 /* PostDetailProfileAreaFooterView.swift in Sources */,

@@ -79,9 +79,13 @@ extension RequestType {
     case update
     case delete
     case fetchComments
+    case heartToggle
     
     var path: String {
-      "comment"
+      if case .heartToggle = self {
+        return "comment/like"
+      }
+      return "comment"
     }
   }
 }
