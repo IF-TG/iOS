@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct PostNestedCommentUpdateRequestDTO: Decodable {
+struct PostNestedCommentUpdateRequestDTO: Encodable {
   let nestedCommentId: Int64
   let comment: String
 }

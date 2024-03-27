@@ -8,7 +8,8 @@
 import Foundation
 
 struct PostNestedCommentAPIEndpoint {
-  static func sendNestedComment(with requestDTO: PostNestedCommentSendRequestDTO
+  static func sendNestedComment(
+    with requestDTO: PostNestedCommentSendRequestDTO
   ) -> Endpoint<CommonDTO<PostNestedCommentResponseDTO>> {
     return Endpoint(
       scheme: "http",
@@ -16,5 +17,16 @@ struct PostNestedCommentAPIEndpoint {
       method: .post,
       parameters: [.body(requestDTO)],
       requestType: .postNestedComment(.send))
+  }
+  
+  static func updateNestedComment(
+    with requestDTO: PostNestedCommentUpdateRequestDTO
+  ) -> Endpoint<CommonDTO<PostUpdatedNestedCommentResponseDTO>> {
+    return Endpoint(
+      scheme: "http",
+      host: "localhost:8080",
+      method: .put,
+      parameters: [.body(requestDTO)],
+      requestType: .postNestedComment(.update))
   }
 }
