@@ -50,4 +50,34 @@ final class DefaultPostNestedCommentRepository: PostNestedCommentRepository {
       self?.subscriptions.insert(subscription)
     }
   }
+  
+  func updateNestedComment(
+    nestedCommentId: Int64,
+    comment: String
+  ) -> Future<Bool, any Error> {
+    let requestDTO = PostNestedCommentUpdateRequestDTO(nestedCommentId: nestedCommentId, comment: comment)
+    return Future { [weak self] promise in
+      guard let backgroundQueue = self?.backgroundQueue else {
+        promise(.failure(ReferenceError.invalidReference))
+        return
+      }
+      let subscription = self?.service
+        .request(endpoint: endpoint.updateNestedComment(with: requestDTO))
+        .subscribe(on: backgroundQueue)
+        .mapConnectionError()
+        .map { $0.result }
+        .sink { completion in
+          if case .failure(let error) = completion {
+            promise(.failure(error))
+          }
+        } receiveValue: { responseDTO in
+          if nestedCommentId == responseDTO.nestedCommentId {
+            promise(.success(true))
+            return
+          }
+          promise(.success(false))
+        }
+      self?.subscriptions.insert(subscription)
+    }
+  }
 }
