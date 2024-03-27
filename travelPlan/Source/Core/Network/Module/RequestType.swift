@@ -56,6 +56,7 @@ extension RequestType {
   enum PostNestedComment {
     case send
     case update
+    case delete
     
     var path: String {
       return "comment" + self.relativePath
@@ -66,6 +67,8 @@ extension RequestType {
       case .send:
         "/nestedComment"
       case .update:
+        "/nestedComment"
+      case .delete:
         "/nestedComment"
       }
     }
