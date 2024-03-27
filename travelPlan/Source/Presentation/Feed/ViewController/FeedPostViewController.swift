@@ -26,9 +26,15 @@ final class FeedPostViewController: UIViewController {
   
   private let refresher = UIRefreshControl()
   
+  private let orderFilterNotifier = PassthroughSubject<TravelOrderType, Never>()
+  
+  private let mainThemeFilterNotifier = PassthroughSubject<TravelMainThemeType, Never>()
+
   private let viewModel: any FeedPostViewModelable & FeedPostViewAdapterDataSource
 
-  private let input = FeedPostViewModel.Input()
+  private lazy var input = FeedPostViewModel.Input(
+    notifiedOrderFilterRequest: orderFilterNotifier,
+    notifiedMainThemeFilterRequest: mainThemeFilterNotifier)
   
   // MARK: - Lifecycle
   init(
@@ -66,12 +72,16 @@ final class FeedPostViewController: UIViewController {
 
 // MARK: - Helpers
 extension FeedPostViewController {
-  func setDefaultThemeUI() {
-    sortingHeader?.setDefaultThemeUI()
+  func handleOrderTypeFilter(with orderType: TravelOrderType?) {
+    sortingHeader?.setDefaultOrderUI()
+    guard let orderType else { return }
+    orderFilterNotifier.send(orderType)
   }
   
-  func setDefaultOrderUI() {
-    sortingHeader?.setDefaultOrderUI()
+  func handleMainThemeFilter(with mainTheme: TravelMainThemeType?) {
+    sortingHeader?.setDefaultThemeUI()
+    guard let mainTheme else { return }
+    mainThemeFilterNotifier.send(mainTheme)
   }
 }
 
@@ -107,6 +117,11 @@ extension FeedPostViewController: ViewBindCase {
     case .noMorePage:
       print("noMorePage")
     case .viewDidLoad:
+      postView.reloadData()
+    case .postFilterLoading:
+      startIndicator()
+    case .postFilterLoaded:
+      stopIndicator()
       postView.reloadData()
     }
   }

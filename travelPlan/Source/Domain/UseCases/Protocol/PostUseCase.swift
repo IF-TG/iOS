@@ -32,9 +32,11 @@ enum PostUseCaseError: LocalizedError {
 }
 
 protocol PostUseCase {
+  func fetchPosts(
+    with page: PostFetchRequestValue
+  ) -> AnyPublisher<PostsPage, Error>
+  
   func fetchComments(
     with requestValue: PostCommentsRequestValue
   ) -> AnyPublisher<PostCommentContainerEntity, Error>
-  
-  func fetchPosts(with page: PostFetchRequestValue) -> AnyPublisher<[PostContainer], Error>
 }
