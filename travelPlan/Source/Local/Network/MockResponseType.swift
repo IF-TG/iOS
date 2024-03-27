@@ -56,10 +56,12 @@ enum MockResponseType {
   
   enum PostNestedCommentResponse {
     case whenCommentSend
+    case whenCommentUpdate
     
     var filePath: String {
       [
-        .whenCommentSend: "mock_postNestedComment_send_response"
+        .whenCommentSend: "mock_postNestedComment_send_response",
+        .whenCommentUpdate: "mock_postNestedComment_update_response"
       ] [self]!
     }
   }
