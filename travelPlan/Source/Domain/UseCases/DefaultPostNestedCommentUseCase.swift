@@ -25,4 +25,13 @@ final class DefaultPostNestedCommentUseCase: PostNestedCommentUseCase {
       .sendNestedComment(commentId: commentId, comment: comment)
       .eraseToAnyPublisher()
   }
+  
+  func updateNestedComment(
+    nestedCommentId: Int64,
+    comment: String
+  ) -> AnyPublisher<Bool, any Error> {
+    return postNestedCommentRepository
+      .updateNestedComment(nestedCommentId: nestedCommentId, comment: comment)
+      .eraseToAnyPublisher()
+  }
 }
