@@ -9,4 +9,5 @@ import Combine
 
 protocol PostNestedCommentRepository {
   func sendNestedComment(commentId: Int64, comment: String) -> Future<PostNestedCommentEntity, Error>
+  func updateNestedComment(nestedCommentId: Int64, comment: String) -> Future<Bool, Error>
 }
