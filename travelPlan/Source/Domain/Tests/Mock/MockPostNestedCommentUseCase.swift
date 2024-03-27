@@ -62,7 +62,6 @@ final class MockPostNestedCommentRepository: PostNestedCommentRepository {
           }
         self?.subscriptions.insert(subscription)
       }
-      promise(.failure(ReferenceError.invalidReference))
     }
   }
 }
