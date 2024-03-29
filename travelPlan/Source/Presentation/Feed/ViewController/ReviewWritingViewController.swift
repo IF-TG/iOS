@@ -54,22 +54,32 @@ final class ReviewWritingViewController: UIViewController {
     $0.delegate = self
   }
   private var subscriptions = Set<AnyCancellable>()
-  private let viewModel = ReviewWritingViewModel()
-  private let input = ReviewWritingViewModel.Input()
+  private let viewModel: any ReviewWritingViewModel
+  private let photoService: any PhotoService
   private var isViewDidAppearFirstCalled = false
   private weak var imageView: UIImageView?
+  private let input = ReviewWritingViewModelInput()
   
   // MARK: - LifeCycle
+  init(viewModel: any ReviewWritingViewModel, photoService: any PhotoService) {
+    self.viewModel = viewModel
+    self.photoService = photoService
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
+    defer { bind() }
     setupUI()
     setupStyles()
     setupNavigationBar()
     bindNotificationCenter()
     addGestureRecognizer(from: self.view, action: #selector(didTapView))
     setContentViewClosures()
-    
-    bind()
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -104,39 +114,64 @@ final class ReviewWritingViewController: UIViewController {
 }
 
 // MARK: - ViewBindCase
-extension ReviewWritingViewController: ViewBindCase {
-  typealias Input = ReviewWritingViewModel.Input
-  typealias ErrorType = Error
-  typealias State = ReviewWritingViewModel.State
-  
+extension ReviewWritingViewController {
   func bind() {
     viewModel
       .transform(input)
       .receive(on: RunLoop.main)
       .sink { [weak self] state in
-        self?.render(state)
+        switch state {
+        case .none:
+          break
+        case .popViewController:
+          self?.coordinator?.finish(withAnimated: true)
+        case .presentAlbumViewController:
+          self?.coordinator?.showPhotoViewController()
+        case .presentPlan:
+          print("플랜화면 띄우기")
+        case .keyboardDown:
+          self?.view.endEditing(true)
+        case .manageTextViewDisplay:
+          self?.contentView.manageContentOffsetYByLastView()
+        case .presentThemeSetting:
+          print("테마 설정 화면 띄우기")
+        case .alertAuthRequest:
+          // TODO: - Alert화면 띄우기
+          break
+        }
       }
       .store(in: &subscriptions)
+    
+    coordinator?
+      .selectedAssetsPublisher
+      .sink(receiveValue: { [weak self] assets in
+        guard let self else { return }
+        let group = DispatchGroup()
+        var images: [(index: Int, UIImage)] = []
+        
+        for (index, asset) in assets.enumerated() {
+          group.enter()
+          self.photoService.fetchImage(
+            asset: asset,
+            size: PHImageManagerMaximumSize,
+            contentMode: .aspectFit,
+            resizeModeOption: .none
+          ) { image in
+            images.append((index: index, image))
+            group.leave()
+          }
+        }
+        
+        group.notify(queue: .main) { [weak self] in
+          let sortedImages = images.sorted { $0.0 < $1.0 }.map { $0.1 }
+          
+          for image in sortedImages {
+            self?.contentView.addImageView(image: image)
+          }
+        }
+      })
+      .store(in: &subscriptions)
   }
-  
-  func render(_ state: State) {
-    switch state {
-    case .popViewController:
-      coordinator?.finish(withAnimated: true)
-    case .presentAlbumViewController:
-      coordinator?.showPhotoViewController()
-    case .presentPlan:
-      print("플랜화면 띄우기")
-    case .keyboardDown:
-      view.endEditing(true)
-    case .manageTextViewDisplay:
-      contentView.manageContentOffsetYByLastView()
-    case .presentThemeSetting:
-      print("테마 설정 화면 띄우기")
-    }
-  }
-  
-  func handleError(_ error: ErrorType) { }
 }
 
 // MARK: - Private Helpers
@@ -275,34 +310,6 @@ private extension ReviewWritingViewController {
     input.didTapView.send()
   }
 }
-// MARK: - Helpers
-extension ReviewWritingViewController {
-  func setupImage(assets: [PHAsset], photoService: any PhotoService) {
-    let group = DispatchGroup()
-    var images: [(Int, UIImage)] = []
-    
-    for (index, asset) in assets.enumerated() {
-      group.enter()
-      photoService.fetchImage(
-        asset: asset,
-        size: PHImageManagerMaximumSize,
-        contentMode: .aspectFit,
-        resizeModeOption: .none
-      ) { image in
-        images.append((index, image))
-        group.leave()
-      }
-    }
-    
-    group.notify(queue: .main) { [weak self] in
-      let sortedImages = images.sorted { $0.0 < $1.0 }.map { $0.1 }
-      
-      for image in sortedImages {
-        self?.contentView.addImageView(image: image)
-      }
-    }
-  }
-}
 
 // MARK: - ReviewWritingBottomViewDelegate
 extension ReviewWritingViewController: ReviewWritingBottomViewDelegate {
@@ -311,9 +318,6 @@ extension ReviewWritingViewController: ReviewWritingBottomViewDelegate {
   }
   
   func didTapAlbumButton(_ button: UIButton) {
-//    if contentView.firstMessageTextViewTextIsPlaceholder {
-//      contentView.hideMessageTextView()
-//    }
     input.didTapAlbumButton.send()
   }
 }
