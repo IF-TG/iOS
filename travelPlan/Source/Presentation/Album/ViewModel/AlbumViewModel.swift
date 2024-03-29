@@ -38,6 +38,7 @@ enum AlbumViewModelState {
   case popViewController
   case deliverAssetsToParents([PHAsset])
   case callSetting
+  case presentLimitedLibraryPicker
 }
 
 struct PhotoModel {
@@ -85,10 +86,8 @@ extension DefaultAlbumViewModel {
   private func didTapSelectMorePhotosButtonStream(_ input: Input) -> Output {
     return input
       .didTapSelectMorePhotosButton
-      .receive(on: RunLoop.main)
       .map {
-        print("TODO: 애플 시스템에서 제공하는 사진 추가 화면을 띄우는것을 요청해야합니다.")
-        return State.none
+        return State.presentLimitedLibraryPicker
       }
       .eraseToAnyPublisher()
   }
@@ -106,6 +105,7 @@ extension DefaultAlbumViewModel {
   private func didTapCancelButtonStream(_ input: Input) -> Output {
     return input
       .didTapCancelButton
+      .receive(on: RunLoop.main)
       .map { State.popViewController }
       .eraseToAnyPublisher()
   }

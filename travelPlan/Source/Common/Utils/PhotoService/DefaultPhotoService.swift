@@ -7,6 +7,7 @@
 
 import Photos
 import UIKit
+//import PhotosUI
 
 final class DefaultPhotoService {
   // MARK: - Properties
@@ -37,4 +38,16 @@ extension DefaultPhotoService: PhotoService {
       completion(image)
     }
   }
+  
+//  func presentLimitedLibraryPicker(from controller: UIViewController) {
+//    if #available(iOS 14, *) {
+//      if PHPhotoLibrary.authorizationStatus(for: .readWrite) == .limited {
+//        print(controller)
+//        PHPhotoLibrary.shared().presentLimitedLibraryPicker(from: controller)
+//        print("추가 선택 alert 띄워짐")
+//      }
+//    } else {
+//      // Fallback on earlier versions
+//    }
+//  }
 }
