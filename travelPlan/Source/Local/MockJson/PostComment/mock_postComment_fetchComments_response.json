@@ -1,0 +1,88 @@
+[
+  {
+    "commentId": 123,
+    "profileImgUri": "tempProfile1",
+    "nickname": "짱구",
+    "createAt": "2024-03-22T12:00:00Z",
+    "comment": "봄봄봄 봄이 왔네요호호호홓~~~\n\n하하하핳. ",
+    "nestedCommentDtoList": [
+      {
+        "nestedCommentId": 455,
+        "profileImgUri": "tempProfile2",
+        "nickname": "맹구",
+        "crateAt": "2024-03-22T12:30:00Z",
+        "comment": "근데 아직 봄 꽃들이 덜 핀거 같지 않나요?",
+        "likeNum": 12,
+        "liked": true
+      },
+      {
+        "nestedCommentId": 456,
+        "profileImgUri": "tempProfile1",
+        "nickname": "짱구",
+        "crateAt": "2024-03-22T12:31:00Z",
+        "comment": "집에만 있었는데,,\n\n오랜만에 등산한번 가야하나~~",
+        "likeNum": 1,
+        "liked": true
+      },
+      {
+        "nestedCommentId": 457,
+        "profileImgUri": "tempProfile2",
+        "nickname": "맹구",
+        "crateAt": "2024-03-22T12:33:00Z",
+        "comment": "다음주에 가보세요.\n다음주면 꽃들도 피고 좀 초록 초록 해지지 않을까 싶네요: ]",
+        "likeNum": 12,
+        "liked": false
+      }
+    ],
+    "deleted": false,
+    "liked": true,
+    "likeNum": 11,
+    "blocked": false
+  },
+  {
+    "commentId": 555,
+    "profileImgUri": "tempProfile5",
+    "nickname": "재밌는 영화 추천좀",
+    "createAt": "2024-03-23T11:00:00Z",
+    "comment": "호호\n\n호호호호호\n호",
+    "nestedCommentDtoList": [],
+    "deleted": false,
+    "liked": true,
+    "likeNum": 20,
+    "blocked": false
+  },
+  {
+    "commentId": 234,
+    "profileImgUri": "tempProfile4",
+    "nickname": "수지",
+    "createAt": "2024-03-23T1:00:00Z",
+    "comment": "4월 초 쯤,, 벛꽃 필 무렵?",
+    "nestedCommentDtoList": [
+      {
+        "nestedCommentId": 458,
+        "profileImgUri": "tempProfile2",
+        "nickname": "맹구",
+        "crateAt": "2024-03-22T12:33:00Z",
+        "comment": "여기서 필이.. Feel?!",
+        "likeNum": 14,
+        "liked": true
+      }
+    ],
+    "deleted": false,
+    "liked": true,
+    "likeNum": 20,
+    "blocked": false
+  },
+  {
+    "commentId": 54,
+    "profileImgUri": "tempProfile3",
+    "nickname": "재즈재즈재즈재즈",
+    "createAt": "2024-03-23T1:00:00Z",
+    "comment": "나비\n\n\n마\n\n\n가나다라",
+    "nestedCommentDtoList": [],
+    "deleted": false,
+    "liked": true,
+    "likeNum": 20,
+    "blocked": false
+  }
+]

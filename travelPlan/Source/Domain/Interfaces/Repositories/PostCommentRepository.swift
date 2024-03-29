@@ -13,4 +13,6 @@ protocol PostCommentRepository {
   func updateComment(commentId: Int64, comment: String) -> Future<UpdatedPostCommentEntity, Error>
   
   func deleteComment(commentId: Int64) -> Future<Bool, Error>
+  
+  func fetchComments(page: Int32, perPage: Int32, postId: Int64) -> Future<[PostCommentEntity], Error>
 }

@@ -75,7 +75,7 @@ extension PostUseCaseTests {
 extension PostUseCaseTests {
   func testPostUseCase_fetchComments함수를통해_mockJson을디코딩해_PostCommentContainer를_받는경우_ShouldReturnTrue() {
     // Arrange
-    let mockReqeustValue = PostCommentsReqeustValue(page: 1, perPage: 5, postId: 1)
+    let mockReqeustValue = PostCommentsRequestValue(page: 1, perPage: 5, postId: 1)
     var result = false
     var unexpectedError: Error?
     

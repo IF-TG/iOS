@@ -40,4 +40,15 @@ struct PostCommentAPIEndpoint {
       parameters: [.query(requestDTO)],
       requestType: .postComment(.delete))
   }
+  
+  static func fetchComments(
+    with requestDTO: PostCommentsRequestDTO
+  ) -> Endpoint<[PostCommentResponseDTO]> {
+    return Endpoint(
+      scheme: "http",
+      host: "localhost:8080",
+      method: .get,
+      parameters: [.query(requestDTO)],
+      requestType: .postComment(.fetchComments))
+  }
 }

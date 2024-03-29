@@ -14,7 +14,6 @@ final class MockPostRepository: PostRepository {
   var subscriptions = Set<AnyCancellable?>()
   let postRepository: PostRepository
   
-  
   init() {
     self.mockService = SessionProvider(session: MockSession.default)
     self.postRepository = DefaultPostRepository(service: mockService)

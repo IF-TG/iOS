@@ -30,7 +30,7 @@ final class DefaultPostUseCase: PostUseCase {
   }
   
   func fetchComments(
-    with requestValue: PostCommentsReqeustValue
+    with requestValue: PostCommentsRequestValue
   ) -> AnyPublisher<PostCommentContainerEntity, any Error> {
     postRepository.fetchComments(
       page: requestValue.page,
