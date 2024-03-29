@@ -82,6 +82,10 @@
 		135A07C22BA9882D003D6C4D /* AlbumUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 135A07C12BA9882D003D6C4D /* AlbumUseCase.swift */; };
 		135A07C42BA9883E003D6C4D /* DefaultAlbumUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 135A07C32BA9883E003D6C4D /* DefaultAlbumUseCase.swift */; };
 		135A07C82BAD6E95003D6C4D /* PhotoEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 135A07C72BAD6E95003D6C4D /* PhotoEntity.swift */; };
+		135A07D12BB4031D003D6C4D /* DefaultPhotoAuthorizationUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 135A07D02BB4031D003D6C4D /* DefaultPhotoAuthorizationUseCase.swift */; };
+		135A07D32BB4AB38003D6C4D /* PhotoAuthorizationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 135A07D22BB4AB38003D6C4D /* PhotoAuthorizationView.swift */; };
+		135A07D52BB55A13003D6C4D /* PhotoAuthorizationViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 135A07D42BB55A13003D6C4D /* PhotoAuthorizationViewDelegate.swift */; };
+		135A07D72BB72425003D6C4D /* PhotoAuthorizationUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 135A07D62BB72425003D6C4D /* PhotoAuthorizationUseCase.swift */; };
 		13606E882A9DDE7D00365F20 /* PostRecentSearchTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13606E872A9DDE7D00365F20 /* PostRecentSearchTagCell.swift */; };
 		13606E8C2A9F959F00365F20 /* PostRecommendationSearchHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13606E8B2A9F959F00365F20 /* PostRecommendationSearchHeaderView.swift */; };
 		13606E942AA187F500365F20 /* PostSearchTagLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13606E932AA187F500365F20 /* PostSearchTagLabel.swift */; };
@@ -567,6 +571,10 @@
 		135A07C12BA9882D003D6C4D /* AlbumUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumUseCase.swift; sourceTree = "<group>"; };
 		135A07C32BA9883E003D6C4D /* DefaultAlbumUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultAlbumUseCase.swift; sourceTree = "<group>"; };
 		135A07C72BAD6E95003D6C4D /* PhotoEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoEntity.swift; sourceTree = "<group>"; };
+		135A07D02BB4031D003D6C4D /* DefaultPhotoAuthorizationUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultPhotoAuthorizationUseCase.swift; sourceTree = "<group>"; };
+		135A07D22BB4AB38003D6C4D /* PhotoAuthorizationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAuthorizationView.swift; sourceTree = "<group>"; };
+		135A07D42BB55A13003D6C4D /* PhotoAuthorizationViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAuthorizationViewDelegate.swift; sourceTree = "<group>"; };
+		135A07D62BB72425003D6C4D /* PhotoAuthorizationUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAuthorizationUseCase.swift; sourceTree = "<group>"; };
 		13606E872A9DDE7D00365F20 /* PostRecentSearchTagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostRecentSearchTagCell.swift; sourceTree = "<group>"; };
 		13606E8B2A9F959F00365F20 /* PostRecommendationSearchHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostRecommendationSearchHeaderView.swift; sourceTree = "<group>"; };
 		13606E932AA187F500365F20 /* PostSearchTagLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSearchTagLabel.swift; sourceTree = "<group>"; };
@@ -1268,6 +1276,7 @@
 			children = (
 				13E746762B4D303E007D5C15 /* PhotoCellDelegate.swift */,
 				1364FBE52B61A8EA00D89FC9 /* PhotoViewControllerDelegate.swift */,
+				135A07D42BB55A13003D6C4D /* PhotoAuthorizationViewDelegate.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -1286,6 +1295,7 @@
 				134384172B4A9522005034E0 /* PhotoCell.swift */,
 				13F6DAC72B5248EF00573B86 /* SlideUpAnimator.swift */,
 				13F6DAC92B52711E00573B86 /* SlideDownAnimator.swift */,
+				135A07D22BB4AB38003D6C4D /* PhotoAuthorizationView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1494,6 +1504,7 @@
 				15D37F7C2B977DF7000E8FDB /* PostUseCase.swift */,
 				135A07C12BA9882D003D6C4D /* AlbumUseCase.swift */,
 				15B01DAC2BA95A2500BE9F98 /* LoggedInUserUseCase.swift */,
+				135A07D62BB72425003D6C4D /* PhotoAuthorizationUseCase.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -1508,6 +1519,7 @@
 				15E9E5ED2B9A345800C2F1F7 /* DefaultPostUseCase.swift */,
 				135A07C32BA9883E003D6C4D /* DefaultAlbumUseCase.swift */,
 				15B01DAE2BA95A4600BE9F98 /* DefaultLoggedInUserUseCase.swift */,
+				135A07D02BB4031D003D6C4D /* DefaultPhotoAuthorizationUseCase.swift */,
 			);
 			path = UseCases;
 			sourceTree = "<group>";
@@ -2974,6 +2986,7 @@
 				134384152B495C0E005034E0 /* DefaultPhotoService.swift in Sources */,
 				15CAEF832BAED183008AEDB1 /* PostNestedCommentResponseDTO.swift in Sources */,
 				13BF40F32AD6F1D600F3F082 /* BaseNavigationTitleView.swift in Sources */,
+				135A07D32BB4AB38003D6C4D /* PhotoAuthorizationView.swift in Sources */,
 				133531F92BA1A0B8000A4D9E /* KeychainLoginResponseStorage.swift in Sources */,
 				139DEDEB2B163D9A00363E7B /* SearchDestinationCollectionViewLayout.swift in Sources */,
 				15F36A1C2AB1A45600971803 /* TravelPartner.swift in Sources */,
@@ -2992,6 +3005,7 @@
 				15FB47D72AC0407D0033AA18 /* PostCategory.swift in Sources */,
 				151BDAD42B16E8EA002F36C3 /* UIGestureRecognizer+Combine.swift in Sources */,
 				155D0BB52B90D9390042DFB6 /* ReferenceError.swift in Sources */,
+				135A07D52BB55A13003D6C4D /* PhotoAuthorizationViewDelegate.swift in Sources */,
 				13C32A3B2B09D8BF0046ED98 /* PictureImageView.swift in Sources */,
 				15CAEF7D2BAED114008AEDB1 /* PostNestedCommentEntity.swift in Sources */,
 				157ADCA82ACFFFE100D37680 /* FavoritePostViewDelegate.swift in Sources */,
@@ -3043,6 +3057,7 @@
 				15F0D1B22A51BE3200D04773 /* CategoryPageViewDelegate.swift in Sources */,
 				13CB6D342A1FEC6D00D185B2 /* CautionAlertViewControllerDelegate.swift in Sources */,
 				1364FBE42B611DA400D89FC9 /* PhotoDetailViewController.swift in Sources */,
+				135A07D72BB72425003D6C4D /* PhotoAuthorizationUseCase.swift in Sources */,
 				15FB47EB2AC176420033AA18 /* PostSearchSectionItemModel.swift in Sources */,
 				158BEFD02A0FE2C000C27861 /* OneUnitHeightLine.swift in Sources */,
 				1570FDB72AB1E29C006FBAA3 /* Notification+.swift in Sources */,
@@ -3083,6 +3098,7 @@
 				15710CBA2A132C760023C19E /* FeedNotificationBarItem.swift in Sources */,
 				135A07C22BA9882D003D6C4D /* AlbumUseCase.swift in Sources */,
 				15D867CF2AD427EC00F35811 /* FavoriteDetailCoordinator.swift in Sources */,
+				135A07D12BB4031D003D6C4D /* DefaultPhotoAuthorizationUseCase.swift in Sources */,
 				15D6558B2B8E0F8500466FEC /* DefaultMyProfileRepository.swift in Sources */,
 				15B01DAF2BA95A4600BE9F98 /* DefaultLoggedInUserUseCase.swift in Sources */,
 				151DF0F02AEEAE2100D5D55B /* NoticeEntity.swift in Sources */,
