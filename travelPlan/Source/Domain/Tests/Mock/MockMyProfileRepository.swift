@@ -26,12 +26,18 @@ final class MockMyProfileRepository: MyProfileRepository {
   
   func updateProfile(with profile: String) -> Future<Bool, Error> {
     return .init { promise in
+      if profile == "무슨이유에서인지실패.." {
+        promise(.success(false))
+      }
       promise(.success(true))
     }
   }
   
   func saveProfile(with profile: String) -> Future<Bool, Error> {
     return .init { promise in
+      if profile == "!!!!" {
+        promise(.success(false))
+      }
       promise(.success(true))
     }
   }

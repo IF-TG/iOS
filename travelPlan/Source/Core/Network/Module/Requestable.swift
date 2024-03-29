@@ -51,10 +51,10 @@ extension Requestable {
   
   private func makeRequestWhenParametersHave(from session: Session) throws -> DataRequest {
     guard var urlComponents = URLComponents(string: baseURLWithRequestPath) else {
-      throw ReferenceError.other("URLComponents가 만들어지지 않음.")
+      throw ReferenceError.invalidReference
     }
     var bodyParam: Encodable?
-    guard let parameters else { throw ReferenceError.other("makeRequest의 parameter존재하지 않음") }
+    guard let parameters else { throw ReferenceError.invalidReference }
     for parameter in parameters {
       if case .query(let encodable) = parameter {
         if let dict = encodable?.toDictionary {

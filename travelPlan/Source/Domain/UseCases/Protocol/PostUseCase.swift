@@ -14,7 +14,7 @@ struct PostFetchRequestValue {
   let category: PostCategory
 }
 
-struct PostCommentsReqeustValue {
+struct PostCommentsRequestValue {
   let page: Int32
   let perPage: Int32
   let postId: Int64
@@ -31,11 +31,12 @@ enum PostUseCaseError: LocalizedError {
   }
 }
 
-
 protocol PostUseCase {
-  func fetchComments(
-    with requestValue: PostCommentsReqeustValue
-  ) -> AnyPublisher<PostCommentContainerEntity, Error>
+  func fetchPosts(
+    with page: PostFetchRequestValue
+  ) -> AnyPublisher<PostsPage, Error>
   
-  func fetchPosts(with page: PostFetchRequestValue) -> AnyPublisher<[PostContainer], Error>
+  func fetchComments(
+    with requestValue: PostCommentsRequestValue
+  ) -> AnyPublisher<PostCommentContainerEntity, Error>
 }

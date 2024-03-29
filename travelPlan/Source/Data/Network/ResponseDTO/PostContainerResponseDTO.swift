@@ -33,6 +33,6 @@ extension PostContainerResponseDTO {
     let detail: Post.PostDetail = post.toDomain()
     let author: Post.Author = post.toDomain()
     let post = Post(liked: self.post.liked, detail: detail, author: author)
-    return .init(post: post, thumbnails: thumbnails, totalPosts: totalPosts)
+    return .init(post: post, thumbnail: .init(urls: thumbnails), totalPosts: totalPosts)
   }
 }

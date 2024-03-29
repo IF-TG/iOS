@@ -1,0 +1,9 @@
+{
+  "result": {
+    "objectId": 777,
+    "value": true
+  },
+  "status": "OK",
+  "statusCode": "200",
+  "message": "Success"
+}

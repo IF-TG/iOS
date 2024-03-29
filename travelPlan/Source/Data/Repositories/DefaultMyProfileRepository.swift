@@ -14,7 +14,7 @@ private extension Publisher {
     _ transform: @escaping (Self.Failure) -> E
   ) -> Publishers.MapError<Self, Error> {
     return self.mapError { error -> MyProfileUseCaseError in
-      if let connectionError = error.asAFError?.mapConnectionError {
+      if let connectionError = error.asAFError?.asConnectionError {
         return MyProfileUseCaseError.networkError(connectionError)
       }
       return MyProfileUseCaseError.unknown(error.localizedDescription)

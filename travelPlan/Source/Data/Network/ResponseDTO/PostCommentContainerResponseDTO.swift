@@ -16,3 +16,12 @@ struct PostCommentContainerResponseDTO: Decodable {
     case isFavorited = "scraped"
   }
 }
+
+// MARK: - Mappings to Domain
+extension PostCommentContainerResponseDTO {
+  func toDomain() -> PostCommentContainerEntity {
+    return .init(
+      comments: comments.map { $0.toDomain() },
+      isFavorited: isFavorited)
+  }
+}
