@@ -15,4 +15,6 @@ protocol PostCommentRepository {
   func deleteComment(commentId: Int64) -> Future<Bool, Error>
   
   func fetchComments(page: Int32, perPage: Int32, postId: Int64) -> Future<[PostCommentEntity], Error>
+  
+  func toggleCommentHeart(commentId: Int64) -> Future<ToggledPostCommentHeartEntity, Error>
 }

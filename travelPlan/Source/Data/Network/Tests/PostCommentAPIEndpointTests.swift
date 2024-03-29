@@ -112,4 +112,26 @@ final class PostCommentAPIEndpointTests: XCTestCase {
       "PostAPIEndpoint의 fetchComments()에서 DataRequest의 urlRequest를 반환해야하는데 nil 반환")
     XCTAssertEqual(dataRequest?.convertible.urlRequest?.url, expectedURL)
   }
+  
+  func testPostCommentAPIEndpoint_toggleCommentHeart함수호출시_DataRequet과AbsoulteURL이_정확한지_ShouldReturnEqual() {
+    // Arrange
+    let expectedURL = URL(string: "http://localhost:8080/comment/like")
+    let mockRequestDTO = PostCommentHeartToggleRequestDTO(id: 111)
+    
+    let endpoint = sut.toggleCommentHeart(with: mockRequestDTO)
+    var dataRequest: DataRequest?
+    
+    // Act
+    DispatchQueue.global(qos: .background).async { [unowned self] in
+      dataRequest = try? endpoint.makeRequest(from: mockSession)
+      expectation.fulfill()
+    }
+    wait(for: [expectation], timeout: 10)
+    
+    // Assert
+    XCTAssertNotNil(
+      dataRequest?.convertible.urlRequest,
+      "PostAPIEndpoint의 toggleCommentHeart()에서 DataRequest의 urlRequest를 반환해야하는데 nil 반환")
+    XCTAssertEqual(dataRequest?.convertible.urlRequest?.url, expectedURL)
+  }
 }

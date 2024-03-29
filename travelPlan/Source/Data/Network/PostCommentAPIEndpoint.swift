@@ -51,4 +51,15 @@ struct PostCommentAPIEndpoint {
       parameters: [.query(requestDTO)],
       requestType: .postComment(.fetchComments))
   }
+  
+  static func toggleCommentHeart(
+    with requestDTO: PostCommentHeartToggleRequestDTO
+  ) -> Endpoint<CommonDTO<PostCommentHeartToggleResponseDTO>> {
+    return Endpoint(
+      scheme: "http",
+      host: "localhost:8080",
+      method: .post,
+      parameters: [.body(requestDTO)],
+      requestType: .postComment(.heartToggle))
+  }
 }
