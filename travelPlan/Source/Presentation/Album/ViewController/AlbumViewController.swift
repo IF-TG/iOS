@@ -9,7 +9,6 @@ import UIKit
 import SnapKit
 import Photos
 import Combine
-import PhotosUI
 
 final class AlbumViewController: UIViewController {
   // MARK: - Nested
@@ -223,16 +222,16 @@ extension AlbumViewController {
         case .callSetting:
           self?.coordinator?.openSettings()
         case .presentLimitedLibraryPicker:
-          // TODO: - 앱 죽는 문제 해결하기
-//          guard let self else { return }
+          guard let self else { return }
+          
 //          if #available(iOS 14, *) {
-//            DispatchQueue.main.async {
+//            if PHPhotoLibrary.authorizationStatus(for: .readWrite) == .limited {
 //              PHPhotoLibrary.shared().presentLimitedLibraryPicker(from: self)
 //            }
 //          } else {
-//            // 14이하 버전처리
+//            // iOS 14 미만 처리
+//            break
 //          }
-          break
         }
       }
       .store(in: &subscriptions)
