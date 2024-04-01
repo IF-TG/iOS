@@ -81,6 +81,8 @@ final class AlbumViewController: UIViewController {
     setupStyles()
     setupNavigationBar()
     bind()
+    PHPhotoLibrary.shared().register(self)
+    
     input.viewDidLoad.send()
   }
   
@@ -94,6 +96,10 @@ final class AlbumViewController: UIViewController {
     super.viewWillDisappear(animated)
     tabBarController?.tabBar.isHidden = false
     (tabBarController as? MainTabBarController)?.showShadowLayer()
+  }
+  
+  deinit {
+    PHPhotoLibrary.shared().unregisterChangeObserver(self)
   }
 }
 
@@ -158,6 +164,14 @@ extension AlbumViewController: UICollectionViewDataSource {
 
 // MARK: - Private Helpers
 extension AlbumViewController {
+  private func presentLimitedLibraryPicker() {
+    if #available(iOS 14, *) {
+      coordinator?.presentLimitedLibraryPicker(controller: self)
+    } else {
+      return
+    }
+  }
+  
   private func collectionViewReloadData(isAuthLimited: Bool) {
     if isAuthLimited {
       photoAuthView.isHidden = false
@@ -222,16 +236,7 @@ extension AlbumViewController {
         case .callSetting:
           self?.coordinator?.openSettings()
         case .presentLimitedLibraryPicker:
-          guard let self else { return }
-          
-//          if #available(iOS 14, *) {
-//            if PHPhotoLibrary.authorizationStatus(for: .readWrite) == .limited {
-//              PHPhotoLibrary.shared().presentLimitedLibraryPicker(from: self)
-//            }
-//          } else {
-//            // iOS 14 미만 처리
-//            break
-//          }
+          self?.presentLimitedLibraryPicker()
         }
       }
       .store(in: &subscriptions)
@@ -292,5 +297,12 @@ extension AlbumViewController: PhotoAuthorizationViewDelegate {
   
   func didTapAuthsettingButton() {
     input.didTapAuthsettingButton.send()
+  }
+}
+
+// MARK: - PHPhotoLibraryChangeObserver
+extension AlbumViewController: PHPhotoLibraryChangeObserver {
+  func photoLibraryDidChange(_ changeInstance: PHChange) {
+    input.photoLibraryDidChange.send(changeInstance)
   }
 }
