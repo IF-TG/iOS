@@ -118,11 +118,14 @@ extension RequestType {
   
   enum UserBlock {
     case userBlock
+    case blockedUsersFetch
     
     var path: String {
       switch self {
       case .userBlock:
         return "blockUser"
+      case .blockedUsersFetch:
+        return "blockUser/list"
       }
     }
   }
