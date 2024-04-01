@@ -25,16 +25,20 @@ struct AlbumViewModelInput {
   let touchedElseQuadrant: PassthroughSubject<IndexPath, Never> = .init()
   let didTapCancelButton: PassthroughSubject<Void, Never> = .init()
   let didTapFinishButton: PassthroughSubject<Void, Never> = .init()
+  let didTapSelectMorePhotosButton: PassthroughSubject<Void, Never> = .init()
+  let didTapAuthsettingButton: PassthroughSubject<Void, Never> = .init()
 }
 
 enum AlbumViewModelState {
   case activateFinishButton(Bool)
   case showDetailPhoto(PHAsset)
   case reloadItem([IndexPath])
-  case reloadData
+  case reloadData(isAuthLimited: Bool)
   case none
   case popViewController
-  case deliverAssets([PHAsset])
+  case deliverAssetsToParents([PHAsset])
+  case callSetting
+  case presentLimitedLibraryPicker
 }
 
 struct PhotoModel {
@@ -48,13 +52,15 @@ final class DefaultAlbumViewModel {
   @Published private var selectedIndexArray = [Int]()
   private var subscriptions = Set<AnyCancellable>()
   private let albumUseCase: AlbumUseCase
+  private let photoAuthUseCase: PhotoAuthorizationUseCase
   private var selectedPhotoItems = [Int]()
   var albums = [PHFetchResult<PHAsset>]()
   var dataSource = [PhotoModel]()
   
   // MARK: - LifeCycle
-  init(albumUseCase: AlbumUseCase) {
+  init(albumUseCase: AlbumUseCase, photoAuthUseCase: PhotoAuthorizationUseCase) {
     self.albumUseCase = albumUseCase
+    self.photoAuthUseCase = photoAuthUseCase
   }
 }
 
@@ -67,7 +73,9 @@ extension DefaultAlbumViewModel: AlbumViewModelable {
       touchedElseQuadrantStream(input),
       selectedIndexArrayStream(input),
       didTapFinishButtonStream(input),
-      didTapCancelButtonStream(input)
+      didTapCancelButtonStream(input),
+      didTapSelectMorePhotosButtonStream(input),
+      didTapAuthsettingButtonStream(input)
     )
     .eraseToAnyPublisher()
   }
@@ -75,9 +83,29 @@ extension DefaultAlbumViewModel: AlbumViewModelable {
 
 // MARK: - Private Helpers
 extension DefaultAlbumViewModel {
+  private func didTapSelectMorePhotosButtonStream(_ input: Input) -> Output {
+    return input
+      .didTapSelectMorePhotosButton
+      .map {
+        return State.presentLimitedLibraryPicker
+      }
+      .eraseToAnyPublisher()
+  }
+  
+  private func didTapAuthsettingButtonStream(_ input: Input) -> Output {
+    return input
+      .didTapAuthsettingButton
+      .receive(on: RunLoop.main)
+      .map {
+        return State.callSetting
+      }
+      .eraseToAnyPublisher()
+  }
+  
   private func didTapCancelButtonStream(_ input: Input) -> Output {
     return input
       .didTapCancelButton
+      .receive(on: RunLoop.main)
       .map { State.popViewController }
       .eraseToAnyPublisher()
   }
@@ -91,7 +119,7 @@ extension DefaultAlbumViewModel {
         let selectedAssets = self.selectedIndexArray.map { indexPathItem in
           return self.dataSource[indexPathItem].asset
         }
-        return State.deliverAssets(selectedAssets)
+        return State.deliverAssetsToParents(selectedAssets)
       }
       .eraseToAnyPublisher()
   }
@@ -112,7 +140,15 @@ extension DefaultAlbumViewModel {
           .getAssets()
           .map { PhotoModel(asset: $0, selectedOrder: .none) }
         
-        return .reloadData
+        if #available(iOS 14, *) {
+          if self.photoAuthUseCase.authorizationStatus == .limited {
+            return State.reloadData(isAuthLimited: true)
+          } else {
+            return State.reloadData(isAuthLimited: false)
+          }
+        } else {
+          return State.reloadData(isAuthLimited: false)
+        }
       }
       .eraseToAnyPublisher()
   }

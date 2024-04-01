@@ -9,5 +9,5 @@ import UIKit
 
 protocol ReviewWritingBottomViewDelegate: AnyObject {
   func didTapPlanView(_ view: UIView)
-  func didTapCameraButton(_ button: UIButton)
+  func didTapAlbumButton(_ button: UIButton)
 }
