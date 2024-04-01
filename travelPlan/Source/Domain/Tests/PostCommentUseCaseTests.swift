@@ -127,7 +127,7 @@ extension PostCommentUseCaseTests {
     wait(for: [expectation], timeout: 7.777777777)
     
     // Assert
-    checkIfUnexpectedErrorOccured(unexpectedError)
+    checkIfUnexpectedErrorOccurred(unexpectedError, functionName: testFunctionName)
     XCTAssertTrue(result, notReceivedErrorMessage)
   }
   
@@ -152,7 +152,7 @@ extension PostCommentUseCaseTests {
     wait(for: [expectation], timeout: 7.777777777)
     
     // Assert
-    checkIfUnexpectedErrorOccured(unexpectedError)
+    checkIfUnexpectedErrorOccurred(unexpectedError, functionName: testFunctionName)
     XCTAssertTrue(result, notReceivedErrorMessage)
   }
 }
