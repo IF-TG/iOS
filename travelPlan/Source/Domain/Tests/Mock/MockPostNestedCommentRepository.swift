@@ -86,4 +86,11 @@ final class MockPostNestedCommentRepository: PostNestedCommentRepository {
       }
     }
   }
+  
+  func toggleCommentHeart(nestedCommentId: Int64) -> Future<ToggledPostCommentHeartEntity, any Error> {
+    return Future { promise in
+      // 임시 구현
+      promise(.failure(ReferenceError.invalidReference))
+    }
+  }
 }
