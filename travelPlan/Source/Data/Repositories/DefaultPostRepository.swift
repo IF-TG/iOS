@@ -12,18 +12,24 @@ final class DefaultPostRepository: PostRepository {
   // MAKR: - Properties
   private let service: Sessionable
   typealias Endpoint = PostAPIEndpoint
+  private let loggedInUserRepository: LoggedInUserRepository
   
   private var subscriptions = Set<AnyCancellable?>()
   
-  init(service: Sessionable) {
+  init(service: Sessionable, loggedInUserRepository: LoggedInUserRepository) {
     self.service = service
+    self.loggedInUserRepository = loggedInUserRepository
   }
   
   func fetchPosts(page: Int32, perPage: Int32, category: PostCategory) -> Future<PostsPage, Error> {
-    // TODO: - 유저디폴츠같은 저장소에서 id가져와야 합니다.
-    let requestDTO = PostsRequestDTO.makeRequestDTO(page: page, perPage: perPage, category: category, userId: 111111)
-    let endpoint = Endpoint.fetchPosts(with: requestDTO)
     return Future { [weak self] promise in
+      guard let loggedInUserId = self?.loggedInUserRepository.id else {
+        promise(.failure(LoggedInUserRepositoryError.invalidUserId))
+        return
+      }
+      let requestDTO = PostsRequestDTO.makeRequestDTO(page: page, perPage: perPage, category: category, userId: loggedInUserId)
+      let endpoint = Endpoint.fetchPosts(with: requestDTO)
+      
       let subscription = self?.service.request(endpoint: endpoint)
         .mapError { MainError.networkError($0) }
         .sink { completion in
