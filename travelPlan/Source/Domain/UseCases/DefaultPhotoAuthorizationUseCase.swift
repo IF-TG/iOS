@@ -11,19 +11,17 @@ import Photos
 
 final class DefaultPhotoAuthorizationUseCase: PhotoAuthorizationUseCase {
   func requestAuthorization() -> AnyPublisher<PHAuthorizationStatus, Never> {
-    if #available(iOS 14, *) {
-      return Future { promise in
+    return Future { promise in
+      if #available(iOS 14, *) {
         PHPhotoLibrary.requestAuthorization(for: .readWrite) { status in
           promise(.success(status))
         }
-      }
-      .eraseToAnyPublisher()
-    } else {
-      return Future { promise in
+      } else {
         PHPhotoLibrary.requestAuthorization { status in
           promise(.success(status))
         }
-      }.eraseToAnyPublisher()
+      }
     }
+    .eraseToAnyPublisher()
   }
 }
