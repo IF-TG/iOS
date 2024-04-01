@@ -10,6 +10,7 @@ import Combine
 import Foundation
 
 final class MockPostUseCaseForPaging: PostUseCase {
+  
   private static let recurCount = 4
   private let totalPage = 18*MockPostUseCaseForPaging.recurCount
   private var index = 0
@@ -19,6 +20,27 @@ final class MockPostUseCaseForPaging: PostUseCase {
     with requestValue: PostCommentsRequestValue
   ) -> AnyPublisher<PostCommentContainerEntity, any Error> {
     Empty().eraseToAnyPublisher()
+  }
+  
+  /// 설정 화면의 내 활동에 사용됩니다
+  func fetchLikedPostsByLoggedInUser(
+    page: Int32,
+    perPage: Int32
+  ) -> AnyPublisher<PostsPage, any Error> {
+    if index > totalPage {
+      return Fail(error: PostUseCaseError.noMorePage).eraseToAnyPublisher()
+    }
+    let responseData = {
+      let nextPosts = (index..<index+5).map { mockPostPage.posts[$0] }
+      let nextThumbnails = (index..<index+5).map { mockPostPage.thumbnails[$0] }
+      return PostsPage(totalPosts: Int64(totalPage), posts: nextPosts, thumbnails: nextThumbnails)
+    }()
+    index+=5
+    return Just(responseData)
+      .delay(for: .seconds(1.2), scheduler: DispatchQueue.global(qos: .background))
+      .setFailureType(to: PostUseCaseError.self)
+      .mapError { $0 as Error }
+      .eraseToAnyPublisher()
   }
   
   func fetchPosts(
