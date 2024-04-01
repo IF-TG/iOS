@@ -19,4 +19,9 @@ protocol PostRepository {
     perPage: Int32,
     postId: Int64
   ) -> Future<PostCommentContainerEntity, Error>
+  
+  func fetchLikedPostsByLoggedInUser(
+    page: Int32,
+    perPage: Int32
+  ) -> Future<PostsPage, Error>
 }
