@@ -17,7 +17,6 @@ struct PostCommentHeartToggleResponseDTO: Decodable {
   }
 }
 
-
 // MARK: - Mappings to Domain
 extension PostCommentHeartToggleResponseDTO {
   func toDomain() -> ToggledPostCommentHeartEntity {
