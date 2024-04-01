@@ -8,5 +8,5 @@
 import Combine
 
 protocol UserBlockRepository {
-  func blockUser(with userId: Int64) -> Future<BlockedUserEntity, Error>
+  func blockUser(with userId: Int64) -> Future<BlockedUserIdentifyEntity, Error>
 }

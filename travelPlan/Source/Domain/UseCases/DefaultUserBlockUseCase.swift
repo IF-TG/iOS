@@ -17,7 +17,7 @@ final class DefaultUserBlockUseCase: UserBlockUseCase {
     self.userBlockRepository = userBlockRepository
   }
     
-  func blockUser(with userId: Int64) -> AnyPublisher<BlockedUserEntity, any Error> {
+  func blockUser(with userId: Int64) -> AnyPublisher<BlockedUserIdentifyEntity, any Error> {
     return userBlockRepository
       .blockUser(with: userId)
       .eraseToAnyPublisher()

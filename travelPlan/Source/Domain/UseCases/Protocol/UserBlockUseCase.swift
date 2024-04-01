@@ -8,5 +8,5 @@
 import Combine
 
 protocol UserBlockUseCase {
-  func blockUser(with userId: Int64) -> AnyPublisher<BlockedUserEntity, Error>
+  func blockUser(with userId: Int64) -> AnyPublisher<BlockedUserIdentifyEntity, Error>
 }

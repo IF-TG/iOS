@@ -18,7 +18,7 @@ final class MockWrappedUserBlockRepository: UserBlockRepository {
 extension MockWrappedUserBlockRepository {
   func blockUser(
     with userId: Int64
-  ) -> Future<BlockedUserEntity, any Error> {
+  ) -> Future<BlockedUserIdentifyEntity, any Error> {
     MockUrlProtocol.requestHandler = { _ in
       let mockData = MockResponseType.userBlock(.whenUserBlock).mockDataLoader
       return ((.init(), mockData))

@@ -24,7 +24,7 @@ final class DefaultUserBlockRepository: UserBlockRepository {
     self.backgroundQueue = backgroundQueue
   }
   
-  func blockUser(with userId: Int64) -> Future<BlockedUserEntity, any Error> {
+  func blockUser(with userId: Int64) -> Future<BlockedUserIdentifyEntity, any Error> {
     let requestDTO = UserBlockRequestDTO(blockedUserId: userId)
     return Future { [weak self] promise in
       guard let backgroundQueue = self?.backgroundQueue else {
