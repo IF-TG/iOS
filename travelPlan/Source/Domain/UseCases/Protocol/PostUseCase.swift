@@ -39,4 +39,9 @@ protocol PostUseCase {
   func fetchComments(
     with requestValue: PostCommentsRequestValue
   ) -> AnyPublisher<PostCommentContainerEntity, Error>
+  
+  func fetchLikedPostsByLoggedInUser(
+    page: Int32, 
+    perPage: Int32
+  ) -> AnyPublisher<PostsPage, Error>
 }
