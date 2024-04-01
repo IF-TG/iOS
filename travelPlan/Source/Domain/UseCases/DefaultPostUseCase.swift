@@ -25,7 +25,7 @@ final class DefaultPostUseCase: PostUseCase {
       page: page.page,
       perPage: page.perPage,
       category: page.category)
-    .subscribe(on: DispatchQueue.global(qos: .userInteractive))
+    .subscribe(on: backgroundQueue)
     .eraseToAnyPublisher()
   }
   
@@ -47,7 +47,7 @@ final class DefaultPostUseCase: PostUseCase {
     postRepository.fetchLikedPostsByLoggedInUser(
       page: page,
       perPage: perPage)
-    .subscribe(on: DispatchQueue.global(qos: .userInitiated))
+    .subscribe(on: backgroundQueue)
     .eraseToAnyPublisher()
   }
   
