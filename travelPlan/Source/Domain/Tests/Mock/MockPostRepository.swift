@@ -60,4 +60,25 @@ final class MockPostRepository: PostRepository {
       }
     }
   }
+  
+  func fetchLikedPostsByLoggedInUser(page: Int32, perPage: Int32) -> Future<PostsPage, any Error> {
+    MockUrlProtocol.requestHandler = { _ in
+      let mockData = MockResponseType.postContainerResponse.mockDataLoader
+      return ((HTTPURLResponse(), mockData))
+    }
+    return Future { promise in
+      DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.5) { [weak self] in
+        let subscription = self?.postRepository
+          .fetchLikedPostsByLoggedInUser(page: page, perPage: perPage)
+          .sink(receiveCompletion: { completion in
+            if case .failure(let error) = completion {
+              promise(.failure(error))
+            }
+          }, receiveValue: { postsPage in
+            promise(.success(postsPage))
+          })
+        self?.subscriptions.insert(subscription)
+      }
+    }
+  }
 }
