@@ -79,5 +79,4 @@ extension UserBlockUseCaseTests {
     checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "fetchBlockedUsers")
     XCTAssertTrue(result, notReceivedErrorMessage)
   }
-
 }
