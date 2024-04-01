@@ -27,6 +27,7 @@ struct AlbumViewModelInput {
   let didTapFinishButton: PassthroughSubject<Void, Never> = .init()
   let didTapSelectMorePhotosButton: PassthroughSubject<Void, Never> = .init()
   let didTapAuthsettingButton: PassthroughSubject<Void, Never> = .init()
+  let photoLibraryDidChange: PassthroughSubject<PHChange, Never> = .init()
 }
 
 enum AlbumViewModelState {
@@ -56,6 +57,13 @@ final class DefaultAlbumViewModel {
   private var selectedPhotoItems = [Int]()
   var albums = [PHFetchResult<PHAsset>]()
   var dataSource = [PhotoModel]()
+  private var isAuthStatusLimited: Bool {
+    if #available(iOS 14, *) {
+      PHPhotoLibrary.authorizationStatus(for: .readWrite) == .limited
+    } else {
+      false
+    }
+  }
   
   // MARK: - LifeCycle
   init(albumUseCase: AlbumUseCase, photoAuthUseCase: PhotoAuthorizationUseCase) {
@@ -75,7 +83,8 @@ extension DefaultAlbumViewModel: AlbumViewModelable {
       didTapFinishButtonStream(input),
       didTapCancelButtonStream(input),
       didTapSelectMorePhotosButtonStream(input),
-      didTapAuthsettingButtonStream(input)
+      didTapAuthsettingButtonStream(input),
+      photoLibraryDidChangeStream(input)
     )
     .eraseToAnyPublisher()
   }
@@ -83,6 +92,26 @@ extension DefaultAlbumViewModel: AlbumViewModelable {
 
 // MARK: - Private Helpers
 extension DefaultAlbumViewModel {
+  private func photoLibraryDidChangeStream(_ input: Input) -> Output {
+    return input
+      .photoLibraryDidChange
+      .filter { [weak self] _ in
+        guard let self else { return false }
+        return self.isAuthStatusLimited
+      }
+      .map { [weak self] changeInstance in
+        guard let self else { return State.none }
+        
+        self.selectedIndexArray.removeAll()
+        self.dataSource = self.albumUseCase
+          .getChangedAssets(changeInstance: changeInstance)
+          .map { PhotoModel(asset: $0, selectedOrder: .none) }
+        
+        return State.reloadData(isAuthLimited: self.isAuthStatusLimited)
+      }
+      .eraseToAnyPublisher()
+  }
+  
   private func didTapSelectMorePhotosButtonStream(_ input: Input) -> Output {
     return input
       .didTapSelectMorePhotosButton
@@ -141,11 +170,7 @@ extension DefaultAlbumViewModel {
           .map { PhotoModel(asset: $0, selectedOrder: .none) }
         
         if #available(iOS 14, *) {
-          if self.photoAuthUseCase.authorizationStatus == .limited {
-            return State.reloadData(isAuthLimited: true)
-          } else {
-            return State.reloadData(isAuthLimited: false)
-          }
+          return State.reloadData(isAuthLimited: isAuthStatusLimited)
         } else {
           return State.reloadData(isAuthLimited: false)
         }
