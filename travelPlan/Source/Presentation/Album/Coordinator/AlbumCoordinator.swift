@@ -12,6 +12,8 @@ import Photos
 protocol AlbumCoordinatorDelegate: AnyObject, FlowCoordinatorDelegate {
   func openSettings()
   func finish(selectedAssets: [PHAsset])
+  @available(iOS 14, *)
+  func presentLimitedLibraryPicker(controller: UIViewController)
 }
 
 final class AlbumCoordinator: FlowCoordinator {
@@ -56,6 +58,11 @@ extension AlbumCoordinator: AlbumCoordinatorDelegate, FlowCoordinatorDelegate {
       // TODO: - 이때 앱으로 다시 들어가면 앱이 처음부터 다시켜지기 때문에, 마지막으로 썼던 글들을 자동 저장해야합니다.
       print("finished")
     })
+  }
+  
+  @available(iOS 14, *)
+  func presentLimitedLibraryPicker(controller: UIViewController) {
+    PHPhotoLibrary.shared().presentLimitedLibraryPicker(from: controller)
   }
   
   func finish(selectedAssets: [PHAsset]) {
