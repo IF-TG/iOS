@@ -7,7 +7,6 @@
 
 import Photos
 import UIKit
-import PhotosUI
 
 final class DefaultPhotoService {
   // MARK: - Properties
