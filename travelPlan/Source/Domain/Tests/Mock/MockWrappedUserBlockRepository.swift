@@ -39,9 +39,22 @@ extension MockWrappedUserBlockRepository {
   }
   
   func fetchBlockedUsers() -> Future<BlockedUserProfileEntity, any Error> {
-    return Future { promise in
-      // FIXME: - 임시 구현
-      promise(.failure(ReferenceError.invalidReference))
+    MockUrlProtocol.requestHandler = { _ in
+      let mockData = MockResponseType.userBlock(.whenBlockedUsersFetch).mockDataLoader
+      return ((.init(), mockData))
+    }
+    return Future { [weak self] promise in
+      DispatchQueue.global(qos: .background).asyncAfter(deadline: .now()) {
+        let subscription = self?.repository.fetchBlockedUsers()
+          .sink { completion in
+            if case .failure(let error) = completion {
+              promise(.failure(error))
+            }
+          } receiveValue: { entity in
+            promise(.success(entity))
+          }
+        self?.subscriptions.insert(subscription)
+      }
     }
   }
 }
