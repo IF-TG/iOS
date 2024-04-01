@@ -23,7 +23,7 @@ final class DefaultUserBlockUseCase: UserBlockUseCase {
       .eraseToAnyPublisher()
   }
   
-  func fetchBlockedUsers() -> AnyPublisher<BlockedUserProfileEntity, any Error> {
+  func fetchBlockedUsers() -> AnyPublisher<[BlockedUserProfileEntity], any Error> {
     return userBlockRepository
       .fetchBlockedUsers()
       .eraseToAnyPublisher()

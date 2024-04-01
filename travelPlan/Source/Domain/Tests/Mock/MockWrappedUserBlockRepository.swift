@@ -38,7 +38,7 @@ extension MockWrappedUserBlockRepository {
     }
   }
   
-  func fetchBlockedUsers() -> Future<BlockedUserProfileEntity, any Error> {
+  func fetchBlockedUsers() -> Future<[BlockedUserProfileEntity], any Error> {
     MockUrlProtocol.requestHandler = { _ in
       let mockData = MockResponseType.userBlock(.whenBlockedUsersFetch).mockDataLoader
       return ((.init(), mockData))

@@ -19,7 +19,7 @@ struct UserBlockAPIEndpoint {
       requestType: .userBlock(.userBlock))
   }
   
-  static func fetchBlockedUsers() -> Endpoint<CommonDTO<BlockedUserProfileResponseDTO>> {
+  static func fetchBlockedUsers() -> Endpoint<CommonDTO<[BlockedUserProfileResponseDTO]>> {
     return Endpoint(
       scheme: "http",
       host: "localhost:8080",
