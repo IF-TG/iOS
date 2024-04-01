@@ -7,7 +7,7 @@
 
 import UIKit
 import SHCoordinator
-import Photos
+import PhotosUI
 
 protocol AlbumCoordinatorDelegate: AnyObject, FlowCoordinatorDelegate {
   func openSettings()
