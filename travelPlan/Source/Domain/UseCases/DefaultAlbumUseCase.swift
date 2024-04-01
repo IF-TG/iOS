@@ -15,7 +15,7 @@ final class DefaultAlbumUseCase {
     NSSortDescriptor(key: "creationDate", ascending: false), // 가장 최근에 생성된 사진순
     NSSortDescriptor(key: "modificationDate", ascending: false) // 가장 최근에 수정된 사진순
   ]
-  
+  private var fetchResult: PHFetchResult<PHAsset>?
   private var photoEntity = [PhotoEntity]()
   private var selectedIndexArray = [Int]()
 }
@@ -36,9 +36,19 @@ extension DefaultAlbumUseCase: AlbumUseCase {
       $0.includeAssetSourceTypes = .typeUserLibrary
     }
     let fetchResult = PHAsset.fetchAssets(with: fetchOptions)
-    let assets = convertAlbumToPHAssets(fetchResult: fetchResult)
+    self.fetchResult = fetchResult
+    return convertAlbumToPHAssets(fetchResult: fetchResult)
+  }
+  
+  func getChangedAssets(changeInstance: PHChange) -> [PHAsset] {
+    guard let fetchResult = fetchResult,
+          let changes = changeInstance.changeDetails(for: fetchResult) else { fatalError() }
     
-    return assets
+    if changes.hasIncrementalChanges {
+      return convertAlbumToPHAssets(fetchResult: fetchResult)
+    } else {
+      return getAssets()
+    }
   }
 }
 
@@ -46,6 +56,7 @@ extension DefaultAlbumUseCase: AlbumUseCase {
 extension DefaultAlbumUseCase {
   private func convertAlbumToPHAssets(fetchResult: PHFetchResult<PHAsset>) -> [PHAsset] {
     var assets = [PHAsset]()
+    
     fetchResult.enumerateObjects { asset, _, _ in
       assets.append(asset)
     }
