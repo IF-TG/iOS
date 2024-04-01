@@ -77,10 +77,12 @@ enum MockResponseType {
   
   enum UserBlock {
     case whenUserBlock
+    case whenBlockedUsersFetch
     
     var filePath: String {
       [
-        .whenUserBlock: "mock_userBlock_response"
+        .whenUserBlock: "mock_userBlock_response",
+        .whenBlockedUsersFetch: "mock_blockedUsers_response"
       ] [self]!
     }
   }
