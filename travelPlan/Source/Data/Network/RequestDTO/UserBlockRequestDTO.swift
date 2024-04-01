@@ -8,5 +8,5 @@
 import Foundation
 
 struct UserBlockRequestDTO: Encodable {
-  let blockedUserId: Int32
+  let blockedUserId: Int64
 }
