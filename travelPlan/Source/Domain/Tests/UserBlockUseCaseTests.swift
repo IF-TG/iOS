@@ -55,4 +55,29 @@ extension UserBlockUseCaseTests {
     checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "blockUser")
     XCTAssertTrue(result, notReceivedErrorMessage)
   }
+  
+  func testUserBlockUseCase_fetchBlockedUsers함수호출시_entity를받았는지_ShouldReturnTrue() {
+    // Arrange
+    var result = false
+    var unexpectedError: Error?
+    
+    // Act
+    subscription = sut.fetchBlockedUsers()
+      .sink { [unowned self] completion in
+        if case .failure(let error) = completion {
+          unexpectedError = error
+        }
+        expectation.fulfill()
+      } receiveValue: { [unowned self] entity in
+        print("DEBUG: 값을 성공적으로 받았습니다~\n\n:\(entity)")
+        result = true
+        expectation.fulfill()
+      }
+    wait(for: [expectation], timeout: 7)
+    
+    // Assert
+    checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "fetchBlockedUsers")
+    XCTAssertTrue(result, notReceivedErrorMessage)
+  }
+
 }
