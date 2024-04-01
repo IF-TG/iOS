@@ -100,14 +100,13 @@ extension DefaultAlbumViewModel {
         return self.isAuthStatusLimited
       }
       .map { [weak self] changeInstance in
-        guard let self else { return State.none }
+        guard let assets = self?.albumUseCase.getChangedAssets(changeInstance: changeInstance)
+        else { return State.none }
         
-        self.selectedIndexArray.removeAll()
-        self.dataSource = self.albumUseCase
-          .getChangedAssets(changeInstance: changeInstance)
-          .map { PhotoModel(asset: $0, selectedOrder: .none) }
-        
-        return State.reloadData(isAuthLimited: self.isAuthStatusLimited)
+        self?.selectedIndexArray.removeAll()
+        self?.dataSource = assets.map { PhotoModel(asset: $0, selectedOrder: .none) }
+    
+        return State.reloadData(isAuthLimited: self?.isAuthStatusLimited ?? true)
       }
       .eraseToAnyPublisher()
   }
