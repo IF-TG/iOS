@@ -37,4 +37,11 @@ extension MockWrappedUserBlockRepository {
       }      
     }
   }
+  
+  func fetchBlockedUsers() -> Future<BlockedUserProfileEntity, any Error> {
+    return Future { promise in
+      // FIXME: - 임시 구현
+      promise(.failure(ReferenceError.invalidReference))
+    }
+  }
 }
