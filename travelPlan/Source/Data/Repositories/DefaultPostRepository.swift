@@ -65,4 +65,34 @@ final class DefaultPostRepository: PostRepository {
       self?.subscriptions.insert(subscription)
     }
   }
+  
+  func fetchLikedPostsByLoggedInUser(
+    page: Int32,
+    perPage: Int32
+  ) -> Future<PostsPage, any Error> {
+    let requestDTO = LikedPostsByLoggedInUserRequestDTO(page: page, perPage: perPage)
+    let endpoint = Endpoint.fetchLikedPostsByLoggedInUser(wtih: requestDTO)
+    return Future { [weak self] promise in
+      let subscription = self?.service.request(endpoint: endpoint)
+        .mapError { MainError.networkError($0) }
+        .sink { completion in
+          if case .failure(let error) = completion {
+            promise(.failure(error))
+          }
+        } receiveValue: { responseDTO in
+          let postContainers = responseDTO.result.map { $0.toDomain() }
+          guard let totalPages = postContainers.first?.totalPosts else {
+            // 반드시 필요로한 totalPage가 없는 경우
+            promise(.failure(ConnectionError.missingRequiredData))
+            return
+          }
+          let postsPage = PostsPage(
+            totalPosts: totalPages,
+            posts: postContainers.map { $0.post },
+            thumbnails: postContainers.map { $0.thumbnail })
+          promise(.success(postsPage))
+        }
+      self?.subscriptions.insert(subscription)
+    }
+  }
 }
