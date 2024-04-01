@@ -40,9 +40,11 @@ extension DefaultAlbumUseCase: AlbumUseCase {
     return convertAlbumToPHAssets(fetchResult: fetchResult)
   }
   
-  func getChangedAssets(changeInstance: PHChange) -> [PHAsset] {
+  func getChangedAssets(changeInstance: PHChange) -> [PHAsset]? {
     guard let fetchResult = fetchResult,
-          let changes = changeInstance.changeDetails(for: fetchResult) else { fatalError() }
+          let changes = changeInstance.changeDetails(for: fetchResult) else {
+      return nil
+    }
     
     if changes.hasIncrementalChanges {
       return convertAlbumToPHAssets(fetchResult: fetchResult)
