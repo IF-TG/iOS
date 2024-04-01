@@ -46,4 +46,26 @@ final class DefaultUserBlockRepository: UserBlockRepository {
       self?.subscriptions.insert(subscription)
     }
   }
+  
+  func fetchBlockedUsers() -> Future<BlockedUserProfileEntity, any Error> {
+    return Future { [weak self] promise in
+      guard let backgroundQueue = self?.backgroundQueue else {
+        promise(.failure(ReferenceError.invalidReference))
+        return
+      }
+      let subscription = self?.service
+        .request(endpoint: endpoint.fetchBlockedUsers())
+        .subscribe(on: backgroundQueue)
+        .mapConnectionError()
+        .map { $0.result }
+        .sink { completion in
+          if case .failure(let error) = completion {
+            promise(.failure(error))
+          }
+        } receiveValue: { result in
+          promise(.success(result.toDomain()))
+        }
+      self?.subscriptions.insert(subscription)
+    }
+  }
 }
