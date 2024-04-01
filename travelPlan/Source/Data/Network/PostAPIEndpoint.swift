@@ -29,4 +29,15 @@ struct PostAPIEndpoint {
       parameters: [.query(requestDTO)],
       requestType: .post(.postCommentsFetch))
   }
+  
+  static func fetchLikedPostsByLoggedInUser(
+    wtih requestDTO: LikedPostsByLoggedInUserRequestDTO
+  ) -> Endpoint<CommonDTO<[PostContainerResponseDTO]>> {
+    return Endpoint(
+      scheme: "http",
+      host: "localhost:8080",
+      method: .get,
+      parameters: [.query(requestDTO)],
+      requestType: .post(.likedPostsByLoggedInUserFetch))
+  }
 }
