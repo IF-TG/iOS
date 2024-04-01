@@ -284,6 +284,7 @@
 		1599587F2B0DC56D00B2E4DC /* PostCellWithFourThumbnails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1599587E2B0DC56D00B2E4DC /* PostCellWithFourThumbnails.swift */; };
 		159958812B0DC57600B2E4DC /* PostCellWithFiveThumbnails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159958802B0DC57600B2E4DC /* PostCellWithFiveThumbnails.swift */; };
 		159958832B0DDFED00B2E4DC /* UIStackView+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159958822B0DDFED00B2E4DC /* UIStackView+Helpers.swift */; };
+		159E387C2BBAD464008825B0 /* LikedPostsByLoggedInUserRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159E387B2BBAD464008825B0 /* LikedPostsByLoggedInUserRequestDTO.swift */; };
 		159F38BB2AFA9F32000A24C2 /* PostDetailCategoryHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159F38BA2AFA9F32000A24C2 /* PostDetailCategoryHeaderView.swift */; };
 		159F38BD2AFAA1F7000A24C2 /* PostDetailCategoryHeaderViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159F38BC2AFAA1F7000A24C2 /* PostDetailCategoryHeaderViewDelegate.swift */; };
 		159F38BF2AFAA329000A24C2 /* PostDetailTitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159F38BE2AFAA329000A24C2 /* PostDetailTitleCell.swift */; };
@@ -807,6 +808,7 @@
 		1599587E2B0DC56D00B2E4DC /* PostCellWithFourThumbnails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCellWithFourThumbnails.swift; sourceTree = "<group>"; };
 		159958802B0DC57600B2E4DC /* PostCellWithFiveThumbnails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCellWithFiveThumbnails.swift; sourceTree = "<group>"; };
 		159958822B0DDFED00B2E4DC /* UIStackView+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+Helpers.swift"; sourceTree = "<group>"; };
+		159E387B2BBAD464008825B0 /* LikedPostsByLoggedInUserRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikedPostsByLoggedInUserRequestDTO.swift; sourceTree = "<group>"; };
 		159F38BA2AFA9F32000A24C2 /* PostDetailCategoryHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailCategoryHeaderView.swift; sourceTree = "<group>"; };
 		159F38BC2AFAA1F7000A24C2 /* PostDetailCategoryHeaderViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailCategoryHeaderViewDelegate.swift; sourceTree = "<group>"; };
 		159F38BE2AFAA329000A24C2 /* PostDetailTitleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailTitleCell.swift; sourceTree = "<group>"; };
@@ -2328,6 +2330,7 @@
 				15553BC12BB341B0000AA896 /* PostNestedCommentSendRequestDTO.swift */,
 				15FD508C2BB44F9E006CCCDD /* PostNestedCommentUpdateRequestDTO.swift */,
 				15FD50942BB4579C006CCCDD /* PostNestedCommentDeleteRequestDTO.swift */,
+				159E387B2BBAD464008825B0 /* LikedPostsByLoggedInUserRequestDTO.swift */,
 			);
 			path = RequestDTO;
 			sourceTree = "<group>";
@@ -3343,6 +3346,7 @@
 				13BF40F52AD712EC00F3F082 /* UIViewController+TitleView.swift in Sources */,
 				13A6C2DB2AB782A100EABD76 /* UIViewController+BackBarButtonItem.swift in Sources */,
 				133532002BA2D3E3000A4D9E /* UserDefaultsLoginResultStorage.swift in Sources */,
+				159E387C2BBAD464008825B0 /* LikedPostsByLoggedInUserRequestDTO.swift in Sources */,
 				13300FA42AC0688300952757 /* BaseDestinationView.swift in Sources */,
 				15D388272AFF8AAA00039946 /* InputTextView.swift in Sources */,
 				15553BC02BB34151000AA896 /* PostNestedCommentAPIEndpoint.swift in Sources */,
