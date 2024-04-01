@@ -42,4 +42,12 @@ final class DefaultPostNestedCommentUseCase: PostNestedCommentUseCase {
       .deleteNestedComment(nestedCommentId: nestedCommentId)
       .eraseToAnyPublisher()
   }
+  
+  func toggleCommentHeart(
+    nestedCommentId: Int64
+  ) -> AnyPublisher<ToggledPostCommentHeartEntity, any Error> {
+    return postNestedCommentRepository
+      .toggleCommentHeart(nestedCommentId: nestedCommentId)
+      .eraseToAnyPublisher()
+  }
 }
