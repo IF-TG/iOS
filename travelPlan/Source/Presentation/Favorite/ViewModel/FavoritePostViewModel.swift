@@ -61,8 +61,4 @@ extension FavoritePostViewModel {
     let postInfo = PostMapper.toPostInfo(post, thumbnails: postThumbnails[index])
     return postInfo
   }
-  
-  func post(at index: Int) -> Post {
-    return posts[index]
-  }
 }
