@@ -10,7 +10,7 @@ import Foundation
 struct PostDetails {
   let detail: Post.Detail<[PostDetailContentType]>
   let author: Post.Author
-  let isFavorite: Bool
+  var isFavorite: Bool
   let category: PostCategory
-  var comments: [PostComment] = []
+  var comments: [PostCommentEntity] = []
 }
