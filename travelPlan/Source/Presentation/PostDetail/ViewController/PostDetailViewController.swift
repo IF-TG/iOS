@@ -78,6 +78,8 @@ final class PostDetailViewController: UITableViewController {
     super.viewDidLoad()
     configureUI()
     inputAccessory.delegate = self
+    bind()
+    input.viewDidLoad.send()
   }
   
   override func viewWillAppear(_ animated: Bool) {
