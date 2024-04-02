@@ -108,6 +108,7 @@
 		13A93EF72AD0AD2700FC4BBD /* SearchTopTenCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A93EF62AD0AD2700FC4BBD /* SearchTopTenCell.swift */; };
 		13A93EF92AD1CA0200FC4BBD /* SearchTopTenCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A93EF82AD1CA0200FC4BBD /* SearchTopTenCellViewModel.swift */; };
 		13A93EFB2AD1EA6B00FC4BBD /* TravelDestinationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A93EFA2AD1EA6B00FC4BBD /* TravelDestinationModel.swift */; };
+		13AE0DD22BBC42C000652B99 /* PhotoOrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13AE0DD12BBC42C000652B99 /* PhotoOrderView.swift */; };
 		13BF40F32AD6F1D600F3F082 /* BaseNavigationTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13BF40F22AD6F1D600F3F082 /* BaseNavigationTitleView.swift */; };
 		13BF40F52AD712EC00F3F082 /* UIViewController+TitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13BF40F42AD712EC00F3F082 /* UIViewController+TitleView.swift */; };
 		13BF411D2ADBE42000F3F082 /* onboarding-video.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 13BF411C2ADBE42000F3F082 /* onboarding-video.mp4 */; };
@@ -640,6 +641,7 @@
 		13A93EF62AD0AD2700FC4BBD /* SearchTopTenCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTopTenCell.swift; sourceTree = "<group>"; };
 		13A93EF82AD1CA0200FC4BBD /* SearchTopTenCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTopTenCellViewModel.swift; sourceTree = "<group>"; };
 		13A93EFA2AD1EA6B00FC4BBD /* TravelDestinationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelDestinationModel.swift; sourceTree = "<group>"; };
+		13AE0DD12BBC42C000652B99 /* PhotoOrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoOrderView.swift; sourceTree = "<group>"; };
 		13BF40F22AD6F1D600F3F082 /* BaseNavigationTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNavigationTitleView.swift; sourceTree = "<group>"; };
 		13BF40F42AD712EC00F3F082 /* UIViewController+TitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+TitleView.swift"; sourceTree = "<group>"; };
 		13BF411C2ADBE42000F3F082 /* onboarding-video.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "onboarding-video.mp4"; sourceTree = "<group>"; };
@@ -1366,6 +1368,7 @@
 				13F6DAC72B5248EF00573B86 /* SlideUpAnimator.swift */,
 				13F6DAC92B52711E00573B86 /* SlideDownAnimator.swift */,
 				135A07D22BB4AB38003D6C4D /* PhotoAuthorizationView.swift */,
+				13AE0DD12BBC42C000652B99 /* PhotoOrderView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -3227,6 +3230,7 @@
 				15F36A182AB1986000971803 /* TravelTheme.swift in Sources */,
 				1546DF322B0AF54300B49A55 /* ImageMemoryCachable.swift in Sources */,
 				15EA6B352ACEF627002783F0 /* EmptyStateBasedContentViewController.swift in Sources */,
+				13AE0DD22BBC42C000652B99 /* PhotoOrderView.swift in Sources */,
 				157ADCAE2AD00AB400D37680 /* FavoriteLocationViewController.swift in Sources */,
 				15BB01B82A1EB5070035B486 /* LoginViewModel.swift in Sources */,
 				152715412BA0D5AE0077D033 /* UserRepository.swift in Sources */,
