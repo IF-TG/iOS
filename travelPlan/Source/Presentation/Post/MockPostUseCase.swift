@@ -136,7 +136,7 @@ final class MockPostUseCaseForPaging: PostUseCase {
         let startAndEnd: [String] = str.components(separatedBy: " ~ ").map { String($0) }
         return Post.TripDate(start: startAndEnd[0], end: startAndEnd[1])
       }()
-      let postDetail = Post.PostDetail.init(
+      let postDetail = Post.Detail.init(
         postID: Int64(i),
         title: titles[i],
         postImages: postContentThumbnails[i].enumerated().map { (idx, imageString) in
