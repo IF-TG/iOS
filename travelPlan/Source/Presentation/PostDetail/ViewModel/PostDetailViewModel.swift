@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Combine
 
 /// 임시
 struct PostDetails {
@@ -93,6 +94,14 @@ final class PostDetailViewModel {
       replies: [])
     comments.append(comment)
   }
+}
+
+struct PostDetailViewModelInput {
+  let viewDidLoad: PassthroughSubject<Void, Never>
+}
+
+@frozen enum PostDetailViewModelState {
+  case none
 }
 
 // MARK: - PostDetailTableViewDataSource
