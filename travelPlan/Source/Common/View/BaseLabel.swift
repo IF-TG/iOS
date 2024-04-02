@@ -59,7 +59,7 @@ extension BaseLabel {
     }
   }
   
-  func setHighlights(with list: HighlightFontInfo...) {
+  func setHighlights(with list: [HighlightFontInfo]) {
     guard let attributedText else { return }
     self.attributedText = NSMutableAttributedString(attributedString: attributedText).set { mutableString in
       list.forEach {
