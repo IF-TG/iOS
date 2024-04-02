@@ -14,6 +14,9 @@ struct PostDetailViewModelInput {
 
 @frozen enum PostDetailViewModelState {
   case none
+  case networkProcessing
+  case reloadedData
+  case reloadedComment
 }
 
 /// 임시
@@ -78,15 +81,21 @@ struct PostReply {
 }
 
 final class PostDetailViewModel {
+  
+  // MARK: - Properties
+  private var post: Post
+  
   private let DefaultSectionCount = PostDetailSectionType.defaultNumberOfSections
   
   private var postDetails: PostDetails?
+  // TODO: - postDetails는 post를 포함해서 추가적인 정보들을 갖고있는게 좋겠다!!
   
   private var comments: [PostComment] = []
   
-  init() {
-    postDetails = fetchMockAllData()
-    comments = fetchMockAllComments()
+  init(post: Post) {
+    // TODO: - 포스트를 받았으면, 1개의 글을
+    // postDetails로 반환해야함..
+    self.post = post
   }
   
   // MARK: - Mock Helpers
@@ -107,7 +116,19 @@ final class PostDetailViewModel {
 // MARK: - PostDetailViewModelable
 extension PostDetailViewModel: PostDetailViewModelable {
   func transform(_ input: PostDetailViewModelInput) -> AnyPublisher<PostDetailViewModelState, Never> {
-    return input.viewDidLoad.map { State.none } .eraseToAnyPublisher()
+    return Publishers.MergeMany([
+      viewDidLoadStream(input)
+    ]).eraseToAnyPublisher()
+  }
+}
+
+extension PostDetailViewModel {
+  func viewDidLoadStream(_ input: Input) -> Output {
+    return input.viewDidLoad
+      .map {
+        // TODO: - 댓글 전체 불러와야합니다.
+        State.networkProcessing
+      }.eraseToAnyPublisher()
   }
 }
 
@@ -189,8 +210,9 @@ extension PostDetailViewModel: PostDetailTableViewDataSource {
   }
 }
 
-private extension PostDetailViewModel {
-  func fetchMockAllData() -> PostDetails {    
+/// 이거이거이거!!
+struct mockDataPostDetailViewModel {
+  func fetchMockAllData() -> PostDetails {
     let texts: [String] = [
       """
       이제 12월이라고 거리 여기저기서 크리스마스 음악이 흘러나오네요. 크리스마스 트리도 장식한 곳이 많더라구요.
