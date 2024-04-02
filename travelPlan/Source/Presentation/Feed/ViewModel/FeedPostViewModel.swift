@@ -15,6 +15,7 @@ class FeedPostViewModel: PostViewModel {
     let viewDidLoad: PassthroughSubject<Void, Never> = .init()
     let notifiedOrderFilterRequest: PassthroughSubject<TravelOrderType, Never>
     let notifiedMainThemeFilterRequest: PassthroughSubject<TravelMainThemeType, Never>
+    let specificPostTapped: PassthroughSubject<Int, Never> = .init()
     
     init(
       notifiedOrderFilterRequest: PassthroughSubject<TravelOrderType, Never>,
@@ -34,6 +35,7 @@ class FeedPostViewModel: PostViewModel {
     case noMorePage
     case postFilterLoading
     case postFilterLoaded
+    case detailPostShow(post: Post)
     case none
   }
   
@@ -91,7 +93,8 @@ extension FeedPostViewModel: FeedPostViewModelable {
       viewDidLoadStream(input),
       nextPageStream(input),
       feedRefreshStream(input),
-      nextPageLoadingStartSubjectStream()]
+      nextPageLoadingStartSubjectStream(),
+      specificPostTappedStream(input)]
     ).eraseToAnyPublisher()
   }
 }
@@ -211,6 +214,16 @@ private extension FeedPostViewModel {
     nextPageLoadingStartSubject.map { _ -> State in
       return .loadingNextPage
     }.eraseToAnyPublisher()
+  }
+  
+  func specificPostTappedStream(_ input: Input) -> Output {
+    return input.specificPostTapped
+      .map { [weak self] index -> State in
+        guard let post = self?.posts[index] else {
+          return .unexpectedError(description: ReferenceError.invalidReference.localizedDescription)
+        }
+        return .detailPostShow(post: post)
+      }.eraseToAnyPublisher()
   }
   
   func appendPosts(_ postPages: PostsPage) {
