@@ -19,22 +19,6 @@ struct PostDetailViewModelInput {
   case unexpectedError(description: String)
 }
 
-/// 임시
-//struct PostDetails {
-//  let postId: Int // 0
-//  let userName: String // 0
-//  let userId: Int // 0
-//  var isFavoritePost: Bool // 0
-//  let userThumbnailPath: String // 0
-//  let travelDuration: String // 0
-//  let travelCalenderDateRange: String // 0
-//  let uploadedDescription: String // 0
-//  let title: String // 0
-//  // 임시..
-//  let postContents: [PostDetailContentType]
-//  let category: String // 0
-//}
-
 enum PostDetailSectionType: Int {
   case postDescription
   case postContent
@@ -56,28 +40,6 @@ enum PostDetailSectionType: Int {
   }
   
   static let defaultNumberOfSections = 3
-}
-
-struct PostComment {
-  let id: Int64
-  let userProfileURL: String
-  let userName: String
-  let timestamp: String
-  let comment: String
-  let isOnHeart: Bool
-  let heartCountText: String
-  let replies: [PostReply]
-}
-
-struct PostReply {
-  let id: Int64
-  let userProfileURL: String
-  let userName: String
-  let timestamp: String
-  let comment: String
-  let heartCountText: String
-  let isOnHeart: Bool
-  let isFirstReply: Bool
 }
 
 final class PostDetailViewModel {
@@ -115,18 +77,18 @@ final class PostDetailViewModel {
   }
   
   // MARK: - Mock Helpers
-  func appendComment(_ text: String) {
-    let comment = PostComment(
-      id: 23,
-      userProfileURL: "tempProfile3",
-      userName: "신짱구",
-      timestamp: "방금",
-      comment: text,
-      isOnHeart: false,
-      heartCountText: "0",
-      replies: [])
-    comments.append(comment)
-  }
+//  func appendComment(_ text: String) {
+//    let comment = PostComment(
+//      id: 23,
+//      userProfileURL: "tempProfile3",
+//      userName: "신짱구",
+//      timestamp: "방금",
+//      comment: text,
+//      isOnHeart: false,
+//      heartCountText: "0",
+//      replies: [])
+//    comments.append(comment)
+//  }
 }
 
 // MARK: - PostDetailViewModelable
@@ -170,66 +132,61 @@ private extension PostDetailViewModel {
 // MARK: - PostDetailTableViewDataSource
 extension PostDetailViewModel: PostDetailTableViewDataSource {
   func replyItem(at indexPath: IndexPath) -> PostReplyInfo {
-    let postReply = comments[indexPath.section - DefaultSectionCount].replies[indexPath.row]
+    let postComment = postDetails.comments[indexPath.section - DefaultSectionCount]
+    let postReply = postComment.nestedComments[indexPath.row]
+    
     let commentInfo = BasePostDetailCommentInfo(
-      commentId: postReply.id,
-      userName: postReply.userName,
+      commentId: postReply.nestedCommentId,
+      userName: postReply.nickname,
       userProfileURL: postReply.userProfileURL,
       timestamp: postReply.timestamp,
       comment: postReply.comment,
       isOnHeart: postReply.isOnHeart,
-      heartCountText: postReply.heartCountText)
+      heartCountText: "\(postReply.hearts)")
+    // FIXME: - isFirstReply는 왜 알아야하지??
     return .init(
-      isFirstReply: postReply.isFirstReply,
+      isFirstReply: postComment.nestedComments.count == 1,
       commentInfo: commentInfo)
   }
   
   func commentItem(in section: Int) -> BasePostDetailCommentInfo {
-    let postComment = comments[section - DefaultSectionCount]
+    let postComment = postDetails.comments[section - DefaultSectionCount]
     return .init(
-      commentId: postComment.id,
+      commentId: postComment.commentId,
       userName: postComment.userName,
       userProfileURL: postComment.userProfileURL,
       timestamp: postComment.timestamp,
       comment: postComment.comment,
       isOnHeart: postComment.isOnHeart,
-      heartCountText: postComment.heartCountText)
+      heartCountText: "\(postComment.hearts)")
   }
   
   var title: String {
-    return ""
-//    guard let postDetails else { return "" }
-//    return postDetails.title
+    return postDetails.detail.title
   }
   
+  // TODO: - 추후에 이거 음? 음. 수정바람.
   var cateogry: String {
-    return ""
-//    guard let postDetails else { return "" }
-//    return postDetails.category
+    return "\(postDetails.category)"
   }
   
   var profileAreaItem: PostDetailProfileAreaInfo {
+    let tripDate = postDetails.detail.tripDate
+    let tripDurationYMDString = "\(tripDate.start) ~ \(tripDate.end)"
+    // FIXME: - 이거도 서버에서 문자열의 start, end받을 때 형식 지정해가지구 몇박 몇일인지를 뜻하는 것고 구하도록 계획해야합니다.
     return .init(
-      userName: "", userId: 1, userThumbnailPath: "", travelDuration: "",
-      travelCalendarDateRange: "", uploadedDescription: "")
-//    return .init(
-//      userName: postDetails?.userName ?? "이름없는 사용자",
-//      userId: postDetails?.userId ?? 0,
-//      userThumbnailPath: postDetails?.userThumbnailPath ?? "미정",
-//      travelDuration: postDetails?.travelDuration ?? "미정",
-//      travelCalendarDateRange: postDetails?.travelCalenderDateRange ?? "미정",
-//      uploadedDescription: postDetails?.uploadedDescription ?? "미정")
+      userName: postDetails.author.nickname,
+      userThumbnailPath: postDetails.author.profileUri,
+      travelDuration: tripDurationYMDString,
+      travelCalendarDateRange: "", uploadedDescription: postDetails.detail.createAt)
   }
   
   func postContentItem(at row: Int) -> PostDetailContentType {
-    return .image("")
-//    guard let postDetails else { return .text("") }
-//    return postDetails.postContents[row]
+    return postDetails.detail.content[row]
   }
   
   var numberOfSections: Int {
-    if postDetails == nil { return 0 }
-    return DefaultSectionCount + comments.count
+    return DefaultSectionCount + postDetails.comments.count
   }
   
   func numberOfItems(in section: Int) -> Int {
@@ -243,7 +200,7 @@ extension PostDetailViewModel: PostDetailTableViewDataSource {
     case .postHeartAndShareArea:
       return 0
     default:
-      return comments[section-DefaultSectionCount].replies.count
+      return postDetails.comments[section-DefaultSectionCount].nestedComments.count
     }
   }
 }
