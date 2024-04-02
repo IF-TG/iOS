@@ -7,6 +7,19 @@
 
 import Foundation
 
+protocol PostDetailProtocol {
+  associatedtype CommentType
+  var postID: Int64 { get }
+  var title: String { get }
+  var postImages: [Post.PostImage] { get }
+  var content: String { get }
+  var likes: Int32 { get }
+  var comments: Int32 { get }
+  var location: Post.Location { get }
+  var createAt: String { get }
+  var tripDate: Post.TripDate { get }
+}
+
 struct Post {
   let liked: Bool
   let detail: PostDetail
@@ -15,13 +28,14 @@ struct Post {
 
 // MARK: - Nested
 extension Post {
-  struct PostDetail {
+  struct PostDetail: PostDetailProtocol {
+    typealias CommentType = Int32
     let postID: Int64
     let title: String
     let postImages: [PostImage]
     let content: String
     let likes: Int32
-    let comments: Int32
+    let comments: CommentType
     let location: Location
     let createAt: String
     let tripDate: TripDate
