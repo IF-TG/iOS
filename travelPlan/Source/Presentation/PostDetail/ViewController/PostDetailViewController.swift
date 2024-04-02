@@ -232,7 +232,7 @@ extension PostDetailViewController: PostDetailTableViewAdapterDelegate {
     naviTitleAnimator?.startAnimation()
   }
   
-  func showUploadedUserProfilePage(with userId: Int) {
+  func showUploadedUserProfilePage(with userId: Int32) {
     print("업로드 유저 프로필 화면으로 이동!!")
   }
   

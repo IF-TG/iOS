@@ -14,6 +14,8 @@ protocol PostDetailTableViewDataSource: AnyObject {
   var cateogry: String { get }
   var profileAreaItem: PostDetailProfileAreaInfo { get }
   
+  var authorUserId: Int32 { get }
+  
   func numberOfItems(in section: Int) -> Int
   func postContentItem(at row: Int) -> PostDetailContentType
   

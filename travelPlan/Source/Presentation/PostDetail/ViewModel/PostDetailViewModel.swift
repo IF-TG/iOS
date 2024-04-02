@@ -131,6 +131,11 @@ private extension PostDetailViewModel {
 
 // MARK: - PostDetailTableViewDataSource
 extension PostDetailViewModel: PostDetailTableViewDataSource {
+  var authorUserId: Int32 {
+    // FIXME: - 서버에서 포스트 올린 사용자의 id는 주지 않도록 설계했습니다.
+    return -1
+  }
+  
   func replyItem(at indexPath: IndexPath) -> PostReplyInfo {
     let postComment = postDetails.comments[indexPath.section - DefaultSectionCount]
     let postReply = postComment.nestedComments[indexPath.row]
