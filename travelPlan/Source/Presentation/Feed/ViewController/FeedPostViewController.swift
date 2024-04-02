@@ -125,8 +125,8 @@ extension FeedPostViewController: ViewBindCase {
     case .postFilterLoaded:
       stopIndicator()
       postView.reloadData()
-    case .detailPostShow(post: let post):
-      coordinator?.showDetailPost(with: post)
+    case .detailPostShow(post: let post, category: let category):
+      coordinator?.showDetailPost(post: post, category: category)
     }
   }
   
