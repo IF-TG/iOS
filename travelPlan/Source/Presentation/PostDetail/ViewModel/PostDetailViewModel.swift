@@ -86,7 +86,7 @@ extension PostDetailViewModel: PostDetailViewModelable {
   }
 }
 
-// MARK: - Private Helpers
+// MARK: - Private Input's Stream
 private extension PostDetailViewModel {
   func viewDidLoadStream(_ input: Input) -> Output {
     return input.viewDidLoad
@@ -112,6 +112,13 @@ private extension PostDetailViewModel {
         self?.postDetails.isFavorite = postCommentContainerEntity.isFavorited
         self?.postDetails.comments += postCommentContainerEntity.comments
       }.eraseToAnyPublisher()
+  }
+}
+
+// MARK: - Private Helpers
+private extension PostDetailViewModel {
+  func convertToString(_ travelMainTheme: TravelMainThemeType, subTheme : String) -> String {
+    "\(travelMainTheme.rawValue) > \(subTheme)"
   }
 }
 
@@ -154,31 +161,21 @@ extension PostDetailViewModel: PostDetailTableViewDataSource {
   var title: String {
     return postDetails.detail.title
   }
-  
-  /// 카테고리 지정이 하나인 경우로 
+   
   var cateogry: String {
-//    
-//    let mainThemeString = postDetails.category.mainTheme.rawValue
-//    var subThemeString = ""
-//    switch postDetails.category.mainTheme {
-//    case .all:
-//      subThemeString = ""
-//    case .season(let season):
-//      subThemeString = season?.rawValue ?? ""
-//    case .region(let travelRegion):
-//      subThemeString = travelRegion?.rawValue ?? ""
-//    case .travelTheme(let travelTheme):
-//      subThemeString = travelTheme?.rawValue ?? ""
-//    case .partner(let travelPartner):
-//      subThemeString = travelPartner?.rawValue ?? ""
-//    case .categoryDevelop:
-//      break
-//    }
-//    
-//    return "\(mainThemeString) > \(subThemeString)"
-//  }
-    return ""
-    }
+    var categoryString = ""
+    let themes = postDetails.category.themes.map { theme in theme.rawValue }
+    let partners = postDetails.category.partners.map { partner in partner.rawValue }
+    let seasons = postDetails.category.seasons.map { season in season.rawValue }
+    let regions = postDetails.category.regions.map { region in region.rawValue }
+    
+    if let subTheme = themes.first { categoryString += convertToString(.travelTheme(nil), subTheme: subTheme) }
+    if let subTheme = partners.first { categoryString += " , \(convertToString(.partner(nil), subTheme: subTheme))" }
+    if let subTheme = seasons.first { categoryString += " , \(convertToString(.season(nil), subTheme: subTheme))" }
+    if let subTheme = regions.first { categoryString += " , \(convertToString(.region(nil), subTheme: subTheme))" }
+    
+    return categoryString
+  }
   
   var profileAreaItem: PostDetailProfileAreaInfo {
     let tripDate = postDetails.detail.tripDate
