@@ -25,7 +25,7 @@ final class DefaultPostUseCase: PostUseCase {
       page: page.page,
       perPage: page.perPage,
       category: page.category)
-    .subscribe(on: DispatchQueue.global(qos: .userInteractive))
+    .subscribe(on: backgroundQueue)
     .eraseToAnyPublisher()
   }
   
@@ -39,4 +39,16 @@ final class DefaultPostUseCase: PostUseCase {
     .subscribe(on: backgroundQueue)
     .eraseToAnyPublisher()
   }
+  
+  func fetchLikedPostsByLoggedInUser(
+    page: Int32,
+    perPage: Int32
+  ) -> AnyPublisher<PostsPage, any Error> {
+    postRepository.fetchLikedPostsByLoggedInUser(
+      page: page,
+      perPage: perPage)
+    .subscribe(on: backgroundQueue)
+    .eraseToAnyPublisher()
+  }
+  
 }

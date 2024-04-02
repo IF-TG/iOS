@@ -12,11 +12,16 @@ protocol PostRepository {
     page: Int32,
     perPage: Int32,
     category: PostCategory
-  ) -> Future<PostsPage, Error>
+  ) -> AnyPublisher<PostsPage, Error>
   
   func fetchComments(
     page: Int32,
     perPage: Int32,
     postId: Int64
-  ) -> Future<PostCommentContainerEntity, Error>
+  ) -> AnyPublisher<PostCommentContainerEntity, Error>
+  
+  func fetchLikedPostsByLoggedInUser(
+    page: Int32,
+    perPage: Int32
+  ) -> AnyPublisher<PostsPage, Error>
 }

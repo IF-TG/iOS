@@ -42,6 +42,7 @@ extension RequestType {
   enum Post {
     case postsFetch
     case postCommentsFetch
+    case likedPostsByLoggedInUserFetch
     
     var path: String {
       switch self {
@@ -49,6 +50,8 @@ extension RequestType {
          "posts"
       case .postCommentsFetch:
         "post/detail"
+      case .likedPostsByLoggedInUserFetch:
+        "post/like/list"
       }
     }
   }

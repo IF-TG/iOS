@@ -110,3 +110,45 @@ extension PostUseCaseTests {
       "PostUseCase의 fetchComments()를 호출했을 때 postCommentContainerEntity값을 받아야하지만, 퍼블리셔의 upstream이 종료됨")
   }
 }
+
+
+// MARK: - PostUseCase.fetchLikedPostsByLoggedInUser Tests
+extension PostUseCaseTests {
+  func testPostUseCase_fetchLikedPostsByLoggedInUser함수를통해_postContainer배열값을_받았는지_responseDTO검증_shouldReturnTrue() {
+    // Arrange
+    var result: Bool = false
+    var unexpectedError: Error?
+    
+    // Act
+    subscription = sut.fetchLikedPostsByLoggedInUser(
+      page: 1,
+      perPage: 5
+    ).sink { completion in
+      if case .failure(let error) = completion {
+        unexpectedError = error
+        result = false
+        self.expectation.fulfill()
+      }
+    } receiveValue: { postsPage in
+      print("DEBUG: 값을 성공적으로 받음\n\(postsPage.posts.description)")
+      result = true
+      self.expectation.fulfill()
+    }
+    
+    wait(for: [expectation], timeout: 7)
+    
+    // Assert
+    if let unexpectedError {
+      XCTAssert(
+        false,
+        """
+          testPostUseCase의 fetchPosts()를 호출했을 때 postContainer값을 성공적으로 받아야 하지만 에러가 발생됨
+          Error description:\(unexpectedError.localizedDescription)
+        """)
+    }
+    
+    XCTAssertTrue(
+      result,
+      "testPostUseCase의 fetchPosts()를 호출했을 때 postContainer값을 받아야하지만, 퍼블리셔의 upstream이 종료됨")
+  }
+}
