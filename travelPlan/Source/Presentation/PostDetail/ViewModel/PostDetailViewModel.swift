@@ -8,6 +8,14 @@
 import Foundation
 import Combine
 
+struct PostDetailViewModelInput {
+  let viewDidLoad: PassthroughSubject<Void, Never>
+}
+
+@frozen enum PostDetailViewModelState {
+  case none
+}
+
 /// 임시
 struct PostDetails {
   let postId: Int
@@ -96,12 +104,11 @@ final class PostDetailViewModel {
   }
 }
 
-struct PostDetailViewModelInput {
-  let viewDidLoad: PassthroughSubject<Void, Never>
-}
-
-@frozen enum PostDetailViewModelState {
-  case none
+// MARK: - PostDetailViewModelable
+extension PostDetailViewModel: PostDetailViewModelable {
+  func transform(_ input: PostDetailViewModelInput) -> AnyPublisher<PostDetailViewModelState, Never> {
+    return input.viewDidLoad.map { State.none } .eraseToAnyPublisher()
+  }
 }
 
 // MARK: - PostDetailTableViewDataSource
