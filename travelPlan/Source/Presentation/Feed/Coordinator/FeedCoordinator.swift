@@ -8,6 +8,10 @@
 import UIKit
 import SHCoordinator
 
+protocol FeedPostCoordinatorDelegate: AnyObject {
+  func showDetailPost(with page: Post)
+}
+
 protocol FeedCoordinatorDelegate: FlowCoordinatorDelegate {
   func showPostSearch()
   func showNotification()
@@ -58,10 +62,16 @@ final class FeedCoordinator: FlowCoordinator {
       // let postUseCase = DefaultPostUseCase(postRepository: MockPostRepository())
       let mockPostUseCase = MockPostUseCaseForPaging()
       let viewModel = FeedPostViewModel(postCategory: feedCategory, postUseCase: mockPostUseCase)
-      return FeedPostViewController(
-        type: feedCategory,
-        viewModel: viewModel)
+      return FeedPostViewController(type: feedCategory, viewModel: viewModel)
+        .set { $0.coordinator = self }
     }
+  }
+}
+
+// MARK: - FeedPostCoordinatorDelegate
+extension FeedCoordinator: FeedPostCoordinatorDelegate {
+  func showDetailPost(with page: Post) {
+    presenter?.pushViewController(PostDetailViewController(viewModel: PostDetailViewModel()), animated: true)
   }
 }
 
