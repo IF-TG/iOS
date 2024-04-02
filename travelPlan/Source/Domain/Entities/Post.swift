@@ -12,6 +12,7 @@ struct Post {
   let detail: Detail<String>
   let author: Author
   let highResolveImages: [PostImage]
+  let category: Category
 }
 
 // MARK: - Nested

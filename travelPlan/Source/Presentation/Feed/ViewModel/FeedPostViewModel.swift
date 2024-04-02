@@ -35,7 +35,7 @@ class FeedPostViewModel: PostViewModel {
     case noMorePage
     case postFilterLoading
     case postFilterLoaded
-    case detailPostShow(post: Post, category: PostCategory)
+    case detailPostShow(post: Post, category: Post.Category)
     case none
   }
   
@@ -219,10 +219,10 @@ private extension FeedPostViewModel {
   func specificPostTappedStream(_ input: Input) -> Output {
     return input.specificPostTapped
       .map { [weak self] index -> State in
-        guard let post = self?.posts[index], let category = self?.category else {
+        guard let post = self?.posts[index] else {
           return .unexpectedError(description: ReferenceError.invalidReference.localizedDescription)
         }
-        return .detailPostShow(post: post, category: category)
+        return .detailPostShow(post: post, category: post.category)
       }.eraseToAnyPublisher()
   }
   

@@ -32,11 +32,21 @@ extension PostContainerResponseDTO {
   func toDomain() -> PostContainer {
     let detail: Post.Detail = post.toDomain()
     let author: Post.Author = post.toDomain()
+    let themes = post.themes.compactMap { TravelThemeMapper.toDomain($0) }
+    let regions = post.regions.compactMap { TravelRegionMapper.toDomain($0) }
+    let seasons = post.seasons.compactMap { SeasonMapper.toDomain($0) }
+    let partners = post.partners.compactMap { TravelPartnerMapper.toDomain($0) }
+    let category: Post.Category = .init(
+      themes: themes,
+      regions: regions,
+      seasons: seasons,
+      partners: partners)
     let post = Post(
       liked: self.post.liked,
       detail: detail,
       author: author,
-      highResolveImages: post.postImages.map { $0.toDomain() })
+      highResolveImages: post.postImages.map { $0.toDomain() }, 
+      category: category)
     return .init(post: post, thumbnail: .init(urls: thumbnails), totalPosts: totalPosts)
   }
 }

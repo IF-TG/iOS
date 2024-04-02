@@ -35,7 +35,7 @@ struct PostMapper {
       footer: postFooterInfo)
   }
   
-  static func toPostDetails(_ post: Post, category: PostCategory) -> PostDetails {
+  static func toPostDetails(_ post: Post, category: Post.Category) -> PostDetails {
     // TODO: - post upload에서 컨텐츠, 이미지 순서를 어떻게 나타내느냐 고려한 후에 content를 그에맞게 반영해야합니다.
     var content: [PostDetailContentType] = [.text(post.detail.content)]
     content += post.highResolveImages.map { postImage -> PostDetailContentType in

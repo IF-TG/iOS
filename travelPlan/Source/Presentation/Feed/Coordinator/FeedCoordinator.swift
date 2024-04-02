@@ -9,7 +9,7 @@ import UIKit
 import SHCoordinator
 
 protocol FeedPostCoordinatorDelegate: AnyObject {
-  func showDetailPost(post: Post, category: PostCategory)
+  func showDetailPost(post: Post, category: Post.Category)
 }
 
 protocol FeedCoordinatorDelegate: FlowCoordinatorDelegate {
@@ -70,7 +70,7 @@ final class FeedCoordinator: FlowCoordinator {
 
 // MARK: - FeedPostCoordinatorDelegate
 extension FeedCoordinator: FeedPostCoordinatorDelegate {
-  func showDetailPost(post: Post, category: PostCategory) {
+  func showDetailPost(post: Post, category: Post.Category) {
     let childCoordinator = PostDetailCoordinator(presenter: presenter, post: post, category: category)
     addChild(with: childCoordinator)
   }

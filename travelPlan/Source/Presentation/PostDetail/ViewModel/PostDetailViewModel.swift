@@ -70,7 +70,7 @@ final class PostDetailViewModel {
     return currentPage < totalPageCount
   }
   
-  init(post: Post, category: PostCategory, postUseCase: PostUseCase) {
+  init(post: Post, category: Post.Category, postUseCase: PostUseCase) {
     // TODO: - 포스트를 받았으면, 1개의 글을 포스트들, 이미지들 이렇게 조개고 순위를 부여해야합니다. PostMapper에서 구현해야합니다.
     self.postDetails = PostMapper.toPostDetails(post, category: category)
     self.postUseCase = postUseCase
@@ -155,10 +155,30 @@ extension PostDetailViewModel: PostDetailTableViewDataSource {
     return postDetails.detail.title
   }
   
-  // TODO: - 추후에 이거 음? 음. 수정바람.
+  /// 카테고리 지정이 하나인 경우로 
   var cateogry: String {
-    return "\(postDetails.category)"
-  }
+//    
+//    let mainThemeString = postDetails.category.mainTheme.rawValue
+//    var subThemeString = ""
+//    switch postDetails.category.mainTheme {
+//    case .all:
+//      subThemeString = ""
+//    case .season(let season):
+//      subThemeString = season?.rawValue ?? ""
+//    case .region(let travelRegion):
+//      subThemeString = travelRegion?.rawValue ?? ""
+//    case .travelTheme(let travelTheme):
+//      subThemeString = travelTheme?.rawValue ?? ""
+//    case .partner(let travelPartner):
+//      subThemeString = travelPartner?.rawValue ?? ""
+//    case .categoryDevelop:
+//      break
+//    }
+//    
+//    return "\(mainThemeString) > \(subThemeString)"
+//  }
+    return ""
+    }
   
   var profileAreaItem: PostDetailProfileAreaInfo {
     let tripDate = postDetails.detail.tripDate
@@ -168,7 +188,7 @@ extension PostDetailViewModel: PostDetailTableViewDataSource {
       userName: postDetails.author.nickname,
       userThumbnailPath: postDetails.author.profileUri,
       travelDuration: tripDurationYMDString,
-      travelCalendarDateRange: "", uploadedDescription: postDetails.detail.createAt)
+      travelCalendarDateRange: "일박 이일~", uploadedDescription: postDetails.detail.createAt)
   }
   
   func postContentItem(at row: Int) -> PostDetailContentType {

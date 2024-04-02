@@ -153,7 +153,10 @@ final class MockPostUseCaseForPaging: PostUseCase {
           nickname: userNames[i]),
         highResolveImages: postContentThumbnails[i].enumerated().map { (idx, imageString) in
           return Post.PostImage(imageUri: imageString, sort: Int32(idx))
-        })
+        },
+        category: .init(themes: [.adventure, .festivals, .relaxation],
+                        regions: [.busan], seasons: [.fall],
+                        partners: [.lover, .friend]))
       return PostContainer(post: post, thumbnail: .init(urls: postContentThumbnails[i]),
                            totalPosts: Int64(18*MockPostUseCaseForPaging.recurCount))
     }
