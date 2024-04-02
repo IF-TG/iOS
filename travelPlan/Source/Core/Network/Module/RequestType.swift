@@ -60,6 +60,7 @@ extension RequestType {
     case send
     case update
     case delete
+    case heartToggle
     
     var path: String {
       return "comment" + self.relativePath
@@ -73,6 +74,8 @@ extension RequestType {
         "/nestedComment"
       case .delete:
         "/nestedComment"
+      case .heartToggle:
+        "/nestedComment/like"
       }
     }
   }

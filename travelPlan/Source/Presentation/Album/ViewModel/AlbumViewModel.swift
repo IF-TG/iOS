@@ -25,16 +25,21 @@ struct AlbumViewModelInput {
   let touchedElseQuadrant: PassthroughSubject<IndexPath, Never> = .init()
   let didTapCancelButton: PassthroughSubject<Void, Never> = .init()
   let didTapFinishButton: PassthroughSubject<Void, Never> = .init()
+  let didTapSelectMorePhotosButton: PassthroughSubject<Void, Never> = .init()
+  let didTapAuthsettingButton: PassthroughSubject<Void, Never> = .init()
+  let photoLibraryDidChange: PassthroughSubject<PHChange, Never> = .init()
 }
 
 enum AlbumViewModelState {
   case activateFinishButton(Bool)
   case showDetailPhoto(PHAsset)
   case reloadItem([IndexPath])
-  case reloadData
+  case reloadData(isAuthLimited: Bool)
   case none
   case popViewController
-  case deliverAssets([PHAsset])
+  case deliverAssetsToParents([PHAsset])
+  case callSetting
+  case presentLimitedLibraryPicker
 }
 
 struct PhotoModel {
@@ -48,13 +53,22 @@ final class DefaultAlbumViewModel {
   @Published private var selectedIndexArray = [Int]()
   private var subscriptions = Set<AnyCancellable>()
   private let albumUseCase: AlbumUseCase
+  private let photoAuthUseCase: PhotoAuthorizationUseCase
   private var selectedPhotoItems = [Int]()
   var albums = [PHFetchResult<PHAsset>]()
   var dataSource = [PhotoModel]()
+  private var isAuthStatusLimited: Bool {
+    if #available(iOS 14, *) {
+      PHPhotoLibrary.authorizationStatus(for: .readWrite) == .limited
+    } else {
+      false
+    }
+  }
   
   // MARK: - LifeCycle
-  init(albumUseCase: AlbumUseCase) {
+  init(albumUseCase: AlbumUseCase, photoAuthUseCase: PhotoAuthorizationUseCase) {
     self.albumUseCase = albumUseCase
+    self.photoAuthUseCase = photoAuthUseCase
   }
 }
 
@@ -67,7 +81,10 @@ extension DefaultAlbumViewModel: AlbumViewModelable {
       touchedElseQuadrantStream(input),
       selectedIndexArrayStream(input),
       didTapFinishButtonStream(input),
-      didTapCancelButtonStream(input)
+      didTapCancelButtonStream(input),
+      didTapSelectMorePhotosButtonStream(input),
+      didTapAuthsettingButtonStream(input),
+      photoLibraryDidChangeStream(input)
     )
     .eraseToAnyPublisher()
   }
@@ -75,9 +92,48 @@ extension DefaultAlbumViewModel: AlbumViewModelable {
 
 // MARK: - Private Helpers
 extension DefaultAlbumViewModel {
+  private func photoLibraryDidChangeStream(_ input: Input) -> Output {
+    return input
+      .photoLibraryDidChange
+      .filter { [weak self] _ in
+        guard let self else { return false }
+        return self.isAuthStatusLimited
+      }
+      .map { [weak self] changeInstance in
+        guard let assets = self?.albumUseCase.getChangedAssets(changeInstance: changeInstance)
+        else { return State.none }
+        
+        self?.selectedIndexArray.removeAll()
+        self?.dataSource = assets.map { PhotoModel(asset: $0, selectedOrder: .none) }
+    
+        return State.reloadData(isAuthLimited: self?.isAuthStatusLimited ?? true)
+      }
+      .eraseToAnyPublisher()
+  }
+  
+  private func didTapSelectMorePhotosButtonStream(_ input: Input) -> Output {
+    return input
+      .didTapSelectMorePhotosButton
+      .map {
+        return State.presentLimitedLibraryPicker
+      }
+      .eraseToAnyPublisher()
+  }
+  
+  private func didTapAuthsettingButtonStream(_ input: Input) -> Output {
+    return input
+      .didTapAuthsettingButton
+      .receive(on: RunLoop.main)
+      .map {
+        return State.callSetting
+      }
+      .eraseToAnyPublisher()
+  }
+  
   private func didTapCancelButtonStream(_ input: Input) -> Output {
     return input
       .didTapCancelButton
+      .receive(on: RunLoop.main)
       .map { State.popViewController }
       .eraseToAnyPublisher()
   }
@@ -91,7 +147,7 @@ extension DefaultAlbumViewModel {
         let selectedAssets = self.selectedIndexArray.map { indexPathItem in
           return self.dataSource[indexPathItem].asset
         }
-        return State.deliverAssets(selectedAssets)
+        return State.deliverAssetsToParents(selectedAssets)
       }
       .eraseToAnyPublisher()
   }
@@ -112,7 +168,11 @@ extension DefaultAlbumViewModel {
           .getAssets()
           .map { PhotoModel(asset: $0, selectedOrder: .none) }
         
-        return .reloadData
+        if #available(iOS 14, *) {
+          return State.reloadData(isAuthLimited: isAuthStatusLimited)
+        } else {
+          return State.reloadData(isAuthLimited: false)
+        }
       }
       .eraseToAnyPublisher()
   }
