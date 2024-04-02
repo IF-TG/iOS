@@ -145,13 +145,12 @@ extension ReviewWritingViewController {
     coordinator?
       .selectedAssetsPublisher
       .sink(receiveValue: { [weak self] assets in
-        guard let self else { return }
         let group = DispatchGroup()
         var images: [(index: Int, UIImage)] = []
         
         for (index, asset) in assets.enumerated() {
           group.enter()
-          self.photoService.fetchImage(
+          self?.photoService.fetchImage(
             asset: asset,
             size: PHImageManagerMaximumSize,
             contentMode: .aspectFit,
@@ -162,7 +161,7 @@ extension ReviewWritingViewController {
           }
         }
         
-        group.notify(queue: .main) { [weak self] in
+        group.notify(queue: .main) {
           let sortedImages = images.sorted { $0.0 < $1.0 }.map { $0.1 }
           
           for image in sortedImages {

@@ -9,6 +9,8 @@ import Foundation
 import Photos
 
 protocol AlbumUseCase {
-  func getAssets() -> [PHAsset]
   var maxSelectedImageCount: Int { get }
+  
+  func getAssets() -> [PHAsset]
+  func getChangedAssets(changeInstance: PHChange) -> [PHAsset]?
 }
