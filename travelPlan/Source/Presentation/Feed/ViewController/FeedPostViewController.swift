@@ -36,6 +36,8 @@ final class FeedPostViewController: UIViewController {
     notifiedOrderFilterRequest: orderFilterNotifier,
     notifiedMainThemeFilterRequest: mainThemeFilterNotifier)
   
+  weak var coordinator: FeedPostCoordinatorDelegate?
+  
   // MARK: - Lifecycle
   init(
     type feedCategory: PostCategory,
@@ -123,6 +125,8 @@ extension FeedPostViewController: ViewBindCase {
     case .postFilterLoaded:
       stopIndicator()
       postView.reloadData()
+    case .detailPostShow(post: let post):
+      coordinator?.showDetailPost(with: post)
     }
   }
   
@@ -156,9 +160,7 @@ private extension FeedPostViewController {
 // MARK: - PostViewAdapterDelegate
 extension FeedPostViewController: PostViewAdapterDelegate {
   func didTapPost(with postId: Int) {
-    // 포스트 상세 화면으로 가야함
-    //    presenter?.pushViewController(PostDetailViewController(viewModel: PostDetailViewModel()), animated: true)
-    // 근데 FeedPostCoordiantor만들어버리자 그냥;
+    input.specificPostTapped.send(postId)
   }
   
   func scrollToNextPage() {
