@@ -16,6 +16,7 @@ struct PostDetailViewModelInput {
   case networkProcessing
   case reloadedData
   case reloadedComment
+  case unexpectedError(description: String)
 }
 
 /// 임시
@@ -86,11 +87,31 @@ final class PostDetailViewModel {
   
   private var postDetails: PostDetails
   
-  private var comments: [PostComment] = []
+  private let postUseCase: PostUseCase
   
-  init(post: Post, category: PostCategory) {
+  // TODO: - 페이징 추가해야합니다. 
+  // 그런데 댓글의 경우 좀 복잡할거같은데,, 사용자가 삭제하면 어떻게하지? 기존에 저장된 정보(이미 페이징 한 데이터)가
+  // 확실하다는 보장이 없을거같은데 페이징 보다는 맞으려나?
+  private var isPaging: Bool = false
+  
+  private let perPage: Int32 = 15
+  
+  private var currentPage: Int32 = 0
+  
+  private var nextPage: Int32 { hasMorePages ? currentPage + 1 : currentPage }
+  
+  // 서버에서 얻어와야 합니다.
+  private var totalCommentCount: Int32 = 0
+  
+  private var hasMorePages: Bool {
+    let totalPageCount = totalCommentCount/perPage
+    return currentPage < totalPageCount
+  }
+  
+  init(post: Post, category: PostCategory, postUseCase: PostUseCase) {
     // TODO: - 포스트를 받았으면, 1개의 글을 포스트들, 이미지들 이렇게 조개고 순위를 부여해야합니다. PostMapper에서 구현해야합니다.
     self.postDetails = PostMapper.toPostDetails(post, category: category)
+    self.postUseCase = postUseCase
   }
   
   // MARK: - Mock Helpers
@@ -121,9 +142,27 @@ extension PostDetailViewModel: PostDetailViewModelable {
 private extension PostDetailViewModel {
   func viewDidLoadStream(_ input: Input) -> Output {
     return input.viewDidLoad
-      .map {
-        // TODO: - 댓글 전체 불러와야합니다.
-        State.networkProcessing
+      .flatMap { [weak self] in
+        return self?.fetchComments()
+          .map{ _ -> State in
+            return .reloadedData
+          }.catch {
+            return Just(State.unexpectedError(description: $0.localizedDescription))
+          }.eraseToAnyPublisher() ?? Just(
+            State.unexpectedError(description: "앱 동작 중 에러가 발생됬습니다.")
+          ).eraseToAnyPublisher()
+      }.eraseToAnyPublisher()
+  }
+  
+  func fetchComments() -> AnyPublisher<Void, Error> {
+    let postCommentRequestValue = PostCommentsRequestValue(
+      page: currentPage,
+      perPage: perPage,
+      postId: postDetails.detail.postID)
+    return postUseCase.fetchComments(with: postCommentRequestValue)
+      .map {[weak self] postCommentContainerEntity in
+        self?.postDetails.isFavorite = postCommentContainerEntity.isFavorited
+        self?.postDetails.comments += postCommentContainerEntity.comments
       }.eraseToAnyPublisher()
   }
 }
