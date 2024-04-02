@@ -86,4 +86,25 @@ final class MockPostNestedCommentRepository: PostNestedCommentRepository {
       }
     }
   }
+  
+  func toggleCommentHeart(nestedCommentId: Int64) -> Future<ToggledPostCommentHeartEntity, any Error> {
+    MockUrlProtocol.requestHandler = { _ in
+      let mock = MockResponseType.postComment(.whenCommentHeartToggle).mockDataLoader
+      return ((HTTPURLResponse(), mock))
+    }
+    return Future { promise in
+      DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.5) { [weak self] in
+        let subscription = self?.wrappedRepository
+          .toggleCommentHeart(nestedCommentId: nestedCommentId)
+          .sink { completion in
+            if case .failure(let error) = completion {
+              promise(.failure(error))
+            }
+          } receiveValue: { entity in
+            promise(.success(entity))
+          }
+        self?.subscriptions.insert(subscription)
+      }
+    }
+  }
 }
