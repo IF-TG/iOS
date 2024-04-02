@@ -194,8 +194,7 @@ extension PostDetailViewModel: PostDetailTableViewDataSource {
     case .postDescription:
       return 1
     case .postContent:
-      // return postDetails.postContents.count
-      return 0
+      return postDetails.detail.content.count
     case .postHeartAndShareArea:
       return 0
     default:
