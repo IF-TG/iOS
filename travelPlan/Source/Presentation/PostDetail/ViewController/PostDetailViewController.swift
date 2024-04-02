@@ -22,8 +22,7 @@ final class PostDetailViewController: UITableViewController {
   
   private var adapter: PostDetailTableViewAdapter?
   
-  // TODO: - Protocol로 분리해야함. 임시적으로 텍스트 입력했을때 뷰모델에 추가하는 함수 불러오기위해 구체타입 선언
-  private let viewModel: PostDetailViewModel
+  private let viewModel: any PostDetailViewModelable & PostDetailTableViewDataSource
   
   private var notificationSubscriptions = Set<AnyCancellable>()
   
@@ -36,7 +35,7 @@ final class PostDetailViewController: UITableViewController {
   }
 
   // MARK: - Lifecycle
-  init(viewModel: PostDetailViewModel) {
+  init(viewModel: any PostDetailViewModelable & PostDetailTableViewDataSource) {
     self.viewModel = viewModel
     super.init(style: .grouped)
     adapter = PostDetailTableViewAdapter(
@@ -212,11 +211,12 @@ extension PostDetailViewController: PostDetailInputAccessoryWrapperDelegate {
   func didTouchSendIcon(_ text: String) {
     // TODO: - 사용자가 섹션을 클릭했다면, 섹션값도 전달해야함(대댓글인경우)
     print("DEBUG: \(text)")
-    viewModel.appendComment(text)
-    tableView.reloadData()
-    tableView.scrollToRow(
-      at: IndexPath(row: NSNotFound, section: viewModel.numberOfSections-1),
-      at: .bottom, animated: true)
-    
+    // TODO: - Input, State를 통해 처리되야함
+//    viewModel.appendComment(text)
+//    tableView.reloadData()
+//    tableView.scrollToRow(
+//      at: IndexPath(row: NSNotFound, section: viewModel.numberOfSections-1),
+//      at: .bottom, animated: true)
+//    
   }
 }
