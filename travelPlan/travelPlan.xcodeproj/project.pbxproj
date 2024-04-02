@@ -2414,18 +2414,10 @@
 				15D7C48F2BAA0D5100BBD5EB /* Protocol */,
 				15D7C48E2BAA0CB500BBD5EB /* Model */,
 				15D7C48D2BAA0C7B00BBD5EB /* View */,
-				15D7C48C2BAA0C6300BBD5EB /* ViewController */,
 				15FFAC342ADD4C990013DB57 /* Adapter */,
 				15FFAC352ADD4DED0013DB57 /* ViewModel */,
 			);
 			path = Post;
-			sourceTree = "<group>";
-		};
-		15D7C48C2BAA0C6300BBD5EB /* ViewController */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = ViewController;
 			sourceTree = "<group>";
 		};
 		15D7C48D2BAA0C7B00BBD5EB /* View */ = {
