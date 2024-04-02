@@ -117,7 +117,8 @@ extension PostDetailViewModel: PostDetailViewModelable {
   }
 }
 
-extension PostDetailViewModel {
+// MARK: - Private Helpers
+private extension PostDetailViewModel {
   func viewDidLoadStream(_ input: Input) -> Output {
     return input.viewDidLoad
       .map {
