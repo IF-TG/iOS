@@ -40,4 +40,16 @@ struct PostNestedCommentAPIEndpoint {
       parameters: [.query(requestDTO)], 
       requestType: .postNestedComment(.delete))
   }
+  
+  static func toggleCommentHeart(
+    with requestDTO: PostNestedCommentHeartToggleRequestDTO
+  ) -> Endpoint<CommonDTO<PostCommentHeartToggleResponseDTO>> {
+    return Endpoint(
+      scheme: "http",
+      host: "localhost:8080",
+      method: .post,
+      parameters: [.body(requestDTO)],
+      requestType: .postNestedComment(.heartToggle))
+  }
+
 }

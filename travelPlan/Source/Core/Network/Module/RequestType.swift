@@ -42,6 +42,7 @@ extension RequestType {
   enum Post {
     case postsFetch
     case postCommentsFetch
+    case likedPostsByLoggedInUserFetch
     
     var path: String {
       switch self {
@@ -49,6 +50,8 @@ extension RequestType {
          "posts"
       case .postCommentsFetch:
         "post/detail"
+      case .likedPostsByLoggedInUserFetch:
+        "post/like/list"
       }
     }
   }
@@ -57,6 +60,7 @@ extension RequestType {
     case send
     case update
     case delete
+    case heartToggle
     
     var path: String {
       return "comment" + self.relativePath
@@ -70,6 +74,8 @@ extension RequestType {
         "/nestedComment"
       case .delete:
         "/nestedComment"
+      case .heartToggle:
+        "/nestedComment/like"
       }
     }
   }

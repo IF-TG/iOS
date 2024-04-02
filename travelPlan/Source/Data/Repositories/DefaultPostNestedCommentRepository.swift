@@ -103,4 +103,27 @@ final class DefaultPostNestedCommentRepository: PostNestedCommentRepository {
       self?.subscriptions.insert(subscription)
     }
   }
+  
+  func toggleCommentHeart(nestedCommentId: Int64) -> Future<ToggledPostCommentHeartEntity, any Error> {
+    let requestDTO = PostNestedCommentHeartToggleRequestDTO(id: nestedCommentId)
+    let endpoint = endpoint.toggleCommentHeart(with: requestDTO)
+    return Future { [weak self] promise in
+      guard let backgroundQueue = self?.backgroundQueue else {
+        promise(.failure(ReferenceError.invalidReference))
+        return
+      }
+      let subscription = self?.service.request(endpoint: endpoint)
+        .subscribe(on: backgroundQueue)
+        .mapConnectionError()
+        .map { $0.result }
+        .sink { completion in
+          if case .failure(let error) = completion {
+            promise(.failure(error))
+          }
+        } receiveValue: { result in
+          promise(.success(result.toDomain()))
+        }
+      self?.subscriptions.insert(subscription)
+    }
+  }
 }
