@@ -143,7 +143,6 @@ extension PostDetailViewModel: PostDetailTableViewDataSource {
       comment: postReply.comment,
       isOnHeart: postReply.isOnHeart,
       heartCountText: "\(postReply.hearts)")
-    // FIXME: - isFirstReply는 왜 알아야하지??
     return .init(
       isFirstReply: postComment.nestedComments.count == 1,
       commentInfo: commentInfo)
