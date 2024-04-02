@@ -30,7 +30,7 @@ struct PostContainerResponseDTO: Decodable {
 // MARK: - Mappings DTO
 extension PostContainerResponseDTO {
   func toDomain() -> PostContainer {
-    let detail: Post.PostDetail = post.toDomain()
+    let detail: Post.Detail = post.toDomain()
     let author: Post.Author = post.toDomain()
     let post = Post(liked: self.post.liked, detail: detail, author: author)
     return .init(post: post, thumbnail: .init(urls: thumbnails), totalPosts: totalPosts)
