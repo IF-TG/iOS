@@ -96,8 +96,8 @@ extension DefaultAlbumViewModel {
     return input
       .photoLibraryDidChange
       .filter { [weak self] _ in
-        guard let self else { return false }
-        return self.isAuthStatusLimited
+//        guard let self else { return false }
+        return self?.isAuthStatusLimited ?? false
       }
       .map { [weak self] changeInstance in
         guard let assets = self?.albumUseCase.getChangedAssets(changeInstance: changeInstance)
@@ -142,12 +142,10 @@ extension DefaultAlbumViewModel {
     return input
       .didTapFinishButton
       .map { [weak self] in
-        guard let self else { return State.none }
-        
-        let selectedAssets = self.selectedIndexArray.map { indexPathItem in
-          return self.dataSource[indexPathItem].asset
+        let selectedAssets = self?.selectedIndexArray.map { indexPathItem in
+          return self?.dataSource[indexPathItem].asset ?? .init()
         }
-        return State.deliverAssetsToParents(selectedAssets)
+        return State.deliverAssetsToParents(selectedAssets ?? .init())
       }
       .eraseToAnyPublisher()
   }
@@ -162,14 +160,13 @@ extension DefaultAlbumViewModel {
     return input
       .viewDidLoad
       .map { [weak self] _ in
-        guard let self else { return State.none }
         
-        self.dataSource = self.albumUseCase
+        self?.dataSource = self?.albumUseCase
           .getAssets()
-          .map { PhotoModel(asset: $0, selectedOrder: .none) }
+          .map { PhotoModel(asset: $0, selectedOrder: .none) } ?? .init()
         
         if #available(iOS 14, *) {
-          return State.reloadData(isAuthLimited: isAuthStatusLimited)
+          return State.reloadData(isAuthLimited: self?.isAuthStatusLimited ?? true)
         } else {
           return State.reloadData(isAuthLimited: false)
         }
@@ -181,25 +178,27 @@ extension DefaultAlbumViewModel {
     return input
       .touchedFirstQuadrant
       .map { [weak self] indexPath in
-        guard let self else { return .none }
         
         let updatingIndexPaths: [IndexPath]
         
-        if case .selected = self.dataSource[indexPath.item].selectedOrder {
-          dataSource[indexPath.item].selectedOrder = .none
-          self.selectedIndexArray.removeAll { $0 == indexPath.item }
-          self.selectedIndexArray.enumerated().forEach { index, indexPathItem in
+        if case .selected = self?.dataSource[indexPath.item].selectedOrder {
+          self?.dataSource[indexPath.item].selectedOrder = .none
+          self?.selectedIndexArray.removeAll { $0 == indexPath.item }
+          self?.selectedIndexArray.enumerated().forEach { index, indexPathItem in
             let order = index + 1
-            let prev = self.dataSource[indexPathItem]
-            self.dataSource[indexPathItem] = .init(asset: prev.asset, selectedOrder: .selected(order))
+            let prev = self?.dataSource[indexPathItem]
+            self?.dataSource[indexPathItem] = .init(asset: prev?.asset ?? .init(), selectedOrder: .selected(order))
           }
-          updatingIndexPaths = [indexPath] + selectedIndexArray.map { IndexPath(item: $0, section: .zero) }
+          updatingIndexPaths = [indexPath] + (
+            self?.selectedIndexArray
+              .map { IndexPath(item: $0, section: .zero) } ?? .init()
+          )
         } else {
-          guard selectedIndexArray.count < albumUseCase.maxSelectedImageCount
+          guard self?.selectedIndexArray.count ?? .zero < self?.albumUseCase.maxSelectedImageCount ?? .zero
           else { return State.none }
           
-          self.selectedIndexArray.append(indexPath.item)
-          self.dataSource[indexPath.item].selectedOrder = .selected(self.selectedIndexArray.count)
+          self?.selectedIndexArray.append(indexPath.item)
+          self?.dataSource[indexPath.item].selectedOrder = .selected(self?.selectedIndexArray.count ?? .zero)
           updatingIndexPaths = [indexPath]
         }
         return State.reloadItem(updatingIndexPaths)
@@ -211,8 +210,7 @@ extension DefaultAlbumViewModel {
     return input
       .touchedElseQuadrant
       .map { [weak self] indexPath in
-        guard let self else { return State .none }
-        return State.showDetailPhoto(self.dataSource[indexPath.item].asset)
+        return State.showDetailPhoto(self?.dataSource[indexPath.item].asset ?? PHAsset())
       }
       .eraseToAnyPublisher()
   }
