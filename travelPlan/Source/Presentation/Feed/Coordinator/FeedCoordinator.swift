@@ -71,9 +71,8 @@ final class FeedCoordinator: FlowCoordinator {
 // MARK: - FeedPostCoordinatorDelegate
 extension FeedCoordinator: FeedPostCoordinatorDelegate {
   func showDetailPost(post: Post, category: PostCategory) {
-    let postUseCase = DefaultPostUseCase(postRepository: MockPostRepository())
-    let postDetailViewModel = PostDetailViewModel(post: post, category: category, postUseCase: postUseCase)
-    presenter?.pushViewController(PostDetailViewController(viewModel: postDetailViewModel), animated: true)
+    let childCoordinator = PostDetailCoordinator(presenter: presenter, post: post, category: category)
+    addChild(with: childCoordinator)
   }
 }
 
