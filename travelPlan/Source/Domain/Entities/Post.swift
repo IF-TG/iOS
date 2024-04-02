@@ -11,6 +11,7 @@ struct Post {
   let liked: Bool
   let detail: Detail<String>
   let author: Author
+  let highResolveImages: [PostImage]
 }
 
 // MARK: - Nested
@@ -18,7 +19,6 @@ extension Post {
   struct Detail<ContentType> {
     let postID: Int64
     let title: String
-    let postImages: [PostImage]
     let content: ContentType
     let likes: Int32
     let comments: Int32

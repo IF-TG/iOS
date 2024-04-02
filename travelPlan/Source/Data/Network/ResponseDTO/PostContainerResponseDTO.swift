@@ -32,7 +32,11 @@ extension PostContainerResponseDTO {
   func toDomain() -> PostContainer {
     let detail: Post.Detail = post.toDomain()
     let author: Post.Author = post.toDomain()
-    let post = Post(liked: self.post.liked, detail: detail, author: author)
+    let post = Post(
+      liked: self.post.liked,
+      detail: detail,
+      author: author,
+      highResolveImages: post.postImages.map { $0.toDomain() })
     return .init(post: post, thumbnail: .init(urls: thumbnails), totalPosts: totalPosts)
   }
 }

@@ -96,7 +96,6 @@ extension PostResponseDTO {
     return Post.Detail<String>(
       postID: postID,
       title: title,
-      postImages: postImages.map { $0.toDomain() },
       content: content,
       likes: likes,
       comments: comments,
