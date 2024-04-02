@@ -11,4 +11,5 @@ protocol PostViewAdapterDataSource: AnyObject {
   var isPaging: Bool { get }
   func numberOfThumbnailsInPost(at index: Int) -> PostThumbnailCountValue
   func postItem(at index: Int) -> PostInfo
+  func post(at index: Int) -> Post
 }
