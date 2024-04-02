@@ -37,6 +37,8 @@ final class PostDetailViewController: UITableViewController {
   private let input = PostDetailViewModelInput()
   
   private var subscriptions = Set<AnyCancellable>()
+  
+  weak var coordinator: PostDetailCoordinatorDelegate?
 
   // MARK: - Lifecycle
   init(viewModel: any PostDetailViewModelable & PostDetailTableViewDataSource) {
@@ -119,6 +121,8 @@ extension PostDetailViewController: ViewBindCase {
     case .reloadedComment:
       // TODO: - reloadSection
       print("커맨트 섹션 리로드")
+    case .unexpectedError(description: let description):
+      coordinator?.showAlertForError(with: description, completion: nil)
     }
   }
   

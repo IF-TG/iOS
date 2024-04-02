@@ -29,7 +29,7 @@ final class PostDetailCoordinator: FlowCoordinator {
   }
   
   func start() {
-    postDetailViewController.coordintor = self
+    postDetailViewController.coordinator = self
     presenter?.present(postDetailViewController, animated: true)
   }
 }
