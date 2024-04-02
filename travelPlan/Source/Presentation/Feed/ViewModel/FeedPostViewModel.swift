@@ -265,6 +265,8 @@ extension FeedPostViewModel: FeedPostViewAdapterDataSource {
   }
   
   func postItem(at index: Int) -> PostInfo {
-    return posts[index]
+    let post = posts[index]
+    let postInfo = PostMapper.toPostInfo(post, thumbnails: postThumbnails[index])
+    return postInfo
   }
 }
