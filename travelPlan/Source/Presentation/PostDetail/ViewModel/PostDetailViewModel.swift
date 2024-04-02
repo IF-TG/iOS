@@ -162,6 +162,7 @@ extension PostDetailViewModel: PostDetailTableViewDataSource {
     return postDetails.detail.title
   }
    
+  // MARK: - 특정 서브 카테고리에서 여러 개 고를 경우 그중 맨 처음 카테고리 타입만 보여주도록 우선 반환했습니다.
   var cateogry: String {
     var categoryString = ""
     let themes = postDetails.category.themes.map { theme in theme.rawValue }
