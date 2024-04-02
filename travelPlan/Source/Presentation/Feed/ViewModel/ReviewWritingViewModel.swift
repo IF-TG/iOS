@@ -7,34 +7,49 @@
 
 import Foundation
 import Combine
+import Photos
 
-final class ReviewWritingViewModel {
-  typealias Output = AnyPublisher<State, Never>
+protocol ReviewWritingViewModel: ViewModelable
+where Input == ReviewWritingViewModelInput,
+      State == ReviewWritingViewModelState,
+      Output == AnyPublisher<State, Never> { }
+
+struct ReviewWritingViewModelInput {
+  let didTapTitleTextView: PassthroughSubject<Void, Never> = .init()
+  let didTapCancelButton: PassthroughSubject<Void, Never> = .init()
+  let didTapKeyboardDownButton: PassthroughSubject<Void, Never> = .init()
+  let didTapFinishButton: PassthroughSubject<ReviewWritingContentViewInfo, Never> = .init()
+  let didTapAlbumButton: PassthroughSubject<Void, Never> = .init()
+  let didTapPlanView: PassthroughSubject<Void, Never> = .init()
+  let didTapNavigationTitleView: PassthroughSubject<Void, Never> = .init()
+  let didTapView: PassthroughSubject<Void, Never> = .init()
+  let didTapScrollView: PassthroughSubject<Void, Never> = .init()
+}
+
+enum ReviewWritingViewModelState {
+  case popViewController
+  case presentAlbumViewController
+  case presentPlan
+  case keyboardDown
+  case manageTextViewDisplay
+  case presentThemeSetting
+  case none
+  case alertAuthRequest
+}
+
+final class DefaultReviewWritingViewModel: ReviewWritingViewModel {
+
+  // MARK: - Properties
+  private let photoAuthorizationUseCase: PhotoAuthorizationUseCase
   
-  struct Input {
-    let didTapTitleTextView: PassthroughSubject<Void, Never> = .init()
-    let didTapCancelButton: PassthroughSubject<Void, Never> = .init()
-    let didTapKeyboardDownButton: PassthroughSubject<Void, Never> = .init()
-    let didTapFinishButton: PassthroughSubject<ReviewWritingContentViewInfo, Never> = .init()
-    let didTapAlbumButton: PassthroughSubject<Void, Never> = .init()
-    let didTapPlanView: PassthroughSubject<Void, Never> = .init()
-    let didTapNavigationTitleView: PassthroughSubject<Void, Never> = .init()
-    let didTapView: PassthroughSubject<Void, Never> = .init()
-    let didTapScrollView: PassthroughSubject<Void, Never> = .init()
-  }
-  
-  enum State {
-    case popViewController
-    case presentAlbumViewController
-    case presentPlan
-    case keyboardDown
-    case manageTextViewDisplay
-    case presentThemeSetting
+  // MARK: - LifeCycle
+  init(photoAuthorizationUseCase: PhotoAuthorizationUseCase) {
+    self.photoAuthorizationUseCase = photoAuthorizationUseCase
   }
 }
 
 // MARK: - Helpers
-extension ReviewWritingViewModel {
+extension DefaultReviewWritingViewModel {
   func transform(_ input: Input) -> Output {
     return Publishers
       .MergeMany(
@@ -49,7 +64,10 @@ extension ReviewWritingViewModel {
       )
       .eraseToAnyPublisher()
   }
-  
+}
+
+// MARK: - Private Helpers
+extension DefaultReviewWritingViewModel {
   private func didTapCancelButtonStream(_ input: Input) -> Output {
     return input.didTapCancelButton
       .map { State.popViewController }
@@ -88,7 +106,24 @@ extension ReviewWritingViewModel {
   
   private func didTapAlbumButtonStream(_ input: Input) -> Output {
     return input.didTapAlbumButton
-      .map { State.presentAlbumViewController }
+      .flatMap { [weak self] in
+        guard let self else { return Just(State.none).eraseToAnyPublisher() }
+        
+        return self.photoAuthorizationUseCase.requestAuthorization()
+          .receive(on: RunLoop.main)
+          .map { status in
+            switch status {
+            case .authorized, .limited:
+              return State.presentAlbumViewController
+            case .denied, .restricted, .notDetermined:
+              return State.alertAuthRequest
+            @unknown default:
+              print("DEBUG: Apple API에서 새로운 타입을 추가했기때문에 새 타입에 대한 대응을 구현해야합니다.")
+              return State.none
+            }
+          }
+          .eraseToAnyPublisher()
+      }
       .eraseToAnyPublisher()
   }
   
@@ -101,9 +136,4 @@ extension ReviewWritingViewModel {
       }
       .eraseToAnyPublisher()
   }
-}
-
-// MARK: - Private Helpers
-extension ReviewWritingViewModel {
-  
 }

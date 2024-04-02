@@ -21,8 +21,13 @@ final class AlbumViewController: UIViewController {
   }
   
   // MARK: - Properties
-  weak var coordinator: AlbumCoordinator?
+  weak var coordinator: (any AlbumCoordinatorDelegate)?
   private let photoService: any PhotoService
+  private let albumStackView: UIStackView = .init().set {
+    $0.axis = .vertical
+    $0.distribution = .fill
+    $0.alignment = .fill
+  }
   private lazy var collectionView: UICollectionView = .init(
     frame: .zero,
     collectionViewLayout: UICollectionViewFlowLayout().set {
@@ -35,6 +40,9 @@ final class AlbumViewController: UIViewController {
     $0.backgroundColor = .clear
     $0.showsHorizontalScrollIndicator = false
     $0.dataSource = self
+  }
+  private lazy var photoAuthView = PhotoAuthorizationView().set {
+    $0.delegate = self
   }
   
   private lazy var cancelButton: BaseNavigationLeftButton = .init().set {
@@ -53,7 +61,6 @@ final class AlbumViewController: UIViewController {
   }
   
   private var subscriptions = Set<AnyCancellable>()
-  var finishButtonHandler: (([PHAsset]) -> Void)?
   private let viewModel: any AlbumViewModelable
   private let input = AlbumViewModelInput()
   
@@ -93,13 +100,16 @@ final class AlbumViewController: UIViewController {
 // MARK: - LayoutSupport
 extension AlbumViewController: LayoutSupport {
   func addSubviews() {
-    view.addSubview(collectionView)
+    _=[collectionView, photoAuthView].map {
+      albumStackView.addArrangedSubview($0)
+    }
+    view.addSubview(albumStackView)
   }
   
   func setConstraints() {
-    collectionView.snp.makeConstraints {
-      $0.top.equalTo(view.safeAreaLayoutGuide)
-      $0.leading.trailing.bottom.equalToSuperview()
+    albumStackView.snp.makeConstraints {
+      $0.top.bottom.equalTo(view.safeAreaLayoutGuide)
+      $0.leading.trailing.equalToSuperview()
     }
   }
 }
@@ -136,8 +146,10 @@ extension AlbumViewController: UICollectionViewDataSource {
       contentMode: .aspectFit,
       resizeModeOption: .fast
     ) { [weak cell] image in
-      let cellInfo = PhotoCellInfo(image: image, selectedOrder: photoModel.selectedOrder)
-      cell?.configure(with: cellInfo)
+      DispatchQueue.main.async {
+        let cellInfo = PhotoCellInfo(image: image, selectedOrder: photoModel.selectedOrder)
+        cell?.configure(with: cellInfo)
+      }
     }
 
     return cell
@@ -146,6 +158,15 @@ extension AlbumViewController: UICollectionViewDataSource {
 
 // MARK: - Private Helpers
 extension AlbumViewController {
+  private func collectionViewReloadData(isAuthLimited: Bool) {
+    if isAuthLimited {
+      photoAuthView.isHidden = false
+    } else {
+      photoAuthView.isHidden = true
+    }
+    collectionView.reloadData()
+  }
+  
   private func update(indexPaths: [IndexPath]) {
     collectionView.performBatchUpdates {
       collectionView.reloadItems(at: indexPaths)
@@ -188,17 +209,29 @@ extension AlbumViewController {
         case .showDetailPhoto:
           // TODO: - 사진확대화면을 보여줘야합니다.
           break
-        case .reloadData:
-          self?.collectionView.reloadData()
+        case let .reloadData(isAuthLimited):
+          self?.collectionViewReloadData(isAuthLimited: isAuthLimited)
         case .reloadItem(let indexPaths):
           self?.update(indexPaths: indexPaths)
         case .activateFinishButton(let basis):
           self?.decideFinishButtonState(basis)
         case.popViewController:
           self?.coordinator?.finish(withAnimated: true)
-        case .deliverAssets(let selectedAssets):
-          self?.finishButtonHandler?(selectedAssets)
-          self?.coordinator?.finish(withAnimated: true)
+        case .deliverAssetsToParents(let selectedAssets):
+          self?.coordinator?.finish(selectedAssets: selectedAssets)
+        case .callSetting:
+          self?.coordinator?.openSettings()
+        case .presentLimitedLibraryPicker:
+          guard let self else { return }
+          
+//          if #available(iOS 14, *) {
+//            if PHPhotoLibrary.authorizationStatus(for: .readWrite) == .limited {
+//              PHPhotoLibrary.shared().presentLimitedLibraryPicker(from: self)
+//            }
+//          } else {
+//            // iOS 14 미만 처리
+//            break
+//          }
         }
       }
       .store(in: &subscriptions)
@@ -248,5 +281,16 @@ extension AlbumViewController: UINavigationControllerDelegate {
     } else {
       return nil
     }
+  }
+}
+
+// MARK: - PhotoAuthorizationViewDelegate
+extension AlbumViewController: PhotoAuthorizationViewDelegate {
+  func didTapSelectMorePhotosButton() {
+    input.didTapSelectMorePhotosButton.send()
+  }
+  
+  func didTapAuthsettingButton() {
+    input.didTapAuthsettingButton.send()
   }
 }

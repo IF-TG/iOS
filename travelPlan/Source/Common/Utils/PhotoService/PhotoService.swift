@@ -15,4 +15,6 @@ protocol PhotoService {
                   contentMode: PHImageContentMode,
                   resizeModeOption: PHImageRequestOptionsResizeMode,
                   completion: @escaping (UIImage) -> Void)
+  
+  func presentLimitedLibraryPicker(from controller: UIViewController)
 }
