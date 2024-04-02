@@ -21,7 +21,7 @@ final class DefaultPostRepository: PostRepository {
     self.loggedInUserRepository = loggedInUserRepository
   }
   
-  func fetchPosts(page: Int32, perPage: Int32, category: PostCategory) -> Future<PostsPage, Error> {
+  func fetchPosts(page: Int32, perPage: Int32, category: PostCategory) -> AnyPublisher<PostsPage, Error> {
     return Future { [weak self] promise in
       guard let loggedInUserId = self?.loggedInUserRepository.id else {
         promise(.failure(LoggedInUserRepositoryError.invalidUserId))
@@ -50,10 +50,10 @@ final class DefaultPostRepository: PostRepository {
           promise(.success(postsPage))
         }
       self?.subscriptions.insert(subscription)
-    }
+    }.eraseToAnyPublisher()
   }
   
-  func fetchComments(page: Int32, perPage: Int32, postId: Int64) -> Future<PostCommentContainerEntity, any Error> {
+  func fetchComments(page: Int32, perPage: Int32, postId: Int64) -> AnyPublisher<PostCommentContainerEntity, any Error> {
     let requestDTO = PostCommentsRequestDTO(page: page, perPage: perPage, postId: postId)
     let endpoint = Endpoint.fetchComments(with: requestDTO)
     return Future { [weak self] promise in
@@ -69,13 +69,13 @@ final class DefaultPostRepository: PostRepository {
           promise(.success(response.toDomain()))
         }
       self?.subscriptions.insert(subscription)
-    }
+    }.eraseToAnyPublisher()
   }
   
   func fetchLikedPostsByLoggedInUser(
     page: Int32,
     perPage: Int32
-  ) -> Future<PostsPage, any Error> {
+  ) -> AnyPublisher<PostsPage, any Error> {
     let requestDTO = LikedPostsByLoggedInUserRequestDTO(page: page, perPage: perPage)
     let endpoint = Endpoint.fetchLikedPostsByLoggedInUser(wtih: requestDTO)
     return Future { [weak self] promise in
@@ -99,6 +99,6 @@ final class DefaultPostRepository: PostRepository {
           promise(.success(postsPage))
         }
       self?.subscriptions.insert(subscription)
-    }
+    }.eraseToAnyPublisher()
   }
 }

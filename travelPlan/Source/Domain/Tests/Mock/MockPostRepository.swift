@@ -23,7 +23,11 @@ final class MockPostRepository: PostRepository {
       loggedInUserRepository: defaultLoggedInUserRepository)
   }
   
-  func fetchPosts(page: Int32, perPage: Int32, category: PostCategory) -> Future<PostsPage, any Error> {
+  func fetchPosts(
+    page: Int32,
+    perPage: Int32,
+    category: PostCategory
+  ) -> AnyPublisher<PostsPage, any Error> {
     MockUrlProtocol.requestHandler = { _ in
       let mockData = MockResponseType.postContainerResponse.mockDataLoader
       return ((HTTPURLResponse(), mockData))
@@ -41,10 +45,14 @@ final class MockPostRepository: PostRepository {
           })
         self?.subscriptions.insert(subscription)
       }
-    }
+    }.eraseToAnyPublisher()
   }
   
-  func fetchComments(page: Int32, perPage: Int32, postId: Int64) -> Future<PostCommentContainerEntity, any Error> {
+  func fetchComments(
+    page: Int32,
+    perPage: Int32,
+    postId: Int64
+  ) -> AnyPublisher<PostCommentContainerEntity, any Error> {
     MockUrlProtocol.requestHandler = { _ in
       let mockData = MockResponseType.postCommentContainerResponse.mockDataLoader
       return ((HTTPURLResponse(), mockData))
@@ -62,10 +70,13 @@ final class MockPostRepository: PostRepository {
           })
         self?.subscriptions.insert(subscription)
       }
-    }
+    }.eraseToAnyPublisher()
   }
   
-  func fetchLikedPostsByLoggedInUser(page: Int32, perPage: Int32) -> Future<PostsPage, any Error> {
+  func fetchLikedPostsByLoggedInUser(
+    page: Int32,
+    perPage: Int32
+  ) -> AnyPublisher<PostsPage, any Error> {
     MockUrlProtocol.requestHandler = { _ in
       let mockData = MockResponseType.postContainerResponse.mockDataLoader
       return ((HTTPURLResponse(), mockData))
@@ -83,6 +94,6 @@ final class MockPostRepository: PostRepository {
           })
         self?.subscriptions.insert(subscription)
       }
-    }
+    }.eraseToAnyPublisher()
   }
 }
