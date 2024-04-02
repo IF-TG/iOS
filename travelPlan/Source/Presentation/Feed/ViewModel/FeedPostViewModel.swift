@@ -44,9 +44,9 @@ class FeedPostViewModel: PostViewModel {
   
   let perPage: Int32 = 5
   
-  var posts: [PostInfo] = []
+  var posts: [Post] = []
   
-  var postDetailedThumbnails: [[String]] = []
+  var postThumbnails: [[String]] = []
   
   var isPaging: Bool = false
   
@@ -214,16 +214,13 @@ private extension FeedPostViewModel {
   }
   
   func appendPosts(_ postPages: PostsPage) {
-    let loadedPosts = postPages.posts.enumerated().map {
-      return PostMapper.toPostInfo($1, thumbnails: postPages.thumbnails[$0].urls)
-    }
-    posts.append(contentsOf: loadedPosts)
+    posts += postPages.posts
   }
   
   func removeAllPage() {
     currentPage = 0
     posts.removeAll()
-    postDetailedThumbnails.removeAll()
+    postThumbnails.removeAll()
   }
 }
 
@@ -245,10 +242,7 @@ extension FeedPostViewModel {
         if let userSelectedCategory = self?.userSelectedCategory {
           self?.category = userSelectedCategory
         }
-        postsPage.posts.forEach { post in
-          let postDetailImages = post.detail.postImages.map { $0.imageUri }
-          self?.postDetailedThumbnails.append(postDetailImages)
-        }
+        self?.postThumbnails.append(contentsOf: postsPage.thumbnails.map { $0.urls })
         self?.currentPage += 1
         self?.totalPostsCount = Int32(postsPage.totalPosts)
         self?.appendPosts(postsPage)
