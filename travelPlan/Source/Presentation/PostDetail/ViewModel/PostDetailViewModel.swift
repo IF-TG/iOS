@@ -9,31 +9,30 @@ import Foundation
 import Combine
 
 struct PostDetailViewModelInput {
-  let viewDidLoad: PassthroughSubject<Void, Never>
+  let viewDidLoad = PassthroughSubject<Void, Never>()
 }
 
 @frozen enum PostDetailViewModelState {
-  case none
   case networkProcessing
   case reloadedData
   case reloadedComment
 }
 
 /// 임시
-struct PostDetails {
-  let postId: Int
-  let userName: String
-  let userId: Int
-  var isFavoritePost: Bool
-  let userThumbnailPath: String
-  let travelDuration: String
-  let travelCalenderDateRange: String
-  let uploadedDescription: String
-  let title: String
-  // 임시..
-  let postContents: [PostDetailContentInfo]
-  let category: String
-}
+//struct PostDetails {
+//  let postId: Int // 0
+//  let userName: String // 0
+//  let userId: Int // 0
+//  var isFavoritePost: Bool // 0
+//  let userThumbnailPath: String // 0
+//  let travelDuration: String // 0
+//  let travelCalenderDateRange: String // 0
+//  let uploadedDescription: String // 0
+//  let title: String // 0
+//  // 임시..
+//  let postContents: [PostDetailContentType]
+//  let category: String // 0
+//}
 
 enum PostDetailSectionType: Int {
   case postDescription
@@ -83,19 +82,15 @@ struct PostReply {
 final class PostDetailViewModel {
   
   // MARK: - Properties
-  private var post: Post
-  
   private let DefaultSectionCount = PostDetailSectionType.defaultNumberOfSections
   
-  private var postDetails: PostDetails?
-  // TODO: - postDetails는 post를 포함해서 추가적인 정보들을 갖고있는게 좋겠다!!
+  private var postDetails: PostDetails
   
   private var comments: [PostComment] = []
   
-  init(post: Post) {
-    // TODO: - 포스트를 받았으면, 1개의 글을
-    // postDetails로 반환해야함..
-    self.post = post
+  init(post: Post, category: PostCategory) {
+    // TODO: - 포스트를 받았으면, 1개의 글을 포스트들, 이미지들 이렇게 조개고 순위를 부여해야합니다. PostMapper에서 구현해야합니다.
+    self.postDetails = PostMapper.toPostDetails(post, category: category)
   }
   
   // MARK: - Mock Helpers
@@ -162,28 +157,34 @@ extension PostDetailViewModel: PostDetailTableViewDataSource {
   }
   
   var title: String {
-    guard let postDetails else { return "" }
-    return postDetails.title
+    return ""
+//    guard let postDetails else { return "" }
+//    return postDetails.title
   }
   
   var cateogry: String {
-    guard let postDetails else { return "" }
-    return postDetails.category
+    return ""
+//    guard let postDetails else { return "" }
+//    return postDetails.category
   }
   
   var profileAreaItem: PostDetailProfileAreaInfo {
     return .init(
-      userName: postDetails?.userName ?? "이름없는 사용자",
-      userId: postDetails?.userId ?? 0,
-      userThumbnailPath: postDetails?.userThumbnailPath ?? "미정",
-      travelDuration: postDetails?.travelDuration ?? "미정",
-      travelCalendarDateRange: postDetails?.travelCalenderDateRange ?? "미정",
-      uploadedDescription: postDetails?.uploadedDescription ?? "미정")
+      userName: "", userId: 1, userThumbnailPath: "", travelDuration: "",
+      travelCalendarDateRange: "", uploadedDescription: "")
+//    return .init(
+//      userName: postDetails?.userName ?? "이름없는 사용자",
+//      userId: postDetails?.userId ?? 0,
+//      userThumbnailPath: postDetails?.userThumbnailPath ?? "미정",
+//      travelDuration: postDetails?.travelDuration ?? "미정",
+//      travelCalendarDateRange: postDetails?.travelCalenderDateRange ?? "미정",
+//      uploadedDescription: postDetails?.uploadedDescription ?? "미정")
   }
   
-  func postContentItem(at row: Int) -> PostDetailContentInfo {
-    guard let postDetails else { return .text("") }
-    return postDetails.postContents[row]
+  func postContentItem(at row: Int) -> PostDetailContentType {
+    return .image("")
+//    guard let postDetails else { return .text("") }
+//    return postDetails.postContents[row]
   }
   
   var numberOfSections: Int {
@@ -192,16 +193,13 @@ extension PostDetailViewModel: PostDetailTableViewDataSource {
   }
   
   func numberOfItems(in section: Int) -> Int {
-    guard let postDetails else {
-      print("DEBUG: 서버에서 postDetails 데이터를 가져오지 못했습니다.")
-      return 0
-    }
     let sectionType: PostDetailSectionType = .init(rawValue: section) ?? .postContent
     switch sectionType {
     case .postDescription:
       return 1
     case .postContent:
-      return postDetails.postContents.count
+      // return postDetails.postContents.count
+      return 0
     case .postHeartAndShareArea:
       return 0
     default:
@@ -211,81 +209,81 @@ extension PostDetailViewModel: PostDetailTableViewDataSource {
 }
 
 /// 이거이거이거!!
-struct mockDataPostDetailViewModel {
-  func fetchMockAllData() -> PostDetails {
-    let texts: [String] = [
-      """
-      이제 12월이라고 거리 여기저기서 크리스마스 음악이 흘러나오네요. 크리스마스 트리도 장식한 곳이 많더라구요.
-      
-      2023년이 오고 캡스톤 디자인으로 엄청 대박인 어플을 만들어보자고 얘기한 게 엊그제 같은데,,
-      세월이 너무 빨리 지나간다는게 느껴집니다.
-      """,
-      """
-      근데 진짜 평소보다 도시 분위기도 들떠있고, 볼거리나 즐길거리도 더 많아지는 만큼, 겨울유럽여행 가신다면
-      크리스마스때를 노려서 가시라고 추천드릴게요!!
-      이제 얼마 안남았기 때문에, 고민은 신중하게 결정은 빠르게 하셔야 할 때랍니다 ㅎ_ㅎ
-      """,
-      """
-      흔히 비엔나 커피로 알고 있는 오스트리아 전통 커피의 정식 명칭은 아인슈페너!
-      블랙 커피 위에 휘핑 크림을 얹어 나오는 아인슈페너는 오스트리아어로 ‘말 한 마리가 끄는 마차’ 라는 뜻입니다.
-      마차를 타고 다녔던 마부들이 따뜻한 커피를 오랫동안 즐길 수 있도록 생크림을 듬뿍 얹어 마신 것이 지금의 아인슈페너가 된 것이죠.
-      """,
-      """
-      여행 중 마주한 여러 순간들 가운데서도 가장 기억에 남았던 파스타는 정말 특별한 경험이었습니다.\n\n
-      그 맛, 향, 그리고 함께한 분위기가 모두 어울려 참으로 특별한 순간을 만들어주었습니다.
-      그 파스타는 마치 여행의 하이라이트 같은 느낌이었어요.
-      """]
-    let contents: [PostDetailContentInfo] = [
-      .text(texts[0]), .image("tempThumbnail6"),
-      .text(texts[1]), .image("tempThumbnail7"),
-      .text(texts[2]), .image("tempThumbnail8"), .text(texts[3])]
-    
-    return .init(
-      postId: 0, userName: "닉네임은 여덟자리", userId: 0,
-      isFavoritePost: false, userThumbnailPath: "tempProfile1",
-      travelDuration: "1박 2일", travelCalenderDateRange: "23.12.31 ~ 23.12.31",
-      uploadedDescription: "2023. 12. 31 12:12", title: "곧 크리스마스가 다가옵니다. 하하하. 미리메리크리스마스~",
-      postContents: contents, category: "여행테마 > 휴식, 동반자 > 가족 ...")
-  }
-  
-  func fetchMockAllComments() -> [PostComment] {
-    let repliesAboutFirstComment: [PostReply] = [
-      .init(id: 0, userProfileURL: "tempProfile2", userName: "나야나 스택뷰 설명!",
-            timestamp: "2일전", comment:
-              """
-              Stack views let you leverage the power of Auto Layout,
-              creating user interfaces that can dynamically adapt to the device’s orientation,
-              screen size, and any changes in the available space.
-              
-              The stack view manages the layout of all the views in its arrangedSubviews property.
-              These views are arranged along the stack view’s axis, based on their order in the arrangedSubviews array.
-              
-              
-              The exact layout varies depending on the stack view’s axis,
-              distribution, alignment, spacing, and other properties.
-              """
-            , heartCountText: "", isOnHeart: false, isFirstReply: true),
-      .init(id: 1, userProfileURL: "tempProfile3", userName: "흰눈 펑펑",
-            timestamp: "2일전", comment: "오 그럽시다. 크리스마스 전에는 첫눈이 내린다죠.(한국한정)",
-            heartCountText: "1", isOnHeart: true, isFirstReply: false),
-      .init(id: 2, userProfileURL: "tempProfile4", userName: "당근당근당근",
-            timestamp: "2일전", comment: "재즈 : )", heartCountText: "293", isOnHeart: true, isFirstReply: false)]
-    
-    return [
-      .init(id: 0, userProfileURL: "tempProfile1", userName: "졸업까지 약 세달",
-            timestamp: "3일 전", comment: "뭔가 내년이 너무 빨리 다가오는 느낌이드네... 이상하다 이상해!!!!!!! ",
-            isOnHeart: true, heartCountText: "1", replies: repliesAboutFirstComment),
-      .init(id: 1, userProfileURL: "tempProfile2", userName: "뿌셔뿌셔꿀맛탱",
-            timestamp: "4일 전", 
-            comment: 
-              """
-              오 곧 크리스마스라니~~~~ 크리스마스가 다가오면 대학생활도 끝이네요
-              많은 것을 잘 배워갑니다.
-              
-              
-              20학점들었을 때가 엊그제.. 엊그제는 아니긴하네요.(머쓱)
-              여행이나 가볼까나~..~\n\n후후후..
-              """,
-            isOnHeart: false, heartCountText: "", replies: [])]
-  }
-}
+//struct mockDataPostDetailViewModel {
+//  func fetchMockAllData() -> PostDetails {
+//    let texts: [String] = [
+//      """
+//      이제 12월이라고 거리 여기저기서 크리스마스 음악이 흘러나오네요. 크리스마스 트리도 장식한 곳이 많더라구요.
+//      
+//      2023년이 오고 캡스톤 디자인으로 엄청 대박인 어플을 만들어보자고 얘기한 게 엊그제 같은데,,
+//      세월이 너무 빨리 지나간다는게 느껴집니다.
+//      """,
+//      """
+//      근데 진짜 평소보다 도시 분위기도 들떠있고, 볼거리나 즐길거리도 더 많아지는 만큼, 겨울유럽여행 가신다면
+//      크리스마스때를 노려서 가시라고 추천드릴게요!!
+//      이제 얼마 안남았기 때문에, 고민은 신중하게 결정은 빠르게 하셔야 할 때랍니다 ㅎ_ㅎ
+//      """,
+//      """
+//      흔히 비엔나 커피로 알고 있는 오스트리아 전통 커피의 정식 명칭은 아인슈페너!
+//      블랙 커피 위에 휘핑 크림을 얹어 나오는 아인슈페너는 오스트리아어로 ‘말 한 마리가 끄는 마차’ 라는 뜻입니다.
+//      마차를 타고 다녔던 마부들이 따뜻한 커피를 오랫동안 즐길 수 있도록 생크림을 듬뿍 얹어 마신 것이 지금의 아인슈페너가 된 것이죠.
+//      """,
+//      """
+//      여행 중 마주한 여러 순간들 가운데서도 가장 기억에 남았던 파스타는 정말 특별한 경험이었습니다.\n\n
+//      그 맛, 향, 그리고 함께한 분위기가 모두 어울려 참으로 특별한 순간을 만들어주었습니다.
+//      그 파스타는 마치 여행의 하이라이트 같은 느낌이었어요.
+//      """]
+//    let contents: [PostDetailContentType] = [
+//      .text(texts[0]), .image("tempThumbnail6"),
+//      .text(texts[1]), .image("tempThumbnail7"),
+//      .text(texts[2]), .image("tempThumbnail8"), .text(texts[3])]
+//    
+//    return .init(
+//      postId: 0, userName: "닉네임은 여덟자리", userId: 0,
+//      isFavoritePost: false, userThumbnailPath: "tempProfile1",
+//      travelDuration: "1박 2일", travelCalenderDateRange: "23.12.31 ~ 23.12.31",
+//      uploadedDescription: "2023. 12. 31 12:12", title: "곧 크리스마스가 다가옵니다. 하하하. 미리메리크리스마스~",
+//      postContents: contents, category: "여행테마 > 휴식, 동반자 > 가족 ...")
+//  }
+//  
+//  func fetchMockAllComments() -> [PostComment] {
+//    let repliesAboutFirstComment: [PostReply] = [
+//      .init(id: 0, userProfileURL: "tempProfile2", userName: "나야나 스택뷰 설명!",
+//            timestamp: "2일전", comment:
+//              """
+//              Stack views let you leverage the power of Auto Layout,
+//              creating user interfaces that can dynamically adapt to the device’s orientation,
+//              screen size, and any changes in the available space.
+//              
+//              The stack view manages the layout of all the views in its arrangedSubviews property.
+//              These views are arranged along the stack view’s axis, based on their order in the arrangedSubviews array.
+//              
+//              
+//              The exact layout varies depending on the stack view’s axis,
+//              distribution, alignment, spacing, and other properties.
+//              """
+//            , heartCountText: "", isOnHeart: false, isFirstReply: true),
+//      .init(id: 1, userProfileURL: "tempProfile3", userName: "흰눈 펑펑",
+//            timestamp: "2일전", comment: "오 그럽시다. 크리스마스 전에는 첫눈이 내린다죠.(한국한정)",
+//            heartCountText: "1", isOnHeart: true, isFirstReply: false),
+//      .init(id: 2, userProfileURL: "tempProfile4", userName: "당근당근당근",
+//            timestamp: "2일전", comment: "재즈 : )", heartCountText: "293", isOnHeart: true, isFirstReply: false)]
+//    
+//    return [
+//      .init(id: 0, userProfileURL: "tempProfile1", userName: "졸업까지 약 세달",
+//            timestamp: "3일 전", comment: "뭔가 내년이 너무 빨리 다가오는 느낌이드네... 이상하다 이상해!!!!!!! ",
+//            isOnHeart: true, heartCountText: "1", replies: repliesAboutFirstComment),
+//      .init(id: 1, userProfileURL: "tempProfile2", userName: "뿌셔뿌셔꿀맛탱",
+//            timestamp: "4일 전", 
+//            comment: 
+//              """
+//              오 곧 크리스마스라니~~~~ 크리스마스가 다가오면 대학생활도 끝이네요
+//              많은 것을 잘 배워갑니다.
+//              
+//              
+//              20학점들었을 때가 엊그제.. 엊그제는 아니긴하네요.(머쓱)
+//              여행이나 가볼까나~..~\n\n후후후..
+//              """,
+//            isOnHeart: false, heartCountText: "", replies: [])]
+//  }
+//}
