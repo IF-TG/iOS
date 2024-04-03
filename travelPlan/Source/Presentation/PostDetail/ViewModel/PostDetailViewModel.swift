@@ -92,14 +92,10 @@ private extension PostDetailViewModel {
   func viewDidLoadStream(_ input: Input) -> Output {
     return input.viewDidLoad
       .flatMap { [weak self] in
-        return self?.fetchComments()
-          .map { _ -> State in
-            return .reloadedData
-          }.catch {
-            return Just(State.unexpectedError(description: $0.localizedDescription))
-          }.eraseToAnyPublisher() ?? Just(
-            State.unexpectedError(description: "앱 동작 중 에러가 발생됬습니다.")
-          ).eraseToAnyPublisher()
+        return self?.fetchComments() ?? Just(
+          State.unexpectedError(
+            description: ReferenceError.invalidReference.localizedDescription)
+        ).eraseToAnyPublisher()
       }.eraseToAnyPublisher()
   }
   
@@ -129,15 +125,18 @@ private extension PostDetailViewModel {
   
   // MARK: - Inner stream
   /// 초기 viewDidLoad시점에 호출해야 합니다. -> post favorite여부파악.
-  func fetchComments() -> AnyPublisher<Void, Error> {
+  func fetchComments() -> Output {
     let postCommentRequestValue = PostCommentsRequestValue(
       page: currentPage,
       perPage: perPage,
       postId: postDetails.detail.postID)
     return postUseCase.fetchComments(with: postCommentRequestValue)
-      .map {[weak self] postCommentContainerEntity in
+      .map {[weak self] postCommentContainerEntity -> State in
         self?.postDetails.isFavorite = postCommentContainerEntity.isFavorited
         self?.postDetails.comments += postCommentContainerEntity.comments
+        return .reloadedData
+      }.catch { error in
+        return Just(State.unexpectedError(description: error.localizedDescription))
       }.eraseToAnyPublisher()
   }
   
