@@ -8,17 +8,6 @@
 import Foundation
 import Combine
 
-struct PostDetailViewModelInput {
-  let viewDidLoad = PassthroughSubject<Void, Never>()
-}
-
-@frozen enum PostDetailViewModelState {
-  case networkProcessing
-  case reloadedData
-  case reloadedComment
-  case unexpectedError(description: String)
-}
-
 enum PostDetailSectionType: Int {
   case postDescription
   case postContent
