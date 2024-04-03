@@ -48,6 +48,9 @@ final class PostDetailViewModel {
   
   private let loggedInUserUseCaseHandler = PassthroughSubject<Void, Never>()
   
+  /// 사용자가 대댓글 작성중인 경우 not nil. 댓글을 작성중인 경우 nil
+  private var replyingSection: Int?
+  
   // TODO: - 페이징 추가해야합니다. 
   // 그런데 댓글의 경우 좀 복잡할거같은데,, 사용자가 삭제하면 어떻게하지? 기존에 저장된 정보(이미 페이징 한 데이터)가
   // 확실하다는 보장이 없을거같은데 페이징 보다는 맞으려나?
@@ -89,7 +92,8 @@ extension PostDetailViewModel: PostDetailViewModelable {
       viewDidLoadStream(input),
       handleCommentInputStream(input),
       commentUseCaseHandlerStream(),
-      loggedInUserUseCaseHandlerStream()
+      loggedInUserUseCaseHandlerStream(),
+      replyStartNotifierStream(input)
     ]).eraseToAnyPublisher()
   }
 }
@@ -134,10 +138,17 @@ private extension PostDetailViewModel {
   func loggedInUserUseCaseHandlerStream() -> Output {
     loggedInUserUseCaseHandler.map { [weak self] _ -> State in
       guard let profileURL = self?.loggedInUserUseCase.profileURL else {
-        //로그인한 사용자의 프로필 확인x.. (맨 처음에 로그인할때 기본 이미지 지정하는게 베스트)
+        // 로그인한 사용자의 프로필 확인x.. (맨 처음에 로그인할때 기본 이미지 지정하는게 베스트)
         return .unexpectedError(description: "로그인한 사용자의 프로필 이미지가 없습니다.")
       }
       return .loggedInUserInfo(userProfile: profileURL)
+    }.eraseToAnyPublisher()
+  }
+  
+  func replyStartNotifierStream(_ input: Input) -> Output {
+    input.replyStartNotifier.map { [weak self] replySection -> State in
+      self?.replyingSection = replySection
+      return .keyboard(.keyboardShow)
     }.eraseToAnyPublisher()
   }
   

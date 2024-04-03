@@ -131,6 +131,13 @@ extension PostDetailViewController: ViewBindCase {
       coordinator?.showAlertForError(with: description, completion: nil)
     case .loggedInUserInfo(userProfile: let userProfile):
       inputAccessory.configure(with: userProfile)
+    case .keyboard(let state):
+      switch state {
+      case .keyboardShow:
+        inputAccessory.showKeyboard()
+      case .keyboardHide:
+        print("숨겨라!")
+      }
     }
   }
   
@@ -265,21 +272,19 @@ extension PostDetailViewController: PostDetailReplyCellDelegate {
 
 // MARK: - PostDetailCommentDelegate
 extension PostDetailViewController: PostDetailCommentDelegate {
-  func didTapHeart(_ header: UITableViewHeaderFooterView, _ isOnHeart: Bool) {
-    print("댓글 하트 클릭")
-  }
+  func didTapHeart(_ header: UITableViewHeaderFooterView, _ isOnHeart: Bool) {}
   
-  func didTapCanceledHeart(_ header: UITableViewHeaderFooterView) {
-    print("댓글 취소 클릭")
-  }
+  func didTapCanceledHeart(_ header: UITableViewHeaderFooterView) {}
   
   func didTapReply(_ header: UITableViewHeaderFooterView) {
-    print("댓글 리플 클릭")
+    guard let replySection = tableView.section(for: header) else {
+      coordinator?.showAlertForError(with: "대댓글을 작성할 수 없습니다.\n앱 서비스에 문제가 발생됬습니다.", completion: nil)
+      return
+    }
+    input.replyStartNotifier.send(replySection)
   }
   
-  func didTapProfile(_ header: UITableViewHeaderFooterView) {
-    print("댓글 프로필 클릭")
-  }
+  func didTapProfile(_ header: UITableViewHeaderFooterView) {}
 }
 
 // MARK: - PostDetailInputAccessoryWrapperDelegate

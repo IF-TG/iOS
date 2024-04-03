@@ -10,6 +10,7 @@ import Combine
 struct PostDetailViewModelInput {
   let viewDidLoad = PassthroughSubject<Void, Never>()
   let commentHandler = PassthroughSubject<PostDetailCommentInput, Never>()
+  let replyStartNotifier = PassthroughSubject<Int, Never>()
 }
 
 @frozen enum PostDetailViewModelState {
@@ -18,6 +19,7 @@ struct PostDetailViewModelInput {
   case reloadedData
   case reloadedComment
   case unexpectedError(description: String)
+  case keyboard(KeyboardState)
 }
 
 @frozen enum PostDetailCommentInput {
