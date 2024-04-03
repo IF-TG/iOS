@@ -243,20 +243,20 @@ extension PostDetailTableViewAdapter: BaseProfileAreaViewDelegate {
 extension PostDetailTableViewAdapter: PostDetailReplyCellDelegate {
   func didTapProfile(_ cell: UITableViewCell) {
     // 프로필 화면 이동?
-    print("댓글 단 사람 프로필 클릭!")
+    print("대댓 단 사람 프로필 클릭!")
   }
   
   func didTapHeart(_ cell: UITableViewCell, isOnHeart: Bool) {
-    // TODO: - 커맨트 좋아요 로직 연동
-    print("커맨트 호출")
+    // TODO: - 좋아요 로직 연동
+    print("대댓 하트 뿅")
   }
   
   func didCanceledHeart(_ cell: UITableViewCell) {
-    // TODO: - 커맨트 좋아요 로직 연동
-    print("하트 취소 버튼 클릭")
+    // TODO: - 대댓 좋아요 로직 연동
+    print("대댓 하트 취소 버튼 클릭")
   }
   
   func didTapReply(_ cell: UITableViewCell) {
-    print("댓글 달기 클릭")
+    print("대댓글 달기 클릭")
   }
 }
