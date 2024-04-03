@@ -9,7 +9,7 @@ import Combine
 
 struct PostDetailViewModelInput {
   let viewDidLoad = PassthroughSubject<Void, Never>()
-  let commentSend = PassthroughSubject<String, Never>()
+  let commentHandler = PassthroughSubject<PostDetailCommentInput, Never>()
 }
 
 @frozen enum PostDetailViewModelState {
@@ -19,8 +19,8 @@ struct PostDetailViewModelInput {
   case unexpectedError(description: String)
 }
 
-@frozen enum PostDetailCommentState {
-  case commentSend
+@frozen enum PostDetailCommentInput {
+  case commentSend(String)
 }
 
 protocol PostDetailViewModelable: ViewModelable
