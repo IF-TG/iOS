@@ -75,7 +75,7 @@ extension PostDetailReplyCell {
 }
 
 // MARK: - BaseCommentViewDelegate
-extension PostDetailReplyCell: BaseCommentViewDelegate {
+extension PostDetailReplyCell: BaseCommentViewDelegate {  
   func didTapHeart(_ isOnHeart: Bool) {
     delegate?.didTapHeart(self, isOnHeart: isOnHeart)
   }
@@ -88,7 +88,7 @@ extension PostDetailReplyCell: BaseCommentViewDelegate {
     delegate?.didTapReply(self)
   }
   
-  func baseLeftRoundProfileAreaView(_ view: BaseProfileAreaView, didSelectProfileImage image: UIImage?) {
+  func didTapProfile() {
     delegate?.didTapProfile(self)
   }
 }
