@@ -7,6 +7,13 @@
 
 import UIKit
 
+protocol PostDetailCommentDelegate: AnyObject {
+  func didTapHeart(_ header: UITableViewHeaderFooterView, _ isOnHeart: Bool)
+  func didTapCanceledHeart(_ header: UITableViewHeaderFooterView)
+  func didTapReply(_ header: UITableViewHeaderFooterView)
+  func didTapProfile(_ header: UITableViewHeaderFooterView)
+}
+
 final class PostDetailCommentHeader: UITableViewHeaderFooterView {
   static let id = String(describing: PostDetailCommentHeader.self)
   
@@ -14,13 +21,7 @@ final class PostDetailCommentHeader: UITableViewHeaderFooterView {
   private let commentView = BasePostDetailCommentableView(usageType: .comment)
   // TODO: - delete control 추가해야합니다.
   
-  weak var delegate: BaseCommentViewDelegate? {
-    get {
-      commentView.delegate
-    } set {
-      commentView.delegate = newValue
-    }
-  }
+  weak var delegate: PostDetailCommentDelegate?
   
   // MARK: - Lifecycle
   override init(reuseIdentifier: String?) {
@@ -49,6 +50,25 @@ extension PostDetailCommentHeader {
 extension PostDetailCommentHeader {
   private func configureUI() {
     setupUI()
+  }
+}
+
+// MARK: - BaseCommentViewDelegate
+extension PostDetailCommentHeader: BaseCommentViewDelegate {
+  func didTapHeart(_ isOnHeart: Bool) {
+    delegate?.didTapHeart(self, isOnHeart)
+  }
+  
+  func didCanceledHeart() {
+    delegate?.didTapCanceledHeart(self)
+  }
+  
+  func didTapReply() {
+    delegate?.didTapReply(self)
+  }
+  
+  func didTapProfile() {
+    delegate?.didTapProfile(self)
   }
 }
 
