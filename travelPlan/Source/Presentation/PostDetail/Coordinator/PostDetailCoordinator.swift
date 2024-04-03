@@ -28,11 +28,16 @@ final class PostDetailCoordinator: FlowCoordinator {
     let mockPostCommentRepository = MockPostCommentRepository()
     let postCommentUseCase = DefaultPostCommentUseCase(postCommentRepository: mockPostCommentRepository)
     
+    let mockUserStorage = MockUserStorage()
+    let loggedInUserRepository = DefaultLoggedInUserRepository(storage: mockUserStorage)
+    let loggedInUserUseCase = DefaultLoggedInUserUseCase(loggedInUserRepository: loggedInUserRepository)
+    
     let postDetailVM = PostDetailViewModel(
       post: post,
       category: category,
       postUseCase: postUseCase,
-      postCommentUseCase: postCommentUseCase)
+      postCommentUseCase: postCommentUseCase,
+      loggedInUserUseCase: loggedInUserUseCase)
     postDetailViewController = PostDetailViewController(viewModel: postDetailVM)
   }
   
