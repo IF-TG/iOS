@@ -35,7 +35,20 @@ extension MockPostCommentRepository {
               promise(.failure(error))
             }
           } receiveValue: { postCommentEntity in
-            promise(.success(postCommentEntity))
+            // 이 시점에 이미 서버의 response data를 encodable -> 관련 entity로 mapping했기에 여기서
+            // 잠깐 사용자가 보냈던 comment로 가로체겠습니다.
+            let intereceptedEntity = PostCommentEntity(
+              commentId: postCommentEntity.commentId,
+              userProfileURL: postCommentEntity.userProfileURL,
+              userName: postCommentEntity.userName,
+              timestamp: postCommentEntity.timestamp,
+              comment: comment,
+              isDeleted: false,
+              isOnHeart: false,
+              isBlocked: false,
+              hearts: 0,
+              nestedComments: [])
+            promise(.success(intereceptedEntity))
           }
         self?.subscriptions.insert(subscription)
       }
