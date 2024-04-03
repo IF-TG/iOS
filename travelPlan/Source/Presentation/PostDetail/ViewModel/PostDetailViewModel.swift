@@ -137,7 +137,7 @@ private extension PostDetailViewModel {
         //로그인한 사용자의 프로필 확인x.. (맨 처음에 로그인할때 기본 이미지 지정하는게 베스트)
         return .unexpectedError(description: "로그인한 사용자의 프로필 이미지가 없습니다.")
       }
-      return .LoggedInUserInfo(userProfile: profileURL)
+      return .loggedInUserInfo(userProfile: profileURL)
     }.eraseToAnyPublisher()
   }
   
