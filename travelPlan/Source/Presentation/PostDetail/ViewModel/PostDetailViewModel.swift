@@ -156,11 +156,11 @@ private extension PostDetailViewModel {
     }.eraseToAnyPublisher()
   }
   
+  // TODO: - 대댓글의 경우 키보드 내려가지 않도록 구현하기. 이거 수정해야할수도?
   func keyboardDidHideNotifierStream(_ input: Input) -> Output {
     return input.keyboardDidHideNotifier
       .map { [weak self] _ -> State in
         self?.replyingSection = nil
-        print("yes")
         return .none
       }.eraseToAnyPublisher()
   }
