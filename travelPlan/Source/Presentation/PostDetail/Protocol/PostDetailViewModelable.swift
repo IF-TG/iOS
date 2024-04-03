@@ -13,6 +13,7 @@ struct PostDetailViewModelInput {
 }
 
 @frozen enum PostDetailViewModelState {
+  case loggedInUserInfo(userProfile: String?)
   case networkProcessing
   case reloadedData
   case reloadedComment
