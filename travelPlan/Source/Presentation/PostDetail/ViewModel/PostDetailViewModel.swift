@@ -42,7 +42,11 @@ final class PostDetailViewModel {
   
   private let postCommentUseCase: PostCommentUseCase
   
+  private let loggedInUserUseCase: LoggedInUserUseCase
+  
   private let commentUseCaseHandler = PassthroughSubject<PostDetailCommentInput, Never>()
+  
+  private let loggedInUserUseCaseHandler = PassthroughSubject<Void, Never>()
   
   // TODO: - 페이징 추가해야합니다. 
   // 그런데 댓글의 경우 좀 복잡할거같은데,, 사용자가 삭제하면 어떻게하지? 기존에 저장된 정보(이미 페이징 한 데이터)가
@@ -67,12 +71,14 @@ final class PostDetailViewModel {
     post: Post,
     category: Post.Category,
     postUseCase: PostUseCase,
-    postCommentUseCase: PostCommentUseCase
+    postCommentUseCase: PostCommentUseCase,
+    loggedInUserUseCase: LoggedInUserUseCase
   ) {
     // TODO: - 포스트를 받았으면, 1개의 글을 포스트들, 이미지들 이렇게 조개고 순위를 부여해야합니다. PostMapper에서 구현해야합니다.
     self.postDetails = PostMapper.toPostDetails(post, category: category)
     self.postUseCase = postUseCase
     self.postCommentUseCase = postCommentUseCase
+    self.loggedInUserUseCase = loggedInUserUseCase
   }
 }
 
@@ -82,7 +88,8 @@ extension PostDetailViewModel: PostDetailViewModelable {
     return Publishers.MergeMany([
       viewDidLoadStream(input),
       handleCommentInputStream(input),
-      commentUseCaseHandlerStream()
+      commentUseCaseHandlerStream(),
+      loggedInUserUseCaseHandlerStream()
     ]).eraseToAnyPublisher()
   }
 }
@@ -92,6 +99,7 @@ private extension PostDetailViewModel {
   func viewDidLoadStream(_ input: Input) -> Output {
     return input.viewDidLoad
       .flatMap { [weak self] in
+        self?.loggedInUserUseCaseHandler.send()
         return self?.fetchComments() ?? Just(
           State.unexpectedError(
             description: ReferenceError.invalidReference.localizedDescription)
@@ -121,6 +129,16 @@ private extension PostDetailViewModel {
           return self.sendCommentStream(with: text)
         }
       }.eraseToAnyPublisher()
+  }
+  
+  func loggedInUserUseCaseHandlerStream() -> Output {
+    loggedInUserUseCaseHandler.map { [weak self] _ -> State in
+      guard let profileURL = self?.loggedInUserUseCase.profileURL else {
+        //로그인한 사용자의 프로필 확인x.. (맨 처음에 로그인할때 기본 이미지 지정하는게 베스트)
+        return .unexpectedError(description: "로그인한 사용자의 프로필 이미지가 없습니다.")
+      }
+      return .LoggedInUserInfo(userProfile: profileURL)
+    }.eraseToAnyPublisher()
   }
   
   // MARK: - Inner stream
