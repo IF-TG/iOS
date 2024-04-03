@@ -139,7 +139,7 @@ extension PostDetailTableViewAdapter: UITableViewDelegate {
       ) as? PostDetailCommentHeader else {
         return nil
       }
-      commentHeader.configure(with: dataSource.commentItem(in: section))
+      commentHeader.configure(with: dataSource.commentItem(in: section), section: section)
       commentHeader.delegate = self
       return commentHeader
     }

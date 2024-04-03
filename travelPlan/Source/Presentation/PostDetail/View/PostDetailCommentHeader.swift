@@ -21,6 +21,8 @@ final class PostDetailCommentHeader: UITableViewHeaderFooterView {
   private let commentView = BasePostDetailCommentableView(usageType: .comment)
   // TODO: - delete control 추가해야합니다.
   
+  public var section: Int?
+  
   weak var delegate: PostDetailCommentDelegate?
   
   // MARK: - Lifecycle
@@ -36,14 +38,15 @@ final class PostDetailCommentHeader: UITableViewHeaderFooterView {
   
   override func prepareForReuse() {
     super.prepareForReuse()
-    configure(with: nil)
+    configure(with: nil, section: nil)
   }
 }
 
 // MARK: - Helpers
 extension PostDetailCommentHeader {
-  func configure(with info: BasePostDetailCommentInfo?) {
+  func configure(with info: BasePostDetailCommentInfo?, section: Int?) {
     commentView.configure(with: info)
+    self.section = section
   }
 }
 
