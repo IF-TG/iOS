@@ -17,10 +17,11 @@ struct BasePostDetailCommentInfo {
   let heartCountText: String
 }
 
-protocol BaseCommentViewDelegate: BaseProfileAreaViewDelegate {
+protocol BaseCommentViewDelegate: AnyObject {
   func didTapHeart(_ isOnHeart: Bool)
   func didCanceledHeart()
   func didTapReply()
+  func didTapProfile()
 }
 
 final class BasePostDetailCommentableView: BaseProfileAreaView {
@@ -160,6 +161,7 @@ final class BasePostDetailCommentableView: BaseProfileAreaView {
     setUserNameTapGesture()
     setHeartIconTapGesture()
     setHeartCancelLabelTapGesture()
+    baseDelegate = self
   }
   
   convenience init(usageType: UsageType) {
@@ -264,5 +266,12 @@ private extension BasePostDetailCommentableView {
   
   @objc func didTapReply() {
     delegate?.didTapReply()
+  }
+}
+
+// MARK: - BaseProfileAreaViewDelegate
+extension BasePostDetailCommentableView: BaseProfileAreaViewDelegate {
+  func baseLeftRoundProfileAreaView(_ view: BaseProfileAreaView, didSelectProfileImage image: UIImage?) {
+    delegate?.didTapProfile()
   }
 }
