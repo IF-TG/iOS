@@ -108,9 +108,10 @@ extension PostDetailViewController: ViewBindCase {
   
   func bind() {
     let output = viewModel.transform(input)
-    output.sink { [weak self] state in
-      self?.render(state)
-    }.store(in: &subscriptions)
+    output.receive(on: DispatchQueue.main)
+      .sink { [weak self] state in
+        self?.render(state)
+      }.store(in: &subscriptions)
   }
   
   func render(_ state: PostDetailViewModelState) {
@@ -216,7 +217,6 @@ extension PostDetailViewController: PostDetailTableViewAdapterDelegate {
       self.naviTitle.isHidden = true
     }
     naviTitleAnimator?.startAnimation()
-                   
   }
   
   func disappearTitle(_ title: String) {
