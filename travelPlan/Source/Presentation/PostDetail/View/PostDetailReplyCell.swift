@@ -16,7 +16,6 @@ protocol PostDetailReplyCellDelegate: AnyObject {
   func didTapProfile(_ cell: UITableViewCell)
   func didTapHeart(_ cell: UITableViewCell, isOnHeart: Bool)
   func didCanceledHeart(_ cell: UITableViewCell)
-  func didTapReply(_ cell: UITableViewCell)
 }
 
 final class PostDetailReplyCell: UITableViewCell {
@@ -84,9 +83,7 @@ extension PostDetailReplyCell: BaseCommentViewDelegate {
     delegate?.didCanceledHeart(self)
   }
   
-  func didTapReply() {
-    delegate?.didTapReply(self)
-  }
+  func didTapReply() { }
   
   func didTapProfile() {
     delegate?.didTapProfile(self)

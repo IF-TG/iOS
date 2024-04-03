@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol PostDetailTableViewAdapterDelegate: AnyObject {
+protocol PostDetailTableViewAdapterDelegate: PostDetailReplyCellDelegate {
   func disappearTitle(_ title: String)
   func willDisplayTitle()
   
