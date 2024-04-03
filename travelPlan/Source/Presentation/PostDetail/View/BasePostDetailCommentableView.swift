@@ -18,7 +18,6 @@ struct BasePostDetailCommentInfo {
 }
 
 protocol BaseCommentViewDelegate: BaseProfileAreaViewDelegate {
-  func didTapProfile()
   func didTapHeart(_ isOnHeart: Bool)
   func didCanceledHeart()
   func didTapReply()
