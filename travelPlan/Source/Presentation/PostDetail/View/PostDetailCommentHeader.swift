@@ -27,6 +27,7 @@ final class PostDetailCommentHeader: UITableViewHeaderFooterView {
   override init(reuseIdentifier: String?) {
     super.init(reuseIdentifier: reuseIdentifier)
     configureUI()
+    commentView.delegate = self
   }
   
   required init?(coder: NSCoder) {

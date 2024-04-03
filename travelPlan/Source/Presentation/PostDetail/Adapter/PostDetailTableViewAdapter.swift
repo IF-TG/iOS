@@ -11,14 +11,14 @@ final class PostDetailTableViewAdapter: NSObject {
   // MARK: - Properties
   private weak var dataSource: PostDetailTableViewDataSource?
   
-  weak var delegate: PostDetailTableViewAdapterDelegate?
+  weak var delegate: (PostDetailTableViewAdapterDelegate & PostDetailReplyCellDelegate & PostDetailCommentDelegate)?
   
   private let defaultSection = PostDetailSectionType.defaultNumberOfSections
   
   // MARK: - Lifecycle
   init(
     dataSource: PostDetailTableViewDataSource?,
-    delegate: PostDetailTableViewAdapterDelegate?,
+    delegate: (PostDetailTableViewAdapterDelegate & PostDetailReplyCellDelegate & PostDetailCommentDelegate)?,
     tableView: UITableView
   ) {
     super.init()
@@ -140,6 +140,7 @@ extension PostDetailTableViewAdapter: UITableViewDelegate {
         return nil
       }
       commentHeader.configure(with: dataSource.commentItem(in: section))
+      commentHeader.delegate = self
       return commentHeader
     }
     
@@ -252,5 +253,24 @@ extension PostDetailTableViewAdapter: PostDetailReplyCellDelegate {
   
   func didCanceledHeart(_ cell: UITableViewCell) {
     delegate?.didCanceledHeart(cell)
+  }
+}
+
+// MARK: - PostDetailCommentDelegate
+extension PostDetailTableViewAdapter: PostDetailCommentDelegate {
+  func didTapHeart(_ header: UITableViewHeaderFooterView, _ isOnHeart: Bool) {
+    delegate?.didTapHeart(header, isOnHeart)
+  }
+  
+  func didTapCanceledHeart(_ header: UITableViewHeaderFooterView) {
+    delegate?.didTapCanceledHeart(header)
+  }
+  
+  func didTapReply(_ header: UITableViewHeaderFooterView) {
+    delegate?.didTapReply(header)
+  }
+  
+  func didTapProfile(_ header: UITableViewHeaderFooterView) {
+    delegate?.didTapProfile(header)
   }
 }

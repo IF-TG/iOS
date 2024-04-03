@@ -263,6 +263,25 @@ extension PostDetailViewController: PostDetailReplyCellDelegate {
   }
 }
 
+// MARK: - PostDetailCommentDelegate
+extension PostDetailViewController: PostDetailCommentDelegate {
+  func didTapHeart(_ header: UITableViewHeaderFooterView, _ isOnHeart: Bool) {
+    print("댓글 하트 클릭")
+  }
+  
+  func didTapCanceledHeart(_ header: UITableViewHeaderFooterView) {
+    print("댓글 취소 클릭")
+  }
+  
+  func didTapReply(_ header: UITableViewHeaderFooterView) {
+    print("댓글 리플 클릭")
+  }
+  
+  func didTapProfile(_ header: UITableViewHeaderFooterView) {
+    print("댓글 프로필 클릭")
+  }
+}
+
 // MARK: - PostDetailInputAccessoryWrapperDelegate
 extension PostDetailViewController: PostDetailInputAccessoryWrapperDelegate {
   func didTouchSendIcon(_ text: String) {
