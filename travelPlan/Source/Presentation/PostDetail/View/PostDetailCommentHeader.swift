@@ -7,21 +7,26 @@
 
 import UIKit
 
-protocol PostDetailCommentDelegate: AnyObject {
-  func didTapHeart(_ header: UITableViewHeaderFooterView, _ isOnHeart: Bool)
-  func didTapCanceledHeart(_ header: UITableViewHeaderFooterView)
-  func didTapReply(_ header: UITableViewHeaderFooterView)
-  func didTapProfile(_ header: UITableViewHeaderFooterView)
+protocol PostDetailCommentHeaderIdentifiable {
+  var section: Int? { get }
 }
 
-final class PostDetailCommentHeader: UITableViewHeaderFooterView {
+protocol PostDetailCommentDelegate: AnyObject {
+  func didTapHeart(_ header: PostDetailCommentHeaderIdentifiable, _ isOnHeart: Bool)
+  func didTapCanceledHeart(_ header: PostDetailCommentHeaderIdentifiable)
+  func didTapReply(_ header: PostDetailCommentHeaderIdentifiable)
+  func didTapProfile(_ header: PostDetailCommentHeaderIdentifiable)
+}
+
+final class PostDetailCommentHeader: UITableViewHeaderFooterView & PostDetailCommentHeaderIdentifiable {
+  
   static let id = String(describing: PostDetailCommentHeader.self)
   
   // MARK: - Properties
   private let commentView = BasePostDetailCommentableView(usageType: .comment)
   // TODO: - delete control 추가해야합니다.
   
-  public var section: Int?
+  var section: Int? = nil
   
   weak var delegate: PostDetailCommentDelegate?
   

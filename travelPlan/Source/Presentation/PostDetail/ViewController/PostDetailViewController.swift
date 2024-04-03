@@ -158,7 +158,7 @@ extension PostDetailViewController: ViewBindCase {
       case .completionSend(let section):
         isReplying = false
         inputAccessory.hideKeyboard()
-        tableView.reloadSections(IndexSet(integer: section), with: .automatic)
+        tableView.reloadSections(IndexSet(integer: section), with: .none)
         stopIndicator()
       }
     }
@@ -296,19 +296,19 @@ extension PostDetailViewController: PostDetailReplyCellDelegate {
 
 // MARK: - PostDetailCommentDelegate
 extension PostDetailViewController: PostDetailCommentDelegate {
-  func didTapHeart(_ header: UITableViewHeaderFooterView, _ isOnHeart: Bool) {}
+  func didTapHeart(_ header: PostDetailCommentHeaderIdentifiable, _ isOnHeart: Bool) {}
   
-  func didTapCanceledHeart(_ header: UITableViewHeaderFooterView) {}
+  func didTapCanceledHeart(_ header: PostDetailCommentHeaderIdentifiable) {}
   
-  func didTapReply(_ header: UITableViewHeaderFooterView) {
-    guard let replySection = tableView.section(for: header) else {
+  func didTapReply(_ header: PostDetailCommentHeaderIdentifiable) {
+    guard let replySection = header.section else {
       coordinator?.showAlertForError(with: "대댓글을 작성할 수 없습니다.\n앱 서비스에 문제가 발생됬습니다.", completion: nil)
       return
     }
     input.replyStartNotifier.send(replySection)
   }
   
-  func didTapProfile(_ header: UITableViewHeaderFooterView) {}
+  func didTapProfile(_ header: PostDetailCommentHeaderIdentifiable) {}
 }
 
 // MARK: - PostDetailInputAccessoryWrapperDelegate
