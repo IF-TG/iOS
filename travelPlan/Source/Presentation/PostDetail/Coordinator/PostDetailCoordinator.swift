@@ -24,7 +24,15 @@ final class PostDetailCoordinator: FlowCoordinator {
     self.presenter = presenter
     let mockPostRepository = MockPostRepository()
     let postUseCase = DefaultPostUseCase(postRepository: mockPostRepository)
-    let postDetailVM = PostDetailViewModel(post: post, category: category, postUseCase: postUseCase)
+    
+    let mockPostCommentRepository = MockPostCommentRepository()
+    let postCommentUseCase = DefaultPostCommentUseCase(postCommentRepository: mockPostCommentRepository)
+    
+    let postDetailVM = PostDetailViewModel(
+      post: post,
+      category: category,
+      postUseCase: postUseCase,
+      postCommentUseCase: postCommentUseCase)
     postDetailViewController = PostDetailViewController(viewModel: postDetailVM)
   }
   
