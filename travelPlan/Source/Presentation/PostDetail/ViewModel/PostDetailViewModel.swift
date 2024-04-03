@@ -40,6 +40,10 @@ final class PostDetailViewModel {
   
   private let postUseCase: PostUseCase
   
+  private let postCommentUseCase: PostCommentUseCase
+  
+  private let commentUseCaseHandler = PassthroughSubject<PostDetailCommentInput, Never>()
+  
   // TODO: - 페이징 추가해야합니다. 
   // 그런데 댓글의 경우 좀 복잡할거같은데,, 사용자가 삭제하면 어떻게하지? 기존에 저장된 정보(이미 페이징 한 데이터)가
   // 확실하다는 보장이 없을거같은데 페이징 보다는 맞으려나?
@@ -59,10 +63,16 @@ final class PostDetailViewModel {
     return currentPage < totalPageCount
   }
   
-  init(post: Post, category: Post.Category, postUseCase: PostUseCase) {
+  init(
+    post: Post,
+    category: Post.Category,
+    postUseCase: PostUseCase,
+    postCommentUseCase: PostCommentUseCase
+  ) {
     // TODO: - 포스트를 받았으면, 1개의 글을 포스트들, 이미지들 이렇게 조개고 순위를 부여해야합니다. PostMapper에서 구현해야합니다.
     self.postDetails = PostMapper.toPostDetails(post, category: category)
     self.postUseCase = postUseCase
+    self.postCommentUseCase = postCommentUseCase
   }
 }
 
@@ -70,7 +80,9 @@ final class PostDetailViewModel {
 extension PostDetailViewModel: PostDetailViewModelable {
   func transform(_ input: PostDetailViewModelInput) -> AnyPublisher<PostDetailViewModelState, Never> {
     return Publishers.MergeMany([
-      viewDidLoadStream(input)
+      viewDidLoadStream(input),
+      handleCommentInputStream(input),
+      commentUseCaseHandlerStream()
     ]).eraseToAnyPublisher()
   }
 }
@@ -91,6 +103,32 @@ private extension PostDetailViewModel {
       }.eraseToAnyPublisher()
   }
   
+  func handleCommentInputStream(_ input: Input) -> Output {
+    input.commentHandler
+      .map { [weak self] inputState -> State in
+        DispatchQueue.global(qos: .userInitiated).async {
+          switch inputState {
+          case .commentSend(let text):
+            self?.commentUseCaseHandler.send(.commentSend(text))
+          }
+        }
+        return .networkProcessing
+      }.eraseToAnyPublisher()
+  }
+  
+  /// 커맨트 유즈케이스 관련 전반적인 역할 담당.
+  func commentUseCaseHandlerStream() -> Output {
+    commentUseCaseHandler
+      .flatMap { commentInputState in
+        switch commentInputState {
+        case .commentSend(let text):
+          return self.sendCommentStream(with: text)
+        }
+      }.eraseToAnyPublisher()
+  }
+  
+  // MARK: - Inner stream
+  /// 초기 viewDidLoad시점에 호출해야 합니다. -> post favorite여부파악.
   func fetchComments() -> AnyPublisher<Void, Error> {
     let postCommentRequestValue = PostCommentsRequestValue(
       page: currentPage,
@@ -102,11 +140,22 @@ private extension PostDetailViewModel {
         self?.postDetails.comments += postCommentContainerEntity.comments
       }.eraseToAnyPublisher()
   }
+  
+  /// 댓글 전송할 때
+  func sendCommentStream(with text: String) -> Output {
+    postCommentUseCase.sendComment(postId: postDetails.detail.postID, comment: text)
+      .map { [weak self] postCommentEntity -> State in
+        self?.postDetails.comments.append(postCommentEntity)
+        return .reloadedComment
+      }.catch { error in
+        return Just(State.unexpectedError(description: error.localizedDescription))
+      }.eraseToAnyPublisher()
+  }
 }
 
 // MARK: - Private Helpers
 private extension PostDetailViewModel {
-  func convertToString(_ travelMainTheme: TravelMainThemeType, subTheme : String) -> String {
+  func convertToString(_ travelMainTheme: TravelMainThemeType, subTheme: String) -> String {
     "\(travelMainTheme.rawValue) > \(subTheme)"
   }
 }
