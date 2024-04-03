@@ -11,15 +11,17 @@ struct PostDetailViewModelInput {
   let viewDidLoad = PassthroughSubject<Void, Never>()
   let commentHandler = PassthroughSubject<PostDetailCommentInput, Never>()
   let replyStartNotifier = PassthroughSubject<Int, Never>()
+  let keyboardDidHideNotifier = PassthroughSubject<Void, Never>()
 }
 
 @frozen enum PostDetailViewModelState {
+  case none
   case loggedInUserInfo(userProfile: String?)
   case networkProcessing
   case reloadedData
   case reloadedComment
   case unexpectedError(description: String)
-  case keyboard(KeyboardState)
+  case keyboardWhenCommentReply(KeyboardState)
 }
 
 @frozen enum PostDetailCommentInput {

@@ -148,8 +148,17 @@ private extension PostDetailViewModel {
   func replyStartNotifierStream(_ input: Input) -> Output {
     input.replyStartNotifier.map { [weak self] replySection -> State in
       self?.replyingSection = replySection
-      return .keyboard(.keyboardShow)
+      return .keyboardWhenCommentReply(.keyboardShow)
     }.eraseToAnyPublisher()
+  }
+  
+  func keyboardDidHideNotifierStream(_ input: Input) -> Output {
+    return input.keyboardDidHideNotifier
+      .map { [weak self] _ -> State in
+        self?.replyingSection = nil
+        print("yes")
+        return .none
+      }.eraseToAnyPublisher()
   }
   
   // MARK: - Inner stream

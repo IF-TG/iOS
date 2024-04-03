@@ -39,6 +39,8 @@ final class PostDetailViewController: UITableViewController {
   private var subscriptions = Set<AnyCancellable>()
   
   weak var coordinator: PostDetailCoordinatorDelegate?
+  
+  private var isReplying = false
 
   // MARK: - Lifecycle
   init(viewModel: any PostDetailViewModelable & PostDetailTableViewDataSource) {
@@ -99,6 +101,10 @@ final class PostDetailViewController: UITableViewController {
     (self.tabBarController as? MainTabBarController)?.showShadowLayer()
     self.tabBarController?.tabBar.isHidden = false
   }
+  
+  deinit {
+    NotificationCenter.default.removeObserver(self)
+  }
 }
 
 extension PostDetailViewController: ViewBindCase {
@@ -107,6 +113,12 @@ extension PostDetailViewController: ViewBindCase {
   typealias State = PostDetailViewModelState
   
   func bind() {
+    NotificationCenter.default.addObserver(
+      self,
+      selector: #selector(didHideKeyboard),
+      name: UIResponder.keyboardDidHideNotification,
+      object: nil)
+    
     let output = viewModel.transform(input)
     output.receive(on: DispatchQueue.main)
       .sink { [weak self] state in
@@ -116,6 +128,8 @@ extension PostDetailViewController: ViewBindCase {
   
   func render(_ state: PostDetailViewModelState) {
     switch state {
+    case .none:
+      break
     case .networkProcessing:
       startIndicator()
     case .reloadedData:
@@ -131,9 +145,10 @@ extension PostDetailViewController: ViewBindCase {
       coordinator?.showAlertForError(with: description, completion: nil)
     case .loggedInUserInfo(userProfile: let userProfile):
       inputAccessory.configure(with: userProfile)
-    case .keyboard(let state):
+    case .keyboardWhenCommentReply(let state):
       switch state {
       case .keyboardShow:
+        isReplying = true
         inputAccessory.showKeyboard()
       case .keyboardHide:
         print("숨겨라!")
@@ -204,8 +219,9 @@ extension PostDetailViewController {
     print("카운팅스타~ 밤하늘의 퍼어얼")
   }
   
-  @objc private func keyboardDidShow(notification: NSNotification) {
-    print("h키보드ㅏ 보여졋음")
+  // MARK: - Keyboard Actions
+  @objc private func didHideKeyboard(_ notification: Notification) {
+    input.keyboardDidHideNotifier.send()
   }
 }
 
