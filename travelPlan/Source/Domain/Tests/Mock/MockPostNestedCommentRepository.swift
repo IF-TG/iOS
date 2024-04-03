@@ -37,7 +37,17 @@ final class MockPostNestedCommentRepository: PostNestedCommentRepository {
               promise(.failure(error))
             }
           } receiveValue: { entity in
-            promise(.success(entity))
+            // 이 시점에 이미 서버의 response data를 encodable -> 관련 entity로 mapping했기에 여기서
+            // 잠깐 사용자가 보냈던 nestedComment로 가로체겠습니다.
+            let interceptedEntity = PostNestedCommentEntity(
+              nestedCommentId: entity.nestedCommentId,
+              userProfileURL: entity.userProfileURL,
+              nickname: entity.nickname,
+              timestamp: entity.timestamp,
+              comment: comment,
+              hearts: 0,
+              isOnHeart: false)
+            promise(.success(interceptedEntity))
           }
         self?.subscriptions.insert(subscription)
       }
