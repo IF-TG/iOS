@@ -120,6 +120,9 @@ extension PostDetailViewController: ViewBindCase {
     case .reloadedData:
       stopIndicator()
       tableView.reloadData()
+      tableView.scrollToRow(
+        at: IndexPath(row: NSNotFound, section: viewModel.numberOfSections-1),
+        at: .bottom, animated: true)
     case .reloadedComment:
       // TODO: - reloadSection
       print("커맨트 섹션 리로드")
@@ -248,11 +251,5 @@ extension PostDetailViewController: PostDetailInputAccessoryWrapperDelegate {
   func didTouchSendIcon(_ text: String) {
     // TODO: - 사용자가 섹션을 클릭했다면, 섹션값도 전달해야 함 (대댓글인경우) 대댓글은 대댓글인지 알림후!!. 대댓은 flag로 확인.
     input.commentHandler.send(.commentSend(text))
-//    viewModel.appendComment(text)
-//    tableView.reloadData()
-//    tableView.scrollToRow(
-//      at: IndexPath(row: NSNotFound, section: viewModel.numberOfSections-1),
-//      at: .bottom, animated: true)
-//    
   }
 }
