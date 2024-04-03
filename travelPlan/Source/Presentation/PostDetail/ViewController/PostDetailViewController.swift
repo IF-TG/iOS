@@ -248,6 +248,21 @@ extension PostDetailViewController: PostDetailTableViewAdapterDelegate {
   }
 }
 
+// MARK: - PostDetailReplyCellDelegate
+extension PostDetailViewController: PostDetailReplyCellDelegate {
+  func didTapProfile(_ cell: UITableViewCell) {
+    print("대댓 프로필 클릭")
+  }
+  
+  func didTapHeart(_ cell: UITableViewCell, isOnHeart: Bool) {
+    print("대댓 하트 뿅")
+  }
+  
+  func didCanceledHeart(_ cell: UITableViewCell) {
+    print("대댓 하트 취소")
+  }
+}
+
 // MARK: - PostDetailInputAccessoryWrapperDelegate
 extension PostDetailViewController: PostDetailInputAccessoryWrapperDelegate {
   func didTouchSendIcon(_ text: String) {
