@@ -120,12 +120,12 @@ extension PostDetailViewController: ViewBindCase {
     case .reloadedData:
       stopIndicator()
       tableView.reloadData()
+    case .reloadedComment:
+      stopIndicator()
+      tableView.reloadData()
       tableView.scrollToRow(
         at: IndexPath(row: NSNotFound, section: viewModel.numberOfSections-1),
         at: .bottom, animated: true)
-    case .reloadedComment:
-      // TODO: - reloadSection
-      print("커맨트 섹션 리로드")
     case .unexpectedError(description: let description):
       coordinator?.showAlertForError(with: description, completion: nil)
     }
