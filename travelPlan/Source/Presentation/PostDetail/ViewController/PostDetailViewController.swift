@@ -246,9 +246,8 @@ extension PostDetailViewController: PostDetailTableViewAdapterDelegate {
 // MARK: - PostDetailInputAccessoryWrapperDelegate
 extension PostDetailViewController: PostDetailInputAccessoryWrapperDelegate {
   func didTouchSendIcon(_ text: String) {
-    // TODO: - 사용자가 섹션을 클릭했다면, 섹션값도 전달해야 함 (대댓글인경우) 대댓글은 대댓글인지 알림후!!
-    print("DEBUG: \(text)")
-    // TODO: - Input, State를 통해 처리되야함
+    // TODO: - 사용자가 섹션을 클릭했다면, 섹션값도 전달해야 함 (대댓글인경우) 대댓글은 대댓글인지 알림후!!. 대댓은 flag로 확인.
+    input.commentHandler.send(.commentSend(text))
 //    viewModel.appendComment(text)
 //    tableView.reloadData()
 //    tableView.scrollToRow(
