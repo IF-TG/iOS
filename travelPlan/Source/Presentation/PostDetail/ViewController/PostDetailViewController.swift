@@ -153,6 +153,14 @@ extension PostDetailViewController: ViewBindCase {
       case .keyboardHide:
         print("숨겨라!")
       }
+    case .nestedComment(let commentState):
+      switch commentState {
+      case .completionSend(let section):
+        isReplying = false
+        inputAccessory.hideKeyboard()
+        tableView.reloadSections(IndexSet(integer: section), with: .automatic)
+        stopIndicator()
+      }
     }
   }
   
@@ -307,6 +315,8 @@ extension PostDetailViewController: PostDetailCommentDelegate {
 extension PostDetailViewController: PostDetailInputAccessoryWrapperDelegate {
   func didTouchSendIcon(_ text: String) {
     // TODO: - 사용자가 섹션을 클릭했다면, 섹션값도 전달해야 함 (대댓글인경우) 대댓글은 대댓글인지 알림후!!. 대댓은 flag로 확인.
+    // 대댓은 isRefplying false처리하기전에 사용자한테 물어보기. 키보드 내려가지 않도록 하기! 다른 스크롤말고 화면 외 터치할 경우
+    // 댓글로 내려가기? 물어본담 내려가도록 하기.
     input.commentHandler.send(.commentSend(text))
   }
 }

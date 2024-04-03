@@ -22,6 +22,12 @@ struct PostDetailViewModelInput {
   case reloadedComment
   case unexpectedError(description: String)
   case keyboardWhenCommentReply(KeyboardState)
+  case nestedComment(PostDetailNestedCommentState)
+}
+
+@frozen enum PostDetailNestedCommentState {
+  typealias Section = Int
+  case completionSend(Section)
 }
 
 @frozen enum PostDetailCommentInput {

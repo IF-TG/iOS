@@ -48,6 +48,8 @@ final class PostDetailViewModel {
   
   private let commentUseCaseHandler = PassthroughSubject<PostDetailCommentInput, Never>()
   
+  private let nestedCommentUseCaseHandler = PassthroughSubject<PostDetailCommentInput, Never>()
+  
   private let loggedInUserUseCaseHandler = PassthroughSubject<Void, Never>()
   
   /// 사용자가 대댓글 작성중인 경우 not nil. 댓글을 작성중인 경우 nil
@@ -96,6 +98,7 @@ extension PostDetailViewModel: PostDetailViewModelable {
       viewDidLoadStream(input),
       handleCommentInputStream(input),
       commentUseCaseHandlerStream(),
+      nestedCommentUseCaseHandlerStream(),
       loggedInUserUseCaseHandlerStream(),
       replyStartNotifierStream(input)
     ]).eraseToAnyPublisher()
@@ -121,7 +124,13 @@ private extension PostDetailViewModel {
         DispatchQueue.global(qos: .userInitiated).async {
           switch inputState {
           case .commentSend(let text):
-            self?.commentUseCaseHandler.send(.commentSend(text))
+            if let replyingSection = self?.replyingSection {
+              /// 대댓글인 경우
+              self?.nestedCommentUseCaseHandler.send(.commentSend(text))
+            } else {
+              /// 댓글인 경우
+              self?.commentUseCaseHandler.send(.commentSend(text))
+            }
           }
         }
         return .networkProcessing
@@ -131,10 +140,24 @@ private extension PostDetailViewModel {
   /// 커맨트 유즈케이스 관련 전반적인 역할 담당.
   func commentUseCaseHandlerStream() -> Output {
     commentUseCaseHandler
-      .flatMap { commentInputState in
+      .flatMap { [weak self] commentInputState in
         switch commentInputState {
         case .commentSend(let text):
-          return self.sendCommentStream(with: text)
+          return self?.sendCommentStream(with: text) ?? Just(
+            State.unexpectedError(description: "댓글을 전송할 수 없습니다.")
+          ).eraseToAnyPublisher()
+        }
+      }.eraseToAnyPublisher()
+  }
+  
+  func nestedCommentUseCaseHandlerStream() -> Output {
+    return nestedCommentUseCaseHandler
+      .flatMap { [weak self] nestedCommentInputState in
+        switch nestedCommentInputState {
+        case .commentSend(let text):
+          return self?.sendNestedCommentStream(with: text) ?? Just(
+            State.unexpectedError(description: "대댓글을 전송할 수 없습니다.")
+          ).eraseToAnyPublisher()
         }
       }.eraseToAnyPublisher()
   }
@@ -160,7 +183,7 @@ private extension PostDetailViewModel {
   func keyboardDidHideNotifierStream(_ input: Input) -> Output {
     return input.keyboardDidHideNotifier
       .map { [weak self] _ -> State in
-        self?.replyingSection = nil
+        self?.clearNestedCommentState()
         return .none
       }.eraseToAnyPublisher()
   }
@@ -192,12 +215,35 @@ private extension PostDetailViewModel {
         return Just(State.unexpectedError(description: error.localizedDescription))
       }.eraseToAnyPublisher()
   }
+  
+  /// 대댓글 전송할 때
+  func sendNestedCommentStream(with text: String) -> Output {
+    guard let replyingSection else {
+      return Just(State.unexpectedError(description: "대댓글을 전송할 수 없습니다.")).eraseToAnyPublisher()
+    }
+    /// 포스트는 섹션 \(PostDetailSectionType.defaultNumberOfSections)부터 시작합니다.
+    let commentId = Int64(replyingSection - PostDetailSectionType.defaultNumberOfSections)
+    return postNestedCommentUseCase
+      .sendNestedComment(commentId: commentId, comment: text)
+      .map { [weak self] postNestedCommentEntity -> State in
+        self?.postDetails.comments[Int(commentId)].nestedComments.append(postNestedCommentEntity)
+        self?.clearNestedCommentState()
+        /// 대댓글이 속한 댓글 섹션은 replyingSection을 보내주어야 합니다.
+        return .nestedComment(.completionSend(replyingSection))
+      }.catch { error in
+        return Just(State.unexpectedError(description: error.localizedDescription))
+      }.eraseToAnyPublisher()
+  }
 }
 
 // MARK: - Private Helpers
 private extension PostDetailViewModel {
   func convertToString(_ travelMainTheme: TravelMainThemeType, subTheme: String) -> String {
     "\(travelMainTheme.rawValue) > \(subTheme)"
+  }
+  
+  func clearNestedCommentState() {
+    replyingSection = nil
   }
 }
 
