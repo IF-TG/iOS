@@ -12,7 +12,7 @@ extension UITableView {
   func section(for header: UITableViewHeaderFooterView) -> Int? {
     let relativePoint = convert(header.frame.origin, to: self)
     for specificSection in 0..<self.numberOfSections
-    where rectForHeader(inSection: specificSection).isContained(point: relativePoint) {
+    where rectForHeader(inSection: specificSection).contains(relativePoint) {
       return specificSection
     }
     return nil
