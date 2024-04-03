@@ -214,6 +214,8 @@
 		154ECA172AB0B5D40093AF25 /* TravelMainThemeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154ECA162AB0B5D40093AF25 /* TravelMainThemeType.swift */; };
 		1550D9AF2ACAFAC10046569B /* FeedPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1550D9AE2ACAFAC10046569B /* FeedPostViewController.swift */; };
 		1550D9B12ACB1D740046569B /* DevelopmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1550D9B02ACB1D740046569B /* DevelopmentViewController.swift */; };
+		155527DE2BBD5821000122B4 /* UITableView+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155527DD2BBD5821000122B4 /* UITableView+Helpers.swift */; };
+		155527E22BBD6D64000122B4 /* KeyboardState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155527E12BBD6D64000122B4 /* KeyboardState.swift */; };
 		15553BC02BB34151000AA896 /* PostNestedCommentAPIEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15553BBF2BB34151000AA896 /* PostNestedCommentAPIEndpoint.swift */; };
 		15553BC22BB341B0000AA896 /* PostNestedCommentSendRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15553BC12BB341B0000AA896 /* PostNestedCommentSendRequestDTO.swift */; };
 		15553BC42BB343F1000AA896 /* PostNestedCommentRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15553BC32BB343F1000AA896 /* PostNestedCommentRepository.swift */; };
@@ -748,6 +750,8 @@
 		154FC1312BADE5A90067602E /* PostContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostContainer.swift; sourceTree = "<group>"; };
 		1550D9AE2ACAFAC10046569B /* FeedPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedPostViewController.swift; sourceTree = "<group>"; };
 		1550D9B02ACB1D740046569B /* DevelopmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevelopmentViewController.swift; sourceTree = "<group>"; };
+		155527DD2BBD5821000122B4 /* UITableView+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Helpers.swift"; sourceTree = "<group>"; };
+		155527E12BBD6D64000122B4 /* KeyboardState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardState.swift; sourceTree = "<group>"; };
 		15553BBF2BB34151000AA896 /* PostNestedCommentAPIEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostNestedCommentAPIEndpoint.swift; sourceTree = "<group>"; };
 		15553BC12BB341B0000AA896 /* PostNestedCommentSendRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostNestedCommentSendRequestDTO.swift; sourceTree = "<group>"; };
 		15553BC32BB343F1000AA896 /* PostNestedCommentRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostNestedCommentRepository.swift; sourceTree = "<group>"; };
@@ -2281,6 +2285,7 @@
 				152AD4ED2A1891DB008A2A11 /* UISpacing.swift */,
 				15D955AE2ADFB2F1002BF9C3 /* ShadowInfo.swift */,
 				15CB235D2A10B59E003EAF20 /* DateValidation */,
+				155527E12BBD6D64000122B4 /* KeyboardState.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -2672,6 +2677,7 @@
 				133532032BA42DDE000A4D9E /* Double+.swift */,
 				133532052BA42F6E000A4D9E /* Data+.swift */,
 				15553BD22BB34ACA000AA896 /* XCTestCasej+UseCaseTestsHelpers.swift */,
+				155527DD2BBD5821000122B4 /* UITableView+Helpers.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -3183,6 +3189,7 @@
 				15FFAC032AD5D98A0013DB57 /* FavoriteCoordinatorDelegate.swift in Sources */,
 				15D388312B0159F600039946 /* PostHeartAndShareAreaHeaderView.swift in Sources */,
 				15FDCC912AE03F4A00716CC6 /* InnerRoundRectReusableView.swift in Sources */,
+				155527E22BBD6D64000122B4 /* KeyboardState.swift in Sources */,
 				159F38BD2AFAA1F7000A24C2 /* PostDetailCategoryHeaderViewDelegate.swift in Sources */,
 				1503F92E2A4E083C002BC38D /* LoginCoordinator.swift in Sources */,
 				15D3882B2AFFA56500039946 /* CommentInputView.swift in Sources */,
@@ -3398,6 +3405,7 @@
 				15BE6BEA2BAF1CA1009A2568 /* DefaultPostCommentUseCase.swift in Sources */,
 				15FD508F2BB44FFF006CCCDD /* PostUpdatedNestedCommentResponseDTO.swift in Sources */,
 				15C1F53C2AF27043005FDA15 /* NotificationViewAdapter.swift in Sources */,
+				155527DE2BBD5821000122B4 /* UITableView+Helpers.swift in Sources */,
 				1546DF302B0AF4C100B49A55 /* ImageMemoryCache.swift in Sources */,
 				15B928692AFA3F63003A20D4 /* PostDetailContentType.swift in Sources */,
 				130CF38D2B9347CF0051DEE8 /* AppleLoginStrategy.swift in Sources */,
