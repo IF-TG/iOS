@@ -79,6 +79,7 @@ final class BasePostDetailCommentableView: BaseProfileAreaView {
   /// CommentType별로 메모리 로드 안 할 수 있음
   private lazy var replyLabel = BaseLabel(fontType: .medium_500(fontSize: 12)).set {
     $0.textColor = .yg.gray3
+    $0.isUserInteractionEnabled = true
     $0.text = "답글 달기"
     let tap = UITapGestureRecognizer(target: self, action: #selector(didTapReply))
     $0.addGestureRecognizer(tap)
