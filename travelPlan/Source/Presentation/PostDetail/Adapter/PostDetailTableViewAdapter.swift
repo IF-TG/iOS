@@ -98,6 +98,7 @@ extension PostDetailTableViewAdapter: UITableViewDelegate {
     let sectionType: PostDetailSectionType = .init(rawValue: indexPath.section) ?? .postDescription
     if sectionType == .postDescription && indexPath.row == 0 {
       guard let title = dataSource?.title else { return }
+      // TODO: - 이거 올라오는거 좀 더빠르게인식하도록하기!
       delegate?.disappearTitle(title)
     }
   }
