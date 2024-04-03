@@ -128,6 +128,8 @@ extension PostDetailViewController: ViewBindCase {
       stopIndicator()
     case .unexpectedError(description: let description):
       coordinator?.showAlertForError(with: description, completion: nil)
+    case .LoggedInUserInfo(userProfile: let userProfile):
+      inputAccessory.configure(with: userProfile)
     }
   }
   
