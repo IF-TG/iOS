@@ -8,6 +8,6 @@
 import Foundation
 
 @frozen enum KeyboardState {
-  case keyboardShow
-  case keyboardHide
+  case willShow
+  case willHide
 }
