@@ -18,7 +18,7 @@ final class PostDetailCoordinator: FlowCoordinator {
   var presenter: UINavigationController?
   
   /// dismiss호출코드에서 finish도 해줘야합니다
-  private var postDetailViewController: PostDetailViewController
+  private let postDetailViewController: PostDetailViewController
   
   init(presenter: UINavigationController?, post: Post, category: Post.Category) {
     self.presenter = presenter

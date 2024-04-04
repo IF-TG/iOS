@@ -13,6 +13,7 @@ enum MockResponseType {
   case postCommentContainerResponse
   case postComment(PostCommentResponse)
   case postNestedComment(PostNestedCommentResponse)
+  case userBlock(UserBlock)
   
   var filePath: String {
     return switch self {
@@ -26,6 +27,8 @@ enum MockResponseType {
       "mock_response_postContainer"
     case .postCommentContainerResponse:
       "mock_response_postCommentContainer"
+    case .userBlock(let userBlock):
+      userBlock.filePath
     }
   }
   
@@ -68,6 +71,18 @@ enum MockResponseType {
         .whenCommentSend: "mock_postNestedComment_send_response",
         .whenCommentUpdate: "mock_postNestedComment_update_response",
         .whenCommentDelete: "mock_postNestedComemnt_delete_response"
+      ] [self]!
+    }
+  }
+  
+  enum UserBlock {
+    case whenUserBlock
+    case whenBlockedUsersFetch
+    
+    var filePath: String {
+      [
+        .whenUserBlock: "mock_userBlock_response",
+        .whenBlockedUsersFetch: "mock_blockedUsers_response"
       ] [self]!
     }
   }

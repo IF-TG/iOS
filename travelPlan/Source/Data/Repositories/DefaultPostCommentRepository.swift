@@ -15,7 +15,7 @@ final class DefaultPostCommentRepository: PostCommentRepository {
   typealias endpoint = PostCommentAPIEndpoint
   
   // MARK: - Properties
-  private var subscriptions = Set<AnyCancellable?>()
+  private var subscriptions = Set<AnyCancellable>()
   
   // MARK: - Lifecycle
   init(service: Sessionable, backgroundQueue: DispatchQueue = .global(qos: .default)) {
@@ -23,14 +23,14 @@ final class DefaultPostCommentRepository: PostCommentRepository {
     self.backgroundQueue = backgroundQueue
   }
   
-  func sendComment(postId: Int64, comment: String) -> Future<PostCommentEntity, any Error> {
+  func sendComment(postId: Int64, comment: String) -> AnyPublisher<PostCommentEntity, any Error> {
     let requestDTO = PostCommentSendingRequestDTO(postId: postId, comment: comment)
     return Future { [weak self] promise in
-      guard let backgroundQueue = self?.backgroundQueue else {
+      guard let self else {
         promise(.failure(ReferenceError.invalidReference))
         return
       }
-      let subscription = self?.service.request(endpoint: endpoint.sendComment(with: requestDTO))
+      service.request(endpoint: endpoint.sendComment(with: requestDTO))
         .subscribe(on: backgroundQueue)
         .mapConnectionError()
         .map { $0.result }
@@ -41,19 +41,19 @@ final class DefaultPostCommentRepository: PostCommentRepository {
         } receiveValue: { responseDTO in
           let postCommentEntity = responseDTO.toDomain()
           promise(.success(postCommentEntity))
-        }
-      self?.subscriptions.insert(subscription)
-    }
+        }.store(in: &subscriptions)
+    }.eraseToAnyPublisher()
   }
   
-  func updateComment(commentId: Int64, comment: String) -> Future<UpdatedPostCommentEntity, any Error> {
+  func updateComment(commentId: Int64, comment: String) -> AnyPublisher<UpdatedPostCommentEntity, any Error> {
     let requestDTO = PostCommentUpdateRequestDTO(commentId: commentId, comment: comment)
     return Future { [weak self] promise in
-      guard let backgroundQueue = self?.backgroundQueue else {
+      guard let self else {
         promise(.failure(ReferenceError.invalidReference))
         return
       }
-      let subscription = self?.service.request(endpoint: endpoint.updateComment(with: requestDTO))
+      
+      service.request(endpoint: endpoint.updateComment(with: requestDTO))
         .subscribe(on: backgroundQueue)
         .mapConnectionError { $0 }
         .map { $0.result }
@@ -64,19 +64,19 @@ final class DefaultPostCommentRepository: PostCommentRepository {
         } receiveValue: { responseDTO in
           let updatedPostCommentEntity = responseDTO.toDomain()
           promise(.success(updatedPostCommentEntity))
-        }
-      self?.subscriptions.insert(subscription)
-    }
+        }.store(in: &subscriptions)
+    }.eraseToAnyPublisher()
   }
   
-  func deleteComment(commentId: Int64) -> Future<Bool, any Error> {
+  func deleteComment(commentId: Int64) -> AnyPublisher<Bool, any Error> {
     let requestDTO = PostCommentDeleteRequestDTO(commentId: commentId)
     return Future { [weak self] promise in
-      guard let backgroundQueue = self?.backgroundQueue else {
+      guard let self else {
         promise(.failure(ReferenceError.invalidReference))
         return
       }
-      let subscription = self?.service.request(endpoint: endpoint.deleteComment(with: requestDTO))
+      
+      service.request(endpoint: endpoint.deleteComment(with: requestDTO))
         .subscribe(on: backgroundQueue)
         .mapConnectionError { $0 }
         .map { $0.result }
@@ -86,23 +86,23 @@ final class DefaultPostCommentRepository: PostCommentRepository {
           }
         } receiveValue: { result in
           promise(.success(result))
-        }
-      self?.subscriptions.insert(subscription)
-    }
+        }.store(in: &subscriptions)
+    }.eraseToAnyPublisher()
   }
   
   func fetchComments(
     page: Int32,
     perPage: Int32,
     postId: Int64
-  ) -> Future<[PostCommentEntity], any Error> {
+  ) -> AnyPublisher<[PostCommentEntity], any Error> {
     let requestDTO = PostCommentsRequestDTO(page: page, perPage: perPage, postId: postId)
     return Future { [weak self] promise in
-      guard let backgroundQueue = self?.backgroundQueue else {
+      guard let self else {
         promise(.failure(ReferenceError.invalidReference))
         return
       }
-      let subscription = self?.service.request(endpoint: endpoint.fetchComments(with: requestDTO))
+      
+      service.request(endpoint: endpoint.fetchComments(with: requestDTO))
         .subscribe(on: backgroundQueue)
         .mapConnectionError { $0 }
         .sink { completion in
@@ -111,21 +111,21 @@ final class DefaultPostCommentRepository: PostCommentRepository {
           }
         } receiveValue: { responseDTO in
           promise(.success(responseDTO.map { $0.toDomain() }))
-        }
-      self?.subscriptions.insert(subscription)
-    }
+        }.store(in: &subscriptions)
+    }.eraseToAnyPublisher()
   }
   
   func toggleCommentHeart(
     commentId: Int64
-  ) -> Future<ToggledPostCommentHeartEntity, any Error> {
+  ) -> AnyPublisher<ToggledPostCommentHeartEntity, any Error> {
     let requestDTO = PostCommentHeartToggleRequestDTO(id: commentId)
     return Future { [weak self] promise in
-      guard let backgroundQueue = self?.backgroundQueue else {
+      guard let self else {
         promise(.failure(ReferenceError.invalidReference))
         return
       }
-      let subscription = self?.service.request(endpoint: endpoint.toggleCommentHeart(with: requestDTO))
+      
+      service.request(endpoint: endpoint.toggleCommentHeart(with: requestDTO))
         .subscribe(on: backgroundQueue)
         .mapConnectionError { $0 }
         .map { $0.result }
@@ -135,8 +135,7 @@ final class DefaultPostCommentRepository: PostCommentRepository {
           }
         } receiveValue: { responseDTO in
           promise(.success(responseDTO.toDomain()))
-        }
-      self?.subscriptions.insert(subscription)
-    }
+        }.store(in: &subscriptions)
+    }.eraseToAnyPublisher()
   }
 }
