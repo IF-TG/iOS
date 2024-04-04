@@ -8,21 +8,69 @@
 import UIKit
 import SnapKit
 import Combine
+import Photos
 
 final class AlbumPhotoDetailViewController: UIViewController {
   
   // MARK: - Properties
   private let photoOrderView = PhotoOrderView()
+  private let viewModel: any AlbumPhotoDetailViewModelable
+  private let input = AlbumPhotoDetailViewModelInput()
+  private let asset: PHAsset
+  private let photoService: PhotoService
+  private var subscriptions = Set<AnyCancellable>()
+  weak var coordinator: AlbumPhotoDetailCoordinatorDelegate?
   
   private let imageView: UIImageView = .init().set {
-    $0.contentMode = .scaleAspectFill
+    $0.contentMode = .scaleAspectFit
     $0.layer.masksToBounds = true
+    $0.backgroundColor = .clear
+  }
+  
+  private lazy var cancelButton: BaseNavigationLeftButton = .init().set {
+    $0.addTarget(self, action: #selector(didTapCancelButton(_:)), for: .touchUpInside)
   }
   
   // MARK: - LifeCycle
+  init(
+    viewModel: any AlbumPhotoDetailViewModelable,
+    photoService: any PhotoService,
+    asset: PHAsset
+  ) {
+    self.viewModel = viewModel
+    self.photoService = photoService
+    self.asset = asset
+    
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     setupUI()
+    setupStyles()
+    bind()
+    setupNavigationBar()
+  }
+  
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    fetchDetailImage()
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    tabBarController?.tabBar.isHidden = true
+    (tabBarController as? MainTabBarController)?.hideShadowLayer()
+  }
+  
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    tabBarController?.tabBar.isHidden = false
+    (tabBarController as? MainTabBarController)?.showShadowLayer()
   }
 }
 
@@ -34,14 +82,8 @@ extension AlbumPhotoDetailViewController: LayoutSupport {
   }
   
   func setConstraints() {
-    /*
-     - PHAsset을 통해 사진의 가로 세로 비율 알 수 있음. (비율 해결)
-     - 가로 세로 중, 더 큰 것의 값을 고정하고, 더 작은 값은 유동적으로 줄이기 (비율 알고, 하나의 값을 고정하면 나머지의 값을 알 수 있는 원리)
-     - 이렇게 코드 짜면 이미지뷰의 제약조건 해결될듯
-     */
     imageView.snp.makeConstraints {
-      $0.centerY.leading.trailing.equalTo(view)
-//      $0.height
+      $0.top.bottom.leading.trailing.equalTo(view)
     }
     
     photoOrderView.snp.makeConstraints {
@@ -49,5 +91,55 @@ extension AlbumPhotoDetailViewController: LayoutSupport {
       $0.trailing.equalToSuperview().inset(20)
       $0.size.equalTo(35)
     }
+  }
+}
+
+// MARK: - Private Helpers
+extension AlbumPhotoDetailViewController {
+  private func setupNavigationBar() {
+    navigationItem.leftBarButtonItem = .init(customView: cancelButton)
+  }
+  
+  private func setupStyles() {
+    view.backgroundColor = .black
+  }
+  
+  private func bind() {
+    viewModel.transform(input)
+      .receive(on: RunLoop.main)
+      .sink { [weak self] state in
+        switch state {
+        case .cancelOrder:
+          break
+        case .setOrder(let order):
+          break
+        case .popViewController:
+          self?.coordinator?.finish(withAnimated: true)
+        case .none:
+          break
+        }
+      }
+      .store(in: &subscriptions)
+  }
+  
+  private func fetchDetailImage() {
+    photoService.fetchImage(
+      asset: asset,
+      size: PHImageManagerMaximumSize,
+      contentMode: .aspectFit,
+      resizeModeOption: .none
+    ) { [weak self] image in
+      
+      DispatchQueue.main.async {
+        self?.imageView.image = image
+      }
+    }
+  }
+}
+
+// MARK: - Actions
+private extension AlbumPhotoDetailViewController {
+  @objc func didTapCancelButton(_ sender: UIButton) {
+    input.didTapCancelButton.send()
   }
 }
