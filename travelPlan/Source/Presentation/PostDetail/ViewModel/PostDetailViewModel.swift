@@ -100,7 +100,8 @@ extension PostDetailViewModel: PostDetailViewModelable {
       commentUseCaseHandlerStream(),
       nestedCommentUseCaseHandlerStream(),
       loggedInUserUseCaseHandlerStream(),
-      replyStartNotifierStream(input)
+      replyStartNotifierStream(input),
+      keyboardDidHideNotifierStream(input)
     ]).eraseToAnyPublisher()
   }
 }
@@ -179,13 +180,14 @@ private extension PostDetailViewModel {
     }.eraseToAnyPublisher()
   }
   
-  // TODO: - 대댓글의 경우 키보드 내려가지 않도록 구현하기. 이거 수정해야할수도?
-  // 이 함수 호출 아직 x
   func keyboardDidHideNotifierStream(_ input: Input) -> Output {
-    return input.keyboardDidHideNotifier
-      .map { [weak self] _ -> State in
-        self?.clearNestedCommentState()
-        return .none
+    return input.keyboardDidHideWhenReplyingToMessageNotifier
+      .map { [weak self] wannaCancel -> State in
+        if wannaCancel {
+          self?.clearNestedCommentState()
+          return .nestedComment(.replyCancel)
+        }
+        return .nestedComment(.replyContinue)
       }.eraseToAnyPublisher()
   }
   
