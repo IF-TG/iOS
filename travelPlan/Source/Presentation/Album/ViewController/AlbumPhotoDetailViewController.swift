@@ -27,9 +27,14 @@ final class AlbumPhotoDetailViewController: UIViewController {
     $0.backgroundColor = .clear
   }
   
-  private lazy var backButton: BaseNavigationLeftButton = .init().set {
-    $0.addTarget(self, action: #selector(didTapBackButton(_:)), for: .touchUpInside)
-  }
+  private lazy var backButtonItem = UIBarButtonItem(
+    image: UIImage(named: "back")?
+      .setColor(.yg.littleWhite)
+      .withRenderingMode(.alwaysOriginal),
+    style: .plain,
+    target: self,
+    action: #selector(didTapBackButton)
+  )
   
   // MARK: - LifeCycle
   init(
@@ -52,8 +57,8 @@ final class AlbumPhotoDetailViewController: UIViewController {
     super.viewDidLoad()
     setupUI()
     setupStyles()
-    bind()
     setupNavigationBar()
+    bind()
   }
   
   override func viewDidAppear(_ animated: Bool) {
@@ -78,7 +83,7 @@ final class AlbumPhotoDetailViewController: UIViewController {
 extension AlbumPhotoDetailViewController: LayoutSupport {
   func addSubviews() {
     view.addSubview(imageView)
-    view.addSubview(photoOrderView)
+    imageView.addSubview(photoOrderView)
   }
   
   func setConstraints() {
@@ -97,7 +102,7 @@ extension AlbumPhotoDetailViewController: LayoutSupport {
 // MARK: - Private Helpers
 extension AlbumPhotoDetailViewController {
   private func setupNavigationBar() {
-    navigationItem.leftBarButtonItem = .init(customView: backButton)
+    navigationItem.leftBarButtonItem = backButtonItem
   }
   
   private func setupStyles() {
