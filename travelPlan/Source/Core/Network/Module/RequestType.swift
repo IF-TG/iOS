@@ -17,6 +17,7 @@ enum RequestType {
   case postComment(PostComment)
   case postNestedComment(PostNestedComment)
   case userBlock(UserBlock)
+  case favoritePostInDirectory(FavoritePostInDirectory)
   
   var path: String {
     return switch self {
@@ -36,6 +37,8 @@ enum RequestType {
       nestedComment.path
     case .userBlock(let userBlock):
       userBlock.path
+    case .favoritePostInDirectory(let favoritePost):
+      favoritePost.path
     }
   }
 }
@@ -132,6 +135,20 @@ extension RequestType {
         return "blockUser"
       case .blockedUsersFetch:
         return "blockUser/list"
+      }
+    }
+  }
+}
+
+// MARK: - Favorite
+extension RequestType {
+  @frozen enum FavoritePostInDirectory {
+    case favoritePostsFetch
+    
+    var path: String {
+      switch self {
+      case .favoritePostsFetch:
+        "post/scrap/detail"
       }
     }
   }
