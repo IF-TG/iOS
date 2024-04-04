@@ -25,13 +25,10 @@ struct PhotoCellInfo {
 }
 
 final class PhotoCell: UICollectionViewCell {
-  // MARK: - Nested
-  enum Const {
-    static let orderViewSize: CGFloat = 20
-  }
-  
   // MARK: - Properties
   weak var delegate: PhotoCellDelegate?
+  private let orderView = PhotoOrderView()
+  
   static var id: String {
     return String(describing: Self.self)
   }
@@ -44,19 +41,6 @@ final class PhotoCell: UICollectionViewCell {
   private let highlightedView: UIView = .init().set {
     $0.backgroundColor = .clear
     $0.isUserInteractionEnabled = false
-  }
-  
-  private let orderView: UIView = .init().set {
-    $0.backgroundColor = .yg.gray00Background.withAlphaComponent(0.3)
-    $0.layer.borderColor = UIColor.yg.littleWhite.cgColor
-    $0.layer.borderWidth = 1
-    $0.layer.cornerRadius = Const.orderViewSize / 2
-  }
-  
-  private let orderLabel: UILabel = .init().set {
-    $0.textColor = .yg.gray00Background
-    $0.font = .init(pretendard: .medium_500(fontSize: 14))
-    $0.clipsToBounds = true
   }
   
   // MARK: - LifeCycle
@@ -73,10 +57,7 @@ final class PhotoCell: UICollectionViewCell {
     super.prepareForReuse()
     imageView.image = nil
     highlightedView.backgroundColor = .clear
-    orderView.backgroundColor = .yg.gray00Background.withAlphaComponent(0.3)
-    orderView.layer.borderColor = UIColor.yg.littleWhite.cgColor
-    orderView.layer.borderWidth = 1
-    orderLabel.text = ""
+    orderView.initializeUI()
   }
   
   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -99,10 +80,7 @@ extension PhotoCell {
     imageView.image = cellInfo.image
     if case let .selected(order) = cellInfo.selectedOrder {
       highlightedView.backgroundColor = .white.withAlphaComponent(0.5)
-      orderView.backgroundColor = .yg.primary
-      orderView.layer.borderColor = UIColor.clear.cgColor
-      orderView.layer.borderWidth = 0
-      orderLabel.text = String(order)
+      orderView.configureOrderView(orderText: String(order))
     }
   }
 }
@@ -113,7 +91,6 @@ extension PhotoCell: LayoutSupport {
     contentView.addSubview(imageView)
     imageView.addSubview(highlightedView)
     highlightedView.addSubview(orderView)
-    orderView.addSubview(orderLabel)
   }
   
   func setConstraints() {
@@ -127,11 +104,7 @@ extension PhotoCell: LayoutSupport {
     
     orderView.snp.makeConstraints {
       $0.top.trailing.equalToSuperview().inset(7)
-      $0.size.equalTo(Const.orderViewSize)
-    }
-    
-    orderLabel.snp.makeConstraints {
-      $0.center.equalToSuperview()
+      $0.size.equalTo(20)
     }
   }
 }
