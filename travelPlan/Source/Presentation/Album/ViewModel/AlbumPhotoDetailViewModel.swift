@@ -16,7 +16,6 @@ where Input == AlbumPhotoDetailViewModelInput,
 struct AlbumPhotoDetailViewModelInput {
   let didTapOrderView: PassthroughSubject<Void, Never> = .init()
   let didTapBackButton: PassthroughSubject<Void, Never> = .init()
-  let didTapBackButton: PassthroughSubject<Void, Never> = .init()
 }
 
 enum AlbumPhotoDetailViewModelState {
@@ -40,7 +39,6 @@ extension DefaultAlbumPhotoDetailViewModel: AlbumPhotoDetailViewModelable {
   func transform(_ input: Input) -> Output {
     return Publishers.MergeMany(
       didTapOrderViewStream(input),
-      didTapBackButtonStream(input),
       didTapBackButtonStream(input)
     )
     .eraseToAnyPublisher()
@@ -61,15 +59,6 @@ extension DefaultAlbumPhotoDetailViewModel {
     input.didTapOrderView
       .map {
         print("didTapOrderView")
-        return State.none
-      }
-      .eraseToAnyPublisher()
-  }
-  
-  private func didTapBackButtonStream(_ input: Input) -> Output {
-    input.didTapBackButton
-      .map {
-        print("didTapBackButton")
         return State.none
       }
       .eraseToAnyPublisher()
