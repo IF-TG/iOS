@@ -27,8 +27,8 @@ final class AlbumPhotoDetailViewController: UIViewController {
     $0.backgroundColor = .clear
   }
   
-  private lazy var cancelButton: BaseNavigationLeftButton = .init().set {
-    $0.addTarget(self, action: #selector(didTapCancelButton(_:)), for: .touchUpInside)
+  private lazy var backButton: BaseNavigationLeftButton = .init().set {
+    $0.addTarget(self, action: #selector(didTapBackButton(_:)), for: .touchUpInside)
   }
   
   // MARK: - LifeCycle
@@ -97,7 +97,7 @@ extension AlbumPhotoDetailViewController: LayoutSupport {
 // MARK: - Private Helpers
 extension AlbumPhotoDetailViewController {
   private func setupNavigationBar() {
-    navigationItem.leftBarButtonItem = .init(customView: cancelButton)
+    navigationItem.leftBarButtonItem = .init(customView: backButton)
   }
   
   private func setupStyles() {
@@ -139,7 +139,7 @@ extension AlbumPhotoDetailViewController {
 
 // MARK: - Actions
 private extension AlbumPhotoDetailViewController {
-  @objc func didTapCancelButton(_ sender: UIButton) {
-    input.didTapCancelButton.send()
+  @objc func didTapBackButton(_ sender: UIButton) {
+    input.didTapBackButton.send()
   }
 }

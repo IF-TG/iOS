@@ -16,7 +16,7 @@ where Input == AlbumPhotoDetailViewModelInput,
 struct AlbumPhotoDetailViewModelInput {
   let didTapOrderView: PassthroughSubject<Void, Never> = .init()
   let didTapBackButton: PassthroughSubject<Void, Never> = .init()
-  let didTapCancelButton: PassthroughSubject<Void, Never> = .init()
+  let didTapBackButton: PassthroughSubject<Void, Never> = .init()
 }
 
 enum AlbumPhotoDetailViewModelState {
@@ -41,7 +41,7 @@ extension DefaultAlbumPhotoDetailViewModel: AlbumPhotoDetailViewModelable {
     return Publishers.MergeMany(
       didTapOrderViewStream(input),
       didTapBackButtonStream(input),
-      didTapCancelButtonStream(input)
+      didTapBackButtonStream(input)
     )
     .eraseToAnyPublisher()
   }
@@ -49,8 +49,8 @@ extension DefaultAlbumPhotoDetailViewModel: AlbumPhotoDetailViewModelable {
  
 // MARK: - Private Helpers
 extension DefaultAlbumPhotoDetailViewModel {
-  private func didTapCancelButtonStream(_ input: Input) -> Output {
-    input.didTapCancelButton
+  private func didTapBackButtonStream(_ input: Input) -> Output {
+    input.didTapBackButton
       .map {
         return State.popViewController
       }
