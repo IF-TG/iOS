@@ -58,7 +58,10 @@ class BottomSheetView: UIView {
   
   required init?(coder: NSCoder) { nil }
   
-  convenience init(contentView: UIView, bottomSheetInfo: BottomSheetInfo = .init(topAreaHeight: 30, upperEdgeRadius: 8)) {
+  convenience init(
+    contentView: UIView,
+    bottomSheetInfo: BottomSheetInfo = .init(topAreaHeight: 30, upperEdgeRadius: 8)
+  ) {
     self.init(frame: .zero, contentView: contentView, bottomSheetInfo: bottomSheetInfo)
     translatesAutoresizingMaskIntoConstraints = false
   }

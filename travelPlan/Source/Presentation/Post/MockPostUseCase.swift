@@ -154,7 +154,7 @@ final class MockPostUseCaseForPaging: PostUseCase {
   func makeMockPostsContainers() -> [PostContainer] {
     return (0..<9*2).map { i -> PostContainer in
       let tripDate: Post.TripDate = {
-        var str: String = self.ymdArray[i]
+        let str: String = self.ymdArray[i]
         let startAndEnd: [String] = str.components(separatedBy: " ~ ").map { String($0) }
         return Post.TripDate(start: startAndEnd[0], end: startAndEnd[1])
       }()
