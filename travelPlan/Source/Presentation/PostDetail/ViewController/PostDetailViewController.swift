@@ -144,35 +144,38 @@ extension PostDetailViewController: ViewBindCase {
     case .loggedInUserInfo(userProfile: let userProfile):
       inputAccessory.configure(with: userProfile)
     case .nestedComment(let commentState):
-      switch commentState {
-      case .completionSend(let section):
-        inputAccessory.hideKeyboard()
-        /// 이상하게 reloadData하면 잘 됩니다.
-        /// 테이블뷰 리로드 섹션할때 키보드 에니메이션도 동작되서그런건지 section내 특정 row가 위로 샤라락하면서 없어집니다.
-        /// hideKeyboard() 애니메이션이 완료된 시점이후에 reloadSections를 해도 그렇습니다.
-        tableView.reloadData()
-        // tableView.reloadSections(IndexSet(integer: section), with: .fade)
-        stopIndicator()
-      case .replyCancel:
-        inputAccessory.clearCommentInputState()
-        inputAccessory.hideKeyboard()
-      case .replyContinue:
-        inputAccessory.showKeyboard()
-      case .keyboardState(let keyboard):
-        switch keyboard {
-        case .willShow:
-          tableView.keyboardDismissMode = .none
-          inputAccessory.showKeyboard()
-        case .willHide:
-          break
-        }
-      case .replyCancellationAsk:
-        coordinator?.showAnAlertToAskWhetherToCancelWrittingTheReply { [weak self] wannaCancel in
-          self?.input.keyboardDidHideWhenReplyingToMessageNotifier.send(wannaCancel)
-        }
-      }
+      handleNestedCommentState(commentState)
     }
   }
+  
+  func handleNestedCommentState(_ nestedCommentState: PostDetailNestedCommentState) {
+    switch nestedCommentState {
+    case .completionSend(let section):
+      inputAccessory.hideKeyboard()
+      /// 이상하게 reloadData하면 잘 됩니다.
+      /// 테이블뷰 리로드 섹션할때 키보드 에니메이션도 동작되서그런건지 section내 특정 row가 위로 샤라락하면서 없어집니다.
+      /// hideKeyboard() 애니메이션이 완료된 시점이후에 reloadSections를 해도 그렇습니다.
+      tableView.reloadData()
+      // tableView.reloadSections(IndexSet(integer: section), with: .fade)
+      stopIndicator()
+    case .replyCancel:
+      inputAccessory.clearCommentInputState()
+      inputAccessory.hideKeyboard()
+    case .replyContinue:
+      inputAccessory.showKeyboard()
+    case .keyboardState(let keyboard):
+      switch keyboard {
+      case .willShow:
+        tableView.keyboardDismissMode = .none
+        inputAccessory.showKeyboard()
+      case .willHide:
+        break
+      }
+    case .replyCancellationAsk:
+      coordinator?.showAnAlertToAskWhetherToCancelWrittingTheReply { [weak self] wannaCancel in
+        self?.input.keyboardDidHideWhenReplyingToMessageNotifier.send(wannaCancel)
+      }
+    }  }
   
   func handleError(_ error: any ErrorType) { }
 }
