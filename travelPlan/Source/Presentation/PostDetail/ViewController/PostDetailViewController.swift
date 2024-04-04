@@ -154,7 +154,6 @@ extension PostDetailViewController {
     print("카운팅스타~ 밤하늘의 퍼어얼")
   }
   
-  
   @objc private func keyboardDidShow(notification: NSNotification) {
     print("h키보드ㅏ 보여졋음")
   }

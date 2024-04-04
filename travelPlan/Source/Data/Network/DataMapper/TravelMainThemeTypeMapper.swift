@@ -12,13 +12,13 @@ struct TravelMainThemeTypeMapper {
     return switch requestValue {
     case .all:
       "ORIGINAL"
-    case .season(_):
+    case .season:
       "SEASON"
-    case .region(_):
+    case .region:
       "REGION"
-    case .travelTheme(_):
+    case .travelTheme:
       "THEME"
-    case .partner(_):
+    case .partner:
       "COMPANION"
     case .categoryDevelop:
       ""

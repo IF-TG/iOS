@@ -23,7 +23,7 @@ final class MockPostNestedCommentRepository: PostNestedCommentRepository {
   func sendNestedComment(
     commentId: Int64,
     comment: String
-  ) -> Future<PostNestedCommentEntity, any Error> {
+  ) -> AnyPublisher<PostNestedCommentEntity, any Error> {
     MockUrlProtocol.requestHandler = { _ in
       let mockData = MockResponseType.postNestedComment(.whenCommentSend).mockDataLoader
       return ((HTTPURLResponse(), mockData))
@@ -41,10 +41,10 @@ final class MockPostNestedCommentRepository: PostNestedCommentRepository {
           }
         self?.subscriptions.insert(subscription)
       }
-    }
+    }.eraseToAnyPublisher()
   }
   
-  func updateNestedComment(nestedCommentId: Int64, comment: String) -> Future<Bool, any Error> {
+  func updateNestedComment(nestedCommentId: Int64, comment: String) -> AnyPublisher<Bool, any Error> {
     MockUrlProtocol.requestHandler = { _ in
       let mockData = MockResponseType.postNestedComment(.whenCommentUpdate).mockDataLoader
       return ((HTTPURLResponse(), mockData))
@@ -62,10 +62,10 @@ final class MockPostNestedCommentRepository: PostNestedCommentRepository {
           }
         self?.subscriptions.insert(subscription)
       }
-    }
+    }.eraseToAnyPublisher()
   }
   
-  func deleteNestedComment(nestedCommentId: Int64) -> Future<Bool, any Error> {
+  func deleteNestedComment(nestedCommentId: Int64) -> AnyPublisher<Bool, any Error> {
     MockUrlProtocol.requestHandler = { _ in
       let mockData = MockResponseType.postNestedComment(.whenCommentDelete).mockDataLoader
       return ((HTTPURLResponse(), mockData))
@@ -84,10 +84,10 @@ final class MockPostNestedCommentRepository: PostNestedCommentRepository {
           }
         self?.subscriptions.insert(subscription)
       }
-    }
+    }.eraseToAnyPublisher()
   }
   
-  func toggleCommentHeart(nestedCommentId: Int64) -> Future<ToggledPostCommentHeartEntity, any Error> {
+  func toggleCommentHeart(nestedCommentId: Int64) -> AnyPublisher<ToggledPostCommentHeartEntity, any Error> {
     MockUrlProtocol.requestHandler = { _ in
       let mock = MockResponseType.postComment(.whenCommentHeartToggle).mockDataLoader
       return ((HTTPURLResponse(), mock))
@@ -105,6 +105,6 @@ final class MockPostNestedCommentRepository: PostNestedCommentRepository {
           }
         self?.subscriptions.insert(subscription)
       }
-    }
+    }.eraseToAnyPublisher()
   }
 }

@@ -18,7 +18,7 @@ final class MockWrappedUserBlockRepository: UserBlockRepository {
 extension MockWrappedUserBlockRepository {
   func blockUser(
     with userId: Int64
-  ) -> Future<BlockedUserIdentifyEntity, any Error> {
+  ) -> AnyPublisher<BlockedUserIdentifyEntity, any Error> {
     MockUrlProtocol.requestHandler = { _ in
       let mockData = MockResponseType.userBlock(.whenUserBlock).mockDataLoader
       return ((.init(), mockData))
@@ -35,10 +35,10 @@ extension MockWrappedUserBlockRepository {
           }
         self?.subscriptions.insert(subscription)
       }      
-    }
+    }.eraseToAnyPublisher()
   }
   
-  func fetchBlockedUsers() -> Future<[BlockedUserProfileEntity], any Error> {
+  func fetchBlockedUsers() -> AnyPublisher<[BlockedUserProfileEntity], any Error> {
     MockUrlProtocol.requestHandler = { _ in
       let mockData = MockResponseType.userBlock(.whenBlockedUsersFetch).mockDataLoader
       return ((.init(), mockData))
@@ -55,6 +55,6 @@ extension MockWrappedUserBlockRepository {
           }
         self?.subscriptions.insert(subscription)
       }
-    }
+    }.eraseToAnyPublisher()
   }
 }
