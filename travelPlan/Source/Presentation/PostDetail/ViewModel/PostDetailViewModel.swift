@@ -103,7 +103,8 @@ extension PostDetailViewModel: PostDetailViewModelable {
       nestedCommentUseCaseHandlerStream(),
       loggedInUserUseCaseHandlerStream(),
       replyStartNotifierStream(input),
-      keyboardDidHideNotifierStream(input)
+      keyboardDidHideWhenReplyingToMessageNotifierStream(input),
+      replyDismissalConfirmationNorifierStream(input)
     ]).eraseToAnyPublisher()
   }
 }
@@ -127,7 +128,7 @@ private extension PostDetailViewModel {
         DispatchQueue.global(qos: .userInitiated).async {
           switch inputState {
           case .commentSend(let text):
-            if let replyingSection = self?.replyingSection {
+            if self?.replyingSection != nil {
               /// 대댓글인 경우
               self?.nestedCommentUseCaseHandler.send(.commentSend(text))
             } else {
@@ -178,11 +179,11 @@ private extension PostDetailViewModel {
   func replyStartNotifierStream(_ input: Input) -> Output {
     input.replyStartNotifier.map { [weak self] replySection -> State in
       self?.replyingSection = replySection
-      return .keyboardWhenCommentReply(.keyboardShow)
+      return .nestedComment(.keyboardState(.willShow))
     }.eraseToAnyPublisher()
   }
   
-  func keyboardDidHideNotifierStream(_ input: Input) -> Output {
+  func keyboardDidHideWhenReplyingToMessageNotifierStream(_ input: Input) -> Output {
     return input.keyboardDidHideWhenReplyingToMessageNotifier
       .map { [weak self] wannaCancel -> State in
         if wannaCancel {
@@ -190,6 +191,16 @@ private extension PostDetailViewModel {
           return .nestedComment(.replyCancel)
         }
         return .nestedComment(.replyContinue)
+      }.eraseToAnyPublisher()
+  }
+  
+  func replyDismissalConfirmationNorifierStream(_ input: Input) -> Output {
+    return input.replyDismissalConfirmationNorifier
+      .map { [weak self] _ -> State in
+        if self?.replyingSection != nil {
+          return .nestedComment(.replyCancellationAsk)
+        }
+        return .none
       }.eraseToAnyPublisher()
   }
   

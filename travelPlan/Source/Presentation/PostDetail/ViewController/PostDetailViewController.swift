@@ -39,8 +39,6 @@ final class PostDetailViewController: UITableViewController {
   private var subscriptions = Set<AnyCancellable>()
   
   weak var coordinator: PostDetailCoordinatorDelegate?
-  
-  private var isReplying = false
 
   // MARK: - Lifecycle
   init(viewModel: any PostDetailViewModelable & PostDetailTableViewDataSource) {
@@ -145,19 +143,9 @@ extension PostDetailViewController: ViewBindCase {
       coordinator?.showAlertForError(with: description, completion: nil)
     case .loggedInUserInfo(userProfile: let userProfile):
       inputAccessory.configure(with: userProfile)
-    case .keyboardWhenCommentReply(let state):
-      switch state {
-      case .keyboardShow:
-        tableView.keyboardDismissMode = .none
-        isReplying = true
-        inputAccessory.showKeyboard()
-      case .keyboardHide:
-        print("숨겨라!")
-      }
     case .nestedComment(let commentState):
       switch commentState {
       case .completionSend(let section):
-        isReplying = false
         inputAccessory.hideKeyboard()
         /// 이상하게 reloadData하면 잘 됩니다.
         /// 테이블뷰 리로드 섹션할때 키보드 에니메이션도 동작되서그런건지 section내 특정 row가 위로 샤라락하면서 없어집니다.
@@ -166,11 +154,22 @@ extension PostDetailViewController: ViewBindCase {
         // tableView.reloadSections(IndexSet(integer: section), with: .fade)
         stopIndicator()
       case .replyCancel:
-        isReplying = false
         inputAccessory.clearCommentInputState()
         inputAccessory.hideKeyboard()
       case .replyContinue:
         inputAccessory.showKeyboard()
+      case .keyboardState(let keyboard):
+        switch keyboard {
+        case .willShow:
+          tableView.keyboardDismissMode = .none
+          inputAccessory.showKeyboard()
+        case .willHide:
+          break
+        }
+      case .replyCancellationAsk:
+        coordinator?.showAnAlertToAskWhetherToCancelWrittingTheReply { [weak self] wannaCancel in
+          self?.input.keyboardDidHideWhenReplyingToMessageNotifier.send(wannaCancel)
+        }
       }
     }
   }
@@ -240,10 +239,7 @@ extension PostDetailViewController {
   
   // MARK: - Keyboard Actions
   @objc private func didHideKeyboard(_ notification: Notification) {
-    guard isReplying else { return }
-    coordinator?.showAnAlertToAskWhetherToCancelWrittingTheReply { [weak self] wannaCancel in
-      self?.input.keyboardDidHideWhenReplyingToMessageNotifier.send(wannaCancel)
-    }
+    input.replyDismissalConfirmationNorifier.send()
   }
 }
 
@@ -328,9 +324,6 @@ extension PostDetailViewController: PostDetailCommentDelegate {
 // MARK: - PostDetailInputAccessoryWrapperDelegate
 extension PostDetailViewController: PostDetailInputAccessoryWrapperDelegate {
   func didTouchSendIcon(_ text: String) {
-    // TODO: - 사용자가 섹션을 클릭했다면, 섹션값도 전달해야 함 (대댓글인경우) 대댓글은 대댓글인지 알림후!!. 대댓은 flag로 확인.
-    // 대댓은 isRefplying false처리하기전에 사용자한테 물어보기. 키보드 내려가지 않도록 하기! 다른 스크롤말고 화면 외 터치할 경우
-    // 댓글로 내려가기? 물어본담 내려가도록 하기.
     input.commentHandler.send(.commentSend(text))
   }
 }

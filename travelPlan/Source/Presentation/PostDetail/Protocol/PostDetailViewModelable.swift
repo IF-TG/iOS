@@ -11,6 +11,7 @@ struct PostDetailViewModelInput {
   let viewDidLoad = PassthroughSubject<Void, Never>()
   let commentHandler = PassthroughSubject<PostDetailCommentInput, Never>()
   let replyStartNotifier = PassthroughSubject<Int, Never>()
+  let replyDismissalConfirmationNorifier = PassthroughSubject<Void, Never>()
   let keyboardDidHideWhenReplyingToMessageNotifier = PassthroughSubject<Bool, Never>()
 }
 
@@ -21,13 +22,16 @@ struct PostDetailViewModelInput {
   case reloadedData
   case reloadedComment
   case unexpectedError(description: String)
-  case keyboardWhenCommentReply(KeyboardState)
   case nestedComment(PostDetailNestedCommentState)
 }
 
 @frozen enum PostDetailNestedCommentState {
   typealias Section = Int
   case completionSend(Section)
+  
+  case keyboardState(KeyboardState)
+  
+  case replyCancellationAsk
   case replyCancel
   case replyContinue
 }
