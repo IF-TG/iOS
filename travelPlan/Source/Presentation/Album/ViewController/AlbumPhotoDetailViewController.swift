@@ -61,13 +61,9 @@ final class AlbumPhotoDetailViewController: UIViewController {
     bind()
   }
   
-  override func viewDidAppear(_ animated: Bool) {
-    super.viewDidAppear(animated)
-    fetchDetailImage()
-  }
-  
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
+    fetchDetailImage()
     tabBarController?.tabBar.isHidden = true
     (tabBarController as? MainTabBarController)?.hideShadowLayer()
   }
