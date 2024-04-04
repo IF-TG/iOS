@@ -9,6 +9,11 @@ import UIKit
 import Combine
 
 final class PostDetailViewController: UITableViewController {
+  // MARK: - Dependencies
+  private let viewModel: any PostDetailViewModelable & PostDetailTableViewDataSource
+  
+  weak var coordinator: PostDetailCoordinatorDelegate?
+  
   // MARK: - Properties
   private let inputAccessory = PostDetailInputAccessoryWrapper()
   
@@ -21,8 +26,6 @@ final class PostDetailViewController: UITableViewController {
   private var isHandlingKeyboardEvent = false
   
   private var adapter: PostDetailTableViewAdapter?
-  
-  private let viewModel: any PostDetailViewModelable & PostDetailTableViewDataSource
   
   private var notificationSubscriptions = Set<AnyCancellable>()
   
@@ -37,8 +40,6 @@ final class PostDetailViewController: UITableViewController {
   private let input = PostDetailViewModelInput()
   
   private var subscriptions = Set<AnyCancellable>()
-  
-  weak var coordinator: PostDetailCoordinatorDelegate?
 
   // MARK: - Lifecycle
   init(viewModel: any PostDetailViewModelable & PostDetailTableViewDataSource) {
@@ -105,6 +106,7 @@ final class PostDetailViewController: UITableViewController {
   }
 }
 
+// MARK: - ViewBindCase
 extension PostDetailViewController: ViewBindCase {
   typealias Input = PostDetailViewModelInput
   typealias ErrorType = Error
@@ -128,29 +130,45 @@ extension PostDetailViewController: ViewBindCase {
     switch state {
     case .none:
       break
+    case .unexpectedError(description: let description):
+      coordinator?.showAlertForError(with: description, completion: nil)
     case .networkProcessing:
       startIndicator()
-    case .reloadedData:
-      stopIndicator()
+    case .viewDidLoad(let viewDidLoadState):
+      handleViewDidLoadState(viewDidLoadState)
+    case .comment(let commentState):
+      handleCommentState(commentState)
+    case .nestedComment(let commentState):
+      handleNestedCommentState(commentState)
+    }
+  }
+  
+  // MARK: - View UI render helper
+  func handleViewDidLoadState(_ viewDidLoadState: PostDetailViewDidLoadState) {
+    switch viewDidLoadState {
+    case .loggedInUserInfo(let userProfile):
+      inputAccessory.configure(with: userProfile)
+    case .reloadedCommentsWithPostFavoriteInfo(let isPostFavorite):
       tableView.reloadData()
+      stopIndicator()
+      // TODO: - 좋아요 했다면 해당 포스트 스타 파랗게 물들여야 합니다.
+    }
+  }
+  
+  func handleCommentState(_ commentState: PostDetailCommentState) {
+    switch commentState {
     case .reloadedComment:
       tableView.reloadData()
       tableView.scrollToRow(
         at: IndexPath(row: NSNotFound, section: viewModel.numberOfSections-1),
         at: .bottom, animated: false)
       stopIndicator()
-    case .unexpectedError(description: let description):
-      coordinator?.showAlertForError(with: description, completion: nil)
-    case .loggedInUserInfo(userProfile: let userProfile):
-      inputAccessory.configure(with: userProfile)
-    case .nestedComment(let commentState):
-      handleNestedCommentState(commentState)
     }
   }
   
   func handleNestedCommentState(_ nestedCommentState: PostDetailNestedCommentState) {
     switch nestedCommentState {
-    case .completionSend(let section):
+    case .sentSuccessfully:
       inputAccessory.hideKeyboard()
       /// 이상하게 reloadData하면 잘 됩니다.
       /// 테이블뷰 리로드 섹션할때 키보드 에니메이션도 동작되서그런건지 section내 특정 row가 위로 샤라락하면서 없어집니다.
@@ -175,7 +193,8 @@ extension PostDetailViewController: ViewBindCase {
       coordinator?.showAnAlertToAskWhetherToCancelWrittingTheReply { [weak self] wannaCancel in
         self?.input.keyboardDidHideWhenReplyingToMessageNotifier.send(wannaCancel)
       }
-    }  }
+    }
+  }
   
   func handleError(_ error: any ErrorType) { }
 }
@@ -327,6 +346,6 @@ extension PostDetailViewController: PostDetailCommentDelegate {
 // MARK: - PostDetailInputAccessoryWrapperDelegate
 extension PostDetailViewController: PostDetailInputAccessoryWrapperDelegate {
   func didTouchSendIcon(_ text: String) {
-    input.commentHandler.send(.commentSend(text))
+    input.commentSendHandler.send(text)
   }
 }

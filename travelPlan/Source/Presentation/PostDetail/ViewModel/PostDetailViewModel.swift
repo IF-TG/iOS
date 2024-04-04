@@ -32,6 +32,15 @@ enum PostDetailSectionType: Int {
 }
 
 final class PostDetailViewModel {
+  // MARK: - Nested
+  @frozen enum CommentUseCaseInput {
+    case send(UserInputText)
+  }
+  
+  @frozen enum NestedCommentUseCaseInput {
+    case send(UserInputText)
+  }
+  
   // MARK: - Dependencies
   private let postUseCase: PostUseCase
   
@@ -46,9 +55,9 @@ final class PostDetailViewModel {
   
   private var postDetails: PostDetails
   
-  private let commentUseCaseHandler = PassthroughSubject<PostDetailCommentInput, Never>()
+  private let commentUseCaseHandler = PassthroughSubject<CommentUseCaseInput, Never>()
   
-  private let nestedCommentUseCaseHandler = PassthroughSubject<PostDetailCommentInput, Never>()
+  private let nestedCommentUseCaseHandler = PassthroughSubject<NestedCommentUseCaseInput, Never>()
   
   private let loggedInUserUseCaseHandler = PassthroughSubject<Void, Never>()
   
@@ -115,7 +124,7 @@ private extension PostDetailViewModel {
     return input.viewDidLoad
       .flatMap { [weak self] in
         self?.loggedInUserUseCaseHandler.send()
-        return self?.fetchComments() ?? Just(
+        return self?.fetchCommentsWhenViewDidLoad() ?? Just(
           State.unexpectedError(
             description: ReferenceError.invalidReference.localizedDescription)
         ).eraseToAnyPublisher()
@@ -123,18 +132,15 @@ private extension PostDetailViewModel {
   }
   
   func handleCommentInputStream(_ input: Input) -> Output {
-    input.commentHandler
-      .map { [weak self] inputState -> State in
+    input.commentSendHandler
+      .map { [weak self] userInputText -> State in
         DispatchQueue.global(qos: .userInitiated).async {
-          switch inputState {
-          case .commentSend(let text):
-            if self?.replyingSection != nil {
-              /// 대댓글인 경우
-              self?.nestedCommentUseCaseHandler.send(.commentSend(text))
-            } else {
-              /// 댓글인 경우
-              self?.commentUseCaseHandler.send(.commentSend(text))
-            }
+          if self?.replyingSection != nil {
+            /// 대댓글인 경우
+            self?.nestedCommentUseCaseHandler.send(.send(userInputText))
+          } else {
+            /// 댓글인 경우
+            self?.commentUseCaseHandler.send(.send(userInputText))
           }
         }
         return .networkProcessing
@@ -144,9 +150,9 @@ private extension PostDetailViewModel {
   /// 커맨트 유즈케이스 관련 전반적인 역할 담당.
   func commentUseCaseHandlerStream() -> Output {
     commentUseCaseHandler
-      .flatMap { [weak self] commentInputState in
-        switch commentInputState {
-        case .commentSend(let text):
+      .flatMap { [weak self] useCaseInput in
+        switch useCaseInput {
+        case .send(let text):
           return self?.sendCommentStream(with: text) ?? Just(
             State.unexpectedError(description: "댓글을 전송할 수 없습니다.")
           ).eraseToAnyPublisher()
@@ -156,9 +162,9 @@ private extension PostDetailViewModel {
   
   func nestedCommentUseCaseHandlerStream() -> Output {
     return nestedCommentUseCaseHandler
-      .flatMap { [weak self] nestedCommentInputState in
-        switch nestedCommentInputState {
-        case .commentSend(let text):
+      .flatMap { [weak self] useCaseInput in
+        switch useCaseInput {
+        case .send(let text):
           return self?.sendNestedCommentStream(with: text) ?? Just(
             State.unexpectedError(description: "대댓글을 전송할 수 없습니다.")
           ).eraseToAnyPublisher()
@@ -172,7 +178,7 @@ private extension PostDetailViewModel {
         // 로그인한 사용자의 프로필 확인x.. (맨 처음에 로그인할때 기본 이미지 지정하는게 베스트)
         return .unexpectedError(description: "로그인한 사용자의 프로필 이미지가 없습니다.")
       }
-      return .loggedInUserInfo(userProfile: profileURL)
+      return .viewDidLoad(.loggedInUserInfo(userProfile: profileURL))
     }.eraseToAnyPublisher()
   }
   
@@ -206,7 +212,7 @@ private extension PostDetailViewModel {
   
   // MARK: - Inner stream
   /// 초기 viewDidLoad시점에 호출해야 합니다. -> post favorite여부파악.
-  func fetchComments() -> Output {
+  func fetchCommentsWhenViewDidLoad() -> Output {
     let postCommentRequestValue = PostCommentsRequestValue(
       page: currentPage,
       perPage: perPage,
@@ -215,7 +221,7 @@ private extension PostDetailViewModel {
       .map {[weak self] postCommentContainerEntity -> State in
         self?.postDetails.isFavorite = postCommentContainerEntity.isFavorited
         self?.postDetails.comments += postCommentContainerEntity.comments
-        return .reloadedData
+        return .viewDidLoad(.reloadedCommentsWithPostFavoriteInfo(postCommentContainerEntity.isFavorited))
       }.catch { error in
         return Just(State.unexpectedError(description: error.localizedDescription))
       }.eraseToAnyPublisher()
@@ -226,7 +232,7 @@ private extension PostDetailViewModel {
     postCommentUseCase.sendComment(postId: postDetails.detail.postID, comment: text)
       .map { [weak self] postCommentEntity -> State in
         self?.postDetails.comments.append(postCommentEntity)
-        return .reloadedComment
+        return .comment(.reloadedComment)
       }.catch { error in
         return Just(State.unexpectedError(description: error.localizedDescription))
       }.eraseToAnyPublisher()
@@ -245,7 +251,7 @@ private extension PostDetailViewModel {
         self?.postDetails.comments[Int(commentId)].nestedComments.append(postNestedCommentEntity)
         self?.clearNestedCommentState()
         /// 대댓글이 속한 댓글 섹션은 replyingSection을 보내주어야 합니다.
-        return .nestedComment(.completionSend(replyingSection))
+        return .nestedComment(.sentSuccessfully(replyingSection))
       }.catch { error in
         return Just(State.unexpectedError(description: error.localizedDescription))
       }.eraseToAnyPublisher()
