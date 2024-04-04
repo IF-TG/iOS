@@ -14,6 +14,7 @@ enum MockResponseType {
   case postComment(PostCommentResponse)
   case postNestedComment(PostNestedCommentResponse)
   case userBlock(UserBlock)
+  case favoriteDirectory(FavoriteDirectory)
   
   var filePath: String {
     return switch self {
@@ -29,6 +30,13 @@ enum MockResponseType {
       "mock_response_postCommentContainer"
     case .userBlock(let userBlock):
       userBlock.filePath
+    case .favoriteDirectory(let directoryType):
+      switch directoryType {
+      case .favoriteTravel(let favoriteTravelDestinationInDirectory):
+        favoriteTravelDestinationInDirectory.filePath
+      case .favoritePost(let favoritePostInDirectory):
+        favoritePostInDirectory.filePath
+      }
     }
   }
   
@@ -85,5 +93,34 @@ enum MockResponseType {
         .whenBlockedUsersFetch: "mock_blockedUsers_response"
       ] [self]!
     }
+  }
+}
+
+// MARK: - Favorite directory
+extension MockResponseType {
+  enum FavoriteDirectory {
+    case favoriteTravel(FavoriteTravelDestinationInDirectory)
+    case favoritePost(FavoritePostInDirectory)
+  }
+  
+  enum FavoriteTravelDestinationInDirectory {
+    case when_____FIXME
+    
+    var filePath: String {
+      [
+        .when_____FIXME: "response json file name: ]"
+      ] [self]!
+    }
+  }
+  
+  enum FavoritePostInDirectory {
+    case whenFavoritePostsFetch
+    
+    var filePath: String {
+      [
+        .whenFavoritePostsFetch: "mock_favoritePosts_fetch_response"
+      ] [self]!
+    }
+
   }
 }
