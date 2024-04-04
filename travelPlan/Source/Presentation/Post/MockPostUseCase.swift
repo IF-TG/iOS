@@ -158,12 +158,9 @@ final class MockPostUseCaseForPaging: PostUseCase {
         let startAndEnd: [String] = str.components(separatedBy: " ~ ").map { String($0) }
         return Post.TripDate(start: startAndEnd[0], end: startAndEnd[1])
       }()
-      let postDetail = Post.PostDetail.init(
+      let postDetail = Post.Detail.init(
         postID: Int64(i),
         title: titles[i],
-        postImages: postContentThumbnails[i].enumerated().map { (idx, imageString) in
-          return Post.PostImage(imageUri: imageString, sort: Int32(idx))
-        },
         content: postContentTexts[i],
         likes: Int32(postHearts[i]),
         comments: Int32(postComments[i]),
@@ -175,7 +172,13 @@ final class MockPostUseCaseForPaging: PostUseCase {
         detail: postDetail,
         author: .init(
           profileUri: profilePath(i%5),
-          nickname: userNames[i]))
+          nickname: userNames[i]),
+        highResolveImages: postContentThumbnails[i].enumerated().map { (idx, imageString) in
+          return Post.PostImage(imageUri: imageString, sort: Int32(idx))
+        },
+        category: .init(themes: [.adventure, .festivals, .relaxation],
+                        regions: [.busan], seasons: [.fall],
+                        partners: [.lover, .friend]))
       return PostContainer(post: post, thumbnail: .init(urls: postContentThumbnails[i]),
                            totalPosts: Int64(18*MockPostUseCaseForPaging.recurCount))
     }

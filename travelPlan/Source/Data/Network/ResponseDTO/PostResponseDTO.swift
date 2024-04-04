@@ -92,11 +92,10 @@ extension PostResponseDTO {
 
 // MARK: - Mappings DTO
 extension PostResponseDTO {
-  func toDomain() -> Post.PostDetail {
-    return Post.PostDetail(
+  func toDomain() -> Post.Detail<String> {
+    return Post.Detail<String>(
       postID: postID,
       title: title,
-      postImages: postImages.map { $0.toDomain() },
       content: content,
       likes: likes,
       comments: comments,

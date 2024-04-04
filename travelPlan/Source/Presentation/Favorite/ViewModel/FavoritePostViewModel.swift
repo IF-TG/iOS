@@ -14,9 +14,9 @@ final class FavoritePostViewModel: PostViewModel {
   let postUseCase: PostUseCase
   
   // MARK: - Properties
-  var posts: [PostInfo] = []
+  var posts: [Post] = []
   
-  var postDetailedThumbnails: [[String]] = []
+  var postThumbnails: [[String]] = []
   
   var perPage: Int32 = 10
   
@@ -53,10 +53,12 @@ extension FavoritePostViewModel {
   }
   
   func numberOfThumbnailsInPost(at index: Int) -> PostThumbnailCountValue {
-    .init(posts[index].content.thumbnailURLs.count)
+    .init(postThumbnails[index].count)
   }
   
   func postItem(at index: Int) -> PostInfo {
-    return posts[index]
+    let post = posts[index]
+    let postInfo = PostMapper.toPostInfo(post, thumbnails: postThumbnails[index])
+    return postInfo
   }
 }
