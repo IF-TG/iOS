@@ -1,0 +1,55 @@
+//
+//  DefaultFavoritePostInDirectoryRepository.swift
+//  travelPlan
+//
+//  Created by 양승현 on 4/4/24.
+//
+
+import Foundation
+import Combine
+
+final class DefaultFavoritePostInDirectoryRepository {
+  typealias Endpoint = FavoritePostAPIEndpoint
+  
+  // MARK: - Dependencies
+  private let service: Sessionable
+  private let loggedInUserRepository: LoggedInUserRepository
+  
+  // MARK: - Properties
+  private var subscriptions = Set<AnyCancellable>()
+  
+  // MARK: - Lifecycle
+  init(service: Sessionable, loggedInUserRepository: LoggedInUserRepository) {
+    self.service = service
+    self.loggedInUserRepository = loggedInUserRepository
+  }
+}
+
+// MARK: - FavoritePostInDirectoryRepository
+extension DefaultFavoritePostInDirectoryRepository: FavoritePostInDirectoryRepository {
+  func fetchFavoritePosts(
+    name directoryName: String,
+    page: Int32,
+    perPage: Int32
+  ) -> AnyPublisher<[Post], any Error> {
+    let requestDTO = FavoritePostRequestDTO(folderName: directoryName, page: page, perPage: perPage)
+    return Future { [weak self] promise in
+      guard let self else {
+        promise(.failure(ReferenceError.invalidReference))
+        return
+      }
+      
+      service.request(endpoint: Endpoint.fetchFavoritePosts(with: requestDTO))
+        .mapConnectionError()
+        .map { commonDTO in return commonDTO.result }
+        .sink { completion in
+          if case .failure(let error) = completion {
+            promise(.failure(error))
+          }
+        } receiveValue: { postResponseDTOs in
+          let posts = postResponseDTOs.map { Post(liked: $0.liked, detail: $0.toDomain(), author: $0.toDomain()) }
+          promise(.success(posts))
+        }.store(in: &subscriptions)
+    }.eraseToAnyPublisher()
+  }
+}
