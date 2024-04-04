@@ -32,12 +32,7 @@ enum PostDetailSectionType: Int {
 }
 
 final class PostDetailViewModel {
-  
-  // MARK: - Properties
-  private let DefaultSectionCount = PostDetailSectionType.defaultNumberOfSections
-  
-  private var postDetails: PostDetails
-  
+  // MARK: - Dependencies
   private let postUseCase: PostUseCase
   
   private let postCommentUseCase: PostCommentUseCase
@@ -45,6 +40,11 @@ final class PostDetailViewModel {
   private let postNestedCommentUseCase: PostNestedCommentUseCase
   
   private let loggedInUserUseCase: LoggedInUserUseCase
+  
+  // MARK: - Properties
+  private let DefaultSectionCount = PostDetailSectionType.defaultNumberOfSections
+  
+  private var postDetails: PostDetails
   
   private let commentUseCaseHandler = PassthroughSubject<PostDetailCommentInput, Never>()
   
@@ -55,7 +55,8 @@ final class PostDetailViewModel {
   /// 사용자가 대댓글 작성중인 경우 not nil. 댓글을 작성중인 경우 nil
   private var replyingSection: Int?
   
-  // TODO: - 페이징 추가해야합니다. 
+  // MARK: - Paging Properties
+  // TODO: - 페이징 추가해야합니다.
   // 그런데 댓글의 경우 좀 복잡할거같은데,, 사용자가 삭제하면 어떻게하지? 기존에 저장된 정보(이미 페이징 한 데이터)가
   // 확실하다는 보장이 없을거같은데 페이징 보다는 맞으려나?
   private var isPaging: Bool = false
@@ -74,6 +75,7 @@ final class PostDetailViewModel {
     return currentPage < totalPageCount
   }
   
+  // MARK: - Lifecycle
   init(
     post: Post,
     category: Post.Category,
