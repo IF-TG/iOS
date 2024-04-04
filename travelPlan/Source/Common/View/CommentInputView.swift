@@ -101,8 +101,10 @@ private extension CommentInputView {
 // MARK: - Action
 extension CommentInputView {
   @objc func didTapSendIcon() {
-    delegate?.didTapSendIcon(inputTextView.text)
-    clearCommentInputState()
+    if inputTextView.text.count > 0 {
+      delegate?.didTapSendIcon(inputTextView.text)
+      clearCommentInputState()
+    }
   }
 }
 
@@ -121,6 +123,9 @@ extension CommentInputView: UITextViewDelegate {
     } else {
       sendIcon.image = sendIcon.image?.setColor(.yg.primary)
       sendIcon.isUserInteractionEnabled = true
+      if textView.text.count > 0 && sendIcon.isHidden {
+        sendIcon.isHidden = false
+      }
     }
   }
   

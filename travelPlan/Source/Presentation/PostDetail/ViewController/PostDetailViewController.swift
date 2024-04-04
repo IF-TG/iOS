@@ -151,7 +151,7 @@ extension PostDetailViewController: ViewBindCase {
     case .reloadedCommentsWithPostFavoriteInfo(let isPostFavorite):
       tableView.reloadData()
       stopIndicator()
-      // TODO: - 좋아요 했다면 해당 포스트 스타 파랗게 물들여야 합니다.
+      // TODO: - 포스트 좋아요 했다면 해당 포스트 favorite 별 파랗게 물들여야 합니다.
     }
   }
   
