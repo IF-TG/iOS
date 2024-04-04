@@ -9,8 +9,8 @@ import Combine
 import Foundation
 
 protocol PostDataSource {
-  var posts: [PostInfo] { get }
-  var postDetailedThumbnails: [[String]] { get }
+  var posts: [Post] { get }
+  var postThumbnails: [[String]] { get }
   var currentPage: Int32 { get }
   var nextPage: Int32 { get }
   var totalPostsCount: Int32 { get }

@@ -234,6 +234,6 @@ extension PostDetailTableViewAdapter: PostDetailCategoryHeaderViewDelegate {
 extension PostDetailTableViewAdapter: BaseProfileAreaViewDelegate {
   func baseLeftRoundProfileAreaView(_ view: BaseProfileAreaView, didSelectProfileImage image: UIImage?) {
     guard let dataSource = dataSource else { return }
-    delegate?.showUploadedUserProfilePage(with: dataSource.profileAreaItem.userId)
+    delegate?.showUploadedUserProfilePage(with: dataSource.authorUserId)
   }
 }

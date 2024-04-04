@@ -10,6 +10,7 @@ import Combine
 import Foundation
 
 final class MockPostUseCaseForPaging: PostUseCase {
+  
   private static let recurCount = 4
   private let totalPage = 18*MockPostUseCaseForPaging.recurCount
   private var index = 0
@@ -19,6 +20,27 @@ final class MockPostUseCaseForPaging: PostUseCase {
     with requestValue: PostCommentsRequestValue
   ) -> AnyPublisher<PostCommentContainerEntity, any Error> {
     Empty().eraseToAnyPublisher()
+  }
+  
+  /// 설정 화면의 내 활동에 사용됩니다
+  func fetchLikedPostsByLoggedInUser(
+    page: Int32,
+    perPage: Int32
+  ) -> AnyPublisher<PostsPage, any Error> {
+    if index > totalPage {
+      return Fail(error: PostUseCaseError.noMorePage).eraseToAnyPublisher()
+    }
+    let responseData = {
+      let nextPosts = (index..<index+5).map { mockPostPage.posts[$0] }
+      let nextThumbnails = (index..<index+5).map { mockPostPage.thumbnails[$0] }
+      return PostsPage(totalPosts: Int64(totalPage), posts: nextPosts, thumbnails: nextThumbnails)
+    }()
+    index+=5
+    return Just(responseData)
+      .delay(for: .seconds(1.2), scheduler: DispatchQueue.global(qos: .background))
+      .setFailureType(to: PostUseCaseError.self)
+      .mapError { $0 as Error }
+      .eraseToAnyPublisher()
   }
   
   func fetchPosts(
@@ -132,16 +154,13 @@ final class MockPostUseCaseForPaging: PostUseCase {
   func makeMockPostsContainers() -> [PostContainer] {
     return (0..<9*2).map { i -> PostContainer in
       let tripDate: Post.TripDate = {
-        var str: String = self.ymdArray[i]
+        let str: String = self.ymdArray[i]
         let startAndEnd: [String] = str.components(separatedBy: " ~ ").map { String($0) }
         return Post.TripDate(start: startAndEnd[0], end: startAndEnd[1])
       }()
-      let postDetail = Post.PostDetail.init(
+      let postDetail = Post.Detail.init(
         postID: Int64(i),
         title: titles[i],
-        postImages: postContentThumbnails[i].enumerated().map { (idx, imageString) in
-          return Post.PostImage(imageUri: imageString, sort: Int32(idx))
-        },
         content: postContentTexts[i],
         likes: Int32(postHearts[i]),
         comments: Int32(postComments[i]),
@@ -153,7 +172,13 @@ final class MockPostUseCaseForPaging: PostUseCase {
         detail: postDetail,
         author: .init(
           profileUri: profilePath(i%5),
-          nickname: userNames[i]))
+          nickname: userNames[i]),
+        highResolveImages: postContentThumbnails[i].enumerated().map { (idx, imageString) in
+          return Post.PostImage(imageUri: imageString, sort: Int32(idx))
+        },
+        category: .init(themes: [.adventure, .festivals, .relaxation],
+                        regions: [.busan], seasons: [.fall],
+                        partners: [.lover, .friend]))
       return PostContainer(post: post, thumbnail: .init(urls: postContentThumbnails[i]),
                            totalPosts: Int64(18*MockPostUseCaseForPaging.recurCount))
     }

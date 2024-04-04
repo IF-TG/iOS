@@ -20,12 +20,18 @@ final class DefaultOthersProfileRepository: UserRepository {
     self.service = service
   }
   
-  func fetchProfile(with id: Int64) -> Future<ProfileImageEntity, MainError> {
-    let requestDTO = UserIdReqeustDTO(userId: id)
-    let endpoint = UserInfoAPIEndpoint.fetchProfile(with: requestDTO)
-    return Future<ProfileImageEntity, MainError> { [unowned self] promise in
+  func fetchProfile(with id: Int64) -> AnyPublisher<ProfileImageEntity, Error> {
+    return Future { [weak self] promise in
+      guard let self else {
+        promise(.failure(ReferenceError.invalidReference))
+        return
+      }
+      
+      let requestDTO = UserIdReqeustDTO(userId: id)
+      let endpoint = UserInfoAPIEndpoint.fetchProfile(with: requestDTO)
+      
       service.request(endpoint: endpoint)
-        .mapError { MainError.networkError($0) }
+        .mapConnectionError()
         .sink { completion in
           if case .failure(let error) = completion {
             promise(.failure(error))
@@ -34,6 +40,6 @@ final class DefaultOthersProfileRepository: UserRepository {
           let entity = responseDTO.result.toDomain()
           promise(.success(entity))
         }.store(in: &subscriptions)
-    }
+    }.eraseToAnyPublisher()
   }
 }

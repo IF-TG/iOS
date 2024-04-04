@@ -16,6 +16,7 @@ enum RequestType {
   case custom(String)
   case postComment(PostComment)
   case postNestedComment(PostNestedComment)
+  case userBlock(UserBlock)
   
   var path: String {
     return switch self {
@@ -33,6 +34,8 @@ enum RequestType {
       postComment.path
     case .postNestedComment(let nestedComment):
       nestedComment.path
+    case .userBlock(let userBlock):
+      userBlock.path
     }
   }
 }
@@ -42,6 +45,7 @@ extension RequestType {
   enum Post {
     case postsFetch
     case postCommentsFetch
+    case likedPostsByLoggedInUserFetch
     
     var path: String {
       switch self {
@@ -49,6 +53,8 @@ extension RequestType {
          "posts"
       case .postCommentsFetch:
         "post/detail"
+      case .likedPostsByLoggedInUserFetch:
+        "post/like/list"
       }
     }
   }
@@ -113,6 +119,20 @@ extension RequestType {
         return "comment/like"
       }
       return "comment"
+    }
+  }
+  
+  enum UserBlock {
+    case userBlock
+    case blockedUsersFetch
+    
+    var path: String {
+      switch self {
+      case .userBlock:
+        return "blockUser"
+      case .blockedUsersFetch:
+        return "blockUser/list"
+      }
     }
   }
 }

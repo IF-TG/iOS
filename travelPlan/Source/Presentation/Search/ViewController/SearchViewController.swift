@@ -123,7 +123,7 @@ extension SearchViewController: ViewBindCase {
     switch state {
     case .goDownKeyboard:
       searchView.endEditing(true)
-    case let .gotoSearch:
+    case .gotoSearch:
       // FIXME: - mock 제거하고, 실제로는 search
       coordinator?.showSearchDetail(type: .camping)
 //      navigationController?.pushViewController(MockSearchDestinationViewController(), animated: true)

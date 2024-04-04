@@ -18,6 +18,7 @@ final class PostDetailCategoryHeaderView: UITableViewHeaderFooterView {
   ).set {
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.numberOfLines = 1
+    $0.lineBreakMode = .byTruncatingTail
     $0.textColor = .yg.gray4
   }
   
@@ -44,16 +45,22 @@ extension PostDetailCategoryHeaderView {
   func configure(with text: String?) {
     categoryLabel.text = text
     
-    // 임시
-    if text == nil { return }
-    let firstChevronHighlight = HighlightFontInfo(
-      fontType: .bold_700(fontSize: 15),
-      text: ">")
-    let lastChevronHighlight = HighlightFontInfo(
-      fontType: .bold_700(fontSize: 15),
-      text: ">",
-      startIndex: "여행테마 > 휴식, 동반자 ".count)
-    categoryLabel.setHighlights(with: firstChevronHighlight, lastChevronHighlight)
+    if let text {
+      let textArr = text.map { String($0) }
+      var currentIdx = 0
+      var highlightFontInfoList: [HighlightFontInfo] = []
+      
+      /// 텍스트에서 " > " 문구의 위치를 찾아서 강조합니다.
+      while let idx = textArr[(currentIdx+1)...].firstIndex(of: ">") {
+        currentIdx = idx
+        let chevronHighlight = HighlightFontInfo(fontType: .bold_700(fontSize: 13), text: ">", startIndex: idx)
+        highlightFontInfoList.append(chevronHighlight)
+        if currentIdx + 1 >= textArr.count { break }
+      }
+      if highlightFontInfoList.count > 0 {
+        categoryLabel.setHighlights(with: highlightFontInfoList)
+      }
+    }
   }
 }
 

@@ -8,8 +8,8 @@
 import Combine
 
 protocol PostNestedCommentRepository {
-  func sendNestedComment(commentId: Int64, comment: String) -> Future<PostNestedCommentEntity, Error>
-  func updateNestedComment(nestedCommentId: Int64, comment: String) -> Future<Bool, Error>
-  func deleteNestedComment(nestedCommentId: Int64) -> Future<Bool, Error>
-  func toggleCommentHeart(nestedCommentId: Int64) -> Future<ToggledPostCommentHeartEntity, Error>
+  func sendNestedComment(commentId: Int64, comment: String) -> AnyPublisher<PostNestedCommentEntity, Error>
+  func updateNestedComment(nestedCommentId: Int64, comment: String) -> AnyPublisher<Bool, Error>
+  func deleteNestedComment(nestedCommentId: Int64) -> AnyPublisher<Bool, Error>
+  func toggleCommentHeart(nestedCommentId: Int64) -> AnyPublisher<ToggledPostCommentHeartEntity, Error>
 }

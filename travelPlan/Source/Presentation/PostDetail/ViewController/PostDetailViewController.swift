@@ -22,8 +22,7 @@ final class PostDetailViewController: UITableViewController {
   
   private var adapter: PostDetailTableViewAdapter?
   
-  // TODO: - Protocol로 분리해야함. 임시적으로 텍스트 입력했을때 뷰모델에 추가하는 함수 불러오기위해 구체타입 선언
-  private let viewModel: PostDetailViewModel
+  private let viewModel: any PostDetailViewModelable & PostDetailTableViewDataSource
   
   private var notificationSubscriptions = Set<AnyCancellable>()
   
@@ -34,9 +33,15 @@ final class PostDetailViewController: UITableViewController {
   override var inputAccessoryView: UIView? {
     return inputAccessory
   }
+  
+  private let input = PostDetailViewModelInput()
+  
+  private var subscriptions = Set<AnyCancellable>()
+  
+  weak var coordinator: PostDetailCoordinatorDelegate?
 
   // MARK: - Lifecycle
-  init(viewModel: PostDetailViewModel) {
+  init(viewModel: any PostDetailViewModelable & PostDetailTableViewDataSource) {
     self.viewModel = viewModel
     super.init(style: .grouped)
     adapter = PostDetailTableViewAdapter(
@@ -73,6 +78,8 @@ final class PostDetailViewController: UITableViewController {
     super.viewDidLoad()
     configureUI()
     inputAccessory.delegate = self
+    bind()
+    input.viewDidLoad.send()
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -92,6 +99,36 @@ final class PostDetailViewController: UITableViewController {
     (self.tabBarController as? MainTabBarController)?.showShadowLayer()
     self.tabBarController?.tabBar.isHidden = false
   }
+}
+
+extension PostDetailViewController: ViewBindCase {
+  typealias Input = PostDetailViewModelInput
+  typealias ErrorType = Error
+  typealias State = PostDetailViewModelState
+  
+  func bind() {
+    let output = viewModel.transform(input)
+    output.sink { [weak self] state in
+      self?.render(state)
+    }.store(in: &subscriptions)
+  }
+  
+  func render(_ state: PostDetailViewModelState) {
+    switch state {
+    case .networkProcessing:
+      startIndicator()
+    case .reloadedData:
+      stopIndicator()
+      tableView.reloadData()
+    case .reloadedComment:
+      // TODO: - reloadSection
+      print("커맨트 섹션 리로드")
+    case .unexpectedError(description: let description):
+      coordinator?.showAlertForError(with: description, completion: nil)
+    }
+  }
+  
+  func handleError(_ error: any ErrorType) { }
 }
 
 // MARK: - Private Helpers
@@ -154,7 +191,6 @@ extension PostDetailViewController {
     print("카운팅스타~ 밤하늘의 퍼어얼")
   }
   
-  
   @objc private func keyboardDidShow(notification: NSNotification) {
     print("h키보드ㅏ 보여졋음")
   }
@@ -198,7 +234,7 @@ extension PostDetailViewController: PostDetailTableViewAdapterDelegate {
     naviTitleAnimator?.startAnimation()
   }
   
-  func showUploadedUserProfilePage(with userId: Int) {
+  func showUploadedUserProfilePage(with userId: Int32) {
     print("업로드 유저 프로필 화면으로 이동!!")
   }
   
@@ -210,13 +246,14 @@ extension PostDetailViewController: PostDetailTableViewAdapterDelegate {
 // MARK: - PostDetailInputAccessoryWrapperDelegate
 extension PostDetailViewController: PostDetailInputAccessoryWrapperDelegate {
   func didTouchSendIcon(_ text: String) {
-    // TODO: - 사용자가 섹션을 클릭했다면, 섹션값도 전달해야함(대댓글인경우)
+    // TODO: - 사용자가 섹션을 클릭했다면, 섹션값도 전달해야 함 (대댓글인경우) 대댓글은 대댓글인지 알림후!!
     print("DEBUG: \(text)")
-    viewModel.appendComment(text)
-    tableView.reloadData()
-    tableView.scrollToRow(
-      at: IndexPath(row: NSNotFound, section: viewModel.numberOfSections-1),
-      at: .bottom, animated: true)
-    
+    // TODO: - Input, State를 통해 처리되야함
+//    viewModel.appendComment(text)
+//    tableView.reloadData()
+//    tableView.scrollToRow(
+//      at: IndexPath(row: NSNotFound, section: viewModel.numberOfSections-1),
+//      at: .bottom, animated: true)
+//    
   }
 }
