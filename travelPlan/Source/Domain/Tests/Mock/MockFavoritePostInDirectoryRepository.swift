@@ -9,6 +9,7 @@ import Foundation
 import Combine
 
 final class MockFavoritePostInDirectoryRepository: FavoritePostInDirectoryRepository {
+  
   private typealias Endpoint = FavoritePostAPIEndpoint
   private let mockService: Sessionable
   private var subscriptions = Set<AnyCancellable?>()
@@ -16,7 +17,7 @@ final class MockFavoritePostInDirectoryRepository: FavoritePostInDirectoryReposi
   
   init() {
     self.mockService = SessionProvider(session: MockSession.default)
-    self.favoritePostInDirectoryRepository = DefaultFavoritePostInDirectoryUseCase(favoritePostInDirectoryRepository: <#T##any FavoritePostInDirectoryRepository#>)
+    self.favoritePostInDirectoryRepository = DefaultFavoritePostInDirectoryRepository(service: mockService)
   }
   
   func fetchFavoritePosts(
@@ -24,6 +25,23 @@ final class MockFavoritePostInDirectoryRepository: FavoritePostInDirectoryReposi
     page: Int32,
     perPage: Int32
   ) -> AnyPublisher<[Post], any Error> {
-    <#code#>
+    MockUrlProtocol.requestHandler = { _ in
+      let mock = MockResponseType.favoriteDirectory(.favoritePost(.whenFavoritePostsFetch)).mockDataLoader
+      return ((.init(), mock))
+    }
+    return Future { promise in
+      DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.3) { [weak self] in
+        let subscription = self?.favoritePostInDirectoryRepository
+          .fetchFavoritePosts(name: directoryName, page: page, perPage: perPage)
+          .sink { completion in
+            if case .failure(let error) = completion {
+              promise(.failure(error))
+            }
+          } receiveValue: { posts in
+            promise(.success(posts))
+          }
+        self?.subscriptions.insert(subscription)
+      }
+    }.eraseToAnyPublisher()
   }
 }
