@@ -148,7 +148,7 @@ extension PostCommentUseCaseTests {
     wait(for: [expectation], timeout: 7.777777777)
     
     // Assert
-    checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "togglePostComment")
+    checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "toggleCommentHeart")
     XCTAssertTrue(result, notReceivedErrorMessage)
   }
 }

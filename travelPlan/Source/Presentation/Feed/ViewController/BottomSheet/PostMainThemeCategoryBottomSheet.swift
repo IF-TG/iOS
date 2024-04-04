@@ -42,16 +42,16 @@ final class PostMainThemeCategoryBottomSheet: BasePostCategoryBottomSheet {
     }
     var selectedMainTheme: TravelMainThemeType?
     switch mainTheme {
-    case .season(_):
+    case .season:
       guard let season = Season(rawValue: selectedTitle) else { return }
         selectedMainTheme = .season(season)
-    case .region(_):
+    case .region:
       guard let region = TravelRegion(rawValue: selectedTitle) else { return }
       selectedMainTheme = .region(region)
-    case .travelTheme(_):
+    case .travelTheme:
       guard let theme = TravelTheme(rawValue: selectedTitle) else { return }
       selectedMainTheme = .travelTheme(theme)
-    case .partner(_):
+    case .partner:
       guard let partner = TravelPartner(rawValue: selectedTitle) else { return }
       selectedMainTheme = .partner(partner)
     default:

@@ -22,7 +22,7 @@ final class MockPostCommentRepository: PostCommentRepository {
 }
 
 extension MockPostCommentRepository {
-  func sendComment(postId: Int64, comment: String) -> Future<PostCommentEntity, any Error> {
+  func sendComment(postId: Int64, comment: String) -> AnyPublisher<PostCommentEntity, any Error> {
     MockUrlProtocol.requestHandler = { _ in
       let mockData = MockResponseType.postComment(.whenCommentSend).mockDataLoader
       return ((HTTPURLResponse(), mockData))
@@ -52,10 +52,10 @@ extension MockPostCommentRepository {
           }
         self?.subscriptions.insert(subscription)
       }
-    }
+    }.eraseToAnyPublisher()
   }
   
-  func updateComment(commentId: Int64, comment: String) -> Future<UpdatedPostCommentEntity, any Error> {
+  func updateComment(commentId: Int64, comment: String) -> AnyPublisher<UpdatedPostCommentEntity, any Error> {
     MockUrlProtocol.requestHandler = { _ in
       let mock = MockResponseType.postComment(.whenCommentUpdate).mockDataLoader
       return ((HTTPURLResponse(), mock))
@@ -72,10 +72,10 @@ extension MockPostCommentRepository {
           }
         self?.subscriptions.insert(subscription)
       }
-    }
+    }.eraseToAnyPublisher()
   }
   
-  func deleteComment(commentId: Int64) -> Future<Bool, any Error> {
+  func deleteComment(commentId: Int64) -> AnyPublisher<Bool, any Error> {
     MockUrlProtocol.requestHandler = { _ in
       let mock = MockResponseType.postComment(.whenCommentDelete).mockDataLoader
       return ((HTTPURLResponse(), mock))
@@ -92,10 +92,10 @@ extension MockPostCommentRepository {
           }
         self?.subscriptions.insert(subscription)
       }
-    }
+    }.eraseToAnyPublisher()
   }
   
-  func fetchComments(page: Int32, perPage: Int32, postId: Int64) -> Future<[PostCommentEntity], any Error> {
+  func fetchComments(page: Int32, perPage: Int32, postId: Int64) -> AnyPublisher<[PostCommentEntity], any Error> {
     MockUrlProtocol.requestHandler = { _ in
       let mock = MockResponseType.postComment(.whenCommentsFetch).mockDataLoader
       return ((HTTPURLResponse(), mock))
@@ -113,10 +113,10 @@ extension MockPostCommentRepository {
           }
         self?.subscriptions.insert(subscription)
       }
-    }
+    }.eraseToAnyPublisher()
   }
   
-  func toggleCommentHeart(commentId: Int64) -> Future<ToggledPostCommentHeartEntity, any Error> {
+  func toggleCommentHeart(commentId: Int64) -> AnyPublisher<ToggledPostCommentHeartEntity, any Error> {
     MockUrlProtocol.requestHandler = { _ in
       let mock = MockResponseType.postComment(.whenCommentHeartToggle).mockDataLoader
       return ((HTTPURLResponse(), mock))
@@ -134,6 +134,6 @@ extension MockPostCommentRepository {
           }
         self?.subscriptions.insert(subscription)
       }
-    }
+    }.eraseToAnyPublisher()
   }
 }
