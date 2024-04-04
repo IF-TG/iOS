@@ -14,7 +14,9 @@ extension XCTestCase {
   
   /// 이 함수로 코디네이터의 start, dismiss 후 memory leak를 체크하려면
   /// navigationController(_: didShow: animated:) 를 준수해야 합니다.
-  public func assertCoordinatorDeallocation<Coordinator: FlowCoordinator & FlowCoordinatorNavigatable>(
+  public func assertCoordinatorDeallocation<Coordinator: FlowCoordinator
+                                              & FlowCoordinatorNavigatable 
+                                              & UINavigationControllerDelegate>(
     _ file: StaticString = #file,
     line: UInt = #line,
     of createCoordinator: () -> Coordinator
