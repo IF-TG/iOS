@@ -80,6 +80,11 @@ extension CommentInputView {
   func setScrollEnabled(_ value: Bool) {
     inputTextView.isScrollEnabled = value
   }
+  
+  func clearCommentInputState() {
+    inputTextView.text = nil
+    sendIcon.image = sendIcon.image?.setColor(.yg.gray2)
+  }
 }
 
 // MARK: - Private Helpers
@@ -96,8 +101,7 @@ private extension CommentInputView {
 extension CommentInputView {
   @objc func didTapSendIcon() {
     delegate?.didTapSendIcon(inputTextView.text)
-    inputTextView.text = nil
-    sendIcon.image = sendIcon.image?.setColor(.yg.gray2)
+    clearCommentInputState()
   }
 }
 
