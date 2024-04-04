@@ -11,7 +11,7 @@ struct PostDetailViewModelInput {
   let viewDidLoad = PassthroughSubject<Void, Never>()
   let commentHandler = PassthroughSubject<PostDetailCommentInput, Never>()
   let replyStartNotifier = PassthroughSubject<Int, Never>()
-  let keyboardDidHideNotifier = PassthroughSubject<Void, Never>()
+  let keyboardDidHideWhenReplyingToMessageNotifier = PassthroughSubject<Bool, Never>()
 }
 
 @frozen enum PostDetailViewModelState {
@@ -28,6 +28,8 @@ struct PostDetailViewModelInput {
 @frozen enum PostDetailNestedCommentState {
   typealias Section = Int
   case completionSend(Section)
+  case replyCancel
+  case replyContinue
 }
 
 @frozen enum PostDetailCommentInput {
