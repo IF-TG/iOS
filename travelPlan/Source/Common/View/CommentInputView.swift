@@ -84,6 +84,7 @@ extension CommentInputView {
   func clearCommentInputState() {
     inputTextView.text = nil
     sendIcon.image = sendIcon.image?.setColor(.yg.gray2)
+    sendIcon.isHidden = true
   }
 }
 
@@ -114,7 +115,7 @@ extension CommentInputView: UITextViewDelegate {
   
   func textViewDidChange(_ textView: UITextView) {
     delegate?.textViewDidChange?(textView)
-    if textView.text == nil || textView.text.count == 0 {
+    if textView.text == nil || textView.text.count < 1 {
       sendIcon.image = sendIcon.image?.setColor(.yg.gray2)
       sendIcon.isUserInteractionEnabled = false
     } else {
