@@ -344,7 +344,7 @@ extension PostDetailViewModel: PostDetailTableViewDataSource {
     return DefaultSectionCount + postDetails.comments.count
   }
   
-  func numberOfItems(in section: Int) -> Int {
+  func numberOfRows(in section: Int) -> Int {
     let sectionType: PostDetailSectionType = .init(rawValue: section) ?? .postContent
     switch sectionType {
     case .postDescription:

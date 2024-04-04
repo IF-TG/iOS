@@ -36,7 +36,7 @@ extension PostDetailTableViewAdapter: UITableViewDataSource {
   }
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return dataSource?.numberOfItems(in: section) ?? 0
+    return dataSource?.numberOfRows(in: section) ?? 0
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
