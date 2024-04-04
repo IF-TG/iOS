@@ -25,16 +25,18 @@ final class AlbumPhotoDetailViewController: UIViewController {
     $0.contentMode = .scaleAspectFit
     $0.layer.masksToBounds = true
     $0.backgroundColor = .clear
+    $0.isUserInteractionEnabled = true
   }
   
-  private lazy var backButtonItem = UIBarButtonItem(
-    image: UIImage(named: "back")?
-      .setColor(.yg.littleWhite)
-      .withRenderingMode(.alwaysOriginal),
-    style: .plain,
-    target: self,
-    action: #selector(didTapBackButton)
-  )
+  private lazy var backButton = UIButton().set {
+    $0.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
+    $0.setImage(
+      UIImage(named: "back")?
+        .setColor(.yg.littleWhite)
+        .withRenderingMode(.alwaysOriginal),
+      for: .normal
+    )
+  }
   
   // MARK: - LifeCycle
   init(
@@ -57,13 +59,13 @@ final class AlbumPhotoDetailViewController: UIViewController {
     super.viewDidLoad()
     setupUI()
     setupStyles()
-    setupNavigationBar()
     bind()
   }
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     fetchDetailImage()
+    navigationItem.hidesBackButton = true
     tabBarController?.tabBar.isHidden = true
     (tabBarController as? MainTabBarController)?.hideShadowLayer()
   }
@@ -79,6 +81,7 @@ final class AlbumPhotoDetailViewController: UIViewController {
 extension AlbumPhotoDetailViewController: LayoutSupport {
   func addSubviews() {
     view.addSubview(imageView)
+    imageView.addSubview(backButton)
     imageView.addSubview(photoOrderView)
   }
   
@@ -87,8 +90,14 @@ extension AlbumPhotoDetailViewController: LayoutSupport {
       $0.top.bottom.leading.trailing.equalTo(view)
     }
     
+    backButton.snp.makeConstraints {
+      $0.top.equalTo(view.safeAreaLayoutGuide)
+      $0.leading.equalToSuperview().inset(20)
+      $0.size.equalTo(24)
+    }
+    
     photoOrderView.snp.makeConstraints {
-      $0.top.equalTo(view.safeAreaLayoutGuide).inset(30)
+      $0.centerY.equalTo(backButton)
       $0.trailing.equalToSuperview().inset(20)
       $0.size.equalTo(35)
     }
@@ -97,10 +106,6 @@ extension AlbumPhotoDetailViewController: LayoutSupport {
 
 // MARK: - Private Helpers
 extension AlbumPhotoDetailViewController {
-  private func setupNavigationBar() {
-    navigationItem.leftBarButtonItem = backButtonItem
-  }
-  
   private func setupStyles() {
     view.backgroundColor = .black
   }
@@ -130,7 +135,6 @@ extension AlbumPhotoDetailViewController {
       contentMode: .aspectFit,
       resizeModeOption: .none
     ) { [weak self] image in
-      
       DispatchQueue.main.async {
         self?.imageView.image = image
       }
