@@ -310,6 +310,20 @@
 		15B01DAD2BA95A2500BE9F98 /* LoggedInUserUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B01DAC2BA95A2500BE9F98 /* LoggedInUserUseCase.swift */; };
 		15B01DAF2BA95A4600BE9F98 /* DefaultLoggedInUserUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B01DAE2BA95A4600BE9F98 /* DefaultLoggedInUserUseCase.swift */; };
 		15B4E5F12ACAA947001CF071 /* SearchStarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1390CC6E2A8E0B2800E34DC3 /* SearchStarButton.swift */; };
+		15B5E7992BBAE34E00C19F56 /* UserBlockRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B5E7982BBAE34E00C19F56 /* UserBlockRequestDTO.swift */; };
+		15B5E79B2BBAE3B400C19F56 /* UserBlockResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B5E79A2BBAE3B400C19F56 /* UserBlockResponseDTO.swift */; };
+		15B5E79D2BBAE43A00C19F56 /* BlockedUserIdentifyEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B5E79C2BBAE43A00C19F56 /* BlockedUserIdentifyEntity.swift */; };
+		15B5E79F2BBAE51C00C19F56 /* UserBlockAPIEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B5E79E2BBAE51C00C19F56 /* UserBlockAPIEndpoint.swift */; };
+		15B5E7A12BBAE68000C19F56 /* UserBlockRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B5E7A02BBAE68000C19F56 /* UserBlockRepository.swift */; };
+		15B5E7A32BBAE6F800C19F56 /* DefaultUserBlockRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B5E7A22BBAE6F800C19F56 /* DefaultUserBlockRepository.swift */; };
+		15B5E7A52BBAE85E00C19F56 /* UserBlockUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B5E7A42BBAE85E00C19F56 /* UserBlockUseCase.swift */; };
+		15B5E7A72BBAE8B800C19F56 /* DefaultUserBlockUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B5E7A62BBAE8B800C19F56 /* DefaultUserBlockUseCase.swift */; };
+		15B5E7AA2BBAE97A00C19F56 /* mock_userBlock_response.json in Resources */ = {isa = PBXBuildFile; fileRef = 15B5E7A92BBAE97A00C19F56 /* mock_userBlock_response.json */; };
+		15B5E7AC2BBAEA3B00C19F56 /* MockWrappedUserBlockRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B5E7AB2BBAEA3B00C19F56 /* MockWrappedUserBlockRepository.swift */; };
+		15B5E7AE2BBAEBE700C19F56 /* UserBlockUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B5E7AD2BBAEBE700C19F56 /* UserBlockUseCaseTests.swift */; };
+		15B5E7B02BBAEE4100C19F56 /* BlockedUserProfileResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B5E7AF2BBAEE4100C19F56 /* BlockedUserProfileResponseDTO.swift */; };
+		15B5E7B22BBAEEA500C19F56 /* BlockedUserProfileEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B5E7B12BBAEEA500C19F56 /* BlockedUserProfileEntity.swift */; };
+		15B5E7B42BBAF25D00C19F56 /* mock_blockedUsers_response.json in Resources */ = {isa = PBXBuildFile; fileRef = 15B5E7B32BBAF25D00C19F56 /* mock_blockedUsers_response.json */; };
 		15B9285B2AF9DEAA003A20D4 /* PostDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B9285A2AF9DEAA003A20D4 /* PostDetailViewController.swift */; };
 		15B9285D2AF9E3A2003A20D4 /* PostDetailProfileAreaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B9285C2AF9E3A2003A20D4 /* PostDetailProfileAreaView.swift */; };
 		15B9285F2AFA2D89003A20D4 /* PostDetailContentImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B9285E2AFA2D89003A20D4 /* PostDetailContentImageCell.swift */; };
@@ -840,6 +854,20 @@
 		15B01DAA2BA9472300BE9F98 /* MockUserStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUserStorage.swift; sourceTree = "<group>"; };
 		15B01DAC2BA95A2500BE9F98 /* LoggedInUserUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedInUserUseCase.swift; sourceTree = "<group>"; };
 		15B01DAE2BA95A4600BE9F98 /* DefaultLoggedInUserUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultLoggedInUserUseCase.swift; sourceTree = "<group>"; };
+		15B5E7982BBAE34E00C19F56 /* UserBlockRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserBlockRequestDTO.swift; sourceTree = "<group>"; };
+		15B5E79A2BBAE3B400C19F56 /* UserBlockResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserBlockResponseDTO.swift; sourceTree = "<group>"; };
+		15B5E79C2BBAE43A00C19F56 /* BlockedUserIdentifyEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedUserIdentifyEntity.swift; sourceTree = "<group>"; };
+		15B5E79E2BBAE51C00C19F56 /* UserBlockAPIEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserBlockAPIEndpoint.swift; sourceTree = "<group>"; };
+		15B5E7A02BBAE68000C19F56 /* UserBlockRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserBlockRepository.swift; sourceTree = "<group>"; };
+		15B5E7A22BBAE6F800C19F56 /* DefaultUserBlockRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultUserBlockRepository.swift; sourceTree = "<group>"; };
+		15B5E7A42BBAE85E00C19F56 /* UserBlockUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserBlockUseCase.swift; sourceTree = "<group>"; };
+		15B5E7A62BBAE8B800C19F56 /* DefaultUserBlockUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultUserBlockUseCase.swift; sourceTree = "<group>"; };
+		15B5E7A92BBAE97A00C19F56 /* mock_userBlock_response.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = mock_userBlock_response.json; sourceTree = "<group>"; };
+		15B5E7AB2BBAEA3B00C19F56 /* MockWrappedUserBlockRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockWrappedUserBlockRepository.swift; sourceTree = "<group>"; };
+		15B5E7AD2BBAEBE700C19F56 /* UserBlockUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserBlockUseCaseTests.swift; sourceTree = "<group>"; };
+		15B5E7AF2BBAEE4100C19F56 /* BlockedUserProfileResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedUserProfileResponseDTO.swift; sourceTree = "<group>"; };
+		15B5E7B12BBAEEA500C19F56 /* BlockedUserProfileEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedUserProfileEntity.swift; sourceTree = "<group>"; };
+		15B5E7B32BBAF25D00C19F56 /* mock_blockedUsers_response.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = mock_blockedUsers_response.json; sourceTree = "<group>"; };
 		15B9285A2AF9DEAA003A20D4 /* PostDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailViewController.swift; sourceTree = "<group>"; };
 		15B9285C2AF9E3A2003A20D4 /* PostDetailProfileAreaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailProfileAreaView.swift; sourceTree = "<group>"; };
 		15B9285E2AFA2D89003A20D4 /* PostDetailContentImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailContentImageCell.swift; sourceTree = "<group>"; };
@@ -1567,6 +1595,8 @@
 				15A7A8F12B9F6C1700CA9A79 /* UserEntity.swift */,
 				1518BC162BB01BB300FD1A74 /* UpdatedPostCommentEntity.swift */,
 				1518BC262BB044ED00FD1A74 /* ToggledPostCommentHeartEntity.swift */,
+				15B5E79C2BBAE43A00C19F56 /* BlockedUserIdentifyEntity.swift */,
+				15B5E7B12BBAEEA500C19F56 /* BlockedUserProfileEntity.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -1582,6 +1612,7 @@
 				135A07D62BB72425003D6C4D /* PhotoAuthorizationUseCase.swift */,
 				15BE6BE52BAF1A3C009A2568 /* PostCommentUseCase.swift */,
 				15553BC72BB34643000AA896 /* PostNestedCommentUseCase.swift */,
+				15B5E7A42BBAE85E00C19F56 /* UserBlockUseCase.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -1599,6 +1630,7 @@
 				135A07D02BB4031D003D6C4D /* DefaultPhotoAuthorizationUseCase.swift */,
 				15BE6BE92BAF1CA1009A2568 /* DefaultPostCommentUseCase.swift */,
 				15553BC92BB346A3000AA896 /* DefaultPostNestedCommentUseCase.swift */,
+				15B5E7A62BBAE8B800C19F56 /* DefaultUserBlockUseCase.swift */,
 			);
 			path = UseCases;
 			sourceTree = "<group>";
@@ -1625,6 +1657,7 @@
 				15B01DA82BA9425E00BE9F98 /* DefaultLoggedInUserRepository.swift */,
 				15BE6BDD2BAF0930009A2568 /* DefaultPostCommentRepository.swift */,
 				15553BC52BB3445A000AA896 /* DefaultPostNestedCommentRepository.swift */,
+				15B5E7A22BBAE6F800C19F56 /* DefaultUserBlockRepository.swift */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
@@ -1648,6 +1681,7 @@
 				15B01DA62BA941D800BE9F98 /* LoggedInUserRepository.swift */,
 				15BE6BDA2BAF08B4009A2568 /* PostCommentRepository.swift */,
 				15553BC32BB343F1000AA896 /* PostNestedCommentRepository.swift */,
+				15B5E7A02BBAE68000C19F56 /* UserBlockRepository.swift */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
@@ -1664,6 +1698,7 @@
 				15D655812B8E079200466FEC /* UserInfoAPIEndpoint.swift */,
 				15FBD5DB2B98E32C00076115 /* PostAPIEndpoint.swift */,
 				15553BBF2BB34151000AA896 /* PostNestedCommentAPIEndpoint.swift */,
+				15B5E79E2BBAE51C00C19F56 /* UserBlockAPIEndpoint.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -1683,6 +1718,8 @@
 				1518BC122BB00DB200FD1A74 /* PostCommentUpdateResponseDTO.swift */,
 				1518BC242BB0426B00FD1A74 /* PostCommentHeartToggleResponseDTO.swift */,
 				15FD508E2BB44FFF006CCCDD /* PostUpdatedNestedCommentResponseDTO.swift */,
+				15B5E79A2BBAE3B400C19F56 /* UserBlockResponseDTO.swift */,
+				15B5E7AF2BBAEE4100C19F56 /* BlockedUserProfileResponseDTO.swift */,
 			);
 			path = ResponseDTO;
 			sourceTree = "<group>";
@@ -1699,6 +1736,7 @@
 		151DF1072AEEC53400D5D55B /* MockJson */ = {
 			isa = PBXGroup;
 			children = (
+				15B5E7A82BBAE95C00C19F56 /* UserBlock */,
 				15553BCD2BB3488D000AA896 /* NestedPostComment */,
 				15BE6BED2BAF1EDA009A2568 /* PostComment */,
 				151DF10E2AEECBB400D5D55B /* mock_response_notice.json */,
@@ -2085,6 +2123,15 @@
 			path = UserStorage;
 			sourceTree = "<group>";
 		};
+		15B5E7A82BBAE95C00C19F56 /* UserBlock */ = {
+			isa = PBXGroup;
+			children = (
+				15B5E7A92BBAE97A00C19F56 /* mock_userBlock_response.json */,
+				15B5E7B32BBAF25D00C19F56 /* mock_blockedUsers_response.json */,
+			);
+			path = UserBlock;
+			sourceTree = "<group>";
+		};
 		15BB01AF2A1EB4C40035B486 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -2339,6 +2386,7 @@
 				15553BC12BB341B0000AA896 /* PostNestedCommentSendRequestDTO.swift */,
 				15FD508C2BB44F9E006CCCDD /* PostNestedCommentUpdateRequestDTO.swift */,
 				15FD50942BB4579C006CCCDD /* PostNestedCommentDeleteRequestDTO.swift */,
+				15B5E7982BBAE34E00C19F56 /* UserBlockRequestDTO.swift */,
 				159E387B2BBAD464008825B0 /* LikedPostsByLoggedInUserRequestDTO.swift */,
 				150727252BBAB9E400271217 /* PostNestedCommentHeartToggleRequestDTO.swift */,
 			);
@@ -2353,6 +2401,7 @@
 				15D655912B8E169100466FEC /* MyProfileUseCaseTests.swift */,
 				15BE6BF02BAF2285009A2568 /* PostCommentUseCaseTests.swift */,
 				15553BD52BB34D06000AA896 /* PostNestedCommentUseCaseTests.swift */,
+				15B5E7AD2BBAEBE700C19F56 /* UserBlockUseCaseTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -2366,6 +2415,7 @@
 				15E9E5F12B9A35F300C2F1F7 /* MockPostRepository.swift */,
 				15B01DAA2BA9472300BE9F98 /* MockUserStorage.swift */,
 				15BE6BEB2BAF1DB3009A2568 /* MockPostCommentRepository.swift */,
+				15B5E7AB2BBAEA3B00C19F56 /* MockWrappedUserBlockRepository.swift */,
 			);
 			path = Mock;
 			sourceTree = "<group>";
@@ -2427,18 +2477,10 @@
 				15D7C48F2BAA0D5100BBD5EB /* Protocol */,
 				15D7C48E2BAA0CB500BBD5EB /* Model */,
 				15D7C48D2BAA0C7B00BBD5EB /* View */,
-				15D7C48C2BAA0C6300BBD5EB /* ViewController */,
 				15FFAC342ADD4C990013DB57 /* Adapter */,
 				15FFAC352ADD4DED0013DB57 /* ViewModel */,
 			);
 			path = Post;
-			sourceTree = "<group>";
-		};
-		15D7C48C2BAA0C6300BBD5EB /* ViewController */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = ViewController;
 			sourceTree = "<group>";
 		};
 		15D7C48D2BAA0C7B00BBD5EB /* View */ = {
@@ -2901,6 +2943,7 @@
 				13BF411D2ADBE42000F3F082 /* onboarding-video.mp4 in Resources */,
 				1518BC292BB0486400FD1A74 /* mock_postComment_toggleCommentHeart_response.json in Resources */,
 				158BEFBB2A0EB2A500C27861 /* Pretendard-Regular.ttf in Resources */,
+				15B5E7B42BBAF25D00C19F56 /* mock_blockedUsers_response.json in Resources */,
 				15F0A3F529FD58280049AB33 /* .swiftlint.yml in Resources */,
 				15553BCF2BB348B0000AA896 /* mock_postNestedComment_send_response.json in Resources */,
 				15BE6BEF2BAF1FD4009A2568 /* mock_response_postComments_whenCommentSend.json in Resources */,
@@ -2914,6 +2957,7 @@
 				15E1550D2BAB47F400582E12 /* BottomNextPageIndicatorCell.xib in Resources */,
 				1518BC1B2BB022D100FD1A74 /* mock_postComment_update_response.json in Resources */,
 				158BEFBA2A0EB2A500C27861 /* Pretendard-Bold.ttf in Resources */,
+				15B5E7AA2BBAE97A00C19F56 /* mock_userBlock_response.json in Resources */,
 				1594F53B29FD517F00A58F20 /* Assets.xcassets in Resources */,
 				15FD50972BB45A78006CCCDD /* mock_postNestedComemnt_delete_response.json in Resources */,
 				158BEFBE2A0EB2A500C27861 /* Pretendard-ExtraBold.ttf in Resources */,
@@ -2980,6 +3024,7 @@
 				15D655A42B8F829800466FEC /* MyInformationViewModelTests.swift in Sources */,
 				1335320E2BA469E3000A4D9E /* DataConverterTests.swift in Sources */,
 				15553BD42BB34BF2000AA896 /* XCTestCasej+UseCaseTestsHelpers.swift in Sources */,
+				15B5E7AE2BBAEBE700C19F56 /* UserBlockUseCaseTests.swift in Sources */,
 				1383C81C2B97F44800830F1A /* KeychainManagerTests.swift in Sources */,
 				15D655922B8E169100466FEC /* MyProfileUseCaseTests.swift in Sources */,
 				158981BA2BB2652700F016CF /* PostCommentAPIEndpointTests.swift in Sources */,
@@ -3017,6 +3062,7 @@
 				15FC90D92ACC56280033A1E5 /* FavoriteTableViewCell.swift in Sources */,
 				15259DEB2ACAA9F600C14F62 /* PostSearchFooterView.swift in Sources */,
 				15FFAC382ADD501B0013DB57 /* PostInfo.swift in Sources */,
+				15B5E79D2BBAE43A00C19F56 /* BlockedUserIdentifyEntity.swift in Sources */,
 				152834D52BAB4DED00453DD1 /* PostViewSection.swift in Sources */,
 				13405F082AEE212500382796 /* GoogleLoginButton.swift in Sources */,
 				15259DEA2ACAA9D800C14F62 /* SearchFestivalCellViewModel.swift in Sources */,
@@ -3027,6 +3073,7 @@
 				1503F9312A4E0A4F002BC38D /* MainCoordinator.swift in Sources */,
 				133532062BA42F6E000A4D9E /* Data+.swift in Sources */,
 				15FBD5D82B98DC6E00076115 /* TravelMainThemeTypeMapper.swift in Sources */,
+				15B5E7AC2BBAEA3B00C19F56 /* MockWrappedUserBlockRepository.swift in Sources */,
 				15553BCC2BB3476F000AA896 /* MockPostNestedCommentRepository.swift in Sources */,
 				1364FBE62B61A8EA00D89FC9 /* PhotoViewControllerDelegate.swift in Sources */,
 				15DE36B92AB853900030CCCC /* TravelThemeBottomSheetCell.swift in Sources */,
@@ -3042,6 +3089,7 @@
 				15D3882F2B01504900039946 /* IconWithLabelStackView.swift in Sources */,
 				1586D3042AB193F7001D4A80 /* Season.swift in Sources */,
 				130CF3732B8F8A040051DEE8 /* LoginAPIEndPoints.swift in Sources */,
+				15B5E7A72BBAE8B800C19F56 /* DefaultUserBlockUseCase.swift in Sources */,
 				15B9285B2AF9DEAA003A20D4 /* PostDetailViewController.swift in Sources */,
 				15FFAC012AD5D6710013DB57 /* FavoriteDirectorySettingViewDelegate.swift in Sources */,
 				158695932AE5455B0087CCB3 /* FeedPostViewAdapter.swift in Sources */,
@@ -3052,6 +3100,7 @@
 				15E982C12ACD16A2002B932F /* FavoriteDetailMenuAreaView.swift in Sources */,
 				15F2A01C2B14E4E50014603D /* SettingMyProfileView.swift in Sources */,
 				152AD4F62A18B6C3008A2A11 /* FavoriteHeaderImageViews.swift in Sources */,
+				15B5E79B2BBAE3B400C19F56 /* UserBlockResponseDTO.swift in Sources */,
 				15D655822B8E079200466FEC /* UserInfoAPIEndpoint.swift in Sources */,
 				15C1F55A2AF37092005FDA15 /* BaseLabel.swift in Sources */,
 				157ADCA02ACFB33100D37680 /* UIScrollView+.swift in Sources */,
@@ -3103,6 +3152,7 @@
 				13405F042AED899800382796 /* KakaoLoginButton.swift in Sources */,
 				15BE6BEC2BAF1DB3009A2568 /* MockPostCommentRepository.swift in Sources */,
 				13BF41202ADBEC8C00F3F082 /* LoginStartView.swift in Sources */,
+				15B5E79F2BBAE51C00C19F56 /* UserBlockAPIEndpoint.swift in Sources */,
 				15E9E5F22B9A35F300C2F1F7 /* MockPostRepository.swift in Sources */,
 				151DF0F62AEEB2D200D5D55B /* DefaultNoticeUseCase.swift in Sources */,
 				15BE6BDE2BAF0930009A2568 /* DefaultPostCommentRepository.swift in Sources */,
@@ -3156,6 +3206,7 @@
 				130369662AEC3AA2007E980C /* NSRange+.swift in Sources */,
 				15CB235B2A109CA4003EAF20 /* PostHeaderContentBottomInfo.swift in Sources */,
 				130304792A24936D00776A0D /* SearchViewModel.swift in Sources */,
+				15B5E7992BBAE34E00C19F56 /* UserBlockRequestDTO.swift in Sources */,
 				1595B5302BAD9DAC00DA5039 /* PostMainThemeCategoryBottomSheet.swift in Sources */,
 				13405F712AF6F05300382796 /* ReviewWritingPlanView.swift in Sources */,
 				15FB47D72AC0407D0033AA18 /* PostCategory.swift in Sources */,
@@ -3198,6 +3249,7 @@
 				158312E12AB36A9A0087034A /* UIViewController+.swift in Sources */,
 				151DF10B2AEEC58900D5D55B /* MockUrlProtocol.swift in Sources */,
 				15CB23742A110FB4003EAF20 /* PostViewModel.swift in Sources */,
+				15B5E7B02BBAEE4100C19F56 /* BlockedUserProfileResponseDTO.swift in Sources */,
 				15EFB6C82AF51CFE00AA629C /* PostSearchCollectionViewAdapter.swift in Sources */,
 				157ADCA42ACFF31D00D37680 /* FavoritePostViewController.swift in Sources */,
 				134384082B48005F005034E0 /* AlbumViewController.swift in Sources */,
@@ -3228,6 +3280,7 @@
 				130304AA2A271F3B00776A0D /* SearchSectionModel.swift in Sources */,
 				151DF1122AEECDDD00D5D55B /* NoticeViewModelable.swift in Sources */,
 				15F36A182AB1986000971803 /* TravelTheme.swift in Sources */,
+				15B5E7A52BBAE85E00C19F56 /* UserBlockUseCase.swift in Sources */,
 				1546DF322B0AF54300B49A55 /* ImageMemoryCachable.swift in Sources */,
 				15EA6B352ACEF627002783F0 /* EmptyStateBasedContentViewController.swift in Sources */,
 				157ADCAE2AD00AB400D37680 /* FavoriteLocationViewController.swift in Sources */,
@@ -3287,6 +3340,7 @@
 				155D0BAC2B90CB5B0042DFB6 /* UserNicknamePatchRequestDTO.swift in Sources */,
 				13254FF02A0549D200094218 /* TabBarCase.swift in Sources */,
 				15A7A8EE2B9F6B1D00CA9A79 /* UserDefaultsManager.swift in Sources */,
+				15B5E7A32BBAE6F800C19F56 /* DefaultUserBlockRepository.swift in Sources */,
 				15C7A51A2B94DA2800C79E27 /* UserIdReqeustDTO.swift in Sources */,
 				13254FEB2A0515C700094218 /* FavoriteViewController.swift in Sources */,
 				151DF0E72AEEA76500D5D55B /* NoticeViewModel.swift in Sources */,
@@ -3384,6 +3438,7 @@
 				159958832B0DDFED00B2E4DC /* UIStackView+Helpers.swift in Sources */,
 				15B928652AFA3980003A20D4 /* PostDetailContentFooterView.swift in Sources */,
 				15BE6BEA2BAF1CA1009A2568 /* DefaultPostCommentUseCase.swift in Sources */,
+				15B5E7A12BBAE68000C19F56 /* UserBlockRepository.swift in Sources */,
 				15FD508F2BB44FFF006CCCDD /* PostUpdatedNestedCommentResponseDTO.swift in Sources */,
 				15C1F53C2AF27043005FDA15 /* NotificationViewAdapter.swift in Sources */,
 				1546DF302B0AF4C100B49A55 /* ImageMemoryCache.swift in Sources */,
@@ -3410,6 +3465,7 @@
 				13A93EE92AD0065300FC4BBD /* SearchMoreDetailLayoutManager.swift in Sources */,
 				151DF1052AEEBE0F00D5D55B /* NoticeResponseDTO.swift in Sources */,
 				130CF38F2B9356370051DEE8 /* AuthenticationService.swift in Sources */,
+				15B5E7B22BBAEEA500C19F56 /* BlockedUserProfileEntity.swift in Sources */,
 				15D3882D2AFFBB5B00039946 /* PostDetailInputAccessoryWrapper.swift in Sources */,
 				1503F9372A4E1103002BC38D /* FavoriteCoordinator.swift in Sources */,
 				1599587F2B0DC56D00B2E4DC /* PostCellWithFourThumbnails.swift in Sources */,

@@ -1,0 +1,13 @@
+//
+//  UserBlockRepository.swift
+//  travelPlan
+//
+//  Created by 양승현 on 4/1/24.
+//
+
+import Combine
+
+protocol UserBlockRepository {
+  func blockUser(with userId: Int64) -> Future<BlockedUserIdentifyEntity, Error>
+  func fetchBlockedUsers() -> Future<[BlockedUserProfileEntity], Error>
+}
