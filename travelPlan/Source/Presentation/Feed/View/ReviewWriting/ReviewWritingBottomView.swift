@@ -15,11 +15,11 @@ final class ReviewWritingBottomView: UIView {
     $0.addGestureRecognizer(tapGesture)
   }
   
-  private lazy var cameraButton: UIButton = .init(type: .system).set {
+  private lazy var albumButton: UIButton = .init(type: .system).set {
     $0.setImage(.init(named: "camera")?.withRenderingMode(.alwaysOriginal), for: .normal)
     $0.backgroundColor = .yg.primary.withAlphaComponent(0.1)
     $0.layer.cornerRadius = 16
-    $0.addTarget(self, action: #selector(didTapCameraButton(_:)), for: .touchUpInside)
+    $0.addTarget(self, action: #selector(didTapAlbumButton(_:)), for: .touchUpInside)
     if #available(iOS 15.0, *) {
       $0.configuration?.imagePadding = 8
     } else {
@@ -61,7 +61,7 @@ extension ReviewWritingBottomView {
 extension ReviewWritingBottomView: LayoutSupport {
   func addSubviews() {
     addSubview(planView)
-    addSubview(cameraButton)
+    addSubview(albumButton)
     addSubview(alertCircleImageView)
     addSubview(cameraWarningLabel)
   }
@@ -73,15 +73,15 @@ extension ReviewWritingBottomView: LayoutSupport {
       $0.height.equalTo(planView.intrinsicContentSize.height)
     }
     
-    cameraButton.snp.makeConstraints {
+    albumButton.snp.makeConstraints {
       $0.top.equalTo(planView.snp.bottom).offset(9)
       $0.leading.equalToSuperview().inset(20)
       $0.size.equalTo(44)
     }
     
     alertCircleImageView.snp.makeConstraints {
-      $0.leading.equalTo(cameraButton.snp.trailing).offset(8)
-      $0.centerY.equalTo(cameraButton)
+      $0.leading.equalTo(albumButton.snp.trailing).offset(8)
+      $0.centerY.equalTo(albumButton)
       $0.size.equalTo(20)
     }
     
@@ -98,7 +98,7 @@ private extension ReviewWritingBottomView {
     delegate?.didTapPlanView(planView)
   }
   
-  @objc func didTapCameraButton(_ button: UIButton) {
-    delegate?.didTapCameraButton(button)
+  @objc func didTapAlbumButton(_ button: UIButton) {
+    delegate?.didTapAlbumButton(button)
   }
 }

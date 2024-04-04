@@ -14,7 +14,6 @@ final class PostCommentUseCaseTests: XCTestCase {
   var subscription: AnyCancellable?
   let mockPostCommentRepository = MockPostCommentRepository()
   var expectation = XCTestExpectation(description: "PostCommentUseCase test!")
-  var testFunctionName: String = ""
   
   // MARK: - Lifecycle
   override func setUp() {
@@ -26,7 +25,6 @@ final class PostCommentUseCaseTests: XCTestCase {
     super.tearDown()
     sut = nil
     subscription = nil
-    testFunctionName = ""
   }
 }
 
@@ -109,7 +107,6 @@ extension PostCommentUseCaseTests {
     // Arrange
     var result = false
     var unexpectedError: Error?
-    testFunctionName = "fetchComments"
     let mockReqeustValue = PostCommentsRequestValue(page: 1, perPage: 2, postId: 33333)
     
     // Act
@@ -135,7 +132,6 @@ extension PostCommentUseCaseTests {
     // Arrange
     var result = false
     var unexpectedError: Error?
-    testFunctionName = "togglePostComment"
     
     // Act
     subscription = sut.toggleCommentHeart(commentId: 1)
