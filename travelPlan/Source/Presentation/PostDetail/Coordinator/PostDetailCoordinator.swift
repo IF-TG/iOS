@@ -14,7 +14,7 @@ protocol PostDetailCoordinatorDelegate: FlowCoordinatorDelegate {
 }
 
 // MARK: - PostDetailCoordinator
-final class PostDetailCoordinator: FlowCoordinator {
+final class PostDetailCoordinator: NSObject, FlowCoordinator {
   var parent: FlowCoordinator?
   var child: [FlowCoordinator] = []
   var presenter: UINavigationController?
@@ -46,6 +46,8 @@ final class PostDetailCoordinator: FlowCoordinator {
       loggedInUserUseCase: loggedInUserUseCase, 
       postNestedCommentUseCase: postNestedCommentUseCase)
     postDetailViewController = PostDetailViewController(viewModel: postDetailVM)
+    super.init()
+    presenter?.delegate = self
   }
   
   func start() {
@@ -76,5 +78,23 @@ extension PostDetailCoordinator: PostDetailCoordinatorDelegate {
 fileprivate extension UIAlertController {
   func addAction(title: String, style: UIAlertAction.Style, handler: ((UIAlertAction) -> Void)?) {
     self.addAction(UIAlertAction(title: title, style: style, handler: handler))
+  }
+}
+
+// MARK: - FlowCoordinatorNavigatable
+extension PostDetailCoordinator: FlowCoordinatorNavigatable {
+  var viewController: UIViewController? {
+    postDetailViewController
+  }
+}
+
+// MARK: - UINavigationControllerDelegate
+extension PostDetailCoordinator: UINavigationControllerDelegate {
+  func navigationController(
+    _ navigationController: UINavigationController,
+    didShow viewController: UIViewController,
+    animated: Bool
+  ) {
+    handlePopViewController(navigationController, didShow: viewController, animated: animated)
   }
 }
