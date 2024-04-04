@@ -148,6 +148,7 @@ extension PostDetailViewController: ViewBindCase {
     case .keyboardWhenCommentReply(let state):
       switch state {
       case .keyboardShow:
+        tableView.keyboardDismissMode = .none
         isReplying = true
         inputAccessory.showKeyboard()
       case .keyboardHide:
@@ -164,6 +165,12 @@ extension PostDetailViewController: ViewBindCase {
         tableView.reloadData()
         // tableView.reloadSections(IndexSet(integer: section), with: .fade)
         stopIndicator()
+      case .replyCancel:
+        isReplying = false
+        inputAccessory.clearCommentInputState()
+        inputAccessory.hideKeyboard()
+      case .replyContinue:
+        inputAccessory.showKeyboard()
       }
     }
   }
@@ -233,7 +240,10 @@ extension PostDetailViewController {
   
   // MARK: - Keyboard Actions
   @objc private func didHideKeyboard(_ notification: Notification) {
-    input.keyboardDidHideNotifier.send()
+    guard isReplying else { return }
+    coordinator?.showAnAlertToAskWhetherToCancelWrittingTheReply { [weak self] wannaCancel in
+      self?.input.keyboardDidHideWhenReplyingToMessageNotifier.send(wannaCancel)
+    }
   }
 }
 
