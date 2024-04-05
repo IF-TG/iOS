@@ -11,9 +11,9 @@ enum RequestType {
   case none
   case login(LoginRequestType)
   case user(UserRequestType)
-  case post(Post)
-  case postComment(PostComment)
-  case postNestedComment(PostNestedComment)
+  case post(PostRequestType)
+  case postComment(PostCommentRequestType)
+  case postNestedComment(PostNestedCommentRequestType)
   
   var path: String {
     return switch self {
@@ -33,6 +33,7 @@ enum RequestType {
   }
 }
 
+// MARK: - Login request type
 extension RequestType {
   @frozen enum LoginRequestType {
     case apple
@@ -101,9 +102,9 @@ extension RequestType {
   }
 }
 
-// MARK: - Nested
+// MARK: - Post related request type
 extension RequestType {
-  enum Post {
+  enum PostRequestType {
     case postsFetch
     case postCommentsFetch
     case likedPostsByLoggedInUserFetch
@@ -120,7 +121,7 @@ extension RequestType {
     }
   }
   
-  enum PostNestedComment {
+  enum PostNestedCommentRequestType {
     case send
     case update
     case delete
@@ -144,7 +145,7 @@ extension RequestType {
     }
   }
     
-  enum PostComment {
+  enum PostCommentRequestType {
     case send
     case update
     case delete
