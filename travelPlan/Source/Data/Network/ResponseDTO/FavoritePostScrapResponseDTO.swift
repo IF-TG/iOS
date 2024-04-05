@@ -16,3 +16,10 @@ struct FavoritePostScrapResponseDTO: Decodable {
     case isScrapped = "value"
   }
 }
+
+// MARK: - Mappings to Domain
+extension FavoritePostScrapResponseDTO {
+  func toDomain() -> FavoritePostToggleEntity {
+    return .init(postId: postId, isScrapped: isScrapped)
+  }
+}
