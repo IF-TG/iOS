@@ -19,6 +19,6 @@ final class MockUserEndpoint {
       host: "test.com",
       method: .post,
       parameters: [.query(requestDTO)],
-      requestType: .custom("name-update"))
+      requestType: .user(.profile(.update)))
   }
 }

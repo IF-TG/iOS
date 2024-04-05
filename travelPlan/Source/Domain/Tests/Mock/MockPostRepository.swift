@@ -29,11 +29,11 @@ final class MockPostRepository: PostRepository {
     category: PostCategory
   ) -> AnyPublisher<PostsPage, any Error> {
     MockUrlProtocol.requestHandler = { _ in
-      let mockData = MockResponseType.postContainerResponse.mockDataLoader
+      let mockData = MockResponseType.post(.whenPostContainerResponse).mockDataLoader
       return ((HTTPURLResponse(), mockData))
     }
     return Future { promise in
-      DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.5) { [weak self] in
+      DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.1) { [weak self] in
         let subscription = self?.postRepository
           .fetchPosts(page: page, perPage: perPage, category: category)
           .sink(receiveCompletion: { completion in
@@ -54,11 +54,11 @@ final class MockPostRepository: PostRepository {
     postId: Int64
   ) -> AnyPublisher<PostCommentContainerEntity, any Error> {
     MockUrlProtocol.requestHandler = { _ in
-      let mockData = MockResponseType.postCommentContainerResponse.mockDataLoader
+      let mockData = MockResponseType.post(.whenPostCommentContainerResponse).mockDataLoader
       return ((HTTPURLResponse(), mockData))
     }
     return Future { promise in
-      DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.5) { [weak self] in
+      DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.1) { [weak self] in
         let subscription = self?.postRepository
           .fetchComments(page: page, perPage: perPage, postId: postId)
           .sink(receiveCompletion: { completion in
@@ -78,11 +78,11 @@ final class MockPostRepository: PostRepository {
     perPage: Int32
   ) -> AnyPublisher<PostsPage, any Error> {
     MockUrlProtocol.requestHandler = { _ in
-      let mockData = MockResponseType.postContainerResponse.mockDataLoader
+      let mockData = MockResponseType.post(.whenPostContainerResponse).mockDataLoader
       return ((HTTPURLResponse(), mockData))
     }
     return Future { promise in
-      DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.5) { [weak self] in
+      DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.1) { [weak self] in
         let subscription = self?.postRepository
           .fetchLikedPostsByLoggedInUser(page: page, perPage: perPage)
           .sink(receiveCompletion: { completion in
@@ -96,4 +96,32 @@ final class MockPostRepository: PostRepository {
       }
     }.eraseToAnyPublisher()
   }
+  
+  func searchPosts(
+    keyword: String,
+    page: Int32,
+    perPage: Int32,
+    isTitle: Bool,
+    isContent: Bool
+  ) -> AnyPublisher<[Post], any Error> {
+    MockUrlProtocol.requestHandler = { _ in
+      let mockData = MockResponseType.post(.whenPostsSearchResponse).mockDataLoader
+      return ((.init(), mockData))
+    }
+    return Future { promise in
+      DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.05) { [weak self] in
+        let subscription = self?.postRepository
+          .searchPosts(keyword: keyword, page: page, perPage: perPage, isTitle: isTitle, isContent: isContent)
+          .sink { completion in
+            if case .failure(let error) = completion {
+              promise(.failure(error))
+            }
+          } receiveValue: { posts in
+            promise(.success(posts))
+          }
+        self?.subscriptions.insert(subscription)
+      }
+    }.eraseToAnyPublisher()
+  }
+  
 }

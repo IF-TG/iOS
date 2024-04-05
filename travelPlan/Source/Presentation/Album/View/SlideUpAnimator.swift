@@ -19,16 +19,12 @@ class SlideUpAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     containerView.addSubview(toView)
     containerView.bringSubviewToFront(toView)
 
-    toView.snp.makeConstraints {
-      $0.top.equalTo(containerView.snp.bottom)
-      $0.leading.trailing.equalToSuperview()
-      $0.size.equalToSuperview()
-    }
+    toView.transform = .init(translationX: 0, y: containerView.frame.height)
     
     UIView.animate(
       withDuration: transitionDuration(using: transitionContext),
       animations: {
-        toView.transform = .init(translationX: 0, y: -containerView.frame.height)
+        toView.transform = .identity
       }) { completed in
         transitionContext.completeTransition(completed)
       }

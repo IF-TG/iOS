@@ -7,45 +7,111 @@
 
 import Foundation
 
-enum RequestType {
+@frozen enum RequestType {
   case none
-  /// 사용자 이름 중복 체크와 사용자 이름 업데이트 두 개의 로직에서 사용중
-  case userNameDuplicateCheck
-  case post(Post)
-  case userProfile(UserProfile)
-  case custom(String)
-  case postComment(PostComment)
-  case postNestedComment(PostNestedComment)
-  case userBlock(UserBlock)
+  case login(LoginRequestType)
+  case user(UserRequestType)
+  case post(PostRequestType)
+  case postComment(PostCommentRequestType)
+  case postNestedComment(PostNestedCommentRequestType)
+  case favoritePostInDirectory(FavoritePostInDirectory)
   
   var path: String {
     return switch self {
     case .none:
       ""
-    case .userNameDuplicateCheck:
-      "nickname"
     case .post(let post):
       post.path
-    case .userProfile(let profile):
-      profile.path
-    case .custom(let requestPath):
-      requestPath
     case .postComment(let postComment):
       postComment.path
     case .postNestedComment(let nestedComment):
       nestedComment.path
-    case .userBlock(let userBlock):
-      userBlock.path
+    case .user(let userRequestType):
+      userRequestType.path
+    case .login(let loginRequestType):
+      loginRequestType.path
+    case .favoritePostInDirectory(let favoritePost):
+      favoritePost.path
     }
   }
 }
 
-// MARK: - Nested
+// MARK: - Login request type
 extension RequestType {
-  enum Post {
+  @frozen enum LoginRequestType {
+    case apple
+    
+    var path: String {
+      switch self {
+      case .apple:
+        "apple/login"
+      }
+    }
+  }
+}
+
+// MARK: - User relate Request type
+extension RequestType {
+  @frozen enum UserRequestType {
+    case profile(UserProfile)
+    case otherUserBlock(UserBlock)
+    
+    var path: String {
+      switch self {
+      case .profile(let userProfile):
+        userProfile.path
+      case .otherUserBlock(let userBlock):
+        userBlock.path
+      }
+    }
+    
+    @frozen enum UserBlock {
+      case userBlock
+      case blockedUsersFetch
+      
+      var path: String {
+        switch self {
+        case .userBlock:
+          return "blockUser"
+        case .blockedUsersFetch:
+          return "blockUser/list"
+        }
+      }
+    }
+    
+    @frozen enum UserProfile {
+      case update
+      case save
+      case delete
+      case fetch
+      /// 사용자 이름 중복 체크와 사용자 이름 업데이트 두 개의 로직에서 사용중
+      case checkIfNameDuplicate
+      
+      var path: String {
+        return switch self {
+        case .update:
+          "profile/upload"
+        case .save:
+          "profile/upload"
+        case .delete:
+          "profile"
+        case .fetch:
+          "profile/original"
+        case .checkIfNameDuplicate:
+          "nickname"
+        }
+      }
+    }
+  }
+}
+
+// MARK: - Post related request type
+extension RequestType {
+  @frozen enum PostRequestType {
     case postsFetch
     case postCommentsFetch
     case likedPostsByLoggedInUserFetch
+    case postSearch
     
     var path: String {
       switch self {
@@ -55,11 +121,13 @@ extension RequestType {
         "post/detail"
       case .likedPostsByLoggedInUserFetch:
         "post/like/list"
+      case .postSearch:
+        "post/search"
       }
     }
   }
   
-  enum PostNestedComment {
+  @frozen enum PostNestedCommentRequestType {
     case send
     case update
     case delete
@@ -82,32 +150,8 @@ extension RequestType {
       }
     }
   }
-  
-  enum UserProfile {
-    case update
-    case save
-    case delete
-    case fetch
     
-    var path: String {
-      "profile" + relativePath
-    }
-    
-    private var relativePath: String {
-      return switch self {
-      case .update:
-        "/upload"
-      case .save:
-        "/upload"
-      case .delete:
-        ""
-      case .fetch:
-        "/original"
-      }
-    }
-  }
-  
-  enum PostComment {
+  @frozen enum PostCommentRequestType {
     case send
     case update
     case delete
@@ -121,17 +165,23 @@ extension RequestType {
       return "comment"
     }
   }
-  
-  enum UserBlock {
-    case userBlock
-    case blockedUsersFetch
+}
+
+// MARK: - Favorite
+extension RequestType {
+  @frozen enum FavoritePostInDirectory {
+    case favoritePostsFetch
+    case favoritePostToggle
+    case favoritePostDirectoryNameUpdate
     
     var path: String {
       switch self {
-      case .userBlock:
-        return "blockUser"
-      case .blockedUsersFetch:
-        return "blockUser/list"
+      case .favoritePostsFetch:
+        "post/scrap/detail"
+      case .favoritePostToggle:
+        "post/scrap"
+      case .favoritePostDirectoryNameUpdate:
+        "post/scrap"
       }
     }
   }

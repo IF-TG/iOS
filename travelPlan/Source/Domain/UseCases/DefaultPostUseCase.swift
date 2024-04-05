@@ -51,4 +51,20 @@ final class DefaultPostUseCase: PostUseCase {
     .eraseToAnyPublisher()
   }
   
+  func searchPosts(
+    keyword: String,
+    page: Int32,
+    perPage: Int32,
+    isTitle: Bool,
+    isContent: Bool
+  ) -> AnyPublisher<[Post], any Error> {
+    postRepository.searchPosts(
+      keyword: keyword,
+      page: page,
+      perPage: perPage,
+      isTitle: isTitle,
+      isContent: isContent)
+    .subscribe(on: backgroundQueue)
+    .eraseToAnyPublisher()
+  }
 }

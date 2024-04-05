@@ -24,4 +24,12 @@ protocol PostRepository {
     page: Int32,
     perPage: Int32
   ) -> AnyPublisher<PostsPage, Error>
+  
+  func searchPosts(
+    keyword: String,
+    page: Int32,
+    perPage: Int32,
+    isTitle: Bool,
+    isContent: Bool
+  ) -> AnyPublisher<[Post], Error>
 }

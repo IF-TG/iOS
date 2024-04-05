@@ -148,7 +148,7 @@ extension ReviewWritingViewController {
           self?.photoService.fetchImage(
             asset: asset,
             size: PHImageManagerMaximumSize,
-            contentMode: .aspectFit,
+            contentMode: .aspectFill,
             resizeModeOption: .none
           ) { image in
             images.append((index: index, image))

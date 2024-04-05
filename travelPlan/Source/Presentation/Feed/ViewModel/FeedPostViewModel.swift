@@ -33,7 +33,7 @@ class FeedPostViewModel: PostViewModel {
     case loadingNextPage
     case unexpectedError(description: String)
     case noMorePage
-    case postFilterLoading
+    case networking
     case postFilterLoaded
     case detailPostShow(post: Post, category: Post.Category)
     case none
@@ -76,6 +76,8 @@ class FeedPostViewModel: PostViewModel {
   
   private let postFilterLoadingStartSubject = PassthroughSubject<Void, Never>()
   
+  private let viewDidLoadHandler = PassthroughSubject<Void, Never>()
+  
   // MARK: - Lifecycle
   init(postCategory: PostCategory, postUseCase: PostUseCase) {
     self.postUseCase = postUseCase
@@ -91,6 +93,7 @@ extension FeedPostViewModel: FeedPostViewModelable {
       notifiedOrderFilterRequestStream(input),
       notifiedMainThemeFilterRequestStream(input),
       viewDidLoadStream(input),
+      viewDidLoadHandlerStream(),
       nextPageStream(input),
       feedRefreshStream(input),
       nextPageLoadingStartSubjectStream(),
@@ -104,7 +107,7 @@ private extension FeedPostViewModel {
   func postFilterLoadingStartSubjectStream() -> Output {
     postFilterLoadingStartSubject.map { [weak self] _ -> State in
       self?.isPostFiltering = true
-      return .postFilterLoading
+      return .networking
     }.eraseToAnyPublisher()
   }
   
@@ -158,17 +161,28 @@ private extension FeedPostViewModel {
           ).eraseToAnyPublisher()
       }.eraseToAnyPublisher()
   }
-  
+  //TODO: - 초기에 인디케이터하력함
   func viewDidLoadStream(_ input: Input) -> Output {
-    return input.viewDidLoad.flatMap { [weak self] _ in
-      return self?.fetchPosts()
-        .map { _ in State.viewDidLoad }
-        .catch { error in
-          return Just(State.unexpectedError(description: error.localizedDescription))
-        }.eraseToAnyPublisher() ?? Just(
-          State.unexpectedError(description: "앱 동작 에러가 발생됬습니다.")
-        ).eraseToAnyPublisher()
+    return input.viewDidLoad.map { [weak self] _ in
+      DispatchQueue.global(qos: .userInitiated).async {
+        self?.viewDidLoadHandler.send()
+      }
+      return .networking
     }.eraseToAnyPublisher()
+  }
+  
+  func viewDidLoadHandlerStream() -> Output {
+    return viewDidLoadHandler
+      .flatMap { [weak self] _ in
+        return self?.fetchPosts()
+          .map { _ in
+            State.viewDidLoad
+          }.catch { error in
+            return Just(State.unexpectedError(description: error.localizedDescription))
+          }.eraseToAnyPublisher() ?? Just(
+            State.unexpectedError(description: "앱 동작 에러가 발생됬습니다.")
+          ).eraseToAnyPublisher()
+      }.eraseToAnyPublisher()
   }
   
   func nextPageStream(_ input: Input) -> Output {
@@ -180,7 +194,7 @@ private extension FeedPostViewModel {
         self?.isPaging = true
         self?.nextPageLoadingStartSubject.send()
         return self?.fetchPosts()
-          .delay(for: .seconds(3), scheduler: DispatchQueue.global(qos: .background))
+          .delay(for: .seconds(0.25), scheduler: DispatchQueue.global(qos: .background))
           .map { [weak self] _ -> State in
             return .nextPage {
               self?.isPaging = false
