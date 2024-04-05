@@ -9,7 +9,6 @@ import Foundation
 import Combine
 
 final class MockFavoritePostInDirectoryRepository: FavoritePostInDirectoryRepository {
-  
   private typealias Endpoint = FavoritePostAPIEndpoint
   private let mockService: Sessionable
   private var subscriptions = Set<AnyCancellable?>()
@@ -43,5 +42,15 @@ final class MockFavoritePostInDirectoryRepository: FavoritePostInDirectoryReposi
         self?.subscriptions.insert(subscription)
       }
     }.eraseToAnyPublisher()
+  }
+  
+  func toggleFavoritePost(
+    postId: Int64,
+    directoryName: String
+  ) -> AnyPublisher< FavoritePostToggleEntity, any Error> {
+    return Just(.init(postId: postId, isScrapped: true))
+      .delay(for: .seconds(0.5), scheduler: DispatchQueue.global(qos: .background))
+      .setFailureType(to: Error.self)
+      .eraseToAnyPublisher()
   }
 }
