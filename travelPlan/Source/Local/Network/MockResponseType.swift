@@ -9,6 +9,7 @@ import Foundation
 
 enum MockResponseType {
   case notice
+  case postsResponse
   case postContainerResponse
   case postCommentContainerResponse
   case postComment(PostCommentResponse)
@@ -29,6 +30,8 @@ enum MockResponseType {
       "mock_response_postCommentContainer"
     case .userBlock(let userBlock):
       userBlock.filePath
+    case .postsResponse:
+      "mock_posts_response"
     }
   }
   
