@@ -18,4 +18,15 @@ struct FavoritePostAPIEndpoint {
       parameters: [.query(requestDTO)],
       requestType: .favoritePostInDirectory(.favoritePostsFetch))
   }
+  
+  static func toggleFavoritePost(
+    with requestDTO: FavoritePostScrapRequestDTO
+  ) -> Endpoint<CommonDTO<FavoritePostScrapResponseDTO>> {
+    return Endpoint(
+      scheme: "http",
+      host: "localhost:8080",
+      method: .post,
+      parameters: [.body(requestDTO)],
+      requestType: .favoritePostInDirectory(.favoritePostToggle))
+  }
 }
