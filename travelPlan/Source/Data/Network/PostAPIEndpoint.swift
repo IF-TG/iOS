@@ -40,4 +40,15 @@ struct PostAPIEndpoint {
       parameters: [.query(requestDTO)],
       requestType: .post(.likedPostsByLoggedInUserFetch))
   }
+  
+  static func searchPosts(
+    with requestDTO: PostSearchRequestDTO
+  ) -> Endpoint<CommonDTO<PostResponseDTO>> {
+    return Endpoint(
+      scheme: "http",
+      host: "localhost:8080",
+      method: .get,
+      parameters: [.query(requestDTO)],
+      requestType: .post(.postSearch))
+  }
 }
