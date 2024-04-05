@@ -115,4 +115,17 @@ extension PostResponseDTO {
   func toDomain() -> Post.Location {
     return .init(x: mapX, y: mapY)
   }
+  
+  func toDomain() -> Post.Category {
+    let mappedThemes = themes.compactMap { TravelThemeMapper.toDomain($0) }
+    let mappedRegions = regions.compactMap { TravelRegionMapper.toDomain($0) }
+    let mappedSeasons = seasons.compactMap { SeasonMapper.toDomain($0) }
+    let mappedPartners = partners.compactMap { TravelPartnerMapper.toDomain($0) }
+    
+    return Post.Category(
+      themes: mappedThemes,
+      regions: mappedRegions,
+      seasons: mappedSeasons,
+      partners: mappedPartners)
+  }
 }
