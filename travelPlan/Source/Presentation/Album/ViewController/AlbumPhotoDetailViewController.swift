@@ -13,10 +13,8 @@ import Photos
 final class AlbumPhotoDetailViewController: UIViewController {
   
   // MARK: - Properties
-  private let photoOrderView = PhotoOrderView()
   private let viewModel: any AlbumPhotoDetailViewModelable
   private let input = AlbumPhotoDetailViewModelInput()
-  private let asset: PHAsset
   private let photoService: PhotoService
   private var subscriptions = Set<AnyCancellable>()
   weak var coordinator: AlbumPhotoDetailCoordinatorDelegate?
@@ -38,15 +36,18 @@ final class AlbumPhotoDetailViewController: UIViewController {
     )
   }
   
+  private lazy var orderView = PhotoOrderView().set {
+    let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapOrderView))
+    $0.addGestureRecognizer(tapGesture)
+  }
+  
   // MARK: - LifeCycle
   init(
     viewModel: any AlbumPhotoDetailViewModelable,
-    photoService: any PhotoService,
-    asset: PHAsset
+    photoService: any PhotoService
   ) {
     self.viewModel = viewModel
     self.photoService = photoService
-    self.asset = asset
     
     super.init(nibName: nil, bundle: nil)
   }
@@ -59,8 +60,9 @@ final class AlbumPhotoDetailViewController: UIViewController {
     super.viewDidLoad()
     setupUI()
     setupStyles()
-    fetchDetailImage()
     bind()
+    
+    input.viewDidLoad.send()
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -82,7 +84,7 @@ extension AlbumPhotoDetailViewController: LayoutSupport {
   func addSubviews() {
     view.addSubview(imageView)
     imageView.addSubview(backButton)
-    imageView.addSubview(photoOrderView)
+    imageView.addSubview(orderView)
   }
   
   func setConstraints() {
@@ -96,7 +98,7 @@ extension AlbumPhotoDetailViewController: LayoutSupport {
       $0.size.equalTo(24)
     }
     
-    photoOrderView.snp.makeConstraints {
+    orderView.snp.makeConstraints {
       $0.centerY.equalTo(backButton)
       $0.trailing.equalToSuperview().inset(20)
       $0.size.equalTo(35)
@@ -123,12 +125,15 @@ extension AlbumPhotoDetailViewController {
           self?.coordinator?.finish(withAnimated: true)
         case .none:
           break
+        case .configureUI(let photoModel):
+          self?.fetchDetailImage(asset: photoModel.asset)
+          self?.configureOrder(selectedOrder: photoModel.selectedOrder)
         }
       }
       .store(in: &subscriptions)
   }
   
-  private func fetchDetailImage() {
+  private func fetchDetailImage(asset: PHAsset) {
     photoService.fetchImage(
       asset: asset,
       size: PHImageManagerMaximumSize,
@@ -140,6 +145,12 @@ extension AlbumPhotoDetailViewController {
       }
     }
   }
+  
+  private func configureOrder(selectedOrder: SelectionOrder) {
+    if case .selected(let order) = selectedOrder {
+      orderView.configureOrderView(orderText: String(order))
+    }
+  }
 }
 
 // MARK: - Actions
@@ -147,4 +158,17 @@ private extension AlbumPhotoDetailViewController {
   @objc func didTapBackButton(_ sender: UIButton) {
     input.didTapBackButton.send()
   }
+  
+  @objc func didTapOrderView() {
+    input.didTapOrderView.send()
+  }
 }
+
+/*
+ orderView tap
+ 이미 눌려있다면,
+ order 제거
+ 
+ 안눌려있다면,
+ order 추가하기(이때 order는 last order + 1)
+ */
