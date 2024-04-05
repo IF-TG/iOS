@@ -14,7 +14,7 @@ struct LoginAPIEndPoints {
       host: "test.com",
       method: .post,
       parameters: [.body(body)],
-      requestType: .custom("apple/login")
+      requestType: .login(.apple)
     )
   }
 }
