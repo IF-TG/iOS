@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum RequestType {
+@frozen enum RequestType {
   case none
   case login(LoginRequestType)
   case user(UserRequestType)
@@ -104,7 +104,7 @@ extension RequestType {
 
 // MARK: - Post related request type
 extension RequestType {
-  enum PostRequestType {
+  @frozen enum PostRequestType {
     case postsFetch
     case postCommentsFetch
     case likedPostsByLoggedInUserFetch
@@ -121,7 +121,7 @@ extension RequestType {
     }
   }
   
-  enum PostNestedCommentRequestType {
+  @frozen enum PostNestedCommentRequestType {
     case send
     case update
     case delete
@@ -145,7 +145,7 @@ extension RequestType {
     }
   }
     
-  enum PostCommentRequestType {
+  @frozen enum PostCommentRequestType {
     case send
     case update
     case delete
