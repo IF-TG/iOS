@@ -120,11 +120,12 @@ extension FeedPostViewController: ViewBindCase {
       print("noMorePage")
     case .viewDidLoad:
       postView.reloadData()
-    case .postFilterLoading:
+      stopIndicator()
+    case .networking:
       startIndicator()
     case .postFilterLoaded:
-      stopIndicator()
       postView.reloadData()
+      stopIndicator()
     case .detailPostShow(post: let post, category: let category):
       coordinator?.showDetailPost(post: post, category: category)
     }

@@ -49,7 +49,7 @@ final class MockMyProfileUseCase: MyProfileUseCase {
     return Future<Bool, Error> { promise in
       DispatchQueue.global(qos: .background).async {
         self.defaultMyProfileUseCase.checkIfNicknameDuplicate(with: name)
-          .delay(for: .seconds(0.5), scheduler: DispatchQueue.global(qos: .background))
+          .delay(for: .seconds(0.1), scheduler: DispatchQueue.global(qos: .background))
           .sink { completion in
             if case .failure(let error) = completion {
               promise(.failure(error))
@@ -78,7 +78,7 @@ final class MockMyProfileUseCase: MyProfileUseCase {
     return Future<Bool, Error> { promise in
       DispatchQueue.global(qos: .background).async {
         self.defaultMyProfileUseCase.updateNickname(with: name)
-          .delay(for: .seconds(0.5), scheduler: DispatchQueue.global(qos: .background))
+          .delay(for: .seconds(0.1), scheduler: DispatchQueue.global(qos: .background))
           .sink { completion in
             if case .failure(let error) = completion {
               promise(.failure(error))
@@ -110,7 +110,7 @@ final class MockMyProfileUseCase: MyProfileUseCase {
     return Future<Bool, Error> { promise in
       DispatchQueue.global(qos: .background).async {
         self.defaultMyProfileUseCase.updateProfile(with: base64String)
-          .delay(for: .seconds(0.5), scheduler: DispatchQueue.global(qos: .background))
+          .delay(for: .seconds(0.1), scheduler: DispatchQueue.global(qos: .background))
           .sink { completion in
             if case .failure(let error) = completion {
               promise(.failure(error))
@@ -142,7 +142,7 @@ final class MockMyProfileUseCase: MyProfileUseCase {
     return Future<Bool, Error> { promise in
       DispatchQueue.global(qos: .background).async {
         self.defaultMyProfileUseCase.saveProfile(with: base64String)
-          .delay(for: .seconds(0.5), scheduler: DispatchQueue.global(qos: .background))
+          .delay(for: .seconds(0.1), scheduler: DispatchQueue.global(qos: .background))
           .sink { completion in
             if case .failure(let error) = completion {
               promise(.failure(error))
@@ -170,7 +170,7 @@ final class MockMyProfileUseCase: MyProfileUseCase {
     return Future<Bool, Error> { promise in
       DispatchQueue.global(qos: .background).async {
         self.defaultMyProfileUseCase.deleteProfile()
-          .delay(for: .seconds(0.5), scheduler: DispatchQueue.global(qos: .background))
+          .delay(for: .seconds(0.1), scheduler: DispatchQueue.global(qos: .background))
           .sink { completion in
             if case .failure(let error) = completion {
               promise(.failure(error))
@@ -202,7 +202,7 @@ final class MockMyProfileUseCase: MyProfileUseCase {
     return Future<ProfileImageEntity, Error> { promise in
       DispatchQueue.global(qos: .background).async {
         self.defaultMyProfileUseCase.fetchProfile()
-          .delay(for: .seconds(0.5), scheduler: DispatchQueue.global(qos: .background))
+          .delay(for: .seconds(0.1), scheduler: DispatchQueue.global(qos: .background))
           .sink { completion in
             if case .failure(let error) = completion {
               promise(.failure(error))
