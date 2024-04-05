@@ -54,7 +54,6 @@ final class DefaultAlbumViewModel {
   private var subscriptions = Set<AnyCancellable>()
   private let albumUseCase: AlbumUseCase
   private let photoAuthUseCase: PhotoAuthorizationUseCase
-  private var selectedPhotoItems = [Int]()
   var albums = [PHFetchResult<PHAsset>]()
   var dataSource = [PhotoModel]()
   private var isAuthStatusLimited: Bool {
@@ -96,7 +95,6 @@ extension DefaultAlbumViewModel {
     return input
       .photoLibraryDidChange
       .filter { [weak self] _ in
-//        guard let self else { return false }
         return self?.isAuthStatusLimited ?? false
       }
       .map { [weak self] changeInstance in
