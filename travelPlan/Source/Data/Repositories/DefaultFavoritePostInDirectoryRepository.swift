@@ -84,4 +84,33 @@ extension DefaultFavoritePostInDirectoryRepository: FavoritePostInDirectoryRepos
         }.store(in: &subscriptions)
     }.eraseToAnyPublisher()
   }
+  
+  func updateFolderName(
+    postIdList: [Int64],
+    directoryName: String
+  ) -> AnyPublisher<UpdatedFavoritePostDirectoryName, any Error> {
+    let requestDTO = FavoritePostDirectoryNameUpdateRequestDTO(
+      postIdList: postIdList,
+      folderName: directoryName)
+
+    return Future { [weak self] promise in
+      guard let self else {
+        promise(.failure(ReferenceError.invalidReference))
+        return
+      }
+      
+      service.request(endpoint: Endpoint.updateFolderName(with: requestDTO))
+        .subscribe(on: backgroundQueue)
+        .mapConnectionError()
+        .map { $0.result }
+        .sink { completion in
+          if case .failure(let error) = completion {
+            promise(.failure(error))
+          }
+        } receiveValue: { responseDTO in
+          promise(.success(responseDTO.toDomain()))
+        }.store(in: &subscriptions)
+    }.eraseToAnyPublisher()
+
+  }
 }

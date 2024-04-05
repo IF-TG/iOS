@@ -53,4 +53,35 @@ final class MockFavoritePostInDirectoryRepository: FavoritePostInDirectoryReposi
       .setFailureType(to: Error.self)
       .eraseToAnyPublisher()
   }
+  
+  func updateFolderName(
+    postIdList: [Int64],
+    directoryName: String
+  ) -> AnyPublisher<UpdatedFavoritePostDirectoryName, any Error> {
+    MockUrlProtocol.requestHandler = { _ in
+      let mock = MockResponseType.favoriteDirectory(
+        .favoritePost(.whenFavoritePostDirectoryNameUpdate)
+      ).mockDataLoader
+      return ((.init(), mock))
+    }
+    
+    return Future { promise in
+      DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.3) { [weak self] in
+        let subscription = self?.favoritePostInDirectoryRepository
+          .updateFolderName(postIdList: postIdList, directoryName: directoryName)
+          .sink { completion in
+            if case .failure(let error) = completion {
+              promise(.failure(error))
+            }
+          } receiveValue: { entity in
+            let interceptedEntity = UpdatedFavoritePostDirectoryName(
+              directoryId: 1,
+              userId: 1,
+              directoryname: directoryName)
+            promise(.success(interceptedEntity))
+          }
+        self?.subscriptions.insert(subscription)
+      }
+    }.eraseToAnyPublisher()
+  }
 }
