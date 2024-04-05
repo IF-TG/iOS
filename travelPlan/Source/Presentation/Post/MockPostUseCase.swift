@@ -10,7 +10,6 @@ import Combine
 import Foundation
 
 final class MockPostUseCaseForPaging: PostUseCase {
-  
   private static let recurCount = 4
   private let totalPage = 18*MockPostUseCaseForPaging.recurCount
   private var index = 0
@@ -19,6 +18,15 @@ final class MockPostUseCaseForPaging: PostUseCase {
   func fetchComments(
     with requestValue: PostCommentsRequestValue
   ) -> AnyPublisher<PostCommentContainerEntity, any Error> {
+    Empty().eraseToAnyPublisher()
+  }
+  
+  /// MockPostUseCaseForPaging에서 fetchComments는 미구현.
+  func searchPosts(
+    keyword: String, page: Int32,
+    perPage: Int32, isTitle: Bool,
+    isContent: Bool
+  ) -> AnyPublisher<[Post], any Error> {
     Empty().eraseToAnyPublisher()
   }
   

@@ -151,4 +151,29 @@ extension PostUseCaseTests {
       result,
       "testPostUseCase의 fetchPosts()를 호출했을 때 postContainer값을 받아야하지만, 퍼블리셔의 upstream이 종료됨")
   }
+  
+  func test_searchPosts함수호출시_OutputValue로Entity받았는지_ShouldReturnTrue() {
+    // Arrange
+    var result = false
+    var unexpectedError: Error?
+    
+    // Act
+    subscription = sut.searchPosts(keyword: "가장 맛있는 국밥집", page: 1, perPage: 10, isTitle: false, isContent: true)
+      .sink { [unowned self] completion in
+        if case .failure(let error) = completion {
+          unexpectedError = error
+        }
+        expectation.fulfill()
+      } receiveValue: { [unowned self] entity in
+        print("DEBUG: 값을 성공적으로 받았습니다~\n\n:\(entity)")
+        result = true
+        expectation.fulfill()
+      }
+    wait(for: [expectation], timeout: 7.777777777)
+    
+    // Assert
+    checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "searchPosts")
+    XCTAssertTrue(result, notReceivedErrorMessage)
+  }
+
 }

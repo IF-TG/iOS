@@ -111,6 +111,7 @@ extension RequestType {
     case postsFetch
     case postCommentsFetch
     case likedPostsByLoggedInUserFetch
+    case postSearch
     
     var path: String {
       switch self {
@@ -120,6 +121,8 @@ extension RequestType {
         "post/detail"
       case .likedPostsByLoggedInUserFetch:
         "post/like/list"
+      case .postSearch:
+        "post/search"
       }
     }
   }

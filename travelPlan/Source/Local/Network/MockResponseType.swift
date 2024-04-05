@@ -26,12 +26,7 @@ import Foundation
     case .userBlock(let userBlock):
       userBlock.filePath
     case .favoriteDirectory(let directoryType):
-      switch directoryType {
-      case .favoriteTravel(let favoriteTravelDestinationInDirectory):
-        favoriteTravelDestinationInDirectory.filePath
-      case .favoritePost(let favoritePostInDirectory):
-        favoritePostInDirectory.filePath
-      }
+      directoryType.filePath
     case .post(let response):
       response.filePath
     }
@@ -54,6 +49,7 @@ extension MockResponseType {
   @frozen enum PostResponse {
     case whenPostContainerResponse
     case whenPostCommentContainerResponse
+    case whenPostsSearchResponse
     
     var filePath: String {
       switch self {
@@ -61,6 +57,8 @@ extension MockResponseType {
         "mock_response_postContainer"
       case .whenPostCommentContainerResponse:
         "mock_response_postCommentContainer"
+      case .whenPostsSearchResponse:
+        "mock_posts_response"
       }
     }
   }
@@ -122,6 +120,15 @@ extension MockResponseType {
   @frozen enum FavoriteDirectory {
     case favoriteTravel(FavoriteTravelDestinationInDirectory)
     case favoritePost(FavoritePostInDirectory)
+    
+    var filePath: String {
+      switch self {
+      case .favoritePost(let favoritePost):
+        return favoritePost.filePath
+      case .favoriteTravel(let favoriteTravelDestination):
+        return favoriteTravelDestination.filePath
+      }
+    }
     
     // MARK: - Nested
     @frozen enum FavoriteTravelDestinationInDirectory {

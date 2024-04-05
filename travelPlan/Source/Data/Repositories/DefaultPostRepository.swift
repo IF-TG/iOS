@@ -130,4 +130,53 @@ extension DefaultPostRepository: PostRepository {
         }.store(in: &subscriptions)
     }.eraseToAnyPublisher()
   }
+  
+  func searchPosts(
+    keyword: String,
+    page: Int32, 
+    perPage: Int32,
+    isTitle: Bool,
+    isContent: Bool
+  ) -> AnyPublisher<[Post], any Error> {
+    let requestDTO = PostSearchRequestDTO(
+      keyword: keyword,
+      isTitle: isTitle,
+      isContent: isContent,
+      page: page, 
+      perPage: perPage)
+    let endpoint = Endpoint.searchPosts(with: requestDTO)
+    return Future { [weak self] promise in
+      guard let self else {
+        promise(.failure(ReferenceError.invalidReference))
+        return
+      }
+      service.request(endpoint: endpoint)
+        .mapConnectionError()
+        .map { $0.result }
+        .sink { completion in
+          if case .failure(let error) = completion {
+            promise(.failure(error))
+          }
+        } receiveValue: { responseDTO in
+          let posts = responseDTO.map { responsePostDTO in
+            let mappedThemes = responsePostDTO.themes.compactMap { TravelThemeMapper.toDomain($0) }
+            let mappedRegions = responsePostDTO.regions.compactMap { TravelRegionMapper.toDomain($0) }
+            let mappedSeasons = responsePostDTO.seasons.compactMap { SeasonMapper.toDomain($0) }
+            let mappedPartners = responsePostDTO.partners.compactMap { TravelPartnerMapper.toDomain($0) }
+            let category = Post.Category(
+              themes: mappedThemes,
+              regions: mappedRegions,
+              seasons: mappedSeasons,
+              partners: mappedPartners)
+            return Post(
+              liked: responsePostDTO.liked,
+              detail: responsePostDTO.toDomain(),
+              author: responsePostDTO.toDomain(),
+              highResolveImages: responsePostDTO.postImages.map { $0.toDomain() },
+              category: category)
+          }
+          promise(.success(posts))
+        }.store(in: &subscriptions)
+    }.eraseToAnyPublisher()
+  }
 }
