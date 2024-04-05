@@ -118,8 +118,9 @@ extension AlbumPhotoDetailViewController {
       .sink { [weak self] state in
         switch state {
         case .cancelOrder:
-          break
+          self?.orderView.initializeUI()
         case .setOrder(let order):
+          self?.orderView.configureOrderView(orderText: String(order))
           break
         case .popViewController:
           self?.coordinator?.finish(withAnimated: true)
@@ -163,12 +164,3 @@ private extension AlbumPhotoDetailViewController {
     input.didTapOrderView.send()
   }
 }
-
-/*
- orderView tap
- 이미 눌려있다면,
- order 제거
- 
- 안눌려있다면,
- order 추가하기(이때 order는 last order + 1)
- */
