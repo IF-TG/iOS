@@ -30,10 +30,12 @@ enum AlbumPhotoDetailViewModelState {
 final class DefaultAlbumPhotoDetailViewModel {
   // MARK: - Properties
   private var photoModel: PhotoModel
+  private var selectedCount: Int
   
   // MARK: - LifeCycle
-  init(photoModel: PhotoModel) {
+  init(photoModel: PhotoModel, selectedCount: Int) {
     self.photoModel = photoModel
+    self.selectedCount = selectedCount
   }
 }
 
@@ -69,12 +71,31 @@ extension DefaultAlbumPhotoDetailViewModel {
   
   private func didTapOrderViewStream(_ input: Input) -> Output {
     input.didTapOrderView
-      .map {
-        if case .selected(let order) = photoModel.selectedOrder {
-          
+      .map { [weak self] in
+        guard let selectedOrder = self?.photoModel.selectedOrder else { return State.none }
+        switch selectedOrder {
+        case .selected:
+          self?.selectedCount -= 1
+          self?.photoModel.selectedOrder = .none
+          return State.cancelOrder
+        case .none:
+          self?.selectedCount += 1
+          self?.photoModel.selectedOrder = .selected(self?.selectedCount ?? .zero)
+          return State.setOrder(self?.selectedCount ?? .zero)
         }
-        return State.none
       }
       .eraseToAnyPublisher()
   }
 }
+/*
+ orderView tap
+ 이미 눌려있다면,
+ orderCount -= 1 갱신
+ order 제거
+ (이때 추후에 또 눌린다면, orderCount를 texting)
+ 
+ 
+ 안눌려있다면,
+ orderCount += 1 갱신
+ order 추가하기(orderCount texting)
+ */
