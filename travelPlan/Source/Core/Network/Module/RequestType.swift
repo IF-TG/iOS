@@ -14,6 +14,7 @@ import Foundation
   case post(PostRequestType)
   case postComment(PostCommentRequestType)
   case postNestedComment(PostNestedCommentRequestType)
+  case favoritePostInDirectory(FavoritePostInDirectory)
   
   var path: String {
     return switch self {
@@ -29,6 +30,8 @@ import Foundation
       userRequestType.path
     case .login(let loginRequestType):
       loginRequestType.path
+    case .favoritePostInDirectory(let favoritePost):
+      favoritePost.path
     }
   }
 }
@@ -160,6 +163,26 @@ extension RequestType {
         return "comment/like"
       }
       return "comment"
+    }
+  }
+}
+
+// MARK: - Favorite
+extension RequestType {
+  @frozen enum FavoritePostInDirectory {
+    case favoritePostsFetch
+    case favoritePostToggle
+    case favoritePostDirectoryNameUpdate
+    
+    var path: String {
+      switch self {
+      case .favoritePostsFetch:
+        "post/scrap/detail"
+      case .favoritePostToggle:
+        "post/scrap"
+      case .favoritePostDirectoryNameUpdate:
+        "post/scrap"
+      }
     }
   }
 }

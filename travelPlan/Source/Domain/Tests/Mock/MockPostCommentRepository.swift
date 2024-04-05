@@ -28,7 +28,7 @@ extension MockPostCommentRepository {
       return ((HTTPURLResponse(), mockData))
     }
     return Future { promise in
-      DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.5) { [weak self] in
+      DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.05) { [weak self] in
         let subscription = self?.repository.sendComment(postId: postId, comment: comment)
           .sink { completion in
             if case .failure(let error) = completion {
@@ -61,7 +61,7 @@ extension MockPostCommentRepository {
       return ((HTTPURLResponse(), mock))
     }
     return Future { promise in
-      DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.5) { [weak self] in
+      DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.05) { [weak self] in
         let subscription = self?.repository.updateComment(commentId: commentId, comment: comment)
           .sink { completion in
             if case .failure(let error) = completion {
@@ -81,7 +81,7 @@ extension MockPostCommentRepository {
       return ((HTTPURLResponse(), mock))
     }
     return Future { promise in
-      DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.5) { [weak self] in
+      DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.05) { [weak self] in
         let subscription = self?.repository.deleteComment(commentId: commentId)
           .sink { completion in
             if case .failure(let error) = completion {
@@ -101,7 +101,7 @@ extension MockPostCommentRepository {
       return ((HTTPURLResponse(), mock))
     }
     return Future { promise in
-      DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.5) { [weak self] in
+      DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.05) { [weak self] in
         let subscription = self?.repository
           .fetchComments(page: page, perPage: perPage, postId: postId)
           .sink { completion in
@@ -122,7 +122,7 @@ extension MockPostCommentRepository {
       return ((HTTPURLResponse(), mock))
     }
     return Future { promise in
-      DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.5) { [weak self] in
+      DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.05) { [weak self] in
         let subscription = self?.repository
           .toggleCommentHeart(commentId: commentId)
           .sink { completion in

@@ -220,9 +220,8 @@ extension AlbumViewController {
         switch state {
         case .none:
           break
-        case .showDetailPhoto:
-          // TODO: - 사진확대화면을 보여줘야합니다.
-          break
+        case .showDetailPhoto(let asset):
+          self?.coordinator?.showPhotoDetail(asset: asset)
         case let .reloadData(isAuthLimited):
           self?.collectionViewReloadData(isAuthLimited: isAuthLimited)
         case .reloadItem(let indexPaths):
@@ -262,9 +261,11 @@ private extension AlbumViewController {
 extension AlbumViewController: PhotoCellDelegate {
   func touchBegan(_ cell: UICollectionViewCell, quadrant: PhotoCellQuadrant) {
     guard let indexPath = collectionView.indexPath(for: cell) else { return }
-    if case .first = quadrant {
+    
+    switch  quadrant {
+    case .first:
       input.touchedFirstQuadrant.send(indexPath)
-    } else {
+    case .else:
       input.touchedElseQuadrant.send(indexPath)
     }
   }
@@ -278,14 +279,13 @@ extension AlbumViewController: UINavigationControllerDelegate {
     from fromVC: UIViewController,
     to toVC: UIViewController
   ) -> UIViewControllerAnimatedTransitioning? {
-    
-    if operation == .push {
+    if toVC is AlbumViewController, operation == .push {
       return SlideUpAnimator()
-    } else if operation == .pop {
+    } else if fromVC is AlbumViewController, operation == .pop {
       return SlideDownAnimator()
-    } else {
-      return nil
     }
+    
+    return nil
   }
 }
 
