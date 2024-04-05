@@ -29,4 +29,15 @@ struct FavoritePostAPIEndpoint {
       parameters: [.body(requestDTO)],
       requestType: .favoritePostInDirectory(.favoritePostToggle))
   }
+  
+  static func updateFolderName(
+    with requestDTO: FavoritePostDirectoryNameUpdateRequestDTO
+  ) -> Endpoint<CommonDTO<FavoritePostDirectoryNameUpdateResponseDTO>> {
+    return Endpoint(
+      scheme: "http",
+      host: "localhost:8080",
+      method: .put,
+      parameters: [.body(requestDTO)],
+      requestType: .favoritePostInDirectory(.favoritePostDirectoryNameUpdate))
+  }
 }
