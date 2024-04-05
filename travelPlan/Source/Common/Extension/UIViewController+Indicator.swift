@@ -58,8 +58,17 @@ extension UIViewController {
     indicator.startAnimating()
   }
   
+  func startIndicator(fromScrollableView: )
+  
   func stopIndicator() {
     activeIndicator?.stopAnimating()
     activeIndicator?.removeFromSuperview()
+  }
+}
+
+extension UIScrollView {
+  
+  func startIndicator() {
+    
   }
 }
