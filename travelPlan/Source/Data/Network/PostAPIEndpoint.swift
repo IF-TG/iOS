@@ -43,7 +43,7 @@ struct PostAPIEndpoint {
   
   static func searchPosts(
     with requestDTO: PostSearchRequestDTO
-  ) -> Endpoint<CommonDTO<PostResponseDTO>> {
+  ) -> Endpoint<CommonDTO<[PostResponseDTO]>> {
     return Endpoint(
       scheme: "http",
       host: "localhost:8080",
