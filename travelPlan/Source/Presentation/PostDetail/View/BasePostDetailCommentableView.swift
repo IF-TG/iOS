@@ -112,7 +112,7 @@ final class BasePostDetailCommentableView: BaseProfileAreaView {
       $0.axis = .horizontal
       $0.distribution = .equalSpacing
       $0.spacing = 5
-      $0.alignment = .center
+      $0.alignment = .leading
     }
     heartIcon.widthAnchor.constraint(equalToConstant: 13.33).isActive = true
     heartIcon.heightAnchor.constraint(equalToConstant: 11.89).isActive = true
@@ -120,7 +120,7 @@ final class BasePostDetailCommentableView: BaseProfileAreaView {
       $0.axis = .horizontal
       $0.distribution = .equalSpacing
       $0.spacing = 2
-      $0.alignment = .center
+      $0.alignment = .leading
     }
     /// usageType == comment인 경우 사용 하지 않습니다.
     /// 하트, 좋아요 취소 및 답글달기 영역 스택 뷰
@@ -135,7 +135,7 @@ final class BasePostDetailCommentableView: BaseProfileAreaView {
         $0.axis = .horizontal
         $0.distribution = .equalSpacing
         $0.spacing = 8
-        $0.alignment = .center
+        $0.alignment = .leading
       }
       footerStackView = footerTempStackView
       contentSubviews.append(footerTempStackView)
@@ -146,7 +146,7 @@ final class BasePostDetailCommentableView: BaseProfileAreaView {
       $0.translatesAutoresizingMaskIntoConstraints = false
       $0.axis = .vertical
       $0.spacing = 6
-      $0.alignment = .top
+      $0.alignment = .leading
       $0.distribution = .equalSpacing
     }
     super.init(
