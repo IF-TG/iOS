@@ -130,4 +130,36 @@ extension DefaultPostRepository: PostRepository {
         }.store(in: &subscriptions)
     }.eraseToAnyPublisher()
   }
+  
+  func searchPosts(
+    keyword: String,
+    page: Int32, 
+    perPage: Int32,
+    isTitle: Bool,
+    isContent: Bool
+  ) -> AnyPublisher<[Post], any Error> {
+    let requestDTO = PostSearchRequestDTO(
+      keyword: keyword,
+      isTitle: isTitle,
+      isContent: isContent,
+      page: page, 
+      perPage: perPage)
+    let endpoint = Endpoint.searchPosts(with: requestDTO)
+    return Future { [weak self] promise in
+      guard let self else {
+        promise(.failure(ReferenceError.invalidReference))
+        return
+      }
+      service.request(endpoint: endpoint)
+        .mapConnectionError()
+        .map { $0.result }
+        .sink { completion in
+          if case .failure(let error) = completion {
+            promise(.failure(error))
+          }
+        } receiveValue: { responseDTO in
+          
+        }.store(in: &subscriptions)
+    }.eraseToAnyPublisher()
+  }
 }

@@ -96,4 +96,32 @@ final class MockPostRepository: PostRepository {
       }
     }.eraseToAnyPublisher()
   }
+  
+  func searchPosts(
+    keyword: String,
+    page: Int32,
+    perPage: Int32,
+    isTitle: Bool,
+    isContent: Bool
+  ) -> AnyPublisher<[Post], any Error> {
+    MockUrlProtocol.requestHandler = { _ in
+      let mockData = MockResponseType.postsResponse.mockDataLoader
+      return ((.init(), mockData))
+    }
+    return Future { promise in
+      DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.05) { [weak self] in
+        let subscription = self?.postRepository
+          .searchPosts(keyword: keyword, page: page, perPage: perPage, isTitle: isTitle, isContent: isContent)
+          .sink { completion in
+            if case .failure(let error) = completion {
+              promise(.failure(error))
+            }
+          } receiveValue: { posts in
+            promise(.success(posts))
+          }
+        self?.subscriptions.insert(subscription)
+      }
+    }.eraseToAnyPublisher()
+  }
+  
 }
