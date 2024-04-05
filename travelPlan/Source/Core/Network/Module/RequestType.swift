@@ -9,9 +9,9 @@ import Foundation
 
 enum RequestType {
   case none
+  case login(LoginRequestType)
   case user(UserRequestType)
   case post(Post)
-  case custom(String)
   case postComment(PostComment)
   case postNestedComment(PostNestedComment)
   
@@ -21,24 +21,32 @@ enum RequestType {
       ""
     case .post(let post):
       post.path
-    case .custom(let requestPath):
-      requestPath
     case .postComment(let postComment):
       postComment.path
     case .postNestedComment(let nestedComment):
       nestedComment.path
-    case .user(let userReqyestType):
-      switch userReqyestType {
-      case .profile(let userProfile):
-        userProfile.path
-      case .otherUserBlock(let userBlock):
-        userBlock.path
+    case .user(let userRequestType):
+      userRequestType.path
+    case .login(let loginRequestType):
+      loginRequestType.path
+    }
+  }
+}
+
+extension RequestType {
+  @frozen enum LoginRequestType {
+    case apple
+    
+    var path: String {
+      switch self {
+      case .apple:
+        "apple/login"
       }
     }
   }
 }
 
-// MARK: - User relate
+// MARK: - User relate Request type
 extension RequestType {
   @frozen enum UserRequestType {
     case profile(UserProfile)
