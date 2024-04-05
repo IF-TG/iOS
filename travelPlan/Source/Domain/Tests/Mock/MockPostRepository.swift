@@ -29,7 +29,7 @@ final class MockPostRepository: PostRepository {
     category: PostCategory
   ) -> AnyPublisher<PostsPage, any Error> {
     MockUrlProtocol.requestHandler = { _ in
-      let mockData = MockResponseType.postContainerResponse.mockDataLoader
+      let mockData = MockResponseType.post(.whenPostContainerResponse).mockDataLoader
       return ((HTTPURLResponse(), mockData))
     }
     return Future { promise in
@@ -54,7 +54,7 @@ final class MockPostRepository: PostRepository {
     postId: Int64
   ) -> AnyPublisher<PostCommentContainerEntity, any Error> {
     MockUrlProtocol.requestHandler = { _ in
-      let mockData = MockResponseType.postCommentContainerResponse.mockDataLoader
+      let mockData = MockResponseType.post(.whenPostCommentContainerResponse).mockDataLoader
       return ((HTTPURLResponse(), mockData))
     }
     return Future { promise in
@@ -78,7 +78,7 @@ final class MockPostRepository: PostRepository {
     perPage: Int32
   ) -> AnyPublisher<PostsPage, any Error> {
     MockUrlProtocol.requestHandler = { _ in
-      let mockData = MockResponseType.postContainerResponse.mockDataLoader
+      let mockData = MockResponseType.post(.whenPostContainerResponse).mockDataLoader
       return ((HTTPURLResponse(), mockData))
     }
     return Future { promise in
