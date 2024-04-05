@@ -7,13 +7,13 @@
 
 struct PostCommentEntity {
   let commentId: Int64
-  let userProfileURL: String
-  let userName: String
-  let timestamp: String
-  let comment: String
-  let isDeleted: Bool
-  let isOnHeart: Bool
-  let isBlocked: Bool
-  let hearts: Int32
-  let nestedComments: [PostNestedCommentEntity]
+  var userProfileURL: String
+  var userName: String
+  var timestamp: String
+  var comment: String
+  var isDeleted: Bool
+  var isOnHeart: Bool
+  var isBlocked: Bool
+  var hearts: Int32
+  var nestedComments: [PostNestedCommentEntity]
 }

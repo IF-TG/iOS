@@ -9,17 +9,18 @@ import Foundation
 
 struct Post {
   let liked: Bool
-  let detail: PostDetail
+  let detail: Detail<String>
   let author: Author
+  let highResolveImages: [PostImage]
+  let category: Category
 }
 
 // MARK: - Nested
 extension Post {
-  struct PostDetail {
+  struct Detail<ContentType> {
     let postID: Int64
     let title: String
-    let postImages: [PostImage]
-    let content: String
+    let content: ContentType
     let likes: Int32
     let comments: Int32
     let location: Location

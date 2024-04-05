@@ -50,10 +50,16 @@ extension DefaultMyProfileRepository: MyProfileRepository {
     loggedInUserRepository.isSavedProfileInServer
   }
   
-  func checkIfUserNicknameDuplicate(with name: String) -> Future<Bool, Error> {
-    let reqeustDTO = UserNicknameRequestDTO(nickname: name)
-    let endpoint = UserInfoAPIEndpoint.checkIfNicknameDuplicate(with: reqeustDTO)
-    return .init { [unowned self] promise in
+  func checkIfUserNicknameDuplicate(with name: String) -> AnyPublisher<Bool, Error> {
+    return Future { [weak self] promise in
+      guard let self else {
+        promise(.failure(ReferenceError.invalidReference))
+        return
+      }
+      
+      let reqeustDTO = UserNicknameRequestDTO(nickname: name)
+      let endpoint = UserInfoAPIEndpoint.checkIfNicknameDuplicate(with: reqeustDTO)
+      
       service.request(endpoint: endpoint)
         .subscribe(on: backgroundQueue)
         .mapMyProfileUsecaseError { $0 }
@@ -67,19 +73,23 @@ extension DefaultMyProfileRepository: MyProfileRepository {
         } receiveValue: { responseDTO in
           promise(.success(responseDTO.result))
         }.store(in: &subscriptions)
-    }
+    }.eraseToAnyPublisher()
   }
   
-  func updateUserNickname(with name: String) -> Future<Bool, Error> {
-    guard let loggedInUserId = loggedInUserRepository.id else {
-      return Future { promise in
-        promise(.failure(MyProfileUseCaseError.invalidUserId))
+  func updateUserNickname(with name: String) -> AnyPublisher<Bool, Error> {
+    return Future { [weak self] promise in
+      guard let self else {
+        promise(.failure(ReferenceError.invalidReference))
+        return
       }
-    }
-    
-    let requestDTO = UserNicknamePatchRequestDTO(nickname: name, userId: loggedInUserId)
-    let endpoint = UserInfoAPIEndpoint.updateUserNickname(with: requestDTO)
-    return .init { [unowned self] promise in
+      
+      guard let loggedInUserId = loggedInUserRepository.id else {
+        promise(.failure(MyProfileUseCaseError.invalidUserId))
+        return
+      }
+      
+      let requestDTO = UserNicknamePatchRequestDTO(nickname: name, userId: loggedInUserId)
+      let endpoint = UserInfoAPIEndpoint.updateUserNickname(with: requestDTO)
       service.request(endpoint: endpoint)
         .subscribe(on: backgroundQueue)
         .mapMyProfileUsecaseError { $0 }
@@ -96,21 +106,25 @@ extension DefaultMyProfileRepository: MyProfileRepository {
           }
           promise(.success(responseDTO.result))
         }.store(in: &subscriptions)
-    }
+    }.eraseToAnyPublisher()
   }
   
   /// 업데이트는 서버 로직에서 삭제 -> 저장을 한번에 하는 기능입니다.
-  func updateProfile(with profile: String) -> Future<Bool, Error> {
-    guard let loggedInUserId = loggedInUserRepository.id else {
-      return Future { promise in
-        promise(.failure(MyProfileUseCaseError.invalidUserId))
+  func updateProfile(with profile: String) -> AnyPublisher<Bool, Error> {
+    return Future<Bool, Error> { [weak self] promise in
+      guard let self else {
+        promise(.failure(ReferenceError.invalidReference))
+        return
       }
-    }
-    
-    let userIdReqeustDTO = UserIdReqeustDTO(userId: loggedInUserId)
-    let reqeustDTO = UserProfileRequestDTO(profile: profile)
-    let endpoint = UserInfoAPIEndpoint.updateProfile(withQuery: userIdReqeustDTO, body: reqeustDTO)
-    return Future<Bool, Error> { [unowned self] promise in
+      
+      guard let loggedInUserId = loggedInUserRepository.id else {
+        promise(.failure(MyProfileUseCaseError.invalidUserId))
+        return
+      }
+      
+      let userIdReqeustDTO = UserIdReqeustDTO(userId: loggedInUserId)
+      let reqeustDTO = UserProfileRequestDTO(profile: profile)
+      let endpoint = UserInfoAPIEndpoint.updateProfile(withQuery: userIdReqeustDTO, body: reqeustDTO)
       service.request(endpoint: endpoint)
         .subscribe(on: backgroundQueue)
         .mapMyProfileUsecaseError { $0 }
@@ -123,20 +137,24 @@ extension DefaultMyProfileRepository: MyProfileRepository {
           self?.loggedInUserRepository.updateProfileURL(with: responseDTO.result.imageURL)
           promise(.success(isSucceed))
         }.store(in: &subscriptions)
-    }
+    }.eraseToAnyPublisher()
   }
   
-  func saveProfile(with profile: String) -> Future<Bool, Error> {
-    guard let loggedInUserId = loggedInUserRepository.id else {
-      return Future { promise in
-        promise(.failure(MyProfileUseCaseError.invalidUserId))
+  func saveProfile(with profile: String) -> AnyPublisher<Bool, Error> {
+    return Future<Bool, Error> { [weak self] promise in
+      guard let self else {
+        promise(.failure(ReferenceError.invalidReference))
+        return
       }
-    }
-    
-    let userIdRequestDTO = UserIdReqeustDTO(userId: loggedInUserId)
-    let requestDTO = UserProfileRequestDTO(profile: profile)
-    let endpoint = UserInfoAPIEndpoint.saveProfile(withQuery: userIdRequestDTO, body: requestDTO)
-    return Future<Bool, Error> { [unowned self] promise in
+      
+      guard let loggedInUserId = loggedInUserRepository.id else {
+        promise(.failure(MyProfileUseCaseError.invalidUserId))
+        return
+      }
+      
+      let userIdRequestDTO = UserIdReqeustDTO(userId: loggedInUserId)
+      let requestDTO = UserProfileRequestDTO(profile: profile)
+      let endpoint = UserInfoAPIEndpoint.saveProfile(withQuery: userIdRequestDTO, body: requestDTO)
       service.request(endpoint: endpoint)
         .subscribe(on: backgroundQueue)
         .mapMyProfileUsecaseError { $0 }
@@ -149,19 +167,24 @@ extension DefaultMyProfileRepository: MyProfileRepository {
           let isSucceed = (200...299).contains(Int(responseDTO.statusCode) ?? -1)
           promise(.success(isSucceed))
         }.store(in: &subscriptions)
-    }
+    }.eraseToAnyPublisher()
   }
   
-  func deleteProfile() -> Future<Bool, Error> {
-    guard let loggedInUserId = loggedInUserRepository.id else {
-      return Future { promise in
-        promise(.failure(MyProfileUseCaseError.invalidUserId))
+  func deleteProfile() -> AnyPublisher<Bool, Error> {
+    return Future<Bool, Error> { [weak self] promise in
+      guard let self else {
+        promise(.failure(ReferenceError.invalidReference))
+        return
       }
-    }
-    
-    let requestDTO = UserIdReqeustDTO(userId: loggedInUserId)
-    let endpoint = UserInfoAPIEndpoint.deleteProfile(with: requestDTO)
-    return Future<Bool, Error> { [unowned self] promise in
+      
+      guard let loggedInUserId = loggedInUserRepository.id else {
+        promise(.failure(MyProfileUseCaseError.invalidUserId))
+        return
+      }
+      
+      let requestDTO = UserIdReqeustDTO(userId: loggedInUserId)
+      let endpoint = UserInfoAPIEndpoint.deleteProfile(with: requestDTO)
+      
       service.request(endpoint: endpoint)
         .subscribe(on: backgroundQueue)
         .mapMyProfileUsecaseError { $0 }
@@ -173,25 +196,27 @@ extension DefaultMyProfileRepository: MyProfileRepository {
           self?.loggedInUserRepository.deleteProfile()
           promise(.success(responseDTO.result))
         }.store(in: &subscriptions)
-    }
+    }.eraseToAnyPublisher()
   }
   
-  func fetchProfile() -> Future<ProfileImageEntity, Error> {
-    // UserDefaults 확인
-    if let imageURL = loggedInUserRepository.profileURL {
-      return Future { promise in
+  func fetchProfile() -> AnyPublisher<ProfileImageEntity, Error> {
+    return Future { [weak self] promise in
+      guard let self else {
+        promise(.failure(ReferenceError.invalidReference))
+        return
+      }
+      
+      // UserDefaults 확인
+      if let imageURL = loggedInUserRepository.profileURL {
         promise(.success(.init(image: imageURL)))
       }
-    }
-    
-    guard let loggedInUserId = loggedInUserRepository.id else {
-      return Future { promise in
+      
+      guard let loggedInUserId = loggedInUserRepository.id else {
         promise(.failure(MyProfileUseCaseError.invalidUserId))
+        return
       }
-    }
-    
-    // 프로필 없는 경우 서버에서 불러오기
-    return Future { [unowned self] promise in
+
+      // 프로필 없는 경우 서버에서 불러오기
       othersProfileRepository.fetchProfile(with: loggedInUserId)
         .subscribe(on: backgroundQueue)
         .mapMyProfileUsecaseError { $0 }
@@ -203,6 +228,6 @@ extension DefaultMyProfileRepository: MyProfileRepository {
           self?.loggedInUserRepository.updateProfileURL(with: profileImageEntity.image)
           promise(.success(profileImageEntity))
         }.store(in: &subscriptions)
-    }
+    }.eraseToAnyPublisher()
   }
 }

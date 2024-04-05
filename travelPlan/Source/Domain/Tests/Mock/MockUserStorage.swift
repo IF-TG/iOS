@@ -13,7 +13,7 @@ final class MockUserStorage: UserStorage {
   }
   
   var profileURL: String? {
-    "bieiofhwnkslkh39f2i"
+    "tempProfile3"
   }
   
   var isSavedProfileInServer: Bool {

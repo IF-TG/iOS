@@ -15,6 +15,7 @@ class FeedPostViewModel: PostViewModel {
     let viewDidLoad: PassthroughSubject<Void, Never> = .init()
     let notifiedOrderFilterRequest: PassthroughSubject<TravelOrderType, Never>
     let notifiedMainThemeFilterRequest: PassthroughSubject<TravelMainThemeType, Never>
+    let specificPostTapped: PassthroughSubject<Int, Never> = .init()
     
     init(
       notifiedOrderFilterRequest: PassthroughSubject<TravelOrderType, Never>,
@@ -34,6 +35,7 @@ class FeedPostViewModel: PostViewModel {
     case noMorePage
     case postFilterLoading
     case postFilterLoaded
+    case detailPostShow(post: Post, category: Post.Category)
     case none
   }
   
@@ -44,9 +46,9 @@ class FeedPostViewModel: PostViewModel {
   
   let perPage: Int32 = 5
   
-  var posts: [PostInfo] = []
+  var posts: [Post] = []
   
-  var postDetailedThumbnails: [[String]] = []
+  var postThumbnails: [[String]] = []
   
   var isPaging: Bool = false
   
@@ -91,7 +93,8 @@ extension FeedPostViewModel: FeedPostViewModelable {
       viewDidLoadStream(input),
       nextPageStream(input),
       feedRefreshStream(input),
-      nextPageLoadingStartSubjectStream()]
+      nextPageLoadingStartSubjectStream(),
+      specificPostTappedStream(input)]
     ).eraseToAnyPublisher()
   }
 }
@@ -213,17 +216,24 @@ private extension FeedPostViewModel {
     }.eraseToAnyPublisher()
   }
   
+  func specificPostTappedStream(_ input: Input) -> Output {
+    return input.specificPostTapped
+      .map { [weak self] index -> State in
+        guard let post = self?.posts[index] else {
+          return .unexpectedError(description: ReferenceError.invalidReference.localizedDescription)
+        }
+        return .detailPostShow(post: post, category: post.category)
+      }.eraseToAnyPublisher()
+  }
+  
   func appendPosts(_ postPages: PostsPage) {
-    let loadedPosts = postPages.posts.enumerated().map {
-      return PostMapper.toPostInfo($1, thumbnails: postPages.thumbnails[$0].urls)
-    }
-    posts.append(contentsOf: loadedPosts)
+    posts += postPages.posts
   }
   
   func removeAllPage() {
     currentPage = 0
     posts.removeAll()
-    postDetailedThumbnails.removeAll()
+    postThumbnails.removeAll()
   }
 }
 
@@ -245,10 +255,7 @@ extension FeedPostViewModel {
         if let userSelectedCategory = self?.userSelectedCategory {
           self?.category = userSelectedCategory
         }
-        postsPage.posts.forEach { post in
-          let postDetailImages = post.detail.postImages.map { $0.imageUri }
-          self?.postDetailedThumbnails.append(postDetailImages)
-        }
+        self?.postThumbnails.append(contentsOf: postsPage.thumbnails.map { $0.urls })
         self?.currentPage += 1
         self?.totalPostsCount = Int32(postsPage.totalPosts)
         self?.appendPosts(postsPage)
@@ -271,6 +278,8 @@ extension FeedPostViewModel: FeedPostViewAdapterDataSource {
   }
   
   func postItem(at index: Int) -> PostInfo {
-    return posts[index]
+    let post = posts[index]
+    let postInfo = PostMapper.toPostInfo(post, thumbnails: postThumbnails[index])
+    return postInfo
   }
 }

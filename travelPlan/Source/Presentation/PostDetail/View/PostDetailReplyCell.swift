@@ -12,6 +12,12 @@ struct PostReplyInfo {
   var commentInfo: BasePostDetailCommentInfo
 }
 
+protocol PostDetailReplyCellDelegate: AnyObject {
+  func didTapProfile(_ cell: UITableViewCell)
+  func didTapHeart(_ cell: UITableViewCell, isOnHeart: Bool)
+  func didCanceledHeart(_ cell: UITableViewCell)
+}
+
 final class PostDetailReplyCell: UITableViewCell {
   static let id = String(describing: PostDetailReplyCell.self)
   
@@ -30,18 +36,13 @@ final class PostDetailReplyCell: UITableViewCell {
     }
   }
   
-  weak var delegate: BaseCommentViewDelegate? {
-    get {
-      replyView.delegate
-    } set {
-      replyView.delegate = newValue
-    }
-  }
+  weak var delegate: PostDetailReplyCellDelegate?
   
   // MARK: - Lifecycle
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
     configureUI()
+    replyView.delegate = self
   }
   
   required init?(coder: NSCoder) {
@@ -67,7 +68,25 @@ extension PostDetailReplyCell {
   func configureUI() {
     selectionStyle = .none
     contentView.backgroundColor = .yg.gray00Background
+    isUserInteractionEnabled = true
     setupUI()
+  }
+}
+
+// MARK: - BaseCommentViewDelegate
+extension PostDetailReplyCell: BaseCommentViewDelegate {  
+  func didTapHeart(_ isOnHeart: Bool) {
+    delegate?.didTapHeart(self, isOnHeart: isOnHeart)
+  }
+  
+  func didCanceledHeart() {
+    delegate?.didCanceledHeart(self)
+  }
+  
+  func didTapReply() { }
+  
+  func didTapProfile() {
+    delegate?.didTapProfile(self)
   }
 }
 

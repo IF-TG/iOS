@@ -48,7 +48,13 @@ extension DefaultFavoritePostInDirectoryRepository: FavoritePostInDirectoryRepos
             promise(.failure(error))
           }
         } receiveValue: { postResponseDTOs in
-          let posts = postResponseDTOs.map { Post(liked: $0.liked, detail: $0.toDomain(), author: $0.toDomain()) }
+          let posts = postResponseDTOs.map {
+            return Post(
+              liked: $0.liked,
+              detail: $0.toDomain(),
+              author: $0.toDomain(),
+              highResolveImages: $0.postImages.map { $0.toDomain() },
+              category: $0.toDomain())}
           promise(.success(posts))
         }.store(in: &subscriptions)
     }.eraseToAnyPublisher()

@@ -10,7 +10,6 @@ import UIKit
 /// 임시
 struct PostDetailProfileAreaInfo {
   let userName: String
-  let userId: Int
   
   /// 임시
   let userThumbnailPath: String

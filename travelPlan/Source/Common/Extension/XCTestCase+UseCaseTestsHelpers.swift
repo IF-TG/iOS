@@ -1,5 +1,5 @@
 //
-//  XCTestCasej+UseCaseTestsHelpers.swift
+//  XCTestCase+UseCaseTestsHelpers.swift
 //  travelPlan
 //
 //  Created by 양승현 on 3/27/24.

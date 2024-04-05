@@ -92,11 +92,10 @@ extension PostResponseDTO {
 
 // MARK: - Mappings DTO
 extension PostResponseDTO {
-  func toDomain() -> Post.PostDetail {
-    return Post.PostDetail(
+  func toDomain() -> Post.Detail<String> {
+    return Post.Detail<String>(
       postID: postID,
       title: title,
-      postImages: postImages.map { $0.toDomain() },
       content: content,
       likes: likes,
       comments: comments,
@@ -115,5 +114,18 @@ extension PostResponseDTO {
   
   func toDomain() -> Post.Location {
     return .init(x: mapX, y: mapY)
+  }
+  
+  func toDomain() -> Post.Category {
+    let mappedThemes = themes.compactMap { TravelThemeMapper.toDomain($0) }
+    let mappedRegions = regions.compactMap { TravelRegionMapper.toDomain($0) }
+    let mappedSeasons = seasons.compactMap { SeasonMapper.toDomain($0) }
+    let mappedPartners = partners.compactMap { TravelPartnerMapper.toDomain($0) }
+    
+    return Post.Category(
+      themes: mappedThemes,
+      regions: mappedRegions,
+      seasons: mappedSeasons,
+      partners: mappedPartners)
   }
 }

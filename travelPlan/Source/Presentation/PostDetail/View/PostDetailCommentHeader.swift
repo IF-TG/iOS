@@ -7,25 +7,34 @@
 
 import UIKit
 
-final class PostDetailCommentHeader: UITableViewHeaderFooterView {
+protocol PostDetailCommentHeaderIdentifiable {
+  var section: Int? { get }
+}
+
+protocol PostDetailCommentDelegate: AnyObject {
+  func didTapHeart(_ header: PostDetailCommentHeaderIdentifiable, _ isOnHeart: Bool)
+  func didTapCanceledHeart(_ header: PostDetailCommentHeaderIdentifiable)
+  func didTapReply(_ header: PostDetailCommentHeaderIdentifiable)
+  func didTapProfile(_ header: PostDetailCommentHeaderIdentifiable)
+}
+
+final class PostDetailCommentHeader: UITableViewHeaderFooterView & PostDetailCommentHeaderIdentifiable {
+  
   static let id = String(describing: PostDetailCommentHeader.self)
   
   // MARK: - Properties
   private let commentView = BasePostDetailCommentableView(usageType: .comment)
   // TODO: - delete control 추가해야합니다.
   
-  weak var delegate: BaseCommentViewDelegate? {
-    get {
-      commentView.delegate
-    } set {
-      commentView.delegate = newValue
-    }
-  }
+  var section: Int? = nil
+  
+  weak var delegate: PostDetailCommentDelegate?
   
   // MARK: - Lifecycle
   override init(reuseIdentifier: String?) {
     super.init(reuseIdentifier: reuseIdentifier)
     configureUI()
+    commentView.delegate = self
   }
   
   required init?(coder: NSCoder) {
@@ -34,14 +43,15 @@ final class PostDetailCommentHeader: UITableViewHeaderFooterView {
   
   override func prepareForReuse() {
     super.prepareForReuse()
-    configure(with: nil)
+    configure(with: nil, section: nil)
   }
 }
 
 // MARK: - Helpers
 extension PostDetailCommentHeader {
-  func configure(with info: BasePostDetailCommentInfo?) {
+  func configure(with info: BasePostDetailCommentInfo?, section: Int?) {
     commentView.configure(with: info)
+    self.section = section
   }
 }
 
@@ -49,6 +59,25 @@ extension PostDetailCommentHeader {
 extension PostDetailCommentHeader {
   private func configureUI() {
     setupUI()
+  }
+}
+
+// MARK: - BaseCommentViewDelegate
+extension PostDetailCommentHeader: BaseCommentViewDelegate {
+  func didTapHeart(_ isOnHeart: Bool) {
+    delegate?.didTapHeart(self, isOnHeart)
+  }
+  
+  func didCanceledHeart() {
+    delegate?.didTapCanceledHeart(self)
+  }
+  
+  func didTapReply() {
+    delegate?.didTapReply(self)
+  }
+  
+  func didTapProfile() {
+    delegate?.didTapProfile(self)
   }
 }
 

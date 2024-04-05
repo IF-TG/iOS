@@ -80,6 +80,12 @@ extension CommentInputView {
   func setScrollEnabled(_ value: Bool) {
     inputTextView.isScrollEnabled = value
   }
+  
+  func clearCommentInputState() {
+    inputTextView.text = nil
+    sendIcon.image = sendIcon.image?.setColor(.yg.gray2)
+    sendIcon.isHidden = true
+  }
 }
 
 // MARK: - Private Helpers
@@ -95,9 +101,10 @@ private extension CommentInputView {
 // MARK: - Action
 extension CommentInputView {
   @objc func didTapSendIcon() {
-    delegate?.didTapSendIcon(inputTextView.text)
-    inputTextView.text = nil
-    sendIcon.image = sendIcon.image?.setColor(.yg.gray2)
+    if inputTextView.text.count > 0 {
+      delegate?.didTapSendIcon(inputTextView.text)
+      clearCommentInputState()
+    }
   }
 }
 
@@ -110,12 +117,15 @@ extension CommentInputView: UITextViewDelegate {
   
   func textViewDidChange(_ textView: UITextView) {
     delegate?.textViewDidChange?(textView)
-    if textView.text == nil || textView.text.count == 0 {
+    if textView.text == nil || textView.text.count < 1 {
       sendIcon.image = sendIcon.image?.setColor(.yg.gray2)
       sendIcon.isUserInteractionEnabled = false
     } else {
       sendIcon.image = sendIcon.image?.setColor(.yg.primary)
       sendIcon.isUserInteractionEnabled = true
+      if textView.text.count > 0 && sendIcon.isHidden {
+        sendIcon.isHidden = false
+      }
     }
   }
   

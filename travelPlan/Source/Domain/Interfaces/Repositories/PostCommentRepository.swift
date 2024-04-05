@@ -8,13 +8,13 @@
 import Combine
 
 protocol PostCommentRepository {
-  func sendComment(postId: Int64, comment: String) -> Future<PostCommentEntity, Error>
+  func sendComment(postId: Int64, comment: String) -> AnyPublisher<PostCommentEntity, Error>
   
-  func updateComment(commentId: Int64, comment: String) -> Future<UpdatedPostCommentEntity, Error>
+  func updateComment(commentId: Int64, comment: String) -> AnyPublisher<UpdatedPostCommentEntity, Error>
   
-  func deleteComment(commentId: Int64) -> Future<Bool, Error>
+  func deleteComment(commentId: Int64) -> AnyPublisher<Bool, Error>
   
-  func fetchComments(page: Int32, perPage: Int32, postId: Int64) -> Future<[PostCommentEntity], Error>
+  func fetchComments(page: Int32, perPage: Int32, postId: Int64) -> AnyPublisher<[PostCommentEntity], Error>
   
-  func toggleCommentHeart(commentId: Int64) -> Future<ToggledPostCommentHeartEntity, Error>
+  func toggleCommentHeart(commentId: Int64) -> AnyPublisher<ToggledPostCommentHeartEntity, Error>
 }

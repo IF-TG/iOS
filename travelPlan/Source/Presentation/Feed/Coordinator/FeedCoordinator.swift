@@ -8,6 +8,10 @@
 import UIKit
 import SHCoordinator
 
+protocol FeedPostCoordinatorDelegate: AnyObject {
+  func showDetailPost(post: Post, category: Post.Category)
+}
+
 protocol FeedCoordinatorDelegate: FlowCoordinatorDelegate {
   func showPostSearch()
   func showNotification()
@@ -58,10 +62,17 @@ final class FeedCoordinator: FlowCoordinator {
       // let postUseCase = DefaultPostUseCase(postRepository: MockPostRepository())
       let mockPostUseCase = MockPostUseCaseForPaging()
       let viewModel = FeedPostViewModel(postCategory: feedCategory, postUseCase: mockPostUseCase)
-      return FeedPostViewController(
-        type: feedCategory,
-        viewModel: viewModel)
+      return FeedPostViewController(type: feedCategory, viewModel: viewModel)
+        .set { $0.coordinator = self }
     }
+  }
+}
+
+// MARK: - FeedPostCoordinatorDelegate
+extension FeedCoordinator: FeedPostCoordinatorDelegate {
+  func showDetailPost(post: Post, category: Post.Category) {
+    let childCoordinator = PostDetailCoordinator(presenter: presenter, post: post, category: category)
+    addChild(with: childCoordinator)
   }
 }
 
@@ -82,7 +93,7 @@ extension FeedCoordinator: FeedCoordinatorDelegate {
     presenter?.present(sheetViewController, animated: false)
   }
   
-  // FIXME: - 피드 탭에서 분류, 정렬 title은 그대로 두고 이제 바텀시트 올라올 때 선택됬던거는 얕은 회식으로 표시?
+  // FIXME: - 피드 탭에서 분류, 정렬 title은 그대로 두고 이제 바텀시트 올라올 때 선택됬던거는 살짝 체크표시?
   // 카테고리 선정시 옆에 태그 형식으로 붙여주는것도 괜찮은 선택지,,
   func showPostMainThemeCategoryBottomSheet(mainTheme: TravelMainThemeType) {
     let bottomSheet = PostMainThemeCategoryBottomSheet(mainTheme: mainTheme)

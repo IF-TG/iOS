@@ -107,7 +107,7 @@ private extension NotificationCell {
       fontType: .semiBold_600(fontSize: 14),
       text: notificationType.postTitle,
       startIndex: userName.count+3)
-    title.setHighlights(with: userNameHighlightInfo, postTitleHighlightInfo)
+    title.setHighlights(with: [userNameHighlightInfo, postTitleHighlightInfo])
     
   }
   

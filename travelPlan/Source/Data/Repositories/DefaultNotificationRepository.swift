@@ -21,9 +21,9 @@ final class DefaultNotificationRepository {
 
 // MARK: - NotificationRepository
 extension DefaultNotificationRepository: NotificationRepository {
-  func fetchNotices() -> Future<[NoticeEntity], Never> {
+  func fetchNotices() -> AnyPublisher<[NoticeEntity], Never> {
     let noticeEndpoint = NotificationAPIEndpoints.fetchNotices()
-    return .init { [weak self] promise in
+    return Future { [weak self] promise in
       self?.subscription = self?.service
         .request(endpoint: noticeEndpoint)
         .sink { completion in
@@ -36,6 +36,6 @@ extension DefaultNotificationRepository: NotificationRepository {
         } receiveValue: { responseDTO in
           promise(.success(responseDTO.map { $0.toDomain }))
         }
-    }
+    }.eraseToAnyPublisher()
   }
 }

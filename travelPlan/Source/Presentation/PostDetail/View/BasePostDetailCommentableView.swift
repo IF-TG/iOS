@@ -17,11 +17,11 @@ struct BasePostDetailCommentInfo {
   let heartCountText: String
 }
 
-protocol BaseCommentViewDelegate: BaseProfileAreaViewDelegate {
-  func didTapProfile()
+protocol BaseCommentViewDelegate: AnyObject {
   func didTapHeart(_ isOnHeart: Bool)
   func didCanceledHeart()
   func didTapReply()
+  func didTapProfile()
 }
 
 final class BasePostDetailCommentableView: BaseProfileAreaView {
@@ -79,6 +79,7 @@ final class BasePostDetailCommentableView: BaseProfileAreaView {
   /// CommentType별로 메모리 로드 안 할 수 있음
   private lazy var replyLabel = BaseLabel(fontType: .medium_500(fontSize: 12)).set {
     $0.textColor = .yg.gray3
+    $0.isUserInteractionEnabled = true
     $0.text = "답글 달기"
     let tap = UITapGestureRecognizer(target: self, action: #selector(didTapReply))
     $0.addGestureRecognizer(tap)
@@ -160,6 +161,7 @@ final class BasePostDetailCommentableView: BaseProfileAreaView {
     setUserNameTapGesture()
     setHeartIconTapGesture()
     setHeartCancelLabelTapGesture()
+    baseDelegate = self
   }
   
   convenience init(usageType: UsageType) {
@@ -264,5 +266,12 @@ private extension BasePostDetailCommentableView {
   
   @objc func didTapReply() {
     delegate?.didTapReply()
+  }
+}
+
+// MARK: - BaseProfileAreaViewDelegate
+extension BasePostDetailCommentableView: BaseProfileAreaViewDelegate {
+  func baseLeftRoundProfileAreaView(_ view: BaseProfileAreaView, didSelectProfileImage image: UIImage?) {
+    delegate?.didTapProfile()
   }
 }

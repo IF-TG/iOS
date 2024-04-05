@@ -22,7 +22,7 @@ final class MockPostCommentRepository: PostCommentRepository {
 }
 
 extension MockPostCommentRepository {
-  func sendComment(postId: Int64, comment: String) -> Future<PostCommentEntity, any Error> {
+  func sendComment(postId: Int64, comment: String) -> AnyPublisher<PostCommentEntity, any Error> {
     MockUrlProtocol.requestHandler = { _ in
       let mockData = MockResponseType.postComment(.whenCommentSend).mockDataLoader
       return ((HTTPURLResponse(), mockData))
@@ -35,14 +35,27 @@ extension MockPostCommentRepository {
               promise(.failure(error))
             }
           } receiveValue: { postCommentEntity in
-            promise(.success(postCommentEntity))
+            // 이 시점에 이미 서버의 response data를 encodable -> 관련 entity로 mapping했기에 여기서
+            // 잠깐 사용자가 보냈던 comment로 가로체겠습니다.
+            let intereceptedEntity = PostCommentEntity(
+              commentId: postCommentEntity.commentId,
+              userProfileURL: postCommentEntity.userProfileURL,
+              userName: postCommentEntity.userName,
+              timestamp: postCommentEntity.timestamp,
+              comment: comment,
+              isDeleted: false,
+              isOnHeart: false,
+              isBlocked: false,
+              hearts: 0,
+              nestedComments: [])
+            promise(.success(intereceptedEntity))
           }
         self?.subscriptions.insert(subscription)
       }
-    }
+    }.eraseToAnyPublisher()
   }
   
-  func updateComment(commentId: Int64, comment: String) -> Future<UpdatedPostCommentEntity, any Error> {
+  func updateComment(commentId: Int64, comment: String) -> AnyPublisher<UpdatedPostCommentEntity, any Error> {
     MockUrlProtocol.requestHandler = { _ in
       let mock = MockResponseType.postComment(.whenCommentUpdate).mockDataLoader
       return ((HTTPURLResponse(), mock))
@@ -59,10 +72,10 @@ extension MockPostCommentRepository {
           }
         self?.subscriptions.insert(subscription)
       }
-    }
+    }.eraseToAnyPublisher()
   }
   
-  func deleteComment(commentId: Int64) -> Future<Bool, any Error> {
+  func deleteComment(commentId: Int64) -> AnyPublisher<Bool, any Error> {
     MockUrlProtocol.requestHandler = { _ in
       let mock = MockResponseType.postComment(.whenCommentDelete).mockDataLoader
       return ((HTTPURLResponse(), mock))
@@ -79,10 +92,10 @@ extension MockPostCommentRepository {
           }
         self?.subscriptions.insert(subscription)
       }
-    }
+    }.eraseToAnyPublisher()
   }
   
-  func fetchComments(page: Int32, perPage: Int32, postId: Int64) -> Future<[PostCommentEntity], any Error> {
+  func fetchComments(page: Int32, perPage: Int32, postId: Int64) -> AnyPublisher<[PostCommentEntity], any Error> {
     MockUrlProtocol.requestHandler = { _ in
       let mock = MockResponseType.postComment(.whenCommentsFetch).mockDataLoader
       return ((HTTPURLResponse(), mock))
@@ -100,10 +113,10 @@ extension MockPostCommentRepository {
           }
         self?.subscriptions.insert(subscription)
       }
-    }
+    }.eraseToAnyPublisher()
   }
   
-  func toggleCommentHeart(commentId: Int64) -> Future<ToggledPostCommentHeartEntity, any Error> {
+  func toggleCommentHeart(commentId: Int64) -> AnyPublisher<ToggledPostCommentHeartEntity, any Error> {
     MockUrlProtocol.requestHandler = { _ in
       let mock = MockResponseType.postComment(.whenCommentHeartToggle).mockDataLoader
       return ((HTTPURLResponse(), mock))
@@ -121,6 +134,6 @@ extension MockPostCommentRepository {
           }
         self?.subscriptions.insert(subscription)
       }
-    }
+    }.eraseToAnyPublisher()
   }
 }

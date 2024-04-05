@@ -60,6 +60,10 @@ extension PostDetailInputAccessoryWrapper {
   func hideKeyboard() {
     contentView.hideKeyboard()
   }
+  
+  func clearCommentInputState() {
+    contentView.clearCommentInputState()
+  }
 }
 
 // MARK: - UITextViewDelegate

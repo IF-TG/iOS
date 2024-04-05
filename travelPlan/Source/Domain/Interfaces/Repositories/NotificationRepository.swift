@@ -8,5 +8,5 @@
 import Combine
 
 protocol NotificationRepository {
-  func fetchNotices() -> Future<[NoticeEntity], Never>
+  func fetchNotices() -> AnyPublisher<[NoticeEntity], Never>
 }

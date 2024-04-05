@@ -58,4 +58,8 @@ extension PostProfileAndCommentView {
   func setScrollEnabled(_ value: Bool) {
     commentInputView.setScrollEnabled(value)
   }
+  
+  func clearCommentInputState() {
+    commentInputView.clearCommentInputState()
+  }
 }
