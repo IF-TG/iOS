@@ -144,11 +144,14 @@ extension RequestType {
 extension RequestType {
   @frozen enum FavoritePostInDirectory {
     case favoritePostsFetch
+    case favoritePostToggle
     
     var path: String {
       switch self {
       case .favoritePostsFetch:
         "post/scrap/detail"
+      case .favoritePostToggle:
+        "post/scrap"
       }
     }
   }
