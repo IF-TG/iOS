@@ -32,7 +32,7 @@ struct AlbumViewModelInput {
 
 enum AlbumViewModelState {
   case activateFinishButton(Bool)
-  case showDetailPhoto(PHAsset)
+  case showDetailPhoto(PhotoModel)
   case reloadItem([IndexPath])
   case reloadData(isAuthLimited: Bool)
   case none
@@ -50,12 +50,15 @@ struct PhotoModel {
 final class DefaultAlbumViewModel {
   
   // MARK: - Properties
+  /// element: 선택된 indexPath.item
+  /// index: order-1
   @Published private var selectedIndexArray = [Int]()
   private var subscriptions = Set<AnyCancellable>()
   private let albumUseCase: AlbumUseCase
   private let photoAuthUseCase: PhotoAuthorizationUseCase
   var albums = [PHFetchResult<PHAsset>]()
   var dataSource = [PhotoModel]()
+  
   private var isAuthStatusLimited: Bool {
     if #available(iOS 14, *) {
       PHPhotoLibrary.authorizationStatus(for: .readWrite) == .limited
@@ -179,7 +182,7 @@ extension DefaultAlbumViewModel {
         
         let updatingIndexPaths: [IndexPath]
         
-        if case .selected = self?.dataSource[indexPath.item].selectedOrder {
+        if case .selected = self?.dataSource[indexPath.item].selectedOrder { // 이미 선택이 되어있는 경우
           self?.dataSource[indexPath.item].selectedOrder = .none
           self?.selectedIndexArray.removeAll { $0 == indexPath.item }
           self?.selectedIndexArray.enumerated().forEach { index, indexPathItem in
@@ -191,7 +194,7 @@ extension DefaultAlbumViewModel {
             self?.selectedIndexArray
               .map { IndexPath(item: $0, section: .zero) } ?? .init()
           )
-        } else {
+        } else { // 선택이 되어있지 않은 경우
           guard self?.selectedIndexArray.count ?? .zero < self?.albumUseCase.maxSelectedImageCount ?? .zero
           else { return State.none }
           
@@ -208,7 +211,9 @@ extension DefaultAlbumViewModel {
     return input
       .touchedElseQuadrant
       .map { [weak self] indexPath in
-        return State.showDetailPhoto(self?.dataSource[indexPath.item].asset ?? PHAsset())
+        return State.showDetailPhoto(
+          self?.dataSource[indexPath.item] ?? .init(asset: .init(), selectedOrder: .none)
+        )
       }
       .eraseToAnyPublisher()
   }
