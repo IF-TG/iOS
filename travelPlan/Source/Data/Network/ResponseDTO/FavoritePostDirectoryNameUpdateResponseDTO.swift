@@ -8,13 +8,20 @@
 import Foundation
 
 struct FavoritePostDirectoryNameUpdateResponseDTO: Decodable {
-  let postId: Int64
+  let directoryId: Int64
   let userId: Int64
   let directoryName: String
   
   enum CodingKeys: String, CodingKey {
-    case postId = "objectId"
+    case directoryId = "objectId"
     case userId = "userId"
     case directoryName = "folderName"
+  }
+}
+
+// MARK: - Mappings to Domain
+extension FavoritePostDirectoryNameUpdateResponseDTO {
+  func toDomain() -> UpdatedFavoritePostDirectoryName {
+    return .init(directoryId: directoryId, userId: userId, directoryname: directoryName)
   }
 }
