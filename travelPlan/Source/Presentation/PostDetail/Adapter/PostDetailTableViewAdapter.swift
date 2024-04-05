@@ -8,17 +8,22 @@
 import UIKit
 
 final class PostDetailTableViewAdapter: NSObject {
+  typealias PostDetailTableViewDelegates = (
+    PostDetailTableViewAdapterDelegate &
+    PostDetailReplyCellDelegate &
+    PostDetailCommentDelegate)
+  
   // MARK: - Properties
   private weak var dataSource: PostDetailTableViewDataSource?
   
-  weak var delegate: (PostDetailTableViewAdapterDelegate & PostDetailReplyCellDelegate & PostDetailCommentDelegate)?
+  weak var delegate: PostDetailTableViewDelegates?
   
   private let defaultSection = PostDetailSectionType.defaultNumberOfSections
   
   // MARK: - Lifecycle
   init(
     dataSource: PostDetailTableViewDataSource?,
-    delegate: (PostDetailTableViewAdapterDelegate & PostDetailReplyCellDelegate & PostDetailCommentDelegate)?,
+    delegate: PostDetailTableViewDelegates?,
     tableView: UITableView
   ) {
     super.init()
