@@ -24,7 +24,7 @@ extension MockWrappedUserBlockRepository {
       return ((.init(), mockData))
     }
     return Future { [weak self] promise in
-      DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.5) {
+      DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.05) {
         let subscription = self?.repository.blockUser(with: userId)
           .sink { completion in
             if case .failure(let error) = completion {
@@ -44,7 +44,7 @@ extension MockWrappedUserBlockRepository {
       return ((.init(), mockData))
     }
     return Future { [weak self] promise in
-      DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.5) {
+      DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.05) {
         let subscription = self?.repository.fetchBlockedUsers()
           .sink { completion in
             if case .failure(let error) = completion {

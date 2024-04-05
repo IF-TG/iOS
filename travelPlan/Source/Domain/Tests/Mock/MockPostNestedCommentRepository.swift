@@ -29,7 +29,7 @@ final class MockPostNestedCommentRepository: PostNestedCommentRepository {
       return ((HTTPURLResponse(), mockData))
     }
     return Future { promise in
-      DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.5) { [weak self] in
+      DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.1) { [weak self] in
         let subscription = self?.wrappedRepository
           .sendNestedComment(commentId: commentId, comment: comment)
           .sink { completion in
@@ -60,7 +60,7 @@ final class MockPostNestedCommentRepository: PostNestedCommentRepository {
       return ((HTTPURLResponse(), mockData))
     }
     return Future { promise in
-      DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.5) { [weak self] in
+      DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.1) { [weak self] in
         let subscription = self?.wrappedRepository
           .updateNestedComment(nestedCommentId: nestedCommentId, comment: comment)
           .sink { completion in
@@ -82,7 +82,7 @@ final class MockPostNestedCommentRepository: PostNestedCommentRepository {
     }
 
     return Future { promise in
-      DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.5) { [weak self] in
+      DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.1) { [weak self] in
         let subscription = self?.wrappedRepository
           .deleteNestedComment(nestedCommentId: nestedCommentId)
           .sink { completion in
@@ -103,7 +103,7 @@ final class MockPostNestedCommentRepository: PostNestedCommentRepository {
       return ((HTTPURLResponse(), mock))
     }
     return Future { promise in
-      DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.5) { [weak self] in
+      DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.1) { [weak self] in
         let subscription = self?.wrappedRepository
           .toggleCommentHeart(nestedCommentId: nestedCommentId)
           .sink { completion in

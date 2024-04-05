@@ -33,7 +33,7 @@ final class MockPostRepository: PostRepository {
       return ((HTTPURLResponse(), mockData))
     }
     return Future { promise in
-      DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.5) { [weak self] in
+      DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.1) { [weak self] in
         let subscription = self?.postRepository
           .fetchPosts(page: page, perPage: perPage, category: category)
           .sink(receiveCompletion: { completion in
@@ -58,7 +58,7 @@ final class MockPostRepository: PostRepository {
       return ((HTTPURLResponse(), mockData))
     }
     return Future { promise in
-      DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.5) { [weak self] in
+      DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.1) { [weak self] in
         let subscription = self?.postRepository
           .fetchComments(page: page, perPage: perPage, postId: postId)
           .sink(receiveCompletion: { completion in
@@ -82,7 +82,7 @@ final class MockPostRepository: PostRepository {
       return ((HTTPURLResponse(), mockData))
     }
     return Future { promise in
-      DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.5) { [weak self] in
+      DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.1) { [weak self] in
         let subscription = self?.postRepository
           .fetchLikedPostsByLoggedInUser(page: page, perPage: perPage)
           .sink(receiveCompletion: { completion in

@@ -49,7 +49,7 @@ final class MockFavoritePostInDirectoryRepository: FavoritePostInDirectoryReposi
     directoryName: String
   ) -> AnyPublisher< FavoritePostToggleEntity, any Error> {
     return Just(.init(postId: postId, isScrapped: true))
-      .delay(for: .seconds(0.5), scheduler: DispatchQueue.global(qos: .background))
+      .delay(for: .seconds(0.1), scheduler: DispatchQueue.global(qos: .background))
       .setFailureType(to: Error.self)
       .eraseToAnyPublisher()
   }
@@ -66,14 +66,14 @@ final class MockFavoritePostInDirectoryRepository: FavoritePostInDirectoryReposi
     }
     
     return Future { promise in
-      DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.3) { [weak self] in
+      DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.1) { [weak self] in
         let subscription = self?.favoritePostInDirectoryRepository
           .updateFolderName(postIdList: postIdList, directoryName: directoryName)
           .sink { completion in
             if case .failure(let error) = completion {
               promise(.failure(error))
             }
-          } receiveValue: { entity in
+          } receiveValue: { _ in
             let interceptedEntity = UpdatedFavoritePostDirectoryName(
               directoryId: 1,
               userId: 1,
