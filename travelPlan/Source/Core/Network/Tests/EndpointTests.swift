@@ -25,7 +25,7 @@ final class EndpointTests: XCTestCase {
       host: "test.com",
       method: .get,
       parameters: [.query(mockRequestModel)],
-      requestType: .custom("user/name-update"))
+      requestType: .user(.profile(.update)))
     MockUrlProtocol.requestHandler = { _ in
       return ((HTTPURLResponse(), Data()))
     }
@@ -43,7 +43,7 @@ final class EndpointTests: XCTestCase {
 extension EndpointTests {
   func testMakeRequest_DataRequest의AbsoluteURL검사할때_ShouldReturnEqaul() {
     // Arrange
-    let targetURL = URL(string: "http://test.com/user/name-update?id=777&name=배고프다")
+    let targetURL = URL(string: "http://test.com/profile/upload?id=777&name=배고프다")
     
     // Act
     DispatchQueue.global().async { [unowned self] in
@@ -63,7 +63,7 @@ extension EndpointTests {
   func testMakeReqeust_DataReqeust의HttpMethod가Post일때_shouldReturnNotNil() {
     // Arrange
     sut.method = .post
-    let targetURL = URL(string: "http://test.com/user/name-update")
+    let targetURL = URL(string: "http://test.com/profile/upload")
     
     // Act
     DispatchQueue.global().async { [unowned self] in
@@ -108,7 +108,7 @@ extension EndpointTests {
       let accessToken: String
     }
     
-    let targetURL = URL(string: "http://test.com/user/name-update?accessToken=ab1@2")
+    let targetURL = URL(string: "http://test.com/profile/upload?accessToken=ab1@2")
     let mockReqeustQueryParamDTO = TempQueryParameterReqeustDTO(accessToken: "ab1@2")
     mockRequestModel = UserNameRequestDTO(name: "배고프다", id: 777)
     sut = Endpoint(
@@ -116,7 +116,7 @@ extension EndpointTests {
       host: "test.com",
       method: .post,
       parameters: [.query(mockReqeustQueryParamDTO), .body(mockRequestModel)],
-      requestType: .custom("user/name-update"))
+      requestType: .user(.profile(.update)))
     var dataRequest: DataRequest?
     
     // Act
@@ -150,7 +150,7 @@ extension EndpointTests {
       host: "test.com",
       method: .post,
       parameters: [.query(mockReqeustQueryParamDTO), .body(mockRequestModel)],
-      requestType: .custom("user/name-update"))
+      requestType: .user(.profile(.update)))
     var dataRequest: DataRequest?
     
     // Act

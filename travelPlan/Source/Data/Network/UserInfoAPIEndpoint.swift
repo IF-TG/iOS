@@ -17,7 +17,7 @@ struct UserInfoAPIEndpoint {
       host: "localhost:8080",
       method: .get,
       parameters: [.query(requestDTO)],
-      requestType: .userNameDuplicateCheck)
+      requestType: .user(.profile(.checkIfNameDuplicate)))
   }
   
   static func updateUserNickname(
@@ -28,7 +28,7 @@ struct UserInfoAPIEndpoint {
     host: "localhost:8080",
     method: .patch,
     parameters: [.query(requestDTO)],
-    requestType: .userNameDuplicateCheck)
+    requestType: .user(.profile(.checkIfNameDuplicate)))
   }
 }
 
@@ -44,7 +44,7 @@ extension UserInfoAPIEndpoint {
       host: "localhost:8080",
       method: .put,
       parameters: [.query(queryRequestDTO), .body(bodyReqeustDTO)],
-      requestType: .userProfile(.update))
+      requestType: .user(.profile(.update)))
   }
   
   static func saveProfile(
@@ -56,7 +56,7 @@ extension UserInfoAPIEndpoint {
       host: "localhost:8080",
       method: .post,
       parameters: [.query(queryReqeustDTO), .body(bodyReqeustDTO)],
-      requestType: .userProfile(.save))
+      requestType: .user(.profile(.save)))
   }
   
   static func deleteProfile(
@@ -67,7 +67,7 @@ extension UserInfoAPIEndpoint {
       host: "localhost:8080",
       method: .delete,
       parameters: [.query(requestDTO)],
-      requestType: .userProfile(.delete))
+      requestType: .user(.profile(.delete)))
   }
   
   static func fetchProfile(
@@ -78,6 +78,6 @@ extension UserInfoAPIEndpoint {
       host: "localhost:8080",
       method: .get,
       parameters: [.query(requestDTO)],
-      requestType: .userProfile(.fetch))
+      requestType: .user(.profile(.fetch)))
   }
 }
