@@ -12,7 +12,7 @@ import PhotosUI
 protocol AlbumCoordinatorDelegate: AnyObject, FlowCoordinatorDelegate {
   func openSettings()
   func finish(selectedAssets: [PHAsset])
-  func showPhotoDetail(asset: PHAsset)
+  func showPhotoDetail(photoModel: PhotoModel)
   
   @available(iOS 14, *)
   func presentLimitedLibraryPicker(controller: UIViewController)
@@ -51,8 +51,8 @@ final class AlbumCoordinator: FlowCoordinator {
 
 // MARK: - AlbumCoordinatorDelegate
 extension AlbumCoordinator: AlbumCoordinatorDelegate, FlowCoordinatorDelegate {
-  func showPhotoDetail(asset: PHAsset) {
-    let childCoordinator = AlbumPhotoDetailCoordinator(presenter: presenter, asset: asset)
+  func showPhotoDetail(photoModel: PhotoModel) {
+    let childCoordinator = AlbumPhotoDetailCoordinator(presenter: presenter, photoModel: photoModel)
     addChild(with: childCoordinator)
   }
   

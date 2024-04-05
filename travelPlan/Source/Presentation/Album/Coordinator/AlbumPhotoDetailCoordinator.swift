@@ -19,21 +19,20 @@ final class AlbumPhotoDetailCoordinator: FlowCoordinator {
   var parent: FlowCoordinator?
   var child: [FlowCoordinator] = []
   var presenter: UINavigationController?
-  private let asset: PHAsset
+  private let photoModel: PhotoModel
   
   // MARK: - LifeCycle
-  init(presenter: UINavigationController?, asset: PHAsset) {
+  init(presenter: UINavigationController?, photoModel: PhotoModel) {
     self.presenter = presenter
-    self.asset = asset
+    self.photoModel = photoModel
   }
   
   func start() {
-    let albumPhotoDetailViewModel = DefaultAlbumPhotoDetailViewModel()
+    let albumPhotoDetailViewModel = DefaultAlbumPhotoDetailViewModel(photoModel: photoModel)
     let photoService = DefaultPhotoService()
     let albumPhotoDetailViewController = AlbumPhotoDetailViewController(
       viewModel: albumPhotoDetailViewModel,
-      photoService: photoService,
-      asset: asset
+      photoService: photoService
     )
     albumPhotoDetailViewController.coordinator = self
     presenter?.pushViewController(albumPhotoDetailViewController, animated: true)

@@ -14,6 +14,7 @@ where Input == AlbumPhotoDetailViewModelInput,
       Output == AnyPublisher<State, Never> { }
 
 struct AlbumPhotoDetailViewModelInput {
+  let viewDidLoad: PassthroughSubject<Void, Never> = .init()
   let didTapOrderView: PassthroughSubject<Void, Never> = .init()
   let didTapBackButton: PassthroughSubject<Void, Never> = .init()
 }
@@ -23,14 +24,16 @@ enum AlbumPhotoDetailViewModelState {
   case setOrder(Int)
   case cancelOrder
   case none
+  case configureUI(PhotoModel)
 }
 
 final class DefaultAlbumPhotoDetailViewModel {
   // MARK: - Properties
+  private var photoModel: PhotoModel
   
   // MARK: - LifeCycle
-  init() {
-    
+  init(photoModel: PhotoModel) {
+    self.photoModel = photoModel
   }
 }
 
@@ -38,6 +41,7 @@ final class DefaultAlbumPhotoDetailViewModel {
 extension DefaultAlbumPhotoDetailViewModel: AlbumPhotoDetailViewModelable {
   func transform(_ input: Input) -> Output {
     return Publishers.MergeMany(
+      viewDidLoadStream(input),
       didTapOrderViewStream(input),
       didTapBackButtonStream(input)
     )
@@ -47,6 +51,14 @@ extension DefaultAlbumPhotoDetailViewModel: AlbumPhotoDetailViewModelable {
  
 // MARK: - Private Helpers
 extension DefaultAlbumPhotoDetailViewModel {
+  private func viewDidLoadStream(_ input: Input) -> Output {
+    input.viewDidLoad
+      .map { [weak self] in
+        State.configureUI(self?.photoModel ?? .init(asset: .init(), selectedOrder: .none))
+      }
+      .eraseToAnyPublisher()
+  }
+  
   private func didTapBackButtonStream(_ input: Input) -> Output {
     input.didTapBackButton
       .map {
@@ -58,7 +70,9 @@ extension DefaultAlbumPhotoDetailViewModel {
   private func didTapOrderViewStream(_ input: Input) -> Output {
     input.didTapOrderView
       .map {
-        print("didTapOrderView")
+        if case .selected(let order) = photoModel.selectedOrder {
+          
+        }
         return State.none
       }
       .eraseToAnyPublisher()
