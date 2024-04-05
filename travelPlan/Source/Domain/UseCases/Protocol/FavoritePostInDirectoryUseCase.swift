@@ -19,4 +19,9 @@ protocol FavoritePostInDirectoryUseCase {
     postId: Int64,
     directoryName: String
   ) -> AnyPublisher<FavoritePostToggleEntity, Error>
+  
+  func updateFolderName(
+    postIdList: [Int64],
+    directoryName: String
+  ) -> AnyPublisher<UpdatedFavoritePostDirectoryName, Error>
 }

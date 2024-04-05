@@ -45,4 +45,14 @@ extension DefaultFavoritePostInDirectoryUseCase: FavoritePostInDirectoryUseCase 
       .subscribe(on: backgroundQueue)
       .eraseToAnyPublisher()
   }
+  
+  func updateFolderName(
+    postIdList: [Int64],
+    directoryName: String
+  ) -> AnyPublisher<UpdatedFavoritePostDirectoryName, any Error> {
+    return favoritePostInDirectoryRepository
+      .updateFolderName(postIdList: postIdList, directoryName: directoryName)
+      .subscribe(on: backgroundQueue)
+      .eraseToAnyPublisher()
+  }
 }
