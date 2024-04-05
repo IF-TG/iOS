@@ -20,15 +20,20 @@ final class AlbumPhotoDetailCoordinator: FlowCoordinator {
   var child: [FlowCoordinator] = []
   var presenter: UINavigationController?
   private let photoModel: PhotoModel
+  private let selectedCount: Int
   
   // MARK: - LifeCycle
-  init(presenter: UINavigationController?, photoModel: PhotoModel) {
+  init(presenter: UINavigationController?, photoModel: PhotoModel, selectedCount: Int) {
     self.presenter = presenter
     self.photoModel = photoModel
+    self.selectedCount = selectedCount
   }
   
   func start() {
-    let albumPhotoDetailViewModel = DefaultAlbumPhotoDetailViewModel(photoModel: photoModel)
+    let albumPhotoDetailViewModel = DefaultAlbumPhotoDetailViewModel(
+      photoModel: photoModel,
+      selectedCount: selectedCount
+    )
     let photoService = DefaultPhotoService()
     let albumPhotoDetailViewController = AlbumPhotoDetailViewController(
       viewModel: albumPhotoDetailViewModel,

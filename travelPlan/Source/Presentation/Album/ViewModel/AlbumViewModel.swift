@@ -32,7 +32,7 @@ struct AlbumViewModelInput {
 
 enum AlbumViewModelState {
   case activateFinishButton(Bool)
-  case showDetailPhoto(PhotoModel)
+  case showDetailPhoto(PhotoModel, selectedCount: Int)
   case reloadItem([IndexPath])
   case reloadData(isAuthLimited: Bool)
   case none
@@ -212,7 +212,8 @@ extension DefaultAlbumViewModel {
       .touchedElseQuadrant
       .map { [weak self] indexPath in
         return State.showDetailPhoto(
-          self?.dataSource[indexPath.item] ?? .init(asset: .init(), selectedOrder: .none)
+          self?.dataSource[indexPath.item] ?? .init(asset: .init(), selectedOrder: .none),
+          selectedCount: self?.selectedIndexArray.count ?? .zero
         )
       }
       .eraseToAnyPublisher()

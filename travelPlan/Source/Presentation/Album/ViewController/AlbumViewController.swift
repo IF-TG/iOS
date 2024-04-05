@@ -220,8 +220,8 @@ extension AlbumViewController {
         switch state {
         case .none:
           break
-        case .showDetailPhoto(let photoModel):
-          self?.coordinator?.showPhotoDetail(photoModel: photoModel)
+        case let .showDetailPhoto(photoModel, selectedCount):
+          self?.coordinator?.showPhotoDetail(photoModel: photoModel, selectedCount: selectedCount)
         case let .reloadData(isAuthLimited):
           self?.collectionViewReloadData(isAuthLimited: isAuthLimited)
         case .reloadItem(let indexPaths):
