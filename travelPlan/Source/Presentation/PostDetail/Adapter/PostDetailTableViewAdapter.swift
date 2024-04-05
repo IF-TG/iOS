@@ -8,17 +8,22 @@
 import UIKit
 
 final class PostDetailTableViewAdapter: NSObject {
+  typealias PostDetailTableViewDelegates = (
+    PostDetailTableViewAdapterDelegate &
+    PostDetailReplyCellDelegate &
+    PostDetailCommentDelegate)
+  
   // MARK: - Properties
   private weak var dataSource: PostDetailTableViewDataSource?
   
-  weak var delegate: PostDetailTableViewAdapterDelegate?
+  weak var delegate: PostDetailTableViewDelegates?
   
   private let defaultSection = PostDetailSectionType.defaultNumberOfSections
   
   // MARK: - Lifecycle
   init(
     dataSource: PostDetailTableViewDataSource?,
-    delegate: PostDetailTableViewAdapterDelegate?,
+    delegate: PostDetailTableViewDelegates?,
     tableView: UITableView
   ) {
     super.init()
@@ -36,7 +41,7 @@ extension PostDetailTableViewAdapter: UITableViewDataSource {
   }
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return dataSource?.numberOfItems(in: section) ?? 0
+    return dataSource?.numberOfRows(in: section) ?? 0
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -82,6 +87,7 @@ extension PostDetailTableViewAdapter: UITableViewDataSource {
         return .init(frame: .zero)
       }
       cell.configure(with: dataSource.replyItem(at: indexPath))
+      cell.delegate = self
       return cell
     }
   }
@@ -97,6 +103,7 @@ extension PostDetailTableViewAdapter: UITableViewDelegate {
     let sectionType: PostDetailSectionType = .init(rawValue: indexPath.section) ?? .postDescription
     if sectionType == .postDescription && indexPath.row == 0 {
       guard let title = dataSource?.title else { return }
+      // TODO: - 이거 올라오는거 좀 더빠르게인식하도록하기!
       delegate?.disappearTitle(title)
     }
   }
@@ -137,7 +144,8 @@ extension PostDetailTableViewAdapter: UITableViewDelegate {
       ) as? PostDetailCommentHeader else {
         return nil
       }
-      commentHeader.configure(with: dataSource.commentItem(in: section))
+      commentHeader.configure(with: dataSource.commentItem(in: section), section: section)
+      commentHeader.delegate = self
       return commentHeader
     }
     
@@ -235,5 +243,39 @@ extension PostDetailTableViewAdapter: BaseProfileAreaViewDelegate {
   func baseLeftRoundProfileAreaView(_ view: BaseProfileAreaView, didSelectProfileImage image: UIImage?) {
     guard let dataSource = dataSource else { return }
     delegate?.showUploadedUserProfilePage(with: dataSource.authorUserId)
+  }
+}
+
+// MARK: - PostDetailReplyCellDelegate
+extension PostDetailTableViewAdapter: PostDetailReplyCellDelegate {
+  func didTapProfile(_ cell: UITableViewCell) {
+    delegate?.didTapProfile(cell)
+  }
+  
+  func didTapHeart(_ cell: UITableViewCell, isOnHeart: Bool) {
+    delegate?.didTapHeart(cell, isOnHeart: isOnHeart)
+  }
+  
+  func didCanceledHeart(_ cell: UITableViewCell) {
+    delegate?.didCanceledHeart(cell)
+  }
+}
+
+// MARK: - PostDetailCommentDelegate
+extension PostDetailTableViewAdapter: PostDetailCommentDelegate {
+  func didTapHeart(_ header: any PostDetailCommentHeaderIdentifiable, _ isOnHeart: Bool) {
+    delegate?.didTapHeart(header, isOnHeart)
+  }
+  
+  func didTapCanceledHeart(_ header: any PostDetailCommentHeaderIdentifiable) {
+    delegate?.didTapCanceledHeart(header)
+  }
+  
+  func didTapReply(_ header: any PostDetailCommentHeaderIdentifiable) {
+    delegate?.didTapReply(header)
+  }
+  
+  func didTapProfile(_ header: any PostDetailCommentHeaderIdentifiable) {
+    delegate?.didTapProfile(header)
   }
 }

@@ -9,6 +9,11 @@ import UIKit
 import Combine
 
 final class PostDetailViewController: UITableViewController {
+  // MARK: - Dependencies
+  private let viewModel: any PostDetailViewModelable & PostDetailTableViewDataSource
+  
+  weak var coordinator: PostDetailCoordinatorDelegate?
+  
   // MARK: - Properties
   private let inputAccessory = PostDetailInputAccessoryWrapper()
   
@@ -21,8 +26,6 @@ final class PostDetailViewController: UITableViewController {
   private var isHandlingKeyboardEvent = false
   
   private var adapter: PostDetailTableViewAdapter?
-  
-  private let viewModel: any PostDetailViewModelable & PostDetailTableViewDataSource
   
   private var notificationSubscriptions = Set<AnyCancellable>()
   
@@ -37,8 +40,6 @@ final class PostDetailViewController: UITableViewController {
   private let input = PostDetailViewModelInput()
   
   private var subscriptions = Set<AnyCancellable>()
-  
-  weak var coordinator: PostDetailCoordinatorDelegate?
 
   // MARK: - Lifecycle
   init(viewModel: any PostDetailViewModelable & PostDetailTableViewDataSource) {
@@ -99,32 +100,97 @@ final class PostDetailViewController: UITableViewController {
     (self.tabBarController as? MainTabBarController)?.showShadowLayer()
     self.tabBarController?.tabBar.isHidden = false
   }
+  
+  deinit {
+    NotificationCenter.default.removeObserver(self)
+  }
 }
 
+// MARK: - ViewBindCase
 extension PostDetailViewController: ViewBindCase {
   typealias Input = PostDetailViewModelInput
   typealias ErrorType = Error
   typealias State = PostDetailViewModelState
   
   func bind() {
+    NotificationCenter.default.addObserver(
+      self,
+      selector: #selector(didHideKeyboard),
+      name: UIResponder.keyboardDidHideNotification,
+      object: nil)
+    
     let output = viewModel.transform(input)
-    output.sink { [weak self] state in
-      self?.render(state)
-    }.store(in: &subscriptions)
+    output.receive(on: DispatchQueue.main)
+      .sink { [weak self] state in
+        self?.render(state)
+      }.store(in: &subscriptions)
   }
   
   func render(_ state: PostDetailViewModelState) {
     switch state {
-    case .networkProcessing:
-      startIndicator()
-    case .reloadedData:
-      stopIndicator()
-      tableView.reloadData()
-    case .reloadedComment:
-      // TODO: - reloadSection
-      print("커맨트 섹션 리로드")
+    case .none:
+      break
     case .unexpectedError(description: let description):
       coordinator?.showAlertForError(with: description, completion: nil)
+    case .networkProcessing:
+      startIndicator()
+    case .viewDidLoad(let viewDidLoadState):
+      handleViewDidLoadState(viewDidLoadState)
+    case .comment(let commentState):
+      handleCommentState(commentState)
+    case .nestedComment(let commentState):
+      handleNestedCommentState(commentState)
+    }
+  }
+  
+  // MARK: - View UI render helper
+  func handleViewDidLoadState(_ viewDidLoadState: PostDetailViewDidLoadState) {
+    switch viewDidLoadState {
+    case .loggedInUserInfo(let userProfile):
+      inputAccessory.configure(with: userProfile)
+    case .reloadedCommentsWithPostFavoriteInfo(let isPostFavorite):
+      tableView.reloadData()
+      stopIndicator()
+      // TODO: - 포스트 좋아요 했다면 해당 포스트 favorite 별 파랗게 물들여야 합니다.
+    }
+  }
+  
+  func handleCommentState(_ commentState: PostDetailCommentState) {
+    switch commentState {
+    case .reloadedComment:
+      tableView.reloadData()
+      tableView.scrollToRow(
+        at: IndexPath(row: NSNotFound, section: viewModel.numberOfSections-1),
+        at: .bottom, animated: false)
+      stopIndicator()
+    }
+  }
+  
+  func handleNestedCommentState(_ nestedCommentState: PostDetailNestedCommentState) {
+    switch nestedCommentState {
+    case .sentSuccessfully(let section):
+      inputAccessory.hideKeyboard()
+      UITableView.performWithoutAnimation {
+        tableView.reloadSections(IndexSet(integer: section), with: .none)
+      }
+      stopIndicator()
+    case .replyCancel:
+      inputAccessory.clearCommentInputState()
+      inputAccessory.hideKeyboard()
+    case .replyContinue:
+      inputAccessory.showKeyboard()
+    case .keyboardState(let keyboard):
+      switch keyboard {
+      case .willShow:
+        tableView.keyboardDismissMode = .none
+        inputAccessory.showKeyboard()
+      case .willHide:
+        break
+      }
+    case .replyCancellationAsk:
+      coordinator?.showAnAlertToAskWhetherToCancelWrittingTheReply { [weak self] wannaCancel in
+        self?.input.keyboardDidHideWhenReplyingToMessageNotifier.send(wannaCancel)
+      }
     }
   }
   
@@ -191,8 +257,9 @@ extension PostDetailViewController {
     print("카운팅스타~ 밤하늘의 퍼어얼")
   }
   
-  @objc private func keyboardDidShow(notification: NSNotification) {
-    print("h키보드ㅏ 보여졋음")
+  // MARK: - Keyboard Actions
+  @objc private func didHideKeyboard(_ notification: Notification) {
+    input.replyDismissalConfirmationNorifier.send()
   }
 }
 
@@ -211,7 +278,6 @@ extension PostDetailViewController: PostDetailTableViewAdapterDelegate {
       self.naviTitle.isHidden = true
     }
     naviTitleAnimator?.startAnimation()
-                   
   }
   
   func disappearTitle(_ title: String) {
@@ -243,17 +309,41 @@ extension PostDetailViewController: PostDetailTableViewAdapterDelegate {
   }
 }
 
+// MARK: - PostDetailReplyCellDelegate
+extension PostDetailViewController: PostDetailReplyCellDelegate {
+  func didTapProfile(_ cell: UITableViewCell) {
+    print("대댓 프로필 클릭")
+  }
+  
+  func didTapHeart(_ cell: UITableViewCell, isOnHeart: Bool) {
+    print("대댓 하트 뿅")
+  }
+  
+  func didCanceledHeart(_ cell: UITableViewCell) {
+    print("대댓 하트 취소")
+  }
+}
+
+// MARK: - PostDetailCommentDelegate
+extension PostDetailViewController: PostDetailCommentDelegate {
+  func didTapHeart(_ header: PostDetailCommentHeaderIdentifiable, _ isOnHeart: Bool) {}
+  
+  func didTapCanceledHeart(_ header: PostDetailCommentHeaderIdentifiable) {}
+  
+  func didTapReply(_ header: PostDetailCommentHeaderIdentifiable) {
+    guard let replySection = header.section else {
+      coordinator?.showAlertForError(with: "대댓글을 작성할 수 없습니다.\n앱 서비스에 문제가 발생됬습니다.", completion: nil)
+      return
+    }
+    input.replyStartNotifier.send(replySection)
+  }
+  
+  func didTapProfile(_ header: PostDetailCommentHeaderIdentifiable) {}
+}
+
 // MARK: - PostDetailInputAccessoryWrapperDelegate
 extension PostDetailViewController: PostDetailInputAccessoryWrapperDelegate {
   func didTouchSendIcon(_ text: String) {
-    // TODO: - 사용자가 섹션을 클릭했다면, 섹션값도 전달해야 함 (대댓글인경우) 대댓글은 대댓글인지 알림후!!
-    print("DEBUG: \(text)")
-    // TODO: - Input, State를 통해 처리되야함
-//    viewModel.appendComment(text)
-//    tableView.reloadData()
-//    tableView.scrollToRow(
-//      at: IndexPath(row: NSNotFound, section: viewModel.numberOfSections-1),
-//      at: .bottom, animated: true)
-//    
+    input.commentSendHandler.send(text)
   }
 }

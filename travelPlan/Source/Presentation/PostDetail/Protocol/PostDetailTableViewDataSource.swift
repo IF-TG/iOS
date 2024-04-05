@@ -16,7 +16,7 @@ protocol PostDetailTableViewDataSource: AnyObject {
   
   var authorUserId: Int32 { get }
   
-  func numberOfItems(in section: Int) -> Int
+  func numberOfRows(in section: Int) -> Int
   func postContentItem(at row: Int) -> PostDetailContentType
   
   func commentItem(in section: Int) -> BasePostDetailCommentInfo

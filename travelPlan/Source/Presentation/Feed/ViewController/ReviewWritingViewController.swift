@@ -11,12 +11,7 @@ import Combine
 import Photos
 
 final class ReviewWritingViewController: UIViewController {
-  // MARK: - Nested
-  enum KeyboardState {
-    case willShow
-    case willHide
-  }
-  
+  // MARK: - Nested  
   enum Constant {
     enum ScrollView {
       static let leading: CGFloat = 15
