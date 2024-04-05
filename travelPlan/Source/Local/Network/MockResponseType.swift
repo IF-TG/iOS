@@ -115,10 +115,12 @@ extension MockResponseType {
   
   enum FavoritePostInDirectory {
     case whenFavoritePostsFetch
+    case whenFavoritePostDirectoryNameUpdate
     
     var filePath: String {
       [
-        .whenFavoritePostsFetch: "mock_favoritePosts_fetch_response"
+        .whenFavoritePostsFetch: "mock_favoritePosts_fetch_response",
+        .whenFavoritePostDirectoryNameUpdate: "mock_favoritePostDirectoryName_update_response"
       ] [self]!
     }
 
