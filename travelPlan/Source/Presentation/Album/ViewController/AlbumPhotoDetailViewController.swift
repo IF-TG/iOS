@@ -59,12 +59,12 @@ final class AlbumPhotoDetailViewController: UIViewController {
     super.viewDidLoad()
     setupUI()
     setupStyles()
+    fetchDetailImage()
     bind()
   }
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    fetchDetailImage()
     navigationItem.hidesBackButton = true
     tabBarController?.tabBar.isHidden = true
     (tabBarController as? MainTabBarController)?.hideShadowLayer()
