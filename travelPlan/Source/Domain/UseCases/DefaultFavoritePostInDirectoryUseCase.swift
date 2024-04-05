@@ -35,4 +35,14 @@ extension DefaultFavoritePostInDirectoryUseCase: FavoritePostInDirectoryUseCase 
       .subscribe(on: backgroundQueue)
       .eraseToAnyPublisher()
   }
+  
+  func toggleFavoritePost(
+    postId: Int64, 
+    directoryName: String
+  ) -> AnyPublisher<FavoritePostToggleEntity, any Error> {
+    return favoritePostInDirectoryRepository
+      .toggleFavoritePost(postId: postId, directoryName: directoryName)
+      .subscribe(on: backgroundQueue)
+      .eraseToAnyPublisher()
+  }
 }

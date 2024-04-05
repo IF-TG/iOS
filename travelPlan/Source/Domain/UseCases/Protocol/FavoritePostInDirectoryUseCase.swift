@@ -15,4 +15,8 @@ protocol FavoritePostInDirectoryUseCase {
     perPage: Int32
   ) -> AnyPublisher<[Post], Error>
 
+  func toggleFavoritePost(
+    postId: Int64,
+    directoryName: String
+  ) -> AnyPublisher<FavoritePostToggleEntity, Error>
 }
