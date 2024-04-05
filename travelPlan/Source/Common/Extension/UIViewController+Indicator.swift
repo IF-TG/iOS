@@ -51,24 +51,20 @@ extension UIViewController {
     guard activeIndicator == nil else { return }
     let indicator = DefaultActivityIndicatorView(style: .large)
     
-    // FIXME: - 스크롤 가능한 뷰에서는 y값이 스크롤 맨 위 기준이 되어버립니다.
-    indicator.center = view.center
+    indicator.center = CGPoint(x: view.bounds.midX, y: view.bounds.midY)
+    indicator.autoresizingMask = [
+      .flexibleLeftMargin,
+      .flexibleRightMargin,
+      .flexibleTopMargin,
+      .flexibleBottomMargin]
+    
     view.addSubview(indicator)
     view.bringSubviewToFront(indicator)
     indicator.startAnimating()
   }
   
-  func startIndicator(fromScrollableView: )
-  
   func stopIndicator() {
     activeIndicator?.stopAnimating()
     activeIndicator?.removeFromSuperview()
-  }
-}
-
-extension UIScrollView {
-  
-  func startIndicator() {
-    
   }
 }
