@@ -47,10 +47,14 @@ final class AlbumCoordinator: FlowCoordinator {
     
     presenter?.pushViewController(albumViewController, animated: true)
   }
+  
+  func popAlbumPhotoDetailViewController() {
+    viewController?.popAlbumPhotoDetailViewController()
+  }
 }
 
 // MARK: - AlbumCoordinatorDelegate
-extension AlbumCoordinator: AlbumCoordinatorDelegate, FlowCoordinatorDelegate {
+extension AlbumCoordinator: AlbumCoordinatorDelegate {
   func showPhotoDetail(_ photoDetailEntity: PhotoDetailEntity) {
     let childCoordinator = AlbumPhotoDetailCoordinator(
       presenter: presenter,
@@ -77,7 +81,7 @@ extension AlbumCoordinator: AlbumCoordinatorDelegate, FlowCoordinatorDelegate {
   }
   
   func finish(selectedAssets: [PHAsset]) {
-    guard parent != nil, let parent = parent as? ReviewWritingCoordinator else { return }
+    guard let parent = parent as? ReviewWritingCoordinator else { return }
     
     parent.getSelectedAssets(selectedAssets)
     finish(withAnimated: true)
