@@ -6,3 +6,7 @@
 //
 
 import Foundation
+
+protocol AlbumPhotoMaxCountUseCase {
+  var selectMaxCount: Int { get }
+}
