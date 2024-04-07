@@ -307,7 +307,7 @@ extension AlbumViewController: PHPhotoLibraryChangeObserver {
   }
 }
 
-// MARK: - Delegate
+// MARK: - Helpers
 extension AlbumViewController {
   func popAlbumPhotoDetailViewController() {
     input.popAlbumPhotoDetailViewController.send()
