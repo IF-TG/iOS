@@ -48,7 +48,7 @@ struct PhotoModel {
   var selectedOrder: SelectionOrder
 }
 
-class SelectedAlbumPhotoWrapper {
+final class SelectedAlbumPhotoWrapper {
   @Published var indexArray = [Int]()
 }
 
