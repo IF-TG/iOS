@@ -160,10 +160,10 @@ extension PostDetailViewController: ViewBindCase {
     switch viewDidLoadState {
     case .loggedInUserInfo(let userProfile):
       inputAccessory.configure(with: userProfile)
-    case .reloadedCommentsWithPostFavoriteInfo:
+    case .reloadedCommentsWithPostFavoriteInfo(let isFavorite):
       tableView.reloadData()
       stopIndicator()
-      // TODO: - 포스트 좋아요 했다면 해당 포스트 favorite 별 파랗게 물들여야 합니다. associated value 추가할 수 있습니다. -> isFavorite 정보!
+      starButton.isSelected = isFavorite
     }
   }
   
@@ -248,7 +248,8 @@ extension PostDetailViewController {
   }
   
   @objc private func didTapStarButton() {
-    print("카운팅스타~ 밤하늘의 퍼어얼")
+    starButton.isSelected.toggle()
+    // TODO: - 토글전에! 찜 디렉터리 보여줘야 합니다!
   }
   
   // MARK: - Keyboard Actions
