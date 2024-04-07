@@ -9,8 +9,8 @@ import UIKit
 import Combine
 
 @frozen enum PostDetailOption: String, CaseIterable {
-  case postBlock = "신고하기"
-  case postReport = "차단하기"
+  case postBlock = "차단하기"
+  case postReport = "신고하기"
 }
 
 final class PostDetailViewController: UITableViewController {
@@ -160,10 +160,10 @@ extension PostDetailViewController: ViewBindCase {
     switch viewDidLoadState {
     case .loggedInUserInfo(let userProfile):
       inputAccessory.configure(with: userProfile)
-    case .reloadedCommentsWithPostFavoriteInfo(let isPostFavorite):
+    case .reloadedCommentsWithPostFavoriteInfo:
       tableView.reloadData()
       stopIndicator()
-      // TODO: - 포스트 좋아요 했다면 해당 포스트 favorite 별 파랗게 물들여야 합니다.
+      // TODO: - 포스트 좋아요 했다면 해당 포스트 favorite 별 파랗게 물들여야 합니다. associated value 추가할 수 있습니다. -> isFavorite 정보!
     }
   }
   
