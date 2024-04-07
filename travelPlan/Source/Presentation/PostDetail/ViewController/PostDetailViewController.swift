@@ -19,7 +19,7 @@ final class PostDetailViewController: UITableViewController {
   
   weak var coordinator: PostDetailCoordinatorDelegate?
   
-  // MARK: - Properties
+  // MARK: - UI Properties
   private let inputAccessory = PostDetailInputAccessoryWrapper()
   
   private let naviTitle = BaseLabel(fontType: .semiBold_600(fontSize: 16))
@@ -28,12 +28,6 @@ final class PostDetailViewController: UITableViewController {
   
   private var naviTitleAnimator: UIViewPropertyAnimator?
   
-  private var isHandlingKeyboardEvent = false
-  
-  private var adapter: PostDetailTableViewAdapter?
-  
-  private var notificationSubscriptions = Set<AnyCancellable>()
-  
   override var canBecomeFirstResponder: Bool {
     return true
   }
@@ -41,6 +35,13 @@ final class PostDetailViewController: UITableViewController {
   override var inputAccessoryView: UIView? {
     return inputAccessory
   }
+  
+  // MARK: - Properties
+  private var isHandlingKeyboardEvent = false
+  
+  private var adapter: PostDetailTableViewAdapter?
+  
+  private var notificationSubscriptions = Set<AnyCancellable>()
   
   private let input = PostDetailViewModelInput()
   
