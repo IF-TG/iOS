@@ -28,8 +28,10 @@ final class AlbumPhotoDetailCoordinator: FlowCoordinator {
   }
   
   func start() {
+    let albumPhotoMaxCountUseCase = DefaultAlbumPhotoMaxCountUseCase()
     let albumPhotoDetailViewModel = DefaultAlbumPhotoDetailViewModel(
-      photoDetailEntity: photoDetailEntity
+      photoDetailEntity: photoDetailEntity,
+      albumPhotoMaxCountUseCase: albumPhotoMaxCountUseCase
     )
     let photoService = DefaultPhotoService()
     let albumPhotoDetailViewController = AlbumPhotoDetailViewController(
