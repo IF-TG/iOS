@@ -124,7 +124,7 @@ extension AlbumPhotoDetailViewController {
         case .setOrder(let order):
           self?.orderView.configureOrderView(orderText: String(order))
         case .popViewController:
-          self?.coordinator?.finish(withAnimated: true)
+          self?.coordinator?.popViewController()
         case .configureUI(let photoModel):
           self?.fetchDetailImage(asset: photoModel.asset)
           self?.configureOrder(selectedOrder: photoModel.selectedOrder)
