@@ -20,6 +20,7 @@ where AlbumViewModelInput == Input,
 
 struct AlbumViewModelInput {
   let viewDidLoad: PassthroughSubject<Void, Never> = .init()
+  let viewWillAppear: PassthroughSubject<Void, Never> = .init()
   let didSelectPhoto: PassthroughSubject<IndexPath, Never> = .init()
   let touchedFirstQuadrant: PassthroughSubject<IndexPath, Never> = .init()
   let touchedElseQuadrant: PassthroughSubject<IndexPath, Never> = .init()
@@ -32,7 +33,7 @@ struct AlbumViewModelInput {
 
 enum AlbumViewModelState {
   case activateFinishButton(Bool)
-  case showDetailPhoto(PhotoModel, selectedCount: Int)
+  case showDetailPhoto(PhotoDetailEntity)
   case reloadItem([IndexPath])
   case reloadData(isAuthLimited: Bool)
   case none
@@ -47,12 +48,21 @@ struct PhotoModel {
   var selectedOrder: SelectionOrder
 }
 
+class SelectedAlbumPhoto {
+  @Published var indexArray = [Int]()
+  var count: Int {
+    indexArray.count
+  }
+}
+
 final class DefaultAlbumViewModel {
   
   // MARK: - Properties
   /// element: 선택된 indexPath.item
   /// index: order-1
-  @Published private var selectedIndexArray = [Int]()
+//  @Published private var selectedIndexArray = [Int]()
+  
+  private let selectedAlbumPhoto = SelectedAlbumPhoto()
   private var subscriptions = Set<AnyCancellable>()
   private let albumUseCase: AlbumUseCase
   private let photoAuthUseCase: PhotoAuthorizationUseCase
@@ -79,6 +89,7 @@ extension DefaultAlbumViewModel: AlbumViewModelable {
   func transform(_ input: AlbumViewModelInput) -> AnyPublisher<AlbumViewModelState, Never> {
     return Publishers.MergeMany(
       viewDidLoadStream(input),
+      viewWillAppear(input),
       touchedFirstQuadrantStream(input),
       touchedElseQuadrantStream(input),
       selectedIndexArrayStream(input),
@@ -94,6 +105,28 @@ extension DefaultAlbumViewModel: AlbumViewModelable {
 
 // MARK: - Private Helpers
 extension DefaultAlbumViewModel {
+  private func viewWillAppear(_ input: Input) -> Output {
+    return input
+      .viewWillAppear
+      .map { [weak self] in
+        guard 
+          let selectedAlbumPhoto = self?.selectedAlbumPhoto,
+          let isAuthLimited = self?.isAuthStatusLimited,
+          let count = self?.dataSource.count
+        else { return State.none }
+        
+        for i in 0..<count {
+          self?.dataSource[i].selectedOrder = .none
+        }
+        
+        for (index, indexPathItem) in selectedAlbumPhoto.indexArray.enumerated() {
+          self?.dataSource[indexPathItem].selectedOrder = .selected(index+1)
+        }
+        
+        return State.reloadData(isAuthLimited: isAuthLimited)
+      }.eraseToAnyPublisher()
+  }
+  
   private func photoLibraryDidChangeStream(_ input: Input) -> Output {
     return input
       .photoLibraryDidChange
@@ -104,7 +137,7 @@ extension DefaultAlbumViewModel {
         guard let assets = self?.albumUseCase.getChangedAssets(changeInstance: changeInstance)
         else { return State.none }
         
-        self?.selectedIndexArray.removeAll()
+        self?.selectedAlbumPhoto.indexArray.removeAll()
         self?.dataSource = assets.map { PhotoModel(asset: $0, selectedOrder: .none) }
     
         return State.reloadData(isAuthLimited: self?.isAuthStatusLimited ?? true)
@@ -143,7 +176,7 @@ extension DefaultAlbumViewModel {
     return input
       .didTapFinishButton
       .map { [weak self] in
-        let selectedAssets = self?.selectedIndexArray.map { indexPathItem in
+        let selectedAssets = self?.selectedAlbumPhoto.indexArray.map { indexPathItem in
           return self?.dataSource[indexPathItem].asset ?? .init()
         }
         return State.deliverAssetsToParents(selectedAssets ?? .init())
@@ -152,7 +185,7 @@ extension DefaultAlbumViewModel {
   }
   
   private func selectedIndexArrayStream(_ input: Input) -> Output {
-    return $selectedIndexArray
+    return selectedAlbumPhoto.$indexArray
       .map { $0.count > 0 ? State.activateFinishButton(true) : State.activateFinishButton(false) }
       .eraseToAnyPublisher()
   }
@@ -184,22 +217,22 @@ extension DefaultAlbumViewModel {
         
         if case .selected = self?.dataSource[indexPath.item].selectedOrder { // 이미 선택이 되어있는 경우
           self?.dataSource[indexPath.item].selectedOrder = .none
-          self?.selectedIndexArray.removeAll { $0 == indexPath.item }
-          self?.selectedIndexArray.enumerated().forEach { index, indexPathItem in
+          self?.selectedAlbumPhoto.indexArray.removeAll { $0 == indexPath.item }
+          self?.selectedAlbumPhoto.indexArray.enumerated().forEach { index, indexPathItem in
             let order = index + 1
             let prev = self?.dataSource[indexPathItem]
             self?.dataSource[indexPathItem] = .init(asset: prev?.asset ?? .init(), selectedOrder: .selected(order))
           }
           updatingIndexPaths = [indexPath] + (
-            self?.selectedIndexArray
+            self?.selectedAlbumPhoto.indexArray
               .map { IndexPath(item: $0, section: .zero) } ?? .init()
           )
         } else { // 선택이 되어있지 않은 경우
-          guard self?.selectedIndexArray.count ?? .zero < self?.albumUseCase.maxSelectedImageCount ?? .zero
+          guard self?.selectedAlbumPhoto.count ?? .zero < self?.albumUseCase.maxSelectedImageCount ?? .zero
           else { return State.none }
           
-          self?.selectedIndexArray.append(indexPath.item)
-          self?.dataSource[indexPath.item].selectedOrder = .selected(self?.selectedIndexArray.count ?? .zero)
+          self?.selectedAlbumPhoto.indexArray.append(indexPath.item)
+          self?.dataSource[indexPath.item].selectedOrder = .selected(self?.selectedAlbumPhoto.count ?? .zero)
           updatingIndexPaths = [indexPath]
         }
         return State.reloadItem(updatingIndexPaths)
@@ -211,11 +244,40 @@ extension DefaultAlbumViewModel {
     return input
       .touchedElseQuadrant
       .map { [weak self] indexPath in
-        return State.showDetailPhoto(
-          self?.dataSource[indexPath.item] ?? .init(asset: .init(), selectedOrder: .none),
-          selectedCount: self?.selectedIndexArray.count ?? .zero
+        guard 
+          let photoModel = self?.dataSource[indexPath.item],
+          let selectedAlbumPhoto = self?.selectedAlbumPhoto
+        else { return State.none }
+        
+        let photoDetailEntity = PhotoDetailEntity(
+          photoModel: photoModel,
+          selectedAlbumPhoto: selectedAlbumPhoto,
+          indexPathItem: indexPath.item
         )
+        
+        return State.showDetailPhoto(photoDetailEntity)
       }
       .eraseToAnyPublisher()
   }
+}
+
+/*
+ AlbumPhotoDetail으로부터 반환 받은 selectedIndexArray를 기반으로 dataSource의 selectedOrder와 selectedIndexArray를 변경해주어야 한다.
+ 
+ PHAsset, selectedIndexArray, indexPath.item
+ 
+ AlbumPhotoDetail에서 orderView 클릭 시,
+ if selectedIndexArray를 순회해서 element에 indexPath.item가 있다면,
+ 제거한다는 의미이므로, selectedIndexArray에서 해당 element를 제거한다.
+ 
+ if selectedIndexArray를 순회해서 element에 indexPath.item가 없다면,
+ 추가 한다는 의미이므로, maxCount제한을 체크하고 그에 따라 처리.
+  - maxCount 제한에 걸리지 않는다면, selectedIndexArray에 해당 indexPath.item을 append
+  - maxCount 제한에 걸린다면, 무효화 처리
+ */
+
+struct PhotoDetailEntity {
+  var photoModel: PhotoModel
+  let selectedAlbumPhoto: SelectedAlbumPhoto
+  var indexPathItem: Int
 }
