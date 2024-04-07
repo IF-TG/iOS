@@ -95,6 +95,7 @@ extension DefaultAlbumPhotoDetailViewModel {
                 let selectedPhotoCount = self?.photoDetailModel.selectedAlbumPhoto.indexArray.count,
                 selectMaxCountPolicy > selectedPhotoCount // maxCount 체크
           else { return State.none }
+          
           selectedAlbumPhoto.indexArray.append(indexPathItem)
           self?.photoDetailModel.photoModel.selectedOrder = .selected(selectedAlbumPhoto.indexArray.count)
           return State.setOrder(selectedAlbumPhoto.indexArray.count)
