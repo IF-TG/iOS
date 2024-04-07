@@ -168,7 +168,7 @@ extension PostHeartAndShareAreaHeaderView: LayoutSupport {
      commentStackView,
      shareButton,
      postOptionIcon
-    ].forEach { addSubview($0) }
+    ].forEach { contentView.addSubview($0) }
   }
   
   func setConstraints() {
@@ -179,29 +179,33 @@ extension PostHeartAndShareAreaHeaderView: LayoutSupport {
   }
   
   private var heartStackViewConstraints: [NSLayoutConstraint] {
+    let bottom = heartStackView.bottomAnchor.constraint(
+      equalTo: contentView.bottomAnchor, constant: -12)
+    bottom.priority = .defaultHigh
     return [
-      heartStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 11),
-      heartStackView.topAnchor.constraint(equalTo: topAnchor, constant: 12),
-      heartStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -12)]
+      heartStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 11),
+      heartStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
+      bottom]
   }
   
   private var commentStackViewConstriants: [NSLayoutConstraint] {
     return [
-      commentStackView.leadingAnchor.constraint( equalTo: heartStackView.trailingAnchor, constant: 12.5),
-      commentStackView.centerYAnchor.constraint(equalTo: centerYAnchor)]
+      commentStackView.leadingAnchor.constraint(equalTo: heartStackView.trailingAnchor, constant: 12.5),
+      commentStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)]
   }
   
   private var shareIconConstraints: [NSLayoutConstraint] {
     return [
-      shareButton.centerYAnchor.constraint(equalTo: centerYAnchor),
+      shareButton.leadingAnchor.constraint(greaterThanOrEqualTo: commentStackView.trailingAnchor),
+      shareButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
       shareButton.heightAnchor.constraint(equalToConstant: 18),
       shareButton.widthAnchor.constraint(equalToConstant: 18)]
   }
 
   private var postOptionIconConstraints: [NSLayoutConstraint] {
     return [
-      postOptionIcon.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -21),
-      postOptionIcon.centerYAnchor.constraint(equalTo: centerYAnchor),
+      postOptionIcon.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -21),
+      postOptionIcon.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
       postOptionIcon.widthAnchor.constraint(equalToConstant: 24),
       postOptionIcon.heightAnchor.constraint(equalToConstant: 18),
       postOptionIcon.leadingAnchor.constraint(equalTo: shareButton.trailingAnchor, constant: 20)]
