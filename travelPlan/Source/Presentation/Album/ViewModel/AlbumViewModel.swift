@@ -48,14 +48,14 @@ struct PhotoModel {
   var selectedOrder: SelectionOrder
 }
 
-class SelectedAlbumPhoto {
+class SelectedAlbumPhotoWrapper {
   @Published var indexArray = [Int]()
 }
 
 final class DefaultAlbumViewModel {
   
   // MARK: - Properties
-  private let selectedAlbumPhoto = SelectedAlbumPhoto()
+  private let selectedAlbumPhoto = SelectedAlbumPhotoWrapper()
   private var subscriptions = Set<AnyCancellable>()
   private let albumUseCase: any AlbumUseCase
   private let photoAuthUseCase: any PhotoAuthorizationUseCase
@@ -270,6 +270,6 @@ extension DefaultAlbumViewModel {
 
 struct PhotoDetailEntity {
   var photoModel: PhotoModel
-  let selectedAlbumPhoto: SelectedAlbumPhoto
+  let selectedAlbumPhoto: SelectedAlbumPhotoWrapper
   var indexPathItem: Int
 }
