@@ -75,7 +75,7 @@ extension DefaultAlbumPhotoDetailViewModel {
   
   private func didTapOrderViewStream(_ input: Input) -> Output {
     input.didTapOrderView
-      .map { [weak self] in // [weak self]
+      .map { [weak self] in
         guard 
           let selectedAlbumPhoto = self?.photoDetailEntity.selectedAlbumPhoto,
           let indexPathItem = self?.photoDetailEntity.indexPathItem
