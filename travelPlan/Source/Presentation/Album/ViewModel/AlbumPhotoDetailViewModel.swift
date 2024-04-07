@@ -29,13 +29,15 @@ enum AlbumPhotoDetailViewModelState {
 
 final class DefaultAlbumPhotoDetailViewModel {
   // MARK: - Properties
-  private var photoModel: PhotoModel
-  private var selectedCount: Int
+  private var photoDetailEntity: PhotoDetailEntity
+//  private var selectedCount: Int
+  
+//  private var selectedIndexArray = [Int]()
+//  private var indexPathItem = 0
   
   // MARK: - LifeCycle
-  init(photoModel: PhotoModel, selectedCount: Int) {
-    self.photoModel = photoModel
-    self.selectedCount = selectedCount
+  init(photoDetailEntity: PhotoDetailEntity) {
+    self.photoDetailEntity = photoDetailEntity
   }
 }
 
@@ -56,7 +58,9 @@ extension DefaultAlbumPhotoDetailViewModel {
   private func viewDidLoadStream(_ input: Input) -> Output {
     input.viewDidLoad
       .map { [weak self] in
-        State.configureUI(self?.photoModel ?? .init(asset: .init(), selectedOrder: .none))
+        guard let photoDetailEntity = self?.photoDetailEntity else { return .none }
+        
+        return State.configureUI(photoDetailEntity.photoModel)
       }
       .eraseToAnyPublisher()
   }
@@ -71,17 +75,22 @@ extension DefaultAlbumPhotoDetailViewModel {
   
   private func didTapOrderViewStream(_ input: Input) -> Output {
     input.didTapOrderView
-      .map { [weak self] in
-        guard let selectedOrder = self?.photoModel.selectedOrder else { return State.none }
-        switch selectedOrder {
-        case .selected:
-          self?.selectedCount -= 1
-          self?.photoModel.selectedOrder = .none
+      .map { [weak self] in // [weak self]
+        guard 
+          let selectedAlbumPhoto = self?.photoDetailEntity.selectedAlbumPhoto,
+          let indexPathItem = self?.photoDetailEntity.indexPathItem
+        else { return State.none }
+         
+        // selectedIndexArray에 indexPath가 있다면 제거
+        if let index = selectedAlbumPhoto.indexArray.firstIndex(of: indexPathItem) {
+          selectedAlbumPhoto.indexArray.remove(at: index)
+          self?.photoDetailEntity.photoModel.selectedOrder = .none
           return State.cancelOrder
-        case .none:
-          self?.selectedCount += 1
-          self?.photoModel.selectedOrder = .selected(self?.selectedCount ?? .zero)
-          return State.setOrder(self?.selectedCount ?? .zero)
+        } else { // 없다면
+          // maxCount체크 후, 이상 없으면
+          selectedAlbumPhoto.indexArray.append(indexPathItem)
+          self?.photoDetailEntity.photoModel.selectedOrder = .selected(selectedAlbumPhoto.count)
+          return State.setOrder(selectedAlbumPhoto.count)
         }
       }
       .eraseToAnyPublisher()
@@ -98,4 +107,18 @@ extension DefaultAlbumPhotoDetailViewModel {
  안눌려있다면,
  orderCount += 1 갱신
  order 추가하기(orderCount texting)
+ */
+
+
+/*
+ PHAsset, selectedIndexArray, indexPath.item
+ 
+ AlbumPhotoDetail에서 orderView 클릭 시,
+ if selectedIndexArray를 순회해서 element에 indexPath.item가 있다면,
+ 제거한다는 의미이므로, selectedIndexArray에서 해당 element를 제거한다.
+ 
+ if selectedIndexArray를 순회해서 element에 indexPath.item가 없다면,
+ 추가 한다는 의미이므로, maxCount제한을 체크하고 그에 따라 처리.
+  - maxCount 제한에 걸리지 않는다면, selectedIndexArray에 해당 indexPath.item을 append
+  - maxCount 제한에 걸린다면, 무효화 처리
  */
