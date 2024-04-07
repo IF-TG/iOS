@@ -11,7 +11,8 @@ final class PostDetailTableViewAdapter: NSObject {
   typealias PostDetailTableViewDelegates = (
     PostDetailTableViewAdapterDelegate &
     PostDetailReplyCellDelegate &
-    PostDetailCommentDelegate)
+    PostDetailCommentDelegate &
+    PostHeartAndShareAreaHeaderViewDelegate)
   
   // MARK: - Properties
   private weak var dataSource: PostDetailTableViewDataSource?
@@ -137,6 +138,7 @@ extension PostDetailTableViewAdapter: UITableViewDelegate {
       ) as? PostHeartAndShareAreaHeaderView else {
         return nil
       }
+      postHeartAreaHeader.delegate = self
       return postHeartAreaHeader
     default:
       guard let commentHeader = tableView.dequeueReusableHeaderFooterView(
@@ -277,5 +279,20 @@ extension PostDetailTableViewAdapter: PostDetailCommentDelegate {
   
   func didTapProfile(_ header: any PostDetailCommentHeaderIdentifiable) {
     delegate?.didTapProfile(header)
+  }
+}
+
+// MARK: - PostHeartAndShareAreaHeaderViewDelegate
+extension PostDetailTableViewAdapter: PostHeartAndShareAreaHeaderViewDelegate {
+  func didTapOption() {
+    delegate?.didTapOption()
+  }
+  
+  func didTapHeart(isFavorite: Bool) {
+    delegate?.didTapHeart(isFavorite: isFavorite)
+  }
+  
+  func didTapShare() {
+    delegate?.didTapShare()
   }
 }

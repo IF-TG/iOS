@@ -347,3 +347,18 @@ extension PostDetailViewController: PostDetailInputAccessoryWrapperDelegate {
     input.commentSendHandler.send(text)
   }
 }
+
+// MARK: - PostHeartAndShareAreaHeaderViewDelegate
+extension PostDetailViewController: PostHeartAndShareAreaHeaderViewDelegate {
+  func didTapOption() {
+    print("옵션클릭")
+  }
+  
+  func didTapHeart(isFavorite: Bool) {
+    print("포스트 하트클릭")
+  }
+  
+  func didTapShare() {
+    print("공유클릭 도깨비 아님주의.")
+  }
+}
