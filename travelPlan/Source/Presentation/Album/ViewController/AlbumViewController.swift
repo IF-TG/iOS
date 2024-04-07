@@ -90,6 +90,8 @@ final class AlbumViewController: UIViewController {
     super.viewWillAppear(animated)
     tabBarController?.tabBar.isHidden = true
     (tabBarController as? MainTabBarController)?.hideShadowLayer()
+    
+    input.viewWillAppear.send()
   }
   
   override func viewWillDisappear(_ animated: Bool) {
@@ -220,8 +222,8 @@ extension AlbumViewController {
         switch state {
         case .none:
           break
-        case let .showDetailPhoto(photoModel, selectedCount):
-          self?.coordinator?.showPhotoDetail(photoModel: photoModel, selectedCount: selectedCount)
+        case let .showDetailPhoto(photoDetailEntity):
+          self?.coordinator?.showPhotoDetail(photoDetailEntity)
         case let .reloadData(isAuthLimited):
           self?.collectionViewReloadData(isAuthLimited: isAuthLimited)
         case .reloadItem(let indexPaths):
