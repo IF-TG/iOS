@@ -33,7 +33,7 @@ struct AlbumViewModelInput {
 
 enum AlbumViewModelState {
   case activateFinishButton(Bool)
-  case showDetailPhoto(PhotoDetailEntity)
+  case showDetailPhoto(PhotoDetailModel)
   case reloadItem([IndexPath])
   case reloadData(isAuthLimited: Bool)
   case none
@@ -256,20 +256,14 @@ extension DefaultAlbumViewModel {
           let selectedAlbumPhoto = self?.selectedAlbumPhoto
         else { return State.none }
         
-        let photoDetailEntity = PhotoDetailEntity(
+        let photoDetailModel = PhotoDetailModel(
           photoModel: photoModel,
           selectedAlbumPhoto: selectedAlbumPhoto,
           indexPathItem: indexPath.item
         )
         
-        return State.showDetailPhoto(photoDetailEntity)
+        return State.showDetailPhoto(photoDetailModel)
       }
       .eraseToAnyPublisher()
   }
-}
-
-struct PhotoDetailEntity {
-  var photoModel: PhotoModel
-  let selectedAlbumPhoto: SelectedAlbumPhotoWrapper
-  var indexPathItem: Int
 }

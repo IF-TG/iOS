@@ -19,18 +19,18 @@ final class AlbumPhotoDetailCoordinator: FlowCoordinator {
   var parent: FlowCoordinator?
   var child: [FlowCoordinator] = []
   var presenter: UINavigationController?
-  private let photoDetailEntity: PhotoDetailEntity
+  private let photoDetailModel: PhotoDetailModel
   
   // MARK: - LifeCycle
-  init(presenter: UINavigationController?, photoDetailEntity: PhotoDetailEntity) {
+  init(presenter: UINavigationController?, photoDetailModel: PhotoDetailModel) {
     self.presenter = presenter
-    self.photoDetailEntity = photoDetailEntity
+    self.photoDetailModel = photoDetailModel
   }
   
   func start() {
     let albumPhotoMaxCountUseCase = DefaultAlbumPhotoMaxCountUseCase()
     let albumPhotoDetailViewModel = DefaultAlbumPhotoDetailViewModel(
-      photoDetailEntity: photoDetailEntity,
+      photoDetailModel: photoDetailModel,
       albumPhotoMaxCountUseCase: albumPhotoMaxCountUseCase
     )
     let photoService = DefaultPhotoService()

@@ -8,6 +8,12 @@
 import Foundation
 import Combine
 
+struct PhotoDetailModel {
+  var photoModel: PhotoModel
+  let selectedAlbumPhoto: SelectedAlbumPhotoWrapper
+  var indexPathItem: Int
+}
+
 protocol AlbumPhotoDetailViewModelable: ViewModelable
 where Input == AlbumPhotoDetailViewModelInput,
       State == AlbumPhotoDetailViewModelState,
@@ -29,12 +35,12 @@ enum AlbumPhotoDetailViewModelState {
 
 final class DefaultAlbumPhotoDetailViewModel {
   // MARK: - Properties
-  private var photoDetailEntity: PhotoDetailEntity
+  private var photoDetailModel: PhotoDetailModel
   private let albumPhotoMaxCountUseCase: any AlbumPhotoMaxCountUseCase
   
   // MARK: - LifeCycle
-  init(photoDetailEntity: PhotoDetailEntity, albumPhotoMaxCountUseCase: any AlbumPhotoMaxCountUseCase) {
-    self.photoDetailEntity = photoDetailEntity
+  init(photoDetailModel: PhotoDetailModel, albumPhotoMaxCountUseCase: any AlbumPhotoMaxCountUseCase) {
+    self.photoDetailModel = photoDetailModel
     self.albumPhotoMaxCountUseCase = albumPhotoMaxCountUseCase
   }
 }
@@ -56,9 +62,9 @@ extension DefaultAlbumPhotoDetailViewModel {
   private func viewDidLoadStream(_ input: Input) -> Output {
     input.viewDidLoad
       .map { [weak self] in
-        guard let photoDetailEntity = self?.photoDetailEntity else { return .none }
+        guard let photoDetailModel = self?.photoDetailModel else { return .none }
         
-        return State.configureUI(photoDetailEntity.photoModel)
+        return State.configureUI(photoDetailModel.photoModel)
       }
       .eraseToAnyPublisher()
   }
@@ -75,22 +81,22 @@ extension DefaultAlbumPhotoDetailViewModel {
     input.didTapOrderView
       .map { [weak self] in
         guard 
-          let selectedAlbumPhoto = self?.photoDetailEntity.selectedAlbumPhoto,
-          let indexPathItem = self?.photoDetailEntity.indexPathItem
+          let selectedAlbumPhoto = self?.photoDetailModel.selectedAlbumPhoto,
+          let indexPathItem = self?.photoDetailModel.indexPathItem
         else { return State.none }
          
         // selectedIndexArray에 indexPath가 있다면 제거
         if let index = selectedAlbumPhoto.indexArray.firstIndex(of: indexPathItem) {
           selectedAlbumPhoto.indexArray.remove(at: index)
-          self?.photoDetailEntity.photoModel.selectedOrder = .none
+          self?.photoDetailModel.photoModel.selectedOrder = .none
           return State.cancelOrder
         } else { // 없다면
           guard let selectMaxCountPolicy = self?.albumPhotoMaxCountUseCase.selectMaxCount,
-                let selectedPhotoCount = self?.photoDetailEntity.selectedAlbumPhoto.indexArray.count,
+                let selectedPhotoCount = self?.photoDetailModel.selectedAlbumPhoto.indexArray.count,
                 selectMaxCountPolicy > selectedPhotoCount // maxCount 체크
           else { return State.none }
           selectedAlbumPhoto.indexArray.append(indexPathItem)
-          self?.photoDetailEntity.photoModel.selectedOrder = .selected(selectedAlbumPhoto.indexArray.count)
+          self?.photoDetailModel.photoModel.selectedOrder = .selected(selectedAlbumPhoto.indexArray.count)
           return State.setOrder(selectedAlbumPhoto.indexArray.count)
         }
       }
