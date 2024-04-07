@@ -11,10 +11,10 @@ import SHCoordinator
 protocol PostDetailCoordinatorDelegate: FlowCoordinatorDelegate {
   func showAlertForError(with description: String, completion: (() -> Void)?)
   func showAnAlertToAskWhetherToCancelWrittingTheReply(completion: ((Bool) -> Void)?)
-  func showOption(handler: ((PostDetailOption)->Void)?)
-  func showPostAuthorBlock(_ authorName: String, handler: ((Bool)->Void)?)
+  func showOption(handler: ((PostDetailOption) -> Void)?)
+  func showPostAuthorBlock(_ authorName: String, handler: ((Bool) -> Void)?)
   /// 신고하기 종류 추가.
-  func showPostAuthorReport(handler: ((PostReportType)->Void)?)
+  func showPostAuthorReport(handler: ((PostReportType) -> Void)?)
 }
 
 // MARK: - PostDetailCoordinator
