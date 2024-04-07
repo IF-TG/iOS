@@ -38,7 +38,12 @@ final class AlbumCoordinator: FlowCoordinator {
   func start() {
     let albumUsecase = DefaultAlbumUseCase()
     let photoAuthUseCase = DefaultPhotoAuthorizationUseCase()
-    let viewModel = DefaultAlbumViewModel(albumUseCase: albumUsecase, photoAuthUseCase: photoAuthUseCase)
+    let albumPhotoMaxCountUseCase = DefaultAlbumPhotoMaxCountUseCase()
+    let viewModel = DefaultAlbumViewModel(
+      albumUseCase: albumUsecase,
+      photoAuthUseCase: photoAuthUseCase,
+      albumPhotoMaxCountUseCase: albumPhotoMaxCountUseCase
+    )
     let photoService = DefaultPhotoService()
     let albumViewController = AlbumViewController(viewModel: viewModel, photoService: photoService)
     viewController = albumViewController
