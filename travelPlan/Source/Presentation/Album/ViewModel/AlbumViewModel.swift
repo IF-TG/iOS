@@ -50,23 +50,16 @@ struct PhotoModel {
 
 class SelectedAlbumPhoto {
   @Published var indexArray = [Int]()
-  var count: Int {
-    indexArray.count
-  }
 }
 
 final class DefaultAlbumViewModel {
   
   // MARK: - Properties
-  /// element: 선택된 indexPath.item
-  /// index: order-1
-//  @Published private var selectedIndexArray = [Int]()
-  
   private let selectedAlbumPhoto = SelectedAlbumPhoto()
   private var subscriptions = Set<AnyCancellable>()
-  private let albumUseCase: AlbumUseCase
-  private let photoAuthUseCase: PhotoAuthorizationUseCase
-  var albums = [PHFetchResult<PHAsset>]()
+  private let albumUseCase: any AlbumUseCase
+  private let photoAuthUseCase: any PhotoAuthorizationUseCase
+  private let albumPhotoMaxCountUseCase: any AlbumPhotoMaxCountUseCase
   var dataSource = [PhotoModel]()
   
   private var isAuthStatusLimited: Bool {
@@ -78,9 +71,14 @@ final class DefaultAlbumViewModel {
   }
   
   // MARK: - LifeCycle
-  init(albumUseCase: AlbumUseCase, photoAuthUseCase: PhotoAuthorizationUseCase) {
+  init(
+    albumUseCase: any AlbumUseCase,
+    photoAuthUseCase: any PhotoAuthorizationUseCase,
+    albumPhotoMaxCountUseCase: any AlbumPhotoMaxCountUseCase
+  ) {
     self.albumUseCase = albumUseCase
     self.photoAuthUseCase = photoAuthUseCase
+    self.albumPhotoMaxCountUseCase = albumPhotoMaxCountUseCase
   }
 }
 
@@ -212,7 +210,11 @@ extension DefaultAlbumViewModel {
     return input
       .touchedFirstQuadrant
       .map { [weak self] indexPath in
-        
+        guard
+          let selectedAlbumPhotoCount = self?.selectedAlbumPhoto.indexArray.count,
+          let selectMaxCountPolicy = self?.albumPhotoMaxCountUseCase.selectMaxCount
+        else { return State.none }
+          
         let updatingIndexPaths: [IndexPath]
         
         if case .selected = self?.dataSource[indexPath.item].selectedOrder { // 이미 선택이 되어있는 경우
@@ -221,18 +223,23 @@ extension DefaultAlbumViewModel {
           self?.selectedAlbumPhoto.indexArray.enumerated().forEach { index, indexPathItem in
             let order = index + 1
             let prev = self?.dataSource[indexPathItem]
-            self?.dataSource[indexPathItem] = .init(asset: prev?.asset ?? .init(), selectedOrder: .selected(order))
+            self?.dataSource[indexPathItem] = .init(
+              asset: prev?.asset ?? .init(),
+              selectedOrder: .selected(order)
+            )
           }
           updatingIndexPaths = [indexPath] + (
             self?.selectedAlbumPhoto.indexArray
               .map { IndexPath(item: $0, section: .zero) } ?? .init()
           )
         } else { // 선택이 되어있지 않은 경우
-          guard self?.selectedAlbumPhoto.count ?? .zero < self?.albumUseCase.maxSelectedImageCount ?? .zero
+          guard selectedAlbumPhotoCount < selectMaxCountPolicy
           else { return State.none }
           
           self?.selectedAlbumPhoto.indexArray.append(indexPath.item)
-          self?.dataSource[indexPath.item].selectedOrder = .selected(self?.selectedAlbumPhoto.count ?? .zero)
+          self?.dataSource[indexPath.item].selectedOrder = .selected(
+            self?.selectedAlbumPhoto.indexArray.count ?? .zero
+          )
           updatingIndexPaths = [indexPath]
         }
         return State.reloadItem(updatingIndexPaths)
@@ -260,21 +267,6 @@ extension DefaultAlbumViewModel {
       .eraseToAnyPublisher()
   }
 }
-
-/*
- AlbumPhotoDetail으로부터 반환 받은 selectedIndexArray를 기반으로 dataSource의 selectedOrder와 selectedIndexArray를 변경해주어야 한다.
- 
- PHAsset, selectedIndexArray, indexPath.item
- 
- AlbumPhotoDetail에서 orderView 클릭 시,
- if selectedIndexArray를 순회해서 element에 indexPath.item가 있다면,
- 제거한다는 의미이므로, selectedIndexArray에서 해당 element를 제거한다.
- 
- if selectedIndexArray를 순회해서 element에 indexPath.item가 없다면,
- 추가 한다는 의미이므로, maxCount제한을 체크하고 그에 따라 처리.
-  - maxCount 제한에 걸리지 않는다면, selectedIndexArray에 해당 indexPath.item을 append
-  - maxCount 제한에 걸린다면, 무효화 처리
- */
 
 struct PhotoDetailEntity {
   var photoModel: PhotoModel
