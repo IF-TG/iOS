@@ -117,15 +117,14 @@ extension AlbumPhotoDetailViewController {
       .receive(on: RunLoop.main)
       .sink { [weak self] state in
         switch state {
+        case .none:
+          break
         case .cancelOrder:
           self?.orderView.initializeUI()
         case .setOrder(let order):
           self?.orderView.configureOrderView(orderText: String(order))
-          break
         case .popViewController:
           self?.coordinator?.finish(withAnimated: true)
-        case .none:
-          break
         case .configureUI(let photoModel):
           self?.fetchDetailImage(asset: photoModel.asset)
           self?.configureOrder(selectedOrder: photoModel.selectedOrder)
