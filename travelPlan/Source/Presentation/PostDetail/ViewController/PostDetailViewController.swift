@@ -147,6 +147,13 @@ extension PostDetailViewController: ViewBindCase {
       handleNestedCommentState(commentState)
     case .postOption(let postOptionState):
       handleShowUserBlock(postOptionState)
+    case .postReport(let postOptionState):
+      switch postOptionState {
+      case .postBlock:
+        print("사용자 차단 알림창! -> 화면 나가기? + 지우기?")
+      case .postReport:
+        print("포스트 신고 차단 알림창만 띄우기?!")
+      }
     }
   }
   
@@ -204,19 +211,15 @@ extension PostDetailViewController: ViewBindCase {
   func handleShowUserBlock(_ postOptionState: PostDetailOptionState) {
     switch postOptionState {
     case .showUserBlock(let authorName):
-      coordinator?.showPostAuthorBlock(authorName) { wannaBlock in
-        if wannaBlock {
-          // TODO: - 차단 로직 호출
-          print("서버 차단 호출")
-        }
+      coordinator?.showPostAuthorBlock(authorName) { [weak self] wannaBlock in
+        if wannaBlock { self?.input.postAuthorBlockNotifier.send() }
       }
     case .showUserReport:
-      coordinator?.showPostAuthorReport { reportType in
-        // TODO: - 신고 로직 호출
-        print(reportType)
+      coordinator?.showPostAuthorReport { [weak self] reportType in
+        if reportType == .stopRequest { return }
+        self?.input.postReportNotifier.send(reportType)
       }
     }
-    
   }
   
   func handleError(_ error: any ErrorType) { }
@@ -299,8 +302,8 @@ extension PostDetailViewController: PostDetailTableViewAdapterDelegate {
         self.naviTitle.alpha = 0
         self.naviTitle.transform = .init(translationX: 0, y: self.naviTitle.font.lineHeight)
       })
-    naviTitleAnimator?.addCompletion { _ in
-      self.naviTitle.isHidden = true
+    naviTitleAnimator?.addCompletion { [weak self] _ in
+      self?.naviTitle.isHidden = true
     }
     naviTitleAnimator?.startAnimation()
   }
@@ -319,8 +322,8 @@ extension PostDetailViewController: PostDetailTableViewAdapterDelegate {
         self.naviTitle.transform = .identity
         self.naviTitle.alpha = 1
       })
-    naviTitleAnimator?.addCompletion { _ in
-      self.naviTitle.isHidden = false
+    naviTitleAnimator?.addCompletion { [weak self] _ in
+      self?.naviTitle.isHidden = false
     }
     naviTitleAnimator?.startAnimation()
   }
