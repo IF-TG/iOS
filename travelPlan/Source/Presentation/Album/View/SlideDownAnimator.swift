@@ -22,7 +22,7 @@ class SlideDownAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     UIView.animate(
       withDuration: transitionDuration(using: transitionContext),
       animations: {
-        fromView.transform = .identity
+        fromView.transform = .init(translationX: .zero, y: containerView.frame.height)
       }) { completed in
         transitionContext.completeTransition(completed)
       }
