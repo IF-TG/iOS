@@ -30,14 +30,12 @@ enum AlbumPhotoDetailViewModelState {
 final class DefaultAlbumPhotoDetailViewModel {
   // MARK: - Properties
   private var photoDetailEntity: PhotoDetailEntity
-//  private var selectedCount: Int
-  
-//  private var selectedIndexArray = [Int]()
-//  private var indexPathItem = 0
+  private let albumPhotoMaxCountUseCase: any AlbumPhotoMaxCountUseCase
   
   // MARK: - LifeCycle
-  init(photoDetailEntity: PhotoDetailEntity) {
+  init(photoDetailEntity: PhotoDetailEntity, albumPhotoMaxCountUseCase: any AlbumPhotoMaxCountUseCase) {
     self.photoDetailEntity = photoDetailEntity
+    self.albumPhotoMaxCountUseCase = albumPhotoMaxCountUseCase
   }
 }
 
@@ -87,38 +85,15 @@ extension DefaultAlbumPhotoDetailViewModel {
           self?.photoDetailEntity.photoModel.selectedOrder = .none
           return State.cancelOrder
         } else { // 없다면
-          // maxCount체크 후, 이상 없으면
+          guard let selectMaxCountPolicy = self?.albumPhotoMaxCountUseCase.selectMaxCount,
+                let selectedPhotoCount = self?.photoDetailEntity.selectedAlbumPhoto.indexArray.count,
+                selectMaxCountPolicy > selectedPhotoCount // maxCount 체크
+          else { return State.none }
           selectedAlbumPhoto.indexArray.append(indexPathItem)
-          self?.photoDetailEntity.photoModel.selectedOrder = .selected(selectedAlbumPhoto.count)
-          return State.setOrder(selectedAlbumPhoto.count)
+          self?.photoDetailEntity.photoModel.selectedOrder = .selected(selectedAlbumPhoto.indexArray.count)
+          return State.setOrder(selectedAlbumPhoto.indexArray.count)
         }
       }
       .eraseToAnyPublisher()
   }
 }
-/*
- orderView tap
- 이미 눌려있다면,
- orderCount -= 1 갱신
- order 제거
- (이때 추후에 또 눌린다면, orderCount를 texting)
- 
- 
- 안눌려있다면,
- orderCount += 1 갱신
- order 추가하기(orderCount texting)
- */
-
-
-/*
- PHAsset, selectedIndexArray, indexPath.item
- 
- AlbumPhotoDetail에서 orderView 클릭 시,
- if selectedIndexArray를 순회해서 element에 indexPath.item가 있다면,
- 제거한다는 의미이므로, selectedIndexArray에서 해당 element를 제거한다.
- 
- if selectedIndexArray를 순회해서 element에 indexPath.item가 없다면,
- 추가 한다는 의미이므로, maxCount제한을 체크하고 그에 따라 처리.
-  - maxCount 제한에 걸리지 않는다면, selectedIndexArray에 해당 indexPath.item을 append
-  - maxCount 제한에 걸린다면, 무효화 처리
- */
