@@ -90,8 +90,6 @@ final class AlbumViewController: UIViewController {
     super.viewWillAppear(animated)
     tabBarController?.tabBar.isHidden = true
     (tabBarController as? MainTabBarController)?.hideShadowLayer()
-    
-    input.viewWillAppear.send()
   }
   
   override func viewWillDisappear(_ animated: Bool) {
@@ -306,5 +304,12 @@ extension AlbumViewController: PhotoAuthorizationViewDelegate {
 extension AlbumViewController: PHPhotoLibraryChangeObserver {
   func photoLibraryDidChange(_ changeInstance: PHChange) {
     input.photoLibraryDidChange.send(changeInstance)
+  }
+}
+
+// MARK: - Delegate
+extension AlbumViewController {
+  func popAlbumPhotoDetailViewController() {
+    input.popAlbumPhotoDetailViewController.send()
   }
 }

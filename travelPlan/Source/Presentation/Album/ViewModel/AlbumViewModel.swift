@@ -20,7 +20,7 @@ where AlbumViewModelInput == Input,
 
 struct AlbumViewModelInput {
   let viewDidLoad: PassthroughSubject<Void, Never> = .init()
-  let viewWillAppear: PassthroughSubject<Void, Never> = .init()
+  let popAlbumPhotoDetailViewController: PassthroughSubject<Void, Never> = .init()
   let didSelectPhoto: PassthroughSubject<IndexPath, Never> = .init()
   let touchedFirstQuadrant: PassthroughSubject<IndexPath, Never> = .init()
   let touchedElseQuadrant: PassthroughSubject<IndexPath, Never> = .init()
@@ -89,7 +89,7 @@ extension DefaultAlbumViewModel: AlbumViewModelable {
   func transform(_ input: AlbumViewModelInput) -> AnyPublisher<AlbumViewModelState, Never> {
     return Publishers.MergeMany(
       viewDidLoadStream(input),
-      viewWillAppear(input),
+      popAlbumPhotoDetailViewControllerStream(input),
       touchedFirstQuadrantStream(input),
       touchedElseQuadrantStream(input),
       selectedIndexArrayStream(input),
@@ -105,9 +105,9 @@ extension DefaultAlbumViewModel: AlbumViewModelable {
 
 // MARK: - Private Helpers
 extension DefaultAlbumViewModel {
-  private func viewWillAppear(_ input: Input) -> Output {
+  private func popAlbumPhotoDetailViewControllerStream(_ input: Input) -> Output {
     return input
-      .viewWillAppear
+      .popAlbumPhotoDetailViewController
       .map { [weak self] in
         guard 
           let selectedAlbumPhoto = self?.selectedAlbumPhoto,
