@@ -149,12 +149,9 @@ extension PostDetailViewController: ViewBindCase {
     case .postOption(let postOptionState):
       handleShowUserBlock(postOptionState)
     case .postReport(let postOptionState):
-      switch postOptionState {
-      case .postBlock:
-        print("사용자 차단 알림창! -> 화면 나가기? + 지우기?")
-      case .postReport:
-        print("포스트 신고 차단 알림창만 띄우기?!")
-      }
+      coordinator?.showPostReportResult(wtih: postOptionState)
+      // TODO: - 포스트 차단의 경우 포스트 상세 나간 후에 이 post 제거로직 추가해주기.
+      // 화면에는 차단한 포스트 안보여야하니므로.
     }
   }
   
@@ -216,7 +213,7 @@ extension PostDetailViewController: ViewBindCase {
         if wannaBlock { self?.input.postAuthorBlockNotifier.send() }
       }
     case .showUserReport:
-      coordinator?.showPostAuthorReport { [weak self] reportType in
+      coordinator?.showPostReport { [weak self] reportType in
         if reportType == .stopRequest { return }
         self?.input.postReportNotifier.send(reportType)
       }

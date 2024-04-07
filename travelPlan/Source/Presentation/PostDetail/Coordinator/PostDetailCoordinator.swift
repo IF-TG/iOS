@@ -14,7 +14,8 @@ protocol PostDetailCoordinatorDelegate: FlowCoordinatorDelegate {
   func showOption(handler: ((PostDetailOption) -> Void)?)
   func showPostAuthorBlock(_ authorName: String, handler: ((Bool) -> Void)?)
   /// 신고하기 종류 추가.
-  func showPostAuthorReport(handler: ((PostReportType) -> Void)?)
+  func showPostReport(handler: ((PostReportType) -> Void)?)
+  func showPostReportResult(wtih option: PostDetailOption)
 }
 
 // MARK: - PostDetailCoordinator
@@ -103,7 +104,7 @@ extension PostDetailCoordinator: PostDetailCoordinatorDelegate {
     presenter?.present(alert, animated: true)
   }
   
-  func showPostAuthorReport(handler: ((PostReportType) -> Void)?) {
+  func showPostReport(handler: ((PostReportType) -> Void)?) {
     let alert = UIAlertController(title: "신고하기", message: nil, preferredStyle: .alert)
     PostReportType.allCases.forEach { report in
       var isStoppedRequest = false
@@ -113,6 +114,15 @@ extension PostDetailCoordinator: PostDetailCoordinatorDelegate {
       }
     }
     presenter?.present(alert, animated: true, completion: nil)
+  }
+  
+  func showPostReportResult(wtih option: PostDetailOption) {
+    switch option {
+    case .postBlock:
+      presenter?.present(PostOptionResultAlertController(type: .postAuthorBlock), animated: true)
+    case .postReport:
+      presenter?.present(PostOptionResultAlertController(type: .postReport), animated: true)
+    }
   }
 }
 
