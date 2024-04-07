@@ -46,7 +46,6 @@ class PostHeaderContentBottomView: UIView {
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.text = " "
     $0.textColor = Constant.UserName.textColor
-    $0.textAlignment = .left
     $0.numberOfLines = 1
     $0.font = Constant.UserName.font
     $0.isUserInteractionEnabled = true
@@ -58,7 +57,6 @@ class PostHeaderContentBottomView: UIView {
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.text = " "
     $0.textColor = Constant.Duration.textColor
-    $0.textAlignment = .center
     $0.numberOfLines = 1
     $0.font = Constant.Duration.font
   }
@@ -67,7 +65,6 @@ class PostHeaderContentBottomView: UIView {
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.text = " "
     $0.textColor = Constant.DateRange.textColor
-    $0.textAlignment = .center
     $0.numberOfLines = 1
     $0.font = Constant.DateRange.font
   }
@@ -98,31 +95,18 @@ class PostHeaderContentBottomView: UIView {
 
 // MARK: - Helpers
 extension PostHeaderContentBottomView {
-  func configure(with data: PostHeaderContentBottomInfo?) {
-    setUserNameLabel(with: data?.userName)
-    setDurationLabel(with: data?.duration)
-    setYearMonthDayRangeLabel(with: data?.yearMonthDayRange)
+  func configure(with info: PostHeaderContentBottomInfo?) {
+    userNameLabel.text = info?.userName
+    durationLabel.text = info?.duration
+    yearMonthDayRangeLabel.text = info?.yearMonthDayRange
   }
 }
 
 // MARK: - Private helpers
 extension PostHeaderContentBottomView {
-  private func setUserNameLabel(with text: String?) {
-    userNameLabel.text = text
-  }
-  
-  private func setDurationLabel(with text: String?) {
-    durationLabel.text = text
-  }
-  
-  private func setYearMonthDayRangeLabel(with text: String?) {
-    yearMonthDayRangeLabel.text = text
-  }
-  
   private func setSubviewsLayoutPriorities() {
-    userNameLabel.setContentHuggingPriority(
-      UILayoutPriority(252), for: .horizontal)
-    userNameLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+    userNameLabel.setContentHuggingPriority(UILayoutPriority(252), for: .horizontal)
+    userNameLabel.setContentCompressionResistancePriority(UILayoutPriority(995), for: .horizontal)
     durationLabel.setContentCompressionResistancePriority(
       UILayoutPriority(998), for: .horizontal)
     yearMonthDayRangeLabel.setContentCompressionResistancePriority(
@@ -166,9 +150,7 @@ private extension PostHeaderContentBottomView {
     return [
       userNameLabel.leadingAnchor.constraint(
         equalTo: leadingAnchor),
-      userNameLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
-      userNameLabel.widthAnchor.constraint(lessThanOrEqualToConstant: Constant.UserName.width),
-      userNameLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 0)]
+      userNameLabel.centerYAnchor.constraint(equalTo: centerYAnchor)]
   }
   
   var dividerView1Constraints: [NSLayoutConstraint] {
@@ -190,9 +172,7 @@ private extension PostHeaderContentBottomView {
         equalTo: centerYAnchor),
       durationLabel.leadingAnchor.constraint(
         equalTo: dividerView[0].trailingAnchor,
-        constant: Constant.Duration.Spacing.leading),
-      durationLabel.widthAnchor.constraint(
-        lessThanOrEqualToConstant: Constant.Duration.width)]
+        constant: Constant.Duration.Spacing.leading)]
   }
   
   var dividerView2Constraints: [NSLayoutConstraint] {
@@ -215,6 +195,7 @@ private extension PostHeaderContentBottomView {
       equalTo: dividerView[1].trailingAnchor,
       constant: Constant.DateRange.Spacing.leading),
      yearMonthDayRangeLabel.trailingAnchor.constraint(
-      lessThanOrEqualTo: trailingAnchor)]
+      lessThanOrEqualTo: trailingAnchor,
+      constant: -Constant.DateRange.Spacing.leading)]
   }
 }
