@@ -8,6 +8,11 @@
 import UIKit
 import Combine
 
+@frozen enum PostDetailOption: String, CaseIterable {
+  case postBlock = "신고하기"
+  case postReport = "차단하기"
+}
+
 final class PostDetailViewController: UITableViewController {
   // MARK: - Dependencies
   private let viewModel: any PostDetailViewModelable & PostDetailTableViewDataSource
@@ -140,6 +145,8 @@ extension PostDetailViewController: ViewBindCase {
       handleCommentState(commentState)
     case .nestedComment(let commentState):
       handleNestedCommentState(commentState)
+    case .postOption(let postOptionState):
+      handleShowUserBlock(postOptionState)
     }
   }
   
@@ -192,6 +199,24 @@ extension PostDetailViewController: ViewBindCase {
         self?.input.keyboardDidHideWhenReplyingToMessageNotifier.send(wannaCancel)
       }
     }
+  }
+  
+  func handleShowUserBlock(_ postOptionState: PostDetailOptionState) {
+    switch postOptionState {
+    case .showUserBlock(let authorName):
+      coordinator?.showPostAuthorBlock(authorName) { wannaBlock in
+        if wannaBlock {
+          // TODO: - 차단 로직 호출
+          print("서버 차단 호출")
+        }
+      }
+    case .showUserReport:
+      coordinator?.showPostAuthorReport { reportType in
+        // TODO: - 신고 로직 호출
+        print(reportType)
+      }
+    }
+    
   }
   
   func handleError(_ error: any ErrorType) { }
@@ -351,7 +376,9 @@ extension PostDetailViewController: PostDetailInputAccessoryWrapperDelegate {
 // MARK: - PostHeartAndShareAreaHeaderViewDelegate
 extension PostDetailViewController: PostHeartAndShareAreaHeaderViewDelegate {
   func didTapOption() {
-    print("옵션클릭")
+    coordinator?.showOption { [weak self] optionState in
+      self?.input.postOptionNotifier.send(optionState)
+    }
   }
   
   func didTapHeart(isFavorite: Bool) {

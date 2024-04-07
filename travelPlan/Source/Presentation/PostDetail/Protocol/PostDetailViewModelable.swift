@@ -15,6 +15,7 @@ struct PostDetailViewModelInput {
   let replyStartNotifier = PassthroughSubject<Int, Never>()
   let replyDismissalConfirmationNorifier = PassthroughSubject<Void, Never>()
   let keyboardDidHideWhenReplyingToMessageNotifier = PassthroughSubject<Bool, Never>()
+  let postOptionNotifier = PassthroughSubject<PostDetailOption, Never>()
 }
 
 @frozen enum PostDetailViewModelState {
@@ -24,6 +25,7 @@ struct PostDetailViewModelInput {
   case unexpectedError(description: String)
   case nestedComment(PostDetailNestedCommentState)
   case comment(PostDetailCommentState)
+  case postOption(PostDetailOptionState)
 }
 
 @frozen enum PostDetailViewDidLoadState {
@@ -44,6 +46,11 @@ struct PostDetailViewModelInput {
 
 @frozen enum PostDetailCommentState {
   case reloadedComment
+}
+
+@frozen enum PostDetailOptionState {
+  case showUserBlock(String)
+  case showUserReport
 }
 
 protocol PostDetailViewModelable: ViewModelable

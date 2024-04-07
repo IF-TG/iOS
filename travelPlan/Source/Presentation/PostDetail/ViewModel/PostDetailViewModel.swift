@@ -113,7 +113,8 @@ extension PostDetailViewModel: PostDetailViewModelable {
       loggedInUserUseCaseHandlerStream(),
       replyStartNotifierStream(input),
       keyboardDidHideWhenReplyingToMessageNotifierStream(input),
-      replyDismissalConfirmationNorifierStream(input)
+      replyDismissalConfirmationNorifierStream(input),
+      postOptionNotifierStream(input)
     ]).eraseToAnyPublisher()
   }
 }
@@ -207,6 +208,21 @@ private extension PostDetailViewModel {
           return .nestedComment(.replyCancellationAsk)
         }
         return .none
+      }.eraseToAnyPublisher()
+  }
+  
+  func postOptionNotifierStream(_ input: Input) -> Output {
+    return input.postOptionNotifier
+      .map { [weak self] postDetailOption -> State in
+        guard let authorName = self?.postDetails.author.nickname else {
+          return .unexpectedError(description: "앱에서 에러가 발생됬습니다.")
+        }
+        switch postDetailOption {
+        case .postBlock:
+          return .postOption(.showUserBlock(authorName))
+        case .postReport:
+          return .postOption(.showUserReport)
+        }
       }.eraseToAnyPublisher()
   }
   

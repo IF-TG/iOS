@@ -11,6 +11,10 @@ import SHCoordinator
 protocol PostDetailCoordinatorDelegate: FlowCoordinatorDelegate {
   func showAlertForError(with description: String, completion: (() -> Void)?)
   func showAnAlertToAskWhetherToCancelWrittingTheReply(completion: ((Bool) -> Void)?)
+  func showOption(handler: ((PostDetailOption)->Void)?)
+  func showPostAuthorBlock(_ authorName: String, handler: ((Bool)->Void)?)
+  /// 신고하기 종류 추가.
+  func showPostAuthorReport(handler: ((PostReportType)->Void)?)
 }
 
 // MARK: - PostDetailCoordinator
@@ -67,10 +71,44 @@ extension PostDetailCoordinator: PostDetailCoordinatorDelegate {
   
   func showAnAlertToAskWhetherToCancelWrittingTheReply(completion: ((Bool) -> Void)?) {
     let alert = UIAlertController(title: "작성 중인 대댓글을 취소하시겠습니까?", message: nil, preferredStyle: .alert).set {
-      $0.addAction(title: "예", style: .default) { _ in completion?(true) }
       $0.addAction(title: "아니요", style: .cancel) { _ in completion?(false) }
+      $0.addAction(title: "예", style: .default) { _ in completion?(true) }
     }
     postDetailViewController.present(alert, animated: true)
+  }
+  
+  func showOption(handler: ((PostDetailOption) -> Void)?) {
+    /// 액션시트에서 cancel은 하나밖에 안됩니다.
+    let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+    PostDetailOption.allCases.forEach { option in
+      alert.addAction(title: option.rawValue, style: .destructive) { _ in handler?(option) }
+    }
+    alert.addAction(title: "취소", style: .cancel, handler: nil)
+    presenter?.present(alert, animated: true)
+  }
+  
+  func showPostAuthorBlock(_ authorName: String, handler: ((Bool) -> Void)?) {
+    let alert = UIAlertController(
+      title: "‘\(authorName)’님을 차단하시겠습니까?",
+      message: "이 유저의 모든 게시물이 보이지 않고\n회원님에게 좋아요, 댓글을 남길 수 없으며\n팔로우가 취소됩니다.",
+      preferredStyle: .alert
+    ).set {
+      $0.addAction(title: "취소", style: .cancel) { _ in handler?(false) }
+      $0.addAction(title: "차단", style: .destructive) { _ in handler?(true) }
+    }
+    presenter?.present(alert, animated: true)
+  }
+  
+  func showPostAuthorReport(handler: ((PostReportType) -> Void)?) {
+    let alert = UIAlertController(title: "신고하기", message: nil, preferredStyle: .alert)
+    PostReportType.allCases.forEach { report in
+      var isStoppedRequest = false
+      if report == .stopRequest { isStoppedRequest = true }
+      alert.addAction(title: report.toKorean, style: isStoppedRequest ? .destructive : .default) { _ in
+        handler?(report)
+      }
+    }
+    presenter?.present(alert, animated: true, completion: nil)
   }
 }
 
