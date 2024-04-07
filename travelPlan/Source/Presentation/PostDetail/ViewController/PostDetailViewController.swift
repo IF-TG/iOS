@@ -136,6 +136,7 @@ extension PostDetailViewController: ViewBindCase {
     case .none:
       break
     case .unexpectedError(description: let description):
+      stopIndicator()
       coordinator?.showAlertForError(with: description, completion: nil)
     case .networkProcessing:
       startIndicator()

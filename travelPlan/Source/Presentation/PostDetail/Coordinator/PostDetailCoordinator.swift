@@ -42,13 +42,17 @@ final class PostDetailCoordinator: NSObject, FlowCoordinator {
     let postNestedCommentUseCase = DefaultPostNestedCommentUseCase(
       postNestedCommentRepository: mockPostNestedCommentRepository)
     
+    let mockUserBlockRepository = MockWrappedUserBlockRepository()
+    let userBlockUseCase = DefaultUserBlockUseCase(userBlockRepository: mockUserBlockRepository)
+    
     let postDetailVM = PostDetailViewModel(
       post: post,
       category: category,
       postUseCase: postUseCase,
       postCommentUseCase: postCommentUseCase,
       loggedInUserUseCase: loggedInUserUseCase, 
-      postNestedCommentUseCase: postNestedCommentUseCase)
+      postNestedCommentUseCase: postNestedCommentUseCase,
+      userBlockUseCase: userBlockUseCase)
     postDetailViewController = PostDetailViewController(viewModel: postDetailVM)
     super.init()
     presenter?.delegate = self

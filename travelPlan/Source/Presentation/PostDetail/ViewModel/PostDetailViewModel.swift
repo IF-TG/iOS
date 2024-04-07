@@ -50,6 +50,8 @@ final class PostDetailViewModel {
   
   private let loggedInUserUseCase: LoggedInUserUseCase
   
+  private let userBlockUseCase: UserBlockUseCase
+  
   // MARK: - Properties
   private let DefaultSectionCount = PostDetailSectionType.defaultNumberOfSections
   
@@ -60,6 +62,10 @@ final class PostDetailViewModel {
   private let nestedCommentUseCaseHandler = PassthroughSubject<NestedCommentUseCaseInput, Never>()
   
   private let loggedInUserUseCaseHandler = PassthroughSubject<Void, Never>()
+  
+  private let postReportHandler = PassthroughSubject<PostReportType, Never>()
+  
+  private let postAuthorBlockHandler = PassthroughSubject<Void, Never>()
   
   /// 사용자가 대댓글 작성중인 경우 not nil. 댓글을 작성중인 경우 nil
   private var replyingSection: Int?
@@ -91,7 +97,8 @@ final class PostDetailViewModel {
     postUseCase: PostUseCase,
     postCommentUseCase: PostCommentUseCase,
     loggedInUserUseCase: LoggedInUserUseCase,
-    postNestedCommentUseCase: PostNestedCommentUseCase
+    postNestedCommentUseCase: PostNestedCommentUseCase,
+    userBlockUseCase: UserBlockUseCase
   ) {
     // TODO: - 포스트를 받았으면, 1개의 글을 포스트들, 이미지들 이렇게 조개고 순위를 부여해야합니다. PostMapper에서 구현해야합니다.
     self.postDetails = PostMapper.toPostDetails(post, category: category)
@@ -99,6 +106,7 @@ final class PostDetailViewModel {
     self.postCommentUseCase = postCommentUseCase
     self.loggedInUserUseCase = loggedInUserUseCase
     self.postNestedCommentUseCase = postNestedCommentUseCase
+    self.userBlockUseCase = userBlockUseCase
   }
 }
 
@@ -114,7 +122,11 @@ extension PostDetailViewModel: PostDetailViewModelable {
       replyStartNotifierStream(input),
       keyboardDidHideWhenReplyingToMessageNotifierStream(input),
       replyDismissalConfirmationNorifierStream(input),
-      postOptionNotifierStream(input)
+      postOptionNotifierStream(input),
+      postReportNotifierStream(input),
+      postAuthorBlockNotifierStream(input),
+      postReportHandlerStream(),
+      postAuthorBlockHandlerStream()
     ]).eraseToAnyPublisher()
   }
 }
@@ -224,6 +236,46 @@ private extension PostDetailViewModel {
           return .postOption(.showUserReport)
         }
       }.eraseToAnyPublisher()
+  }
+  
+  func postReportNotifierStream(_ input: Input) -> Output {
+    return input.postReportNotifier
+      .map { reportType -> State in
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+          self?.postReportHandler.send(reportType)
+        }
+        return .networkProcessing
+      }.eraseToAnyPublisher()
+  }
+  
+  func postAuthorBlockNotifierStream(_ input: Input) -> Output {
+    return input.postAuthorBlockNotifier
+      .map { _ -> State in
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+          self?.postAuthorBlockHandler.send()
+        }
+        return .networkProcessing
+      }.eraseToAnyPublisher()
+  }
+  
+  func postReportHandlerStream() -> Output {
+    return postReportHandler.flatMap { responseType in
+      // TODO: - 포스트 신고하기 api 없음.
+      // 참고로 지금시점 네트워크 프로세싱 중..
+      return Just(State.unexpectedError(description: "포스트 신고하기 api가 없습니다."))
+        .eraseToAnyPublisher()
+    }.eraseToAnyPublisher()
+  }
+  
+  func postAuthorBlockHandlerStream() -> Output {
+    return postAuthorBlockHandler.flatMap { _ in
+      // TODO: - 포스트 받아올때 포스트 올린 author에 identifier가 없어서
+      // block user api 호출 불가..
+      // let authorId = postDetails.author
+      
+      // 참고로 지금시점 네트워크 프로세싱 중..
+      return Just(State.unexpectedError(description: "포스트 저자 id가 없어 차단 api 호출할 수 없습니다")).eraseToAnyPublisher()
+    }.eraseToAnyPublisher()
   }
   
   // MARK: - Inner stream
