@@ -10,7 +10,7 @@ import UIKit
 import Photos
 
 protocol AlbumPhotoDetailCoordinatorDelegate: FlowCoordinatorDelegate {
-  
+  func popViewController()
 }
 
 final class AlbumPhotoDetailCoordinator: FlowCoordinator {
@@ -19,20 +19,17 @@ final class AlbumPhotoDetailCoordinator: FlowCoordinator {
   var parent: FlowCoordinator?
   var child: [FlowCoordinator] = []
   var presenter: UINavigationController?
-  private let photoModel: PhotoModel
-  private let selectedCount: Int
+  private let photoDetailEntity: PhotoDetailEntity
   
   // MARK: - LifeCycle
-  init(presenter: UINavigationController?, photoModel: PhotoModel, selectedCount: Int) {
+  init(presenter: UINavigationController?, photoDetailEntity: PhotoDetailEntity) {
     self.presenter = presenter
-    self.photoModel = photoModel
-    self.selectedCount = selectedCount
+    self.photoDetailEntity = photoDetailEntity
   }
   
   func start() {
     let albumPhotoDetailViewModel = DefaultAlbumPhotoDetailViewModel(
-      photoModel: photoModel,
-      selectedCount: selectedCount
+      photoDetailEntity: photoDetailEntity
     )
     let photoService = DefaultPhotoService()
     let albumPhotoDetailViewController = AlbumPhotoDetailViewController(
@@ -46,5 +43,10 @@ final class AlbumPhotoDetailCoordinator: FlowCoordinator {
 
 // MARK: - AlbumPhotoDetailCoordinatorDelegate
 extension AlbumPhotoDetailCoordinator: AlbumPhotoDetailCoordinatorDelegate {
-  
+  func popViewController() {
+    guard let parent = parent as? AlbumCoordinator else { return }
+    
+    parent.popAlbumPhotoDetailViewController()
+    self.finish(withAnimated: true)
+  }
 }
