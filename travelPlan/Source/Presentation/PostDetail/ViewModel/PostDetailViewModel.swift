@@ -110,10 +110,6 @@ final class PostDetailViewModel {
   }
   
   var actions: PostDetailViewModelActions?
-  
-  deinit {
-    print("hihihishishishishi")
-  }
 }
 
 extension PostDetailViewModel: PostDetailCoordinatorDelegate {
