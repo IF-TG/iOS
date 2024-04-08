@@ -7,6 +7,7 @@
 
 import UIKit
 
+/// 포스트 상세화면 -> 상세 카테고리
 class PostDetailCategoryCell: UITableViewCell {
   // MARK: - Properties
   
