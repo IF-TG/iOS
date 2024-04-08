@@ -21,7 +21,9 @@ final class PostDetailViewController: UITableViewController {
   // MARK: - UI Properties
   private let inputAccessory = PostDetailInputAccessoryWrapper()
   
-  private let naviTitle = BaseLabel(fontType: .semiBold_600(fontSize: 16))
+  private let naviTitle = BaseLabel(fontType: .semiBold_600(fontSize: 16)).set {
+    $0.alpha = 0
+  }
   
   private let starButton = SearchStarButton(normalType: .black)
   
@@ -96,6 +98,8 @@ final class PostDetailViewController: UITableViewController {
   
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
+    //왜 ? viewDidApper에 타이틀뷰하지?
+    // TODO: - 타이틀뷰 헤더 좌표계바꿔서 더 유연하게 사라지고 보여지도록 로직 개선해야합니다.
     setTitleView()
   }
   
