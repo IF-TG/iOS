@@ -57,13 +57,29 @@ final class PostDetailCoordinator: NSObject, FlowCoordinator {
     postDetailViewController = PostDetailViewController(viewModel: postDetailVM)
     super.init()
     postDetailVM.actions = PostDetailViewModelActions(
-      showAlertForError: showAlertForError,
-      showAnAlertToAskWhetherToCancelWrittingTheReply: showAnAlertToAskWhetherToCancelWrittingTheReply,
-      showOption: showOption,
-      showPostAuthorBlock: showPostAuthorBlock,
-      showPostReport: showPostReport,
-      showPostReportResult: showPostReportResult)
+      showAlertForError: { [weak self] message, completion in
+        self?.showAlertForError(with: message, completion: completion)
+      },
+      showAnAlertToAskWhetherToCancelWrittingTheReply: { [weak self] completion in
+        self?.showAnAlertToAskWhetherToCancelWrittingTheReply(completion: completion)
+      },
+      showOption: { [weak self] optionCallback in
+        self?.showOption(handler: optionCallback)
+      },
+      showPostAuthorBlock: { [weak self] authName, completion in
+        self?.showPostAuthorBlock(authName, handler: completion)
+      },
+      showPostReport: { [weak self] reportCallback in
+        self?.showPostReport(handler: reportCallback)
+      },
+      showPostReportResult: { [weak self] option in
+        self?.showPostReportResult(wtih: option)
+      })
     presenter?.delegate = self
+  }
+  
+  deinit {
+    print("aaa")
   }
   
   func start() {
