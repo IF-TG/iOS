@@ -106,9 +106,9 @@ private extension PhotoCell {
     
     if location.x >= contentView.frame.width / 2,
        location.y <= contentView.frame.height / 2 {
-      delegate?.touchBegan(self, quadrant: .first)
+      delegate?.didTapCell(self, quadrant: .first)
     } else {
-      delegate?.touchBegan(self, quadrant: .else)
+      delegate?.didTapCell(self, quadrant: .else)
     }
   }
 }
