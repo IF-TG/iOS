@@ -151,7 +151,8 @@ extension PostDetailViewModel: PostDetailCoordinatorDelegate {
     let partnerTests = postDetails.category.partners.compactMap { partner in
       "\(TravelMainThemeType.partner(nil).rawValue) > \(partner.rawValue)"
     }
-    actions?.showCategory(themeTexts + seasonTexts + regionTexts + partnerTests)
+    let categories = themeTexts + seasonTexts + regionTexts + partnerTests
+    actions?.showCategory(categories)
   }
 }
 
