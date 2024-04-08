@@ -8,6 +8,7 @@
 import UIKit
 import SHCoordinator
 
+/// 뷰 컨트롤러에서 사용할 타입 -> 뷰 모델에서 구현
 protocol PostDetailCoordinatorDelegate: AnyObject {
   func showAlertForError(with description: String, completion: (() -> Void)?)
   func showAnAlertToAskWhetherToCancelWrittingTheReply(completion: ((Bool) -> Void)?)

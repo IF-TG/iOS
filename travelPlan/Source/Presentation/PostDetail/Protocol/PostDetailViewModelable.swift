@@ -8,6 +8,7 @@
 import Combine
 import SHCoordinator
 
+/// 뷰 컨트롤러에서 사용할 타입. -> 코디네이터에서 구현
 struct PostDetailViewModelActions {
   let showAlertForError: (String, (() -> Void)?) -> Void
   let showAnAlertToAskWhetherToCancelWrittingTheReply: (((Bool) -> Void)?) -> Void
