@@ -7,6 +7,7 @@
 
 import UIKit
 import Combine
+import SHCoordinator
 
 @frozen enum PostDetailOption: String, CaseIterable {
   case postBlock = "차단하기"
@@ -17,7 +18,7 @@ final class PostDetailViewController: UITableViewController {
   // MARK: - Dependencies
   private let viewModel: any PostDetailViewModelable & PostDetailTableViewDataSource
   
-  weak var coordinator: PostDetailCoordinatorDelegate?
+  // weak var coordinator: PostDetailCoordinatorDelegate?
   
   // MARK: - UI Properties
   private let inputAccessory = PostDetailInputAccessoryWrapper()
@@ -109,6 +110,7 @@ final class PostDetailViewController: UITableViewController {
   
   deinit {
     NotificationCenter.default.removeObserver(self)
+    print("hihihihihihi")
   }
 }
 
@@ -138,7 +140,10 @@ extension PostDetailViewController: ViewBindCase {
       break
     case .unexpectedError(description: let description):
       stopIndicator()
-      coordinator?.showAlertForError(with: description, completion: nil)
+      // coordinator?.showAlertForError(with: description, completion: nil)
+      // viewModel.actions?.showAlertForError(description, nil)
+      
+      viewModel.showAlertForError(with: description, completion: nil)
     case .networkProcessing:
       startIndicator()
     case .viewDidLoad(let viewDidLoadState):
@@ -150,7 +155,11 @@ extension PostDetailViewController: ViewBindCase {
     case .postOption(let postOptionState):
       handleShowUserBlock(postOptionState)
     case .postReport(let postOptionState):
-      coordinator?.showPostReportResult(wtih: postOptionState)
+      viewModel.showPostReportResult(wtih: postOptionState)
+      
+      
+//      viewModel.actions?.showPostReportResult(postOptionState)
+      // coordinator?.showPostReportResult(wtih: postOptionState)
       // TODO: - 포스트 차단의 경우 포스트 상세 나간 후에 이 post 제거로직 추가해주기.
       // 화면에는 차단한 포스트 안보여야하니므로.
     }
@@ -201,23 +210,44 @@ extension PostDetailViewController: ViewBindCase {
         break
       }
     case .replyCancellationAsk:
-      coordinator?.showAnAlertToAskWhetherToCancelWrittingTheReply { [weak self] wannaCancel in
+      viewModel.showAnAlertToAskWhetherToCancelWrittingTheReply { [weak self] wannaCancel in
         self?.input.keyboardDidHideWhenReplyingToMessageNotifier.send(wannaCancel)
       }
+//      viewModel.actions?.showAnAlertToAskWhetherToCancelWrittingTheReply { [weak self] wannaCancel in
+//        self?.input.keyboardDidHideWhenReplyingToMessageNotifier.send(wannaCancel)
+//        
+//      }
+//      coordinator?.showAnAlertToAskWhetherToCancelWrittingTheReply { [weak self] wannaCancel in
+//        self?.input.keyboardDidHideWhenReplyingToMessageNotifier.send(wannaCancel)
+//      }
     }
   }
   
   func handleShowUserBlock(_ postOptionState: PostDetailOptionState) {
     switch postOptionState {
     case .showUserBlock(let authorName):
-      coordinator?.showPostAuthorBlock(authorName) { [weak self] wannaBlock in
+      viewModel.showPostAuthorBlock(authorName) { [weak self] wannaBlock in
         if wannaBlock { self?.input.postAuthorBlockNotifier.send() }
       }
+//      viewModel.actions?.showPostAuthorBlock(authorName) { [weak self] wannaBlock in
+//        if wannaBlock { self?.input.postAuthorBlockNotifier.send() }
+//      }
+//      coordinator?.showPostAuthorBlock(authorName) { [weak self] wannaBlock in
+//        if wannaBlock { self?.input.postAuthorBlockNotifier.send() }
+//      }
     case .showUserReport:
-      coordinator?.showPostReport { [weak self] reportType in
+      viewModel.showPostReport { [weak self] reportType in
         if reportType == .stopRequest { return }
         self?.input.postReportNotifier.send(reportType)
       }
+//      viewModel.actions?.showPostReport { [weak self] reportType in
+//        if reportType == .stopRequest { return }
+//        self?.input.postReportNotifier.send(reportType)
+//      }
+//      coordinator?.showPostReport { [weak self] reportType in
+//        if reportType == .stopRequest { return }
+//        self?.input.postReportNotifier.send(reportType)
+//      }
     }
   }
   
@@ -266,9 +296,9 @@ extension PostDetailViewController: PostDetailTableViewAdapterDelegate {
     naviTitleAnimator = UIViewPropertyAnimator(
       duration: 0.28,
       curve: .easeIn,
-      animations: {
-        self.naviTitle.alpha = 0
-        self.naviTitle.transform = .init(translationX: 0, y: self.naviTitle.font.lineHeight)
+      animations: { [weak self] in
+        self?.naviTitle.alpha = 0
+        self?.naviTitle.transform = .init(translationX: 0, y: self?.naviTitle.font.lineHeight ?? 0)
       })
     naviTitleAnimator?.addCompletion { [weak self] _ in
       self?.naviTitle.isHidden = true
@@ -286,9 +316,9 @@ extension PostDetailViewController: PostDetailTableViewAdapterDelegate {
     naviTitleAnimator = UIViewPropertyAnimator(
       duration: 0.28,
       curve: .easeOut,
-      animations: {
-        self.naviTitle.transform = .identity
-        self.naviTitle.alpha = 1
+      animations: { [weak self] in
+        self?.naviTitle.transform = .identity
+        self?.naviTitle.alpha = 1
       })
     naviTitleAnimator?.addCompletion { [weak self] _ in
       self?.naviTitle.isHidden = false
@@ -329,7 +359,9 @@ extension PostDetailViewController: PostDetailCommentDelegate {
   func didTapReply(_ header: PostDetailCommentHeaderIdentifiable) {
     
     guard let replySection = header.section else {
-      viewModel.actions?.showAlertForError("대댓글을 작성할 수 없습니다.\n앱 서비스에 문제가 발생됬습니다.", nil)
+      viewModel.showAlertForError(with: "대댓글을 작성할 수 없습니다.\n앱 서비스에 문제가 발생됬습니다.", completion: nil)
+      
+      // viewModel.actions?.showAlertForError("대댓글을 작성할 수 없습니다.\n앱 서비스에 문제가 발생됬습니다.", nil)
       // coordinator?.showAlertForError(with: "대댓글을 작성할 수 없습니다.\n앱 서비스에 문제가 발생됬습니다.", completion: nil)
       return
     }
@@ -349,10 +381,14 @@ extension PostDetailViewController: PostDetailInputAccessoryWrapperDelegate {
 // MARK: - PostHeartAndShareAreaHeaderViewDelegate
 extension PostDetailViewController: PostHeartAndShareAreaHeaderViewDelegate {
   func didTapOption() {
-    viewModel.actions?.showOption { [weak self] optionState in
+    viewModel.showOption(handler: { [weak self] optionState in
       self?.input.postOptionNotifier.send(optionState)
-    }
+    })
     
+//    viewModel.actions?.showOption { [weak self] optionState in
+//      self?.input.postOptionNotifier.send(optionState)
+//    }
+//    
 //    coordinator?.showOption { [weak self] optionState in
 //      self?.input.postOptionNotifier.send(optionState)
 //    }

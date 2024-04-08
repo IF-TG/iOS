@@ -8,14 +8,14 @@
 import UIKit
 import SHCoordinator
 
-protocol PostDetailCoordinatorDelegate: FlowCoordinatorDelegate {
-    func showAlertForError(with description: String, completion: (() -> Void)?)
-    func showAnAlertToAskWhetherToCancelWrittingTheReply(completion: ((Bool) -> Void)?)
-    func showOption(handler: ((PostDetailOption) -> Void)?)
-    func showPostAuthorBlock(_ authorName: String, handler: ((Bool) -> Void)?)
-    /// 신고하기 종류 추가.
-    func showPostReport(handler: ((PostReportType) -> Void)?)
-    func showPostReportResult(wtih option: PostDetailOption)
+protocol PostDetailCoordinatorDelegate: AnyObject {
+  func showAlertForError(with description: String, completion: (() -> Void)?)
+  func showAnAlertToAskWhetherToCancelWrittingTheReply(completion: ((Bool) -> Void)?)
+  func showOption(handler: ((PostDetailOption) -> Void)?)
+  func showPostAuthorBlock(_ authorName: String, handler: ((Bool) -> Void)?)
+  /// 신고하기 종류 추가.
+  func showPostReport(handler: ((PostReportType) -> Void)?)
+  func showPostReportResult(wtih option: PostDetailOption)
 }
 
 // MARK: - PostDetailCoordinator
@@ -25,7 +25,7 @@ final class PostDetailCoordinator: NSObject, FlowCoordinator {
   var presenter: UINavigationController?
   
   /// dismiss호출코드에서 finish도 해줘야합니다
-  private let postDetailViewController: PostDetailViewController
+  private var postDetailViewController: PostDetailViewController
   
   init(presenter: UINavigationController?, post: Post, category: Post.Category) {
     self.presenter = presenter
@@ -67,7 +67,6 @@ final class PostDetailCoordinator: NSObject, FlowCoordinator {
   }
   
   func start() {
-    postDetailViewController.coordinator = self
     presenter?.pushViewController(postDetailViewController, animated: true)
   }
 }

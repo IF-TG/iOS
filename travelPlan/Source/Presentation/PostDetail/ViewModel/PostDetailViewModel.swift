@@ -108,7 +108,38 @@ final class PostDetailViewModel {
     self.postNestedCommentUseCase = postNestedCommentUseCase
     self.userBlockUseCase = userBlockUseCase
   }
+  
   var actions: PostDetailViewModelActions?
+  
+  deinit {
+    print("hihihishishishishi")
+  }
+}
+
+extension PostDetailViewModel: PostDetailCoordinatorDelegate {
+  func showAlertForError(with description: String, completion: (() -> Void)?) {
+    actions?.showAlertForError(description, completion)
+  }
+  
+  func showAnAlertToAskWhetherToCancelWrittingTheReply(completion: ((Bool) -> Void)?) {
+    actions?.showAnAlertToAskWhetherToCancelWrittingTheReply(completion)
+  }
+  
+  func showOption(handler: ((PostDetailOption) -> Void)?) {
+    actions?.showOption(handler)
+  }
+  
+  func showPostAuthorBlock(_ authorName: String, handler: ((Bool) -> Void)?) {
+    actions?.showPostAuthorBlock(authorName, handler)
+  }
+  
+  func showPostReport(handler: ((PostReportType) -> Void)?) {
+    actions?.showPostReport(handler)
+  }
+  
+  func showPostReportResult(wtih option: PostDetailOption) {
+    actions?.showPostReportResult(option)
+  }
 }
 
 // MARK: - PostDetailViewModelable

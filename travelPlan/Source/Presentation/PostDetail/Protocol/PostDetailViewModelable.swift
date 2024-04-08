@@ -16,14 +16,6 @@ struct PostDetailViewModelActions {
   /// 신고하기 종류 추가.
   let showPostReport: (((PostReportType) -> Void)?) -> Void
   let showPostReportResult: (PostDetailOption) -> Void
-  
-//  init(
-//    showAlertForError: (String, (() -> Void)?) -> Void,
-//    showAnAlertToAskWhetherToCancelWrittingTheReply: (((Bool) -> Void)?),
-//    showOption: (((PostDetailOption) -> Void)?),
-//    showPostAuthorBlock: (String, ((Bool) -> Void)?),
-//    showPostReport: (((PostReportType) -> Void)?),
-//    showPostReportResult: (PostDetailOption))
 }
 
 struct PostDetailViewModelInput {
@@ -75,11 +67,9 @@ struct PostDetailViewModelInput {
   case showUserReport
 }
 
-protocol PostDetailViewModelable: ViewModelable
+protocol PostDetailViewModelable: ViewModelable & PostDetailCoordinatorDelegate
 where Input == PostDetailViewModelInput,
       State == PostDetailViewModelState,
       Output == AnyPublisher<State, Never> {
   typealias UserInputText = String
-  
-  var actions: PostDetailViewModelActions? { get }
 }
