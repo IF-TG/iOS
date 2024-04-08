@@ -259,7 +259,7 @@ private extension AlbumViewController {
 
 // MARK: - PhotoCellDelegate
 extension AlbumViewController: PhotoCellDelegate {
-  func touchBegan(_ cell: UICollectionViewCell, quadrant: PhotoCellQuadrant) {
+  func didTapCell(_ cell: UICollectionViewCell, quadrant: PhotoCellQuadrant) {
     guard let indexPath = collectionView.indexPath(for: cell) else { return }
     
     switch  quadrant {
