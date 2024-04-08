@@ -70,7 +70,7 @@ final class PostDetailViewModel {
   /// 사용자가 대댓글 작성중인 경우 not nil. 댓글을 작성중인 경우 nil
   private var replyingSection: Int?
   
-  public var actions: PostDetailViewModelActions?
+  private var actions: PostDetailViewModelActions?
   
   // MARK: - Paging Properties
   // TODO: - 페이징 추가해야합니다.
@@ -337,6 +337,13 @@ private extension PostDetailViewModel {
       }.catch { error in
         return Just(State.unexpectedError(description: error.localizedDescription))
       }.eraseToAnyPublisher()
+  }
+}
+
+// MARK: - Public Helpers
+extension PostDetailViewModel {
+  func makeActions(actions: PostDetailViewModelActions?) {
+    self.actions = actions
   }
 }
 

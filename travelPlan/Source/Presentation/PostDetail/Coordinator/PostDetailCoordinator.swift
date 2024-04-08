@@ -57,7 +57,7 @@ final class PostDetailCoordinator: NSObject, FlowCoordinator {
     postDetailViewController = PostDetailViewController(viewModel: postDetailVM)
     super.init()
     
-    postDetailVM.actions = PostDetailViewModelActions(
+    let actions = PostDetailViewModelActions(
       showAlertForError: { [weak self] message, completion in
         self?.showAlertForError(with: message, completion: completion)
       },
@@ -76,6 +76,7 @@ final class PostDetailCoordinator: NSObject, FlowCoordinator {
       showPostReportResult: { [weak self] option in
         self?.showPostReportResult(wtih: option)
       })
+    postDetailVM.makeActions(actions: actions)
     presenter?.delegate = self
   }
   
