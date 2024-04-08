@@ -17,6 +17,7 @@ protocol PostDetailCoordinatorDelegate: AnyObject {
   /// 신고하기 종류 추가.
   func showPostReport(handler: ((PostReportType) -> Void)?)
   func showPostReportResult(wtih option: PostDetailOption)
+  func showCategory()
 }
 
 // MARK: - PostDetailCoordinator
@@ -76,6 +77,8 @@ final class PostDetailCoordinator: NSObject, FlowCoordinator {
       },
       showPostReportResult: { [weak self] option in
         self?.showPostReportResult(wtih: option)
+      }, showCategory: {[weak self] categories in
+        self?.showCategory(with: categories)
       })
     postDetailVM.makeActions(actions: actions)
     presenter?.delegate = self
@@ -144,6 +147,11 @@ extension PostDetailCoordinator {
     case .postReport:
       presenter?.present(PostOptionResultAlertController(type: .postReport), animated: true)
     }
+  }
+  
+  func showCategory(with categories: [String]) {
+    let categoryViewController = PostDetailCategoryViewController(style: .plain, dataSource: categories)
+    presenter?.pushViewController(categoryViewController, animated: true)
   }
 }
 

@@ -137,6 +137,22 @@ extension PostDetailViewModel: PostDetailCoordinatorDelegate {
   func showPostReportResult(wtih option: PostDetailOption) {
     actions?.showPostReportResult(option)
   }
+  
+  func showCategory() {
+    let themeTexts = postDetails.category.themes.compactMap { theme in
+      "\(TravelMainThemeType.travelTheme(nil).rawValue) > \(theme.rawValue)"
+    }
+    let seasonTexts = postDetails.category.seasons.compactMap { season in
+      "\(TravelMainThemeType.season(nil).rawValue) > \(season.rawValue)"
+    }
+    let regionTexts = postDetails.category.regions.compactMap { region in
+      "\(TravelMainThemeType.region(nil).rawValue) > \(region.rawValue)"
+    }
+    let partnerTests = postDetails.category.partners.compactMap { partner in
+      "\(TravelMainThemeType.partner(nil).rawValue) > \(partner.rawValue)"
+    }
+    actions?.showCategory(themeTexts + seasonTexts + regionTexts + partnerTests)
+  }
 }
 
 // MARK: - PostDetailViewModelable

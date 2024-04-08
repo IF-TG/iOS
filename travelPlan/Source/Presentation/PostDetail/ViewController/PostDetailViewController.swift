@@ -285,7 +285,7 @@ extension PostDetailViewController: PostDetailTableViewAdapterDelegate {
   }
   
   func showCategoryDetailPage() {
-    print("카데고리 상세 화면으로 이동!!!")
+    viewModel.showCategory()
   }
 }
 

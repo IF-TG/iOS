@@ -17,6 +17,7 @@ struct PostDetailViewModelActions {
   /// 신고하기 종류 추가.
   let showPostReport: (((PostReportType) -> Void)?) -> Void
   let showPostReportResult: (PostDetailOption) -> Void
+  let showCategory: (([String])) -> Void
 }
 
 struct PostDetailViewModelInput {
