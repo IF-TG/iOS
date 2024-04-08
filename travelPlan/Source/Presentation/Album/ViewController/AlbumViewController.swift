@@ -220,8 +220,8 @@ extension AlbumViewController {
         switch state {
         case .none:
           break
-        case .showDetailPhoto(let asset):
-          self?.coordinator?.showPhotoDetail(asset: asset)
+        case let .showDetailPhoto(photoDetailEntity):
+          self?.coordinator?.showPhotoDetail(photoDetailEntity)
         case let .reloadData(isAuthLimited):
           self?.collectionViewReloadData(isAuthLimited: isAuthLimited)
         case .reloadItem(let indexPaths):
@@ -304,5 +304,12 @@ extension AlbumViewController: PhotoAuthorizationViewDelegate {
 extension AlbumViewController: PHPhotoLibraryChangeObserver {
   func photoLibraryDidChange(_ changeInstance: PHChange) {
     input.photoLibraryDidChange.send(changeInstance)
+  }
+}
+
+// MARK: - Helpers
+extension AlbumViewController {
+  func popAlbumPhotoDetailViewController() {
+    input.popAlbumPhotoDetailViewController.send()
   }
 }
