@@ -112,6 +112,7 @@ final class PostDetailViewModel {
   }
 }
 
+// MARK: - PostDetailCoordinatorDelegate
 extension PostDetailViewModel: PostDetailCoordinatorDelegate {
   func showAlertForError(with description: String, completion: (() -> Void)?) {
     actions?.showAlertForError(description, completion)
