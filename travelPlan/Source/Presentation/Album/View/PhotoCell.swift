@@ -47,6 +47,9 @@ final class PhotoCell: UICollectionViewCell {
   override init(frame: CGRect) {
     super.init(frame: frame)
     setupUI()
+    
+    let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapCell(_:)))
+    addGestureRecognizer(tapGesture)
   }
   
   required init?(coder: NSCoder) {
@@ -58,19 +61,6 @@ final class PhotoCell: UICollectionViewCell {
     imageView.image = nil
     highlightedView.backgroundColor = .clear
     orderView.initializeUI()
-  }
-  
-  override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-    super.touchesBegan(touches, with: event)
-    guard let touch = touches.first else { return }
-    
-    let point = touch.location(in: self)
-    if point.x >= self.frame.width / 2,
-       point.y <= self.frame.height / 2 {
-      delegate?.touchBegan(self, quadrant: .first)
-    } else {
-      delegate?.touchBegan(self, quadrant: .else)
-    }
   }
 }
 
@@ -105,6 +95,20 @@ extension PhotoCell: LayoutSupport {
     orderView.snp.makeConstraints {
       $0.top.trailing.equalToSuperview().inset(7)
       $0.size.equalTo(20)
+    }
+  }
+}
+
+// MARK: - Actions
+private extension PhotoCell {
+  @objc func didTapCell(_ gesture: UITapGestureRecognizer) {
+    let location = gesture.location(in: self.contentView)
+    
+    if location.x >= contentView.frame.width / 2,
+       location.y <= contentView.frame.height / 2 {
+      delegate?.didTapCell(self, quadrant: .first)
+    } else {
+      delegate?.didTapCell(self, quadrant: .else)
     }
   }
 }

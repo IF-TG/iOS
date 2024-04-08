@@ -111,6 +111,8 @@
 		13AE0DD22BBC42C000652B99 /* PhotoOrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13AE0DD12BBC42C000652B99 /* PhotoOrderView.swift */; };
 		13AE0DD42BBD040400652B99 /* AlbumPhotoDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13AE0DD32BBD040400652B99 /* AlbumPhotoDetailViewModel.swift */; };
 		13AE0DD62BBD271A00652B99 /* AlbumPhotoDetailCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13AE0DD52BBD271A00652B99 /* AlbumPhotoDetailCoordinator.swift */; };
+		13AE0DD82BC32AD700652B99 /* AlbumPhotoMaxCountUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13AE0DD72BC32AD700652B99 /* AlbumPhotoMaxCountUseCase.swift */; };
+		13AE0DDA2BC32E6100652B99 /* DefaultAlbumPhotoMaxCountUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13AE0DD92BC32E6100652B99 /* DefaultAlbumPhotoMaxCountUseCase.swift */; };
 		13BF40F32AD6F1D600F3F082 /* BaseNavigationTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13BF40F22AD6F1D600F3F082 /* BaseNavigationTitleView.swift */; };
 		13BF40F52AD712EC00F3F082 /* UIViewController+TitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13BF40F42AD712EC00F3F082 /* UIViewController+TitleView.swift */; };
 		13BF411D2ADBE42000F3F082 /* onboarding-video.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 13BF411C2ADBE42000F3F082 /* onboarding-video.mp4 */; };
@@ -691,6 +693,8 @@
 		13AE0DD12BBC42C000652B99 /* PhotoOrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoOrderView.swift; sourceTree = "<group>"; };
 		13AE0DD32BBD040400652B99 /* AlbumPhotoDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumPhotoDetailViewModel.swift; sourceTree = "<group>"; };
 		13AE0DD52BBD271A00652B99 /* AlbumPhotoDetailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumPhotoDetailCoordinator.swift; sourceTree = "<group>"; };
+		13AE0DD72BC32AD700652B99 /* AlbumPhotoMaxCountUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumPhotoMaxCountUseCase.swift; sourceTree = "<group>"; };
+		13AE0DD92BC32E6100652B99 /* DefaultAlbumPhotoMaxCountUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultAlbumPhotoMaxCountUseCase.swift; sourceTree = "<group>"; };
 		13BF40F22AD6F1D600F3F082 /* BaseNavigationTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNavigationTitleView.swift; sourceTree = "<group>"; };
 		13BF40F42AD712EC00F3F082 /* UIViewController+TitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+TitleView.swift"; sourceTree = "<group>"; };
 		13BF411C2ADBE42000F3F082 /* onboarding-video.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "onboarding-video.mp4"; sourceTree = "<group>"; };
@@ -1686,6 +1690,7 @@
 				15553BC72BB34643000AA896 /* PostNestedCommentUseCase.swift */,
 				15B5E7A42BBAE85E00C19F56 /* UserBlockUseCase.swift */,
 				15591DD92BBE9F2900128A9E /* FavoritePostInDirectoryUseCase.swift */,
+				13AE0DD72BC32AD700652B99 /* AlbumPhotoMaxCountUseCase.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -1705,6 +1710,7 @@
 				15553BC92BB346A3000AA896 /* DefaultPostNestedCommentUseCase.swift */,
 				15B5E7A62BBAE8B800C19F56 /* DefaultUserBlockUseCase.swift */,
 				15591DDB2BBE9F9B00128A9E /* DefaultFavoritePostInDirectoryUseCase.swift */,
+				13AE0DD92BC32E6100652B99 /* DefaultAlbumPhotoMaxCountUseCase.swift */,
 			);
 			path = UseCases;
 			sourceTree = "<group>";
@@ -3362,6 +3368,7 @@
 				134CCB342AFFFB2900D51D84 /* ReviewWritingViewModel.swift in Sources */,
 				157176782A0C21C90015EC8C /* UIColor+AppPalette.swift in Sources */,
 				15FFAC032AD5D98A0013DB57 /* FavoriteCoordinatorDelegate.swift in Sources */,
+				13AE0DDA2BC32E6100652B99 /* DefaultAlbumPhotoMaxCountUseCase.swift in Sources */,
 				15D388312B0159F600039946 /* PostHeartAndShareAreaHeaderView.swift in Sources */,
 				15FDCC912AE03F4A00716CC6 /* InnerRoundRectReusableView.swift in Sources */,
 				155527E22BBD6D64000122B4 /* KeyboardState.swift in Sources */,
@@ -3461,6 +3468,7 @@
 				15710CBA2A132C760023C19E /* FeedNotificationBarItem.swift in Sources */,
 				135A07C22BA9882D003D6C4D /* AlbumUseCase.swift in Sources */,
 				15D867CF2AD427EC00F35811 /* FavoriteDetailCoordinator.swift in Sources */,
+				13AE0DD82BC32AD700652B99 /* AlbumPhotoMaxCountUseCase.swift in Sources */,
 				135A07D12BB4031D003D6C4D /* DefaultPhotoAuthorizationUseCase.swift in Sources */,
 				15D6558B2B8E0F8500466FEC /* DefaultMyProfileRepository.swift in Sources */,
 				15B01DAF2BA95A4600BE9F98 /* DefaultLoggedInUserUseCase.swift in Sources */,

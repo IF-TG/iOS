@@ -12,7 +12,7 @@ import PhotosUI
 protocol AlbumCoordinatorDelegate: AnyObject, FlowCoordinatorDelegate {
   func openSettings()
   func finish(selectedAssets: [PHAsset])
-  func showPhotoDetail(asset: PHAsset)
+  func showPhotoDetail(_ photoDetailModel: PhotoDetailModel)
   
   @available(iOS 14, *)
   func presentLimitedLibraryPicker(controller: UIViewController)
@@ -38,7 +38,12 @@ final class AlbumCoordinator: FlowCoordinator {
   func start() {
     let albumUsecase = DefaultAlbumUseCase()
     let photoAuthUseCase = DefaultPhotoAuthorizationUseCase()
-    let viewModel = DefaultAlbumViewModel(albumUseCase: albumUsecase, photoAuthUseCase: photoAuthUseCase)
+    let albumPhotoMaxCountUseCase = DefaultAlbumPhotoMaxCountUseCase()
+    let viewModel = DefaultAlbumViewModel(
+      albumUseCase: albumUsecase,
+      photoAuthUseCase: photoAuthUseCase,
+      albumPhotoMaxCountUseCase: albumPhotoMaxCountUseCase
+    )
     let photoService = DefaultPhotoService()
     let albumViewController = AlbumViewController(viewModel: viewModel, photoService: photoService)
     viewController = albumViewController
@@ -47,12 +52,19 @@ final class AlbumCoordinator: FlowCoordinator {
     
     presenter?.pushViewController(albumViewController, animated: true)
   }
+  
+  func popAlbumPhotoDetailViewController() {
+    viewController?.popAlbumPhotoDetailViewController()
+  }
 }
 
 // MARK: - AlbumCoordinatorDelegate
-extension AlbumCoordinator: AlbumCoordinatorDelegate, FlowCoordinatorDelegate {
-  func showPhotoDetail(asset: PHAsset) {
-    let childCoordinator = AlbumPhotoDetailCoordinator(presenter: presenter, asset: asset)
+extension AlbumCoordinator: AlbumCoordinatorDelegate {
+  func showPhotoDetail(_ photoDetailModel: PhotoDetailModel) {
+    let childCoordinator = AlbumPhotoDetailCoordinator(
+      presenter: presenter,
+      photoDetailModel: photoDetailModel
+    )
     addChild(with: childCoordinator)
   }
   
@@ -74,7 +86,7 @@ extension AlbumCoordinator: AlbumCoordinatorDelegate, FlowCoordinatorDelegate {
   }
   
   func finish(selectedAssets: [PHAsset]) {
-    guard parent != nil, let parent = parent as? ReviewWritingCoordinator else { return }
+    guard let parent = parent as? ReviewWritingCoordinator else { return }
     
     parent.getSelectedAssets(selectedAssets)
     finish(withAnimated: true)
