@@ -70,7 +70,7 @@ final class PostDetailViewModel {
   /// 사용자가 대댓글 작성중인 경우 not nil. 댓글을 작성중인 경우 nil
   private var replyingSection: Int?
   
-  private var actions: PostDetailViewModelActions?
+  private let actions: PostDetailViewModelActions?
   
   // MARK: - Paging Properties
   // TODO: - 페이징 추가해야합니다.
@@ -100,7 +100,8 @@ final class PostDetailViewModel {
     postCommentUseCase: PostCommentUseCase,
     loggedInUserUseCase: LoggedInUserUseCase,
     postNestedCommentUseCase: PostNestedCommentUseCase,
-    userBlockUseCase: UserBlockUseCase
+    userBlockUseCase: UserBlockUseCase,
+    actions: PostDetailViewModelActions?
   ) {
     // TODO: - 포스트를 받았으면, 1개의 글을 포스트들, 이미지들 이렇게 조개고 순위를 부여해야합니다. PostMapper에서 구현해야합니다.
     self.postDetails = PostMapper.toPostDetails(post, category: category)
@@ -109,6 +110,7 @@ final class PostDetailViewModel {
     self.loggedInUserUseCase = loggedInUserUseCase
     self.postNestedCommentUseCase = postNestedCommentUseCase
     self.userBlockUseCase = userBlockUseCase
+    self.actions = actions
   }
 }
 
@@ -354,13 +356,6 @@ private extension PostDetailViewModel {
       }.catch { error in
         return Just(State.unexpectedError(description: error.localizedDescription))
       }.eraseToAnyPublisher()
-  }
-}
-
-// MARK: - Public Helpers
-extension PostDetailViewModel {
-  func makeActions(actions: PostDetailViewModelActions?) {
-    self.actions = actions
   }
 }
 
