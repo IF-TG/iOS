@@ -18,8 +18,6 @@ final class PostDetailViewController: UITableViewController {
   // MARK: - Dependencies
   private let viewModel: any PostDetailViewModelable & PostDetailTableViewDataSource
   
-  // weak var coordinator: PostDetailCoordinatorDelegate?
-  
   // MARK: - UI Properties
   private let inputAccessory = PostDetailInputAccessoryWrapper()
   
@@ -110,7 +108,6 @@ final class PostDetailViewController: UITableViewController {
   
   deinit {
     NotificationCenter.default.removeObserver(self)
-    print("hihihihihihi")
   }
 }
 
@@ -140,9 +137,6 @@ extension PostDetailViewController: ViewBindCase {
       break
     case .unexpectedError(description: let description):
       stopIndicator()
-      // coordinator?.showAlertForError(with: description, completion: nil)
-      // viewModel.actions?.showAlertForError(description, nil)
-      
       viewModel.showAlertForError(with: description, completion: nil)
     case .networkProcessing:
       startIndicator()
@@ -152,14 +146,9 @@ extension PostDetailViewController: ViewBindCase {
       handleCommentState(commentState)
     case .nestedComment(let commentState):
       handleNestedCommentState(commentState)
-    case .postOption(let postOptionState):
-      handleShowUserBlock(postOptionState)
+      // MARK: - actions도입으로 여기서 처리하지 않아도됨
     case .postReport(let postOptionState):
       viewModel.showPostReportResult(wtih: postOptionState)
-      
-      
-//      viewModel.actions?.showPostReportResult(postOptionState)
-      // coordinator?.showPostReportResult(wtih: postOptionState)
       // TODO: - 포스트 차단의 경우 포스트 상세 나간 후에 이 post 제거로직 추가해주기.
       // 화면에는 차단한 포스트 안보여야하니므로.
     }
@@ -213,41 +202,6 @@ extension PostDetailViewController: ViewBindCase {
       viewModel.showAnAlertToAskWhetherToCancelWrittingTheReply { [weak self] wannaCancel in
         self?.input.keyboardDidHideWhenReplyingToMessageNotifier.send(wannaCancel)
       }
-//      viewModel.actions?.showAnAlertToAskWhetherToCancelWrittingTheReply { [weak self] wannaCancel in
-//        self?.input.keyboardDidHideWhenReplyingToMessageNotifier.send(wannaCancel)
-//        
-//      }
-//      coordinator?.showAnAlertToAskWhetherToCancelWrittingTheReply { [weak self] wannaCancel in
-//        self?.input.keyboardDidHideWhenReplyingToMessageNotifier.send(wannaCancel)
-//      }
-    }
-  }
-  
-  func handleShowUserBlock(_ postOptionState: PostDetailOptionState) {
-    switch postOptionState {
-    case .showUserBlock(let authorName):
-      viewModel.showPostAuthorBlock(authorName) { [weak self] wannaBlock in
-        if wannaBlock { self?.input.postAuthorBlockNotifier.send() }
-      }
-//      viewModel.actions?.showPostAuthorBlock(authorName) { [weak self] wannaBlock in
-//        if wannaBlock { self?.input.postAuthorBlockNotifier.send() }
-//      }
-//      coordinator?.showPostAuthorBlock(authorName) { [weak self] wannaBlock in
-//        if wannaBlock { self?.input.postAuthorBlockNotifier.send() }
-//      }
-    case .showUserReport:
-      viewModel.showPostReport { [weak self] reportType in
-        if reportType == .stopRequest { return }
-        self?.input.postReportNotifier.send(reportType)
-      }
-//      viewModel.actions?.showPostReport { [weak self] reportType in
-//        if reportType == .stopRequest { return }
-//        self?.input.postReportNotifier.send(reportType)
-//      }
-//      coordinator?.showPostReport { [weak self] reportType in
-//        if reportType == .stopRequest { return }
-//        self?.input.postReportNotifier.send(reportType)
-//      }
     }
   }
   
@@ -360,9 +314,6 @@ extension PostDetailViewController: PostDetailCommentDelegate {
     
     guard let replySection = header.section else {
       viewModel.showAlertForError(with: "대댓글을 작성할 수 없습니다.\n앱 서비스에 문제가 발생됬습니다.", completion: nil)
-      
-      // viewModel.actions?.showAlertForError("대댓글을 작성할 수 없습니다.\n앱 서비스에 문제가 발생됬습니다.", nil)
-      // coordinator?.showAlertForError(with: "대댓글을 작성할 수 없습니다.\n앱 서비스에 문제가 발생됬습니다.", completion: nil)
       return
     }
     input.replyStartNotifier.send(replySection)
@@ -382,16 +333,18 @@ extension PostDetailViewController: PostDetailInputAccessoryWrapperDelegate {
 extension PostDetailViewController: PostHeartAndShareAreaHeaderViewDelegate {
   func didTapOption() {
     viewModel.showOption(handler: { [weak self] optionState in
-      self?.input.postOptionNotifier.send(optionState)
+      switch optionState {
+      case .postBlock:
+        self?.viewModel.showPostAuthorBlock { [weak self] wannaBlock in
+          if wannaBlock { self?.input.postAuthorBlockNotifier.send() }
+        }
+      case .postReport:
+        self?.viewModel.showPostReport { [weak self] reportType in
+          if reportType == .stopRequest { return }
+          self?.input.postReportNotifier.send(reportType)
+        }
+      }
     })
-    
-//    viewModel.actions?.showOption { [weak self] optionState in
-//      self?.input.postOptionNotifier.send(optionState)
-//    }
-//    
-//    coordinator?.showOption { [weak self] optionState in
-//      self?.input.postOptionNotifier.send(optionState)
-//    }
   }
   
   func didTapHeart(isFavorite: Bool) {

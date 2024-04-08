@@ -26,7 +26,6 @@ struct PostDetailViewModelInput {
   let replyStartNotifier = PassthroughSubject<Int, Never>()
   let replyDismissalConfirmationNorifier = PassthroughSubject<Void, Never>()
   let keyboardDidHideWhenReplyingToMessageNotifier = PassthroughSubject<Bool, Never>()
-  let postOptionNotifier = PassthroughSubject<PostDetailOption, Never>()
   let postReportNotifier = PassthroughSubject<PostReportType, Never>()
   let postAuthorBlockNotifier = PassthroughSubject<Void, Never>()
 }
@@ -38,7 +37,6 @@ struct PostDetailViewModelInput {
   case unexpectedError(description: String)
   case nestedComment(PostDetailNestedCommentState)
   case comment(PostDetailCommentState)
-  case postOption(PostDetailOptionState)
   case postReport(PostDetailOption)
 }
 

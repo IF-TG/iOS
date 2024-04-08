@@ -12,7 +12,7 @@ protocol PostDetailCoordinatorDelegate: AnyObject {
   func showAlertForError(with description: String, completion: (() -> Void)?)
   func showAnAlertToAskWhetherToCancelWrittingTheReply(completion: ((Bool) -> Void)?)
   func showOption(handler: ((PostDetailOption) -> Void)?)
-  func showPostAuthorBlock(_ authorName: String, handler: ((Bool) -> Void)?)
+  func showPostAuthorBlock(handler: ((Bool) -> Void)?)
   /// 신고하기 종류 추가.
   func showPostReport(handler: ((PostReportType) -> Void)?)
   func showPostReportResult(wtih option: PostDetailOption)
@@ -56,6 +56,7 @@ final class PostDetailCoordinator: NSObject, FlowCoordinator {
       userBlockUseCase: userBlockUseCase)
     postDetailViewController = PostDetailViewController(viewModel: postDetailVM)
     super.init()
+    
     postDetailVM.actions = PostDetailViewModelActions(
       showAlertForError: { [weak self] message, completion in
         self?.showAlertForError(with: message, completion: completion)
@@ -78,17 +79,13 @@ final class PostDetailCoordinator: NSObject, FlowCoordinator {
     presenter?.delegate = self
   }
   
-  deinit {
-    print("aaa")
-  }
-  
   func start() {
     presenter?.pushViewController(postDetailViewController, animated: true)
   }
 }
 
 // MARK: - PostDetailCoordinatorDelegate
-extension PostDetailCoordinator: PostDetailCoordinatorDelegate {
+extension PostDetailCoordinator {
   func showAlertForError(with description: String, completion: (() -> Void)?) {
     let alert = UIAlertController(title: nil, message: description, preferredStyle: .alert).set {
       $0.addAction(title: "OK", style: .default) { _ in completion?() }

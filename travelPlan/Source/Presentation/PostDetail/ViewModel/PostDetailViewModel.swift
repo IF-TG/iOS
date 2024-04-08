@@ -129,8 +129,8 @@ extension PostDetailViewModel: PostDetailCoordinatorDelegate {
     actions?.showOption(handler)
   }
   
-  func showPostAuthorBlock(_ authorName: String, handler: ((Bool) -> Void)?) {
-    actions?.showPostAuthorBlock(authorName, handler)
+  func showPostAuthorBlock(handler: ((Bool) -> Void)?) {
+    actions?.showPostAuthorBlock(postDetails.author.nickname, handler)
   }
   
   func showPostReport(handler: ((PostReportType) -> Void)?) {
@@ -155,7 +155,6 @@ extension PostDetailViewModel: PostDetailViewModelable {
       replyStartNotifierStream(input),
       keyboardDidHideWhenReplyingToMessageNotifierStream(input),
       replyDismissalConfirmationNorifierStream(input),
-      postOptionNotifierStream(input),
       postReportNotifierStream(input),
       postAuthorBlockNotifierStream(input),
       postReportHandlerStream(),
@@ -253,21 +252,6 @@ private extension PostDetailViewModel {
           return .nestedComment(.replyCancellationAsk)
         }
         return .none
-      }.eraseToAnyPublisher()
-  }
-  
-  func postOptionNotifierStream(_ input: Input) -> Output {
-    return input.postOptionNotifier
-      .map { [weak self] postDetailOption -> State in
-        guard let authorName = self?.postDetails.author.nickname else {
-          return .unexpectedError(description: "앱에서 에러가 발생됬습니다.")
-        }
-        switch postDetailOption {
-        case .postBlock:
-          return .postOption(.showUserBlock(authorName))
-        case .postReport:
-          return .postOption(.showUserReport)
-        }
       }.eraseToAnyPublisher()
   }
   
