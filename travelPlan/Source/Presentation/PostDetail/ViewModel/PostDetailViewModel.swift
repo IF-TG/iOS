@@ -108,10 +108,12 @@ final class PostDetailViewModel {
     self.postNestedCommentUseCase = postNestedCommentUseCase
     self.userBlockUseCase = userBlockUseCase
   }
+  var actions: PostDetailViewModelActions?
 }
 
 // MARK: - PostDetailViewModelable
 extension PostDetailViewModel: PostDetailViewModelable {
+  
   func transform(_ input: PostDetailViewModelInput) -> AnyPublisher<PostDetailViewModelState, Never> {
     return Publishers.MergeMany([
       viewDidLoadStream(input),

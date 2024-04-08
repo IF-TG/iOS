@@ -6,6 +6,25 @@
 //
 
 import Combine
+import SHCoordinator
+
+struct PostDetailViewModelActions {
+  let showAlertForError: (String, (() -> Void)?) -> Void
+  let showAnAlertToAskWhetherToCancelWrittingTheReply: (((Bool) -> Void)?) -> Void
+  let showOption: (((PostDetailOption) -> Void)?) -> Void
+  let showPostAuthorBlock: (String, ((Bool) -> Void)?) -> Void
+  /// 신고하기 종류 추가.
+  let showPostReport: (((PostReportType) -> Void)?) -> Void
+  let showPostReportResult: (PostDetailOption) -> Void
+  
+//  init(
+//    showAlertForError: (String, (() -> Void)?) -> Void,
+//    showAnAlertToAskWhetherToCancelWrittingTheReply: (((Bool) -> Void)?),
+//    showOption: (((PostDetailOption) -> Void)?),
+//    showPostAuthorBlock: (String, ((Bool) -> Void)?),
+//    showPostReport: (((PostReportType) -> Void)?),
+//    showPostReportResult: (PostDetailOption))
+}
 
 struct PostDetailViewModelInput {
   typealias UserInputText = String
@@ -61,4 +80,6 @@ where Input == PostDetailViewModelInput,
       State == PostDetailViewModelState,
       Output == AnyPublisher<State, Never> {
   typealias UserInputText = String
+  
+  var actions: PostDetailViewModelActions? { get }
 }

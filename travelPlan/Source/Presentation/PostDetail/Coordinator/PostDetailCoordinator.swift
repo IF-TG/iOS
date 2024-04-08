@@ -9,13 +9,13 @@ import UIKit
 import SHCoordinator
 
 protocol PostDetailCoordinatorDelegate: FlowCoordinatorDelegate {
-  func showAlertForError(with description: String, completion: (() -> Void)?)
-  func showAnAlertToAskWhetherToCancelWrittingTheReply(completion: ((Bool) -> Void)?)
-  func showOption(handler: ((PostDetailOption) -> Void)?)
-  func showPostAuthorBlock(_ authorName: String, handler: ((Bool) -> Void)?)
-  /// 신고하기 종류 추가.
-  func showPostReport(handler: ((PostReportType) -> Void)?)
-  func showPostReportResult(wtih option: PostDetailOption)
+    func showAlertForError(with description: String, completion: (() -> Void)?)
+    func showAnAlertToAskWhetherToCancelWrittingTheReply(completion: ((Bool) -> Void)?)
+    func showOption(handler: ((PostDetailOption) -> Void)?)
+    func showPostAuthorBlock(_ authorName: String, handler: ((Bool) -> Void)?)
+    /// 신고하기 종류 추가.
+    func showPostReport(handler: ((PostReportType) -> Void)?)
+    func showPostReportResult(wtih option: PostDetailOption)
 }
 
 // MARK: - PostDetailCoordinator
@@ -56,6 +56,13 @@ final class PostDetailCoordinator: NSObject, FlowCoordinator {
       userBlockUseCase: userBlockUseCase)
     postDetailViewController = PostDetailViewController(viewModel: postDetailVM)
     super.init()
+    postDetailVM.actions = PostDetailViewModelActions(
+      showAlertForError: showAlertForError,
+      showAnAlertToAskWhetherToCancelWrittingTheReply: showAnAlertToAskWhetherToCancelWrittingTheReply,
+      showOption: showOption,
+      showPostAuthorBlock: showPostAuthorBlock,
+      showPostReport: showPostReport,
+      showPostReportResult: showPostReportResult)
     presenter?.delegate = self
   }
   

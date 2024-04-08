@@ -327,8 +327,10 @@ extension PostDetailViewController: PostDetailCommentDelegate {
   func didTapCanceledHeart(_ header: PostDetailCommentHeaderIdentifiable) {}
   
   func didTapReply(_ header: PostDetailCommentHeaderIdentifiable) {
+    
     guard let replySection = header.section else {
-      coordinator?.showAlertForError(with: "대댓글을 작성할 수 없습니다.\n앱 서비스에 문제가 발생됬습니다.", completion: nil)
+      viewModel.actions?.showAlertForError("대댓글을 작성할 수 없습니다.\n앱 서비스에 문제가 발생됬습니다.", nil)
+      // coordinator?.showAlertForError(with: "대댓글을 작성할 수 없습니다.\n앱 서비스에 문제가 발생됬습니다.", completion: nil)
       return
     }
     input.replyStartNotifier.send(replySection)
@@ -347,9 +349,13 @@ extension PostDetailViewController: PostDetailInputAccessoryWrapperDelegate {
 // MARK: - PostHeartAndShareAreaHeaderViewDelegate
 extension PostDetailViewController: PostHeartAndShareAreaHeaderViewDelegate {
   func didTapOption() {
-    coordinator?.showOption { [weak self] optionState in
+    viewModel.actions?.showOption { [weak self] optionState in
       self?.input.postOptionNotifier.send(optionState)
     }
+    
+//    coordinator?.showOption { [weak self] optionState in
+//      self?.input.postOptionNotifier.send(optionState)
+//    }
   }
   
   func didTapHeart(isFavorite: Bool) {
