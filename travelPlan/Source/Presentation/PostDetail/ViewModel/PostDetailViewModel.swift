@@ -70,6 +70,8 @@ final class PostDetailViewModel {
   /// 사용자가 대댓글 작성중인 경우 not nil. 댓글을 작성중인 경우 nil
   private var replyingSection: Int?
   
+  public var actions: PostDetailViewModelActions?
+  
   // MARK: - Paging Properties
   // TODO: - 페이징 추가해야합니다.
   // 그런데 댓글의 경우 좀 복잡할거같은데,, 사용자가 삭제하면 어떻게하지? 기존에 저장된 정보(이미 페이징 한 데이터)가
@@ -108,8 +110,6 @@ final class PostDetailViewModel {
     self.postNestedCommentUseCase = postNestedCommentUseCase
     self.userBlockUseCase = userBlockUseCase
   }
-  
-  var actions: PostDetailViewModelActions?
 }
 
 extension PostDetailViewModel: PostDetailCoordinatorDelegate {
