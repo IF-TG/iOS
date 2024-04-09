@@ -103,7 +103,7 @@ final class PostReviewWritingCategoryBottomSheet: BaseBottomSheetViewController 
   private let selectCompletionView = ReviewCategorySelectCompletionView(frame: .zero)
   
   // MARK: - Lifecycle
-  override init(contentView: UIView, mode: BaseBottomSheetViewController.ContentMode, radius: CGFloat) {
+  init() {
     selectCompletionView.heightAnchor.constraint(equalToConstant: 105).isActive = true
     let stackView = UIStackView(arrangedSubviews: [tableView, selectCompletionView]).set {
       $0.axis = .vertical
