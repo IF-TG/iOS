@@ -81,6 +81,7 @@ extension PrimaryColorToneRoundButton {
     translatesAutoresizingMaskIntoConstraints = false
     layer.cornerRadius = Constant.cornerRadius
     titleLabel?.font = Constant.font
+    layer.borderWidth = 1.5
     setTitleColor(Constant.textColor, for: .normal)
     setTitle("확인", for: .normal)
     addTarget(self, action: #selector(didTapPrimaryColorToneRoundButton), for: .touchUpInside)
