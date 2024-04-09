@@ -358,7 +358,7 @@
 		15B928612AFA3309003A20D4 /* PostDetailContentTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B928602AFA3309003A20D4 /* PostDetailContentTextCell.swift */; };
 		15B928652AFA3980003A20D4 /* PostDetailContentFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B928642AFA3980003A20D4 /* PostDetailContentFooterView.swift */; };
 		15B928672AFA3D93003A20D4 /* PostDetailTableViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B928662AFA3D93003A20D4 /* PostDetailTableViewAdapter.swift */; };
-		15B928692AFA3F63003A20D4 /* PostDetailContentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B928682AFA3F63003A20D4 /* PostDetailContentType.swift */; };
+		15B928692AFA3F63003A20D4 /* PostContentEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B928682AFA3F63003A20D4 /* PostContentEntity.swift */; };
 		15B9286B2AFA4463003A20D4 /* PostDetailTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B9286A2AFA4463003A20D4 /* PostDetailTableViewDataSource.swift */; };
 		15B9286D2AFA47B0003A20D4 /* PostDetailTableViewAdapterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B9286C2AFA47B0003A20D4 /* PostDetailTableViewAdapterDelegate.swift */; };
 		15B9286F2AFA49C4003A20D4 /* PostDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B9286E2AFA49C4003A20D4 /* PostDetailViewModel.swift */; };
@@ -933,7 +933,7 @@
 		15B928602AFA3309003A20D4 /* PostDetailContentTextCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailContentTextCell.swift; sourceTree = "<group>"; };
 		15B928642AFA3980003A20D4 /* PostDetailContentFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailContentFooterView.swift; sourceTree = "<group>"; };
 		15B928662AFA3D93003A20D4 /* PostDetailTableViewAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailTableViewAdapter.swift; sourceTree = "<group>"; };
-		15B928682AFA3F63003A20D4 /* PostDetailContentType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailContentType.swift; sourceTree = "<group>"; };
+		15B928682AFA3F63003A20D4 /* PostContentEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostContentEntity.swift; sourceTree = "<group>"; };
 		15B9286A2AFA4463003A20D4 /* PostDetailTableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailTableViewDataSource.swift; sourceTree = "<group>"; };
 		15B9286C2AFA47B0003A20D4 /* PostDetailTableViewAdapterDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailTableViewAdapterDelegate.swift; sourceTree = "<group>"; };
 		15B9286E2AFA49C4003A20D4 /* PostDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailViewModel.swift; sourceTree = "<group>"; };
@@ -1914,7 +1914,7 @@
 				15B9285E2AFA2D89003A20D4 /* PostDetailContentImageCell.swift */,
 				15B928602AFA3309003A20D4 /* PostDetailContentTextCell.swift */,
 				15B928642AFA3980003A20D4 /* PostDetailContentFooterView.swift */,
-				15B928682AFA3F63003A20D4 /* PostDetailContentType.swift */,
+				15B928682AFA3F63003A20D4 /* PostContentEntity.swift */,
 				159F38BA2AFA9F32000A24C2 /* PostDetailCategoryHeaderView.swift */,
 				159F38BE2AFAA329000A24C2 /* PostDetailTitleCell.swift */,
 				159F38C92AFAABF9000A24C2 /* PostDetailProfileAreaFooterView.swift */,
@@ -3582,7 +3582,7 @@
 				15FD508F2BB44FFF006CCCDD /* PostUpdatedNestedCommentResponseDTO.swift in Sources */,
 				15C1F53C2AF27043005FDA15 /* NotificationViewAdapter.swift in Sources */,
 				1546DF302B0AF4C100B49A55 /* ImageMemoryCache.swift in Sources */,
-				15B928692AFA3F63003A20D4 /* PostDetailContentType.swift in Sources */,
+				15B928692AFA3F63003A20D4 /* PostContentEntity.swift in Sources */,
 				130CF38D2B9347CF0051DEE8 /* AppleLoginStrategy.swift in Sources */,
 				15591DDC2BBE9F9B00128A9E /* DefaultFavoritePostInDirectoryUseCase.swift in Sources */,
 				15D6559D2B8F6F3800466FEC /* MyInformationViewModel.swift in Sources */,
