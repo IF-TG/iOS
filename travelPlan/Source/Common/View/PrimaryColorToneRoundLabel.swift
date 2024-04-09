@@ -119,7 +119,7 @@ extension PrimaryColorToneRoundLabel {
   private func configureUI() {
     translatesAutoresizingMaskIntoConstraints = false
     layer.cornerRadius = Constant.cornerRadius
-    layer.borderWidth = 1
+    layer.borderWidth = 1.8
     textAlignment = .center
     setAppearance()
     isUserInteractionEnabled = true
