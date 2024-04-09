@@ -95,6 +95,7 @@ final class PostReviewWritingCategoryBottomSheet: BaseBottomSheetViewController 
   private var currentSection: MainTheme = .season {
     didSet {
       // 섹션들 리로드! 근데 performbatch에서 애니메이션 부여 ㄱㄱ?
+      numberOfItmes = currentSection.subThemes.count
       collectionView.reloadSections(IndexSet(integer: SectionType.subTheme.rawValue))
     }
   }
