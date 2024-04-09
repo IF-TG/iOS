@@ -167,14 +167,12 @@ extension PostReviewWritingCategoryBottomSheet: UICollectionViewDataSource {
     guard let section = SectionType(rawValue: indexPath.section) else {
       return .init()
     }
-    switch section {
-    case .description:
-      return .init()
-    case .mainTheme:
-      guard let cell = collectionView.dequeueReusableCell(
-        withReuseIdentifier: ReviewWritingThemeCell.id,
-        for: indexPath
-      ) as? ReviewWritingThemeCell else { return .init() }
+    if section == .description { return .init() }
+    guard let cell = collectionView.dequeueReusableCell(
+      withReuseIdentifier: ReviewWritingThemeCell.id,
+      for: indexPath
+    ) as? ReviewWritingThemeCell else { return .init() }
+    if case .mainTheme = section {
       cell.delegate = self
       cell.configure(
         themeText: MainTheme.allCases[indexPath.row].title,
@@ -184,10 +182,11 @@ extension PostReviewWritingCategoryBottomSheet: UICollectionViewDataSource {
         selectedMainThemeCell = cell
         cell.deactiveSelection()
       }
-      return cell
-    case .subTheme:
-      return .init()
     }
+    if case .subTheme = section {
+      
+    }
+    return cell
   }
 }
 
