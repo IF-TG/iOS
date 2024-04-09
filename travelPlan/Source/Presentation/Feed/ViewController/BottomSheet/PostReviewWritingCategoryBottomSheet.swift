@@ -245,6 +245,7 @@ extension PostReviewWritingCategoryBottomSheet: UICollectionViewDataSource {
       if indexPath.row == 0 && selectedMainThemeCell == nil {
         selectedMainThemeCell = cell
         cell.deactiveSelection()
+        isSelected = true
       }
     }
     if case .subTheme = section {
@@ -346,7 +347,7 @@ extension PostReviewWritingCategoryBottomSheet: ReviewWritingThemeCellDelegate {
     let indexPath = collectionView.indexPath(for: cell)
     guard let section = SectionType(rawValue: indexPath?.section ?? -1) else { return }
     if section == .mainTheme {
-      selectedMainThemeCell?.deactiveSelection()
+      selectedMainThemeCell?.activeSelection()
       selectedMainThemeCell = cell
       guard let mainTheme = MainTheme(rawValue: indexPath?.row ?? -1) else { return }
       self.currentSection = mainTheme
