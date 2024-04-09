@@ -11,7 +11,11 @@ final class ReviewCategorySelectCompletionView: UIView {
   // MARK: - Properties
   private let choiceHelpView = IconWithLabelStackView(
     iconInfo: .init(size: .init(width: 16.67, height: 16.67), iconPath: "circle_exclamation_icon"),
-    countInfo: .init(fontType: .regular_400(fontSize: 14), lineHeight: 25))
+    countInfo: .init(fontType: .regular_400(fontSize: 14), lineHeight: 20)
+  ).set {
+    $0.setCountLabel(text: "다양한 테마를 선택해 보세요.")
+    $0.setLabelColor(.yg.gray2)
+  }
   
   private let clearButton = PrimaryColorToneRoundButton(currentState: .normal)
   
@@ -79,10 +83,11 @@ extension ReviewCategorySelectCompletionView: LayoutSupport {
       clearButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 7),
       clearButton.topAnchor.constraint(equalTo: choiceHelpView.bottomAnchor, constant: 12),
       clearButton.heightAnchor.constraint(equalToConstant: 48),
+      clearButton.widthAnchor.constraint(equalTo: okButton.widthAnchor),
       okButton.heightAnchor.constraint(equalToConstant: 48),
       okButton.leadingAnchor.constraint(equalTo: clearButton.trailingAnchor, constant: 7),
       okButton.topAnchor.constraint(equalTo: choiceHelpView.bottomAnchor, constant: 12),
       okButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -7),
-      okButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 16)])
+      okButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16)])
   }
 }
