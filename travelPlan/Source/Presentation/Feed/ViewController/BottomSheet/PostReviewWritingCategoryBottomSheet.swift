@@ -100,14 +100,16 @@ final class PostReviewWritingCategoryBottomSheet: BaseBottomSheetViewController 
   
   private var selectedMainThemeCell: ReviewWritingThemeCell?
   
-  // TODO: - 화면 아래 초기화, 확인 구현해야 합니다.
-  private let selectCompletionView = UIView()
+  private let selectCompletionView = ReviewCategorySelectCompletionView(frame: .zero)
   
   // MARK: - Lifecycle
   override init(contentView: UIView, mode: BaseBottomSheetViewController.ContentMode, radius: CGFloat) {
-    super.init(contentView: tableView, mode: .full, radius: 15)
+    selectCompletionView.heightAnchor.constraint(equalToConstant: 105).isActive = true
+    let stackView = UIStackView(arrangedSubviews: [tableView, selectCompletionView]).set {
+      $0.axis = .vertical
+    }
+    super.init(contentView: stackView, mode: .full, radius: 15)
     tableView.dataSource = self
-    // TODO: - 뷰추가하자
   }
   
   required init?(coder: NSCoder) {
@@ -122,7 +124,8 @@ final class PostReviewWritingCategoryBottomSheet: BaseBottomSheetViewController 
     case .season:
       guard index < Season.count else { return }
       let season = Season.allCases[index]
-      if isSelected { seasons.append(season)
+      if isSelected { 
+        seasons.append(Season.allCases[index])
       } else {
         seasons = seasons.filter { $0 != season }
       }
