@@ -32,14 +32,14 @@ final class ReviewWritingThemeCell: UICollectionViewCell {
       else { return }
       
       if isEnableMultiSelection {
+        var isSelected = prevSelectionState == .selected
+        self?.themeMenu.currentState = isSelected ? .normal : .selected
+      } else {
         if prevSelectionState == .normal {
           self?.activeSelection()
         } else {
           self?.deactiveSelection()
         }
-      } else {
-        var isSelected = prevSelectionState == .selected
-        self?.themeMenu.currentState = isSelected ? .normal : .selected
       }
       guard let currentState = self?.themeMenu.currentState else { return }
       self?.delegate?.reviewWritingThemeCell(self, isSelected: currentState == .selected)
