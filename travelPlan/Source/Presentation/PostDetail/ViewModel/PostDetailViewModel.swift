@@ -436,7 +436,7 @@ extension PostDetailViewModel: PostDetailTableViewDataSource {
       travelCalendarDateRange: "일박 이일~", uploadedDescription: postDetails.detail.createAt)
   }
   
-  func postContentItem(at row: Int) -> PostDetailContentType {
+  func postContentItem(at row: Int) -> PostContentEntity {
     return postDetails.detail.content[row]
   }
   
