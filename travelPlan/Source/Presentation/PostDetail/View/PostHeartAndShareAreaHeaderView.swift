@@ -7,11 +7,19 @@
 
 import UIKit
 
+protocol PostHeartAndShareAreaHeaderViewDelegate: AnyObject {
+  func didTapOption()
+  func didTapHeart(isFavorite: Bool)
+  func didTapShare()
+}
+
 final class PostHeartAndShareAreaHeaderView: UITableViewHeaderFooterView {
   static let id = String(describing: PostHeartAndShareAreaHeaderView.self)
   
   // MARK: - Properties
   private var postHeartState: Bool? = false
+  
+  weak var delegate: PostHeartAndShareAreaHeaderViewDelegate?
   
   private let heartStackView = IconWithLabelStackView(
     iconInfo: .init(size: .init(width: 20, height: 20),
@@ -145,19 +153,17 @@ extension PostHeartAndShareAreaHeaderView {
 private extension PostHeartAndShareAreaHeaderView {
   @objc func didTapHeart() {
     updatePostHeartState()
-    print("DEBUG: 찜")
+    delegate?.didTapHeart(isFavorite: postHeartState ?? false)
   }
   
-  @objc func didTapComment() {
-    print("커맨드 화면 이동")
-  }
+  @objc func didTapComment() { }
   
   @objc func didTapShare() {
-    print("share 화면으로 이동")
+    delegate?.didTapShare()
   }
   
   @objc func didTapOption() {
-    print("option 화면으로 이동")
+    delegate?.didTapOption()
   }
 }
 

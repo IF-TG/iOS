@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum PostDetailContentType {
+enum PostContentEntity {
   case text(String)
-  case image(String)
+  case image(Data)
 }
