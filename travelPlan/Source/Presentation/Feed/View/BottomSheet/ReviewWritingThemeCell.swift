@@ -15,7 +15,7 @@ final class ReviewWritingThemeCell: UICollectionViewCell {
   static let id = String(describing: ReviewWritingThemeCell.self)
   
   // MARK: - Properties
-  private let themeMenu = PrimaryColorToneRoundButton(currentState: .normal)
+  private let themeMenu = PrimaryColorToneRoundLabel(currentState: .normal)
   
   weak var delegate: ReviewWritingThemeCellDelegate?
   
@@ -25,26 +25,7 @@ final class ReviewWritingThemeCell: UICollectionViewCell {
   override init(frame: CGRect) {
     super.init(frame: frame)
     setupUI()
-    themeMenu.tapHandler = { [weak self] in
-      guard
-        let prevSelectionState = self?.themeMenu.currentState,
-        let isEnableMultiSelection = self?.isEnableMultiSelection
-      else { return }
-      
-      if isEnableMultiSelection {
-        let isSelected = prevSelectionState == .selected
-        self?.themeMenu.currentState = isSelected ? .normal : .selected
-      } else {
-        if prevSelectionState == .normal {
-          self?.activeSelection()
-        } else {
-          self?.deactiveSelection()
-        }
-      }
-      guard let currentState = self?.themeMenu.currentState else { return }
-      self?.delegate?.reviewWritingThemeCell(self, isSelected: currentState == .selected)
-    }
-    
+    bind()
   }
   
   required init?(coder: NSCoder) {
@@ -60,22 +41,38 @@ final class ReviewWritingThemeCell: UICollectionViewCell {
   func configure(themeText: String?, isSelected: Bool, isEnableMultiSelection: Bool) {
     self.isEnableMultiSelection = isEnableMultiSelection
     guard let themeText else {
-      themeMenu.setTitle(nil, for: .normal)
-      themeMenu.currentState = .normal
+      themeMenu.text = nil
+      themeMenu.isSelected = false
       return
     }
-    themeMenu.setTitle(themeText, for: .normal)
-    themeMenu.currentState = isSelected ? .selected : .normal
+    themeMenu.text = themeText
+    themeMenu.isSelected = isSelected
   }
   
   func activeSelection() {
-    themeMenu.currentState = .normal
+    themeMenu.isSelected = false
     themeMenu.isUserInteractionEnabled = true
   }
   
   func deactiveSelection() {
-    themeMenu.currentState = .selected
+    themeMenu.isSelected = true
     themeMenu.isUserInteractionEnabled = false
+  }
+  
+  // MARK: - Private Helpers
+  func bind() {
+    themeMenu.tapHandler = { [weak self] in
+      guard
+        let isSelected = self?.themeMenu.isSelected,
+        let isEnableMultiSelection = self?.isEnableMultiSelection
+      else { return }
+      
+      if !isEnableMultiSelection {
+        self?.themeMenu.isUserInteractionEnabled = !isSelected
+      }
+      self?.delegate?.reviewWritingThemeCell(self, isSelected: isSelected)
+    }
+
   }
 }
 
