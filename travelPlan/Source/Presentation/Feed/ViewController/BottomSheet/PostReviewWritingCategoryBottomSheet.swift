@@ -7,8 +7,31 @@
 
 import UIKit
 
-
 final class PostReviewWritingCategoryBottomSheet: BaseBottomSheetViewController {
+  @frozen enum MainTheme: Int, CaseIterable {
+    case season = 0
+    case region = 1
+    case theme = 2
+    case partner = 3
+    
+    static var count: Int {
+      MainTheme.allCases.count
+    }
+    
+    var title: String {
+      switch self {
+      case .season:
+        return TravelMainThemeType.season(nil).rawValue
+      case .region:
+        return TravelMainThemeType.region(nil).rawValue
+      case .theme:
+        return TravelMainThemeType.travelTheme(nil).rawValue
+      case .partner:
+        return TravelMainThemeType.partner(nil).rawValue
+      }
+    }
+  }
+  
   @frozen enum SectionType: Int, CaseIterable {
     case description = 0
     case mainTheme = 1
@@ -39,7 +62,30 @@ final class PostReviewWritingCategoryBottomSheet: BaseBottomSheetViewController 
       $0.minimumLineSpacing = 8
       $0.minimumInteritemSpacing = 8
       $0.sectionInset = .init(top: 0, left: 7, bottom: 0, right: 7)
+      $0.register(
+        ReviewWritingThemeDescriptionHeader.self,
+        forDecorationViewOfKind: ReviewWritingThemeDescriptionHeader.id)
+      $0.register(
+        ReviewWritingThemeSectionHeader.self,
+        forDecorationViewOfKind: ReviewWritingThemeSectionHeader.id)
+      $0.register(ReviewWritingThemeCell.self, forDecorationViewOfKind: ReviewWritingThemeCell.id)
     })
+  
+  private var themes: [TravelTheme] = []
+  private var regions: [TravelRegion] = []
+  private var seasons: [Season] = []
+  private var partners: [TravelPartner] = []
+  
+  private var currentSection: MainTheme = .season {
+    didSet {
+      // 섹션들 리로드! 근데 performbatch에서 애니메이션 부여 ㄱㄱ?
+      tableView.reloadSections(IndexSet(integer: SectionType.subTheme.rawValue))
+    }
+  }
+  
+  private var numberOfItmes = TravelMainThemeType.season(nil).titles.count
+  
+  private var selectedMainThemeCell: ReviewWritingThemeCell?
   
   // TODO: - 화면 아래 초기화, 확인 구현해야 합니다.
   private let selectCompletionView = UIView()
@@ -47,8 +93,8 @@ final class PostReviewWritingCategoryBottomSheet: BaseBottomSheetViewController 
   // MARK: - Lifecycle
   override init(contentView: UIView, mode: BaseBottomSheetViewController.ContentMode, radius: CGFloat) {
     super.init(contentView: tableView, mode: .full, radius: 15)
+    tableView.dataSource = self
     // TODO: - 뷰추가하자
-    
   }
   
   required init?(coder: NSCoder) {
@@ -57,4 +103,108 @@ final class PostReviewWritingCategoryBottomSheet: BaseBottomSheetViewController 
 
   // MARK: - Private Helpers
   private func setNextView() { }
+  
+  private func handleWhenSubThemeSelect(index: Int, isSelected: Bool) {
+    switch currentSection {
+    case .season:
+      guard index < Season.count else { return }
+      let season = Season.allCases[index]
+      if isSelected { seasons.append(season)
+      } else {
+        seasons = seasons.filter { $0 != season }
+      }
+    case .region:
+      guard index < TravelRegion.count else { return }
+      let region = TravelRegion.allCases[index]
+      if isSelected {
+        regions.append(region)
+      } else {
+        regions = regions.filter { $0 != region }
+      }
+    case .theme:
+      guard index < TravelTheme.count else { return }
+      let theme = TravelTheme.allCases[index]
+      if isSelected {
+        themes.append(theme)
+      } else {
+        themes = themes.filter { $0 != theme }
+      }
+    case .partner:
+      guard index < TravelPartner.count else { return }
+      let partner = TravelPartner.allCases[index]
+      if isSelected {
+        partners.append(partner)
+      } else {
+        partners = partners.filter { $0 != partner }
+      }
+    }
+  }
+}
+
+// MARK: - UITableViewDataSource
+extension PostReviewWritingCategoryBottomSheet: UICollectionViewDataSource {
+  func numberOfSections(in collectionView: UICollectionView) -> Int {
+    return SectionType.numberOfSections
+  }
+
+  
+  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    guard let section = SectionType(rawValue: section) else { return 0 }
+    return switch section {
+    case .description:
+      0
+    case .mainTheme:
+      MainTheme.count
+    case .subTheme:
+      numberOfItmes
+    }
+  }
+  
+  func collectionView(
+    _ collectionView: UICollectionView,
+    cellForItemAt indexPath: IndexPath
+  ) -> UICollectionViewCell {
+    guard let section = SectionType(rawValue: indexPath.section) else {
+      return .init()
+    }
+    switch section {
+    case .description:
+      return .init()
+    case .mainTheme:
+      guard let cell = collectionView.dequeueReusableCell(
+        withReuseIdentifier: ReviewWritingThemeCell.id,
+        for: indexPath
+      ) as? ReviewWritingThemeCell else { return .init() }
+      cell.delegate = self
+      cell.configure(
+        themeText: MainTheme.allCases[indexPath.row].title,
+        isSelected: false,
+        isEnableMultiSelection: false)
+      if indexPath.row == 0 && selectedMainThemeCell == nil {
+        selectedMainThemeCell = cell
+        cell.deactiveSelection()
+      }
+      return cell
+    case .subTheme:
+      return .init()
+    }
+  }
+}
+
+// MARK: - ReviewWritingThemeCellDelegate
+extension PostReviewWritingCategoryBottomSheet: ReviewWritingThemeCellDelegate {
+  func reviewWritingThemeCell(_ cell: ReviewWritingThemeCell?, isSelected: Bool) {
+    guard let cell else { return }
+    let indexPath = tableView.indexPath(for: cell)
+    guard let section = SectionType(rawValue: indexPath?.section ?? -1) else { return }
+    if section == .mainTheme {
+      selectedMainThemeCell?.deactiveSelection()
+      selectedMainThemeCell = cell
+      guard let mainTheme = MainTheme(rawValue: indexPath?.row ?? -1) else { return }
+      self.currentSection = mainTheme
+    } else if section == .subTheme {
+      guard let index = indexPath?.row else { return }
+      handleWhenSubThemeSelect(index: index, isSelected: isSelected)
+    }
+  }
 }
