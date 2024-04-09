@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 final class PostReviewWritingCategoryBottomSheet: BaseBottomSheetViewController {
   @frozen enum MainTheme: Int, CaseIterable {
@@ -88,9 +89,23 @@ final class PostReviewWritingCategoryBottomSheet: BaseBottomSheetViewController 
     }
   
   private var themes: [TravelTheme] = []
+  
   private var regions: [TravelRegion] = []
+  
   private var seasons: [Season] = []
+  
   private var partners: [TravelPartner] = []
+  
+  private var hasSelectedAtLeastOneTheme: Bool {
+    if themes.count + regions.count + seasons.count + partners.count > 0 {
+      return true
+    }
+    return false
+  }
+  
+  private let themeEventNotifier = PassthroughSubject<Void, Never>()
+  
+  private var subscription: AnyCancellable?
   
   private var currentSection: MainTheme = .season {
     didSet {
@@ -117,6 +132,7 @@ final class PostReviewWritingCategoryBottomSheet: BaseBottomSheetViewController 
     super.init(contentView: stackView, mode: .full, radius: 15)
     collectionView.dataSource = self
     collectionView.delegate = self
+    bind()
   }
   
   override func viewDidLoad() {
@@ -129,6 +145,35 @@ final class PostReviewWritingCategoryBottomSheet: BaseBottomSheetViewController 
   }
 
   // MARK: - Private Helpers
+  private func bind() {
+    
+    // TODO: - 오키버튼 바인딩
+    selectCompletionView.okButtonTap = { [weak self] in
+      print("무야호잇")
+    }
+    selectCompletionView.clearButtonTap = { [weak self] in
+      // TODO: - 초기화 버튼 바인딩
+      // 선택한거 다 초기화
+      self?.themes.removeAll()
+      self?.regions.removeAll()
+      self?.seasons.removeAll()
+      self?.partners.removeAll()
+      // 섹션 리로드 + 확인버튼 꺼지게
+      self?.collectionView.reloadSections(IndexSet(integer: SectionType.subTheme.rawValue))
+      self?.selectCompletionView.deactiveOKButtonUI()
+      
+    }
+    
+    subscription = themeEventNotifier.sink { [weak self] _ in
+      if self?.hasSelectedAtLeastOneTheme == true {
+        // TODO: - 오키 버튼 활성화
+        self?.selectCompletionView.activeOKButtonUI()
+      } else {
+        self?.selectCompletionView.deactiveOKButtonUI()
+      } // 오키 버튼 비활성화
+    }
+  }
+  
   private func setNextView() { }
   
   private func handleWhenSubThemeSelect(index: Int, isSelected: Bool) {
@@ -354,6 +399,7 @@ extension PostReviewWritingCategoryBottomSheet: ReviewWritingThemeCellDelegate {
     } else if section == .subTheme {
       guard let index = indexPath?.row else { return }
       handleWhenSubThemeSelect(index: index, isSelected: isSelected)
+      themeEventNotifier.send()
     }
   }
 }
