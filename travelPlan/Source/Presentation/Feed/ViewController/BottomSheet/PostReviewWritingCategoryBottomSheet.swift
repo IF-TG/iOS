@@ -152,6 +152,28 @@ final class PostReviewWritingCategoryBottomSheet: BaseBottomSheetViewController 
       }
     }
   }
+  
+  private func hasSubThemeSelected(_ indexPath: IndexPath) -> Bool {
+    switch currentSection {
+    case .theme:
+      if themes.contains(TravelTheme.allCases[indexPath.row]) {
+        return true
+      }
+    case .season:
+      if seasons.contains(Season.allCases[indexPath.row]) {
+        return true
+      }
+    case .region:
+      if regions.contains(TravelRegion.allCases[indexPath.row]) {
+        return true
+      }
+    case .partner:
+      if partners.contains(TravelPartner.allCases[indexPath.row]) {
+        return true
+      }
+    }
+    return false
+  }
 }
 
 // MARK: - UITableViewDataSource
@@ -160,7 +182,6 @@ extension PostReviewWritingCategoryBottomSheet: UICollectionViewDataSource {
     return SectionType.numberOfSections
   }
 
-  
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     guard let section = SectionType(rawValue: section) else { return 0 }
     return switch section {
@@ -185,20 +206,25 @@ extension PostReviewWritingCategoryBottomSheet: UICollectionViewDataSource {
       withReuseIdentifier: ReviewWritingThemeCell.id,
       for: indexPath
     ) as? ReviewWritingThemeCell else { return .init() }
+    var themeText = "", isSelected = false, isEnableMultiSelection = false
     cell.delegate = self
+    
     if case .mainTheme = section {
-      cell.configure(
-        themeText: MainTheme.allCases[indexPath.row].title,
-        isSelected: false,
-        isEnableMultiSelection: false)
+      themeText = MainTheme.allCases[indexPath.row].title
       if indexPath.row == 0 && selectedMainThemeCell == nil {
         selectedMainThemeCell = cell
         cell.deactiveSelection()
       }
     }
     if case .subTheme = section {
-      cell.configure(themeText: <#T##String?#>, isSelected: <#T##Bool#>, isEnableMultiSelection: <#T##Bool#>)
+      isSelected = hasSubThemeSelected(indexPath)
+      isEnableMultiSelection = true
+      themeText = currentSection.subThemes[indexPath.row]
     }
+    cell.configure(
+      themeText: themeText,
+      isSelected: isSelected,
+      isEnableMultiSelection: isEnableMultiSelection)
     return cell
   }
 }
