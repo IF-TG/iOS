@@ -10,6 +10,11 @@ import SnapKit
 import Combine
 import Photos
 
+enum ReviewWritingMode {
+  case start
+  case edit
+}
+
 final class ReviewWritingViewController: UIViewController {
   // MARK: - Nested  
   enum Constant {
@@ -54,11 +59,14 @@ final class ReviewWritingViewController: UIViewController {
   private var isViewDidAppearFirstCalled = false
   private weak var imageView: UIImageView?
   private let input = ReviewWritingViewModelInput()
+  private let mode: ReviewWritingMode
   
   // MARK: - LifeCycle
-  init(viewModel: any ReviewWritingViewModel, photoService: any PhotoService) {
+  init(viewModel: any ReviewWritingViewModel, photoService: any PhotoService, mode: ReviewWritingMode) {
     self.viewModel = viewModel
     self.photoService = photoService
+    self.mode = mode
+    
     super.init(nibName: nil, bundle: nil)
   }
   
