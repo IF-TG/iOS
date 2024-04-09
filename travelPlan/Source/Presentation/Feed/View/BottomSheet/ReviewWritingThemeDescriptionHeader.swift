@@ -39,7 +39,7 @@ extension ReviewWritingThemeDescriptionHeader: LayoutSupport {
   func setConstraints() {
     NSLayoutConstraint.activate([
       title.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-      title.topAnchor.constraint(equalTo: topAnchor, constant: 32),
+      title.topAnchor.constraint(lessThanOrEqualTo: topAnchor, constant: 32),
       title.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
       title.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -4)])
   }
