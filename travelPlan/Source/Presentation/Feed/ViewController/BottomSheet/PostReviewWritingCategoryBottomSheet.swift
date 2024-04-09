@@ -269,16 +269,20 @@ extension PostReviewWritingCategoryBottomSheet: UICollectionViewDelegateFlowLayo
     guard let section = SectionType(rawValue: indexPath.section) else {
       return .zero
     }
-    let collectionViewWidth = collectionView.bounds.width
-    var itemWidth: CGFloat = collectionViewWidth / 2 - 8
-    let itemHeight = 48
-    if case .description = section { return .zero }
-    if currentSection == .region {
-      itemWidth = collectionViewWidth / 3 - 16
-    } else {
-      itemWidth = collectionViewWidth / 2 - 8
+    if case .description = section {
+      return .zero
     }
-    return CGSize(width: Int(itemWidth), height: Int(itemHeight))
+    let collectionViewWidth = Int(collectionView.bounds.width)
+    let sectionInset = 14, itemSpacing = 8
+    var itemWidth: Int = (collectionViewWidth - sectionInset) / 2 - itemSpacing
+    let itemHeight = 48
+    if case .mainTheme = section {
+      return CGSize(width: itemWidth, height: itemHeight)
+    }
+    if currentSection == .region {
+      itemWidth = (collectionViewWidth - sectionInset) / 3 - itemSpacing*2
+    }
+    return CGSize(width: itemWidth, height: Int(itemHeight))
   }
   
   func collectionView(
