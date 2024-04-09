@@ -30,6 +30,19 @@ final class PostReviewWritingCategoryBottomSheet: BaseBottomSheetViewController 
         return TravelMainThemeType.partner(nil).rawValue
       }
     }
+    
+    var subThemes: [String] {
+      switch self {
+      case .season:
+        Season.toKoreanList
+      case .region:
+        TravelRegion.toKoreanList
+      case .theme:
+        TravelTheme.toKoreanList
+      case .partner:
+        TravelPartner.toKoreanList
+      }
+    }
   }
   
   @frozen enum SectionType: Int, CaseIterable {
@@ -172,8 +185,8 @@ extension PostReviewWritingCategoryBottomSheet: UICollectionViewDataSource {
       withReuseIdentifier: ReviewWritingThemeCell.id,
       for: indexPath
     ) as? ReviewWritingThemeCell else { return .init() }
+    cell.delegate = self
     if case .mainTheme = section {
-      cell.delegate = self
       cell.configure(
         themeText: MainTheme.allCases[indexPath.row].title,
         isSelected: false,
@@ -184,7 +197,7 @@ extension PostReviewWritingCategoryBottomSheet: UICollectionViewDataSource {
       }
     }
     if case .subTheme = section {
-      
+      cell.configure(themeText: <#T##String?#>, isSelected: <#T##Bool#>, isEnableMultiSelection: <#T##Bool#>)
     }
     return cell
   }
