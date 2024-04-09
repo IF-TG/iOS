@@ -26,6 +26,11 @@ struct ReviewWritingViewModelInput {
   let didTapScrollView: PassthroughSubject<Void, Never> = .init()
 }
 
+enum ReviewWritingMode {
+  case start
+  case edit
+}
+
 enum ReviewWritingViewModelState {
   case popViewController
   case presentAlbumViewController
@@ -42,14 +47,17 @@ final class DefaultReviewWritingViewModel: ReviewWritingViewModel {
   // MARK: - Properties
   private let photoAuthorizationUseCase: PhotoAuthorizationUseCase
   private let reviewWritingUseCase: ReviewWritingUseCase
+  private let mode: ReviewWritingMode
   
   // MARK: - LifeCycle
   init(
     photoAuthorizationUseCase: PhotoAuthorizationUseCase,
-    reviewWritingUseCase: ReviewWritingUseCase
+    reviewWritingUseCase: ReviewWritingUseCase,
+    mode: ReviewWritingMode
   ) {
     self.photoAuthorizationUseCase = photoAuthorizationUseCase
     self.reviewWritingUseCase = reviewWritingUseCase
+    self.mode = mode
   }
 }
 

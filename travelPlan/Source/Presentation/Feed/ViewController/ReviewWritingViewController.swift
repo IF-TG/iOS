@@ -10,11 +10,6 @@ import SnapKit
 import Combine
 import Photos
 
-enum ReviewWritingMode {
-  case start
-  case edit
-}
-
 final class ReviewWritingViewController: UIViewController {
   // MARK: - Nested  
   enum Constant {
