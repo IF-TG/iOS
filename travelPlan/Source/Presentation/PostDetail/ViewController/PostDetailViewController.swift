@@ -7,14 +7,18 @@
 
 import UIKit
 import Combine
+import SHCoordinator
+
+@frozen enum PostDetailOption: String, CaseIterable {
+  case postBlock = "차단하기"
+  case postReport = "신고하기"
+}
 
 final class PostDetailViewController: UITableViewController {
   // MARK: - Dependencies
   private let viewModel: any PostDetailViewModelable & PostDetailTableViewDataSource
   
-  weak var coordinator: PostDetailCoordinatorDelegate?
-  
-  // MARK: - Properties
+  // MARK: - UI Properties
   private let inputAccessory = PostDetailInputAccessoryWrapper()
   
   private let naviTitle = BaseLabel(fontType: .semiBold_600(fontSize: 16))
@@ -23,12 +27,6 @@ final class PostDetailViewController: UITableViewController {
   
   private var naviTitleAnimator: UIViewPropertyAnimator?
   
-  private var isHandlingKeyboardEvent = false
-  
-  private var adapter: PostDetailTableViewAdapter?
-  
-  private var notificationSubscriptions = Set<AnyCancellable>()
-  
   override var canBecomeFirstResponder: Bool {
     return true
   }
@@ -36,6 +34,13 @@ final class PostDetailViewController: UITableViewController {
   override var inputAccessoryView: UIView? {
     return inputAccessory
   }
+  
+  // MARK: - Properties
+  private var isHandlingKeyboardEvent = false
+  
+  private var adapter: PostDetailTableViewAdapter?
+  
+  private var notificationSubscriptions = Set<AnyCancellable>()
   
   private let input = PostDetailViewModelInput()
   
@@ -131,7 +136,8 @@ extension PostDetailViewController: ViewBindCase {
     case .none:
       break
     case .unexpectedError(description: let description):
-      coordinator?.showAlertForError(with: description, completion: nil)
+      stopIndicator()
+      viewModel.showAlertForError(with: description, completion: nil)
     case .networkProcessing:
       startIndicator()
     case .viewDidLoad(let viewDidLoadState):
@@ -140,6 +146,10 @@ extension PostDetailViewController: ViewBindCase {
       handleCommentState(commentState)
     case .nestedComment(let commentState):
       handleNestedCommentState(commentState)
+    case .postReport:
+      stopIndicator()
+      /// postReportNotifier, postAuthorBlockNotifier호출 완료 시점 postReport State를 전송해야 합니다.
+      viewModel.showPostReportResult()
     }
   }
   
@@ -148,10 +158,10 @@ extension PostDetailViewController: ViewBindCase {
     switch viewDidLoadState {
     case .loggedInUserInfo(let userProfile):
       inputAccessory.configure(with: userProfile)
-    case .reloadedCommentsWithPostFavoriteInfo(let isPostFavorite):
+    case .reloadedCommentsWithPostFavoriteInfo(let isFavorite):
       tableView.reloadData()
       stopIndicator()
-      // TODO: - 포스트 좋아요 했다면 해당 포스트 favorite 별 파랗게 물들여야 합니다.
+      starButton.isSelected = isFavorite
     }
   }
   
@@ -188,7 +198,7 @@ extension PostDetailViewController: ViewBindCase {
         break
       }
     case .replyCancellationAsk:
-      coordinator?.showAnAlertToAskWhetherToCancelWrittingTheReply { [weak self] wannaCancel in
+      viewModel.showAnAlertToAskWhetherToCancelWrittingTheReply { [weak self] wannaCancel in
         self?.input.keyboardDidHideWhenReplyingToMessageNotifier.send(wannaCancel)
       }
     }
@@ -213,40 +223,8 @@ private extension PostDetailViewController {
     navigationItem.titleView = naviTitle
     naviTitle.alpha = 0
   }
-  
-  func registerReusableViews() {
-    tableView.register(
-      PostDetailCategoryHeaderView.self,
-      forHeaderFooterViewReuseIdentifier: PostDetailCategoryHeaderView.id)
-    tableView.register(
-      PostDetailTitleCell.self,
-      forCellReuseIdentifier: PostDetailTitleCell.id)
-    tableView.register(
-      PostDetailProfileAreaFooterView.self,
-      forHeaderFooterViewReuseIdentifier: PostDetailProfileAreaFooterView.id)
-    
-    tableView.register(
-      PostDetailContentTextCell.self,
-      forCellReuseIdentifier: PostDetailContentTextCell.id)
-    tableView.register(
-      PostDetailContentImageCell.self,
-      forCellReuseIdentifier: PostDetailContentImageCell.id)
-    tableView.register(
-      PostDetailContentFooterView.self,
-      forHeaderFooterViewReuseIdentifier: PostDetailContentFooterView.id)
-    tableView.register(
-      PostHeartAndShareAreaHeaderView.self,
-      forHeaderFooterViewReuseIdentifier: PostHeartAndShareAreaHeaderView.id)
-    
-    tableView.register(
-      PostDetailCommentHeader.self,
-      forHeaderFooterViewReuseIdentifier: PostDetailCommentHeader.id)
-    tableView.register(
-      PostDetailReplyCell.self,
-      forCellReuseIdentifier: PostDetailReplyCell.id)
-  }
 }
-
+  
 // MARK: - Actions
 extension PostDetailViewController {
   @objc private func didTapTableView() {
@@ -254,7 +232,8 @@ extension PostDetailViewController {
   }
   
   @objc private func didTapStarButton() {
-    print("카운팅스타~ 밤하늘의 퍼어얼")
+    starButton.isSelected.toggle()
+    // TODO: - 토글전에! 찜 디렉터리 보여줘야 합니다!
   }
   
   // MARK: - Keyboard Actions
@@ -270,12 +249,12 @@ extension PostDetailViewController: PostDetailTableViewAdapterDelegate {
     naviTitleAnimator = UIViewPropertyAnimator(
       duration: 0.28,
       curve: .easeIn,
-      animations: {
-        self.naviTitle.alpha = 0
-        self.naviTitle.transform = .init(translationX: 0, y: self.naviTitle.font.lineHeight)
+      animations: { [weak self] in
+        self?.naviTitle.alpha = 0
+        self?.naviTitle.transform = .init(translationX: 0, y: self?.naviTitle.font.lineHeight ?? 0)
       })
-    naviTitleAnimator?.addCompletion { _ in
-      self.naviTitle.isHidden = true
+    naviTitleAnimator?.addCompletion { [weak self] _ in
+      self?.naviTitle.isHidden = true
     }
     naviTitleAnimator?.startAnimation()
   }
@@ -290,12 +269,12 @@ extension PostDetailViewController: PostDetailTableViewAdapterDelegate {
     naviTitleAnimator = UIViewPropertyAnimator(
       duration: 0.28,
       curve: .easeOut,
-      animations: {
-        self.naviTitle.transform = .identity
-        self.naviTitle.alpha = 1
+      animations: { [weak self] in
+        self?.naviTitle.transform = .identity
+        self?.naviTitle.alpha = 1
       })
-    naviTitleAnimator?.addCompletion { _ in
-      self.naviTitle.isHidden = false
+    naviTitleAnimator?.addCompletion { [weak self] _ in
+      self?.naviTitle.isHidden = false
     }
     naviTitleAnimator?.startAnimation()
   }
@@ -331,8 +310,9 @@ extension PostDetailViewController: PostDetailCommentDelegate {
   func didTapCanceledHeart(_ header: PostDetailCommentHeaderIdentifiable) {}
   
   func didTapReply(_ header: PostDetailCommentHeaderIdentifiable) {
+    
     guard let replySection = header.section else {
-      coordinator?.showAlertForError(with: "대댓글을 작성할 수 없습니다.\n앱 서비스에 문제가 발생됬습니다.", completion: nil)
+      viewModel.showAlertForError(with: "대댓글을 작성할 수 없습니다.\n앱 서비스에 문제가 발생됬습니다.", completion: nil)
       return
     }
     input.replyStartNotifier.send(replySection)
@@ -345,5 +325,32 @@ extension PostDetailViewController: PostDetailCommentDelegate {
 extension PostDetailViewController: PostDetailInputAccessoryWrapperDelegate {
   func didTouchSendIcon(_ text: String) {
     input.commentSendHandler.send(text)
+  }
+}
+
+// MARK: - PostHeartAndShareAreaHeaderViewDelegate
+extension PostDetailViewController: PostHeartAndShareAreaHeaderViewDelegate {
+  func didTapOption() {
+    viewModel.showOption(handler: { [weak self] optionState in
+      switch optionState {
+      case .postBlock:
+        self?.viewModel.showPostAuthorBlock { [weak self] wannaBlock in
+          if wannaBlock { self?.input.postAuthorBlockNotifier.send() }
+        }
+      case .postReport:
+        self?.viewModel.showPostReport { [weak self] reportType in
+          if reportType == .stopRequest { return }
+          self?.input.postReportNotifier.send(reportType)
+        }
+      }
+    })
+  }
+  
+  func didTapHeart(isFavorite: Bool) {
+    print("포스트 하트클릭")
+  }
+  
+  func didTapShare() {
+    print("공유클릭 도깨비 아님주의.")
   }
 }
