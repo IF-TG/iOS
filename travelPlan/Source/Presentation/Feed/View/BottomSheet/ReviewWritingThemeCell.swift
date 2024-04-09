@@ -32,7 +32,7 @@ final class ReviewWritingThemeCell: UICollectionViewCell {
       else { return }
       
       if isEnableMultiSelection {
-        var isSelected = prevSelectionState == .selected
+        let isSelected = prevSelectionState == .selected
         self?.themeMenu.currentState = isSelected ? .normal : .selected
       } else {
         if prevSelectionState == .normal {
