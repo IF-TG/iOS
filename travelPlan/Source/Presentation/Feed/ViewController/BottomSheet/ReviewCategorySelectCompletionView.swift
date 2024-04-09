@@ -44,6 +44,11 @@ final class ReviewCategorySelectCompletionView: UIView {
     setupUI()
   }
   
+  convenience init() {
+    self.init(frame: .zero)
+    translatesAutoresizingMaskIntoConstraints = false
+  }
+  
   required init?(coder: NSCoder) { nil }
   
   // MARK: - Helpers
