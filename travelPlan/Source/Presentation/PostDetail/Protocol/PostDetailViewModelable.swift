@@ -39,7 +39,7 @@ struct PostDetailViewModelInput {
   case unexpectedError(description: String)
   case nestedComment(PostDetailNestedCommentState)
   case comment(PostDetailCommentState)
-  case postReport(PostDetailOption)
+  case postReport
 }
 
 @frozen enum PostDetailViewDidLoadState {

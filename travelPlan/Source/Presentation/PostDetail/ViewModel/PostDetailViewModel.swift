@@ -72,6 +72,8 @@ final class PostDetailViewModel {
   
   private let actions: PostDetailViewModelActions?
   
+  private var postReportResultOption: PostDetailOption? = .none
+  
   // MARK: - Paging Properties
   // TODO: - 페이징 추가해야합니다.
   // 그런데 댓글의 경우 좀 복잡할거같은데,, 사용자가 삭제하면 어떻게하지? 기존에 저장된 정보(이미 페이징 한 데이터)가
@@ -136,8 +138,17 @@ extension PostDetailViewModel: PostDetailCoordinatorDelegate {
     actions?.showPostReport(handler)
   }
   
-  func showPostReportResult(wtih option: PostDetailOption) {
-    actions?.showPostReportResult(option)
+  func showPostReportResult() {
+    guard let postReportResultOption else {
+      actions?.showAlertForError("앱 내부 문제가 발생됬습니다.", nil)
+      return
+    }
+    // TODO: - 포스트 차단의 경우 포스트 상세 나간 후에 이 post 제거로직 추가해주기.
+    // postReportNotifier, postAuthorBlockNotifier 호출 완료 시점 이 state를 통해. 완료 경고창 보여주기
+    // 화면에는 차단한 포스트 안 보이는게 좋음으로.
+    actions?.showPostReportResult(postReportResultOption)
+    // 차단 한 경우 화면 나가기
+    self.postReportResultOption = nil
   }
   
   func showCategory() {

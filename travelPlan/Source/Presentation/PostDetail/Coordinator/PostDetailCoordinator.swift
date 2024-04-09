@@ -14,10 +14,9 @@ protocol PostDetailCoordinatorDelegate: AnyObject {
   func showAnAlertToAskWhetherToCancelWrittingTheReply(completion: ((Bool) -> Void)?)
   func showOption(handler: ((PostDetailOption) -> Void)?)
   func showPostAuthorBlock(handler: ((Bool) -> Void)?)
-  /// 신고하기 종류 추가.
-  func showPostReport(handler: ((PostReportType) -> Void)?)
-  func showPostReportResult(wtih option: PostDetailOption)
   func showCategory()
+  func showPostReport(handler: ((PostReportType) -> Void)?)
+  func showPostReportResult()
 }
 
 // MARK: - PostDetailCoordinator

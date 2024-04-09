@@ -150,11 +150,10 @@ extension PostDetailViewController: ViewBindCase {
       handleCommentState(commentState)
     case .nestedComment(let commentState):
       handleNestedCommentState(commentState)
-      // MARK: - actions도입으로 여기서 처리하지 않아도됨
-    case .postReport(let postOptionState):
-      viewModel.showPostReportResult(wtih: postOptionState)
-      // TODO: - 포스트 차단의 경우 포스트 상세 나간 후에 이 post 제거로직 추가해주기.
-      // 화면에는 차단한 포스트 안보여야하니므로.
+    case .postReport:
+      stopIndicator()
+      /// postReportNotifier, postAuthorBlockNotifier호출 완료 시점 postReport State를 전송해야 합니다.
+      viewModel.showPostReportResult()
     }
   }
   
