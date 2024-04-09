@@ -119,7 +119,9 @@ extension ReviewWritingViewController {
         case .none:
           break
         case .popViewController:
-          self?.coordinator?.finish(withAnimated: true)
+          // TODO: - 추가적인 로직 정하기
+          self?.coordinator?.showCategoryBottomSheet()
+          // self?.coordinator?.finish(withAnimated: true)
         case .presentAlbumViewController:
           self?.coordinator?.showPhotoViewController()
         case .presentPlan:
