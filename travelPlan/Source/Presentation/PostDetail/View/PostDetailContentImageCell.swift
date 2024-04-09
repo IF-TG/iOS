@@ -40,12 +40,12 @@ final class PostDetailContentImageCell: UITableViewCell {
 
 // MARK: - Helpers
 extension PostDetailContentImageCell {
-  func configure(with imagePath: String?) {
-    guard let imagePath else {
+  func configure(with imageData: Data?) {
+    guard let imageData else {
       contentImageView.image = nil
       return
     }
-    contentImageView.image = UIImage(named: imagePath)
+    contentImageView.image = UIImage(data: imageData)
   }
 }
 
