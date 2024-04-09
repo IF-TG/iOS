@@ -119,9 +119,7 @@ extension ReviewWritingViewController {
         case .none:
           break
         case .popViewController:
-          // TODO: - 추가적인 로직 정하기
-          self?.coordinator?.showCategoryBottomSheet()
-          // self?.coordinator?.finish(withAnimated: true)
+          self?.coordinator?.finish(withAnimated: true)
         case .presentAlbumViewController:
           self?.coordinator?.showPhotoViewController()
         case .presentPlan:
@@ -131,7 +129,7 @@ extension ReviewWritingViewController {
         case .manageTextViewDisplay:
           self?.contentView.manageContentOffsetYByLastView()
         case .presentThemeSetting:
-          print("테마 설정 화면 띄우기")
+          self?.coordinator?.showCategoryBottomSheet()
         case .alertAuthRequest:
           // TODO: - Alert화면 띄우기
           break
