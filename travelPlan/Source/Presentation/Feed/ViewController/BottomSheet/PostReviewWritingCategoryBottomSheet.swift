@@ -98,7 +98,7 @@ final class PostReviewWritingCategoryBottomSheet: BaseBottomSheetViewController 
   
   private(set) var selectedCategory: Post.Category = .init(themes: [], regions: [], seasons: [], partners: [])
   
-  private var hasSelectedAtLeastOneTheme: Bool {
+  var hasSelectedAtLeastOneTheme: Bool {
     if themes.count + regions.count + seasons.count + partners.count > 0 {
       return true
     }
