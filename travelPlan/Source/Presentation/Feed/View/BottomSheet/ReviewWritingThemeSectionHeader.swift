@@ -45,6 +45,6 @@ extension ReviewWritingThemeSectionHeader: LayoutSupport {
       title.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
       title.topAnchor.constraint(equalTo: topAnchor, constant: 16),
       title.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -16),
-      title.bottomAnchor.constraint(equalTo: bottomAnchor)])
+      title.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16)])
   }
 }
