@@ -18,7 +18,7 @@ struct ReviewWritingViewModelInput {
   let didTapTitleTextView: PassthroughSubject<Void, Never> = .init()
   let didTapCancelButton: PassthroughSubject<Void, Never> = .init()
   let didTapKeyboardDownButton: PassthroughSubject<Void, Never> = .init()
-  let didTapFinishButton: PassthroughSubject<[PostDetailContentType2], Never> = .init()
+  let didTapFinishButton: PassthroughSubject<[PostContentEntity], Never> = .init()
   let didTapAlbumButton: PassthroughSubject<Void, Never> = .init()
   let didTapPlanView: PassthroughSubject<Void, Never> = .init()
   let didTapNavigationTitleView: PassthroughSubject<Void, Never> = .init()

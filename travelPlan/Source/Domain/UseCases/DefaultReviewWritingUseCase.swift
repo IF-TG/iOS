@@ -8,5 +8,7 @@
 import Foundation
 
 final class DefaultReviewWritingUseCase: ReviewWritingUseCase {
-  
+  func uploadPost(content: PostContentEntity) {
+    
+  }
 }

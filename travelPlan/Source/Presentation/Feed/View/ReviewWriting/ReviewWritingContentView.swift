@@ -439,8 +439,8 @@ extension ReviewWritingContentView {
     updateFirstMessageTextViewVisibility(state: .invisible)
   }
 
-  func extractContentData() -> [PostDetailContentType2] {
-    var models = [PostDetailContentType2]()
+  func extractContentData() -> [PostContentEntity] {
+    var models = [PostContentEntity]()
     guard !(lastView === firstMessageTextView && firstMessageTextViewTextIsPlaceholder) else { return models }
     
     for i in firstContentIndex..<arrangedSubviews.count {

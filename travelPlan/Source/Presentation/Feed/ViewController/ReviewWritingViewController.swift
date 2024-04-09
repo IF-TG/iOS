@@ -59,13 +59,11 @@ final class ReviewWritingViewController: UIViewController {
   private var isViewDidAppearFirstCalled = false
   private weak var imageView: UIImageView?
   private let input = ReviewWritingViewModelInput()
-  private let mode: ReviewWritingMode
   
   // MARK: - LifeCycle
-  init(viewModel: any ReviewWritingViewModel, photoService: any PhotoService, mode: ReviewWritingMode) {
+  init(viewModel: any ReviewWritingViewModel, photoService: any PhotoService) {
     self.viewModel = viewModel
     self.photoService = photoService
-    self.mode = mode
     
     super.init(nibName: nil, bundle: nil)
   }
