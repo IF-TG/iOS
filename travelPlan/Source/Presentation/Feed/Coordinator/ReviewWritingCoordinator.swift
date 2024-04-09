@@ -23,11 +23,13 @@ final class ReviewWritingCoordinator: FlowCoordinator {
   var child: [FlowCoordinator] = []
   var presenter: UINavigationController?
   var viewController: UIViewController?
+  private let mode: ReviewWritingMode
   @Published private var selectedAssets = [PHAsset]()
   
   // MARK: - LifeCycle
-  init(presenter: UINavigationController?) {
+  init(presenter: UINavigationController?, mode: ReviewWritingMode) {
     self.presenter = presenter
+    self.mode = mode
   }
   
   deinit {
@@ -39,7 +41,8 @@ final class ReviewWritingCoordinator: FlowCoordinator {
     let reviewWritingUseCase = DefaultReviewWritingUseCase()
     let viewModel = DefaultReviewWritingViewModel(
       photoAuthorizationUseCase: photoAuthUseCase,
-      reviewWritingUseCase: reviewWritingUseCase
+      reviewWritingUseCase: reviewWritingUseCase,
+      mode: mode
     )
     let photoService = DefaultPhotoService()
     let vc = ReviewWritingViewController(viewModel: viewModel, photoService: photoService)
