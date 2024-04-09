@@ -16,7 +16,7 @@ protocol PostDetailCoordinatorDelegate: AnyObject {
   func showPostAuthorBlock(handler: ((Bool) -> Void)?)
   /// 신고하기 종류 추가.
   func showPostReport(handler: ((PostReportType) -> Void)?)
-  func showPostReportResult(wtih option: PostDetailOption)
+  func showPostReportResult()
 }
 
 // MARK: - PostDetailCoordinator
