@@ -8,7 +8,7 @@
 import UIKit
 
 protocol ReviewWritingThemeCellDelegate: AnyObject {
-  func reviewWritingThemeCell(_ cell: UICollectionViewCell?, isSelected: Bool)
+  func reviewWritingThemeCell(_ cell: ReviewWritingThemeCell?, isSelected: Bool)
 }
 
 final class ReviewWritingThemeCell: UICollectionViewCell {
@@ -19,14 +19,29 @@ final class ReviewWritingThemeCell: UICollectionViewCell {
   
   weak var delegate: ReviewWritingThemeCellDelegate?
   
+  private var isEnableMultiSelection: Bool = false
+  
   // MARK: - Lifecycle
   override init(frame: CGRect) {
     super.init(frame: frame)
     setupUI()
     themeMenu.tapHandler = { [weak self] in
-      guard let currentState = self?.themeMenu.currentState else {
-        return
+      guard
+        let prevSelectionState = self?.themeMenu.currentState,
+        let isEnableMultiSelection = self?.isEnableMultiSelection
+      else { return }
+      
+      if isEnableMultiSelection {
+        if prevSelectionState == .normal {
+          self?.activeSelection()
+        } else {
+          self?.deactiveSelection()
+        }
+      } else {
+        var isSelected = prevSelectionState == .selected
+        self?.themeMenu.currentState = isSelected ? .normal : .selected
       }
+      guard let currentState = self?.themeMenu.currentState else { return }
       self?.delegate?.reviewWritingThemeCell(self, isSelected: currentState == .selected)
     }
   }
@@ -37,11 +52,12 @@ final class ReviewWritingThemeCell: UICollectionViewCell {
   
   override func prepareForReuse() {
     super.prepareForReuse()
-    configure(themeText: nil, isSelected: false)
+    configure(themeText: nil, isSelected: false, isEnableMultiSelection: false)
   }
   
   // MARK: - Helpers
-  func configure(themeText: String?, isSelected: Bool) {
+  func configure(themeText: String?, isSelected: Bool, isEnableMultiSelection: Bool) {
+    self.isEnableMultiSelection = isEnableMultiSelection
     guard let themeText else {
       themeMenu.setTitle(nil, for: .normal)
       themeMenu.currentState = .normal
@@ -49,6 +65,16 @@ final class ReviewWritingThemeCell: UICollectionViewCell {
     }
     themeMenu.setTitle(themeText, for: .normal)
     themeMenu.currentState = isSelected ? .selected : .normal
+  }
+  
+  func activeSelection() {
+    themeMenu.currentState = .normal
+    themeMenu.isUserInteractionEnabled = true
+  }
+  
+  func deactiveSelection() {
+    themeMenu.currentState = .selected
+    themeMenu.isUserInteractionEnabled = false
   }
 }
 
