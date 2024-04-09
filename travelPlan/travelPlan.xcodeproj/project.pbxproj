@@ -220,6 +220,8 @@
 		1546DF3B2B0C5B7C00B49A55 /* ImageDiskCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1546DF3A2B0C5B7C00B49A55 /* ImageDiskCache.swift */; };
 		1546DF3F2B0C64E500B49A55 /* ImageDiskCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1546DF3E2B0C64E500B49A55 /* ImageDiskCacheTests.swift */; };
 		154ECA172AB0B5D40093AF25 /* TravelMainThemeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154ECA162AB0B5D40093AF25 /* TravelMainThemeType.swift */; };
+		154FBC172BC2CDB40070D2FE /* PostReportType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154FBC162BC2CDB40070D2FE /* PostReportType.swift */; };
+		154FBC1A2BC2D4C30070D2FE /* PostDetailViewController+RegisterReusableViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154FBC192BC2D4C30070D2FE /* PostDetailViewController+RegisterReusableViews.swift */; };
 		15504BF62BC539300096D523 /* ReviewWritingThemeDescriptionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15504BF52BC539300096D523 /* ReviewWritingThemeDescriptionHeader.swift */; };
 		1550D9AF2ACAFAC10046569B /* FeedPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1550D9AE2ACAFAC10046569B /* FeedPostViewController.swift */; };
 		1550D9B12ACB1D740046569B /* DevelopmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1550D9B02ACB1D740046569B /* DevelopmentViewController.swift */; };
@@ -278,6 +280,7 @@
 		157ADCB42AD07ED600D37680 /* SearchWithCancelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157ADCB32AD07ED600D37680 /* SearchWithCancelView.swift */; };
 		158312E12AB36A9A0087034A /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158312E02AB36A9A0087034A /* UIViewController+.swift */; };
 		158439152BAAC80B00348509 /* FavoritePostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158439142BAAC80B00348509 /* FavoritePostViewModel.swift */; };
+		1585017C2BC2E50D00341575 /* PostOptionResultAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1585017B2BC2E50D00341575 /* PostOptionResultAlertController.swift */; };
 		158695932AE5455B0087CCB3 /* FeedPostViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158695922AE5455B0087CCB3 /* FeedPostViewAdapter.swift */; };
 		158695952AE54D010087CCB3 /* FeedPostViewAdapterDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158695942AE54D010087CCB3 /* FeedPostViewAdapterDataSource.swift */; };
 		158695972AE620610087CCB3 /* FeedPostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158695962AE620610087CCB3 /* FeedPostViewModel.swift */; };
@@ -362,7 +365,7 @@
 		15B928612AFA3309003A20D4 /* PostDetailContentTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B928602AFA3309003A20D4 /* PostDetailContentTextCell.swift */; };
 		15B928652AFA3980003A20D4 /* PostDetailContentFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B928642AFA3980003A20D4 /* PostDetailContentFooterView.swift */; };
 		15B928672AFA3D93003A20D4 /* PostDetailTableViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B928662AFA3D93003A20D4 /* PostDetailTableViewAdapter.swift */; };
-		15B928692AFA3F63003A20D4 /* PostDetailContentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B928682AFA3F63003A20D4 /* PostDetailContentType.swift */; };
+		15B928692AFA3F63003A20D4 /* PostContentEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B928682AFA3F63003A20D4 /* PostContentEntity.swift */; };
 		15B9286B2AFA4463003A20D4 /* PostDetailTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B9286A2AFA4463003A20D4 /* PostDetailTableViewDataSource.swift */; };
 		15B9286D2AFA47B0003A20D4 /* PostDetailTableViewAdapterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B9286C2AFA47B0003A20D4 /* PostDetailTableViewAdapterDelegate.swift */; };
 		15B9286F2AFA49C4003A20D4 /* PostDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B9286E2AFA49C4003A20D4 /* PostDetailViewModel.swift */; };
@@ -801,6 +804,8 @@
 		1546DF3A2B0C5B7C00B49A55 /* ImageDiskCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDiskCache.swift; sourceTree = "<group>"; };
 		1546DF3E2B0C64E500B49A55 /* ImageDiskCacheTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDiskCacheTests.swift; sourceTree = "<group>"; };
 		154ECA162AB0B5D40093AF25 /* TravelMainThemeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelMainThemeType.swift; sourceTree = "<group>"; };
+		154FBC162BC2CDB40070D2FE /* PostReportType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostReportType.swift; sourceTree = "<group>"; };
+		154FBC192BC2D4C30070D2FE /* PostDetailViewController+RegisterReusableViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PostDetailViewController+RegisterReusableViews.swift"; sourceTree = "<group>"; };
 		154FC1312BADE5A90067602E /* PostContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostContainer.swift; sourceTree = "<group>"; };
 		15504BF52BC539300096D523 /* ReviewWritingThemeDescriptionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWritingThemeDescriptionHeader.swift; sourceTree = "<group>"; };
 		1550D9AE2ACAFAC10046569B /* FeedPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedPostViewController.swift; sourceTree = "<group>"; };
@@ -858,6 +863,7 @@
 		157ADCB32AD07ED600D37680 /* SearchWithCancelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchWithCancelView.swift; sourceTree = "<group>"; };
 		158312E02AB36A9A0087034A /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
 		158439142BAAC80B00348509 /* FavoritePostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePostViewModel.swift; sourceTree = "<group>"; };
+		1585017B2BC2E50D00341575 /* PostOptionResultAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostOptionResultAlertController.swift; sourceTree = "<group>"; };
 		158695922AE5455B0087CCB3 /* FeedPostViewAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedPostViewAdapter.swift; sourceTree = "<group>"; };
 		158695942AE54D010087CCB3 /* FeedPostViewAdapterDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedPostViewAdapterDataSource.swift; sourceTree = "<group>"; };
 		158695962AE620610087CCB3 /* FeedPostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedPostViewModel.swift; sourceTree = "<group>"; };
@@ -942,7 +948,7 @@
 		15B928602AFA3309003A20D4 /* PostDetailContentTextCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailContentTextCell.swift; sourceTree = "<group>"; };
 		15B928642AFA3980003A20D4 /* PostDetailContentFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailContentFooterView.swift; sourceTree = "<group>"; };
 		15B928662AFA3D93003A20D4 /* PostDetailTableViewAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailTableViewAdapter.swift; sourceTree = "<group>"; };
-		15B928682AFA3F63003A20D4 /* PostDetailContentType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailContentType.swift; sourceTree = "<group>"; };
+		15B928682AFA3F63003A20D4 /* PostContentEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostContentEntity.swift; sourceTree = "<group>"; };
 		15B9286A2AFA4463003A20D4 /* PostDetailTableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailTableViewDataSource.swift; sourceTree = "<group>"; };
 		15B9286C2AFA47B0003A20D4 /* PostDetailTableViewAdapterDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailTableViewAdapterDelegate.swift; sourceTree = "<group>"; };
 		15B9286E2AFA49C4003A20D4 /* PostDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailViewModel.swift; sourceTree = "<group>"; };
@@ -1314,6 +1320,9 @@
 		13405F672AF4472200382796 /* ReviewWriting */ = {
 			isa = PBXGroup;
 			children = (
+				15504BF52BC539300096D523 /* ReviewWritingThemeDescriptionHeader.swift */,
+				1543DC932BC53D4B0041852F /* ReviewWritingThemeSectionHeader.swift */,
+				1543DC952BC53E810041852F /* ReviewWritingThemeCell.swift */,
 				13405F6C2AF6804F00382796 /* ReviewWritingContentView.swift */,
 				13405F6E2AF6E6F200382796 /* ReviewWritingBottomView.swift */,
 				13405F702AF6F05300382796 /* ReviewWritingPlanView.swift */,
@@ -1676,6 +1685,7 @@
 				15B5E7B12BBAEEA500C19F56 /* BlockedUserProfileEntity.swift */,
 				15AAD34B2BBFD1760042DBF6 /* FavoritePostToggleEntity.swift */,
 				1564A0A32BBFE25B0045424B /* UpdatedFavoritePostDirectoryName.swift */,
+				154FBC162BC2CDB40070D2FE /* PostReportType.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -1904,6 +1914,7 @@
 		1546DF1A2B0A6CE700B49A55 /* PostDetail */ = {
 			isa = PBXGroup;
 			children = (
+				154FBC182BC2D4AB0070D2FE /* Extension */,
 				155603E32BBC354900981F48 /* Coordinator */,
 				1546DF1F2B0A6D5300B49A55 /* Protocol */,
 				1546DF1E2B0A6D4200B49A55 /* ViewModel */,
@@ -1924,7 +1935,7 @@
 				15B9285E2AFA2D89003A20D4 /* PostDetailContentImageCell.swift */,
 				15B928602AFA3309003A20D4 /* PostDetailContentTextCell.swift */,
 				15B928642AFA3980003A20D4 /* PostDetailContentFooterView.swift */,
-				15B928682AFA3F63003A20D4 /* PostDetailContentType.swift */,
+				15B928682AFA3F63003A20D4 /* PostContentEntity.swift */,
 				159F38BA2AFA9F32000A24C2 /* PostDetailCategoryHeaderView.swift */,
 				159F38BE2AFAA329000A24C2 /* PostDetailTitleCell.swift */,
 				159F38C92AFAABF9000A24C2 /* PostDetailProfileAreaFooterView.swift */,
@@ -1940,6 +1951,7 @@
 			isa = PBXGroup;
 			children = (
 				15B9285A2AF9DEAA003A20D4 /* PostDetailViewController.swift */,
+				1585017B2BC2E50D00341575 /* PostOptionResultAlertController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -2006,6 +2018,14 @@
 				1546DF3E2B0C64E500B49A55 /* ImageDiskCacheTests.swift */,
 			);
 			path = Tests;
+			sourceTree = "<group>";
+		};
+		154FBC182BC2D4AB0070D2FE /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				154FBC192BC2D4C30070D2FE /* PostDetailViewController+RegisterReusableViews.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 		15553BCD2BB3488D000AA896 /* NestedPostComment */ = {
@@ -2647,9 +2667,6 @@
 			isa = PBXGroup;
 			children = (
 				15DE36B82AB853900030CCCC /* TravelThemeBottomSheetCell.swift */,
-				15504BF52BC539300096D523 /* ReviewWritingThemeDescriptionHeader.swift */,
-				1543DC932BC53D4B0041852F /* ReviewWritingThemeSectionHeader.swift */,
-				1543DC952BC53E810041852F /* ReviewWritingThemeCell.swift */,
 			);
 			path = BottomSheet;
 			sourceTree = "<group>";
@@ -3230,6 +3247,7 @@
 				15B9285B2AF9DEAA003A20D4 /* PostDetailViewController.swift in Sources */,
 				15FFAC012AD5D6710013DB57 /* FavoriteDirectorySettingViewDelegate.swift in Sources */,
 				1543DC942BC53D4B0041852F /* ReviewWritingThemeSectionHeader.swift in Sources */,
+				154FBC1A2BC2D4C30070D2FE /* PostDetailViewController+RegisterReusableViews.swift in Sources */,
 				158695932AE5455B0087CCB3 /* FeedPostViewAdapter.swift in Sources */,
 				15CB23612A10B5E3003EAF20 /* DateValidationProtocol.swift in Sources */,
 				15302C572B9E29B900B1EA3F /* MockMyProfileUseCase.swift in Sources */,
@@ -3553,6 +3571,7 @@
 				13F6DACD2B53A5D400573B86 /* AlbumCoordinator.swift in Sources */,
 				151DF0E42AEE990400D5D55B /* NoticeViewAdapter.swift in Sources */,
 				15F36A1A2AB1A18200971803 /* CaseIterable+.swift in Sources */,
+				154FBC172BC2CDB40070D2FE /* PostReportType.swift in Sources */,
 				15CB23692A10B9CF003EAF20 /* PostFooterInfo.swift in Sources */,
 				130304842A25117200776A0D /* SearchFestivalCell.swift in Sources */,
 				15D60D362AEB84FE0087FEC0 /* NotificationCenterViewController.swift in Sources */,
@@ -3601,7 +3620,7 @@
 				15FD508F2BB44FFF006CCCDD /* PostUpdatedNestedCommentResponseDTO.swift in Sources */,
 				15C1F53C2AF27043005FDA15 /* NotificationViewAdapter.swift in Sources */,
 				1546DF302B0AF4C100B49A55 /* ImageMemoryCache.swift in Sources */,
-				15B928692AFA3F63003A20D4 /* PostDetailContentType.swift in Sources */,
+				15B928692AFA3F63003A20D4 /* PostContentEntity.swift in Sources */,
 				130CF38D2B9347CF0051DEE8 /* AppleLoginStrategy.swift in Sources */,
 				15591DDC2BBE9F9B00128A9E /* DefaultFavoritePostInDirectoryUseCase.swift in Sources */,
 				15D6559D2B8F6F3800466FEC /* MyInformationViewModel.swift in Sources */,
@@ -3630,6 +3649,7 @@
 				1503F9372A4E1103002BC38D /* FavoriteCoordinator.swift in Sources */,
 				15D3DA202BBFCDED0099C384 /* FavoritePostScrapResponseDTO.swift in Sources */,
 				1599587F2B0DC56D00B2E4DC /* PostCellWithFourThumbnails.swift in Sources */,
+				1585017C2BC2E50D00341575 /* PostOptionResultAlertController.swift in Sources */,
 				13405F352AF1002800382796 /* LoginPlayerSupporter.swift in Sources */,
 				157ADCB02AD06B5400D37680 /* FavoriteDirectorySettingView.swift in Sources */,
 				15CB23662A10B7F1003EAF20 /* PostContentInfo.swift in Sources */,
