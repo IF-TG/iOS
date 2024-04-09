@@ -147,6 +147,7 @@ extension PostDetailViewController: ViewBindCase {
     case .nestedComment(let commentState):
       handleNestedCommentState(commentState)
     case .postReport(let postOptionState):
+      stopIndicator()
       viewModel.showPostReportResult(wtih: postOptionState)
       // TODO: - 포스트 차단의 경우 포스트 상세 나간 후에 이 post 제거로직 추가해주기.
       // postReportNotifier, postAuthorBlockNotifier 호출 완료 시점 이 state를 통해. 완료 경고창 보여주기
