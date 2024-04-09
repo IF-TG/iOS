@@ -44,6 +44,7 @@ final class ReviewWritingThemeCell: UICollectionViewCell {
       guard let currentState = self?.themeMenu.currentState else { return }
       self?.delegate?.reviewWritingThemeCell(self, isSelected: currentState == .selected)
     }
+    
   }
   
   required init?(coder: NSCoder) {
@@ -85,10 +86,10 @@ extension ReviewWritingThemeCell: LayoutSupport {
   }
   
   func setConstraints() {
-    themeMenu.autoresizingMask = [
-      .flexibleLeftMargin,
-      .flexibleTopMargin,
-      .flexibleRightMargin,
-      .flexibleBottomMargin]
+    NSLayoutConstraint.activate([
+      themeMenu.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+      themeMenu.topAnchor.constraint(equalTo: contentView.topAnchor),
+      themeMenu.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+      themeMenu.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)])
   }
 }
