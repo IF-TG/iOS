@@ -18,7 +18,7 @@ struct ReviewWritingViewModelInput {
   let didTapTitleTextView: PassthroughSubject<Void, Never> = .init()
   let didTapCancelButton: PassthroughSubject<Void, Never> = .init()
   let didTapKeyboardDownButton: PassthroughSubject<Void, Never> = .init()
-  let didTapFinishButton: PassthroughSubject<ReviewWritingContentViewInfo, Never> = .init()
+  let didTapFinishButton: PassthroughSubject<[PostDetailContentType2], Never> = .init()
   let didTapAlbumButton: PassthroughSubject<Void, Never> = .init()
   let didTapPlanView: PassthroughSubject<Void, Never> = .init()
   let didTapNavigationTitleView: PassthroughSubject<Void, Never> = .init()
@@ -41,10 +41,15 @@ final class DefaultReviewWritingViewModel: ReviewWritingViewModel {
 
   // MARK: - Properties
   private let photoAuthorizationUseCase: PhotoAuthorizationUseCase
+  private let reviewWritingUseCase: ReviewWritingUseCase
   
   // MARK: - LifeCycle
-  init(photoAuthorizationUseCase: PhotoAuthorizationUseCase) {
+  init(
+    photoAuthorizationUseCase: PhotoAuthorizationUseCase,
+    reviewWritingUseCase: ReviewWritingUseCase
+  ) {
     self.photoAuthorizationUseCase = photoAuthorizationUseCase
+    self.reviewWritingUseCase = reviewWritingUseCase
   }
 }
 
