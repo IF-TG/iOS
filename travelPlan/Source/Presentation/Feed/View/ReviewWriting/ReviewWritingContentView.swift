@@ -9,11 +9,16 @@ import UIKit
 import Combine
 import SnapKit
 
+//struct ReviewWritingContentViewInfo {
+//  var text: String = ""
+//  var imageDataList: [Data] = .init()
+//  /// text이면 1, imageData이면 0 추가
+//  var isTextIndex: String = ""
+//}
+
 struct ReviewWritingContentViewInfo {
-  var text: String = ""
-  var imageDataList: [Data] = .init()
-  /// text이면 1, imageData이면 0 추가
-  var isTextIndex: String = ""
+  let textList: [String]
+  let imageDataList: [Data]
 }
 
 final class ReviewWritingContentView: UIStackView {
@@ -434,21 +439,19 @@ extension ReviewWritingContentView {
     updateFirstMessageTextViewVisibility(state: .invisible)
   }
 
-  func extractContentData() -> ReviewWritingContentViewInfo {
-    var model = ReviewWritingContentViewInfo()
-    guard !(lastView === firstMessageTextView && firstMessageTextViewTextIsPlaceholder) else { return model }
+  func extractContentData() -> [PostDetailContentType2] {
+    var models = [PostDetailContentType2]()
+    guard !(lastView === firstMessageTextView && firstMessageTextViewTextIsPlaceholder) else { return models }
     
     for i in firstContentIndex..<arrangedSubviews.count {
       let subview = arrangedSubviews[i]
       if let text = (subview as? UITextView)?.text {
-        model.text += text + Constant.delimiter
-        model.isTextIndex.append("1")
+        models.append(.text(text))
       } else if let imageData = (subview as? UIImageView)?.image?.jpegData(compressionQuality: 0.5) {
-        model.imageDataList.append(imageData)
-        model.isTextIndex.append("0")
+        models.append(.image(imageData))
       }
     }
-    return model
+    return models
   }
   
   func addImageView(image: UIImage) {
