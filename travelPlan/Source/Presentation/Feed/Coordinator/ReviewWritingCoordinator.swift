@@ -64,7 +64,8 @@ extension ReviewWritingCoordinator: ReviewWritingCoordinatorDelegate {
   
   func showCategoryBottomSheet() {
     let bottomSheet = PostReviewWritingCategoryBottomSheet()
-    bottomSheet.dismissHandler = { [weak self] in
+    bottomSheet.dismissHandler = {
+      /// 내부 클로저에 self타입의 프로퍼티, 함수를 쓸 경우 반드시 [weak self] 사용해야 합니다: )
       print(bottomSheet.selectedCategory)
     }
     presenter?.presentBottomSheet(bottomSheet)
