@@ -8,5 +8,5 @@
 import Foundation
 
 protocol ReviewWritingUseCase {
-  
+  func uploadPost(content: PostDetailContentType2)
 }
