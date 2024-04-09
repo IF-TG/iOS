@@ -70,7 +70,6 @@ final class PostDetailViewModel {
   /// 사용자가 대댓글 작성중인 경우 not nil. 댓글을 작성중인 경우 nil
   private var replyingSection: Int?
   
-  ///
   private var postReportResultOption: PostDetailOption? = .none
   
   private var actions: PostDetailViewModelActions?
@@ -144,11 +143,10 @@ extension PostDetailViewModel: PostDetailCoordinatorDelegate {
     }
     // TODO: - 포스트 차단의 경우 포스트 상세 나간 후에 이 post 제거로직 추가해주기.
     // postReportNotifier, postAuthorBlockNotifier 호출 완료 시점 이 state를 통해. 완료 경고창 보여주기
-    // 화면에는 차단한 포스트 안보여야하니므로.
-    //
+    // 화면에는 차단한 포스트 안 보이는게 좋음으로.
     actions?.showPostReportResult(postReportResultOption)
-    self.postReportResultOption = nil
     // 차단 한 경우 화면 나가기
+    self.postReportResultOption = nil
   }
 }
 
