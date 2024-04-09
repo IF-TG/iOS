@@ -332,13 +332,13 @@ extension PostReviewWritingCategoryBottomSheet: UICollectionViewDelegateFlowLayo
     }
     let collectionViewWidth = Int(collectionView.bounds.width)
     let sectionInset = 14, itemSpacing = 8
-    var itemWidth: Int = (collectionViewWidth - sectionInset) / 2 - itemSpacing
+    var itemWidth: Int = (collectionViewWidth - sectionInset - itemSpacing) / 2
     let itemHeight = 48
     if case .mainTheme = section {
       return CGSize(width: itemWidth, height: itemHeight)
     }
     if currentSection == .region {
-      itemWidth = (collectionViewWidth - sectionInset) / 3 - itemSpacing*2
+      itemWidth = (collectionViewWidth - sectionInset - itemSpacing*2) / 3
     }
     return CGSize(width: itemWidth, height: Int(itemHeight))
   }
