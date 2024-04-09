@@ -96,6 +96,8 @@ final class PostReviewWritingCategoryBottomSheet: BaseBottomSheetViewController 
   
   private var partners: [TravelPartner] = []
   
+  private(set) var selectedCategory: Post.Category = .init(themes: [], regions: [], seasons: [], partners: [])
+  
   private var hasSelectedAtLeastOneTheme: Bool {
     if themes.count + regions.count + seasons.count + partners.count > 0 {
       return true
@@ -121,6 +123,15 @@ final class PostReviewWritingCategoryBottomSheet: BaseBottomSheetViewController 
   private var selectedMainThemeCell: ReviewWritingThemeCell?
   
   private let selectCompletionView = ReviewCategorySelectCompletionView(frame: .zero)
+  
+  // 구현체에서 클로저 선언시 weak를 사용해야합니다.
+  override var dismissHandler: (() -> Void)? {
+    get {
+      super.dismissHandler
+    } set {
+      super.dismissHandler = newValue
+    }
+  }
   
   // MARK: - Lifecycle
   init() {
@@ -150,8 +161,9 @@ final class PostReviewWritingCategoryBottomSheet: BaseBottomSheetViewController 
     selectCompletionView.okButtonTap = { [weak self] in
       guard let self else { return }
       let postCategory = Post.Category(themes: themes, regions: regions, seasons: seasons, partners: partners)
-      print(postCategory)
       // TODO: - 이제 dismiss를 해야합니다. 이때 여행 후기 작성 화면으로 돌아간 후에 로딩 화면과 함께 전환할것인지 등을 결정해야합니다.
+      selectedCategory = postCategory
+      dismiss(animated: true)
     }
     selectCompletionView.clearButtonTap = { [weak self] in
       self?.themes.removeAll()
