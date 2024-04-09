@@ -17,7 +17,14 @@ final class ReviewCategorySelectCompletionView: UIView {
     $0.setLabelColor(.yg.gray2)
   }
   
-  private let clearButton = PrimaryColorToneRoundButton(currentState: .normal)
+  private let clearButton = PrimaryColorToneRoundButton(currentState: .normal).set {
+    $0.setTitle("초기화", for: .normal)
+    $0.setTitleColor(.yg.gray3, for: .normal)
+    $0.layer.borderWidth = 1.5
+    $0.layer.borderColor = UIColor.yg.primary.withAlphaComponent(0.3).cgColor
+    $0.backgroundColor = .white
+    $0.isUserInteractionEnabled = true
+  }
   
   private let okButton = PrimaryColorToneRoundButton(currentState: .normal).set {
     $0.setTitle("확인", for: .normal)
