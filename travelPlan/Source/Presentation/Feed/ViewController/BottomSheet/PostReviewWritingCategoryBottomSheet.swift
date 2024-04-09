@@ -62,7 +62,7 @@ final class PostReviewWritingCategoryBottomSheet: BaseBottomSheetViewController 
         self = .mainTheme
       case 2:
         self = .subTheme
-      default :
+      default:
         return nil
       }
     }
