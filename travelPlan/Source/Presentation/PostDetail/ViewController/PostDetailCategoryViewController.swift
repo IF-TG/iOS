@@ -20,6 +20,20 @@ final class PostDetailCategoryViewController: UITableViewController {
     setupDefaultBackBarButtonItem(marginLeft: 0)
   }
   
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    let titleLabel = BaseLabel(fontType: .semiBold_600(fontSize: 16))
+    titleLabel.text = "카테고리"
+    titleLabel.textColor = UIColor.yg.gray7
+    titleLabel.sizeToFit()
+    navigationItem.titleView = titleLabel
+  }
+  
+  override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
+    super.dismiss(animated: flag, completion: completion)
+    navigationItem.titleView = nil
+  }
+  
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
