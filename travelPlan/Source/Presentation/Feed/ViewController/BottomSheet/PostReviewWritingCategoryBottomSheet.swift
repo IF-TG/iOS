@@ -248,6 +248,28 @@ extension PostReviewWritingCategoryBottomSheet: UICollectionViewDataSource {
   }
 }
 
+extension PostReviewWritingCategoryBottomSheet: UICollectionViewDelegateFlowLayout {
+  func collectionView(
+    _ collectionView: UICollectionView,
+    layout collectionViewLayout: UICollectionViewLayout,
+    sizeForItemAt indexPath: IndexPath
+  ) -> CGSize {
+    guard let section = SectionType(rawValue: indexPath.section) else {
+      return .zero
+    }
+    let collectionViewWidth = collectionView.bounds.width
+    var itemWidth: CGFloat = collectionViewWidth / 2 - 8
+    let itemHeight = 48
+    if case .description = section { return .zero }
+    if currentSection == .region {
+      itemWidth = collectionViewWidth / 3 - 16
+    } else {
+      itemWidth = collectionViewWidth / 2 - 8
+    }
+    return CGSize(width: Int(itemWidth), height: Int(itemHeight))
+  }
+}
+
 // MARK: - ReviewWritingThemeCellDelegate
 extension PostReviewWritingCategoryBottomSheet: ReviewWritingThemeCellDelegate {
   func reviewWritingThemeCell(_ cell: ReviewWritingThemeCell?, isSelected: Bool) {
