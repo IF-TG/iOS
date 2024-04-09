@@ -6,6 +6,18 @@
 //
 
 import Combine
+import SHCoordinator
+
+/// 뷰 컨트롤러에서 사용할 타입. -> 코디네이터에서 구현
+struct PostDetailViewModelActions {
+  let showAlertForError: (String, (() -> Void)?) -> Void
+  let showAnAlertToAskWhetherToCancelWrittingTheReply: (((Bool) -> Void)?) -> Void
+  let showOption: (((PostDetailOption) -> Void)?) -> Void
+  let showPostAuthorBlock: (String, ((Bool) -> Void)?) -> Void
+  /// 신고하기 종류 추가.
+  let showPostReport: (((PostReportType) -> Void)?) -> Void
+  let showPostReportResult: (PostDetailOption) -> Void
+}
 
 struct PostDetailViewModelInput {
   typealias UserInputText = String
@@ -15,6 +27,8 @@ struct PostDetailViewModelInput {
   let replyStartNotifier = PassthroughSubject<Int, Never>()
   let replyDismissalConfirmationNorifier = PassthroughSubject<Void, Never>()
   let keyboardDidHideWhenReplyingToMessageNotifier = PassthroughSubject<Bool, Never>()
+  let postReportNotifier = PassthroughSubject<PostReportType, Never>()
+  let postAuthorBlockNotifier = PassthroughSubject<Void, Never>()
 }
 
 @frozen enum PostDetailViewModelState {
@@ -24,6 +38,7 @@ struct PostDetailViewModelInput {
   case unexpectedError(description: String)
   case nestedComment(PostDetailNestedCommentState)
   case comment(PostDetailCommentState)
+  case postReport
 }
 
 @frozen enum PostDetailViewDidLoadState {
@@ -46,7 +61,12 @@ struct PostDetailViewModelInput {
   case reloadedComment
 }
 
-protocol PostDetailViewModelable: ViewModelable
+@frozen enum PostDetailOptionState {
+  case showUserBlock(String)
+  case showUserReport
+}
+
+protocol PostDetailViewModelable: ViewModelable & PostDetailCoordinatorDelegate
 where Input == PostDetailViewModelInput,
       State == PostDetailViewModelState,
       Output == AnyPublisher<State, Never> {
