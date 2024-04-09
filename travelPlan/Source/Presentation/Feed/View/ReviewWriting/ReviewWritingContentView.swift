@@ -337,22 +337,47 @@ extension ReviewWritingContentView {
     }
   }
   
-  private func setupLastView(lastView: UIView) {
-    addArrangedSubview(lastView)
-    if lastView is UITextView {
-      lastView.snp.makeConstraints {
-        $0.height.equalTo(40)
-      }
-    } else if let imageSize = (lastView as? UIImageView)?.image?.size {
-      let aspectRatio = imageSize.width / imageSize.height // 종횡비 = 가로:세로
-      // height AutoLayout을 width * (1 / aspectRatio)로 정의
-      lastView.snp.makeConstraints {
-        $0.height.equalTo(lastView.snp.width).multipliedBy(1 / aspectRatio)
-      }
-      
-      imageViewPublisher.send(true)
+  /// 인자로 넣은 view를 contentView의 lastView로 적용합니다.
+//  private func setupLastView(lastView: UIView) {
+//    addArrangedSubview(lastView)
+//    if lastView is UITextView {
+//      lastView.snp.makeConstraints {
+//        $0.height.equalTo(40)
+//      }
+//    } else if let imageSize = (lastView as? UIImageView)?.image?.size {
+//      let aspectRatio = imageSize.width / imageSize.height // 종횡비 = 가로:세로
+//      // height AutoLayout을 width * (1 / aspectRatio)로 정의
+//      lastView.snp.makeConstraints {
+//        $0.height.equalTo(lastView.snp.width).multipliedBy(1 / aspectRatio)
+//      }
+//      
+//      imageViewPublisher.send(true)
+//    }
+//    lastView.layoutIfNeeded()
+//    shouldScrollToLastView = true
+//  }
+  
+  /// textView를 lastView로 적용합니다.
+  private func setupTextView(textView: UITextView) {
+    addArrangedSubview(textView)
+    
+    textView.snp.makeConstraints {
+      $0.height.equalTo(40)
     }
-    lastView.layoutIfNeeded()
+    textView.layoutIfNeeded()
+    shouldScrollToLastView = true
+  }
+  
+  private func setupImageView(imageView: UIImageView) {
+    guard let imageSize = imageView.image?.size else { return }
+
+    addArrangedSubview(imageView)
+    let aspectRatio = imageSize.width / imageSize.height
+    imageView.snp.makeConstraints {
+      $0.height.equalTo(imageView.snp.width).multipliedBy(1 / aspectRatio)
+    }
+    imageViewPublisher.send(true)
+    imageView.layoutIfNeeded()
     shouldScrollToLastView = true
   }
   
@@ -418,9 +443,10 @@ extension ReviewWritingContentView {
   func manageContentOffsetYByLastView() {
     if let textView = lastView as? UITextView {
       moveCursorToLastPosition(at: textView)
-    } else if lastView is UIImageView {
+    } else if lastView is UIImageView { // lastView가 imageView라면 아래에 textView를 추가합니다.
       let newTextView = createNewTextView()
-      setupLastView(lastView: newTextView)
+      setupTextView(textView: newTextView)
+//      setupLastView(lastView: newTextView)
       self.setNeedsLayout()
       changeContentInset()
     }
@@ -439,6 +465,7 @@ extension ReviewWritingContentView {
     updateFirstMessageTextViewVisibility(state: .invisible)
   }
 
+  /// text와 imageData를 추출해서 Model배열을 반환합니다.
   func extractContentData() -> [PostContentEntity] {
     var models = [PostContentEntity]()
     guard !(lastView === firstMessageTextView && firstMessageTextViewTextIsPlaceholder) else { return models }
@@ -454,6 +481,7 @@ extension ReviewWritingContentView {
     return models
   }
   
+  /// imageView를 생성하고 layout을 적용합니다.
   func addImageView(image: UIImage) {
     let imageView = PictureImageView(frame: .zero, image: image).set {
       $0.delegate = self
@@ -461,8 +489,8 @@ extension ReviewWritingContentView {
       let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapImageView(_:)))
       $0.addGestureRecognizer(tapGesture)
     }
-    setupLastView(lastView: imageView)
-    
+//    setupLastView(lastView: imageView)
+    setupImageView(imageView: imageView)
     if firstMessageTextViewTextIsPlaceholder {
       firstMessageTextView.isHidden = true
     } else {
