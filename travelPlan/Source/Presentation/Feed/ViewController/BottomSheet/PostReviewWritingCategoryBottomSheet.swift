@@ -69,20 +69,23 @@ final class PostReviewWritingCategoryBottomSheet: BaseBottomSheetViewController 
   }
   
   // MARK: - Properties
-  private let tableView = UICollectionView(
+  private let collectionView: UICollectionView = UICollectionView(
     frame: .zero,
     collectionViewLayout: UICollectionViewFlowLayout().set {
       $0.minimumLineSpacing = 8
       $0.minimumInteritemSpacing = 8
       $0.sectionInset = .init(top: 0, left: 7, bottom: 0, right: 7)
+    }).set {
+      $0.register(ReviewWritingThemeCell.self, forCellWithReuseIdentifier: ReviewWritingThemeCell.id)
       $0.register(
         ReviewWritingThemeDescriptionHeader.self,
-        forDecorationViewOfKind: ReviewWritingThemeDescriptionHeader.id)
+        forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+        withReuseIdentifier: ReviewWritingThemeDescriptionHeader.id)
       $0.register(
         ReviewWritingThemeSectionHeader.self,
-        forDecorationViewOfKind: ReviewWritingThemeSectionHeader.id)
-      $0.register(ReviewWritingThemeCell.self, forDecorationViewOfKind: ReviewWritingThemeCell.id)
-    })
+        forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+        withReuseIdentifier: ReviewWritingThemeSectionHeader.id)
+    }
   
   private var themes: [TravelTheme] = []
   private var regions: [TravelRegion] = []
@@ -92,7 +95,7 @@ final class PostReviewWritingCategoryBottomSheet: BaseBottomSheetViewController 
   private var currentSection: MainTheme = .season {
     didSet {
       // 섹션들 리로드! 근데 performbatch에서 애니메이션 부여 ㄱㄱ?
-      tableView.reloadSections(IndexSet(integer: SectionType.subTheme.rawValue))
+      collectionView.reloadSections(IndexSet(integer: SectionType.subTheme.rawValue))
     }
   }
   
@@ -105,11 +108,19 @@ final class PostReviewWritingCategoryBottomSheet: BaseBottomSheetViewController 
   // MARK: - Lifecycle
   init() {
     selectCompletionView.heightAnchor.constraint(equalToConstant: 105).isActive = true
-    let stackView = UIStackView(arrangedSubviews: [tableView, selectCompletionView]).set {
+    let stackView = UIStackView(arrangedSubviews: [collectionView, selectCompletionView]).set {
+      $0.translatesAutoresizingMaskIntoConstraints = false
       $0.axis = .vertical
+      $0.backgroundColor = .white
     }
     super.init(contentView: stackView, mode: .full, radius: 15)
-    tableView.dataSource = self
+    collectionView.dataSource = self
+    collectionView.delegate = self
+  }
+  
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    collectionView.reloadData()
   }
   
   required init?(coder: NSCoder) {
@@ -200,7 +211,7 @@ extension PostReviewWritingCategoryBottomSheet: UICollectionViewDataSource {
   func numberOfSections(in collectionView: UICollectionView) -> Int {
     return SectionType.numberOfSections
   }
-
+  
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     guard let section = SectionType(rawValue: section) else { return 0 }
     return switch section {
@@ -248,6 +259,7 @@ extension PostReviewWritingCategoryBottomSheet: UICollectionViewDataSource {
   }
 }
 
+// MARK: - UICollectionViewDelegateFlowLayout
 extension PostReviewWritingCategoryBottomSheet: UICollectionViewDelegateFlowLayout {
   func collectionView(
     _ collectionView: UICollectionView,
@@ -268,13 +280,65 @@ extension PostReviewWritingCategoryBottomSheet: UICollectionViewDelegateFlowLayo
     }
     return CGSize(width: Int(itemWidth), height: Int(itemHeight))
   }
+  
+  func collectionView(
+    _ collectionView: UICollectionView,
+    viewForSupplementaryElementOfKind kind: String,
+    at indexPath: IndexPath
+  ) -> UICollectionReusableView {
+    guard let section = SectionType(rawValue: indexPath.section) else {
+      return .init()
+    }
+    if case .description = section {
+      guard let headerView = collectionView.dequeueReusableSupplementaryView(
+        ofKind: UICollectionView.elementKindSectionHeader,
+        withReuseIdentifier: ReviewWritingThemeDescriptionHeader.id,
+        for: indexPath
+      ) as? ReviewWritingThemeDescriptionHeader else { return .init() }
+      return headerView
+    }
+    var headerText = ""
+    guard let headerView = collectionView.dequeueReusableSupplementaryView(
+      ofKind: UICollectionView.elementKindSectionHeader,
+      withReuseIdentifier: ReviewWritingThemeSectionHeader.id,
+      for: indexPath
+    ) as? ReviewWritingThemeSectionHeader else { return .init() }
+    if case .mainTheme = section {
+      headerText = "대분류"
+    }
+    if case .subTheme = section {
+      headerText = "소분류"
+    }
+    headerView.configure(with: headerText)
+    return headerView
+  }
+  
+  func collectionView(
+    _ collectionView: UICollectionView,
+    layout collectionViewLayout: UICollectionViewLayout,
+    referenceSizeForHeaderInSection section: Int
+  ) -> CGSize {
+    guard let section = SectionType(rawValue: section) else {
+      return .zero
+    }
+    var height: CGFloat = 0
+    switch section {
+    case .description:
+      height = 60
+    case .mainTheme:
+      height = 65
+    case .subTheme:
+      height = 65
+    }
+    return CGSize(width: collectionView.bounds.width, height: height)
+  }
 }
 
 // MARK: - ReviewWritingThemeCellDelegate
 extension PostReviewWritingCategoryBottomSheet: ReviewWritingThemeCellDelegate {
   func reviewWritingThemeCell(_ cell: ReviewWritingThemeCell?, isSelected: Bool) {
     guard let cell else { return }
-    let indexPath = tableView.indexPath(for: cell)
+    let indexPath = collectionView.indexPath(for: cell)
     guard let section = SectionType(rawValue: indexPath?.section ?? -1) else { return }
     if section == .mainTheme {
       selectedMainThemeCell?.deactiveSelection()
