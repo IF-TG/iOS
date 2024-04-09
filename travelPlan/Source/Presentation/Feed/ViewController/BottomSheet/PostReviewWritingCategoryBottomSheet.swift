@@ -109,9 +109,10 @@ final class PostReviewWritingCategoryBottomSheet: BaseBottomSheetViewController 
   
   private var currentSection: MainTheme = .season {
     didSet {
-      // 섹션들 리로드! 근데 performbatch에서 애니메이션 부여 ㄱㄱ?
       numberOfItmes = currentSection.subThemes.count
-      collectionView.reloadSections(IndexSet(integer: SectionType.subTheme.rawValue))
+      collectionView.performBatchUpdates {
+        collectionView.reloadSections(IndexSet(integer: SectionType.subTheme.rawValue))
+      }
     }
   }
   
@@ -146,31 +147,29 @@ final class PostReviewWritingCategoryBottomSheet: BaseBottomSheetViewController 
 
   // MARK: - Private Helpers
   private func bind() {
-    
-    // TODO: - 오키버튼 바인딩
     selectCompletionView.okButtonTap = { [weak self] in
-      print("무야호잇")
+      guard let self else { return }
+      let postCategory = Post.Category(themes: themes, regions: regions, seasons: seasons, partners: partners)
+      print(postCategory)
+      // TODO: - 이제 dismiss를 해야합니다. 이때 여행 후기 작성 화면으로 돌아간 후에 로딩 화면과 함께 전환할것인지 등을 결정해야합니다.
     }
     selectCompletionView.clearButtonTap = { [weak self] in
-      // TODO: - 초기화 버튼 바인딩
-      // 선택한거 다 초기화
       self?.themes.removeAll()
       self?.regions.removeAll()
       self?.seasons.removeAll()
       self?.partners.removeAll()
-      // 섹션 리로드 + 확인버튼 꺼지게
-      self?.collectionView.reloadSections(IndexSet(integer: SectionType.subTheme.rawValue))
+      self?.collectionView.performBatchUpdates {
+        self?.collectionView.reloadSections(IndexSet(integer: SectionType.subTheme.rawValue))
+      }
       self?.selectCompletionView.deactiveOKButtonUI()
-      
     }
     
     subscription = themeEventNotifier.sink { [weak self] _ in
       if self?.hasSelectedAtLeastOneTheme == true {
-        // TODO: - 오키 버튼 활성화
         self?.selectCompletionView.activeOKButtonUI()
       } else {
         self?.selectCompletionView.deactiveOKButtonUI()
-      } // 오키 버튼 비활성화
+      }
     }
   }
   
