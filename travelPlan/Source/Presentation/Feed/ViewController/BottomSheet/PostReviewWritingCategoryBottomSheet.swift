@@ -122,37 +122,53 @@ final class PostReviewWritingCategoryBottomSheet: BaseBottomSheetViewController 
   private func handleWhenSubThemeSelect(index: Int, isSelected: Bool) {
     switch currentSection {
     case .season:
-      guard index < Season.count else { return }
-      let season = Season.allCases[index]
-      if isSelected { 
-        seasons.append(Season.allCases[index])
-      } else {
-        seasons = seasons.filter { $0 != season }
-      }
+      handleSeasonSubThemeSelect(index: index, isSelected: isSelected)
     case .region:
-      guard index < TravelRegion.count else { return }
-      let region = TravelRegion.allCases[index]
-      if isSelected {
-        regions.append(region)
-      } else {
-        regions = regions.filter { $0 != region }
-      }
+      handleRegionSubThemeSelect(index: index, isSelected: isSelected)
     case .theme:
-      guard index < TravelTheme.count else { return }
-      let theme = TravelTheme.allCases[index]
-      if isSelected {
-        themes.append(theme)
-      } else {
-        themes = themes.filter { $0 != theme }
-      }
+      handleThemeSubThemeSelect(index: index, isSelected: isSelected)
     case .partner:
-      guard index < TravelPartner.count else { return }
-      let partner = TravelPartner.allCases[index]
-      if isSelected {
-        partners.append(partner)
-      } else {
-        partners = partners.filter { $0 != partner }
-      }
+      handlePartnerSubThemeSelect(index: index, isSelected: isSelected)
+    }
+  }
+  
+  private func handleSeasonSubThemeSelect(index: Int, isSelected: Bool) {
+    guard index < Season.count else { return }
+    let season = Season.allCases[index]
+    if isSelected {
+      seasons.append(season)
+    } else {
+      seasons = seasons.filter { $0 != season }
+    }
+  }
+  
+  private func handleRegionSubThemeSelect(index: Int, isSelected: Bool) {
+    guard index < TravelRegion.count else { return }
+    let region = TravelRegion.allCases[index]
+    if isSelected {
+      regions.append(region)
+    } else {
+      regions = regions.filter { $0 != region }
+    }
+  }
+  
+  private func handleThemeSubThemeSelect(index: Int, isSelected: Bool) {
+    guard index < TravelTheme.count else { return }
+    let theme = TravelTheme.allCases[index]
+    if isSelected {
+      themes.append(theme)
+    } else {
+      themes = themes.filter { $0 != theme }
+    }
+  }
+  
+  private func handlePartnerSubThemeSelect(index: Int, isSelected: Bool) {
+    guard index < TravelPartner.count else { return }
+    let partner = TravelPartner.allCases[index]
+    if isSelected {
+      partners.append(partner)
+    } else {
+      partners = partners.filter { $0 != partner }
     }
   }
   
