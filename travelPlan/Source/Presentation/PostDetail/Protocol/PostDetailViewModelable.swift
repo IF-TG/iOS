@@ -11,11 +11,13 @@ import SHCoordinator
 
 /// 뷰 컨트롤러에서 사용할 타입. -> 코디네이터에서 구현
 struct PostDetailViewModelActions {
+  typealias isCommentOwner = Bool
+  
   let showAlertForError: (String, (() -> Void)?) -> Void
   let showAnAlertToAskWhetherToCancelWrittingTheReply: (((Bool) -> Void)?) -> Void
   let showPostOption: (((PostDetailOption) -> Void)?) -> Void
   
-  let showCommentOption: (((PostDetailCommentOption) -> Void)?) -> Void
+  let showCommentOption: (isCommentOwner, ((PostDetailCommentOption) -> Void)?) -> Void
   let showPostAuthorBlock: (String, ((Bool) -> Void)?) -> Void
   /// 신고하기 종류 추가.
   let showPostReport: (((PostReportType) -> Void)?) -> Void

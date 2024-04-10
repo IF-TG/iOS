@@ -142,19 +142,15 @@ extension PostDetailViewModel: PostDetailCoordinatorDelegate {
     // 만약 자신이라면, 삭제, 수정 기능
     // 만약 타인꺼 댓글이라면 신고 기능만,,,
     // 신고 기능 api도 없음으로 일단 자신꺼에 한정해 삭제, 수정 기능만 넣고 자신것이 아니라면 알림창으로 본인만 수정 가능하다고 보여주어야 합니다.
-    
     let commentUploadedUserId = loggedUserId
-    if loggedUserId != commentUploadedUserId {
-      showAlertForError(with: "댓글을 작성한 유저만 수정 가능합니다.", completion: nil)
-      return
-    }
-    
-    actions?.showCommentOption { [weak self] commentOption in
+    actions?.showCommentOption(loggedUserId != commentUploadedUserId) { [weak self] commentOption in
       switch commentOption {
       case .commentDelete:
         self?.commentUseCaseNotifier.send(.delete(section))
       case .commentUpdate:
         self?.commentUseCaseNotifier.send(.update(section))
+      case .commentUserBlock:
+        self?.showAlertForError(with: "차단하기 기능은 구현중 입니다.", completion: nil)
       }
     }
   }
@@ -173,19 +169,15 @@ extension PostDetailViewModel: PostDetailCoordinatorDelegate {
     // 만약 자신이라면, 삭제, 수정 기능
     // 만약 타인꺼 댓글이라면 신고 기능만,,,
     // 신고 기능 api도 없음으로 일단 자신꺼에 한정해 삭제, 수정 기능만 넣고 자신것이 아니라면 알림창으로 보여주어야 합니다.
-    
     let commentUploadedUserId = loggedUserId
-    if loggedUserId != commentUploadedUserId {
-      showAlertForError(with: "댓글을 작성한 유저만 수정 가능합니다.", completion: nil)
-      return
-    }
-    
-    actions?.showCommentOption { [weak self] commentOption in
+    actions?.showCommentOption(loggedUserId == commentUploadedUserId) { [weak self] commentOption in
       switch commentOption {
       case .commentDelete:
         self?.nestedCommentUseCaseNotifier.send(.delete(indexPath))
       case .commentUpdate:
         self?.nestedCommentUseCaseNotifier.send(.update(indexPath))
+      case .commentUserBlock:
+        self?.showAlertForError(with: "차단하기 기능은 구현중 입니다.", completion: nil)
       }
     }
   }
