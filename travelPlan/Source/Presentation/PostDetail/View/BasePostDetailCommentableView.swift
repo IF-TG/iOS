@@ -135,9 +135,11 @@ final class BasePostDetailCommentableView: BaseProfileAreaView {
         $0.axis = .horizontal
         $0.distribution = .equalSpacing
         $0.spacing = 8
-        $0.alignment = .leading
+        $0.alignment = .center
       }
+      
       footerStackView = footerTempStackView
+      footerStackView?.heightAnchor.constraint(equalToConstant: 20).isActive = true
       contentSubviews.append(footerTempStackView)
     case .reply:
       contentSubviews.append(heartStackView)
