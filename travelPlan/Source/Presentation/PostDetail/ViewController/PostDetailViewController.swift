@@ -175,7 +175,6 @@ extension PostDetailViewController: ViewBindCase {
     case .reloadWhenCommentDelete(let section):
       UITableView.performWithoutAnimation {
         tableView.deleteSections(IndexSet(integer: section), with: .none)
-        // tableView.reloadData()
       }
       stopIndicator()
     case .reloadWithNestedCommentsWhenCommentDelete(let section):
