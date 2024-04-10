@@ -26,7 +26,7 @@ final class PostDetailCommentHeader: UITableViewHeaderFooterView & PostDetailCom
   private let commentView = BasePostDetailCommentableView(usageType: .comment)
   // TODO: - delete control 추가해야합니다.
   
-  var section: Int? = nil
+  var section: Int?
   
   weak var delegate: PostDetailCommentDelegate?
   
