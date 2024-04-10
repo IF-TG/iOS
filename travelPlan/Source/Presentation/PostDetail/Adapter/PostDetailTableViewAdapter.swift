@@ -141,12 +141,22 @@ extension PostDetailTableViewAdapter: UITableViewDelegate {
       postHeartAreaHeader.delegate = self
       return postHeartAreaHeader
     default:
+      let cellInfo = dataSource.commentItem(in: section)
+      if cellInfo.isDeleted {
+        guard let commentHeader = tableView.dequeueReusableHeaderFooterView(
+          withIdentifier: PostDetailDeletedOrUnknwonCommentHeader.id
+        ) as? PostDetailDeletedOrUnknwonCommentHeader else {
+          return nil
+        }
+        return commentHeader
+      }
+      
       guard let commentHeader = tableView.dequeueReusableHeaderFooterView(
         withIdentifier: PostDetailCommentHeader.id
       ) as? PostDetailCommentHeader else {
         return nil
       }
-      commentHeader.configure(with: dataSource.commentItem(in: section))
+      commentHeader.configure(with: cellInfo.baseInfo)
       commentHeader.delegate = self
       return commentHeader
     }

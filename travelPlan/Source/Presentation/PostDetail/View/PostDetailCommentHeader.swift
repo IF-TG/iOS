@@ -48,13 +48,8 @@ final class PostDetailCommentHeader: UITableViewHeaderFooterView {
 
 // MARK: - Helpers
 extension PostDetailCommentHeader {
-  func configure(with info: PostCommentInfo?) {
-    if info?.isDeleted == true {
-      // 댓글 삭제되었습니다.
-      // 관련된 ui로 변경
-    }
-    
-    commentView.configure(with: info?.baseInfo)
+  func configure(with info: BasePostDetailCommentInfo?) {
+    commentView.configure(with: info)
   }
 }
 
