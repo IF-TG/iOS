@@ -64,6 +64,7 @@ struct PostDetailViewModelInput {
   
   /// 대댓글 삭제 후
   case reload(IndexPath)
+  case reloadWhenLastNestedCommentDelete(IndexPath)
 }
 
 @frozen enum PostDetailCommentState {

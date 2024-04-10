@@ -539,12 +539,23 @@ private extension PostDetailViewModel {
     return postNestedCommentUseCase
       .deleteNestedComment(nestedCommentId: nestedCommentId)
       .map { [weak self] result -> State in
-        if result {
-          self?.postDetails.comments[commentSection].nestedComments.remove(at: indexPath.row)
-          /// 테이블뷰에 실제로 특정 셀 제거 후 리로드 명령은 실제 indexPath로 해야합니다.
-          return .nestedComment(.reload(indexPath))
+        guard result else {
+          return .unexpectedError(description: "서버에서 에러가 발생되 대댓글이 삭제되지 않았습니다.")
         }
-        return .unexpectedError(description: "서버에서 에러가 발생되 대댓글이 삭제되지 않았습니다.")
+        
+        self?.postDetails.comments[commentSection].nestedComments.remove(at: indexPath.row)
+        
+        let isNestedCommentAllRemoved = self?.postDetails
+          .comments[commentSection]
+          .nestedComments.count == 0
+        
+        if isNestedCommentAllRemoved {
+          self?.postDetails.comments.remove(at: commentSection)
+          /// 테이블뷰에 실제로 특정 셀 제거 후 리로드 명령은 실제 indexPath로 해야합니다.
+          return .nestedComment(.reloadWhenLastNestedCommentDelete(indexPath))
+        }
+        /// 테이블뷰에 실제로 특정 셀 제거 후 리로드 명령은 실제 indexPath로 해야합니다.
+        return .nestedComment(.reload(indexPath))
       }.catch { error in
         return Just(State.unexpectedError(description: error.localizedDescription))
       }.eraseToAnyPublisher()
