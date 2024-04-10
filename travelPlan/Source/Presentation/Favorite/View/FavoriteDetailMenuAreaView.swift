@@ -150,7 +150,7 @@ extension FavoriteDetailMenuAreaView {
     travelReviewLabel.tapHandler = { [weak self] in
       if self?.categoryState == .travelLocation {
         self?.categoryState = .travelReview
-        self?.travelLocationLabel.toggleCurrentState()
+        self?.travelLocationLabel.isSelected = false
         self?.totalItemCount = self?.travelReviewTapHandler?() ?? 0
       }
     }
@@ -158,7 +158,7 @@ extension FavoriteDetailMenuAreaView {
     travelLocationLabel.tapHandler = { [weak self] in
       if self?.categoryState == .travelReview {
         self?.categoryState = .travelLocation
-        self?.travelReviewLabel.toggleCurrentState()
+        self?.travelReviewLabel.isSelected = false
         self?.totalItemCount = self?.travelLocationTapHandler?() ?? 0
       }
     }
