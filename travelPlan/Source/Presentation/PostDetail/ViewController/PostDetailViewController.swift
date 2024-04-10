@@ -294,6 +294,10 @@ extension PostDetailViewController: PostDetailTableViewAdapterDelegate {
 
 // MARK: - PostDetailReplyCellDelegate
 extension PostDetailViewController: PostDetailReplyCellDelegate {
+  func didTapOption(_ cell: UITableViewCell) {
+    print("대댓 옵션 클릭")
+  }
+  
   func didTapProfile(_ cell: UITableViewCell) {
     print("대댓 프로필 클릭")
   }

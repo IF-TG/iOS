@@ -13,6 +13,7 @@ struct PostReplyInfo {
 }
 
 protocol PostDetailReplyCellDelegate: AnyObject {
+  func didTapOption(_ cell: UITableViewCell)
   func didTapProfile(_ cell: UITableViewCell)
   func didTapHeart(_ cell: UITableViewCell, isOnHeart: Bool)
   func didCanceledHeart(_ cell: UITableViewCell)
@@ -76,7 +77,7 @@ extension PostDetailReplyCell {
 // MARK: - BaseCommentViewDelegate
 extension PostDetailReplyCell: BaseCommentViewDelegate {
   func didTapOption() {
-    print("옵션 눌러버림")
+    delegate?.didTapOption(self)
   }
   
   func didTapHeart(_ isOnHeart: Bool) {

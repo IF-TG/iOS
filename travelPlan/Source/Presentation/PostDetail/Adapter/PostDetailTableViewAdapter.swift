@@ -250,6 +250,10 @@ extension PostDetailTableViewAdapter: BaseProfileAreaViewDelegate {
 
 // MARK: - PostDetailReplyCellDelegate
 extension PostDetailTableViewAdapter: PostDetailReplyCellDelegate {
+  func didTapOption(_ cell: UITableViewCell) {
+    delegate?.didTapOption(cell)
+  }
+  
   func didTapProfile(_ cell: UITableViewCell) {
     delegate?.didTapProfile(cell)
   }
