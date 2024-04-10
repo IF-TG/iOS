@@ -128,6 +128,9 @@
 		13E913932B0F3ECF00E15B11 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 13E913922B0F3ECF00E15B11 /* SnapKit */; };
 		13E98F852BC53D8000F05295 /* ReviewWritingUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E98F842BC53D8000F05295 /* ReviewWritingUseCase.swift */; };
 		13E98F872BC53DDD00F05295 /* DefaultReviewWritingUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E98F862BC53DDD00F05295 /* DefaultReviewWritingUseCase.swift */; };
+		13E98F892BC581BF00F05295 /* ReviewWritingRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E98F882BC581BF00F05295 /* ReviewWritingRepository.swift */; };
+		13E98F8B2BC581D200F05295 /* DefaultReviewWritingRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E98F8A2BC581D200F05295 /* DefaultReviewWritingRepository.swift */; };
+		13E98F8D2BC5961F00F05295 /* ReviewWritingEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E98F8C2BC5961E00F05295 /* ReviewWritingEntity.swift */; };
 		13F6DAC82B5248EF00573B86 /* SlideUpAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F6DAC72B5248EF00573B86 /* SlideUpAnimator.swift */; };
 		13F6DACA2B52711E00573B86 /* SlideDownAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F6DAC92B52711E00573B86 /* SlideDownAnimator.swift */; };
 		13F6DACD2B53A5D400573B86 /* AlbumCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F6DACC2B53A5D400573B86 /* AlbumCoordinator.swift */; };
@@ -712,6 +715,9 @@
 		13E746762B4D303E007D5C15 /* PhotoCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCellDelegate.swift; sourceTree = "<group>"; };
 		13E98F842BC53D8000F05295 /* ReviewWritingUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWritingUseCase.swift; sourceTree = "<group>"; };
 		13E98F862BC53DDD00F05295 /* DefaultReviewWritingUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultReviewWritingUseCase.swift; sourceTree = "<group>"; };
+		13E98F882BC581BF00F05295 /* ReviewWritingRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWritingRepository.swift; sourceTree = "<group>"; };
+		13E98F8A2BC581D200F05295 /* DefaultReviewWritingRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultReviewWritingRepository.swift; sourceTree = "<group>"; };
+		13E98F8C2BC5961E00F05295 /* ReviewWritingEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWritingEntity.swift; sourceTree = "<group>"; };
 		13F6DAC72B5248EF00573B86 /* SlideUpAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideUpAnimator.swift; sourceTree = "<group>"; };
 		13F6DAC92B52711E00573B86 /* SlideDownAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideDownAnimator.swift; sourceTree = "<group>"; };
 		13F6DACC2B53A5D400573B86 /* AlbumCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumCoordinator.swift; sourceTree = "<group>"; };
@@ -1658,6 +1664,7 @@
 				130CF3832B9248750051DEE8 /* OAuthType.swift */,
 				151DF0EF2AEEAE2100D5D55B /* NoticeEntity.swift */,
 				15A8599F2BB56E18002C0CA0 /* PostContainer.swift */,
+				15B928682AFA3F63003A20D4 /* PostContentEntity.swift */,
 				15F376612AFE132900B3BF35 /* PostCommentEntity.swift */,
 				15CAEF7C2BAED114008AEDB1 /* PostNestedCommentEntity.swift */,
 				15CAEF862BAED25C008AEDB1 /* PostCommentContainerEntity.swift */,
@@ -1677,6 +1684,7 @@
 				15AAD34B2BBFD1760042DBF6 /* FavoritePostToggleEntity.swift */,
 				1564A0A32BBFE25B0045424B /* UpdatedFavoritePostDirectoryName.swift */,
 				154FBC162BC2CDB40070D2FE /* PostReportType.swift */,
+				13E98F8C2BC5961E00F05295 /* ReviewWritingEntity.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -1745,6 +1753,7 @@
 				15553BC52BB3445A000AA896 /* DefaultPostNestedCommentRepository.swift */,
 				15B5E7A22BBAE6F800C19F56 /* DefaultUserBlockRepository.swift */,
 				15591DD72BBE9D1800128A9E /* DefaultFavoritePostInDirectoryRepository.swift */,
+				13E98F8A2BC581D200F05295 /* DefaultReviewWritingRepository.swift */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
@@ -1770,6 +1779,7 @@
 				15553BC32BB343F1000AA896 /* PostNestedCommentRepository.swift */,
 				15B5E7A02BBAE68000C19F56 /* UserBlockRepository.swift */,
 				15591DD52BBE9C5200128A9E /* FavoritePostInDirectoryRepository.swift */,
+				13E98F882BC581BF00F05295 /* ReviewWritingRepository.swift */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
@@ -1928,7 +1938,6 @@
 				15B9285E2AFA2D89003A20D4 /* PostDetailContentImageCell.swift */,
 				15B928602AFA3309003A20D4 /* PostDetailContentTextCell.swift */,
 				15B928642AFA3980003A20D4 /* PostDetailContentFooterView.swift */,
-				15B928682AFA3F63003A20D4 /* PostContentEntity.swift */,
 				159F38BA2AFA9F32000A24C2 /* PostDetailCategoryHeaderView.swift */,
 				159F38BE2AFAA329000A24C2 /* PostDetailTitleCell.swift */,
 				159F38C92AFAABF9000A24C2 /* PostDetailProfileAreaFooterView.swift */,
@@ -3450,6 +3459,7 @@
 				15BB01B82A1EB5070035B486 /* LoginViewModel.swift in Sources */,
 				152715412BA0D5AE0077D033 /* UserRepository.swift in Sources */,
 				15BE6BDB2BAF08B4009A2568 /* PostCommentRepository.swift in Sources */,
+				13E98F892BC581BF00F05295 /* ReviewWritingRepository.swift in Sources */,
 				1599587B2B0DC55700B2E4DC /* PostCellWithTwoThumbnails.swift in Sources */,
 				15FB47F12AC1DCEF0033AA18 /* TravelMainThemeCollectionView.swift in Sources */,
 				133532042BA42DDE000A4D9E /* Double+.swift in Sources */,
@@ -3642,6 +3652,7 @@
 				13405F352AF1002800382796 /* LoginPlayerSupporter.swift in Sources */,
 				157ADCB02AD06B5400D37680 /* FavoriteDirectorySettingView.swift in Sources */,
 				15CB23662A10B7F1003EAF20 /* PostContentInfo.swift in Sources */,
+				13E98F8B2BC581D200F05295 /* DefaultReviewWritingRepository.swift in Sources */,
 				131A11062AB4CD1A007BDD66 /* SearchMoreDetailViewController.swift in Sources */,
 				15CB23632A10B600003EAF20 /* DateValidationError.swift in Sources */,
 				15FD50952BB4579C006CCCDD /* PostNestedCommentDeleteRequestDTO.swift in Sources */,
@@ -3663,6 +3674,7 @@
 				153FA9112B938C19006CF3C3 /* ParameterType.swift in Sources */,
 				135A07C82BAD6E95003D6C4D /* PhotoEntity.swift in Sources */,
 				15FFAC0D2AD9AEB80013DB57 /* Encodable+.swift in Sources */,
+				13E98F8D2BC5961F00F05295 /* ReviewWritingEntity.swift in Sources */,
 				15FFAC132AD9C7EB0013DB57 /* NetwrokInteractionable.swift in Sources */,
 				13405F662AF4470200382796 /* ReviewWritingViewController.swift in Sources */,
 				152715452BA0D60F0077D033 /* DefaultOthersProfileRepository.swift in Sources */,
