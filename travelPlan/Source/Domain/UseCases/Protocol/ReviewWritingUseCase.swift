@@ -6,7 +6,8 @@
 //
 
 import Foundation
+import Combine
 
 protocol ReviewWritingUseCase {
-  func uploadPost(content: PostContentEntity)
+  func uploadPost(content: [PostContentEntity]) -> AnyPublisher<Bool, Never>
 }
