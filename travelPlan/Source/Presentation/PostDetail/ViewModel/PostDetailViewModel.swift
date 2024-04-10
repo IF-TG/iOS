@@ -148,9 +148,11 @@ extension PostDetailViewModel: PostDetailCoordinatorDelegate {
       case .commentDelete:
         self?.commentUseCaseNotifier.send(.delete(section))
       case .commentUpdate:
-        self?.commentUseCaseNotifier.send(.update(section))
+        // MARK: - 업데이트는 로직을 isCommentUpdating 이걸 추가하면서 대댓글 작성 과 같게 로직을 짜야 합니다.
+        // self?.commentUseCaseNotifier.send(.update(section))
+        self?.showAlertForError(with: "댓글 수정 기능은 다음 업데이트 때 구현될 예정입니다.", completion: nil)
       case .commentUserBlock:
-        self?.showAlertForError(with: "차단하기 기능은 구현중 입니다.", completion: nil)
+        self?.showAlertForError(with: "댓글 차단 기능은 다음 업데이트 때 구현될 예정입니다.", completion: nil)
       }
     }
   }
@@ -175,9 +177,11 @@ extension PostDetailViewModel: PostDetailCoordinatorDelegate {
       case .commentDelete:
         self?.nestedCommentUseCaseNotifier.send(.delete(indexPath))
       case .commentUpdate:
-        self?.nestedCommentUseCaseNotifier.send(.update(indexPath))
+        // MARK: - 업데이트는 로직을 isNestedCommentUpdating 이걸 추가하면서 대댓글 작성 과 같게 로직을 짜야 합니다.
+        // self?.nestedCommentUseCaseNotifier.send(.update(indexPath))
+        self?.showAlertForError(with: "대댓글 수정 기능은 다음 업데이트 때 구현될 예정입니다.", completion: nil)
       case .commentUserBlock:
-        self?.showAlertForError(with: "차단하기 기능은 구현중 입니다.", completion: nil)
+        self?.showAlertForError(with: "대댓글 차단 기능은 다음 업데이트 때 구현될 예정입니다.", completion: nil)
       }
     }
   }
