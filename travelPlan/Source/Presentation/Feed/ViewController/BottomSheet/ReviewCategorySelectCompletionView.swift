@@ -23,7 +23,6 @@ final class ReviewCategorySelectCompletionView: UIView {
     $0.layer.borderWidth = 1.5
     $0.layer.borderColor = UIColor.yg.primary.withAlphaComponent(0.3).cgColor
     $0.backgroundColor = .white
-    $0.isUserInteractionEnabled = true
   }
   
   private let okButton = PrimaryColorToneRoundButton(currentState: .normal).set {
