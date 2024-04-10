@@ -107,7 +107,6 @@ final class PostDetailViewController: UITableViewController {
   
   deinit {
     NotificationCenter.default.removeObserver(self)
-    print("yessss")
   }
 }
 
@@ -173,6 +172,11 @@ extension PostDetailViewController: ViewBindCase {
         at: IndexPath(row: NSNotFound, section: viewModel.numberOfSections-1),
         at: .bottom, animated: false)
       stopIndicator()
+    case .reloadWhenCommentDelete:
+      UITableView.performWithoutAnimation {
+        tableView.reloadData()
+      }
+      stopIndicator()
     }
   }
   
@@ -201,6 +205,11 @@ extension PostDetailViewController: ViewBindCase {
       viewModel.showAnAlertToAskWhetherToCancelWrittingTheReply { [weak self] wannaCancel in
         self?.input.keyboardDidHideWhenReplyingToMessageNotifier.send(wannaCancel)
       }
+    case .reload(let indexPath):
+      UITableView.performWithoutAnimation {
+        tableView.deleteRows(at: [indexPath], with: .top)
+      }
+      stopIndicator()
     }
   }
   

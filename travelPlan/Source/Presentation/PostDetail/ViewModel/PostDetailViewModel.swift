@@ -35,10 +35,14 @@ final class PostDetailViewModel {
   // MARK: - Nested
   @frozen enum CommentUseCaseInput {
     case send(UserInputText)
+    case update(Section)
+    case delete(Section)
   }
   
   @frozen enum NestedCommentUseCaseInput {
     case send(UserInputText)
+    case update(IndexPath)
+    case delete(IndexPath)
   }
   
   // MARK: - Dependencies
@@ -57,7 +61,11 @@ final class PostDetailViewModel {
   
   private var postDetails: PostDetails
   
+  private let commentUseCaseNotifier = PassthroughSubject<CommentUseCaseInput, Never>()
+  
   private let commentUseCaseHandler = PassthroughSubject<CommentUseCaseInput, Never>()
+  
+  private let nestedCommentUseCaseNotifier = PassthroughSubject<NestedCommentUseCaseInput, Never>()
   
   private let nestedCommentUseCaseHandler = PassthroughSubject<NestedCommentUseCaseInput, Never>()
   
@@ -124,15 +132,24 @@ final class PostDetailViewModel {
 extension PostDetailViewModel: PostDetailCoordinatorDelegate {
   func showCommentOption(section: Int) {
     actions?.showCommentOption { [weak self] commentOption in
-      print("comment option selected: \(commentOption)")
       // TODO: - CommentUseCaseHandler.send를 통해서 업데이트 Or 삭제 로직 유즈케이스로 전달 후 state에서 ui처리.
+      switch commentOption {
+      case .commentDelete:
+        self?.commentUseCaseNotifier.send(.delete(section))
+      case .commentUpdate:
+        self?.commentUseCaseNotifier.send(.update(section))
+      }
     }
   }
   
   func showNestedCommentOption(indexPath: IndexPath) {
     actions?.showCommentOption { [weak self] commentOption in
-      print("nested comment option selected: \(commentOption)")
-      // TODO: - nestedCommentUseCaseHandler.send로 업데이트 or 삭제 로직 유즈케이스 전달 후 state에서 ui처리
+      switch commentOption {
+      case .commentDelete:
+        self?.nestedCommentUseCaseNotifier.send(.delete(indexPath))
+      case .commentUpdate:
+        self?.nestedCommentUseCaseNotifier.send(.update(indexPath))
+      }
     }
   }
   
@@ -211,7 +228,9 @@ extension PostDetailViewModel: PostDetailViewModelable {
       postReportNotifierStream(),
       postAuthorBlockNotifierStream(),
       postReportHandlerStream(),
-      postAuthorBlockHandlerStream()
+      postAuthorBlockHandlerStream(),
+      commentUseCaseNotifierStream(),
+      nestedCommentUseCaseNotifierStream()
     ]).eraseToAnyPublisher()
   }
 }
@@ -254,7 +273,18 @@ private extension PostDetailViewModel {
           return self?.sendCommentStream(with: text) ?? Just(
             State.unexpectedError(description: "댓글을 전송할 수 없습니다.")
           ).eraseToAnyPublisher()
+        case .update(let section):
+          // TODO: - 업데이트는 대댓글 다시 작성해서 수정된 글을 같이 보내야함 ㅠㅅㅠ
+          // updateCommentStream(with: section)
+          break
+        case .delete(let section):
+          return self?.deleteCommentStream(with: section) ?? Just(
+            State.unexpectedError(description: "댓글을 삭제할 수 없습니다.")
+          ).eraseToAnyPublisher()
+
         }
+        // MARK: - 임시 임시. update가 case에서 퍼블리셔 반환하면 아래꺼 지워도 됩니다.
+        return Just(State.none).eraseToAnyPublisher()
       }.eraseToAnyPublisher()
   }
   
@@ -266,7 +296,17 @@ private extension PostDetailViewModel {
           return self?.sendNestedCommentStream(with: text) ?? Just(
             State.unexpectedError(description: "대댓글을 전송할 수 없습니다.")
           ).eraseToAnyPublisher()
+        case .update(let indexPath):
+          // TODO: - 업데이트는 대댓글 다시 작성해서 수정된 글을 같이 보내야함 ㅠㅅㅠ
+          // updateNestedCommentStream(with: indexPath)
+          break
+        case .delete(let indexPath):
+          return self?.deleteNestedCommentStream(with: indexPath) ?? Just(
+            State.unexpectedError(description: "앱 내부 에러가 발생됬습니다.대댓글을 삭제할 수 없습니다.")
+          ).eraseToAnyPublisher()
         }
+        // MARK: - 임시 임시. update가 case에서 퍼블리셔 반환하면 아래꺼 지워도 됩니다.
+        return Just(State.none).eraseToAnyPublisher()
       }.eraseToAnyPublisher()
   }
   
@@ -348,6 +388,24 @@ private extension PostDetailViewModel {
     }.eraseToAnyPublisher()
   }
   
+  func commentUseCaseNotifierStream() -> Output {
+    return commentUseCaseNotifier.map { commentInput -> State in
+      DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+        self?.commentUseCaseHandler.send(commentInput)
+      }
+      return .networkProcessing
+    }.eraseToAnyPublisher()
+  }
+  
+  func nestedCommentUseCaseNotifierStream() -> Output {
+    return nestedCommentUseCaseNotifier.map { nestedCommentInput -> State in
+      DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+        self?.nestedCommentUseCaseHandler.send(nestedCommentInput)
+      }
+      return .networkProcessing
+    }.eraseToAnyPublisher()
+  }
+  
   // MARK: - Inner stream
   /// 초기 viewDidLoad시점에 호출해야 합니다. -> post favorite여부파악.
   func fetchCommentsWhenViewDidLoad() -> Output {
@@ -365,6 +423,7 @@ private extension PostDetailViewModel {
       }.eraseToAnyPublisher()
   }
   
+  // MARK: - Comment Stream
   /// 댓글 전송할 때
   func sendCommentStream(with text: String) -> Output {
     postCommentUseCase.sendComment(postId: postDetails.detail.postID, comment: text)
@@ -376,13 +435,33 @@ private extension PostDetailViewModel {
       }.eraseToAnyPublisher()
   }
   
+  func deleteCommentStream(with section: Section) -> Output {
+    /// 포스트는 섹션 \(PostDetailSectionType.defaultNumberOfSections)부터 시작합니다.
+    let commentSection = section - PostDetailSectionType.defaultNumberOfSections
+    let commentId = postDetails.comments[commentSection].commentId
+    return postCommentUseCase
+      .deleteComment(commentId: commentId)
+      .map { [weak self] result -> State in
+        if result {
+          // MARK: - 댓글 삭제-> 대댓글도 다 삭제하도록 일단 구현
+          self?.postDetails.comments.remove(at: commentSection)
+          return .comment(.reloadWhenCommentDelete)
+        }
+        return .unexpectedError(description: "서버에서 에러가 발생되 댓글이 삭제되지 않았습니다.")
+      }.catch { error in
+        return Just(State.unexpectedError(description: error.localizedDescription))
+      }.eraseToAnyPublisher()
+  }
+  
+  // MARK: - Nested Comment Stream
   /// 대댓글 전송할 때
   func sendNestedCommentStream(with text: String) -> Output {
     guard let replyingSection else {
       return Just(State.unexpectedError(description: "대댓글을 전송할 수 없습니다.")).eraseToAnyPublisher()
     }
     /// 포스트는 섹션 \(PostDetailSectionType.defaultNumberOfSections)부터 시작합니다.
-    let commentId = Int64(replyingSection - PostDetailSectionType.defaultNumberOfSections)
+    let commentSection = replyingSection - PostDetailSectionType.defaultNumberOfSections
+    let commentId = postDetails.comments[commentSection].commentId
     return postNestedCommentUseCase
       .sendNestedComment(commentId: commentId, comment: text)
       .map { [weak self] postNestedCommentEntity -> State in
@@ -390,6 +469,25 @@ private extension PostDetailViewModel {
         self?.clearNestedCommentState()
         /// 대댓글이 속한 댓글 섹션은 replyingSection을 보내주어야 합니다.
         return .nestedComment(.sentSuccessfully(replyingSection))
+      }.catch { error in
+        return Just(State.unexpectedError(description: error.localizedDescription))
+      }.eraseToAnyPublisher()
+  }
+  
+  /// 대댓글 삭제
+  func deleteNestedCommentStream(with indexPath: IndexPath) -> Output {
+    /// 포스트는 섹션 \(PostDetailSectionType.defaultNumberOfSections)부터 시작합니다.
+    let commentSection = (indexPath.section - PostDetailSectionType.defaultNumberOfSections)
+    let nestedCommentId = postDetails.comments[commentSection].nestedComments[indexPath.row].nestedCommentId
+    return postNestedCommentUseCase
+      .deleteNestedComment(nestedCommentId: nestedCommentId)
+      .map { [weak self] result -> State in
+        if result {
+          self?.postDetails.comments[commentSection].nestedComments.remove(at: indexPath.row)
+          /// 테이블뷰에 실제로 특정 셀 제거 후 리로드 명령은 실제 indexPath로 해야합니다.
+          return .nestedComment(.reload(indexPath))
+        }
+        return .unexpectedError(description: "서버에서 에러가 발생되 대댓글이 삭제되지 않았습니다.")
       }.catch { error in
         return Just(State.unexpectedError(description: error.localizedDescription))
       }.eraseToAnyPublisher()

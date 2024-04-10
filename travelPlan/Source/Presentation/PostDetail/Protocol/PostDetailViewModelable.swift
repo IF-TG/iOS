@@ -5,6 +5,7 @@
 //  Created by 양승현 on 4/2/24.
 //
 
+import Foundation
 import Combine
 import SHCoordinator
 
@@ -58,10 +59,16 @@ struct PostDetailViewModelInput {
   case replyCancellationAsk
   case replyCancel
   case replyContinue
+  
+  /// 대댓글 삭제 후
+  case reload(IndexPath)
 }
 
 @frozen enum PostDetailCommentState {
+  /// 초기에 실행됩니다.
   case reloadedComment
+  /// 댓글 삭제 후
+  case reloadWhenCommentDelete
 }
 
 @frozen enum PostDetailOptionState {
@@ -74,4 +81,5 @@ where Input == PostDetailViewModelInput,
       State == PostDetailViewModelState,
       Output == AnyPublisher<State, Never> {
   typealias UserInputText = String
+  typealias Section = Int
 }
