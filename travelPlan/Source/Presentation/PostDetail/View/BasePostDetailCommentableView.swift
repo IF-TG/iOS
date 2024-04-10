@@ -22,6 +22,7 @@ protocol BaseCommentViewDelegate: AnyObject {
   func didCanceledHeart()
   func didTapReply()
   func didTapProfile()
+  func didTapOption()
 }
 
 final class BasePostDetailCommentableView: BaseProfileAreaView {
@@ -83,6 +84,18 @@ final class BasePostDetailCommentableView: BaseProfileAreaView {
     $0.text = "답글 달기"
     let tap = UITapGestureRecognizer(target: self, action: #selector(didTapReply))
     $0.addGestureRecognizer(tap)
+  }
+  
+  private lazy var optionView = UIImageView(image: UIImage(named: "feedOption")).set {
+    $0.translatesAutoresizingMaskIntoConstraints = false
+    $0.contentMode = .scaleAspectFit
+    $0.isUserInteractionEnabled = true
+    addSubview($0)
+    NSLayoutConstraint.activate([
+      $0.trailingAnchor.constraint(equalTo: trailingAnchor),
+      $0.topAnchor.constraint(equalTo: topAnchor, constant: 1),
+      $0.heightAnchor.constraint(equalToConstant: 16),
+      $0.widthAnchor.constraint(equalToConstant: 24)])
   }
   
   public var isOnHeart = false {
@@ -163,6 +176,7 @@ final class BasePostDetailCommentableView: BaseProfileAreaView {
     setUserNameTapGesture()
     setHeartIconTapGesture()
     setHeartCancelLabelTapGesture()
+    setOptionViewTapGesture()
     baseDelegate = self
   }
   
@@ -209,6 +223,11 @@ extension BasePostDetailCommentableView {
 
 // MARK: - Private Helpers
 extension BasePostDetailCommentableView {
+  private func setOptionViewTapGesture() {
+    let tap = UITapGestureRecognizer(target: self, action: #selector(didTapOption))
+    optionView.addGestureRecognizer(tap)
+  }
+  
   private func setUserNameTapGesture() {
     let tap = UITapGestureRecognizer(target: self, action: #selector(didTapProfile))
     userNameLabel.addGestureRecognizer(tap)
@@ -268,6 +287,10 @@ private extension BasePostDetailCommentableView {
   
   @objc func didTapReply() {
     delegate?.didTapReply()
+  }
+  
+  @objc func didTapOption() {
+    delegate?.didTapOption()
   }
 }
 

@@ -26,6 +26,11 @@ final class PostDetailCommentHeader: UITableViewHeaderFooterView & PostDetailCom
   private let commentView = BasePostDetailCommentableView(usageType: .comment)
   // TODO: - delete control 추가해야합니다.
   
+  private let optionView = UIView(frame: .zero).set {
+    $0.backgroundColor = .yellow
+    $0.translatesAutoresizingMaskIntoConstraints = false
+  }
+  
   var section: Int?
   
   weak var delegate: PostDetailCommentDelegate?
@@ -64,6 +69,10 @@ extension PostDetailCommentHeader {
 
 // MARK: - BaseCommentViewDelegate
 extension PostDetailCommentHeader: BaseCommentViewDelegate {
+  func didTapOption() {
+    print("옵션눌러버림")
+  }
+  
   func didTapHeart(_ isOnHeart: Bool) {
     delegate?.didTapHeart(self, isOnHeart)
   }
@@ -84,7 +93,7 @@ extension PostDetailCommentHeader: BaseCommentViewDelegate {
 // MARK: - LayoutSupport
 extension PostDetailCommentHeader: LayoutSupport {
   func addSubviews() {
-    [commentView].forEach {
+    [commentView, optionView].forEach {
       contentView.addSubview($0)
     }
   }
@@ -98,6 +107,11 @@ extension PostDetailCommentHeader: LayoutSupport {
       commentView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 11),
       commentView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
       commentView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -11),
-      commentViewBottomConstraint])
+      commentViewBottomConstraint,
+    
+      optionView.widthAnchor.constraint(equalToConstant: 22),
+      optionView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.4),
+      optionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+      optionView.topAnchor.constraint(equalTo: contentView.topAnchor)])
   }
 }

@@ -74,7 +74,11 @@ extension PostDetailReplyCell {
 }
 
 // MARK: - BaseCommentViewDelegate
-extension PostDetailReplyCell: BaseCommentViewDelegate {  
+extension PostDetailReplyCell: BaseCommentViewDelegate {
+  func didTapOption() {
+    print("옵션 눌러버림")
+  }
+  
   func didTapHeart(_ isOnHeart: Bool) {
     delegate?.didTapHeart(self, isOnHeart: isOnHeart)
   }
