@@ -92,6 +92,7 @@ final class ReviewWritingContentView: UIStackView {
     arrangedSubviews.last
   }
   private var textViewPreviousHeight: [UIView: CGFloat] = [:]
+  /// 스크롤 포커싱을 lastView가 되도록 지정하는 클로저
   var scrollToLastView: ((_ cursorHeight: CGFloat?, _ lastView: UIView) -> Void)?
   var imageViewUpdated: ((UIImageView) -> Void)?
   private var shouldScrollToLastView = false
@@ -323,9 +324,7 @@ extension ReviewWritingContentView {
   
   /// textView text와 알맞은 height로 autoLayout을 update합니다.
   private func adjustHeight(of textView: UITextView) {
-    let estimatedHeight = textView.sizeThatFits(
-      CGSize(width: textView.frame.width, height: CGFloat.infinity)
-    ).height
+    let estimatedHeight = estimatedHeight(of: textView)
     
     if let previousHeight = textViewPreviousHeight[textView], previousHeight != estimatedHeight {
       textView.snp.updateConstraints {
@@ -337,27 +336,13 @@ extension ReviewWritingContentView {
     }
   }
   
-  /// 인자로 넣은 view를 contentView의 lastView로 적용합니다.
-//  private func setupLastView(lastView: UIView) {
-//    addArrangedSubview(lastView)
-//    if lastView is UITextView {
-//      lastView.snp.makeConstraints {
-//        $0.height.equalTo(40)
-//      }
-//    } else if let imageSize = (lastView as? UIImageView)?.image?.size {
-//      let aspectRatio = imageSize.width / imageSize.height // 종횡비 = 가로:세로
-//      // height AutoLayout을 width * (1 / aspectRatio)로 정의
-//      lastView.snp.makeConstraints {
-//        $0.height.equalTo(lastView.snp.width).multipliedBy(1 / aspectRatio)
-//      }
-//      
-//      imageViewPublisher.send(true)
-//    }
-//    lastView.layoutIfNeeded()
-//    shouldScrollToLastView = true
-//  }
+  private func estimatedHeight(of textView: UITextView) -> CGFloat {
+    return textView.sizeThatFits(CGSize(
+      width: textView.frame.width,
+      height: .infinity))
+    .height
+  }
   
-  /// textView를 lastView로 적용합니다.
   private func setupTextView(textView: UITextView) {
     addArrangedSubview(textView)
     
@@ -368,7 +353,7 @@ extension ReviewWritingContentView {
     shouldScrollToLastView = true
   }
   
-  private func setupImageView(imageView: UIImageView) {
+  private func setupImageView(imageView: UIImageView, shouldScrollToLastView: Bool) {
     guard let imageSize = imageView.image?.size else { return }
 
     addArrangedSubview(imageView)
@@ -378,7 +363,7 @@ extension ReviewWritingContentView {
     }
     imageViewPublisher.send(true)
     imageView.layoutIfNeeded()
-    shouldScrollToLastView = true
+    self.shouldScrollToLastView = shouldScrollToLastView
   }
   
   private func createNewTextView() -> UITextView {
@@ -435,6 +420,15 @@ extension ReviewWritingContentView {
       firstMessageTextView.alpha = 0
     }
   }
+  
+  private func heightForTextView(text: String, font: UIFont, width: CGFloat) -> CGFloat {
+    let textAttributes: [NSAttributedString.Key: Any] = [.font: font]
+    let boundingRect = text.boundingRect(with: CGSize(width: width, height: .greatestFiniteMagnitude),
+                                         options: .usesLineFragmentOrigin,
+                                         attributes: textAttributes,
+                                         context: nil)
+    return ceil(boundingRect.height)
+  }
 }
 
 // MARK: - Helpers
@@ -446,7 +440,6 @@ extension ReviewWritingContentView {
     } else if lastView is UIImageView { // lastView가 imageView라면 아래에 textView를 추가합니다.
       let newTextView = createNewTextView()
       setupTextView(textView: newTextView)
-//      setupLastView(lastView: newTextView)
       self.setNeedsLayout()
       changeContentInset()
     }
@@ -482,19 +475,40 @@ extension ReviewWritingContentView {
   }
   
   /// imageView를 생성하고 layout을 적용합니다.
-  func addImageView(image: UIImage) {
+  func addImageView(image: UIImage, shouldScrollToLastView: Bool) {
     let imageView = PictureImageView(frame: .zero, image: image).set {
       $0.delegate = self
       $0.contentMode = .scaleToFill
       let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapImageView(_:)))
       $0.addGestureRecognizer(tapGesture)
     }
-//    setupLastView(lastView: imageView)
-    setupImageView(imageView: imageView)
+    setupImageView(imageView: imageView, shouldScrollToLastView: shouldScrollToLastView)
     if firstMessageTextViewTextIsPlaceholder {
       firstMessageTextView.isHidden = true
     } else {
       firstMessageTextView.isHidden = false
+    }
+  }
+  
+  func setupContents(_ contents: [PostContentEntity]) {
+    contents.forEach { content in
+      switch content {
+      case .text(let textString):
+        let textView = createNewTextView()
+        textView.text = textString
+        
+        addArrangedSubview(textView)
+        // estimatedHeight 메소드 내에서 textViewWidth를 필요로 하기 때문에,
+        // textView의 width가 지정되게 하기 위해 self.layoutIfNeeded()를 호출합니다.
+        self.layoutIfNeeded()
+        let estimatedHeight = estimatedHeight(of: textView)
+        textView.snp.makeConstraints {
+          $0.height.equalTo(estimatedHeight)
+        }
+      case .image(let data):
+        guard let image = UIImage(data: data) else { return }
+        addImageView(image: image, shouldScrollToLastView: false)
+      }
     }
   }
 }
