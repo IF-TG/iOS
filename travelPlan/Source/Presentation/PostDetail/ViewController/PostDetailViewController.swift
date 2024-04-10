@@ -9,11 +9,6 @@ import UIKit
 import Combine
 import SHCoordinator
 
-@frozen enum PostDetailOption: String, CaseIterable {
-  case postBlock = "차단하기"
-  case postReport = "신고하기"
-}
-
 final class PostDetailViewController: UITableViewController {
   // MARK: - Dependencies
   private let viewModel: any PostDetailViewModelable & PostDetailTableViewDataSource
@@ -295,7 +290,11 @@ extension PostDetailViewController: PostDetailTableViewAdapterDelegate {
 // MARK: - PostDetailReplyCellDelegate
 extension PostDetailViewController: PostDetailReplyCellDelegate {
   func didTapOption(_ cell: UITableViewCell) {
-    print("대댓 옵션 클릭")
+    guard let indexPath = tableView.indexPath(for: cell) else {
+      viewModel.showAlertForError(with: "대댓글 옵션을 선택할 수 없습니다.\n앱 서비스에 문제가 발생했습니다.", completion: nil)
+      return
+    }
+    viewModel.showNestedCommentOption(indexPath: indexPath)
   }
   
   func didTapProfile(_ cell: UITableViewCell) {
@@ -315,6 +314,11 @@ extension PostDetailViewController: PostDetailReplyCellDelegate {
 extension PostDetailViewController: PostDetailCommentDelegate {
   func didTapOption(_ header: any PostDetailCommentHeaderIdentifiable) {
     // TODO: - 댓글 옵션 눌리는 로직 구현.
+    guard let section = header.section else {
+      viewModel.showAlertForError(with: "댓글 옵션을 선택할 수 없습니다.\n앱 서비스에 문제가 발생했습니다.", completion: nil)
+      return
+    }
+    viewModel.showCommentOption(section: section)
   }
   
   func didTapHeart(_ header: PostDetailCommentHeaderIdentifiable, _ isOnHeart: Bool) {}

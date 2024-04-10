@@ -118,6 +118,20 @@ final class PostDetailViewModel {
 
 // MARK: - PostDetailCoordinatorDelegate
 extension PostDetailViewModel: PostDetailCoordinatorDelegate {
+  func showCommentOption(section: Int) {
+    actions?.showCommentOption { [weak self] commentOption in
+      print("comment option selected: \(commentOption)")
+      // TODO: - CommentUseCaseHandler.send를 통해서 업데이트 Or 삭제 로직 유즈케이스로 전달 후 state에서 ui처리.
+    }
+  }
+  
+  func showNestedCommentOption(indexPath: IndexPath) {
+    actions?.showCommentOption { [weak self] commentOption in
+      print("nested comment option selected: \(commentOption)")
+      // TODO: - nestedCommentUseCaseHandler.send로 업데이트 or 삭제 로직 유즈케이스 전달 후 state에서 ui처리
+    }
+  }
+  
   func showAlertForError(with description: String, completion: (() -> Void)?) {
     actions?.showAlertForError(description, completion)
   }
@@ -127,7 +141,7 @@ extension PostDetailViewModel: PostDetailCoordinatorDelegate {
   }
   
   func showPostOption(handler: ((PostDetailOption) -> Void)?) {
-    actions?.showOption(handler)
+    actions?.showPostOption(handler)
   }
   
   func showPostAuthorBlock(handler: ((Bool) -> Void)?) {
