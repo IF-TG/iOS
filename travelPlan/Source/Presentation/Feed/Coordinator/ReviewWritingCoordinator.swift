@@ -38,7 +38,8 @@ final class ReviewWritingCoordinator: FlowCoordinator {
   
   func start() {
     let photoAuthUseCase = DefaultPhotoAuthorizationUseCase()
-    let reviewWritingUseCase = DefaultReviewWritingUseCase()
+    let reviewWritingRepository = DefaultReviewWritingRepository()
+    let reviewWritingUseCase = DefaultReviewWritingUseCase(reviewWritingRepository: reviewWritingRepository)
     let viewModel = DefaultReviewWritingViewModel(
       photoAuthorizationUseCase: photoAuthUseCase,
       reviewWritingUseCase: reviewWritingUseCase,
