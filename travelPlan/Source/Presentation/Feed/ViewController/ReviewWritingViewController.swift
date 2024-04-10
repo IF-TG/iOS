@@ -129,7 +129,7 @@ extension ReviewWritingViewController {
         case .manageTextViewDisplay:
           self?.contentView.manageContentOffsetYByLastView()
         case .presentThemeSetting:
-          print("테마 설정 화면 띄우기")
+          self?.coordinator?.showCategoryBottomSheet()
         case .alertAuthRequest:
           // TODO: - Alert화면 띄우기
           break
