@@ -70,9 +70,9 @@ final class PostDetailViewModel {
   /// 사용자가 대댓글 작성중인 경우 not nil. 댓글을 작성중인 경우 nil
   private var replyingSection: Int?
   
-  private var postReportResultOption: PostDetailOption? = .none
+  private let actions: PostDetailViewModelActions?
   
-  private var actions: PostDetailViewModelActions?
+  private var postReportResultOption: PostDetailOption? = .none
   
   // MARK: - Paging Properties
   // TODO: - 페이징 추가해야합니다.
@@ -102,7 +102,8 @@ final class PostDetailViewModel {
     postCommentUseCase: PostCommentUseCase,
     loggedInUserUseCase: LoggedInUserUseCase,
     postNestedCommentUseCase: PostNestedCommentUseCase,
-    userBlockUseCase: UserBlockUseCase
+    userBlockUseCase: UserBlockUseCase,
+    actions: PostDetailViewModelActions?
   ) {
     // TODO: - 포스트를 받았으면, 1개의 글을 포스트들, 이미지들 이렇게 조개고 순위를 부여해야합니다. PostMapper에서 구현해야합니다.
     self.postDetails = PostMapper.toPostDetails(post, category: category)
@@ -111,6 +112,7 @@ final class PostDetailViewModel {
     self.loggedInUserUseCase = loggedInUserUseCase
     self.postNestedCommentUseCase = postNestedCommentUseCase
     self.userBlockUseCase = userBlockUseCase
+    self.actions = actions
   }
 }
 
@@ -147,6 +149,23 @@ extension PostDetailViewModel: PostDetailCoordinatorDelegate {
     actions?.showPostReportResult(postReportResultOption)
     // 차단 한 경우 화면 나가기
     self.postReportResultOption = nil
+  }
+  
+  func showCategory() {
+    let themeTexts = postDetails.category.themes.compactMap { theme in
+      "\(TravelMainThemeType.travelTheme(nil).rawValue) > \(theme.rawValue)"
+    }
+    let seasonTexts = postDetails.category.seasons.compactMap { season in
+      "\(TravelMainThemeType.season(nil).rawValue) > \(season.rawValue)"
+    }
+    let regionTexts = postDetails.category.regions.compactMap { region in
+      "\(TravelMainThemeType.region(nil).rawValue) > \(region.rawValue)"
+    }
+    let partnerTests = postDetails.category.partners.compactMap { partner in
+      "\(TravelMainThemeType.partner(nil).rawValue) > \(partner.rawValue)"
+    }
+    let categories = themeTexts + seasonTexts + regionTexts + partnerTests
+    actions?.showCategory(categories)
   }
 }
 
@@ -348,13 +367,6 @@ private extension PostDetailViewModel {
       }.catch { error in
         return Just(State.unexpectedError(description: error.localizedDescription))
       }.eraseToAnyPublisher()
-  }
-}
-
-// MARK: - Public Helpers
-extension PostDetailViewModel {
-  func makeActions(actions: PostDetailViewModelActions?) {
-    self.actions = actions
   }
 }
 

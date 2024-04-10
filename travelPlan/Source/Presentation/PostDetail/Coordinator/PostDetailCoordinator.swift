@@ -14,7 +14,7 @@ protocol PostDetailCoordinatorDelegate: AnyObject {
   func showAnAlertToAskWhetherToCancelWrittingTheReply(completion: ((Bool) -> Void)?)
   func showOption(handler: ((PostDetailOption) -> Void)?)
   func showPostAuthorBlock(handler: ((Bool) -> Void)?)
-  /// 신고하기 종류 추가.
+  func showCategory()
   func showPostReport(handler: ((PostReportType) -> Void)?)
   func showPostReportResult()
 }
@@ -26,10 +26,12 @@ final class PostDetailCoordinator: NSObject, FlowCoordinator {
   var presenter: UINavigationController?
   
   /// dismiss호출코드에서 finish도 해줘야합니다
-  private var postDetailViewController: PostDetailViewController
+  private var postDetailViewController: PostDetailViewController?
   
   init(presenter: UINavigationController?, post: Post, category: Post.Category) {
     self.presenter = presenter
+    super.init()
+    
     let mockPostRepository = MockPostRepository()
     let postUseCase = DefaultPostUseCase(postRepository: mockPostRepository)
     
@@ -46,17 +48,6 @@ final class PostDetailCoordinator: NSObject, FlowCoordinator {
     
     let mockUserBlockRepository = MockWrappedUserBlockRepository()
     let userBlockUseCase = DefaultUserBlockUseCase(userBlockRepository: mockUserBlockRepository)
-    
-    let postDetailVM = PostDetailViewModel(
-      post: post,
-      category: category,
-      postUseCase: postUseCase,
-      postCommentUseCase: postCommentUseCase,
-      loggedInUserUseCase: loggedInUserUseCase, 
-      postNestedCommentUseCase: postNestedCommentUseCase,
-      userBlockUseCase: userBlockUseCase)
-    postDetailViewController = PostDetailViewController(viewModel: postDetailVM)
-    super.init()
     
     let actions = PostDetailViewModelActions(
       showAlertForError: { [weak self] message, completion in
@@ -76,12 +67,26 @@ final class PostDetailCoordinator: NSObject, FlowCoordinator {
       },
       showPostReportResult: { [weak self] option in
         self?.showPostReportResult(wtih: option)
+      }, showCategory: {[weak self] categories in
+        self?.showCategory(with: categories)
       })
-    postDetailVM.makeActions(actions: actions)
+
+    let postDetailVM = PostDetailViewModel(
+      post: post,
+      category: category,
+      postUseCase: postUseCase,
+      postCommentUseCase: postCommentUseCase,
+      loggedInUserUseCase: loggedInUserUseCase, 
+      postNestedCommentUseCase: postNestedCommentUseCase,
+      userBlockUseCase: userBlockUseCase,
+      actions: actions)
+    postDetailViewController = PostDetailViewController(viewModel: postDetailVM)
+    
     presenter?.delegate = self
   }
   
   func start() {
+    guard let postDetailViewController else { return }
     presenter?.pushViewController(postDetailViewController, animated: true)
   }
 }
@@ -92,7 +97,7 @@ extension PostDetailCoordinator {
     let alert = UIAlertController(title: nil, message: description, preferredStyle: .alert).set {
       $0.addAction(title: "OK", style: .default) { _ in completion?() }
     }
-    postDetailViewController.present(alert, animated: true)
+    postDetailViewController?.present(alert, animated: true)
   }
   
   func showAnAlertToAskWhetherToCancelWrittingTheReply(completion: ((Bool) -> Void)?) {
@@ -100,7 +105,7 @@ extension PostDetailCoordinator {
       $0.addAction(title: "아니요", style: .cancel) { _ in completion?(false) }
       $0.addAction(title: "예", style: .default) { _ in completion?(true) }
     }
-    postDetailViewController.present(alert, animated: true)
+    postDetailViewController?.present(alert, animated: true)
   }
   
   func showOption(handler: ((PostDetailOption) -> Void)?) {
@@ -144,6 +149,11 @@ extension PostDetailCoordinator {
     case .postReport:
       presenter?.present(PostOptionResultAlertController(type: .postReport), animated: true)
     }
+  }
+  
+  func showCategory(with categories: [String]) {
+    let categoryViewController = PostDetailCategoryViewController(style: .plain, dataSource: categories)
+    presenter?.pushViewController(categoryViewController, animated: true)
   }
 }
 

@@ -496,6 +496,9 @@
 		15FB47EE2AC176FD0033AA18 /* UISpacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152AD4ED2A1891DB008A2A11 /* UISpacing.swift */; };
 		15FB47EF2AC1772C0033AA18 /* PostRecommendationSearchTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1325502E2A0B4BD700094218 /* PostRecommendationSearchTagCell.swift */; };
 		15FB47F12AC1DCEF0033AA18 /* TravelMainThemeCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FB47F02AC1DCEF0033AA18 /* TravelMainThemeCollectionView.swift */; };
+		15FB966E2BC422CF00706312 /* PostDetailCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FB966D2BC422CF00706312 /* PostDetailCategoryViewController.swift */; };
+		15FB96712BC4270E00706312 /* PostDetailCategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FB966F2BC4270E00706312 /* PostDetailCategoryCell.swift */; };
+		15FB96722BC4270E00706312 /* PostDetailCategoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 15FB96702BC4270E00706312 /* PostDetailCategoryCell.xib */; };
 		15FBA7E52B1343CB00C9B1E7 /* PostThumbnailValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FBA7E42B1343CB00C9B1E7 /* PostThumbnailValue.swift */; };
 		15FBD5CE2B98D13D00076115 /* TravelPartnerMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FBD5CD2B98D13D00076115 /* TravelPartnerMapper.swift */; };
 		15FBD5D02B98D90500076115 /* TravelThemeMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FBD5CF2B98D90500076115 /* TravelThemeMapper.swift */; };
@@ -1066,6 +1069,9 @@
 		15F376612AFE132900B3BF35 /* PostCommentEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCommentEntity.swift; sourceTree = "<group>"; };
 		15FB47D62AC0407D0033AA18 /* PostCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCategory.swift; sourceTree = "<group>"; };
 		15FB47F02AC1DCEF0033AA18 /* TravelMainThemeCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelMainThemeCollectionView.swift; sourceTree = "<group>"; };
+		15FB966D2BC422CF00706312 /* PostDetailCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailCategoryViewController.swift; sourceTree = "<group>"; };
+		15FB966F2BC4270E00706312 /* PostDetailCategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailCategoryCell.swift; sourceTree = "<group>"; };
+		15FB96702BC4270E00706312 /* PostDetailCategoryCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostDetailCategoryCell.xib; sourceTree = "<group>"; };
 		15FBA7E42B1343CB00C9B1E7 /* PostThumbnailValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostThumbnailValue.swift; sourceTree = "<group>"; };
 		15FBD5CD2B98D13D00076115 /* TravelPartnerMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelPartnerMapper.swift; sourceTree = "<group>"; };
 		15FBD5CF2B98D90500076115 /* TravelThemeMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelThemeMapper.swift; sourceTree = "<group>"; };
@@ -1930,6 +1936,8 @@
 				15D3882C2AFFBB5B00039946 /* PostDetailInputAccessoryWrapper.swift */,
 				15D388302B0159F600039946 /* PostHeartAndShareAreaHeaderView.swift */,
 				15D388222AFE75E100039946 /* PostDetailReplyCell.swift */,
+				15FB966F2BC4270E00706312 /* PostDetailCategoryCell.swift */,
+				15FB96702BC4270E00706312 /* PostDetailCategoryCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1937,6 +1945,7 @@
 		1546DF1C2B0A6CF700B49A55 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				15FB966D2BC422CF00706312 /* PostDetailCategoryViewController.swift */,
 				15B9285A2AF9DEAA003A20D4 /* PostDetailViewController.swift */,
 				1585017B2BC2E50D00341575 /* PostOptionResultAlertController.swift */,
 			);
@@ -3084,6 +3093,7 @@
 				1518BC212BB03BF300FD1A74 /* mock_postComment_fetchComments_response.json in Resources */,
 				15E1550D2BAB47F400582E12 /* BottomNextPageIndicatorCell.xib in Resources */,
 				1518BC1B2BB022D100FD1A74 /* mock_postComment_update_response.json in Resources */,
+				15FB96722BC4270E00706312 /* PostDetailCategoryCell.xib in Resources */,
 				158BEFBA2A0EB2A500C27861 /* Pretendard-Bold.ttf in Resources */,
 				15B5E7AA2BBAE97A00C19F56 /* mock_userBlock_response.json in Resources */,
 				1594F53B29FD517F00A58F20 /* Assets.xcassets in Resources */,
@@ -3276,6 +3286,7 @@
 				130304B02A28447900776A0D /* TravelDestinationCell.swift in Sources */,
 				1564A0A22BBFE0780045424B /* FavoritePostDirectoryNameUpdateResponseDTO.swift in Sources */,
 				158BEF882A0E33F700C27861 /* PostHeaderContentBottomView.swift in Sources */,
+				15FB96712BC4270E00706312 /* PostDetailCategoryCell.swift in Sources */,
 				158C6A392B0D15C400C30856 /* ImageIO+Nested.swift in Sources */,
 				15FEB5E72A050A99000A5F33 /* UIButton+Combine.swift in Sources */,
 				15F376602AFBF22F00B3BF35 /* BasePostDetailCommentableView.swift in Sources */,
@@ -3371,6 +3382,7 @@
 				13AE0DDA2BC32E6100652B99 /* DefaultAlbumPhotoMaxCountUseCase.swift in Sources */,
 				15D388312B0159F600039946 /* PostHeartAndShareAreaHeaderView.swift in Sources */,
 				15FDCC912AE03F4A00716CC6 /* InnerRoundRectReusableView.swift in Sources */,
+				15FB966E2BC422CF00706312 /* PostDetailCategoryViewController.swift in Sources */,
 				155527E22BBD6D64000122B4 /* KeyboardState.swift in Sources */,
 				159F38BD2AFAA1F7000A24C2 /* PostDetailCategoryHeaderViewDelegate.swift in Sources */,
 				1503F92E2A4E083C002BC38D /* LoginCoordinator.swift in Sources */,
