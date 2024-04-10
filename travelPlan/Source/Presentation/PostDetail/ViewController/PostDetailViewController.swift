@@ -309,6 +309,10 @@ extension PostDetailViewController: PostDetailReplyCellDelegate {
 
 // MARK: - PostDetailCommentDelegate
 extension PostDetailViewController: PostDetailCommentDelegate {
+  func didTapOption(_ header: any PostDetailCommentHeaderIdentifiable) {
+    // TODO: - 댓글 옵션 눌리는 로직 구현.
+  }
+  
   func didTapHeart(_ header: PostDetailCommentHeaderIdentifiable, _ isOnHeart: Bool) {}
   
   func didTapCanceledHeart(_ header: PostDetailCommentHeaderIdentifiable) {}

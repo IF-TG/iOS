@@ -265,6 +265,10 @@ extension PostDetailTableViewAdapter: PostDetailReplyCellDelegate {
 
 // MARK: - PostDetailCommentDelegate
 extension PostDetailTableViewAdapter: PostDetailCommentDelegate {
+  func didTapOption(_ header: any PostDetailCommentHeaderIdentifiable) {
+    delegate?.didTapOption(header)
+  }
+  
   func didTapHeart(_ header: any PostDetailCommentHeaderIdentifiable, _ isOnHeart: Bool) {
     delegate?.didTapHeart(header, isOnHeart)
   }

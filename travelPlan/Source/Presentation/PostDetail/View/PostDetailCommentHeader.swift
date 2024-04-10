@@ -12,6 +12,7 @@ protocol PostDetailCommentHeaderIdentifiable {
 }
 
 protocol PostDetailCommentDelegate: AnyObject {
+  func didTapOption(_ header: PostDetailCommentHeaderIdentifiable)
   func didTapHeart(_ header: PostDetailCommentHeaderIdentifiable, _ isOnHeart: Bool)
   func didTapCanceledHeart(_ header: PostDetailCommentHeaderIdentifiable)
   func didTapReply(_ header: PostDetailCommentHeaderIdentifiable)
@@ -64,7 +65,7 @@ extension PostDetailCommentHeader {
 // MARK: - BaseCommentViewDelegate
 extension PostDetailCommentHeader: BaseCommentViewDelegate {
   func didTapOption() {
-    print("옵션눌러버림")
+    delegate?.didTapOption(self)
   }
   
   func didTapHeart(_ isOnHeart: Bool) {
