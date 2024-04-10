@@ -131,8 +131,25 @@ final class PostDetailViewModel {
 // MARK: - PostDetailCoordinatorDelegate
 extension PostDetailViewModel: PostDetailCoordinatorDelegate {
   func showCommentOption(section: Int) {
+    let commentSection = section - PostDetailSectionType.defaultNumberOfSections
+    // TODO: - 아.. 댓글 작성자의 id가 있어야 하지만 entity에 없습니다.
+    let comment = postDetails.comments[commentSection]
+    guard let loggedUserId = loggedInUserUseCase.id else {
+      showAlertForError(with: "로그인 한 사용자만 이용 가능합니다.", completion: nil)
+      return
+    }
+    // TODO: - 로그인한 사용자가 작성한 댓글인지 여부에 따라 사용자 신고 기능만 추가될건지, 댓글 삭제, 수정 기능만 추가될 것인지..
+    // 만약 자신이라면, 삭제, 수정 기능
+    // 만약 타인꺼 댓글이라면 신고 기능만,,,
+    // 신고 기능 api도 없음으로 일단 자신꺼에 한정해 삭제, 수정 기능만 넣고 자신것이 아니라면 알림창으로 본인만 수정 가능하다고 보여주어야 합니다.
+    
+    let commentUploadedUserId = loggedUserId
+    if loggedUserId != commentUploadedUserId {
+      showAlertForError(with: "댓글을 작성한 유저만 수정 가능합니다.", completion: nil)
+      return
+    }
+    
     actions?.showCommentOption { [weak self] commentOption in
-      // TODO: - CommentUseCaseHandler.send를 통해서 업데이트 Or 삭제 로직 유즈케이스로 전달 후 state에서 ui처리.
       switch commentOption {
       case .commentDelete:
         self?.commentUseCaseNotifier.send(.delete(section))
@@ -143,6 +160,26 @@ extension PostDetailViewModel: PostDetailCoordinatorDelegate {
   }
   
   func showNestedCommentOption(indexPath: IndexPath) {
+    let commentSection = indexPath.section - PostDetailSectionType.defaultNumberOfSections
+    // TODO: - 아.. nestedCommentEntity에 대댓 작성한 UserId가 있어야 하지만 entity에 없습니다.
+    let nestedComment = postDetails.comments[commentSection].nestedComments[commentSection]
+    
+    guard let loggedUserId = loggedInUserUseCase.id else {
+      showAlertForError(with: "로그인 한 사용자만 이용 가능합니다.", completion: nil)
+      return
+    }
+    
+    // TODO: - 로그인한 사용자가 작성한 댓글인지 여부에 따라 사용자 신고 기능만 추가될건지, 댓글 삭제, 수정 기능만 추가될 것인지..
+    // 만약 자신이라면, 삭제, 수정 기능
+    // 만약 타인꺼 댓글이라면 신고 기능만,,,
+    // 신고 기능 api도 없음으로 일단 자신꺼에 한정해 삭제, 수정 기능만 넣고 자신것이 아니라면 알림창으로 보여주어야 합니다.
+    
+    let commentUploadedUserId = loggedUserId
+    if loggedUserId != commentUploadedUserId {
+      showAlertForError(with: "댓글을 작성한 유저만 수정 가능합니다.", completion: nil)
+      return
+    }
+    
     actions?.showCommentOption { [weak self] commentOption in
       switch commentOption {
       case .commentDelete:
