@@ -415,7 +415,7 @@ extension PostDetailViewModel: PostDetailTableViewDataSource {
       isOnHeart: postReply.isOnHeart,
       heartCountText: "\(postReply.hearts)")
     return .init(
-      isFirstReply: postComment.nestedComments.count == 1,
+      isFirstReply: indexPath.row == 0,
       commentInfo: commentInfo)
   }
   
