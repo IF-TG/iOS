@@ -62,8 +62,12 @@ final class PostDetailViewModel {
   private let nestedCommentUseCaseHandler = PassthroughSubject<NestedCommentUseCaseInput, Never>()
   
   private let loggedInUserUseCaseHandler = PassthroughSubject<Void, Never>()
+   
+  private let postReportNotifier = PassthroughSubject<PostReportType, Never>()
   
   private let postReportHandler = PassthroughSubject<PostReportType, Never>()
+  
+  private let postAuthorBlockNotifier = PassthroughSubject<Void, Never>()
   
   private let postAuthorBlockHandler = PassthroughSubject<Void, Never>()
   
@@ -140,16 +144,24 @@ extension PostDetailViewModel: PostDetailCoordinatorDelegate {
     actions?.showAnAlertToAskWhetherToCancelWrittingTheReply(completion)
   }
   
-  func showPostOption(handler: ((PostDetailOption) -> Void)?) {
-    actions?.showPostOption(handler)
-  }
-  
-  func showPostAuthorBlock(handler: ((Bool) -> Void)?) {
-    actions?.showPostAuthorBlock(postDetails.author.nickname, handler)
-  }
-  
-  func showPostReport(handler: ((PostReportType) -> Void)?) {
-    actions?.showPostReport(handler)
+  func showPostOption() {
+    actions?.showPostOption { [weak self] optionState in
+      switch optionState {
+      case .postBlock:
+        guard let authorNickname = self?.postDetails.author.nickname else {
+          self?.showAlertForError(with: "앱 내부 문제가 발생되어 포스트 옵션을 선택할 수 없습니다.", completion: nil)
+          return
+        }
+        self?.actions?.showPostAuthorBlock(authorNickname) { wannaBlock in
+          if wannaBlock { self?.postAuthorBlockNotifier.send() }
+        }
+      case .postReport:
+        self?.actions?.showPostReport { reportType in
+          if reportType == .stopRequest { return }
+          self?.postReportNotifier.send(reportType)
+        }
+      }
+    }
   }
   
   func showPostReportResult() {
@@ -196,8 +208,8 @@ extension PostDetailViewModel: PostDetailViewModelable {
       replyStartNotifierStream(input),
       keyboardDidHideWhenReplyingToMessageNotifierStream(input),
       replyDismissalConfirmationNorifierStream(input),
-      postReportNotifierStream(input),
-      postAuthorBlockNotifierStream(input),
+      postReportNotifierStream(),
+      postAuthorBlockNotifierStream(),
       postReportHandlerStream(),
       postAuthorBlockHandlerStream()
     ]).eraseToAnyPublisher()
@@ -296,8 +308,8 @@ private extension PostDetailViewModel {
       }.eraseToAnyPublisher()
   }
   
-  func postReportNotifierStream(_ input: Input) -> Output {
-    return input.postReportNotifier
+  func postReportNotifierStream() -> Output {
+    return postReportNotifier
       .map { reportType -> State in
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
           self?.postReportHandler.send(reportType)
@@ -306,8 +318,8 @@ private extension PostDetailViewModel {
       }.eraseToAnyPublisher()
   }
   
-  func postAuthorBlockNotifierStream(_ input: Input) -> Output {
-    return input.postAuthorBlockNotifier
+  func postAuthorBlockNotifierStream() -> Output {
+    return postAuthorBlockNotifier
       .map { _ -> State in
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
           self?.postAuthorBlockHandler.send()

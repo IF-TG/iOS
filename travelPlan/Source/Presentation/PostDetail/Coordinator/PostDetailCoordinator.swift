@@ -22,14 +22,10 @@ import SHCoordinator
 protocol PostDetailCoordinatorDelegate: AnyObject {
   func showAlertForError(with description: String, completion: (() -> Void)?)
   func showAnAlertToAskWhetherToCancelWrittingTheReply(completion: ((Bool) -> Void)?)
-  func showPostOption(handler: ((PostDetailOption) -> Void)?)
-  
+  func showPostOption()
   func showCommentOption(section: Int)
   func showNestedCommentOption(indexPath: IndexPath)
-  
-  func showPostAuthorBlock(handler: ((Bool) -> Void)?)
   func showCategory()
-  func showPostReport(handler: ((PostReportType) -> Void)?)
   func showPostReportResult()
 }
 

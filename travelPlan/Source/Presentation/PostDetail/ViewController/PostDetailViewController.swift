@@ -107,6 +107,7 @@ final class PostDetailViewController: UITableViewController {
   
   deinit {
     NotificationCenter.default.removeObserver(self)
+    print("yessss")
   }
 }
 
@@ -347,19 +348,7 @@ extension PostDetailViewController: PostDetailInputAccessoryWrapperDelegate {
 // MARK: - PostHeartAndShareAreaHeaderViewDelegate
 extension PostDetailViewController: PostHeartAndShareAreaHeaderViewDelegate {
   func didTapOption() {
-    viewModel.showPostOption(handler: { [weak self] optionState in
-      switch optionState {
-      case .postBlock:
-        self?.viewModel.showPostAuthorBlock { [weak self] wannaBlock in
-          if wannaBlock { self?.input.postAuthorBlockNotifier.send() }
-        }
-      case .postReport:
-        self?.viewModel.showPostReport { [weak self] reportType in
-          if reportType == .stopRequest { return }
-          self?.input.postReportNotifier.send(reportType)
-        }
-      }
-    })
+    viewModel.showPostOption()
   }
   
   func didTapHeart(isFavorite: Bool) {
