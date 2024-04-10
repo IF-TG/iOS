@@ -24,11 +24,12 @@ struct ReviewWritingViewModelInput {
   let didTapNavigationTitleView: PassthroughSubject<Void, Never> = .init()
   let didTapView: PassthroughSubject<Void, Never> = .init()
   let didTapScrollView: PassthroughSubject<Void, Never> = .init()
+  let viewDidLoad: PassthroughSubject<Void, Never> = .init()
 }
 
 enum ReviewWritingMode {
   case start
-  case edit
+  case edit(ReviewWritingEntity)
 }
 
 enum ReviewWritingViewModelState {
@@ -40,19 +41,20 @@ enum ReviewWritingViewModelState {
   case presentThemeSetting
   case none
   case alertAuthRequest
+  case setupContents([PostContentEntity])
 }
 
 final class DefaultReviewWritingViewModel: ReviewWritingViewModel {
 
   // MARK: - Properties
-  private let photoAuthorizationUseCase: PhotoAuthorizationUseCase
-  private let reviewWritingUseCase: ReviewWritingUseCase
+  private let photoAuthorizationUseCase: any PhotoAuthorizationUseCase
+  private let reviewWritingUseCase: any ReviewWritingUseCase
   private let mode: ReviewWritingMode
   
   // MARK: - LifeCycle
   init(
-    photoAuthorizationUseCase: PhotoAuthorizationUseCase,
-    reviewWritingUseCase: ReviewWritingUseCase,
+    photoAuthorizationUseCase: any PhotoAuthorizationUseCase,
+    reviewWritingUseCase: any ReviewWritingUseCase,
     mode: ReviewWritingMode
   ) {
     self.photoAuthorizationUseCase = photoAuthorizationUseCase
@@ -66,6 +68,7 @@ extension DefaultReviewWritingViewModel {
   func transform(_ input: Input) -> Output {
     return Publishers
       .MergeMany(
+        viewDidLoadStream(input),
         didTapCancelButtonStream(input),
         didTapKeyboardDownButtonStream(input),
         didTapViewStream(input),
@@ -81,6 +84,17 @@ extension DefaultReviewWritingViewModel {
 
 // MARK: - Private Helpers
 extension DefaultReviewWritingViewModel {
+  private func viewDidLoadStream(_ input: Input) -> Output {
+    return input.viewDidLoad
+      .map { [weak self] in
+        if case let .edit(entity) = self?.mode {
+          return State.setupContents(entity.contents)
+        }
+        return State.none
+      }
+      .eraseToAnyPublisher()
+  }
+  
   private func didTapCancelButtonStream(_ input: Input) -> Output {
     return input.didTapCancelButton
       .map { State.popViewController }
