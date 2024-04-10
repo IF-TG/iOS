@@ -24,12 +24,6 @@ final class PostDetailCommentHeader: UITableViewHeaderFooterView & PostDetailCom
   
   // MARK: - Properties
   private let commentView = BasePostDetailCommentableView(usageType: .comment)
-  // TODO: - delete control 추가해야합니다.
-  
-  private let optionView = UIView(frame: .zero).set {
-    $0.backgroundColor = .yellow
-    $0.translatesAutoresizingMaskIntoConstraints = false
-  }
   
   var section: Int?
   
@@ -93,7 +87,7 @@ extension PostDetailCommentHeader: BaseCommentViewDelegate {
 // MARK: - LayoutSupport
 extension PostDetailCommentHeader: LayoutSupport {
   func addSubviews() {
-    [commentView, optionView].forEach {
+    [commentView].forEach {
       contentView.addSubview($0)
     }
   }
@@ -107,11 +101,6 @@ extension PostDetailCommentHeader: LayoutSupport {
       commentView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 11),
       commentView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
       commentView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -11),
-      commentViewBottomConstraint,
-    
-      optionView.widthAnchor.constraint(equalToConstant: 22),
-      optionView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.4),
-      optionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-      optionView.topAnchor.constraint(equalTo: contentView.topAnchor)])
+      commentViewBottomConstraint])
   }
 }
