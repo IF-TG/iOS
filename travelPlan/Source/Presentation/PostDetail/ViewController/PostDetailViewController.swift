@@ -332,16 +332,11 @@ extension PostDetailViewController: PostDetailReplyCellDelegate {
 // MARK: - PostDetailCommentDelegate
 extension PostDetailViewController: PostDetailCommentDelegate {
   func didTapOption(_ header: UITableViewHeaderFooterView) {
-    var section = -1
-    (0..<viewModel.numberOfSections).forEach { i in
-      let specificHeader = tableView.headerView(forSection: i)
-      if specificHeader === header {
-        section = i
-        print("찾았당:\(i)")
-      }
-    }
-    if section == -1 {
-      print("못찾았땅")
+    guard let section = tableView.section(
+      for: header,
+      numberOfSections: viewModel.numberOfSections
+    ) else {
+      viewModel.showAlertForError(with: "대댓글을 작성할 수 없습니다.\n앱 서비스에 문제가 발생됬습니다.", completion: nil)
       return
     }
     viewModel.showCommentOption(section: section)
@@ -352,22 +347,13 @@ extension PostDetailViewController: PostDetailCommentDelegate {
   func didTapCanceledHeart(_ header: UITableViewHeaderFooterView) {}
   
   func didTapReply(_ header: UITableViewHeaderFooterView) {
-    var section = -1
-    (0..<viewModel.numberOfSections).forEach { i in
-      let specificHeader = tableView.headerView(forSection: i)
-      if specificHeader === header {
-        section = i
-        print("찾았당:\(i)")
-      }
-    }
-    if section == -1 {
-      print("못찾았땅")
+    guard let section = tableView.section(
+      for: header,
+      numberOfSections: viewModel.numberOfSections
+    ) else {
+      viewModel.showAlertForError(with: "대댓글을 작성할 수 없습니다.\n앱 서비스에 문제가 발생됬습니다.", completion: nil)
       return
     }
-//    guard let replySection = header.section else {
-//      viewModel.showAlertForError(with: "대댓글을 작성할 수 없습니다.\n앱 서비스에 문제가 발생됬습니다.", completion: nil)
-//      return
-//    }
     input.replyStartNotifier.send(section)
   }
   

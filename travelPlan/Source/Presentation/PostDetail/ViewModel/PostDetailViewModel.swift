@@ -143,7 +143,7 @@ extension PostDetailViewModel: PostDetailCoordinatorDelegate {
     // 만약 타인꺼 댓글이라면 신고 기능만,,,
     // 신고 기능 api도 없음으로 일단 자신꺼에 한정해 삭제, 수정 기능만 넣고 자신것이 아니라면 알림창으로 본인만 수정 가능하다고 보여주어야 합니다.
     let commentUploadedUserId = loggedUserId
-    actions?.showCommentOption(loggedUserId != commentUploadedUserId) { [weak self] commentOption in
+    actions?.showCommentOption(loggedUserId == commentUploadedUserId) { [weak self] commentOption in
       switch commentOption {
       case .commentDelete:
         self?.commentUseCaseNotifier.send(.delete(section))
@@ -160,7 +160,7 @@ extension PostDetailViewModel: PostDetailCoordinatorDelegate {
   func showNestedCommentOption(indexPath: IndexPath) {
     let commentSection = indexPath.section - PostDetailSectionType.defaultNumberOfSections
     // TODO: - 아.. nestedCommentEntity에 대댓 작성한 UserId가 있어야 하지만 entity에 없습니다.
-    let nestedComment = postDetails.comments[commentSection].nestedComments[commentSection]
+    let nestedComment = postDetails.comments[commentSection].nestedComments[indexPath.row]
     
     guard let loggedUserId = loggedInUserUseCase.id else {
       showAlertForError(with: "로그인 한 사용자만 이용 가능합니다.", completion: nil)
@@ -264,7 +264,20 @@ extension PostDetailViewModel: PostDetailViewModelable {
       postAuthorBlockHandlerStream(),
       commentUseCaseNotifierStream(),
       nestedCommentUseCaseNotifierStream()
-    ]).eraseToAnyPublisher()
+    ])
+    .handleEvents(receiveOutput: { value in
+      print(value)
+      if case .comment(.reloadWhenCommentDelete(let section)) = value {
+        print("삭제된 section:\(section-self.DefaultSectionCount)")
+        print("커맨트 개수: \(self.postDetails.comments.count)")
+      }
+      if case .comment(.reloadWithNestedCommentsWhenCommentDelete(let section)) = value {
+        print("삭제된 section:\(section-self.DefaultSectionCount)")
+        print("커맨트 개수: \(self.postDetails.comments.count)")
+        print("nested comment 개수:\(self.postDetails.comments[section-self.DefaultSectionCount].nestedComments.count)")
+      }
+    })
+    .eraseToAnyPublisher()
   }
 }
 
@@ -476,9 +489,20 @@ private extension PostDetailViewModel {
       .deleteComment(commentId: commentId)
       .map { [weak self] result -> State in
         if result {
-          // MARK: - 댓글 삭제-> 대댓글도 다 삭제하도록 일단 구현
+          self?.postDetails.comments[commentSection].isDeleted = result
+          
+          guard let nestedCommentCount = self?.postDetails.comments[commentSection].nestedComments.count else {
+            return .unexpectedError(description: "댓글이 삭제되지 않았습니다.")
+          }
+          
+          /// 대댓글 있는 경우
+          if nestedCommentCount > 0 {
+            return .comment(.reloadWithNestedCommentsWhenCommentDelete(section))
+          }
+          
+          /// 대댓글 없는 경우
           self?.postDetails.comments.remove(at: commentSection)
-          return .comment(.reloadWhenCommentDelete)
+          return .comment(.reloadWhenCommentDelete(section))
         }
         return .unexpectedError(description: "서버에서 에러가 발생되 댓글이 삭제되지 않았습니다.")
       }.catch { error in
@@ -498,7 +522,7 @@ private extension PostDetailViewModel {
     return postNestedCommentUseCase
       .sendNestedComment(commentId: commentId, comment: text)
       .map { [weak self] postNestedCommentEntity -> State in
-        self?.postDetails.comments[Int(commentId)].nestedComments.append(postNestedCommentEntity)
+        self?.postDetails.comments[commentSection].nestedComments.append(postNestedCommentEntity)
         self?.clearNestedCommentState()
         /// 대댓글이 속한 댓글 섹션은 replyingSection을 보내주어야 합니다.
         return .nestedComment(.sentSuccessfully(replyingSection))
@@ -562,16 +586,18 @@ extension PostDetailViewModel: PostDetailTableViewDataSource {
       commentInfo: commentInfo)
   }
   
-  func commentItem(in section: Int) -> BasePostDetailCommentInfo {
+  func commentItem(in section: Int) -> PostCommentInfo {
     let postComment = postDetails.comments[section - DefaultSectionCount]
-    return .init(
+    let baseInfo: BasePostDetailCommentInfo = .init(
       commentId: postComment.commentId,
       userName: postComment.userName,
       userProfileURL: postComment.userProfileURL,
       timestamp: postComment.timestamp,
-      comment: postComment.comment,
+      comment: postComment.isDeleted ? "댓글이 삭제되었습니다." : postComment.comment,
       isOnHeart: postComment.isOnHeart,
       heartCountText: "\(postComment.hearts)")
+    return .init(baseInfo: baseInfo, isDeleted: postComment.isDeleted)
+    
   }
   
   var title: String {

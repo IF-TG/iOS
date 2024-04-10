@@ -146,7 +146,7 @@ extension PostDetailTableViewAdapter: UITableViewDelegate {
       ) as? PostDetailCommentHeader else {
         return nil
       }
-      commentHeader.configure(with: dataSource.commentItem(in: section), section: section)
+      commentHeader.configure(with: dataSource.commentItem(in: section))
       commentHeader.delegate = self
       return commentHeader
     }
@@ -269,23 +269,23 @@ extension PostDetailTableViewAdapter: PostDetailReplyCellDelegate {
 
 // MARK: - PostDetailCommentDelegate
 extension PostDetailTableViewAdapter: PostDetailCommentDelegate {
-  func didTapOption(_ header: any PostDetailCommentHeaderIdentifiable) {
+  func didTapOption(_ header: UITableViewHeaderFooterView) {
     delegate?.didTapOption(header)
   }
   
-  func didTapHeart(_ header: any PostDetailCommentHeaderIdentifiable, _ isOnHeart: Bool) {
+  func didTapHeart(_ header: UITableViewHeaderFooterView, _ isOnHeart: Bool) {
     delegate?.didTapHeart(header, isOnHeart)
   }
   
-  func didTapCanceledHeart(_ header: any PostDetailCommentHeaderIdentifiable) {
+  func didTapCanceledHeart(_ header: UITableViewHeaderFooterView) {
     delegate?.didTapCanceledHeart(header)
   }
   
-  func didTapReply(_ header: any PostDetailCommentHeaderIdentifiable) {
+  func didTapReply(_ header: UITableViewHeaderFooterView) {
     delegate?.didTapReply(header)
   }
   
-  func didTapProfile(_ header: any PostDetailCommentHeaderIdentifiable) {
+  func didTapProfile(_ header: UITableViewHeaderFooterView) {
     delegate?.didTapProfile(header)
   }
 }

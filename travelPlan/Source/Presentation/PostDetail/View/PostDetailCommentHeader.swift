@@ -7,26 +7,25 @@
 
 import UIKit
 
-protocol PostDetailCommentHeaderIdentifiable {
-  var section: Int? { get }
+struct PostCommentInfo {
+  let baseInfo: BasePostDetailCommentInfo
+  let isDeleted: Bool
 }
 
 protocol PostDetailCommentDelegate: AnyObject {
-  func didTapOption(_ header: PostDetailCommentHeaderIdentifiable)
-  func didTapHeart(_ header: PostDetailCommentHeaderIdentifiable, _ isOnHeart: Bool)
-  func didTapCanceledHeart(_ header: PostDetailCommentHeaderIdentifiable)
-  func didTapReply(_ header: PostDetailCommentHeaderIdentifiable)
-  func didTapProfile(_ header: PostDetailCommentHeaderIdentifiable)
+  func didTapOption(_ header: UITableViewHeaderFooterView)
+  func didTapHeart(_ header: UITableViewHeaderFooterView, _ isOnHeart: Bool)
+  func didTapCanceledHeart(_ header: UITableViewHeaderFooterView)
+  func didTapReply(_ header: UITableViewHeaderFooterView)
+  func didTapProfile(_ header: UITableViewHeaderFooterView)
 }
 
-final class PostDetailCommentHeader: UITableViewHeaderFooterView & PostDetailCommentHeaderIdentifiable {
+final class PostDetailCommentHeader: UITableViewHeaderFooterView {
   
   static let id = String(describing: PostDetailCommentHeader.self)
   
   // MARK: - Properties
   private let commentView = BasePostDetailCommentableView(usageType: .comment)
-  
-  var section: Int?
   
   weak var delegate: PostDetailCommentDelegate?
   
@@ -43,15 +42,19 @@ final class PostDetailCommentHeader: UITableViewHeaderFooterView & PostDetailCom
   
   override func prepareForReuse() {
     super.prepareForReuse()
-    configure(with: nil, section: nil)
+    configure(with: nil)
   }
 }
 
 // MARK: - Helpers
 extension PostDetailCommentHeader {
-  func configure(with info: BasePostDetailCommentInfo?, section: Int?) {
-    commentView.configure(with: info)
-    self.section = section
+  func configure(with info: PostCommentInfo?) {
+    if info?.isDeleted == true {
+      // 댓글 삭제되었습니다.
+      // 관련된 ui로 변경
+    }
+    
+    commentView.configure(with: info?.baseInfo)
   }
 }
 
