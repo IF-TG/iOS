@@ -12,7 +12,7 @@ import SHCoordinator
 struct PostDetailViewModelActions {
   let showAlertForError: (String, (() -> Void)?) -> Void
   let showAnAlertToAskWhetherToCancelWrittingTheReply: (((Bool) -> Void)?) -> Void
-  let showOption: (((PostDetailOption) -> Void)?) -> Void
+  let showPostOption: (((PostDetailOption) -> Void)?) -> Void
   let showPostAuthorBlock: (String, ((Bool) -> Void)?) -> Void
   /// 신고하기 종류 추가.
   let showPostReport: (((PostReportType) -> Void)?) -> Void
