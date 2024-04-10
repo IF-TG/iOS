@@ -126,7 +126,7 @@ extension PostDetailViewModel: PostDetailCoordinatorDelegate {
     actions?.showAnAlertToAskWhetherToCancelWrittingTheReply(completion)
   }
   
-  func showOption(handler: ((PostDetailOption) -> Void)?) {
+  func showPostOption(handler: ((PostDetailOption) -> Void)?) {
     actions?.showOption(handler)
   }
   

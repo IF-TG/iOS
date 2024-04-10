@@ -343,7 +343,7 @@ extension PostDetailViewController: PostDetailInputAccessoryWrapperDelegate {
 // MARK: - PostHeartAndShareAreaHeaderViewDelegate
 extension PostDetailViewController: PostHeartAndShareAreaHeaderViewDelegate {
   func didTapOption() {
-    viewModel.showOption(handler: { [weak self] optionState in
+    viewModel.showPostOption(handler: { [weak self] optionState in
       switch optionState {
       case .postBlock:
         self?.viewModel.showPostAuthorBlock { [weak self] wannaBlock in
