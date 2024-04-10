@@ -172,9 +172,15 @@ extension PostDetailViewController: ViewBindCase {
         at: IndexPath(row: NSNotFound, section: viewModel.numberOfSections-1),
         at: .bottom, animated: false)
       stopIndicator()
-    case .reloadWhenCommentDelete:
+    case .reloadWhenCommentDelete(let section):
       UITableView.performWithoutAnimation {
-        tableView.reloadData()
+        tableView.deleteSections(IndexSet(integer: section), with: .none)
+        // tableView.reloadData()
+      }
+      stopIndicator()
+    case .reloadWithNestedCommentsWhenCommentDelete(let section):
+      UITableView.performWithoutAnimation {
+        tableView.reloadSections(IndexSet(integer: section), with: .none)
       }
       stopIndicator()
     }
@@ -325,29 +331,47 @@ extension PostDetailViewController: PostDetailReplyCellDelegate {
 
 // MARK: - PostDetailCommentDelegate
 extension PostDetailViewController: PostDetailCommentDelegate {
-  func didTapOption(_ header: any PostDetailCommentHeaderIdentifiable) {
-    // TODO: - 댓글 옵션 눌리는 로직 구현.
-    guard let section = header.section else {
-      viewModel.showAlertForError(with: "댓글 옵션을 선택할 수 없습니다.\n앱 서비스에 문제가 발생했습니다.", completion: nil)
+  func didTapOption(_ header: UITableViewHeaderFooterView) {
+    var section = -1
+    (0..<viewModel.numberOfSections).forEach { i in
+      let specificHeader = tableView.headerView(forSection: i)
+      if specificHeader === header {
+        section = i
+        print("찾았당:\(i)")
+      }
+    }
+    if section == -1 {
+      print("못찾았땅")
       return
     }
     viewModel.showCommentOption(section: section)
   }
   
-  func didTapHeart(_ header: PostDetailCommentHeaderIdentifiable, _ isOnHeart: Bool) {}
+  func didTapHeart(_ header: UITableViewHeaderFooterView, _ isOnHeart: Bool) {}
   
-  func didTapCanceledHeart(_ header: PostDetailCommentHeaderIdentifiable) {}
+  func didTapCanceledHeart(_ header: UITableViewHeaderFooterView) {}
   
-  func didTapReply(_ header: PostDetailCommentHeaderIdentifiable) {
-    
-    guard let replySection = header.section else {
-      viewModel.showAlertForError(with: "대댓글을 작성할 수 없습니다.\n앱 서비스에 문제가 발생됬습니다.", completion: nil)
+  func didTapReply(_ header: UITableViewHeaderFooterView) {
+    var section = -1
+    (0..<viewModel.numberOfSections).forEach { i in
+      let specificHeader = tableView.headerView(forSection: i)
+      if specificHeader === header {
+        section = i
+        print("찾았당:\(i)")
+      }
+    }
+    if section == -1 {
+      print("못찾았땅")
       return
     }
-    input.replyStartNotifier.send(replySection)
+//    guard let replySection = header.section else {
+//      viewModel.showAlertForError(with: "대댓글을 작성할 수 없습니다.\n앱 서비스에 문제가 발생됬습니다.", completion: nil)
+//      return
+//    }
+    input.replyStartNotifier.send(section)
   }
   
-  func didTapProfile(_ header: PostDetailCommentHeaderIdentifiable) {}
+  func didTapProfile(_ header: UITableViewHeaderFooterView) {}
 }
 
 // MARK: - PostDetailInputAccessoryWrapperDelegate
