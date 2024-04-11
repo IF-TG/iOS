@@ -133,9 +133,11 @@ extension PostDetailViewController: ViewBindCase {
       stopIndicator()
       /// postReportNotifier, postAuthorBlockNotifier호출 완료 시점 postReport State를 전송해야 합니다.
       viewModel.showPostReportResult()
+    case .keyboard(let keyboardState):
+      handleKeyboardOutputState(keyboardState)
     }
   }
-  
+    
   // MARK: - View UI render helper
   func handleViewDidLoadState(_ viewDidLoadState: PostDetailViewDidLoadState) {
     switch viewDidLoadState {
@@ -166,11 +168,6 @@ extension PostDetailViewController: ViewBindCase {
         tableView.reloadSections(IndexSet(integer: section), with: .none)
       }
       stopIndicator()
-    case .keyboardWillShowForEditingComment(let writtenComment):
-      inputAccessory.clearCommentInputState()
-      tableView.keyboardDismissMode = .none
-      inputAccessory.setCommentForEditMode(writtenComment)
-      inputAccessory.showKeyboard()
     case .reloadWhenCommentUpdate(let section):
       UITableView.performWithoutAnimation {
         tableView.reloadSections(IndexSet(integer: section), with: .none)
@@ -190,27 +187,6 @@ extension PostDetailViewController: ViewBindCase {
         tableView.reloadSections(IndexSet(integer: section), with: .none)
       }
       stopIndicator()
-    case .replyCancel:
-      inputAccessory.clearCommentInputState()
-      inputAccessory.hideKeyboard()
-      tableView.keyboardDismissMode = .interactive
-    case .replyContinue:
-      inputAccessory.showKeyboard()
-    case .keyboard(let keyboardState):
-      switch keyboardState {
-      case .willShow:
-        tableView.keyboardDismissMode = .none
-        inputAccessory.showKeyboard()
-      case .willShowWhenCommentEditStart(let writtenComemnt):
-        inputAccessory.clearCommentInputState()
-        tableView.keyboardDismissMode = .none
-        inputAccessory.setCommentForEditMode(writtenComemnt)
-        inputAccessory.showKeyboard()
-      }
-    case .replyCancellationAsk:
-      viewModel.showAnAlertToAskWhetherToCancelWrittingTheReply { [weak self] wannaCancel in
-        self?.input.keyboardDidHideWhenReplyingToMessageNotifier.send(wannaCancel)
-      }
     case .reload(let indexPath):
       UITableView.performWithoutAnimation {
         /// 특정 행만 제거하기 때문에 데이터 소스에서 제거 후 아래 함수 호출하는게 베스트지만, 아래 함수 이외에 다른 행들도 첫번째 대댓글인지 여부에 따라 태그가 추가되야 합니다.
@@ -231,6 +207,27 @@ extension PostDetailViewController: ViewBindCase {
       inputAccessory.clearEditingText()
       inputAccessory.hideKeyboard()
       stopIndicator()
+    }
+  }
+  
+  func handleKeyboardOutputState(_ keyboardState: PostDetailKeyboardState) {
+    switch keyboardState {
+    case .willShow:
+      /// 대댓글 작성시
+      tableView.keyboardDismissMode = .none
+      inputAccessory.showKeyboard()
+    case .willShowWhenCommentEditStart(let writtenComment):
+      /// 대댓글, 댓글 편집시
+      inputAccessory.clearCommentInputState()
+      tableView.keyboardDismissMode = .none
+      inputAccessory.setCommentForEditMode(writtenComment)
+      inputAccessory.showKeyboard()
+    case .hideToWritingCancel:
+      inputAccessory.clearCommentInputState()
+      inputAccessory.hideKeyboard()
+      tableView.keyboardDismissMode = .interactive
+    case .writingContinue:
+      inputAccessory.showKeyboard()
     }
   }
   

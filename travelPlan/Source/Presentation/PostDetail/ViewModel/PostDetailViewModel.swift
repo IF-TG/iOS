@@ -87,6 +87,8 @@ final class PostDetailViewModel {
   
   private let postAuthorBlockHandler = PassthroughSubject<Void, Never>()
   
+  private let keyboardDidHideHandler = PassthroughSubject<(PostDetailWritingCacnelType, Bool), Never>()
+  
   /// 사용자가 대댓글 작성중인 경우 not nil. 댓글을 작성중인 경우 nil
   private var replyingSection: Int?
   
@@ -203,10 +205,6 @@ extension PostDetailViewModel: PostDetailCoordinatorDelegate {
     actions?.showAlertForError(description, completion)
   }
   
-  func showAnAlertToAskWhetherToCancelWrittingTheReply(completion: ((Bool) -> Void)?) {
-    actions?.showAnAlertToAskWhetherToCancelWrittingTheReply(completion)
-  }
-  
   func showPostOption() {
     actions?.showPostOption { [weak self] optionState in
       switch optionState {
@@ -269,8 +267,8 @@ extension PostDetailViewModel: PostDetailViewModelable {
       nestedCommentUseCaseHandlerStream(),
       loggedInUserUseCaseHandlerStream(),
       replyStartNotifierStream(input),
-      keyboardDidHideWhenReplyingToMessageNotifierStream(input),
-      keyboardHideNotifierStream (input),
+      keyboardDidHideHandlerStream(),
+      keyboardDidHideNotifierStream(input),
       postReportNotifierStream(),
       postAuthorBlockNotifierStream(),
       postReportHandlerStream(),
@@ -388,7 +386,7 @@ private extension PostDetailViewModel {
           return State.unexpectedError(description: "앱 내부 에러가 발생됬습니다. 대댓글을 수정할 수 없습니다.")
         }
         let replyComment = comment.nestedComments[indexPath.row].comment
-        return State.nestedComment(.keyboard(.willShowWhenCommentEditStart(replyComment)))
+        return State.keyboard(.willShowWhenCommentEditStart(replyComment))
       }.eraseToAnyPublisher()
   }
   
@@ -400,7 +398,7 @@ private extension PostDetailViewModel {
         guard let comment = self?.postDetails.comments[commentIndex] else {
           return State.unexpectedError(description: "앱 내부 에러가 발생됬습니다. 대댓글을 수정할 수 없습니다.")
         }
-        return .comment(.keyboardWillShowForEditingComment(comment.comment))
+        return .keyboard(.willShowWhenCommentEditStart(comment.comment))
       }.eraseToAnyPublisher()
   }
   
@@ -417,26 +415,57 @@ private extension PostDetailViewModel {
   func replyStartNotifierStream(_ input: Input) -> Output {
     input.replyStartNotifier.map { [weak self] replySection -> State in
       self?.replyingSection = replySection
-      return .nestedComment(.keyboard(.willShow))
+      return .keyboard(.willShow)
     }.eraseToAnyPublisher()
   }
   
-  func keyboardDidHideWhenReplyingToMessageNotifierStream(_ input: Input) -> Output {
-    return input.keyboardDidHideWhenReplyingToMessageNotifier
-      .map { [weak self] wannaCancel -> State in
-        if wannaCancel {
-          self?.clearNestedCommentState()
-          return .nestedComment(.replyCancel)
+  // 댓, 대댓, 등 키보드가 사라질때 여기서 처리합니다
+  func keyboardDidHideHandlerStream() -> Output {
+    print("이거 잘되나 확인해야함")
+    return keyboardDidHideHandler
+      .map { [weak self] (writingCancelType, wannaCancel) -> State in
+        switch writingCancelType {
+        case .replyWrite:
+          if wannaCancel {
+            self?.replyingSection = nil
+            return .keyboard(.hideToWritingCancel)
+          }
+          return .keyboard(.writingContinue)
+        case .replyEdit:
+          if wannaCancel {
+            self?.editingNestedCommentIndexPath = nil
+            return .keyboard(.hideToWritingCancel)
+          }
+          return .keyboard(.writingContinue)
+        case .commentEdit:
+          if wannaCancel {
+            self?.editingCommentSection = nil
+            return .keyboard(.hideToWritingCancel)
+          }
+          return .keyboard(.writingContinue)
         }
-        return .nestedComment(.replyContinue)
       }.eraseToAnyPublisher()
   }
   
-  func keyboardHideNotifierStream(_ input: Input) -> Output {
+  func keyboardDidHideNotifierStream(_ input: Input) -> Output {
     return input.keyboardHideNotifier
       .map { [weak self] _ -> State in
-        if self?.replyingSection != nil {
-          return .nestedComment(.replyCancellationAsk)
+        let isReplyWrittenForSend = self?.replyingSection != nil
+        let isReplyWrittenForEdit = self?.editingNestedCommentIndexPath != nil
+        let isCommentWrittenForEdit = self?.editingCommentSection != nil
+        
+        if isReplyWrittenForSend {
+          self?.actions?.showAnAlertToAskWhetherToCancelWriting(.replyWrite) { wannaCancel in
+            self?.keyboardDidHideHandler.send((.replyWrite, wannaCancel))
+          }
+        } else if isReplyWrittenForEdit {
+          self?.actions?.showAnAlertToAskWhetherToCancelWriting(.replyEdit) { wannaCancel in
+            self?.keyboardDidHideHandler.send((.replyEdit, wannaCancel))
+          }
+        } else if isCommentWrittenForEdit {
+          self?.actions?.showAnAlertToAskWhetherToCancelWriting(.commentEdit) { wannaCancel in
+            self?.keyboardDidHideHandler.send((.commentEdit, wannaCancel))
+          }
         }
         return .none
       }.eraseToAnyPublisher()
@@ -594,7 +623,7 @@ private extension PostDetailViewModel {
       .sendNestedComment(commentId: commentId, comment: text)
       .map { [weak self] postNestedCommentEntity -> State in
         self?.postDetails.comments[commentSection].nestedComments.append(postNestedCommentEntity)
-        self?.clearNestedCommentState()
+        self?.replyingSection = nil
         /// 대댓글이 속한 댓글 섹션은 replyingSection을 보내주어야 합니다.
         return .nestedComment(.sentSuccessfully(replyingSection))
       }.catch { error in
@@ -658,10 +687,6 @@ private extension PostDetailViewModel {
 private extension PostDetailViewModel {
   func convertToString(_ travelMainTheme: TravelMainThemeType, subTheme: String) -> String {
     "\(travelMainTheme.rawValue) > \(subTheme)"
-  }
-  
-  func clearNestedCommentState() {
-    replyingSection = nil
   }
 }
 

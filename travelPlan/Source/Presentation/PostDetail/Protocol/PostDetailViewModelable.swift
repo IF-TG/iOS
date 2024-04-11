@@ -14,7 +14,7 @@ struct PostDetailViewModelActions {
   typealias isCommentOwner = Bool
   
   let showAlertForError: (String, (() -> Void)?) -> Void
-  let showAnAlertToAskWhetherToCancelWrittingTheReply: (((Bool) -> Void)?) -> Void
+  let showAnAlertToAskWhetherToCancelWriting: (PostDetailWritingCacnelType, ((Bool) -> Void)?) -> Void
   let showPostOption: (((PostDetailOption) -> Void)?) -> Void
   
   let showCommentOption: (isCommentOwner, ((PostDetailCommentOption) -> Void)?) -> Void
@@ -32,7 +32,6 @@ struct PostDetailViewModelInput {
   let commentSendHandler = PassthroughSubject<UserInputText, Never>()
   let replyStartNotifier = PassthroughSubject<Int, Never>()
   let keyboardHideNotifier = PassthroughSubject<Void, Never>()
-  let keyboardDidHideWhenReplyingToMessageNotifier = PassthroughSubject<Bool, Never>()
   let postReportNotifier = PassthroughSubject<PostReportType, Never>()
   let postAuthorBlockNotifier = PassthroughSubject<Void, Never>()
 }
@@ -40,11 +39,14 @@ struct PostDetailViewModelInput {
 @frozen enum PostDetailViewModelState {
   case none
   case networkProcessing
+  
   case viewDidLoad(PostDetailViewDidLoadState)
   case unexpectedError(description: String)
   case nestedComment(PostDetailNestedCommentState)
   case comment(PostDetailCommentState)
   case postReport
+  
+  case keyboard(PostDetailKeyboardState)
 }
 
 @frozen enum PostDetailViewDidLoadState {
@@ -52,22 +54,25 @@ struct PostDetailViewModelInput {
   case reloadedCommentsWithPostFavoriteInfo(Bool)
 }
 
+@frozen enum PostDetailKeyboardState {
+  typealias WrittenComemnt = String
+  /// 댓글 작성시
+  case willShow
+  // 댓글, 대댓글 편집 시
+  case willShowWhenCommentEditStart(WrittenComemnt)
+  
+  /// 댓글 작성, 댓, 대댓 편집 취소
+  case hideToWritingCancel
+  /// 댓글 작성, 댓, 대댓 편집 진행
+  case writingContinue
+}
+
 @frozen enum PostDetailNestedCommentState {
-  @frozen enum KeyboardState {
-    case willShow
-    case willShowWhenCommentEditStart(WrittenComemnt)
-  }
   
   typealias Section = Int
   typealias WrittenComemnt = String
   
   case sentSuccessfully(Section)
-  
-  case keyboard(KeyboardState)
-  
-  case replyCancellationAsk
-  case replyCancel
-  case replyContinue
   
   /// 대댓글 삭제 후
   case reload(IndexPath)
@@ -86,8 +91,6 @@ struct PostDetailViewModelInput {
   case reloadWithNestedCommentsWhenCommentDelete(Int)
   
   case reloadWhenCommentUpdate(Int)
-  
-  case keyboardWillShowForEditingComment(WrittenComemnt)
 }
 
 @frozen enum PostDetailOptionState {
