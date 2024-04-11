@@ -322,6 +322,8 @@ extension ReviewWritingContentView {
     }
   }
   
+  /// textView의 font 및 text 기반으로 적절한 estimatedHeight을 반환합니다.
+  /// 해당 메소드를 호출하기 위해서는 이전에 width가 적용되어 있어야 합니다.
   private func estimatedHeight(of textView: UITextView) -> CGFloat {
     return textView.sizeThatFits(CGSize(
       width: textView.frame.width,
