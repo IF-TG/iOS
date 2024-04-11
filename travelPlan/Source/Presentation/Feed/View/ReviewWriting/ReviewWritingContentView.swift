@@ -17,8 +17,8 @@ import SnapKit
 //}
 
 struct ReviewWritingContentViewInfo {
-  let textList: [String]
-  let imageDataList: [Data]
+  let title: String
+  let contents: [PostContentEntity]
 }
 
 final class ReviewWritingContentView: UIStackView {
@@ -476,8 +476,10 @@ extension ReviewWritingContentView {
     }
   }
   
-  func setupContents(_ contents: [PostContentEntity]) {
-    contents.forEach { content in
+  func setupContents(_ info: ReviewWritingContentViewInfo) {
+    titleTextView.text = info.title
+    
+    info.contents.forEach { content in
       switch content {
       case .text(let textString):
         let textView = createNewTextView()

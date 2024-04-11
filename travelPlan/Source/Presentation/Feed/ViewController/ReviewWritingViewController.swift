@@ -137,8 +137,8 @@ extension ReviewWritingViewController {
         case .alertAuthRequest:
           // TODO: - Alert화면 띄우기
           break
-        case .setupContents(let postContents):
-          self?.contentView.setupContents(postContents)
+        case let .setupContents(title, postContents):
+          self?.contentView.setupContents(.init(title: title, contents: postContents))
         }
       }
       .store(in: &subscriptions)

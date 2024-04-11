@@ -41,7 +41,7 @@ enum ReviewWritingViewModelState {
   case presentThemeSetting
   case none
   case alertAuthRequest
-  case setupContents([PostContentEntity])
+  case setupContents(title: String, contents: [PostContentEntity])
 }
 
 final class DefaultReviewWritingViewModel: ReviewWritingViewModel {
@@ -88,7 +88,7 @@ extension DefaultReviewWritingViewModel {
     return input.viewDidLoad
       .map { [weak self] in
         if case let .edit(entity) = self?.mode {
-          return State.setupContents(entity.contents)
+          return State.setupContents(title: entity.title, contents: entity.contents)
         }
         return State.none
       }
