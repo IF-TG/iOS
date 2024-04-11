@@ -54,6 +54,8 @@ struct PostDetailViewModelInput {
 
 @frozen enum PostDetailNestedCommentState {
   typealias Section = Int
+  typealias WrittenComemnt = String
+  
   case sentSuccessfully(Section)
   
   case keyboardState(KeyboardState)
@@ -61,6 +63,8 @@ struct PostDetailViewModelInput {
   case replyCancellationAsk
   case replyCancel
   case replyContinue
+  
+  case updateReplyContinue(WrittenComemnt)
   
   /// 대댓글 삭제 후
   case reload(IndexPath)
