@@ -69,6 +69,8 @@ final class PostDetailViewModel {
   
   private let commentUseCaseHandler = PassthroughSubject<CommentUseCaseInput, Never>()
   
+  private let commentEditNotifier = PassthroughSubject<Int, Never>()
+  
   private let nestedCommentUseCaseNotifier = PassthroughSubject<NestedCommentUseCaseInput, Never>()
   
   private let nestedCommentUseCaseHandler = PassthroughSubject<NestedCommentUseCaseInput, Never>()
@@ -88,8 +90,11 @@ final class PostDetailViewModel {
   /// 사용자가 대댓글 작성중인 경우 not nil. 댓글을 작성중인 경우 nil
   private var replyingSection: Int?
   
-  /// 사용자가 대댓글 수정 시작할 경우 not nil. 댓글을 수정하지 않을 경우 nil
+  /// 사용자가 대댓글 수정중인 경우 not nil. 댓글을 수정하지 않을 경우 nil
   private var editingNestedCommentIndexPath: IndexPath?
+  
+  /// 사용자가 댓글 수정중인 경우 not nil, 댓글을 수정하지 않는 일반적인 경우 nil
+  private var editingCommentSection: Int?
   
   private let actions: PostDetailViewModelActions?
   
@@ -159,7 +164,7 @@ extension PostDetailViewModel: PostDetailCoordinatorDelegate {
       case .commentUpdate:
         // MARK: - 업데이트는 로직을 isCommentUpdating 이걸 추가하면서 대댓글 작성 과 같게 로직을 짜야 합니다.
         // self?.commentUseCaseNotifier.send(.update(section))
-        self?.showAlertForError(with: "댓글 수정 기능은 다음 업데이트 때 구현될 예정입니다.", completion: nil)
+        self?.commentEditNotifier.send(section)
       case .commentUserBlock:
         self?.showAlertForError(with: "댓글 차단 기능은 다음 업데이트 때 구현될 예정입니다.", completion: nil)
       }
@@ -384,6 +389,18 @@ private extension PostDetailViewModel {
         }
         let replyComment = comment.nestedComments[indexPath.row].comment
         return State.nestedComment(.keyboard(.willShowWhenCommentEditStart(replyComment)))
+      }.eraseToAnyPublisher()
+  }
+  
+  func commentEditNotifierStream() -> Output {
+    return commentEditNotifier
+      .map { [weak self] section -> State in
+        self?.editingCommentSection = section
+        let commentIndex = PostDetailSection.commentIndex(section: section)
+        guard let comment = self?.postDetails.comments[commentIndex] else {
+          return State.unexpectedError(description: "앱 내부 에러가 발생됬습니다. 대댓글을 수정할 수 없습니다.")
+        }
+        return .comment(.keyboardWillShowForEditingComment(comment.comment))
       }.eraseToAnyPublisher()
   }
   

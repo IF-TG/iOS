@@ -182,6 +182,11 @@ extension PostDetailViewController: ViewBindCase {
         tableView.reloadSections(IndexSet(integer: section), with: .none)
       }
       stopIndicator()
+    case .keyboardWillShowForEditingComment(let writtenComment):
+      inputAccessory.clearCommentInputState()
+      tableView.keyboardDismissMode = .none
+      inputAccessory.setCommentForEditMode(writtenComment)
+      inputAccessory.showKeyboard()
     }
   }
   
