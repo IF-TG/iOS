@@ -39,7 +39,7 @@ final class PostDetailViewModel {
   // MARK: - Nested
   @frozen enum CommentUseCaseInput {
     case send(UserInputText)
-    case update(Section)
+    case edit(UserInputText)
     case delete(Section)
   }
   
@@ -317,17 +317,18 @@ private extension PostDetailViewModel {
           /// 대댓글인 작성 후 전송할 것인가?
           let isReplyWrittenForSend = self?.replyingSection != nil
           /// 대댓글 수정 후 전송할 것인가?
-          let isReplyWrittenForEdit = self?.editingNestedCommentIndexPath  != nil
+          let isReplyWrittenForEdit = self?.editingNestedCommentIndexPath != nil
+          /// 댓글 수정 후 전송할 것인가?
+          let isCommentWrittenForEdit = self?.editingCommentSection != nil
           
           if isReplyWrittenForSend {
             self?.nestedCommentUseCaseHandler.send(.send(userInputText))
           } else if isReplyWrittenForEdit {
             self?.nestedCommentUseCaseHandler.send(.edit(userInputText))
+          } else if isCommentWrittenForEdit {
+            self?.commentUseCaseHandler.send(.edit(userInputText))
           } else {
-            // TODO: -  댓글 수정인 경우 editing 프로퍼티로 알 수 있음
-            //댓글 수정일떄도 else if로 구분해주자. else는 댓글 전송일때임.
-            
-            /// 댓글작성 후 전송인 경우
+            // 일반적으로 댓글 작성시 호출됩니다.
             self?.commentUseCaseHandler.send(.send(userInputText))
           }
         }
@@ -344,18 +345,16 @@ private extension PostDetailViewModel {
           return self?.sendCommentStream(with: text) ?? Just(
             State.unexpectedError(description: "댓글을 전송할 수 없습니다.")
           ).eraseToAnyPublisher()
-        case .update(let section):
-          // TODO: - 업데이트는 대댓글 다시 작성해서 수정된 글을 같이 보내야함 ㅠㅅㅠ
-          // updateCommentStream(with: section)
-          break
+        case .edit(let userInputText):
+          return self?.updateCommentStream(with: userInputText) ?? Just(
+            State.unexpectedError(description: "댓글을 수정할 수 없습니다.")
+          ).eraseToAnyPublisher()
         case .delete(let section):
           return self?.deleteCommentStream(with: section) ?? Just(
             State.unexpectedError(description: "댓글을 삭제할 수 없습니다.")
           ).eraseToAnyPublisher()
           
         }
-        // MARK: - 임시 임시. update가 case에서 퍼블리셔 반환하면 아래꺼 지워도 됩니다.
-        return Just(State.none).eraseToAnyPublisher()
       }.eraseToAnyPublisher()
   }
   
@@ -557,6 +556,26 @@ private extension PostDetailViewModel {
           return .comment(.reloadWhenCommentDelete(section))
         }
         return .unexpectedError(description: "서버에서 에러가 발생되 댓글이 삭제되지 않았습니다.")
+      }.catch { error in
+        return Just(State.unexpectedError(description: error.localizedDescription))
+      }.eraseToAnyPublisher()
+  }
+  
+  func updateCommentStream(with editedText: String) -> Output {
+    guard let section = editingCommentSection else {
+      return Just(State.unexpectedError(description: "대댓글을 수정할 수 없습니다.")).eraseToAnyPublisher()
+    }
+    let commentIdx = PostDetailSection.commentIndex(section: section)
+    let comment = postDetails.comments[commentIdx]
+    return postCommentUseCase
+      .updateComment(commentId: comment.commentId, comment: editedText)
+      .map { [weak self] result -> State in
+        guard result else {
+          return .unexpectedError(description: "서버에서 에러가 발생되어 댓글이 편집되지 않았습니다.")
+        }
+        self?.postDetails.comments[commentIdx].comment = editedText
+        self?.editingCommentSection = nil
+        return .comment(.reloadWhenCommentUpdate(section))
       }.catch { error in
         return Just(State.unexpectedError(description: error.localizedDescription))
       }.eraseToAnyPublisher()

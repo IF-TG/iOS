@@ -85,6 +85,8 @@ struct PostDetailViewModelInput {
   /// 댓글 삭제 후 대댓글이 있는 경우
   case reloadWithNestedCommentsWhenCommentDelete(Int)
   
+  case reloadWhenCommentUpdate(Int)
+  
   case keyboardWillShowForEditingComment(WrittenComemnt)
 }
 
