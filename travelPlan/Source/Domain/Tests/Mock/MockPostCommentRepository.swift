@@ -55,23 +55,9 @@ extension MockPostCommentRepository {
     }.eraseToAnyPublisher()
   }
   
-  func updateComment(commentId: Int64, comment: String) -> AnyPublisher<UpdatedPostCommentEntity, any Error> {
-    MockUrlProtocol.requestHandler = { _ in
-      let mock = MockResponseType.postComment(.whenCommentUpdate).mockDataLoader
-      return ((HTTPURLResponse(), mock))
-    }
+  func updateComment(commentId: Int64, comment: String) -> AnyPublisher<Bool, any Error> {
     return Future { promise in
-      DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.05) { [weak self] in
-        let subscription = self?.repository.updateComment(commentId: commentId, comment: comment)
-          .sink { completion in
-            if case .failure(let error) = completion {
-              promise(.failure(error))
-            }
-          } receiveValue: { updatedPostCommentEntity in
-            promise(.success(updatedPostCommentEntity))
-          }
-        self?.subscriptions.insert(subscription)
-      }
+      promise(.success(true))
     }.eraseToAnyPublisher()
   }
   

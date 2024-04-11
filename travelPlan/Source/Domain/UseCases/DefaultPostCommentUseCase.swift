@@ -23,7 +23,7 @@ final class DefaultPostCommentUseCase: PostCommentUseCase {
       .eraseToAnyPublisher()
   }
   
-  func updateComment(commentId: Int64, comment: String) -> AnyPublisher<UpdatedPostCommentEntity, any Error> {
+  func updateComment(commentId: Int64, comment: String) -> AnyPublisher<Bool, any Error> {
     return postCommentRepository
       .updateComment(commentId: commentId, comment: comment)
       .eraseToAnyPublisher()
