@@ -254,6 +254,7 @@ extension ReviewWritingContentView {
     let titleTextViewPublisher = NotificationCenter.default
       .publisher(for: UITextView.textDidChangeNotification, object: titleTextView)
       .map { return ($0.object as? UITextView)?.text != "" }
+      .eraseToAnyPublisher()
     
     let firstMessageTextViewPublisher = NotificationCenter.default
       .publisher(for: UITextView.textDidChangeNotification, object: firstMessageTextView)
@@ -268,6 +269,7 @@ extension ReviewWritingContentView {
           return false
         }
       }
+      .eraseToAnyPublisher()
     
     Publishers.CombineLatest3(
       titleTextViewPublisher,
