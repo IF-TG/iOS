@@ -23,6 +23,14 @@ final class PostProfileAndCommentView: BaseProfileAreaView {
     commentInputView.lineHeight
   }
   
+  var editingTextNotChangedHandler: (() -> Void)? {
+    get {
+      return commentInputView.editingTextNotChangedHandler
+    } set {
+      commentInputView.editingTextNotChangedHandler = newValue
+    }
+  }
+  
   // MARK: - Lifecycle
   init() {
     super.init(

@@ -44,6 +44,8 @@ final class CommentInputView: UIView {
   /// CommentInputView를 edit모드로 사용할 경우!!
   private var editingText: String?
   
+  var editingTextNotChangedHandler: (() -> Void)?
+  
   // MARK: - Lifecycle
   
   override init(frame: CGRect) {
@@ -91,10 +93,10 @@ extension CommentInputView {
   }
   
   func setCommentForEditMode(_ text: String) {
-    // TODO: - 이떄 chevron view로 보여주자. 텍스트를 변경해야만 전송핧 수. ㅣㅆ어요! sendicon 위에 작은 알림창 같게
     inputTextView.text = text
     sendIcon.isUserInteractionEnabled = false
     editingText = text
+    editingTextNotChangedHandler?()
   }
   
   func clearEditingText() {
@@ -135,8 +137,7 @@ extension CommentInputView: UITextViewDelegate {
       sendIcon.image = sendIcon.image?.setColor(.yg.gray2)
       sendIcon.isUserInteractionEnabled = false
     } else if editingText != nil && textView.text == editingText {
-      /// 텍스트 목적으로 사용중일때
-      //TODO: - 이떄 chevron view로 보여주자. 텍스트를 변경해야만 전송핧 수. ㅣㅆ어요! 위에 작은 알림창 같게
+      editingTextNotChangedHandler?()
       sendIcon.image = sendIcon.image?.setColor(.yg.gray2)
       sendIcon.isUserInteractionEnabled = false
     }

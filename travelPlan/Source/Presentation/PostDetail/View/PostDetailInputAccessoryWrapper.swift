@@ -26,7 +26,8 @@ final class PostDetailInputAccessoryWrapper: UIView {
     backgroundColor = .white
     contentView.inputDelegate = self
     contentView.baseDelegate = self
-    configure(with: "tempProfile3")
+    configure(with: "default_profile_icon")
+    bind()
   }
   
   override var intrinsicContentSize: CGSize {
@@ -46,9 +47,17 @@ final class PostDetailInputAccessoryWrapper: UIView {
   }
 }
 
+// MARK: - Private Helpers
+private extension PostDetailInputAccessoryWrapper {
+  func bind() {
+    contentView.editingTextNotChangedHandler = { [weak self] in
+      
+    }
+  }
+}
+
 // MARK: - Helpers
 extension PostDetailInputAccessoryWrapper {
-  // TODO: - 로그인한 사용자니까,, 프로필이미지 파일메니저나 캐싱으로 저장해두는게.. 그걸 가져오자
   func configure(with profileImageURL: String?) {
     contentView.configure(with: profileImageURL)
   }
