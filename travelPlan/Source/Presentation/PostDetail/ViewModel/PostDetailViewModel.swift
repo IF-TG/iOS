@@ -277,20 +277,7 @@ extension PostDetailViewModel: PostDetailViewModelable {
       nestedCommentEditNotifierStream(),
       commentEditNotifierStream(),
       nestedCommentUseCaseNotifierStream()
-    ])
-    .handleEvents(receiveOutput: { value in
-      print(value)
-      if case .comment(.reloadWhenCommentDelete(let section)) = value {
-        print("삭제된 section:\(section-self.DefaultSectionCount)")
-        print("커맨트 개수: \(self.postDetails.comments.count)")
-      }
-      if case .comment(.reloadWithNestedCommentsWhenCommentDelete(let section)) = value {
-        print("삭제된 section:\(section-self.DefaultSectionCount)")
-        print("커맨트 개수: \(self.postDetails.comments.count)")
-        print("nested comment 개수:\(self.postDetails.comments[section-self.DefaultSectionCount].nestedComments.count)")
-      }
-    })
-    .eraseToAnyPublisher()
+    ]).eraseToAnyPublisher()
   }
 }
 
@@ -340,10 +327,12 @@ private extension PostDetailViewModel {
       .flatMap { [weak self] useCaseInput in
         switch useCaseInput {
         case .send(let text):
+          print("댓글 전송 시자끄 \(text)")
           return self?.sendCommentStream(with: text) ?? Just(
             State.unexpectedError(description: "댓글을 전송할 수 없습니다.")
           ).eraseToAnyPublisher()
         case .edit(let userInputText):
+          print("댓글 편집 전송 시자끄 \(userInputText)")
           return self?.updateCommentStream(with: userInputText) ?? Just(
             State.unexpectedError(description: "댓글을 수정할 수 없습니다.")
           ).eraseToAnyPublisher()
@@ -421,7 +410,6 @@ private extension PostDetailViewModel {
   
   // 댓, 대댓, 등 키보드가 사라질때 여기서 처리합니다
   func keyboardDidHideHandlerStream() -> Output {
-    print("이거 잘되나 확인해야함")
     return keyboardDidHideHandler
       .map { [weak self] (writingCancelType, wannaCancel) -> State in
         switch writingCancelType {
