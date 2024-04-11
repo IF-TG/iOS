@@ -9,7 +9,7 @@ import UIKit
 import SHCoordinator
 
 @frozen enum PostDetailCommentOption: String, CaseIterable {
-  case commentUpdate = "수정하기"
+  case commentUpdate = "편집하기"
   case commentDelete = "삭제하기"
   case commentUserBlock = "차단하기"
 }
