@@ -39,6 +39,7 @@ class BottomBasedTooltipView: UIView {
     cornerRadius: CGFloat = 7,
     colorInfo: ShadowInfo,
     message: String,
+    textColor: UIColor,
     labelPadding: UIEdgeInsets = .init(top: 7, left: 7, bottom: 7, right: 7),
     labelFontType: UIFont.Pretendard
   ) {
@@ -54,8 +55,10 @@ class BottomBasedTooltipView: UIView {
       $0.translatesAutoresizingMaskIntoConstraints = false
       $0.lineBreakMode = .byTruncatingTail
       $0.numberOfLines = 0
+      $0.textAlignment = .center
+      $0.textColor = textColor
+      $0.text = message
     }
-    label.text = message
     self.colorInfo = colorInfo
     super.init(frame: frame)
     setupUI()
@@ -88,11 +91,12 @@ private extension BottomBasedTooltipView {
   }
   
   func drawTooltip(_ rect: CGRect) {
-    defaultRect = CGRect(
+    defaultRect = rect
+    let contentRect = CGRect(
       x: rect.minX, y: rect.minY,
       width: rect.width,
-      height: rect.height-toolTipSize.height)
-    let contentRectPath = UIBezierPath(roundedRect: defaultRect, cornerRadius: cornerRadius)
+      height: rect.height)
+    let contentRectPath = UIBezierPath(roundedRect: contentRect, cornerRadius: cornerRadius)
     let trianglePath = makeTipPath()
     contentRectPath.append(trianglePath)
     layer.insertSublayer(makeShapeLayer(contentRectPath.cgPath), at: 0)
