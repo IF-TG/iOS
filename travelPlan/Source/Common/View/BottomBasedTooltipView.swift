@@ -30,6 +30,7 @@ class BottomBasedTooltipView: UIView {
   
   private let colorInfo: ShadowInfo
   
+  // MARK: - Lifecycle
   init(
     frame: CGRect,
     toolTipSize: CGSize = .init(width: 20, height: 14),
@@ -57,6 +58,7 @@ class BottomBasedTooltipView: UIView {
     label.text = message
     self.colorInfo = colorInfo
     super.init(frame: frame)
+    setupUI()
   }
   
   override func draw(_ rect: CGRect) {
@@ -118,5 +120,20 @@ private extension BottomBasedTooltipView {
       $0.shadowRadius = 7
       $0.shadowOpacity = 0.7
     }
+  }
+}
+
+// MARK: - LayoutSupport
+extension BottomBasedTooltipView: LayoutSupport {
+  func addSubviews() {
+    addSubview(label)
+  }
+  
+  func setConstraints() {
+    NSLayoutConstraint.activate([
+      label.leadingAnchor.constraint(equalTo: leadingAnchor),
+      label.topAnchor.constraint(equalTo: topAnchor),
+      label.trailingAnchor.constraint(equalTo: trailingAnchor),
+      label.bottomAnchor.constraint(equalTo: bottomAnchor)])
   }
 }
