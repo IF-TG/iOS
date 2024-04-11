@@ -86,6 +86,10 @@ extension CommentInputView {
     sendIcon.image = sendIcon.image?.setColor(.yg.gray2)
     sendIcon.isHidden = true
   }
+  
+  func setComment(_ text: String) {
+    inputTextView.text = text
+  }
 }
 
 // MARK: - Private Helpers

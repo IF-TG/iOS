@@ -62,4 +62,8 @@ extension PostProfileAndCommentView {
   func clearCommentInputState() {
     commentInputView.clearCommentInputState()
   }
+  
+  func setComment(_ text: String) {
+    commentInputView.setComment(text)
+  }
 }

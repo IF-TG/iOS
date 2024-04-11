@@ -64,6 +64,10 @@ extension PostDetailInputAccessoryWrapper {
   func clearCommentInputState() {
     contentView.clearCommentInputState()
   }
+  
+  func setComment(_ text: String) {
+    contentView.setComment(text)
+  }
 }
 
 // MARK: - UITextViewDelegate
