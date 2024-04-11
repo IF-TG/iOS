@@ -41,6 +41,9 @@ final class CommentInputView: UIView {
     UIFont(pretendard: .regular_400(fontSize: 14))!.lineHeight
   }
   
+  /// CommentInputView를 edit모드로 사용할 경우!!
+  private var editingText: String?
+  
   // MARK: - Lifecycle
   
   override init(frame: CGRect) {
@@ -87,8 +90,15 @@ extension CommentInputView {
     sendIcon.isHidden = true
   }
   
-  func setComment(_ text: String) {
+  func setCommentForEditMode(_ text: String) {
     inputTextView.text = text
+    sendIcon.isUserInteractionEnabled = false
+    editingText = text
+  }
+  
+  func clearCommentInputOnCancelEditMode() {
+    editingText = nil
+    clearCommentInputState()
   }
 }
 
@@ -124,7 +134,13 @@ extension CommentInputView: UITextViewDelegate {
     if textView.text == nil || textView.text.count < 1 {
       sendIcon.image = sendIcon.image?.setColor(.yg.gray2)
       sendIcon.isUserInteractionEnabled = false
-    } else {
+    } else if editingText != nil && textView.text == editingText {
+      /// 텍스트 목적으로 사용중일때
+      sendIcon.image = sendIcon.image?.setColor(.yg.gray2)
+      sendIcon.isUserInteractionEnabled = false
+    }
+    else {
+      /// 전송 가능한 상태일 때
       sendIcon.image = sendIcon.image?.setColor(.yg.primary)
       sendIcon.isUserInteractionEnabled = true
       if textView.text.count > 0 && sendIcon.isHidden {

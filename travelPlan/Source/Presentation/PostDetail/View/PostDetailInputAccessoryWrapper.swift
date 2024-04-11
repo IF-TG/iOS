@@ -65,8 +65,12 @@ extension PostDetailInputAccessoryWrapper {
     contentView.clearCommentInputState()
   }
   
-  func setComment(_ text: String) {
-    contentView.setComment(text)
+  func setCommentForEditMode(_ text: String) {
+    contentView.setCommentForEditMode(text)
+  }
+  
+  func clearCommentInputOnCancelEditMode() {
+    contentView.clearCommentInputOnCancelEditMode()
   }
 }
 
