@@ -13,6 +13,7 @@ struct PostReplyInfo {
 }
 
 protocol PostDetailReplyCellDelegate: AnyObject {
+  func didTapOption(_ cell: UITableViewCell)
   func didTapProfile(_ cell: UITableViewCell)
   func didTapHeart(_ cell: UITableViewCell, isOnHeart: Bool)
   func didCanceledHeart(_ cell: UITableViewCell)
@@ -74,7 +75,11 @@ extension PostDetailReplyCell {
 }
 
 // MARK: - BaseCommentViewDelegate
-extension PostDetailReplyCell: BaseCommentViewDelegate {  
+extension PostDetailReplyCell: BaseCommentViewDelegate {
+  func didTapOption() {
+    delegate?.didTapOption(self)
+  }
+  
   func didTapHeart(_ isOnHeart: Bool) {
     delegate?.didTapHeart(self, isOnHeart: isOnHeart)
   }
@@ -114,7 +119,7 @@ extension PostDetailReplyCell: LayoutSupport {
       
       replyView.leadingAnchor.constraint(equalTo: replyIcon.trailingAnchor, constant: 10),
       replyView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 9),
-      replyView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+      replyView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -11),
       replyViewBottomCosntriant])
   }
 }

@@ -141,12 +141,22 @@ extension PostDetailTableViewAdapter: UITableViewDelegate {
       postHeartAreaHeader.delegate = self
       return postHeartAreaHeader
     default:
+      let cellInfo = dataSource.commentItem(in: section)
+      if cellInfo.isDeleted {
+        guard let commentHeader = tableView.dequeueReusableHeaderFooterView(
+          withIdentifier: PostDetailDeletedOrUnknwonCommentHeader.id
+        ) as? PostDetailDeletedOrUnknwonCommentHeader else {
+          return nil
+        }
+        return commentHeader
+      }
+      
       guard let commentHeader = tableView.dequeueReusableHeaderFooterView(
         withIdentifier: PostDetailCommentHeader.id
       ) as? PostDetailCommentHeader else {
         return nil
       }
-      commentHeader.configure(with: dataSource.commentItem(in: section), section: section)
+      commentHeader.configure(with: cellInfo.baseInfo)
       commentHeader.delegate = self
       return commentHeader
     }
@@ -250,6 +260,10 @@ extension PostDetailTableViewAdapter: BaseProfileAreaViewDelegate {
 
 // MARK: - PostDetailReplyCellDelegate
 extension PostDetailTableViewAdapter: PostDetailReplyCellDelegate {
+  func didTapOption(_ cell: UITableViewCell) {
+    delegate?.didTapOption(cell)
+  }
+  
   func didTapProfile(_ cell: UITableViewCell) {
     delegate?.didTapProfile(cell)
   }
@@ -265,19 +279,23 @@ extension PostDetailTableViewAdapter: PostDetailReplyCellDelegate {
 
 // MARK: - PostDetailCommentDelegate
 extension PostDetailTableViewAdapter: PostDetailCommentDelegate {
-  func didTapHeart(_ header: any PostDetailCommentHeaderIdentifiable, _ isOnHeart: Bool) {
+  func didTapOption(_ header: UITableViewHeaderFooterView) {
+    delegate?.didTapOption(header)
+  }
+  
+  func didTapHeart(_ header: UITableViewHeaderFooterView, _ isOnHeart: Bool) {
     delegate?.didTapHeart(header, isOnHeart)
   }
   
-  func didTapCanceledHeart(_ header: any PostDetailCommentHeaderIdentifiable) {
+  func didTapCanceledHeart(_ header: UITableViewHeaderFooterView) {
     delegate?.didTapCanceledHeart(header)
   }
   
-  func didTapReply(_ header: any PostDetailCommentHeaderIdentifiable) {
+  func didTapReply(_ header: UITableViewHeaderFooterView) {
     delegate?.didTapReply(header)
   }
   
-  func didTapProfile(_ header: any PostDetailCommentHeaderIdentifiable) {
+  func didTapProfile(_ header: UITableViewHeaderFooterView) {
     delegate?.didTapProfile(header)
   }
 }

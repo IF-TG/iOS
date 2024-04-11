@@ -45,7 +45,9 @@ class BaseLabel: UILabel {
   }
   
   required init?(coder: NSCoder) {
-    nil
+    lineHeight = nil
+    fontType = .medium_500(fontSize: 15)
+    super.init(coder: coder)
   }
 }
 

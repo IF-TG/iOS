@@ -33,6 +33,9 @@ extension PostDetailViewController {
       forHeaderFooterViewReuseIdentifier: PostHeartAndShareAreaHeaderView.id)
     
     tableView.register(
+      PostDetailDeletedOrUnknwonCommentHeader.self,
+      forHeaderFooterViewReuseIdentifier: PostDetailDeletedOrUnknwonCommentHeader.id)
+    tableView.register(
       PostDetailCommentHeader.self,
       forHeaderFooterViewReuseIdentifier: PostDetailCommentHeader.id)
     tableView.register(

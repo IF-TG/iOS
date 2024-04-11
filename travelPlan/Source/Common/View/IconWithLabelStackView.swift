@@ -42,6 +42,10 @@ extension IconWithLabelStackView {
   func setCountLabel(text: String?) {
     label.text = text
   }
+  
+  func setLabelColor(_ color: UIColor) {
+    label.textColor = color
+  }
 }
 
 // MARK: - Private Helpers

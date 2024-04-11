@@ -65,9 +65,13 @@ final class PrimaryColorToneRoundLabel: UILabel {
   }
   
   // MARK: - Properties
-  private(set) var isSelected = false {
+  var isSelected = false {
     didSet {
-      currentState.toggle()
+      if isSelected {
+        currentState = .selected
+      } else {
+        currentState = .normal
+      }
       UIView.animate(
         withDuration: 0.2,
         delay: 0,
@@ -115,7 +119,7 @@ extension PrimaryColorToneRoundLabel {
   private func configureUI() {
     translatesAutoresizingMaskIntoConstraints = false
     layer.cornerRadius = Constant.cornerRadius
-    layer.borderWidth = 1
+    layer.borderWidth = 1.8
     textAlignment = .center
     setAppearance()
     isUserInteractionEnabled = true

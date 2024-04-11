@@ -6,6 +6,8 @@
 //
 
 struct PostCommentEntity {
+  // TODO: - 여기에 comment남긴 userId도 있어야 내가올렸는지 타인이 올렸는지 -> 식별 가능합니다.
+  // -> 댓글 수정, 삭제 기능 .. 
   let commentId: Int64
   var userProfileURL: String
   var userName: String
