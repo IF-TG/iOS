@@ -191,6 +191,9 @@ extension PostDetailViewController: ViewBindCase {
       UITableView.performWithoutAnimation {
         tableView.reloadSections(IndexSet(integer: section), with: .none)
       }
+      tableView.keyboardDismissMode = .interactive
+      inputAccessory.clearEditingText()
+      inputAccessory.hideKeyboard()
       stopIndicator()
     }
   }
