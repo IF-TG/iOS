@@ -53,22 +53,26 @@ struct PostDetailViewModelInput {
 }
 
 @frozen enum PostDetailNestedCommentState {
+  @frozen enum KeyboardState {
+    case willShow
+    case willShowWhenCommentEditStart(WrittenComemnt)
+  }
+  
   typealias Section = Int
   typealias WrittenComemnt = String
   
   case sentSuccessfully(Section)
   
-  case keyboardState(KeyboardState)
+  case keyboard(KeyboardState)
   
   case replyCancellationAsk
   case replyCancel
   case replyContinue
   
-  case updateReplyContinue(WrittenComemnt)
-  
   /// 대댓글 삭제 후
   case reload(IndexPath)
   case reloadWhenLastNestedCommentDelete(IndexPath)
+  case reloadWhenCommentUpdate(IndexPath)
 }
 
 @frozen enum PostDetailCommentState {
