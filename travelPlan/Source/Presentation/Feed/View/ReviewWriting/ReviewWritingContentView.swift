@@ -253,7 +253,10 @@ extension ReviewWritingContentView {
     
     let titleTextViewPublisher = NotificationCenter.default
       .publisher(for: UITextView.textDidChangeNotification, object: titleTextView)
-      .map { return ($0.object as? UITextView)?.text != "" }
+      .map {
+        print(($0.object as? UITextView)?.text != "")
+        return ($0.object as? UITextView)?.text != ""
+      }
       .eraseToAnyPublisher()
     
     Publishers.CombineLatest(
@@ -479,7 +482,9 @@ extension ReviewWritingContentView {
   }
   
   func setupContents(_ info: ReviewWritingContentViewInfo) {
+    erasePlaceholder(of: titleTextView)
     titleTextView.text = info.title
+    NotificationCenter.default.post(name: UITextView.textDidChangeNotification, object: titleTextView)
     
     info.contents.forEach { content in
       switch content {
