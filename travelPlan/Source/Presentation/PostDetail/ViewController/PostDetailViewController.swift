@@ -33,8 +33,6 @@ final class PostDetailViewController: UITableViewController {
   }
   
   // MARK: - Properties
-  private var isHandlingKeyboardEvent = false
-  
   private var adapter: PostDetailTableViewAdapter?
   
   private var notificationSubscriptions = Set<AnyCancellable>()
@@ -59,21 +57,7 @@ final class PostDetailViewController: UITableViewController {
   
   override func loadView() {
     super.loadView()
-    tableView.separatorStyle = .none
-    tableView.rowHeight = UITableView.automaticDimension
-    tableView.estimatedRowHeight = 235
-    tableView.separatorInset = .zero
-    tableView.backgroundColor = .white
-    tableView.scrollIndicatorInsets = .init(top: 0, left: -1, bottom: 0, right: -1)
-    let minimaiSize = CGSize(width: CGFloat.leastNormalMagnitude, height: CGFloat.leastNormalMagnitude)
-    tableView.tableFooterView = UIView(frame: CGRect(origin: .zero, size: minimaiSize))
-    tableView.keyboardDismissMode = .interactive
-    tableView.contentInset = .zero
-    if #available(iOS 15.0, *) {
-      tableView.sectionHeaderTopPadding = 0
-    }
-    let tap = UITapGestureRecognizer(target: self, action: #selector(didTapTableView))
-    tableView.addGestureRecognizer(tap)
+    setTableView()
     registerReusableViews()
   }
   
@@ -273,7 +257,7 @@ private extension PostDetailViewController {
   
 // MARK: - Actions
 extension PostDetailViewController {
-  @objc private func didTapTableView() {
+  @objc func didTapTableView() {
     inputAccessory.hideKeyboard()
   }
   
@@ -284,7 +268,7 @@ extension PostDetailViewController {
   
   // MARK: - Keyboard Actions
   @objc private func didHideKeyboard(_ notification: Notification) {
-    input.replyDismissalConfirmationNorifier.send()
+    input.keyboardHideNotifier.send()
   }
 }
 

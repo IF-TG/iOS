@@ -31,7 +31,7 @@ struct PostDetailViewModelInput {
   let viewDidLoad = PassthroughSubject<Void, Never>()
   let commentSendHandler = PassthroughSubject<UserInputText, Never>()
   let replyStartNotifier = PassthroughSubject<Int, Never>()
-  let replyDismissalConfirmationNorifier = PassthroughSubject<Void, Never>()
+  let keyboardHideNotifier = PassthroughSubject<Void, Never>()
   let keyboardDidHideWhenReplyingToMessageNotifier = PassthroughSubject<Bool, Never>()
   let postReportNotifier = PassthroughSubject<PostReportType, Never>()
   let postAuthorBlockNotifier = PassthroughSubject<Void, Never>()

@@ -270,7 +270,7 @@ extension PostDetailViewModel: PostDetailViewModelable {
       loggedInUserUseCaseHandlerStream(),
       replyStartNotifierStream(input),
       keyboardDidHideWhenReplyingToMessageNotifierStream(input),
-      replyDismissalConfirmationNorifierStream(input),
+      keyboardHideNotifierStream (input),
       postReportNotifierStream(),
       postAuthorBlockNotifierStream(),
       postReportHandlerStream(),
@@ -432,8 +432,8 @@ private extension PostDetailViewModel {
       }.eraseToAnyPublisher()
   }
   
-  func replyDismissalConfirmationNorifierStream(_ input: Input) -> Output {
-    return input.replyDismissalConfirmationNorifier
+  func keyboardHideNotifierStream(_ input: Input) -> Output {
+    return input.keyboardHideNotifier
       .map { [weak self] _ -> State in
         if self?.replyingSection != nil {
           return .nestedComment(.replyCancellationAsk)
