@@ -277,6 +277,7 @@ extension PostDetailViewModel: PostDetailViewModelable {
       postAuthorBlockHandlerStream(),
       commentUseCaseNotifierStream(),
       nestedCommentEditNotifierStream(),
+      commentEditNotifierStream(),
       nestedCommentUseCaseNotifierStream()
     ])
     .handleEvents(receiveOutput: { value in
