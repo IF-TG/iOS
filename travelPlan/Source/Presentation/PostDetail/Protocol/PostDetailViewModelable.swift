@@ -5,14 +5,19 @@
 //  Created by 양승현 on 4/2/24.
 //
 
+import Foundation
 import Combine
 import SHCoordinator
 
 /// 뷰 컨트롤러에서 사용할 타입. -> 코디네이터에서 구현
 struct PostDetailViewModelActions {
+  typealias isCommentOwner = Bool
+  
   let showAlertForError: (String, (() -> Void)?) -> Void
   let showAnAlertToAskWhetherToCancelWrittingTheReply: (((Bool) -> Void)?) -> Void
-  let showOption: (((PostDetailOption) -> Void)?) -> Void
+  let showPostOption: (((PostDetailOption) -> Void)?) -> Void
+  
+  let showCommentOption: (isCommentOwner, ((PostDetailCommentOption) -> Void)?) -> Void
   let showPostAuthorBlock: (String, ((Bool) -> Void)?) -> Void
   /// 신고하기 종류 추가.
   let showPostReport: (((PostReportType) -> Void)?) -> Void
@@ -56,10 +61,19 @@ struct PostDetailViewModelInput {
   case replyCancellationAsk
   case replyCancel
   case replyContinue
+  
+  /// 대댓글 삭제 후
+  case reload(IndexPath)
+  case reloadWhenLastNestedCommentDelete(IndexPath)
 }
 
 @frozen enum PostDetailCommentState {
+  /// 초기에 실행됩니다.
   case reloadedComment
+  /// 댓글 삭제 후 대댓글이 없는 경우
+  case reloadWhenCommentDelete(Int)
+  /// 댓글 삭제 후 대댓글이 있는 경우
+  case reloadWithNestedCommentsWhenCommentDelete(Int)
 }
 
 @frozen enum PostDetailOptionState {
@@ -72,4 +86,5 @@ where Input == PostDetailViewModelInput,
       State == PostDetailViewModelState,
       Output == AnyPublisher<State, Never> {
   typealias UserInputText = String
+  typealias Section = Int
 }

@@ -213,7 +213,7 @@ extension PostHeartAndShareAreaHeaderView: LayoutSupport {
       postOptionIcon.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -21),
       postOptionIcon.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
       postOptionIcon.widthAnchor.constraint(equalToConstant: 24),
-      postOptionIcon.heightAnchor.constraint(equalToConstant: 18),
+      postOptionIcon.heightAnchor.constraint(equalToConstant: 16),
       postOptionIcon.leadingAnchor.constraint(equalTo: shareButton.trailingAnchor, constant: 20)]
   }
 }

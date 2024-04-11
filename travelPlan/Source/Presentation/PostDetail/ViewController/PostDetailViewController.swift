@@ -9,11 +9,6 @@ import UIKit
 import Combine
 import SHCoordinator
 
-@frozen enum PostDetailOption: String, CaseIterable {
-  case postBlock = "차단하기"
-  case postReport = "신고하기"
-}
-
 final class PostDetailViewController: UITableViewController {
   // MARK: - Dependencies
   private let viewModel: any PostDetailViewModelable & PostDetailTableViewDataSource
@@ -177,6 +172,16 @@ extension PostDetailViewController: ViewBindCase {
         at: IndexPath(row: NSNotFound, section: viewModel.numberOfSections-1),
         at: .bottom, animated: false)
       stopIndicator()
+    case .reloadWhenCommentDelete(let section):
+      UITableView.performWithoutAnimation {
+        tableView.deleteSections(IndexSet(integer: section), with: .none)
+      }
+      stopIndicator()
+    case .reloadWithNestedCommentsWhenCommentDelete(let section):
+      UITableView.performWithoutAnimation {
+        tableView.reloadSections(IndexSet(integer: section), with: .none)
+      }
+      stopIndicator()
     }
   }
   
@@ -205,6 +210,19 @@ extension PostDetailViewController: ViewBindCase {
       viewModel.showAnAlertToAskWhetherToCancelWrittingTheReply { [weak self] wannaCancel in
         self?.input.keyboardDidHideWhenReplyingToMessageNotifier.send(wannaCancel)
       }
+    case .reload(let indexPath):
+      UITableView.performWithoutAnimation {
+        /// 특정 행만 제거하기 때문에 데이터 소스에서 제거 후 아래 함수 호출하는게 베스트지만, 아래 함수 이외에 다른 행들도 첫번째 대댓글인지 여부에 따라 태그가 추가되야
+        /// 합니다.
+        /// tableView.deleteRows(at: [indexPath], with: .top)
+        tableView.reloadSections(IndexSet(integer: indexPath.section), with: .top)
+      }
+      stopIndicator()
+    case .reloadWhenLastNestedCommentDelete(let indexPath):
+      UITableView.performWithoutAnimation {
+        tableView.deleteSections(IndexSet(integer: indexPath.section), with: .none)
+      }
+      stopIndicator()
     }
   }
   
@@ -294,6 +312,14 @@ extension PostDetailViewController: PostDetailTableViewAdapterDelegate {
 
 // MARK: - PostDetailReplyCellDelegate
 extension PostDetailViewController: PostDetailReplyCellDelegate {
+  func didTapOption(_ cell: UITableViewCell) {
+    guard let indexPath = tableView.indexPath(for: cell) else {
+      viewModel.showAlertForError(with: "대댓글 옵션을 선택할 수 없습니다.\n앱 서비스에 문제가 발생했습니다.", completion: nil)
+      return
+    }
+    viewModel.showNestedCommentOption(indexPath: indexPath)
+  }
+  
   func didTapProfile(_ cell: UITableViewCell) {
     print("대댓 프로필 클릭")
   }
@@ -309,20 +335,33 @@ extension PostDetailViewController: PostDetailReplyCellDelegate {
 
 // MARK: - PostDetailCommentDelegate
 extension PostDetailViewController: PostDetailCommentDelegate {
-  func didTapHeart(_ header: PostDetailCommentHeaderIdentifiable, _ isOnHeart: Bool) {}
-  
-  func didTapCanceledHeart(_ header: PostDetailCommentHeaderIdentifiable) {}
-  
-  func didTapReply(_ header: PostDetailCommentHeaderIdentifiable) {
-    
-    guard let replySection = header.section else {
+  func didTapOption(_ header: UITableViewHeaderFooterView) {
+    guard let section = tableView.section(
+      for: header,
+      numberOfSections: viewModel.numberOfSections
+    ) else {
       viewModel.showAlertForError(with: "대댓글을 작성할 수 없습니다.\n앱 서비스에 문제가 발생됬습니다.", completion: nil)
       return
     }
-    input.replyStartNotifier.send(replySection)
+    viewModel.showCommentOption(section: section)
   }
   
-  func didTapProfile(_ header: PostDetailCommentHeaderIdentifiable) {}
+  func didTapHeart(_ header: UITableViewHeaderFooterView, _ isOnHeart: Bool) {}
+  
+  func didTapCanceledHeart(_ header: UITableViewHeaderFooterView) {}
+  
+  func didTapReply(_ header: UITableViewHeaderFooterView) {
+    guard let section = tableView.section(
+      for: header,
+      numberOfSections: viewModel.numberOfSections
+    ) else {
+      viewModel.showAlertForError(with: "대댓글을 작성할 수 없습니다.\n앱 서비스에 문제가 발생됬습니다.", completion: nil)
+      return
+    }
+    input.replyStartNotifier.send(section)
+  }
+  
+  func didTapProfile(_ header: UITableViewHeaderFooterView) {}
 }
 
 // MARK: - PostDetailInputAccessoryWrapperDelegate
@@ -335,19 +374,7 @@ extension PostDetailViewController: PostDetailInputAccessoryWrapperDelegate {
 // MARK: - PostHeartAndShareAreaHeaderViewDelegate
 extension PostDetailViewController: PostHeartAndShareAreaHeaderViewDelegate {
   func didTapOption() {
-    viewModel.showOption(handler: { [weak self] optionState in
-      switch optionState {
-      case .postBlock:
-        self?.viewModel.showPostAuthorBlock { [weak self] wannaBlock in
-          if wannaBlock { self?.input.postAuthorBlockNotifier.send() }
-        }
-      case .postReport:
-        self?.viewModel.showPostReport { [weak self] reportType in
-          if reportType == .stopRequest { return }
-          self?.input.postReportNotifier.send(reportType)
-        }
-      }
-    })
+    viewModel.showPostOption()
   }
   
   func didTapHeart(isFavorite: Bool) {

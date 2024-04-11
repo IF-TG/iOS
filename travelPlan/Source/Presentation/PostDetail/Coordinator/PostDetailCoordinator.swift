@@ -8,14 +8,25 @@
 import UIKit
 import SHCoordinator
 
+@frozen enum PostDetailCommentOption: String, CaseIterable {
+  case commentUpdate = "수정하기"
+  case commentDelete = "삭제하기"
+  case commentUserBlock = "차단하기"
+}
+
+@frozen enum PostDetailOption: String, CaseIterable {
+  case postBlock = "차단하기"
+  case postReport = "신고하기"
+}
+
 /// 뷰 컨트롤러에서 사용할 타입 -> 뷰 모델에서 구현
 protocol PostDetailCoordinatorDelegate: AnyObject {
   func showAlertForError(with description: String, completion: (() -> Void)?)
   func showAnAlertToAskWhetherToCancelWrittingTheReply(completion: ((Bool) -> Void)?)
-  func showOption(handler: ((PostDetailOption) -> Void)?)
-  func showPostAuthorBlock(handler: ((Bool) -> Void)?)
+  func showPostOption()
+  func showCommentOption(section: Int)
+  func showNestedCommentOption(indexPath: IndexPath)
   func showCategory()
-  func showPostReport(handler: ((PostReportType) -> Void)?)
   func showPostReportResult()
 }
 
@@ -56,8 +67,10 @@ final class PostDetailCoordinator: NSObject, FlowCoordinator {
       showAnAlertToAskWhetherToCancelWrittingTheReply: { [weak self] completion in
         self?.showAnAlertToAskWhetherToCancelWrittingTheReply(completion: completion)
       },
-      showOption: { [weak self] optionCallback in
+      showPostOption: { [weak self] optionCallback in
         self?.showOption(handler: optionCallback)
+      }, showCommentOption: { [weak self] isCommentOwner, optionCallBack in
+        self?.showCommentOption(isCommentOwner: isCommentOwner, handler: optionCallBack)
       },
       showPostAuthorBlock: { [weak self] authName, completion in
         self?.showPostAuthorBlock(authName, handler: completion)
@@ -112,6 +125,24 @@ extension PostDetailCoordinator {
     /// 액션시트에서 cancel은 하나밖에 안됩니다.
     let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
     PostDetailOption.allCases.forEach { option in
+      alert.addAction(title: option.rawValue, style: .destructive) { _ in handler?(option) }
+    }
+    alert.addAction(title: "취소", style: .cancel, handler: nil)
+    presenter?.present(alert, animated: true)
+  }
+  
+  func showCommentOption(isCommentOwner: Bool, handler: ((PostDetailCommentOption) -> Void)?) {
+    guard isCommentOwner else {
+      // 여기선 타인임으로 차단하기 기능만!!
+      let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+      alert.addAction(title: "차단하기", style: .destructive) { _ in handler?(.commentUserBlock) }
+      alert.addAction(title: "취소", style: .cancel, handler: nil)
+      presenter?.present(alert, animated: true)
+      return
+    }
+    let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+    PostDetailCommentOption.allCases.forEach { option in
+      if option == .commentUserBlock { return }
       alert.addAction(title: option.rawValue, style: .destructive) { _ in handler?(option) }
     }
     alert.addAction(title: "취소", style: .cancel, handler: nil)
