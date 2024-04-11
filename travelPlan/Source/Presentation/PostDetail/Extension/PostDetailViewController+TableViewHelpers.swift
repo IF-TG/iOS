@@ -5,7 +5,7 @@
 //  Created by 양승현 on 4/7/24.
 //
 
-import Foundation
+import UIKit
 
 extension PostDetailViewController {
   func registerReusableViews() {
@@ -41,5 +41,23 @@ extension PostDetailViewController {
     tableView.register(
       PostDetailReplyCell.self,
       forCellReuseIdentifier: PostDetailReplyCell.id)
+  }
+  
+  func setTableView() {
+    tableView.separatorStyle = .none
+    tableView.rowHeight = UITableView.automaticDimension
+    tableView.estimatedRowHeight = 235
+    tableView.separatorInset = .zero
+    tableView.backgroundColor = .white
+    tableView.scrollIndicatorInsets = .init(top: 0, left: -1, bottom: 0, right: -1)
+    let minimaiSize = CGSize(width: CGFloat.leastNormalMagnitude, height: CGFloat.leastNormalMagnitude)
+    tableView.tableFooterView = UIView(frame: CGRect(origin: .zero, size: minimaiSize))
+    tableView.keyboardDismissMode = .interactive
+    tableView.contentInset = .zero
+    if #available(iOS 15.0, *) {
+      tableView.sectionHeaderTopPadding = 0
+    }
+    let tap = UITapGestureRecognizer(target: self, action: #selector(didTapTableView))
+    tableView.addGestureRecognizer(tap)
   }
 }
