@@ -327,12 +327,10 @@ private extension PostDetailViewModel {
       .flatMap { [weak self] useCaseInput in
         switch useCaseInput {
         case .send(let text):
-          print("댓글 전송 시자끄 \(text)")
           return self?.sendCommentStream(with: text) ?? Just(
             State.unexpectedError(description: "댓글을 전송할 수 없습니다.")
           ).eraseToAnyPublisher()
         case .edit(let userInputText):
-          print("댓글 편집 전송 시자끄 \(userInputText)")
           return self?.updateCommentStream(with: userInputText) ?? Just(
             State.unexpectedError(description: "댓글을 수정할 수 없습니다.")
           ).eraseToAnyPublisher()
