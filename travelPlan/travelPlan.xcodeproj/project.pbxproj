@@ -484,6 +484,7 @@
 		15F0D1BE2A52940F00D04773 /* PostViewBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F0D1BD2A52940F00D04773 /* PostViewBottomSheetViewController.swift */; };
 		15F0D1D32A53095100D04773 /* PostViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F0D1D22A53095100D04773 /* PostViewAdapter.swift */; };
 		15F0EB832BC79DB60028C800 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F0EB822BC79DB60028C800 /* ActivityIndicator.swift */; };
+		15F0EB862BC7C12F0028C800 /* ActivityIndicatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F0EB852BC7C12F0028C800 /* ActivityIndicatorTests.swift */; };
 		15F2A0182B14E32B0014603D /* MyInformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F2A0172B14E32B0014603D /* MyInformationViewController.swift */; };
 		15F2A01C2B14E4E50014603D /* SettingMyProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F2A01B2B14E4E50014603D /* SettingMyProfileView.swift */; };
 		15F2A01E2B1584880014603D /* SettingUserNameTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F2A01D2B1584880014603D /* SettingUserNameTextField.swift */; };
@@ -1068,6 +1069,7 @@
 		15F0D1BD2A52940F00D04773 /* PostViewBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewBottomSheetViewController.swift; sourceTree = "<group>"; };
 		15F0D1D22A53095100D04773 /* PostViewAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewAdapter.swift; sourceTree = "<group>"; };
 		15F0EB822BC79DB60028C800 /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
+		15F0EB852BC7C12F0028C800 /* ActivityIndicatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorTests.swift; sourceTree = "<group>"; };
 		15F2A0172B14E32B0014603D /* MyInformationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInformationViewController.swift; sourceTree = "<group>"; };
 		15F2A01B2B14E4E50014603D /* SettingMyProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingMyProfileView.swift; sourceTree = "<group>"; };
 		15F2A01D2B1584880014603D /* SettingUserNameTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingUserNameTextField.swift; sourceTree = "<group>"; };
@@ -1298,6 +1300,7 @@
 		133532072BA46597000A4D9E /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				15F0EB842BC7C1120028C800 /* Combine */,
 				133532082BA465AB000A4D9E /* Extension */,
 			);
 			path = Common;
@@ -2802,6 +2805,14 @@
 			path = Service;
 			sourceTree = "<group>";
 		};
+		15F0EB842BC7C1120028C800 /* Combine */ = {
+			isa = PBXGroup;
+			children = (
+				15F0EB852BC7C12F0028C800 /* ActivityIndicatorTests.swift */,
+			);
+			path = Combine;
+			sourceTree = "<group>";
+		};
 		15FBD5CC2B98D00200076115 /* DataMapper */ = {
 			isa = PBXGroup;
 			children = (
@@ -3200,6 +3211,7 @@
 				15D6559A2B8E1CCB00466FEC /* UserInfoAPIEndpointTests.swift in Sources */,
 				15D655A42B8F829800466FEC /* MyInformationViewModelTests.swift in Sources */,
 				1335320E2BA469E3000A4D9E /* DataConverterTests.swift in Sources */,
+				15F0EB862BC7C12F0028C800 /* ActivityIndicatorTests.swift in Sources */,
 				156C1E2A2BBECA6500AF1D99 /* CoordinatorDeallocTests.swift in Sources */,
 				15553BD42BB34BF2000AA896 /* XCTestCase+UseCaseTestsHelpers.swift in Sources */,
 				15B5E7AE2BBAEBE700C19F56 /* UserBlockUseCaseTests.swift in Sources */,
