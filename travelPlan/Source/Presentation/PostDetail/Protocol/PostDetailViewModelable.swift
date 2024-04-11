@@ -76,12 +76,16 @@ struct PostDetailViewModelInput {
 }
 
 @frozen enum PostDetailCommentState {
+  typealias WrittenComemnt = String
+  
   /// 초기에 실행됩니다.
   case reloadedComment
   /// 댓글 삭제 후 대댓글이 없는 경우
   case reloadWhenCommentDelete(Int)
   /// 댓글 삭제 후 대댓글이 있는 경우
   case reloadWithNestedCommentsWhenCommentDelete(Int)
+  
+  case keyboardWillShowForEditingComment(WrittenComemnt)
 }
 
 @frozen enum PostDetailOptionState {
