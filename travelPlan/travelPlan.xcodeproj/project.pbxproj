@@ -148,7 +148,6 @@
 		151130182A04E5B00041DDA1 /* travelPlanUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151130172A04E5B00041DDA1 /* travelPlanUITestsLaunchTests.swift */; };
 		1518BC132BB00DB200FD1A74 /* PostCommentUpdateResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1518BC122BB00DB200FD1A74 /* PostCommentUpdateResponseDTO.swift */; };
 		1518BC152BB00E1100FD1A74 /* PostCommentUpdateRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1518BC142BB00E1100FD1A74 /* PostCommentUpdateRequestDTO.swift */; };
-		1518BC172BB01BB300FD1A74 /* UpdatedPostCommentEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1518BC162BB01BB300FD1A74 /* UpdatedPostCommentEntity.swift */; };
 		1518BC1B2BB022D100FD1A74 /* mock_postComment_update_response.json in Resources */ = {isa = PBXBuildFile; fileRef = 1518BC1A2BB022D100FD1A74 /* mock_postComment_update_response.json */; };
 		1518BC1D2BB02A2800FD1A74 /* PostCommentDeleteRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1518BC1C2BB02A2800FD1A74 /* PostCommentDeleteRequestDTO.swift */; };
 		1518BC1F2BB02DEE00FD1A74 /* mock_postComment_delete_response.json in Resources */ = {isa = PBXBuildFile; fileRef = 1518BC1E2BB02DEE00FD1A74 /* mock_postComment_delete_response.json */; };
@@ -742,7 +741,6 @@
 		151130172A04E5B00041DDA1 /* travelPlanUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = travelPlanUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		1518BC122BB00DB200FD1A74 /* PostCommentUpdateResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCommentUpdateResponseDTO.swift; sourceTree = "<group>"; };
 		1518BC142BB00E1100FD1A74 /* PostCommentUpdateRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCommentUpdateRequestDTO.swift; sourceTree = "<group>"; };
-		1518BC162BB01BB300FD1A74 /* UpdatedPostCommentEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatedPostCommentEntity.swift; sourceTree = "<group>"; };
 		1518BC1A2BB022D100FD1A74 /* mock_postComment_update_response.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = mock_postComment_update_response.json; sourceTree = "<group>"; };
 		1518BC1C2BB02A2800FD1A74 /* PostCommentDeleteRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCommentDeleteRequestDTO.swift; sourceTree = "<group>"; };
 		1518BC1E2BB02DEE00FD1A74 /* mock_postComment_delete_response.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = mock_postComment_delete_response.json; sourceTree = "<group>"; };
@@ -1686,7 +1684,6 @@
 				15FB47D62AC0407D0033AA18 /* PostCategory.swift */,
 				15329CEB2B96171B005FC033 /* ProfileImageEntity.swift */,
 				15A7A8F12B9F6C1700CA9A79 /* UserEntity.swift */,
-				1518BC162BB01BB300FD1A74 /* UpdatedPostCommentEntity.swift */,
 				1518BC262BB044ED00FD1A74 /* ToggledPostCommentHeartEntity.swift */,
 				155603DD2BBC093300981F48 /* PostDetails.swift */,
 				15B5E79C2BBAE43A00C19F56 /* BlockedUserIdentifyEntity.swift */,
@@ -3495,7 +3492,6 @@
 				15F36A152AB1961F00971803 /* TravelRegion.swift in Sources */,
 				15F376622AFE132900B3BF35 /* PostCommentEntity.swift in Sources */,
 				15DD40452A5B862D002BC5F8 /* PostViewBottomSheetAdapter.swift in Sources */,
-				1518BC172BB01BB300FD1A74 /* UpdatedPostCommentEntity.swift in Sources */,
 				15FC93C92BA7BDAD00430D8A /* ConnectionError.swift in Sources */,
 				13405F6F2AF6E6F200382796 /* ReviewWritingBottomView.swift in Sources */,
 				15FBD5E02B98E5FD00076115 /* PostsPage.swift in Sources */,
