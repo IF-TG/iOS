@@ -45,7 +45,7 @@ final class PostDetailViewModel {
   
   @frozen enum NestedCommentUseCaseInput {
     case send(UserInputText)
-    case update(IndexPath)
+    case edit(UserInputText)
     case delete(IndexPath)
   }
   
@@ -73,6 +73,8 @@ final class PostDetailViewModel {
   
   private let nestedCommentUseCaseHandler = PassthroughSubject<NestedCommentUseCaseInput, Never>()
   
+  private let nestedCommentEditNotifier = PassthroughSubject<IndexPath, Never>()
+  
   private let loggedInUserUseCaseHandler = PassthroughSubject<Void, Never>()
    
   private let postReportNotifier = PassthroughSubject<PostReportType, Never>()
@@ -86,7 +88,8 @@ final class PostDetailViewModel {
   /// 사용자가 대댓글 작성중인 경우 not nil. 댓글을 작성중인 경우 nil
   private var replyingSection: Int?
   
-  private var updatingNestedCommentIndexPath: IndexPath?
+  /// 사용자가 대댓글 수정 시작할 경우 not nil. 댓글을 수정하지 않을 경우 nil
+  private var editingNestedCommentIndexPath: IndexPath?
   
   private let actions: PostDetailViewModelActions?
   
@@ -173,9 +176,9 @@ extension PostDetailViewModel: PostDetailCoordinatorDelegate {
       return
     }
     
-    // TODO: - 로그인한 사용자가 작성한 댓글인지 여부에 따라 사용자 신고 기능만 추가될건지, 댓글 삭제, 수정 기능만 추가될 것인지..
+    // TODO: - 로그인한 사용자가 작성한 댓글인지 여부에 따라 사용자 차단 기능만 추가될건지, 댓글 삭제, 수정 기능만 추가될 것인지..
     // 만약 자신이라면, 삭제, 수정 기능
-    // 만약 타인꺼 댓글이라면 신고 기능만,,,
+    // 만약 타인꺼 댓글이라면 차단 기능만,,,
     // 신고 기능 api도 없음으로 일단 자신꺼에 한정해 삭제, 수정 기능만 넣고 자신것이 아니라면 알림창으로 보여주어야 합니다.
     let commentUploadedUserId = loggedUserId
     actions?.showCommentOption(loggedUserId == commentUploadedUserId) { [weak self] commentOption in
@@ -184,8 +187,7 @@ extension PostDetailViewModel: PostDetailCoordinatorDelegate {
         self?.nestedCommentUseCaseNotifier.send(.delete(indexPath))
       case .commentUpdate:
         // MARK: - 업데이트는 로직을 isNestedCommentUpdating 이걸 추가하면서 대댓글 작성 과 같게 로직을 짜야 합니다.
-        // self?.nestedCommentUseCaseNotifier.send(.update(indexPath))
-        self?.showAlertForError(with: "대댓글 수정 기능은 다음 업데이트 때 구현될 예정입니다.", completion: nil)
+        self?.nestedCommentEditNotifier.send(indexPath)
       case .commentUserBlock:
         self?.showAlertForError(with: "대댓글 차단 기능은 다음 업데이트 때 구현될 예정입니다.", completion: nil)
       }
@@ -269,6 +271,7 @@ extension PostDetailViewModel: PostDetailViewModelable {
       postReportHandlerStream(),
       postAuthorBlockHandlerStream(),
       commentUseCaseNotifierStream(),
+      nestedCommentEditNotifierStream(),
       nestedCommentUseCaseNotifierStream()
     ])
     .handleEvents(receiveOutput: { value in
@@ -300,15 +303,25 @@ private extension PostDetailViewModel {
       }.eraseToAnyPublisher()
   }
   
+  /// CommnetInput에서 send가 눌러질 경우. 댓글, 대댓글 작성 및 수정 등 전송 관련 로직 담당
   func handleCommentInputStream(_ input: Input) -> Output {
     input.commentSendHandler
       .map { [weak self] userInputText -> State in
         DispatchQueue.global(qos: .userInitiated).async {
-          if self?.replyingSection != nil {
-            /// 대댓글인 경우
+          /// 대댓글인 작성 후 전송할 것인가?
+          let isReplyWrittenForSend = self?.replyingSection != nil
+          /// 대댓글 수정 후 전송할 것인가?
+          let isReplyWrittenForEdit = self?.editingNestedCommentIndexPath  != nil
+          
+          if isReplyWrittenForSend {
             self?.nestedCommentUseCaseHandler.send(.send(userInputText))
+          } else if isReplyWrittenForEdit {
+            self?.nestedCommentUseCaseHandler.send(.edit(userInputText))
           } else {
-            /// 댓글인 경우
+            // TODO: -  댓글 수정인 경우 editing 프로퍼티로 알 수 있음
+            //댓글 수정일떄도 else if로 구분해주자. else는 댓글 전송일때임.
+            
+            /// 댓글작성 후 전송인 경우
             self?.commentUseCaseHandler.send(.send(userInputText))
           }
         }
@@ -333,7 +346,7 @@ private extension PostDetailViewModel {
           return self?.deleteCommentStream(with: section) ?? Just(
             State.unexpectedError(description: "댓글을 삭제할 수 없습니다.")
           ).eraseToAnyPublisher()
-
+          
         }
         // MARK: - 임시 임시. update가 case에서 퍼블리셔 반환하면 아래꺼 지워도 됩니다.
         return Just(State.none).eraseToAnyPublisher()
@@ -348,21 +361,29 @@ private extension PostDetailViewModel {
           return self?.sendNestedCommentStream(with: text) ?? Just(
             State.unexpectedError(description: "대댓글을 전송할 수 없습니다.")
           ).eraseToAnyPublisher()
-        case .update(let indexPath):
-          // TODO: - 업데이트는 대댓글 다시 작성해서 수정된 글을 같이 보내야함 ㅠㅅㅠ
-          // updateNestedCommentStream(with: indexPath)
-          // 이거는 업데이트 중이라는 거 추가해야함
-          // FIXME: - 이 경우는 인디케이터 호출하지 않도록 해야함.
-          self?.updatingNestedCommentIndexPath = indexPath
-          let comemnt = self?.postDetails.comments[indexP
-          return Just(State.nestedComment(.))
+        case .edit(let editedText):
+          return self?.updateNestedCommentStream(with: editedText) ?? Just(
+            State.unexpectedError(description: "대댓글 편집에 실패했습니다.")
+          ).eraseToAnyPublisher()
         case .delete(let indexPath):
           return self?.deleteNestedCommentStream(with: indexPath) ?? Just(
             State.unexpectedError(description: "앱 내부 에러가 발생됬습니다.대댓글을 삭제할 수 없습니다.")
           ).eraseToAnyPublisher()
         }
-        // MARK: - 임시 임시. update가 case에서 퍼블리셔 반환하면 아래꺼 지워도 됩니다.
-        return Just(State.none).eraseToAnyPublisher()
+      }.eraseToAnyPublisher()
+  }
+  
+  /// 옵션에서 편집하기가 될 경우 키보드 보여주는 로직
+  func nestedCommentEditNotifierStream() -> Output {
+    return nestedCommentEditNotifier
+      .map { [weak self] indexPath -> State in
+        self?.editingNestedCommentIndexPath = indexPath
+        let commentIndex = PostDetailSection.commentIndex(section: indexPath.section)
+        guard let comment = self?.postDetails.comments[commentIndex] else {
+          return State.unexpectedError(description: "앱 내부 에러가 발생됬습니다. 대댓글을 수정할 수 없습니다.")
+        }
+        let replyComment = comment.nestedComments[indexPath.row].comment
+        return State.nestedComment(.keyboard(.willShowWhenCommentEditStart(replyComment)))
       }.eraseToAnyPublisher()
   }
   
@@ -379,7 +400,7 @@ private extension PostDetailViewModel {
   func replyStartNotifierStream(_ input: Input) -> Output {
     input.replyStartNotifier.map { [weak self] replySection -> State in
       self?.replyingSection = replySection
-      return .nestedComment(.keyboardState(.willShow))
+      return .nestedComment(.keyboard(.willShow))
     }.eraseToAnyPublisher()
   }
   
@@ -453,6 +474,7 @@ private extension PostDetailViewModel {
     }.eraseToAnyPublisher()
   }
   
+  /// 이거 새로 개발한 인디케이터 쓰면 없어질 예정....
   func nestedCommentUseCaseNotifierStream() -> Output {
     return nestedCommentUseCaseNotifier.map { nestedCommentInput -> State in
       DispatchQueue.global(qos: .userInitiated).async { [weak self] in
@@ -461,8 +483,10 @@ private extension PostDetailViewModel {
       return .networkProcessing
     }.eraseToAnyPublisher()
   }
-  
-  // MARK: - Inner stream
+}
+
+// MARK: - Transform Inner stream
+private extension PostDetailViewModel {
   /// 초기 viewDidLoad시점에 호출해야 합니다. -> post favorite여부파악.
   func fetchCommentsWhenViewDidLoad() -> Output {
     let postCommentRequestValue = PostCommentsRequestValue(
@@ -566,6 +590,27 @@ private extension PostDetailViewModel {
         }
         /// 테이블뷰에 실제로 특정 셀 제거 후 리로드 명령은 실제 indexPath로 해야합니다.
         return .nestedComment(.reload(indexPath))
+      }.catch { error in
+        return Just(State.unexpectedError(description: error.localizedDescription))
+      }.eraseToAnyPublisher()
+  }
+  
+  func updateNestedCommentStream(with editedText: String) -> Output {
+    guard let indexPath = editingNestedCommentIndexPath else {
+      return Just(State.unexpectedError(description: "대댓글을 수정할 수 없습니다.")).eraseToAnyPublisher()
+    }
+    let commentIdx = PostDetailSection.commentIndex(section: indexPath.section)
+    let nestedComment = postDetails.comments[commentIdx].nestedComments[indexPath.row]
+    return postNestedCommentUseCase
+      .updateNestedComment(nestedCommentId: nestedComment.nestedCommentId, comment: editedText)
+      .map { [weak self] result -> State in
+        guard result else {
+          return .unexpectedError(description: "서버에서 에러가 발생되어 대댓글이 편집되지 않았습니다.")
+        }
+        self?.postDetails.comments[commentIdx].nestedComments[indexPath.row].comment = editedText
+        
+        self?.editingNestedCommentIndexPath = nil
+        return .nestedComment(.reloadWhenCommentUpdate(indexPath))
       }.catch { error in
         return Just(State.unexpectedError(description: error.localizedDescription))
       }.eraseToAnyPublisher()
