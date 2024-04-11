@@ -67,7 +67,7 @@ extension PostProfileAndCommentView {
     commentInputView.setCommentForEditMode(text)
   }
 
-  func clearCommentInputOnCancelEditMode() {
-    commentInputView.clearCommentInputOnCancelEditMode()
+  func clearEditingText() {
+    commentInputView.clearEditingText()
   }
 }
