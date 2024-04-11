@@ -256,27 +256,11 @@ extension ReviewWritingContentView {
       .map { return ($0.object as? UITextView)?.text != "" }
       .eraseToAnyPublisher()
     
-    let firstMessageTextViewPublisher = NotificationCenter.default
-      .publisher(for: UITextView.textDidChangeNotification, object: firstMessageTextView)
-      .map { [weak self] _ in
-        guard let self = self else { return false }
-        
-        if self.firstMessageTextView.text != "" {
-          return true
-        } else if arrangedSubviews.contains(where: { $0 is UIImageView }) {
-          return true
-        } else {
-          return false
-        }
-      }
-      .eraseToAnyPublisher()
-    
-    Publishers.CombineLatest3(
+    Publishers.CombineLatest(
       titleTextViewPublisher,
-      firstMessageTextViewPublisher,
       imageViewPublisher
     )
-    .map { $0 && $1 && $2 }
+    .map { $0 && $1 }
     .receive(on: RunLoop.main)
     .sink { [weak self] isEnabled in
       self?.delegate?.handleFinishButtonTitleColor(isEnabled: isEnabled)
