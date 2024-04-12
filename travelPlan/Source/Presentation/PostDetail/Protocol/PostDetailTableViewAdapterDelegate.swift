@@ -8,7 +8,7 @@
 import UIKit
 
 protocol PostDetailTableViewAdapterDelegate: AnyObject {
-  func disappearTitle(_ title: String)
+  func disappearTitle()
   func willDisplayTitle()
   
   // TODO: - 프로필 페이지는 화면이 없기 때문에 일단 미반영!

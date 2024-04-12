@@ -19,6 +19,7 @@ final class PostDetailViewController: UITableViewController {
   private let naviTitle = BaseLabel(fontType: .semiBold_600(fontSize: 16)).set {
     $0.alpha = 0
   }
+  // TODO: - 이거 수정하자. 
   
   private let starButton = SearchStarButton(normalType: .black)
   
@@ -80,6 +81,7 @@ final class PostDetailViewController: UITableViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     configureUI()
+    setTitleView()
     inputAccessory.delegate = self
     bind()
     input.viewDidLoad.send()
@@ -89,13 +91,6 @@ final class PostDetailViewController: UITableViewController {
     super.viewWillAppear(animated)
     (self.tabBarController as? MainTabBarController)?.hideShadowLayer()
     self.tabBarController?.tabBar.isHidden = true
-  }
-  
-  override func viewDidAppear(_ animated: Bool) {
-    super.viewDidAppear(animated)
-    //왜 ? viewDidApper에 타이틀뷰하지?
-    // TODO: - 타이틀뷰 헤더 좌표계바꿔서 더 유연하게 사라지고 보여지도록 로직 개선해야합니다.
-    setTitleView()
   }
   
   override func viewWillDisappear(_ animated: Bool) {
@@ -281,7 +276,8 @@ extension PostDetailViewController: PostDetailTableViewAdapterDelegate {
     naviTitleAnimator?.startAnimation()
   }
   
-  func disappearTitle(_ title: String) {
+  func disappearTitle() {
+    // TODO: - 네비 타이틀은 viewdidload시점에 받자
     if naviTitle.text == nil {
       naviTitle.text = title
       naviTitle.transform = .init(translationX: 0, y: naviTitle.font.lineHeight)

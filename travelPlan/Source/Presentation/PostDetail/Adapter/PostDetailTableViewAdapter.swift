@@ -251,10 +251,9 @@ extension PostDetailTableViewAdapter {
           delegate?.willDisplayTitle()
         }
       } else {
-        guard let title = dataSource?.title else { return }
         if isDisplyingTitleInNavi {
           isDisplyingTitleInNavi.toggle()
-          delegate?.disappearTitle(title)
+          delegate?.disappearTitle()
         }
       }
     }
