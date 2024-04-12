@@ -62,6 +62,14 @@ extension PostDetailProfileAreaFooterView {
   func configure(with info: PostDetailProfileAreaInfo?) {
     profileAreaView.configure(with: info)
   }
+  
+  func getHeightBelowDurationLabelMaxY() -> CGFloat? {
+    typealias Const = Constant.ProfileAreaViewSpacing
+    guard let durationLabelMaxY = profileAreaView.getDurationLabelMaxY() else {
+      return nil
+    }
+    return frame.height - (durationLabelMaxY + Const.top)
+  }
 }
 
 // MARK: - LayoutSupport
