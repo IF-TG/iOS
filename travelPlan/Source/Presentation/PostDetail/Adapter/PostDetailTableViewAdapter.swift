@@ -23,9 +23,13 @@ final class PostDetailTableViewAdapter: NSObject {
   
   private var postTitleCellMaxY: CGFloat?
   
+  private var postDurationLabelMaxY: CGFloat?
+  
   private var tableViewInitialOffsetY: CGFloat?
   
   private var isDisplyingTitleInNavi: Bool = false
+  
+  private var isDisplyingDurationInNavi: Bool = false
   
   // MARK: - Lifecycle
   init(
@@ -169,6 +173,9 @@ extension PostDetailTableViewAdapter: UITableViewDelegate {
       ) as? PostDetailProfileAreaFooterView else {
         return nil
       }
+      if let specificHeight = footer.getHeightBelowDurationLabelMaxY() {
+        postDurationLabelMaxY = footer.frame.maxY - specificHeight
+      }
       footer.configure(with: dataSource.profileAreaItem)
       return footer
     case .postContent:
@@ -242,7 +249,20 @@ extension PostDetailTableViewAdapter {
   func scrollViewDidScroll(_ scrollView: UIScrollView) {
     let offsetY = scrollView.contentOffset.y
     if tableViewInitialOffsetY == nil { tableViewInitialOffsetY = scrollView.contentOffset.y }
-    guard let postTitleCellMaxY, let tableViewInitialOffsetY else { return }
+    guard let postTitleCellMaxY, let tableViewInitialOffsetY, let postDurationLabelMaxY else { return }
+    let isDurationBehindNavigationBarDisappeared = tableViewInitialOffsetY + postDurationLabelMaxY < offsetY
+    if isDurationBehindNavigationBarDisappeared {
+      if !isDisplyingDurationInNavi {
+        isDisplyingDurationInNavi.toggle()
+        delegate?.willDisplayDuration()
+      }
+    } else {
+      if isDisplyingDurationInNavi {
+        isDisplyingDurationInNavi.toggle()
+        delegate?.disappearDuration()
+      }
+    }
+    
     let isTitleBehindANavigationBarDisappeared = tableViewInitialOffsetY + postTitleCellMaxY > offsetY
     if isTitleBehindANavigationBarDisappeared {
       if !isDisplyingTitleInNavi {
