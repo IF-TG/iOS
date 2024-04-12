@@ -6,7 +6,8 @@
 //
 
 import Foundation
+import Combine
 
 protocol ReviewWritingRepository {
-  
+  func uploadPost() -> AnyPublisher<Bool, Never>
 }
