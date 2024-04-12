@@ -205,6 +205,7 @@
 		15302C552B9E23E900B1EA3F /* UIViewController+Indicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15302C542B9E23E900B1EA3F /* UIViewController+Indicator.swift */; };
 		15302C572B9E29B900B1EA3F /* MockMyProfileUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15302C562B9E29B900B1EA3F /* MockMyProfileUseCase.swift */; };
 		15329CEC2B96171B005FC033 /* ProfileImageEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15329CEB2B96171B005FC033 /* ProfileImageEntity.swift */; };
+		1536CC512BC8D5D700EEAE2B /* ActivityIndicator in Frameworks */ = {isa = PBXBuildFile; productRef = 1536CC502BC8D5D700EEAE2B /* ActivityIndicator */; };
 		153841D72A5642A9004C41D1 /* PostViewBottomSheetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153841D62A5642A9004C41D1 /* PostViewBottomSheetCell.swift */; };
 		153FA90D2B937D9E006CF3C3 /* UserProfileRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153FA90C2B937D9E006CF3C3 /* UserProfileRequestDTO.swift */; };
 		153FA90F2B937E12006CF3C3 /* UserProfileResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153FA90E2B937E12006CF3C3 /* UserProfileResponseDTO.swift */; };
@@ -1161,6 +1162,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1536CC512BC8D5D700EEAE2B /* ActivityIndicator in Frameworks */,
 				151DF0CF2AEE397000D5D55B /* Alamofire in Frameworks */,
 				135A07D92BB7EEF7003D6C4D /* PhotosUI.framework in Frameworks */,
 				13E913932B0F3ECF00E15B11 /* SnapKit in Frameworks */,
@@ -2275,6 +2277,14 @@
 			path = UserBlock;
 			sourceTree = "<group>";
 		};
+		15B96B042BC79D0D0045B19B /* Combine */ = {
+			isa = PBXGroup;
+			children = (
+				15FEB5D92A050A99000A5F33 /* CombineCocoa */,
+			);
+			path = Combine;
+			sourceTree = "<group>";
+		};
 		15BB01AF2A1EB4C40035B486 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -2799,11 +2809,11 @@
 		15FEB5D82A050A99000A5F33 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				15B96B042BC79D0D0045B19B /* Combine */,
 				155D0BAF2B90D3980042DFB6 /* Error */,
 				130304732A2147A000776A0D /* ViewController */,
 				15CB235C2A10B598003EAF20 /* Utils */,
 				158BEFCE2A0FE0B300C27861 /* View */,
-				15FEB5D92A050A99000A5F33 /* CombineCocoa */,
 				15FEB5DF2A050A99000A5F33 /* Extension */,
 				15FEB5E12A050A99000A5F33 /* Protocol */,
 			);
@@ -3018,6 +3028,7 @@
 				151DF0CE2AEE397000D5D55B /* Alamofire */,
 				151DF0D52AEE3C0700D5D55B /* SHCoordinator */,
 				13E913922B0F3ECF00E15B11 /* SnapKit */,
+				1536CC502BC8D5D700EEAE2B /* ActivityIndicator */,
 			);
 			productName = travelPlan;
 			productReference = 1594F52E29FD517E00A58F20 /* travelPlan.app */;
@@ -3059,6 +3070,7 @@
 				1503F9272A4E0603002BC38D /* XCRemoteSwiftPackageReference "SHCoordinator" */,
 				151DF0CD2AEE397000D5D55B /* XCRemoteSwiftPackageReference "Alamofire" */,
 				13E913912B0F3ECF00E15B11 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				1536CC4F2BC8D5D700EEAE2B /* XCRemoteSwiftPackageReference "ActivityIndicator" */,
 			);
 			productRefGroup = 1594F52F29FD517E00A58F20 /* Products */;
 			projectDirPath = "";
@@ -4057,6 +4069,14 @@
 				minimumVersion = 5.8.1;
 			};
 		};
+		1536CC4F2BC8D5D700EEAE2B /* XCRemoteSwiftPackageReference "ActivityIndicator" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/duyquang91/ActivityIndicator.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -4074,6 +4094,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 1503F9272A4E0603002BC38D /* XCRemoteSwiftPackageReference "SHCoordinator" */;
 			productName = SHCoordinator;
+		};
+		1536CC502BC8D5D700EEAE2B /* ActivityIndicator */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1536CC4F2BC8D5D700EEAE2B /* XCRemoteSwiftPackageReference "ActivityIndicator" */;
+			productName = ActivityIndicator;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

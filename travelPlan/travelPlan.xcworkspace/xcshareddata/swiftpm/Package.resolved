@@ -1,6 +1,15 @@
 {
-  "originHash" : "55f7ae2735d03d4f573afabebae271bcf7f96c6b10120faaf4f0fb9b1e9826c1",
+  "originHash" : "d8f6384949340f8e932769113f5cea831dfdc19d157f9ce5d004da2ad870ed3a",
   "pins" : [
+    {
+      "identity" : "activityindicator",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/duyquang91/ActivityIndicator.git",
+      "state" : {
+        "revision" : "0101a02196f6a67cf26f6434b007d3db6bd07fee",
+        "version" : "1.1.0"
+      }
+    },
     {
       "identity" : "alamofire",
       "kind" : "remoteSourceControl",
