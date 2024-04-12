@@ -21,6 +21,12 @@ final class PostDetailTableViewAdapter: NSObject {
   
   private let defaultSection = PostDetailSectionType.defaultNumberOfSections
   
+  private var postTitleCellMaxY: CGFloat?
+  
+  private var tableViewInitialOffsetY: CGFloat?
+  
+  private var isDisplyingTitleInNavi: Bool = false
+  
   // MARK: - Lifecycle
   init(
     dataSource: PostDetailTableViewDataSource?,
@@ -96,22 +102,10 @@ extension PostDetailTableViewAdapter: UITableViewDataSource {
 
 // MARK: - UITableViewDelegate
 extension PostDetailTableViewAdapter: UITableViewDelegate {
-  func tableView(
-    _ tableView: UITableView,
-    didEndDisplaying cell: UITableViewCell,
-    forRowAt indexPath: IndexPath
-  ) {
-    let sectionType: PostDetailSectionType = .init(rawValue: indexPath.section) ?? .postDescription
-    if sectionType == .postDescription && indexPath.row == 0 {
-      guard let title = dataSource?.title else { return }
-      // TODO: - 이거 올라오는거 좀 더빠르게인식하도록하기!
-      delegate?.disappearTitle(title)
-    }
-  }
-  
   func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
     if cell is PostDetailTitleCell {
-      delegate?.willDisplayTitle()
+      postTitleCellMaxY = cell.frame.maxY
+      isDisplyingTitleInNavi = true
     }
     // TODO: - 서버에서 만약 댓글달았을때 에대한 bool값 있으면 배경색 파랑 -> 원래색으로 돌아오는 피그마 ui추가.
   }
@@ -240,6 +234,31 @@ extension PostDetailTableViewAdapter: UITableViewDelegate {
       if footer?.delegate != nil { return }
       footer?.delegate = self
     }
+  }
+}
+
+// MARK: - ScrollViewDelegate
+extension PostDetailTableViewAdapter {
+  func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    let offsetY = scrollView.contentOffset.y
+    if tableViewInitialOffsetY == nil { tableViewInitialOffsetY = scrollView.contentOffset.y }
+    
+    if let postTitleCellMaxY, let tableViewInitialOffsetY {
+      let isTitleBehindANavigationBarDisappeared = tableViewInitialOffsetY + postTitleCellMaxY > offsetY
+      if isTitleBehindANavigationBarDisappeared {
+        if !isDisplyingTitleInNavi {
+          isDisplyingTitleInNavi.toggle()
+          delegate?.willDisplayTitle()
+        }
+      } else {
+        guard let title = dataSource?.title else { return }
+        if isDisplyingTitleInNavi {
+          isDisplyingTitleInNavi.toggle()
+          delegate?.disappearTitle(title)
+        }
+      }
+    }
+    
   }
 }
 
