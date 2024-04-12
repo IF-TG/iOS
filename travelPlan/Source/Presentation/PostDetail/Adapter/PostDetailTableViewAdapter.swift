@@ -242,22 +242,19 @@ extension PostDetailTableViewAdapter {
   func scrollViewDidScroll(_ scrollView: UIScrollView) {
     let offsetY = scrollView.contentOffset.y
     if tableViewInitialOffsetY == nil { tableViewInitialOffsetY = scrollView.contentOffset.y }
-    
-    if let postTitleCellMaxY, let tableViewInitialOffsetY {
-      let isTitleBehindANavigationBarDisappeared = tableViewInitialOffsetY + postTitleCellMaxY > offsetY
-      if isTitleBehindANavigationBarDisappeared {
-        if !isDisplyingTitleInNavi {
-          isDisplyingTitleInNavi.toggle()
-          delegate?.willDisplayTitle()
-        }
-      } else {
-        if isDisplyingTitleInNavi {
-          isDisplyingTitleInNavi.toggle()
-          delegate?.disappearTitle()
-        }
+    guard let postTitleCellMaxY, let tableViewInitialOffsetY else { return }
+    let isTitleBehindANavigationBarDisappeared = tableViewInitialOffsetY + postTitleCellMaxY > offsetY
+    if isTitleBehindANavigationBarDisappeared {
+      if !isDisplyingTitleInNavi {
+        isDisplyingTitleInNavi.toggle()
+        delegate?.willDisplayTitle()
+      }
+    } else {
+      if isDisplyingTitleInNavi {
+        isDisplyingTitleInNavi.toggle()
+        delegate?.disappearTitle()
       }
     }
-    
   }
 }
 
