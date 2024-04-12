@@ -79,6 +79,8 @@ final class PostDetailViewModel {
   
   private let postAuthorBlockHandler = PassthroughSubject<Void, Never>()
   
+  private let navigationInfo = PassthroughSubject<Void, Never>()
+  
   /// 사용자가 대댓글 작성중인 경우 not nil. 댓글을 작성중인 경우 nil
   private var replyingSection: Int?
   
@@ -251,6 +253,7 @@ extension PostDetailViewModel: PostDetailViewModelable {
   func transform(_ input: PostDetailViewModelInput) -> AnyPublisher<PostDetailViewModelState, Never> {
     return Publishers.MergeMany([
       viewDidLoadStream(input),
+      navigationInfoStream(),
       handleCommentInputStream(input),
       commentUseCaseHandlerStream(),
       nestedCommentUseCaseHandlerStream(),
@@ -283,9 +286,19 @@ extension PostDetailViewModel: PostDetailViewModelable {
 
 // MARK: - Private Input's Stream
 private extension PostDetailViewModel {
+  func navigationInfoStream() -> Output {
+    return navigationInfo.map { [weak self] _ -> State in
+      guard let postTitle = self?.postDetails.detail.title else { return .none }
+      // TODO: - 34일 이렇게 몇일 구해야합니다.
+      //let postDuration = postDetails.detail.tripDate
+      let postDuration = "34일 동안의 여정"
+      return .viewDidLoad(.naviTitleInfo((postTitle, postDuration)))
+    }.eraseToAnyPublisher()
+  }
   func viewDidLoadStream(_ input: Input) -> Output {
     return input.viewDidLoad
       .flatMap { [weak self] in
+        self?.navigationInfo.send()
         self?.loggedInUserUseCaseHandler.send()
         return self?.fetchCommentsWhenViewDidLoad() ?? Just(
           State.unexpectedError(

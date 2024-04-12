@@ -48,8 +48,12 @@ struct PostDetailViewModelInput {
 }
 
 @frozen enum PostDetailViewDidLoadState {
+  typealias Title = String
+  typealias Duration = String
+  
   case loggedInUserInfo(userProfile: String?)
   case reloadedCommentsWithPostFavoriteInfo(Bool)
+  case naviTitleInfo((Title, Duration))
 }
 
 @frozen enum PostDetailNestedCommentState {
