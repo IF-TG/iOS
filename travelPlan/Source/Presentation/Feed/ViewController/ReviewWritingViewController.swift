@@ -59,6 +59,7 @@ final class ReviewWritingViewController: UIViewController {
   init(viewModel: any ReviewWritingViewModel, photoService: any PhotoService) {
     self.viewModel = viewModel
     self.photoService = photoService
+    
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -68,7 +69,10 @@ final class ReviewWritingViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    defer { bind() }
+    defer {
+      bind()
+      input.viewDidLoad.send()
+    }
     setupUI()
     setupStyles()
     setupNavigationBar()
@@ -133,6 +137,8 @@ extension ReviewWritingViewController {
         case .alertAuthRequest:
           // TODO: - Alert화면 띄우기
           break
+        case let .setupContents(title, postContents):
+          self?.contentView.setupContents(.init(title: title, contents: postContents))
         }
       }
       .store(in: &subscriptions)
@@ -160,7 +166,7 @@ extension ReviewWritingViewController {
           let sortedImages = images.sorted { $0.0 < $1.0 }.map { $0.1 }
           
           for image in sortedImages {
-            self?.contentView.addImageView(image: image)
+            self?.contentView.addImageView(image: image, shouldScrollToLastView: true)
           }
         }
       })

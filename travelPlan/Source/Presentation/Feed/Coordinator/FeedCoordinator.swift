@@ -108,7 +108,26 @@ extension FeedCoordinator: FeedCoordinatorDelegate {
   }
   
   func showReviewWrite() {
-    let reviewWritingCoordinator = ReviewWritingCoordinator(presenter: presenter)
+    // 임시 test 코드
+    let contents: [PostContentEntity] = [
+      .text("텍스트1텍스트2텍스트3텍스트4텍스트5텍스트6텍스트7텍스트8텍스트9텍스트10텍스트11텍스트12텍스트13텍스트14텍스트15텍스트16텍스트17"),
+      .image(UIImage(named: "tempProfile4")!.jpegData(compressionQuality: 1.0)!),
+      .text("텍스트1텍스트2텍스트3텍스트4텍스트5텍스트6텍스트7텍스트8텍스트9텍스트10텍스트11텍스트12텍스트13텍스트14텍스트15텍스트16텍스트17"),
+      .text("text1text2text3text4text5text6text7text8text9text10text11text12text13text14text15text16text17"),
+      .image(UIImage(named: "tempProfile4")!.jpegData(compressionQuality: 1.0)!),
+      .image(UIImage(named: "tempProfile4")!.jpegData(compressionQuality: 1.0)!)
+    ]
+    let entity = ReviewWritingEntity(
+      category: .init(themes: [.adventure],
+                      regions: [.busan],
+                      seasons: [.fall],
+                      partners: [.alone]),
+      tripData: .init(start: "2023", end: "2024"),
+      title: "제목입니다.", contents: contents
+    )
+    let reviewWritingCoordinator = ReviewWritingCoordinator(presenter: presenter, mode: .edit(entity))
+    
+//    let reviewWritingCoordinator = ReviewWritingCoordinator(presenter: presenter, mode: .start)
     addChild(with: reviewWritingCoordinator)
   }
 }

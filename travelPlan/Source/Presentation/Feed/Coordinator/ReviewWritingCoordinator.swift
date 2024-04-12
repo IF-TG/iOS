@@ -24,11 +24,13 @@ final class ReviewWritingCoordinator: FlowCoordinator {
   var child: [FlowCoordinator] = []
   var presenter: UINavigationController?
   var viewController: UIViewController?
+  private let mode: ReviewWritingMode
   @Published private var selectedAssets = [PHAsset]()
   
   // MARK: - LifeCycle
-  init(presenter: UINavigationController?) {
+  init(presenter: UINavigationController?, mode: ReviewWritingMode) {
     self.presenter = presenter
+    self.mode = mode
   }
   
   deinit {
@@ -36,10 +38,19 @@ final class ReviewWritingCoordinator: FlowCoordinator {
   }
   
   func start() {
+    let mockSession = MockSession.default
+    let sessionProvider = SessionProvider(session: mockSession)
+    let reviewWritingRepository = DefaultReviewWritingRepository(service: sessionProvider)
+    let reviewWritingUseCase = DefaultReviewWritingUseCase(reviewWritingRepository: reviewWritingRepository)
     let photoAuthUseCase = DefaultPhotoAuthorizationUseCase()
-    let viewModel = DefaultReviewWritingViewModel(photoAuthorizationUseCase: photoAuthUseCase)
+    let viewModel = DefaultReviewWritingViewModel(
+      photoAuthorizationUseCase: photoAuthUseCase,
+      reviewWritingUseCase: reviewWritingUseCase,
+      mode: mode
+    )
     let photoService = DefaultPhotoService()
     let vc = ReviewWritingViewController(viewModel: viewModel, photoService: photoService)
+    
     vc.coordinator = self
     presenter?.pushViewController(vc, animated: true)
   }
