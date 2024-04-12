@@ -38,9 +38,11 @@ final class ReviewWritingCoordinator: FlowCoordinator {
   }
   
   func start() {
-    let photoAuthUseCase = DefaultPhotoAuthorizationUseCase()
-    let reviewWritingRepository = DefaultReviewWritingRepository()
+    let mockSession = MockSession.default
+    let sessionProvider = SessionProvider(session: mockSession)
+    let reviewWritingRepository = DefaultReviewWritingRepository(service: sessionProvider)
     let reviewWritingUseCase = DefaultReviewWritingUseCase(reviewWritingRepository: reviewWritingRepository)
+    let photoAuthUseCase = DefaultPhotoAuthorizationUseCase()
     let viewModel = DefaultReviewWritingViewModel(
       photoAuthorizationUseCase: photoAuthUseCase,
       reviewWritingUseCase: reviewWritingUseCase,
@@ -48,6 +50,7 @@ final class ReviewWritingCoordinator: FlowCoordinator {
     )
     let photoService = DefaultPhotoService()
     let vc = ReviewWritingViewController(viewModel: viewModel, photoService: photoService)
+    
     vc.coordinator = self
     presenter?.pushViewController(vc, animated: true)
   }
