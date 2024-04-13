@@ -20,8 +20,9 @@ import SHCoordinator
 }
 
 @frozen enum PostDetailWritingCacnelType {
-  //대댓글 작성
+  // 대댓글 작성
   case replyWrite
+  // 대댓글 편집
   case replyEdit
   case commentEdit
   
