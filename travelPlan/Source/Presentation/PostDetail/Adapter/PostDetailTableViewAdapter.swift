@@ -250,7 +250,7 @@ extension PostDetailTableViewAdapter {
     let offsetY = scrollView.contentOffset.y
     if tableViewInitialOffsetY == nil { tableViewInitialOffsetY = scrollView.contentOffset.y }
     guard let postTitleCellMaxY, let tableViewInitialOffsetY, let postDurationLabelMaxY else { return }
-    let isDurationBehindNavigationBarDisappeared = tableViewInitialOffsetY + postDurationLabelMaxY < offsetY
+    let isDurationBehindNavigationBarDisappeared = tableViewInitialOffsetY + postDurationLabelMaxY > offsetY
     if isDurationBehindNavigationBarDisappeared {
       if !isDisplyingDurationInNavi {
         isDisplyingDurationInNavi.toggle()

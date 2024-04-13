@@ -19,11 +19,19 @@ final class PostDetailViewController: UITableViewController {
   private let naviTitle = BaseLabel(fontType: .semiBold_600(fontSize: 16)).set {
     $0.alpha = 0
   }
-  // TODO: - 이거 수정하자. 
+  
+  private let naviDuration = BaseLabel(fontType: .medium_500(fontSize: 12)).set {
+    $0.alpha = 0
+    $0.textAlignment = .center
+  }
+  
+  private let naviTitleView = UIView(frame: .zero)
   
   private let starButton = SearchStarButton(normalType: .black)
   
   private var naviTitleAnimator: UIViewPropertyAnimator?
+  
+  private var naviDurationAnimator: UIViewPropertyAnimator?
   
   override var canBecomeFirstResponder: Bool {
     return true
@@ -81,10 +89,14 @@ final class PostDetailViewController: UITableViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     configureUI()
-    setTitleView()
     inputAccessory.delegate = self
     bind()
     input.viewDidLoad.send()
+  }
+  
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    setTitleView()
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -156,6 +168,12 @@ extension PostDetailViewController: ViewBindCase {
       tableView.reloadData()
       stopIndicator()
       starButton.isSelected = isFavorite
+    case .naviTitleInfo((let title, let duration)):
+      naviTitle.text = title
+      naviDuration.text = duration
+      naviTitle.transform = .init(translationX: 0, y: naviTitle.font.lineHeight)
+      naviDuration.transform = .init(translationX: 0, y: naviDuration.font.lineHeight)
+      naviTitle.isHidden = true
     }
   }
   
@@ -237,7 +255,17 @@ private extension PostDetailViewController {
   }
   
   func setTitleView() {
-    navigationItem.titleView = naviTitle
+    [naviTitle, naviDuration].forEach { naviTitleView.addSubview($0) }
+    
+    NSLayoutConstraint.activate([
+      naviTitle.leadingAnchor.constraint(equalTo: naviTitleView.leadingAnchor),
+      naviTitle.topAnchor.constraint(equalTo: naviTitleView.topAnchor),
+      naviTitle.trailingAnchor.constraint(equalTo: naviTitleView.trailingAnchor),
+      naviDuration.leadingAnchor.constraint(equalTo: naviTitleView.leadingAnchor),
+      naviDuration.topAnchor.constraint(equalTo: naviTitle.bottomAnchor),
+      naviDuration.trailingAnchor.constraint(equalTo: naviTitleView.trailingAnchor),
+      naviDuration.bottomAnchor.constraint(equalTo: naviTitleView.bottomAnchor)])
+    navigationItem.titleView = naviTitleView
     naviTitle.alpha = 0
   }
 }
@@ -261,6 +289,46 @@ extension PostDetailViewController {
 
 // MARK: - PostDetailTableViewDelegate
 extension PostDetailViewController: PostDetailTableViewAdapterDelegate {
+  func willDisplayDuration() {
+    guard let naviHeight = navigationController?.navigationBar.bounds.height else { return }
+    let naviTitleViewHeight = naviTitle.font.lineHeight + naviDuration.font.lineHeight
+    let spacing = (naviHeight - naviTitleViewHeight)/2
+    naviDurationAnimator?.stopAnimation(true)
+    naviDurationAnimator = UIViewPropertyAnimator(
+      duration: 0.28,
+      curve: .easeIn,
+      animations: { [weak self] in
+        self?.naviDuration.alpha =  0
+        self?.naviDuration.transform = .init(translationX: 0, y: self?.naviDuration.font.lineHeight ?? 0)
+        self?.naviTitleView.transform = .init(translationX: 0, y: spacing)
+      })
+    naviDurationAnimator?.addCompletion { [weak self] _ in
+      self?.naviDuration.isHidden = true
+    }
+    naviDurationAnimator?.startAnimation()
+  }
+  
+  func disappearDuration() {
+    naviDurationAnimator?.stopAnimation(true)
+    naviDuration.isHidden = false
+    guard let naviHeight = navigationController?.navigationBar.bounds.height else { return }
+    let naviTitleViewHeight = naviTitle.font.lineHeight + naviDuration.font.lineHeight
+    let spacing = (naviHeight - naviTitleViewHeight)/2
+    naviTitleAnimator = UIViewPropertyAnimator(
+      duration: 0.28,
+      curve: .easeOut,
+      animations: { [weak self] in
+        self?.naviDuration.transform = .identity
+        self?.naviDuration.alpha = 1
+        self?.naviTitleView.transform = .init(translationX: 0, y: -spacing)
+      })
+    naviTitleAnimator?.addCompletion { [weak self] _ in
+      self?.naviTitle.isHidden = false
+    }
+    naviTitleAnimator?.startAnimation()
+
+  }
+  
   func willDisplayTitle() {
     naviTitleAnimator?.stopAnimation(true)
     naviTitleAnimator = UIViewPropertyAnimator(
@@ -277,11 +345,6 @@ extension PostDetailViewController: PostDetailTableViewAdapterDelegate {
   }
   
   func disappearTitle() {
-    // TODO: - 네비 타이틀은 viewdidload시점에 받자
-    if naviTitle.text == nil {
-      naviTitle.text = title
-      naviTitle.transform = .init(translationX: 0, y: naviTitle.font.lineHeight)
-    }
     naviTitle.isHidden = false
     naviTitleAnimator?.stopAnimation(true)
     naviTitleAnimator = UIViewPropertyAnimator(
