@@ -96,7 +96,6 @@ extension MyInformationViewModel: MyInformationViewModelable {
       tapStoreButtonStream(input: input),
       hasBothNameAndProfileUpdatedStream(),
       defaultNicknameStream(input: input),
-      inputNicknameStream(input: input),
       updateNicknameSubjectStream(),
       updateProfileStream(),
       inputNicknameStream(input: input),
