@@ -31,7 +31,7 @@ final class MainCoordinator: FlowCoordinator {
     let search = SearchCoordinator(presenter: UINavigationController())
     let plan = PlanCoordinator(presenter: UINavigationController())
     let favorite = FavoriteCoordinator(presenter: UINavigationController())
-    let profile = ProfileCoordinator(presenter: UINavigationController())
+    let profile = SettingCoordinator(presenter: UINavigationController())
     
     addChild(with: feed)
     addChild(with: search)

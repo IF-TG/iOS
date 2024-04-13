@@ -1,5 +1,5 @@
 //
-//  ProfileCoordinator.swift
+//  SettingCoordinator.swift
 //  travelPlan
 //
 //  Created by 양승현 on 2023/06/30.
@@ -9,14 +9,13 @@ import UIKit
 import SHCoordinator
 import Alamofire
 
-protocol ProfileCoordinatorDelegate: AnyObject {
-  func finish()
+protocol SettingCoordinatorDelegate: FlowCoordinatorDelegate {
   func showOperationGuidePage()
   func showMyInformationPage()
   func showCustomerServicePage()
 }
 
-final class ProfileCoordinator: FlowCoordinator {
+final class SettingCoordinator: FlowCoordinator {
   // MARK: - Properties
   var parent: FlowCoordinator?
   var child: [FlowCoordinator] = []
@@ -34,8 +33,8 @@ final class ProfileCoordinator: FlowCoordinator {
   }
 }
 
-// MARK: - ProfileCoordinatorDelegate
-extension ProfileCoordinator: ProfileCoordinatorDelegate {
+// MARK: - SettingCoordinatorDelegate
+extension SettingCoordinator: SettingCoordinatorDelegate {
   func showOperationGuidePage() {
     let operationGuidePage = OperationGuideViewController(navigationTitle: "이용안내")
     presenter?.pushViewController(operationGuidePage, animated: true)

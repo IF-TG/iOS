@@ -85,7 +85,6 @@ import UIKit
   }
 }
 
-
 final class SettingViewController: UIViewController {
   enum Constant {
     enum TopSheetView {
@@ -106,7 +105,7 @@ final class SettingViewController: UIViewController {
   }
   
   // MARK: - Properties
-  weak var coordinator: ProfileCoordinatorDelegate?
+  weak var coordinator: SettingCoordinatorDelegate?
   
   private let topSheetView = SettingTopSheetView()
   
