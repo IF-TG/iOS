@@ -68,7 +68,7 @@ final class MockPostNestedCommentRepository: PostNestedCommentRepository {
               promise(.failure(error))
             }
           } receiveValue: { result in
-            promise(.success(result))
+            promise(.success(true))
           }
         self?.subscriptions.insert(subscription)
       }

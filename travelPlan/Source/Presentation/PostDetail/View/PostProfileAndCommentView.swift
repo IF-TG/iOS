@@ -23,6 +23,14 @@ final class PostProfileAndCommentView: BaseProfileAreaView {
     commentInputView.lineHeight
   }
   
+  var editingTextNotChangedHandler: (() -> Void)? {
+    get {
+      return commentInputView.editingTextNotChangedHandler
+    } set {
+      commentInputView.editingTextNotChangedHandler = newValue
+    }
+  }
+  
   // MARK: - Lifecycle
   init() {
     super.init(
@@ -61,5 +69,13 @@ extension PostProfileAndCommentView {
   
   func clearCommentInputState() {
     commentInputView.clearCommentInputState()
+  }
+  
+  func setCommentForEditMode(_ text: String) {
+    commentInputView.setCommentForEditMode(text)
+  }
+
+  func clearEditingText() {
+    commentInputView.clearEditingText()
   }
 }

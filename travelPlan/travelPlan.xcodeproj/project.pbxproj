@@ -147,6 +147,7 @@
 		150727262BBAB9E400271217 /* PostNestedCommentHeartToggleRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150727252BBAB9E400271217 /* PostNestedCommentHeartToggleRequestDTO.swift */; };
 		15098D042BA5DB490012962A /* MyInformationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15098D032BA5DB490012962A /* MyInformationCoordinator.swift */; };
 		15098D062BA5E8360012962A /* MyInformationAlbumSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15098D052BA5E8360012962A /* MyInformationAlbumSheetViewController.swift */; };
+		150A543D2BC82C61005D8108 /* BottomBasedTooltipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150A543C2BC82C61005D8108 /* BottomBasedTooltipView.swift */; };
 		150F17FA2B166C1C008C0E17 /* BaseSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150F17F92B166C1C008C0E17 /* BaseSettingViewController.swift */; };
 		150F17FC2B16D865008C0E17 /* CustomerServiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150F17FB2B16D865008C0E17 /* CustomerServiceViewController.swift */; };
 		151130092A04E4EB0041DDA1 /* travelPlanTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151130082A04E4EB0041DDA1 /* travelPlanTests.swift */; };
@@ -154,7 +155,6 @@
 		151130182A04E5B00041DDA1 /* travelPlanUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151130172A04E5B00041DDA1 /* travelPlanUITestsLaunchTests.swift */; };
 		1518BC132BB00DB200FD1A74 /* PostCommentUpdateResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1518BC122BB00DB200FD1A74 /* PostCommentUpdateResponseDTO.swift */; };
 		1518BC152BB00E1100FD1A74 /* PostCommentUpdateRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1518BC142BB00E1100FD1A74 /* PostCommentUpdateRequestDTO.swift */; };
-		1518BC172BB01BB300FD1A74 /* UpdatedPostCommentEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1518BC162BB01BB300FD1A74 /* UpdatedPostCommentEntity.swift */; };
 		1518BC1B2BB022D100FD1A74 /* mock_postComment_update_response.json in Resources */ = {isa = PBXBuildFile; fileRef = 1518BC1A2BB022D100FD1A74 /* mock_postComment_update_response.json */; };
 		1518BC1D2BB02A2800FD1A74 /* PostCommentDeleteRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1518BC1C2BB02A2800FD1A74 /* PostCommentDeleteRequestDTO.swift */; };
 		1518BC1F2BB02DEE00FD1A74 /* mock_postComment_delete_response.json in Resources */ = {isa = PBXBuildFile; fileRef = 1518BC1E2BB02DEE00FD1A74 /* mock_postComment_delete_response.json */; };
@@ -228,7 +228,7 @@
 		1546DF3F2B0C64E500B49A55 /* ImageDiskCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1546DF3E2B0C64E500B49A55 /* ImageDiskCacheTests.swift */; };
 		154ECA172AB0B5D40093AF25 /* TravelMainThemeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154ECA162AB0B5D40093AF25 /* TravelMainThemeType.swift */; };
 		154FBC172BC2CDB40070D2FE /* PostReportType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154FBC162BC2CDB40070D2FE /* PostReportType.swift */; };
-		154FBC1A2BC2D4C30070D2FE /* PostDetailViewController+RegisterReusableViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154FBC192BC2D4C30070D2FE /* PostDetailViewController+RegisterReusableViews.swift */; };
+		154FBC1A2BC2D4C30070D2FE /* PostDetailViewController+TableViewHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154FBC192BC2D4C30070D2FE /* PostDetailViewController+TableViewHelpers.swift */; };
 		15504BF62BC539300096D523 /* ReviewWritingThemeDescriptionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15504BF52BC539300096D523 /* ReviewWritingThemeDescriptionHeader.swift */; };
 		1550D9AF2ACAFAC10046569B /* FeedPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1550D9AE2ACAFAC10046569B /* FeedPostViewController.swift */; };
 		1550D9B12ACB1D740046569B /* DevelopmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1550D9B02ACB1D740046569B /* DevelopmentViewController.swift */; };
@@ -745,6 +745,7 @@
 		150727252BBAB9E400271217 /* PostNestedCommentHeartToggleRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostNestedCommentHeartToggleRequestDTO.swift; sourceTree = "<group>"; };
 		15098D032BA5DB490012962A /* MyInformationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInformationCoordinator.swift; sourceTree = "<group>"; };
 		15098D052BA5E8360012962A /* MyInformationAlbumSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInformationAlbumSheetViewController.swift; sourceTree = "<group>"; };
+		150A543C2BC82C61005D8108 /* BottomBasedTooltipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomBasedTooltipView.swift; sourceTree = "<group>"; };
 		150F17F92B166C1C008C0E17 /* BaseSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseSettingViewController.swift; sourceTree = "<group>"; };
 		150F17FB2B16D865008C0E17 /* CustomerServiceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerServiceViewController.swift; sourceTree = "<group>"; };
 		151130062A04E4EB0041DDA1 /* travelPlanTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = travelPlanTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -754,7 +755,6 @@
 		151130172A04E5B00041DDA1 /* travelPlanUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = travelPlanUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		1518BC122BB00DB200FD1A74 /* PostCommentUpdateResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCommentUpdateResponseDTO.swift; sourceTree = "<group>"; };
 		1518BC142BB00E1100FD1A74 /* PostCommentUpdateRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCommentUpdateRequestDTO.swift; sourceTree = "<group>"; };
-		1518BC162BB01BB300FD1A74 /* UpdatedPostCommentEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatedPostCommentEntity.swift; sourceTree = "<group>"; };
 		1518BC1A2BB022D100FD1A74 /* mock_postComment_update_response.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = mock_postComment_update_response.json; sourceTree = "<group>"; };
 		1518BC1C2BB02A2800FD1A74 /* PostCommentDeleteRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCommentDeleteRequestDTO.swift; sourceTree = "<group>"; };
 		1518BC1E2BB02DEE00FD1A74 /* mock_postComment_delete_response.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = mock_postComment_delete_response.json; sourceTree = "<group>"; };
@@ -821,7 +821,7 @@
 		1546DF3E2B0C64E500B49A55 /* ImageDiskCacheTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDiskCacheTests.swift; sourceTree = "<group>"; };
 		154ECA162AB0B5D40093AF25 /* TravelMainThemeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelMainThemeType.swift; sourceTree = "<group>"; };
 		154FBC162BC2CDB40070D2FE /* PostReportType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostReportType.swift; sourceTree = "<group>"; };
-		154FBC192BC2D4C30070D2FE /* PostDetailViewController+RegisterReusableViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PostDetailViewController+RegisterReusableViews.swift"; sourceTree = "<group>"; };
+		154FBC192BC2D4C30070D2FE /* PostDetailViewController+TableViewHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PostDetailViewController+TableViewHelpers.swift"; sourceTree = "<group>"; };
 		154FC1312BADE5A90067602E /* PostContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostContainer.swift; sourceTree = "<group>"; };
 		15504BF52BC539300096D523 /* ReviewWritingThemeDescriptionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWritingThemeDescriptionHeader.swift; sourceTree = "<group>"; };
 		1550D9AE2ACAFAC10046569B /* FeedPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedPostViewController.swift; sourceTree = "<group>"; };
@@ -1699,7 +1699,6 @@
 				15FB47D62AC0407D0033AA18 /* PostCategory.swift */,
 				15329CEB2B96171B005FC033 /* ProfileImageEntity.swift */,
 				15A7A8F12B9F6C1700CA9A79 /* UserEntity.swift */,
-				1518BC162BB01BB300FD1A74 /* UpdatedPostCommentEntity.swift */,
 				1518BC262BB044ED00FD1A74 /* ToggledPostCommentHeartEntity.swift */,
 				155603DD2BBC093300981F48 /* PostDetails.swift */,
 				15B5E79C2BBAE43A00C19F56 /* BlockedUserIdentifyEntity.swift */,
@@ -2052,7 +2051,7 @@
 		154FBC182BC2D4AB0070D2FE /* Extension */ = {
 			isa = PBXGroup;
 			children = (
-				154FBC192BC2D4C30070D2FE /* PostDetailViewController+RegisterReusableViews.swift */,
+				154FBC192BC2D4C30070D2FE /* PostDetailViewController+TableViewHelpers.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -2159,6 +2158,7 @@
 				15D3882E2B01504900039946 /* IconWithLabelStackView.swift */,
 				15E1550B2BAB47F400582E12 /* BottomNextPageIndicatorCell.swift */,
 				15E1550C2BAB47F400582E12 /* BottomNextPageIndicatorCell.xib */,
+				150A543C2BC82C61005D8108 /* BottomBasedTooltipView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -3286,7 +3286,7 @@
 				15B9285B2AF9DEAA003A20D4 /* PostDetailViewController.swift in Sources */,
 				15FFAC012AD5D6710013DB57 /* FavoriteDirectorySettingViewDelegate.swift in Sources */,
 				1543DC942BC53D4B0041852F /* ReviewWritingThemeSectionHeader.swift in Sources */,
-				154FBC1A2BC2D4C30070D2FE /* PostDetailViewController+RegisterReusableViews.swift in Sources */,
+				154FBC1A2BC2D4C30070D2FE /* PostDetailViewController+TableViewHelpers.swift in Sources */,
 				158695932AE5455B0087CCB3 /* FeedPostViewAdapter.swift in Sources */,
 				15CB23612A10B5E3003EAF20 /* DateValidationProtocol.swift in Sources */,
 				15302C572B9E29B900B1EA3F /* MockMyProfileUseCase.swift in Sources */,
@@ -3407,6 +3407,7 @@
 				13254FED2A0515D800094218 /* SettingViewController.swift in Sources */,
 				13CB6D322A1E9F6600D185B2 /* CautionAlertViewController.swift in Sources */,
 				130369662AEC3AA2007E980C /* NSRange+.swift in Sources */,
+				150A543D2BC82C61005D8108 /* BottomBasedTooltipView.swift in Sources */,
 				15CB235B2A109CA4003EAF20 /* PostHeaderContentBottomInfo.swift in Sources */,
 				130304792A24936D00776A0D /* SearchViewModel.swift in Sources */,
 				15B5E7992BBAE34E00C19F56 /* UserBlockRequestDTO.swift in Sources */,
@@ -3525,7 +3526,6 @@
 				15F36A152AB1961F00971803 /* TravelRegion.swift in Sources */,
 				15F376622AFE132900B3BF35 /* PostCommentEntity.swift in Sources */,
 				15DD40452A5B862D002BC5F8 /* PostViewBottomSheetAdapter.swift in Sources */,
-				1518BC172BB01BB300FD1A74 /* UpdatedPostCommentEntity.swift in Sources */,
 				15FC93C92BA7BDAD00430D8A /* ConnectionError.swift in Sources */,
 				13405F6F2AF6E6F200382796 /* ReviewWritingBottomView.swift in Sources */,
 				15FBD5E02B98E5FD00076115 /* PostsPage.swift in Sources */,

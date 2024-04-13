@@ -45,7 +45,7 @@ final class DefaultPostCommentRepository: PostCommentRepository {
     }.eraseToAnyPublisher()
   }
   
-  func updateComment(commentId: Int64, comment: String) -> AnyPublisher<UpdatedPostCommentEntity, any Error> {
+  func updateComment(commentId: Int64, comment: String) -> AnyPublisher<Bool, any Error> {
     let requestDTO = PostCommentUpdateRequestDTO(commentId: commentId, comment: comment)
     return Future { [weak self] promise in
       guard let self else {
@@ -62,8 +62,7 @@ final class DefaultPostCommentRepository: PostCommentRepository {
             promise(.failure(error))
           }
         } receiveValue: { responseDTO in
-          let updatedPostCommentEntity = responseDTO.toDomain()
-          promise(.success(updatedPostCommentEntity))
+          promise(.success(responseDTO.commentId == commentId))
         }.store(in: &subscriptions)
     }.eraseToAnyPublisher()
   }
