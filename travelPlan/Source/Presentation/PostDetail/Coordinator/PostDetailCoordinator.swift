@@ -38,16 +38,6 @@ import SHCoordinator
   }
 }
 
-/// 뷰 컨트롤러에서 사용할 타입 -> 뷰 모델에서 구현
-protocol PostDetailCoordinatorDelegate: AnyObject {
-  func showAlertForError(with description: String, completion: (() -> Void)?)
-  func showPostOption()
-  func showCommentOption(section: Int)
-  func showNestedCommentOption(indexPath: IndexPath)
-  func showCategory()
-  func showPostReportResult()
-}
-
 // MARK: - PostDetailCoordinator
 final class PostDetailCoordinator: NSObject, FlowCoordinator {
   var parent: FlowCoordinator?
@@ -122,7 +112,7 @@ final class PostDetailCoordinator: NSObject, FlowCoordinator {
   }
 }
 
-// MARK: - PostDetailCoordinatorDelegate
+// MARK: - Actions Helpers
 extension PostDetailCoordinator {
   func showAlertForError(with description: String, completion: (() -> Void)?) {
     let alert = UIAlertController(title: nil, message: description, preferredStyle: .alert).set {

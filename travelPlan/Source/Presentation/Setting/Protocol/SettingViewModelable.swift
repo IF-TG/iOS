@@ -9,7 +9,7 @@ import Foundation
 import Combine
 import SHCoordinator
 
-protocol SettingViewModelPageDelegate {
+protocol SettingViewModelPageDelegate: AnyObject {
   func showOperationGuidePage()
   func showMyInformationPage()
   func showCustomerServicePage()

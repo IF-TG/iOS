@@ -147,7 +147,7 @@ final class PostDetailViewModel {
 }
 
 // MARK: - PostDetailCoordinatorDelegate
-extension PostDetailViewModel: PostDetailCoordinatorDelegate {
+extension PostDetailViewModel: PostDetailViewModelPageDelegate {
   func showCommentOption(section: Int) {
     let commentSection = SectionType.commentIndex(section: section)
     // TODO: - 아.. 댓글 작성자의 id가 있어야 하지만 entity에 없습니다.

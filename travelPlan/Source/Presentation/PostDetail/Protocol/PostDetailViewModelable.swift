@@ -9,7 +9,18 @@ import Foundation
 import Combine
 import SHCoordinator
 
-/// 뷰 컨트롤러에서 사용할 타입. -> 코디네이터에서 구현
+/// 뷰 컨트롤러에서 사용할 타입 -> 뷰 모델에서 구현
+protocol PostDetailViewModelPageDelegate: AnyObject {
+  func showAlertForError(with description: String, completion: (() -> Void)?)
+  func showPostOption()
+  func showCommentOption(section: Int)
+  func showNestedCommentOption(indexPath: IndexPath)
+  func showCategory()
+  func showPostReportResult()
+}
+
+// MARK: - Actions
+/// 뷰 모델에서 사용할 타입. -> 코디네이터에서 구현
 struct PostDetailViewModelActions {
   typealias isCommentOwner = Bool
   
@@ -25,6 +36,7 @@ struct PostDetailViewModelActions {
   let showCategory: (([String])) -> Void
 }
 
+// MARK: - Input
 struct PostDetailViewModelInput {
   typealias UserInputText = String
   
@@ -36,6 +48,7 @@ struct PostDetailViewModelInput {
   let postAuthorBlockNotifier = PassthroughSubject<Void, Never>()
 }
 
+// MARK: - State
 @frozen enum PostDetailViewModelState {
   case none
   case networkProcessing
@@ -102,7 +115,8 @@ struct PostDetailViewModelInput {
   case showUserReport
 }
 
-protocol PostDetailViewModelable: ViewModelable & PostDetailCoordinatorDelegate
+// MARK: - ViewModelable
+protocol PostDetailViewModelable: ViewModelable
 where Input == PostDetailViewModelInput,
       State == PostDetailViewModelState,
       Output == AnyPublisher<State, Never> {

@@ -42,8 +42,8 @@ final class SettingCoordinator: FlowCoordinator {
   }
 }
 
-// MARK: - SettingViewModelPageDelegate
-extension SettingCoordinator: SettingViewModelPageDelegate {
+// MARK: - Actions Helpers
+extension SettingCoordinator {
   func showOperationGuidePage() {
     let operationGuidePage = OperationGuideViewController(navigationTitle: "이용안내")
     presenter?.pushViewController(operationGuidePage, animated: true)

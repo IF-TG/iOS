@@ -11,7 +11,9 @@ import SHCoordinator
 
 final class PostDetailViewController: UITableViewController {
   // MARK: - Dependencies
-  private let viewModel: any PostDetailViewModelable & PostDetailTableViewDataSource
+  private let viewModel: (any PostDetailViewModelable &
+                          PostDetailTableViewDataSource &
+                          PostDetailViewModelPageDelegate)
   
   // MARK: - UI Properties
   private let inputAccessory = PostDetailInputAccessoryWrapper()
@@ -51,7 +53,10 @@ final class PostDetailViewController: UITableViewController {
   private var subscriptions = Set<AnyCancellable>()
 
   // MARK: - Lifecycle
-  init(viewModel: any PostDetailViewModelable & PostDetailTableViewDataSource) {
+  init(viewModel: (any PostDetailViewModelable & 
+                   PostDetailTableViewDataSource &
+                   PostDetailViewModelPageDelegate)
+  ) {
     self.viewModel = viewModel
     super.init(style: .grouped)
     adapter = PostDetailTableViewAdapter(
