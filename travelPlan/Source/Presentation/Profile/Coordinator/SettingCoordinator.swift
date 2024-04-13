@@ -9,12 +9,6 @@ import UIKit
 import SHCoordinator
 import Alamofire
 
-protocol SettingCoordinatorDelegate: FlowCoordinatorDelegate {
-  func showOperationGuidePage()
-  func showMyInformationPage()
-  func showCustomerServicePage()
-}
-
 final class SettingCoordinator: FlowCoordinator {
   // MARK: - Properties
   var parent: FlowCoordinator?
@@ -27,14 +21,29 @@ final class SettingCoordinator: FlowCoordinator {
   
   // MARK: - Helpers
   func start() {
-    let vc = SettingViewController()
-    vc.coordinator = self
+    let actions = SettingViewModelActions { [weak self] in
+      self?.showOperationGuidePage()
+    } showMyInformationPage: { [weak self] in
+      self?.showMyInformationPage()
+    } showCustomerServicePage: { [weak self] in
+      self?.showCustomerServicePage()
+    } finish: { [weak self] in
+      self?.finish()
+    }
+    
+    let mockUserStorage = MockUserStorage()
+    let loggedInUserRepository = DefaultLoggedInUserRepository(storage: mockUserStorage)
+    let loggedInUserUseCase = DefaultLoggedInUserUseCase(loggedInUserRepository: loggedInUserRepository)
+    
+    let viewModel = SettingViewModel(loggedInUserUseCase: loggedInUserUseCase, actions: actions)
+
+    let vc = SettingViewController(viewModel: viewModel)
     presenter?.pushViewController(vc, animated: true)
   }
 }
 
-// MARK: - SettingCoordinatorDelegate
-extension SettingCoordinator: SettingCoordinatorDelegate {
+// MARK: - SettingViewModelPageDelegate
+extension SettingCoordinator: SettingViewModelPageDelegate {
   func showOperationGuidePage() {
     let operationGuidePage = OperationGuideViewController(navigationTitle: "이용안내")
     presenter?.pushViewController(operationGuidePage, animated: true)

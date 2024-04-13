@@ -104,12 +104,12 @@ final class SettingTopSheetView: UIView {
 
 // MARK: - Helpers
 extension SettingTopSheetView {
-  func configure(name: String, imagePath: String) {
-    profileImageView.image = UIImage(named: imagePath)
-    nameLabel.text = "\(name)님,"
+  func configure(name: String?, imagePath: String?) {
+    profileImageView.image = UIImage(named: imagePath ?? "default_profile_icon")
+    nameLabel.text = "\(name ?? "익명")님,"
     let highlightInfo = HighlightFontInfo(
       fontType: Constant.NameLabel.highlightFont,
-      text: name,
+      text: name ?? "익명",
       additionalAttributes: [.font: UIFont(pretendard: Constant.NameLabel.highlightFont)!])
     nameLabel.setHighlight(with: highlightInfo)
   }

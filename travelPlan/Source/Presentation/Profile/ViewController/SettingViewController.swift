@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 @frozen enum SettingType: String, CaseIterable {
   // index 0
@@ -104,8 +105,13 @@ final class SettingViewController: UIViewController {
     }
   }
   
+  // MARK: - Dependencies
+  private let viewModel: any SettingViewModelable & SettingViewModelPageDelegate
+  
   // MARK: - Properties
-  weak var coordinator: SettingCoordinatorDelegate?
+  private let input = SettingViewModelInput()
+  
+  private var subscriptions = Set<AnyCancellable>()
   
   private let topSheetView = SettingTopSheetView()
   
@@ -130,7 +136,8 @@ final class SettingViewController: UIViewController {
   private var isAnimated = false
    
   // MARK: - Lifecycle
-  init() {
+  init(viewModel: any SettingViewModelable & SettingViewModelPageDelegate) {
+    self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -141,8 +148,6 @@ final class SettingViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     configureUI()
-    // TODO: - 파일매니저나 캐싱으로 저장한 사용자 정보 가져와야 합니다.
-    topSheetView.configure(name: "신짱구", imagePath: "tempProfile3")
   }
   
   override func viewDidAppear(_ animated: Bool) {
@@ -154,8 +159,32 @@ final class SettingViewController: UIViewController {
   }
   
   deinit {
-    coordinator?.finish()
+    viewModel.finish()
   }
+}
+
+// MARK: - ViewBindCase
+extension SettingViewController: ViewBindCase {
+  typealias Input = SettingViewModelInput
+  typealias ErrorType = Error
+  typealias State = SettingViewModelState
+  func bind() {
+    let output = viewModel.transform(input)
+    output.receive(on: DispatchQueue.main)
+      .sink { [weak self] state in
+        self?.render(state)
+      }.store(in: &subscriptions)
+  }
+  
+  func render(_ state: SettingViewModelState) {
+    switch state {
+    case .viewDidLoad((let nickname, _)):
+      // TODO: - 유저 프로필 data -> image 반환 후 넣기.
+      topSheetView.configure(name: nickname, imagePath: "tempProfile3")
+    }
+  }
+  
+  func handleError(_ error: any ErrorType) { }
 }
 
 // MARK: - Private Helpers
@@ -277,11 +306,11 @@ private extension SettingViewController {
     }, completion: { [weak self] _ in
       switch settingType {
       case .myInformation:
-        self?.coordinator?.showMyInformationPage()
+        self?.viewModel.showMyInformationPage()
       case .operationGuide:
-        self?.coordinator?.showOperationGuidePage()
+        self?.viewModel.showOperationGuidePage()
       case .customerService:
-        self?.coordinator?.showCustomerServicePage()
+        self?.viewModel.showCustomerServicePage()
       default:
         print("\(settingType.rawValue ) 화면으로 이동해야합니다. 타입: \(settingType.self)")
       }
