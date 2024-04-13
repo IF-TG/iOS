@@ -254,12 +254,12 @@ extension PostDetailTableViewAdapter {
     if isDurationBehindNavigationBarDisappeared {
       if !isDisplyingDurationInNavi {
         isDisplyingDurationInNavi.toggle()
-        delegate?.willDisplayDuration()
+        delegate?.willDisplayDurationInTableView()
       }
     } else {
       if isDisplyingDurationInNavi {
         isDisplyingDurationInNavi.toggle()
-        delegate?.disappearDuration()
+        delegate?.disappearDurationInTableView()
       }
     }
     
@@ -267,12 +267,12 @@ extension PostDetailTableViewAdapter {
     if isTitleBehindANavigationBarDisappeared {
       if !isDisplyingTitleInNavi {
         isDisplyingTitleInNavi.toggle()
-        delegate?.willDisplayTitle()
+        delegate?.willDisplayTitleInTableView()
       }
     } else {
       if isDisplyingTitleInNavi {
         isDisplyingTitleInNavi.toggle()
-        delegate?.disappearTitle()
+        delegate?.disappearTitleInTableView()
       }
     }
   }

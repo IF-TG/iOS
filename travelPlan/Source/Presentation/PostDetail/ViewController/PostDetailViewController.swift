@@ -289,7 +289,7 @@ extension PostDetailViewController {
 
 // MARK: - PostDetailTableViewDelegate
 extension PostDetailViewController: PostDetailTableViewAdapterDelegate {
-  func willDisplayDuration() {
+  func willDisplayDurationInTableView() {
     guard let naviHeight = navigationController?.navigationBar.bounds.height else { return }
     let naviTitleViewHeight = naviTitle.font.lineHeight + naviDuration.font.lineHeight
     let spacing = (naviHeight - naviTitleViewHeight)/2
@@ -308,7 +308,7 @@ extension PostDetailViewController: PostDetailTableViewAdapterDelegate {
     naviDurationAnimator?.startAnimation()
   }
   
-  func disappearDuration() {
+  func disappearDurationInTableView() {
     naviDurationAnimator?.stopAnimation(true)
     naviDuration.isHidden = false
     guard let naviHeight = navigationController?.navigationBar.bounds.height else { return }
@@ -329,7 +329,7 @@ extension PostDetailViewController: PostDetailTableViewAdapterDelegate {
 
   }
   
-  func willDisplayTitle() {
+  func willDisplayTitleInTableView() {
     naviTitleAnimator?.stopAnimation(true)
     naviTitleAnimator = UIViewPropertyAnimator(
       duration: 0.28,
@@ -344,7 +344,7 @@ extension PostDetailViewController: PostDetailTableViewAdapterDelegate {
     naviTitleAnimator?.startAnimation()
   }
   
-  func disappearTitle() {
+  func disappearTitleInTableView() {
     naviTitle.isHidden = false
     naviTitleAnimator?.stopAnimation(true)
     naviTitleAnimator = UIViewPropertyAnimator(

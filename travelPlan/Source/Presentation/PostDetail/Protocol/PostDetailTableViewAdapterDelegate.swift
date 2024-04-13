@@ -8,11 +8,11 @@
 import UIKit
 
 protocol PostDetailTableViewAdapterDelegate: AnyObject {
-  func disappearTitle()
-  func willDisplayTitle()
+  func disappearTitleInTableView()
+  func willDisplayTitleInTableView()
   
-  func willDisplayDuration()
-  func disappearDuration()
+  func willDisplayDurationInTableView()
+  func disappearDurationInTableView()
   
   // TODO: - 프로필 페이지는 화면이 없기 때문에 일단 미반영!
   func showUploadedUserProfilePage(with userId: Int32)
