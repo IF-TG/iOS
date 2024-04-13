@@ -48,29 +48,11 @@ private extension Publisher {
 }
 
 // MARK: - MyInformationViewModel
-final class MyInformationViewModel {
-  struct Input {
-    let profileSelect: PassthroughSubject<String?, Never> = .init()
-    let saveButtonTap: PassthroughSubject<Void, Never> = .init()
-    let backBarButtonTap: PassthroughSubject<Void, Never> = .init()
-    let defaultNickname: PassthroughSubject<Void, Never> = .init()
-    let revisedNicknameInput: PassthroughSubject<String, Never> = .init()
-  }
-  
-  enum State {
-    case none
-    case networkProcessing
-    case savableState(Bool)
-    case nicknameState(SettingUserNameTextField.State)
-    case correctionSaved
-    case correctionNotSaved
-    case wannaLeaveThisPage(hasUserEditedInfo: Bool)
-    case unexpectedError(description: String)
-  }
-  
+final class MyInformationViewModel {  
   // MARK: - Dependencies
   private let myProfileUseCase: MyProfileUseCase
   private let loggedInUserUseCase: LoggedInUserUseCase
+  private let actions: MyInformationViewModelActions
   
   // MARK: - Properties
   private var editedUserProfileImage: String?
@@ -91,9 +73,14 @@ final class MyInformationViewModel {
   private let profileSaveSubject = PassthroughSubject<String, Never>()
 
   // MARK: - Lifecycle
-  init(myProfileUseCase: MyProfileUseCase, loggedInUserUseCase: LoggedInUserUseCase) {
+  init(
+    myProfileUseCase: MyProfileUseCase,
+    loggedInUserUseCase: LoggedInUserUseCase,
+    actions: MyInformationViewModelActions
+  ) {
     self.myProfileUseCase = myProfileUseCase
     self.loggedInUserUseCase = loggedInUserUseCase
+    self.actions = actions
     bothNameAndProfileUpdatedPublisher = Publishers.Zip(
       updatedNicknameNotifier,
       updatedProfileNotifier).eraseToAnyPublisher()
@@ -108,7 +95,6 @@ extension MyInformationViewModel: MyInformationViewModelable {
       selectProfileStream(input: input),
       tapStoreButtonStream(input: input),
       hasBothNameAndProfileUpdatedStream(),
-      tapBackBarButtonStream(input: input),
       defaultNicknameStream(input: input),
       inputNicknameStream(input: input),
       updateNicknameSubjectStream(),
@@ -260,14 +246,6 @@ private extension MyInformationViewModel {
       }.eraseToAnyPublisher()
   }
   
-  func tapBackBarButtonStream(input: Input) -> Output {
-    return input.backBarButtonTap
-      .map { [weak self] _ -> State in
-        let hasUserEditedInfo = self?.hasUserEditedInfo()
-        return .wannaLeaveThisPage(hasUserEditedInfo: hasUserEditedInfo ?? false)
-      }.eraseToAnyPublisher()
-  }
-  
   func hasUserEditedInfo() -> Bool {
     if changedNameAvailable || editedUserProfileImage != nil {
       return true
@@ -294,7 +272,10 @@ private extension MyInformationViewModel {
         let isNicknameWithinMinimumRange = (0...2).contains(editedNickname.count) || editedNickname.isEmpty
         if isNicknameAvailable {
           self?.editedUserNickname = editedNickname
-          self?.duplicatedNicknameCheckSubject.send(editedNickname)
+          // TODO: - activityIndicator로 리빌딩 해야합니다. 아니면 processing 반환 scope에서 다른 퍼블리셔에 send할때 백그라운드에서 호출하도록 변경해야합니다.
+          DispatchQueue.global(qos: .background).async {
+            self?.duplicatedNicknameCheckSubject.send(editedNickname)
+          }
           return .networkProcessing
         }
         if isNicknameWithinMinimumRange {
@@ -312,5 +293,36 @@ private extension MyInformationViewModel {
         }
         return .none
       }.eraseToAnyPublisher()
+  }
+}
+
+// MARK: - MyInformationViewModelPageDelegate
+extension MyInformationViewModel: MyInformationViewModelPageDelegate {
+  func showPrevPage() {
+    guard hasUserEditedInfo() else {
+      finish(withAnimation: true)
+      return
+    }
+    showConfirmationAlertPage()
+  }
+  
+  func finish(withAnimation: Bool) {
+    actions.finishWithAnimation(withAnimation)
+  }
+  
+  func showAlert(with description: String) {
+    actions.showAlertForError(description, nil)
+  }
+  
+  func showConfirmationAlertPage() {
+    actions.showConfirmationAlertPage()
+  }
+  
+  func showBottomSheetAlbum() {
+    actions.showBottomSheetAlbum()
+  }
+  
+  func finish() {
+    actions.finish()
   }
 }

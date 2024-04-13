@@ -10,11 +10,11 @@ import SHCoordinator
 import Alamofire
 import Combine
 
-protocol MyInformationCoordinatorDelegate: FlowCoordinatorDelegate {
-  func showConfirmationAlertPage()
-  func showBottomSheetAlbum()
-  func showAlertForError(with description: String, completion: (() -> Void)?)
-}
+//protocol MyInformationCoordinatorDelegate: FlowCoordinatorDelegate {
+//  func showConfirmationAlertPage()
+//  func showBottomSheetAlbum()
+//  func showAlertForError(with description: String, completion: (() -> Void)?)
+//}
 
 final class MyInformationCoordinator: FlowCoordinator {
   var parent: FlowCoordinator?
@@ -48,17 +48,31 @@ final class MyInformationCoordinator: FlowCoordinator {
     let mockUserStorage = MockUserStorage()
     let loggedInUserRepository = DefaultLoggedInUserRepository(storage: mockUserStorage)
     let loggedInUserUseCase = DefaultLoggedInUserUseCase(loggedInUserRepository: loggedInUserRepository)
+    
+    let actions = MyInformationViewModelActions { [weak self] in
+      self?.showConfirmationAlertPage()
+    } showBottomSheetAlbum: { [weak self] in
+      self?.showBottomSheetAlbum()
+    } showAlertForError: { [weak self] description, completion in
+      self?.showAlertForError(with: description, completion: completion)
+    } finish: { [weak self] in
+      self?.finish()
+    } finishWithAnimation: { [weak self] animate in
+      self?.finish(withAnimated: animate)
+    }
+
     let viewModel = MyInformationViewModel(
       myProfileUseCase: mockMyProfileUseCase,
-      loggedInUserUseCase: loggedInUserUseCase)
+      loggedInUserUseCase: loggedInUserUseCase,
+      actions: actions)
     let viewController = MyInformationViewController(viewModel: viewModel)
-    viewController.coordinator = self
     self.viewController = viewController
     presenter?.pushViewController(viewController, animated: true)
   }
 }
 
-extension MyInformationCoordinator: MyInformationCoordinatorDelegate {
+// MARK: - Actions Helpers
+extension MyInformationCoordinator {
   func showConfirmationAlertPage() {
     let alert = UIAlertController(title: nil, message: "프로필을 수정하지 않으시겠습니까?", preferredStyle: .alert)
     let yes = UIAlertAction(title: "예", style: .default) { [weak self] _ in

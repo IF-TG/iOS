@@ -148,6 +148,8 @@ final class SettingViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     configureUI()
+    bind()
+    input.viewDidLoad.send()
   }
   
   override func viewDidAppear(_ animated: Bool) {
