@@ -1,6 +1,15 @@
 {
-  "originHash" : "55f7ae2735d03d4f573afabebae271bcf7f96c6b10120faaf4f0fb9b1e9826c1",
+  "originHash" : "ff6655c25f988765fc8718cf5dc47c3d5f686f4f432b6d7b649d81bfcf4bd0f5",
   "pins" : [
+    {
+      "identity" : "activityindicator",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/duyquang91/ActivityIndicator.git",
+      "state" : {
+        "revision" : "0101a02196f6a67cf26f6434b007d3db6bd07fee",
+        "version" : "1.1.0"
+      }
+    },
     {
       "identity" : "alamofire",
       "kind" : "remoteSourceControl",
@@ -15,8 +24,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/SHcommit/SHCoordinator.git",
       "state" : {
-        "revision" : "97952787b20b81476e7de38ccf3e5bd2e5dced22",
-        "version" : "3.0.3"
+        "revision" : "2b9e1cc6ddbd2ecae039fce31fe8abb066510c36",
+        "version" : "3.1.4"
       }
     },
     {
