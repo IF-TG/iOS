@@ -15,7 +15,20 @@ final class PostDetailInputAccessoryWrapper: UIView {
   // MARK: - Properties
   private let contentView = PostProfileAndCommentView()
   
+  private let tooltipView = BottomBasedTooltipView(
+    frame: .zero,
+    tipPosition: .right, 
+    colorInfo: .init(color: .yg.primary, opacity: 0.8, radius: 7, offset: .init(width: 0, height: 2)),
+    message: "글을 수정한 후에 전송할 수 있습니다.",
+    textColor: .white,
+    labelFontType: .regular_400(fontSize: 14)).set {
+      $0.translatesAutoresizingMaskIntoConstraints = false
+      $0.alpha = 0
+    }
+  
   weak var delegate: PostDetailInputAccessoryWrapperDelegate?
+  
+  private var isAnimating = false
   
   private let insets: UIEdgeInsets = .init(top: 10, left: 11, bottom: 10, right: 11)
   
@@ -26,7 +39,8 @@ final class PostDetailInputAccessoryWrapper: UIView {
     backgroundColor = .white
     contentView.inputDelegate = self
     contentView.baseDelegate = self
-    configure(with: "tempProfile3")
+    configure(with: "default_profile_icon")
+    bind()
   }
   
   override var intrinsicContentSize: CGSize {
@@ -46,9 +60,66 @@ final class PostDetailInputAccessoryWrapper: UIView {
   }
 }
 
+// MARK: - Private Helpers
+private extension PostDetailInputAccessoryWrapper {
+  func bind() {
+    contentView.editingTextNotChangedHandler = { [weak self] in
+      self?.performTooltipAnimation()
+    }
+  }
+  
+  func performTooltipAnimation() {
+    if isAnimating { return }
+    isAnimating.toggle()
+    let springAnimation = CASpringAnimation(keyPath: "position.y").set {
+      $0.fromValue = tooltipView.layer.position.y
+      $0.toValue = tooltipView.layer.position.y + 1
+      $0.duration = $0.settlingDuration
+      $0.damping = 40
+      $0.mass = 10
+      $0.initialVelocity = 200
+      $0.stiffness = 1500
+    }
+
+    let animationGroup = CAAnimationGroup().set {
+      $0.duration = max(0.5, springAnimation.duration)
+      $0.beginTime = CACurrentMediaTime() + 0.5
+    }
+    
+    UIView.animate(withDuration: 0.5, delay: 0.45, options: [.curveEaseInOut]) {
+      self.tooltipView.alpha = 1
+    }
+    
+    animationGroup.animations = [springAnimation]
+    
+    tooltipView.layer.add(animationGroup, forKey: nil)
+    
+    DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+      self.hideTooltipWithAnimation()
+    }
+  }
+  
+  func hideTooltipWithAnimation() {
+    let moveAnimation = CABasicAnimation(keyPath: "position.y").set {
+      $0.fromValue = tooltipView.layer.position.y
+      $0.toValue = tooltipView.layer.position.y + tooltipView.bounds.height/2
+      $0.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
+      $0.duration = 0.56
+    }
+    
+    tooltipView.layer.add(moveAnimation, forKey: nil)
+    UIView.animate(withDuration: 0.5, delay: 0, options: [.curveEaseInOut]) {
+      self.tooltipView.alpha = 0
+    } completion: { _ in
+      self.tooltipView.layer.removeAllAnimations()
+      self.isAnimating = false
+    }
+    
+  }
+}
+
 // MARK: - Helpers
 extension PostDetailInputAccessoryWrapper {
-  // TODO: - 로그인한 사용자니까,, 프로필이미지 파일메니저나 캐싱으로 저장해두는게.. 그걸 가져오자
   func configure(with profileImageURL: String?) {
     contentView.configure(with: profileImageURL)
   }
@@ -63,6 +134,14 @@ extension PostDetailInputAccessoryWrapper {
   
   func clearCommentInputState() {
     contentView.clearCommentInputState()
+  }
+  
+  func setCommentForEditMode(_ text: String) {
+    contentView.setCommentForEditMode(text)
+  }
+  
+  func clearEditingText() {
+    contentView.clearEditingText()
   }
 }
 
@@ -93,7 +172,7 @@ extension PostDetailInputAccessoryWrapper: CommentInputViewDelegate {
 // MARK: - LayoutSupport
 extension PostDetailInputAccessoryWrapper: LayoutSupport {
   func addSubviews() {
-    addSubview(contentView)
+    [tooltipView, contentView].forEach { addSubview($0) }
   }
   
   func setConstraints() {
@@ -103,6 +182,8 @@ extension PostDetailInputAccessoryWrapper: LayoutSupport {
       contentView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -insets.right),
       contentView.bottomAnchor.constraint(
         equalTo: layoutMarginsGuide.bottomAnchor,
-        constant: -insets.bottom)])
+        constant: -insets.bottom),
+      tooltipView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -insets.right),
+      tooltipView.bottomAnchor.constraint(equalTo: topAnchor, constant: -2)])
   }
 }

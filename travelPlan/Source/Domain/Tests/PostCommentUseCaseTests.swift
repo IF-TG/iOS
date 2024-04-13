@@ -55,7 +55,7 @@ extension PostCommentUseCaseTests {
     XCTAssertTrue(result, notReceivedErrorMessage)
   }
   
-  func testPostCommentUseCase_updateComment함수호출시_UpdatedPostCommentEntity받았는지_ShouldReturnTrue() {
+  func testPostCommentUseCase_updateComment함수호출시_true를받았는지_ShouldReturnTrue() {
     // Arrange
     var result = false
     var unexpectedError: Error?

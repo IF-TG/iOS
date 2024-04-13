@@ -19,7 +19,7 @@ final class PostDetailTableViewAdapter: NSObject {
   
   weak var delegate: PostDetailTableViewDelegates?
   
-  private let defaultSection = PostDetailSectionType.defaultNumberOfSections
+  private let defaultSection = PostDetailSection.defaultNumberOfSections
   
   private var postTitleCellMaxY: CGFloat?
   
@@ -57,7 +57,7 @@ extension PostDetailTableViewAdapter: UITableViewDataSource {
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     guard let dataSource else { return .init(frame: .zero) }
-    let sectionType: PostDetailSectionType = .init(rawValue: indexPath.section) ?? .postDescription
+    let sectionType: PostDetailSection = .init(rawValue: indexPath.section) ?? .postDescription
     switch sectionType {
     case .postDescription:
       guard let cell = tableView.dequeueReusableCell(
@@ -117,7 +117,7 @@ extension PostDetailTableViewAdapter: UITableViewDelegate {
   func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
     guard 
       let dataSource,
-      let sectionType: PostDetailSectionType = .init(rawValue: section)
+      let sectionType: PostDetailSection = .init(rawValue: section)
     else { return nil }
     switch sectionType {
     case .postDescription:
@@ -164,7 +164,7 @@ extension PostDetailTableViewAdapter: UITableViewDelegate {
   func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
     guard
       let dataSource,
-      let sectionType: PostDetailSectionType = .init(rawValue: section)
+      let sectionType: PostDetailSection = .init(rawValue: section)
     else { return nil }
     switch sectionType {
     case .postDescription:
@@ -191,7 +191,7 @@ extension PostDetailTableViewAdapter: UITableViewDelegate {
   }
   
   func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-    guard let sectionType: PostDetailSectionType = .init(rawValue: section) else { return .leastNonzeroMagnitude }
+    guard let sectionType: PostDetailSection = .init(rawValue: section) else { return .leastNonzeroMagnitude }
     switch sectionType {
     case .postDescription:
       return UITableView.automaticDimension
@@ -206,7 +206,7 @@ extension PostDetailTableViewAdapter: UITableViewDelegate {
   
   func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
     guard 
-      let sectionType: PostDetailSectionType = .init(rawValue: section),
+      let sectionType: PostDetailSection = .init(rawValue: section),
       let dataSource
     else { return 0 }
     switch sectionType {
@@ -226,7 +226,7 @@ extension PostDetailTableViewAdapter: UITableViewDelegate {
   }
   
   func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-    guard let sectionType: PostDetailSectionType = .init(rawValue: section) else { return }
+    guard let sectionType: PostDetailSection = .init(rawValue: section) else { return }
     if sectionType == .postDescription {
       let header = view as? PostDetailCategoryHeaderView
       if header?.delegate != nil { return }
@@ -235,7 +235,7 @@ extension PostDetailTableViewAdapter: UITableViewDelegate {
   }
   
   func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
-    guard let sectionType: PostDetailSectionType = .init(rawValue: section) else { return }
+    guard let sectionType: PostDetailSection = .init(rawValue: section) else { return }
     if sectionType == .postDescription {
       let footer = view as? PostDetailProfileAreaFooterView
       if footer?.delegate != nil { return }

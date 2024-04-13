@@ -12,7 +12,9 @@ class PictureImageView: UIImageView {
   // MARK: - Properties
   weak var delegate: PictureImageViewDelegate?
   private lazy var deleteButton = UIButton().set {
-    $0.setImage(.init(systemName: "x.circle"), for: .normal)
+    let image = UIImage(named: "cancel")?.setColor(.yg.gray5)
+    $0.setImage(image, for: .normal)
+    $0.backgroundColor = .yg.littleWhite.withAlphaComponent(0.7)
     $0.addTarget(self, action: #selector(didTapDeleteButton(_:)), for: .touchUpInside)
   }
   
@@ -25,7 +27,6 @@ class PictureImageView: UIImageView {
     super.init(frame: frame)
     setupUI()
     self.image = image
-//    image = .init(named: imageName)
     contentMode = .scaleAspectFill
     clipsToBounds = true
     isUserInteractionEnabled = true
@@ -53,9 +54,9 @@ extension PictureImageView: LayoutSupport {
   
   func setConstraints() {
     deleteButton.snp.makeConstraints {
-      $0.top.equalToSuperview().inset(10)
-      $0.trailing.equalToSuperview().inset(10)
-      $0.size.equalTo(30)
+      $0.top.equalToSuperview().inset(8)
+      $0.trailing.equalToSuperview().inset(8)
+      $0.size.equalTo(20)
     }
   }
 }

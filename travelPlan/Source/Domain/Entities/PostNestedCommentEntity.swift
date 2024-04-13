@@ -9,8 +9,8 @@ struct PostNestedCommentEntity {
   let nestedCommentId: Int64
   let userProfileURL: String
   let nickname: String
-  let timestamp: String
-  let comment: String
-  let hearts: Int32
-  let isOnHeart: Bool
+  var timestamp: String
+  var comment: String
+  var hearts: Int32
+  var isOnHeart: Bool
 }
