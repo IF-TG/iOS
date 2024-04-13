@@ -7,6 +7,85 @@
 
 import UIKit
 
+@frozen enum SettingType: String, CaseIterable {
+  // index 0
+  case accountSetting = "계정 관리"
+  case myInformation = "내 정보"
+  
+  // index = 2
+  case activitySetting = "활동 관리"
+  case myPosts = "내가 작성한 후기 글"
+  case myActivity = "내 활동"
+  case blockList = "차단 목록"
+  
+  // index = 6
+  case service = "서비스"
+  case operationGuide = "이용안내"
+  case customerService = "고객센터"
+  
+  // index = 0
+  case versionInformation = "버전정보"
+  
+  var fontType: UIFont.Pretendard {
+    switch self {
+    case .accountSetting, .activitySetting, .service:
+      return .semiBold_600(fontSize: 18)
+    case .versionInformation:
+      return .regular_400(fontSize: 16)
+    default:
+      return .medium_500(fontSize: 16)
+    }
+  }
+  
+  var index: Int {
+    switch self {
+    case .accountSetting: return 0
+    case .myInformation: return 1
+    case .activitySetting: return 2
+    case .myPosts: return 3
+    case .myActivity: return 4
+    case .blockList: return 5
+    case .service: return 6
+    case .operationGuide: return 7
+    case .customerService: return 8
+    case .versionInformation: return 9
+    }
+  }
+  
+  var section: Int {
+    switch self {
+    case .accountSetting,
+        .myInformation:
+      return 0
+    case .activitySetting,
+        .myPosts,
+        .myActivity,
+        .blockList:
+      return 1
+    case .service,
+        .operationGuide,
+        .customerService:
+      return 2
+    case .versionInformation:
+      return 3
+    }
+  }
+  
+  var fontColor: UIColor {
+    switch self {
+    case .accountSetting, .activitySetting, .service, .versionInformation:
+      return .yg.gray6
+    default:
+      return .yg.gray5
+    }
+  }
+  
+  var lineHeight: CGFloat {
+    30
+  }
+}
+
+
 final class SettingViewController: UIViewController {
   enum Constant {
     enum TopSheetView {
@@ -85,12 +164,23 @@ private extension SettingViewController {
   func configureUI() {
     view.backgroundColor = .yg.gray00Background
     let settingLabels = makeSettingLabels()
-    // TODO: - 추후 한정된 타입으로 변경해야함.
-    setStackView(index: 0, from: (0...1).map { settingLabels[$0] })
-    setStackView(index: 1, from: (2...5).map { settingLabels[$0] })
-    setStackView(index: 2, from: (6...8).map { settingLabels[$0] })
-    setStackView(index: 3, from: (9...9).map { settingLabels[$0] })
-    [0, 2, 6, 9].forEach { settingLabels[$0].isUserInteractionEnabled = false }
+    setStackView(
+      index: SettingType.accountSetting.section,
+      from: (SettingType.accountSetting.index...SettingType.myInformation.index).map { settingLabels[$0] })
+    setStackView(
+      index: SettingType.activitySetting.section,
+      from: (SettingType.activitySetting.index...SettingType.blockList.index).map { settingLabels[$0] })
+    setStackView(
+      index: SettingType.service.section,
+      from: (SettingType.service.index...SettingType.customerService.index).map { settingLabels[$0] })
+    setStackView(
+      index: SettingType.versionInformation.section,
+      from: (SettingType.versionInformation.index...SettingType.versionInformation.index).map { settingLabels[$0] })
+    [SettingType.accountSetting.index,
+     SettingType.activitySetting.index,
+     SettingType.service.index,
+     SettingType.versionInformation.index
+    ].forEach { settingLabels[$0].isUserInteractionEnabled = false }
     setupUI()
   }
   
