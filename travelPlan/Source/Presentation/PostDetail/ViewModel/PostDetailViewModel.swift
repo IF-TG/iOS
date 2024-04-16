@@ -36,6 +36,8 @@ enum PostDetailSection: Int {
 }
 
 final class PostDetailViewModel {
+  typealias SectionType = PostDetailSection
+  
   // MARK: - Nested
   @frozen enum CommentUseCaseInput {
     case send(UserInputText)
@@ -61,8 +63,6 @@ final class PostDetailViewModel {
   private let userBlockUseCase: UserBlockUseCase
   
   // MARK: - Properties
-  private let DefaultSectionCount = PostDetailSection.defaultNumberOfSections
-  
   private var postDetails: PostDetails
   
   private let commentUseCaseNotifier = PassthroughSubject<CommentUseCaseInput, Never>()
@@ -87,6 +87,8 @@ final class PostDetailViewModel {
   
   private let postAuthorBlockHandler = PassthroughSubject<Void, Never>()
   
+  private let navigationInfo = PassthroughSubject<Void, Never>()
+
   private let keyboardDidHideHandler = PassthroughSubject<(PostDetailWritingCacnelType, Bool), Never>()
   
   /// 사용자가 대댓글 작성중인 경우 not nil. 댓글을 작성중인 경우 nil
@@ -145,9 +147,9 @@ final class PostDetailViewModel {
 }
 
 // MARK: - PostDetailCoordinatorDelegate
-extension PostDetailViewModel: PostDetailCoordinatorDelegate {
+extension PostDetailViewModel: PostDetailViewModelPageDelegate {
   func showCommentOption(section: Int) {
-    let commentSection = section - PostDetailSection.defaultNumberOfSections
+    let commentSection = SectionType.commentIndex(section: section)
     // TODO: - 아.. 댓글 작성자의 id가 있어야 하지만 entity에 없습니다.
     let comment = postDetails.comments[commentSection]
     guard let loggedUserId = loggedInUserUseCase.id else {
@@ -174,7 +176,7 @@ extension PostDetailViewModel: PostDetailCoordinatorDelegate {
   }
   
   func showNestedCommentOption(indexPath: IndexPath) {
-    let commentSection = indexPath.section - PostDetailSection.defaultNumberOfSections
+    let commentSection = SectionType.commentIndex(section: indexPath.section)
     // TODO: - 아.. nestedCommentEntity에 대댓 작성한 UserId가 있어야 하지만 entity에 없습니다.
     let nestedComment = postDetails.comments[commentSection].nestedComments[indexPath.row]
     
@@ -262,6 +264,7 @@ extension PostDetailViewModel: PostDetailViewModelable {
   func transform(_ input: PostDetailViewModelInput) -> AnyPublisher<PostDetailViewModelState, Never> {
     return Publishers.MergeMany([
       viewDidLoadStream(input),
+      navigationInfoStream(),
       handleCommentInputStream(input),
       commentUseCaseHandlerStream(),
       nestedCommentUseCaseHandlerStream(),
@@ -283,9 +286,19 @@ extension PostDetailViewModel: PostDetailViewModelable {
 
 // MARK: - Private Input's Stream
 private extension PostDetailViewModel {
+  func navigationInfoStream() -> Output {
+    return navigationInfo.map { [weak self] _ -> State in
+      guard let postTitle = self?.postDetails.detail.title else { return .none }
+      // TODO: - 34일 이렇게 몇일 구해야합니다.
+      //let postDuration = postDetails.detail.tripDate
+      let postDuration = "34일 동안의 여정"
+      return .viewDidLoad(.naviTitleInfo((postTitle, postDuration)))
+    }.eraseToAnyPublisher()
+  }
   func viewDidLoadStream(_ input: Input) -> Output {
     return input.viewDidLoad
       .flatMap { [weak self] in
+        self?.navigationInfo.send()
         self?.loggedInUserUseCaseHandler.send()
         return self?.fetchCommentsWhenViewDidLoad() ?? Just(
           State.unexpectedError(
@@ -368,7 +381,7 @@ private extension PostDetailViewModel {
     return nestedCommentEditNotifier
       .map { [weak self] indexPath -> State in
         self?.editingNestedCommentIndexPath = indexPath
-        let commentIndex = PostDetailSection.commentIndex(section: indexPath.section)
+        let commentIndex = SectionType.commentIndex(section: indexPath.section)
         guard let comment = self?.postDetails.comments[commentIndex] else {
           return State.unexpectedError(description: "앱 내부 에러가 발생됬습니다. 대댓글을 수정할 수 없습니다.")
         }
@@ -381,7 +394,7 @@ private extension PostDetailViewModel {
     return commentEditNotifier
       .map { [weak self] section -> State in
         self?.editingCommentSection = section
-        let commentIndex = PostDetailSection.commentIndex(section: section)
+        let commentIndex = SectionType.commentIndex(section: section)
         guard let comment = self?.postDetails.comments[commentIndex] else {
           return State.unexpectedError(description: "앱 내부 에러가 발생됬습니다. 대댓글을 수정할 수 없습니다.")
         }
@@ -549,7 +562,7 @@ private extension PostDetailViewModel {
   
   func deleteCommentStream(with section: Section) -> Output {
     /// 포스트는 섹션 \(PostDetailSectionType.defaultNumberOfSections)부터 시작합니다.
-    let commentSection = section - PostDetailSection.defaultNumberOfSections
+    let commentSection = SectionType.commentIndex(section: section)
     let commentId = postDetails.comments[commentSection].commentId
     return postCommentUseCase
       .deleteComment(commentId: commentId)
@@ -580,7 +593,7 @@ private extension PostDetailViewModel {
     guard let section = editingCommentSection else {
       return Just(State.unexpectedError(description: "대댓글을 수정할 수 없습니다.")).eraseToAnyPublisher()
     }
-    let commentIdx = PostDetailSection.commentIndex(section: section)
+    let commentIdx = SectionType.commentIndex(section: section)
     let comment = postDetails.comments[commentIdx]
     return postCommentUseCase
       .updateComment(commentId: comment.commentId, comment: editedText)
@@ -603,7 +616,7 @@ private extension PostDetailViewModel {
       return Just(State.unexpectedError(description: "대댓글을 전송할 수 없습니다.")).eraseToAnyPublisher()
     }
     /// 포스트는 섹션 \(PostDetailSectionType.defaultNumberOfSections)부터 시작합니다.
-    let commentSection = replyingSection - PostDetailSection.defaultNumberOfSections
+    let commentSection = SectionType.commentIndex(section: replyingSection)
     let commentId = postDetails.comments[commentSection].commentId
     return postNestedCommentUseCase
       .sendNestedComment(commentId: commentId, comment: text)
@@ -620,7 +633,7 @@ private extension PostDetailViewModel {
   /// 대댓글 삭제
   func deleteNestedCommentStream(with indexPath: IndexPath) -> Output {
     /// 포스트는 섹션 \(PostDetailSectionType.defaultNumberOfSections)부터 시작합니다.
-    let commentSection = (indexPath.section - PostDetailSection.defaultNumberOfSections)
+    let commentSection = SectionType.commentIndex(section: indexPath.section)
     let nestedCommentId = postDetails.comments[commentSection].nestedComments[indexPath.row].nestedCommentId
     return postNestedCommentUseCase
       .deleteNestedComment(nestedCommentId: nestedCommentId)
@@ -651,7 +664,7 @@ private extension PostDetailViewModel {
     guard let indexPath = editingNestedCommentIndexPath else {
       return Just(State.unexpectedError(description: "대댓글을 수정할 수 없습니다.")).eraseToAnyPublisher()
     }
-    let commentIdx = PostDetailSection.commentIndex(section: indexPath.section)
+    let commentIdx = SectionType.commentIndex(section: indexPath.section)
     let nestedComment = postDetails.comments[commentIdx].nestedComments[indexPath.row]
     return postNestedCommentUseCase
       .updateNestedComment(nestedCommentId: nestedComment.nestedCommentId, comment: editedText)
@@ -684,7 +697,8 @@ extension PostDetailViewModel: PostDetailTableViewDataSource {
   }
   
   func replyItem(at indexPath: IndexPath) -> PostReplyInfo {
-    let postComment = postDetails.comments[indexPath.section - DefaultSectionCount]
+    let commentIdx = SectionType.commentIndex(section: indexPath.section)
+    let postComment = postDetails.comments[commentIdx]
     let postReply = postComment.nestedComments[indexPath.row]
     
     let commentInfo = BasePostDetailCommentInfo(
@@ -701,7 +715,8 @@ extension PostDetailViewModel: PostDetailTableViewDataSource {
   }
   
   func commentItem(in section: Int) -> PostCommentInfo {
-    let postComment = postDetails.comments[section - DefaultSectionCount]
+    let commentIdx = SectionType.commentIndex(section: section)
+    let postComment = postDetails.comments[commentIdx]
     let baseInfo: BasePostDetailCommentInfo = .init(
       commentId: postComment.commentId,
       userName: postComment.userName,
@@ -750,7 +765,7 @@ extension PostDetailViewModel: PostDetailTableViewDataSource {
   }
   
   var numberOfSections: Int {
-    return DefaultSectionCount + postDetails.comments.count
+    return SectionType.defaultNumberOfSections + postDetails.comments.count
   }
   
   func numberOfRows(in section: Int) -> Int {
@@ -763,7 +778,8 @@ extension PostDetailViewModel: PostDetailTableViewDataSource {
     case .postHeartAndShareArea:
       return 0
     default:
-      return postDetails.comments[section-DefaultSectionCount].nestedComments.count
+      let commentIdx = SectionType.commentIndex(section: section)
+      return postDetails.comments[commentIdx].nestedComments.count
     }
   }
 }

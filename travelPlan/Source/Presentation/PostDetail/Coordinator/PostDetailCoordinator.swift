@@ -20,8 +20,9 @@ import SHCoordinator
 }
 
 @frozen enum PostDetailWritingCacnelType {
-  //대댓글 작성
+  // 대댓글 작성
   case replyWrite
+  // 대댓글 편집
   case replyEdit
   case commentEdit
   
@@ -35,16 +36,6 @@ import SHCoordinator
       "댓글 편집을 취소하시겠습니까?"
     }
   }
-}
-
-/// 뷰 컨트롤러에서 사용할 타입 -> 뷰 모델에서 구현
-protocol PostDetailCoordinatorDelegate: AnyObject {
-  func showAlertForError(with description: String, completion: (() -> Void)?)
-  func showPostOption()
-  func showCommentOption(section: Int)
-  func showNestedCommentOption(indexPath: IndexPath)
-  func showCategory()
-  func showPostReportResult()
 }
 
 // MARK: - PostDetailCoordinator
@@ -121,7 +112,7 @@ final class PostDetailCoordinator: NSObject, FlowCoordinator {
   }
 }
 
-// MARK: - PostDetailCoordinatorDelegate
+// MARK: - Actions Helpers
 extension PostDetailCoordinator {
   func showAlertForError(with description: String, completion: (() -> Void)?) {
     let alert = UIAlertController(title: nil, message: description, preferredStyle: .alert).set {
