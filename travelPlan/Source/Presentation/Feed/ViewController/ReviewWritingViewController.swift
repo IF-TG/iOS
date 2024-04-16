@@ -20,7 +20,7 @@ final class ReviewWritingViewController: UIViewController {
   }
   
   // MARK: - Properties
-  weak var coordinator: ReviewWritingCoordinatorDelegate?
+  weak var coordinator: (ReviewWritingCoordinatorDelegate & ReviewWritingPostReceivable)?
   
   private lazy var titleView = NavigationTitleWithClickView(title: "테마 설정", layoutType: .rightImage).set {
     self.addGestureRecognizer(from: $0, action: #selector(didTapTitleView))
@@ -139,6 +139,10 @@ extension ReviewWritingViewController {
           break
         case let .setupContents(title, postContents):
           self?.contentView.setupContents(.init(title: title, contents: postContents))
+        case .popViewControllerWith(let post):
+          self?.coordinator?.receive(post: post)
+        case .unexpectedError(description: let description):
+          print("에러가 발생했습니다. error: \(description)")
         }
       }
       .store(in: &subscriptions)
@@ -294,8 +298,8 @@ private extension ReviewWritingViewController {
   }
   
   @objc func didTapFinishButton() {
-    let contentData = contentView.extractContentData()
-    input.didTapFinishButton.send(contentData)
+    let contentViewInfo = contentView.extractContentData()
+    input.didTapFinishButton.send((contentViewInfo.contents, contentViewInfo.title))
   }
   
   @objc func didTapTitleView() {
