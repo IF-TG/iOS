@@ -13,6 +13,8 @@ import SHCoordinator
 struct PostDetailViewModelActions {
   typealias isCommentOwner = Bool
   
+  let showReviewWriting: (ReviewWritingEntity) -> Void
+  
   let showAlertForError: (String, (() -> Void)?) -> Void
   let showAnAlertToAskWhetherToCancelWrittingTheReply: (((Bool) -> Void)?) -> Void
   let showPostOption: (((PostDetailOption) -> Void)?) -> Void
