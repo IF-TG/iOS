@@ -43,6 +43,12 @@ final class PostDetailViewController: UITableViewController {
   
   private var subscriptions = Set<AnyCancellable>()
 
+  private lazy var editButton = UIButton().set {
+    $0.setTitle("편집", for: .normal)
+    $0.setTitleColor(.black, for: .normal)
+    $0.addTarget(self, action: #selector(didTapEditButton), for: .touchUpInside)
+  }
+  
   // MARK: - Lifecycle
   init(viewModel: any PostDetailViewModelable & PostDetailTableViewDataSource) {
     self.viewModel = viewModel
@@ -106,6 +112,7 @@ final class PostDetailViewController: UITableViewController {
   }
   
   deinit {
+    print("deinit: \(Self.self)")
     NotificationCenter.default.removeObserver(self)
   }
 }
@@ -234,7 +241,11 @@ private extension PostDetailViewController {
   func configureUI() {
     view.backgroundColor = .white
     setupDefaultBackBarButtonItem(marginLeft: 0)
-    navigationItem.rightBarButtonItem = UIBarButtonItem(customView: starButton)
+//    navigationItem.rightBarButtonItem = UIBarButtonItem(customView: starButton)
+    navigationItem.rightBarButtonItems = [
+      .init(customView: starButton),
+      .init(customView: editButton)
+    ]
     starButton.translatesAutoresizingMaskIntoConstraints = false
     starButton.widthAnchor.constraint(equalToConstant: 24).isActive = true
     starButton.heightAnchor.constraint(equalToConstant: 24).isActive = true
@@ -249,6 +260,20 @@ private extension PostDetailViewController {
   
 // MARK: - Actions
 extension PostDetailViewController {
+  @objc private func didTapEditButton() {
+    // TODO: - [PostContentEntity]를 생성해서 ReviewWritingEntity의 contents 인자에 넣어주어야 합니다.
+    let tempContents: [PostContentEntity] = [
+      .text("텍스트1텍스트2텍스트3텍스트4텍스트5텍스트6텍스트7텍스트8텍스트9텍스트10텍스트11텍스트12텍스트13텍스트14텍스트15텍스트16텍스트17"),
+      .image(UIImage(named: "tempProfile4")!.jpegData(compressionQuality: 1.0)!),
+      .text("텍스트1텍스트2텍스트3텍스트4텍스트5텍스트6텍스트7텍스트8텍스트9텍스트10텍스트11텍스트12텍스트13텍스트14텍스트15텍스트16텍스트17"),
+      .text("text1text2text3text4text5text6text7text8text9text10text11text12text13text14text15text16text17"),
+      .image(UIImage(named: "tempProfile4")!.jpegData(compressionQuality: 1.0)!),
+      .image(UIImage(named: "tempProfile4")!.jpegData(compressionQuality: 1.0)!)
+    ]
+    
+    viewModel.showReviewWriting(tempContents: tempContents)
+  }
+  
   @objc private func didTapTableView() {
     inputAccessory.hideKeyboard()
   }
