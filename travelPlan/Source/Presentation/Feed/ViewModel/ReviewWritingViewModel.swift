@@ -18,7 +18,7 @@ struct ReviewWritingViewModelInput {
   let didTapTitleTextView: PassthroughSubject<Void, Never> = .init()
   let didTapCancelButton: PassthroughSubject<Void, Never> = .init()
   let didTapKeyboardDownButton: PassthroughSubject<Void, Never> = .init()
-  let didTapFinishButton: PassthroughSubject<[PostContentEntity], Never> = .init()
+  let didTapFinishButton: PassthroughSubject<([PostContentEntity], String), Never> = .init()
   let didTapAlbumButton: PassthroughSubject<Void, Never> = .init()
   let didTapPlanView: PassthroughSubject<Void, Never> = .init()
   let didTapNavigationTitleView: PassthroughSubject<Void, Never> = .init()
@@ -33,6 +33,8 @@ enum ReviewWritingMode {
 }
 
 enum ReviewWritingViewModelState {
+  case unexpectedError(description: String)
+  case popViewControllerWith(Post)
   case popViewController
   case presentAlbumViewController
   case presentPlan
@@ -45,11 +47,12 @@ enum ReviewWritingViewModelState {
 }
 
 final class DefaultReviewWritingViewModel: ReviewWritingViewModel {
-
-  // MARK: - Properties
+  
+  // MARK: - Dependencies
   private let photoAuthorizationUseCase: any PhotoAuthorizationUseCase
   private let reviewWritingUseCase: any ReviewWritingUseCase
   private let mode: ReviewWritingMode
+  private var reviewWritingEntity: ReviewWritingEntity?
   
   // MARK: - LifeCycle
   init(
@@ -60,6 +63,10 @@ final class DefaultReviewWritingViewModel: ReviewWritingViewModel {
     self.photoAuthorizationUseCase = photoAuthorizationUseCase
     self.reviewWritingUseCase = reviewWritingUseCase
     self.mode = mode
+  }
+  
+  deinit {
+    print("deinit: \(Self.self)")
   }
 }
 
@@ -88,6 +95,7 @@ extension DefaultReviewWritingViewModel {
     return input.viewDidLoad
       .map { [weak self] in
         if case let .edit(entity) = self?.mode {
+          self?.reviewWritingEntity = entity
           return State.setupContents(title: entity.title, contents: entity.contents)
         }
         return State.none
@@ -156,10 +164,38 @@ extension DefaultReviewWritingViewModel {
   
   private func didTapFinishButtonStream(_ input: Input) -> Output {
     return input.didTapFinishButton
-      .map { [weak self] contentData in
-        // TODO: - contentData를 서버에 저장해야 합니다.
-        print("contentData: \(contentData)")
-        return State.popViewController
+      .flatMap { [weak self, reviewWritingUseCase, mode] contents, title in
+        self?.reviewWritingEntity?.contents = contents
+        self?.reviewWritingEntity?.title = title
+        
+        switch mode {
+        case .start:
+          // TODO: - 사용자가 정의한 테마 설정을 기반으로 eneity를 정의해야합니다.
+          let tempThemeEntity = ReviewWritingEntity(
+            postId: nil,
+            category: .init(themes: [.adventure],
+                            regions: [.busan],
+                            seasons: [.fall],
+                            partners: [.alone]),
+            tripDate: .init(start: "2023", end: "2024"),
+            title: title,
+            contents: contents
+          )
+          return reviewWritingUseCase.savePost(entity: tempThemeEntity)
+            .filter { $0 }
+            .map { _ in State.popViewController }
+            .catch { Just(State.unexpectedError(description: $0.localizedDescription)).eraseToAnyPublisher() }
+            .eraseToAnyPublisher()
+        case .edit:
+          guard let entity = self?.reviewWritingEntity,
+                let postId = entity.postId
+          else { return Just(State.none).eraseToAnyPublisher() }
+          
+          return reviewWritingUseCase.updatePost(requestValue: .init(entity: entity, postId: postId))
+            .map { State.popViewControllerWith($0) }
+            .catch { Just(State.unexpectedError(description: $0.localizedDescription)).eraseToAnyPublisher() }
+            .eraseToAnyPublisher()
+        }
       }
       .eraseToAnyPublisher()
   }
