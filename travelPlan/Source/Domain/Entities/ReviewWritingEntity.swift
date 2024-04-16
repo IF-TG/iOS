@@ -8,8 +8,11 @@
 import Foundation
 
 struct ReviewWritingEntity {
-  let category: Post.Category
-  let tripData: Post.TripDate
-  let title: String
-  let contents: [PostContentEntity]
+  let postId: Int64?
+  var category: Post.Category
+  var tripDate: Post.TripDate
+  var title: String
+  var contents: [PostContentEntity]
+  var mapX: Double = 0.0
+  var mapY: Double = 0.0
 }
