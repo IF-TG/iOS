@@ -9,5 +9,6 @@ import Foundation
 import Combine
 
 protocol ReviewWritingUseCase {
-  func uploadPost(content: [PostContentEntity]) -> AnyPublisher<Bool, Never>
+  func savePost(entity: ReviewWritingEntity) -> AnyPublisher<Bool, Error>
+  func updatePost(requestValue: ReviewWritingUseCaseUpdateRequestValue) -> AnyPublisher<Post, Error>
 }
