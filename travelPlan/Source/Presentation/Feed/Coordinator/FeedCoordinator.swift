@@ -108,7 +108,7 @@ extension FeedCoordinator: FeedCoordinatorDelegate {
   }
   
   func showReviewWrite() {
-    let reviewWritingCoordinator = ReviewWritingCoordinator(presenter: presenter, mode: .start)
+    let reviewWritingCoordinator = ReviewWritingCoordinator(presenter: presenter, mode: .new)
     addChild(with: reviewWritingCoordinator)
   }
 }

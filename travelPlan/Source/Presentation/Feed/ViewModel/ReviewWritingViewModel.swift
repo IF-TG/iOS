@@ -28,7 +28,7 @@ struct ReviewWritingViewModelInput {
 }
 
 enum ReviewWritingMode {
-  case start
+  case new
   case edit(ReviewWritingEntity)
 }
 
@@ -169,7 +169,7 @@ extension DefaultReviewWritingViewModel {
         self?.reviewWritingEntity?.title = title
         
         switch mode {
-        case .start:
+        case .new:
           // TODO: - 사용자가 정의한 테마 설정을 기반으로 eneity를 정의해야합니다.
           let tempThemeEntity = ReviewWritingEntity(
             postId: nil,
