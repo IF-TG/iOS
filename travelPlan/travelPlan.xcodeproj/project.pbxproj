@@ -125,6 +125,7 @@
 		13CB6D342A1FEC6D00D185B2 /* CautionAlertViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CB6D332A1FEC6D00D185B2 /* CautionAlertViewControllerDelegate.swift */; };
 		13CB6D362A20E12B00D185B2 /* CALayer+Border.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CB6D352A20E12B00D185B2 /* CALayer+Border.swift */; };
 		13E622B02BCFB3EC003E4FA4 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 13E622AF2BCFB3EC003E4FA4 /* GoogleService-Info.plist */; };
+		13E622BF2BD02401003E4FA4 /* mock_reviewWriting_post_response.json in Resources */ = {isa = PBXBuildFile; fileRef = 13E622BD2BD02401003E4FA4 /* mock_reviewWriting_post_response.json */; };
 		13E746772B4D303E007D5C15 /* PhotoCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E746762B4D303E007D5C15 /* PhotoCellDelegate.swift */; };
 		13E913932B0F3ECF00E15B11 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 13E913922B0F3ECF00E15B11 /* SnapKit */; };
 		13E98F852BC53D8000F05295 /* ReviewWritingUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E98F842BC53D8000F05295 /* ReviewWritingUseCase.swift */; };
@@ -735,6 +736,7 @@
 		13CB6D332A1FEC6D00D185B2 /* CautionAlertViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CautionAlertViewControllerDelegate.swift; sourceTree = "<group>"; };
 		13CB6D352A20E12B00D185B2 /* CALayer+Border.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+Border.swift"; sourceTree = "<group>"; };
 		13E622AF2BCFB3EC003E4FA4 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Desktop/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		13E622BE2BD02401003E4FA4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/mock_reviewWriting_post_response.json; sourceTree = "<group>"; };
 		13E746762B4D303E007D5C15 /* PhotoCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCellDelegate.swift; sourceTree = "<group>"; };
 		13E98F842BC53D8000F05295 /* ReviewWritingUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWritingUseCase.swift; sourceTree = "<group>"; };
 		13E98F862BC53DDD00F05295 /* DefaultReviewWritingUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultReviewWritingUseCase.swift; sourceTree = "<group>"; };
@@ -1886,6 +1888,7 @@
 				151DF10E2AEECBB400D5D55B /* mock_response_notice.json */,
 				158E81F42B9A4D3F0080CCA8 /* mock_response_postContainer.json */,
 				15EBDBBC2BC0236C00A8A91C /* mock_posts_response.json */,
+				13E622BD2BD02401003E4FA4 /* mock_reviewWriting_post_response.json */,
 			);
 			path = MockJson;
 			sourceTree = "<group>";
@@ -3139,6 +3142,7 @@
 				15553BCF2BB348B0000AA896 /* mock_postNestedComment_send_response.json in Resources */,
 				15BE6BEF2BAF1FD4009A2568 /* mock_response_postComments_whenCommentSend.json in Resources */,
 				1594F53E29FD517F00A58F20 /* LaunchScreen.storyboard in Resources */,
+				13E622BF2BD02401003E4FA4 /* mock_reviewWriting_post_response.json in Resources */,
 				15BE6BD42BAEF83D009A2568 /* mock_response_postCommentContainer.json in Resources */,
 				159958762B0D988400B2E4DC /* Palette.xcassets in Resources */,
 				158BEFBC2A0EB2A500C27861 /* Pretendard-SemiBold.ttf in Resources */,
@@ -3748,6 +3752,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		13E622BD2BD02401003E4FA4 /* mock_reviewWriting_post_response.json */ = {
+			isa = PBXVariantGroup;
+			children = (
+				13E622BE2BD02401003E4FA4 /* en */,
+			);
+			name = mock_reviewWriting_post_response.json;
+			sourceTree = "<group>";
+		};
 		1594F53C29FD517F00A58F20 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
