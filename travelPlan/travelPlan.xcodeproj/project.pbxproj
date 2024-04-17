@@ -1142,7 +1142,6 @@
 		15FFAC1B2ADC2BC20013DB57 /* MockSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSession.swift; sourceTree = "<group>"; };
 		15FFAC1F2ADC322B0013DB57 /* EndpointTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndpointTests.swift; sourceTree = "<group>"; };
 		15FFAC212ADC335F0013DB57 /* MockModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockModels.swift; sourceTree = "<group>"; };
-		15FFAC232ADC52040013DB57 /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		15FFAC272ADC598E0013DB57 /* SessionProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionProviderTests.swift; sourceTree = "<group>"; };
 		15FFAC2A2ADCD7370013DB57 /* MockUserEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUserEndpoint.swift; sourceTree = "<group>"; };
 		15FFAC322ADD4C480013DB57 /* PostViewAdapterDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewAdapterDataSource.swift; sourceTree = "<group>"; };
@@ -2958,7 +2957,6 @@
 			isa = PBXGroup;
 			children = (
 				135A07D82BB7EEF7003D6C4D /* PhotosUI.framework */,
-				15FFAC232ADC52040013DB57 /* Alamofire.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
