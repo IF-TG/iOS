@@ -43,61 +43,6 @@ final class ReviewWritingCoordinator: FlowCoordinator {
   }
   
   func start() {
-    let json: String
-    switch mode {
-    case .start, .edit:
-      json = """
-      {
-        "result": {
-          "postId": 1004,
-          "profileImgUri": "https://example.com/post_image_1.jpeg",
-          "title": "제목입니다test",
-          "nickname": "김길동test",
-          "startDate": "2023",
-          "endDate": "2024",
-          "postImgUri": [
-            {
-              "img": "https://example.com/post_image_1.jpeg",
-              "sort": 1
-            },
-            {
-              "img": "https://example.com/post_image_1.jpeg",
-              "sort": 2
-            }
-          ],
-          "content": "내용",
-          "likeNum": 100,
-          "commentNum": 40,
-          "createAt": "2024",
-          "themes": [
-            "SHOPPING",
-            "CAMPING_GLAMPING"
-          ],
-          "regions": [
-            "GYEONGGI"
-          ],
-          "seasons": [
-            "SPRING"
-          ],
-          "companions": [
-            "FAMILY",
-            "PARENTS"
-          ],
-          "mapX": 123.45,
-          "mapY": 345.67,
-          "liked": true
-        },
-      "status": "200",
-      "statusCode": "200",
-      "message": "정상입니다"
-      }
-      """
-    }
-    
-    MockUrlProtocol.requestHandler = { _ in
-      let responseData = json.data(using: .utf8)!
-      return ((HTTPURLResponse(), responseData))
-    }
     let mockSession = MockSession.default
     let sessionProvider = SessionProvider(session: mockSession)
     let reviewWritingRepository = DefaultReviewWritingRepository(service: sessionProvider)
