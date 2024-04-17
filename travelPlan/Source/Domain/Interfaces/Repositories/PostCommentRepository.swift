@@ -10,7 +10,7 @@ import Combine
 protocol PostCommentRepository {
   func sendComment(postId: Int64, comment: String) -> AnyPublisher<PostCommentEntity, Error>
   
-  func updateComment(commentId: Int64, comment: String) -> AnyPublisher<UpdatedPostCommentEntity, Error>
+  func updateComment(commentId: Int64, comment: String) -> AnyPublisher<Bool, Error>
   
   func deleteComment(commentId: Int64) -> AnyPublisher<Bool, Error>
   

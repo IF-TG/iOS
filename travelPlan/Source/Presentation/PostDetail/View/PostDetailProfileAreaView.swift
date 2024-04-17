@@ -104,6 +104,13 @@ extension PostDetailProfileAreaView {
     uploadedDescriptionLabel.text = info?.uploadedDescription
     uploadedDescriptionLabel.textAlignment = .right
   }
+  
+  func getDurationLabelMaxY() -> CGFloat? {
+    if travelDurationStackView.frame == .zero {
+      return nil
+    }
+    return travelDurationStackView.frame.origin.y + travelDurationStackView.frame.height
+  }
 }
 
 // MARK: - Private Helpers

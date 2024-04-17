@@ -11,18 +11,31 @@ import SHCoordinator
 
 final class PostDetailViewController: UITableViewController {
   // MARK: - Dependencies
-  private let viewModel: any PostDetailViewModelable & PostDetailTableViewDataSource
+  private let viewModel: (any PostDetailViewModelable &
+                          PostDetailTableViewDataSource &
+                          PostDetailViewModelPageDelegate)
   
   // MARK: - UI Properties
   private let inputAccessory = PostDetailInputAccessoryWrapper()
   
   private let naviTitle = BaseLabel(fontType: .semiBold_600(fontSize: 16)).set {
     $0.alpha = 0
+    $0.textAlignment = .center
+    
   }
+  
+  private let naviDuration = BaseLabel(fontType: .medium_500(fontSize: 12)).set {
+    $0.alpha = 0
+    $0.textAlignment = .center
+  }
+  
+  private let naviTitleView = UIView(frame: .zero)
   
   private let starButton = SearchStarButton(normalType: .black)
   
   private var naviTitleAnimator: UIViewPropertyAnimator?
+  
+  private var naviDurationAnimator: UIViewPropertyAnimator?
   
   override var canBecomeFirstResponder: Bool {
     return true
@@ -33,8 +46,6 @@ final class PostDetailViewController: UITableViewController {
   }
   
   // MARK: - Properties
-  private var isHandlingKeyboardEvent = false
-  
   private var adapter: PostDetailTableViewAdapter?
   
   private var notificationSubscriptions = Set<AnyCancellable>()
@@ -50,7 +61,10 @@ final class PostDetailViewController: UITableViewController {
   }
   
   // MARK: - Lifecycle
-  init(viewModel: any PostDetailViewModelable & PostDetailTableViewDataSource) {
+  init(viewModel: (any PostDetailViewModelable &
+                   PostDetailTableViewDataSource &
+                   PostDetailViewModelPageDelegate)
+  ) {
     self.viewModel = viewModel
     super.init(style: .grouped)
     adapter = PostDetailTableViewAdapter(
@@ -65,21 +79,7 @@ final class PostDetailViewController: UITableViewController {
   
   override func loadView() {
     super.loadView()
-    tableView.separatorStyle = .none
-    tableView.rowHeight = UITableView.automaticDimension
-    tableView.estimatedRowHeight = 235
-    tableView.separatorInset = .zero
-    tableView.backgroundColor = .white
-    tableView.scrollIndicatorInsets = .init(top: 0, left: -1, bottom: 0, right: -1)
-    let minimaiSize = CGSize(width: CGFloat.leastNormalMagnitude, height: CGFloat.leastNormalMagnitude)
-    tableView.tableFooterView = UIView(frame: CGRect(origin: .zero, size: minimaiSize))
-    tableView.keyboardDismissMode = .interactive
-    tableView.contentInset = .zero
-    if #available(iOS 15.0, *) {
-      tableView.sectionHeaderTopPadding = 0
-    }
-    let tap = UITapGestureRecognizer(target: self, action: #selector(didTapTableView))
-    tableView.addGestureRecognizer(tap)
+    setTableView()
     registerReusableViews()
   }
   
@@ -91,17 +91,15 @@ final class PostDetailViewController: UITableViewController {
     input.viewDidLoad.send()
   }
   
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    setTitleView()
+  }
+  
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     (self.tabBarController as? MainTabBarController)?.hideShadowLayer()
     self.tabBarController?.tabBar.isHidden = true
-  }
-  
-  override func viewDidAppear(_ animated: Bool) {
-    super.viewDidAppear(animated)
-    //왜 ? viewDidApper에 타이틀뷰하지?
-    // TODO: - 타이틀뷰 헤더 좌표계바꿔서 더 유연하게 사라지고 보여지도록 로직 개선해야합니다.
-    setTitleView()
   }
   
   override func viewWillDisappear(_ animated: Bool) {
@@ -156,9 +154,11 @@ extension PostDetailViewController: ViewBindCase {
       stopIndicator()
       /// postReportNotifier, postAuthorBlockNotifier호출 완료 시점 postReport State를 전송해야 합니다.
       viewModel.showPostReportResult()
+    case .keyboard(let keyboardState):
+      handleKeyboardOutputState(keyboardState)
     }
   }
-  
+    
   // MARK: - View UI render helper
   func handleViewDidLoadState(_ viewDidLoadState: PostDetailViewDidLoadState) {
     switch viewDidLoadState {
@@ -168,6 +168,12 @@ extension PostDetailViewController: ViewBindCase {
       tableView.reloadData()
       stopIndicator()
       starButton.isSelected = isFavorite
+    case .naviTitleInfo((let title, let duration)):
+      naviTitle.text = title
+      naviDuration.text = duration
+      naviTitle.transform = .init(translationX: 0, y: naviTitle.font.lineHeight)
+      naviDuration.transform = .init(translationX: 0, y: naviDuration.font.lineHeight)
+      naviTitle.isHidden = true
     }
   }
   
@@ -189,6 +195,14 @@ extension PostDetailViewController: ViewBindCase {
         tableView.reloadSections(IndexSet(integer: section), with: .none)
       }
       stopIndicator()
+    case .reloadWhenCommentUpdate(let section):
+      UITableView.performWithoutAnimation {
+        tableView.reloadSections(IndexSet(integer: section), with: .none)
+      }
+      tableView.keyboardDismissMode = .interactive
+      inputAccessory.clearEditingText()
+      inputAccessory.hideKeyboard()
+      stopIndicator()
     }
   }
   
@@ -200,27 +214,9 @@ extension PostDetailViewController: ViewBindCase {
         tableView.reloadSections(IndexSet(integer: section), with: .none)
       }
       stopIndicator()
-    case .replyCancel:
-      inputAccessory.clearCommentInputState()
-      inputAccessory.hideKeyboard()
-    case .replyContinue:
-      inputAccessory.showKeyboard()
-    case .keyboardState(let keyboard):
-      switch keyboard {
-      case .willShow:
-        tableView.keyboardDismissMode = .none
-        inputAccessory.showKeyboard()
-      case .willHide:
-        break
-      }
-    case .replyCancellationAsk:
-      viewModel.showAnAlertToAskWhetherToCancelWrittingTheReply { [weak self] wannaCancel in
-        self?.input.keyboardDidHideWhenReplyingToMessageNotifier.send(wannaCancel)
-      }
     case .reload(let indexPath):
       UITableView.performWithoutAnimation {
-        /// 특정 행만 제거하기 때문에 데이터 소스에서 제거 후 아래 함수 호출하는게 베스트지만, 아래 함수 이외에 다른 행들도 첫번째 대댓글인지 여부에 따라 태그가 추가되야
-        /// 합니다.
+        /// 특정 행만 제거하기 때문에 데이터 소스에서 제거 후 아래 함수 호출하는게 베스트지만, 아래 함수 이외에 다른 행들도 첫번째 대댓글인지 여부에 따라 태그가 추가되야 합니다.
         /// tableView.deleteRows(at: [indexPath], with: .top)
         tableView.reloadSections(IndexSet(integer: indexPath.section), with: .top)
       }
@@ -230,6 +226,35 @@ extension PostDetailViewController: ViewBindCase {
         tableView.deleteSections(IndexSet(integer: indexPath.section), with: .none)
       }
       stopIndicator()
+    case .reloadWhenCommentUpdate(let indexPath):
+      UITableView.performWithoutAnimation {
+        tableView.reloadRows(at: [indexPath], with: .none)
+      }
+      tableView.keyboardDismissMode = .interactive
+      inputAccessory.clearEditingText()
+      inputAccessory.hideKeyboard()
+      stopIndicator()
+    }
+  }
+  
+  func handleKeyboardOutputState(_ keyboardState: PostDetailKeyboardState) {
+    switch keyboardState {
+    case .willShow:
+      /// 대댓글 작성시
+      tableView.keyboardDismissMode = .none
+      inputAccessory.showKeyboard()
+    case .willShowWhenCommentEditStart(let writtenComment):
+      /// 대댓글, 댓글 편집시
+      inputAccessory.clearCommentInputState()
+      tableView.keyboardDismissMode = .none
+      inputAccessory.setCommentForEditMode(writtenComment)
+      inputAccessory.showKeyboard()
+    case .hideToWritingCancel:
+      inputAccessory.clearCommentInputState()
+      inputAccessory.hideKeyboard()
+      tableView.keyboardDismissMode = .interactive
+    case .writingContinue:
+      inputAccessory.showKeyboard()
     }
   }
   
@@ -253,7 +278,17 @@ private extension PostDetailViewController {
   }
   
   func setTitleView() {
-    navigationItem.titleView = naviTitle
+    [naviTitle, naviDuration].forEach { naviTitleView.addSubview($0) }
+    
+    NSLayoutConstraint.activate([
+      naviTitle.leadingAnchor.constraint(equalTo: naviTitleView.leadingAnchor),
+      naviTitle.topAnchor.constraint(equalTo: naviTitleView.topAnchor),
+      naviTitle.trailingAnchor.constraint(equalTo: naviTitleView.trailingAnchor),
+      naviDuration.leadingAnchor.constraint(equalTo: naviTitleView.leadingAnchor),
+      naviDuration.topAnchor.constraint(equalTo: naviTitle.bottomAnchor),
+      naviDuration.trailingAnchor.constraint(equalTo: naviTitleView.trailingAnchor),
+      naviDuration.bottomAnchor.constraint(equalTo: naviTitleView.bottomAnchor)])
+    navigationItem.titleView = naviTitleView
     naviTitle.alpha = 0
   }
 }
@@ -261,20 +296,10 @@ private extension PostDetailViewController {
 // MARK: - Actions
 extension PostDetailViewController {
   @objc private func didTapEditButton() {
-    // TODO: - [PostContentEntity]를 생성해서 ReviewWritingEntity의 contents 인자에 넣어주어야 합니다.
-    let tempContents: [PostContentEntity] = [
-      .text("텍스트1텍스트2텍스트3텍스트4텍스트5텍스트6텍스트7텍스트8텍스트9텍스트10텍스트11텍스트12텍스트13텍스트14텍스트15텍스트16텍스트17"),
-      .image(UIImage(named: "tempProfile4")!.jpegData(compressionQuality: 1.0)!),
-      .text("텍스트1텍스트2텍스트3텍스트4텍스트5텍스트6텍스트7텍스트8텍스트9텍스트10텍스트11텍스트12텍스트13텍스트14텍스트15텍스트16텍스트17"),
-      .text("text1text2text3text4text5text6text7text8text9text10text11text12text13text14text15text16text17"),
-      .image(UIImage(named: "tempProfile4")!.jpegData(compressionQuality: 1.0)!),
-      .image(UIImage(named: "tempProfile4")!.jpegData(compressionQuality: 1.0)!)
-    ]
-    
-    viewModel.showReviewWriting(tempContents: tempContents)
+    viewModel.showReviewWriting()
   }
   
-  @objc private func didTapTableView() {
+  @objc func didTapTableView() {
     inputAccessory.hideKeyboard()
   }
   
@@ -285,13 +310,53 @@ extension PostDetailViewController {
   
   // MARK: - Keyboard Actions
   @objc private func didHideKeyboard(_ notification: Notification) {
-    input.replyDismissalConfirmationNorifier.send()
+    input.keyboardHideNotifier.send()
   }
 }
 
 // MARK: - PostDetailTableViewDelegate
 extension PostDetailViewController: PostDetailTableViewAdapterDelegate {
-  func willDisplayTitle() {
+  func willDisplayDurationInTableView() {
+    guard let naviHeight = navigationController?.navigationBar.bounds.height else { return }
+    let naviTitleViewHeight = naviTitle.font.lineHeight + naviDuration.font.lineHeight
+    let spacing = (naviHeight - naviTitleViewHeight)/2
+    naviDurationAnimator?.stopAnimation(true)
+    naviDurationAnimator = UIViewPropertyAnimator(
+      duration: 0.28,
+      curve: .easeIn,
+      animations: { [weak self] in
+        self?.naviDuration.alpha =  0
+        self?.naviDuration.transform = .init(translationX: 0, y: self?.naviDuration.font.lineHeight ?? 0)
+        self?.naviTitleView.transform = .init(translationX: 0, y: spacing)
+      })
+    naviDurationAnimator?.addCompletion { [weak self] _ in
+      self?.naviDuration.isHidden = true
+    }
+    naviDurationAnimator?.startAnimation()
+  }
+  
+  func disappearDurationInTableView() {
+    naviDurationAnimator?.stopAnimation(true)
+    naviDuration.isHidden = false
+    guard let naviHeight = navigationController?.navigationBar.bounds.height else { return }
+    let naviTitleViewHeight = naviTitle.font.lineHeight + naviDuration.font.lineHeight
+    let spacing = (naviHeight - naviTitleViewHeight)/2
+    naviTitleAnimator = UIViewPropertyAnimator(
+      duration: 0.28,
+      curve: .easeOut,
+      animations: { [weak self] in
+        self?.naviDuration.transform = .identity
+        self?.naviDuration.alpha = 1
+        self?.naviTitleView.transform = .init(translationX: 0, y: -spacing)
+      })
+    naviTitleAnimator?.addCompletion { [weak self] _ in
+      self?.naviTitle.isHidden = false
+    }
+    naviTitleAnimator?.startAnimation()
+
+  }
+  
+  func willDisplayTitleInTableView() {
     naviTitleAnimator?.stopAnimation(true)
     naviTitleAnimator = UIViewPropertyAnimator(
       duration: 0.28,
@@ -306,11 +371,7 @@ extension PostDetailViewController: PostDetailTableViewAdapterDelegate {
     naviTitleAnimator?.startAnimation()
   }
   
-  func disappearTitle(_ title: String) {
-    if naviTitle.text == nil {
-      naviTitle.text = title
-      naviTitle.transform = .init(translationX: 0, y: naviTitle.font.lineHeight)
-    }
+  func disappearTitleInTableView() {
     naviTitle.isHidden = false
     naviTitleAnimator?.stopAnimation(true)
     naviTitleAnimator = UIViewPropertyAnimator(

@@ -29,66 +29,21 @@ final class MockMyProfileUseCase: MyProfileUseCase {
   }
   
   func checkIfNicknameDuplicate(with name: String) -> AnyPublisher<Bool, any Error> {
-    var mockResult = false
-    if name == "무야호" {
-      /// 무야호일 경우 중복된 이름.
-      mockResult = true
-    }
-    let json = """
-          {
-            "result": \(mockResult),
-            "status": "OK",
-            "statusCode": "200",
-            "message": "success"
-          }
-          """
-    MockUrlProtocol.requestHandler = { _ in
-      let responseData = json.data(using: .utf8)!
-      return ((HTTPURLResponse(), responseData))
-    }
     return Future<Bool, Error> { promise in
-      DispatchQueue.global(qos: .background).async {
-        self.defaultMyProfileUseCase.checkIfNicknameDuplicate(with: name)
-          .delay(for: .seconds(0.1), scheduler: DispatchQueue.global(qos: .background))
-          .sink { completion in
-            if case .failure(let error) = completion {
-              promise(.failure(error))
-            }
-          } receiveValue: { result in
-            promise(.success(result))
-          }.store(in: &self.subscriptions)
-        
+      if name == "무야호" {
+        promise(.success(true))
       }
-    }.eraseToAnyPublisher()
+      promise(.success(false))
+    }
+    .delay(for: .seconds(0.2), scheduler: DispatchQueue.global(qos: .background))
+    .eraseToAnyPublisher()
   }
 
   func updateNickname(with name: String) -> AnyPublisher<Bool, any Error> {
-    let json = """
-          {
-            "result": true,
-            "status": "OK",
-            "statusCode": "200",
-            "message": "success"
-          }
-          """
-    MockUrlProtocol.requestHandler = { _ in
-      let responseData = json.data(using: .utf8)!
-      return ((HTTPURLResponse(), responseData))
-    }
     return Future<Bool, Error> { promise in
-      DispatchQueue.global(qos: .background).async {
-        self.defaultMyProfileUseCase.updateNickname(with: name)
-          .delay(for: .seconds(0.1), scheduler: DispatchQueue.global(qos: .background))
-          .sink { completion in
-            if case .failure(let error) = completion {
-              promise(.failure(error))
-            }
-          } receiveValue: { result in
-            promise(.success(result))
-          }.store(in: &self.subscriptions)
-
-      }
-    }.eraseToAnyPublisher()
+      promise(.success(true))
+    }.delay(for: .seconds(0.2), scheduler: DispatchQueue.global(qos: .background))
+      .eraseToAnyPublisher()
   }
   
   func updateProfile(with base64String: String) -> AnyPublisher<Bool, any Error> {

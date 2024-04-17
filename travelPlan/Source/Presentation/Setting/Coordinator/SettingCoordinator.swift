@@ -1,5 +1,5 @@
 //
-//  ProfileCoordinator.swift
+//  SettingCoordinator.swift
 //  travelPlan
 //
 //  Created by 양승현 on 2023/06/30.
@@ -9,14 +9,7 @@ import UIKit
 import SHCoordinator
 import Alamofire
 
-protocol ProfileCoordinatorDelegate: AnyObject {
-  func finish()
-  func showOperationGuidePage()
-  func showMyInformationPage()
-  func showCustomerServicePage()
-}
-
-final class ProfileCoordinator: FlowCoordinator {
+final class SettingCoordinator: FlowCoordinator {
   // MARK: - Properties
   var parent: FlowCoordinator?
   var child: [FlowCoordinator] = []
@@ -28,14 +21,29 @@ final class ProfileCoordinator: FlowCoordinator {
   
   // MARK: - Helpers
   func start() {
-    let vc = SettingViewController()
-    vc.coordinator = self
+    let actions = SettingViewModelActions { [weak self] in
+      self?.showOperationGuidePage()
+    } showMyInformationPage: { [weak self] in
+      self?.showMyInformationPage()
+    } showCustomerServicePage: { [weak self] in
+      self?.showCustomerServicePage()
+    } finish: { [weak self] in
+      self?.finish()
+    }
+    
+    let mockUserStorage = MockUserStorage()
+    let loggedInUserRepository = DefaultLoggedInUserRepository(storage: mockUserStorage)
+    let loggedInUserUseCase = DefaultLoggedInUserUseCase(loggedInUserRepository: loggedInUserRepository)
+    
+    let viewModel = SettingViewModel(loggedInUserUseCase: loggedInUserUseCase, actions: actions)
+
+    let vc = SettingViewController(viewModel: viewModel)
     presenter?.pushViewController(vc, animated: true)
   }
 }
 
-// MARK: - ProfileCoordinatorDelegate
-extension ProfileCoordinator: ProfileCoordinatorDelegate {
+// MARK: - Actions Helpers
+extension SettingCoordinator {
   func showOperationGuidePage() {
     let operationGuidePage = OperationGuideViewController(navigationTitle: "이용안내")
     presenter?.pushViewController(operationGuidePage, animated: true)

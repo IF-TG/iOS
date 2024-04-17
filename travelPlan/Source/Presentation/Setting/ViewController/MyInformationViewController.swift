@@ -61,13 +61,11 @@ final class MyInformationViewController: UIViewController {
   
   private let input = MyInformationViewModel.Input()
   
-  private let viewModel: any MyInformationViewModelable
+  private let viewModel: any MyInformationViewModelable & MyInformationViewModelPageDelegate
   
   private var subscriptions = Set<AnyCancellable>()
   
-  weak var coordinator: MyInformationCoordinatorDelegate?
-  
-  init(viewModel: any MyInformationViewModelable) {
+  init(viewModel: any MyInformationViewModelable & MyInformationViewModelPageDelegate) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
   }
@@ -115,6 +113,7 @@ extension MyInformationViewController: ViewBindCase {
           self?.handleError(error)
         }
       } receiveValue: { [weak self] state in
+        print("무야호 :\(state)")
         self?.render(state)
       }.store(in: &subscriptions)
   }
@@ -126,21 +125,21 @@ extension MyInformationViewController: ViewBindCase {
     case .correctionSaved:
       stopIndicator()
       setSubviewsDefaultUI()
-      coordinator?.showAlertForError(with: "저장을 완료했습니다", completion: nil)
+      /// 서브뷰들 기본 ui 후에 호출해야 합니다.
+      viewModel.showAlert(with: "저장을 완료했습니다")
     case .correctionNotSaved:
       stopIndicator()
-      coordinator?.showAlertForError(with: "저장에 실패했습니다", completion: nil)
+      viewModel.showAlert(with: "저장에 실패했습니다.")
     case .networkProcessing:
       startIndicator()
-    case .wannaLeaveThisPage(let hasUserEditedInfo):
-      handleWhenUserWantToLeaveThisPage(with: hasUserEditedInfo)
     case .savableState(let isStateSavable):
       handleSavableState(isStateSavable)
     case .nicknameState(let state):
       inputTextField.textState = state
+      stopIndicator()
     case .unexpectedError(description: let description):
       stopIndicator()
-      coordinator?.showAlertForError(with: "에러가 발생했습니다\n\(description)", completion: nil)
+      viewModel.showAlert(with: "에러가 발생했습니다\n\(description)")
       setStoreLabelAvailable()
     }
   }
@@ -261,10 +260,10 @@ private extension MyInformationViewController {
   
   func handleWhenUserWantToLeaveThisPage(with hasUserEditedInfo: Bool ) {
     guard hasUserEditedInfo else {
-      coordinator?.finish(withAnimated: true)
+      viewModel.finish(withAnimation: true)
       return
     }
-    coordinator?.showConfirmationAlertPage()
+    viewModel.showConfirmationAlertPage()
   }
   
   func handleSavableState(_ isStateSavable: Bool) {
@@ -279,7 +278,7 @@ private extension MyInformationViewController {
 // MARK: - Actions
 extension MyInformationViewController {
   @objc func didTapBackBarButton(_ sender: Any) {
-    input.backBarButtonTap.send()
+    viewModel.showPrevPage()
   }
   
   @objc func didTapStoreLabel() {
@@ -287,7 +286,7 @@ extension MyInformationViewController {
   }
   
   @objc func didTapProfile() {
-    coordinator?.showBottomSheetAlbum()
+    viewModel.showBottomSheetAlbum()
   }
 }
 

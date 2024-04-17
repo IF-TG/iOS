@@ -9,7 +9,7 @@ import UIKit
 import SHCoordinator
 
 @frozen enum PostDetailCommentOption: String, CaseIterable {
-  case commentUpdate = "수정하기"
+  case commentUpdate = "편집하기"
   case commentDelete = "삭제하기"
   case commentUserBlock = "차단하기"
 }
@@ -19,16 +19,23 @@ import SHCoordinator
   case postReport = "신고하기"
 }
 
-/// 뷰 컨트롤러에서 사용할 타입 -> 뷰 모델에서 구현
-protocol PostDetailCoordinatorDelegate: AnyObject {
-  func showAlertForError(with description: String, completion: (() -> Void)?)
-  func showAnAlertToAskWhetherToCancelWrittingTheReply(completion: ((Bool) -> Void)?)
-  func showPostOption()
-  func showCommentOption(section: Int)
-  func showNestedCommentOption(indexPath: IndexPath)
-  func showCategory()
-  func showPostReportResult()
-  func showReviewWriting(tempContents: [PostContentEntity])
+@frozen enum PostDetailWritingCacnelType {
+  // 대댓글 작성
+  case replyWrite
+  // 대댓글 편집
+  case replyEdit
+  case commentEdit
+  
+  var alertMessage: String {
+    switch self {
+    case .replyWrite:
+      "작성중인 대댓글을 취소하시겠습니까?"
+    case .replyEdit:
+      "대댓글 편집을 취소하시겠습니까?"
+    case .commentEdit:
+      "댓글 편집을 취소하시겠습니까?"
+    }
+  }
 }
 
 // MARK: - PostDetailCoordinator
@@ -69,8 +76,8 @@ final class PostDetailCoordinator: NSObject, FlowCoordinator {
       showAlertForError: { [weak self] message, completion in
         self?.showAlertForError(with: message, completion: completion)
       },
-      showAnAlertToAskWhetherToCancelWrittingTheReply: { [weak self] completion in
-        self?.showAnAlertToAskWhetherToCancelWrittingTheReply(completion: completion)
+      showAnAlertToAskWhetherToCancelWriting: { [weak self] type, completion in
+        self?.showAnAlertToAskWhetherToCancelWriting(type: type, completion: completion)
       },
       showPostOption: { [weak self] optionCallback in
         self?.showOption(handler: optionCallback)
@@ -94,7 +101,7 @@ final class PostDetailCoordinator: NSObject, FlowCoordinator {
       category: category,
       postUseCase: postUseCase,
       postCommentUseCase: postCommentUseCase,
-      loggedInUserUseCase: loggedInUserUseCase, 
+      loggedInUserUseCase: loggedInUserUseCase,
       postNestedCommentUseCase: postNestedCommentUseCase,
       userBlockUseCase: userBlockUseCase,
       actions: actions)
@@ -113,7 +120,7 @@ final class PostDetailCoordinator: NSObject, FlowCoordinator {
   }
 }
 
-// MARK: - PostDetailCoordinatorDelegate
+// MARK: - Actions Helpers
 extension PostDetailCoordinator {
   func showReviewWriting(entity: ReviewWritingEntity) {
     let reviewWritingCoordinator = ReviewWritingCoordinator(presenter: presenter, mode: .edit(entity))
@@ -127,8 +134,8 @@ extension PostDetailCoordinator {
     postDetailViewController?.present(alert, animated: true)
   }
   
-  func showAnAlertToAskWhetherToCancelWrittingTheReply(completion: ((Bool) -> Void)?) {
-    let alert = UIAlertController(title: "작성 중인 대댓글을 취소하시겠습니까?", message: nil, preferredStyle: .alert).set {
+  func showAnAlertToAskWhetherToCancelWriting(type: PostDetailWritingCacnelType, completion: ((Bool) -> Void)?) {
+    let alert = UIAlertController(title: type.alertMessage, message: nil, preferredStyle: .alert).set {
       $0.addAction(title: "아니요", style: .cancel) { _ in completion?(false) }
       $0.addAction(title: "예", style: .default) { _ in completion?(true) }
     }

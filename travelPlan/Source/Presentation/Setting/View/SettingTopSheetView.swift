@@ -46,6 +46,10 @@ final class SettingTopSheetView: UIView {
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.numberOfLines = 1
     $0.textColor = UIColor(red: 0.984, green: 0.984, blue: 0.984, alpha: 1)
+    $0.layer.shadowColor = UIColor.black.cgColor
+    $0.layer.shadowOffset = CGSize(width: 0, height: 4)
+    $0.layer.shadowRadius = 10
+    $0.layer.shadowOpacity = 0.2
   }
   
   private let quotationLabel = BaseLabel(
@@ -56,6 +60,10 @@ final class SettingTopSheetView: UIView {
     $0.text = "어디로 떠나시게요? 🎒"
     $0.numberOfLines = 1
     $0.textColor = UIColor(red: 0.984, green: 0.984, blue: 0.984, alpha: 1)
+    $0.layer.shadowColor = UIColor.black.cgColor
+    $0.layer.shadowOffset = CGSize(width: 0, height: 4)
+    $0.layer.shadowRadius = 10
+    $0.layer.shadowOpacity = 0.2
   }
   
   private let profileImageView = UIImageView(frame: .zero).set {
@@ -96,12 +104,12 @@ final class SettingTopSheetView: UIView {
 
 // MARK: - Helpers
 extension SettingTopSheetView {
-  func configure(name: String, imagePath: String) {
-    profileImageView.image = UIImage(named: imagePath)
-    nameLabel.text = "\(name)님,"
+  func configure(name: String?, imagePath: String?) {
+    profileImageView.image = UIImage(named: imagePath ?? "default_profile_icon")
+    nameLabel.text = "\(name ?? "익명")님,"
     let highlightInfo = HighlightFontInfo(
       fontType: Constant.NameLabel.highlightFont,
-      text: name,
+      text: name ?? "익명",
       additionalAttributes: [.font: UIFont(pretendard: Constant.NameLabel.highlightFont)!])
     nameLabel.setHighlight(with: highlightInfo)
   }
