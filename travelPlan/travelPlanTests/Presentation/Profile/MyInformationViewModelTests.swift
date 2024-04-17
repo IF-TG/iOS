@@ -24,9 +24,16 @@ final class MyInformationViewModelTests: XCTestCase {
     let mockStroage = MockUserStorage()
     let defaultLoggedInUserRepository = DefaultLoggedInUserRepository(storage: mockStroage)
     let defaultLoggedInUserUseCase = DefaultLoggedInUserUseCase(loggedInUserRepository: defaultLoggedInUserRepository)
+    let mockActions = MyInformationViewModelActions {
+    } showBottomSheetAlbum: {
+    } showAlertForError: { _, _ in
+    } finish: {
+    } finishWithAnimation: { _ in
+    }
+
     sut = MyInformationViewModel(
       myProfileUseCase: useCase,
-      loggedInUserUseCase: defaultLoggedInUserUseCase)
+      loggedInUserUseCase: defaultLoggedInUserUseCase, actions: mockActions)
     input = MyInformationViewModel.Input()
   }
   
