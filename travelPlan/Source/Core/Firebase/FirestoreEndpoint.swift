@@ -8,12 +8,12 @@
 import Foundation
 import FirebaseFirestore
 
-protocol FirestoreEndopint {
-  associatedtype ResponseDTO: Decodable
+struct FirestoreEndopint<ResponseDTO: Decodable> {
+  let ResponseDTO: ResponseDTO
   
-  var parameters: (any Encodable)? { get }
-  var method: FirestoreMethod { get }
-  var requestType: FirestoreRequestType { get }
+  var parameters: (any Encodable)?
+  var method: FirestoreMethod
+  var requestType: FirestoreRequestType
 }
 
 extension FirestoreEndopint {
