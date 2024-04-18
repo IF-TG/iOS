@@ -29,7 +29,7 @@ import FirebaseAuthCombineSwift
 
 protocol FirebaseAuthRepository {
   /// 파이어베이스에서 지원하는 로그인 제공업체의 경우
-  func signIn(with credential: OAuthCredential) -> AnyPublisher<Bool, any Error>
+  func signIn(with credential: OAuthCredential) -> AnyPublisher<Void, any Error>
   
   /// 파이어베이스 기본 Authentication
   func signIn(withEnail: String, password: String) -> AnyPublisher<Bool, any Error>
