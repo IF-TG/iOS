@@ -11,6 +11,7 @@ import FirebaseFirestore
 import FirebaseFirestoreCombineSwift
 
 final class DefaultFirestoreService: FirestoreService {
+  /// 다중 문서 받아올 경우
   func request<D, E>(endpoint: E) -> AnyPublisher<[D], any Error>
   where D == E.ResponseDTO, E : FirestoreEndopintable {
     guard let collectionRef = endpoint.reference as? CollectionReference else {
@@ -27,6 +28,7 @@ final class DefaultFirestoreService: FirestoreService {
     return Fail(error: FirestoreServiceError.docuemntNotfound).eraseToAnyPublisher()
   }
   
+  /// 단일 문서 받아올 경우
   func request<D, E>(endpoint: E) -> AnyPublisher<D, any Error>
   where D == E.ResponseDTO, E : FirestoreEndopintable {
     guard let documentRef = endpoint.reference as? DocumentReference else {
