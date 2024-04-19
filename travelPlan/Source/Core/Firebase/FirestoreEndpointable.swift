@@ -13,7 +13,7 @@ protocol FirestoreEndopintable {
   
   var parameters: (any Encodable)? { get }
   var method: FirestoreMethod { get }
-  var requestType: FirestoreRequestType { get }
+  var requestType: FirestoreDataLocationable { get }
 }
 
 extension FirestoreEndopintable {

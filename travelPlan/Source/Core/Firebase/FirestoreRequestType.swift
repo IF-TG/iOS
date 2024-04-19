@@ -8,7 +8,7 @@
 import Foundation
 import FirebaseFirestore
 
-@frozen enum FirestoreRequestType {
+@frozen enum FirestoreRequestType: FirestoreDataLocationable {
   case users(UsersRequest)
   case blockedUsers
   case posts
