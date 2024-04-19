@@ -13,7 +13,7 @@ import FirebaseFirestoreCombineSwift
 final class DefaultFirestoreService: FirestoreService {
   /// 다중 문서 받아올 경우
   func request<D, E>(endpoint: E) -> AnyPublisher<[D], any Error>
-  where D == E.ResponseDTO, E : FirestoreEndopintable {
+  where D == E.ResponseDTO, E: FirestoreEndopintable {
     guard let collectionRef = endpoint.reference as? CollectionReference else {
       return Fail(error: FirestoreServiceError.collectionNotFound).eraseToAnyPublisher()
     }
@@ -30,7 +30,7 @@ final class DefaultFirestoreService: FirestoreService {
   
   /// 단일 문서 받아올 경우
   func request<D, E>(endpoint: E) -> AnyPublisher<D, any Error>
-  where D == E.ResponseDTO, E : FirestoreEndopintable {
+  where D == E.ResponseDTO, E: FirestoreEndopintable {
     guard let documentRef = endpoint.reference as? DocumentReference else {
       return Fail(error: FirestoreServiceError.docuemntNotfound).eraseToAnyPublisher()
     }
@@ -68,7 +68,7 @@ final class DefaultFirestoreService: FirestoreService {
     endpoint: E,
     makeQuery: any FirestoreQueryMakeable,
     additionalQueries: [any FirestoreQueryAppendable] = []
-  ) -> AnyPublisher<[D], any Error> where D == E.ResponseDTO, E : FirestoreEndopintable {
+  ) -> AnyPublisher<[D], any Error> where D == E.ResponseDTO, E: FirestoreEndopintable {
     guard let collectionRef = endpoint.reference as? CollectionReference else {
       return Fail(error: FirestoreServiceError.collectionNotFound).eraseToAnyPublisher()
     }
