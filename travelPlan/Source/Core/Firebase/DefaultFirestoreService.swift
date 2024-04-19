@@ -12,7 +12,7 @@ import FirebaseFirestoreCombineSwift
 
 final class DefaultFirestoreService: FirestoreService {
   /// 다중 문서 받아올 경우
-  func request<D, E>(endpoint: E) -> AnyPublisher<[D], any Error>
+  static func request<D, E>(endpoint: E) -> AnyPublisher<[D], any Error>
   where D == E.ResponseDTO, E: FirestoreEndopintable {
     guard let collectionRef = endpoint.reference as? CollectionReference else {
       return Fail(error: FirestoreServiceError.collectionNotFound).eraseToAnyPublisher()
@@ -29,7 +29,7 @@ final class DefaultFirestoreService: FirestoreService {
   }
   
   /// 단일 문서 받아올 경우
-  func request<D, E>(endpoint: E) -> AnyPublisher<D, any Error>
+  static func request<D, E>(endpoint: E) -> AnyPublisher<D, any Error>
   where D == E.ResponseDTO, E: FirestoreEndopintable {
     guard let documentRef = endpoint.reference as? DocumentReference else {
       return Fail(error: FirestoreServiceError.docuemntNotfound).eraseToAnyPublisher()
@@ -44,7 +44,7 @@ final class DefaultFirestoreService: FirestoreService {
   }
   
   /// Use this method when firestoreMethod is one of save, delete or update
-  func request(
+  static func request(
     endpoint: any FirestoreEndopintable
   ) -> AnyPublisher<Void, any Error> {
     guard let documentRef = endpoint.reference as? DocumentReference else {
@@ -64,7 +64,7 @@ final class DefaultFirestoreService: FirestoreService {
   
   /// If there is only one query condition, you should use **makeQuery** to create the Query.
   /// If there are multiple query conditions, create the Query using **makeQuery** and then add the remaining query conditions using **additionalQueries**.
-  func query<D, E>(
+  static func query<D, E>(
     endpoint: E,
     makeQuery: any FirestoreQueryMakeable,
     additionalQueries: [any FirestoreQueryAppendable] = []

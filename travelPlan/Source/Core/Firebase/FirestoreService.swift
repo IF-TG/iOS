@@ -10,19 +10,19 @@ import Combine
 import FirebaseFirestore
 
 protocol FirestoreService {
-  func request<D, E>(endpoint: E) -> AnyPublisher<[D], Error>
+  static func request<D, E>(endpoint: E) -> AnyPublisher<[D], Error>
   where D: Decodable,
         E: FirestoreEndopintable,
         D == E.ResponseDTO
   
-  func request<D, E>(endpoint: E) -> AnyPublisher<D, Error>
+  static func request<D, E>(endpoint: E) -> AnyPublisher<D, Error>
   where D: Decodable,
         E: FirestoreEndopintable,
         D == E.ResponseDTO
   
-  func request(endpoint: any FirestoreEndopintable) -> AnyPublisher<Void, Error>
+  static func request(endpoint: any FirestoreEndopintable) -> AnyPublisher<Void, Error>
   
-  func query<D, E>(
+  static func query<D, E>(
     endpoint: E,
     makeQuery: any FirestoreQueryMakeable,
     additionalQueries: [any FirestoreQueryAppendable]
@@ -34,7 +34,7 @@ protocol FirestoreService {
 
 // MARK: - Helpers
 extension FirestoreService {
-  func appendQueries(_ query: Query, queries: [any FirestoreQueryAppendable]) {
+  static func appendQueries(_ query: Query, queries: [any FirestoreQueryAppendable]) {
     if !queries.isEmpty {
       queries.forEach { $0.apply(to: query) }
     }
