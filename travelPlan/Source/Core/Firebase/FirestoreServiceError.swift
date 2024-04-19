@@ -11,4 +11,5 @@ import FirebaseFirestore
 @frozen public enum FirestoreServiceError: LocalizedError {
   case collectionNotFound
   case docuemntNotfound
+  case methodNotSupported
 }
