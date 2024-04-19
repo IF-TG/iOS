@@ -69,6 +69,9 @@ final class DefaultFirestoreService: FirestoreService {
     makeQuery: any FirestoreQueryMakeable,
     additionalQueries: [any FirestoreQueryAppendable] = []
   ) -> AnyPublisher<[D], any Error> where D == E.ResponseDTO, E: FirestoreEndopintable {
+    guard case .query = endpoint.method else {
+      return Fail(error: FirestoreServiceError.invalidFirestoreMethodRequest).eraseToAnyPublisher()
+    }
     guard let collectionRef = endpoint.reference as? CollectionReference else {
       return Fail(error: FirestoreServiceError.collectionNotFound).eraseToAnyPublisher()
     }
