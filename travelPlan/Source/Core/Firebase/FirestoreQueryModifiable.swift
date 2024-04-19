@@ -7,9 +7,16 @@
 
 import FirebaseFirestore
 
-protocol FirestoreQueryModifiable {
+protocol FirestoreQuery {
+  associatedtype Value: Any
   var field: String { get }
-  var value: Any { get }
-  
-  func apply(to query: Query) -> Query
+  var value: Value { get }
+}
+
+protocol FirestoreQueryAppendable: FirestoreQuery {
+  func apply(to query: Query)
+}
+
+protocol FirestoreQueryMakeable: FirestoreQuery {
+  func makeQuery(with reference: CollectionReference) -> Query
 }
