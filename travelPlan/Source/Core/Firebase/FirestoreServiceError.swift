@@ -12,4 +12,5 @@ import FirebaseFirestore
   case collectionNotFound
   case docuemntNotfound
   case methodNotSupported
+  case invalidFirestoreMethodRequest
 }
