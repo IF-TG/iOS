@@ -13,4 +13,5 @@ import FirebaseFirestore
   case save(Encodable)
   case delete
   case update(Encodable)
+  case query
 }

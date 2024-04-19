@@ -7,6 +7,7 @@
 
 import Foundation
 import Combine
+import FirebaseFirestore
 
 protocol FirestoreService {
   func request<D, E>(endpoint: E) -> AnyPublisher<[D], Error>
@@ -20,4 +21,12 @@ protocol FirestoreService {
         D == E.ResponseDTO
   
   func request(endpoint: any FirestoreEndopintable) -> AnyPublisher<Void, Error>
+  
+  func query<D, E>(
+    endpoint: E,
+    queryModifiers: [FirestoreQueryModifiable]
+  ) -> AnyPublisher<D, Error>
+  where D: Decodable,
+        E: FirestoreEndopintable,
+        D == E.ResponseDTO
 }
