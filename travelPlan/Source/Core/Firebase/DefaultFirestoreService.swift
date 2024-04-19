@@ -61,4 +61,24 @@ final class DefaultFirestoreService: FirestoreService {
       return Fail(error: FirestoreServiceError.invalidFirestoreMethodRequest).eraseToAnyPublisher()
     }
   }
+  
+  /// If there is only one query condition, you should use **makeQuery** to create the Query.
+  /// If there are multiple query conditions, create the Query using **makeQuery** and then add the remaining query conditions using **additionalQueries**.
+  func query<D, E>(
+    endpoint: E,
+    makeQuery: any FirestoreQueryMakeable,
+    additionalQueries: [any FirestoreQueryAppendable] = []
+  ) -> AnyPublisher<[D], any Error> where D == E.ResponseDTO, E : FirestoreEndopintable {
+    guard let collectionRef = endpoint.reference as? CollectionReference else {
+      return Fail(error: FirestoreServiceError.collectionNotFound).eraseToAnyPublisher()
+    }
+    let query = makeQuery.makeQuery(with: collectionRef)
+    appendQueries(query, queries: additionalQueries)
+    return query.getDocuments()
+      .tryMap { querySnapshot in
+        try querySnapshot.documents.map { snapshot in
+          try snapshot.data(as: D.self)
+        }
+      }.eraseToAnyPublisher()
+  }
 }
