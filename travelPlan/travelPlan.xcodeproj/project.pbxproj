@@ -226,6 +226,7 @@
 		1546DF392B0B29D700B49A55 /* ImageConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1546DF382B0B29D700B49A55 /* ImageConverter.swift */; };
 		1546DF3B2B0C5B7C00B49A55 /* ImageDiskCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1546DF3A2B0C5B7C00B49A55 /* ImageDiskCache.swift */; };
 		1546DF3F2B0C64E500B49A55 /* ImageDiskCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1546DF3E2B0C64E500B49A55 /* ImageDiskCacheTests.swift */; };
+		154CA5F92BD2C91C0066B444 /* SHFirestoreService in Frameworks */ = {isa = PBXBuildFile; productRef = 154CA5F82BD2C91C0066B444 /* SHFirestoreService */; };
 		154ECA172AB0B5D40093AF25 /* TravelMainThemeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154ECA162AB0B5D40093AF25 /* TravelMainThemeType.swift */; };
 		154FBC172BC2CDB40070D2FE /* PostReportType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154FBC162BC2CDB40070D2FE /* PostReportType.swift */; };
 		154FBC1A2BC2D4C30070D2FE /* PostDetailViewController+TableViewHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154FBC192BC2D4C30070D2FE /* PostDetailViewController+TableViewHelpers.swift */; };
@@ -408,6 +409,8 @@
 		15C1F55C2AF37CA8005FDA15 /* NSMutableAttributedString+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C1F55B2AF37CA8005FDA15 /* NSMutableAttributedString+.swift */; };
 		15C1F55F2AF3CDD4005FDA15 /* SettingTopSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C1F55E2AF3CDD4005FDA15 /* SettingTopSheetView.swift */; };
 		15C1F5612AF3D17D005FDA15 /* CALayer+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C1F5602AF3D17D005FDA15 /* CALayer+.swift */; };
+		15C36BBB2BD17AC0004AA8E9 /* FirestoreRequestType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C36BBA2BD17AC0004AA8E9 /* FirestoreRequestType.swift */; };
+		15C36BCB2BD242FB004AA8E9 /* FirestoreEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C36BCA2BD242FB004AA8E9 /* FirestoreEndpoint.swift */; };
 		15C466AD2BBACE2C00609DDD /* DefaultPhotoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 134384142B495C0E005034E0 /* DefaultPhotoService.swift */; };
 		15C7A51A2B94DA2800C79E27 /* UserIdReqeustDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C7A5192B94DA2800C79E27 /* UserIdReqeustDTO.swift */; };
 		15C83F882AB2055E00DDB536 /* BaseBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C83F872AB2055E00DDB536 /* BaseBottomSheetViewController.swift */; };
@@ -1001,6 +1004,8 @@
 		15C1F55B2AF37CA8005FDA15 /* NSMutableAttributedString+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+.swift"; sourceTree = "<group>"; };
 		15C1F55E2AF3CDD4005FDA15 /* SettingTopSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTopSheetView.swift; sourceTree = "<group>"; };
 		15C1F5602AF3D17D005FDA15 /* CALayer+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+.swift"; sourceTree = "<group>"; };
+		15C36BBA2BD17AC0004AA8E9 /* FirestoreRequestType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreRequestType.swift; sourceTree = "<group>"; };
+		15C36BCA2BD242FB004AA8E9 /* FirestoreEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreEndpoint.swift; sourceTree = "<group>"; };
 		15C7A5192B94DA2800C79E27 /* UserIdReqeustDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserIdReqeustDTO.swift; sourceTree = "<group>"; };
 		15C83F872AB2055E00DDB536 /* BaseBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseBottomSheetViewController.swift; sourceTree = "<group>"; };
 		15C83F892AB2134D00DDB536 /* BottomSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetView.swift; sourceTree = "<group>"; };
@@ -1182,6 +1187,7 @@
 				15A40D592BCFAEE80045C2C5 /* FirebaseAuth in Frameworks */,
 				151DF0CF2AEE397000D5D55B /* Alamofire in Frameworks */,
 				15A40D612BCFAEE80045C2C5 /* FirebaseStorage in Frameworks */,
+				154CA5F92BD2C91C0066B444 /* SHFirestoreService in Frameworks */,
 				15A40D5F2BCFAEE80045C2C5 /* FirebaseFirestoreCombine-Community in Frameworks */,
 				135A07D92BB7EEF7003D6C4D /* PhotosUI.framework in Frameworks */,
 				13E913932B0F3ECF00E15B11 /* SnapKit in Frameworks */,
@@ -1938,6 +1944,7 @@
 		1546DF182B0A653F00B49A55 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				15C36BB12BD0D722004AA8E9 /* Firebase */,
 				1509E39B2B10D38900DB3969 /* ImageIO */,
 				1546DF372B0B29CD00B49A55 /* Image */,
 				1546DF222B0A6F9600B49A55 /* Cache */,
@@ -2448,6 +2455,15 @@
 				15F2A01F2B15AEA10014603D /* ConnectedSNSStackView.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		15C36BB12BD0D722004AA8E9 /* Firebase */ = {
+			isa = PBXGroup;
+			children = (
+				15C36BBA2BD17AC0004AA8E9 /* FirestoreRequestType.swift */,
+				15C36BCA2BD242FB004AA8E9 /* FirestoreEndpoint.swift */,
+			);
+			path = Firebase;
 			sourceTree = "<group>";
 		};
 		15C92C0C2A0ABE7800376D1B /* FeedNavigationBar */ = {
@@ -3041,6 +3057,7 @@
 				15A40D5E2BCFAEE80045C2C5 /* FirebaseFirestoreCombine-Community */,
 				15A40D602BCFAEE80045C2C5 /* FirebaseStorage */,
 				15A40D622BCFAEE80045C2C5 /* FirebaseStorageCombine-Community */,
+				154CA5F82BD2C91C0066B444 /* SHFirestoreService */,
 			);
 			productName = travelPlan;
 			productReference = 1594F52E29FD517E00A58F20 /* travelPlan.app */;
@@ -3084,6 +3101,7 @@
 				13E913912B0F3ECF00E15B11 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				1536CC4F2BC8D5D700EEAE2B /* XCRemoteSwiftPackageReference "ActivityIndicator" */,
 				15A40D572BCFAEE80045C2C5 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				154CA5F72BD2C91C0066B444 /* XCRemoteSwiftPackageReference "SHFirestoreService" */,
 			);
 			productRefGroup = 1594F52F29FD517E00A58F20 /* Products */;
 			projectDirPath = "";
@@ -3334,6 +3352,7 @@
 				15BE6BDE2BAF0930009A2568 /* DefaultPostCommentRepository.swift in Sources */,
 				15FFABFB2AD5B6FC0013DB57 /* BasePaddingLabel.swift in Sources */,
 				15B01DA32BA93A1000BE9F98 /* UserStorage.swift in Sources */,
+				15C36BBB2BD17AC0004AA8E9 /* FirestoreRequestType.swift in Sources */,
 				153FA90F2B937E12006CF3C3 /* UserProfileResponseDTO.swift in Sources */,
 				151DF1012AEEBD0A00D5D55B /* NotificationAPIEndpoints.swift in Sources */,
 				1524A4A52BABEAA5002C639A /* MockPostUseCase.swift in Sources */,
@@ -3532,6 +3551,7 @@
 				157ADCA22ACFB55800D37680 /* FavoritePostViewAdapterDelegate.swift in Sources */,
 				1550D9B12ACB1D740046569B /* DevelopmentViewController.swift in Sources */,
 				134384182B4A9522005034E0 /* PhotoCell.swift in Sources */,
+				15C36BCB2BD242FB004AA8E9 /* FirestoreEndpoint.swift in Sources */,
 				15F2A0182B14E32B0014603D /* MyInformationViewController.swift in Sources */,
 				1518BC252BB0426B00FD1A74 /* PostCommentHeartToggleResponseDTO.swift in Sources */,
 				155D0BAC2B90CB5B0042DFB6 /* UserNicknamePatchRequestDTO.swift in Sources */,
@@ -4073,6 +4093,14 @@
 				minimumVersion = 1.1.0;
 			};
 		};
+		154CA5F72BD2C91C0066B444 /* XCRemoteSwiftPackageReference "SHFirestoreService" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SHcommit/SHFirestoreService.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.2;
+			};
+		};
 		15A40D572BCFAEE80045C2C5 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -4103,6 +4131,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 1536CC4F2BC8D5D700EEAE2B /* XCRemoteSwiftPackageReference "ActivityIndicator" */;
 			productName = ActivityIndicator;
+		};
+		154CA5F82BD2C91C0066B444 /* SHFirestoreService */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 154CA5F72BD2C91C0066B444 /* XCRemoteSwiftPackageReference "SHFirestoreService" */;
+			productName = SHFirestoreService;
 		};
 		15A40D582BCFAEE80045C2C5 /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
