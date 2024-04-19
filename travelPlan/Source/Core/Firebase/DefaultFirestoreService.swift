@@ -40,4 +40,23 @@ final class DefaultFirestoreService: FirestoreService {
     }
     return Fail(error: FirestoreServiceError.docuemntNotfound).eraseToAnyPublisher()
   }
+  
+  /// Use this method when firestoreMethod is one of save, delete or update
+  func request(
+    endpoint: any FirestoreEndopintable
+  ) -> AnyPublisher<Void, any Error> {
+    guard let documentRef = endpoint.reference as? DocumentReference else {
+      return Fail(error: FirestoreServiceError.docuemntNotfound).eraseToAnyPublisher()
+    }
+    switch endpoint.method {
+    case .save(let requestDTO):
+      return documentRef.setData(from: requestDTO).eraseToAnyPublisher()
+    case .delete:
+      return documentRef.delete().eraseToAnyPublisher()
+    case .update(let requestDTO):
+      return documentRef.setData(from: requestDTO).eraseToAnyPublisher()
+    default:
+      return Fail(error: FirestoreServiceError.invalidFirestoreMethodRequest).eraseToAnyPublisher()
+    }
+  }
 }
