@@ -26,7 +26,7 @@ protocol FirestoreService {
     endpoint: E,
     makeQuery: any FirestoreQueryMakeable,
     additionalQueries: [any FirestoreQueryAppendable]
-  ) -> AnyPublisher<D, Error>
+  ) -> AnyPublisher<[D], Error>
   where D: Decodable,
         E: FirestoreEndopintable,
         D == E.ResponseDTO
