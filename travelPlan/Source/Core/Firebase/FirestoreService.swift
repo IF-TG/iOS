@@ -24,9 +24,19 @@ protocol FirestoreService {
   
   func query<D, E>(
     endpoint: E,
-    queryModifiers: [FirestoreQueryModifiable]
+    makeQuery: any FirestoreQueryMakeable,
+    additionalQueries: [any FirestoreQueryAppendable]
   ) -> AnyPublisher<D, Error>
   where D: Decodable,
         E: FirestoreEndopintable,
         D == E.ResponseDTO
+}
+
+// MARK: - Helpers
+extension FirestoreService {
+  func appendQueries(_ query: Query, queries: [any FirestoreQueryAppendable]) {
+    if !queries.isEmpty {
+      queries.forEach { $0.apply(to: query) }
+    }
+  }
 }
