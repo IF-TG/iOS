@@ -7,8 +7,9 @@
 
 import Foundation
 import FirebaseFirestore
+import SHFirestoreService
 
-@frozen enum FirestoreRequestType: FirestoreDataLocationable {
+@frozen enum FirestoreRequestType: FirestoreAccessible {
   case users(UsersRequest)
   case blockedUsers
   case posts
