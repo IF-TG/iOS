@@ -237,6 +237,9 @@
 		154CA6132BD3A6CC0066B444 /* TourApiDetailCommonResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154CA6122BD3A6CC0066B444 /* TourApiDetailCommonResponseDTO.swift */; };
 		154CA6152BD3A72C0066B444 /* TourApiBaseResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154CA6142BD3A72C0066B444 /* TourApiBaseResponseDTO.swift */; };
 		154CA61B2BD3AAC40066B444 /* DestinationAPIEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154CA61A2BD3AAC40066B444 /* DestinationAPIEndpoint.swift */; };
+		154CA61F2BD3AD5C0066B444 /* DefaultTourDestinationRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154CA61E2BD3AD5C0066B444 /* DefaultTourDestinationRepository.swift */; };
+		154CA6212BD3AD700066B444 /* TourDestinationRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154CA6202BD3AD700066B444 /* TourDestinationRepository.swift */; };
+		154CA6232BD3AE100066B444 /* TourDestinationDetailCommonEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154CA6222BD3AE100066B444 /* TourDestinationDetailCommonEntity.swift */; };
 		154ECA172AB0B5D40093AF25 /* TravelMainThemeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154ECA162AB0B5D40093AF25 /* TravelMainThemeType.swift */; };
 		154FBC172BC2CDB40070D2FE /* PostReportType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154FBC162BC2CDB40070D2FE /* PostReportType.swift */; };
 		154FBC1A2BC2D4C30070D2FE /* PostDetailViewController+TableViewHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154FBC192BC2D4C30070D2FE /* PostDetailViewController+TableViewHelpers.swift */; };
@@ -849,6 +852,9 @@
 		154CA6122BD3A6CC0066B444 /* TourApiDetailCommonResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourApiDetailCommonResponseDTO.swift; sourceTree = "<group>"; };
 		154CA6142BD3A72C0066B444 /* TourApiBaseResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourApiBaseResponseDTO.swift; sourceTree = "<group>"; };
 		154CA61A2BD3AAC40066B444 /* DestinationAPIEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationAPIEndpoint.swift; sourceTree = "<group>"; };
+		154CA61E2BD3AD5C0066B444 /* DefaultTourDestinationRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultTourDestinationRepository.swift; sourceTree = "<group>"; };
+		154CA6202BD3AD700066B444 /* TourDestinationRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourDestinationRepository.swift; sourceTree = "<group>"; };
+		154CA6222BD3AE100066B444 /* TourDestinationDetailCommonEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourDestinationDetailCommonEntity.swift; sourceTree = "<group>"; };
 		154ECA162AB0B5D40093AF25 /* TravelMainThemeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelMainThemeType.swift; sourceTree = "<group>"; };
 		154FBC162BC2CDB40070D2FE /* PostReportType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostReportType.swift; sourceTree = "<group>"; };
 		154FBC192BC2D4C30070D2FE /* PostDetailViewController+TableViewHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PostDetailViewController+TableViewHelpers.swift"; sourceTree = "<group>"; };
@@ -1739,6 +1745,7 @@
 				1564A0A32BBFE25B0045424B /* UpdatedFavoritePostDirectoryName.swift */,
 				154FBC162BC2CDB40070D2FE /* PostReportType.swift */,
 				13E98F8C2BC5961E00F05295 /* ReviewWritingEntity.swift */,
+				154CA6222BD3AE100066B444 /* TourDestinationDetailCommonEntity.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -1798,6 +1805,7 @@
 		151DF0F82AEEB89100D5D55B /* Repositories */ = {
 			isa = PBXGroup;
 			children = (
+				154CA61D2BD3AD430066B444 /* TourAPI */,
 				154CA61C2BD3AD0B0066B444 /* Server */,
 			);
 			path = Repositories;
@@ -1825,6 +1833,7 @@
 				15B5E7A02BBAE68000C19F56 /* UserBlockRepository.swift */,
 				15591DD52BBE9C5200128A9E /* FavoritePostInDirectoryRepository.swift */,
 				13E98F882BC581BF00F05295 /* ReviewWritingRepository.swift */,
+				154CA6202BD3AD700066B444 /* TourDestinationRepository.swift */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
@@ -1943,6 +1952,7 @@
 		1546DF182B0A653F00B49A55 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				154CA6252BD3B5640066B444 /* Authentication */,
 				1509E39B2B10D38900DB3969 /* ImageIO */,
 				1546DF372B0B29CD00B49A55 /* Image */,
 				1546DF222B0A6F9600B49A55 /* Cache */,
@@ -2067,9 +2077,6 @@
 			isa = PBXGroup;
 			children = (
 				15FFAC0A2AD7C22B0013DB57 /* RequestType.swift */,
-				130CF38E2B9356370051DEE8 /* AuthenticationService.swift */,
-				130CF38A2B9347790051DEE8 /* LoginStrategy.swift */,
-				130CF38C2B9347CF0051DEE8 /* AppleLoginStrategy.swift */,
 				15FFAC062AD6ED5B0013DB57 /* Endpoint.swift */,
 				154CA6052BD39A6E0066B444 /* TourApiEndpoint.swift */,
 				154CA6072BD39D920066B444 /* TourApiRequestType.swift */,
@@ -2139,6 +2146,24 @@
 				13E98F8A2BC581D200F05295 /* DefaultReviewWritingRepository.swift */,
 			);
 			path = Server;
+			sourceTree = "<group>";
+		};
+		154CA61D2BD3AD430066B444 /* TourAPI */ = {
+			isa = PBXGroup;
+			children = (
+				154CA61E2BD3AD5C0066B444 /* DefaultTourDestinationRepository.swift */,
+			);
+			path = TourAPI;
+			sourceTree = "<group>";
+		};
+		154CA6252BD3B5640066B444 /* Authentication */ = {
+			isa = PBXGroup;
+			children = (
+				130CF38E2B9356370051DEE8 /* AuthenticationService.swift */,
+				130CF38A2B9347790051DEE8 /* LoginStrategy.swift */,
+				130CF38C2B9347CF0051DEE8 /* AppleLoginStrategy.swift */,
+			);
+			path = Authentication;
 			sourceTree = "<group>";
 		};
 		154FBC182BC2D4AB0070D2FE /* Extension */ = {
@@ -3349,6 +3374,7 @@
 				158695932AE5455B0087CCB3 /* FeedPostViewAdapter.swift in Sources */,
 				15CB23612A10B5E3003EAF20 /* DateValidationProtocol.swift in Sources */,
 				15302C572B9E29B900B1EA3F /* MockMyProfileUseCase.swift in Sources */,
+				154CA6212BD3AD700066B444 /* TourDestinationRepository.swift in Sources */,
 				13405F002AECF76300382796 /* BaseLoginButton.swift in Sources */,
 				15CAEF892BAED300008AEDB1 /* PostCommentAPIEndpoint.swift in Sources */,
 				15E982C12ACD16A2002B932F /* FavoriteDetailMenuAreaView.swift in Sources */,
@@ -3582,6 +3608,7 @@
 				15F0D1B62A524DC500D04773 /* PostSortingAreaView.swift in Sources */,
 				153841D72A5642A9004C41D1 /* PostViewBottomSheetCell.swift in Sources */,
 				156759B12A0D774500849CE2 /* FeedViewModel.swift in Sources */,
+				154CA61F2BD3AD5C0066B444 /* DefaultTourDestinationRepository.swift in Sources */,
 				151DF0E12AEE828900D5D55B /* NoticeCell.swift in Sources */,
 				15F0D1B02A51BDFE00D04773 /* CategoryPageViewDataSource.swift in Sources */,
 				13333CBF2ABDE86A005AB50B /* LeftAlignThreeLabelsView.swift in Sources */,
@@ -3798,6 +3825,7 @@
 				15B9286F2AFA49C4003A20D4 /* PostDetailViewModel.swift in Sources */,
 				15FFAC112AD9C7A10013DB57 /* Sessionable.swift in Sources */,
 				154CA60D2BD3A2F80066B444 /* TourApiDetailCommonRequestDTO.swift in Sources */,
+				154CA6232BD3AE100066B444 /* TourDestinationDetailCommonEntity.swift in Sources */,
 				13FE64772A5C378D007D9A53 /* SearchCampingModel.swift in Sources */,
 				130B9AE32A684D3D0072A0CF /* MainSearchLayoutManager.swift in Sources */,
 				159958812B0DC57600B2E4DC /* PostCellWithFiveThumbnails.swift in Sources */,
