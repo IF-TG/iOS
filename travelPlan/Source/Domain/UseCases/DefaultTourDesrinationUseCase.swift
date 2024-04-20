@@ -19,6 +19,7 @@ final class DefaultTourDesrinationUseCase: TourDestinationUseCase {
   }
   
   // MARK: - Helpers
+  /// 특정 contentId에 대한 반환타입은 1 or error입니다..
   func fetchDetailCommonInfo(
     contentId: Int,
     numOfRows: Int?,
@@ -26,5 +27,8 @@ final class DefaultTourDesrinationUseCase: TourDestinationUseCase {
   ) -> AnyPublisher<TourDestinationDetailCommonEntity, any Error> {
     return tourDestinationRepository
       .fetchTourDestinationDetailCommon(contentId: contentId, numOfRows: numOfRows, pageNo: pageNo)
+      .compactMap { entities in
+        entities.first
+      }.eraseToAnyPublisher()
   }
 }
