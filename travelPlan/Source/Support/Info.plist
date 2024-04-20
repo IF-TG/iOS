@@ -6,6 +6,23 @@
 	<true/>
 	<key>TourAPI_ServiceKey</key>
 	<string>$(TourAPI_ServiceKey)</string>
+  <!-- 예외적으로 Tour API만 HTTP 연결을 허용 -->
+  <key>NSAppTransportSecurity</key>
+  <dict>
+    <key>NSAllowsArbitraryLoads</key>
+    <true/>
+    <key>NSExceptionDomains</key>
+    <dict>
+      <key>apis.data.go.kr</key>
+      <dict>
+        <key>NSIncludesSubdomains</key>
+        <true/>
+        <key>NSExceptionAllowsInsecureHTTPLoads</key>
+        <true/>
+      </dict>
+    </dict>
+  </dict>
+  <!-- 예외적으로 Tour API만 HTTP 연결을 허용 끝! -->
 	<key>UIAppFonts</key>
 	<array>
 		<string>Pretendard-Black.ttf</string>
