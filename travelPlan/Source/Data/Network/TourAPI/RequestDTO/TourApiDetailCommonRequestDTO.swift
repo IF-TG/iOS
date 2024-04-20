@@ -23,6 +23,25 @@ final class TourApiDetailCommonRequestDTO: TourApiBaseRequestDTO {
     pageNo: Int?
   ) {
     self.contentId = contentId
-    super.init(numOfRows: 10, pageNo: 1, keyType: .tourAPI)
+    super.init(numOfRows: numOfRows, pageNo: pageNo)
+  }
+  
+  enum CodingKeys: CodingKey {
+    case contentId
+    case addrinfoYN
+    case mapinfoYN
+    case overviewYN
+    case defaultYN
+  }
+  
+  override func encode(to encoder: any Encoder) throws {
+    try super.encode(to: encoder)
+    var container = encoder.container(keyedBy: CodingKeys.self)
+    try container.encode(self.contentId, forKey: .contentId)
+    try container.encode(self.addrinfoYN, forKey: .addrinfoYN)
+    try container.encode(self.mapinfoYN, forKey: .mapinfoYN)
+    try container.encode(self.overviewYN, forKey: .overviewYN)
+    try container.encode(self.defaultYN, forKey: .defaultYN)
+    
   }
 }
