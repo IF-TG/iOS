@@ -26,11 +26,6 @@ final class DefaultReviewWritingRepository {
 // MARK: - ReviewWritingRepository
 extension DefaultReviewWritingRepository: ReviewWritingRepository {
   func savePost(with reviewWritingPost: ReviewWritingEntity) -> AnyPublisher<Bool, any Error> {
-    MockUrlProtocol.requestHandler = { _ in
-      let mockResponseData = MockResponseType.post(.reviewWritingPostResponse).mockDataLoader
-      return ((HTTPURLResponse(), mockResponseData))
-    }
-    
     return Future { [weak self, backgroundQueue] promise in
       let requestDTO = ReviewWritingSaveRequestDTO.makeRequestDTO(entity: reviewWritingPost)
       
@@ -52,11 +47,6 @@ extension DefaultReviewWritingRepository: ReviewWritingRepository {
   }
   
   func updatePost(entity: ReviewWritingEntity, postId: Int64) -> AnyPublisher<Post, any Error> {
-    MockUrlProtocol.requestHandler = { _ in
-      let mockResponseData = MockResponseType.post(.reviewWritingPostResponse).mockDataLoader
-      return ((HTTPURLResponse(), mockResponseData))
-    }
-    
     return Future { [weak self, backgroundQueue] promise in
       let requestDTO = ReviewWritingUpdateRequestDTO(
         postId: postId,
