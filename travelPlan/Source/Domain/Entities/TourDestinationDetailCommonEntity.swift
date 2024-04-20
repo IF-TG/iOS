@@ -18,14 +18,14 @@ struct TourDestinationDetailCommonEntity {
 extension TourDestinationDetailCommonEntity {
   /// **기본 정보 조회**
   struct Id {
-    let contentId: Int
-    let contentTypeId: Int
+    let contentId: String
+    let contentTypeId: String
   }
   
   /// **좌표 정보 조회**
   struct Coordinate {
-    let mapX: Double
-    let mapY: Double
+    let mapX: String
+    let mapY: String
   }
   
   /// **컨텐츠 연락 정보**
