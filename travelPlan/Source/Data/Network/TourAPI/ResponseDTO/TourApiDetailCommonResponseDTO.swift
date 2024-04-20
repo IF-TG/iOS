@@ -7,16 +7,10 @@
 
 import Foundation
 
-final class TourApiDetailCommonResponseDTO: TourApiBaseResponseDTO, Decodable {
-  var resultCode: String
-  var resultMsg: String
-  var numOfRows: Int
-  var pageNo: Int
-  var totalCount: Int
-  
+final class TourApiDetailCommonResponseDTO: Decodable {
   /// **기본 정보 조화**
-  let contentid: Int
-  let contenttypeid: Int
+  let contentid: String
+  let contenttypeid: String
   let tel: String
   let telname: String
   
@@ -26,8 +20,8 @@ final class TourApiDetailCommonResponseDTO: TourApiBaseResponseDTO, Decodable {
   let addr2: String
   
   /// **좌표 정보 조회**
-  let mapx: Double
-  let mapy: Double
+  let mapx: String
+  let mapy: String
   
   let overview: String
 }
