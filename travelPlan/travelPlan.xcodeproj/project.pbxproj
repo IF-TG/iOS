@@ -235,7 +235,6 @@
 		154CA60D2BD3A2F80066B444 /* TourApiDetailCommonRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154CA60C2BD3A2F80066B444 /* TourApiDetailCommonRequestDTO.swift */; };
 		154CA6102BD3A5E00066B444 /* TourApiCommonResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154CA60F2BD3A5E00066B444 /* TourApiCommonResponseDTO.swift */; };
 		154CA6132BD3A6CC0066B444 /* TourApiDetailCommonResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154CA6122BD3A6CC0066B444 /* TourApiDetailCommonResponseDTO.swift */; };
-		154CA6152BD3A72C0066B444 /* TourApiBaseResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154CA6142BD3A72C0066B444 /* TourApiBaseResponseDTO.swift */; };
 		154CA61B2BD3AAC40066B444 /* DestinationAPIEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154CA61A2BD3AAC40066B444 /* DestinationAPIEndpoint.swift */; };
 		154CA61F2BD3AD5C0066B444 /* DefaultTourDestinationRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154CA61E2BD3AD5C0066B444 /* DefaultTourDestinationRepository.swift */; };
 		154CA6212BD3AD700066B444 /* TourDestinationRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154CA6202BD3AD700066B444 /* TourDestinationRepository.swift */; };
@@ -244,6 +243,7 @@
 		154CA6292BD3B7490066B444 /* TourDestinationUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154CA6282BD3B7490066B444 /* TourDestinationUseCase.swift */; };
 		154CA62B2BD3B7960066B444 /* DefaultTourDesrinationUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154CA62A2BD3B7960066B444 /* DefaultTourDesrinationUseCase.swift */; };
 		154CA62F2BD3B8DA0066B444 /* TourDestinationUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154CA62E2BD3B8DA0066B444 /* TourDestinationUseCaseTests.swift */; };
+		154CA6322BD40C5C0066B444 /* TourApiSessionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154CA6312BD40C5C0066B444 /* TourApiSessionProvider.swift */; };
 		154ECA172AB0B5D40093AF25 /* TravelMainThemeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154ECA162AB0B5D40093AF25 /* TravelMainThemeType.swift */; };
 		154FBC172BC2CDB40070D2FE /* PostReportType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154FBC162BC2CDB40070D2FE /* PostReportType.swift */; };
 		154FBC1A2BC2D4C30070D2FE /* PostDetailViewController+TableViewHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154FBC192BC2D4C30070D2FE /* PostDetailViewController+TableViewHelpers.swift */; };
@@ -854,7 +854,6 @@
 		154CA60C2BD3A2F80066B444 /* TourApiDetailCommonRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourApiDetailCommonRequestDTO.swift; sourceTree = "<group>"; };
 		154CA60F2BD3A5E00066B444 /* TourApiCommonResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourApiCommonResponseDTO.swift; sourceTree = "<group>"; };
 		154CA6122BD3A6CC0066B444 /* TourApiDetailCommonResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourApiDetailCommonResponseDTO.swift; sourceTree = "<group>"; };
-		154CA6142BD3A72C0066B444 /* TourApiBaseResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourApiBaseResponseDTO.swift; sourceTree = "<group>"; };
 		154CA61A2BD3AAC40066B444 /* DestinationAPIEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationAPIEndpoint.swift; sourceTree = "<group>"; };
 		154CA61E2BD3AD5C0066B444 /* DefaultTourDestinationRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultTourDestinationRepository.swift; sourceTree = "<group>"; };
 		154CA6202BD3AD700066B444 /* TourDestinationRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourDestinationRepository.swift; sourceTree = "<group>"; };
@@ -864,6 +863,7 @@
 		154CA62A2BD3B7960066B444 /* DefaultTourDesrinationUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultTourDesrinationUseCase.swift; sourceTree = "<group>"; };
 		154CA62E2BD3B8DA0066B444 /* TourDestinationUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourDestinationUseCaseTests.swift; sourceTree = "<group>"; };
 		154CA6302BD3BDB40066B444 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		154CA6312BD40C5C0066B444 /* TourApiSessionProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourApiSessionProvider.swift; sourceTree = "<group>"; };
 		154ECA162AB0B5D40093AF25 /* TravelMainThemeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelMainThemeType.swift; sourceTree = "<group>"; };
 		154FBC162BC2CDB40070D2FE /* PostReportType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostReportType.swift; sourceTree = "<group>"; };
 		154FBC192BC2D4C30070D2FE /* PostDetailViewController+TableViewHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PostDetailViewController+TableViewHelpers.swift"; sourceTree = "<group>"; };
@@ -2093,6 +2093,7 @@
 				154CA6052BD39A6E0066B444 /* TourApiEndpoint.swift */,
 				154CA6072BD39D920066B444 /* TourApiRequestType.swift */,
 				154CA6262BD3B5A70066B444 /* TourApiError.swift */,
+				154CA6312BD40C5C0066B444 /* TourApiSessionProvider.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -2129,7 +2130,6 @@
 			children = (
 				154CA60F2BD3A5E00066B444 /* TourApiCommonResponseDTO.swift */,
 				154CA6122BD3A6CC0066B444 /* TourApiDetailCommonResponseDTO.swift */,
-				154CA6142BD3A72C0066B444 /* TourApiBaseResponseDTO.swift */,
 			);
 			path = ResponseDTO;
 			sourceTree = "<group>";
@@ -3554,7 +3554,6 @@
 				130CF3682B8E87490051DEE8 /* LoginUseCase.swift in Sources */,
 				1503F93A2A4E1260002BC38D /* SearchCoordinator.swift in Sources */,
 				15FEB5E62A050A99000A5F33 /* UISwitch+Combine.swift in Sources */,
-				154CA6152BD3A72C0066B444 /* TourApiBaseResponseDTO.swift in Sources */,
 				15EA48CA2A539D7B00F4B391 /* MoreMenuViewDelegate.swift in Sources */,
 				150F17FC2B16D865008C0E17 /* CustomerServiceViewController.swift in Sources */,
 				15EF8C9B2A0A19100068C744 /* TravelMainThemeCategoryAreaView.swift in Sources */,
@@ -3822,6 +3821,7 @@
 				15B01DA72BA941D800BE9F98 /* LoggedInUserRepository.swift in Sources */,
 				15198E962BADE2BB0011930D /* PostThumbnails.swift in Sources */,
 				13A93EF92AD1CA0200FC4BBD /* SearchTopTenCellViewModel.swift in Sources */,
+				154CA6322BD40C5C0066B444 /* TourApiSessionProvider.swift in Sources */,
 				15B01DAB2BA9472300BE9F98 /* MockUserStorage.swift in Sources */,
 				13606E982AA4F26500365F20 /* DefaultPostSearchLayout.swift in Sources */,
 				15FBD5D42B98DAB000076115 /* TravelRegionMapper.swift in Sources */,
