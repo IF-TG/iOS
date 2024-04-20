@@ -236,6 +236,7 @@
 		154CA6102BD3A5E00066B444 /* TourApiCommonResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154CA60F2BD3A5E00066B444 /* TourApiCommonResponseDTO.swift */; };
 		154CA6132BD3A6CC0066B444 /* TourApiDetailCommonResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154CA6122BD3A6CC0066B444 /* TourApiDetailCommonResponseDTO.swift */; };
 		154CA6152BD3A72C0066B444 /* TourApiBaseResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154CA6142BD3A72C0066B444 /* TourApiBaseResponseDTO.swift */; };
+		154CA61B2BD3AAC40066B444 /* DestinationAPIEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154CA61A2BD3AAC40066B444 /* DestinationAPIEndpoint.swift */; };
 		154ECA172AB0B5D40093AF25 /* TravelMainThemeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154ECA162AB0B5D40093AF25 /* TravelMainThemeType.swift */; };
 		154FBC172BC2CDB40070D2FE /* PostReportType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154FBC162BC2CDB40070D2FE /* PostReportType.swift */; };
 		154FBC1A2BC2D4C30070D2FE /* PostDetailViewController+TableViewHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154FBC192BC2D4C30070D2FE /* PostDetailViewController+TableViewHelpers.swift */; };
@@ -847,6 +848,7 @@
 		154CA60F2BD3A5E00066B444 /* TourApiCommonResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourApiCommonResponseDTO.swift; sourceTree = "<group>"; };
 		154CA6122BD3A6CC0066B444 /* TourApiDetailCommonResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourApiDetailCommonResponseDTO.swift; sourceTree = "<group>"; };
 		154CA6142BD3A72C0066B444 /* TourApiBaseResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourApiBaseResponseDTO.swift; sourceTree = "<group>"; };
+		154CA61A2BD3AAC40066B444 /* DestinationAPIEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationAPIEndpoint.swift; sourceTree = "<group>"; };
 		154ECA162AB0B5D40093AF25 /* TravelMainThemeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelMainThemeType.swift; sourceTree = "<group>"; };
 		154FBC162BC2CDB40070D2FE /* PostReportType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostReportType.swift; sourceTree = "<group>"; };
 		154FBC192BC2D4C30070D2FE /* PostDetailViewController+TableViewHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PostDetailViewController+TableViewHelpers.swift"; sourceTree = "<group>"; };
@@ -1796,17 +1798,7 @@
 		151DF0F82AEEB89100D5D55B /* Repositories */ = {
 			isa = PBXGroup;
 			children = (
-				130CF36B2B8F3D770051DEE8 /* DefaultLoginRepository.swift */,
-				15D6558A2B8E0F8500466FEC /* DefaultMyProfileRepository.swift */,
-				151DF0FD2AEEBBE200D5D55B /* DefaultNotificationRepository.swift */,
-				15E9E5E92B9A1CA500C2F1F7 /* DefaultPostRepository.swift */,
-				152715442BA0D60F0077D033 /* DefaultOthersProfileRepository.swift */,
-				15B01DA82BA9425E00BE9F98 /* DefaultLoggedInUserRepository.swift */,
-				15BE6BDD2BAF0930009A2568 /* DefaultPostCommentRepository.swift */,
-				15553BC52BB3445A000AA896 /* DefaultPostNestedCommentRepository.swift */,
-				15B5E7A22BBAE6F800C19F56 /* DefaultUserBlockRepository.swift */,
-				15591DD72BBE9D1800128A9E /* DefaultFavoritePostInDirectoryRepository.swift */,
-				13E98F8A2BC581D200F05295 /* DefaultReviewWritingRepository.swift */,
+				154CA61C2BD3AD0B0066B444 /* Server */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
@@ -2107,6 +2099,7 @@
 			children = (
 				154CA6192BD3AA390066B444 /* RequestDTO */,
 				154CA6182BD3AA330066B444 /* ResponseDTO */,
+				154CA61A2BD3AAC40066B444 /* DestinationAPIEndpoint.swift */,
 			);
 			path = TourAPI;
 			sourceTree = "<group>";
@@ -2128,6 +2121,24 @@
 				154CA60C2BD3A2F80066B444 /* TourApiDetailCommonRequestDTO.swift */,
 			);
 			path = RequestDTO;
+			sourceTree = "<group>";
+		};
+		154CA61C2BD3AD0B0066B444 /* Server */ = {
+			isa = PBXGroup;
+			children = (
+				130CF36B2B8F3D770051DEE8 /* DefaultLoginRepository.swift */,
+				15D6558A2B8E0F8500466FEC /* DefaultMyProfileRepository.swift */,
+				151DF0FD2AEEBBE200D5D55B /* DefaultNotificationRepository.swift */,
+				15E9E5E92B9A1CA500C2F1F7 /* DefaultPostRepository.swift */,
+				152715442BA0D60F0077D033 /* DefaultOthersProfileRepository.swift */,
+				15B01DA82BA9425E00BE9F98 /* DefaultLoggedInUserRepository.swift */,
+				15BE6BDD2BAF0930009A2568 /* DefaultPostCommentRepository.swift */,
+				15553BC52BB3445A000AA896 /* DefaultPostNestedCommentRepository.swift */,
+				15B5E7A22BBAE6F800C19F56 /* DefaultUserBlockRepository.swift */,
+				15591DD72BBE9D1800128A9E /* DefaultFavoritePostInDirectoryRepository.swift */,
+				13E98F8A2BC581D200F05295 /* DefaultReviewWritingRepository.swift */,
+			);
+			path = Server;
 			sourceTree = "<group>";
 		};
 		154FBC182BC2D4AB0070D2FE /* Extension */ = {
@@ -3530,6 +3541,7 @@
 				135A07C42BA9883E003D6C4D /* DefaultAlbumUseCase.swift in Sources */,
 				15C1F55F2AF3CDD4005FDA15 /* SettingTopSheetView.swift in Sources */,
 				15553BCA2BB346A3000AA896 /* DefaultPostNestedCommentUseCase.swift in Sources */,
+				154CA61B2BD3AAC40066B444 /* DestinationAPIEndpoint.swift in Sources */,
 				15F0D1B22A51BE3200D04773 /* CategoryPageViewDelegate.swift in Sources */,
 				13CB6D342A1FEC6D00D185B2 /* CautionAlertViewControllerDelegate.swift in Sources */,
 				1364FBE42B611DA400D89FC9 /* AlbumPhotoDetailViewController.swift in Sources */,
