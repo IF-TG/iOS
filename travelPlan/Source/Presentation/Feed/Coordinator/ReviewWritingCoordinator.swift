@@ -43,10 +43,8 @@ final class ReviewWritingCoordinator: FlowCoordinator {
   }
   
   func start() {
-    let mockSession = MockSession.default
-    let sessionProvider = SessionProvider(session: mockSession)
-    let reviewWritingRepository = DefaultReviewWritingRepository(service: sessionProvider)
-    let reviewWritingUseCase = DefaultReviewWritingUseCase(reviewWritingRepository: reviewWritingRepository)
+    let mockReviewWritingRepository = MockReviewWritingRepository()
+    let reviewWritingUseCase = DefaultReviewWritingUseCase(reviewWritingRepository: mockReviewWritingRepository)
     let photoAuthUseCase = DefaultPhotoAuthorizationUseCase()
     let viewModel = DefaultReviewWritingViewModel(
       photoAuthorizationUseCase: photoAuthUseCase,
