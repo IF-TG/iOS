@@ -6,30 +6,58 @@
 //
 
 import XCTest
+import Combine
+@testable import travelPlan
 
 final class TourDestinationUseCaseTests: XCTestCase {
+  // MARK: - Properties
+  var sut: TourDestinationUseCase!
+  var subscription: AnyCancellable?
+  var expectation: XCTestExpectation!
+  
+  // MARK: - Lifecycle
+  override func setUp() {
+    super.setUp()
+    
+    let service = TourApiSessionProvider()
+    let tourDestinationRepository = DefaultTourDestinationRepository(
+      service: service,
+      backgroundQueue: .global(qos: .userInitiated))
+    sut = DefaultTourDesrinationUseCase(tourDestinationRepository: tourDestinationRepository)
+    expectation = XCTestExpectation(description: "Finish")
+  }
+  
+  override func tearDown() {
+    super.tearDown()
+    sut = nil
+    subscription = nil
+    expectation = nil
+  }
+}
 
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
-    }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+/// 실제 tour api를 활용하에 데이터를 요청하고 원하는 entity로 decodable 후 entity로 받는지에 대한 테스트입니다.
+extension TourDestinationUseCaseTests {
+  func test_WhenFetchTourDestinationDetailCommonInfo_ShouldReturnTrue() {
+    // Arrange
+    var result = false
+    var unexpectedError: Error?
+    
+    // Act
+    subscription = sut.fetchDetailCommonInfo(contentId: 126508, numOfRows: 10, pageNo: 1)
+      .sink { [unowned self] completion in
+        if case .failure(let error) = completion {
+          unexpectedError = error
         }
-    }
-
+        expectation.fulfill()
+      } receiveValue: { [unowned self] entity in
+        print("DEBUG: 값을 성공적으로 받음 (축하)(축하)\n\n:\(entity)\n")
+        result = true
+        expectation.fulfill()
+      }
+    wait(for: [expectation], timeout: 10)
+    
+    // Assert
+    checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "fetchDetailCommonInfo")
+    XCTAssertTrue(result, notReceivedErrorMessage)
+  }
 }
