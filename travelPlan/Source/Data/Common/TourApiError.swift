@@ -26,23 +26,28 @@ import Foundation
   case unknownError
   
   init(code: String) {
-    switch code {
-    case "01": self = .applicationError
-    case "02": self = .dbError
-    case "03": self = .noDataError
-    case "04": self = .httpError
-    case "05": self = .serviceTimeoutError
-    case "10": self = .invalidRequestParameterError
-    case "11": self = .noMandatoryRequestParametersError
-    case "12": self = .noOpenAPIServiceError
-    case "20": self = .serviceAccessDeniedError
-    case "21": self = .temporarilyDisableTheServiceKeyError
-    case "22": self = .limitedNumberOfServiceRequestsExceedsError
-    case "30": self = .serviceKeyIsNotRegisteredError
-    case "31": self = .deadlineHasExpiredError
-    case "32": self = .unregisteredIPError
-    case "33": self = .unsignedCallError
-    default: self = .unknownError
+    let errorMap: [String: TourAPIError] = [
+      "0001": .applicationError,
+      "0002": .dbError,
+      "0003": .noDataError,
+      "0004": .httpError,
+      "0005": .serviceTimeoutError,
+      "0010": .invalidRequestParameterError,
+      "0011": .noMandatoryRequestParametersError,
+      "0012": .noOpenAPIServiceError,
+      "0020": .serviceAccessDeniedError,
+      "0021": .temporarilyDisableTheServiceKeyError,
+      "0022": .limitedNumberOfServiceRequestsExceedsError,
+      "0030": .serviceKeyIsNotRegisteredError,
+      "0031": .deadlineHasExpiredError,
+      "0032": .unregisteredIPError,
+      "0033": .unsignedCallError
+    ]
+    
+    if let errorType = errorMap[code] {
+      self = errorType
+    } else {
+      self = .unknownError
     }
   }
   
