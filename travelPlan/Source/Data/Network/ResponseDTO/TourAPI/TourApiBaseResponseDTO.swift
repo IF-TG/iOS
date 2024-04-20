@@ -7,10 +7,10 @@
 
 import Foundation
 
-class TourApiBaseResponseDTO: Decodable {
-  let resultCode: String
-  let resultMsg: String
-  let numOfRows: Int
-  let pageNo: Int
-  let totalCount: Int
-}
+protocol TourApiBaseResponseDTO {
+  var resultCode: String { get }
+  var resultMsg: String { get }
+  var numOfRows: Int { get }
+  var pageNo: Int { get }
+  var totalCount: Int { get }
+  }
