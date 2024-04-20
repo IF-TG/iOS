@@ -18,10 +18,14 @@ struct TourApiHeaderResponseDTO: Decodable {
 }
 
 struct TourApiBodyResponseDTO<T: Decodable>: Decodable {
-  let items: T
+  let items: TourApiItems<T>
   let numOfRows: Int
   let pageNo: Int
   let totalCount: Int
+}
+
+struct TourApiItems<T: Decodable>: Decodable {
+  let item: [T]
 }
 
 struct TourApiCommonResponseDTO<T: Decodable>: Decodable {
