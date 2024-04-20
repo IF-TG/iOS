@@ -17,13 +17,14 @@ protocol PostDetailViewModelPageDelegate: AnyObject {
   func showNestedCommentOption(indexPath: IndexPath)
   func showCategory()
   func showPostReportResult()
+  func showReviewWriting()
 }
 
 // MARK: - Actions
 /// 뷰 모델에서 사용할 타입. -> 코디네이터에서 구현
 struct PostDetailViewModelActions {
   typealias isCommentOwner = Bool
-  
+  let showReviewWriting: (ReviewWritingEntity) -> Void
   let showAlertForError: (String, (() -> Void)?) -> Void
   let showAnAlertToAskWhetherToCancelWriting: (PostDetailWritingCacnelType, ((Bool) -> Void)?) -> Void
   let showPostOption: (((PostDetailOption) -> Void)?) -> Void

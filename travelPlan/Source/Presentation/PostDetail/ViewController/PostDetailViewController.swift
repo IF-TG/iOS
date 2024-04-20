@@ -20,6 +20,8 @@ final class PostDetailViewController: UITableViewController {
   
   private let naviTitle = BaseLabel(fontType: .semiBold_600(fontSize: 16)).set {
     $0.alpha = 0
+    $0.textAlignment = .center
+    
   }
   
   private let naviDuration = BaseLabel(fontType: .medium_500(fontSize: 12)).set {
@@ -52,8 +54,14 @@ final class PostDetailViewController: UITableViewController {
   
   private var subscriptions = Set<AnyCancellable>()
 
+  private lazy var editButton = UIButton().set {
+    $0.setTitle("편집", for: .normal)
+    $0.setTitleColor(.black, for: .normal)
+    $0.addTarget(self, action: #selector(didTapEditButton), for: .touchUpInside)
+  }
+  
   // MARK: - Lifecycle
-  init(viewModel: (any PostDetailViewModelable & 
+  init(viewModel: (any PostDetailViewModelable &
                    PostDetailTableViewDataSource &
                    PostDetailViewModelPageDelegate)
   ) {
@@ -102,6 +110,7 @@ final class PostDetailViewController: UITableViewController {
   }
   
   deinit {
+    print("deinit: \(Self.self)")
     NotificationCenter.default.removeObserver(self)
   }
 }
@@ -257,7 +266,11 @@ private extension PostDetailViewController {
   func configureUI() {
     view.backgroundColor = .white
     setupDefaultBackBarButtonItem(marginLeft: 0)
-    navigationItem.rightBarButtonItem = UIBarButtonItem(customView: starButton)
+//    navigationItem.rightBarButtonItem = UIBarButtonItem(customView: starButton)
+    navigationItem.rightBarButtonItems = [
+      .init(customView: starButton),
+      .init(customView: editButton)
+    ]
     starButton.translatesAutoresizingMaskIntoConstraints = false
     starButton.widthAnchor.constraint(equalToConstant: 24).isActive = true
     starButton.heightAnchor.constraint(equalToConstant: 24).isActive = true
@@ -282,6 +295,10 @@ private extension PostDetailViewController {
   
 // MARK: - Actions
 extension PostDetailViewController {
+  @objc private func didTapEditButton() {
+    viewModel.showReviewWriting()
+  }
+  
   @objc func didTapTableView() {
     inputAccessory.hideKeyboard()
   }

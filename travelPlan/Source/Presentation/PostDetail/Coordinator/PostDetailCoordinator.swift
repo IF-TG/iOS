@@ -46,6 +46,7 @@ final class PostDetailCoordinator: NSObject, FlowCoordinator {
   
   /// dismiss호출코드에서 finish도 해줘야합니다
   private var postDetailViewController: PostDetailViewController?
+  weak private var viewModelPostReceivable: ReviewWritingPostReceivable?
   
   init(presenter: UINavigationController?, post: Post, category: Post.Category) {
     self.presenter = presenter
@@ -69,6 +70,9 @@ final class PostDetailCoordinator: NSObject, FlowCoordinator {
     let userBlockUseCase = DefaultUserBlockUseCase(userBlockRepository: mockUserBlockRepository)
     
     let actions = PostDetailViewModelActions(
+      showReviewWriting: { [weak self] entity in
+        self?.showReviewWriting(entity: entity)
+      },
       showAlertForError: { [weak self] message, completion in
         self?.showAlertForError(with: message, completion: completion)
       },
@@ -97,13 +101,17 @@ final class PostDetailCoordinator: NSObject, FlowCoordinator {
       category: category,
       postUseCase: postUseCase,
       postCommentUseCase: postCommentUseCase,
-      loggedInUserUseCase: loggedInUserUseCase, 
+      loggedInUserUseCase: loggedInUserUseCase,
       postNestedCommentUseCase: postNestedCommentUseCase,
       userBlockUseCase: userBlockUseCase,
       actions: actions)
     postDetailViewController = PostDetailViewController(viewModel: postDetailVM)
-    
+    self.viewModelPostReceivable = postDetailVM
     presenter?.delegate = self
+  }
+  
+  deinit {
+    print("deinit: \(Self.self)")
   }
   
   func start() {
@@ -114,6 +122,11 @@ final class PostDetailCoordinator: NSObject, FlowCoordinator {
 
 // MARK: - Actions Helpers
 extension PostDetailCoordinator {
+  func showReviewWriting(entity: ReviewWritingEntity) {
+    let reviewWritingCoordinator = ReviewWritingCoordinator(presenter: presenter, mode: .edit(entity))
+    addChild(with: reviewWritingCoordinator)
+  }
+  
   func showAlertForError(with description: String, completion: (() -> Void)?) {
     let alert = UIAlertController(title: nil, message: description, preferredStyle: .alert).set {
       $0.addAction(title: "OK", style: .default) { _ in completion?() }
@@ -218,5 +231,12 @@ extension PostDetailCoordinator: UINavigationControllerDelegate {
     animated: Bool
   ) {
     handlePopViewController(navigationController, didShow: viewController, animated: animated)
+  }
+}
+
+// MARK: - ReviewWritingPostReceivable
+extension PostDetailCoordinator: ReviewWritingPostReceivable {
+  func receive(post: Post) {
+    viewModelPostReceivable?.receive(post: post)
   }
 }

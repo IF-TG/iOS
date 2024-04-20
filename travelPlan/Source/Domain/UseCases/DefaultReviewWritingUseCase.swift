@@ -20,11 +20,21 @@ final class DefaultReviewWritingUseCase {
 
 // MARK: - ReviewWritingUseCase
 extension DefaultReviewWritingUseCase: ReviewWritingUseCase {
-  func uploadPost(content: [PostContentEntity]) -> AnyPublisher<Bool, Never> {
-    return Just(true).eraseToAnyPublisher() // 임시
+  func savePost(entity: ReviewWritingEntity) -> AnyPublisher<Bool, Error> {
+    return reviewWritingRepository
+      .savePost(with: entity)
+      .eraseToAnyPublisher()
+  }
+  
+  func updatePost(requestValue: ReviewWritingUseCaseUpdateRequestValue) 
+  -> AnyPublisher<Post, Error> {
+    return reviewWritingRepository
+      .updatePost(entity: requestValue.entity, postId: requestValue.postId)
+      .eraseToAnyPublisher()
   }
 }
 
-struct ReviewWritingUseCaseRequestValue {
-  
+struct ReviewWritingUseCaseUpdateRequestValue {
+  let entity: ReviewWritingEntity
+  let postId: Int64
 }

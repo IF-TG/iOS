@@ -10,6 +10,11 @@ import SHCoordinator
 import Photos
 import Combine
 
+/// Post를 전달받는 객체는 해당 프로토콜을 준수합니다.
+protocol ReviewWritingPostReceivable: AnyObject {
+  func receive(post: Post)
+}
+
 protocol ReviewWritingCoordinatorDelegate: FlowCoordinatorDelegate {
   var selectedAssetsPublisher: AnyPublisher<[PHAsset], Never> { get }
   
@@ -38,10 +43,8 @@ final class ReviewWritingCoordinator: FlowCoordinator {
   }
   
   func start() {
-    let mockSession = MockSession.default
-    let sessionProvider = SessionProvider(session: mockSession)
-    let reviewWritingRepository = DefaultReviewWritingRepository(service: sessionProvider)
-    let reviewWritingUseCase = DefaultReviewWritingUseCase(reviewWritingRepository: reviewWritingRepository)
+    let mockReviewWritingRepository = MockReviewWritingRepository()
+    let reviewWritingUseCase = DefaultReviewWritingUseCase(reviewWritingRepository: mockReviewWritingRepository)
     let photoAuthUseCase = DefaultPhotoAuthorizationUseCase()
     let viewModel = DefaultReviewWritingViewModel(
       photoAuthorizationUseCase: photoAuthUseCase,
@@ -80,5 +83,14 @@ extension ReviewWritingCoordinator: ReviewWritingCoordinatorDelegate {
       print(bottomSheet.selectedCategory)
     }
     presenter?.presentBottomSheet(bottomSheet)
+  }
+}
+
+// MARK: - ReviewWritingPostReceivable
+extension ReviewWritingCoordinator: ReviewWritingPostReceivable {
+  func receive(post: Post) {
+    guard let parent = parent as? ReviewWritingPostReceivable else { return }
+    parent.receive(post: post)
+    finish(withAnimated: true)
   }
 }

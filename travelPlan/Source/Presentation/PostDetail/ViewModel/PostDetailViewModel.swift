@@ -104,6 +104,8 @@ final class PostDetailViewModel {
   
   private var postReportResultOption: PostDetailOption? = .none
   
+  private var post: Post?
+  
   // MARK: - Paging Properties
   // TODO: - 페이징 추가해야합니다.
   // 그런데 댓글의 경우 좀 복잡할거같은데,, 사용자가 삭제하면 어떻게하지? 기존에 저장된 정보(이미 페이징 한 데이터)가
@@ -144,10 +146,26 @@ final class PostDetailViewModel {
     self.userBlockUseCase = userBlockUseCase
     self.actions = actions
   }
+  
+  deinit {
+    print("deinit: \(Self.self)")
+  }
 }
 
-// MARK: - PostDetailCoordinatorDelegate
+// MARK: - PostDetailViewModelPageDelegate
 extension PostDetailViewModel: PostDetailViewModelPageDelegate {
+  func showReviewWriting() {
+    let postContents = postDetails.detail.content
+    let reviewWritingEntity = ReviewWritingEntity(
+      postId: postDetails.detail.postID,
+      category: postDetails.category,
+      tripDate: postDetails.detail.tripDate,
+      title: postDetails.detail.title,
+      contents: postContents
+    )
+    actions?.showReviewWriting(reviewWritingEntity)
+  }
+  
   func showCommentOption(section: Int) {
     let commentSection = SectionType.commentIndex(section: section)
     // TODO: - 아.. 댓글 작성자의 id가 있어야 하지만 entity에 없습니다.
@@ -781,5 +799,13 @@ extension PostDetailViewModel: PostDetailTableViewDataSource {
       let commentIdx = SectionType.commentIndex(section: section)
       return postDetails.comments[commentIdx].nestedComments.count
     }
+  }
+}
+
+extension PostDetailViewModel: ReviewWritingPostReceivable {
+  func receive(post: Post) {
+    // TODO: - 편집한 리뷰작성 Post를 기반으로 화면을 갱신해야 합니다.
+    print("DEBUG: PostDetailViewModel에서 편집된 post 객체 받음")
+    self.post = post
   }
 }
