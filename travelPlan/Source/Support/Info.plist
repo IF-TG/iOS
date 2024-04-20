@@ -2,16 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>TourAPIServiceKey</key>
-	<string>$(TourAPI_ServiceKey)</string>
 	<key>PHPhotoLibraryPreventAutomaticLimitedAccessAlert</key>
 	<true/>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>사진 앨범에 접근할 권한이 필요합니다.</string>
-	<key>NSCameraUsageDescription</key>
-	<string>카메라에 접근할 권한이 필요합니다.</string>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>앨범에 접근할 권한이 필요합니다.</string>
+	<key>TourAPI_ServiceKey</key>
+	<string>$(TourAPI_ServiceKey)</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Pretendard-Black.ttf</string>

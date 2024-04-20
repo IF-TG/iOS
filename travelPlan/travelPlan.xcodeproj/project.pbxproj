@@ -243,6 +243,7 @@
 		154CA6272BD3B5A70066B444 /* TourApiError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154CA6262BD3B5A70066B444 /* TourApiError.swift */; };
 		154CA6292BD3B7490066B444 /* TourDestinationUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154CA6282BD3B7490066B444 /* TourDestinationUseCase.swift */; };
 		154CA62B2BD3B7960066B444 /* DefaultTourDesrinationUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154CA62A2BD3B7960066B444 /* DefaultTourDesrinationUseCase.swift */; };
+		154CA62F2BD3B8DA0066B444 /* TourDestinationUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154CA62E2BD3B8DA0066B444 /* TourDestinationUseCaseTests.swift */; };
 		154ECA172AB0B5D40093AF25 /* TravelMainThemeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154ECA162AB0B5D40093AF25 /* TravelMainThemeType.swift */; };
 		154FBC172BC2CDB40070D2FE /* PostReportType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154FBC162BC2CDB40070D2FE /* PostReportType.swift */; };
 		154FBC1A2BC2D4C30070D2FE /* PostDetailViewController+TableViewHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154FBC192BC2D4C30070D2FE /* PostDetailViewController+TableViewHelpers.swift */; };
@@ -861,6 +862,8 @@
 		154CA6262BD3B5A70066B444 /* TourApiError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourApiError.swift; sourceTree = "<group>"; };
 		154CA6282BD3B7490066B444 /* TourDestinationUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourDestinationUseCase.swift; sourceTree = "<group>"; };
 		154CA62A2BD3B7960066B444 /* DefaultTourDesrinationUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultTourDesrinationUseCase.swift; sourceTree = "<group>"; };
+		154CA62E2BD3B8DA0066B444 /* TourDestinationUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourDestinationUseCaseTests.swift; sourceTree = "<group>"; };
+		154CA6302BD3BDB40066B444 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		154ECA162AB0B5D40093AF25 /* TravelMainThemeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelMainThemeType.swift; sourceTree = "<group>"; };
 		154FBC162BC2CDB40070D2FE /* PostReportType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostReportType.swift; sourceTree = "<group>"; };
 		154FBC192BC2D4C30070D2FE /* PostDetailViewController+TableViewHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PostDetailViewController+TableViewHelpers.swift"; sourceTree = "<group>"; };
@@ -1653,6 +1656,7 @@
 		151130072A04E4EB0041DDA1 /* travelPlanTests */ = {
 			isa = PBXGroup;
 			children = (
+				154CA6302BD3BDB40066B444 /* Info.plist */,
 				133532072BA46597000A4D9E /* Common */,
 				1383C81A2B97F3D500830F1A /* Core */,
 				15D655A12B8F820100466FEC /* Presentation */,
@@ -2696,6 +2700,7 @@
 				15553BD52BB34D06000AA896 /* PostNestedCommentUseCaseTests.swift */,
 				15B5E7AD2BBAEBE700C19F56 /* UserBlockUseCaseTests.swift */,
 				15591DE22BBEA5AF00128A9E /* FavoritePostInDirectoryUseCaseTests.swift */,
+				154CA62E2BD3B8DA0066B444 /* TourDestinationUseCaseTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -3314,6 +3319,7 @@
 				156C1E232BBEC93900AF1D99 /* XCTestCase+Helpers.swift in Sources */,
 				15BE6BF12BAF2285009A2568 /* PostCommentUseCaseTests.swift in Sources */,
 				15733BB22BACA24E007531BA /* MockResponseType.swift in Sources */,
+				154CA62F2BD3B8DA0066B444 /* TourDestinationUseCaseTests.swift in Sources */,
 				15FBD5E42B98E94800076115 /* PostAPIEndpointTests.swift in Sources */,
 				15E9E5F02B9A359B00C2F1F7 /* PostUseCaseTests.swift in Sources */,
 				15FFAC2D2ADD03080013DB57 /* MockSession.swift in Sources */,
@@ -3877,12 +3883,14 @@
 /* Begin XCBuildConfiguration section */
 		1511300D2A04E4EB0041DDA1 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 154CA5FA2BD38EAA0066B444 /* Secrets.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = BH624LXP8S;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = travelPlanTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = SH.travelPlanTests;
@@ -3896,12 +3904,14 @@
 		};
 		1511300E2A04E4EB0041DDA1 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 154CA5FA2BD38EAA0066B444 /* Secrets.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = BH624LXP8S;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = travelPlanTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = SH.travelPlanTests;
@@ -4076,6 +4086,9 @@
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = AC2LSYY779;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Source/Support/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "카메라에 접근할 권한이 필요합니다.";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "앨범에 접근할 권한이 필요합니다.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "사진 앨범에 접근할 권한이 필요합니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -4112,6 +4125,9 @@
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = AC2LSYY779;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Source/Support/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "카메라에 접근할 권한이 필요합니다.";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "앨범에 접근할 권한이 필요합니다.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "사진 앨범에 접근할 권한이 필요합니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;

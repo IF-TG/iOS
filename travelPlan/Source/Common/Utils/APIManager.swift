@@ -13,11 +13,7 @@ final class APIManager {
   private init() {}
   
   func apiKey(with type: APIKeyType) -> String? {
-    guard
-      let file = Bundle.main.path(forResource: "Secrets", ofType: "plist"),
-      let resource = NSDictionary(contentsOfFile: file),
-      let key = resource[type.path] as? String
-    else {
+    guard let key = Bundle.main.object(forInfoDictionaryKey: type.path) as? String else {
       print("\(type.path) api key얻어오는것을 실패했습니다.")
       return nil
     }
