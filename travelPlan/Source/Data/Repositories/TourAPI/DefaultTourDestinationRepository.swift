@@ -17,7 +17,7 @@ final class DefaultTourDestinationRepository: TourDestinationRepository {
   private var subscriptions = Set<AnyCancellable?>()
   
   // MARK: - Lifecycle
-  init(service: Sessionable, backgroundQueue: DispatchQueue) {
+  init(service: Sessionable, backgroundQueue: DispatchQueue = .global(qos: .userInitiated)) {
     self.service = service
     self.backgroundQueue = backgroundQueue
   }
