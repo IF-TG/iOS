@@ -8,7 +8,7 @@
 import Foundation
 
 struct DestinationAPIEndpoint {
-  static func fetchDetailCommon(
+  static func makeDetailCommonEndpoint(
     with requestDTO: TourApiDetailCommonRequestDTO
   ) -> TourApiEndpoint<TourApiCommonResponseDTO<TourApiDetailCommonResponseDTO>> {
     return .init(
