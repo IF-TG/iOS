@@ -7,6 +7,8 @@
 
 import Foundation
 
+/// 이를 활용하면 다음과 같은 정보를 얻을 수 있습니다.
+/// contentId에 따른 주소, 좌표, 컨텐츠 소개 글, 컨텐츠 관광지 관련 연락 주소 명, 번호
 final class TourApiDetailCommonRequestDTO: TourApiBaseRequestDTO {
   let contentId: Int
   let addrinfoYN = "Y"
@@ -18,10 +20,9 @@ final class TourApiDetailCommonRequestDTO: TourApiBaseRequestDTO {
   init(
     contentId: Int,
     numOfRows: Int?,
-    pageNo: Int?,
-    keyType: APIManager.APIKeyType
+    pageNo: Int?
   ) {
     self.contentId = contentId
-    super.init(numOfRows: 10, pageNo: 1, keyType: keyType)
+    super.init(numOfRows: 10, pageNo: 1, keyType: .tourAPI)
   }
 }
