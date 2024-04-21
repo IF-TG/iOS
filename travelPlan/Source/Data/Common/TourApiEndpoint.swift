@@ -8,7 +8,7 @@
 import Alamofire
 
 final class TourApiEndpoint<ResponseDTO>: NetworkInteractionable where ResponseDTO: Decodable {
-  var scheme: String = "https"
+  var scheme: String = "http"
   var host: String = "apis.data.go.kr"
   var method: HTTPMethod = .get
   var parameters: [ParameterType]?
