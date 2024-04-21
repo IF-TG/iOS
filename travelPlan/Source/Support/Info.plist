@@ -4,6 +4,12 @@
 <dict>
 	<key>PHPhotoLibraryPreventAutomaticLimitedAccessAlert</key>
 	<true/>
+  <key>NSPhotoLibraryUsageDescription</key>
+  <string>사진 앨범에 접근할 권한이 필요합니다.</string>
+  <key>NSCameraUsageDescription</key>
+  <string>카메라에 접근할 권한이 필요합니다.</string>
+  <key>NSPhotoLibraryAddUsageDescription</key>
+  <string>앨범에 접근할 권한이 필요합니다.</string>
 	<key>TourAPI_ServiceKey</key>
 	<string>$(TourAPI_ServiceKey)</string>
   <!-- 예외적으로 Tour API만 HTTP 연결을 허용 -->
