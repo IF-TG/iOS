@@ -92,6 +92,8 @@ extension PostResponseDTO {
 
 // MARK: - Mappings DTO
 extension PostResponseDTO {
+// TODO: - Post객체를 반환하는 toDomain 메소드를 정의해야합니다.
+  
   func toDomain() -> Post.Detail<String> {
     return Post.Detail<String>(
       postID: postID,

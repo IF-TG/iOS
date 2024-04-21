@@ -108,6 +108,8 @@ extension RequestType {
 // MARK: - Post related request type
 extension RequestType {
   @frozen enum PostRequestType {
+    case save
+    case update
     case postsFetch
     case postCommentsFetch
     case likedPostsByLoggedInUserFetch
@@ -123,6 +125,8 @@ extension RequestType {
         "post/like/list"
       case .postSearch:
         "post/search"
+      case .save, .update:
+        "post"
       }
     }
   }

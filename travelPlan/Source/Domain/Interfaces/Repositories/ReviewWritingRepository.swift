@@ -9,5 +9,6 @@ import Foundation
 import Combine
 
 protocol ReviewWritingRepository {
-  func uploadPost() -> AnyPublisher<Bool, Never>
+  func savePost(with reviewWritingPost: ReviewWritingEntity) -> AnyPublisher<Bool, Error>
+  func updatePost(entity: ReviewWritingEntity, postId: Int64) -> AnyPublisher<Post, Error>
 }

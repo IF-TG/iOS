@@ -124,7 +124,13 @@
 		13CB6D322A1E9F6600D185B2 /* CautionAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CB6D312A1E9F6600D185B2 /* CautionAlertViewController.swift */; };
 		13CB6D342A1FEC6D00D185B2 /* CautionAlertViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CB6D332A1FEC6D00D185B2 /* CautionAlertViewControllerDelegate.swift */; };
 		13CB6D362A20E12B00D185B2 /* CALayer+Border.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CB6D352A20E12B00D185B2 /* CALayer+Border.swift */; };
+		13E622BF2BD02401003E4FA4 /* mock_reviewWriting_post_response.json in Resources */ = {isa = PBXBuildFile; fileRef = 13E622BD2BD02401003E4FA4 /* mock_reviewWriting_post_response.json */; };
+		13E622C12BD2A922003E4FA4 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 13E622C02BD2A922003E4FA4 /* GoogleService-Info.plist */; };
+		13E622C32BD39F91003E4FA4 /* MockReviewWritingRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E622C22BD39F91003E4FA4 /* MockReviewWritingRepository.swift */; };
 		13E746772B4D303E007D5C15 /* PhotoCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E746762B4D303E007D5C15 /* PhotoCellDelegate.swift */; };
+		13E7EABD2BD3BCEE0027946C /* ReviewWritingUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E7EABC2BD3BCEE0027946C /* ReviewWritingUseCaseTests.swift */; };
+		13E7EABE2BD3E46F0027946C /* mock_posts_response.json in Resources */ = {isa = PBXBuildFile; fileRef = 15EBDBBC2BC0236C00A8A91C /* mock_posts_response.json */; };
+		13E7EABF2BD3E47A0027946C /* mock_reviewWriting_post_response.json in Resources */ = {isa = PBXBuildFile; fileRef = 13E622BD2BD02401003E4FA4 /* mock_reviewWriting_post_response.json */; };
 		13E913932B0F3ECF00E15B11 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 13E913922B0F3ECF00E15B11 /* SnapKit */; };
 		13E98F852BC53D8000F05295 /* ReviewWritingUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E98F842BC53D8000F05295 /* ReviewWritingUseCase.swift */; };
 		13E98F872BC53DDD00F05295 /* DefaultReviewWritingUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E98F862BC53DDD00F05295 /* DefaultReviewWritingUseCase.swift */; };
@@ -132,6 +138,10 @@
 		13E98F8B2BC581D200F05295 /* DefaultReviewWritingRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E98F8A2BC581D200F05295 /* DefaultReviewWritingRepository.swift */; };
 		13E98F8D2BC5961F00F05295 /* ReviewWritingEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E98F8C2BC5961E00F05295 /* ReviewWritingEntity.swift */; };
 		13E98F942BC7E42E00F05295 /* PostContentEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E98F932BC7E42E00F05295 /* PostContentEntity.swift */; };
+		13E98F962BC98B4100F05295 /* ReviewWritingEndpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E98F952BC98B4100F05295 /* ReviewWritingEndpoints.swift */; };
+		13E98F982BCA6FE900F05295 /* ReviewWritingSaveRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E98F972BCA6FE900F05295 /* ReviewWritingSaveRequestDTO.swift */; };
+		13E98F9C2BCDCF1300F05295 /* ReviewWritingUpdateRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E98F9B2BCDCF1300F05295 /* ReviewWritingUpdateRequestDTO.swift */; };
+		13E98FA02BCE61D800F05295 /* ReviewWritingSaveResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E98F9F2BCE61D800F05295 /* ReviewWritingSaveResponseDTO.swift */; };
 		13F6DAC82B5248EF00573B86 /* SlideUpAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F6DAC72B5248EF00573B86 /* SlideUpAnimator.swift */; };
 		13F6DACA2B52711E00573B86 /* SlideDownAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F6DAC92B52711E00573B86 /* SlideDownAnimator.swift */; };
 		13F6DACD2B53A5D400573B86 /* AlbumCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F6DACC2B53A5D400573B86 /* AlbumCoordinator.swift */; };
@@ -362,7 +372,6 @@
 		15A40D5F2BCFAEE80045C2C5 /* FirebaseFirestoreCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 15A40D5E2BCFAEE80045C2C5 /* FirebaseFirestoreCombine-Community */; };
 		15A40D612BCFAEE80045C2C5 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 15A40D602BCFAEE80045C2C5 /* FirebaseStorage */; };
 		15A40D632BCFAEE80045C2C5 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 15A40D622BCFAEE80045C2C5 /* FirebaseStorageCombine-Community */; };
-		15A40D652BCFAF1B0045C2C5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 15A40D642BCFAF1B0045C2C5 /* GoogleService-Info.plist */; };
 		15A4F28B2ACC072A001AA51D /* PrimaryColorToneRoundLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A4F28A2ACC072A001AA51D /* PrimaryColorToneRoundLabel.swift */; };
 		15A4F28D2ACC1025001AA51D /* Toggable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A4F28C2ACC1025001AA51D /* Toggable.swift */; };
 		15A7A8EE2B9F6B1D00CA9A79 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A7A8ED2B9F6B1D00CA9A79 /* UserDefaultsManager.swift */; };
@@ -748,13 +757,21 @@
 		13CB6D312A1E9F6600D185B2 /* CautionAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CautionAlertViewController.swift; sourceTree = "<group>"; };
 		13CB6D332A1FEC6D00D185B2 /* CautionAlertViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CautionAlertViewControllerDelegate.swift; sourceTree = "<group>"; };
 		13CB6D352A20E12B00D185B2 /* CALayer+Border.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+Border.swift"; sourceTree = "<group>"; };
+		13E622BE2BD02401003E4FA4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/mock_reviewWriting_post_response.json; sourceTree = "<group>"; };
+		13E622C02BD2A922003E4FA4 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		13E622C22BD39F91003E4FA4 /* MockReviewWritingRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockReviewWritingRepository.swift; sourceTree = "<group>"; };
 		13E746762B4D303E007D5C15 /* PhotoCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCellDelegate.swift; sourceTree = "<group>"; };
+		13E7EABC2BD3BCEE0027946C /* ReviewWritingUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWritingUseCaseTests.swift; sourceTree = "<group>"; };
 		13E98F842BC53D8000F05295 /* ReviewWritingUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWritingUseCase.swift; sourceTree = "<group>"; };
 		13E98F862BC53DDD00F05295 /* DefaultReviewWritingUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultReviewWritingUseCase.swift; sourceTree = "<group>"; };
 		13E98F882BC581BF00F05295 /* ReviewWritingRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWritingRepository.swift; sourceTree = "<group>"; };
 		13E98F8A2BC581D200F05295 /* DefaultReviewWritingRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultReviewWritingRepository.swift; sourceTree = "<group>"; };
 		13E98F8C2BC5961E00F05295 /* ReviewWritingEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWritingEntity.swift; sourceTree = "<group>"; };
 		13E98F932BC7E42E00F05295 /* PostContentEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostContentEntity.swift; sourceTree = "<group>"; };
+		13E98F952BC98B4100F05295 /* ReviewWritingEndpoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWritingEndpoints.swift; sourceTree = "<group>"; };
+		13E98F972BCA6FE900F05295 /* ReviewWritingSaveRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWritingSaveRequestDTO.swift; sourceTree = "<group>"; };
+		13E98F9B2BCDCF1300F05295 /* ReviewWritingUpdateRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWritingUpdateRequestDTO.swift; sourceTree = "<group>"; };
+		13E98F9F2BCE61D800F05295 /* ReviewWritingSaveResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWritingSaveResponseDTO.swift; sourceTree = "<group>"; };
 		13F6DAC72B5248EF00573B86 /* SlideUpAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideUpAnimator.swift; sourceTree = "<group>"; };
 		13F6DAC92B52711E00573B86 /* SlideDownAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideDownAnimator.swift; sourceTree = "<group>"; };
 		13F6DACC2B53A5D400573B86 /* AlbumCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumCoordinator.swift; sourceTree = "<group>"; };
@@ -976,7 +993,6 @@
 		159F38C92AFAABF9000A24C2 /* PostDetailProfileAreaFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailProfileAreaFooterView.swift; sourceTree = "<group>"; };
 		15A0E19E2B97A3BC0047D662 /* PostResponseDTO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostResponseDTO.swift; sourceTree = "<group>"; };
 		15A0E1A02B97A3FD0047D662 /* PostContainerResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostContainerResponseDTO.swift; sourceTree = "<group>"; };
-		15A40D642BCFAF1B0045C2C5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		15A4F28A2ACC072A001AA51D /* PrimaryColorToneRoundLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryColorToneRoundLabel.swift; sourceTree = "<group>"; };
 		15A4F28C2ACC1025001AA51D /* Toggable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toggable.swift; sourceTree = "<group>"; };
 		15A7A8ED2B9F6B1D00CA9A79 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
@@ -1267,8 +1283,8 @@
 			children = (
 				130304782A24936D00776A0D /* SearchViewModel.swift */,
 				131A11072AB5067E007BDD66 /* SearchMoreDetailViewModel.swift */,
-				13274C592A59AD29001F141C /* SearchFestivalCellViewModel.swift */,
 				13FE64782A5C3900007D9A53 /* TravelDestinationCellViewModel.swift */,
+				13274C592A59AD29001F141C /* SearchFestivalCellViewModel.swift */,
 				13A93EF82AD1CA0200FC4BBD /* SearchTopTenCellViewModel.swift */,
 			);
 			path = ViewModel;
@@ -1660,6 +1676,7 @@
 				133532072BA46597000A4D9E /* Common */,
 				1383C81A2B97F3D500830F1A /* Core */,
 				15D655A12B8F820100466FEC /* Presentation */,
+				13E7EABC2BD3BCEE0027946C /* ReviewWritingUseCaseTests.swift */,
 				151130082A04E4EB0041DDA1 /* travelPlanTests.swift */,
 			);
 			path = travelPlanTests;
@@ -1879,6 +1896,7 @@
 				15B5E7AF2BBAEE4100C19F56 /* BlockedUserProfileResponseDTO.swift */,
 				15D3DA1F2BBFCDED0099C384 /* FavoritePostScrapResponseDTO.swift */,
 				1564A0A12BBFE0780045424B /* FavoritePostDirectoryNameUpdateResponseDTO.swift */,
+				13E98F9F2BCE61D800F05295 /* ReviewWritingSaveResponseDTO.swift */,
 			);
 			path = ResponseDTO;
 			sourceTree = "<group>";
@@ -1902,6 +1920,7 @@
 				151DF10E2AEECBB400D5D55B /* mock_response_notice.json */,
 				158E81F42B9A4D3F0080CCA8 /* mock_response_postContainer.json */,
 				15EBDBBC2BC0236C00A8A91C /* mock_posts_response.json */,
+				13E622BD2BD02401003E4FA4 /* mock_reviewWriting_post_response.json */,
 			);
 			path = MockJson;
 			sourceTree = "<group>";
@@ -2111,6 +2130,7 @@
 				15553BBF2BB34151000AA896 /* PostNestedCommentAPIEndpoint.swift */,
 				15B5E79E2BBAE51C00C19F56 /* UserBlockAPIEndpoint.swift */,
 				15591DD12BBE993500128A9E /* FavoritePostAPIEndpoint.swift */,
+				13E98F952BC98B4100F05295 /* ReviewWritingEndpoints.swift */,
 			);
 			path = Server;
 			sourceTree = "<group>";
@@ -2177,6 +2197,14 @@
 				130CF38C2B9347CF0051DEE8 /* AppleLoginStrategy.swift */,
 			);
 			path = Authentication;
+			sourceTree = "<group>";
+		};
+		154CA63B2BD4E6E40066B444 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				13E622C02BD2A922003E4FA4 /* GoogleService-Info.plist */,
+			);
+			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 		154FBC182BC2D4AB0070D2FE /* Extension */ = {
@@ -2290,7 +2318,6 @@
 			isa = PBXGroup;
 			children = (
 				154CA5FA2BD38EAA0066B444 /* Secrets.xcconfig */,
-				15A40D642BCFAF1B0045C2C5 /* GoogleService-Info.plist */,
 				137F19242B85F1F3008408AD /* travelPlan.entitlements */,
 				15F0A3F429FD58280049AB33 /* .swiftlint.yml */,
 				1594F53029FD517E00A58F20 /* Source */,
@@ -2298,6 +2325,7 @@
 				151130142A04E5B00041DDA1 /* travelPlanUITests */,
 				1594F52F29FD517E00A58F20 /* Products */,
 				3C5C9D0943392C6E3E04139D /* Frameworks */,
+				154CA63B2BD4E6E40066B444 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -2684,6 +2712,8 @@
 				150727252BBAB9E400271217 /* PostNestedCommentHeartToggleRequestDTO.swift */,
 				15EBDBB82BC00F6900A8A91C /* PostSearchRequestDTO.swift */,
 				15591DD32BBE99E200128A9E /* FavoritePostRequestDTO.swift */,
+				13E98F972BCA6FE900F05295 /* ReviewWritingSaveRequestDTO.swift */,
+				13E98F9B2BCDCF1300F05295 /* ReviewWritingUpdateRequestDTO.swift */,
 				15D3DA1D2BBFCDA20099C384 /* FavoritePostScrapRequestDTO.swift */,
 				1564A09F2BBFE0290045424B /* FavoritePostDirectoryNameUpdateRequestDTO.swift */,
 			);
@@ -2716,6 +2746,7 @@
 				15BE6BEB2BAF1DB3009A2568 /* MockPostCommentRepository.swift */,
 				15B5E7AB2BBAEA3B00C19F56 /* MockWrappedUserBlockRepository.swift */,
 				15591DDD2BBEA07100128A9E /* MockFavoritePostInDirectoryRepository.swift */,
+				13E622C22BD39F91003E4FA4 /* MockReviewWritingRepository.swift */,
 			);
 			path = Mock;
 			sourceTree = "<group>";
@@ -3221,6 +3252,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				13E7EABF2BD3E47A0027946C /* mock_reviewWriting_post_response.json in Resources */,
+				13E7EABE2BD3E46F0027946C /* mock_posts_response.json in Resources */,
 				158E81F62B9A4D3F0080CCA8 /* mock_response_postContainer.json in Resources */,
 				15BE6BD52BAEF8B6009A2568 /* mock_response_postCommentContainer.json in Resources */,
 				15E9E5FA2B9A49DA00C2F1F7 /* mock_response_notice.json in Resources */,
@@ -3247,8 +3280,8 @@
 				15F0A3F529FD58280049AB33 /* .swiftlint.yml in Resources */,
 				15553BCF2BB348B0000AA896 /* mock_postNestedComment_send_response.json in Resources */,
 				15BE6BEF2BAF1FD4009A2568 /* mock_response_postComments_whenCommentSend.json in Resources */,
-				15A40D652BCFAF1B0045C2C5 /* GoogleService-Info.plist in Resources */,
 				1594F53E29FD517F00A58F20 /* LaunchScreen.storyboard in Resources */,
+				13E622BF2BD02401003E4FA4 /* mock_reviewWriting_post_response.json in Resources */,
 				15BE6BD42BAEF83D009A2568 /* mock_response_postCommentContainer.json in Resources */,
 				159958762B0D988400B2E4DC /* Palette.xcassets in Resources */,
 				158BEFBC2A0EB2A500C27861 /* Pretendard-SemiBold.ttf in Resources */,
@@ -3268,6 +3301,7 @@
 				15591DE12BBEA2B900128A9E /* mock_favoritePosts_fetch_response.json in Resources */,
 				151DF10F2AEECBB400D5D55B /* mock_response_notice.json in Resources */,
 				158BEFBD2A0EB2A500C27861 /* Pretendard-Medium.ttf in Resources */,
+				13E622C12BD2A922003E4FA4 /* GoogleService-Info.plist in Resources */,
 				158BEFB82A0EB2A500C27861 /* Pretendard-Light.ttf in Resources */,
 				158BEFB92A0EB2A500C27861 /* Pretendard-ExtraLight.ttf in Resources */,
 				15FD50932BB4540A006CCCDD /* mock_postNestedComment_update_response.json in Resources */,
@@ -3317,6 +3351,7 @@
 				156C1E2C2BBED14300AF1D99 /* SHCoordinator+XCTestCase.swift in Sources */,
 				15FFAC282ADC598E0013DB57 /* SessionProviderTests.swift in Sources */,
 				156C1E232BBEC93900AF1D99 /* XCTestCase+Helpers.swift in Sources */,
+				13E7EABD2BD3BCEE0027946C /* ReviewWritingUseCaseTests.swift in Sources */,
 				15BE6BF12BAF2285009A2568 /* PostCommentUseCaseTests.swift in Sources */,
 				15733BB22BACA24E007531BA /* MockResponseType.swift in Sources */,
 				154CA62F2BD3B8DA0066B444 /* TourDestinationUseCaseTests.swift in Sources */,
@@ -3523,6 +3558,7 @@
 				15BE6BD82BAF05F3009A2568 /* PostCommentSendingRequestDTO.swift in Sources */,
 				13AE0DD62BBD271A00652B99 /* AlbumPhotoDetailCoordinator.swift in Sources */,
 				155D0BB52B90D9390042DFB6 /* ReferenceError.swift in Sources */,
+				13E98FA02BCE61D800F05295 /* ReviewWritingSaveResponseDTO.swift in Sources */,
 				135A07D52BB55A13003D6C4D /* PhotoAuthorizationViewDelegate.swift in Sources */,
 				13C32A3B2B09D8BF0046ED98 /* PictureImageView.swift in Sources */,
 				15CAEF7D2BAED114008AEDB1 /* PostNestedCommentEntity.swift in Sources */,
@@ -3616,6 +3652,7 @@
 				1599587B2B0DC55700B2E4DC /* PostCellWithTwoThumbnails.swift in Sources */,
 				15FB47F12AC1DCEF0033AA18 /* TravelMainThemeCollectionView.swift in Sources */,
 				133532042BA42DDE000A4D9E /* Double+.swift in Sources */,
+				13E98F9C2BCDCF1300F05295 /* ReviewWritingUpdateRequestDTO.swift in Sources */,
 				15FBD5D62B98DB5F00076115 /* SeasonMapper.swift in Sources */,
 				15CAEF872BAED25C008AEDB1 /* PostCommentContainerEntity.swift in Sources */,
 				15C1F53E2AF2904C005FDA15 /* NotificationCell.swift in Sources */,
@@ -3699,6 +3736,7 @@
 				15A0E19F2B97A3BD0047D662 /* PostResponseDTO.swift in Sources */,
 				139DEE3A2B17CAC900363E7B /* SearchDestinationServiceTypeView.swift in Sources */,
 				1546DF3B2B0C5B7C00B49A55 /* ImageDiskCache.swift in Sources */,
+				13E98F982BCA6FE900F05295 /* ReviewWritingSaveRequestDTO.swift in Sources */,
 				15B01DAD2BA95A2500BE9F98 /* LoggedInUserUseCase.swift in Sources */,
 				151DF0DA2AEE6DF700D5D55B /* NoticeViewController.swift in Sources */,
 				15FFAC332ADD4C480013DB57 /* PostViewAdapterDataSource.swift in Sources */,
@@ -3751,6 +3789,7 @@
 				133532002BA2D3E3000A4D9E /* UserDefaultsLoginResultStorage.swift in Sources */,
 				159E387C2BBAD464008825B0 /* LikedPostsByLoggedInUserRequestDTO.swift in Sources */,
 				13300FA42AC0688300952757 /* BaseDestinationView.swift in Sources */,
+				13E98F962BC98B4100F05295 /* ReviewWritingEndpoints.swift in Sources */,
 				15D388272AFF8AAA00039946 /* InputTextView.swift in Sources */,
 				15553BC02BB34151000AA896 /* PostNestedCommentAPIEndpoint.swift in Sources */,
 				13F6DACA2B52711E00573B86 /* SlideDownAnimator.swift in Sources */,
@@ -3810,6 +3849,7 @@
 				1585017C2BC2E50D00341575 /* PostOptionResultAlertController.swift in Sources */,
 				13405F352AF1002800382796 /* LoginPlayerSupporter.swift in Sources */,
 				157ADCB02AD06B5400D37680 /* FavoriteDirectorySettingView.swift in Sources */,
+				13E622C32BD39F91003E4FA4 /* MockReviewWritingRepository.swift in Sources */,
 				15CB23662A10B7F1003EAF20 /* PostContentInfo.swift in Sources */,
 				13E98F8B2BC581D200F05295 /* DefaultReviewWritingRepository.swift in Sources */,
 				131A11062AB4CD1A007BDD66 /* SearchMoreDetailViewController.swift in Sources */,
@@ -3870,6 +3910,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		13E622BD2BD02401003E4FA4 /* mock_reviewWriting_post_response.json */ = {
+			isa = PBXVariantGroup;
+			children = (
+				13E622BE2BD02401003E4FA4 /* en */,
+			);
+			name = mock_reviewWriting_post_response.json;
+			sourceTree = "<group>";
+		};
 		1594F53C29FD517F00A58F20 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (

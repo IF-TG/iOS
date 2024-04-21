@@ -254,7 +254,6 @@ extension ReviewWritingContentView {
     let titleTextViewPublisher = NotificationCenter.default
       .publisher(for: UITextView.textDidChangeNotification, object: titleTextView)
       .map {
-        print(($0.object as? UITextView)?.text != "")
         return ($0.object as? UITextView)?.text != ""
       }
       .eraseToAnyPublisher()
@@ -450,9 +449,10 @@ extension ReviewWritingContentView {
   }
 
   /// text와 imageData를 추출해서 Model배열을 반환합니다.
-  func extractContentData() -> [PostContentEntity] {
+  func extractContentData() -> ReviewWritingContentViewInfo {
     var models = [PostContentEntity]()
-    guard !(lastView === firstMessageTextView && firstMessageTextViewTextIsPlaceholder) else { return models }
+    // 이 코드는 필요 없지 않나?
+//    guard !(lastView === firstMessageTextView && firstMessageTextViewTextIsPlaceholder) else { return  }
     
     for i in firstContentIndex..<arrangedSubviews.count {
       let subview = arrangedSubviews[i]
@@ -462,7 +462,8 @@ extension ReviewWritingContentView {
         models.append(.image(imageData))
       }
     }
-    return models
+    
+    return .init(title: titleTextView.text, contents: models)
   }
   
   /// imageView를 생성하고 layout을 적용합니다.
@@ -500,6 +501,7 @@ extension ReviewWritingContentView {
         textView.snp.makeConstraints {
           $0.height.equalTo(estimatedHeight)
         }
+//      case .image(let data, _):
       case .image(let data):
         guard let image = UIImage(data: data) else { return }
         addImageView(image: image, shouldScrollToLastView: false)
