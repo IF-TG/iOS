@@ -16,7 +16,7 @@ protocol Requestable {
   /// get일땐 queryItems에 부착, post일때 httpbody에 추가.
   /// 하지만 서버 명세서에 따라서, 서버에 요청할 때 두 개의 파라미터 사용하는 경우가 있습니다.
   var parameters: [ParameterType]? { get }
-  var requestType: RequestType { get }
+  var requestType: RelativeURLPathProvidable { get }
   var headers: HTTPHeaders? { get }
   var interceptor: RequestInterceptor? { get }
 }

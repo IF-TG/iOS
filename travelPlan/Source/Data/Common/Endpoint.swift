@@ -13,7 +13,7 @@ final class Endpoint<ResponseDTO>: NetworkInteractionable where ResponseDTO: Dec
   var host: String
   var method: HTTPMethod
   var parameters: [ParameterType]?
-  var requestType: RequestType
+  var requestType: RelativeURLPathProvidable
   var headers: HTTPHeaders?
   var interceptor: RequestInterceptor?
   

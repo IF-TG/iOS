@@ -15,7 +15,7 @@ extension XCTestCase {
       false,
             """
             \(functionName) 함수 호출시 에러가 발생되었습니다.
-            Occurred error description: \(error.localizedDescription)
+            Occurred error description: \(error)
             """
     )
   }

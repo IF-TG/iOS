@@ -7,7 +7,7 @@
 
 import Foundation
 
-@frozen enum RequestType {
+@frozen enum RequestType: RelativeURLPathProvidable {
   case none
   case login(LoginRequestType)
   case user(UserRequestType)
