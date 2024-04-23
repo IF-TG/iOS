@@ -1837,18 +1837,8 @@
 		151DF0FA2AEEB96E00D5D55B /* Repositories */ = {
 			isa = PBXGroup;
 			children = (
-				151DF0FB2AEEBA0100D5D55B /* NotificationRepository.swift */,
-				130CF36D2B8F3DD60051DEE8 /* LoginRepository.swift */,
-				15D655882B8E0EC600466FEC /* MyProfileRepository.swift */,
-				15FBD5DD2B98E4F100076115 /* PostRepository.swift */,
-				152715402BA0D5AE0077D033 /* UserRepository.swift */,
-				15B01DA62BA941D800BE9F98 /* LoggedInUserRepository.swift */,
-				15BE6BDA2BAF08B4009A2568 /* PostCommentRepository.swift */,
-				15553BC32BB343F1000AA896 /* PostNestedCommentRepository.swift */,
-				15B5E7A02BBAE68000C19F56 /* UserBlockRepository.swift */,
-				15591DD52BBE9C5200128A9E /* FavoritePostInDirectoryRepository.swift */,
-				13E98F882BC581BF00F05295 /* ReviewWritingRepository.swift */,
-				154CA6202BD3AD700066B444 /* TourDestinationRepository.swift */,
+				15A362D82BD835C00040591D /* Server */,
+				15A362D72BD835BA0040591D /* TourAPI */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
@@ -2439,6 +2429,32 @@
 				154CA6282BD3B7490066B444 /* TourDestinationUseCase.swift */,
 			);
 			path = Protocol;
+			sourceTree = "<group>";
+		};
+		15A362D72BD835BA0040591D /* TourAPI */ = {
+			isa = PBXGroup;
+			children = (
+				154CA6202BD3AD700066B444 /* TourDestinationRepository.swift */,
+			);
+			path = TourAPI;
+			sourceTree = "<group>";
+		};
+		15A362D82BD835C00040591D /* Server */ = {
+			isa = PBXGroup;
+			children = (
+				151DF0FB2AEEBA0100D5D55B /* NotificationRepository.swift */,
+				130CF36D2B8F3DD60051DEE8 /* LoginRepository.swift */,
+				15D655882B8E0EC600466FEC /* MyProfileRepository.swift */,
+				15FBD5DD2B98E4F100076115 /* PostRepository.swift */,
+				152715402BA0D5AE0077D033 /* UserRepository.swift */,
+				15B01DA62BA941D800BE9F98 /* LoggedInUserRepository.swift */,
+				15BE6BDA2BAF08B4009A2568 /* PostCommentRepository.swift */,
+				15553BC32BB343F1000AA896 /* PostNestedCommentRepository.swift */,
+				15B5E7A02BBAE68000C19F56 /* UserBlockRepository.swift */,
+				15591DD52BBE9C5200128A9E /* FavoritePostInDirectoryRepository.swift */,
+				13E98F882BC581BF00F05295 /* ReviewWritingRepository.swift */,
+			);
+			path = Server;
 			sourceTree = "<group>";
 		};
 		15A7A8EC2B9F6B0500CA9A79 /* UserDefaultsStorage */ = {
