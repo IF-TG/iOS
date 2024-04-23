@@ -129,8 +129,6 @@
 		13E622C32BD39F91003E4FA4 /* MockReviewWritingRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E622C22BD39F91003E4FA4 /* MockReviewWritingRepository.swift */; };
 		13E746772B4D303E007D5C15 /* PhotoCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E746762B4D303E007D5C15 /* PhotoCellDelegate.swift */; };
 		13E7EABD2BD3BCEE0027946C /* ReviewWritingUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E7EABC2BD3BCEE0027946C /* ReviewWritingUseCaseTests.swift */; };
-		13E7EABE2BD3E46F0027946C /* mock_posts_response.json in Resources */ = {isa = PBXBuildFile; fileRef = 15EBDBBC2BC0236C00A8A91C /* mock_posts_response.json */; };
-		13E7EABF2BD3E47A0027946C /* mock_reviewWriting_post_response.json in Resources */ = {isa = PBXBuildFile; fileRef = 13E622BD2BD02401003E4FA4 /* mock_reviewWriting_post_response.json */; };
 		13E913932B0F3ECF00E15B11 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 13E913922B0F3ECF00E15B11 /* SnapKit */; };
 		13E98F852BC53D8000F05295 /* ReviewWritingUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E98F842BC53D8000F05295 /* ReviewWritingUseCase.swift */; };
 		13E98F872BC53DDD00F05295 /* DefaultReviewWritingUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E98F862BC53DDD00F05295 /* DefaultReviewWritingUseCase.swift */; };
@@ -302,7 +300,6 @@
 		15710CBA2A132C760023C19E /* FeedNotificationBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15710CB92A132C760023C19E /* FeedNotificationBarItem.swift */; };
 		15710CBC2A132DD00023C19E /* FeedAppTitleBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15710CBB2A132DD00023C19E /* FeedAppTitleBarItem.swift */; };
 		157176782A0C21C90015EC8C /* UIColor+AppPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157176772A0C21C90015EC8C /* UIColor+AppPalette.swift */; };
-		15733BB22BACA24E007531BA /* MockResponseType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E9E5F72B9A45A600C2F1F7 /* MockResponseType.swift */; };
 		157ADC9E2ACFAAFA00D37680 /* FavoritePostViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157ADC9D2ACFAAFA00D37680 /* FavoritePostViewAdapter.swift */; };
 		157ADCA02ACFB33100D37680 /* UIScrollView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157ADC9F2ACFB33100D37680 /* UIScrollView+.swift */; };
 		157ADCA22ACFB55800D37680 /* FavoritePostViewAdapterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157ADCA12ACFB55800D37680 /* FavoritePostViewAdapterDelegate.swift */; };
@@ -343,7 +340,6 @@
 		158C6A392B0D15C400C30856 /* ImageIO+Nested.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158C6A382B0D15C400C30856 /* ImageIO+Nested.swift */; };
 		158C6A3B2B0D231C00C30856 /* ImageIOTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158C6A3A2B0D231C00C30856 /* ImageIOTests.swift */; };
 		158E81F52B9A4D3F0080CCA8 /* mock_response_postContainer.json in Resources */ = {isa = PBXBuildFile; fileRef = 158E81F42B9A4D3F0080CCA8 /* mock_response_postContainer.json */; };
-		158E81F62B9A4D3F0080CCA8 /* mock_response_postContainer.json in Resources */ = {isa = PBXBuildFile; fileRef = 158E81F42B9A4D3F0080CCA8 /* mock_response_postContainer.json */; };
 		158EFCD12BCA4B9000C40612 /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158EFCD02BCA4B9000C40612 /* SettingViewModel.swift */; };
 		158EFCD32BCA4BA200C40612 /* SettingViewModelable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158EFCD22BCA4BA200C40612 /* SettingViewModelable.swift */; };
 		1594F53229FD517E00A58F20 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1594F53129FD517E00A58F20 /* AppDelegate.swift */; };
@@ -413,7 +409,6 @@
 		15BB01B62A1EB5000035B486 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BB01B52A1EB5000035B486 /* LoginViewController.swift */; };
 		15BB01B82A1EB5070035B486 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BB01B72A1EB5070035B486 /* LoginViewModel.swift */; };
 		15BE6BD42BAEF83D009A2568 /* mock_response_postCommentContainer.json in Resources */ = {isa = PBXBuildFile; fileRef = 15BE6BD32BAEF82A009A2568 /* mock_response_postCommentContainer.json */; };
-		15BE6BD52BAEF8B6009A2568 /* mock_response_postCommentContainer.json in Resources */ = {isa = PBXBuildFile; fileRef = 15BE6BD32BAEF82A009A2568 /* mock_response_postCommentContainer.json */; };
 		15BE6BD82BAF05F3009A2568 /* PostCommentSendingRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BE6BD72BAF05F3009A2568 /* PostCommentSendingRequestDTO.swift */; };
 		15BE6BDB2BAF08B4009A2568 /* PostCommentRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BE6BDA2BAF08B4009A2568 /* PostCommentRepository.swift */; };
 		15BE6BDE2BAF0930009A2568 /* DefaultPostCommentRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BE6BDD2BAF0930009A2568 /* DefaultPostCommentRepository.swift */; };
@@ -502,7 +497,6 @@
 		15E9E5F02B9A359B00C2F1F7 /* PostUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E9E5EF2B9A359B00C2F1F7 /* PostUseCaseTests.swift */; };
 		15E9E5F22B9A35F300C2F1F7 /* MockPostRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E9E5F12B9A35F300C2F1F7 /* MockPostRepository.swift */; };
 		15E9E5F82B9A45A600C2F1F7 /* MockResponseType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E9E5F72B9A45A600C2F1F7 /* MockResponseType.swift */; };
-		15E9E5FA2B9A49DA00C2F1F7 /* mock_response_notice.json in Resources */ = {isa = PBXBuildFile; fileRef = 151DF10E2AEECBB400D5D55B /* mock_response_notice.json */; };
 		15EA48CA2A539D7B00F4B391 /* MoreMenuViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EA48C92A539D7B00F4B391 /* MoreMenuViewDelegate.swift */; };
 		15EA6B352ACEF627002783F0 /* EmptyStateBasedContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EA6B342ACEF627002783F0 /* EmptyStateBasedContentViewController.swift */; };
 		15EB39E62AC303C90025FFB4 /* BaseProfileAreaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EB39E52AC303C90025FFB4 /* BaseProfileAreaView.swift */; };
@@ -590,8 +584,6 @@
 		15FFAC152ADA83E00013DB57 /* SessionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFAC142ADA83E00013DB57 /* SessionProvider.swift */; };
 		15FFAC202ADC322B0013DB57 /* EndpointTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFAC1F2ADC322B0013DB57 /* EndpointTests.swift */; };
 		15FFAC282ADC598E0013DB57 /* SessionProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFAC272ADC598E0013DB57 /* SessionProviderTests.swift */; };
-		15FFAC2C2ADD03050013DB57 /* MockUrlProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFAC192ADC1C9D0013DB57 /* MockUrlProtocol.swift */; };
-		15FFAC2D2ADD03080013DB57 /* MockSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFAC1B2ADC2BC20013DB57 /* MockSession.swift */; };
 		15FFAC2E2ADD030F0013DB57 /* MockModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFAC212ADC335F0013DB57 /* MockModels.swift */; };
 		15FFAC2F2ADD03130013DB57 /* MockUserEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFAC2A2ADCD7370013DB57 /* MockUserEndpoint.swift */; };
 		15FFAC332ADD4C480013DB57 /* PostViewAdapterDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFAC322ADD4C480013DB57 /* PostViewAdapterDataSource.swift */; };
@@ -3292,11 +3284,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				13E7EABF2BD3E47A0027946C /* mock_reviewWriting_post_response.json in Resources */,
-				13E7EABE2BD3E46F0027946C /* mock_posts_response.json in Resources */,
-				158E81F62B9A4D3F0080CCA8 /* mock_response_postContainer.json in Resources */,
-				15BE6BD52BAEF8B6009A2568 /* mock_response_postCommentContainer.json in Resources */,
-				15E9E5FA2B9A49DA00C2F1F7 /* mock_response_notice.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3394,17 +3381,14 @@
 				156C1E232BBEC93900AF1D99 /* XCTestCase+Helpers.swift in Sources */,
 				13E7EABD2BD3BCEE0027946C /* ReviewWritingUseCaseTests.swift in Sources */,
 				15BE6BF12BAF2285009A2568 /* PostCommentUseCaseTests.swift in Sources */,
-				15733BB22BACA24E007531BA /* MockResponseType.swift in Sources */,
 				154CA62F2BD3B8DA0066B444 /* TourDestinationUseCaseTests.swift in Sources */,
 				15FBD5E42B98E94800076115 /* PostAPIEndpointTests.swift in Sources */,
 				15E9E5F02B9A359B00C2F1F7 /* PostUseCaseTests.swift in Sources */,
-				15FFAC2D2ADD03080013DB57 /* MockSession.swift in Sources */,
 				158C6A3B2B0D231C00C30856 /* ImageIOTests.swift in Sources */,
 				15FFAC202ADC322B0013DB57 /* EndpointTests.swift in Sources */,
 				15FFAC2E2ADD030F0013DB57 /* MockModels.swift in Sources */,
 				151130092A04E4EB0041DDA1 /* travelPlanTests.swift in Sources */,
 				15591DE32BBEA5AF00128A9E /* FavoritePostInDirectoryUseCaseTests.swift in Sources */,
-				15FFAC2C2ADD03050013DB57 /* MockUrlProtocol.swift in Sources */,
 				15553BD62BB34D06000AA896 /* PostNestedCommentUseCaseTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
