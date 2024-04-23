@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class TourApiDetailCommonResponseDTO: Decodable {
+struct TourApiDetailCommonResponseDTO: Decodable {
   /// **기본 정보 조화**
   let contentid: String
   let contenttypeid: String
