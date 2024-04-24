@@ -13,5 +13,5 @@ public protocol XMLParsingServiceProtocol {
   
   var xmlParserNotifier: PassthroughSubject<XMLAttributes, Error> { get }
   
-  func startParsing()
+  func parse()
 }
