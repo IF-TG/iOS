@@ -49,6 +49,9 @@ final class TourApiSessionProviderTests: XCTestCase {
   }
 }
 
+// MARK: - TODO.
+// TourApiSessionProvider를 사용할때 예상치 못한 xml, error만 담긴 json data등 데이터를 받은 경우 상황에 따라 지정된 Error를
+//    던지는지 테스트
 extension TourApiSessionProviderTests {
   func test_reqeust함수가서버에서목XMLData받은경우_공공데이터포털에러를반환해야함() {
     // Arrange
