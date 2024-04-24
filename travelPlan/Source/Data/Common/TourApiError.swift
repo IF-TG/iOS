@@ -89,22 +89,22 @@ import Foundation
   
   init?(code: String) {
     let errorMap: [String: TourAPIProviderInstitutionError] = [
-      "0001": .applicationError,
-      "0002": .dbError,
-      "0003": .noDataError,
-      "0004": .httpError,
-      "0005": .serviceTimeoutError,
-      "0010": .invalidRequestParameterError,
-      "0011": .noMandatoryRequestParametersError,
-      "0012": .noOpenAPIServiceError,
-      "0020": .serviceAccessDeniedError,
-      "0021": .temporarilyDisableTheServiceKeyError,
-      "0022": .limitedNumberOfServiceRequestsExceedsError,
-      "0030": .serviceKeyIsNotRegisteredError,
-      "0031": .deadlineHasExpiredError,
-      "0032": .unregisteredIPError,
-      "0033": .unsignedCallError,
-      "0099": .unknownError
+      "01": .applicationError,
+      "02": .dbError,
+      "03": .noDataError,
+      "04": .httpError,
+      "05": .serviceTimeoutError,
+      "10": .invalidRequestParameterError,
+      "11": .noMandatoryRequestParametersError,
+      "12": .noOpenAPIServiceError,
+      "20": .serviceAccessDeniedError,
+      "21": .temporarilyDisableTheServiceKeyError,
+      "22": .limitedNumberOfServiceRequestsExceedsError,
+      "30": .serviceKeyIsNotRegisteredError,
+      "31": .deadlineHasExpiredError,
+      "32": .unregisteredIPError,
+      "33": .unsignedCallError,
+      "99": .unknownError
     ]
     
     if let errorType = errorMap[code] {
