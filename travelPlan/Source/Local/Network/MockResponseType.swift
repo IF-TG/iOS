@@ -50,6 +50,7 @@ extension MockResponseType {
     case whenPostContainerResponse
     case whenPostCommentContainerResponse
     case whenPostsSearchResponse
+    case reviewWritingPostResponse
     
     var filePath: String {
       switch self {
@@ -59,6 +60,8 @@ extension MockResponseType {
         "mock_response_postCommentContainer"
       case .whenPostsSearchResponse:
         "mock_posts_response"
+      case .reviewWritingPostResponse:
+        "mock_reviewWriting_post_response"
       }
     }
   }
