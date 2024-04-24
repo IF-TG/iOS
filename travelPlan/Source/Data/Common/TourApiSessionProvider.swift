@@ -77,7 +77,8 @@ extension TourApiSessionProvider {
   ) {
     if case .dataCorrupted = error {
       handleErrorForCorrupedDecoding(error, from: data, promise: promise)
-    } else if case .typeMismatch = error {
+      /// response를 받는 시점에 response 코딩키가 없음으로 keynotFound에러가 불리면 3개의 K-V Json입니다.
+    } else if case .keyNotFound = error {
       handleErrorForTypeMismatch(error, from: data, promise: promise)
     } else {
       /// 디코딩 에러
@@ -86,6 +87,7 @@ extension TourApiSessionProvider {
   }
   
   /// response data가 JSON type이 아닌 경우
+  /// 이상적으로 공공데이터 포털 에러를 반환해야 합니다.
   private func handleErrorForCorrupedDecoding<R: Decodable>(
     _ error: Swift.DecodingError,
     from data: Data,
@@ -117,13 +119,15 @@ extension TourApiSessionProvider {
   
   /// response data json 형식이 R타입과 맞지 않는 경우
   /// TourApiErrorResponseDTO 에러인지 검증
+  /// 이상적으로 제공기관 에러를 반환해야 합니다
   private func handleErrorForTypeMismatch<R: Decodable>(
     _ error: Swift.DecodingError,
     from data: Data,
     promise: @escaping Future<R, AFError>.Promise
   ) {
     if let errorResponseDTO = try? JSONDecoder().decode(TourApiErrorResponseDTO.self, from: data) {
-      let tourAPIError = TourAPIError(code: errorResponseDTO.resultCode) ?? .publicDataPortalError(.unknownError)
+      let tourAPIError = TourAPIError(code: errorResponseDTO.resultCode) ?? .tourAPIProviderInstitutionError(
+        .unknownError)
       let reason = AFError.ResponseSerializationFailureReason.decodingFailed(error: tourAPIError)
       promise(.failure(AFError.responseSerializationFailed(reason: reason)))
     }
