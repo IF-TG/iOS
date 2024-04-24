@@ -56,8 +56,9 @@ import Foundation
     
     if let errorType = errorDict[code] {
       self = errorType
+    } else {
+      return nil
     }
-    return nil
   }
   
   var errorDescription: String? {
@@ -126,8 +127,9 @@ import Foundation
     
     if let errorType = errorMap[code] {
       self = errorType
+    } else {
+      return nil
     }
-    return nil
   }
   
   var errorDescription: String? {
