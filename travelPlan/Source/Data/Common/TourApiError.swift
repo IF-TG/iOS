@@ -8,12 +8,22 @@
 import Foundation
 
 @frozen enum TourAPIError {
-  case publicDataPotalError(PublicDataPotalInTourAPIError)
-  case tourAPIProviderInstitutionErro(TourAPIProviderInstitutionError)
+  case publicDataPotalError(PublicDataPortalInTourAPIError)
+  case tourAPIProviderInstitutionError(TourAPIProviderInstitutionError)
+  
+  init?(code: String) {
+    if let publicDataPortalError = PublicDataPortalInTourAPIError(code: code) {
+      self = .publicDataPotalError(publicDataPortalError)
+    } else if let tourAPIProviderInstitutionError = TourAPIProviderInstitutionError(code: code) {
+      self = .tourAPIProviderInstitutionError(tourAPIProviderInstitutionError)
+    } else {
+      return nil
+    }
+  }
 }
 
 /// 공공데이터 포털 에러
-@frozen enum PublicDataPotalInTourAPIError: LocalizedError {
+@frozen enum PublicDataPortalInTourAPIError: LocalizedError {
   case applicationError
   case httpError
   case noOpenAPIServiceError
@@ -35,7 +45,7 @@ import Foundation
       "31": .deadlineHasExpiredError,
       "32": .unregisteredIPError,
       "99": .unknownError
-    ] as [String: PublicDataPotalInTourAPIError]
+    ] as [String: PublicDataPortalInTourAPIError]
     
     if let errorType = errorDict[code] {
       self = errorType
