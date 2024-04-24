@@ -77,13 +77,12 @@ extension TourApiSessionProvider {
   ) {
     if case .dataCorrupted = error {
       handleErrorForCorrupedDecoding(error, from: data, promise: promise)
-    }
-    if case .typeMismatch = error {
+    } else if case .typeMismatch = error {
       handleErrorForTypeMismatch(error, from: data, promise: promise)
+    } else {
+      /// 디코딩 에러
+      promise(.failure(AFError.responseSerializationFailed(reason: .customSerializationFailed(error: error))))
     }
-    
-    /// 디코딩 에러
-    promise(.failure(AFError.responseSerializationFailed(reason: .customSerializationFailed(error: error))))
   }
   
   /// response data가 JSON type이 아닌 경우
@@ -113,6 +112,7 @@ extension TourApiSessionProvider {
           AFError.responseSerializationFailed(reason: .decodingFailed(error: unexpectedError))))
       }
     subscriptions.insert(xmlParsingSubscription)
+    xmlParsingService?.parse()
   }
   
   /// response data json 형식이 R타입과 맞지 않는 경우
