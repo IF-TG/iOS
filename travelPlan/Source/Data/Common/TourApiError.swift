@@ -10,7 +10,13 @@ import Foundation
 @frozen enum TourAPIError: LocalizedError {
   case publicDataPortalError(PublicDataPortalInTourAPIError)
   case tourAPIProviderInstitutionError(TourAPIProviderInstitutionError)
+  
+  /// Public Data Portal의 에러를 데이터로 받았을 때 알 수 없는 디코딩 에러 발생된 경우
   case unexpectedDecodingErrorFromPublicDataPortal
+  
+  /// 성공적으로 반환받은 데이터(TourApiCommonResponseDTO)의 response header에서 TourAPIError를 생성할 수 없는,
+  ///   국문에서 정의되지 않은 errorCode를 받은 경우
+  case unexpectedErrorFromSuccessfulResponseData(String)
   
   init?(code: String) {
     if let publicDataPortalError = PublicDataPortalInTourAPIError(code: code) {
