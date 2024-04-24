@@ -124,7 +124,7 @@ extension TourApiSessionProvider {
   ) {
     if let errorResponseDTO = try? JSONDecoder().decode(TourApiErrorResponseDTO.self, from: data) {
       let tourAPIError = TourAPIError(code: errorResponseDTO.resultCode) ?? .publicDataPortalError(.unknownError)
-      let reason = AFError.ResponseSerializationFailureReason.customSerializationFailed(error: tourAPIError)
+      let reason = AFError.ResponseSerializationFailureReason.decodingFailed(error: tourAPIError)
       promise(.failure(AFError.responseSerializationFailed(reason: reason)))
     }
   }
