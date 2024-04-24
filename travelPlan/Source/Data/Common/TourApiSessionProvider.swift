@@ -69,40 +69,30 @@ extension TourApiSessionProvider: Sessionable {
 
 // MARK: - Private Helpers
 extension TourApiSessionProvider {
+  // TODO: - 로그 남기기 (컨텍스트, 타입 등)
   private func handleDecodingError<R: Decodable>(
     _ error: Swift.DecodingError,
     from data: Data,
     promise: @escaping Future<R, AFError>.Promise
   ) {
-    // TODO: - 로그 남기기 (컨텍스트, 타입 등)
-    /// response data가 JSON type이 아닌 경우
     if case .dataCorrupted = error {
-      handleDataCorrupedDecodingError(error, from: data, promise: promise)
+      handleErrorForCorrupedDecoding(error, from: data, promise: promise)
     }
-    
-    /// response data json 형식이 R타입과 맞지 않는 경우
-    /// TourApiErrorResponseDTO에러인지 검증
     if case .typeMismatch = error {
-      if let errorResponseDTO = try? JSONDecoder().decode(TourApiErrorResponseDTO.self, from: data) {
-        let tourAPIError = TourAPIError(
-          code: errorResponseDTO.resultCode) ?? .publicDataPortalError(.unknownError)
-        promise(.failure(
-          AFError.responseSerializationFailed(
-            reason: .customSerializationFailed(error: tourAPIError))))
-      }
+      handleErrorForTypeMismatch(error, from: data, promise: promise)
     }
     
     /// 디코딩 에러
     promise(.failure(AFError.responseSerializationFailed(reason: .customSerializationFailed(error: error))))
   }
   
-  private func handleDataCorrupedDecodingError<R: Decodable>(
+  /// response data가 JSON type이 아닌 경우
+  private func handleErrorForCorrupedDecoding<R: Decodable>(
     _ error: Swift.DecodingError,
     from data: Data,
     promise: @escaping Future<R, AFError>.Promise
   ) {
     xmlParsingService = XMLParsingService(parser: XMLParser(data: data))
-    // 이떄 파서로 파싱 고고
     let xmlParsingSubscription = xmlParsingService?
       .xmlParserNotifier
       .sink { [weak self] completion in
@@ -123,6 +113,19 @@ extension TourApiSessionProvider {
           AFError.responseSerializationFailed(reason: .decodingFailed(error: unexpectedError))))
       }
     subscriptions.insert(xmlParsingSubscription)
-
+  }
+  
+  /// response data json 형식이 R타입과 맞지 않는 경우
+  /// TourApiErrorResponseDTO 에러인지 검증
+  private func handleErrorForTypeMismatch<R: Decodable>(
+    _ error: Swift.DecodingError,
+    from data: Data,
+    promise: @escaping Future<R, AFError>.Promise
+  ) {
+    if let errorResponseDTO = try? JSONDecoder().decode(TourApiErrorResponseDTO.self, from: data) {
+      let tourAPIError = TourAPIError(code: errorResponseDTO.resultCode) ?? .publicDataPortalError(.unknownError)
+      let reason = AFError.ResponseSerializationFailureReason.customSerializationFailed(error: tourAPIError)
+      promise(.failure(AFError.responseSerializationFailed(reason: reason)))
+    }
   }
 }
