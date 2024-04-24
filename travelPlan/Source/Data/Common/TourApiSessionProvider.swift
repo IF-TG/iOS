@@ -42,15 +42,17 @@ extension TourApiSessionProvider: Sessionable {
               let request = try endpoint.makeRequest(from: session)
               request
                 .validate(statusCode: 200...299)
-                .responseData { response in
+                .responseData { [weak self] response in
                   switch response.result {
                   case .success(let data):
-                    // 일반적인 경우고, 이거마저도 header 확인해주어야한다.
                     do {
                       let responseDTO = try JSONDecoder().decode(R.self, from: data)
                       promise(.success(responseDTO))
                     } catch let error as Swift.DecodingError {
-                      handleDecodingError(error, from: data, promise: promise)
+                      self?.handleDecodingError(error, from: data, promise: promise)
+                    } catch {
+                      promise(.failure(
+                        AFError.responseSerializationFailed(reason: .jsonSerializationFailed(error: error))))
                     }
                   case .failure(let error):
                     promise(.failure(error))
@@ -73,14 +75,24 @@ extension TourApiSessionProvider {
     promise: @escaping Future<R, AFError>.Promise
   ) {
     // TODO: - 로그 남기기 (컨텍스트, 타입 등)
+    /// response data가 JSON type이 아닌 경우
     if case .dataCorrupted = error {
       handleDataCorrupedDecodingError(error, from: data, promise: promise)
     }
     
+    /// response data json 형식이 R타입과 맞지 않는 경우
+    /// TourApiErrorResponseDTO에러인지 검증
     if case .typeMismatch = error {
-      let errorResponseDTO = try? JSONDecoder().decode(TourApiErrorResponseDTO.self, from: data)
+      if let errorResponseDTO = try? JSONDecoder().decode(TourApiErrorResponseDTO.self, from: data) {
+        let tourAPIError = TourAPIError(
+          code: errorResponseDTO.resultCode) ?? .publicDataPortalError(.unknownError)
+        promise(.failure(
+          AFError.responseSerializationFailed(
+            reason: .customSerializationFailed(error: tourAPIError))))
+      }
     }
     
+    /// 디코딩 에러
     promise(.failure(AFError.responseSerializationFailed(reason: .customSerializationFailed(error: error))))
   }
   
