@@ -7,13 +7,14 @@
 
 import Foundation
 
-@frozen enum TourAPIError {
-  case publicDataPotalError(PublicDataPortalInTourAPIError)
+@frozen enum TourAPIError: LocalizedError {
+  case publicDataPortalError(PublicDataPortalInTourAPIError)
   case tourAPIProviderInstitutionError(TourAPIProviderInstitutionError)
+  case unexpectedDecodingErrorFromPublicDataPortal
   
   init?(code: String) {
     if let publicDataPortalError = PublicDataPortalInTourAPIError(code: code) {
-      self = .publicDataPotalError(publicDataPortalError)
+      self = .publicDataPortalError(publicDataPortalError)
     } else if let tourAPIProviderInstitutionError = TourAPIProviderInstitutionError(code: code) {
       self = .tourAPIProviderInstitutionError(tourAPIProviderInstitutionError)
     } else {
