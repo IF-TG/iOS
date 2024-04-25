@@ -19,6 +19,15 @@ public struct FiresabseStorageService: ImageStorageServiceProtocol {
     return (try await reference.downloadURL()).absoluteString
   }
   
+  func uploadImages(_ imageDataList: [Data], type: ImageStorageServiceType) async throws -> [String] {
+    let uploadType = UploadType(from: type)
+    var urls: [String] = []
+    for imageData in imageDataList {
+      urls.append(try await uploadImage(imageData, type: type))
+    }
+    return urls
+  }
+  
   func fetchImage(_ url: String, type: ImageStorageServiceType) -> AnyPublisher<Data, Error> {
     let uploadType = UploadType(from: type)
     return Future { promise in
