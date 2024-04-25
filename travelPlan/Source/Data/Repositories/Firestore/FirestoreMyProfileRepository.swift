@@ -60,6 +60,33 @@ extension FirestoreMyProfileRepository: MyProfileRepository {
     }.eraseToAnyPublisher()
   }
   
+  func saveProfile(
+    with userId: String,
+    nickname: String,
+    profileImageData: Data
+  ) -> AnyPublisher<Void, any Error> {
+    return Future { promise in
+      Task(priority: .userInitiated) { [weak self] in
+        do {
+          let imagePath = try await self?.firebaseStorageService.uploadImage(profileImageData,type: .profileImage)
+          let requestDTO = UserProfileSaveRequestDTO(uid: userId, nickname: nickname, profileImagePath: "임시")
+          let endpoint = Endpoint.saveUserProfileEndpoint(with: requestDTO)
+          let subscription = self?.service.request(endpoint: endpoint)
+            .sink { completion in
+              if case .failure(let error) = completion {
+                promise(.failure(error))
+              }
+            } receiveValue: { _ in
+              promise(.success(()))
+            }
+          self?.subscriptions.insert(subscription)
+        } catch {
+          promise(.failure(error))
+        }
+      }
+    }.eraseToAnyPublisher()
+  }
+  
   func checkIfUserNicknameDuplicate(with name: String) -> AnyPublisher<Bool, any Error> {
     fatalError("아직 미구현")
   }
