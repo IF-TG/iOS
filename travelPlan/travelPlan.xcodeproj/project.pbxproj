@@ -315,6 +315,10 @@
 		15803C512BDA4DC700D83F2B /* FirestoreMyProfileAPIEndopint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15803C502BDA4DC700D83F2B /* FirestoreMyProfileAPIEndopint.swift */; };
 		15803C542BDA522500D83F2B /* FirestoreMyProfileRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15803C532BDA522500D83F2B /* FirestoreMyProfileRepository.swift */; };
 		15803C5A2BDA583700D83F2B /* UserProfileResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15803C592BDA583700D83F2B /* UserProfileResponseDTO.swift */; };
+		15803C5D2BDA8F6700D83F2B /* UserProfileSaveRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15803C5C2BDA8F6700D83F2B /* UserProfileSaveRequestDTO.swift */; };
+		15803C5F2BDA906300D83F2B /* VoidResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15803C5E2BDA906300D83F2B /* VoidResponseDTO.swift */; };
+		15803C612BDAA1A600D83F2B /* FiresabseStorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15803C602BDAA1A600D83F2B /* FiresabseStorageService.swift */; };
+		15803C632BDAB23E00D83F2B /* ImageStorageServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15803C622BDAB23E00D83F2B /* ImageStorageServiceProtocol.swift */; };
 		158312E12AB36A9A0087034A /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158312E02AB36A9A0087034A /* UIViewController+.swift */; };
 		158439152BAAC80B00348509 /* FavoritePostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158439142BAAC80B00348509 /* FavoritePostViewModel.swift */; };
 		1585017C2BC2E50D00341575 /* PostOptionResultAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1585017B2BC2E50D00341575 /* PostOptionResultAlertController.swift */; };
@@ -942,6 +946,10 @@
 		15803C502BDA4DC700D83F2B /* FirestoreMyProfileAPIEndopint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreMyProfileAPIEndopint.swift; sourceTree = "<group>"; };
 		15803C532BDA522500D83F2B /* FirestoreMyProfileRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreMyProfileRepository.swift; sourceTree = "<group>"; };
 		15803C592BDA583700D83F2B /* UserProfileResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileResponseDTO.swift; sourceTree = "<group>"; };
+		15803C5C2BDA8F6700D83F2B /* UserProfileSaveRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileSaveRequestDTO.swift; sourceTree = "<group>"; };
+		15803C5E2BDA906300D83F2B /* VoidResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoidResponseDTO.swift; sourceTree = "<group>"; };
+		15803C602BDAA1A600D83F2B /* FiresabseStorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiresabseStorageService.swift; sourceTree = "<group>"; };
+		15803C622BDAB23E00D83F2B /* ImageStorageServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageStorageServiceProtocol.swift; sourceTree = "<group>"; };
 		158312E02AB36A9A0087034A /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
 		158439142BAAC80B00348509 /* FavoritePostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePostViewModel.swift; sourceTree = "<group>"; };
 		1585017B2BC2E50D00341575 /* PostOptionResultAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostOptionResultAlertController.swift; sourceTree = "<group>"; };
@@ -2251,6 +2259,7 @@
 		15803C572BDA57DC00D83F2B /* Firestore */ = {
 			isa = PBXGroup;
 			children = (
+				15803C5B2BDA8F2900D83F2B /* RequestDTO */,
 				15803C582BDA581800D83F2B /* ResponseDTO */,
 				15803C502BDA4DC700D83F2B /* FirestoreMyProfileAPIEndopint.swift */,
 			);
@@ -2261,8 +2270,17 @@
 			isa = PBXGroup;
 			children = (
 				15803C592BDA583700D83F2B /* UserProfileResponseDTO.swift */,
+				15803C5E2BDA906300D83F2B /* VoidResponseDTO.swift */,
 			);
 			path = ResponseDTO;
+			sourceTree = "<group>";
+		};
+		15803C5B2BDA8F2900D83F2B /* RequestDTO */ = {
+			isa = PBXGroup;
+			children = (
+				15803C5C2BDA8F6700D83F2B /* UserProfileSaveRequestDTO.swift */,
+			);
+			path = RequestDTO;
 			sourceTree = "<group>";
 		};
 		158BEF7A2A0E2A4700C27861 /* PostView */ = {
@@ -2674,6 +2692,8 @@
 			children = (
 				15C36BBA2BD17AC0004AA8E9 /* FirestoreRequestType.swift */,
 				15C36BCA2BD242FB004AA8E9 /* FirestoreEndpoint.swift */,
+				15803C602BDAA1A600D83F2B /* FiresabseStorageService.swift */,
+				15803C622BDAB23E00D83F2B /* ImageStorageServiceProtocol.swift */,
 			);
 			path = Firebase;
 			sourceTree = "<group>";
@@ -3464,6 +3484,7 @@
 				15FFAC382ADD501B0013DB57 /* PostInfo.swift in Sources */,
 				15B5E79D2BBAE43A00C19F56 /* BlockedUserIdentifyEntity.swift in Sources */,
 				15591DD42BBE99E200128A9E /* FavoritePostRequestDTO.swift in Sources */,
+				15803C632BDAB23E00D83F2B /* ImageStorageServiceProtocol.swift in Sources */,
 				152834D52BAB4DED00453DD1 /* PostViewSection.swift in Sources */,
 				13405F082AEE212500382796 /* GoogleLoginButton.swift in Sources */,
 				15259DEA2ACAA9D800C14F62 /* SearchFestivalCellViewModel.swift in Sources */,
@@ -3578,6 +3599,7 @@
 				15259DE92ACAA98F00C14F62 /* TravelDestinationCellViewModel.swift in Sources */,
 				15EB39E62AC303C90025FFB4 /* BaseProfileAreaView.swift in Sources */,
 				15FFAC3A2ADE47910013DB57 /* PostHeaderInfo.swift in Sources */,
+				15803C5D2BDA8F6700D83F2B /* UserProfileSaveRequestDTO.swift in Sources */,
 				151DF0F42AEEB29500D5D55B /* NoticeUseCase.swift in Sources */,
 				13813A212AAA458000AF6AEB /* PostSearchCollectionViewDataSource.swift in Sources */,
 				1343840B2B480360005034E0 /* BaseNavigationLeftButton.swift in Sources */,
@@ -3725,6 +3747,7 @@
 				157ADCAE2AD00AB400D37680 /* FavoriteLocationViewController.swift in Sources */,
 				15BB01B82A1EB5070035B486 /* LoginViewModel.swift in Sources */,
 				152715412BA0D5AE0077D033 /* FetchUserProfileImageRepository.swift in Sources */,
+				15803C5F2BDA906300D83F2B /* VoidResponseDTO.swift in Sources */,
 				15BE6BDB2BAF08B4009A2568 /* PostCommentRepository.swift in Sources */,
 				13E98F892BC581BF00F05295 /* ReviewWritingRepository.swift in Sources */,
 				1599587B2B0DC55700B2E4DC /* PostCellWithTwoThumbnails.swift in Sources */,
@@ -3902,6 +3925,7 @@
 				15D6559D2B8F6F3800466FEC /* MyInformationViewModel.swift in Sources */,
 				15553BC42BB343F1000AA896 /* PostNestedCommentRepository.swift in Sources */,
 				151BDAD62B16EE07002F36C3 /* UIView+Combine.swift in Sources */,
+				15803C612BDAA1A600D83F2B /* FiresabseStorageService.swift in Sources */,
 				13405F0B2AEEF1E400382796 /* LoginButtonDelegate.swift in Sources */,
 				13300FAE2AC2093D00952757 /* SearchSectionType.swift in Sources */,
 				1570FDB22AB1B616006FBAA3 /* TravelOrderType.swift in Sources */,
