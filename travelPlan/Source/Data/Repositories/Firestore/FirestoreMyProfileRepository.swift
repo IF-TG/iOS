@@ -15,7 +15,9 @@ final class FirestoreMyProfileRepository {
   // MARK: - Dependencies
   private let backgroundQueue: DispatchQueue
   private let service: FirestoreServiceProtocol
+  private let firebaseStorageService: ImageStorageServiceProtocol
   private let loggedInUserRepository: LoggedInUserRepository
+  private let imageCache: ImageMemoryCachable
   
   // MARK: - Properties
   private var subscriptions = Set<AnyCancellable?>()
@@ -24,11 +26,15 @@ final class FirestoreMyProfileRepository {
   init(
     service: FirestoreServiceProtocol,
     loggedInUserRepository: LoggedInUserRepository,
-    backgroundQueue: DispatchQueue = .global(qos: .userInitiated)
+    backgroundQueue: DispatchQueue = .global(qos: .userInitiated),
+    firebaseStorageService: ImageStorageServiceProtocol,
+    imageCache: ImageMemoryCachable
   ) {
     self.service = service
     self.loggedInUserRepository = loggedInUserRepository
     self.backgroundQueue = backgroundQueue
+    self.firebaseStorageService = firebaseStorageService
+    self.imageCache = imageCache
   }
 }
 
