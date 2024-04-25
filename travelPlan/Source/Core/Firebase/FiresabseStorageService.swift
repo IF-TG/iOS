@@ -1,5 +1,5 @@
 //
-//  StorageService.swift
+//  FiresabseStorageService.swift
 //  travelPlan
 //
 //  Created by 양승현 on 4/25/24.
@@ -9,16 +9,18 @@ import Foundation
 import FirebaseStorage
 import Combine
 
-public struct StorageService {
+public struct FiresabseStorageService: ImageStorageServiceProtocol {
   // MARK: - Helpers
-  func uploadImage(_ imageData: Data, type: UploadType) async throws -> String {
+  func uploadImage(_ imageData: Data, type: ImageStorageServiceType) async throws -> String {
+    let uploadType = UploadType(from: type)
     let fileName = NSUUID().uuidString
-    let reference = Storage.storage().reference(withPath: "/\(type.path)/\(fileName)")
+    let reference = Storage.storage().reference(withPath: "/\(uploadType.path)/\(fileName)")
     _ = try await reference.putDataAsync(imageData)
     return (try await reference.downloadURL()).absoluteString
   }
   
-  func fetchImage(_ url: String, type: UploadType) -> AnyPublisher<Data, Error> {
+  func fetchImage(_ url: String, type: ImageStorageServiceType) -> AnyPublisher<Data, Error> {
+    let uploadType = UploadType(from: type)
     return Future { promise in
       guard let url = URL(string: url) else {
         promise(.failure(ReferenceError.invalidReference))
@@ -27,7 +29,7 @@ public struct StorageService {
       do {
         try Storage.storage()
           .reference(for: url)
-          .getData(maxSize: type.maxSize) { data, error in
+          .getData(maxSize: uploadType.maxSize) { data, error in
             if let error {
               promise(.failure(error))
             } else if let data {
@@ -42,10 +44,19 @@ public struct StorageService {
 }
 
 // MARK: - Nested
-extension StorageService {
+extension FiresabseStorageService {
   @frozen enum UploadType {
     case profileImage
     case postImage
+    
+    init(from: ImageStorageServiceType) {
+      switch from {
+      case .postImage:
+        self = .postImage
+      case .profileImage:
+        self = .profileImage
+      }
+    }
     
     var path: String {
       switch self {
