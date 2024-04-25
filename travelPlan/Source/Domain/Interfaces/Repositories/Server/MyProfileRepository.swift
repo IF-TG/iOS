@@ -23,5 +23,6 @@ protocol MyProfileRepository {
   func deleteProfileImage() -> AnyPublisher<Bool, Error>
   func fetchProfileImage() -> AnyPublisher<ProfileImageEntity, Error>
   func fetchProfile(with userId: String) -> AnyPublisher<UserEntity, Error>
+  func saveProfile(with userId: String, nickname: String, profileImage: String) -> AnyPublisher<Void, Error>
   var isProfileSavedInServer: Bool { get }
 }

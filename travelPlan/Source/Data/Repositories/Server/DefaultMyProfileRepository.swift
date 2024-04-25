@@ -46,10 +46,6 @@ final class DefaultMyProfileRepository {
 
 // MARK: - MyProfileRepository
 extension DefaultMyProfileRepository: MyProfileRepository {
-  func fetchProfile(with userId: String) -> AnyPublisher<UserEntity, any Error> {
-    fatalError(" 서버에서 미 구현된 api 입니다.")
-  }
-  
   var isProfileSavedInServer: Bool {
     loggedInUserRepository.isSavedProfileInServer
   }
@@ -236,5 +232,13 @@ extension DefaultMyProfileRepository: MyProfileRepository {
           promise(.success(profileImageEntity))
         }.store(in: &subscriptions)
     }.eraseToAnyPublisher()
+  }
+  
+  func fetchProfile(with userId: String) -> AnyPublisher<UserEntity, any Error> {
+    fatalError(" 서버에서 미 구현된 api 입니다.")
+  }
+  
+  func saveProfile(with userId: String, nickname: String, profileImage: String) -> AnyPublisher<Void, any Error> {
+    fatalError("서버에서 미 구현된 api 입니다.")
   }
 }
