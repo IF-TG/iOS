@@ -54,6 +54,9 @@ extension DefaultLoginRepository: LoginRepository {
           guard self.loginResponseStorage.saveTokens(jwtDTO: jwtDTO) else {
             throw DefaultLoginRepositoryError.tokensSavingFailed
           }
+        } else {
+          /// 사용자는 FirebaseAuth를 이용.
+          // TODO: - 여기서 해당 사용자 도큐먼트에 컬랙션 문서있느지호확ㅇ니하고엇ㅂ으면 추가.
         }
         // TODO: - loginResultStorage를 통해 save합니다.
 //          if loginResultStorage.save() {
