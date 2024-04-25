@@ -45,6 +45,9 @@ extension FirestoreMyProfileRepository: MyProfileRepository {
   }
   
   func fetchProfile(with userId: String) -> AnyPublisher<UserEntity, any Error> {
+    if let user = loggedInUserRepository.user {
+      return Just(user).setFailureType(to: ReferenceError.self).mapError { $0 as Error }.eraseToAnyPublisher()
+    }
     let endpoint = Endpoint.fetchUserProfileEndpoint(userUID: userId)
     return Future { [weak self, backgroundQueue] promise in
       let subscription = self?.service.request(endpoint: endpoint)
@@ -54,7 +57,9 @@ extension FirestoreMyProfileRepository: MyProfileRepository {
             promise(.failure(error))
           }
         } receiveValue: { responseDTO in
-          promise(.success(responseDTO.toDomain()))
+          let userEntity = responseDTO.toDomain()
+          self?.loggedInUserRepository.setUser(with: userEntity)
+          promise(.success(userEntity))
         }
       self?.subscriptions.insert(subscription)
     }.eraseToAnyPublisher()
