@@ -68,7 +68,7 @@ extension FirestoreMyProfileRepository: MyProfileRepository {
     return Future { promise in
       Task(priority: .userInitiated) { [weak self] in
         do {
-          let imagePath = try await self?.firebaseStorageService.uploadImage(profileImageData,type: .profileImage)
+          let imagePath = try await self?.firebaseStorageService.uploadImage(profileImageData, type: .profileImage)
           let requestDTO = UserProfileSaveRequestDTO(uid: userId, nickname: nickname, profileImagePath: "임시")
           let endpoint = Endpoint.saveUserProfileEndpoint(with: requestDTO)
           let subscription = self?.service.request(endpoint: endpoint)

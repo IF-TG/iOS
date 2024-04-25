@@ -20,7 +20,6 @@ public struct FiresabseStorageService: ImageStorageServiceProtocol {
   }
   
   func uploadImages(_ imageDataList: [Data], type: ImageStorageServiceType) async throws -> [String] {
-    let uploadType = UploadType(from: type)
     var urls: [String] = []
     for imageData in imageDataList {
       urls.append(try await uploadImage(imageData, type: type))
