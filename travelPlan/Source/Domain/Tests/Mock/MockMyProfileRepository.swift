@@ -5,6 +5,7 @@
 //  Created by 양승현 on 2/27/24.
 //
 
+import Foundation
 import Combine
 
 final class MockMyProfileRepository: MyProfileRepository {
@@ -55,7 +56,7 @@ final class MockMyProfileRepository: MyProfileRepository {
   func fetchProfile(with userId: String) -> AnyPublisher<UserEntity, any Error> {
     fatalError("서버에서 미 구현된 api")
   }
-  func saveProfile(with userId: String, nickname: String, profileImage: String) -> AnyPublisher<Void, any Error> {
+  func saveProfile(with userId: String, nickname: String, profileImageData: Data) -> AnyPublisher<Void, any Error> {
     fatalError("서버에서 미 구현된 api")
   }
 }

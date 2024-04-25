@@ -238,7 +238,7 @@ extension DefaultMyProfileRepository: MyProfileRepository {
     fatalError(" 서버에서 미 구현된 api 입니다.")
   }
   
-  func saveProfile(with userId: String, nickname: String, profileImage: String) -> AnyPublisher<Void, any Error> {
+  func saveProfile(with userId: String, nickname: String, profileImageData: Data) -> AnyPublisher<Void, any Error> {
     fatalError("서버에서 미 구현된 api 입니다.")
   }
 }
