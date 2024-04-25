@@ -39,9 +39,10 @@ extension DefaultLoginRepository: LoginRepository {
     switch type {
     case .apple:
       authService.setLoginStrategy(AppleLoginStrategy())
-      
-      // TODO: - 여기에서 case 추가하고 service에 구체 Strategy객체 주입
+    case .google:
+      authService.setLoginStrategy(GoogleLoginStrategyWithFirebase())
     }
+    // TODO: - 여기에서 case 추가하고 service에 구체 Strategy객체 주입
     
     return authService.performLogin()
       .receive(on: DispatchQueue.global(qos: .userInitiated))
@@ -49,8 +50,10 @@ extension DefaultLoginRepository: LoginRepository {
         guard let self = self else {
           throw DefaultLoginRepositoryError.taskAlreadyCancelled
         }
-        guard self.loginResponseStorage.saveTokens(jwtDTO: jwtDTO) else {
-          throw DefaultLoginRepositoryError.tokensSavingFailed
+        if let jwtDTO {
+          guard self.loginResponseStorage.saveTokens(jwtDTO: jwtDTO) else {
+            throw DefaultLoginRepositoryError.tokensSavingFailed
+          }
         }
         // TODO: - loginResultStorage를 통해 save합니다.
 //          if loginResultStorage.save() {
