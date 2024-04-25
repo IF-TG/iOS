@@ -20,13 +20,12 @@ final class DefaultOthersProfileRepository: UserRepository {
     self.service = service
   }
   
-  func fetchProfile(with id: Int64) -> AnyPublisher<ProfileImageEntity, Error> {
+  func fetchProfile(with id: String) -> AnyPublisher<ProfileImageEntity, Error> {
     return Future { [weak self] promise in
-      guard let self else {
+      guard let self, let id = Int64(id) else {
         promise(.failure(ReferenceError.invalidReference))
         return
       }
-      
       let requestDTO = UserIdReqeustDTO(userId: id)
       let endpoint = UserInfoAPIEndpoint.fetchProfile(with: requestDTO)
       

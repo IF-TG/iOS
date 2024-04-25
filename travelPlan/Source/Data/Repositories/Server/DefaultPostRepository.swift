@@ -37,7 +37,7 @@ extension DefaultPostRepository: PostRepository {
         return
       }
       
-      guard let loggedInUserId = loggedInUserRepository.id else {
+      guard let loggedInUserId = loggedInUserRepository.id, let userId = Int64(loggedInUserId) else {
         promise(.failure(LoggedInUserRepositoryError.invalidUserId))
         return
       }
@@ -46,7 +46,7 @@ extension DefaultPostRepository: PostRepository {
         page: page,
         perPage: perPage,
         category: category,
-        userId: loggedInUserId)
+        userId: userId)
       let endpoint = Endpoint.fetchPosts(with: requestDTO)
       
       service.request(endpoint: endpoint)

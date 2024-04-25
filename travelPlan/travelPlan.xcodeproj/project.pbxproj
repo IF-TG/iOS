@@ -205,7 +205,7 @@
 		15259DEB2ACAA9F600C14F62 /* PostSearchFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C07ECC2A13F454005F04CD /* PostSearchFooterView.swift */; };
 		15259DEC2ACAAAB200C14F62 /* LocationSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EF8C042A0829FD0068C744 /* LocationSearchViewController.swift */; };
 		152603D72B97A4BC00634299 /* PostsRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152603D62B97A4BC00634299 /* PostsRequestDTO.swift */; };
-		152715412BA0D5AE0077D033 /* UserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152715402BA0D5AE0077D033 /* UserRepository.swift */; };
+		152715412BA0D5AE0077D033 /* FetchUserProfileImageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152715402BA0D5AE0077D033 /* FetchUserProfileImageRepository.swift */; };
 		152715452BA0D60F0077D033 /* DefaultOthersProfileRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152715442BA0D60F0077D033 /* DefaultOthersProfileRepository.swift */; };
 		152834D52BAB4DED00453DD1 /* PostViewSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152834D42BAB4DED00453DD1 /* PostViewSection.swift */; };
 		152AD4F02A189CFC008A2A11 /* FavoriteHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152AD4EF2A189CFC008A2A11 /* FavoriteHeaderView.swift */; };
@@ -221,7 +221,7 @@
 		1536CC512BC8D5D700EEAE2B /* ActivityIndicator in Frameworks */ = {isa = PBXBuildFile; productRef = 1536CC502BC8D5D700EEAE2B /* ActivityIndicator */; };
 		153841D72A5642A9004C41D1 /* PostViewBottomSheetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153841D62A5642A9004C41D1 /* PostViewBottomSheetCell.swift */; };
 		153FA90D2B937D9E006CF3C3 /* UserProfileRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153FA90C2B937D9E006CF3C3 /* UserProfileRequestDTO.swift */; };
-		153FA90F2B937E12006CF3C3 /* UserProfileResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153FA90E2B937E12006CF3C3 /* UserProfileResponseDTO.swift */; };
+		153FA90F2B937E12006CF3C3 /* UserProfileImageResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153FA90E2B937E12006CF3C3 /* UserProfileImageResponseDTO.swift */; };
 		153FA9112B938C19006CF3C3 /* ParameterType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153FA9102B938C19006CF3C3 /* ParameterType.swift */; };
 		1543DC942BC53D4B0041852F /* ReviewWritingThemeSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1543DC932BC53D4B0041852F /* ReviewWritingThemeSectionHeader.swift */; };
 		1543DC962BC53E810041852F /* ReviewWritingThemeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1543DC952BC53E810041852F /* ReviewWritingThemeCell.swift */; };
@@ -312,8 +312,9 @@
 		15803C4B2BDA1A4600D83F2B /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 15803C4A2BDA1A4600D83F2B /* GoogleSignIn */; };
 		15803C4D2BDA1BA700D83F2B /* GoogleLoginStrategyWithFirebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15803C4C2BDA1BA700D83F2B /* GoogleLoginStrategyWithFirebase.swift */; };
 		15803C4F2BDA22EA00D83F2B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 15803C4E2BDA22EA00D83F2B /* GoogleService-Info.plist */; };
-		15803C512BDA4DC700D83F2B /* FirestoreUserAPIEndopint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15803C502BDA4DC700D83F2B /* FirestoreUserAPIEndopint.swift */; };
+		15803C512BDA4DC700D83F2B /* FirestoreMyProfileAPIEndopint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15803C502BDA4DC700D83F2B /* FirestoreMyProfileAPIEndopint.swift */; };
 		15803C542BDA522500D83F2B /* FirestoreMyProfileRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15803C532BDA522500D83F2B /* FirestoreMyProfileRepository.swift */; };
+		15803C5A2BDA583700D83F2B /* UserProfileResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15803C592BDA583700D83F2B /* UserProfileResponseDTO.swift */; };
 		158312E12AB36A9A0087034A /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158312E02AB36A9A0087034A /* UIViewController+.swift */; };
 		158439152BAAC80B00348509 /* FavoritePostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158439142BAAC80B00348509 /* FavoritePostViewModel.swift */; };
 		1585017C2BC2E50D00341575 /* PostOptionResultAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1585017B2BC2E50D00341575 /* PostOptionResultAlertController.swift */; };
@@ -831,7 +832,7 @@
 		151DF1112AEECDDD00D5D55B /* NoticeViewModelable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeViewModelable.swift; sourceTree = "<group>"; };
 		1524A4A42BABEAA5002C639A /* MockPostUseCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockPostUseCase.swift; sourceTree = "<group>"; };
 		152603D62B97A4BC00634299 /* PostsRequestDTO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostsRequestDTO.swift; sourceTree = "<group>"; };
-		152715402BA0D5AE0077D033 /* UserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepository.swift; sourceTree = "<group>"; };
+		152715402BA0D5AE0077D033 /* FetchUserProfileImageRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchUserProfileImageRepository.swift; sourceTree = "<group>"; };
 		152715442BA0D60F0077D033 /* DefaultOthersProfileRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultOthersProfileRepository.swift; sourceTree = "<group>"; };
 		152834D42BAB4DED00453DD1 /* PostViewSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewSection.swift; sourceTree = "<group>"; };
 		152AD4E72A188D33008A2A11 /* FavoriteTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteTableViewCell.swift; sourceTree = "<group>"; };
@@ -848,7 +849,7 @@
 		15329CEB2B96171B005FC033 /* ProfileImageEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageEntity.swift; sourceTree = "<group>"; };
 		153841D62A5642A9004C41D1 /* PostViewBottomSheetCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewBottomSheetCell.swift; sourceTree = "<group>"; };
 		153FA90C2B937D9E006CF3C3 /* UserProfileRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileRequestDTO.swift; sourceTree = "<group>"; };
-		153FA90E2B937E12006CF3C3 /* UserProfileResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileResponseDTO.swift; sourceTree = "<group>"; };
+		153FA90E2B937E12006CF3C3 /* UserProfileImageResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileImageResponseDTO.swift; sourceTree = "<group>"; };
 		153FA9102B938C19006CF3C3 /* ParameterType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParameterType.swift; sourceTree = "<group>"; };
 		1543DC932BC53D4B0041852F /* ReviewWritingThemeSectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWritingThemeSectionHeader.swift; sourceTree = "<group>"; };
 		1543DC952BC53E810041852F /* ReviewWritingThemeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWritingThemeCell.swift; sourceTree = "<group>"; };
@@ -938,8 +939,9 @@
 		157ADCB32AD07ED600D37680 /* SearchWithCancelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchWithCancelView.swift; sourceTree = "<group>"; };
 		15803C4C2BDA1BA700D83F2B /* GoogleLoginStrategyWithFirebase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleLoginStrategyWithFirebase.swift; sourceTree = "<group>"; };
 		15803C4E2BDA22EA00D83F2B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		15803C502BDA4DC700D83F2B /* FirestoreUserAPIEndopint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreUserAPIEndopint.swift; sourceTree = "<group>"; };
+		15803C502BDA4DC700D83F2B /* FirestoreMyProfileAPIEndopint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreMyProfileAPIEndopint.swift; sourceTree = "<group>"; };
 		15803C532BDA522500D83F2B /* FirestoreMyProfileRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreMyProfileRepository.swift; sourceTree = "<group>"; };
+		15803C592BDA583700D83F2B /* UserProfileResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileResponseDTO.swift; sourceTree = "<group>"; };
 		158312E02AB36A9A0087034A /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
 		158439142BAAC80B00348509 /* FavoritePostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePostViewModel.swift; sourceTree = "<group>"; };
 		1585017B2BC2E50D00341575 /* PostOptionResultAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostOptionResultAlertController.swift; sourceTree = "<group>"; };
@@ -1853,6 +1855,7 @@
 		151DF0FF2AEEBC0700D5D55B /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				15803C572BDA57DC00D83F2B /* Firestore */,
 				15FBD5CC2B98D00200076115 /* DataMapper */,
 				154CA6172BD3AA290066B444 /* TourAPI */,
 				154CA6162BD3AA0C0066B444 /* Server */,
@@ -1869,7 +1872,7 @@
 				15A0E19E2B97A3BC0047D662 /* PostResponseDTO.swift */,
 				15D655832B8E085300466FEC /* CommonDTO.swift */,
 				15A0E1A02B97A3FD0047D662 /* PostContainerResponseDTO.swift */,
-				153FA90E2B937E12006CF3C3 /* UserProfileResponseDTO.swift */,
+				153FA90E2B937E12006CF3C3 /* UserProfileImageResponseDTO.swift */,
 				133531F32BA0D3CB000A4D9E /* JWTResponseDTO.swift */,
 				15CAEF842BAED1D8008AEDB1 /* PostCommentContainerResponseDTO.swift */,
 				1518BC122BB00DB200FD1A74 /* PostCommentUpdateResponseDTO.swift */,
@@ -2125,7 +2128,6 @@
 				154CA6192BD3AA390066B444 /* RequestDTO */,
 				154CA6182BD3AA330066B444 /* ResponseDTO */,
 				154CA61A2BD3AAC40066B444 /* DestinationAPIEndpoint.swift */,
-				15803C502BDA4DC700D83F2B /* FirestoreUserAPIEndopint.swift */,
 			);
 			path = TourAPI;
 			sourceTree = "<group>";
@@ -2244,6 +2246,23 @@
 				15803C532BDA522500D83F2B /* FirestoreMyProfileRepository.swift */,
 			);
 			path = Firestore;
+			sourceTree = "<group>";
+		};
+		15803C572BDA57DC00D83F2B /* Firestore */ = {
+			isa = PBXGroup;
+			children = (
+				15803C582BDA581800D83F2B /* ResponseDTO */,
+				15803C502BDA4DC700D83F2B /* FirestoreMyProfileAPIEndopint.swift */,
+			);
+			path = Firestore;
+			sourceTree = "<group>";
+		};
+		15803C582BDA581800D83F2B /* ResponseDTO */ = {
+			isa = PBXGroup;
+			children = (
+				15803C592BDA583700D83F2B /* UserProfileResponseDTO.swift */,
+			);
+			path = ResponseDTO;
 			sourceTree = "<group>";
 		};
 		158BEF7A2A0E2A4700C27861 /* PostView */ = {
@@ -2456,7 +2475,7 @@
 				130CF36D2B8F3DD60051DEE8 /* LoginRepository.swift */,
 				15D655882B8E0EC600466FEC /* MyProfileRepository.swift */,
 				15FBD5DD2B98E4F100076115 /* PostRepository.swift */,
-				152715402BA0D5AE0077D033 /* UserRepository.swift */,
+				152715402BA0D5AE0077D033 /* FetchUserProfileImageRepository.swift */,
 				15B01DA62BA941D800BE9F98 /* LoggedInUserRepository.swift */,
 				15BE6BDA2BAF08B4009A2568 /* PostCommentRepository.swift */,
 				15553BC32BB343F1000AA896 /* PostNestedCommentRepository.swift */,
@@ -3545,7 +3564,7 @@
 				13405F042AED899800382796 /* KakaoLoginButton.swift in Sources */,
 				15BE6BEC2BAF1DB3009A2568 /* MockPostCommentRepository.swift in Sources */,
 				13BF41202ADBEC8C00F3F082 /* LoginStartView.swift in Sources */,
-				15803C512BDA4DC700D83F2B /* FirestoreUserAPIEndopint.swift in Sources */,
+				15803C512BDA4DC700D83F2B /* FirestoreMyProfileAPIEndopint.swift in Sources */,
 				15B5E79F2BBAE51C00C19F56 /* UserBlockAPIEndpoint.swift in Sources */,
 				15E9E5F22B9A35F300C2F1F7 /* MockPostRepository.swift in Sources */,
 				151DF0F62AEEB2D200D5D55B /* DefaultNoticeUseCase.swift in Sources */,
@@ -3553,7 +3572,7 @@
 				15FFABFB2AD5B6FC0013DB57 /* BasePaddingLabel.swift in Sources */,
 				15B01DA32BA93A1000BE9F98 /* UserStorage.swift in Sources */,
 				15C36BBB2BD17AC0004AA8E9 /* FirestoreRequestType.swift in Sources */,
-				153FA90F2B937E12006CF3C3 /* UserProfileResponseDTO.swift in Sources */,
+				153FA90F2B937E12006CF3C3 /* UserProfileImageResponseDTO.swift in Sources */,
 				151DF1012AEEBD0A00D5D55B /* NotificationAPIEndpoints.swift in Sources */,
 				1524A4A52BABEAA5002C639A /* MockPostUseCase.swift in Sources */,
 				15259DE92ACAA98F00C14F62 /* TravelDestinationCellViewModel.swift in Sources */,
@@ -3705,7 +3724,7 @@
 				13AE0DD22BBC42C000652B99 /* PhotoOrderView.swift in Sources */,
 				157ADCAE2AD00AB400D37680 /* FavoriteLocationViewController.swift in Sources */,
 				15BB01B82A1EB5070035B486 /* LoginViewModel.swift in Sources */,
-				152715412BA0D5AE0077D033 /* UserRepository.swift in Sources */,
+				152715412BA0D5AE0077D033 /* FetchUserProfileImageRepository.swift in Sources */,
 				15BE6BDB2BAF08B4009A2568 /* PostCommentRepository.swift in Sources */,
 				13E98F892BC581BF00F05295 /* ReviewWritingRepository.swift in Sources */,
 				1599587B2B0DC55700B2E4DC /* PostCellWithTwoThumbnails.swift in Sources */,
@@ -3798,6 +3817,7 @@
 				139DEE3A2B17CAC900363E7B /* SearchDestinationServiceTypeView.swift in Sources */,
 				1546DF3B2B0C5B7C00B49A55 /* ImageDiskCache.swift in Sources */,
 				13E98F982BCA6FE900F05295 /* ReviewWritingSaveRequestDTO.swift in Sources */,
+				15803C5A2BDA583700D83F2B /* UserProfileResponseDTO.swift in Sources */,
 				15B01DAD2BA95A2500BE9F98 /* LoggedInUserUseCase.swift in Sources */,
 				151DF0DA2AEE6DF700D5D55B /* NoticeViewController.swift in Sources */,
 				15FFAC332ADD4C480013DB57 /* PostViewAdapterDataSource.swift in Sources */,

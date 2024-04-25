@@ -11,7 +11,7 @@ protocol LoggedInUserUseCase {
   var nickname: String? { get }
   var profileURL: String? { get }
   var isSavedProfileInServer: Bool { get }
-  var id: Int64? { get }
+  var id: String? { get }
   var user: UserEntity? { get }
   
   func setUser(with userInfo: UserEntity)

@@ -12,3 +12,14 @@ struct UserProfileResponseDTO: Decodable {
   let nickname: String
   let profileImagePath: String
 }
+
+// MARK: - Helpers
+extension UserProfileResponseDTO {
+  func toDomain() -> UserEntity {
+    return .init(
+      id: uid,
+      nickname: nickname,
+      profileURL: profileImagePath == "" ? nil : profileImagePath,
+      isSavedProfileInServer: profileImagePath == "")
+  }
+}

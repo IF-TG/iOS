@@ -87,12 +87,12 @@ extension DefaultMyProfileRepository: MyProfileRepository {
         return
       }
       
-      guard let loggedInUserId = loggedInUserRepository.id else {
+      guard let loggedInUserId = loggedInUserRepository.id, let userId = Int64(loggedInUserId) else {
         promise(.failure(MyProfileUseCaseError.invalidUserId))
         return
       }
       
-      let requestDTO = UserNicknamePatchRequestDTO(nickname: name, userId: loggedInUserId)
+      let requestDTO = UserNicknamePatchRequestDTO(nickname: name, userId: userId)
       let endpoint = UserInfoAPIEndpoint.updateUserNickname(with: requestDTO)
       service.request(endpoint: endpoint)
         .subscribe(on: backgroundQueue)
@@ -121,12 +121,12 @@ extension DefaultMyProfileRepository: MyProfileRepository {
         return
       }
       
-      guard let loggedInUserId = loggedInUserRepository.id else {
+      guard let loggedInUserId = loggedInUserRepository.id, let userId = Int64(loggedInUserId) else {
         promise(.failure(MyProfileUseCaseError.invalidUserId))
         return
       }
       
-      let userIdReqeustDTO = UserIdReqeustDTO(userId: loggedInUserId)
+      let userIdReqeustDTO = UserIdReqeustDTO(userId: userId)
       let reqeustDTO = UserProfileRequestDTO(profile: profile)
       let endpoint = UserInfoAPIEndpoint.updateProfile(withQuery: userIdReqeustDTO, body: reqeustDTO)
       service.request(endpoint: endpoint)
@@ -151,12 +151,15 @@ extension DefaultMyProfileRepository: MyProfileRepository {
         return
       }
       
-      guard let loggedInUserId = loggedInUserRepository.id else {
+      guard
+        let loggedInUserId = loggedInUserRepository.id,
+        let userId = Int64(loggedInUserId)
+      else {
         promise(.failure(MyProfileUseCaseError.invalidUserId))
         return
       }
       
-      let userIdRequestDTO = UserIdReqeustDTO(userId: loggedInUserId)
+      let userIdRequestDTO = UserIdReqeustDTO(userId: userId)
       let requestDTO = UserProfileRequestDTO(profile: profile)
       let endpoint = UserInfoAPIEndpoint.saveProfile(withQuery: userIdRequestDTO, body: requestDTO)
       service.request(endpoint: endpoint)
@@ -181,12 +184,12 @@ extension DefaultMyProfileRepository: MyProfileRepository {
         return
       }
       
-      guard let loggedInUserId = loggedInUserRepository.id else {
+      guard let loggedInUserId = loggedInUserRepository.id, let userId = Int64(loggedInUserId) else {
         promise(.failure(MyProfileUseCaseError.invalidUserId))
         return
       }
       
-      let requestDTO = UserIdReqeustDTO(userId: loggedInUserId)
+      let requestDTO = UserIdReqeustDTO(userId: userId)
       let endpoint = UserInfoAPIEndpoint.deleteProfile(with: requestDTO)
       
       service.request(endpoint: endpoint)

@@ -44,14 +44,14 @@ extension UserDefaultsUserStorage: UserStorage {
     return false
   }
   
-  var id: Int64? {
+  var id: String? {
     user?.id
   }
   
   var user: UserEntity? {
     guard
       let user = UserDefaultsManager[.user] as? [String: Any],
-      let id = user[Key.id.rawValue] as? Int64,
+      let id = user[Key.id.rawValue] as? String,
       let nickname = user[Key.nickname.rawValue] as? String,
       let isSavedProfileInServer = user[Key.isSavedProfileInServer.rawValue] as? Bool
     else { return nil }

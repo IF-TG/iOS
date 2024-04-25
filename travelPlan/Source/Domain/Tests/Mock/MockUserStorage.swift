@@ -20,12 +20,12 @@ final class MockUserStorage: UserStorage {
     false
   }
   
-  var id: Int64? {
-    1
+  var id: String? {
+    "1"
   }
   
   var user: UserEntity? {
-    .init(id: 1, nickname: "짱구", isSavedProfileInServer: false)
+    .init(id: "1", nickname: "짱구", isSavedProfileInServer: false)
   }
   
   func setUser(with userInfo: UserEntity) { }

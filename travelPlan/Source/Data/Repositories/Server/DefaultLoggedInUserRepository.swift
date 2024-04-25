@@ -24,7 +24,7 @@ final class DefaultLoggedInUserRepository: LoggedInUserRepository {
     storage.isSavedProfileInServer
   }
   
-  var id: Int64? {
+  var id: String? {
     storage.id
   }
   

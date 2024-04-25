@@ -24,7 +24,7 @@ final class DefaultLoggedInUserUseCase: LoggedInUserUseCase {
     loggedInUserRepository.isSavedProfileInServer
   }
   
-  var id: Int64? {
+  var id: String? {
     loggedInUserRepository.id
   }
   
