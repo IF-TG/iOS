@@ -15,6 +15,7 @@ import Combine
   case invalidPresentingViewController
   case invalidUserInfoInGoogle
   case googleSignInError(Error)
+  case faildLoggedInFirebaseAuth(Error)
 }
 
 final class GoogleLoginStrategyWithFirebase: LoginStrategy {
@@ -69,7 +70,11 @@ final class GoogleLoginStrategyWithFirebase: LoginStrategy {
         accessToken: user.accessToken.tokenString)
       
       Auth.auth().signIn(with: credential) { result, error in
-        // 로그인 완료
+        if let error {
+          self?.resultPublisher.send(completion: .failure(GoogleLoginStrategyError.faildLoggedInFirebaseAuth(error)))
+          return
+        }
+        /// Auth에서 crednetial로 로그인 성공
         self?.resultPublisher.send(nil)
       }
     }
