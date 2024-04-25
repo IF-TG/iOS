@@ -310,6 +310,7 @@
 		157ADCAE2AD00AB400D37680 /* FavoriteLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157ADCAD2AD00AB400D37680 /* FavoriteLocationViewController.swift */; };
 		157ADCB02AD06B5400D37680 /* FavoriteDirectorySettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157ADCAF2AD06B5400D37680 /* FavoriteDirectorySettingView.swift */; };
 		157ADCB42AD07ED600D37680 /* SearchWithCancelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157ADCB32AD07ED600D37680 /* SearchWithCancelView.swift */; };
+		15803C4B2BDA1A4600D83F2B /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 15803C4A2BDA1A4600D83F2B /* GoogleSignIn */; };
 		158312E12AB36A9A0087034A /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158312E02AB36A9A0087034A /* UIViewController+.swift */; };
 		158439152BAAC80B00348509 /* FavoritePostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158439142BAAC80B00348509 /* FavoritePostViewModel.swift */; };
 		1585017C2BC2E50D00341575 /* PostOptionResultAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1585017B2BC2E50D00341575 /* PostOptionResultAlertController.swift */; };
@@ -1230,6 +1231,7 @@
 				15A40D632BCFAEE80045C2C5 /* FirebaseStorageCombine-Community in Frameworks */,
 				1536CC512BC8D5D700EEAE2B /* ActivityIndicator in Frameworks */,
 				15A40D592BCFAEE80045C2C5 /* FirebaseAuth in Frameworks */,
+				15803C4B2BDA1A4600D83F2B /* GoogleSignIn in Frameworks */,
 				151DF0CF2AEE397000D5D55B /* Alamofire in Frameworks */,
 				15A40D612BCFAEE80045C2C5 /* FirebaseStorage in Frameworks */,
 				154CA5F92BD2C91C0066B444 /* SHFirestoreService in Frameworks */,
@@ -3233,6 +3235,7 @@
 				15A40D602BCFAEE80045C2C5 /* FirebaseStorage */,
 				15A40D622BCFAEE80045C2C5 /* FirebaseStorageCombine-Community */,
 				154CA5F82BD2C91C0066B444 /* SHFirestoreService */,
+				15803C4A2BDA1A4600D83F2B /* GoogleSignIn */,
 			);
 			productName = travelPlan;
 			productReference = 1594F52E29FD517E00A58F20 /* travelPlan.app */;
@@ -3277,6 +3280,7 @@
 				1536CC4F2BC8D5D700EEAE2B /* XCRemoteSwiftPackageReference "ActivityIndicator" */,
 				15A40D572BCFAEE80045C2C5 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				154CA5F72BD2C91C0066B444 /* XCRemoteSwiftPackageReference "SHFirestoreService" */,
+				15803C492BDA1A4600D83F2B /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 			);
 			productRefGroup = 1594F52F29FD517E00A58F20 /* Products */;
 			projectDirPath = "";
@@ -4316,6 +4320,14 @@
 				minimumVersion = 1.1.2;
 			};
 		};
+		15803C492BDA1A4600D83F2B /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.1.0;
+			};
+		};
 		15A40D572BCFAEE80045C2C5 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -4351,6 +4363,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 154CA5F72BD2C91C0066B444 /* XCRemoteSwiftPackageReference "SHFirestoreService" */;
 			productName = SHFirestoreService;
+		};
+		15803C4A2BDA1A4600D83F2B /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 15803C492BDA1A4600D83F2B /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
 		};
 		15A40D582BCFAEE80045C2C5 /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
