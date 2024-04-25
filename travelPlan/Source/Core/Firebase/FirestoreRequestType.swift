@@ -79,10 +79,11 @@ extension FirestoreRequestType {
   }
   
   @frozen enum UserDocument {
-    case user(String)
-    //    case updateProfile
+    case fetchUserProfile(String)
+    case saveUserProfile
+    //    case updateProfileImage
     //    case updateName
-    //    case updateProfile
+    //    case updateProfileImage
     //    case saveProfileImage
     //    case deleteProfile
     //    case fetchProfileImage
@@ -95,8 +96,10 @@ extension FirestoreRequestType {
     
     var docuemntPath: String? {
       switch self {
-      case .user(let UID):
+      case .fetchUserProfile(let UID):
         return UID
+      case .saveUserProfile:
+        return nil
       case .blockedUsersCollection(let UID, let requestType):
         if let subDocumentPath = requestType.documentPath {
           return "/\(UID)\(subDocumentPath)"
@@ -107,7 +110,9 @@ extension FirestoreRequestType {
     
     var childCollectionPath: String? {
       switch self {
-      case .user(let UID):
+      case .fetchUserProfile(let UID):
+        return nil
+      case .saveUserProfile:
         return nil
       case .blockedUsersCollection(let uid, let blockedUserCollection):
         return "/\(uid)\(blockedUserCollection.collectionPath)"
