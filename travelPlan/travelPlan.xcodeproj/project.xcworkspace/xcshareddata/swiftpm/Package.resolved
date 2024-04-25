@@ -1,5 +1,5 @@
 {
-  "originHash" : "1bb721499471884f128b59dcbb6b488665e3fe3daebeed24dc06ea051a13bff5",
+  "originHash" : "cc9a49b6b0b7f5394c4cfad663be0b47580031276d9bc798d593a9366a61bd78",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -168,8 +168,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/SHcommit/SHFirestoreService.git",
       "state" : {
-        "revision" : "4f5119c097f9802ec34825158ff86c1bf958119a",
-        "version" : "1.1.2"
+        "revision" : "30755384a678affadcc24041571284cf2096ce92",
+        "version" : "1.1.3"
       }
     },
     {
