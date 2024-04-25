@@ -50,6 +50,15 @@ public struct FiresabseStorageService: ImageStorageServiceProtocol {
       }
     }.eraseToAnyPublisher()
   }
+  
+  func fetchImages(_ urls: [String], type: ImageStorageServiceType) -> AnyPublisher<[Data], any Error> {
+    return Publishers
+      .Sequence(sequence: urls)
+      .flatMap { url in
+        return fetchImage(url, type: type)
+      }.collect()
+      .eraseToAnyPublisher()
+  }
 }
 
 // MARK: - Nested

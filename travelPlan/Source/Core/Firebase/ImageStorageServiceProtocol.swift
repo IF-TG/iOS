@@ -18,4 +18,6 @@ protocol ImageStorageServiceProtocol {
   func uploadImages(_ imageDataList: [Data], type: ImageStorageServiceType) async throws -> [String]
   
   func fetchImage(_ url: String, type: ImageStorageServiceType) -> AnyPublisher<Data, Error>
+  
+  func fetchImages(_ urls: [String], type: ImageStorageServiceType) -> AnyPublisher<[Data], Error>
 }
