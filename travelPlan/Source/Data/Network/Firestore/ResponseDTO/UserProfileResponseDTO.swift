@@ -6,3 +6,9 @@
 //
 
 import Foundation
+
+struct UserProfileResponseDTO: Decodable {
+  let uid: String
+  let nickname: String
+  let profileImagePath: String
+}
