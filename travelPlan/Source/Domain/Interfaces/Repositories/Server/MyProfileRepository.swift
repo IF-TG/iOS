@@ -18,9 +18,9 @@ enum MyProfileRepositoryError: LocalizedError {
 protocol MyProfileRepository {
   func checkIfUserNicknameDuplicate(with name: String) -> AnyPublisher<Bool, Error>
   func updateUserNickname(with name: String) -> AnyPublisher<Bool, Error>
-  func updateProfile(with profile: String) -> AnyPublisher<Bool, Error>
-  func saveProfile(with profile: String) -> AnyPublisher<Bool, Error>
-  func deleteProfile() -> AnyPublisher<Bool, Error>
-  func fetchProfile() -> AnyPublisher<ProfileImageEntity, Error>
+  func updateProfileImage(with profile: String) -> AnyPublisher<Bool, Error>
+  func saveProfileImage(with profile: String) -> AnyPublisher<Bool, Error>
+  func deleteProfileImage() -> AnyPublisher<Bool, Error>
+  func fetchProfileImage() -> AnyPublisher<ProfileImageEntity, Error>
   var isProfileSavedInServer: Bool { get }
 }

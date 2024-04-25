@@ -26,7 +26,7 @@ final class MockMyProfileRepository: MyProfileRepository {
     }.eraseToAnyPublisher()
   }
   
-  func updateProfile(with profile: String) -> AnyPublisher<Bool, Error> {
+  func updateProfileImage(with profile: String) -> AnyPublisher<Bool, Error> {
     return Future { promise in
       if profile == "무슨이유에서인지실패.." {
         promise(.success(false))
@@ -35,7 +35,7 @@ final class MockMyProfileRepository: MyProfileRepository {
     }.eraseToAnyPublisher()
   }
   
-  func saveProfile(with profile: String) -> AnyPublisher<Bool, Error> {
+  func saveProfileImage(with profile: String) -> AnyPublisher<Bool, Error> {
     return Future { promise in
       if profile == "!!!!" {
         promise(.success(false))
@@ -44,11 +44,11 @@ final class MockMyProfileRepository: MyProfileRepository {
     }.eraseToAnyPublisher()
   }
   
-  func deleteProfile() -> AnyPublisher<Bool, Error> {
+  func deleteProfileImage() -> AnyPublisher<Bool, Error> {
     return Future { $0(.success(true)) }.eraseToAnyPublisher()
   }
   
-  func fetchProfile() -> AnyPublisher<ProfileImageEntity, Error> {
+  func fetchProfileImage() -> AnyPublisher<ProfileImageEntity, Error> {
     return Future { $0(.success(ProfileImageEntity(image: "hi"))) }.eraseToAnyPublisher()
   }
 }

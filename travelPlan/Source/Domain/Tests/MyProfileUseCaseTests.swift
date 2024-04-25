@@ -101,7 +101,7 @@ final class MyProfileUseCaseTests: XCTestCase {
     XCTAssertEqual(
       resultValue,
       expectedValue,
-      "updateProfile()함수를통해 서버에 호출한 후 반환 퍼블리셔의 Output이 true가 반환되야하는데 false반환됨.")
+      "updateProfileImage()함수를통해 서버에 호출한 후 반환 퍼블리셔의 Output이 true가 반환되야하는데 false반환됨.")
   }
   
   func testMyProfileUseCase_updateProfile함수를통해_프로필업데이트가실패했을때_ShouldReturnFalse() {
@@ -119,7 +119,7 @@ final class MyProfileUseCaseTests: XCTestCase {
     // Assert
     XCTAssertFalse(
       resultValue,
-      "updateProfile()함수를통해 서버에 호출한 결과로 반환 퍼블리셔의 Output value가 false가 반환되야하는데 true반환됨.")
+      "updateProfileImage()함수를통해 서버에 호출한 결과로 반환 퍼블리셔의 Output value가 false가 반환되야하는데 true반환됨.")
   }
   
   func testMyProfileUseCase_saveProfile함수를통해_프로필저장이_성공했을때_ShouldReturnTrue() {
@@ -137,7 +137,7 @@ final class MyProfileUseCaseTests: XCTestCase {
     // Assert
     XCTAssertTrue(
       resultValue,
-      "saveProfile()함수를통해 서버에 호출한 결과로 반환 퍼블리셔의 Output value가 true가 반환되야하는데 false반환됨.")
+      "saveProfileImage()함수를통해 서버에 호출한 결과로 반환 퍼블리셔의 Output value가 true가 반환되야하는데 false반환됨.")
   }
   
   func testMyProfileUseCase_saveProfile함수를통해_프로필저장이_실패했을때_ShouldReturnFalse() {
@@ -155,7 +155,7 @@ final class MyProfileUseCaseTests: XCTestCase {
     // Assert
     XCTAssertFalse(
       resultValue,
-      "saveProfile()함수를통해 서버에 호출한 결과로 반환 퍼블리셔의 Output value가 false가 반환되야하는데 true반환됨.")
+      "saveProfileImage()함수를통해 서버에 호출한 결과로 반환 퍼블리셔의 Output value가 false가 반환되야하는데 true반환됨.")
   }
   
   func testMyProfileUseCase_deleteProfile함수를통해_프로필삭제했을때_ShouldReturnTrue() {
@@ -173,7 +173,7 @@ final class MyProfileUseCaseTests: XCTestCase {
     // Assert
     XCTAssertTrue(
       resultValue,
-      "deleteProfile()함수를통해 서버에 호출한 결과로 반환 퍼블리셔의 Output value가 false가 반환되야하는데 true반환됨.")
+      "deleteProfileImage()함수를통해 서버에 호출한 결과로 반환 퍼블리셔의 Output value가 false가 반환되야하는데 true반환됨.")
   }
   
   func testMyProfileUseCase_fetchProfile함수를통해_사용자의프로필을받아올때_fetchedProfile프로퍼티_반환값이예상값과일치하는지_ShouldReturnEqual() {

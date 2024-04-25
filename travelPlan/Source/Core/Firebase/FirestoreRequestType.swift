@@ -83,9 +83,9 @@ extension FirestoreRequestType {
     //    case updateProfile
     //    case updateName
     //    case updateProfile
-    //    case saveProfile
+    //    case saveProfileImage
     //    case deleteProfile
-    //    case fetchProfile
+    //    case fetchProfileImage
     //
     //    case checkIfNameDuplicate
     //    case updateName

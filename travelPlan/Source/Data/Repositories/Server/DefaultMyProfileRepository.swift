@@ -110,7 +110,7 @@ extension DefaultMyProfileRepository: MyProfileRepository {
   }
   
   /// 업데이트는 서버 로직에서 삭제 -> 저장을 한번에 하는 기능입니다.
-  func updateProfile(with profile: String) -> AnyPublisher<Bool, Error> {
+  func updateProfileImage(with profile: String) -> AnyPublisher<Bool, Error> {
     return Future<Bool, Error> { [weak self] promise in
       guard let self else {
         promise(.failure(ReferenceError.invalidReference))
@@ -140,7 +140,7 @@ extension DefaultMyProfileRepository: MyProfileRepository {
     }.eraseToAnyPublisher()
   }
   
-  func saveProfile(with profile: String) -> AnyPublisher<Bool, Error> {
+  func saveProfileImage(with profile: String) -> AnyPublisher<Bool, Error> {
     return Future<Bool, Error> { [weak self] promise in
       guard let self else {
         promise(.failure(ReferenceError.invalidReference))
@@ -170,7 +170,7 @@ extension DefaultMyProfileRepository: MyProfileRepository {
     }.eraseToAnyPublisher()
   }
   
-  func deleteProfile() -> AnyPublisher<Bool, Error> {
+  func deleteProfileImage() -> AnyPublisher<Bool, Error> {
     return Future<Bool, Error> { [weak self] promise in
       guard let self else {
         promise(.failure(ReferenceError.invalidReference))
@@ -199,7 +199,7 @@ extension DefaultMyProfileRepository: MyProfileRepository {
     }.eraseToAnyPublisher()
   }
   
-  func fetchProfile() -> AnyPublisher<ProfileImageEntity, Error> {
+  func fetchProfileImage() -> AnyPublisher<ProfileImageEntity, Error> {
     return Future { [weak self] promise in
       guard let self else {
         promise(.failure(ReferenceError.invalidReference))
