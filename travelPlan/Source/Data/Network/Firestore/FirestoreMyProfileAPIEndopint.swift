@@ -7,10 +7,8 @@
 
 import Foundation
 
-struct VoidResponseDTO: Decodable { }
-
 struct FirestoreMyProfileAPIEndopint {
-  static func fetchUserProfileEndpoint(userUID: String) -> FirestoreEndpoint<VoidResponseDTO> {
+  static func fetchUserProfileEndpoint(userUID: String) -> FirestoreEndpoint<UserProfileResponseDTO> {
     return .init(
       method: .get,
       requestType: .users(.userDocument(.user(userUID))))
