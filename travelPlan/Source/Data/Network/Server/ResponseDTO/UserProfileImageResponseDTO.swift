@@ -25,7 +25,7 @@ struct UserProfileImageResponseDTO: Decodable {
 
 // MARK: - Mappings to Domain
 extension UserProfileImageResponseDTO {
-  func toDomain() -> ProfileImageEntity {
-    return .init(image: imageURL)
+  func toDomain(with data: Data) -> ProfileImageEntity {
+    return .init(image: data)
   }
 }

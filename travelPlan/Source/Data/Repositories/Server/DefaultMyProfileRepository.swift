@@ -134,7 +134,7 @@ extension DefaultMyProfileRepository: MyProfileRepository {
           }
         } receiveValue: { [weak self] responseDTO in
           let isSucceed = (200...299).contains(Int(responseDTO.statusCode) ?? -1)
-          if let imageData = responseDTO.result.imageURL.data(using: .utf8) {
+          if let imageData = Data(base64Encoded: responseDTO.result.imageURL) {
             self?.loggedInUserRepository.updateProfileImageData(with: imageData)
             promise(.success(isSucceed))
           } else {
@@ -173,7 +173,7 @@ extension DefaultMyProfileRepository: MyProfileRepository {
           }
         } receiveValue: { [weak self] responseDTO in
           let isSucceed = (200...299).contains(Int(responseDTO.statusCode) ?? -1)
-          if let imageData = responseDTO.result.imageURL.data(using: .utf8) {
+          if let imageData = Data(base64Encoded: responseDTO.result.imageURL) {
             self?.loggedInUserRepository.updateProfileImageData(with: imageData)
             promise(.success(isSucceed))
           } else {

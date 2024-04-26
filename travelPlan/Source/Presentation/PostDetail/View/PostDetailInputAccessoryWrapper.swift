@@ -39,7 +39,8 @@ final class PostDetailInputAccessoryWrapper: UIView {
     backgroundColor = .white
     contentView.inputDelegate = self
     contentView.baseDelegate = self
-    configure(with: "default_profile_icon")
+    let defaultProfileImageData = UIImage(named: "default_profile_icon")?.pngData()
+    configure(with: defaultProfileImageData)
     bind()
   }
   
@@ -120,8 +121,8 @@ private extension PostDetailInputAccessoryWrapper {
 
 // MARK: - Helpers
 extension PostDetailInputAccessoryWrapper {
-  func configure(with profileImageURL: String?) {
-    contentView.configure(with: profileImageURL)
+  func configure(with profileImageData: Data?) {
+    contentView.configure(with: profileImageData)
   }
   
   func showKeyboard() {

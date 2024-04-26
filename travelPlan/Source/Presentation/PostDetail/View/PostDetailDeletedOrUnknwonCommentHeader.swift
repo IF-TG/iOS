@@ -47,7 +47,7 @@ private extension PostDetailDeletedOrUnknwonCommentHeader {
       profileLayoutInfo: .medium(.top)).set {
         $0.translatesAutoresizingMaskIntoConstraints = false
       }
-    baseView.configure(with: "default_profile_icon")
+    baseView.configure(with: UIImage(named: "default_profile_icon")?.pngData())
     contentView.addSubview(baseView)
     let baseViewBottomAnchor = baseView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
     baseViewBottomAnchor.priority = .defaultLow

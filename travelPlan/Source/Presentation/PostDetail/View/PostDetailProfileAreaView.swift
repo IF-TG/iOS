@@ -11,8 +11,7 @@ import UIKit
 struct PostDetailProfileAreaInfo {
   let userName: String
   
-  /// 임시
-  let userThumbnailPath: String
+  let userThumbnailData: Data?
   let travelDuration: String
   let travelCalendarDateRange: String
   let uploadedDescription: String
@@ -97,7 +96,7 @@ final class PostDetailProfileAreaView: BaseProfileAreaView {
 // MARK: - Helpers
 extension PostDetailProfileAreaView {
   func configure(with info: PostDetailProfileAreaInfo?) {
-    super.configure(with: info?.userThumbnailPath)
+    super.configure(with: info?.userThumbnailData)
     userNameLabel.text = info?.userName
     travelDurationLabel.text = info?.travelDuration
     travelCalendarDateRangeLabel.text = info?.travelCalendarDateRange

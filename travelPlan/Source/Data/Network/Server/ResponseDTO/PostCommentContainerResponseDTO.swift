@@ -19,9 +19,13 @@ struct PostCommentContainerResponseDTO: Decodable {
 
 // MARK: - Mappings to Domain
 extension PostCommentContainerResponseDTO {
-  func toDomain() -> PostCommentContainerEntity {
+  func toDomain(
+    with userProfileImageDataList: [Data?],
+    nestedCommentAuthorProfileImageDataList: [[Data?]]) -> PostCommentContainerEntity {
     return .init(
-      comments: comments.map { $0.toDomain() },
+      comments: comments.enumerated().map { $1.toDomain(
+        with: userProfileImageDataList[$0],
+        nestedCommentAuthorsImageData: nestedCommentAuthorProfileImageDataList[$0]) },
       isFavorited: isFavorited)
   }
 }

@@ -57,9 +57,27 @@ extension FirestoreMyProfileRepository: MyProfileRepository {
             promise(.failure(error))
           }
         } receiveValue: { responseDTO in
-          let userEntity = responseDTO.toDomain()
-          self?.loggedInUserRepository.setUser(with: userEntity)
-          promise(.success(userEntity))
+          if responseDTO.profileImagePath == "" {
+            let userEntity = responseDTO.toDomain(with: nil)
+            self?.loggedInUserRepository.setUser(with: userEntity)
+            promise(.success(userEntity))
+            return
+          }
+          
+          let storageSubscription = self?.firebaseStorageService
+            .fetchImage(
+              responseDTO.profileImagePath,
+              type: .profileImage
+            ).sink { completion in
+              if case .failure(let error) = completion {
+                promise(.failure(error))
+              }
+            } receiveValue: { imageData in
+              let userEntity = responseDTO.toDomain(with: imageData)
+              self?.loggedInUserRepository.setUser(with: userEntity)
+              promise(.success(userEntity))
+            }
+          self?.subscriptions.insert(storageSubscription)
         }
       self?.subscriptions.insert(subscription)
     }.eraseToAnyPublisher()

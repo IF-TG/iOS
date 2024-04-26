@@ -9,7 +9,7 @@ import Foundation
 
 protocol LoggedInUserUseCase {
   var nickname: String? { get }
-  var profileURL: String? { get }
+  var profileImageData: Data? { get }
   var isSavedProfileInServer: Bool { get }
   var id: String? { get }
   var user: UserEntity? { get }
@@ -20,9 +20,9 @@ protocol LoggedInUserUseCase {
   func updateNickname(with nickname: String) -> Bool
   
   @discardableResult
-  func updateProfileURL(with url: String) -> Bool
+  func updateProfileImageData(with url: Data) -> Bool
   
   @discardableResult
-  func deleteProfile() -> Bool
+  func deleteProfileImageData() -> Bool
 
 }

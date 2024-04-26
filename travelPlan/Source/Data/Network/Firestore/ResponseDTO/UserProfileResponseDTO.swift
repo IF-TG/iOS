@@ -15,7 +15,7 @@ struct UserProfileResponseDTO: Decodable {
 
 // MARK: - Helpers
 extension UserProfileResponseDTO {
-  func toDomain(with profileData: Data) -> UserEntity {
+  func toDomain(with profileData: Data?) -> UserEntity {
     return .init(
       id: uid,
       nickname: nickname,

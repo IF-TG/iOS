@@ -36,7 +36,13 @@ final class DefaultOthersProfileRepository: UserRepository {
             promise(.failure(error))
           }
         } receiveValue: { responseDTO in
-          let entity = responseDTO.result.toDomain()
+          guard let imageData = Data(base64Encoded: responseDTO.result.imageURL) else {
+            promise(.failure(Swift.DecodingError.dataCorrupted(DecodingError.Context(
+              codingPath: [],
+              debugDescription: "Failed to convert image to data"))))
+            return
+          }
+          let entity = responseDTO.result.toDomain(with: imageData)
           promise(.success(entity))
         }.store(in: &subscriptions)
     }.eraseToAnyPublisher()

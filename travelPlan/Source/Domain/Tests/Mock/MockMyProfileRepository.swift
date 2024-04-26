@@ -50,7 +50,7 @@ final class MockMyProfileRepository: MyProfileRepository {
   }
   
   func fetchProfileImage() -> AnyPublisher<ProfileImageEntity, Error> {
-    return Future { $0(.success(ProfileImageEntity(image: "hi"))) }.eraseToAnyPublisher()
+    return Future { $0(.success(ProfileImageEntity(image: Data()))) }.eraseToAnyPublisher()
   }
   
   func fetchProfile(with userId: String) -> AnyPublisher<UserEntity, any Error> {

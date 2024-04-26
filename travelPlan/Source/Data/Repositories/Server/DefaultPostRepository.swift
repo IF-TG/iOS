@@ -93,7 +93,19 @@ extension DefaultPostRepository: PostRepository {
             promise(.failure(error))
           }
         } receiveValue: { response in
-          promise(.success(response.toDomain()))
+          var nestedCommentAuthorImages: [[Data?]] = []
+          let commentAuthorImages: [Data?] = response.comments.enumerated().map {
+            let commentAuthorImage = Data(base64Encoded: $1.userProfileURL)
+            let nestedAuthorImages = $1.nestedComments.map { nestedCommentResponseDTO in
+              return Data(base64Encoded: nestedCommentResponseDTO.userProfileURL)
+            }
+            nestedCommentAuthorImages.append(nestedAuthorImages)
+            return commentAuthorImage
+          }
+          let entities = response.toDomain(
+            with: commentAuthorImages,
+            nestedCommentAuthorProfileImageDataList: nestedCommentAuthorImages)
+          promise(.success(entities))
         }.store(in: &subscriptions)
     }.eraseToAnyPublisher()
   }
@@ -171,7 +183,7 @@ extension DefaultPostRepository: PostRepository {
             return Post(
               liked: responsePostDTO.liked,
               detail: responsePostDTO.toDomain(),
-              author: responsePostDTO.toDomain(),
+              author: responsePostDTO.toDomain(with: Data(base64Encoded: responsePostDTO.profile)),
               highResolveImages: responsePostDTO.postImages.map { $0.toDomain() },
               category: category)
           }
