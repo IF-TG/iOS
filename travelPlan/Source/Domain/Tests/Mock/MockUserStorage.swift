@@ -6,14 +6,15 @@
 //
 
 import Foundation
+import UIKit
 
 final class MockUserStorage: UserStorage {
   var nickname: String? {
     "짱구"
   }
   
-  var profileURL: String? {
-    "tempProfile3"
+  var profileImageData: Data? {
+    UIImage(named: "tempProfile3")?.jpegData(compressionQuality: 0.8)
   }
   
   var isSavedProfileInServer: Bool {
@@ -36,12 +37,12 @@ final class MockUserStorage: UserStorage {
   }
   
   @discardableResult
-  func updateProfileURL(with url: String) -> Bool {
+  func updateProfileImageData(with data: Data) -> Bool {
     return true
   }
   
   @discardableResult
-  func deleteProfile() -> Bool {
+  func deleteProfileImageData() -> Bool {
     return true
   }
 }

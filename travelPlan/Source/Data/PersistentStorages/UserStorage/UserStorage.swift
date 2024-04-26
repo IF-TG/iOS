@@ -9,7 +9,7 @@ import Foundation
 
 protocol UserStorage {
   var nickname: String? { get }
-  var profileURL: String? { get }
+  var profileImageData: Data? { get }
   var isSavedProfileInServer: Bool { get }
   var id: String? { get }
   var user: UserEntity? { get }
@@ -20,8 +20,8 @@ protocol UserStorage {
   func updateNickname(with nickname: String) -> Bool
   
   @discardableResult
-  func updateProfileURL(with url: String) -> Bool
+  func updateProfileImageData(with data: Data) -> Bool
   
   @discardableResult
-  func deleteProfile() -> Bool
+  func deleteProfileImageData() -> Bool
 }

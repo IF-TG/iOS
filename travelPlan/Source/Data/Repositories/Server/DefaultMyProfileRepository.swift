@@ -134,8 +134,14 @@ extension DefaultMyProfileRepository: MyProfileRepository {
           }
         } receiveValue: { [weak self] responseDTO in
           let isSucceed = (200...299).contains(Int(responseDTO.statusCode) ?? -1)
-          self?.loggedInUserRepository.updateProfileURL(with: responseDTO.result.imageURL)
-          promise(.success(isSucceed))
+          if let imageData = responseDTO.result.imageURL.data(using: .utf8) {
+            self?.loggedInUserRepository.updateProfileImageData(with: imageData)
+            promise(.success(isSucceed))
+          } else {
+            promise(.failure(Swift.DecodingError.dataCorrupted(DecodingError.Context(
+              codingPath: [], 
+              debugDescription: "Failed to convert image to data"))))
+          }
         }.store(in: &subscriptions)
     }.eraseToAnyPublisher()
   }
@@ -166,9 +172,15 @@ extension DefaultMyProfileRepository: MyProfileRepository {
             promise(.failure(error))
           }
         } receiveValue: { [weak self] responseDTO in
-          self?.loggedInUserRepository.updateProfileURL(with: profile)
           let isSucceed = (200...299).contains(Int(responseDTO.statusCode) ?? -1)
-          promise(.success(isSucceed))
+          if let imageData = responseDTO.result.imageURL.data(using: .utf8) {
+            self?.loggedInUserRepository.updateProfileImageData(with: imageData)
+            promise(.success(isSucceed))
+          } else {
+            promise(.failure(Swift.DecodingError.dataCorrupted(DecodingError.Context(
+              codingPath: [],
+              debugDescription: "Failed to convert image to data"))))
+          }
         }.store(in: &subscriptions)
     }.eraseToAnyPublisher()
   }
@@ -196,7 +208,7 @@ extension DefaultMyProfileRepository: MyProfileRepository {
             promise(.failure(error))
           }
         } receiveValue: { [weak self] responseDTO in
-          self?.loggedInUserRepository.deleteProfile()
+          self?.loggedInUserRepository.deleteProfileImageData()
           promise(.success(responseDTO.result))
         }.store(in: &subscriptions)
     }.eraseToAnyPublisher()
@@ -210,8 +222,8 @@ extension DefaultMyProfileRepository: MyProfileRepository {
       }
       
       // UserDefaults 확인
-      if let imageURL = loggedInUserRepository.profileURL {
-        promise(.success(.init(image: imageURL)))
+      if let imageData = loggedInUserRepository.profileImageData {
+        promise(.success(.init(image: imageData)))
       }
       
       guard let loggedInUserId = loggedInUserRepository.id else {
@@ -228,7 +240,7 @@ extension DefaultMyProfileRepository: MyProfileRepository {
             promise(.failure(error))
           }
         } receiveValue: { [weak self] profileImageEntity in
-          self?.loggedInUserRepository.updateProfileURL(with: profileImageEntity.image)
+          self?.loggedInUserRepository.updateProfileImageData(with: profileImageEntity.image)
           promise(.success(profileImageEntity))
         }.store(in: &subscriptions)
     }.eraseToAnyPublisher()

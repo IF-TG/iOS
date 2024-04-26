@@ -13,7 +13,7 @@ final class UserDefaultsUserStorage {
   enum Key: String {
     case id
     case nickname
-    case profileURL
+    case profileImageData
     case isSavedProfileInServer
   }
   
@@ -33,12 +33,12 @@ extension UserDefaultsUserStorage: UserStorage {
     user?.nickname
   }
   
-  var profileURL: String? {
-    user?.profileURL
+  var profileImageData: Data? {
+    user?.profileImageData
   }
   
   var isSavedProfileInServer: Bool {
-    guard user?.profileURL == nil else {
+    guard user?.profileImageData == nil else {
       return true
     }
     return false
@@ -55,11 +55,11 @@ extension UserDefaultsUserStorage: UserStorage {
       let nickname = user[Key.nickname.rawValue] as? String,
       let isSavedProfileInServer = user[Key.isSavedProfileInServer.rawValue] as? Bool
     else { return nil }
-    let profileURL = user[Key.profileURL.rawValue] as? String
+    let profileURL = user[Key.profileImageData.rawValue] as? String
     return UserEntity(
       id: id,
       nickname: nickname,
-      profileURL: profileURL,
+      profileImageData: profileImageData,
       isSavedProfileInServer: isSavedProfileInServer)
   }
   
@@ -82,26 +82,26 @@ extension UserDefaultsUserStorage: UserStorage {
     return true
   }
   
-  func updateProfileURL(with url: String) -> Bool {
+  func updateProfileImageData(with data: Data) -> Bool {
     guard var user = user else {
       os_log("DEBUG: 사용자의 프로필이 저장되지 않았습니다.", log: OSLog.default, type: .error)
       return false
     }
     backgroundQueue.async { [weak self] in
-      user.profileURL = url
+      user.profileImageData = data
       let userDict = self?.convertToDictionary(from: user)
       UserDefaultsManager[.user] = userDict
     }
     return true
   }
   
-  func deleteProfile() -> Bool {
+  func deleteProfileImageData() -> Bool {
     guard var user = user else {
       os_log("DEBUG: 사용자의 프로필이 저장되지 않았습니다.", log: OSLog.default, type: .error)
       return false
     }
     backgroundQueue.async { [weak self] in
-      user.profileURL = nil
+      user.profileImageData = nil
       let userDict = self?.convertToDictionary(from: user)
       UserDefaultsManager[.user] = userDict
     }
@@ -111,11 +111,11 @@ extension UserDefaultsUserStorage: UserStorage {
 
 // MARK: - Private Helpers
 extension UserDefaultsUserStorage {
-  func convertToDictionary(from user: UserEntity) -> [String: Any] {
+  func convertToDictionary(from user: UserEntity) -> [String: Any?] {
     return [
       Key.id.rawValue: user.id,
       Key.nickname.rawValue: user.nickname,
-      Key.profileURL.rawValue: user.profileURL ?? "",
+      Key.profileImageData.rawValue: user.profileImageData,
       Key.isSavedProfileInServer.rawValue: user.isSavedProfileInServer]
   }
 }

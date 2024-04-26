@@ -20,7 +20,7 @@ import Foundation
 
 protocol LoggedInUserRepository {
   var nickname: String? { get }
-  var profileURL: String? { get }
+  var profileImageData: Data? { get }
   var isSavedProfileInServer: Bool { get }
   var id: String? { get }
   var user: UserEntity? { get }
@@ -31,8 +31,8 @@ protocol LoggedInUserRepository {
   func updateNickname(with nickname: String) -> Bool
   
   @discardableResult
-  func updateProfileURL(with url: String) -> Bool
+  func updateProfileImageData(with data: Data) -> Bool
   
   @discardableResult
-  func deleteProfile() -> Bool
+  func deleteProfileImageData() -> Bool
 }
