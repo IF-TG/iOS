@@ -34,7 +34,6 @@ final class DefaultAuthenticationService: AuthenticationService {
     self.loginStrategy?.sessionable = sessionProvider
   }
   
-  // MARK: login() 함수가 끝난후에 resultPublisher를 반환하면 바인딩해도 resultPublisehr가 동작될지 않을 가능성이 있습니다.
   func performLogin() -> AnyPublisher<JWTResponseDTO?, Error> {
     guard let loginStrategy = loginStrategy else {
       return Fail(error: AuthenticationServiceError.noStrategy)
