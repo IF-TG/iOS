@@ -54,7 +54,7 @@ extension FirestoreRequestType {
         return nil
       case .userDocument(let user):
         if let userDocuemntPath = user.docuemntPath {
-          return "\(rootPath)\(userDocuemntPath)"
+          return userDocuemntPath
         }
         return nil
       }
@@ -97,9 +97,9 @@ extension FirestoreRequestType {
         return UID
       case .saveUserProfile:
         return nil
-      case .blockedUsersCollection(let UID, let requestType):
+      case .blockedUsersCollection(_, let requestType):
         if let subDocumentPath = requestType.documentPath {
-          return "/\(UID)\(subDocumentPath)"
+          return subDocumentPath
         }
         return nil
       }
