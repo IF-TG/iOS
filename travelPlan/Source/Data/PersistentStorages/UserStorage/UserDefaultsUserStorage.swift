@@ -50,22 +50,15 @@ extension UserDefaultsUserStorage: UserStorage {
   
   var user: UserEntity? {
     guard
-      let user = UserDefaultsManager[.user] as? [String: Any],
-      let id = user[Key.id.rawValue] as? String,
-      let nickname = user[Key.nickname.rawValue] as? String,
-      let isSavedProfileInServer = user[Key.isSavedProfileInServer.rawValue] as? Bool
+      let userData = UserDefaultsManager[.user] as? Data,
+      let user = decode(with: userData)
     else { return nil }
-    let profileURL = user[Key.profileImageData.rawValue] as? String
-    return UserEntity(
-      id: id,
-      nickname: nickname,
-      profileImageData: profileImageData,
-      isSavedProfileInServer: isSavedProfileInServer)
+    return user
   }
   
   func setUser(with userInfo: UserEntity) {
     backgroundQueue.async { [weak self] in
-      userDefaults[.user] = self?.convertToDictionary(from: userInfo)
+      userDefaults[.user] = self?.encode(from: userInfo)
     }
   }
   
@@ -76,8 +69,7 @@ extension UserDefaultsUserStorage: UserStorage {
     }
     backgroundQueue.async { [weak self] in
       user.nickname = nickname
-      let userDict = self?.convertToDictionary(from: user)
-      UserDefaultsManager[.user] = userDict
+      UserDefaultsManager[.user] = self?.encode(from: user)
     }
     return true
   }
@@ -89,8 +81,7 @@ extension UserDefaultsUserStorage: UserStorage {
     }
     backgroundQueue.async { [weak self] in
       user.profileImageData = data
-      let userDict = self?.convertToDictionary(from: user)
-      UserDefaultsManager[.user] = userDict
+      UserDefaultsManager[.user] = self?.encode(from: user)
     }
     return true
   }
@@ -102,8 +93,7 @@ extension UserDefaultsUserStorage: UserStorage {
     }
     backgroundQueue.async { [weak self] in
       user.profileImageData = nil
-      let userDict = self?.convertToDictionary(from: user)
-      UserDefaultsManager[.user] = userDict
+      UserDefaultsManager[.user] = self?.encode(from: user)
     }
     return true
   }
@@ -111,11 +101,19 @@ extension UserDefaultsUserStorage: UserStorage {
 
 // MARK: - Private Helpers
 extension UserDefaultsUserStorage {
-  func convertToDictionary(from user: UserEntity) -> [String: Any?] {
-    return [
-      Key.id.rawValue: user.id,
-      Key.nickname.rawValue: user.nickname,
-      Key.profileImageData.rawValue: user.profileImageData,
-      Key.isSavedProfileInServer.rawValue: user.isSavedProfileInServer]
+  func encode(from userEntity: UserEntity) -> Data? {
+    guard let encodedData = try? JSONEncoder().encode(user) else {
+      os_log("DEBUG: 사용자 엔터티가 인코딩되지 않았습니다.", log: OSLog.default, type: .error)
+      return nil
+    }
+    return encodedData
+  }
+  
+  func decode(with userData: Data) -> UserEntity? {
+    guard let entity = try? JSONDecoder().decode(UserEntity.self, from: userData) else {
+      os_log("DEBUG: 사용자 데이터가 디코딩 되지 않았습니다.", log: OSLog.default, type: .error)
+      return nil
+    }
+    return entity
   }
 }

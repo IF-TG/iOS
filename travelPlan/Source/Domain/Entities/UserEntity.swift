@@ -16,3 +16,5 @@ struct UserEntity {
   /// 프로필이 최초 한번 서버에 저장된 이후 UserInfoUseCase -> updateProfile
   var isSavedProfileInServer: Bool
 }
+
+extension UserEntity: Codable {}
