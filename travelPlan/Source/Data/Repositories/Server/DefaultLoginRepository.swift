@@ -65,50 +65,61 @@ extension DefaultLoginRepository: LoginRepository {
           }
         } receiveValue: { jwtDTO in
           if let jwtDTO {
-            guard self?.loginResponseStorage.saveTokens(jwtDTO: jwtDTO) == true else {
-              promise(.failure(DefaultLoginRepositoryError.tokensSavingFailed))
-              return
-            }
-            // TODO: - DefaultLoggedInUserRepository를 통해 save합니다.
-            /// loggedInUserRepository.setUser(with: <#T##UserEntity#>)
-            
-            promise(.success(true))
+            self?.handleJwtDTO(jwtDTO, promise: promise)
           } else {
-            /// 파이어 베이스 auth를 통해 로그인한 사용자입니다.
-            guard let userUid = Auth.auth().currentUser?.uid else {
-              promise(.failure(DefaultLoginRepositoryError.invalidFirebaseAuthCurrentUserUID))
-              return
-            }
-            
-            let endpoint = FirestoreMyProfileAPIEndopint.fetchUserProfileEndpoint(userUID: userUid)
-            let firestoreServiceSubscription = self?.firestoreService.request(endpoint: endpoint)
-              .sink { completion in
-                if case .failure(let error) = completion {
-                  promise(.failure(error))
-                }
-              } receiveValue: { responseDTO in
-                if responseDTO.profileImagePath == "" {
-                  self?.loggedInUserRepository.setUser(with: responseDTO.toDomain(with: nil))
-                  promise(.success(true))
-                } else {
-                  let firestoreStorageSubscription = self?.firestoreStorageService
-                    .fetchImage(responseDTO.profileImagePath, type: .profileImage)
-                    .sink { completion in
-                      if case .failure(let error) = completion {
-                        promise(.failure(error))
-                      }
-                    } receiveValue: { data in
-                      self?.loggedInUserRepository.setUser(with: responseDTO.toDomain(with: data))
-                      promise(.success(true))
-                    }
-                  self?.subscriptions.insert(firestoreStorageSubscription)
-                  
-                }
-              }
-            self?.subscriptions.insert(firestoreServiceSubscription)
+            self?.handleFirebaseAuthFlow(promise: promise)
           }
         }
       self?.subscriptions.insert(authServiceSubscription)
     }.eraseToAnyPublisher()
+  }
+}
+
+// MARK: - Private performLogin(type:) handler
+private extension DefaultLoginRepository {
+  /// Backend server와 통신 후 jwtDTO를 받을 경우 이 함수에서 제어합니다.
+  private func handleJwtDTO(_ jwtDTO: JWTResponseDTO, promise: @escaping Future<Bool, Error>.Promise) {
+    guard loginResponseStorage.saveTokens(jwtDTO: jwtDTO) else {
+      promise(.failure(DefaultLoginRepositoryError.tokensSavingFailed))
+      return
+    }
+    // TODO: - DefaultLoggedInUserRepository를 통해 로그인한 사용자의 정보를 save합니다.
+    /// loggedInUserRepository.setUser(with: <#T##UserEntity#>)
+    
+    promise(.success(true))
+  }
+  
+  private func handleFirebaseAuthFlow(promise: @escaping Future<Bool, Error>.Promise) {
+    /// 파이어 베이스 auth를 통해 로그인한 사용자입니다.
+    guard let userUid = Auth.auth().currentUser?.uid else {
+      promise(.failure(DefaultLoginRepositoryError.invalidFirebaseAuthCurrentUserUID))
+      return
+    }
+    
+    let endpoint = FirestoreMyProfileAPIEndopint.fetchUserProfileEndpoint(userUID: userUid)
+    let firestoreServiceSubscription = firestoreService.request(endpoint: endpoint)
+      .sink { completion in
+        if case .failure(let error) = completion {
+          promise(.failure(error))
+        }
+      } receiveValue: { [weak self] responseDTO in
+        if responseDTO.profileImagePath == "" {
+          self?.loggedInUserRepository.setUser(with: responseDTO.toDomain(with: nil))
+          promise(.success(true))
+        } else {
+          let firestoreStorageSubscription = self?.firestoreStorageService
+            .fetchImage(responseDTO.profileImagePath, type: .profileImage)
+            .sink { completion in
+              if case .failure(let error) = completion {
+                promise(.failure(error))
+              }
+            } receiveValue: { data in
+              self?.loggedInUserRepository.setUser(with: responseDTO.toDomain(with: data))
+              promise(.success(true))
+            }
+          self?.subscriptions.insert(firestoreStorageSubscription)
+        }
+      }
+    subscriptions.insert(firestoreServiceSubscription)
   }
 }
