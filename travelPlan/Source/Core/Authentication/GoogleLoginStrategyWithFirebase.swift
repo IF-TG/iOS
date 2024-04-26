@@ -30,13 +30,13 @@ final class GoogleLoginStrategyWithFirebase: LoginStrategy {
     }
     
     var presentingVC: UIViewController?
-    if #available(iOS 15.0 , *) {
+    if #available(iOS 15.0, *) {
       if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
          let viewController = windowScene.windows.first?.rootViewController?.presentedViewController {
         presentingVC = viewController
       }
     } else if #available(iOS 13.0, *) {
-      if let window = UIApplication.shared.windows.first(where: { $0.isKeyWindow } ),
+      if let window = UIApplication.shared.windows.first(where: { $0.isKeyWindow }),
          let viewController = window.rootViewController?.presentedViewController {
         presentingVC = viewController
       }
