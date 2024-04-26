@@ -14,12 +14,16 @@ final class ApplicationCoordinator: FlowCoordinator {
   var child: [FlowCoordinator] = []
   var presenter: UINavigationController?
   var viewController: UIViewController?
+  private let loggedInOwnerManager = DefaultLoggedInUserUseCase(
+    loggedInUserRepository: DefaultLoggedInUserRepository(
+      storage: UserDefaultsUserStorage()))
   private let window: UIWindow
   
   private var isSignIn: Bool {
-    // 로그인 확인TODO: - 추후 UserDefaults등으로 사용자 로그인 확인 후 로그인 or main coordinator로 전환.
+    if loggedInOwnerManager.user == nil {
+      return false
+    }
     return true
-    return UserDefaults.standard.bool(forKey: "isSignIn")
   }
   
   init(window: UIWindow) {
