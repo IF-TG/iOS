@@ -19,7 +19,7 @@ struct FirestoreMyProfileAPIEndopint {
   ) -> FirestoreEndpoint<VoidResponseDTO> {
     return .init(
       requestDTO: requestDTO,
-      method: .save,
+      method: .save(requestDTO.uid),
       requestType: .users(.userDocument(.saveUserProfile)))
   }
 }
