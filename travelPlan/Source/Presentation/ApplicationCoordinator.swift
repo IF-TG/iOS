@@ -20,6 +20,7 @@ final class ApplicationCoordinator: FlowCoordinator {
   private let window: UIWindow
   
   private var isSignIn: Bool {
+    return true
     if loggedInOwnerManager.user == nil {
       return false
     }
