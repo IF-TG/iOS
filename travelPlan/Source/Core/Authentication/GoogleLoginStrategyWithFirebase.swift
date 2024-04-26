@@ -8,6 +8,7 @@
 import GoogleSignIn
 import FirebaseAuth
 import FirebaseCore
+import SHFirestoreService
 import Combine
 
 @frozen enum GoogleLoginStrategyError: LocalizedError {
@@ -23,6 +24,11 @@ final class GoogleLoginStrategyWithFirebase: LoginStrategy {
   
   var sessionable: (any Sessionable)?
   
+  private let firestoreService = FirestoreService()
+  
+  private var subscription: AnyCancellable?
+  
+  // MARK: - Helpers
   func login() {
     guard let clientId = FirebaseApp.app()?.options.clientID else {
       resultPublisher.send(completion: .failure(GoogleLoginStrategyError.invalidClientIdInFirebase))
@@ -74,8 +80,27 @@ final class GoogleLoginStrategyWithFirebase: LoginStrategy {
           self?.resultPublisher.send(completion: .failure(GoogleLoginStrategyError.faildLoggedInFirebaseAuth(error)))
           return
         }
-        /// Auth에서 crednetial로 로그인 성공
-        self?.resultPublisher.send(nil)
+        
+        /// 첫 사용자인가?
+        if result?.additionalUserInfo?.isNewUser == true, let userUid = result?.user.uid {
+          let requestDTO = UserProfileSaveRequestDTO(
+            uid: userUid,
+            nickname: "여행자",
+            profileImagePath: "")
+          let endpoint = FirestoreMyProfileAPIEndopint.saveUserProfileEndpoint(with: requestDTO)
+          self?.subscription = self?.firestoreService.request(endpoint: endpoint)
+            .sink { completion in
+              if case .failure(let error) = completion {
+                self?.resultPublisher.send(completion: .failure(error))
+              }
+            } receiveValue: { _ in
+              /// Auth에서 crednetial로 로그인 성공 및 첫 이용자인 경우 기본 사용자 정보 저장.
+              self?.resultPublisher.send(nil)
+            }
+        } else {
+          /// Auth에서 crednetial로 로그인 성공
+          self?.resultPublisher.send(nil)
+        }
       }
     }
   }
