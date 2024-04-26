@@ -35,29 +35,36 @@ final class GoogleLoginStrategyWithFirebase: LoginStrategy {
       return
     }
     
-    var presentingVC: UIViewController?
+    var presentedVC: UIViewController?
     if #available(iOS 15.0, *) {
-      if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-         let viewController = windowScene.windows.first?.rootViewController?.presentedViewController {
-        presentingVC = viewController
+      let rootVC = UIApplication.shared
+        .connectedScenes
+        .filter { $0.activationState == .foregroundActive }
+        .first(where: {$0 is UIWindowScene })
+        .flatMap { $0 as? UIWindowScene }?.windows
+        .first(where: \.isKeyWindow)?.rootViewController
+      
+      if let rootVC = rootVC {
+        presentedVC = rootVC
       }
     } else if #available(iOS 13.0, *) {
       if let window = UIApplication.shared.windows.first(where: { $0.isKeyWindow }),
          let viewController = window.rootViewController?.presentedViewController {
-        presentingVC = viewController
+        presentedVC = viewController
       }
     } else {
-      presentingVC = UIApplication.shared.keyWindow?.rootViewController?.presentedViewController
+      presentedVC = UIApplication.shared.keyWindow?.rootViewController?.presentedViewController
     }
     
-    guard let presentingVC else {
+    guard let presentedVC else {
       resultPublisher.send(completion: .failure(GoogleLoginStrategyError.invalidPresentingViewController))
       return
     }
     
     let config = GIDConfiguration(clientID: clientId)
     GIDSignIn.sharedInstance.configuration = config
-    GIDSignIn.sharedInstance.signIn(withPresenting: presentingVC) { [weak self] result, error in
+    GIDSignIn.sharedInstance.signIn(withPresenting: presentedVC) { [weak self] result, error in
+      /// 사용자가 취소할 경우 or 기타 에러
       if let error {
         self?.resultPublisher.send(completion: .failure(GoogleLoginStrategyError.googleSignInError(error)))
         return
