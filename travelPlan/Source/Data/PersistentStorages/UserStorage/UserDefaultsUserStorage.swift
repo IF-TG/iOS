@@ -8,6 +8,7 @@
 import Foundation
 import OSLog
 
+/// 로그인한 사용자의 정보를 디바이스 파일에 관리하는 객체힙니다.
 final class UserDefaultsUserStorage {
   // MARK: - Nested
   enum Key: String {
@@ -49,9 +50,9 @@ extension UserDefaultsUserStorage: UserStorage {
   }
   
   var user: UserEntity? {
-    guard
+    guard 
       let userData = UserDefaultsManager[.user] as? Data,
-      let user = decode(with: userData)
+        let user = decode(with: userData)
     else { return nil }
     return user
   }
@@ -102,7 +103,7 @@ extension UserDefaultsUserStorage: UserStorage {
 // MARK: - Private Helpers
 extension UserDefaultsUserStorage {
   func encode(from userEntity: UserEntity) -> Data? {
-    guard let encodedData = try? JSONEncoder().encode(user) else {
+    guard let encodedData = try? JSONEncoder().encode(userEntity) else {
       os_log("DEBUG: 사용자 엔터티가 인코딩되지 않았습니다.", log: OSLog.default, type: .error)
       return nil
     }
