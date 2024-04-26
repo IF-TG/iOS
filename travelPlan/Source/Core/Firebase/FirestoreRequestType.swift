@@ -23,10 +23,7 @@ import SHFirestoreService
   }
   
   var collectionRef: CollectionReference {
-    if documentRef == nil {
-      Firestore.firestore().collection(self.collectionPath)
-    }
-    return Firestore.firestore().collection(self.collectionPath)
+    Firestore.firestore().collection(self.collectionPath)
   }
   
   var documentRef: DocumentReference? {
