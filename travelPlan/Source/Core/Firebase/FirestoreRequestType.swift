@@ -39,8 +39,9 @@ import SHFirestoreService
       return collectionRef.document(documentPath)
     case .blockedUsers:
       return nil
-    case .posts:
-      return nil
+    case .posts(let posts):
+      guard let documentpath = posts.documentpath else { return nil }
+      return collectionRef.document(documentpath)
     case .postComments:
       return nil
     }
