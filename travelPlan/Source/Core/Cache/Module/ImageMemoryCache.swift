@@ -5,51 +5,42 @@
 //  Created by 양승현 on 11/20/23.
 //
 
-import UIKit
+import Foundation
 
 public final class ImageMemoryCache {
-  private let cache = Cache<String, UIImage>()
-  private let imageConverter = ImageConverter()
+  private let cache = Cache<String, Data>()
   private let lock = NSLock()
 }
 
 // MARK: - ImageCachable
 extension ImageMemoryCache: ImageMemoryCachable {
-  public func image(for url: String) -> UIImage? {
+  public func imageData(for url: String) -> Data? {
     lock.lock()
     defer { lock.unlock() }
-    guard let cached = cache[url] else {
-      guard let image = imageConverter.base64ToImage(url) else {
-        print("DEBUG: Image's Base64 형태가 잘못 되었습니다.")
-        return nil
-      }
-      cache[url] = image
-      return image
-    }
-    return cached
+    return cache[url]
   }
   
-  public func insert(_ image: UIImage, forKey url: String) {
+  public func insert(_ imageData: Data, forKey url: String) {
     lock.lock()
     defer { lock.unlock() }
-    cache.insert(image, forKey: url)
+    cache.insert(imageData, forKey: url)
   }
   
-  public func removeImage(for url: String) {
+  public func removeImageData(for url: String) {
     cache[url] = nil
   }
-  
+
   public func removeAllImages() {
     cache.removeAll()
   }
   
-  public subscript(url: String) -> UIImage? {
+  public subscript(url: String) -> Data? {
     get {
-      return image(for: url)
+      return imageData(for: url)
     }
     set {
       guard let newValue else {
-        removeImage(for: url)
+        removeImageData(for: url)
         return
       }
       insert(newValue, forKey: url)

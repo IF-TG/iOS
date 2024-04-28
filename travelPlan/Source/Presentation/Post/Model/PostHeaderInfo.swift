@@ -8,6 +8,6 @@
 import Foundation
 
 struct PostHeaderInfo {
-  let imageURL: String?
+  let imageData: Data?
   let contentInfo: PostHeaderContentInfo
 }

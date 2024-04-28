@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 
 struct PostMapper {
+  // TODO: - 이미지, 섬네일등 Data로 오는것으로 변환해야합니다.
   static func toPostInfo(_ post: Post, thumbnails: [String]) -> PostInfo {
     // TODO: - 서버에서 tripDate어떻게주는지 알아야함
     // 22.11.22 , 22.11.13 이런식으로 오는데.. 그럼 몇일인지 구하는 것도 구현해야함
@@ -20,7 +21,7 @@ struct PostMapper {
       title: post.detail.title,
       bottomViewInfo: postHeaderContentBottomInfo)
     let postHeaderInfo = PostHeaderInfo(
-      imageURL: post.author.profileUri,
+      imageData: post.author.profileImageData,
       contentInfo: postHeaderContentInfo)
     let postContentInfo = PostContentInfo(
       text: post.detail.content,

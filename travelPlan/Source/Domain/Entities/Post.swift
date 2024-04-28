@@ -34,7 +34,7 @@ extension Post {
   }
   
   struct Author {
-    let profileUri: String
+    let profileImageData: Data?
     let nickname: String
   }
   

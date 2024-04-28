@@ -1,5 +1,5 @@
 //
-//  UserProfileResponseDTO.swift
+//  UserProfileImageResponseDTO.swift
 //  travelPlan
 //
 //  Created by 양승현 on 3/3/24.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct UserProfileResponseDTO: Decodable {
+struct UserProfileImageResponseDTO: Decodable {
   let imageURL: String
   let userID: Int64
   
@@ -24,8 +24,8 @@ struct UserProfileResponseDTO: Decodable {
 }
 
 // MARK: - Mappings to Domain
-extension UserProfileResponseDTO {
-  func toDomain() -> ProfileImageEntity {
-    return .init(image: imageURL)
+extension UserProfileImageResponseDTO {
+  func toDomain(with data: Data) -> ProfileImageEntity {
+    return .init(image: data)
   }
 }

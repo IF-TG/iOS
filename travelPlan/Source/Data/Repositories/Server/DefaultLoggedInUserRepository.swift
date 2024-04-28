@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// UserStorage에서 로그인한 사용자 데이터를 가져옵니다.
 final class DefaultLoggedInUserRepository: LoggedInUserRepository {
   // MARK: - Dependencies
   let storage: UserStorage
@@ -16,15 +17,15 @@ final class DefaultLoggedInUserRepository: LoggedInUserRepository {
     storage.nickname
   }
   
-  var profileURL: String? {
-    storage.profileURL
+  var profileImageData: Data? {
+    storage.profileImageData
   }
   
   var isSavedProfileInServer: Bool {
     storage.isSavedProfileInServer
   }
   
-  var id: Int64? {
+  var id: String? {
     storage.id
   }
   
@@ -48,12 +49,12 @@ final class DefaultLoggedInUserRepository: LoggedInUserRepository {
   }
   
   @discardableResult
-  func updateProfileURL(with url: String) -> Bool {
-    storage.updateProfileURL(with: url)
+  func updateProfileImageData(with data: Data) -> Bool {
+    storage.updateProfileImageData(with: data)
   }
   
   @discardableResult
-  func deleteProfile() -> Bool {
-    storage.deleteProfile()
+  func deleteProfileImageData() -> Bool {
+    storage.deleteProfileImageData()
   }
 }

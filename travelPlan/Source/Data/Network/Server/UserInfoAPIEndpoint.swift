@@ -38,8 +38,8 @@ extension UserInfoAPIEndpoint {
   static func updateProfile(
     withQuery queryRequestDTO: UserIdReqeustDTO,
     body bodyReqeustDTO: UserProfileRequestDTO
-  ) -> Endpoint<CommonDTO<UserProfileResponseDTO>> {
-    return Endpoint<CommonDTO<UserProfileResponseDTO>>(
+  ) -> Endpoint<CommonDTO<UserProfileImageResponseDTO>> {
+    return Endpoint<CommonDTO<UserProfileImageResponseDTO>>(
       scheme: "http",
       host: "localhost:8080",
       method: .put,
@@ -50,8 +50,8 @@ extension UserInfoAPIEndpoint {
   static func saveProfile(
     withQuery queryReqeustDTO: UserIdReqeustDTO,
     body bodyReqeustDTO: UserProfileRequestDTO
-  ) -> Endpoint<CommonDTO<UserProfileResponseDTO>> {
-    return Endpoint<CommonDTO<UserProfileResponseDTO>>(
+  ) -> Endpoint<CommonDTO<UserProfileImageResponseDTO>> {
+    return Endpoint<CommonDTO<UserProfileImageResponseDTO>>(
       scheme: "http",
       host: "localhost:8080",
       method: .post,
@@ -72,8 +72,8 @@ extension UserInfoAPIEndpoint {
   
   static func fetchProfile(
     with requestDTO: UserIdReqeustDTO
-  ) -> Endpoint<CommonDTO<UserProfileResponseDTO>> {
-    return Endpoint<CommonDTO<UserProfileResponseDTO>>(
+  ) -> Endpoint<CommonDTO<UserProfileImageResponseDTO>> {
+    return Endpoint<CommonDTO<UserProfileImageResponseDTO>>(
       scheme: "http",
       host: "localhost:8080",
       method: .get,

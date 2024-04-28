@@ -67,7 +67,7 @@ struct PostDetailViewModelInput {
   typealias Title = String
   typealias Duration = String
   
-  case loggedInUserInfo(userProfile: String?, isPostOwner: Bool)
+  case loggedInUserInfo(userProfile: Data?, isPostOwner: Bool)
   case reloadedCommentsWithPostFavoriteInfo(Bool)
   case naviTitleInfo((Title, Duration))
 }

@@ -33,11 +33,15 @@ final class DefaultTourDestinationRepository: TourDestinationRepository {
     return Future { [weak self, backgroundQueue] promise in
       let subscription = self?.service.request(endpoint: endpoint)
         .subscribe(on: backgroundQueue)
-        .mapConnectionError()        .tryMap {
-          if $0.response.header.resultCode == "0000" {
+        .mapConnectionError()        
+        .tryMap {
+          let resultCode = $0.response.header.resultCode
+          if resultCode == "0000" {
             return $0.response.body.items.item.map { $0.toDomain() }
           } else {
-            throw TourAPIError(code: $0.response.header.resultCode)
+            throw TourAPIError(
+              code: String(resultCode.suffix(2))
+            ) ?? .unexpectedErrorFromSuccessfulResponseData("Error code:\(resultCode)")
           }
         }
         .sink { completion in
