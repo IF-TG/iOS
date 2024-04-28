@@ -50,12 +50,13 @@ final class PostCellWithFourThumbnails: UICollectionViewCell {
         imageViews.forEach { $0.image = nil }
         return
       }
-       
+      // TODO: - 이부분 이제 레포에서 대체되어야합니다. 파베에서 가져올때 Data로 가져오게됩니다.
+      // configure은 data가 와야합니다. 리빌딩해야합니다
       imageViews.enumerated().forEach { index, imageView in
         let width = (UIScreen.main.bounds.width - 43) / 2
         let size = CGSize(width: width, height: 118)
-        if let image = imageCache[images[index]] {
-          imageView.image = image
+        if let imageData = imageCache[images[index]] {
+          imageView.image = UIImage(data: imageData)
           return
         }
         let operation = BlockOperation { [weak self] in
@@ -65,7 +66,7 @@ final class PostCellWithFourThumbnails: UICollectionViewCell {
           guard let cgImage = self?.imageIO.setDownsampledCGImage(at: createType, for: options) else { return }
           DispatchQueue.main.async {
             imageView.image = UIImage(cgImage: cgImage)
-            self?.imageCache[images[index]] = imageView.image
+            self?.imageCache[images[index]] = imageView.image?.pngData()
           }
         }
         imageLoadQueue.addOperation(operation)

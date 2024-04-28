@@ -16,15 +16,15 @@ final class DefaultLoggedInUserUseCase: LoggedInUserUseCase {
     loggedInUserRepository.nickname
   }
   
-  var profileURL: String? {
-    loggedInUserRepository.profileURL
+  var profileImageData: Data? {
+    loggedInUserRepository.profileImageData
   }
   
   var isSavedProfileInServer: Bool {
     loggedInUserRepository.isSavedProfileInServer
   }
   
-  var id: Int64? {
+  var id: String? {
     loggedInUserRepository.id
   }
   
@@ -48,12 +48,12 @@ final class DefaultLoggedInUserUseCase: LoggedInUserUseCase {
   }
   
   @discardableResult
-  func updateProfileURL(with url: String) -> Bool {
-    return loggedInUserRepository.updateProfileURL(with: url)
+  func updateProfileImageData(with url: Data) -> Bool {
+    return loggedInUserRepository.updateProfileImageData(with: url)
   }
   
   @discardableResult
-  func deleteProfile() -> Bool {
-    return loggedInUserRepository.deleteProfile()
+  func deleteProfileImageData() -> Bool {
+    return loggedInUserRepository.deleteProfileImageData()
   }
 }

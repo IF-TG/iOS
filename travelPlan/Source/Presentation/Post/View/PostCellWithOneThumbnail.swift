@@ -30,6 +30,8 @@ final class PostCellWithOneThumbnail: UICollectionViewCell {
       nil
     }
     
+    // TODO: - 이부분 이제 레포에서 대체되어야합니다. 파베에서 가져오는거류
+    // configure은 data가 와야합니다. 리빌딩해야합니다
     func configureThumbnail(with images: [String]?) {
       imageLoadQueue.cancelAllOperations()
       guard let images else {
@@ -38,10 +40,11 @@ final class PostCellWithOneThumbnail: UICollectionViewCell {
       }
       let width = UIScreen.main.bounds.width - 43
       let size = CGSize(width: width, height: 118)
-      if let image = imageCache[images[0]] {
-        self.image = image
+      if let imageData = imageCache[images[0]] {
+        self.image = UIImage(data: imageData)
         return
       }
+      
       let operation = BlockOperation { [weak self] in
         let data = UIImage(named: images[0])!.pngData()!
         let createType = ImageIO.ImageSourceCreateType.data(data)
@@ -49,7 +52,7 @@ final class PostCellWithOneThumbnail: UICollectionViewCell {
         guard let cgImage = self?.imageIO.setDownsampledCGImage(at: createType, for: options) else { return }
         DispatchQueue.main.async {
           self?.image = UIImage(cgImage: cgImage)
-          self?.imageCache[images[0]] = self?.image
+          self?.imageCache[images[0]] = self?.image?.pngData()
         }
       }
       imageLoadQueue.addOperation(operation)

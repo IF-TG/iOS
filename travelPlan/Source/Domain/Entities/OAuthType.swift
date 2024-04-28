@@ -11,5 +11,5 @@ enum OAuthType: String {
   case apple
 //  case naver
 //  case kakao
-//  case google
+  case google
 }

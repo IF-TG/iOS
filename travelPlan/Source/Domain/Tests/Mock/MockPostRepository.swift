@@ -6,7 +6,7 @@
 //
 
 import Combine
-import Foundation
+import UIKit
 
 final class MockPostRepository: PostRepository {
   typealias Endpoint = PostAPIEndpoint
@@ -57,6 +57,8 @@ final class MockPostRepository: PostRepository {
       let mockData = MockResponseType.post(.whenPostCommentContainerResponse).mockDataLoader
       return ((HTTPURLResponse(), mockData))
     }
+    // MARK: - 이 시점은 mock json에 base64이미지 str이 담긴게 아니라 에셋에 있는 이미지 경로를 담았기에 포스트 상세 화면에서
+    // 댓글, 대댓글 작성자 이미지는 nil이 됩니다.
     return Future { promise in
       DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.1) { [weak self] in
         let subscription = self?.postRepository

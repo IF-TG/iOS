@@ -7,7 +7,8 @@
 
 import Alamofire
 import Combine
-import Foundation
+// 임시적으로 어쩔수없이 에셋에 저장된 이미지를 불러와야합니다.
+import UIKit
 
 final class MockPostUseCaseForPaging: PostUseCase {
   private static let recurCount = 4
@@ -179,7 +180,7 @@ final class MockPostUseCaseForPaging: PostUseCase {
         liked: i % 2 == 0,
         detail: postDetail,
         author: .init(
-          profileUri: profilePath(i%5),
+          profileImageData: UIImage(named: profilePath(i%5))!.jpegData(compressionQuality: 1),
           nickname: userNames[i]),
         highResolveImages: postContentThumbnails[i].enumerated().map { (idx, imageString) in
           return Post.PostImage(imageUri: imageString, sort: Int32(idx))

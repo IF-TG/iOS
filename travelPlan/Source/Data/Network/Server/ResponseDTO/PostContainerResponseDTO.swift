@@ -31,7 +31,7 @@ struct PostContainerResponseDTO: Decodable {
 extension PostContainerResponseDTO {
   func toDomain() -> PostContainer {
     let detail: Post.Detail = post.toDomain()
-    let author: Post.Author = post.toDomain()
+    let author: Post.Author = post.toDomain(with: Data(base64Encoded: post.profile))
     let themes = post.themes.compactMap { TravelThemeMapper.toDomain($0) }
     let regions = post.regions.compactMap { TravelRegionMapper.toDomain($0) }
     let seasons = post.seasons.compactMap { SeasonMapper.toDomain($0) }
