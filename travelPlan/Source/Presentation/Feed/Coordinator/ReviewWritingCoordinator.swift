@@ -7,6 +7,7 @@
 
 import UIKit
 import SHCoordinator
+import SHFirestoreService
 import Photos
 import Combine
 
@@ -43,8 +44,10 @@ final class ReviewWritingCoordinator: FlowCoordinator {
   }
   
   func start() {
-    let mockReviewWritingRepository = MockReviewWritingRepository()
-    let reviewWritingUseCase = DefaultReviewWritingUseCase(reviewWritingRepository: mockReviewWritingRepository)
+    // let mockReviewWritingRepository = MockReviewWritingRepository()
+    // let reviewWritingUseCase = DefaultReviewWritingUseCase(reviewWritingRepository: mockReviewWritingRepository)
+    let firestoreReviewWritingRepository = FirestoreReviewWritingRepository(service: FirestoreService())
+    let reviewWritingUseCase = DefaultReviewWritingUseCase(reviewWritingRepository: firestoreReviewWritingRepository)
     let photoAuthUseCase = DefaultPhotoAuthorizationUseCase()
     let viewModel = DefaultReviewWritingViewModel(
       photoAuthorizationUseCase: photoAuthUseCase,
