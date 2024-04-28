@@ -31,8 +31,9 @@ import SHFirestoreService
     case .users(let usersRequest):
       guard let documentPath = usersRequest.documentPath else { return nil }
       return collectionRef.document(documentPath)
-    case .posts:
-      return nil
+    case .posts(let posts):
+      guard let documentPath = posts.documentpath else { return nil }
+      return collectionRef.document(documentPath)
     }
   }
 }
@@ -139,6 +140,7 @@ extension FirestoreRequestType {
 extension FirestoreRequestType {
   @frozen enum Posts {
     case save
+    case update(postId: String)
     
     private var rootPath: String {
       "posts"
@@ -148,12 +150,16 @@ extension FirestoreRequestType {
       switch self {
       case .save:
         return nil
+      case .update(let postId):
+        return postId
       }
     }
     
     var collectionPath: String {
       switch self {
       case .save:
+        return rootPath
+      case .update:
         return rootPath
       }
     }
