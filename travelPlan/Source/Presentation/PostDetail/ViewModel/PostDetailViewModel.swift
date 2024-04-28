@@ -422,11 +422,11 @@ private extension PostDetailViewModel {
   
   func loggedInUserUseCaseHandlerStream() -> Output {
     loggedInUserUseCaseHandler.map { [weak self] _ -> State in
-      guard let profileURL = self?.loggedInUserUseCase.profileURL else {
+      guard let profileImageData = self?.loggedInUserUseCase.profileImageData else {
         // 로그인한 사용자의 프로필 확인x.. (맨 처음에 로그인할때 기본 이미지 지정하는게 베스트)
         return .unexpectedError(description: "로그인한 사용자의 프로필 이미지가 없습니다.")
       }
-      return .viewDidLoad(.loggedInUserInfo(userProfile: profileURL))
+      return .viewDidLoad(.loggedInUserInfo(userProfile: profileImageData))
     }.eraseToAnyPublisher()
   }
   
@@ -722,7 +722,7 @@ extension PostDetailViewModel: PostDetailTableViewDataSource {
     let commentInfo = BasePostDetailCommentInfo(
       commentId: postReply.nestedCommentId,
       userName: postReply.nickname,
-      userProfileURL: postReply.userProfileURL,
+      userProfileImageData: postReply.userProfileImageData,
       timestamp: postReply.timestamp,
       comment: postReply.comment,
       isOnHeart: postReply.isOnHeart,
@@ -738,7 +738,7 @@ extension PostDetailViewModel: PostDetailTableViewDataSource {
     let baseInfo: BasePostDetailCommentInfo = .init(
       commentId: postComment.commentId,
       userName: postComment.userName,
-      userProfileURL: postComment.userProfileURL,
+      userProfileImageData: postComment.userProfileImageData,
       timestamp: postComment.timestamp,
       comment: postComment.isDeleted ? "댓글이 삭제되었습니다." : postComment.comment,
       isOnHeart: postComment.isOnHeart,
@@ -773,7 +773,7 @@ extension PostDetailViewModel: PostDetailTableViewDataSource {
     // FIXME: - 이거도 서버에서 문자열의 start, end받을 때 형식 지정해가지구 몇박 몇일인지를 뜻하는 것고 구하도록 계획해야합니다.
     return .init(
       userName: postDetails.author.nickname,
-      userThumbnailPath: postDetails.author.profileUri,
+      userThumbnailData: postDetails.author.profileImageData,
       travelDuration: tripDurationYMDString,
       travelCalendarDateRange: "일박 이일~", uploadedDescription: postDetails.detail.createAt)
   }

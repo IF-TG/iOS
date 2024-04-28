@@ -39,25 +39,25 @@ final class DefaultMyProfileUseCase: MyProfileUseCase {
   }
   
   func updateProfile(with base64String: String) -> AnyPublisher<Bool, Error> {
-    return myProfileRepository.updateProfile(with: base64String)
+    return myProfileRepository.updateProfileImage(with: base64String)
       .mapError { $0 }
       .eraseToAnyPublisher()
   }
   
   func saveProfile(with base64String: String) -> AnyPublisher<Bool, Error> {
-    return myProfileRepository.saveProfile(with: base64String)
+    return myProfileRepository.saveProfileImage(with: base64String)
       .mapError { $0 }
       .eraseToAnyPublisher()
   }
   
   func deleteProfile() -> AnyPublisher<Bool, Error> {
-    myProfileRepository.deleteProfile()
+    myProfileRepository.deleteProfileImage()
       .mapError { $0 }
       .eraseToAnyPublisher()
   }
   
   func fetchProfile() -> AnyPublisher<ProfileImageEntity, any Error> {
-    myProfileRepository.fetchProfile()
+    myProfileRepository.fetchProfileImage()
       .mapError { $0 }
       .eraseToAnyPublisher()
   }

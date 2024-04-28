@@ -2,33 +2,36 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.867915446550-91bl3g0kfiulh1747ee5arlm34d3ekkq</string>
+			</array>
+		</dict>
+	</array>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>apis.data.go.kr</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+			</dict>
+		</dict>
+	</dict>
 	<key>PHPhotoLibraryPreventAutomaticLimitedAccessAlert</key>
 	<true/>
-  <key>NSPhotoLibraryUsageDescription</key>
-  <string>사진 앨범에 접근할 권한이 필요합니다.</string>
-  <key>NSCameraUsageDescription</key>
-  <string>카메라에 접근할 권한이 필요합니다.</string>
-  <key>NSPhotoLibraryAddUsageDescription</key>
-  <string>앨범에 접근할 권한이 필요합니다.</string>
 	<key>TourAPI_ServiceKey</key>
 	<string>$(TourAPI_ServiceKey)</string>
-  <!-- 예외적으로 Tour API만 HTTP 연결을 허용 -->
-  <key>NSAppTransportSecurity</key>
-  <dict>
-    <key>NSAllowsArbitraryLoads</key>
-    <true/>
-    <key>NSExceptionDomains</key>
-    <dict>
-      <key>apis.data.go.kr</key>
-      <dict>
-        <key>NSIncludesSubdomains</key>
-        <true/>
-        <key>NSExceptionAllowsInsecureHTTPLoads</key>
-        <true/>
-      </dict>
-    </dict>
-  </dict>
-  <!-- 예외적으로 Tour API만 HTTP 연결을 허용 끝! -->
 	<key>UIAppFonts</key>
 	<array>
 		<string>Pretendard-Black.ttf</string>

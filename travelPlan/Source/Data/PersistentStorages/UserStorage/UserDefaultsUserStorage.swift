@@ -8,12 +8,13 @@
 import Foundation
 import OSLog
 
+/// 로그인한 사용자의 정보를 디바이스 파일에 관리하는 객체힙니다.
 final class UserDefaultsUserStorage {
   // MARK: - Nested
   enum Key: String {
     case id
     case nickname
-    case profileURL
+    case profileImageData
     case isSavedProfileInServer
   }
   
@@ -33,39 +34,32 @@ extension UserDefaultsUserStorage: UserStorage {
     user?.nickname
   }
   
-  var profileURL: String? {
-    user?.profileURL
+  var profileImageData: Data? {
+    user?.profileImageData
   }
   
   var isSavedProfileInServer: Bool {
-    guard user?.profileURL == nil else {
+    guard user?.profileImageData == nil else {
       return true
     }
     return false
   }
   
-  var id: Int64? {
+  var id: String? {
     user?.id
   }
   
   var user: UserEntity? {
-    guard
-      let user = UserDefaultsManager[.user] as? [String: Any],
-      let id = user[Key.id.rawValue] as? Int64,
-      let nickname = user[Key.nickname.rawValue] as? String,
-      let isSavedProfileInServer = user[Key.isSavedProfileInServer.rawValue] as? Bool
+    guard 
+      let userData = UserDefaultsManager[.user] as? Data,
+        let user = decode(with: userData)
     else { return nil }
-    let profileURL = user[Key.profileURL.rawValue] as? String
-    return UserEntity(
-      id: id,
-      nickname: nickname,
-      profileURL: profileURL,
-      isSavedProfileInServer: isSavedProfileInServer)
+    return user
   }
   
   func setUser(with userInfo: UserEntity) {
     backgroundQueue.async { [weak self] in
-      userDefaults[.user] = self?.convertToDictionary(from: userInfo)
+      userDefaults[.user] = self?.encode(from: userInfo)
     }
   }
   
@@ -76,34 +70,31 @@ extension UserDefaultsUserStorage: UserStorage {
     }
     backgroundQueue.async { [weak self] in
       user.nickname = nickname
-      let userDict = self?.convertToDictionary(from: user)
-      UserDefaultsManager[.user] = userDict
+      UserDefaultsManager[.user] = self?.encode(from: user)
     }
     return true
   }
   
-  func updateProfileURL(with url: String) -> Bool {
+  func updateProfileImageData(with data: Data) -> Bool {
     guard var user = user else {
       os_log("DEBUG: 사용자의 프로필이 저장되지 않았습니다.", log: OSLog.default, type: .error)
       return false
     }
     backgroundQueue.async { [weak self] in
-      user.profileURL = url
-      let userDict = self?.convertToDictionary(from: user)
-      UserDefaultsManager[.user] = userDict
+      user.profileImageData = data
+      UserDefaultsManager[.user] = self?.encode(from: user)
     }
     return true
   }
   
-  func deleteProfile() -> Bool {
+  func deleteProfileImageData() -> Bool {
     guard var user = user else {
       os_log("DEBUG: 사용자의 프로필이 저장되지 않았습니다.", log: OSLog.default, type: .error)
       return false
     }
     backgroundQueue.async { [weak self] in
-      user.profileURL = nil
-      let userDict = self?.convertToDictionary(from: user)
-      UserDefaultsManager[.user] = userDict
+      user.profileImageData = nil
+      UserDefaultsManager[.user] = self?.encode(from: user)
     }
     return true
   }
@@ -111,11 +102,19 @@ extension UserDefaultsUserStorage: UserStorage {
 
 // MARK: - Private Helpers
 extension UserDefaultsUserStorage {
-  func convertToDictionary(from user: UserEntity) -> [String: Any] {
-    return [
-      Key.id.rawValue: user.id,
-      Key.nickname.rawValue: user.nickname,
-      Key.profileURL.rawValue: user.profileURL ?? "",
-      Key.isSavedProfileInServer.rawValue: user.isSavedProfileInServer]
+  func encode(from userEntity: UserEntity) -> Data? {
+    guard let encodedData = try? JSONEncoder().encode(userEntity) else {
+      os_log("DEBUG: 사용자 엔터티가 인코딩되지 않았습니다.", log: OSLog.default, type: .error)
+      return nil
+    }
+    return encodedData
+  }
+  
+  func decode(with userData: Data) -> UserEntity? {
+    guard let entity = try? JSONDecoder().decode(UserEntity.self, from: userData) else {
+      os_log("DEBUG: 사용자 데이터가 디코딩 되지 않았습니다.", log: OSLog.default, type: .error)
+      return nil
+    }
+    return entity
   }
 }

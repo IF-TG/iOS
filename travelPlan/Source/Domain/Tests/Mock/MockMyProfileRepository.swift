@@ -5,6 +5,7 @@
 //  Created by 양승현 on 2/27/24.
 //
 
+import Foundation
 import Combine
 
 final class MockMyProfileRepository: MyProfileRepository {
@@ -26,7 +27,7 @@ final class MockMyProfileRepository: MyProfileRepository {
     }.eraseToAnyPublisher()
   }
   
-  func updateProfile(with profile: String) -> AnyPublisher<Bool, Error> {
+  func updateProfileImage(with profile: String) -> AnyPublisher<Bool, Error> {
     return Future { promise in
       if profile == "무슨이유에서인지실패.." {
         promise(.success(false))
@@ -35,7 +36,7 @@ final class MockMyProfileRepository: MyProfileRepository {
     }.eraseToAnyPublisher()
   }
   
-  func saveProfile(with profile: String) -> AnyPublisher<Bool, Error> {
+  func saveProfileImage(with profile: String) -> AnyPublisher<Bool, Error> {
     return Future { promise in
       if profile == "!!!!" {
         promise(.success(false))
@@ -44,11 +45,18 @@ final class MockMyProfileRepository: MyProfileRepository {
     }.eraseToAnyPublisher()
   }
   
-  func deleteProfile() -> AnyPublisher<Bool, Error> {
+  func deleteProfileImage() -> AnyPublisher<Bool, Error> {
     return Future { $0(.success(true)) }.eraseToAnyPublisher()
   }
   
-  func fetchProfile() -> AnyPublisher<ProfileImageEntity, Error> {
-    return Future { $0(.success(ProfileImageEntity(image: "hi"))) }.eraseToAnyPublisher()
+  func fetchProfileImage() -> AnyPublisher<ProfileImageEntity, Error> {
+    return Future { $0(.success(ProfileImageEntity(image: Data()))) }.eraseToAnyPublisher()
+  }
+  
+  func fetchProfile(with userId: String) -> AnyPublisher<UserEntity, any Error> {
+    fatalError("서버에서 미 구현된 api")
+  }
+  func saveProfile(with userId: String, nickname: String, profileImageData: Data) -> AnyPublisher<Void, any Error> {
+    fatalError("서버에서 미 구현된 api")
   }
 }
