@@ -8,8 +8,6 @@
 import Foundation
 import Alamofire
 
-struct VoidResponseDTO: Decodable {}
-
 struct MockRelativeURLPathProvider: RelativeURLPathProvidable {
   var path: String = ""
 }
