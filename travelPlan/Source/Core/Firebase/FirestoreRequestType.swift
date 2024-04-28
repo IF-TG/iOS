@@ -11,14 +11,14 @@ import SHFirestoreService
 
 @frozen enum FirestoreRequestType: FirestoreAccessible {
   case users(UsersCollection)
-  case posts
+  case posts(Posts)
   
   private var collectionPath: String {
     switch self {
     case .users(let users):
       users.collectionPath
-    case .posts:
-      "posts"
+    case .posts(let posts):
+      posts.collectionPath
     }
   }
   
