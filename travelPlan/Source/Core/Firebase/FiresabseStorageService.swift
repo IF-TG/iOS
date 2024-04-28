@@ -58,6 +58,31 @@ public struct FiresabseStorageService: ImageStorageServiceProtocol {
       }.collect()
       .eraseToAnyPublisher()
   }
+  
+  func deleteImage(_ url: String, type: ImageStorageServiceType) -> AnyPublisher<Void, any Error> {
+    return Future<Void, Error> { promise in
+      Storage.storage()
+        .reference()
+        .child(url)
+        .delete { error in
+          if let error {
+            promise(.failure(error))
+            return
+          }
+          promise(.success(()))
+      }
+    }.eraseToAnyPublisher()
+  }
+  
+  func deleteImages(_ urls: [String], type: ImageStorageServiceType) -> AnyPublisher<Void, any Error> {
+    return Publishers
+      .Sequence(sequence: urls)
+      .flatMap { url in
+        return deleteImage(url, type: type)
+      }.collect()
+      .tryMap { _ in () }
+      .eraseToAnyPublisher()
+  }
 }
 
 // MARK: - Nested
