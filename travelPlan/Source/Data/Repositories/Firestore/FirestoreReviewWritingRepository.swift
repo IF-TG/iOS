@@ -27,7 +27,11 @@ final class FirestoreReviewWritingRepository {
 extension FirestoreReviewWritingRepository: ReviewWritingRepository {
   func savePost(with reviewWritingPost: ReviewWritingEntity) -> AnyPublisher<Bool, any Error> {
     return Future { [weak self, backgroundQueue] promise in
-      let requestDTO = ReviewWritingSaveRequestDTO.makeRequestDTO(entity: reviewWritingPost)
+      var requestDTO = ReviewWritingSaveRequestDTO.makeRequestDTO(entity: reviewWritingPost)
+      // 여기서 이미지는 따로 보내야함.
+      // ReviewWritingSaveRequestDTO에서 img타입을 제너릭으로해서 Data or String이렇게 사용측에서 주입하도록 리빌딩하는것도 좋은거같다.
+      
+      
       let subscription = self?.service
         .request(endpoint: FirestoreReviewWritingEndpoint.savePost(with: requestDTO))
         .subscribe(on: backgroundQueue)
