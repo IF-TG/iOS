@@ -20,4 +20,8 @@ protocol ImageStorageServiceProtocol {
   func fetchImage(_ url: String, type: ImageStorageServiceType) -> AnyPublisher<Data, Error>
   
   func fetchImages(_ urls: [String], type: ImageStorageServiceType) -> AnyPublisher<[Data], Error>
+  
+  func deleteImage(_ url: String, type: ImageStorageServiceType) -> AnyPublisher<Void, Error>
+  
+  func deleteImages(_ urls: [String], type: ImageStorageServiceType) -> AnyPublisher<Void, Error>
 }
