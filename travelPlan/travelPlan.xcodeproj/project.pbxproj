@@ -375,6 +375,8 @@
 		15A7A8F22B9F6C1700CA9A79 /* UserEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A7A8F12B9F6C1700CA9A79 /* UserEntity.swift */; };
 		15A859A02BB56E18002C0CA0 /* PostContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A8599F2BB56E18002C0CA0 /* PostContainer.swift */; };
 		15AAD34C2BBFD1760042DBF6 /* FavoritePostToggleEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15AAD34B2BBFD1760042DBF6 /* FavoritePostToggleEntity.swift */; };
+		15ABFFBF2BDCDB9400D57C7C /* FirestoreReviewWritingEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15ABFFBE2BDCDB9400D57C7C /* FirestoreReviewWritingEndpoint.swift */; };
+		15ABFFC22BDE185F00D57C7C /* FirestoreReviewWritingRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15ABFFC12BDE185F00D57C7C /* FirestoreReviewWritingRepository.swift */; };
 		15AF2C3E2A1147B100BEE166 /* UIImage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15AF2C3D2A1147B100BEE166 /* UIImage+.swift */; };
 		15B01DA32BA93A1000BE9F98 /* UserStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B01DA22BA93A1000BE9F98 /* UserStorage.swift */; };
 		15B01DA52BA93B5400BE9F98 /* UserDefaultsUserStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B01DA42BA93B5400BE9F98 /* UserDefaultsUserStorage.swift */; };
@@ -994,6 +996,8 @@
 		15A7A8F12B9F6C1700CA9A79 /* UserEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserEntity.swift; sourceTree = "<group>"; };
 		15A8599F2BB56E18002C0CA0 /* PostContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostContainer.swift; sourceTree = "<group>"; };
 		15AAD34B2BBFD1760042DBF6 /* FavoritePostToggleEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePostToggleEntity.swift; sourceTree = "<group>"; };
+		15ABFFBE2BDCDB9400D57C7C /* FirestoreReviewWritingEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreReviewWritingEndpoint.swift; sourceTree = "<group>"; };
+		15ABFFC12BDE185F00D57C7C /* FirestoreReviewWritingRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreReviewWritingRepository.swift; sourceTree = "<group>"; };
 		15AF2C3D2A1147B100BEE166 /* UIImage+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+.swift"; sourceTree = "<group>"; };
 		15B01DA22BA93A1000BE9F98 /* UserStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStorage.swift; sourceTree = "<group>"; };
 		15B01DA42BA93B5400BE9F98 /* UserDefaultsUserStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsUserStorage.swift; sourceTree = "<group>"; };
@@ -1818,6 +1822,7 @@
 		151DF0F82AEEB89100D5D55B /* Repositories */ = {
 			isa = PBXGroup;
 			children = (
+				15ABFFC02BDCE46200D57C7C /* Firestore */,
 				154CA61D2BD3AD430066B444 /* TourAPI */,
 				154CA61C2BD3AD0B0066B444 /* Server */,
 			);
@@ -2116,6 +2121,7 @@
 				154CA6192BD3AA390066B444 /* RequestDTO */,
 				154CA6182BD3AA330066B444 /* ResponseDTO */,
 				154CA61A2BD3AAC40066B444 /* DestinationAPIEndpoint.swift */,
+				15ABFFBE2BDCDB9400D57C7C /* FirestoreReviewWritingEndpoint.swift */,
 			);
 			path = TourAPI;
 			sourceTree = "<group>";
@@ -2454,6 +2460,14 @@
 				15A7A8ED2B9F6B1D00CA9A79 /* UserDefaultsManager.swift */,
 			);
 			path = UserDefaultsStorage;
+			sourceTree = "<group>";
+		};
+		15ABFFC02BDCE46200D57C7C /* Firestore */ = {
+			isa = PBXGroup;
+			children = (
+				15ABFFC12BDE185F00D57C7C /* FirestoreReviewWritingRepository.swift */,
+			);
+			path = Firestore;
 			sourceTree = "<group>";
 		};
 		15B01DA12BA939FB00BE9F98 /* UserStorage */ = {
@@ -3430,6 +3444,7 @@
 				15CC64142A1DD4EF00857446 /* ConvenienceInit.swift in Sources */,
 				15FBD5D22B98DA0E00076115 /* TravelOrderTypeMapper.swift in Sources */,
 				150727262BBAB9E400271217 /* PostNestedCommentHeartToggleRequestDTO.swift in Sources */,
+				15ABFFBF2BDCDB9400D57C7C /* FirestoreReviewWritingEndpoint.swift in Sources */,
 				15D655952B8E17D400466FEC /* MockMyProfileRepository.swift in Sources */,
 				1503F9312A4E0A4F002BC38D /* MainCoordinator.swift in Sources */,
 				133532062BA42F6E000A4D9E /* Data+.swift in Sources */,
@@ -3701,6 +3716,7 @@
 				151DF0E12AEE828900D5D55B /* NoticeCell.swift in Sources */,
 				15F0D1B02A51BDFE00D04773 /* CategoryPageViewDataSource.swift in Sources */,
 				13333CBF2ABDE86A005AB50B /* LeftAlignThreeLabelsView.swift in Sources */,
+				15ABFFC22BDE185F00D57C7C /* FirestoreReviewWritingRepository.swift in Sources */,
 				151BDADE2B17002E002F36C3 /* Bundle+Helpers.swift in Sources */,
 				15FB47EF2AC1772C0033AA18 /* PostRecommendationSearchTagCell.swift in Sources */,
 				15F36A152AB1961F00971803 /* TravelRegion.swift in Sources */,
