@@ -7,6 +7,7 @@
 
 import UIKit
 import SHCoordinator
+import SHFirestoreService
 
 protocol LoginCoordinatorDelegate: FlowCoordinatorDelegate {
   func showFeedPage()
@@ -42,7 +43,14 @@ final class LoginCoordinator: FlowCoordinator {
     let sessionProvider = SessionProvider(session: mockSession)
     let authService = DefaultAuthenticationService(sessionProvider: sessionProvider)
     let loginResultStorage = UserDefaultsLoginResultStorage()
-    let repository = DefaultLoginRepository(authService: authService, loginResultStorage: loginResultStorage)
+    
+    let storage = UserDefaultsUserStorage()
+    let loggedInUserRepository = DefaultLoggedInUserRepository(storage: storage)
+    let repository = DefaultLoginRepository(
+      authService: authService,
+      loginResultStorage: loginResultStorage,
+      loggedInUserRepository: loggedInUserRepository,
+      firestoreService: FirestoreService())
     let useCase = DefaultLoginUseCase(loginRepository: repository)
     let loginVM = LoginViewModel(loginUseCase: useCase)
     let loginViewController = LoginViewController(viewModel: loginVM)

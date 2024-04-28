@@ -5,13 +5,13 @@
 //  Created by 양승현 on 11/20/23.
 //
 
-import UIKit
+import Foundation
 
 public protocol ImageMemoryCachable: AnyObject {
-  func image(for url: String) -> UIImage?
-  func insert(_ image: UIImage, forKey url: String)
-  func removeImage(for url: String)
+  func imageData(for url: String) -> Data?
+  func insert(_ imageData: Data, forKey url: String)
+  func removeImageData(for url: String)
   func removeAllImages()
 
-  subscript(_ url: String) -> UIImage? { get set }
+  subscript(_ url: String) -> Data? { get set }
 }

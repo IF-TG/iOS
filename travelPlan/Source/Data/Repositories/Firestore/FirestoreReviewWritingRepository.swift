@@ -12,6 +12,7 @@ import SHFirestoreService
 final class FirestoreReviewWritingRepository {
   // MARK: - Dependencies
   private let service: FirestoreServiceProtocol
+  private let storageService: 
   private let backgroundQueue: DispatchQueue
   
   // MARK: - Properties

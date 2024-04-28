@@ -41,10 +41,10 @@ struct PostNestedCommentResponseDTO: Decodable {
 
 // MARK: - Mappings to Domain
 extension PostNestedCommentResponseDTO {
-  func toDomain() -> PostNestedCommentEntity {
+  func toDomain(with userProfileImageData: Data?) -> PostNestedCommentEntity {
     return PostNestedCommentEntity(
       nestedCommentId: nestedCommentId,
-      userProfileURL: userProfileURL,
+      userProfileImageData: userProfileImageData,
       nickname: nickname,
       timestamp: timestamp,
       comment: comment,

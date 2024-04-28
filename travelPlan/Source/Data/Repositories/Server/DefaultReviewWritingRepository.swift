@@ -66,7 +66,7 @@ extension DefaultReviewWritingRepository: ReviewWritingRepository {
           let post = Post(
             liked: responseDTO.liked,
             detail: responseDTO.toDomain(),
-            author: responseDTO.toDomain(),
+            author: responseDTO.toDomain(with: Data(base64Encoded: responseDTO.profile)),
             highResolveImages: responseDTO.postImages.map { $0.toDomain() },
             category: responseDTO.toDomain()
           )

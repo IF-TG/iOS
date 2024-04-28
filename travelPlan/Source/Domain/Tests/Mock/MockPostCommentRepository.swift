@@ -39,7 +39,7 @@ extension MockPostCommentRepository {
             // 잠깐 사용자가 보냈던 comment로 가로체겠습니다.
             let intereceptedEntity = PostCommentEntity(
               commentId: postCommentEntity.commentId,
-              userProfileURL: postCommentEntity.userProfileURL,
+              userProfileImageData: postCommentEntity.userProfileImageData,
               userName: postCommentEntity.userName,
               timestamp: postCommentEntity.timestamp,
               comment: comment,

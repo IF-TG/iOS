@@ -31,7 +31,7 @@ final class PostDetailViewController: UITableViewController {
   
   private let naviTitleView = UIView(frame: .zero)
   
-  private let starButton = SearchStarButton(normalType: .black)
+  private lazy var starButton = SearchStarButton(normalType: .black)
   
   private var naviTitleAnimator: UIViewPropertyAnimator?
   
@@ -162,7 +162,12 @@ extension PostDetailViewController: ViewBindCase {
   // MARK: - View UI render helper
   func handleViewDidLoadState(_ viewDidLoadState: PostDetailViewDidLoadState) {
     switch viewDidLoadState {
-    case .loggedInUserInfo(let userProfile):
+    case .loggedInUserInfo(let userProfile, let isPostOwner):
+      if isPostOwner {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: editButton)
+      } else {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: starButton)
+      }
       inputAccessory.configure(with: userProfile)
     case .reloadedCommentsWithPostFavoriteInfo(let isFavorite):
       tableView.reloadData()
@@ -266,11 +271,6 @@ private extension PostDetailViewController {
   func configureUI() {
     view.backgroundColor = .white
     setupDefaultBackBarButtonItem(marginLeft: 0)
-//    navigationItem.rightBarButtonItem = UIBarButtonItem(customView: starButton)
-    navigationItem.rightBarButtonItems = [
-      .init(customView: starButton),
-      .init(customView: editButton)
-    ]
     starButton.translatesAutoresizingMaskIntoConstraints = false
     starButton.widthAnchor.constraint(equalToConstant: 24).isActive = true
     starButton.heightAnchor.constraint(equalToConstant: 24).isActive = true

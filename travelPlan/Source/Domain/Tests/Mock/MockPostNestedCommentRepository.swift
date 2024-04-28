@@ -41,7 +41,7 @@ final class MockPostNestedCommentRepository: PostNestedCommentRepository {
             // 잠깐 사용자가 보냈던 nestedComment로 가로체겠습니다.
             let interceptedEntity = PostNestedCommentEntity(
               nestedCommentId: entity.nestedCommentId,
-              userProfileURL: entity.userProfileURL,
+              userProfileImageData: entity.userProfileImageData,
               nickname: entity.nickname,
               timestamp: entity.timestamp,
               comment: comment,

@@ -83,12 +83,12 @@ extension DefaultMyProfileRepository: MyProfileRepository {
         return
       }
       
-      guard let loggedInUserId = loggedInUserRepository.id else {
+      guard let loggedInUserId = loggedInUserRepository.id, let userId = Int64(loggedInUserId) else {
         promise(.failure(MyProfileUseCaseError.invalidUserId))
         return
       }
       
-      let requestDTO = UserNicknamePatchRequestDTO(nickname: name, userId: loggedInUserId)
+      let requestDTO = UserNicknamePatchRequestDTO(nickname: name, userId: userId)
       let endpoint = UserInfoAPIEndpoint.updateUserNickname(with: requestDTO)
       service.request(endpoint: endpoint)
         .subscribe(on: backgroundQueue)
@@ -110,19 +110,19 @@ extension DefaultMyProfileRepository: MyProfileRepository {
   }
   
   /// 업데이트는 서버 로직에서 삭제 -> 저장을 한번에 하는 기능입니다.
-  func updateProfile(with profile: String) -> AnyPublisher<Bool, Error> {
+  func updateProfileImage(with profile: String) -> AnyPublisher<Bool, Error> {
     return Future<Bool, Error> { [weak self] promise in
       guard let self else {
         promise(.failure(ReferenceError.invalidReference))
         return
       }
       
-      guard let loggedInUserId = loggedInUserRepository.id else {
+      guard let loggedInUserId = loggedInUserRepository.id, let userId = Int64(loggedInUserId) else {
         promise(.failure(MyProfileUseCaseError.invalidUserId))
         return
       }
       
-      let userIdReqeustDTO = UserIdReqeustDTO(userId: loggedInUserId)
+      let userIdReqeustDTO = UserIdReqeustDTO(userId: userId)
       let reqeustDTO = UserProfileRequestDTO(profile: profile)
       let endpoint = UserInfoAPIEndpoint.updateProfile(withQuery: userIdReqeustDTO, body: reqeustDTO)
       service.request(endpoint: endpoint)
@@ -134,25 +134,34 @@ extension DefaultMyProfileRepository: MyProfileRepository {
           }
         } receiveValue: { [weak self] responseDTO in
           let isSucceed = (200...299).contains(Int(responseDTO.statusCode) ?? -1)
-          self?.loggedInUserRepository.updateProfileURL(with: responseDTO.result.imageURL)
-          promise(.success(isSucceed))
+          if let imageData = Data(base64Encoded: responseDTO.result.imageURL) {
+            self?.loggedInUserRepository.updateProfileImageData(with: imageData)
+            promise(.success(isSucceed))
+          } else {
+            promise(.failure(Swift.DecodingError.dataCorrupted(DecodingError.Context(
+              codingPath: [], 
+              debugDescription: "Failed to convert image to data"))))
+          }
         }.store(in: &subscriptions)
     }.eraseToAnyPublisher()
   }
   
-  func saveProfile(with profile: String) -> AnyPublisher<Bool, Error> {
+  func saveProfileImage(with profile: String) -> AnyPublisher<Bool, Error> {
     return Future<Bool, Error> { [weak self] promise in
       guard let self else {
         promise(.failure(ReferenceError.invalidReference))
         return
       }
       
-      guard let loggedInUserId = loggedInUserRepository.id else {
+      guard
+        let loggedInUserId = loggedInUserRepository.id,
+        let userId = Int64(loggedInUserId)
+      else {
         promise(.failure(MyProfileUseCaseError.invalidUserId))
         return
       }
       
-      let userIdRequestDTO = UserIdReqeustDTO(userId: loggedInUserId)
+      let userIdRequestDTO = UserIdReqeustDTO(userId: userId)
       let requestDTO = UserProfileRequestDTO(profile: profile)
       let endpoint = UserInfoAPIEndpoint.saveProfile(withQuery: userIdRequestDTO, body: requestDTO)
       service.request(endpoint: endpoint)
@@ -163,26 +172,32 @@ extension DefaultMyProfileRepository: MyProfileRepository {
             promise(.failure(error))
           }
         } receiveValue: { [weak self] responseDTO in
-          self?.loggedInUserRepository.updateProfileURL(with: profile)
           let isSucceed = (200...299).contains(Int(responseDTO.statusCode) ?? -1)
-          promise(.success(isSucceed))
+          if let imageData = Data(base64Encoded: responseDTO.result.imageURL) {
+            self?.loggedInUserRepository.updateProfileImageData(with: imageData)
+            promise(.success(isSucceed))
+          } else {
+            promise(.failure(Swift.DecodingError.dataCorrupted(DecodingError.Context(
+              codingPath: [],
+              debugDescription: "Failed to convert image to data"))))
+          }
         }.store(in: &subscriptions)
     }.eraseToAnyPublisher()
   }
   
-  func deleteProfile() -> AnyPublisher<Bool, Error> {
+  func deleteProfileImage() -> AnyPublisher<Bool, Error> {
     return Future<Bool, Error> { [weak self] promise in
       guard let self else {
         promise(.failure(ReferenceError.invalidReference))
         return
       }
       
-      guard let loggedInUserId = loggedInUserRepository.id else {
+      guard let loggedInUserId = loggedInUserRepository.id, let userId = Int64(loggedInUserId) else {
         promise(.failure(MyProfileUseCaseError.invalidUserId))
         return
       }
       
-      let requestDTO = UserIdReqeustDTO(userId: loggedInUserId)
+      let requestDTO = UserIdReqeustDTO(userId: userId)
       let endpoint = UserInfoAPIEndpoint.deleteProfile(with: requestDTO)
       
       service.request(endpoint: endpoint)
@@ -193,13 +208,13 @@ extension DefaultMyProfileRepository: MyProfileRepository {
             promise(.failure(error))
           }
         } receiveValue: { [weak self] responseDTO in
-          self?.loggedInUserRepository.deleteProfile()
+          self?.loggedInUserRepository.deleteProfileImageData()
           promise(.success(responseDTO.result))
         }.store(in: &subscriptions)
     }.eraseToAnyPublisher()
   }
   
-  func fetchProfile() -> AnyPublisher<ProfileImageEntity, Error> {
+  func fetchProfileImage() -> AnyPublisher<ProfileImageEntity, Error> {
     return Future { [weak self] promise in
       guard let self else {
         promise(.failure(ReferenceError.invalidReference))
@@ -207,8 +222,8 @@ extension DefaultMyProfileRepository: MyProfileRepository {
       }
       
       // UserDefaults 확인
-      if let imageURL = loggedInUserRepository.profileURL {
-        promise(.success(.init(image: imageURL)))
+      if let imageData = loggedInUserRepository.profileImageData {
+        promise(.success(.init(image: imageData)))
       }
       
       guard let loggedInUserId = loggedInUserRepository.id else {
@@ -225,9 +240,17 @@ extension DefaultMyProfileRepository: MyProfileRepository {
             promise(.failure(error))
           }
         } receiveValue: { [weak self] profileImageEntity in
-          self?.loggedInUserRepository.updateProfileURL(with: profileImageEntity.image)
+          self?.loggedInUserRepository.updateProfileImageData(with: profileImageEntity.image)
           promise(.success(profileImageEntity))
         }.store(in: &subscriptions)
     }.eraseToAnyPublisher()
+  }
+  
+  func fetchProfile(with userId: String) -> AnyPublisher<UserEntity, any Error> {
+    fatalError(" 서버에서 미 구현된 api 입니다.")
+  }
+  
+  func saveProfile(with userId: String, nickname: String, profileImageData: Data) -> AnyPublisher<Void, any Error> {
+    fatalError("서버에서 미 구현된 api 입니다.")
   }
 }
