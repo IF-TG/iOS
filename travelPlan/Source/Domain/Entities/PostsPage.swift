@@ -12,4 +12,5 @@ struct PostsPage {
   let totalPosts: Int64
   let posts: [Post]
   let thumbnails: [PostThumbnails]
+  var hasMorePage: Bool = true
 }
