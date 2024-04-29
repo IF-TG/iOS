@@ -49,9 +49,13 @@ final class ReviewWritingCoordinator: FlowCoordinator {
     let firestoreReviewWritingRepository = FirestoreReviewWritingRepository(service: FirestoreService())
     let reviewWritingUseCase = DefaultReviewWritingUseCase(reviewWritingRepository: firestoreReviewWritingRepository)
     let photoAuthUseCase = DefaultPhotoAuthorizationUseCase()
+    let mockStorage = MockUserStorage()
+    let loggedInUserRepository = DefaultLoggedInUserRepository(storage: mockStorage)
+    let loggedInOwnerUseCase = DefaultLoggedInUserUseCase(loggedInUserRepository: loggedInUserRepository)
     let viewModel = DefaultReviewWritingViewModel(
       photoAuthorizationUseCase: photoAuthUseCase,
       reviewWritingUseCase: reviewWritingUseCase,
+      loggedInOwnerUseCase: loggedInOwnerUseCase,
       mode: mode
     )
     let photoService = DefaultPhotoService()
