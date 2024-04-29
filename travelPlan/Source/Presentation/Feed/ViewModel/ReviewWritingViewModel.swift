@@ -194,7 +194,7 @@ extension DefaultReviewWritingViewModel {
           guard let entity = self?.reviewWritingEntity
           else { return Just(State.none).eraseToAnyPublisher() }
           
-          return reviewWritingUseCase.updatePost(requestValue: .init(entity: entity, postId: entity.postId))
+          return reviewWritingUseCase.updatePost(requestValue: .init(entity: entity, postId: "215C6C7D-9C5E-4190-926C-48440EAB0C3B"))
             .map { post -> State in
               if let post {
                 return State.popViewControllerWith(post)
