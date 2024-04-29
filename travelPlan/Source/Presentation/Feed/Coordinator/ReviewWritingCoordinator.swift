@@ -44,10 +44,10 @@ final class ReviewWritingCoordinator: FlowCoordinator {
   }
   
   func start() {
-    // let mockReviewWritingRepository = MockReviewWritingRepository()
-    // let reviewWritingUseCase = DefaultReviewWritingUseCase(reviewWritingRepository: mockReviewWritingRepository)
-    let firestoreReviewWritingRepository = FirestoreReviewWritingRepository(service: FirestoreService())
-    let reviewWritingUseCase = DefaultReviewWritingUseCase(reviewWritingRepository: firestoreReviewWritingRepository)
+     let mockReviewWritingRepository = MockReviewWritingRepository()
+     let reviewWritingUseCase = DefaultReviewWritingUseCase(reviewWritingRepository: mockReviewWritingRepository)
+//    let firestoreReviewWritingRepository = FirestoreReviewWritingRepository(service: FirestoreService())
+//    let reviewWritingUseCase = DefaultReviewWritingUseCase(reviewWritingRepository: firestoreReviewWritingRepository)
     let photoAuthUseCase = DefaultPhotoAuthorizationUseCase()
     let mockStorage = MockUserStorage()
     let loggedInUserRepository = DefaultLoggedInUserRepository(storage: mockStorage)
