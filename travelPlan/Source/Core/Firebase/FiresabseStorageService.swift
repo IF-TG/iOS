@@ -94,8 +94,9 @@ final class FiresabseStorageService: ImageStorageServiceProtocol {
   func fetchImages(_ urls: [String], type: ImageStorageServiceType) -> AnyPublisher<[Data], any Error> {
     return Publishers
       .Sequence(sequence: urls)
-      .flatMap { url in
-        return fetchImage(url, type: type)
+      .flatMap { [weak self] url in
+        return self?.fetchImage(url, type: type)
+          .eraseToAnyPublisher() ?? Fail(error: ReferenceError.invalidReference).eraseToAnyPublisher()
       }.collect()
       .eraseToAnyPublisher()
   }
@@ -116,7 +117,10 @@ final class FiresabseStorageService: ImageStorageServiceProtocol {
   func deleteImages(_ urls: [String], type: ImageStorageServiceType) -> AnyPublisher<Void, any Error> {
     return Publishers
       .Sequence(sequence: urls)
-      .flatMap { url in
+      .flatMap { [weak self] url in
+        guard let self else {
+          return Fail<Void, any Error>(error: ReferenceError.invalidReference).eraseToAnyPublisher()
+        }
         return deleteImage(url, type: type)
       }.collect()
       .tryMap { _ in () }
@@ -154,7 +158,7 @@ extension FiresabseStorageService {
         /// 프로필 최대 30MB 제한
         30*1024*1024
       case .postImage:
-        /// 포스트 이미지 최대 30MB로 제한
+        /// 포스트 이미지 최대 100MB로 제한
         100*1024*1024
       }
     }
