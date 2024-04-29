@@ -81,36 +81,44 @@ extension FirestoreReviewWritingRepository: ReviewWritingRepository {
   }
   
   func updatePost(entity: ReviewWritingEntity, postId: String) -> AnyPublisher<Post?, any Error> {
-    return Future { promise in
-      Task(priority: .userInitiated) {  [weak self] in
-        /// 사용자가 확인 버튼을 눌렀을 때 명확히 서버에 저장되어야 합니다.
+    return Future { [weak self] promise in
+      /// 사용자가 확인 버튼을 눌렀을 때 명확히 서버에 저장되어야 합니다.
+      guard let self else {
+        promise(.failure(ReferenceError.invalidReference))
+        return
+      }
+      
+      var requestDTO = ReviewWritingUpdateRequestDTO(
+        postId: postId,
+        post: ReviewWritingSaveRequestDTO.makeRequestDTO(entity: entity))
+      
+      let deleteSubscription = storageService.deleteImages(
+        requestDTO.post.imgFileList.map { $0.img },
+        type: .postImage
+      ).receive(on: DispatchQueue.global(qos: .background))
+        .sink { completion in
+          if case .failure(let error) = completion {
+            promise(.failure(error))
+            os_log("Firestore storage에서 이미지가 제거되지 않았습니다.Error: %@", type: .error, error.localizedDescription)
+          }
+        } receiveValue: { _ in }
+      subscriptions.insert(deleteSubscription)
+      
+      let uploadSubscription = storageService.uploadImages(
+        requestDTO.post.imgFileList.compactMap { Data(base64Encoded: $0.img) },
+        type: .postImage
+      ).sink { completion in
+        if case .failure(let error) = completion {
+          promise(.failure(error))
+        }
+      } receiveValue: { [weak self] urls in
         guard let self else {
           promise(.failure(ReferenceError.invalidReference))
           return
         }
         
-        var requestDTO = ReviewWritingUpdateRequestDTO(
-          postId: postId,
-          post: ReviewWritingSaveRequestDTO.makeRequestDTO(entity: entity))
-        
-        let deleteSubscription = storageService.deleteImages(
-          requestDTO.post.imgFileList.map { $0.img },
-          type: .postImage
-        ).receive(on: DispatchQueue.global(qos: .background))
-          .sink { completion in
-            if case .failure(let error) = completion {
-              promise(.failure(error))
-              os_log("Firestore storage에서 이미지가 제거되지 않았습니다.Error: %@", type: .error, error.localizedDescription)
-            }
-          } receiveValue: { _ in }
-        subscriptions.insert(deleteSubscription)
-        
-        let imagePaths = try await storageService.uploadImages(
-          requestDTO.post.imgFileList.compactMap { Data(base64Encoded: $0.img) },
-          type: .postImage)
-        
-        for i in 0..<imagePaths.count {
-          requestDTO.post.imgFileList[i].img = imagePaths[i]
+        for i in 0..<urls.count {
+          requestDTO.post.imgFileList[i].img = urls[i]
         }
         
         let updateSubscription = service
@@ -122,8 +130,9 @@ extension FirestoreReviewWritingRepository: ReviewWritingRepository {
           } receiveValue: { _ in
             promise(.success(nil))
           }
-        subscriptions.insert(updateSubscription)        
+        subscriptions.insert(updateSubscription)
       }
+      subscriptions.insert(uploadSubscription)
     }.eraseToAnyPublisher()
   }
 }
