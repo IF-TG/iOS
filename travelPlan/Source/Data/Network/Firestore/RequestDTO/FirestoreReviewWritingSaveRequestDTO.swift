@@ -8,12 +8,12 @@
 import Foundation
 
 struct FirestoreReviewWritingSaveRequestDTO: Encodable {
-  let reviewWritingSaveRequestDTO: ReviewWritingSaveRequestDTO
+  var reviewWritingSaveRequestDTO: ReviewWritingSaveRequestDTO
   let postId: String
   
   let authorId: String
   
-  let likeNum: Int
+  let likeNum: Int = 0
   let createAt: String
   
   func encode(to encoder: Encoder) throws {
@@ -48,7 +48,6 @@ extension FirestoreReviewWritingSaveRequestDTO {
       reviewWritingSaveRequestDTO: ReviewWritingSaveRequestDTO.makeRequestDTO(entity: entity),
       postId: postId,
       authorId: authorId,
-      likeNum: 0,
       createAt: curDateString)
   }
 }
