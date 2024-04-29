@@ -61,9 +61,7 @@ public struct FiresabseStorageService: ImageStorageServiceProtocol {
   
   func deleteImage(_ url: String, type: ImageStorageServiceType) -> AnyPublisher<Void, any Error> {
     return Future<Void, Error> { promise in
-      Storage.storage()
-        .reference()
-        .child(url)
+      Storage.storage().reference(forURL: url)
         .delete { error in
           if let error {
             promise(.failure(error))
