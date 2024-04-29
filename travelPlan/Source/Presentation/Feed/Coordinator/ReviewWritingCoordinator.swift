@@ -13,7 +13,7 @@ import Combine
 
 /// Post를 전달받는 객체는 해당 프로토콜을 준수합니다.
 protocol ReviewWritingPostReceivable: AnyObject {
-  func receive(post: Post)
+  func receive(post: Post?)
 }
 
 protocol ReviewWritingCoordinatorDelegate: FlowCoordinatorDelegate {
@@ -95,7 +95,7 @@ extension ReviewWritingCoordinator: ReviewWritingCoordinatorDelegate {
 
 // MARK: - ReviewWritingPostReceivable
 extension ReviewWritingCoordinator: ReviewWritingPostReceivable {
-  func receive(post: Post) {
+  func receive(post: Post?) {
     guard let parent = parent as? ReviewWritingPostReceivable else { return }
     parent.receive(post: post)
     finish(withAnimated: true)

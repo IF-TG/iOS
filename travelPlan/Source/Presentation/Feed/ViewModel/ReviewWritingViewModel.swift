@@ -34,7 +34,7 @@ enum ReviewWritingMode {
 
 enum ReviewWritingViewModelState {
   case unexpectedError(description: String)
-  case popViewControllerWith(Post)
+  case popViewControllerWith(Post?)
   case popViewController
   case presentAlbumViewController
   case presentPlan
@@ -51,6 +51,7 @@ final class DefaultReviewWritingViewModel: ReviewWritingViewModel {
   // MARK: - Dependencies
   private let photoAuthorizationUseCase: any PhotoAuthorizationUseCase
   private let reviewWritingUseCase: any ReviewWritingUseCase
+  private let loggedInOwnerUseCase: any LoggedInUserUseCase
   private let mode: ReviewWritingMode
   private var reviewWritingEntity: ReviewWritingEntity?
   
@@ -58,10 +59,12 @@ final class DefaultReviewWritingViewModel: ReviewWritingViewModel {
   init(
     photoAuthorizationUseCase: any PhotoAuthorizationUseCase,
     reviewWritingUseCase: any ReviewWritingUseCase,
+    loggedInOwnerUseCase: any LoggedInUserUseCase,
     mode: ReviewWritingMode
   ) {
     self.photoAuthorizationUseCase = photoAuthorizationUseCase
     self.reviewWritingUseCase = reviewWritingUseCase
+    self.loggedInOwnerUseCase = loggedInOwnerUseCase
     self.mode = mode
   }
   
@@ -171,6 +174,7 @@ extension DefaultReviewWritingViewModel {
         switch mode {
         case .new:
           // TODO: - 사용자가 정의한 테마 설정을 기반으로 eneity를 정의해야합니다.
+          // MARK: - Firestore의 경우 author ID를 추가해야합니다.
           let tempThemeEntity = ReviewWritingEntity(
             postId: "특정한 포스트 아이디가 들어가야합니다다다다",
             category: .init(themes: [.adventure],
@@ -179,7 +183,8 @@ extension DefaultReviewWritingViewModel {
                             partners: [.alone]),
             tripDate: .init(start: "2023", end: "2024"),
             title: title,
-            contents: contents
+            contents: contents,
+            authorId: self?.loggedInOwnerUseCase.id
           )
           return reviewWritingUseCase.savePost(entity: tempThemeEntity)
             .filter { $0 }
@@ -191,7 +196,14 @@ extension DefaultReviewWritingViewModel {
           else { return Just(State.none).eraseToAnyPublisher() }
           
           return reviewWritingUseCase.updatePost(requestValue: .init(entity: entity, postId: entity.postId))
-            .map { State.popViewControllerWith($0) }
+            .map { post -> State in
+              if let post {
+                return State.popViewControllerWith(post)
+              } else {
+                // FIXME: - 파이어베이스의 경우 변경된 사항들을 다시 fetch해야 합니다.
+                return State.popViewControllerWith(nil)
+              }
+            }
             .catch { Just(State.unexpectedError(description: $0.localizedDescription)).eraseToAnyPublisher() }
             .eraseToAnyPublisher()
         }

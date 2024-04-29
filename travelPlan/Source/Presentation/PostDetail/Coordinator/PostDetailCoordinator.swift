@@ -236,7 +236,7 @@ extension PostDetailCoordinator: UINavigationControllerDelegate {
 
 // MARK: - ReviewWritingPostReceivable
 extension PostDetailCoordinator: ReviewWritingPostReceivable {
-  func receive(post: Post) {
+  func receive(post: Post?) {
     viewModelPostReceivable?.receive(post: post)
   }
 }
