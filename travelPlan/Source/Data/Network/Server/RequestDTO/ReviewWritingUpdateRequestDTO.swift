@@ -9,5 +9,5 @@ import Foundation
 
 struct ReviewWritingUpdateRequestDTO: Encodable {
   let postId: String
-  let post: ReviewWritingSaveRequestDTO
+  var post: ReviewWritingSaveRequestDTO
 }
