@@ -28,23 +28,32 @@ final class FirestoreReviewWritingRepository {
 
 extension FirestoreReviewWritingRepository: ReviewWritingRepository {
   func savePost(with reviewWritingPost: ReviewWritingEntity) -> AnyPublisher<Bool, any Error> {
-    return Future { promise in
-      Task(priority: .userInitiated) { [weak self] in
-        // ReviewWritingSaveRequestDTO에서 img타입을 제너릭으로해서 Data or String이렇게 사용측에서 주입하도록 리빌딩하는것도 좋은거같다.
-        // 일단 구현된게 String이라 다시 Data로 변환!
-        do {
-          guard let authorId = reviewWritingPost.authorId else {
-            promise(.failure(ReferenceError.invalidReference))
-            return
+    return Future { [weak self] promise in
+      // ReviewWritingSaveRequestDTO에서 img타입을 제너릭으로해서 Data or String이렇게 사용측에서 주입하도록 리빌딩하는것도 좋은거같다.
+      // 일단 구현된게 String이라 다시 Data로 변환!
+      guard let self else {
+        promise(.failure(ReferenceError.invalidReference))
+        return
+      }
+      
+      do {
+        guard let authorId = reviewWritingPost.authorId else {
+          promise(.failure(ReferenceError.invalidReference))
+          return
+        }
+        var requestDTO = FirestoreReviewWritingSaveRequestDTO.makeRequestDTO(
+          entity: reviewWritingPost,
+          postId: reviewWritingPost.postId,
+          authorId: authorId)
+        let uploadsSubscription = storageService.uploadImages(
+          requestDTO.reviewWritingSaveRequestDTO.imgFileList.compactMap { Data(base64Encoded: $0.img) },
+          type: .postImage
+        ).sink { completion in
+          if case .failure(let error) = completion {
+            promise(.failure(error))
           }
-          var requestDTO = FirestoreReviewWritingSaveRequestDTO.makeRequestDTO(
-            entity: reviewWritingPost,
-            postId: reviewWritingPost.postId,
-            authorId: authorId)
-          guard let imagePaths = try await self?.storageService.uploadImages(
-            requestDTO.reviewWritingSaveRequestDTO.imgFileList.compactMap { Data(base64Encoded: $0.img) },
-            type: .postImage)
-          else {
+        } receiveValue: { [weak self] imagePaths in
+          guard let self else {
             promise(.failure(ReferenceError.invalidReference))
             return
           }
@@ -53,12 +62,7 @@ extension FirestoreReviewWritingRepository: ReviewWritingRepository {
             requestDTO.reviewWritingSaveRequestDTO.imgFileList[i].img = imagePaths[i]
           }
           
-          guard let backgroundQueue = self?.backgroundQueue else {
-            promise(.failure(ReferenceError.invalidReference))
-            return
-          }
-          
-          let subscription = self?.service
+          let requestSubscription = service
             .request(endpoint: FirestoreReviewWritingEndpoint.savePost(with: requestDTO))
             .subscribe(on: backgroundQueue)
             .sink { completion in
@@ -68,10 +72,10 @@ extension FirestoreReviewWritingRepository: ReviewWritingRepository {
             } receiveValue: { _ in
               promise(.success(true))
             }
-          self?.subscriptions.insert(subscription)
-        } catch {
-          promise(.failure(error))
+          subscriptions.insert(requestSubscription)
+          
         }
+        subscriptions.insert(uploadsSubscription)
       }
     }.eraseToAnyPublisher()
   }
