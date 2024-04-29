@@ -69,7 +69,15 @@ extension FirestoreReviewWritingRepository: ReviewWritingRepository {
     }.eraseToAnyPublisher()
   }
   
-  func updatePost(entity: ReviewWritingEntity, postId: Int64) -> AnyPublisher<Post, any Error> {
-    fatalError("아직 구현하지 않았습니다.")
+  func updatePost(entity: ReviewWritingEntity, postId: String) -> AnyPublisher<Post, any Error> {
+    return Future { [weak self] promise in
+      /// 임시로 해보자.
+      let requestDTO = ReviewWritingUpdateRequestDTO(
+        postId: "j5WMRcoAOoMV5xTvQgdb",
+        post: ReviewWritingSaveRequestDTO.makeRequestDTO(entity: entity)
+      )
+      
+      
+    }.eraseToAnyPublisher()
   }
 }

@@ -10,5 +10,5 @@ import Combine
 
 protocol ReviewWritingRepository {
   func savePost(with reviewWritingPost: ReviewWritingEntity) -> AnyPublisher<Bool, Error>
-  func updatePost(entity: ReviewWritingEntity, postId: Int64) -> AnyPublisher<Post, Error>
+  func updatePost(entity: ReviewWritingEntity, postId: String) -> AnyPublisher<Post, Error>
 }

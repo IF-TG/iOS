@@ -15,4 +15,13 @@ struct FirestoreReviewWritingEndpoint {
       method: .save(nil),
       requestType: .posts(.save))
   }
+  
+  static func updatePost(
+    with requestDTO: ReviewWritingUpdateRequestDTO
+  ) -> FirestoreEndpoint<VoidResponseDTO> {
+    return .init(
+      requestDTO: requestDTO,
+      method: .update,
+      requestType: .posts(.update(postId: requestDTO.postId)))
+  }
 }

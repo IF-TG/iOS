@@ -168,7 +168,7 @@ final class MockPostUseCaseForPaging: PostUseCase {
         return Post.TripDate(start: startAndEnd[0], end: startAndEnd[1])
       }()
       let postDetail = Post.Detail.init(
-        postID: Int64(i),
+        postID: "\(i)",
         title: titles[i],
         content: postContentTexts[i],
         likes: Int32(postHearts[i]),

@@ -51,7 +51,7 @@ final class MockPostRepository: PostRepository {
   func fetchComments(
     page: Int32,
     perPage: Int32,
-    postId: Int64
+    postId: String
   ) -> AnyPublisher<PostCommentContainerEntity, any Error> {
     MockUrlProtocol.requestHandler = { _ in
       let mockData = MockResponseType.post(.whenPostCommentContainerResponse).mockDataLoader

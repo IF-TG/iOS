@@ -8,6 +8,6 @@
 import Foundation
 
 struct PostNestedCommentSendRequestDTO: Encodable {
-  let commentId: Int64
+  let commentId: String
   let comment: String
 }

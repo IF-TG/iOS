@@ -17,19 +17,19 @@ final class DefaultPostCommentUseCase: PostCommentUseCase {
     self.postCommentRepository = postCommentRepository
   }
   
-  func sendComment(postId: Int64, comment: String) -> AnyPublisher<PostCommentEntity, any Error> {
+  func sendComment(postId: String, comment: String) -> AnyPublisher<PostCommentEntity, any Error> {
     return postCommentRepository
       .sendComment(postId: postId, comment: comment)
       .eraseToAnyPublisher()
   }
   
-  func updateComment(commentId: Int64, comment: String) -> AnyPublisher<Bool, any Error> {
+  func updateComment(commentId: String, comment: String) -> AnyPublisher<Bool, any Error> {
     return postCommentRepository
       .updateComment(commentId: commentId, comment: comment)
       .eraseToAnyPublisher()
   }
   
-  func deleteComment(commentId: Int64) -> AnyPublisher<Bool, any Error> {
+  func deleteComment(commentId: String) -> AnyPublisher<Bool, any Error> {
     return postCommentRepository
       .deleteComment(commentId: commentId)
       .eraseToAnyPublisher()
@@ -42,7 +42,7 @@ final class DefaultPostCommentUseCase: PostCommentUseCase {
   }
   
   func toggleCommentHeart(
-    commentId: Int64
+    commentId: String
   ) -> AnyPublisher<ToggledPostCommentHeartEntity, any Error> {
     return postCommentRepository
       .toggleCommentHeart(commentId: commentId)

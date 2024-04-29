@@ -23,7 +23,7 @@ final class DefaultPostCommentRepository: PostCommentRepository {
     self.backgroundQueue = backgroundQueue
   }
   
-  func sendComment(postId: Int64, comment: String) -> AnyPublisher<PostCommentEntity, any Error> {
+  func sendComment(postId: String, comment: String) -> AnyPublisher<PostCommentEntity, any Error> {
     let requestDTO = PostCommentSendingRequestDTO(postId: postId, comment: comment)
     return Future { [weak self] promise in
       guard let self else {
@@ -47,7 +47,7 @@ final class DefaultPostCommentRepository: PostCommentRepository {
     }.eraseToAnyPublisher()
   }
   
-  func updateComment(commentId: Int64, comment: String) -> AnyPublisher<Bool, any Error> {
+  func updateComment(commentId: String, comment: String) -> AnyPublisher<Bool, any Error> {
     let requestDTO = PostCommentUpdateRequestDTO(commentId: commentId, comment: comment)
     return Future { [weak self] promise in
       guard let self else {
@@ -69,7 +69,7 @@ final class DefaultPostCommentRepository: PostCommentRepository {
     }.eraseToAnyPublisher()
   }
   
-  func deleteComment(commentId: Int64) -> AnyPublisher<Bool, any Error> {
+  func deleteComment(commentId: String) -> AnyPublisher<Bool, any Error> {
     let requestDTO = PostCommentDeleteRequestDTO(commentId: commentId)
     return Future { [weak self] promise in
       guard let self else {
@@ -94,7 +94,7 @@ final class DefaultPostCommentRepository: PostCommentRepository {
   func fetchComments(
     page: Int32,
     perPage: Int32,
-    postId: Int64
+    postId: String
   ) -> AnyPublisher<[PostCommentEntity], any Error> {
     let requestDTO = PostCommentsRequestDTO(page: page, perPage: perPage, postId: postId)
     return Future { [weak self] promise in
@@ -130,7 +130,7 @@ final class DefaultPostCommentRepository: PostCommentRepository {
   }
   
   func toggleCommentHeart(
-    commentId: Int64
+    commentId: String
   ) -> AnyPublisher<ToggledPostCommentHeartEntity, any Error> {
     let requestDTO = PostCommentHeartToggleRequestDTO(id: commentId)
     return Future { [weak self] promise in

@@ -45,10 +45,10 @@ extension DefaultReviewWritingRepository: ReviewWritingRepository {
     .eraseToAnyPublisher()
   }
   
-  func updatePost(entity: ReviewWritingEntity, postId: Int64) -> AnyPublisher<Post, any Error> {
+  func updatePost(entity: ReviewWritingEntity, postId: String) -> AnyPublisher<Post, any Error> {
     return Future { [weak self, backgroundQueue] promise in
       let requestDTO = ReviewWritingUpdateRequestDTO(
-        postId: postId,
+        postId: String(postId),
         post: ReviewWritingSaveRequestDTO.makeRequestDTO(entity: entity)
       )
       

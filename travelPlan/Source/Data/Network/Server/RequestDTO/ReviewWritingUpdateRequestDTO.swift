@@ -8,6 +8,6 @@
 import Foundation
 
 struct ReviewWritingUpdateRequestDTO: Encodable {
-  let postId: Int64
+  let postId: String
   let post: ReviewWritingSaveRequestDTO
 }

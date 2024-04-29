@@ -172,7 +172,7 @@ extension DefaultReviewWritingViewModel {
         case .new:
           // TODO: - 사용자가 정의한 테마 설정을 기반으로 eneity를 정의해야합니다.
           let tempThemeEntity = ReviewWritingEntity(
-            postId: nil,
+            postId: "특정한 포스트 아이디가 들어가야합니다다다다",
             category: .init(themes: [.adventure],
                             regions: [.busan],
                             seasons: [.fall],
@@ -187,11 +187,10 @@ extension DefaultReviewWritingViewModel {
             .catch { Just(State.unexpectedError(description: $0.localizedDescription)).eraseToAnyPublisher() }
             .eraseToAnyPublisher()
         case .edit:
-          guard let entity = self?.reviewWritingEntity,
-                let postId = entity.postId
+          guard let entity = self?.reviewWritingEntity
           else { return Just(State.none).eraseToAnyPublisher() }
           
-          return reviewWritingUseCase.updatePost(requestValue: .init(entity: entity, postId: postId))
+          return reviewWritingUseCase.updatePost(requestValue: .init(entity: entity, postId: entity.postId))
             .map { State.popViewControllerWith($0) }
             .catch { Just(State.unexpectedError(description: $0.localizedDescription)).eraseToAnyPublisher() }
             .eraseToAnyPublisher()

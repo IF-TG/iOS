@@ -1,13 +1,13 @@
 [
   {
-    "commentId": 123,
+    "commentId": "123",
     "profileImgUri": "tempProfile1",
     "nickname": "짱구",
     "createAt": "2024-03-22T12:00:00Z",
     "comment": "봄봄봄 봄이 왔네요호호호홓~~~\n\n하하하핳. ",
     "nestedCommentDtoList": [
       {
-        "nestedCommentId": 455,
+        "nestedCommentId": "455",
         "profileImgUri": "tempProfile2",
         "nickname": "맹구",
         "crateAt": "2024-03-22T12:30:00Z",
@@ -16,7 +16,7 @@
         "liked": true
       },
       {
-        "nestedCommentId": 456,
+        "nestedCommentId": "456",
         "profileImgUri": "tempProfile1",
         "nickname": "짱구",
         "crateAt": "2024-03-22T12:31:00Z",
@@ -25,7 +25,7 @@
         "liked": true
       },
       {
-        "nestedCommentId": 457,
+        "nestedCommentId": "457",
         "profileImgUri": "tempProfile2",
         "nickname": "맹구",
         "crateAt": "2024-03-22T12:33:00Z",
@@ -40,7 +40,7 @@
     "blocked": false
   },
   {
-    "commentId": 555,
+    "commentId": "555",
     "profileImgUri": "tempProfile5",
     "nickname": "재밌는 영화 추천좀",
     "createAt": "2024-03-23T11:00:00Z",
@@ -52,14 +52,14 @@
     "blocked": false
   },
   {
-    "commentId": 234,
+    "commentId": "234",
     "profileImgUri": "tempProfile4",
     "nickname": "수지",
     "createAt": "2024-03-23T1:00:00Z",
     "comment": "4월 초 쯤,, 벛꽃 필 무렵?",
     "nestedCommentDtoList": [
       {
-        "nestedCommentId": 458,
+        "nestedCommentId": "458",
         "profileImgUri": "tempProfile2",
         "nickname": "맹구",
         "crateAt": "2024-03-22T12:33:00Z",
@@ -74,7 +74,7 @@
     "blocked": false
   },
   {
-    "commentId": 54,
+    "commentId": "54",
     "profileImgUri": "tempProfile3",
     "nickname": "재즈재즈재즈재즈",
     "createAt": "2024-03-23T1:00:00Z",

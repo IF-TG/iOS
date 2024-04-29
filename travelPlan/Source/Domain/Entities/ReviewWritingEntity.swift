@@ -8,7 +8,7 @@
 import Foundation
 
 struct ReviewWritingEntity {
-  let postId: Int64?
+  let postId: String
   var category: Post.Category
   var tripDate: Post.TripDate
   var title: String

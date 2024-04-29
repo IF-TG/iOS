@@ -2154,7 +2154,6 @@
 				154CA6192BD3AA390066B444 /* RequestDTO */,
 				154CA6182BD3AA330066B444 /* ResponseDTO */,
 				154CA61A2BD3AAC40066B444 /* DestinationAPIEndpoint.swift */,
-				15ABFFBE2BDCDB9400D57C7C /* FirestoreReviewWritingEndpoint.swift */,
 			);
 			path = TourAPI;
 			sourceTree = "<group>";
@@ -2317,6 +2316,7 @@
 				15803C5B2BDA8F2900D83F2B /* RequestDTO */,
 				15803C582BDA581800D83F2B /* ResponseDTO */,
 				15803C502BDA4DC700D83F2B /* FirestoreMyProfileAPIEndopint.swift */,
+				15ABFFBE2BDCDB9400D57C7C /* FirestoreReviewWritingEndpoint.swift */,
 			);
 			path = Firestore;
 			sourceTree = "<group>";

@@ -25,7 +25,7 @@ final class DefaultPostNestedCommentRepository: PostNestedCommentRepository {
   
   // MARK: - Helpers
   func sendNestedComment(
-    commentId: Int64,
+    commentId: String,
     comment: String
   ) -> AnyPublisher<PostNestedCommentEntity, any Error> {
     let requestDTO = PostNestedCommentSendRequestDTO(commentId: commentId, comment: comment)
@@ -51,7 +51,7 @@ final class DefaultPostNestedCommentRepository: PostNestedCommentRepository {
   }
   
   func updateNestedComment(
-    nestedCommentId: Int64,
+    nestedCommentId: String,
     comment: String
   ) -> AnyPublisher<Bool, any Error> {
     let requestDTO = PostNestedCommentUpdateRequestDTO(nestedCommentId: nestedCommentId, comment: comment)
@@ -79,7 +79,7 @@ final class DefaultPostNestedCommentRepository: PostNestedCommentRepository {
     }.eraseToAnyPublisher()
   }
   
-  func deleteNestedComment(nestedCommentId: Int64) -> AnyPublisher<Bool, any Error> {
+  func deleteNestedComment(nestedCommentId: String) -> AnyPublisher<Bool, any Error> {
     let requestDTO = PostNestedCommentDeleteRequestDTO(nestedCommentId: nestedCommentId)
     return Future { [weak self] promise in
       guard let self else {
@@ -101,7 +101,7 @@ final class DefaultPostNestedCommentRepository: PostNestedCommentRepository {
     }.eraseToAnyPublisher()
   }
   
-  func toggleCommentHeart(nestedCommentId: Int64) -> AnyPublisher<ToggledPostCommentHeartEntity, any Error> {
+  func toggleCommentHeart(nestedCommentId: String) -> AnyPublisher<ToggledPostCommentHeartEntity, any Error> {
     let requestDTO = PostNestedCommentHeartToggleRequestDTO(id: nestedCommentId)
     let endpoint = endpoint.toggleCommentHeart(with: requestDTO)
     return Future { [weak self] promise in
