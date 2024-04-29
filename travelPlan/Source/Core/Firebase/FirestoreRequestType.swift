@@ -141,6 +141,7 @@ extension FirestoreRequestType {
   @frozen enum Posts {
     case save
     case update(postId: String)
+    case fetch
     
     private var rootPath: String {
       "posts"
@@ -152,6 +153,8 @@ extension FirestoreRequestType {
         return nil
       case .update(let postId):
         return postId
+      case .fetch:
+        return nil
       }
     }
     
@@ -160,6 +163,8 @@ extension FirestoreRequestType {
       case .save:
         return rootPath
       case .update:
+        return rootPath
+      case .fetch:
         return rootPath
       }
     }
