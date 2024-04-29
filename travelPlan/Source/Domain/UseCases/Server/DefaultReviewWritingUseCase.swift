@@ -27,7 +27,7 @@ extension DefaultReviewWritingUseCase: ReviewWritingUseCase {
   }
   
   func updatePost(requestValue: ReviewWritingUseCaseUpdateRequestValue) 
-  -> AnyPublisher<Post, Error> {
+  -> AnyPublisher<Post?, Error> {
     return reviewWritingRepository
       .updatePost(entity: requestValue.entity, postId: requestValue.postId)
       .eraseToAnyPublisher()
