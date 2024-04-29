@@ -174,9 +174,8 @@ extension DefaultReviewWritingViewModel {
         switch mode {
         case .new:
           // TODO: - 사용자가 정의한 테마 설정을 기반으로 eneity를 정의해야합니다.
-          // MARK: - Firestore의 경우 author ID를 추가해야합니다.
           let tempThemeEntity = ReviewWritingEntity(
-            postId: "특정한 포스트 아이디가 들어가야합니다다다다",
+            postId: UUID().uuidString,
             category: .init(themes: [.adventure],
                             regions: [.busan],
                             seasons: [.fall],
