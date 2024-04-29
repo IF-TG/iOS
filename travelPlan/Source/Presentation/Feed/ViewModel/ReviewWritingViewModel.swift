@@ -194,12 +194,11 @@ extension DefaultReviewWritingViewModel {
           guard let entity = self?.reviewWritingEntity
           else { return Just(State.none).eraseToAnyPublisher() }
           
-          return reviewWritingUseCase.updatePost(requestValue: .init(entity: entity, postId: "215C6C7D-9C5E-4190-926C-48440EAB0C3B"))
+          return reviewWritingUseCase.updatePost(requestValue: .init(entity: entity, postId: entity.postId))
             .map { post -> State in
               if let post {
                 return State.popViewControllerWith(post)
               } else {
-                // FIXME: - 파이어베이스의 경우 변경된 사항들을 다시 fetch해야 합니다.
                 return State.popViewControllerWith(nil)
               }
             }
