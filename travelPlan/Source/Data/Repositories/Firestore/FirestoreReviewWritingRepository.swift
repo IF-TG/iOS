@@ -7,6 +7,7 @@
 
 import Foundation
 import Combine
+import os
 import SHFirestoreService
 
 final class FirestoreReviewWritingRepository {
@@ -32,9 +33,16 @@ extension FirestoreReviewWritingRepository: ReviewWritingRepository {
         // ReviewWritingSaveRequestDTO에서 img타입을 제너릭으로해서 Data or String이렇게 사용측에서 주입하도록 리빌딩하는것도 좋은거같다.
         // 일단 구현된게 String이라 다시 Data로 변환!
         do {
-          var requestDTO = ReviewWritingSaveRequestDTO.makeRequestDTO(entity: reviewWritingPost)
+          guard let authorId = reviewWritingPost.authorId else {
+            promise(.failure(ReferenceError.invalidReference))
+            return
+          }
+          var requestDTO = FirestoreReviewWritingSaveRequestDTO.makeRequestDTO(
+            entity: reviewWritingPost,
+            postId: reviewWritingPost.postId,
+            authorId: authorId)
           guard let imagePaths = try await self?.storageService.uploadImages(
-            requestDTO.imgFileList.compactMap { Data(base64Encoded: $0.img) },
+            requestDTO.reviewWritingSaveRequestDTO.imgFileList.compactMap { Data(base64Encoded: $0.img) },
             type: .postImage)
           else {
             promise(.failure(ReferenceError.invalidReference))
@@ -42,7 +50,7 @@ extension FirestoreReviewWritingRepository: ReviewWritingRepository {
           }
           
           (0..<imagePaths.count).forEach { i in
-            requestDTO.imgFileList[i].img = imagePaths[i]
+            requestDTO.reviewWritingSaveRequestDTO.imgFileList[i].img = imagePaths[i]
           }
           
           guard let backgroundQueue = self?.backgroundQueue else {
@@ -61,23 +69,10 @@ extension FirestoreReviewWritingRepository: ReviewWritingRepository {
               promise(.success(true))
             }
           self?.subscriptions.insert(subscription)
-
         } catch {
           promise(.failure(error))
         }
       }
-    }.eraseToAnyPublisher()
-  }
-  
-  func updatePost(entity: ReviewWritingEntity, postId: String) -> AnyPublisher<Post, any Error> {
-    return Future { [weak self] promise in
-      /// 임시로 해보자.
-      let requestDTO = ReviewWritingUpdateRequestDTO(
-        postId: "j5WMRcoAOoMV5xTvQgdb",
-        post: ReviewWritingSaveRequestDTO.makeRequestDTO(entity: entity)
-      )
-      
-      
     }.eraseToAnyPublisher()
   }
 }
