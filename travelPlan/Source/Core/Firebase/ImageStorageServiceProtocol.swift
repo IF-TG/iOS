@@ -13,9 +13,15 @@ import Combine
 }
 
 protocol ImageStorageServiceProtocol {
-  func uploadImage(_ imageData: Data, type: ImageStorageServiceType) async throws -> String
+  func uploadImage(
+    _ imageData: Data,
+    type: ImageStorageServiceType
+  ) -> AnyPublisher<String, Error>
   
-  func uploadImages(_ imageDataList: [Data], type: ImageStorageServiceType) async throws -> [String]
+  func uploadImages(
+    _ imageDataList: [Data], 
+    type: ImageStorageServiceType
+  ) -> AnyPublisher<[String],Error>
   
   func fetchImage(_ url: String, type: ImageStorageServiceType) -> AnyPublisher<Data, Error>
   

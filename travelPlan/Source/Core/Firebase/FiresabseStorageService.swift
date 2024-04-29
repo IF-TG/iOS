@@ -9,22 +9,63 @@ import Foundation
 import FirebaseStorage
 import Combine
 
-public struct FiresabseStorageService: ImageStorageServiceProtocol {
+final class FiresabseStorageService: ImageStorageServiceProtocol {
+  // MARK: - Properties
+  private var subscriptions = Set<AnyCancellable?>()
+  
   // MARK: - Helpers
-  func uploadImage(_ imageData: Data, type: ImageStorageServiceType) async throws -> String {
+  func uploadImage(_ imageData: Data, type: ImageStorageServiceType) -> AnyPublisher<String, Error> {
     let uploadType = UploadType(from: type)
     let fileName = NSUUID().uuidString
     let reference = Storage.storage().reference(withPath: "/\(uploadType.path)/\(fileName)")
-    _ = try await reference.putDataAsync(imageData)
-    return (try await reference.downloadURL()).absoluteString
+    return Future { promise in
+      reference.putData(imageData) { _, error in
+        if let error {
+          promise(.failure(error))
+          return
+        }
+        reference.downloadURL { url, error in
+          if let error {
+            promise(.failure(error))
+            return
+          }
+          if let url {
+            promise(.success(url.absoluteString))
+          } else {
+            promise(.failure(NSError(domain: "UnknownError", code: 0)))
+          }
+        }
+      }
+    }.eraseToAnyPublisher()
   }
   
-  func uploadImages(_ imageDataList: [Data], type: ImageStorageServiceType) async throws -> [String] {
+  func uploadImages(_ imageDataList: [Data], type: ImageStorageServiceType) -> AnyPublisher<[String],Error> {
     var urls: [String] = []
-    for imageData in imageDataList {
-      urls.append(try await uploadImage(imageData, type: type))
-    }
-    return urls
+    let group = DispatchGroup()
+    
+    return Future { promise in
+      for imageData in imageDataList {
+        group.enter()
+        DispatchQueue.global(qos: .userInteractive).async { [weak self] in
+          guard let self else {
+            promise(.failure(ReferenceError.invalidReference))
+            return
+          }
+          let subscription = uploadImage(imageData, type: type).sink { completion in
+            if case .failure(let error) = completion {
+              promise(.failure(error))
+            }
+            group.leave()
+          } receiveValue: { url in
+            urls.append(url)
+            group.leave()
+          }
+          subscriptions.insert(subscription)
+        }
+      }
+      group.wait()
+      promise(.success(urls))
+    }.eraseToAnyPublisher()
   }
   
   func fetchImage(_ url: String, type: ImageStorageServiceType) -> AnyPublisher<Data, Error> {
