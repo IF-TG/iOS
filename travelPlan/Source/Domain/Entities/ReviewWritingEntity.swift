@@ -15,4 +15,7 @@ struct ReviewWritingEntity {
   var contents: [PostContentEntity]
   var mapX: Double = 0.0
   var mapY: Double = 0.0
+  
+  // firestore일때 authorId가 필요합니다.
+  var authorId: String?
 }
