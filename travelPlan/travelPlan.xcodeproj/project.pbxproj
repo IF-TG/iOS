@@ -510,6 +510,7 @@
 		15E1550D2BAB47F400582E12 /* BottomNextPageIndicatorCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 15E1550C2BAB47F400582E12 /* BottomNextPageIndicatorCell.xib */; };
 		15E1550E2BAB47F400582E12 /* BottomNextPageIndicatorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E1550B2BAB47F400582E12 /* BottomNextPageIndicatorCell.swift */; };
 		15E670D92BDE2DA8002E1D19 /* FirestoreReviewWritingRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E670D82BDE2DA8002E1D19 /* FirestoreReviewWritingRepository.swift */; };
+		15E670DB2BDF4486002E1D19 /* FirestoreReviewWritingSaveRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E670DA2BDF4486002E1D19 /* FirestoreReviewWritingSaveRequestDTO.swift */; };
 		15E982BF2ACC95CC002B932F /* FavoriteDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E982BE2ACC95CC002B932F /* FavoriteDetailViewController.swift */; };
 		15E982C12ACD16A2002B932F /* FavoriteDetailMenuAreaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E982C02ACD16A2002B932F /* FavoriteDetailMenuAreaView.swift */; };
 		15E9E5EA2B9A1CA500C2F1F7 /* DefaultPostRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E9E5E92B9A1CA500C2F1F7 /* DefaultPostRepository.swift */; };
@@ -1143,6 +1144,7 @@
 		15E1550B2BAB47F400582E12 /* BottomNextPageIndicatorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomNextPageIndicatorCell.swift; sourceTree = "<group>"; };
 		15E1550C2BAB47F400582E12 /* BottomNextPageIndicatorCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BottomNextPageIndicatorCell.xib; sourceTree = "<group>"; };
 		15E670D82BDE2DA8002E1D19 /* FirestoreReviewWritingRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirestoreReviewWritingRepository.swift; sourceTree = "<group>"; };
+		15E670DA2BDF4486002E1D19 /* FirestoreReviewWritingSaveRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreReviewWritingSaveRequestDTO.swift; sourceTree = "<group>"; };
 		15E982BE2ACC95CC002B932F /* FavoriteDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoriteDetailViewController.swift; sourceTree = "<group>"; };
 		15E982C02ACD16A2002B932F /* FavoriteDetailMenuAreaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteDetailMenuAreaView.swift; sourceTree = "<group>"; };
 		15E9E5E92B9A1CA500C2F1F7 /* DefaultPostRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultPostRepository.swift; sourceTree = "<group>"; };
@@ -2334,6 +2336,7 @@
 			isa = PBXGroup;
 			children = (
 				15803C5C2BDA8F6700D83F2B /* UserProfileSaveRequestDTO.swift */,
+				15E670DA2BDF4486002E1D19 /* FirestoreReviewWritingSaveRequestDTO.swift */,
 			);
 			path = RequestDTO;
 			sourceTree = "<group>";
@@ -3866,6 +3869,7 @@
 				15B01DA52BA93B5400BE9F98 /* UserDefaultsUserStorage.swift in Sources */,
 				13C32A3D2B0A2FF30046ED98 /* PictureImageViewDelegate.swift in Sources */,
 				152AD4F02A189CFC008A2A11 /* FavoriteHeaderView.swift in Sources */,
+				15E670DB2BDF4486002E1D19 /* FirestoreReviewWritingSaveRequestDTO.swift in Sources */,
 				15B9285D2AF9E3A2003A20D4 /* PostDetailProfileAreaView.swift in Sources */,
 				1550D9AF2ACAFAC10046569B /* FeedPostViewController.swift in Sources */,
 				158BEF812A0E2C9E00C27861 /* PostFooterView.swift in Sources */,
