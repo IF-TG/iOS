@@ -22,7 +22,7 @@ final class MockUserStorage: UserStorage {
   }
   
   var id: String? {
-    "1"
+    "sUSkn1ogJ5azdXaMYe0tt4sVJ8L2"
   }
   
   var user: UserEntity? {
