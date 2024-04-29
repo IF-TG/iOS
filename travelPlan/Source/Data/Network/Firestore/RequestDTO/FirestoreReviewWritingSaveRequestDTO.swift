@@ -31,6 +31,18 @@ struct FirestoreReviewWritingSaveRequestDTO: Encodable {
     case authorId
     case likeNum
     case createAt
+    case title
+    case content
+    case startDate
+    case endDate
+    case themes
+    case regions
+    case seasons
+    case companions
+    case imgFileList
+    case mapX
+    case mapY
+
   }
 }
 
