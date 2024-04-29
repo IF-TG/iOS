@@ -8,8 +8,9 @@
 import Foundation
 
 struct FirestoreReviewWritingEndpoint {
-  static func savePost(with requestDTO: ReviewWritingSaveRequestDTO)
-  -> FirestoreEndpoint<ReviewWritingSaveResponseDTO> {
+  static func savePost(
+    with requestDTO: FirestoreReviewWritingSaveRequestDTO
+  ) -> FirestoreEndpoint<ReviewWritingSaveResponseDTO> {
     return .init(
       requestDTO: requestDTO,
       method: .save(nil),
