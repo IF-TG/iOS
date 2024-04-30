@@ -24,7 +24,7 @@ struct PostMapper {
       imageData: post.author.profileImageData,
       contentInfo: postHeaderContentInfo)
     let postContentInfo = PostContentInfo(
-      text: post.detail.content,
+      text: post.detail.content.first?.text ?? "",
       thumbnailURLs: thumbnails)
     let postFooterInfo = PostFooterInfo(
       heartCount: String(post.detail.likes),
@@ -38,16 +38,27 @@ struct PostMapper {
   }
   
   static func toPostDetails(_ post: Post, category: Post.Category) -> PostDetails {
-    var content: [PostContentEntity] = [.text(post.detail.content)]
-    
-    // TODO: - 지금은 content text이후에 단순히 이미지만 반환했지만, 추후에 text sort, image sort타입에 맞게 반환 해야합니다.
-    let images: [PostContentEntity] = post.highResolveImages.compactMap { postImage -> PostContentEntity? in
-      if let data = postImage.imageData {
-        return .image(data)
+    var textIndex = 0
+    var imageIndex = 0
+    var content: [PostContentEntity] = (1...(post.detail.content.count + post.highResolveImages.count)).map { i in
+      if post.detail.content[textIndex].sort == i {
+        let entity = PostContentEntity.text(post.detail.content[textIndex].text)
+        textIndex += 1
+        return entity
+      } else {
+        let entity = PostContentEntity.image(post.highResolveImages[imageIndex].imageData ?? Data())
+        imageIndex += 1
+        return entity
       }
-      return nil
     }
-    content += images
+    
+    /// 비어있는 이미지 제거.
+    content = content.filter { entity in
+      if case .image(let data) = entity, data.count < 1 {
+        return false
+      }
+      return true
+    }
     
     let postDetail = Post.Detail<[PostContentEntity]>(
       postID: post.detail.postID, title: post.detail.title,
