@@ -47,6 +47,6 @@ extension PostContainerResponseDTO {
       author: author,
       highResolveImages: post.postImages.map { $0.toDomain(with: Data(base64Encoded: $0.image)) }, 
       category: category)
-    return .init(post: post, thumbnail: .init(urls: thumbnails), totalPosts: totalPosts)
+    return .init(post: post, thumbnail: .init(postImageDataList: thumbnails.compactMap { Data(base64Encoded: $0)}), totalPosts: totalPosts)
   }
 }

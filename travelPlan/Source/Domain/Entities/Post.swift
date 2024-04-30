@@ -9,7 +9,7 @@ import Foundation
 
 struct Post {
   let liked: Bool
-  let detail: Detail<String>
+  let detail: Detail<[PostContent]>
   let author: Author
   let highResolveImages: [PostImage]
   let category: Category
@@ -31,6 +31,11 @@ extension Post {
   struct PostImage {
     let imageData: Data?
     let sort: Int32
+  }
+  
+  struct PostContent {
+    let sort: Int
+    let text: String
   }
   
   struct Author {

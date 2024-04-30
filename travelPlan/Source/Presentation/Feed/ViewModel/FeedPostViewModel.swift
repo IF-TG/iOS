@@ -48,7 +48,7 @@ class FeedPostViewModel: PostViewModel {
   
   var posts: [Post] = []
   
-  var postThumbnails: [[String]] = []
+  var postThumbnails: [[Data]] = []
   
   var isPaging: Bool = false
   
@@ -269,7 +269,7 @@ extension FeedPostViewModel {
         if let userSelectedCategory = self?.userSelectedCategory {
           self?.category = userSelectedCategory
         }
-        self?.postThumbnails.append(contentsOf: postsPage.thumbnails.map { $0.urls })
+        self?.postThumbnails.append(contentsOf: postsPage.thumbnails.map { $0.postImageDataList })
         self?.currentPage += 1
         self?.totalPostsCount = Int32(postsPage.totalPosts)
         self?.appendPosts(postsPage)
@@ -288,7 +288,7 @@ extension FeedPostViewModel: FeedPostViewAdapterDataSource {
   }
   
   func numberOfThumbnailsInPost(at index: Int) -> PostThumbnailCountValue {
-    return PostThumbnailCountValue(postItem(at: index).content.thumbnailURLs.count)
+    return PostThumbnailCountValue(postItem(at: index).content.thumbnailImageDataList.count)
   }
   
   func postItem(at index: Int) -> PostInfo {

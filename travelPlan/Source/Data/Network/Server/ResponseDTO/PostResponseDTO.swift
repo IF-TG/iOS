@@ -94,11 +94,13 @@ extension PostResponseDTO {
 extension PostResponseDTO {
 // TODO: - Post객체를 반환하는 toDomain 메소드를 정의해야합니다.
   
-  func toDomain() -> Post.Detail<String> {
-    return Post.Detail<String>(
+  func toDomain() -> Post.Detail<[Post.PostContent]> {
+    // MARK: - Server에서 받는 글의 경우 특정한 테그에 의해 글을 분리해야합니다.
+    // 하지만 지금은 파이어베이스를 사용할 예정이라, 추후에 서버가 출시 할 예정이라면 그때 구현!
+    return Post.Detail<[Post.PostContent]>(
       postID: postID,
       title: title,
-      content: content,
+      content: [.init(sort: 0, text: content)],
       likes: likes,
       comments: comments,
       location: toDomain(),
