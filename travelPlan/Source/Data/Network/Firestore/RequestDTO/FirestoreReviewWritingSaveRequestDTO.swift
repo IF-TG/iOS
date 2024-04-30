@@ -6,20 +6,28 @@
 //
 
 import Foundation
-import Firebase
+import FirebaseFirestore
 
 struct FirestoreReviewWritingSaveRequestDTO: Encodable {
   var reviewWritingSaveRequestDTO: ReviewWritingSaveRequestDTO
   let postId: String
-  
   let authorId: String
-  
   let likeNum: Int = 0
   let createAt: Timestamp
   
   func encode(to encoder: Encoder) throws {
     var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(reviewWritingSaveRequestDTO, forKey: .reviewWritingSaveRequestDTO)
+    try container.encode(reviewWritingSaveRequestDTO.companions, forKey: .companions)
+    try container.encode(reviewWritingSaveRequestDTO.content, forKey: .content)
+    try container.encode(reviewWritingSaveRequestDTO.endDate, forKey: .endDate)
+    try container.encode(reviewWritingSaveRequestDTO.imgFileList, forKey: .imgFileList)
+    try container.encode(reviewWritingSaveRequestDTO.mapX, forKey: .mapX)
+    try container.encode(reviewWritingSaveRequestDTO.mapY, forKey: .mapY)
+    try container.encode(reviewWritingSaveRequestDTO.regions, forKey: .regions)
+    try container.encode(reviewWritingSaveRequestDTO.seasons, forKey: .seasons)
+    try container.encode(reviewWritingSaveRequestDTO.startDate, forKey: .startDate)
+    try container.encode(reviewWritingSaveRequestDTO.themes, forKey: .themes)
+    try container.encode(reviewWritingSaveRequestDTO.title, forKey: .title)
     try container.encode(postId, forKey: .postId)
     try container.encode(authorId, forKey: .authorId)
     try container.encode(likeNum, forKey: .likeNum)
@@ -27,7 +35,6 @@ struct FirestoreReviewWritingSaveRequestDTO: Encodable {
   }
   
   enum CodingKeys: String, CodingKey {
-    case reviewWritingSaveRequestDTO
     case postId
     case authorId
     case likeNum
@@ -43,7 +50,6 @@ struct FirestoreReviewWritingSaveRequestDTO: Encodable {
     case imgFileList
     case mapX
     case mapY
-
   }
 }
 
