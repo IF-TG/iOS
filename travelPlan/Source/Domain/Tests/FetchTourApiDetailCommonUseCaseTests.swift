@@ -1,5 +1,5 @@
 //
-//  TourDestinationUseCaseTests.swift
+//  FetchTourApiDetailCommonUseCaseTests.swift
 //  travelPlanTests
 //
 //  Created by 양승현 on 4/20/24.
@@ -9,9 +9,9 @@ import XCTest
 import Combine
 @testable import travelPlan
 
-final class TourDestinationUseCaseTests: XCTestCase {
+final class FetchTourApiDetailCommonUseCaseTests: XCTestCase {
   // MARK: - Properties
-  var sut: TourDestinationUseCase!
+  var sut: TourApiDetailCommonUseCase!
   var subscription: AnyCancellable?
   var expectation: XCTestExpectation!
   
@@ -20,10 +20,10 @@ final class TourDestinationUseCaseTests: XCTestCase {
     super.setUp()
     
     let service = TourApiSessionProvider()
-    let tourDestinationRepository = DefaultTourDestinationRepository(
+    let tourDestinationRepository = DefaultTourDetailCommonRepository(
       service: service,
       backgroundQueue: .global(qos: .userInitiated))
-    sut = DefaultTourDesrinationUseCase(tourDestinationRepository: tourDestinationRepository)
+    sut = FetchTourApiDetailCommonUseCase(tourDestinationRepository: tourDestinationRepository)
     expectation = XCTestExpectation(description: "Finish")
   }
   
@@ -36,7 +36,7 @@ final class TourDestinationUseCaseTests: XCTestCase {
 }
 
 /// 실제 tour api를 활용하에 데이터를 요청하고 원하는 entity로 decodable 후 entity로 받는지에 대한 테스트입니다.
-extension TourDestinationUseCaseTests {
+extension FetchTourApiDetailCommonUseCaseTests {
   func test_WhenFetchTourDestinationDetailCommonInfo_ShouldReturnTrue() {
     // Arrange
     var result = false

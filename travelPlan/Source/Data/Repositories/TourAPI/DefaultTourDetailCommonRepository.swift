@@ -1,5 +1,5 @@
 //
-//  DefaultTourDestinationRepository.swift
+//  DefaultTourDetailCommonRepository.swift
 //  travelPlan
 //
 //  Created by 양승현 on 4/20/24.
@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-final class DefaultTourDestinationRepository: TourDestinationRepository {
+final class DefaultTourDetailCommonRepository: TourDetailCommonRepository {
   typealias Endpoint = DestinationAPIEndpoint
   
   // MARK: - Dependencies

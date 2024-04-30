@@ -245,13 +245,13 @@
 		154CA6102BD3A5E00066B444 /* TourApiCommonResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154CA60F2BD3A5E00066B444 /* TourApiCommonResponseDTO.swift */; };
 		154CA6132BD3A6CC0066B444 /* TourApiDetailCommonResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154CA6122BD3A6CC0066B444 /* TourApiDetailCommonResponseDTO.swift */; };
 		154CA61B2BD3AAC40066B444 /* DestinationAPIEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154CA61A2BD3AAC40066B444 /* DestinationAPIEndpoint.swift */; };
-		154CA61F2BD3AD5C0066B444 /* DefaultTourDestinationRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154CA61E2BD3AD5C0066B444 /* DefaultTourDestinationRepository.swift */; };
-		154CA6212BD3AD700066B444 /* TourDestinationRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154CA6202BD3AD700066B444 /* TourDestinationRepository.swift */; };
+		154CA61F2BD3AD5C0066B444 /* DefaultTourDetailCommonRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154CA61E2BD3AD5C0066B444 /* DefaultTourDetailCommonRepository.swift */; };
+		154CA6212BD3AD700066B444 /* TourDetailCommonRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154CA6202BD3AD700066B444 /* TourDetailCommonRepository.swift */; };
 		154CA6232BD3AE100066B444 /* TourDestinationDetailCommonEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154CA6222BD3AE100066B444 /* TourDestinationDetailCommonEntity.swift */; };
 		154CA6272BD3B5A70066B444 /* TourApiError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154CA6262BD3B5A70066B444 /* TourApiError.swift */; };
-		154CA6292BD3B7490066B444 /* TourDestinationUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154CA6282BD3B7490066B444 /* TourDestinationUseCase.swift */; };
-		154CA62B2BD3B7960066B444 /* DefaultTourDesrinationUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154CA62A2BD3B7960066B444 /* DefaultTourDesrinationUseCase.swift */; };
-		154CA62F2BD3B8DA0066B444 /* TourDestinationUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154CA62E2BD3B8DA0066B444 /* TourDestinationUseCaseTests.swift */; };
+		154CA6292BD3B7490066B444 /* TourApiDetailCommonUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154CA6282BD3B7490066B444 /* TourApiDetailCommonUseCase.swift */; };
+		154CA62B2BD3B7960066B444 /* FetchTourApiDetailCommonUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154CA62A2BD3B7960066B444 /* FetchTourApiDetailCommonUseCase.swift */; };
+		154CA62F2BD3B8DA0066B444 /* FetchTourApiDetailCommonUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154CA62E2BD3B8DA0066B444 /* FetchTourApiDetailCommonUseCaseTests.swift */; };
 		154CA6322BD40C5C0066B444 /* TourApiSessionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154CA6312BD40C5C0066B444 /* TourApiSessionProvider.swift */; };
 		154ECA172AB0B5D40093AF25 /* TravelMainThemeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154ECA162AB0B5D40093AF25 /* TravelMainThemeType.swift */; };
 		154FBC172BC2CDB40070D2FE /* PostReportType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154FBC162BC2CDB40070D2FE /* PostReportType.swift */; };
@@ -867,13 +867,13 @@
 		154CA60F2BD3A5E00066B444 /* TourApiCommonResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourApiCommonResponseDTO.swift; sourceTree = "<group>"; };
 		154CA6122BD3A6CC0066B444 /* TourApiDetailCommonResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourApiDetailCommonResponseDTO.swift; sourceTree = "<group>"; };
 		154CA61A2BD3AAC40066B444 /* DestinationAPIEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationAPIEndpoint.swift; sourceTree = "<group>"; };
-		154CA61E2BD3AD5C0066B444 /* DefaultTourDestinationRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultTourDestinationRepository.swift; sourceTree = "<group>"; };
-		154CA6202BD3AD700066B444 /* TourDestinationRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourDestinationRepository.swift; sourceTree = "<group>"; };
+		154CA61E2BD3AD5C0066B444 /* DefaultTourDetailCommonRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultTourDetailCommonRepository.swift; sourceTree = "<group>"; };
+		154CA6202BD3AD700066B444 /* TourDetailCommonRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourDetailCommonRepository.swift; sourceTree = "<group>"; };
 		154CA6222BD3AE100066B444 /* TourDestinationDetailCommonEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourDestinationDetailCommonEntity.swift; sourceTree = "<group>"; };
 		154CA6262BD3B5A70066B444 /* TourApiError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourApiError.swift; sourceTree = "<group>"; };
-		154CA6282BD3B7490066B444 /* TourDestinationUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourDestinationUseCase.swift; sourceTree = "<group>"; };
-		154CA62A2BD3B7960066B444 /* DefaultTourDesrinationUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultTourDesrinationUseCase.swift; sourceTree = "<group>"; };
-		154CA62E2BD3B8DA0066B444 /* TourDestinationUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourDestinationUseCaseTests.swift; sourceTree = "<group>"; };
+		154CA6282BD3B7490066B444 /* TourApiDetailCommonUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourApiDetailCommonUseCase.swift; sourceTree = "<group>"; };
+		154CA62A2BD3B7960066B444 /* FetchTourApiDetailCommonUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchTourApiDetailCommonUseCase.swift; sourceTree = "<group>"; };
+		154CA62E2BD3B8DA0066B444 /* FetchTourApiDetailCommonUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchTourApiDetailCommonUseCaseTests.swift; sourceTree = "<group>"; };
 		154CA6302BD3BDB40066B444 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		154CA6312BD40C5C0066B444 /* TourApiSessionProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourApiSessionProvider.swift; sourceTree = "<group>"; };
 		154ECA162AB0B5D40093AF25 /* TravelMainThemeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelMainThemeType.swift; sourceTree = "<group>"; };
@@ -2159,7 +2159,7 @@
 		154CA61D2BD3AD430066B444 /* TourAPI */ = {
 			isa = PBXGroup;
 			children = (
-				154CA61E2BD3AD5C0066B444 /* DefaultTourDestinationRepository.swift */,
+				154CA61E2BD3AD5C0066B444 /* DefaultTourDetailCommonRepository.swift */,
 			);
 			path = TourAPI;
 			sourceTree = "<group>";
@@ -2388,7 +2388,7 @@
 			isa = PBXGroup;
 			children = (
 				15A362D62BD835630040591D /* Protocol */,
-				154CA62A2BD3B7960066B444 /* DefaultTourDesrinationUseCase.swift */,
+				154CA62A2BD3B7960066B444 /* FetchTourApiDetailCommonUseCase.swift */,
 			);
 			path = TourAPI;
 			sourceTree = "<group>";
@@ -2417,7 +2417,7 @@
 		15A362D62BD835630040591D /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
-				154CA6282BD3B7490066B444 /* TourDestinationUseCase.swift */,
+				154CA6282BD3B7490066B444 /* TourApiDetailCommonUseCase.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -2425,7 +2425,7 @@
 		15A362D72BD835BA0040591D /* TourAPI */ = {
 			isa = PBXGroup;
 			children = (
-				154CA6202BD3AD700066B444 /* TourDestinationRepository.swift */,
+				154CA6202BD3AD700066B444 /* TourDetailCommonRepository.swift */,
 			);
 			path = TourAPI;
 			sourceTree = "<group>";
@@ -2770,7 +2770,7 @@
 				15553BD52BB34D06000AA896 /* PostNestedCommentUseCaseTests.swift */,
 				15B5E7AD2BBAEBE700C19F56 /* UserBlockUseCaseTests.swift */,
 				15591DE22BBEA5AF00128A9E /* FavoritePostInDirectoryUseCaseTests.swift */,
-				154CA62E2BD3B8DA0066B444 /* TourDestinationUseCaseTests.swift */,
+				154CA62E2BD3B8DA0066B444 /* FetchTourApiDetailCommonUseCaseTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -3391,7 +3391,7 @@
 				156C1E232BBEC93900AF1D99 /* XCTestCase+Helpers.swift in Sources */,
 				13E7EABD2BD3BCEE0027946C /* ReviewWritingUseCaseTests.swift in Sources */,
 				15BE6BF12BAF2285009A2568 /* PostCommentUseCaseTests.swift in Sources */,
-				154CA62F2BD3B8DA0066B444 /* TourDestinationUseCaseTests.swift in Sources */,
+				154CA62F2BD3B8DA0066B444 /* FetchTourApiDetailCommonUseCaseTests.swift in Sources */,
 				15FBD5E42B98E94800076115 /* PostAPIEndpointTests.swift in Sources */,
 				15E9E5F02B9A359B00C2F1F7 /* PostUseCaseTests.swift in Sources */,
 				158C6A3B2B0D231C00C30856 /* ImageIOTests.swift in Sources */,
@@ -3459,7 +3459,7 @@
 				158695932AE5455B0087CCB3 /* FeedPostViewAdapter.swift in Sources */,
 				15CB23612A10B5E3003EAF20 /* DateValidationProtocol.swift in Sources */,
 				15302C572B9E29B900B1EA3F /* MockMyProfileUseCase.swift in Sources */,
-				154CA6212BD3AD700066B444 /* TourDestinationRepository.swift in Sources */,
+				154CA6212BD3AD700066B444 /* TourDetailCommonRepository.swift in Sources */,
 				13405F002AECF76300382796 /* BaseLoginButton.swift in Sources */,
 				15CAEF892BAED300008AEDB1 /* PostCommentAPIEndpoint.swift in Sources */,
 				15E982C12ACD16A2002B932F /* FavoriteDetailMenuAreaView.swift in Sources */,
@@ -3496,7 +3496,7 @@
 				13606E8C2A9F959F00365F20 /* PostRecommendationSearchHeaderView.swift in Sources */,
 				13813A232AAA459900AF6AEB /* PostSearchCollectionViewDelegate.swift in Sources */,
 				15C1F5402AF29CDE005FDA15 /* NotificationIconType.swift in Sources */,
-				154CA6292BD3B7490066B444 /* TourDestinationUseCase.swift in Sources */,
+				154CA6292BD3B7490066B444 /* TourApiDetailCommonUseCase.swift in Sources */,
 				1518BC232BB0415500FD1A74 /* PostCommentHeartToggleRequestDTO.swift in Sources */,
 				1546DF242B0A70C900B49A55 /* Cache.swift in Sources */,
 				155EE41F2B1660D000D4D221 /* OperationGuideViewController.swift in Sources */,
@@ -3601,7 +3601,7 @@
 				157ADCA82ACFFFE100D37680 /* FavoritePostViewDelegate.swift in Sources */,
 				15D388292AFFA51C00039946 /* PostProfileAndCommentView.swift in Sources */,
 				1546DF282B0A7CE400B49A55 /* Cache+Nested.swift in Sources */,
-				154CA62B2BD3B7960066B444 /* DefaultTourDesrinationUseCase.swift in Sources */,
+				154CA62B2BD3B7960066B444 /* FetchTourApiDetailCommonUseCase.swift in Sources */,
 				1344DA142B14F5770031CC7A /* SearchDestinationTitleCell.swift in Sources */,
 				134CCB342AFFFB2900D51D84 /* ReviewWritingViewModel.swift in Sources */,
 				157176782A0C21C90015EC8C /* UIColor+AppPalette.swift in Sources */,
@@ -3697,7 +3697,7 @@
 				15F0D1B62A524DC500D04773 /* PostSortingAreaView.swift in Sources */,
 				153841D72A5642A9004C41D1 /* PostViewBottomSheetCell.swift in Sources */,
 				156759B12A0D774500849CE2 /* FeedViewModel.swift in Sources */,
-				154CA61F2BD3AD5C0066B444 /* DefaultTourDestinationRepository.swift in Sources */,
+				154CA61F2BD3AD5C0066B444 /* DefaultTourDetailCommonRepository.swift in Sources */,
 				151DF0E12AEE828900D5D55B /* NoticeCell.swift in Sources */,
 				15F0D1B02A51BDFE00D04773 /* CategoryPageViewDataSource.swift in Sources */,
 				13333CBF2ABDE86A005AB50B /* LeftAlignThreeLabelsView.swift in Sources */,
