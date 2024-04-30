@@ -116,8 +116,7 @@ extension LoginViewController: LoginButtonDelegate {
     } else if button is AppleLoginButton {
       input.didTapLoginButton.send(.apple)
     } else if button is GoogleLoginButton {
-      print("DEBUG: 로그인 기능이 아직 구현되지 않았습니다.")
-//      input.didTapLoginButton.send(.google)
+      input.didTapLoginButton.send(.google)
     }
   }
 }

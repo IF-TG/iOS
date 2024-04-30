@@ -96,12 +96,12 @@ class BaseProfileAreaView: UIView {
   }
   
   // MARK: - Helper
-  func configure(with imagePath: String?) {
-    guard let imagePath = imagePath else {
+  func configure(with imageData: Data?) {
+    guard let imageData = imageData else {
       profileImageView.image = nil
       return
     }
-    profileImageView.image = UIImage(named: imagePath)
+    profileImageView.image = UIImage(data: imageData)
   }
   
   // MARK: - Private helper

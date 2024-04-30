@@ -5,9 +5,11 @@
 //  Created by 양승현 on 11/10/23.
 //
 
+import Foundation
+
 struct PostNestedCommentEntity {
   let nestedCommentId: Int64
-  let userProfileURL: String
+  let userProfileImageData: Data?
   let nickname: String
   var timestamp: String
   var comment: String

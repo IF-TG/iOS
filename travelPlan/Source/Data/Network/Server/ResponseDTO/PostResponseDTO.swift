@@ -106,8 +106,8 @@ extension PostResponseDTO {
       tripDate: toDomain())
   }
   
-  func toDomain() -> Post.Author {
-    .init(profileUri: profile, nickname: nickname)
+  func toDomain(with authorProfileData: Data?) -> Post.Author {
+    .init(profileImageData: authorProfileData, nickname: nickname)
   }
   
   func toDomain() -> Post.TripDate {

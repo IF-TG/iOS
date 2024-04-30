@@ -10,7 +10,7 @@ import UIKit
 struct BasePostDetailCommentInfo {
   let commentId: Int64
   let userName: String
-  let userProfileURL: String
+  let userProfileImageData: Data?
   let timestamp: String
   let comment: String
   let isOnHeart: Bool
@@ -193,7 +193,7 @@ final class BasePostDetailCommentableView: BaseProfileAreaView {
 // MARK: - Helpers
 extension BasePostDetailCommentableView {
   func configure(with info: BasePostDetailCommentInfo?) {
-    super.configure(with: info?.userProfileURL)
+    super.configure(with: info?.userProfileImageData)
     userNameLabel.text = info?.userName
     timeStampLabel.text = info?.timestamp
     commentLabel.text = info?.comment

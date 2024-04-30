@@ -86,10 +86,10 @@ final class UserInfoAPIEndpointTests: XCTestCase {
     wait(for: [expectation], timeout: 10)
     
     // Assert
-    XCTAssertNotNil(dataRequest, "UserInfoAPIEndpoint의 updateProfile(withQuery:body:)에서 DataRequest를 반환해야 하는데 nil 반환")
+    XCTAssertNotNil(dataRequest, "UserInfoAPIEndpoint의 updateProfileImage(withQuery:body:)에서 DataRequest를 반환해야 하는데 nil 반환")
     XCTAssertNotNil(
       dataRequest?.convertible.urlRequest,
-      "UserInfoAPIEndpoint의 updateProfile(withQuery:body:)에서 DataRequest의 urlRequest를 반환해야하는데 nil 반환")
+      "UserInfoAPIEndpoint의 updateProfileImage(withQuery:body:)에서 DataRequest의 urlRequest를 반환해야하는데 nil 반환")
     XCTAssertEqual(dataRequest?.convertible.urlRequest?.url, targetURL)
   }
   
@@ -111,10 +111,10 @@ final class UserInfoAPIEndpointTests: XCTestCase {
     wait(for: [expectation], timeout: 10)
     
     // Assert
-    XCTAssertNotNil(dataRequest, "UserInfoAPIEndpoint의 updateProfile(withQuery:body:)에서 DataRequest를 반환해야 하는데 nil 반환")
+    XCTAssertNotNil(dataRequest, "UserInfoAPIEndpoint의 updateProfileImage(withQuery:body:)에서 DataRequest를 반환해야 하는데 nil 반환")
     XCTAssertNotNil(
       dataRequest?.convertible.urlRequest,
-      "UserInfoAPIEndpoint의 updateProfile(withQuery:body:)에서 DataRequest의 urlRequest를 반환해야하는데 nil 반환")
+      "UserInfoAPIEndpoint의 updateProfileImage(withQuery:body:)에서 DataRequest의 urlRequest를 반환해야하는데 nil 반환")
     let testData = dataRequest!.convertible.urlRequest!.httpBody!
     let testString = String(data: testData, encoding: .utf8) ?? "no"
     XCTAssertEqual(dataRequest?.convertible.urlRequest?.url, targetURL)
@@ -128,7 +128,7 @@ final class UserInfoAPIEndpointTests: XCTestCase {
     let requestDTO = UserProfileRequestDTO(profile: "test1234")
     let endpoint = sut.saveProfile(withQuery: queryRequestDTO, body: requestDTO)
     var dataRequest: DataRequest?
-    expectation = expectation(description: "saveProfile finish")
+    expectation = expectation(description: "saveProfileImage finish")
     
     // Act
     DispatchQueue.global().async { [unowned self] in
@@ -138,10 +138,10 @@ final class UserInfoAPIEndpointTests: XCTestCase {
     wait(for: [expectation], timeout: 10)
     
     // Assert
-    XCTAssertNotNil(dataRequest, "UserInfoAPIEndpoint의 saveProfile(withQuery:body:)에서 DataRequest를 반환해야 하는데 nil 반환")
+    XCTAssertNotNil(dataRequest, "UserInfoAPIEndpoint의 saveProfileImage(withQuery:body:)에서 DataRequest를 반환해야 하는데 nil 반환")
     XCTAssertNotNil(
       dataRequest?.convertible.urlRequest,
-      "UserInfoAPIEndpoint의 saveProfile(withQuery:body:)에서 DataRequest의 urlRequest를 반환해야하는데 nil 반환")
+      "UserInfoAPIEndpoint의 saveProfileImage(withQuery:body:)에서 DataRequest의 urlRequest를 반환해야하는데 nil 반환")
     XCTAssertEqual(dataRequest?.convertible.urlRequest?.url, targetURL)
   }
   
@@ -153,7 +153,7 @@ final class UserInfoAPIEndpointTests: XCTestCase {
     let endpoint = sut.saveProfile(withQuery: queryRequestDTO, body: requestDTO)
     var dataRequest: DataRequest?
     let expectedJsonString = "profile=test1234"
-    expectation = expectation(description: "saveProfile finish")
+    expectation = expectation(description: "saveProfileImage finish")
     
     // Act
     DispatchQueue.global().async { [unowned self] in
@@ -163,10 +163,10 @@ final class UserInfoAPIEndpointTests: XCTestCase {
     wait(for: [expectation], timeout: 10)
     
     // Assert
-    XCTAssertNotNil(dataRequest, "UserInfoAPIEndpoint의 saveProfile(withQuery:body:)에서 DataRequest를 반환해야 하는데 nil 반환")
+    XCTAssertNotNil(dataRequest, "UserInfoAPIEndpoint의 saveProfileImage(withQuery:body:)에서 DataRequest를 반환해야 하는데 nil 반환")
     XCTAssertNotNil(
       dataRequest?.convertible.urlRequest,
-      "UserInfoAPIEndpoint의 saveProfile(withQuery:body:)에서 DataRequest의 urlRequest를 반환해야하는데 nil 반환")
+      "UserInfoAPIEndpoint의 saveProfileImage(withQuery:body:)에서 DataRequest의 urlRequest를 반환해야하는데 nil 반환")
     let testData = dataRequest!.convertible.urlRequest!.httpBody!
     let testString = String(data: testData, encoding: .utf8) ?? "no"
     XCTAssertEqual(dataRequest?.convertible.urlRequest?.url, targetURL)
@@ -216,7 +216,7 @@ final class UserInfoAPIEndpointTests: XCTestCase {
     let resultURL = dataRequest?.convertible.urlRequest?.url
     XCTAssertNotNil(
       resultURL,
-      "UserInfoAPIEndpoint의 fetchProfile(with:)에서 DataRequest의 urlRequest를 반환해야하는데 nil 반환")
+      "UserInfoAPIEndpoint의 fetchProfileImage(with:)에서 DataRequest의 urlRequest를 반환해야하는데 nil 반환")
     XCTAssertEqual(resultURL, expectedURL)
   }
 }

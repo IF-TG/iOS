@@ -44,7 +44,7 @@ final class DefaultPostNestedCommentRepository: PostNestedCommentRepository {
             promise(.failure(error))
           }
         } receiveValue: { responseDTO in
-              let postNestedCommentEntity = responseDTO.toDomain()
+          let postNestedCommentEntity = responseDTO.toDomain(with: Data(base64Encoded: responseDTO.userProfileURL))
               promise(.success(postNestedCommentEntity))
         }.store(in: &subscriptions)
     }.eraseToAnyPublisher()

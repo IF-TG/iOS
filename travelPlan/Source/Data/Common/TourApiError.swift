@@ -8,6 +8,86 @@
 import Foundation
 
 @frozen enum TourAPIError: LocalizedError {
+  case publicDataPortalError(PublicDataPortalInTourAPIError)
+  case tourAPIProviderInstitutionError(TourAPIProviderInstitutionError)
+  
+  /// Public Data Portal의 에러를 데이터로 받았을 때 알 수 없는 디코딩 에러 발생된 경우
+  case unexpectedDecodingErrorFromPublicDataPortal
+  
+  /// 성공적으로 반환받은 데이터(TourApiCommonResponseDTO)의 response header에서 TourAPIError를 생성할 수 없는,
+  ///   국문에서 정의되지 않은 errorCode를 받은 경우
+  case unexpectedErrorFromSuccessfulResponseData(String)
+  
+  init?(code: String) {
+    if let publicDataPortalError = PublicDataPortalInTourAPIError(code: code) {
+      self = .publicDataPortalError(publicDataPortalError)
+    } else if let tourAPIProviderInstitutionError = TourAPIProviderInstitutionError(code: code) {
+      self = .tourAPIProviderInstitutionError(tourAPIProviderInstitutionError)
+    } else {
+      return nil
+    }
+  }
+}
+
+/// 공공데이터 포털 에러
+@frozen enum PublicDataPortalInTourAPIError: LocalizedError {
+  case applicationError
+  case httpError
+  case noOpenAPIServiceError
+  case serviceAccessDeniedError
+  case limitedNumberOfServiceRequestsExceedsError
+  case serviceKeyIsNotRegisteredError
+  case deadlineHasExpiredError
+  case unregisteredIPError
+  case unknownError
+  
+  init?(code: String) {
+    let errorDict = [
+      "01": .applicationError,
+      "04": .httpError,
+      "12": .noOpenAPIServiceError,
+      "20": .serviceAccessDeniedError,
+      "22": .limitedNumberOfServiceRequestsExceedsError,
+      "30": .serviceKeyIsNotRegisteredError,
+      "31": .deadlineHasExpiredError,
+      "32": .unregisteredIPError,
+      "99": .unknownError
+    ] as [String: PublicDataPortalInTourAPIError]
+    
+    if let errorType = errorDict[code] {
+      self = errorType
+    } else {
+      return nil
+    }
+  }
+  
+  var errorDescription: String? {
+    switch self {
+    case .applicationError:
+      return "An error occurred in the application."
+    case .httpError:
+      return "An HTTP error occurred."
+    case .noOpenAPIServiceError:
+      return "No OpenAPI service error."
+    case .serviceAccessDeniedError:
+      return "Service access denied error."
+    case .limitedNumberOfServiceRequestsExceedsError:
+      return "The limited number of service requests exceeds error."
+    case .serviceKeyIsNotRegisteredError:
+      return "The service key is not registered error."
+    case .deadlineHasExpiredError:
+      return "The deadline has expired error."
+    case .unregisteredIPError:
+      return "Unregistered IP error."
+    case .unknownError:
+      return "An unknown error occurred."
+    }
+  }
+
+}
+
+/// 제공기관 에러
+@frozen enum TourAPIProviderInstitutionError: LocalizedError {
   case applicationError
   case dbError
   case noDataError
@@ -25,50 +105,52 @@ import Foundation
   case unsignedCallError
   case unknownError
   
-  init(code: String) {
-    let errorMap: [String: TourAPIError] = [
-      "0001": .applicationError,
-      "0002": .dbError,
-      "0003": .noDataError,
-      "0004": .httpError,
-      "0005": .serviceTimeoutError,
-      "0010": .invalidRequestParameterError,
-      "0011": .noMandatoryRequestParametersError,
-      "0012": .noOpenAPIServiceError,
-      "0020": .serviceAccessDeniedError,
-      "0021": .temporarilyDisableTheServiceKeyError,
-      "0022": .limitedNumberOfServiceRequestsExceedsError,
-      "0030": .serviceKeyIsNotRegisteredError,
-      "0031": .deadlineHasExpiredError,
-      "0032": .unregisteredIPError,
-      "0033": .unsignedCallError
+  init?(code: String) {
+    let errorMap: [String: TourAPIProviderInstitutionError] = [
+      "01": .applicationError,
+      "02": .dbError,
+      "03": .noDataError,
+      "04": .httpError,
+      "05": .serviceTimeoutError,
+      "10": .invalidRequestParameterError,
+      "11": .noMandatoryRequestParametersError,
+      "12": .noOpenAPIServiceError,
+      "20": .serviceAccessDeniedError,
+      "21": .temporarilyDisableTheServiceKeyError,
+      "22": .limitedNumberOfServiceRequestsExceedsError,
+      "30": .serviceKeyIsNotRegisteredError,
+      "31": .deadlineHasExpiredError,
+      "32": .unregisteredIPError,
+      "33": .unsignedCallError,
+      "99": .unknownError
     ]
     
     if let errorType = errorMap[code] {
       self = errorType
     } else {
-      self = .unknownError
+      return nil
     }
   }
   
   var errorDescription: String? {
     switch self {
-    case .applicationError: return "APPLICATION_ERROR"
-    case .dbError: return "DB_ERROR"
-    case .noDataError: return "NODATA_ERROR"
-    case .httpError: return "HTTP_ERROR"
-    case .serviceTimeoutError: return "SERVICETIMEOUT_ERROR"
-    case .invalidRequestParameterError: return "INVALID_REQUEST_PARAMETER_ERROR"
-    case .noMandatoryRequestParametersError: return "NO_MANDATORY_REQUEST_PARAMETERS_ERROR"
-    case .noOpenAPIServiceError: return "NO_OPENAPI_SERVICE_ERROR"
-    case .serviceAccessDeniedError: return "SERVICE_ACCESS_DENIED_ERROR"
-    case .temporarilyDisableTheServiceKeyError: return "TEMPORARILY_DISABLE_THE_SERVICEKEY_ERROR"
-    case .limitedNumberOfServiceRequestsExceedsError: return "LIMITED_NUMBER_OF_SERVICE_REQUESTS_EXCEEDS_ERROR"
-    case .serviceKeyIsNotRegisteredError: return "SERVICE_KEY_IS_NOT_REGISTERED_ERROR"
-    case .deadlineHasExpiredError: return "DEADLINE_HAS_EXPIRED_ERROR"
-    case .unregisteredIPError: return "UNREGISTERED_IP_ERROR"
-    case .unsignedCallError: return "UNSIGNED_CALL_ERROR"
-    case .unknownError: return "UNKNOWN_ERROR"
+    case .applicationError: return "An error occurred in the application."
+    case .dbError: return "A database error occurred."
+    case .noDataError: return "No data available error."
+    case .httpError: return "An HTTP error occurred."
+    case .serviceTimeoutError: return "Service timeout error."
+    case .invalidRequestParameterError: return "Invalid request parameter error."
+    case .noMandatoryRequestParametersError: return "No mandatory request parameters error."
+    case .noOpenAPIServiceError: return "No OpenAPI service error."
+    case .serviceAccessDeniedError: return "Service access denied error."
+    case .temporarilyDisableTheServiceKeyError: return "Service key temporarily disabled error."
+    case .limitedNumberOfServiceRequestsExceedsError: return "The limited number of service requests exceeds error."
+    case .serviceKeyIsNotRegisteredError: return "The service key is not registered error."
+    case .deadlineHasExpiredError: return "The deadline has expired error."
+    case .unregisteredIPError: return "Unregistered IP error."
+    case .unsignedCallError: return "Unsigned call error."
+    case .unknownError: return "An unknown error occurred."
     }
   }
+
 }
