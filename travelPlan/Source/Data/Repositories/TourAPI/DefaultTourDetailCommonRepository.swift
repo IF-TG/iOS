@@ -9,7 +9,7 @@ import Foundation
 import Combine
 
 final class DefaultTourDetailCommonRepository: TourDetailCommonRepository {
-  typealias Endpoint = DestinationAPIEndpoint
+  typealias Endpoint = TourDetailCommonAPIEndpoint
   
   // MARK: - Dependencies
   private let service: Sessionable

@@ -243,7 +243,7 @@
 		154CA60D2BD3A2F80066B444 /* TourApiDetailCommonRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154CA60C2BD3A2F80066B444 /* TourApiDetailCommonRequestDTO.swift */; };
 		154CA6102BD3A5E00066B444 /* TourApiCommonResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154CA60F2BD3A5E00066B444 /* TourApiCommonResponseDTO.swift */; };
 		154CA6132BD3A6CC0066B444 /* TourApiDetailCommonResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154CA6122BD3A6CC0066B444 /* TourApiDetailCommonResponseDTO.swift */; };
-		154CA61B2BD3AAC40066B444 /* DestinationAPIEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154CA61A2BD3AAC40066B444 /* DestinationAPIEndpoint.swift */; };
+		154CA61B2BD3AAC40066B444 /* TourDetailCommonAPIEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154CA61A2BD3AAC40066B444 /* TourDetailCommonAPIEndpoint.swift */; };
 		154CA61F2BD3AD5C0066B444 /* DefaultTourDetailCommonRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154CA61E2BD3AD5C0066B444 /* DefaultTourDetailCommonRepository.swift */; };
 		154CA6212BD3AD700066B444 /* TourDetailCommonRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154CA6202BD3AD700066B444 /* TourDetailCommonRepository.swift */; };
 		154CA6232BD3AE100066B444 /* TourDestinationDetailCommonEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154CA6222BD3AE100066B444 /* TourDestinationDetailCommonEntity.swift */; };
@@ -309,6 +309,12 @@
 		157ADCAE2AD00AB400D37680 /* FavoriteLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157ADCAD2AD00AB400D37680 /* FavoriteLocationViewController.swift */; };
 		157ADCB02AD06B5400D37680 /* FavoriteDirectorySettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157ADCAF2AD06B5400D37680 /* FavoriteDirectorySettingView.swift */; };
 		157ADCB42AD07ED600D37680 /* SearchWithCancelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157ADCB32AD07ED600D37680 /* SearchWithCancelView.swift */; };
+		15803C362BD8EE6500D83F2B /* XMLParsingServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15803C352BD8EE6500D83F2B /* XMLParsingServiceProtocol.swift */; };
+		15803C382BD8F3BC00D83F2B /* XMLParsingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15803C372BD8F3BC00D83F2B /* XMLParsingService.swift */; };
+		15803C3F2BD8F5F900D83F2B /* XMLParsingServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15803C3B2BD8F47E00D83F2B /* XMLParsingServiceTests.swift */; };
+		15803C422BD9134A00D83F2B /* TourApiErrorResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15803C402BD911D100D83F2B /* TourApiErrorResponseDTO.swift */; };
+		15803C442BD9307D00D83F2B /* TourApiSessionProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15803C432BD9307D00D83F2B /* TourApiSessionProviderTests.swift */; };
+		15803C482BD932D500D83F2B /* MockEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15803C452BD9328100D83F2B /* MockEndpoint.swift */; };
 		15803C4B2BDA1A4600D83F2B /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 15803C4A2BDA1A4600D83F2B /* GoogleSignIn */; };
 		15803C4D2BDA1BA700D83F2B /* GoogleLoginStrategyWithFirebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15803C4C2BDA1BA700D83F2B /* GoogleLoginStrategyWithFirebase.swift */; };
 		15803C4F2BDA22EA00D83F2B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 15803C4E2BDA22EA00D83F2B /* GoogleService-Info.plist */; };
@@ -319,12 +325,6 @@
 		15803C5F2BDA906300D83F2B /* VoidResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15803C5E2BDA906300D83F2B /* VoidResponseDTO.swift */; };
 		15803C612BDAA1A600D83F2B /* FiresabseStorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15803C602BDAA1A600D83F2B /* FiresabseStorageService.swift */; };
 		15803C632BDAB23E00D83F2B /* ImageStorageServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15803C622BDAB23E00D83F2B /* ImageStorageServiceProtocol.swift */; };
-		15803C362BD8EE6500D83F2B /* XMLParsingServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15803C352BD8EE6500D83F2B /* XMLParsingServiceProtocol.swift */; };
-		15803C382BD8F3BC00D83F2B /* XMLParsingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15803C372BD8F3BC00D83F2B /* XMLParsingService.swift */; };
-		15803C3F2BD8F5F900D83F2B /* XMLParsingServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15803C3B2BD8F47E00D83F2B /* XMLParsingServiceTests.swift */; };
-		15803C422BD9134A00D83F2B /* TourApiErrorResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15803C402BD911D100D83F2B /* TourApiErrorResponseDTO.swift */; };
-		15803C442BD9307D00D83F2B /* TourApiSessionProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15803C432BD9307D00D83F2B /* TourApiSessionProviderTests.swift */; };
-		15803C482BD932D500D83F2B /* MockEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15803C452BD9328100D83F2B /* MockEndpoint.swift */; };
 		158312E12AB36A9A0087034A /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158312E02AB36A9A0087034A /* UIViewController+.swift */; };
 		158439152BAAC80B00348509 /* FavoritePostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158439142BAAC80B00348509 /* FavoritePostViewModel.swift */; };
 		1585017C2BC2E50D00341575 /* PostOptionResultAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1585017B2BC2E50D00341575 /* PostOptionResultAlertController.swift */; };
@@ -880,7 +880,7 @@
 		154CA60C2BD3A2F80066B444 /* TourApiDetailCommonRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourApiDetailCommonRequestDTO.swift; sourceTree = "<group>"; };
 		154CA60F2BD3A5E00066B444 /* TourApiCommonResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourApiCommonResponseDTO.swift; sourceTree = "<group>"; };
 		154CA6122BD3A6CC0066B444 /* TourApiDetailCommonResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourApiDetailCommonResponseDTO.swift; sourceTree = "<group>"; };
-		154CA61A2BD3AAC40066B444 /* DestinationAPIEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationAPIEndpoint.swift; sourceTree = "<group>"; };
+		154CA61A2BD3AAC40066B444 /* TourDetailCommonAPIEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourDetailCommonAPIEndpoint.swift; sourceTree = "<group>"; };
 		154CA61E2BD3AD5C0066B444 /* DefaultTourDetailCommonRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultTourDetailCommonRepository.swift; sourceTree = "<group>"; };
 		154CA6202BD3AD700066B444 /* TourDetailCommonRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourDetailCommonRepository.swift; sourceTree = "<group>"; };
 		154CA6222BD3AE100066B444 /* TourDestinationDetailCommonEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourDestinationDetailCommonEntity.swift; sourceTree = "<group>"; };
@@ -947,6 +947,12 @@
 		157ADCAD2AD00AB400D37680 /* FavoriteLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteLocationViewController.swift; sourceTree = "<group>"; };
 		157ADCAF2AD06B5400D37680 /* FavoriteDirectorySettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteDirectorySettingView.swift; sourceTree = "<group>"; };
 		157ADCB32AD07ED600D37680 /* SearchWithCancelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchWithCancelView.swift; sourceTree = "<group>"; };
+		15803C352BD8EE6500D83F2B /* XMLParsingServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLParsingServiceProtocol.swift; sourceTree = "<group>"; };
+		15803C372BD8F3BC00D83F2B /* XMLParsingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLParsingService.swift; sourceTree = "<group>"; };
+		15803C3B2BD8F47E00D83F2B /* XMLParsingServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLParsingServiceTests.swift; sourceTree = "<group>"; };
+		15803C402BD911D100D83F2B /* TourApiErrorResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourApiErrorResponseDTO.swift; sourceTree = "<group>"; };
+		15803C432BD9307D00D83F2B /* TourApiSessionProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourApiSessionProviderTests.swift; sourceTree = "<group>"; };
+		15803C452BD9328100D83F2B /* MockEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockEndpoint.swift; sourceTree = "<group>"; };
 		15803C4C2BDA1BA700D83F2B /* GoogleLoginStrategyWithFirebase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleLoginStrategyWithFirebase.swift; sourceTree = "<group>"; };
 		15803C4E2BDA22EA00D83F2B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		15803C502BDA4DC700D83F2B /* FirestoreMyProfileAPIEndopint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreMyProfileAPIEndopint.swift; sourceTree = "<group>"; };
@@ -956,12 +962,6 @@
 		15803C5E2BDA906300D83F2B /* VoidResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoidResponseDTO.swift; sourceTree = "<group>"; };
 		15803C602BDAA1A600D83F2B /* FiresabseStorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiresabseStorageService.swift; sourceTree = "<group>"; };
 		15803C622BDAB23E00D83F2B /* ImageStorageServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageStorageServiceProtocol.swift; sourceTree = "<group>"; };
-		15803C352BD8EE6500D83F2B /* XMLParsingServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLParsingServiceProtocol.swift; sourceTree = "<group>"; };
-		15803C372BD8F3BC00D83F2B /* XMLParsingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLParsingService.swift; sourceTree = "<group>"; };
-		15803C3B2BD8F47E00D83F2B /* XMLParsingServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLParsingServiceTests.swift; sourceTree = "<group>"; };
-		15803C402BD911D100D83F2B /* TourApiErrorResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourApiErrorResponseDTO.swift; sourceTree = "<group>"; };
-		15803C432BD9307D00D83F2B /* TourApiSessionProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourApiSessionProviderTests.swift; sourceTree = "<group>"; };
-		15803C452BD9328100D83F2B /* MockEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockEndpoint.swift; sourceTree = "<group>"; };
 		158312E02AB36A9A0087034A /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
 		158439142BAAC80B00348509 /* FavoritePostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePostViewModel.swift; sourceTree = "<group>"; };
 		1585017B2BC2E50D00341575 /* PostOptionResultAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostOptionResultAlertController.swift; sourceTree = "<group>"; };
@@ -2162,7 +2162,7 @@
 			children = (
 				154CA6192BD3AA390066B444 /* RequestDTO */,
 				154CA6182BD3AA330066B444 /* ResponseDTO */,
-				154CA61A2BD3AAC40066B444 /* DestinationAPIEndpoint.swift */,
+				154CA61A2BD3AAC40066B444 /* TourDetailCommonAPIEndpoint.swift */,
 			);
 			path = TourAPI;
 			sourceTree = "<group>";
@@ -2276,6 +2276,40 @@
 			path = Fonts;
 			sourceTree = "<group>";
 		};
+		15803C342BD8EE3F00D83F2B /* XMLParser */ = {
+			isa = PBXGroup;
+			children = (
+				15803C392BD8F44D00D83F2B /* Module */,
+				15803C3A2BD8F46C00D83F2B /* Tests */,
+			);
+			path = XMLParser;
+			sourceTree = "<group>";
+		};
+		15803C392BD8F44D00D83F2B /* Module */ = {
+			isa = PBXGroup;
+			children = (
+				15803C352BD8EE6500D83F2B /* XMLParsingServiceProtocol.swift */,
+				15803C372BD8F3BC00D83F2B /* XMLParsingService.swift */,
+			);
+			path = Module;
+			sourceTree = "<group>";
+		};
+		15803C3A2BD8F46C00D83F2B /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				15803C3B2BD8F47E00D83F2B /* XMLParsingServiceTests.swift */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		15803C472BD932B600D83F2B /* Mock */ = {
+			isa = PBXGroup;
+			children = (
+				15803C452BD9328100D83F2B /* MockEndpoint.swift */,
+			);
+			path = Mock;
+			sourceTree = "<group>";
+		};
 		15803C522BDA514E00D83F2B /* Firestore */ = {
 			isa = PBXGroup;
 			children = (
@@ -2309,40 +2343,6 @@
 				15803C5C2BDA8F6700D83F2B /* UserProfileSaveRequestDTO.swift */,
 			);
 			path = RequestDTO;
-    sourceTree = "<group>";
-		};
-		15803C342BD8EE3F00D83F2B /* XMLParser */ = {
-			isa = PBXGroup;
-			children = (
-				15803C392BD8F44D00D83F2B /* Module */,
-				15803C3A2BD8F46C00D83F2B /* Tests */,
-			);
-			path = XMLParser;
-			sourceTree = "<group>";
-		};
-		15803C392BD8F44D00D83F2B /* Module */ = {
-			isa = PBXGroup;
-			children = (
-				15803C352BD8EE6500D83F2B /* XMLParsingServiceProtocol.swift */,
-				15803C372BD8F3BC00D83F2B /* XMLParsingService.swift */,
-			);
-			path = Module;
-			sourceTree = "<group>";
-		};
-		15803C3A2BD8F46C00D83F2B /* Tests */ = {
-			isa = PBXGroup;
-			children = (
-				15803C3B2BD8F47E00D83F2B /* XMLParsingServiceTests.swift */,
-			);
-			path = Tests;
-			sourceTree = "<group>";
-		};
-		15803C472BD932B600D83F2B /* Mock */ = {
-			isa = PBXGroup;
-			children = (
-				15803C452BD9328100D83F2B /* MockEndpoint.swift */,
-			);
-			path = Mock;
 			sourceTree = "<group>";
 		};
 		158BEF7A2A0E2A4700C27861 /* PostView */ = {
@@ -3749,7 +3749,7 @@
 				135A07C42BA9883E003D6C4D /* DefaultAlbumUseCase.swift in Sources */,
 				15C1F55F2AF3CDD4005FDA15 /* SettingTopSheetView.swift in Sources */,
 				15553BCA2BB346A3000AA896 /* DefaultPostNestedCommentUseCase.swift in Sources */,
-				154CA61B2BD3AAC40066B444 /* DestinationAPIEndpoint.swift in Sources */,
+				154CA61B2BD3AAC40066B444 /* TourDetailCommonAPIEndpoint.swift in Sources */,
 				15F0D1B22A51BE3200D04773 /* CategoryPageViewDelegate.swift in Sources */,
 				13CB6D342A1FEC6D00D185B2 /* CautionAlertViewControllerDelegate.swift in Sources */,
 				1364FBE42B611DA400D89FC9 /* AlbumPhotoDetailViewController.swift in Sources */,
