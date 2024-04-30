@@ -39,32 +39,29 @@ final class FiresabseStorageService: ImageStorageServiceProtocol {
     }.eraseToAnyPublisher()
   }
   
-  func uploadImages(_ imageDataList: [Data], type: ImageStorageServiceType) -> AnyPublisher<[String],Error> {
-    var urls: [String] = []
+  func uploadImages(_ imageDataList: [Data], type: ImageStorageServiceType) -> AnyPublisher<[String], Error> {
+    var urls: [(idx: Int, url: String)] = []
     let group = DispatchGroup()
     
-    return Future { promise in
-      for imageData in imageDataList {
+    return Future { [weak self] promise in
+      for (i, imageData) in imageDataList.enumerated() {
         group.enter()
-        DispatchQueue.global(qos: .userInteractive).async { [weak self] in
-          guard let self else {
-            promise(.failure(ReferenceError.invalidReference))
-            return
-          }
-          let subscription = uploadImage(imageData, type: type).sink { completion in
+        let subscription = self?.uploadImage(imageData, type: type)
+          .subscribe(on: DispatchQueue.global(qos: .userInteractive))
+          .sink { completion in
             if case .failure(let error) = completion {
               promise(.failure(error))
+              group.leave()
             }
-            group.leave()
           } receiveValue: { url in
-            urls.append(url)
+            urls.append((i, url))
             group.leave()
           }
-          subscriptions.insert(subscription)
-        }
+        self?.subscriptions.insert(subscription)
       }
-      group.wait()
-      promise(.success(urls))
+      group.notify(queue: .global(qos: .userInteractive)) {
+        promise(.success(urls.sorted { $0.idx < $1.idx }.map { $0.url }))
+      }
     }.eraseToAnyPublisher()
   }
   
