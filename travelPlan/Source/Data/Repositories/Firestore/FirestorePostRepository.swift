@@ -65,7 +65,11 @@ extension FirestorePostRepository: PostRepository {
           }
         } receiveValue: { responseDTO in
           // TODO: - 리스폰스.. 어, 잘 활용해보자.
-          fatalError("구현하기")
+          responseDTO.map { postResponseDTO in
+            postResponseDTO.postImageFiles.map { file in
+              // TODO: - 이미지 따로 fetch받아야함. auth도 따로 fetch받아야함.
+            }
+          }
         }
       subscription.insert(serviceSubscription)
     }.eraseToAnyPublisher()
