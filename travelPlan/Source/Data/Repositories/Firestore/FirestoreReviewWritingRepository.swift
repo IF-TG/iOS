@@ -17,7 +17,7 @@ final class FirestoreReviewWritingRepository {
   
   // MARK: - Properties
   private var subscriptions = Set<AnyCancellable?>()
-  private let storageService = FiresabseStorageService()
+  private let storageService = FirebaseStorageService()
   
   // MARK: - LifeCycle
   init(service: FirestoreServiceProtocol, backgroundQueue: DispatchQueue = .global(qos: .background)) {

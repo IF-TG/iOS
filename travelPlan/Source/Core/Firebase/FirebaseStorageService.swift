@@ -1,5 +1,5 @@
 //
-//  FiresabseStorageService.swift
+//  FirebaseStorageService.swift
 //  travelPlan
 //
 //  Created by 양승현 on 4/25/24.
@@ -9,7 +9,7 @@ import Foundation
 import FirebaseStorage
 import Combine
 
-final class FiresabseStorageService: ImageStorageServiceProtocol {
+final class FirebaseStorageService: ImageStorageServiceProtocol {
   // MARK: - Properties
   private var subscriptions = Set<AnyCancellable?>()
   
@@ -126,7 +126,7 @@ final class FiresabseStorageService: ImageStorageServiceProtocol {
 }
 
 // MARK: - Nested
-extension FiresabseStorageService {
+extension FirebaseStorageService {
   @frozen enum UploadType {
     case profileImage
     case postImage
