@@ -29,7 +29,7 @@ extension Post {
   }
   
   struct PostImage {
-    let imageUri: String
+    let imageData: Data?
     let sort: Int32
   }
   

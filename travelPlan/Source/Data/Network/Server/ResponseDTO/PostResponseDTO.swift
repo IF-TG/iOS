@@ -84,8 +84,8 @@ extension PostResponseDTO {
       case sort
     }
     
-    func toDomain() -> Post.PostImage {
-      return .init(imageUri: image, sort: sort)
+    func toDomain(with data: Data?) -> Post.PostImage {
+      return .init(imageData: data, sort: sort)
     }
   }
 }

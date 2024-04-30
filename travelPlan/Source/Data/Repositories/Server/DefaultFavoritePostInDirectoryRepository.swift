@@ -53,7 +53,7 @@ extension DefaultFavoritePostInDirectoryRepository: FavoritePostInDirectoryRepos
               liked: $0.liked,
               detail: $0.toDomain(),
               author: $0.toDomain(with: Data(base64Encoded: $0.profile)),
-              highResolveImages: $0.postImages.map { $0.toDomain() },
+              highResolveImages: $0.postImages.map { $0.toDomain(with: Data(base64Encoded: $0.image)) },
               category: $0.toDomain())}
           promise(.success(posts))
         }.store(in: &subscriptions)

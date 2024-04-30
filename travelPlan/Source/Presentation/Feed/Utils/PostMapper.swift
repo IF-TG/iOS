@@ -38,20 +38,13 @@ struct PostMapper {
   }
   
   static func toPostDetails(_ post: Post, category: Post.Category) -> PostDetails {
-    // TODO: - post upload에서 컨텐츠, 이미지 순서를 어떻게 나타내느냐 고려한 후에 content를 그에맞게 반영해야합니다.
-    
     var content: [PostContentEntity] = [.text(post.detail.content)]
     
-    // 지금은 content text이후에 단순히 이미지만 반환했지만, 추후에 text sort, image sort타입에 맞게 반환 해야합니다.
+    // TODO: - 지금은 content text이후에 단순히 이미지만 반환했지만, 추후에 text sort, image sort타입에 맞게 반환 해야합니다.
     let images: [PostContentEntity] = post.highResolveImages.compactMap { postImage -> PostContentEntity? in
-      // FIXME: - 지금 mockData일 경우 string type의 resource path를 보내주기에... 임시적으로 UIImage-> Data로 변환하겠습니다.
-      if let data = UIImage(named: postImage.imageUri)?.pngData() {
+      if let data = postImage.imageData {
         return .image(data)
       }
-      // 추후 사용할 base64 -> Data변환 로직.
-//      if let data = Data(base64Encoded: postImage.imageUri) {
-//        return .image(data)
-//      }
       return nil
     }
     content += images

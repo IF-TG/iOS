@@ -67,7 +67,7 @@ extension DefaultReviewWritingRepository: ReviewWritingRepository {
             liked: responseDTO.liked,
             detail: responseDTO.toDomain(),
             author: responseDTO.toDomain(with: Data(base64Encoded: responseDTO.profile)),
-            highResolveImages: responseDTO.postImages.map { $0.toDomain() },
+            highResolveImages: responseDTO.postImages.map { $0.toDomain(with: Data(base64Encoded: $0.image)) },
             category: responseDTO.toDomain()
           )
           promise(.success(post))

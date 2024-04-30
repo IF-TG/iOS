@@ -183,7 +183,9 @@ final class MockPostUseCaseForPaging: PostUseCase {
           profileImageData: UIImage(named: profilePath(i%5))!.jpegData(compressionQuality: 1),
           nickname: userNames[i]),
         highResolveImages: postContentThumbnails[i].enumerated().map { (idx, imageString) in
-          return Post.PostImage(imageUri: imageString, sort: Int32(idx))
+          return Post.PostImage(
+            imageData: UIImage(named: imageString)?.jpegData(compressionQuality: 1),
+            sort: Int32(idx))
         },
         category: .init(themes: [.adventure, .festivals, .relaxation],
                         regions: [.busan], seasons: [.fall],
