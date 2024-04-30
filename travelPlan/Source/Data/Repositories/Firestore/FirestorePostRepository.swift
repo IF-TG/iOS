@@ -125,15 +125,28 @@ extension FirestorePostRepository: PostRepository {
 
 // MARK: - PostRepository
 extension FirestorePostRepository {
-  func fetchComments(page: Int32, perPage: Int32, postId: String) -> AnyPublisher<PostCommentContainerEntity, any Error> {
+  func fetchComments(
+    page: Int32,
+    perPage: Int32,
+    postId: String
+  ) -> AnyPublisher<PostCommentContainerEntity, any Error> {
     fatalError("미 구현")
   }
   
-  func fetchLikedPostsByLoggedInUser(page: Int32, perPage: Int32) -> AnyPublisher<PostsPage, any Error> {
+  func fetchLikedPostsByLoggedInUser(
+    page: Int32,
+    perPage: Int32
+  ) -> AnyPublisher<PostsPage, any Error> {
     fatalError("미 구현")
   }
   
-  func searchPosts(keyword: String, page: Int32, perPage: Int32, isTitle: Bool, isContent: Bool) -> AnyPublisher<[Post], any Error> {
+  func searchPosts(
+    keyword: String,
+    page: Int32,
+    perPage: Int32,
+    isTitle: Bool,
+    isContent: Bool
+  ) -> AnyPublisher<[Post], any Error> {
     fatalError("미 구현")
   }
 }
