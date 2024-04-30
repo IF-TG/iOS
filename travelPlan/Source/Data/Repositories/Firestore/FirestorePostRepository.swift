@@ -15,13 +15,21 @@ final class FirestorePostRepository {
   
   // MARK: - Dependencies
   private let service: FirestoreServiceProtocol
+  private let firebaseStorageService: ImageStorageServiceProtocol
+  private let profileRepository: MyProfileRepository
   
   // MARK: - Properties
-  private var subscription = Set<AnyCancellable?>()
+  private var subscriptions = Set<AnyCancellable?>()
   
   // MARK: - Lifecycle
-  init(service: FirestoreServiceProtocol) {
+  init(
+    service: FirestoreServiceProtocol,
+    firebaseStorageService: ImageStorageServiceProtocol,
+    profileRepository: MyProfileRepository
+  ) {
     self.service = service
+    self.firebaseStorageService = firebaseStorageService
+    self.profileRepository = profileRepository
   }
 }
 
@@ -64,14 +72,61 @@ extension FirestorePostRepository: PostRepository {
             }
           }
         } receiveValue: { responseDTO in
-          // TODO: - 리스폰스.. 어, 잘 활용해보자.
-          responseDTO.map { postResponseDTO in
-            postResponseDTO.postImageFiles.map { file in
-              // TODO: - 이미지 따로 fetch받아야함. auth도 따로 fetch받아야함.
+          let groupManager = DispatchGroup()
+          /// 포스트는 순차적x. 빨리끝난것부터 반환. 그러기에 소팅해주어야합니다.
+          var posts: [(Post, index: Int)] = []
+          responseDTO.enumerated().forEach { index, postResponseDTO in
+            var author: UserEntity?
+            var postImages: [Data] = []
+            groupManager.enter()
+            let group = DispatchGroup()
+            group.enter()
+            let profileSubscription = self.profileRepository.fetchProfile(with: postResponseDTO.authorId)
+              .subscribe(on: DispatchQueue.global(qos: .userInteractive))
+              .sink { completion in
+                if case .failure(let error) = completion {
+                  promise(.failure(error))
+                  group.leave()
+                }
+              } receiveValue: { userEntity in
+                author = userEntity
+                group.leave()
+              }
+            self.subscriptions.insert(profileSubscription)
+            
+            group.enter()
+            let imageSubscription = self.firebaseStorageService
+              .fetchImages(postResponseDTO.postImageFiles.map { $0.url },
+                           type: .postImage)
+              .sink { completion in
+                if case .failure(let error) = completion {
+                  promise(.failure(error))
+                  group.leave()
+                }
+              } receiveValue: { postImageDataList in
+                print(postImageDataList, "이제 원래 있던 sort 추가해서 entity로 반환하면됨")
+                postImages = postImageDataList
+                group.leave()
+              }
+            self.subscriptions.insert(imageSubscription)
+            
+            group.notify(queue: DispatchQueue.global(qos: .userInteractive)) { [index]
+              print(author, postImages)
+              // TODO: - 여기서 toDomain 만들고 post를 추가해야합니다.
+              // let post = responseDTO[index].
+              
             }
           }
+          groupManager.notify(queue: DispatchQueue.global(qos: .userInteractive)) {
+            // TODO: - 여기서 postsPage반환해야합니다. 그전에 posts에서 index기반으로 소팅된 post만 반환
+            // TODO: - 섬네일용으로 이미지 별도로 작게해서 만들까? ImageIO() 추가 고고링!
+            let t = PostsPage(
+              totalPosts: <#T##Int64#>,
+              posts: <#T##[Post]#>,
+              thumbnails: <#T##[PostThumbnails]#>)
+          }
         }
-      subscription.insert(serviceSubscription)
+      subscriptions.insert(serviceSubscription)
     }.eraseToAnyPublisher()
   }
   
