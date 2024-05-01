@@ -41,6 +41,7 @@ extension Post {
   struct Author {
     let profileImageData: Data?
     let nickname: String
+    var authorId: String?
   }
   
   struct TripDate {
