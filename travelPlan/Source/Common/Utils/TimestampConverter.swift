@@ -18,7 +18,7 @@ struct TimestampConverter {
   }
   
   /// 주어진 날짜, createAt이 Interval에 따라서 Calender.current로부터 몇일, 주 달..전인지 문자열로 반환합니다.
-  struct func toTimeAgoString(from createAt: Timestamp) -> String {
+  static func toTimeAgoString(from createAt: Timestamp) -> String {
     let date = createAt.dateValue()
     let currentDate = Date()
     var calender = Calendar.current
