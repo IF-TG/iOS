@@ -39,9 +39,8 @@ private extension SettingViewModel {
   func viewDidLoadStream(input: Input) -> Output {
     return input.viewDidLoad.map { [weak self] _ -> State in
       let username = self?.loggedInUserUseCase.nickname
-      let profile = self?.loggedInUserUseCase.profileURL
-      // TODO: - 로그인한 사용자 유즈케이스에서 가져올떄 Data로 타입 변환해야함......
-      return .viewDidLoad((username, nil))
+      let profileImageData = self?.loggedInUserUseCase.profileImageData
+      return .viewDidLoad((username, profileImageData))
     }.eraseToAnyPublisher()
   }
 }

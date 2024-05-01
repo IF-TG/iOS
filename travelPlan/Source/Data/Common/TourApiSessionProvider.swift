@@ -10,9 +10,20 @@ import Combine
 import Foundation
 
 final class TourApiSessionProvider {
-  let session: Session
+  // MARK: - Properties
+  private let session: Session
+  
+  var xmlParsingService: XMLParsingServiceProtocol?
+  
+  private var subscriptions = Set<AnyCancellable?>()
+  
   private let timeout: Double
-  init(session: Session = .default, timeout: Double = 30) {
+  
+  // MARK: - Lifecycle
+  init(
+    session: Session = .default,
+    timeout: Double = 30
+  ) {
     self.session = session
     self.timeout = timeout
     session.sessionConfiguration.timeoutIntervalForRequest = timeout
@@ -21,13 +32,6 @@ final class TourApiSessionProvider {
 
 // MARK: - Sessionable
 extension TourApiSessionProvider: Sessionable {
-  /// Tour API에서 제공하는 json의 벨류는 \n이 존재할 수 있습니다. json에서 value에 escape문자는 parsing을 방해한다고 합니다...
-  /// 역시나 JSONDecoder을 사용할떄 init(from:) 의 컨테이너에서 특정 타입을 디코딩할 때 에러가 던져집니다.
-  /// JSONSerialization 등을 사용해도 에러가 던져지는건 마찬가지입니다. JSON에서 escape character
-  ///   중 특히 \n을 사용해 깔끔히 보여 지게 하기위해 사용되는것 같기 때문입니다.
-  /// swift에선 \\n을 사용한다면 json value에서 사용될 수 있지만.. \n이 온다는 사실 ㅠㅠ
-  /// 한가지 해결 책은 \n -> \\n으로 바꾸려고햇으나 이 또한 escape 문자로 해당되서 아예 escape를 제거하는 방식으로 구현하기로 했습니다...
-  /// \n 뿐 아니라 다른 escape character가 온다면 마찬가지로 제거해야합니다.
   func request<R, E>(endpoint: E) -> Future<R, AFError>
   where R: Decodable,
         E: NetworkInteractionable,
@@ -38,24 +42,17 @@ extension TourApiSessionProvider: Sessionable {
               let request = try endpoint.makeRequest(from: session)
               request
                 .validate(statusCode: 200...299)
-                .responseData { response in
+                .responseData { [weak self] response in
                   switch response.result {
                   case .success(let data):
-                    guard
-                      let editedDataWithoutEscapeCharacter = String(data: data, encoding: .utf8)?
-                      .replacingOccurrences(of: "\n", with: "")
-                      .data(using: .utf8)
-                    else {
-                      promise(.failure(AFError.responseSerializationFailed(reason: .inputDataNilOrZeroLength)))
-                      return
-                    }
                     do {
-                      let responseDTO = try JSONDecoder().decode(R.self, from: editedDataWithoutEscapeCharacter)
+                      let responseDTO = try JSONDecoder().decode(R.self, from: data)
                       promise(.success(responseDTO))
+                    } catch let error as Swift.DecodingError {
+                      self?.handleDecodingError(error, from: data, promise: promise)
                     } catch {
-                      promise(
-                        .failure(AFError.responseSerializationFailed(
-                          reason: .customSerializationFailed(error: error))))
+                      promise(.failure(
+                        AFError.responseSerializationFailed(reason: .jsonSerializationFailed(error: error))))
                     }
                   case .failure(let error):
                     promise(.failure(error))
@@ -68,4 +65,71 @@ extension TourApiSessionProvider: Sessionable {
             }
           }
         }
+}
+
+// MARK: - Private Helpers
+extension TourApiSessionProvider {
+  // TODO: - 로그 남기기 (컨텍스트, 타입 등)
+  private func handleDecodingError<R: Decodable>(
+    _ error: Swift.DecodingError,
+    from data: Data,
+    promise: @escaping Future<R, AFError>.Promise
+  ) {
+    if case .dataCorrupted = error {
+      handleErrorForCorrupedDecoding(error, from: data, promise: promise)
+      /// response를 받는 시점에 response 코딩키가 없음으로 keynotFound에러가 불리면 3개의 K-V Json입니다.
+    } else if case .keyNotFound = error {
+      handleErrorForTypeMismatch(error, from: data, promise: promise)
+    } else {
+      /// 디코딩 에러
+      promise(.failure(AFError.responseSerializationFailed(reason: .customSerializationFailed(error: error))))
+    }
+  }
+  
+  /// response data가 JSON type이 아닌 경우
+  /// 이상적으로 공공데이터 포털 에러를 반환해야 합니다.
+  private func handleErrorForCorrupedDecoding<R: Decodable>(
+    _ error: Swift.DecodingError,
+    from data: Data,
+    promise: @escaping Future<R, AFError>.Promise
+  ) {
+    xmlParsingService = XMLParsingService(parser: XMLParser(data: data))
+    let xmlParsingSubscription = xmlParsingService?
+      .xmlParserNotifier
+      .sink { [weak self] completion in
+        self?.xmlParsingService = nil
+        if case .failure(let error) = completion {
+          promise(.failure(
+            AFError.responseSerializationFailed(reason: .decodingFailed(error: error))))
+        }
+      } receiveValue: { [weak self] attributes in
+        self?.xmlParsingService = nil
+        if let errorCode = attributes["returnReasonCode"],
+           let tourApiError = TourAPIError(code: errorCode) {
+          promise(.failure(
+            AFError.responseSerializationFailed(reason: .decodingFailed(error: tourApiError))))
+        }
+        let unexpectedError = TourAPIError.unexpectedDecodingErrorFromPublicDataPortal
+        promise(.failure(
+          AFError.responseSerializationFailed(reason: .decodingFailed(error: unexpectedError))))
+      }
+    subscriptions.insert(xmlParsingSubscription)
+    xmlParsingService?.parse()
+  }
+  
+  /// response data json 형식이 R타입과 맞지 않는 경우
+  /// TourApiErrorResponseDTO 에러인지 검증
+  /// 이상적으로 제공기관 에러를 반환해야 합니다
+  private func handleErrorForTypeMismatch<R: Decodable>(
+    _ error: Swift.DecodingError,
+    from data: Data,
+    promise: @escaping Future<R, AFError>.Promise
+  ) {
+    if let errorResponseDTO = try? JSONDecoder().decode(TourApiErrorResponseDTO.self, from: data) {
+      let tourAPIError = TourAPIError(code: errorResponseDTO.resultCode) ?? .tourAPIProviderInstitutionError(
+        .unknownError)
+      let reason = AFError.ResponseSerializationFailureReason.decodingFailed(error: tourAPIError)
+      promise(.failure(AFError.responseSerializationFailed(reason: reason)))
+    }
+  }
 }
