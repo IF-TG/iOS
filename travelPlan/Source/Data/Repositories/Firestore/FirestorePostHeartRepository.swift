@@ -30,6 +30,18 @@ final class FirestorePostHeartRepository {
 }
 
 extension FirestorePostHeartRepository: PostHeartRepository {
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  // TODO: - Unit test. 없는 컬랙션은 에러? 아니면 빈 문자열?. 컬랙션에 값 있으면 그거받아져오는지 두개
   func fetchHeartUsers(
     _ postId: String
   ) -> AnyPublisher<[String], any Error> {
