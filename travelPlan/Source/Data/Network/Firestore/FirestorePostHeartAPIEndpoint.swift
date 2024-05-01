@@ -9,9 +9,9 @@ import Foundation
 
 struct FirestorePostHeartAPIEndpoint {
   static func makeFetchHeartUsersEndpoint(_ postId: String)
-  -> FirestoreEndpoint<[String]> {
+  -> FirestoreEndpoint<String> {
     return .init(
-      method: .get,
+      method: .retrieveDocumentIdList,
       requestType: .posts(.fetchHeartUsers(postId)))
   }
 }
