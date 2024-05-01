@@ -42,4 +42,31 @@ struct TimestampConverter {
       return "\(minutes)분 전"
     }
   }
+  
+  static func period(from startDate: Timestamp, to endDate: Timestamp) -> String {
+    let calender = Calendar.current
+    let startDateValue = startDate.dateValue()
+    let endDatevalue = endDate.dateValue()
+    
+    let interval = calender.dateComponents(
+      [.day, .weekOfYear, .month, .year],
+      from: startDateValue,
+      to: endDatevalue)
+    
+    if let years = interval.year, years > 0 {
+      return "\(years)년 동안"
+    } else if let months = interval.month, months > 0 {
+      return "\(months)달 동안"
+    } else if let weeks = interval.weekOfYear, weeks > 0 {
+      if let days = interval.day, days > 0 {
+        return "\(weeks)주 \(days)일 동안"
+      } else {
+        return "\(weeks)주 동안"
+      }
+    } else if let days = interval.day, days > 0 {
+      return "\(days)일 동안"
+    } else {
+      return "하루 동안"
+    }
+  }
 }
