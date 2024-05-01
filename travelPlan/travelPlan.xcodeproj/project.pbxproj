@@ -220,6 +220,7 @@
 		15329CEC2B96171B005FC033 /* ProfileImageEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15329CEB2B96171B005FC033 /* ProfileImageEntity.swift */; };
 		1536CC512BC8D5D700EEAE2B /* ActivityIndicator in Frameworks */ = {isa = PBXBuildFile; productRef = 1536CC502BC8D5D700EEAE2B /* ActivityIndicator */; };
 		153841D72A5642A9004C41D1 /* PostViewBottomSheetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153841D62A5642A9004C41D1 /* PostViewBottomSheetCell.swift */; };
+		153EEBB12BE24A1200ECAB8A /* FirestorePostHeartAPIEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153EEBB02BE24A1200ECAB8A /* FirestorePostHeartAPIEndpoint.swift */; };
 		153FA90D2B937D9E006CF3C3 /* UserProfileRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153FA90C2B937D9E006CF3C3 /* UserProfileRequestDTO.swift */; };
 		153FA90F2B937E12006CF3C3 /* UserProfileImageResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153FA90E2B937E12006CF3C3 /* UserProfileImageResponseDTO.swift */; };
 		153FA9112B938C19006CF3C3 /* ParameterType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153FA9102B938C19006CF3C3 /* ParameterType.swift */; };
@@ -234,6 +235,7 @@
 		1546DF3B2B0C5B7C00B49A55 /* ImageDiskCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1546DF3A2B0C5B7C00B49A55 /* ImageDiskCache.swift */; };
 		1546DF3F2B0C64E500B49A55 /* ImageDiskCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1546DF3E2B0C64E500B49A55 /* ImageDiskCacheTests.swift */; };
 		154C104B2BE247C500CBF6EA /* PostHeartRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154C104A2BE247C500CBF6EA /* PostHeartRepository.swift */; };
+		154C104D2BE248E600CBF6EA /* FirestorePostHeartRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154C104C2BE248E600CBF6EA /* FirestorePostHeartRepository.swift */; };
 		154CA5F92BD2C91C0066B444 /* SHFirestoreService in Frameworks */ = {isa = PBXBuildFile; productRef = 154CA5F82BD2C91C0066B444 /* SHFirestoreService */; };
 		154CA5FB2BD38EAA0066B444 /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 154CA5FA2BD38EAA0066B444 /* Secrets.xcconfig */; };
 		154CA5FF2BD395030066B444 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154CA5FE2BD395030066B444 /* APIManager.swift */; };
@@ -859,6 +861,7 @@
 		15302C562B9E29B900B1EA3F /* MockMyProfileUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockMyProfileUseCase.swift; sourceTree = "<group>"; };
 		15329CEB2B96171B005FC033 /* ProfileImageEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageEntity.swift; sourceTree = "<group>"; };
 		153841D62A5642A9004C41D1 /* PostViewBottomSheetCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewBottomSheetCell.swift; sourceTree = "<group>"; };
+		153EEBB02BE24A1200ECAB8A /* FirestorePostHeartAPIEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestorePostHeartAPIEndpoint.swift; sourceTree = "<group>"; };
 		153FA90C2B937D9E006CF3C3 /* UserProfileRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileRequestDTO.swift; sourceTree = "<group>"; };
 		153FA90E2B937E12006CF3C3 /* UserProfileImageResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileImageResponseDTO.swift; sourceTree = "<group>"; };
 		153FA9102B938C19006CF3C3 /* ParameterType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParameterType.swift; sourceTree = "<group>"; };
@@ -873,6 +876,7 @@
 		1546DF3A2B0C5B7C00B49A55 /* ImageDiskCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDiskCache.swift; sourceTree = "<group>"; };
 		1546DF3E2B0C64E500B49A55 /* ImageDiskCacheTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDiskCacheTests.swift; sourceTree = "<group>"; };
 		154C104A2BE247C500CBF6EA /* PostHeartRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostHeartRepository.swift; sourceTree = "<group>"; };
+		154C104C2BE248E600CBF6EA /* FirestorePostHeartRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestorePostHeartRepository.swift; sourceTree = "<group>"; };
 		154CA5FA2BD38EAA0066B444 /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 		154CA5FE2BD395030066B444 /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
 		154CA6002BD398D40066B444 /* RelativeURLPathProvidable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelativeURLPathProvidable.swift; sourceTree = "<group>"; };
@@ -2316,6 +2320,7 @@
 			isa = PBXGroup;
 			children = (
 				15803C532BDA522500D83F2B /* FirestoreMyProfileRepository.swift */,
+				154C104C2BE248E600CBF6EA /* FirestorePostHeartRepository.swift */,
 			);
 			path = Firestore;
 			sourceTree = "<group>";
@@ -2326,6 +2331,7 @@
 				15803C5B2BDA8F2900D83F2B /* RequestDTO */,
 				15803C582BDA581800D83F2B /* ResponseDTO */,
 				15803C502BDA4DC700D83F2B /* FirestoreMyProfileAPIEndopint.swift */,
+				153EEBB02BE24A1200ECAB8A /* FirestorePostHeartAPIEndpoint.swift */,
 			);
 			path = Firestore;
 			sourceTree = "<group>";
@@ -3650,6 +3656,7 @@
 				13300FA82AC0804400952757 /* CellConfigurable.swift in Sources */,
 				15591DD22BBE993500128A9E /* FavoritePostAPIEndpoint.swift in Sources */,
 				130FA91F2A359EE300E739C5 /* SearchViewDelegate.swift in Sources */,
+				153EEBB12BE24A1200ECAB8A /* FirestorePostHeartAPIEndpoint.swift in Sources */,
 				13A93EEF2AD0766900FC4BBD /* SearchTopTenModel.swift in Sources */,
 				1564A0A02BBFE0290045424B /* FavoritePostDirectoryNameUpdateRequestDTO.swift in Sources */,
 				1343840D2B4803FE005034E0 /* BaseNavigationRightButton.swift in Sources */,
@@ -3681,6 +3688,7 @@
 				130369662AEC3AA2007E980C /* NSRange+.swift in Sources */,
 				150A543D2BC82C61005D8108 /* BottomBasedTooltipView.swift in Sources */,
 				15CB235B2A109CA4003EAF20 /* PostHeaderContentBottomInfo.swift in Sources */,
+				154C104D2BE248E600CBF6EA /* FirestorePostHeartRepository.swift in Sources */,
 				130304792A24936D00776A0D /* SearchViewModel.swift in Sources */,
 				15B5E7992BBAE34E00C19F56 /* UserBlockRequestDTO.swift in Sources */,
 				1595B5302BAD9DAC00DA5039 /* PostMainThemeCategoryBottomSheet.swift in Sources */,
