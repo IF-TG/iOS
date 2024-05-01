@@ -69,7 +69,23 @@ extension FirestorePostHeartRepository: PostHeartRepository {
     }.eraseToAnyPublisher()
   }
   
-  func hatePost(_ postId: String, userId: String) -> AnyPublisher<Void, any Error> {
-    fatalError("아직 미 구현")
+  func hatePost(
+    _ postId: String,
+    userId: String
+  ) -> AnyPublisher<Void, any Error> {
+    let endpoint = Endpoint.makeHatePostEndpoint(postId: postId, userId: userId)
+    return Future { [weak self, backgroundQueue] promise in
+      let requestSubscription = self?.service
+        .request(endpoint: endpoint)
+        .subscribe(on: backgroundQueue)
+        .sink { completion in
+          if case .failure(let error) = completion {
+            promise(.failure(error))
+          }
+        } receiveValue: { _ in
+          promise(.success(()))
+        }
+      self?.subscriptions.insert(requestSubscription)
+    }.eraseToAnyPublisher()
   }
 }
