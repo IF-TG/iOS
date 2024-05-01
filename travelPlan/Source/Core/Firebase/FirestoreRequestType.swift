@@ -143,7 +143,7 @@ extension FirestoreRequestType {
     typealias UserId = String
     case fetchHeartUsers(PostId)
     case heartPost(PostId)
-    case hatePost(PostId)
+    case hatePost((PostId, UserId))
     
     var rootPath: String {
       "posts"
@@ -155,7 +155,7 @@ extension FirestoreRequestType {
         "\(rootPath)/\(postId)/post-hearts"
       case .heartPost(let postId):
         "\(rootPath)/\(postId)/post-hearts"
-      case .hatePost(let postId):
+      case .hatePost(let postId, _):
         "\(rootPath)/\(postId)/post-hearts"
       }
     }
@@ -166,8 +166,8 @@ extension FirestoreRequestType {
         return nil
       case .heartPost:
         return nil
-      case .hatePost:
-        return nil
+      case .hatePost(_, let userId):
+        return userId
       }
     }
   }
