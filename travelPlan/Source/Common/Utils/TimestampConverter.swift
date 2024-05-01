@@ -69,4 +69,15 @@ struct TimestampConverter {
       return "하루 동안"
     }
   }
+  
+  /// form, to 간의 yyyy.MM.dd 날자를 반환합니다.
+  static func periodYMD(from startDate: Timestamp, to endDate: Timestamp) -> String {
+    let formatter = DateFormatter()
+    formatter.dateFormat = "yyyy.MM.dd"
+    
+    let start = formatter.string(from: startDate.dateValue())
+    let end = formatter.string(from: endDate.dateValue())
+    
+    return "\(start) ~ \(end)"
+  }
 }
