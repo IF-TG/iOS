@@ -49,10 +49,11 @@ extension FirestorePostHeartRepository: PostHeartRepository {
     }.eraseToAnyPublisher()
   }
   
-  func toggleHeart(
-    _ postId: String,
-    userId: String
-  ) -> AnyPublisher<Void, any Error> {
-    fatalError("아직 구현")
+  func heartPost(_ postId: String, userId: String) -> AnyPublisher<Void, any Error> {
+    fatalError("아직 미 구현")
+  }
+  
+  func hatePost(_ postId: String, userId: String) -> AnyPublisher<Void, any Error> {
+    fatalError("아직 미 구현")
   }
 }

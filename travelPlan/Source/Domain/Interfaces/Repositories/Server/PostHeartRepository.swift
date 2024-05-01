@@ -10,5 +10,6 @@ import Combine
 
 protocol PostHeartRepository {
   func fetchHeartUsers(_ postId: String) -> AnyPublisher<[String], Error>
-  func toggleHeart(_ postId: String, userId: String) -> AnyPublisher<Void, Error>
+  func heartPost(_ postId: String, userId: String) -> AnyPublisher<Void, Error>
+  func hatePost(_ postId: String, userId: String) -> AnyPublisher<Void, Error>
 }
