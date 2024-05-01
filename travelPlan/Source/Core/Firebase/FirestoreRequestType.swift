@@ -23,7 +23,7 @@ import SHFirestoreService
   }
   
   var collectionRef: CollectionReference {
-    Firestore.firestore().collection(self.collectionPath)
+    Firestore.firestore().collection(collectionPath)
   }
   
   var documentRef: DocumentReference? {
@@ -149,7 +149,7 @@ extension FirestoreRequestType {
     var collectionPath: String {
       switch self {
       case .fetchHeartUsers(let postId):
-        "\(rootPath)/\(postId)/user-hearts"
+        "\(rootPath)/\(postId)/post-hearts"
       }
     }
     
