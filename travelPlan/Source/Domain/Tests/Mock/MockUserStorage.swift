@@ -6,26 +6,27 @@
 //
 
 import Foundation
+import UIKit
 
 final class MockUserStorage: UserStorage {
   var nickname: String? {
     "짱구"
   }
   
-  var profileURL: String? {
-    "tempProfile3"
+  var profileImageData: Data? {
+    UIImage(named: "tempProfile3")?.jpegData(compressionQuality: 0.8)
   }
   
   var isSavedProfileInServer: Bool {
     false
   }
   
-  var id: Int64? {
-    1
+  var id: String? {
+    "sUSkn1ogJ5azdXaMYe0tt4sVJ8L2"
   }
   
   var user: UserEntity? {
-    .init(id: 1, nickname: "짱구", isSavedProfileInServer: false)
+    .init(id: "1", nickname: "짱구", isSavedProfileInServer: false)
   }
   
   func setUser(with userInfo: UserEntity) { }
@@ -36,12 +37,12 @@ final class MockUserStorage: UserStorage {
   }
   
   @discardableResult
-  func updateProfileURL(with url: String) -> Bool {
+  func updateProfileImageData(with data: Data) -> Bool {
     return true
   }
   
   @discardableResult
-  func deleteProfile() -> Bool {
+  func deleteProfileImageData() -> Bool {
     return true
   }
 }

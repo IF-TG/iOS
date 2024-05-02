@@ -1,13 +1,13 @@
 {
   "result": {
-    "commentId": 123,
+    "commentId": "123",
     "profileImgUri": "tempProfile1",
     "nickname": "짱구",
     "createAt": "2024-03-22T12:00:00Z",
     "comment": "봄봄봄 봄이 왔네요호호호홓~~~\n\n하하하핳. ",
     "nestedCommentDtoList": [
       {
-        "nestedCommentId": 455,
+        "nestedCommentId": "455",
         "profileImgUri": "tempProfile2",
         "nickname": "맹구",
         "crateAt": "2024-03-22T12:30:00Z",

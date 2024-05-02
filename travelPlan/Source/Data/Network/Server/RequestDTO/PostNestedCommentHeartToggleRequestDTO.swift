@@ -8,7 +8,7 @@
 import Foundation
 
 struct PostNestedCommentHeartToggleRequestDTO: Encodable {
-  let id: Int64
+  let id: String
   
   enum CodingKeys: String, CodingKey {
     case id = "objectId"

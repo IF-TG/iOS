@@ -16,7 +16,7 @@ enum AuthenticationServiceError: Error {
 protocol AuthenticationService {
   var sessionProvider: Sessionable { get }
   func setLoginStrategy(_ strategy: LoginStrategy)
-  func performLogin() -> AnyPublisher<JWTResponseDTO, Error>
+  func performLogin() -> AnyPublisher<JWTResponseDTO?, Error>
 }
 
 final class DefaultAuthenticationService: AuthenticationService {
@@ -34,7 +34,7 @@ final class DefaultAuthenticationService: AuthenticationService {
     self.loginStrategy?.sessionable = sessionProvider
   }
   
-  func performLogin() -> AnyPublisher<JWTResponseDTO, Error> {
+  func performLogin() -> AnyPublisher<JWTResponseDTO?, Error> {
     guard let loginStrategy = loginStrategy else {
       return Fail(error: AuthenticationServiceError.noStrategy)
         .eraseToAnyPublisher()

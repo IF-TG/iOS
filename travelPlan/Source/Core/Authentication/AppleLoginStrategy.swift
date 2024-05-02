@@ -14,7 +14,7 @@ final class AppleLoginStrategy: NSObject, LoginStrategy {
   private var authorizationController: ASAuthorizationController?
   private var subscriptions = Set<AnyCancellable>()
   var sessionable: Sessionable?
-  let resultPublisher = PassthroughSubject<JWTResponseDTO, Error>()
+  let resultPublisher = PassthroughSubject<JWTResponseDTO?, Error>()
   
   // MARK: - LifeCycle
   override init() {

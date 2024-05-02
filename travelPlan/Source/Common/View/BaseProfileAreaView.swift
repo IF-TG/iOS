@@ -96,12 +96,12 @@ class BaseProfileAreaView: UIView {
   }
   
   // MARK: - Helper
-  func configure(with imagePath: String?) {
-    guard let imagePath = imagePath else {
+  func configure(with imageData: Data?) {
+    guard let imageData = imageData else {
       profileImageView.image = nil
       return
     }
-    profileImageView.image = UIImage(named: imagePath)
+    profileImageView.image = UIImage(data: imageData)
   }
   
   // MARK: - Private helper
@@ -167,8 +167,6 @@ class BaseProfileAreaView: UIView {
     let contentViewBottomConstraint = contentView.bottomAnchor.constraint(
       equalTo: bottomAnchor,
       constant: -spacing.bottom)
-    // 이걸 여기서 왜해?
-    //contentViewBottomConstraint.priority = .defaultHigh
     
     return [
       contentView.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: spacing.left),

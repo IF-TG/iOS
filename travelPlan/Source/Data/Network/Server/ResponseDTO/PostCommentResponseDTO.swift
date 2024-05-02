@@ -8,7 +8,7 @@
 import Foundation
 
 struct PostCommentResponseDTO: Decodable {
-  let commentId: Int64
+  let commentId: String
   let userProfileURL: String
   let nickname: String
   let timestamp: String
@@ -35,10 +35,10 @@ struct PostCommentResponseDTO: Decodable {
 
 // MARK: - Mappings to Domain
 extension PostCommentResponseDTO {
-  func toDomain() -> PostCommentEntity {
+  func toDomain(with commentAuthorImageData: Data?, nestedCommentAuthorsImageData: [Data?]) -> PostCommentEntity {
     return PostCommentEntity(
       commentId: commentId,
-      userProfileURL: userProfileURL,
+      userProfileImageData: commentAuthorImageData,
       userName: nickname,
       timestamp: timestamp,
       comment: comment,
@@ -46,6 +46,6 @@ extension PostCommentResponseDTO {
       isOnHeart: isOnHeart,
       isBlocked: isBlocked,
       hearts: hearts,
-      nestedComments: nestedComments.map { $0.toDomain() })
+      nestedComments: nestedComments.enumerated().map { $1.toDomain(with: nestedCommentAuthorsImageData[$0] ) })
   }
 }

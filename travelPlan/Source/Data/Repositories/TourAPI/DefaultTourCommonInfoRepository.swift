@@ -35,14 +35,17 @@ final class DefaultTourCommonInfoRepository: TourCommonInfoRepository {
         .subscribe(on: backgroundQueue)
         .mapConnectionError()        
         .tryMap {
-          if $0.response.header.resultCode == "0000" {
+          let resultCode = $0.response.header.resultCode
+          if resultCode == "0000" {
             guard let item = $0.response.body.items.item.first else {
               /// commonInfo가 없을경우 noDataError를 방출합니다.
-              throw TourAPIError.noDataError
+              throw TourAPIError.tourAPIProviderInstitutionError(.noDataError)
             }
             return item.toDomain()
           } else {
-            throw TourAPIError(code: $0.response.header.resultCode)
+            throw TourAPIError(
+              code: String(resultCode.suffix(2))
+            ) ?? .unexpectedErrorFromSuccessfulResponseData("Error code:\(resultCode)")
           }
         }
         .sink { completion in

@@ -422,11 +422,17 @@ private extension PostDetailViewModel {
   
   func loggedInUserUseCaseHandlerStream() -> Output {
     loggedInUserUseCaseHandler.map { [weak self] _ -> State in
-      guard let profileURL = self?.loggedInUserUseCase.profileURL else {
+      guard let profileImageData = self?.loggedInUserUseCase.profileImageData else {
         // 로그인한 사용자의 프로필 확인x.. (맨 처음에 로그인할때 기본 이미지 지정하는게 베스트)
         return .unexpectedError(description: "로그인한 사용자의 프로필 이미지가 없습니다.")
       }
-      return .viewDidLoad(.loggedInUserInfo(userProfile: profileURL))
+      // TODO: - 포스트에 포스트 작성 저자와 비교해야 합니다. Server에는 포스트에 아직 author id가 없음으로 패스..
+      guard let loggedUserId = self?.loggedInUserUseCase.id else {
+        // 로그인한 사용자의 프로필 확인x.. (맨 처음에 로그인할때 기본 이미지 지정하는게 베스트)
+        return .unexpectedError(description: "로그인한 사용자의 프로필 이미지가 없습니다.")
+      }
+      // 비교로직.postDetails.Author..
+      return .viewDidLoad(.loggedInUserInfo(userProfile: profileImageData, isPostOwner: true))
     }.eraseToAnyPublisher()
   }
   
@@ -722,7 +728,7 @@ extension PostDetailViewModel: PostDetailTableViewDataSource {
     let commentInfo = BasePostDetailCommentInfo(
       commentId: postReply.nestedCommentId,
       userName: postReply.nickname,
-      userProfileURL: postReply.userProfileURL,
+      userProfileImageData: postReply.userProfileImageData,
       timestamp: postReply.timestamp,
       comment: postReply.comment,
       isOnHeart: postReply.isOnHeart,
@@ -738,7 +744,7 @@ extension PostDetailViewModel: PostDetailTableViewDataSource {
     let baseInfo: BasePostDetailCommentInfo = .init(
       commentId: postComment.commentId,
       userName: postComment.userName,
-      userProfileURL: postComment.userProfileURL,
+      userProfileImageData: postComment.userProfileImageData,
       timestamp: postComment.timestamp,
       comment: postComment.isDeleted ? "댓글이 삭제되었습니다." : postComment.comment,
       isOnHeart: postComment.isOnHeart,
@@ -773,7 +779,7 @@ extension PostDetailViewModel: PostDetailTableViewDataSource {
     // FIXME: - 이거도 서버에서 문자열의 start, end받을 때 형식 지정해가지구 몇박 몇일인지를 뜻하는 것고 구하도록 계획해야합니다.
     return .init(
       userName: postDetails.author.nickname,
-      userThumbnailPath: postDetails.author.profileUri,
+      userThumbnailData: postDetails.author.profileImageData,
       travelDuration: tripDurationYMDString,
       travelCalendarDateRange: "일박 이일~", uploadedDescription: postDetails.detail.createAt)
   }
@@ -803,9 +809,13 @@ extension PostDetailViewModel: PostDetailTableViewDataSource {
 }
 
 extension PostDetailViewModel: ReviewWritingPostReceivable {
-  func receive(post: Post) {
+  func receive(post: Post?) {
     // TODO: - 편집한 리뷰작성 Post를 기반으로 화면을 갱신해야 합니다.
     print("DEBUG: PostDetailViewModel에서 편집된 post 객체 받음")
-    self.post = post
+    if post == nil {
+      // TODO: - firestore를 통해서 업로드한 것임으로 postId에서 데이터 받아와야합니다.
+    } else {
+      self.post = post
+    }
   }
 }

@@ -9,7 +9,7 @@ import Foundation
 
 struct PostResponseDTO: Decodable {
   // MARK: - Properties
-  let postID: Int64
+  let postID: String
   let postImages: [PostImage]
   let title: String
   let content: String
@@ -52,7 +52,7 @@ struct PostResponseDTO: Decodable {
   
   init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
-    self.postID = try container.decode(Int64.self, forKey: .postID)
+    self.postID = try container.decode(String.self, forKey: .postID)
     self.postImages = try container.decode([PostImage].self, forKey: .postImages)
     self.title = try container.decode(String.self, forKey: .title)
     self.content = try container.decode(String.self, forKey: .content)
@@ -106,8 +106,8 @@ extension PostResponseDTO {
       tripDate: toDomain())
   }
   
-  func toDomain() -> Post.Author {
-    .init(profileUri: profile, nickname: nickname)
+  func toDomain(with authorProfileData: Data?) -> Post.Author {
+    .init(profileImageData: authorProfileData, nickname: nickname)
   }
   
   func toDomain() -> Post.TripDate {

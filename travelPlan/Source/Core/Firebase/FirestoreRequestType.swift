@@ -10,73 +10,158 @@ import FirebaseFirestore
 import SHFirestoreService
 
 @frozen enum FirestoreRequestType: FirestoreAccessible {
-  case users(UsersRequest)
-  case blockedUsers
-  case posts
-  case postComments
+  case users(UsersCollection)
+  case posts(Posts)
   
   private var collectionPath: String {
     switch self {
-    case .users:
-      "users"
-    case .blockedUsers:
-      "blockedUsers"
-    case .posts:
-      "posts"
-    case .postComments:
-      "postComments"
+    case .users(let users):
+      users.collectionPath
+    case .posts(let posts):
+      posts.collectionPath
     }
   }
   
   var collectionRef: CollectionReference {
-    return Firestore.firestore().collection(self.collectionPath)
+    Firestore.firestore().collection(self.collectionPath)
   }
   
   var documentRef: DocumentReference? {
     switch self {
     case .users(let usersRequest):
-      guard let documentPath = usersRequest.documentpath else { return nil }
+      guard let documentPath = usersRequest.documentPath else { return nil }
       return collectionRef.document(documentPath)
-    case .blockedUsers:
-      return nil
-    case .posts:
-      return nil
-    case .postComments:
-      return nil
+    case .posts(let posts):
+      guard let documentPath = posts.documentpath else { return nil }
+      return collectionRef.document(documentPath)
     }
   }
 }
 
 // MARK: - FirestoreRequest + UsersRequest
 extension FirestoreRequestType {
-  // TODO: - 관련 documentId associated Type으로 부여해야합니다.
-  @frozen enum UsersRequest {
-    typealias UID = String
-    
-    //    case updateProfile
-    //    case saveProfile
-    //    case deleteProfile
-    //    case fetchProfile
-    //
-    //    case checkIfNameDuplicate
-    //    case updateName
-    
-    case saveOwnerInfo(UID)
+  @frozen enum UsersCollection {
+    /// 모든 유저 문서 받아옴
     case fetchAllUsers
+    case userDocument(UserDocument)
     
-    var documentpath: String? {
+    var rootPath: String {
+      "users"
+    }
+    
+    var documentPath: String? {
       switch self {
-      case .saveOwnerInfo(let uID):
-        return uID
       case .fetchAllUsers:
         return nil
+      case .userDocument(let user):
+        if let userDocuemntPath = user.docuemntPath {
+          return userDocuemntPath
+        }
+        return nil
+      }
+    }
+    
+    var collectionPath: String {
+      switch self {
+      case .fetchAllUsers:
+        return rootPath
+        
+      /// 사용자 도큐먼트에서는 하위 collection으로 접근하지 않는 경우 문서에 접근하는 것임으로 rootPath반환
+      case .userDocument(let userDocument):
+        if let childCollectionPath = userDocument.childCollectionPath {
+          return "\(rootPath)\(childCollectionPath)"
+        }
+        return rootPath
       }
     }
   }
   
-  // TODO: - 관련 documentId associated Type으로 부여해야합니다.
-  @frozen enum UserBlockRequest {
-    case block
+  @frozen enum UserDocument {
+    case fetchUserProfile(String)
+    case saveUserProfile
+    //    case updateProfileImage
+    //    case updateName
+    //    case updateProfileImage
+    //    case saveProfileImage
+    //    case deleteProfile
+    //    case fetchProfileImage
+    //
+    //    case checkIfNameDuplicate
+    //    case updateName
+    //    case fetchAllUsers
+    //    case deleteUser(String)
+    case blockedUsersCollection(String, BlockedUserCollection)
+    
+    var docuemntPath: String? {
+      switch self {
+      case .fetchUserProfile(let UID):
+        return UID
+      case .saveUserProfile:
+        return nil
+      case .blockedUsersCollection(_, let requestType):
+        if let subDocumentPath = requestType.documentPath {
+          return subDocumentPath
+        }
+        return nil
+      }
+    }
+    
+    var childCollectionPath: String? {
+      switch self {
+      case .fetchUserProfile(let UID):
+        return nil
+      case .saveUserProfile:
+        return nil
+      case .blockedUsersCollection(let uid, let blockedUserCollection):
+        return "/\(uid)\(blockedUserCollection.collectionPath)"
+      }
+    }
+  }
+  
+  @frozen enum BlockedUserCollection {
+    case blockUser
     case fetchBlockedUsers
+    
+    var collectionPath: String {
+      "/blocked-users"
+    }
+    
+    var documentPath: String? {
+      switch self {
+      case .blockUser:
+        return nil
+      case .fetchBlockedUsers:
+        return nil
+      }
+    }
+  }
+}
+
+extension FirestoreRequestType {
+  @frozen enum Posts {
+    case save
+    case update(postId: String)
+    
+    private var rootPath: String {
+      "posts"
+    }
+    
+    var documentpath: String? {
+      switch self {
+      case .save:
+        return nil
+      case .update(let postId):
+        return postId
+      }
+    }
+    
+    var collectionPath: String {
+      switch self {
+      case .save:
+        return rootPath
+      case .update:
+        return rootPath
+      }
+    }
   }
 }

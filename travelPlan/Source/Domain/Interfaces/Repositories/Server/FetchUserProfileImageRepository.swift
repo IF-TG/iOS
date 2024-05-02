@@ -9,5 +9,5 @@ import Foundation
 import Combine
 
 protocol UserRepository {
-  func fetchProfile(with id: Int64) -> AnyPublisher<ProfileImageEntity, Error>
+  func fetchProfile(with id: String) -> AnyPublisher<ProfileImageEntity, Error>
 }

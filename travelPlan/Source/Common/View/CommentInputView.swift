@@ -140,8 +140,7 @@ extension CommentInputView: UITextViewDelegate {
       editingTextNotChangedHandler?()
       sendIcon.image = sendIcon.image?.setColor(.yg.gray2)
       sendIcon.isUserInteractionEnabled = false
-    }
-    else {
+    } else {
       /// 전송 가능한 상태일 때
       sendIcon.image = sendIcon.image?.setColor(.yg.primary)
       sendIcon.isUserInteractionEnabled = true
