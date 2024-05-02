@@ -18,6 +18,12 @@ import Foundation
   ///   국문에서 정의되지 않은 errorCode를 받은 경우
   case unexpectedErrorFromSuccessfulResponseData(String)
   
+  /// imageURL을 받아서 Data로 변환하는데 Data변환이 실패할 경우
+  case cannotConvertImageURLToData
+  
+  /// item 배열에 element가 존재하지 않는 경우
+  case noItem
+  
   init?(code: String) {
     if let publicDataPortalError = PublicDataPortalInTourAPIError(code: code) {
       self = .publicDataPortalError(publicDataPortalError)
