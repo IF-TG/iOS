@@ -18,6 +18,9 @@ public extension UIDevice {
       return identifier + String(UnicodeScalar(UInt8(value)))
     }
     
+    // swiftlint:disable function_body_length
+    // swiftlint:disable line_length
+    // swiftlint:disable cyclomatic_complexity
     func mapToDevice(identifier: String) -> String {
 #if os(iOS)
       switch identifier {
@@ -93,7 +96,7 @@ public extension UIDevice {
       case "iPad7,1", "iPad7,2":                            return "iPad Pro (12.9-inch) (2nd generation)"
       case "iPad8,5", "iPad8,6", "iPad8,7", "iPad8,8":      return "iPad Pro (12.9-inch) (3rd generation)"
       case "iPad8,11", "iPad8,12":                          return "iPad Pro (12.9-inch) (4th generation)"
-      case "iPad13,8", "iPad13,9", "iPad13,10", "iPad13,11":return "iPad Pro (12.9-inch) (5th generation)"
+      case "iPad13,8", "iPad13,9", "iPad13,10", "iPad13,11": return "iPad Pro (12.9-inch) (5th generation)"
       case "iPad14,5", "iPad14,6":                          return "iPad Pro (12.9-inch) (6th generation)"
       case "AppleTV5,3":                                    return "Apple TV"
       case "AppleTV6,2":                                    return "Apple TV 4K"
@@ -114,5 +117,7 @@ public extension UIDevice {
     
     return mapToDevice(identifier: identifier)
   }()
-  
+  // swiftlint:enable cyclomatic_complexity
+  // swiftlint:enable line_length
+  // swiftlint:enable function_body_length
 }
