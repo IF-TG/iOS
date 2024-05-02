@@ -23,6 +23,11 @@ struct TourApiCommonInfoResponseDTO: Decodable {
   let mapx: String
   let mapy: String
   
+  /// 원본
+  let firstimage: String
+  /// 섬네일
+  let firstimage2: String
+  
   let overview: String
 }
 
@@ -34,6 +39,7 @@ extension TourApiCommonInfoResponseDTO {
       address: .init(address1: addr1, address2: addr2),
       contact: .init(telNumber: tel, telName: telname),
       coordinate: .init(mapX: mapx, mapY: mapy),
+      image: .init(originalImageURL: firstimage, thumbnailImageURL: firstimage2),
       overview: overview)
   }
 }
