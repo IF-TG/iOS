@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-protocol TourDestinationUseCase {
+protocol TourApiDetailCommonUseCase {
   func fetchDetailCommonInfo(
     contentId: Int,
     numOfRows: Int?,

@@ -1,5 +1,5 @@
 //
-//  DefaultTourDesrinationUseCase.swift
+//  FetchTourApiDetailCommonUseCase.swift
 //  travelPlan
 //
 //  Created by 양승현 on 4/20/24.
@@ -8,13 +8,13 @@
 import Foundation
 import Combine
 
-final class DefaultTourDesrinationUseCase: TourDestinationUseCase {
+final class FetchTourApiDetailCommonUseCase: TourApiDetailCommonUseCase {
   
   // MARK: - Dependencies
-  let tourDestinationRepository: TourDestinationRepository
+  let tourDestinationRepository: TourDetailCommonRepository
   
   // MARK: - Lifecycle
-  init(tourDestinationRepository: TourDestinationRepository) {
+  init(tourDestinationRepository: TourDetailCommonRepository) {
     self.tourDestinationRepository = tourDestinationRepository
   }
   
