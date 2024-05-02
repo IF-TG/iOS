@@ -10,6 +10,11 @@ import Foundation
 @frozen enum TourApiRequestType: String, RelativeURLPathProvidable {
   /// 공통정보조회
   case detailCommon = "detailCommon1"
+  /// 행사정보조회
+  case festival = "searchFestival1"
+  /// 소개정보조회
+  case introduction = "detailIntro1"
+  
   
   private var prefixPath: String {
     return "/B551011/KorService1"
@@ -17,10 +22,7 @@ import Foundation
   
   var path: String {
     let prefix = "B551011/KorService1"
-    let relativePath = switch self {
-    case .detailCommon:
-      self.rawValue
-    }
+    let relativePath = self.rawValue
     return prefix + "/\(relativePath)"
   }
 }
