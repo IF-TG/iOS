@@ -12,6 +12,7 @@ struct TourCommonInfoEntity {
   let address: addressInfo
   let contact: ContactInfo
   let coordinate: Coordinate
+  let image: ImageInfo
   let overview: String
 }
 
@@ -39,5 +40,11 @@ extension TourCommonInfoEntity {
     let address1: String
     /// 상세 주소
     let address2: String
+  }
+  
+  /// **이미지 정보 조회**
+  struct ImageInfo {
+    let originalImageURL: String
+    let thumbnailImageURL:  String
   }
 }
