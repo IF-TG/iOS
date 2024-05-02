@@ -94,7 +94,7 @@ extension FirestorePostResponseDTO {
       tripDate: .init(start: startDate, end: endDate))
   }
   
-  func toDomain(liked: Bool, authorImageData: Data?, authorName: String, postImages: [Post.PostImage]) -> Post {
+  func toDomain(liked: Bool?, authorImageData: Data?, authorName: String, postImages: [Post.PostImage]) -> Post {
     return .init(
       liked: liked,
       detail: toDomain(),

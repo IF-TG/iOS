@@ -11,6 +11,6 @@ struct PostsPage {
   // FIXME: - 임시로 추가. 추후 서버 api 에 totalPages나 totalPosts 추가되면 그에 맞춰 바꿔야합니다.
   let totalPosts: Int64
   let posts: [Post]
-  let thumbnails: [PostThumbnails]
+  var thumbnails: [PostThumbnails]
   var hasMorePage: Bool = true
 }

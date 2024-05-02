@@ -8,7 +8,7 @@
 import Foundation
 
 struct Post {
-  let liked: Bool
+  let liked: Bool?
   let detail: Detail<[PostContent]>
   let author: Author
   let highResolveImages: [PostImage]

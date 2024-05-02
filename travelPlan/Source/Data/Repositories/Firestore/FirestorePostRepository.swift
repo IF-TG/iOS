@@ -78,7 +78,6 @@ extension FirestorePostRepository: PostRepository {
           responseDTO.enumerated().forEach { index, postResponseDTO in
             var author: UserEntity?
             var postImages: [Post.PostImage] = []
-            var hasLiked: Bool = false
             
             groupManager.enter()
             let group = DispatchGroup()
@@ -114,12 +113,9 @@ extension FirestorePostRepository: PostRepository {
               }
             self.subscriptions.insert(imageSubscription)
             
-            // TODO: - 포스트를 사용자가 좋아했는지 아닌지의 컬랙션에서 얻어와야함. 결과
-            fatalError("포스트 문서 내 사용자 좋아했는지 레포에서 이 사용자가 좋아했는지 여부 얻어와야함.")
-            
             group.notify(queue: DispatchQueue.global(qos: .userInteractive)) { [index] in
               let post = responseDTO[index].toDomain(
-                liked: hasLiked,
+                liked: nil,
                 authorImageData: author?.profileImageData,
                 authorName: author?.nickname ?? "여행자",
                 postImages: postImages)
@@ -127,9 +123,6 @@ extension FirestorePostRepository: PostRepository {
             }
           }
           groupManager.notify(queue: DispatchQueue.global(qos: .userInteractive)) {
-            // TODO: - 여기서 postsPage반환해야합니다. 그전에 posts에서 index기반으로 소팅된 post만 반환
-            // TODO: - 섬네일용으로 이미지 별도로 작게해서 만들까? ImageIO() 추가 고고링!
-            // 이건 유즈케이스에서..
             let postsPage = PostsPage(
               totalPosts: Int64.max,
               posts: posts.sorted(by: { $0.index < $1.index }).map { $0.post },

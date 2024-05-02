@@ -28,7 +28,7 @@ struct PostMapper {
       thumbnailImageDataList: thumbnails)
     let postFooterInfo = PostFooterInfo(
       heartCount: String(post.detail.likes),
-      heartState: post.liked,
+      heartState: post.liked ?? false,
       commentCount: String(post.detail.comments))
     return PostInfo(
       postId: post.detail.postID,
