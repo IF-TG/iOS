@@ -8,12 +8,12 @@
 import Foundation
 
 struct RestaurantResponseDTO: Decodable {
-  let mainMenu: String?
-  let openTime: String?
-  let canPack: String?
-  let parkingFacility: String?
-  let restDate: String?
-  let menu: String?
+  let mainMenu: String
+  let openTime: String
+  let canPack: String
+  let parkingFacility: String
+  let restDate: String
+  let menu: String
   
   enum CodingKeys: String, CodingKey {
     case mainMenu = "firstmenu"

@@ -8,12 +8,12 @@
 import Foundation
 
 struct CultureFacilityResponseDTO: Decodable {
-  let canLoanBabyCarriage: String?
-  let canAccompanyPet: String?
-  let parkingFacility: String?
-  let parkingFee: String?
-  let useFee: String?
-  let availableTime: String?
+  let canLoanBabyCarriage: String
+  let canAccompanyPet: String
+  let parkingFacility: String
+  let parkingFee: String
+  let useFee: String
+  let availableTime: String
   
   enum CodingKeys: String, CodingKey {
     case canLoanBabyCarriage = "chkbabycarriageculture"
