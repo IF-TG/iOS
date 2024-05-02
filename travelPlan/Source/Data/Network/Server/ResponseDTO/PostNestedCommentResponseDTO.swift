@@ -20,7 +20,6 @@ struct PostNestedCommentResponseDTO: Decodable {
     case nestedCommentId
     case userProfileURL = "profileImgUri"
     case nickname
-    // FIXME: - 경완이한테 알려주고 추후 경완이가 api 개선하면 그에 따라 바꾸기
     case timestamp = "crateAt"
     case comment
     case hearts = "likeNum"

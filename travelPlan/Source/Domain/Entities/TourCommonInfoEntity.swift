@@ -7,15 +7,16 @@
 
 import Foundation
 
-struct TourDestinationDetailCommonEntity {
+struct TourCommonInfoEntity {
   let id: Id
   let address: addressInfo
   let contact: ContactInfo
   let coordinate: Coordinate
+  let image: ImageInfo
   let overview: String
 }
 
-extension TourDestinationDetailCommonEntity {
+extension TourCommonInfoEntity {
   /// **기본 정보 조회**
   struct Id {
     let contentId: String
@@ -39,5 +40,11 @@ extension TourDestinationDetailCommonEntity {
     let address1: String
     /// 상세 주소
     let address2: String
+  }
+  
+  /// **이미지 정보 조회**
+  struct ImageInfo {
+    let originalImageURL: String
+    let thumbnailImageURL:  String
   }
 }

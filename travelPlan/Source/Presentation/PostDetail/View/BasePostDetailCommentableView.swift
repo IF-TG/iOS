@@ -38,7 +38,6 @@ final class BasePostDetailCommentableView: BaseProfileAreaView {
     $0.isUserInteractionEnabled = true
   }
   
-  // TODO: - 어떻게 시간 지남을 구하고 표시할것인가?
   private let timeStampLabel = BaseLabel(fontType: .regular_400(fontSize: 12), lineHeight: 14.32).set {
     $0.textColor = .yg.gray3
     $0.numberOfLines = 1

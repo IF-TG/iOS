@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct TourApiDetailCommonResponseDTO: Decodable {
+struct TourApiCommonInfoResponseDTO: Decodable {
   /// **기본 정보 조화**
   let contentid: String
   let contenttypeid: String
@@ -23,17 +23,23 @@ struct TourApiDetailCommonResponseDTO: Decodable {
   let mapx: String
   let mapy: String
   
+  /// 원본
+  let firstimage: String
+  /// 섬네일
+  let firstimage2: String
+  
   let overview: String
 }
 
 // MARK: - Mappings to Domain
-extension TourApiDetailCommonResponseDTO {
-  func toDomain() -> TourDestinationDetailCommonEntity {
+extension TourApiCommonInfoResponseDTO {
+  func toDomain() -> TourCommonInfoEntity {
     .init(
       id: .init(contentId: contentid, contentTypeId: contenttypeid),
       address: .init(address1: addr1, address2: addr2),
       contact: .init(telNumber: tel, telName: telname),
       coordinate: .init(mapX: mapx, mapY: mapy),
+      image: .init(originalImageURL: firstimage, thumbnailImageURL: firstimage2),
       overview: overview)
   }
 }

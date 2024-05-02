@@ -34,29 +34,8 @@ final class GoogleLoginStrategyWithFirebase: LoginStrategy {
       resultPublisher.send(completion: .failure(GoogleLoginStrategyError.invalidClientIdInFirebase))
       return
     }
-    
-    var presentedVC: UIViewController?
-    if #available(iOS 15.0, *) {
-      let rootVC = UIApplication.shared
-        .connectedScenes
-        .filter { $0.activationState == .foregroundActive }
-        .first(where: {$0 is UIWindowScene })
-        .flatMap { $0 as? UIWindowScene }?.windows
-        .first(where: \.isKeyWindow)?.rootViewController
-      
-      if let rootVC = rootVC {
-        presentedVC = rootVC
-      }
-    } else if #available(iOS 13.0, *) {
-      if let window = UIApplication.shared.windows.first(where: { $0.isKeyWindow }),
-         let viewController = window.rootViewController?.presentedViewController {
-        presentedVC = viewController
-      }
-    } else {
-      presentedVC = UIApplication.shared.keyWindow?.rootViewController?.presentedViewController
-    }
-    
-    guard let presentedVC else {
+
+    guard let presentedVC = UIApplication.topPresentedViewController else {
       resultPublisher.send(completion: .failure(GoogleLoginStrategyError.invalidPresentingViewController))
       return
     }
