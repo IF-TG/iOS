@@ -17,6 +17,7 @@ final class FirestorePostRepository {
   private let service: FirestoreServiceProtocol
   private let firebaseStorageService: ImageStorageServiceProtocol
   private let profileRepository: MyProfileRepository
+  private let backgroundQueue: DispatchQueue
   
   // MARK: - Properties
   private var subscriptions = Set<AnyCancellable?>()
@@ -25,11 +26,13 @@ final class FirestorePostRepository {
   init(
     service: FirestoreServiceProtocol,
     firebaseStorageService: ImageStorageServiceProtocol,
-    profileRepository: MyProfileRepository
+    profileRepository: MyProfileRepository,
+    backgroundQueue: DispatchQueue = .global(qos: .default)
   ) {
     self.service = service
     self.firebaseStorageService = firebaseStorageService
     self.profileRepository = profileRepository
+    self.backgroundQueue = backgroundQueue
   }
 }
 
@@ -41,7 +44,6 @@ extension FirestorePostRepository: PostRepository {
     category: PostCategory
   ) -> AnyPublisher<PostsPage, any Error> {
     let isFirstPage = page == 1
-    
     let endpoint = Endpoint.fetchPostsEndpoint()
     
     return Future { [weak self] promise in
@@ -71,64 +73,8 @@ extension FirestorePostRepository: PostRepository {
               promise(.failure(error))
             }
           }
-        } receiveValue: { responseDTO in
-          let groupManager = DispatchGroup()
-          /// 포스트는 순차적x. 빨리끝난것부터 반환. 그러기에 소팅해주어야합니다.
-          var posts: [(post: Post, index: Int)] = []
-          responseDTO.enumerated().forEach { index, postResponseDTO in
-            var author: UserEntity?
-            var postImages: [Post.PostImage] = []
-            
-            groupManager.enter()
-            let group = DispatchGroup()
-            group.enter()
-            let profileSubscription = self.profileRepository.fetchProfile(with: postResponseDTO.authorId)
-              .subscribe(on: DispatchQueue.global(qos: .userInteractive))
-              .sink { completion in
-                if case .failure(let error) = completion {
-                  promise(.failure(error))
-                  group.leave()
-                }
-              } receiveValue: { userEntity in
-                author = userEntity
-                group.leave()
-              }
-            self.subscriptions.insert(profileSubscription)
-            
-            group.enter()
-            let imageSubscription = self.firebaseStorageService
-              .fetchImages(postResponseDTO.postImageFiles.map { $0.url },
-                           type: .postImage)
-              .sink { completion in
-                if case .failure(let error) = completion {
-                  promise(.failure(error))
-                  group.leave()
-                }
-              } receiveValue: { postImageDataList in
-                postImages = postImageDataList
-                  .enumerated()
-                  .map { Post.PostImage(imageData: $1, sort: Int32(postResponseDTO.postImageFiles[$0].sort)) }
-                group.leave()
-              }
-            self.subscriptions.insert(imageSubscription)
-            
-            group.notify(queue: DispatchQueue.global(qos: .userInteractive)) { [index] in
-              let post = responseDTO[index].toDomain(
-                liked: nil,
-                authorImageData: author?.profileImageData,
-                authorName: author?.nickname ?? "여행자",
-                postImages: postImages)
-              posts.append((post, index))
-              groupManager.leave()
-            }
-          }
-          groupManager.notify(queue: DispatchQueue.global(qos: .userInteractive)) {
-            let postsPage = PostsPage(
-              totalPosts: Int64.max,
-              posts: posts.sorted(by: { $0.index < $1.index }).map { $0.post },
-              thumbnails: [])
-            promise(.success(postsPage))
-          }
+        } receiveValue: { [weak self] responseDTO in
+          self?.handlePostsFetch(from: responseDTO, to: promise)
         }
       subscriptions.insert(serviceSubscription)
     }.eraseToAnyPublisher()
@@ -182,6 +128,63 @@ extension FirestorePostRepository: PostRepository {
       } else {
         query.whereField(mainThemeField, isGreaterThan: [])
       }
+    }
+  }
+  
+  /// Dispatch그룹으로 받을 경우 포스트는 순차적으로 받지 않기에. 빨리끝난것부터 반환. 그래서 소팅 해주어야 합니다.
+  private func handlePostsFetch(
+    from responseDTO: [FirestorePostResponseDTO],
+    to promise: @escaping Future<PostsPage, any Error>.Promise
+  ) {
+    let groupManager = DispatchGroup()
+    var posts: [(post: Post, index: Int)] = []
+    responseDTO.enumerated().forEach { index, postResponseDTO in
+      var author: UserEntity?
+      var postImages: [Post.PostImage] = []
+      let group = DispatchGroup()
+      groupManager.enter()
+      group.enter()
+      let profileSubscription = self.profileRepository.fetchProfile(with: postResponseDTO.authorId)
+        .subscribe(on: backgroundQueue)
+        .sink { completion in
+          if case .failure(let error) = completion {
+            promise(.failure(error))
+            group.leave()
+          }
+        } receiveValue: { userEntity in
+          author = userEntity
+          group.leave()
+        }
+      subscriptions.insert(profileSubscription)
+      group.enter()
+      let imageSubscription = self.firebaseStorageService
+        .fetchImages(postResponseDTO.postImageFiles.map { $0.url }, type: .postImage)
+        .sink { completion in
+          if case .failure(let error) = completion {
+            promise(.failure(error))
+            group.leave()
+          }
+        } receiveValue: { postImageDataList in
+          postImages = postImageDataList
+            .enumerated()
+            .map { Post.PostImage(imageData: $1, sort: Int32(postResponseDTO.postImageFiles[$0].sort)) }
+          group.leave()
+        }
+      subscriptions.insert(imageSubscription)
+      group.notify(queue: backgroundQueue) { [index] in
+        let post = responseDTO[index].toDomain(
+          liked: nil,
+          authorImageData: author?.profileImageData,
+          authorName: author?.nickname ?? "여행자",
+          postImages: postImages)
+        posts.append((post, index))
+        groupManager.leave()
+      }
+    }
+    groupManager.notify(queue: DispatchQueue.global(qos: .userInteractive)) {
+      let postsPage = PostsPage(
+        totalPosts: Int64.max, posts: posts.sorted(by: { $0.index < $1.index }).map { $0.post }, thumbnails: [])
+      promise(.success(postsPage))
     }
   }
 }
