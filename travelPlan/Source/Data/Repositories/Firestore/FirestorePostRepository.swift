@@ -105,7 +105,6 @@ extension FirestorePostRepository: PostRepository {
                   group.leave()
                 }
               } receiveValue: { postImageDataList in
-                print(postImageDataList, "이제 원래 있던 sort 추가해서 entity로 반환하면됨")
                 postImages = postImageDataList
                   .enumerated()
                   .map { Post.PostImage(imageData: $1, sort: Int32(postResponseDTO.postImageFiles[$0].sort)) }
@@ -120,6 +119,7 @@ extension FirestorePostRepository: PostRepository {
                 authorName: author?.nickname ?? "여행자",
                 postImages: postImages)
               posts.append((post, index))
+              groupManager.leave()
             }
           }
           groupManager.notify(queue: DispatchQueue.global(qos: .userInteractive)) {
