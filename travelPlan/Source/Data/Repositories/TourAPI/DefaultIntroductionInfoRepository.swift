@@ -28,7 +28,7 @@ extension DefaultTourIntroductionInfoRepository: TourIntroductionInfoRepository 
     contentId: Int,
     contentTypeId: Int
   ) -> AnyPublisher<IntroductionInfoFestivalEntity, any Error> {
-    let endpoint = TourAPIEndpoints.IntroductionInfo.fetchFestival(with: .init(
+    let endpoint = TourAPIIntroductionEndpoints.fetchFestival(with: .init(
       contentId: contentId,
       contentTypeId: contentTypeId
     ))
