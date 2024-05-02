@@ -5,7 +5,7 @@
 //  Created by 양승현 on 2023/09/13.
 //
 
-import Foundation
+import Foundation.NSNotification
 
 extension Notification.Name {
   /// FeedPage에서 분류 및 정렬 눌렀을 때

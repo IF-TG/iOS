@@ -893,7 +893,6 @@
 		154CA6202BD3AD700066B444 /* TourCommonInfoRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourCommonInfoRepository.swift; sourceTree = "<group>"; };
 		154CA6222BD3AE100066B444 /* TourCommonInfoEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourCommonInfoEntity.swift; sourceTree = "<group>"; };
 		154CA6262BD3B5A70066B444 /* TourApiError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourApiError.swift; sourceTree = "<group>"; };
-		154CA6302BD3BDB40066B444 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		154CA6312BD40C5C0066B444 /* TourApiSessionProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourApiSessionProvider.swift; sourceTree = "<group>"; };
 		154ECA162AB0B5D40093AF25 /* TravelMainThemeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelMainThemeType.swift; sourceTree = "<group>"; };
 		154FBC162BC2CDB40070D2FE /* PostReportType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostReportType.swift; sourceTree = "<group>"; };
@@ -1712,7 +1711,6 @@
 		151130072A04E4EB0041DDA1 /* travelPlanTests */ = {
 			isa = PBXGroup;
 			children = (
-				154CA6302BD3BDB40066B444 /* Info.plist */,
 				133532072BA46597000A4D9E /* Common */,
 				1383C81A2B97F3D500830F1A /* Core */,
 				15D655A12B8F820100466FEC /* Presentation */,
@@ -2500,6 +2498,32 @@
 			path = BottomSheet;
 			sourceTree = "<group>";
 		};
+		159B1CAC2BE3E3ED0089DF37 /* Foundation+ */ = {
+			isa = PBXGroup;
+			children = (
+				15F36A192AB1A18200971803 /* CaseIterable+.swift */,
+				15DA4C7E2ACD78C1003A7900 /* Int+.swift */,
+				15FFAC0C2AD9AEB80013DB57 /* Encodable+.swift */,
+				130369652AEC3AA2007E980C /* NSRange+.swift */,
+				151DF0DD2AEE709800D5D55B /* Bool+.swift */,
+				1570FDB62AB1E29C006FBAA3 /* Notification+.swift */,
+				151BDADD2B17002E002F36C3 /* Bundle+Helpers.swift */,
+				133532032BA42DDE000A4D9E /* Double+.swift */,
+				133532052BA42F6E000A4D9E /* Data+.swift */,
+			);
+			path = "Foundation+";
+			sourceTree = "<group>";
+		};
+		159B1CAD2BE3E43C0089DF37 /* XCTest+ */ = {
+			isa = PBXGroup;
+			children = (
+				15553BD22BB34ACA000AA896 /* XCTestCase+UseCaseTestsHelpers.swift */,
+				15529F802BBEC50B00FED360 /* XCTestCase+Helpers.swift */,
+				156C1E2B2BBED14300AF1D99 /* SHCoordinator+XCTestCase.swift */,
+			);
+			path = "XCTest+";
+			sourceTree = "<group>";
+		};
 		15A362D72BD835BA0040591D /* TourAPI */ = {
 			isa = PBXGroup;
 			children = (
@@ -3128,7 +3152,23 @@
 			children = (
 				15FEB5E02A050A99000A5F33 /* UIColor+.swift */,
 				157176772A0C21C90015EC8C /* UIColor+AppPalette.swift */,
+				158BEFC12A0EB45300C27861 /* UIFont+.swift */,
+				158BEFC32A0EC8A100C27861 /* UIView+CustomAnimation.swift */,
+				15AF2C3D2A1147B100BEE166 /* UIImage+.swift */,
 				15F4B01A2BE3DF8A00FBE065 /* UIApplication+.swift */,
+				13CB6D352A20E12B00D185B2 /* CALayer+Border.swift */,
+				131A11092AB509FB007BDD66 /* UIView+roundCorners.swift */,
+				13A6C2DA2AB782A100EABD76 /* UIViewController+BackBarButtonItem.swift */,
+				13BF40F42AD712EC00F3F082 /* UIViewController+TitleView.swift */,
+				158312E02AB36A9A0087034A /* UIViewController+.swift */,
+				157ADC9F2ACFB33100D37680 /* UIScrollView+.swift */,
+				15C1F55B2AF37CA8005FDA15 /* NSMutableAttributedString+.swift */,
+				15C1F5602AF3D17D005FDA15 /* CALayer+.swift */,
+				159958822B0DDFED00B2E4DC /* UIStackView+Helpers.swift */,
+				15302C542B9E23E900B1EA3F /* UIViewController+Indicator.swift */,
+				155527DD2BBD5821000122B4 /* UITableView+Helpers.swift */,
+				151BDADB2B16FE8B002F36C3 /* UIDevice+modelName.swift */,
+				15DDB16E2B04799C001F6EAA /* UITextView+.swift */,
 			);
 			path = "UIKit+";
 			sourceTree = "<group>";
@@ -3179,35 +3219,9 @@
 		15FEB5DF2A050A99000A5F33 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				159B1CAD2BE3E43C0089DF37 /* XCTest+ */,
+				159B1CAC2BE3E3ED0089DF37 /* Foundation+ */,
 				15F4B0192BE3DF7800FBE065 /* UIKit+ */,
-				158BEFC12A0EB45300C27861 /* UIFont+.swift */,
-				158BEFC32A0EC8A100C27861 /* UIView+CustomAnimation.swift */,
-				15AF2C3D2A1147B100BEE166 /* UIImage+.swift */,
-				13CB6D352A20E12B00D185B2 /* CALayer+Border.swift */,
-				131A11092AB509FB007BDD66 /* UIView+roundCorners.swift */,
-				13BF40F42AD712EC00F3F082 /* UIViewController+TitleView.swift */,
-				13A6C2DA2AB782A100EABD76 /* UIViewController+BackBarButtonItem.swift */,
-				15F36A192AB1A18200971803 /* CaseIterable+.swift */,
-				158312E02AB36A9A0087034A /* UIViewController+.swift */,
-				15DA4C7E2ACD78C1003A7900 /* Int+.swift */,
-				157ADC9F2ACFB33100D37680 /* UIScrollView+.swift */,
-				15FFAC0C2AD9AEB80013DB57 /* Encodable+.swift */,
-				130369652AEC3AA2007E980C /* NSRange+.swift */,
-				151DF0DD2AEE709800D5D55B /* Bool+.swift */,
-				1570FDB62AB1E29C006FBAA3 /* Notification+.swift */,
-				15C1F5602AF3D17D005FDA15 /* CALayer+.swift */,
-				15C1F55B2AF37CA8005FDA15 /* NSMutableAttributedString+.swift */,
-				15DDB16E2B04799C001F6EAA /* UITextView+.swift */,
-				159958822B0DDFED00B2E4DC /* UIStackView+Helpers.swift */,
-				151BDADB2B16FE8B002F36C3 /* UIDevice+modelName.swift */,
-				151BDADD2B17002E002F36C3 /* Bundle+Helpers.swift */,
-				15302C542B9E23E900B1EA3F /* UIViewController+Indicator.swift */,
-				133532032BA42DDE000A4D9E /* Double+.swift */,
-				133532052BA42F6E000A4D9E /* Data+.swift */,
-				15553BD22BB34ACA000AA896 /* XCTestCase+UseCaseTestsHelpers.swift */,
-				155527DD2BBD5821000122B4 /* UITableView+Helpers.swift */,
-				15529F802BBEC50B00FED360 /* XCTestCase+Helpers.swift */,
-				156C1E2B2BBED14300AF1D99 /* SHCoordinator+XCTestCase.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";

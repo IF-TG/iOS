@@ -5,7 +5,7 @@
 //  Created by SeokHyun on 10/28/23.
 //
 
-import Foundation
+import Foundation.NSRange
 
 extension NSRange {
   /// 해당 범위의 문자열이 유효한지 판별하는 프로퍼티입니다.
