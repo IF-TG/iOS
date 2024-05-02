@@ -809,9 +809,13 @@ extension PostDetailViewModel: PostDetailTableViewDataSource {
 }
 
 extension PostDetailViewModel: ReviewWritingPostReceivable {
-  func receive(post: Post) {
+  func receive(post: Post?) {
     // TODO: - 편집한 리뷰작성 Post를 기반으로 화면을 갱신해야 합니다.
     print("DEBUG: PostDetailViewModel에서 편집된 post 객체 받음")
-    self.post = post
+    if post == nil {
+      // TODO: - firestore를 통해서 업로드한 것임으로 postId에서 데이터 받아와야합니다.
+    } else {
+      self.post = post
+    }
   }
 }

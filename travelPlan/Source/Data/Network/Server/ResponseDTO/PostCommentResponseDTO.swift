@@ -8,7 +8,7 @@
 import Foundation
 
 struct PostCommentResponseDTO: Decodable {
-  let commentId: Int64
+  let commentId: String
   let userProfileURL: String
   let nickname: String
   let timestamp: String

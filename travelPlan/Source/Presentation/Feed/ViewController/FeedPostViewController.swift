@@ -160,8 +160,8 @@ private extension FeedPostViewController {
 
 // MARK: - PostViewAdapterDelegate
 extension FeedPostViewController: PostViewAdapterDelegate {
-  func didTapPost(with postId: Int) {
-    input.specificPostTapped.send(postId)
+  func didTapPost(with postIndex: Int) {
+    input.specificPostTapped.send(postIndex)
   }
   
   func scrollToNextPage() {

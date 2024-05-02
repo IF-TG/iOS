@@ -9,13 +9,13 @@ import Foundation
 import Combine
 
 protocol PostCommentUseCase {
-  func sendComment(postId: Int64, comment: String) -> AnyPublisher<PostCommentEntity, Error>
+  func sendComment(postId: String, comment: String) -> AnyPublisher<PostCommentEntity, Error>
   
-  func updateComment(commentId: Int64, comment: String) -> AnyPublisher<Bool, Error>
+  func updateComment(commentId: String, comment: String) -> AnyPublisher<Bool, Error>
   
-  func deleteComment(commentId: Int64) -> AnyPublisher<Bool, Error>
+  func deleteComment(commentId: String) -> AnyPublisher<Bool, Error>
   
   func fetchComments(with requestValue: PostCommentsRequestValue) -> AnyPublisher<[PostCommentEntity], Error>
   
-  func toggleCommentHeart(commentId: Int64) -> AnyPublisher<ToggledPostCommentHeartEntity, Error>
+  func toggleCommentHeart(commentId: String) -> AnyPublisher<ToggledPostCommentHeartEntity, Error>
 }

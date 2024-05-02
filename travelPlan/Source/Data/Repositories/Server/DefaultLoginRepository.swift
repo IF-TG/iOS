@@ -26,7 +26,7 @@ final class DefaultLoginRepository {
   private let authService: AuthenticationService
   private let loggedInUserRepository: LoggedInUserRepository
   private let firestoreService: FirestoreServiceProtocol
-  private let firestoreStorageService = FiresabseStorageService()
+  private let firestoreStorageService = FirebaseStorageService()
 
   // MARK: - LifeCycle
   init(

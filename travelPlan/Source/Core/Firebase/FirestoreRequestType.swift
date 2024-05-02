@@ -32,7 +32,7 @@ import SHFirestoreService
       guard let documentPath = usersRequest.documentPath else { return nil }
       return collectionRef.document(documentPath)
     case .posts(let posts):
-      guard let documentPath = posts.documentPath else { return nil }
+      guard let documentPath = posts.documentpath else { return nil }
       return collectionRef.document(documentPath)
     }
   }
@@ -66,7 +66,7 @@ extension FirestoreRequestType {
       case .fetchAllUsers:
         return rootPath
         
-      /// 사용자 도큐먼트에서는 하위 collection으로 접근하지 않는 경우 문서에 접근하는 것임으로 rootPath반환
+        /// 사용자 도큐먼트에서는 하위 collection으로 접근하지 않는 경우 문서에 접근하는 것임으로 rootPath반환
       case .userDocument(let userDocument):
         if let childCollectionPath = userDocument.childCollectionPath {
           return "\(rootPath)\(childCollectionPath)"
@@ -137,37 +137,50 @@ extension FirestoreRequestType {
   }
 }
 
+// MARK: - Posts
 extension FirestoreRequestType {
   @frozen enum PostsCollection {
     typealias PostId = String
     typealias UserId = String
+    case save
+    case update(postId: String)
+    
     case fetchHeartUsers(PostId)
     case heartPost(PostId)
     case hatePost((PostId, UserId))
     
-    var rootPath: String {
+    
+    private var rootPath: String {
       "posts"
     }
     
-    var collectionPath: String {
+    var documentpath: String? {
       switch self {
-      case .fetchHeartUsers(let postId):
-        "\(rootPath)/\(postId)/post-hearts"
-      case .heartPost(let postId):
-        "\(rootPath)/\(postId)/post-hearts"
-      case .hatePost(let postId, _):
-        "\(rootPath)/\(postId)/post-hearts"
-      }
-    }
-    
-    var documentPath: String? {
-      switch self {
+      case .save:
+        return nil
+      case .update(let postId):
+        return postId
       case .fetchHeartUsers:
         return nil
       case .heartPost:
         return nil
       case .hatePost(_, let userId):
         return userId
+      }
+    }
+    
+    var collectionPath: String {
+      switch self {
+      case .save:
+        return rootPath
+      case .update:
+        return rootPath
+      case .fetchHeartUsers(let postId):
+        return "\(rootPath)/\(postId)/post-hearts"
+      case .heartPost(let postId):
+        return "\(rootPath)/\(postId)/post-hearts"
+      case .hatePost(let postId, _):
+        return "\(rootPath)/\(postId)/post-hearts"
       }
     }
   }

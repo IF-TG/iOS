@@ -74,7 +74,7 @@ extension DefaultPostRepository: PostRepository {
   func fetchComments(
     page: Int32,
     perPage: Int32,
-    postId: Int64
+    postId: String
   ) -> AnyPublisher<PostCommentContainerEntity, any Error> {
     let requestDTO = PostCommentsRequestDTO(page: page, perPage: perPage, postId: postId)
     let endpoint = Endpoint.fetchComments(with: requestDTO)

@@ -10,5 +10,6 @@ import Combine
 
 protocol ReviewWritingRepository {
   func savePost(with reviewWritingPost: ReviewWritingEntity) -> AnyPublisher<Bool, Error>
-  func updatePost(entity: ReviewWritingEntity, postId: Int64) -> AnyPublisher<Post, Error>
+  // Firestore의 경우 성공시 nil 반환합니다.
+  func updatePost(entity: ReviewWritingEntity, postId: String) -> AnyPublisher<Post?, Error>
 }

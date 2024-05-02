@@ -8,6 +8,6 @@
 import Foundation
 
 struct ToggledPostCommentHeartEntity {
-  let id: Int64
+  let id: String
   let isOnHeart: Bool
 }

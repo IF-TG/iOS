@@ -8,7 +8,7 @@
 import Foundation
 
 struct PostNestedCommentResponseDTO: Decodable {
-  let nestedCommentId: Int64
+  let nestedCommentId: String
   let userProfileURL: String
   let nickname: String
   let timestamp: String
@@ -29,7 +29,7 @@ struct PostNestedCommentResponseDTO: Decodable {
   
   init(from decoder: any Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
-    self.nestedCommentId = try container.decode(Int64.self, forKey: .nestedCommentId)
+    self.nestedCommentId = try container.decode(String.self, forKey: .nestedCommentId)
     self.userProfileURL = try container.decode(String.self, forKey: .userProfileURL)
     self.nickname = try container.decode(String.self, forKey: .nickname)
     self.timestamp = try container.decode(String.self, forKey: .timestamp)

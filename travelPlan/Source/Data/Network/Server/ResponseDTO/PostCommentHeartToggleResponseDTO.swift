@@ -8,7 +8,7 @@
 import Foundation
 
 struct PostCommentHeartToggleResponseDTO: Decodable {
-  let id: Int64
+  let id: String
   let isOnHeart: Bool
   
   enum CodingKeys: String, CodingKey {
