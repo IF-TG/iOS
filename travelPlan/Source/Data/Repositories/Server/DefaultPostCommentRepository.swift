@@ -120,7 +120,7 @@ final class DefaultPostCommentRepository: PostCommentRepository {
             nestedCommentAuthorImages.append(nestedAuthorImages)
             return commentAuthorImage
           }
-          promise(.success(responseDTO.enumerated().map{
+          promise(.success(responseDTO.enumerated().map {
             $1.toDomain(
               with: commentAuthorImages[$0],
               nestedCommentAuthorsImageData: nestedCommentAuthorImages[$0])

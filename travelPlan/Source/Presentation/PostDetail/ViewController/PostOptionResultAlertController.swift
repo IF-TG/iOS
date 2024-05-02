@@ -13,7 +13,7 @@ final class PostOptionResultAlertController: UIViewController {
     case postAuthorBlock
     case postReport
     
-    var imagePath : String {
+    var imagePath: String {
       switch self {
       case .postReport:
         "report_success_icon"

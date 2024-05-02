@@ -8,6 +8,7 @@
 import Foundation
 
 struct TravelRegionMapper {
+  // swiftlint:disable cyclomatic_complexity
   static func toDomain(_ dto: String) -> TravelRegion? {
     return switch dto {
     case "SEOUL":
@@ -48,8 +49,10 @@ struct TravelRegionMapper {
       nil
     }
   }
+  // swiftlint:enable cyclomatic_complexity
   
-  static func toDTO(_ requestValue: TravelRegion) -> String {    
+  // swiftlint:disable cyclomatic_complexity
+  static func toDTO(_ requestValue: TravelRegion) -> String {
     return switch requestValue {
     case .seoul:
       "SEOUL"
@@ -87,4 +90,5 @@ struct TravelRegionMapper {
       "JEJU"
     }
   }
+  // swiftlint:enable cyclomatic_complexity
 }

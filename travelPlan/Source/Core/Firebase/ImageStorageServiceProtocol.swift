@@ -21,7 +21,7 @@ protocol ImageStorageServiceProtocol {
   func uploadImages(
     _ imageDataList: [Data], 
     type: ImageStorageServiceType
-  ) -> AnyPublisher<[String],Error>
+  ) -> AnyPublisher<[String], Error>
   
   func fetchImage(_ url: String, type: ImageStorageServiceType) -> AnyPublisher<Data, Error>
   
