@@ -34,20 +34,32 @@ extension DefaultFestivalUseCase: FestivalUseCase {
   }
   
   func fetchFestivalDetail(contentId: Int) -> AnyPublisher<FestivalEntity, any Error> {
-    // TODO: - 공통정보조회, 소개정보조회를 사용해서 FestivalEntity를 반환해야합니다.
     let commonPublisher = tourDetailCommonInfoRepository.fetchTourDestinationDetailCommon(
       contentId: contentId,
       numOfRows: nil,
       pageNo: nil
     )
-    .eraseToAnyPublisher()
-    
     let introductionPublisher = tourIntroductionInfoRepository.fetchFestival(
       contentId: contentId,
       contentTypeId: 15
     )
+    
+    return commonPublisher.zip(introductionPublisher)
+      .map { (commonEntity, introFestivalEntity) in
+        return FestivalEntity(
+          ageLimit: introFestivalEntity.ageLimit,
+          startDate: introFestivalEntity.startDate,
+          endDate: introFestivalEntity.endDate,
+          place: introFestivalEntity.place,
+          place: commonEntity.overview,
+          showTime: introFestivalEntity.showTime,
+          fee: introFestivalEntity.fee,
+          title: introFestivalEntity.title, //
+          image: commonEntity.imageData, //
+          tel: commonEntity.contact.telNumber,
+          overview: commonEntity.overview
+        )
+      }
       .eraseToAnyPublisher()
-    
-    
   }
 }
