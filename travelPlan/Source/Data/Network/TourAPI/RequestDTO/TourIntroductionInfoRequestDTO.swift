@@ -15,6 +15,8 @@ final class TourIntroductionInfoRequestDTO: TourApiBaseRequestDTO {
   init(contentId: Int, contentTypeId: Int) {
     self.contentId = contentId
     self.contentTypeId = contentTypeId
+    
+    super.init(numOfRows: nil, pageNo: nil)
   }
   
   enum CodingKeys: CodingKey {
