@@ -1,5 +1,5 @@
 //
-//  DefaultTourDestinationRepository.swift
+//  DefaultTourCommonInfoRepository.swift
 //  travelPlan
 //
 //  Created by 양승현 on 4/20/24.
@@ -8,8 +8,8 @@
 import Foundation
 import Combine
 
-final class DefaultTourDestinationRepository: TourDestinationRepository {
-  typealias Endpoint = DestinationAPIEndpoint
+final class DefaultTourCommonInfoRepository: TourCommonInfoRepository {
+  typealias Endpoint = TourCommonInfoAPIEndpoint
   
   // MARK: - Dependencies
   private let service: Sessionable
@@ -22,13 +22,13 @@ final class DefaultTourDestinationRepository: TourDestinationRepository {
     self.backgroundQueue = backgroundQueue
   }
   
-  func fetchTourDestinationDetailCommon(
+  func fetchTourCommonInfo(
     contentId: Int,
     numOfRows: Int?,
     pageNo: Int?
-  ) -> AnyPublisher<[TourDestinationDetailCommonEntity], any Error> {
-    let requestDTO = TourApiDetailCommonRequestDTO(contentId: contentId, numOfRows: 10, pageNo: 1)
-    let endpoint = Endpoint.makeDetailCommonEndpoint(with: requestDTO)
+  ) -> AnyPublisher<[TourCommonInfoEntity], any Error> {
+    let requestDTO = TourApiCommonInfoRequestDTO(contentId: contentId, numOfRows: 10, pageNo: 1)
+    let endpoint = Endpoint.makeCommonInfoAPIEndpoint(with: requestDTO)
     
     return Future { [weak self, backgroundQueue] promise in
       let subscription = self?.service.request(endpoint: endpoint)

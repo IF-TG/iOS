@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct TourDestinationDetailCommonEntity {
+struct TourCommonInfoEntity {
   let id: Id
   let address: addressInfo
   let contact: ContactInfo
@@ -15,7 +15,7 @@ struct TourDestinationDetailCommonEntity {
   let overview: String
 }
 
-extension TourDestinationDetailCommonEntity {
+extension TourCommonInfoEntity {
   /// **기본 정보 조회**
   struct Id {
     let contentId: String

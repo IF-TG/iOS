@@ -8,25 +8,25 @@
 import Foundation
 import Combine
 
-final class DefaultTourDesrinationUseCase: TourDestinationUseCase {
+final class DefaultTourDesrinationUseCase: TourCommonInfoUseCase {
   
   // MARK: - Dependencies
-  let tourDestinationRepository: TourDestinationRepository
+  let tourDestinationRepository: TourCommonInfoRepository
   
   // MARK: - Lifecycle
-  init(tourDestinationRepository: TourDestinationRepository) {
+  init(tourDestinationRepository: TourCommonInfoRepository) {
     self.tourDestinationRepository = tourDestinationRepository
   }
   
   // MARK: - Helpers
   /// 특정 contentId에 대한 반환타입은 1 or error입니다..
-  func fetchDetailCommonInfo(
+  func fetchCommonInfo(
     contentId: Int,
     numOfRows: Int?,
     pageNo: Int?
-  ) -> AnyPublisher<TourDestinationDetailCommonEntity, any Error> {
+  ) -> AnyPublisher<TourCommonInfoEntity, any Error> {
     return tourDestinationRepository
-      .fetchTourDestinationDetailCommon(contentId: contentId, numOfRows: numOfRows, pageNo: pageNo)
+      .fetchTourCommonInfo(contentId: contentId, numOfRows: numOfRows, pageNo: pageNo)
       .compactMap { entities in
         entities.first
       }.eraseToAnyPublisher()
