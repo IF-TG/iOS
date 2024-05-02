@@ -8,6 +8,6 @@
 import Foundation
 
 protocol PostViewAdapterDelegate: AnyObject {
-  func didTapPost(with postId: Int)
+  func didTapPost(with postIndex: Int)
   func scrollToNextPage()
 }

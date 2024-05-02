@@ -38,7 +38,6 @@ extension DefaultReviewWritingRepository: ReviewWritingRepository {
             promise(.failure(error))
           }
         } receiveValue: { responseDTO in
-          // FIXME: - receiveValue의 value값이 불필요하기 때문에, value값이 Void가 되도록 구현해야합니다.
           promise(.success(true))
         }
       self?.subscriptions.insert(subscription)
@@ -46,10 +45,10 @@ extension DefaultReviewWritingRepository: ReviewWritingRepository {
     .eraseToAnyPublisher()
   }
   
-  func updatePost(entity: ReviewWritingEntity, postId: Int64) -> AnyPublisher<Post, any Error> {
+  func updatePost(entity: ReviewWritingEntity, postId: String) -> AnyPublisher<Post?, any Error> {
     return Future { [weak self, backgroundQueue] promise in
       let requestDTO = ReviewWritingUpdateRequestDTO(
-        postId: postId,
+        postId: String(postId),
         post: ReviewWritingSaveRequestDTO.makeRequestDTO(entity: entity)
       )
       

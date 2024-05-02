@@ -11,14 +11,14 @@ import SHFirestoreService
 
 @frozen enum FirestoreRequestType: FirestoreAccessible {
   case users(UsersCollection)
-  case posts
+  case posts(Posts)
   
   private var collectionPath: String {
     switch self {
     case .users(let users):
       users.collectionPath
-    case .posts:
-      "posts"
+    case .posts(let posts):
+      posts.collectionPath
     }
   }
   
@@ -31,8 +31,9 @@ import SHFirestoreService
     case .users(let usersRequest):
       guard let documentPath = usersRequest.documentPath else { return nil }
       return collectionRef.document(documentPath)
-    case .posts:
-      return nil
+    case .posts(let posts):
+      guard let documentPath = posts.documentpath else { return nil }
+      return collectionRef.document(documentPath)
     }
   }
 }
@@ -131,6 +132,35 @@ extension FirestoreRequestType {
         return nil
       case .fetchBlockedUsers:
         return nil
+      }
+    }
+  }
+}
+
+extension FirestoreRequestType {
+  @frozen enum Posts {
+    case save
+    case update(postId: String)
+    
+    private var rootPath: String {
+      "posts"
+    }
+    
+    var documentpath: String? {
+      switch self {
+      case .save:
+        return nil
+      case .update(let postId):
+        return postId
+      }
+    }
+    
+    var collectionPath: String {
+      switch self {
+      case .save:
+        return rootPath
+      case .update:
+        return rootPath
       }
     }
   }

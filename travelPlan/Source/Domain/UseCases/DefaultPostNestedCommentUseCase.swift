@@ -18,7 +18,7 @@ final class DefaultPostNestedCommentUseCase: PostNestedCommentUseCase {
   
   // MARK: - helpers
   func sendNestedComment(
-    commentId: Int64,
+    commentId: String,
     comment: String
   ) -> AnyPublisher<PostNestedCommentEntity, any Error> {
     return postNestedCommentRepository
@@ -27,7 +27,7 @@ final class DefaultPostNestedCommentUseCase: PostNestedCommentUseCase {
   }
   
   func updateNestedComment(
-    nestedCommentId: Int64,
+    nestedCommentId: String,
     comment: String
   ) -> AnyPublisher<Bool, any Error> {
     return postNestedCommentRepository
@@ -36,7 +36,7 @@ final class DefaultPostNestedCommentUseCase: PostNestedCommentUseCase {
   }
   
   func deleteNestedComment(
-    nestedCommentId: Int64
+    nestedCommentId: String
   ) -> AnyPublisher<Bool, any Error> {
     return postNestedCommentRepository
       .deleteNestedComment(nestedCommentId: nestedCommentId)
@@ -44,7 +44,7 @@ final class DefaultPostNestedCommentUseCase: PostNestedCommentUseCase {
   }
   
   func toggleCommentHeart(
-    nestedCommentId: Int64
+    nestedCommentId: String
   ) -> AnyPublisher<ToggledPostCommentHeartEntity, any Error> {
     return postNestedCommentRepository
       .toggleCommentHeart(nestedCommentId: nestedCommentId)
