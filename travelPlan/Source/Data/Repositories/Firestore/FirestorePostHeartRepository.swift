@@ -8,6 +8,7 @@
 import Foundation
 import SHFirestoreService
 import Combine
+import FirebaseFirestore
 
 final class FirestorePostHeartRepository {
   typealias Endpoint = FirestorePostHeartAPIEndpoint
@@ -74,6 +75,28 @@ extension FirestorePostHeartRepository: PostHeartRepository {
     userId: String
   ) -> AnyPublisher<Void, any Error> {
     let endpoint = Endpoint.makeHatePostEndpoint(postId: postId, userId: userId)
+    return Future { [weak self, backgroundQueue] promise in
+      let requestSubscription = self?.service
+        .request(endpoint: endpoint)
+        .subscribe(on: backgroundQueue)
+        .sink { completion in
+          if case .failure(let error) = completion {
+            promise(.failure(error))
+          }
+        } receiveValue: { _ in
+          promise(.success(()))
+        }
+      self?.subscriptions.insert(requestSubscription)
+    }.eraseToAnyPublisher()
+  }
+  
+  func togglePostHearts(
+    _ postId: String,
+    willHeartPost: Bool
+  ) -> AnyPublisher<Void, any Error> {
+    let requestDTO = TogglePostHeartsRequestDTO(
+      likeNum: willHeartPost ? FieldValue.increment(Int64(1)) : FieldValue.increment(Int64(-1)))
+    let endpoint = Endpoint.makeTogglePostHeartsEndpoint(postId: postId, with: requestDTO)
     return Future { [weak self, backgroundQueue] promise in
       let requestSubscription = self?.service
         .request(endpoint: endpoint)
