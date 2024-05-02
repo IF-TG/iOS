@@ -10,11 +10,11 @@ import Foundation
 // 축제(행사)
 struct FestivalEntity {
   let ageLimit: String?
-  let startDate: String
-  let endDate: String
-  let place: String?
+  let startDate: Date
+  let endDate: Date
+  let address: String?
   let content: String?
-  let showTime: String?
+  let place: String?
   let fee: String?
   let title: String
   let image: Data
@@ -24,11 +24,11 @@ struct FestivalEntity {
 
 /*
  [공통정보조회]
- - 전화번호
- - 콘텐츠명(제목)
- - 대표이미지
- - 주소
- - 개요(overview)
+ - 전화번호 v
+ - 콘텐츠명(제목) v
+ - 대표이미지 v
+ - 주소 v
+ - 개요(overview) v
  
  [소개정보조회]
  - 행사시작일 v
