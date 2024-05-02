@@ -13,5 +13,5 @@ protocol TourCommonInfoRepository {
     contentId: Int,
     numOfRows: Int?,
     pageNo: Int?
-  ) -> AnyPublisher<[TourCommonInfoEntity], Error>
+  ) -> AnyPublisher<TourCommonInfoEntity, Error>
 }
