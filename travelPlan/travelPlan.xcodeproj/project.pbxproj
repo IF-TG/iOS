@@ -281,6 +281,7 @@
 		15591DDE2BBEA07100128A9E /* MockFavoritePostInDirectoryRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15591DDD2BBEA07100128A9E /* MockFavoritePostInDirectoryRepository.swift */; };
 		15591DE12BBEA2B900128A9E /* mock_favoritePosts_fetch_response.json in Resources */ = {isa = PBXBuildFile; fileRef = 15591DE02BBEA2B900128A9E /* mock_favoritePosts_fetch_response.json */; };
 		15591DE32BBEA5AF00128A9E /* FavoritePostInDirectoryUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15591DE22BBEA5AF00128A9E /* FavoritePostInDirectoryUseCaseTests.swift */; };
+		155B2DDD2BE367AF0053216B /* FirestorePostRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155B2DDC2BE367AF0053216B /* FirestorePostRepositoryTests.swift */; };
 		155D0BAC2B90CB5B0042DFB6 /* UserNicknamePatchRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155D0BAB2B90CB5B0042DFB6 /* UserNicknamePatchRequestDTO.swift */; };
 		155D0BB52B90D9390042DFB6 /* ReferenceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155D0BB42B90D9390042DFB6 /* ReferenceError.swift */; };
 		155D0BB72B90DAB10042DFB6 /* MainError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155D0BB62B90DAB10042DFB6 /* MainError.swift */; };
@@ -928,6 +929,7 @@
 		15591DDD2BBEA07100128A9E /* MockFavoritePostInDirectoryRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockFavoritePostInDirectoryRepository.swift; sourceTree = "<group>"; };
 		15591DE02BBEA2B900128A9E /* mock_favoritePosts_fetch_response.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = mock_favoritePosts_fetch_response.json; sourceTree = "<group>"; };
 		15591DE22BBEA5AF00128A9E /* FavoritePostInDirectoryUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePostInDirectoryUseCaseTests.swift; sourceTree = "<group>"; };
+		155B2DDC2BE367AF0053216B /* FirestorePostRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestorePostRepositoryTests.swift; sourceTree = "<group>"; };
 		155D0BAB2B90CB5B0042DFB6 /* UserNicknamePatchRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserNicknamePatchRequestDTO.swift; sourceTree = "<group>"; };
 		155D0BB42B90D9390042DFB6 /* ReferenceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferenceError.swift; sourceTree = "<group>"; };
 		155D0BB62B90DAB10042DFB6 /* MainError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainError.swift; sourceTree = "<group>"; };
@@ -2902,6 +2904,7 @@
 				158981B92BB2652700F016CF /* PostCommentAPIEndpointTests.swift */,
 				15FBD5E32B98E94800076115 /* PostAPIEndpointTests.swift */,
 				15803C432BD9307D00D83F2B /* TourApiSessionProviderTests.swift */,
+				155B2DDC2BE367AF0053216B /* FirestorePostRepositoryTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -3507,6 +3510,7 @@
 				15FFAC202ADC322B0013DB57 /* EndpointTests.swift in Sources */,
 				15FFAC2E2ADD030F0013DB57 /* MockModels.swift in Sources */,
 				151130092A04E4EB0041DDA1 /* travelPlanTests.swift in Sources */,
+				155B2DDD2BE367AF0053216B /* FirestorePostRepositoryTests.swift in Sources */,
 				15591DE32BBEA5AF00128A9E /* FavoritePostInDirectoryUseCaseTests.swift in Sources */,
 				15553BD62BB34D06000AA896 /* PostNestedCommentUseCaseTests.swift in Sources */,
 			);
