@@ -15,6 +15,7 @@ final class TourApiCommonInfoRequestDTO: TourApiBaseRequestDTO {
   let mapinfoYN = "Y"
   let overviewYN = "Y"
   let defaultYN = "Y"
+  let firstImageYN = "Y"
   
   /// 여기선 사실상 contentId에 따라서 특정한 한 데이터만 받아올 것으로 예상되어 페이징이 의미 없습니다.
   init(
@@ -32,6 +33,7 @@ final class TourApiCommonInfoRequestDTO: TourApiBaseRequestDTO {
     case mapinfoYN
     case overviewYN
     case defaultYN
+    case firstImageYN
   }
   
   override func encode(to encoder: any Encoder) throws {
@@ -42,6 +44,6 @@ final class TourApiCommonInfoRequestDTO: TourApiBaseRequestDTO {
     try container.encode(self.mapinfoYN, forKey: .mapinfoYN)
     try container.encode(self.overviewYN, forKey: .overviewYN)
     try container.encode(self.defaultYN, forKey: .defaultYN)
-    
+    try container.encode(self.firstImageYN, forKey: .firstImageYN)
   }
 }
