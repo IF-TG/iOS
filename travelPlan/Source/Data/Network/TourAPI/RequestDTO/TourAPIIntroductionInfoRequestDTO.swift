@@ -1,5 +1,5 @@
 //
-//  TourIntroductionInfoRequestDTO.swift
+//  TourAPIIntroductionInfoRequestDTO.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 5/2/24.
@@ -8,7 +8,7 @@
 import Foundation
 
 /// 소개정보조회
-final class TourIntroductionInfoRequestDTO: TourApiBaseRequestDTO {
+final class TourAPIIntroductionInfoRequestDTO: TourApiBaseRequestDTO {
   let contentId: Int
   let contentTypeId: Int
   
