@@ -18,7 +18,6 @@ struct ReviewWritingEndpoints {
     )
   }
   
-  // FIXME: - fireBase 구현에 따라 Endpoint<Void>로 만들지 말지 결정하기
   static func savePost(with requestDTO: ReviewWritingSaveRequestDTO)
   -> Endpoint<ReviewWritingSaveResponseDTO> {
     return .init(
