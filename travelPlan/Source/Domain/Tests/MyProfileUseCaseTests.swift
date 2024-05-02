@@ -178,8 +178,8 @@ final class MyProfileUseCaseTests: XCTestCase {
   
   func testMyProfileUseCase_fetchProfile함수를통해_사용자의프로필을받아올때_fetchedProfile프로퍼티_반환값이예상값과일치하는지_ShouldReturnEqual() {
     // Arrange
-    let expectedProfileEntity = ProfileImageEntity(image: "hi")
-    var requestedProfileEntity = ProfileImageEntity(image: "")
+    let expectedProfileEntity = ProfileImageEntity(image: Data())
+    var requestedProfileEntity = ProfileImageEntity(image: Data())
     
     // Act
     subscription = sut.fetchProfile().sink { _ in

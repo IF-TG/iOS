@@ -21,7 +21,7 @@ struct TimestampConverter {
   static func timeAgo(from createAt: Timestamp) -> String {
     let date = createAt.dateValue()
     let currentDate = Date()
-    var calender = Calendar.current
+    let calender = Calendar.current
     
     let interval = calender.dateComponents(
       [.year, .month, .weekOfMonth, .day, .hour, .minute],
@@ -40,6 +40,8 @@ struct TimestampConverter {
       return "\(hours)시간 전"
     } else if let minutes = interval.minute, minutes > 0 {
       return "\(minutes)분 전"
+    } else {
+      return "방금 전"
     }
   }
   

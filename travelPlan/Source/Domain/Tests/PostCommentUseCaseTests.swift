@@ -37,7 +37,7 @@ extension PostCommentUseCaseTests {
     var unexpectedError: Error?
     
     // Act
-    subscription = sut.sendComment(postId: 1, comment: "코멘트!")
+    subscription = sut.sendComment(postId: "1", comment: "코멘트!")
       .sink { [unowned self] completion in
         if case .failure(let error) = completion {
           unexpectedError = error
@@ -61,7 +61,7 @@ extension PostCommentUseCaseTests {
     var unexpectedError: Error?
     
     // Act
-    subscription = sut.updateComment(commentId: 1, comment: "정상을 향해~ (등산가야지~..~)")
+    subscription = sut.updateComment(commentId: "1", comment: "정상을 향해~ (등산가야지~..~)")
       .sink { [unowned self] completion in
         if case .failure(let error) = completion {
           unexpectedError = error
@@ -85,7 +85,7 @@ extension PostCommentUseCaseTests {
     var unexpectedError: Error?
     
     // Act
-    subscription = sut.deleteComment(commentId: 1)
+    subscription = sut.deleteComment(commentId: "1")
       .sink { [unowned self] completion in
         if case .failure(let error) = completion {
           unexpectedError = error
@@ -107,7 +107,7 @@ extension PostCommentUseCaseTests {
     // Arrange
     var result = false
     var unexpectedError: Error?
-    let mockReqeustValue = PostCommentsRequestValue(page: 1, perPage: 2, postId: 33333)
+    let mockReqeustValue = PostCommentsRequestValue(page: 1, perPage: 2, postId: "33333")
     
     // Act
     subscription = sut.fetchComments(with: mockReqeustValue)
@@ -134,7 +134,7 @@ extension PostCommentUseCaseTests {
     var unexpectedError: Error?
     
     // Act
-    subscription = sut.toggleCommentHeart(commentId: 1)
+    subscription = sut.toggleCommentHeart(commentId: "1")
       .sink { [unowned self] completion in
         if case .failure(let error) = completion {
           unexpectedError = error
