@@ -108,6 +108,52 @@ extension DefaultPostHeartUseCase: PostHeartUseCase {
   func hatePost(
     _ postId: String
   ) -> AnyPublisher<Void, any Error> {
-    fatalError("미구현")
+    return Future { [weak self] promise in
+      guard let ownerId = self?.loggedInUserRepository.id else {
+        promise(.failure(PostHeartUseCaseError.invalidLoggedInUser))
+        return
+      }
+      
+      guard let self else {
+        promise(.failure(PostHeartUseCaseError.invalidReference))
+        return
+      }
+      
+      let identifier = BackgroundTaskManager.shared.startBackgroundTask()
+      let group = DispatchGroup()
+      
+      group.enter()
+      let heartPostSubscription = postHeartRepository
+        .heartPost(postId, userId: ownerId)
+        .sink { completion in
+          if case .failure(let error) = completion {
+            promise(.failure(error))
+            group.leave()
+          }
+        } receiveValue: { _ in
+          group.leave()
+        }
+      subscriptions.insert(heartPostSubscription)
+      
+      group.enter()
+      let togglePostHeartsSubscription = postHeartRepository
+        .togglePostHearts(postId, willHeartPost: true)
+        .sink { completion in
+          if case .failure(let error) = completion {
+            promise(.failure(error))
+            group.leave()
+          }
+        } receiveValue: { _ in
+          group.leave()
+        }
+      subscriptions.insert(togglePostHeartsSubscription)
+      group.notify(queue: backgroundQueue) {
+        promise(.success(()))
+        BackgroundTaskManager.shared.endBackgroundTask(identifier)
+      }
+    }
+    .subscribe(on: backgroundQueue)
+    .receive(on: backgroundQueue)
+    .eraseToAnyPublisher()
   }
 }
