@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import os.log
 
 /// Task!! if the app enters the background.
 ///
@@ -22,14 +23,20 @@ public final class BackgroundTaskManager {
 
 // MARK: - Public Helpers
 public extension BackgroundTaskManager {
-  func startBackgroundTask() -> UIBackgroundTaskIdentifier {
-    let identifier = UIApplication.shared.beginBackgroundTask { [weak self] in
+  func startBackgroundTask() -> UIBackgroundTaskIdentifier? {
+    var identifier: UIBackgroundTaskIdentifier?
+    identifier = UIApplication.shared.beginBackgroundTask { [weak self] in
+      guard let identifier else { return }
       self?.endBackgroundTask(identifier)
     }
     return identifier
   }
   
-  func endBackgroundTask(_ identifier: UIBackgroundTaskIdentifier) {
+  func endBackgroundTask(_ identifier: UIBackgroundTaskIdentifier?) {
+    guard let identifier else {
+      os_log("Invalid background task identifier", log: .default, type: .error)
+      return
+    }
     UIApplication.shared.endBackgroundTask(identifier)
   }
 }
