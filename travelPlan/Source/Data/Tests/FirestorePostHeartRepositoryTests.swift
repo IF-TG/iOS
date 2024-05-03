@@ -129,6 +129,7 @@ extension FirestorePostHeartRepositoryTests {
 
   }
   
+  // MARK: - 이 함수를 테스트할 경우 db에서 테스트 문서 likeNum값을 0으로 지정해야 합니다,,
   func test_FetchPostHearts호출할경우_ShouldEqual() {
     // Arrange
     let expectedPostHearts = 0
