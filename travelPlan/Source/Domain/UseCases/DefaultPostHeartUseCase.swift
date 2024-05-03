@@ -150,14 +150,11 @@ private extension DefaultPostHeartUseCase {
     let togglePostHeartsSubscription = postHeartRepository
       .togglePostHearts(postId, willHeartPost: willHeartPost)
       .sink { completion in
-        switch completion {
-        case .finished:
-          break
-        case .failure(let error):
+        if case .failure(let error) = completion {
           promise(.failure(error))
+          group.leave()
         }
-        group.leave()
-      } receiveValue: { _ in }
+      } receiveValue: { _ in group.leave() }
     subscriptions.insert(togglePostHeartsSubscription)
   }
 }
