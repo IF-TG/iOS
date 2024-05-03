@@ -128,4 +128,29 @@ extension FirestorePostHeartRepositoryTests {
     XCTAssertEqual(receivedResult, true, "heartPost를 호출할 경우 post를 싫어하는 사용자가 삭제되야 하지만 에러가 발생됨")
 
   }
+  
+  func test_FetchPostHearts호출할경우_ShouldEqual() {
+    // Arrange
+    let expectedPostHearts = 0
+    var receivedPostHearts = -1
+    var unexpectedError: Error?
+    
+    // Act
+    sut.fetchPostHearts(testPostId).sink {
+      if case .failure(let error) = $0 {
+        unexpectedError = error
+        self.expectation.fulfill()
+      }
+    } receiveValue: { postHearts in
+      print("received post hearts:", postHearts)
+      receivedPostHearts = postHearts
+      self.expectation.fulfill()
+    }.store(in: &subscriptions)
+    wait(for: [expectation], timeout: 7.777)
+    
+    // Assert
+    checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "fetchPosthearts")
+    XCTAssertEqual(expectedPostHearts, receivedPostHearts, "fetchPostHearts를 호출할 경우 현재 디비에 저장된 likeNum을 받아와야 하지만 이상한 값을 받아옴.")
+
+  }
 }
