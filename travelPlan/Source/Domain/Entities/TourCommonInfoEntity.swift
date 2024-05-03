@@ -14,6 +14,7 @@ struct TourCommonInfoEntity {
   let coordinate: Coordinate
   let image: ImageInfo
   let overview: String
+  let title: String
 }
 
 extension TourCommonInfoEntity {
