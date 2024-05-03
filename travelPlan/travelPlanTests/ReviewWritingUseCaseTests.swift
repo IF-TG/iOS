@@ -36,7 +36,7 @@ extension ReviewWritingUseCaseTests {
   func testReviewWritingUseCase_savePost함수호출시_true를반환하면_shouldReturnTrue() {
     // Arrange
     let entity = ReviewWritingEntity(
-      postId: 123,
+      postId: "123",
       category: .init(themes: [.adventure, .campingGlamping],
                       regions: [.busan],
                       seasons: [.spring],
@@ -78,7 +78,7 @@ extension ReviewWritingUseCaseTests {
   func testReviewWritingUseCase_updatePost함수호출시_Post를반환하면_shouldReturnTrue() {
     // Arrange
     let entity = ReviewWritingEntity(
-      postId: 123,
+      postId: "123",
       category: .init(themes: [.adventure, .campingGlamping],
                       regions: [.busan],
                       seasons: [.spring],
@@ -91,7 +91,7 @@ extension ReviewWritingUseCaseTests {
                  .image(Data()),
                  .image(Data())]
     )
-    let requestValue = ReviewWritingUseCaseUpdateRequestValue(entity: entity, postId: 1234)
+    let requestValue = ReviewWritingUseCaseUpdateRequestValue(entity: entity, postId: "1234")
     let expectation = XCTestExpectation(description: "usecase received post")
     var unexpectedError: Error?
     var result = false

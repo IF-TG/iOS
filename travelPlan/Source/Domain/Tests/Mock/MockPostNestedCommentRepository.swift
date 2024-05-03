@@ -21,7 +21,7 @@ final class MockPostNestedCommentRepository: PostNestedCommentRepository {
   
   // MARK: - Helpers
   func sendNestedComment(
-    commentId: Int64,
+    commentId: String,
     comment: String
   ) -> AnyPublisher<PostNestedCommentEntity, any Error> {
     MockUrlProtocol.requestHandler = { _ in
@@ -54,7 +54,7 @@ final class MockPostNestedCommentRepository: PostNestedCommentRepository {
     }.eraseToAnyPublisher()
   }
   
-  func updateNestedComment(nestedCommentId: Int64, comment: String) -> AnyPublisher<Bool, any Error> {
+  func updateNestedComment(nestedCommentId: String, comment: String) -> AnyPublisher<Bool, any Error> {
     MockUrlProtocol.requestHandler = { _ in
       let mockData = MockResponseType.postNestedComment(.whenCommentUpdate).mockDataLoader
       return ((HTTPURLResponse(), mockData))
@@ -75,7 +75,7 @@ final class MockPostNestedCommentRepository: PostNestedCommentRepository {
     }.eraseToAnyPublisher()
   }
   
-  func deleteNestedComment(nestedCommentId: Int64) -> AnyPublisher<Bool, any Error> {
+  func deleteNestedComment(nestedCommentId: String) -> AnyPublisher<Bool, any Error> {
     MockUrlProtocol.requestHandler = { _ in
       let mockData = MockResponseType.postNestedComment(.whenCommentDelete).mockDataLoader
       return ((HTTPURLResponse(), mockData))
@@ -97,7 +97,7 @@ final class MockPostNestedCommentRepository: PostNestedCommentRepository {
     }.eraseToAnyPublisher()
   }
   
-  func toggleCommentHeart(nestedCommentId: Int64) -> AnyPublisher<ToggledPostCommentHeartEntity, any Error> {
+  func toggleCommentHeart(nestedCommentId: String) -> AnyPublisher<ToggledPostCommentHeartEntity, any Error> {
     MockUrlProtocol.requestHandler = { _ in
       let mock = MockResponseType.postComment(.whenCommentHeartToggle).mockDataLoader
       return ((HTTPURLResponse(), mock))

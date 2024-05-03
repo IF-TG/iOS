@@ -168,8 +168,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/SHcommit/SHFirestoreService.git",
       "state" : {
-        "revision" : "1ee1444ba1e74baae154b55e9eb426fbde0af560",
-        "version" : "1.1.4"
+        "revision" : "5fea3299009b03f44fa9719840ce5ca9dd07b049",
+        "version" : "1.2.1"
       }
     },
     {

@@ -16,7 +16,7 @@ struct ReviewWritingSaveRequestDTO: Encodable {
   let regions: [String]
   let seasons: [String]
   let companions: [String]
-  let imgFileList: [ImageFileListDTO]
+  var imgFileList: [ImageFileListDTO]
   let mapX: Double
   let mapY: Double
 }
@@ -31,7 +31,7 @@ extension ReviewWritingSaveRequestDTO {
     let sort: Int32
     let imageType: String
     let thumbnail: Bool
-    let img: String
+    var img: String
   }
 }
 

@@ -7,12 +7,13 @@
 
 import UIKit
 import SHCoordinator
+import SHFirestoreService
 import Photos
 import Combine
 
 /// Post를 전달받는 객체는 해당 프로토콜을 준수합니다.
 protocol ReviewWritingPostReceivable: AnyObject {
-  func receive(post: Post)
+  func receive(post: Post?)
 }
 
 protocol ReviewWritingCoordinatorDelegate: FlowCoordinatorDelegate {
@@ -43,12 +44,18 @@ final class ReviewWritingCoordinator: FlowCoordinator {
   }
   
   func start() {
-    let mockReviewWritingRepository = MockReviewWritingRepository()
-    let reviewWritingUseCase = DefaultReviewWritingUseCase(reviewWritingRepository: mockReviewWritingRepository)
+     let mockReviewWritingRepository = MockReviewWritingRepository()
+     let reviewWritingUseCase = DefaultReviewWritingUseCase(reviewWritingRepository: mockReviewWritingRepository)
+//    let firestoreReviewWritingRepository = FirestoreReviewWritingRepository(service: FirestoreService())
+//    let reviewWritingUseCase = DefaultReviewWritingUseCase(reviewWritingRepository: firestoreReviewWritingRepository)
     let photoAuthUseCase = DefaultPhotoAuthorizationUseCase()
+    let mockStorage = MockUserStorage()
+    let loggedInUserRepository = DefaultLoggedInUserRepository(storage: mockStorage)
+    let loggedInOwnerUseCase = DefaultLoggedInUserUseCase(loggedInUserRepository: loggedInUserRepository)
     let viewModel = DefaultReviewWritingViewModel(
       photoAuthorizationUseCase: photoAuthUseCase,
       reviewWritingUseCase: reviewWritingUseCase,
+      loggedInOwnerUseCase: loggedInOwnerUseCase,
       mode: mode
     )
     let photoService = DefaultPhotoService()
@@ -88,7 +95,7 @@ extension ReviewWritingCoordinator: ReviewWritingCoordinatorDelegate {
 
 // MARK: - ReviewWritingPostReceivable
 extension ReviewWritingCoordinator: ReviewWritingPostReceivable {
-  func receive(post: Post) {
+  func receive(post: Post?) {
     guard let parent = parent as? ReviewWritingPostReceivable else { return }
     parent.receive(post: post)
     finish(withAnimated: true)

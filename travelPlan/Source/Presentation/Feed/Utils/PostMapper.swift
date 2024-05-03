@@ -31,7 +31,7 @@ struct PostMapper {
       heartState: post.liked,
       commentCount: String(post.detail.comments))
     return PostInfo(
-      postId: Int(post.detail.postID),
+      postId: post.detail.postID,
       header: postHeaderInfo,
       content: postContentInfo,
       footer: postFooterInfo)

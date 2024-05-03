@@ -8,5 +8,5 @@
 import Foundation
 
 struct PostCommentDeleteRequestDTO: Encodable {
-  let commentId: Int64
+  let commentId: String
 }

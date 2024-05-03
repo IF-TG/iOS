@@ -129,7 +129,6 @@ private extension PostViewAdapter {
 // MARK: - UICollectionViewDelegate
 extension PostViewAdapter: UICollectionViewDelegate {
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    guard let dataSource else { return }
-    baseDelegate?.didTapPost(with: dataSource.postItem(at: indexPath.row).postId)
+    baseDelegate?.didTapPost(with: indexPath.row)
   }
 }
