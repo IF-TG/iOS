@@ -50,6 +50,7 @@ extension DefaultPostHeartUseCaseTests {
     
     // Act
     sut.heartPost(testPostId)
+      .receive(on: DispatchQueue.main)
       .sink {
         if case .failure(let error) = $0 {
           unexpectedErr = error
@@ -67,6 +68,9 @@ extension DefaultPostHeartUseCaseTests {
     XCTAssertTrue(hasReceivedResult, "포스트 좋아요 누를때 Void를 반환받아야 하지만 받지 못했습니다.")
   }
   
+  // 이상하게.. FieldValue.increment() +1은 처음엔 잘되고 두번째 연이어 호출하면 +2씩 증가가됩니다.
+  // increment()에서 -1을 해도 처음엔 db에 감소되지 않고 두번이상할떄 차감됩니다
+  // 그래서 그냥 트랜젝션에 로직을 추가했습니다.
   func test_hateHeart를눌렀을때성공적으로Void를반환하는지테스트() {
     // Arrange
     var hasReceivedResult = false
@@ -74,6 +78,7 @@ extension DefaultPostHeartUseCaseTests {
     
     // Act
     sut.hatePost(testPostId)
+      .receive(on: DispatchQueue.main)
       .sink {
         if case .failure(let error) = $0 {
           unexpectedErr = error
