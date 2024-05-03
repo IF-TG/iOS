@@ -114,7 +114,7 @@ extension DefaultPostHeartUseCase: PostHeartUseCase {
       
       group.enter()
       let heartPostSubscription = postHeartRepository
-        .heartPost(postId, userId: ownerId)
+        .hatePost(postId, userId: ownerId)
         .sink { completion in
           if case .failure(let error) = completion {
             promise(.failure(error))
