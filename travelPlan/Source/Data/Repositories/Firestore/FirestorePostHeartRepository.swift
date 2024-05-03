@@ -95,13 +95,32 @@ extension FirestorePostHeartRepository: PostHeartRepository {
     _ postId: String,
     willHeartPost: Bool
   ) -> AnyPublisher<Void, any Error> {
-    let requestDTO = TogglePostHeartsRequestDTO(
-      likeNum: willHeartPost ? FieldValue.increment(Int64(1)) : FieldValue.increment(Int64(-1)))
-    let endpoint = Endpoint.makeTogglePostHeartsEndpoint(postId: postId, with: requestDTO.toDict())
+    let endpoint = Endpoint.makeTogglePostHeartsEndpoint(postId: postId)
     return Future { [weak self, backgroundQueue] promise in
       let requestSubscription = self?.service
-        .request(endpoint: endpoint)
+        .performTransaction { transaction in
+          guard let documentRef = endpoint.requestType.documentRef else {
+            return promise(.failure(FirestoreServiceError.documentNotFound))
+          }
+          do {
+            let documentSnapshot = try transaction.getDocument(documentRef)
+            
+            guard let prevPostHearts = documentSnapshot.data()?["likeNum"] as? Int else {
+              let error = NSError(
+                domain: "AppErrorDimain",
+                code: -1,
+                userInfo: [NSLocalizedDescriptionKey: "Unable to retrieve likeNum from snapshot \(documentSnapshot)"])
+              promise(.failure(FirestoreServiceError.failedTransaction(error)))
+              return nil
+            }
+            transaction.updateData(["likeNum": prevPostHearts + (willHeartPost ? 1 : -1)], forDocument: documentRef)
+          } catch {
+            promise(.failure(FirestoreServiceError.failedTransaction(error)))
+          }
+          return nil
+        }
         .subscribe(on: backgroundQueue)
+        .receive(on: backgroundQueue)
         .sink { completion in
           if case .failure(let error) = completion {
             promise(.failure(error))

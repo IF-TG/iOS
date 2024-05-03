@@ -42,11 +42,9 @@ struct FirestorePostHeartAPIEndpoint {
   }
   
   static func makeTogglePostHeartsEndpoint(
-    postId: String,
-    with requestDTO: [String: Any]
+    postId: String
   ) -> FirestoreEndpoint<VoidResponseDTO> {
     return .init(
-      requestDTODictionary: requestDTO,
       method: .update,
       requestType: .posts(.togglePostHearts(postId)))
   }
