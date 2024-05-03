@@ -8,6 +8,12 @@
 import Foundation
 import FirebaseFirestore
 
-struct TogglePostHeartsRequestDTO: Encodable {
+struct TogglePostHeartsRequestDTO {
   let likeNum: FieldValue
+  
+  func toDict() -> [String: Any] {
+    return [
+      "likeNum": likeNum
+    ] as [String: Any]
+  }
 }
