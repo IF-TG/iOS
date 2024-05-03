@@ -96,7 +96,7 @@ extension FirestorePostHeartRepository: PostHeartRepository {
   ) -> AnyPublisher<Void, any Error> {
     let requestDTO = TogglePostHeartsRequestDTO(
       likeNum: willHeartPost ? FieldValue.increment(Int64(1)) : FieldValue.increment(Int64(-1)))
-    let endpoint = Endpoint.makeTogglePostHeartsEndpoint(postId: postId, with: requestDTO)
+    let endpoint = Endpoint.makeTogglePostHeartsEndpoint(postId: postId, with: requestDTO.toDict())
     return Future { [weak self, backgroundQueue] promise in
       let requestSubscription = self?.service
         .request(endpoint: endpoint)
