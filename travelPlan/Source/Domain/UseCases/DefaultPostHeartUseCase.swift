@@ -83,18 +83,8 @@ extension DefaultPostHeartUseCase: PostHeartUseCase {
         }
       subscriptions.insert(heartPostSubscription)
       
-      group.enter()
-      let togglePostHeartsSubscription = postHeartRepository
-        .togglePostHearts(postId, willHeartPost: true)
-        .sink { completion in
-          if case .failure(let error) = completion {
-            promise(.failure(error))
-            group.leave()
-          }
-        } receiveValue: { _ in
-          group.leave()
-        }
-      subscriptions.insert(togglePostHeartsSubscription)
+      handlePostHeartsToggle(with: group, usingPostId: postId, willHeartPost: true, promise: promise)
+      
       group.notify(queue: backgroundQueue) {
         promise(.success(()))
         BackgroundTaskManager.shared.endBackgroundTask(identifier)
@@ -135,18 +125,8 @@ extension DefaultPostHeartUseCase: PostHeartUseCase {
         }
       subscriptions.insert(heartPostSubscription)
       
-      group.enter()
-      let togglePostHeartsSubscription = postHeartRepository
-        .togglePostHearts(postId, willHeartPost: true)
-        .sink { completion in
-          if case .failure(let error) = completion {
-            promise(.failure(error))
-            group.leave()
-          }
-        } receiveValue: { _ in
-          group.leave()
-        }
-      subscriptions.insert(togglePostHeartsSubscription)
+      handlePostHeartsToggle(with: group, usingPostId: postId, willHeartPost: false, promise: promise)
+      
       group.notify(queue: backgroundQueue) {
         promise(.success(()))
         BackgroundTaskManager.shared.endBackgroundTask(identifier)
@@ -155,5 +135,29 @@ extension DefaultPostHeartUseCase: PostHeartUseCase {
     .subscribe(on: backgroundQueue)
     .receive(on: backgroundQueue)
     .eraseToAnyPublisher()
+  }
+}
+
+// MARK: - Private Helpers
+private extension DefaultPostHeartUseCase {
+  func handlePostHeartsToggle(
+    with group: DispatchGroup,
+    usingPostId postId: String,
+    willHeartPost: Bool,
+    promise: @escaping Future<Void, Error>.Promise
+  ) {
+    group.enter()
+    let togglePostHeartsSubscription = postHeartRepository
+      .togglePostHearts(postId, willHeartPost: willHeartPost)
+      .sink { completion in
+        switch completion {
+        case .finished:
+          break
+        case .failure(let error):
+          promise(.failure(error))
+        }
+        group.leave()
+      } receiveValue: { _ in }
+    subscriptions.insert(togglePostHeartsSubscription)
   }
 }
