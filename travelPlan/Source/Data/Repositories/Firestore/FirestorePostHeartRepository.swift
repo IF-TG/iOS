@@ -30,6 +30,7 @@ final class FirestorePostHeartRepository {
   }
 }
 
+// MARK: - PostHeartRepository
 extension FirestorePostHeartRepository: PostHeartRepository {
   func fetchHeartUsers(
     _ postId: String
@@ -107,6 +108,25 @@ extension FirestorePostHeartRepository: PostHeartRepository {
           }
         } receiveValue: { _ in
           promise(.success(()))
+        }
+      self?.subscriptions.insert(requestSubscription)
+    }.eraseToAnyPublisher()
+  }
+  
+  func fetchPostHearts(
+    _ postId: String
+  ) -> AnyPublisher<Int, any Error> {
+    let endpoint = Endpoint.makeFetchPostHeartsEndpoint(postId)
+    return Future { [weak self, backgroundQueue] promise in
+      let requestSubscription = self?.service
+        .request(endpoint: endpoint)
+        .subscribe(on: backgroundQueue)
+        .sink { completion in
+          if case .failure(let error) = completion {
+            promise(.failure(error))
+          }
+        } receiveValue: { responseDTO in
+          promise(.success(responseDTO.postHearts))
         }
       self?.subscriptions.insert(requestSubscription)
     }.eraseToAnyPublisher()
