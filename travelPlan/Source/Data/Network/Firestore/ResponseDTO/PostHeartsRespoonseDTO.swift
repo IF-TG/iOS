@@ -8,9 +8,9 @@
 import Foundation
 
 struct PostHeartsRespoonseDTO: Decodable {
-  let hearts: Int
+  let postHearts: Int
   
   enum CodingKeys: String, CodingKey {
-    case hearts = "likeNum"
+    case postHearts = "likeNum"
   }
 }
