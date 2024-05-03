@@ -224,6 +224,11 @@
 		153FA90D2B937D9E006CF3C3 /* UserProfileRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153FA90C2B937D9E006CF3C3 /* UserProfileRequestDTO.swift */; };
 		153FA90F2B937E12006CF3C3 /* UserProfileImageResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153FA90E2B937E12006CF3C3 /* UserProfileImageResponseDTO.swift */; };
 		153FA9112B938C19006CF3C3 /* ParameterType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153FA9102B938C19006CF3C3 /* ParameterType.swift */; };
+		154047882BE4954D009E86FF /* PostHeartsRespoonseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154047872BE4954D009E86FF /* PostHeartsRespoonseDTO.swift */; };
+		1540478A2BE4B82D009E86FF /* PostHeartUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154047892BE4B82D009E86FF /* PostHeartUseCase.swift */; };
+		1540478C2BE4BA45009E86FF /* DefaultPostHeartUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1540478B2BE4BA45009E86FF /* DefaultPostHeartUseCase.swift */; };
+		154047902BE4C075009E86FF /* BackgroundTaskManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1540478F2BE4C075009E86FF /* BackgroundTaskManager.swift */; };
+		154047932BE4D237009E86FF /* DefaultPostHeartUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154047922BE4D237009E86FF /* DefaultPostHeartUseCaseTests.swift */; };
 		1543DC942BC53D4B0041852F /* ReviewWritingThemeSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1543DC932BC53D4B0041852F /* ReviewWritingThemeSectionHeader.swift */; };
 		1543DC962BC53E810041852F /* ReviewWritingThemeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1543DC952BC53E810041852F /* ReviewWritingThemeCell.swift */; };
 		1543DC982BC56A020041852F /* ReviewCategorySelectCompletionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1543DC972BC56A020041852F /* ReviewCategorySelectCompletionView.swift */; };
@@ -868,6 +873,12 @@
 		153FA90C2B937D9E006CF3C3 /* UserProfileRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileRequestDTO.swift; sourceTree = "<group>"; };
 		153FA90E2B937E12006CF3C3 /* UserProfileImageResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileImageResponseDTO.swift; sourceTree = "<group>"; };
 		153FA9102B938C19006CF3C3 /* ParameterType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParameterType.swift; sourceTree = "<group>"; };
+		154047852BE3FCE8009E86FF /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		154047872BE4954D009E86FF /* PostHeartsRespoonseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostHeartsRespoonseDTO.swift; sourceTree = "<group>"; };
+		154047892BE4B82D009E86FF /* PostHeartUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostHeartUseCase.swift; sourceTree = "<group>"; };
+		1540478B2BE4BA45009E86FF /* DefaultPostHeartUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultPostHeartUseCase.swift; sourceTree = "<group>"; };
+		1540478F2BE4C075009E86FF /* BackgroundTaskManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundTaskManager.swift; sourceTree = "<group>"; };
+		154047922BE4D237009E86FF /* DefaultPostHeartUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultPostHeartUseCaseTests.swift; sourceTree = "<group>"; };
 		1543DC932BC53D4B0041852F /* ReviewWritingThemeSectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWritingThemeSectionHeader.swift; sourceTree = "<group>"; };
 		1543DC952BC53E810041852F /* ReviewWritingThemeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWritingThemeCell.swift; sourceTree = "<group>"; };
 		1543DC972BC56A020041852F /* ReviewCategorySelectCompletionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCategorySelectCompletionView.swift; sourceTree = "<group>"; };
@@ -1711,6 +1722,7 @@
 		151130072A04E4EB0041DDA1 /* travelPlanTests */ = {
 			isa = PBXGroup;
 			children = (
+				154047852BE3FCE8009E86FF /* Info.plist */,
 				133532072BA46597000A4D9E /* Common */,
 				1383C81A2B97F3D500830F1A /* Core */,
 				15D655A12B8F820100466FEC /* Presentation */,
@@ -1813,6 +1825,7 @@
 				15B5E7A42BBAE85E00C19F56 /* UserBlockUseCase.swift */,
 				15591DD92BBE9F2900128A9E /* FavoritePostInDirectoryUseCase.swift */,
 				13AE0DD72BC32AD700652B99 /* AlbumPhotoMaxCountUseCase.swift */,
+				154047892BE4B82D009E86FF /* PostHeartUseCase.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -1834,6 +1847,7 @@
 				15591DDB2BBE9F9B00128A9E /* DefaultFavoritePostInDirectoryUseCase.swift */,
 				13AE0DD92BC32E6100652B99 /* DefaultAlbumPhotoMaxCountUseCase.swift */,
 				13E98F862BC53DDD00F05295 /* DefaultReviewWritingUseCase.swift */,
+				1540478B2BE4BA45009E86FF /* DefaultPostHeartUseCase.swift */,
 			);
 			path = UseCases;
 			sourceTree = "<group>";
@@ -1991,9 +2005,26 @@
 			path = Mock;
 			sourceTree = "<group>";
 		};
+		1540478D2BE4C04C009E86FF /* BackgroundtaskManager */ = {
+			isa = PBXGroup;
+			children = (
+				1540478E2BE4C05E009E86FF /* Module */,
+			);
+			path = BackgroundtaskManager;
+			sourceTree = "<group>";
+		};
+		1540478E2BE4C05E009E86FF /* Module */ = {
+			isa = PBXGroup;
+			children = (
+				1540478F2BE4C075009E86FF /* BackgroundTaskManager.swift */,
+			);
+			path = Module;
+			sourceTree = "<group>";
+		};
 		1546DF182B0A653F00B49A55 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				1540478D2BE4C04C009E86FF /* BackgroundtaskManager */,
 				15803C342BD8EE3F00D83F2B /* XMLParser */,
 				15C36BB12BD0D722004AA8E9 /* Firebase */,
 				154CA6252BD3B5640066B444 /* Authentication */,
@@ -2328,6 +2359,7 @@
 			children = (
 				15803C592BDA583700D83F2B /* UserProfileResponseDTO.swift */,
 				15803C5E2BDA906300D83F2B /* VoidResponseDTO.swift */,
+				154047872BE4954D009E86FF /* PostHeartsRespoonseDTO.swift */,
 			);
 			path = ResponseDTO;
 			sourceTree = "<group>";
@@ -2906,6 +2938,7 @@
 				15D655912B8E169100466FEC /* MyProfileUseCaseTests.swift */,
 				15BE6BF02BAF2285009A2568 /* PostCommentUseCaseTests.swift */,
 				15553BD52BB34D06000AA896 /* PostNestedCommentUseCaseTests.swift */,
+				154047922BE4D237009E86FF /* DefaultPostHeartUseCaseTests.swift */,
 				15B5E7AD2BBAEBE700C19F56 /* UserBlockUseCaseTests.swift */,
 				15591DE22BBEA5AF00128A9E /* FavoritePostInDirectoryUseCaseTests.swift */,
 			);
@@ -3542,6 +3575,7 @@
 				158C6A3B2B0D231C00C30856 /* ImageIOTests.swift in Sources */,
 				15FFAC202ADC322B0013DB57 /* EndpointTests.swift in Sources */,
 				15FFAC2E2ADD030F0013DB57 /* MockModels.swift in Sources */,
+				154047932BE4D237009E86FF /* DefaultPostHeartUseCaseTests.swift in Sources */,
 				151130092A04E4EB0041DDA1 /* travelPlanTests.swift in Sources */,
 				15591DE32BBEA5AF00128A9E /* FavoritePostInDirectoryUseCaseTests.swift in Sources */,
 				15553BD62BB34D06000AA896 /* PostNestedCommentUseCaseTests.swift in Sources */,
@@ -3582,6 +3616,7 @@
 				133532062BA42F6E000A4D9E /* Data+.swift in Sources */,
 				15FBD5D82B98DC6E00076115 /* TravelMainThemeTypeMapper.swift in Sources */,
 				15B5E7AC2BBAEA3B00C19F56 /* MockWrappedUserBlockRepository.swift in Sources */,
+				1540478C2BE4BA45009E86FF /* DefaultPostHeartUseCase.swift in Sources */,
 				15553BCC2BB3476F000AA896 /* MockPostNestedCommentRepository.swift in Sources */,
 				1364FBE62B61A8EA00D89FC9 /* PhotoViewControllerDelegate.swift in Sources */,
 				15DF29EB2BC52BC800F470DC /* PostReviewWritingCategoryBottomSheet.swift in Sources */,
@@ -3739,6 +3774,7 @@
 				130304792A24936D00776A0D /* SearchViewModel.swift in Sources */,
 				15B5E7992BBAE34E00C19F56 /* UserBlockRequestDTO.swift in Sources */,
 				1595B5302BAD9DAC00DA5039 /* PostMainThemeCategoryBottomSheet.swift in Sources */,
+				154047882BE4954D009E86FF /* PostHeartsRespoonseDTO.swift in Sources */,
 				13405F712AF6F05300382796 /* ReviewWritingPlanView.swift in Sources */,
 				15FB47D72AC0407D0033AA18 /* PostCategory.swift in Sources */,
 				151BDAD42B16E8EA002F36C3 /* UIGestureRecognizer+Combine.swift in Sources */,
@@ -3752,6 +3788,7 @@
 				15CAEF7D2BAED114008AEDB1 /* PostNestedCommentEntity.swift in Sources */,
 				157ADCA82ACFFFE100D37680 /* FavoritePostViewDelegate.swift in Sources */,
 				15D388292AFFA51C00039946 /* PostProfileAndCommentView.swift in Sources */,
+				154047902BE4C075009E86FF /* BackgroundTaskManager.swift in Sources */,
 				1546DF282B0A7CE400B49A55 /* Cache+Nested.swift in Sources */,
 				1344DA142B14F5770031CC7A /* SearchDestinationTitleCell.swift in Sources */,
 				134CCB342AFFFB2900D51D84 /* ReviewWritingViewModel.swift in Sources */,
@@ -4058,6 +4095,7 @@
 				15FEB5EA2A050A99000A5F33 /* UIColor+.swift in Sources */,
 				15FFABFD2AD5C75A0013DB57 /* FavoriteTableViewCellDelegate.swift in Sources */,
 				15B01DA72BA941D800BE9F98 /* LoggedInUserRepository.swift in Sources */,
+				1540478A2BE4B82D009E86FF /* PostHeartUseCase.swift in Sources */,
 				15198E962BADE2BB0011930D /* PostThumbnails.swift in Sources */,
 				13A93EF92AD1CA0200FC4BBD /* SearchTopTenCellViewModel.swift in Sources */,
 				154CA6322BD40C5C0066B444 /* TourApiSessionProvider.swift in Sources */,
