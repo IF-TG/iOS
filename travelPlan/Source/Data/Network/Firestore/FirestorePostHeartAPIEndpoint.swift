@@ -15,6 +15,14 @@ struct FirestorePostHeartAPIEndpoint {
       requestType: .posts(.fetchHeartUsers(postId)))
   }
   
+  static func makeFetchPostHeartsEndpoint(
+    _ postId: String
+  ) -> FirestoreEndpoint<PostHeartsRespoonseDTO> {
+    return .init(
+      method: .get,
+      requestType: .posts(.fetchPostHearts(postId)))
+  }
+  
   static func makeHeartPostEndpoint(
     postId: String,
     userId: String

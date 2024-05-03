@@ -147,6 +147,7 @@ extension FirestoreRequestType {
     
     /// Post Heart
     case fetchHeartUsers(PostId)
+    case fetchPostHearts(PostId)
     case heartPost(PostId)
     case hatePost((PostId, UserId))
     case togglePostHearts(PostId)
@@ -169,6 +170,8 @@ extension FirestoreRequestType {
         return userId
       case .togglePostHearts(let postId):
         return postId
+      case .fetchPostHearts(let postId):
+        return postId
       }
     }
     
@@ -185,6 +188,8 @@ extension FirestoreRequestType {
       case .hatePost((let postId, _)):
         return "\(rootPath)/\(postId)/post-hearts"
       case .togglePostHearts:
+        return rootPath
+      case .fetchPostHearts:
         return rootPath
       }
     }
