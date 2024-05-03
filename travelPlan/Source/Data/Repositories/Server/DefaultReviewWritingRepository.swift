@@ -37,7 +37,7 @@ extension DefaultReviewWritingRepository: ReviewWritingRepository {
           if case .failure(let error) = completion {
             promise(.failure(error))
           }
-        } receiveValue: { responseDTO in
+        } receiveValue: { _ in
           promise(.success(true))
         }
       self?.subscriptions.insert(subscription)

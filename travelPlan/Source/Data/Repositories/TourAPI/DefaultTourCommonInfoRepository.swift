@@ -1,5 +1,5 @@
 //
-//  DefaultTourDetailCommonRepository.swift
+//  DefaultTourCommonInfoRepository.swift
 //  travelPlan
 //
 //  Created by 양승현 on 4/20/24.
@@ -8,8 +8,8 @@
 import Foundation
 import Combine
 
-final class DefaultTourDetailCommonRepository: TourDetailCommonRepository {
-  typealias Endpoint = TourDetailCommonAPIEndpoint
+final class DefaultTourCommonInfoRepository: TourCommonInfoRepository {
+  typealias Endpoint = TourCommonInfoAPIEndpoint
   
   // MARK: - Dependencies
   private let service: Sessionable
@@ -22,13 +22,13 @@ final class DefaultTourDetailCommonRepository: TourDetailCommonRepository {
     self.backgroundQueue = backgroundQueue
   }
   
-  func fetchTourDestinationDetailCommon(
+  func fetchTourCommonInfo(
     contentId: Int,
     numOfRows: Int?,
     pageNo: Int?
-  ) -> AnyPublisher<[TourDestinationDetailCommonEntity], any Error> {
-    let requestDTO = TourApiDetailCommonRequestDTO(contentId: contentId, numOfRows: 10, pageNo: 1)
-    let endpoint = Endpoint.makeDetailCommonEndpoint(with: requestDTO)
+  ) -> AnyPublisher<TourCommonInfoEntity, any Error> {
+    let requestDTO = TourApiCommonInfoRequestDTO(contentId: contentId, numOfRows: 10, pageNo: 1)
+    let endpoint = Endpoint.makeCommonInfoAPIEndpoint(with: requestDTO)
     
     return Future { [weak self, backgroundQueue] promise in
       let subscription = self?.service.request(endpoint: endpoint)
@@ -37,7 +37,11 @@ final class DefaultTourDetailCommonRepository: TourDetailCommonRepository {
         .tryMap {
           let resultCode = $0.response.header.resultCode
           if resultCode == "0000" {
-            return $0.response.body.items.item.map { $0.toDomain() }
+            guard let item = $0.response.body.items.item.first else {
+              /// commonInfo가 없을경우 noDataError를 방출합니다.
+              throw TourAPIError.tourAPIProviderInstitutionError(.noDataError)
+            }
+            return item.toDomain()
           } else {
             throw TourAPIError(
               code: String(resultCode.suffix(2))

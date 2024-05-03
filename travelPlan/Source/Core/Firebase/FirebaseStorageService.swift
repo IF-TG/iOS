@@ -1,5 +1,5 @@
 //
-//  FiresabseStorageService.swift
+//  FirebaseStorageService.swift
 //  travelPlan
 //
 //  Created by 양승현 on 4/25/24.
@@ -9,22 +9,60 @@ import Foundation
 import FirebaseStorage
 import Combine
 
-public struct FiresabseStorageService: ImageStorageServiceProtocol {
+final class FirebaseStorageService: ImageStorageServiceProtocol {
+  // MARK: - Properties
+  private var subscriptions = Set<AnyCancellable?>()
+  
   // MARK: - Helpers
-  func uploadImage(_ imageData: Data, type: ImageStorageServiceType) async throws -> String {
+  func uploadImage(_ imageData: Data, type: ImageStorageServiceType) -> AnyPublisher<String, Error> {
     let uploadType = UploadType(from: type)
     let fileName = NSUUID().uuidString
     let reference = Storage.storage().reference(withPath: "/\(uploadType.path)/\(fileName)")
-    _ = try await reference.putDataAsync(imageData)
-    return (try await reference.downloadURL()).absoluteString
+    return Future { promise in
+      reference.putData(imageData) { _, error in
+        if let error {
+          promise(.failure(error))
+          return
+        }
+        reference.downloadURL { url, error in
+          if let error {
+            promise(.failure(error))
+            return
+          }
+          if let url {
+            promise(.success(url.absoluteString))
+          } else {
+            promise(.failure(NSError(domain: "UnknownError", code: 0)))
+          }
+        }
+      }
+    }.eraseToAnyPublisher()
   }
   
-  func uploadImages(_ imageDataList: [Data], type: ImageStorageServiceType) async throws -> [String] {
-    var urls: [String] = []
-    for imageData in imageDataList {
-      urls.append(try await uploadImage(imageData, type: type))
-    }
-    return urls
+  func uploadImages(_ imageDataList: [Data], type: ImageStorageServiceType) -> AnyPublisher<[String], Error> {
+    var urls: [(idx: Int, url: String)] = []
+    let group = DispatchGroup()
+    
+    return Future { [weak self] promise in
+      for (i, imageData) in imageDataList.enumerated() {
+        group.enter()
+        let subscription = self?.uploadImage(imageData, type: type)
+          .subscribe(on: DispatchQueue.global(qos: .userInteractive))
+          .sink { completion in
+            if case .failure(let error) = completion {
+              promise(.failure(error))
+              group.leave()
+            }
+          } receiveValue: { url in
+            urls.append((i, url))
+            group.leave()
+          }
+        self?.subscriptions.insert(subscription)
+      }
+      group.notify(queue: .global(qos: .userInteractive)) {
+        promise(.success(urls.sorted { $0.idx < $1.idx }.map { $0.url }))
+      }
+    }.eraseToAnyPublisher()
   }
   
   func fetchImage(_ url: String, type: ImageStorageServiceType) -> AnyPublisher<Data, Error> {
@@ -53,8 +91,9 @@ public struct FiresabseStorageService: ImageStorageServiceProtocol {
   func fetchImages(_ urls: [String], type: ImageStorageServiceType) -> AnyPublisher<[Data], any Error> {
     return Publishers
       .Sequence(sequence: urls)
-      .flatMap { url in
-        return fetchImage(url, type: type)
+      .flatMap { [weak self] url in
+        return self?.fetchImage(url, type: type)
+          .eraseToAnyPublisher() ?? Fail(error: ReferenceError.invalidReference).eraseToAnyPublisher()
       }.collect()
       .eraseToAnyPublisher()
   }
@@ -75,7 +114,10 @@ public struct FiresabseStorageService: ImageStorageServiceProtocol {
   func deleteImages(_ urls: [String], type: ImageStorageServiceType) -> AnyPublisher<Void, any Error> {
     return Publishers
       .Sequence(sequence: urls)
-      .flatMap { url in
+      .flatMap { [weak self] url in
+        guard let self else {
+          return Fail<Void, any Error>(error: ReferenceError.invalidReference).eraseToAnyPublisher()
+        }
         return deleteImage(url, type: type)
       }.collect()
       .tryMap { _ in () }
@@ -84,7 +126,7 @@ public struct FiresabseStorageService: ImageStorageServiceProtocol {
 }
 
 // MARK: - Nested
-extension FiresabseStorageService {
+extension FirebaseStorageService {
   @frozen enum UploadType {
     case profileImage
     case postImage
@@ -113,7 +155,7 @@ extension FiresabseStorageService {
         /// 프로필 최대 30MB 제한
         30*1024*1024
       case .postImage:
-        /// 포스트 이미지 최대 30MB로 제한
+        /// 포스트 이미지 최대 100MB로 제한
         100*1024*1024
       }
     }

@@ -1,17 +1,17 @@
 //
-//  FetchTourApiDetailCommonUseCaseTests.swift
+//  DefaultTourCommonInfoRepositoryTests.swift
 //  travelPlanTests
 //
-//  Created by 양승현 on 4/20/24.
+//  Created by 양승현 on 5/2/24.
 //
 
 import XCTest
 import Combine
 @testable import travelPlan
 
-final class FetchTourApiDetailCommonUseCaseTests: XCTestCase {
+final class DefaultTourCommonInfoRepositoryTests: XCTestCase {
   // MARK: - Properties
-  var sut: TourApiDetailCommonUseCase!
+  var sut: TourCommonInfoRepository!
   var subscription: AnyCancellable?
   var expectation: XCTestExpectation!
   
@@ -20,10 +20,9 @@ final class FetchTourApiDetailCommonUseCaseTests: XCTestCase {
     super.setUp()
     
     let service = TourApiSessionProvider()
-    let tourDestinationRepository = DefaultTourDetailCommonRepository(
+    sut = DefaultTourCommonInfoRepository(
       service: service,
       backgroundQueue: .global(qos: .userInitiated))
-    sut = FetchTourApiDetailCommonUseCase(tourDestinationRepository: tourDestinationRepository)
     expectation = XCTestExpectation(description: "Finish")
   }
   
@@ -35,15 +34,15 @@ final class FetchTourApiDetailCommonUseCaseTests: XCTestCase {
   }
 }
 
-/// 실제 tour api를 활용하에 데이터를 요청하고 원하는 entity로 decodable 후 entity로 받는지에 대한 테스트입니다.
-extension FetchTourApiDetailCommonUseCaseTests {
-  func test_WhenFetchTourDestinationDetailCommonInfo_ShouldReturnTrue() {
+/// 실제 tour api를 활용하에 데이터를 요청하고 원하는 entity로 decodable 후 responseDTO로 받는지에 대한 테스트입니다.
+extension DefaultTourCommonInfoRepositoryTests {
+  func test_WhenFetchTourCommonInfo_ShouldReturnTrue() {
     // Arrange
     var result = false
     var unexpectedError: Error?
     
     // Act
-    subscription = sut.fetchDetailCommonInfo(contentId: 126508, numOfRows: 10, pageNo: 1)
+    subscription = sut.fetchTourCommonInfo(contentId: 126508, numOfRows: 10, pageNo: 1)
       .sink { [unowned self] completion in
         if case .failure(let error) = completion {
           unexpectedError = error
@@ -57,7 +56,7 @@ extension FetchTourApiDetailCommonUseCaseTests {
     wait(for: [expectation], timeout: 10)
     
     // Assert
-    checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "fetchDetailCommonInfo")
+    checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "fetchTourCommonInfo")
     XCTAssertTrue(result, notReceivedErrorMessage)
   }
 }

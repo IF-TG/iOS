@@ -10,7 +10,6 @@ import Foundation
 struct PostContainerResponseDTO: Decodable {
   let post: PostResponseDTO
   let thumbnails: [String]
-  // FIXME: - 추후 서버에서 페이지 또는 포스트 개수 줄 수 있도록 api수정되면 그에 맞춰 변경해야합니다.
   let totalPosts: Int64
 
   enum CodingKeys: String, CodingKey {

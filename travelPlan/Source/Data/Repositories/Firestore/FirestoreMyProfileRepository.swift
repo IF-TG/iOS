@@ -88,29 +88,34 @@ extension FirestoreMyProfileRepository: MyProfileRepository {
     nickname: String,
     profileImageData: Data
   ) -> AnyPublisher<Void, any Error> {
-    return Future { promise in
-      Task(priority: .userInitiated) { [weak self] in
-        do {
-          let imagePath = try await self?.firebaseStorageService
-            .uploadImage(profileImageData, type: .profileImage)
-          let requestDTO = UserProfileSaveRequestDTO(
-            uid: userId,
-            nickname: nickname,
-            profileImagePath: imagePath ?? "")
-          let endpoint = Endpoint.saveUserProfileEndpoint(with: requestDTO)
-          let subscription = self?.service.request(endpoint: endpoint)
-            .sink { completion in
-              if case .failure(let error) = completion {
-                promise(.failure(error))
-              }
-            } receiveValue: { _ in
-              promise(.success(()))
-            }
-          self?.subscriptions.insert(subscription)
-        } catch {
+    guard profileImageData.count > 0 else {
+      return saveProfileWithoutProfileImage(with: userId, nickname: nickname)
+    }
+    
+    return Future { [weak self] promise in
+      guard let self else {
+        promise(.failure(ReferenceError.invalidReference))
+        return
+      }
+      let subscription = uploadProfileImage(profileImageData).sink { completion in
+        if case .failure(let error) = completion {
           promise(.failure(error))
         }
+      } receiveValue: { [weak self] profileImageUrl in
+        guard let self else {
+          promise(.failure(ReferenceError.invalidReference))
+          return
+        }
+        let saveSubscription = saveProfileWithProfileImage(
+          userId: userId,
+          nickname: nickname,
+          imageUrl: profileImageUrl
+        ).sink { completion in
+          if case .failure(let error) = completion { promise(.failure(error)) }
+        } receiveValue: { promise(.success($0)) }
+        subscriptions.insert(saveSubscription)
       }
+      subscriptions.insert(subscription)
     }.eraseToAnyPublisher()
   }
   
@@ -136,5 +141,49 @@ extension FirestoreMyProfileRepository: MyProfileRepository {
   
   func fetchProfileImage() -> AnyPublisher<ProfileImageEntity, any Error> {
     fatalError("아직 미구현")
+  }
+}
+
+// MARK: - Private Helpers
+extension FirestoreMyProfileRepository {
+  private func saveProfileWithoutProfileImage(with userId: String, nickname: String) -> AnyPublisher<Void, Error> {
+    let requestDTO = UserProfileSaveRequestDTO(
+      uid: userId,
+      nickname: nickname,
+      profileImagePath: ""
+    )
+    let endpoint = Endpoint.saveUserProfileEndpoint(with: requestDTO)
+    return Future { [weak self] promise in
+      let subscription = self?.service.request(endpoint: endpoint)
+        .sink { completion in
+          if case .failure(let error) = completion {
+            promise(.failure(error))
+          }
+        } receiveValue: { _ in
+          promise(.success(()))
+        }
+      self?.subscriptions.insert(subscription)
+    }.eraseToAnyPublisher()
+  }
+  
+  private func uploadProfileImage(_ imageData: Data) -> AnyPublisher<String, Error> {
+    return firebaseStorageService.uploadImage(imageData, type: .profileImage)
+      .eraseToAnyPublisher()
+  }
+  
+  private func saveProfileWithProfileImage(
+    userId: String,
+    nickname: String,
+    imageUrl: String
+  ) -> AnyPublisher<Void, Error> {
+    let requestDTO = UserProfileSaveRequestDTO(
+      uid: userId,
+      nickname: nickname,
+      profileImagePath: imageUrl
+    )
+    let endpoint = Endpoint.saveUserProfileEndpoint(with: requestDTO)
+    return service.request(endpoint: endpoint)
+      .mapError { $0 as Error }
+      .eraseToAnyPublisher()
   }
 }

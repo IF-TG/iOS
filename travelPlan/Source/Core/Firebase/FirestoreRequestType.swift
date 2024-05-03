@@ -11,7 +11,7 @@ import SHFirestoreService
 
 @frozen enum FirestoreRequestType: FirestoreAccessible {
   case users(UsersCollection)
-  case posts(Posts)
+  case posts(PostsCollection)
   
   private var collectionPath: String {
     switch self {
@@ -23,7 +23,7 @@ import SHFirestoreService
   }
   
   var collectionRef: CollectionReference {
-    Firestore.firestore().collection(self.collectionPath)
+    Firestore.firestore().collection(collectionPath)
   }
   
   var documentRef: DocumentReference? {
@@ -58,6 +58,7 @@ extension FirestoreRequestType {
           return userDocuemntPath
         }
         return nil
+        return nil
       }
     }
     
@@ -66,7 +67,7 @@ extension FirestoreRequestType {
       case .fetchAllUsers:
         return rootPath
         
-      /// 사용자 도큐먼트에서는 하위 collection으로 접근하지 않는 경우 문서에 접근하는 것임으로 rootPath반환
+        /// 사용자 도큐먼트에서는 하위 collection으로 접근하지 않는 경우 문서에 접근하는 것임으로 rootPath반환
       case .userDocument(let userDocument):
         if let childCollectionPath = userDocument.childCollectionPath {
           return "\(rootPath)\(childCollectionPath)"
@@ -137,11 +138,19 @@ extension FirestoreRequestType {
   }
 }
 
+// MARK: - Posts
 extension FirestoreRequestType {
-  @frozen enum Posts {
+  @frozen enum PostsCollection {
+    typealias PostId = String
+    typealias UserId = String
     case save
     case update(postId: String)
     case fetch
+    
+    case fetchHeartUsers(PostId)
+    case heartPost(PostId)
+    case hatePost((PostId, UserId))
+    
     
     private var rootPath: String {
       "posts"
@@ -155,6 +164,12 @@ extension FirestoreRequestType {
         return postId
       case .fetch:
         return nil
+      case .fetchHeartUsers:
+        return nil
+      case .heartPost:
+        return nil
+      case .hatePost(_, let userId):
+        return userId
       }
     }
     
@@ -166,6 +181,12 @@ extension FirestoreRequestType {
         return rootPath
       case .fetch:
         return rootPath
+      case .fetchHeartUsers(let postId):
+        return "\(rootPath)/\(postId)/post-hearts"
+      case .heartPost(let postId):
+        return "\(rootPath)/\(postId)/post-hearts"
+      case .hatePost(let postId, _):
+        return "\(rootPath)/\(postId)/post-hearts"
       }
     }
   }
