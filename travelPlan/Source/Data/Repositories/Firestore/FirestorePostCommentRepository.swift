@@ -61,15 +61,10 @@ extension FirestorePostCommentRepository: PostCommentRepository {
       comment: comment,
       hasDeleted: false,
       heartNum: 0)
-    let endpoint = Endpoint.makeCommentSendEndpoint(
-      postId: postId,
-      commentId: comment,
-      with: requestDTO)
+    let endpoint = Endpoint.makeCommentSendEndpoint(postId: postId, commentId: comment, with: requestDTO)
     
     return Future { [weak self, backgroundQueue] promise in
-      
       // FIXME: - 저장할 경우 backgroundTask로 추가해야합니다.
-      
       guard let self else {
         promise(.failure(ReferenceError.invalidReference))
         return
@@ -104,24 +99,33 @@ extension FirestorePostCommentRepository: PostCommentRepository {
           }
           
           // FIXME: - TimestampConverter로 timestamp 변환해야합니다. (timeAgo 사용!)
-          group.notify(queue: backgroundQueue) {
-            guard let owner else { return }
-            let commentEntity = PostCommentEntity(
-              commentId: commentId,
-              userProfileImageData: owner.profileImageData,
-              userName: owner.nickname,
-              timestamp: String(requestDTO.createAt.dateValue().description),
-              comment: comment,
-              isDeleted: false,
-              isOnHeart: false,
-              isBlocked: false,
-              hearts: Int32(0),
-              nestedComments: [])
-            promise(.success(commentEntity))
-          }
+          self?.handleCommentSend(owner: owner, requestDTO: requestDTO, with: group, promise: promise)
         }
       subscriptions.insert(requestSubscription)
     }.eraseToAnyPublisher()
+  }
+  
+  private func handleCommentSend(
+    owner: UserEntity?,
+    requestDTO: FirestorePostCommentSendRequestDTO,
+    with group: DispatchGroup,
+    promise: @escaping Future<PostCommentEntity, Error>.Promise
+  ) {
+    group.notify(queue: backgroundQueue) {
+      guard let owner else { return }
+      let commentEntity = PostCommentEntity(
+        commentId: requestDTO.commentId,
+        userProfileImageData: owner.profileImageData,
+        userName: owner.nickname,
+        timestamp: String(requestDTO.createAt.dateValue().description),
+        comment: requestDTO.comment,
+        isDeleted: false,
+        isOnHeart: false,
+        isBlocked: false,
+        hearts: Int32(0),
+        nestedComments: [])
+      promise(.success(commentEntity))
+    }
   }
   
   func updateComment(commentId: String, comment: String) -> AnyPublisher<Bool, any Error> {
