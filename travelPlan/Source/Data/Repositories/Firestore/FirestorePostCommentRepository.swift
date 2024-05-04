@@ -52,7 +52,7 @@ extension FirestorePostCommentRepository: PostCommentRepository {
     guard let ownerId = loggedInUserRepository.id else {
       return Fail(error: LoggedInUserRepositoryError.invalidUserId).eraseToAnyPublisher()
     }
-    let commentId = NanoID.newDocumentId()
+    let commentId = UUID().uuidString
     
     let requestDTO = FirestorePostCommentSendRequestDTO(
       commentId: commentId,
