@@ -70,7 +70,7 @@ extension FirestorePostCommentRepository: PostCommentRepository {
         return
       }
       
-      let requestSubscription = service.request(endpoint: endpoint)
+      let requestSubscription = service.saveDocument(endpoint: endpoint)
         .subscribe(on: backgroundQueue)
         .receive(on: backgroundQueue)
         .sink { completion in
