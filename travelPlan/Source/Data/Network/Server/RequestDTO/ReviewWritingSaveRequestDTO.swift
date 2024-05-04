@@ -9,7 +9,7 @@ import Foundation
 
 struct ReviewWritingSaveRequestDTO: Encodable {
   let title: String
-  let content: [TextListDTO]
+  let contents: [TextListDTO]
   let startDate: String
   let endDate: String
   let themes: [String]
@@ -64,7 +64,7 @@ extension ReviewWritingSaveRequestDTO {
     }
     return .init(
       title: entity.title,
-      content: textListDTO,
+      contents: textListDTO,
       startDate: entity.tripDate.start,
       endDate: entity.tripDate.end,
       themes: entity.category.themes.map { TravelThemeMapper.toDTO($0) },

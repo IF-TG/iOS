@@ -13,12 +13,13 @@ struct FirestoreReviewWritingSaveRequestDTO: Encodable {
   let postId: String
   let authorId: String
   let likeNum: Int = 0
+  let commentNum: Int = 0
   let createAt: Timestamp
   
   func encode(to encoder: Encoder) throws {
     var container = encoder.container(keyedBy: CodingKeys.self)
     try container.encode(reviewWritingSaveRequestDTO.companions, forKey: .companions)
-    try container.encode(reviewWritingSaveRequestDTO.content, forKey: .content)
+    try container.encode(reviewWritingSaveRequestDTO.contents, forKey: .content)
     try container.encode(reviewWritingSaveRequestDTO.endDate, forKey: .endDate)
     try container.encode(reviewWritingSaveRequestDTO.imgFileList, forKey: .imgFileList)
     try container.encode(reviewWritingSaveRequestDTO.mapX, forKey: .mapX)
@@ -32,12 +33,14 @@ struct FirestoreReviewWritingSaveRequestDTO: Encodable {
     try container.encode(authorId, forKey: .authorId)
     try container.encode(likeNum, forKey: .likeNum)
     try container.encode(createAt, forKey: .createAt)
+    try container.encode(commentNum, forKey: .commentNum)
   }
   
   enum CodingKeys: String, CodingKey {
     case postId
     case authorId
     case likeNum
+    case commentNum
     case createAt
     case title
     case content

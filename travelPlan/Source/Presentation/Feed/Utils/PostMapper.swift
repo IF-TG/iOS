@@ -42,7 +42,7 @@ struct PostMapper {
     
     var content: [PostContentEntity] = [.text(post.detail.content)]
     
-    // 지금은 content text이후에 단순히 이미지만 반환했지만, 추후에 text sort, image sort타입에 맞게 반환 해야합니다.
+    // 지금은 contents text이후에 단순히 이미지만 반환했지만, 추후에 text sort, image sort타입에 맞게 반환 해야합니다.
     let images: [PostContentEntity] = post.highResolveImages.compactMap { postImage -> PostContentEntity? in
       // FIXME: - 지금 mockData일 경우 string type의 resource path를 보내주기에... 임시적으로 UIImage-> Data로 변환하겠습니다.
       if let data = UIImage(named: postImage.imageUri)?.pngData() {
