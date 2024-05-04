@@ -13,7 +13,6 @@ struct FirestorePostCommentSendRequestDTO: Encodable {
   let authorId: String
   let createAt: Timestamp
   let comment: String
-  let hasBlocked: Bool
   let hasDeleted: Bool
   let heartNum: Int
 }
