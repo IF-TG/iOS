@@ -10,7 +10,7 @@ import Foundation
 struct FirestorePostCommentAPIEndpoint {
   typealias CommentId = String
   
-  static func sendComment(
+  static func makeCommentSendEndpoint(
     postId: String,
     commentId: CommentId,
     with requestDTO: FirestorePostCommentSendRequestDTO
