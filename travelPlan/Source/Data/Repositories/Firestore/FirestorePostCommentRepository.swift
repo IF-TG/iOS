@@ -177,6 +177,14 @@ extension FirestorePostCommentRepository: PostCommentRepository {
     postId: String?,
     commentId: String
   ) -> AnyPublisher<Bool, any Error> {
+    // TODO: - 해당 포스트 댓글의 nestedComment 개수 받아와야합니다.
+    var hasAnyNestedCommentExisted = false
+    
+    if hasAnyNestedCommentExisted {
+      // TODO: - 네스티드 커맨츠 있을떄 엔드포인트 사용
+    } else {
+      // TODO: - 델리트커멘트 엔드포인트 사용
+    }
     fatalError("미구현")
   }
   
