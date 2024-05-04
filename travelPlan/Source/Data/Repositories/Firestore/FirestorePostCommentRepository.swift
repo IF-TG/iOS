@@ -10,6 +10,20 @@ import Foundation
 import FirebaseFirestore
 import SHFirestoreService
 
+@frozen enum FirestorePostCommentRepostioryError: LocalizedError {
+  case invalidParameter
+  case invalidSelfReference
+  
+  var errorDescription: String? {
+    switch self {
+    case .invalidParameter:
+      return "Invalid function's input parameter"
+    case .invalidSelfReference:
+      return "Invalid self reference"
+    }
+  }
+}
+
 final class FirestorePostCommentRepository {
   typealias Endpoint = FirestorePostCommentAPIEndpoint
   
@@ -128,19 +142,56 @@ extension FirestorePostCommentRepository: PostCommentRepository {
     }
   }
   
-  func updateComment(commentId: String, comment: String) -> AnyPublisher<Bool, any Error> {
+  func updateComment(
+    postId: String?,
+    commentId: String,
+    comment: String
+  ) -> AnyPublisher<Bool, any Error> {
+    guard let postId else {
+      return Fail(error: FirestorePostCommentRepostioryError.invalidParameter).eraseToAnyPublisher()
+    }
+    let requestDTO = PostCommentUpdateRequestDTO(commentId: commentId, comment: comment)
+    let endpoint = Endpoint.makeCommentUpdateEndpoint(postId: postId, with: requestDTO)
+    
+    return Future { [weak self] promise in
+      guard let self else {
+        promise(.failure(FirestorePostCommentRepostioryError.invalidSelfReference))
+        return
+      }
+      
+      // FIXME: -  backgroundTask 도 추가해야합니다.
+      let requestSubscription = self.service
+        .request(endpoint: endpoint)
+        .sink { completion in
+          if case .failure(let error) = completion {
+            promise(.failure(error))
+          }
+        } receiveValue: { _ in
+          promise(.success(true))
+        }
+      subscriptions.insert(requestSubscription)
+    }.eraseToAnyPublisher()
+  }
+  
+  func deleteComment(
+    postId: String?,
+    commentId: String
+  ) -> AnyPublisher<Bool, any Error> {
     fatalError("미구현")
   }
   
-  func deleteComment(commentId: String) -> AnyPublisher<Bool, any Error> {
+  func fetchComments(
+    page: Int32,
+    perPage: Int32,
+    postId: String
+  ) -> AnyPublisher<[PostCommentEntity], any Error> {
     fatalError("미구현")
   }
   
-  func fetchComments(page: Int32, perPage: Int32, postId: String) -> AnyPublisher<[PostCommentEntity], any Error> {
-    fatalError("미구현")
-  }
-  
-  func toggleCommentHeart(commentId: String) -> AnyPublisher<ToggledPostCommentHeartEntity, any Error> {
+  func toggleCommentHeart(
+    postId: String?,
+    commentId: String
+  ) -> AnyPublisher<ToggledPostCommentHeartEntity, any Error> {
     fatalError("미구현")
   }
 }
