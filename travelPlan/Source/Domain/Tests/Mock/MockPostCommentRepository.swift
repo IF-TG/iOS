@@ -55,20 +55,20 @@ extension MockPostCommentRepository {
     }.eraseToAnyPublisher()
   }
   
-  func updateComment(commentId: String, comment: String) -> AnyPublisher<Bool, any Error> {
+  func updateComment(postId: String? = nil, commentId: String, comment: String) -> AnyPublisher<Bool, any Error> {
     return Future { promise in
       promise(.success(true))
     }.eraseToAnyPublisher()
   }
   
-  func deleteComment(commentId: String) -> AnyPublisher<Bool, any Error> {
+  func deleteComment(postId: String? = nil, commentId: String) -> AnyPublisher<Bool, any Error> {
     MockUrlProtocol.requestHandler = { _ in
       let mock = MockResponseType.postComment(.whenCommentDelete).mockDataLoader
       return ((HTTPURLResponse(), mock))
     }
     return Future { promise in
       DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.05) { [weak self] in
-        let subscription = self?.repository.deleteComment(commentId: commentId)
+        let subscription = self?.repository.deleteComment(postId: postId, commentId: commentId)
           .sink { completion in
             if case .failure(let error) = completion {
               promise(.failure(error))
@@ -102,7 +102,7 @@ extension MockPostCommentRepository {
     }.eraseToAnyPublisher()
   }
   
-  func toggleCommentHeart(commentId: String) -> AnyPublisher<ToggledPostCommentHeartEntity, any Error> {
+  func toggleCommentHeart(postId: String?, commentId: String) -> AnyPublisher<ToggledPostCommentHeartEntity, any Error> {
     MockUrlProtocol.requestHandler = { _ in
       let mock = MockResponseType.postComment(.whenCommentHeartToggle).mockDataLoader
       return ((HTTPURLResponse(), mock))
@@ -110,7 +110,7 @@ extension MockPostCommentRepository {
     return Future { promise in
       DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.05) { [weak self] in
         let subscription = self?.repository
-          .toggleCommentHeart(commentId: commentId)
+          .toggleCommentHeart(postId: postId, commentId: commentId)
           .sink { completion in
             if case .failure(let error) = completion {
               promise(.failure(error))

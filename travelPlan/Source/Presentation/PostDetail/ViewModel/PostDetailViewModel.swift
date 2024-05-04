@@ -589,7 +589,7 @@ private extension PostDetailViewModel {
     let commentSection = SectionType.commentIndex(section: section)
     let commentId = postDetails.comments[commentSection].commentId
     return postCommentUseCase
-      .deleteComment(commentId: commentId)
+      .deleteComment(postId: postDetails.detail.postID, commentId: commentId)
       .map { [weak self] result -> State in
         if result {
           self?.postDetails.comments[commentSection].isDeleted = result
@@ -620,7 +620,7 @@ private extension PostDetailViewModel {
     let commentIdx = SectionType.commentIndex(section: section)
     let comment = postDetails.comments[commentIdx]
     return postCommentUseCase
-      .updateComment(commentId: comment.commentId, comment: editedText)
+      .updateComment(postId: postDetails.detail.postID, commentId: comment.commentId, comment: editedText)
       .map { [weak self] result -> State in
         guard result else {
           return .unexpectedError(description: "서버에서 에러가 발생되어 댓글이 편집되지 않았습니다.")
