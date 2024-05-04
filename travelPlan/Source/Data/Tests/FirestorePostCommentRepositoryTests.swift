@@ -16,6 +16,7 @@ final class FirestorePostCommentRepositoryTests: XCTestCase {
   var expectation: XCTestExpectation!
   var subscriptions = Set<AnyCancellable>()
   let testPostId = "ABEB803F-DD54-41A4-B8BF-487A210BD1EC"
+  let testCommentId = "12181109-6CDE-46E5-AD4F-04E824E89581"
   
   override func setUp() {
     super.setUp()
@@ -60,6 +61,30 @@ extension FirestorePostCommentRepositoryTests {
     
     wait(for: [expectation], timeout: 7.777)
 
+    // Assert
+    checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "sendComment")
+    XCTAssertTrue(receivedResult, "sendComment호출시 값을 성공적으로 받아야하지만 받지 못했습니다.")
+  }
+  
+  func test_updateComment호출시성공적으로결과를받는지() {
+    // Arrange
+    var receivedResult = false
+    var unexpectedError: Error?
+    
+    // Act
+    sut.updateComment(postId: testPostId, commentId: testCommentId, comment: "댓글 수정!")
+      .sink {
+        if case .failure(let error) = $0 {
+          unexpectedError = error
+          self.expectation.fulfill()
+        }
+      } receiveValue: { _ in
+        receivedResult = true
+        self.expectation.fulfill()
+      }.store(in: &subscriptions)
+    
+    wait(for: [expectation], timeout: 7.777)
+    
     // Assert
     checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "sendComment")
     XCTAssertTrue(receivedResult, "sendComment호출시 값을 성공적으로 받아야하지만 받지 못했습니다.")
