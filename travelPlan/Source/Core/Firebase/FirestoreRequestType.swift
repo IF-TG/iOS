@@ -171,7 +171,7 @@ extension FirestoreRequestType {
       case .hatePost(_, let userId):
         return userId
       case .saveComment(_, let commentId):
-        return commentId
+        return nil
       }
     }
     
