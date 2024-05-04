@@ -147,11 +147,14 @@ extension FirestoreRequestType {
     case save
     case update(postId: String)
     
+    // MARK: - PostHearts
     case fetchHeartUsers(PostId)
     case heartPost(PostId)
     case hatePost((PostId, UserId))
     
+    // MARK: - Comments
     case saveComment(PostId, CommentId)
+    case updateComment(PostId, CommentId)
     
     
     private var rootPath: String {
@@ -170,8 +173,10 @@ extension FirestoreRequestType {
         return nil
       case .hatePost(_, let userId):
         return userId
-      case .saveComment(_, let commentId):
+      case .saveComment:
         return nil
+      case .updateComment(_, let commentId):
+        return commentId
       }
     }
     
@@ -188,6 +193,8 @@ extension FirestoreRequestType {
       case .hatePost(let postId, _):
         return "\(rootPath)/\(postId)/user-hearts"
       case .saveComment(let postId, _):
+        return "\(rootPath)/\(postId)/comments"
+      case .updateComment(let postId, _):
         return "\(rootPath)/\(postId)/comments"
       }
     }

@@ -20,4 +20,14 @@ struct FirestorePostCommentAPIEndpoint {
       method: .save(commentId),
       requestType: .posts(.saveComment(postId, commentId)))
   }
+  
+  static func makeCommentUpdateEndpoint(
+    postId: String,
+    with requestDTO: PostCommentUpdateRequestDTO
+  ) -> FirestoreEndpoint<VoidResponseDTO> {
+    return FirestoreEndpoint(
+      requestDTO: requestDTO,
+      method: .update,
+      requestType: .posts(.updateComment(postId, requestDTO.commentId)))
+  }
 }
