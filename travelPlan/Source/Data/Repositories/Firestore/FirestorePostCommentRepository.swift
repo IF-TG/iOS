@@ -88,7 +88,7 @@ extension FirestorePostCommentRepository: PostCommentRepository {
             let ownerProfileSubscription = self?.myProfileRepository.fetchProfile(with: ownerId)
               .sink { completion in
                 if case .failure(let error) = completion {
-                  promise(.failure(MyProfileRepositoryError.invaildUserId))
+                  promise(.failure(error))
                 }
               } receiveValue: { userEntity in
                 owner = userEntity
