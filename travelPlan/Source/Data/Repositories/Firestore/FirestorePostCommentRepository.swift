@@ -61,7 +61,7 @@ extension FirestorePostCommentRepository: PostCommentRepository {
       comment: comment,
       hasDeleted: false,
       heartNum: 0)
-    let endpoint = Endpoint.makeCommentSendEndpoint(postId: postId, commentId: comment, with: requestDTO)
+    let endpoint = Endpoint.makeCommentSendEndpoint(postId: postId, commentId: commentId, with: requestDTO)
     
     return Future { [weak self, backgroundQueue] promise in
       // FIXME: - 저장할 경우 backgroundTask로 추가해야합니다.
