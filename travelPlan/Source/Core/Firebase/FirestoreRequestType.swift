@@ -150,12 +150,15 @@ extension FirestoreRequestType {
     // MARK: - PostHearts
     case fetchHeartUsers(PostId)
     case heartPost(PostId)
-    case hatePost((PostId, UserId))
+    case hatePost(PostId, UserId)
     
     // MARK: - Comments
     case saveComment(PostId, CommentId)
     case updateComment(PostId, CommentId)
-    
+    /// 이 경우는 isDelete 필드 true로 변경
+    case deleteCommentWhenNestedCommentExists(PostId, CommentId)
+    /// 그냥 삭제
+    case deleteComment(PostId, CommentId)
     
     private var rootPath: String {
       "posts"
@@ -177,6 +180,10 @@ extension FirestoreRequestType {
         return nil
       case .updateComment(_, let commentId):
         return commentId
+      case .deleteCommentWhenNestedCommentExists(_, let commentId):
+        return commentId
+      case .deleteComment(_, let commentId):
+        return commentId
       }
     }
     
@@ -195,6 +202,10 @@ extension FirestoreRequestType {
       case .saveComment(let postId, _):
         return "\(rootPath)/\(postId)/comments"
       case .updateComment(let postId, _):
+        return "\(rootPath)/\(postId)/comments"
+      case .deleteCommentWhenNestedCommentExists(let postId, _):
+        return "\(rootPath)/\(postId)/comments"
+      case .deleteComment(let postId, _):
         return "\(rootPath)/\(postId)/comments"
       }
     }
