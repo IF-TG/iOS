@@ -30,4 +30,26 @@ struct FirestorePostCommentAPIEndpoint {
       method: .update,
       requestType: .posts(.updateComment(postId, requestDTO.commentId)))
   }
+  
+  /// NestedComment가 없는 경우
+  static func makeCommentDeleteEndpoint(
+    postId: String,
+    commentId: CommentId
+  ) -> FirestoreEndpoint<VoidResponseDTO> {
+    return FirestoreEndpoint(
+      method: .delete,
+      requestType: .posts(.deleteComment(postId, commentId)))
+  }
+  
+  /// NestedComment가 있는 경우
+  static func makeCommentDeleteWhenNestedCommentExistEndpoint(
+    postId: String,
+    commentId: String
+  ) -> FirestoreEndpoint<VoidResponseDTO> {
+    let requestDTODict = ["hasDeleted": true]
+    return FirestoreEndpoint(
+      requestDTODict: requestDTODict,
+      method: .update,
+      requestType: .posts(.deleteCommentWhenNestedCommentExists(postId, commentId)))
+  }
 }
