@@ -18,6 +18,7 @@ import Foundation
   }
 }
 
+// TODO: - blockedUsers 추가하기
 protocol LoggedInUserRepository {
   var nickname: String? { get }
   var profileImageData: Data? { get }
