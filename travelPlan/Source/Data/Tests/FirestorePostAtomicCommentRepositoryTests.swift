@@ -7,6 +7,7 @@
 
 import XCTest
 import Combine
+@testable import FirebaseFirestore
 @testable import SHFirestoreService
 @testable import travelPlan
 
@@ -84,5 +85,42 @@ extension FirestorePostAtomicCommentRepositoryTests {
     // Assert
     checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "sendComment")
     XCTAssertTrue(receivedResult, "sendComment호출시 값을 성공적으로 받아야하지만 받지 못했습니다.")
+  }
+  
+  func test_대댓글이없는경우deleteComment호출시성공적으로삭제되는지() {
+    // Arrange
+    var receivedResult = false
+    var unexpectedError: Error?
+    let testCommentId = "testComment1"
+    // Act
+    sut.deleteComment(
+      hasAnyNestedCommentExisted: false,
+      postId: testPostId,
+      commentId: "testComment1"
+    ).sink { completion in
+      if case .failure(let error) = completion {
+        unexpectedError = error
+        self.expectation.fulfill()
+      }
+    } receiveValue: { _ in
+      receivedResult = true
+      Firestore.firestore()
+        .collection("posts/\(self.testPostId)/comments")
+        .document(testCommentId)
+        .setData(["temp": "temp"])
+        .sink { completion in
+          if case .failure(let error) = completion {
+            XCTAssert(false, "파이어스토어에 삭제한 문서를 원래대로 되돌려 놓는 과정에서 에러 발생:\(error)")
+          }
+        } receiveValue: { _ in
+          self.expectation.fulfill()
+        }.store(in: &self.subscriptions)
+    }.store(in: &self.subscriptions)
+    
+    wait(for: [expectation], timeout: 7.777)
+    
+    // Assert
+    checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "deleteComment")
+    XCTAssertTrue(receivedResult, "댓글 삭제시 성공적으로 true를 반환해야하지만 반환하지 않음.")
   }
 }
