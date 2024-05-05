@@ -9,7 +9,7 @@ import Foundation
 import Combine
 
 struct MockUserProfileRepository: UserProfileRepository {
-  func fetchProfileImageData(with userId: String) -> AnyPublisher<ProfileImageData, any Error> {
+  func fetchProfileImageData(with userId: String) -> AnyPublisher<ProfileImageData?, any Error> {
     return Just("사용자프로필".data(using: .utf8)!)
       .setFailureType(to: ReferenceError.self)
       .mapError { $0 as Error }

@@ -240,7 +240,9 @@ extension DefaultMyProfileRepository: MyProfileRepository {
             promise(.failure(error))
           }
         } receiveValue: { [weak self] profileImageData in
-          self?.userStorage.updateProfileImageData(with: profileImageData)
+          if let data = profileImageData {
+            self?.userStorage.updateProfileImageData(with: data)
+          }
           promise(.success(ProfileImageEntity(image: profileImageData)))
         }.store(in: &subscriptions)
     }.eraseToAnyPublisher()
