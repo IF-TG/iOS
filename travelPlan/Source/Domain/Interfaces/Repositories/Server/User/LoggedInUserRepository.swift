@@ -31,9 +31,11 @@ protocol LoggedInUserRepository {
   
   func setUser(with userInfo: UserEntity)
   
-  func addBlockedUser(with userId: String)
+  func hasBlockedUser(with userId: BlockedUserId) -> Bool
   
-  func deleteBlockedUser(with userId: String)
+  func addBlockedUser(with userId: BlockedUserId)
+  
+  func deleteBlockedUser(with userId: BlockedUserId)
   
   @discardableResult
   func updateNickname(with nickname: String) -> Bool

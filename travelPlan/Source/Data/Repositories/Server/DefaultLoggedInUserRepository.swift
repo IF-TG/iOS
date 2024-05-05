@@ -47,11 +47,15 @@ final class DefaultLoggedInUserRepository: LoggedInUserRepository {
     storage.setUser(with: userInfo)
   }
   
-  func addBlockedUser(with userId: String) {
+  func hasBlockedUser(with userId: BlockedUserId) -> Bool {
+    storage.hasBlockedUser(with: userId)
+  }
+  
+  func addBlockedUser(with userId: BlockedUserId) {
     storage.addBlockedUser(with: userId)
   }
   
-  func deleteBlockedUser(with userId: String) {
+  func deleteBlockedUser(with userId: BlockedUserId) {
     storage.deleteBlockedUser(with: userId)
   }
   

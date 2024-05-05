@@ -37,7 +37,13 @@ extension UserDefaultsOwnerStorage: OwnerStorage {
     return blockedUsers
   }
   
-  func addBlockedUser(with userId: String) {
+  func hasBlockedUser(with userId: BlockedUserId) -> Bool {
+    return blockedUsers.contains(where: { blockedUser in
+      return blockedUser == userId
+    })
+  }
+  
+  func addBlockedUser(with userId: BlockedUserId) {
     backgroundQueue.async {
       var blockedUserList = userDefaults[.blockedUsers] as? [String] ?? []
       blockedUserList.append(userId)
@@ -45,7 +51,7 @@ extension UserDefaultsOwnerStorage: OwnerStorage {
     }
   }
   
-  func deleteBlockedUser(with userId: String) {
+  func deleteBlockedUser(with userId: BlockedUserId) {
     backgroundQueue.async {
       var blockedUserList = userDefaults[.blockedUsers] as? [String] ?? []
       if let blockedUserIndex = blockedUserList.firstIndex(of: userId) {

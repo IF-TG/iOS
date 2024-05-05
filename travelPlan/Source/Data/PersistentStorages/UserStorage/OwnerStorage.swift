@@ -15,13 +15,15 @@ protocol OwnerStorage {
   var isSavedProfileInServer: Bool { get }
   var id: String? { get }
   var user: UserEntity? { get }
-  var blockedUsers : [BlockedUserId] { get }
+  var blockedUsers: [BlockedUserId] { get }
   
   func setUser(with userInfo: UserEntity)
   
-  func addBlockedUser(with userId: String)
+  func addBlockedUser(with userId: BlockedUserId)
   
-  func deleteBlockedUser(with userId: String)
+  func deleteBlockedUser(with userId: BlockedUserId)
+  
+  func hasBlockedUser(with userId: BlockedUserId) -> Bool
   
   @discardableResult
   func updateNickname(with nickname: String) -> Bool
