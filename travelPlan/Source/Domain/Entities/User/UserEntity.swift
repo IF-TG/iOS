@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct UserEntity {
+struct UserEntity: Equatable {
   let id: String
   var nickname: String
   var profileImageData: Data?
