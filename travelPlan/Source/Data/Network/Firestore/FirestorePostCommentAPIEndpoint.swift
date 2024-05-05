@@ -55,7 +55,7 @@ struct FirestorePostCommentAPIEndpoint {
   
   static func makeCommentsFetchEndpoint(
     postId: String
-  ) -> FirestoreEndpoint<[FirestorePostCommentResponseDTO]> {
+  ) -> FirestoreEndpoint<FirestorePostCommentResponseDTO> {
     return FirestoreEndpoint(
       method: .get,
       requestType: .posts(.fetchComments(postId)))
