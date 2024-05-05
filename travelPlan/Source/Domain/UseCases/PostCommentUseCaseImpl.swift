@@ -168,10 +168,7 @@ extension PostCommentUseCaseImpl: PostCommentUseCase {
             // MARK: - PostCommentHeartRepository에서 하트 했는지 받아와야합니다.
             fatalError("PostCOmmentHeartRepository에서 하트 했는지 받아와야 합니다.")
             
-            hasBlocked = self?.ownerRepository.blockedUsers.contains(where: { blockedUser in
-              return blockedUser.id == atomicCommentEntity.authorId
-            }) ?? false
-            
+            hasBlocked = self?.ownerRepository.hasBlockedUser(with: atomicCommentEntity.authorId) ?? false
             group.notify(queue: backgroundQueue) { [weak self, i] in
               if let commentAuthor, let self {
                 let postComment = makePostCommentEntity(
