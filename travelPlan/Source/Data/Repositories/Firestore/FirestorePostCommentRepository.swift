@@ -13,6 +13,7 @@ import SHFirestoreService
 @frozen enum FirestorePostCommentRepostioryError: LocalizedError {
   case invalidParameter
   case invalidSelfReference
+  case invalidRequestTypeForQuery
   
   var errorDescription: String? {
     switch self {
@@ -20,6 +21,8 @@ import SHFirestoreService
       return "Invalid function's input parameter"
     case .invalidSelfReference:
       return "Invalid self reference"
+    case .invalidRequestTypeForQuery:
+      return "Invalid request type for query"
     }
   }
 }
@@ -30,10 +33,6 @@ final class FirestorePostCommentRepository {
   // MARK: - Dependencies
   private let backgroundQueue: DispatchQueue
   private let service: FirestoreServiceProtocol
-  private let firebaseStorageService: ImageStorageServiceProtocol
-  private let imageCache: ImageMemoryCachable
-  private let loggedInUserRepository: LoggedInUserRepository
-  private let myProfileRepository: MyProfileRepository
   
   // MARK: - Properties
   private var subscriptions = Set<AnyCancellable?>()
@@ -41,31 +40,20 @@ final class FirestorePostCommentRepository {
   // MARK: - Lifecycle
   init(
     service: FirestoreServiceProtocol,
-    backgroundQueue: DispatchQueue = .global(qos: .userInitiated),
-    firebaseStorageService: ImageStorageServiceProtocol,
-    loggedInUserRepository: LoggedInUserRepository,
-    myProfileRepository: MyProfileRepository,
-    imageCache: ImageMemoryCachable
+    backgroundQueue: DispatchQueue = .global(qos: .userInitiated)
   ) {
     self.service = service
-    self.loggedInUserRepository = loggedInUserRepository
     self.backgroundQueue = backgroundQueue
-    self.firebaseStorageService = firebaseStorageService
-    self.myProfileRepository = myProfileRepository
-    self.imageCache = imageCache
   }
 }
 
-// MARK: - PostCommentRepository
-extension FirestorePostCommentRepository: PostCommentRepository {
+// MARK: - PostAtomicCommentRepository
+extension FirestorePostCommentRepository: PostAtomicCommentRepository {
   func sendComment(
+    ownerId: String,
     postId: String,
     comment: String
-  ) -> AnyPublisher<PostCommentEntity, any Error> {
-    
-    guard let ownerId = loggedInUserRepository.id else {
-      return Fail(error: LoggedInUserRepositoryError.invalidUserId).eraseToAnyPublisher()
-    }
+  ) -> AnyPublisher<PostAtomicCommentEntity, any Error> {
     let commentId = UUID().uuidString
     
     let requestDTO = FirestorePostCommentSendRequestDTO(
@@ -91,65 +79,26 @@ extension FirestorePostCommentRepository: PostCommentRepository {
           if case .failure(let error) = completion {
             promise(.failure(error))
           }
-        } receiveValue: { [weak self] _ in
-          var owner: UserEntity?
-          let group = DispatchGroup()
-          group.enter()
-          if let loggedInUser = self?.loggedInUserRepository.user {
-            owner = loggedInUser
-            group.leave()
-          } else {
-            let ownerProfileSubscription = self?.myProfileRepository.fetchProfile(with: ownerId)
-              .sink { completion in
-                if case .failure(let error) = completion {
-                  promise(.failure(error))
-                }
-              } receiveValue: { userEntity in
-                owner = userEntity
-                self?.loggedInUserRepository.setUser(with: userEntity)
-                group.leave()
-              }
-            self?.subscriptions.insert(ownerProfileSubscription)
-          }
-          
-          // FIXME: - TimestampConverter로 timestamp 변환해야합니다. (timeAgo 사용!)
-          self?.handleCommentSend(owner: owner, requestDTO: requestDTO, with: group, promise: promise)
+        } receiveValue: { _ in
+          let postAtomicCommentEntity = PostAtomicCommentEntity(
+            commentId: commentId,
+            authorId: ownerId,
+            comment: comment,
+            createAt: requestDTO.createAt.dateValue(),
+            hasDeleted: false,
+            hearts: 0)
+          promise(.success(postAtomicCommentEntity))
+
         }
       subscriptions.insert(requestSubscription)
     }.eraseToAnyPublisher()
   }
-  
-  private func handleCommentSend(
-    owner: UserEntity?,
-    requestDTO: FirestorePostCommentSendRequestDTO,
-    with group: DispatchGroup,
-    promise: @escaping Future<PostCommentEntity, Error>.Promise
-  ) {
-    group.notify(queue: backgroundQueue) {
-      guard let owner else { return }
-      let commentEntity = PostCommentEntity(
-        commentId: requestDTO.commentId,
-        userProfileImageData: owner.profileImageData,
-        userName: owner.nickname,
-        timestamp: String(requestDTO.createAt.dateValue().description),
-        comment: requestDTO.comment,
-        isDeleted: false,
-        isOnHeart: false,
-        isBlocked: false,
-        hearts: Int32(0),
-        nestedComments: [])
-      promise(.success(commentEntity))
-    }
-  }
-  
+ 
   func updateComment(
-    postId: String?,
+    postId: String,
     commentId: String,
     comment: String
-  ) -> AnyPublisher<Bool, any Error> {
-    guard let postId else {
-      return Fail(error: FirestorePostCommentRepostioryError.invalidParameter).eraseToAnyPublisher()
-    }
+  ) -> AnyPublisher<Void, any Error> {
     let requestDTO = PostCommentUpdateRequestDTO(commentId: commentId, comment: comment)
     let endpoint = Endpoint.makeCommentUpdateEndpoint(postId: postId, with: requestDTO)
     
@@ -167,23 +116,19 @@ extension FirestorePostCommentRepository: PostCommentRepository {
             promise(.failure(error))
           }
         } receiveValue: { _ in
-          promise(.success(true))
+          promise(.success(()))
         }
       subscriptions.insert(requestSubscription)
     }.eraseToAnyPublisher()
   }
   
   func deleteComment(
-    postId: String?,
+    hasAnyNestedCommentExisted: Bool,
+    postId: String,
     commentId: String
-  ) -> AnyPublisher<Bool, any Error> {
-    guard let postId else {
-      return Fail(error: FirestorePostCommentRepostioryError.invalidParameter).eraseToAnyPublisher()
-    }
+  ) -> AnyPublisher<Void, any Error> {
     // FIXME: - backgroundTask 추가해야합니다.
-    // FIXME: - 해당 포스트 댓글의 nestedComment 가 있는지 확인해야 합니다.
-    var hasAnyNestedCommentExisted = false
-    var endpoint = switch hasAnyNestedCommentExisted {
+    let endpoint = switch hasAnyNestedCommentExisted {
     case true:
       Endpoint.makeCommentDeleteWhenNestedCommentExistEndpoint(postId: postId, commentId: commentId)
     case false:
@@ -198,24 +143,34 @@ extension FirestorePostCommentRepository: PostCommentRepository {
             promise(.failure(error))
           }
         } receiveValue: { _ in
-          promise(.success(true))
+          promise(.success(()))
         }
       self?.subscriptions.insert(requestSubscription)
     }.eraseToAnyPublisher()
   }
   
   func fetchComments(
-    page: Int32,
-    perPage: Int32,
     postId: String
-  ) -> AnyPublisher<[PostCommentEntity], any Error> {
-    fatalError("미구현")
-  }
-  
-  func toggleCommentHeart(
-    postId: String?,
-    commentId: String
-  ) -> AnyPublisher<ToggledPostCommentHeartEntity, any Error> {
-    fatalError("미구현")
+  ) -> AnyPublisher<[PostAtomicCommentEntity], any Error> {
+    let endpoint = Endpoint.makeCommentsFetchEndpoint(postId: postId)
+    return Future { [weak self, backgroundQueue] promise in
+      let querySubscription = self?.service.query(
+        endpoint: endpoint, makeQuery: { reference in
+          guard let reference = reference as? CollectionReference else {
+            throw FirestorePostCommentRepostioryError.invalidRequestTypeForQuery
+          }
+          return reference.order(by: "createAt", descending: true)
+        })
+        .subscribe(on: backgroundQueue)
+        .receive(on: backgroundQueue)
+        .sink { completion in
+          if case .failure(let error) = completion {
+            promise(.failure(error))
+          }
+        } receiveValue: { responseDTOs in
+          promise(.success(responseDTOs.map { $0.toDomain() }))
+        }
+      self?.subscriptions.insert(querySubscription)
+    }.eraseToAnyPublisher()
   }
 }
