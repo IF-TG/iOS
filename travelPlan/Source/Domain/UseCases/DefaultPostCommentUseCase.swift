@@ -23,15 +23,15 @@ final class DefaultPostCommentUseCase: PostCommentUseCase {
       .eraseToAnyPublisher()
   }
   
-  func updateComment(postId: String? = nil, commentId: String, comment: String) -> AnyPublisher<Bool, any Error> {
+  func updateComment(postId: String, commentId: String, comment: String) -> AnyPublisher<Bool, any Error> {
     return postCommentRepository
       .updateComment(postId: nil, commentId: commentId, comment: comment)
       .eraseToAnyPublisher()
   }
   
-  func deleteComment(postId: String? = nil, commentId: String) -> AnyPublisher<Bool, any Error> {
+  func deleteComment(postId: String, commentId: String) -> AnyPublisher<Bool, any Error> {
     return postCommentRepository
-      .deleteComment(postId: postId,commentId: commentId)
+      .deleteComment(postId: postId, commentId: commentId)
       .eraseToAnyPublisher()
   }
   
@@ -42,7 +42,7 @@ final class DefaultPostCommentUseCase: PostCommentUseCase {
   }
   
   func toggleCommentHeart(
-    postId: String? = nil,
+    postId: String,
     commentId: String
   ) -> AnyPublisher<ToggledPostCommentHeartEntity, any Error> {
     return postCommentRepository

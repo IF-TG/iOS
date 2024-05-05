@@ -103,15 +103,18 @@ extension PostCommentUseCaseImpl: PostCommentUseCase {
   }
   
   func updateComment(
-    postId: String?,
-    commentId: String, 
+    postId: String,
+    commentId: String,
     comment: String
   ) -> AnyPublisher<Bool, any Error> {
-    fatalError()
+    return postAtomicCommentRepository
+      .updateComment(postId: postId, commentId: commentId, comment: comment)
+      .map { _ in return true }
+      .eraseToAnyPublisher()
   }
   
   func deleteComment(
-    postId: String?,
+    postId: String,
     commentId: String
   ) -> AnyPublisher<Bool, any Error> {
     fatalError()
@@ -124,7 +127,7 @@ extension PostCommentUseCaseImpl: PostCommentUseCase {
   }
   
   func toggleCommentHeart(
-    postId: String?,
+    postId: String,
     commentId: String
   ) -> AnyPublisher<ToggledPostCommentHeartEntity, any Error> {
     fatalError()
