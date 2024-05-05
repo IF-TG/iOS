@@ -52,4 +52,12 @@ struct FirestorePostCommentAPIEndpoint {
       method: .update,
       requestType: .posts(.deleteCommentWhenNestedCommentExists(postId, commentId)))
   }
+  
+  static func makeCommentsFetchEndpoint(
+    postId: String
+  ) -> FirestoreEndpoint<[FirestorePostCommentResponseDTO]> {
+    return FirestoreEndpoint(
+      method: .get,
+      requestType: .posts(.fetchComments(postId)))
+  }
 }

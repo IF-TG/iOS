@@ -159,6 +159,7 @@ extension FirestoreRequestType {
     case deleteCommentWhenNestedCommentExists(PostId, CommentId)
     /// 그냥 삭제
     case deleteComment(PostId, CommentId)
+    case fetchComments(PostId)
     
     private var rootPath: String {
       "posts"
@@ -184,6 +185,8 @@ extension FirestoreRequestType {
         return commentId
       case .deleteComment(_, let commentId):
         return commentId
+      case .fetchComments:
+        return nil
       }
     }
     
@@ -206,6 +209,8 @@ extension FirestoreRequestType {
       case .deleteCommentWhenNestedCommentExists(let postId, _):
         return "\(rootPath)/\(postId)/comments"
       case .deleteComment(let postId, _):
+        return "\(rootPath)/\(postId)/comments"
+      case .fetchComments(let postId):
         return "\(rootPath)/\(postId)/comments"
       }
     }
