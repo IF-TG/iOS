@@ -1,5 +1,5 @@
 //
-//  FirestorePostCommentRepositoryTests.swift
+//  FirestorePostAtomicCommentRepositoryTests.swift
 //  travelPlanTests
 //
 //  Created by 양승현 on 5/4/24.
@@ -10,9 +10,9 @@ import Combine
 @testable import SHFirestoreService
 @testable import travelPlan
 
-final class FirestorePostCommentRepositoryTests: XCTestCase {
+final class FirestorePostAtomicCommentRepositoryTests: XCTestCase {
   // MARK: - Properties
-  var sut: PostCommentRepository!
+  var sut: PostAtomicCommentRepository!
   var expectation: XCTestExpectation!
   var subscriptions = Set<AnyCancellable>()
   let testPostId = "ABEB803F-DD54-41A4-B8BF-487A210BD1EC"
@@ -25,11 +25,7 @@ final class FirestorePostCommentRepositoryTests: XCTestCase {
     let loggedInUserRepository = DefaultLoggedInUserRepository(storage: MockUserStorage())
     sut = FirestorePostCommentRepository(
       service: service,
-      backgroundQueue: .main,
-      firebaseStorageService: MockFirestoreImageStorage(),
-      loggedInUserRepository: loggedInUserRepository,
-      myProfileRepository: MockMyProfileRepository(),
-      imageCache: ImageMemoryCache())
+      backgroundQueue: .main)
     expectation = XCTestExpectation(description: "Finish")
   }
   
@@ -40,14 +36,14 @@ final class FirestorePostCommentRepositoryTests: XCTestCase {
   }
 }
 
-extension FirestorePostCommentRepositoryTests {
+extension FirestorePostAtomicCommentRepositoryTests {
   func test_sendComment호출시관련Entity를받는지_shouldReturnTrue() {
     // Arrange
     var receivedResult = false
     var unexpectedError: Error?
      
     // Act
-    sut.sendComment(postId: testPostId, comment: "댓글 작성!")
+    sut.sendComment(ownerId: "testUser1234", postId: testPostId, comment: "댓글 작성!")
       .sink {
         if case .failure(let error) = $0 {
           unexpectedError = error
