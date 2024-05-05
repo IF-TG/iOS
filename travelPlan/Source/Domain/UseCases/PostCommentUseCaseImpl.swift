@@ -12,7 +12,7 @@ final class PostCommentUseCaseImpl {
   // MARK: - Dependencies
   private let postAtomicCommentRepository: PostAtomicCommentRepository
   private let ownerRepository: LoggedInUserRepository
-  private let myProfileRepository: MyProfileRepository
+  private let userProfileRepository: UserProfileRepository
   private let backgroundQueue: DispatchQueue
   
   // MARK: - Properties
@@ -22,12 +22,12 @@ final class PostCommentUseCaseImpl {
   init(
     ownerRepository: LoggedInUserRepository,
     postAtomicCommentRepository: PostAtomicCommentRepository,
-    myProfileRepository: MyProfileRepository,
+    userProfileRepository: UserProfileRepository,
     backgroundQueue: DispatchQueue
   ) {
     self.ownerRepository = ownerRepository
     self.postAtomicCommentRepository = postAtomicCommentRepository
-    self.myProfileRepository = myProfileRepository
+    self.userProfileRepository = userProfileRepository
     self.backgroundQueue = backgroundQueue
   }
 }
@@ -55,7 +55,7 @@ extension PostCommentUseCaseImpl: PostCommentUseCase {
             author = owner
             group.leave()
           } else {
-            let ownerProfileSubscription = self?.myProfileRepository
+            let ownerProfileSubscription = self?.userProfileRepository
               .fetchProfile(with: ownerId)
               .sink { completion in
                 if case .failure(let error) = completion {
@@ -109,7 +109,7 @@ extension PostCommentUseCaseImpl: PostCommentUseCase {
   ) -> AnyPublisher<Bool, any Error> {
     return postAtomicCommentRepository
       .updateComment(postId: postId, commentId: commentId, comment: comment)
-      .map { _ in return true }
+      .map { true }
       .eraseToAnyPublisher()
   }
   
@@ -117,13 +117,97 @@ extension PostCommentUseCaseImpl: PostCommentUseCase {
     postId: String,
     commentId: String
   ) -> AnyPublisher<Bool, any Error> {
-    fatalError()
+    return postAtomicCommentRepository
+      .deleteComment(
+        // FIXME: - NestedComment가 있는지 가져와야 합니다.
+        hasAnyNestedCommentExisted: false,
+        postId: postId,
+        commentId: commentId)
+      .map { true }
+      .eraseToAnyPublisher()
   }
   
   func fetchComments(
     with requestValue: PostCommentsRequestValue
   ) -> AnyPublisher<[PostCommentEntity], any Error> {
-    fatalError()
+    return Future { [weak self, backgroundQueue] promise in
+      let commentsFetchSubscription = self?.postAtomicCommentRepository
+        .fetchComments(postId: requestValue.postId)
+        .sink { completion in
+          if case .failure(let error) = completion {
+            promise(.failure(error))
+          }
+        } receiveValue: { atomicCommentEntities in
+          let groupManager = DispatchGroup()
+          var postComments: [(index: Int, entity: PostCommentEntity)] = []
+          atomicCommentEntities.enumerated().forEach { i, atomicCommentEntity in
+            groupManager.enter()
+            let group = DispatchGroup()
+            var commentAuthor: UserEntity?
+            var hasBlocked: Bool = false
+            var isOnHeart: Bool = false
+            var nestedComments: [PostNestedCommentEntity] = []
+            group.enter()
+            let profileFetchSubscription = self?.userProfileRepository
+              .fetchProfile(with: atomicCommentEntity.authorId)
+              .sink { completion in
+                if case .failure(let error) = completion {
+                  // TODO: - 로그를 남겨보자,,
+                  print("DEBUG  사용자 정보 받아오는 도중 에러가 발생했습니다.", error.localizedDescription, atomicCommentEntity)
+                  group.leave()
+                }
+              } receiveValue: { author in
+                commentAuthor = author
+                group.leave()
+              }
+            self?.subscriptions.insert(profileFetchSubscription)
+            
+            // MARK: - NestedComments받아와야 합니다: ]
+            fatalError("NestedComments 받아와야 합니다.")
+            
+            // MARK: - PostCommentHeartRepository에서 하트 했는지 받아와야합니다.
+            fatalError("PostCOmmentHeartRepository에서 하트 했는지 받아와야 합니다.")
+            
+            hasBlocked = self?.ownerRepository.blockedUsers.contains(where: { blockedUser in
+              return blockedUser.id == atomicCommentEntity.authorId
+            }) ?? false
+            
+            group.notify(queue: backgroundQueue) { [weak self, i] in
+              if let commentAuthor, let self {
+                let postComment = makePostCommentEntity(
+                  atomicCommentEntity: atomicCommentEntity,
+                  commentAuthor: commentAuthor,
+                  isOnHeart: isOnHeart,
+                  isBlocked: hasBlocked,
+                  nestedComments: nestedComments)
+                postComments.append((i, postComment))
+              }
+              groupManager.leave()
+            }
+          }
+        }
+      self?.subscriptions.insert(commentsFetchSubscription)
+    }.eraseToAnyPublisher()
+  }
+  
+  private func makePostCommentEntity(
+    atomicCommentEntity: PostAtomicCommentEntity,
+    commentAuthor: UserEntity,
+    isOnHeart: Bool,
+    isBlocked: Bool,
+    nestedComments: [PostNestedCommentEntity]
+  ) -> PostCommentEntity {
+    // TODO: - Timestamp timeago로 구현해야합니다.
+    return PostCommentEntity(
+      commentId: atomicCommentEntity.commentId,
+      userName: commentAuthor.nickname,
+      timestamp: atomicCommentEntity.createAt.description, 
+      comment: atomicCommentEntity.comment,
+      isDeleted: atomicCommentEntity.hasDeleted,
+      isOnHeart: isOnHeart,
+      isBlocked: isBlocked,
+      hearts: Int32(atomicCommentEntity.hearts),
+      nestedComments: nestedComments)
   }
   
   func toggleCommentHeart(
