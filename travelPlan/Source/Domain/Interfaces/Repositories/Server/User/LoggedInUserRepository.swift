@@ -25,6 +25,7 @@ protocol LoggedInUserRepository {
   var isSavedProfileInServer: Bool { get }
   var id: String? { get }
   var user: UserEntity? { get }
+  var blockedUsers: [UserEntity] { get }
   
   func setUser(with userInfo: UserEntity)
   
