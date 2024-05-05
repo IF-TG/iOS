@@ -9,6 +9,14 @@ import Foundation
 import UIKit
 
 final class MockUserStorage: OwnerStorage {
+  var blockedUsers: [BlockedUserId] {
+    []
+  }
+  
+  func addBlockedUser(with userId: String) {}
+  
+  func deleteBlockedUser(with userId: String) {}
+  
   var nickname: String? {
     "짱구"
   }

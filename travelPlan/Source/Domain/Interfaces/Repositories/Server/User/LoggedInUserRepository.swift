@@ -20,14 +20,20 @@ import Foundation
 
 // TODO: - blockedUsers 추가하기
 protocol LoggedInUserRepository {
+  typealias BlockedUserId = String
+  
   var nickname: String? { get }
   var profileImageData: Data? { get }
   var isSavedProfileInServer: Bool { get }
   var id: String? { get }
   var user: UserEntity? { get }
-  var blockedUsers: [UserEntity] { get }
+  var blockedUsers: [BlockedUserId] { get }
   
   func setUser(with userInfo: UserEntity)
+  
+  func addBlockedUser(with userId: String)
+  
+  func deleteBlockedUser(with userId: String)
   
   @discardableResult
   func updateNickname(with nickname: String) -> Bool

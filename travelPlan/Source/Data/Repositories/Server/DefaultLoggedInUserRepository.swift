@@ -33,6 +33,10 @@ final class DefaultLoggedInUserRepository: LoggedInUserRepository {
     storage.user
   }
   
+  var blockedUsers: [BlockedUserId] {
+    storage.blockedUsers
+  }
+  
   // MARK: - Lifecycle
   init(storage: OwnerStorage) {
     self.storage = storage
@@ -41,6 +45,14 @@ final class DefaultLoggedInUserRepository: LoggedInUserRepository {
   // MARK: - Helpers
   func setUser(with userInfo: UserEntity) {
     storage.setUser(with: userInfo)
+  }
+  
+  func addBlockedUser(with userId: String) {
+    storage.addBlockedUser(with: userId)
+  }
+  
+  func deleteBlockedUser(with userId: String) {
+    storage.deleteBlockedUser(with: userId)
   }
   
   @discardableResult
