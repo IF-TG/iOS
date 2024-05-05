@@ -9,6 +9,10 @@ import Foundation
 import Combine
 import SHFirestoreService
 
+@frozen enum FirestoreMyProfileRepositoryError: LocalizedError {
+  case invaildOwnerId
+}
+
 final class FirestoreMyProfileRepository {
   typealias Endpoint = FirestoreMyProfileAPIEndopint
   
@@ -16,7 +20,7 @@ final class FirestoreMyProfileRepository {
   private let backgroundQueue: DispatchQueue
   private let service: FirestoreServiceProtocol
   private let firebaseStorageService: ImageStorageServiceProtocol
-  private let loggedInUserRepository: LoggedInUserRepository
+  private let ownerStorage: OwnerStorage
   private let imageCache: ImageMemoryCachable
   
   // MARK: - Properties
@@ -25,13 +29,13 @@ final class FirestoreMyProfileRepository {
   // MARK: - Lifecycle
   init(
     service: FirestoreServiceProtocol,
-    loggedInUserRepository: LoggedInUserRepository,
+    ownerStorage: OwnerStorage,
     backgroundQueue: DispatchQueue = .global(qos: .userInitiated),
     firebaseStorageService: ImageStorageServiceProtocol,
     imageCache: ImageMemoryCachable
   ) {
     self.service = service
-    self.loggedInUserRepository = loggedInUserRepository
+    self.ownerStorage = ownerStorage
     self.backgroundQueue = backgroundQueue
     self.firebaseStorageService = firebaseStorageService
     self.imageCache = imageCache
@@ -41,15 +45,22 @@ final class FirestoreMyProfileRepository {
 // MARK: - MyProfileRepository
 extension FirestoreMyProfileRepository: MyProfileRepository {
   var isProfileSavedInServer: Bool {
-    loggedInUserRepository.isSavedProfileInServer
+    ownerStorage.isSavedProfileInServer
   }
   
-  func fetchProfile(with userId: String) -> AnyPublisher<UserEntity, any Error> {
-    if let user = loggedInUserRepository.user {
-      return Just(user).setFailureType(to: ReferenceError.self).mapError { $0 as Error }.eraseToAnyPublisher()
+  func fetchProfile() -> AnyPublisher<UserEntity, any Error> {
+    if let user = ownerStorage.user {
+      return Just(user)
+        .setFailureType(to: ReferenceError.self)
+        .mapError { $0 as Error }
+        .eraseToAnyPublisher()
     }
-    let endpoint = Endpoint.fetchUserProfileEndpoint(userUID: userId)
     return Future { [weak self, backgroundQueue] promise in
+      guard let userId = self?.ownerStorage.id else {
+        promise(.failure(FirestoreMyProfileRepositoryError.invaildOwnerId))
+        return
+      }
+      let endpoint = Endpoint.fetchUserProfileEndpoint(userUID: userId)
       let subscription = self?.service.request(endpoint: endpoint)
         .subscribe(on: backgroundQueue)
         .sink { completion in
@@ -59,7 +70,7 @@ extension FirestoreMyProfileRepository: MyProfileRepository {
         } receiveValue: { responseDTO in
           if responseDTO.profileImagePath == "" {
             let userEntity = responseDTO.toDomain(with: nil)
-            self?.loggedInUserRepository.setUser(with: userEntity)
+            self?.ownerStorage.setUser(with: userEntity)
             promise(.success(userEntity))
             return
           }
@@ -74,7 +85,7 @@ extension FirestoreMyProfileRepository: MyProfileRepository {
               }
             } receiveValue: { imageData in
               let userEntity = responseDTO.toDomain(with: imageData)
-              self?.loggedInUserRepository.setUser(with: userEntity)
+              self?.ownerStorage.setUser(with: userEntity)
               promise(.success(userEntity))
             }
           self?.subscriptions.insert(storageSubscription)
