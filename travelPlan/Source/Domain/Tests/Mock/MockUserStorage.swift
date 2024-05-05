@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-final class MockUserStorage: UserStorage {
+final class MockUserStorage: OwnerStorage {
   var nickname: String? {
     "짱구"
   }

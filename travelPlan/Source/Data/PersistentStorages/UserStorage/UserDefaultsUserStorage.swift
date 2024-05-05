@@ -28,8 +28,8 @@ final class UserDefaultsUserStorage {
   }
 }
 
-// MARK: - UserStorage
-extension UserDefaultsUserStorage: UserStorage {
+// MARK: - OwnerStorage
+extension UserDefaultsUserStorage: OwnerStorage {
   var nickname: String? {
     user?.nickname
   }

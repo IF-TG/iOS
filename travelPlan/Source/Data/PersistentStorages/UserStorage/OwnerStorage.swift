@@ -1,5 +1,5 @@
 //
-//  UserStorage.swift
+//  OwnerStorage.swift
 //  travelPlan
 //
 //  Created by 양승현 on 3/19/24.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol UserStorage {
+protocol OwnerStorage {
   var nickname: String? { get }
   var profileImageData: Data? { get }
   var isSavedProfileInServer: Bool { get }

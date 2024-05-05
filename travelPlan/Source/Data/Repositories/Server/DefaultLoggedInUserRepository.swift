@@ -10,7 +10,7 @@ import Foundation
 /// UserStorage에서 로그인한 사용자 데이터를 가져옵니다.
 final class DefaultLoggedInUserRepository: LoggedInUserRepository {
   // MARK: - Dependencies
-  let storage: UserStorage
+  let storage: OwnerStorage
   
   // MARK: - Properties
   var nickname: String? {
@@ -34,7 +34,7 @@ final class DefaultLoggedInUserRepository: LoggedInUserRepository {
   }
   
   // MARK: - Lifecycle
-  init(storage: UserStorage) {
+  init(storage: OwnerStorage) {
     self.storage = storage
   }
   

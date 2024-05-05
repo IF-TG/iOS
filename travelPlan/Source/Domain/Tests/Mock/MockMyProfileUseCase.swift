@@ -8,16 +8,36 @@
 import Foundation
 import Combine
 
+struct MockUserProfileRepository: UserProfileRepository {
+  func fetchProfileImageData(with userId: String) -> AnyPublisher<ProfileImageData, any Error> {
+    return Just("사용자프로필".data(using: .utf8)!)
+      .setFailureType(to: ReferenceError.self)
+      .mapError { $0 as Error }
+      .eraseToAnyPublisher()
+  }
+  
+  func fetchProfile(with userId: String) -> AnyPublisher<UserEntity, any Error> {
+    return Just(UserEntity(id: "1", nickname: "짱구", isSavedProfileInServer: false))
+      .setFailureType(to: ReferenceError.self)
+      .mapError { $0 as Error }
+      .eraseToAnyPublisher()
+  }
+}
+
 final class MockMyProfileUseCase: MyProfileUseCase {
   init() {
     // Mock session주입
     let mockSession = MockSession.default
     let sessionProvider = SessionProvider(session: mockSession)
     let mockUserStorage = MockUserStorage()
+    
     let myProfileRepository = DefaultMyProfileRepository(
       service: sessionProvider,
+      userStorage: mockUserStorage)
+    defaultMyProfileUseCase = DefaultMyProfileUseCase(
+      myProfileRepository: myProfileRepository,
+      userProfileRepository: MockUserProfileRepository(),
       loggedInUserRepository: DefaultLoggedInUserRepository(storage: mockUserStorage))
-    defaultMyProfileUseCase = DefaultMyProfileUseCase(myProfileRepository: myProfileRepository)
   }
   
   private var defaultMyProfileUseCase: MyProfileUseCase

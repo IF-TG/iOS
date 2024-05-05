@@ -8,6 +8,8 @@
 import Foundation
 import Combine
 
-protocol UserRepository {
-  func fetchProfile(with id: String) -> AnyPublisher<ProfileImageEntity, Error>
+protocol UserProfileRepository {
+  typealias ProfileImageData = Data
+  func fetchProfileImageData(with userId: String) -> AnyPublisher<ProfileImageData, Error>
+  func fetchProfile(with userId: String) -> AnyPublisher<UserEntity, Error>
 }

@@ -1,5 +1,5 @@
 //
-//  DefaultOthersProfileRepository.swift
+//  DefaultUserProfileRepository.swift
 //  travelPlan
 //
 //  Created by 양승현 on 3/13/24.
@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-final class DefaultOthersProfileRepository: UserRepository {
+final class DefaultUserProfileRepository: UserProfileRepository {
   // MARK: - Dependencies
   private let service: Sessionable
   
@@ -20,9 +20,9 @@ final class DefaultOthersProfileRepository: UserRepository {
     self.service = service
   }
   
-  func fetchProfile(with id: String) -> AnyPublisher<ProfileImageEntity, Error> {
+  func fetchProfileImageData(with userId: String) -> AnyPublisher<ProfileImageData, Error> {
     return Future { [weak self] promise in
-      guard let self, let id = Int64(id) else {
+      guard let self, let id = Int64(userId) else {
         promise(.failure(ReferenceError.invalidReference))
         return
       }
@@ -43,8 +43,12 @@ final class DefaultOthersProfileRepository: UserRepository {
             return
           }
           let entity = responseDTO.result.toDomain(with: imageData)
-          promise(.success(entity))
+          promise(.success(entity.image))
         }.store(in: &subscriptions)
     }.eraseToAnyPublisher()
+  }
+  
+  func fetchProfile(with userId: String) -> AnyPublisher<UserEntity, any Error> {
+    fatalError("서버에서 구현되지 않은 api 요청 함수입니다.")
   }
 }
