@@ -177,15 +177,31 @@ extension FirestorePostCommentRepository: PostCommentRepository {
     postId: String?,
     commentId: String
   ) -> AnyPublisher<Bool, any Error> {
-    // TODO: - 해당 포스트 댓글의 nestedComment 개수 받아와야합니다.
-    var hasAnyNestedCommentExisted = false
-    
-    if hasAnyNestedCommentExisted {
-      // TODO: - 네스티드 커맨츠 있을떄 엔드포인트 사용
-    } else {
-      // TODO: - 델리트커멘트 엔드포인트 사용
+    guard let postId else {
+      return Fail(error: FirestorePostCommentRepostioryError.invalidParameter).eraseToAnyPublisher()
     }
-    fatalError("미구현")
+    // FIXME: - backgroundTask 추가해야합니다.
+    // FIXME: - 해당 포스트 댓글의 nestedComment 가 있는지 확인해야 합니다.
+    var hasAnyNestedCommentExisted = false
+    var endpoint = switch hasAnyNestedCommentExisted {
+    case true:
+      Endpoint.makeCommentDeleteWhenNestedCommentExistEndpoint(postId: postId, commentId: commentId)
+    case false:
+      Endpoint.makeCommentDeleteEndpoint(postId: postId, commentId: commentId)
+    }
+    return Future { [weak self, backgroundQueue] promise in
+      let requestSubscription = self?.service.request(endpoint: endpoint)
+        .subscribe(on: backgroundQueue)
+        .receive(on: backgroundQueue)
+        .sink { completion in
+          if case .failure(let error) = completion {
+            promise(.failure(error))
+          }
+        } receiveValue: { _ in
+          promise(.success(true))
+        }
+      self?.subscriptions.insert(requestSubscription)
+    }.eraseToAnyPublisher()
   }
   
   func fetchComments(
