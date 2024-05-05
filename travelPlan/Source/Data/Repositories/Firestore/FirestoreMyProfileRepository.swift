@@ -19,6 +19,7 @@ final class FirestoreMyProfileRepository {
   // MARK: - Dependencies
   private let backgroundQueue: DispatchQueue
   private let service: FirestoreServiceProtocol
+  private let userProfileRepository: UserProfileRepository
   private let firebaseStorageService: ImageStorageServiceProtocol
   private let ownerStorage: OwnerStorage
   private let imageCache: ImageMemoryCachable
@@ -30,6 +31,7 @@ final class FirestoreMyProfileRepository {
   init(
     service: FirestoreServiceProtocol,
     ownerStorage: OwnerStorage,
+    userProfileRepository: UserProfileRepository,
     backgroundQueue: DispatchQueue = .global(qos: .userInitiated),
     firebaseStorageService: ImageStorageServiceProtocol,
     imageCache: ImageMemoryCachable
@@ -38,6 +40,7 @@ final class FirestoreMyProfileRepository {
     self.ownerStorage = ownerStorage
     self.backgroundQueue = backgroundQueue
     self.firebaseStorageService = firebaseStorageService
+    self.userProfileRepository = userProfileRepository
     self.imageCache = imageCache
   }
 }
@@ -56,39 +59,21 @@ extension FirestoreMyProfileRepository: MyProfileRepository {
         .eraseToAnyPublisher()
     }
     return Future { [weak self, backgroundQueue] promise in
-      guard let userId = self?.ownerStorage.id else {
+      guard let ownerId = self?.ownerStorage.id else {
         promise(.failure(FirestoreMyProfileRepositoryError.invaildOwnerId))
         return
       }
-      let endpoint = Endpoint.fetchUserProfileEndpoint(userUID: userId)
-      let subscription = self?.service.request(endpoint: endpoint)
+      let subscription = self?.userProfileRepository
+        .fetchProfile(with: ownerId)
         .subscribe(on: backgroundQueue)
+        .receive(on: backgroundQueue)
         .sink { completion in
           if case .failure(let error) = completion {
             promise(.failure(error))
           }
-        } receiveValue: { responseDTO in
-          if responseDTO.profileImagePath == "" {
-            let userEntity = responseDTO.toDomain(with: nil)
-            self?.ownerStorage.setUser(with: userEntity)
-            promise(.success(userEntity))
-            return
-          }
-          
-          let storageSubscription = self?.firebaseStorageService
-            .fetchImage(
-              responseDTO.profileImagePath,
-              type: .profileImage
-            ).sink { completion in
-              if case .failure(let error) = completion {
-                promise(.failure(error))
-              }
-            } receiveValue: { imageData in
-              let userEntity = responseDTO.toDomain(with: imageData)
-              self?.ownerStorage.setUser(with: userEntity)
-              promise(.success(userEntity))
-            }
-          self?.subscriptions.insert(storageSubscription)
+        } receiveValue: { userEntity in
+          self?.ownerStorage.setUser(with: userEntity)
+          promise(.success(userEntity))
         }
       self?.subscriptions.insert(subscription)
     }.eraseToAnyPublisher()
