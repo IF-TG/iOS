@@ -7,8 +7,8 @@
 
 import Foundation
 
-struct TourApiImageRetrieveRequestDTO: TourApiBaseRequestDTO {
-  let contentId: String
+final class TourApiImageRetrieveRequestDTO: TourApiBaseRequestDTO {
+  let contentId: Int
   let imageYN: String = "Y"
   let subImageYN: String = "Y"
   
