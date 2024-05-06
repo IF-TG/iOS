@@ -52,11 +52,11 @@ extension DefaultFestivalUseCase: FestivalUseCase {
           ageLimit: introFestivalEntity.ageLimit,
           startDate: introFestivalEntity.startDate,
           endDate: introFestivalEntity.endDate,
-          address: introFestivalEntity.place,
+          address: commonEntity.address.address1,
           showTime: introFestivalEntity.showTime,
           fee: introFestivalEntity.fee,
           title: commonEntity.title,
-          image: commonEntity.image.originalImageURL,
+          image: commonEntity.image.originalImageData,
           telNumber: commonEntity.contact.telNumber,
           overview: commonEntity.overview
         )
