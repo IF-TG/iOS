@@ -98,7 +98,21 @@ extension FirestorePostCommentHeartRepository: PostCommentHeartRepository {
     commentId: String,
     userId: String
   ) -> AnyPublisher<Void, any Error> {
-    fatalError("미구현")
+    let endpoint = Endpoint.makeCommentHateEndpoint(with: postId, commentId: commentId, userId: userId)
+    return Future { [weak self, backgroundQueue] promise in
+      let deleteSubscription = self?.service
+        .request(endpoint: endpoint)
+        .subscribe(on: backgroundQueue)
+        .receive(on: backgroundQueue)
+        .sink { completion in
+          if case .failure(let error) = completion {
+            promise(.failure(error))
+          }
+        } receiveValue: { _ in
+          promise(.success(()))
+        }
+      self?.subscriptions.insert(deleteSubscription)
+    }.eraseToAnyPublisher()
   }
   
   func togglePostHearts(
