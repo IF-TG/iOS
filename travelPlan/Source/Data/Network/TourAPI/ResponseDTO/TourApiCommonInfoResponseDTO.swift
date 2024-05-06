@@ -11,6 +11,7 @@ struct TourApiCommonInfoResponseDTO: Decodable {
   /// **기본 정보 조화**
   let contentid: String
   let contenttypeid: String
+  let title: String
   let tel: String
   let telname: String
   
@@ -40,6 +41,7 @@ extension TourApiCommonInfoResponseDTO {
       contact: .init(telNumber: tel, telName: telname),
       coordinate: .init(mapX: mapx, mapY: mapy),
       image: .init(originalImageURL: firstimage, thumbnailImageURL: firstimage2),
-      overview: overview)
+      overview: overview,
+      title: title)
   }
 }

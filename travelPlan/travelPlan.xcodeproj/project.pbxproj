@@ -1201,6 +1201,7 @@
 		15E670DA2BDF4486002E1D19 /* FirestoreReviewWritingSaveRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreReviewWritingSaveRequestDTO.swift; sourceTree = "<group>"; };
 		15E982BE2ACC95CC002B932F /* FavoriteDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoriteDetailViewController.swift; sourceTree = "<group>"; };
 		15E982C02ACD16A2002B932F /* FavoriteDetailMenuAreaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteDetailMenuAreaView.swift; sourceTree = "<group>"; };
+		15E994772BE3EDE300874B46 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		15E9E5E92B9A1CA500C2F1F7 /* DefaultPostRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultPostRepository.swift; sourceTree = "<group>"; };
 		15E9E5ED2B9A345800C2F1F7 /* DefaultPostUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultPostUseCase.swift; sourceTree = "<group>"; };
 		15E9E5EF2B9A359B00C2F1F7 /* PostUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostUseCaseTests.swift; sourceTree = "<group>"; };
@@ -1782,6 +1783,7 @@
 		151130072A04E4EB0041DDA1 /* travelPlanTests */ = {
 			isa = PBXGroup;
 			children = (
+				15E994772BE3EDE300874B46 /* Info.plist */,
 				133532072BA46597000A4D9E /* Common */,
 				1383C81A2B97F3D500830F1A /* Core */,
 				15D655A12B8F820100466FEC /* Presentation */,
