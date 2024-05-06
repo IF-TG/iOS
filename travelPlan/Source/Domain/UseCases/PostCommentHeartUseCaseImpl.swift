@@ -44,79 +44,41 @@ extension PostCommentHeartUseCaseImpl: PostCommentHeartUseCase {
         promise(.failure(LoggedInUserRepositoryError.invalidUserId))
         return
       }
-      var commentHeartUsers: [String] = []
-      let initialTask = DispatchGroup()
-      let group = DispatchGroup()
-      
-      initialTask.enter()
-      let commentHeartUsersFetchSubscription = self?.commentHeartRepository
+      guard let self else {
+        promise(.failure(ReferenceError.invalidReference))
+        return
+      }
+ 
+      let subscription = commentHeartRepository
         .fetchCommentHeartUsers(with: postId, commentId: commentId)
         .subscribe(on: backgroundQueue)
         .receive(on: backgroundQueue)
-        .sink { completion in
-          if case .failure(let error) = completion {
-            promise(.failure(error))
+        .flatMap { [weak self] commentHeartUsers in
+          guard let self else {
+            return Fail<ToggledPostCommentHeartEntity, ReferenceError>(error: ReferenceError.invalidReference)
+              .mapError { $0 as Error }
+              .eraseToAnyPublisher()
           }
-        } receiveValue: { users in
-          commentHeartUsers = users
-          initialTask.leave()
-        }
-      self?.subscriptions.insert(commentHeartUsersFetchSubscription)
-      
-      if initialTask.wait(timeout: .now() + .seconds(15)) == .timedOut {
-        let timeoutErr = NSError(
-          domain: "PostCommentHeartUseCase",
-          code: 0,
-          userInfo: [NSLocalizedDescriptionKey: "Fetching comment heart users operation timed out"])
-        promise(.failure(timeoutErr))
-      }
-            
-      let willHeartComment = !commentHeartUsers.contains(where: { $0 == ownerId })
-      group.enter()
-      switch willHeartComment {
-      case true:
-        let commentHeartSubscription = self?.commentHeartRepository
-          .heartComment(with: postId, commentId: commentId, userId: ownerId)
-          .subscribe(on: backgroundQueue)
-          .receive(on: backgroundQueue)
-          .sink(receiveCompletion: { completion in
-            if case .failure(let error) = completion {
-              promise(.failure(error))
-            }
-          }, receiveValue: { _ in
-            group.leave()
-          })
-        self?.subscriptions.insert(commentHeartSubscription)
-      case false:
-        let commentHateSubscription = self?.commentHeartRepository
-          .hateComment(with: postId, commentId: commentId, userId: ownerId)
-          .subscribe(on: backgroundQueue)
-          .receive(on: backgroundQueue)
-          .sink(receiveCompletion: { completion in
-            if case .failure(let error) = completion {
-              promise(.failure(error))
-            }
-          }, receiveValue: { _ in
-            group.leave()
-          })
-        self?.subscriptions.insert(commentHateSubscription)
-      }
-      
-      group.enter()
-      let commentHeartUpdateSubscription = self?.commentHeartRepository
-        .updateCommentHearts(
-          with: postId, commentId: commentId, userId: ownerId, willHeartComment: willHeartComment)
-        .sink { completion in
-          if case .failure(let error) = completion {
-            promise(.failure(error))
+          let willHeartComment = !commentHeartUsers.contains(where: { $0 == ownerId })
+          var heartPublisher: AnyPublisher<Void, Error>
+          if willHeartComment {
+            heartPublisher = commentHeartRepository
+              .heartComment(with: postId, commentId: commentId, userId: ownerId)
+          } else {
+            heartPublisher = commentHeartRepository
+              .hateComment(with: postId, commentId: commentId, userId: ownerId)
           }
-        } receiveValue: { _ in
-          group.leave()
-        }
-      self?.subscriptions.insert(commentHeartUpdateSubscription)
-      group.notify(queue: backgroundQueue) {
-        promise(.success(.init(id: commentId, isOnHeart: willHeartComment)))
-      }
+          return Publishers
+            .Zip(
+              heartPublisher,
+              commentHeartRepository.updateCommentHearts(
+                with: postId, commentId: commentId, userId: ownerId, willHeartComment: willHeartComment))
+            .map { _ in ToggledPostCommentHeartEntity(id: commentId, isOnHeart: willHeartComment) }
+            .eraseToAnyPublisher()
+        }.sink { completion in
+          if case .failure(let error) = completion { promise(.failure(error)) }
+        } receiveValue: { entity in promise(.success(entity)) }
+      subscriptions.insert(subscription)
     }.eraseToAnyPublisher()
   }
 }
