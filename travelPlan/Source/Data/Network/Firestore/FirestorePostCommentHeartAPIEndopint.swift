@@ -17,4 +17,14 @@ struct FirestorePostCommentHeartAPIEndopint {
       method: .retrieveDocumentIdList,
       requestType: .posts(.fetchCommentHeartUsers(postId, commentId)))
   }
+  
+  static func makeCommentHeartEndpoint(
+    _ postId: String,
+    _ commentId: String,
+    _ userId: String
+  ) -> FirestoreEndpoint<UserIdentifier> {
+    return .init(
+      method: .save(userId),
+      requestType: .posts(.heartComment(postId, commentId)))
+  }
 }
