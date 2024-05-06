@@ -27,7 +27,7 @@ class ImageConverter {
     return Future { promise in
       AF.request(imageURL)
         .validate(statusCode: 200..<300)
-        .responseData(queue: DispatchQueue) { response in
+        .responseData(queue: queue) { response in
           switch response.result {
           case .success(let data):
             promise(.success(data))
