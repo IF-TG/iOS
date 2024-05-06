@@ -44,6 +44,6 @@ struct FirestorePostCommentHeartAPIEndopint {
   ) -> FirestoreEndpoint<VoidResponseDTO> {
     return.init(
       method: .update,
-      requestType: .posts(.toggleCommentHeart(postId, commentId)))
+      requestType: .posts(.updateCommentHearts(postId, commentId)))
   }
 }
