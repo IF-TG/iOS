@@ -122,7 +122,7 @@ extension FirestorePostCommentHeartRepository: PostCommentHeartRepository {
   }
   
   /// 트렌젝션을 통해 댓글 좋아요한 사용자에 추가하고, 댓글 필드에 heartNum을 증가 또는 감소 시킵니다.
-  func togglePostHearts(
+  func updatePostHearts(
     with postId: String,
     commentId: String,
     userId: String,
