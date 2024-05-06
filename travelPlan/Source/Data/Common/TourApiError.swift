@@ -20,16 +20,6 @@ import Foundation
   
   /// item 배열에 element가 존재하지 않는 경우
   case noItem
-  
-  init?(code: String) {
-    if let publicDataPortalError = PublicDataPortalInTourAPIError(code: code) {
-      self = .publicDataPortalError(publicDataPortalError)
-    } else if let tourAPIProviderInstitutionError = TourAPIProviderInstitutionError(code: code) {
-      self = .tourAPIProviderInstitutionError(tourAPIProviderInstitutionError)
-    } else {
-      return nil
-    }
-  }
 }
 
 /// 공공데이터 포털 에러
