@@ -7,6 +7,7 @@
 
 import Foundation
 import Combine
+import Alamofire
 
 final class DefaultTourImageRetrieveInfoRepository {
   typealias Endpoint = TourImageInfoAPIEndpoint
@@ -55,6 +56,32 @@ extension DefaultTourImageRetrieveInfoRepository: TourImageRetrieveInfoRepositor
     numOfRows: Int?,
     pageNo: Int?
   ) -> AnyPublisher<[TourRetrievedImageEntity<TourRetrievedDataImageEntity>], any Error> {
-    fatalError("미구현")
+    return Future { [weak self, backgroundQueue] promise in
+      self?.retrieveAtomicImages(contentId: contentId, numOfRows: numOfRows, pageNo: pageNo)
+        .subscribe(on: backgroundQueue)
+        .receive(on: backgroundQueue)
+        .sink(receiveCompletion: { completion in
+          if case .failure(let error) = completion {
+            promise(.failure(error))
+          }
+        }, receiveValue: { entities in
+          entities.enumerated().forEach {
+            $0.element.image.originalUrl
+            
+          }
+        })
+    }.eraseToAnyPublisher()
+  }
+}
+
+// MARK: - Private Helpers
+fileprivate extension DefaultTourImageRetrieveInfoRepository {
+  func imageFetcher(_ url: String) -> Future<Data, AFError> {
+    return Future { promise in
+      AF.request(url)
+        .responseData { response in
+          promise(response.result)
+        }
+    }
   }
 }
