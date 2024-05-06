@@ -12,8 +12,6 @@ final class DefaultTourIntroductionInfoRepository {
   // MARK: - Dependencies
   private let service: Sessionable
   private let backgroundQueue: DispatchQueue
-  // MARK: - Properties
-  private var subscriptions = Set<AnyCancellable?>()
   
   // MARK: - LifeCycle
   init(service: Sessionable, backgroundQueue: DispatchQueue = .global(qos: .background)) {
@@ -32,32 +30,20 @@ extension DefaultTourIntroductionInfoRepository: TourIntroductionInfoRepository 
       contentId: contentId,
       contentTypeId: contentTypeId
     ))
-    
-    return Future { [weak self, backgroundQueue] promise in
-      let subscription = self?.service.request(endpoint: endpoint)
+      return service.request(endpoint: endpoint)
         .subscribe(on: backgroundQueue)
         .tryMap {
           let resultCode = $0.response.header.resultCode
+          
           guard resultCode == "0000" else {
-            throw TourAPIError(
-              code: String(resultCode.suffix(2))
-            ) ?? .unexpectedErrorFromSuccessfulResponseData("Error code:\(resultCode)")
+            throw TourAPIError.publicDataPortalError(.init(code: String(resultCode.suffix(2))))
           }
           guard let item = $0.response.body.items.item.first else {
-            throw TourAPIError.noItem
+            throw TourAPIError.tourAPIProviderInstitutionError(.noDataError)
           }
+          
           return item.toDomain()
         }
-        .sink { completion in
-          if case let .failure(error) = completion {
-            promise(.failure(error))
-          }
-        } receiveValue: { entity in
-          promise(.success(entity))
-        }
-      
-      self?.subscriptions.insert(subscription)
-    }
-    .eraseToAnyPublisher()
+        .eraseToAnyPublisher()
   }
 }
