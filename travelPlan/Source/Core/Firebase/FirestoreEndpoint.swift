@@ -10,6 +10,7 @@ import SHFirestoreService
 
 final class FirestoreEndpoint<ResponseDTO>: FirestoreEndopintable where ResponseDTO: Decodable {
   // MARK: - Properties
+  var requestDTODictionary: [String: Any]?
   var requestDTO: (any Encodable)?
   var method: FirestoreMethod
   var requestType: any FirestoreAccessible
