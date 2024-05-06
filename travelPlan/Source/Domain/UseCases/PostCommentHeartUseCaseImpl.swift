@@ -73,11 +73,17 @@ extension PostCommentHeartUseCaseImpl: PostCommentHeartUseCase {
               heartPublisher,
               commentHeartRepository.updateCommentHearts(
                 with: postId, commentId: commentId, userId: ownerId, willHeartComment: willHeartComment))
-            .map { _ in ToggledPostCommentHeartEntity(id: commentId, isOnHeart: willHeartComment) }
+            .receive(on: backgroundQueue)
+            .map { _ in
+              return ToggledPostCommentHeartEntity(id: commentId, isOnHeart: willHeartComment)
+            }
             .eraseToAnyPublisher()
-        }.sink { completion in
+        }
+        .sink { completion in
           if case .failure(let error) = completion { promise(.failure(error)) }
-        } receiveValue: { entity in promise(.success(entity)) }
+        } receiveValue: { entity in
+          promise(.success(entity))
+        }
       subscriptions.insert(subscription)
     }.eraseToAnyPublisher()
   }
