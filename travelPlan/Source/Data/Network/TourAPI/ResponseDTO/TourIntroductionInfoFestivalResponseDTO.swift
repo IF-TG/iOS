@@ -12,7 +12,6 @@ struct TourIntroductionInfoFestivalResponseDTO: Decodable {
   let startDate: String
   let endDate: String
   let fee: String
-  let place: String
   let ageLimit: String
   let requiredTime: String
   
@@ -20,7 +19,6 @@ struct TourIntroductionInfoFestivalResponseDTO: Decodable {
     case startDate = "eventstartdate"
     case endDate = "eventenddate"
     case fee = "usetimefestival"
-    case place = "eventplace"
     case ageLimit = "agelimit"
     case requiredTime = "spendtimefestival"
   }
@@ -32,7 +30,6 @@ extension TourIntroductionInfoFestivalResponseDTO {
       startDate: startDate,
       endDate: endDate,
       fee: fee,
-      place: place,
       ageLimit: ageLimit,
       showTime: requiredTime
     )
