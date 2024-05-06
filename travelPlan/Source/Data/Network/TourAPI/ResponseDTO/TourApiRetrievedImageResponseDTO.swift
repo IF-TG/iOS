@@ -13,7 +13,7 @@ struct TourApiRetrievedImageResponseDTO: Decodable {
   let copyright: ImageCopyright
   
   enum CodingKeys: String, CodingKey {
-    case contentId
+    case contentId = "contentid"
   }
   
   init(from decoder: any Decoder) throws {
