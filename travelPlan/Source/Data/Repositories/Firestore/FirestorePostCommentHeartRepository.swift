@@ -31,6 +31,7 @@ final class FirestorePostCommentHeartRepository {
 
 // MARK: - PostCommentHeartRepository
 extension FirestorePostCommentHeartRepository: PostCommentHeartRepository {
+  /// 댓글 좋아요한 사용자 컬랙션에 좋아요한 사용자 리스트를 받아옵니다.
   func fetchCommentHeartUsers(
     with postId: String,
     commentId: String
@@ -52,6 +53,7 @@ extension FirestorePostCommentHeartRepository: PostCommentHeartRepository {
     }.eraseToAnyPublisher()
   }
   
+  /// 댓글 좋아요한 사용자 컬랙션에 좋아요한 사용자들 number를 받아옵니다.
   func fetchCommentHearts(
     with postId: String,
     commentId: String
@@ -71,6 +73,7 @@ extension FirestorePostCommentHeartRepository: PostCommentHeartRepository {
     }.eraseToAnyPublisher()
   }
   
+  /// 댓글 좋아요한 사용자 컬랙션에 사용자를 추가합니다.
   func heartComment(
     with postId: String,
     commentId: String,
@@ -93,6 +96,7 @@ extension FirestorePostCommentHeartRepository: PostCommentHeartRepository {
     }.eraseToAnyPublisher()
   }
   
+  /// 댓글 좋아요한 사용자 컬랙션에 사용자를 제거합니다.
   func hateComment(
     with postId: String,
     commentId: String,
@@ -115,12 +119,44 @@ extension FirestorePostCommentHeartRepository: PostCommentHeartRepository {
     }.eraseToAnyPublisher()
   }
   
+  /// 트렌젝션을 통해 댓글 좋아요한 사용자에 추가하고, 댓글 필드에 heartNum을 증가 또는 감소 시킵니다.
   func togglePostHearts(
     with postId: String,
     commentId: String,
     userId: String,
     willHeartComment: Bool
   ) -> AnyPublisher<Void, any Error> {
-    fatalError("미구현")
+    let endpoint = Endpoint.makePostHeartsToggleEndpoint(with: postId, commentId: commentId)
+    return Future { [weak self, backgroundQueue] promise in
+      let subscription = self?.service
+        .performTransaction { transaction in
+          guard let docRef = endpoint.requestType.documentRef else {
+            return promise(.failure(FirestoreServiceError.documentNotFound))
+          }
+          let documentSnapshot = try transaction.getDocument(docRef)
+          guard let commentHearts = documentSnapshot.data()?["heartNum"] as? Int else {
+            let error = NSError(
+              domain: "AppErrorDimain",
+              code: -1,
+              userInfo: [
+                NSLocalizedDescriptionKey: "Unable to retrieve heartNum from snapshot \(documentSnapshot)"])
+            throw error
+          }
+          transaction.updateData(
+            ["heartNum": commentHearts + (willHeartComment ? 1 : -1)],
+            forDocument: docRef)
+          return nil
+        }
+        .subscribe(on: backgroundQueue)
+        .receive(on: backgroundQueue)
+        .sink { completion in
+          if case .failure(let error) = completion {
+            promise(.failure(error))
+          }
+        } receiveValue: { _ in
+          promise(.success(()))
+        }
+      self?.subscriptions.insert(subscription)
+    }.eraseToAnyPublisher()
   }
 }
