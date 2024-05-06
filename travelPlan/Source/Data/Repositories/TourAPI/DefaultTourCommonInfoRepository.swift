@@ -7,6 +7,7 @@
 
 import Foundation
 import Combine
+import Alamofire
 
 final class DefaultTourCommonInfoRepository: TourCommonInfoRepository {
   typealias Endpoint = TourCommonInfoAPIEndpoint
@@ -29,32 +30,45 @@ final class DefaultTourCommonInfoRepository: TourCommonInfoRepository {
   ) -> AnyPublisher<TourCommonInfoEntity, any Error> {
     let requestDTO = TourApiCommonInfoRequestDTO(contentId: contentId, numOfRows: 10, pageNo: 1)
     let endpoint = Endpoint.makeCommonInfoAPIEndpoint(with: requestDTO)
+    let imageConverter = ImageConverter()
     
     return Future { [weak self, backgroundQueue] promise in
       let subscription = self?.service.request(endpoint: endpoint)
         .subscribe(on: backgroundQueue)
-        .mapConnectionError()        
-        .tryMap {
+        .mapConnectionError()
+        .flatMap {
           let resultCode = $0.response.header.resultCode
-          if resultCode == "0000" {
-            guard let item = $0.response.body.items.item.first else {
-              /// commonInfo가 없을경우 noDataError를 방출합니다.
-              throw TourAPIError.tourAPIProviderInstitutionError(.noDataError)
-            }
-            return item.toDomain()
-          } else {
-            throw TourAPIError(
-              code: String(resultCode.suffix(2))
-            ) ?? .unexpectedErrorFromSuccessfulResponseData("Error code:\(resultCode)")
+          
+          guard resultCode == "0000" else {
+            return Fail<TourCommonInfoEntity, any Error> (error: TourAPIError.unexpectedErrorFromSuccessfulResponseData(resultCode)).eraseToAnyPublisher()
           }
+          
+          guard let item = $0.response.body.items.item.first else {
+            return Fail<TourCommonInfoEntity, any Error> (error: TourAPIError.tourAPIProviderInstitutionError(.noDataError)).eraseToAnyPublisher()
+          }
+          
+          let imagePublisher = imageConverter
+            .request(imageURL: item.firstimage, queue: backgroundQueue)
+            .mapError { $0 as Error }
+            .eraseToAnyPublisher()
+          let thumbnailPublisher = imageConverter
+            .request(imageURL: item.firstimage2, queue: backgroundQueue)
+            .mapError { $0 as Error }
+            .eraseToAnyPublisher()
+          
+          return imagePublisher.zip(thumbnailPublisher)
+            .map { (imageDate, thumbnailData) in
+              return item.toDomain(firstImageData: imageDate, thumbnailImageDate: thumbnailData)
+            }.eraseToAnyPublisher()
         }
-        .sink { completion in
+        .sink(receiveCompletion: { completion in
           if case .failure(let error) = completion {
             promise(.failure(error))
           }
-        } receiveValue: { responseDTO in
-          promise(.success(responseDTO))
-        }
+        }, receiveValue: { entity in
+          promise(.success(entity))
+        })
+      
       self?.subscriptions.insert(subscription)
     }.eraseToAnyPublisher()
   }
