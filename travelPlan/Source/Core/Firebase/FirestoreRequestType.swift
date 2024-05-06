@@ -190,9 +190,9 @@ extension FirestoreRequestType {
       case .hatePost(let postId, _):
         return "\(rootPath)/\(postId)/post-hearts"
       case .fetchCommentHeartUsers(let postId, let commentId):
-        return "\(rootPath)/\(postId)/\(commentId)/comment-hearts"
+        return "\(rootPath)/\(postId)/comments/\(commentId)/comment-hearts"
       case .heartComment(let postId, let commentId):
-        return "\(rootPath)/\(postId)/\(commentId)/comment-hearts"
+        return "\(rootPath)/\(postId)/comments/\(commentId)/comment-hearts"
       }
     }
   }
