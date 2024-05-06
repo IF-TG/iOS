@@ -6,30 +6,59 @@
 //
 
 import XCTest
+import Combine
+@testable import travelPlan
 
 final class DefaultTourImageRetrieveInfoRepositoryTests: XCTestCase {
+  // MARK: - Properties
+  var sut: TourImageRetrieveInfoRepository!
+  var subscriptions = Set<AnyCancellable>()
+  var expectation: XCTestExpectation!
+  
+  // MARK: - Lifecycle
+  override func setUp() {
+    super.setUp()
+    let service = TourApiSessionProvider()
+    sut = DefaultTourImageRetrieveInfoRepository(
+      service: service)
+    expectation = XCTestExpectation(description: "테스트 시작!")
+  }
+  
+  override func tearDown() {
+    super.tearDown()
+    sut = nil
+    subscriptions.removeAll()
+    expectation = nil
+  }
+}
 
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
-    }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
-
+extension DefaultTourImageRetrieveInfoRepositoryTests {
+  func test_retrieveAtomicImages호출시관련Entity를받는가() {
+    // Arrange
+    var hasReceivedResult = false
+    var unexpectedError: Error?
+    
+    // Act
+    sut.retrieveAtomicImages(
+      contentId: 1095732,
+      numOfRows: 10,
+      pageNo: 1)
+    .receive(on: DispatchQueue.main)
+    .sink { completion in
+      if case .failure(let error) = completion {
+        unexpectedError = error
+        self.expectation.fulfill()
+      }
+    } receiveValue: { entities in
+      print("Reveiced result: \(entities.description)")
+      hasReceivedResult = true
+      self.expectation.fulfill()
+    }.store(in: &self.subscriptions)
+    
+    wait(for: [expectation], timeout: 7.777)
+    
+    // Assert
+    checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "retrieveImages")
+    XCTAssert(hasReceivedResult, "RetrieveAtomicImages 함수 호출시 성공적으로 엔터티를 받아야하지만 제공받지 못함")
+  }
 }
