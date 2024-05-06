@@ -16,7 +16,6 @@ final class DefaultTourFestivalInfoRepository {
   
   // MARK: - Properties
   private var subscriptions = Set<AnyCancellable?>()
-  private var isOccuredImageURLError = false
   
   // MARK: - LifeCycle
   init(service: Sessionable, backgroundQueue: DispatchQueue = .global(qos: .background)) {
@@ -44,26 +43,27 @@ extension DefaultTourFestivalInfoRepository: TourFestivalInfoRepository {
           if resultCode == "0000" {
             let group = DispatchGroup()
             var entities = [FestivalThumbnailEntity]()
+            let imageConverter = ImageConverter()
             
+            // 서버에서 정렬시킨 response items인데, imageURL->Data 비동기 변환으로 인해 정렬 순서 바뀌지 않았는지 테스트해보자. 
+            // 순서 바뀌는 이슈 있으면, 순서 바뀌지 않도록 고정해줘야 함.
             $0.response.body.items.item.forEach { responseDTO in
               DispatchQueue.global(qos: .userInteractive).async(group: group) {
-                AF.request(responseDTO.imageURL)
-                  .responseData(queue: .global(qos: .background)) { response in
-                    // 서버에서 정렬시킨 response items인데, imageURL->Data 비동기 변환으로 인해 정렬 순서 바뀌지 않았는지 테스트해보자. 순서 바뀌는 이슈 있으면, 순서 바뀌지 않도록 고정해줘야 함.
-                    if let imageData = response.data {
-                      let entity = responseDTO.toFestivalThumbnailEntity(imageData: imageData)
-                      entities.append(entity)
-                    } else {
-                      self?.isOccuredImageURLError = true
+                group.enter()
+                let subscription = imageConverter.request(imageURL: responseDTO.imageURL, queue: backgroundQueue)
+                  .sink { completion in
+                    if case let .failure(error) = completion {
+                      group.leave()
                     }
+                  } receiveValue: { imageData in
+                    let entity = responseDTO.toFestivalThumbnailEntity(imageData: imageData)
+                    entities.append(entity)
+                    group.leave()
                   }
+                self?.subscriptions.insert(subscription)
               }
             }
             group.wait()
-            
-            guard !(self?.isOccuredImageURLError ?? false) else {
-              throw TourAPIError.cannotConvertImageURLToData
-            }
             
             return entities
           } else {
