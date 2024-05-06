@@ -172,7 +172,7 @@ extension FirestorePostCommentHeartRepositoryTests {
     wait(for: [prevExpectation], timeout: 7.777)
     
     // Act
-    sut.togglePostHearts(with: testPostId, commentId: testCommentId, userId: testUserId, willHeartComment: ㄹ)
+    sut.togglePostHearts(with: testPostId, commentId: testCommentId, userId: testUserId, willHeartComment: true)
       .sink { completion in
         if case .failure(let error) = completion {
           unexpectedError = error
