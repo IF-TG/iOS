@@ -32,10 +32,10 @@ final class FirestorePostCommentHeartRepository {
 // MARK: - PostCommentHeartRepository
 extension FirestorePostCommentHeartRepository: PostCommentHeartRepository {
   func fetchCommentHeartUsers(
-    _ postId: String,
-    _ commentId: String
+    with postId: String,
+    commentId: String
   ) -> AnyPublisher<[UserIdentifier], any Error> {
-    let endpoint = Endpoint.makeCommentHeartUsersFetchEndpoint(postId, commentId)
+    let endpoint = Endpoint.makeCommentHeartUsersFetchEndpoint(with: postId, commentId: commentId)
     return Future { [weak self, backgroundQueue] promise in
       let retrieveSubscription = self?.service
         .retrieveDocumentIDs(endpoint: endpoint)
@@ -53,11 +53,11 @@ extension FirestorePostCommentHeartRepository: PostCommentHeartRepository {
   }
   
   func fetchCommentHearts(
-    _ postId: String,
-    _ commentId: String
+    with postId: String,
+    commentId: String
   ) -> AnyPublisher<Int, any Error> {
     return Future { [weak self, backgroundQueue] promise in
-      let commentHeartFetchSubscription = self?.fetchCommentHeartUsers(postId, commentId)
+      let commentHeartFetchSubscription = self?.fetchCommentHeartUsers(with: postId, commentId: commentId)
         .subscribe(on: backgroundQueue)
         .receive(on: backgroundQueue)
         .sink { completion in
@@ -72,15 +72,15 @@ extension FirestorePostCommentHeartRepository: PostCommentHeartRepository {
   }
   
   func heartComment(
-    _ postId: String,
+    with postId: String,
     commentId: String,
     userId: String
   ) -> AnyPublisher<Void, any Error> {
-    fatalError("미구현")
+    let endpoint = Endpoint.makeCommentHeartEndpoint(with: postId, commentId: commentId, userId: userId)
   }
   
   func hateComment(
-    _ postId: String,
+    with postId: String,
     commentId: String,
     userId: String
   ) -> AnyPublisher<Void, any Error> {
@@ -88,7 +88,7 @@ extension FirestorePostCommentHeartRepository: PostCommentHeartRepository {
   }
   
   func togglePostHearts(
-    _ postId: String,
+    with postId: String,
     commentId: String,
     userId: String,
     willHeartComment: Bool

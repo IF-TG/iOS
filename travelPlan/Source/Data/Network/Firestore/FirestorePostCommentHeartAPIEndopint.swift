@@ -10,8 +10,8 @@ import Foundation
 struct FirestorePostCommentHeartAPIEndopint {
   typealias UserIdentifier = String
   static func makeCommentHeartUsersFetchEndpoint(
-    _ postId: String,
-    _ commentId: String
+    with postId: String,
+    commentId: String
   ) -> FirestoreEndpoint<[UserIdentifier]> {
     return FirestoreEndpoint(
       method: .retrieveDocumentIdList,
@@ -19,9 +19,9 @@ struct FirestorePostCommentHeartAPIEndopint {
   }
   
   static func makeCommentHeartEndpoint(
-    _ postId: String,
-    _ commentId: String,
-    _ userId: String
+    with postId: String,
+    commentId: String,
+    userId: String
   ) -> FirestoreEndpoint<UserIdentifier> {
     return .init(
       method: .save(userId),
