@@ -77,6 +77,20 @@ extension FirestorePostCommentHeartRepository: PostCommentHeartRepository {
     userId: String
   ) -> AnyPublisher<Void, any Error> {
     let endpoint = Endpoint.makeCommentHeartEndpoint(with: postId, commentId: commentId, userId: userId)
+    return Future { [weak self, backgroundQueue] promise in
+      let saveSubscription = self?.service
+        .saveDocument(endpoint: endpoint)
+        .subscribe(on: backgroundQueue)
+        .receive(on: backgroundQueue)
+        .sink { completion in
+          if case .failure(let error) = completion {
+            promise(.failure(error))
+          }
+        } receiveValue: { _ in
+          promise(.success(()))
+        }
+      self?.subscriptions.insert(saveSubscription)
+    }.eraseToAnyPublisher()
   }
   
   func hateComment(
