@@ -15,6 +15,7 @@ final class DefaultTourImageRetrieveInfoRepository {
   private let backgroundQueue: DispatchQueue
   
   // MARK: - Properties
+  private var subscriptions = Set<AnyCancellable?>()
   
   // MARK: - Lifecycle
   init(
@@ -27,7 +28,7 @@ final class DefaultTourImageRetrieveInfoRepository {
 
 // MARK: - TourImagesRetrieveInfoRepository
 extension DefaultTourImageRetrieveInfoRepository: TourImageRetrieveInfoRepository {
-  func retrieveImages(
+  func retrieveAtomicImages(
     contentId: Int,
     numOfRows: Int?,
     pageNo: Int?

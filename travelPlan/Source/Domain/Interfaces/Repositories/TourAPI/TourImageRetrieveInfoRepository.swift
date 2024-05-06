@@ -10,7 +10,7 @@ import Combine
 
 protocol TourImageRetrieveInfoRepository {
   /// 서버에서 이미지 url을 받아옵니다.
-  func retrieveImages(
+  func retrieveAtomicImages(
     contentId: Int,
     numOfRows: Int?,
     pageNo: Int?
