@@ -10,6 +10,8 @@ import Foundation
 import SHFirestoreService
 
 final class FirestorePostCommentHeartRepository {
+  typealias Endpoint = FirestorePostCommentHeartAPIEndopint
+  
   // MARK: - Dependencies
   private let service: FirestoreServiceProtocol
   
@@ -30,7 +32,19 @@ extension FirestorePostCommentHeartRepository: PostCommentHeartRepository {
     _ postId: String,
     _ commentId: String
   ) -> AnyPublisher<[UserIdentifier], any Error> {
-    fatalError("미구현")
+    let endpoint = Endpoint.makeCommentHeartUsersFetchEndpoint(postId, commentId)
+    return Future { [weak self] promise in
+      let retrieveSubscription = self?.service
+        .retrieveDocumentIDs(endpoint: endpoint)
+        .sink { completion in
+          if case .failure(let error) = completion {
+            promise(.failure(error))
+          }
+        } receiveValue: { commentHeartUsers in
+          promise(.success(commentHeartUsers))
+        }
+      self?.subscriptions.insert(retrieveSubscription)
+    }.eraseToAnyPublisher()
   }
   
   func fetchCommentHearts(
