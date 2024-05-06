@@ -1880,7 +1880,7 @@
 		151DF0F12AEEB27400D5D55B /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
-        13E7EAF02BE02DD10027946C /* FestivalUseCase.swift */,
+				13E7EAF02BE02DD10027946C /* FestivalUseCase.swift */,
 				1566241E2BB262D600198A35 /* PostUseCase.swift */,
 				13E98F842BC53D8000F05295 /* ReviewWritingUseCase.swift */,
 				151DF0F32AEEB29500D5D55B /* NoticeUseCase.swift */,
@@ -1904,7 +1904,7 @@
 				151DF0F52AEEB2D200D5D55B /* DefaultNoticeUseCase.swift */,
 				130CF3672B8E87490051DEE8 /* LoginUseCase.swift */,
 				15D6558E2B8E11AC00466FEC /* DefaultMyProfileUseCase.swift */,
-        13E7EAF22BE02EA80027946C /* DefaultFestivalUseCase.swift */,
+				13E7EAF22BE02EA80027946C /* DefaultFestivalUseCase.swift */,
 				15E9E5ED2B9A345800C2F1F7 /* DefaultPostUseCase.swift */,
 				135A07C32BA9883E003D6C4D /* DefaultAlbumUseCase.swift */,
 				15B01DAE2BA95A4600BE9F98 /* DefaultLoggedInUserUseCase.swift */,
@@ -2615,7 +2615,7 @@
 				15529F802BBEC50B00FED360 /* XCTestCase+Helpers.swift */,
 				156C1E2B2BBED14300AF1D99 /* SHCoordinator+XCTestCase.swift */,
 			);
-      path = "XCTest+";
+			path = "XCTest+";
 			sourceTree = "<group>";
 		};
 		15A362D72BD835BA0040591D /* TourAPI */ = {
