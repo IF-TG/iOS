@@ -27,4 +27,14 @@ struct FirestorePostCommentHeartAPIEndopint {
       method: .save(userId),
       requestType: .posts(.heartComment(postId, commentId)))
   }
+  
+  static func makeCommentHateEndpoint(
+    with postId: String,
+    commentId: String,
+    userId: String
+  ) -> FirestoreEndpoint<VoidResponseDTO> {
+    return .init(
+      method: .delete,
+      requestType: .posts(.hateComment(postId, commentId, userId)))
+  }
 }
