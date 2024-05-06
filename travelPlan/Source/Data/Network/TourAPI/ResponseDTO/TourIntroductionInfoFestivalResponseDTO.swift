@@ -26,9 +26,12 @@ struct TourIntroductionInfoFestivalResponseDTO: Decodable {
 
 extension TourIntroductionInfoFestivalResponseDTO {
   func toDomain() -> IntroductionInfoFestivalEntity {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyyMMdd"
+    
     return .init(
-      startDate: startDate,
-      endDate: endDate,
+      startDate: dateFormatter.date(from: startDate),
+      endDate: dateFormatter.date(from: endDate),
       fee: fee,
       ageLimit: ageLimit,
       showTime: requiredTime

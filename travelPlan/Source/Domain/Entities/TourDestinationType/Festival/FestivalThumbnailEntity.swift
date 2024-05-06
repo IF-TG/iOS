@@ -9,7 +9,7 @@ import Foundation
 
 struct FestivalThumbnailEntity {
   let title: String
-  let startDate: Date
-  let endDate: Date
+  let startDate: Date?
+  let endDate: Date?
   let imageData: Data
 }

@@ -7,11 +7,11 @@
 
 import Foundation
 
+/// 소개정보조회(행사/공연/축제)
 struct IntroductionInfoFestivalEntity {
-  let startDate: Date
-  let endDate: Date
+  let startDate: Date?
+  let endDate: Date?
   let fee: String
-  let place: String
   let ageLimit: String
   let showTime: String
 }
