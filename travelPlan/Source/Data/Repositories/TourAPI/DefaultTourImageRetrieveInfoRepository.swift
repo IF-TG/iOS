@@ -65,12 +65,9 @@ extension DefaultTourImageRetrieveInfoRepository: TourImageRetrieveInfoRepositor
       var retrievedImageEntities: [TourRetrievedImageEntity<TourRetrievedAtomicImageEntity>] = []
       let atomicImageRetrieveSubscription = retrieveAtomicImages(
         contentId: contentId, numOfRows: numOfRows, pageNo: pageNo)
-        .subscribe(on: backgroundQueue)
         .receive(on: backgroundQueue)
         .sink { completion in
-          if case .failure(let error) = completion {
-            promise(.failure(error))
-          }
+          if case .failure(let error) = completion { promise(.failure(error)) }
         } receiveValue: { entities in
           retrievedImageEntities = entities
           group.leave()
@@ -78,6 +75,7 @@ extension DefaultTourImageRetrieveInfoRepository: TourImageRetrieveInfoRepositor
       subscriptions.insert(atomicImageRetrieveSubscription)
       guard wait(forGroup: group, promise: promise) else { return }
       let imageFetchSequence = Publishers.Sequence(sequence: retrievedImageEntities.enumerated())
+        .receive(on: backgroundQueue)
         .flatMap { index, entity in
           return Publishers.Zip(
             self.imageFetcher(entity.image.originalUrl),
@@ -86,13 +84,9 @@ extension DefaultTourImageRetrieveInfoRepository: TourImageRetrieveInfoRepositor
           .eraseToAnyPublisher()
         }
         .collect(retrievedImageEntities.count)
-        .map { response -> [ImageInfo] in
-          response.sorted(by: { $0.0 < $1.0 }).map { $0.1 }
-        }
+        .map { response -> [ImageInfo] in response.sorted(by: { $0.0 < $1.0 }).map { $0.1 } }
         .sink { completion in
-          if case .failure(let error) = completion {
-            promise(.failure(error))
-          }
+          if case .failure(let error) = completion { promise(.failure(error)) }
         } receiveValue: { imageDatas in
           let updatedEntities = imageDatas.enumerated().map { index, imageData in
             let atomicEntity = retrievedImageEntities[index]
