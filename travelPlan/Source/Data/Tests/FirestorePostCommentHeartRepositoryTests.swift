@@ -59,4 +59,28 @@ extension FirestorePostCommentHeartRepositoryTests {
     checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "heartComment")
     XCTAssertTrue(hasReceivedResult, "좋아요한 사용자가 파이어스토어에 성공적으로 등록된 후 빈 값을 반환해야하지만 예상치 못한 동작이 발생됬습니다")
   }
+  
+  func test_hateComment호출시성공적으로파이어스토어에서좋아요한사용자가제거되며값을반환하는지() {
+    // Arrange
+    var hasReceivedResult = false
+    var unexpectedError: Error?
+    
+    // Act
+    sut.hateComment(with: testPostId, commentId: testCommentId, userId: testUserId)
+      .sink { completion in
+        if case .failure(let error) = completion {
+          unexpectedError = error
+          self.expectation.fulfill()
+        }
+      } receiveValue: { _ in
+        hasReceivedResult = true
+        self.expectation.fulfill()
+      }.store(in: &subscriptions)
+    
+    wait(for: [expectation], timeout: 7.777)
+    
+    // Assert
+    checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "hateComment")
+    XCTAssertTrue(hasReceivedResult, "좋아요한 사용자가 파이어스토어에 성공적으로 제거된 후 빈 값을 반환해야하지만 예상치 못한 동작이 발생됬습니다")
+  }
 }
