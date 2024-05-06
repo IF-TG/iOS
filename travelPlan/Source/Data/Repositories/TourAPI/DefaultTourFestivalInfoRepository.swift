@@ -15,7 +15,7 @@ final class DefaultTourFestivalInfoRepository {
   private let backgroundQueue: DispatchQueue
   
   // MARK: - Properties
-  private var subscriptions = Set<AnyCancellable?>()
+  private var subscriptions = Set<AnyCancellable>()
   
   // MARK: - LifeCycle
   init(service: Sessionable, backgroundQueue: DispatchQueue = .global(qos: .background)) {
@@ -33,55 +33,42 @@ extension DefaultTourFestivalInfoRepository: TourFestivalInfoRepository {
     
     let requestDTO = TourAPIFestivalRequestDTO(eventStartDate: formattedDate)
     let endpoint = TourAPIFestivalEndpoints.fetchFestivalList(with: requestDTO)
+    let group = DispatchGroup()
+    let imageConverter = ImageConverter()
+    var entities = [FestivalThumbnailEntity]()
     
-    return Future { [weak self, backgroundQueue] promise in
-      let subscription = self?.service.request(endpoint: endpoint)
-        .subscribe(on: backgroundQueue)
-        .mapConnectionError()
-        .tryMap {
-          let resultCode = $0.response.header.resultCode
-          if resultCode == "0000" {
-            let group = DispatchGroup()
-            var entities = [FestivalThumbnailEntity]()
-            let imageConverter = ImageConverter()
-            
-            // 서버에서 정렬시킨 response items인데, imageURL->Data 비동기 변환으로 인해 정렬 순서 바뀌지 않았는지 테스트해보자. 
-            // 순서 바뀌는 이슈 있으면, 순서 바뀌지 않도록 고정해줘야 함.
-            $0.response.body.items.item.forEach { responseDTO in
-              DispatchQueue.global(qos: .userInteractive).async(group: group) {
-                group.enter()
-                let subscription = imageConverter.request(imageURL: responseDTO.imageURL, queue: backgroundQueue)
-                  .sink { completion in
-                    if case let .failure(error) = completion {
-                      group.leave()
-                    }
-                  } receiveValue: { imageData in
-                    let entity = responseDTO.toFestivalThumbnailEntity(imageData: imageData)
-                    entities.append(entity)
-                    group.leave()
-                  }
-                self?.subscriptions.insert(subscription)
+    return service.request(endpoint: endpoint)
+      .subscribe(on: backgroundQueue)
+      .mapConnectionError()
+      .tryMap {
+        let resultCode = $0.response.header.resultCode
+        
+        guard resultCode == "0000"
+        else { throw TourAPIError.publicDataPortalError(.init(code: String(resultCode.suffix(2)))) }
+        return $0.response.body.items.item
+      }
+      .map { [weak self, backgroundQueue] items in
+        let group = DispatchGroup()
+        var tupleArray = [(Int, FestivalThumbnailEntity)]()
+        let imageConverter = ImageConverter()
+        
+        for (index, responseDTO) in items.enumerated() {
+          group.enter()
+          let subscription = imageConverter.request(imageURL: responseDTO.imageURL, queue: backgroundQueue)
+            .sink { completion in
+              if case .failure(_) = completion {
+                group.leave()
               }
+            } receiveValue: { imageData in
+              let entity = responseDTO.toFestivalThumbnailEntity(imageData: imageData)
+              tupleArray.append((index, entity))
+              group.leave()
             }
-            group.wait()
-            
-            return entities
-          } else {
-            throw TourAPIError(
-              code: String(resultCode.suffix(2))
-            ) ?? .unexpectedErrorFromSuccessfulResponseData("Error code:\(resultCode)")
-          }
+          self?.subscriptions.insert(subscription)
+          group.wait()
         }
-        .sink { completion in
-          if case .failure(let error) = completion {
-            promise(.failure(error))
-          }
-        } receiveValue: { entities in
-          promise(.success(entities))
-        }
-      
-      self?.subscriptions.insert(subscription)
-    }
-    .eraseToAnyPublisher()
+        
+        return tupleArray.sorted { $0.0 < $1.0 }.map { $0.1 }
+      }.eraseToAnyPublisher()
   }
 }
