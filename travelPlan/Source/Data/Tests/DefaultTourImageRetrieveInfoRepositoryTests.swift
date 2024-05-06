@@ -61,4 +61,35 @@ extension DefaultTourImageRetrieveInfoRepositoryTests {
     checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "retrieveImages")
     XCTAssert(hasReceivedResult, "RetrieveAtomicImages 함수 호출시 성공적으로 엔터티를 받아야하지만 제공받지 못함")
   }
+  
+  func test_retrieveImages호출시관련Entity를받는가() {
+    // Arrange
+    var hasReceivedResult = false
+    var unexpectedError: Error?
+    
+    // Act
+    sut.retrieveImages(
+      contentId: 1095732,
+      numOfRows: 10,
+      pageNo: 1)
+
+    .receive(on: DispatchQueue.main)
+    .sink { completion in
+      if case .failure(let error) = completion {
+        unexpectedError = error
+        self.expectation.fulfill()
+      }
+    } receiveValue: { entities in
+      print("Reveiced result: \(entities.description)")
+      hasReceivedResult = true
+      self.expectation.fulfill()
+    }.store(in: &self.subscriptions)
+    
+    
+    wait(for: [expectation], timeout: 7.777)
+    
+    // Assert
+    checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "retrieveImages")
+    XCTAssert(hasReceivedResult, "RetrieveImages 함수 호출시 성공적으로 엔터티를 받아야하지만 제공받지 못함")
+  }
 }
