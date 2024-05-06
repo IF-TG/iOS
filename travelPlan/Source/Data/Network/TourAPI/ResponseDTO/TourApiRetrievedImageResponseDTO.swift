@@ -33,6 +33,13 @@ struct TourApiRetrievedImageResponseDTO: Decodable {
       case thumbnailUrl = "smallimageurl"
       case name = "imgname"
     }
+    
+    func toDomain() -> TourRetrievedAtomicImageEntity {
+      return .init(
+        name: name,
+        originalUrl: originalUrl,
+        thumbnailUrl: thumbnailUrl)
+    }
   }
   
   struct ImageCopyright: Decodable {
@@ -43,5 +50,21 @@ struct TourApiRetrievedImageResponseDTO: Decodable {
       case divisionCode = "cpyrhtDivCd"
       case serialNumber = "serialnum"
     }
+    
+    func toDomain() -> TourRetrievedImageCopyrightEntity {
+      return .init(
+        divisionCode: divisionCode, 
+        serialNumber: serialNumber)
+    }
+  }
+}
+
+// MARK: - Mappings doamin
+extension TourApiRetrievedImageResponseDTO {
+  func toDomain() -> TourRetrievedImageEntity<TourRetrievedAtomicImageEntity> {
+    return .init(
+      contentId: contentId,
+      image: image.toDomain(),
+      copyright: copyright.toDomain())
   }
 }
