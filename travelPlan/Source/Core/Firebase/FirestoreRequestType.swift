@@ -142,12 +142,15 @@ extension FirestoreRequestType {
   @frozen enum PostsCollection {
     typealias PostId = String
     typealias UserId = String
+    typealias CommentId = String
     case save
     case update(postId: String)
     
     case fetchHeartUsers(PostId)
     case heartPost(PostId)
-    case hatePost((PostId, UserId))
+    case hatePost(PostId, UserId)
+    
+    case fetchCommentHeartUsers(PostId, CommentId)
     
     
     private var rootPath: String {
@@ -166,6 +169,8 @@ extension FirestoreRequestType {
         return nil
       case .hatePost(_, let userId):
         return userId
+      case .fetchCommentHeartUsers:
+        return nil
       }
     }
     
@@ -181,6 +186,8 @@ extension FirestoreRequestType {
         return "\(rootPath)/\(postId)/post-hearts"
       case .hatePost(let postId, _):
         return "\(rootPath)/\(postId)/post-hearts"
+      case .fetchCommentHeartUsers(let postId, let commentId):
+        return "\(rootPath)/\(postId)/\(commentId)/comment-hearts"
       }
     }
   }
