@@ -140,7 +140,7 @@ extension FirestorePostCommentHeartRepositoryTests {
     wait(for: [prevExpectation], timeout: 7.777)
     
     // Act
-    sut.updatePostHearts(with: testPostId, commentId: testCommentId, userId: testUserId, willHeartComment: true)
+    sut.updateCommentHearts(with: testPostId, commentId: testCommentId, userId: testUserId, willHeartComment: true)
       .sink { completion in
         if case .failure(let error) = completion {
           unexpectedError = error
@@ -172,7 +172,7 @@ extension FirestorePostCommentHeartRepositoryTests {
     wait(for: [prevExpectation], timeout: 7.777)
     
     // Act
-    sut.updatePostHearts(with: testPostId, commentId: testCommentId, userId: testUserId, willHeartComment: true)
+    sut.updateCommentHearts(with: testPostId, commentId: testCommentId, userId: testUserId, willHeartComment: true)
       .sink { completion in
         if case .failure(let error) = completion {
           unexpectedError = error

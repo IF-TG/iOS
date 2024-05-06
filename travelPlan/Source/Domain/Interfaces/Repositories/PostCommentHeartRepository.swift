@@ -37,7 +37,7 @@ protocol PostCommentHeartRepository {
     userId: String
   ) -> AnyPublisher<Void, Error>
   
-  func updatePostHearts(
+  func updateCommentHearts(
     with postId: String,
     commentId: String,
     userId: String,
