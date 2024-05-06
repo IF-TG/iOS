@@ -11,6 +11,8 @@ import Alamofire
 
 final class DefaultTourImageRetrieveInfoRepository {
   typealias Endpoint = TourImageInfoAPIEndpoint
+  typealias ImageInfo = (original: Data, thumbnail: Data)
+  
   // MARK: - Dependencies
   private let service: Sessionable
   private let backgroundQueue: DispatchQueue
@@ -57,19 +59,50 @@ extension DefaultTourImageRetrieveInfoRepository: TourImageRetrieveInfoRepositor
     pageNo: Int?
   ) -> AnyPublisher<[TourRetrievedImageEntity<TourRetrievedDataImageEntity>], any Error> {
     return Future { [weak self, backgroundQueue] promise in
-      self?.retrieveAtomicImages(contentId: contentId, numOfRows: numOfRows, pageNo: pageNo)
+      let atomicImageRetrieveSubscription = self?.retrieveAtomicImages(
+        contentId: contentId, numOfRows: numOfRows, pageNo: pageNo)
         .subscribe(on: backgroundQueue)
         .receive(on: backgroundQueue)
-        .sink(receiveCompletion: { completion in
+        .sink { completion in
           if case .failure(let error) = completion {
             promise(.failure(error))
           }
-        }, receiveValue: { entities in
-          entities.enumerated().forEach {
-            $0.element.image.originalUrl
-            
-          }
-        })
+        } receiveValue: { [weak self] entities in
+          guard let self = self else { promise(.failure(ReferenceError.invalidReference)); return }
+          let imageFetchSequence = Publishers.Sequence(sequence: entities.enumerated())
+            .flatMap { index, entity in
+              return Publishers.Zip(
+                self.imageFetcher(entity.image.originalUrl),
+                self.imageFetcher(entity.image.thumbnailUrl)
+              )
+              .map { (index, $0) }
+              .eraseToAnyPublisher()
+            }
+            .collect(entities.count)
+            .map { response -> [ImageInfo] in
+              response.sorted(by: { $0.0 < $1.0 }).map { $0.1 }
+            }.sink { completion in
+              if case .failure(let error) = completion {
+                promise(.failure(error))
+              }
+            } receiveValue: { imageDatas in
+              let updatedEntities = imageDatas.enumerated()
+                .map { index, imageData in
+                  let atomicEntity = entities[index]
+                  let imageEntity = TourRetrievedDataImageEntity(
+                    name: atomicEntity.image.name,
+                    original: imageData.original,
+                    thumbnail: imageData.thumbnail)
+                  return TourRetrievedImageEntity<TourRetrievedDataImageEntity>(
+                    contentId: atomicEntity.contentId,
+                    image: imageEntity,
+                    copyright: atomicEntity.copyright)
+                }
+              promise(.success(updatedEntities))
+            }
+          subscriptions.insert(imageFetchSequence)
+        }
+      self?.subscriptions.insert(atomicImageRetrieveSubscription)
     }.eraseToAnyPublisher()
   }
 }
