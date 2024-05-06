@@ -159,6 +159,39 @@ extension FirestorePostCommentHeartRepositoryTests {
     checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "fetchCommentHearts")
     XCTAssertEqual(expectedCommentHearts, receivedCommentHearts, "예상된 좋아요 사용자 개수와 실제로 sut.fetchCommentHearts에서 받아오는 데이터가 일치해야하 지만 일치하지 않습니다.")
   }
+  
+  func test_willNotHeartComment일때toggleCommentHearts호출시값이감소되야함() {
+    // Arrange
+    var receivedCommentHearts: Int?
+    var expectedCommentHearts: Int?
+    var unexpectedError: Error?
+    let prevExpectation = XCTestExpectation(description: "사전 준비 작업")
+    retrieveHeartsInComment(withExpectation: prevExpectation) { result in
+      expectedCommentHearts = result - 1
+    }
+    wait(for: [prevExpectation], timeout: 7.777)
+    
+    // Act
+    sut.togglePostHearts(with: testPostId, commentId: testCommentId, userId: testUserId, willHeartComment: ㄹ)
+      .sink { completion in
+        if case .failure(let error) = completion {
+          unexpectedError = error
+          self.expectation.fulfill()
+        }
+      } receiveValue: { result in
+        self.retrieveHeartsInComment(withExpectation: self.expectation) { result in
+          receivedCommentHearts = result
+          self.expectation.fulfill()
+        }
+      }.store(in: &subscriptions)
+    
+    wait(for: [expectation], timeout: 7.777)
+    
+    // Assert
+    checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "fetchCommentHearts")
+    XCTAssertEqual(expectedCommentHearts, receivedCommentHearts, "예상된 좋아요 사용자 개수와 실제로 sut.fetchCommentHearts에서 받아오는 데이터가 일치해야하 지만 일치하지 않습니다.")
+  }
+
 }
 
 // MARK: - Helpers
