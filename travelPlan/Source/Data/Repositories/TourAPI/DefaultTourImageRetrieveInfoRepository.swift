@@ -23,7 +23,9 @@ final class DefaultTourImageRetrieveInfoRepository {
   // MARK: - Lifecycle
   init(
     service: Sessionable,
-    backgroundQueue: DispatchQueue = DispatchQueue(label: "TourImageRetrieveRepository")) {
+    backgroundQueue: DispatchQueue = DispatchQueue(
+      label: "TourImageRetrieveRepository", qos: .userInitiated, attributes: .concurrent)
+  ) {
     self.service = service
     self.backgroundQueue = backgroundQueue
   }
@@ -59,51 +61,50 @@ extension DefaultTourImageRetrieveInfoRepository: TourImageRetrieveInfoRepositor
     pageNo: Int?
   ) -> AnyPublisher<[TourRetrievedImageEntity<TourRetrievedDataImageEntity>], any Error> {
     return Future { [weak self, backgroundQueue] promise in
-      guard let self = self else { promise(.failure(ReferenceError.invalidReference)); return }
-      let group = DispatchGroup()
-      group.enter()
-      var retrievedImageEntities: [TourRetrievedImageEntity<TourRetrievedAtomicImageEntity>] = []
-      let atomicImageRetrieveSubscription = retrieveAtomicImages(
+      let atomicImageRetrieveSubscription = self?.retrieveAtomicImages(
         contentId: contentId, numOfRows: numOfRows, pageNo: pageNo)
         .receive(on: backgroundQueue)
         .sink { completion in
           if case .failure(let error) = completion { promise(.failure(error)) }
         } receiveValue: { entities in
-          retrievedImageEntities = entities
-          group.leave()
+          let imageFetchSequence = Publishers.Sequence(sequence: entities.enumerated())
+            .receive(on: DispatchQueue.global(qos: .userInitiated))
+            .flatMap { [weak self] index, entity in
+              guard let self else {
+                return Fail<(Int, ImageInfo), Error>(error: ReferenceError.invalidReference).eraseToAnyPublisher()
+              }
+              return Publishers.Zip(
+                imageFetcher(entity.image.originalUrl),
+                imageFetcher(entity.image.thumbnailUrl))
+              .map { (index, $0) }
+              .mapError { $0 as Error }
+              .eraseToAnyPublisher()
+            }
+            .collect(entities.count)
+            .map { response -> [ImageInfo] in
+              let sortedResponse = response.sorted(by: { $0.0 < $1.0 })
+              return sortedResponse.map { $0.1 } }
+            .sink { completion in
+              if case .failure(let error) = completion { promise(.failure(error)) }
+            } receiveValue: { imageDatas in
+              let updatedEntities = imageDatas.enumerated().map { index, imageData in
+                let atomicEntity = entities[index]
+                let imageEntity = TourRetrievedDataImageEntity(
+                  name: atomicEntity.image.name,
+                  original: imageData.original,
+                  thumbnail: imageData.thumbnail)
+                return TourRetrievedImageEntity<TourRetrievedDataImageEntity>(
+                  contentId: atomicEntity.contentId,
+                  image: imageEntity,
+                  copyright: atomicEntity.copyright)
+              }
+              promise(.success(updatedEntities))
+            }
+          self?.subscriptions.insert(imageFetchSequence)
         }
-      subscriptions.insert(atomicImageRetrieveSubscription)
-      guard wait(forGroup: group, promise: promise) else { return }
-      let imageFetchSequence = Publishers.Sequence(sequence: retrievedImageEntities.enumerated())
-        .receive(on: backgroundQueue)
-        .flatMap { index, entity in
-          return Publishers.Zip(
-            self.imageFetcher(entity.image.originalUrl),
-            self.imageFetcher(entity.image.thumbnailUrl))
-          .map { (index, $0) }
-          .eraseToAnyPublisher()
-        }
-        .collect(retrievedImageEntities.count)
-        .map { response -> [ImageInfo] in response.sorted(by: { $0.0 < $1.0 }).map { $0.1 } }
-        .sink { completion in
-          if case .failure(let error) = completion { promise(.failure(error)) }
-        } receiveValue: { imageDatas in
-          let updatedEntities = imageDatas.enumerated().map { index, imageData in
-            let atomicEntity = retrievedImageEntities[index]
-            let imageEntity = TourRetrievedDataImageEntity(
-              name: atomicEntity.image.name,
-              original: imageData.original,
-              thumbnail: imageData.thumbnail)
-            return TourRetrievedImageEntity<TourRetrievedDataImageEntity>(
-              contentId: atomicEntity.contentId,
-              image: imageEntity,
-              copyright: atomicEntity.copyright)
-          }
-          promise(.success(updatedEntities))
-        }
-      subscriptions.insert(imageFetchSequence)
-      
-    }.eraseToAnyPublisher()
+      self?.subscriptions.insert(atomicImageRetrieveSubscription)
+    }
+    .eraseToAnyPublisher()
   }
 }
 
@@ -117,6 +118,7 @@ fileprivate extension DefaultTourImageRetrieveInfoRepository {
         }
     }
   }
+  
   typealias isGroupSucceed = Bool
   func wait(
     forGroup group: DispatchGroup,
