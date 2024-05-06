@@ -10,7 +10,7 @@ import Foundation
 struct TourImageInfoAPIEndpoint {
   static func makeImageInfoRetrieveEndpoint(
     with requestDTO: TourApiImageRetrieveRequestDTO
-  ) -> TourApiEndpoint<TourApiCommonResponseDTO<[TourApiRetrievedImageResponseDTO]>> {
+  ) -> TourApiEndpoint<TourApiCommonResponseDTO<TourApiRetrievedImageResponseDTO>> {
     return .init(
       parameters: .query(requestDTO),
       requestType: .detailImage)
