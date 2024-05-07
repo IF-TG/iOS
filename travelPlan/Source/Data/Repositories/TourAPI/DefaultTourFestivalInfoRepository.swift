@@ -42,21 +42,20 @@ extension DefaultTourFestivalInfoRepository: TourFestivalInfoRepository {
       .mapConnectionError()
       .tryMap {
         let resultCode = $0.response.header.resultCode
-        
         guard resultCode == "0000"
         else { throw TourAPIError.publicDataPortalError(.init(code: String(resultCode.suffix(2)))) }
         return $0.response.body.items.item
       }
-      .map { [weak self, backgroundQueue] items in
+      .map { [weak self, backgroundQueue] in
         let group = DispatchGroup()
         var tupleArray = [(Int, FestivalThumbnailEntity)]()
         let imageConverter = ImageConverter()
         
-        for (index, responseDTO) in items.enumerated() {
+        for (index, responseDTO) in $0.enumerated() {
           group.enter()
           let subscription = imageConverter.request(imageURL: responseDTO.imageURL, queue: backgroundQueue)
             .sink { completion in
-              if case .failure(_) = completion {
+              if case .failure = completion {
                 group.leave()
               }
             } receiveValue: { imageData in
@@ -68,7 +67,9 @@ extension DefaultTourFestivalInfoRepository: TourFestivalInfoRepository {
           group.wait()
         }
         
-        return tupleArray.sorted { $0.0 < $1.0 }.map { $0.1 }
+        return tupleArray
+          .sorted { $0.0 < $1.0 }
+          .map { $0.1 }
       }.eraseToAnyPublisher()
   }
 }

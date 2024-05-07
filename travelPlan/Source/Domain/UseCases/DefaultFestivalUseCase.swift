@@ -47,7 +47,7 @@ extension DefaultFestivalUseCase: FestivalUseCase {
     
     return commonPublisher
       .zip(introductionPublisher)
-      .map { (commonEntity: TourCommonInfoEntity, introFestivalEntity: IntroductionInfoFestivalEntity) -> FestivalEntity in
+      .map { (commonEntity, introFestivalEntity) in
         return FestivalEntity(
           ageLimit: introFestivalEntity.ageLimit,
           startDate: introFestivalEntity.startDate,

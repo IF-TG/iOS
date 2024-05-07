@@ -38,14 +38,14 @@ final class DefaultTourCommonInfoRepository: TourCommonInfoRepository {
         let resultCode = $0.response.header.resultCode
         
         guard resultCode == "0000" else {
-          return Fail<TourCommonInfoEntity, any Error> (
+          return Fail<TourCommonInfoEntity, any Error>(
             error: TourAPIError.publicDataPortalError(.init(code: String(resultCode.suffix(2))))
           )
           .eraseToAnyPublisher()
         }
         
         guard let item = $0.response.body.items.item.first else {
-          return Fail<TourCommonInfoEntity, any Error> (
+          return Fail<TourCommonInfoEntity, any Error>(
             error: TourAPIError.tourAPIProviderInstitutionError(.noDataError)
           )
           .eraseToAnyPublisher()
