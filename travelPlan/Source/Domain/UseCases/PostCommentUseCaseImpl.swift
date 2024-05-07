@@ -7,6 +7,7 @@
 
 import Foundation
 import Combine
+import os.log
 
 final class PostCommentUseCaseImpl {
   // MARK: - Dependencies
@@ -84,14 +85,13 @@ extension PostCommentUseCaseImpl: PostCommentUseCase {
     with group: DispatchGroup,
     promise: @escaping Future<PostCommentEntity, Error>.Promise
   ) {
-    // FIXME: - TimestampConverter 사용해서 timeago로 변환해야합니다.
     group.notify(queue: backgroundQueue) {
       guard let author else { return }
       let commentEntity = PostCommentEntity(
         commentId: entity.commentId,
         userProfileImageData: author.profileImageData,
         userName: author.nickname,
-        timestamp: String(entity.createAt.description),
+        timestamp: DateTimeConverter.timeAgo(from: entity.createAt),
         comment: entity.comment,
         isDeleted: false,
         isOnHeart: false,
@@ -119,7 +119,7 @@ extension PostCommentUseCaseImpl: PostCommentUseCase {
   ) -> AnyPublisher<Bool, any Error> {
     return postAtomicCommentRepository
       .deleteComment(
-        // FIXME: - NestedComment가 있는지 가져와야 합니다.
+        // FIXME: - NestedComment가 있는지 서버에서 가져와야 합니다.
         hasAnyNestedCommentExisted: false,
         postId: postId,
         commentId: commentId)
@@ -150,10 +150,9 @@ extension PostCommentUseCaseImpl: PostCommentUseCase {
             group.enter()
             let profileFetchSubscription = self?.userProfileRepository
               .fetchProfile(with: atomicCommentEntity.authorId)
-              .sink { completion in
+              .sink { [weak self] completion in
                 if case .failure(let error) = completion {
-                  // TODO: - 로그를 남겨보자,,
-                  print("DEBUG  사용자 정보 받아오는 도중 에러가 발생했습니다.", error.localizedDescription, atomicCommentEntity)
+                  self?.logNetworkError(error: error, fromEntity: atomicCommentEntity)
                   group.leave()
                 }
               } receiveValue: { author in
@@ -172,11 +171,8 @@ extension PostCommentUseCaseImpl: PostCommentUseCase {
             group.notify(queue: backgroundQueue) { [weak self, i] in
               if let commentAuthor, let self {
                 let postComment = makePostCommentEntity(
-                  atomicCommentEntity: atomicCommentEntity,
-                  commentAuthor: commentAuthor,
-                  isOnHeart: isOnHeart,
-                  isBlocked: hasBlocked,
-                  nestedComments: nestedComments)
+                  atomicCommentEntity: atomicCommentEntity, commentAuthor: commentAuthor,
+                  isOnHeart: isOnHeart, isBlocked: hasBlocked, nestedComments: nestedComments)
                 postComments.append((i, postComment))
               }
               groupManager.leave()
@@ -194,11 +190,10 @@ extension PostCommentUseCaseImpl: PostCommentUseCase {
     isBlocked: Bool,
     nestedComments: [PostNestedCommentEntity]
   ) -> PostCommentEntity {
-    // TODO: - Timestamp timeago로 구현해야합니다.
     return PostCommentEntity(
       commentId: atomicCommentEntity.commentId,
       userName: commentAuthor.nickname,
-      timestamp: atomicCommentEntity.createAt.description, 
+      timestamp: DateTimeConverter.timeAgo(from: atomicCommentEntity.createAt),
       comment: atomicCommentEntity.comment,
       isDeleted: atomicCommentEntity.hasDeleted,
       isOnHeart: isOnHeart,
@@ -211,6 +206,18 @@ extension PostCommentUseCaseImpl: PostCommentUseCase {
     postId: String,
     commentId: String
   ) -> AnyPublisher<ToggledPostCommentHeartEntity, any Error> {
-    fatalError()
+    fatalError("미구현")
   }
+}
+
+// MARK: - Private Helpers
+private extension PostCommentUseCaseImpl {
+  func logNetworkError(error: Error, fromEntity entity: Any) {
+    os_log("[네트워크 에러] 사용자 정보 받아오는 도중 에러 발생 Error: %@\n fromEntity: %@",
+           log: .init(subsystem: "com.yeoga.app", category: "network"),
+           type: .error,
+           error.localizedDescription,
+           String(describing: entity))
+  }
+
 }

@@ -70,14 +70,12 @@ extension FirestorePostCommentRepository: PostAtomicCommentRepository {
         promise(.failure(ReferenceError.invalidReference))
         return
       }
-      let backgroundIdentifier = BackgroundTaskManager.shared.startBackgroundTask()
       let requestSubscription = service.saveDocument(endpoint: endpoint)
         .subscribe(on: backgroundQueue)
         .receive(on: backgroundQueue)
         .sink { completion in
           if case .failure(let error) = completion {
             promise(.failure(error))
-            BackgroundTaskManager.shared.endBackgroundTask(backgroundIdentifier)
           }
         } receiveValue: { _ in
           let postAtomicCommentEntity = PostAtomicCommentEntity(
@@ -85,7 +83,6 @@ extension FirestorePostCommentRepository: PostAtomicCommentRepository {
             comment: comment, createAt: requestDTO.createAt.dateValue(),
             hasDeleted: false, hearts: 0)
           promise(.success(postAtomicCommentEntity))
-          BackgroundTaskManager.shared.endBackgroundTask(backgroundIdentifier)
         }
       subscriptions.insert(requestSubscription)
     }.eraseToAnyPublisher()
@@ -104,17 +101,14 @@ extension FirestorePostCommentRepository: PostAtomicCommentRepository {
         promise(.failure(FirestorePostCommentRepostioryError.invalidSelfReference))
         return
       }
-      let backgroundIdentifier = BackgroundTaskManager.shared.startBackgroundTask()
       let requestSubscription = self.service
         .request(endpoint: endpoint)
         .sink { completion in
           if case .failure(let error) = completion {
             promise(.failure(error))
-            BackgroundTaskManager.shared.endBackgroundTask(backgroundIdentifier)
           }
         } receiveValue: { _ in
           promise(.success(()))
-          BackgroundTaskManager.shared.endBackgroundTask(backgroundIdentifier)
         }
       subscriptions.insert(requestSubscription)
     }.eraseToAnyPublisher()
@@ -125,7 +119,6 @@ extension FirestorePostCommentRepository: PostAtomicCommentRepository {
     postId: String,
     commentId: String
   ) -> AnyPublisher<Void, any Error> {
-    let backgroundIdentifier = BackgroundTaskManager.shared.startBackgroundTask()
     let endpoint = switch hasAnyNestedCommentExisted {
     case true:
       Endpoint.makeCommentDeleteWhenNestedCommentExistEndpoint(postId: postId, commentId: commentId)
@@ -139,11 +132,9 @@ extension FirestorePostCommentRepository: PostAtomicCommentRepository {
         .sink { completion in
           if case .failure(let error) = completion {
             promise(.failure(error))
-            BackgroundTaskManager.shared.endBackgroundTask(backgroundIdentifier)
           }
         } receiveValue: { _ in
           promise(.success(()))
-          BackgroundTaskManager.shared.endBackgroundTask(backgroundIdentifier)
         }
       self?.subscriptions.insert(requestSubscription)
     }.eraseToAnyPublisher()

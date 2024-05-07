@@ -68,7 +68,6 @@ extension DefaultPostHeartUseCase: PostHeartUseCase {
         return
       }
       
-      let identifier = BackgroundTaskManager.shared.startBackgroundTask()
       let group = DispatchGroup()
       
       let heartPostSubscription = postHeartRepository
@@ -87,7 +86,6 @@ extension DefaultPostHeartUseCase: PostHeartUseCase {
       
       group.notify(queue: backgroundQueue) {
         promise(.success(()))
-        BackgroundTaskManager.shared.endBackgroundTask(identifier)
       }
     }
     .subscribe(on: backgroundQueue)
@@ -108,8 +106,6 @@ extension DefaultPostHeartUseCase: PostHeartUseCase {
         promise(.failure(PostHeartUseCaseError.invalidReference))
         return
       }
-      
-      let identifier = BackgroundTaskManager.shared.startBackgroundTask()
       let group = DispatchGroup()
       
       group.enter()
@@ -129,7 +125,7 @@ extension DefaultPostHeartUseCase: PostHeartUseCase {
       
       group.notify(queue: backgroundQueue) {
         promise(.success(()))
-        BackgroundTaskManager.shared.endBackgroundTask(identifier)
+
       }
     }
     .subscribe(on: backgroundQueue)
