@@ -10,7 +10,7 @@ import UIKit
 
 struct PostMapper {
   // TODO: - 이미지, 섬네일등 Data로 오는것으로 변환해야합니다.
-  static func toPostInfo(_ post: Post, thumbnails: [String]) -> PostInfo {
+  static func toPostInfo(_ post: Post, thumbnails: [Data]) -> PostInfo {
     // TODO: - 서버에서 tripDate어떻게주는지 알아야함
     // 22.11.22 , 22.11.13 이런식으로 오는데.. 그럼 몇일인지 구하는 것도 구현해야함
     let postHeaderContentBottomInfo = PostHeaderContentBottomInfo(
@@ -24,11 +24,11 @@ struct PostMapper {
       imageData: post.author.profileImageData,
       contentInfo: postHeaderContentInfo)
     let postContentInfo = PostContentInfo(
-      text: post.detail.content,
-      thumbnailURLs: thumbnails)
+      text: post.detail.content.first?.text ?? "",
+      thumbnailImageDataList: thumbnails)
     let postFooterInfo = PostFooterInfo(
       heartCount: String(post.detail.likes),
-      heartState: post.liked,
+      heartState: post.liked ?? false,
       commentCount: String(post.detail.comments))
     return PostInfo(
       postId: post.detail.postID,
@@ -38,23 +38,27 @@ struct PostMapper {
   }
   
   static func toPostDetails(_ post: Post, category: Post.Category) -> PostDetails {
-    // TODO: - post upload에서 컨텐츠, 이미지 순서를 어떻게 나타내느냐 고려한 후에 content를 그에맞게 반영해야합니다.
-    
-    var content: [PostContentEntity] = [.text(post.detail.content)]
-    
-    // 지금은 content text이후에 단순히 이미지만 반환했지만, 추후에 text sort, image sort타입에 맞게 반환 해야합니다.
-    let images: [PostContentEntity] = post.highResolveImages.compactMap { postImage -> PostContentEntity? in
-      // FIXME: - 지금 mockData일 경우 string type의 resource path를 보내주기에... 임시적으로 UIImage-> Data로 변환하겠습니다.
-      if let data = UIImage(named: postImage.imageUri)?.pngData() {
-        return .image(data)
+    var textIndex = 0
+    var imageIndex = 0
+    var content: [PostContentEntity] = (1...(post.detail.content.count + post.highResolveImages.count)).map { i in
+      if post.detail.content[textIndex].sort == i {
+        let entity = PostContentEntity.text(post.detail.content[textIndex].text)
+        textIndex += 1
+        return entity
+      } else {
+        let entity = PostContentEntity.image(post.highResolveImages[imageIndex].imageData ?? Data())
+        imageIndex += 1
+        return entity
       }
-      // 추후 사용할 base64 -> Data변환 로직.
-//      if let data = Data(base64Encoded: postImage.imageUri) {
-//        return .image(data)
-//      }
-      return nil
     }
-    content += images
+    
+    /// 비어있는 이미지 제거.
+    content = content.filter { entity in
+      if case .image(let data) = entity, data.count < 1 {
+        return false
+      }
+      return true
+    }
     
     let postDetail = Post.Detail<[PostContentEntity]>(
       postID: post.detail.postID, title: post.detail.title,

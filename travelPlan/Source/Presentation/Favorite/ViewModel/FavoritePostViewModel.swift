@@ -16,7 +16,7 @@ final class FavoritePostViewModel: PostViewModel {
   // MARK: - Properties
   var posts: [Post] = []
   
-  var postThumbnails: [[String]] = []
+  var postThumbnails: [[Data]] = []
   
   var perPage: Int32 = 10
   

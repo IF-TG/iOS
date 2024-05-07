@@ -25,6 +25,22 @@ struct TravelMainThemeTypeMapper {
     }
   }
   
+  /// firestore에 저장된 main theme의 필드들입니다.
+  static func toFirestoreField(_ from: TravelMainThemeType) -> String? {
+    return switch from {
+    case .season:
+      "seasons"
+    case .region:
+      "regions"
+    case .travelTheme:
+      "themes"
+    case .partner:
+      "companions"
+    default:
+      nil
+    }
+  }
+  
   static func toSubCategoryDTO(_ requestValue: TravelMainThemeType) -> String? {
     switch requestValue {
     case .all:
