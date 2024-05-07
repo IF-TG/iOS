@@ -9,6 +9,8 @@ import Foundation
 import FirebaseFirestore
 
 struct TimestampConverter {
+  private init() {}
+  
   /// Timestamp를 주어진 format 형식의 문자열로 변환합니다.
   static func toString(from timestamp: Timestamp, format: String = "yyyy.MM.dd") -> String {
     let date = timestamp.dateValue()
