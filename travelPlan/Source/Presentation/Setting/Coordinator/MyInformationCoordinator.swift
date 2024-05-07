@@ -10,11 +10,11 @@ import SHCoordinator
 import Alamofire
 import Combine
 
-//protocol MyInformationCoordinatorDelegate: FlowCoordinatorDelegate {
+// protocol MyInformationCoordinatorDelegate: FlowCoordinatorDelegate {
 //  func showConfirmationAlertPage()
 //  func showBottomSheetAlbum()
 //  func showAlertForError(with description: String, completion: (() -> Void)?)
-//}
+// }
 
 final class MyInformationCoordinator: FlowCoordinator {
   var parent: FlowCoordinator?

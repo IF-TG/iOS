@@ -11,6 +11,7 @@ final class UserDefaultsManager {
   enum Key: String {
     case isLoggedIn
     case user
+    case blockedUsers
   }
   
   /// Key를 사용하지 않을 경우 subscript를 통해 직접 문자열로 UserDefaults에 저장할 수 있습니다.

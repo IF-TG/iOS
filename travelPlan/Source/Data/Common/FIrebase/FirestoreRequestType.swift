@@ -108,7 +108,7 @@ extension FirestoreRequestType {
     
     var childCollectionPath: String? {
       switch self {
-      case .fetchUserProfile(let UID):
+      case .fetchUserProfile:
         return nil
       case .saveUserProfile:
         return nil
@@ -143,17 +143,32 @@ extension FirestoreRequestType {
     typealias PostId = String
     typealias UserId = String
     typealias CommentId = String
+    
     case save
     case update(postId: String)
+    case fetch
     
+    // MARK: - PostHearts
     case fetchHeartUsers(PostId)
+    case fetchPostHearts(PostId)
     case heartPost(PostId)
     case hatePost(PostId, UserId)
+    case togglePostHearts(PostId)
     
+    // MARK: - PostCommentHearts
     case fetchCommentHeartUsers(PostId, CommentId)
     case heartComment(PostId, CommentId)
     case hateComment(PostId, CommentId, UserId)
     case updateCommentHearts(PostId, CommentId)
+    
+    // MARK: - PostComments
+    case saveComment(PostId, CommentId)
+    case updateComment(PostId, CommentId)
+    /// 이 경우는 isDelete 필드 true로 변경
+    case deleteCommentWhenNestedCommentExists(PostId, CommentId)
+    /// 그냥 삭제
+    case deleteComment(PostId, CommentId)
+    case fetchComments(PostId)
     
     private var rootPath: String {
       "posts"
@@ -165,12 +180,18 @@ extension FirestoreRequestType {
         return nil
       case .update(let postId):
         return postId
+      case .fetch:
+        return nil
       case .fetchHeartUsers:
         return nil
       case .heartPost:
         return nil
       case .hatePost(_, let userId):
         return userId
+      case .togglePostHearts(let postId):
+        return postId
+      case .fetchPostHearts(let postId):
+        return postId
       case .fetchCommentHeartUsers:
         return nil
       case .heartComment:
@@ -179,6 +200,16 @@ extension FirestoreRequestType {
         return userId
       case .updateCommentHearts(let postId, let commentId):
         return commentId
+      case .saveComment:
+        return nil
+      case .updateComment(_, let commentId):
+        return commentId
+      case .deleteCommentWhenNestedCommentExists(_, let commentId):
+        return commentId
+      case .deleteComment(_, let commentId):
+        return commentId
+      case .fetchComments:
+        return nil
       }
     }
     
@@ -188,12 +219,18 @@ extension FirestoreRequestType {
         return rootPath
       case .update:
         return rootPath
+      case .fetch:
+        return rootPath
       case .fetchHeartUsers(let postId):
         return "\(rootPath)/\(postId)/post-hearts"
       case .heartPost(let postId):
         return "\(rootPath)/\(postId)/post-hearts"
       case .hatePost(let postId, _):
         return "\(rootPath)/\(postId)/post-hearts"
+      case .togglePostHearts:
+        return rootPath
+      case .fetchPostHearts:
+        return rootPath
       case .fetchCommentHeartUsers(let postId, let commentId):
         return "\(rootPath)/\(postId)/comments/\(commentId)/comment-hearts"
       case .heartComment(let postId, let commentId):
@@ -201,6 +238,16 @@ extension FirestoreRequestType {
       case .hateComment(let postId, let commentId, _):
         return "\(rootPath)/\(postId)/comments/\(commentId)/comment-hearts"
       case .updateCommentHearts(let postId, _):
+        return "\(rootPath)/\(postId)/comments"
+      case .saveComment(let postId, _):
+        return "\(rootPath)/\(postId)/comments"
+      case .updateComment(let postId, _):
+        return "\(rootPath)/\(postId)/comments"
+      case .deleteCommentWhenNestedCommentExists(let postId, _):
+        return "\(rootPath)/\(postId)/comments"
+      case .deleteComment(let postId, _):
+        return "\(rootPath)/\(postId)/comments"
+      case .fetchComments(let postId):
         return "\(rootPath)/\(postId)/comments"
       }
     }

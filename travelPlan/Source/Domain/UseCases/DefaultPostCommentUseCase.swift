@@ -23,21 +23,30 @@ final class DefaultPostCommentUseCase: PostCommentUseCase {
       .eraseToAnyPublisher()
   }
   
-  func updateComment(commentId: String, comment: String) -> AnyPublisher<Bool, any Error> {
+  func updateComment(postId: String, commentId: String, comment: String) -> AnyPublisher<Bool, any Error> {
     return postCommentRepository
-      .updateComment(commentId: commentId, comment: comment)
+      .updateComment(postId: nil, commentId: commentId, comment: comment)
       .eraseToAnyPublisher()
   }
   
-  func deleteComment(commentId: String) -> AnyPublisher<Bool, any Error> {
+  func deleteComment(postId: String, commentId: String) -> AnyPublisher<Bool, any Error> {
     return postCommentRepository
-      .deleteComment(commentId: commentId)
+      .deleteComment(postId: postId, commentId: commentId)
       .eraseToAnyPublisher()
   }
   
   func fetchComments(with requestValue: PostCommentsRequestValue) -> AnyPublisher<[PostCommentEntity], any Error> {
     return postCommentRepository
       .fetchComments(page: requestValue.page, perPage: requestValue.perPage, postId: requestValue.postId)
+      .eraseToAnyPublisher()
+  }
+  
+  func toggleCommentHeart(
+    postId: String,
+    commentId: String
+  ) -> AnyPublisher<ToggledPostCommentHeartEntity, any Error> {
+    return postCommentRepository
+      .toggleCommentHeart(postId: postId, commentId: commentId)
       .eraseToAnyPublisher()
   }
 }

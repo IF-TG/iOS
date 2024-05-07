@@ -61,7 +61,7 @@ extension PostCommentUseCaseTests {
     var unexpectedError: Error?
     
     // Act
-    subscription = sut.updateComment(commentId: "1", comment: "정상을 향해~ (등산가야지~..~)")
+    subscription = sut.updateComment(postId: "1", commentId: "1", comment: "정상을 향해~ (등산가야지~..~)")
       .sink { [unowned self] completion in
         if case .failure(let error) = completion {
           unexpectedError = error
@@ -85,7 +85,7 @@ extension PostCommentUseCaseTests {
     var unexpectedError: Error?
     
     // Act
-    subscription = sut.deleteComment(commentId: "1")
+    subscription = sut.deleteComment(postId: "1", commentId: "1")
       .sink { [unowned self] completion in
         if case .failure(let error) = completion {
           unexpectedError = error
@@ -127,4 +127,31 @@ extension PostCommentUseCaseTests {
     checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "fetchComments")
     XCTAssertTrue(result, notReceivedErrorMessage)
   }
+<<<<<<< HEAD
+=======
+  
+  func testPostCommentUseCase_togglePostComment함수호출시_PostComemntEntities받았는지_ShouldReturnTrue() {
+    // Arrange
+    var result = false
+    var unexpectedError: Error?
+    
+    // Act
+    subscription = sut.toggleCommentHeart(postId: "1", commentId: "1")
+      .sink { [unowned self] completion in
+        if case .failure(let error) = completion {
+          unexpectedError = error
+        }
+        expectation.fulfill()
+      } receiveValue: { [unowned self] entity in
+        print("DEBUG: 값을 성공적으로 받았습니다~\n\n:\(entity)")
+        result = true
+        expectation.fulfill()
+      }
+    wait(for: [expectation], timeout: 7.777777777)
+    
+    // Assert
+    checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "toggleCommentHeart")
+    XCTAssertTrue(result, notReceivedErrorMessage)
+  }
+>>>>>>> 9e6b02818dfba83932b0f5d4fc49c546f846bdfe
 }

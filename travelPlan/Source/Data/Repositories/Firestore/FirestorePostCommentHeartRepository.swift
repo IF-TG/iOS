@@ -81,7 +81,6 @@ extension FirestorePostCommentHeartRepository: PostCommentHeartRepository {
   ) -> AnyPublisher<Void, any Error> {
     let endpoint = Endpoint.makeCommentHeartEndpoint(with: postId, commentId: commentId, userId: userId)
     return Future { [weak self, backgroundQueue] promise in
-      // TODO: - 이전 PR 머지되면 BackgroundTask로 백그라운드 전환해도 동작되도록 기능 추가해야합니다.
       let saveSubscription = self?.service
         .saveDocument(endpoint: endpoint)
         .subscribe(on: backgroundQueue)
@@ -105,7 +104,6 @@ extension FirestorePostCommentHeartRepository: PostCommentHeartRepository {
   ) -> AnyPublisher<Void, any Error> {
     let endpoint = Endpoint.makeCommentHateEndpoint(with: postId, commentId: commentId, userId: userId)
     return Future { [weak self, backgroundQueue] promise in
-      // TODO: - 이전 PR 머지되면 BackgroundTask로 백그라운드 전환해도 동작되도록 기능 추가해야합니다.
       let deleteSubscription = self?.service
         .request(endpoint: endpoint)
         .subscribe(on: backgroundQueue)
@@ -130,7 +128,6 @@ extension FirestorePostCommentHeartRepository: PostCommentHeartRepository {
   ) -> AnyPublisher<Void, any Error> {
     let endpoint = Endpoint.makePostHeartsToggleEndpoint(with: postId, commentId: commentId)
     return Future { [weak self, backgroundQueue] promise in
-      // TODO: - 이전 PR 머지되면 BackgroundTask로 백그라운드 전환해도 동작되도록 기능 추가해야합니다.
       let subscription = self?.service
         .performTransaction { transaction in
           guard let docRef = endpoint.requestType.documentRef else {

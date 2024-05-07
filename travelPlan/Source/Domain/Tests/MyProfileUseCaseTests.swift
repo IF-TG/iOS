@@ -19,7 +19,10 @@ final class MyProfileUseCaseTests: XCTestCase {
   // MARK: - Lifecycle
   override func setUp() {
     super.setUp()
-    sut = DefaultMyProfileUseCase(myProfileRepository: mockMyProfileRepository)
+    sut = DefaultMyProfileUseCase(
+      myProfileRepository: mockMyProfileRepository,
+      userProfileRepository: MockUserProfileRepository(),
+      loggedInUserRepository: DefaultLoggedInUserRepository(storage: MockUserStorage()))
     expectation = XCTestExpectation(description: "Finish")
   }
   
@@ -178,8 +181,8 @@ final class MyProfileUseCaseTests: XCTestCase {
   
   func testMyProfileUseCase_fetchProfile함수를통해_사용자의프로필을받아올때_fetchedProfile프로퍼티_반환값이예상값과일치하는지_ShouldReturnEqual() {
     // Arrange
-    let expectedProfileEntity = ProfileImageEntity(image: "hi".data(using: .utf8)!)
-    var requestedProfileEntity: ProfileImageEntity?
+    let expectedProfileEntity = ProfileImageEntity(image: Data())
+    var requestedProfileEntity = ProfileImageEntity(image: Data())
     
     // Act
     subscription = sut.fetchProfile().sink { _ in

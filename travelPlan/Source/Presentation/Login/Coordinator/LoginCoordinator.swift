@@ -44,12 +44,16 @@ final class LoginCoordinator: FlowCoordinator {
     let authService = DefaultAuthenticationService(sessionProvider: sessionProvider)
     let loginResultStorage = UserDefaultsLoginResultStorage()
     
-    let storage = UserDefaultsUserStorage()
+    let storage = UserDefaultsOwnerStorage()
     let loggedInUserRepository = DefaultLoggedInUserRepository(storage: storage)
+    let userProfileRepository = FirestoreUserProfileRepository(
+      service: FirestoreService(),
+      firebaseStorageService: FirebaseStorageService())
     let repository = DefaultLoginRepository(
       authService: authService,
       loginResultStorage: loginResultStorage,
-      loggedInUserRepository: loggedInUserRepository,
+      loggedInUserRepository: loggedInUserRepository, 
+      userProfileRepository: userProfileRepository,
       firestoreService: FirestoreService())
     let useCase = DefaultLoginUseCase(loginRepository: repository)
     let loginVM = LoginViewModel(loginUseCase: useCase)

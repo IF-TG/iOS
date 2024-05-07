@@ -22,7 +22,7 @@ final class DefaultPostCommentHeartUseCase: PostCommentHeartUseCase {
     commentId: String
   ) -> AnyPublisher<ToggledPostCommentHeartEntity, any Error> {
     return postCommentRepository
-      .toggleCommentHeart(commentId: commentId)
+      .toggleCommentHeart(postId: postId, commentId: commentId)
       .eraseToAnyPublisher()
   }
 }

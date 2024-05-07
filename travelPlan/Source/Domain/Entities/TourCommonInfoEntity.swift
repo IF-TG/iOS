@@ -46,6 +46,6 @@ extension TourCommonInfoEntity {
   /// **이미지 정보 조회**
   struct ImageInfo {
     let originalImageURL: String
-    let thumbnailImageURL:  String
+    let thumbnailImageURL: String
   }
 }

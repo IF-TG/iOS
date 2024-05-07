@@ -61,16 +61,7 @@ extension DefaultReviewWritingRepository: ReviewWritingRepository {
             promise(.failure(error))
           }
         } receiveValue: { responseDTO in
-          
-          // TODO: - responseDTO.toDomain() 사용해서 Post객체 간편화하기
-          let post = Post(
-            liked: responseDTO.liked,
-            detail: responseDTO.toDomain(),
-            author: responseDTO.toDomain(with: Data(base64Encoded: responseDTO.profile)),
-            highResolveImages: responseDTO.postImages.map { $0.toDomain() },
-            category: responseDTO.toDomain()
-          )
-          promise(.success(post))
+          promise(.success(responseDTO.toDomain()))
         }
       self?.subscriptions.insert(subscription)
     }

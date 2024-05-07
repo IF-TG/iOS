@@ -20,7 +20,7 @@ protocol FavoritePostInDirectoryRepository {
   ) -> AnyPublisher<FavoritePostToggleEntity, Error>
   
   func updateFolderName(
-    postIdList:[Int64],
+    postIdList: [Int64],
     directoryName: String
   ) -> AnyPublisher<UpdatedFavoritePostDirectoryName, Error>
 }
