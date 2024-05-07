@@ -47,7 +47,7 @@ final class DefaultPostCommentRepository: PostCommentRepository {
     }.eraseToAnyPublisher()
   }
   
-  func updateComment(postId: String? = nil,commentId: String, comment: String) -> AnyPublisher<Bool, any Error> {
+  func updateComment(postId: String? = nil, commentId: String, comment: String) -> AnyPublisher<Bool, any Error> {
     let requestDTO = PostCommentUpdateRequestDTO(commentId: commentId, comment: comment)
     return Future { [weak self] promise in
       guard let self else {
