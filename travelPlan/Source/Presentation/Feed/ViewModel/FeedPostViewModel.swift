@@ -161,7 +161,7 @@ private extension FeedPostViewModel {
           ).eraseToAnyPublisher()
       }.eraseToAnyPublisher()
   }
-  //TODO: - 초기에 인디케이터하력함
+  // TODO: - 초기에 인디케이터하력함
   func viewDidLoadStream(_ input: Input) -> Output {
     return input.viewDidLoad.map { [weak self] _ in
       DispatchQueue.global(qos: .userInitiated).async {
@@ -200,7 +200,6 @@ private extension FeedPostViewModel {
               self?.isPaging = false
             }
           }.catch { error in
-            // TODO: - 에러는 어떻게 처리할까? 경우를 따져보자. 레포, 유즈케이스 에러.... .. 레포가 다른데서도 사용된다면? 어느에러를 던져야지?
             return Just(State.unexpectedError(description: error.localizedDescription))
           }.eraseToAnyPublisher() ?? Just(
             State.unexpectedError(description: "앱 동작 에러가 발생됬습니다.")

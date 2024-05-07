@@ -19,7 +19,7 @@ struct FirestoreReviewWritingSaveRequestDTO: Encodable {
   func encode(to encoder: Encoder) throws {
     var container = encoder.container(keyedBy: CodingKeys.self)
     try container.encode(reviewWritingSaveRequestDTO.companions, forKey: .companions)
-    try container.encode(reviewWritingSaveRequestDTO.content, forKey: .content)
+    try container.encode(reviewWritingSaveRequestDTO.content, forKey: .contents)
     try container.encode(reviewWritingSaveRequestDTO.endDate, forKey: .endDate)
     try container.encode(reviewWritingSaveRequestDTO.imgFileList, forKey: .imgFileList)
     try container.encode(reviewWritingSaveRequestDTO.mapX, forKey: .mapX)
@@ -34,6 +34,7 @@ struct FirestoreReviewWritingSaveRequestDTO: Encodable {
     try container.encode(likeNum, forKey: .likeNum)
     try container.encode(commentNum, forKey: .commentNum)
     try container.encode(createAt, forKey: .createAt)
+    try container.encode(commentNum, forKey: .commentNum)
   }
   
   enum CodingKeys: String, CodingKey {
@@ -43,7 +44,7 @@ struct FirestoreReviewWritingSaveRequestDTO: Encodable {
     case commentNum
     case createAt
     case title
-    case content
+    case contents
     case startDate
     case endDate
     case themes

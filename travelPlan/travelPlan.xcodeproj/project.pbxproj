@@ -205,8 +205,8 @@
 		15259DEB2ACAA9F600C14F62 /* PostSearchFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C07ECC2A13F454005F04CD /* PostSearchFooterView.swift */; };
 		15259DEC2ACAAAB200C14F62 /* LocationSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EF8C042A0829FD0068C744 /* LocationSearchViewController.swift */; };
 		152603D72B97A4BC00634299 /* PostsRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152603D62B97A4BC00634299 /* PostsRequestDTO.swift */; };
-		152715412BA0D5AE0077D033 /* FetchUserProfileImageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152715402BA0D5AE0077D033 /* FetchUserProfileImageRepository.swift */; };
-		152715452BA0D60F0077D033 /* DefaultOthersProfileRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152715442BA0D60F0077D033 /* DefaultOthersProfileRepository.swift */; };
+		152715412BA0D5AE0077D033 /* UserProfileRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152715402BA0D5AE0077D033 /* UserProfileRepository.swift */; };
+		152715452BA0D60F0077D033 /* DefaultUserProfileRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152715442BA0D60F0077D033 /* DefaultUserProfileRepository.swift */; };
 		152834D52BAB4DED00453DD1 /* PostViewSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152834D42BAB4DED00453DD1 /* PostViewSection.swift */; };
 		152AD4F02A189CFC008A2A11 /* FavoriteHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152AD4EF2A189CFC008A2A11 /* FavoriteHeaderView.swift */; };
 		152AD4F62A18B6C3008A2A11 /* FavoriteHeaderImageViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152AD4F52A18B6C3008A2A11 /* FavoriteHeaderImageViews.swift */; };
@@ -240,7 +240,6 @@
 		1546DF392B0B29D700B49A55 /* ImageConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1546DF382B0B29D700B49A55 /* ImageConverter.swift */; };
 		1546DF3B2B0C5B7C00B49A55 /* ImageDiskCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1546DF3A2B0C5B7C00B49A55 /* ImageDiskCache.swift */; };
 		1546DF3F2B0C64E500B49A55 /* ImageDiskCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1546DF3E2B0C64E500B49A55 /* ImageDiskCacheTests.swift */; };
-		154C104B2BE247C500CBF6EA /* PostHeartRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154C104A2BE247C500CBF6EA /* PostHeartRepository.swift */; };
 		154CA5F92BD2C91C0066B444 /* SHFirestoreService in Frameworks */ = {isa = PBXBuildFile; productRef = 154CA5F82BD2C91C0066B444 /* SHFirestoreService */; };
 		154CA5FB2BD38EAA0066B444 /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 154CA5FA2BD38EAA0066B444 /* Secrets.xcconfig */; };
 		154CA5FF2BD395030066B444 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154CA5FE2BD395030066B444 /* APIManager.swift */; };
@@ -308,6 +307,19 @@
 		15710CBA2A132C760023C19E /* FeedNotificationBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15710CB92A132C760023C19E /* FeedNotificationBarItem.swift */; };
 		15710CBC2A132DD00023C19E /* FeedAppTitleBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15710CBB2A132DD00023C19E /* FeedAppTitleBarItem.swift */; };
 		157176782A0C21C90015EC8C /* UIColor+AppPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157176772A0C21C90015EC8C /* UIColor+AppPalette.swift */; };
+		1572ABA92BE631F6008AFE66 /* FirestorePostCommentAPIEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1572ABA82BE631F6008AFE66 /* FirestorePostCommentAPIEndpoint.swift */; };
+		1572ABAB2BE63243008AFE66 /* FirestorePostCommentSendRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1572ABAA2BE63243008AFE66 /* FirestorePostCommentSendRequestDTO.swift */; };
+		1572ABAD2BE63E03008AFE66 /* FirestorePostCommentRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1572ABAC2BE63E03008AFE66 /* FirestorePostCommentRepository.swift */; };
+		1572ABAF2BE6780E008AFE66 /* FirestorePostAtomicCommentRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1572ABAE2BE6780E008AFE66 /* FirestorePostAtomicCommentRepositoryTests.swift */; };
+		1572ABB22BE67A7D008AFE66 /* MockFirestoreImageStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1572ABB02BE67A60008AFE66 /* MockFirestoreImageStorage.swift */; };
+		1572ABB72BE75247008AFE66 /* PostHeartRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1572ABB52BE75220008AFE66 /* PostHeartRepository.swift */; };
+		1572ABBA2BE753E4008AFE66 /* FirestorePostCommentResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1572ABB82BE75380008AFE66 /* FirestorePostCommentResponseDTO.swift */; };
+		1572ABC22BE78D62008AFE66 /* PostCommentAtomicRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1572ABC02BE78BDF008AFE66 /* PostCommentAtomicRepository.swift */; };
+		1572ABC32BE78D7E008AFE66 /* PostAtomicCommentEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1572ABBC2BE76AEA008AFE66 /* PostAtomicCommentEntity.swift */; };
+		1572ABC62BE797FA008AFE66 /* PostCommentUseCaseImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1572ABC42BE797EF008AFE66 /* PostCommentUseCaseImpl.swift */; };
+		1572ABCE2BE7AF8F008AFE66 /* FirestoreUserProfileRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1572ABCC2BE7AF76008AFE66 /* FirestoreUserProfileRepository.swift */; };
+		1572ABD12BE7B0EB008AFE66 /* FirestoreUserProfileAPIEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1572ABCF2BE7B0CD008AFE66 /* FirestoreUserProfileAPIEndpoint.swift */; };
+		1572ABD52BE7B5C9008AFE66 /* FirestoreUserProfileRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1572ABD42BE7B5C9008AFE66 /* FirestoreUserProfileRepositoryTests.swift */; };
 		157ADC9E2ACFAAFA00D37680 /* FavoritePostViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157ADC9D2ACFAAFA00D37680 /* FavoritePostViewAdapter.swift */; };
 		157ADCA02ACFB33100D37680 /* UIScrollView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157ADC9F2ACFB33100D37680 /* UIScrollView+.swift */; };
 		157ADCA22ACFB55800D37680 /* FavoritePostViewAdapterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157ADCA12ACFB55800D37680 /* FavoritePostViewAdapterDelegate.swift */; };
@@ -401,8 +413,8 @@
 		15AAD34C2BBFD1760042DBF6 /* FavoritePostToggleEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15AAD34B2BBFD1760042DBF6 /* FavoritePostToggleEntity.swift */; };
 		15ABFFBF2BDCDB9400D57C7C /* FirestoreReviewWritingEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15ABFFBE2BDCDB9400D57C7C /* FirestoreReviewWritingEndpoint.swift */; };
 		15AF2C3E2A1147B100BEE166 /* UIImage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15AF2C3D2A1147B100BEE166 /* UIImage+.swift */; };
-		15B01DA32BA93A1000BE9F98 /* UserStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B01DA22BA93A1000BE9F98 /* UserStorage.swift */; };
-		15B01DA52BA93B5400BE9F98 /* UserDefaultsUserStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B01DA42BA93B5400BE9F98 /* UserDefaultsUserStorage.swift */; };
+		15B01DA32BA93A1000BE9F98 /* OwnerStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B01DA22BA93A1000BE9F98 /* OwnerStorage.swift */; };
+		15B01DA52BA93B5400BE9F98 /* UserDefaultsOwnerStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B01DA42BA93B5400BE9F98 /* UserDefaultsOwnerStorage.swift */; };
 		15B01DA72BA941D800BE9F98 /* LoggedInUserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B01DA62BA941D800BE9F98 /* LoggedInUserRepository.swift */; };
 		15B01DA92BA9425E00BE9F98 /* DefaultLoggedInUserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B01DA82BA9425E00BE9F98 /* DefaultLoggedInUserRepository.swift */; };
 		15B01DAB2BA9472300BE9F98 /* MockUserStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B01DAA2BA9472300BE9F98 /* MockUserStorage.swift */; };
@@ -858,8 +870,8 @@
 		151DF1112AEECDDD00D5D55B /* NoticeViewModelable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeViewModelable.swift; sourceTree = "<group>"; };
 		1524A4A42BABEAA5002C639A /* MockPostUseCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockPostUseCase.swift; sourceTree = "<group>"; };
 		152603D62B97A4BC00634299 /* PostsRequestDTO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostsRequestDTO.swift; sourceTree = "<group>"; };
-		152715402BA0D5AE0077D033 /* FetchUserProfileImageRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchUserProfileImageRepository.swift; sourceTree = "<group>"; };
-		152715442BA0D60F0077D033 /* DefaultOthersProfileRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultOthersProfileRepository.swift; sourceTree = "<group>"; };
+		152715402BA0D5AE0077D033 /* UserProfileRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileRepository.swift; sourceTree = "<group>"; };
+		152715442BA0D60F0077D033 /* DefaultUserProfileRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultUserProfileRepository.swift; sourceTree = "<group>"; };
 		152834D42BAB4DED00453DD1 /* PostViewSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewSection.swift; sourceTree = "<group>"; };
 		152AD4E72A188D33008A2A11 /* FavoriteTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteTableViewCell.swift; sourceTree = "<group>"; };
 		152AD4ED2A1891DB008A2A11 /* UISpacing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UISpacing.swift; sourceTree = "<group>"; };
@@ -894,7 +906,6 @@
 		1546DF382B0B29D700B49A55 /* ImageConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageConverter.swift; sourceTree = "<group>"; };
 		1546DF3A2B0C5B7C00B49A55 /* ImageDiskCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDiskCache.swift; sourceTree = "<group>"; };
 		1546DF3E2B0C64E500B49A55 /* ImageDiskCacheTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDiskCacheTests.swift; sourceTree = "<group>"; };
-		154C104A2BE247C500CBF6EA /* PostHeartRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostHeartRepository.swift; sourceTree = "<group>"; };
 		154CA5FA2BD38EAA0066B444 /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 		154CA5FE2BD395030066B444 /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
 		154CA6002BD398D40066B444 /* RelativeURLPathProvidable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelativeURLPathProvidable.swift; sourceTree = "<group>"; };
@@ -961,6 +972,19 @@
 		15710CB92A132C760023C19E /* FeedNotificationBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedNotificationBarItem.swift; sourceTree = "<group>"; };
 		15710CBB2A132DD00023C19E /* FeedAppTitleBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedAppTitleBarItem.swift; sourceTree = "<group>"; };
 		157176772A0C21C90015EC8C /* UIColor+AppPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+AppPalette.swift"; sourceTree = "<group>"; };
+		1572ABA82BE631F6008AFE66 /* FirestorePostCommentAPIEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestorePostCommentAPIEndpoint.swift; sourceTree = "<group>"; };
+		1572ABAA2BE63243008AFE66 /* FirestorePostCommentSendRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestorePostCommentSendRequestDTO.swift; sourceTree = "<group>"; };
+		1572ABAC2BE63E03008AFE66 /* FirestorePostCommentRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestorePostCommentRepository.swift; sourceTree = "<group>"; };
+		1572ABAE2BE6780E008AFE66 /* FirestorePostAtomicCommentRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestorePostAtomicCommentRepositoryTests.swift; sourceTree = "<group>"; };
+		1572ABB02BE67A60008AFE66 /* MockFirestoreImageStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockFirestoreImageStorage.swift; sourceTree = "<group>"; };
+		1572ABB52BE75220008AFE66 /* PostHeartRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostHeartRepository.swift; sourceTree = "<group>"; };
+		1572ABB82BE75380008AFE66 /* FirestorePostCommentResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestorePostCommentResponseDTO.swift; sourceTree = "<group>"; };
+		1572ABBC2BE76AEA008AFE66 /* PostAtomicCommentEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostAtomicCommentEntity.swift; sourceTree = "<group>"; };
+		1572ABC02BE78BDF008AFE66 /* PostCommentAtomicRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCommentAtomicRepository.swift; sourceTree = "<group>"; };
+		1572ABC42BE797EF008AFE66 /* PostCommentUseCaseImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCommentUseCaseImpl.swift; sourceTree = "<group>"; };
+		1572ABCC2BE7AF76008AFE66 /* FirestoreUserProfileRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreUserProfileRepository.swift; sourceTree = "<group>"; };
+		1572ABCF2BE7B0CD008AFE66 /* FirestoreUserProfileAPIEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreUserProfileAPIEndpoint.swift; sourceTree = "<group>"; };
+		1572ABD42BE7B5C9008AFE66 /* FirestoreUserProfileRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreUserProfileRepositoryTests.swift; sourceTree = "<group>"; };
 		157ADC9D2ACFAAFA00D37680 /* FavoritePostViewAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoritePostViewAdapter.swift; sourceTree = "<group>"; };
 		157ADC9F2ACFB33100D37680 /* UIScrollView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScrollView+.swift"; sourceTree = "<group>"; };
 		157ADCA12ACFB55800D37680 /* FavoritePostViewAdapterDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePostViewAdapterDelegate.swift; sourceTree = "<group>"; };
@@ -1049,8 +1073,8 @@
 		15AAD34B2BBFD1760042DBF6 /* FavoritePostToggleEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePostToggleEntity.swift; sourceTree = "<group>"; };
 		15ABFFBE2BDCDB9400D57C7C /* FirestoreReviewWritingEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreReviewWritingEndpoint.swift; sourceTree = "<group>"; };
 		15AF2C3D2A1147B100BEE166 /* UIImage+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+.swift"; sourceTree = "<group>"; };
-		15B01DA22BA93A1000BE9F98 /* UserStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStorage.swift; sourceTree = "<group>"; };
-		15B01DA42BA93B5400BE9F98 /* UserDefaultsUserStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsUserStorage.swift; sourceTree = "<group>"; };
+		15B01DA22BA93A1000BE9F98 /* OwnerStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerStorage.swift; sourceTree = "<group>"; };
+		15B01DA42BA93B5400BE9F98 /* UserDefaultsOwnerStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsOwnerStorage.swift; sourceTree = "<group>"; };
 		15B01DA62BA941D800BE9F98 /* LoggedInUserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedInUserRepository.swift; sourceTree = "<group>"; };
 		15B01DA82BA9425E00BE9F98 /* DefaultLoggedInUserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultLoggedInUserRepository.swift; sourceTree = "<group>"; };
 		15B01DAA2BA9472300BE9F98 /* MockUserStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUserStorage.swift; sourceTree = "<group>"; };
@@ -1823,16 +1847,14 @@
 		151DF0F12AEEB27400D5D55B /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
+				1572ABC72BE79DE9008AFE66 /* User */,
 				1566241E2BB262D600198A35 /* PostUseCase.swift */,
 				13E98F842BC53D8000F05295 /* ReviewWritingUseCase.swift */,
 				151DF0F32AEEB29500D5D55B /* NoticeUseCase.swift */,
-				15D6558C2B8E110500466FEC /* MyProfileUseCase.swift */,
 				135A07C12BA9882D003D6C4D /* AlbumUseCase.swift */,
-				15B01DAC2BA95A2500BE9F98 /* LoggedInUserUseCase.swift */,
 				135A07D62BB72425003D6C4D /* PhotoAuthorizationUseCase.swift */,
 				15BE6BE52BAF1A3C009A2568 /* PostCommentUseCase.swift */,
 				15553BC72BB34643000AA896 /* PostNestedCommentUseCase.swift */,
-				15B5E7A42BBAE85E00C19F56 /* UserBlockUseCase.swift */,
 				15591DD92BBE9F2900128A9E /* FavoritePostInDirectoryUseCase.swift */,
 				13AE0DD72BC32AD700652B99 /* AlbumPhotoMaxCountUseCase.swift */,
 				154047892BE4B82D009E86FF /* PostHeartUseCase.swift */,
@@ -1857,6 +1879,7 @@
 				15591DDB2BBE9F9B00128A9E /* DefaultFavoritePostInDirectoryUseCase.swift */,
 				13AE0DD92BC32E6100652B99 /* DefaultAlbumPhotoMaxCountUseCase.swift */,
 				13E98F862BC53DDD00F05295 /* DefaultReviewWritingUseCase.swift */,
+				1572ABC42BE797EF008AFE66 /* PostCommentUseCaseImpl.swift */,
 				1540478B2BE4BA45009E86FF /* DefaultPostHeartUseCase.swift */,
 			);
 			path = UseCases;
@@ -1897,6 +1920,7 @@
 			children = (
 				15A362D82BD835C00040591D /* Server */,
 				15A362D72BD835BA0040591D /* TourAPI */,
+				1572ABC02BE78BDF008AFE66 /* PostCommentAtomicRepository.swift */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
@@ -2251,7 +2275,7 @@
 				15D6558A2B8E0F8500466FEC /* DefaultMyProfileRepository.swift */,
 				151DF0FD2AEEBBE200D5D55B /* DefaultNotificationRepository.swift */,
 				15E9E5E92B9A1CA500C2F1F7 /* DefaultPostRepository.swift */,
-				152715442BA0D60F0077D033 /* DefaultOthersProfileRepository.swift */,
+				152715442BA0D60F0077D033 /* DefaultUserProfileRepository.swift */,
 				15B01DA82BA9425E00BE9F98 /* DefaultLoggedInUserRepository.swift */,
 				15BE6BDD2BAF0930009A2568 /* DefaultPostCommentRepository.swift */,
 				15553BC52BB3445A000AA896 /* DefaultPostNestedCommentRepository.swift */,
@@ -2334,6 +2358,34 @@
 			path = Fonts;
 			sourceTree = "<group>";
 		};
+		1572ABC72BE79DE9008AFE66 /* User */ = {
+			isa = PBXGroup;
+			children = (
+				15B5E7A42BBAE85E00C19F56 /* UserBlockUseCase.swift */,
+				15D6558C2B8E110500466FEC /* MyProfileUseCase.swift */,
+				15B01DAC2BA95A2500BE9F98 /* LoggedInUserUseCase.swift */,
+			);
+			path = User;
+			sourceTree = "<group>";
+		};
+		1572ABC82BE79E4E008AFE66 /* User */ = {
+			isa = PBXGroup;
+			children = (
+				15B01DA62BA941D800BE9F98 /* LoggedInUserRepository.swift */,
+				15D655882B8E0EC600466FEC /* MyProfileRepository.swift */,
+				15B5E7A02BBAE68000C19F56 /* UserBlockRepository.swift */,
+				152715402BA0D5AE0077D033 /* UserProfileRepository.swift */,
+			);
+			path = User;
+			sourceTree = "<group>";
+		};
+		1572ABD62BE8818F008AFE66 /* Post */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Post;
+			sourceTree = "<group>";
+		};
 		15803C342BD8EE3F00D83F2B /* XMLParser */ = {
 			isa = PBXGroup;
 			children = (
@@ -2364,6 +2416,7 @@
 			isa = PBXGroup;
 			children = (
 				15803C452BD9328100D83F2B /* MockEndpoint.swift */,
+				1572ABB02BE67A60008AFE66 /* MockFirestoreImageStorage.swift */,
 			);
 			path = Mock;
 			sourceTree = "<group>";
@@ -2371,9 +2424,12 @@
 		15803C522BDA514E00D83F2B /* Firestore */ = {
 			isa = PBXGroup;
 			children = (
+				1572ABD62BE8818F008AFE66 /* Post */,
 				15F1CD972BE3494800F18786 /* FirestorePostHeartRepository.swift */,
 				15E670D82BDE2DA8002E1D19 /* FirestoreReviewWritingRepository.swift */,
 				15803C532BDA522500D83F2B /* FirestoreMyProfileRepository.swift */,
+				1572ABAC2BE63E03008AFE66 /* FirestorePostCommentRepository.swift */,
+				1572ABCC2BE7AF76008AFE66 /* FirestoreUserProfileRepository.swift */,
 				1561DC7B2BDF7DC200C25577 /* FirestorePostRepository.swift */,
 			);
 			path = Firestore;
@@ -2387,6 +2443,8 @@
 				15803C502BDA4DC700D83F2B /* FirestoreMyProfileAPIEndopint.swift */,
 				1596953F2BE349F8003A3F19 /* FirestorePostHeartAPIEndpoint.swift */,
 				15ABFFBE2BDCDB9400D57C7C /* FirestoreReviewWritingEndpoint.swift */,
+				1572ABA82BE631F6008AFE66 /* FirestorePostCommentAPIEndpoint.swift */,
+				1572ABCF2BE7B0CD008AFE66 /* FirestoreUserProfileAPIEndpoint.swift */,
 				15E670DE2BDF7B52002E1D19 /* FirestorePostAPIEndpoint.swift */,
 			);
 			path = Firestore;
@@ -2397,6 +2455,7 @@
 			children = (
 				15803C592BDA583700D83F2B /* UserProfileResponseDTO.swift */,
 				15803C5E2BDA906300D83F2B /* VoidResponseDTO.swift */,
+				1572ABB82BE75380008AFE66 /* FirestorePostCommentResponseDTO.swift */,
 				154047872BE4954D009E86FF /* PostHeartsRespoonseDTO.swift */,
 				154F857E2BE0A71D00452D71 /* FirestorePostResponseDTO.swift */,
 			);
@@ -2408,6 +2467,7 @@
 			children = (
 				15803C5C2BDA8F6700D83F2B /* UserProfileSaveRequestDTO.swift */,
 				15E670DA2BDF4486002E1D19 /* FirestoreReviewWritingSaveRequestDTO.swift */,
+				1572ABAA2BE63243008AFE66 /* FirestorePostCommentSendRequestDTO.swift */,
 			);
 			path = RequestDTO;
 			sourceTree = "<group>";
@@ -2606,18 +2666,15 @@
 		15A362D82BD835C00040591D /* Server */ = {
 			isa = PBXGroup;
 			children = (
+				1572ABC82BE79E4E008AFE66 /* User */,
 				151DF0FB2AEEBA0100D5D55B /* NotificationRepository.swift */,
 				130CF36D2B8F3DD60051DEE8 /* LoginRepository.swift */,
-				15D655882B8E0EC600466FEC /* MyProfileRepository.swift */,
 				15FBD5DD2B98E4F100076115 /* PostRepository.swift */,
-				152715402BA0D5AE0077D033 /* FetchUserProfileImageRepository.swift */,
-				15B01DA62BA941D800BE9F98 /* LoggedInUserRepository.swift */,
 				15BE6BDA2BAF08B4009A2568 /* PostCommentRepository.swift */,
+				1572ABB52BE75220008AFE66 /* PostHeartRepository.swift */,
 				15553BC32BB343F1000AA896 /* PostNestedCommentRepository.swift */,
-				15B5E7A02BBAE68000C19F56 /* UserBlockRepository.swift */,
 				15591DD52BBE9C5200128A9E /* FavoritePostInDirectoryRepository.swift */,
 				13E98F882BC581BF00F05295 /* ReviewWritingRepository.swift */,
-				154C104A2BE247C500CBF6EA /* PostHeartRepository.swift */,
 			);
 			path = Server;
 			sourceTree = "<group>";
@@ -2633,8 +2690,8 @@
 		15B01DA12BA939FB00BE9F98 /* UserStorage */ = {
 			isa = PBXGroup;
 			children = (
-				15B01DA22BA93A1000BE9F98 /* UserStorage.swift */,
-				15B01DA42BA93B5400BE9F98 /* UserDefaultsUserStorage.swift */,
+				15B01DA22BA93A1000BE9F98 /* OwnerStorage.swift */,
+				15B01DA42BA93B5400BE9F98 /* UserDefaultsOwnerStorage.swift */,
 			);
 			path = UserStorage;
 			sourceTree = "<group>";
@@ -2879,6 +2936,7 @@
 				15AAD34B2BBFD1760042DBF6 /* FavoritePostToggleEntity.swift */,
 				154FBC162BC2CDB40070D2FE /* PostReportType.swift */,
 				13E98F8C2BC5961E00F05295 /* ReviewWritingEntity.swift */,
+				1572ABBC2BE76AEA008AFE66 /* PostAtomicCommentEntity.swift */,
 			);
 			path = Post;
 			sourceTree = "<group>";
@@ -3010,6 +3068,8 @@
 				15803C432BD9307D00D83F2B /* TourApiSessionProviderTests.swift */,
 				155B2DDC2BE367AF0053216B /* FirestorePostRepositoryTests.swift */,
 				153EEBB22BE26C9000ECAB8A /* FirestorePostHeartRepositoryTests.swift */,
+				1572ABAE2BE6780E008AFE66 /* FirestorePostAtomicCommentRepositoryTests.swift */,
+				1572ABD42BE7B5C9008AFE66 /* FirestoreUserProfileRepositoryTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -3589,6 +3649,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1572ABAF2BE6780E008AFE66 /* FirestorePostAtomicCommentRepositoryTests.swift in Sources */,
+				1572ABD52BE7B5C9008AFE66 /* FirestoreUserProfileRepositoryTests.swift in Sources */,
 				15803C3F2BD8F5F900D83F2B /* XMLParsingServiceTests.swift in Sources */,
 				15D6559A2B8E1CCB00466FEC /* UserInfoAPIEndpointTests.swift in Sources */,
 				153EEBB42BE26CEF00ECAB8A /* FirestorePostHeartRepositoryTests.swift in Sources */,
@@ -3643,6 +3705,7 @@
 				15259DEB2ACAA9F600C14F62 /* PostSearchFooterView.swift in Sources */,
 				15FFAC382ADD501B0013DB57 /* PostInfo.swift in Sources */,
 				15B5E79D2BBAE43A00C19F56 /* BlockedUserIdentifyEntity.swift in Sources */,
+				1572ABD12BE7B0EB008AFE66 /* FirestoreUserProfileAPIEndpoint.swift in Sources */,
 				15591DD42BBE99E200128A9E /* FavoritePostRequestDTO.swift in Sources */,
 				15803C632BDAB23E00D83F2B /* ImageStorageServiceProtocol.swift in Sources */,
 				152834D52BAB4DED00453DD1 /* PostViewSection.swift in Sources */,
@@ -3661,6 +3724,7 @@
 				15553BCC2BB3476F000AA896 /* MockPostNestedCommentRepository.swift in Sources */,
 				1364FBE62B61A8EA00D89FC9 /* PhotoViewControllerDelegate.swift in Sources */,
 				15DF29EB2BC52BC800F470DC /* PostReviewWritingCategoryBottomSheet.swift in Sources */,
+				1572ABAB2BE63243008AFE66 /* FirestorePostCommentSendRequestDTO.swift in Sources */,
 				15DE36B92AB853900030CCCC /* TravelThemeBottomSheetCell.swift in Sources */,
 				15F3765E2AFBF1A500B3BF35 /* PostDetailCommentHeader.swift in Sources */,
 				151DF0DC2AEE6EB500D5D55B /* NotificationViewController.swift in Sources */,
@@ -3703,6 +3767,7 @@
 				15C466AD2BBACE2C00609DDD /* DefaultPhotoService.swift in Sources */,
 				159F38BB2AFA9F32000A24C2 /* PostDetailCategoryHeaderView.swift in Sources */,
 				15E1550E2BAB47F400582E12 /* BottomNextPageIndicatorCell.swift in Sources */,
+				1572ABA92BE631F6008AFE66 /* FirestorePostCommentAPIEndpoint.swift in Sources */,
 				15A4F28D2ACC1025001AA51D /* Toggable.swift in Sources */,
 				15D955AF2ADFB2F1002BF9C3 /* ShadowInfo.swift in Sources */,
 				151DF10A2AEEC58600D5D55B /* MockSession.swift in Sources */,
@@ -3754,8 +3819,9 @@
 				15803C482BD932D500D83F2B /* MockEndpoint.swift in Sources */,
 				15BE6BDE2BAF0930009A2568 /* DefaultPostCommentRepository.swift in Sources */,
 				15FFABFB2AD5B6FC0013DB57 /* BasePaddingLabel.swift in Sources */,
-				15B01DA32BA93A1000BE9F98 /* UserStorage.swift in Sources */,
+				15B01DA32BA93A1000BE9F98 /* OwnerStorage.swift in Sources */,
 				15C36BBB2BD17AC0004AA8E9 /* FirestoreRequestType.swift in Sources */,
+				1572ABC22BE78D62008AFE66 /* PostCommentAtomicRepository.swift in Sources */,
 				153FA90F2B937E12006CF3C3 /* UserProfileImageResponseDTO.swift in Sources */,
 				151DF1012AEEBD0A00D5D55B /* NotificationAPIEndpoints.swift in Sources */,
 				1524A4A52BABEAA5002C639A /* MockPostUseCase.swift in Sources */,
@@ -3838,10 +3904,12 @@
 				15FFAC032AD5D98A0013DB57 /* FavoriteCoordinatorDelegate.swift in Sources */,
 				13AE0DDA2BC32E6100652B99 /* DefaultAlbumPhotoMaxCountUseCase.swift in Sources */,
 				15D388312B0159F600039946 /* PostHeartAndShareAreaHeaderView.swift in Sources */,
+				1572ABAD2BE63E03008AFE66 /* FirestorePostCommentRepository.swift in Sources */,
 				15FDCC912AE03F4A00716CC6 /* InnerRoundRectReusableView.swift in Sources */,
 				15FB966E2BC422CF00706312 /* PostDetailCategoryViewController.swift in Sources */,
 				155527E22BBD6D64000122B4 /* KeyboardState.swift in Sources */,
 				159F38BD2AFAA1F7000A24C2 /* PostDetailCategoryHeaderViewDelegate.swift in Sources */,
+				1572ABCE2BE7AF8F008AFE66 /* FirestoreUserProfileRepository.swift in Sources */,
 				15F4AF482BC6BF3F00E9C20E /* PostDetailDeletedOrUnknwonCommentHeader.swift in Sources */,
 				1503F92E2A4E083C002BC38D /* LoginCoordinator.swift in Sources */,
 				15D3882B2AFFA56500039946 /* CommentInputView.swift in Sources */,
@@ -3915,7 +3983,7 @@
 				157ADCAE2AD00AB400D37680 /* FavoriteLocationViewController.swift in Sources */,
 				1561DC7C2BDF7DC200C25577 /* FirestorePostRepository.swift in Sources */,
 				15BB01B82A1EB5070035B486 /* LoginViewModel.swift in Sources */,
-				152715412BA0D5AE0077D033 /* FetchUserProfileImageRepository.swift in Sources */,
+				152715412BA0D5AE0077D033 /* UserProfileRepository.swift in Sources */,
 				15803C5F2BDA906300D83F2B /* VoidResponseDTO.swift in Sources */,
 				15BE6BDB2BAF08B4009A2568 /* PostCommentRepository.swift in Sources */,
 				13E98F892BC581BF00F05295 /* ReviewWritingRepository.swift in Sources */,
@@ -3934,6 +4002,7 @@
 				154CA61F2BD3AD5C0066B444 /* DefaultTourCommonInfoRepository.swift in Sources */,
 				151DF0E12AEE828900D5D55B /* NoticeCell.swift in Sources */,
 				15F0D1B02A51BDFE00D04773 /* CategoryPageViewDataSource.swift in Sources */,
+				1572ABB72BE75247008AFE66 /* PostHeartRepository.swift in Sources */,
 				13333CBF2ABDE86A005AB50B /* LeftAlignThreeLabelsView.swift in Sources */,
 				151BDADE2B17002E002F36C3 /* Bundle+Helpers.swift in Sources */,
 				15803C4D2BDA1BA700D83F2B /* GoogleLoginStrategyWithFirebase.swift in Sources */,
@@ -3961,9 +4030,10 @@
 				15FBD5DA2B98DFD000076115 /* Post.swift in Sources */,
 				1546DF392B0B29D700B49A55 /* ImageConverter.swift in Sources */,
 				15F3763C2AFB7D1E00B3BF35 /* PostViewAdapterDelegate.swift in Sources */,
-				15B01DA52BA93B5400BE9F98 /* UserDefaultsUserStorage.swift in Sources */,
+				15B01DA52BA93B5400BE9F98 /* UserDefaultsOwnerStorage.swift in Sources */,
 				13C32A3D2B0A2FF30046ED98 /* PictureImageViewDelegate.swift in Sources */,
 				152AD4F02A189CFC008A2A11 /* FavoriteHeaderView.swift in Sources */,
+				1572ABB22BE67A7D008AFE66 /* MockFirestoreImageStorage.swift in Sources */,
 				15E670DB2BDF4486002E1D19 /* FirestoreReviewWritingSaveRequestDTO.swift in Sources */,
 				15B9285D2AF9E3A2003A20D4 /* PostDetailProfileAreaView.swift in Sources */,
 				1550D9AF2ACAFAC10046569B /* FeedPostViewController.swift in Sources */,
@@ -3988,7 +4058,6 @@
 				158695952AE54D010087CCB3 /* FeedPostViewAdapterDataSource.swift in Sources */,
 				1518BC272BB044ED00FD1A74 /* ToggledPostCommentHeartEntity.swift in Sources */,
 				15DA4C7F2ACD78C1003A7900 /* Int+.swift in Sources */,
-				154C104B2BE247C500CBF6EA /* PostHeartRepository.swift in Sources */,
 				1599587D2B0DC56200B2E4DC /* PostCellWithThreeThumbnails.swift in Sources */,
 				159F38CA2AFAABF9000A24C2 /* PostDetailProfileAreaFooterView.swift in Sources */,
 				1594F53229FD517E00A58F20 /* AppDelegate.swift in Sources */,
@@ -4049,6 +4118,7 @@
 				139DEE3C2B18274200363E7B /* SearchDestinationContentCell.swift in Sources */,
 				15C1F53A2AF25FE4005FDA15 /* BaseNotificationCell.swift in Sources */,
 				15B9286B2AFA4463003A20D4 /* PostDetailTableViewDataSource.swift in Sources */,
+				1572ABC62BE797FA008AFE66 /* PostCommentUseCaseImpl.swift in Sources */,
 				15B928612AFA3309003A20D4 /* PostDetailContentTextCell.swift in Sources */,
 				130CF38B2B9347790051DEE8 /* LoginStrategy.swift in Sources */,
 				13274C5C2A59B4AD001F141C /* SearchFestivalModel.swift in Sources */,
@@ -4075,6 +4145,7 @@
 				154CA6012BD398D40066B444 /* RelativeURLPathProvidable.swift in Sources */,
 				15259DEC2ACAAAB200C14F62 /* LocationSearchViewController.swift in Sources */,
 				15553BC62BB3445A000AA896 /* DefaultPostNestedCommentRepository.swift in Sources */,
+				1572ABBA2BE753E4008AFE66 /* FirestorePostCommentResponseDTO.swift in Sources */,
 				15BB01B62A1EB5000035B486 /* LoginViewController.swift in Sources */,
 				13606E882A9DDE7D00365F20 /* PostRecentSearchTagCell.swift in Sources */,
 				152603D72B97A4BC00634299 /* PostsRequestDTO.swift in Sources */,
@@ -4095,6 +4166,7 @@
 				15FD508F2BB44FFF006CCCDD /* PostUpdatedNestedCommentResponseDTO.swift in Sources */,
 				15C1F53C2AF27043005FDA15 /* NotificationViewAdapter.swift in Sources */,
 				1546DF302B0AF4C100B49A55 /* ImageMemoryCache.swift in Sources */,
+				1572ABC32BE78D7E008AFE66 /* PostAtomicCommentEntity.swift in Sources */,
 				130CF38D2B9347CF0051DEE8 /* AppleLoginStrategy.swift in Sources */,
 				15591DDC2BBE9F9B00128A9E /* DefaultFavoritePostInDirectoryUseCase.swift in Sources */,
 				15D6559D2B8F6F3800466FEC /* MyInformationViewModel.swift in Sources */,
@@ -4160,7 +4232,7 @@
 				15FFAC132AD9C7EB0013DB57 /* NetwrokInteractionable.swift in Sources */,
 				13405F662AF4470200382796 /* ReviewWritingViewController.swift in Sources */,
 				1543DC982BC56A020041852F /* ReviewCategorySelectCompletionView.swift in Sources */,
-				152715452BA0D60F0077D033 /* DefaultOthersProfileRepository.swift in Sources */,
+				152715452BA0D60F0077D033 /* DefaultUserProfileRepository.swift in Sources */,
 				15B9286F2AFA49C4003A20D4 /* PostDetailViewModel.swift in Sources */,
 				15FFAC112AD9C7A10013DB57 /* Sessionable.swift in Sources */,
 				154CA60D2BD3A2F80066B444 /* TourApiCommonInfoRequestDTO.swift in Sources */,

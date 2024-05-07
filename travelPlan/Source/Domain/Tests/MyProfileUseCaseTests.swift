@@ -19,7 +19,10 @@ final class MyProfileUseCaseTests: XCTestCase {
   // MARK: - Lifecycle
   override func setUp() {
     super.setUp()
-    sut = DefaultMyProfileUseCase(myProfileRepository: mockMyProfileRepository)
+    sut = DefaultMyProfileUseCase(
+      myProfileRepository: mockMyProfileRepository,
+      userProfileRepository: MockUserProfileRepository(),
+      loggedInUserRepository: DefaultLoggedInUserRepository(storage: MockUserStorage()))
     expectation = XCTestExpectation(description: "Finish")
   }
   

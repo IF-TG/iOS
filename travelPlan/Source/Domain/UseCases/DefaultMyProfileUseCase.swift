@@ -11,6 +11,8 @@ import Combine
 final class DefaultMyProfileUseCase: MyProfileUseCase {
   // MARK: - Dependencies
   private let myProfileRepository: MyProfileRepository
+  private let userProfileRepository: UserProfileRepository
+  private let loggedInUserRepository: LoggedInUserRepository
   
   // MARK: - Properties
   var subscription: AnyCancellable?
@@ -22,8 +24,14 @@ final class DefaultMyProfileUseCase: MyProfileUseCase {
   private var subscriptions = Set<AnyCancellable>()
   
   // MARK: - Lifecycle
-  init(myProfileRepository: MyProfileRepository) {
+  init(
+    myProfileRepository: MyProfileRepository,
+    userProfileRepository: UserProfileRepository,
+    loggedInUserRepository: LoggedInUserRepository
+  ) {
+    self.userProfileRepository = userProfileRepository
     self.myProfileRepository = myProfileRepository
+    self.loggedInUserRepository = loggedInUserRepository
   }
   
   func checkIfNicknameDuplicate(with name: String) -> AnyPublisher<Bool, any Error> {
@@ -57,8 +65,15 @@ final class DefaultMyProfileUseCase: MyProfileUseCase {
   }
   
   func fetchProfile() -> AnyPublisher<ProfileImageEntity, any Error> {
-    myProfileRepository.fetchProfileImage()
+    guard let ownerId = loggedInUserRepository.id else {
+      return Fail(error: NSError(
+        domain: "MyProfileUseCase",
+        code: 0,
+        userInfo: ["errorDescription": "Failed to retrieve user ID"])).eraseToAnyPublisher()
+    }
+    return userProfileRepository.fetchProfileImageData(with: ownerId)
       .mapError { $0 }
+      .map { ProfileImageEntity(image: $0) }
       .eraseToAnyPublisher()
   }
 }

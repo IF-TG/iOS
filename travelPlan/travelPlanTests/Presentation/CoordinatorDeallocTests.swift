@@ -31,7 +31,7 @@ extension CoordinatorDeallocTests {
     // Arrange
     let mockPostDetail = Post.Detail<[Post.PostContent]>(
       postID: "1", title: "", content: [], likes: 0, comments: 0,
-      location: .init(x: 0, y: 0), createAt: "", tripDate: .init(start: "", end: ""))
+      location: .init(x: 0, y: 0), createAt: Date(), tripDate: .init(startDate: Date(), endDate: Date()))
     let mockPostAuthor = Post.Author(profileImageData: nil, nickname: "")
     let mockCategory = Post.Category(themes: [], regions: [], seasons: [], partners: [])
     let mockPost = Post(

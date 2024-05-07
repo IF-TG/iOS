@@ -24,7 +24,7 @@ extension Post {
     let likes: Int32
     let comments: Int32
     let location: Location
-    let createAt: String
+    let createAt: Date
     let tripDate: TripDate
   }
   
@@ -45,8 +45,8 @@ extension Post {
   }
   
   struct TripDate {
-    let start: String
-    let end: String
+    let startDate: Date
+    let endDate: Date
   }
   
   struct Category {

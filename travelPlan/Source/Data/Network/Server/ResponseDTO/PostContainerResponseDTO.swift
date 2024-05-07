@@ -29,23 +29,10 @@ struct PostContainerResponseDTO: Decodable {
 // MARK: - Mappings DTO
 extension PostContainerResponseDTO {
   func toDomain() -> PostContainer {
-    let detail: Post.Detail = post.toDomain()
-    let author: Post.Author = post.toDomain(with: Data(base64Encoded: post.profile))
-    let themes = post.themes.compactMap { TravelThemeMapper.toDomain($0) }
-    let regions = post.regions.compactMap { TravelRegionMapper.toDomain($0) }
-    let seasons = post.seasons.compactMap { SeasonMapper.toDomain($0) }
-    let partners = post.partners.compactMap { TravelPartnerMapper.toDomain($0) }
-    let category: Post.Category = .init(
-      themes: themes,
-      regions: regions,
-      seasons: seasons,
-      partners: partners)
-    let post = Post(
-      liked: self.post.liked,
-      detail: detail,
-      author: author,
-      highResolveImages: post.postImages.map { $0.toDomain(with: Data(base64Encoded: $0.image)) }, 
-      category: category)
-    return .init(post: post, thumbnail: .init(postImageDataList: thumbnails.compactMap { Data(base64Encoded: $0)}), totalPosts: totalPosts)
+    let post: Post = post.toDomain()
+    return .init(
+      post: post, thumbnail:
+          .init(postImageDataList: thumbnails.compactMap { Data(base64Encoded: $0)}),
+      totalPosts: totalPosts)
   }
 }

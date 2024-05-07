@@ -165,7 +165,9 @@ final class MockPostUseCaseForPaging: PostUseCase {
       let tripDate: Post.TripDate = {
         let str: String = self.ymdArray[i]
         let startAndEnd: [String] = str.components(separatedBy: " ~ ").map { String($0) }
-        return Post.TripDate(start: startAndEnd[0], end: startAndEnd[1])
+        return Post.TripDate(
+          startDate: DateTimeConverter.toDate(from: startAndEnd[0])!,
+          endDate: DateTimeConverter.toDate(from: startAndEnd[1])!)
       }()
       let postDetail = Post.Detail.init(
         postID: "\(i)",
@@ -174,7 +176,7 @@ final class MockPostUseCaseForPaging: PostUseCase {
         likes: Int32(postHearts[i]),
         comments: Int32(postComments[i]),
         location: .init(x: -1.0, y: -1.0),
-        createAt: "24.3.21",
+        createAt: Date(),
         tripDate: tripDate)
       let post = Post(
         liked: i % 2 == 0,

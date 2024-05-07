@@ -61,7 +61,7 @@ extension PostCommentUseCaseTests {
     var unexpectedError: Error?
     
     // Act
-    subscription = sut.updateComment(commentId: "1", comment: "정상을 향해~ (등산가야지~..~)")
+    subscription = sut.updateComment(postId: "1", commentId: "1", comment: "정상을 향해~ (등산가야지~..~)")
       .sink { [unowned self] completion in
         if case .failure(let error) = completion {
           unexpectedError = error
@@ -85,7 +85,7 @@ extension PostCommentUseCaseTests {
     var unexpectedError: Error?
     
     // Act
-    subscription = sut.deleteComment(commentId: "1")
+    subscription = sut.deleteComment(postId: "1", commentId: "1")
       .sink { [unowned self] completion in
         if case .failure(let error) = completion {
           unexpectedError = error
@@ -134,7 +134,7 @@ extension PostCommentUseCaseTests {
     var unexpectedError: Error?
     
     // Act
-    subscription = sut.toggleCommentHeart(commentId: "1")
+    subscription = sut.toggleCommentHeart(postId: "1", commentId: "1")
       .sink { [unowned self] completion in
         if case .failure(let error) = completion {
           unexpectedError = error

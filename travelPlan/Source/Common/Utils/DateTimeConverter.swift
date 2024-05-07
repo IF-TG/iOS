@@ -103,4 +103,15 @@ struct DateTimeConverter {
     
     return "\(start) ~ \(end)"
   }
+  
+  /// yyyy.MM.dd형식의 문자열을 Date로 변환합니다.
+  static func toDate(from ymdString: String) -> Date? {
+    let formatter = DateFormatter()
+    formatter.dateFormat = "yyyy.MM.dd"
+    return formatter.date(from: ymdString)
+  }
+  
+  static func toDate(from timestamp: Timestamp) -> Date {
+    return timestamp.dateValue()
+  }
 }

@@ -58,7 +58,6 @@ extension FirestoreRequestType {
           return userDocuemntPath
         }
         return nil
-        return nil
       }
     }
     
@@ -109,7 +108,7 @@ extension FirestoreRequestType {
     
     var childCollectionPath: String? {
       switch self {
-      case .fetchUserProfile(let UID):
+      case .fetchUserProfile:
         return nil
       case .saveUserProfile:
         return nil
@@ -143,16 +142,27 @@ extension FirestoreRequestType {
   @frozen enum PostsCollection {
     typealias PostId = String
     typealias UserId = String
+    typealias CommentId = String
+    
     case save
     case update(postId: String)
     case fetch
     
-    /// Post Heart
+    // MARK: - PostHearts
     case fetchHeartUsers(PostId)
     case fetchPostHearts(PostId)
     case heartPost(PostId)
-    case hatePost((PostId, UserId))
+    case hatePost(PostId, UserId)
     case togglePostHearts(PostId)
+    
+    // MARK: - PostComments
+    case saveComment(PostId, CommentId)
+    case updateComment(PostId, CommentId)
+    /// 이 경우는 isDelete 필드 true로 변경
+    case deleteCommentWhenNestedCommentExists(PostId, CommentId)
+    /// 그냥 삭제
+    case deleteComment(PostId, CommentId)
+    case fetchComments(PostId)
     
     private var rootPath: String {
       "posts"
@@ -170,12 +180,22 @@ extension FirestoreRequestType {
         return nil
       case .heartPost:
         return nil
-      case .hatePost((_, let userId)):
+      case .hatePost(_, let userId):
         return userId
       case .togglePostHearts(let postId):
         return postId
       case .fetchPostHearts(let postId):
         return postId
+      case .saveComment:
+        return nil
+      case .updateComment(_, let commentId):
+        return commentId
+      case .deleteCommentWhenNestedCommentExists(_, let commentId):
+        return commentId
+      case .deleteComment(_, let commentId):
+        return commentId
+      case .fetchComments:
+        return nil
       }
     }
     
@@ -191,12 +211,22 @@ extension FirestoreRequestType {
         return "\(rootPath)/\(postId)/post-hearts"
       case .heartPost(let postId):
         return "\(rootPath)/\(postId)/post-hearts"
-      case .hatePost((let postId, _)):
+      case .hatePost(let postId, _):
         return "\(rootPath)/\(postId)/post-hearts"
       case .togglePostHearts:
         return rootPath
       case .fetchPostHearts:
         return rootPath
+      case .saveComment(let postId, _):
+        return "\(rootPath)/\(postId)/comments"
+      case .updateComment(let postId, _):
+        return "\(rootPath)/\(postId)/comments"
+      case .deleteCommentWhenNestedCommentExists(let postId, _):
+        return "\(rootPath)/\(postId)/comments"
+      case .deleteComment(let postId, _):
+        return "\(rootPath)/\(postId)/comments"
+      case .fetchComments(let postId):
+        return "\(rootPath)/\(postId)/comments"
       }
     }
   }

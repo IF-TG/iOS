@@ -144,7 +144,7 @@ extension FirestorePostRepository: PostRepository {
       let group = DispatchGroup()
       groupManager.enter()
       group.enter()
-      let profileSubscription = self.profileRepository.fetchProfile(with: postResponseDTO.authorId)
+      let profileSubscription = self.profileRepository.fetchProfile()
         .subscribe(on: backgroundQueue)
         .sink { completion in
           if case .failure(let error) = completion {
