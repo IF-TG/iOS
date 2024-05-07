@@ -149,9 +149,15 @@ extension FirestoreRequestType {
     case update(postId: String)
     case fetch
     
+<<<<<<< HEAD:travelPlan/Source/Core/Firebase/FirestoreRequestType.swift
     // MARK: - PostHearts
+=======
+    /// Post Heart
+>>>>>>> b6a67e9b881f5375fe4ea39fdb54dd0897e870a2:travelPlan/Source/Data/Common/FIrebase/FirestoreRequestType.swift
     case fetchHeartUsers(PostId)
+    case fetchPostHearts(PostId)
     case heartPost(PostId)
+<<<<<<< HEAD:travelPlan/Source/Core/Firebase/FirestoreRequestType.swift
     case hatePost(PostId, UserId)
     
     // MARK: - Comments
@@ -162,6 +168,10 @@ extension FirestoreRequestType {
     /// 그냥 삭제
     case deleteComment(PostId, CommentId)
     case fetchComments(PostId)
+=======
+    case hatePost((PostId, UserId))
+    case togglePostHearts(PostId)
+>>>>>>> b6a67e9b881f5375fe4ea39fdb54dd0897e870a2:travelPlan/Source/Data/Common/FIrebase/FirestoreRequestType.swift
     
     private var rootPath: String {
       "posts"
@@ -179,8 +189,9 @@ extension FirestoreRequestType {
         return nil
       case .heartPost:
         return nil
-      case .hatePost(_, let userId):
+      case .hatePost((_, let userId)):
         return userId
+<<<<<<< HEAD:travelPlan/Source/Core/Firebase/FirestoreRequestType.swift
       case .saveComment:
         return nil
       case .updateComment(_, let commentId):
@@ -191,6 +202,12 @@ extension FirestoreRequestType {
         return commentId
       case .fetchComments:
         return nil
+=======
+      case .togglePostHearts(let postId):
+        return postId
+      case .fetchPostHearts(let postId):
+        return postId
+>>>>>>> b6a67e9b881f5375fe4ea39fdb54dd0897e870a2:travelPlan/Source/Data/Common/FIrebase/FirestoreRequestType.swift
       }
     }
     
@@ -205,6 +222,7 @@ extension FirestoreRequestType {
       case .fetchHeartUsers(let postId):
         return "\(rootPath)/\(postId)/user-hearts"
       case .heartPost(let postId):
+<<<<<<< HEAD:travelPlan/Source/Core/Firebase/FirestoreRequestType.swift
         return "\(rootPath)/\(postId)/user-hearts"
       case .hatePost(let postId, _):
         return "\(rootPath)/\(postId)/user-hearts"
@@ -218,6 +236,15 @@ extension FirestoreRequestType {
         return "\(rootPath)/\(postId)/comments"
       case .fetchComments(let postId):
         return "\(rootPath)/\(postId)/comments"
+=======
+        return "\(rootPath)/\(postId)/post-hearts"
+      case .hatePost((let postId, _)):
+        return "\(rootPath)/\(postId)/post-hearts"
+      case .togglePostHearts:
+        return rootPath
+      case .fetchPostHearts:
+        return rootPath
+>>>>>>> b6a67e9b881f5375fe4ea39fdb54dd0897e870a2:travelPlan/Source/Data/Common/FIrebase/FirestoreRequestType.swift
       }
     }
   }

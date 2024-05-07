@@ -128,4 +128,117 @@ extension FirestorePostHeartRepositoryTests {
     XCTAssertEqual(receivedResult, true, "heartPost를 호출할 경우 post를 싫어하는 사용자가 삭제되야 하지만 에러가 발생됨")
 
   }
+  
+  // MARK: - 이 함수를 테스트할 경우 db에서 테스트 문서 likeNum값을 0으로 지정해야 합니다,,
+  func test_FetchPostHearts호출할경우_ShouldEqual() {
+    // Arrange
+    let expectedPostHearts = 0
+    var receivedPostHearts = -1
+    var unexpectedError: Error?
+    
+    // Act
+    sut.fetchPostHearts(testPostId).sink {
+      if case .failure(let error) = $0 {
+        unexpectedError = error
+        self.expectation.fulfill()
+      }
+    } receiveValue: { postHearts in
+      print("received post hearts:", postHearts)
+      receivedPostHearts = postHearts
+      self.expectation.fulfill()
+    }.store(in: &subscriptions)
+    wait(for: [expectation], timeout: 7.777)
+    
+    // Assert
+    checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "fetchPosthearts")
+    XCTAssertEqual(expectedPostHearts, receivedPostHearts, "fetchPostHearts를 호출할 경우 현재 디비에 저장된 likeNum을 받아와야 하지만 이상한 값을 받아옴.")
+  }
+  
+  /// 포스트 좋아하는 유저 개수를 가져오기위해 sut.fetchPostHearts()가 사용됩니다.
+  func test_togglePostHearts에서포스트좋아할경우_ShouldReturnTrue() {
+    // Arrange
+    let testUserId = "TestUser1234"
+    var unexpectedError: Error?
+    var expectedPostHearts: Int?
+    var receivedPostHearts: Int?
+    
+    let firstExpectation = expectation(description: "사전 준비 함수 호출")
+    sut.fetchPostHearts(testPostId).sink {
+      if case .failure = $0 { XCTAssert(
+        false,
+        "togglePostHearts가 아닌, 사전 준비 함수에서 에러 발생.testUserId 문서의 postHearts가져와야하지만 에러가 발생됨.") }
+    } receiveValue: { postHearts in
+      expectedPostHearts = postHearts + 1
+      firstExpectation.fulfill()
+    }.store(in: &subscriptions)
+    wait(for: [firstExpectation], timeout: 4)
+    
+    // Act
+    sut.togglePostHearts(testPostId, willHeartPost: true)
+      .sink { [unowned self] completion in
+        if case .failure(let error) = completion {
+          unexpectedError = error
+          expectation.fulfill()
+        }
+      } receiveValue: { [unowned self] _ in
+        sut.fetchPostHearts(testPostId).sink {
+          if case .failure = $0 { XCTAssert(
+            false,
+            "togglePostHearts가 아닌 다른 비동기 함수에서 에러 발생.testUserId 문서의 postHearts가져와야하지만 에러가 발생됨.") }
+        } receiveValue: { [unowned self] postHearts in
+          receivedPostHearts = postHearts
+          expectation.fulfill()
+        }.store(in: &subscriptions)
+      }.store(in: &subscriptions)
+    
+    wait(for: [expectation], timeout: 7.777)
+    
+    // Assert
+    checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "hatePost")
+    XCTAssertEqual(expectedPostHearts, receivedPostHearts, "togglePostHearts에서 willPostHeart == true 호출할 경우 이전에 저장된 포스트 하트 개수에 +1이 반영되야하지만 이상한 값이 반영됨.")
+  }
+  
+  /// 포스트 좋아하는 유저 개수를 가져오기위해 sut.fetchPostHearts()가 사용됩니다.
+  func test_togglePostHearts에서포스트싫어할경우_ShouldReturnTrue() {
+    // Arrange
+    let testUserId = "TestUser1234"
+    var unexpectedError: Error?
+    var expectedPostHearts: Int?
+    var receivedPostHearts: Int?
+    
+    let firstExpectation = expectation(description: "사전 준비 함수 호출")
+    sut.fetchPostHearts(testPostId).sink {
+      if case .failure = $0 { XCTAssert(
+        false,
+        "togglePostHearts가 아닌, 사전 준비 함수에서 에러 발생.testUserId 문서의 postHearts가져와야하지만 에러가 발생됨.") }
+    } receiveValue: { postHearts in
+      expectedPostHearts = postHearts - 1
+      firstExpectation.fulfill()
+    }.store(in: &subscriptions)
+    wait(for: [firstExpectation], timeout: 4)
+    
+    // Act
+    sut.togglePostHearts(testPostId, willHeartPost: false)
+      .sink { [unowned self] completion in
+        if case .failure(let error) = completion {
+          unexpectedError = error
+          expectation.fulfill()
+        }
+      } receiveValue: { [unowned self] _ in
+        sut.fetchPostHearts(testPostId).sink {
+          if case .failure = $0 { XCTAssert(
+            false,
+            "togglePostHearts가 아닌 다른 비동기 함수에서 에러 발생.testUserId 문서의 postHearts가져와야하지만 에러가 발생됨.") }
+        } receiveValue: { [unowned self] postHearts in
+          receivedPostHearts = postHearts
+          expectation.fulfill()
+        }.store(in: &subscriptions)
+      }.store(in: &subscriptions)
+    
+    wait(for: [expectation], timeout: 7.777)
+    
+    // Assert
+    checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "hatePost")
+    XCTAssertEqual(expectedPostHearts, receivedPostHearts, "togglePostHearts에서 willPostHeart == true 호출할 경우 이전에 저장된 포스트 하트 개수에 -1이 반영되야하지만 이상한 값이 반영됨.")
+  }
 }
