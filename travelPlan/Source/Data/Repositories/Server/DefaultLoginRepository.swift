@@ -58,7 +58,7 @@ extension DefaultLoginRepository: LoginRepository {
     case .google:
       authService.setLoginStrategy(GoogleLoginStrategyWithFirebase())
     }
-    // TODO: - 여기에서 case 추가하고 service에 구체 Strategy객체 주입
+    // MARK: 여기에서 case 추가하고 service에 구체 Strategy객체 주입
     return Future<Bool, Error> { [weak self] promise in
       let authServiceSubscription = self?.authService.performLogin()
         .receive(on: DispatchQueue.global(qos: .userInitiated))
@@ -86,7 +86,7 @@ private extension DefaultLoginRepository {
       promise(.failure(DefaultLoginRepositoryError.tokensSavingFailed))
       return
     }
-    // TODO: - DefaultLoggedInUserRepository를 통해 로그인한 사용자의 정보를 save합니다.
+    // MARK: DefaultLoggedInUserRepository를 통해 로그인한 사용자의 정보를 save합니다.
     /// loggedInUserRepository.setUser(with: <#T##UserEntity#>)
     
     promise(.success(true))

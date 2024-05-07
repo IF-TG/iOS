@@ -30,6 +30,9 @@ struct PostContainerResponseDTO: Decodable {
 extension PostContainerResponseDTO {
   func toDomain() -> PostContainer {
     let post: Post = post.toDomain()
-    return .init(post: post, thumbnail: .init(postImageDataList: thumbnails.compactMap { Data(base64Encoded: $0)}), totalPosts: totalPosts)
+    return .init(
+      post: post, thumbnail:
+          .init(postImageDataList: thumbnails.compactMap { Data(base64Encoded: $0)}),
+      totalPosts: totalPosts)
   }
 }

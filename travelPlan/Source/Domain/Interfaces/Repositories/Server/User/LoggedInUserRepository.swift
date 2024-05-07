@@ -18,7 +18,6 @@ import Foundation
   }
 }
 
-// TODO: - blockedUsers 추가하기
 protocol LoggedInUserRepository {
   typealias BlockedUserId = String
   

@@ -7,9 +7,8 @@
 
 import Foundation
 
-// FIXME: - 임시 지정
 struct NoticeEntity {
   let title: String
-  let date: String
+  let date: Date
   let details: String
 }

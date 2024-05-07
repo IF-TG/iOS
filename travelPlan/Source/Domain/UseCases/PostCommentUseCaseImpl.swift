@@ -145,8 +145,8 @@ extension PostCommentUseCaseImpl: PostCommentUseCase {
             let group = DispatchGroup()
             var commentAuthor: UserEntity?
             var hasBlocked: Bool = false
-            var isOnHeart: Bool = false
-            var nestedComments: [PostNestedCommentEntity] = []
+            let isOnHeart: Bool = false
+            let nestedComments: [PostNestedCommentEntity] = []
             group.enter()
             let profileFetchSubscription = self?.userProfileRepository
               .fetchProfile(with: atomicCommentEntity.authorId)

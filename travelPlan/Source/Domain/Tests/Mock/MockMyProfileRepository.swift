@@ -10,7 +10,7 @@ import Combine
 
 final class MockMyProfileRepository: MyProfileRepository {
   func fetchProfile() -> AnyPublisher<UserEntity, any Error> {
-    return Fail(error: NSError(domain: "Repository", code: 0, userInfo: ["APIError":"서버에서 미 구현된 api 입니다."]))
+    return Fail(error: NSError(domain: "Repository", code: 0, userInfo: ["APIError": "서버에서 미 구현된 api 입니다."]))
       .eraseToAnyPublisher()
   }
   

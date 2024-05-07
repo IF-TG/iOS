@@ -22,7 +22,10 @@ final class MockPostCommentRepository: PostCommentRepository {
 }
 
 extension MockPostCommentRepository {
-  func sendComment(postId: String, comment: String) -> AnyPublisher<PostCommentEntity, any Error> {
+  func sendComment(
+    postId: String,
+    comment: String
+  ) -> AnyPublisher<PostCommentEntity, any Error> {
     MockUrlProtocol.requestHandler = { _ in
       let mockData = MockResponseType.postComment(.whenCommentSend).mockDataLoader
       return ((HTTPURLResponse(), mockData))
@@ -55,13 +58,20 @@ extension MockPostCommentRepository {
     }.eraseToAnyPublisher()
   }
   
-  func updateComment(postId: String? = nil, commentId: String, comment: String) -> AnyPublisher<Bool, any Error> {
+  func updateComment(
+    postId: String? = nil,
+    commentId: String,
+    comment: String
+  ) -> AnyPublisher<Bool, any Error> {
     return Future { promise in
       promise(.success(true))
     }.eraseToAnyPublisher()
   }
   
-  func deleteComment(postId: String? = nil, commentId: String) -> AnyPublisher<Bool, any Error> {
+  func deleteComment(
+    postId: String? = nil,
+    commentId: String
+  ) -> AnyPublisher<Bool, any Error> {
     MockUrlProtocol.requestHandler = { _ in
       let mock = MockResponseType.postComment(.whenCommentDelete).mockDataLoader
       return ((HTTPURLResponse(), mock))
@@ -81,7 +91,11 @@ extension MockPostCommentRepository {
     }.eraseToAnyPublisher()
   }
   
-  func fetchComments(page: Int32, perPage: Int32, postId: String) -> AnyPublisher<[PostCommentEntity], any Error> {
+  func fetchComments(
+    page: Int32,
+    perPage: Int32,
+    postId: String
+  ) -> AnyPublisher<[PostCommentEntity], any Error> {
     MockUrlProtocol.requestHandler = { _ in
       let mock = MockResponseType.postComment(.whenCommentsFetch).mockDataLoader
       return ((HTTPURLResponse(), mock))
@@ -102,7 +116,10 @@ extension MockPostCommentRepository {
     }.eraseToAnyPublisher()
   }
   
-  func toggleCommentHeart(postId: String?, commentId: String) -> AnyPublisher<ToggledPostCommentHeartEntity, any Error> {
+  func toggleCommentHeart(
+    postId: String?,
+    commentId: String
+  ) -> AnyPublisher<ToggledPostCommentHeartEntity, any Error> {
     MockUrlProtocol.requestHandler = { _ in
       let mock = MockResponseType.postComment(.whenCommentHeartToggle).mockDataLoader
       return ((HTTPURLResponse(), mock))

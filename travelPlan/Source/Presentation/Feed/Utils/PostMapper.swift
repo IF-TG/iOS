@@ -9,7 +9,6 @@ import Foundation
 import UIKit
 
 struct PostMapper {
-  // TODO: - 이미지, 섬네일등 Data로 오는것으로 변환해야합니다.
   static func toPostInfo(_ post: Post, thumbnails: [Data]) -> PostInfo {
     let tripDate = post.detail.tripDate
     let postHeaderContentBottomInfo = PostHeaderContentBottomInfo(

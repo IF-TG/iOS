@@ -108,7 +108,7 @@ extension FirestoreRequestType {
     
     var childCollectionPath: String? {
       switch self {
-      case .fetchUserProfile(let UID):
+      case .fetchUserProfile:
         return nil
       case .saveUserProfile:
         return nil
