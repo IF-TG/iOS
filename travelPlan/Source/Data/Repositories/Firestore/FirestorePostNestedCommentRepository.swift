@@ -16,7 +16,6 @@ final class FirestorePostNestedCommentRepository {
   // MARK: - Dependencies
   private let backgroundQueue: DispatchQueue
   private let service: FirestoreServiceProtocol
-  private let firebaseStorageService: ImageStorageServiceProtocol
   
   // MARK: - Properties
   private var subscriptions = Set<AnyCancellable?>()
@@ -24,12 +23,10 @@ final class FirestorePostNestedCommentRepository {
   // MARK: - Lifecycle
   init(
     service: FirestoreServiceProtocol,
-    backgroundQueue: DispatchQueue = .global(qos: .userInitiated),
-    firebaseStorageService: ImageStorageServiceProtocol
+    backgroundQueue: DispatchQueue = .global(qos: .userInitiated)
   ) {
     self.service = service
     self.backgroundQueue = backgroundQueue
-    self.firebaseStorageService = firebaseStorageService
   }
 }
 
