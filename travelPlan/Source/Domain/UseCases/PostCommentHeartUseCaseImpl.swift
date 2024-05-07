@@ -38,7 +38,6 @@ extension PostCommentHeartUseCaseImpl: PostCommentHeartUseCase {
     postId: String,
     commentId: String
   ) -> AnyPublisher<ToggledPostCommentHeartEntity, any Error> {
-    // TODO: - 여기서 백그라운드 추가해야합니다.
     return Future { [weak self, backgroundQueue] promise in
       guard let ownerId = self?.ownerRepository.id else {
         promise(.failure(LoggedInUserRepositoryError.invalidUserId))
