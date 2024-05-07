@@ -10,5 +10,6 @@ import Foundation
 struct PostsPage {
   let totalPosts: Int64
   let posts: [Post]
-  let thumbnails: [PostThumbnails]
+  var thumbnails: [PostThumbnails]
+  var hasMorePage: Bool = true
 }

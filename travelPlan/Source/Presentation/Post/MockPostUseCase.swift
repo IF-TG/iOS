@@ -170,7 +170,7 @@ final class MockPostUseCaseForPaging: PostUseCase {
       let postDetail = Post.Detail.init(
         postID: "\(i)",
         title: titles[i],
-        content: postContentTexts[i],
+        content: [Post.PostContent.init(sort: 1, text: postContentTexts[i])],
         likes: Int32(postHearts[i]),
         comments: Int32(postComments[i]),
         location: .init(x: -1.0, y: -1.0),
@@ -183,13 +183,22 @@ final class MockPostUseCaseForPaging: PostUseCase {
           profileImageData: UIImage(named: profilePath(i%5))!.jpegData(compressionQuality: 1),
           nickname: userNames[i]),
         highResolveImages: postContentThumbnails[i].enumerated().map { (idx, imageString) in
-          return Post.PostImage(imageUri: imageString, sort: Int32(idx))
+          return Post.PostImage(
+            imageData: UIImage(named: imageString)?.jpegData(compressionQuality: 1),
+            sort: Int32(idx+2))
         },
         category: .init(themes: [.adventure, .festivals, .relaxation],
                         regions: [.busan], seasons: [.fall],
                         partners: [.lover, .friend]))
-      return PostContainer(post: post, thumbnail: .init(urls: postContentThumbnails[i]),
-                           totalPosts: Int64(18*MockPostUseCaseForPaging.recurCount))
+      
+      let postContentThumbnails: [Data] = postContentThumbnails[i].compactMap {
+        UIImage(named: $0)!.jpegData(compressionQuality: 1)
+      }
+      
+      return PostContainer(
+        post: post,
+        thumbnail: .init(postImageDataList: postContentThumbnails),
+        totalPosts: Int64(18*MockPostUseCaseForPaging.recurCount))
     }
   }
   

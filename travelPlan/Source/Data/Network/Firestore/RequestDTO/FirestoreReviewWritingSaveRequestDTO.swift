@@ -13,6 +13,7 @@ struct FirestoreReviewWritingSaveRequestDTO: Encodable {
   let postId: String
   let authorId: String
   let likeNum: Int = 0
+  let commentNum: Int = 0
   let createAt: Timestamp
   
   func encode(to encoder: Encoder) throws {
@@ -31,6 +32,7 @@ struct FirestoreReviewWritingSaveRequestDTO: Encodable {
     try container.encode(postId, forKey: .postId)
     try container.encode(authorId, forKey: .authorId)
     try container.encode(likeNum, forKey: .likeNum)
+    try container.encode(commentNum, forKey: .commentNum)
     try container.encode(createAt, forKey: .createAt)
   }
   
@@ -38,6 +40,7 @@ struct FirestoreReviewWritingSaveRequestDTO: Encodable {
     case postId
     case authorId
     case likeNum
+    case commentNum
     case createAt
     case title
     case content

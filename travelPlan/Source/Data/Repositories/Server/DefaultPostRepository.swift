@@ -184,7 +184,7 @@ extension DefaultPostRepository: PostRepository {
               liked: responsePostDTO.liked,
               detail: responsePostDTO.toDomain(),
               author: responsePostDTO.toDomain(with: Data(base64Encoded: responsePostDTO.profile)),
-              highResolveImages: responsePostDTO.postImages.map { $0.toDomain() },
+              highResolveImages: responsePostDTO.postImages.map { $0.toDomain(with: Data(base64Encoded: $0.image)) },
               category: category)
           }
           promise(.success(posts))

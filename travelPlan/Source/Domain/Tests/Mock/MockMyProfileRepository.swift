@@ -54,7 +54,10 @@ final class MockMyProfileRepository: MyProfileRepository {
   }
   
   func fetchProfile(with userId: String) -> AnyPublisher<UserEntity, any Error> {
-    fatalError("서버에서 미 구현된 api")
+    return Future {
+      $0(.success(
+        UserEntity(id: userId, nickname: "사용자", profileImageData: nil, isSavedProfileInServer: false)))
+    }.eraseToAnyPublisher()
   }
   func saveProfile(with userId: String, nickname: String, profileImageData: Data) -> AnyPublisher<Void, any Error> {
     fatalError("서버에서 미 구현된 api")
