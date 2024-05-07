@@ -46,7 +46,6 @@ extension DefaultTourFestivalInfoRepositoryTests {
         }
       } receiveValue: { [weak self] values in
         receivedResult = true
-        print(values)
         self?.expectation.fulfill()
       }
       .store(in: &subscriptions)
