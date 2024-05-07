@@ -29,7 +29,10 @@ extension DefaultTourFestivalInfoRepository: TourFestivalInfoRepository {
   func fetchFestivalList() -> AnyPublisher<[FestivalThumbnailEntity], any Error> {
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "yyyyMMdd"
-    let formattedDate = Int(dateFormatter.string(from: Date()))!
+    guard let formattedDate = Int(dateFormatter.string(from: Date())) else {
+      return Fail(error: TransformationError.dateToInt)
+        .eraseToAnyPublisher()
+    }
     
     let requestDTO = TourAPIFestivalRequestDTO(eventStartDate: formattedDate)
     let endpoint = TourAPIFestivalEndpoints.fetchFestivalList(with: requestDTO)
