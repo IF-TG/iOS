@@ -26,7 +26,7 @@ final class FirestorePostNestedCommentRepositoryTests: XCTestCase {
     super.setUp()
     let service = FirestoreService()
     sut = FirestorePostNestedCommentRepository(service: service)
-    expectation = XCTestExpectation(description: "Finish")
+    expectation = XCTestExpectation(description: "대댓글 관련 테스트 !!")
   }
   
   override func tearDown() {
