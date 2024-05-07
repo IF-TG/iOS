@@ -93,6 +93,15 @@ extension PostResponseDTO {
 
 // MARK: - Mappings DTO
 extension PostResponseDTO {
+  func toDomain() -> Post {
+    return .init(
+      liked: liked,
+      detail: toDomain(),
+      author: toDomain(with: Data(base64Encoded: profile)),
+      highResolveImages: postImages.map { $0.toDomain(with: Data(base64Encoded: $0.image)) },
+      category: toDomain())
+  }
+  
     func toDomain() -> Post.Detail<[Post.PostContent]> {
     // MARK: - Server에서 받는 글의 경우 특정한 테그에 의해 글을 분리해야합니다.
     // 서버에서 createAt형식을 yyyy.MM.dd형식으로 줘야합니다.

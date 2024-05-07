@@ -170,22 +170,8 @@ extension DefaultPostRepository: PostRepository {
             promise(.failure(error))
           }
         } receiveValue: { responseDTO in
-          let posts = responseDTO.map { responsePostDTO in
-            let mappedThemes = responsePostDTO.themes.compactMap { TravelThemeMapper.toDomain($0) }
-            let mappedRegions = responsePostDTO.regions.compactMap { TravelRegionMapper.toDomain($0) }
-            let mappedSeasons = responsePostDTO.seasons.compactMap { SeasonMapper.toDomain($0) }
-            let mappedPartners = responsePostDTO.partners.compactMap { TravelPartnerMapper.toDomain($0) }
-            let category = Post.Category(
-              themes: mappedThemes,
-              regions: mappedRegions,
-              seasons: mappedSeasons,
-              partners: mappedPartners)
-            return Post(
-              liked: responsePostDTO.liked,
-              detail: responsePostDTO.toDomain(),
-              author: responsePostDTO.toDomain(with: Data(base64Encoded: responsePostDTO.profile)),
-              highResolveImages: responsePostDTO.postImages.map { $0.toDomain(with: Data(base64Encoded: $0.image)) },
-              category: category)
+          let posts: [Post] = responseDTO.map { responsePostDTO in
+            return responsePostDTO.toDomain()
           }
           promise(.success(posts))
         }.store(in: &subscriptions)
