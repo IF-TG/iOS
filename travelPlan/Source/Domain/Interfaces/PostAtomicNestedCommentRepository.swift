@@ -19,13 +19,13 @@ protocol PostAtomicNestedCommentRepository {
     postId: String,
     commentId: String,
     comment: String
-  ) -> AnyPublisher<[PostAtomicNestedCommentEntity], Error>
+  ) -> AnyPublisher<PostAtomicNestedCommentEntity, Error>
   
   func updateNestedComment(
     ownerId: String,
     postId: String,
     commentId: String
-  ) -> AnyPublisher<[PostAtomicNestedCommentEntity], Error>
+  ) -> AnyPublisher<Void, Error>
   
   /// 댓글이 삭제됬는지 고려해야 합니다.
   func deleteNestedComment(
