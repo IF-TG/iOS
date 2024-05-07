@@ -48,7 +48,7 @@ struct FirestorePostCommentAPIEndpoint {
   ) -> FirestoreEndpoint<VoidResponseDTO> {
     let requestDTODict = ["hasDeleted": true]
     return FirestoreEndpoint(
-      requestDTODict: requestDTODict,
+      requestDTODictionary: requestDTODict,
       method: .update,
       requestType: .posts(.deleteCommentWhenNestedCommentExists(postId, commentId)))
   }

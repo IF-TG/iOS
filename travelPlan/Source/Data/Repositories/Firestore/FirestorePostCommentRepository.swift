@@ -66,29 +66,26 @@ extension FirestorePostCommentRepository: PostAtomicCommentRepository {
     let endpoint = Endpoint.makeCommentSendEndpoint(postId: postId, commentId: commentId, with: requestDTO)
     
     return Future { [weak self, backgroundQueue] promise in
-      // FIXME: - 저장할 경우 backgroundTask로 추가해야합니다.
       guard let self else {
         promise(.failure(ReferenceError.invalidReference))
         return
       }
-      
+      let backgroundIdentifier = BackgroundTaskManager.shared.startBackgroundTask()
       let requestSubscription = service.saveDocument(endpoint: endpoint)
         .subscribe(on: backgroundQueue)
         .receive(on: backgroundQueue)
         .sink { completion in
           if case .failure(let error) = completion {
             promise(.failure(error))
+            BackgroundTaskManager.shared.endBackgroundTask(backgroundIdentifier)
           }
         } receiveValue: { _ in
           let postAtomicCommentEntity = PostAtomicCommentEntity(
-            commentId: commentId,
-            authorId: ownerId,
-            comment: comment,
-            createAt: requestDTO.createAt.dateValue(),
-            hasDeleted: false,
-            hearts: 0)
+            commentId: commentId, authorId: ownerId,
+            comment: comment, createAt: requestDTO.createAt.dateValue(),
+            hasDeleted: false, hearts: 0)
           promise(.success(postAtomicCommentEntity))
-
+          BackgroundTaskManager.shared.endBackgroundTask(backgroundIdentifier)
         }
       subscriptions.insert(requestSubscription)
     }.eraseToAnyPublisher()
@@ -107,16 +104,17 @@ extension FirestorePostCommentRepository: PostAtomicCommentRepository {
         promise(.failure(FirestorePostCommentRepostioryError.invalidSelfReference))
         return
       }
-      
-      // FIXME: -  backgroundTask 도 추가해야합니다.
+      let backgroundIdentifier = BackgroundTaskManager.shared.startBackgroundTask()
       let requestSubscription = self.service
         .request(endpoint: endpoint)
         .sink { completion in
           if case .failure(let error) = completion {
             promise(.failure(error))
+            BackgroundTaskManager.shared.endBackgroundTask(backgroundIdentifier)
           }
         } receiveValue: { _ in
           promise(.success(()))
+          BackgroundTaskManager.shared.endBackgroundTask(backgroundIdentifier)
         }
       subscriptions.insert(requestSubscription)
     }.eraseToAnyPublisher()
@@ -127,7 +125,7 @@ extension FirestorePostCommentRepository: PostAtomicCommentRepository {
     postId: String,
     commentId: String
   ) -> AnyPublisher<Void, any Error> {
-    // FIXME: - backgroundTask 추가해야합니다.
+    let backgroundIdentifier = BackgroundTaskManager.shared.startBackgroundTask()
     let endpoint = switch hasAnyNestedCommentExisted {
     case true:
       Endpoint.makeCommentDeleteWhenNestedCommentExistEndpoint(postId: postId, commentId: commentId)
@@ -141,9 +139,11 @@ extension FirestorePostCommentRepository: PostAtomicCommentRepository {
         .sink { completion in
           if case .failure(let error) = completion {
             promise(.failure(error))
+            BackgroundTaskManager.shared.endBackgroundTask(backgroundIdentifier)
           }
         } receiveValue: { _ in
           promise(.success(()))
+          BackgroundTaskManager.shared.endBackgroundTask(backgroundIdentifier)
         }
       self?.subscriptions.insert(requestSubscription)
     }.eraseToAnyPublisher()
