@@ -32,6 +32,7 @@ struct FirestoreReviewWritingSaveRequestDTO: Encodable {
     try container.encode(postId, forKey: .postId)
     try container.encode(authorId, forKey: .authorId)
     try container.encode(likeNum, forKey: .likeNum)
+    try container.encode(commentNum, forKey: .commentNum)
     try container.encode(createAt, forKey: .createAt)
     try container.encode(commentNum, forKey: .commentNum)
   }

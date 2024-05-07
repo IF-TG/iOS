@@ -58,6 +58,7 @@ extension FirestoreRequestType {
           return userDocuemntPath
         }
         return nil
+        return nil
       }
     }
     
@@ -146,6 +147,7 @@ extension FirestoreRequestType {
     
     case save
     case update(postId: String)
+    case fetch
     
     // MARK: - PostHearts
     case fetchHeartUsers(PostId)
@@ -171,6 +173,8 @@ extension FirestoreRequestType {
         return nil
       case .update(let postId):
         return postId
+      case .fetch:
+        return nil
       case .fetchHeartUsers:
         return nil
       case .heartPost:
@@ -195,6 +199,8 @@ extension FirestoreRequestType {
       case .save:
         return rootPath
       case .update:
+        return rootPath
+      case .fetch:
         return rootPath
       case .fetchHeartUsers(let postId):
         return "\(rootPath)/\(postId)/user-hearts"

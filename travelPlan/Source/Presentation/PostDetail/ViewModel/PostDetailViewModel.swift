@@ -775,13 +775,12 @@ extension PostDetailViewModel: PostDetailTableViewDataSource {
   
   var profileAreaItem: PostDetailProfileAreaInfo {
     let tripDate = postDetails.detail.tripDate
-    let tripDurationYMDString = "\(tripDate.start) ~ \(tripDate.end)"
-    // FIXME: - 이거도 서버에서 문자열의 start, end받을 때 형식 지정해가지구 몇박 몇일인지를 뜻하는 것고 구하도록 계획해야합니다.
     return .init(
       userName: postDetails.author.nickname,
       userThumbnailData: postDetails.author.profileImageData,
-      travelDuration: tripDurationYMDString,
-      travelCalendarDateRange: "일박 이일~", uploadedDescription: postDetails.detail.createAt)
+      travelDuration: DateTimeConverter.periodYMD(from: tripDate.startDate, to: tripDate.endDate),
+      travelCalendarDateRange: DateTimeConverter.period(from: tripDate.startDate, to: tripDate.endDate),
+      uploadedDescription: DateTimeConverter.toString(from: postDetails.detail.createAt))
   }
   
   func postContentItem(at row: Int) -> PostContentEntity {

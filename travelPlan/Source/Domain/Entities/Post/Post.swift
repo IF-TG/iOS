@@ -8,8 +8,8 @@
 import Foundation
 
 struct Post {
-  let liked: Bool
-  let detail: Detail<String>
+  let liked: Bool?
+  let detail: Detail<[PostContent]>
   let author: Author
   let highResolveImages: [PostImage]
   let category: Category
@@ -24,23 +24,29 @@ extension Post {
     let likes: Int32
     let comments: Int32
     let location: Location
-    let createAt: String
+    let createAt: Date
     let tripDate: TripDate
   }
   
   struct PostImage {
-    let imageUri: String
+    let imageData: Data?
     let sort: Int32
+  }
+  
+  struct PostContent {
+    let sort: Int
+    let text: String
   }
   
   struct Author {
     let profileImageData: Data?
     let nickname: String
+    var authorId: String?
   }
   
   struct TripDate {
-    let start: String
-    let end: String
+    let startDate: Date
+    let endDate: Date
   }
   
   struct Category {

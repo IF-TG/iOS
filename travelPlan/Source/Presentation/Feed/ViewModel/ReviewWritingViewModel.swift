@@ -180,7 +180,10 @@ extension DefaultReviewWritingViewModel {
                             regions: [.busan],
                             seasons: [.fall],
                             partners: [.alone]),
-            tripDate: .init(start: "2023", end: "2024"),
+            // TODO: - yyyy.MM.dd형식으로 Date를 반환해야합니다.
+            tripDate: .init(
+              startDate: DateTimeConverter.toDate(from: "2023.10.24")! ,
+              endDate: DateTimeConverter.toDate(from: "2023.10.27")!),
             title: title,
             contents: contents,
             authorId: self?.loggedInOwnerUseCase.id
