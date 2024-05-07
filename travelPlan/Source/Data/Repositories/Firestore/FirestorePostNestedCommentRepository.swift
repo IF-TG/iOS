@@ -10,7 +10,7 @@ import Foundation
 import SHFirestoreService
 
 final class FirestorePostNestedCommentRepository {
-  typealias Endpoint = FirestoreUserProfileAPIEndpoint
+  typealias Endpoint = FirestorePostNestedCommentAPIEndpoint
   
   // MARK: - Dependencies
   private let backgroundQueue: DispatchQueue
@@ -38,7 +38,7 @@ extension FirestorePostNestedCommentRepository: PostAtomicNestedCommentRepositor
     postId: String,
     commentId: String
   ) -> AnyPublisher<[PostAtomicNestedCommentEntity], any Error> {
-    fatalError("아직 미구현입니다.")
+    
   }
   
   func sendNestedComment(
