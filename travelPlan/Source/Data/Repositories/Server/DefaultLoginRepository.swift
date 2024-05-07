@@ -98,8 +98,6 @@ private extension DefaultLoginRepository {
       promise(.failure(DefaultLoginRepositoryError.invalidFirebaseAuthCurrentUserUID))
       return
     }
-    
-    // FIXME: - backgroundTask에도 추가해야합니다.
     let subscription = userProfileRepository
       .fetchProfile(with: userUid)
       .sink { completion in
