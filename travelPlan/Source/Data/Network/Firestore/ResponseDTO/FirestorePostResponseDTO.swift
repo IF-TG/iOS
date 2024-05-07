@@ -90,9 +90,9 @@ extension FirestorePostResponseDTO {
       likes: Int32(likes),
       comments: Int32(comments),
       location: .init(x: mapX, y: mapY),
-      createAt: TimestampConverter.toString(from: createAt),
-      tripDate: .init(start: TimestampConverter.toString(from: startDate),
-                      end: TimestampConverter.toString(from: endDate)))
+      createAt: DateTimeConverter.toString(from: createAt),
+      tripDate: .init(start: DateTimeConverter.toString(from: startDate),
+                      end: DateTimeConverter.toString(from: endDate)))
   }
   
   func toDomain(liked: Bool?, authorImageData: Data?, authorName: String, postImages: [Post.PostImage]) -> Post {
