@@ -19,7 +19,7 @@ final class DefaultTourFestivalInfoRepositoryTests: XCTestCase {
   override func setUp() {
     super.setUp()
     sut = DefaultTourFestivalInfoRepository(service: SessionProvider())
-    expectation = .init(description: "비동기 호출")
+    expectation = .init(description: "비동기 호출 관리")
     subscriptions = .init()
   }
   
