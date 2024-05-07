@@ -18,6 +18,6 @@ struct FirestorePostNestedCommentAPIEndpoint {
     return FirestoreEndpoint(
       requestDTO: requestDTO,
       method: .save(nestedCommentId),
-      requestType: .posts(.saveNestedComment(postId, commentId, nestedCommentId)))
+      requestType: .posts(.saveNestedComment(postId, commentId)))
   }
 }
