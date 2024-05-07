@@ -17,7 +17,8 @@ protocol PostAtomicNestedCommentRepository {
   func sendNestedComment(
     ownerId: String,
     postId: String,
-    commentId: String
+    commentId: String,
+    comment: String
   ) -> AnyPublisher<[PostAtomicNestedCommentEntity], Error>
   
   func updateNestedComment(
