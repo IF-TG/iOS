@@ -12,14 +12,7 @@ final class PostCellWithFourThumbnails: UICollectionViewCell {
   
   // MARK: - Nested
   private final class PostFourThumbnailsView: UIStackView {
-    private let imageIO = ImageIO()
     private var imageViews: [UIImageView] = []
-    private let imageLoadQueue = {
-      $0.name = "TwoImageLoadQueue"
-      $0.maxConcurrentOperationCount = 2
-      return $0
-    }(OperationQueue())
-    private let imageCache = ImageMemoryCache()
     
     init() {
       super.init(frame: .zero)
@@ -44,33 +37,13 @@ final class PostCellWithFourThumbnails: UICollectionViewCell {
     }
     
     // MARK: - Helpers
-    func configureThumbnail(with images: [String]?) {
-      imageLoadQueue.cancelAllOperations()
+    func configureThumbnail(with images: [Data]?) {
       guard let images else {
         imageViews.forEach { $0.image = nil }
         return
       }
-      // TODO: - 이부분 이제 레포에서 대체되어야합니다. 파베에서 가져올때 Data로 가져오게됩니다.
-      // configure은 data가 와야합니다. 리빌딩해야합니다
-      imageViews.enumerated().forEach { index, imageView in
-        let width = (UIScreen.main.bounds.width - 43) / 2
-        let size = CGSize(width: width, height: 118)
-        if let imageData = imageCache[images[index]] {
-          imageView.image = UIImage(data: imageData)
-          return
-        }
-        let operation = BlockOperation { [weak self] in
-          let data = UIImage(named: images[index])!.pngData()!
-          let createType = ImageIO.ImageSourceCreateType.data(data)
-          let options = ImageIO.DownsampledOptions(imagePixelSize: size)
-          guard let cgImage = self?.imageIO.setDownsampledCGImage(at: createType, for: options) else { return }
-          DispatchQueue.main.async {
-            imageView.image = UIImage(cgImage: cgImage)
-            self?.imageCache[images[index]] = imageView.image?.pngData()
-          }
-        }
-        imageLoadQueue.addOperation(operation)
-
+      images.enumerated().forEach {
+        imageViews[$0].image = UIImage(data: $1)
       }
     }
   }
@@ -103,7 +76,7 @@ final class PostCellWithFourThumbnails: UICollectionViewCell {
 extension PostCellWithFourThumbnails: PostCellConfigurable {
   func configure(with info: PostInfo?) {
     postView.configure(with: info)
-    thumbnailView.configureThumbnail(with: info?.content.thumbnailURLs)
+    thumbnailView.configureThumbnail(with: info?.content.thumbnailImageDataList)
   }
 }
 

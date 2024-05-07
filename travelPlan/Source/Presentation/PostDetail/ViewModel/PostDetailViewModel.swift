@@ -306,10 +306,13 @@ extension PostDetailViewModel: PostDetailViewModelable {
 private extension PostDetailViewModel {
   func navigationInfoStream() -> Output {
     return navigationInfo.map { [weak self] _ -> State in
-      guard let postTitle = self?.postDetails.detail.title else { return .none }
-      // TODO: - 34일 이렇게 몇일 구해야합니다.
-      //let postDuration = postDetails.detail.tripDate
-      let postDuration = "34일 동안의 여정"
+      guard 
+        let postTitle = self?.postDetails.detail.title,
+        let startDate = self?.postDetails.detail.tripDate.startDate,
+        let endDate = self?.postDetails.detail.tripDate.endDate
+      else { return .none }
+      let tripPeriod = DateTimeConverter.period(from: startDate, to: endDate)
+      let postDuration = "\(tripPeriod)의 여정"
       return .viewDidLoad(.naviTitleInfo((postTitle, postDuration)))
     }.eraseToAnyPublisher()
   }
@@ -589,7 +592,7 @@ private extension PostDetailViewModel {
     let commentSection = SectionType.commentIndex(section: section)
     let commentId = postDetails.comments[commentSection].commentId
     return postCommentUseCase
-      .deleteComment(commentId: commentId)
+      .deleteComment(postId: postDetails.detail.postID, commentId: commentId)
       .map { [weak self] result -> State in
         if result {
           self?.postDetails.comments[commentSection].isDeleted = result
@@ -620,7 +623,7 @@ private extension PostDetailViewModel {
     let commentIdx = SectionType.commentIndex(section: section)
     let comment = postDetails.comments[commentIdx]
     return postCommentUseCase
-      .updateComment(commentId: comment.commentId, comment: editedText)
+      .updateComment(postId: postDetails.detail.postID, commentId: comment.commentId, comment: editedText)
       .map { [weak self] result -> State in
         guard result else {
           return .unexpectedError(description: "서버에서 에러가 발생되어 댓글이 편집되지 않았습니다.")
@@ -775,13 +778,12 @@ extension PostDetailViewModel: PostDetailTableViewDataSource {
   
   var profileAreaItem: PostDetailProfileAreaInfo {
     let tripDate = postDetails.detail.tripDate
-    let tripDurationYMDString = "\(tripDate.start) ~ \(tripDate.end)"
-    // FIXME: - 이거도 서버에서 문자열의 start, end받을 때 형식 지정해가지구 몇박 몇일인지를 뜻하는 것고 구하도록 계획해야합니다.
     return .init(
       userName: postDetails.author.nickname,
       userThumbnailData: postDetails.author.profileImageData,
-      travelDuration: tripDurationYMDString,
-      travelCalendarDateRange: "일박 이일~", uploadedDescription: postDetails.detail.createAt)
+      travelDuration: DateTimeConverter.periodYMD(from: tripDate.startDate, to: tripDate.endDate),
+      travelCalendarDateRange: DateTimeConverter.period(from: tripDate.startDate, to: tripDate.endDate),
+      uploadedDescription: DateTimeConverter.toString(from: postDetails.detail.createAt))
   }
   
   func postContentItem(at row: Int) -> PostContentEntity {

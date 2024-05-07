@@ -7,13 +7,7 @@
 
 import Foundation
 
-struct FirestoreMyProfileAPIEndopint {
-  static func fetchUserProfileEndpoint(userUID: String) -> FirestoreEndpoint<UserProfileResponseDTO> {
-    return .init(
-      method: .get,
-      requestType: .users(.userDocument(.fetchUserProfile(userUID))))
-  }
-  
+struct FirestoreMyProfileAPIEndopint {  
   static func saveUserProfileEndpoint(
     with requestDTO: UserProfileSaveRequestDTO
   ) -> FirestoreEndpoint<VoidResponseDTO> {

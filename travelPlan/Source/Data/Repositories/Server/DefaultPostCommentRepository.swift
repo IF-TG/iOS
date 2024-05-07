@@ -47,7 +47,7 @@ final class DefaultPostCommentRepository: PostCommentRepository {
     }.eraseToAnyPublisher()
   }
   
-  func updateComment(commentId: String, comment: String) -> AnyPublisher<Bool, any Error> {
+  func updateComment(postId: String? = nil, commentId: String, comment: String) -> AnyPublisher<Bool, any Error> {
     let requestDTO = PostCommentUpdateRequestDTO(commentId: commentId, comment: comment)
     return Future { [weak self] promise in
       guard let self else {
@@ -69,7 +69,7 @@ final class DefaultPostCommentRepository: PostCommentRepository {
     }.eraseToAnyPublisher()
   }
   
-  func deleteComment(commentId: String) -> AnyPublisher<Bool, any Error> {
+  func deleteComment(postId: String? = nil, commentId: String) -> AnyPublisher<Bool, any Error> {
     let requestDTO = PostCommentDeleteRequestDTO(commentId: commentId)
     return Future { [weak self] promise in
       guard let self else {
@@ -130,6 +130,7 @@ final class DefaultPostCommentRepository: PostCommentRepository {
   }
   
   func toggleCommentHeart(
+    postId: String? = nil,
     commentId: String
   ) -> AnyPublisher<ToggledPostCommentHeartEntity, any Error> {
     let requestDTO = PostCommentHeartToggleRequestDTO(id: commentId)

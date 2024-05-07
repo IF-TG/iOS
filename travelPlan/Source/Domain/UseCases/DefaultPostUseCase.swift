@@ -21,6 +21,7 @@ final class DefaultPostUseCase: PostUseCase {
   }
   
   func fetchPosts(with page: PostFetchRequestValue) -> AnyPublisher<PostsPage, any Error> {
+    // TODO: - liked가 nil인 경우 호출해서 받아와야 합니다.
     return postRepository.fetchPosts(
       page: page.page,
       perPage: page.perPage,

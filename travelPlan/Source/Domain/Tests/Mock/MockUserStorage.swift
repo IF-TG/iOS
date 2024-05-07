@@ -8,7 +8,17 @@
 import Foundation
 import UIKit
 
-final class MockUserStorage: UserStorage {
+final class MockUserStorage: OwnerStorage {
+  var blockedUsers: [BlockedUserId] {
+    []
+  }
+  
+  func addBlockedUser(with userId: BlockedUserId) {}
+  
+  func deleteBlockedUser(with userId: BlockedUserId) {}
+  
+  func hasBlockedUser(with userId: BlockedUserId) -> Bool { return false }
+  
   var nickname: String? {
     "짱구"
   }

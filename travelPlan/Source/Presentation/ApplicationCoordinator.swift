@@ -16,7 +16,7 @@ final class ApplicationCoordinator: FlowCoordinator {
   var viewController: UIViewController?
   private let loggedInOwnerManager = DefaultLoggedInUserUseCase(
     loggedInUserRepository: DefaultLoggedInUserRepository(
-      storage: UserDefaultsUserStorage()))
+      storage: UserDefaultsOwnerStorage()))
   private let window: UIWindow
   
   private var isSignIn: Bool {

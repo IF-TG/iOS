@@ -8,6 +8,7 @@
 import Foundation
 import SHFirestoreService
 import Combine
+import FirebaseFirestore
 
 final class FirestorePostHeartRepository {
   typealias Endpoint = FirestorePostHeartAPIEndpoint
@@ -29,6 +30,7 @@ final class FirestorePostHeartRepository {
   }
 }
 
+// MARK: - PostHeartRepository
 extension FirestorePostHeartRepository: PostHeartRepository {
   func fetchHeartUsers(
     _ postId: String
@@ -84,6 +86,66 @@ extension FirestorePostHeartRepository: PostHeartRepository {
           }
         } receiveValue: { _ in
           promise(.success(()))
+        }
+      self?.subscriptions.insert(requestSubscription)
+    }.eraseToAnyPublisher()
+  }
+  
+  func togglePostHearts(
+    _ postId: String,
+    willHeartPost: Bool
+  ) -> AnyPublisher<Void, any Error> {
+    let endpoint = Endpoint.makeTogglePostHeartsEndpoint(postId: postId)
+    return Future { [weak self, backgroundQueue] promise in
+      let requestSubscription = self?.service
+        .performTransaction { transaction in
+          guard let documentRef = endpoint.requestType.documentRef else {
+            return promise(.failure(FirestoreServiceError.documentNotFound))
+          }
+          do {
+            let documentSnapshot = try transaction.getDocument(documentRef)
+            
+            guard let prevPostHearts = documentSnapshot.data()?["likeNum"] as? Int else {
+              let error = NSError(
+                domain: "AppErrorDimain",
+                code: -1,
+                userInfo: [NSLocalizedDescriptionKey: "Unable to retrieve likeNum from snapshot \(documentSnapshot)"])
+              promise(.failure(FirestoreServiceError.failedTransaction(error)))
+              return nil
+            }
+            transaction.updateData(["likeNum": prevPostHearts + (willHeartPost ? 1 : -1)], forDocument: documentRef)
+          } catch {
+            promise(.failure(FirestoreServiceError.failedTransaction(error)))
+          }
+          return nil
+        }
+        .subscribe(on: backgroundQueue)
+        .receive(on: backgroundQueue)
+        .sink { completion in
+          if case .failure(let error) = completion {
+            promise(.failure(error))
+          }
+        } receiveValue: { _ in
+          promise(.success(()))
+        }
+      self?.subscriptions.insert(requestSubscription)
+    }.eraseToAnyPublisher()
+  }
+  
+  func fetchPostHearts(
+    _ postId: String
+  ) -> AnyPublisher<Int, any Error> {
+    let endpoint = Endpoint.makeFetchPostHeartsEndpoint(postId)
+    return Future { [weak self, backgroundQueue] promise in
+      let requestSubscription = self?.service
+        .request(endpoint: endpoint)
+        .subscribe(on: backgroundQueue)
+        .sink { completion in
+          if case .failure(let error) = completion {
+            promise(.failure(error))
+          }
+        } receiveValue: { responseDTO in
+          promise(.success(responseDTO.postHearts))
         }
       self?.subscriptions.insert(requestSubscription)
     }.eraseToAnyPublisher()

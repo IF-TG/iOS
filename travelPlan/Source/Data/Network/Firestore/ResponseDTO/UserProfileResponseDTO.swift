@@ -20,6 +20,6 @@ extension UserProfileResponseDTO {
       id: uid,
       nickname: nickname,
       profileImageData: profileData,
-      isSavedProfileInServer: profileImagePath == "")
+      isSavedProfileInServer: profileData != nil)
   }
 }

@@ -46,7 +46,6 @@ extension ReviewWritingSaveRequestDTO {
       switch content {
       case .text(let textString):
         textListDTO.append(.init(sort: order, text: textString))
-//      case let .image(data, imageType):
       case let .image(data):
         // 정확한 비즈니스로직이 정해질 때까지 임시적으로 선착순 5개만 thumbnail로 구현
         let isThumbnail = imageOrder <= 5 ? true : false
@@ -65,8 +64,8 @@ extension ReviewWritingSaveRequestDTO {
     return .init(
       title: entity.title,
       content: textListDTO,
-      startDate: entity.tripDate.start,
-      endDate: entity.tripDate.end,
+      startDate: DateTimeConverter.toString(from: entity.tripDate.startDate),
+      endDate: DateTimeConverter.toString(from: entity.tripDate.endDate),
       themes: entity.category.themes.map { TravelThemeMapper.toDTO($0) },
       regions: entity.category.regions.map { TravelRegionMapper.toDTO($0) },
       seasons: entity.category.seasons.map { SeasonMapper.toDTO($0) },

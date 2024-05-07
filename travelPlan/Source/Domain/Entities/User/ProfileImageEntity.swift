@@ -8,5 +8,5 @@
 import Foundation
 
 struct ProfileImageEntity {
-  let image: Data
+  let image: Data?
 }

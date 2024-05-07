@@ -69,7 +69,11 @@ private extension NoticeViewModel {
       .receive(on: DispatchQueue.main)
       .sink { [weak self] noticeEntities in
         self?.notices = noticeEntities.map {
-          return .init(title: $0.title, date: $0.date, details: $0.details, isExpended: false)
+          return .init(
+            title: $0.title,
+            date: DateTimeConverter.toString(from: $0.date),
+            details: $0.details,
+            isExpended: false)
         }
         self?.isNoticesFetched.send()
       }.store(in: &subscriptions)
