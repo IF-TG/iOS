@@ -17,6 +17,8 @@ disabled_rules:
     
 line_length:
   ignores_comments: true
+  warning: 1000
+  error: 1300
 
 
 nesting:
