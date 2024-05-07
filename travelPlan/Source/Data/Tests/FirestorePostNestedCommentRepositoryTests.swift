@@ -6,30 +6,59 @@
 //
 
 import XCTest
+import Combine
+@testable import FirebaseFirestore
+@testable import SHFirestoreService
+@testable import travelPlan
 
 final class FirestorePostNestedCommentRepositoryTests: XCTestCase {
+  // MARK: - Properties
+  var sut: PostAtomicNestedCommentRepository!
+  var expectation: XCTestExpectation!
+  var subscriptions = Set<AnyCancellable>()
+  let testPostId = "ABEB803F-DD54-41A4-B8BF-487A210BD1EC"
+  let testCommentId = "12181109-6CDE-46E5-AD4F-04E824E89581"
+  var mockUserId: String {
+    MockUserStorage().id ?? "짱구1234"
+  }
+  
+  override func setUp() {
+    super.setUp()
+    let service = FirestoreService()
+    sut = FirestorePostNestedCommentRepository(service: service)
+    expectation = XCTestExpectation(description: "Finish")
+  }
+  
+  override func tearDown() {
+    super.tearDown()
+    expectation = nil
+    subscriptions.removeAll()
+  }
+}
 
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
-    }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+extension FirestorePostNestedCommentRepositoryTests {
+  func test_sendNestedComment호출시관련Entity를받는가_ShouldReturnTrue() {
+    // Arrange
+    var receivedResult = false
+    var unexpectedError: Error?
+    
+    // Act
+    sut.sendNestedComment(ownerId: mockUserId, postId: testPostId, commentId: testCommentId, comment: "대댓글입력!")
+      .receive(on: DispatchQueue.main)
+      .sink { completion in
+        if case .failure(let error) = completion {
+          unexpectedError = error
+          self.expectation.fulfill()
         }
-    }
-
+      } receiveValue: { entity in
+        print("DEBUG: 값을 성공적으로 받았습니다. \(entity)")
+        receivedResult.toggle()
+        self.expectation.fulfill()
+      }.store(in: &subscriptions)
+    wait(for: [expectation], timeout: 7.777)
+    
+    // Assert
+    checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "sendNestedComment")
+    XCTAssertTrue(receivedResult)
+  }
 }
