@@ -306,10 +306,13 @@ extension PostDetailViewModel: PostDetailViewModelable {
 private extension PostDetailViewModel {
   func navigationInfoStream() -> Output {
     return navigationInfo.map { [weak self] _ -> State in
-      guard let postTitle = self?.postDetails.detail.title else { return .none }
-      // TODO: - 34일 이렇게 몇일 구해야합니다.
-      //let postDuration = postDetails.detail.tripDate
-      let postDuration = "34일 동안의 여정"
+      guard 
+        let postTitle = self?.postDetails.detail.title,
+        let startDate = self?.postDetails.detail.tripDate.startDate,
+        let endDate = self?.postDetails.detail.tripDate.endDate
+      else { return .none }
+      let tripPeriod = DateTimeConverter.period(from: startDate, to: endDate)
+      let postDuration = "\(tripPeriod)의 여정"
       return .viewDidLoad(.naviTitleInfo((postTitle, postDuration)))
     }.eraseToAnyPublisher()
   }

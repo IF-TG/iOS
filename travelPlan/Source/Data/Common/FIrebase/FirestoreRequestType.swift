@@ -155,6 +155,12 @@ extension FirestoreRequestType {
     case hatePost(PostId, UserId)
     case togglePostHearts(PostId)
     
+    // MARK: - PostCommentHearts
+    case fetchCommentHeartUsers(PostId, CommentId)
+    case heartComment(PostId, CommentId)
+    case hateComment(PostId, CommentId, UserId)
+    case updateCommentHearts(PostId, CommentId)
+    
     // MARK: - PostComments
     case saveComment(PostId, CommentId)
     case updateComment(PostId, CommentId)
@@ -186,6 +192,14 @@ extension FirestoreRequestType {
         return postId
       case .fetchPostHearts(let postId):
         return postId
+      case .fetchCommentHeartUsers:
+        return nil
+      case .heartComment:
+        return nil
+      case .hateComment(_, _, let userId):
+        return userId
+      case .updateCommentHearts(let postId, let commentId):
+        return commentId
       case .saveComment:
         return nil
       case .updateComment(_, let commentId):
@@ -217,6 +231,14 @@ extension FirestoreRequestType {
         return rootPath
       case .fetchPostHearts:
         return rootPath
+      case .fetchCommentHeartUsers(let postId, let commentId):
+        return "\(rootPath)/\(postId)/comments/\(commentId)/comment-hearts"
+      case .heartComment(let postId, let commentId):
+        return "\(rootPath)/\(postId)/comments/\(commentId)/comment-hearts"
+      case .hateComment(let postId, let commentId, _):
+        return "\(rootPath)/\(postId)/comments/\(commentId)/comment-hearts"
+      case .updateCommentHearts(let postId, _):
+        return "\(rootPath)/\(postId)/comments"
       case .saveComment(let postId, _):
         return "\(rootPath)/\(postId)/comments"
       case .updateComment(let postId, _):

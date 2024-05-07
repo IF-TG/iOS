@@ -127,6 +127,8 @@ extension PostCommentUseCaseTests {
     checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "fetchComments")
     XCTAssertTrue(result, notReceivedErrorMessage)
   }
+<<<<<<< HEAD
+=======
   
   func testPostCommentUseCase_togglePostComment함수호출시_PostComemntEntities받았는지_ShouldReturnTrue() {
     // Arrange
@@ -151,4 +153,5 @@ extension PostCommentUseCaseTests {
     checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "toggleCommentHeart")
     XCTAssertTrue(result, notReceivedErrorMessage)
   }
+>>>>>>> 9e6b02818dfba83932b0f5d4fc49c546f846bdfe
 }

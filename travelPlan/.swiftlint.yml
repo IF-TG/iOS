@@ -20,7 +20,7 @@ disabled_rules:
 line_length:
   ignores_comments: true
 
-# 엇 왜 안돼지..
+# 엇 왜 적용이..
 # https://realm.github.io/SwiftLint/file_length.html
 # file_length:
 #  min_length: 1200

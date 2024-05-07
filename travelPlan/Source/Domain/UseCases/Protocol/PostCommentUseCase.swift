@@ -16,6 +16,6 @@ protocol PostCommentUseCase {
   func deleteComment(postId: String, commentId: String) -> AnyPublisher<Bool, Error>
   
   func fetchComments(with requestValue: PostCommentsRequestValue) -> AnyPublisher<[PostCommentEntity], Error>
-  
+
   func toggleCommentHeart(postId: String, commentId: String) -> AnyPublisher<ToggledPostCommentHeartEntity, Error>
 }
