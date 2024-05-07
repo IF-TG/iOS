@@ -195,7 +195,7 @@ final class MyProfileUseCaseTests: XCTestCase {
     // Assert
     XCTAssertEqual(
       expectedProfileEntity.image,
-      requestedProfileEntity?.image,
+      requestedProfileEntity.image,
       "isDuplicatedName 변수 반환값이 true여야 하지만 false 반환")
   }
 }
