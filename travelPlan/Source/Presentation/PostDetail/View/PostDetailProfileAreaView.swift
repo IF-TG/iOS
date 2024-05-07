@@ -7,13 +7,13 @@
 
 import UIKit
 
-/// 임시
 struct PostDetailProfileAreaInfo {
   let userName: String
   
   let userThumbnailData: Data?
   let travelDuration: String
   let travelCalendarDateRange: String
+  // TODO: - 이것도 네이밍 다 수정하고, 이거 위치를 위로 올리는것도 괜찮을것 같은뎅
   let uploadedDescription: String
 }
 

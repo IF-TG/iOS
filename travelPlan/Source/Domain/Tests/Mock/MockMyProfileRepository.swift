@@ -9,6 +9,11 @@ import Foundation
 import Combine
 
 final class MockMyProfileRepository: MyProfileRepository {
+  func fetchProfile() -> AnyPublisher<UserEntity, any Error> {
+    return Fail(error: NSError(domain: "Repository", code: 0, userInfo: ["APIError": "서버에서 미 구현된 api 입니다."]))
+      .eraseToAnyPublisher()
+  }
+  
   var isProfileSavedInServer: Bool = false
   
   func updateUserNickname(with name: String) -> AnyPublisher<Bool, Error> {
@@ -54,7 +59,10 @@ final class MockMyProfileRepository: MyProfileRepository {
   }
   
   func fetchProfile(with userId: String) -> AnyPublisher<UserEntity, any Error> {
-    fatalError("서버에서 미 구현된 api")
+    return Future {
+      $0(.success(
+        UserEntity(id: userId, nickname: "사용자", profileImageData: nil, isSavedProfileInServer: false)))
+    }.eraseToAnyPublisher()
   }
   func saveProfile(with userId: String, nickname: String, profileImageData: Data) -> AnyPublisher<Void, any Error> {
     fatalError("서버에서 미 구현된 api")

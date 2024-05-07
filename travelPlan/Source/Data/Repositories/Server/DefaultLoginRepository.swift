@@ -25,6 +25,7 @@ final class DefaultLoginRepository {
   private let loginResultStorage: LoginResultStorage
   private let authService: AuthenticationService
   private let loggedInUserRepository: LoggedInUserRepository
+  private let userProfileRepository: UserProfileRepository
   private let firestoreService: FirestoreServiceProtocol
   private let firestoreStorageService = FirebaseStorageService()
 
@@ -33,11 +34,13 @@ final class DefaultLoginRepository {
     authService: AuthenticationService,
     loginResultStorage: LoginResultStorage,
     loggedInUserRepository: LoggedInUserRepository,
+    userProfileRepository: UserProfileRepository,
     firestoreService: FirestoreServiceProtocol
   ) {
     self.authService = authService
     self.loginResultStorage = loginResultStorage
     self.loggedInUserRepository = loggedInUserRepository
+    self.userProfileRepository = userProfileRepository
     self.firestoreService = firestoreService
   }
   
@@ -55,7 +58,7 @@ extension DefaultLoginRepository: LoginRepository {
     case .google:
       authService.setLoginStrategy(GoogleLoginStrategyWithFirebase())
     }
-    // TODO: - 여기에서 case 추가하고 service에 구체 Strategy객체 주입
+    // MARK: 여기에서 case 추가하고 service에 구체 Strategy객체 주입
     return Future<Bool, Error> { [weak self] promise in
       let authServiceSubscription = self?.authService.performLogin()
         .receive(on: DispatchQueue.global(qos: .userInitiated))
@@ -83,7 +86,7 @@ private extension DefaultLoginRepository {
       promise(.failure(DefaultLoginRepositoryError.tokensSavingFailed))
       return
     }
-    // TODO: - DefaultLoggedInUserRepository를 통해 로그인한 사용자의 정보를 save합니다.
+    // MARK: DefaultLoggedInUserRepository를 통해 로그인한 사용자의 정보를 save합니다.
     /// loggedInUserRepository.setUser(with: <#T##UserEntity#>)
     
     promise(.success(true))
@@ -95,31 +98,16 @@ private extension DefaultLoginRepository {
       promise(.failure(DefaultLoginRepositoryError.invalidFirebaseAuthCurrentUserUID))
       return
     }
-    
-    let endpoint = FirestoreMyProfileAPIEndopint.fetchUserProfileEndpoint(userUID: userUid)
-    let firestoreServiceSubscription = firestoreService.request(endpoint: endpoint)
+    let subscription = userProfileRepository
+      .fetchProfile(with: userUid)
       .sink { completion in
         if case .failure(let error) = completion {
           promise(.failure(error))
         }
-      } receiveValue: { [weak self] responseDTO in
-        if responseDTO.profileImagePath == "" {
-          self?.loggedInUserRepository.setUser(with: responseDTO.toDomain(with: nil))
-          promise(.success(true))
-        } else {
-          let firestoreStorageSubscription = self?.firestoreStorageService
-            .fetchImage(responseDTO.profileImagePath, type: .profileImage)
-            .sink { completion in
-              if case .failure(let error) = completion {
-                promise(.failure(error))
-              }
-            } receiveValue: { data in
-              self?.loggedInUserRepository.setUser(with: responseDTO.toDomain(with: data))
-              promise(.success(true))
-            }
-          self?.subscriptions.insert(firestoreStorageSubscription)
-        }
+      } receiveValue: { [weak self] ownerEntity in
+        self?.loggedInUserRepository.setUser(with: ownerEntity)
+        promise(.success(true))
       }
-    subscriptions.insert(firestoreServiceSubscription)
+    subscriptions.insert(subscription)
   }
 }

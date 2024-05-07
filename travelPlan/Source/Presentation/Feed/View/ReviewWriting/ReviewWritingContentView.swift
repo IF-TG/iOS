@@ -9,12 +9,12 @@ import UIKit
 import Combine
 import SnapKit
 
-//struct ReviewWritingContentViewInfo {
+// struct ReviewWritingContentViewInfo {
 //  var text: String = ""
 //  var imageDataList: [Data] = .init()
 //  /// text이면 1, imageData이면 0 추가
 //  var isTextIndex: String = ""
-//}
+// }
 
 struct ReviewWritingContentViewInfo {
   let title: String

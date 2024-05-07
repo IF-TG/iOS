@@ -14,7 +14,8 @@ import Foundation
   case festival = "searchFestival1"
   /// 소개정보조회
   case introduction = "detailIntro1"
-  
+
+  case detailImage = "detailImage1"
   
   private var prefixPath: String {
     return "/B551011/KorService1"

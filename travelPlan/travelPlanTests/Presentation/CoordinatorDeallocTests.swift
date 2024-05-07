@@ -29,10 +29,10 @@ final class CoordinatorDeallocTests: XCTestCase {
 extension CoordinatorDeallocTests {
   func test_PostDetailCoordinatorDealloc_ShouldReturnNil() {
     // Arrange
-    let mockPostDetail = Post.Detail<String>(
-      postID: "1", title: "", content: "", likes: 0, comments: 0,
-      location: .init(x: 0, y: 0), createAt: "", tripDate: .init(start: "", end: ""))
-    let mockPostAuthor = Post.Author(profileImageData: "".data(using: .utf8), nickname: "")
+    let mockPostDetail = Post.Detail<[Post.PostContent]>(
+      postID: "1", title: "", content: [], likes: 0, comments: 0,
+      location: .init(x: 0, y: 0), createAt: Date(), tripDate: .init(startDate: Date(), endDate: Date()))
+    let mockPostAuthor = Post.Author(profileImageData: nil, nickname: "")
     let mockCategory = Post.Category(themes: [], regions: [], seasons: [], partners: [])
     let mockPost = Post(
       liked: true, detail: mockPostDetail, author: mockPostAuthor,

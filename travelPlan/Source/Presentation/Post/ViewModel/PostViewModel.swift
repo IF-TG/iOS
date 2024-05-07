@@ -10,7 +10,7 @@ import Foundation
 
 protocol PostDataSource {
   var posts: [Post] { get }
-  var postThumbnails: [[String]] { get }
+  var postThumbnails: [[Data]] { get }
   var currentPage: Int32 { get }
   var nextPage: Int32 { get }
   var totalPostsCount: Int32 { get }

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import os.log
 
 struct PostResponseDTO: Decodable {
   // MARK: - Properties
@@ -84,25 +85,52 @@ extension PostResponseDTO {
       case sort
     }
     
-    func toDomain() -> Post.PostImage {
-      return .init(imageUri: image, sort: sort)
+    func toDomain(with data: Data?) -> Post.PostImage {
+      return .init(imageData: data, sort: sort)
     }
   }
 }
 
 // MARK: - Mappings DTO
 extension PostResponseDTO {
-// TODO: - Post객체를 반환하는 toDomain 메소드를 정의해야합니다.
+  func toDomain() -> Post {
+    return .init(
+      liked: liked,
+      detail: toDomain(),
+      author: toDomain(with: Data(base64Encoded: profile)),
+      highResolveImages: postImages.map { $0.toDomain(with: Data(base64Encoded: $0.image)) },
+      category: toDomain())
+  }
   
-  func toDomain() -> Post.Detail<String> {
-    return Post.Detail<String>(
+    func toDomain() -> Post.Detail<[Post.PostContent]> {
+    // MARK: - Server에서 받는 글의 경우 특정한 테그에 의해 글을 분리해야합니다.
+    // 서버에서 createAt형식을 yyyy.MM.dd형식으로 줘야합니다.
+    var createAtDate: Date
+    if let date = DateTimeConverter.toDate(from: createAt) {
+      createAtDate = date
+    } else {
+      createAtDate = Date()
+      os_log(
+        "Failed to convert createAt to Date. PostId: %@ createAt: %@",
+        log: .default,
+        type: .error,
+        postID, createAt)
+    }
+    
+    os_log(
+      "Failed to convert trip dates. PostId: %@ Start Date: %@, End Date: %@",
+      log: .default,
+      type: .error,
+      postID, startDate, endDate)
+    
+    return Post.Detail<[Post.PostContent]>(
       postID: postID,
       title: title,
-      content: content,
+      content: [.init(sort: 0, text: content)],
       likes: likes,
       comments: comments,
       location: toDomain(),
-      createAt: createAt,
+      createAt: createAtDate,
       tripDate: toDomain())
   }
   
@@ -111,7 +139,17 @@ extension PostResponseDTO {
   }
   
   func toDomain() -> Post.TripDate {
-    return .init(start: startDate, end: endDate)
+    let start = DateTimeConverter.toDate(from: startDate)
+    let end = DateTimeConverter.toDate(from: endDate)
+    if let start, let end {
+      return .init(startDate: start, endDate: end)
+    }
+    os_log(
+      "Failed to convert trip dates. PostId: %@ Start Date: %@, End Date: %@",
+      log: .default,
+      type: .error,
+      postID, startDate, endDate)
+    return .init(startDate: Date(), endDate: Date())
   }
   
   func toDomain() -> Post.Location {

@@ -19,13 +19,22 @@ import Foundation
 }
 
 protocol LoggedInUserRepository {
+  typealias BlockedUserId = String
+  
   var nickname: String? { get }
   var profileImageData: Data? { get }
   var isSavedProfileInServer: Bool { get }
   var id: String? { get }
   var user: UserEntity? { get }
+  var blockedUsers: [BlockedUserId] { get }
   
   func setUser(with userInfo: UserEntity)
+  
+  func hasBlockedUser(with userId: BlockedUserId) -> Bool
+  
+  func addBlockedUser(with userId: BlockedUserId)
+  
+  func deleteBlockedUser(with userId: BlockedUserId)
   
   @discardableResult
   func updateNickname(with nickname: String) -> Bool

@@ -8,5 +8,5 @@ import UIKit
 
 struct PostContentInfo {
   var text: String
-  var thumbnailURLs: [String]
+  var thumbnailImageDataList: [Data]
 }
