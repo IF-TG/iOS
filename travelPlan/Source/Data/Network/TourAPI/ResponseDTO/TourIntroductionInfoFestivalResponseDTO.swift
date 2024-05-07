@@ -14,6 +14,9 @@ struct TourIntroductionInfoFestivalResponseDTO: Decodable {
   let fee: String
   let ageLimit: String
   let requiredTime: String
+  let content: String
+  let showTime: String
+  
   
   enum CodingKeys: String, CodingKey {
     case startDate = "eventstartdate"
@@ -21,6 +24,8 @@ struct TourIntroductionInfoFestivalResponseDTO: Decodable {
     case fee = "usetimefestival"
     case ageLimit = "agelimit"
     case requiredTime = "spendtimefestival"
+    case content = "program"
+    case showTime = "playtime"
   }
 }
 
@@ -34,7 +39,8 @@ extension TourIntroductionInfoFestivalResponseDTO {
       endDate: dateFormatter.date(from: endDate),
       fee: fee,
       ageLimit: ageLimit,
-      showTime: requiredTime
+      showTime: requiredTime,
+      content: content
     )
   }
 }

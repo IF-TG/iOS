@@ -14,18 +14,12 @@ struct TourFestivalResponseDTO: Decodable {
   let title: String
   let imageURL: String
   let address: String
-  let content: String
-  let showTime: String
-  let fee: String
   
   enum CodingKeys: String, CodingKey {
     case title
     case startDate = "eventstartdate"
     case endDate = "eventenddate"
     case address = "addr1"
-    case content = "program"
-    case showTime = "playtime"
-    case fee = "usetimefestival"
     case imageURL = "firstimage"
   }
 }

@@ -14,4 +14,5 @@ struct IntroductionInfoFestivalEntity {
   let fee: String
   let ageLimit: String
   let showTime: String
+  let content: String
 }
