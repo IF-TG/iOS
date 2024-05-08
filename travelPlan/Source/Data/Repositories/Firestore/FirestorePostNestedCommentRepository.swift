@@ -74,11 +74,21 @@ extension FirestorePostNestedCommentRepository: PostAtomicNestedCommentRepositor
   }
   
   func updateNestedComment(
-    ownerId: String,
     postId: String,
-    commentId: String
+    commentId: String,
+    nestedCommentId: String,
+    comment: String
   ) -> AnyPublisher<Void, any Error> {
-    fatalError("아직 미구현입니다.")
+    let requestDTO = PostNestedCommentUpdateRequestDTO(nestedCommentId: nestedCommentId, comment: comment)
+    let endpoint = Endpoint.makeNestedCommentUpdateEndpoint(
+      withPostId: postId, commentId: comment, nestedCommentId: nestedCommentId, requestDTO: requestDTO)
+    return Future { [weak self, backgroundQueue] promise in
+      let request = self?.service.request(endpoint: endpoint)
+        .subscribe(on: backgroundQueue)
+        .receive(on: backgroundQueue)
+        .sink(promise: promise)
+      self?.subscriptions.insert(request)
+    }.eraseToAnyPublisher()
   }
   
   func deleteNestedComment(
@@ -92,14 +102,8 @@ extension FirestorePostNestedCommentRepository: PostAtomicNestedCommentRepositor
       let request = self?.service.request(endpoint: endpoint)
         .subscribe(on: backgroundQueue)
         .receive(on: backgroundQueue)
-        .sink { completion in
-          if case .failure(let error) = completion {
-            promise(.failure(error))
-          }
-        } receiveValue: { _ in
-          promise(.success(()))
-        }
+        .sink(promise: promise)
       self?.subscriptions.insert(request)
     }.eraseToAnyPublisher()
   }
-}
+ }
