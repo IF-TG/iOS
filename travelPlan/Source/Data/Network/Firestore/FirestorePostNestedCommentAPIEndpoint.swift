@@ -20,4 +20,14 @@ struct FirestorePostNestedCommentAPIEndpoint {
       method: .save(nestedCommentId),
       requestType: .posts(.saveNestedComment(postId, commentId)))
   }
+  
+  static func makeNestedCommentDeleteEndpoint(
+    withPostId postId: String,
+    commentId: String,
+    nestedCommentId: String
+  ) -> FirestoreEndpoint<VoidResponseDTO> {
+    return FirestoreEndpoint(
+      method: .delete,
+      requestType: .posts(.deleteNestedComment(postId, commentId, nestedCommentId)))
+  }
 }
