@@ -240,7 +240,11 @@
 		1543DC942BC53D4B0041852F /* ReviewWritingThemeSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1543DC932BC53D4B0041852F /* ReviewWritingThemeSectionHeader.swift */; };
 		1543DC962BC53E810041852F /* ReviewWritingThemeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1543DC952BC53E810041852F /* ReviewWritingThemeCell.swift */; };
 		1543DC982BC56A020041852F /* ReviewCategorySelectCompletionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1543DC972BC56A020041852F /* ReviewCategorySelectCompletionView.swift */; };
+		15445EAA2BEB71430035B2FC /* PostAtomicNestedCommentResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15445EA92BEB71430035B2FC /* PostAtomicNestedCommentResponseDTO.swift */; };
 		1546587B2BEA60AC0081CCF8 /* UserDefaultsOwnerStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B01DA42BA93B5400BE9F98 /* UserDefaultsOwnerStorage.swift */; };
+		1546587D2BEA62890081CCF8 /* PostAtomicNestedCommentRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1546587C2BEA62890081CCF8 /* PostAtomicNestedCommentRepository.swift */; };
+		1546587F2BEA62EE0081CCF8 /* FirestorePostNestedCommentRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1546587E2BEA62EE0081CCF8 /* FirestorePostNestedCommentRepository.swift */; };
+		154658812BEA67CC0081CCF8 /* FirestorePostNestedCommentRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154658802BEA67CC0081CCF8 /* FirestorePostNestedCommentRepositoryTests.swift */; };
 		1546DF242B0A70C900B49A55 /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1546DF232B0A70C900B49A55 /* Cache.swift */; };
 		1546DF282B0A7CE400B49A55 /* Cache+Nested.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1546DF272B0A7CE400B49A55 /* Cache+Nested.swift */; };
 		1546DF302B0AF4C100B49A55 /* ImageMemoryCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1546DF2F2B0AF4C100B49A55 /* ImageMemoryCache.swift */; };
@@ -925,6 +929,10 @@
 		1543DC932BC53D4B0041852F /* ReviewWritingThemeSectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWritingThemeSectionHeader.swift; sourceTree = "<group>"; };
 		1543DC952BC53E810041852F /* ReviewWritingThemeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWritingThemeCell.swift; sourceTree = "<group>"; };
 		1543DC972BC56A020041852F /* ReviewCategorySelectCompletionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCategorySelectCompletionView.swift; sourceTree = "<group>"; };
+		15445EA92BEB71430035B2FC /* PostAtomicNestedCommentResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostAtomicNestedCommentResponseDTO.swift; sourceTree = "<group>"; };
+		1546587C2BEA62890081CCF8 /* PostAtomicNestedCommentRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostAtomicNestedCommentRepository.swift; sourceTree = "<group>"; };
+		1546587E2BEA62EE0081CCF8 /* FirestorePostNestedCommentRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestorePostNestedCommentRepository.swift; sourceTree = "<group>"; };
+		154658802BEA67CC0081CCF8 /* FirestorePostNestedCommentRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestorePostNestedCommentRepositoryTests.swift; sourceTree = "<group>"; };
 		1546DF232B0A70C900B49A55 /* Cache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cache.swift; sourceTree = "<group>"; };
 		1546DF272B0A7CE400B49A55 /* Cache+Nested.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Cache+Nested.swift"; sourceTree = "<group>"; };
 		1546DF2F2B0AF4C100B49A55 /* ImageMemoryCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageMemoryCache.swift; sourceTree = "<group>"; };
@@ -1965,6 +1973,7 @@
 			isa = PBXGroup;
 			children = (
 				151DF0FA2AEEB96E00D5D55B /* Repositories */,
+				1546587C2BEA62890081CCF8 /* PostAtomicNestedCommentRepository.swift */,
 			);
 			path = Interfaces;
 			sourceTree = "<group>";
@@ -2491,6 +2500,7 @@
 				1572ABAC2BE63E03008AFE66 /* FirestorePostCommentRepository.swift */,
 				1572ABCC2BE7AF76008AFE66 /* FirestoreUserProfileRepository.swift */,
 				1561DC7B2BDF7DC200C25577 /* FirestorePostRepository.swift */,
+				1546587E2BEA62EE0081CCF8 /* FirestorePostNestedCommentRepository.swift */,
 			);
 			path = Firestore;
 			sourceTree = "<group>";
@@ -2520,6 +2530,7 @@
 				1572ABB82BE75380008AFE66 /* FirestorePostCommentResponseDTO.swift */,
 				154047872BE4954D009E86FF /* PostHeartsRespoonseDTO.swift */,
 				154F857E2BE0A71D00452D71 /* FirestorePostResponseDTO.swift */,
+				15445EA92BEB71430035B2FC /* PostAtomicNestedCommentResponseDTO.swift */,
 			);
 			path = ResponseDTO;
 			sourceTree = "<group>";
@@ -3135,6 +3146,7 @@
 				15EBD9182BE8AC9400BCEA7F /* FirestorePostCommentHeartRepositoryTests.swift */,
 				1572ABAE2BE6780E008AFE66 /* FirestorePostAtomicCommentRepositoryTests.swift */,
 				1572ABD42BE7B5C9008AFE66 /* FirestoreUserProfileRepositoryTests.swift */,
+				154658802BEA67CC0081CCF8 /* FirestorePostNestedCommentRepositoryTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -3739,6 +3751,7 @@
 				15BE6BF12BAF2285009A2568 /* PostCommentUseCaseTests.swift in Sources */,
 				15FBD5E42B98E94800076115 /* PostAPIEndpointTests.swift in Sources */,
 				15CE24122BE3AD85009EAFEE /* DefaultTourCommonInfoRepositoryTests.swift in Sources */,
+				154658812BEA67CC0081CCF8 /* FirestorePostNestedCommentRepositoryTests.swift in Sources */,
 				15E9E5F02B9A359B00C2F1F7 /* PostUseCaseTests.swift in Sources */,
 				15AE48582BE93EC60035D980 /* DefaultTourImageRetrieveInfoRepositoryTests.swift in Sources */,
 				158C6A3B2B0D231C00C30856 /* ImageIOTests.swift in Sources */,
@@ -3770,6 +3783,7 @@
 				15591DD82BBE9D1800128A9E /* DefaultFavoritePostInDirectoryRepository.swift in Sources */,
 				158695972AE620610087CCB3 /* FeedPostViewModel.swift in Sources */,
 				15FC90D92ACC56280033A1E5 /* FavoriteTableViewCell.swift in Sources */,
+				1546587F2BEA62EE0081CCF8 /* FirestorePostNestedCommentRepository.swift in Sources */,
 				154F857F2BE0A71D00452D71 /* FirestorePostResponseDTO.swift in Sources */,
 				15259DEB2ACAA9F600C14F62 /* PostSearchFooterView.swift in Sources */,
 				15FFAC382ADD501B0013DB57 /* PostInfo.swift in Sources */,
@@ -3796,6 +3810,7 @@
 				1572ABAB2BE63243008AFE66 /* FirestorePostCommentSendRequestDTO.swift in Sources */,
 				15DE36B92AB853900030CCCC /* TravelThemeBottomSheetCell.swift in Sources */,
 				15F3765E2AFBF1A500B3BF35 /* PostDetailCommentHeader.swift in Sources */,
+				15445EAA2BEB71430035B2FC /* PostAtomicNestedCommentResponseDTO.swift in Sources */,
 				151DF0DC2AEE6EB500D5D55B /* NotificationViewController.swift in Sources */,
 				15C1F5482AF2C002005FDA15 /* NotificationViewModel.swift in Sources */,
 				15050D3A2BE92CEC00B3E26A /* TourImageInfoAPIEndpoint.swift in Sources */,
@@ -4202,6 +4217,7 @@
 				15B9286B2AFA4463003A20D4 /* PostDetailTableViewDataSource.swift in Sources */,
 				1572ABC62BE797FA008AFE66 /* PostCommentUseCaseImpl.swift in Sources */,
 				15B928612AFA3309003A20D4 /* PostDetailContentTextCell.swift in Sources */,
+				1546587D2BEA62890081CCF8 /* PostAtomicNestedCommentRepository.swift in Sources */,
 				130CF38B2B9347790051DEE8 /* LoginStrategy.swift in Sources */,
 				13274C5C2A59B4AD001F141C /* SearchFestivalModel.swift in Sources */,
 				151DF0FE2AEEBBE200D5D55B /* DefaultNotificationRepository.swift in Sources */,
