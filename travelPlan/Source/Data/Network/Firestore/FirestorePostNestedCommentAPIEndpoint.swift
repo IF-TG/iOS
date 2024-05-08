@@ -42,4 +42,13 @@ struct FirestorePostNestedCommentAPIEndpoint {
       method: .update,
       requestType: .posts(.updateNestedComment(postId, commentId, nestedCommentId)))
   }
+  
+  static func makeNestedCommentsFetchEndpoint(
+    withPostId postId: String,
+    commentId: String
+  ) -> FirestoreEndpoint<[PostAtomicNestedCommentResponseDTO]> {
+    return FirestoreEndpoint(
+      method: .get,
+      requestType: .posts(.fetchNestedComments(postId, commentId)))
+  }
 }

@@ -175,6 +175,7 @@ extension FirestoreRequestType {
     case saveNestedComment(PostId, CommentId)
     case deleteNestedComment(PostId, CommentId, NestedCommentId)
     case updateNestedComment(PostId, CommentId, NestedCommentId)
+    case fetchNestedComments(PostId, CommentId)
     
     private var rootPath: String {
       "posts"
@@ -238,6 +239,8 @@ extension FirestoreRequestType {
         return nestedCommentId
       case .updateNestedComment(_, _, let nestedCommentId):
         return nestedCommentId
+      case .fetchNestedComments:
+        return nil
       }
     }
     
@@ -282,6 +285,8 @@ extension FirestoreRequestType {
       case .deleteNestedComment(let postId, let commentId, _):
         return "\(rootPath)/\(postId)/\(comments)/\(commentId)/\(nestedComments)"
       case .updateNestedComment(let postId, let commentId, _):
+        return "\(rootPath)/\(postId)/\(comments)/\(commentId)/\(nestedComments)"
+      case .fetchNestedComments(let postId, let commentId):
         return "\(rootPath)/\(postId)/\(comments)/\(commentId)/\(nestedComments)"
       }
     }
