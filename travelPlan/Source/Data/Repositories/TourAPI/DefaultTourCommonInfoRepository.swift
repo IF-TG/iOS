@@ -53,10 +53,13 @@ final class DefaultTourCommonInfoRepository: TourCommonInfoRepository {
         guard
           let imagePublisher = self?.makeImageDataPublisher(imageURL: item.firstimage, queue: backgroundQueue),
           let thumbnailPublisher = self?.makeImageDataPublisher(imageURL: item.firstimage2, queue: backgroundQueue)
-        else { throw ReferenceError.invalidReference }
+        else {
+          return Fail<TourCommonInfoEntity, any Error>(error: ReferenceError.invalidReference)
+            .eraseToAnyPublisher()
+        }
         
         return imagePublisher.zip(thumbnailPublisher)
-          .map { (imageData, thumbnailData) in
+          .map { (imageData, thumbnailData) in 
             return item.toDomain(firstImageData: imageData, thumbnailImageDate: thumbnailData)
           }.eraseToAnyPublisher()
       }.eraseToAnyPublisher()
@@ -72,6 +75,5 @@ extension DefaultTourCommonInfoRepository {
       .request(imageURL: imageURL, queue: queue)
       .mapError { $0 as Error }
       .eraseToAnyPublisher()
-    
   }
 }
