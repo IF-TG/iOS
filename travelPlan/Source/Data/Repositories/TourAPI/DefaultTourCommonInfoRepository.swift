@@ -29,12 +29,11 @@ final class DefaultTourCommonInfoRepository: TourCommonInfoRepository {
   ) -> AnyPublisher<TourCommonInfoEntity, any Error> {
     let requestDTO = TourApiCommonInfoRequestDTO(contentId: contentId, numOfRows: 10, pageNo: 1)
     let endpoint = Endpoint.makeCommonInfoAPIEndpoint(with: requestDTO)
-    let imageConverter = ImageConverter()
     
     return service.request(endpoint: endpoint)
       .subscribe(on: backgroundQueue)
       .mapConnectionError()
-      .flatMap { [backgroundQueue] in
+      .flatMap { [weak self, backgroundQueue] in
         let resultCode = $0.response.header.resultCode
         
         guard resultCode == "0000" else {
@@ -51,19 +50,28 @@ final class DefaultTourCommonInfoRepository: TourCommonInfoRepository {
           .eraseToAnyPublisher()
         }
         
-        let imagePublisher = imageConverter
-          .request(imageURL: item.firstimage, queue: backgroundQueue)
-          .mapError { $0 as Error }
-          .eraseToAnyPublisher()
-        let thumbnailPublisher = imageConverter
-          .request(imageURL: item.firstimage2, queue: backgroundQueue)
-          .mapError { $0 as Error }
-          .eraseToAnyPublisher()
+        guard
+          let imagePublisher = self?.makeImageDataPublisher(imageURL: item.firstimage, queue: backgroundQueue),
+          let thumbnailPublisher = self?.makeImageDataPublisher(imageURL: item.firstimage2, queue: backgroundQueue)
+        else { throw ReferenceError.invalidReference }
         
         return imagePublisher.zip(thumbnailPublisher)
-          .map { (imageDate, thumbnailData) in
-            return item.toDomain(firstImageData: imageDate, thumbnailImageDate: thumbnailData)
+          .map { (imageData, thumbnailData) in
+            return item.toDomain(firstImageData: imageData, thumbnailImageDate: thumbnailData)
           }.eraseToAnyPublisher()
       }.eraseToAnyPublisher()
+  }
+}
+
+// MARK: - Private Helpers
+extension DefaultTourCommonInfoRepository {
+  private func makeImageDataPublisher(imageURL: String, queue: DispatchQueue) -> AnyPublisher<Data, any Error> {
+    let imageConverter = ImageConverter()
+    
+    return imageConverter
+      .request(imageURL: imageURL, queue: queue)
+      .mapError { $0 as Error }
+      .eraseToAnyPublisher()
+    
   }
 }
