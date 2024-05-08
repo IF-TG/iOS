@@ -36,7 +36,21 @@ extension FirestorePostNestedCommentRepository: PostAtomicNestedCommentRepositor
     postId: String,
     commentId: String
   ) -> AnyPublisher<[PostAtomicNestedCommentEntity], any Error> {
-    fatalError("아직 미구현입니다.")
+    let endpoint = Endpoint.makeNestedCommentsFetchEndpoint(withPostId: postId, commentId: commentId)
+    return Future { [weak self, backgroundQueue] promise in
+      let fetch = self?.service.request(endpoint: endpoint)
+        .subscribe(on: backgroundQueue)
+        .receive(on: backgroundQueue)
+        .sink { completion in
+          if case .failure(let error) = completion {
+            promise(.failure(error))
+          }
+        } receiveValue: { responseDTO in
+          let entities = responseDTO.map { $0.toDomain() }
+          promise(.success(entities))
+        }
+      self?.subscriptions.insert(fetch)
+    }.eraseToAnyPublisher()
   }
   
   func sendNestedComment(
