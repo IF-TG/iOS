@@ -127,7 +127,6 @@
 		13E622BF2BD02401003E4FA4 /* mock_reviewWriting_post_response.json in Resources */ = {isa = PBXBuildFile; fileRef = 13E622BD2BD02401003E4FA4 /* mock_reviewWriting_post_response.json */; };
 		13E622C32BD39F91003E4FA4 /* MockReviewWritingRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E622C22BD39F91003E4FA4 /* MockReviewWritingRepository.swift */; };
 		13E746772B4D303E007D5C15 /* PhotoCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E746762B4D303E007D5C15 /* PhotoCellDelegate.swift */; };
-		13E7EABD2BD3BCEE0027946C /* ReviewWritingUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E7EABC2BD3BCEE0027946C /* ReviewWritingUseCaseTests.swift */; };
 		13E7EAC52BDD63430027946C /* CultureFacilityResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E7EAC42BDD63430027946C /* CultureFacilityResponseDTO.swift */; };
 		13E7EAC72BDE20060027946C /* TouristAttractionResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E7EAC62BDE20060027946C /* TouristAttractionResponseDTO.swift */; };
 		13E7EAC92BDE2C010027946C /* LeportsResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E7EAC82BDE2C010027946C /* LeportsResponseDTO.swift */; };
@@ -321,7 +320,6 @@
 		15591DDE2BBEA07100128A9E /* MockFavoritePostInDirectoryRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15591DDD2BBEA07100128A9E /* MockFavoritePostInDirectoryRepository.swift */; };
 		15591DE12BBEA2B900128A9E /* mock_favoritePosts_fetch_response.json in Resources */ = {isa = PBXBuildFile; fileRef = 15591DE02BBEA2B900128A9E /* mock_favoritePosts_fetch_response.json */; };
 		15591DE32BBEA5AF00128A9E /* FavoritePostInDirectoryUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15591DE22BBEA5AF00128A9E /* FavoritePostInDirectoryUseCaseTests.swift */; };
-		155B2DDD2BE367AF0053216B /* FirestorePostRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155B2DDC2BE367AF0053216B /* FirestorePostRepositoryTests.swift */; };
 		155D0BAC2B90CB5B0042DFB6 /* UserNicknamePatchRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155D0BAB2B90CB5B0042DFB6 /* UserNicknamePatchRequestDTO.swift */; };
 		155D0BB52B90D9390042DFB6 /* ReferenceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155D0BB42B90D9390042DFB6 /* ReferenceError.swift */; };
 		155D0BB72B90DAB10042DFB6 /* MainError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155D0BB62B90DAB10042DFB6 /* MainError.swift */; };
@@ -371,7 +369,6 @@
 		15803C382BD8F3BC00D83F2B /* XMLParsingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15803C372BD8F3BC00D83F2B /* XMLParsingService.swift */; };
 		15803C3F2BD8F5F900D83F2B /* XMLParsingServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15803C3B2BD8F47E00D83F2B /* XMLParsingServiceTests.swift */; };
 		15803C422BD9134A00D83F2B /* TourApiErrorResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15803C402BD911D100D83F2B /* TourApiErrorResponseDTO.swift */; };
-		15803C442BD9307D00D83F2B /* TourApiSessionProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15803C432BD9307D00D83F2B /* TourApiSessionProviderTests.swift */; };
 		15803C482BD932D500D83F2B /* MockEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15803C452BD9328100D83F2B /* MockEndpoint.swift */; };
 		15803C4B2BDA1A4600D83F2B /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 15803C4A2BDA1A4600D83F2B /* GoogleSignIn */; };
 		15803C4D2BDA1BA700D83F2B /* GoogleLoginStrategyWithFirebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15803C4C2BDA1BA700D83F2B /* GoogleLoginStrategyWithFirebase.swift */; };
@@ -549,7 +546,6 @@
 		15D6558B2B8E0F8500466FEC /* DefaultMyProfileRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D6558A2B8E0F8500466FEC /* DefaultMyProfileRepository.swift */; };
 		15D6558D2B8E110500466FEC /* MyProfileUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D6558C2B8E110500466FEC /* MyProfileUseCase.swift */; };
 		15D6558F2B8E11AC00466FEC /* DefaultMyProfileUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D6558E2B8E11AC00466FEC /* DefaultMyProfileUseCase.swift */; };
-		15D655922B8E169100466FEC /* MyProfileUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D655912B8E169100466FEC /* MyProfileUseCaseTests.swift */; };
 		15D655952B8E17D400466FEC /* MockMyProfileRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D655942B8E17D400466FEC /* MockMyProfileRepository.swift */; };
 		15D6559A2B8E1CCB00466FEC /* UserInfoAPIEndpointTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D655992B8E1CCB00466FEC /* UserInfoAPIEndpointTests.swift */; };
 		15D6559D2B8F6F3800466FEC /* MyInformationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D6559C2B8F6F3800466FEC /* MyInformationViewModel.swift */; };
@@ -3824,11 +3820,9 @@
 				156C1E2A2BBECA6500AF1D99 /* CoordinatorDeallocTests.swift in Sources */,
 				15EBD9232BE906C700BCEA7F /* PostCommentHeartUseCaseImplTests.swift in Sources */,
 				15553BD42BB34BF2000AA896 /* XCTestCase+UseCaseTestsHelpers.swift in Sources */,
-				15803C442BD9307D00D83F2B /* TourApiSessionProviderTests.swift in Sources */,
 				15B5E7AE2BBAEBE700C19F56 /* UserBlockUseCaseTests.swift in Sources */,
 				1383C81C2B97F44800830F1A /* KeychainManagerTests.swift in Sources */,
 				13E84AFE2BE971C500B537B6 /* DefaultFestivalUseCaseTests.swift in Sources */,
-				15D655922B8E169100466FEC /* MyProfileUseCaseTests.swift in Sources */,
 				15EBD9192BE8AC9400BCEA7F /* FirestorePostCommentHeartRepositoryTests.swift in Sources */,
 				158981BA2BB2652700F016CF /* PostCommentAPIEndpointTests.swift in Sources */,
 				15FFAC2F2ADD03130013DB57 /* MockUserEndpoint.swift in Sources */,
@@ -3837,7 +3831,6 @@
 				15FFAC282ADC598E0013DB57 /* SessionProviderTests.swift in Sources */,
 				156C1E232BBEC93900AF1D99 /* XCTestCase+Helpers.swift in Sources */,
 				13EB3CD32BEAA00300CA84F0 /* DefaultTourIntroductionInfoRepositoryTests.swift in Sources */,
-				13E7EABD2BD3BCEE0027946C /* ReviewWritingUseCaseTests.swift in Sources */,
 				15BE6BF12BAF2285009A2568 /* PostCommentUseCaseTests.swift in Sources */,
 				15FBD5E42B98E94800076115 /* PostAPIEndpointTests.swift in Sources */,
 				15CE24122BE3AD85009EAFEE /* DefaultTourCommonInfoRepositoryTests.swift in Sources */,
@@ -3849,7 +3842,6 @@
 				15EBD91F2BE8D40700BCEA7F /* PostCommentHeartUseCaseTests.swift in Sources */,
 				154047932BE4D237009E86FF /* DefaultPostHeartUseCaseTests.swift in Sources */,
 				151130092A04E4EB0041DDA1 /* travelPlanTests.swift in Sources */,
-				155B2DDD2BE367AF0053216B /* FirestorePostRepositoryTests.swift in Sources */,
 				15591DE32BBEA5AF00128A9E /* FavoritePostInDirectoryUseCaseTests.swift in Sources */,
 				15553BD62BB34D06000AA896 /* PostNestedCommentUseCaseTests.swift in Sources */,
 				13EB3CCD2BEA6B7900CA84F0 /* DefaultTourFestivalInfoRepositoryTests.swift in Sources */,
