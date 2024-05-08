@@ -9,8 +9,8 @@ import Foundation
 
 // 소개정보조회 - 행사/공연/축제
 struct TourIntroductionInfoFestivalResponseDTO: Decodable {
-  let startDate: String
-  let endDate: String
+  let startDateString: String
+  let endDateString: String
   let fee: String
   let ageLimit: String
   let requiredTime: String
@@ -18,8 +18,8 @@ struct TourIntroductionInfoFestivalResponseDTO: Decodable {
   let showTime: String
   
   enum CodingKeys: String, CodingKey {
-    case startDate = "eventstartdate"
-    case endDate = "eventenddate"
+    case startDateString = "eventstartdate"
+    case endDateString = "eventenddate"
     case fee = "usetimefestival"
     case ageLimit = "agelimit"
     case requiredTime = "spendtimefestival"
@@ -30,12 +30,12 @@ struct TourIntroductionInfoFestivalResponseDTO: Decodable {
 
 extension TourIntroductionInfoFestivalResponseDTO {
   func toDomain() -> IntroductionInfoFestivalEntity {
-    let dateFormatter = DateFormatter()
-    dateFormatter.dateFormat = "yyyyMMdd"
-    dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+    let startDate = DateTimeConverter.toDate(from: startDateString, dateFormat: "yyyyMMdd")
+    let endDate = DateTimeConverter.toDate(from: endDateString, dateFormat: "yyyyMMdd")
+    
     return .init(
-      startDate: dateFormatter.date(from: startDate),
-      endDate: dateFormatter.date(from: endDate),
+      startDate: startDate,
+      endDate: endDate,
       fee: fee,
       ageLimit: ageLimit,
       showTime: requiredTime,

@@ -9,16 +9,16 @@ import Foundation
 
 /// 행사정보조회 API
 struct TourFestivalResponseDTO: Decodable {
-  let startDate: String
-  let endDate: String
+  let startDateString: String
+  let endDateString: String
   let title: String
   let imageURL: String
   let address: String
   
   enum CodingKeys: String, CodingKey {
     case title
-    case startDate = "eventstartdate"
-    case endDate = "eventenddate"
+    case startDateString = "eventstartdate"
+    case endDateString = "eventenddate"
     case address = "addr1"
     case imageURL = "firstimage"
   }
@@ -26,11 +26,8 @@ struct TourFestivalResponseDTO: Decodable {
 
 extension TourFestivalResponseDTO {
   func toFestivalThumbnailEntity(imageData: Data) -> FestivalThumbnailEntity {
-    let dateFormatter = DateFormatter()
-    dateFormatter.dateFormat = "yyyyMMdd"
-    dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
-    let formattedStartDate = dateFormatter.date(from: startDate)
-    let formattedEndDate = dateFormatter.date(from: endDate)
+    let formattedStartDate = DateTimeConverter.toDate(from: startDateString, dateFormat: "yyyyMMdd")
+    let formattedEndDate = DateTimeConverter.toDate(from: endDateString, dateFormat: "yyyyMMdd")
     
     return .init(
       title: title,
