@@ -21,4 +21,13 @@ struct PostAtomicNestedCommentResponseDTO: Decodable {
     case createAt
     case hearts = "heartNum"
   }
+  
+  func toDomain() -> PostAtomicNestedCommentEntity {
+    return .init(
+      nestedCommentId: nestedCommentId, 
+      authorId: authorId,
+      comment: comment,
+      createAt: createAt,
+      hearts: hearts)
+  }
 }
