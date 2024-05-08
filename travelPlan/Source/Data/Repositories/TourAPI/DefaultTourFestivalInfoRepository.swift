@@ -27,10 +27,9 @@ final class DefaultTourFestivalInfoRepository {
 // MARK: - FestivalInfoInquiryRepository
 extension DefaultTourFestivalInfoRepository: TourFestivalInfoRepository {
   func fetchFestivalList() -> AnyPublisher<[FestivalThumbnailEntity], any Error> {
-    let dateFormatter = DateFormatter()
-    dateFormatter.dateFormat = "yyyyMMdd"
-    dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
-    guard let formattedDate = Int(dateFormatter.string(from: Date())) else {
+    let dateString = DateTimeConverter.toString(from: Date(), format: "yyyyMMdd")
+    
+    guard let formattedDate = Int(dateString) else {
       return Fail(error: TransformationError.dateToInt)
         .eraseToAnyPublisher()
     }
