@@ -30,7 +30,7 @@ import Foundation
   case deadlineHasExpiredError
   case unregisteredIPError
   case unknownError
-  case unregisteredCodeNumber
+  case unregisteredCodeNumber(receivedNumber: String)
   
   init(code: String) {
     let errorDict = [
@@ -48,7 +48,7 @@ import Foundation
     if let errorType = errorDict[code] {
       self = errorType
     } else {
-      self = PublicDataPortalInTourAPIError.unregisteredCodeNumber
+      self = PublicDataPortalInTourAPIError.unregisteredCodeNumber(receivedNumber: code)
     }
   }
   
@@ -72,8 +72,9 @@ import Foundation
       return "Unregistered IP error."
     case .unknownError:
       return "An unknown error occurred."
-    case .unregisteredCodeNumber:
-      return "unregistered Code Number."
+    case .unregisteredCodeNumber(let receivedNumber):
+      return "unregistered Code Number. Received Code Number: \(receivedNumber)"
+
     }
   }
 
