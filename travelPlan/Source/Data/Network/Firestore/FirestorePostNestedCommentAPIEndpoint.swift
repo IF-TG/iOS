@@ -51,4 +51,13 @@ struct FirestorePostNestedCommentAPIEndpoint {
       method: .get,
       requestType: .posts(.fetchNestedComments(postId, commentId)))
   }
+  
+  static func makeNestedCommentsAllDeleteEndpoint(
+    withPostId postId: String,
+    commentId: String
+  ) -> FirestoreEndpoint<VoidResponseDTO> {
+    return FirestoreEndpoint(
+      method: .deleteACollection,
+      requestType: .posts(<#T##FirestoreRequestType.PostsCollection#>))
+  }
 }
