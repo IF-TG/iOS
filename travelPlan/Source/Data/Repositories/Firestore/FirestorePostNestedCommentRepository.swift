@@ -32,13 +32,38 @@ final class FirestorePostNestedCommentRepository {
 
 // MARK: - PostAtomicNestedCommentRepository
 extension FirestorePostNestedCommentRepository: PostAtomicNestedCommentRepository {
+  public func request<D, E>(
+    endpoint: E
+  ) -> AnyPublisher<[D], FirestoreServiceError>
+  where E: FirestoreEndopintable, E.ResponseDTO: Collection, E.ResponseDTO.Element == D, D: Decodable {
+    guard let collectionRef = endpoint.reference as? CollectionReference else {
+      return Fail(error: FirestoreServiceError.collectionNotFound).eraseToAnyPublisher()
+    }
+    if case .get = endpoint.method {
+      return collectionRef.getDocuments()
+        .subscribe(on: backgroundQueue)
+        .receive(on: backgroundQueue)
+        .tryMap { snapshots in
+          if snapshots.isEmpty {
+            return []
+          }
+          return try snapshots.documents.map { snapshot in
+            try snapshot.data(as: D.self)
+          }
+        }
+        .mapError { _ in return FirestoreServiceError.collectionNotFound }
+        .eraseToAnyPublisher()
+    }
+    return Fail(error: FirestoreServiceError.documentNotFound).eraseToAnyPublisher()
+  }
+
   func fetchNestedComments(
     postId: String,
     commentId: String
   ) -> AnyPublisher<[PostAtomicNestedCommentEntity], any Error> {
     let endpoint = Endpoint.makeNestedCommentsFetchEndpoint(withPostId: postId, commentId: commentId)
     return Future { [weak self, backgroundQueue] promise in
-      let fetch = self?.service.request(endpoint: endpoint)
+      let fetch = self?.request(endpoint: endpoint)
         .subscribe(on: backgroundQueue)
         .receive(on: backgroundQueue)
         .sink { completion in
