@@ -145,4 +145,18 @@ extension FirestorePostNestedCommentRepository: PostAtomicNestedCommentRepositor
       self?.subscriptions.insert(request)
     }.eraseToAnyPublisher()
   }
+  
+  func deleteAllNestedComments(
+    postId: String,
+    commentId: String
+  ) -> AnyPublisher<Void, any Error> {
+    let endpoint = Endpoint.makeNestedCommentsAllDeleteEndpoint(withPostId: postId, commentId: commentId)
+    return Future { [weak self, backgroundQueue] promise in
+      let request = self?.service.request(endpoint: endpoint)
+        .subscribe(on: backgroundQueue)
+        .receive(on: backgroundQueue)
+        .sink(promise: promise)
+      self?.subscriptions.insert(request)
+    }.eraseToAnyPublisher()
+  }
 }
