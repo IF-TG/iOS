@@ -12,5 +12,5 @@ protocol FestivalUseCase {
   /// 축제 리스트를 가져옵니다.
   func fetchFestivalList() -> AnyPublisher<[FestivalThumbnailEntity], any Error>
   /// 축제 상세 정보를 가져옵니다.
-  func fetchFestivalDetail(contentId: Int) -> AnyPublisher<FestivalEntity, any Error>
+  func fetchFestivalDetail(tourContentId: TourContentId) -> AnyPublisher<FestivalEntity, any Error>
 }

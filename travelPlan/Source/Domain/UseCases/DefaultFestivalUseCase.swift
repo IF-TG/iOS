@@ -34,15 +34,14 @@ extension DefaultFestivalUseCase: FestivalUseCase {
       .eraseToAnyPublisher()
   }
   
-  func fetchFestivalDetail(contentId: Int) -> AnyPublisher<FestivalEntity, any Error> {
+  func fetchFestivalDetail(tourContentId: TourContentId) -> AnyPublisher<FestivalEntity, any Error> {
     let commonPublisher = tourCommonInfoRepository.fetchTourCommonInfo(
-      contentId: contentId,
+      contentId: tourContentId.contentId,
       numOfRows: nil,
       pageNo: nil
     )
     let introductionPublisher = tourIntroductionInfoRepository.fetchFestival(
-      contentId: contentId,
-      contentTypeId: 15
+      tourContentId: tourContentId
     )
     
     return commonPublisher

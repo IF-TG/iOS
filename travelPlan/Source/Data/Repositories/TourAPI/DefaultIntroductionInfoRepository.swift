@@ -22,28 +22,27 @@ final class DefaultTourIntroductionInfoRepository {
 
 // MARK: - IntroductionInfoRepository
 extension DefaultTourIntroductionInfoRepository: TourIntroductionInfoRepository {
-  func fetchFestival(
-    contentId: Int,
-    contentTypeId: Int
-  ) -> AnyPublisher<IntroductionInfoFestivalEntity, any Error> {
+  func fetchFestival(tourContentId: TourContentId)
+  -> AnyPublisher<IntroductionInfoFestivalEntity, any Error> {
+    
     let endpoint = TourAPIIntroductionEndpoints.fetchFestival(with: .init(
-      contentId: contentId,
-      contentTypeId: contentTypeId
+      contentId: tourContentId.contentId,
+      contentTypeId: tourContentId.contentTypeId
     ))
-      return service.request(endpoint: endpoint)
-        .subscribe(on: backgroundQueue)
-        .tryMap {
-          let resultCode = $0.response.header.resultCode
-          
-          guard resultCode == "0000" else {
-            throw TourAPIError.publicDataPortalError(.init(code: String(resultCode.suffix(2))))
-          }
-          guard let item = $0.response.body.items.item.first else {
-            throw TourAPIError.tourAPIProviderInstitutionError(.noDataError)
-          }
-          
-          return item.toDomain()
+    return service.request(endpoint: endpoint)
+      .subscribe(on: backgroundQueue)
+      .tryMap {
+        let resultCode = $0.response.header.resultCode
+        
+        guard resultCode == "0000" else {
+          throw TourAPIError.publicDataPortalError(.init(code: String(resultCode.suffix(2))))
         }
-        .eraseToAnyPublisher()
+        guard let item = $0.response.body.items.item.first else {
+          throw TourAPIError.tourAPIProviderInstitutionError(.noDataError)
+        }
+        
+        return item.toDomain()
+      }
+      .eraseToAnyPublisher()
   }
 }

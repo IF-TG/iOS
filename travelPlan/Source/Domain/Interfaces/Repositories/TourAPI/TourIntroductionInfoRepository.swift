@@ -9,5 +9,5 @@ import Foundation
 import Combine
 
 protocol TourIntroductionInfoRepository {
-  func fetchFestival(contentId: Int, contentTypeId: Int) -> AnyPublisher<IntroductionInfoFestivalEntity, any Error>
+  func fetchFestival(tourContentId: TourContentId) -> AnyPublisher<IntroductionInfoFestivalEntity, any Error>
 }
