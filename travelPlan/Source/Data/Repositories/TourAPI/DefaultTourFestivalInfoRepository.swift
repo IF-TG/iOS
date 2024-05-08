@@ -36,9 +36,6 @@ extension DefaultTourFestivalInfoRepository: TourFestivalInfoRepository {
     
     let requestDTO = TourAPIFestivalRequestDTO(eventStartDate: formattedDate)
     let endpoint = TourAPIFestivalEndpoints.fetchFestivalList(with: requestDTO)
-    let group = DispatchGroup()
-    let imageConverter = ImageConverter()
-    var entities = [FestivalThumbnailEntity]()
     
     return service.request(endpoint: endpoint)
       .subscribe(on: backgroundQueue)
