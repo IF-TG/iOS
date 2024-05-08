@@ -28,6 +28,7 @@ extension TourFestivalResponseDTO {
   func toFestivalThumbnailEntity(imageData: Data) -> FestivalThumbnailEntity {
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "yyyyMMdd"
+    dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
     let formattedStartDate = dateFormatter.date(from: startDate)
     let formattedEndDate = dateFormatter.date(from: endDate)
     

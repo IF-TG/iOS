@@ -17,7 +17,6 @@ struct TourIntroductionInfoFestivalResponseDTO: Decodable {
   let content: String
   let showTime: String
   
-  
   enum CodingKeys: String, CodingKey {
     case startDate = "eventstartdate"
     case endDate = "eventenddate"
@@ -33,7 +32,7 @@ extension TourIntroductionInfoFestivalResponseDTO {
   func toDomain() -> IntroductionInfoFestivalEntity {
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "yyyyMMdd"
-    
+    dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
     return .init(
       startDate: dateFormatter.date(from: startDate),
       endDate: dateFormatter.date(from: endDate),
