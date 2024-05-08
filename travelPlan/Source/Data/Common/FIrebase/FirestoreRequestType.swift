@@ -281,7 +281,7 @@ extension FirestoreRequestType {
         return "\(rootPath)/\(postId)/\(comments)/\(commentId)/\(nestedComments)"
       case .deleteNestedComment(let postId, let commentId, _):
         return "\(rootPath)/\(postId)/\(comments)/\(commentId)/\(nestedComments)"
-      case .updateNestedComment(let postId, let commentId, let nestedCommentId):
+      case .updateNestedComment(let postId, let commentId, _):
         return "\(rootPath)/\(postId)/\(comments)/\(commentId)/\(nestedComments)"
       }
     }
