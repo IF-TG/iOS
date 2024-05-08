@@ -81,7 +81,7 @@ extension FirestorePostNestedCommentRepository: PostAtomicNestedCommentRepositor
   ) -> AnyPublisher<Void, any Error> {
     let requestDTO = PostNestedCommentUpdateRequestDTO(nestedCommentId: nestedCommentId, comment: comment)
     let endpoint = Endpoint.makeNestedCommentUpdateEndpoint(
-      withPostId: postId, commentId: comment, nestedCommentId: nestedCommentId, requestDTO: requestDTO)
+      withPostId: postId, commentId: commentId, nestedCommentId: nestedCommentId, requestDTO: requestDTO)
     return Future { [weak self, backgroundQueue] promise in
       let request = self?.service.request(endpoint: endpoint)
         .subscribe(on: backgroundQueue)
