@@ -61,4 +61,45 @@ extension FirestorePostNestedCommentRepositoryTests {
     checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "sendNestedComment")
     XCTAssertTrue(receivedResult)
   }
+  
+  /// 통합테스트..? 사전작업으로 위에서 테스트한 함수를 활용해야합니다.
+  func test_deleteNestedComment호출시성공적으로값을방출하는지() {
+    // Arrange
+    var receivedResult = false
+    var unexpectedError: Error?
+    
+    var nestedCommentId: String = ""
+    let prepareForTestExpectation = expectation(description: "사전작업")
+    sut.sendNestedComment(ownerId: mockUserId, postId: testPostId, commentId: testCommentId, comment: "테스트")
+      .receive(on: DispatchQueue.main)
+      .sink {
+        if case .failure = $0 {
+          XCTAssert(false,"DeleteNestedCommet 사전 작업으로 sendNestedComment호출시 에러발생. 이 경우 다시 테스트해야합니다.")
+          prepareForTestExpectation.fulfill()
+        }
+      } receiveValue: { entity in
+        nestedCommentId = entity.nestedCommentId
+        prepareForTestExpectation.fulfill()
+      }.store(in: &subscriptions)
+    wait(for: [prepareForTestExpectation], timeout: 7.777)
+    
+    // Act
+    sut.deleteNestedComment(postId: testPostId, commentId: testCommentId, nestedCommentId: nestedCommentId)
+      .receive(on: DispatchQueue.main)
+      .sink { completion in
+        if case .failure(let error) = completion {
+          unexpectedError = error
+          self.expectation.fulfill()
+        }
+      } receiveValue: { entity in
+        print("DEBUG: 값을 성공적으로 받았습니다. \(entity)")
+        receivedResult.toggle()
+        self.expectation.fulfill()
+      }.store(in: &subscriptions)
+    wait(for: [expectation], timeout: 7.777)
+    
+    // Assert
+    checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "sendNestedComment")
+    XCTAssertTrue(receivedResult)
+  }
 }
