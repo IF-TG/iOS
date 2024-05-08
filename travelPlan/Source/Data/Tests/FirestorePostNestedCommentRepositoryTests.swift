@@ -156,4 +156,44 @@ extension FirestorePostNestedCommentRepositoryTests {
     XCTAssertTrue(receivedResult)
   }
   
+  /// 이전에 테스트한 sendNestedComment(ownerId:postId:commentId:)가 사용됩니다.
+  func test_deleteAllNestedComments호출시성공작으로삭제작업이진행되는지_ShouldReturnTrue() {
+    // Arrange
+    var receivedResult = false
+    var unexpectedError: Error?
+    
+    // 사전 준비..
+    let prepareExpectation = expectation(description: "사전 준비 작업 시작")
+    let seq = (0...1).map {
+      sut.sendNestedComment(ownerId: "test1", postId: testPostId, commentId: "testComment3", comment: "test\($0)")
+    }
+    Publishers.Zip(seq[0], seq[1])
+      .sink {
+        if case .failure = $0 {
+          XCTAssert(false, "사전 준비작업으로 대댓글 두개 저장로직에서 에러 발생됬습니다.")
+        }
+      } receiveValue: { _ in
+        prepareExpectation.fulfill()
+      }.store(in: &subscriptions)
+    wait(for: [prepareExpectation], timeout: 7.777)
+
+    // Act
+    sut.deleteAllNestedComments(postId: testPostId, commentId: "testComment3")
+      .receive(on: DispatchQueue.main)
+      .sink { completion in
+        if case .failure(let error) = completion {
+          unexpectedError = error
+          self.expectation.fulfill()
+        }
+      } receiveValue: { entity in
+        print("DEBUG: 값을 성공적으로 받았습니다. \(entity)")
+        receivedResult.toggle()
+        self.expectation.fulfill()
+      }.store(in: &subscriptions)
+    wait(for: [expectation], timeout: 7.777)
+    
+    // Assert
+    checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "deleteAllNestedComments")
+    XCTAssertTrue(receivedResult)
+  }
 }
