@@ -18,6 +18,7 @@ final class FirestorePostNestedCommentRepositoryTests: XCTestCase {
   var subscriptions = Set<AnyCancellable>()
   let testPostId = "ABEB803F-DD54-41A4-B8BF-487A210BD1EC"
   let testCommentId = "12181109-6CDE-46E5-AD4F-04E824E89581"
+  let testNestedCommentId = "D219E2C2-4171-4C9D-B77D-EDB0CEFCD5B1"
   var mockUserId: String {
     MockUserStorage().id ?? "짱구1234"
   }
@@ -99,7 +100,35 @@ extension FirestorePostNestedCommentRepositoryTests {
     wait(for: [expectation], timeout: 7.777)
     
     // Assert
-    checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "sendNestedComment")
+    checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "deleteNestedComment")
     XCTAssertTrue(receivedResult)
   }
+  
+  func test_updateNestedComment호출시관련Entity를받는가_ShouldReturnTrue() {
+    // Arrange
+    var receivedResult = false
+    var unexpectedError: Error?
+    
+    // Act
+    sut.updateNestedComment(
+      postId: testPostId, commentId: testCommentId, nestedCommentId: testNestedCommentId,
+      comment: "대댓글수정!\(DateTimeConverter.toString(from: Date()))")
+    .receive(on: DispatchQueue.main)
+    .sink { completion in
+      if case .failure(let error) = completion {
+        unexpectedError = error
+        self.expectation.fulfill()
+      }
+    } receiveValue: { entity in
+      print("DEBUG: 값을 성공적으로 받았습니다. \(entity)")
+      receivedResult.toggle()
+      self.expectation.fulfill()
+    }.store(in: &subscriptions)
+    wait(for: [expectation], timeout: 7.777)
+    
+    // Assert
+    checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "updateNestedComment")
+    XCTAssertTrue(receivedResult)
+  }
+  
 }
