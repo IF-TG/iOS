@@ -33,4 +33,9 @@ protocol PostAtomicNestedCommentRepository {
     commentId: String,
     nestedCommentId: String
   ) -> AnyPublisher<Void, Error>
+  
+  func deleteAllNestedComments(
+    postId: String,
+    commentId: String
+  ) -> AnyPublisher<Void, Error>
 }
