@@ -6,8 +6,6 @@
 //
 
 import UIKit
-import Combine
-import Alamofire
 
 class ImageConverter {
   func base64ToImage(_ base64String: String) -> UIImage? {
@@ -21,21 +19,5 @@ class ImageConverter {
   
   func imageToBase64(_ image: UIImage) -> String? {
     return image.jpegData(compressionQuality: 1)?.base64EncodedString()
-  }
-  
-  func request(imageURL: String, queue: DispatchQueue) -> AnyPublisher<Data, AFError> {
-    return Future { promise in
-      AF.request(imageURL)
-        .validate(statusCode: 200..<300)
-        .responseData(queue: queue) { response in
-          switch response.result {
-          case .success(let data):
-            promise(.success(data))
-          case .failure(let error):
-            promise(.failure(error))
-          }
-        }
-    }
-    .eraseToAnyPublisher()
   }
 }
