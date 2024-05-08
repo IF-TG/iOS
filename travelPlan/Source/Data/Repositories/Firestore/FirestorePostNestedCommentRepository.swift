@@ -106,4 +106,4 @@ extension FirestorePostNestedCommentRepository: PostAtomicNestedCommentRepositor
       self?.subscriptions.insert(request)
     }.eraseToAnyPublisher()
   }
- }
+}
