@@ -58,6 +58,6 @@ struct FirestorePostNestedCommentAPIEndpoint {
   ) -> FirestoreEndpoint<VoidResponseDTO> {
     return FirestoreEndpoint(
       method: .deleteACollection,
-      requestType: .posts(<#T##FirestoreRequestType.PostsCollection#>))
+      requestType: .posts(.deleteAllNestedComments(postId, commentId)))
   }
 }
