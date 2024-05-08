@@ -170,6 +170,7 @@
 		13EB3CCD2BEA6B7900CA84F0 /* DefaultTourFestivalInfoRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13EB3CCC2BEA6B7900CA84F0 /* DefaultTourFestivalInfoRepositoryTests.swift */; };
 		13EB3CCF2BEA820600CA84F0 /* TransformationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13EB3CCE2BEA820600CA84F0 /* TransformationError.swift */; };
 		13EB3CD32BEAA00300CA84F0 /* DefaultTourIntroductionInfoRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13EB3CD22BEAA00300CA84F0 /* DefaultTourIntroductionInfoRepositoryTests.swift */; };
+		13EB3CD62BEB689A00CA84F0 /* TourContentId.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13EB3CD52BEB689A00CA84F0 /* TourContentId.swift */; };
 		13F6DAC82B5248EF00573B86 /* SlideUpAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F6DAC72B5248EF00573B86 /* SlideUpAnimator.swift */; };
 		13F6DACA2B52711E00573B86 /* SlideDownAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F6DAC92B52711E00573B86 /* SlideDownAnimator.swift */; };
 		13F6DACD2B53A5D400573B86 /* AlbumCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F6DACC2B53A5D400573B86 /* AlbumCoordinator.swift */; };
@@ -886,6 +887,7 @@
 		13EB3CCC2BEA6B7900CA84F0 /* DefaultTourFestivalInfoRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultTourFestivalInfoRepositoryTests.swift; sourceTree = "<group>"; };
 		13EB3CCE2BEA820600CA84F0 /* TransformationError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransformationError.swift; sourceTree = "<group>"; };
 		13EB3CD22BEAA00300CA84F0 /* DefaultTourIntroductionInfoRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultTourIntroductionInfoRepositoryTests.swift; sourceTree = "<group>"; };
+		13EB3CD52BEB689A00CA84F0 /* TourContentId.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourContentId.swift; sourceTree = "<group>"; };
 		13F6DAC72B5248EF00573B86 /* SlideUpAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideUpAnimator.swift; sourceTree = "<group>"; };
 		13F6DAC92B52711E00573B86 /* SlideDownAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideDownAnimator.swift; sourceTree = "<group>"; };
 		13F6DACC2B53A5D400573B86 /* AlbumCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumCoordinator.swift; sourceTree = "<group>"; };
@@ -1969,6 +1971,7 @@
 				13E7EADE2BDF61880027946C /* ShoppingEntity.swift */,
 				154CA6222BD3AE100066B444 /* TourCommonInfoEntity.swift */,
 				15AE48532BE9395B0035D980 /* TourRetrievedImageEntity.swift */,
+				13EB3CD52BEB689A00CA84F0 /* TourContentId.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -4433,6 +4436,7 @@
 				158EFCD32BCA4BA200C40612 /* SettingViewModelable.swift in Sources */,
 				153FA9112B938C19006CF3C3 /* ParameterType.swift in Sources */,
 				135A07C82BAD6E95003D6C4D /* PhotoEntity.swift in Sources */,
+				13EB3CD62BEB689A00CA84F0 /* TourContentId.swift in Sources */,
 				15FFAC0D2AD9AEB80013DB57 /* Encodable+.swift in Sources */,
 				13E98F8D2BC5961F00F05295 /* ReviewWritingEntity.swift in Sources */,
 				15FFAC132AD9C7EB0013DB57 /* NetwrokInteractionable.swift in Sources */,
