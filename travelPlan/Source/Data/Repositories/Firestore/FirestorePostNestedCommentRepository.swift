@@ -82,11 +82,24 @@ extension FirestorePostNestedCommentRepository: PostAtomicNestedCommentRepositor
   }
   
   func deleteNestedComment(
-    hasCommentDeleted: Bool,
     postId: String,
     commentId: String,
     nestedCommentId: String
   ) -> AnyPublisher<Void, any Error> {
-    fatalError("아직 미구현입니다.")
+    let endpoint = Endpoint.makeNestedCommentDeleteEndpoint(
+      withPostId: postId, commentId: commentId, nestedCommentId: nestedCommentId)
+    return Future { [weak self, backgroundQueue] promise in
+      let request = self?.service.request(endpoint: endpoint)
+        .subscribe(on: backgroundQueue)
+        .receive(on: backgroundQueue)
+        .sink { completion in
+          if case .failure(let error) = completion {
+            promise(.failure(error))
+          }
+        } receiveValue: { _ in
+          promise(.success(()))
+        }
+      self?.subscriptions.insert(request)
+    }.eraseToAnyPublisher()
   }
 }

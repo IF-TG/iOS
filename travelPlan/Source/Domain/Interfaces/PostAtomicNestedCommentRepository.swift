@@ -27,9 +27,7 @@ protocol PostAtomicNestedCommentRepository {
     commentId: String
   ) -> AnyPublisher<Void, Error>
   
-  /// 댓글이 삭제됬는지 고려해야 합니다.
   func deleteNestedComment(
-    hasCommentDeleted: Bool,
     postId: String,
     commentId: String,
     nestedCommentId: String
