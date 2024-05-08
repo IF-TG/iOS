@@ -52,7 +52,7 @@ extension DefaultTourIntroductionInfoRepositoryTests {
       }
       .store(in: &subscriptions)
     
-    waitForExpectations(timeout: 10)
+    wait(for: [expectation], timeout: 10)
     
     // Assert
     checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "fetchFestival")
