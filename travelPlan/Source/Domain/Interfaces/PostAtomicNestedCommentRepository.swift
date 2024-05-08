@@ -22,9 +22,10 @@ protocol PostAtomicNestedCommentRepository {
   ) -> AnyPublisher<PostAtomicNestedCommentEntity, Error>
   
   func updateNestedComment(
-    ownerId: String,
     postId: String,
-    commentId: String
+    commentId: String,
+    nestedCommentId: String,
+    comment: String
   ) -> AnyPublisher<Void, Error>
   
   func deleteNestedComment(
