@@ -47,11 +47,11 @@ extension DefaultTourIntroductionInfoRepository: TourIntroductionInfoRepository 
   
   func fetchFestival(tourContentId: TourContentId)
   -> AnyPublisher<IntroductionInfoFestivalEntity, any Error> {
-    
     let endpoint = TourAPIIntroductionEndpoints.fetchFestival(with: .init(
       contentId: tourContentId.contentId,
       contentTypeId: tourContentId.contentTypeId
     ))
+    
     return service.request(endpoint: endpoint)
       .subscribe(on: backgroundQueue)
       .tryMap {
