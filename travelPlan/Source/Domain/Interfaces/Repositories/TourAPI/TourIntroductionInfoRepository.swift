@@ -10,5 +10,5 @@ import Combine
 
 protocol TourIntroductionInfoRepository {
   func fetchFestival(tourContentId: TourContentId) -> AnyPublisher<IntroductionInfoFestivalEntity, any Error>
-  func fetchShopping(tourContentId: TourContentId) -> AnyPublisher<ShoppingEntity, any Error>
+  func fetchShopping(tourContentId: TourContentId) -> AnyPublisher<IntroductionInfoShoppingEntity, any Error>
 }

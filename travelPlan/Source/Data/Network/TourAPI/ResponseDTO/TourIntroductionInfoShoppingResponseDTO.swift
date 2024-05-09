@@ -29,12 +29,12 @@ struct TourIntroductionInfoShoppingResponseDTO: Decodable {
 
 // MARK: - Helpers
 extension TourIntroductionInfoShoppingResponseDTO {
-  func toDomain() -> ShoppingEntity {
+  func toDomain() -> IntroductionInfoShoppingEntity {
     let fairDate = stringToDate(from: fairDateString)
     let openDate = stringToDate(from: openDateString)
     let restDate = stringToDate(from: restDateString)
     
-    return ShoppingEntity(
+    return IntroductionInfoShoppingEntity(
       canLoanBabyCarriage: canLoanBabyCarriage,
       canAccompanyPet: canAccompanyPet,
       fairDate: fairDate,

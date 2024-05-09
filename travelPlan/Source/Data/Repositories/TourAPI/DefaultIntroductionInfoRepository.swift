@@ -22,11 +22,12 @@ final class DefaultTourIntroductionInfoRepository {
 
 // MARK: - IntroductionInfoRepository
 extension DefaultTourIntroductionInfoRepository: TourIntroductionInfoRepository {
-  func fetchShopping(tourContentId: TourContentId) -> AnyPublisher<ShoppingEntity, any Error> {
+  func fetchShopping(tourContentId: TourContentId) -> AnyPublisher<IntroductionInfoShoppingEntity, any Error> {
     let endpoint = TourAPIIntroductionEndpoints.fetchShopping(with: .init(
       contentId: tourContentId.contentId, 
       contentTypeId: tourContentId.contentTypeId
     ))
+    
     return service.request(endpoint: endpoint)
       .subscribe(on: backgroundQueue)
       .tryMap {
