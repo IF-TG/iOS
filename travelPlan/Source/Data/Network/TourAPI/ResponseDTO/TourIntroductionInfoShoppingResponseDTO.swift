@@ -10,18 +10,18 @@ import Foundation
 struct TourIntroductionInfoShoppingResponseDTO: Decodable {
   let canPark: String
   let canUseCreditCard: String
-  let fairDateString: String
+  let fairDay: String
   let openTime: String
-  let restDateString: String
+  let restDay: String
   let saleItem: String
   let telNumber: String
   
   enum CodingKeys: String, CodingKey {
     case canUseCreditCard = "chkcreditcardshopping"
     case canPark = "parkingshopping"
-    case fairDateString = "fairday"
+    case fairDay = "fairday"
     case openTime = "opentime"
-    case restDateString = "restdateshopping"
+    case restDay = "restdateshopping"
     case saleItem = "saleitem"
     case telNumber = "infocentershopping"
   }
@@ -30,16 +30,14 @@ struct TourIntroductionInfoShoppingResponseDTO: Decodable {
 // MARK: - Helpers
 extension TourIntroductionInfoShoppingResponseDTO {
   func toDomain() -> IntroductionInfoShoppingEntity {
-    let fairDate = stringToDate(from: fairDateString)
-    let restDate = stringToDate(from: restDateString)
-    
-    
-  }
-}
-
-// MARK: - Private Helpers
-extension TourIntroductionInfoShoppingResponseDTO {
-  private func stringToDate(from dateString: String) -> Date? {
-    DateTimeConverter.toDate(from: dateString, dateFormat: "yyyyMMdd")
+    return IntroductionInfoShoppingEntity(
+      canPark: canPark,
+      canUseCreditCard: canUseCreditCard,
+      fairDay: fairDay,
+      openTime: openTime,
+      restDay: restDay,
+      saleItem: saleItem,
+      telNumber: telNumber
+    )
   }
 }

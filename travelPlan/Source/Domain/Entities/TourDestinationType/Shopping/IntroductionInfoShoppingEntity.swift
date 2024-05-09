@@ -10,9 +10,9 @@ import Foundation
 struct IntroductionInfoShoppingEntity {
   let canPark: String
   let canUseCreditCard: String
-  let fairDate: Date?
+  let fairDay: String
   let openTime: String
-  let restDate: Date?
+  let restDay: String
   let saleItem: String
   let telNumber: String
 }
