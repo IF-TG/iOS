@@ -156,6 +156,31 @@ extension FirestorePostNestedCommentRepositoryTests {
     XCTAssertTrue(receivedResult)
   }
   
+  func test_fetchTheNumberOfnestedComments호출시대댓글전체개수를받는지_ShouldReturnTrue() {
+    // Arrange
+    var receivedResult = false
+    var unexpectedError: Error?
+    
+    // Act
+    sut.fetchTheNumberOfNestedComments(postId: testPostId, commentId: testCommentId)
+      .receive(on: DispatchQueue.main)
+      .sink { completion in
+        if case .failure(let error) = completion {
+          unexpectedError = error
+          self.expectation.fulfill()
+        }
+      } receiveValue: { result in
+        print("DEBUG: 값을 성공적으로 받았습니다. \(result)")
+        receivedResult.toggle()
+        self.expectation.fulfill()
+      }.store(in: &subscriptions)
+    wait(for: [expectation], timeout: 7.777)
+    
+    // Assert
+    checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "updateNestedComment")
+    XCTAssertTrue(receivedResult, "값을 받아야하지만 값을 받지 못했습니다.")
+  }
+  
   /// 이전에 테스트한 sendNestedComment(ownerId:postId:commentId:)가 사용됩니다.
   func test_deleteAllNestedComments호출시성공작으로삭제작업이진행되는지_ShouldReturnTrue() {
     // Arrange
