@@ -8,11 +8,11 @@
 import Foundation
 
 struct IntroductionInfoShoppingEntity {
-  let canLoanBabyCarriage: String?
-  let canAccompanyPet: String?
+  let canPark: String
+  let canUseCreditCard: String
   let fairDate: Date?
-  let openDate: Date?
-  let openTime: String?
+  let openTime: String
   let restDate: Date?
-  let saleItem: String?
+  let saleItem: String
+  let telNumber: String
 }
