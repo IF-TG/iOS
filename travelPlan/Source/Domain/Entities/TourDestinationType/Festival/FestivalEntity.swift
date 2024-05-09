@@ -9,16 +9,16 @@ import Foundation
 
 // 축제(행사)
 struct FestivalEntity {
-  let ageLimit: String?
+  let ageLimit: String
   let startDate: Date?
   let endDate: Date?
-  let address: String?
-  let showTime: String?
-  let fee: String?
+  let address: String
+  let showTime: String
+  let fee: String
   let title: String
   let image: Data?
-  let telNumber: String?
-  let overview: String?
+  let telNumber: String
+  let overview: String
 }
 
 /*
