@@ -38,7 +38,6 @@ extension DefaultTourFestivalInfoRepository: TourFestivalInfoRepository {
     let endpoint = TourAPIFestivalEndpoints.fetchFestivalList(with: requestDTO)
     
     return service.request(endpoint: endpoint)
-      .subscribe(on: backgroundQueue)
       .mapConnectionError()
       .tryMap {
         let resultCode = $0.response.header.resultCode
@@ -49,11 +48,11 @@ extension DefaultTourFestivalInfoRepository: TourFestivalInfoRepository {
       .map { [weak self, backgroundQueue] in
         let group = DispatchGroup()
         var tupleArray = [(Int, FestivalThumbnailEntity)]()
-        let imageConverter = ImageConverter()
+        let imageDataFetcher = ImageDataFetcher()
         
         for (index, responseDTO) in $0.enumerated() {
           group.enter()
-          let subscription = imageConverter.request(imageURL: responseDTO.imageURL, queue: backgroundQueue)
+          let subscription = imageDataFetcher.request(imageURL: responseDTO.imageURL, queue: backgroundQueue)
             .sink { completion in
               if case .failure = completion {
                 group.leave()
@@ -70,6 +69,7 @@ extension DefaultTourFestivalInfoRepository: TourFestivalInfoRepository {
         return tupleArray
           .sorted { $0.0 < $1.0 }
           .map { $0.1 }
-      }.eraseToAnyPublisher()
+      }
+      .eraseToAnyPublisher()
   }
 }

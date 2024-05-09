@@ -69,9 +69,9 @@ final class DefaultTourCommonInfoRepository: TourCommonInfoRepository {
 // MARK: - Private Helpers
 extension DefaultTourCommonInfoRepository {
   private func makeImageDataPublisher(imageURL: String, queue: DispatchQueue) -> AnyPublisher<Data, any Error> {
-    let imageConverter = ImageConverter()
+    let imageDataFetcher = ImageDataFetcher()
     
-    return imageConverter
+    return imageDataFetcher
       .request(imageURL: imageURL, queue: queue)
       .mapError { $0 as Error }
       .eraseToAnyPublisher()
