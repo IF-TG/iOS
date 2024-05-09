@@ -53,6 +53,26 @@ extension FirestorePostNestedCommentRepository: PostAtomicNestedCommentRepositor
     }.eraseToAnyPublisher()
   }
   
+  func fetchTheNumberOfNestedComments(
+    postId: String,
+    commentId: String
+  ) -> AnyPublisher<Int, any Error> {
+    let endpoint = Endpoint.makeTheNumberOfNestedCommentsFetchEndpoint(withPostId: postId, commentId: commentId)
+    return Future { [weak self, backgroundQueue] promise in
+      let fetch = self?.service.request(endpoint: endpoint)
+        .subscribe(on: backgroundQueue)
+        .receive(on: backgroundQueue)
+        .sink(receiveCompletion: { completion in
+          if case .failure(let error) = completion {
+            promise(.failure(error))
+          }
+        }, receiveValue: { result in
+          promise(.success(result))
+        })
+      self?.subscriptions.insert(fetch)
+    }.eraseToAnyPublisher()
+  }
+  
   func sendNestedComment(
     ownerId: String,
     postId: String,

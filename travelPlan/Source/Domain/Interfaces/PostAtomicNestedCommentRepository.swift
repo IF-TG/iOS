@@ -14,6 +14,11 @@ protocol PostAtomicNestedCommentRepository {
     commentId: String
   ) -> AnyPublisher<[PostAtomicNestedCommentEntity], Error>
   
+  func fetchTheNumberOfNestedComments(
+    postId: String,
+    commentId: String
+  ) -> AnyPublisher<Int, Error>
+  
   func sendNestedComment(
     ownerId: String,
     postId: String,
