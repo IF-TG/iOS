@@ -32,11 +32,38 @@ final class DefaultTourIntroductionInfoRepositoryTests: XCTestCase {
 }
 
 extension DefaultTourIntroductionInfoRepositoryTests {
+  func test_fetchShopping메소드_호출시_value로_IntroductionInfoShoppingEntity를_내려주는지() {
+    // Arrange
+    var unexpectedError: Error?
+    var receivedResult = false
+    let tourContentId = TourContentId(contentId: 2900895, contentTypeId: TourType.shopping.rawValue)
+    
+    // Act
+    sut.fetchShopping(tourContentId: tourContentId)
+      .sink { [weak self] completion in
+        if case let .failure(error) = completion {
+          unexpectedError = error
+          self?.expectation.fulfill()
+        }
+      } receiveValue: { [weak self] entity in
+        print("entity: \(entity)")
+        receivedResult = true
+        self?.expectation.fulfill()
+      }
+      .store(in: &subscriptions)
+    
+    wait(for: [expectation], timeout: 10)
+    
+    // Assert
+    checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "fetchShopping")
+    XCTAssertTrue(receivedResult, "receivedValue로 IntroductionInfoShoppingEntity가 들어오지 않았습니다.")
+  }
+  
   func test_fetchFestival메소드_호출시_value로_IntroductionInfoFestivalEntity를_내려주면_shouldReturnTrue() {
     // Arrange
     var unexpectedError: Error?
     var receivedResult = false
-    let tourContentId = TourContentId(contentId: 3114721, contentTypeId: 15)
+    let tourContentId = TourContentId(contentId: 3114721, contentTypeId: TourType.festival.rawValue)
     
     // Act
     sut.fetchFestival(tourContentId: tourContentId)

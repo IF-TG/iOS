@@ -22,13 +22,36 @@ final class DefaultTourIntroductionInfoRepository {
 
 // MARK: - IntroductionInfoRepository
 extension DefaultTourIntroductionInfoRepository: TourIntroductionInfoRepository {
+  func fetchShopping(tourContentId: TourContentId) -> AnyPublisher<IntroductionInfoShoppingEntity, any Error> {
+    let endpoint = TourAPIIntroductionEndpoints.fetchShopping(with: .init(
+      contentId: tourContentId.contentId, 
+      contentTypeId: tourContentId.contentTypeId
+    ))
+    
+    return service.request(endpoint: endpoint)
+      .subscribe(on: backgroundQueue)
+      .tryMap {
+        let resultCode = $0.response.header.resultCode
+        
+        guard resultCode == "0000" else {
+          throw TourAPIError.publicDataPortalError(.init(code: String(resultCode.suffix(2))))
+        }
+        guard let item = $0.response.body.items.item.first else {
+          throw TourAPIError.tourAPIProviderInstitutionError(.noDataError)
+        }
+        
+        return item.toDomain()
+      }
+      .eraseToAnyPublisher()
+  }
+  
   func fetchFestival(tourContentId: TourContentId)
   -> AnyPublisher<IntroductionInfoFestivalEntity, any Error> {
-    
     let endpoint = TourAPIIntroductionEndpoints.fetchFestival(with: .init(
       contentId: tourContentId.contentId,
       contentTypeId: tourContentId.contentTypeId
     ))
+    
     return service.request(endpoint: endpoint)
       .subscribe(on: backgroundQueue)
       .tryMap {

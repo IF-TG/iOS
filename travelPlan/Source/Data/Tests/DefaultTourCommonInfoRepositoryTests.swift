@@ -20,8 +20,10 @@ final class DefaultTourCommonInfoRepositoryTests: XCTestCase {
     super.setUp()
     
     let service = TourApiSessionProvider()
+    let imageService = ImageSessionProvider()
     sut = DefaultTourCommonInfoRepository(
       service: service,
+      imageService: imageService,
       backgroundQueue: .global(qos: .userInitiated))
     expectation = XCTestExpectation(description: "Finish")
   }

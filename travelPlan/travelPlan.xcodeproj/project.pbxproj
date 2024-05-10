@@ -131,7 +131,6 @@
 		13E7EAC72BDE20060027946C /* TouristAttractionResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E7EAC62BDE20060027946C /* TouristAttractionResponseDTO.swift */; };
 		13E7EAC92BDE2C010027946C /* LeportsResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E7EAC82BDE2C010027946C /* LeportsResponseDTO.swift */; };
 		13E7EACB2BDE317F0027946C /* RestaurantResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E7EACA2BDE317F0027946C /* RestaurantResponseDTO.swift */; };
-		13E7EACD2BDE35220027946C /* ShoppingResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E7EACC2BDE35220027946C /* ShoppingResponseDTO.swift */; };
 		13E7EACF2BDE36640027946C /* TourFestivalResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E7EACE2BDE36640027946C /* TourFestivalResponseDTO.swift */; };
 		13E7EAD12BDE3B3F0027946C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 13E7EAD02BDE3B3F0027946C /* GoogleService-Info.plist */; };
 		13E7EAD32BDE3CC00027946C /* SearchDestinationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E7EAD22BDE3CC00027946C /* SearchDestinationViewModel.swift */; };
@@ -139,7 +138,7 @@
 		13E7EAD92BDE46990027946C /* TouristAttractionEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E7EAD82BDE46990027946C /* TouristAttractionEntity.swift */; };
 		13E7EADB2BDEB6D90027946C /* LeportsEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E7EADA2BDEB6D90027946C /* LeportsEntity.swift */; };
 		13E7EADD2BDF61540027946C /* RestaurantEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E7EADC2BDF61540027946C /* RestaurantEntity.swift */; };
-		13E7EADF2BDF61880027946C /* ShoppingEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E7EADE2BDF61880027946C /* ShoppingEntity.swift */; };
+		13E7EADF2BDF61880027946C /* IntroductionInfoShoppingEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E7EADE2BDF61880027946C /* IntroductionInfoShoppingEntity.swift */; };
 		13E7EAE12BDF61A70027946C /* FestivalEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E7EAE02BDF61A70027946C /* FestivalEntity.swift */; };
 		13E7EAE72BDF90BA0027946C /* TourAPIFestivalRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E7EAE62BDF90BA0027946C /* TourAPIFestivalRequestDTO.swift */; };
 		13E7EAEB2BE025D10027946C /* TourFestivalInfoRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E7EAEA2BE025D10027946C /* TourFestivalInfoRepository.swift */; };
@@ -170,7 +169,10 @@
 		13EB3CCF2BEA820600CA84F0 /* TransformationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13EB3CCE2BEA820600CA84F0 /* TransformationError.swift */; };
 		13EB3CD32BEAA00300CA84F0 /* DefaultTourIntroductionInfoRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13EB3CD22BEAA00300CA84F0 /* DefaultTourIntroductionInfoRepositoryTests.swift */; };
 		13EB3CD62BEB689A00CA84F0 /* TourContentId.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13EB3CD52BEB689A00CA84F0 /* TourContentId.swift */; };
-		13EB3CD82BEBF1E800CA84F0 /* ImageDataFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13EB3CD72BEBF1E800CA84F0 /* ImageDataFetcher.swift */; };
+		13EB3CD82BEBF1E800CA84F0 /* ImageSessionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13EB3CD72BEBF1E800CA84F0 /* ImageSessionProvider.swift */; };
+		13EB3CFA2BED274700CA84F0 /* TourIntroductionInfoShoppingResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13EB3CF92BED274700CA84F0 /* TourIntroductionInfoShoppingResponseDTO.swift */; };
+		13EB3CFF2BED403900CA84F0 /* TourType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13EB3CFE2BED403900CA84F0 /* TourType.swift */; };
+		13EB3D012BEDECFC00CA84F0 /* ImageSessionable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13EB3D002BEDECFC00CA84F0 /* ImageSessionable.swift */; };
 		13F6DAC82B5248EF00573B86 /* SlideUpAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F6DAC72B5248EF00573B86 /* SlideUpAnimator.swift */; };
 		13F6DACA2B52711E00573B86 /* SlideDownAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F6DAC92B52711E00573B86 /* SlideDownAnimator.swift */; };
 		13F6DACD2B53A5D400573B86 /* AlbumCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F6DACC2B53A5D400573B86 /* AlbumCoordinator.swift */; };
@@ -854,7 +856,6 @@
 		13E7EAC62BDE20060027946C /* TouristAttractionResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouristAttractionResponseDTO.swift; sourceTree = "<group>"; };
 		13E7EAC82BDE2C010027946C /* LeportsResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeportsResponseDTO.swift; sourceTree = "<group>"; };
 		13E7EACA2BDE317F0027946C /* RestaurantResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantResponseDTO.swift; sourceTree = "<group>"; };
-		13E7EACC2BDE35220027946C /* ShoppingResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingResponseDTO.swift; sourceTree = "<group>"; };
 		13E7EACE2BDE36640027946C /* TourFestivalResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourFestivalResponseDTO.swift; sourceTree = "<group>"; };
 		13E7EAD02BDE3B3F0027946C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		13E7EAD22BDE3CC00027946C /* SearchDestinationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDestinationViewModel.swift; sourceTree = "<group>"; };
@@ -862,7 +863,7 @@
 		13E7EAD82BDE46990027946C /* TouristAttractionEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouristAttractionEntity.swift; sourceTree = "<group>"; };
 		13E7EADA2BDEB6D90027946C /* LeportsEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeportsEntity.swift; sourceTree = "<group>"; };
 		13E7EADC2BDF61540027946C /* RestaurantEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantEntity.swift; sourceTree = "<group>"; };
-		13E7EADE2BDF61880027946C /* ShoppingEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingEntity.swift; sourceTree = "<group>"; };
+		13E7EADE2BDF61880027946C /* IntroductionInfoShoppingEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroductionInfoShoppingEntity.swift; sourceTree = "<group>"; };
 		13E7EAE02BDF61A70027946C /* FestivalEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FestivalEntity.swift; sourceTree = "<group>"; };
 		13E7EAE62BDF90BA0027946C /* TourAPIFestivalRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourAPIFestivalRequestDTO.swift; sourceTree = "<group>"; };
 		13E7EAEA2BE025D10027946C /* TourFestivalInfoRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourFestivalInfoRepository.swift; sourceTree = "<group>"; };
@@ -892,7 +893,10 @@
 		13EB3CCE2BEA820600CA84F0 /* TransformationError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransformationError.swift; sourceTree = "<group>"; };
 		13EB3CD22BEAA00300CA84F0 /* DefaultTourIntroductionInfoRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultTourIntroductionInfoRepositoryTests.swift; sourceTree = "<group>"; };
 		13EB3CD52BEB689A00CA84F0 /* TourContentId.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourContentId.swift; sourceTree = "<group>"; };
-		13EB3CD72BEBF1E800CA84F0 /* ImageDataFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDataFetcher.swift; sourceTree = "<group>"; };
+		13EB3CD72BEBF1E800CA84F0 /* ImageSessionProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSessionProvider.swift; sourceTree = "<group>"; };
+		13EB3CF92BED274700CA84F0 /* TourIntroductionInfoShoppingResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourIntroductionInfoShoppingResponseDTO.swift; sourceTree = "<group>"; };
+		13EB3CFE2BED403900CA84F0 /* TourType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourType.swift; sourceTree = "<group>"; };
+		13EB3D002BEDECFC00CA84F0 /* ImageSessionable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSessionable.swift; sourceTree = "<group>"; };
 		13F6DAC72B5248EF00573B86 /* SlideUpAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideUpAnimator.swift; sourceTree = "<group>"; };
 		13F6DAC92B52711E00573B86 /* SlideDownAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideDownAnimator.swift; sourceTree = "<group>"; };
 		13F6DACC2B53A5D400573B86 /* AlbumCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumCoordinator.swift; sourceTree = "<group>"; };
@@ -1742,6 +1746,7 @@
 		13E84AEB2BE39C2900B537B6 /* TourDestinationType */ = {
 			isa = PBXGroup;
 			children = (
+				13EB3CFB2BED337700CA84F0 /* Shopping */,
 				13E84AEC2BE39C4F00B537B6 /* Festival */,
 			);
 			path = TourDestinationType;
@@ -1764,6 +1769,14 @@
 				13EB3CD22BEAA00300CA84F0 /* DefaultTourIntroductionInfoRepositoryTests.swift */,
 			);
 			path = Data;
+			sourceTree = "<group>";
+		};
+		13EB3CFB2BED337700CA84F0 /* Shopping */ = {
+			isa = PBXGroup;
+			children = (
+				13E7EADE2BDF61880027946C /* IntroductionInfoShoppingEntity.swift */,
+			);
+			path = Shopping;
 			sourceTree = "<group>";
 		};
 		13F6DACB2B53A5A800573B86 /* Coordinator */ = {
@@ -1992,10 +2005,10 @@
 				13E7EAD82BDE46990027946C /* TouristAttractionEntity.swift */,
 				13E7EAD62BDE45C30027946C /* CultureFacilityEntity.swift */,
 				13E7EADC2BDF61540027946C /* RestaurantEntity.swift */,
-				13E7EADE2BDF61880027946C /* ShoppingEntity.swift */,
 				154CA6222BD3AE100066B444 /* TourCommonInfoEntity.swift */,
 				15AE48532BE9395B0035D980 /* TourRetrievedImageEntity.swift */,
 				13EB3CD52BEB689A00CA84F0 /* TourContentId.swift */,
+				13EB3CFE2BED403900CA84F0 /* TourType.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -2423,12 +2436,12 @@
 				13E7EAC62BDE20060027946C /* TouristAttractionResponseDTO.swift */,
 				13E7EAC82BDE2C010027946C /* LeportsResponseDTO.swift */,
 				13E7EACA2BDE317F0027946C /* RestaurantResponseDTO.swift */,
-				13E7EACC2BDE35220027946C /* ShoppingResponseDTO.swift */,
 				13E7EACE2BDE36640027946C /* TourFestivalResponseDTO.swift */,
 				154CA6122BD3A6CC0066B444 /* TourApiCommonInfoResponseDTO.swift */,
 				15803C402BD911D100D83F2B /* TourApiErrorResponseDTO.swift */,
 				13E84AE92BE372AF00B537B6 /* TourIntroductionInfoFestivalResponseDTO.swift */,
 				15050D3D2BE92F1800B3E26A /* TourApiRetrievedImageResponseDTO.swift */,
+				13EB3CF92BED274700CA84F0 /* TourIntroductionInfoShoppingResponseDTO.swift */,
 			);
 			path = ResponseDTO;
 			sourceTree = "<group>";
@@ -3593,7 +3606,8 @@
 				15FFAC142ADA83E00013DB57 /* SessionProvider.swift */,
 				15FFAC102AD9C7A10013DB57 /* Sessionable.swift */,
 				154CA6002BD398D40066B444 /* RelativeURLPathProvidable.swift */,
-				13EB3CD72BEBF1E800CA84F0 /* ImageDataFetcher.swift */,
+				13EB3CD72BEBF1E800CA84F0 /* ImageSessionProvider.swift */,
+				13EB3D002BEDECFC00CA84F0 /* ImageSessionable.swift */,
 			);
 			path = Module;
 			sourceTree = "<group>";
@@ -4018,7 +4032,6 @@
 				1503F92B2A4E068E002BC38D /* ApplicationCoordinator.swift in Sources */,
 				154CA6132BD3A6CC0066B444 /* TourApiCommonInfoResponseDTO.swift in Sources */,
 				13405F042AED899800382796 /* KakaoLoginButton.swift in Sources */,
-				13E7EACD2BDE35220027946C /* ShoppingResponseDTO.swift in Sources */,
 				15BE6BEC2BAF1DB3009A2568 /* MockPostCommentRepository.swift in Sources */,
 				13BF41202ADBEC8C00F3F082 /* LoginStartView.swift in Sources */,
 				15803C512BDA4DC700D83F2B /* FirestoreMyProfileAPIEndopint.swift in Sources */,
@@ -4028,6 +4041,7 @@
 				15803C482BD932D500D83F2B /* MockEndpoint.swift in Sources */,
 				15BE6BDE2BAF0930009A2568 /* DefaultPostCommentRepository.swift in Sources */,
 				15FFABFB2AD5B6FC0013DB57 /* BasePaddingLabel.swift in Sources */,
+				13EB3CFA2BED274700CA84F0 /* TourIntroductionInfoShoppingResponseDTO.swift in Sources */,
 				15B01DA32BA93A1000BE9F98 /* OwnerStorage.swift in Sources */,
 				15C36BBB2BD17AC0004AA8E9 /* FirestoreRequestType.swift in Sources */,
 				1572ABC22BE78D62008AFE66 /* PostCommentAtomicRepository.swift in Sources */,
@@ -4203,6 +4217,7 @@
 				13AE0DD22BBC42C000652B99 /* PhotoOrderView.swift in Sources */,
 				157ADCAE2AD00AB400D37680 /* FavoriteLocationViewController.swift in Sources */,
 				1561DC7C2BDF7DC200C25577 /* FirestorePostRepository.swift in Sources */,
+				13EB3CFF2BED403900CA84F0 /* TourType.swift in Sources */,
 				15BB01B82A1EB5070035B486 /* LoginViewModel.swift in Sources */,
 				152715412BA0D5AE0077D033 /* UserProfileRepository.swift in Sources */,
 				15803C5F2BDA906300D83F2B /* VoidResponseDTO.swift in Sources */,
@@ -4290,7 +4305,7 @@
 				1572ABD82BE89F56008AFE66 /* PostCommentHeartRepository.swift in Sources */,
 				1599587D2B0DC56200B2E4DC /* PostCellWithThreeThumbnails.swift in Sources */,
 				159F38CA2AFAABF9000A24C2 /* PostDetailProfileAreaFooterView.swift in Sources */,
-				13EB3CD82BEBF1E800CA84F0 /* ImageDataFetcher.swift in Sources */,
+				13EB3CD82BEBF1E800CA84F0 /* ImageSessionProvider.swift in Sources */,
 				1594F53229FD517E00A58F20 /* AppDelegate.swift in Sources */,
 				134CCB672B028D9C00D51D84 /* ReviewWritingContentViewDelegate.swift in Sources */,
 				13405F692AF4478400382796 /* NavigationTitleWithClickView.swift in Sources */,
@@ -4433,7 +4448,7 @@
 				13A93EE92AD0065300FC4BBD /* SearchMoreDetailLayoutManager.swift in Sources */,
 				151DF1052AEEBE0F00D5D55B /* NoticeResponseDTO.swift in Sources */,
 				130CF38F2B9356370051DEE8 /* AuthenticationService.swift in Sources */,
-				13E7EADF2BDF61880027946C /* ShoppingEntity.swift in Sources */,
+				13E7EADF2BDF61880027946C /* IntroductionInfoShoppingEntity.swift in Sources */,
 				15B5E7B22BBAEEA500C19F56 /* BlockedUserProfileEntity.swift in Sources */,
 				15D3882D2AFFBB5B00039946 /* PostDetailInputAccessoryWrapper.swift in Sources */,
 				1503F9372A4E1103002BC38D /* FavoriteCoordinator.swift in Sources */,
@@ -4464,6 +4479,7 @@
 				15A7A8F22B9F6C1700CA9A79 /* UserEntity.swift in Sources */,
 				15CB236F2A10C314003EAF20 /* PostCellViewModel.swift in Sources */,
 				15FBD5DC2B98E32C00076115 /* PostAPIEndpoint.swift in Sources */,
+				13EB3D012BEDECFC00CA84F0 /* ImageSessionable.swift in Sources */,
 				13C9C1B12A1806F500DF1FFF /* PostRecentSearchTagCellDelegate.swift in Sources */,
 				158EFCD32BCA4BA200C40612 /* SettingViewModelable.swift in Sources */,
 				153FA9112B938C19006CF3C3 /* ParameterType.swift in Sources */,
