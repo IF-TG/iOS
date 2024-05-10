@@ -35,13 +35,15 @@ extension FirestorePostNestedCommentHeartRepository: PostNestedCommentHeartRepos
   func fetchNestedCommentHeartUsers(
     with postId: String,
     commentId: String
+    nestedCommentId: String
   ) -> AnyPublisher<[UserIdentifier], any Error> {
-    fatalError("미구현")
+    
   }
   
   func fetchNestedCommentHearts(
     with postId: String,
-    commentId: String
+    commentId: String,
+    nestedCommentId: String
   ) -> AnyPublisher<Int, any Error> {
     fatalError("미구현")
   }
@@ -49,6 +51,7 @@ extension FirestorePostNestedCommentHeartRepository: PostNestedCommentHeartRepos
   func heartNestedComment(
     with postId: String,
     commentId: String,
+    nestedCommentId: String,
     userId: String
   ) -> AnyPublisher<Void, any Error> {
     fatalError("미구현")
@@ -57,6 +60,7 @@ extension FirestorePostNestedCommentHeartRepository: PostNestedCommentHeartRepos
   func hateNestedComment(
     with postId: String,
     commentId: String,
+    nestedCommentId: String,
     userId: String
   ) -> AnyPublisher<Void, any Error> {
     fatalError("미구현")
@@ -65,7 +69,8 @@ extension FirestorePostNestedCommentHeartRepository: PostNestedCommentHeartRepos
   func updateNestedCommentHearts(
     with postId: String,
     commentId: String,
-    userId: String, 
+    nestedCommentId: String,
+    userId: String,
     willHeartComment: Bool
   ) -> AnyPublisher<Void, any Error> {
     fatalError("미구현")
