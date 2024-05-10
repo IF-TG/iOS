@@ -52,4 +52,14 @@ struct FirestoreNestedCommentHeartAPIEndpoints {
       method: .update,
       requestType: .posts(.updateNestedCommentHearts(postId, commentId, nestedCommentId)))
   }
+  
+  static func makeNestedCommentHeartsFetchEndpoint(
+    withPostId postId: String,
+    commentId: String,
+    nestedCommentId: String
+  ) -> FirestoreEndpoint<Int> {
+    return FirestoreEndpoint(
+      method: .retrieveNumberOfDocuments,
+      requestType: .posts(.fetchNestedCommentHearts(postId, commentId, nestedCommentId)))
+  }
 }
