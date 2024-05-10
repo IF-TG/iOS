@@ -52,7 +52,6 @@ struct FirestorePostNestedCommentAPIEndpoint {
       requestType: .posts(.fetchNestedComments(postId, commentId)))
   }
   
-  
   static func makeTheNumberOfNestedCommentsFetchEndpoint(
     withPostId postId: String,
     commentId: String
