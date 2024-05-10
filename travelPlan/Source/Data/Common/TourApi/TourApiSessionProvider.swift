@@ -104,8 +104,8 @@ extension TourApiSessionProvider {
         }
       } receiveValue: { [weak self] attributes in
         self?.xmlParsingService = nil
-        if let errorCode = attributes["returnReasonCode"],
-           let tourApiError = TourAPIError(code: errorCode) {
+        if let errorCode = attributes["returnReasonCode"] {
+          let tourApiError = TourAPIError.publicDataPortalError(.init(code: errorCode))
           promise(.failure(
             AFError.responseSerializationFailed(reason: .decodingFailed(error: tourApiError))))
         }
@@ -126,8 +126,7 @@ extension TourApiSessionProvider {
     promise: @escaping Future<R, AFError>.Promise
   ) {
     if let errorResponseDTO = try? JSONDecoder().decode(TourApiErrorResponseDTO.self, from: data) {
-      let tourAPIError = TourAPIError(code: errorResponseDTO.resultCode) ?? .tourAPIProviderInstitutionError(
-        .unknownError)
+      let tourAPIError = TourAPIError.tourAPIProviderInstitutionError(.init(code: errorResponseDTO.resultCode))
       let reason = AFError.ResponseSerializationFailureReason.decodingFailed(error: tourAPIError)
       promise(.failure(AFError.responseSerializationFailed(reason: reason)))
     }

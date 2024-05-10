@@ -7,18 +7,24 @@
 
 import Foundation
 import Combine
+import Alamofire
 
 final class DefaultTourCommonInfoRepository: TourCommonInfoRepository {
   typealias Endpoint = TourCommonInfoAPIEndpoint
   
   // MARK: - Dependencies
   private let service: Sessionable
+  private let imageService: ImageSessionable
   private let backgroundQueue: DispatchQueue
-  private var subscriptions = Set<AnyCancellable?>()
   
   // MARK: - Lifecycle
-  init(service: Sessionable, backgroundQueue: DispatchQueue = .global(qos: .userInitiated)) {
+  init(
+    service: Sessionable,
+    imageService: ImageSessionable,
+    backgroundQueue: DispatchQueue = .global(qos: .userInitiated)
+  ) {
     self.service = service
+    self.imageService = imageService
     self.backgroundQueue = backgroundQueue
   }
   
@@ -30,32 +36,49 @@ final class DefaultTourCommonInfoRepository: TourCommonInfoRepository {
     let requestDTO = TourApiCommonInfoRequestDTO(contentId: contentId, numOfRows: 10, pageNo: 1)
     let endpoint = Endpoint.makeCommonInfoAPIEndpoint(with: requestDTO)
     
-    return Future { [weak self, backgroundQueue] promise in
-      let subscription = self?.service.request(endpoint: endpoint)
-        .subscribe(on: backgroundQueue)
-        .mapConnectionError()        
-        .tryMap {
-          let resultCode = $0.response.header.resultCode
-          if resultCode == "0000" {
-            guard let item = $0.response.body.items.item.first else {
-              /// commonInfo가 없을경우 noDataError를 방출합니다.
-              throw TourAPIError.tourAPIProviderInstitutionError(.noDataError)
-            }
-            return item.toDomain()
-          } else {
-            throw TourAPIError(
-              code: String(resultCode.suffix(2))
-            ) ?? .unexpectedErrorFromSuccessfulResponseData("Error code:\(resultCode)")
-          }
+    return service.request(endpoint: endpoint)
+      .subscribe(on: backgroundQueue)
+      .mapConnectionError()
+      .flatMap { [weak self, backgroundQueue] in
+        let resultCode = $0.response.header.resultCode
+        
+        guard resultCode == "0000" else {
+          return Fail<TourCommonInfoEntity, any Error>(
+            error: TourAPIError.publicDataPortalError(.init(code: String(resultCode.suffix(2))))
+          )
+          .eraseToAnyPublisher()
         }
-        .sink { completion in
-          if case .failure(let error) = completion {
-            promise(.failure(error))
-          }
-        } receiveValue: { responseDTO in
-          promise(.success(responseDTO))
+        
+        guard let item = $0.response.body.items.item.first else {
+          return Fail<TourCommonInfoEntity, any Error>(
+            error: TourAPIError.tourAPIProviderInstitutionError(.noDataError)
+          )
+          .eraseToAnyPublisher()
         }
-      self?.subscriptions.insert(subscription)
-    }.eraseToAnyPublisher()
+        
+        guard
+          let imagePublisher = self?.makeImageDataPublisher(imageURL: item.firstimage, queue: backgroundQueue),
+          let thumbnailPublisher = self?.makeImageDataPublisher(imageURL: item.firstimage2, queue: backgroundQueue)
+        else {
+          return Fail<TourCommonInfoEntity, any Error>(error: ReferenceError.invalidReference)
+            .eraseToAnyPublisher()
+        }
+        
+        return imagePublisher.zip(thumbnailPublisher)
+          .map { (imageData, thumbnailData) in 
+            return item.toDomain(firstImageData: imageData, thumbnailImageDate: thumbnailData)
+          }.eraseToAnyPublisher()
+      }.eraseToAnyPublisher()
+  }
+}
+
+// MARK: - Private Helpers
+extension DefaultTourCommonInfoRepository {
+  private func makeImageDataPublisher(imageURL: String, queue: DispatchQueue) -> AnyPublisher<Data, any Error> {
+    
+    return imageService
+      .request(imageURL: imageURL, queue: queue)
+      .mapError { $0 as Error }
+      .eraseToAnyPublisher()
   }
 }

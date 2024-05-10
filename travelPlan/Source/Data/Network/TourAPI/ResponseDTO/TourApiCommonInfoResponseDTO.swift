@@ -34,13 +34,13 @@ struct TourApiCommonInfoResponseDTO: Decodable {
 
 // MARK: - Mappings to Domain
 extension TourApiCommonInfoResponseDTO {
-  func toDomain() -> TourCommonInfoEntity {
+  func toDomain(firstImageData: Data?, thumbnailImageDate: Data?) -> TourCommonInfoEntity {
     .init(
       id: .init(contentId: contentid, contentTypeId: contenttypeid),
       address: .init(address1: addr1, address2: addr2),
       contact: .init(telNumber: tel, telName: telname),
       coordinate: .init(mapX: mapx, mapY: mapy),
-      image: .init(originalImageURL: firstimage, thumbnailImageURL: firstimage2),
+      image: .init(originalImageData: firstImageData, thumbnailImageData: thumbnailImageDate),
       overview: overview,
       title: title)
   }
