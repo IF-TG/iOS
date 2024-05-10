@@ -205,7 +205,7 @@ extension FirestoreRequestType {
         return nil
       case .hateComment(_, _, let userId):
         return userId
-      case .updateCommentHearts(let postId, let commentId):
+      case .updateCommentHearts(_, let commentId):
         return commentId
       case .saveComment:
         return nil
