@@ -170,8 +170,15 @@ extension FirestoreRequestType {
     case deleteComment(PostId, CommentId)
     case fetchComments(PostId)
     
+    // MARK: - PostNestedCommentHearts
+    case fetchNestedCommentHeartUsers(PostId, CommentId, String)
+    
     private var rootPath: String {
       "posts"
+    }
+    
+    private var nestedCommentHearts: String {
+      "heart-users"
     }
     
     var documentpath: String? {
@@ -209,6 +216,8 @@ extension FirestoreRequestType {
       case .deleteComment(_, let commentId):
         return commentId
       case .fetchComments:
+        return nil
+      case .fetchNestedCommentHeartUsers:
         return nil
       }
     }
@@ -249,6 +258,8 @@ extension FirestoreRequestType {
         return "\(rootPath)/\(postId)/comments"
       case .fetchComments(let postId):
         return "\(rootPath)/\(postId)/comments"
+      case .fetchNestedCommentHeartUsers(let postId, let commentId, let nestedCommentId):
+        return "\(rootPath)/\(postId)/comments/\(commentId)/nestedComments/\(nestedCommentId)/\(nestedCommentHearts)"
       }
     }
   }
