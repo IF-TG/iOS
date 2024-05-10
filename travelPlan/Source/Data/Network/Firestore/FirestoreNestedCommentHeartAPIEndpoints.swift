@@ -20,4 +20,15 @@ struct FirestoreNestedCommentHeartAPIEndpoints {
       method: .get,
       requestType: .posts(.fetchNestedCommentHeartUsers(postId, commentId, nestedCommentId)))
   }
+  
+  static func makeNestedCommentHeartEndpoint(
+    withPostId postId: String,
+    commentId: String,
+    nestedCommentId: String,
+    userId: String
+  ) -> FirestoreEndpoint<UserIdentifier> {
+    return FirestoreEndpoint(
+      method: .save(userId),
+      requestType: .posts(.heartNestedComment(postId, commentId, nestedCommentId)))
+  }
 }
