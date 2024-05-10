@@ -34,10 +34,26 @@ final class FirestorePostNestedCommentHeartRepository {
 extension FirestorePostNestedCommentHeartRepository: PostNestedCommentHeartRepository {
   func fetchNestedCommentHeartUsers(
     with postId: String,
-    commentId: String
+    commentId: String,
     nestedCommentId: String
   ) -> AnyPublisher<[UserIdentifier], any Error> {
-    
+    let endpoint = Endpoint.makeNestedCommentHeartUsersFetchEndpoint(
+      withPostId: postId,
+      commentId: commentId,
+      nestedCommentId: nestedCommentId)
+    return Future { [weak self, backgroundQueue] promise in
+      let fetch = self?.service
+        .request(endpoint: endpoint)
+        .subscribeAndReceive(on: backgroundQueue)
+        .sink { completion in
+          if case .failure(let error) = completion {
+            promise(.failure(error))
+          }
+        } receiveValue: { responseDTO in
+          promise(.success(responseDTO))
+        }
+      self?.subscriptions.insert(fetch)
+    }.eraseToAnyPublisher()
   }
   
   func fetchNestedCommentHearts(
