@@ -143,6 +143,7 @@ extension FirestoreRequestType {
     typealias PostId = String
     typealias UserId = String
     typealias CommentId = String
+    typealias NestedCommentId = String
     
     case save
     case update(postId: String)
@@ -170,8 +171,31 @@ extension FirestoreRequestType {
     case deleteComment(PostId, CommentId)
     case fetchComments(PostId)
     
+    // MARK: - PostNestedComments
+    case saveNestedComment(PostId, CommentId)
+    case deleteNestedComment(PostId, CommentId, NestedCommentId)
+    case updateNestedComment(PostId, CommentId, NestedCommentId)
+    case fetchNestedComments(PostId, CommentId)
+    case deleteAllNestedComments(PostId, CommentId)
+    
     private var rootPath: String {
       "posts"
+    }
+    
+    private var comments: String {
+      "comments"
+    }
+    
+    private var postHearts: String {
+      "post-hearts"
+    }
+    
+    private var commentHearts: String {
+      "comment-hearts"
+    }
+    
+    private var nestedComments: String {
+      "nested-comments"
     }
     
     var documentpath: String? {
@@ -198,7 +222,7 @@ extension FirestoreRequestType {
         return nil
       case .hateComment(_, _, let userId):
         return userId
-      case .updateCommentHearts(let postId, let commentId):
+      case .updateCommentHearts(_, let commentId):
         return commentId
       case .saveComment:
         return nil
@@ -209,6 +233,16 @@ extension FirestoreRequestType {
       case .deleteComment(_, let commentId):
         return commentId
       case .fetchComments:
+        return nil
+      case .saveNestedComment:
+        return nil
+      case .deleteNestedComment(_, _, let nestedCommentId):
+        return nestedCommentId
+      case .updateNestedComment(_, _, let nestedCommentId):
+        return nestedCommentId
+      case .fetchNestedComments:
+        return nil
+      case .deleteAllNestedComments:
         return nil
       }
     }
@@ -222,33 +256,43 @@ extension FirestoreRequestType {
       case .fetch:
         return rootPath
       case .fetchHeartUsers(let postId):
-        return "\(rootPath)/\(postId)/post-hearts"
+        return "\(rootPath)/\(postId)/\(postHearts)"
       case .heartPost(let postId):
-        return "\(rootPath)/\(postId)/post-hearts"
+        return "\(rootPath)/\(postId)/\(postHearts)"
       case .hatePost(let postId, _):
-        return "\(rootPath)/\(postId)/post-hearts"
+        return "\(rootPath)/\(postId)/\(postHearts)"
       case .togglePostHearts:
         return rootPath
       case .fetchPostHearts:
         return rootPath
       case .fetchCommentHeartUsers(let postId, let commentId):
-        return "\(rootPath)/\(postId)/comments/\(commentId)/comment-hearts"
+        return "\(rootPath)/\(postId)/\(comments)/\(commentId)/\(commentHearts)"
       case .heartComment(let postId, let commentId):
-        return "\(rootPath)/\(postId)/comments/\(commentId)/comment-hearts"
+        return "\(rootPath)/\(postId)/\(comments)/\(commentId)/\(commentHearts)"
       case .hateComment(let postId, let commentId, _):
-        return "\(rootPath)/\(postId)/comments/\(commentId)/comment-hearts"
+        return "\(rootPath)/\(postId)/\(comments)/\(commentId)/\(commentHearts)"
       case .updateCommentHearts(let postId, _):
-        return "\(rootPath)/\(postId)/comments"
+        return "\(rootPath)/\(postId)/\(comments)"
       case .saveComment(let postId, _):
-        return "\(rootPath)/\(postId)/comments"
+        return "\(rootPath)/\(postId)/\(comments)"
       case .updateComment(let postId, _):
-        return "\(rootPath)/\(postId)/comments"
+        return "\(rootPath)/\(postId)/\(comments)"
       case .deleteCommentWhenNestedCommentExists(let postId, _):
-        return "\(rootPath)/\(postId)/comments"
+        return "\(rootPath)/\(postId)/\(comments)"
       case .deleteComment(let postId, _):
-        return "\(rootPath)/\(postId)/comments"
+        return "\(rootPath)/\(postId)/\(comments)"
       case .fetchComments(let postId):
-        return "\(rootPath)/\(postId)/comments"
+        return "\(rootPath)/\(postId)/\(comments)"
+      case .saveNestedComment(let postId, let commentId):
+        return "\(rootPath)/\(postId)/\(comments)/\(commentId)/\(nestedComments)"
+      case .deleteNestedComment(let postId, let commentId, _):
+        return "\(rootPath)/\(postId)/\(comments)/\(commentId)/\(nestedComments)"
+      case .updateNestedComment(let postId, let commentId, _):
+        return "\(rootPath)/\(postId)/\(comments)/\(commentId)/\(nestedComments)"
+      case .fetchNestedComments(let postId, let commentId):
+        return "\(rootPath)/\(postId)/\(comments)/\(commentId)/\(nestedComments)"
+      case .deleteAllNestedComments(let postId, let commentId):
+        return "\(rootPath)/\(postId)/\(comments)/\(commentId)/\(nestedComments)"
       }
     }
   }
