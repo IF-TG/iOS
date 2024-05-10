@@ -436,6 +436,7 @@
 		159851C52BEDF28B001262BD /* Combine+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159851C42BEDF28B001262BD /* Combine+Helpers.swift */; };
 		159851C72BEDF6C2001262BD /* FirestorePostNestedCommentHeartRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159851C62BEDF6C2001262BD /* FirestorePostNestedCommentHeartRepositoryTests.swift */; };
 		159851CA2BEDF81D001262BD /* Combine+XCTestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159851C92BEDF81D001262BD /* Combine+XCTestHelpers.swift */; };
+		159851E72BEE2B2C001262BD /* PostNestedCommentHeartsResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159851E62BEE2B2C001262BD /* PostNestedCommentHeartsResponseDTO.swift */; };
 		159958762B0D988400B2E4DC /* Palette.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 159958752B0D988400B2E4DC /* Palette.xcassets */; };
 		159958792B0DC51900B2E4DC /* PostCellWithOneThumbnail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159958782B0DC51900B2E4DC /* PostCellWithOneThumbnail.swift */; };
 		1599587B2B0DC55700B2E4DC /* PostCellWithTwoThumbnails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1599587A2B0DC55700B2E4DC /* PostCellWithTwoThumbnails.swift */; };
@@ -1163,6 +1164,7 @@
 		159851C42BEDF28B001262BD /* Combine+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Combine+Helpers.swift"; sourceTree = "<group>"; };
 		159851C62BEDF6C2001262BD /* FirestorePostNestedCommentHeartRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestorePostNestedCommentHeartRepositoryTests.swift; sourceTree = "<group>"; };
 		159851C92BEDF81D001262BD /* Combine+XCTestHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Combine+XCTestHelpers.swift"; sourceTree = "<group>"; };
+		159851E62BEE2B2C001262BD /* PostNestedCommentHeartsResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostNestedCommentHeartsResponseDTO.swift; sourceTree = "<group>"; };
 		159958752B0D988400B2E4DC /* Palette.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Palette.xcassets; sourceTree = "<group>"; };
 		159958782B0DC51900B2E4DC /* PostCellWithOneThumbnail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCellWithOneThumbnail.swift; sourceTree = "<group>"; };
 		1599587A2B0DC55700B2E4DC /* PostCellWithTwoThumbnails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCellWithTwoThumbnails.swift; sourceTree = "<group>"; };
@@ -2673,6 +2675,7 @@
 				154047872BE4954D009E86FF /* PostHeartsRespoonseDTO.swift */,
 				154F857E2BE0A71D00452D71 /* FirestorePostResponseDTO.swift */,
 				15445EA92BEB71430035B2FC /* PostAtomicNestedCommentResponseDTO.swift */,
+				159851E62BEE2B2C001262BD /* PostNestedCommentHeartsResponseDTO.swift */,
 			);
 			path = ResponseDTO;
 			sourceTree = "<group>";
@@ -4037,6 +4040,7 @@
 				15C466AD2BBACE2C00609DDD /* DefaultPhotoService.swift in Sources */,
 				159F38BB2AFA9F32000A24C2 /* PostDetailCategoryHeaderView.swift in Sources */,
 				15E1550E2BAB47F400582E12 /* BottomNextPageIndicatorCell.swift in Sources */,
+				159851E72BEE2B2C001262BD /* PostNestedCommentHeartsResponseDTO.swift in Sources */,
 				1572ABA92BE631F6008AFE66 /* FirestorePostCommentAPIEndpoint.swift in Sources */,
 				15A4F28D2ACC1025001AA51D /* Toggable.swift in Sources */,
 				15D955AF2ADFB2F1002BF9C3 /* ShadowInfo.swift in Sources */,
@@ -4325,8 +4329,6 @@
 				1546DF392B0B29D700B49A55 /* ImageConverter.swift in Sources */,
 				15F3763C2AFB7D1E00B3BF35 /* PostViewAdapterDelegate.swift in Sources */,
 				15AE48562BE93A030035D980 /* DefaultTourImageRetrieveInfoRepository.swift in Sources */,
-				15B01DA52BA93B5400BE9F98 /* UserDefaultsOwnerStorage.swift in Sources */,
-				15B01DA52BA93B5400BE9F98 /* UserDefaultsOwnerStorage.swift in Sources */,
 				13C32A3D2B0A2FF30046ED98 /* PictureImageViewDelegate.swift in Sources */,
 				13E84AE82BE370E000B537B6 /* TourAPIIntroductionInfoRequestDTO.swift in Sources */,
 				152AD4F02A189CFC008A2A11 /* FavoriteHeaderView.swift in Sources */,
