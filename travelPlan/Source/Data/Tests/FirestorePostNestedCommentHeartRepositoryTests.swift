@@ -7,6 +7,7 @@
 
 import XCTest
 import Combine
+@testable import FirebaseFirestore
 @testable import travelPlan
 @testable import SHFirestoreService
 
@@ -112,5 +113,26 @@ extension FirestorePostNestedCommentHeartRepositoryTests {
     // Assert
     checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "fetchNestedCommentHeartUsers")
     XCTAssertTrue(hasReceivedResult, "대댓글 좋아요한 사용자 리스트 불러오지 못했습니다")
+  }
+  
+  /// 대댓글 필드 증가전, 증가 후 필드값을 디비에서 받아와야하지만 이번에는 디비직접보고.. 체크하도록 테스트했습니다,,
+  func test_updateNestedCommentHearts호출시해당필드가증가되는가() {
+    // Arrange
+    var hasReceivedResult: Bool = false
+    var unexpectedError: Error?
+    
+    
+    // Act
+    let taskPublisher = sut.updateNestedCommentHearts(
+      with: testPostId, commentId: testCommentId, nestedCommentId: testNestedCommentId, willHeartComment: true)
+    sink(fromPublisher: taskPublisher, withExpectation: expectation) { error, result in
+      unexpectedError = error
+      hasReceivedResult = result
+    }.store(in: &subscriptions)
+    wait(for: [expectation], timeout: 7.777)
+    
+    // Assert
+    checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "updateNestedCommentHearts")
+    XCTAssertTrue(hasReceivedResult, "대댓글 좋아요 호출시 필드가 증가해야하지만, 증가되지 않았습니다.")
   }
 }
