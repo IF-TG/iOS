@@ -392,8 +392,11 @@
 		1595B5302BAD9DAC00DA5039 /* PostMainThemeCategoryBottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1595B52F2BAD9DAC00DA5039 /* PostMainThemeCategoryBottomSheet.swift */; };
 		159695402BE349F8003A3F19 /* FirestorePostHeartAPIEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1596953F2BE349F8003A3F19 /* FirestorePostHeartAPIEndpoint.swift */; };
 		159851BA2BEDEA1A001262BD /* FirestoreNestedCommentHeartAPIEndpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159851B92BEDEA1A001262BD /* FirestoreNestedCommentHeartAPIEndpoints.swift */; };
-		159851BC2BEDEB0A001262BD /* FirestoreNestedCommentHeartRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159851BB2BEDEB0A001262BD /* FirestoreNestedCommentHeartRepository.swift */; };
+		159851BC2BEDEB0A001262BD /* FirestorePostNestedCommentHeartRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159851BB2BEDEB0A001262BD /* FirestorePostNestedCommentHeartRepository.swift */; };
 		159851BE2BEDEC27001262BD /* PostNestedCommentHeartRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159851BD2BEDEC27001262BD /* PostNestedCommentHeartRepository.swift */; };
+		159851C52BEDF28B001262BD /* Combine+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159851C42BEDF28B001262BD /* Combine+Helpers.swift */; };
+		159851C72BEDF6C2001262BD /* FirestorePostNestedCommentHeartRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159851C62BEDF6C2001262BD /* FirestorePostNestedCommentHeartRepositoryTests.swift */; };
+		159851CA2BEDF81D001262BD /* Combine+XCTestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159851C92BEDF81D001262BD /* Combine+XCTestHelpers.swift */; };
 		159958762B0D988400B2E4DC /* Palette.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 159958752B0D988400B2E4DC /* Palette.xcassets */; };
 		159958792B0DC51900B2E4DC /* PostCellWithOneThumbnail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159958782B0DC51900B2E4DC /* PostCellWithOneThumbnail.swift */; };
 		1599587B2B0DC55700B2E4DC /* PostCellWithTwoThumbnails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1599587A2B0DC55700B2E4DC /* PostCellWithTwoThumbnails.swift */; };
@@ -1077,8 +1080,11 @@
 		1595B52F2BAD9DAC00DA5039 /* PostMainThemeCategoryBottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostMainThemeCategoryBottomSheet.swift; sourceTree = "<group>"; };
 		1596953F2BE349F8003A3F19 /* FirestorePostHeartAPIEndpoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirestorePostHeartAPIEndpoint.swift; sourceTree = "<group>"; };
 		159851B92BEDEA1A001262BD /* FirestoreNestedCommentHeartAPIEndpoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreNestedCommentHeartAPIEndpoints.swift; sourceTree = "<group>"; };
-		159851BB2BEDEB0A001262BD /* FirestoreNestedCommentHeartRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreNestedCommentHeartRepository.swift; sourceTree = "<group>"; };
+		159851BB2BEDEB0A001262BD /* FirestorePostNestedCommentHeartRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestorePostNestedCommentHeartRepository.swift; sourceTree = "<group>"; };
 		159851BD2BEDEC27001262BD /* PostNestedCommentHeartRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostNestedCommentHeartRepository.swift; sourceTree = "<group>"; };
+		159851C42BEDF28B001262BD /* Combine+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Combine+Helpers.swift"; sourceTree = "<group>"; };
+		159851C62BEDF6C2001262BD /* FirestorePostNestedCommentHeartRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestorePostNestedCommentHeartRepositoryTests.swift; sourceTree = "<group>"; };
+		159851C92BEDF81D001262BD /* Combine+XCTestHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Combine+XCTestHelpers.swift"; sourceTree = "<group>"; };
 		159958752B0D988400B2E4DC /* Palette.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Palette.xcassets; sourceTree = "<group>"; };
 		159958782B0DC51900B2E4DC /* PostCellWithOneThumbnail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCellWithOneThumbnail.swift; sourceTree = "<group>"; };
 		1599587A2B0DC55700B2E4DC /* PostCellWithTwoThumbnails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCellWithTwoThumbnails.swift; sourceTree = "<group>"; };
@@ -2481,7 +2487,7 @@
 				1572ABAC2BE63E03008AFE66 /* FirestorePostCommentRepository.swift */,
 				1572ABCC2BE7AF76008AFE66 /* FirestoreUserProfileRepository.swift */,
 				1561DC7B2BDF7DC200C25577 /* FirestorePostRepository.swift */,
-				159851BB2BEDEB0A001262BD /* FirestoreNestedCommentHeartRepository.swift */,
+				159851BB2BEDEB0A001262BD /* FirestorePostNestedCommentHeartRepository.swift */,
 			);
 			path = Firestore;
 			sourceTree = "<group>";
@@ -2721,6 +2727,14 @@
 			path = Favorite;
 			sourceTree = "<group>";
 		};
+		159851C32BEDF27E001262BD /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				159851C42BEDF28B001262BD /* Combine+Helpers.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
 		159B1CAC2BE3E3ED0089DF37 /* Foundation+ */ = {
 			isa = PBXGroup;
 			children = (
@@ -2740,6 +2754,7 @@
 		159B1CAD2BE3E43C0089DF37 /* XCTest+ */ = {
 			isa = PBXGroup;
 			children = (
+				159851C92BEDF81D001262BD /* Combine+XCTestHelpers.swift */,
 				15553BD22BB34ACA000AA896 /* XCTestCase+UseCaseTestsHelpers.swift */,
 				15529F802BBEC50B00FED360 /* XCTestCase+Helpers.swift */,
 				156C1E2B2BBED14300AF1D99 /* SHCoordinator+XCTestCase.swift */,
@@ -2785,6 +2800,7 @@
 		15B96B042BC79D0D0045B19B /* Combine */ = {
 			isa = PBXGroup;
 			children = (
+				159851C32BEDF27E001262BD /* Extension */,
 				15FEB5D92A050A99000A5F33 /* CombineCocoa */,
 			);
 			path = Combine;
@@ -3151,6 +3167,7 @@
 				15EBD9182BE8AC9400BCEA7F /* FirestorePostCommentHeartRepositoryTests.swift */,
 				1572ABAE2BE6780E008AFE66 /* FirestorePostAtomicCommentRepositoryTests.swift */,
 				1572ABD42BE7B5C9008AFE66 /* FirestoreUserProfileRepositoryTests.swift */,
+				159851C62BEDF6C2001262BD /* FirestorePostNestedCommentHeartRepositoryTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -3730,6 +3747,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				159851CA2BEDF81D001262BD /* Combine+XCTestHelpers.swift in Sources */,
+				159851C72BEDF6C2001262BD /* FirestorePostNestedCommentHeartRepositoryTests.swift in Sources */,
 				1572ABAF2BE6780E008AFE66 /* FirestorePostAtomicCommentRepositoryTests.swift in Sources */,
 				1572ABD52BE7B5C9008AFE66 /* FirestoreUserProfileRepositoryTests.swift in Sources */,
 				15803C3F2BD8F5F900D83F2B /* XMLParsingServiceTests.swift in Sources */,
@@ -4062,7 +4081,7 @@
 				1586BA872BBBCCCB001AA97C /* PostDetailViewModelable.swift in Sources */,
 				130304AA2A271F3B00776A0D /* SearchSectionModel.swift in Sources */,
 				151DF1122AEECDDD00D5D55B /* NoticeViewModelable.swift in Sources */,
-				159851BC2BEDEB0A001262BD /* FirestoreNestedCommentHeartRepository.swift in Sources */,
+				159851BC2BEDEB0A001262BD /* FirestorePostNestedCommentHeartRepository.swift in Sources */,
 				15D3DA1E2BBFCDA20099C384 /* FavoritePostScrapRequestDTO.swift in Sources */,
 				15803C382BD8F3BC00D83F2B /* XMLParsingService.swift in Sources */,
 				15F36A182AB1986000971803 /* TravelTheme.swift in Sources */,
@@ -4287,6 +4306,7 @@
 				1503F93D2A4E1291002BC38D /* PlanCoordinator.swift in Sources */,
 				13254FE52A05157900094218 /* FeedViewController.swift in Sources */,
 				15B9285F2AFA2D89003A20D4 /* PostDetailContentImageCell.swift in Sources */,
+				159851C52BEDF28B001262BD /* Combine+Helpers.swift in Sources */,
 				130304822A250DF600776A0D /* TitleWithButtonHeaderView.swift in Sources */,
 				13E98F942BC7E42E00F05295 /* PostContentEntity.swift in Sources */,
 				15C1F55C2AF37CA8005FDA15 /* NSMutableAttributedString+.swift in Sources */,
