@@ -47,8 +47,7 @@ extension DefaultTourImageRetrieveInfoRepository: TourImageRetrieveInfoRepositor
       .tryFilter { responseDTO in
         let resultCode = responseDTO.response.header.resultCode
         guard resultCode == "0000" else {
-          throw TourAPIError(code: String(resultCode.suffix(2))) ?? TourAPIError
-            .unexpectedErrorFromSuccessfulResponseData(resultCode)
+          throw TourAPIError.publicDataPortalError(.init(code: String(resultCode.suffix(2))))
         }
         return !responseDTO.response.body.items.item.isEmpty
       }.map { $0.response.body.items.item.map { $0.toDomain()} }

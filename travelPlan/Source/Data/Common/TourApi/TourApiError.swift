@@ -17,16 +17,6 @@ import Foundation
   /// 성공적으로 반환받은 데이터(TourApiCommonResponseDTO)의 response header에서 TourAPIError를 생성할 수 없는,
   ///   국문에서 정의되지 않은 errorCode를 받은 경우
   case unexpectedErrorFromSuccessfulResponseData(String)
-  
-  init?(code: String) {
-    if let publicDataPortalError = PublicDataPortalInTourAPIError(code: code) {
-      self = .publicDataPortalError(publicDataPortalError)
-    } else if let tourAPIProviderInstitutionError = TourAPIProviderInstitutionError(code: code) {
-      self = .tourAPIProviderInstitutionError(tourAPIProviderInstitutionError)
-    } else {
-      return nil
-    }
-  }
 }
 
 /// 공공데이터 포털 에러
@@ -40,8 +30,9 @@ import Foundation
   case deadlineHasExpiredError
   case unregisteredIPError
   case unknownError
+  case unregisteredCodeNumber(receivedNumber: String)
   
-  init?(code: String) {
+  init(code: String) {
     let errorDict = [
       "01": .applicationError,
       "04": .httpError,
@@ -57,7 +48,7 @@ import Foundation
     if let errorType = errorDict[code] {
       self = errorType
     } else {
-      return nil
+      self = PublicDataPortalInTourAPIError.unregisteredCodeNumber(receivedNumber: code)
     }
   }
   
@@ -81,6 +72,9 @@ import Foundation
       return "Unregistered IP error."
     case .unknownError:
       return "An unknown error occurred."
+    case .unregisteredCodeNumber(let receivedNumber):
+      return "unregistered Code Number. Received Code Number: \(receivedNumber)"
+
     }
   }
 
@@ -104,8 +98,9 @@ import Foundation
   case unregisteredIPError
   case unsignedCallError
   case unknownError
+  case unregisteredCodeNumber
   
-  init?(code: String) {
+  init(code: String) {
     let errorMap: [String: TourAPIProviderInstitutionError] = [
       "01": .applicationError,
       "02": .dbError,
@@ -128,7 +123,7 @@ import Foundation
     if let errorType = errorMap[code] {
       self = errorType
     } else {
-      return nil
+      self = TourAPIProviderInstitutionError.unregisteredCodeNumber
     }
   }
   
@@ -150,6 +145,7 @@ import Foundation
     case .unregisteredIPError: return "Unregistered IP error."
     case .unsignedCallError: return "Unsigned call error."
     case .unknownError: return "An unknown error occurred."
+    case .unregisteredCodeNumber: return "unregistered Code Number."
     }
   }
 
