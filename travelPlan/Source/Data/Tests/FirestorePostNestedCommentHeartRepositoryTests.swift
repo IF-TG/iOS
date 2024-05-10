@@ -135,4 +135,22 @@ extension FirestorePostNestedCommentHeartRepositoryTests {
     checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "updateNestedCommentHearts")
     XCTAssertTrue(hasReceivedResult, "대댓글 좋아요 호출시 필드가 증가해야하지만, 증가되지 않았습니다.")
   }
+  
+  func test_fetchNestedCommentHearts호출시해당필드가증가되는가() {
+    // Arrange
+    var hasReceivedResult: Bool = false
+    var unexpectedError: Error?
+    
+    // Act
+    let taskPublisher = sut.fetchNestedCommentHearts(with: testPostId, commentId: testCommentId, nestedCommentId: testNestedCommentId)
+    sink(fromPublisher: taskPublisher, withExpectation: expectation) { error, result in
+      unexpectedError = error
+      hasReceivedResult = result
+    }.store(in: &subscriptions)
+    wait(for: [expectation], timeout: 7.777)
+    
+    // Assert
+    checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "fetchNestedCommentHearts")
+    XCTAssertTrue(hasReceivedResult, "대댓글 필드에서 하트 개수 받아와야하지만 받아오지 않았습니다.")
+  }
 }
