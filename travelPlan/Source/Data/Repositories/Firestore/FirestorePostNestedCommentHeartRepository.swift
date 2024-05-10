@@ -113,6 +113,31 @@ extension FirestorePostNestedCommentHeartRepository: PostNestedCommentHeartRepos
     userId: String,
     willHeartComment: Bool
   ) -> AnyPublisher<Void, any Error> {
-    fatalError("미구현")
+    let endpoint = Endpoint.makeNestedCommentHeartsUpdateEndpoint(
+      withPostId: postId, commentId: commentId, nestedCommentId: nestedCommentId)
+    return Future { [weak self, backgroundQueue] promise in
+      let transaction = self?.service
+        .performTransaction { transaction in
+          guard let docRef = endpoint.requestType.documentRef else {
+            return promise(.failure(FirestoreServiceError.documentNotFound))
+          }
+          let snapshot = try transaction.getDocument(docRef)
+          guard let nestedCommentHearts = snapshot.data()?["heartNum"] as? Int else {
+            let error = NSError(
+              domain: "AppErrorDimain",
+              code: -1,
+              userInfo: [
+                NSLocalizedDescriptionKey: "Unable to retrieve heartNum from snapshot \(snapshot)"])
+            throw error
+          }
+          transaction.updateData(
+            ["heartNum": nestedCommentHearts + (willHeartComment ? 1 : -1)],
+            forDocument: docRef)
+          return nil
+        }.subscribeAndReceive(on: backgroundQueue)
+        .map { _ in return () }
+        .sink(promise: promise)
+      self?.subscriptions.insert(transaction)
+    }.eraseToAnyPublisher()
   }
 }
