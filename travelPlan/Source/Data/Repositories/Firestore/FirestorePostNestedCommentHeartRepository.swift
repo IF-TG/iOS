@@ -95,7 +95,15 @@ extension FirestorePostNestedCommentHeartRepository: PostNestedCommentHeartRepos
     nestedCommentId: String,
     userId: String
   ) -> AnyPublisher<Void, any Error> {
-    fatalError("미구현")
+    let endpoint = Endpoint.makeNestedCommentHateEndpoint(
+      withPostId: postId, commentId: commentId, nestedCommentId: nestedCommentId, userId: userId)
+    return Future { [weak self, backgroundQueue] promise in
+      let hate = self?.service
+        .request(endpoint: endpoint)
+        .subscribeAndReceive(on: backgroundQueue)
+        .sink(promise: promise)
+      self?.subscriptions.insert(hate)
+    }.eraseToAnyPublisher()
   }
   
   func updateNestedCommentHearts(
