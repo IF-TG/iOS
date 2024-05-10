@@ -70,13 +70,13 @@ extension FirestorePostNestedCommentHeartRepository: PostNestedCommentHeartRepos
     nestedCommentId: String,
     userId: String
   ) -> AnyPublisher<Void, any Error> {
-    let endpoint = Endpoint.makeNestedCommentHeartUsersFetchEndpoint(
+    let endpoint = Endpoint.makeNestedCommentHeartEndpoint(
       withPostId: postId,
       commentId: commentId,
-      nestedCommentId: nestedCommentId)
+      nestedCommentId: nestedCommentId, userId: userId)
     return Future { [weak self, backgroundQueue] promise in
       let heart = self?.service
-        .request(endpoint: endpoint)
+        .saveDocument(endpoint: endpoint)
         .subscribeAndReceive(on: backgroundQueue)
         .sink { completion in
           if case .failure(let error) = completion {

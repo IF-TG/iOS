@@ -48,16 +48,15 @@ extension FirestorePostNestedCommentHeartRepositoryTests {
       nestedCommentId: testNestedCommentId, userId: "testUser1234")
     sink(
       fromPublisher: taskPublisher,
-      withExpectation: expectation, 
-      unexpectedError: &unexpectedError,
-      hasReceivedResult: &hasReceivedResult)
+      withExpectation: expectation) { error, result in
+        unexpectedError = error
+        hasReceivedResult = result
+      }
     .store(in: &subscriptions)
     wait(for: [expectation], timeout: 7.777)
-    
     
     // Assert
     checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "fetchProfile")
     XCTAssertTrue(hasReceivedResult, "대댓글에 좋아요한 사용자가 추가된 후에 성공적으로 사용자 id를 받아야하지만 받지 못했습니다")
-
   }
 }
