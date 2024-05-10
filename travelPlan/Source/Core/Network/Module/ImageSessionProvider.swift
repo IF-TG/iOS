@@ -9,7 +9,7 @@ import Foundation
 import Combine
 import Alamofire
 
-class ImageSessionProvider {
+class ImageSessionProvider: ImageSessionable {
   func request(imageURL: String, queue: DispatchQueue) -> AnyPublisher<Data, AFError> {
     return Future { promise in
       AF.request(imageURL)
