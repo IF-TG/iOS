@@ -92,6 +92,25 @@ extension FirestorePostNestedCommentHeartRepositoryTests {
     
     // Assert
     checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "hateNestedComment")
-    XCTAssertTrue(hasReceivedResult, "대댓글에 좋아요한 사용자가 추가된 후에 성공적으로 사용자 id를 받아야하지만 받지 못했습니다")
+    XCTAssertTrue(hasReceivedResult, "대댓글 싫어요한 사용자가 삭제되야하지만 반환값을 받지 못했습니다")
+  }
+  
+  func test_fetchNestedCommentUsers호출시대댓글좋아요한사용자들받아오는지() {
+    // Arrange
+    var unexpectedError: Error?
+    var hasReceivedResult: Bool = false
+    
+    // Act
+    let taskPublisher = sut.fetchNestedCommentHeartUsers(
+      with: testPostId, commentId: testCommentId, nestedCommentId: testNestedCommentId)
+    sink(fromPublisher: taskPublisher, withExpectation: expectation) { error, result in
+      unexpectedError = error
+      hasReceivedResult = result
+    }.store(in: &subscriptions)
+    wait(for: [expectation], timeout: 7.777)
+    
+    // Assert
+    checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "fetchNestedCommentHeartUsers")
+    XCTAssertTrue(hasReceivedResult, "대댓글 좋아요한 사용자 리스트 불러오지 못했습니다")
   }
 }
