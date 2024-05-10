@@ -1,5 +1,5 @@
 //
-//  ImageDataFetcher.swift
+//  ImageSessionProvider.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 5/9/24.
@@ -9,7 +9,7 @@ import Foundation
 import Combine
 import Alamofire
 
-class ImageDataFetcher {
+class ImageSessionProvider {
   func request(imageURL: String, queue: DispatchQueue) -> AnyPublisher<Data, AFError> {
     return Future { promise in
       AF.request(imageURL)
