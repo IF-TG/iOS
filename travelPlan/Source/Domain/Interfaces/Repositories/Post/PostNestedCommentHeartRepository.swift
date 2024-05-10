@@ -14,19 +14,22 @@ protocol PostNestedCommentHeartRepository {
   /// 대댓글 좋아요한 사용자들 ID반환합니다.
   func fetchNestedCommentHeartUsers(
     with postId: String,
-    commentId: String
+    commentId: String,
+    nestedCommentId: String
   ) -> AnyPublisher<[UserIdentifier], Error>
   
   /// 대댓글 좋아요한 개수 반환합니다.
   func fetchNestedCommentHearts(
     with postId: String,
-    commentId: String
+    commentId: String,
+    nestedCommentId: String
   ) -> AnyPublisher<Int, Error>
   
   /// 대댓글 좋아요한 사용자 컬랙션에 추가합니다.
   func heartNestedComment(
     with postId: String,
     commentId: String,
+    nestedCommentId: String,
     userId: String
   ) -> AnyPublisher<Void, Error>
   
@@ -34,6 +37,7 @@ protocol PostNestedCommentHeartRepository {
   func hateNestedComment(
     with postId: String,
     commentId: String,
+    nestedCommentId: String,
     userId: String
   ) -> AnyPublisher<Void, Error>
   
@@ -41,6 +45,8 @@ protocol PostNestedCommentHeartRepository {
   func updateNestedCommentHearts(
     with postId: String,
     commentId: String,
+    nestedCommentId: String,
     userId: String,
-    willHeartComment: Bool) -> AnyPublisher<Void, Error>
+    willHeartComment: Bool
+  ) -> AnyPublisher<Void, Error>
 }
