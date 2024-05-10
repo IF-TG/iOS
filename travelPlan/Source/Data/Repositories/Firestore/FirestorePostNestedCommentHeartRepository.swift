@@ -43,7 +43,7 @@ extension FirestorePostNestedCommentHeartRepository: PostNestedCommentHeartRepos
       nestedCommentId: nestedCommentId)
     return Future { [weak self, backgroundQueue] promise in
       let fetch = self?.service
-        .request(endpoint: endpoint)
+        .retrieveDocumentIDs(endpoint: endpoint)
         .subscribeAndReceive(on: backgroundQueue)
         .sink { completion in
           if case .failure(let error) = completion {

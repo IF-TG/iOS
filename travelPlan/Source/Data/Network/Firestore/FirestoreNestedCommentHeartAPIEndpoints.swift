@@ -17,7 +17,7 @@ struct FirestoreNestedCommentHeartAPIEndpoints {
     nestedCommentId: String
   ) -> FirestoreEndpoint<[UserIdentifier]> {
     return FirestoreEndpoint(
-      method: .get,
+      method: .retrieveDocumentIdList,
       requestType: .posts(.fetchNestedCommentHeartUsers(postId, commentId, nestedCommentId)))
   }
   
