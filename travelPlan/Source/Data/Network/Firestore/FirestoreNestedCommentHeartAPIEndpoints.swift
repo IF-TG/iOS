@@ -53,13 +53,14 @@ struct FirestoreNestedCommentHeartAPIEndpoints {
       requestType: .posts(.updateNestedCommentHearts(postId, commentId, nestedCommentId)))
   }
   
+  /// 대댓글 개수 받아오기
   static func makeNestedCommentHeartsFetchEndpoint(
     withPostId postId: String,
     commentId: String,
     nestedCommentId: String
-  ) -> FirestoreEndpoint<Int> {
+  ) -> FirestoreEndpoint<PostNestedCommentHeartsResponseDTO> {
     return FirestoreEndpoint(
-      method: .retrieveNumberOfDocuments,
+      method: .get,
       requestType: .posts(.fetchNestedCommentHearts(postId, commentId, nestedCommentId)))
   }
 }

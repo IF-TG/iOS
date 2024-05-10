@@ -326,7 +326,7 @@ extension FirestoreRequestType {
         return "\(commentPath(from: postId))/\(commentId)/\(nestedComments)/\(nestedCommentId)/\(nestedCommentHearts)"
       case .updateNestedCommentHearts(let postId, let commentId, _):
         return "\(commentPath(from: postId))/\(commentId)/\(nestedComments)"
-      case .fetchNestedCommentHearts(let postId, let commentId,_ ):
+      case .fetchNestedCommentHearts(let postId, let commentId, _ ):
         return "\(commentPath(from: postId))/\(commentId)/\(nestedComments)"
       }
     }

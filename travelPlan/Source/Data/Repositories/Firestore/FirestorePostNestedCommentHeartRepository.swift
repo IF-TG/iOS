@@ -71,8 +71,8 @@ extension FirestorePostNestedCommentHeartRepository: PostNestedCommentHeartRepos
           if case .failure(let error) = completion {
             promise(.failure(error))
           }
-        } receiveValue: { hearts in
-          promise(.success(hearts))
+        } receiveValue: { responseDTO in
+          promise(.success(responseDTO.heartNum))
         }
       self?.subscriptions.insert(fetch)
     }.eraseToAnyPublisher()
