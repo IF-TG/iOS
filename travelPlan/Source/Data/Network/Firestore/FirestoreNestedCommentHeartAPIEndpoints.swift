@@ -11,7 +11,7 @@ struct FirestoreNestedCommentHeartAPIEndpoints {
   typealias UserIdentifier = String
   private init() {}
   
-  func makeNestedCommentHeartUsersFetchEndpoint(
+  static func makeNestedCommentHeartUsersFetchEndpoint(
     withPostId postId: String,
     commentId: String,
     nestedCommentId: String
