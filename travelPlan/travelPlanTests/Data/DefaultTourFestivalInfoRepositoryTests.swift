@@ -18,13 +18,17 @@ final class DefaultTourFestivalInfoRepositoryTests: XCTestCase {
   // MARK: - LifeCycle
   override func setUp() {
     super.setUp()
-    sut = DefaultTourFestivalInfoRepository(service: SessionProvider())
+    sut = DefaultTourFestivalInfoRepository(
+      service: SessionProvider(),
+      imageService: ImageSessionProvider()
+    )
     expectation = .init(description: "비동기 호출 관리")
     subscriptions = .init()
   }
   
   override func tearDown() {
     super.tearDown()
+    expectation = nil
     sut = nil
     subscriptions.removeAll()
   }

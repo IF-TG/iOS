@@ -11,15 +11,20 @@ import Alamofire
 
 final class DefaultTourFestivalInfoRepository {
   // MARK: - Dependencies
-  private let service: Sessionable
+  private let service: any Sessionable
+  private let imageService: any ImageSessionable
   private let backgroundQueue: DispatchQueue
   
   // MARK: - Properties
   private var subscriptions = Set<AnyCancellable>()
   
   // MARK: - LifeCycle
-  init(service: Sessionable, backgroundQueue: DispatchQueue = .global(qos: .background)) {
+  init(service: any Sessionable,
+       imageService: any ImageSessionable,
+       backgroundQueue: DispatchQueue = .global(qos: .background)
+  ) {
     self.service = service
+    self.imageService = imageService
     self.backgroundQueue = backgroundQueue
   }
 }
@@ -45,14 +50,15 @@ extension DefaultTourFestivalInfoRepository: TourFestivalInfoRepository {
         else { throw TourAPIError.publicDataPortalError(.init(code: String(resultCode.suffix(2)))) }
         return $0.response.body.items.item
       }
-      .map { [weak self, backgroundQueue] in
+      .tryMap { [weak self] in
         let group = DispatchGroup()
         var tupleArray = [(Int, FestivalThumbnailEntity)]()
-        let imageDataFetcher = ImageDataFetcher()
+        
+        guard let self = self else { throw ReferenceError.invalidReference }
         
         for (index, responseDTO) in $0.enumerated() {
           group.enter()
-          let subscription = imageDataFetcher.request(imageURL: responseDTO.imageURL, queue: backgroundQueue)
+          let subscription = self.imageService.request(imageURL: responseDTO.imageURL, queue: self.backgroundQueue)
             .sink { completion in
               if case .failure = completion {
                 group.leave()
@@ -62,7 +68,7 @@ extension DefaultTourFestivalInfoRepository: TourFestivalInfoRepository {
               tupleArray.append((index, entity))
               group.leave()
             }
-          self?.subscriptions.insert(subscription)
+          self.subscriptions.insert(subscription)
           group.wait()
         }
         

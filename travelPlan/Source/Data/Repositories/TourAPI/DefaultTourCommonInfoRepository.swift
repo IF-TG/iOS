@@ -14,11 +14,17 @@ final class DefaultTourCommonInfoRepository: TourCommonInfoRepository {
   
   // MARK: - Dependencies
   private let service: Sessionable
+  private let imageService: ImageSessionable
   private let backgroundQueue: DispatchQueue
   
   // MARK: - Lifecycle
-  init(service: Sessionable, backgroundQueue: DispatchQueue = .global(qos: .userInitiated)) {
+  init(
+    service: Sessionable,
+    imageService: ImageSessionable,
+    backgroundQueue: DispatchQueue = .global(qos: .userInitiated)
+  ) {
     self.service = service
+    self.imageService = imageService
     self.backgroundQueue = backgroundQueue
   }
   
@@ -69,9 +75,8 @@ final class DefaultTourCommonInfoRepository: TourCommonInfoRepository {
 // MARK: - Private Helpers
 extension DefaultTourCommonInfoRepository {
   private func makeImageDataPublisher(imageURL: String, queue: DispatchQueue) -> AnyPublisher<Data, any Error> {
-    let imageDataFetcher = ImageDataFetcher()
     
-    return imageDataFetcher
+    return imageService
       .request(imageURL: imageURL, queue: queue)
       .mapError { $0 as Error }
       .eraseToAnyPublisher()
