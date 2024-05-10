@@ -161,6 +161,7 @@ extension FirestoreRequestType {
     case heartComment(PostId, CommentId)
     case hateComment(PostId, CommentId, UserId)
     case updateCommentHearts(PostId, CommentId)
+    case fetchCommentHearts(PostId, CommentId)
     
     // MARK: - PostComments
     case saveComment(PostId, CommentId)
@@ -239,6 +240,8 @@ extension FirestoreRequestType {
         return userId
       case .updateCommentHearts(_, let commentId):
         return commentId
+      case .fetchCommentHearts(_, let commentId):
+        return commentId
       case .saveComment:
         return nil
       case .updateComment(_, let commentId):
@@ -297,6 +300,8 @@ extension FirestoreRequestType {
       case .hateComment(let postId, let commentId, _):
         return "\(rootPath)/\(postId)/\(comments)/\(commentId)/\(commentHearts)"
       case .updateCommentHearts(let postId, _):
+        return "\(rootPath)/\(postId)/\(comments)"
+      case .fetchCommentHearts(let postId, _):
         return "\(rootPath)/\(postId)/\(comments)"
       case .saveComment(let postId, _):
         return "\(rootPath)/\(postId)/\(comments)"
