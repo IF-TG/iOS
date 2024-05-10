@@ -46,7 +46,6 @@ protocol PostNestedCommentHeartRepository {
     with postId: String,
     commentId: String,
     nestedCommentId: String,
-    userId: String,
     willHeartComment: Bool
   ) -> AnyPublisher<Void, Error>
 }

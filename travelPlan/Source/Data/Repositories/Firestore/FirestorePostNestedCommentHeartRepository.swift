@@ -110,7 +110,6 @@ extension FirestorePostNestedCommentHeartRepository: PostNestedCommentHeartRepos
     with postId: String,
     commentId: String,
     nestedCommentId: String,
-    userId: String,
     willHeartComment: Bool
   ) -> AnyPublisher<Void, any Error> {
     let endpoint = Endpoint.makeNestedCommentHeartsUpdateEndpoint(
