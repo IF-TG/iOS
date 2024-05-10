@@ -19,7 +19,7 @@ class FirestorePostRepositoryTests: XCTestCase {
     super.setUp()
     sut = FirestorePostRepository(
       service: FirestoreService(),
-      firebaseStorageService: FiresabseStorageService(),
+      firebaseStorageService: FirebaseStorageService(),
       profileRepository: MockMyProfileRepository())
     expectation = expectation(description: "테스트 시작!!")
   }

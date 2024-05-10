@@ -22,8 +22,6 @@ final class FirestorePostAtomicCommentRepositoryTests: XCTestCase {
   override func setUp() {
     super.setUp()
     let service = FirestoreService()
-    
-    let loggedInUserRepository = DefaultLoggedInUserRepository(storage: MockUserStorage())
     sut = FirestorePostCommentRepository(
       service: service,
       backgroundQueue: .main)

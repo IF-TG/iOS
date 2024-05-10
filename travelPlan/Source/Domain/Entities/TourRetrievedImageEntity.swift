@@ -29,4 +29,3 @@ struct TourRetrievedDataImageEntity {
   let original: Data
   let thumbnail: Data
 }
-
