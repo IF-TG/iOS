@@ -31,4 +31,15 @@ struct FirestoreNestedCommentHeartAPIEndpoints {
       method: .save(userId),
       requestType: .posts(.heartNestedComment(postId, commentId, nestedCommentId)))
   }
+  
+  static func makeNestedCommentHateEndpoint(
+    withPostId postId: String,
+    commentId: String,
+    nestedCommentId: String,
+    userId: String
+  ) -> FirestoreEndpoint<VoidResponseDTO> {
+    return FirestoreEndpoint(
+      method: .delete,
+      requestType: .posts(.hateNestedComment(postId, commentId, nestedCommentId, userId)))
+  }
 }
