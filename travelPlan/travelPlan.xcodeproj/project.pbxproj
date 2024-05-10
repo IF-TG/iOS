@@ -4329,6 +4329,8 @@
 				1546DF392B0B29D700B49A55 /* ImageConverter.swift in Sources */,
 				15F3763C2AFB7D1E00B3BF35 /* PostViewAdapterDelegate.swift in Sources */,
 				15AE48562BE93A030035D980 /* DefaultTourImageRetrieveInfoRepository.swift in Sources */,
+				15B01DA52BA93B5400BE9F98 /* UserDefaultsOwnerStorage.swift in Sources */,
+				15B01DA52BA93B5400BE9F98 /* UserDefaultsOwnerStorage.swift in Sources */,
 				13C32A3D2B0A2FF30046ED98 /* PictureImageViewDelegate.swift in Sources */,
 				13E84AE82BE370E000B537B6 /* TourAPIIntroductionInfoRequestDTO.swift in Sources */,
 				152AD4F02A189CFC008A2A11 /* FavoriteHeaderView.swift in Sources */,
