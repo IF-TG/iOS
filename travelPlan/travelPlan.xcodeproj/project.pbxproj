@@ -137,7 +137,6 @@
 		13E7EAD72BDE45C30027946C /* CultureFacilityEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E7EAD62BDE45C30027946C /* CultureFacilityEntity.swift */; };
 		13E7EAD92BDE46990027946C /* TouristAttractionEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E7EAD82BDE46990027946C /* TouristAttractionEntity.swift */; };
 		13E7EADB2BDEB6D90027946C /* LeportsEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E7EADA2BDEB6D90027946C /* LeportsEntity.swift */; };
-		13E7EADD2BDF61540027946C /* RestaurantEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E7EADC2BDF61540027946C /* RestaurantEntity.swift */; };
 		13E7EADF2BDF61880027946C /* IntroductionInfoShoppingEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E7EADE2BDF61880027946C /* IntroductionInfoShoppingEntity.swift */; };
 		13E7EAE12BDF61A70027946C /* FestivalEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E7EAE02BDF61A70027946C /* FestivalEntity.swift */; };
 		13E7EAE72BDF90BA0027946C /* TourAPIFestivalRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E7EAE62BDF90BA0027946C /* TourAPIFestivalRequestDTO.swift */; };
@@ -864,7 +863,6 @@
 		13E7EAD62BDE45C30027946C /* CultureFacilityEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CultureFacilityEntity.swift; sourceTree = "<group>"; };
 		13E7EAD82BDE46990027946C /* TouristAttractionEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouristAttractionEntity.swift; sourceTree = "<group>"; };
 		13E7EADA2BDEB6D90027946C /* LeportsEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeportsEntity.swift; sourceTree = "<group>"; };
-		13E7EADC2BDF61540027946C /* RestaurantEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantEntity.swift; sourceTree = "<group>"; };
 		13E7EADE2BDF61880027946C /* IntroductionInfoShoppingEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroductionInfoShoppingEntity.swift; sourceTree = "<group>"; };
 		13E7EAE02BDF61A70027946C /* FestivalEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FestivalEntity.swift; sourceTree = "<group>"; };
 		13E7EAE62BDF90BA0027946C /* TourAPIFestivalRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourAPIFestivalRequestDTO.swift; sourceTree = "<group>"; };
@@ -1750,21 +1748,13 @@
 		13E84AEB2BE39C2900B537B6 /* TourDestinationType */ = {
 			isa = PBXGroup;
 			children = (
-				13EB3D022BEE090A00CA84F0 /* Restaurant */,
-				13EB3CFB2BED337700CA84F0 /* Shopping */,
-				13E84AEC2BE39C4F00B537B6 /* Festival */,
-			);
-			path = TourDestinationType;
-			sourceTree = "<group>";
-		};
-		13E84AEC2BE39C4F00B537B6 /* Festival */ = {
-			isa = PBXGroup;
-			children = (
 				13E7EAE02BDF61A70027946C /* FestivalEntity.swift */,
 				13E7EAF42BE032210027946C /* FestivalThumbnailEntity.swift */,
 				13E84AED2BE39DD200B537B6 /* IntroductionInfoFestivalEntity.swift */,
+				13E7EADE2BDF61880027946C /* IntroductionInfoShoppingEntity.swift */,
+				13EB3D032BEE091B00CA84F0 /* IntroductionInfoRestaurantEntity.swift */,
 			);
-			path = Festival;
+			path = TourDestinationType;
 			sourceTree = "<group>";
 		};
 		13EB3CD42BEAA00700CA84F0 /* Data */ = {
@@ -1774,22 +1764,6 @@
 				13EB3CD22BEAA00300CA84F0 /* DefaultTourIntroductionInfoRepositoryTests.swift */,
 			);
 			path = Data;
-			sourceTree = "<group>";
-		};
-		13EB3CFB2BED337700CA84F0 /* Shopping */ = {
-			isa = PBXGroup;
-			children = (
-				13E7EADE2BDF61880027946C /* IntroductionInfoShoppingEntity.swift */,
-			);
-			path = Shopping;
-			sourceTree = "<group>";
-		};
-		13EB3D022BEE090A00CA84F0 /* Restaurant */ = {
-			isa = PBXGroup;
-			children = (
-				13EB3D032BEE091B00CA84F0 /* IntroductionInfoRestaurantEntity.swift */,
-			);
-			path = Restaurant;
 			sourceTree = "<group>";
 		};
 		13F6DACB2B53A5A800573B86 /* Coordinator */ = {
@@ -2017,7 +1991,6 @@
 				13E7EADA2BDEB6D90027946C /* LeportsEntity.swift */,
 				13E7EAD82BDE46990027946C /* TouristAttractionEntity.swift */,
 				13E7EAD62BDE45C30027946C /* CultureFacilityEntity.swift */,
-				13E7EADC2BDF61540027946C /* RestaurantEntity.swift */,
 				154CA6222BD3AE100066B444 /* TourCommonInfoEntity.swift */,
 				15AE48532BE9395B0035D980 /* TourRetrievedImageEntity.swift */,
 				13EB3CD52BEB689A00CA84F0 /* TourContentId.swift */,
@@ -4138,7 +4111,6 @@
 				13C32A3B2B09D8BF0046ED98 /* PictureImageView.swift in Sources */,
 				13EB3D042BEE091B00CA84F0 /* IntroductionInfoRestaurantEntity.swift in Sources */,
 				15CAEF7D2BAED114008AEDB1 /* PostNestedCommentEntity.swift in Sources */,
-				13E7EADD2BDF61540027946C /* RestaurantEntity.swift in Sources */,
 				157ADCA82ACFFFE100D37680 /* FavoritePostViewDelegate.swift in Sources */,
 				15D388292AFFA51C00039946 /* PostProfileAndCommentView.swift in Sources */,
 				15EBD91D2BE8D3A000BCEA7F /* DefaultPostCommentHeartUseCase.swift in Sources */,
