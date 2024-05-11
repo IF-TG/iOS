@@ -22,6 +22,23 @@ final class DefaultTourIntroductionInfoRepository {
 
 // MARK: - IntroductionInfoRepository
 extension DefaultTourIntroductionInfoRepository: TourIntroductionInfoRepository {
+  /// 음식점
+  func fetchRestaurant(tourContentId: TourContentId)
+  -> AnyPublisher<IntroductionInfoRestaurantEntity, any Error> {
+    let requestDTO = TourAPIIntroductionInfoRequestDTO(
+      contentId: tourContentId.contentId,
+      contentTypeId: tourContentId.contentTypeId
+    )
+    let endpoint = TourAPIIntroductionEndpoints.fetchRestaurant(with: requestDTO)
+    
+    return service.request(endpoint: endpoint)
+      .subscribe(on: backgroundQueue)
+      .tourAPITryMapResponseDTO()
+      .map { $0.toDomain() }
+      .eraseToAnyPublisher()
+  }
+
+  /// 쇼핑
   func fetchShopping(tourContentId: TourContentId) -> AnyPublisher<IntroductionInfoShoppingEntity, any Error> {
     let endpoint = TourAPIIntroductionEndpoints.fetchShopping(with: .init(
       contentId: tourContentId.contentId, 
@@ -30,21 +47,12 @@ extension DefaultTourIntroductionInfoRepository: TourIntroductionInfoRepository 
     
     return service.request(endpoint: endpoint)
       .subscribe(on: backgroundQueue)
-      .tryMap {
-        let resultCode = $0.response.header.resultCode
-        
-        guard resultCode == "0000" else {
-          throw TourAPIError.publicDataPortalError(.init(code: String(resultCode.suffix(2))))
-        }
-        guard let item = $0.response.body.items.item.first else {
-          throw TourAPIError.tourAPIProviderInstitutionError(.noDataError)
-        }
-        
-        return item.toDomain()
-      }
+      .tourAPITryMapResponseDTO()
+      .map { $0.toDomain() }
       .eraseToAnyPublisher()
   }
   
+  /// 행사/축제/공연
   func fetchFestival(tourContentId: TourContentId)
   -> AnyPublisher<IntroductionInfoFestivalEntity, any Error> {
     let endpoint = TourAPIIntroductionEndpoints.fetchFestival(with: .init(
@@ -54,18 +62,8 @@ extension DefaultTourIntroductionInfoRepository: TourIntroductionInfoRepository 
     
     return service.request(endpoint: endpoint)
       .subscribe(on: backgroundQueue)
-      .tryMap {
-        let resultCode = $0.response.header.resultCode
-        
-        guard resultCode == "0000" else {
-          throw TourAPIError.publicDataPortalError(.init(code: String(resultCode.suffix(2))))
-        }
-        guard let item = $0.response.body.items.item.first else {
-          throw TourAPIError.tourAPIProviderInstitutionError(.noDataError)
-        }
-        
-        return item.toDomain()
-      }
+      .tourAPITryMapResponseDTO()
+      .map { $0.toDomain() }
       .eraseToAnyPublisher()
   }
 }
