@@ -1,5 +1,5 @@
 //
-//  IntroductionInfoRestaurantResponseDTO.swift
+//  TourIntroductionInfoRestaurantResponseDTO.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 5/10/24.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct IntroductionInfoRestaurantResponseDTO: Decodable {
+struct TourIntroductionInfoRestaurantResponseDTO: Decodable {
   let contentId: String
   let contentTypeId: String
   let signatureDish: String
@@ -30,7 +30,7 @@ struct IntroductionInfoRestaurantResponseDTO: Decodable {
 }
 
 // MARK: - Mappings to Domain
-extension IntroductionInfoRestaurantResponseDTO {
+extension TourIntroductionInfoRestaurantResponseDTO {
   func toDomain() -> IntroductionInfoRestaurantEntity {
     return IntroductionInfoRestaurantEntity(
       toutContentId: .init(contentId: Int(contentId) ?? .zero,
