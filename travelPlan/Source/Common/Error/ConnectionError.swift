@@ -76,4 +76,20 @@ extension Publisher where Self.Failure == AFError {
   func mapConnectionError() -> Publishers.MapError<Self, Error> {
     return self.mapError { $0.asConnectionError }
   }
+  
+  func tourAPITryMapResponseDTO<T>() -> Publishers.TryMap<Self, T>
+  where Output == TourApiCommonResponseDTO<T>,
+          T: Decodable {
+    return tryMap {
+      let resultCode = $0.response.header.resultCode
+      
+      guard resultCode == "0000" else {
+        throw TourAPIError.publicDataPortalError(.init(code: String(resultCode.suffix(2))))
+      }
+      guard let item = $0.response.body.items.item.first else {
+        throw TourAPIError.tourAPIProviderInstitutionError(.noDataError)
+      }
+      return item
+    }
+  }
 }
