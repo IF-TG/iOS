@@ -32,6 +32,7 @@ final class DefaultTourIntroductionInfoRepositoryTests: XCTestCase {
 }
 
 extension DefaultTourIntroductionInfoRepositoryTests {
+  // 쇼핑
   func test_fetchShopping메소드_호출시_value로_IntroductionInfoShoppingEntity를_내려주는지() {
     // Arrange
     var unexpectedError: Error?
@@ -59,6 +60,7 @@ extension DefaultTourIntroductionInfoRepositoryTests {
     XCTAssertTrue(receivedResult, "receivedValue로 IntroductionInfoShoppingEntity가 들어오지 않았습니다.")
   }
   
+  // 행사/축제/
   func test_fetchFestival메소드_호출시_value로_IntroductionInfoFestivalEntity를_내려주면_shouldReturnTrue() {
     // Arrange
     var unexpectedError: Error?
@@ -84,5 +86,34 @@ extension DefaultTourIntroductionInfoRepositoryTests {
     // Assert
     checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "fetchFestival")
     XCTAssertTrue(receivedResult, "receiveValue가 들어와야하는데 들어오지 않음")
+  }
+  
+  // 음식점
+  func test_fetchRestaurant메소드_호출시_value로_IntroductionInfoRestaurantEntity를_내려주는지() {
+    // Arrange
+    var unexpectedError: Error?
+    var receivedResult = false
+    let restaurantId = TourContentId(contentId: 2831563,
+                                     contentTypeId: TourType.restaurant.rawValue)
+    
+    // Act
+    sut.fetchRestaurant(tourContentId: restaurantId)
+      .sink { [weak self] completion in
+        if case .failure(let error) = completion {
+          unexpectedError = error
+          self?.expectation.fulfill()
+        }
+      } receiveValue: { [weak self] restaurantEntity in
+        print(restaurantEntity)
+        receivedResult = true
+        self?.expectation.fulfill()
+      }
+      .store(in: &subscriptions)
+
+    wait(for: [expectation], timeout: 10)
+    
+    // Assert
+    checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "fetchRestaurant")
+    XCTAssertTrue(receivedResult, "IntroductionInfoRestaurantEntity가 들어와야하는데, 들어오지 않음.")
   }
 }
