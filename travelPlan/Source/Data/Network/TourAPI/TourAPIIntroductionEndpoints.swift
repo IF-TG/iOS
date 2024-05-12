@@ -10,9 +10,15 @@ import Foundation
 struct TourAPIIntroductionEndpoints {
   private init() { }
   
+  static func fetchAttraction(
+    with requestDTO: TourAPIIntroductionInfoRequestDTO
+  ) -> TourApiEndpoint<TourApiCommonResponseDTO<TourIntroductionInfoAttractionResponseDTO>> {
+    return .init(parameters: .query(requestDTO), requestType: .introduction)
+  }
+  
   static func fetchRestaurant(
     with requestDTO: TourAPIIntroductionInfoRequestDTO
-  ) -> TourApiEndpoint<TourApiCommonResponseDTO<IntroductionInfoRestaurantResponseDTO>> {
+  ) -> TourApiEndpoint<TourApiCommonResponseDTO<TourIntroductionInfoRestaurantResponseDTO>> {
     return .init(parameters: .query(requestDTO), requestType: .introduction)
   }
   

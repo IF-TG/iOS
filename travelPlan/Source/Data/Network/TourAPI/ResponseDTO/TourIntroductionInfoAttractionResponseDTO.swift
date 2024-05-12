@@ -28,3 +28,19 @@ struct TourIntroductionInfoAttractionResponseDTO: Decodable {
     case experienceInfo = "expguide"
   }
 }
+
+// MARK: - Mappings to Domain
+extension TourIntroductionInfoAttractionResponseDTO {
+  func toDomain() -> IntroductionInfoAttractionEntity {
+    return IntroductionInfoAttractionEntity(
+      tourContentId: .init(contentId: Int(contentId) ?? .zero, 
+                           contentTypeId: Int(contentTypeId) ?? .zero),
+      restDateString: restDateString,
+      telNumber: telNumber,
+      availableTime: availableTime,
+      canPark: canPark,
+      canAccompanyDog: canAccompanyDog,
+      experienceInfo: experienceInfo
+    )
+  }
+}

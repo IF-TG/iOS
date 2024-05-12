@@ -22,6 +22,19 @@ final class DefaultTourIntroductionInfoRepository {
 
 // MARK: - IntroductionInfoRepository
 extension DefaultTourIntroductionInfoRepository: TourIntroductionInfoRepository {
+  /// 관광지
+  func fetchAttratcion(tourContentId: TourContentId) -> AnyPublisher<IntroductionInfoAttractionEntity, any Error> {
+    let requestDTO = TourAPIIntroductionInfoRequestDTO(contentId: tourContentId.contentId,
+                                                       contentTypeId: tourContentId.contentTypeId)
+    let endpoint = TourAPIIntroductionEndpoints.fetchAttraction(with: requestDTO)
+    
+    return service.request(endpoint: endpoint)
+      .subscribe(on: backgroundQueue)
+      .tourAPITryMapResponseDTO()
+      .map { $0.toDomain() }
+      .eraseToAnyPublisher()
+  }
+  
   /// 음식점
   func fetchRestaurant(tourContentId: TourContentId)
   -> AnyPublisher<IntroductionInfoRestaurantEntity, any Error> {
