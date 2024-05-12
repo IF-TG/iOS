@@ -161,6 +161,7 @@ extension FirestoreRequestType {
     case heartComment(PostId, CommentId)
     case hateComment(PostId, CommentId, UserId)
     case updateCommentHearts(PostId, CommentId)
+    case fetchCommentHearts(PostId, CommentId)
     
     // MARK: - PostComments
     case saveComment(PostId, CommentId)
@@ -177,6 +178,13 @@ extension FirestoreRequestType {
     case updateNestedComment(PostId, CommentId, NestedCommentId)
     case fetchNestedComments(PostId, CommentId)
     case deleteAllNestedComments(PostId, CommentId)
+
+    // MARK: - PostNestedCommentHearts
+    case fetchNestedCommentHeartUsers(PostId, CommentId, NestedCommentId)
+    case heartNestedComment(PostId, CommentId, NestedCommentId)
+    case hateNestedComment(PostId, CommentId, NestedCommentId, UserId)
+    case updateNestedCommentHearts(PostId, CommentId, NestedCommentId)
+    case fetchNestedCommentHearts(PostId, CommentId, NestedCommentId)
     
     private var rootPath: String {
       "posts"
@@ -194,8 +202,16 @@ extension FirestoreRequestType {
       "comment-hearts"
     }
     
+    private var nestedCommentHearts: String {
+      "comment-hearts"
+    }
+    
     private var nestedComments: String {
       "nested-comments"
+    }
+    
+    private func commentPath(from postId: String) -> String {
+      return "\(rootPath)/\(postId)/\(comments)"
     }
     
     var documentpath: String? {
@@ -224,6 +240,8 @@ extension FirestoreRequestType {
         return userId
       case .updateCommentHearts(_, let commentId):
         return commentId
+      case .fetchCommentHearts(_, let commentId):
+        return commentId
       case .saveComment:
         return nil
       case .updateComment(_, let commentId):
@@ -244,6 +262,16 @@ extension FirestoreRequestType {
         return nil
       case .deleteAllNestedComments:
         return nil
+      case .fetchNestedCommentHeartUsers:
+        return nil
+      case .heartNestedComment:
+        return nil
+      case .hateNestedComment(_, _, _, let userId):
+        return userId
+      case .updateNestedCommentHearts(_, _, let nestedCommentId):
+        return nestedCommentId
+      case .fetchNestedCommentHearts(_, _, let nestedCommentId):
+        return nestedCommentId
       }
     }
     
@@ -273,6 +301,8 @@ extension FirestoreRequestType {
         return "\(rootPath)/\(postId)/\(comments)/\(commentId)/\(commentHearts)"
       case .updateCommentHearts(let postId, _):
         return "\(rootPath)/\(postId)/\(comments)"
+      case .fetchCommentHearts(let postId, _):
+        return "\(rootPath)/\(postId)/\(comments)"
       case .saveComment(let postId, _):
         return "\(rootPath)/\(postId)/\(comments)"
       case .updateComment(let postId, _):
@@ -292,7 +322,17 @@ extension FirestoreRequestType {
       case .fetchNestedComments(let postId, let commentId):
         return "\(rootPath)/\(postId)/\(comments)/\(commentId)/\(nestedComments)"
       case .deleteAllNestedComments(let postId, let commentId):
-        return "\(rootPath)/\(postId)/\(comments)/\(commentId)/\(nestedComments)"
+        return "\(commentPath(from: postId))/\(commentId)/\(nestedComments)"
+      case .fetchNestedCommentHeartUsers(let postId, let commentId, let nestedCommentId):
+        return "\(commentPath(from: postId))/\(commentId)/\(nestedComments)/\(nestedCommentId)/\(nestedCommentHearts)"
+      case .heartNestedComment(let postId, let commentId, let nestedCommentId):
+        return "\(commentPath(from: postId))/\(commentId)/\(nestedComments)/\(nestedCommentId)/\(nestedCommentHearts)"
+      case .hateNestedComment(let postId, let commentId, let nestedCommentId, _):
+        return "\(commentPath(from: postId))/\(commentId)/\(nestedComments)/\(nestedCommentId)/\(nestedCommentHearts)"
+      case .updateNestedCommentHearts(let postId, let commentId, _):
+        return "\(commentPath(from: postId))/\(commentId)/\(nestedComments)"
+      case .fetchNestedCommentHearts(let postId, let commentId, _ ):
+        return "\(commentPath(from: postId))/\(commentId)/\(nestedComments)"
       }
     }
   }

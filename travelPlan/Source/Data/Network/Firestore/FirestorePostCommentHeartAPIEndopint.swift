@@ -46,4 +46,13 @@ struct FirestorePostCommentHeartAPIEndopint {
       method: .update,
       requestType: .posts(.updateCommentHearts(postId, commentId)))
   }
+  
+  static func makeCommentHeartsFetchEndpoint(
+    withPostId postId: String,
+    commentId: String
+  ) -> FirestoreEndpoint<PostNestedCommentHeartsResponseDTO> {
+    return .init(
+      method: .get,
+      requestType: .posts(.fetchCommentHearts(postId, commentId)))
+  }
 }
