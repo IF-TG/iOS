@@ -8,7 +8,6 @@
 import Foundation
 import Combine
 
-
 final class DefaultFestivalUseCase {
   // MARK: - Dependencies
   private let tourFestivalInfoRepository: any TourFestivalInfoRepository

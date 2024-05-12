@@ -59,17 +59,18 @@ extension FirestorePostCommentHeartRepository: PostCommentHeartRepository {
     commentId: String
   ) -> AnyPublisher<Int, any Error> {
     return Future { [weak self, backgroundQueue] promise in
-      let commentHeartFetchSubscription = self?.fetchCommentHeartUsers(with: postId, commentId: commentId)
-        .subscribe(on: backgroundQueue)
-        .receive(on: backgroundQueue)
+      let endpoint = Endpoint.makeCommentHeartsFetchEndpoint(withPostId: postId, commentId: commentId)
+      let fetch = self?.service
+        .request(endpoint: endpoint)
+        .subscribeAndReceive(on: backgroundQueue)
         .sink { completion in
           if case .failure(let error) = completion {
             promise(.failure(error))
           }
-        } receiveValue: { commentHeartUsers in
-          promise(.success(commentHeartUsers.count))
+        } receiveValue: { responseDTO in
+          promise(.success(responseDTO.heartNum))
         }
-      self?.subscriptions.insert(commentHeartFetchSubscription)
+      self?.subscriptions.insert(fetch)
     }.eraseToAnyPublisher()
   }
   
