@@ -9,4 +9,5 @@ import Foundation
 
 enum TransformationError: Error {
   case dateToInt
+  case stringToInt
 }

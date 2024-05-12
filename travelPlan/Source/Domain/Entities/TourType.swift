@@ -9,7 +9,7 @@ import Foundation
 
 enum TourType: Int {
   /// 관광지
-  case touristAttraction = 12
+  case attraction = 12
   /// 문화시설
   case cultureFacility = 14
   /// 축제/공연/행사

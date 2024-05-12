@@ -22,7 +22,67 @@ final class DefaultTourIntroductionInfoRepository {
 
 // MARK: - IntroductionInfoRepository
 extension DefaultTourIntroductionInfoRepository: TourIntroductionInfoRepository {
-  func fetchShopping(tourContentId: TourContentId) -> AnyPublisher<IntroductionInfoShoppingEntity, any Error> {
+  /// 레포츠
+  func fetchLeports(tourContentId: TourContentId) 
+  -> AnyPublisher<IntroductionInfoLeportsEntity, any Error> {
+    let requestDTO = TourAPIIntroductionInfoRequestDTO(contentId: tourContentId.contentId,
+                                                       contentTypeId: tourContentId.contentTypeId)
+    let endpoint = TourAPIIntroductionEndpoints.fetchLeports(with: requestDTO)
+    
+    return service.request(endpoint: endpoint)
+      .subscribe(on: backgroundQueue)
+      .tourAPITryMapResponseDTO()
+      .map { $0.toDomain() }
+      .eraseToAnyPublisher()
+  }
+  
+  /// 문화시설
+  func fetchCultureFacility(tourContentId: TourContentId)
+  -> AnyPublisher<IntroductionInfoCultureFacilityEntity, any Error> {
+    let requestDTO = TourAPIIntroductionInfoRequestDTO(contentId: tourContentId.contentId,
+                                                       contentTypeId: tourContentId.contentTypeId)
+    let endpoint = TourAPIIntroductionEndpoints.fetchCultureFacility(with: requestDTO)
+    
+    return service.request(endpoint: endpoint)
+      .subscribe(on: backgroundQueue)
+      .tourAPITryMapResponseDTO()
+      .map { $0.toDomain() }
+      .eraseToAnyPublisher()
+  }
+  
+  /// 관광지
+  func fetchAttratcion(tourContentId: TourContentId)
+  -> AnyPublisher<IntroductionInfoAttractionEntity, any Error> {
+    let requestDTO = TourAPIIntroductionInfoRequestDTO(contentId: tourContentId.contentId,
+                                                       contentTypeId: tourContentId.contentTypeId)
+    let endpoint = TourAPIIntroductionEndpoints.fetchAttraction(with: requestDTO)
+    
+    return service.request(endpoint: endpoint)
+      .subscribe(on: backgroundQueue)
+      .tourAPITryMapResponseDTO()
+      .map { $0.toDomain() }
+      .eraseToAnyPublisher()
+  }
+  
+  /// 음식점
+  func fetchRestaurant(tourContentId: TourContentId)
+  -> AnyPublisher<IntroductionInfoRestaurantEntity, any Error> {
+    let requestDTO = TourAPIIntroductionInfoRequestDTO(
+      contentId: tourContentId.contentId,
+      contentTypeId: tourContentId.contentTypeId
+    )
+    let endpoint = TourAPIIntroductionEndpoints.fetchRestaurant(with: requestDTO)
+    
+    return service.request(endpoint: endpoint)
+      .subscribe(on: backgroundQueue)
+      .tourAPITryMapResponseDTO()
+      .map { $0.toDomain() }
+      .eraseToAnyPublisher()
+  }
+
+  /// 쇼핑
+  func fetchShopping(tourContentId: TourContentId)
+  -> AnyPublisher<IntroductionInfoShoppingEntity, any Error> {
     let endpoint = TourAPIIntroductionEndpoints.fetchShopping(with: .init(
       contentId: tourContentId.contentId, 
       contentTypeId: tourContentId.contentTypeId
@@ -30,21 +90,12 @@ extension DefaultTourIntroductionInfoRepository: TourIntroductionInfoRepository 
     
     return service.request(endpoint: endpoint)
       .subscribe(on: backgroundQueue)
-      .tryMap {
-        let resultCode = $0.response.header.resultCode
-        
-        guard resultCode == "0000" else {
-          throw TourAPIError.publicDataPortalError(.init(code: String(resultCode.suffix(2))))
-        }
-        guard let item = $0.response.body.items.item.first else {
-          throw TourAPIError.tourAPIProviderInstitutionError(.noDataError)
-        }
-        
-        return item.toDomain()
-      }
+      .tourAPITryMapResponseDTO()
+      .map { $0.toDomain() }
       .eraseToAnyPublisher()
   }
   
+  /// 행사/축제/공연
   func fetchFestival(tourContentId: TourContentId)
   -> AnyPublisher<IntroductionInfoFestivalEntity, any Error> {
     let endpoint = TourAPIIntroductionEndpoints.fetchFestival(with: .init(
@@ -54,18 +105,8 @@ extension DefaultTourIntroductionInfoRepository: TourIntroductionInfoRepository 
     
     return service.request(endpoint: endpoint)
       .subscribe(on: backgroundQueue)
-      .tryMap {
-        let resultCode = $0.response.header.resultCode
-        
-        guard resultCode == "0000" else {
-          throw TourAPIError.publicDataPortalError(.init(code: String(resultCode.suffix(2))))
-        }
-        guard let item = $0.response.body.items.item.first else {
-          throw TourAPIError.tourAPIProviderInstitutionError(.noDataError)
-        }
-        
-        return item.toDomain()
-      }
+      .tourAPITryMapResponseDTO()
+      .map { $0.toDomain() }
       .eraseToAnyPublisher()
   }
 }
