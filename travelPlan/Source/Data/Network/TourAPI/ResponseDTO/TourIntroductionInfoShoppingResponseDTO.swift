@@ -8,6 +8,8 @@
 import Foundation
 
 struct TourIntroductionInfoShoppingResponseDTO: Decodable {
+  let contentId: Int
+  let contentTypeId: Int
   let canPark: String
   let canUseCreditCard: String
   let fairDay: String
@@ -17,6 +19,8 @@ struct TourIntroductionInfoShoppingResponseDTO: Decodable {
   let telNumber: String
   
   enum CodingKeys: String, CodingKey {
+    case contentId = "contentid"
+    case contentTypeId = "contenttypeid"
     case canUseCreditCard = "chkcreditcardshopping"
     case canPark = "parkingshopping"
     case fairDay = "fairday"
@@ -24,6 +28,27 @@ struct TourIntroductionInfoShoppingResponseDTO: Decodable {
     case restDay = "restdateshopping"
     case saleItem = "saleitem"
     case telNumber = "infocentershopping"
+  }
+  
+  init(from decoder: any Decoder) throws {
+    let container = try decoder.container(keyedBy: CodingKeys.self)
+    
+    let contentIdString = try container.decode(String.self, forKey: .contentId)
+    let contentTypeIdString = try container.decode(String.self, forKey: .contentTypeId)
+    
+    guard let contentId = Int(contentIdString),
+          let contentTypeId = Int(contentTypeIdString)
+    else { throw TransformationError.stringToInt }
+    
+    self.contentId = contentId
+    self.contentTypeId = contentTypeId
+    self.canUseCreditCard = try container.decode(String.self, forKey: .canUseCreditCard)
+    self.canPark = try container.decode(String.self, forKey: .canPark)
+    self.fairDay = try container.decode(String.self, forKey: .fairDay)
+    self.openTime = try container.decode(String.self, forKey: .openTime)
+    self.restDay = try container.decode(String.self, forKey: .restDay)
+    self.saleItem = try container.decode(String.self, forKey: .saleItem)
+    self.telNumber = try container.decode(String.self, forKey: .telNumber)
   }
 }
 
