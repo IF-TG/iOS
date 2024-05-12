@@ -9,8 +9,18 @@ import Foundation
 import Combine
 
 protocol TourIntroductionInfoRepository {
-  func fetchAttratcion(tourContentId: TourContentId) -> AnyPublisher<IntroductionInfoAttractionEntity, any Error>
-  func fetchRestaurant(tourContentId: TourContentId) -> AnyPublisher<IntroductionInfoRestaurantEntity, any Error>
-  func fetchFestival(tourContentId: TourContentId) -> AnyPublisher<IntroductionInfoFestivalEntity, any Error>
-  func fetchShopping(tourContentId: TourContentId) -> AnyPublisher<IntroductionInfoShoppingEntity, any Error>
+  func fetchCultureFacility(tourContentId: TourContentId)
+  -> AnyPublisher<IntroductionInfoCultureFacilityEntity, any Error>
+  
+  func fetchAttratcion(tourContentId: TourContentId)
+  -> AnyPublisher<IntroductionInfoAttractionEntity, any Error>
+  
+  func fetchRestaurant(tourContentId: TourContentId)
+  -> AnyPublisher<IntroductionInfoRestaurantEntity, any Error>
+  
+  func fetchFestival(tourContentId: TourContentId)
+  -> AnyPublisher<IntroductionInfoFestivalEntity, any Error>
+  
+  func fetchShopping(tourContentId: TourContentId)
+  -> AnyPublisher<IntroductionInfoShoppingEntity, any Error>
 }

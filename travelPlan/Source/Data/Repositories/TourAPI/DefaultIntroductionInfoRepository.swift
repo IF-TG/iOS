@@ -22,8 +22,23 @@ final class DefaultTourIntroductionInfoRepository {
 
 // MARK: - IntroductionInfoRepository
 extension DefaultTourIntroductionInfoRepository: TourIntroductionInfoRepository {
+  /// 문화시설
+  func fetchCultureFacility(tourContentId: TourContentId)
+  -> AnyPublisher<IntroductionInfoCultureFacilityEntity, any Error> {
+    let requestDTO = TourAPIIntroductionInfoRequestDTO(contentId: tourContentId.contentId,
+                                                       contentTypeId: tourContentId.contentTypeId)
+    let endpoint = TourAPIIntroductionEndpoints.fetchCultureFacility(with: requestDTO)
+    
+    return service.request(endpoint: endpoint)
+      .subscribe(on: backgroundQueue)
+      .tourAPITryMapResponseDTO()
+      .map { $0.toDomain() }
+      .eraseToAnyPublisher()
+  }
+  
   /// 관광지
-  func fetchAttratcion(tourContentId: TourContentId) -> AnyPublisher<IntroductionInfoAttractionEntity, any Error> {
+  func fetchAttratcion(tourContentId: TourContentId)
+  -> AnyPublisher<IntroductionInfoAttractionEntity, any Error> {
     let requestDTO = TourAPIIntroductionInfoRequestDTO(contentId: tourContentId.contentId,
                                                        contentTypeId: tourContentId.contentTypeId)
     let endpoint = TourAPIIntroductionEndpoints.fetchAttraction(with: requestDTO)
@@ -52,7 +67,8 @@ extension DefaultTourIntroductionInfoRepository: TourIntroductionInfoRepository 
   }
 
   /// 쇼핑
-  func fetchShopping(tourContentId: TourContentId) -> AnyPublisher<IntroductionInfoShoppingEntity, any Error> {
+  func fetchShopping(tourContentId: TourContentId)
+  -> AnyPublisher<IntroductionInfoShoppingEntity, any Error> {
     let endpoint = TourAPIIntroductionEndpoints.fetchShopping(with: .init(
       contentId: tourContentId.contentId, 
       contentTypeId: tourContentId.contentTypeId
