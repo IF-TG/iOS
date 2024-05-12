@@ -41,6 +41,7 @@ extension DefaultTourIntroductionInfoRepositoryTests {
     
     // Act
     sut.fetchShopping(tourContentId: tourContentId)
+      .receive(on: RunLoop.main)
       .sink { [weak self] completion in
         if case let .failure(error) = completion {
           unexpectedError = error
@@ -69,6 +70,7 @@ extension DefaultTourIntroductionInfoRepositoryTests {
     
     // Act
     sut.fetchFestival(tourContentId: tourContentId)
+      .receive(on: RunLoop.main)
       .sink { [weak self] completion in
         if case let .failure(error) = completion {
           unexpectedError = error
@@ -98,6 +100,7 @@ extension DefaultTourIntroductionInfoRepositoryTests {
     
     // Act
     sut.fetchRestaurant(tourContentId: restaurantId)
+      .receive(on: RunLoop.main)
       .sink { [weak self] completion in
         if case .failure(let error) = completion {
           unexpectedError = error
@@ -126,6 +129,7 @@ extension DefaultTourIntroductionInfoRepositoryTests {
     
     // Act
     sut.fetchAttratcion(tourContentId: attractionId)
+      .receive(on: RunLoop.main)
       .sink { [weak self] completion in
         if case .failure(let error) = completion {
           unexpectedError = error
@@ -143,5 +147,34 @@ extension DefaultTourIntroductionInfoRepositoryTests {
     // Assert
     checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "fetchAttratcion")
     XCTAssertTrue(receivedResult, "receivedValue로 IntroductionInfoAttractionEntity를 받아야 하는데, 받지 못함.")
+  }
+  
+  /* 문화시설 */
+  func test_fetchCultureFacility메소드_호출시_value로_IntroductionInfoCultureFacilityEntity를_내려주는지() {
+    // Arrange
+    var unexpectedError: Error?
+    var receivedResult = false
+    let cultureFacilityId = TourContentId(contentId: 130217, contentTypeId: TourType.cultureFacility.rawValue)
+    
+    // Act
+    sut.fetchCultureFacility(tourContentId: cultureFacilityId)
+      .receive(on: RunLoop.main)
+      .sink { [weak self] completion in
+        if case .failure(let error) = completion {
+          unexpectedError = error
+          self?.expectation.fulfill()
+        }
+      } receiveValue: { [weak self] entity in
+        print("receivedValue: \(entity)")
+        receivedResult = true
+        self?.expectation.fulfill()
+      }
+      .store(in: &subscriptions)
+    
+    wait(for: [expectation], timeout: 10)
+    
+    // Assert
+    checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "fetchCultureFacility")
+    XCTAssertTrue(receivedResult, "receivedValue로 IntroductionInfoCultureFacilityEntity를 받아야 하는데, 받지 못함.")
   }
 }
