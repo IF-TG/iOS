@@ -46,6 +46,7 @@ struct TourIntroductionInfoCultureFacilityResponseDTO: Decodable {
   }
 }
 
+// MARK: - Mappings to Domain
 extension TourIntroductionInfoCultureFacilityResponseDTO {
   func toDomain() -> IntroductionInfoCultureFacilityEntity {
     return .init(
