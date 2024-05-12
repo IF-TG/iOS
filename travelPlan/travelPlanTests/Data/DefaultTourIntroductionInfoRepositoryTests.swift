@@ -177,4 +177,33 @@ extension DefaultTourIntroductionInfoRepositoryTests {
     checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "fetchCultureFacility")
     XCTAssertTrue(receivedResult, "receivedValue로 IntroductionInfoCultureFacilityEntity를 받아야 하는데, 받지 못함.")
   }
+  
+  /* 레포츠 */
+  func test_fetchLeports메소드_호출시_value로_IntroductionInfoLeportsEntity를_내려주는지() {
+    // Arrange
+    var unexpectedError: Error?
+    var receivedResult = false
+    let leportsId = TourContentId(contentId: 2726713, contentTypeId: TourType.leports.rawValue)
+    
+    // Act
+    sut.fetchLeports(tourContentId: leportsId)
+      .receive(on: RunLoop.main)
+      .sink { [weak self] completion in
+        if case .failure(let error) = completion {
+          unexpectedError = error
+          self?.expectation.fulfill()
+        }
+      } receiveValue: { [weak self] leportEntity in
+        print(leportEntity)
+        receivedResult = true
+        self?.expectation.fulfill()
+      }
+      .store(in: &subscriptions)
+    
+    wait(for: [expectation], timeout: 10)
+
+    // Assert
+    checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "fetchLeports")
+    XCTAssertTrue(receivedResult, "receivedValue로 IntroductionInfoLeportsEntity를 받아야 하는데, 받지 못함.")
+  }
 }
