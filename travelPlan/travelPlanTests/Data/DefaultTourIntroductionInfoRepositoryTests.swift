@@ -32,7 +32,7 @@ final class DefaultTourIntroductionInfoRepositoryTests: XCTestCase {
 }
 
 extension DefaultTourIntroductionInfoRepositoryTests {
-  // 쇼핑
+  /* 쇼핑 */
   func test_fetchShopping메소드_호출시_value로_IntroductionInfoShoppingEntity를_내려주는지() {
     // Arrange
     var unexpectedError: Error?
@@ -60,7 +60,7 @@ extension DefaultTourIntroductionInfoRepositoryTests {
     XCTAssertTrue(receivedResult, "receivedValue로 IntroductionInfoShoppingEntity가 들어오지 않았습니다.")
   }
   
-  // 행사/축제/
+  /* 행사/축제/공연 */
   func test_fetchFestival메소드_호출시_value로_IntroductionInfoFestivalEntity를_내려주면_shouldReturnTrue() {
     // Arrange
     var unexpectedError: Error?
@@ -88,7 +88,7 @@ extension DefaultTourIntroductionInfoRepositoryTests {
     XCTAssertTrue(receivedResult, "receiveValue가 들어와야하는데 들어오지 않음")
   }
   
-  // 음식점
+  /* 음식점 */
   func test_fetchRestaurant메소드_호출시_value로_IntroductionInfoRestaurantEntity를_내려주는지() {
     // Arrange
     var unexpectedError: Error?
@@ -115,5 +115,33 @@ extension DefaultTourIntroductionInfoRepositoryTests {
     // Assert
     checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "fetchRestaurant")
     XCTAssertTrue(receivedResult, "IntroductionInfoRestaurantEntity가 들어와야하는데, 들어오지 않음.")
+  }
+  
+  /* 관광지 */
+  func test_fetchAttraction메소드_호출시_value로_IntroductionInfoAttractionEntity를_내려주는지() {
+    // Arrange
+    var unexpectedError: Error?
+    var receivedResult = false
+    let attractionId = TourContentId(contentId: 3018842, contentTypeId: TourType.attraction.rawValue)
+    
+    // Act
+    sut.fetchAttratcion(tourContentId: attractionId)
+      .sink { [weak self] completion in
+        if case .failure(let error) = completion {
+          unexpectedError = error
+          self?.expectation.fulfill()
+        }
+      } receiveValue: { [weak self] entity in
+        print("attraction entity: \(entity)")
+        receivedResult = true
+        self?.expectation.fulfill()
+      }
+      .store(in: &subscriptions)
+
+    wait(for: [expectation], timeout: 10)
+    
+    // Assert
+    checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "fetchAttratcion")
+    XCTAssertTrue(receivedResult, "receivedValue로 IntroductionInfoAttractionEntity를 받아야 하는데, 받지 못함.")
   }
 }
