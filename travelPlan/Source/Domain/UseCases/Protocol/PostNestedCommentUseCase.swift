@@ -24,5 +24,5 @@ protocol PostNestedCommentUseCase {
     commentId: String,
     nestedCommentId: String,
     hasDeletedComment: Bool
-  ) -> AnyPublisher<Bool, Error>
+  ) -> AnyPublisher<DeletedNestedCommentResult, Error>
 }
