@@ -37,7 +37,8 @@ final class DefaultPostNestedCommentUseCase: PostNestedCommentUseCase {
   func deleteNestedComment(
     postId: String,
     commentId: String,
-    nestedCommentId: String
+    nestedCommentId: String,
+    hasDeletedComment: Bool
   ) -> AnyPublisher<Bool, any Error> {
     return postNestedCommentRepository.deleteNestedComment(nestedCommentId: nestedCommentId)
   }

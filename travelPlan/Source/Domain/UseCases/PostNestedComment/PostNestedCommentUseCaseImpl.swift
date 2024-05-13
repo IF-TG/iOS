@@ -79,11 +79,12 @@ extension PostNestedCommentUseCaseImpl: PostNestedCommentUseCase {
   func deleteNestedComment(
     postId: String,
     commentId: String,
-    nestedCommentId: String
+    nestedCommentId: String,
+    hasDeletedComment: Bool
   ) -> AnyPublisher<Bool, any Error> {
     return nestedCommentRepository
       .deleteNestedComment(
-        postId: postId, commentId: commentId, nestedCommentId: nestedCommentId)
+        postId: postId, commentId: commentId, nestedCommentId: nestedCommentId, hasDeletedComment: hasDeletedComment)
       .map { _ in return true }
       .eraseToAnyPublisher()
   }

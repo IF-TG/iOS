@@ -128,11 +128,13 @@ extension FirestorePostNestedCommentRepository: PostAtomicNestedCommentRepositor
   func deleteNestedComment(
     postId: String,
     commentId: String,
-    nestedCommentId: String
+    nestedCommentId: String,
+    hasDeletedComment: Bool
   ) -> AnyPublisher<Void, any Error> {
     let endpoint = Endpoint.makeNestedCommentDeleteEndpoint(
       withPostId: postId, commentId: commentId, nestedCommentId: nestedCommentId)
     return Future { [weak self, backgroundQueue] promise in
+      // TODO: - 댓글 제거되면 트랜젝션으로 댓, 대댓 다 제거하기
       let request = self?.service.request(endpoint: endpoint)
         .subscribe(on: backgroundQueue)
         .receive(on: backgroundQueue)
