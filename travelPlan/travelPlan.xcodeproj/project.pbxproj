@@ -2052,10 +2052,10 @@
 				15E0BA052BF1B8B500EBCDD9 /* PostReviewWriting */,
 				15E0BA062BF1B8CE00EBCDD9 /* PostComment */,
 				15E0BA072BF1B94300EBCDD9 /* PostNestedComment */,
+				15E0BA082BF1B9DA00EBCDD9 /* FavoriteDirectory */,
+				15E0BA092BF1B9EF00EBCDD9 /* Authentication */,
 				151DF0F52AEEB2D200D5D55B /* DefaultNoticeUseCase.swift */,
-				130CF3672B8E87490051DEE8 /* LoginUseCase.swift */,
 				13E7EAF22BE02EA80027946C /* DefaultFestivalUseCase.swift */,
-				15591DDB2BBE9F9B00128A9E /* DefaultFavoritePostInDirectoryUseCase.swift */,
 			);
 			path = UseCases;
 			sourceTree = "<group>";
@@ -3493,6 +3493,22 @@
 				1558033A2BF1ACAD008F631C /* PostNestedCommentHeartUseCaseImpl.swift */,
 			);
 			path = PostNestedComment;
+			sourceTree = "<group>";
+		};
+		15E0BA082BF1B9DA00EBCDD9 /* FavoriteDirectory */ = {
+			isa = PBXGroup;
+			children = (
+				15591DDB2BBE9F9B00128A9E /* DefaultFavoritePostInDirectoryUseCase.swift */,
+			);
+			path = FavoriteDirectory;
+			sourceTree = "<group>";
+		};
+		15E0BA092BF1B9EF00EBCDD9 /* Authentication */ = {
+			isa = PBXGroup;
+			children = (
+				130CF3672B8E87490051DEE8 /* LoginUseCase.swift */,
+			);
+			path = Authentication;
 			sourceTree = "<group>";
 		};
 		15E155042BAB01E500582E12 /* Utils */ = {
