@@ -2048,17 +2048,15 @@
 			isa = PBXGroup;
 			children = (
 				151DF0F12AEEB27400D5D55B /* Protocol */,
+				15E0BA012BF1B7B300EBCDD9 /* User */,
 				151DF0F52AEEB2D200D5D55B /* DefaultNoticeUseCase.swift */,
 				130CF3672B8E87490051DEE8 /* LoginUseCase.swift */,
-				15D6558E2B8E11AC00466FEC /* DefaultMyProfileUseCase.swift */,
 				13E7EAF22BE02EA80027946C /* DefaultFestivalUseCase.swift */,
 				15E9E5ED2B9A345800C2F1F7 /* DefaultPostUseCase.swift */,
 				135A07C32BA9883E003D6C4D /* DefaultAlbumUseCase.swift */,
-				15B01DAE2BA95A4600BE9F98 /* DefaultLoggedInUserUseCase.swift */,
 				135A07D02BB4031D003D6C4D /* DefaultPhotoAuthorizationUseCase.swift */,
 				15BE6BE92BAF1CA1009A2568 /* DefaultPostCommentUseCase.swift */,
 				15553BC92BB346A3000AA896 /* DefaultPostNestedCommentUseCase.swift */,
-				15B5E7A62BBAE8B800C19F56 /* DefaultUserBlockUseCase.swift */,
 				15591DDB2BBE9F9B00128A9E /* DefaultFavoritePostInDirectoryUseCase.swift */,
 				13AE0DD92BC32E6100652B99 /* DefaultAlbumPhotoMaxCountUseCase.swift */,
 				13E98F862BC53DDD00F05295 /* DefaultReviewWritingUseCase.swift */,
@@ -3437,6 +3435,16 @@
 				15DE36B82AB853900030CCCC /* TravelThemeBottomSheetCell.swift */,
 			);
 			path = BottomSheet;
+			sourceTree = "<group>";
+		};
+		15E0BA012BF1B7B300EBCDD9 /* User */ = {
+			isa = PBXGroup;
+			children = (
+				15D6558E2B8E11AC00466FEC /* DefaultMyProfileUseCase.swift */,
+				15B5E7A62BBAE8B800C19F56 /* DefaultUserBlockUseCase.swift */,
+				15B01DAE2BA95A4600BE9F98 /* DefaultLoggedInUserUseCase.swift */,
+			);
+			path = User;
 			sourceTree = "<group>";
 		};
 		15E155042BAB01E500582E12 /* Utils */ = {
