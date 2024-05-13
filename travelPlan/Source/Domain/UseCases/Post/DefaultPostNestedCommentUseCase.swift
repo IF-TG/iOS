@@ -21,25 +21,19 @@ final class DefaultPostNestedCommentUseCase: PostNestedCommentUseCase {
     commentId: String,
     comment: String
   ) -> AnyPublisher<PostNestedCommentEntity, any Error> {
-    return postNestedCommentRepository
-      .sendNestedComment(commentId: commentId, comment: comment)
-      .eraseToAnyPublisher()
+    return postNestedCommentRepository.sendNestedComment(commentId: commentId, comment: comment)
   }
   
   func updateNestedComment(
     nestedCommentId: String,
     comment: String
   ) -> AnyPublisher<Bool, any Error> {
-    return postNestedCommentRepository
-      .updateNestedComment(nestedCommentId: nestedCommentId, comment: comment)
-      .eraseToAnyPublisher()
+    return postNestedCommentRepository.updateNestedComment(nestedCommentId: nestedCommentId, comment: comment)
   }
   
   func deleteNestedComment(
     nestedCommentId: String
   ) -> AnyPublisher<Bool, any Error> {
-    return postNestedCommentRepository
-      .deleteNestedComment(nestedCommentId: nestedCommentId)
-      .eraseToAnyPublisher()
+    return postNestedCommentRepository.deleteNestedComment(nestedCommentId: nestedCommentId)
   }
 }
