@@ -8,8 +8,17 @@
 import Combine
 
 protocol PostNestedCommentUseCase {
-  func sendNestedComment(commentId: String, comment: String) -> AnyPublisher<PostNestedCommentEntity, Error>
-  func updateNestedComment(nestedCommentId: String, comment: String) -> AnyPublisher<Bool, Error>
-  func deleteNestedComment(nestedCommentId: String) -> AnyPublisher<Bool, Error>
-  func toggleCommentHeart(nestedCommentId: String) -> AnyPublisher<ToggledPostCommentHeartEntity, Error>
+  func sendNestedComment(
+    commentId: String,
+    comment: String
+  ) -> AnyPublisher<PostNestedCommentEntity, Error>
+  func updateNestedComment(
+    nestedCommentId: String,
+    comment: String
+  ) -> AnyPublisher<Bool, Error>
+  func deleteNestedComment(
+    commentId: String,
+    nestedCommentId: String,
+    hasDeletedComment: Bool
+  ) -> AnyPublisher<Bool, Error>
 }
