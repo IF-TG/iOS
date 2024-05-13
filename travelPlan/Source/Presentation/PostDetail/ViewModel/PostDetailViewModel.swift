@@ -645,8 +645,9 @@ private extension PostDetailViewModel {
     /// 포스트는 섹션 \(PostDetailSectionType.defaultNumberOfSections)부터 시작합니다.
     let commentSection = SectionType.commentIndex(section: replyingSection)
     let commentId = postDetails.comments[commentSection].commentId
+    let postId = postDetails.detail.postID
     return postNestedCommentUseCase
-      .sendNestedComment(commentId: commentId, comment: text)
+      .sendNestedComment(postId: postId, commentId: commentId, comment: text)
       .map { [weak self] postNestedCommentEntity -> State in
         self?.postDetails.comments[commentSection].nestedComments.append(postNestedCommentEntity)
         self?.replyingSection = nil
@@ -662,8 +663,11 @@ private extension PostDetailViewModel {
     /// 포스트는 섹션 \(PostDetailSectionType.defaultNumberOfSections)부터 시작합니다.
     let commentSection = SectionType.commentIndex(section: indexPath.section)
     let nestedCommentId = postDetails.comments[commentSection].nestedComments[indexPath.row].nestedCommentId
+    let commentId = postDetails.comments[commentSection].commentId
+    let postId = postDetails.detail.postID
+    
     return postNestedCommentUseCase
-      .deleteNestedComment(nestedCommentId: nestedCommentId)
+      .deleteNestedComment(postId: postId, commentId: commentId, nestedCommentId: nestedCommentId)
       .map { [weak self] result -> State in
         guard result else {
           return .unexpectedError(description: "서버에서 에러가 발생되 대댓글이 삭제되지 않았습니다.")
@@ -693,8 +697,14 @@ private extension PostDetailViewModel {
     }
     let commentIdx = SectionType.commentIndex(section: indexPath.section)
     let nestedComment = postDetails.comments[commentIdx].nestedComments[indexPath.row]
+    let commentId = postDetails.comments[commentIdx].commentId
+    let postId = postDetails.detail.postID
     return postNestedCommentUseCase
-      .updateNestedComment(nestedCommentId: nestedComment.nestedCommentId, comment: editedText)
+      .updateNestedComment(
+        postId: postId,
+        commentId: commentId,
+        nestedCommentId: nestedComment.nestedCommentId,
+        comment: editedText)
       .map { [weak self] result -> State in
         guard result else {
           return .unexpectedError(description: "서버에서 에러가 발생되어 대댓글이 편집되지 않았습니다.")
