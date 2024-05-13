@@ -76,6 +76,7 @@ extension PostNestedCommentUseCaseImpl: PostNestedCommentUseCase {
       .eraseToAnyPublisher()
   }
   
+  // TODO: 대댓글이 전부 제거되었을때, 댓글도 삭제된 것이라면, 여기서 댓글도 삭제하자.
   func deleteNestedComment(
     postId: String,
     commentId: String,
@@ -84,7 +85,7 @@ extension PostNestedCommentUseCaseImpl: PostNestedCommentUseCase {
   ) -> AnyPublisher<Bool, any Error> {
     return nestedCommentRepository
       .deleteNestedComment(
-        postId: postId, commentId: commentId, nestedCommentId: nestedCommentId, hasDeletedComment: hasDeletedComment)
+        postId: postId, commentId: commentId, nestedCommentId: nestedCommentId)
       .map { _ in return true }
       .eraseToAnyPublisher()
   }
