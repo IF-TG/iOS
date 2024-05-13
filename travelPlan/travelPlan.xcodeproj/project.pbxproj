@@ -2048,19 +2048,14 @@
 				151DF0F12AEEB27400D5D55B /* Protocol */,
 				15E0BA012BF1B7B300EBCDD9 /* User */,
 				15E0BA022BF1B81400EBCDD9 /* Album */,
+				15E0BA042BF1B88100EBCDD9 /* Post */,
+				15E0BA052BF1B8B500EBCDD9 /* PostReviewWriting */,
+				15E0BA062BF1B8CE00EBCDD9 /* PostComment */,
+				15E0BA072BF1B94300EBCDD9 /* PostNestedComment */,
 				151DF0F52AEEB2D200D5D55B /* DefaultNoticeUseCase.swift */,
 				130CF3672B8E87490051DEE8 /* LoginUseCase.swift */,
 				13E7EAF22BE02EA80027946C /* DefaultFestivalUseCase.swift */,
-				15E9E5ED2B9A345800C2F1F7 /* DefaultPostUseCase.swift */,
-				15BE6BE92BAF1CA1009A2568 /* DefaultPostCommentUseCase.swift */,
-				15553BC92BB346A3000AA896 /* DefaultPostNestedCommentUseCase.swift */,
 				15591DDB2BBE9F9B00128A9E /* DefaultFavoritePostInDirectoryUseCase.swift */,
-				13E98F862BC53DDD00F05295 /* DefaultReviewWritingUseCase.swift */,
-				15EBD91C2BE8D3A000BCEA7F /* DefaultPostCommentHeartUseCase.swift */,
-				15EBD9202BE8D52D00BCEA7F /* PostCommentHeartUseCaseImpl.swift */,
-				1572ABC42BE797EF008AFE66 /* PostCommentUseCaseImpl.swift */,
-				1558033A2BF1ACAD008F631C /* PostNestedCommentHeartUseCaseImpl.swift */,
-				1540478B2BE4BA45009E86FF /* DefaultPostHeartUseCase.swift */,
 			);
 			path = UseCases;
 			sourceTree = "<group>";
@@ -3461,6 +3456,43 @@
 				135A07D62BB72425003D6C4D /* PhotoAuthorizationUseCase.swift */,
 			);
 			path = Album;
+			sourceTree = "<group>";
+		};
+		15E0BA042BF1B88100EBCDD9 /* Post */ = {
+			isa = PBXGroup;
+			children = (
+				1540478B2BE4BA45009E86FF /* DefaultPostHeartUseCase.swift */,
+				15E9E5ED2B9A345800C2F1F7 /* DefaultPostUseCase.swift */,
+				15553BC92BB346A3000AA896 /* DefaultPostNestedCommentUseCase.swift */,
+			);
+			path = Post;
+			sourceTree = "<group>";
+		};
+		15E0BA052BF1B8B500EBCDD9 /* PostReviewWriting */ = {
+			isa = PBXGroup;
+			children = (
+				13E98F862BC53DDD00F05295 /* DefaultReviewWritingUseCase.swift */,
+			);
+			name = PostReviewWriting;
+			sourceTree = "<group>";
+		};
+		15E0BA062BF1B8CE00EBCDD9 /* PostComment */ = {
+			isa = PBXGroup;
+			children = (
+				15EBD91C2BE8D3A000BCEA7F /* DefaultPostCommentHeartUseCase.swift */,
+				15EBD9202BE8D52D00BCEA7F /* PostCommentHeartUseCaseImpl.swift */,
+				1572ABC42BE797EF008AFE66 /* PostCommentUseCaseImpl.swift */,
+				15BE6BE92BAF1CA1009A2568 /* DefaultPostCommentUseCase.swift */,
+			);
+			path = PostComment;
+			sourceTree = "<group>";
+		};
+		15E0BA072BF1B94300EBCDD9 /* PostNestedComment */ = {
+			isa = PBXGroup;
+			children = (
+				1558033A2BF1ACAD008F631C /* PostNestedCommentHeartUseCaseImpl.swift */,
+			);
+			path = PostNestedComment;
 			sourceTree = "<group>";
 		};
 		15E155042BAB01E500582E12 /* Utils */ = {
