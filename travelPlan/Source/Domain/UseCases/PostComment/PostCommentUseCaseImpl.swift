@@ -12,6 +12,7 @@ import os.log
 final class PostCommentUseCaseImpl {
   // MARK: - Dependencies
   private let postAtomicCommentRepository: PostAtomicCommentRepository
+  private let postNestedCommentRepository: PostAtomicNestedCommentRepository
   private let ownerRepository: LoggedInUserRepository
   private let userProfileRepository: UserProfileRepository
   private let backgroundQueue: DispatchQueue
@@ -23,12 +24,14 @@ final class PostCommentUseCaseImpl {
   init(
     ownerRepository: LoggedInUserRepository,
     postAtomicCommentRepository: PostAtomicCommentRepository,
+    postNestedCommentRepository: PostAtomicNestedCommentRepository,
     userProfileRepository: UserProfileRepository,
     backgroundQueue: DispatchQueue
   ) {
     self.ownerRepository = ownerRepository
     self.postAtomicCommentRepository = postAtomicCommentRepository
     self.userProfileRepository = userProfileRepository
+    self.postNestedCommentRepository = postNestedCommentRepository
     self.backgroundQueue = backgroundQueue
   }
 }
@@ -117,14 +120,21 @@ extension PostCommentUseCaseImpl: PostCommentUseCase {
     postId: String,
     commentId: String
   ) -> AnyPublisher<Bool, any Error> {
-    return postAtomicCommentRepository
-      .deleteComment(
-        // FIXME: - NestedComment가 있는지 서버에서 가져와야 합니다.
-        hasAnyNestedCommentExisted: false,
-        postId: postId,
-        commentId: commentId)
-      .map { true }
-      .eraseToAnyPublisher()
+    return postNestedCommentRepository.fetchTheNumberOfNestedComments(postId: postId, commentId: commentId)
+      .flatMap { [weak self] numberOfNestedComments in
+        guard let self else {
+          return Fail<Bool, ReferenceError>(error: ReferenceError.invalidReference)
+            .mapError { $0 as Error }
+            .eraseToAnyPublisher()
+        }
+        return postAtomicCommentRepository
+          .deleteComment(
+            hasAnyNestedCommentExisted: numberOfNestedComments > 0,
+            postId: postId,
+            commentId: commentId)
+          .map { true }
+          .eraseToAnyPublisher()
+      }.eraseToAnyPublisher()
   }
   
   func fetchComments(
