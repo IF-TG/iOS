@@ -6,11 +6,12 @@
 //
 
 import Foundation
+import Combine
 
 protocol PostNestedCommentHeartUseCase {
   func toggleNestedCommentHeart(
     postId: String,
     commentId: String,
     nestedCommentId: String
-  ) -> AnyPublisher<ToggledPostCommentHeartEntity, Error>
+  ) -> AnyPublisher<ToggledPostCommentHeartEntity, any Error>
 }
