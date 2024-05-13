@@ -201,13 +201,6 @@ extension PostCommentUseCaseImpl: PostCommentUseCase {
       hearts: Int32(atomicCommentEntity.hearts),
       nestedComments: nestedComments)
   }
-  
-  func toggleCommentHeart(
-    postId: String,
-    commentId: String
-  ) -> AnyPublisher<ToggledPostCommentHeartEntity, any Error> {
-    fatalError("미구현")
-  }
 }
 
 // MARK: - Private Helpers
