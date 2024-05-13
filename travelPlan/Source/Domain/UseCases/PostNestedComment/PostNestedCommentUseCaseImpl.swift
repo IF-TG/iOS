@@ -95,70 +95,39 @@ extension PostNestedCommentUseCaseImpl: PostNestedCommentUseCase {
     nestedCommentId: String,
     hasDeletedComment: Bool
   ) -> AnyPublisher<Bool, any Error> {
-    return Future { [weak self, backgroundQueue] promise in
-      let deleteNestedComment = self?.nestedCommentRepository
+    return nestedCommentRepository
         .deleteNestedComment(
           postId: postId, commentId: commentId, nestedCommentId: nestedCommentId)
         .receive(on: backgroundQueue)
-        .sink { completion in
-          if case .failure(let error) = completion {
-            promise(.failure(error))
-          }
-        } receiveValue: { [weak self] _ in
+        .flatMap { [weak self] _ in
           guard let self else {
-            promise(.failure(ReferenceError.invalidReference))
-            return
+            return Fail<Bool, any Error>(error: ReferenceError.invalidReference)
+              .mapError { $0 as Error }
+              .eraseToAnyPublisher()
           }
-          var hasAnyNestedCommentExisted: Bool = true
-          let group = DispatchGroup()
-          /// 어차피 대댓은 삭제된거.
           
-          group.enter()
           /// 대댓 개수 가져오기.
-          let nestedCommentsFetcher = nestedCommentRepository
+          return nestedCommentRepository
             .fetchTheNumberOfNestedComments(postId: postId, commentId: commentId)
-            .sink { completion in
-              if case .failure(let error) = completion {
-                promise(.failure(error))
+            .flatMap { numberOfNestedComments in
+              var hasAnyNestedCommentExisted = numberOfNestedComments > 0
+              guard hasDeletedComment else {
+                return Just(true).setFailureType(to: Error.self).eraseToAnyPublisher()
               }
-            } receiveValue: { nestedComments in
-              hasAnyNestedCommentExisted = nestedComments > 0
-              group.leave()
-            }
-          subscriptions.insert(nestedCommentsFetcher)
-          // TODO: 이게 계속 정지 동작되는지 테스트해야함.
-          if group.wait(timeout: .now() + 30) == .timedOut {
-            promise(.failure(PostNestedCommentUseCaseImplError.timeoutGroupTask))
-            return
-          }
-          // 대댓글 개수가 0개라면
-          // 아래 로직으로 댓글 삭제해주세요.
-          // 그리고 이 레포가 커서 얘만 따로 분리할 필요도 있다.
-          guard hasDeletedComment else {
-            promise(.success(true))
-            return
-          }
-          if hasAnyNestedCommentExisted {
-            promise(.success(true))
-            return
-          }
-          
-          /// 삭제한 대댓글이 마지막 대댓글인 경우
-          let commentDeletePublihser = commentRepository
-            .deleteComment(
-              hasAnyNestedCommentExisted: hasAnyNestedCommentExisted,
-              postId: postId,
-              commentId: commentId)
-            .sink { completion in
-              if case .failure(let error) = completion {
-                promise(.failure(error))
+              if hasAnyNestedCommentExisted {
+                return Just(true).setFailureType(to: Error.self).eraseToAnyPublisher()
               }
-            } receiveValue: { _ in
-              promise(.success(true))
-            }
-          subscriptions.insert(commentDeletePublihser)
-        }
-      self?.subscriptions.insert(deleteNestedComment)
-    }.eraseToAnyPublisher()
+              
+              /// 삭제한 대댓글이 마지막 대댓글인 경우
+              return self.commentRepository
+                .deleteComment(
+                  hasAnyNestedCommentExisted: hasAnyNestedCommentExisted,
+                  postId: postId,
+                  commentId: commentId)
+              /// d이거 enum으로 하자 댓, 대댓ㄱ 전부 삭제
+                .map { _ in return true }
+                .eraseToAnyPublisher()
+            }.eraseToAnyPublisher()
+        }.eraseToAnyPublisher()
   }
 }
