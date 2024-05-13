@@ -13,6 +13,4 @@ protocol PostNestedCommentHeartUseCase {
     commentId: String,
     nestedCommentId: String
   ) -> AnyPublisher<ToggledPostCommentHeartEntity, Error>
-  
-  
 }
