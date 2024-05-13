@@ -12,6 +12,7 @@ import Combine
   case invalidUserId
   case invalidOwnerEntity
   case timeoutGroupTask
+  case invalidReference
 }
 
 final class PostNestedCommentUseCaseImpl {
@@ -86,48 +87,59 @@ extension PostNestedCommentUseCaseImpl: PostNestedCommentUseCase {
       .eraseToAnyPublisher()
   }
   
-  // TODO: 대댓글이 전부 제거되었을때, 댓글도 삭제된 것이라면, 여기서 댓글도 삭제하자.
-  // 사용측에선 대댓 개수 확인하고 해당 댓글도 제거하는 ui 반영해야핢
-  // 반환타입을 두개로 해야함. 대댓, 댓 전부 삭제인지, 대댓만 삭제인지 enum으로 하자.
+  /// 대댓글 삭제
+  ///
+  /// Notes:
+  /// - 대댓글이 전부 제거된 로직 수행후 댓글도 삭제된 것이라면, 여기서 해당 댓글도 삭제합니다.
+  /// - 사용측에선 대댓 개수 확인하고 해당 댓글도 제거하는 ui 반영해야 합니다.
   func deleteNestedComment(
     postId: String,
     commentId: String,
     nestedCommentId: String,
     hasDeletedComment: Bool
-  ) -> AnyPublisher<Bool, any Error> {
+  ) -> AnyPublisher<DeletedNestedCommentResult, any Error> {
     return nestedCommentRepository
         .deleteNestedComment(
           postId: postId, commentId: commentId, nestedCommentId: nestedCommentId)
         .receive(on: backgroundQueue)
-        .flatMap { [weak self] _ in
+        .flatMap { [weak self] _ -> AnyPublisher<DeletedNestedCommentResult, any Error>  in
           guard let self else {
-            return Fail<Bool, any Error>(error: ReferenceError.invalidReference)
-              .mapError { $0 as Error }
-              .eraseToAnyPublisher()
+            return Fail(error: PostNestedCommentUseCaseImplError.invalidReference).eraseToAnyPublisher()
           }
           
           /// 대댓 개수 가져오기.
           return nestedCommentRepository
             .fetchTheNumberOfNestedComments(postId: postId, commentId: commentId)
-            .flatMap { numberOfNestedComments in
-              var hasAnyNestedCommentExisted = numberOfNestedComments > 0
-              guard hasDeletedComment else {
-                return Just(true).setFailureType(to: Error.self).eraseToAnyPublisher()
+            .flatMap { [weak self] numberOfNestedComments -> AnyPublisher<DeletedNestedCommentResult, any Error> in
+              guard let self else {
+                return Fail(error: PostNestedCommentUseCaseImplError.invalidReference).eraseToAnyPublisher()
               }
+              
+              let hasAnyNestedCommentExisted = numberOfNestedComments > 0
+              
+              guard hasDeletedComment else {
+                return justANestedCommentDeletedPublihser
+              }
+              
               if hasAnyNestedCommentExisted {
-                return Just(true).setFailureType(to: Error.self).eraseToAnyPublisher()
+                return justANestedCommentDeletedPublihser
               }
               
               /// 삭제한 대댓글이 마지막 대댓글인 경우
-              return self.commentRepository
+              return commentRepository
                 .deleteComment(
                   hasAnyNestedCommentExisted: hasAnyNestedCommentExisted,
                   postId: postId,
                   commentId: commentId)
-              /// d이거 enum으로 하자 댓, 대댓ㄱ 전부 삭제
-                .map { _ in return true }
+                .map { _ in return .ACommentAndAllNestedCommentsDeleted }
                 .eraseToAnyPublisher()
             }.eraseToAnyPublisher()
         }.eraseToAnyPublisher()
+  }
+  
+  private var justANestedCommentDeletedPublihser: AnyPublisher<DeletedNestedCommentResult, any Error> {
+    return Just(.justANestedCommentDeleted)
+      .setFailureType(to: Error.self)
+      .eraseToAnyPublisher()
   }
 }
