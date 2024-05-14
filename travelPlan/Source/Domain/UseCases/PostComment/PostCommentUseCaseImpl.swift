@@ -36,6 +36,8 @@ final class PostCommentUseCaseImpl {
     self.postAtomicCommentRepository = postAtomicCommentRepository
     self.userProfileRepository = userProfileRepository
     self.postNestedCommentRepository = postNestedCommentRepository
+    self.postCommentHeartRepository = postCommentHeartRepository
+    self.postNestedCommentHeartRepository = postNestedCommentHeartRepository
     self.backgroundQueue = backgroundQueue
   }
 }
@@ -147,90 +149,108 @@ extension PostCommentUseCaseImpl: PostCommentUseCase {
     with requestValue: PostCommentsRequestValue
   ) -> AnyPublisher<[PostCommentEntity], any Error> {
     let postId = requestValue.postId
-    return postAtomicCommentRepository.fetchComments(postId: postId)
-      .flatMap { [weak self] atomicCommentEntities -> AnyPublisher<[PostCommentEntity], any Error> in
-        guard let self else { return Fail(error: ReferenceError.invalidReference).eraseToAnyPublisher() }
-        
-        /// 로그인이 반드시 된다면 ownerId가 반드시 있긴 합니다..
-        guard let ownerId = ownerRepository.id else {
-          return Fail(error: LoggedInUserRepositoryError.invalidUserId).eraseToAnyPublisher()
-        }
-        let postCommentsGroupManager = DispatchGroup()
-        var postComments: [(index: Int, entity: PostCommentEntity?)] = []
-        
-        for (i, atomicCommentEntity) in atomicCommentEntities.enumerated() {
-          postCommentsGroupManager.enter()
-          let atomicToNestedCommentGroup = DispatchGroup(), commentId = atomicCommentEntity.commentId
-          var commentAuthor: UserEntity?, hasBlocked: Bool?, isOnHeart: Bool?
-          var nestedComments: [PostNestedCommentEntity] = []
-          // TODO: - 각각의 publihser마다 발생가능한에러 PostUseCaseImplErr로 묶자.
+    return Future { [weak self] promise in
+      let fetchComments = self?.postAtomicCommentRepository.fetchComments(postId: postId)
+        .sink { completion in
+          if case .failure(let error) = completion {
+            promise(.failure(error))
+          }
+        } receiveValue: { [weak self] atomicCommentEntities in
+          guard let self else {
+            promise(.failure(ReferenceError.invalidReference))
+            return
+          }
           
-          atomicToNestedCommentGroup.enter()
-          let fetchNestedComments = Publishers.Zip3(
-            fetchUserProfileEntity(with: atomicCommentEntity.authorId),
-            fetchAtomicNestedComments(postId: postId, commentId: commentId),
-            fetchCommentHeartUsers(postId: postId, commentId: commentId))
-            .flatMap { commentAuthorEntity, postAtomicNestedComments, commentHeartUsers in
-              commentAuthor = commentAuthorEntity
-              isOnHeart = commentHeartUsers.contains { $0 == ownerId }
-              // TODO: - 여기선 대댓글 단 사용자 profile 받아와야합니다.
-              // 아.. 포스트 하트 컬랙션에서 하트했는지 여부도 파악해야합니다 ㅠ..
-              return Publishers.Sequence(sequence: postAtomicNestedComments.enumerated())
-                .receive(on: DispatchQueue.global(qos: .userInitiated))
-                .flatMap { [weak self] index, postAtomicNestedComment -> AnyPublisher<IndexedNestedComment, Error> in
-                  guard let self else { return Fail(error: ReferenceError.invalidReference).eraseToAnyPublisher() }
-                  return Publishers.Zip(
-                    fetchUserProfileEntity(with: postAtomicNestedComment.authorId),
-                    fetchNestedCommentHeartUsers(
-                      postId: postId, commentId: commentId, nestedCommentId: postAtomicNestedComment.nestedCommentId))
-                  .tryMap { [weak self] nestedCommentAuthorEntity, nestedCommentHeartUsers -> IndexedNestedComment in
-                    guard let self else { throw ReferenceError.invalidReference }
-                    let nestedCommentEntity = makePostNestedCommentEntity(
-                      authorEntity: nestedCommentAuthorEntity,
-                      postAtomicNestedComment: postAtomicNestedComment,
-                      nestedCommentHeartUsers: nestedCommentHeartUsers,
-                      ownerId: ownerId)
-                    return (index, nestedCommentEntity)
+          /// cf. 로그인을 한 유저라면 ownerId가 반드시 userDefaults에 저장되어 있긴 합니다.
+          guard let ownerId = ownerRepository.id else {
+            promise(.failure(LoggedInUserRepositoryError.invalidUserId))
+            return
+          }
+          let postCommentsGroupManager = DispatchGroup()
+          var postComments: [(index: Int, entity: PostCommentEntity?)] = []
+          
+          for (i, atomicCommentEntity) in atomicCommentEntities.enumerated() {
+            postCommentsGroupManager.enter()
+            let atomicToNestedCommentGroup = DispatchGroup(), commentId = atomicCommentEntity.commentId
+            var commentAuthor: UserEntity?, hasBlocked: Bool?, isOnHeart: Bool?
+            var nestedComments: [PostNestedCommentEntity] = []
+            // TODO: - 각각의 publihser마다 발생가능한에러 PostUseCaseImplErr로 묶자.
+            
+            atomicToNestedCommentGroup.enter()
+            let fetchNestedComments = Publishers.Zip3(
+              fetchUserProfileEntity(with: atomicCommentEntity.authorId),
+              fetchAtomicNestedComments(postId: postId, commentId: commentId),
+              fetchCommentHeartUsers(postId: postId, commentId: commentId))
+              .flatMap { commentAuthorEntity, postAtomicNestedComments, commentHeartUsers in
+                commentAuthor = commentAuthorEntity
+                isOnHeart = commentHeartUsers.contains { $0 == ownerId }
+                /// 대댓글 sequence마다 작성한 사용자 프로필 및 owner가 대댓글을 좋아했는지 여부 파악합니다.
+                return Publishers.Sequence(sequence: postAtomicNestedComments.enumerated())
+                  .receive(on: DispatchQueue.global(qos: .userInitiated))
+                  .flatMap { [weak self] index, postAtomicNestedComment -> AnyPublisher<IndexedNestedComment?, Error> in
+                    guard let self else { return Fail(error: ReferenceError.invalidReference).eraseToAnyPublisher() }
+                    /// 차단된 유저 대댓글이라면 대댓글에 포함하지 않습니다.
+                    if ownerRepository.hasBlockedUser(with: postAtomicNestedComment.authorId) {
+                      return Just(nil).setFailureType(to: (any Error).self).eraseToAnyPublisher()
+                    }
+                    return Publishers.Zip(
+                      fetchUserProfileEntity(with: postAtomicNestedComment.authorId),
+                      fetchNestedCommentHeartUsers(
+                        postId: postId, commentId: commentId, nestedCommentId: postAtomicNestedComment.nestedCommentId))
+                    .tryMap { [weak self] nestedCommentAuthorEntity, nestedCommentHeartUsers -> IndexedNestedComment in
+                      guard let self else { throw ReferenceError.invalidReference }
+                      let nestedCommentEntity = makePostNestedCommentEntity(
+                        authorEntity: nestedCommentAuthorEntity,
+                        postAtomicNestedComment: postAtomicNestedComment,
+                        nestedCommentHeartUsers: nestedCommentHeartUsers,
+                        ownerId: ownerId)
+                      return (index, nestedCommentEntity)
+                    }.eraseToAnyPublisher()
                   }.eraseToAnyPublisher()
-                }.eraseToAnyPublisher()
-                .collect(postAtomicNestedComments.count)
-                .map { indexedNestedComments -> [PostNestedCommentEntity] in
-                  return indexedNestedComments
-                    .sorted(by: { $0.indexForSorting < $1.indexForSorting })
-                    .map { $1 }
-                }.eraseToAnyPublisher()
-              // TODO: - 대댓글에 차단한 유저 어떻게하지?
-              // .filter(<#T##isIncluded: ([PostNestedCommentEntity]) -> Bool##([PostNestedCommentEntity]) -> Bool#>)
-            }.sink { completion in
-              // FIXME: 자 에러처리 잘 해보자. 복잡한데.
-              // 하나로 뭉쳐
-              fatalError("거의다옴")
-            } receiveValue: { postNestedComments in
-              nestedComments = postNestedComments
-              atomicToNestedCommentGroup.leave()
+                  .collect(postAtomicNestedComments.count)
+                  .map { indexedNestedComments -> [PostNestedCommentEntity] in
+                    return indexedNestedComments
+                      .compactMap { $0 }
+                      .sorted(by: { $0.indexForSorting < $1.indexForSorting })
+                      .map { $1 }
+                  }
+                  .eraseToAnyPublisher()
+                // TODO: - 대댓글 차단한 유저 보여주지말자.
+                // .filter(<#T##isIncluded: ([PostNestedCommentEntity]) -> Bool##([PostNestedCommentEntity]) -> Bool#>)
+              }.sink { completion in
+                if case .failure(let error) = completion {
+                  // TODO: - 로그에 기록. 어느 대댓글id를 받아올때 에러를 갖는지 형식이 잘못됬는지 에러도 저장하고
+                  print(error)
+                  atomicToNestedCommentGroup.leave()
+                }
+              } receiveValue: { postNestedComments in
+                nestedComments = postNestedComments
+                atomicToNestedCommentGroup.leave()
+              }
+            subscriptions.insert(fetchNestedComments)
+            
+            atomicToNestedCommentGroup.enter()
+            hasBlocked = ownerRepository.hasBlockedUser(with: atomicCommentEntity.authorId)
+            atomicToNestedCommentGroup.leave()
+            
+            atomicToNestedCommentGroup.notify(queue: backgroundQueue) { [weak self, i] in
+              if let commentAuthor, let hasBlocked, let isOnHeart {
+                let postComment = self?.makePostCommentEntity(
+                  atomicCommentEntity: atomicCommentEntity, commentAuthor: commentAuthor,
+                  isOnHeart: isOnHeart, isBlocked: hasBlocked, nestedComments: nestedComments)
+                postComments.append((i, postComment))
+              } else {
+                postComments.append((i, nil))
+              }
+              postCommentsGroupManager.leave()
             }
-          subscriptions.insert(fetchNestedComments)
-          
-          atomicToNestedCommentGroup.enter()
-          hasBlocked = ownerRepository.hasBlockedUser(with: atomicCommentEntity.authorId)
-          atomicToNestedCommentGroup.leave()
-          
-          atomicToNestedCommentGroup.notify(queue: backgroundQueue) { [weak self, i] in
-            if let commentAuthor, let hasBlocked, let isOnHeart {
-              let postComment = self?.makePostCommentEntity(
-                atomicCommentEntity: atomicCommentEntity, commentAuthor: commentAuthor,
-                isOnHeart: isOnHeart, isBlocked: hasBlocked, nestedComments: nestedComments)
-              postComments.append((i, postComment))
-            } else {
-              postComments.append((i, nil))
-            }
-            postCommentsGroupManager.leave()
+          }
+          postCommentsGroupManager.notify(queue: backgroundQueue) {
+            promise(.success(postComments.sorted(by: {$0.index < $1.index}).compactMap { $1 }))
           }
         }
-        postCommentsGroupManager.notify(queue: backgroundQueue) {
-          return Just(postComments.sorted(by: {$0.index < $1.index}).compactMap { $1 })
-        }
-      }.eraseToAnyPublisher()
+      self?.subscriptions.insert(fetchComments)
+    }.eraseToAnyPublisher()
   }
   
   private func makePostCommentEntity(
@@ -300,6 +320,7 @@ private extension PostCommentUseCaseImpl {
     let isOnHeart = hasOwnerHeartedSpecificComment(ownerId, from: nestedCommentHeartUsers)
     return PostNestedCommentEntity(
       nestedCommentId: postAtomicNestedComment.nestedCommentId,
+      authorId: authorEntity.id,
       userProfileImageData: authorEntity.profileImageData,
       nickname: authorEntity.nickname,
       timestamp: DateTimeConverter.timeAgo(from: postAtomicNestedComment.createAt),
