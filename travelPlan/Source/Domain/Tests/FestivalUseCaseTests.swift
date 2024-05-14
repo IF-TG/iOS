@@ -6,30 +6,69 @@
 //
 
 import XCTest
+import Combine
+@testable import travelPlan
 
 final class FestivalUseCaseTests: XCTestCase {
+  // MARK: - Properties
+  var sut: FestivalUseCase!
+  var subscriptions: Set<AnyCancellable>!
+  var expectation: XCTestExpectation!
+  
+  // MARK: - LifeCycle
+  override func setUp() {
+    super.setUp()
+    self.sut = DefaultFestivalUseCase(
+      tourFestivalInfoRepository: DefaultTourFestivalInfoRepository(
+        service: SessionProvider(),
+        imageService: ImageSessionProvider()
+      ),
+      tourCommonInfoRepository: DefaultTourCommonInfoRepository(
+        service: SessionProvider(),
+        imageService: ImageSessionProvider()
+      ),
+      tourIntroductionInfoRepository: DefaultTourIntroductionInfoRepository(
+        service: SessionProvider()
+      )
+    )
+    self.expectation = .init(description: "비동기 처리")
+    subscriptions = .init()
+  }
+  
+  override func tearDown() {
+    super.tearDown()
+    sut = nil
+    subscriptions = nil
+    expectation = nil
+  }
+}
 
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
-    }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+// MARK: - Test
+extension FestivalUseCaseTests {
+  func test_fetchFestivalList메소드_호출시_FestivalThumbnailEntity배열을_내려주는지() {
+    // Arrange
+    var unexpectedError: Error?
+    var receivedResult = false
+    
+    // Act
+    sut.fetchFestivalList()
+      .receive(on: RunLoop.main)
+      .sink { [weak self] completion in
+        if case .failure(let error) = completion {
+          unexpectedError = error
+          self?.expectation.fulfill()
         }
-    }
+      } receiveValue: { [weak self] festivalThumbnailEntities in
+        print("festivalThumbnailEntities: \(festivalThumbnailEntities)")
+        receivedResult = true
+        self?.expectation.fulfill()
+      }
+      .store(in: &subscriptions)
+    
+    wait(for: [expectation], timeout: 10)
 
+    // Assert
+    checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "fetchFestivalList")
+    XCTAssertTrue(receivedResult, "receviedValue로 FestivalThumbnailEntity배열을 받지 못함.")
+  }
 }
