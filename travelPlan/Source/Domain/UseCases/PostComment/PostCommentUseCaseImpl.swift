@@ -394,7 +394,4 @@ private extension PostCommentUseCaseImpl {
            postId,
            commentId)
   }
-  
-
 }
-
