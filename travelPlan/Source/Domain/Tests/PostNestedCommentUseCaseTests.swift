@@ -41,7 +41,7 @@ extension PostNestedCommentUseCaseTests {
     var unexpectedError: Error?
     
     // Act
-    subscription = sut.sendNestedComment(commentId: "1", comment: "대댓글대댓글")
+    subscription = sut.sendNestedComment(postId: "111", commentId: "1", comment: "대댓글대댓글")
       .sink { [unowned self] completion in
         if case .failure(let error) = completion {
           unexpectedError = error
@@ -65,7 +65,7 @@ extension PostNestedCommentUseCaseTests {
     var unexpectedError: Error?
     
     // Act
-    subscription = sut.updateNestedComment(nestedCommentId: "333", comment: "대댓글 대댓글수정")
+    subscription = sut.updateNestedComment(postId: "111", commentId: "222", nestedCommentId: "333", comment: "대댓글 대댓글수정")
       .sink { [unowned self] completion in
         if case .failure(let error) = completion {
           unexpectedError = error
@@ -89,7 +89,7 @@ extension PostNestedCommentUseCaseTests {
     var unexpectedError: Error?
     
     // Act
-    subscription = sut.deleteNestedComment(nestedCommentId: "11111")
+    subscription = sut.deleteNestedComment(postId: "111", commentId: "222", nestedCommentId: "333", hasDeletedComment: false)
       .sink { [unowned self] completion in
         if case .failure(let error) = completion {
           unexpectedError = error
@@ -104,30 +104,6 @@ extension PostNestedCommentUseCaseTests {
     
     // Assert
     checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "deleteNestedComment")
-    XCTAssertTrue(result, notReceivedErrorMessage)
-  }
-  
-  func testPostNestedComemntUseCase_togglePostComment함수호출시_PostComemntEntities받았는지_ShouldReturnTrue() {
-    // Arrange
-    var result = false
-    var unexpectedError: Error?
-    
-    // Act
-    subscription = sut.toggleCommentHeart(nestedCommentId: "1")
-      .sink { [unowned self] completion in
-        if case .failure(let error) = completion {
-          unexpectedError = error
-        }
-        expectation.fulfill()
-      } receiveValue: { [unowned self] entity in
-        print("DEBUG: 값을 성공적으로 받았습니다~\n\n:\(entity)")
-        result = true
-        expectation.fulfill()
-      }
-    wait(for: [expectation], timeout: 7.777777777)
-    
-    // Assert
-    checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "toggleCommentHeart")
     XCTAssertTrue(result, notReceivedErrorMessage)
   }
 }
