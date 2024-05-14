@@ -7,7 +7,7 @@
 
 import Combine
 
-final class DefaultPostNestedCommentUseCase: PostNestedCommentUseCase {
+final class DefaultPostNestedCommentUseCase: PostNestedCommentUseCase {  
   // MARK: - Dependencies
   private let postNestedCommentRepository: PostNestedCommentRepository
   
@@ -39,7 +39,7 @@ final class DefaultPostNestedCommentUseCase: PostNestedCommentUseCase {
     commentId: String,
     nestedCommentId: String,
     hasDeletedComment: Bool
-  ) -> AnyPublisher<Bool, any Error> {
+  ) -> AnyPublisher<DeletedNestedCommentResult, any Error> {
     return postNestedCommentRepository.deleteNestedComment(nestedCommentId: nestedCommentId)
   }
 }
