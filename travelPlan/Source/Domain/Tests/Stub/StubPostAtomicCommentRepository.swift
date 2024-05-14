@@ -10,7 +10,7 @@ import Combine
 @testable import travelPlan
 
 /// 모든 함수는 항상 옳은 값을 반환합니다.
-final class StubPostAtomicCommentRepository: PostAtomicCommentRepository {
+struct StubPostAtomicCommentRepository: PostAtomicCommentRepository {
   private let createAt: Date = DateTimeConverter.toDate(from: "2024.5.14")!
   func fetchComments(
     postId: String
