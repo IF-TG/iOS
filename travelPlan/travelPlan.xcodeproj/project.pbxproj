@@ -470,6 +470,11 @@
 		15A7A8F22B9F6C1700CA9A79 /* UserEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A7A8F12B9F6C1700CA9A79 /* UserEntity.swift */; };
 		15A859A02BB56E18002C0CA0 /* PostContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A8599F2BB56E18002C0CA0 /* PostContainer.swift */; };
 		15AAD34C2BBFD1760042DBF6 /* FavoritePostToggleEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15AAD34B2BBFD1760042DBF6 /* FavoritePostToggleEntity.swift */; };
+		15ABC41F2BF3505000B9FA74 /* PostCommentUseCaseImplTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15ABC41E2BF3505000B9FA74 /* PostCommentUseCaseImplTests.swift */; };
+		15ABC4222BF3525600B9FA74 /* StubPostAtomicCommentRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15ABC4212BF3525600B9FA74 /* StubPostAtomicCommentRepository.swift */; };
+		15ABC4242BF3549900B9FA74 /* StubPostAtomicNestedCommentRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15ABC4232BF3549900B9FA74 /* StubPostAtomicNestedCommentRepository.swift */; };
+		15ABC4272BF3588800B9FA74 /* StubPostNestedCommentHeartRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15ABC4262BF3588800B9FA74 /* StubPostNestedCommentHeartRepository.swift */; };
+		15ABC4292BF3596100B9FA74 /* StubPostCommentHeartRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15ABC4282BF3596100B9FA74 /* StubPostCommentHeartRepository.swift */; };
 		15ABFFBF2BDCDB9400D57C7C /* FirestoreReviewWritingEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15ABFFBE2BDCDB9400D57C7C /* FirestoreReviewWritingEndpoint.swift */; };
 		15AE48542BE9395B0035D980 /* TourRetrievedImageEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15AE48532BE9395B0035D980 /* TourRetrievedImageEntity.swift */; };
 		15AE48562BE93A030035D980 /* DefaultTourImageRetrieveInfoRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15AE48552BE93A030035D980 /* DefaultTourImageRetrieveInfoRepository.swift */; };
@@ -1199,6 +1204,11 @@
 		15A7A8F12B9F6C1700CA9A79 /* UserEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserEntity.swift; sourceTree = "<group>"; };
 		15A8599F2BB56E18002C0CA0 /* PostContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostContainer.swift; sourceTree = "<group>"; };
 		15AAD34B2BBFD1760042DBF6 /* FavoritePostToggleEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePostToggleEntity.swift; sourceTree = "<group>"; };
+		15ABC41E2BF3505000B9FA74 /* PostCommentUseCaseImplTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCommentUseCaseImplTests.swift; sourceTree = "<group>"; };
+		15ABC4212BF3525600B9FA74 /* StubPostAtomicCommentRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubPostAtomicCommentRepository.swift; sourceTree = "<group>"; };
+		15ABC4232BF3549900B9FA74 /* StubPostAtomicNestedCommentRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubPostAtomicNestedCommentRepository.swift; sourceTree = "<group>"; };
+		15ABC4262BF3588800B9FA74 /* StubPostNestedCommentHeartRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubPostNestedCommentHeartRepository.swift; sourceTree = "<group>"; };
+		15ABC4282BF3596100B9FA74 /* StubPostCommentHeartRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubPostCommentHeartRepository.swift; sourceTree = "<group>"; };
 		15ABFFBE2BDCDB9400D57C7C /* FirestoreReviewWritingEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreReviewWritingEndpoint.swift; sourceTree = "<group>"; };
 		15AE48532BE9395B0035D980 /* TourRetrievedImageEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourRetrievedImageEntity.swift; sourceTree = "<group>"; };
 		15AE48552BE93A030035D980 /* DefaultTourImageRetrieveInfoRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultTourImageRetrieveInfoRepository.swift; sourceTree = "<group>"; };
@@ -2938,6 +2948,17 @@
 			path = UserDefaultsStorage;
 			sourceTree = "<group>";
 		};
+		15ABC4202BF3522300B9FA74 /* Stub */ = {
+			isa = PBXGroup;
+			children = (
+				15ABC4212BF3525600B9FA74 /* StubPostAtomicCommentRepository.swift */,
+				15ABC4232BF3549900B9FA74 /* StubPostAtomicNestedCommentRepository.swift */,
+				15ABC4262BF3588800B9FA74 /* StubPostNestedCommentHeartRepository.swift */,
+				15ABC4282BF3596100B9FA74 /* StubPostCommentHeartRepository.swift */,
+			);
+			path = Stub;
+			sourceTree = "<group>";
+		};
 		15B01DA12BA939FB00BE9F98 /* UserStorage */ = {
 			isa = PBXGroup;
 			children = (
@@ -3278,6 +3299,7 @@
 		15D655902B8E162400466FEC /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				15ABC4202BF3522300B9FA74 /* Stub */,
 				15D655932B8E16B600466FEC /* Mock */,
 				15E9E5EF2B9A359B00C2F1F7 /* PostUseCaseTests.swift */,
 				15D655912B8E169100466FEC /* MyProfileUseCaseTests.swift */,
@@ -3289,6 +3311,7 @@
 				15EBD91E2BE8D40700BCEA7F /* PostCommentHeartUseCaseTests.swift */,
 				15EBD9222BE906C700BCEA7F /* PostCommentHeartUseCaseImplTests.swift */,
 				15E0B9FF2BF1B2BB00EBCDD9 /* PostNestedCommentHeartUseCaseImplTests.swift */,
+				15ABC41E2BF3505000B9FA74 /* PostCommentUseCaseImplTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -3992,6 +4015,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				15ABC4272BF3588800B9FA74 /* StubPostNestedCommentHeartRepository.swift in Sources */,
 				159851CA2BEDF81D001262BD /* Combine+XCTestHelpers.swift in Sources */,
 				159851C72BEDF6C2001262BD /* FirestorePostNestedCommentHeartRepositoryTests.swift in Sources */,
 				1572ABAF2BE6780E008AFE66 /* FirestorePostAtomicCommentRepositoryTests.swift in Sources */,
@@ -4002,12 +4026,15 @@
 				15D655A42B8F829800466FEC /* MyInformationViewModelTests.swift in Sources */,
 				1335320E2BA469E3000A4D9E /* DataConverterTests.swift in Sources */,
 				156C1E2A2BBECA6500AF1D99 /* CoordinatorDeallocTests.swift in Sources */,
+				15ABC4222BF3525600B9FA74 /* StubPostAtomicCommentRepository.swift in Sources */,
 				15EBD9232BE906C700BCEA7F /* PostCommentHeartUseCaseImplTests.swift in Sources */,
 				15553BD42BB34BF2000AA896 /* XCTestCase+UseCaseTestsHelpers.swift in Sources */,
+				15ABC4292BF3596100B9FA74 /* StubPostCommentHeartRepository.swift in Sources */,
 				15B5E7AE2BBAEBE700C19F56 /* UserBlockUseCaseTests.swift in Sources */,
 				1383C81C2B97F44800830F1A /* KeychainManagerTests.swift in Sources */,
 				13E84AFE2BE971C500B537B6 /* DefaultFestivalUseCaseTests.swift in Sources */,
 				15EBD9192BE8AC9400BCEA7F /* FirestorePostCommentHeartRepositoryTests.swift in Sources */,
+				15ABC4242BF3549900B9FA74 /* StubPostAtomicNestedCommentRepository.swift in Sources */,
 				158981BA2BB2652700F016CF /* PostCommentAPIEndpointTests.swift in Sources */,
 				15FFAC2F2ADD03130013DB57 /* MockUserEndpoint.swift in Sources */,
 				1546DF3F2B0C64E500B49A55 /* ImageDiskCacheTests.swift in Sources */,
@@ -4017,6 +4044,7 @@
 				13EB3CD32BEAA00300CA84F0 /* DefaultTourIntroductionInfoRepositoryTests.swift in Sources */,
 				15BE6BF12BAF2285009A2568 /* PostCommentUseCaseTests.swift in Sources */,
 				15FBD5E42B98E94800076115 /* PostAPIEndpointTests.swift in Sources */,
+				15ABC41F2BF3505000B9FA74 /* PostCommentUseCaseImplTests.swift in Sources */,
 				154658812BEA67CC0081CCF8 /* FirestorePostNestedCommentRepositoryTests.swift in Sources */,
 				15E0BA002BF1B2BB00EBCDD9 /* PostNestedCommentHeartUseCaseImplTests.swift in Sources */,
 				13EB3D0B2BEFCF2900CA84F0 /* DefaultTourCommonInfoRepositoryTests.swift in Sources */,
