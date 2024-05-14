@@ -10,6 +10,8 @@ import Combine
 import os.log
 
 final class PostCommentUseCaseImpl {
+  typealias IndexedNestedComment = (indexForSorting: Int, nestedCommentEntity: PostNestedCommentEntity)
+  
   // MARK: - Dependencies
   private let postAtomicCommentRepository: PostAtomicCommentRepository
   private let postNestedCommentRepository: PostAtomicNestedCommentRepository
@@ -43,6 +45,7 @@ final class PostCommentUseCaseImpl {
 }
 
 extension PostCommentUseCaseImpl: PostCommentUseCase {
+  // MARK: - Comemnt send
   func sendComment(
     postId: String,
     comment: String
@@ -111,6 +114,7 @@ extension PostCommentUseCaseImpl: PostCommentUseCase {
     }
   }
   
+  // MARK: - Comment update
   func updateComment(
     postId: String,
     commentId: String,
@@ -143,8 +147,8 @@ extension PostCommentUseCaseImpl: PostCommentUseCase {
       }.eraseToAnyPublisher()
   }
   
-  typealias IndexedNestedComment = (indexForSorting: Int, nestedCommentEntity: PostNestedCommentEntity)
-  
+  // MARK: - Comments fetch
+  // swiftlint:disable:next function_body_length
   func fetchComments(
     with requestValue: PostCommentsRequestValue
   ) -> AnyPublisher<[PostCommentEntity], any Error> {
@@ -175,7 +179,6 @@ extension PostCommentUseCaseImpl: PostCommentUseCase {
             let atomicToNestedCommentGroup = DispatchGroup(), commentId = atomicCommentEntity.commentId
             var commentAuthor: UserEntity?, hasBlocked: Bool?, isOnHeart: Bool?
             var nestedComments: [PostNestedCommentEntity] = []
-            // TODO: - 각각의 publihser마다 발생가능한에러 PostUseCaseImplErr로 묶자.
             
             atomicToNestedCommentGroup.enter()
             let fetchNestedCommentAuthorProfile = Publishers.Zip(
@@ -208,10 +211,13 @@ extension PostCommentUseCaseImpl: PostCommentUseCase {
             }
             subscriptions.insert(fetchNestedComments)
             
+            /// 해당 댓글을을 단 author를 owner가 차단했는지 여부를 받습니다.
             atomicToNestedCommentGroup.enter()
             hasBlocked = ownerRepository.hasBlockedUser(with: atomicCommentEntity.authorId)
             atomicToNestedCommentGroup.leave()
             
+            /// 하나의 댓글을 달은 저자 profile 해당 저자 차단 여부, 댓글에 달린 대댓글들, 대댓글 각각의 저자 프로필, 그 대댓글 각각의 저자를 차단했는지 여부를 판단합니다.
+            /// 결과로 하나의 댓글 엔터티를 만듭니다.
             atomicToNestedCommentGroup.notify(queue: backgroundQueue) { [weak self, i] in
               if let commentAuthor, let hasBlocked, let isOnHeart {
                 let postComment = self?.makePostCommentEntity(
@@ -308,7 +314,6 @@ private extension PostCommentUseCaseImpl {
       hearts: Int32(atomicCommentEntity.hearts),
       nestedComments: nestedComments)
   }
-
   
   private func fetchIndexedNestedComments(
     withPostId postId: String,
