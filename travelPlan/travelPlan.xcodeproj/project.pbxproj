@@ -586,6 +586,9 @@
 		15DE36B92AB853900030CCCC /* TravelThemeBottomSheetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DE36B82AB853900030CCCC /* TravelThemeBottomSheetCell.swift */; };
 		15DF29EB2BC52BC800F470DC /* PostReviewWritingCategoryBottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DF29EA2BC52BC800F470DC /* PostReviewWritingCategoryBottomSheet.swift */; };
 		15E0BA002BF1B2BB00EBCDD9 /* PostNestedCommentHeartUseCaseImplTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E0B9FF2BF1B2BB00EBCDD9 /* PostNestedCommentHeartUseCaseImplTests.swift */; };
+		15E0BA0B2BF1BBED00EBCDD9 /* PostNestedCommentUseCaseImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E0BA0A2BF1BBED00EBCDD9 /* PostNestedCommentUseCaseImpl.swift */; };
+		15E0BA0D2BF1C0B800EBCDD9 /* DefaultPostNestedCommentHeartUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E0BA0C2BF1C0B800EBCDD9 /* DefaultPostNestedCommentHeartUseCase.swift */; };
+		15E0BA0F2BF273DC00EBCDD9 /* DeletedNestedCommentResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E0BA0E2BF273DC00EBCDD9 /* DeletedNestedCommentResult.swift */; };
 		15E155062BAB01F900582E12 /* PostMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E155052BAB01F900582E12 /* PostMapper.swift */; };
 		15E1550D2BAB47F400582E12 /* BottomNextPageIndicatorCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 15E1550C2BAB47F400582E12 /* BottomNextPageIndicatorCell.xib */; };
 		15E1550E2BAB47F400582E12 /* BottomNextPageIndicatorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E1550B2BAB47F400582E12 /* BottomNextPageIndicatorCell.swift */; };
@@ -1313,6 +1316,9 @@
 		15DE36B82AB853900030CCCC /* TravelThemeBottomSheetCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelThemeBottomSheetCell.swift; sourceTree = "<group>"; };
 		15DF29EA2BC52BC800F470DC /* PostReviewWritingCategoryBottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostReviewWritingCategoryBottomSheet.swift; sourceTree = "<group>"; };
 		15E0B9FF2BF1B2BB00EBCDD9 /* PostNestedCommentHeartUseCaseImplTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostNestedCommentHeartUseCaseImplTests.swift; sourceTree = "<group>"; };
+		15E0BA0A2BF1BBED00EBCDD9 /* PostNestedCommentUseCaseImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostNestedCommentUseCaseImpl.swift; sourceTree = "<group>"; };
+		15E0BA0C2BF1C0B800EBCDD9 /* DefaultPostNestedCommentHeartUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultPostNestedCommentHeartUseCase.swift; sourceTree = "<group>"; };
+		15E0BA0E2BF273DC00EBCDD9 /* DeletedNestedCommentResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletedNestedCommentResult.swift; sourceTree = "<group>"; };
 		15E155052BAB01F900582E12 /* PostMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostMapper.swift; sourceTree = "<group>"; };
 		15E1550B2BAB47F400582E12 /* BottomNextPageIndicatorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomNextPageIndicatorCell.swift; sourceTree = "<group>"; };
 		15E1550C2BAB47F400582E12 /* BottomNextPageIndicatorCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BottomNextPageIndicatorCell.xib; sourceTree = "<group>"; };
@@ -1922,6 +1928,7 @@
 				15CAEF862BAED25C008AEDB1 /* PostCommentContainerEntity.swift */,
 				1572ABBC2BE76AEA008AFE66 /* PostAtomicCommentEntity.swift */,
 				150D4E652BEA5886004509D6 /* PostAtomicNestedCommentEntity.swift */,
+				15E0BA0E2BF273DC00EBCDD9 /* DeletedNestedCommentResult.swift */,
 			);
 			path = Comment;
 			sourceTree = "<group>";
@@ -3463,7 +3470,6 @@
 			children = (
 				1540478B2BE4BA45009E86FF /* DefaultPostHeartUseCase.swift */,
 				15E9E5ED2B9A345800C2F1F7 /* DefaultPostUseCase.swift */,
-				15553BC92BB346A3000AA896 /* DefaultPostNestedCommentUseCase.swift */,
 			);
 			path = Post;
 			sourceTree = "<group>";
@@ -3490,7 +3496,10 @@
 		15E0BA072BF1B94300EBCDD9 /* PostNestedComment */ = {
 			isa = PBXGroup;
 			children = (
+				15553BC92BB346A3000AA896 /* DefaultPostNestedCommentUseCase.swift */,
 				1558033A2BF1ACAD008F631C /* PostNestedCommentHeartUseCaseImpl.swift */,
+				15E0BA0A2BF1BBED00EBCDD9 /* PostNestedCommentUseCaseImpl.swift */,
+				15E0BA0C2BF1C0B800EBCDD9 /* DefaultPostNestedCommentHeartUseCase.swift */,
 			);
 			path = PostNestedComment;
 			sourceTree = "<group>";
@@ -4053,6 +4062,7 @@
 				13E7EAD32BDE3CC00027946C /* SearchDestinationViewModel.swift in Sources */,
 				152834D52BAB4DED00453DD1 /* PostViewSection.swift in Sources */,
 				13405F082AEE212500382796 /* GoogleLoginButton.swift in Sources */,
+				15E0BA0F2BF273DC00EBCDD9 /* DeletedNestedCommentResult.swift in Sources */,
 				15259DEA2ACAA9D800C14F62 /* SearchFestivalCellViewModel.swift in Sources */,
 				15CC64142A1DD4EF00857446 /* ConvenienceInit.swift in Sources */,
 				15FBD5D22B98DA0E00076115 /* TravelOrderTypeMapper.swift in Sources */,
@@ -4179,6 +4189,7 @@
 				1558033B2BF1ACAD008F631C /* PostNestedCommentHeartUseCaseImpl.swift in Sources */,
 				15C36BBB2BD17AC0004AA8E9 /* FirestoreRequestType.swift in Sources */,
 				1572ABC22BE78D62008AFE66 /* PostCommentAtomicRepository.swift in Sources */,
+				15E0BA0B2BF1BBED00EBCDD9 /* PostNestedCommentUseCaseImpl.swift in Sources */,
 				153FA90F2B937E12006CF3C3 /* UserProfileImageResponseDTO.swift in Sources */,
 				151DF1012AEEBD0A00D5D55B /* NotificationAPIEndpoints.swift in Sources */,
 				1524A4A52BABEAA5002C639A /* MockPostUseCase.swift in Sources */,
@@ -4580,6 +4591,7 @@
 				13254FE52A05157900094218 /* FeedViewController.swift in Sources */,
 				15B9285F2AFA2D89003A20D4 /* PostDetailContentImageCell.swift in Sources */,
 				159851C52BEDF28B001262BD /* Combine+Helpers.swift in Sources */,
+				15E0BA0D2BF1C0B800EBCDD9 /* DefaultPostNestedCommentHeartUseCase.swift in Sources */,
 				130304822A250DF600776A0D /* TitleWithButtonHeaderView.swift in Sources */,
 				13E98F942BC7E42E00F05295 /* PostContentEntity.swift in Sources */,
 				15C1F55C2AF37CA8005FDA15 /* NSMutableAttributedString+.swift in Sources */,
