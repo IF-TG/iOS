@@ -182,13 +182,15 @@ extension PostCommentUseCaseImpl: PostCommentUseCase {
               fetchCommentHeartUsers(postId: postId, commentId: commentId))
               .sink { completion in
                 if case .failure(let error) = completion {
-                  // TODO: - 로그에 기록. 특정 대댓글 authorId로 해당 사용자 프로필 받아올때 왜 에러를 갖는지, 형식이 잘못됬는지 등 분석..
+                  // MARK: - 로그에 기록. 특정 대댓글 authorId로 해당 사용자 프로필 받아올때 왜 에러를 갖는지, 형식이 잘못됬는지 등 분석..
+                  // 오류 발생된 대댓글 제외하고 나머지는 계속 작업해서 보여주도록 로직 구현.
                   print(error)
                   atomicToNestedCommentGroup.leave()
                 }
               } receiveValue: { commentAuthorEntity, commentHeartUsers in
                 commentAuthor = commentAuthorEntity
                 isOnHeart = commentHeartUsers.contains { $0 == ownerId }
+                atomicToNestedCommentGroup.leave()
               }
             subscriptions.insert(fetchNestedCommentAuthorProfile)
             
@@ -197,7 +199,7 @@ extension PostCommentUseCaseImpl: PostCommentUseCase {
               withPostId: postId, commentId: commentId, ownerId: ownerId
             ).sink { completion in
               if case .failure(let error) = completion {
-                // TODO: - 로그에 기록. 어느 대댓글id를 받아올때 에러를 갖는지 형식이 잘못됬는지 에러도 저장하고
+                // MARK: - 로그에 기록. 어느 대댓글id를 받아올때 에러를 갖는지 형식이 잘못됬는지 에러도 저장하고
                 print(error)
                 atomicToNestedCommentGroup.leave()
               }
@@ -223,6 +225,8 @@ extension PostCommentUseCaseImpl: PostCommentUseCase {
               postCommentsGroupManager.leave()
             }
           }
+          /// 최종적으로 하위 스트림한테 값 방출을 promise합니다.
+          /// 에러가 발생된 댓글 or 대댓글은 제외, 차단한 사용자도 제외하도록 처리된 댓글들과 대댓글들이 반환됩니다.
           postCommentsGroupManager.notify(queue: backgroundQueue) {
             promise(.success(postComments.sorted(by: {$0.index < $1.index}).compactMap { $1 }))
           }
@@ -330,6 +334,7 @@ private extension PostCommentUseCaseImpl {
             if ownerRepository.hasBlockedUser(with: postAtomicNestedComment.authorId) {
               return Just(nil).setFailureType(to: (any Error).self).eraseToAnyPublisher()
             }
+            /// 각각의 스레드에서 비동기적으로 대댓글의 사용자 프로필, 대댓글에서 하트한 사용자 리스트를 받아와 PostNestedCommentEntity를 반환합니다.
             return Publishers.Zip(
               fetchUserProfileEntity(with: postAtomicNestedComment.authorId),
               fetchNestedCommentHeartUsers(
@@ -346,6 +351,7 @@ private extension PostCommentUseCaseImpl {
           }.eraseToAnyPublisher()
           .collect(postAtomicNestedComments.count)
           .map { indexedNestedComments -> [PostNestedCommentEntity] in
+            /// 위 작업은 각각의 스레드에서 비동기적으로 작업되기에 호출된 요청에 따라 순차적으로 결과가 변환되는게 아니라서 sorting이 필수입니다.
             return indexedNestedComments
               .compactMap { $0 }
               .sorted(by: { $0.indexForSorting < $1.indexForSorting })
