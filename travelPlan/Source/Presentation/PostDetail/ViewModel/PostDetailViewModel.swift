@@ -672,27 +672,20 @@ private extension PostDetailViewModel {
         commentId: commentId,
         nestedCommentId: nestedCommentId,
         hasDeletedComment: hasDeletedComment)
-      .map { [weak self] isDeletedNestedComment -> State in
-        guard isDeletedNestedComment else {
-          return .unexpectedError(description: "서버에서 에러가 발생되 대댓글이 삭제되지 않았습니다.")
-        }
-        
+      .map { [weak self] deletedNestedCommentState -> State in
+        /// 대댓글 제거
         self?.postDetails.comments[commentSection].nestedComments.remove(at: indexPath.row)
         
-        let isNestedCommentAllRemoved = self?.postDetails
-          .comments[commentSection]
-          .nestedComments.count == 0
-        
-        // TODO: - ???
-        // 대댓글이 전부 제거됬을떄, 만약 hasDeletedComment 여부에 따라서 댓글도 제거하는 ui가 반영되야하는데 왜 반영되는지 다시 찾아보기..
-        // 댓글이 제거되면, 대댓글 전부 제거되고, 대댓글의 마지막 댓글이 제거되면, 해당 대댓글의 댓글도 제거되도록 로직 반엉
-        if isNestedCommentAllRemoved {
+        switch deletedNestedCommentState {
+        case .justANestedCommentDeleted:
+          return .nestedComment(.reload(indexPath))
+          
+          /// 마지막 대댓글과 댓글도 제거된 경우
+        case .ACommentAndAllNestedCommentsDeleted:
           self?.postDetails.comments.remove(at: commentSection)
           /// 테이블뷰에 실제로 특정 셀 제거 후 리로드 명령은 실제 indexPath로 해야합니다.
           return .nestedComment(.reloadWhenLastNestedCommentDelete(indexPath))
         }
-        /// 테이블뷰에 실제로 특정 셀 제거 후 리로드 명령은 실제 indexPath로 해야합니다.
-        return .nestedComment(.reload(indexPath))
       }.catch { error in
         return Just(State.unexpectedError(description: error.localizedDescription))
       }.eraseToAnyPublisher()
