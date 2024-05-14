@@ -169,6 +169,7 @@ extension PostCommentUseCaseImpl: PostCommentUseCase {
           let postCommentsGroupManager = DispatchGroup()
           var postComments: [(index: Int, entity: PostCommentEntity?)] = []
           
+          /// 각각의 atomic 댓글마다 달려있는 atomic 대댓글들, 해당 작성자의 프로필 정보를 받아옵니다.
           for (i, atomicCommentEntity) in atomicCommentEntities.enumerated() {
             postCommentsGroupManager.enter()
             let atomicToNestedCommentGroup = DispatchGroup(), commentId = atomicCommentEntity.commentId
@@ -180,11 +181,10 @@ extension PostCommentUseCaseImpl: PostCommentUseCase {
             let fetchNestedCommentAuthorProfile = Publishers.Zip(
               fetchUserProfileEntity(with: atomicCommentEntity.authorId),
               fetchCommentHeartUsers(postId: postId, commentId: commentId))
-              .sink { completion in
+              .sink { [weak self] completion in
                 if case .failure(let error) = completion {
-                  // MARK: - 로그에 기록. 특정 대댓글 authorId로 해당 사용자 프로필 받아올때 왜 에러를 갖는지, 형식이 잘못됬는지 등 분석..
-                  // 오류 발생된 대댓글 제외하고 나머지는 계속 작업해서 보여주도록 로직 구현.
-                  print(error)
+                  self?.logFetchNestedCommentAuthorError(
+                    error: error, authorId: commentAuthor?.id, postId: postId, commentId: commentId)
                   atomicToNestedCommentGroup.leave()
                 }
               } receiveValue: { commentAuthorEntity, commentHeartUsers in
@@ -197,10 +197,9 @@ extension PostCommentUseCaseImpl: PostCommentUseCase {
             atomicToNestedCommentGroup.enter()
             let fetchNestedComments = fetchIndexedNestedComments(
               withPostId: postId, commentId: commentId, ownerId: ownerId
-            ).sink { completion in
+            ).sink { [weak self] completion in
               if case .failure(let error) = completion {
-                // MARK: - 로그에 기록. 어느 대댓글id를 받아올때 에러를 갖는지 형식이 잘못됬는지 에러도 저장하고
-                print(error)
+                self?.logFetchNestedCommentsError(error: error, postId: postId, commentId: commentId)
                 atomicToNestedCommentGroup.leave()
               }
             } receiveValue: { postNestedComments in
@@ -234,38 +233,11 @@ extension PostCommentUseCaseImpl: PostCommentUseCase {
       self?.subscriptions.insert(fetchComments)
     }.eraseToAnyPublisher()
   }
-  
-  private func makePostCommentEntity(
-    atomicCommentEntity: PostAtomicCommentEntity,
-    commentAuthor: UserEntity,
-    isOnHeart: Bool,
-    isBlocked: Bool,
-    nestedComments: [PostNestedCommentEntity]
-  ) -> PostCommentEntity {
-    return PostCommentEntity(
-      commentId: atomicCommentEntity.commentId,
-      userName: commentAuthor.nickname,
-      timestamp: DateTimeConverter.timeAgo(from: atomicCommentEntity.createAt),
-      comment: atomicCommentEntity.comment,
-      isDeleted: atomicCommentEntity.hasDeleted,
-      isOnHeart: isOnHeart,
-      isBlocked: isBlocked,
-      hearts: Int32(atomicCommentEntity.hearts),
-      nestedComments: nestedComments)
-  }
 }
 
 // MARK: - Private Helpers
 private extension PostCommentUseCaseImpl {
   typealias UserIdentifier = String
-  func logNetworkError(error: Error, fromEntity entity: Any) {
-    os_log("[네트워크 에러] 사용자 정보 받아오는 도중 에러 발생 Error: %@\n fromEntity: %@",
-           log: .init(subsystem: "com.yeoga.app", category: "network"),
-           type: .error,
-           error.localizedDescription,
-           String(describing: entity))
-  }
-  
   private func fetchUserProfileEntity(with userId: String) -> AnyPublisher<UserEntity, any Error> {
     return userProfileRepository.fetchProfile(with: userId)
   }
@@ -318,6 +290,26 @@ private extension PostCommentUseCaseImpl {
     return specificCommentHeartUserIdentifiers.contains { $0 == ownerId }
   }
   
+  private func makePostCommentEntity(
+    atomicCommentEntity: PostAtomicCommentEntity,
+    commentAuthor: UserEntity,
+    isOnHeart: Bool,
+    isBlocked: Bool,
+    nestedComments: [PostNestedCommentEntity]
+  ) -> PostCommentEntity {
+    return PostCommentEntity(
+      commentId: atomicCommentEntity.commentId,
+      userName: commentAuthor.nickname,
+      timestamp: DateTimeConverter.timeAgo(from: atomicCommentEntity.createAt),
+      comment: atomicCommentEntity.comment,
+      isDeleted: atomicCommentEntity.hasDeleted,
+      isOnHeart: isOnHeart,
+      isBlocked: isBlocked,
+      hearts: Int32(atomicCommentEntity.hearts),
+      nestedComments: nestedComments)
+  }
+
+  
   private func fetchIndexedNestedComments(
     withPostId postId: String,
     commentId: String,
@@ -360,4 +352,44 @@ private extension PostCommentUseCaseImpl {
           .eraseToAnyPublisher()
       }.eraseToAnyPublisher()
   }
+  
+  // MARK: - log Helpers
+  func logNetworkError(error: Error, fromEntity entity: Any) {
+    os_log("[네트워크 에러] 사용자 정보 받아오는 도중 에러 발생 Error: %@\n fromEntity: %@",
+           log: .init(subsystem: "com.yeoga.app", category: "network"),
+           type: .error,
+           error.localizedDescription,
+           String(describing: entity))
+  }
+  
+  func logFetchNestedCommentAuthorError(
+    error: Error,
+    authorId: String?,
+    postId: String,
+    commentId: String
+  ) {
+    os_log("[네트워크 에러] 사용자 정보 받아오는 도중 에러 발생 Error: %@\n authorId: %@, postId: %@, commentId: %@",
+           log: .init(subsystem: "com.yeoga.app", category: "network"),
+           type: .error,
+           error.localizedDescription,
+           authorId ?? "authorId가 비었습니다.",
+           postId,
+           commentId)
+  }
+  
+  func logFetchNestedCommentsError(
+    error: Error,
+    postId: String,
+    commentId: String
+  ) {
+    os_log("[네트워크 에러] 대댓글 정보를 받아오는 도중 에러 발생 Error: %@\n postId: %@, commentId: %@",
+           log: .init(subsystem: "com.yeoga.app", category: "network"),
+           type: .error,
+           error.localizedDescription,
+           postId,
+           commentId)
+  }
+  
+
 }
+
