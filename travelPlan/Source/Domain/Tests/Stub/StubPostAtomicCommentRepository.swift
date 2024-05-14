@@ -29,8 +29,7 @@ struct StubPostAtomicCommentRepository: PostAtomicCommentRepository {
         comment: "댓2",
         createAt: createAt,
         hasDeleted: false, hearts: 0)
-    ]).setFailureType(to: (any Error).self)
-      .eraseToAnyPublisher()
+    ]).setAnyErrorAndEraseToAnyPublisher()
   }
   
   func sendComment(
@@ -45,8 +44,7 @@ struct StubPostAtomicCommentRepository: PostAtomicCommentRepository {
       createAt: createAt,
       hasDeleted: false,
       hearts: 0))
-    .setFailureType(to: (any Error).self)
-    .eraseToAnyPublisher()
+    .setAnyErrorAndEraseToAnyPublisher()
   }
   
   func updateComment(
@@ -54,7 +52,7 @@ struct StubPostAtomicCommentRepository: PostAtomicCommentRepository {
     commentId: String,
     comment: String
   ) -> AnyPublisher<Void, any Error> {
-    return Just(()).setFailureType(to: (any Error).self).eraseToAnyPublisher()
+    return Just(()).setAnyErrorAndEraseToAnyPublisher()
   }
   
   func deleteComment(
@@ -62,6 +60,6 @@ struct StubPostAtomicCommentRepository: PostAtomicCommentRepository {
     postId: String,
     commentId: String
   ) -> AnyPublisher<Void, any Error> {
-    return Just(()).setFailureType(to: (any Error).self).eraseToAnyPublisher()
+    return Just(()).setAnyErrorAndEraseToAnyPublisher()
   }
 }
