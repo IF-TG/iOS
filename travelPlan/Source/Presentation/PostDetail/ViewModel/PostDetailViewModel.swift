@@ -137,7 +137,6 @@ final class PostDetailViewModel {
     userBlockUseCase: UserBlockUseCase,
     actions: PostDetailViewModelActions?
   ) {
-    // TODO: - 포스트를 받았으면, 1개의 글을 포스트들, 이미지들 이렇게 조개고 순위를 부여해야합니다. PostMapper에서 구현해야합니다.
     self.postDetails = PostMapper.toPostDetails(post, category: category)
     self.postUseCase = postUseCase
     self.postCommentUseCase = postCommentUseCase
