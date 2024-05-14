@@ -1,0 +1,39 @@
+{
+  "response": {
+    "header": {
+      "resultCode": "0000",
+      "resultMsg": "OK"
+    },
+    "body": {
+      "items": {
+        "item": [
+          {
+            "contentid": "1806376",
+            "contenttypeid": "15",
+            "sponsor1": "강동문화재단",
+            "sponsor1tel": "천호(총괄) 02-488-7223, 성내 02-471-0044, 해공 02-478-9656, 강일 02-427-4004, 암사 02-429-0476, 둔촌 02-489-6557",
+            "sponsor2": "강동구립도서관",
+            "sponsor2tel": "",
+            "eventenddate": "20231028",
+            "playtime": "10:00 ~ 17:00",
+            "eventplace": "강동아트센터",
+            "eventhomepage": "",
+            "agelimit": "",
+            "bookingplace": "",
+            "placeinfo": "",
+            "subevent": "",
+            "program": "",
+            "eventstartdate": "20231028",
+            "usetimefestival": "무료",
+            "discountinfofestival": "",
+            "spendtimefestival": "",
+            "festivalgrade": ""
+          }
+        ]
+      },
+      "numOfRows": 1,
+      "pageNo": 1,
+      "totalCount": 1
+    }
+  }
+}
