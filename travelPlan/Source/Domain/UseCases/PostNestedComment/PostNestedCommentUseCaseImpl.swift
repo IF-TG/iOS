@@ -62,6 +62,7 @@ extension PostNestedCommentUseCaseImpl: PostNestedCommentUseCase {
       .map { postAtomicNestedCommentEntity in
         return PostNestedCommentEntity(
           nestedCommentId: postAtomicNestedCommentEntity.nestedCommentId,
+          authorId: ownerId,
           userProfileImageData: owner.profileImageData,
           nickname: owner.nickname,
           timestamp: DateTimeConverter.timeAgo(from: postAtomicNestedCommentEntity.createAt),
