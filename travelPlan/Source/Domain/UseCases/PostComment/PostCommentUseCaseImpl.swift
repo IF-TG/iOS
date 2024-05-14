@@ -91,29 +91,6 @@ extension PostCommentUseCaseImpl: PostCommentUseCase {
     }.eraseToAnyPublisher()
   }
   
-  private func handleCommentSend(
-    author: UserEntity?,
-    atomicCommentEntity entity: PostAtomicCommentEntity,
-    with group: DispatchGroup,
-    promise: @escaping Future<PostCommentEntity, Error>.Promise
-  ) {
-    group.notify(queue: backgroundQueue) {
-      guard let author else { return }
-      let commentEntity = PostCommentEntity(
-        commentId: entity.commentId,
-        userProfileImageData: author.profileImageData,
-        userName: author.nickname,
-        timestamp: DateTimeConverter.timeAgo(from: entity.createAt),
-        comment: entity.comment,
-        isDeleted: false,
-        isOnHeart: false,
-        isBlocked: false,
-        hearts: Int32(0),
-        nestedComments: [])
-      promise(.success(commentEntity))
-    }
-  }
-  
   // MARK: - Comment update
   func updateComment(
     postId: String,
@@ -126,6 +103,7 @@ extension PostCommentUseCaseImpl: PostCommentUseCase {
       .eraseToAnyPublisher()
   }
   
+  // MARK: - Comment delete
   func deleteComment(
     postId: String,
     commentId: String
@@ -244,6 +222,32 @@ extension PostCommentUseCaseImpl: PostCommentUseCase {
 // MARK: - Private Helpers
 private extension PostCommentUseCaseImpl {
   typealias UserIdentifier = String
+  
+  // MARK: - Comment send Helpers
+  private func handleCommentSend(
+    author: UserEntity?,
+    atomicCommentEntity entity: PostAtomicCommentEntity,
+    with group: DispatchGroup,
+    promise: @escaping Future<PostCommentEntity, Error>.Promise
+  ) {
+    group.notify(queue: backgroundQueue) {
+      guard let author else { return }
+      let commentEntity = PostCommentEntity(
+        commentId: entity.commentId,
+        userProfileImageData: author.profileImageData,
+        userName: author.nickname,
+        timestamp: DateTimeConverter.timeAgo(from: entity.createAt),
+        comment: entity.comment,
+        isDeleted: false,
+        isOnHeart: false,
+        isBlocked: false,
+        hearts: Int32(0),
+        nestedComments: [])
+      promise(.success(commentEntity))
+    }
+  }
+  
+  // MARK: - Comment delete Helpers
   private func fetchUserProfileEntity(with userId: String) -> AnyPublisher<UserEntity, any Error> {
     return userProfileRepository.fetchProfile(with: userId)
   }
