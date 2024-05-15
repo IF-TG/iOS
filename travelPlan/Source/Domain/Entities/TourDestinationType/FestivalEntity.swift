@@ -16,7 +16,7 @@ struct FestivalEntity {
   let showTime: String
   let fee: String
   let title: String
-  let image: Data?
+  let images: [Data?]
   let telNumber: String
   let overview: String
 }

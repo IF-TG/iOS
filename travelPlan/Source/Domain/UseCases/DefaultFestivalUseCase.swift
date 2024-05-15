@@ -13,16 +13,19 @@ final class DefaultFestivalUseCase {
   private let tourFestivalInfoRepository: any TourFestivalInfoRepository
   private let tourCommonInfoRepository: any TourCommonInfoRepository
   private let tourIntroductionInfoRepository: any TourIntroductionInfoRepository
-  
+  private let tourImageRetrieveInfoRepository: any TourImageRetrieveInfoRepository
+
   // MARK: - LifeCycle
   init(
     tourFestivalInfoRepository: any TourFestivalInfoRepository,
     tourCommonInfoRepository: any TourCommonInfoRepository,
-    tourIntroductionInfoRepository: any TourIntroductionInfoRepository
+    tourIntroductionInfoRepository: any TourIntroductionInfoRepository,
+    tourImageRetrieveInfoRepository: any TourImageRetrieveInfoRepository
   ) {
     self.tourFestivalInfoRepository = tourFestivalInfoRepository
     self.tourCommonInfoRepository = tourCommonInfoRepository
     self.tourIntroductionInfoRepository = tourIntroductionInfoRepository
+    self.tourImageRetrieveInfoRepository = tourImageRetrieveInfoRepository
   }
 }
 
@@ -34,6 +37,13 @@ extension DefaultFestivalUseCase: FestivalUseCase {
   }
   
   func fetchFestivalDetail(tourContentId: TourContentId) -> AnyPublisher<FestivalEntity, any Error> {
+    let imagePublisher = tourImageRetrieveInfoRepository.retrieveImages(
+      contentId: tourContentId.contentId,
+      numOfRows: nil,
+      pageNo: nil
+    )
+      .map { $0.map { $0.image.original } }
+    
     let commonPublisher = tourCommonInfoRepository.fetchTourCommonInfo(
       contentId: tourContentId.contentId,
       numOfRows: nil,
@@ -43,9 +53,9 @@ extension DefaultFestivalUseCase: FestivalUseCase {
       tourContentId: tourContentId
     )
     
-    return commonPublisher
-      .zip(introductionPublisher)
-      .map { (commonEntity, introFestivalEntity) in
+    return Publishers
+      .Zip3(commonPublisher, introductionPublisher, imagePublisher)
+      .map { (commonEntity, introFestivalEntity, imageDataList) in
         return FestivalEntity(
           ageLimit: introFestivalEntity.ageLimit,
           startDate: introFestivalEntity.startDate,
@@ -54,7 +64,7 @@ extension DefaultFestivalUseCase: FestivalUseCase {
           showTime: introFestivalEntity.showTime,
           fee: introFestivalEntity.fee,
           title: commonEntity.title,
-          image: commonEntity.image.originalImageData,
+          images: [commonEntity.image.originalImageData] + imageDataList,
           telNumber: commonEntity.contact.telNumber,
           overview: commonEntity.overview
         )
