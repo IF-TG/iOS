@@ -148,7 +148,6 @@ extension FirestorePostRepository: PostFetchAtomicRepository {
         .fetchImages(postResponseDTO.postImageFiles.map { $0.url }, type: .postImage)
         .sink { [weak self] completion in
           if case .failure(let error) = completion {
-            // 로그로 남김
             self?.logImageFetchError(postId: postResponseDTO.postId, error: error)
             group.leave()
           }
