@@ -185,6 +185,11 @@
 		13EB3D2B2BF35D2900CA84F0 /* mock_tourAPI_introductionInfo_cultureFacility.json in Resources */ = {isa = PBXBuildFile; fileRef = 13EB3D292BF35D2900CA84F0 /* mock_tourAPI_introductionInfo_cultureFacility.json */; };
 		13EB3D2E2BF35D5A00CA84F0 /* mock_tourAPI_introductionInfo_leports.json in Resources */ = {isa = PBXBuildFile; fileRef = 13EB3D2C2BF35D5A00CA84F0 /* mock_tourAPI_introductionInfo_leports.json */; };
 		13EB3D312BF35D9700CA84F0 /* mock_tourAPI_introductionInfo_restaurant.json in Resources */ = {isa = PBXBuildFile; fileRef = 13EB3D2F2BF35D9700CA84F0 /* mock_tourAPI_introductionInfo_restaurant.json */; };
+		13EB3D352BF4883E00CA84F0 /* ShoppingUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13EB3D342BF4883E00CA84F0 /* ShoppingUseCase.swift */; };
+		13EB3D372BF4904F00CA84F0 /* DefaultShoppingUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13EB3D362BF4904F00CA84F0 /* DefaultShoppingUseCase.swift */; };
+		13EB3D392BF4B9A500CA84F0 /* ShoppingEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13EB3D382BF4B9A500CA84F0 /* ShoppingEntity.swift */; };
+		13EB3D3D2BF4C45A00CA84F0 /* TourSearchResultEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13EB3D3C2BF4C45A00CA84F0 /* TourSearchResultEntity.swift */; };
+		13EB3D412BF4CF9300CA84F0 /* ShoppingUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13EB3D402BF4CF9300CA84F0 /* ShoppingUseCaseTests.swift */; };
 		13F6DAC82B5248EF00573B86 /* SlideUpAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F6DAC72B5248EF00573B86 /* SlideUpAnimator.swift */; };
 		13F6DACA2B52711E00573B86 /* SlideDownAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F6DAC92B52711E00573B86 /* SlideDownAnimator.swift */; };
 		13F6DACD2B53A5D400573B86 /* AlbumCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F6DACC2B53A5D400573B86 /* AlbumCoordinator.swift */; };
@@ -924,6 +929,11 @@
 		13EB3D2A2BF35D2900CA84F0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/mock_tourAPI_introductionInfo_cultureFacility.json; sourceTree = "<group>"; };
 		13EB3D2D2BF35D5A00CA84F0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/mock_tourAPI_introductionInfo_leports.json; sourceTree = "<group>"; };
 		13EB3D302BF35D9700CA84F0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/mock_tourAPI_introductionInfo_restaurant.json; sourceTree = "<group>"; };
+		13EB3D342BF4883E00CA84F0 /* ShoppingUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingUseCase.swift; sourceTree = "<group>"; };
+		13EB3D362BF4904F00CA84F0 /* DefaultShoppingUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultShoppingUseCase.swift; sourceTree = "<group>"; };
+		13EB3D382BF4B9A500CA84F0 /* ShoppingEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingEntity.swift; sourceTree = "<group>"; };
+		13EB3D3C2BF4C45A00CA84F0 /* TourSearchResultEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourSearchResultEntity.swift; sourceTree = "<group>"; };
+		13EB3D402BF4CF9300CA84F0 /* ShoppingUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingUseCaseTests.swift; sourceTree = "<group>"; };
 		13F6DAC72B5248EF00573B86 /* SlideUpAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideUpAnimator.swift; sourceTree = "<group>"; };
 		13F6DAC92B52711E00573B86 /* SlideDownAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideDownAnimator.swift; sourceTree = "<group>"; };
 		13F6DACC2B53A5D400573B86 /* AlbumCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumCoordinator.swift; sourceTree = "<group>"; };
@@ -1788,6 +1798,7 @@
 				13EB3D0D2BF0339800CA84F0 /* IntroductionInfoAttractionEntity.swift */,
 				13EB3D112BF0814C00CA84F0 /* IntroductionInfoCultureFacilityEntity.swift */,
 				13EB3D152BF0AE2C00CA84F0 /* IntroductionInfoLeportsEntity.swift */,
+				13EB3D382BF4B9A500CA84F0 /* ShoppingEntity.swift */,
 			);
 			path = TourDestinationType;
 			sourceTree = "<group>";
@@ -2047,6 +2058,7 @@
 				15AE48532BE9395B0035D980 /* TourRetrievedImageEntity.swift */,
 				13EB3CD52BEB689A00CA84F0 /* TourContentId.swift */,
 				13EB3CFE2BED403900CA84F0 /* TourType.swift */,
+				13EB3D3C2BF4C45A00CA84F0 /* TourSearchResultEntity.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -2067,6 +2079,7 @@
 				13AE0DD72BC32AD700652B99 /* AlbumPhotoMaxCountUseCase.swift */,
 				15EBD91A2BE8D38A00BCEA7F /* PostCommentHeartUseCase.swift */,
 				154047892BE4B82D009E86FF /* PostHeartUseCase.swift */,
+				13EB3D342BF4883E00CA84F0 /* ShoppingUseCase.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -2093,6 +2106,7 @@
 				15EBD9202BE8D52D00BCEA7F /* PostCommentHeartUseCaseImpl.swift */,
 				1572ABC42BE797EF008AFE66 /* PostCommentUseCaseImpl.swift */,
 				1540478B2BE4BA45009E86FF /* DefaultPostHeartUseCase.swift */,
+				13EB3D362BF4904F00CA84F0 /* DefaultShoppingUseCase.swift */,
 			);
 			path = UseCases;
 			sourceTree = "<group>";
@@ -3320,6 +3334,7 @@
 				15EBD91E2BE8D40700BCEA7F /* PostCommentHeartUseCaseTests.swift */,
 				15EBD9222BE906C700BCEA7F /* PostCommentHeartUseCaseImplTests.swift */,
 				13EB3D1A2BF3420900CA84F0 /* FestivalUseCaseTests.swift */,
+				13EB3D402BF4CF9300CA84F0 /* ShoppingUseCaseTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -3962,6 +3977,7 @@
 				15EBD9192BE8AC9400BCEA7F /* FirestorePostCommentHeartRepositoryTests.swift in Sources */,
 				158981BA2BB2652700F016CF /* PostCommentAPIEndpointTests.swift in Sources */,
 				15FFAC2F2ADD03130013DB57 /* MockUserEndpoint.swift in Sources */,
+				13EB3D412BF4CF9300CA84F0 /* ShoppingUseCaseTests.swift in Sources */,
 				1546DF3F2B0C64E500B49A55 /* ImageDiskCacheTests.swift in Sources */,
 				156C1E2C2BBED14300AF1D99 /* SHCoordinator+XCTestCase.swift in Sources */,
 				15FFAC282ADC598E0013DB57 /* SessionProviderTests.swift in Sources */,
@@ -4163,6 +4179,7 @@
 				15A4F28B2ACC072A001AA51D /* PrimaryColorToneRoundLabel.swift in Sources */,
 				1325508E2A13EE8E00094218 /* PostRecentSearchHeaderView.swift in Sources */,
 				13300FA82AC0804400952757 /* CellConfigurable.swift in Sources */,
+				13EB3D352BF4883E00CA84F0 /* ShoppingUseCase.swift in Sources */,
 				15591DD22BBE993500128A9E /* FavoritePostAPIEndpoint.swift in Sources */,
 				130FA91F2A359EE300E739C5 /* SearchViewDelegate.swift in Sources */,
 				13A93EEF2AD0766900FC4BBD /* SearchTopTenModel.swift in Sources */,
@@ -4251,6 +4268,7 @@
 				15EF8C9B2A0A19100068C744 /* TravelMainThemeCategoryAreaView.swift in Sources */,
 				15553BC82BB34643000AA896 /* PostNestedCommentUseCase.swift in Sources */,
 				159958792B0DC51900B2E4DC /* PostCellWithOneThumbnail.swift in Sources */,
+				13EB3D392BF4B9A500CA84F0 /* ShoppingEntity.swift in Sources */,
 				130CF3842B9248750051DEE8 /* OAuthType.swift in Sources */,
 				15FD508D2BB44F9E006CCCDD /* PostNestedCommentUpdateRequestDTO.swift in Sources */,
 				15E670DF2BDF7B52002E1D19 /* FirestorePostAPIEndpoint.swift in Sources */,
@@ -4401,6 +4419,7 @@
 				1594F53229FD517E00A58F20 /* AppDelegate.swift in Sources */,
 				134CCB672B028D9C00D51D84 /* ReviewWritingContentViewDelegate.swift in Sources */,
 				13405F692AF4478400382796 /* NavigationTitleWithClickView.swift in Sources */,
+				13EB3D3D2BF4C45A00CA84F0 /* TourSearchResultEntity.swift in Sources */,
 				15C1F5462AF2BF73005FDA15 /* NotificationViewAdapterDelegate.swift in Sources */,
 				154CA6102BD3A5E00066B444 /* TourApiCommonResponseDTO.swift in Sources */,
 				158BEFC22A0EB45300C27861 /* UIFont+.swift in Sources */,
@@ -4476,6 +4495,7 @@
 				1594F53429FD517E00A58F20 /* SceneDelegate.swift in Sources */,
 				15302C552B9E23E900B1EA3F /* UIViewController+Indicator.swift in Sources */,
 				15FBA7E52B1343CB00C9B1E7 /* PostThumbnailValue.swift in Sources */,
+				13EB3D372BF4904F00CA84F0 /* DefaultShoppingUseCase.swift in Sources */,
 				15591DD62BBE9C5200128A9E /* FavoritePostInDirectoryRepository.swift in Sources */,
 				15CAEF852BAED1D8008AEDB1 /* PostCommentContainerResponseDTO.swift in Sources */,
 				15E670D92BDE2DA8002E1D19 /* FirestoreReviewWritingRepository.swift in Sources */,
