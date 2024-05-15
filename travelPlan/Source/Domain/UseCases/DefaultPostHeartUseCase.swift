@@ -43,6 +43,7 @@ extension DefaultPostHeartUseCase: PostHeartUseCase {
   ) -> AnyPublisher<Int, any Error> {
     return postHeartRepository
       .fetchPostHearts(postId)
+      .receive(on: backgroundQueue)
       .eraseToAnyPublisher()
   }
   
@@ -64,24 +65,22 @@ extension DefaultPostHeartUseCase: PostHeartUseCase {
       
       let heartPostSubscription = postHeartRepository
         .heartPost(postId, userId: ownerId)
+        .receive(on: backgroundQueue)
         .sink { completion in
           if case .failure(let error) = completion {
             promise(.failure(error))
-            group.leave()
           }
         } receiveValue: { _ in
           group.leave()
         }
       subscriptions.insert(heartPostSubscription)
       
-      handlePostHeartsToggle(with: group, usingPostId: postId, willHeartPost: true, promise: promise)
+      handlePostHeartsUpdate(with: group, usingPostId: postId, willHeartPost: true, promise: promise)
       
       group.notify(queue: backgroundQueue) {
         promise(.success(()))
       }
     }
-    .subscribe(on: backgroundQueue)
-    .receive(on: backgroundQueue)
     .eraseToAnyPublisher()
   }
   
@@ -103,32 +102,29 @@ extension DefaultPostHeartUseCase: PostHeartUseCase {
       group.enter()
       let heartPostSubscription = postHeartRepository
         .hatePost(postId, userId: ownerId)
+        .receive(on: backgroundQueue)
         .sink { completion in
           if case .failure(let error) = completion {
             promise(.failure(error))
-            group.leave()
           }
         } receiveValue: { _ in
           group.leave()
         }
       subscriptions.insert(heartPostSubscription)
       
-      handlePostHeartsToggle(with: group, usingPostId: postId, willHeartPost: false, promise: promise)
+      handlePostHeartsUpdate(with: group, usingPostId: postId, willHeartPost: false, promise: promise)
       
       group.notify(queue: backgroundQueue) {
         promise(.success(()))
-
       }
     }
-    .subscribe(on: backgroundQueue)
-    .receive(on: backgroundQueue)
     .eraseToAnyPublisher()
   }
 }
 
 // MARK: - Private Helpers
 private extension DefaultPostHeartUseCase {
-  func handlePostHeartsToggle(
+  func handlePostHeartsUpdate(
     with group: DispatchGroup,
     usingPostId postId: String,
     willHeartPost: Bool,
@@ -137,10 +133,10 @@ private extension DefaultPostHeartUseCase {
     group.enter()
     let togglePostHeartsSubscription = postHeartRepository
       .updatePostHearts(postId, willHeartPost: willHeartPost)
+      .receive(on: backgroundQueue)
       .sink { completion in
         if case .failure(let error) = completion {
           promise(.failure(error))
-          group.leave()
         }
       } receiveValue: { _ in group.leave() }
     subscriptions.insert(togglePostHeartsSubscription)
