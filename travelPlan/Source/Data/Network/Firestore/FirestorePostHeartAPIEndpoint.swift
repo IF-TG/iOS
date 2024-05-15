@@ -17,19 +17,21 @@ struct FirestorePostHeartAPIEndpoint {
   }
   
   static func makeHeartPostEndpoint(
-    postId: String
+    postId: String,
+    userId: String
   ) -> FirestoreEndpoint<String> {
     return .init(
       method: .save(postId),
-      requestType: .users(.heartPost))
+      requestType: .users(.heartPost(userId)))
   }
   
   static func makeHatePostEndpoint(
-    postId: String
+    postId: String,
+    userId: String
   ) -> FirestoreEndpoint<VoidResponseDTO> {
     return .init(
       method: .delete,
-      requestType: .users(.hatePost(postId)))
+      requestType: .users(.hatePost(userId, postId)))
   }
   
   static func makeTogglePostHeartsEndpoint(

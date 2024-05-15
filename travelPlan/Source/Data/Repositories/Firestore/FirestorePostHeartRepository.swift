@@ -36,7 +36,7 @@ extension FirestorePostHeartRepository: PostHeartRepository {
     _ postId: String,
     userId: String
   ) -> AnyPublisher<Void, any Error> {
-    let endpoint = Endpoint.makeHeartPostEndpoint(postId: postId)
+    let endpoint = Endpoint.makeHeartPostEndpoint(postId: postId, userId: userId)
     return Future { [weak self, backgroundQueue] promise in
       let requestSubscription = self?.service
         .saveDocument(endpoint: endpoint)
@@ -56,7 +56,7 @@ extension FirestorePostHeartRepository: PostHeartRepository {
     _ postId: String,
     userId: String
   ) -> AnyPublisher<Void, any Error> {
-    let endpoint = Endpoint.makeHatePostEndpoint(postId: postId)
+    let endpoint = Endpoint.makeHatePostEndpoint(postId: postId, userId: userId)
     return Future { [weak self, backgroundQueue] promise in
       let requestSubscription = self?.service
         .request(endpoint: endpoint)
