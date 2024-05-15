@@ -8,6 +8,7 @@
 import Foundation
 
 struct ShoppingEntity {
+  let tourContentId: TourContentId
   let canPark: String
   let fairDay: String
   let openTime: String

@@ -48,6 +48,8 @@ extension DefaultShoppingUseCase: ShoppingUseCase {
       .Zip3(commonPublisher, introductionPublisher, imagePublisher)
       .map { (commonEntity, introductionEntity, imageDataList) in
         return ShoppingEntity(
+          tourContentId: .init(contentId: commonEntity.id.contentId,
+                               contentTypeId: commonEntity.id.contentTypeId),
           canPark: introductionEntity.canPark,
           fairDay: introductionEntity.fairDay,
           openTime: introductionEntity.openTime,
