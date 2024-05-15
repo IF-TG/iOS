@@ -19,6 +19,7 @@ final class FirestorePostHeartRepositoryTests: XCTestCase {
   var expectation: XCTestExpectation!
   var subscriptions = Set<AnyCancellable>()
   let testPostId = "ABEB803F-DD54-41A4-B8BF-487A210BD1EC"
+  let testUserId = "testUser1"
   
   override func setUp() {
     super.setUp()
@@ -35,33 +36,8 @@ final class FirestorePostHeartRepositoryTests: XCTestCase {
 }
 
 extension FirestorePostHeartRepositoryTests {
-  func test_PostHearts컬랙션이없을때FetchHeartUsers호출시_빈문자열을반환해야함() {
-    // Arrange
-    var unexpectedError: Error?
-    var usersID: [String] = []
-    
-    // Act
-    sut.fetchHeartUsers(testPostId)
-      .sink { [unowned self] completion in
-        if case .failure(let error) = completion {
-          unexpectedError = error
-        }
-        expectation.fulfill()
-      } receiveValue: { [unowned self] result in
-        usersID = result
-        expectation.fulfill()
-      }.store(in: &subscriptions)
-
-    wait(for: [expectation], timeout: 10)
-    
-    // Assert
-    checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "fetchHeartUsers")
-    XCTAssertEqual(usersID.count, 0, "테스트 포스트ID의 user-hearts컬랙션이 없을때 빈 문자열을 반환해야하지만 예상치 못한 값을 받게됨.")
-  }
-  
   func test_heartPost호출시PostHearts컬랙션에사용자가등록되는지_ShouldReturnSuccess() {
     // Arrange
-    let testUserId = "TestUser1234"
     var unexpectedError: Error?
     var receivedResult = false
     
@@ -77,9 +53,9 @@ extension FirestorePostHeartRepositoryTests {
         
         /// 저장한거 삭제..
         FirestoreRequestType
-          .posts(.heartPost(testPostId))
+          .users(.heartPost(testUserId))
           .collectionRef
-          .document(testUserId)
+          .document(testPostId)
           .delete { _ in }
         
         expectation.fulfill()
@@ -95,7 +71,6 @@ extension FirestorePostHeartRepositoryTests {
   /// 이전 테스트 코드를 불가피하게 활용해야 합니다.. 사전에 저장되어야 삭제가 가능한데 실제 firesotre 기반으로 테스트하기 때문입니다.
   func test_hatePost호출시PostHearts컬랙션에특정사용자가제거되는지_ShouldReturnSuccess() {
     // Arrange
-    let testUserId = "TestUser1234"
     var unexpectedError: Error?
     var receivedResult = false
     
@@ -157,7 +132,6 @@ extension FirestorePostHeartRepositoryTests {
   /// 포스트 좋아하는 유저 개수를 가져오기위해 sut.fetchPostHearts()가 사용됩니다.
   func test_togglePostHearts에서포스트좋아할경우_ShouldReturnTrue() {
     // Arrange
-    let testUserId = "TestUser1234"
     var unexpectedError: Error?
     var expectedPostHearts: Int?
     var receivedPostHearts: Int?
@@ -201,7 +175,6 @@ extension FirestorePostHeartRepositoryTests {
   /// 포스트 좋아하는 유저 개수를 가져오기위해 sut.fetchPostHearts()가 사용됩니다.
   func test_togglePostHearts에서포스트싫어할경우_ShouldReturnTrue() {
     // Arrange
-    let testUserId = "TestUser1234"
     var unexpectedError: Error?
     var expectedPostHearts: Int?
     var receivedPostHearts: Int?
