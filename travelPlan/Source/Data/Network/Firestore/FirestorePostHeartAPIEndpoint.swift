@@ -8,37 +8,29 @@
 import Foundation
 
 struct FirestorePostHeartAPIEndpoint {
-  static func makeFetchHeartUsersEndpoint(_ postId: String)
-  -> FirestoreEndpoint<[String]> {
-    return .init(
-      method: .retrieveDocumentIdList,
-      requestType: .posts(.fetchHeartUsers(postId)))
-  }
-  
+  // TODO: - 이거 필드에서 얻어오는거로 바꿔야함 -> 사용하는 레포에서도 함수인가.. 로직 바꿔야함?
   static func makeFetchPostHeartsEndpoint(
     _ postId: String
   ) -> FirestoreEndpoint<PostHeartsRespoonseDTO> {
     return .init(
-      method: .get,
+      method: .retrieveNumberOfDocuments,
       requestType: .posts(.fetchPostHearts(postId)))
   }
   
   static func makeHeartPostEndpoint(
-    postId: String,
-    userId: String
+    postId: String
   ) -> FirestoreEndpoint<String> {
     return .init(
-      method: .save(userId),
-      requestType: .posts(.heartPost(postId)))
+      method: .save(postId),
+      requestType: .users(.heartPost))
   }
   
   static func makeHatePostEndpoint(
-    postId: String,
-    userId: String
+    postId: String
   ) -> FirestoreEndpoint<VoidResponseDTO> {
     return .init(
       method: .delete,
-      requestType: .posts(.hatePost(postId, userId)))
+      requestType: .users(.hatePost(postId)))
   }
   
   static func makeTogglePostHeartsEndpoint(
