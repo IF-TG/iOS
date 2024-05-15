@@ -8,12 +8,11 @@
 import Foundation
 
 struct FirestorePostHeartAPIEndpoint {
-  // TODO: - 이거 필드에서 얻어오는거로 바꿔야함 -> 사용하는 레포에서도 함수인가.. 로직 바꿔야함?
   static func makeFetchPostHeartsEndpoint(
     _ postId: String
   ) -> FirestoreEndpoint<PostHeartsRespoonseDTO> {
     return .init(
-      method: .retrieveNumberOfDocuments,
+      method: .get,
       requestType: .posts(.fetchPostHearts(postId)))
   }
   
