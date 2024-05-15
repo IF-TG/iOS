@@ -46,7 +46,7 @@ extension FirestorePostRepository: PostFetchAtomicRepository {
     category: PostCategory
   ) -> AnyPublisher<[AtomicPost], any Error> {
     let isFirstPage = page == 1
-    let endpoint = Endpoint.fetchPostsEndpoint()
+    let endpoint = Endpoint.makePostsFetchEndpoint()
     
     return Future { [weak self] promise in
       guard let self else {
@@ -84,38 +84,66 @@ extension FirestorePostRepository: PostFetchAtomicRepository {
     }.eraseToAnyPublisher()
   }
   
+  /// 로그인한 사용자가 하트한 포스트들을 페이징으로 불러오는 함수입니다.
+  ///
+  /// Note:
+  /// 1. page는 1페이지부터 시작합니다.
+  ///
+  /// 2. 여기서는 SHFIrestoreService의 paginate 함수를 사용하지 않습니다.
+  ///   - Firestore's Query의 whereField에서 배열 검사는 최대 30개까지 지원하기 때문입니다.
+  ///   - users 컬랙션에 owner 문서의 post-hearts에서 좋아했던 포스트 uid list 는 30개를 훌쩍 넘을수있기 때문입니다.
   func fetchOwnerLikedPosts(
-    page: Int32
+    page: Int32,
+    perPage: Int32 = 10,
+    likedPostIdList: [String]
   ) -> AnyPublisher<[AtomicPost], any Error> {
-    let endpoint = Endpoint.fetchPostsEndpoint()
-    guard let ownerId = ownerStorage.id else {
-      return Fail(error: PostFetchAtomicRepositoryError.invalidOwnerId).eraseToAnyPublisher()
-    }
-    
     return Future { [weak self] promise in
       guard let self else {
         promise(.failure(PostFetchAtomicRepositoryError.invalidSelfReference))
         return
       }
+      let startPageIndex = Int((page-1)*perPage)
+      var endPageIndex = Int((page)*perPage)
+      if endPageIndex > likedPostIdList.count {
+        if startPageIndex > likedPostIdList.count {
+          promise(.failure(PostFetchAtomicRepositoryError.noMorePage))
+          return
+        } else {
+          endPageIndex = likedPostIdList.count
+        }
+      }
       
-      // TODO: - 공사시작.
-      // Posts colelction -> specific post document -> post-hearts - user uid document 이게 ..  쿼리 서브 컬랙션
-      // 조인같은게 안되고.. 어려워서 users - post-hearts로 변경 시작.
+      let endpoints = makeSpecificPostFetchEndpoints(likedPostIdList, from: startPageIndex, to: endPageIndex)
       
-//      let paginate = service
-//        .paginate(
-//          endpoint: endpoint,
-//          makeQuery: { collectionRef in
-//            let query = collectionRef.whereField("heartNum", isGreaterThan: 0)
-//          }, isFirstPagination: )
-      
+      let requests = Publishers.Sequence(sequence: endpoints)
+        .subscribe(on: backgroundQueue)
+        .receive(on: backgroundQueue)
+        .flatMap { [weak self] endpoint -> AnyPublisher<FirestorePostResponseDTO, any Error> in
+          guard let self else {
+            return Fail(error: PostFetchAtomicRepositoryError.invalidSelfReference).eraseToAnyPublisher()
+          }
+          return service.request(endpoint: endpoint)
+            .mapError { $0 as Error }
+            .eraseToAnyPublisher()
+        }
+        .collect(endpoints.count)
+        .eraseToAnyPublisher()
+        .sink { completion in
+          if case .failure(let error) = completion {
+            promise(.failure(PostFetchAtomicRepositoryError.serviceError(error)))
+          }
+        } receiveValue: { [weak self] postResponsesDTO in
+          self?.handlePostsFetch(from: postResponsesDTO, to: promise)
+        }
+      subscriptions.insert(requests)
     }.eraseToAnyPublisher()
   }
   
-  func fetchOwnerWrittedPosts(
-    isFirstPage: Bool
+  func fetchOwnerWrotePosts(
+    isFirstPage: Bool,
+    perPage: Int32 = 10
   ) -> AnyPublisher<[AtomicPost], any Error> {
-    let endpoint = Endpoint.fetchPostsEndpoint()
+    let endpoint = Endpoint.makePostsFetchEndpoint()
     guard let ownerId = ownerStorage.id else {
       return Fail(error: PostFetchAtomicRepositoryError.invalidOwnerId).eraseToAnyPublisher()
     }
@@ -128,8 +156,9 @@ extension FirestorePostRepository: PostFetchAtomicRepository {
         .paginate(
           endpoint: endpoint,
           makeQuery: { collectionRef in
-            let query = collectionRef.whereField("authorId", isEqualTo: ownerId)
-            return query
+            return collectionRef
+              .whereField("authorId", isEqualTo: ownerId)
+              .limit(to: Int(perPage))
           },
           isFirstPagination: isFirstPage)
         .subscribeAndReceive(on: backgroundQueue)
@@ -243,6 +272,14 @@ extension FirestorePostRepository {
 
 // MARK: - Private Helpers
 extension FirestorePostRepository {
+  func makeSpecificPostFetchEndpoints(
+    _ postIdList: [String],
+    from: Int,
+    to: Int
+  ) -> [FirestoreEndpoint<FirestorePostResponseDTO>] {
+    return postIdList[from..<to].map { Endpoint.makeSpecificPostFetchEndpoint(postId: $0) }
+  }
+  
   func logImageFetchError(postId: String, error: any Error) {
     os_log(
       "Error occured when fetching post's images. postId: %@, error:%@",
