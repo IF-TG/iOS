@@ -126,7 +126,7 @@ extension FirestorePostHeartRepositoryTests {
     
     // Assert
     checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "fetchPosthearts")
-    XCTAssertEqual(expectedPostHearts, receivedPostHearts, "fetchPostHearts를 호출할 경우 현재 디비에 저장된 likeNum을 받아와야 하지만 이상한 값을 받아옴.")
+    XCTAssertEqual(expectedPostHearts, receivedPostHearts, "fetchPostHearts를 호출할 경우 현재 디비에 저장된 heartNum을 받아와야 하지만 이상한 값을 받아옴.")
   }
   
   /// 포스트 좋아하는 유저 개수를 가져오기위해 sut.fetchPostHearts()가 사용됩니다.
