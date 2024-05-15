@@ -14,4 +14,10 @@ struct FirestorePostAPIEndpoint {
       method: .query,
       requestType: .posts(.fetch))
   }
+  
+  static func fetchSpecificPostEndpoint(
+    postId: String
+  ) -> FirestoreEndpoint<FirestorePostResponseDTO> {
+    return FirestoreEndpoint(method: .get, requestType: .posts(.fetchSpecificPost(postId: postId)))
+  }
 }
