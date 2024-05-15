@@ -13,6 +13,7 @@ import Foundation
   case noMorePage
   case invalidSelfReference
   case serviceError(Error)
+  case invalidOwnerId
 }
 
 protocol PostFetchAtomicRepository {
