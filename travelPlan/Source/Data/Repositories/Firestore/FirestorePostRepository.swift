@@ -18,6 +18,7 @@ final class FirestorePostRepository {
   // MARK: - Dependencies
   private let service: FirestoreServiceProtocol
   private let firebaseStorageService: ImageStorageServiceProtocol
+  private let ownerStorage: OwnerStorage
   private let backgroundQueue: DispatchQueue
   
   // MARK: - Properties
@@ -27,11 +28,13 @@ final class FirestorePostRepository {
   init(
     service: FirestoreServiceProtocol,
     firebaseStorageService: ImageStorageServiceProtocol,
+    ownerStorage: OwnerStorage,
     backgroundQueue: DispatchQueue = .global(qos: .default)
   ) {
     self.service = service
     self.firebaseStorageService = firebaseStorageService
     self.backgroundQueue = backgroundQueue
+    self.ownerStorage = ownerStorage
   }
 }
 
@@ -81,6 +84,47 @@ extension FirestorePostRepository: PostFetchAtomicRepository {
     }.eraseToAnyPublisher()
   }
   
+  func fetchOwnerLikedPosts(
+    page: Int32
+  ) -> AnyPublisher<[AtomicPost], any Error> {
+   fatalError()
+  }
+  
+  func fetchOwnerWrittedPosts(
+    isFirstPage: Bool
+  ) -> AnyPublisher<[AtomicPost], any Error> {
+    let endpoint = Endpoint.fetchPostsEndpoint()
+    guard let ownerId = ownerStorage.id else {
+      return Fail(error: PostFetchAtomicRepositoryError.invalidOwnerId).eraseToAnyPublisher()
+    }
+    return Future { [weak self] promise in
+      guard let self else {
+        promise(.failure(PostFetchAtomicRepositoryError.invalidSelfReference))
+        return
+      }
+      let paginate = service
+        .paginate(
+          endpoint: endpoint,
+          makeQuery: { collectionRef in
+            let query = collectionRef.whereField("authorId", isEqualTo: ownerId)
+            return query
+          },
+          isFirstPagination: isFirstPage)
+        .subscribeAndReceive(on: backgroundQueue)
+        .sink { completion in
+          if case .failure(let error) = completion {
+            promise(.failure(error))
+          }
+        } receiveValue: { [weak self] postResponsesDTO in
+          self?.handlePostsFetch(from: postResponsesDTO, to: promise)
+        }
+      subscriptions.insert(paginate)
+    }.eraseToAnyPublisher()
+  }
+}
+
+// MARK: - Private Helpers
+extension FirestorePostRepository {
   /// 둘 중 하나의 정렬은 반드시 들어갑니다.
   private func makeBaseQuery(
     _ ref: CollectionReference,
@@ -172,16 +216,6 @@ extension FirestorePostRepository: PostFetchAtomicRepository {
     groupManager.notify(queue: backgroundQueue) {
       promise(.success(posts.sorted(by: { $0.index < $1.index }).map { $0.post }))
     }
-  }
-}
-
-// MARK: - PostRepository
-extension FirestorePostRepository {
-  func fetchLikedPostsByLoggedInUser(
-    page: Int32,
-    perPage: Int32
-  ) -> AnyPublisher<[AtomicPost], any Error> {
-    fatalError()
   }
 }
 
