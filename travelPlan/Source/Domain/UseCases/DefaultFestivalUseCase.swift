@@ -50,22 +50,22 @@ extension DefaultFestivalUseCase: FestivalUseCase {
     )
       .map { $0.map { $0.image.original } }
     
-    let introductionPublisher = tourIntroductionInfoRepository.fetchFestival(
+    let festivalPublisher = tourIntroductionInfoRepository.fetchFestival(
       tourContentId: tourContentId
     )
     
     return Publishers
-      .Zip3(commonPublisher, introductionPublisher, imagePublisher)
-      .map { (commonEntity, introFestivalEntity, imageDataList) in
+      .Zip3(commonPublisher, festivalPublisher, imagePublisher)
+      .map { (commonEntity, festivalEntity, imageDataList) in
         return FestivalEntity(
           tourContentId: .init(contentId: commonEntity.id.contentId,
                                contentTypeId: commonEntity.id.contentTypeId),
-          ageLimit: introFestivalEntity.ageLimit,
-          startDate: introFestivalEntity.startDate,
-          endDate: introFestivalEntity.endDate,
+          ageLimit: festivalEntity.ageLimit,
+          startDate: festivalEntity.startDate,
+          endDate: festivalEntity.endDate,
           address: commonEntity.address.address1,
-          showTime: introFestivalEntity.showTime,
-          fee: introFestivalEntity.fee,
+          showTime: festivalEntity.showTime,
+          fee: festivalEntity.fee,
           title: commonEntity.title,
           images: [commonEntity.image.originalImageData] + imageDataList,
           telNumber: commonEntity.contact.telNumber,

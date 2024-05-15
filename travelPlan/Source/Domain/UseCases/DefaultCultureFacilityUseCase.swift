@@ -40,10 +40,10 @@ extension DefaultCultureFacilityUseCase: CultureFacilityUseCase {
     )
       .map { $0.map { $0.image.original} }
     
-    let attractionPublisher = tourIntroductionInfoRepository.fetchCultureFacility(tourContentId: tourContentId)
+    let cultureFacilityPublisher = tourIntroductionInfoRepository.fetchCultureFacility(tourContentId: tourContentId)
     
     return Publishers
-      .Zip3(commonPublisher, imagePublisher, attractionPublisher)
+      .Zip3(commonPublisher, imagePublisher, cultureFacilityPublisher)
       .map { (commonEntity, imageDataList, cultureFacilityEntity) in
         return CultureFacilityEntity(
           tourContentId: TourContentId(contentId: commonEntity.id.contentId,

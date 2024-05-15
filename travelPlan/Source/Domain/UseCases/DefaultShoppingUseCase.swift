@@ -40,21 +40,21 @@ extension DefaultShoppingUseCase: ShoppingUseCase {
     )
       .map { $0.map { $0.image.original} }
     
-    let introductionPublisher = tourIntroductionInfoRepository.fetchShopping(
+    let shoppingPublisher = tourIntroductionInfoRepository.fetchShopping(
       tourContentId: tourContentId
     )
     
-    return Publishers.Zip3(commonPublisher, introductionPublisher, imagePublisher)
-      .map { (commonEntity, introductionEntity, imageDataList) in
+    return Publishers.Zip3(commonPublisher, shoppingPublisher, imagePublisher)
+      .map { (commonEntity, shoppingEntity, imageDataList) in
         return ShoppingEntity(
           tourContentId: TourContentId(contentId: commonEntity.id.contentId,
                                        contentTypeId: commonEntity.id.contentTypeId),
-          canPark: introductionEntity.canPark,
-          fairDay: introductionEntity.fairDay,
-          openTime: introductionEntity.openTime,
-          restDay: introductionEntity.restDay,
-          saleItem: introductionEntity.saleItem,
-          telNumber: introductionEntity.telNumber,
+          canPark: shoppingEntity.canPark,
+          fairDay: shoppingEntity.fairDay,
+          openTime: shoppingEntity.openTime,
+          restDay: shoppingEntity.restDay,
+          saleItem: shoppingEntity.saleItem,
+          telNumber: shoppingEntity.telNumber,
           imageDataList: [commonEntity.image.originalImageData] + imageDataList,
           title: commonEntity.title,
           overview: commonEntity.overview,
