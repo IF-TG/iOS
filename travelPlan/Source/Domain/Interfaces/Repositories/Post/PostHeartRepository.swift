@@ -26,5 +26,5 @@ protocol PostHeartRepository {
   func hatePost(_ postId: String, userId: String) -> AnyPublisher<Void, Error>
   
   /// DB내부에서 serial하게 포스트 좋아요 개수를 증가 또는 감소 시킵니다.
-  func togglePostHearts(_ postId: String, willHeartPost: Bool) -> AnyPublisher<Void, Error>
+  func updatePostHearts(_ postId: String, willHeartPost: Bool) -> AnyPublisher<Void, Error>
 }

@@ -37,7 +37,7 @@ final class DefaultPostHeartUseCase {
 }
 
 // MARK: - PostHeartUseCase
-extension DefaultPostHeartUseCase: PostHeartUseCase {  
+extension DefaultPostHeartUseCase: PostHeartUseCase {
   func fetchPostHearts(
     _ postId: String
   ) -> AnyPublisher<Int, any Error> {
@@ -136,7 +136,7 @@ private extension DefaultPostHeartUseCase {
   ) {
     group.enter()
     let togglePostHeartsSubscription = postHeartRepository
-      .togglePostHearts(postId, willHeartPost: willHeartPost)
+      .updatePostHearts(postId, willHeartPost: willHeartPost)
       .sink { completion in
         if case .failure(let error) = completion {
           promise(.failure(error))
