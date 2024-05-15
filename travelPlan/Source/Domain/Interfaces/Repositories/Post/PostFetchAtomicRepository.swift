@@ -21,10 +21,10 @@ protocol PostFetchAtomicRepository {
     page: Int32,
     perPage: Int32,
     category: PostCategory
-  ) -> AnyPublisher<AtomicPost, any Error>
+  ) -> AnyPublisher<[AtomicPost], any Error>
   
   func fetchLikedPostsByLoggedInUser(
     page: Int32,
     perPage: Int32
-  ) -> AnyPublisher<AtomicPost, any Error>
+  ) -> AnyPublisher<[AtomicPost], any Error>
 }
