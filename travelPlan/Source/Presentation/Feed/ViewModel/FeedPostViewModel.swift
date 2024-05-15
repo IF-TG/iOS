@@ -70,7 +70,7 @@ class FeedPostViewModel: PostViewModel {
   ///   동시에 category 사용자가 선택한 카테고리로  업데이트 해야합니다.
   private lazy var userSelectedCategory: PostCategory = category
   
-  private let postUseCase: PostUseCase
+  private let postFetchUsecase: PostFetchUseCase
   
   private let nextPageLoadingStartSubject = PassthroughSubject<Void, Never>()
   
@@ -79,8 +79,8 @@ class FeedPostViewModel: PostViewModel {
   private let viewDidLoadHandler = PassthroughSubject<Void, Never>()
   
   // MARK: - Lifecycle
-  init(postCategory: PostCategory, postUseCase: PostUseCase) {
-    self.postUseCase = postUseCase
+  init(postCategory: PostCategory, postFetchUsecase: PostFetchUseCase) {
+    self.postFetchUsecase = postFetchUsecase
     self.category = postCategory
   }
 }
@@ -258,7 +258,7 @@ extension FeedPostViewModel {
       page: nextPage,
       perPage: perPage,
       category: userSelectedCategory)
-    return postUseCase.fetchPosts(with: postFetchRequestValue)
+    return postFetchUsecase.fetchFilteredPosts(with: postFetchRequestValue)
       .map { [weak self] postsPage in
         if self?.isRefreshing == true || self?.isPostFiltering == true {
           self?.removeAllPage()

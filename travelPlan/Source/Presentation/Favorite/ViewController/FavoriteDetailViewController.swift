@@ -100,8 +100,8 @@ private extension FavoriteDetailViewController {
     let defaultPostRepository = DefaultPostRepository(
       service: serviceProvider,
       loggedInUserRepository: defaultLoggedInUserRepository)
-    let defaultPostUseCase = DefaultPostUseCase(postRepository: defaultPostRepository)
-    let postViewModel = FavoritePostViewModel(postUseCase: defaultPostUseCase)
+    let defaultPostFetchUseCase = DefaultPostFetchUseCase(postRepository: defaultPostRepository)
+    let postViewModel = FavoritePostViewModel(postFetchUsecase: defaultPostFetchUseCase)
     let favoritePostViewController = FavoritePostViewController(postViewModel: postViewModel)
     favoritePostViewController.delegate = self
     favoritePostViewController.postUpdatedHandler = { [weak self] count in

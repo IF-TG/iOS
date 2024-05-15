@@ -60,8 +60,8 @@ final class FeedCoordinator: FlowCoordinator {
       // MockPostRepository()를 통해서 실제 서버의 resopnseDTO를 decodable한 데이터들을 처럼
       // mock json을 받을 수 있지만 포스트가 3개 정보밖에 없습니다.
       // let postUseCase = DefaultPostUseCase(postRepository: MockPostRepository())
-      let mockPostUseCase = MockPostUseCaseForPaging()
-      let viewModel = FeedPostViewModel(postCategory: feedCategory, postUseCase: mockPostUseCase)
+      let mockPostFetchUseCase = MockPostFetchUseCase()
+      let viewModel = FeedPostViewModel(postCategory: feedCategory, postFetchUsecase: mockPostFetchUseCase)
       return FeedPostViewController(type: feedCategory, viewModel: viewModel)
         .set { $0.coordinator = self }
     }

@@ -52,7 +52,9 @@ final class PostDetailViewModel {
   }
   
   // MARK: - Dependencies
-  private let postUseCase: PostUseCase
+  private let postFetchUsecase: PostFetchUseCase
+  
+  private let postCommentsAndPostLikeStateFetchUseCase: PostCommentsAndPostLikeStateFetchUseCase
   
   private let postCommentUseCase: PostCommentUseCase
   
@@ -130,7 +132,8 @@ final class PostDetailViewModel {
   init(
     post: Post,
     category: Post.Category,
-    postUseCase: PostUseCase,
+    postFetchUsecase: PostFetchUseCase,
+    postCommentsAndPostLikeStateFetchUseCase: PostCommentsAndPostLikeStateFetchUseCase,
     postCommentUseCase: PostCommentUseCase,
     loggedInUserUseCase: LoggedInUserUseCase,
     postNestedCommentUseCase: PostNestedCommentUseCase,
@@ -139,7 +142,8 @@ final class PostDetailViewModel {
   ) {
     // TODO: - 포스트를 받았으면, 1개의 글을 포스트들, 이미지들 이렇게 조개고 순위를 부여해야합니다. PostMapper에서 구현해야합니다.
     self.postDetails = PostMapper.toPostDetails(post, category: category)
-    self.postUseCase = postUseCase
+    self.postFetchUsecase = postFetchUsecase
+    self.postCommentsAndPostLikeStateFetchUseCase = postCommentsAndPostLikeStateFetchUseCase
     self.postCommentUseCase = postCommentUseCase
     self.loggedInUserUseCase = loggedInUserUseCase
     self.postNestedCommentUseCase = postNestedCommentUseCase
@@ -565,7 +569,7 @@ private extension PostDetailViewModel {
       page: currentPage,
       perPage: perPage,
       postId: postDetails.detail.postID)
-    return postUseCase.fetchComments(with: postCommentRequestValue)
+    return postCommentsAndPostLikeStateFetchUseCase.fetchCommentsAndPostLikeStatus(with: postCommentRequestValue)
       .map {[weak self] postCommentContainerEntity -> State in
         self?.postDetails.isFavorite = postCommentContainerEntity.isFavorited
         self?.postDetails.comments += postCommentContainerEntity.comments
