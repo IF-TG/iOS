@@ -123,4 +123,12 @@ extension FirestorePostResponseDTO {
       seasons: mappedSeasons,
       partners: mappedPartners)
   }
+  
+  func toDomain(postImages: [Post.PostImage]) -> AtomicPost {
+    return AtomicPost(
+      authorId: authorId,
+      detail: toDomain(),
+      category: toDomain(),
+      highResolveImages: postImages)
+  }
 }
