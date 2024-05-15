@@ -26,7 +26,8 @@ protocol PostFetchAtomicRepository {
   
   func fetchOwnerLikedPosts(
     page: Int32,
-    perPage: Int32
+    perPage: Int32,
+    likedPostIdList: [String]
   ) -> AnyPublisher<[AtomicPost], any Error>
   
   func fetchOwnerWrotePosts(
