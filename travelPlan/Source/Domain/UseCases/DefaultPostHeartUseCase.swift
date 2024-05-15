@@ -37,15 +37,7 @@ final class DefaultPostHeartUseCase {
 }
 
 // MARK: - PostHeartUseCase
-extension DefaultPostHeartUseCase: PostHeartUseCase {
-  func fetchHeartUsers(
-    _ postId: String
-  ) -> AnyPublisher<[String], any Error> {
-    return postHeartRepository
-      .fetchHeartUsers(postId)
-      .eraseToAnyPublisher()
-  }
-  
+extension DefaultPostHeartUseCase: PostHeartUseCase {  
   func fetchPostHearts(
     _ postId: String
   ) -> AnyPublisher<Int, any Error> {

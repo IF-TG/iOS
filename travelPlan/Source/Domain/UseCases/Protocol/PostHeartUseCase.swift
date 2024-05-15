@@ -8,11 +8,7 @@
 import Foundation
 import Combine
 
-protocol PostHeartUseCase {
-  func fetchHeartUsers(
-    _ postId: String
-  ) -> AnyPublisher<[String], Error>
-  
+protocol PostHeartUseCase {  
   func fetchPostHearts(
     _ postId: String
   ) -> AnyPublisher<Int, Error>
