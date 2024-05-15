@@ -32,23 +32,25 @@ final class FirestorePostHeartRepository {
 
 // MARK: - PostHeartRepository
 extension FirestorePostHeartRepository: PostHeartRepository {
+  /// 이렇게 할수있는데 사용자가 좋아한 포스트들 쿼리가 상당히 힘듬(read비용이 늘어나서).. 서브컬랙션 으로부터 컬랙션 조인같은게 안되서 NoSQL 특징...
   func fetchHeartUsers(
     _ postId: String
   ) -> AnyPublisher<[String], any Error> {
-    let endpoint = Endpoint.makeFetchHeartUsersEndpoint(postId)
-    return Future { [weak self, backgroundQueue] promise in
-      let requestSubscription = self?.service
-        .retrieveDocumentIDs(endpoint: endpoint)
-        .subscribe(on: backgroundQueue)
-        .sink { completion in
-          if case .failure(let error) = completion {
-            promise(.failure(error))
-          }
-        } receiveValue: { userIDs in
-          promise(.success(userIDs))
-        }
-      self?.subscriptions.insert(requestSubscription)
-    }.eraseToAnyPublisher()
+//    let endpoint = Endpoint.makeFetchHeartUsersEndpoint(postId)
+//    return Future { [weak self, backgroundQueue] promise in
+//      let requestSubscription = self?.service
+//        .retrieveDocumentIDs(endpoint: endpoint)
+//        .subscribe(on: backgroundQueue)
+//        .sink { completion in
+//          if case .failure(let error) = completion {
+//            promise(.failure(error))
+//          }
+//        } receiveValue: { userIDs in
+//          promise(.success(userIDs))
+//        }
+//      self?.subscriptions.insert(requestSubscription)
+//    }.eraseToAnyPublisher()
+    fatalError()
   }
   
   func heartPost(

@@ -87,7 +87,29 @@ extension FirestorePostRepository: PostFetchAtomicRepository {
   func fetchOwnerLikedPosts(
     page: Int32
   ) -> AnyPublisher<[AtomicPost], any Error> {
-   fatalError()
+    let endpoint = Endpoint.fetchPostsEndpoint()
+    guard let ownerId = ownerStorage.id else {
+      return Fail(error: PostFetchAtomicRepositoryError.invalidOwnerId).eraseToAnyPublisher()
+    }
+    
+    return Future { [weak self] promise in
+      guard let self else {
+        promise(.failure(PostFetchAtomicRepositoryError.invalidSelfReference))
+        return
+      }
+      
+      // TODO: - 공사시작.
+      // Posts colelction -> specific post document -> post-hearts - user uid document 이게 ..  쿼리 서브 컬랙션
+      // 조인같은게 안되고.. 어려워서 users - post-hearts로 변경 시작.
+      
+//      let paginate = service
+//        .paginate(
+//          endpoint: endpoint,
+//          makeQuery: { collectionRef in
+//            let query = collectionRef.whereField("heartNum", isGreaterThan: 0)
+//          }, isFirstPagination: )
+      
+    }.eraseToAnyPublisher()
   }
   
   func fetchOwnerWrittedPosts(
