@@ -37,6 +37,12 @@ extension DefaultFestivalUseCase: FestivalUseCase {
   }
   
   func fetchFestivalDetail(tourContentId: TourContentId) -> AnyPublisher<FestivalEntity, any Error> {
+    let commonPublisher = tourCommonInfoRepository.fetchTourCommonInfo(
+      contentId: tourContentId.contentId,
+      numOfRows: nil,
+      pageNo: nil
+    )
+    
     let imagePublisher = tourImageRetrieveInfoRepository.retrieveImages(
       contentId: tourContentId.contentId,
       numOfRows: nil,
@@ -44,11 +50,6 @@ extension DefaultFestivalUseCase: FestivalUseCase {
     )
       .map { $0.map { $0.image.original } }
     
-    let commonPublisher = tourCommonInfoRepository.fetchTourCommonInfo(
-      contentId: tourContentId.contentId,
-      numOfRows: nil,
-      pageNo: nil
-    )
     let introductionPublisher = tourIntroductionInfoRepository.fetchFestival(
       tourContentId: tourContentId
     )
