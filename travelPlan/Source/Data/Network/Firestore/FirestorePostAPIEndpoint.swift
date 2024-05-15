@@ -8,16 +8,18 @@
 import Foundation
 
 struct FirestorePostAPIEndpoint {
-  static func fetchPostsEndpoint() -> FirestoreEndpoint<FirestorePostResponseDTO> {
+  static func makePostsFetchEndpoint() -> FirestoreEndpoint<FirestorePostResponseDTO> {
     return .init(
       requestDTO: nil,
       method: .query,
       requestType: .posts(.fetch))
   }
   
-  static func fetchSpecificPostEndpoint(
+  static func makeSpecificPostFetchEndpoint(
     postId: String
   ) -> FirestoreEndpoint<FirestorePostResponseDTO> {
-    return FirestoreEndpoint(method: .get, requestType: .posts(.fetchSpecificPost(postId: postId)))
+    return FirestoreEndpoint(
+      method: .get,
+      requestType: .posts(.fetchSpecificPost(postId: postId)))
   }
 }
