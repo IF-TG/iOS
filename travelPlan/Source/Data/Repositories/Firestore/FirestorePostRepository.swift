@@ -9,14 +9,15 @@ import Foundation
 import SHFirestoreService
 import FirebaseFirestore
 import Combine
+import os.log
 
 final class FirestorePostRepository {
   typealias Endpoint = FirestorePostAPIEndpoint
+  typealias IndexedAtomicPost = (index: Int, post: AtomicPost)
   
   // MARK: - Dependencies
   private let service: FirestoreServiceProtocol
   private let firebaseStorageService: ImageStorageServiceProtocol
-  private let profileRepository: MyProfileRepository
   private let backgroundQueue: DispatchQueue
   
   // MARK: - Properties
@@ -26,23 +27,21 @@ final class FirestorePostRepository {
   init(
     service: FirestoreServiceProtocol,
     firebaseStorageService: ImageStorageServiceProtocol,
-    profileRepository: MyProfileRepository,
     backgroundQueue: DispatchQueue = .global(qos: .default)
   ) {
     self.service = service
     self.firebaseStorageService = firebaseStorageService
-    self.profileRepository = profileRepository
     self.backgroundQueue = backgroundQueue
   }
 }
 
 // MARK: - PostRepository
-extension FirestorePostRepository: PostRepository {
-  func fetchPosts(
+extension FirestorePostRepository: PostFetchAtomicRepository {
+  func fetchFilteredPosts(
     page: Int32,
     perPage: Int32,
     category: PostCategory
-  ) -> AnyPublisher<PostsPage, any Error> {
+  ) -> AnyPublisher<[AtomicPost], any Error> {
     let isFirstPage = page == 1
     let endpoint = Endpoint.fetchPostsEndpoint()
     
@@ -67,10 +66,12 @@ extension FirestorePostRepository: PostRepository {
         .sink { completion in
           if case .failure(let error) = completion {
             switch error as FirestoreServiceError {
-            case .documentNotFound, .noMorePage:
-              promise(.success(PostsPage(totalPosts: 0, posts: [], thumbnails: [], hasMorePage: false)))
+            case .documentNotFound:
+              promise(.failure(PostFetchAtomicRepositoryError.documentNotFound))
+            case .noMorePage:
+              promise(.failure(PostFetchAtomicRepositoryError.noMorePage))
             default:
-              promise(.failure(error))
+              promise(.failure(PostFetchAtomicRepositoryError.serviceError(error)))
             }
           }
         } receiveValue: { [weak self] responseDTO in
@@ -134,34 +135,21 @@ extension FirestorePostRepository: PostRepository {
   /// Dispatch그룹으로 받을 경우 포스트는 순차적으로 받지 않기에. 빨리끝난것부터 반환. 그래서 소팅 해주어야 합니다.
   private func handlePostsFetch(
     from responseDTO: [FirestorePostResponseDTO],
-    to promise: @escaping Future<PostsPage, any Error>.Promise
+    to promise: @escaping Future<[AtomicPost], any Error>.Promise
   ) {
     let groupManager = DispatchGroup()
-    var posts: [(post: Post, index: Int)] = []
-    responseDTO.enumerated().forEach { index, postResponseDTO in
-      var author: UserEntity?
+    var posts: [IndexedAtomicPost] = []
+    for (index, postResponseDTO) in responseDTO.enumerated() {
       var postImages: [Post.PostImage] = []
       let group = DispatchGroup()
       groupManager.enter()
       group.enter()
-      let profileSubscription = self.profileRepository.fetchProfile()
-        .subscribe(on: backgroundQueue)
-        .sink { completion in
-          if case .failure(let error) = completion {
-            promise(.failure(error))
-            group.leave()
-          }
-        } receiveValue: { userEntity in
-          author = userEntity
-          group.leave()
-        }
-      subscriptions.insert(profileSubscription)
-      group.enter()
-      let imageSubscription = self.firebaseStorageService
+      let imageSubscription = firebaseStorageService
         .fetchImages(postResponseDTO.postImageFiles.map { $0.url }, type: .postImage)
-        .sink { completion in
+        .sink { [weak self] completion in
           if case .failure(let error) = completion {
-            promise(.failure(error))
+            // 로그로 남김
+            self?.logImageFetchError(postId: postResponseDTO.postId, error: error)
             group.leave()
           }
         } receiveValue: { postImageDataList in
@@ -172,47 +160,39 @@ extension FirestorePostRepository: PostRepository {
         }
       subscriptions.insert(imageSubscription)
       group.notify(queue: backgroundQueue) { [index] in
-        let post = responseDTO[index].toDomain(
-          liked: nil,
-          authorImageData: author?.profileImageData,
-          authorName: author?.nickname ?? "여행자",
-          postImages: postImages)
-        posts.append((post, index))
+        /// 포스트 받아올때 이상이 있을 경우 해당 포스트는 제외합니다.
+        guard postImages.count > 0 else {
+          groupManager.leave()
+          return
+        }
+        let post = responseDTO[index].toDomain(postImages: postImages)
+        posts.append((index, post))
         groupManager.leave()
       }
     }
-    groupManager.notify(queue: DispatchQueue.global(qos: .userInteractive)) {
-      let postsPage = PostsPage(
-        totalPosts: Int64.max, posts: posts.sorted(by: { $0.index < $1.index }).map { $0.post }, thumbnails: [])
-      promise(.success(postsPage))
+    groupManager.notify(queue: backgroundQueue) {
+      promise(.success(posts.sorted(by: { $0.index < $1.index }).map { $0.post }))
     }
   }
 }
 
 // MARK: - PostRepository
 extension FirestorePostRepository {
-  func fetchComments(
-    page: Int32,
-    perPage: Int32,
-    postId: String
-  ) -> AnyPublisher<PostCommentContainerEntity, any Error> {
-    fatalError("미 구현")
-  }
-  
   func fetchLikedPostsByLoggedInUser(
     page: Int32,
     perPage: Int32
-  ) -> AnyPublisher<PostsPage, any Error> {
-    fatalError("미 구현")
+  ) -> AnyPublisher<[AtomicPost], any Error> {
+    fatalError()
   }
-  
-  func searchPosts(
-    keyword: String,
-    page: Int32,
-    perPage: Int32,
-    isTitle: Bool,
-    isContent: Bool
-  ) -> AnyPublisher<[Post], any Error> {
-    fatalError("미 구현")
+}
+
+// MARK: - Private Helpers
+extension FirestorePostRepository {
+  func logImageFetchError(postId: String, error: any Error) {
+    os_log(
+      "Error occured when fetching post's images. postId: %@, error:%@",
+      log: .default,
+      type: .error,
+      postId, error.localizedDescription)
   }
 }
