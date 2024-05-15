@@ -57,7 +57,8 @@ extension DefaultShoppingUseCase: ShoppingUseCase {
           telNumber: introductionEntity.telNumber,
           imageDataList: [commonEntity.image.originalImageData] + imageDataList,
           title: commonEntity.title,
-          overview: commonEntity.overview
+          overview: commonEntity.overview,
+          address: commonEntity.address.address1
         )
       }
       .eraseToAnyPublisher()

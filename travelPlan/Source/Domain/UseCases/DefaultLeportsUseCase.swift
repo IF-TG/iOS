@@ -57,7 +57,8 @@ extension DefaultLeportsUseCase: LeportsUseCase {
           fee: leportsEntity.fee,
           title: commonEntity.title,
           overview: commonEntity.overview,
-          imageDataList: [commonEntity.image.originalImageData] + imageDataList
+          imageDataList: [commonEntity.image.originalImageData] + imageDataList,
+          address: commonEntity.address.address1
         )
       }
       .eraseToAnyPublisher()
