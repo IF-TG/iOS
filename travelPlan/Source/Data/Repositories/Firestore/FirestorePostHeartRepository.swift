@@ -72,7 +72,8 @@ extension FirestorePostHeartRepository: PostHeartRepository {
     }.eraseToAnyPublisher()
   }
   
-  func togglePostHearts(
+  /// Posts collection에서 a specific document의 heartNum 필드 값을 transaction을 활용해 증가, 감소 시킵니다.
+  func updatePostHearts(
     _ postId: String,
     willHeartPost: Bool
   ) -> AnyPublisher<Void, any Error> {
@@ -86,15 +87,15 @@ extension FirestorePostHeartRepository: PostHeartRepository {
           do {
             let documentSnapshot = try transaction.getDocument(documentRef)
             
-            guard let prevPostHearts = documentSnapshot.data()?["likeNum"] as? Int else {
+            guard let prevPostHearts = documentSnapshot.data()?["heartNum"] as? Int else {
               let error = NSError(
                 domain: "AppErrorDimain",
                 code: -1,
-                userInfo: [NSLocalizedDescriptionKey: "Unable to retrieve likeNum from snapshot \(documentSnapshot)"])
+                userInfo: [NSLocalizedDescriptionKey: "Unable to retrieve heartNum from snapshot \(documentSnapshot)"])
               promise(.failure(FirestoreServiceError.failedTransaction(error)))
               return nil
             }
-            transaction.updateData(["likeNum": prevPostHearts + (willHeartPost ? 1 : -1)], forDocument: documentRef)
+            transaction.updateData(["heartNum": prevPostHearts + (willHeartPost ? 1 : -1)], forDocument: documentRef)
           } catch {
             promise(.failure(FirestoreServiceError.failedTransaction(error)))
           }
