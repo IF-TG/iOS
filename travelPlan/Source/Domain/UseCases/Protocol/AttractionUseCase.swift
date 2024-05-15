@@ -9,5 +9,5 @@ import Foundation
 import Combine
 
 protocol AttractionUseCase {
-  func fetchAttraction(tourContentId: TourContentId) -> AnyPublisher<AttractionEntity, any Error>
+  func fetchAttractionDetail(tourContentId: TourContentId) -> AnyPublisher<AttractionEntity, any Error>
 }

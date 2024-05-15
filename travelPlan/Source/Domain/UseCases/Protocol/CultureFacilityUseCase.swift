@@ -9,5 +9,5 @@ import Foundation
 import Combine
 
 protocol CultureFacilityUseCase {
-  func fetchCultureFacility(tourContentId: TourContentId) -> AnyPublisher<CultureFacilityEntity, any Error>
+  func fetchCultureFacilityDetail(tourContentId: TourContentId) -> AnyPublisher<CultureFacilityEntity, any Error>
 }

@@ -26,7 +26,7 @@ final class DefaultCultureFacilityUseCase {
 
 // MARK: - CultureFacilityUseCase
 extension DefaultCultureFacilityUseCase: CultureFacilityUseCase {
-  func fetchCultureFacility(tourContentId: TourContentId) -> AnyPublisher<CultureFacilityEntity, any Error> {
+  func fetchCultureFacilityDetail(tourContentId: TourContentId) -> AnyPublisher<CultureFacilityEntity, any Error> {
     let commonPublisher = tourCommonInfoRepository.fetchTourCommonInfo(
       contentId: tourContentId.contentId,
       numOfRows: nil,

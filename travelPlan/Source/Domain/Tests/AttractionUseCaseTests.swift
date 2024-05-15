@@ -54,7 +54,7 @@ extension AttractionUseCaseTests {
     let attractionId = TourContentId(contentId: 2019720, contentTypeId: TourType.attraction.rawValue)
     
     // Act
-    let actPublisher = sut.fetchAttraction(tourContentId: attractionId)
+    let actPublisher = sut.fetchAttractionDetail(tourContentId: attractionId)
     sink(
       fromPublisher: actPublisher,
       withExpectation: expectation

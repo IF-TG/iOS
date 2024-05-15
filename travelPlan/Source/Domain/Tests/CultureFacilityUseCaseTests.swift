@@ -54,7 +54,7 @@ extension CultureFacilityUseCaseTests {
     let cultureFacilityId = TourContentId(contentId: 2732489, contentTypeId: TourType.cultureFacility.rawValue)
     
     // Act
-    let actPublisher = sut.fetchCultureFacility(tourContentId: cultureFacilityId)
+    let actPublisher = sut.fetchCultureFacilityDetail(tourContentId: cultureFacilityId)
     sink(
       fromPublisher: actPublisher,
       withExpectation: expectation) { error, receivedResult in

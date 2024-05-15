@@ -26,7 +26,7 @@ final class DefaultAttractionUseCase {
 
 // MARK: - AttractionUseCase
 extension DefaultAttractionUseCase: AttractionUseCase {
-  func fetchAttraction(tourContentId: TourContentId) -> AnyPublisher<AttractionEntity, any Error> {
+  func fetchAttractionDetail(tourContentId: TourContentId) -> AnyPublisher<AttractionEntity, any Error> {
     let commonPublisher = tourCommonInfoRepository.fetchTourCommonInfo(
       contentId: tourContentId.contentId,
       numOfRows: nil,
