@@ -65,7 +65,7 @@ extension FirestorePostHeartRepositoryTests {
     
     // Assert
     checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "heartPost")
-    XCTAssertEqual(receivedResult, true, "heartPost를 호출할 경우 post를 좋아하는 사용자가 등록되야하는데 해당 문서가 저장되지 않음.")
+    XCTAssertEqual(receivedResult, true, "heartPost를 호출할 경우 사용자 post-hearts에 post id가 등록되야하는데 등록되지 않음.")
   }
   
   /// 이전 테스트 코드를 불가피하게 활용해야 합니다.. 사전에 저장되어야 삭제가 가능한데 실제 firesotre 기반으로 테스트하기 때문입니다.
@@ -76,7 +76,7 @@ extension FirestorePostHeartRepositoryTests {
     
     sut.heartPost(testPostId, userId: testUserId)
       .sink {
-        if case .failure = $0 { XCTAssert(false, "testUserId 문서 저장해야 하지만 에러가 발생됨.") }
+        if case .failure = $0 { XCTAssert(false, "testPostId 문서 저장해야 하지만 에러가 발생됨.") }
       } receiveValue: { [unowned self] _ in
         expectation.fulfill()
       }.store(in: &subscriptions)
@@ -100,7 +100,7 @@ extension FirestorePostHeartRepositoryTests {
     
     // Assert
     checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "hatePost")
-    XCTAssertEqual(receivedResult, true, "heartPost를 호출할 경우 post를 싫어하는 사용자가 삭제되야 하지만 에러가 발생됨")
+    XCTAssertEqual(receivedResult, true, "heartPost를 호출할 경우 post id가 삭제되야 하지만 에러가 발생됨")
 
   }
   
