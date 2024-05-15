@@ -8,6 +8,13 @@
 import Combine
 import Foundation
 
+@frozen enum PostFetchAtomicRepositoryError: Error {
+  case documentNotFound
+  case noMorePage
+  case invalidSelfReference
+  case serviceError(Error)
+}
+
 protocol PostFetchAtomicRepository {
   /// Category에 따른 query를 반환하빈다.
   func fetchFilteredPosts(
