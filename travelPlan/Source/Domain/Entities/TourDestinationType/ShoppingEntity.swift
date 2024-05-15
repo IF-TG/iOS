@@ -18,4 +18,5 @@ struct ShoppingEntity {
   let imageDataList: [Data?]
   let title: String
   let overview: String
+  let address: String
 }

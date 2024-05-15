@@ -19,4 +19,5 @@ struct LeportsEntity {
   let title: String
   let overview: String
   let imageDataList: [Data?]
+  let address: String
 }
