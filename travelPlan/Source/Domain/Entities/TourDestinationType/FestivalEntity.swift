@@ -9,6 +9,7 @@ import Foundation
 
 // 축제(행사)
 struct FestivalEntity {
+  let tourContentId: TourContentId
   let ageLimit: String
   let startDate: Date?
   let endDate: Date?

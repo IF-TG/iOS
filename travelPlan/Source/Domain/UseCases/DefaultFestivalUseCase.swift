@@ -58,6 +58,8 @@ extension DefaultFestivalUseCase: FestivalUseCase {
       .Zip3(commonPublisher, introductionPublisher, imagePublisher)
       .map { (commonEntity, introFestivalEntity, imageDataList) in
         return FestivalEntity(
+          tourContentId: .init(contentId: commonEntity.id.contentId,
+                               contentTypeId: commonEntity.id.contentTypeId),
           ageLimit: introFestivalEntity.ageLimit,
           startDate: introFestivalEntity.startDate,
           endDate: introFestivalEntity.endDate,
