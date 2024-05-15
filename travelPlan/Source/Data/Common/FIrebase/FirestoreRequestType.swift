@@ -167,6 +167,7 @@ extension FirestoreRequestType {
     case save
     case update(postId: String)
     case fetch
+    case fetchSpecificPost(postId: String)
     
     // MARK: - PostHearts
     case fetchPostHearts(PostId)
@@ -238,6 +239,8 @@ extension FirestoreRequestType {
         return postId
       case .fetch:
         return nil
+      case .fetchSpecificPost(let postId):
+        return postId
       case .togglePostHearts(let postId):
         return postId
       case .fetchPostHearts(let postId):
@@ -292,6 +295,8 @@ extension FirestoreRequestType {
       case .update:
         return rootPath
       case .fetch:
+        return rootPath
+      case .fetchSpecificPost:
         return rootPath
       case .togglePostHearts:
         return rootPath
