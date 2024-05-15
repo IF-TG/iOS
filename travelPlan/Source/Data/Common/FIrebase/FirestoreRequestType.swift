@@ -42,14 +42,15 @@ import SHFirestoreService
 extension FirestoreRequestType {
   @frozen enum UsersCollection {
     typealias PostId = String
+    typealias UserId = String
     
     /// 모든 유저 문서 받아옴
     case fetchAllUsers
     case userDocument(UserDocument)
     
     /// users collection - owner document - post-hearts collection
-    case heartPost
-    case hatePost(PostId)
+    case heartPost(UserId)
+    case hatePost(UserId, PostId)
     
     var rootPath: String {
       "users"
@@ -70,7 +71,7 @@ extension FirestoreRequestType {
         return nil
       case .heartPost:
         return nil
-      case .hatePost(let postId):
+      case .hatePost(_, let postId):
         return postId
       }
     }
@@ -86,10 +87,10 @@ extension FirestoreRequestType {
           return "\(rootPath)\(childCollectionPath)"
         }
         return rootPath
-      case .heartPost:
-        return postHearts
-      case .hatePost:
-        return postHearts
+      case .heartPost(let userId):
+        return "\(rootPath)/\(userId)/\(postHearts)"
+      case .hatePost(let userId, _):
+        return "\(rootPath)/\(userId)/\(postHearts)"
       }
     }
   }
