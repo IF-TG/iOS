@@ -53,6 +53,8 @@ struct TourIntroductionInfoShoppingResponseDTO: Decodable {
 extension TourIntroductionInfoShoppingResponseDTO {
   func toDomain() -> IntroductionInfoShoppingEntity {
     return IntroductionInfoShoppingEntity(
+      tourContentId: .init(contentId: contentId,
+                           contentTypeId: contentTypeId),
       canPark: canPark,
       fairDay: fairDay,
       openTime: openTime,
