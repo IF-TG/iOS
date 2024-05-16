@@ -36,7 +36,6 @@ struct PostResponseDTO: Decodable {
     case content
     case likes = "likeNum"
     case comments = "commentNum"
-    case location
     case createAt
     case profile = "profileImgUri"
     case nickname
@@ -53,7 +52,7 @@ struct PostResponseDTO: Decodable {
   
   init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
-    self.postID = try container.decode(String.self, forKey: .postID)
+    self.postID = String(try container.decode(Int.self, forKey: .postID))
     self.postImages = try container.decode([PostImage].self, forKey: .postImages)
     self.title = try container.decode(String.self, forKey: .title)
     self.content = try container.decode(String.self, forKey: .content)
