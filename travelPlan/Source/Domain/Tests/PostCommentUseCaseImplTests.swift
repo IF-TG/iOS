@@ -17,7 +17,7 @@ final class PostCommentUseCaseImplTests: XCTestCase {
   
   let stubPostAtomicCommentRepository = StubPostAtomicCommentRepository()
   let stubPostAtomicNestedCommentRepository = StubPostAtomicNestedCommentRepository()
-  let mockUserProfileRepository = MockUserProfileRepository()
+  let mockUserProfileRepository = StubUserProfileRepository()
   let stubPostNestedCommentHeartRepository = StubPostNestedCommentHeartRepository()
   let stubPostCommentHeartRepository = StubPostCommentHeartRepository()
   
