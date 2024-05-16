@@ -31,6 +31,8 @@ final class DefaultPostFetchUseCaseTests: XCTestCase {
   }
 }
 
+// MARK: 테스트 실패나는 이유는 userId가 문자열이라 그렇습니다. 파베는 문자열, spring server는 Int32.
+// 그래서 owner 레포지토리에서 id가져와서 Int32로 바꿀때 invalidUserIdError가 발생됩니다.
 extension DefaultPostFetchUseCaseTests {
   func test_fetchFilteredPosts호출시_postContainer배열값을_받았는지_responseDTO검증_shouldReturnTrue() {
     // Arrange
