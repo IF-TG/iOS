@@ -14,7 +14,6 @@ struct PostContainerResponseDTO: Decodable {
   enum CodingKeys: String, CodingKey {
     case post
     case thumbnails = "thumbnailUri"
-    case totalPosts
   }
   
   init(from decoder: Decoder) throws {
