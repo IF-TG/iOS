@@ -79,7 +79,7 @@ final class DefaultPostNestedCommentRepository: PostNestedCommentRepository {
     }.eraseToAnyPublisher()
   }
   
-  func deleteNestedComment(nestedCommentId: String) -> AnyPublisher<Bool, any Error> {
+  func deleteNestedComment(nestedCommentId: String) -> AnyPublisher<DeletedNestedCommentResult, any Error> {
     let requestDTO = PostNestedCommentDeleteRequestDTO(nestedCommentId: nestedCommentId)
     return Future { [weak self] promise in
       guard let self else {
@@ -95,8 +95,8 @@ final class DefaultPostNestedCommentRepository: PostNestedCommentRepository {
           if case .failure(let error) = completion {
             promise(.failure(error))
           }
-        } receiveValue: { responseDTO in
-          promise(.success(responseDTO))
+        } receiveValue: { _ in
+          promise(.success(.justANestedCommentDeleted))
         }.store(in: &subscriptions)
     }.eraseToAnyPublisher()
   }
