@@ -251,6 +251,14 @@
 		15259DEB2ACAA9F600C14F62 /* PostSearchFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C07ECC2A13F454005F04CD /* PostSearchFooterView.swift */; };
 		15259DEC2ACAAAB200C14F62 /* LocationSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EF8C042A0829FD0068C744 /* LocationSearchViewController.swift */; };
 		152603D72B97A4BC00634299 /* PostsRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152603D62B97A4BC00634299 /* PostsRequestDTO.swift */; };
+		1526ECE72BF6331900B629FB /* PostFetchUseCaseImplTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1526ECE62BF6331900B629FB /* PostFetchUseCaseImplTests.swift */; };
+		1526ECEC2BF6367B00B629FB /* DefaultPostFetchUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1526ECEB2BF6367B00B629FB /* DefaultPostFetchUseCaseTests.swift */; };
+		1526ECEE2BF636E500B629FB /* DefaultPostCommentsAndPostLikeStateFetchUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1526ECED2BF636E500B629FB /* DefaultPostCommentsAndPostLikeStateFetchUseCaseTests.swift */; };
+		1526ECF02BF6374100B629FB /* DefaultOwnerRelatedPostFetchUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1526ECEF2BF6374100B629FB /* DefaultOwnerRelatedPostFetchUseCaseTests.swift */; };
+		1526ECF22BF6376F00B629FB /* DefaultPostSearchUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1526ECF12BF6376F00B629FB /* DefaultPostSearchUseCaseTests.swift */; };
+		1526ECF52BF6417F00B629FB /* MockPostFetchAtomicRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1526ECF32BF6416A00B629FB /* MockPostFetchAtomicRepository.swift */; };
+		1526ECF82BF6435800B629FB /* MockPostHeartRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1526ECF62BF6434400B629FB /* MockPostHeartRepository.swift */; };
+		1526ECFB2BF643EE00B629FB /* MockOwnerHeartPostRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1526ECF92BF643E500B629FB /* MockOwnerHeartPostRepository.swift */; };
 		152715412BA0D5AE0077D033 /* UserProfileRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152715402BA0D5AE0077D033 /* UserProfileRepository.swift */; };
 		152715452BA0D60F0077D033 /* DefaultUserProfileRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152715442BA0D60F0077D033 /* DefaultUserProfileRepository.swift */; };
 		152834D52BAB4DED00453DD1 /* PostViewSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152834D42BAB4DED00453DD1 /* PostViewSection.swift */; };
@@ -610,7 +618,6 @@
 		15E982BF2ACC95CC002B932F /* FavoriteDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E982BE2ACC95CC002B932F /* FavoriteDetailViewController.swift */; };
 		15E982C12ACD16A2002B932F /* FavoriteDetailMenuAreaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E982C02ACD16A2002B932F /* FavoriteDetailMenuAreaView.swift */; };
 		15E9E5EA2B9A1CA500C2F1F7 /* DefaultPostRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E9E5E92B9A1CA500C2F1F7 /* DefaultPostRepository.swift */; };
-		15E9E5F02B9A359B00C2F1F7 /* PostUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E9E5EF2B9A359B00C2F1F7 /* PostUseCaseTests.swift */; };
 		15E9E5F22B9A35F300C2F1F7 /* MockPostRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E9E5F12B9A35F300C2F1F7 /* MockPostRepository.swift */; };
 		15E9E5F82B9A45A600C2F1F7 /* MockResponseType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E9E5F72B9A45A600C2F1F7 /* MockResponseType.swift */; };
 		15EA48CA2A539D7B00F4B391 /* MoreMenuViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EA48C92A539D7B00F4B391 /* MoreMenuViewDelegate.swift */; };
@@ -660,6 +667,7 @@
 		15F5A1322BF5D67B00CDF2F0 /* PaginationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F5A1312BF5D67B00CDF2F0 /* PaginationError.swift */; };
 		15F5A1342BF5D92900CDF2F0 /* FirestoreServiceError+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F5A1332BF5D92900CDF2F0 /* FirestoreServiceError+.swift */; };
 		15F5A1362BF5DAAE00CDF2F0 /* Error+PaginationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F5A1352BF5DAAE00CDF2F0 /* Error+PaginationError.swift */; };
+		15F5A1392BF5DDCC00CDF2F0 /* Publisher+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F5A1382BF5DDCC00CDF2F0 /* Publisher+.swift */; };
 		15FB47D72AC0407D0033AA18 /* PostCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FB47D62AC0407D0033AA18 /* PostCategory.swift */; };
 		15FB47EB2AC176420033AA18 /* PostSearchSectionItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132550272A0ABBDA00094218 /* PostSearchSectionItemModel.swift */; };
 		15FB47EE2AC176FD0033AA18 /* UISpacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152AD4ED2A1891DB008A2A11 /* UISpacing.swift */; };
@@ -998,6 +1006,14 @@
 		151DF1112AEECDDD00D5D55B /* NoticeViewModelable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeViewModelable.swift; sourceTree = "<group>"; };
 		1524A4A42BABEAA5002C639A /* MockPostsGeneratorForPaging.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockPostsGeneratorForPaging.swift; sourceTree = "<group>"; };
 		152603D62B97A4BC00634299 /* PostsRequestDTO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostsRequestDTO.swift; sourceTree = "<group>"; };
+		1526ECE62BF6331900B629FB /* PostFetchUseCaseImplTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostFetchUseCaseImplTests.swift; sourceTree = "<group>"; };
+		1526ECEB2BF6367B00B629FB /* DefaultPostFetchUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultPostFetchUseCaseTests.swift; sourceTree = "<group>"; };
+		1526ECED2BF636E500B629FB /* DefaultPostCommentsAndPostLikeStateFetchUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultPostCommentsAndPostLikeStateFetchUseCaseTests.swift; sourceTree = "<group>"; };
+		1526ECEF2BF6374100B629FB /* DefaultOwnerRelatedPostFetchUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultOwnerRelatedPostFetchUseCaseTests.swift; sourceTree = "<group>"; };
+		1526ECF12BF6376F00B629FB /* DefaultPostSearchUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultPostSearchUseCaseTests.swift; sourceTree = "<group>"; };
+		1526ECF32BF6416A00B629FB /* MockPostFetchAtomicRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPostFetchAtomicRepository.swift; sourceTree = "<group>"; };
+		1526ECF62BF6434400B629FB /* MockPostHeartRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPostHeartRepository.swift; sourceTree = "<group>"; };
+		1526ECF92BF643E500B629FB /* MockOwnerHeartPostRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockOwnerHeartPostRepository.swift; sourceTree = "<group>"; };
 		152715402BA0D5AE0077D033 /* UserProfileRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileRepository.swift; sourceTree = "<group>"; };
 		152715442BA0D60F0077D033 /* DefaultUserProfileRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultUserProfileRepository.swift; sourceTree = "<group>"; };
 		152834D42BAB4DED00453DD1 /* PostViewSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewSection.swift; sourceTree = "<group>"; };
@@ -1355,7 +1371,6 @@
 		15E982C02ACD16A2002B932F /* FavoriteDetailMenuAreaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteDetailMenuAreaView.swift; sourceTree = "<group>"; };
 		15E994772BE3EDE300874B46 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		15E9E5E92B9A1CA500C2F1F7 /* DefaultPostRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultPostRepository.swift; sourceTree = "<group>"; };
-		15E9E5EF2B9A359B00C2F1F7 /* PostUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostUseCaseTests.swift; sourceTree = "<group>"; };
 		15E9E5F12B9A35F300C2F1F7 /* MockPostRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPostRepository.swift; sourceTree = "<group>"; };
 		15E9E5F72B9A45A600C2F1F7 /* MockResponseType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockResponseType.swift; sourceTree = "<group>"; };
 		15EA48C92A539D7B00F4B391 /* MoreMenuViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreMenuViewDelegate.swift; sourceTree = "<group>"; };
@@ -1403,6 +1418,7 @@
 		15F5A1312BF5D67B00CDF2F0 /* PaginationError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaginationError.swift; sourceTree = "<group>"; };
 		15F5A1332BF5D92900CDF2F0 /* FirestoreServiceError+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirestoreServiceError+.swift"; sourceTree = "<group>"; };
 		15F5A1352BF5DAAE00CDF2F0 /* Error+PaginationError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Error+PaginationError.swift"; sourceTree = "<group>"; };
+		15F5A1382BF5DDCC00CDF2F0 /* Publisher+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publisher+.swift"; sourceTree = "<group>"; };
 		15FB47D62AC0407D0033AA18 /* PostCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCategory.swift; sourceTree = "<group>"; };
 		15FB47F02AC1DCEF0033AA18 /* TravelMainThemeCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelMainThemeCollectionView.swift; sourceTree = "<group>"; };
 		15FB966D2BC422CF00706312 /* PostDetailCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailCategoryViewController.swift; sourceTree = "<group>"; };
@@ -2205,6 +2221,34 @@
 			path = MockJson;
 			sourceTree = "<group>";
 		};
+		1526ECE82BF6365800B629FB /* Post */ = {
+			isa = PBXGroup;
+			children = (
+				1526ECEA2BF6366700B629FB /* Impl */,
+				1526ECE92BF6365E00B629FB /* Default */,
+			);
+			path = Post;
+			sourceTree = "<group>";
+		};
+		1526ECE92BF6365E00B629FB /* Default */ = {
+			isa = PBXGroup;
+			children = (
+				1526ECEB2BF6367B00B629FB /* DefaultPostFetchUseCaseTests.swift */,
+				1526ECED2BF636E500B629FB /* DefaultPostCommentsAndPostLikeStateFetchUseCaseTests.swift */,
+				1526ECEF2BF6374100B629FB /* DefaultOwnerRelatedPostFetchUseCaseTests.swift */,
+				1526ECF12BF6376F00B629FB /* DefaultPostSearchUseCaseTests.swift */,
+			);
+			path = Default;
+			sourceTree = "<group>";
+		};
+		1526ECEA2BF6366700B629FB /* Impl */ = {
+			isa = PBXGroup;
+			children = (
+				1526ECE62BF6331900B629FB /* PostFetchUseCaseImplTests.swift */,
+			);
+			path = Impl;
+			sourceTree = "<group>";
+		};
 		152AD4E42A188BCE008A2A11 /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -2436,6 +2480,7 @@
 		154CA6022BD399690066B444 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				15F5A1372BF5DDB800CDF2F0 /* Combine */,
 				1538015E2BEA19BC008ECBF3 /* Firebase */,
 				1538015D2BEA19B4008ECBF3 /* TourApi */,
 				1538015C2BEA19AF008ECBF3 /* Server */,
@@ -2768,6 +2813,9 @@
 				1524A4A42BABEAA5002C639A /* MockPostsGeneratorForPaging.swift */,
 				15869D022BF50CED00FB342B /* MockPostFetchUseCase.swift */,
 				15869D042BF50D0600FB342B /* MockOwnerRelatedPostFetchUseCase.swift */,
+				1526ECF32BF6416A00B629FB /* MockPostFetchAtomicRepository.swift */,
+				1526ECF62BF6434400B629FB /* MockPostHeartRepository.swift */,
+				1526ECF92BF643E500B629FB /* MockOwnerHeartPostRepository.swift */,
 			);
 			path = Post;
 			sourceTree = "<group>";
@@ -3365,8 +3413,8 @@
 		15D655902B8E162400466FEC /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				1526ECE82BF6365800B629FB /* Post */,
 				15D655932B8E16B600466FEC /* Mock */,
-				15E9E5EF2B9A359B00C2F1F7 /* PostUseCaseTests.swift */,
 				15D655912B8E169100466FEC /* MyProfileUseCaseTests.swift */,
 				15BE6BF02BAF2285009A2568 /* PostCommentUseCaseTests.swift */,
 				15553BD52BB34D06000AA896 /* PostNestedCommentUseCaseTests.swift */,
@@ -3646,6 +3694,14 @@
 				15DDB16E2B04799C001F6EAA /* UITextView+.swift */,
 			);
 			path = "UIKit+";
+			sourceTree = "<group>";
+		};
+		15F5A1372BF5DDB800CDF2F0 /* Combine */ = {
+			isa = PBXGroup;
+			children = (
+				15F5A1382BF5DDCC00CDF2F0 /* Publisher+.swift */,
+			);
+			path = Combine;
 			sourceTree = "<group>";
 		};
 		15FBD5CC2B98D00200076115 /* DataMapper */ = {
@@ -4001,6 +4057,7 @@
 				15803C3F2BD8F5F900D83F2B /* XMLParsingServiceTests.swift in Sources */,
 				15D6559A2B8E1CCB00466FEC /* UserInfoAPIEndpointTests.swift in Sources */,
 				153EEBB42BE26CEF00ECAB8A /* FirestorePostHeartRepositoryTests.swift in Sources */,
+				1526ECEE2BF636E500B629FB /* DefaultPostCommentsAndPostLikeStateFetchUseCaseTests.swift in Sources */,
 				15D655A42B8F829800466FEC /* MyInformationViewModelTests.swift in Sources */,
 				1335320E2BA469E3000A4D9E /* DataConverterTests.swift in Sources */,
 				156C1E2A2BBECA6500AF1D99 /* CoordinatorDeallocTests.swift in Sources */,
@@ -4008,21 +4065,25 @@
 				15553BD42BB34BF2000AA896 /* XCTestCase+UseCaseTestsHelpers.swift in Sources */,
 				15B5E7AE2BBAEBE700C19F56 /* UserBlockUseCaseTests.swift in Sources */,
 				1383C81C2B97F44800830F1A /* KeychainManagerTests.swift in Sources */,
+				1526ECF22BF6376F00B629FB /* DefaultPostSearchUseCaseTests.swift in Sources */,
 				13E84AFE2BE971C500B537B6 /* DefaultFestivalUseCaseTests.swift in Sources */,
 				15EBD9192BE8AC9400BCEA7F /* FirestorePostCommentHeartRepositoryTests.swift in Sources */,
 				158981BA2BB2652700F016CF /* PostCommentAPIEndpointTests.swift in Sources */,
 				15FFAC2F2ADD03130013DB57 /* MockUserEndpoint.swift in Sources */,
+				1526ECFB2BF643EE00B629FB /* MockOwnerHeartPostRepository.swift in Sources */,
 				1546DF3F2B0C64E500B49A55 /* ImageDiskCacheTests.swift in Sources */,
 				156C1E2C2BBED14300AF1D99 /* SHCoordinator+XCTestCase.swift in Sources */,
 				15FFAC282ADC598E0013DB57 /* SessionProviderTests.swift in Sources */,
 				156C1E232BBEC93900AF1D99 /* XCTestCase+Helpers.swift in Sources */,
 				15869D0E2BF5C3BD00FB342B /* FirestoreOwnerHeartPostRepositoryTests.swift in Sources */,
 				13EB3CD32BEAA00300CA84F0 /* DefaultTourIntroductionInfoRepositoryTests.swift in Sources */,
+				1526ECF02BF6374100B629FB /* DefaultOwnerRelatedPostFetchUseCaseTests.swift in Sources */,
+				1526ECE72BF6331900B629FB /* PostFetchUseCaseImplTests.swift in Sources */,
 				15BE6BF12BAF2285009A2568 /* PostCommentUseCaseTests.swift in Sources */,
+				1526ECF52BF6417F00B629FB /* MockPostFetchAtomicRepository.swift in Sources */,
 				15FBD5E42B98E94800076115 /* PostAPIEndpointTests.swift in Sources */,
 				154658812BEA67CC0081CCF8 /* FirestorePostNestedCommentRepositoryTests.swift in Sources */,
 				13EB3D0B2BEFCF2900CA84F0 /* DefaultTourCommonInfoRepositoryTests.swift in Sources */,
-				15E9E5F02B9A359B00C2F1F7 /* PostUseCaseTests.swift in Sources */,
 				158C6A3B2B0D231C00C30856 /* ImageIOTests.swift in Sources */,
 				15FFAC202ADC322B0013DB57 /* EndpointTests.swift in Sources */,
 				15FFAC2E2ADD030F0013DB57 /* MockModels.swift in Sources */,
@@ -4032,7 +4093,9 @@
 				151130092A04E4EB0041DDA1 /* travelPlanTests.swift in Sources */,
 				15591DE32BBEA5AF00128A9E /* FavoritePostInDirectoryUseCaseTests.swift in Sources */,
 				15553BD62BB34D06000AA896 /* PostNestedCommentUseCaseTests.swift in Sources */,
+				1526ECF82BF6435800B629FB /* MockPostHeartRepository.swift in Sources */,
 				13EB3CCD2BEA6B7900CA84F0 /* DefaultTourFestivalInfoRepositoryTests.swift in Sources */,
+				1526ECEC2BF6367B00B629FB /* DefaultPostFetchUseCaseTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4463,6 +4526,7 @@
 				13405F692AF4478400382796 /* NavigationTitleWithClickView.swift in Sources */,
 				15C1F5462AF2BF73005FDA15 /* NotificationViewAdapterDelegate.swift in Sources */,
 				154CA6102BD3A5E00066B444 /* TourApiCommonResponseDTO.swift in Sources */,
+				15F5A1392BF5DDCC00CDF2F0 /* Publisher+.swift in Sources */,
 				158BEFC22A0EB45300C27861 /* UIFont+.swift in Sources */,
 				1343840F2B480BF5005034E0 /* PhotoService.swift in Sources */,
 				13E7EAF32BE02EA80027946C /* DefaultFestivalUseCase.swift in Sources */,
