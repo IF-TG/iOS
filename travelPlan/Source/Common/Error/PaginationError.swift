@@ -12,25 +12,3 @@ import Foundation
   case noMorePage
   case invalidPageNumberError
 }
-
-extension Swift.Error {
-  var isNoMorePage: Bool {
-    guard let error = self as? PaginationError else {
-      return false
-    }
-    if error == .noMorePage {
-      return true
-    }
-    return false
-  }
-  
-  var isPageNumberError: Bool {
-    guard let error = self as? PaginationError else {
-      return false
-    }
-    if error == .invalidPageNumberError {
-      return true
-    }
-    return false
-  }
-}
