@@ -117,7 +117,7 @@ extension FeedPostViewController: ViewBindCase {
     case .none:
       break
     case .noMorePage:
-      print("noMorePage")
+      stopIndicator()
     case .viewDidLoad:
       postView.reloadData()
       stopIndicator()

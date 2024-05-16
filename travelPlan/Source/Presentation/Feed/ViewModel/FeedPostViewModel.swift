@@ -103,6 +103,7 @@ private extension FeedPostViewModel {
   func postFilterLoadingStartSubjectStream() -> Output {
     postFilterLoadingStartSubject.map { [weak self] _ -> State in
       self?.isPostFiltering = true
+      self?.hasMorePages = true
       return .networking
     }.eraseToAnyPublisher()
   }
@@ -117,7 +118,10 @@ private extension FeedPostViewModel {
         self?.userSelectedCategory = PostCategory(mainTheme: mainTheme, orderBy: selectedOrderType)
         self?.postFilterLoadingStartSubject.send()
         return self?.fetchPosts()
-          .map { _ -> State in
+          .map { [weak self] _ -> State in
+            if self?.hasMorePages == false {
+              return .noMorePage
+            }
             return .postFilterLoaded
           }.catch { error in
             return Just(State.unexpectedError(description: error.localizedDescription))
@@ -148,7 +152,10 @@ private extension FeedPostViewModel {
         }
         self?.postFilterLoadingStartSubject.send()
         return self?.fetchPosts()
-          .map { _ -> State in
+          .map { [weak self] _ -> State in
+            if self?.hasMorePages == false {
+              return .noMorePage
+            }
             return .postFilterLoaded
           }.catch { error in
             return Just(State.unexpectedError(description: error.localizedDescription))
@@ -190,8 +197,11 @@ private extension FeedPostViewModel {
         self?.isPaging = true
         self?.nextPageLoadingStartSubject.send()
         return self?.fetchPosts()
-          .delay(for: .seconds(0.25), scheduler: DispatchQueue.global(qos: .background))
           .map { [weak self] _ -> State in
+            if self?.hasMorePages == false {
+              self?.isPaging = false
+              return .noMorePage
+            }
             return .nextPage {
               self?.isPaging = false
             }
@@ -243,12 +253,12 @@ private extension FeedPostViewModel {
     currentPage = 0
     posts.removeAll()
     postThumbnails.removeAll()
+    hasMorePages = true
   }
 }
 
 // MARK: - PostDataSource
 extension FeedPostViewModel {
-  // 이를 호출할때 hasMorePages가 false라면 에러 던지자. 더이상 페이지 없다고
   func fetchPosts() -> AnyPublisher<Void, any Error> {
     let postFetchRequestValue = PostFetchRequestValue(
       page: nextPage,
@@ -268,8 +278,12 @@ extension FeedPostViewModel {
         self?.currentPage += 1
         self?.appendPosts(postsPage)
       }
-      .catch {
-        
+      .catch { error -> AnyPublisher<Void, any Error> in
+        if error.isNoMorePage {
+          self.hasMorePages = false
+          return Just(()).setFailureType(to: (any Error).self).eraseToAnyPublisher()
+        }
+        return Fail(error: error).eraseToAnyPublisher()
       }
       .eraseToAnyPublisher()
   }
