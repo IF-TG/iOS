@@ -8,8 +8,6 @@
 import Foundation
 
 struct PostsPage {
-  let totalPosts: Int64
   let posts: [Post]
   var thumbnails: [PostThumbnails]
-  var hasMorePage: Bool = true
 }
