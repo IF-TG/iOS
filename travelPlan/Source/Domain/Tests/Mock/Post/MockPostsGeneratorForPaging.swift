@@ -10,7 +10,6 @@ import Combine
 // 임시적으로 어쩔수없이 에셋에 저장된 이미지를 불러와야합니다.
 import UIKit
 
-
 struct MockPostsGeneratorForPaging {
   private static let recurCount = 4
   let totalPage = 18*MockPostsGeneratorForPaging.recurCount
