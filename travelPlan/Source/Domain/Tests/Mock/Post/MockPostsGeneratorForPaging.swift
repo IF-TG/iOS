@@ -161,8 +161,7 @@ struct MockPostsGeneratorForPaging {
       
       return PostContainer(
         post: post,
-        thumbnail: .init(postImageDataList: postContentThumbnails),
-        totalPosts: Int64(18*Self.recurCount))
+        thumbnail: .init(postImageDataList: postContentThumbnails))
     }
   }
   
