@@ -266,6 +266,7 @@
 		1526ED1A2BF647F200B629FB /* DefaultOwnerRelatedPostFetchUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1526ED152BF647F100B629FB /* DefaultOwnerRelatedPostFetchUseCase.swift */; };
 		1526ED1B2BF647F200B629FB /* DefaultPostCommentsAndPostLikeStateFetchUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1526ED162BF647F100B629FB /* DefaultPostCommentsAndPostLikeStateFetchUseCase.swift */; };
 		1526ED1C2BF647F200B629FB /* DefaultPostSearchUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1526ED172BF647F200B629FB /* DefaultPostSearchUseCase.swift */; };
+		1526ED232BF64CDD00B629FB /* StubUserProfileRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1526ED222BF64CDD00B629FB /* StubUserProfileRepository.swift */; };
 		152715412BA0D5AE0077D033 /* UserProfileRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152715402BA0D5AE0077D033 /* UserProfileRepository.swift */; };
 		152715452BA0D60F0077D033 /* DefaultUserProfileRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152715442BA0D60F0077D033 /* DefaultUserProfileRepository.swift */; };
 		152834D52BAB4DED00453DD1 /* PostViewSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152834D42BAB4DED00453DD1 /* PostViewSection.swift */; };
@@ -1032,6 +1033,7 @@
 		1526ED162BF647F100B629FB /* DefaultPostCommentsAndPostLikeStateFetchUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultPostCommentsAndPostLikeStateFetchUseCase.swift; sourceTree = "<group>"; };
 		1526ED172BF647F200B629FB /* DefaultPostSearchUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultPostSearchUseCase.swift; sourceTree = "<group>"; };
 		1526ED182BF647F200B629FB /* DefaultPostFetchUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultPostFetchUseCase.swift; sourceTree = "<group>"; };
+		1526ED222BF64CDD00B629FB /* StubUserProfileRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubUserProfileRepository.swift; sourceTree = "<group>"; };
 		152715402BA0D5AE0077D033 /* UserProfileRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileRepository.swift; sourceTree = "<group>"; };
 		152715442BA0D60F0077D033 /* DefaultUserProfileRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultUserProfileRepository.swift; sourceTree = "<group>"; };
 		152834D42BAB4DED00453DD1 /* PostViewSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewSection.swift; sourceTree = "<group>"; };
@@ -2307,6 +2309,7 @@
 			isa = PBXGroup;
 			children = (
 				15B01DAA2BA9472300BE9F98 /* StubUserStorage.swift */,
+				1526ED222BF64CDD00B629FB /* StubUserProfileRepository.swift */,
 			);
 			path = User;
 			sourceTree = "<group>";
@@ -4249,6 +4252,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				15591DD82BBE9D1800128A9E /* DefaultFavoritePostInDirectoryRepository.swift in Sources */,
+				1526ED232BF64CDD00B629FB /* StubUserProfileRepository.swift in Sources */,
 				158695972AE620610087CCB3 /* FeedPostViewModel.swift in Sources */,
 				15FC90D92ACC56280033A1E5 /* FavoriteTableViewCell.swift in Sources */,
 				1546587F2BEA62EE0081CCF8 /* FirestorePostNestedCommentRepository.swift in Sources */,

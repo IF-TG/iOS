@@ -12,7 +12,7 @@ import Combine
 
 final class FirestoreOwnerHeartPostRepositoryTests: XCTestCase {
   let sut = FirestoreOwnerHeartPostRepository(
-    ownerStorage: MockUserStorage(),
+    ownerStorage: StubOwnerStorage(),
     service: FirestoreService())
   var expectation: XCTestExpectation!
   

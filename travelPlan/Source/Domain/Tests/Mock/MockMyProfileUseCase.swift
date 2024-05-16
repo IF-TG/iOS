@@ -13,15 +13,15 @@ final class MockMyProfileUseCase: MyProfileUseCase {
     // Mock session주입
     let mockSession = MockSession.default
     let sessionProvider = SessionProvider(session: mockSession)
-    let mockUserStorage = StubOwnerStorage()
+    let stubUserStorage = StubOwnerStorage()
     
     let myProfileRepository = DefaultMyProfileRepository(
       service: sessionProvider,
-      userStorage: mockUserStorage)
+      userStorage: stubUserStorage)
     defaultMyProfileUseCase = DefaultMyProfileUseCase(
       myProfileRepository: myProfileRepository,
       userProfileRepository: StubUserProfileRepository(),
-      loggedInUserRepository: DefaultLoggedInUserRepository(storage: mockUserStorage))
+      loggedInUserRepository: DefaultLoggedInUserRepository(storage: stubUserStorage))
   }
   
   private var defaultMyProfileUseCase: MyProfileUseCase
