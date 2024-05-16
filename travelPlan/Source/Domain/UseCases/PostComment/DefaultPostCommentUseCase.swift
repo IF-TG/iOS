@@ -40,13 +40,4 @@ final class DefaultPostCommentUseCase: PostCommentUseCase {
       .fetchComments(page: requestValue.page, perPage: requestValue.perPage, postId: requestValue.postId)
       .eraseToAnyPublisher()
   }
-  
-  func toggleCommentHeart(
-    postId: String,
-    commentId: String
-  ) -> AnyPublisher<ToggledPostCommentHeartEntity, any Error> {
-    return postCommentRepository
-      .toggleCommentHeart(postId: postId, commentId: commentId)
-      .eraseToAnyPublisher()
-  }
 }

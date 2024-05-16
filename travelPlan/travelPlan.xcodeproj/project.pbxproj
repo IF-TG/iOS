@@ -259,6 +259,13 @@
 		1526ECF52BF6417F00B629FB /* MockPostFetchAtomicRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1526ECF32BF6416A00B629FB /* MockPostFetchAtomicRepository.swift */; };
 		1526ECF82BF6435800B629FB /* MockPostHeartRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1526ECF62BF6434400B629FB /* MockPostHeartRepository.swift */; };
 		1526ECFB2BF643EE00B629FB /* MockOwnerHeartPostRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1526ECF92BF643E500B629FB /* MockOwnerHeartPostRepository.swift */; };
+		1526ED072BF6467300B629FB /* PostRequestValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1526ED062BF6467300B629FB /* PostRequestValue.swift */; };
+		1526ED0D2BF646F100B629FB /* PostUseCaseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1526ED0C2BF646F100B629FB /* PostUseCaseError.swift */; };
+		1526ED122BF6475100B629FB /* PostFetchUseCaseImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1526ED112BF6475100B629FB /* PostFetchUseCaseImpl.swift */; };
+		1526ED192BF647F200B629FB /* DefaultPostFetchUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1526ED182BF647F200B629FB /* DefaultPostFetchUseCase.swift */; };
+		1526ED1A2BF647F200B629FB /* DefaultOwnerRelatedPostFetchUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1526ED152BF647F100B629FB /* DefaultOwnerRelatedPostFetchUseCase.swift */; };
+		1526ED1B2BF647F200B629FB /* DefaultPostCommentsAndPostLikeStateFetchUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1526ED162BF647F100B629FB /* DefaultPostCommentsAndPostLikeStateFetchUseCase.swift */; };
+		1526ED1C2BF647F200B629FB /* DefaultPostSearchUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1526ED172BF647F200B629FB /* DefaultPostSearchUseCase.swift */; };
 		152715412BA0D5AE0077D033 /* UserProfileRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152715402BA0D5AE0077D033 /* UserProfileRepository.swift */; };
 		152715452BA0D60F0077D033 /* DefaultUserProfileRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152715442BA0D60F0077D033 /* DefaultUserProfileRepository.swift */; };
 		152834D52BAB4DED00453DD1 /* PostViewSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152834D42BAB4DED00453DD1 /* PostViewSection.swift */; };
@@ -335,6 +342,8 @@
 		15553BD62BB34D06000AA896 /* PostNestedCommentUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15553BD52BB34D06000AA896 /* PostNestedCommentUseCaseTests.swift */; };
 		155603DE2BBC093300981F48 /* PostDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155603DD2BBC093300981F48 /* PostDetails.swift */; };
 		155603E52BBC355500981F48 /* PostDetailCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155603E42BBC355500981F48 /* PostDetailCoordinator.swift */; };
+		1558033B2BF1ACAD008F631C /* PostNestedCommentHeartUseCaseImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1558033A2BF1ACAD008F631C /* PostNestedCommentHeartUseCaseImpl.swift */; };
+		1558033D2BF1AD1C008F631C /* PostNestedCommentHeartUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1558033C2BF1AD1C008F631C /* PostNestedCommentHeartUseCase.swift */; };
 		15591DD22BBE993500128A9E /* FavoritePostAPIEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15591DD12BBE993500128A9E /* FavoritePostAPIEndpoint.swift */; };
 		15591DD42BBE99E200128A9E /* FavoritePostRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15591DD32BBE99E200128A9E /* FavoritePostRequestDTO.swift */; };
 		15591DD62BBE9C5200128A9E /* FavoritePostInDirectoryRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15591DD52BBE9C5200128A9E /* FavoritePostInDirectoryRepository.swift */; };
@@ -414,15 +423,8 @@
 		15869CEB2BF4FE4B00FB342B /* OwnerRelatedPostFetchUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15869CEA2BF4FE4B00FB342B /* OwnerRelatedPostFetchUseCase.swift */; };
 		15869CED2BF4FE7600FB342B /* PostSearchUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15869CEC2BF4FE7600FB342B /* PostSearchUseCase.swift */; };
 		15869CEF2BF4FE8200FB342B /* PostCommentsAndPostLikeStateFetchUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15869CEE2BF4FE8200FB342B /* PostCommentsAndPostLikeStateFetchUseCase.swift */; };
-		15869CF52BF505C700FB342B /* DefaultPostFetchUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15869CF42BF505C700FB342B /* DefaultPostFetchUseCase.swift */; };
-		15869CF72BF505CF00FB342B /* DefaultOwnerRelatedPostFetchUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15869CF62BF505CF00FB342B /* DefaultOwnerRelatedPostFetchUseCase.swift */; };
-		15869CF92BF505D700FB342B /* DefaultPostSearchUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15869CF82BF505D700FB342B /* DefaultPostSearchUseCase.swift */; };
-		15869CFB2BF505E100FB342B /* DefaultPostCommentsAndPostLikeStateFetchUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15869CFA2BF505E100FB342B /* DefaultPostCommentsAndPostLikeStateFetchUseCase.swift */; };
-		15869CFE2BF506BE00FB342B /* PostRequestValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15869CFD2BF506BE00FB342B /* PostRequestValue.swift */; };
-		15869D002BF507AA00FB342B /* PostUseCaseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15869CFF2BF507AA00FB342B /* PostUseCaseError.swift */; };
 		15869D032BF50CED00FB342B /* MockPostFetchUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15869D022BF50CED00FB342B /* MockPostFetchUseCase.swift */; };
 		15869D052BF50D0600FB342B /* MockOwnerRelatedPostFetchUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15869D042BF50D0600FB342B /* MockOwnerRelatedPostFetchUseCase.swift */; };
-		15869D082BF5242000FB342B /* PostFetchUseCaseImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15869D072BF5242000FB342B /* PostFetchUseCaseImpl.swift */; };
 		15869D0A2BF5A1E400FB342B /* OwnerHeartPostIdentifierFetchRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15869D092BF5A1E400FB342B /* OwnerHeartPostIdentifierFetchRepository.swift */; };
 		15869D0C2BF5A45900FB342B /* FirestoreOwnerHeartPostRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15869D0B2BF5A45900FB342B /* FirestoreOwnerHeartPostRepository.swift */; };
 		15869D0E2BF5C3BD00FB342B /* FirestoreOwnerHeartPostRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15869D0D2BF5C3BD00FB342B /* FirestoreOwnerHeartPostRepositoryTests.swift */; };
@@ -492,6 +494,11 @@
 		15A7A8F22B9F6C1700CA9A79 /* UserEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A7A8F12B9F6C1700CA9A79 /* UserEntity.swift */; };
 		15A859A02BB56E18002C0CA0 /* PostContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A8599F2BB56E18002C0CA0 /* PostContainer.swift */; };
 		15AAD34C2BBFD1760042DBF6 /* FavoritePostToggleEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15AAD34B2BBFD1760042DBF6 /* FavoritePostToggleEntity.swift */; };
+		15ABC41F2BF3505000B9FA74 /* PostCommentUseCaseImplTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15ABC41E2BF3505000B9FA74 /* PostCommentUseCaseImplTests.swift */; };
+		15ABC4222BF3525600B9FA74 /* StubPostAtomicCommentRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15ABC4212BF3525600B9FA74 /* StubPostAtomicCommentRepository.swift */; };
+		15ABC4242BF3549900B9FA74 /* StubPostAtomicNestedCommentRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15ABC4232BF3549900B9FA74 /* StubPostAtomicNestedCommentRepository.swift */; };
+		15ABC4272BF3588800B9FA74 /* StubPostNestedCommentHeartRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15ABC4262BF3588800B9FA74 /* StubPostNestedCommentHeartRepository.swift */; };
+		15ABC4292BF3596100B9FA74 /* StubPostCommentHeartRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15ABC4282BF3596100B9FA74 /* StubPostCommentHeartRepository.swift */; };
 		15ABC42B2BF45B5900B9FA74 /* PostFetchAtomicRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15ABC42A2BF45B5900B9FA74 /* PostFetchAtomicRepository.swift */; };
 		15ABC42D2BF45B7200B9FA74 /* PostSearchAtomicRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15ABC42C2BF45B7200B9FA74 /* PostSearchAtomicRepository.swift */; };
 		15ABFFBF2BDCDB9400D57C7C /* FirestoreReviewWritingEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15ABFFBE2BDCDB9400D57C7C /* FirestoreReviewWritingEndpoint.swift */; };
@@ -609,6 +616,10 @@
 		15DE36B62AB83DD40030CCCC /* BasePostCategoryBottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DE36B52AB83DD40030CCCC /* BasePostCategoryBottomSheet.swift */; };
 		15DE36B92AB853900030CCCC /* TravelThemeBottomSheetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DE36B82AB853900030CCCC /* TravelThemeBottomSheetCell.swift */; };
 		15DF29EB2BC52BC800F470DC /* PostReviewWritingCategoryBottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DF29EA2BC52BC800F470DC /* PostReviewWritingCategoryBottomSheet.swift */; };
+		15E0BA002BF1B2BB00EBCDD9 /* PostNestedCommentHeartUseCaseImplTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E0B9FF2BF1B2BB00EBCDD9 /* PostNestedCommentHeartUseCaseImplTests.swift */; };
+		15E0BA0B2BF1BBED00EBCDD9 /* PostNestedCommentUseCaseImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E0BA0A2BF1BBED00EBCDD9 /* PostNestedCommentUseCaseImpl.swift */; };
+		15E0BA0D2BF1C0B800EBCDD9 /* DefaultPostNestedCommentHeartUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E0BA0C2BF1C0B800EBCDD9 /* DefaultPostNestedCommentHeartUseCase.swift */; };
+		15E0BA0F2BF273DC00EBCDD9 /* DeletedNestedCommentResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E0BA0E2BF273DC00EBCDD9 /* DeletedNestedCommentResult.swift */; };
 		15E155062BAB01F900582E12 /* PostMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E155052BAB01F900582E12 /* PostMapper.swift */; };
 		15E1550D2BAB47F400582E12 /* BottomNextPageIndicatorCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 15E1550C2BAB47F400582E12 /* BottomNextPageIndicatorCell.xib */; };
 		15E1550E2BAB47F400582E12 /* BottomNextPageIndicatorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E1550B2BAB47F400582E12 /* BottomNextPageIndicatorCell.swift */; };
@@ -1014,6 +1025,13 @@
 		1526ECF32BF6416A00B629FB /* MockPostFetchAtomicRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPostFetchAtomicRepository.swift; sourceTree = "<group>"; };
 		1526ECF62BF6434400B629FB /* MockPostHeartRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPostHeartRepository.swift; sourceTree = "<group>"; };
 		1526ECF92BF643E500B629FB /* MockOwnerHeartPostRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockOwnerHeartPostRepository.swift; sourceTree = "<group>"; };
+		1526ED062BF6467300B629FB /* PostRequestValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostRequestValue.swift; sourceTree = "<group>"; };
+		1526ED0C2BF646F100B629FB /* PostUseCaseError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostUseCaseError.swift; sourceTree = "<group>"; };
+		1526ED112BF6475100B629FB /* PostFetchUseCaseImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostFetchUseCaseImpl.swift; sourceTree = "<group>"; };
+		1526ED152BF647F100B629FB /* DefaultOwnerRelatedPostFetchUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultOwnerRelatedPostFetchUseCase.swift; sourceTree = "<group>"; };
+		1526ED162BF647F100B629FB /* DefaultPostCommentsAndPostLikeStateFetchUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultPostCommentsAndPostLikeStateFetchUseCase.swift; sourceTree = "<group>"; };
+		1526ED172BF647F200B629FB /* DefaultPostSearchUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultPostSearchUseCase.swift; sourceTree = "<group>"; };
+		1526ED182BF647F200B629FB /* DefaultPostFetchUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultPostFetchUseCase.swift; sourceTree = "<group>"; };
 		152715402BA0D5AE0077D033 /* UserProfileRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileRepository.swift; sourceTree = "<group>"; };
 		152715442BA0D60F0077D033 /* DefaultUserProfileRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultUserProfileRepository.swift; sourceTree = "<group>"; };
 		152834D42BAB4DED00453DD1 /* PostViewSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewSection.swift; sourceTree = "<group>"; };
@@ -1091,6 +1109,8 @@
 		15553BD52BB34D06000AA896 /* PostNestedCommentUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostNestedCommentUseCaseTests.swift; sourceTree = "<group>"; };
 		155603DD2BBC093300981F48 /* PostDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetails.swift; sourceTree = "<group>"; };
 		155603E42BBC355500981F48 /* PostDetailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailCoordinator.swift; sourceTree = "<group>"; };
+		1558033A2BF1ACAD008F631C /* PostNestedCommentHeartUseCaseImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostNestedCommentHeartUseCaseImpl.swift; sourceTree = "<group>"; };
+		1558033C2BF1AD1C008F631C /* PostNestedCommentHeartUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostNestedCommentHeartUseCase.swift; sourceTree = "<group>"; };
 		15591DD12BBE993500128A9E /* FavoritePostAPIEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePostAPIEndpoint.swift; sourceTree = "<group>"; };
 		15591DD32BBE99E200128A9E /* FavoritePostRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePostRequestDTO.swift; sourceTree = "<group>"; };
 		15591DD52BBE9C5200128A9E /* FavoritePostInDirectoryRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePostInDirectoryRepository.swift; sourceTree = "<group>"; };
@@ -1169,15 +1189,8 @@
 		15869CEA2BF4FE4B00FB342B /* OwnerRelatedPostFetchUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerRelatedPostFetchUseCase.swift; sourceTree = "<group>"; };
 		15869CEC2BF4FE7600FB342B /* PostSearchUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSearchUseCase.swift; sourceTree = "<group>"; };
 		15869CEE2BF4FE8200FB342B /* PostCommentsAndPostLikeStateFetchUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCommentsAndPostLikeStateFetchUseCase.swift; sourceTree = "<group>"; };
-		15869CF42BF505C700FB342B /* DefaultPostFetchUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultPostFetchUseCase.swift; sourceTree = "<group>"; };
-		15869CF62BF505CF00FB342B /* DefaultOwnerRelatedPostFetchUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultOwnerRelatedPostFetchUseCase.swift; sourceTree = "<group>"; };
-		15869CF82BF505D700FB342B /* DefaultPostSearchUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultPostSearchUseCase.swift; sourceTree = "<group>"; };
-		15869CFA2BF505E100FB342B /* DefaultPostCommentsAndPostLikeStateFetchUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultPostCommentsAndPostLikeStateFetchUseCase.swift; sourceTree = "<group>"; };
-		15869CFD2BF506BE00FB342B /* PostRequestValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostRequestValue.swift; sourceTree = "<group>"; };
-		15869CFF2BF507AA00FB342B /* PostUseCaseError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostUseCaseError.swift; sourceTree = "<group>"; };
 		15869D022BF50CED00FB342B /* MockPostFetchUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPostFetchUseCase.swift; sourceTree = "<group>"; };
 		15869D042BF50D0600FB342B /* MockOwnerRelatedPostFetchUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockOwnerRelatedPostFetchUseCase.swift; sourceTree = "<group>"; };
-		15869D072BF5242000FB342B /* PostFetchUseCaseImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostFetchUseCaseImpl.swift; sourceTree = "<group>"; };
 		15869D092BF5A1E400FB342B /* OwnerHeartPostIdentifierFetchRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerHeartPostIdentifierFetchRepository.swift; sourceTree = "<group>"; };
 		15869D0B2BF5A45900FB342B /* FirestoreOwnerHeartPostRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreOwnerHeartPostRepository.swift; sourceTree = "<group>"; };
 		15869D0D2BF5C3BD00FB342B /* FirestoreOwnerHeartPostRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreOwnerHeartPostRepositoryTests.swift; sourceTree = "<group>"; };
@@ -1243,6 +1256,11 @@
 		15A7A8F12B9F6C1700CA9A79 /* UserEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserEntity.swift; sourceTree = "<group>"; };
 		15A8599F2BB56E18002C0CA0 /* PostContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostContainer.swift; sourceTree = "<group>"; };
 		15AAD34B2BBFD1760042DBF6 /* FavoritePostToggleEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePostToggleEntity.swift; sourceTree = "<group>"; };
+		15ABC41E2BF3505000B9FA74 /* PostCommentUseCaseImplTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCommentUseCaseImplTests.swift; sourceTree = "<group>"; };
+		15ABC4212BF3525600B9FA74 /* StubPostAtomicCommentRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubPostAtomicCommentRepository.swift; sourceTree = "<group>"; };
+		15ABC4232BF3549900B9FA74 /* StubPostAtomicNestedCommentRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubPostAtomicNestedCommentRepository.swift; sourceTree = "<group>"; };
+		15ABC4262BF3588800B9FA74 /* StubPostNestedCommentHeartRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubPostNestedCommentHeartRepository.swift; sourceTree = "<group>"; };
+		15ABC4282BF3596100B9FA74 /* StubPostCommentHeartRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubPostCommentHeartRepository.swift; sourceTree = "<group>"; };
 		15ABC42A2BF45B5900B9FA74 /* PostFetchAtomicRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostFetchAtomicRepository.swift; sourceTree = "<group>"; };
 		15ABC42C2BF45B7200B9FA74 /* PostSearchAtomicRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSearchAtomicRepository.swift; sourceTree = "<group>"; };
 		15ABFFBE2BDCDB9400D57C7C /* FirestoreReviewWritingEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreReviewWritingEndpoint.swift; sourceTree = "<group>"; };
@@ -1361,6 +1379,10 @@
 		15DE36B52AB83DD40030CCCC /* BasePostCategoryBottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasePostCategoryBottomSheet.swift; sourceTree = "<group>"; };
 		15DE36B82AB853900030CCCC /* TravelThemeBottomSheetCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelThemeBottomSheetCell.swift; sourceTree = "<group>"; };
 		15DF29EA2BC52BC800F470DC /* PostReviewWritingCategoryBottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostReviewWritingCategoryBottomSheet.swift; sourceTree = "<group>"; };
+		15E0B9FF2BF1B2BB00EBCDD9 /* PostNestedCommentHeartUseCaseImplTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostNestedCommentHeartUseCaseImplTests.swift; sourceTree = "<group>"; };
+		15E0BA0A2BF1BBED00EBCDD9 /* PostNestedCommentUseCaseImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostNestedCommentUseCaseImpl.swift; sourceTree = "<group>"; };
+		15E0BA0C2BF1C0B800EBCDD9 /* DefaultPostNestedCommentHeartUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultPostNestedCommentHeartUseCase.swift; sourceTree = "<group>"; };
+		15E0BA0E2BF273DC00EBCDD9 /* DeletedNestedCommentResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletedNestedCommentResult.swift; sourceTree = "<group>"; };
 		15E155052BAB01F900582E12 /* PostMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostMapper.swift; sourceTree = "<group>"; };
 		15E1550B2BAB47F400582E12 /* BottomNextPageIndicatorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomNextPageIndicatorCell.swift; sourceTree = "<group>"; };
 		15E1550C2BAB47F400582E12 /* BottomNextPageIndicatorCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BottomNextPageIndicatorCell.xib; sourceTree = "<group>"; };
@@ -1972,6 +1994,7 @@
 				15CAEF862BAED25C008AEDB1 /* PostCommentContainerEntity.swift */,
 				1572ABBC2BE76AEA008AFE66 /* PostAtomicCommentEntity.swift */,
 				150D4E652BEA5886004509D6 /* PostAtomicNestedCommentEntity.swift */,
+				15E0BA0E2BF273DC00EBCDD9 /* DeletedNestedCommentResult.swift */,
 			);
 			path = Comment;
 			sourceTree = "<group>";
@@ -2077,18 +2100,17 @@
 			isa = PBXGroup;
 			children = (
 				15869CE72BF4FD6300FB342B /* Post */,
-				13E7EAF02BE02DD10027946C /* FestivalUseCase.swift */,
 				1572ABC72BE79DE9008AFE66 /* User */,
+				15E0BA032BF1B84100EBCDD9 /* Album */,
+				13E7EAF02BE02DD10027946C /* FestivalUseCase.swift */,
 				13E98F842BC53D8000F05295 /* ReviewWritingUseCase.swift */,
 				151DF0F32AEEB29500D5D55B /* NoticeUseCase.swift */,
-				135A07C12BA9882D003D6C4D /* AlbumUseCase.swift */,
-				135A07D62BB72425003D6C4D /* PhotoAuthorizationUseCase.swift */,
 				15BE6BE52BAF1A3C009A2568 /* PostCommentUseCase.swift */,
 				15553BC72BB34643000AA896 /* PostNestedCommentUseCase.swift */,
 				15591DD92BBE9F2900128A9E /* FavoritePostInDirectoryUseCase.swift */,
-				13AE0DD72BC32AD700652B99 /* AlbumPhotoMaxCountUseCase.swift */,
 				15EBD91A2BE8D38A00BCEA7F /* PostCommentHeartUseCase.swift */,
 				154047892BE4B82D009E86FF /* PostHeartUseCase.swift */,
+				1558033C2BF1AD1C008F631C /* PostNestedCommentHeartUseCase.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -2097,24 +2119,16 @@
 			isa = PBXGroup;
 			children = (
 				151DF0F12AEEB27400D5D55B /* Protocol */,
-				15869CF02BF5059700FB342B /* Post */,
+				15E0BA012BF1B7B300EBCDD9 /* User */,
+				15E0BA022BF1B81400EBCDD9 /* Album */,
+				15E0BA042BF1B88100EBCDD9 /* Post */,
+				15E0BA052BF1B8B500EBCDD9 /* PostReviewWriting */,
+				15E0BA062BF1B8CE00EBCDD9 /* PostComment */,
+				15E0BA072BF1B94300EBCDD9 /* PostNestedComment */,
+				15E0BA082BF1B9DA00EBCDD9 /* FavoriteDirectory */,
+				15E0BA092BF1B9EF00EBCDD9 /* Authentication */,
 				151DF0F52AEEB2D200D5D55B /* DefaultNoticeUseCase.swift */,
-				130CF3672B8E87490051DEE8 /* LoginUseCase.swift */,
-				15D6558E2B8E11AC00466FEC /* DefaultMyProfileUseCase.swift */,
 				13E7EAF22BE02EA80027946C /* DefaultFestivalUseCase.swift */,
-				135A07C32BA9883E003D6C4D /* DefaultAlbumUseCase.swift */,
-				15B01DAE2BA95A4600BE9F98 /* DefaultLoggedInUserUseCase.swift */,
-				135A07D02BB4031D003D6C4D /* DefaultPhotoAuthorizationUseCase.swift */,
-				15BE6BE92BAF1CA1009A2568 /* DefaultPostCommentUseCase.swift */,
-				15553BC92BB346A3000AA896 /* DefaultPostNestedCommentUseCase.swift */,
-				15B5E7A62BBAE8B800C19F56 /* DefaultUserBlockUseCase.swift */,
-				15591DDB2BBE9F9B00128A9E /* DefaultFavoritePostInDirectoryUseCase.swift */,
-				13AE0DD92BC32E6100652B99 /* DefaultAlbumPhotoMaxCountUseCase.swift */,
-				13E98F862BC53DDD00F05295 /* DefaultReviewWritingUseCase.swift */,
-				15EBD91C2BE8D3A000BCEA7F /* DefaultPostCommentHeartUseCase.swift */,
-				15EBD9202BE8D52D00BCEA7F /* PostCommentHeartUseCaseImpl.swift */,
-				1572ABC42BE797EF008AFE66 /* PostCommentUseCaseImpl.swift */,
-				1540478B2BE4BA45009E86FF /* DefaultPostHeartUseCase.swift */,
 			);
 			path = UseCases;
 			sourceTree = "<group>";
@@ -2145,7 +2159,6 @@
 			isa = PBXGroup;
 			children = (
 				151DF0FA2AEEB96E00D5D55B /* Repositories */,
-				1546587C2BEA62890081CCF8 /* PostAtomicNestedCommentRepository.swift */,
 			);
 			path = Interfaces;
 			sourceTree = "<group>";
@@ -2247,6 +2260,26 @@
 				1526ECE62BF6331900B629FB /* PostFetchUseCaseImplTests.swift */,
 			);
 			path = Impl;
+			sourceTree = "<group>";
+		};
+		1526ED1D2BF6493D00B629FB /* Default */ = {
+			isa = PBXGroup;
+			children = (
+				1526ED152BF647F100B629FB /* DefaultOwnerRelatedPostFetchUseCase.swift */,
+				1526ED162BF647F100B629FB /* DefaultPostCommentsAndPostLikeStateFetchUseCase.swift */,
+				1526ED182BF647F200B629FB /* DefaultPostFetchUseCase.swift */,
+				1526ED172BF647F200B629FB /* DefaultPostSearchUseCase.swift */,
+				1540478B2BE4BA45009E86FF /* DefaultPostHeartUseCase.swift */,
+			);
+			path = Default;
+			sourceTree = "<group>";
+		};
+		1526ED1E2BF6495000B629FB /* Implication */ = {
+			isa = PBXGroup;
+			children = (
+				1526ED112BF6475100B629FB /* PostFetchUseCaseImpl.swift */,
+			);
+			path = Implication;
 			sourceTree = "<group>";
 		};
 		152AD4E42A188BCE008A2A11 /* View */ = {
@@ -2777,36 +2810,6 @@
 			path = Post;
 			sourceTree = "<group>";
 		};
-		15869CF02BF5059700FB342B /* Post */ = {
-			isa = PBXGroup;
-			children = (
-				15869CFF2BF507AA00FB342B /* PostUseCaseError.swift */,
-				15869CFD2BF506BE00FB342B /* PostRequestValue.swift */,
-				15869CF32BF505AE00FB342B /* Implication */,
-				15869CF22BF505AA00FB342B /* Default */,
-			);
-			path = Post;
-			sourceTree = "<group>";
-		};
-		15869CF22BF505AA00FB342B /* Default */ = {
-			isa = PBXGroup;
-			children = (
-				15869CF42BF505C700FB342B /* DefaultPostFetchUseCase.swift */,
-				15869CF62BF505CF00FB342B /* DefaultOwnerRelatedPostFetchUseCase.swift */,
-				15869CF82BF505D700FB342B /* DefaultPostSearchUseCase.swift */,
-				15869CFA2BF505E100FB342B /* DefaultPostCommentsAndPostLikeStateFetchUseCase.swift */,
-			);
-			path = Default;
-			sourceTree = "<group>";
-		};
-		15869CF32BF505AE00FB342B /* Implication */ = {
-			isa = PBXGroup;
-			children = (
-				15869D072BF5242000FB342B /* PostFetchUseCaseImpl.swift */,
-			);
-			path = Implication;
-			sourceTree = "<group>";
-		};
 		15869D012BF50CDA00FB342B /* Post */ = {
 			isa = PBXGroup;
 			children = (
@@ -2980,6 +2983,7 @@
 		159851BF2BEDED4D001262BD /* Post */ = {
 			isa = PBXGroup;
 			children = (
+				1546587C2BEA62890081CCF8 /* PostAtomicNestedCommentRepository.swift */,
 				1572ABC02BE78BDF008AFE66 /* PostCommentAtomicRepository.swift */,
 				15FBD5DD2B98E4F100076115 /* PostRepository.swift */,
 				15BE6BDA2BAF08B4009A2568 /* PostCommentRepository.swift */,
@@ -3070,6 +3074,17 @@
 				15A7A8ED2B9F6B1D00CA9A79 /* UserDefaultsManager.swift */,
 			);
 			path = UserDefaultsStorage;
+			sourceTree = "<group>";
+		};
+		15ABC4202BF3522300B9FA74 /* Stub */ = {
+			isa = PBXGroup;
+			children = (
+				15ABC4212BF3525600B9FA74 /* StubPostAtomicCommentRepository.swift */,
+				15ABC4232BF3549900B9FA74 /* StubPostAtomicNestedCommentRepository.swift */,
+				15ABC4262BF3588800B9FA74 /* StubPostNestedCommentHeartRepository.swift */,
+				15ABC4282BF3596100B9FA74 /* StubPostCommentHeartRepository.swift */,
+			);
+			path = Stub;
 			sourceTree = "<group>";
 		};
 		15B01DA12BA939FB00BE9F98 /* UserStorage */ = {
@@ -3414,6 +3429,7 @@
 			isa = PBXGroup;
 			children = (
 				1526ECE82BF6365800B629FB /* Post */,
+				15ABC4202BF3522300B9FA74 /* Stub */,
 				15D655932B8E16B600466FEC /* Mock */,
 				15D655912B8E169100466FEC /* MyProfileUseCaseTests.swift */,
 				15BE6BF02BAF2285009A2568 /* PostCommentUseCaseTests.swift */,
@@ -3423,6 +3439,8 @@
 				15591DE22BBEA5AF00128A9E /* FavoritePostInDirectoryUseCaseTests.swift */,
 				15EBD91E2BE8D40700BCEA7F /* PostCommentHeartUseCaseTests.swift */,
 				15EBD9222BE906C700BCEA7F /* PostCommentHeartUseCaseImplTests.swift */,
+				15E0B9FF2BF1B2BB00EBCDD9 /* PostNestedCommentHeartUseCaseImplTests.swift */,
+				15ABC41E2BF3505000B9FA74 /* PostCommentUseCaseImplTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -3568,6 +3586,93 @@
 				15DE36B82AB853900030CCCC /* TravelThemeBottomSheetCell.swift */,
 			);
 			path = BottomSheet;
+			sourceTree = "<group>";
+		};
+		15E0BA012BF1B7B300EBCDD9 /* User */ = {
+			isa = PBXGroup;
+			children = (
+				15D6558E2B8E11AC00466FEC /* DefaultMyProfileUseCase.swift */,
+				15B5E7A62BBAE8B800C19F56 /* DefaultUserBlockUseCase.swift */,
+				15B01DAE2BA95A4600BE9F98 /* DefaultLoggedInUserUseCase.swift */,
+			);
+			path = User;
+			sourceTree = "<group>";
+		};
+		15E0BA022BF1B81400EBCDD9 /* Album */ = {
+			isa = PBXGroup;
+			children = (
+				135A07C32BA9883E003D6C4D /* DefaultAlbumUseCase.swift */,
+				13AE0DD92BC32E6100652B99 /* DefaultAlbumPhotoMaxCountUseCase.swift */,
+				135A07D02BB4031D003D6C4D /* DefaultPhotoAuthorizationUseCase.swift */,
+			);
+			path = Album;
+			sourceTree = "<group>";
+		};
+		15E0BA032BF1B84100EBCDD9 /* Album */ = {
+			isa = PBXGroup;
+			children = (
+				135A07C12BA9882D003D6C4D /* AlbumUseCase.swift */,
+				13AE0DD72BC32AD700652B99 /* AlbumPhotoMaxCountUseCase.swift */,
+				135A07D62BB72425003D6C4D /* PhotoAuthorizationUseCase.swift */,
+			);
+			path = Album;
+			sourceTree = "<group>";
+		};
+		15E0BA042BF1B88100EBCDD9 /* Post */ = {
+			isa = PBXGroup;
+			children = (
+				1526ED062BF6467300B629FB /* PostRequestValue.swift */,
+				1526ED0C2BF646F100B629FB /* PostUseCaseError.swift */,
+				1526ED1E2BF6495000B629FB /* Implication */,
+				1526ED1D2BF6493D00B629FB /* Default */,
+			);
+			path = Post;
+			sourceTree = "<group>";
+		};
+		15E0BA052BF1B8B500EBCDD9 /* PostReviewWriting */ = {
+			isa = PBXGroup;
+			children = (
+				13E98F862BC53DDD00F05295 /* DefaultReviewWritingUseCase.swift */,
+			);
+			name = PostReviewWriting;
+			sourceTree = "<group>";
+		};
+		15E0BA062BF1B8CE00EBCDD9 /* PostComment */ = {
+			isa = PBXGroup;
+			children = (
+				15EBD91C2BE8D3A000BCEA7F /* DefaultPostCommentHeartUseCase.swift */,
+				15EBD9202BE8D52D00BCEA7F /* PostCommentHeartUseCaseImpl.swift */,
+				1572ABC42BE797EF008AFE66 /* PostCommentUseCaseImpl.swift */,
+				15BE6BE92BAF1CA1009A2568 /* DefaultPostCommentUseCase.swift */,
+			);
+			path = PostComment;
+			sourceTree = "<group>";
+		};
+		15E0BA072BF1B94300EBCDD9 /* PostNestedComment */ = {
+			isa = PBXGroup;
+			children = (
+				15553BC92BB346A3000AA896 /* DefaultPostNestedCommentUseCase.swift */,
+				1558033A2BF1ACAD008F631C /* PostNestedCommentHeartUseCaseImpl.swift */,
+				15E0BA0A2BF1BBED00EBCDD9 /* PostNestedCommentUseCaseImpl.swift */,
+				15E0BA0C2BF1C0B800EBCDD9 /* DefaultPostNestedCommentHeartUseCase.swift */,
+			);
+			path = PostNestedComment;
+			sourceTree = "<group>";
+		};
+		15E0BA082BF1B9DA00EBCDD9 /* FavoriteDirectory */ = {
+			isa = PBXGroup;
+			children = (
+				15591DDB2BBE9F9B00128A9E /* DefaultFavoritePostInDirectoryUseCase.swift */,
+			);
+			path = FavoriteDirectory;
+			sourceTree = "<group>";
+		};
+		15E0BA092BF1B9EF00EBCDD9 /* Authentication */ = {
+			isa = PBXGroup;
+			children = (
+				130CF3672B8E87490051DEE8 /* LoginUseCase.swift */,
+			);
+			path = Authentication;
 			sourceTree = "<group>";
 		};
 		15E155042BAB01E500582E12 /* Utils */ = {
@@ -4050,6 +4155,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				15ABC4272BF3588800B9FA74 /* StubPostNestedCommentHeartRepository.swift in Sources */,
 				159851CA2BEDF81D001262BD /* Combine+XCTestHelpers.swift in Sources */,
 				159851C72BEDF6C2001262BD /* FirestorePostNestedCommentHeartRepositoryTests.swift in Sources */,
 				1572ABAF2BE6780E008AFE66 /* FirestorePostAtomicCommentRepositoryTests.swift in Sources */,
@@ -4061,13 +4167,16 @@
 				15D655A42B8F829800466FEC /* MyInformationViewModelTests.swift in Sources */,
 				1335320E2BA469E3000A4D9E /* DataConverterTests.swift in Sources */,
 				156C1E2A2BBECA6500AF1D99 /* CoordinatorDeallocTests.swift in Sources */,
+				15ABC4222BF3525600B9FA74 /* StubPostAtomicCommentRepository.swift in Sources */,
 				15EBD9232BE906C700BCEA7F /* PostCommentHeartUseCaseImplTests.swift in Sources */,
 				15553BD42BB34BF2000AA896 /* XCTestCase+UseCaseTestsHelpers.swift in Sources */,
+				15ABC4292BF3596100B9FA74 /* StubPostCommentHeartRepository.swift in Sources */,
 				15B5E7AE2BBAEBE700C19F56 /* UserBlockUseCaseTests.swift in Sources */,
 				1383C81C2B97F44800830F1A /* KeychainManagerTests.swift in Sources */,
 				1526ECF22BF6376F00B629FB /* DefaultPostSearchUseCaseTests.swift in Sources */,
 				13E84AFE2BE971C500B537B6 /* DefaultFestivalUseCaseTests.swift in Sources */,
 				15EBD9192BE8AC9400BCEA7F /* FirestorePostCommentHeartRepositoryTests.swift in Sources */,
+				15ABC4242BF3549900B9FA74 /* StubPostAtomicNestedCommentRepository.swift in Sources */,
 				158981BA2BB2652700F016CF /* PostCommentAPIEndpointTests.swift in Sources */,
 				15FFAC2F2ADD03130013DB57 /* MockUserEndpoint.swift in Sources */,
 				1526ECFB2BF643EE00B629FB /* MockOwnerHeartPostRepository.swift in Sources */,
@@ -4082,7 +4191,9 @@
 				15BE6BF12BAF2285009A2568 /* PostCommentUseCaseTests.swift in Sources */,
 				1526ECF52BF6417F00B629FB /* MockPostFetchAtomicRepository.swift in Sources */,
 				15FBD5E42B98E94800076115 /* PostAPIEndpointTests.swift in Sources */,
+				15ABC41F2BF3505000B9FA74 /* PostCommentUseCaseImplTests.swift in Sources */,
 				154658812BEA67CC0081CCF8 /* FirestorePostNestedCommentRepositoryTests.swift in Sources */,
+				15E0BA002BF1B2BB00EBCDD9 /* PostNestedCommentHeartUseCaseImplTests.swift in Sources */,
 				13EB3D0B2BEFCF2900CA84F0 /* DefaultTourCommonInfoRepositoryTests.swift in Sources */,
 				158C6A3B2B0D231C00C30856 /* ImageIOTests.swift in Sources */,
 				15FFAC202ADC322B0013DB57 /* EndpointTests.swift in Sources */,
@@ -4128,6 +4239,7 @@
 				13E7EAD32BDE3CC00027946C /* SearchDestinationViewModel.swift in Sources */,
 				152834D52BAB4DED00453DD1 /* PostViewSection.swift in Sources */,
 				13405F082AEE212500382796 /* GoogleLoginButton.swift in Sources */,
+				15E0BA0F2BF273DC00EBCDD9 /* DeletedNestedCommentResult.swift in Sources */,
 				15259DEA2ACAA9D800C14F62 /* SearchFestivalCellViewModel.swift in Sources */,
 				15CC64142A1DD4EF00857446 /* ConvenienceInit.swift in Sources */,
 				15FBD5D22B98DA0E00076115 /* TravelOrderTypeMapper.swift in Sources */,
@@ -4136,6 +4248,7 @@
 				15D655952B8E17D400466FEC /* MockMyProfileRepository.swift in Sources */,
 				1503F9312A4E0A4F002BC38D /* MainCoordinator.swift in Sources */,
 				133532062BA42F6E000A4D9E /* Data+.swift in Sources */,
+				1526ED122BF6475100B629FB /* PostFetchUseCaseImpl.swift in Sources */,
 				15FBD5D82B98DC6E00076115 /* TravelMainThemeTypeMapper.swift in Sources */,
 				15B5E7AC2BBAEA3B00C19F56 /* MockWrappedUserBlockRepository.swift in Sources */,
 				1540478C2BE4BA45009E86FF /* DefaultPostHeartUseCase.swift in Sources */,
@@ -4183,7 +4296,6 @@
 				15C1F55A2AF37092005FDA15 /* BaseLabel.swift in Sources */,
 				157ADCA02ACFB33100D37680 /* UIScrollView+.swift in Sources */,
 				1595B52E2BAD9D5B00DA5039 /* PostOrderCategoryBottomSheet.swift in Sources */,
-				15869CF72BF505CF00FB342B /* DefaultOwnerRelatedPostFetchUseCase.swift in Sources */,
 				13254FE72A05158E00094218 /* SearchViewController.swift in Sources */,
 				1518BC152BB00E1100FD1A74 /* PostCommentUpdateRequestDTO.swift in Sources */,
 				15BE6BE62BAF1A3C009A2568 /* PostCommentUseCase.swift in Sources */,
@@ -4243,6 +4355,7 @@
 				1503F92B2A4E068E002BC38D /* ApplicationCoordinator.swift in Sources */,
 				154CA6132BD3A6CC0066B444 /* TourApiCommonInfoResponseDTO.swift in Sources */,
 				13405F042AED899800382796 /* KakaoLoginButton.swift in Sources */,
+				1526ED1C2BF647F200B629FB /* DefaultPostSearchUseCase.swift in Sources */,
 				15BE6BEC2BAF1DB3009A2568 /* MockPostCommentRepository.swift in Sources */,
 				13BF41202ADBEC8C00F3F082 /* LoginStartView.swift in Sources */,
 				15803C512BDA4DC700D83F2B /* FirestoreMyProfileAPIEndopint.swift in Sources */,
@@ -4254,8 +4367,10 @@
 				15FFABFB2AD5B6FC0013DB57 /* BasePaddingLabel.swift in Sources */,
 				13EB3CFA2BED274700CA84F0 /* TourIntroductionInfoShoppingResponseDTO.swift in Sources */,
 				15B01DA32BA93A1000BE9F98 /* OwnerStorage.swift in Sources */,
+				1558033B2BF1ACAD008F631C /* PostNestedCommentHeartUseCaseImpl.swift in Sources */,
 				15C36BBB2BD17AC0004AA8E9 /* FirestoreRequestType.swift in Sources */,
 				1572ABC22BE78D62008AFE66 /* PostCommentAtomicRepository.swift in Sources */,
+				15E0BA0B2BF1BBED00EBCDD9 /* PostNestedCommentUseCaseImpl.swift in Sources */,
 				153FA90F2B937E12006CF3C3 /* UserProfileImageResponseDTO.swift in Sources */,
 				151DF1012AEEBD0A00D5D55B /* NotificationAPIEndpoints.swift in Sources */,
 				1524A4A52BABEAA5002C639A /* MockPostsGeneratorForPaging.swift in Sources */,
@@ -4332,6 +4447,7 @@
 				135A07D52BB55A13003D6C4D /* PhotoAuthorizationViewDelegate.swift in Sources */,
 				13C32A3B2B09D8BF0046ED98 /* PictureImageView.swift in Sources */,
 				13EB3D042BEE091B00CA84F0 /* IntroductionInfoRestaurantEntity.swift in Sources */,
+				1526ED0D2BF646F100B629FB /* PostUseCaseError.swift in Sources */,
 				15CAEF7D2BAED114008AEDB1 /* PostNestedCommentEntity.swift in Sources */,
 				157ADCA82ACFFFE100D37680 /* FavoritePostViewDelegate.swift in Sources */,
 				15D388292AFFA51C00039946 /* PostProfileAndCommentView.swift in Sources */,
@@ -4341,6 +4457,7 @@
 				1344DA142B14F5770031CC7A /* SearchDestinationTitleCell.swift in Sources */,
 				134CCB342AFFFB2900D51D84 /* ReviewWritingViewModel.swift in Sources */,
 				157176782A0C21C90015EC8C /* UIColor+AppPalette.swift in Sources */,
+				1526ED1A2BF647F200B629FB /* DefaultOwnerRelatedPostFetchUseCase.swift in Sources */,
 				15FFAC032AD5D98A0013DB57 /* FavoriteCoordinatorDelegate.swift in Sources */,
 				13AE0DDA2BC32E6100652B99 /* DefaultAlbumPhotoMaxCountUseCase.swift in Sources */,
 				15D388312B0159F600039946 /* PostHeartAndShareAreaHeaderView.swift in Sources */,
@@ -4386,7 +4503,6 @@
 				15AF2C3E2A1147B100BEE166 /* UIImage+.swift in Sources */,
 				13300FAC2AC0883200952757 /* UICompositionalLayoutCreatable.swift in Sources */,
 				151BDAD82B16EF96002F36C3 /* UIGestureRecognizer+GestureType.swift in Sources */,
-				15869CFB2BF505E100FB342B /* DefaultPostCommentsAndPostLikeStateFetchUseCase.swift in Sources */,
 				155603DE2BBC093300981F48 /* PostDetails.swift in Sources */,
 				13F6DAC82B5248EF00573B86 /* SlideUpAnimator.swift in Sources */,
 				13AE0DD42BBD040400652B99 /* AlbumPhotoDetailViewModel.swift in Sources */,
@@ -4431,6 +4547,7 @@
 				1561DC7C2BDF7DC200C25577 /* FirestorePostRepository.swift in Sources */,
 				13EB3CFF2BED403900CA84F0 /* TourType.swift in Sources */,
 				15BB01B82A1EB5070035B486 /* LoginViewModel.swift in Sources */,
+				1526ED1B2BF647F200B629FB /* DefaultPostCommentsAndPostLikeStateFetchUseCase.swift in Sources */,
 				152715412BA0D5AE0077D033 /* UserProfileRepository.swift in Sources */,
 				15803C5F2BDA906300D83F2B /* VoidResponseDTO.swift in Sources */,
 				15BE6BDB2BAF08B4009A2568 /* PostCommentRepository.swift in Sources */,
@@ -4457,10 +4574,8 @@
 				13333CBF2ABDE86A005AB50B /* LeftAlignThreeLabelsView.swift in Sources */,
 				151BDADE2B17002E002F36C3 /* Bundle+Helpers.swift in Sources */,
 				15803C4D2BDA1BA700D83F2B /* GoogleLoginStrategyWithFirebase.swift in Sources */,
-				15869CF52BF505C700FB342B /* DefaultPostFetchUseCase.swift in Sources */,
 				15FB47EF2AC1772C0033AA18 /* PostRecommendationSearchTagCell.swift in Sources */,
 				15F36A152AB1961F00971803 /* TravelRegion.swift in Sources */,
-				15869CFE2BF506BE00FB342B /* PostRequestValue.swift in Sources */,
 				15F376622AFE132900B3BF35 /* PostCommentEntity.swift in Sources */,
 				15DD40452A5B862D002BC5F8 /* PostViewBottomSheetAdapter.swift in Sources */,
 				15FC93C92BA7BDAD00430D8A /* ConnectionError.swift in Sources */,
@@ -4498,6 +4613,7 @@
 				157ADCA22ACFB55800D37680 /* FavoritePostViewAdapterDelegate.swift in Sources */,
 				1550D9B12ACB1D740046569B /* DevelopmentViewController.swift in Sources */,
 				134384182B4A9522005034E0 /* PhotoCell.swift in Sources */,
+				1558033D2BF1AD1C008F631C /* PostNestedCommentHeartUseCase.swift in Sources */,
 				15F2A0182B14E32B0014603D /* MyInformationViewController.swift in Sources */,
 				1518BC252BB0426B00FD1A74 /* PostCommentHeartToggleResponseDTO.swift in Sources */,
 				155D0BAC2B90CB5B0042DFB6 /* UserNicknamePatchRequestDTO.swift in Sources */,
@@ -4567,7 +4683,6 @@
 				15FFAC092AD7C1260013DB57 /* Requestable.swift in Sources */,
 				15D655A02B8F6F6300466FEC /* MyInformationViewModelable.swift in Sources */,
 				13A93EF72AD0AD2700FC4BBD /* SearchTopTenCell.swift in Sources */,
-				15869D082BF5242000FB342B /* PostFetchUseCaseImpl.swift in Sources */,
 				15FBD5DE2B98E4F100076115 /* PostRepository.swift in Sources */,
 				15D388232AFE75E100039946 /* PostDetailReplyCell.swift in Sources */,
 				13E84AE62BE36F4100B537B6 /* DefaultIntroductionInfoRepository.swift in Sources */,
@@ -4575,6 +4690,7 @@
 				15329CEC2B96171B005FC033 /* ProfileImageEntity.swift in Sources */,
 				15C83F882AB2055E00DDB536 /* BaseBottomSheetViewController.swift in Sources */,
 				15FFAC152ADA83E00013DB57 /* SessionProvider.swift in Sources */,
+				1526ED192BF647F200B629FB /* DefaultPostFetchUseCase.swift in Sources */,
 				15710CBC2A132DD00023C19E /* FeedAppTitleBarItem.swift in Sources */,
 				15504BF62BC539300096D523 /* ReviewWritingThemeDescriptionHeader.swift in Sources */,
 				13EB3D062BEE0B9200CA84F0 /* TourIntroductionInfoRestaurantResponseDTO.swift in Sources */,
@@ -4597,7 +4713,6 @@
 				130CF38B2B9347790051DEE8 /* LoginStrategy.swift in Sources */,
 				13274C5C2A59B4AD001F141C /* SearchFestivalModel.swift in Sources */,
 				151DF0FE2AEEBBE200D5D55B /* DefaultNotificationRepository.swift in Sources */,
-				15869CF92BF505D700FB342B /* DefaultPostSearchUseCase.swift in Sources */,
 				158BEF792A0E27BD00C27861 /* PostCollectionView.swift in Sources */,
 				1594F53429FD517E00A58F20 /* SceneDelegate.swift in Sources */,
 				15302C552B9E23E900B1EA3F /* UIViewController+Indicator.swift in Sources */,
@@ -4612,7 +4727,6 @@
 				13A6C2DB2AB782A100EABD76 /* UIViewController+BackBarButtonItem.swift in Sources */,
 				133532002BA2D3E3000A4D9E /* UserDefaultsLoginResultStorage.swift in Sources */,
 				159E387C2BBAD464008825B0 /* LikedPostsByLoggedInUserRequestDTO.swift in Sources */,
-				15869D002BF507AA00FB342B /* PostUseCaseError.swift in Sources */,
 				13300FA42AC0688300952757 /* BaseDestinationView.swift in Sources */,
 				13E98F962BC98B4100F05295 /* ReviewWritingEndpoints.swift in Sources */,
 				15D388272AFF8AAA00039946 /* InputTextView.swift in Sources */,
@@ -4638,6 +4752,7 @@
 				159958832B0DDFED00B2E4DC /* UIStackView+Helpers.swift in Sources */,
 				15B928652AFA3980003A20D4 /* PostDetailContentFooterView.swift in Sources */,
 				15BE6BEA2BAF1CA1009A2568 /* DefaultPostCommentUseCase.swift in Sources */,
+				1526ED072BF6467300B629FB /* PostRequestValue.swift in Sources */,
 				15803C422BD9134A00D83F2B /* TourApiErrorResponseDTO.swift in Sources */,
 				15B5E7A12BBAE68000C19F56 /* UserBlockRepository.swift in Sources */,
 				15FD508F2BB44FFF006CCCDD /* PostUpdatedNestedCommentResponseDTO.swift in Sources */,
@@ -4667,6 +4782,7 @@
 				13254FE52A05157900094218 /* FeedViewController.swift in Sources */,
 				15B9285F2AFA2D89003A20D4 /* PostDetailContentImageCell.swift in Sources */,
 				159851C52BEDF28B001262BD /* Combine+Helpers.swift in Sources */,
+				15E0BA0D2BF1C0B800EBCDD9 /* DefaultPostNestedCommentHeartUseCase.swift in Sources */,
 				130304822A250DF600776A0D /* TitleWithButtonHeaderView.swift in Sources */,
 				15ABC42D2BF45B7200B9FA74 /* PostSearchAtomicRepository.swift in Sources */,
 				13E98F942BC7E42E00F05295 /* PostContentEntity.swift in Sources */,
