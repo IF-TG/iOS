@@ -55,14 +55,10 @@ class FeedPostViewModel: PostViewModel {
   var isRefreshing: Bool = false
   
   var isPostFiltering: Bool = false
-  
-  // FIXME: - 서버한테 전체 개수 요청했습니다. 추후에 responseDTO랑 전부 바꿔서 여기에 값 넣어야 합니다.
-  var totalPostsCount: Int32 = 0
-  
-  var hasMorePages: Bool {
-    let totalPageCount = totalPostsCount/perPage
-    return currentPage < totalPageCount
-  }
+    
+  /// 서버에서 페이징이 실패하기 전까지 다음 페이지들이 있는것으로 간주합니다.
+  /// 다음 페이지 요청 실패할 경우 hasMorePages를 false로 바꾸어야 합니다.
+  var hasMorePages = true
   
   private var category: PostCategory
   
@@ -70,7 +66,7 @@ class FeedPostViewModel: PostViewModel {
   ///   동시에 category 사용자가 선택한 카테고리로  업데이트 해야합니다.
   private lazy var userSelectedCategory: PostCategory = category
   
-  private let postFetchUsecase: PostFetchUseCase
+  private let postFetchUseCase: PostFetchUseCase
   
   private let nextPageLoadingStartSubject = PassthroughSubject<Void, Never>()
   
@@ -80,7 +76,7 @@ class FeedPostViewModel: PostViewModel {
   
   // MARK: - Lifecycle
   init(postCategory: PostCategory, postFetchUsecase: PostFetchUseCase) {
-    self.postFetchUsecase = postFetchUsecase
+    self.postFetchUseCase = postFetchUsecase
     self.category = postCategory
   }
 }
@@ -258,7 +254,7 @@ extension FeedPostViewModel {
       page: nextPage,
       perPage: perPage,
       category: userSelectedCategory)
-    return postFetchUsecase.fetchFilteredPosts(with: postFetchRequestValue)
+    return postFetchUseCase.fetchFilteredPosts(with: postFetchRequestValue)
       .map { [weak self] postsPage in
         if self?.isRefreshing == true || self?.isPostFiltering == true {
           self?.removeAllPage()
@@ -270,9 +266,12 @@ extension FeedPostViewModel {
         }
         self?.postThumbnails.append(contentsOf: postsPage.thumbnails.map { $0.postImageDataList })
         self?.currentPage += 1
-        self?.totalPostsCount = Int32(postsPage.totalPosts)
         self?.appendPosts(postsPage)
-      }.eraseToAnyPublisher()
+      }
+      .catch {
+        
+      }
+      .eraseToAnyPublisher()
   }
 }
 

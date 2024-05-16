@@ -63,7 +63,6 @@ extension DefaultPostRepository: PostRepository {
             return
           }
           let postsPage = PostsPage(
-            totalPosts: totalPages,
             posts: postContainers.map { $0.post },
             thumbnails: postContainers.map { $0.thumbnail })
           promise(.success(postsPage))
@@ -135,7 +134,6 @@ extension DefaultPostRepository: PostRepository {
             return
           }
           let postsPage = PostsPage(
-            totalPosts: totalPages,
             posts: postContainers.map { $0.post },
             thumbnails: postContainers.map { $0.thumbnail })
           promise(.success(postsPage))

@@ -21,7 +21,7 @@ final class MockOwnerRelatedPostFetchUseCase: OwnerRelatedPostFetchUseCase {
         .map { mockPostsGenerator1.mockPostPage.posts[$0] }
       let nextThumbnails = (mockPostsGenerator1.index..<mockPostsGenerator1.index+5)
         .map { mockPostsGenerator1.mockPostPage.thumbnails[$0] }
-      return PostsPage(totalPosts: Int64(mockPostsGenerator1.totalPage), posts: nextPosts, thumbnails: nextThumbnails)
+      return PostsPage(posts: nextPosts, thumbnails: nextThumbnails)
     }()
     mockPostsGenerator1.index+=5
     return Just(responseData)
@@ -39,7 +39,7 @@ final class MockOwnerRelatedPostFetchUseCase: OwnerRelatedPostFetchUseCase {
         .map { mockPostsGenerator1.mockPostPage.posts[$0] }
       let nextThumbnails = (mockPostsGenerator1.index..<mockPostsGenerator1.index+5)
         .map { mockPostsGenerator1.mockPostPage.thumbnails[$0] }
-      return PostsPage(totalPosts: Int64(mockPostsGenerator1.totalPage), posts: nextPosts, thumbnails: nextThumbnails)
+      return PostsPage(posts: nextPosts, thumbnails: nextThumbnails)
     }()
     mockPostsGenerator1.index+=5
     return Just(responseData)

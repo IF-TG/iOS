@@ -22,7 +22,7 @@ final class MockPostFetchUseCase: PostFetchUseCase {
         .map { mockPostsGenerator.mockPostPage.posts[$0] }
       let nextThumbnails = (mockPostsGenerator.index..<mockPostsGenerator.index+5)
         .map { mockPostsGenerator.mockPostPage.thumbnails[$0] }
-      return PostsPage(totalPosts: Int64(mockPostsGenerator.totalPage), posts: nextPosts, thumbnails: nextThumbnails)
+      return PostsPage(posts: nextPosts, thumbnails: nextThumbnails)
     }()
     mockPostsGenerator.index+=5
     return Just(responseData)

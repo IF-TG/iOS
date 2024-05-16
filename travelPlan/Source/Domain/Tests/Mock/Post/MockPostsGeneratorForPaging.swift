@@ -174,7 +174,6 @@ struct MockPostsGeneratorForPaging {
     let recurredPosts = (0..<Self.recurCount).map { _ in return posts }
     let recurredThumbnails = (0..<Self.recurCount).map { _ in return thumbnails }
     let postsPage = PostsPage(
-      totalPosts: Int64(totalPage),
       posts: recurredPosts.flatMap { $0 },
       thumbnails: recurredThumbnails.flatMap { $0 })
     return postsPage
