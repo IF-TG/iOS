@@ -8,19 +8,15 @@
 import Foundation
 import Combine
 
-struct MockUserProfileRepository: UserProfileRepository {
+struct StubUserProfileRepository: UserProfileRepository {
   func fetchProfileImageData(with userId: String) -> AnyPublisher<ProfileImageData?, any Error> {
     return Just("사용자프로필".data(using: .utf8)!)
-      .setFailureType(to: ReferenceError.self)
-      .mapError { $0 as Error }
-      .eraseToAnyPublisher()
+      .setAnyErrorAndEraseToAnyPublisher()
   }
   
   func fetchProfile(with userId: String) -> AnyPublisher<UserEntity, any Error> {
     return Just(UserEntity(id: "1", nickname: "짱구", isSavedProfileInServer: false))
-      .setFailureType(to: ReferenceError.self)
-      .mapError { $0 as Error }
-      .eraseToAnyPublisher()
+      .setAnyErrorAndEraseToAnyPublisher()
   }
 }
 
@@ -36,7 +32,7 @@ final class MockMyProfileUseCase: MyProfileUseCase {
       userStorage: mockUserStorage)
     defaultMyProfileUseCase = DefaultMyProfileUseCase(
       myProfileRepository: myProfileRepository,
-      userProfileRepository: MockUserProfileRepository(),
+      userProfileRepository: StubUserProfileRepository(),
       loggedInUserRepository: DefaultLoggedInUserRepository(storage: mockUserStorage))
   }
   

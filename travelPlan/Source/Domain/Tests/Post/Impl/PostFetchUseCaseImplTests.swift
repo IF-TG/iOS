@@ -19,10 +19,10 @@ final class PostFetchUseCaseImplTests: XCTestCase {
     super.setUp()
 
     sut = PostFetchUseCaseImpl(
-      postFetchAtomicRepository: MockPostFetchAtomicRepository(),
+      postFetchAtomicRepository: StubPostFetchAtomicRepository(),
       userProfileRepository: MockUserProfileRepository(),
-      postHeartRepository: MockPostHeartRepository(),
-      ownerHeartPostRepository: MockOwnerHeartPostRepository())
+      postHeartRepository: StubPostHeartRepository(),
+      ownerHeartPostRepository: StubOwnerHeartPostRepository())
     expectation = XCTestExpectation(description: "Finish")
   }
   
