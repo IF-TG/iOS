@@ -58,4 +58,19 @@ extension FirestoreOwnerHeartPostRepository: OwnerHeartPostRepository {
       self?.subscriptions.insert(request)
     }.eraseToAnyPublisher()
   }
+  
+  func hasOwnerHeartPost(
+    postId: PostIdentifier
+  ) -> AnyPublisher<Bool, any Error> {
+    /// 로그인한 사용자는 반드시 있어야하는 정보입니다.
+    guard let ownerId = ownerStorage.id else {
+      return Fail(error: ReferenceError.invalidReference).mapError { $0 as Error }.eraseToAnyPublisher()
+    }
+    
+    let endpoint = Endpoint.makeOwnerHasHeartSpecificPostEndpoint(postId: postId, userId: ownerId)
+    return service
+      .isDocumentExists(endpoint: endpoint)
+      .mapError { $0 as Error }
+      .eraseToAnyPublisher()
+  }
 }
