@@ -45,7 +45,7 @@ final class MyInformationCoordinator: FlowCoordinator {
     }
     // let session = Session(configuration: sessionConfiguration, eventMonitors: [monitor])
     let mockMyProfileUseCase = MockMyProfileUseCase()
-    let mockUserStorage = MockUserStorage()
+    let mockUserStorage = StubOwnerStorage()
     let loggedInUserRepository = DefaultLoggedInUserRepository(storage: mockUserStorage)
     let loggedInUserUseCase = DefaultLoggedInUserUseCase(loggedInUserRepository: loggedInUserRepository)
     

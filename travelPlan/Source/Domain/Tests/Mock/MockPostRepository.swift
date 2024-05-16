@@ -16,7 +16,7 @@ final class MockPostRepository: PostRepository {
   
   init() {
     self.mockService = SessionProvider(session: MockSession.default)
-    let mockUserStroage = MockUserStorage()
+    let mockUserStroage = StubOwnerStorage()
     let defaultLoggedInUserRepository = DefaultLoggedInUserRepository(storage: mockUserStroage)
     self.postRepository = DefaultPostRepository(
       service: mockService,

@@ -24,7 +24,7 @@ final class PostNestedCommentHeartUseCaseImplTests: XCTestCase {
     let postNestedCommentHeartRepository = FirestorePostNestedCommentHeartRepository(
       service: service,
       backgroundQueue: DispatchQueue(label: "background", qos: .background, attributes: .concurrent))
-    let ownerRepository = DefaultLoggedInUserRepository(storage: MockUserStorage())
+    let ownerRepository = DefaultLoggedInUserRepository(storage: StubOwnerStorage())
     sut = PostNestedCommentHeartUseCaseImpl(
       nestedCommentHeartRepository: postNestedCommentHeartRepository,
       ownerRepository: ownerRepository)

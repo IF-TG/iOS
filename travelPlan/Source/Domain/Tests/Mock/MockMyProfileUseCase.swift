@@ -25,7 +25,7 @@ final class MockMyProfileUseCase: MyProfileUseCase {
     // Mock session주입
     let mockSession = MockSession.default
     let sessionProvider = SessionProvider(session: mockSession)
-    let mockUserStorage = MockUserStorage()
+    let mockUserStorage = StubOwnerStorage()
     
     let myProfileRepository = DefaultMyProfileRepository(
       service: sessionProvider,

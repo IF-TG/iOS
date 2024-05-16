@@ -24,7 +24,7 @@ final class PostCommentHeartUseCaseImplTests: XCTestCase {
     let postCommentHeartRepository = FirestorePostCommentHeartRepository(
       service: service,
       backgroundQueue: DispatchQueue(label: "background", qos: .background, attributes: .concurrent))
-    let ownerRepository = DefaultLoggedInUserRepository(storage: MockUserStorage())
+    let ownerRepository = DefaultLoggedInUserRepository(storage: StubOwnerStorage())
     sut = PostCommentHeartUseCaseImpl(
       commentHeartRepository: postCommentHeartRepository,
       ownerRepository: ownerRepository,

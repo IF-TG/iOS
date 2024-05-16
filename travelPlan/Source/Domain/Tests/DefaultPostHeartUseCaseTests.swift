@@ -24,7 +24,7 @@ final class DefaultPostHeartUseCaseTests: XCTestCase {
     let backgroundQueue = DispatchQueue.global(qos: .userInteractive)
     let service = FirestoreService()
     let postHeartRepository = FirestorePostHeartRepository(service: service, backgroundQueue: backgroundQueue)
-    let mockStorage = MockUserStorage()
+    let mockStorage = StubOwnerStorage()
     let loggedInUserRepository = DefaultLoggedInUserRepository(storage: mockStorage)
     sut = DefaultPostHeartUseCase(
       backgroundQueue: backgroundQueue,
