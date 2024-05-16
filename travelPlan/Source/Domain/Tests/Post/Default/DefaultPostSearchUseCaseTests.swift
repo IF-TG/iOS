@@ -6,30 +6,45 @@
 //
 
 import XCTest
+import Combine
+@testable import travelPlan
 
 final class DefaultPostSearchUseCaseTests: XCTestCase {
-
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+  var sut: PostSearchUseCase!
+  var mockRepository: PostRepository!
+  var subscription: AnyCancellable?
+  var expectation: XCTestExpectation!
+  
+  // MARK: - Lifecycle
+  override func setUp() {
+    super.setUp()
+    mockRepository = MockPostRepository()
+    sut = DefaultPostSearchUseCase(postRepository: mockRepository)
+    expectation = XCTestExpectation(description: "Finish")
+  }
+  
+  override func tearDown() {
+    super.tearDown()
+    sut = nil
+    subscription = nil
+    expectation = nil
+  }
+  
+  func test_searchPosts함수호출시_OutputValue로Entity받았는지_ShouldReturnTrue() {
+    // Arrange
+    var result = false
+    var unexpectedError: Error?
+    
+    // Act
+    let sutPublisher = sut.searchPosts(keyword: "가장 맛있는 국밥집", page: 1, perPage: 10, isTitle: false, isContent: true)
+    subscription = sink(fromPublisher: sutPublisher, withExpectation: expectation) { err, res in
+      unexpectedError = err
+      result = res
     }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
-    }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
-
+    wait(for: [expectation], timeout: 7.777777777)
+    
+    // Assert
+    checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "searchPosts")
+    XCTAssertTrue(result, notReceivedErrorMessage)
+  }  
 }
