@@ -26,4 +26,7 @@ protocol TourIntroductionInfoRepository {
   
   func fetchShopping(tourContentId: TourContentId)
   -> AnyPublisher<IntroductionInfoShoppingEntity, any Error>
+  
+  func fetchAccommodation(tourContentId: TourContentId)
+  -> AnyPublisher<IntroductionInfoAccommodationEntity, any Error>
 }
