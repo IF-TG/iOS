@@ -14,7 +14,7 @@ final class MockOwnerRelatedPostFetchUseCase: OwnerRelatedPostFetchUseCase {
   
   func fetchOwnerLikedPosts(page: Int32, perPage: Int32) -> AnyPublisher<PostsPage, any Error> {
     if mockPostsGenerator1.index > mockPostsGenerator1.totalPage {
-      return Fail(error: PostUseCaseError.noMorePage).eraseToAnyPublisher()
+      return Fail(error: PaginationError.noMorePage).eraseToAnyPublisher()
     }
     let responseData = {
       let nextPosts = (mockPostsGenerator1.index..<mockPostsGenerator1.index+5)
@@ -31,7 +31,7 @@ final class MockOwnerRelatedPostFetchUseCase: OwnerRelatedPostFetchUseCase {
   
   func fetchOwnerWrotePosts(isFirstPage: Bool, perPage: Int32) -> AnyPublisher<PostsPage, any Error> {
     if mockPostsGenerator1.index > mockPostsGenerator1.totalPage {
-      return Fail(error: PostUseCaseError.noMorePage).eraseToAnyPublisher()
+      return Fail(error: PaginationError.noMorePage).eraseToAnyPublisher()
     }
     let responseData = {
       let nextPosts = (mockPostsGenerator1.index..<mockPostsGenerator1.index+5)

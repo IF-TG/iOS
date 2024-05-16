@@ -260,7 +260,6 @@
 		1526ECF82BF6435800B629FB /* StubPostHeartRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1526ECF62BF6434400B629FB /* StubPostHeartRepository.swift */; };
 		1526ECFB2BF643EE00B629FB /* StubOwnerHeartPostRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1526ECF92BF643E500B629FB /* StubOwnerHeartPostRepository.swift */; };
 		1526ED072BF6467300B629FB /* PostRequestValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1526ED062BF6467300B629FB /* PostRequestValue.swift */; };
-		1526ED0D2BF646F100B629FB /* PostUseCaseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1526ED0C2BF646F100B629FB /* PostUseCaseError.swift */; };
 		1526ED122BF6475100B629FB /* PostFetchUseCaseImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1526ED112BF6475100B629FB /* PostFetchUseCaseImpl.swift */; };
 		1526ED192BF647F200B629FB /* DefaultPostFetchUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1526ED182BF647F200B629FB /* DefaultPostFetchUseCase.swift */; };
 		1526ED1A2BF647F200B629FB /* DefaultOwnerRelatedPostFetchUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1526ED152BF647F100B629FB /* DefaultOwnerRelatedPostFetchUseCase.swift */; };
@@ -1027,7 +1026,6 @@
 		1526ECF62BF6434400B629FB /* StubPostHeartRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubPostHeartRepository.swift; sourceTree = "<group>"; };
 		1526ECF92BF643E500B629FB /* StubOwnerHeartPostRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubOwnerHeartPostRepository.swift; sourceTree = "<group>"; };
 		1526ED062BF6467300B629FB /* PostRequestValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostRequestValue.swift; sourceTree = "<group>"; };
-		1526ED0C2BF646F100B629FB /* PostUseCaseError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostUseCaseError.swift; sourceTree = "<group>"; };
 		1526ED112BF6475100B629FB /* PostFetchUseCaseImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostFetchUseCaseImpl.swift; sourceTree = "<group>"; };
 		1526ED152BF647F100B629FB /* DefaultOwnerRelatedPostFetchUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultOwnerRelatedPostFetchUseCase.swift; sourceTree = "<group>"; };
 		1526ED162BF647F100B629FB /* DefaultPostCommentsAndPostLikeStateFetchUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultPostCommentsAndPostLikeStateFetchUseCase.swift; sourceTree = "<group>"; };
@@ -3649,7 +3647,6 @@
 			isa = PBXGroup;
 			children = (
 				1526ED062BF6467300B629FB /* PostRequestValue.swift */,
-				1526ED0C2BF646F100B629FB /* PostUseCaseError.swift */,
 				1526ED1E2BF6495000B629FB /* Implication */,
 				1526ED1D2BF6493D00B629FB /* Default */,
 			);
@@ -4475,7 +4472,6 @@
 				135A07D52BB55A13003D6C4D /* PhotoAuthorizationViewDelegate.swift in Sources */,
 				13C32A3B2B09D8BF0046ED98 /* PictureImageView.swift in Sources */,
 				13EB3D042BEE091B00CA84F0 /* IntroductionInfoRestaurantEntity.swift in Sources */,
-				1526ED0D2BF646F100B629FB /* PostUseCaseError.swift in Sources */,
 				15CAEF7D2BAED114008AEDB1 /* PostNestedCommentEntity.swift in Sources */,
 				157ADCA82ACFFFE100D37680 /* FavoritePostViewDelegate.swift in Sources */,
 				15D388292AFFA51C00039946 /* PostProfileAndCommentView.swift in Sources */,

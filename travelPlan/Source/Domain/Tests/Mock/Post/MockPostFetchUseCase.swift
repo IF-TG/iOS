@@ -15,7 +15,7 @@ final class MockPostFetchUseCase: PostFetchUseCase {
     with page: PostFetchRequestValue
   ) -> AnyPublisher<PostsPage, any Error> {
     if mockPostsGenerator.index > mockPostsGenerator.totalPage {
-      return Fail(error: PostUseCaseError.noMorePage).eraseToAnyPublisher()
+      return Fail(error: PaginationError.noMorePage).eraseToAnyPublisher()
     }
     let responseData = {
       let nextPosts = (mockPostsGenerator.index..<mockPostsGenerator.index+5)
