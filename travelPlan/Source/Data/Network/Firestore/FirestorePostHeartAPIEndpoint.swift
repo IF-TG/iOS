@@ -8,7 +8,7 @@
 import Foundation
 
 struct FirestorePostHeartAPIEndpoint {
-  typealias UserIdentifier = String
+  typealias PostIdentifier = String
   
   static func makeFetchPostHeartsEndpoint(
     _ postId: String
@@ -46,7 +46,7 @@ struct FirestorePostHeartAPIEndpoint {
   
   static func makeOwnerHeartPostIdentifiersFetchEndpoint(
     userId: String
-  ) -> FirestoreEndpoint<UserIdentifier> {
+  ) -> FirestoreEndpoint<[PostIdentifier]> {
     return FirestoreEndpoint(
       method: .retrieveDocumentIdList,
       requestType: .users(.fetchHeartPostIdentifiers(userId)))
