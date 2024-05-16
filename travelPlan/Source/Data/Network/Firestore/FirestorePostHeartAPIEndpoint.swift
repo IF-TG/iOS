@@ -8,6 +8,8 @@
 import Foundation
 
 struct FirestorePostHeartAPIEndpoint {
+  typealias UserIdentifier = String
+  
   static func makeFetchPostHeartsEndpoint(
     _ postId: String
   ) -> FirestoreEndpoint<PostHeartsRespoonseDTO> {
@@ -40,5 +42,20 @@ struct FirestorePostHeartAPIEndpoint {
     return .init(
       method: .update,
       requestType: .posts(.togglePostHearts(postId)))
+  }
+  
+  static func makeOwnerHeartPostIdentifiersFetchEndpoint(
+    userId: String
+  ) -> FirestoreEndpoint<UserIdentifier> {
+    return FirestoreEndpoint(
+      method: .retrieveDocumentIdList,
+      requestType: .users(.fetchHeartPostIdentifiers(userId)))
+  }
+  
+  static func makeOwnerHasHeartSpecificPostEndpoint(
+    postId: String,
+    userId: String
+  ) -> FirestoreEndpoint<Bool> {
+    return FirestoreEndpoint(requestType: .users(.hasOwnerHeartPost(userId, postId)))
   }
 }

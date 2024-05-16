@@ -51,6 +51,8 @@ extension FirestoreRequestType {
     /// users collection - owner document - post-hearts collection
     case heartPost(UserId)
     case hatePost(UserId, PostId)
+    case fetchHeartPostIdentifiers(UserId)
+    case hasOwnerHeartPost(UserId, PostId)
     
     var rootPath: String {
       "users"
@@ -73,6 +75,10 @@ extension FirestoreRequestType {
         return nil
       case .hatePost(_, let postId):
         return postId
+      case .fetchHeartPostIdentifiers:
+        return nil
+      case .hasOwnerHeartPost(_, let postId):
+        return postId
       }
     }
     
@@ -90,6 +96,10 @@ extension FirestoreRequestType {
       case .heartPost(let userId):
         return "\(rootPath)/\(userId)/\(postHearts)"
       case .hatePost(let userId, _):
+        return "\(rootPath)/\(userId)/\(postHearts)"
+      case .fetchHeartPostIdentifiers(let userId):
+        return "\(rootPath)/\(userId)/\(postHearts)"
+      case .hasOwnerHeartPost(let userId, _):
         return "\(rootPath)/\(userId)/\(postHearts)"
       }
     }
