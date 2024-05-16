@@ -6,30 +6,66 @@
 //
 
 import XCTest
+import Combine
+@testable import SHFirestoreService
+@testable import travelPlan
 
 final class FirestoreOwnerHeartPostRepositoryTests: XCTestCase {
+  let sut = FirestoreOwnerHeartPostRepository(
+    ownerStorage: MockUserStorage(),
+    service: FirestoreService())
+  var expectation: XCTestExpectation!
+  
+  var subscriptions: Set<AnyCancellable> = []
 
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
+  override func setUp() {
+    super.setUp()
+    subscriptions = Set<AnyCancellable>()
+    expectation = XCTestExpectation(description: "테스트 시작합니다")
+  }
+  
+  override func tearDown() {
+    super.tearDown()
+    subscriptions.removeAll()
+  }
+}
 
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
+// MARK: 이 테스트는 firestore 보고 판별해야합니다.
+extension FirestoreOwnerHeartPostRepositoryTests {
+  func test_fetchOwnerHeartPostIdentifiers호출시_저장된포스트가담겨져오는지() {
+    // Arrange
+    var receivedResult = false
+    var unexpectedError: Error?
+    
+    // Act
+    let sutPublisher = sut.fetchOwnerHeartPostIdentifiers().receive(on: DispatchQueue.main)
+    sink(fromPublisher: sutPublisher, withExpectation: expectation) { error, result in
+      unexpectedError = error
+      receivedResult = result
+    }.store(in: &subscriptions)
+    wait(for: [expectation], timeout: 7.777)
+    
+    // Assert
+    checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "fetchOwnerHeartPostIdentifiers")
+    XCTAssertTrue(receivedResult)
+  }
+  
+  func test_hasOwnerHeartPost호출시사용자가좋아한포스트가있는지() {
+    // Arrange
+    var receivedResult = false
+    var unexpectedError: Error?
+    
+    // Act
+    let sutPublisher = sut.hasOwnerHeartPost(postId: "testPost1").receive(on: DispatchQueue.main)
+    sink(fromPublisher: sutPublisher, withExpectation: expectation) { error, result in
+      unexpectedError = error
+      receivedResult = result
+    }.store(in: &subscriptions)
+    wait(for: [expectation], timeout: 7.777)
+    
+    // Assert
+    checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "fetchOwnerHeartPostIdentifiers")
+    XCTAssertTrue(receivedResult)
 
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
-    }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
-
+  }
 }
