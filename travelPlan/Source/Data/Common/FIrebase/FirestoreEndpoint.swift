@@ -12,14 +12,14 @@ final class FirestoreEndpoint<ResponseDTO>: FirestoreEndopintable where Response
   // MARK: - Properties
   var requestDTODictionary: [String: Any]?
   var requestDTO: (any Encodable)?
-  var method: FirestoreMethod
+  var method: FirestoreMethod?
   var requestType: any FirestoreAccessible
   
   // MARK: - Lifecycle
   init(
     requestDTODictionary: [String: Any]? = nil,
     requestDTO: (any Encodable)? = nil,
-    method: FirestoreMethod,
+    method: FirestoreMethod? = nil,
     requestType: FirestoreRequestType
   ) {
     self.requestDTODictionary = requestDTODictionary
