@@ -39,6 +39,7 @@ final class FirestorePostRepository {
 }
 
 // MARK: - PostRepository
+/// 페이징 실패할 경우 Common에서 정의한 PaginationError를 방출합니다.
 extension FirestorePostRepository: PostFetchAtomicRepository {
   func fetchFilteredPosts(
     page: Int32,
@@ -66,16 +67,10 @@ extension FirestorePostRepository: PostFetchAtomicRepository {
           return query
         },
         isFirstPagination: isFirstPage)
+        .eraseToError()
         .sink { completion in
           if case .failure(let error) = completion {
-            switch error as FirestoreServiceError {
-            case .documentNotFound:
-              promise(.failure(PostFetchAtomicRepositoryError.documentNotFound))
-            case .noMorePage:
-              promise(.failure(PostFetchAtomicRepositoryError.noMorePage))
-            default:
-              promise(.failure(PostFetchAtomicRepositoryError.serviceError(error)))
-            }
+            promise(.failure(error))
           }
         } receiveValue: { [weak self] responseDTO in
           self?.handlePostsFetch(from: responseDTO, to: promise)
@@ -106,7 +101,7 @@ extension FirestorePostRepository: PostFetchAtomicRepository {
       var endPageIndex = Int((page)*perPage)
       if endPageIndex > likedPostIdList.count {
         if startPageIndex > likedPostIdList.count {
-          promise(.failure(PostFetchAtomicRepositoryError.noMorePage))
+          promise(.failure(PaginationError.noMorePage))
           return
         } else {
           endPageIndex = likedPostIdList.count
@@ -162,6 +157,7 @@ extension FirestorePostRepository: PostFetchAtomicRepository {
           },
           isFirstPagination: isFirstPage)
         .subscribeAndReceive(on: backgroundQueue)
+        .eraseToError()
         .sink { completion in
           if case .failure(let error) = completion {
             promise(.failure(error))
