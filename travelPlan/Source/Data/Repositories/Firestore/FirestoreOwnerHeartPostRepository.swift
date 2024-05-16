@@ -46,7 +46,7 @@ extension FirestoreOwnerHeartPostRepository: OwnerHeartPostRepository {
     let endpoint = Endpoint.makeOwnerHeartPostIdentifiersFetchEndpoint(userId: ownerId)
     return Future { [weak self, backgroundQueue] promise in
       let request = self?.service
-        .request(endpoint: endpoint)
+        .retrieveDocumentIDs(endpoint: endpoint)
         .receive(on: backgroundQueue)
         .sink { completion in
           if case .failure(let error) = completion {
