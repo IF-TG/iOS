@@ -10,7 +10,6 @@ import Foundation
 struct PostContainerResponseDTO: Decodable {
   let post: PostResponseDTO
   let thumbnails: [String]
-  let totalPosts: Int64
 
   enum CodingKeys: String, CodingKey {
     case post
@@ -22,7 +21,6 @@ struct PostContainerResponseDTO: Decodable {
     let container = try decoder.container(keyedBy: CodingKeys.self)
     self.post = try container.decode(PostResponseDTO.self, forKey: .post)
     self.thumbnails = try container.decode([String].self, forKey: .thumbnails)
-    self.totalPosts = try container.decode(Int64.self, forKey: .totalPosts)
   }
 }
 
@@ -32,7 +30,6 @@ extension PostContainerResponseDTO {
     let post: Post = post.toDomain()
     return .init(
       post: post, thumbnail:
-          .init(postImageDataList: thumbnails.compactMap { Data(base64Encoded: $0)}),
-      totalPosts: totalPosts)
+          .init(postImageDataList: thumbnails.compactMap { Data(base64Encoded: $0)}))
   }
 }
