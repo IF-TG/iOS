@@ -17,7 +17,7 @@ final class PostFetchUseCaseImpl {
   // MARK: - Dependencies
   private let postFetchAtomicRepository: PostFetchAtomicRepository
   
-  private let userProfileRepository: UserProfileRepository
+  internal let userProfileRepository: UserProfileRepository
   
   private let postHeartRepository: PostHeartRepository
   
@@ -46,7 +46,7 @@ final class PostFetchUseCaseImpl {
 }
 
 // MARK: - PostFetchUseCase
-extension PostFetchUseCaseImpl: PostFetchUseCase {
+extension PostFetchUseCaseImpl: PostFetchUseCase, PostsPageCreatable {
   func fetchFilteredPosts(
     with page: PostFetchRequestValue
   ) -> FilteredPostsOutput {
@@ -59,43 +59,11 @@ extension PostFetchUseCaseImpl: PostFetchUseCase {
         return Fail(error: ReferenceError.invalidReference).eraseToAnyPublisher()
       }
       
-      let hasHeartPost: [Bool] = atomicPosts.map { atomicPost -> Bool in
-        return self.hasOwnerHeartPost(ownerheartPostIdentifiers, postId: atomicPost.detail.postID)
+      let hasHeartPost: [Bool] = atomicPosts.compactMap { [weak self] atomicPost -> Bool? in
+        return self?.hasOwnerHeartPost(ownerheartPostIdentifiers, postId: atomicPost.detail.postID)
       }
       
-      let collectCount = atomicPosts.count
-      let indexedUserPublishers: [IndexedUserPublisher] = atomicPosts
-        .enumerated()
-        .compactMap { [weak self] index, atomicPost -> AnyPublisher<IndexedUserEntity, any Error>? in
-          return self?.userProfileRepository
-            .fetchProfile(with: atomicPost.authorId)
-            .map { userEntity -> IndexedUserEntity in
-              return (index, userEntity)
-            }.eraseToAnyPublisher()
-        }
-
-      return Publishers.MergeMany(indexedUserPublishers)
-        .collect(collectCount)
-        .eraseToAnyPublisher()
-        .map { indexedUserEntities -> PostsPage in
-          let authors = indexedUserEntities
-            .sorted(by: {$0.index < $1.index })
-            .map { $0.user }
-          
-          let posts: [Post] = (0..<authors.count).map { index in
-            let atomicPost = atomicPosts[index]
-            let author = authors[index]
-            let hasHeart = hasHeartPost[index]
-            let postAuthor = Post.Author(
-              profileImageData: author.profileImageData,
-              nickname: author.nickname,
-              authorId: author.id)
-            
-            return Post(liked: hasHeart, atomicPost: atomicPost, postAuthor: postAuthor)
-          }
-          let postPage = PostsPage(posts: posts, thumbnails: [])
-          return postPage
-        }.eraseToAnyPublisher()
+      return  makePostsPage(atomicPosts: atomicPosts, hasOwnerHeartEachPost: hasHeartPost)
     }.eraseToAnyPublisher()
   }
 }
