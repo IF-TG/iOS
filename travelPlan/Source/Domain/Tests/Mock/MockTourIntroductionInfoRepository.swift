@@ -20,14 +20,29 @@ final class MockTourIntroductionInfoRepository {
 
 // MARK: - TourIntroductionInfoRepository
 extension MockTourIntroductionInfoRepository: TourIntroductionInfoRepository {
-  func fetchAccommodation(tourContentId: TourContentId) 
+  func fetchCourse(tourContentId: TourContentId)
+  -> AnyPublisher<IntroductionInfoCourseEntity, any Error> {
+    MockUrlProtocol.requestHandler = { _ in
+      let mockData = TourAPIMockResponseType.introdution(.course).mockDataLoader
+      return ((HTTPURLResponse(), mockData))
+    }
+    let courseContentId = TourContentId(contentId: 1871068, contentTypeId: TourType.course.rawValue)
+    
+    return repository
+      .fetchCourse(tourContentId: tourContentId)
+      .eraseToAnyPublisher()
+  }
+  
+  func fetchAccommodation(tourContentId: TourContentId)
   -> AnyPublisher<IntroductionInfoAccommodationEntity, any Error> {
     MockUrlProtocol.requestHandler = { _ in
       let mockData = TourAPIMockResponseType.introdution(.accommodation).mockDataLoader
       return ((HTTPURLResponse(), mockData))
     }
     let tourContentId = TourContentId(contentId: 136605, contentTypeId: TourType.accommodation.rawValue)
-    return repository.fetchAccommodation(tourContentId: tourContentId)
+    
+    return repository
+      .fetchAccommodation(tourContentId: tourContentId)
       .eraseToAnyPublisher()
   }
   
@@ -37,7 +52,9 @@ extension MockTourIntroductionInfoRepository: TourIntroductionInfoRepository {
       return ((HTTPURLResponse(), mockData))
     }
     let tourContentId = TourContentId(contentId: 2792802, contentTypeId: TourType.leports.rawValue)
-    return repository.fetchLeports(tourContentId: tourContentId)
+    
+    return repository
+      .fetchLeports(tourContentId: tourContentId)
       .eraseToAnyPublisher()
   }
   
@@ -47,7 +64,9 @@ extension MockTourIntroductionInfoRepository: TourIntroductionInfoRepository {
       return ((HTTPURLResponse(), mockData))
     }
     let tourContentId = TourContentId(contentId: 129877, contentTypeId: TourType.cultureFacility.rawValue)
-    return repository.fetchCultureFacility(tourContentId: tourContentId)
+    
+    return repository
+      .fetchCultureFacility(tourContentId: tourContentId)
       .eraseToAnyPublisher()
   }
   
@@ -57,7 +76,9 @@ extension MockTourIntroductionInfoRepository: TourIntroductionInfoRepository {
       return ((HTTPURLResponse(), mockData))
     }
     let tourContentId = TourContentId(contentId: 126273, contentTypeId: TourType.attraction.rawValue)
-    return repository.fetchAttratcion(tourContentId: tourContentId)
+    
+    return repository
+      .fetchAttratcion(tourContentId: tourContentId)
       .eraseToAnyPublisher()
   }
   
@@ -67,7 +88,9 @@ extension MockTourIntroductionInfoRepository: TourIntroductionInfoRepository {
       return ((HTTPURLResponse(), mockData))
     }
     let tourContentId = TourContentId(contentId: 2901530, contentTypeId: TourType.restaurant.rawValue)
-    return repository.fetchRestaurant(tourContentId: tourContentId)
+    
+    return repository
+      .fetchRestaurant(tourContentId: tourContentId)
       .eraseToAnyPublisher()
   }
   
@@ -80,7 +103,9 @@ extension MockTourIntroductionInfoRepository: TourIntroductionInfoRepository {
       return ((HTTPURLResponse(), mockData))
     }
     let tourContentId = TourContentId(contentId: 1806376, contentTypeId: TourType.festival.rawValue)
-    return repository.fetchFestival(tourContentId: tourContentId)
+    
+    return repository
+      .fetchFestival(tourContentId: tourContentId)
       .eraseToAnyPublisher()
   }
   
@@ -90,7 +115,9 @@ extension MockTourIntroductionInfoRepository: TourIntroductionInfoRepository {
       return ((HTTPURLResponse(), mockData))
     }
     let tourContentId = TourContentId(contentId: 2930927, contentTypeId: TourType.shopping.rawValue)
-    return repository.fetchShopping(tourContentId: tourContentId)
+    
+    return repository
+      .fetchShopping(tourContentId: tourContentId)
       .eraseToAnyPublisher()
   }
 }
