@@ -51,10 +51,10 @@ extension AccommodationUseCaseTests {
     // Arrange
     var unexpectedError: Error?
     var result = false
-    let restaurantId = TourContentId(contentId: 136605, contentTypeId: TourType.accommodation.rawValue)
+    let accommodationId = TourContentId(contentId: 136605, contentTypeId: TourType.accommodation.rawValue)
     
     // Act
-    let actPublisher = sut.fetchAccommodationDetail(tourContentId: restaurantId)
+    let actPublisher = sut.fetchAccommodationDetail(tourContentId: accommodationId)
     
     sink(
       fromPublisher: actPublisher,
