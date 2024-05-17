@@ -365,6 +365,8 @@
 		15553BD62BB34D06000AA896 /* PostNestedCommentUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15553BD52BB34D06000AA896 /* PostNestedCommentUseCaseTests.swift */; };
 		155603DE2BBC093300981F48 /* PostDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155603DD2BBC093300981F48 /* PostDetails.swift */; };
 		155603E52BBC355500981F48 /* PostDetailCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155603E42BBC355500981F48 /* PostDetailCoordinator.swift */; };
+		1558033B2BF1ACAD008F631C /* PostNestedCommentHeartUseCaseImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1558033A2BF1ACAD008F631C /* PostNestedCommentHeartUseCaseImpl.swift */; };
+		1558033D2BF1AD1C008F631C /* PostNestedCommentHeartUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1558033C2BF1AD1C008F631C /* PostNestedCommentHeartUseCase.swift */; };
 		15591DD22BBE993500128A9E /* FavoritePostAPIEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15591DD12BBE993500128A9E /* FavoritePostAPIEndpoint.swift */; };
 		15591DD42BBE99E200128A9E /* FavoritePostRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15591DD32BBE99E200128A9E /* FavoritePostRequestDTO.swift */; };
 		15591DD62BBE9C5200128A9E /* FavoritePostInDirectoryRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15591DD52BBE9C5200128A9E /* FavoritePostInDirectoryRepository.swift */; };
@@ -506,6 +508,11 @@
 		15A7A8F22B9F6C1700CA9A79 /* UserEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A7A8F12B9F6C1700CA9A79 /* UserEntity.swift */; };
 		15A859A02BB56E18002C0CA0 /* PostContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A8599F2BB56E18002C0CA0 /* PostContainer.swift */; };
 		15AAD34C2BBFD1760042DBF6 /* FavoritePostToggleEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15AAD34B2BBFD1760042DBF6 /* FavoritePostToggleEntity.swift */; };
+		15ABC41F2BF3505000B9FA74 /* PostCommentUseCaseImplTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15ABC41E2BF3505000B9FA74 /* PostCommentUseCaseImplTests.swift */; };
+		15ABC4222BF3525600B9FA74 /* StubPostAtomicCommentRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15ABC4212BF3525600B9FA74 /* StubPostAtomicCommentRepository.swift */; };
+		15ABC4242BF3549900B9FA74 /* StubPostAtomicNestedCommentRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15ABC4232BF3549900B9FA74 /* StubPostAtomicNestedCommentRepository.swift */; };
+		15ABC4272BF3588800B9FA74 /* StubPostNestedCommentHeartRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15ABC4262BF3588800B9FA74 /* StubPostNestedCommentHeartRepository.swift */; };
+		15ABC4292BF3596100B9FA74 /* StubPostCommentHeartRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15ABC4282BF3596100B9FA74 /* StubPostCommentHeartRepository.swift */; };
 		15ABFFBF2BDCDB9400D57C7C /* FirestoreReviewWritingEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15ABFFBE2BDCDB9400D57C7C /* FirestoreReviewWritingEndpoint.swift */; };
 		15AE48542BE9395B0035D980 /* TourRetrievedImageEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15AE48532BE9395B0035D980 /* TourRetrievedImageEntity.swift */; };
 		15AE48562BE93A030035D980 /* DefaultTourImageRetrieveInfoRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15AE48552BE93A030035D980 /* DefaultTourImageRetrieveInfoRepository.swift */; };
@@ -621,6 +628,10 @@
 		15DE36B62AB83DD40030CCCC /* BasePostCategoryBottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DE36B52AB83DD40030CCCC /* BasePostCategoryBottomSheet.swift */; };
 		15DE36B92AB853900030CCCC /* TravelThemeBottomSheetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DE36B82AB853900030CCCC /* TravelThemeBottomSheetCell.swift */; };
 		15DF29EB2BC52BC800F470DC /* PostReviewWritingCategoryBottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DF29EA2BC52BC800F470DC /* PostReviewWritingCategoryBottomSheet.swift */; };
+		15E0BA002BF1B2BB00EBCDD9 /* PostNestedCommentHeartUseCaseImplTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E0B9FF2BF1B2BB00EBCDD9 /* PostNestedCommentHeartUseCaseImplTests.swift */; };
+		15E0BA0B2BF1BBED00EBCDD9 /* PostNestedCommentUseCaseImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E0BA0A2BF1BBED00EBCDD9 /* PostNestedCommentUseCaseImpl.swift */; };
+		15E0BA0D2BF1C0B800EBCDD9 /* DefaultPostNestedCommentHeartUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E0BA0C2BF1C0B800EBCDD9 /* DefaultPostNestedCommentHeartUseCase.swift */; };
+		15E0BA0F2BF273DC00EBCDD9 /* DeletedNestedCommentResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E0BA0E2BF273DC00EBCDD9 /* DeletedNestedCommentResult.swift */; };
 		15E155062BAB01F900582E12 /* PostMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E155052BAB01F900582E12 /* PostMapper.swift */; };
 		15E1550D2BAB47F400582E12 /* BottomNextPageIndicatorCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 15E1550C2BAB47F400582E12 /* BottomNextPageIndicatorCell.xib */; };
 		15E1550E2BAB47F400582E12 /* BottomNextPageIndicatorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E1550B2BAB47F400582E12 /* BottomNextPageIndicatorCell.swift */; };
@@ -1131,6 +1142,8 @@
 		15553BD52BB34D06000AA896 /* PostNestedCommentUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostNestedCommentUseCaseTests.swift; sourceTree = "<group>"; };
 		155603DD2BBC093300981F48 /* PostDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetails.swift; sourceTree = "<group>"; };
 		155603E42BBC355500981F48 /* PostDetailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailCoordinator.swift; sourceTree = "<group>"; };
+		1558033A2BF1ACAD008F631C /* PostNestedCommentHeartUseCaseImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostNestedCommentHeartUseCaseImpl.swift; sourceTree = "<group>"; };
+		1558033C2BF1AD1C008F631C /* PostNestedCommentHeartUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostNestedCommentHeartUseCase.swift; sourceTree = "<group>"; };
 		15591DD12BBE993500128A9E /* FavoritePostAPIEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePostAPIEndpoint.swift; sourceTree = "<group>"; };
 		15591DD32BBE99E200128A9E /* FavoritePostRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePostRequestDTO.swift; sourceTree = "<group>"; };
 		15591DD52BBE9C5200128A9E /* FavoritePostInDirectoryRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePostInDirectoryRepository.swift; sourceTree = "<group>"; };
@@ -1267,6 +1280,11 @@
 		15A7A8F12B9F6C1700CA9A79 /* UserEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserEntity.swift; sourceTree = "<group>"; };
 		15A8599F2BB56E18002C0CA0 /* PostContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostContainer.swift; sourceTree = "<group>"; };
 		15AAD34B2BBFD1760042DBF6 /* FavoritePostToggleEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePostToggleEntity.swift; sourceTree = "<group>"; };
+		15ABC41E2BF3505000B9FA74 /* PostCommentUseCaseImplTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCommentUseCaseImplTests.swift; sourceTree = "<group>"; };
+		15ABC4212BF3525600B9FA74 /* StubPostAtomicCommentRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubPostAtomicCommentRepository.swift; sourceTree = "<group>"; };
+		15ABC4232BF3549900B9FA74 /* StubPostAtomicNestedCommentRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubPostAtomicNestedCommentRepository.swift; sourceTree = "<group>"; };
+		15ABC4262BF3588800B9FA74 /* StubPostNestedCommentHeartRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubPostNestedCommentHeartRepository.swift; sourceTree = "<group>"; };
+		15ABC4282BF3596100B9FA74 /* StubPostCommentHeartRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubPostCommentHeartRepository.swift; sourceTree = "<group>"; };
 		15ABFFBE2BDCDB9400D57C7C /* FirestoreReviewWritingEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreReviewWritingEndpoint.swift; sourceTree = "<group>"; };
 		15AE48532BE9395B0035D980 /* TourRetrievedImageEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourRetrievedImageEntity.swift; sourceTree = "<group>"; };
 		15AE48552BE93A030035D980 /* DefaultTourImageRetrieveInfoRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultTourImageRetrieveInfoRepository.swift; sourceTree = "<group>"; };
@@ -1383,6 +1401,10 @@
 		15DE36B52AB83DD40030CCCC /* BasePostCategoryBottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasePostCategoryBottomSheet.swift; sourceTree = "<group>"; };
 		15DE36B82AB853900030CCCC /* TravelThemeBottomSheetCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelThemeBottomSheetCell.swift; sourceTree = "<group>"; };
 		15DF29EA2BC52BC800F470DC /* PostReviewWritingCategoryBottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostReviewWritingCategoryBottomSheet.swift; sourceTree = "<group>"; };
+		15E0B9FF2BF1B2BB00EBCDD9 /* PostNestedCommentHeartUseCaseImplTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostNestedCommentHeartUseCaseImplTests.swift; sourceTree = "<group>"; };
+		15E0BA0A2BF1BBED00EBCDD9 /* PostNestedCommentUseCaseImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostNestedCommentUseCaseImpl.swift; sourceTree = "<group>"; };
+		15E0BA0C2BF1C0B800EBCDD9 /* DefaultPostNestedCommentHeartUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultPostNestedCommentHeartUseCase.swift; sourceTree = "<group>"; };
+		15E0BA0E2BF273DC00EBCDD9 /* DeletedNestedCommentResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletedNestedCommentResult.swift; sourceTree = "<group>"; };
 		15E155052BAB01F900582E12 /* PostMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostMapper.swift; sourceTree = "<group>"; };
 		15E1550B2BAB47F400582E12 /* BottomNextPageIndicatorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomNextPageIndicatorCell.swift; sourceTree = "<group>"; };
 		15E1550C2BAB47F400582E12 /* BottomNextPageIndicatorCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BottomNextPageIndicatorCell.xib; sourceTree = "<group>"; };
@@ -1894,6 +1916,20 @@
 			path = IntroductionInfo;
 			sourceTree = "<group>";
 		};
+		13EB3D902BF7C66B00CA84F0 /* Tour */ = {
+			isa = PBXGroup;
+			children = (
+				13E7EAF22BE02EA80027946C /* DefaultFestivalUseCase.swift */,
+				13EB3D5E2BF5181E00CA84F0 /* DefaultRestaurantUseCase.swift */,
+				13EB3D562BF50B5700CA84F0 /* DefaultCultureFacilityUseCase.swift */,
+				13EB3D362BF4904F00CA84F0 /* DefaultShoppingUseCase.swift */,
+				13EB3D462BF4E9FF00CA84F0 /* DefaultLeportsUseCase.swift */,
+				13EB3D4E2BF500E800CA84F0 /* DefaultAttractionUseCase.swift */,
+				13EB3D6C2BF603B300CA84F0 /* DefaultAccommodationUseCase.swift */,
+			);
+			path = Tour;
+			sourceTree = "<group>";
+		};
 		13F6DACB2B53A5A800573B86 /* Coordinator */ = {
 			isa = PBXGroup;
 			children = (
@@ -2023,6 +2059,7 @@
 				15CAEF862BAED25C008AEDB1 /* PostCommentContainerEntity.swift */,
 				1572ABBC2BE76AEA008AFE66 /* PostAtomicCommentEntity.swift */,
 				150D4E652BEA5886004509D6 /* PostAtomicNestedCommentEntity.swift */,
+				15E0BA0E2BF273DC00EBCDD9 /* DeletedNestedCommentResult.swift */,
 			);
 			path = Comment;
 			sourceTree = "<group>";
@@ -2127,17 +2164,15 @@
 		151DF0F12AEEB27400D5D55B /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
-				13E7EAF02BE02DD10027946C /* FestivalUseCase.swift */,
 				1572ABC72BE79DE9008AFE66 /* User */,
+				15E0BA032BF1B84100EBCDD9 /* Album */,
+				13E7EAF02BE02DD10027946C /* FestivalUseCase.swift */,
 				1566241E2BB262D600198A35 /* PostUseCase.swift */,
 				13E98F842BC53D8000F05295 /* ReviewWritingUseCase.swift */,
 				151DF0F32AEEB29500D5D55B /* NoticeUseCase.swift */,
-				135A07C12BA9882D003D6C4D /* AlbumUseCase.swift */,
-				135A07D62BB72425003D6C4D /* PhotoAuthorizationUseCase.swift */,
 				15BE6BE52BAF1A3C009A2568 /* PostCommentUseCase.swift */,
 				15553BC72BB34643000AA896 /* PostNestedCommentUseCase.swift */,
 				15591DD92BBE9F2900128A9E /* FavoritePostInDirectoryUseCase.swift */,
-				13AE0DD72BC32AD700652B99 /* AlbumPhotoMaxCountUseCase.swift */,
 				15EBD91A2BE8D38A00BCEA7F /* PostCommentHeartUseCase.swift */,
 				154047892BE4B82D009E86FF /* PostHeartUseCase.swift */,
 				13EB3D342BF4883E00CA84F0 /* ShoppingUseCase.swift */,
@@ -2146,6 +2181,7 @@
 				13EB3D522BF50A2C00CA84F0 /* CultureFacilityUseCase.swift */,
 				13EB3D5A2BF516FA00CA84F0 /* RestaurantUseCase.swift */,
 				13EB3D6A2BF6037900CA84F0 /* AccommodationUseCase.swift */,
+				1558033C2BF1AD1C008F631C /* PostNestedCommentHeartUseCase.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -2153,31 +2189,17 @@
 		151DF0F22AEEB28600D5D55B /* UseCases */ = {
 			isa = PBXGroup;
 			children = (
-				151DF0F12AEEB27400D5D55B /* Protocol */,
 				151DF0F52AEEB2D200D5D55B /* DefaultNoticeUseCase.swift */,
-				130CF3672B8E87490051DEE8 /* LoginUseCase.swift */,
-				15D6558E2B8E11AC00466FEC /* DefaultMyProfileUseCase.swift */,
-				13E7EAF22BE02EA80027946C /* DefaultFestivalUseCase.swift */,
-				15E9E5ED2B9A345800C2F1F7 /* DefaultPostUseCase.swift */,
-				135A07C32BA9883E003D6C4D /* DefaultAlbumUseCase.swift */,
-				15B01DAE2BA95A4600BE9F98 /* DefaultLoggedInUserUseCase.swift */,
-				135A07D02BB4031D003D6C4D /* DefaultPhotoAuthorizationUseCase.swift */,
-				15BE6BE92BAF1CA1009A2568 /* DefaultPostCommentUseCase.swift */,
-				15553BC92BB346A3000AA896 /* DefaultPostNestedCommentUseCase.swift */,
-				15B5E7A62BBAE8B800C19F56 /* DefaultUserBlockUseCase.swift */,
-				13EB3D5E2BF5181E00CA84F0 /* DefaultRestaurantUseCase.swift */,
-				15591DDB2BBE9F9B00128A9E /* DefaultFavoritePostInDirectoryUseCase.swift */,
-				13AE0DD92BC32E6100652B99 /* DefaultAlbumPhotoMaxCountUseCase.swift */,
-				13E98F862BC53DDD00F05295 /* DefaultReviewWritingUseCase.swift */,
-				15EBD91C2BE8D3A000BCEA7F /* DefaultPostCommentHeartUseCase.swift */,
-				15EBD9202BE8D52D00BCEA7F /* PostCommentHeartUseCaseImpl.swift */,
-				1572ABC42BE797EF008AFE66 /* PostCommentUseCaseImpl.swift */,
-				13EB3D562BF50B5700CA84F0 /* DefaultCultureFacilityUseCase.swift */,
-				1540478B2BE4BA45009E86FF /* DefaultPostHeartUseCase.swift */,
-				13EB3D362BF4904F00CA84F0 /* DefaultShoppingUseCase.swift */,
-				13EB3D462BF4E9FF00CA84F0 /* DefaultLeportsUseCase.swift */,
-				13EB3D4E2BF500E800CA84F0 /* DefaultAttractionUseCase.swift */,
-				13EB3D6C2BF603B300CA84F0 /* DefaultAccommodationUseCase.swift */,
+				13EB3D902BF7C66B00CA84F0 /* Tour */,
+				151DF0F12AEEB27400D5D55B /* Protocol */,
+				15E0BA012BF1B7B300EBCDD9 /* User */,
+				15E0BA022BF1B81400EBCDD9 /* Album */,
+				15E0BA042BF1B88100EBCDD9 /* Post */,
+				15E0BA052BF1B8B500EBCDD9 /* PostReviewWriting */,
+				15E0BA062BF1B8CE00EBCDD9 /* PostComment */,
+				15E0BA072BF1B94300EBCDD9 /* PostNestedComment */,
+				15E0BA082BF1B9DA00EBCDD9 /* FavoriteDirectory */,
+				15E0BA092BF1B9EF00EBCDD9 /* Authentication */,
 			);
 			path = UseCases;
 			sourceTree = "<group>";
@@ -3055,6 +3077,17 @@
 			path = UserDefaultsStorage;
 			sourceTree = "<group>";
 		};
+		15ABC4202BF3522300B9FA74 /* Stub */ = {
+			isa = PBXGroup;
+			children = (
+				15ABC4212BF3525600B9FA74 /* StubPostAtomicCommentRepository.swift */,
+				15ABC4232BF3549900B9FA74 /* StubPostAtomicNestedCommentRepository.swift */,
+				15ABC4262BF3588800B9FA74 /* StubPostNestedCommentHeartRepository.swift */,
+				15ABC4282BF3596100B9FA74 /* StubPostCommentHeartRepository.swift */,
+			);
+			path = Stub;
+			sourceTree = "<group>";
+		};
 		15B01DA12BA939FB00BE9F98 /* UserStorage */ = {
 			isa = PBXGroup;
 			children = (
@@ -3395,6 +3428,7 @@
 		15D655902B8E162400466FEC /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				15ABC4202BF3522300B9FA74 /* Stub */,
 				15D655932B8E16B600466FEC /* Mock */,
 				15E9E5EF2B9A359B00C2F1F7 /* PostUseCaseTests.swift */,
 				15D655912B8E169100466FEC /* MyProfileUseCaseTests.swift */,
@@ -3412,6 +3446,8 @@
 				13EB3D582BF5140F00CA84F0 /* CultureFacilityUseCaseTests.swift */,
 				13EB3D602BF51AEB00CA84F0 /* RestaurantUseCaseTests.swift */,
 				13EB3D6E2BF6071B00CA84F0 /* AccommodationUseCaseTests.swift */,
+				15E0B9FF2BF1B2BB00EBCDD9 /* PostNestedCommentHeartUseCaseImplTests.swift */,
+				15ABC41E2BF3505000B9FA74 /* PostCommentUseCaseImplTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -3557,6 +3593,91 @@
 				15DE36B82AB853900030CCCC /* TravelThemeBottomSheetCell.swift */,
 			);
 			path = BottomSheet;
+			sourceTree = "<group>";
+		};
+		15E0BA012BF1B7B300EBCDD9 /* User */ = {
+			isa = PBXGroup;
+			children = (
+				15D6558E2B8E11AC00466FEC /* DefaultMyProfileUseCase.swift */,
+				15B5E7A62BBAE8B800C19F56 /* DefaultUserBlockUseCase.swift */,
+				15B01DAE2BA95A4600BE9F98 /* DefaultLoggedInUserUseCase.swift */,
+			);
+			path = User;
+			sourceTree = "<group>";
+		};
+		15E0BA022BF1B81400EBCDD9 /* Album */ = {
+			isa = PBXGroup;
+			children = (
+				135A07C32BA9883E003D6C4D /* DefaultAlbumUseCase.swift */,
+				13AE0DD92BC32E6100652B99 /* DefaultAlbumPhotoMaxCountUseCase.swift */,
+				135A07D02BB4031D003D6C4D /* DefaultPhotoAuthorizationUseCase.swift */,
+			);
+			path = Album;
+			sourceTree = "<group>";
+		};
+		15E0BA032BF1B84100EBCDD9 /* Album */ = {
+			isa = PBXGroup;
+			children = (
+				135A07C12BA9882D003D6C4D /* AlbumUseCase.swift */,
+				13AE0DD72BC32AD700652B99 /* AlbumPhotoMaxCountUseCase.swift */,
+				135A07D62BB72425003D6C4D /* PhotoAuthorizationUseCase.swift */,
+			);
+			path = Album;
+			sourceTree = "<group>";
+		};
+		15E0BA042BF1B88100EBCDD9 /* Post */ = {
+			isa = PBXGroup;
+			children = (
+				1540478B2BE4BA45009E86FF /* DefaultPostHeartUseCase.swift */,
+				15E9E5ED2B9A345800C2F1F7 /* DefaultPostUseCase.swift */,
+			);
+			path = Post;
+			sourceTree = "<group>";
+		};
+		15E0BA052BF1B8B500EBCDD9 /* PostReviewWriting */ = {
+			isa = PBXGroup;
+			children = (
+				13E98F862BC53DDD00F05295 /* DefaultReviewWritingUseCase.swift */,
+			);
+			name = PostReviewWriting;
+			sourceTree = "<group>";
+		};
+		15E0BA062BF1B8CE00EBCDD9 /* PostComment */ = {
+			isa = PBXGroup;
+			children = (
+				15EBD91C2BE8D3A000BCEA7F /* DefaultPostCommentHeartUseCase.swift */,
+				15EBD9202BE8D52D00BCEA7F /* PostCommentHeartUseCaseImpl.swift */,
+				1572ABC42BE797EF008AFE66 /* PostCommentUseCaseImpl.swift */,
+				15BE6BE92BAF1CA1009A2568 /* DefaultPostCommentUseCase.swift */,
+			);
+			path = PostComment;
+			sourceTree = "<group>";
+		};
+		15E0BA072BF1B94300EBCDD9 /* PostNestedComment */ = {
+			isa = PBXGroup;
+			children = (
+				15553BC92BB346A3000AA896 /* DefaultPostNestedCommentUseCase.swift */,
+				1558033A2BF1ACAD008F631C /* PostNestedCommentHeartUseCaseImpl.swift */,
+				15E0BA0A2BF1BBED00EBCDD9 /* PostNestedCommentUseCaseImpl.swift */,
+				15E0BA0C2BF1C0B800EBCDD9 /* DefaultPostNestedCommentHeartUseCase.swift */,
+			);
+			path = PostNestedComment;
+			sourceTree = "<group>";
+		};
+		15E0BA082BF1B9DA00EBCDD9 /* FavoriteDirectory */ = {
+			isa = PBXGroup;
+			children = (
+				15591DDB2BBE9F9B00128A9E /* DefaultFavoritePostInDirectoryUseCase.swift */,
+			);
+			path = FavoriteDirectory;
+			sourceTree = "<group>";
+		};
+		15E0BA092BF1B9EF00EBCDD9 /* Authentication */ = {
+			isa = PBXGroup;
+			children = (
+				130CF3672B8E87490051DEE8 /* LoginUseCase.swift */,
+			);
+			path = Authentication;
 			sourceTree = "<group>";
 		};
 		15E155042BAB01E500582E12 /* Utils */ = {
@@ -4040,6 +4161,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				15ABC4272BF3588800B9FA74 /* StubPostNestedCommentHeartRepository.swift in Sources */,
 				159851CA2BEDF81D001262BD /* Combine+XCTestHelpers.swift in Sources */,
 				159851C72BEDF6C2001262BD /* FirestorePostNestedCommentHeartRepositoryTests.swift in Sources */,
 				1572ABAF2BE6780E008AFE66 /* FirestorePostAtomicCommentRepositoryTests.swift in Sources */,
@@ -4051,12 +4173,15 @@
 				1335320E2BA469E3000A4D9E /* DataConverterTests.swift in Sources */,
 				13EB3D492BF4ED0700CA84F0 /* LeportsUseCaseTests.swift in Sources */,
 				156C1E2A2BBECA6500AF1D99 /* CoordinatorDeallocTests.swift in Sources */,
+				15ABC4222BF3525600B9FA74 /* StubPostAtomicCommentRepository.swift in Sources */,
 				15EBD9232BE906C700BCEA7F /* PostCommentHeartUseCaseImplTests.swift in Sources */,
 				15553BD42BB34BF2000AA896 /* XCTestCase+UseCaseTestsHelpers.swift in Sources */,
 				13EB3D612BF51AEC00CA84F0 /* RestaurantUseCaseTests.swift in Sources */,
+				15ABC4292BF3596100B9FA74 /* StubPostCommentHeartRepository.swift in Sources */,
 				15B5E7AE2BBAEBE700C19F56 /* UserBlockUseCaseTests.swift in Sources */,
 				1383C81C2B97F44800830F1A /* KeychainManagerTests.swift in Sources */,
 				15EBD9192BE8AC9400BCEA7F /* FirestorePostCommentHeartRepositoryTests.swift in Sources */,
+				15ABC4242BF3549900B9FA74 /* StubPostAtomicNestedCommentRepository.swift in Sources */,
 				158981BA2BB2652700F016CF /* PostCommentAPIEndpointTests.swift in Sources */,
 				15FFAC2F2ADD03130013DB57 /* MockUserEndpoint.swift in Sources */,
 				13EB3D412BF4CF9300CA84F0 /* ShoppingUseCaseTests.swift in Sources */,
@@ -4067,8 +4192,10 @@
 				13EB3CD32BEAA00300CA84F0 /* DefaultTourIntroductionInfoRepositoryTests.swift in Sources */,
 				15BE6BF12BAF2285009A2568 /* PostCommentUseCaseTests.swift in Sources */,
 				15FBD5E42B98E94800076115 /* PostAPIEndpointTests.swift in Sources */,
+				15ABC41F2BF3505000B9FA74 /* PostCommentUseCaseImplTests.swift in Sources */,
 				154658812BEA67CC0081CCF8 /* FirestorePostNestedCommentRepositoryTests.swift in Sources */,
 				13EB3D512BF5034000CA84F0 /* AttractionUseCaseTests.swift in Sources */,
+				15E0BA002BF1B2BB00EBCDD9 /* PostNestedCommentHeartUseCaseImplTests.swift in Sources */,
 				13EB3D0B2BEFCF2900CA84F0 /* DefaultTourCommonInfoRepositoryTests.swift in Sources */,
 				15E9E5F02B9A359B00C2F1F7 /* PostUseCaseTests.swift in Sources */,
 				13EB3D1B2BF3420900CA84F0 /* FestivalUseCaseTests.swift in Sources */,
@@ -4116,6 +4243,7 @@
 				13EB3D6B2BF6037900CA84F0 /* AccommodationUseCase.swift in Sources */,
 				152834D52BAB4DED00453DD1 /* PostViewSection.swift in Sources */,
 				13405F082AEE212500382796 /* GoogleLoginButton.swift in Sources */,
+				15E0BA0F2BF273DC00EBCDD9 /* DeletedNestedCommentResult.swift in Sources */,
 				15259DEA2ACAA9D800C14F62 /* SearchFestivalCellViewModel.swift in Sources */,
 				15CC64142A1DD4EF00857446 /* ConvenienceInit.swift in Sources */,
 				15FBD5D22B98DA0E00076115 /* TravelOrderTypeMapper.swift in Sources */,
@@ -4243,8 +4371,10 @@
 				15FFABFB2AD5B6FC0013DB57 /* BasePaddingLabel.swift in Sources */,
 				13EB3CFA2BED274700CA84F0 /* TourIntroductionInfoShoppingResponseDTO.swift in Sources */,
 				15B01DA32BA93A1000BE9F98 /* OwnerStorage.swift in Sources */,
+				1558033B2BF1ACAD008F631C /* PostNestedCommentHeartUseCaseImpl.swift in Sources */,
 				15C36BBB2BD17AC0004AA8E9 /* FirestoreRequestType.swift in Sources */,
 				1572ABC22BE78D62008AFE66 /* PostCommentAtomicRepository.swift in Sources */,
+				15E0BA0B2BF1BBED00EBCDD9 /* PostNestedCommentUseCaseImpl.swift in Sources */,
 				153FA90F2B937E12006CF3C3 /* UserProfileImageResponseDTO.swift in Sources */,
 				151DF1012AEEBD0A00D5D55B /* NotificationAPIEndpoints.swift in Sources */,
 				1524A4A52BABEAA5002C639A /* MockPostUseCase.swift in Sources */,
@@ -4490,6 +4620,7 @@
 				157ADCA22ACFB55800D37680 /* FavoritePostViewAdapterDelegate.swift in Sources */,
 				1550D9B12ACB1D740046569B /* DevelopmentViewController.swift in Sources */,
 				134384182B4A9522005034E0 /* PhotoCell.swift in Sources */,
+				1558033D2BF1AD1C008F631C /* PostNestedCommentHeartUseCase.swift in Sources */,
 				15F2A0182B14E32B0014603D /* MyInformationViewController.swift in Sources */,
 				1518BC252BB0426B00FD1A74 /* PostCommentHeartToggleResponseDTO.swift in Sources */,
 				155D0BAC2B90CB5B0042DFB6 /* UserNicknamePatchRequestDTO.swift in Sources */,
@@ -4661,6 +4792,7 @@
 				13254FE52A05157900094218 /* FeedViewController.swift in Sources */,
 				15B9285F2AFA2D89003A20D4 /* PostDetailContentImageCell.swift in Sources */,
 				159851C52BEDF28B001262BD /* Combine+Helpers.swift in Sources */,
+				15E0BA0D2BF1C0B800EBCDD9 /* DefaultPostNestedCommentHeartUseCase.swift in Sources */,
 				130304822A250DF600776A0D /* TitleWithButtonHeaderView.swift in Sources */,
 				13E98F942BC7E42E00F05295 /* PostContentEntity.swift in Sources */,
 				15C1F55C2AF37CA8005FDA15 /* NSMutableAttributedString+.swift in Sources */,
