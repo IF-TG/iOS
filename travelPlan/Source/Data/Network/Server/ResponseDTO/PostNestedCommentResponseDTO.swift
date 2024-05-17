@@ -15,6 +15,7 @@ struct PostNestedCommentResponseDTO: Decodable {
   let comment: String
   let hearts: Int32
   let isOnHeart: Bool
+  // MARK: 서버에서는 대댓글의 authorId를 추가해야합니다. 그래야 내가올렸는지 타인이 올렸는지에 따라 편집하기 등의 로직수행이 가능합니다.
   
   enum CodingKeys: String, CodingKey {
     case nestedCommentId
@@ -43,6 +44,7 @@ extension PostNestedCommentResponseDTO {
   func toDomain(with userProfileImageData: Data?) -> PostNestedCommentEntity {
     return PostNestedCommentEntity(
       nestedCommentId: nestedCommentId,
+      authorId: "",
       userProfileImageData: userProfileImageData,
       nickname: nickname,
       timestamp: timestamp,

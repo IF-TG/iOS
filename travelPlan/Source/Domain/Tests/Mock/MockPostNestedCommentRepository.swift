@@ -41,6 +41,7 @@ final class MockPostNestedCommentRepository: PostNestedCommentRepository {
             // 잠깐 사용자가 보냈던 nestedComment로 가로체겠습니다.
             let interceptedEntity = PostNestedCommentEntity(
               nestedCommentId: entity.nestedCommentId,
+              authorId: "testUserId1234",
               userProfileImageData: entity.userProfileImageData,
               nickname: entity.nickname,
               timestamp: entity.timestamp,
@@ -75,7 +76,7 @@ final class MockPostNestedCommentRepository: PostNestedCommentRepository {
     }.eraseToAnyPublisher()
   }
   
-  func deleteNestedComment(nestedCommentId: String) -> AnyPublisher<Bool, any Error> {
+  func deleteNestedComment(nestedCommentId: String) -> AnyPublisher<DeletedNestedCommentResult, any Error> {
     MockUrlProtocol.requestHandler = { _ in
       let mockData = MockResponseType.postNestedComment(.whenCommentDelete).mockDataLoader
       return ((HTTPURLResponse(), mockData))
@@ -89,8 +90,9 @@ final class MockPostNestedCommentRepository: PostNestedCommentRepository {
             if case .failure(let error) = completion {
               promise(.failure(error))
             }
-          } receiveValue: { result in
-            promise(.success(result))
+          } receiveValue: { _ in
+            // MARK: 서버에서 주는 결과로는 대댓글 제거시, 댓글도 제거됬는 여부를 파악할 수 없습니다. 
+            promise(.success(.justANestedCommentDeleted))
           }
         self?.subscriptions.insert(subscription)
       }
