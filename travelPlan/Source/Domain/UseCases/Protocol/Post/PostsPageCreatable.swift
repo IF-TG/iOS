@@ -24,8 +24,17 @@ extension PostsPageCreatable {
     hasOwnerHeartEachPost hasHeartEachPost: [Bool]
   ) -> AnyPublisher<PostsPage, any Error> {
     let collectCount = atomicPosts.count
-    let indexedUserPublishers: [IndexedUserPublisher] = atomicPosts
-      .enumerated()
+    let indexedUserPublishers: [IndexedUserPublisher] = makeIndexedUserPublishers(from: atomicPosts)
+    
+    return Publishers.MergeMany(indexedUserPublishers)
+      .collect(collectCount)
+      .eraseToAnyPublisher()
+      .toPostsPage(fromAtomicPosts: atomicPosts, hasOwnerHeartEachPost: hasHeartEachPost)
+  }
+  
+  /// atomicPosts 각각의 authorId로부터 해당 저자의 프로필 받아오는 Output에 index를 부여합니다.
+  private func makeIndexedUserPublishers(from atomicPosts: [AtomicPost]) -> [IndexedUserPublisher] {
+    return atomicPosts.enumerated()
       .compactMap { [weak self] index, atomicPost -> IndexedUserPublisher? in
         return self?.userProfileRepository
           .fetchProfile(with: atomicPost.authorId)
@@ -33,11 +42,6 @@ extension PostsPageCreatable {
             return (index, userEntity)
           }.eraseToAnyPublisher()
       }
-    
-    return Publishers.MergeMany(indexedUserPublishers)
-      .collect(collectCount)
-      .eraseToAnyPublisher()
-      .toPostsPage(fromAtomicPosts: atomicPosts, hasOwnerHeartEachPost: hasHeartEachPost)
   }
 }
 
