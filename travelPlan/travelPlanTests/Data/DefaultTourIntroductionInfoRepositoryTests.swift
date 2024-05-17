@@ -11,14 +11,17 @@ import Combine
 
 final class DefaultTourIntroductionInfoRepositoryTests: XCTestCase {
   // MARK: - Properties
-  var sut: DefaultTourIntroductionInfoRepository!
+  var sut: TourIntroductionInfoRepository!
   var subscriptions: Set<AnyCancellable>!
   var expectation: XCTestExpectation!
   
   // MARK: - LifeCycle
   override func setUp() {
     super.setUp()
-    sut = .init(service: SessionProvider())
+    sut = DefaultTourIntroductionInfoRepository(
+      service: TourApiSessionProvider(),
+      backgroundQueue: DispatchQueue.main
+    )
     subscriptions = .init()
     expectation = .init(description: "비동기 호출 관리")
   }
@@ -26,12 +29,38 @@ final class DefaultTourIntroductionInfoRepositoryTests: XCTestCase {
   override func tearDown() {
     super.tearDown()
     sut = nil
-    subscriptions.removeAll()
+    subscriptions = nil
     expectation = nil
   }
 }
 
 extension DefaultTourIntroductionInfoRepositoryTests {
+  /* 숙박 */
+  func test_fetchAccommodation메소드_호출시_value로_IntroductionInfoAccommodationEntity를_내려주는지() {
+    // Arrange
+    var unexpectedError: Error?
+    var receivedResult = false
+    let tourContentId = TourContentId(contentId: 136605, contentTypeId: TourType.accommodation.rawValue)
+    
+    // Act
+    let actPublisher = sut.fetchAccommodation(tourContentId: tourContentId)
+    
+    sink(
+      fromPublisher: actPublisher,
+      withExpectation: expectation
+    ) { error, result in
+        unexpectedError = error
+        receivedResult = result
+      }
+    .store(in: &subscriptions)
+    
+    wait(for: [expectation], timeout: 10)
+    
+    // Assert
+    checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "fetchAccommodation")
+    XCTAssertTrue(receivedResult, "receivedValue로 IntroductionInfoAccommodationEntity를 받아야하는데 받지 못함.")
+  }
+  
   /* 쇼핑 */
   func test_fetchShopping메소드_호출시_value로_IntroductionInfoShoppingEntity를_내려주는지() {
     // Arrange
