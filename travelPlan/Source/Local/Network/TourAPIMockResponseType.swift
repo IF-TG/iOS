@@ -16,7 +16,7 @@ enum TourAPIMockResponseType {
   
   
   // MARK: - Properties
-  var filePath: String {
+  private var filePath: String {
     switch self {
     case .introdution(let tourType):
       [TourType.attraction: "mock_tourAPI_introductionInfo_attraction",
@@ -29,5 +29,16 @@ enum TourAPIMockResponseType {
        TourType.course: "mock_tourAPI_introductionInfo_course"
       ][tourType]!
     }
+  }
+  
+  /// case에 대한 json 디렉터리 -> Data로 불러올 때 사용합니다.
+  var mockDataLoader: Data {
+    guard let path = Bundle.main.path(forResource: filePath, ofType: "json") else {
+      return Data()
+    }
+    guard let jsonStr = try? String(contentsOfFile: path) else {
+      return Data()
+    }
+    return jsonStr.data(using: .utf8) ?? Data()
   }
 }
