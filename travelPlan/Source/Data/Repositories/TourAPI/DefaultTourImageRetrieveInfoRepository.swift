@@ -15,6 +15,7 @@ final class DefaultTourImageRetrieveInfoRepository {
   
   // MARK: - Dependencies
   private let service: Sessionable
+  private let imageService: ImageSessionable
   private let backgroundQueue: DispatchQueue
   
   // MARK: - Properties
@@ -23,11 +24,13 @@ final class DefaultTourImageRetrieveInfoRepository {
   // MARK: - Lifecycle
   init(
     service: Sessionable,
+    imageService: ImageSessionable,
     backgroundQueue: DispatchQueue = DispatchQueue(
       label: "TourImageRetrieveRepository", qos: .userInitiated, attributes: .concurrent)
   ) {
     self.service = service
     self.backgroundQueue = backgroundQueue
+    self.imageService = imageService
   }
 }
 
@@ -73,8 +76,8 @@ extension DefaultTourImageRetrieveInfoRepository: TourImageRetrieveInfoRepositor
                 return Fail<(Int, ImageInfo), Error>(error: ReferenceError.invalidReference).eraseToAnyPublisher()
               }
               return Publishers.Zip(
-                imageFetcher(entity.image.originalUrl),
-                imageFetcher(entity.image.thumbnailUrl))
+                imageService.request(imageURL: entity.image.originalUrl, queue: backgroundQueue),
+                imageService.request(imageURL: entity.image.originalUrl, queue: backgroundQueue))
               .map { (index, $0) }
               .mapError { $0 as Error }
               .eraseToAnyPublisher()
@@ -109,15 +112,6 @@ extension DefaultTourImageRetrieveInfoRepository: TourImageRetrieveInfoRepositor
 
 // MARK: - Private Helpers
 fileprivate extension DefaultTourImageRetrieveInfoRepository {
-  func imageFetcher(_ url: String) -> Future<Data, AFError> {
-    return Future { promise in
-      AF.request(url)
-        .responseData { response in
-          promise(response.result)
-        }
-    }
-  }
-  
   typealias isGroupSucceed = Bool
   func wait(
     forGroup group: DispatchGroup,
