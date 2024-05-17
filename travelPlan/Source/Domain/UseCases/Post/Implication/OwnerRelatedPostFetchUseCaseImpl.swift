@@ -16,9 +16,6 @@ final class OwnerRelatedPostFetchUseCaseImpl {
   private let postAtomicRepository: PostFetchAtomicRepository
   private let ownerHeartPostRepository: OwnerHeartPostRepository
   internal let userProfileRepository: UserProfileRepository
-  private let ownerRepository: LoggedInUserRepository
-  // MARK: - Properties
-  
   
   // MARK: - Lifecycle
   init(
@@ -30,9 +27,7 @@ final class OwnerRelatedPostFetchUseCaseImpl {
     self.postAtomicRepository = postAtomicRepository
     self.ownerHeartPostRepository = ownerHeartPostRepository
     self.userProfileRepository = userProfileRepository
-    self.ownerRepository = ownerRepository
   }
-  
 }
 
 // MARK: - OwnerRelatedPostFetchUseCase
@@ -63,11 +58,6 @@ extension OwnerRelatedPostFetchUseCaseImpl: OwnerRelatedPostFetchUseCase, PostsP
     isFirstPage: Bool,
     perPage: Int32 = 10
   ) -> AnyPublisher<PostsPage, any Error> {
-    /// 로그인한 사용자는 반드시 user info가 있어야 합니다.
-    guard let owner = ownerRepository.user else {
-      return Fail(error: OwnerError.invalidOwnerId).eraseToAnyPublisher()
-    }
-    
     return Publishers.Zip(
       ownerHeartPostRepository.fetchOwnerHeartPostIdentifiers(),
       postAtomicRepository.fetchOwnerWrotePosts(isFirstPage: isFirstPage, perPage: perPage))
