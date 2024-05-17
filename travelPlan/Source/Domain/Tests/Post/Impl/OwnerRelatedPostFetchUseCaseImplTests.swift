@@ -52,4 +52,22 @@ extension OwnerRelatedPostFetchUseCaseImplTests {
     checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "fetchOwnerLikedPosts")
     XCTAssert(receivedResult, notReceivedErrorMessage)
   }
+  
+  func test_fetchOwnerWrotePosts호출시_관련Entity성공적으로받는지() {
+    // Arrange
+    var receivedResult = false
+    var unexpectedError: Error?
+    
+    // Act
+    let sutPublisher = sut.fetchOwnerWrotePosts(isFirstPage: true).receive(on: RunLoop.current)
+    subscription = sink(fromPublisher: sutPublisher, withExpectation: expectation) { error, result in
+      receivedResult = result
+      unexpectedError = error
+    }
+    wait(for: [expectation], timeout: 7.777)
+    
+    // Assert
+    checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "fetchOwnerWrotePosts")
+    XCTAssert(receivedResult, notReceivedErrorMessage)
+  }
 }
