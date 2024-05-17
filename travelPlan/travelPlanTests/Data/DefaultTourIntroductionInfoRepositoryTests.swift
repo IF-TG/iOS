@@ -35,6 +35,32 @@ final class DefaultTourIntroductionInfoRepositoryTests: XCTestCase {
 }
 
 extension DefaultTourIntroductionInfoRepositoryTests {
+  /* 여행 코스 */
+  func test_fetchCourse메소드_호출시_value로_IntroductionInfoCourseEntity를_내려주는지() {
+    // Arrange
+    var unexpectedError: Error?
+    var receivedResult = false
+    let tourContentId = TourContentId(contentId: 1968948, contentTypeId: TourType.course.rawValue)
+    
+    // Act
+    let actPublisher = sut.fetchCourse(tourContentId: tourContentId)
+    
+    sink(
+      fromPublisher: actPublisher,
+      withExpectation: expectation
+    ) { error, result in
+        unexpectedError = error
+        receivedResult = result
+      }
+    .store(in: &subscriptions)
+    
+    wait(for: [expectation], timeout: 10)
+    
+    // Assert
+    checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "fetchCourse")
+    XCTAssertTrue(receivedResult, "receivedValue로 IntroductionInfoCourseEntity를 받아야하는데 받지 못함.")
+  }
+  
   /* 숙박 */
   func test_fetchAccommodation메소드_호출시_value로_IntroductionInfoAccommodationEntity를_내려주는지() {
     // Arrange
