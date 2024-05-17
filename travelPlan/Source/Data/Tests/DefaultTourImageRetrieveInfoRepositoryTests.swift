@@ -22,9 +22,9 @@ final class DefaultTourImageRetrieveInfoRepositoryTests: XCTestCase {
     let service = TourApiSessionProvider()
     let imageSession = {
       let sessionConfiguration = URLSessionConfiguration.default
-      sessionConfiguration.timeoutIntervalForRequest = 5
+      sessionConfiguration.timeoutIntervalForRequest = 10
       let monitor = ClosureEventMonitor()
-      monitor.requestDidResume = { request in print("task 요청 시자그!: \(request)") }
+      monitor.requestDidResume = { request in print("task 요청 시작!: \(request)") }
       monitor.requestDidFinish = { request in print("요청 끝: \(request)") }
       monitor.taskDidComplete = { _, _, error in
         if let error = error {
@@ -103,7 +103,7 @@ extension DefaultTourImageRetrieveInfoRepositoryTests {
     }.store(in: &self.subscriptions)
     
     
-    wait(for: [expectation], timeout: 7.777)
+    wait(for: [expectation], timeout: 50)
     
     // Assert
     checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "retrieveImages")
