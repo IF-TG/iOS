@@ -102,7 +102,6 @@ extension DefaultTourImageRetrieveInfoRepositoryTests {
       self.expectation.fulfill()
     }.store(in: &self.subscriptions)
     
-    
     wait(for: [expectation], timeout: 50)
     
     // Assert
