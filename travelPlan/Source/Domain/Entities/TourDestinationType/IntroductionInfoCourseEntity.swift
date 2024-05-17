@@ -8,5 +8,8 @@
 import Foundation
 
 struct IntroductionInfoCourseEntity {
-  
+  let tourContentId: TourContentId
+  let distance: String
+  let telNumber: String
+  let requiredTime: String
 }
