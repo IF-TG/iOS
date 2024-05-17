@@ -16,6 +16,7 @@ final class OwnerRelatedPostFetchUseCaseImpl {
   private let postAtomicRepository: PostFetchAtomicRepository
   private let ownerHeartPostRepository: OwnerHeartPostRepository
   internal let userProfileRepository: UserProfileRepository
+  private let ownerRepository: LoggedInUserRepository
   // MARK: - Properties
   
   
@@ -23,11 +24,13 @@ final class OwnerRelatedPostFetchUseCaseImpl {
   init(
     postAtomicRepository: PostFetchAtomicRepository,
     ownerHeartPostRepository: OwnerHeartPostRepository,
-    userProfileRepository: UserProfileRepository
+    userProfileRepository: UserProfileRepository,
+    ownerRepository: LoggedInUserRepository
   ) {
     self.postAtomicRepository = postAtomicRepository
     self.ownerHeartPostRepository = ownerHeartPostRepository
     self.userProfileRepository = userProfileRepository
+    self.ownerRepository = ownerRepository
   }
   
 }
@@ -54,5 +57,26 @@ extension OwnerRelatedPostFetchUseCaseImpl: OwnerRelatedPostFetchUseCase, PostsP
               
           }.eraseToAnyPublisher()
       }.eraseToAnyPublisher()
-  }  
+  }
+  
+  func fetchOwnerWrotePosts(
+    isFirstPage: Bool,
+    perPage: Int32 = 10
+  ) -> AnyPublisher<PostsPage, any Error> {
+    /// 로그인한 사용자는 반드시 user info가 있어야 합니다.
+    guard let owner = ownerRepository.user else {
+      return Fail(error: OwnerError.invalidOwnerId).eraseToAnyPublisher()
+    }
+    
+    return Publishers.Zip(
+      ownerHeartPostRepository.fetchOwnerHeartPostIdentifiers(),
+      postAtomicRepository.fetchOwnerWrotePosts(isFirstPage: isFirstPage, perPage: perPage))
+    .flatMap { [weak self] ownerHeartPostIdentifiers, atomicPosts -> AnyPublisher<PostsPage, any Error> in
+      guard let self else { return Fail(error: ReferenceError.invalidReference).eraseToAnyPublisher() }
+      let hasOwnerPostsHeart = atomicPosts.map { atomicPost -> Bool in
+        return ownerHeartPostIdentifiers.contains { $0 == atomicPost.detail.postID }
+      }
+      return makePostsPage(atomicPosts: atomicPosts, hasOwnerHeartEachPost: hasOwnerPostsHeart)
+    }.eraseToAnyPublisher()
+  }
 }
