@@ -266,6 +266,8 @@
 		1526ED1B2BF647F200B629FB /* DefaultPostCommentsAndPostLikeStateFetchUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1526ED162BF647F100B629FB /* DefaultPostCommentsAndPostLikeStateFetchUseCase.swift */; };
 		1526ED1C2BF647F200B629FB /* DefaultPostSearchUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1526ED172BF647F200B629FB /* DefaultPostSearchUseCase.swift */; };
 		1526ED232BF64CDD00B629FB /* StubUserProfileRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1526ED222BF64CDD00B629FB /* StubUserProfileRepository.swift */; };
+		1526ED262BF70BBC00B629FB /* OwnerRelatedPostFetchUseCaseImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1526ED242BF70BAF00B629FB /* OwnerRelatedPostFetchUseCaseImpl.swift */; };
+		1526ED292BF7154A00B629FB /* PostsPageCreatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1526ED272BF7152900B629FB /* PostsPageCreatable.swift */; };
 		152715412BA0D5AE0077D033 /* UserProfileRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152715402BA0D5AE0077D033 /* UserProfileRepository.swift */; };
 		152715452BA0D60F0077D033 /* DefaultUserProfileRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152715442BA0D60F0077D033 /* DefaultUserProfileRepository.swift */; };
 		152834D52BAB4DED00453DD1 /* PostViewSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152834D42BAB4DED00453DD1 /* PostViewSection.swift */; };
@@ -413,6 +415,8 @@
 		15803C632BDAB23E00D83F2B /* ImageStorageServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15803C622BDAB23E00D83F2B /* ImageStorageServiceProtocol.swift */; };
 		158312E12AB36A9A0087034A /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158312E02AB36A9A0087034A /* UIViewController+.swift */; };
 		158439152BAAC80B00348509 /* FavoritePostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158439142BAAC80B00348509 /* FavoritePostViewModel.swift */; };
+		15847C192BF7573600822008 /* OwnerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15847C182BF7573600822008 /* OwnerError.swift */; };
+		15847C1B2BF7581600822008 /* Error+OwnerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15847C1A2BF7581600822008 /* Error+OwnerError.swift */; };
 		1585017C2BC2E50D00341575 /* PostOptionResultAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1585017B2BC2E50D00341575 /* PostOptionResultAlertController.swift */; };
 		158695932AE5455B0087CCB3 /* FeedPostViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158695922AE5455B0087CCB3 /* FeedPostViewAdapter.swift */; };
 		158695952AE54D010087CCB3 /* FeedPostViewAdapterDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158695942AE54D010087CCB3 /* FeedPostViewAdapterDataSource.swift */; };
@@ -561,6 +565,8 @@
 		15C1F5612AF3D17D005FDA15 /* CALayer+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C1F5602AF3D17D005FDA15 /* CALayer+.swift */; };
 		15C36BBB2BD17AC0004AA8E9 /* FirestoreRequestType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C36BBA2BD17AC0004AA8E9 /* FirestoreRequestType.swift */; };
 		15C466AD2BBACE2C00609DDD /* DefaultPhotoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 134384142B495C0E005034E0 /* DefaultPhotoService.swift */; };
+		15C68AB02BF79F65007FBDD8 /* OwnerRelatedPostFetchUseCaseImplTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C68AAF2BF79F65007FBDD8 /* OwnerRelatedPostFetchUseCaseImplTests.swift */; };
+		15C68AB22BF7A3F0007FBDD8 /* PostSearchUseCaseImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C68AB12BF7A3F0007FBDD8 /* PostSearchUseCaseImpl.swift */; };
 		15C7A51A2B94DA2800C79E27 /* UserIdReqeustDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C7A5192B94DA2800C79E27 /* UserIdReqeustDTO.swift */; };
 		15C83F882AB2055E00DDB536 /* BaseBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C83F872AB2055E00DDB536 /* BaseBottomSheetViewController.swift */; };
 		15C83F8A2AB2134D00DDB536 /* BottomSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C83F892AB2134D00DDB536 /* BottomSheetView.swift */; };
@@ -1032,6 +1038,8 @@
 		1526ED172BF647F200B629FB /* DefaultPostSearchUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultPostSearchUseCase.swift; sourceTree = "<group>"; };
 		1526ED182BF647F200B629FB /* DefaultPostFetchUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultPostFetchUseCase.swift; sourceTree = "<group>"; };
 		1526ED222BF64CDD00B629FB /* StubUserProfileRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubUserProfileRepository.swift; sourceTree = "<group>"; };
+		1526ED242BF70BAF00B629FB /* OwnerRelatedPostFetchUseCaseImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerRelatedPostFetchUseCaseImpl.swift; sourceTree = "<group>"; };
+		1526ED272BF7152900B629FB /* PostsPageCreatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsPageCreatable.swift; sourceTree = "<group>"; };
 		152715402BA0D5AE0077D033 /* UserProfileRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileRepository.swift; sourceTree = "<group>"; };
 		152715442BA0D60F0077D033 /* DefaultUserProfileRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultUserProfileRepository.swift; sourceTree = "<group>"; };
 		152834D42BAB4DED00453DD1 /* PostViewSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewSection.swift; sourceTree = "<group>"; };
@@ -1179,6 +1187,8 @@
 		15803C622BDAB23E00D83F2B /* ImageStorageServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageStorageServiceProtocol.swift; sourceTree = "<group>"; };
 		158312E02AB36A9A0087034A /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
 		158439142BAAC80B00348509 /* FavoritePostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePostViewModel.swift; sourceTree = "<group>"; };
+		15847C182BF7573600822008 /* OwnerError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerError.swift; sourceTree = "<group>"; };
+		15847C1A2BF7581600822008 /* Error+OwnerError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Error+OwnerError.swift"; sourceTree = "<group>"; };
 		1585017B2BC2E50D00341575 /* PostOptionResultAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostOptionResultAlertController.swift; sourceTree = "<group>"; };
 		158695922AE5455B0087CCB3 /* FeedPostViewAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedPostViewAdapter.swift; sourceTree = "<group>"; };
 		158695942AE54D010087CCB3 /* FeedPostViewAdapterDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedPostViewAdapterDataSource.swift; sourceTree = "<group>"; };
@@ -1323,6 +1333,8 @@
 		15C1F55E2AF3CDD4005FDA15 /* SettingTopSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTopSheetView.swift; sourceTree = "<group>"; };
 		15C1F5602AF3D17D005FDA15 /* CALayer+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+.swift"; sourceTree = "<group>"; };
 		15C36BBA2BD17AC0004AA8E9 /* FirestoreRequestType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreRequestType.swift; sourceTree = "<group>"; };
+		15C68AAF2BF79F65007FBDD8 /* OwnerRelatedPostFetchUseCaseImplTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerRelatedPostFetchUseCaseImplTests.swift; sourceTree = "<group>"; };
+		15C68AB12BF7A3F0007FBDD8 /* PostSearchUseCaseImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSearchUseCaseImpl.swift; sourceTree = "<group>"; };
 		15C7A5192B94DA2800C79E27 /* UserIdReqeustDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserIdReqeustDTO.swift; sourceTree = "<group>"; };
 		15C83F872AB2055E00DDB536 /* BaseBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseBottomSheetViewController.swift; sourceTree = "<group>"; };
 		15C83F892AB2134D00DDB536 /* BottomSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetView.swift; sourceTree = "<group>"; };
@@ -2258,6 +2270,7 @@
 			isa = PBXGroup;
 			children = (
 				1526ECE62BF6331900B629FB /* PostFetchUseCaseImplTests.swift */,
+				15C68AAF2BF79F65007FBDD8 /* OwnerRelatedPostFetchUseCaseImplTests.swift */,
 			);
 			path = Impl;
 			sourceTree = "<group>";
@@ -2278,6 +2291,8 @@
 			isa = PBXGroup;
 			children = (
 				1526ED112BF6475100B629FB /* PostFetchUseCaseImpl.swift */,
+				1526ED242BF70BAF00B629FB /* OwnerRelatedPostFetchUseCaseImpl.swift */,
+				15C68AB12BF7A3F0007FBDD8 /* PostSearchUseCaseImpl.swift */,
 			);
 			path = Implication;
 			sourceTree = "<group>";
@@ -2700,6 +2715,8 @@
 				13EB3CCE2BEA820600CA84F0 /* TransformationError.swift */,
 				15F5A1312BF5D67B00CDF2F0 /* PaginationError.swift */,
 				15F5A1352BF5DAAE00CDF2F0 /* Error+PaginationError.swift */,
+				15847C182BF7573600822008 /* OwnerError.swift */,
+				15847C1A2BF7581600822008 /* Error+OwnerError.swift */,
 			);
 			path = Error;
 			sourceTree = "<group>";
@@ -3646,6 +3663,7 @@
 		15E0BA042BF1B88100EBCDD9 /* Post */ = {
 			isa = PBXGroup;
 			children = (
+				1526ED272BF7152900B629FB /* PostsPageCreatable.swift */,
 				1526ED062BF6467300B629FB /* PostRequestValue.swift */,
 				1526ED1E2BF6495000B629FB /* Implication */,
 				1526ED1D2BF6493D00B629FB /* Default */,
@@ -4213,6 +4231,7 @@
 				1526ECF02BF6374100B629FB /* DefaultOwnerRelatedPostFetchUseCaseTests.swift in Sources */,
 				1526ECE72BF6331900B629FB /* PostFetchUseCaseImplTests.swift in Sources */,
 				15BE6BF12BAF2285009A2568 /* PostCommentUseCaseTests.swift in Sources */,
+				15C68AB02BF79F65007FBDD8 /* OwnerRelatedPostFetchUseCaseImplTests.swift in Sources */,
 				1526ECF52BF6417F00B629FB /* StubPostFetchAtomicRepository.swift in Sources */,
 				15FBD5E42B98E94800076115 /* PostAPIEndpointTests.swift in Sources */,
 				15ABC41F2BF3505000B9FA74 /* PostCommentUseCaseImplTests.swift in Sources */,
@@ -4506,6 +4525,7 @@
 				15FEB5E62A050A99000A5F33 /* UISwitch+Combine.swift in Sources */,
 				15EA48CA2A539D7B00F4B391 /* MoreMenuViewDelegate.swift in Sources */,
 				150F17FC2B16D865008C0E17 /* CustomerServiceViewController.swift in Sources */,
+				1526ED262BF70BBC00B629FB /* OwnerRelatedPostFetchUseCaseImpl.swift in Sources */,
 				15EF8C9B2A0A19100068C744 /* TravelMainThemeCategoryAreaView.swift in Sources */,
 				15553BC82BB34643000AA896 /* PostNestedCommentUseCase.swift in Sources */,
 				159958792B0DC51900B2E4DC /* PostCellWithOneThumbnail.swift in Sources */,
@@ -4557,6 +4577,7 @@
 				1586BA872BBBCCCB001AA97C /* PostDetailViewModelable.swift in Sources */,
 				130304AA2A271F3B00776A0D /* SearchSectionModel.swift in Sources */,
 				151DF1122AEECDDD00D5D55B /* NoticeViewModelable.swift in Sources */,
+				1526ED292BF7154A00B629FB /* PostsPageCreatable.swift in Sources */,
 				159851BC2BEDEB0A001262BD /* FirestorePostNestedCommentHeartRepository.swift in Sources */,
 				15D3DA1E2BBFCDA20099C384 /* FavoritePostScrapRequestDTO.swift in Sources */,
 				15803C382BD8F3BC00D83F2B /* XMLParsingService.swift in Sources */,
@@ -4665,6 +4686,7 @@
 				134CCB672B028D9C00D51D84 /* ReviewWritingContentViewDelegate.swift in Sources */,
 				13405F692AF4478400382796 /* NavigationTitleWithClickView.swift in Sources */,
 				15C1F5462AF2BF73005FDA15 /* NotificationViewAdapterDelegate.swift in Sources */,
+				15847C1B2BF7581600822008 /* Error+OwnerError.swift in Sources */,
 				154CA6102BD3A5E00066B444 /* TourApiCommonResponseDTO.swift in Sources */,
 				15F5A1392BF5DDCC00CDF2F0 /* Publisher+.swift in Sources */,
 				158BEFC22A0EB45300C27861 /* UIFont+.swift in Sources */,
@@ -4773,6 +4795,7 @@
 				15EF8CA32A0A197C0068C744 /* CategoryPageView.swift in Sources */,
 				15FBD5D02B98D90500076115 /* TravelThemeMapper.swift in Sources */,
 				15E9E5EA2B9A1CA500C2F1F7 /* DefaultPostRepository.swift in Sources */,
+				15C68AB22BF7A3F0007FBDD8 /* PostSearchUseCaseImpl.swift in Sources */,
 				159958832B0DDFED00B2E4DC /* UIStackView+Helpers.swift in Sources */,
 				15B928652AFA3980003A20D4 /* PostDetailContentFooterView.swift in Sources */,
 				15BE6BEA2BAF1CA1009A2568 /* DefaultPostCommentUseCase.swift in Sources */,
@@ -4785,6 +4808,7 @@
 				1572ABC32BE78D7E008AFE66 /* PostAtomicCommentEntity.swift in Sources */,
 				130CF38D2B9347CF0051DEE8 /* AppleLoginStrategy.swift in Sources */,
 				15591DDC2BBE9F9B00128A9E /* DefaultFavoritePostInDirectoryUseCase.swift in Sources */,
+				15847C192BF7573600822008 /* OwnerError.swift in Sources */,
 				15D6559D2B8F6F3800466FEC /* MyInformationViewModel.swift in Sources */,
 				15553BC42BB343F1000AA896 /* PostNestedCommentRepository.swift in Sources */,
 				151BDAD62B16EE07002F36C3 /* UIView+Combine.swift in Sources */,
