@@ -16,7 +16,6 @@ final class DefaultTourImageRetrieveInfoRepository {
   typealias IndexedImageInfoFetcher = AnyPublisher<IndexedImageInfo, any Error>
   typealias RetrieveImagesReturnPublisher = AnyPublisher<
     [TourRetrievedImageEntity<TourRetrievedDataImageEntity>], any Error>
-  
 
   // MARK: - Dependencies
   private let service: Sessionable
