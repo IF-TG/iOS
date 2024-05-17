@@ -1,0 +1,51 @@
+{
+  "response": {
+    "header": {
+      "resultCode": "0000",
+      "resultMsg": "OK"
+    },
+    "body": {
+      "items": {
+        "item": [
+          {
+            "contentid": "136605",
+            "contenttypeid": "32",
+            "goodstay": "0",
+            "benikia": "0",
+            "hanok": "0",
+            "roomcount": "35실",
+            "roomtype": "가족실, 단체실",
+            "refundregulation": "",
+            "checkintime": "14:00",
+            "checkouttime": "12:00",
+            "chkcooking": "불가",
+            "seminar": "0",
+            "sports": "0",
+            "sauna": "0",
+            "beauty": "0",
+            "beverage": "0",
+            "karaoke": "0",
+            "barbecue": "0",
+            "campfire": "0",
+            "bicycle": "0",
+            "fitness": "0",
+            "publicpc": "0",
+            "publicbath": "0",
+            "subfacility": "대운동장, 수영장, 씨름장, 갯벌체험장, 약수터, 산책로, 노천극장, 실내대강당, 세미나실, 도서관, 단체목욕탕, 휴게실, 매점",
+            "foodplace": "식당",
+            "reservationurl": "",
+            "pickup": "",
+            "infocenterlodging": "032-933-8891",
+            "parkinglodging": "주차가능",
+            "reservationlodging": "032-933-8891",
+            "scalelodging": "2층",
+            "accomcountlodging": "412명"
+          }
+        ]
+      },
+      "numOfRows": 1,
+      "pageNo": 1,
+      "totalCount": 1
+    }
+  }
+}
