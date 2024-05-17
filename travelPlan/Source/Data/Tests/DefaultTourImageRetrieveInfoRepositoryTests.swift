@@ -7,6 +7,7 @@
 
 import XCTest
 import Combine
+import Alamofire
 @testable import travelPlan
 
 final class DefaultTourImageRetrieveInfoRepositoryTests: XCTestCase {
@@ -19,8 +20,24 @@ final class DefaultTourImageRetrieveInfoRepositoryTests: XCTestCase {
   override func setUp() {
     super.setUp()
     let service = TourApiSessionProvider()
+    let imageSession = {
+      let sessionConfiguration = URLSessionConfiguration.default
+      sessionConfiguration.timeoutIntervalForRequest = 5
+      let monitor = ClosureEventMonitor()
+      monitor.requestDidResume = { request in print("task 요청 시자그!: \(request)") }
+      monitor.requestDidFinish = { request in print("요청 끝: \(request)") }
+      monitor.taskDidComplete = { _, _, error in
+        if let error = error {
+          print("Task completed with error: \(error)")
+        } else {
+          print("Task completed successfully")
+        }
+      }
+      return Session(configuration: sessionConfiguration, eventMonitors: [monitor])
+    }()
     sut = DefaultTourImageRetrieveInfoRepository(
-      service: service)
+      service: service,
+      imageService: ImageSessionProvider(session: imageSession))
     expectation = XCTestExpectation(description: "테스트 시작!")
   }
   
