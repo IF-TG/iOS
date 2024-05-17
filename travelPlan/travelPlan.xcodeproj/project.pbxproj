@@ -216,6 +216,11 @@
 		13EB3D8A2BF71EAE00CA84F0 /* mock_tourAPI_introductionInfo_accommodation.json in Resources */ = {isa = PBXBuildFile; fileRef = 13EB3D882BF71EAE00CA84F0 /* mock_tourAPI_introductionInfo_accommodation.json */; };
 		13EB3D8D2BF71EC400CA84F0 /* mock_tourAPI_introductionInfo_course.json in Resources */ = {isa = PBXBuildFile; fileRef = 13EB3D8B2BF71EC400CA84F0 /* mock_tourAPI_introductionInfo_course.json */; };
 		13EB3D8F2BF753A200CA84F0 /* IntroductionInfoCourseEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13EB3D8E2BF753A200CA84F0 /* IntroductionInfoCourseEntity.swift */; };
+		13EB3D922BF7C74500CA84F0 /* CourseUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13EB3D912BF7C74500CA84F0 /* CourseUseCase.swift */; };
+		13EB3D942BF7C84700CA84F0 /* CourseEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13EB3D932BF7C84700CA84F0 /* CourseEntity.swift */; };
+		13EB3D962BF7D07A00CA84F0 /* TourIntroductionInfoCourseResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13EB3D952BF7D07A00CA84F0 /* TourIntroductionInfoCourseResponseDTO.swift */; };
+		13EB3D982BF7D54600CA84F0 /* DefaultCourseUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13EB3D972BF7D54600CA84F0 /* DefaultCourseUseCase.swift */; };
+		13EB3D9C2BF7DDFA00CA84F0 /* CourseUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13EB3D9B2BF7DDFA00CA84F0 /* CourseUseCaseTests.swift */; };
 		13F6DAC82B5248EF00573B86 /* SlideUpAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F6DAC72B5248EF00573B86 /* SlideUpAnimator.swift */; };
 		13F6DACA2B52711E00573B86 /* SlideDownAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F6DAC92B52711E00573B86 /* SlideDownAnimator.swift */; };
 		13F6DACD2B53A5D400573B86 /* AlbumCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F6DACC2B53A5D400573B86 /* AlbumCoordinator.swift */; };
@@ -997,6 +1002,11 @@
 		13EB3D892BF71EAE00CA84F0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/mock_tourAPI_introductionInfo_accommodation.json; sourceTree = "<group>"; };
 		13EB3D8C2BF71EC400CA84F0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/mock_tourAPI_introductionInfo_course.json; sourceTree = "<group>"; };
 		13EB3D8E2BF753A200CA84F0 /* IntroductionInfoCourseEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroductionInfoCourseEntity.swift; sourceTree = "<group>"; };
+		13EB3D912BF7C74500CA84F0 /* CourseUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseUseCase.swift; sourceTree = "<group>"; };
+		13EB3D932BF7C84700CA84F0 /* CourseEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseEntity.swift; sourceTree = "<group>"; };
+		13EB3D952BF7D07A00CA84F0 /* TourIntroductionInfoCourseResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourIntroductionInfoCourseResponseDTO.swift; sourceTree = "<group>"; };
+		13EB3D972BF7D54600CA84F0 /* DefaultCourseUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultCourseUseCase.swift; sourceTree = "<group>"; };
+		13EB3D9B2BF7DDFA00CA84F0 /* CourseUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseUseCaseTests.swift; sourceTree = "<group>"; };
 		13F6DAC72B5248EF00573B86 /* SlideUpAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideUpAnimator.swift; sourceTree = "<group>"; };
 		13F6DAC92B52711E00573B86 /* SlideDownAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideDownAnimator.swift; sourceTree = "<group>"; };
 		13F6DACC2B53A5D400573B86 /* AlbumCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumCoordinator.swift; sourceTree = "<group>"; };
@@ -1880,6 +1890,7 @@
 				13EB3D5C2BF517E200CA84F0 /* RestaurantEntity.swift */,
 				13EB3D682BF602CB00CA84F0 /* AccommodationEntity.swift */,
 				13EB3D8E2BF753A200CA84F0 /* IntroductionInfoCourseEntity.swift */,
+				13EB3D932BF7C84700CA84F0 /* CourseEntity.swift */,
 			);
 			path = TourDestinationType;
 			sourceTree = "<group>";
@@ -1926,6 +1937,7 @@
 				13EB3D462BF4E9FF00CA84F0 /* DefaultLeportsUseCase.swift */,
 				13EB3D4E2BF500E800CA84F0 /* DefaultAttractionUseCase.swift */,
 				13EB3D6C2BF603B300CA84F0 /* DefaultAccommodationUseCase.swift */,
+				13EB3D972BF7D54600CA84F0 /* DefaultCourseUseCase.swift */,
 			);
 			path = Tour;
 			sourceTree = "<group>";
@@ -2182,6 +2194,7 @@
 				13EB3D5A2BF516FA00CA84F0 /* RestaurantUseCase.swift */,
 				13EB3D6A2BF6037900CA84F0 /* AccommodationUseCase.swift */,
 				1558033C2BF1AD1C008F631C /* PostNestedCommentHeartUseCase.swift */,
+				13EB3D912BF7C74500CA84F0 /* CourseUseCase.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -2589,6 +2602,7 @@
 				13E84AE92BE372AF00B537B6 /* TourIntroductionInfoFestivalResponseDTO.swift */,
 				15050D3D2BE92F1800B3E26A /* TourApiRetrievedImageResponseDTO.swift */,
 				13EB3CF92BED274700CA84F0 /* TourIntroductionInfoShoppingResponseDTO.swift */,
+				13EB3D952BF7D07A00CA84F0 /* TourIntroductionInfoCourseResponseDTO.swift */,
 				13EB3D052BEE0B9200CA84F0 /* TourIntroductionInfoRestaurantResponseDTO.swift */,
 				13EB3D0F2BF0396F00CA84F0 /* TourIntroductionInfoAttractionResponseDTO.swift */,
 				13EB3D132BF081B200CA84F0 /* TourIntroductionInfoCultureFacilityResponseDTO.swift */,
@@ -3448,6 +3462,7 @@
 				13EB3D6E2BF6071B00CA84F0 /* AccommodationUseCaseTests.swift */,
 				15E0B9FF2BF1B2BB00EBCDD9 /* PostNestedCommentHeartUseCaseImplTests.swift */,
 				15ABC41E2BF3505000B9FA74 /* PostCommentUseCaseImplTests.swift */,
+				13EB3D9B2BF7DDFA00CA84F0 /* CourseUseCaseTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -4211,6 +4226,7 @@
 				15591DE32BBEA5AF00128A9E /* FavoritePostInDirectoryUseCaseTests.swift in Sources */,
 				15553BD62BB34D06000AA896 /* PostNestedCommentUseCaseTests.swift in Sources */,
 				13EB3CCD2BEA6B7900CA84F0 /* DefaultTourFestivalInfoRepositoryTests.swift in Sources */,
+				13EB3D9C2BF7DDFA00CA84F0 /* CourseUseCaseTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4346,6 +4362,7 @@
 				13EB3D8F2BF753A200CA84F0 /* IntroductionInfoCourseEntity.swift in Sources */,
 				154ECA172AB0B5D40093AF25 /* TravelMainThemeType.swift in Sources */,
 				135A07C02BA94A9C003D6C4D /* AlbumViewModel.swift in Sources */,
+				13EB3D962BF7D07A00CA84F0 /* TourIntroductionInfoCourseResponseDTO.swift in Sources */,
 				15EBD91B2BE8D38A00BCEA7F /* PostCommentHeartUseCase.swift in Sources */,
 				152AD51B2A1A0447008A2A11 /* FavoriteTableViewAdapter.swift in Sources */,
 				15A0E1A12B97A3FD0047D662 /* PostContainerResponseDTO.swift in Sources */,
@@ -4355,6 +4372,7 @@
 				15803C362BD8EE6500D83F2B /* XMLParsingServiceProtocol.swift in Sources */,
 				15F0D1BE2A52940F00D04773 /* PostViewBottomSheetViewController.swift in Sources */,
 				157ADC9E2ACFAAFA00D37680 /* FavoritePostViewAdapter.swift in Sources */,
+				13EB3D982BF7D54600CA84F0 /* DefaultCourseUseCase.swift in Sources */,
 				13E746772B4D303E007D5C15 /* PhotoCellDelegate.swift in Sources */,
 				15C83F8A2AB2134D00DDB536 /* BottomSheetView.swift in Sources */,
 				1503F92B2A4E068E002BC38D /* ApplicationCoordinator.swift in Sources */,
@@ -4438,6 +4456,7 @@
 				150A543D2BC82C61005D8108 /* BottomBasedTooltipView.swift in Sources */,
 				15CB235B2A109CA4003EAF20 /* PostHeaderContentBottomInfo.swift in Sources */,
 				130304792A24936D00776A0D /* SearchViewModel.swift in Sources */,
+				13EB3D922BF7C74500CA84F0 /* CourseUseCase.swift in Sources */,
 				15B5E7992BBAE34E00C19F56 /* UserBlockRequestDTO.swift in Sources */,
 				1595B5302BAD9DAC00DA5039 /* PostMainThemeCategoryBottomSheet.swift in Sources */,
 				154047882BE4954D009E86FF /* PostHeartsRespoonseDTO.swift in Sources */,
@@ -4772,6 +4791,7 @@
 				130CF38D2B9347CF0051DEE8 /* AppleLoginStrategy.swift in Sources */,
 				15591DDC2BBE9F9B00128A9E /* DefaultFavoritePostInDirectoryUseCase.swift in Sources */,
 				15D6559D2B8F6F3800466FEC /* MyInformationViewModel.swift in Sources */,
+				13EB3D942BF7C84700CA84F0 /* CourseEntity.swift in Sources */,
 				15553BC42BB343F1000AA896 /* PostNestedCommentRepository.swift in Sources */,
 				151BDAD62B16EE07002F36C3 /* UIView+Combine.swift in Sources */,
 				15803C612BDAA1A600D83F2B /* FirebaseStorageService.swift in Sources */,
