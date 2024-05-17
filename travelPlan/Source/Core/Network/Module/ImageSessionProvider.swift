@@ -10,9 +10,15 @@ import Combine
 import Alamofire
 
 class ImageSessionProvider: ImageSessionable {
+  var session: Alamofire.Session
+  
+  init(session: Alamofire.Session = .default) {
+    self.session = session
+  }
+  
   func request(imageURL: String, queue: DispatchQueue) -> AnyPublisher<Data, AFError> {
     return Future { promise in
-      AF.request(imageURL)
+      self.session.request(imageURL)
         .validate(statusCode: 200..<300)
         .responseData(queue: queue) { response in
           switch response.result {
