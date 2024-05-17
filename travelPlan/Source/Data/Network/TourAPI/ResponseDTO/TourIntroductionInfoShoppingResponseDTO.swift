@@ -11,7 +11,6 @@ struct TourIntroductionInfoShoppingResponseDTO: Decodable {
   let contentId: Int
   let contentTypeId: Int
   let canPark: String
-  let canUseCreditCard: String
   let fairDay: String
   let openTime: String
   let restDay: String
@@ -21,7 +20,6 @@ struct TourIntroductionInfoShoppingResponseDTO: Decodable {
   enum CodingKeys: String, CodingKey {
     case contentId = "contentid"
     case contentTypeId = "contenttypeid"
-    case canUseCreditCard = "chkcreditcardshopping"
     case canPark = "parkingshopping"
     case fairDay = "fairday"
     case openTime = "opentime"
@@ -42,7 +40,6 @@ struct TourIntroductionInfoShoppingResponseDTO: Decodable {
     
     self.contentId = contentId
     self.contentTypeId = contentTypeId
-    self.canUseCreditCard = try container.decode(String.self, forKey: .canUseCreditCard)
     self.canPark = try container.decode(String.self, forKey: .canPark)
     self.fairDay = try container.decode(String.self, forKey: .fairDay)
     self.openTime = try container.decode(String.self, forKey: .openTime)
@@ -57,7 +54,6 @@ extension TourIntroductionInfoShoppingResponseDTO {
   func toDomain() -> IntroductionInfoShoppingEntity {
     return IntroductionInfoShoppingEntity(
       canPark: canPark,
-      canUseCreditCard: canUseCreditCard,
       fairDay: fairDay,
       openTime: openTime,
       restDay: restDay,

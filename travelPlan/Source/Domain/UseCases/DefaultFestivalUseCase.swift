@@ -13,16 +13,19 @@ final class DefaultFestivalUseCase {
   private let tourFestivalInfoRepository: any TourFestivalInfoRepository
   private let tourCommonInfoRepository: any TourCommonInfoRepository
   private let tourIntroductionInfoRepository: any TourIntroductionInfoRepository
-  
+  private let tourImageRetrieveInfoRepository: any TourImageRetrieveInfoRepository
+
   // MARK: - LifeCycle
   init(
     tourFestivalInfoRepository: any TourFestivalInfoRepository,
     tourCommonInfoRepository: any TourCommonInfoRepository,
-    tourIntroductionInfoRepository: any TourIntroductionInfoRepository
+    tourIntroductionInfoRepository: any TourIntroductionInfoRepository,
+    tourImageRetrieveInfoRepository: any TourImageRetrieveInfoRepository
   ) {
     self.tourFestivalInfoRepository = tourFestivalInfoRepository
     self.tourCommonInfoRepository = tourCommonInfoRepository
     self.tourIntroductionInfoRepository = tourIntroductionInfoRepository
+    self.tourImageRetrieveInfoRepository = tourImageRetrieveInfoRepository
   }
 }
 
@@ -39,22 +42,32 @@ extension DefaultFestivalUseCase: FestivalUseCase {
       numOfRows: nil,
       pageNo: nil
     )
-    let introductionPublisher = tourIntroductionInfoRepository.fetchFestival(
+    
+    let imagePublisher = tourImageRetrieveInfoRepository.retrieveImages(
+      contentId: tourContentId.contentId,
+      numOfRows: nil,
+      pageNo: nil
+    )
+      .map { $0.map { $0.image.original } }
+    
+    let festivalPublisher = tourIntroductionInfoRepository.fetchFestival(
       tourContentId: tourContentId
     )
     
-    return commonPublisher
-      .zip(introductionPublisher)
-      .map { (commonEntity, introFestivalEntity) in
+    return Publishers
+      .Zip3(commonPublisher, festivalPublisher, imagePublisher)
+      .map { (commonEntity, festivalEntity, imageDataList) in
         return FestivalEntity(
-          ageLimit: introFestivalEntity.ageLimit,
-          startDate: introFestivalEntity.startDate,
-          endDate: introFestivalEntity.endDate,
+          tourContentId: .init(contentId: commonEntity.id.contentId,
+                               contentTypeId: commonEntity.id.contentTypeId),
+          ageLimit: festivalEntity.ageLimit,
+          startDate: festivalEntity.startDate,
+          endDate: festivalEntity.endDate,
           address: commonEntity.address.address1,
-          showTime: introFestivalEntity.showTime,
-          fee: introFestivalEntity.fee,
+          showTime: festivalEntity.showTime,
+          fee: festivalEntity.fee,
           title: commonEntity.title,
-          image: commonEntity.image.originalImageData,
+          images: [commonEntity.image.originalImageData] + imageDataList,
           telNumber: commonEntity.contact.telNumber,
           overview: commonEntity.overview
         )

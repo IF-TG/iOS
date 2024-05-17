@@ -18,7 +18,7 @@ final class FestivalUseCaseTests: XCTestCase {
   // MARK: - LifeCycle
   override func setUp() {
     super.setUp()
-    self.sut = DefaultFestivalUseCase(
+    sut = DefaultFestivalUseCase(
       tourFestivalInfoRepository: DefaultTourFestivalInfoRepository(
         service: SessionProvider(),
         imageService: ImageSessionProvider(),
@@ -32,9 +32,14 @@ final class FestivalUseCaseTests: XCTestCase {
       tourIntroductionInfoRepository: DefaultTourIntroductionInfoRepository(
         service: SessionProvider(),
         backgroundQueue: DispatchQueue.main
+      ), 
+      tourImageRetrieveInfoRepository: DefaultTourImageRetrieveInfoRepository(
+        service: SessionProvider(),
+        backgroundQueue: DispatchQueue.main
       )
     )
-    self.expectation = .init(description: "비동기 처리")
+    
+    expectation = .init(description: "비동기 처리")
     subscriptions = .init()
   }
   
