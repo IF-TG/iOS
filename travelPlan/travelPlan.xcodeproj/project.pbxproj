@@ -148,7 +148,6 @@
 		13E84AEE2BE39DD200B537B6 /* IntroductionInfoFestivalEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E84AED2BE39DD200B537B6 /* IntroductionInfoFestivalEntity.swift */; };
 		13E84AF02BE3A3A900B537B6 /* TourAPIIntroductionEndpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E84AEF2BE3A3A900B537B6 /* TourAPIIntroductionEndpoints.swift */; };
 		13E84AF42BE3A41D00B537B6 /* TourAPIFestivalEndpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E84AF32BE3A41D00B537B6 /* TourAPIFestivalEndpoints.swift */; };
-		13E84AFE2BE971C500B537B6 /* DefaultFestivalUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E84AFD2BE971C500B537B6 /* DefaultFestivalUseCaseTests.swift */; };
 		13E913932B0F3ECF00E15B11 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 13E913922B0F3ECF00E15B11 /* SnapKit */; };
 		13E98F852BC53D8000F05295 /* ReviewWritingUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E98F842BC53D8000F05295 /* ReviewWritingUseCase.swift */; };
 		13E98F872BC53DDD00F05295 /* DefaultReviewWritingUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E98F862BC53DDD00F05295 /* DefaultReviewWritingUseCase.swift */; };
@@ -178,6 +177,14 @@
 		13EB3D142BF081B200CA84F0 /* TourIntroductionInfoCultureFacilityResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13EB3D132BF081B200CA84F0 /* TourIntroductionInfoCultureFacilityResponseDTO.swift */; };
 		13EB3D162BF0AE2C00CA84F0 /* IntroductionInfoLeportsEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13EB3D152BF0AE2C00CA84F0 /* IntroductionInfoLeportsEntity.swift */; };
 		13EB3D182BF0AE5900CA84F0 /* TourIntroductionInfoLeportsResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13EB3D172BF0AE5900CA84F0 /* TourIntroductionInfoLeportsResponseDTO.swift */; };
+		13EB3D1B2BF3420900CA84F0 /* FestivalUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13EB3D1A2BF3420900CA84F0 /* FestivalUseCaseTests.swift */; };
+		13EB3D1D2BF3438300CA84F0 /* MockTourIntroductionInfoRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13EB3D1C2BF3438300CA84F0 /* MockTourIntroductionInfoRepository.swift */; };
+		13EB3D222BF34A5600CA84F0 /* mock_tourAPI_introductionInfo_festival.json in Resources */ = {isa = PBXBuildFile; fileRef = 13EB3D202BF34A5600CA84F0 /* mock_tourAPI_introductionInfo_festival.json */; };
+		13EB3D252BF35C3600CA84F0 /* mock_tourAPI_introductionInfo_attraction.json in Resources */ = {isa = PBXBuildFile; fileRef = 13EB3D232BF35C3600CA84F0 /* mock_tourAPI_introductionInfo_attraction.json */; };
+		13EB3D282BF35CC800CA84F0 /* mock_tourAPI_introductionInfo_shopping.json in Resources */ = {isa = PBXBuildFile; fileRef = 13EB3D262BF35CC800CA84F0 /* mock_tourAPI_introductionInfo_shopping.json */; };
+		13EB3D2B2BF35D2900CA84F0 /* mock_tourAPI_introductionInfo_cultureFacility.json in Resources */ = {isa = PBXBuildFile; fileRef = 13EB3D292BF35D2900CA84F0 /* mock_tourAPI_introductionInfo_cultureFacility.json */; };
+		13EB3D2E2BF35D5A00CA84F0 /* mock_tourAPI_introductionInfo_leports.json in Resources */ = {isa = PBXBuildFile; fileRef = 13EB3D2C2BF35D5A00CA84F0 /* mock_tourAPI_introductionInfo_leports.json */; };
+		13EB3D312BF35D9700CA84F0 /* mock_tourAPI_introductionInfo_restaurant.json in Resources */ = {isa = PBXBuildFile; fileRef = 13EB3D2F2BF35D9700CA84F0 /* mock_tourAPI_introductionInfo_restaurant.json */; };
 		13F6DAC82B5248EF00573B86 /* SlideUpAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F6DAC72B5248EF00573B86 /* SlideUpAnimator.swift */; };
 		13F6DACA2B52711E00573B86 /* SlideDownAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F6DAC92B52711E00573B86 /* SlideDownAnimator.swift */; };
 		13F6DACD2B53A5D400573B86 /* AlbumCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F6DACC2B53A5D400573B86 /* AlbumCoordinator.swift */; };
@@ -894,7 +901,6 @@
 		13E84AED2BE39DD200B537B6 /* IntroductionInfoFestivalEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroductionInfoFestivalEntity.swift; sourceTree = "<group>"; };
 		13E84AEF2BE3A3A900B537B6 /* TourAPIIntroductionEndpoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourAPIIntroductionEndpoints.swift; sourceTree = "<group>"; };
 		13E84AF32BE3A41D00B537B6 /* TourAPIFestivalEndpoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourAPIFestivalEndpoints.swift; sourceTree = "<group>"; };
-		13E84AFD2BE971C500B537B6 /* DefaultFestivalUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultFestivalUseCaseTests.swift; sourceTree = "<group>"; };
 		13E98F842BC53D8000F05295 /* ReviewWritingUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWritingUseCase.swift; sourceTree = "<group>"; };
 		13E98F862BC53DDD00F05295 /* DefaultReviewWritingUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultReviewWritingUseCase.swift; sourceTree = "<group>"; };
 		13E98F882BC581BF00F05295 /* ReviewWritingRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWritingRepository.swift; sourceTree = "<group>"; };
@@ -921,6 +927,14 @@
 		13EB3D132BF081B200CA84F0 /* TourIntroductionInfoCultureFacilityResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourIntroductionInfoCultureFacilityResponseDTO.swift; sourceTree = "<group>"; };
 		13EB3D152BF0AE2C00CA84F0 /* IntroductionInfoLeportsEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroductionInfoLeportsEntity.swift; sourceTree = "<group>"; };
 		13EB3D172BF0AE5900CA84F0 /* TourIntroductionInfoLeportsResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourIntroductionInfoLeportsResponseDTO.swift; sourceTree = "<group>"; };
+		13EB3D1A2BF3420900CA84F0 /* FestivalUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FestivalUseCaseTests.swift; sourceTree = "<group>"; };
+		13EB3D1C2BF3438300CA84F0 /* MockTourIntroductionInfoRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockTourIntroductionInfoRepository.swift; sourceTree = "<group>"; };
+		13EB3D212BF34A5600CA84F0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/mock_tourAPI_introductionInfo_festival.json; sourceTree = "<group>"; };
+		13EB3D242BF35C3600CA84F0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/mock_tourAPI_introductionInfo_attraction.json; sourceTree = "<group>"; };
+		13EB3D272BF35CC800CA84F0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/mock_tourAPI_introductionInfo_shopping.json; sourceTree = "<group>"; };
+		13EB3D2A2BF35D2900CA84F0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/mock_tourAPI_introductionInfo_cultureFacility.json; sourceTree = "<group>"; };
+		13EB3D2D2BF35D5A00CA84F0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/mock_tourAPI_introductionInfo_leports.json; sourceTree = "<group>"; };
+		13EB3D302BF35D9700CA84F0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/mock_tourAPI_introductionInfo_restaurant.json; sourceTree = "<group>"; };
 		13F6DAC72B5248EF00573B86 /* SlideUpAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideUpAnimator.swift; sourceTree = "<group>"; };
 		13F6DAC92B52711E00573B86 /* SlideDownAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideDownAnimator.swift; sourceTree = "<group>"; };
 		13F6DACC2B53A5D400573B86 /* AlbumCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumCoordinator.swift; sourceTree = "<group>"; };
@@ -1809,6 +1823,27 @@
 			path = Data;
 			sourceTree = "<group>";
 		};
+		13EB3D1E2BF346CD00CA84F0 /* TourAPI */ = {
+			isa = PBXGroup;
+			children = (
+				13EB3D1F2BF346DC00CA84F0 /* IntroductionInfo */,
+			);
+			path = TourAPI;
+			sourceTree = "<group>";
+		};
+		13EB3D1F2BF346DC00CA84F0 /* IntroductionInfo */ = {
+			isa = PBXGroup;
+			children = (
+				13EB3D202BF34A5600CA84F0 /* mock_tourAPI_introductionInfo_festival.json */,
+				13EB3D232BF35C3600CA84F0 /* mock_tourAPI_introductionInfo_attraction.json */,
+				13EB3D262BF35CC800CA84F0 /* mock_tourAPI_introductionInfo_shopping.json */,
+				13EB3D292BF35D2900CA84F0 /* mock_tourAPI_introductionInfo_cultureFacility.json */,
+				13EB3D2C2BF35D5A00CA84F0 /* mock_tourAPI_introductionInfo_leports.json */,
+				13EB3D2F2BF35D9700CA84F0 /* mock_tourAPI_introductionInfo_restaurant.json */,
+			);
+			path = IntroductionInfo;
+			sourceTree = "<group>";
+		};
 		13F6DACB2B53A5A800573B86 /* Coordinator */ = {
 			isa = PBXGroup;
 			children = (
@@ -1953,7 +1988,6 @@
 				15D655A12B8F820100466FEC /* Presentation */,
 				13E7EABC2BD3BCEE0027946C /* ReviewWritingUseCaseTests.swift */,
 				151130082A04E4EB0041DDA1 /* travelPlanTests.swift */,
-				13E84AFD2BE971C500B537B6 /* DefaultFestivalUseCaseTests.swift */,
 			);
 			path = travelPlanTests;
 			sourceTree = "<group>";
@@ -2167,6 +2201,7 @@
 		151DF1072AEEC53400D5D55B /* MockJson */ = {
 			isa = PBXGroup;
 			children = (
+				13EB3D1E2BF346CD00CA84F0 /* TourAPI */,
 				15591DDF2BBEA28D00128A9E /* FavoriteDirectory */,
 				15B5E7A82BBAE95C00C19F56 /* UserBlock */,
 				15553BCD2BB3488D000AA896 /* NestedPostComment */,
@@ -3310,6 +3345,7 @@
 				15591DE22BBEA5AF00128A9E /* FavoritePostInDirectoryUseCaseTests.swift */,
 				15EBD91E2BE8D40700BCEA7F /* PostCommentHeartUseCaseTests.swift */,
 				15EBD9222BE906C700BCEA7F /* PostCommentHeartUseCaseImplTests.swift */,
+				13EB3D1A2BF3420900CA84F0 /* FestivalUseCaseTests.swift */,
 				15E0B9FF2BF1B2BB00EBCDD9 /* PostNestedCommentHeartUseCaseImplTests.swift */,
 				15ABC41E2BF3505000B9FA74 /* PostCommentUseCaseImplTests.swift */,
 			);
@@ -3328,6 +3364,7 @@
 				15B5E7AB2BBAEA3B00C19F56 /* MockWrappedUserBlockRepository.swift */,
 				15591DDD2BBEA07100128A9E /* MockFavoritePostInDirectoryRepository.swift */,
 				13E622C22BD39F91003E4FA4 /* MockReviewWritingRepository.swift */,
+				13EB3D1C2BF3438300CA84F0 /* MockTourIntroductionInfoRepository.swift */,
 			);
 			path = Mock;
 			sourceTree = "<group>";
@@ -3949,6 +3986,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				154CA5FB2BD38EAA0066B444 /* Secrets.xcconfig in Resources */,
+				13EB3D282BF35CC800CA84F0 /* mock_tourAPI_introductionInfo_shopping.json in Resources */,
 				158E81F52B9A4D3F0080CCA8 /* mock_response_postContainer.json in Resources */,
 				13BF411D2ADBE42000F3F082 /* onboarding-video.mp4 in Resources */,
 				1518BC292BB0486400FD1A74 /* mock_postComment_toggleCommentHeart_response.json in Resources */,
@@ -3959,6 +3997,7 @@
 				15BE6BEF2BAF1FD4009A2568 /* mock_response_postComments_whenCommentSend.json in Resources */,
 				1594F53E29FD517F00A58F20 /* LaunchScreen.storyboard in Resources */,
 				13E622BF2BD02401003E4FA4 /* mock_reviewWriting_post_response.json in Resources */,
+				13EB3D252BF35C3600CA84F0 /* mock_tourAPI_introductionInfo_attraction.json in Resources */,
 				15BE6BD42BAEF83D009A2568 /* mock_response_postCommentContainer.json in Resources */,
 				159958762B0D988400B2E4DC /* Palette.xcassets in Resources */,
 				158BEFBC2A0EB2A500C27861 /* Pretendard-SemiBold.ttf in Resources */,
@@ -3966,15 +4005,19 @@
 				1518BC1F2BB02DEE00FD1A74 /* mock_postComment_delete_response.json in Resources */,
 				158BEFBF2A0EB2A500C27861 /* Pretendard-Thin.ttf in Resources */,
 				1518BC212BB03BF300FD1A74 /* mock_postComment_fetchComments_response.json in Resources */,
+				13EB3D222BF34A5600CA84F0 /* mock_tourAPI_introductionInfo_festival.json in Resources */,
 				15E1550D2BAB47F400582E12 /* BottomNextPageIndicatorCell.xib in Resources */,
 				1518BC1B2BB022D100FD1A74 /* mock_postComment_update_response.json in Resources */,
 				15FB96722BC4270E00706312 /* PostDetailCategoryCell.xib in Resources */,
 				158BEFBA2A0EB2A500C27861 /* Pretendard-Bold.ttf in Resources */,
+				13EB3D312BF35D9700CA84F0 /* mock_tourAPI_introductionInfo_restaurant.json in Resources */,
 				15B5E7AA2BBAE97A00C19F56 /* mock_userBlock_response.json in Resources */,
 				1594F53B29FD517F00A58F20 /* Assets.xcassets in Resources */,
 				15FD50972BB45A78006CCCDD /* mock_postNestedComemnt_delete_response.json in Resources */,
+				13EB3D2E2BF35D5A00CA84F0 /* mock_tourAPI_introductionInfo_leports.json in Resources */,
 				15EBDBBD2BC0236C00A8A91C /* mock_posts_response.json in Resources */,
 				158BEFBE2A0EB2A500C27861 /* Pretendard-ExtraBold.ttf in Resources */,
+				13EB3D2B2BF35D2900CA84F0 /* mock_tourAPI_introductionInfo_cultureFacility.json in Resources */,
 				13E7EAD12BDE3B3F0027946C /* GoogleService-Info.plist in Resources */,
 				15591DE12BBEA2B900128A9E /* mock_favoritePosts_fetch_response.json in Resources */,
 				151DF10F2AEECBB400D5D55B /* mock_response_notice.json in Resources */,
@@ -4032,7 +4075,6 @@
 				15ABC4292BF3596100B9FA74 /* StubPostCommentHeartRepository.swift in Sources */,
 				15B5E7AE2BBAEBE700C19F56 /* UserBlockUseCaseTests.swift in Sources */,
 				1383C81C2B97F44800830F1A /* KeychainManagerTests.swift in Sources */,
-				13E84AFE2BE971C500B537B6 /* DefaultFestivalUseCaseTests.swift in Sources */,
 				15EBD9192BE8AC9400BCEA7F /* FirestorePostCommentHeartRepositoryTests.swift in Sources */,
 				15ABC4242BF3549900B9FA74 /* StubPostAtomicNestedCommentRepository.swift in Sources */,
 				158981BA2BB2652700F016CF /* PostCommentAPIEndpointTests.swift in Sources */,
@@ -4049,6 +4091,7 @@
 				15E0BA002BF1B2BB00EBCDD9 /* PostNestedCommentHeartUseCaseImplTests.swift in Sources */,
 				13EB3D0B2BEFCF2900CA84F0 /* DefaultTourCommonInfoRepositoryTests.swift in Sources */,
 				15E9E5F02B9A359B00C2F1F7 /* PostUseCaseTests.swift in Sources */,
+				13EB3D1B2BF3420900CA84F0 /* FestivalUseCaseTests.swift in Sources */,
 				158C6A3B2B0D231C00C30856 /* ImageIOTests.swift in Sources */,
 				15FFAC202ADC322B0013DB57 /* EndpointTests.swift in Sources */,
 				15FFAC2E2ADD030F0013DB57 /* MockModels.swift in Sources */,
@@ -4666,6 +4709,7 @@
 				15FFAC0D2AD9AEB80013DB57 /* Encodable+.swift in Sources */,
 				13E98F8D2BC5961F00F05295 /* ReviewWritingEntity.swift in Sources */,
 				15FFAC132AD9C7EB0013DB57 /* NetwrokInteractionable.swift in Sources */,
+				13EB3D1D2BF3438300CA84F0 /* MockTourIntroductionInfoRepository.swift in Sources */,
 				150D4E692BEA5DA5004509D6 /* FirestorePostNestedCommentAPIEndpoint.swift in Sources */,
 				13E7EACF2BDE36640027946C /* TourFestivalResponseDTO.swift in Sources */,
 				13405F662AF4470200382796 /* ReviewWritingViewController.swift in Sources */,
@@ -4709,6 +4753,54 @@
 				13E622BE2BD02401003E4FA4 /* en */,
 			);
 			name = mock_reviewWriting_post_response.json;
+			sourceTree = "<group>";
+		};
+		13EB3D202BF34A5600CA84F0 /* mock_tourAPI_introductionInfo_festival.json */ = {
+			isa = PBXVariantGroup;
+			children = (
+				13EB3D212BF34A5600CA84F0 /* en */,
+			);
+			name = mock_tourAPI_introductionInfo_festival.json;
+			sourceTree = "<group>";
+		};
+		13EB3D232BF35C3600CA84F0 /* mock_tourAPI_introductionInfo_attraction.json */ = {
+			isa = PBXVariantGroup;
+			children = (
+				13EB3D242BF35C3600CA84F0 /* en */,
+			);
+			name = mock_tourAPI_introductionInfo_attraction.json;
+			sourceTree = "<group>";
+		};
+		13EB3D262BF35CC800CA84F0 /* mock_tourAPI_introductionInfo_shopping.json */ = {
+			isa = PBXVariantGroup;
+			children = (
+				13EB3D272BF35CC800CA84F0 /* en */,
+			);
+			name = mock_tourAPI_introductionInfo_shopping.json;
+			sourceTree = "<group>";
+		};
+		13EB3D292BF35D2900CA84F0 /* mock_tourAPI_introductionInfo_cultureFacility.json */ = {
+			isa = PBXVariantGroup;
+			children = (
+				13EB3D2A2BF35D2900CA84F0 /* en */,
+			);
+			name = mock_tourAPI_introductionInfo_cultureFacility.json;
+			sourceTree = "<group>";
+		};
+		13EB3D2C2BF35D5A00CA84F0 /* mock_tourAPI_introductionInfo_leports.json */ = {
+			isa = PBXVariantGroup;
+			children = (
+				13EB3D2D2BF35D5A00CA84F0 /* en */,
+			);
+			name = mock_tourAPI_introductionInfo_leports.json;
+			sourceTree = "<group>";
+		};
+		13EB3D2F2BF35D9700CA84F0 /* mock_tourAPI_introductionInfo_restaurant.json */ = {
+			isa = PBXVariantGroup;
+			children = (
+				13EB3D302BF35D9700CA84F0 /* en */,
+			);
+			name = mock_tourAPI_introductionInfo_restaurant.json;
 			sourceTree = "<group>";
 		};
 		1594F53C29FD517F00A58F20 /* LaunchScreen.storyboard */ = {
