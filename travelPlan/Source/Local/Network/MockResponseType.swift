@@ -14,7 +14,6 @@ import Foundation
   case postNestedComment(PostNestedCommentResponse)
   case userBlock(UserBlock)
   case favoriteDirectory(FavoriteDirectory)
-  case tourAPI(TourAPI)
   
   var filePath: String {
     return switch self {
@@ -30,11 +29,6 @@ import Foundation
       directoryType.filePath
     case .post(let response):
       response.filePath
-    case .tourAPI(let tourAPI):
-      switch tourAPI {
-      case .introduction(let intro):
-        intro.filePath
-      }
     }
   }
   
@@ -159,34 +153,6 @@ extension MockResponseType {
           .whenFavoritePostsFetch: "mock_favoritePosts_fetch_response",
           .whenFavoritePostDirectoryNameUpdate: "mock_favoritePostDirectoryName_update_response"
         ] [self]!
-      }
-    }
-  }
-}
-
-// MARK: - TourAPI directory
-extension MockResponseType {
-  @frozen enum TourAPI {
-    case introduction(Introduction)
-    
-    // MARK: - Nested
-    enum Introduction {
-      case attraction
-      case festival
-      case shopping
-      case cultureFacility
-      case leports
-      case restaurant
-      
-      var filePath: String {
-        [
-          .attraction: "mock_tourAPI_introductionInfo_attraction",
-          .festival: "mock_tourAPI_introductionInfo_festival",
-          .shopping: "mock_tourAPI_introductionInfo_shopping",
-          .cultureFacility: "mock_tourAPI_introductionInfo_cultureFacility",
-          .leports: "mock_tourAPI_introductionInfo_leports",
-          .restaurant: "mock_tourAPI_introductionInfo_restaurant"
-        ][self]!
       }
     }
   }
