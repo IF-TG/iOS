@@ -17,13 +17,17 @@ final class DefaultUserBlockUseCase: UserBlockUseCase {
     self.userBlockRepository = userBlockRepository
   }
     
-  func blockUser(with userId: Int64) -> AnyPublisher<BlockedUserIdentifyEntity, any Error> {
+  func blockUser(with userId: String) -> AnyPublisher<BlockedUserIdentifyEntity, any Error> {
     return userBlockRepository
       .blockUser(with: userId)
       .eraseToAnyPublisher()
   }
   
-  func fetchBlockedUsers() -> AnyPublisher<[BlockedUserProfileEntity], any Error> {
+  func unblockUser(with blockedUserId: String) -> AnyPublisher<Void, any Error> {
+    return userBlockRepository.unblockUser(with: blockedUserId)
+  }
+  
+  func fetchBlockedUsers() -> AnyPublisher<[BlockedUserIdentifyEntity], any Error> {
     return userBlockRepository
       .fetchBlockedUsers()
       .eraseToAnyPublisher()
