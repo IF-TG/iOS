@@ -45,6 +45,9 @@ final class DefaultTourImageRetrieveInfoRepository {
 
 // MARK: - TourImagesRetrieveInfoRepository
 extension DefaultTourImageRetrieveInfoRepository: TourImageRetrieveInfoRepository {
+  /// 투어 api에 요청시 제공받는 atomic  json을 받습니다.
+  ///
+  /// contentId에 따라 해당 컨텐츠의 이미지 정보 json을 numOfRows 만큼 받습니다.
   func retrieveAtomicImages(
     contentId: Int,
     numOfRows: Int?,
@@ -66,6 +69,9 @@ extension DefaultTourImageRetrieveInfoRepository: TourImageRetrieveInfoRepositor
       .eraseToAnyPublisher()
   }
   
+  /// 투어 api에 요청시 제공받는 이미지 정보와 url 바탕으로 이미지를 데이터로 변환해서 받습니다.
+  ///
+  /// contentId에 따라 해당 컨텐츠의 이미지 정보와 이미지 원본, 썸네일 데이터를 numOfRows 만큼 받습니다.
   func retrieveImages(
     contentId: Int,
     numOfRows: Int?,
@@ -104,6 +110,9 @@ extension DefaultTourImageRetrieveInfoRepository: TourImageRetrieveInfoRepositor
         }.eraseToAnyPublisher()
   }
   
+  /// 투어 api에 요청시 제공받는 이미지 정보와 url 바탕으로 이미지를 데이터로 변환해서 받습니다.
+  ///
+  /// contentId에 따라 해당 컨텐츠의 이미지 정보와 이미지 원본 데이터를 numOfRows 만큼 받습니다.
   func retrieveOriginalImages(
     contentId: Int,
     numOfRows: Int?,
