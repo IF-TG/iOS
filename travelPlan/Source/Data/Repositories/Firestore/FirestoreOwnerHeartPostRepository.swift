@@ -36,6 +36,8 @@ final class FirestoreOwnerHeartPostRepository {
 }
 
 // MARK: - OwnerHeartPostRepository
+// TODO: - 코어에 저장해서 서버통신 비용줄이기.
+// 사용자가 처음 로그인시에 받아오고, 좋아요할때, 싫어요할때 에도 코어에 저장해서 여기서 이렇게 서버 호출하는 일 없게하기.
 extension FirestoreOwnerHeartPostRepository: OwnerHeartPostRepository {
   func fetchOwnerHeartPostIdentifiers() -> AnyPublisher<[PostIdentifier], any Error> {
     /// 로그인한 사용자는 반드시 있어야하는 정보입니다.
