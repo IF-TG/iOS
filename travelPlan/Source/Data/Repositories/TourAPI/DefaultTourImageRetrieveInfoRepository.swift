@@ -14,8 +14,13 @@ final class DefaultTourImageRetrieveInfoRepository {
   typealias ImageInfo = (original: Data, thumbnail: Data)
   typealias IndexedImageInfo = (index: Int, imageInfo: ImageInfo)
   typealias IndexedImageInfoFetcher = AnyPublisher<IndexedImageInfo, any Error>
+  typealias IndexedOriginalImageData = (index: Int, original: Data)
+  typealias IndexedOriginalImageDataFetcher = AnyPublisher<IndexedOriginalImageData, any Error>
+  
   typealias RetrieveImagesReturnPublisher = AnyPublisher<
     [TourRetrievedImageEntity<TourRetrievedDataImageEntity>], any Error>
+  typealias RetrieveOriginalImagesRetrunPublisher = AnyPublisher<
+    [TourRetrievedImageEntity<TourRetrievedOriginalImageDataEntity>], any Error>
 
   // MARK: - Dependencies
   private let service: Sessionable
@@ -98,6 +103,44 @@ extension DefaultTourImageRetrieveInfoRepository: TourImageRetrieveInfoRepositor
             }.eraseToAnyPublisher()
         }.eraseToAnyPublisher()
   }
+  
+  func retrieveOriginalImages(
+    contentId: Int,
+    numOfRows: Int?,
+    pageNo: Int?
+  ) -> RetrieveOriginalImagesRetrunPublisher {
+    return retrieveAtomicImages(
+      contentId: contentId, numOfRows: numOfRows, pageNo: pageNo)
+    .receive(on: backgroundQueue)
+    .flatMap { [weak self, backgroundQueue] atomicEntities -> RetrieveOriginalImagesRetrunPublisher in
+      guard let self else { return Fail(error: ReferenceError.invalidReference).eraseToAnyPublisher() }
+      let collectCount = atomicEntities.count
+      let indexedOriginalImageDataFetchers: [IndexedOriginalImageDataFetcher] = makeIndexedOriginalImageFetchers(
+        from: atomicEntities.map { $0.image },
+        backgroundQueue: backgroundQueue)
+      
+      return Publishers
+        .MergeMany(indexedOriginalImageDataFetchers)
+        .collect(collectCount)
+        .eraseToAnyPublisher()
+        .map { indexedOriginalImageDataList in
+          let sortedOriginalImageDataList = indexedOriginalImageDataList
+            .sorted { $0.index < $1.index }
+            .map { $0.original }
+          
+          return (0..<collectCount).map { index -> TourRetrievedImageEntity<TourRetrievedOriginalImageDataEntity> in
+            let atomicEntity = atomicEntities[index]
+            let originalImageDataEntity = TourRetrievedOriginalImageDataEntity(
+              name: atomicEntity.image.name,
+              originalImageData: sortedOriginalImageDataList[index])
+            return TourRetrievedImageEntity<TourRetrievedOriginalImageDataEntity>(
+              contentId: atomicEntity.contentId,
+              image: originalImageDataEntity,
+              copyright: atomicEntity.copyright)
+          }
+        }.eraseToAnyPublisher()
+    }.eraseToAnyPublisher()
+  }
 }
 
 // MARK: - Private Helpers
@@ -116,6 +159,19 @@ fileprivate extension DefaultTourImageRetrieveInfoRepository {
           .eraseToAnyPublisher())
       .map { return (index, ($0, $1)) }
       .eraseToAnyPublisher()
+    }
+  }
+  
+  func makeIndexedOriginalImageFetchers(
+    from atomicEntities: [TourRetrievedAtomicImageEntity],
+    backgroundQueue: DispatchQueue
+  ) -> [IndexedOriginalImageDataFetcher] {
+    return atomicEntities.enumerated().map { index, atomicEntity -> IndexedOriginalImageDataFetcher in
+      return imageService.request(imageURL: atomicEntity.originalUrl, queue: backgroundQueue)
+        .mapError { $0 as Error }
+        .map { originalImageData -> IndexedOriginalImageData in
+          return (index, originalImageData)
+        }.eraseToAnyPublisher()
     }
   }
 }
