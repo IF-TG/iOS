@@ -30,8 +30,8 @@ protocol MyProfileUseCase {
   
   func checkIfNicknameDuplicate(with name: String) -> AnyPublisher<Bool, Error>
   func updateNickname(with name: String) -> AnyPublisher<Bool, Error>
-  func updateProfile(with base64String: String) -> AnyPublisher<Bool, Error>
-  func saveProfile(with base64String: String) -> AnyPublisher<Bool, Error>
-  func deleteProfile() -> AnyPublisher<Bool, Error>
-  func fetchProfile() -> AnyPublisher<ProfileImageEntity, Error>
+  func updateProfileImageData(with data: Data) -> AnyPublisher<Bool, Error>
+  func saveProfileImageData(with data: Data) -> AnyPublisher<Bool, Error>
+  func deleteProfileImageData() -> AnyPublisher<Bool, Error>
+  func fetchProfileImageData() -> AnyPublisher<ProfileImageEntity, Error>
 }

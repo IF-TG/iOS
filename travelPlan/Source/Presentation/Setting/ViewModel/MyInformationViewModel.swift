@@ -55,10 +55,11 @@ final class MyInformationViewModel {
   private let actions: MyInformationViewModelActions
   
   // MARK: - Properties
-  private var editedUserProfileImage: String?
+  private var editedUserProfileImage: Data?
   private var editedUserNickname: String?
   private var changedNameAvailable = false
   private var isProcessingBothNameAndProfile = false
+  private var ownerEntity: UserEntity?
   
   private var subscriptions = Set<AnyCancellable>()
   
@@ -69,8 +70,8 @@ final class MyInformationViewModel {
   private let updatedProfileNotifier = PassthroughSubject<Bool?, Never>()
   private let nicknameUpdateSubject = PassthroughSubject<String, Never>()
   private let duplicatedNicknameCheckSubject = PassthroughSubject<String, Never>()
-  private let profileUpdateSubject = PassthroughSubject<String, Never>()
-  private let profileSaveSubject = PassthroughSubject<String, Never>()
+  private let profileUpdateSubject = PassthroughSubject<Data, Never>()
+  private let profileSaveSubject = PassthroughSubject<Data, Never>()
 
   // MARK: - Lifecycle
   init(
@@ -91,6 +92,7 @@ final class MyInformationViewModel {
 extension MyInformationViewModel: MyInformationViewModelable {
   func transform(_ input: Input) -> Output {
     return Publishers.MergeMany([
+      viewDidLoadStream(input),
       checkDuplicatedUserNameStream(),
       selectProfileStream(input: input),
       tapStoreButtonStream(input: input),
@@ -106,9 +108,22 @@ extension MyInformationViewModel: MyInformationViewModelable {
 
 // MARK: - Private Helpers
 private extension MyInformationViewModel {
+  func viewDidLoadStream(_ input: Input) -> Output {
+    return input.viewDidLoad
+      .map { [weak self] _ in
+        /// 로그인한 사용자라면 반드시 ownerStorage에 사용자 정보가 저장되어야 합니다.
+        guard let ownerEntity = self?.loggedInUserUseCase.user else {
+          return .unexpectedError(description: "사용자 정보를 불러올 수 없습니다.")
+        }
+        self?.ownerEntity = ownerEntity
+        return .viewDidLoad(ownerEntity)
+      }.eraseToAnyPublisher()
+  }
+  
   func updateNicknameSubjectStream() -> Output {
     return nicknameUpdateSubject
       .flatMap { [weak self] nickname in
+        self?.editedUserNickname = nickname
       return self?.myProfileUseCase.updateNickname(with: nickname)
           .mapViewModelError { $0 }
         .map { [weak self] result in
@@ -118,6 +133,7 @@ private extension MyInformationViewModel {
           }
           if result {
             self?.changedNameAvailable = false
+            self?.saveNicknameInOwnerUseCase(nickname)
           }
           return result ? .correctionSaved : .correctionNotSaved
         }.catch { [weak self] error in
@@ -181,8 +197,8 @@ private extension MyInformationViewModel {
   }
   
   func updateProfileStream() -> Output {
-    profileUpdateSubject.flatMap { [weak self] imageString -> Output in
-      return self?.myProfileUseCase.updateProfile(with: imageString)
+    profileUpdateSubject.flatMap { [weak self] imageData -> Output in
+      return self?.myProfileUseCase.updateProfileImageData(with: imageData)
         .mapViewModelError { $0 }
         .map { [weak self] result -> State in
           if self?.isProcessingBothNameAndProfile == true {
@@ -204,8 +220,8 @@ private extension MyInformationViewModel {
   }
   
   func saveProfileStream() -> Output {
-    profileSaveSubject.flatMap { [weak self] imageString -> Output in
-      return self?.myProfileUseCase.saveProfile(with: imageString)
+    profileSaveSubject.flatMap { [weak self] imageData -> Output in
+      return self?.myProfileUseCase.saveProfileImageData(with: imageData)
         .mapViewModelError { $0 }
         .map { [weak self] result -> State in
           if self?.isProcessingBothNameAndProfile == true {
@@ -213,6 +229,7 @@ private extension MyInformationViewModel {
             return .none
           }
           if result {
+            self?.saveProfileImageDataInOwnerUseCase(imageData)
             self?.editedUserProfileImage = nil
           }
           return result ? .correctionSaved : .correctionNotSaved
@@ -229,7 +246,6 @@ private extension MyInformationViewModel {
   /// 프로필, 이미지 둘다 업데이트되는 경우 두개의 경우를 받은 후에 State를 반환합니다.
   func hasBothNameAndProfileUpdatedStream() -> Output {
     return bothNameAndProfileUpdatedPublisher
-      .subscribe(on: DispatchQueue.global(qos: .userInitiated))
       .map { [weak self] (updatedNameResult, updatedProfileResult) -> State in
         self?.isProcessingBothNameAndProfile = false
         if updatedNameResult == nil || updatedProfileResult == nil {
@@ -239,6 +255,7 @@ private extension MyInformationViewModel {
         if updatedNameResult == updatedProfileResult {
           self?.changedNameAvailable = false
           self?.editedUserProfileImage = nil
+          self?.saveNicknameInOwnerUseCase(self?.editedUserNickname)
           return .correctionSaved
         }
         return .correctionNotSaved
@@ -265,10 +282,18 @@ private extension MyInformationViewModel {
   
   func inputNicknameStream(input: Input) -> Output {
     return input.revisedNicknameInput
-      .debounce(for: 0.2, scheduler: RunLoop.main)
+      .debounce(for: 0.3, scheduler: DispatchQueue.main)
       .map { [weak self] editedNickname -> State in
         let isNicknameAvailable = (3...15).contains(editedNickname.count)
         let isNicknameWithinMinimumRange = (0...2).contains(editedNickname.count) || editedNickname.isEmpty
+        
+        guard let loggedInUserNickname = self?.ownerEntity?.nickname else {
+          return .unexpectedError(description: "로그인한 사용자의 정보가 일치하지 않습니다. 잠시 후 다시 시도해주세요.")
+        }
+        if editedNickname == loggedInUserNickname {
+          return .nicknameState(.default)
+        }
+        
         if isNicknameAvailable {
           self?.editedUserNickname = editedNickname
           // TODO: - activityIndicator로 리빌딩 해야합니다. 아니면 processing 반환 scope에서 다른 퍼블리셔에 send할때 백그라운드에서 호출하도록 변경해야합니다.
@@ -283,15 +308,26 @@ private extension MyInformationViewModel {
         if editedNickname.count > 15 {
           return .nicknameState(.overflow)
         }
-        guard let loggedInUserNickname = self?.loggedInUserUseCase.nickname else {
-          // FIXME: - 이런경우 로그아웃 시켜야하나?.?
-          return .unexpectedError(description: "로그인한 사용자의 정보가 일치하지 않습니다.")
-        }
-        if editedNickname == loggedInUserNickname {
-          return .nicknameState(.default)
-        }
         return .none
       }.eraseToAnyPublisher()
+  }
+  
+  func saveNicknameInOwnerUseCase(_ nickname: String?) {
+    guard let nickname else {
+      print("저장할 닉네임이 없습니다.")
+      return
+    }
+    loggedInUserUseCase.updateNickname(with: nickname)
+    ownerEntity?.nickname = nickname
+  }
+  
+  func saveProfileImageDataInOwnerUseCase(_ profileImageData: Data?) {
+    guard let profileImageData else {
+      print("저장할 이미지가 없습니다.")
+      return
+    }
+    loggedInUserUseCase.updateProfileImageData(with: profileImageData)
+    ownerEntity?.profileImageData = profileImageData
   }
 }
 

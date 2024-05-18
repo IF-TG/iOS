@@ -6,6 +6,7 @@
 //
 
 import Combine
+import Foundation
 
 protocol MyInformationViewModelPageDelegate: AnyObject {
   func showConfirmationAlertPage()
@@ -25,7 +26,8 @@ struct MyInformationViewModelActions {
 }
 
 struct MyInformationViewModelInput {
-  let profileSelect: PassthroughSubject<String?, Never> = .init()
+  let viewDidLoad: PassthroughSubject<Void, Never> = .init()
+  let profileSelect: PassthroughSubject<Data?, Never> = .init()
   let saveButtonTap: PassthroughSubject<Void, Never> = .init()
   let defaultNickname: PassthroughSubject<Void, Never> = .init()
   let revisedNicknameInput: PassthroughSubject<String, Never> = .init()
@@ -33,6 +35,7 @@ struct MyInformationViewModelInput {
 
 enum MyInformationViewModelState {
   case none
+  case viewDidLoad(UserEntity)
   case networkProcessing
   case savableState(Bool)
   case nicknameState(SettingUserNameTextField.State)

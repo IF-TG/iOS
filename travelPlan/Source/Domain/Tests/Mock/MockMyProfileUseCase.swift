@@ -66,99 +66,18 @@ final class MockMyProfileUseCase: MyProfileUseCase {
       .eraseToAnyPublisher()
   }
   
-  func updateProfile(with base64String: String) -> AnyPublisher<Bool, any Error> {
-    let json = """
-          {
-            "result": {
-              "imageUrl": "\(base64String)",
-              "userId": 1
-            },
-            "status": "OK",
-            "statusCode": "200",
-            "message": "success"
-          }
-          """
-    MockUrlProtocol.requestHandler = { _ in
-      let responseData = json.data(using: .utf8)!
-      return ((HTTPURLResponse(), responseData))
-    }
-    return Future<Bool, Error> { promise in
-      DispatchQueue.global(qos: .background).async {
-        self.defaultMyProfileUseCase.updateProfile(with: base64String)
-          .delay(for: .seconds(0.1), scheduler: DispatchQueue.global(qos: .background))
-          .sink { completion in
-            if case .failure(let error) = completion {
-              promise(.failure(error))
-            }
-          } receiveValue: { result in
-            promise(.success(result))
-          }.store(in: &self.subscriptions)
-        
-      }
-    }.eraseToAnyPublisher()
+  func updateProfileImageData(with imageData: Data) -> AnyPublisher<Bool, any Error> {
+    return Just(true).setAnyErrorAndEraseToAnyPublisher()
   }
   
-  func saveProfile(with base64String: String) -> AnyPublisher<Bool, any Error> {
-    let json = """
-          {
-            "result": {
-              "imageUrl": "\(base64String)",
-              "userId": 1
-            },
-            "status": "OK",
-            "statusCode": "200",
-            "message": "success"
-          }
-          """
-    MockUrlProtocol.requestHandler = { _ in
-      let responseData = json.data(using: .utf8)!
-      return ((HTTPURLResponse(), responseData))
-    }
-    return Future<Bool, Error> { promise in
-      DispatchQueue.global(qos: .background).async {
-        self.defaultMyProfileUseCase.saveProfile(with: base64String)
-          .delay(for: .seconds(0.1), scheduler: DispatchQueue.global(qos: .background))
-          .sink { completion in
-            if case .failure(let error) = completion {
-              promise(.failure(error))
-            }
-          } receiveValue: { result in
-            promise(.success(result))
-          }.store(in: &self.subscriptions)
-      }
-    }.eraseToAnyPublisher()
+  func saveProfileImageData(with imageData: Data) -> AnyPublisher<Bool, any Error> {
+    return Just(true).setAnyErrorAndEraseToAnyPublisher()
   }
   
-  func deleteProfile() -> AnyPublisher<Bool, any Error> {
-    let json = """
-          {
-            "result": true,
-            "status": "OK",
-            "statusCode": "200",
-            "message": "success"
-          }
-          """
-    MockUrlProtocol.requestHandler = { _ in
-      let responseData = json.data(using: .utf8)!
-      return ((HTTPURLResponse(), responseData))
-    }
-    return Future<Bool, Error> { promise in
-      DispatchQueue.global(qos: .background).async {
-        self.defaultMyProfileUseCase.deleteProfile()
-          .delay(for: .seconds(0.1), scheduler: DispatchQueue.global(qos: .background))
-          .sink { completion in
-            if case .failure(let error) = completion {
-              promise(.failure(error))
-            }
-          } receiveValue: { result in
-            promise(.success(result))
-          }.store(in: &self.subscriptions)
-        
-      }
-    }.eraseToAnyPublisher()
-  }
+  func deleteProfileImageData() -> AnyPublisher<Bool, any Error> {
+    return Just(true).setAnyErrorAndEraseToAnyPublisher()  }
   
-  func fetchProfile() -> AnyPublisher<ProfileImageEntity, any Error> {
+  func fetchProfileImageData() -> AnyPublisher<ProfileImageEntity, any Error> {
     let json = """
           {
             "result": {
@@ -176,7 +95,7 @@ final class MockMyProfileUseCase: MyProfileUseCase {
     }
     return Future<ProfileImageEntity, Error> { promise in
       DispatchQueue.global(qos: .background).async {
-        self.defaultMyProfileUseCase.fetchProfile()
+        self.defaultMyProfileUseCase.fetchProfileImageData()
           .delay(for: .seconds(0.1), scheduler: DispatchQueue.global(qos: .background))
           .sink { completion in
             if case .failure(let error) = completion {

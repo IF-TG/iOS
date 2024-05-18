@@ -10,5 +10,7 @@ import Alamofire
 import Combine
 
 protocol ImageSessionable {
+  var session: Session { get }
+  
   func request(imageURL: String, queue: DispatchQueue) -> AnyPublisher<Data, AFError>
 }
