@@ -31,6 +31,7 @@ final class LeportsUseCaseTests: XCTestCase {
       ),
       tourImageRetrieveInfoRepository: DefaultTourImageRetrieveInfoRepository(
         service: TourApiSessionProvider(),
+        imageService: ImageSessionProvider(),
         backgroundQueue: DispatchQueue.main
       )
     )

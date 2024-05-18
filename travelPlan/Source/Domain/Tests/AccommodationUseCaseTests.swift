@@ -30,6 +30,7 @@ final class AccommodationUseCaseTests: XCTestCase {
       ),
       tourImageRetrieveInfoRepository: DefaultTourImageRetrieveInfoRepository(
         service: TourApiSessionProvider(),
+        imageService: ImageSessionProvider(),
         backgroundQueue: DispatchQueue.main
       )
     )

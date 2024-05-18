@@ -35,6 +35,7 @@ final class FestivalUseCaseTests: XCTestCase {
       ), 
       tourImageRetrieveInfoRepository: DefaultTourImageRetrieveInfoRepository(
         service: SessionProvider(),
+        imageService: ImageSessionProvider(),
         backgroundQueue: DispatchQueue.main
       )
     )

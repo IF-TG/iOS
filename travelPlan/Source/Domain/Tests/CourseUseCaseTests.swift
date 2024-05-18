@@ -29,7 +29,8 @@ final class CourseUseCaseTests: XCTestCase {
         backgroundQueue: DispatchQueue.main
       ),
       tourImageRetrieveInfoRepository: DefaultTourImageRetrieveInfoRepository(
-        service: TourApiSessionProvider(),
+        service: TourApiSessionProvider(), 
+        imageService: ImageSessionProvider(),
         backgroundQueue: DispatchQueue.main
       )
     )
@@ -51,7 +52,7 @@ extension CourseUseCaseTests {
     // Arrange
     var unexpectedError: Error?
     var result = false
-    let courseId = TourContentId(contentId: 1968948, contentTypeId: TourType.course.rawValue)
+    let courseId = TourContentId(contentId: 1871068, contentTypeId: TourType.course.rawValue)
     
     // Act
     let actPublisher = sut.fetchCourseDetail(tourContentId: courseId)
@@ -64,7 +65,7 @@ extension CourseUseCaseTests {
       }
       .store(in: &subscriptions)
     
-      wait(for: [expectation], timeout: 10)
+      wait(for: [expectation], timeout: 20)
     
     // Assert
     checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "fetchCourseDetail")
