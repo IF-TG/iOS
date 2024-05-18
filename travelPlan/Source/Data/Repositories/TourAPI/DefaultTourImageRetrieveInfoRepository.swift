@@ -158,12 +158,17 @@ fileprivate extension DefaultTourImageRetrieveInfoRepository {
     from atomicEntities: [TourRetrievedAtomicImageEntity],
     backgroundQueue: DispatchQueue
   ) -> [IndexedImageInfoFetcher] {
+    let ImageQueue = DispatchQueue(
+      label: "com.yeoga.app.TourImageRetrieveRepository.queue",
+      qos: .userInitiated,
+      attributes: .concurrent)
+
     return atomicEntities.enumerated().map { index, atomicEntity in
       return Publishers.Zip(
-        imageService.request(imageURL: atomicEntity.originalUrl, queue: backgroundQueue)
+        imageService.request(imageURL: atomicEntity.originalUrl, queue: ImageQueue)
           .mapError { $0 as Error }
           .eraseToAnyPublisher(),
-        imageService.request(imageURL: atomicEntity.thumbnailUrl, queue: backgroundQueue)
+        imageService.request(imageURL: atomicEntity.thumbnailUrl, queue: ImageQueue)
           .mapError { $0 as Error }
           .eraseToAnyPublisher())
       .map { return (index, ($0, $1)) }
@@ -176,7 +181,12 @@ fileprivate extension DefaultTourImageRetrieveInfoRepository {
     backgroundQueue: DispatchQueue
   ) -> [IndexedOriginalImageDataFetcher] {
     return atomicEntities.enumerated().map { index, atomicEntity -> IndexedOriginalImageDataFetcher in
-      return imageService.request(imageURL: atomicEntity.originalUrl, queue: backgroundQueue)
+      return imageService.request(
+        imageURL: atomicEntity.originalUrl,
+        queue: DispatchQueue(
+          label: "com.yeoga.app.TourImageRetrieveRepository.queue",
+          qos: .userInitiated,
+          attributes: .concurrent))
         .mapError { $0 as Error }
         .map { originalImageData -> IndexedOriginalImageData in
           return (index, originalImageData)
