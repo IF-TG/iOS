@@ -20,7 +20,7 @@ final class StubOwnerStorage: OwnerStorage {
   func hasBlockedUser(with userId: BlockedUserId) -> Bool { return false }
   
   var nickname: String? {
-    "짱구"
+    "난짱구"
   }
   
   var profileImageData: Data? {
@@ -36,7 +36,7 @@ final class StubOwnerStorage: OwnerStorage {
   }
   
   var user: UserEntity? {
-    .init(id: "1", nickname: "짱구", isSavedProfileInServer: false)
+    .init(id: "1", nickname: "난짱구", isSavedProfileInServer: false)
   }
   
   func setUser(with userInfo: UserEntity) { }

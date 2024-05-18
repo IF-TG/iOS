@@ -190,10 +190,10 @@ final class UserInfoAPIEndpointTests: XCTestCase {
     wait(for: [expectation], timeout: 10)
     
     // Assert
-    XCTAssertNotNil(dataRequest, "UserInfoAPIEndpoint의 deleteProfile(with:)에서 DataRequest를 반환해야 하는데 nil 반환")
+    XCTAssertNotNil(dataRequest, "UserInfoAPIEndpoint의 deleteProfileImageData(with:)에서 DataRequest를 반환해야 하는데 nil 반환")
     XCTAssertNotNil(
       dataRequest?.convertible.urlRequest,
-      "UserInfoAPIEndpoint의 deleteProfile(with:)에서 DataRequest의 urlRequest를 반환해야하는데 nil 반환")
+      "UserInfoAPIEndpoint의 deleteProfileImageData(with:)에서 DataRequest의 urlRequest를 반환해야하는데 nil 반환")
     XCTAssertEqual(dataRequest?.convertible.urlRequest?.url, targetURL)
   }
   

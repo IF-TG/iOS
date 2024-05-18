@@ -11,7 +11,6 @@ final class SettingMyProfileView: UIView {
   // MARK: - Properties
   private static let size: CGFloat = 80
   
-  // TODO: - 파일메니저에 사용자 프로필 등록 여부 조회 후 연산 프로퍼티 적용
   private var isDefaultState = true
   
   private lazy var profileImageView = UIImageView(frame: .zero).set { [weak self] in
@@ -19,7 +18,6 @@ final class SettingMyProfileView: UIView {
     $0.clipsToBounds = true
     $0.autoresizingMask = [.flexibleWidth, .flexibleHeight]
     $0.layer.cornerRadius = SettingMyProfileView.size/2
-    // TODO: - 파일매니저를 통해 사용자 프로필이 등록되어있는지 찾기. 없다면 기본 프로필아이콘 적용
     $0.image = UIImage(named: "default_profile_icon")
     self?.isDefaultState = true
   }
@@ -55,6 +53,14 @@ extension SettingMyProfileView {
     if isDefaultState == true {
       isDefaultState.toggle()
       photoIcon.isHidden = true
+    }
+  }
+  
+  /// 초기에 이미지 있을 경우 이 함수를 통해 이미지가 설정됩니다.
+  /// 이미지가 없는 경우 기본 이미지가 적용됩니다.
+  func configureImage(_ image: UIImage?) {
+    if let image {
+      profileImageView.image = image
     }
   }
 }
