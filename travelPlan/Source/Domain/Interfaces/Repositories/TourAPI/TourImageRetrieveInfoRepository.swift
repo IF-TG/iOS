@@ -28,5 +28,5 @@ protocol TourImageRetrieveInfoRepository {
     contentId: Int,
     numOfRows: Int?,
     pageNo: Int?
-  ) -> RetrieveOriginalImagesRetrunPublisher
+  ) -> AnyPublisher<[TourRetrievedImageEntity<TourRetrievedOriginalImageDataEntity>], any Error>
 }
