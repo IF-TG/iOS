@@ -60,6 +60,11 @@ class FeedPostViewModel: PostViewModel {
   /// 다음 페이지 요청 실패할 경우 hasMorePages를 false로 바꾸어야 합니다.
   var hasMorePages = true
   
+  private let queueForLocking = DispatchQueue(
+    label: "com.yeoga.app.feedPosVM.queue",
+    attributes: .concurrent
+  )
+  
   private var category: PostCategory
   
   /// 사용자가 선택한 카테고리는 요청이 완료되야만 category에 사용자가 요청했던 데이터를 보여줌과
@@ -103,7 +108,9 @@ private extension FeedPostViewModel {
   func postFilterLoadingStartSubjectStream() -> Output {
     postFilterLoadingStartSubject.map { [weak self] _ -> State in
       self?.isPostFiltering = true
-      self?.hasMorePages = true
+      self?.queueForLocking.async(flags: .barrier) {
+        self?.hasMorePages = true
+      }
       return .networking
     }.eraseToAnyPublisher()
   }
@@ -250,10 +257,12 @@ private extension FeedPostViewModel {
   }
   
   func removeAllPage() {
-    currentPage = 0
-    posts.removeAll()
-    postThumbnails.removeAll()
-    hasMorePages = true
+    queueForLocking.async(flags: .barrier) { [weak self] in
+      self?.currentPage = 0
+      self?.posts.removeAll()
+      self?.postThumbnails.removeAll()
+      self?.hasMorePages = true
+    }
   }
 }
 
@@ -278,9 +287,11 @@ extension FeedPostViewModel {
         self?.currentPage += 1
         self?.appendPosts(postsPage)
       }
-      .catch { error -> AnyPublisher<Void, any Error> in
+      .catch { [weak self] error -> AnyPublisher<Void, any Error> in
         if error.isNoMorePage {
-          self.hasMorePages = false
+          self?.queueForLocking.async(flags: .barrier) {
+            self?.hasMorePages = false
+          }
           return Just(()).setFailureType(to: (any Error).self).eraseToAnyPublisher()
         }
         return Fail(error: error).eraseToAnyPublisher()
