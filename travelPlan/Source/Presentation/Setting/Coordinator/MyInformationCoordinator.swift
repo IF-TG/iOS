@@ -45,8 +45,8 @@ final class MyInformationCoordinator: FlowCoordinator {
     }
     // let session = Session(configuration: sessionConfiguration, eventMonitors: [monitor])
     let mockMyProfileUseCase = MockMyProfileUseCase()
-    let mockUserStorage = MockUserStorage()
-    let loggedInUserRepository = DefaultLoggedInUserRepository(storage: mockUserStorage)
+    let stubOwnerStorage = StubOwnerStorage()
+    let loggedInUserRepository = DefaultLoggedInUserRepository(storage: stubOwnerStorage)
     let loggedInUserUseCase = DefaultLoggedInUserUseCase(loggedInUserRepository: loggedInUserRepository)
     
     let actions = MyInformationViewModelActions { [weak self] in

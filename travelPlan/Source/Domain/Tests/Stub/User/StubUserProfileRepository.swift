@@ -1,0 +1,21 @@
+//
+//  StubUserProfileRepository.swift
+//  travelPlan
+//
+//  Created by 양승현 on 5/16/24.
+//
+
+import Foundation
+import Combine
+
+struct StubUserProfileRepository: UserProfileRepository {
+  func fetchProfileImageData(with userId: String) -> AnyPublisher<ProfileImageData?, any Error> {
+    return Just("사용자프로필".data(using: .utf8)!)
+      .setAnyErrorAndEraseToAnyPublisher()
+  }
+  
+  func fetchProfile(with userId: String) -> AnyPublisher<UserEntity, any Error> {
+    return Just(UserEntity(id: "1", nickname: "짱구", isSavedProfileInServer: false))
+      .setAnyErrorAndEraseToAnyPublisher()
+  }
+}

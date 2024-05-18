@@ -13,7 +13,6 @@ protocol PostDataSource {
   var postThumbnails: [[Data]] { get }
   var currentPage: Int32 { get }
   var nextPage: Int32 { get }
-  var totalPostsCount: Int32 { get }
   var hasMorePages: Bool { get }
   var perPage: Int32 { get }
   var isPaging: Bool { get }

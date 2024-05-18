@@ -41,12 +41,25 @@ import SHFirestoreService
 // MARK: - FirestoreRequest + UsersRequest
 extension FirestoreRequestType {
   @frozen enum UsersCollection {
+    typealias PostId = String
+    typealias UserId = String
+    
     /// 모든 유저 문서 받아옴
     case fetchAllUsers
     case userDocument(UserDocument)
     
+    /// users collection - owner document - post-hearts collection
+    case heartPost(UserId)
+    case hatePost(UserId, PostId)
+    case fetchHeartPostIdentifiers(UserId)
+    case hasOwnerHeartPost(UserId, PostId)
+    
     var rootPath: String {
       "users"
+    }
+    
+    var postHearts: String {
+      "post-hearts"
     }
     
     var documentPath: String? {
@@ -58,6 +71,14 @@ extension FirestoreRequestType {
           return userDocuemntPath
         }
         return nil
+      case .heartPost:
+        return nil
+      case .hatePost(_, let postId):
+        return postId
+      case .fetchHeartPostIdentifiers:
+        return nil
+      case .hasOwnerHeartPost(_, let postId):
+        return postId
       }
     }
     
@@ -72,6 +93,14 @@ extension FirestoreRequestType {
           return "\(rootPath)\(childCollectionPath)"
         }
         return rootPath
+      case .heartPost(let userId):
+        return "\(rootPath)/\(userId)/\(postHearts)"
+      case .hatePost(let userId, _):
+        return "\(rootPath)/\(userId)/\(postHearts)"
+      case .fetchHeartPostIdentifiers(let userId):
+        return "\(rootPath)/\(userId)/\(postHearts)"
+      case .hasOwnerHeartPost(let userId, _):
+        return "\(rootPath)/\(userId)/\(postHearts)"
       }
     }
   }
@@ -148,12 +177,10 @@ extension FirestoreRequestType {
     case save
     case update(postId: String)
     case fetch
+    case fetchSpecificPost(postId: String)
     
     // MARK: - PostHearts
-    case fetchHeartUsers(PostId)
     case fetchPostHearts(PostId)
-    case heartPost(PostId)
-    case hatePost(PostId, UserId)
     case togglePostHearts(PostId)
     
     // MARK: - PostCommentHearts
@@ -222,12 +249,8 @@ extension FirestoreRequestType {
         return postId
       case .fetch:
         return nil
-      case .fetchHeartUsers:
-        return nil
-      case .heartPost:
-        return nil
-      case .hatePost(_, let userId):
-        return userId
+      case .fetchSpecificPost(let postId):
+        return postId
       case .togglePostHearts(let postId):
         return postId
       case .fetchPostHearts(let postId):
@@ -283,12 +306,8 @@ extension FirestoreRequestType {
         return rootPath
       case .fetch:
         return rootPath
-      case .fetchHeartUsers(let postId):
-        return "\(rootPath)/\(postId)/\(postHearts)"
-      case .heartPost(let postId):
-        return "\(rootPath)/\(postId)/\(postHearts)"
-      case .hatePost(let postId, _):
-        return "\(rootPath)/\(postId)/\(postHearts)"
+      case .fetchSpecificPost:
+        return rootPath
       case .togglePostHearts:
         return rootPath
       case .fetchPostHearts:

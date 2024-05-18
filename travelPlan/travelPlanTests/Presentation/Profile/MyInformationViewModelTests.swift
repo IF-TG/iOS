@@ -21,7 +21,7 @@ final class MyInformationViewModelTests: XCTestCase {
   override func setUp() {
     super.setUp()
     let useCase = MockMyProfileUseCase()
-    let mockStroage = MockUserStorage()
+    let mockStroage = StubOwnerStorage()
     let defaultLoggedInUserRepository = DefaultLoggedInUserRepository(storage: mockStroage)
     let defaultLoggedInUserUseCase = DefaultLoggedInUserUseCase(loggedInUserRepository: defaultLoggedInUserRepository)
     let mockActions = MyInformationViewModelActions {

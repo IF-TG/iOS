@@ -31,8 +31,8 @@ final class SettingCoordinator: FlowCoordinator {
       self?.finish()
     }
     
-    let mockUserStorage = MockUserStorage()
-    let loggedInUserRepository = DefaultLoggedInUserRepository(storage: mockUserStorage)
+    let stubOwnerStorage = StubOwnerStorage()
+    let loggedInUserRepository = DefaultLoggedInUserRepository(storage: stubOwnerStorage)
     let loggedInUserUseCase = DefaultLoggedInUserUseCase(loggedInUserRepository: loggedInUserRepository)
     
     let viewModel = SettingViewModel(loggedInUserUseCase: loggedInUserUseCase, actions: actions)

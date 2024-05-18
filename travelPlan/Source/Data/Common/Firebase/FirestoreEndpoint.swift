@@ -19,7 +19,7 @@ final class FirestoreEndpoint<ResponseDTO>: FirestoreEndopintable where Response
   init(
     requestDTODictionary: [String: Any]? = nil,
     requestDTO: (any Encodable)? = nil,
-    method: FirestoreMethod,
+    method: FirestoreMethod? = nil,
     requestType: FirestoreRequestType
   ) {
     self.requestDTODictionary = requestDTODictionary

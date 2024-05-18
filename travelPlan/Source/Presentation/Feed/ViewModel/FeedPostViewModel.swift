@@ -55,14 +55,15 @@ class FeedPostViewModel: PostViewModel {
   var isRefreshing: Bool = false
   
   var isPostFiltering: Bool = false
+    
+  /// 서버에서 페이징이 실패하기 전까지 다음 페이지들이 있는것으로 간주합니다.
+  /// 다음 페이지 요청 실패할 경우 hasMorePages를 false로 바꾸어야 합니다.
+  var hasMorePages = true
   
-  // FIXME: - 서버한테 전체 개수 요청했습니다. 추후에 responseDTO랑 전부 바꿔서 여기에 값 넣어야 합니다.
-  var totalPostsCount: Int32 = 0
-  
-  var hasMorePages: Bool {
-    let totalPageCount = totalPostsCount/perPage
-    return currentPage < totalPageCount
-  }
+  private let queueForLocking = DispatchQueue(
+    label: "com.yeoga.app.feedPosVM.queue",
+    attributes: .concurrent
+  )
   
   private var category: PostCategory
   
@@ -70,7 +71,7 @@ class FeedPostViewModel: PostViewModel {
   ///   동시에 category 사용자가 선택한 카테고리로  업데이트 해야합니다.
   private lazy var userSelectedCategory: PostCategory = category
   
-  private let postUseCase: PostUseCase
+  private let postFetchUseCase: PostFetchUseCase
   
   private let nextPageLoadingStartSubject = PassthroughSubject<Void, Never>()
   
@@ -79,8 +80,8 @@ class FeedPostViewModel: PostViewModel {
   private let viewDidLoadHandler = PassthroughSubject<Void, Never>()
   
   // MARK: - Lifecycle
-  init(postCategory: PostCategory, postUseCase: PostUseCase) {
-    self.postUseCase = postUseCase
+  init(postCategory: PostCategory, postFetchUsecase: PostFetchUseCase) {
+    self.postFetchUseCase = postFetchUsecase
     self.category = postCategory
   }
 }
@@ -107,6 +108,9 @@ private extension FeedPostViewModel {
   func postFilterLoadingStartSubjectStream() -> Output {
     postFilterLoadingStartSubject.map { [weak self] _ -> State in
       self?.isPostFiltering = true
+      self?.queueForLocking.async(flags: .barrier) {
+        self?.hasMorePages = true
+      }
       return .networking
     }.eraseToAnyPublisher()
   }
@@ -121,7 +125,10 @@ private extension FeedPostViewModel {
         self?.userSelectedCategory = PostCategory(mainTheme: mainTheme, orderBy: selectedOrderType)
         self?.postFilterLoadingStartSubject.send()
         return self?.fetchPosts()
-          .map { _ -> State in
+          .map { [weak self] _ -> State in
+            if self?.hasMorePages == false {
+              return .noMorePage
+            }
             return .postFilterLoaded
           }.catch { error in
             return Just(State.unexpectedError(description: error.localizedDescription))
@@ -152,7 +159,10 @@ private extension FeedPostViewModel {
         }
         self?.postFilterLoadingStartSubject.send()
         return self?.fetchPosts()
-          .map { _ -> State in
+          .map { [weak self] _ -> State in
+            if self?.hasMorePages == false {
+              return .noMorePage
+            }
             return .postFilterLoaded
           }.catch { error in
             return Just(State.unexpectedError(description: error.localizedDescription))
@@ -194,8 +204,11 @@ private extension FeedPostViewModel {
         self?.isPaging = true
         self?.nextPageLoadingStartSubject.send()
         return self?.fetchPosts()
-          .delay(for: .seconds(0.25), scheduler: DispatchQueue.global(qos: .background))
           .map { [weak self] _ -> State in
+            if self?.hasMorePages == false {
+              self?.isPaging = false
+              return .noMorePage
+            }
             return .nextPage {
               self?.isPaging = false
             }
@@ -244,21 +257,23 @@ private extension FeedPostViewModel {
   }
   
   func removeAllPage() {
-    currentPage = 0
-    posts.removeAll()
-    postThumbnails.removeAll()
+    queueForLocking.async(flags: .barrier) { [weak self] in
+      self?.currentPage = 0
+      self?.posts.removeAll()
+      self?.postThumbnails.removeAll()
+      self?.hasMorePages = true
+    }
   }
 }
 
 // MARK: - PostDataSource
 extension FeedPostViewModel {
-  // 이를 호출할때 hasMorePages가 false라면 에러 던지자. 더이상 페이지 없다고
   func fetchPosts() -> AnyPublisher<Void, any Error> {
     let postFetchRequestValue = PostFetchRequestValue(
       page: nextPage,
       perPage: perPage,
       category: userSelectedCategory)
-    return postUseCase.fetchPosts(with: postFetchRequestValue)
+    return postFetchUseCase.fetchFilteredPosts(with: postFetchRequestValue)
       .map { [weak self] postsPage in
         if self?.isRefreshing == true || self?.isPostFiltering == true {
           self?.removeAllPage()
@@ -270,9 +285,18 @@ extension FeedPostViewModel {
         }
         self?.postThumbnails.append(contentsOf: postsPage.thumbnails.map { $0.postImageDataList })
         self?.currentPage += 1
-        self?.totalPostsCount = Int32(postsPage.totalPosts)
         self?.appendPosts(postsPage)
-      }.eraseToAnyPublisher()
+      }
+      .catch { [weak self] error -> AnyPublisher<Void, any Error> in
+        if error.isNoMorePage {
+          self?.queueForLocking.async(flags: .barrier) {
+            self?.hasMorePages = false
+          }
+          return Just(()).setFailureType(to: (any Error).self).eraseToAnyPublisher()
+        }
+        return Fail(error: error).eraseToAnyPublisher()
+      }
+      .eraseToAnyPublisher()
   }
 }
 
