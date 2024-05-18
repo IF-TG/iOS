@@ -39,7 +39,7 @@ extension FirestoreUserBlockRepositoryTests {
     var unexpectedError: Error?
     
     // Act
-    let blockUserPublisher = sut.blockUser(with: "test1234").receive(on: RunLoop.current)
+    let blockUserPublisher = sut.blockUser(with: "testUserId123").receive(on: RunLoop.current)
     sink(fromPublisher: blockUserPublisher, withExpectation: expectation) { err, res in
       unexpectedError = err
       hasReceivedResult = res
@@ -57,7 +57,25 @@ extension FirestoreUserBlockRepositoryTests {
     var unexpectedError: Error?
     
     // Act
-    let blockUserPublisher = sut.unblockUser(with: "test1234").receive(on: RunLoop.current)
+    let blockUserPublisher = sut.unblockUser(with: "testUserId123").receive(on: RunLoop.current)
+    sink(fromPublisher: blockUserPublisher, withExpectation: expectation) { err, res in
+      unexpectedError = err
+      hasReceivedResult = res
+    }.store(in: &subscriptions)
+    wait(for: [expectation], timeout: 7.777)
+    
+    // Assert
+    checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "unblockUser")
+    XCTAssert(hasReceivedResult, notReceivedErrorMessage)
+  }
+  
+  func test_fetchBlockedUsers호출시_차단된사용자리스트를받아오는지() {
+    // Arrange
+    var hasReceivedResult = false
+    var unexpectedError: Error?
+    
+    // Act
+    let blockUserPublisher = sut.fetchBlockedUsers().receive(on: RunLoop.current)
     sink(fromPublisher: blockUserPublisher, withExpectation: expectation) { err, res in
       unexpectedError = err
       hasReceivedResult = res
