@@ -43,6 +43,8 @@ extension FirestoreRequestType {
   @frozen enum UsersCollection {
     typealias PostId = String
     typealias UserId = String
+    typealias OwnerId = String
+    typealias BlockedUserId = String
     
     /// 모든 유저 문서 받아옴
     case fetchAllUsers
@@ -54,12 +56,21 @@ extension FirestoreRequestType {
     case fetchHeartPostIdentifiers(UserId)
     case hasOwnerHeartPost(UserId, PostId)
     
+    /// 사용자 차단
+    case blockUser(OwnerId)
+    case unblockUser(OwnerId, BlockedUserId)
+    case fetchBlockedUsers(OwnerId)
+    
     var rootPath: String {
       "users"
     }
     
     var postHearts: String {
       "post-hearts"
+    }
+    
+    var blockedUsers: String {
+      "blocked-users"
     }
     
     var documentPath: String? {
@@ -79,6 +90,12 @@ extension FirestoreRequestType {
         return nil
       case .hasOwnerHeartPost(_, let postId):
         return postId
+      case .blockUser:
+        return nil
+      case .unblockUser(_, let blockedUserId):
+        return blockedUserId
+      case .fetchBlockedUsers:
+        return nil
       }
     }
     
@@ -101,6 +118,12 @@ extension FirestoreRequestType {
         return "\(rootPath)/\(userId)/\(postHearts)"
       case .hasOwnerHeartPost(let userId, _):
         return "\(rootPath)/\(userId)/\(postHearts)"
+      case .blockUser(let ownerId):
+        return "\(rootPath)/\(ownerId)/\(blockedUsers)"
+      case .unblockUser(let ownerId, _):
+        return "\(rootPath)/\(ownerId)/\(blockedUsers)"
+      case .fetchBlockedUsers(let ownerId):
+        return "\(rootPath)/\(ownerId)/\(blockedUsers)"
       }
     }
   }
