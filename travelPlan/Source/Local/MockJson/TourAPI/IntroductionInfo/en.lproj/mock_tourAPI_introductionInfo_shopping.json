@@ -1,0 +1,36 @@
+{
+  "response": {
+    "header": {
+      "resultCode": "0000",
+      "resultMsg": "OK"
+    },
+    "body": {
+      "items": {
+        "item": [
+          {
+            "contentid": "2930927",
+            "contenttypeid": "38",
+            "saleitem": "기타 소매",
+            "saleitemcost": "",
+            "fairday": "월~일요일",
+            "opendateshopping": "",
+            "shopguide": "환급서비스 제공방식 : 사후",
+            "culturecenter": "",
+            "restroom": "",
+            "infocentershopping": "051-819-1421",
+            "scaleshopping": "",
+            "restdateshopping": "명절",
+            "parkingshopping": "불가능",
+            "chkbabycarriageshopping": "",
+            "chkpetshopping": "",
+            "chkcreditcardshopping": "가능",
+            "opentime": "09:00-19:00"
+          }
+        ]
+      },
+      "numOfRows": 1,
+      "pageNo": 1,
+      "totalCount": 1
+    }
+  }
+}

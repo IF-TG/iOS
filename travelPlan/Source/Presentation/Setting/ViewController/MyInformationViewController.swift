@@ -79,6 +79,7 @@ final class MyInformationViewController: UIViewController {
     super.viewDidLoad()
     configureUI()
     bind()
+    input.viewDidLoad.send()
   }
   
   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -103,7 +104,7 @@ extension MyInformationViewController: ViewBindCase {
     bindInputTextFieldTextState()
     let output = viewModel.transform(input)
     output
-      .receive(on: DispatchQueue.main)
+      .receive(on: RunLoop.current)
       .sink { [weak self] completion in
         self?.stopIndicator()
         switch completion {
@@ -113,13 +114,17 @@ extension MyInformationViewController: ViewBindCase {
           self?.handleError(error)
         }
       } receiveValue: { [weak self] state in
-        print("무야호 :\(state)")
         self?.render(state)
       }.store(in: &subscriptions)
   }
   
   func render(_ state: MyInformationViewModel.State) {
     switch state {
+    case .viewDidLoad(let userEntity):
+      inputTextField.text = userEntity.nickname
+      if let data = userEntity.profileImageData, data.count > 0 {
+        profileImageView.configureImage(UIImage(data: data))
+      }
     case .none:
       break
     case .correctionSaved:
@@ -151,7 +156,7 @@ extension MyInformationViewController: ViewBindCase {
 extension MyInformationViewController {
   func handleSelectedImage(with image: UIImage) {
     profileImageView.setImage(image)
-    input.profileSelect.send(image.base64)
+    input.profileSelect.send(image.jpegData(compressionQuality: 1))
     let savableTextStates: [SettingUserNameTextField.State] = [.available, .default]
     if savableTextStates.contains(inputTextField.textState) {
       setStoreLabelAvailable()
@@ -182,6 +187,7 @@ private extension MyInformationViewController {
         if state == .default {
           self?.stopIndicator()
           self?.input.defaultNickname.send()
+          self?.inputNoticeLabel.text = self?.inputTextField.textState.quotation
           return
         }
         if state == .duplicated {

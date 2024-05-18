@@ -58,7 +58,11 @@ extension DefaultTourFestivalInfoRepository: TourFestivalInfoRepository {
         
         for (index, responseDTO) in $0.enumerated() {
           group.enter()
-          let subscription = self.imageService.request(imageURL: responseDTO.imageURL, queue: self.backgroundQueue)
+          let subscription = self.imageService
+            .request(
+              imageURL: responseDTO.imageURL,
+              queue: DispatchQueue.global(qos: .userInitiated)
+            )
             .sink { completion in
               if case .failure = completion {
                 group.leave()

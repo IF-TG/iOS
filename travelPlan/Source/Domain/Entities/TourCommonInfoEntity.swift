@@ -20,8 +20,8 @@ struct TourCommonInfoEntity {
 extension TourCommonInfoEntity {
   /// **기본 정보 조회**
   struct Id {
-    let contentId: String
-    let contentTypeId: String
+    let contentId: Int
+    let contentTypeId: Int
   }
   
   /// **좌표 정보 조회**

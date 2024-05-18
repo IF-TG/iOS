@@ -1,0 +1,34 @@
+{
+  "response": {
+    "header": {
+      "resultCode": "0000",
+      "resultMsg": "OK"
+    },
+    "body": {
+      "items": {
+        "item": [
+          {
+            "contentid": "129877",
+            "contenttypeid": "14",
+            "scale": "전용면적 1,599평",
+            "usefee": "프로그램별 상이",
+            "discountinfo": "",
+            "spendtime": "",
+            "parkingfee": "",
+            "infocenterculture": "031-582-2016~2018",
+            "accomcountculture": "",
+            "usetimeculture": "09:00~18:00",
+            "restdateculture": "주말 및 공휴일",
+            "parkingculture": "가능<br>요금(무료)",
+            "chkbabycarriageculture": "없음",
+            "chkpetculture": "불가",
+            "chkcreditcardculture": "없음"
+          }
+        ]
+      },
+      "numOfRows": 1,
+      "pageNo": 1,
+      "totalCount": 1
+    }
+  }
+}
