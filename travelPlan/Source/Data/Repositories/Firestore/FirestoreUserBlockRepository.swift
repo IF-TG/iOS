@@ -56,7 +56,7 @@ extension FirestoreUserBlockRepository: UserBlockRepository {
         return
       }
       let blockSubscription = service
-        .request(endpoint: endpoint)
+        .saveDocument(endpoint: endpoint)
         .receive(on: backgroundQueue)
         .sink { completion in
           if case .failure(let error) = completion {
