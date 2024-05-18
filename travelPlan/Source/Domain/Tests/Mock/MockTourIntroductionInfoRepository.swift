@@ -30,7 +30,9 @@ extension MockTourIntroductionInfoRepository: TourIntroductionInfoRepository {
       .eraseToAnyPublisher()
   }
   
-  func fetchCultureFacility(tourContentId: TourContentId) -> AnyPublisher<IntroductionInfoCultureFacilityEntity, any Error> {
+  func fetchCultureFacility(
+    tourContentId: TourContentId
+  ) -> AnyPublisher<IntroductionInfoCultureFacilityEntity, any Error> {
     MockUrlProtocol.requestHandler = { _ in
       let mockData = MockResponseType.tourAPI(.introduction(.cultureFacility)).mockDataLoader
       return ((HTTPURLResponse(), mockData))

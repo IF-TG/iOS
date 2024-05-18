@@ -12,7 +12,7 @@ final class FirestoreEndpoint<ResponseDTO>: FirestoreEndopintable where Response
   // MARK: - Properties
   var requestDTODictionary: [String: Any]?
   var requestDTO: (any Encodable)?
-  var method: FirestoreMethod
+  var method: FirestoreMethod?
   var requestType: any FirestoreAccessible
   
   // MARK: - Lifecycle

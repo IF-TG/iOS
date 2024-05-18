@@ -59,7 +59,7 @@ extension FirestoreUserProfileRepositoryTests {
     wait(for: [expectation], timeout: 7.777)
     
     // Assert
-    checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "fetchProfile")
+    checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "fetchProfileImageData")
     XCTAssertEqual(receivedUser, expectedUser, "특정 userId 호출시 예상하는 유저 엔터티와 같아야하지만 다른 값을 반환")
   }
 }

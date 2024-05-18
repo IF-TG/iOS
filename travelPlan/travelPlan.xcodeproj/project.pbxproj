@@ -2689,13 +2689,6 @@
 			path = User;
 			sourceTree = "<group>";
 		};
-		1572ABD62BE8818F008AFE66 /* Post */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Post;
-			sourceTree = "<group>";
-		};
 		15803C342BD8EE3F00D83F2B /* XMLParser */ = {
 			isa = PBXGroup;
 			children = (
@@ -2734,7 +2727,6 @@
 		15803C522BDA514E00D83F2B /* Firestore */ = {
 			isa = PBXGroup;
 			children = (
-				1572ABD62BE8818F008AFE66 /* Post */,
 				15F1CD972BE3494800F18786 /* FirestorePostHeartRepository.swift */,
 				15E670D82BDE2DA8002E1D19 /* FirestoreReviewWritingRepository.swift */,
 				15803C532BDA522500D83F2B /* FirestoreMyProfileRepository.swift */,
