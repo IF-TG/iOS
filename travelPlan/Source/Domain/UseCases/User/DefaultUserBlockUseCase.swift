@@ -18,9 +18,7 @@ final class DefaultUserBlockUseCase: UserBlockUseCase {
   }
     
   func blockUser(with userId: String) -> AnyPublisher<BlockedUserIdentifyEntity, any Error> {
-    return userBlockRepository
-      .blockUser(with: userId)
-      .eraseToAnyPublisher()
+    return userBlockRepository.blockUser(with: userId)
   }
   
   func unblockUser(with blockedUserId: String) -> AnyPublisher<Void, any Error> {
@@ -28,8 +26,6 @@ final class DefaultUserBlockUseCase: UserBlockUseCase {
   }
   
   func fetchBlockedUsers() -> AnyPublisher<[BlockedUserIdentifyEntity], any Error> {
-    return userBlockRepository
-      .fetchBlockedUsers()
-      .eraseToAnyPublisher()
+    return userBlockRepository.fetchBlockedUsers()
   }
 }
