@@ -30,7 +30,7 @@ struct FirestoreUserBlockAPIEndpoint {
   
   static func makeBlockedUsersFetchEndpoint(
     ownerId: String
-  ) -> FirestoreEndpoint<String> {
+  ) -> FirestoreEndpoint<[String]> {
     return FirestoreEndpoint(
       method: .retrieveDocumentIdList,
       requestType: .users(.fetchBlockedUsers(ownerId)))
