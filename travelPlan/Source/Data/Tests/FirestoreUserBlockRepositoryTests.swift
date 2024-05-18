@@ -31,6 +31,7 @@ final class FirestoreUserBlockRepositoryTests: XCTestCase {
   }
 }
 
+/// firestore 디비 보면서 테스트를 진행해야합니다,,
 extension FirestoreUserBlockRepositoryTests {
   func test_blockUser호출시_사용자가차단되는지() {
     // Arrange
@@ -47,6 +48,24 @@ extension FirestoreUserBlockRepositoryTests {
     
     // Assert
     checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "blockUser")
+    XCTAssert(hasReceivedResult, notReceivedErrorMessage)
+  }
+  
+  func test_unblockUser호출시_차단된사용자가해제되는지() {
+    // Arrange
+    var hasReceivedResult = false
+    var unexpectedError: Error?
+    
+    // Act
+    let blockUserPublisher = sut.unblockUser(with: "test1234").receive(on: RunLoop.current)
+    sink(fromPublisher: blockUserPublisher, withExpectation: expectation) { err, res in
+      unexpectedError = err
+      hasReceivedResult = res
+    }.store(in: &subscriptions)
+    wait(for: [expectation], timeout: 7.777)
+    
+    // Assert
+    checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "unblockUser")
     XCTAssert(hasReceivedResult, notReceivedErrorMessage)
   }
 }
