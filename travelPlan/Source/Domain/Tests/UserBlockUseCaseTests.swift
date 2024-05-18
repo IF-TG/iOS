@@ -38,7 +38,7 @@ extension UserBlockUseCaseTests {
     var unexpectedError: Error?
     
     // Act
-    subscription = sut.blockUser(with: 777)
+    subscription = sut.blockUser(with: "777")
       .sink { [unowned self] completion in
         if case .failure(let error) = completion {
           unexpectedError = error
