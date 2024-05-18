@@ -66,8 +66,8 @@ extension DefaultTourImageRetrieveInfoRepositoryTests {
     wait(for: [expectation], timeout: 7.777)
     
     // Assert
-    checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "retrieveImages")
-    XCTAssert(hasReceivedResult, "RetrieveAtomicImages 함수 호출시 성공적으로 엔터티를 받아야하지만 제공받지 못함")
+    checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "retrieveAtomicImages")
+    XCTAssert(hasReceivedResult, notReceivedErrorMessage)
   }
   
   func test_retrieveImages호출시관련Entity를받는가() {
@@ -103,7 +103,7 @@ extension DefaultTourImageRetrieveInfoRepositoryTests {
     wait(for: [expectation], timeout: 50)
     
     // Assert
-    checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "retrieveImages")
+    checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "retrieveOriginalImages")
     XCTAssert(hasReceivedResult, notReceivedErrorMessage)
   }
 }
