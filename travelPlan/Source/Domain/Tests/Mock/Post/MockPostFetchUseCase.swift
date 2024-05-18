@@ -26,7 +26,7 @@ final class MockPostFetchUseCase: PostFetchUseCase {
     }()
     mockPostsGenerator.index+=5
     return Just(responseData)
-      .delay(for: .seconds(0.28), scheduler: DispatchQueue.global(qos: .background))
+      .delay(for: .seconds(0.18), scheduler: DispatchQueue.global(qos: .background))
       .setAnyErrorAndEraseToAnyPublisher()
   }
 }

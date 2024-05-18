@@ -1,0 +1,35 @@
+{
+  "response": {
+    "header": {
+      "resultCode": "0000",
+      "resultMsg": "OK"
+    },
+    "body": {
+      "items": {
+        "item": [
+          {
+            "contentid": "2792802",
+            "contenttypeid": "28",
+            "openperiod": "봄,여름,가을,겨울",
+            "reservation": "땡큐캠핑, 카페",
+            "infocenterleports": "010-2959-8660",
+            "scaleleports": "",
+            "accomcountleports": "",
+            "restdateleports": "없음",
+            "usetimeleports": "예약 시 문의",
+            "usefeeleports": "",
+            "expagerangeleports": "",
+            "parkingleports": "있음",
+            "parkingfeeleports": "",
+            "chkbabycarriageleports": "없음",
+            "chkpetleports": "불가",
+            "chkcreditcardleports": "없음"
+          }
+        ]
+      },
+      "numOfRows": 1,
+      "pageNo": 1,
+      "totalCount": 1
+    }
+  }
+}

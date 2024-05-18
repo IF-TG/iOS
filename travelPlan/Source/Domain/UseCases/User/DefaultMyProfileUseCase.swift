@@ -46,25 +46,25 @@ final class DefaultMyProfileUseCase: MyProfileUseCase {
       .eraseToAnyPublisher()
   }
   
-  func updateProfile(with base64String: String) -> AnyPublisher<Bool, Error> {
-    return myProfileRepository.updateProfileImage(with: base64String)
+  func updateProfileImageData(with data: Data) -> AnyPublisher<Bool, Error> {
+    return myProfileRepository.updateProfileImage(with: data.base64EncodedString())
       .mapError { $0 }
       .eraseToAnyPublisher()
   }
   
-  func saveProfile(with base64String: String) -> AnyPublisher<Bool, Error> {
-    return myProfileRepository.saveProfileImage(with: base64String)
+  func saveProfileImageData(with data: Data) -> AnyPublisher<Bool, Error> {
+    return myProfileRepository.saveProfileImage(with: data.base64EncodedString())
       .mapError { $0 }
       .eraseToAnyPublisher()
   }
   
-  func deleteProfile() -> AnyPublisher<Bool, Error> {
+  func deleteProfileImageData() -> AnyPublisher<Bool, Error> {
     myProfileRepository.deleteProfileImage()
       .mapError { $0 }
       .eraseToAnyPublisher()
   }
   
-  func fetchProfile() -> AnyPublisher<ProfileImageEntity, any Error> {
+  func fetchProfileImageData() -> AnyPublisher<ProfileImageEntity, any Error> {
     guard let ownerId = loggedInUserRepository.id else {
       return Fail(error: NSError(
         domain: "MyProfileUseCase",

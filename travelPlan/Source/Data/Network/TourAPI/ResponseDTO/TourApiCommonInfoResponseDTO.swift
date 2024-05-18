@@ -9,8 +9,8 @@ import Foundation
 
 struct TourApiCommonInfoResponseDTO: Decodable {
   /// **기본 정보 조화**
-  let contentid: String
-  let contenttypeid: String
+  let contentid: Int
+  let contenttypeid: Int
   let title: String
   let tel: String
   let telname: String
@@ -30,6 +30,46 @@ struct TourApiCommonInfoResponseDTO: Decodable {
   let firstimage2: String
   
   let overview: String
+  
+  enum CodingKeys: CodingKey {
+    case contentid
+    case contenttypeid
+    case title
+    case tel
+    case telname
+    case addr1
+    case addr2
+    case mapx
+    case mapy
+    case firstimage
+    case firstimage2
+    case overview
+  }
+  
+  init(from decoder: any Decoder) throws {
+    let container = try decoder.container(keyedBy: CodingKeys.self)
+    
+    let contentIdString = try container.decode(String.self, forKey: .contentid)
+    let contentTypeIdString = try container.decode(String.self, forKey: .contenttypeid)
+    
+    guard let contentId = Int(contentIdString),
+          let contentTypeId = Int(contentTypeIdString)
+    else { throw TransformationError.stringToInt }
+    
+    self.contentid = contentId
+    self.contenttypeid = contentTypeId
+    
+    self.title = try container.decode(String.self, forKey: .title)
+    self.tel = try container.decode(String.self, forKey: .tel)
+    self.telname = try container.decode(String.self, forKey: .telname)
+    self.addr1 = try container.decode(String.self, forKey: .addr1)
+    self.addr2 = try container.decode(String.self, forKey: .addr2)
+    self.mapx = try container.decode(String.self, forKey: .mapx)
+    self.mapy = try container.decode(String.self, forKey: .mapy)
+    self.firstimage = try container.decode(String.self, forKey: .firstimage)
+    self.firstimage2 = try container.decode(String.self, forKey: .firstimage2)
+    self.overview = try container.decode(String.self, forKey: .overview)
+  }
 }
 
 // MARK: - Mappings to Domain
