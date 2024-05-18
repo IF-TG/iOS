@@ -15,6 +15,7 @@ final class DefaultTourImageRetrieveInfoRepositoryTests: XCTestCase {
   var sut: TourImageRetrieveInfoRepository!
   var subscriptions = Set<AnyCancellable>()
   var expectation: XCTestExpectation!
+  let contentId = 1095732
   
   // MARK: - Lifecycle
   override func setUp() {
@@ -57,7 +58,7 @@ extension DefaultTourImageRetrieveInfoRepositoryTests {
     
     // Act
     sut.retrieveAtomicImages(
-      contentId: 1095732,
+      contentId: contentId,
       numOfRows: 10,
       pageNo: 1)
     .receive(on: DispatchQueue.main)
@@ -86,7 +87,7 @@ extension DefaultTourImageRetrieveInfoRepositoryTests {
     
     // Act
     sut.retrieveImages(
-      contentId: 1095732,
+      contentId: contentId,
       numOfRows: 10,
       pageNo: 1)
 
@@ -107,5 +108,25 @@ extension DefaultTourImageRetrieveInfoRepositoryTests {
     // Assert
     checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "retrieveImages")
     XCTAssert(hasReceivedResult, "RetrieveImages 함수 호출시 성공적으로 엔터티를 받아야하지만 제공받지 못함")
+  }
+  
+  func test_retrieveOriginalImages호출시_원본이미지데이터들관련Entity를받는가() {
+    // Arrange
+    var hasReceivedResult = false
+    var unexpectedError: Error?
+    
+    // Act
+    let sutPublisher = sut.retrieveOriginalImages(contentId: contentId, numOfRows: 10, pageNo: 1)
+    .receive(on: DispatchQueue.main)
+    sink(fromPublisher: sutPublisher, withExpectation: expectation) { error, res in
+      hasReceivedResult = res
+      unexpectedError = error
+    }.store(in: &self.subscriptions)
+    
+    wait(for: [expectation], timeout: 50)
+    
+    // Assert
+    checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "retrieveImages")
+    XCTAssert(hasReceivedResult, notReceivedErrorMessage)
   }
 }
