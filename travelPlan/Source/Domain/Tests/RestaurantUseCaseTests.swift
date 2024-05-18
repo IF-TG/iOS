@@ -30,6 +30,7 @@ final class RestaurantUseCaseTests: XCTestCase {
       ),
       tourImageRetrieveInfoRepository: DefaultTourImageRetrieveInfoRepository(
         service: TourApiSessionProvider(),
+        imageService: ImageSessionProvider(),
         backgroundQueue: DispatchQueue.main
       )
     )
