@@ -72,4 +72,3 @@ extension CourseUseCaseTests {
     XCTAssertTrue(result, "receivedValue로 CourseEntity를 받아야하는데, 받지 못함.")
   }
 }
-
