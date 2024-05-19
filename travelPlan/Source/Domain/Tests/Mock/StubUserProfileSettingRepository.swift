@@ -1,0 +1,40 @@
+//
+//  StubUserProfileSettingRepository.swift
+//  travelPlan
+//
+//  Created by 양승현 on 2/27/24.
+//
+
+import Foundation
+import Combine
+
+// 이 객체는 전부 통신 성공을 가정합니다.
+final class StubUserProfileSettingRepository: UserProfileSettingRepository {
+  func updateUserNickname(with name: String) -> AnyPublisher<Bool, Error> {
+    return Just(true).setAnyErrorAndEraseToAnyPublisher()
+  }
+  
+  func checkIfUserNicknameDuplicate(with name: String) -> AnyPublisher<Bool, Error> {
+    return Just(true).setAnyErrorAndEraseToAnyPublisher()
+  }
+  
+  func updateProfileImage(with profile: String) -> AnyPublisher<Bool, Error> {
+    return Just(true).setAnyErrorAndEraseToAnyPublisher()
+  }
+  
+  func saveProfileImage(with profile: String) -> AnyPublisher<Bool, Error> {
+    return Just(true).setAnyErrorAndEraseToAnyPublisher()
+  }
+  
+  func deleteProfileImage() -> AnyPublisher<Bool, Error> {
+    return Just(true).setAnyErrorAndEraseToAnyPublisher()
+  }
+  
+  func saveProfile(
+    with userId: String,
+    nickname: String,
+    profileImageData: Data
+  ) -> AnyPublisher<Void, any Error> {
+    return Just(()).setAnyErrorAndEraseToAnyPublisher()
+  }
+}
