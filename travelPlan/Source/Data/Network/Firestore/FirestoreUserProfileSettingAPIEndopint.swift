@@ -24,7 +24,7 @@ struct FirestoreUserProfileSettingAPIEndopint {
       requestType: .users(.userDocument(.isNameDuplicated)))
   }
   
-  static func makeNicknameupdateEndpoint(
+  static func makeNicknameUpdateEndpoint(
     ownerId: String,
     with requestDTO: UserNicknameRequestDTO
   ) -> FirestoreEndpoint<VoidResponseDTO> {
