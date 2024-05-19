@@ -38,7 +38,7 @@ enum MyInformationViewModelState {
   case viewDidLoad(UserEntity)
   case networkProcessing
   case savableState(Bool)
-  case nicknameState(SettingUserNameTextField.State)
+  case nicknameState(NicknameValidateState)
   case correctionSaved
   case correctionNotSaved
   case unexpectedError(description: String)
