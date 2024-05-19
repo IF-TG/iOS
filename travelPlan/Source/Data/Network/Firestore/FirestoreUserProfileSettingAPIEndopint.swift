@@ -46,6 +46,7 @@ struct FirestoreUserProfileSettingAPIEndopint {
   }
   
   /// RequestDict 타입은 다음과 같아야 합니다.[profileImagepath: ""]
+  /// Firebase firestorage 필드 value는 옵셔널이 없기에 ""로 대체합니다.
   static func makeProfileImageDeleteEndpoint(
     ownerId: String
   ) -> FirestoreEndpoint<VoidResponseDTO> {
