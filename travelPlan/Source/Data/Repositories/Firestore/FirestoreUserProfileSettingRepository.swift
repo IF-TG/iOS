@@ -15,9 +15,9 @@ final class FirestoreUserProfileSettingRepository {
   // MARK: - Dependencies
   private let backgroundQueue: DispatchQueue
   private let service: FirestoreServiceProtocol
-  private let userProfileRepository: UserProfileRepository
   private let firebaseStorageService: ImageStorageServiceProtocol
   private let ownerStorage: OwnerStorage
+  /// 프로필 이미지 받을때 disk보다 memory cache가 더 빨리 가져옵니다.
   private let imageCache: ImageMemoryCachable
   
   // MARK: - Properties
@@ -26,55 +26,22 @@ final class FirestoreUserProfileSettingRepository {
   // MARK: - Lifecycle
   init(
     service: FirestoreServiceProtocol,
-    ownerStorage: OwnerStorage,
-    userProfileRepository: UserProfileRepository,
-    backgroundQueue: DispatchQueue = .global(qos: .userInitiated),
     firebaseStorageService: ImageStorageServiceProtocol,
+    backgroundQueue: DispatchQueue = .global(qos: .userInitiated),
+    ownerStorage: OwnerStorage,
     imageCache: ImageMemoryCachable
   ) {
     self.service = service
     self.ownerStorage = ownerStorage
     self.backgroundQueue = backgroundQueue
     self.firebaseStorageService = firebaseStorageService
-    self.userProfileRepository = userProfileRepository
     self.imageCache = imageCache
   }
 }
 
 // MARK: - MyProfileRepository
 extension FirestoreUserProfileSettingRepository: UserProfileSettingRepository {
-  var isProfileSavedInServer: Bool {
-    ownerStorage.isSavedProfileInServer
-  }
-  
-  func fetchProfile() -> AnyPublisher<UserEntity, any Error> {
-    if let user = ownerStorage.user {
-      return Just(user)
-        .setFailureType(to: ReferenceError.self)
-        .mapError { $0 as Error }
-        .eraseToAnyPublisher()
-    }
-    return Future { [weak self, backgroundQueue] promise in
-      guard let ownerId = self?.ownerStorage.id else {
-        promise(.failure(OwnerError.invalidOwnerId))
-        return
-      }
-      let subscription = self?.userProfileRepository
-        .fetchProfile(with: ownerId)
-        .subscribe(on: backgroundQueue)
-        .receive(on: backgroundQueue)
-        .sink { completion in
-          if case .failure(let error) = completion {
-            promise(.failure(error))
-          }
-        } receiveValue: { userEntity in
-          self?.ownerStorage.setUser(with: userEntity)
-          promise(.success(userEntity))
-        }
-      self?.subscriptions.insert(subscription)
-    }.eraseToAnyPublisher()
-  }
-  
+  // TODO: - 메모리캐싱 디스크캐싱 적용.
   func saveProfile(
     with userId: String,
     nickname: String,
@@ -128,10 +95,6 @@ extension FirestoreUserProfileSettingRepository: UserProfileSettingRepository {
   }
   
   func deleteProfileImage() -> AnyPublisher<Bool, any Error> {
-    fatalError("아직 미구현")
-  }
-  
-  func fetchProfileImage() -> AnyPublisher<ProfileImageEntity, any Error> {
     fatalError("아직 미구현")
   }
 }
