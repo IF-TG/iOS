@@ -8,49 +8,11 @@
 import Foundation
 import Combine
 
-// MARK: - Error
-enum MyInforMationViewModelError: LocalizedError {
-  case unknown(description: String)
-  case userInformationNotFound(description: String)
-  case connectionError(ConnectionError)
-  
-  var errorDescription: String? {
-    switch self {
-    case .unknown(let description):
-      NSLocalizedString(description, comment: "")
-    case .userInformationNotFound(let description):
-      NSLocalizedString(description, comment: "")
-    case .connectionError(let connectionError):
-      connectionError.localizedDescription
-    }
-  }
-}
-
-// MARK: - Extension
-private extension Publisher {
-  func mapViewModelError<E>(
-    _ transform: @escaping (Self.Failure) -> E
-  ) -> Publishers.MapError<Self, MyInforMationViewModelError> {
-    return self.mapError { error -> MyInforMationViewModelError in
-      if let useCaseError = error as? MyProfileUseCaseError {
-        return switch useCaseError {
-        case .invalidUserId:
-          MyInforMationViewModelError.userInformationNotFound(description: useCaseError.localizedDescription)
-        case .networkError(let connectionError):
-          MyInforMationViewModelError.connectionError(connectionError)
-        case .unknown(let errorDescription):
-          MyInforMationViewModelError.unknown(description: errorDescription)
-        }
-      }
-      return MyInforMationViewModelError.unknown(description: error.localizedDescription)
-    }
-  }
-}
-
-// MARK: - MyInformationViewModel
 final class MyInformationViewModel {  
   // MARK: - Dependencies
-  private let myProfileUseCase: MyProfileUseCase
+  private let userNicknameSettingUseCase: UserNicknameSettingUseCase
+  private let userProfileImageSettingUseCase: UserProfileImageSettingUseCase
+  private let nicknameValidationUseCase: NicknameValidationUseCase
   private let loggedInUserUseCase: LoggedInUserUseCase
   private let actions: MyInformationViewModelActions
   
@@ -75,11 +37,15 @@ final class MyInformationViewModel {
 
   // MARK: - Lifecycle
   init(
-    myProfileUseCase: MyProfileUseCase,
+    userNicknameSettingUseCase: UserNicknameSettingUseCase,
+    userProfileImageSettingUseCase: UserProfileImageSettingUseCase,
+    nicknameValidationUseCase: NicknameValidationUseCase,
     loggedInUserUseCase: LoggedInUserUseCase,
     actions: MyInformationViewModelActions
   ) {
-    self.myProfileUseCase = myProfileUseCase
+    self.userNicknameSettingUseCase = userNicknameSettingUseCase
+    self.userProfileImageSettingUseCase = userProfileImageSettingUseCase
+    self.nicknameValidationUseCase = nicknameValidationUseCase
     self.loggedInUserUseCase = loggedInUserUseCase
     self.actions = actions
     bothNameAndProfileUpdatedPublisher = Publishers.Zip(
@@ -122,29 +88,30 @@ private extension MyInformationViewModel {
   
   func updateNicknameSubjectStream() -> Output {
     return nicknameUpdateSubject
-      .flatMap { [weak self] nickname in
-        self?.editedUserNickname = nickname
-      return self?.myProfileUseCase.updateNickname(with: nickname)
-          .mapViewModelError { $0 }
-        .map { [weak self] result in
-          if self?.isProcessingBothNameAndProfile == true {
-            self?.updatedNicknameNotifier.send(result)
-            return .none
-          }
-          if result {
-            self?.changedNameAvailable = false
-            self?.saveNicknameInOwnerUseCase(nickname)
-          }
-          return result ? .correctionSaved : .correctionNotSaved
-        }.catch { [weak self] error in
-          self?.updatedNicknameNotifier.send(nil)
-          return Just(State.unexpectedError(description: error.errorDescription ?? "앱 동작 에러가 발생됬습니다."))
-            .eraseToAnyPublisher()
+      .flatMap { [weak self] nickname -> Output in
+        guard let self else {
+          return Just(State.unexpectedError(
+            description: ReferenceError.invalidReference.localizedDescription)
+          ).eraseToAnyPublisher()
         }
-        .eraseToAnyPublisher() ?? Just(
-          State.unexpectedError(description: "앱 동작 에러가 발생됬습니다.")).eraseToAnyPublisher()
-    }
-    .eraseToAnyPublisher()
+        editedUserNickname = nickname
+        return userNicknameSettingUseCase
+          .updateNickname(with: nickname)
+          .map { [weak self] result -> State in
+            if self?.isProcessingBothNameAndProfile == true {
+              self?.updatedNicknameNotifier.send(result)
+              return .none
+            }
+            if result {
+              self?.changedNameAvailable = false
+              self?.saveNicknameInOwnerUseCase(nickname)
+            }
+            return result ? .correctionSaved : .correctionNotSaved
+          }.catch { [weak self] error -> Output in
+            self?.updatedNicknameNotifier.send(nil)
+            return Just(.unexpectedError(description: error.localizedDescription)).eraseToAnyPublisher()
+          }.eraseToAnyPublisher()
+    }.eraseToAnyPublisher()
   }
   
   func selectProfileStream(input: Input) -> Output {
@@ -154,10 +121,10 @@ private extension MyInformationViewModel {
     }.eraseToAnyPublisher()
   }
   
+  // MARK: - 내부에서 서버에 검사까지 해줘서필요없음
   func checkDuplicatedUserNameStream() -> Output {
     duplicatedNicknameCheckSubject.flatMap { [weak self] nickname in
-      return self?.myProfileUseCase.checkIfNicknameDuplicate(with: nickname)
-        .mapViewModelError { $0 }
+      return self?.nicknameValidationUseCase.isNicknameDuplicated(with: nickname)
         .map { [weak self] isNicknameDuplicated -> State in
           self?.changedNameAvailable = !isNicknameDuplicated
           if isNicknameDuplicated {
@@ -183,10 +150,9 @@ private extension MyInformationViewModel {
           self?.nicknameUpdateSubject.send(nickname)
         }
         if let image = self?.editedUserProfileImage {
-          /// userDefaults에 사용자의 프로필이 서버에 저장되어있는지 최초 확인해야합니다.
-          /// 최초로 저장되어있다면, 그 다음부터는 update를 통해서만 (delete -> save) 서버에 추가해야한다고 합니다.
-          /// 맨 처음 가입해서 들어올떄 자동으로 최초 한번 기본이미지 저장하는게 편할것 같습니다...
-          if self?.myProfileUseCase.isProfileSavedInServer == true {
+          // MARK: 서버에 사용자 이미지가 저장되어있지 않다면, save를 통해 저장해야 합니다.
+          // 사용자 이미지가 저장됬다면 update or delete -> save를 호출해야합니다.
+          if self?.loggedInUserUseCase.hasProfileImageSavedInServer == true {
             self?.profileUpdateSubject.send(image)
           } else {
             self?.profileSaveSubject.send(image)
@@ -198,8 +164,7 @@ private extension MyInformationViewModel {
   
   func updateProfileStream() -> Output {
     profileUpdateSubject.flatMap { [weak self] imageData -> Output in
-      return self?.myProfileUseCase.updateProfileImageData(with: imageData)
-        .mapViewModelError { $0 }
+      return self?.userProfileImageSettingUseCase.updateProfileImageData(with: imageData)
         .map { [weak self] result -> State in
           if self?.isProcessingBothNameAndProfile == true {
             self?.updatedProfileNotifier.send(result)
@@ -221,8 +186,7 @@ private extension MyInformationViewModel {
   
   func saveProfileStream() -> Output {
     profileSaveSubject.flatMap { [weak self] imageData -> Output in
-      return self?.myProfileUseCase.saveProfileImageData(with: imageData)
-        .mapViewModelError { $0 }
+      return self?.userProfileImageSettingUseCase.saveProfileImageData(with: imageData)
         .map { [weak self] result -> State in
           if self?.isProcessingBothNameAndProfile == true {
             self?.updatedProfileNotifier.send(result)
@@ -280,6 +244,7 @@ private extension MyInformationViewModel {
       }.eraseToAnyPublisher()
   }
   
+  // FIXME: - DefaultNicknameValidationUseCase호출하도록!
   func inputNicknameStream(input: Input) -> Output {
     return input.revisedNicknameInput
       .debounce(for: 0.3, scheduler: DispatchQueue.main)
