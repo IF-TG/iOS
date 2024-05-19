@@ -129,10 +129,11 @@ extension FirestoreRequestType {
   }
   
   @frozen enum UserDocument {
+    typealias OwnerId = String
     case fetchUserProfile(String)
     case saveUserProfile
     //    case updateProfileImage
-    //    case updateName
+    case updateName(OwnerId)
     //    case updateProfileImage
     //    case saveProfileImage
     //    case deleteProfileImageData
@@ -157,6 +158,8 @@ extension FirestoreRequestType {
         return nil
       case .isNameDuplicated:
         return nil
+      case .updateName(let ownerId):
+        return ownerId
       }
     }
     
@@ -169,6 +172,8 @@ extension FirestoreRequestType {
       case .blockedUsersCollection(let uid, let blockedUserCollection):
         return "/\(uid)\(blockedUserCollection.collectionPath)"
       case .isNameDuplicated:
+        return nil
+      case .updateName(_):
         return nil
       }
     }
