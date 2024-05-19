@@ -8,20 +8,6 @@
 import Combine
 import Foundation
 
-// MARK: - Publisher extension
-private extension Publisher {
-  func mapMyProfileUsecaseError<E>(
-    _ transform: @escaping (Self.Failure) -> E
-  ) -> Publishers.MapError<Self, Error> {
-    return self.mapError { error -> MyProfileUseCaseError in
-      if let connectionError = error.asAFError?.asConnectionError {
-        return MyProfileUseCaseError.networkError(connectionError)
-      }
-      return MyProfileUseCaseError.unknown(error.localizedDescription)
-    }
-  }
-}
-
 final class DefaultUserProfileSettingRepository {
   // MARK: - Dependencies
   private let service: Sessionable
@@ -62,7 +48,6 @@ extension DefaultUserProfileSettingRepository: UserProfileSettingRepository {
       
       service.request(endpoint: endpoint)
         .subscribe(on: backgroundQueue)
-        .mapMyProfileUsecaseError { $0 }
         .sink { completion in
           switch completion {
           case .finished:
@@ -84,7 +69,7 @@ extension DefaultUserProfileSettingRepository: UserProfileSettingRepository {
       }
       
       guard let loggedInUserId = userStorage.id, let userId = Int64(loggedInUserId) else {
-        promise(.failure(MyProfileUseCaseError.invalidUserId))
+        promise(.failure(OwnerError.invalidOwnerId))
         return
       }
       
@@ -92,7 +77,6 @@ extension DefaultUserProfileSettingRepository: UserProfileSettingRepository {
       let endpoint = UserInfoAPIEndpoint.updateUserNickname(with: requestDTO)
       service.request(endpoint: endpoint)
         .subscribe(on: backgroundQueue)
-        .mapMyProfileUsecaseError { $0 }
         .sink { completion in
           switch completion {
           case .finished:
@@ -118,7 +102,7 @@ extension DefaultUserProfileSettingRepository: UserProfileSettingRepository {
       }
       
       guard let loggedInUserId = userStorage.id, let userId = Int64(loggedInUserId) else {
-        promise(.failure(MyProfileUseCaseError.invalidUserId))
+        promise(.failure(OwnerError.invalidOwnerId))
         return
       }
       
@@ -127,7 +111,6 @@ extension DefaultUserProfileSettingRepository: UserProfileSettingRepository {
       let endpoint = UserInfoAPIEndpoint.updateProfile(withQuery: userIdReqeustDTO, body: reqeustDTO)
       service.request(endpoint: endpoint)
         .subscribe(on: backgroundQueue)
-        .mapMyProfileUsecaseError { $0 }
         .sink { completion in
           if case .failure(let error) = completion {
             promise(.failure(error))
@@ -157,7 +140,7 @@ extension DefaultUserProfileSettingRepository: UserProfileSettingRepository {
         let loggedInUserId = userStorage.id,
         let userId = Int64(loggedInUserId)
       else {
-        promise(.failure(MyProfileUseCaseError.invalidUserId))
+        promise(.failure(OwnerError.invalidOwnerId))
         return
       }
       
@@ -166,7 +149,6 @@ extension DefaultUserProfileSettingRepository: UserProfileSettingRepository {
       let endpoint = UserInfoAPIEndpoint.saveProfile(withQuery: userIdRequestDTO, body: requestDTO)
       service.request(endpoint: endpoint)
         .subscribe(on: backgroundQueue)
-        .mapMyProfileUsecaseError { $0 }
         .sink { completion in
           if case .failure(let error) = completion {
             promise(.failure(error))
@@ -193,7 +175,7 @@ extension DefaultUserProfileSettingRepository: UserProfileSettingRepository {
       }
       
       guard let loggedInUserId = userStorage.id, let userId = Int64(loggedInUserId) else {
-        promise(.failure(MyProfileUseCaseError.invalidUserId))
+        promise(.failure(OwnerError.invalidOwnerId))
         return
       }
       
@@ -202,7 +184,6 @@ extension DefaultUserProfileSettingRepository: UserProfileSettingRepository {
       
       service.request(endpoint: endpoint)
         .subscribe(on: backgroundQueue)
-        .mapMyProfileUsecaseError { $0 }
         .sink { completion in
           if case .failure(let error) = completion {
             promise(.failure(error))
