@@ -90,7 +90,7 @@ extension DefaultUserProfileSettingRepository: UserProfileSettingRepository {
   }
   
   /// 업데이트는 서버 로직에서 삭제 -> 저장을 한번에 하는 기능입니다.
-  func updateProfileImage(with profile: String) -> AnyPublisher<Bool, Error> {
+  func updateProfileImage(with profileImageData: Data) -> AnyPublisher<Bool, Error> {
     return Future<Bool, Error> { [weak self] promise in
       guard let self else {
         promise(.failure(ReferenceError.invalidReference))
@@ -103,7 +103,7 @@ extension DefaultUserProfileSettingRepository: UserProfileSettingRepository {
       }
       
       let userIdReqeustDTO = UserIdReqeustDTO(userId: userId)
-      let reqeustDTO = UserProfileRequestDTO(profile: profile)
+      let reqeustDTO = UserProfileRequestDTO(profile: profileImageData.base64EncodedString())
       let endpoint = UserInfoAPIEndpoint.updateProfile(withQuery: userIdReqeustDTO, body: reqeustDTO)
       service.request(endpoint: endpoint)
         .subscribe(on: backgroundQueue)
@@ -125,7 +125,7 @@ extension DefaultUserProfileSettingRepository: UserProfileSettingRepository {
     }.eraseToAnyPublisher()
   }
   
-  func saveProfileImage(with profile: String) -> AnyPublisher<Bool, Error> {
+  func saveProfileImage(with profileImageData: Data) -> AnyPublisher<Bool, Error> {
     return Future<Bool, Error> { [weak self] promise in
       guard let self else {
         promise(.failure(ReferenceError.invalidReference))
@@ -141,7 +141,7 @@ extension DefaultUserProfileSettingRepository: UserProfileSettingRepository {
       }
       
       let userIdRequestDTO = UserIdReqeustDTO(userId: userId)
-      let requestDTO = UserProfileRequestDTO(profile: profile)
+      let requestDTO = UserProfileRequestDTO(profile: profileImageData.base64EncodedString())
       let endpoint = UserInfoAPIEndpoint.saveProfile(withQuery: userIdRequestDTO, body: requestDTO)
       service.request(endpoint: endpoint)
         .subscribe(on: backgroundQueue)
