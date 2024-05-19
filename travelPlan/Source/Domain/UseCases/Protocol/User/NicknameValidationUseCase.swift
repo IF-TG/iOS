@@ -12,3 +12,8 @@ protocol NicknameValidationUseCase {
   func isNicknameDuplicated(with name: String) -> AnyPublisher<Bool, Error>
   func validateNickname(_ nickname: String) -> AnyPublisher<NicknameValidateState, Never>
 }
+
+extension NicknameValidationUseCase {
+  var nicknameMinLength: Int { 3 }
+  var nicknameMaxLength: Int { 15 }
+}
