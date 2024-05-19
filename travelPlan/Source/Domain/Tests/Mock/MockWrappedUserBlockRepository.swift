@@ -17,44 +17,22 @@ final class MockWrappedUserBlockRepository: UserBlockRepository {
 
 extension MockWrappedUserBlockRepository {
   func blockUser(
-    with userId: Int64
+    with userId: String
   ) -> AnyPublisher<BlockedUserIdentifyEntity, any Error> {
-    MockUrlProtocol.requestHandler = { _ in
-      let mockData = MockResponseType.userBlock(.whenUserBlock).mockDataLoader
-      return ((.init(), mockData))
-    }
-    return Future { [weak self] promise in
-      DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.05) {
-        let subscription = self?.repository.blockUser(with: userId)
-          .sink { completion in
-            if case .failure(let error) = completion {
-              promise(.failure(error))
-            }
-          } receiveValue: { entity in
-            promise(.success(entity))
-          }
-        self?.subscriptions.insert(subscription)
-      }      
-    }.eraseToAnyPublisher()
+    return Just(BlockedUserIdentifyEntity(
+      userId: "testId1234", isBlocked: true)
+    ).setAnyErrorAndEraseToAnyPublisher()
   }
   
-  func fetchBlockedUsers() -> AnyPublisher<[BlockedUserProfileEntity], any Error> {
-    MockUrlProtocol.requestHandler = { _ in
-      let mockData = MockResponseType.userBlock(.whenBlockedUsersFetch).mockDataLoader
-      return ((.init(), mockData))
-    }
-    return Future { [weak self] promise in
-      DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.05) {
-        let subscription = self?.repository.fetchBlockedUsers()
-          .sink { completion in
-            if case .failure(let error) = completion {
-              promise(.failure(error))
-            }
-          } receiveValue: { entity in
-            promise(.success(entity))
-          }
-        self?.subscriptions.insert(subscription)
-      }
-    }.eraseToAnyPublisher()
+  
+  func unblockUser(with blockedUserId: String) -> AnyPublisher<Void, any Error> {
+    return Just(()).setAnyErrorAndEraseToAnyPublisher()
+  }
+  
+  func fetchBlockedUsers() -> AnyPublisher<[BlockedUserIdentifyEntity], any Error> {
+    return Just([
+      .init(userId: "testId3", isBlocked: true),
+      .init(userId: "testId4", isBlocked: true)])
+    .setAnyErrorAndEraseToAnyPublisher()
   }
 }
