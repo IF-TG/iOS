@@ -14,8 +14,13 @@ final class DefaultTourImageRetrieveInfoRepository {
   typealias ImageInfo = (original: Data, thumbnail: Data)
   typealias IndexedImageInfo = (index: Int, imageInfo: ImageInfo)
   typealias IndexedImageInfoFetcher = AnyPublisher<IndexedImageInfo, any Error>
+  typealias IndexedOriginalImageData = (index: Int, original: Data)
+  typealias IndexedOriginalImageDataFetcher = AnyPublisher<IndexedOriginalImageData, any Error>
+  
   typealias RetrieveImagesReturnPublisher = AnyPublisher<
     [TourRetrievedImageEntity<TourRetrievedDataImageEntity>], any Error>
+  typealias RetrieveOriginalImagesRetrunPublisher = AnyPublisher<
+    [TourRetrievedImageEntity<TourRetrievedOriginalImageDataEntity>], any Error>
 
   // MARK: - Dependencies
   private let service: Sessionable
@@ -40,6 +45,9 @@ final class DefaultTourImageRetrieveInfoRepository {
 
 // MARK: - TourImagesRetrieveInfoRepository
 extension DefaultTourImageRetrieveInfoRepository: TourImageRetrieveInfoRepository {
+  /// 투어 api에 요청시 제공받는 atomic  json을 받습니다.
+  ///
+  /// contentId에 따라 해당 컨텐츠의 이미지 정보 json을 numOfRows 만큼 받습니다.
   func retrieveAtomicImages(
     contentId: Int,
     numOfRows: Int?,
@@ -61,6 +69,9 @@ extension DefaultTourImageRetrieveInfoRepository: TourImageRetrieveInfoRepositor
       .eraseToAnyPublisher()
   }
   
+  /// 투어 api에 요청시 제공받는 이미지 정보와 url 바탕으로 이미지를 데이터로 변환해서 받습니다.
+  ///
+  /// contentId에 따라 해당 컨텐츠의 이미지 정보와 이미지 원본, 썸네일 데이터를 numOfRows 만큼 받습니다.
   func retrieveImages(
     contentId: Int,
     numOfRows: Int?,
@@ -98,6 +109,47 @@ extension DefaultTourImageRetrieveInfoRepository: TourImageRetrieveInfoRepositor
             }.eraseToAnyPublisher()
         }.eraseToAnyPublisher()
   }
+  
+  /// 투어 api에 요청시 제공받는 이미지 정보와 url 바탕으로 이미지를 데이터로 변환해서 받습니다.
+  ///
+  /// contentId에 따라 해당 컨텐츠의 이미지 정보와 이미지 원본 데이터를 numOfRows 만큼 받습니다.
+  func retrieveOriginalImages(
+    contentId: Int,
+    numOfRows: Int?,
+    pageNo: Int?
+  ) -> RetrieveOriginalImagesRetrunPublisher {
+    return retrieveAtomicImages(
+      contentId: contentId, numOfRows: numOfRows, pageNo: pageNo)
+    .receive(on: backgroundQueue)
+    .flatMap { [weak self, backgroundQueue] atomicEntities -> RetrieveOriginalImagesRetrunPublisher in
+      guard let self else { return Fail(error: ReferenceError.invalidReference).eraseToAnyPublisher() }
+      let collectCount = atomicEntities.count
+      let indexedOriginalImageDataFetchers: [IndexedOriginalImageDataFetcher] = makeIndexedOriginalImageFetchers(
+        from: atomicEntities.map { $0.image },
+        backgroundQueue: backgroundQueue)
+      
+      return Publishers
+        .MergeMany(indexedOriginalImageDataFetchers)
+        .collect(collectCount)
+        .eraseToAnyPublisher()
+        .map { indexedOriginalImageDataList in
+          let sortedOriginalImageDataList = indexedOriginalImageDataList
+            .sorted { $0.index < $1.index }
+            .map { $0.original }
+          
+          return (0..<collectCount).map { index -> TourRetrievedImageEntity<TourRetrievedOriginalImageDataEntity> in
+            let atomicEntity = atomicEntities[index]
+            let originalImageDataEntity = TourRetrievedOriginalImageDataEntity(
+              name: atomicEntity.image.name,
+              originalImageData: sortedOriginalImageDataList[index])
+            return TourRetrievedImageEntity<TourRetrievedOriginalImageDataEntity>(
+              contentId: atomicEntity.contentId,
+              image: originalImageDataEntity,
+              copyright: atomicEntity.copyright)
+          }
+        }.eraseToAnyPublisher()
+    }.eraseToAnyPublisher()
+  }
 }
 
 // MARK: - Private Helpers
@@ -106,16 +158,39 @@ fileprivate extension DefaultTourImageRetrieveInfoRepository {
     from atomicEntities: [TourRetrievedAtomicImageEntity],
     backgroundQueue: DispatchQueue
   ) -> [IndexedImageInfoFetcher] {
+    let ImageQueue = DispatchQueue(
+      label: "com.yeoga.app.TourImageRetrieveRepository.queue",
+      qos: .userInitiated,
+      attributes: .concurrent)
+
     return atomicEntities.enumerated().map { index, atomicEntity in
       return Publishers.Zip(
-        imageService.request(imageURL: atomicEntity.originalUrl, queue: backgroundQueue)
+        imageService.request(imageURL: atomicEntity.originalUrl, queue: ImageQueue)
           .mapError { $0 as Error }
           .eraseToAnyPublisher(),
-        imageService.request(imageURL: atomicEntity.thumbnailUrl, queue: backgroundQueue)
+        imageService.request(imageURL: atomicEntity.thumbnailUrl, queue: ImageQueue)
           .mapError { $0 as Error }
           .eraseToAnyPublisher())
       .map { return (index, ($0, $1)) }
       .eraseToAnyPublisher()
+    }
+  }
+  
+  func makeIndexedOriginalImageFetchers(
+    from atomicEntities: [TourRetrievedAtomicImageEntity],
+    backgroundQueue: DispatchQueue
+  ) -> [IndexedOriginalImageDataFetcher] {
+    return atomicEntities.enumerated().map { index, atomicEntity -> IndexedOriginalImageDataFetcher in
+      return imageService.request(
+        imageURL: atomicEntity.originalUrl,
+        queue: DispatchQueue(
+          label: "com.yeoga.app.TourImageRetrieveRepository.queue",
+          qos: .userInitiated,
+          attributes: .concurrent))
+        .mapError { $0 as Error }
+        .map { originalImageData -> IndexedOriginalImageData in
+          return (index, originalImageData)
+        }.eraseToAnyPublisher()
     }
   }
 }

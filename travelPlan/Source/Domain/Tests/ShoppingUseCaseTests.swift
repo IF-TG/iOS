@@ -30,6 +30,7 @@ final class ShoppingUseCaseTests: XCTestCase {
       ),
       tourImageRetrieveInfoRepository: DefaultTourImageRetrieveInfoRepository(
         service: SessionProvider(),
+        imageService: ImageSessionProvider(),
         backgroundQueue: DispatchQueue.main
       )
     )
