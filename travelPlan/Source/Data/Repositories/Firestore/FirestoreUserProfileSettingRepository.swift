@@ -42,6 +42,7 @@ final class FirestoreUserProfileSettingRepository {
 // MARK: - MyProfileRepository
 extension FirestoreUserProfileSettingRepository: UserProfileSettingRepository {
   // TODO: - 메모리캐싱 디스크캐싱 적용.
+  // 전부!!!
   func saveProfile(
     with userId: String,
     nickname: String,
@@ -71,7 +72,15 @@ extension FirestoreUserProfileSettingRepository: UserProfileSettingRepository {
           imageUrl: profileImageUrl
         ).sink { completion in
           if case .failure(let error) = completion { promise(.failure(error)) }
-        } receiveValue: { promise(.success($0)) }
+        } receiveValue: { [weak self] _ in
+          let ownerEntity = UserEntity(
+            id: userId,
+            nickname: nickname,
+            profileImageData: profileImageData,
+            isSavedProfileInServer: true)
+          self?.ownerStorage.setUser(with: ownerEntity)
+          promise(.success(()))
+        }
         subscriptions.insert(saveSubscription)
       }
       subscriptions.insert(subscription)
@@ -114,7 +123,8 @@ extension FirestoreUserProfileSettingRepository {
           if case .failure(let error) = completion {
             promise(.failure(error))
           }
-        } receiveValue: { _ in
+        } receiveValue: { [weak self] _ in
+          self?.ownerStorage.updateNickname(with: nickname)
           promise(.success(()))
         }
       self?.subscriptions.insert(subscription)
