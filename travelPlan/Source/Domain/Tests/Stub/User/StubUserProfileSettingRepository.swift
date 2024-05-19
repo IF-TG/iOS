@@ -21,11 +21,11 @@ final class StubUserProfileSettingRepository: UserProfileSettingRepository {
     return Just(false).setAnyErrorAndEraseToAnyPublisher()
   }
   
-  func updateProfileImage(with profile: String) -> AnyPublisher<Bool, Error> {
+  func updateProfileImage(with profileImageData: Data) -> AnyPublisher<Bool, Error> {
     return Just(true).setAnyErrorAndEraseToAnyPublisher()
   }
   
-  func saveProfileImage(with profile: String) -> AnyPublisher<Bool, Error> {
+  func saveProfileImage(with profileImageData: Data) -> AnyPublisher<Bool, Error> {
     return Just(true).setAnyErrorAndEraseToAnyPublisher()
   }
   

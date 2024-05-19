@@ -23,11 +23,11 @@ final class DefaultUserProfileImageSettingUseCase {
 // MARK: - UserProfileImageSettingUseCase
 extension DefaultUserProfileImageSettingUseCase: UserProfileImageSettingUseCase {
   func updateProfileImageData(with data: Data) -> AnyPublisher<Bool, any Error> {
-    return userProfileSettingRepository.updateProfileImage(with: data.base64EncodedString())
+    return userProfileSettingRepository.updateProfileImage(with: data)
   }
   
   func saveProfileImageData(with data: Data) -> AnyPublisher<Bool, any Error> {
-    return userProfileSettingRepository.saveProfileImage(with: data.base64EncodedString())
+    return userProfileSettingRepository.saveProfileImage(with: data)
   }
   
   func deleteProfileImageData() -> AnyPublisher<Bool, any Error> {
