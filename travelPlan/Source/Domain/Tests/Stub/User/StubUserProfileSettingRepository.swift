@@ -15,7 +15,7 @@ final class StubUserProfileSettingRepository: UserProfileSettingRepository {
   }
   
   func checkIfUserNicknameDuplicate(with name: String) -> AnyPublisher<Bool, Error> {
-    if name == StubOwnerStorage().nickname {
+    if name == "난당근" {
       return Just(true).setAnyErrorAndEraseToAnyPublisher()
     }
     return Just(false).setAnyErrorAndEraseToAnyPublisher()
