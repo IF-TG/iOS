@@ -630,7 +630,7 @@
 		15D655842B8E085300466FEC /* CommonDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D655832B8E085300466FEC /* CommonDTO.swift */; };
 		15D655872B8E0ABF00466FEC /* UserNicknameRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D655862B8E0ABF00466FEC /* UserNicknameRequestDTO.swift */; };
 		15D655892B8E0EC600466FEC /* UserProfileSettingRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D655882B8E0EC600466FEC /* UserProfileSettingRepository.swift */; };
-		15D6558B2B8E0F8500466FEC /* DefaultMyProfileRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D6558A2B8E0F8500466FEC /* DefaultMyProfileRepository.swift */; };
+		15D6558B2B8E0F8500466FEC /* DefaultUserProfileSettingRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D6558A2B8E0F8500466FEC /* DefaultUserProfileSettingRepository.swift */; };
 		15D6558D2B8E110500466FEC /* MyProfileUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D6558C2B8E110500466FEC /* MyProfileUseCase.swift */; };
 		15D6558F2B8E11AC00466FEC /* DefaultMyProfileUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D6558E2B8E11AC00466FEC /* DefaultMyProfileUseCase.swift */; };
 		15D655952B8E17D400466FEC /* MockMyProfileRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D655942B8E17D400466FEC /* MockMyProfileRepository.swift */; };
@@ -1426,7 +1426,7 @@
 		15D655832B8E085300466FEC /* CommonDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonDTO.swift; sourceTree = "<group>"; };
 		15D655862B8E0ABF00466FEC /* UserNicknameRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserNicknameRequestDTO.swift; sourceTree = "<group>"; };
 		15D655882B8E0EC600466FEC /* UserProfileSettingRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileSettingRepository.swift; sourceTree = "<group>"; };
-		15D6558A2B8E0F8500466FEC /* DefaultMyProfileRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultMyProfileRepository.swift; sourceTree = "<group>"; };
+		15D6558A2B8E0F8500466FEC /* DefaultUserProfileSettingRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultUserProfileSettingRepository.swift; sourceTree = "<group>"; };
 		15D6558C2B8E110500466FEC /* MyProfileUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileUseCase.swift; sourceTree = "<group>"; };
 		15D6558E2B8E11AC00466FEC /* DefaultMyProfileUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultMyProfileUseCase.swift; sourceTree = "<group>"; };
 		15D655912B8E169100466FEC /* MyProfileUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileUseCaseTests.swift; sourceTree = "<group>"; };
@@ -2728,7 +2728,7 @@
 			isa = PBXGroup;
 			children = (
 				130CF36B2B8F3D770051DEE8 /* DefaultLoginRepository.swift */,
-				15D6558A2B8E0F8500466FEC /* DefaultMyProfileRepository.swift */,
+				15D6558A2B8E0F8500466FEC /* DefaultUserProfileSettingRepository.swift */,
 				151DF0FD2AEEBBE200D5D55B /* DefaultNotificationRepository.swift */,
 				15E9E5E92B9A1CA500C2F1F7 /* DefaultPostRepository.swift */,
 				152715442BA0D60F0077D033 /* DefaultUserProfileRepository.swift */,
@@ -4751,7 +4751,7 @@
 				13AE0DD82BC32AD700652B99 /* AlbumPhotoMaxCountUseCase.swift in Sources */,
 				13E7EAC92BDE2C010027946C /* LeportsResponseDTO.swift in Sources */,
 				135A07D12BB4031D003D6C4D /* DefaultPhotoAuthorizationUseCase.swift in Sources */,
-				15D6558B2B8E0F8500466FEC /* DefaultMyProfileRepository.swift in Sources */,
+				15D6558B2B8E0F8500466FEC /* DefaultUserProfileSettingRepository.swift in Sources */,
 				15FF36B82BE1DE4E00557276 /* DateTimeConverter.swift in Sources */,
 				15B01DAF2BA95A4600BE9F98 /* DefaultLoggedInUserUseCase.swift in Sources */,
 				15AAD34C2BBFD1760042DBF6 /* FavoritePostToggleEntity.swift in Sources */,

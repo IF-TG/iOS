@@ -70,14 +70,14 @@ extension FirestoreUserProfileRepository: UserProfileRepository {
   
   func fetchProfileImageData(
     with userId: String
-  ) -> AnyPublisher<ProfileImageData?, any Error> {
+  ) -> AnyPublisher<ProfileImageEntity, any Error> {
     return Future { [weak self] promise in
       let subscription = self?.fetchProfile(with: userId).sink { completion in
         if case .failure(let error) = completion {
           promise(.failure(error))
         }
       } receiveValue: { userEntity in
-        promise(.success(userEntity.profileImageData))
+        promise(.success(ProfileImageEntity(image: userEntity.profileImageData)))
       }
       self?.subscriptions.insert(subscription)
     }.eraseToAnyPublisher()

@@ -1,5 +1,5 @@
 //
-//  DefaultMyProfileRepository.swift
+//  DefaultUserProfileSettingRepository.swift
 //  travelPlan
 //
 //  Created by 양승현 on 2/27/24.
@@ -22,7 +22,7 @@ private extension Publisher {
   }
 }
 
-final class DefaultMyProfileRepository {
+final class DefaultUserProfileSettingRepository {
   // MARK: - Dependencies
   private let service: Sessionable
   private lazy var othersProfileRepository = DefaultUserProfileRepository(service: service)
@@ -45,7 +45,7 @@ final class DefaultMyProfileRepository {
 }
 
 // MARK: - MyProfileRepository
-extension DefaultMyProfileRepository: UserProfileSettingRepository {
+extension DefaultUserProfileSettingRepository: UserProfileSettingRepository {
   var isProfileSavedInServer: Bool {
     userStorage.isSavedProfileInServer
   }
@@ -214,45 +214,7 @@ extension DefaultMyProfileRepository: UserProfileSettingRepository {
     }.eraseToAnyPublisher()
   }
   
-  func fetchProfileImage() -> AnyPublisher<ProfileImageEntity, Error> {
-    return Future { [weak self] promise in
-      guard let self else {
-        promise(.failure(ReferenceError.invalidReference))
-        return
-      }
-      
-      // UserDefaults 확인
-      if let imageData = userStorage.profileImageData {
-        promise(.success(.init(image: imageData)))
-      }
-      
-      guard let loggedInUserId = userStorage.id else {
-        promise(.failure(MyProfileUseCaseError.invalidUserId))
-        return
-      }
-
-      // 프로필 없는 경우 서버에서 불러오기
-      othersProfileRepository.fetchProfileImageData(with: loggedInUserId)
-        .subscribe(on: backgroundQueue)
-        .mapMyProfileUsecaseError { $0 }
-        .sink { completion in
-          if case .failure(let error) = completion {
-            promise(.failure(error))
-          }
-        } receiveValue: { [weak self] profileImageData in
-          if let data = profileImageData {
-            self?.userStorage.updateProfileImageData(with: data)
-          }
-          promise(.success(ProfileImageEntity(image: profileImageData)))
-        }.store(in: &subscriptions)
-    }.eraseToAnyPublisher()
-  }
-  
   func saveProfile(with userId: String, nickname: String, profileImageData: Data) -> AnyPublisher<Void, any Error> {
-    fatalError("서버에서 미 구현된 api 입니다.")
-  }
-  
-  func fetchProfile() -> AnyPublisher<UserEntity, any Error> {
     fatalError("서버에서 미 구현된 api 입니다.")
   }
 }
