@@ -6,30 +6,91 @@
 //
 
 import XCTest
+import Combine
+@testable import travelPlan
 
 final class DefaultNicknameValidationUseCaseTests: XCTestCase {
+  var sut: NicknameValidationUseCase!
+  var subscriptions: Set<AnyCancellable>!
+  var stubUserProfileSettingRepository: StubUserProfileSettingRepository!
+  var stubOwnerStorage: StubOwnerStorage!
+  var expectation: XCTestExpectation!
+  
+  override func setUp() {
+    super.setUp()
+    stubUserProfileSettingRepository = StubUserProfileSettingRepository()
+    stubOwnerStorage = StubOwnerStorage()
+    sut = DefaultNicknameValidationUseCase(
+      userProfileSettingRepository: stubUserProfileSettingRepository,
+      ownerStorage: stubOwnerStorage)
+    subscriptions = []
+    expectation = XCTestExpectation(description: "유닛 테스트 시작")
+  }
+  
+  override func tearDown() {
+    super.tearDown()
+    sut = nil
+    subscriptions = nil
+    stubOwnerStorage = nil
+    stubUserProfileSettingRepository = nil
+    expectation = nil
+  }
+}
 
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
-    }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+// MARK: - Private Heleprs
+private extension DefaultNicknameValidationUseCaseTests {
+  func validateNicknameForTest(
+    nickname: String,
+    expectedState: NicknameValidateState
+  ) {
+    // Arrange
+    var unexpectedError: Error?
+    var receivedResult: NicknameValidateState = .default
+    
+    // Act
+    sut.validateNickname(nickname)
+      .receive(on: RunLoop.current)
+      .sink { completion in
+        if case .failure(let error) = completion {
+          unexpectedError = error
+          self.expectation.fulfill()
         }
-    }
+      } receiveValue: { receivedState in
+        receivedResult = receivedState
+        self.expectation.fulfill()
+      }.store(in: &subscriptions)
+    
+    wait(for: [expectation], timeout: 7.777)
+    
+    // Assert
+    checkIfUnexpectedErrorOccurred(unexpectedError, functionName: #function)
+    XCTAssertEqual(expectedState, receivedResult, "\(#function): 예상된 반환값과 일치하지 않습니다.")
+  }
+}
 
+extension DefaultNicknameValidationUseCaseTests {
+  func test_validateNickname_WhenInputEnptyNickname_ShouldReturnUdnerflow() {
+    validateNicknameForTest(nickname: "", expectedState: .underflow)
+  }
+  
+  
+  func test_validateNickname_WhenShortNickname_ShouldReturnUnderflow() {
+    validateNicknameForTest(nickname: "GG", expectedState: .underflow)
+  }
+  
+  func test_validateNickname_WhenInputLongNickname_ShouldReturnOverflow() {
+    validateNicknameForTest(nickname: "테스트테스트닉네임닉네임닉네임닉네임", expectedState: .overflow)
+  }
+  
+  func test_validateNickname_WhenInputExistingNickname_ShoudReturnDefault() {
+    validateNicknameForTest(nickname: stubOwnerStorage.nickname ?? "난짱구", expectedState: .default)
+  }
+  
+  func test_validateNickname_WhenInputNewValidNickanme_NotDuplcated_ShouldReturnAvailable() {
+    validateNicknameForTest(nickname: "여행가고싶당", expectedState: .available)
+  }
+  
+  func test_validateNickname_WhenInputNewNickname_Duplidated_ShouldReturnDuplicated() {
+    validateNicknameForTest(nickname: "난당근", expectedState: .duplicated)
+  }
 }
