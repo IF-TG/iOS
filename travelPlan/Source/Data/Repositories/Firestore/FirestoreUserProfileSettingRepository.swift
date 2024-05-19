@@ -1,5 +1,5 @@
 //
-//  FirestoreMyProfileRepository.swift
+//  FirestoreUserProfileSettingRepository.swift
 //  travelPlan
 //
 //  Created by 양승현 on 4/25/24.
@@ -9,7 +9,7 @@ import Foundation
 import Combine
 import SHFirestoreService
 
-final class FirestoreMyProfileRepository {
+final class FirestoreUserProfileSettingRepository {
   typealias Endpoint = FirestoreMyProfileAPIEndopint
   
   // MARK: - Dependencies
@@ -42,7 +42,7 @@ final class FirestoreMyProfileRepository {
 }
 
 // MARK: - MyProfileRepository
-extension FirestoreMyProfileRepository: UserProfileSettingRepository {
+extension FirestoreUserProfileSettingRepository: UserProfileSettingRepository {
   var isProfileSavedInServer: Bool {
     ownerStorage.isSavedProfileInServer
   }
@@ -137,7 +137,7 @@ extension FirestoreMyProfileRepository: UserProfileSettingRepository {
 }
 
 // MARK: - Private Helpers
-extension FirestoreMyProfileRepository {
+extension FirestoreUserProfileSettingRepository {
   private func saveProfileWithoutProfileImage(with userId: String, nickname: String) -> AnyPublisher<Void, Error> {
     let requestDTO = UserProfileSaveRequestDTO(
       uid: userId,
