@@ -68,18 +68,19 @@ extension FirestoreUserProfileSettingRepository: UserProfileSettingRepository {
           userId: userId,
           nickname: nickname,
           imageUrl: profileImageUrl
-        ).sink { completion in
-          if case .failure(let error) = completion { promise(.failure(error)) }
-        } receiveValue: { [weak self] _ in
-          let ownerEntity = UserEntity(
-            id: userId,
-            nickname: nickname,
-            profileImageUrl: profileImageUrl,
-            profileImageData: profileImageData,
-            isSavedProfileInServer: true)
-          self?.ownerStorage.setUser(with: ownerEntity)
-          promise(.success(()))
-        }
+        ).receive(on: backgroundQueue)
+          .sink { completion in
+            if case .failure(let error) = completion { promise(.failure(error)) }
+          } receiveValue: { [weak self] _ in
+            let ownerEntity = UserEntity(
+              id: userId,
+              nickname: nickname,
+              profileImageUrl: profileImageUrl,
+              profileImageData: profileImageData,
+              isSavedProfileInServer: true)
+            self?.ownerStorage.setUser(with: ownerEntity)
+            promise(.success(()))
+          }
         subscriptions.insert(saveSubscription)
       }
       subscriptions.insert(subscription)
@@ -135,26 +136,15 @@ extension FirestoreUserProfileSettingRepository: UserProfileSettingRepository {
       return saveProfileImage(with: profileImageData)
     }
     
-    // 여기서는 기존 이미지 저장소에서 삭제한 후에. 다시 그가해야함
-    // TODO: - 사용자 업데이트하기전에, 이미지 저장소에서 삭제 -> 다시 저장 후 이 문서 업데이트하는 함수 호출해야함돠.
-    fatalError("미구현")
-    return Future { [weak self, backgroundQueue] promise in
-      
-      var urlPath = "" //이미지 넣고 이거기반으로 프로필 필드 업 데이트해야함 저장해야함.
-      let requestDict = ["profileImagePath": urlPath]
-      let endpoint = Endpoint.makeProfileImageUpdateEndpoint(ownerId: ownerId, with: requestDict)
-      let subscription = self?.service
-        .request(endpoint: endpoint)
-        .receive(on: backgroundQueue)
-        .sink { completion in
-          if case .failure(let error) = completion {
-            promise(.failure(error))
-          }
-        } receiveValue: { _ in
-          promise(.success(true))
+    return deleteProfileImage()
+      .receive(on: backgroundQueue)
+      .filter { $0 }
+      .flatMap { [weak self] _ -> AnyPublisher<Bool, any Error> in
+        guard let self else {
+          return Fail(error: ReferenceError.invalidReference).eraseToAnyPublisher()
         }
-      self?.subscriptions.insert(subscription)
-    }.eraseToAnyPublisher()
+        return saveProfileImage(with: profileImageData)
+      }.eraseToAnyPublisher()
   }
   
   /// 프로필을 Firebase storage에 저장하고
