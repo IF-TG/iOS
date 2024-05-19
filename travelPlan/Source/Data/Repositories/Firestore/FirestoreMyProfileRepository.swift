@@ -9,10 +9,6 @@ import Foundation
 import Combine
 import SHFirestoreService
 
-@frozen enum FirestoreMyProfileRepositoryError: LocalizedError {
-  case invaildOwnerId
-}
-
 final class FirestoreMyProfileRepository {
   typealias Endpoint = FirestoreMyProfileAPIEndopint
   
@@ -60,7 +56,7 @@ extension FirestoreMyProfileRepository: UserProfileSettingRepository {
     }
     return Future { [weak self, backgroundQueue] promise in
       guard let ownerId = self?.ownerStorage.id else {
-        promise(.failure(FirestoreMyProfileRepositoryError.invaildOwnerId))
+        promise(.failure(OwnerError.invalidOwnerId))
         return
       }
       let subscription = self?.userProfileRepository
