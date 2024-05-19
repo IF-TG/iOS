@@ -45,7 +45,7 @@ final class DefaultMyProfileRepository {
 }
 
 // MARK: - MyProfileRepository
-extension DefaultMyProfileRepository: MyProfileRepository {
+extension DefaultMyProfileRepository: UserProfileSettingRepository {
   var isProfileSavedInServer: Bool {
     userStorage.isSavedProfileInServer
   }

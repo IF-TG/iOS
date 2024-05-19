@@ -46,7 +46,7 @@ final class FirestoreMyProfileRepository {
 }
 
 // MARK: - MyProfileRepository
-extension FirestoreMyProfileRepository: MyProfileRepository {
+extension FirestoreMyProfileRepository: UserProfileSettingRepository {
   var isProfileSavedInServer: Bool {
     ownerStorage.isSavedProfileInServer
   }

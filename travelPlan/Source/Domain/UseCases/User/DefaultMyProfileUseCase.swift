@@ -10,7 +10,7 @@ import Combine
 
 final class DefaultMyProfileUseCase: MyProfileUseCase {
   // MARK: - Dependencies
-  private let myProfileRepository: MyProfileRepository
+  private let myProfileRepository: UserProfileSettingRepository
   private let userProfileRepository: UserProfileRepository
   private let loggedInUserRepository: LoggedInUserRepository
   
@@ -25,7 +25,7 @@ final class DefaultMyProfileUseCase: MyProfileUseCase {
   
   // MARK: - Lifecycle
   init(
-    myProfileRepository: MyProfileRepository,
+    myProfileRepository: UserProfileSettingRepository,
     userProfileRepository: UserProfileRepository,
     loggedInUserRepository: LoggedInUserRepository
   ) {

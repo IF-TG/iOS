@@ -629,7 +629,7 @@
 		15D655822B8E079200466FEC /* UserInfoAPIEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D655812B8E079200466FEC /* UserInfoAPIEndpoint.swift */; };
 		15D655842B8E085300466FEC /* CommonDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D655832B8E085300466FEC /* CommonDTO.swift */; };
 		15D655872B8E0ABF00466FEC /* UserNicknameRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D655862B8E0ABF00466FEC /* UserNicknameRequestDTO.swift */; };
-		15D655892B8E0EC600466FEC /* MyProfileRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D655882B8E0EC600466FEC /* MyProfileRepository.swift */; };
+		15D655892B8E0EC600466FEC /* UserProfileSettingRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D655882B8E0EC600466FEC /* UserProfileSettingRepository.swift */; };
 		15D6558B2B8E0F8500466FEC /* DefaultMyProfileRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D6558A2B8E0F8500466FEC /* DefaultMyProfileRepository.swift */; };
 		15D6558D2B8E110500466FEC /* MyProfileUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D6558C2B8E110500466FEC /* MyProfileUseCase.swift */; };
 		15D6558F2B8E11AC00466FEC /* DefaultMyProfileUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D6558E2B8E11AC00466FEC /* DefaultMyProfileUseCase.swift */; };
@@ -1425,7 +1425,7 @@
 		15D655812B8E079200466FEC /* UserInfoAPIEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoAPIEndpoint.swift; sourceTree = "<group>"; };
 		15D655832B8E085300466FEC /* CommonDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonDTO.swift; sourceTree = "<group>"; };
 		15D655862B8E0ABF00466FEC /* UserNicknameRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserNicknameRequestDTO.swift; sourceTree = "<group>"; };
-		15D655882B8E0EC600466FEC /* MyProfileRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileRepository.swift; sourceTree = "<group>"; };
+		15D655882B8E0EC600466FEC /* UserProfileSettingRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileSettingRepository.swift; sourceTree = "<group>"; };
 		15D6558A2B8E0F8500466FEC /* DefaultMyProfileRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultMyProfileRepository.swift; sourceTree = "<group>"; };
 		15D6558C2B8E110500466FEC /* MyProfileUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileUseCase.swift; sourceTree = "<group>"; };
 		15D6558E2B8E11AC00466FEC /* DefaultMyProfileUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultMyProfileUseCase.swift; sourceTree = "<group>"; };
@@ -2836,7 +2836,7 @@
 			isa = PBXGroup;
 			children = (
 				15B01DA62BA941D800BE9F98 /* LoggedInUserRepository.swift */,
-				15D655882B8E0EC600466FEC /* MyProfileRepository.swift */,
+				15D655882B8E0EC600466FEC /* UserProfileSettingRepository.swift */,
 				15B5E7A02BBAE68000C19F56 /* UserBlockRepository.swift */,
 				152715402BA0D5AE0077D033 /* UserProfileRepository.swift */,
 			);
@@ -4324,7 +4324,6 @@
 				15B5E7AE2BBAEBE700C19F56 /* UserBlockUseCaseTests.swift in Sources */,
 				1383C81C2B97F44800830F1A /* KeychainManagerTests.swift in Sources */,
 				1526ECF22BF6376F00B629FB /* DefaultPostSearchUseCaseTests.swift in Sources */,
-				13E84AFE2BE971C500B537B6 /* DefaultFestivalUseCaseTests.swift in Sources */,
 				15EBD9192BE8AC9400BCEA7F /* FirestorePostCommentHeartRepositoryTests.swift in Sources */,
 				15ABC4242BF3549900B9FA74 /* StubPostAtomicNestedCommentRepository.swift in Sources */,
 				158981BA2BB2652700F016CF /* PostCommentAPIEndpointTests.swift in Sources */,
@@ -4348,7 +4347,6 @@
 				13EB3D512BF5034000CA84F0 /* AttractionUseCaseTests.swift in Sources */,
 				15E0BA002BF1B2BB00EBCDD9 /* PostNestedCommentHeartUseCaseImplTests.swift in Sources */,
 				13EB3D0B2BEFCF2900CA84F0 /* DefaultTourCommonInfoRepositoryTests.swift in Sources */,
-				15E9E5F02B9A359B00C2F1F7 /* PostUseCaseTests.swift in Sources */,
 				13EB3D1B2BF3420900CA84F0 /* FestivalUseCaseTests.swift in Sources */,
 				158C6A3B2B0D231C00C30856 /* ImageIOTests.swift in Sources */,
 				15FFAC202ADC322B0013DB57 /* EndpointTests.swift in Sources */,
@@ -4563,7 +4561,7 @@
 				1564A0A02BBFE0290045424B /* FavoritePostDirectoryNameUpdateRequestDTO.swift in Sources */,
 				1343840D2B4803FE005034E0 /* BaseNavigationRightButton.swift in Sources */,
 				15F1CD982BE3494800F18786 /* FirestorePostHeartRepository.swift in Sources */,
-				15D655892B8E0EC600466FEC /* MyProfileRepository.swift in Sources */,
+				15D655892B8E0EC600466FEC /* UserProfileSettingRepository.swift in Sources */,
 				1325502B2A0ABE5E00094218 /* PostSearchViewModel.swift in Sources */,
 				15FEB5E92A050A99000A5F33 /* UITextField+Combine.swift in Sources */,
 				15D655872B8E0ABF00466FEC /* UserNicknameRequestDTO.swift in Sources */,
