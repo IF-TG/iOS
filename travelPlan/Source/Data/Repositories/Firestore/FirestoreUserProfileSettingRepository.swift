@@ -10,7 +10,7 @@ import Combine
 import SHFirestoreService
 
 final class FirestoreUserProfileSettingRepository {
-  typealias Endpoint = FirestoreMyProfileAPIEndopint
+  typealias Endpoint = FirestoreUserProfileSettingAPIEndopint
   
   // MARK: - Dependencies
   private let backgroundQueue: DispatchQueue
@@ -41,8 +41,6 @@ final class FirestoreUserProfileSettingRepository {
 
 // MARK: - MyProfileRepository
 extension FirestoreUserProfileSettingRepository: UserProfileSettingRepository {
-  // TODO: - 메모리캐싱 디스크캐싱 적용.
-  // 전부!!!
   func saveProfile(
     with userId: String,
     nickname: String,
@@ -88,7 +86,21 @@ extension FirestoreUserProfileSettingRepository: UserProfileSettingRepository {
   }
   
   func checkIfUserNicknameDuplicate(with name: String) -> AnyPublisher<Bool, any Error> {
-    fatalError("아직 미구현")
+    let endpoint = Endpoint.makeNicknameIsDuplicatedEndpoint()
+    return Future { [weak self, backgroundQueue] promise in
+      let subscription = self?.service
+        .isDocumentExists(endpoint: endpoint) { collectionRef in
+          return collectionRef.whereField("nickname", isEqualTo: "name")
+        }.receive(on: backgroundQueue)
+        .sink { completion in
+          if case .failure(let error) = completion {
+            promise(.failure(error))
+          }
+        } receiveValue: { isNicknameDuplicated in
+          promise(.success(isNicknameDuplicated))
+        }
+      self?.subscriptions.insert(subscription)
+    }.eraseToError()
   }
   
   func updateUserNickname(with name: String) -> AnyPublisher<Bool, any Error> {
