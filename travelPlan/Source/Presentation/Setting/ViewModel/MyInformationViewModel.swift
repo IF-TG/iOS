@@ -31,7 +31,6 @@ final class MyInformationViewModel {
   private let updatedNicknameNotifier = PassthroughSubject<Bool?, Never>()
   private let updatedProfileNotifier = PassthroughSubject<Bool?, Never>()
   private let nicknameUpdateSubject = PassthroughSubject<String, Never>()
-  private let duplicatedNicknameCheckSubject = PassthroughSubject<String, Never>()
   private let profileUpdateSubject = PassthroughSubject<Data, Never>()
   private let profileSaveSubject = PassthroughSubject<Data, Never>()
 
@@ -59,7 +58,6 @@ extension MyInformationViewModel: MyInformationViewModelable {
   func transform(_ input: Input) -> Output {
     return Publishers.MergeMany([
       viewDidLoadStream(input),
-      checkDuplicatedUserNameStream(),
       selectProfileStream(input: input),
       tapStoreButtonStream(input: input),
       hasBothNameAndProfileUpdatedStream(),
@@ -118,25 +116,6 @@ private extension MyInformationViewModel {
     return input.profileSelect.map { [weak self] base64Image -> State in
       self?.editedUserProfileImage = base64Image
       return .none
-    }.eraseToAnyPublisher()
-  }
-  
-  // MARK: - 내부에서 서버에 검사까지 해줘서필요없음
-  func checkDuplicatedUserNameStream() -> Output {
-    duplicatedNicknameCheckSubject.flatMap { [weak self] nickname in
-      return self?.nicknameValidationUseCase.isNicknameDuplicated(with: nickname)
-        .map { [weak self] isNicknameDuplicated -> State in
-          self?.changedNameAvailable = !isNicknameDuplicated
-          if isNicknameDuplicated {
-            self?.editedUserNickname = nil
-          }
-          return .nicknameState(isNicknameDuplicated ? .duplicated : .available)
-        }.catch { error in
-          return Just(State.unexpectedError(description: error.localizedDescription))
-            .eraseToAnyPublisher()
-        }.eraseToAnyPublisher() ?? Just(
-          .unexpectedError(description: "앱 내부 참조 에러가 발생됬습니다.")
-        ).eraseToAnyPublisher()
     }.eraseToAnyPublisher()
   }
   
@@ -244,36 +223,33 @@ private extension MyInformationViewModel {
       }.eraseToAnyPublisher()
   }
   
-  // FIXME: - DefaultNicknameValidationUseCase호출하도록!
   func inputNicknameStream(input: Input) -> Output {
     return input.revisedNicknameInput
       .debounce(for: 0.3, scheduler: DispatchQueue.main)
-      .map { [weak self] editedNickname -> State in
-        let isNicknameAvailable = (3...15).contains(editedNickname.count)
-        let isNicknameWithinMinimumRange = (0...2).contains(editedNickname.count) || editedNickname.isEmpty
-        
-        guard let loggedInUserNickname = self?.ownerEntity?.nickname else {
-          return .unexpectedError(description: "로그인한 사용자의 정보가 일치하지 않습니다. 잠시 후 다시 시도해주세요.")
-        }
-        if editedNickname == loggedInUserNickname {
-          return .nicknameState(.default)
+      .flatMap { [weak self] editedNickname -> Output in
+        guard let self else {
+          return Just(State.unexpectedError(
+            description: ReferenceError.invalidReference.localizedDescription)
+          ).eraseToAnyPublisher()
         }
         
-        if isNicknameAvailable {
-          self?.editedUserNickname = editedNickname
-          // TODO: - activityIndicator로 리빌딩 해야합니다. 아니면 processing 반환 scope에서 다른 퍼블리셔에 send할때 백그라운드에서 호출하도록 변경해야합니다.
-          DispatchQueue.global(qos: .background).async {
-            self?.duplicatedNicknameCheckSubject.send(editedNickname)
+        return nicknameValidationUseCase
+          .validateNickname(editedNickname)
+          .map { [weak self] nicknameValidateState -> State in
+            if nicknameValidateState == .duplicated {
+              self?.editedUserNickname = nil
+            }
+            return .nicknameState(nicknameValidateState)
           }
-          return .networkProcessing
-        }
-        if isNicknameWithinMinimumRange {
-          return .nicknameState(.underflow)
-        }
-        if editedNickname.count > 15 {
-          return .nicknameState(.overflow)
-        }
-        return .none
+          .catch { error -> Output in
+            var state: State
+            if error.isInvalidOwnerNickname {
+              state = State.unexpectedError(description: error.localizedDescription)
+            } else {
+              state = State.unexpectedError(description: "예기치 못한 에러가 발생됬습니다. \(error.localizedDescription)")
+            }
+            return Just(state).eraseToAnyPublisher()
+          }.eraseToAnyPublisher()
       }.eraseToAnyPublisher()
   }
   
