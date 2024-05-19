@@ -436,7 +436,7 @@
 		15803C482BD932D500D83F2B /* MockEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15803C452BD9328100D83F2B /* MockEndpoint.swift */; };
 		15803C4B2BDA1A4600D83F2B /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 15803C4A2BDA1A4600D83F2B /* GoogleSignIn */; };
 		15803C4D2BDA1BA700D83F2B /* GoogleLoginStrategyWithFirebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15803C4C2BDA1BA700D83F2B /* GoogleLoginStrategyWithFirebase.swift */; };
-		15803C512BDA4DC700D83F2B /* FirestoreMyProfileAPIEndopint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15803C502BDA4DC700D83F2B /* FirestoreMyProfileAPIEndopint.swift */; };
+		15803C512BDA4DC700D83F2B /* FirestoreUserProfileSettingAPIEndopint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15803C502BDA4DC700D83F2B /* FirestoreUserProfileSettingAPIEndopint.swift */; };
 		15803C542BDA522500D83F2B /* FirestoreUserProfileSettingRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15803C532BDA522500D83F2B /* FirestoreUserProfileSettingRepository.swift */; };
 		15803C5A2BDA583700D83F2B /* UserProfileResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15803C592BDA583700D83F2B /* UserProfileResponseDTO.swift */; };
 		15803C5D2BDA8F6700D83F2B /* UserProfileSaveRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15803C5C2BDA8F6700D83F2B /* UserProfileSaveRequestDTO.swift */; };
@@ -682,6 +682,7 @@
 		15EE50F92BF9BE4700628FC9 /* DefaultUserNicknameSettingUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EE50F82BF9BE4700628FC9 /* DefaultUserNicknameSettingUseCase.swift */; };
 		15EE50FB2BF9BE7000628FC9 /* DefaultUserProfileImageSettingUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EE50FA2BF9BE7000628FC9 /* DefaultUserProfileImageSettingUseCase.swift */; };
 		15EE50FD2BF9BEA400628FC9 /* DefaultNicknameValidationUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EE50FC2BF9BEA400628FC9 /* DefaultNicknameValidationUseCase.swift */; };
+		15EE51012BF9F21400628FC9 /* DefaultNicknameValidationUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EE51002BF9F21400628FC9 /* DefaultNicknameValidationUseCaseTests.swift */; };
 		15EF8C972A0A18960068C744 /* CategoryPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EF8C962A0A18960068C744 /* CategoryPageViewModel.swift */; };
 		15EF8C9B2A0A19100068C744 /* TravelMainThemeCategoryAreaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EF8C9A2A0A19100068C744 /* TravelMainThemeCategoryAreaView.swift */; };
 		15EF8C9D2A0A19190068C744 /* TravelMainCategoryViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EF8C9C2A0A19190068C744 /* TravelMainCategoryViewCell.swift */; };
@@ -1239,7 +1240,7 @@
 		15803C432BD9307D00D83F2B /* TourApiSessionProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourApiSessionProviderTests.swift; sourceTree = "<group>"; };
 		15803C452BD9328100D83F2B /* MockEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockEndpoint.swift; sourceTree = "<group>"; };
 		15803C4C2BDA1BA700D83F2B /* GoogleLoginStrategyWithFirebase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleLoginStrategyWithFirebase.swift; sourceTree = "<group>"; };
-		15803C502BDA4DC700D83F2B /* FirestoreMyProfileAPIEndopint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreMyProfileAPIEndopint.swift; sourceTree = "<group>"; };
+		15803C502BDA4DC700D83F2B /* FirestoreUserProfileSettingAPIEndopint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreUserProfileSettingAPIEndopint.swift; sourceTree = "<group>"; };
 		15803C532BDA522500D83F2B /* FirestoreUserProfileSettingRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreUserProfileSettingRepository.swift; sourceTree = "<group>"; };
 		15803C592BDA583700D83F2B /* UserProfileResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileResponseDTO.swift; sourceTree = "<group>"; };
 		15803C5C2BDA8F6700D83F2B /* UserProfileSaveRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileSaveRequestDTO.swift; sourceTree = "<group>"; };
@@ -1481,6 +1482,7 @@
 		15EE50F82BF9BE4700628FC9 /* DefaultUserNicknameSettingUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultUserNicknameSettingUseCase.swift; sourceTree = "<group>"; };
 		15EE50FA2BF9BE7000628FC9 /* DefaultUserProfileImageSettingUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultUserProfileImageSettingUseCase.swift; sourceTree = "<group>"; };
 		15EE50FC2BF9BEA400628FC9 /* DefaultNicknameValidationUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultNicknameValidationUseCase.swift; sourceTree = "<group>"; };
+		15EE51002BF9F21400628FC9 /* DefaultNicknameValidationUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultNicknameValidationUseCaseTests.swift; sourceTree = "<group>"; };
 		15EF8C042A0829FD0068C744 /* LocationSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchViewController.swift; sourceTree = "<group>"; };
 		15EF8C962A0A18960068C744 /* CategoryPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryPageViewModel.swift; sourceTree = "<group>"; };
 		15EF8C9A2A0A19100068C744 /* TravelMainThemeCategoryAreaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelMainThemeCategoryAreaView.swift; sourceTree = "<group>"; };
@@ -2909,7 +2911,7 @@
 			children = (
 				15803C5B2BDA8F2900D83F2B /* RequestDTO */,
 				15803C582BDA581800D83F2B /* ResponseDTO */,
-				15803C502BDA4DC700D83F2B /* FirestoreMyProfileAPIEndopint.swift */,
+				15803C502BDA4DC700D83F2B /* FirestoreUserProfileSettingAPIEndopint.swift */,
 				1596953F2BE349F8003A3F19 /* FirestorePostHeartAPIEndpoint.swift */,
 				15ABFFBE2BDCDB9400D57C7C /* FirestoreReviewWritingEndpoint.swift */,
 				15EBD9162BE8A2BD00BCEA7F /* FirestorePostCommentHeartAPIEndopint.swift */,
@@ -3817,6 +3819,7 @@
 			isa = PBXGroup;
 			children = (
 				15B5E7AD2BBAEBE700C19F56 /* UserBlockUseCaseTests.swift */,
+				15EE51002BF9F21400628FC9 /* DefaultNicknameValidationUseCaseTests.swift */,
 			);
 			path = User;
 			sourceTree = "<group>";
@@ -4332,6 +4335,7 @@
 				15FFAC282ADC598E0013DB57 /* SessionProviderTests.swift in Sources */,
 				156C1E232BBEC93900AF1D99 /* XCTestCase+Helpers.swift in Sources */,
 				15869D0E2BF5C3BD00FB342B /* FirestoreOwnerHeartPostRepositoryTests.swift in Sources */,
+				15EE51012BF9F21400628FC9 /* DefaultNicknameValidationUseCaseTests.swift in Sources */,
 				13EB3CD32BEAA00300CA84F0 /* DefaultTourIntroductionInfoRepositoryTests.swift in Sources */,
 				1526ECF02BF6374100B629FB /* DefaultOwnerRelatedPostFetchUseCaseTests.swift in Sources */,
 				1526ECE72BF6331900B629FB /* PostFetchUseCaseImplTests.swift in Sources */,
@@ -4515,7 +4519,7 @@
 				15BE6BEC2BAF1DB3009A2568 /* MockPostCommentRepository.swift in Sources */,
 				15EE50F32BF9BCDE00628FC9 /* NicknameValidationUseCase.swift in Sources */,
 				13BF41202ADBEC8C00F3F082 /* LoginStartView.swift in Sources */,
-				15803C512BDA4DC700D83F2B /* FirestoreMyProfileAPIEndopint.swift in Sources */,
+				15803C512BDA4DC700D83F2B /* FirestoreUserProfileSettingAPIEndopint.swift in Sources */,
 				15B5E79F2BBAE51C00C19F56 /* UserBlockAPIEndpoint.swift in Sources */,
 				15E9E5F22B9A35F300C2F1F7 /* MockPostRepository.swift in Sources */,
 				151DF0F62AEEB2D200D5D55B /* DefaultNoticeUseCase.swift in Sources */,
