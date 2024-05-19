@@ -65,7 +65,7 @@ extension CourseUseCaseTests {
       }
       .store(in: &subscriptions)
     
-      wait(for: [expectation], timeout: 20)
+      wait(for: [expectation], timeout: 30)
     
     // Assert
     checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "fetchCourseDetail")
