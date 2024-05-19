@@ -135,7 +135,7 @@ extension FirestoreRequestType {
     case updateProfileImage(OwnerId)
     case updateName(OwnerId)
     //    case saveProfileImage
-    //    case deleteProfileImageData
+    case deleteProfileImagePath(OwnerId)
     //    case fetchProfileImage
     //
     case isNameDuplicated
@@ -161,6 +161,8 @@ extension FirestoreRequestType {
         return ownerId
       case .updateProfileImage(let ownerId):
         return ownerId
+      case .deleteProfileImagePath(let ownerId):
+        return ownerId
       }
     }
     
@@ -177,6 +179,8 @@ extension FirestoreRequestType {
       case .updateName:
         return nil
       case .updateProfileImage:
+        return nil
+      case .deleteProfileImagePath:
         return nil
       }
     }

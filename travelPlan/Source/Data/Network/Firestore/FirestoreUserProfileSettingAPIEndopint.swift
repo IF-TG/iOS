@@ -36,11 +36,23 @@ struct FirestoreUserProfileSettingAPIEndopint {
   
   static func makeProfileImageUpdateEndpoint(
     ownerId: String,
-    with requestDict: [String: String]
+    with profileImageUrl: String
   ) -> FirestoreEndpoint<VoidResponseDTO> {
+    let requestDict = ["profileImagePath": profileImageUrl]
     return FirestoreEndpoint(
       requestDTODictionary: requestDict,
       method: .update,
       requestType: .users(.userDocument(.updateProfileImage(ownerId))))
+  }
+  
+  /// RequestDict 타입은 다음과 같아야 합니다.[profileImagepath: ""]
+  static func makeProfileImageDeleteEndpoint(
+    ownerId: String
+  ) -> FirestoreEndpoint<VoidResponseDTO> {
+    let requestDict = ["profileImagepath": ""]
+    return FirestoreEndpoint(
+      requestDTODictionary: requestDict,
+      method: .delete,
+      requestType: .users(.userDocument(.deleteProfileImagePath(ownerId))))
   }
 }
