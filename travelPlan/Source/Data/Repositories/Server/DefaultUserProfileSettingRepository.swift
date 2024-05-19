@@ -32,10 +32,6 @@ final class DefaultUserProfileSettingRepository {
 
 // MARK: - MyProfileRepository
 extension DefaultUserProfileSettingRepository: UserProfileSettingRepository {
-  var isProfileSavedInServer: Bool {
-    userStorage.isSavedProfileInServer
-  }
-  
   func checkIfUserNicknameDuplicate(with name: String) -> AnyPublisher<Bool, Error> {
     return Future { [weak self] promise in
       guard let self else {
