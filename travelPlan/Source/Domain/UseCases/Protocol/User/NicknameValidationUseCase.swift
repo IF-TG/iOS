@@ -10,7 +10,7 @@ import Foundation
 
 protocol NicknameValidationUseCase {
   func isNicknameDuplicated(with name: String) -> AnyPublisher<Bool, Error>
-  func validateNickname(_ nickname: String) -> AnyPublisher<NicknameValidateState, Never>
+  func validateNickname(_ nickname: String) -> AnyPublisher<NicknameValidateState, any Error>
 }
 
 extension NicknameValidationUseCase {
