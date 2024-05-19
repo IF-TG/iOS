@@ -24,8 +24,8 @@ final class DefaultUserBlockRepository: UserBlockRepository {
     self.backgroundQueue = backgroundQueue
   }
   
-  func blockUser(with userId: Int64) -> AnyPublisher<BlockedUserIdentifyEntity, any Error> {
-    let requestDTO = UserBlockRequestDTO(blockedUserId: userId)
+  func blockUser(with userId: String) -> AnyPublisher<BlockedUserIdentifyEntity, any Error> {
+    let requestDTO = UserBlockRequestDTO(blockedUserId: Int64(userId) ?? Int64(0))
     return Future { [weak self] promise in
       guard let self else {
         promise(.failure(ReferenceError.invalidReference))
@@ -45,7 +45,11 @@ final class DefaultUserBlockRepository: UserBlockRepository {
     }.eraseToAnyPublisher()
   }
   
-  func fetchBlockedUsers() -> AnyPublisher<[BlockedUserProfileEntity], any Error> {
+  func unblockUser(with blockedUserId: String) -> AnyPublisher<Void, any Error> {
+    fatalError("api 미구현된 api입니다.")
+  }
+  
+  func fetchBlockedUsers() -> AnyPublisher<[BlockedUserIdentifyEntity], any Error> {
     return Future { [weak self] promise in
       guard let self else {
         promise(.failure(ReferenceError.invalidReference))
@@ -60,7 +64,7 @@ final class DefaultUserBlockRepository: UserBlockRepository {
             promise(.failure(error))
           }
         } receiveValue: { result in
-          promise(.success(result.map { $0.toDomain() }))
+          fatalError("사용자 이름 프로필로는 해당 사용자를 식별할수 없습니다. api 수정되야합니다")
         }.store(in: &subscriptions)
     }.eraseToAnyPublisher()
   }
