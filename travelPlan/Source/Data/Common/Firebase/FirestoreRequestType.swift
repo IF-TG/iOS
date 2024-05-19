@@ -132,9 +132,8 @@ extension FirestoreRequestType {
     typealias OwnerId = String
     case fetchUserProfile(String)
     case saveUserProfile
-    //    case updateProfileImage
+    case updateProfileImage(OwnerId)
     case updateName(OwnerId)
-    //    case updateProfileImage
     //    case saveProfileImage
     //    case deleteProfileImageData
     //    case fetchProfileImage
@@ -160,6 +159,8 @@ extension FirestoreRequestType {
         return nil
       case .updateName(let ownerId):
         return ownerId
+      case .updateProfileImage(let ownerId):
+        return ownerId
       }
     }
     
@@ -173,7 +174,9 @@ extension FirestoreRequestType {
         return "/\(uid)\(blockedUserCollection.collectionPath)"
       case .isNameDuplicated:
         return nil
-      case .updateName(_):
+      case .updateName:
+        return nil
+      case .updateProfileImage:
         return nil
       }
     }

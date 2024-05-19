@@ -33,4 +33,14 @@ struct FirestoreUserProfileSettingAPIEndopint {
       method: .update,
       requestType: .users(.userDocument(.updateName(ownerId))))
   }
+  
+  static func makeProfileImageUpdateEndpoint(
+    ownerId: String,
+    with requestDict: [String: String]
+  ) -> FirestoreEndpoint<VoidResponseDTO> {
+    return FirestoreEndpoint(
+      requestDTODictionary: requestDict,
+      method: .update,
+      requestType: .users(.userDocument(.updateProfileImage(ownerId))))
+  }
 }

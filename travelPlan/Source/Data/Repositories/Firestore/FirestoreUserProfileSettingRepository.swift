@@ -125,11 +125,32 @@ extension FirestoreUserProfileSettingRepository: UserProfileSettingRepository {
     }.eraseToAnyPublisher()
   }
   
-  func updateProfileImage(with profile: String) -> AnyPublisher<Bool, any Error> {
-    fatalError("아직 미구현")
+  func updateProfileImage(with profileImageData: Data) -> AnyPublisher<Bool, any Error> {
+    return Future { [weak self, backgroundQueue] promise in
+      guard let ownerId = self?.ownerStorage.id else {
+        promise(.failure(OwnerError.invalidOwnerId))
+        return
+      }
+      
+      // TODO: - 사용자 업데이트하기전에, 이미지 저장소에서 삭제 -> 다시 저장 후 이 문서 업데이트하는 함수 호출해야함돠.
+      var urlPath = "" //이미지 넣고 이거기반으로 프로필 필드 업 데이트해야함 저장해야함.
+      let requestDict = ["profileImagePath": urlPath]
+      let endpoint = Endpoint.makeProfileImageUpdateEndpoint(ownerId: ownerId, with: requestDict)
+      let subscription = self?.service
+        .request(endpoint: endpoint)
+        .receive(on: backgroundQueue)
+        .sink { completion in
+          if case .failure(let error) = completion {
+            promise(.failure(error))
+          }
+        } receiveValue: { _ in
+          promise(.success(true))
+        }
+      self?.subscriptions.insert(subscription)
+    }.eraseToAnyPublisher()
   }
   
-  func saveProfileImage(with profile: String) -> AnyPublisher<Bool, any Error> {
+  func saveProfileImage(with profileImageData: Data) -> AnyPublisher<Bool, any Error> {
     fatalError("아직 미구현")
   }
   
