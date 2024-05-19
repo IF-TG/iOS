@@ -15,7 +15,7 @@ struct StubUserProfileRepository: UserProfileRepository {
   }
   
   func fetchProfile(with userId: String) -> AnyPublisher<UserEntity, any Error> {
-    return Just(UserEntity(id: "1", nickname: "짱구", isSavedProfileInServer: false))
+    return Just(UserEntity(id: "1", nickname: "짱구", profileImageUrl: "", isSavedProfileInServer: false))
       .setAnyErrorAndEraseToAnyPublisher()
   }
 }

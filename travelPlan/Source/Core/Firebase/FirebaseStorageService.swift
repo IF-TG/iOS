@@ -9,6 +9,7 @@ import Foundation
 import FirebaseStorage
 import Combine
 
+// TODO: - 이거 백그라운드 지정해주기.
 final class FirebaseStorageService: ImageStorageServiceProtocol {
   // MARK: - Properties
   private var subscriptions = Set<AnyCancellable?>()

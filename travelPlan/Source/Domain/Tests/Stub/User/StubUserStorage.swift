@@ -9,6 +9,10 @@ import Foundation
 import UIKit
 
 final class StubOwnerStorage: OwnerStorage {
+  func updateProfileImagePath(with imagePath: String) -> Bool {
+    return true
+  }
+  
   var blockedUsers: [BlockedUserId] {
     []
   }
@@ -36,7 +40,7 @@ final class StubOwnerStorage: OwnerStorage {
   }
   
   var user: UserEntity? {
-    .init(id: "1", nickname: "난짱구", isSavedProfileInServer: false)
+    .init(id: "1", nickname: "난짱구", profileImageUrl: "", isSavedProfileInServer: false)
   }
   
   func setUser(with userInfo: UserEntity) { }
