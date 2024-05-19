@@ -22,7 +22,7 @@ final class MyProfileUseCaseTests: XCTestCase {
     sut = DefaultMyProfileUseCase(
       myProfileRepository: mockMyProfileRepository,
       userProfileRepository: MockUserProfileRepository(),
-      loggedInUserRepository: DefaultLoggedInUserRepository(storage: MockUserStorage()))
+      loggedInUserRepository: DefaultLoggedInUserRepository(storage: StubOwnerStorage()))
     expectation = XCTestExpectation(description: "Finish")
   }
   

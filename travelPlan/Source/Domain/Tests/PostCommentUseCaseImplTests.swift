@@ -17,7 +17,7 @@ final class PostCommentUseCaseImplTests: XCTestCase {
   
   let stubPostAtomicCommentRepository = StubPostAtomicCommentRepository()
   let stubPostAtomicNestedCommentRepository = StubPostAtomicNestedCommentRepository()
-  let mockUserProfileRepository = MockUserProfileRepository()
+  let mockUserProfileRepository = StubUserProfileRepository()
   let stubPostNestedCommentHeartRepository = StubPostNestedCommentHeartRepository()
   let stubPostCommentHeartRepository = StubPostCommentHeartRepository()
   
@@ -27,9 +27,9 @@ final class PostCommentUseCaseImplTests: XCTestCase {
     let postNestedCommentHeartRepository = FirestorePostNestedCommentHeartRepository(
       service: service,
       backgroundQueue: DispatchQueue(label: "background", qos: .background, attributes: .concurrent))
-    let ownerRepository = DefaultLoggedInUserRepository(storage: MockUserStorage())
+    let ownerRepository = DefaultLoggedInUserRepository(storage: StubOwnerStorage())
     sut = PostCommentUseCaseImpl(
-      ownerRepository: DefaultLoggedInUserRepository(storage: MockUserStorage()),
+      ownerRepository: DefaultLoggedInUserRepository(storage: StubOwnerStorage()),
       postAtomicCommentRepository: stubPostAtomicCommentRepository,
       postNestedCommentRepository: stubPostAtomicNestedCommentRepository,
       userProfileRepository: mockUserProfileRepository,

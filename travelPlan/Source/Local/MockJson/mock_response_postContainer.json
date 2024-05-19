@@ -44,8 +44,7 @@
         "mapX": 123.9325930,
         "mapY": 103.2934093,
         "liked": true
-      },
-      "totalPosts": 3
+      }
     },
     {
       "thumbnailUri": [
@@ -95,8 +94,7 @@
         "mapX": 113.4325930,
         "mapY": 123.2934093,
         "liked": true
-      },
-      "totalPosts": 3
+      }
     },
     {
       "thumbnailUri": [
@@ -150,8 +148,7 @@
         "mapX": 123.9325930,
         "mapY": 103.2934093,
         "liked": true
-      },
-      "totalPosts": 3
+      }
     }
   ],
   "status": "OK",

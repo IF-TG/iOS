@@ -20,6 +20,6 @@ struct UserBlockResponseDTO: Decodable {
 // MARK: - Mappings to Domain
 extension UserBlockResponseDTO {
   func toDomain() -> BlockedUserIdentifyEntity {
-    return .init(userId: blockedUserId, isBlocked: isBlocked)
+    return .init(userId: String(blockedUserId), isBlocked: isBlocked)
   }
 }

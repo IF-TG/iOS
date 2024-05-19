@@ -20,7 +20,7 @@ final class FirestorePostNestedCommentRepositoryTests: XCTestCase {
   let testCommentId = "12181109-6CDE-46E5-AD4F-04E824E89581"
   let testNestedCommentId = "D219E2C2-4171-4C9D-B77D-EDB0CEFCD5B1"
   var mockUserId: String {
-    MockUserStorage().id ?? "짱구1234"
+    StubOwnerStorage().id ?? "짱구1234"
   }
   
   override func setUp() {

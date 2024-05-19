@@ -13,6 +13,32 @@ struct Post {
   let author: Author
   let highResolveImages: [PostImage]
   let category: Category
+  
+  init(
+    liked: Bool?,
+    detail: Detail<[PostContent]>,
+    author: Author,
+    highResolveImages: [PostImage],
+    category: Category
+  ) {
+    self.liked = liked
+    self.detail = detail
+    self.author = author
+    self.highResolveImages = highResolveImages
+    self.category = category
+  }
+  
+  init(
+    liked: Bool,
+    atomicPost: AtomicPost,
+    postAuthor: Post.Author
+  ) {
+    self.liked = liked
+    self.detail = atomicPost.detail
+    self.author = postAuthor
+    self.highResolveImages = atomicPost.highResolveImages
+    self.category = atomicPost.category
+  }
 }
 
 // MARK: - Nested

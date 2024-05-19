@@ -95,13 +95,13 @@ private extension FavoriteDetailViewController {
     // TODO: - Favorite posts불러오는 api 구현해야합니다.
     let mockSession = MockSession.default
     let serviceProvider = SessionProvider(session: mockSession)
-    let mockUserStroage = MockUserStorage()
+    let mockUserStroage = StubOwnerStorage()
     let defaultLoggedInUserRepository = DefaultLoggedInUserRepository(storage: mockUserStroage)
     let defaultPostRepository = DefaultPostRepository(
       service: serviceProvider,
       loggedInUserRepository: defaultLoggedInUserRepository)
-    let defaultPostUseCase = DefaultPostUseCase(postRepository: defaultPostRepository)
-    let postViewModel = FavoritePostViewModel(postUseCase: defaultPostUseCase)
+    let defaultPostFetchUseCase = DefaultPostFetchUseCase(postRepository: defaultPostRepository)
+    let postViewModel = FavoritePostViewModel(postFetchUsecase: defaultPostFetchUseCase)
     let favoritePostViewController = FavoritePostViewController(postViewModel: postViewModel)
     favoritePostViewController.delegate = self
     favoritePostViewController.postUpdatedHandler = { [weak self] count in

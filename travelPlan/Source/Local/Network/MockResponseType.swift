@@ -12,7 +12,6 @@ import Foundation
   case post(PostResponse)
   case postComment(PostCommentResponse)
   case postNestedComment(PostNestedCommentResponse)
-  case userBlock(UserBlock)
   case favoriteDirectory(FavoriteDirectory)
   
   var filePath: String {
@@ -23,8 +22,6 @@ import Foundation
       comment.filePath
     case .postNestedComment(let comment):
       comment.filePath
-    case .userBlock(let userBlock):
-      userBlock.filePath
     case .favoriteDirectory(let directoryType):
       directoryType.filePath
     case .post(let response):
@@ -98,21 +95,6 @@ extension MockResponseType {
         .whenCommentSend: "mock_postNestedComment_send_response",
         .whenCommentUpdate: "mock_postNestedComment_update_response",
         .whenCommentDelete: "mock_postNestedComemnt_delete_response"
-      ] [self]!
-    }
-  }
-}
-
-// MARK: - User
-extension MockResponseType {
-  @frozen enum UserBlock {
-    case whenUserBlock
-    case whenBlockedUsersFetch
-    
-    var filePath: String {
-      [
-        .whenUserBlock: "mock_userBlock_response",
-        .whenBlockedUsersFetch: "mock_blockedUsers_response"
       ] [self]!
     }
   }

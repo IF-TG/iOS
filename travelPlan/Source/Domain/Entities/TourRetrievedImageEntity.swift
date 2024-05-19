@@ -29,3 +29,8 @@ struct TourRetrievedDataImageEntity {
   let original: Data
   let thumbnail: Data
 }
+
+struct TourRetrievedOriginalImageDataEntity {
+  let name: String
+  let originalImageData: Data
+}

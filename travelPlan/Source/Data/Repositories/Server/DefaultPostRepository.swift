@@ -57,13 +57,7 @@ extension DefaultPostRepository: PostRepository {
           }
         } receiveValue: { responseDTO in
           let postContainers = responseDTO.result.map { $0.toDomain() }
-          guard let totalPages = postContainers.first?.totalPosts else {
-            // 반드시 필요로한 totalPage가 없는 경우
-            promise(.failure(ConnectionError.missingRequiredData))
-            return
-          }
           let postsPage = PostsPage(
-            totalPosts: totalPages,
             posts: postContainers.map { $0.post },
             thumbnails: postContainers.map { $0.thumbnail })
           promise(.success(postsPage))
@@ -129,13 +123,7 @@ extension DefaultPostRepository: PostRepository {
           }
         } receiveValue: { responseDTO in
           let postContainers = responseDTO.result.map { $0.toDomain() }
-          guard let totalPages = postContainers.first?.totalPosts else {
-            // 반드시 필요로한 totalPage가 없는 경우
-            promise(.failure(ConnectionError.missingRequiredData))
-            return
-          }
           let postsPage = PostsPage(
-            totalPosts: totalPages,
             posts: postContainers.map { $0.post },
             thumbnails: postContainers.map { $0.thumbnail })
           promise(.success(postsPage))

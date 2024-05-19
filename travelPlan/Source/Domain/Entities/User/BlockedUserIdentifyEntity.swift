@@ -8,6 +8,6 @@
 import Foundation
 
 struct BlockedUserIdentifyEntity {
-  let userId: Int64
+  let userId: String
   let isBlocked: Bool
 }

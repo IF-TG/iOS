@@ -1,5 +1,5 @@
 //
-//  MockPostUseCase.swift
+//  MockPostsGeneratorForPaging.swift
 //  travelPlan
 //
 //  Created by 양승현 on 10/17/23.
@@ -10,10 +10,10 @@ import Combine
 // 임시적으로 어쩔수없이 에셋에 저장된 이미지를 불러와야합니다.
 import UIKit
 
-final class MockPostUseCaseForPaging: PostUseCase {
+struct MockPostsGeneratorForPaging {
   private static let recurCount = 4
-  private let totalPage = 18*MockPostUseCaseForPaging.recurCount
-  private var index = 0
+  let totalPage = 18*MockPostsGeneratorForPaging.recurCount
+  var index = 0
   
   /// MockPostUseCaseForPaging에서 fetchComments는 미구현.
   func fetchComments(
@@ -32,48 +32,9 @@ final class MockPostUseCaseForPaging: PostUseCase {
   }
   
   /// 설정 화면의 내 활동에 사용됩니다
-  func fetchLikedPostsByLoggedInUser(
-    page: Int32,
-    perPage: Int32
-  ) -> AnyPublisher<PostsPage, any Error> {
-    if index > totalPage {
-      return Fail(error: PostUseCaseError.noMorePage).eraseToAnyPublisher()
-    }
-    let responseData = {
-      let nextPosts = (index..<index+5).map { mockPostPage.posts[$0] }
-      let nextThumbnails = (index..<index+5).map { mockPostPage.thumbnails[$0] }
-      return PostsPage(totalPosts: Int64(totalPage), posts: nextPosts, thumbnails: nextThumbnails)
-    }()
-    index+=5
-    return Just(responseData)
-      .delay(for: .seconds(1.2), scheduler: DispatchQueue.global(qos: .background))
-      .setFailureType(to: PostUseCaseError.self)
-      .mapError { $0 as Error }
-      .eraseToAnyPublisher()
-  }
-  
-  func fetchPosts(
-    with page: PostFetchRequestValue
-  ) -> AnyPublisher<PostsPage, any Error> {
-    if index > totalPage {
-      return Fail(error: PostUseCaseError.noMorePage).eraseToAnyPublisher()
-    }
-    let responseData = {
-      let nextPosts = (index..<index+5).map { mockPostPage.posts[$0] }
-      let nextThumbnails = (index..<index+5).map { mockPostPage.thumbnails[$0] }
-      return PostsPage(totalPosts: Int64(totalPage), posts: nextPosts, thumbnails: nextThumbnails)
-    }()
-    index+=5
-    return Just(responseData)
-      .delay(for: .seconds(1.2), scheduler: DispatchQueue.global(qos: .background))
-      .setFailureType(to: PostUseCaseError.self)
-      .mapError { $0 as Error }
-      .eraseToAnyPublisher()
-  }
-
-  private func postThumbnailPath(_ index: Int) -> String { return "tempThumbnail\(index)" }
-  private func profilePath(_ index: Int) -> String { return "tempProfile\(index+1)" }
-  private var titles: [String] {
+  func postThumbnailPath(_ index: Int) -> String { return "tempThumbnail\(index)" }
+  func profilePath(_ index: Int) -> String { return "tempProfile\(index+1)" }
+  var titles: [String] {
     ["Capturing the Beauty of Ocean Bliss", "영롱한 바다",
      "거, 갈땐 가더라도 커피 한잔 정도는 괜찮잖나.. ", "맛과 향의 여행", 
      "또 가고 싶다..", "떠나요 둘이서", "신나는 여행~~", "여수 밤바다", "분위기 좋은 카페~",
@@ -82,21 +43,21 @@ final class MockPostUseCaseForPaging: PostUseCase {
      "거, 갈땐 가더라도 커피 한잔 정도는 괜찮잖나.. ", "맛과 향의 여행",
      "또 가고 싶다..", "떠나요 둘이서", "신나는 여행~~", "여수 밤바다", "분위기 좋은 카페~"]
   }
-  private var userNames: [String] {
+  var userNames: [String] {
     ["Wanderlust_Journey", "SoulRebel", "용감한모험가", "커피맨", "모던스타일",
      "네트워킹마스터", "알고리즘 전문가", "concurrency Master", "자 가보자고~",
     
      "Wanderlust_Journey", "SoulRebel", "용감한모험가", "커피맨", "모던스타일",
      "네트워킹마스터", "알고리즘 전문가", "concurrency Master", "자 가보자고~"]
   }
-  private var durationArray: [String] {
+  var durationArray: [String] {
     ["한달", "7일", "3일", "12일", "60일",
      "7일", "14일", "20일", "2일",
     
      "한달", "7일", "3일", "12일", "60일",
      "7일", "14일", "20일", "2일"]
   }
-  private var ymdArray: [String] {
+  var ymdArray: [String] {
     ["2023.03.16 ~ 2023.04.15", "2023.04.03 ~ 2023.04.09", "2023.04.17 ~ 2023.04.19",
      "2023.03.19 ~ 2023.03.30", "2023.03.15 ~ 2023.05.13",
      "2023.03.18 ~ 2023.03.24", "2023.03.07 ~ 2023.03.20", "2023.04.03 ~ 2023.04.22", "2023.04.11 ~ 2023.04.12",
@@ -105,7 +66,7 @@ final class MockPostUseCaseForPaging: PostUseCase {
      "2023.03.19 ~ 2023.03.30", "2023.03.15 ~ 2023.05.13",
      "2023.03.18 ~ 2023.03.24", "2023.03.07 ~ 2023.03.20", "2023.04.03 ~ 2023.04.22", "2023.04.11 ~ 2023.04.12"]
   }
-  private var postContentTexts: [String] {
+  var postContentTexts: [String] {
     ["여름 여름 여름 여름~~~~ ",
      "발리의 푸른 바다와 화려한 저녁 일몰은 정말로 멋있었어요. 휴양의 천국입니다! 대박 다음에 또 와야겠어요",
      "이번 여행에서는 평소에 느끼지 못한 여유와 힐링을 느낄 수 있었습니다.",
@@ -129,7 +90,7 @@ final class MockPostUseCaseForPaging: PostUseCase {
      "공항에 가이드를 처음 대면했을때 참 쉽지 않은 여행이 되겠구나 라는 느낌을 가졌습니다. 그래도 비행기에 타니 여행이 기대가 됬었어요."
     ]
   }
-  private var postContentThumbnails: [[String]] {
+  var postContentThumbnails: [[String]] {
     [[1].map { postThumbnailPath($0) },
      [2, 3].map { postThumbnailPath($0) },
      (4...6).map { postThumbnailPath($0) },
@@ -150,12 +111,12 @@ final class MockPostUseCaseForPaging: PostUseCase {
      [11, 8].map { postThumbnailPath($0) },
      [4, 6, 12, 15, 3].map { postThumbnailPath($0) }]
   }
-  private var postHearts: [Int] {
+  var postHearts: [Int] {
     [0, 1040, 41, 548, 7, 2, 10, 4, 1,
     
      0, 1040, 41, 548, 7, 2, 10, 4, 1]
   }
-  private var postComments: [Int] {
+  var postComments: [Int] {
     [0, 2, 10, 1, 38, 2, 4, 22, 10,
     
      0, 2, 10, 1, 38, 2, 4, 22, 10]
@@ -199,8 +160,7 @@ final class MockPostUseCaseForPaging: PostUseCase {
       
       return PostContainer(
         post: post,
-        thumbnail: .init(postImageDataList: postContentThumbnails),
-        totalPosts: Int64(18*MockPostUseCaseForPaging.recurCount))
+        thumbnail: .init(postImageDataList: postContentThumbnails))
     }
   }
   
@@ -209,10 +169,9 @@ final class MockPostUseCaseForPaging: PostUseCase {
     let posts = mockPostContainers.map { $0.post }
     let thumbnails = mockPostContainers.map { $0.thumbnail }
     
-    let recurredPosts = (0..<MockPostUseCaseForPaging.recurCount).map { _ in return posts }
-    let recurredThumbnails = (0..<MockPostUseCaseForPaging.recurCount).map { _ in return thumbnails }
+    let recurredPosts = (0..<Self.recurCount).map { _ in return posts }
+    let recurredThumbnails = (0..<Self.recurCount).map { _ in return thumbnails }
     let postsPage = PostsPage(
-      totalPosts: Int64(totalPage),
       posts: recurredPosts.flatMap { $0 },
       thumbnails: recurredThumbnails.flatMap { $0 })
     return postsPage

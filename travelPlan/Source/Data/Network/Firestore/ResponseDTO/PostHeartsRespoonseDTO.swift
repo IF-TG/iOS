@@ -11,6 +11,6 @@ struct PostHeartsRespoonseDTO: Decodable {
   let postHearts: Int
   
   enum CodingKeys: String, CodingKey {
-    case postHearts = "likeNum"
+    case postHearts = "heartNum"
   }
 }

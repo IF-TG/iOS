@@ -1,5 +1,5 @@
 //
-//  MockUserStorage.swift
+//  StubOwnerStorage.swift
 //  travelPlan
 //
 //  Created by 양승현 on 3/19/24.
@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-final class MockUserStorage: OwnerStorage {
+final class StubOwnerStorage: OwnerStorage {
   var blockedUsers: [BlockedUserId] {
     []
   }
@@ -20,7 +20,7 @@ final class MockUserStorage: OwnerStorage {
   func hasBlockedUser(with userId: BlockedUserId) -> Bool { return false }
   
   var nickname: String? {
-    "난짱구"
+    "짱구"
   }
   
   var profileImageData: Data? {
@@ -36,7 +36,7 @@ final class MockUserStorage: OwnerStorage {
   }
   
   var user: UserEntity? {
-    .init(id: "1", nickname: "난짱구", isSavedProfileInServer: false)
+    .init(id: "1", nickname: "짱구", isSavedProfileInServer: false)
   }
   
   func setUser(with userInfo: UserEntity) { }

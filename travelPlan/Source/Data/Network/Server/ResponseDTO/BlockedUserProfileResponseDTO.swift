@@ -16,10 +16,3 @@ struct BlockedUserProfileResponseDTO: Decodable {
     case thumbnailURL = "thumbnailUrl"
   }
 }
-
-// MARK: - Mappings to Domain
-extension BlockedUserProfileResponseDTO {
-  func toDomain() -> BlockedUserProfileEntity {
-    return .init(nickname: nickname, thumbnailURL: thumbnailURL)
-  }
-}

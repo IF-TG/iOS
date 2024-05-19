@@ -10,5 +10,4 @@ import Foundation
 struct PostContainer {
   let post: Post
   let thumbnail: PostThumbnails
-  let totalPosts: Int64
 }
