@@ -138,7 +138,7 @@ extension FirestoreRequestType {
     //    case deleteProfileImageData
     //    case fetchProfileImage
     //
-    //    case checkIfNameDuplicate
+    case isNameDuplicated
     //    case updateName
     //    case fetchAllUsers
     //    case deleteUser(String)
@@ -155,6 +155,8 @@ extension FirestoreRequestType {
           return subDocumentPath
         }
         return nil
+      case .isNameDuplicated:
+        return nil
       }
     }
     
@@ -166,6 +168,8 @@ extension FirestoreRequestType {
         return nil
       case .blockedUsersCollection(let uid, let blockedUserCollection):
         return "/\(uid)\(blockedUserCollection.collectionPath)"
+      case .isNameDuplicated:
+        return nil
       }
     }
   }
