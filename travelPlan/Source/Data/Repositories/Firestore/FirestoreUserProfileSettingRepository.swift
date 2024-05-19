@@ -104,7 +104,25 @@ extension FirestoreUserProfileSettingRepository: UserProfileSettingRepository {
   }
   
   func updateUserNickname(with name: String) -> AnyPublisher<Bool, any Error> {
-    fatalError("아직 미구현")
+    return Future { [weak self, backgroundQueue] promise in
+      guard let ownerId = self?.ownerStorage.id else {
+        promise(.failure(OwnerError.invalidOwnerId))
+        return
+      }
+      let requestDTO = UserNicknameRequestDTO(nickname: name)
+      let endpoint = Endpoint.makeNicknameUpdateEndpoint(ownerId: ownerId, with: requestDTO)
+      let subscription = self?.service
+        .request(endpoint: endpoint)
+        .receive(on: backgroundQueue)
+        .sink { completion in
+          if case .failure(let error) = completion {
+            promise(.failure(error))
+          }
+        } receiveValue: { _ in
+          promise(.success(true))
+        }
+      self?.subscriptions.insert(subscription)
+    }.eraseToAnyPublisher()
   }
   
   func updateProfileImage(with profile: String) -> AnyPublisher<Bool, any Error> {
