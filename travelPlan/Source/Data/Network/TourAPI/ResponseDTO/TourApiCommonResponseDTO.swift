@@ -33,7 +33,7 @@ struct TourApiBodyResponseDTO<T: Decodable>: Decodable {
   init(from decoder: any Decoder) throws {
     let container = try decoder.container(keyedBy: TourApiBodyResponseDTO<T>.CodingKeys.self)
     
-    if let _ = try? container.decode(String.self, forKey: .items) {
+    if (try? container.decode(String.self, forKey: .items)) != nil {
       self.items = nil
     } else {
       self.items = try container.decode(TourApiItems.self, forKey: .items)
