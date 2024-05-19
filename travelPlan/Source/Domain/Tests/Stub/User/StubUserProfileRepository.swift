@@ -9,8 +9,8 @@ import Foundation
 import Combine
 
 struct StubUserProfileRepository: UserProfileRepository {
-  func fetchProfileImageData(with userId: String) -> AnyPublisher<ProfileImageData?, any Error> {
-    return Just("사용자프로필".data(using: .utf8)!)
+  func fetchProfileImageData(with userId: String) -> AnyPublisher<ProfileImageEntity, any Error> {
+    return Just(ProfileImageEntity(image: "사용자프로필".data(using: .utf8)!))
       .setAnyErrorAndEraseToAnyPublisher()
   }
   
