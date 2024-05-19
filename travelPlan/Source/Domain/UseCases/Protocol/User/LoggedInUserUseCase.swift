@@ -10,7 +10,7 @@ import Foundation
 protocol LoggedInUserUseCase {
   var nickname: String? { get }
   var profileImageData: Data? { get }
-  var isSavedProfileInServer: Bool { get }
+  var hasProfileImageSavedInServer: Bool { get }
   var id: String? { get }
   var user: UserEntity? { get }
   

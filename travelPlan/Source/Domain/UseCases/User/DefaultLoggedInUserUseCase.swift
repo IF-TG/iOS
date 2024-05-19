@@ -20,7 +20,7 @@ final class DefaultLoggedInUserUseCase: LoggedInUserUseCase {
     loggedInUserRepository.profileImageData
   }
   
-  var isSavedProfileInServer: Bool {
+  var hasProfileImageSavedInServer: Bool {
     loggedInUserRepository.isSavedProfileInServer
   }
   
