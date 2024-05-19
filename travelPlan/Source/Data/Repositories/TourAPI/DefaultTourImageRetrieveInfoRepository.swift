@@ -59,13 +59,16 @@ extension DefaultTourImageRetrieveInfoRepository: TourImageRetrieveInfoRepositor
       .request(endpoint: endpoint)
       .subscribe(on: backgroundQueue)
       .receive(on: backgroundQueue)
-      .tryFilter { responseDTO in
+      .tryMap { responseDTO in
         let resultCode = responseDTO.response.header.resultCode
         guard resultCode == "0000" else {
           throw TourAPIError.publicDataPortalError(.init(code: String(resultCode.suffix(2))))
         }
-        return !responseDTO.response.body.items.item.isEmpty
-      }.map { $0.response.body.items.item.map { $0.toDomain()} }
+        if responseDTO.response.body.items.item.isEmpty {
+          return responseDTO.response.body.items.item.map { $0.toDomain()}
+        }
+        return []
+      }
       .eraseToAnyPublisher()
   }
   
