@@ -65,9 +65,9 @@ extension DefaultTourImageRetrieveInfoRepository: TourImageRetrieveInfoRepositor
           throw TourAPIError.publicDataPortalError(.init(code: String(resultCode.suffix(2))))
         }
         if responseDTO.response.body.items.item.isEmpty {
-          return responseDTO.response.body.items.item.map { $0.toDomain()}
+          return []
         }
-        return []
+        return responseDTO.response.body.items.item.map { $0.toDomain()}
       }
       .eraseToAnyPublisher()
   }
