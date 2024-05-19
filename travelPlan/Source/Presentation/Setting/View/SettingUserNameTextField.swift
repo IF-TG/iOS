@@ -25,6 +25,10 @@ final class SettingUserNameTextField: UITextField {
     }
   }
   
+  var quotation: String {
+    quotation(from: textState)
+  }
+  
   // MARK: - Properties
   private var noticeIcon = UIImageView(frame: .zero).set {
     $0.translatesAutoresizingMaskIntoConstraints = false
@@ -47,8 +51,21 @@ final class SettingUserNameTextField: UITextField {
   }
 }
 
-// MARK: - Public Helpers
-extension SettingUserNameTextField {
+// MARK: - Private Helpers
+private extension SettingUserNameTextField {
+  func configureUI() {
+    layer.borderWidth = 1.5
+    layer.cornerRadius = 5
+    layer.borderColor = borderColor(from: textState)
+    setupUI()
+    let leftPaddingView = UIView(frame: .init(x: 0, y: 0, width: 10, height: CGFloat.leastNormalMagnitude))
+    let rightPaddingView = UIView(frame: .init(x: 0, y: 0, width: 40.5, height: CGFloat.leastNormalMagnitude))
+    leftView = leftPaddingView
+    rightView = rightPaddingView
+    leftViewMode = .always
+    rightViewMode = .always
+  }
+  
   func quotation(from state: NicknameValidateState) -> String {
     switch state {
     case .default:
@@ -85,22 +102,6 @@ extension SettingUserNameTextField {
       /// 옵셔널 지정 생성자의 장점은 init을 할수없다면 nil반환한다는것입니다.
       return ""
     }
-  }
-}
-
-// MARK: - Private Helpers
-extension SettingUserNameTextField {
-  func configureUI() {
-    layer.borderWidth = 1.5
-    layer.cornerRadius = 5
-    layer.borderColor = borderColor(from: textState)
-    setupUI()
-    let leftPaddingView = UIView(frame: .init(x: 0, y: 0, width: 10, height: CGFloat.leastNormalMagnitude))
-    let rightPaddingView = UIView(frame: .init(x: 0, y: 0, width: 40.5, height: CGFloat.leastNormalMagnitude))
-    leftView = leftPaddingView
-    rightView = rightPaddingView
-    leftViewMode = .always
-    rightViewMode = .always
   }
 }
 
