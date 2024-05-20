@@ -10,12 +10,6 @@ import SHCoordinator
 import Combine
 import SHFirestoreService
 
-// protocol MyInformationCoordinatorDelegate: FlowCoordinatorDelegate {
-//  func showConfirmationAlertPage()
-//  func showBottomSheetAlbum()
-//  func showAlertForError(with description: String, completion: (() -> Void)?)
-// }
-
 final class MyInformationCoordinator: FlowCoordinator {
   var parent: FlowCoordinator?
   var child: [FlowCoordinator] = []
