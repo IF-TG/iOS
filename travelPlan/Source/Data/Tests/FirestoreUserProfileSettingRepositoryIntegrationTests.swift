@@ -9,6 +9,7 @@ import XCTest
 import Combine
 @testable import travelPlan
 @testable import SHFirestoreService
+@testable import FirebaseFirestore
 
 struct StubOwnerStorageForUserProfileSetting: OwnerStorage {
   var nickname: String? = "테스트유저"
@@ -30,17 +31,18 @@ struct StubOwnerStorageForUserProfileSetting: OwnerStorage {
 final class FirestoreUserProfileSettingRepositoryIntegrationTests: BaseXCTestCase {
   // MARK: - Properties
   var sut: UserProfileSettingRepository!
+  let mockTestUserId = "testUser11"
   
   override func setUp() {
     super.setUp()
     let service = FirestoreService()
     let stubOwnerStorage = StubOwnerStorage()
-    let firebaseStoraged = FirebaseStorageService()
+    let stubFirebaseStoraged = StubFirebaseStorageService()
     let firestoreService = FirestoreService()
     
     sut = FirestoreUserProfileSettingRepository(
       service: firestoreService,
-      firebaseStorageService: firebaseStoraged,
+      firebaseStorageService: stubFirebaseStoraged,
       ownerStorage: stubOwnerStorage)
   }
   
@@ -54,15 +56,37 @@ final class FirestoreUserProfileSettingRepositoryIntegrationTests: BaseXCTestCas
 /// 테스트는 다음과 같습니다.
 /// - 실제 Firebase firestore 및 Firebase Storage에 접근합니다.
 /// - sut의 함수 호출시 로직을 수행하고 에러가 없이 결과를 받는 경우를 위해 테스트 및 sut의 로직 구현을 합니다.
+/// - Firbase firestore에는 이미지가 저장됬을떄 삭제하지않을 경우 이미지 식별이 불가능해 stub으로 이미지 service를 대체했습니다.
 extension FirestoreUserProfileSettingRepositoryIntegrationTests {
   func test_saveProfile호출시Storage에프로필이잘저장되는지와DB필드에Path가잘저장되는지_ShouldReturnTrue() {
     // Act
-    let testPublisher = sut.saveProfile(with: "testUser11", nickname: "테스트여행유저", profileImageData: "프로필".data(using: .utf8))
+    let testPublisher = sut.saveProfile(with: mockTestUserId, nickname: "테스트여행유저", profileImageData: "프로필".data(using: .utf8))
     execute(fromPublisher: testPublisher).store(in: &subscriptions)
     wait(for: [expectation], timeout: 7.777)
+    
+    deleteTestUserDocument()
     
     // Assert
     checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "saveProfile")
     XCTAssert(hasReceivedResult, notReceivedErrorMessage)
+  }
+  
+  func test_saveProfile호출시_DB필드에_이미지가없는경우Path가잘저장되는지_ShouldReturnTrue() {
+    // Act
+    let testPublisher = sut.saveProfile(with: "testUser11", nickname: "테스트여행유저", profileImageData: nil)
+    execute(fromPublisher: testPublisher).store(in: &subscriptions)
+    wait(for: [expectation], timeout: 7.777)
+    
+    deleteTestUserDocument()
+    
+    // Assert
+    checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "saveProfile")
+    XCTAssert(hasReceivedResult, notReceivedErrorMessage)
+  }
+}
+
+fileprivate extension FirestoreUserProfileSettingRepositoryIntegrationTests {
+  func deleteTestUserDocument() {
+    Firestore.firestore().collection("users").document(mockTestUserId).delete { _ in }
   }
 }
