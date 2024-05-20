@@ -9,10 +9,20 @@ import Foundation
 import FirebaseStorage
 import Combine
 
-// TODO: - 이거 백그라운드 지정해주기.
 final class FirebaseStorageService: ImageStorageServiceProtocol {
   // MARK: - Properties
   private var subscriptions = Set<AnyCancellable?>()
+  
+  private let backgroundQueue: DispatchQueue
+  
+  init(
+    backgroundQueue: DispatchQueue = DispatchQueue(
+      label: "com.yeoga.app.FirestoreStorageService.queue",
+      qos: .userInitiated,
+      attributes: .concurrent)
+  ) {
+    self.backgroundQueue = backgroundQueue
+  }
   
   // MARK: - Helpers
   func uploadImage(_ imageData: Data, type: ImageStorageServiceType) -> AnyPublisher<String, Error> {
@@ -44,11 +54,11 @@ final class FirebaseStorageService: ImageStorageServiceProtocol {
     var urls: [(idx: Int, url: String)] = []
     let group = DispatchGroup()
     
-    return Future { [weak self] promise in
+    return Future { [weak self, backgroundQueue] promise in
       for (i, imageData) in imageDataList.enumerated() {
         group.enter()
         let subscription = self?.uploadImage(imageData, type: type)
-          .subscribe(on: DispatchQueue.global(qos: .userInteractive))
+          .receive(on: backgroundQueue)
           .sink { completion in
             if case .failure(let error) = completion {
               promise(.failure(error))
@@ -92,6 +102,7 @@ final class FirebaseStorageService: ImageStorageServiceProtocol {
   func fetchImages(_ urls: [String], type: ImageStorageServiceType) -> AnyPublisher<[Data], any Error> {
     return Publishers
       .Sequence(sequence: urls)
+      .receive(on: backgroundQueue)
       .flatMap { [weak self] url in
         return self?.fetchImage(url, type: type)
           .eraseToAnyPublisher() ?? Fail(error: ReferenceError.invalidReference).eraseToAnyPublisher()
@@ -115,6 +126,7 @@ final class FirebaseStorageService: ImageStorageServiceProtocol {
   func deleteImages(_ urls: [String], type: ImageStorageServiceType) -> AnyPublisher<Void, any Error> {
     return Publishers
       .Sequence(sequence: urls)
+      .receive(on: backgroundQueue)
       .flatMap { [weak self] url in
         guard let self else {
           return Fail<Void, any Error>(error: ReferenceError.invalidReference).eraseToAnyPublisher()
