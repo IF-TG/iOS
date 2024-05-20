@@ -11,10 +11,7 @@ import Foundation
 enum TourAPIMockResponseType {
   /// 소개정보조회
   case introdution(TourType)
-  
-  
-  
-  
+
   // MARK: - Properties
   private var filePath: String {
     switch self {

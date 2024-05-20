@@ -180,9 +180,8 @@ extension SettingViewController: ViewBindCase {
   
   func render(_ state: SettingViewModelState) {
     switch state {
-    case .viewDidLoad((let nickname, _)):
-      // TODO: - 유저 프로필 data -> image 반환 후 넣기. 근데 이미지데이터가 nil이면 기본 프로필 이미지 넣기.
-      topSheetView.configure(name: nickname, imagePath: "tempProfile3")
+    case .viewDidLoad((let nickname, let profileImageData)):
+      topSheetView.configure(name: nickname, imagePath: profileImageData)
     }
   }
   

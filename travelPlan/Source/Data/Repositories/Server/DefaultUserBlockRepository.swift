@@ -63,8 +63,8 @@ final class DefaultUserBlockRepository: UserBlockRepository {
           if case .failure(let error) = completion {
             promise(.failure(error))
           }
-        } receiveValue: { result in
-          fatalError("사용자 이름 프로필로는 해당 사용자를 식별할수 없습니다. api 수정되야합니다")
+        } receiveValue: { _ in
+          fatalError("spring server에서 제공하는 사용자 이름 프로필로는 해당 사용자를 식별할수 없습니다. api 수정되야합니다")
         }.store(in: &subscriptions)
     }.eraseToAnyPublisher()
   }

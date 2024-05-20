@@ -71,6 +71,7 @@ final class SettingTopSheetView: UIView {
     $0.layer.cornerRadius = Constant.ProfileImageView.size.width/2
     $0.contentMode = .scaleAspectFill
     $0.clipsToBounds = true
+    $0.image = UIImage(named: "default_profile_icon")
   }
   
   private var isShadowSet = false
@@ -104,8 +105,10 @@ final class SettingTopSheetView: UIView {
 
 // MARK: - Helpers
 extension SettingTopSheetView {
-  func configure(name: String?, imagePath: String?) {
-    profileImageView.image = UIImage(named: imagePath ?? "default_profile_icon")
+  func configure(name: String?, imageData: Data?) {
+    if let imageData {
+      profileImageView.image = UIImage(data: imageData)
+    }
     nameLabel.text = "\(name ?? "익명")님,"
     let highlightInfo = HighlightFontInfo(
       fontType: Constant.NameLabel.highlightFont,
