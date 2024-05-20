@@ -74,9 +74,7 @@ extension FirestoreUserProfileSettingRepository: UserProfileSettingRepository {
           nickname: nickname,
           imageUrl: profileImageUrl
         ).receive(on: backgroundQueue)
-          .sink { completion in
-            if case .failure(let error) = completion { promise(.failure(error)) }
-          } receiveValue: { [weak self] _ in
+          .sink(promise: promise) { [weak self] _ in
             let ownerEntity = UserEntity(
               id: userId,
               nickname: nickname,
@@ -100,15 +98,12 @@ extension FirestoreUserProfileSettingRepository: UserProfileSettingRepository {
         .isDocumentExists(endpoint: endpoint) { collectionRef in
           return collectionRef.whereField("nickname", isEqualTo: "\(name)")
         }.receive(on: backgroundQueue)
-        .sink { completion in
-          if case .failure(let error) = completion {
-            promise(.failure(error))
-          }
-        } receiveValue: { isNicknameDuplicated in
+        .eraseToError()
+        .sink(promise: promise) { isNicknameDuplicated in
           promise(.success(isNicknameDuplicated))
         }
       self?.subscriptions.insert(subscription)
-    }.eraseToError()
+    }.eraseToAnyPublisher()
   }
   
   /// 사용자의 이름을 업데이트합니다.
@@ -127,13 +122,11 @@ extension FirestoreUserProfileSettingRepository: UserProfileSettingRepository {
       let subscription = self?.service
         .request(endpoint: endpoint)
         .receive(on: backgroundQueue)
-        .sink { completion in
-          if case .failure(let error) = completion {
-            promise(.failure(error))
-          }
-        } receiveValue: {[weak self] _ in
+        .eraseToError()
+        .map { _ in return true }
+        .sink(promise: promise) {[weak self] result in
           self?.ownerStorage.updateNickname(with: name)
-          promise(.success(true))
+          promise(.success(result))
         }
       self?.subscriptions.insert(subscription)
     }.eraseToAnyPublisher()
@@ -197,12 +190,8 @@ extension FirestoreUserProfileSettingRepository: UserProfileSettingRepository {
           return service.request(endpoint: endpoint)
             .map { _ in return true }
             .eraseToError()
-        }.eraseToAnyPublisher()
-        .sink { completion in
-          if case .failure(let error) = completion {
-            promise(.failure(error))
-          }
-        } receiveValue: { result in
+        }
+        .sink(promise: promise) { result in
           promise(.success(result))
         }
       subscriptions.insert(subscription)
@@ -238,14 +227,12 @@ extension FirestoreUserProfileSettingRepository: UserProfileSettingRepository {
           deleteProfileImage(ownerProfileImageUrl),
           service.request(endpoint: endpoint).eraseToError())
         .receive(on: backgroundQueue)
-        .sink { completion in
-          if case .failure(let error) = completion {
-            promise(.failure(error))
-          }
-        } receiveValue: { [weak self] _ in
+        .eraseToAnyPublisher()
+        .map { _ in true }
+        .sink(promise: promise) { [weak self] result in
           self?.ownerStorage.deleteProfileImageData()
           self?.ownerStorage.updateProfileImagePath(with: "")
-          promise(.success(true))
+          promise(.success(result))
         }
       subscriptions.insert(subscription)
     }.eraseToAnyPublisher()
@@ -263,11 +250,9 @@ extension FirestoreUserProfileSettingRepository {
     let endpoint = Endpoint.saveUserProfileEndpoint(with: requestDTO)
     return Future { [weak self] promise in
       let subscription = self?.service.saveDocument(endpoint: endpoint)
-        .sink { completion in
-          if case .failure(let error) = completion {
-            promise(.failure(error))
-          }
-        } receiveValue: { [weak self] _ in
+        .eraseToError()
+        .map { _ in () }
+        .sink(promise: promise) { [weak self] _ in
           self?.ownerStorage.updateNickname(with: nickname)
           promise(.success(()))
         }
