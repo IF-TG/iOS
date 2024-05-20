@@ -20,7 +20,6 @@ struct FirestoreUserProfileSettingAPIEndopint {
   static func makeNicknameIsDuplicatedEndpoint(
   ) -> FirestoreEndpoint<Bool> {
     return FirestoreEndpoint(
-      method: .query,
       requestType: .users(.userDocument(.isNameDuplicated)))
   }
   
