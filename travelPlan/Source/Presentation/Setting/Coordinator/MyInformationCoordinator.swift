@@ -42,8 +42,7 @@ final class MyInformationCoordinator: FlowCoordinator {
     let userProfileSettingRepository = FirestoreUserProfileSettingRepository(
       service: firestoreService,
       firebaseStorageService: firebaseStorageService,
-      ownerStorage: stubOwnerStorage,
-      imageCache: profileImageMemoryCache)
+      ownerStorage: stubOwnerStorage)
     let userProfileImageSettingUseCase = DefaultUserProfileImageSettingUseCase(
       userProfileSettingRepository: userProfileSettingRepository)
     

@@ -36,7 +36,7 @@ final class StubUserProfileSettingRepository: UserProfileSettingRepository {
   func saveProfile(
     with userId: String,
     nickname: String,
-    profileImageData: Data
+    profileImageData: Data?
   ) -> AnyPublisher<Void, any Error> {
     return Just(()).setAnyErrorAndEraseToAnyPublisher()
   }
