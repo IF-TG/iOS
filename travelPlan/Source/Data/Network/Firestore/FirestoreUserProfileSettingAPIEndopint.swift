@@ -49,10 +49,10 @@ struct FirestoreUserProfileSettingAPIEndopint {
   static func makeProfileImageDeleteEndpoint(
     ownerId: String
   ) -> FirestoreEndpoint<VoidResponseDTO> {
-    let requestDict = ["profileImagepath": ""]
+    let requestDict = ["profileImagePath": ""]
     return FirestoreEndpoint(
       requestDTODictionary: requestDict,
-      method: .delete,
+      method: .update,
       requestType: .users(.userDocument(.deleteProfileImagePath(ownerId))))
   }
 }
