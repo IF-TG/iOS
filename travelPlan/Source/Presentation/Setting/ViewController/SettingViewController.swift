@@ -181,7 +181,7 @@ extension SettingViewController: ViewBindCase {
   func render(_ state: SettingViewModelState) {
     switch state {
     case .viewDidLoad((let nickname, let profileImageData)):
-      topSheetView.configure(name: nickname, imagePath: profileImageData)
+      topSheetView.configure(name: nickname, imageData: profileImageData)
     }
   }
   
