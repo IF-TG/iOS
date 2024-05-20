@@ -94,7 +94,6 @@ extension UserDefaultsOwnerStorage: OwnerStorage {
     }
   }
   
-  // TODO: - 로직 잘못됨. async await 쓰거나 COmbine쓰거나 @escaping ㅋㅋ
   func updateNickname(with nickname: String) -> Bool {
     guard var user = user else {
       os_log("DEBUG: 사용자의 이름이 저장되지 않았습니다.", log: OSLog.default, type: .error)
