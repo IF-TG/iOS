@@ -58,6 +58,7 @@ final class FirestoreUserProfileSettingRepositoryIntegrationTests: BaseXCTestCas
 /// - sut의 함수 호출시 로직을 수행하고 에러가 없이 결과를 받는 경우를 위해 테스트 및 sut의 로직 구현을 합니다.
 /// - Firbase firestore에는 이미지가 저장됬을떄 삭제하지않을 경우 이미지 식별이 불가능해 stub으로 이미지 service를 대체했습니다.
 extension FirestoreUserProfileSettingRepositoryIntegrationTests {
+  // MARK: - saveProfile tests
   func test_saveProfile호출시Storage에프로필이잘저장되는지와DB필드에Path가잘저장되는지_ShouldReturnTrue() {
     // Act
     let testPublisher = sut.saveProfile(with: mockTestUserId, nickname: "테스트여행유저", profileImageData: "프로필".data(using: .utf8))
@@ -82,6 +83,25 @@ extension FirestoreUserProfileSettingRepositoryIntegrationTests {
     // Assert
     checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "saveProfile")
     XCTAssert(hasReceivedResult, notReceivedErrorMessage)
+  }
+  
+  // MARK: - 사용자 이름 중복 테스트
+  func test_checkIfUserNicknameDuplicate호출시_사용자가중복되어야함() {
+    // Act
+    sut
+      .checkIfUserNicknameDuplicate(with: "테스트여행자")
+      .sink { completion in
+        // Assert
+        if case .failure(let error) = completion {
+          self.checkIfUnexpectedErrorOccurred(error, functionName: "checkIfUserNicknameDuplicate")
+          self.expectation.fulfill()
+        }
+      } receiveValue: { isDuplicated in
+        // Assert
+        XCTAssert(isDuplicated, "테스트 결과 유저 닉네임이 중복되어야하는데, 중복되지 않음")
+        self.expectation.fulfill()
+      }.store(in: &subscriptions)
+    wait(for: [expectation], timeout: 7.777)
   }
 }
 
