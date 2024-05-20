@@ -23,9 +23,18 @@ struct StubOwnerStorageForUserProfileSetting: OwnerStorage {
   func deleteBlockedUser(with userId: BlockedUserId) {}
   func hasBlockedUser(with userId: BlockedUserId) -> Bool { true }
   func updateNickname(with nickname: String) -> Bool { true }
-  func updateProfileImagePath(with imagePath: String) -> Bool { true }
-  func updateProfileImageData(with data: Data) -> Bool { true }
-  func deleteProfileImageData() -> Bool { true }
+  func updateProfileImagePath(with imagePath: String) -> Bool {
+    print("프로필 이미지 경로 업데이트 됬습니다.")
+    return true
+  }
+  func updateProfileImageData(with data: Data) -> Bool {
+    print("프로필 이미지 데이터 업데이트 됬습니다.")
+    return true
+  }
+  func deleteProfileImageData() -> Bool {
+    print("프로필 이미지 데이터 삭제 됬습니다.")
+    return true
+  }
 }
 
 final class FirestoreUserProfileSettingRepositoryIntegrationTests: BaseXCTestCase {
@@ -136,6 +145,19 @@ extension FirestoreUserProfileSettingRepositoryIntegrationTests {
     // Clean
     recoverUserName()
   }
+  
+  // MARK: - 사용자 프로필 이미지 관련 테스트
+  /// stub storage를 바탕으로 테스트 진행합니다.
+  func test_saveProfileImage호출시_storage에저장되는지() {
+    // Act
+    let testPublihser = sut.saveProfileImage(with: "이미지".data(using: .utf8)!)
+    execute(fromPublisher: testPublihser).store(in: &subscriptions)
+    wait(for: [expectation], timeout: 7.777)
+    
+    // Assert
+    checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "saveProfileImage")
+    XCTAssert(hasReceivedResult, notReceivedErrorMessage)
+  }
 }
 
 fileprivate extension FirestoreUserProfileSettingRepositoryIntegrationTests {
@@ -148,6 +170,5 @@ fileprivate extension FirestoreUserProfileSettingRepositoryIntegrationTests {
     Firestore.firestore().collection("users").document(mockTestUserId).updateData(["nickname": "테스트여행자"]).sink { _ in
     } receiveValue: { _ in
     }.store(in: &subscriptions)
-
   }
 }
