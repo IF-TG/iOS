@@ -103,6 +103,24 @@ extension FirestoreUserProfileSettingRepositoryIntegrationTests {
       }.store(in: &subscriptions)
     wait(for: [expectation], timeout: 7.777)
   }
+  
+  func test_checkIfUserNicknameDuplicate호출시_사용자이름이중복되면안됌() {
+    // Act
+    sut
+      .checkIfUserNicknameDuplicate(with: "테스트여행자1111111111")
+      .sink { completion in
+        // Assert
+        if case .failure(let error) = completion {
+          self.checkIfUnexpectedErrorOccurred(error, functionName: "checkIfUserNicknameDuplicate")
+          self.expectation.fulfill()
+        }
+      } receiveValue: { isDuplicated in
+        // Assert
+        XCTAssertFalse(isDuplicated, "테스트 결과 유저 닉네임이 중복되지 않아야하는데 중복됨")
+        self.expectation.fulfill()
+      }.store(in: &subscriptions)
+    wait(for: [expectation], timeout: 7.777)
+  }
 }
 
 fileprivate extension FirestoreUserProfileSettingRepositoryIntegrationTests {
