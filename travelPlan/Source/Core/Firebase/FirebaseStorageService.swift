@@ -70,7 +70,7 @@ final class FirebaseStorageService: ImageStorageServiceProtocol {
           }
         self?.subscriptions.insert(subscription)
       }
-      group.notify(queue: .global(qos: .userInteractive)) {
+      group.notify(queue: backgroundQueue) {
         promise(.success(urls.sorted { $0.idx < $1.idx }.map { $0.url }))
       }
     }.eraseToAnyPublisher()
@@ -106,7 +106,7 @@ final class FirebaseStorageService: ImageStorageServiceProtocol {
       .flatMap { [weak self] url in
         return self?.fetchImage(url, type: type)
           .eraseToAnyPublisher() ?? Fail(error: ReferenceError.invalidReference).eraseToAnyPublisher()
-      }.collect()
+      }.collect(urls.count)
       .eraseToAnyPublisher()
   }
   
@@ -124,6 +124,9 @@ final class FirebaseStorageService: ImageStorageServiceProtocol {
   }
   
   func deleteImages(_ urls: [String], type: ImageStorageServiceType) -> AnyPublisher<Void, any Error> {
+    guard urls.count == 0 else {
+      return Just(()).setAnyErrorAndEraseToAnyPublisher()
+    }
     return Publishers
       .Sequence(sequence: urls)
       .receive(on: backgroundQueue)
@@ -132,7 +135,7 @@ final class FirebaseStorageService: ImageStorageServiceProtocol {
           return Fail<Void, any Error>(error: ReferenceError.invalidReference).eraseToAnyPublisher()
         }
         return deleteImage(url, type: type)
-      }.collect()
+      }.collect(urls.count)
       .tryMap { _ in () }
       .eraseToAnyPublisher()
   }
