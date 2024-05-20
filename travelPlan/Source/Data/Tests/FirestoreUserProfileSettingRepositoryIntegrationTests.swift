@@ -11,7 +11,7 @@ import Combine
 @testable import SHFirestoreService
 @testable import FirebaseFirestore
 
-struct StubOwnerStorageForUserProfileSetting: OwnerStorage {
+final class StubOwnerStorageForUserProfileSetting: OwnerStorage {
   var nickname: String? = "테스트유저"
   var profileImageData: Data?
   var isSavedProfileInServer: Bool = false
@@ -45,12 +45,13 @@ final class FirestoreUserProfileSettingRepositoryIntegrationTests: BaseXCTestCas
   override func setUp() {
     super.setUp()
     let stubOwnerStorage = StubOwnerStorageForUserProfileSetting()
-    let stubFirebaseStoraged = StubFirebaseStorageService()
+    let stubFirebaseStorage = StubFirebaseStorageService()
+    let firebaseStorage = FirebaseStorageService()
     let firestoreService = FirestoreService()
     
     sut = FirestoreUserProfileSettingRepository(
       service: firestoreService,
-      firebaseStorageService: stubFirebaseStoraged,
+      firebaseStorageService: firebaseStorage,
       ownerStorage: stubOwnerStorage)
   }
   
@@ -148,6 +149,7 @@ extension FirestoreUserProfileSettingRepositoryIntegrationTests {
   
   // MARK: - 사용자 프로필 이미지 관련 테스트
   /// stub storage를 바탕으로 테스트 진행합니다.
+  /// 실제 storage service로는 테스트 진행시 저장, 삭제를 성공적으로 테스트했고, stub으로 교체했습니다.
   func test_saveProfileImage호출시_storage에저장되는지() {
     // Act
     let testPublihser = sut.saveProfileImage(with: "이미지".data(using: .utf8)!)
@@ -156,6 +158,17 @@ extension FirestoreUserProfileSettingRepositoryIntegrationTests {
     
     // Assert
     checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "saveProfileImage")
+    XCTAssert(hasReceivedResult, notReceivedErrorMessage)
+  }
+  
+  func test_deleteProfileImage호출시_storage에서삭제되는지() {
+    // Act
+    let testPublihser = sut.deleteProfileImage()
+    execute(fromPublisher: testPublihser).store(in: &subscriptions)
+    wait(for: [expectation], timeout: 7.777)
+    
+    // Assert
+    checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "deleteProfileImage")
     XCTAssert(hasReceivedResult, notReceivedErrorMessage)
   }
 }
