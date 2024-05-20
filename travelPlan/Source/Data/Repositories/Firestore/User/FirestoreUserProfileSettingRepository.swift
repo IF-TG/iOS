@@ -262,7 +262,7 @@ extension FirestoreUserProfileSettingRepository {
     )
     let endpoint = Endpoint.saveUserProfileEndpoint(with: requestDTO)
     return Future { [weak self] promise in
-      let subscription = self?.service.request(endpoint: endpoint)
+      let subscription = self?.service.saveDocument(endpoint: endpoint)
         .sink { completion in
           if case .failure(let error) = completion {
             promise(.failure(error))
@@ -294,8 +294,8 @@ extension FirestoreUserProfileSettingRepository {
       profileImagePath: imageUrl
     )
     let endpoint = Endpoint.saveUserProfileEndpoint(with: requestDTO)
-    return service.request(endpoint: endpoint)
-      .mapError { $0 as Error }
-      .eraseToAnyPublisher()
+    return service.saveDocument(endpoint: endpoint)
+      .map { _ in () }
+      .eraseToError()
   }
 }
