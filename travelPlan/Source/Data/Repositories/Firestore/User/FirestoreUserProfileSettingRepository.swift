@@ -9,7 +9,6 @@ import Foundation
 import Combine
 import SHFirestoreService
 
-// TODO: - 내일 테스트 전부 수행하기!!
 final class FirestoreUserProfileSettingRepository {
   typealias Endpoint = FirestoreUserProfileSettingAPIEndopint
   
@@ -18,8 +17,6 @@ final class FirestoreUserProfileSettingRepository {
   private let service: FirestoreServiceProtocol
   private let firebaseStorageService: ImageStorageServiceProtocol
   private let ownerStorage: OwnerStorage
-  /// 프로필 이미지 받을때 disk보다 memory cache가 더 빨리 가져옵니다.
-  private let imageCache: ImageMemoryCachable
   
   // MARK: - Properties
   private var subscriptions = Set<AnyCancellable?>()
@@ -29,25 +26,32 @@ final class FirestoreUserProfileSettingRepository {
     service: FirestoreServiceProtocol,
     firebaseStorageService: ImageStorageServiceProtocol,
     backgroundQueue: DispatchQueue = .global(qos: .userInitiated),
-    ownerStorage: OwnerStorage,
-    imageCache: ImageMemoryCachable
+    ownerStorage: OwnerStorage
   ) {
     self.service = service
     self.ownerStorage = ownerStorage
     self.backgroundQueue = backgroundQueue
     self.firebaseStorageService = firebaseStorageService
-    self.imageCache = imageCache
   }
 }
 
 // MARK: - MyProfileRepository
 extension FirestoreUserProfileSettingRepository: UserProfileSettingRepository {
+  /// 프로필을 Firebase's firestore 및 storage에 저장합니다
+  ///
+  /// Notes:
+  /// 1. profileImageData가 없는 경우
+  ///   - Storage를 사용하지 않고 firestore에 user's collection에 userId를 문서id로 문서를 저장합니다.
+  ///   - 저장에 성공하면 disk cache에 저장합니다.
+  /// 2. profileImageData가 있는 경우
+  ///   - Firebase stroage에 프로필을 저장합니다.
+  ///   - 해당 storage에 저장된 path를 받아와서 firestore에 user's collection에 userId를 문서 id로 문서를 저장합니다.
   func saveProfile(
     with userId: String,
     nickname: String,
-    profileImageData: Data
+    profileImageData: Data?
   ) -> AnyPublisher<Void, any Error> {
-    guard profileImageData.count > 0 else {
+    guard let profileImageData = profileImageData, profileImageData.count > 0 else {
       return saveProfileWithoutProfileImage(with: userId, nickname: nickname)
     }
     
