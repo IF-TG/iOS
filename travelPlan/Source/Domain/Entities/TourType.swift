@@ -7,6 +7,7 @@
 
 import Foundation
 
+@frozen
 enum TourType: Int {
   /// 관광지
   case attraction = 12

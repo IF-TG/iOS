@@ -49,13 +49,13 @@ final class DefaultTourCommonInfoRepository: TourCommonInfoRepository {
           .eraseToAnyPublisher()
         }
         
-        guard let item = $0.response.body.items.item.first else {
+        guard let item = $0.response.body.items?.item.first else {
           return Fail<TourCommonInfoEntity, any Error>(
             error: TourAPIError.tourAPIProviderInstitutionError(.noDataError)
           )
           .eraseToAnyPublisher()
         }
-        
+        print("commonRepository: item: \(item)")
         guard
           let imagePublisher = self?.makeImageDataPublisher(imageURL: item.firstimage, queue: backgroundQueue),
           let thumbnailPublisher = self?.makeImageDataPublisher(imageURL: item.firstimage2, queue: backgroundQueue)
@@ -74,11 +74,19 @@ final class DefaultTourCommonInfoRepository: TourCommonInfoRepository {
 
 // MARK: - Private Helpers
 extension DefaultTourCommonInfoRepository {
-  private func makeImageDataPublisher(imageURL: String, queue: DispatchQueue) -> AnyPublisher<Data, any Error> {
-    
+  private func makeImageDataPublisher(imageURL: String, queue: DispatchQueue) -> AnyPublisher<Data?, any Error> {
     return imageService
       .request(imageURL: imageURL, queue: queue)
-      .mapError { $0 as Error }
+      .map { Optional($0) }
+      .catch { afError in
+        switch afError {
+        case .invalidURL:
+          return Just<Data?>(nil)
+            .setAnyErrorAndEraseToAnyPublisher()
+        default:
+          return Fail(error: afError as Error).eraseToAnyPublisher()
+        }
+      }
       .eraseToAnyPublisher()
   }
 }

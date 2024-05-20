@@ -1,0 +1,26 @@
+{
+  "response": {
+    "header": {
+      "resultCode": "0000",
+      "resultMsg": "OK"
+    },
+    "body": {
+      "items": {
+        "item": [
+          {
+            "contentid": "1871068",
+            "contenttypeid": "25",
+            "infocentertourcourse": "",
+            "distance": "41.3km",
+            "schedule": "기타",
+            "taketime": "6시간",
+            "theme": "----지자체-----"
+          }
+        ]
+      },
+      "numOfRows": 1,
+      "pageNo": 1,
+      "totalCount": 1
+    }
+  }
+}
