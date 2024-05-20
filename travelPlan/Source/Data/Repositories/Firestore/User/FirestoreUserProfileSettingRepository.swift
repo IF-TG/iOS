@@ -98,7 +98,7 @@ extension FirestoreUserProfileSettingRepository: UserProfileSettingRepository {
     return Future { [weak self, backgroundQueue] promise in
       let subscription = self?.service
         .isDocumentExists(endpoint: endpoint) { collectionRef in
-          return collectionRef.whereField("nickname", isEqualTo: "name")
+          return collectionRef.whereField("nickname", isEqualTo: "\(name)")
         }.receive(on: backgroundQueue)
         .sink { completion in
           if case .failure(let error) = completion {
