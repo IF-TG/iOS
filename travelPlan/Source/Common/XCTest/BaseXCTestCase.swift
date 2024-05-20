@@ -51,4 +51,27 @@ class BaseXCTestCase: XCTestCase {
     hasReceivedResult = false
     defaultExpectedResultNotReceivedMessage = ""
   }
+  
+  /// 비동기적으로 동작되는 테스트를 진행합니다.
+  /// expectation.fulfill()을 값을 받는 경우 or 실패를 받은 경우에 내부적으로 호출합니다.
+  func execute(
+    fromPublisher: any Publisher,
+    resultHandler: @escaping XCTestCase.TestResultHandler
+  ) -> AnyCancellable {
+    sink(fromPublisher: fromPublisher, withExpectation: expectation, resultHandler: resultHandler)
+  }
+  
+  /// 비동기적으로 동작되는 테스트를 진행합니다.
+  /// expectation.fulfill()을 값을 받는 경우 or 실패를 받은 경우에 내부적으로 호출합니다.
+  /// 비동기적으로 받은 결과들을 내부 프로퍼티 unexpectedError, hasReceivedResult에 값을 대입합니다.
+  func execute(
+    fromPublisher: any Publisher
+  ) -> AnyCancellable {
+    sink(
+      fromPublisher: fromPublisher,
+      withExpectation: expectation) { error, result in
+        self.unexpectedError = error
+        self.hasReceivedResult = result
+      }
+  }
 }
