@@ -48,7 +48,7 @@ fileprivate extension Publisher {
         expectation.fulfill()
       }
     } receiveValue: { receivedValue in
-      NSLog("DEBUG: 값을 성공적으로 받았습니다:\n\(receivedValue)\n\n")
+      _ = print("DEBUG: 값을 성공적으로 받았습니다:\n\(receivedValue)\n\n")
       resultHandler(nil, true)
       expectation.fulfill()
     }

@@ -9,6 +9,7 @@ import Foundation
 
 /// 소개정보조회(행사/공연/축제)
 struct IntroductionInfoFestivalEntity {
+  let tourContentId: TourContentId
   let startDate: Date?
   let endDate: Date?
   let fee: String

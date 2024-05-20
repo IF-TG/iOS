@@ -59,13 +59,19 @@ extension DefaultTourImageRetrieveInfoRepository: TourImageRetrieveInfoRepositor
       .request(endpoint: endpoint)
       .subscribe(on: backgroundQueue)
       .receive(on: backgroundQueue)
-      .tryFilter { responseDTO in
+      .tryMap { responseDTO in
         let resultCode = responseDTO.response.header.resultCode
-        guard resultCode == "0000" else {
-          throw TourAPIError.publicDataPortalError(.init(code: String(resultCode.suffix(2))))
+        
+        guard resultCode == "0000"
+        else { throw TourAPIError.publicDataPortalError(.init(code: String(resultCode.suffix(2)))) }
+        
+        guard let item = responseDTO.response.body.items?.item
+        else {
+          return [TourRetrievedImageEntity]()
         }
-        return !responseDTO.response.body.items.item.isEmpty
-      }.map { $0.response.body.items.item.map { $0.toDomain()} }
+        
+        return item.map { $0.toDomain() }
+      }
       .eraseToAnyPublisher()
   }
   
@@ -83,6 +89,11 @@ extension DefaultTourImageRetrieveInfoRepository: TourImageRetrieveInfoRepositor
         .flatMap { [weak self, backgroundQueue] atomicEntities -> RetrieveImagesReturnPublisher in
           guard let self else { return Fail(error: ReferenceError.invalidReference).eraseToAnyPublisher() }
           let collectCount = atomicEntities.count
+          
+          if collectCount == 0 {
+            return Just([]).setAnyErrorAndEraseToAnyPublisher()
+          }
+          
           let indexedImageInfoFetchers = makeIndexedImageInfoFetchers(
             from: atomicEntities.map { $0.image },
             backgroundQueue: backgroundQueue)

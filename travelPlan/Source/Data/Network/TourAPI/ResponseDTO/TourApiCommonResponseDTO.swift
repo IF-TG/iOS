@@ -18,10 +18,31 @@ struct TourApiHeaderResponseDTO: Decodable {
 }
 
 struct TourApiBodyResponseDTO<T: Decodable>: Decodable {
-  let items: TourApiItems<T>
+  let items: TourApiItems<T>?
   let numOfRows: Int
   let pageNo: Int
   let totalCount: Int
+  
+  enum CodingKeys: CodingKey {
+    case items
+    case numOfRows
+    case pageNo
+    case totalCount
+  }
+  
+  init(from decoder: any Decoder) throws {
+    let container = try decoder.container(keyedBy: TourApiBodyResponseDTO<T>.CodingKeys.self)
+    
+    if (try? container.decode(String.self, forKey: .items)) != nil {
+      self.items = nil
+    } else {
+      self.items = try container.decode(TourApiItems.self, forKey: .items)
+    }
+    
+    self.numOfRows = try container.decode(Int.self, forKey: TourApiBodyResponseDTO<T>.CodingKeys.numOfRows)
+    self.pageNo = try container.decode(Int.self, forKey: TourApiBodyResponseDTO<T>.CodingKeys.pageNo)
+    self.totalCount = try container.decode(Int.self, forKey: TourApiBodyResponseDTO<T>.CodingKeys.totalCount)
+  }
 }
 
 struct TourApiItems<T: Decodable>: Decodable {

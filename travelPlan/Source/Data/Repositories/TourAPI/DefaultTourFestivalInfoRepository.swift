@@ -48,7 +48,11 @@ extension DefaultTourFestivalInfoRepository: TourFestivalInfoRepository {
         let resultCode = $0.response.header.resultCode
         guard resultCode == "0000"
         else { throw TourAPIError.publicDataPortalError(.init(code: String(resultCode.suffix(2)))) }
-        return $0.response.body.items.item
+        
+        guard let item = $0.response.body.items?.item
+        else { return [TourFestivalResponseDTO]() }
+        
+        return item
       }
       .tryMap { [weak self] in
         let group = DispatchGroup()

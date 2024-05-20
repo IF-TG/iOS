@@ -11,6 +11,18 @@ struct TourAPIIntroductionEndpoints {
   private static let tourApiRequestType = TourApiRequestType.introduction
   private init() { }
   
+  static func fetchCourse(
+    with requestDTO: TourAPIIntroductionInfoRequestDTO
+  ) -> TourApiEndpoint<TourApiCommonResponseDTO<TourIntroductionInfoCourseResponseDTO>> {
+    return .init(parameters: .query(requestDTO), requestType: tourApiRequestType)
+  }
+  
+  static func fetchAccommodation(
+    with requestDTO: TourAPIIntroductionInfoRequestDTO
+  ) -> TourApiEndpoint<TourApiCommonResponseDTO<TourIntroductionInfoAccommodationResponseDTO>> {
+    return .init(parameters: .query(requestDTO), requestType: tourApiRequestType)
+  }
+  
   static func fetchLeports(
     with requestDTO: TourAPIIntroductionInfoRequestDTO
   ) -> TourApiEndpoint<TourApiCommonResponseDTO<TourIntroductionInfoLeportsResponseDTO>> {

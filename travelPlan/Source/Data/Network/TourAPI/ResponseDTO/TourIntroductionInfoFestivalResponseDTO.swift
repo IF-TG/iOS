@@ -55,7 +55,9 @@ extension TourIntroductionInfoFestivalResponseDTO {
     let startDate = DateTimeConverter.toDate(from: startDateString, dateFormat: "yyyyMMdd")
     let endDate = DateTimeConverter.toDate(from: endDateString, dateFormat: "yyyyMMdd")
     
-    return .init(
+    return IntroductionInfoFestivalEntity(
+      tourContentId: .init(contentId: contentId,
+                           contentTypeId: contentTypeId),
       startDate: startDate,
       endDate: endDate,
       fee: fee,
