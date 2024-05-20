@@ -41,11 +41,11 @@ extension FirestoreUserProfileSettingRepository: UserProfileSettingRepository {
   ///
   /// Notes:
   /// 1. profileImageData가 없는 경우
-  ///   - Storage를 사용하지 않고 firestore에 user's collection에 userId를 문서id로 문서를 저장합니다.
-  ///   - 저장에 성공하면 disk cache에 저장합니다.
+  ///     - Storage를 사용하지 않고 firestore에 user's collection에 userId를 문서id로 문서를 저장합니다.
+  ///     - 저장에 성공하면 disk cache에 저장합니다.
   /// 2. profileImageData가 있는 경우
-  ///   - Firebase stroage에 프로필을 저장합니다.
-  ///   - 해당 storage에 저장된 path를 받아와서 firestore에 user's collection에 userId를 문서 id로 문서를 저장합니다.
+  ///     - Firebase stroage에 프로필을 저장합니다.
+  ///     - 해당 storage에 저장된 path를 받아와서 firestore에 user's collection에 userId를 문서 id로 문서를 저장합니다.
   func saveProfile(
     with userId: String,
     nickname: String,
@@ -92,6 +92,7 @@ extension FirestoreUserProfileSettingRepository: UserProfileSettingRepository {
     }.eraseToAnyPublisher()
   }
   
+  /// 주어진 이름을 가진 사용자가 존재하는지 duplicate 검사를 합니다.
   func checkIfUserNicknameDuplicate(with name: String) -> AnyPublisher<Bool, any Error> {
     let endpoint = Endpoint.makeNicknameIsDuplicatedEndpoint()
     return Future { [weak self, backgroundQueue] promise in
@@ -110,6 +111,11 @@ extension FirestoreUserProfileSettingRepository: UserProfileSettingRepository {
     }.eraseToError()
   }
   
+  /// 사용자의 이름을 업데이트합니다.
+  ///
+  /// Notes:
+  /// 1. 사용자의 이름을 firestore의 ownerID를 문서id로한 문서의 이름 필드를 수정합니다.
+  /// 2. 성공적으로 저장되면 disk cache에 반영합니다.
   func updateUserNickname(with name: String) -> AnyPublisher<Bool, any Error> {
     return Future { [weak self, backgroundQueue] promise in
       guard let ownerId = self?.ownerStorage.id else {
@@ -125,13 +131,22 @@ extension FirestoreUserProfileSettingRepository: UserProfileSettingRepository {
           if case .failure(let error) = completion {
             promise(.failure(error))
           }
-        } receiveValue: { _ in
+        } receiveValue: {[weak self] _ in
+          self?.ownerStorage.updateNickname(with: name)
           promise(.success(true))
         }
       self?.subscriptions.insert(subscription)
     }.eraseToAnyPublisher()
   }
   
+  /// 사용자의 프로필 이미지를 업데이트합니다.
+  ///
+  /// Notes:
+  /// 1. 사용자의 프로필이 저장되어있지 않은 경우
+  ///     - saveProfileImage(with:)로 서버 및 캐싱합니다.
+  /// 2. 기존 사용자 프로필이 있는 경우
+  ///     - storage에 사용자 프로필을 제거하고 local cache에 사요자 프로필 data, path를 삭제합니다.
+  ///     - saveProfileImage(with:)를 수행합니다.
   func updateProfileImage(with profileImageData: Data) -> AnyPublisher<Bool, any Error> {
     guard let ownerEntity = ownerStorage.user else {
       return Fail(error: OwnerError.invalidOwnerId).eraseToAnyPublisher()
@@ -152,9 +167,11 @@ extension FirestoreUserProfileSettingRepository: UserProfileSettingRepository {
       }.eraseToAnyPublisher()
   }
   
-  /// 프로필을 Firebase storage에 저장하고
-  /// 그 결과로 profile url path, data를 로컬 유저디폴츠에 저장합니다. 그리고 결과를 반환합니다.
-  /// Firebase storage에 owner 이미지가 저장되어있는지는 파악하지 않고 그냥 주어진 데이터를 기반으로 Firebase storage에 ownerId를 경로로 저장합니다.
+  /// 프로필 이미지를 저장합니다.
+  ///
+  /// Notes:
+  /// 1. 프로필을 Firebase storage에 저장하고 그 결과로 profile url path, data를 로컬 유저디폴츠에 저장합니다. 그리고 결과를 반환합니다.
+  /// 2. Firebase storage에 owner 이미지가 저장되어있는지는 파악하지 않고 그냥 주어진 데이터를 기반으로 Firebase storage에 ownerId를 경로로 저장합니다.
   func saveProfileImage(with profileImageData: Data) -> AnyPublisher<Bool, any Error> {
     return Future<Bool, any Error> { [weak self] promise in
       guard let self else {
@@ -192,8 +209,11 @@ extension FirestoreUserProfileSettingRepository: UserProfileSettingRepository {
     }.eraseToAnyPublisher()
   }
   
-  /// 이미지 저장소에서부터 이미지를 제거하고, 사용자 문서에서 프로필 url 필드를 ""로 삭제합니다.
-  /// 파이어스토어에서는 옵셔널이 존재하지 않기에 삭제됬음을  ""로 대체합니다.
+  /// Firestore storage로부터 owner 프로필 이미지를 제거합니다.
+  ///
+  /// Notes:
+  /// 1. 이미지 저장소에서부터 이미지를 제거하고, 사용자 문서에서 프로필 url 필드를 ""로 삭제합니다.
+  ///     - cf. 파이어스토어에서는 옵셔널이 존재하지 않기에 삭제됬음을  ""로 대체합니다.
   func deleteProfileImage() -> AnyPublisher<Bool, any Error> {
     guard let ownerEntity = ownerStorage.user else {
       return Fail(error: OwnerError.invalidOwnerId).eraseToAnyPublisher()
