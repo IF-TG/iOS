@@ -134,14 +134,8 @@ extension FirestoreRequestType {
     case saveUserProfile
     case updateProfileImage(OwnerId)
     case updateName(OwnerId)
-    //    case saveProfileImage
     case deleteProfileImagePath(OwnerId)
-    //    case fetchProfileImage
-    //
     case isNameDuplicated
-    //    case updateName
-    //    case fetchAllUsers
-    //    case deleteUser(String)
     case blockedUsersCollection(String, BlockedUserCollection)
     
     var docuemntPath: String? {
