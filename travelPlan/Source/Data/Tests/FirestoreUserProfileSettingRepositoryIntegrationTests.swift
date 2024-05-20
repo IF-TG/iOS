@@ -15,9 +15,9 @@ struct StubOwnerStorageForUserProfileSetting: OwnerStorage {
   var nickname: String? = "테스트유저"
   var profileImageData: Data?
   var isSavedProfileInServer: Bool = false
-  var id: String? = "testUser1"
-  var user: travelPlan.UserEntity? = .init(id: "testUser1", nickname: "테스트유저", profileImageUrl: "", isSavedProfileInServer: false)
-  var blockedUsers: [BlockedUserId]
+  var id: String? = "testUser11"
+  var user: travelPlan.UserEntity? = .init(id: "testUser11", nickname: "테스트유저", profileImageUrl: "", isSavedProfileInServer: false)
+  var blockedUsers: [BlockedUserId] = []
   func setUser(with userInfo: travelPlan.UserEntity) {}
   func addBlockedUser(with userId: BlockedUserId) {}
   func deleteBlockedUser(with userId: BlockedUserId) {}
@@ -35,8 +35,7 @@ final class FirestoreUserProfileSettingRepositoryIntegrationTests: BaseXCTestCas
   
   override func setUp() {
     super.setUp()
-    let service = FirestoreService()
-    let stubOwnerStorage = StubOwnerStorage()
+    let stubOwnerStorage = StubOwnerStorageForUserProfileSetting()
     let stubFirebaseStoraged = StubFirebaseStorageService()
     let firestoreService = FirestoreService()
     
@@ -121,10 +120,34 @@ extension FirestoreUserProfileSettingRepositoryIntegrationTests {
       }.store(in: &subscriptions)
     wait(for: [expectation], timeout: 7.777)
   }
+  
+  // MARK: - 사용자 이름 업데이트 테스트
+  func test_updateUserNickname호출시_디비에반영되는지() {
+    // Act
+    let testPublisher = sut.updateUserNickname(with: "테스트 여행자22")
+    execute(fromPublisher: testPublisher).store(in: &subscriptions)
+    
+    wait(for: [expectation], timeout: 7.777)
+    
+    // Assert
+    checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "updateUserNickname")
+    XCTAssert(hasReceivedResult, notReceivedErrorMessage)
+    
+    // Clean
+    recoverUserName()
+  }
 }
 
 fileprivate extension FirestoreUserProfileSettingRepositoryIntegrationTests {
   func deleteTestUserDocument() {
     Firestore.firestore().collection("users").document(mockTestUserId).delete { _ in }
+  }
+  
+  
+  func recoverUserName() {
+    Firestore.firestore().collection("users").document(mockTestUserId).updateData(["nickname": "테스트여행자"]).sink { _ in
+    } receiveValue: { _ in
+    }.store(in: &subscriptions)
+
   }
 }
