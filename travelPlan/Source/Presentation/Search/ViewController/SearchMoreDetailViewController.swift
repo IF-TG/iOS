@@ -283,6 +283,7 @@ extension SearchMoreDetailViewController: UICollectionViewDataSource {
   }
 }
 
+// MARK: - UICollectionViewDelegate
 extension SearchMoreDetailViewController: UICollectionViewDelegate {
   func scrollViewDidScroll(_ scrollView: UIScrollView) {
     guard let headerView = self.collectionView.supplementaryView(
