@@ -2345,6 +2345,45 @@
 			path = MockJson;
 			sourceTree = "<group>";
 		};
+		1521757C2BFB012000666549 /* Post */ = {
+			isa = PBXGroup;
+			children = (
+				15E670D82BDE2DA8002E1D19 /* FirestoreReviewWritingRepository.swift */,
+				1561DC7B2BDF7DC200C25577 /* FirestorePostRepository.swift */,
+			);
+			path = Post;
+			sourceTree = "<group>";
+		};
+		1521757D2BFB012B00666549 /* User */ = {
+			isa = PBXGroup;
+			children = (
+				1572ABCC2BE7AF76008AFE66 /* FirestoreUserProfileRepository.swift */,
+				15803C532BDA522500D83F2B /* FirestoreUserProfileSettingRepository.swift */,
+				1551D5EF2BF8D4D7009B5CD6 /* FirestoreUserBlockRepository.swift */,
+			);
+			path = User;
+			sourceTree = "<group>";
+		};
+		1521757E2BFB014400666549 /* PostHeart */ = {
+			isa = PBXGroup;
+			children = (
+				159851BB2BEDEB0A001262BD /* FirestorePostNestedCommentHeartRepository.swift */,
+				15869D0B2BF5A45900FB342B /* FirestoreOwnerHeartPostRepository.swift */,
+				15F1CD972BE3494800F18786 /* FirestorePostHeartRepository.swift */,
+				1572ABD92BE8A0E7008AFE66 /* FirestorePostCommentHeartRepository.swift */,
+			);
+			path = PostHeart;
+			sourceTree = "<group>";
+		};
+		1521757F2BFB016300666549 /* PostComment */ = {
+			isa = PBXGroup;
+			children = (
+				1572ABAC2BE63E03008AFE66 /* FirestorePostCommentRepository.swift */,
+				1546587E2BEA62EE0081CCF8 /* FirestorePostNestedCommentRepository.swift */,
+			);
+			path = PostComment;
+			sourceTree = "<group>";
+		};
 		1526ECE82BF6365800B629FB /* Post */ = {
 			isa = PBXGroup;
 			children = (
@@ -2891,17 +2930,10 @@
 		15803C522BDA514E00D83F2B /* Firestore */ = {
 			isa = PBXGroup;
 			children = (
-				15F1CD972BE3494800F18786 /* FirestorePostHeartRepository.swift */,
-				15E670D82BDE2DA8002E1D19 /* FirestoreReviewWritingRepository.swift */,
-				15803C532BDA522500D83F2B /* FirestoreUserProfileSettingRepository.swift */,
-				1572ABD92BE8A0E7008AFE66 /* FirestorePostCommentHeartRepository.swift */,
-				1572ABAC2BE63E03008AFE66 /* FirestorePostCommentRepository.swift */,
-				1572ABCC2BE7AF76008AFE66 /* FirestoreUserProfileRepository.swift */,
-				1561DC7B2BDF7DC200C25577 /* FirestorePostRepository.swift */,
-				159851BB2BEDEB0A001262BD /* FirestorePostNestedCommentHeartRepository.swift */,
-				1546587E2BEA62EE0081CCF8 /* FirestorePostNestedCommentRepository.swift */,
-				15869D0B2BF5A45900FB342B /* FirestoreOwnerHeartPostRepository.swift */,
-				1551D5EF2BF8D4D7009B5CD6 /* FirestoreUserBlockRepository.swift */,
+				1521757F2BFB016300666549 /* PostComment */,
+				1521757E2BFB014400666549 /* PostHeart */,
+				1521757D2BFB012B00666549 /* User */,
+				1521757C2BFB012000666549 /* Post */,
 			);
 			path = Firestore;
 			sourceTree = "<group>";
