@@ -20,7 +20,6 @@ protocol PostDetailChatViewModelPageDelegate: AnyObject {
 struct PostDetailChatViewModelActions {
   typealias isCommentOwner = Bool
   
-  let showReviewWriting: (ReviewWritingEntity) -> Void
   let showAlertForError: (String, (() -> Void)?) -> Void
   let showAnAlertToAskWhetherToCancelWriting: (PostDetailWritingCacnelType, ((Bool) -> Void)?) -> Void
   let showCommentOption: (isCommentOwner, ((PostDetailCommentOption) -> Void)?) -> Void

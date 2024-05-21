@@ -29,6 +29,8 @@ struct PostDetailViewModelActions {
   let showPostReport: (((PostReportType) -> Void)?) -> Void
   let showPostReportResult: (PostDetailOption) -> Void
   let showCategory: (([String])) -> Void
+  
+  let showReviewWriting: (ReviewWritingEntity) -> Void
 }
 
 // MARK: - Input
