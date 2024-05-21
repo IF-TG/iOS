@@ -294,11 +294,12 @@ extension PostDetailViewModel: PostDetailTableViewDataSource {
     case .postHeartAndShareArea:
       return 0
     default:
-      return 0
+      return PostDetailSection.defaultNumberOfSections
     }
   }
 }
 
+// MARK: - ReviewWritingPostReceivable
 extension PostDetailViewModel: ReviewWritingPostReceivable {
   func receive(post: Post?) {
     // TODO: - 편집한 리뷰작성 Post를 기반으로 화면을 갱신해야 합니다.
