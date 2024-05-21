@@ -86,7 +86,7 @@ struct PostDetailChatViewModelInput {
 }
 
 // MARK: - ViewModelable
-protocol PostDetailCommentViewModelable: ViewModelable
+protocol PostDetailChatViewModelable: ViewModelable
 where Input == PostDetailChatViewModelInput,
       State == PostDetailChatViewModelState {
   typealias UserInputText = String
