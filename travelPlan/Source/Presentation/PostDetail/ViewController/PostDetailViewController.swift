@@ -10,10 +10,18 @@ import Combine
 import SHCoordinator
 
 final class PostDetailViewController: UITableViewController {
+  typealias PostDetailViewModelType = (any PostDetailViewModelable &
+                                       PostDetailTableViewDataSource &
+                                       PostDetailViewModelPageDelegate)
+  
+  typealias PostDetailChatViewModelType = (any PostDetailChatViewModelable &
+                                           PostDetailChatDataSource &
+                                           PostDetailChatViewModelPageDelegate)
+  
   // MARK: - Dependencies
-  private let viewModel: (any PostDetailViewModelable &
-                          PostDetailTableViewDataSource &
-                          PostDetailViewModelPageDelegate)
+  private let viewModel: PostDetailViewModelType
+  
+  private let chatViewModel: PostDetailChatViewModelType
   
   // MARK: - UI Properties
   private let inputAccessory = PostDetailInputAccessoryWrapper()
@@ -52,6 +60,8 @@ final class PostDetailViewController: UITableViewController {
   
   private let input = PostDetailViewModelInput()
   
+  private let chatInput = PostDetailChatViewModelInput()
+  
   private var subscriptions = Set<AnyCancellable>()
 
   private lazy var editButton = UIButton().set {
@@ -61,14 +71,16 @@ final class PostDetailViewController: UITableViewController {
   }
   
   // MARK: - Lifecycle
-  init(viewModel: (any PostDetailViewModelable &
-                   PostDetailTableViewDataSource &
-                   PostDetailViewModelPageDelegate)
+  init(
+    viewModel: PostDetailViewModelType,
+    chatViewModel: PostDetailChatViewModelType
   ) {
     self.viewModel = viewModel
+    self.chatViewModel = chatViewModel
     super.init(style: .grouped)
     adapter = PostDetailTableViewAdapter(
       dataSource: viewModel,
+      chatDataSource: chatViewModel,
       delegate: self,
       tableView: tableView)
   }
@@ -129,7 +141,15 @@ extension PostDetailViewController: ViewBindCase {
       object: nil)
     
     let output = viewModel.transform(input)
-    output.receive(on: DispatchQueue.main)
+    output
+      .receive(on: RunLoop.current)
+      .sink { [weak self] state in
+        self?.render(state)
+      }.store(in: &subscriptions)
+    
+    let chatViewModelOutput = chatViewModel.transform(chatInput)
+    chatViewModelOutput
+      .receive(on: RunLoop.current)
       .sink { [weak self] state in
         self?.render(state)
       }.store(in: &subscriptions)
@@ -146,16 +166,35 @@ extension PostDetailViewController: ViewBindCase {
       startIndicator()
     case .viewDidLoad(let viewDidLoadState):
       handleViewDidLoadState(viewDidLoadState)
-    case .comment(let commentState):
-      handleCommentState(commentState)
-    case .nestedComment(let commentState):
-      handleNestedCommentState(commentState)
     case .postReport:
       stopIndicator()
       /// postReportNotifier, postAuthorBlockNotifier호출 완료 시점 postReport State를 전송해야 합니다.
       viewModel.showPostReportResult()
+    }
+  }
+  
+  func render(_ state: PostDetailChatViewModelState) {
+    switch state {
+    case .none:
+      break
+    case .networkProcessing:
+      startIndicator()
+    case .unexpectedError(let description):
+      stopIndicator()
+      viewModel.showAlertForError(with: description, completion: nil)
+    case .comment(let commentState):
+      handleCommentState(commentState)
+    case .nestedComment(let nestedCommentState):
+      handleNestedCommentState(nestedCommentState)
     case .keyboard(let keyboardState):
       handleKeyboardOutputState(keyboardState)
+    case .viewDidLoad(let chatViewDidLoadStream):
+      switch chatViewDidLoadStream {
+      case .reloadedCommentsWithPostFavoriteInfo(let isFavorite):
+        tableView.reloadData()
+        stopIndicator()
+        starButton.isSelected = isFavorite
+      }
     }
   }
     
@@ -169,10 +208,6 @@ extension PostDetailViewController: ViewBindCase {
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: starButton)
       }
       inputAccessory.configure(with: userProfile)
-    case .reloadedCommentsWithPostFavoriteInfo(let isFavorite):
-      tableView.reloadData()
-      stopIndicator()
-      starButton.isSelected = isFavorite
     case .naviTitleInfo((let title, let duration)):
       naviTitle.text = title
       naviDuration.text = duration
@@ -310,7 +345,7 @@ extension PostDetailViewController {
   
   // MARK: - Keyboard Actions
   @objc private func didHideKeyboard(_ notification: Notification) {
-    input.keyboardHideNotifier.send()
+    chatInput.keyboardHideNotifier.send()
   }
 }
 
@@ -403,7 +438,7 @@ extension PostDetailViewController: PostDetailReplyCellDelegate {
       viewModel.showAlertForError(with: "대댓글 옵션을 선택할 수 없습니다.\n앱 서비스에 문제가 발생했습니다.", completion: nil)
       return
     }
-    viewModel.showNestedCommentOption(indexPath: indexPath)
+    chatViewModel.showNestedCommentOption(indexPath: indexPath)
   }
   
   func didTapProfile(_ cell: UITableViewCell) {
@@ -429,7 +464,7 @@ extension PostDetailViewController: PostDetailCommentDelegate {
       viewModel.showAlertForError(with: "대댓글을 작성할 수 없습니다.\n앱 서비스에 문제가 발생됬습니다.", completion: nil)
       return
     }
-    viewModel.showCommentOption(section: section)
+    chatViewModel.showCommentOption(section: PostDetailSection(rawValue: section))
   }
   
   func didTapHeart(_ header: UITableViewHeaderFooterView, _ isOnHeart: Bool) {}
@@ -444,7 +479,7 @@ extension PostDetailViewController: PostDetailCommentDelegate {
       viewModel.showAlertForError(with: "대댓글을 작성할 수 없습니다.\n앱 서비스에 문제가 발생됬습니다.", completion: nil)
       return
     }
-    input.replyStartNotifier.send(section)
+    chatInput.replyStartNotifier.send(section)
   }
   
   func didTapProfile(_ header: UITableViewHeaderFooterView) {}
@@ -453,7 +488,7 @@ extension PostDetailViewController: PostDetailCommentDelegate {
 // MARK: - PostDetailInputAccessoryWrapperDelegate
 extension PostDetailViewController: PostDetailInputAccessoryWrapperDelegate {
   func didTouchSendIcon(_ text: String) {
-    input.commentSendHandler.send(text)
+    chatInput.commentSendHandler.send(text)
   }
 }
 
