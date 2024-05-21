@@ -17,6 +17,8 @@ final class PostDetailTableViewAdapter: NSObject {
   // MARK: - Properties
   private weak var dataSource: PostDetailTableViewDataSource?
   
+  private weak var chatDataSource: PostDetailChatDataSource?
+  
   weak var delegate: PostDetailTableViewDelegates?
   
   private let defaultSection = PostDetailSection.defaultNumberOfSections
@@ -34,11 +36,13 @@ final class PostDetailTableViewAdapter: NSObject {
   // MARK: - Lifecycle
   init(
     dataSource: PostDetailTableViewDataSource?,
+    chatDataSource: PostDetailChatDataSource?,
     delegate: PostDetailTableViewDelegates?,
     tableView: UITableView
   ) {
     super.init()
     self.dataSource = dataSource
+    self.chatDataSource = chatDataSource
     self.delegate = delegate
     tableView.dataSource = self
     tableView.delegate = self
@@ -48,11 +52,17 @@ final class PostDetailTableViewAdapter: NSObject {
 // MARK: - UITableViewDataSource
 extension PostDetailTableViewAdapter: UITableViewDataSource {
   func numberOfSections(in tableView: UITableView) -> Int {
-    return dataSource?.numberOfSections ?? 0
+    return (dataSource?.numberOfSections ?? 0) + (chatDataSource?.numberOfSections ?? 0)
   }
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return dataSource?.numberOfRows(in: section) ?? 0
+    let detailSection = PostDetailSection(rawValue: section)
+    switch detailSection {
+    case .postDescription, .postContent, .postHeartAndShareArea:
+      return dataSource?.numberOfRows(in: section) ?? 0
+    case .comments(let int):
+      return chatDataSource?.numberOfRows(in: detailSection) ?? 0
+    }
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -91,13 +101,16 @@ extension PostDetailTableViewAdapter: UITableViewDataSource {
         return cell
       }
     default:
-      guard let cell = tableView.dequeueReusableCell(
-        withIdentifier: PostDetailReplyCell.id,
-        for: indexPath
-      ) as? PostDetailReplyCell else {
+      guard
+        let cell = tableView.dequeueReusableCell(
+          withIdentifier: PostDetailReplyCell.id,
+          for: indexPath
+        ) as? PostDetailReplyCell,
+        let chatDataSource
+      else {
         return .init(frame: .zero)
       }
-      cell.configure(with: dataSource.replyItem(at: indexPath))
+      cell.configure(with: chatDataSource.replyItem(at: indexPath))
       cell.delegate = self
       return cell
     }
@@ -138,7 +151,8 @@ extension PostDetailTableViewAdapter: UITableViewDelegate {
       postHeartAreaHeader.delegate = self
       return postHeartAreaHeader
     default:
-      let cellInfo = dataSource.commentItem(in: section)
+      guard let chatDataSource else { return nil }
+      let cellInfo = chatDataSource.commentItem(in: PostDetailSection(rawValue: section))
       if cellInfo.isDeleted {
         guard let commentHeader = tableView.dequeueReusableHeaderFooterView(
           withIdentifier: PostDetailDeletedOrUnknwonCommentHeader.id
