@@ -8,6 +8,11 @@
 import Foundation
 
 protocol PostDetailChatDataSource: AnyObject {
-  func commentItem(in section: Int) -> PostCommentInfo
+  typealias NumberOfComments = Int
+  
+  func commentItem(in section: PostDetailSection) -> PostCommentInfo
   func replyItem(at indexPath: IndexPath) -> PostReplyInfo
+  
+  var numberOfSections: NumberOfComments { get }
+  func numberOfRows(in section: PostDetailSection) -> Int
 }
