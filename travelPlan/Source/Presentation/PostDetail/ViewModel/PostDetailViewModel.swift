@@ -297,13 +297,13 @@ extension PostDetailViewModel: ReviewWritingPostReceivable {
     // 이 아래꺼로 새로 작성된 post를 postDetails로 반영하고 reloadData 해주면 됩니다.
     // self.postDetails = PostMapper.toPostDetails(post, category: category)
     
-    // TODO: - firestore를 통해서 업로드한 것임으로 postId에서 데이터 받아와야합니다.
+    // FIXME: - 포스트 편집된거 줄때 카테고리도 편집될수있어서 카테고리까지 같이 줘야 합니다.
     print("DEBUG: PostDetailViewModel에서 편집된 post 객체 받음")
     if post == nil {
-      // TODO: - firestore를 통해서 업로드한 것임으로 postId에서 데이터 받아와야합니다.
+      // MARK: - firestore를 통해서 업로드한 것임으로 postId에서 데이터 받아와야합니다.
       // 받아온 후에 아래 로직으로 호출!
       // self.postDetails = PostMapper.toPostDetails(post, category: category)
-    } else {
+    } else if let post = post {
       // self.postDetails = PostMapper.toPostDetails(post, category: category)
     }
   }
