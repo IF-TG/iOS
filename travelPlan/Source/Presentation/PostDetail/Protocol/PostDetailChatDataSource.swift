@@ -8,8 +8,6 @@
 import Foundation
 
 protocol PostDetailChatDataSource: AnyObject {
-  func postContentItem(at row: Int) -> PostContentEntity
-  
   func commentItem(in section: Int) -> PostCommentInfo
   func replyItem(at indexPath: IndexPath) -> PostReplyInfo
 }
