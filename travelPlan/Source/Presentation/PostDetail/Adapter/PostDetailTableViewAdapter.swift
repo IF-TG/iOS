@@ -56,8 +56,8 @@ extension PostDetailTableViewAdapter: UITableViewDataSource {
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    let sectionType = PostDetailSection(rawValue: indexPath.section)
     guard let dataSource else { return .init(frame: .zero) }
-    let sectionType: PostDetailSection = .init(rawValue: indexPath.section) ?? .postDescription
     switch sectionType {
     case .postDescription:
       guard let cell = tableView.dequeueReusableCell(
@@ -111,14 +111,13 @@ extension PostDetailTableViewAdapter: UITableViewDelegate {
       postTitleCellMaxY = cell.frame.maxY
       isDisplyingTitleInNavi = true
     }
-    // TODO: - 서버에서 만약 댓글달았을때 에대한 bool값 있으면 배경색 파랑 -> 원래색으로 돌아오는 피그마 ui추가.
+    // TODO: - 서버에서 만약 댓글달았을때 에대한 bool값 있으면 배ㅁ경색 파랑 -> 원래색으로 돌아오는 피그마 ui추가.
+    // MARK: - 내가 댓글이나 대댓글 달았을때 적용하자. RESTFul에선 실시간으로 댓글달린거 갱신이 불가능!!
   }
   
   func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-    guard 
-      let dataSource,
-      let sectionType: PostDetailSection = .init(rawValue: section)
-    else { return nil }
+    let sectionType = PostDetailSection(rawValue: section)
+    guard let dataSource else { return nil }
     switch sectionType {
     case .postDescription:
       guard let header = tableView.dequeueReusableHeaderFooterView(
@@ -162,10 +161,8 @@ extension PostDetailTableViewAdapter: UITableViewDelegate {
   }
   
   func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-    guard
-      let dataSource,
-      let sectionType: PostDetailSection = .init(rawValue: section)
-    else { return nil }
+    let sectionType = PostDetailSection(rawValue: section)
+    guard let dataSource else { return nil }
     switch sectionType {
     case .postDescription:
       guard let footer = tableView.dequeueReusableHeaderFooterView(
@@ -191,7 +188,7 @@ extension PostDetailTableViewAdapter: UITableViewDelegate {
   }
   
   func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-    guard let sectionType: PostDetailSection = .init(rawValue: section) else { return .leastNonzeroMagnitude }
+    let sectionType = PostDetailSection(rawValue: section)
     switch sectionType {
     case .postDescription:
       return UITableView.automaticDimension
@@ -205,10 +202,8 @@ extension PostDetailTableViewAdapter: UITableViewDelegate {
   }
   
   func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-    guard 
-      let sectionType: PostDetailSection = .init(rawValue: section),
-      let dataSource
-    else { return 0 }
+    let sectionType: PostDetailSection = PostDetailSection(rawValue: section)
+    guard let dataSource else { return 0 }
     switch sectionType {
     case .postDescription,
         .postHeartAndShareArea:
@@ -226,7 +221,7 @@ extension PostDetailTableViewAdapter: UITableViewDelegate {
   }
   
   func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-    guard let sectionType: PostDetailSection = .init(rawValue: section) else { return }
+    let sectionType = PostDetailSection(rawValue: section)
     if sectionType == .postDescription {
       let header = view as? PostDetailCategoryHeaderView
       if header?.delegate != nil { return }
@@ -235,7 +230,7 @@ extension PostDetailTableViewAdapter: UITableViewDelegate {
   }
   
   func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
-    guard let sectionType: PostDetailSection = .init(rawValue: section) else { return }
+    let sectionType = PostDetailSection(rawValue: section)
     if sectionType == .postDescription {
       let footer = view as? PostDetailProfileAreaFooterView
       if footer?.delegate != nil { return }
