@@ -107,23 +107,17 @@ extension PostDetailChatViewModel: PostDetailChatViewModelPageDelegate {
   }
   
   func showCommentOption(section: PostDetailSection) {
-    // TODO: - 아.. 댓글 작성자의 id가 있어야 하지만 entity에 없습니다.
     let comment = comments[section.commentIndex]
     guard let loggedUserId = loggedInUserUseCase.id else {
       showAlertForError(with: "로그인 한 사용자만 이용 가능합니다.", completion: nil)
       return
     }
-    // TODO: - 로그인한 사용자가 작성한 댓글인지 여부에 따라 사용자 신고 기능만 추가될건지, 댓글 삭제, 수정 기능만 추가될 것인지..
-    // 만약 자신이라면, 삭제, 수정 기능
-    // 만약 타인꺼 댓글이라면 신고 기능만,,,
-    // 신고 기능 api도 없음으로 일단 자신꺼에 한정해 삭제, 수정 기능만 넣고 자신것이 아니라면 알림창으로 본인만 수정 가능하다고 보여주어야 합니다.
-    let commentUploadedUserId = loggedUserId
-    actions.showCommentOption(loggedUserId == commentUploadedUserId) { [weak self] commentOption in
+    actions.showCommentOption(loggedUserId == comment.authorId) { [weak self] commentOption in
       switch commentOption {
       case .commentDelete:
         self?.commentUseCaseNotifier.send(.delete(section))
       case .commentUpdate:
-        // MARK: - 업데이트는 로직을 isCommentUpdating 이걸 추가하면서 대댓글 작성 과 같게 로직을 짜야 합니다.
+        // TODO: - 업데이트는 로직을 isCommentUpdating 이걸 추가하면서 대댓글 작성 과 같게 로직을 짜야 합니다.
         // self?.commentUseCaseNotifier.send(.update(section))
         self?.commentEditNotifier.send(section.sectionIndex)
       case .commentUserBlock:
@@ -134,7 +128,6 @@ extension PostDetailChatViewModel: PostDetailChatViewModelPageDelegate {
   
   func showNestedCommentOption(indexPath: IndexPath) {
     let commentSectionIndex = SectionType.commentIndex(section: indexPath.section)
-    // TODO: - 아.. nestedCommentEntity에 대댓 작성한 UserId가 있어야 하지만 entity에 없습니다.
     let nestedComment = comments[commentSectionIndex].nestedComments[indexPath.row]
     
     guard let loggedUserId = loggedInUserUseCase.id else {
@@ -146,13 +139,12 @@ extension PostDetailChatViewModel: PostDetailChatViewModelPageDelegate {
     // 만약 자신이라면, 삭제, 수정 기능
     // 만약 타인꺼 댓글이라면 차단 기능만,,,
     // 신고 기능 api도 없음으로 일단 자신꺼에 한정해 삭제, 수정 기능만 넣고 자신것이 아니라면 알림창으로 보여주어야 합니다.
-    let commentUploadedUserId = loggedUserId
-    actions.showCommentOption(loggedUserId == commentUploadedUserId) { [weak self] commentOption in
+    actions.showCommentOption(loggedUserId == nestedComment.authorId) { [weak self] commentOption in
       switch commentOption {
       case .commentDelete:
         self?.nestedCommentUseCaseNotifier.send(.delete(indexPath))
       case .commentUpdate:
-        // MARK: - 업데이트는 로직을 isNestedCommentUpdating 이걸 추가하면서 대댓글 작성 과 같게 로직을 짜야 합니다.
+        // TODO: - 업데이트는 로직을 isNestedCommentUpdating 이걸 추가하면서 대댓글 작성 과 같게 로직을 짜야 합니다.
         self?.nestedCommentEditNotifier.send(indexPath)
       case .commentUserBlock:
         self?.showAlertForError(with: "대댓글 차단 기능은 다음 업데이트 때 구현될 예정입니다.", completion: nil)
