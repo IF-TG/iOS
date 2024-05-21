@@ -460,7 +460,7 @@ extension PostDetailViewController: PostDetailCommentDelegate {
   func didTapOption(_ header: UITableViewHeaderFooterView) {
     guard let section = tableView.section(
       for: header,
-      numberOfSections: viewModel.numberOfSections
+      numberOfSections: viewModel.numberOfSections + chatViewModel.numberOfSections
     ) else {
       viewModel.showAlertForError(with: "대댓글을 작성할 수 없습니다.\n앱 서비스에 문제가 발생됬습니다.", completion: nil)
       return
@@ -475,7 +475,7 @@ extension PostDetailViewController: PostDetailCommentDelegate {
   func didTapReply(_ header: UITableViewHeaderFooterView) {
     guard let section = tableView.section(
       for: header,
-      numberOfSections: viewModel.numberOfSections
+      numberOfSections: viewModel.numberOfSections + chatViewModel.numberOfSections
     ) else {
       viewModel.showAlertForError(with: "대댓글을 작성할 수 없습니다.\n앱 서비스에 문제가 발생됬습니다.", completion: nil)
       return
