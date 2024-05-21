@@ -88,10 +88,10 @@ final class PostDetailCoordinator: NSObject, FlowCoordinator {
       showAlertForError: { [weak self] message, completion in
         self?.showAlertForError(with: message, completion: completion)
       },
-      showAnAlertToAskWhetherToCancelWriting:  { [weak self] type, completion in
+      showAnAlertToAskWhetherToCancelWriting: { [weak self] type, completion in
         self?.showAnAlertToAskWhetherToCancelWriting(type: type, completion: completion)
       },
-      showCommentOption:  { [weak self] isCommentOwner, optionCallBack in
+      showCommentOption: { [weak self] isCommentOwner, optionCallBack in
         self?.showCommentOption(isCommentOwner: isCommentOwner, handler: optionCallBack)
       })
     
