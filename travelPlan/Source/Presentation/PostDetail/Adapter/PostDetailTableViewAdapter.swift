@@ -33,6 +33,10 @@ final class PostDetailTableViewAdapter: NSObject {
   
   private var isDisplyingDurationInNavi: Bool = false
   
+  var numberOfSections: Int {
+    (dataSource?.numberOfSections ?? 0) + (chatDataSource?.numberOfSections ?? 0)
+  }
+  
   // MARK: - Lifecycle
   init(
     dataSource: PostDetailTableViewDataSource?,
@@ -52,7 +56,7 @@ final class PostDetailTableViewAdapter: NSObject {
 // MARK: - UITableViewDataSource
 extension PostDetailTableViewAdapter: UITableViewDataSource {
   func numberOfSections(in tableView: UITableView) -> Int {
-    return (dataSource?.numberOfSections ?? 0) + (chatDataSource?.numberOfSections ?? 0)
+    return numberOfSections
   }
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -217,7 +221,6 @@ extension PostDetailTableViewAdapter: UITableViewDelegate {
   
   func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
     let sectionType: PostDetailSection = PostDetailSection(rawValue: section)
-    guard let dataSource else { return 0 }
     switch sectionType {
     case .postDescription,
         .postHeartAndShareArea:
@@ -225,7 +228,7 @@ extension PostDetailTableViewAdapter: UITableViewDelegate {
     case .postContent:
       return 0
     default:
-      return (dataSource.numberOfSections - defaultSection <= 0)
+      return (numberOfSections - defaultSection <= 0)
               ? .leastNonzeroMagnitude : UITableView.automaticDimension
     }
   }
