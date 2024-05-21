@@ -91,4 +91,5 @@ where Input == PostDetailChatViewModelInput,
       State == PostDetailChatViewModelState {
   typealias UserInputText = String
   typealias Section = Int
+  typealias SectionType = PostDetailSection
 }
