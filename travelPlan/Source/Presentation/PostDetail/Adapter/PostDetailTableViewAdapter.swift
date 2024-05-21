@@ -64,7 +64,7 @@ extension PostDetailTableViewAdapter: UITableViewDataSource {
     switch detailSection {
     case .postDescription, .postContent, .postHeartAndShareArea:
       return dataSource?.numberOfRows(in: section) ?? 0
-    case .comments(let int):
+    case .comments:
       return chatDataSource?.numberOfRows(in: detailSection) ?? 0
     }
   }
@@ -165,7 +165,6 @@ extension PostDetailTableViewAdapter: UITableViewDelegate {
         }
         return commentHeader
       }
-      
       guard let commentHeader = tableView.dequeueReusableHeaderFooterView(
         withIdentifier: PostDetailCommentHeader.id
       ) as? PostDetailCommentHeader else {
@@ -175,7 +174,6 @@ extension PostDetailTableViewAdapter: UITableViewDelegate {
       commentHeader.delegate = self
       return commentHeader
     }
-    
   }
   
   func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
