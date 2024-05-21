@@ -3775,7 +3775,6 @@
 			isa = PBXGroup;
 			children = (
 				15D7C48F2BAA0D5100BBD5EB /* Protocol */,
-				15D7C48E2BAA0CB500BBD5EB /* Model */,
 				15D7C48D2BAA0C7B00BBD5EB /* View */,
 				15FFAC342ADD4C990013DB57 /* Adapter */,
 				15FFAC352ADD4DED0013DB57 /* ViewModel */,
@@ -3799,20 +3798,6 @@
 				159958802B0DC57600B2E4DC /* PostCellWithFiveThumbnails.swift */,
 			);
 			path = View;
-			sourceTree = "<group>";
-		};
-		15D7C48E2BAA0CB500BBD5EB /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				15FFAC372ADD501B0013DB57 /* PostInfo.swift */,
-				15CB23652A10B7F1003EAF20 /* PostContentInfo.swift */,
-				15CB235A2A109CA4003EAF20 /* PostHeaderContentBottomInfo.swift */,
-				15CB23682A10B9CF003EAF20 /* PostFooterInfo.swift */,
-				15FFAC392ADE47910013DB57 /* PostHeaderInfo.swift */,
-				15FFAC3B2ADE50880013DB57 /* PostHeaderContentInfo.swift */,
-				152834D42BAB4DED00453DD1 /* PostViewSection.swift */,
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		15D7C48F2BAA0D5100BBD5EB /* Protocol */ = {
@@ -4200,6 +4185,13 @@
 		15FFAC352ADD4DED0013DB57 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				15FFAC372ADD501B0013DB57 /* PostInfo.swift */,
+				15CB23652A10B7F1003EAF20 /* PostContentInfo.swift */,
+				15CB235A2A109CA4003EAF20 /* PostHeaderContentBottomInfo.swift */,
+				15CB23682A10B9CF003EAF20 /* PostFooterInfo.swift */,
+				15FFAC392ADE47910013DB57 /* PostHeaderInfo.swift */,
+				15FFAC3B2ADE50880013DB57 /* PostHeaderContentInfo.swift */,
+				152834D42BAB4DED00453DD1 /* PostViewSection.swift */,
 				15CB236E2A10C314003EAF20 /* PostCellViewModel.swift */,
 				15CB23732A110FB4003EAF20 /* PostViewModel.swift */,
 			);
