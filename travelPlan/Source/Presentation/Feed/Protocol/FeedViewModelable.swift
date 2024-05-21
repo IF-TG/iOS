@@ -9,5 +9,4 @@ import Combine
 
 protocol FeedViewModelable: ViewModelable
 where Input == FeedViewModel.Input,
-      State == FeedViewModel.State,
-      Output == AnyPublisher<State, FeedViewModel.ErrorType> { }
+      State == FeedViewModel.State { }
