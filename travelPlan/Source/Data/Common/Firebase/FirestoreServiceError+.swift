@@ -18,4 +18,3 @@ extension FirestoreServiceError {
     return self
   }
 }
-

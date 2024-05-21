@@ -7,14 +7,8 @@
 
 import UIKit
 import SHCoordinator
-import Alamofire
 import Combine
-
-// protocol MyInformationCoordinatorDelegate: FlowCoordinatorDelegate {
-//  func showConfirmationAlertPage()
-//  func showBottomSheetAlbum()
-//  func showAlertForError(with description: String, completion: (() -> Void)?)
-// }
+import SHFirestoreService
 
 final class MyInformationCoordinator: FlowCoordinator {
   var parent: FlowCoordinator?
@@ -26,28 +20,32 @@ final class MyInformationCoordinator: FlowCoordinator {
   
   var alubmImageChoiceSubscription: AnyCancellable?
   
+  private let profileImageMemoryCache = ImageMemoryCache()
+  
   init(presenter: UINavigationController?) {
     self.presenter = presenter
   }
   
   func start() {
-    let sessionConfiguration = URLSessionConfiguration.default
-    sessionConfiguration.timeoutIntervalForRequest = 5
-    let monitor = ClosureEventMonitor()
-    monitor.requestDidResume = { request in print("MyInformationVC task 요청 시자그!: \(request)") }
-    monitor.requestDidFinish = { request in print("MyInformationVC 요청 끝: \(request)") }
-    monitor.taskDidComplete = { _, _, error in
-      if let error = error {
-        print("Task completed with error: \(error)")
-      } else {
-        print("Task completed successfully")
-      }
-    }
-    // let session = Session(configuration: sessionConfiguration, eventMonitors: [monitor])
-    let mockMyProfileUseCase = MockMyProfileUseCase()
+    let firestoreService = FirestoreService()
+    let firebaseStorageService = FirebaseStorageService()
     let stubOwnerStorage = StubOwnerStorage()
     let loggedInUserRepository = DefaultLoggedInUserRepository(storage: stubOwnerStorage)
     let loggedInUserUseCase = DefaultLoggedInUserUseCase(loggedInUserRepository: loggedInUserRepository)
+    
+    let userProfileSettingRepository = FirestoreUserProfileSettingRepository(
+      service: firestoreService,
+      firebaseStorageService: firebaseStorageService,
+      ownerStorage: stubOwnerStorage)
+    let userProfileImageSettingUseCase = DefaultUserProfileImageSettingUseCase(
+      userProfileSettingRepository: userProfileSettingRepository)
+    
+    let userNicknameSettingUseCase = DefaultUserNicknameSettingUseCase(
+      userProfileSettingRepository: userProfileSettingRepository)
+    
+    let nicknameValidationUseCase = DefaultNicknameValidationUseCase(
+      userProfileSettingRepository: userProfileSettingRepository,
+      ownerStorage: stubOwnerStorage)
     
     let actions = MyInformationViewModelActions { [weak self] in
       self?.showConfirmationAlertPage()
@@ -62,7 +60,9 @@ final class MyInformationCoordinator: FlowCoordinator {
     }
 
     let viewModel = MyInformationViewModel(
-      myProfileUseCase: mockMyProfileUseCase,
+      userNicknameSettingUseCase: userNicknameSettingUseCase,
+      userProfileImageSettingUseCase: userProfileImageSettingUseCase,
+      nicknameValidationUseCase: nicknameValidationUseCase,
       loggedInUserUseCase: loggedInUserUseCase,
       actions: actions)
     let viewController = MyInformationViewController(viewModel: viewModel)

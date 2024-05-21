@@ -29,6 +29,9 @@ protocol OwnerStorage {
   func updateNickname(with nickname: String) -> Bool
   
   @discardableResult
+  func updateProfileImagePath(with imagePath: String) -> Bool
+  
+  @discardableResult
   func updateProfileImageData(with data: Data) -> Bool
   
   @discardableResult

@@ -8,49 +8,11 @@
 import Foundation
 import Combine
 
-// MARK: - Error
-enum MyInforMationViewModelError: LocalizedError {
-  case unknown(description: String)
-  case userInformationNotFound(description: String)
-  case connectionError(ConnectionError)
-  
-  var errorDescription: String? {
-    switch self {
-    case .unknown(let description):
-      NSLocalizedString(description, comment: "")
-    case .userInformationNotFound(let description):
-      NSLocalizedString(description, comment: "")
-    case .connectionError(let connectionError):
-      connectionError.localizedDescription
-    }
-  }
-}
-
-// MARK: - Extension
-private extension Publisher {
-  func mapViewModelError<E>(
-    _ transform: @escaping (Self.Failure) -> E
-  ) -> Publishers.MapError<Self, MyInforMationViewModelError> {
-    return self.mapError { error -> MyInforMationViewModelError in
-      if let useCaseError = error as? MyProfileUseCaseError {
-        return switch useCaseError {
-        case .invalidUserId:
-          MyInforMationViewModelError.userInformationNotFound(description: useCaseError.localizedDescription)
-        case .networkError(let connectionError):
-          MyInforMationViewModelError.connectionError(connectionError)
-        case .unknown(let errorDescription):
-          MyInforMationViewModelError.unknown(description: errorDescription)
-        }
-      }
-      return MyInforMationViewModelError.unknown(description: error.localizedDescription)
-    }
-  }
-}
-
-// MARK: - MyInformationViewModel
 final class MyInformationViewModel {  
   // MARK: - Dependencies
-  private let myProfileUseCase: MyProfileUseCase
+  private let userNicknameSettingUseCase: UserNicknameSettingUseCase
+  private let userProfileImageSettingUseCase: UserProfileImageSettingUseCase
+  private let nicknameValidationUseCase: NicknameValidationUseCase
   private let loggedInUserUseCase: LoggedInUserUseCase
   private let actions: MyInformationViewModelActions
   
@@ -69,17 +31,20 @@ final class MyInformationViewModel {
   private let updatedNicknameNotifier = PassthroughSubject<Bool?, Never>()
   private let updatedProfileNotifier = PassthroughSubject<Bool?, Never>()
   private let nicknameUpdateSubject = PassthroughSubject<String, Never>()
-  private let duplicatedNicknameCheckSubject = PassthroughSubject<String, Never>()
   private let profileUpdateSubject = PassthroughSubject<Data, Never>()
   private let profileSaveSubject = PassthroughSubject<Data, Never>()
 
   // MARK: - Lifecycle
   init(
-    myProfileUseCase: MyProfileUseCase,
+    userNicknameSettingUseCase: UserNicknameSettingUseCase,
+    userProfileImageSettingUseCase: UserProfileImageSettingUseCase,
+    nicknameValidationUseCase: NicknameValidationUseCase,
     loggedInUserUseCase: LoggedInUserUseCase,
     actions: MyInformationViewModelActions
   ) {
-    self.myProfileUseCase = myProfileUseCase
+    self.userNicknameSettingUseCase = userNicknameSettingUseCase
+    self.userProfileImageSettingUseCase = userProfileImageSettingUseCase
+    self.nicknameValidationUseCase = nicknameValidationUseCase
     self.loggedInUserUseCase = loggedInUserUseCase
     self.actions = actions
     bothNameAndProfileUpdatedPublisher = Publishers.Zip(
@@ -93,7 +58,6 @@ extension MyInformationViewModel: MyInformationViewModelable {
   func transform(_ input: Input) -> Output {
     return Publishers.MergeMany([
       viewDidLoadStream(input),
-      checkDuplicatedUserNameStream(),
       selectProfileStream(input: input),
       tapStoreButtonStream(input: input),
       hasBothNameAndProfileUpdatedStream(),
@@ -122,54 +86,36 @@ private extension MyInformationViewModel {
   
   func updateNicknameSubjectStream() -> Output {
     return nicknameUpdateSubject
-      .flatMap { [weak self] nickname in
-        self?.editedUserNickname = nickname
-      return self?.myProfileUseCase.updateNickname(with: nickname)
-          .mapViewModelError { $0 }
-        .map { [weak self] result in
-          if self?.isProcessingBothNameAndProfile == true {
-            self?.updatedNicknameNotifier.send(result)
-            return .none
-          }
-          if result {
-            self?.changedNameAvailable = false
-            self?.saveNicknameInOwnerUseCase(nickname)
-          }
-          return result ? .correctionSaved : .correctionNotSaved
-        }.catch { [weak self] error in
-          self?.updatedNicknameNotifier.send(nil)
-          return Just(State.unexpectedError(description: error.errorDescription ?? "앱 동작 에러가 발생됬습니다."))
-            .eraseToAnyPublisher()
+      .flatMap { [weak self] nickname -> Output in
+        guard let self else {
+          return Just(State.unexpectedError(
+            description: ReferenceError.invalidReference.localizedDescription)
+          ).eraseToAnyPublisher()
         }
-        .eraseToAnyPublisher() ?? Just(
-          State.unexpectedError(description: "앱 동작 에러가 발생됬습니다.")).eraseToAnyPublisher()
-    }
-    .eraseToAnyPublisher()
+        editedUserNickname = nickname
+        return userNicknameSettingUseCase
+          .updateNickname(with: nickname)
+          .map { [weak self] result -> State in
+            if self?.isProcessingBothNameAndProfile == true {
+              self?.updatedNicknameNotifier.send(result)
+              return .none
+            }
+            if result {
+              self?.changedNameAvailable = false
+              self?.saveNicknameInOwnerUseCase(nickname)
+            }
+            return result ? .correctionSaved : .correctionNotSaved
+          }.catch { [weak self] error -> Output in
+            self?.updatedNicknameNotifier.send(nil)
+            return Just(.unexpectedError(description: error.localizedDescription)).eraseToAnyPublisher()
+          }.eraseToAnyPublisher()
+    }.eraseToAnyPublisher()
   }
   
   func selectProfileStream(input: Input) -> Output {
     return input.profileSelect.map { [weak self] base64Image -> State in
       self?.editedUserProfileImage = base64Image
       return .none
-    }.eraseToAnyPublisher()
-  }
-  
-  func checkDuplicatedUserNameStream() -> Output {
-    duplicatedNicknameCheckSubject.flatMap { [weak self] nickname in
-      return self?.myProfileUseCase.checkIfNicknameDuplicate(with: nickname)
-        .mapViewModelError { $0 }
-        .map { [weak self] isNicknameDuplicated -> State in
-          self?.changedNameAvailable = !isNicknameDuplicated
-          if isNicknameDuplicated {
-            self?.editedUserNickname = nil
-          }
-          return .nicknameState(isNicknameDuplicated ? .duplicated : .available)
-        }.catch { error in
-          return Just(State.unexpectedError(description: error.localizedDescription))
-            .eraseToAnyPublisher()
-        }.eraseToAnyPublisher() ?? Just(
-          .unexpectedError(description: "앱 내부 참조 에러가 발생됬습니다.")
-        ).eraseToAnyPublisher()
     }.eraseToAnyPublisher()
   }
   
@@ -183,10 +129,9 @@ private extension MyInformationViewModel {
           self?.nicknameUpdateSubject.send(nickname)
         }
         if let image = self?.editedUserProfileImage {
-          /// userDefaults에 사용자의 프로필이 서버에 저장되어있는지 최초 확인해야합니다.
-          /// 최초로 저장되어있다면, 그 다음부터는 update를 통해서만 (delete -> save) 서버에 추가해야한다고 합니다.
-          /// 맨 처음 가입해서 들어올떄 자동으로 최초 한번 기본이미지 저장하는게 편할것 같습니다...
-          if self?.myProfileUseCase.isProfileSavedInServer == true {
+          // MARK: 서버에 사용자 이미지가 저장되어있지 않다면, save를 통해 저장해야 합니다.
+          // 사용자 이미지가 저장됬다면 update or delete -> save를 호출해야합니다.
+          if self?.loggedInUserUseCase.hasProfileImageSavedInServer == true {
             self?.profileUpdateSubject.send(image)
           } else {
             self?.profileSaveSubject.send(image)
@@ -198,8 +143,7 @@ private extension MyInformationViewModel {
   
   func updateProfileStream() -> Output {
     profileUpdateSubject.flatMap { [weak self] imageData -> Output in
-      return self?.myProfileUseCase.updateProfileImageData(with: imageData)
-        .mapViewModelError { $0 }
+      return self?.userProfileImageSettingUseCase.updateProfileImageData(with: imageData)
         .map { [weak self] result -> State in
           if self?.isProcessingBothNameAndProfile == true {
             self?.updatedProfileNotifier.send(result)
@@ -221,8 +165,7 @@ private extension MyInformationViewModel {
   
   func saveProfileStream() -> Output {
     profileSaveSubject.flatMap { [weak self] imageData -> Output in
-      return self?.myProfileUseCase.saveProfileImageData(with: imageData)
-        .mapViewModelError { $0 }
+      return self?.userProfileImageSettingUseCase.saveProfileImageData(with: imageData)
         .map { [weak self] result -> State in
           if self?.isProcessingBothNameAndProfile == true {
             self?.updatedProfileNotifier.send(result)
@@ -283,32 +226,30 @@ private extension MyInformationViewModel {
   func inputNicknameStream(input: Input) -> Output {
     return input.revisedNicknameInput
       .debounce(for: 0.3, scheduler: DispatchQueue.main)
-      .map { [weak self] editedNickname -> State in
-        let isNicknameAvailable = (3...15).contains(editedNickname.count)
-        let isNicknameWithinMinimumRange = (0...2).contains(editedNickname.count) || editedNickname.isEmpty
-        
-        guard let loggedInUserNickname = self?.ownerEntity?.nickname else {
-          return .unexpectedError(description: "로그인한 사용자의 정보가 일치하지 않습니다. 잠시 후 다시 시도해주세요.")
-        }
-        if editedNickname == loggedInUserNickname {
-          return .nicknameState(.default)
+      .flatMap { [weak self] editedNickname -> Output in
+        guard let self else {
+          return Just(State.unexpectedError(
+            description: ReferenceError.invalidReference.localizedDescription)
+          ).eraseToAnyPublisher()
         }
         
-        if isNicknameAvailable {
-          self?.editedUserNickname = editedNickname
-          // TODO: - activityIndicator로 리빌딩 해야합니다. 아니면 processing 반환 scope에서 다른 퍼블리셔에 send할때 백그라운드에서 호출하도록 변경해야합니다.
-          DispatchQueue.global(qos: .background).async {
-            self?.duplicatedNicknameCheckSubject.send(editedNickname)
+        return nicknameValidationUseCase
+          .validateNickname(editedNickname)
+          .map { [weak self] nicknameValidateState -> State in
+            if nicknameValidateState == .duplicated {
+              self?.editedUserNickname = nil
+            }
+            return .nicknameState(nicknameValidateState)
           }
-          return .networkProcessing
-        }
-        if isNicknameWithinMinimumRange {
-          return .nicknameState(.underflow)
-        }
-        if editedNickname.count > 15 {
-          return .nicknameState(.overflow)
-        }
-        return .none
+          .catch { error -> Output in
+            var state: State
+            if error.isInvalidOwnerNickname {
+              state = State.unexpectedError(description: error.localizedDescription)
+            } else {
+              state = State.unexpectedError(description: "예기치 못한 에러가 발생됬습니다. \(error.localizedDescription)")
+            }
+            return Just(state).eraseToAnyPublisher()
+          }.eraseToAnyPublisher()
       }.eraseToAnyPublisher()
   }
   

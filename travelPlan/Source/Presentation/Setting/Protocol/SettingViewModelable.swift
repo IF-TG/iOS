@@ -28,7 +28,9 @@ struct SettingViewModelInput {
 }
 
 @frozen enum SettingViewModelState {
-  case viewDidLoad((String?, Data?))
+  typealias OwnerNickname = String
+  typealias OwnerProfileImageData = Data
+  case viewDidLoad((OwnerNickname?, OwnerProfileImageData?))
 }
 
 protocol SettingViewModelable: ViewModelable

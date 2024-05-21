@@ -69,7 +69,6 @@ extension TourApiSessionProvider: Sessionable {
 
 // MARK: - Private Helpers
 extension TourApiSessionProvider {
-  // TODO: - 로그 남기기 (컨텍스트, 타입 등)
   private func handleDecodingError<R: Decodable>(
     _ error: Swift.DecodingError,
     from data: Data,

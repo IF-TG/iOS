@@ -20,7 +20,7 @@ final class DefaultUserProfileRepository: UserProfileRepository {
     self.service = service
   }
   
-  func fetchProfileImageData(with userId: String) -> AnyPublisher<ProfileImageData?, Error> {
+  func fetchProfileImageData(with userId: String) -> AnyPublisher<ProfileImageEntity, Error> {
     return Future { [weak self] promise in
       guard let self, let id = Int64(userId) else {
         promise(.failure(ReferenceError.invalidReference))
@@ -43,7 +43,7 @@ final class DefaultUserProfileRepository: UserProfileRepository {
             return
           }
           let entity = responseDTO.result.toDomain(with: imageData)
-          promise(.success(entity.image))
+          promise(.success(entity))
         }.store(in: &subscriptions)
     }.eraseToAnyPublisher()
   }

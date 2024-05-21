@@ -19,6 +19,7 @@ extension UserProfileResponseDTO {
     return .init(
       id: uid,
       nickname: nickname,
+      profileImageUrl: profileImagePath,
       profileImageData: profileData,
       isSavedProfileInServer: profileData != nil)
   }

@@ -129,19 +129,13 @@ extension FirestoreRequestType {
   }
   
   @frozen enum UserDocument {
+    typealias OwnerId = String
     case fetchUserProfile(String)
     case saveUserProfile
-    //    case updateProfileImage
-    //    case updateName
-    //    case updateProfileImage
-    //    case saveProfileImage
-    //    case deleteProfileImageData
-    //    case fetchProfileImage
-    //
-    //    case checkIfNameDuplicate
-    //    case updateName
-    //    case fetchAllUsers
-    //    case deleteUser(String)
+    case updateProfileImage(OwnerId)
+    case updateName(OwnerId)
+    case deleteProfileImagePath(OwnerId)
+    case isNameDuplicated
     case blockedUsersCollection(String, BlockedUserCollection)
     
     var docuemntPath: String? {
@@ -155,6 +149,14 @@ extension FirestoreRequestType {
           return subDocumentPath
         }
         return nil
+      case .isNameDuplicated:
+        return nil
+      case .updateName(let ownerId):
+        return ownerId
+      case .updateProfileImage(let ownerId):
+        return ownerId
+      case .deleteProfileImagePath(let ownerId):
+        return ownerId
       }
     }
     
@@ -166,6 +168,14 @@ extension FirestoreRequestType {
         return nil
       case .blockedUsersCollection(let uid, let blockedUserCollection):
         return "/\(uid)\(blockedUserCollection.collectionPath)"
+      case .isNameDuplicated:
+        return nil
+      case .updateName:
+        return nil
+      case .updateProfileImage:
+        return nil
+      case .deleteProfileImagePath:
+        return nil
       }
     }
   }
