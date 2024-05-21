@@ -202,12 +202,9 @@ extension SearchMoreDetailViewController {
   
   private func registerCell(in collectionView: UICollectionView) {
     switch type {
-    case .festival, .camping:
+    case .festival, .leports:
       collectionView.register(TravelDestinationCell.self,
                               forCellWithReuseIdentifier: TravelDestinationCell.id)
-    case .topTen:
-      collectionView.register(SearchTopTenCell.self, 
-                              forCellWithReuseIdentifier: SearchTopTenCell.id)
     }
   }
 }
@@ -241,24 +238,14 @@ extension SearchMoreDetailViewController: UICollectionViewDataSource {
   ) -> UICollectionViewCell {
 
     switch type {
-    case .festival, .camping:
+    case .festival, .leports:
       guard let cell = collectionView.dequeueReusableCell(
         withReuseIdentifier: TravelDestinationCell.id,
         for: indexPath
       ) as? TravelDestinationCell else { return .init() }
-      guard let cellViewModels = self.viewModel.travelDestinationCellViewModels else { return .init() }
+      guard let itemInfos = self.viewModel.itemInfos else { return .init() }
       
-      cell.configure(with: cellViewModels[indexPath.item])
-      return cell
-      
-    case .topTen:
-      guard let cell = collectionView.dequeueReusableCell(
-        withReuseIdentifier: SearchTopTenCell.id,
-        for: indexPath
-      ) as? SearchTopTenCell else { return .init() }
-      guard let cellViewModels = self.viewModel.topTenCellViewModels else { return .init() }
-      
-      cell.configure(with: cellViewModels[indexPath.item])
+      cell.configure(with: itemInfos[indexPath.item])
       return cell
     }
   }
