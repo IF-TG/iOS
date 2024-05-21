@@ -29,6 +29,7 @@ struct PostDetailChatViewModelActions {
 struct PostDetailChatViewModelInput {
   typealias UserInputText = String
   
+  let viewDidLoad = PassthroughSubject<Void, Never>()
   let keyboardHideNotifier = PassthroughSubject<Void, Never>()
   let commentSendHandler = PassthroughSubject<UserInputText, Never>()
   let replyStartNotifier = PassthroughSubject<Int, Never>()
@@ -43,6 +44,7 @@ struct PostDetailChatViewModelInput {
   case comment(PostDetailCommentState)
   
   case keyboard(PostDetailKeyboardState)
+  case viewDidLoad(PostDetailChatViewDidLoadStream)
 }
 
 @frozen enum PostDetailKeyboardState {
@@ -56,6 +58,10 @@ struct PostDetailChatViewModelInput {
   case hideToWritingCancel
   /// 댓글 작성, 댓, 대댓 편집 진행
   case writingContinue
+}
+
+@frozen enum PostDetailChatViewDidLoadStream {
+  case reloadedCommentsWithPostFavoriteInfo(Bool)
 }
 
 @frozen enum PostDetailNestedCommentState {
