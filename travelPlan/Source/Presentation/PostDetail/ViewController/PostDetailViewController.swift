@@ -93,13 +93,13 @@ final class PostDetailViewController: UITableViewController {
     super.loadView()
     setTableView()
     registerReusableViews()
+    bind()
   }
   
   override func viewDidLoad() {
     super.viewDidLoad()
     configureUI()
     inputAccessory.delegate = self
-    bind()
     input.viewDidLoad.send()
     chatInput.viewDidLoad.send()
   }
