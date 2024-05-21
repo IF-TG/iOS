@@ -11,7 +11,6 @@ import Combine
 final class PostDetailViewModel {
   typealias SectionType = PostDetailSection
 
-  
   // MARK: - Dependencies
   private let postFetchUsecase: PostFetchUseCase
   
@@ -39,9 +38,6 @@ final class PostDetailViewModel {
   private let actions: PostDetailViewModelActions?
   
   private var postReportResultOption: PostDetailOption? = .none
-  
-  // TODO: - PostDetails, post중복됨
-  private var post: Post?
   
   // MARK: - Lifecycle
   init(
@@ -135,19 +131,15 @@ extension PostDetailViewModel: PostDetailViewModelPageDelegate {
 
 // MARK: - PostDetailViewModelable
 extension PostDetailViewModel: PostDetailViewModelable {
-  
   func transform(_ input: PostDetailViewModelInput) -> AnyPublisher<PostDetailViewModelState, Never> {
     return Publishers.MergeMany([
       viewDidLoadStream(input),
       navigationInfoStream(),
-      
       loggedInUserUseCaseHandlerStream(),
-
       postReportNotifierStream(),
       postAuthorBlockNotifierStream(),
       postReportHandlerStream(),
-      postAuthorBlockHandlerStream(),
-
+      postAuthorBlockHandlerStream()
     ]).eraseToAnyPublisher()
   }
 }
@@ -177,17 +169,16 @@ private extension PostDetailViewModel {
   
   func loggedInUserUseCaseHandlerStream() -> Output {
     loggedInUserUseCaseHandler.map { [weak self] _ -> State in
-      guard let profileImageData = self?.loggedInUserUseCase.profileImageData else {
-        // 로그인한 사용자의 프로필 확인x.. (맨 처음에 로그인할때 기본 이미지 지정하는게 베스트)
-        return .unexpectedError(description: "로그인한 사용자의 프로필 이미지가 없습니다.")
+      /// 로그인한 사용자라면 아이디가 반드시 로컬에 저장되야 합니다.
+      guard
+        let loggedUserId = self?.loggedInUserUseCase.id,
+        let postAuthorId = self?.postDetails.author.authorId
+      else {
+        return .unexpectedError(description: "로그인한 사용자의 아이디가 없습니다.")
       }
-      // TODO: - 포스트에 포스트 작성 저자와 비교해야 합니다. Server에는 포스트에 아직 author id가 없음으로 패스..
-      guard let loggedUserId = self?.loggedInUserUseCase.id else {
-        // 로그인한 사용자의 프로필 확인x.. (맨 처음에 로그인할때 기본 이미지 지정하는게 베스트)
-        return .unexpectedError(description: "로그인한 사용자의 프로필 이미지가 없습니다.")
-      }
-      // 비교로직.postDetails.Author..
-      return .viewDidLoad(.loggedInUserInfo(userProfile: profileImageData, isPostOwner: true))
+      return .viewDidLoad(.loggedInUserInfo(
+        userProfile: self?.loggedInUserUseCase.profileImageData,
+        isPostOwner: postAuthorId == loggedUserId))
     }.eraseToAnyPublisher()
   }
   
@@ -303,11 +294,17 @@ extension PostDetailViewModel: PostDetailTableViewDataSource {
 extension PostDetailViewModel: ReviewWritingPostReceivable {
   func receive(post: Post?) {
     // TODO: - 편집한 리뷰작성 Post를 기반으로 화면을 갱신해야 합니다.
+    // 이 아래꺼로 새로 작성된 post를 postDetails로 반영하고 reloadData 해주면 됩니다.
+    // self.postDetails = PostMapper.toPostDetails(post, category: category)
+    
+    // TODO: - firestore를 통해서 업로드한 것임으로 postId에서 데이터 받아와야합니다.
     print("DEBUG: PostDetailViewModel에서 편집된 post 객체 받음")
     if post == nil {
       // TODO: - firestore를 통해서 업로드한 것임으로 postId에서 데이터 받아와야합니다.
+      // 받아온 후에 아래 로직으로 호출!
+      // self.postDetails = PostMapper.toPostDetails(post, category: category)
     } else {
-      self.post = post
+      // self.postDetails = PostMapper.toPostDetails(post, category: category)
     }
   }
 }
