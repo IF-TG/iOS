@@ -8,33 +8,6 @@
 import Foundation
 import Combine
 
-enum PostDetailSection: Int {
-  case postDescription
-  case postContent
-  case postHeartAndShareArea
-  /// 2 이상부터는 comments가 있습니다.
-  case comments
-  
-  init?(rawValue: Int) {
-    switch rawValue {
-    case 0:
-      self = .postDescription
-    case 1:
-      self = .postContent
-    case 2:
-      self = .postHeartAndShareArea
-    default:
-      self = .comments
-    }
-  }
-  
-  static let defaultNumberOfSections = 3
-  
-  static func commentIndex(section: Int) -> Int {
-    section - defaultNumberOfSections
-  }
-}
-
 final class PostDetailViewModel {
   typealias SectionType = PostDetailSection
   
