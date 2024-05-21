@@ -101,6 +101,7 @@ final class PostDetailViewController: UITableViewController {
     inputAccessory.delegate = self
     bind()
     input.viewDidLoad.send()
+    chatInput.viewDidLoad.send()
   }
   
   override func viewDidAppear(_ animated: Bool) {
