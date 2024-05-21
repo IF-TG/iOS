@@ -259,7 +259,7 @@ extension PostDetailViewController: ViewBindCase {
       UITableView.performWithoutAnimation {
         /// 특정 행만 제거하기 때문에 데이터 소스에서 제거 후 아래 함수 호출하는게 베스트지만, 아래 함수 이외에 다른 행들도 첫번째 대댓글인지 여부에 따라 태그가 추가되야 합니다.
         /// tableView.deleteRows(at: [indexPath], with: .top)
-        tableView.reloadSections(IndexSet(integer: indexPath.section), with: .top)
+        tableView.reloadSections(IndexSet(integer: indexPath.section), with: .none)
       }
       stopIndicator()
     case .reloadWhenLastNestedCommentDelete(let indexPath):
