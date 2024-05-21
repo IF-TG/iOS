@@ -13,7 +13,7 @@ final class PostDetailChatViewModel {
   @frozen fileprivate enum CommentUseCaseInput {
     case send(PostDetailChatViewModelable.UserInputText)
     case edit(PostDetailChatViewModelable.UserInputText)
-    case delete(PostDetailChatViewModelable.Section)
+    case delete(PostDetailSection)
   }
   
   @frozen fileprivate enum NestedCommentUseCaseInput {
@@ -108,7 +108,7 @@ extension PostDetailChatViewModel: PostDetailChatViewModelPageDelegate {
   
   func showCommentOption(section: PostDetailSection) {
     // TODO: - 아.. 댓글 작성자의 id가 있어야 하지만 entity에 없습니다.
-    let comment = comments[section.sectionIndex]
+    let comment = comments[section.commentIndex]
     guard let loggedUserId = loggedInUserUseCase.id else {
       showAlertForError(with: "로그인 한 사용자만 이용 가능합니다.", completion: nil)
       return
@@ -121,7 +121,7 @@ extension PostDetailChatViewModel: PostDetailChatViewModelPageDelegate {
     actions.showCommentOption(loggedUserId == commentUploadedUserId) { [weak self] commentOption in
       switch commentOption {
       case .commentDelete:
-        self?.commentUseCaseNotifier.send(.delete(section.sectionIndex))
+        self?.commentUseCaseNotifier.send(.delete(section))
       case .commentUpdate:
         // MARK: - 업데이트는 로직을 isCommentUpdating 이걸 추가하면서 대댓글 작성 과 같게 로직을 짜야 합니다.
         // self?.commentUseCaseNotifier.send(.update(section))
@@ -133,9 +133,9 @@ extension PostDetailChatViewModel: PostDetailChatViewModelPageDelegate {
   }
   
   func showNestedCommentOption(indexPath: IndexPath) {
-    let commentSection = SectionType.commentIndex(section: indexPath.section)
+    let commentSectionIndex = SectionType.commentIndex(section: indexPath.section)
     // TODO: - 아.. nestedCommentEntity에 대댓 작성한 UserId가 있어야 하지만 entity에 없습니다.
-    let nestedComment = comments[commentSection].nestedComments[indexPath.row]
+    let nestedComment = comments[commentSectionIndex].nestedComments[indexPath.row]
     
     guard let loggedUserId = loggedInUserUseCase.id else {
       showAlertForError(with: "로그인 한 사용자만 이용 가능합니다.", completion: nil)
@@ -395,28 +395,27 @@ private extension PostDetailChatViewModel {
       }.eraseToAnyPublisher()
   }
   
-  func deleteCommentStream(with section: Section) -> Output {
+  func deleteCommentStream(with section: PostDetailSection) -> Output {
     /// 포스트는 섹션 \(PostDetailSectionType.defaultNumberOfSections)부터 시작합니다.
-    let commentSection = SectionType.commentIndex(section: section)
-    let commentId = comments[commentSection].commentId
+    let commentId = comments[section.commentIndex].commentId
     return postCommentUseCase
       .deleteComment(postId: postId, commentId: commentId)
       .map { [weak self] result -> State in
         if result {
-          self?.comments[commentSection].isDeleted = result
+          self?.comments[section.commentIndex].isDeleted = result
           
-          guard let nestedCommentCount = self?.comments[commentSection].nestedComments.count else {
+          guard let nestedCommentCount = self?.comments[section.commentIndex].nestedComments.count else {
             return .unexpectedError(description: "댓글이 삭제되지 않았습니다.")
           }
           
           /// 대댓글 있는 경우
           if nestedCommentCount > 0 {
-            return .comment(.reloadWithNestedCommentsWhenCommentDelete(section))
+            return .comment(.reloadWithNestedCommentsWhenCommentDelete(section.sectionIndex))
           }
           
           /// 대댓글 없는 경우
-          self?.comments.remove(at: commentSection)
-          return .comment(.reloadWhenCommentDelete(section))
+          self?.comments.remove(at: section.commentIndex)
+          return .comment(.reloadWhenCommentDelete(section.sectionIndex))
         }
         return .unexpectedError(description: "서버에서 에러가 발생되 댓글이 삭제되지 않았습니다.")
       }.catch { error in
@@ -468,10 +467,10 @@ private extension PostDetailChatViewModel {
   // MARK: 삭제된건 더이상 댓글 못달도록 UI 반영해야합니다!
   func deleteNestedCommentStream(with indexPath: IndexPath) -> Output {
     /// 포스트는 섹션 \(PostDetailSectionType.defaultNumberOfSections)부터 시작합니다.
-    let commentSection = SectionType.commentIndex(section: indexPath.section)
-    let nestedCommentId = comments[commentSection].nestedComments[indexPath.row].nestedCommentId
-    let commentId = comments[commentSection].commentId
-    let hasDeletedComment = comments[commentSection].isDeleted
+    let commentSectionIndex = SectionType.commentIndex(section: indexPath.section)
+    let nestedCommentId = comments[commentSectionIndex].nestedComments[indexPath.row].nestedCommentId
+    let commentId = comments[commentSectionIndex].commentId
+    let hasDeletedComment = comments[commentSectionIndex].isDeleted
     return postNestedCommentUseCase
       .deleteNestedComment(
         postId: postId,
@@ -480,7 +479,17 @@ private extension PostDetailChatViewModel {
         hasDeletedComment: hasDeletedComment)
       .map { [weak self] deletedNestedCommentState -> State in
         /// 대댓글 제거
-        self?.comments[commentSection].nestedComments.remove(at: indexPath.row)
+        self?.comments[commentSectionIndex].nestedComments.remove(at: indexPath.row)
+        
+        // TODO: - 이 로직은 서버에서 대댓글제거할때 마지막 대댓글인지 확인해야하는데, 스프링에선 대댓글 제거만으로 알 수 없습니다.
+        /// 그래서 임시적으로 이곳에서 작업합니다.
+        /// 서버에서 현재 대댓글 개수가 몇 개인지 알수있는 api있으면 더 확실하게 좋을거같습니다.
+        /// 현재 대댓글 개수 
+        if self?.comments[commentSectionIndex].nestedComments.count == 0 && hasDeletedComment {
+          self?.comments.remove(at: commentSectionIndex)
+          /// 테이블뷰에 실제로 특정 셀 제거 후 리로드 명령은 실제 indexPath로 해야합니다.
+          return .nestedComment(.reloadWhenLastNestedCommentDelete(indexPath))
+        }
         
         switch deletedNestedCommentState {
         case .justANestedCommentDeleted:
@@ -488,7 +497,7 @@ private extension PostDetailChatViewModel {
           
           /// 마지막 대댓글과 댓글도 제거된 경우
         case .ACommentAndAllNestedCommentsDeleted:
-          self?.comments.remove(at: commentSection)
+          self?.comments.remove(at: commentSectionIndex)
           /// 테이블뷰에 실제로 특정 셀 제거 후 리로드 명령은 실제 indexPath로 해야합니다.
           return .nestedComment(.reloadWhenLastNestedCommentDelete(indexPath))
         }
