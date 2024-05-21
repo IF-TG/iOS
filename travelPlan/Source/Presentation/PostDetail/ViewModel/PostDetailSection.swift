@@ -7,6 +7,8 @@
 
 import Foundation
 
+/// PostDetailSection의 rawValue는 뷰 계층에서 사용됩니다.
+/// PostDetailSection의 commentIndex or commentIndex(section:)은 Comment Entity에 접근할 때 사용됩니다.
 @frozen enum PostDetailSection {
   /// 0
   case postDescription
