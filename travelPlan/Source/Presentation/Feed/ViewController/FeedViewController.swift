@@ -58,15 +58,11 @@ final class FeedViewController: UIViewController {
     }.eraseToAnyPublisher()
   }
   
-  // MARK: - LifeCycle
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    input.appear.send()
-  }
-  
+  // MARK: - LifeCycle  
   override func viewDidLoad() {
     super.viewDidLoad()
     configureUI()
+    input.appear.send()
   }
   
   init(
