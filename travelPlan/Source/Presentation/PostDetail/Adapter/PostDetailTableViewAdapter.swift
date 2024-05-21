@@ -129,7 +129,7 @@ extension PostDetailTableViewAdapter: UITableViewDelegate {
       isDisplyingTitleInNavi = true
     }
     // TODO: - 서버에서 만약 댓글달았을때 에대한 bool값 있으면 배ㅁ경색 파랑 -> 원래색으로 돌아오는 피그마 ui추가.
-    // MARK: - 내가 댓글이나 대댓글 달았을때 적용하자. RESTFul에선 실시간으로 댓글달린거 갱신이 불가능!!
+    // MARK: - 내가 댓글이나 대댓글 달았을때 적용하자. RESTFul에선 실시간으로 댓글달린거 갱신이 불가능!! 내가단거 한정으로!!
   }
   
   func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -144,8 +144,7 @@ extension PostDetailTableViewAdapter: UITableViewDelegate {
       }
       header.configure(with: dataSource.cateogry)
       return header
-    case .postContent:
-      return nil
+    case .postContent: return nil
     case .postHeartAndShareArea:
       guard let postHeartAreaHeader = tableView.dequeueReusableHeaderFooterView(
         withIdentifier: PostHeartAndShareAreaHeaderView.id
