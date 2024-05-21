@@ -16,5 +16,6 @@ protocol PostDetailTableViewDataSource: AnyObject {
   
   var authorUserId: Int32 { get }
   
+  func postContentItem(at row: Int) -> PostContentEntity
   func numberOfRows(in section: Int) -> Int
 }
