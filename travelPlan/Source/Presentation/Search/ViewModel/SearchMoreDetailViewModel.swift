@@ -1,5 +1,5 @@
 //
-//  DefaultSearchMoreDetailViewModel.swift
+//  SearchMoreDetailViewModel.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 2023/09/16.
@@ -8,38 +8,31 @@
 import Foundation
 import Combine
 
+protocol SearchMoreDetailViewModel: ViewModelable
+where Input == SearchMoreDetailViewModelInput,
+      State == SearchMoreDetailViewModelState,
+      Output == AnyPublisher<State, Never>
+{ }
 
+struct SearchMoreDetailViewModelInput {
+  let viewDidLoad: PassthroughSubject<SearchSectionType, Never> = .init()
+  let didSelectItem: PassthroughSubject<IndexPath, Never> = .init()
+}
+
+enum SearchMoreDetailViewModelState {
+  case setNavigationTitle(title: String?)
+  case showDetail
+  case reloadItems(IndexPath)
+}
 
 final class DefaultSearchMoreDetailViewModel {
-  typealias Output = AnyPublisher<State, ErrorType>
-  
-  struct Input {
-    let viewDidLoad: PassthroughSubject<SearchSectionType, Never>
-    let didSelectItem: PassthroughSubject<IndexPath, Never>
-    
-    init(viewDidLoad: PassthroughSubject<SearchSectionType, Never> = .init(),
-         didSelectItem: PassthroughSubject<IndexPath, Never> = .init()
-    ) {
-      self.viewDidLoad = viewDidLoad
-      self.didSelectItem = didSelectItem
-    }
-  }
-  enum State {
-    case setNavigationTitle(title: String?)
-    case showDetail
-  }
-  enum ErrorType: Error {
-    case none
-    case unexpected
-  }
-  
   // MARK: - Properties
   private(set) var headerInfo: SearchDetailHeaderInfo?
   private(set) var itemInfos: [TravelDestinationItemInfo]?
 }
 
 // MARK: - ViewModelCase
-extension DefaultSearchMoreDetailViewModel: ViewModelCase {
+extension DefaultSearchMoreDetailViewModel: SearchMoreDetailViewModel {
   func transform(_ input: Input) -> Output {
     return Publishers.MergeMany(
       viewDidLoadStream(input),
@@ -54,7 +47,6 @@ extension DefaultSearchMoreDetailViewModel: ViewModelCase {
         let title = self?.navigationTitle()
         return .setNavigationTitle(title: title)
       }
-      .setFailureType(to: ErrorType.self)
       .eraseToAnyPublisher()
   }
   
@@ -65,7 +57,6 @@ extension DefaultSearchMoreDetailViewModel: ViewModelCase {
         print("DEBUG: [\(indexPath.section)], [\(indexPath.item)] clicked")
         return State.showDetail
       }
-      .setFailureType(to: ErrorType.self)
       .eraseToAnyPublisher()
   }
 }
