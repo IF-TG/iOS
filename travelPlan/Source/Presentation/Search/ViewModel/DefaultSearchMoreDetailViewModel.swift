@@ -1,5 +1,5 @@
 //
-//  SearchMoreDetailViewModel.swift
+//  DefaultSearchMoreDetailViewModel.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 2023/09/16.
@@ -8,7 +8,9 @@
 import Foundation
 import Combine
 
-final class SearchMoreDetailViewModel {
+
+
+final class DefaultSearchMoreDetailViewModel {
   typealias Output = AnyPublisher<State, ErrorType>
   
   struct Input {
@@ -37,7 +39,7 @@ final class SearchMoreDetailViewModel {
 }
 
 // MARK: - ViewModelCase
-extension SearchMoreDetailViewModel: ViewModelCase {
+extension DefaultSearchMoreDetailViewModel: ViewModelCase {
   func transform(_ input: Input) -> Output {
     return Publishers.MergeMany(
       viewDidLoadStream(input),
@@ -72,7 +74,7 @@ extension SearchMoreDetailViewModel: ViewModelCase {
 import UIKit
 
 // MARK: - Private Helpers
-extension SearchMoreDetailViewModel {
+extension DefaultSearchMoreDetailViewModel {
   private func fetchData(type: SearchSectionType) {
     switch type {
     case .festival:
@@ -115,7 +117,7 @@ extension SearchMoreDetailViewModel {
 }
 
 // MARK: - Helpers
-extension SearchMoreDetailViewModel {
+extension DefaultSearchMoreDetailViewModel {
   func numberOfItems(type: SearchSectionType) -> Int {
     switch type {
     case .festival, .leports:

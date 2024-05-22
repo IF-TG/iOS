@@ -34,7 +34,7 @@ class SearchMoreDetailViewController: UIViewController {
   
   // MARK: - Properties
   weak var coordinator: SearchMoreDetailCoordinatorDelegate?
-  private let viewModel = SearchMoreDetailViewModel()
+  private let viewModel = DefaultSearchMoreDetailViewModel()
   private let appearance = UINavigationBarAppearance()
   private let compositionalLayoutManager: CompositionalLayoutCreatable = SearchMoreDetailLayoutManager()
   private lazy var compositionalLayout = compositionalLayoutManager.makeLayout()
@@ -127,9 +127,9 @@ class SearchMoreDetailViewController: UIViewController {
 }
 
 extension SearchMoreDetailViewController: ViewBindCase {
-  typealias Input = SearchMoreDetailViewModel.Input
-  typealias ErrorType = SearchMoreDetailViewModel.ErrorType
-  typealias State = SearchMoreDetailViewModel.State
+  typealias Input = DefaultSearchMoreDetailViewModel.Input
+  typealias ErrorType = DefaultSearchMoreDetailViewModel.ErrorType
+  typealias State = DefaultSearchMoreDetailViewModel.State
   
   func bind() {
     let output = viewModel.transform(input)
@@ -148,7 +148,7 @@ extension SearchMoreDetailViewController: ViewBindCase {
       .store(in: &subscriptions)
   }
   
-  func render(_ state: SearchMoreDetailViewModel.State) {
+  func render(_ state: DefaultSearchMoreDetailViewModel.State) {
     switch state {
     case .showDetail:
       print("DEBUG: 다음 화면으로 전환합니다.")
@@ -158,7 +158,7 @@ extension SearchMoreDetailViewController: ViewBindCase {
     }
   }
   
-  func handleError(_ error: SearchMoreDetailViewModel.ErrorType) {
+  func handleError(_ error: DefaultSearchMoreDetailViewModel.ErrorType) {
     switch error {
     case .unexpected:
       print("DEBUG: unexpected error")
