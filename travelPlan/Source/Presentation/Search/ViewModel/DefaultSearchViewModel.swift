@@ -18,7 +18,7 @@ struct SearchViewModelInput {
   let viewDidLoad: PassthroughSubject<Void, Never> = .init()
   let didTapView: PassthroughSubject<Void, Never> = .init()
   let didTapSearchButton: PassthroughSubject<String, Never> = .init()
-  let didTapStarButton: PassthroughSubject<Void, Never> = .init()
+  let didTapStarButton: PassthroughSubject<IndexPath, Never> = .init()
   let didTaplookingMoreButton: PassthroughSubject<Int, Never> = .init()
 }
 
@@ -28,6 +28,7 @@ enum SearchViewModelState {
   case gotoSearch
   case none
   case showSearchMoreDetail(_ sectionType: SearchSectionType)
+  case reloadItems(IndexPath)
 }
 
 final class DefaultSearchViewModel {
@@ -81,9 +82,12 @@ extension DefaultSearchViewModel: SearchViewModel {
   
   private func didTapStarButtonStream(_ input: Input) -> Output {
     return input.didTapStarButton
-      .map {
-        print("star 버튼 눌림")
-        return State.none
+      .flatMap { [weak self] indexPath in
+        guard let self = self else {
+          return Just(State.none).eraseToAnyPublisher()
+        }
+        return self.saveButtonState(indexPath: indexPath)
+          .eraseToAnyPublisher()
       }
       .eraseToAnyPublisher()
   }
@@ -113,15 +117,13 @@ extension DefaultSearchViewModel {
   }
 }
 
-// TODO: - import 지우기
+// TODO: - imageData를 사용하기 위해 잠시 import UIKit을 사용함.. usecase 완성되면 지울 예정
 import UIKit
 
 // MARK: - Private Helpers
 extension DefaultSearchViewModel {
   private func fetchData() {
     // 네트워크 요청을 수행해서 데이터를 가져옵니다.
-//    let festivalModels = SearchFestivalModel.mockModels
-//    let festivalCellViewModels = festivalModels.map { SearchFestivalCellViewModel(model: $0) }
     let festivalHeader = "베스트 축제 🎡"
     let image = UIImage(named: "tempThumbnail1")!
     let imageData = image.jpegData(compressionQuality: 1.0)!
@@ -140,7 +142,7 @@ extension DefaultSearchViewModel {
       place: "수상 스키",
       category: "레포츠",
       location: "강원도 동해",
-      isSelectedButton: false,
+      isButtonSelected: false,
       imageData: imageData,
       id: 123
     )
@@ -150,5 +152,35 @@ extension DefaultSearchViewModel {
         headerTitle: letportsHeader
       )
     )
+  }
+  
+  /// 서버에 저장 요청.
+  /// 성공 시 UI 변환, 실패 시, 변화 없음
+  private func saveButtonState(indexPath: IndexPath) -> AnyPublisher<State, Never> {
+    // TODO: - id값을 통해 서버에 데이터 저장을 요청하고, 성공 시 하트버튼의 색깔을 변경해야 합니다.
+    return Future { promise in
+      // fake network. 추후 네트워크 통신 이후, promise로 값을 방출해야 합니다.
+      DispatchQueue.global().asyncAfter(wallDeadline: .now() + 0.5) { [weak self] in
+        DispatchQueue.main.async {
+          print("DEBUG: FakeNetwork 통신 성공!")
+          guard let self = self else {
+            promise(.success(.none))
+            return
+          }
+          
+          switch self.dataSource[indexPath.section].itemType {
+          case .festival(var infos):
+            infos[indexPath.item].isSelectedButton.toggle()
+            self.dataSource[indexPath.section].itemType = .festival(infos)
+            
+          case .leports(var infos):
+            infos[indexPath.item].isButtonSelected.toggle()
+            self.dataSource[indexPath.section].itemType = .leports(infos)
+          }
+          promise(.success(.reloadItems(indexPath)))
+        }
+      }
+    }
+    .eraseToAnyPublisher()
   }
 }
