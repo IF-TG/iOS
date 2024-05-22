@@ -17,12 +17,14 @@ where Input == SearchMoreDetailViewModelInput,
 struct SearchMoreDetailViewModelInput {
   let viewDidLoad: PassthroughSubject<SearchSectionType, Never> = .init()
   let didSelectItem: PassthroughSubject<IndexPath, Never> = .init()
+  let didTapStarButton: PassthroughSubject<IndexPath, Never> = .init()
 }
 
 enum SearchMoreDetailViewModelState {
   case setNavigationTitle(title: String?)
   case showDetail
   case reloadItems(IndexPath)
+  case none
 }
 
 final class DefaultSearchMoreDetailViewModel {
@@ -36,7 +38,8 @@ extension DefaultSearchMoreDetailViewModel: SearchMoreDetailViewModel {
   func transform(_ input: Input) -> Output {
     return Publishers.MergeMany(
       viewDidLoadStream(input),
-      didSelecetItemStream(input)
+      didSelecetItemStream(input),
+      didTapStarButtonStream(input)
     ).eraseToAnyPublisher()
   }
   
@@ -56,6 +59,18 @@ extension DefaultSearchMoreDetailViewModel: SearchMoreDetailViewModel {
         // TODO: - 해당 item을 기반으로 상세페이지로 이동합니다.
         print("DEBUG: [\(indexPath.section)], [\(indexPath.item)] clicked")
         return State.showDetail
+      }
+      .eraseToAnyPublisher()
+  }
+  
+  private func didTapStarButtonStream(_ input: Input) -> Output {
+    return input.didTapStarButton
+      .flatMap { [weak self] indexPath in
+        guard let self = self else {
+          return Just(State.none).eraseToAnyPublisher()
+        }
+        return self.saveButtonState(indexPath: indexPath)
+          .eraseToAnyPublisher()
       }
       .eraseToAnyPublisher()
   }
@@ -104,6 +119,24 @@ extension DefaultSearchMoreDetailViewModel {
   
   private func navigationTitle() -> String? {
     return headerInfo?.title
+  }
+  
+  private func saveButtonState(indexPath: IndexPath) -> AnyPublisher<State, Never> {
+    // TODO: - id값을 통해 서버에 데이터 저장을 요청하고, 성공 시 하트버튼의 색깔을 변경해야 합니다.
+    return Future { promise in
+      // fake network. 추후 네트워크 통신 이후, promise로 값을 방출해야 합니다.
+      DispatchQueue.global().asyncAfter(wallDeadline: .now() + 0.5) { [weak self] in
+        DispatchQueue.main.async {
+          guard let self = self else {
+            promise(.success(.none))
+            return
+          }
+          self.itemInfos?[indexPath.item].isButtonSelected.toggle()
+          promise(.success(.reloadItems(indexPath)))
+        }
+      }
+    }
+    .eraseToAnyPublisher()
   }
 }
 

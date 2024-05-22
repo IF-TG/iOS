@@ -93,7 +93,7 @@ class SearchMoreDetailViewController: UIViewController {
   
   private let type: SearchSectionType
   
-  private let input = Input()
+  private let input = SearchMoreDetailViewModelInput()
   
   private var subscriptions = Set<AnyCancellable>()
   
@@ -126,44 +126,29 @@ class SearchMoreDetailViewController: UIViewController {
   }
 }
 
-extension SearchMoreDetailViewController: ViewBindCase {
-  typealias Input = DefaultSearchMoreDetailViewModel.Input
-  typealias ErrorType = DefaultSearchMoreDetailViewModel.ErrorType
-  typealias State = DefaultSearchMoreDetailViewModel.State
-  
-  func bind() {
-    let output = viewModel.transform(input)
-    output
+// MARK: - Bind
+extension SearchMoreDetailViewController {
+  private func bind() {
+    viewModel.transform(input)
       .receive(on: RunLoop.main)
-      .sink { [weak self] result in
-        switch result {
-        case .failure(let error):
-          self?.handleError(error)
-        case .finished:
-          print("finished \(Self.self)")
-        }
-      } receiveValue: { [weak self] in
+      .sink { [weak self] in
         self?.render($0)
       }
       .store(in: &subscriptions)
   }
   
-  func render(_ state: DefaultSearchMoreDetailViewModel.State) {
+  func render(_ state: SearchMoreDetailViewModelState) {
     switch state {
     case .showDetail:
       print("DEBUG: 다음 화면으로 전환합니다.")
     case let .setNavigationTitle(title):
       navigationTitleLabel.text = title
       setupBaseNavigationTitleView(titleViewType: .custom(customView: navigationTitleLabel))
-    }
-  }
-  
-  func handleError(_ error: DefaultSearchMoreDetailViewModel.ErrorType) {
-    switch error {
-    case .unexpected:
-      print("DEBUG: unexpected error")
+    case .reloadItems(let indexPath):
+      let indexPath = IndexPath(item: indexPath.item, section: indexPath.section)
+      collectionView.reloadItems(at: [indexPath])
     case .none:
-      break
+      return
     }
   }
 }
@@ -246,6 +231,7 @@ extension SearchMoreDetailViewController: UICollectionViewDataSource {
       guard let itemInfos = self.viewModel.itemInfos else { return .init() }
       
       cell.configure(with: itemInfos[indexPath.item])
+      cell.bind(to: input.didTapStarButton, indexPath: indexPath)
       return cell
     }
   }
