@@ -113,7 +113,7 @@ extension BaseDestinationView {
     guard let imageData = imageData, let image = UIImage(data: imageData)
     else { thumbnailImageView.image = UIImage(named: "tempProfile4"); return }
     
-    thumbnailImageView.image = UIImage(data: imageData)
+    thumbnailImageView.image = image
   }
 }
 
