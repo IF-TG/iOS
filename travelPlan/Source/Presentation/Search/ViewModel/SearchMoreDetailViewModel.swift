@@ -32,8 +32,6 @@ final class SearchMoreDetailViewModel {
   }
   
   // MARK: - Properties
-  /// festival, camping이 해당 프로퍼티를 공통으로 사용합니다.
-//  private(set) var travelDestinationCellViewModels: [TravelDestinationCellViewModel]?
   private(set) var headerInfo: SearchDetailHeaderInfo?
   private(set) var itemInfos: [TravelDestinationItemInfo]?
 }
@@ -70,7 +68,7 @@ extension SearchMoreDetailViewModel: ViewModelCase {
   }
 }
 
-// TODO: - import 지우기
+// TODO: - imageData를 사용하기 위해 잠시 import UIKit을 사용함.. usecase 완성되면 지울 예정
 import UIKit
 
 // MARK: - Private Helpers
@@ -89,11 +87,11 @@ extension SearchMoreDetailViewModel {
     let imageData = image.jpegData(compressionQuality: 1.0)!
     
     self.itemInfos = [
-      TravelDestinationItemInfo(place: "축제 타이틀", category: "축제", location: "24.01.01~24.02.10", isSelectedButton: false, imageData: imageData, id: 12345456),
-      TravelDestinationItemInfo(place: "축제 타이틀", category: "축제", location: "24.01.01~24.02.10", isSelectedButton: false, imageData: imageData, id: 12345456),
-      TravelDestinationItemInfo(place: "축제 타이틀", category: "축제", location: "24.01.01~24.02.10", isSelectedButton: false, imageData: imageData, id: 12345456),
-      TravelDestinationItemInfo(place: "축제 타이틀", category: "축제", location: "24.01.01~24.02.10", isSelectedButton: false, imageData: imageData, id: 12345456),
-      TravelDestinationItemInfo(place: "축제 타이틀", category: "축제", location: "24.01.01~24.02.10", isSelectedButton: false, imageData: imageData, id: 12345456)
+      TravelDestinationItemInfo(place: "축제 타이틀", category: "축제", location: "24.01.01~24.02.10", isButtonSelected: false, imageData: imageData, id: 12345456),
+      TravelDestinationItemInfo(place: "축제 타이틀", category: "축제", location: "24.01.01~24.02.10", isButtonSelected: false, imageData: imageData, id: 12345456),
+      TravelDestinationItemInfo(place: "축제 타이틀", category: "축제", location: "24.01.01~24.02.10", isButtonSelected: false, imageData: imageData, id: 12345456),
+      TravelDestinationItemInfo(place: "축제 타이틀", category: "축제", location: "24.01.01~24.02.10", isButtonSelected: false, imageData: imageData, id: 12345456),
+      TravelDestinationItemInfo(place: "축제 타이틀", category: "축제", location: "24.01.01~24.02.10", isButtonSelected: false, imageData: imageData, id: 12345456)
     ]
     self.headerInfo = SearchDetailHeaderInfo.festivalMock
   }
@@ -103,28 +101,13 @@ extension SearchMoreDetailViewModel {
     let imageData = image.jpegData(compressionQuality: 1.0)!
     
     self.itemInfos = [
-      TravelDestinationItemInfo(place: "레포츠 타이틀", category: "레포츠", location: "강원도 ~~~", isSelectedButton: false, imageData: imageData, id: 12344),
-      TravelDestinationItemInfo(place: "레포츠 타이틀", category: "레포츠", location: "강원도 ~~~", isSelectedButton: false, imageData: imageData, id: 12344),
-      TravelDestinationItemInfo(place: "레포츠 타이틀", category: "레포츠", location: "강원도 ~~~", isSelectedButton: false, imageData: imageData, id: 12344),
-      TravelDestinationItemInfo(place: "레포츠 타이틀", category: "레포츠", location: "강원도 ~~~", isSelectedButton: false, imageData: imageData, id: 12344),
-      TravelDestinationItemInfo(place: "레포츠 타이틀", category: "레포츠", location: "강원도 ~~~", isSelectedButton: false, imageData: imageData, id: 12344)
+      TravelDestinationItemInfo(place: "레포츠 타이틀", category: "레포츠", location: "강원도 ~~~", isButtonSelected: false, imageData: imageData, id: 12344),
+      TravelDestinationItemInfo(place: "레포츠 타이틀", category: "레포츠", location: "강원도 ~~~", isButtonSelected: false, imageData: imageData, id: 12344),
+      TravelDestinationItemInfo(place: "레포츠 타이틀", category: "레포츠", location: "강원도 ~~~", isButtonSelected: false, imageData: imageData, id: 12344),
+      TravelDestinationItemInfo(place: "레포츠 타이틀", category: "레포츠", location: "강원도 ~~~", isButtonSelected: false, imageData: imageData, id: 12344),
+      TravelDestinationItemInfo(place: "레포츠 타이틀", category: "레포츠", location: "강원도 ~~~", isButtonSelected: false, imageData: imageData, id: 12344)
     ]
   }
-  
-//  private func fetchCampingModel() {
-//    let models = SearchCampingModel.mockModels.map {
-//      TravelDestinationModel(id: $0.id,
-//                             imagePath: $0.imagePath,
-//                             place: $0.place,
-//                             secondText: $0.category,
-//                             thirdText: $0.location,
-//                             isSelectedButton: $0.isSelectedButton)
-//    }
-//    let cellViewModels = models.map { TravelDestinationCellViewModel(model: $0) }
-//    self.travelDestinationCellViewModels = .init()
-//    _ = cellViewModels.map { self.travelDestinationCellViewModels?.append($0) }
-//    self.headerInfo = SearchDetailHeaderInfo.campingMock
-//  }
   
   private func navigationTitle() -> String? {
     return headerInfo?.title
