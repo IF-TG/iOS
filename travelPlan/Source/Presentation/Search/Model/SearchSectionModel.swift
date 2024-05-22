@@ -8,12 +8,15 @@
 import Foundation
 
 struct SearchSectionModel {
-  let itemType: SearchItemType
+  var itemType: SearchItemType
   let headerTitle: String
 }
 
 enum SearchItemType {
-  case festival([SearchFestivalCellViewModel])
-  case camping([TravelDestinationCellViewModel])
-  case topTen([SearchTopTenCellViewModel])
+  
+  case festival([SearchFestivalItemInfo])
+//  case camping([TravelDestinationItemInfo])
+//  case cultureFacility
+  case leports([TravelDestinationItemInfo])
+//  case sessionalRecommendation
 }

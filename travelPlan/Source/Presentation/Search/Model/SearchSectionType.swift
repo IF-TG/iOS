@@ -10,6 +10,6 @@ import Foundation
 /// 해당 Type에 따라 SearchMoreDetail 데이터가 결정됩니다.
 enum SearchSectionType: Int {
   case festival
-  case camping
-  case topTen
+//  case camping
+  case leports
 }
