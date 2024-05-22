@@ -48,15 +48,6 @@ final class SearchFestivalCell: UICollectionViewCell {
   }
   
   // MARK: - Properties
-//  private var viewModel: SearchFestivalCellViewModel? {
-//    didSet {
-//      bind()
-//    }
-//  }
-  
-//  private lazy var input = Input()
-  private var subscriptions = Set<AnyCancellable>()
-  
   static var id: String {
     return String(describing: self)
   }
@@ -84,11 +75,7 @@ final class SearchFestivalCell: UICollectionViewCell {
     $0.addTarget(self, action: #selector(didTapStarButton), for: .touchUpInside)
   }
   
-  private let starButtonTapped = PassthroughSubject<Void, Never>()
-  
-  var starButtonPublisher: AnyPublisher<Void, Never> {
-    return starButtonTapped.eraseToAnyPublisher()
-  }
+  private let buttonTapPublisher = PassthroughSubject<Void, Never>()
   
   private let festivalLabel: UILabel = .init().set {
     $0.font = UIFont(pretendard: .bold_700(fontSize: Constants.FestivalLabel.fontSize))
@@ -111,6 +98,8 @@ final class SearchFestivalCell: UICollectionViewCell {
     }
   }
   
+  private var cancellable: AnyCancellable?
+  
   // MARK: - LifeCycle
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -126,68 +115,20 @@ final class SearchFestivalCell: UICollectionViewCell {
     thumbnailImageView.image = nil
     periodLabel.text = nil
     festivalLabel.text = nil
-    subscriptions.removeAll()
+    starButton.isSelected = false
   }
 }
 
 // MARK: - Actions
 extension SearchFestivalCell {
   @objc private func didTapStarButton() {
-    starButtonTapped.send()
+    buttonTapPublisher.send()
   }
 }
-
-// MARK: - ViewBindCase
-//extension SearchFestivalCell: ViewBindCase {
-////  typealias Input = SearchFestivalCellViewModel.Input
-////  typealias ErrorType = SearchFestivalCellViewModel.ErrorType
-////  typealias State = SearchFestivalCellViewModel.State
-//  
-//  internal func bind() {
-//    guard let viewModel = self.viewModel else { return }
-//    
-//    let output = viewModel.transform(input)
-//    output
-//      .receive(on: RunLoop.main)
-//      .sink { [weak self] completion in
-//        switch completion {
-//        case .finished:
-//          print("DEBUG: finished SearchBestFestivalCell")
-//        case .failure(let error):
-//          self?.handleError(error)
-//        }
-//      } receiveValue: { [weak self] in
-//        self?.render($0)
-//      }
-//      .store(in: &subscriptions)
-//  }
-//  
-//  internal func render(_ state: State) {
-//    switch state {
-//    case .changeButtonColor:
-//      // networkFIXME: - 서버의 저장에 따라 하트버튼 색의 UI를 변경해야합니다.
-//      starButton.isSelected.toggle()
-//    case .none: break
-//    }
-//  }
-//  
-//  internal func handleError(_ error: ErrorType) {
-//    switch error {
-//    case .fatalError:
-//      print("DEBUG: Error fatalError in SeachBestFestivalCell")
-//    case .unexpected:
-//      print("DEBUG: Error unexpected in SeachBestFestivalCell")
-//    case .networkError:
-//      print("DEBUG: Error networkError in SeachBestFestivalCell")
-//    }
-//  }
-//}
 
 // MARK: - Configure
 extension SearchFestivalCell {
   func configure(with info: SearchFestivalItemInfo) {
-//    self.viewModel = info
-    
     festivalLabel.text = info.title
     periodLabel.text = info.period
     starButton.isSelected = info.isSelectedButton
@@ -198,6 +139,15 @@ extension SearchFestivalCell {
     } else {
       thumbnailImageView.image = UIImage(named: "tempThumbnail7")
     }
+  }
+  
+  func bind(to publisher: PassthroughSubject<IndexPath, Never>, indexPath: IndexPath) {
+    cancellable?.cancel()
+    cancellable = buttonTapPublisher
+      .receive(on: RunLoop.main)
+      .sink {
+        publisher.send(indexPath)
+      }
   }
 }
 
