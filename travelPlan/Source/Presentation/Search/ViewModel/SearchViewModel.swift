@@ -10,8 +10,7 @@ import Combine
 
 protocol SearchViewModel: ViewModelable
 where Input == SearchViewModelInput,
-      State == SearchViewModelState,
-      Output == AnyPublisher<State, Never> { }
+      State == SearchViewModelState { }
 
 // MARK: - Input
 struct SearchViewModelInput {

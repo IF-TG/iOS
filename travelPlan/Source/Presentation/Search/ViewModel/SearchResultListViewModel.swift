@@ -10,8 +10,7 @@ import Combine
 
 protocol SearchResultListViewModel: ViewModelable
 where Input == SearchResultListViewModelInput,
-      State == SearchResultListViewModelState,
-      Output == AnyPublisher<State, Never> { }
+      State == SearchResultListViewModelState { }
 
 struct SearchResultListViewModelInput {
   let viewDidLoad: PassthroughSubject<Void, Never> = .init()
