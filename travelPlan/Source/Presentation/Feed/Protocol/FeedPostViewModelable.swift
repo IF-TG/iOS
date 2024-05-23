@@ -26,7 +26,7 @@ struct FeedPostViewModelInput {
   }
 }
 
-enum FeedPostViewModelState {
+@frozen enum FeedPostViewModelState {
   case viewDidLoad
   case refresh
   case pagination(FeedPostViewModelPaginationState)
@@ -39,7 +39,7 @@ enum FeedPostViewModelState {
   case none
 }
 
-enum FeedPostViewModelPaginationState {
+@frozen enum FeedPostViewModelPaginationState {
   case nextPage(reloadCompletion: () -> Void)
   case loadingNextPage
   case noMorePage
