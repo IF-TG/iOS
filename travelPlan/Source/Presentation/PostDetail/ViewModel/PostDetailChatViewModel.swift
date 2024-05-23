@@ -29,7 +29,7 @@ final class PostDetailChatViewModel {
   
   private let postNestedCommentUseCase: PostNestedCommentUseCase
   
-  private let loggedInUserUseCase: LoggedInUserUseCase
+  private let ownerRepository: LoggedInUserRepository
   
   // MARK: - Properties
   private let postId: String
@@ -88,14 +88,14 @@ final class PostDetailChatViewModel {
     postCommentsAndPostLikeStateFetchUseCase: PostCommentsAndPostLikeStateFetchUseCase,
     postCommentUseCase: PostCommentUseCase,
     postNestedCommentUseCase: PostNestedCommentUseCase,
-    loggedInUserUseCase: LoggedInUserUseCase,
+    ownerRepository: LoggedInUserRepository,
     actions: PostDetailChatViewModelActions
   ) {
     self.postId = postId
     self.postCommentsAndPostLikeStateFetchUseCase = postCommentsAndPostLikeStateFetchUseCase
     self.postCommentUseCase = postCommentUseCase
     self.postNestedCommentUseCase = postNestedCommentUseCase
-    self.loggedInUserUseCase = loggedInUserUseCase
+    self.ownerRepository = ownerRepository
     self.actions = actions
   }
 }
@@ -108,11 +108,11 @@ extension PostDetailChatViewModel: PostDetailChatViewModelPageDelegate {
   
   func showCommentOption(section: PostDetailSection) {
     let comment = comments[section.commentIndex]
-    guard let loggedUserId = loggedInUserUseCase.id else {
+    guard let ownerId = ownerRepository.id else {
       showAlertForError(with: "로그인 한 사용자만 이용 가능합니다.", completion: nil)
       return
     }
-    actions.showCommentOption(loggedUserId == comment.authorId) { [weak self] commentOption in
+    actions.showCommentOption(ownerId == comment.authorId) { [weak self] commentOption in
       switch commentOption {
       case .commentDelete:
         self?.commentUseCaseNotifier.send(.delete(section))
@@ -130,7 +130,7 @@ extension PostDetailChatViewModel: PostDetailChatViewModelPageDelegate {
     let commentSectionIndex = SectionType.commentIndex(section: indexPath.section)
     let nestedComment = comments[commentSectionIndex].nestedComments[indexPath.row]
     
-    guard let loggedUserId = loggedInUserUseCase.id else {
+    guard let ownerId = ownerRepository.id else {
       showAlertForError(with: "로그인 한 사용자만 이용 가능합니다.", completion: nil)
       return
     }
@@ -139,7 +139,7 @@ extension PostDetailChatViewModel: PostDetailChatViewModelPageDelegate {
     // 만약 자신이라면, 삭제, 수정 기능
     // 만약 타인꺼 댓글이라면 차단 기능만,,,
     // 신고 기능 api도 없음으로 일단 자신꺼에 한정해 삭제, 수정 기능만 넣고 자신것이 아니라면 알림창으로 보여주어야 합니다.
-    actions.showCommentOption(loggedUserId == nestedComment.authorId) { [weak self] commentOption in
+    actions.showCommentOption(ownerId == nestedComment.authorId) { [weak self] commentOption in
       switch commentOption {
       case .commentDelete:
         self?.nestedCommentUseCaseNotifier.send(.delete(indexPath))

@@ -57,19 +57,11 @@ final class PostDetailCoordinator: NSObject, FlowCoordinator {
     let defaultPostCommetnsAndPostLikeStateFetchUseCase = DefaultPostCommentsAndPostLikeStateFetchUseCase(
       postRepository: mockPostRepository)
     
-    let mockPostCommentRepository = MockPostCommentRepository()
-    let postCommentUseCase = DefaultPostCommentUseCase(postCommentRepository: mockPostCommentRepository)
-    
-    let stubOwnerStorage = StubOwnerStorage()
-    let loggedInUserRepository = DefaultLoggedInUserRepository(storage: stubOwnerStorage)
-    let loggedInUserUseCase = DefaultLoggedInUserUseCase(loggedInUserRepository: loggedInUserRepository)
-    
-    let mockPostNestedCommentRepository = MockPostNestedCommentRepository()
+    let postCommentUseCase = DefaultPostCommentUseCase(postCommentRepository: MockPostCommentRepository())
+    let loggedInUserRepository = DefaultLoggedInUserRepository(storage: StubOwnerStorage())
     let postNestedCommentUseCase = DefaultPostNestedCommentUseCase(
-      postNestedCommentRepository: mockPostNestedCommentRepository)
-    
-    let mockUserBlockRepository = MockWrappedUserBlockRepository()
-    let userBlockUseCase = DefaultUserBlockUseCase(userBlockRepository: mockUserBlockRepository)
+      postNestedCommentRepository: MockPostNestedCommentRepository())
+    let userBlockUseCase = DefaultUserBlockUseCase(userBlockRepository: MockWrappedUserBlockRepository())
     
     let actions = PostDetailViewModelActions(
       showAlertForError: { [weak self] message, completion in
@@ -99,7 +91,7 @@ final class PostDetailCoordinator: NSObject, FlowCoordinator {
       post: post,
       category: category,
       postFetchUsecase: defaultPostFetchUseCase,
-      loggedInUserUseCase: loggedInUserUseCase,
+      ownerRepository: loggedInUserRepository,
       userBlockUseCase: userBlockUseCase,
       actions: actions)
     
@@ -108,7 +100,7 @@ final class PostDetailCoordinator: NSObject, FlowCoordinator {
       postCommentsAndPostLikeStateFetchUseCase: defaultPostCommetnsAndPostLikeStateFetchUseCase,
       postCommentUseCase: postCommentUseCase,
       postNestedCommentUseCase: postNestedCommentUseCase,
-      loggedInUserUseCase: loggedInUserUseCase,
+      ownerRepository: loggedInUserRepository,
       actions: chatActions)
     postDetailViewController = PostDetailViewController(
       viewModel: postDetailVM,
