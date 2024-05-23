@@ -14,7 +14,7 @@ final class PostDetailViewModel {
   // MARK: - Dependencies
   private let postFetchUsecase: PostFetchUseCase
   
-  private let loggedInUserUseCase: LoggedInUserUseCase
+  private let ownerRepository: LoggedInUserRepository
   
   private let userBlockUseCase: UserBlockUseCase
   
@@ -44,13 +44,13 @@ final class PostDetailViewModel {
     post: Post,
     category: Post.Category,
     postFetchUsecase: PostFetchUseCase,
-    loggedInUserUseCase: LoggedInUserUseCase,
+    ownerRepository: LoggedInUserRepository,
     userBlockUseCase: UserBlockUseCase,
     actions: PostDetailViewModelActions?
   ) {
     self.postDetails = PostMapper.toPostDetails(post, category: category)
     self.postFetchUsecase = postFetchUsecase
-    self.loggedInUserUseCase = loggedInUserUseCase
+    self.ownerRepository = ownerRepository
     self.userBlockUseCase = userBlockUseCase
     self.actions = actions
   }
@@ -171,14 +171,14 @@ private extension PostDetailViewModel {
     loggedInUserUseCaseHandler.map { [weak self] _ -> State in
       /// 로그인한 사용자라면 아이디가 반드시 로컬에 저장되야 합니다.
       guard
-        let loggedUserId = self?.loggedInUserUseCase.id,
+        let ownerId = self?.ownerRepository.id,
         let postAuthorId = self?.postDetails.author.authorId
       else {
         return .unexpectedError(description: "로그인한 사용자의 아이디가 없습니다.")
       }
       return .viewDidLoad(.loggedInUserInfo(
-        userProfile: self?.loggedInUserUseCase.profileImageData,
-        isPostOwner: postAuthorId == loggedUserId))
+        userProfile: self?.ownerRepository.profileImageData,
+        isPostOwner: postAuthorId == ownerId))
     }.eraseToAnyPublisher()
   }
   
@@ -203,22 +203,50 @@ private extension PostDetailViewModel {
   }
   
   func postReportHandlerStream() -> Output {
-    return postReportHandler.flatMap { responseType in
+    return postReportHandler.flatMap { gresponseType in
       // TODO: - 포스트 신고하기 api 없음.
-      // 참고로 지금시점 네트워크 프로세싱 중..
+      // 참고로 지금시점 네트워크 프로세싱 중.
+      // 여기서 이제 레포지토리로 리포트 사유를 같이 보낸 후에 성공 아님 실패 결과 반환하면 됩 니다.
+//      switch responseType {
+//      case .inaccurateInformation:
+//        <#code#>
+//      case .personalInformationExposure:
+//        <#code#>
+//      case .spamOrRepetitiveContent:
+//        <#code#>
+//      case .vulgarOrAbusiveLanguage:
+//        <#code#>
+//      case .obsceneContent:
+//        <#code#>
+//      case .harmfulToMinors:
+//        <#code#>
+//      case .stopRequest:
+//        <#code#>
+//      }
       return Just(State.unexpectedError(description: "포스트 신고하기 api가 없습니다."))
         .eraseToAnyPublisher()
     }.eraseToAnyPublisher()
   }
   
   func postAuthorBlockHandlerStream() -> Output {
-    return postAuthorBlockHandler.flatMap { _ in
-      // TODO: - 포스트 받아올때 포스트 올린 author에 identifier가 없어서
-      // block user api 호출 불가..
-      // let authorId = postDetails.author
-      
-      // 참고로 지금시점 네트워크 프로세싱 중..
-      return Just(State.unexpectedError(description: "포스트 저자 id가 없어 차단 api 호출할 수 없습니다")).eraseToAnyPublisher()
+    return postAuthorBlockHandler.flatMap { [weak self] _ in
+      guard let self else {
+        return Just(State.unexpectedError(description: "앱 내부 에러가 발생됬습니다.")).eraseToAnyPublisher()
+      }
+      guard let authorId = postDetails.author.authorId else {
+        return Just(State.unexpectedError(
+          description: "포스트 저자 id가 없어 차단 api 호출할 수 없습니다")
+        ).eraseToAnyPublisher()
+      }
+      return userBlockUseCase.blockUser(with: authorId)
+        .map { [weak self] _ in
+          self?.ownerRepository.addBlockedUser(with: authorId)
+          return .postReport(.completeUserBlock)
+        }
+        .catch { error in
+          return Just(State.unexpectedError(description: error.localizedDescription)).eraseToAnyPublisher()
+        }
+        .eraseToAnyPublisher()
     }.eraseToAnyPublisher()
   }
 }
