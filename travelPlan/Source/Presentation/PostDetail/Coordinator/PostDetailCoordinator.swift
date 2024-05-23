@@ -55,18 +55,15 @@ final class PostDetailCoordinator: NSObject, FlowCoordinator {
   init(presenter: UINavigationController?, post: Post, category: Post.Category) {
     self.presenter = presenter
     super.init()
-    
     let mockPostRepository = MockPostRepository()
     let defaultPostFetchUseCase = DefaultPostFetchUseCase(postRepository: mockPostRepository)
     let defaultPostCommetnsAndPostLikeStateFetchUseCase = DefaultPostCommentsAndPostLikeStateFetchUseCase(
       postRepository: mockPostRepository)
-    
     let postCommentUseCase = DefaultPostCommentUseCase(postCommentRepository: MockPostCommentRepository())
     let loggedInUserRepository = DefaultLoggedInUserRepository(storage: StubOwnerStorage())
     let postNestedCommentUseCase = DefaultPostNestedCommentUseCase(
       postNestedCommentRepository: MockPostNestedCommentRepository())
     let userBlockUseCase = DefaultUserBlockUseCase(userBlockRepository: MockWrappedUserBlockRepository())
-    
     let actions = PostDetailViewModelActions(
       showAlertForError: { [weak self] message, completion in
         self?.showAlertForError(with: message, completion: completion)
@@ -91,7 +88,6 @@ final class PostDetailCoordinator: NSObject, FlowCoordinator {
       showCommentOption: { [weak self] isCommentOwner, optionCallBack in
         self?.showCommentOption(isCommentOwner: isCommentOwner, handler: optionCallBack)
       })
-    
     let postDetailVM = PostDetailViewModel(
       post: post,
       category: category,
@@ -99,7 +95,6 @@ final class PostDetailCoordinator: NSObject, FlowCoordinator {
       ownerRepository: loggedInUserRepository,
       userBlockUseCase: userBlockUseCase,
       actions: actions)
-    
     let postDetailChatVM = PostDetailChatViewModel(
       postId: post.detail.postID,
       postCommentsAndPostLikeStateFetchUseCase: defaultPostCommetnsAndPostLikeStateFetchUseCase,
