@@ -53,17 +53,7 @@ class SearchMoreDetailLayoutManager: CompositionalLayoutCreatable {
 // MARK: - Private Helpers
 extension SearchMoreDetailLayoutManager {
   private func makeSectionLayout() -> NSCollectionLayoutSection {
-    let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(Constant.Item.fractionWidth),
-                                          heightDimension: .fractionalHeight(Constant.Item.fractionHeight))
-    let item = NSCollectionLayoutItem(layoutSize: itemSize)
-    
-    let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(Constant.Group.fractionWidth),
-                                           heightDimension: .absolute(Constant.Group.height))
-    let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
-    group.contentInsets = .init(top: .zero,
-                                leading: Constant.Group.ContentInsets.leading,
-                                bottom: .zero,
-                                trailing: .zero)
+    let group = TravelDestinationLayoutGroupProvider.createDefaultGroup()
     
     let section = NSCollectionLayoutSection(group: group)
     section.contentInsets = .init(top: Constant.Section.ContentInsets.top,
