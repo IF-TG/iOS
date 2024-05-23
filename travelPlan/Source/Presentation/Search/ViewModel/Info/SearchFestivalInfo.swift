@@ -1,5 +1,5 @@
 //
-//  SearchFestivalItemInfo.swift
+//  SearchFestivalInfo.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 5/21/24.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct SearchFestivalItemInfo {
+struct SearchFestivalInfo {
   let title: String
   let period: String
   let imageData: Data?

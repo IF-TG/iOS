@@ -128,7 +128,7 @@ extension SearchFestivalCell {
 
 // MARK: - Configure
 extension SearchFestivalCell {
-  func configure(with info: SearchFestivalItemInfo) {
+  func configure(with info: SearchFestivalInfo) {
     festivalLabel.text = info.title
     periodLabel.text = info.period
     starButton.isSelected = info.isSelectedButton

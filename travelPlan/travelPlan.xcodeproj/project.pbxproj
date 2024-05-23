@@ -118,7 +118,7 @@
 		13C9C1B12A1806F500DF1FFF /* PostRecentSearchTagCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C9C1B02A1806F500DF1FFF /* PostRecentSearchTagCellDelegate.swift */; };
 		13C9F4DB2BFB3289004D37D5 /* SearchResultListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C9F4DA2BFB3289004D37D5 /* SearchResultListViewController.swift */; };
 		13C9F4DE2BFC5C0C004D37D5 /* TravelDestinationItemInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C9F4DD2BFC5C0C004D37D5 /* TravelDestinationItemInfo.swift */; };
-		13C9F4E02BFC5C2E004D37D5 /* SearchFestivalItemInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C9F4DF2BFC5C2E004D37D5 /* SearchFestivalItemInfo.swift */; };
+		13C9F4E02BFC5C2E004D37D5 /* SearchFestivalInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C9F4DF2BFC5C2E004D37D5 /* SearchFestivalInfo.swift */; };
 		13CB6D322A1E9F6600D185B2 /* CautionAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CB6D312A1E9F6600D185B2 /* CautionAlertViewController.swift */; };
 		13CB6D342A1FEC6D00D185B2 /* CautionAlertViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CB6D332A1FEC6D00D185B2 /* CautionAlertViewControllerDelegate.swift */; };
 		13CB6D362A20E12B00D185B2 /* CALayer+Border.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CB6D352A20E12B00D185B2 /* CALayer+Border.swift */; };
@@ -935,7 +935,7 @@
 		13C9C1B02A1806F500DF1FFF /* PostRecentSearchTagCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostRecentSearchTagCellDelegate.swift; sourceTree = "<group>"; };
 		13C9F4DA2BFB3289004D37D5 /* SearchResultListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultListViewController.swift; sourceTree = "<group>"; };
 		13C9F4DD2BFC5C0C004D37D5 /* TravelDestinationItemInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelDestinationItemInfo.swift; sourceTree = "<group>"; };
-		13C9F4DF2BFC5C2E004D37D5 /* SearchFestivalItemInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFestivalItemInfo.swift; sourceTree = "<group>"; };
+		13C9F4DF2BFC5C2E004D37D5 /* SearchFestivalInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFestivalInfo.swift; sourceTree = "<group>"; };
 		13CB6D312A1E9F6600D185B2 /* CautionAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CautionAlertViewController.swift; sourceTree = "<group>"; };
 		13CB6D332A1FEC6D00D185B2 /* CautionAlertViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CautionAlertViewControllerDelegate.swift; sourceTree = "<group>"; };
 		13CB6D352A20E12B00D185B2 /* CALayer+Border.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+Border.swift"; sourceTree = "<group>"; };
@@ -1920,7 +1920,7 @@
 			isa = PBXGroup;
 			children = (
 				13C9F4DD2BFC5C0C004D37D5 /* TravelDestinationItemInfo.swift */,
-				13C9F4DF2BFC5C2E004D37D5 /* SearchFestivalItemInfo.swift */,
+				13C9F4DF2BFC5C2E004D37D5 /* SearchFestivalInfo.swift */,
 			);
 			path = Info;
 			sourceTree = "<group>";
@@ -4574,7 +4574,7 @@
 				13EB3CFA2BED274700CA84F0 /* TourIntroductionInfoShoppingResponseDTO.swift in Sources */,
 				15B01DA32BA93A1000BE9F98 /* OwnerStorage.swift in Sources */,
 				1558033B2BF1ACAD008F631C /* PostNestedCommentHeartUseCaseImpl.swift in Sources */,
-				13C9F4E02BFC5C2E004D37D5 /* SearchFestivalItemInfo.swift in Sources */,
+				13C9F4E02BFC5C2E004D37D5 /* SearchFestivalInfo.swift in Sources */,
 				15C36BBB2BD17AC0004AA8E9 /* FirestoreRequestType.swift in Sources */,
 				1572ABC22BE78D62008AFE66 /* PostCommentAtomicRepository.swift in Sources */,
 				15E0BA0B2BF1BBED00EBCDD9 /* PostNestedCommentUseCaseImpl.swift in Sources */,

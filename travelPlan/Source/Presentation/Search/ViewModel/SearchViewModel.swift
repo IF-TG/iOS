@@ -128,11 +128,11 @@ extension DefaultSearchViewModel {
     let image = UIImage(named: "tempThumbnail1")!
     let imageData = image.jpegData(compressionQuality: 1.0)!
     
-    let searchFestivalItemInfo = SearchFestivalItemInfo(title: "대관령눈꽃축제", period: "24.05.11~24.05.20", 
+    let searchFestivalInfo = SearchFestivalInfo(title: "대관령눈꽃축제", period: "24.05.11~24.05.20",
                                                         imageData: imageData, isSelectedButton: true)
     dataSource.append(
       SearchSectionModel(
-        itemType: .festival([searchFestivalItemInfo, searchFestivalItemInfo, searchFestivalItemInfo]),
+        itemType: .festival([searchFestivalInfo, searchFestivalInfo, searchFestivalInfo]),
         headerTitle: festivalHeader
       )
     )

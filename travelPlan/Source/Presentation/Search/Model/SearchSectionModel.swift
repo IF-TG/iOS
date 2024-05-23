@@ -14,7 +14,7 @@ struct SearchSectionModel {
 
 enum SearchItemType {
   
-  case festival([SearchFestivalItemInfo])
+  case festival([SearchFestivalInfo])
 //  case camping([TravelDestinationItemInfo])
 //  case cultureFacility
   case leports([TravelDestinationItemInfo])
