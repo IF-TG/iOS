@@ -14,6 +14,7 @@
 		130304AA2A271F3B00776A0D /* SearchSectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130304A92A271F3B00776A0D /* SearchSectionModel.swift */; };
 		130304B02A28447900776A0D /* TravelDestinationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130304AF2A28447900776A0D /* TravelDestinationCell.swift */; };
 		130369662AEC3AA2007E980C /* NSRange+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130369652AEC3AA2007E980C /* NSRange+.swift */; };
+		130990B92BFF18A900D6E50C /* SearchResultListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130990B82BFF18A900D6E50C /* SearchResultListViewModel.swift */; };
 		130B9AE32A684D3D0072A0CF /* MainSearchLayoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130B9AE22A684D3D0072A0CF /* MainSearchLayoutManager.swift */; };
 		130CF3682B8E87490051DEE8 /* LoginUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130CF3672B8E87490051DEE8 /* LoginUseCase.swift */; };
 		130CF36C2B8F3D770051DEE8 /* DefaultLoginRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130CF36B2B8F3D770051DEE8 /* DefaultLoginRepository.swift */; };
@@ -823,6 +824,7 @@
 		130304A92A271F3B00776A0D /* SearchSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchSectionModel.swift; sourceTree = "<group>"; };
 		130304AF2A28447900776A0D /* TravelDestinationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelDestinationCell.swift; sourceTree = "<group>"; };
 		130369652AEC3AA2007E980C /* NSRange+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSRange+.swift"; sourceTree = "<group>"; };
+		130990B82BFF18A900D6E50C /* SearchResultListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultListViewModel.swift; sourceTree = "<group>"; };
 		130B9AE22A684D3D0072A0CF /* MainSearchLayoutManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSearchLayoutManager.swift; sourceTree = "<group>"; };
 		130CF3672B8E87490051DEE8 /* LoginUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginUseCase.swift; sourceTree = "<group>"; };
 		130CF36B2B8F3D770051DEE8 /* DefaultLoginRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultLoginRepository.swift; sourceTree = "<group>"; };
@@ -1667,6 +1669,7 @@
 				130304782A24936D00776A0D /* SearchViewModel.swift */,
 				131A11072AB5067E007BDD66 /* SearchMoreDetailViewModel.swift */,
 				13E7EAD22BDE3CC00027946C /* SearchDestinationViewModel.swift */,
+				130990B82BFF18A900D6E50C /* SearchResultListViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -4915,6 +4918,7 @@
 				151DF0E42AEE990400D5D55B /* NoticeViewAdapter.swift in Sources */,
 				15F36A1A2AB1A18200971803 /* CaseIterable+.swift in Sources */,
 				154FBC172BC2CDB40070D2FE /* PostReportType.swift in Sources */,
+				130990B92BFF18A900D6E50C /* SearchResultListViewModel.swift in Sources */,
 				15CB23692A10B9CF003EAF20 /* PostFooterInfo.swift in Sources */,
 				130304842A25117200776A0D /* SearchFestivalCell.swift in Sources */,
 				15D60D362AEB84FE0087FEC0 /* NotificationCenterViewController.swift in Sources */,
