@@ -48,7 +48,7 @@ struct PostDetailViewModelInput {
   
   case viewDidLoad(PostDetailViewDidLoadState)
   case unexpectedError(description: String)
-  case postReport
+  case postReport(PostReportState)
 }
 
 @frozen enum PostDetailViewDidLoadState {
@@ -62,6 +62,11 @@ struct PostDetailViewModelInput {
 @frozen enum PostDetailOptionState {
   case showUserBlock(String)
   case showUserReport
+}
+
+@frozen enum PostReportState {
+  case completeReport
+  case completeUserBlock
 }
 
 // MARK: - ViewModelable
