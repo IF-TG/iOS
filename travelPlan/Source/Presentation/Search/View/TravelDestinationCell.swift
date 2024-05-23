@@ -51,7 +51,8 @@ extension TravelDestinationCell {
   
   func bind(to publisher: PassthroughSubject<IndexPath, Never>, indexPath: IndexPath) {
     cancellable?.cancel()
-    cancellable = containerView.starButtonPublisher
+    cancellable = containerView
+      .starButtonTapPublisher
       .receive(on: RunLoop.main)
       .sink {
         publisher.send(indexPath)

@@ -71,11 +71,11 @@ final class SearchFestivalCell: UICollectionViewCell {
     ]
   }
   
-  private lazy var starButton: SearchStarButton = .init(normalType: .white).set {
-    $0.addTarget(self, action: #selector(didTapStarButton), for: .touchUpInside)
-  }
+  private let starButton: SearchStarButton = .init(normalType: .white)
   
-  private let buttonTapPublisher = PassthroughSubject<Void, Never>()
+//  private var starButton.tap: AnyPublisher<Void, Never> {
+//    return starButton.tap.eraseToAnyPublisher()
+//  }
   
   private let festivalLabel: UILabel = .init().set {
     $0.font = UIFont(pretendard: .bold_700(fontSize: Constants.FestivalLabel.fontSize))
@@ -119,13 +119,6 @@ final class SearchFestivalCell: UICollectionViewCell {
   }
 }
 
-// MARK: - Actions
-extension SearchFestivalCell {
-  @objc private func didTapStarButton() {
-    buttonTapPublisher.send()
-  }
-}
-
 // MARK: - Configure
 extension SearchFestivalCell {
   func configure(with info: SearchFestivalInfo) {
@@ -143,7 +136,8 @@ extension SearchFestivalCell {
   
   func bind(to publisher: PassthroughSubject<IndexPath, Never>, indexPath: IndexPath) {
     cancellable?.cancel()
-    cancellable = buttonTapPublisher
+    cancellable = starButton
+      .tap
       .receive(on: RunLoop.main)
       .sink {
         publisher.send(indexPath)
