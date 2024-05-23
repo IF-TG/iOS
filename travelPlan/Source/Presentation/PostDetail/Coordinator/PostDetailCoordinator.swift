@@ -40,6 +40,8 @@ import SHCoordinator
 
 // MARK: - PostDetailCoordinator
 final class PostDetailCoordinator: NSObject, FlowCoordinator {
+  typealias PostId = Int32
+  
   var parent: FlowCoordinator?
   var child: [FlowCoordinator] = []
   var presenter: UINavigationController?
@@ -47,6 +49,8 @@ final class PostDetailCoordinator: NSObject, FlowCoordinator {
   /// dismiss호출코드에서 finish도 해줘야합니다
   private var postDetailViewController: PostDetailViewController?
   weak private var viewModelPostReceivable: ReviewWritingPostReceivable?
+  
+  var blockedPost: ((PostId) -> Void)?
   
   init(presenter: UINavigationController?, post: Post, category: Post.Category) {
     self.presenter = presenter
@@ -74,7 +78,8 @@ final class PostDetailCoordinator: NSObject, FlowCoordinator {
       showPostReport: { [weak self] reportCallback in self?.showPostReport(handler: reportCallback) },
       showPostReportResult: { [weak self] option in self?.showPostReportResult(wtih: option) },
       showCategory: {[weak self] categories in self?.showCategory(with: categories) },
-      showReviewWriting: { [weak self] entity in self?.showReviewWriting(entity: entity) })
+      showReviewWriting: { [weak self] entity in self?.showReviewWriting(entity: entity) },
+      showFeedAfterBlockingFeed: { [weak self] blockedPostId in self?.showFeedAfterBlockingFeed(blockedPostId) })
     
     let chatActions = PostDetailChatViewModelActions(
       showAlertForError: { [weak self] message, completion in
@@ -205,6 +210,11 @@ extension PostDetailCoordinator {
   func showCategory(with categories: [String]) {
     let categoryViewController = PostDetailCategoryViewController(style: .plain, dataSource: categories)
     presenter?.pushViewController(categoryViewController, animated: true)
+  }
+  
+  func showFeedAfterBlockingFeed(_ postId: Int32) {
+    blockedPost?(postId)
+    finish(withAnimated: true)
   }
 }
 
