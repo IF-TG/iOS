@@ -16,6 +16,7 @@ class FeedPostViewModel: PostViewModel {
     let notifiedOrderFilterRequest: PassthroughSubject<TravelOrderType, Never>
     let notifiedMainThemeFilterRequest: PassthroughSubject<TravelMainThemeType, Never>
     let specificPostTapped: PassthroughSubject<Int, Never> = .init()
+    let postBlockSubject: PassthroughSubject<Int32, Never> = .init()
     
     init(
       notifiedOrderFilterRequest: PassthroughSubject<TravelOrderType, Never>,
@@ -36,6 +37,7 @@ class FeedPostViewModel: PostViewModel {
     case networking
     case postFilterLoaded
     case detailPostShow(post: Post, category: Post.Category)
+    case deleteBlockedPost(IndexPath)
     case none
   }
   
@@ -90,6 +92,7 @@ class FeedPostViewModel: PostViewModel {
 extension FeedPostViewModel: FeedPostViewModelable {
   func transform(_ input: Input) -> AnyPublisher<State, Never> {
     return Publishers.MergeMany([
+      postBlockSubjectStream(input),
       postFilterLoadingStartSubjectStream(),
       notifiedOrderFilterRequestStream(input),
       notifiedMainThemeFilterRequestStream(input),
@@ -105,6 +108,19 @@ extension FeedPostViewModel: FeedPostViewModelable {
 
 // MARK: - Private Helpers
 private extension FeedPostViewModel {
+  func postBlockSubjectStream(_ input: Input) -> Output {
+    return input.postBlockSubject.map { [weak self] blockedPostId -> State in
+      let blockedPostIdIndex = self?.posts.firstIndex(where: {
+        Int32($0.detail.postID)! == blockedPostId
+      })
+      guard let blockedPostIdIndex else {
+        return .unexpectedError(description: "앱 내부 동작 에러가 발생됬습니다. 차단된 포스트 아이디가 식별 불가능합니다.")
+      }
+      self?.posts.remove(at: blockedPostIdIndex)
+      return .deleteBlockedPost(IndexPath(item: blockedPostIdIndex, section: PostViewSection.post.rawValue))
+    }.eraseToAnyPublisher()
+  }
+  
   func postFilterLoadingStartSubjectStream() -> Output {
     postFilterLoadingStartSubject.map { [weak self] _ -> State in
       self?.isPostFiltering = true
@@ -171,7 +187,7 @@ private extension FeedPostViewModel {
           ).eraseToAnyPublisher()
       }.eraseToAnyPublisher()
   }
-  // TODO: - 초기에 인디케이터하력함
+  
   func viewDidLoadStream(_ input: Input) -> Output {
     return input.viewDidLoad.map { [weak self] _ in
       DispatchQueue.global(qos: .userInitiated).async {

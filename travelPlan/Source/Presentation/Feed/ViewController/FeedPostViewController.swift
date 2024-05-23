@@ -129,8 +129,11 @@ extension FeedPostViewController: ViewBindCase {
       stopIndicator()
     case .detailPostShow(post: let post, category: let category):
       coordinator?.showDetailPost(post: post, category: category) { [weak self] blockedPostId in
-        // TODO: - 사용자 차단하고 실시간으로 해당 포스트 제거해야함
         self?.input.postBlockSubject.send(blockedPostId)
+      }
+    case .deleteBlockedPost(let deletedIndexPath):
+      postView.performBatchUpdates {
+        postView.deleteItems(at: [deletedIndexPath])
       }
     }
   }
