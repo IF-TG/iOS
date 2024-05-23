@@ -32,7 +32,7 @@ final class FeedPostViewController: UIViewController {
 
   private let viewModel: any FeedPostViewModelable & FeedPostViewAdapterDataSource
 
-  private lazy var input = FeedPostViewModel.Input(
+  private lazy var input = FeedPostViewModelInput(
     notifiedOrderFilterRequest: orderFilterNotifier,
     notifiedMainThemeFilterRequest: mainThemeFilterNotifier)
   
@@ -106,18 +106,13 @@ extension FeedPostViewController: ViewBindCase {
     case .refresh:
       postView.reloadData()
       refresher.endRefreshing()
-    case .loadingNextPage:
-      postView.reloadSections(IndexSet(integer: PostViewSection.bottomRefresh.rawValue))
-    case .nextPage(let completion):
-      postView.reloadData()
-      completion()
+    case .pagination(let paginationState):
+      handlePaginationState(paginationState)
     case .unexpectedError(let description):
       // 코디네이터에서 알림창 호출
       print("에러발생 :\(description)")
     case .none:
       break
-    case .noMorePage:
-      stopIndicator()
     case .viewDidLoad:
       stopIndicator()
       postView.reloadData()
@@ -135,6 +130,18 @@ extension FeedPostViewController: ViewBindCase {
       postView.performBatchUpdates {
         postView.deleteItems(at: [deletedIndexPath])
       }
+    }
+  }
+  
+  func handlePaginationState(_ state: FeedPostViewModelPaginationState) {
+    switch state {
+    case .nextPage(let reloadCompletion):
+      postView.reloadData()
+      reloadCompletion()
+    case .loadingNextPage:
+      postView.reloadSections(IndexSet(integer: PostViewSection.bottomRefresh.rawValue))
+    case .noMorePage:
+      stopIndicator()
     }
   }
   
