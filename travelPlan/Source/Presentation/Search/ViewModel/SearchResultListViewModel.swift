@@ -18,7 +18,7 @@ struct SearchResultListViewModelInput {
 }
 
 enum SearchResultListViewModelState {
-  
+  case none
 }
 
 final class DefaultSearchResultListViewModel {
@@ -30,6 +30,25 @@ final class DefaultSearchResultListViewModel {
 // MARK: - SearchResultListViewModel
 extension DefaultSearchResultListViewModel: SearchResultListViewModel {
   func transform(_ input: Input) -> AnyPublisher<State, Never> {
-    <#code#>
+    Publishers.MergeMany(
+      viewDidLoadStream(input),
+      didTapStarButtonStream(input)
+    )
+    .eraseToAnyPublisher()
+  }
+}
+
+// MARK: - Private Helpers
+extension DefaultSearchResultListViewModel {
+  private func viewDidLoadStream(_ input: Input) -> Output {
+    return input.viewDidLoad
+      .map { _ in State.none }
+      .eraseToAnyPublisher()
+  }
+  
+  private func didTapStarButtonStream(_ input: Input) -> Output {
+    return input.didTapStarButton
+      .map { _ in State.none }
+      .eraseToAnyPublisher()
   }
 }
