@@ -119,15 +119,19 @@ extension FeedPostViewController: ViewBindCase {
     case .noMorePage:
       stopIndicator()
     case .viewDidLoad:
-      postView.reloadData()
       stopIndicator()
+      postView.reloadData()
+      print("피드 포스트 viewDidLoad")
     case .networking:
       startIndicator()
     case .postFilterLoaded:
       postView.reloadData()
       stopIndicator()
     case .detailPostShow(post: let post, category: let category):
-      coordinator?.showDetailPost(post: post, category: category)
+      coordinator?.showDetailPost(post: post, category: category) { [weak self] blockedPostId in
+        // TODO: - 사용자 차단하고 실시간으로 해당 포스트 제거해야함
+        self?.input.postBlockSubject.send(blockedPostId)
+      }
     }
   }
   
