@@ -117,7 +117,7 @@
 		13C9C1AF2A17FFC400DF1FFF /* PostSearchHeaderViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C9C1AE2A17FFC400DF1FFF /* PostSearchHeaderViewDelegate.swift */; };
 		13C9C1B12A1806F500DF1FFF /* PostRecentSearchTagCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C9C1B02A1806F500DF1FFF /* PostRecentSearchTagCellDelegate.swift */; };
 		13C9F4DB2BFB3289004D37D5 /* SearchResultListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C9F4DA2BFB3289004D37D5 /* SearchResultListViewController.swift */; };
-		13C9F4DE2BFC5C0C004D37D5 /* TravelDestinationItemInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C9F4DD2BFC5C0C004D37D5 /* TravelDestinationItemInfo.swift */; };
+		13C9F4DE2BFC5C0C004D37D5 /* TravelDestinationInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C9F4DD2BFC5C0C004D37D5 /* TravelDestinationInfo.swift */; };
 		13C9F4E02BFC5C2E004D37D5 /* SearchFestivalInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C9F4DF2BFC5C2E004D37D5 /* SearchFestivalInfo.swift */; };
 		13CB6D322A1E9F6600D185B2 /* CautionAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CB6D312A1E9F6600D185B2 /* CautionAlertViewController.swift */; };
 		13CB6D342A1FEC6D00D185B2 /* CautionAlertViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CB6D332A1FEC6D00D185B2 /* CautionAlertViewControllerDelegate.swift */; };
@@ -934,7 +934,7 @@
 		13C9C1AE2A17FFC400DF1FFF /* PostSearchHeaderViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSearchHeaderViewDelegate.swift; sourceTree = "<group>"; };
 		13C9C1B02A1806F500DF1FFF /* PostRecentSearchTagCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostRecentSearchTagCellDelegate.swift; sourceTree = "<group>"; };
 		13C9F4DA2BFB3289004D37D5 /* SearchResultListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultListViewController.swift; sourceTree = "<group>"; };
-		13C9F4DD2BFC5C0C004D37D5 /* TravelDestinationItemInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelDestinationItemInfo.swift; sourceTree = "<group>"; };
+		13C9F4DD2BFC5C0C004D37D5 /* TravelDestinationInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelDestinationInfo.swift; sourceTree = "<group>"; };
 		13C9F4DF2BFC5C2E004D37D5 /* SearchFestivalInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFestivalInfo.swift; sourceTree = "<group>"; };
 		13CB6D312A1E9F6600D185B2 /* CautionAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CautionAlertViewController.swift; sourceTree = "<group>"; };
 		13CB6D332A1FEC6D00D185B2 /* CautionAlertViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CautionAlertViewControllerDelegate.swift; sourceTree = "<group>"; };
@@ -1919,7 +1919,7 @@
 		13C9F4DC2BFC5BFE004D37D5 /* Info */ = {
 			isa = PBXGroup;
 			children = (
-				13C9F4DD2BFC5C0C004D37D5 /* TravelDestinationItemInfo.swift */,
+				13C9F4DD2BFC5C0C004D37D5 /* TravelDestinationInfo.swift */,
 				13C9F4DF2BFC5C2E004D37D5 /* SearchFestivalInfo.swift */,
 			);
 			path = Info;
@@ -5069,7 +5069,7 @@
 				15FFAC112AD9C7A10013DB57 /* Sessionable.swift in Sources */,
 				154CA60D2BD3A2F80066B444 /* TourApiCommonInfoRequestDTO.swift in Sources */,
 				154CA6232BD3AE100066B444 /* TourCommonInfoEntity.swift in Sources */,
-				13C9F4DE2BFC5C0C004D37D5 /* TravelDestinationItemInfo.swift in Sources */,
+				13C9F4DE2BFC5C0C004D37D5 /* TravelDestinationInfo.swift in Sources */,
 				13FE64772A5C378D007D9A53 /* SearchCampingModel.swift in Sources */,
 				130B9AE32A684D3D0072A0CF /* MainSearchLayoutManager.swift in Sources */,
 				15869D052BF50D0600FB342B /* MockOwnerRelatedPostFetchUseCase.swift in Sources */,

@@ -39,7 +39,7 @@ class TravelDestinationCell: UICollectionViewCell {
 
 // MARK: - Helpers
 extension TravelDestinationCell {
-  func configure(with info: TravelDestinationItemInfo) {
+  func configure(with info: TravelDestinationInfo) {
     containerView.configure(
       centerViewInfo: LeftAlignThreeLabelsView.Model(place: info.place,
                                                      category: info.category,

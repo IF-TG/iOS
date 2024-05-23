@@ -30,7 +30,7 @@ enum SearchMoreDetailViewModelState {
 final class DefaultSearchMoreDetailViewModel {
   // MARK: - Properties
   private(set) var headerInfo: SearchDetailHeaderInfo?
-  private(set) var itemInfos: [TravelDestinationItemInfo]?
+  private(set) var itemInfos: [TravelDestinationInfo]?
 }
 
 // MARK: - ViewModelCase
@@ -95,11 +95,11 @@ extension DefaultSearchMoreDetailViewModel {
     let imageData = image.jpegData(compressionQuality: 1.0)!
     
     self.itemInfos = [
-      TravelDestinationItemInfo(place: "축제 타이틀", category: "축제", location: "24.01.01~24.02.10", isButtonSelected: false, imageData: imageData, id: 12345456),
-      TravelDestinationItemInfo(place: "축제 타이틀", category: "축제", location: "24.01.01~24.02.10", isButtonSelected: false, imageData: imageData, id: 12345456),
-      TravelDestinationItemInfo(place: "축제 타이틀", category: "축제", location: "24.01.01~24.02.10", isButtonSelected: false, imageData: imageData, id: 12345456),
-      TravelDestinationItemInfo(place: "축제 타이틀", category: "축제", location: "24.01.01~24.02.10", isButtonSelected: false, imageData: imageData, id: 12345456),
-      TravelDestinationItemInfo(place: "축제 타이틀", category: "축제", location: "24.01.01~24.02.10", isButtonSelected: false, imageData: imageData, id: 12345456)
+      TravelDestinationInfo(place: "축제 타이틀", category: "축제", location: "24.01.01~24.02.10", isButtonSelected: false, imageData: imageData, id: 12345456),
+      TravelDestinationInfo(place: "축제 타이틀", category: "축제", location: "24.01.01~24.02.10", isButtonSelected: false, imageData: imageData, id: 12345456),
+      TravelDestinationInfo(place: "축제 타이틀", category: "축제", location: "24.01.01~24.02.10", isButtonSelected: false, imageData: imageData, id: 12345456),
+      TravelDestinationInfo(place: "축제 타이틀", category: "축제", location: "24.01.01~24.02.10", isButtonSelected: false, imageData: imageData, id: 12345456),
+      TravelDestinationInfo(place: "축제 타이틀", category: "축제", location: "24.01.01~24.02.10", isButtonSelected: false, imageData: imageData, id: 12345456)
     ]
     self.headerInfo = SearchDetailHeaderInfo.festivalMock
   }
@@ -109,11 +109,11 @@ extension DefaultSearchMoreDetailViewModel {
     let imageData = image.jpegData(compressionQuality: 1.0)!
     
     self.itemInfos = [
-      TravelDestinationItemInfo(place: "레포츠 타이틀", category: "레포츠", location: "강원도 ~~~", isButtonSelected: false, imageData: imageData, id: 12344),
-      TravelDestinationItemInfo(place: "레포츠 타이틀", category: "레포츠", location: "강원도 ~~~", isButtonSelected: false, imageData: imageData, id: 12344),
-      TravelDestinationItemInfo(place: "레포츠 타이틀", category: "레포츠", location: "강원도 ~~~", isButtonSelected: false, imageData: imageData, id: 12344),
-      TravelDestinationItemInfo(place: "레포츠 타이틀", category: "레포츠", location: "강원도 ~~~", isButtonSelected: false, imageData: imageData, id: 12344),
-      TravelDestinationItemInfo(place: "레포츠 타이틀", category: "레포츠", location: "강원도 ~~~", isButtonSelected: false, imageData: imageData, id: 12344)
+      TravelDestinationInfo(place: "레포츠 타이틀", category: "레포츠", location: "강원도 ~~~", isButtonSelected: false, imageData: imageData, id: 12344),
+      TravelDestinationInfo(place: "레포츠 타이틀", category: "레포츠", location: "강원도 ~~~", isButtonSelected: false, imageData: imageData, id: 12344),
+      TravelDestinationInfo(place: "레포츠 타이틀", category: "레포츠", location: "강원도 ~~~", isButtonSelected: false, imageData: imageData, id: 12344),
+      TravelDestinationInfo(place: "레포츠 타이틀", category: "레포츠", location: "강원도 ~~~", isButtonSelected: false, imageData: imageData, id: 12344),
+      TravelDestinationInfo(place: "레포츠 타이틀", category: "레포츠", location: "강원도 ~~~", isButtonSelected: false, imageData: imageData, id: 12344)
     ]
   }
   

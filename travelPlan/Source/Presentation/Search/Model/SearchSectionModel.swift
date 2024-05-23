@@ -17,6 +17,6 @@ enum SearchItemType {
   case festival([SearchFestivalInfo])
 //  case camping([TravelDestinationItemInfo])
 //  case cultureFacility
-  case leports([TravelDestinationItemInfo])
+  case leports([TravelDestinationInfo])
 //  case sessionalRecommendation
 }

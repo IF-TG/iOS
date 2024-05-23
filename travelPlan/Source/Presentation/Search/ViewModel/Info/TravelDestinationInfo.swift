@@ -1,5 +1,5 @@
 //
-//  TravelDestinationItemInfo.swift
+//  TravelDestinationInfo.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 5/21/24.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct TravelDestinationItemInfo {
+struct TravelDestinationInfo {
   let place: String
   let category: String
   let location: String

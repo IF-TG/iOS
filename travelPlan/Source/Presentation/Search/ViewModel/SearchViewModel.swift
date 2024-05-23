@@ -138,7 +138,7 @@ extension DefaultSearchViewModel {
     )
     
     let letportsHeader = "야영 레포츠 어떠세요?🏕️"
-    let leportsInfo = TravelDestinationItemInfo(
+    let leportsInfo = TravelDestinationInfo(
       place: "수상 스키",
       category: "레포츠",
       location: "강원도 동해",
