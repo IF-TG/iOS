@@ -21,10 +21,11 @@ final class ApplicationCoordinator: FlowCoordinator {
   
   private var isSignIn: Bool {
     return true
-    if loggedInOwnerManager.user == nil {
-      return false
-    }
-    return true
+//    로그인 할 경우 이를 통해 사용자가 로그인했는지 여부를 확인해야합니다.
+//    if loggedInOwnerManager.user == nil {
+//      return false
+//    }
+// return true
   }
   
   init(window: UIWindow) {

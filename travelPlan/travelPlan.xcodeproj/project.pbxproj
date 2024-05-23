@@ -485,6 +485,10 @@
 		15869D0E2BF5C3BD00FB342B /* FirestoreOwnerHeartPostRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15869D0D2BF5C3BD00FB342B /* FirestoreOwnerHeartPostRepositoryTests.swift */; };
 		1586BA872BBBCCCB001AA97C /* PostDetailViewModelable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1586BA862BBBCCCB001AA97C /* PostDetailViewModelable.swift */; };
 		1586D3042AB193F7001D4A80 /* Season.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1586D3032AB193F7001D4A80 /* Season.swift */; };
+		1588978B2BFC2EEA006BB978 /* PostDetailChatViewModelable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1588978A2BFC2EEA006BB978 /* PostDetailChatViewModelable.swift */; };
+		1588978D2BFC3105006BB978 /* PostDetailSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1588978C2BFC3105006BB978 /* PostDetailSection.swift */; };
+		1588978F2BFC3FBA006BB978 /* PostDetailChatDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1588978E2BFC3FBA006BB978 /* PostDetailChatDataSource.swift */; };
+		158897912BFC403F006BB978 /* PostDetailChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158897902BFC403F006BB978 /* PostDetailChatViewModel.swift */; };
 		15889D4C2AE0375700B1CB31 /* SearchDetailHeaderInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A93EE62ACDE4AB00FC4BBD /* SearchDetailHeaderInfo.swift */; };
 		158981BA2BB2652700F016CF /* PostCommentAPIEndpointTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158981B92BB2652700F016CF /* PostCommentAPIEndpointTests.swift */; };
 		158BEF772A0E279700C27861 /* BasePostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158BEF762A0E279700C27861 /* BasePostView.swift */; };
@@ -1308,6 +1312,10 @@
 		15869D0D2BF5C3BD00FB342B /* FirestoreOwnerHeartPostRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreOwnerHeartPostRepositoryTests.swift; sourceTree = "<group>"; };
 		1586BA862BBBCCCB001AA97C /* PostDetailViewModelable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailViewModelable.swift; sourceTree = "<group>"; };
 		1586D3032AB193F7001D4A80 /* Season.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Season.swift; sourceTree = "<group>"; };
+		1588978A2BFC2EEA006BB978 /* PostDetailChatViewModelable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailChatViewModelable.swift; sourceTree = "<group>"; };
+		1588978C2BFC3105006BB978 /* PostDetailSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailSection.swift; sourceTree = "<group>"; };
+		1588978E2BFC3FBA006BB978 /* PostDetailChatDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailChatDataSource.swift; sourceTree = "<group>"; };
+		158897902BFC403F006BB978 /* PostDetailChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailChatViewModel.swift; sourceTree = "<group>"; };
 		158981B92BB2652700F016CF /* PostCommentAPIEndpointTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PostCommentAPIEndpointTests.swift; path = Source/Data/Network/Tests/PostCommentAPIEndpointTests.swift; sourceTree = SOURCE_ROOT; };
 		158BEF762A0E279700C27861 /* BasePostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasePostView.swift; sourceTree = "<group>"; };
 		158BEF782A0E27BD00C27861 /* PostCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCollectionView.swift; sourceTree = "<group>"; };
@@ -2728,6 +2736,8 @@
 			isa = PBXGroup;
 			children = (
 				15B9286E2AFA49C4003A20D4 /* PostDetailViewModel.swift */,
+				1588978C2BFC3105006BB978 /* PostDetailSection.swift */,
+				158897902BFC403F006BB978 /* PostDetailChatViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -2735,10 +2745,12 @@
 		1546DF1F2B0A6D5300B49A55 /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
+				1588978A2BFC2EEA006BB978 /* PostDetailChatViewModelable.swift */,
+				1588978E2BFC3FBA006BB978 /* PostDetailChatDataSource.swift */,
 				15B9286A2AFA4463003A20D4 /* PostDetailTableViewDataSource.swift */,
 				15B9286C2AFA47B0003A20D4 /* PostDetailTableViewAdapterDelegate.swift */,
-				159F38BC2AFAA1F7000A24C2 /* PostDetailCategoryHeaderViewDelegate.swift */,
 				1586BA862BBBCCCB001AA97C /* PostDetailViewModelable.swift */,
+				159F38BC2AFAA1F7000A24C2 /* PostDetailCategoryHeaderViewDelegate.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -3763,7 +3775,6 @@
 			isa = PBXGroup;
 			children = (
 				15D7C48F2BAA0D5100BBD5EB /* Protocol */,
-				15D7C48E2BAA0CB500BBD5EB /* Model */,
 				15D7C48D2BAA0C7B00BBD5EB /* View */,
 				15FFAC342ADD4C990013DB57 /* Adapter */,
 				15FFAC352ADD4DED0013DB57 /* ViewModel */,
@@ -3787,20 +3798,6 @@
 				159958802B0DC57600B2E4DC /* PostCellWithFiveThumbnails.swift */,
 			);
 			path = View;
-			sourceTree = "<group>";
-		};
-		15D7C48E2BAA0CB500BBD5EB /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				15FFAC372ADD501B0013DB57 /* PostInfo.swift */,
-				15CB23652A10B7F1003EAF20 /* PostContentInfo.swift */,
-				15CB235A2A109CA4003EAF20 /* PostHeaderContentBottomInfo.swift */,
-				15CB23682A10B9CF003EAF20 /* PostFooterInfo.swift */,
-				15FFAC392ADE47910013DB57 /* PostHeaderInfo.swift */,
-				15FFAC3B2ADE50880013DB57 /* PostHeaderContentInfo.swift */,
-				152834D42BAB4DED00453DD1 /* PostViewSection.swift */,
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		15D7C48F2BAA0D5100BBD5EB /* Protocol */ = {
@@ -4188,6 +4185,13 @@
 		15FFAC352ADD4DED0013DB57 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				15FFAC372ADD501B0013DB57 /* PostInfo.swift */,
+				15CB23652A10B7F1003EAF20 /* PostContentInfo.swift */,
+				15CB235A2A109CA4003EAF20 /* PostHeaderContentBottomInfo.swift */,
+				15CB23682A10B9CF003EAF20 /* PostFooterInfo.swift */,
+				15FFAC392ADE47910013DB57 /* PostHeaderInfo.swift */,
+				15FFAC3B2ADE50880013DB57 /* PostHeaderContentInfo.swift */,
+				152834D42BAB4DED00453DD1 /* PostViewSection.swift */,
 				15CB236E2A10C314003EAF20 /* PostCellViewModel.swift */,
 				15CB23732A110FB4003EAF20 /* PostViewModel.swift */,
 			);
@@ -4696,6 +4700,7 @@
 				15D655872B8E0ABF00466FEC /* UserNicknameRequestDTO.swift in Sources */,
 				15EF8C972A0A18960068C744 /* CategoryPageViewModel.swift in Sources */,
 				1383C81F2B9815B700830F1A /* KeychainKey.swift in Sources */,
+				1588978F2BFC3FBA006BB978 /* PostDetailChatDataSource.swift in Sources */,
 				154CA60B2BD3A02D0066B444 /* TourApiBaseRequestDTO.swift in Sources */,
 				154CA6082BD39D920066B444 /* TourApiRequestType.swift in Sources */,
 				15803C542BDA522500D83F2B /* FirestoreUserProfileSettingRepository.swift in Sources */,
@@ -4950,6 +4955,7 @@
 				13E7EAF32BE02EA80027946C /* DefaultFestivalUseCase.swift in Sources */,
 				158695992AE621010087CCB3 /* FeedPostViewModelable.swift in Sources */,
 				13405F6B2AF665B100382796 /* ReviewWritingCoordinator.swift in Sources */,
+				158897912BFC403F006BB978 /* PostDetailChatViewModel.swift in Sources */,
 				13EB3D182BF0AE5900CA84F0 /* TourIntroductionInfoLeportsResponseDTO.swift in Sources */,
 				15FBD5CE2B98D13D00076115 /* TravelPartnerMapper.swift in Sources */,
 				15B01DA92BA9425E00BE9F98 /* DefaultLoggedInUserRepository.swift in Sources */,
@@ -5164,7 +5170,9 @@
 				13E7EAF12BE02DD10027946C /* FestivalUseCase.swift in Sources */,
 				15EBD9172BE8A2BD00BCEA7F /* FirestorePostCommentHeartAPIEndopint.swift in Sources */,
 				1390CC5D2A8BADEC00E34DC3 /* TitleWithButtonHeaderViewDelegate.swift in Sources */,
+				1588978D2BFC3105006BB978 /* PostDetailSection.swift in Sources */,
 				15F2A0202B15AEA10014603D /* ConnectedSNSStackView.swift in Sources */,
+				1588978B2BFC2EEA006BB978 /* PostDetailChatViewModelable.swift in Sources */,
 				13CB6D362A20E12B00D185B2 /* CALayer+Border.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

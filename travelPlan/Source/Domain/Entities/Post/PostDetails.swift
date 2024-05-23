@@ -12,5 +12,4 @@ struct PostDetails {
   let author: Post.Author
   var isFavorite: Bool
   let category: Post.Category
-  var comments: [PostCommentEntity] = []
 }

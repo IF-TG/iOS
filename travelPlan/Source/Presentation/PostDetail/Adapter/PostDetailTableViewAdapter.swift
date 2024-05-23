@@ -17,6 +17,8 @@ final class PostDetailTableViewAdapter: NSObject {
   // MARK: - Properties
   private weak var dataSource: PostDetailTableViewDataSource?
   
+  private weak var chatDataSource: PostDetailChatDataSource?
+  
   weak var delegate: PostDetailTableViewDelegates?
   
   private let defaultSection = PostDetailSection.defaultNumberOfSections
@@ -31,14 +33,20 @@ final class PostDetailTableViewAdapter: NSObject {
   
   private var isDisplyingDurationInNavi: Bool = false
   
+  var numberOfSections: Int {
+    (dataSource?.numberOfSections ?? 0) + (chatDataSource?.numberOfSections ?? 0)
+  }
+  
   // MARK: - Lifecycle
   init(
     dataSource: PostDetailTableViewDataSource?,
+    chatDataSource: PostDetailChatDataSource?,
     delegate: PostDetailTableViewDelegates?,
     tableView: UITableView
   ) {
     super.init()
     self.dataSource = dataSource
+    self.chatDataSource = chatDataSource
     self.delegate = delegate
     tableView.dataSource = self
     tableView.delegate = self
@@ -48,16 +56,22 @@ final class PostDetailTableViewAdapter: NSObject {
 // MARK: - UITableViewDataSource
 extension PostDetailTableViewAdapter: UITableViewDataSource {
   func numberOfSections(in tableView: UITableView) -> Int {
-    return dataSource?.numberOfSections ?? 0
+    return numberOfSections
   }
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return dataSource?.numberOfRows(in: section) ?? 0
+    let detailSection = PostDetailSection(rawValue: section)
+    switch detailSection {
+    case .postDescription, .postContent, .postHeartAndShareArea:
+      return dataSource?.numberOfRows(in: section) ?? 0
+    case .comments:
+      return chatDataSource?.numberOfRows(in: detailSection) ?? 0
+    }
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    let sectionType = PostDetailSection(rawValue: indexPath.section)
     guard let dataSource else { return .init(frame: .zero) }
-    let sectionType: PostDetailSection = .init(rawValue: indexPath.section) ?? .postDescription
     switch sectionType {
     case .postDescription:
       guard let cell = tableView.dequeueReusableCell(
@@ -91,13 +105,16 @@ extension PostDetailTableViewAdapter: UITableViewDataSource {
         return cell
       }
     default:
-      guard let cell = tableView.dequeueReusableCell(
-        withIdentifier: PostDetailReplyCell.id,
-        for: indexPath
-      ) as? PostDetailReplyCell else {
+      guard
+        let cell = tableView.dequeueReusableCell(
+          withIdentifier: PostDetailReplyCell.id,
+          for: indexPath
+        ) as? PostDetailReplyCell,
+        let chatDataSource
+      else {
         return .init(frame: .zero)
       }
-      cell.configure(with: dataSource.replyItem(at: indexPath))
+      cell.configure(with: chatDataSource.replyItem(at: indexPath))
       cell.delegate = self
       return cell
     }
@@ -111,14 +128,13 @@ extension PostDetailTableViewAdapter: UITableViewDelegate {
       postTitleCellMaxY = cell.frame.maxY
       isDisplyingTitleInNavi = true
     }
-    // TODO: - 서버에서 만약 댓글달았을때 에대한 bool값 있으면 배경색 파랑 -> 원래색으로 돌아오는 피그마 ui추가.
+    // TODO: - 서버에서 만약 댓글달았을때 에대한 bool값 있으면 배ㅁ경색 파랑 -> 원래색으로 돌아오는 피그마 ui추가.
+    // MARK: - 내가 댓글이나 대댓글 달았을때 적용하자. RESTFul에선 실시간으로 댓글달린거 갱신이 불가능!! 내가단거 한정으로!!
   }
   
   func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-    guard 
-      let dataSource,
-      let sectionType: PostDetailSection = .init(rawValue: section)
-    else { return nil }
+    let sectionType = PostDetailSection(rawValue: section)
+    guard let dataSource else { return nil }
     switch sectionType {
     case .postDescription:
       guard let header = tableView.dequeueReusableHeaderFooterView(
@@ -128,8 +144,7 @@ extension PostDetailTableViewAdapter: UITableViewDelegate {
       }
       header.configure(with: dataSource.cateogry)
       return header
-    case .postContent:
-      return nil
+    case .postContent: return nil
     case .postHeartAndShareArea:
       guard let postHeartAreaHeader = tableView.dequeueReusableHeaderFooterView(
         withIdentifier: PostHeartAndShareAreaHeaderView.id
@@ -139,7 +154,8 @@ extension PostDetailTableViewAdapter: UITableViewDelegate {
       postHeartAreaHeader.delegate = self
       return postHeartAreaHeader
     default:
-      let cellInfo = dataSource.commentItem(in: section)
+      guard let chatDataSource else { return nil }
+      let cellInfo = chatDataSource.commentItem(in: PostDetailSection(rawValue: section))
       if cellInfo.isDeleted {
         guard let commentHeader = tableView.dequeueReusableHeaderFooterView(
           withIdentifier: PostDetailDeletedOrUnknwonCommentHeader.id
@@ -148,7 +164,6 @@ extension PostDetailTableViewAdapter: UITableViewDelegate {
         }
         return commentHeader
       }
-      
       guard let commentHeader = tableView.dequeueReusableHeaderFooterView(
         withIdentifier: PostDetailCommentHeader.id
       ) as? PostDetailCommentHeader else {
@@ -158,14 +173,11 @@ extension PostDetailTableViewAdapter: UITableViewDelegate {
       commentHeader.delegate = self
       return commentHeader
     }
-    
   }
   
   func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-    guard
-      let dataSource,
-      let sectionType: PostDetailSection = .init(rawValue: section)
-    else { return nil }
+    let sectionType = PostDetailSection(rawValue: section)
+    guard let dataSource else { return nil }
     switch sectionType {
     case .postDescription:
       guard let footer = tableView.dequeueReusableHeaderFooterView(
@@ -191,7 +203,7 @@ extension PostDetailTableViewAdapter: UITableViewDelegate {
   }
   
   func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-    guard let sectionType: PostDetailSection = .init(rawValue: section) else { return .leastNonzeroMagnitude }
+    let sectionType = PostDetailSection(rawValue: section)
     switch sectionType {
     case .postDescription:
       return UITableView.automaticDimension
@@ -205,10 +217,7 @@ extension PostDetailTableViewAdapter: UITableViewDelegate {
   }
   
   func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-    guard 
-      let sectionType: PostDetailSection = .init(rawValue: section),
-      let dataSource
-    else { return 0 }
+    let sectionType: PostDetailSection = PostDetailSection(rawValue: section)
     switch sectionType {
     case .postDescription,
         .postHeartAndShareArea:
@@ -216,7 +225,7 @@ extension PostDetailTableViewAdapter: UITableViewDelegate {
     case .postContent:
       return 0
     default:
-      return (dataSource.numberOfSections - defaultSection <= 0)
+      return (numberOfSections - defaultSection <= 0)
               ? .leastNonzeroMagnitude : UITableView.automaticDimension
     }
   }
@@ -226,7 +235,7 @@ extension PostDetailTableViewAdapter: UITableViewDelegate {
   }
   
   func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-    guard let sectionType: PostDetailSection = .init(rawValue: section) else { return }
+    let sectionType = PostDetailSection(rawValue: section)
     if sectionType == .postDescription {
       let header = view as? PostDetailCategoryHeaderView
       if header?.delegate != nil { return }
@@ -235,7 +244,7 @@ extension PostDetailTableViewAdapter: UITableViewDelegate {
   }
   
   func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
-    guard let sectionType: PostDetailSection = .init(rawValue: section) else { return }
+    let sectionType = PostDetailSection(rawValue: section)
     if sectionType == .postDescription {
       let footer = view as? PostDetailProfileAreaFooterView
       if footer?.delegate != nil { return }

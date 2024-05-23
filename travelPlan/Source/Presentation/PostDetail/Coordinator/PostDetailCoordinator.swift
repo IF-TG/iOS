@@ -72,35 +72,47 @@ final class PostDetailCoordinator: NSObject, FlowCoordinator {
     let userBlockUseCase = DefaultUserBlockUseCase(userBlockRepository: mockUserBlockRepository)
     
     let actions = PostDetailViewModelActions(
-      showReviewWriting: { [weak self] entity in self?.showReviewWriting(entity: entity) },
+      showAlertForError: { [weak self] message, completion in
+        self?.showAlertForError(with: message, completion: completion)
+      },
+      showPostOption: { [weak self] optionCallback in self?.showOption(handler: optionCallback) },
+      showPostAuthorBlock: { [weak self] authName, completion in
+        self?.showPostAuthorBlock(authName, handler: completion)
+      },
+      showPostReport: { [weak self] reportCallback in self?.showPostReport(handler: reportCallback) },
+      showPostReportResult: { [weak self] option in self?.showPostReportResult(wtih: option) },
+      showCategory: {[weak self] categories in self?.showCategory(with: categories) },
+      showReviewWriting: { [weak self] entity in self?.showReviewWriting(entity: entity) })
+    
+    let chatActions = PostDetailChatViewModelActions(
       showAlertForError: { [weak self] message, completion in
         self?.showAlertForError(with: message, completion: completion)
       },
       showAnAlertToAskWhetherToCancelWriting: { [weak self] type, completion in
         self?.showAnAlertToAskWhetherToCancelWriting(type: type, completion: completion)
       },
-      showPostOption: { [weak self] optionCallback in self?.showOption(handler: optionCallback) },
       showCommentOption: { [weak self] isCommentOwner, optionCallBack in
         self?.showCommentOption(isCommentOwner: isCommentOwner, handler: optionCallBack)
-      },
-      showPostAuthorBlock: { [weak self] authName, completion in
-        self?.showPostAuthorBlock(authName, handler: completion)
-      },
-      showPostReport: { [weak self] reportCallback in self?.showPostReport(handler: reportCallback) },
-      showPostReportResult: { [weak self] option in self?.showPostReportResult(wtih: option) },
-      showCategory: {[weak self] categories in self?.showCategory(with: categories) })
-
+      })
+    
     let postDetailVM = PostDetailViewModel(
       post: post,
       category: category,
       postFetchUsecase: defaultPostFetchUseCase,
-      postCommentsAndPostLikeStateFetchUseCase: defaultPostCommetnsAndPostLikeStateFetchUseCase,
-      postCommentUseCase: postCommentUseCase,
       loggedInUserUseCase: loggedInUserUseCase,
-      postNestedCommentUseCase: postNestedCommentUseCase,
       userBlockUseCase: userBlockUseCase,
       actions: actions)
-    postDetailViewController = PostDetailViewController(viewModel: postDetailVM)
+    
+    let postDetailChatVM = PostDetailChatViewModel(
+      postId: post.detail.postID,
+      postCommentsAndPostLikeStateFetchUseCase: defaultPostCommetnsAndPostLikeStateFetchUseCase,
+      postCommentUseCase: postCommentUseCase,
+      postNestedCommentUseCase: postNestedCommentUseCase,
+      loggedInUserUseCase: loggedInUserUseCase,
+      actions: chatActions)
+    postDetailViewController = PostDetailViewController(
+      viewModel: postDetailVM,
+      chatViewModel: postDetailChatVM)
     self.viewModelPostReceivable = postDetailVM
     presenter?.delegate = self
   }

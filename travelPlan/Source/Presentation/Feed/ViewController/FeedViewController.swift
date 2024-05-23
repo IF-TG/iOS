@@ -58,15 +58,11 @@ final class FeedViewController: UIViewController {
     }.eraseToAnyPublisher()
   }
   
-  // MARK: - LifeCycle
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    input.appear.send()
-  }
-  
+  // MARK: - LifeCycle  
   override func viewDidLoad() {
     super.viewDidLoad()
     configureUI()
+    input.appear.send()
   }
   
   init(
@@ -166,9 +162,9 @@ extension FeedViewController {
 
 // MARK: - ViewBindCase
 extension FeedViewController: ViewBindCase {
-  typealias Input = FeedViewModel.Input
-  typealias ErrorType = FeedViewModel.ErrorType
-  typealias State = FeedViewModel.State
+  typealias Input = FeedViewModelInput
+  typealias ErrorType = Never
+  typealias State = FeedViewModelState
   
   func bind() {
     let output = viewModel.transform(input)
@@ -210,15 +206,14 @@ extension FeedViewController: ViewBindCase {
         }, completion: { _ in
           self.coordinator?.showReviewWrite()
         })
-    }
-  }
-  
-  func handleError(_ error: ErrorType) {
-    switch error {
-    case .none:
+    case .unexpectedError(description: let description):
+      print(description)
+      // TODO: - 에러는 여기서 알림창으로 보여주기
       break
     }
   }
+  
+  func handleError(_ error: ErrorType) { }
 }
 
 // MARK: - PostOrderCategoryBottomSheetDelegate
