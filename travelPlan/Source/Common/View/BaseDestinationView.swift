@@ -41,7 +41,6 @@ class BaseDestinationView<CenterView>: UIView where CenterView: UIView & CellCon
       case .default:
         return UIImageView().set {
           $0.contentMode = .scaleAspectFill
-          
           $0.layer.cornerRadius = Constant.ThumbnailImageView.defaultCornerRadius
           $0.clipsToBounds = true
         }
@@ -55,21 +54,13 @@ class BaseDestinationView<CenterView>: UIView where CenterView: UIView & CellCon
 //  weak var delegate: StarButtonDelegate?
   private let thumbnailImageView: UIImageView
   private let centerView: CenterView
-  private lazy var starButton: SearchStarButton = .init(normalType: .black).set {
-    $0.addTarget(self, action: #selector(didTapStarButton(_:)), for: .touchUpInside)
-  }
-  private let starButtonClicked = PassthroughSubject<Void, Never>()
+  private let starButton: SearchStarButton = .init(normalType: .black)
   
-  var starButtonPublisher: AnyPublisher<Void, Never> {
-    return starButtonClicked.eraseToAnyPublisher()
+  var starButtonTapPublisher: AnyPublisher<Void, Never> {
+    return starButton.tap.eraseToAnyPublisher()
   }
   
   // MARK: - LifeCycle
-// centerView를 직접 추가해야 합니다. imageView는 type에 따라서 설정할 수 있습니다.
-//  convenience init(centerView: CenterView, imageViewType: ImageViewType) {
-//    self.init(frame: .zero, centerView: centerView, imageViewType: imageViewType)
-//  }
-  
   init(centerView: CenterView, imageViewType: ImageViewType) {
     self.centerView = centerView
     self.thumbnailImageView = imageViewType.imageView
@@ -79,11 +70,6 @@ class BaseDestinationView<CenterView>: UIView where CenterView: UIView & CellCon
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
-  }
-  
-  // MARK: - Actions
-  @objc private func didTapStarButton(_ button: UIButton) {
-    starButtonClicked.send()
   }
 }
 
