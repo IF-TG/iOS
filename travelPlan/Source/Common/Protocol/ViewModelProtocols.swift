@@ -51,8 +51,8 @@ protocol ViewModelCase: ViewModelAssociatedType {
 protocol ViewModelable {
   associatedtype Input
   associatedtype State
-  associatedtype Output
-//  typealias Output = AnyPublisher<State, Never>
+  // associatedtype Output
+typealias Output = AnyPublisher<State, Never>
   
   func transform(_ input: Input) -> Output
 }

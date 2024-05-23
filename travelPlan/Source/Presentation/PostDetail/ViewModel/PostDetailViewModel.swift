@@ -8,57 +8,11 @@
 import Foundation
 import Combine
 
-enum PostDetailSection: Int {
-  case postDescription
-  case postContent
-  case postHeartAndShareArea
-  /// 2 이상부터는 comments가 있습니다.
-  case comments
-  
-  init?(rawValue: Int) {
-    switch rawValue {
-    case 0:
-      self = .postDescription
-    case 1:
-      self = .postContent
-    case 2:
-      self = .postHeartAndShareArea
-    default:
-      self = .comments
-    }
-  }
-  
-  static let defaultNumberOfSections = 3
-  
-  static func commentIndex(section: Int) -> Int {
-    section - defaultNumberOfSections
-  }
-}
-
 final class PostDetailViewModel {
   typealias SectionType = PostDetailSection
-  
-  // MARK: - Nested
-  @frozen enum CommentUseCaseInput {
-    case send(UserInputText)
-    case edit(UserInputText)
-    case delete(Section)
-  }
-  
-  @frozen enum NestedCommentUseCaseInput {
-    case send(UserInputText)
-    case edit(UserInputText)
-    case delete(IndexPath)
-  }
-  
+
   // MARK: - Dependencies
   private let postFetchUsecase: PostFetchUseCase
-  
-  private let postCommentsAndPostLikeStateFetchUseCase: PostCommentsAndPostLikeStateFetchUseCase
-  
-  private let postCommentUseCase: PostCommentUseCase
-  
-  private let postNestedCommentUseCase: PostNestedCommentUseCase
   
   private let loggedInUserUseCase: LoggedInUserUseCase
   
@@ -67,20 +21,10 @@ final class PostDetailViewModel {
   // MARK: - Properties
   private var postDetails: PostDetails
   
-  private let commentUseCaseNotifier = PassthroughSubject<CommentUseCaseInput, Never>()
-  
-  private let commentUseCaseHandler = PassthroughSubject<CommentUseCaseInput, Never>()
-  
-  private let commentEditNotifier = PassthroughSubject<Int, Never>()
-  
-  private let nestedCommentUseCaseNotifier = PassthroughSubject<NestedCommentUseCaseInput, Never>()
-  
-  private let nestedCommentUseCaseHandler = PassthroughSubject<NestedCommentUseCaseInput, Never>()
-  
-  private let nestedCommentEditNotifier = PassthroughSubject<IndexPath, Never>()
+  private let postAuthoommentEditNotifier = PassthroughSubject<IndexPath, Never>()
   
   private let loggedInUserUseCaseHandler = PassthroughSubject<Void, Never>()
-   
+  
   private let postReportNotifier = PassthroughSubject<PostReportType, Never>()
   
   private let postReportHandler = PassthroughSubject<PostReportType, Never>()
@@ -90,62 +34,23 @@ final class PostDetailViewModel {
   private let postAuthorBlockHandler = PassthroughSubject<Void, Never>()
   
   private let navigationInfo = PassthroughSubject<Void, Never>()
-
-  private let keyboardDidHideHandler = PassthroughSubject<(PostDetailWritingCacnelType, Bool), Never>()
-  
-  /// 사용자가 대댓글 작성중인 경우 not nil. 댓글을 작성중인 경우 nil
-  private var replyingSection: Int?
-  
-  /// 사용자가 대댓글 수정중인 경우 not nil. 댓글을 수정하지 않을 경우 nil
-  private var editingNestedCommentIndexPath: IndexPath?
-  
-  /// 사용자가 댓글 수정중인 경우 not nil, 댓글을 수정하지 않는 일반적인 경우 nil
-  private var editingCommentSection: Int?
   
   private let actions: PostDetailViewModelActions?
   
   private var postReportResultOption: PostDetailOption? = .none
-  
-  private var post: Post?
-  
-  // MARK: - Paging Properties
-  // TODO: - 페이징 추가해야합니다.
-  // 그런데 댓글의 경우 좀 복잡할거같은데,, 사용자가 삭제하면 어떻게하지? 기존에 저장된 정보(이미 페이징 한 데이터)가
-  // 확실하다는 보장이 없을거같은데 페이징 보다는 맞으려나?
-  private var isPaging: Bool = false
-  
-  private let perPage: Int32 = 15
-  
-  private var currentPage: Int32 = 0
-  
-  private var nextPage: Int32 { hasMorePages ? currentPage + 1 : currentPage }
-  
-  // 서버에서 얻어와야 합니다.
-  private var totalCommentCount: Int32 = 0
-  
-  private var hasMorePages: Bool {
-    let totalPageCount = totalCommentCount/perPage
-    return currentPage < totalPageCount
-  }
   
   // MARK: - Lifecycle
   init(
     post: Post,
     category: Post.Category,
     postFetchUsecase: PostFetchUseCase,
-    postCommentsAndPostLikeStateFetchUseCase: PostCommentsAndPostLikeStateFetchUseCase,
-    postCommentUseCase: PostCommentUseCase,
     loggedInUserUseCase: LoggedInUserUseCase,
-    postNestedCommentUseCase: PostNestedCommentUseCase,
     userBlockUseCase: UserBlockUseCase,
     actions: PostDetailViewModelActions?
   ) {
     self.postDetails = PostMapper.toPostDetails(post, category: category)
     self.postFetchUsecase = postFetchUsecase
-    self.postCommentsAndPostLikeStateFetchUseCase = postCommentsAndPostLikeStateFetchUseCase
-    self.postCommentUseCase = postCommentUseCase
     self.loggedInUserUseCase = loggedInUserUseCase
-    self.postNestedCommentUseCase = postNestedCommentUseCase
     self.userBlockUseCase = userBlockUseCase
     self.actions = actions
   }
@@ -167,61 +72,6 @@ extension PostDetailViewModel: PostDetailViewModelPageDelegate {
       contents: postContents
     )
     actions?.showReviewWriting(reviewWritingEntity)
-  }
-  
-  func showCommentOption(section: Int) {
-    let commentSection = SectionType.commentIndex(section: section)
-    // TODO: - 아.. 댓글 작성자의 id가 있어야 하지만 entity에 없습니다.
-    let comment = postDetails.comments[commentSection]
-    guard let loggedUserId = loggedInUserUseCase.id else {
-      showAlertForError(with: "로그인 한 사용자만 이용 가능합니다.", completion: nil)
-      return
-    }
-    // TODO: - 로그인한 사용자가 작성한 댓글인지 여부에 따라 사용자 신고 기능만 추가될건지, 댓글 삭제, 수정 기능만 추가될 것인지..
-    // 만약 자신이라면, 삭제, 수정 기능
-    // 만약 타인꺼 댓글이라면 신고 기능만,,,
-    // 신고 기능 api도 없음으로 일단 자신꺼에 한정해 삭제, 수정 기능만 넣고 자신것이 아니라면 알림창으로 본인만 수정 가능하다고 보여주어야 합니다.
-    let commentUploadedUserId = loggedUserId
-    actions?.showCommentOption(loggedUserId == commentUploadedUserId) { [weak self] commentOption in
-      switch commentOption {
-      case .commentDelete:
-        self?.commentUseCaseNotifier.send(.delete(section))
-      case .commentUpdate:
-        // MARK: - 업데이트는 로직을 isCommentUpdating 이걸 추가하면서 대댓글 작성 과 같게 로직을 짜야 합니다.
-        // self?.commentUseCaseNotifier.send(.update(section))
-        self?.commentEditNotifier.send(section)
-      case .commentUserBlock:
-        self?.showAlertForError(with: "댓글 차단 기능은 다음 업데이트 때 구현될 예정입니다.", completion: nil)
-      }
-    }
-  }
-  
-  func showNestedCommentOption(indexPath: IndexPath) {
-    let commentSection = SectionType.commentIndex(section: indexPath.section)
-    // TODO: - 아.. nestedCommentEntity에 대댓 작성한 UserId가 있어야 하지만 entity에 없습니다.
-    let nestedComment = postDetails.comments[commentSection].nestedComments[indexPath.row]
-    
-    guard let loggedUserId = loggedInUserUseCase.id else {
-      showAlertForError(with: "로그인 한 사용자만 이용 가능합니다.", completion: nil)
-      return
-    }
-    
-    // TODO: - 로그인한 사용자가 작성한 댓글인지 여부에 따라 사용자 차단 기능만 추가될건지, 댓글 삭제, 수정 기능만 추가될 것인지..
-    // 만약 자신이라면, 삭제, 수정 기능
-    // 만약 타인꺼 댓글이라면 차단 기능만,,,
-    // 신고 기능 api도 없음으로 일단 자신꺼에 한정해 삭제, 수정 기능만 넣고 자신것이 아니라면 알림창으로 보여주어야 합니다.
-    let commentUploadedUserId = loggedUserId
-    actions?.showCommentOption(loggedUserId == commentUploadedUserId) { [weak self] commentOption in
-      switch commentOption {
-      case .commentDelete:
-        self?.nestedCommentUseCaseNotifier.send(.delete(indexPath))
-      case .commentUpdate:
-        // MARK: - 업데이트는 로직을 isNestedCommentUpdating 이걸 추가하면서 대댓글 작성 과 같게 로직을 짜야 합니다.
-        self?.nestedCommentEditNotifier.send(indexPath)
-      case .commentUserBlock:
-        self?.showAlertForError(with: "대댓글 차단 기능은 다음 업데이트 때 구현될 예정입니다.", completion: nil)
-      }
-    }
   }
   
   func showAlertForError(with description: String, completion: (() -> Void)?) {
@@ -281,26 +131,15 @@ extension PostDetailViewModel: PostDetailViewModelPageDelegate {
 
 // MARK: - PostDetailViewModelable
 extension PostDetailViewModel: PostDetailViewModelable {
-  
   func transform(_ input: PostDetailViewModelInput) -> AnyPublisher<PostDetailViewModelState, Never> {
     return Publishers.MergeMany([
       viewDidLoadStream(input),
       navigationInfoStream(),
-      handleCommentInputStream(input),
-      commentUseCaseHandlerStream(),
-      nestedCommentUseCaseHandlerStream(),
       loggedInUserUseCaseHandlerStream(),
-      replyStartNotifierStream(input),
-      keyboardDidHideHandlerStream(),
-      keyboardDidHideNotifierStream(input),
       postReportNotifierStream(),
       postAuthorBlockNotifierStream(),
       postReportHandlerStream(),
-      postAuthorBlockHandlerStream(),
-      commentUseCaseNotifierStream(),
-      nestedCommentEditNotifierStream(),
-      commentEditNotifierStream(),
-      nestedCommentUseCaseNotifierStream()
+      postAuthorBlockHandlerStream()
     ]).eraseToAnyPublisher()
   }
 }
@@ -321,183 +160,26 @@ private extension PostDetailViewModel {
   }
   func viewDidLoadStream(_ input: Input) -> Output {
     return input.viewDidLoad
-      .flatMap { [weak self] in
+      .map { [weak self] _ -> State in
         self?.navigationInfo.send()
         self?.loggedInUserUseCaseHandler.send()
-        return self?.fetchCommentsWhenViewDidLoad() ?? Just(
-          State.unexpectedError(
-            description: ReferenceError.invalidReference.localizedDescription)
-        ).eraseToAnyPublisher()
-      }.eraseToAnyPublisher()
-  }
-  
-  /// CommnetInput에서 send가 눌러질 경우. 댓글, 대댓글 작성 및 수정 등 전송 관련 로직 담당
-  func handleCommentInputStream(_ input: Input) -> Output {
-    input.commentSendHandler
-      .map { [weak self] userInputText -> State in
-        DispatchQueue.global(qos: .userInitiated).async {
-          /// 대댓글인 작성 후 전송할 것인가?
-          let isReplyWrittenForSend = self?.replyingSection != nil
-          /// 대댓글 수정 후 전송할 것인가?
-          let isReplyWrittenForEdit = self?.editingNestedCommentIndexPath != nil
-          /// 댓글 수정 후 전송할 것인가?
-          let isCommentWrittenForEdit = self?.editingCommentSection != nil
-          
-          if isReplyWrittenForSend {
-            self?.nestedCommentUseCaseHandler.send(.send(userInputText))
-          } else if isReplyWrittenForEdit {
-            self?.nestedCommentUseCaseHandler.send(.edit(userInputText))
-          } else if isCommentWrittenForEdit {
-            self?.commentUseCaseHandler.send(.edit(userInputText))
-          } else {
-            // 일반적으로 댓글 작성시 호출됩니다.
-            self?.commentUseCaseHandler.send(.send(userInputText))
-          }
-        }
-        return .networkProcessing
-      }.eraseToAnyPublisher()
-  }
-  
-  /// 커맨트 유즈케이스 관련 전반적인 역할 담당.
-  func commentUseCaseHandlerStream() -> Output {
-    commentUseCaseHandler
-      .flatMap { [weak self] useCaseInput in
-        switch useCaseInput {
-        case .send(let text):
-          return self?.sendCommentStream(with: text) ?? Just(
-            State.unexpectedError(description: "댓글을 전송할 수 없습니다.")
-          ).eraseToAnyPublisher()
-        case .edit(let userInputText):
-          return self?.updateCommentStream(with: userInputText) ?? Just(
-            State.unexpectedError(description: "댓글을 수정할 수 없습니다.")
-          ).eraseToAnyPublisher()
-        case .delete(let section):
-          return self?.deleteCommentStream(with: section) ?? Just(
-            State.unexpectedError(description: "댓글을 삭제할 수 없습니다.")
-          ).eraseToAnyPublisher()
-          
-        }
-      }.eraseToAnyPublisher()
-  }
-  
-  func nestedCommentUseCaseHandlerStream() -> Output {
-    return nestedCommentUseCaseHandler
-      .flatMap { [weak self] useCaseInput in
-        switch useCaseInput {
-        case .send(let text):
-          return self?.sendNestedCommentStream(with: text) ?? Just(
-            State.unexpectedError(description: "대댓글을 전송할 수 없습니다.")
-          ).eraseToAnyPublisher()
-        case .edit(let editedText):
-          return self?.updateNestedCommentStream(with: editedText) ?? Just(
-            State.unexpectedError(description: "대댓글 편집에 실패했습니다.")
-          ).eraseToAnyPublisher()
-        case .delete(let indexPath):
-          return self?.deleteNestedCommentStream(with: indexPath) ?? Just(
-            State.unexpectedError(description: "앱 내부 에러가 발생됬습니다.대댓글을 삭제할 수 없습니다.")
-          ).eraseToAnyPublisher()
-        }
-      }.eraseToAnyPublisher()
-  }
-  
-  /// 옵션에서 편집하기가 될 경우 키보드 보여주는 로직
-  func nestedCommentEditNotifierStream() -> Output {
-    return nestedCommentEditNotifier
-      .map { [weak self] indexPath -> State in
-        self?.editingNestedCommentIndexPath = indexPath
-        let commentIndex = SectionType.commentIndex(section: indexPath.section)
-        guard let comment = self?.postDetails.comments[commentIndex] else {
-          return State.unexpectedError(description: "앱 내부 에러가 발생됬습니다. 대댓글을 수정할 수 없습니다.")
-        }
-        let replyComment = comment.nestedComments[indexPath.row].comment
-        return State.keyboard(.willShowWhenCommentEditStart(replyComment))
-      }.eraseToAnyPublisher()
-  }
-  
-  func commentEditNotifierStream() -> Output {
-    return commentEditNotifier
-      .map { [weak self] section -> State in
-        self?.editingCommentSection = section
-        let commentIndex = SectionType.commentIndex(section: section)
-        guard let comment = self?.postDetails.comments[commentIndex] else {
-          return State.unexpectedError(description: "앱 내부 에러가 발생됬습니다. 대댓글을 수정할 수 없습니다.")
-        }
-        return .keyboard(.willShowWhenCommentEditStart(comment.comment))
+        return .none
       }.eraseToAnyPublisher()
   }
   
   func loggedInUserUseCaseHandlerStream() -> Output {
     loggedInUserUseCaseHandler.map { [weak self] _ -> State in
-      guard let profileImageData = self?.loggedInUserUseCase.profileImageData else {
-        // 로그인한 사용자의 프로필 확인x.. (맨 처음에 로그인할때 기본 이미지 지정하는게 베스트)
-        return .unexpectedError(description: "로그인한 사용자의 프로필 이미지가 없습니다.")
+      /// 로그인한 사용자라면 아이디가 반드시 로컬에 저장되야 합니다.
+      guard
+        let loggedUserId = self?.loggedInUserUseCase.id,
+        let postAuthorId = self?.postDetails.author.authorId
+      else {
+        return .unexpectedError(description: "로그인한 사용자의 아이디가 없습니다.")
       }
-      // TODO: - 포스트에 포스트 작성 저자와 비교해야 합니다. Server에는 포스트에 아직 author id가 없음으로 패스..
-      guard let loggedUserId = self?.loggedInUserUseCase.id else {
-        // 로그인한 사용자의 프로필 확인x.. (맨 처음에 로그인할때 기본 이미지 지정하는게 베스트)
-        return .unexpectedError(description: "로그인한 사용자의 프로필 이미지가 없습니다.")
-      }
-      // 비교로직.postDetails.Author..
-      return .viewDidLoad(.loggedInUserInfo(userProfile: profileImageData, isPostOwner: true))
+      return .viewDidLoad(.loggedInUserInfo(
+        userProfile: self?.loggedInUserUseCase.profileImageData,
+        isPostOwner: postAuthorId == loggedUserId))
     }.eraseToAnyPublisher()
-  }
-  
-  func replyStartNotifierStream(_ input: Input) -> Output {
-    input.replyStartNotifier.map { [weak self] replySection -> State in
-      self?.replyingSection = replySection
-      return .keyboard(.willShow)
-    }.eraseToAnyPublisher()
-  }
-  
-  // 댓, 대댓, 등 키보드가 사라질때 여기서 처리합니다
-  func keyboardDidHideHandlerStream() -> Output {
-    return keyboardDidHideHandler
-      .map { [weak self] (writingCancelType, wannaCancel) -> State in
-        switch writingCancelType {
-        case .replyWrite:
-          if wannaCancel {
-            self?.replyingSection = nil
-            return .keyboard(.hideToWritingCancel)
-          }
-          return .keyboard(.writingContinue)
-        case .replyEdit:
-          if wannaCancel {
-            self?.editingNestedCommentIndexPath = nil
-            return .keyboard(.hideToWritingCancel)
-          }
-          return .keyboard(.writingContinue)
-        case .commentEdit:
-          if wannaCancel {
-            self?.editingCommentSection = nil
-            return .keyboard(.hideToWritingCancel)
-          }
-          return .keyboard(.writingContinue)
-        }
-      }.eraseToAnyPublisher()
-  }
-  
-  func keyboardDidHideNotifierStream(_ input: Input) -> Output {
-    return input.keyboardHideNotifier
-      .map { [weak self] _ -> State in
-        let isReplyWrittenForSend = self?.replyingSection != nil
-        let isReplyWrittenForEdit = self?.editingNestedCommentIndexPath != nil
-        let isCommentWrittenForEdit = self?.editingCommentSection != nil
-        
-        if isReplyWrittenForSend {
-          self?.actions?.showAnAlertToAskWhetherToCancelWriting(.replyWrite) { wannaCancel in
-            self?.keyboardDidHideHandler.send((.replyWrite, wannaCancel))
-          }
-        } else if isReplyWrittenForEdit {
-          self?.actions?.showAnAlertToAskWhetherToCancelWriting(.replyEdit) { wannaCancel in
-            self?.keyboardDidHideHandler.send((.replyEdit, wannaCancel))
-          }
-        } else if isCommentWrittenForEdit {
-          self?.actions?.showAnAlertToAskWhetherToCancelWriting(.commentEdit) { wannaCancel in
-            self?.keyboardDidHideHandler.send((.commentEdit, wannaCancel))
-          }
-        }
-        return .none
-      }.eraseToAnyPublisher()
   }
   
   func postReportNotifierStream() -> Output {
@@ -539,187 +221,6 @@ private extension PostDetailViewModel {
       return Just(State.unexpectedError(description: "포스트 저자 id가 없어 차단 api 호출할 수 없습니다")).eraseToAnyPublisher()
     }.eraseToAnyPublisher()
   }
-  
-  func commentUseCaseNotifierStream() -> Output {
-    return commentUseCaseNotifier.map { commentInput -> State in
-      DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-        self?.commentUseCaseHandler.send(commentInput)
-      }
-      return .networkProcessing
-    }.eraseToAnyPublisher()
-  }
-  
-  /// 이거 새로 개발한 인디케이터 쓰면 없어질 예정....
-  func nestedCommentUseCaseNotifierStream() -> Output {
-    return nestedCommentUseCaseNotifier.map { nestedCommentInput -> State in
-      DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-        self?.nestedCommentUseCaseHandler.send(nestedCommentInput)
-      }
-      return .networkProcessing
-    }.eraseToAnyPublisher()
-  }
-}
-
-// MARK: - Transform Inner stream
-private extension PostDetailViewModel {
-  /// 초기 viewDidLoad시점에 호출해야 합니다. -> post favorite여부파악.
-  func fetchCommentsWhenViewDidLoad() -> Output {
-    let postCommentRequestValue = PostCommentsRequestValue(
-      page: currentPage,
-      perPage: perPage,
-      postId: postDetails.detail.postID)
-    return postCommentsAndPostLikeStateFetchUseCase.fetchCommentsAndPostLikeStatus(with: postCommentRequestValue)
-      .map {[weak self] postCommentContainerEntity -> State in
-        self?.postDetails.isFavorite = postCommentContainerEntity.isFavorited
-        self?.postDetails.comments += postCommentContainerEntity.comments
-        return .viewDidLoad(.reloadedCommentsWithPostFavoriteInfo(postCommentContainerEntity.isFavorited))
-      }.catch { error in
-        return Just(State.unexpectedError(description: error.localizedDescription))
-      }.eraseToAnyPublisher()
-  }
-  
-  // MARK: - Comment Stream
-  /// 댓글 전송할 때
-  func sendCommentStream(with text: String) -> Output {
-    postCommentUseCase.sendComment(postId: postDetails.detail.postID, comment: text)
-      .map { [weak self] postCommentEntity -> State in
-        self?.postDetails.comments.append(postCommentEntity)
-        return .comment(.reloadedComment)
-      }.catch { error in
-        return Just(State.unexpectedError(description: error.localizedDescription))
-      }.eraseToAnyPublisher()
-  }
-  
-  func deleteCommentStream(with section: Section) -> Output {
-    /// 포스트는 섹션 \(PostDetailSectionType.defaultNumberOfSections)부터 시작합니다.
-    let commentSection = SectionType.commentIndex(section: section)
-    let commentId = postDetails.comments[commentSection].commentId
-    return postCommentUseCase
-      .deleteComment(postId: postDetails.detail.postID, commentId: commentId)
-      .map { [weak self] result -> State in
-        if result {
-          self?.postDetails.comments[commentSection].isDeleted = result
-          
-          guard let nestedCommentCount = self?.postDetails.comments[commentSection].nestedComments.count else {
-            return .unexpectedError(description: "댓글이 삭제되지 않았습니다.")
-          }
-          
-          /// 대댓글 있는 경우
-          if nestedCommentCount > 0 {
-            return .comment(.reloadWithNestedCommentsWhenCommentDelete(section))
-          }
-          
-          /// 대댓글 없는 경우
-          self?.postDetails.comments.remove(at: commentSection)
-          return .comment(.reloadWhenCommentDelete(section))
-        }
-        return .unexpectedError(description: "서버에서 에러가 발생되 댓글이 삭제되지 않았습니다.")
-      }.catch { error in
-        return Just(State.unexpectedError(description: error.localizedDescription))
-      }.eraseToAnyPublisher()
-  }
-  
-  func updateCommentStream(with editedText: String) -> Output {
-    guard let section = editingCommentSection else {
-      return Just(State.unexpectedError(description: "대댓글을 수정할 수 없습니다.")).eraseToAnyPublisher()
-    }
-    let commentIdx = SectionType.commentIndex(section: section)
-    let comment = postDetails.comments[commentIdx]
-    return postCommentUseCase
-      .updateComment(postId: postDetails.detail.postID, commentId: comment.commentId, comment: editedText)
-      .map { [weak self] result -> State in
-        guard result else {
-          return .unexpectedError(description: "서버에서 에러가 발생되어 댓글이 편집되지 않았습니다.")
-        }
-        self?.postDetails.comments[commentIdx].comment = editedText
-        self?.editingCommentSection = nil
-        return .comment(.reloadWhenCommentUpdate(section))
-      }.catch { error in
-        return Just(State.unexpectedError(description: error.localizedDescription))
-      }.eraseToAnyPublisher()
-  }
-  
-  // MARK: - Nested Comment Stream
-  /// 대댓글 전송할 때
-  func sendNestedCommentStream(with text: String) -> Output {
-    guard let replyingSection else {
-      return Just(State.unexpectedError(description: "대댓글을 전송할 수 없습니다.")).eraseToAnyPublisher()
-    }
-    /// 포스트는 섹션 \(PostDetailSectionType.defaultNumberOfSections)부터 시작합니다.
-    let commentSection = SectionType.commentIndex(section: replyingSection)
-    let commentId = postDetails.comments[commentSection].commentId
-    let postId = postDetails.detail.postID
-    return postNestedCommentUseCase
-      .sendNestedComment(postId: postId, commentId: commentId, comment: text)
-      .map { [weak self] postNestedCommentEntity -> State in
-        self?.postDetails.comments[commentSection].nestedComments.append(postNestedCommentEntity)
-        self?.replyingSection = nil
-        /// 대댓글이 속한 댓글 섹션은 replyingSection을 보내주어야 합니다.
-        return .nestedComment(.sentSuccessfully(replyingSection))
-      }.catch { error in
-        return Just(State.unexpectedError(description: error.localizedDescription))
-      }.eraseToAnyPublisher()
-  }
-  
-  // MARK: 삭제된건 더이상 댓글 못달도록 UI 반영해야합니다! 
-  func deleteNestedCommentStream(with indexPath: IndexPath) -> Output {
-    /// 포스트는 섹션 \(PostDetailSectionType.defaultNumberOfSections)부터 시작합니다.
-    let commentSection = SectionType.commentIndex(section: indexPath.section)
-    let nestedCommentId = postDetails.comments[commentSection].nestedComments[indexPath.row].nestedCommentId
-    let commentId = postDetails.comments[commentSection].commentId
-    let postId = postDetails.detail.postID
-    let hasDeletedComment = postDetails.comments[commentSection].isDeleted
-    return postNestedCommentUseCase
-      .deleteNestedComment(
-        postId: postId,
-        commentId: commentId,
-        nestedCommentId: nestedCommentId,
-        hasDeletedComment: hasDeletedComment)
-      .map { [weak self] deletedNestedCommentState -> State in
-        /// 대댓글 제거
-        self?.postDetails.comments[commentSection].nestedComments.remove(at: indexPath.row)
-        
-        switch deletedNestedCommentState {
-        case .justANestedCommentDeleted:
-          return .nestedComment(.reload(indexPath))
-          
-          /// 마지막 대댓글과 댓글도 제거된 경우
-        case .ACommentAndAllNestedCommentsDeleted:
-          self?.postDetails.comments.remove(at: commentSection)
-          /// 테이블뷰에 실제로 특정 셀 제거 후 리로드 명령은 실제 indexPath로 해야합니다.
-          return .nestedComment(.reloadWhenLastNestedCommentDelete(indexPath))
-        }
-      }.catch { error in
-        return Just(State.unexpectedError(description: error.localizedDescription))
-      }.eraseToAnyPublisher()
-  }
-  
-  func updateNestedCommentStream(with editedText: String) -> Output {
-    guard let indexPath = editingNestedCommentIndexPath else {
-      return Just(State.unexpectedError(description: "대댓글을 수정할 수 없습니다.")).eraseToAnyPublisher()
-    }
-    let commentIdx = SectionType.commentIndex(section: indexPath.section)
-    let nestedComment = postDetails.comments[commentIdx].nestedComments[indexPath.row]
-    let commentId = postDetails.comments[commentIdx].commentId
-    let postId = postDetails.detail.postID
-    return postNestedCommentUseCase
-      .updateNestedComment(
-        postId: postId,
-        commentId: commentId,
-        nestedCommentId: nestedComment.nestedCommentId,
-        comment: editedText)
-      .map { [weak self] result -> State in
-        guard result else {
-          return .unexpectedError(description: "서버에서 에러가 발생되어 대댓글이 편집되지 않았습니다.")
-        }
-        self?.postDetails.comments[commentIdx].nestedComments[indexPath.row].comment = editedText
-        
-        self?.editingNestedCommentIndexPath = nil
-        return .nestedComment(.reloadWhenCommentUpdate(indexPath))
-      }.catch { error in
-        return Just(State.unexpectedError(description: error.localizedDescription))
-      }.eraseToAnyPublisher()
-  }
 }
 
 // MARK: - Private Helpers
@@ -734,39 +235,6 @@ extension PostDetailViewModel: PostDetailTableViewDataSource {
   var authorUserId: Int32 {
     // FIXME: - 서버에서 포스트 올린 사용자의 id는 주지 않도록 설계했습니다.
     return -1
-  }
-  
-  func replyItem(at indexPath: IndexPath) -> PostReplyInfo {
-    let commentIdx = SectionType.commentIndex(section: indexPath.section)
-    let postComment = postDetails.comments[commentIdx]
-    let postReply = postComment.nestedComments[indexPath.row]
-    
-    let commentInfo = BasePostDetailCommentInfo(
-      commentId: postReply.nestedCommentId,
-      userName: postReply.nickname,
-      userProfileImageData: postReply.userProfileImageData,
-      timestamp: postReply.timestamp,
-      comment: postReply.comment,
-      isOnHeart: postReply.isOnHeart,
-      heartCountText: "\(postReply.hearts)")
-    return .init(
-      isFirstReply: indexPath.row == 0,
-      commentInfo: commentInfo)
-  }
-  
-  func commentItem(in section: Int) -> PostCommentInfo {
-    let commentIdx = SectionType.commentIndex(section: section)
-    let postComment = postDetails.comments[commentIdx]
-    let baseInfo: BasePostDetailCommentInfo = .init(
-      commentId: postComment.commentId,
-      userName: postComment.userName,
-      userProfileImageData: postComment.userProfileImageData,
-      timestamp: postComment.timestamp,
-      comment: postComment.isDeleted ? "댓글이 삭제되었습니다." : postComment.comment,
-      isOnHeart: postComment.isOnHeart,
-      heartCountText: "\(postComment.hearts)")
-    return .init(baseInfo: baseInfo, isDeleted: postComment.isDeleted)
-    
   }
   
   var title: String {
@@ -804,11 +272,11 @@ extension PostDetailViewModel: PostDetailTableViewDataSource {
   }
   
   var numberOfSections: Int {
-    return SectionType.defaultNumberOfSections + postDetails.comments.count
+    return SectionType.defaultNumberOfSections
   }
   
   func numberOfRows(in section: Int) -> Int {
-    let sectionType: PostDetailSection = .init(rawValue: section) ?? .postContent
+    let sectionType: PostDetailSection = .init(rawValue: section)
     switch sectionType {
     case .postDescription:
       return 1
@@ -817,20 +285,26 @@ extension PostDetailViewModel: PostDetailTableViewDataSource {
     case .postHeartAndShareArea:
       return 0
     default:
-      let commentIdx = SectionType.commentIndex(section: section)
-      return postDetails.comments[commentIdx].nestedComments.count
+      return PostDetailSection.defaultNumberOfSections
     }
   }
 }
 
+// MARK: - ReviewWritingPostReceivable
 extension PostDetailViewModel: ReviewWritingPostReceivable {
   func receive(post: Post?) {
     // TODO: - 편집한 리뷰작성 Post를 기반으로 화면을 갱신해야 합니다.
+    // 이 아래꺼로 새로 작성된 post를 postDetails로 반영하고 reloadData 해주면 됩니다.
+    // self.postDetails = PostMapper.toPostDetails(post, category: category)
+    
+    // FIXME: - 포스트 편집된거 줄때 카테고리도 편집될수있어서 카테고리까지 같이 줘야 합니다.
     print("DEBUG: PostDetailViewModel에서 편집된 post 객체 받음")
     if post == nil {
-      // TODO: - firestore를 통해서 업로드한 것임으로 postId에서 데이터 받아와야합니다.
-    } else {
-      self.post = post
+      // MARK: - firestore를 통해서 업로드한 것임으로 postId에서 데이터 받아와야합니다.
+      // 받아온 후에 아래 로직으로 호출!
+      // self.postDetails = PostMapper.toPostDetails(post, category: category)
+    } else if let post = post {
+      // self.postDetails = PostMapper.toPostDetails(post, category: category)
     }
   }
 }

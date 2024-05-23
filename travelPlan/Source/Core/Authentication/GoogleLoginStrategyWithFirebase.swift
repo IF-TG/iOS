@@ -73,7 +73,9 @@ final class GoogleLoginStrategyWithFirebase: LoginStrategy {
             uid: userUid,
             nickname: "여행자",
             profileImagePath: "")
-          let endpoint = FirestoreMyProfileAPIEndopint.saveUserProfileEndpoint(with: requestDTO)
+          
+          // FIXME: - UserProfileSEttingUseCase나 레포지토리 사용해야합니다.
+          let endpoint = FirestoreUserProfileSettingAPIEndopint.saveUserProfileEndpoint(with: requestDTO)
           self?.subscription = self?.firestoreService.request(endpoint: endpoint)
             .sink { completion in
               if case .failure(let error) = completion {

@@ -233,7 +233,8 @@ private extension PostCommentUseCaseImpl {
     group.notify(queue: backgroundQueue) {
       guard let author else { return }
       let commentEntity = PostCommentEntity(
-        commentId: entity.commentId,
+        commentId: entity.commentId, 
+        authorId: author.id,
         userProfileImageData: author.profileImageData,
         userName: author.nickname,
         timestamp: DateTimeConverter.timeAgo(from: entity.createAt),
@@ -308,7 +309,8 @@ private extension PostCommentUseCaseImpl {
     nestedComments: [PostNestedCommentEntity]
   ) -> PostCommentEntity {
     return PostCommentEntity(
-      commentId: atomicCommentEntity.commentId,
+      commentId: atomicCommentEntity.commentId, 
+      authorId: commentAuthor.id,
       userName: commentAuthor.nickname,
       timestamp: DateTimeConverter.timeAgo(from: atomicCommentEntity.createAt),
       comment: atomicCommentEntity.comment,

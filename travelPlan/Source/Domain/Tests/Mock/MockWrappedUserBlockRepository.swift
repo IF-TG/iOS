@@ -24,7 +24,6 @@ extension MockWrappedUserBlockRepository {
     ).setAnyErrorAndEraseToAnyPublisher()
   }
   
-  
   func unblockUser(with blockedUserId: String) -> AnyPublisher<Void, any Error> {
     return Just(()).setAnyErrorAndEraseToAnyPublisher()
   }

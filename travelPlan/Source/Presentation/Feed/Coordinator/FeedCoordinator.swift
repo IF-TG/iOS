@@ -35,7 +35,11 @@ final class FeedCoordinator: FlowCoordinator {
   
   // MARK: - Helpers
   func start() {
-    let feedViewModel = FeedViewModel()
+    let concurrentBackgroundQueue = DispatchQueue(
+      label: "backgroundQueue",
+      qos: .userInitiated,
+      attributes: .concurrent)
+    let feedViewModel = FeedViewModel(backgroundQueue: concurrentBackgroundQueue)
     let categoryPageViewModel = CategoryPageViewModel()
     let pageViews = makeFeedPageViews(with: categoryPageViewModel)
     let vc = FeedViewController(

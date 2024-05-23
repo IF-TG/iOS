@@ -9,7 +9,7 @@ import Foundation
 
 struct PostCommentEntity {
   let commentId: String
-  var authorId: String?
+  var authorId: String
   var userProfileImageData: Data?
   var userName: String
   var timestamp: String

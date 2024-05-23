@@ -180,21 +180,21 @@ private extension MyInformationViewController {
         if state == .available {
           self?.stopIndicator()
           self?.inputNoticeLabel.textColor = .yg.primary
-          self?.inputNoticeLabel.text = self?.inputTextField.textState.quotation
+          self?.inputNoticeLabel.text = self?.inputTextField.quotation
           self?.setStoreLabelAvailable()
           return
         }
         if state == .default {
           self?.stopIndicator()
           self?.input.defaultNickname.send()
-          self?.inputNoticeLabel.text = self?.inputTextField.textState.quotation
+          self?.inputNoticeLabel.text = self?.inputTextField.quotation
           return
         }
         if state == .duplicated {
           self?.stopIndicator()
         }
         // state가 duplicated, overflow, underflow인 경우
-        self?.inputNoticeLabel.text = self?.inputTextField.textState.quotation
+        self?.inputNoticeLabel.text = self?.inputTextField.quotation
         self?.inputNoticeLabel.textColor = .yg.red2
         self?.setStoreLabelUnavailable()
       }.store(in: &subscriptions)

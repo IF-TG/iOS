@@ -41,7 +41,7 @@ extension FirestoreUserProfileRepositoryTests {
     // Arrange
     var unexpectedError: Error?
     var receivedUser: UserEntity?
-    let expectedUser = UserEntity(id: "sUSkn1ogJ5azdXaMYe0tt4sVJ8L2", nickname: "여행자", isSavedProfileInServer: false)
+    let expectedUser = UserEntity(id: "sUSkn1ogJ5azdXaMYe0tt4sVJ8L2", nickname: "여행자", profileImageUrl: "", isSavedProfileInServer: false)
     
     // Act
     sut.fetchProfile(with: "sUSkn1ogJ5azdXaMYe0tt4sVJ8L2")

@@ -1,5 +1,5 @@
 //
-//  MyProfileRepository.swift
+//  UserProfileSettingRepository.swift
 //  travelPlan
 //
 //  Created by 양승현 on 2/27/24.
@@ -15,13 +15,11 @@ enum MyProfileRepositoryError: LocalizedError {
 }
 
 /// 사용자 정보 CRUD 관련 레포지토리
-protocol MyProfileRepository {
+protocol UserProfileSettingRepository {
   func checkIfUserNicknameDuplicate(with name: String) -> AnyPublisher<Bool, Error>
   func updateUserNickname(with name: String) -> AnyPublisher<Bool, Error>
-  func updateProfileImage(with profile: String) -> AnyPublisher<Bool, Error>
-  func saveProfileImage(with profile: String) -> AnyPublisher<Bool, Error>
+  func updateProfileImage(with profileImageData: Data) -> AnyPublisher<Bool, Error>
+  func saveProfileImage(with profileImageData: Data) -> AnyPublisher<Bool, Error>
   func deleteProfileImage() -> AnyPublisher<Bool, Error>
-  func saveProfile(with userId: String, nickname: String, profileImageData: Data) -> AnyPublisher<Void, Error> //
-  func fetchProfile() -> AnyPublisher<UserEntity, Error>
-  var isProfileSavedInServer: Bool { get }
+  func saveProfile(with userId: String, nickname: String, profileImageData: Data?) -> AnyPublisher<Void, Error> 
 }

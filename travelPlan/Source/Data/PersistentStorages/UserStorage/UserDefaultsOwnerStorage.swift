@@ -106,6 +106,18 @@ extension UserDefaultsOwnerStorage: OwnerStorage {
     return true
   }
   
+  func updateProfileImagePath(with imagePath: String) -> Bool {
+    guard var user = user else {
+      os_log("DEBUG: 사용자의 이름이 저장되지 않았습니다.", log: OSLog.default, type: .error)
+      return false
+    }
+    backgroundQueue.async { [weak self] in
+      user.profileImageUrl = imagePath
+      UserDefaultsManager[.user] = self?.encode(from: user)
+    }
+    return true
+  }
+  
   func updateProfileImageData(with data: Data) -> Bool {
     guard var user = user else {
       os_log("DEBUG: 사용자의 프로필이 저장되지 않았습니다.", log: OSLog.default, type: .error)

@@ -17,4 +17,14 @@ public extension Swift.Error {
     }
     return false
   }
+  
+  var isInvalidOwnerNickname: Bool {
+    guard let error = self as? OwnerError else {
+      return false
+    }
+    if error == .invalidOwnerNickname {
+      return true
+    }
+    return false
+  }
 }
