@@ -73,10 +73,6 @@ final class SearchFestivalCell: UICollectionViewCell {
   
   private let starButton: SearchStarButton = .init(normalType: .white)
   
-//  private var starButton.tap: AnyPublisher<Void, Never> {
-//    return starButton.tap.eraseToAnyPublisher()
-//  }
-  
   private let festivalLabel: UILabel = .init().set {
     $0.font = UIFont(pretendard: .bold_700(fontSize: Constants.FestivalLabel.fontSize))
     $0.textColor = .yg.littleWhite
@@ -138,6 +134,7 @@ extension SearchFestivalCell {
     cancellable?.cancel()
     cancellable = starButton
       .tap
+      .subscribe(on: DispatchQueue.global(qos: .userInteractive))
       .receive(on: RunLoop.main)
       .sink {
         publisher.send(indexPath)
