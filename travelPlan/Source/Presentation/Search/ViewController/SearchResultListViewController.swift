@@ -16,7 +16,9 @@ final class SearchResultListViewController: UIViewController {
   private lazy var compositionalLayout = {
     return UICollectionViewCompositionalLayout { sectionIndex, _ in
       switch sectionIndex {
-      case .zero:
+      case 0:
+        return CollectionLayoutSectionProvider.createOneLineTagSection()
+      case 1:
         let group = TravelDestinationLayoutGroupProvider.createDefaultGroup()
         return NSCollectionLayoutSection(group: group)
       default:
@@ -29,6 +31,7 @@ final class SearchResultListViewController: UIViewController {
     frame: .zero,
     collectionViewLayout: compositionalLayout
   ).set {
+    $0.register(SearchResultCategotyCell.self, forCellWithReuseIdentifier: SearchResultCategotyCell.id)
     $0.register(TravelDestinationCell.self, forCellWithReuseIdentifier: TravelDestinationCell.id)
     $0.dataSource = self
   }
@@ -52,6 +55,10 @@ final class SearchResultListViewController: UIViewController {
 
 // MARK: - UICollectionViewDataSource
 extension SearchResultListViewController: UICollectionViewDataSource {
+  func numberOfSections(in collectionView: UICollectionView) -> Int {
+    return 2
+  }
+  
   func collectionView(
     _ collectionView: UICollectionView,
     numberOfItemsInSection section: Int
