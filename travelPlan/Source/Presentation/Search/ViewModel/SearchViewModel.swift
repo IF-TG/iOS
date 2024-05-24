@@ -8,58 +8,42 @@
 import Foundation
 import Combine
 
-final class SearchViewModel {
-  enum Constant {
-    static let rankingMaxCount = 3
-  }
-  typealias Output = AnyPublisher<State, ErrorType>
-  
-  // MARK: - Input
-  struct Input {
-    let viewDidLoad: PassthroughSubject<Void, Never>
-    let didTapView: PassthroughSubject<Void, Never>
-    let didTapSearchButton: PassthroughSubject<String, ErrorType>
-    let didTapStarButton: PassthroughSubject<Void, ErrorType>
-    let didTaplookingMoreButton: PassthroughSubject<Int, ErrorType>
-    
-    init(
-      viewDidLoad: PassthroughSubject<Void, Never> = .init(),
-      didTapView: PassthroughSubject<Void, Never> = .init(),
-      didTapSearchButton: PassthroughSubject<String, ErrorType> = .init(),
-      didTapStarButton: PassthroughSubject<Void, ErrorType> = .init(),
-      didTaplookingMoreButton: PassthroughSubject<Int, ErrorType> = .init()
-    ) {
-      self.viewDidLoad = viewDidLoad
-      self.didTapView = didTapView
-      self.didTapSearchButton = didTapSearchButton
-      self.didTapStarButton = didTapStarButton
-      self.didTaplookingMoreButton = didTaplookingMoreButton
-    }
-  }
-  // MARK: - State
-  enum State {
-    case goDownKeyboard
-    case gotoSearch
-    case none
-    case showSearchMoreDetail(_ sectionType: SearchSectionType)
-  }
-  // MARK: - Error
-  enum ErrorType: Error {
-    case none
-    case unexpected
-  }
+protocol SearchViewModel: ViewModelable
+where Input == SearchViewModelInput,
+      State == SearchViewModelState { }
+
+// MARK: - Input
+struct SearchViewModelInput {
+  let viewDidLoad: PassthroughSubject<Void, Never> = .init()
+  let didTapView: PassthroughSubject<Void, Never> = .init()
+  let didTapSearchButton: PassthroughSubject<String, Never> = .init()
+  let didTapStarButton: PassthroughSubject<IndexPath, Never> = .init()
+  let didTaplookingMoreButton: PassthroughSubject<Int, Never> = .init()
+}
+
+// MARK: - State
+enum SearchViewModelState {
+  case goDownKeyboard
+  case gotoSearch
+  case none
+  case showSearchMoreDetail(_ sectionType: SearchSectionType)
+  case reloadItems(IndexPath)
+}
+
+final class DefaultSearchViewModel {
   // MARK: - Properties
   private var dataSource = [SearchSectionModel]()
 }
 
 // MARK: - ViewModelCase
-extension SearchViewModel: ViewModelCase {
+extension DefaultSearchViewModel: SearchViewModel {
   func transform(_ input: Input) -> Output {
     return Publishers.MergeMany([
       viewDidLoadStream(input),
       didTapCollectionViewStream(input),
       didTapSearchButtonStream(input),
-      didTaplookingMoreButton(input)
+      didTaplookingMoreButtonStream(input),
+      didTapStarButtonStream(input)
     ]).eraseToAnyPublisher()
   }
   
@@ -69,39 +53,47 @@ extension SearchViewModel: ViewModelCase {
         self?.fetchData()
         return State.none
       }
-      .setFailureType(to: ErrorType.self)
       .eraseToAnyPublisher()
   }
   
   private func didTapCollectionViewStream(_ input: Input) -> Output {
     return input.didTapView
       .map { State.goDownKeyboard }
-      .setFailureType(to: ErrorType.self)
       .eraseToAnyPublisher()
   }
   
   private func didTapSearchButtonStream(_ input: Input) -> Output {
     return input.didTapSearchButton
-      .tryMap { text in
+      .map { text in
         print("DEBUG: '\(text)' search")
         return State.gotoSearch
       }
-      .mapError { $0 as? ErrorType ?? .unexpected }
       .eraseToAnyPublisher()
   }
   
-  private func didTaplookingMoreButton(_ input: Input) -> Output {
+  private func didTaplookingMoreButtonStream(_ input: Input) -> Output {
     return input.didTaplookingMoreButton
-      .tryMap { sectionIndex in
+      .map { sectionIndex in
         return State.showSearchMoreDetail(SearchSectionType(rawValue: sectionIndex) ?? .festival)
       }
-      .mapError { $0 as? ErrorType ?? .unexpected }
+      .eraseToAnyPublisher()
+  }
+  
+  private func didTapStarButtonStream(_ input: Input) -> Output {
+    return input.didTapStarButton
+      .flatMap { [weak self] indexPath in
+        guard let self = self else {
+          return Just(State.none).eraseToAnyPublisher()
+        }
+        return self.saveButtonState(indexPath: indexPath)
+          .eraseToAnyPublisher()
+      }
       .eraseToAnyPublisher()
   }
 }
 
 // MARK: - Helpers
-extension SearchViewModel {
+extension DefaultSearchViewModel {
   func getCellViewModels(in section: Int) -> SearchItemType {
     return dataSource[section].itemType
   }
@@ -114,9 +106,7 @@ extension SearchViewModel {
     switch dataSource[section].itemType {
     case let .festival(viewModels):
       return viewModels.count
-    case let .camping(viewModels):
-      return viewModels.count
-    case let .topTen(viewModels):
+    case let .leports(viewModels):
       return viewModels.count
     }
   }
@@ -126,38 +116,70 @@ extension SearchViewModel {
   }
 }
 
+// TODO: - imageData를 사용하기 위해 잠시 import UIKit을 사용함.. usecase 완성되면 지울 예정
+import UIKit
+
 // MARK: - Private Helpers
-extension SearchViewModel {
+extension DefaultSearchViewModel {
   private func fetchData() {
     // 네트워크 요청을 수행해서 데이터를 가져옵니다.
-    let festivalModels = SearchFestivalModel.mockModels
-    let festivalCellViewModels = festivalModels.map { SearchFestivalCellViewModel(model: $0) }
     let festivalHeader = "베스트 축제 🎡"
-    dataSource.append(SearchSectionModel.init(itemType: .festival(festivalCellViewModels), headerTitle: festivalHeader))
+    let image = UIImage(named: "tempThumbnail1")!
+    let imageData = image.jpegData(compressionQuality: 1.0)!
     
-    // mapping entity to view's model
-    let campingModels = SearchCampingModel.mockModels.map {
-      TravelDestinationModel(id: $0.id,
-                             imagePath: $0.imagePath,
-                             place: $0.place,
-                             secondText: $0.category,
-                             thirdText: $0.location,
-                             isSelectedButton: $0.isSelectedButton)
+    let searchFestivalInfo = SearchFestivalInfo(title: "대관령눈꽃축제", period: "24.05.11~24.05.20",
+                                                        imageData: imageData, isSelectedButton: true)
+    dataSource.append(
+      SearchSectionModel(
+        itemType: .festival([searchFestivalInfo, searchFestivalInfo, searchFestivalInfo]),
+        headerTitle: festivalHeader
+      )
+    )
+    
+    let letportsHeader = "야영 레포츠 어떠세요?🏕️"
+    let leportsInfo = TravelDestinationInfo(
+      place: "수상 스키",
+      category: "레포츠",
+      location: "강원도 동해",
+      isButtonSelected: false,
+      imageData: imageData,
+      id: 123
+    )
+    dataSource.append(
+      SearchSectionModel(
+        itemType: .leports([leportsInfo, leportsInfo, leportsInfo]),
+        headerTitle: letportsHeader
+      )
+    )
+  }
+  
+  /// 서버에 저장 요청.
+  /// 성공 시 UI 변환, 실패 시, 변화 없음
+  private func saveButtonState(indexPath: IndexPath) -> AnyPublisher<State, Never> {
+    // TODO: - id값을 통해 서버에 데이터 저장을 요청하고, 성공 시 하트버튼의 색깔을 변경해야 합니다.
+    return Future { promise in
+      // fake network. 추후 네트워크 통신 이후, promise로 값을 방출해야 합니다.
+      DispatchQueue.global().asyncAfter(wallDeadline: .now() + 0.5) { [weak self] in
+        DispatchQueue.main.async {
+          print("DEBUG: FakeNetwork 통신 성공!")
+          guard let self = self else {
+            promise(.success(.none))
+            return
+          }
+          
+          switch self.dataSource[indexPath.section].itemType {
+          case .festival(var infos):
+            infos[indexPath.item].isSelectedButton.toggle()
+            self.dataSource[indexPath.section].itemType = .festival(infos)
+            
+          case .leports(var infos):
+            infos[indexPath.item].isButtonSelected.toggle()
+            self.dataSource[indexPath.section].itemType = .leports(infos)
+          }
+          promise(.success(.reloadItems(indexPath)))
+        }
+      }
     }
-    
-    // let campingCellViewModels = campingModels.map { TravelDestinationCellViewModel(model: $0) }
-    let campingCellViewModels = stride(from: campingModels.count-1, through: 0, by: -1).map {
-      TravelDestinationCellViewModel(model: campingModels[$0])
-    }
-    
-    let famousHeader = "야영, 레포츠 어떠세요? 🏕️"
-    dataSource.append(SearchSectionModel(itemType: .camping(campingCellViewModels), headerTitle: famousHeader))
-    
-    let topTenModels = SearchTopTenModel.mockModels
-      .filter { $0.ranking <= Constant.rankingMaxCount }
-      .sorted { $0.ranking < $1.ranking }
-    let topTenCellViewModels = topTenModels.map { SearchTopTenCellViewModel(model: $0) }
-    let topTenHeader = "여행지 TOP 10 🌟"
-    dataSource.append(SearchSectionModel.init(itemType: .topTen(topTenCellViewModels), headerTitle: topTenHeader))
+    .eraseToAnyPublisher()
   }
 }

@@ -32,7 +32,7 @@ final class SearchViewController: UIViewController {
   
   // MARK: - Properties
   weak var coordinator: SearchCoordinatorDelegate?
-  private let viewModel = SearchViewModel()
+  private let viewModel = DefaultSearchViewModel()
   private lazy var searchView: SearchView = .init().set {
     $0.delegate = self
   }
@@ -40,7 +40,7 @@ final class SearchViewController: UIViewController {
   private var isScrolledUntilTop = false
   
   private var subscriptions = Set<AnyCancellable>()
-  private lazy var input = SearchViewModel.Input()
+  private lazy var input = DefaultSearchViewModel.Input()
   private let compositionalLayoutManager: CompositionalLayoutCreatable = MainSearchLayoutManager()
   
   private lazy var collectionView: UICollectionView = UICollectionView(
@@ -61,8 +61,6 @@ final class SearchViewController: UIViewController {
                 forCellWithReuseIdentifier: SearchFestivalCell.id)
     $0.register(TravelDestinationCell.self,
                 forCellWithReuseIdentifier: TravelDestinationCell.id)
-    $0.register(SearchTopTenCell.self,
-                forCellWithReuseIdentifier: SearchTopTenCell.id)
     $0.register(TitleWithButtonHeaderView.self,
                 forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                 withReuseIdentifier: TitleWithButtonHeaderView.id)
@@ -87,50 +85,33 @@ final class SearchViewController: UIViewController {
   }
 }
 
-// MARK: - ViewBindCase
-extension SearchViewController: ViewBindCase {
-  typealias Input = SearchViewModel.Input
-  typealias ErrorType = SearchViewModel.ErrorType
-  typealias State = SearchViewModel.State
-  
+// MARK: - Bind
+extension SearchViewController {
   internal func bind() {
     let output = viewModel.transform(input)
     output
       .receive(on: RunLoop.main)
-      .sink { [weak self] result in
-        switch result {
-        case .finished:
-          print("DEBUG: completed")
-        case let .failure(error):
-          self?.handleError(error)
-        }
-      } receiveValue: { [weak self] in
+      .sink(receiveValue: { [weak self] in
         self?.render($0)
-      }
+      })
       .store(in: &subscriptions)
   }
   
-  internal func handleError(_ error: ErrorType) {
-    switch error {
-    case .none:
-      print("DEBUG: none error")
-    case .unexpected: 
-      print("DEBUG: unexpected error")
-    }
-  }
-  
-  internal func render(_ state: State) {
+  internal func render(_ state: SearchViewModelState) {
     switch state {
     case .goDownKeyboard:
       searchView.endEditing(true)
     case .gotoSearch:
       // FIXME: - mock 제거하고, 실제로는 search
-      coordinator?.showSearchDetail(type: .camping)
+      coordinator?.showSearchDetail(type: .leports)
 //      navigationController?.pushViewController(MockSearchDestinationViewController(), animated: true)
     case let .showSearchMoreDetail(sectionType):
       coordinator?.showSearchDetail(type: sectionType)
     case .none:
       break
+    case .reloadItems(let indexPath):
+      let item = [IndexPath(item: indexPath.item, section: indexPath.section)]
+      collectionView.reloadItems(at: item)
     }
   }
 }
@@ -152,8 +133,8 @@ extension SearchViewController {
     switch section {
     case SearchSectionType.festival.rawValue:
       return .festival
-    case SearchSectionType.camping.rawValue:
-      return .camping
+    case SearchSectionType.leports.rawValue:
+      return .leports
     default: return nil
     }
   }
@@ -203,31 +184,26 @@ extension SearchViewController: UICollectionViewDataSource {
   ) -> UICollectionViewCell {
     switch viewModel.getCellViewModels(in: indexPath.section) {
       
-    case let .festival(festivalViewModels):
+    case let .festival(festivalInfos):
       guard let cell = collectionView.dequeueReusableCell(
         withReuseIdentifier: SearchFestivalCell.id,
         for: indexPath
       ) as? SearchFestivalCell else { return .init() }
       
-      cell.configure(with: festivalViewModels[indexPath.item])
+      cell.configure(with: festivalInfos[indexPath.item])
+      cell.bind(to: input.didTapStarButton, indexPath: indexPath)
+      
       return cell
       
-    case let .camping(campingViewModels):
+    case let .leports(leportsInfos):
       guard let cell = collectionView.dequeueReusableCell(
         withReuseIdentifier: TravelDestinationCell.id,
         for: indexPath
       ) as? TravelDestinationCell else { return .init() }
       
-      cell.configure(with: campingViewModels[indexPath.item])
-      return cell
-      
-    case let .topTen(topTenViewModels):
-      guard let cell = collectionView.dequeueReusableCell(
-        withReuseIdentifier: SearchTopTenCell.id,
-        for: indexPath
-      ) as? SearchTopTenCell else { return .init() }
-      
-      cell.configure(with: topTenViewModels[indexPath.item])
+      cell.configure(with: leportsInfos[indexPath.item])
+      cell.bind(to: input.didTapStarButton, indexPath: indexPath)
+        
       return cell
     }
   }

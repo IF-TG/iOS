@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Combine
 
 /// imageView + centerView + starButton로 구성되어 있습니다.
 ///
@@ -14,6 +15,11 @@ import SnapKit
 /// imageView는 type에 따라 설정할 수 있습니다. custom인 경우, 연관값으로 커스텀 이미지뷰를 넣어주어야 합니다.
 /// starButton의 이벤트를 정의해야 되는 경우, StarButtonDelegate를 준수해야 합니다.
 class BaseDestinationView<CenterView>: UIView where CenterView: UIView & CellConfigurable {
+  struct BaseDestinationViewInfo {
+    let imageData: Data?
+    let isSelectedButton: Bool
+  }
+  
   enum Constant {
     enum ThumbnailImageView {
       static var cornerRadius: CGFloat { 3 }
@@ -23,21 +29,6 @@ class BaseDestinationView<CenterView>: UIView where CenterView: UIView & CellCon
         static var bottom: CGFloat { 5 }
       }
       static var defaultCornerRadius: CGFloat { 7 }
-    }
-    
-    enum CenterView {
-      enum Spacing {
-        static var leading: CGFloat { 15 }
-        static var trailing: CGFloat { -20 }
-      }
-    }
-    
-    enum StarButton {
-      static var size: CGFloat { 24 }
-      enum Spacing {
-        static var top: CGFloat { 5 }
-        static var trailing: CGFloat { 16 }
-      }
     }
   }
   
@@ -50,7 +41,6 @@ class BaseDestinationView<CenterView>: UIView where CenterView: UIView & CellCon
       case .default:
         return UIImageView().set {
           $0.contentMode = .scaleAspectFill
-          
           $0.layer.cornerRadius = Constant.ThumbnailImageView.defaultCornerRadius
           $0.clipsToBounds = true
         }
@@ -61,19 +51,16 @@ class BaseDestinationView<CenterView>: UIView where CenterView: UIView & CellCon
   }
   
   // MARK: - Properties
-  weak var delegate: StarButtonDelegate?
+//  weak var delegate: StarButtonDelegate?
   private let thumbnailImageView: UIImageView
   private let centerView: CenterView
-  private lazy var starButton: SearchStarButton = .init(normalType: .black).set {
-    $0.addTarget(self, action: #selector(didTapStarButton(_:)), for: .touchUpInside)
+  private let starButton: SearchStarButton = .init(normalType: .black)
+  
+  var starButtonTapPublisher: AnyPublisher<Void, Never> {
+    return starButton.tap.eraseToAnyPublisher()
   }
   
   // MARK: - LifeCycle
-// centerView를 직접 추가해야 합니다. imageView는 type에 따라서 설정할 수 있습니다.
-//  convenience init(centerView: CenterView, imageViewType: ImageViewType) {
-//    self.init(frame: .zero, centerView: centerView, imageViewType: imageViewType)
-//  }
-  
   init(centerView: CenterView, imageViewType: ImageViewType) {
     self.centerView = centerView
     self.thumbnailImageView = imageViewType.imageView
@@ -83,11 +70,6 @@ class BaseDestinationView<CenterView>: UIView where CenterView: UIView & CellCon
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
-  }
-  
-  // MARK: - Actions
-  @objc private func didTapStarButton(_ button: UIButton) {
-    delegate?.didTapStarButton(button)
   }
 }
 
@@ -105,13 +87,19 @@ extension BaseDestinationView {
     starButton.isSelected.toggle()
   }
   
-  func configure(centerModel: CenterView.Info) {
-    centerView.configure(with: centerModel)
-  }
-  
-  func configure(imageURL: String?, isSelectedButton: Bool) {
-    thumbnailImageView.image = UIImage(named: imageURL ?? "tempProfile4")
+  func configure(
+    centerViewInfo: CenterView.Info,
+    imageData: Data?,
+    isSelectedButton: Bool
+  ) {
+    centerView.configure(with: centerViewInfo)
+    
     starButton.isSelected = isSelectedButton
+    // TODO: - 비어있는 이미지 사진을 지정해야합니다.
+    guard let imageData = imageData, let image = UIImage(data: imageData)
+    else { thumbnailImageView.image = UIImage(named: "tempProfile4"); return }
+    
+    thumbnailImageView.image = image
   }
 }
 
@@ -127,27 +115,24 @@ extension BaseDestinationView: LayoutSupport {
   
   func setConstraints() {
     thumbnailImageView.snp.makeConstraints {
-      typealias Const = Constant.ThumbnailImageView
       $0.leading.equalToSuperview()
-      $0.top.equalToSuperview().inset(Const.Spacing.top)
-      $0.bottom.equalToSuperview().inset(Const.Spacing.bottom)
-      $0.width.equalTo(Const.width)
+      $0.top.equalToSuperview().inset(5)
+      $0.bottom.equalToSuperview().inset(5)
+      $0.width.equalTo(110)
     }
     
     centerView.snp.makeConstraints {
-      typealias Const = Constant.CenterView.Spacing
       $0.leading.equalTo(thumbnailImageView.snp.trailing)
-        .offset(Const.leading)
+        .offset(15)
       $0.trailing.lessThanOrEqualTo(starButton.snp.leading)
-        .offset(Const.trailing)
+        .offset(-20)
       $0.top.equalTo(thumbnailImageView)
     }
     
     starButton.snp.makeConstraints {
-      typealias Const = Constant.StarButton
-      $0.top.equalToSuperview().inset(Const.Spacing.top)
-      $0.trailing.equalToSuperview().inset(Const.Spacing.trailing)
-      $0.size.equalTo(Const.size)
+      $0.top.equalToSuperview().inset(5)
+      $0.trailing.equalToSuperview().inset(16)
+      $0.size.equalTo(24)
     }
   }
 }

@@ -8,42 +8,36 @@
 import Foundation
 import Combine
 
-final class SearchMoreDetailViewModel {
-  typealias Output = AnyPublisher<State, ErrorType>
-  
-  struct Input {
-    let viewDidLoad: PassthroughSubject<SearchSectionType, Never>
-    let didSelectItem: PassthroughSubject<IndexPath, Never>
-    
-    init(viewDidLoad: PassthroughSubject<SearchSectionType, Never> = .init(),
-         didSelectItem: PassthroughSubject<IndexPath, Never> = .init()
-    ) {
-      self.viewDidLoad = viewDidLoad
-      self.didSelectItem = didSelectItem
-    }
-  }
-  enum State {
-    case setNavigationTitle(title: String?)
-    case showDetail
-  }
-  enum ErrorType: Error {
-    case none
-    case unexpected
-  }
-  
+protocol SearchMoreDetailViewModel: ViewModelable
+where Input == SearchMoreDetailViewModelInput,
+      State == SearchMoreDetailViewModelState {}
+
+struct SearchMoreDetailViewModelInput {
+  let viewDidLoad: PassthroughSubject<SearchSectionType, Never> = .init()
+  let didSelectItem: PassthroughSubject<IndexPath, Never> = .init()
+  let didTapStarButton: PassthroughSubject<IndexPath, Never> = .init()
+}
+
+enum SearchMoreDetailViewModelState {
+  case setNavigationTitle(title: String?)
+  case showDetail
+  case reloadItems(IndexPath)
+  case none
+}
+
+final class DefaultSearchMoreDetailViewModel {
   // MARK: - Properties
-  /// festival, camping이 해당 프로퍼티를 공통으로 사용합니다.
-  private(set) var travelDestinationCellViewModels: [TravelDestinationCellViewModel]?
-  private(set) var topTenCellViewModels: [SearchTopTenCellViewModel]?
   private(set) var headerInfo: SearchDetailHeaderInfo?
+  private(set) var itemInfos: [TravelDestinationInfo]?
 }
 
 // MARK: - ViewModelCase
-extension SearchMoreDetailViewModel: ViewModelCase {
+extension DefaultSearchMoreDetailViewModel: SearchMoreDetailViewModel {
   func transform(_ input: Input) -> Output {
     return Publishers.MergeMany(
       viewDidLoadStream(input),
-      didSelecetItemStream(input)
+      didSelecetItemStream(input),
+      didTapStarButtonStream(input)
     ).eraseToAnyPublisher()
   }
   
@@ -54,7 +48,6 @@ extension SearchMoreDetailViewModel: ViewModelCase {
         let title = self?.navigationTitle()
         return .setNavigationTitle(title: title)
       }
-      .setFailureType(to: ErrorType.self)
       .eraseToAnyPublisher()
   }
   
@@ -65,76 +58,92 @@ extension SearchMoreDetailViewModel: ViewModelCase {
         print("DEBUG: [\(indexPath.section)], [\(indexPath.item)] clicked")
         return State.showDetail
       }
-      .setFailureType(to: ErrorType.self)
+      .eraseToAnyPublisher()
+  }
+  
+  private func didTapStarButtonStream(_ input: Input) -> Output {
+    return input.didTapStarButton
+      .flatMap { [weak self] indexPath in
+        guard let self = self else {
+          return Just(State.none).eraseToAnyPublisher()
+        }
+        return self.saveButtonState(indexPath: indexPath)
+          .eraseToAnyPublisher()
+      }
       .eraseToAnyPublisher()
   }
 }
 
+// TODO: - imageData를 사용하기 위해 잠시 import UIKit을 사용함.. usecase 완성되면 지울 예정
+import UIKit
+
 // MARK: - Private Helpers
-extension SearchMoreDetailViewModel {
+extension DefaultSearchMoreDetailViewModel {
   private func fetchData(type: SearchSectionType) {
     switch type {
     case .festival:
       fetchFestivalModel()
-    case .camping:
-      fetchCampingModel()
-    case .topTen:
-      fetchTopTenModel()
+    case .leports:
+      fetchLeportsModel()
     }
   }
   
   private func fetchFestivalModel() {
-    let models = SearchFestivalModel.mockModels.map {
-      TravelDestinationModel(id: $0.id,
-                             imagePath: $0.imagePath,
-                             place: $0.title,
-                             secondText: $0.makePeriod(),
-                             thirdText: $0.location,
-                             isSelectedButton: $0.isSelectedButton)
-    }
-    let cellViewModels = models.map { TravelDestinationCellViewModel(model: $0) }
-    self.travelDestinationCellViewModels = .init()
-    _ = cellViewModels.map { self.travelDestinationCellViewModels?.append($0) }
+    let image = UIImage(named: "tempThumbnail1")!
+    let imageData = image.jpegData(compressionQuality: 1.0)!
+    
+    self.itemInfos = [
+      TravelDestinationInfo(place: "축제 타이틀", category: "축제", location: "24.01.01~24.02.10", isButtonSelected: false, imageData: imageData, id: 12345456),
+      TravelDestinationInfo(place: "축제 타이틀", category: "축제", location: "24.01.01~24.02.10", isButtonSelected: false, imageData: imageData, id: 12345456),
+      TravelDestinationInfo(place: "축제 타이틀", category: "축제", location: "24.01.01~24.02.10", isButtonSelected: false, imageData: imageData, id: 12345456),
+      TravelDestinationInfo(place: "축제 타이틀", category: "축제", location: "24.01.01~24.02.10", isButtonSelected: false, imageData: imageData, id: 12345456),
+      TravelDestinationInfo(place: "축제 타이틀", category: "축제", location: "24.01.01~24.02.10", isButtonSelected: false, imageData: imageData, id: 12345456)
+    ]
     self.headerInfo = SearchDetailHeaderInfo.festivalMock
   }
   
-  private func fetchCampingModel() {
-    let models = SearchCampingModel.mockModels.map {
-      TravelDestinationModel(id: $0.id,
-                             imagePath: $0.imagePath,
-                             place: $0.place,
-                             secondText: $0.category,
-                             thirdText: $0.location,
-                             isSelectedButton: $0.isSelectedButton)
-    }
-    let cellViewModels = models.map { TravelDestinationCellViewModel(model: $0) }
-    self.travelDestinationCellViewModels = .init()
-    _ = cellViewModels.map { self.travelDestinationCellViewModels?.append($0) }
-    self.headerInfo = SearchDetailHeaderInfo.campingMock
-  }
-  
-  private func fetchTopTenModel() {
-    let cellViewModels = SearchTopTenModel.mockModels
-      .sorted { $0.ranking < $1.ranking }
-      .map { SearchTopTenCellViewModel(model: $0) }
-    self.topTenCellViewModels = .init()
-    _ = cellViewModels.map { self.topTenCellViewModels?.append($0) }
-    self.headerInfo = SearchDetailHeaderInfo.topTenMock
+  private func fetchLeportsModel() {
+    let image = UIImage(named: "tempThumbnail1")!
+    let imageData = image.jpegData(compressionQuality: 1.0)!
+    
+    self.itemInfos = [
+      TravelDestinationInfo(place: "레포츠 타이틀", category: "레포츠", location: "강원도 ~~~", isButtonSelected: false, imageData: imageData, id: 12344),
+      TravelDestinationInfo(place: "레포츠 타이틀", category: "레포츠", location: "강원도 ~~~", isButtonSelected: false, imageData: imageData, id: 12344),
+      TravelDestinationInfo(place: "레포츠 타이틀", category: "레포츠", location: "강원도 ~~~", isButtonSelected: false, imageData: imageData, id: 12344),
+      TravelDestinationInfo(place: "레포츠 타이틀", category: "레포츠", location: "강원도 ~~~", isButtonSelected: false, imageData: imageData, id: 12344),
+      TravelDestinationInfo(place: "레포츠 타이틀", category: "레포츠", location: "강원도 ~~~", isButtonSelected: false, imageData: imageData, id: 12344)
+    ]
   }
   
   private func navigationTitle() -> String? {
     return headerInfo?.title
   }
+  
+  private func saveButtonState(indexPath: IndexPath) -> AnyPublisher<State, Never> {
+    // TODO: - id값을 통해 서버에 데이터 저장을 요청하고, 성공 시 하트버튼의 색깔을 변경해야 합니다.
+    return Future { promise in
+      // fake network. 추후 네트워크 통신 이후, promise로 값을 방출해야 합니다.
+      DispatchQueue.global().asyncAfter(wallDeadline: .now() + 0.5) { [weak self] in
+        DispatchQueue.main.async {
+          guard let self = self else {
+            promise(.success(.none))
+            return
+          }
+          self.itemInfos?[indexPath.item].isButtonSelected.toggle()
+          promise(.success(.reloadItems(indexPath)))
+        }
+      }
+    }
+    .eraseToAnyPublisher()
+  }
 }
 
 // MARK: - Helpers
-extension SearchMoreDetailViewModel {
+extension DefaultSearchMoreDetailViewModel {
   func numberOfItems(type: SearchSectionType) -> Int {
     switch type {
-    case .festival, .camping:
-      return travelDestinationCellViewModels?.count ?? .zero
-    case .topTen:
-      return topTenCellViewModels?.count ?? .zero
+    case .festival, .leports:
+      return itemInfos?.count ?? .zero
     }
   }
 }

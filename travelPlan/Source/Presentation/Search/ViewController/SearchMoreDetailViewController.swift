@@ -34,7 +34,7 @@ class SearchMoreDetailViewController: UIViewController {
   
   // MARK: - Properties
   weak var coordinator: SearchMoreDetailCoordinatorDelegate?
-  private let viewModel = SearchMoreDetailViewModel()
+  private let viewModel = DefaultSearchMoreDetailViewModel()
   private let appearance = UINavigationBarAppearance()
   private let compositionalLayoutManager: CompositionalLayoutCreatable = SearchMoreDetailLayoutManager()
   private lazy var compositionalLayout = compositionalLayoutManager.makeLayout()
@@ -93,7 +93,7 @@ class SearchMoreDetailViewController: UIViewController {
   
   private let type: SearchSectionType
   
-  private let input = Input()
+  private let input = SearchMoreDetailViewModelInput()
   
   private var subscriptions = Set<AnyCancellable>()
   
@@ -126,44 +126,29 @@ class SearchMoreDetailViewController: UIViewController {
   }
 }
 
-extension SearchMoreDetailViewController: ViewBindCase {
-  typealias Input = SearchMoreDetailViewModel.Input
-  typealias ErrorType = SearchMoreDetailViewModel.ErrorType
-  typealias State = SearchMoreDetailViewModel.State
-  
-  func bind() {
-    let output = viewModel.transform(input)
-    output
+// MARK: - Bind
+extension SearchMoreDetailViewController {
+  private func bind() {
+    viewModel.transform(input)
       .receive(on: RunLoop.main)
-      .sink { [weak self] result in
-        switch result {
-        case .failure(let error):
-          self?.handleError(error)
-        case .finished:
-          print("finished \(Self.self)")
-        }
-      } receiveValue: { [weak self] in
+      .sink { [weak self] in
         self?.render($0)
       }
       .store(in: &subscriptions)
   }
   
-  func render(_ state: SearchMoreDetailViewModel.State) {
+  func render(_ state: SearchMoreDetailViewModelState) {
     switch state {
     case .showDetail:
       print("DEBUG: 다음 화면으로 전환합니다.")
     case let .setNavigationTitle(title):
       navigationTitleLabel.text = title
       setupBaseNavigationTitleView(titleViewType: .custom(customView: navigationTitleLabel))
-    }
-  }
-  
-  func handleError(_ error: SearchMoreDetailViewModel.ErrorType) {
-    switch error {
-    case .unexpected:
-      print("DEBUG: unexpected error")
+    case .reloadItems(let indexPath):
+      let indexPath = IndexPath(item: indexPath.item, section: indexPath.section)
+      collectionView.reloadItems(at: [indexPath])
     case .none:
-      break
+      return
     }
   }
 }
@@ -202,12 +187,9 @@ extension SearchMoreDetailViewController {
   
   private func registerCell(in collectionView: UICollectionView) {
     switch type {
-    case .festival, .camping:
+    case .festival, .leports:
       collectionView.register(TravelDestinationCell.self,
                               forCellWithReuseIdentifier: TravelDestinationCell.id)
-    case .topTen:
-      collectionView.register(SearchTopTenCell.self, 
-                              forCellWithReuseIdentifier: SearchTopTenCell.id)
     }
   }
 }
@@ -241,24 +223,15 @@ extension SearchMoreDetailViewController: UICollectionViewDataSource {
   ) -> UICollectionViewCell {
 
     switch type {
-    case .festival, .camping:
+    case .festival, .leports:
       guard let cell = collectionView.dequeueReusableCell(
         withReuseIdentifier: TravelDestinationCell.id,
         for: indexPath
       ) as? TravelDestinationCell else { return .init() }
-      guard let cellViewModels = self.viewModel.travelDestinationCellViewModels else { return .init() }
+      guard let itemInfos = self.viewModel.itemInfos else { return .init() }
       
-      cell.configure(with: cellViewModels[indexPath.item])
-      return cell
-      
-    case .topTen:
-      guard let cell = collectionView.dequeueReusableCell(
-        withReuseIdentifier: SearchTopTenCell.id,
-        for: indexPath
-      ) as? SearchTopTenCell else { return .init() }
-      guard let cellViewModels = self.viewModel.topTenCellViewModels else { return .init() }
-      
-      cell.configure(with: cellViewModels[indexPath.item])
+      cell.configure(with: itemInfos[indexPath.item])
+      cell.bind(to: input.didTapStarButton, indexPath: indexPath)
       return cell
     }
   }
@@ -283,6 +256,7 @@ extension SearchMoreDetailViewController: UICollectionViewDataSource {
   }
 }
 
+// MARK: - UICollectionViewDelegate
 extension SearchMoreDetailViewController: UICollectionViewDelegate {
   func scrollViewDidScroll(_ scrollView: UIScrollView) {
     guard let headerView = self.collectionView.supplementaryView(

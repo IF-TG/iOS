@@ -9,7 +9,7 @@ import UIKit
 
 final class SearchDestinationCollectionViewLayout: CompositionalLayoutCreatable {
   func makeLayout() -> UICollectionViewCompositionalLayout {
-    return UICollectionViewCompositionalLayout { [weak self] section, _ in
+    return UICollectionViewCompositionalLayout { section, _ in
       switch section {
       case 0:
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
