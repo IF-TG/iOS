@@ -10,8 +10,8 @@ import Combine
 
 @available(iOS 13.0, *)
 extension UIControl {
-  /// A publihser emitting events.
-  func publihser(
+  /// A publisher emitting events.
+  func publisher(
     for event: UIControl.Event
   ) -> UIControl.InteractionPublihser {
     return InteractionPublihser(control: self, event: event)

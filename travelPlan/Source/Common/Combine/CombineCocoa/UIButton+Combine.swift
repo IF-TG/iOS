@@ -11,7 +11,7 @@ import Combine
 @available(iOS 13.0, *)
 public extension UIButton {
   var tap: AnyPublisher<Void, Never> {
-    publihser(for: .touchUpInside)
+    publisher(for: .touchUpInside)
       .map { _ in }
       .eraseToAnyPublisher()
   }

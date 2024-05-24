@@ -12,7 +12,7 @@ import Combine
 extension UISwitch {
   /// A publihser emitting any text changes
   var changed: AnyPublisher<Bool, Never> {
-    publihser(for: .editingChanged)
+    publisher(for: .editingChanged)
       .compactMap { ($0 as? UISwitch)?.isOn }
       .eraseToAnyPublisher()
   }
