@@ -8,7 +8,7 @@
 import Foundation
 
 @frozen
-enum TourType: Int {
+enum TourType: Int, CaseIterable {
   /// 관광지
   case attraction = 12
   /// 문화시설
@@ -25,4 +25,17 @@ enum TourType: Int {
   case shopping = 38
   /// 음식점
   case restaurant = 39
+  
+  var toString: String {
+    switch self {
+    case .attraction: return "관광지"
+    case .cultureFacility: return "문화시설"
+    case .festival: return "축제/공연/행사"
+    case .course: return "여행코스"
+    case .leports: return "레포츠"
+    case .accommodation: return "숙박"
+    case .shopping: return "쇼핑"
+    case .restaurant: return "음식점"
+    }
+  }
 }
