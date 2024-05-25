@@ -18,6 +18,7 @@
 		130990BC2BFFC66D00D6E50C /* TravelDestinationLayoutGroupProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130990BB2BFFC66D00D6E50C /* TravelDestinationLayoutGroupProvider.swift */; };
 		130990BE2C01007600D6E50C /* SearchResultCategotyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130990BD2C01007600D6E50C /* SearchResultCategotyCell.swift */; };
 		130990C02C0104A800D6E50C /* CollectionLayoutSectionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130990BF2C0104A800D6E50C /* CollectionLayoutSectionProvider.swift */; };
+		130990C22C01BE5A00D6E50C /* TempSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130990C12C01BE5A00D6E50C /* TempSource.swift */; };
 		130B9AE32A684D3D0072A0CF /* MainSearchLayoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130B9AE22A684D3D0072A0CF /* MainSearchLayoutManager.swift */; };
 		130CF3682B8E87490051DEE8 /* LoginUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130CF3672B8E87490051DEE8 /* LoginUseCase.swift */; };
 		130CF36C2B8F3D770051DEE8 /* DefaultLoginRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130CF36B2B8F3D770051DEE8 /* DefaultLoginRepository.swift */; };
@@ -843,6 +844,7 @@
 		130990BB2BFFC66D00D6E50C /* TravelDestinationLayoutGroupProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelDestinationLayoutGroupProvider.swift; sourceTree = "<group>"; };
 		130990BD2C01007600D6E50C /* SearchResultCategotyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCategotyCell.swift; sourceTree = "<group>"; };
 		130990BF2C0104A800D6E50C /* CollectionLayoutSectionProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionLayoutSectionProvider.swift; sourceTree = "<group>"; };
+		130990C12C01BE5A00D6E50C /* TempSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TempSource.swift; sourceTree = "<group>"; };
 		130B9AE22A684D3D0072A0CF /* MainSearchLayoutManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSearchLayoutManager.swift; sourceTree = "<group>"; };
 		130CF3672B8E87490051DEE8 /* LoginUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginUseCase.swift; sourceTree = "<group>"; };
 		130CF36B2B8F3D770051DEE8 /* DefaultLoginRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultLoginRepository.swift; sourceTree = "<group>"; };
@@ -4103,6 +4105,7 @@
 				158BEFCE2A0FE0B300C27861 /* View */,
 				15FEB5DF2A050A99000A5F33 /* Extension */,
 				15FEB5E12A050A99000A5F33 /* Protocol */,
+				130990C12C01BE5A00D6E50C /* TempSource.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -5114,6 +5117,7 @@
 				13EB3D6D2BF603B300CA84F0 /* DefaultAccommodationUseCase.swift in Sources */,
 				13254FE52A05157900094218 /* FeedViewController.swift in Sources */,
 				15B9285F2AFA2D89003A20D4 /* PostDetailContentImageCell.swift in Sources */,
+				130990C22C01BE5A00D6E50C /* TempSource.swift in Sources */,
 				159851C52BEDF28B001262BD /* Combine+Helpers.swift in Sources */,
 				15E0BA0D2BF1C0B800EBCDD9 /* DefaultPostNestedCommentHeartUseCase.swift in Sources */,
 				130304822A250DF600776A0D /* TitleWithButtonHeaderView.swift in Sources */,
