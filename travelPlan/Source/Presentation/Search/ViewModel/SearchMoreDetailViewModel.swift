@@ -74,9 +74,6 @@ extension DefaultSearchMoreDetailViewModel: SearchMoreDetailViewModel {
   }
 }
 
-// TODO: - imageData를 사용하기 위해 잠시 import UIKit을 사용함.. usecase 완성되면 지울 예정
-import UIKit
-
 // MARK: - Private Helpers
 extension DefaultSearchMoreDetailViewModel {
   private func fetchData(type: SearchSectionType) {
@@ -89,8 +86,7 @@ extension DefaultSearchMoreDetailViewModel {
   }
   
   private func fetchFestivalModel() {
-    let image = UIImage(named: "tempThumbnail1")!
-    let imageData = image.jpegData(compressionQuality: 1.0)!
+    let imageData = TempSource.imageData
     
     self.itemInfos = [
       TravelDestinationInfo(place: "축제 타이틀", category: "축제", location: "24.01.01~24.02.10", isButtonSelected: false, imageData: imageData, id: 12345456),
@@ -103,8 +99,7 @@ extension DefaultSearchMoreDetailViewModel {
   }
   
   private func fetchLeportsModel() {
-    let image = UIImage(named: "tempThumbnail1")!
-    let imageData = image.jpegData(compressionQuality: 1.0)!
+    let imageData = TempSource.imageData
     
     self.itemInfos = [
       TravelDestinationInfo(place: "레포츠 타이틀", category: "레포츠", location: "강원도 ~~~", isButtonSelected: false, imageData: imageData, id: 12344),
