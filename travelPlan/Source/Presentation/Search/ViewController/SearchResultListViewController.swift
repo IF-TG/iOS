@@ -10,7 +10,8 @@ import Combine
 
 final class SearchResultListViewController: UIViewController {
   // MARK: - Dependencies
-  private let viewModel: any SearchResultListViewModel
+  private var viewModel: any SearchResultListViewModel
+  
   
   // MARK: - Properties
   private lazy var compositionalLayout = {
@@ -37,6 +38,8 @@ final class SearchResultListViewController: UIViewController {
   }
   private let input = SearchResultListViewModelInput()
   
+  private var subscriptions = Set<AnyCancellable>()
+  
   // MARK: - LifeCycle
   init(viewModel: any SearchResultListViewModel) {
     self.viewModel = viewModel
@@ -49,40 +52,69 @@ final class SearchResultListViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    
+    bind()
+    input.viewDidLoad.send()
+  }
+}
+
+// MARK: - Bind
+extension SearchResultListViewController {
+  func bind() {
+    viewModel
+      .transform(input)
+      .receive(on: RunLoop.main)
+      .sink { [weak self] state in
+        switch state {
+        case .reloadData:
+          self?.collectionView.reloadData()
+        case .none:
+          break
+        }
+      }
+      .store(in: &subscriptions)
   }
 }
 
 // MARK: - UICollectionViewDataSource
 extension SearchResultListViewController: UICollectionViewDataSource {
   func numberOfSections(in collectionView: UICollectionView) -> Int {
-    return 2
+    return viewModel.dataSource.count
+    
   }
   
   func collectionView(
     _ collectionView: UICollectionView,
     numberOfItemsInSection section: Int
   ) -> Int {
-    1
+    switch viewModel.dataSource[section] {
+    case .category(let categories):
+      return categories.count
+    case .destination(let destinationInfos):
+      return destinationInfos.count
+    }
   }
   
   func collectionView(
     _ collectionView: UICollectionView,
     cellForItemAt indexPath: IndexPath
   ) -> UICollectionViewCell {
-    guard let cell = collectionView.dequeueReusableCell(
-      withReuseIdentifier: TravelDestinationCell.id,
-      for: indexPath
-    ) as? TravelDestinationCell else { return .init() }
-    
-    cell.configure(with: TravelDestinationInfo(place: "캠핑 타이틀",
-                                  category: "캠핑",
-                                  location: "강원",
-                                  isButtonSelected: false,
-                                  imageData: Data(),
-                                  id: 12345))
-    cell.bind(to: input.didTapStarButton, indexPath: indexPath)
-    
-    return cell
+    switch viewModel.dataSource[indexPath.section] {
+    case .category(let categories):
+      guard let cell = collectionView.dequeueReusableCell(
+        withReuseIdentifier: SearchResultCategotyCell.id,
+        for: indexPath
+      ) as? SearchResultCategotyCell else { return .init() }
+      
+      cell.configure(with: categories[indexPath.item])
+      return cell
+    case .destination(let destinationInfos):
+      guard let cell = collectionView.dequeueReusableCell(
+        withReuseIdentifier: TravelDestinationCell.id,
+        for: indexPath
+      ) as? TravelDestinationCell else { return .init() }
+      
+      cell.configure(with: destinationInfos[indexPath.item])
+      return cell
+    }
   }
 }
