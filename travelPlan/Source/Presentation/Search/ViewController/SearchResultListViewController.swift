@@ -12,7 +12,6 @@ final class SearchResultListViewController: UIViewController {
   // MARK: - Dependencies
   private var viewModel: any SearchResultListViewModel
   
-  
   // MARK: - Properties
   private lazy var compositionalLayout = {
     return UICollectionViewCompositionalLayout { sectionIndex, _ in
@@ -36,6 +35,7 @@ final class SearchResultListViewController: UIViewController {
     $0.register(TravelDestinationCell.self, forCellWithReuseIdentifier: TravelDestinationCell.id)
     $0.dataSource = self
   }
+  
   private let input = SearchResultListViewModelInput()
   
   private var subscriptions = Set<AnyCancellable>()
@@ -52,6 +52,8 @@ final class SearchResultListViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    setupUI()
+    setupStyles()
     bind()
     input.viewDidLoad.send()
   }
@@ -65,6 +67,9 @@ extension SearchResultListViewController {
       .receive(on: RunLoop.main)
       .sink { [weak self] state in
         switch state {
+        case .reloadItems(let indexPath):
+          let indexPath = [IndexPath(item: indexPath.item, section: indexPath.section)]
+          self?.collectionView.reloadItems(at: indexPath)
         case .reloadData:
           self?.collectionView.reloadData()
         case .none:
@@ -79,7 +84,6 @@ extension SearchResultListViewController {
 extension SearchResultListViewController: UICollectionViewDataSource {
   func numberOfSections(in collectionView: UICollectionView) -> Int {
     return viewModel.dataSource.count
-    
   }
   
   func collectionView(
@@ -114,7 +118,29 @@ extension SearchResultListViewController: UICollectionViewDataSource {
       ) as? TravelDestinationCell else { return .init() }
       
       cell.configure(with: destinationInfos[indexPath.item])
+      cell.bind(to: input.didTapStarButton, indexPath: indexPath)
       return cell
+    }
+  }
+}
+
+// MARK: - Helpers
+extension SearchResultListViewController {
+  func setupStyles() {
+    view.backgroundColor = .white
+  }
+}
+
+// MARK: - LayoutSupport
+extension SearchResultListViewController: LayoutSupport {
+  func addSubviews() {
+    view.addSubview(collectionView)
+  }
+  
+  func setConstraints() {
+    collectionView.snp.makeConstraints {
+      $0.leading.trailing.equalToSuperview()
+      $0.top.bottom.equalTo(view.safeAreaLayoutGuide)
     }
   }
 }
