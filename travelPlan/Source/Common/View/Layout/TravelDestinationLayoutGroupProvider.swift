@@ -22,6 +22,7 @@ class TravelDestinationLayoutGroupProvider {
                                 leading: 16,
                                 bottom: .zero,
                                 trailing: .zero)
+    
     return group
   }
 }
