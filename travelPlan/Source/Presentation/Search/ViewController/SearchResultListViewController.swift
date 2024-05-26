@@ -31,7 +31,7 @@ final class SearchResultListViewController: UIViewController {
     frame: .zero,
     collectionViewLayout: compositionalLayout
   ).set {
-    $0.register(SearchResultCategotyCell.self, forCellWithReuseIdentifier: SearchResultCategotyCell.id)
+    $0.register(SearchResultCategoryCell.self, forCellWithReuseIdentifier: SearchResultCategoryCell.id)
     $0.register(TravelDestinationCell.self, forCellWithReuseIdentifier: TravelDestinationCell.id)
     $0.dataSource = self
   }
@@ -105,9 +105,9 @@ extension SearchResultListViewController: UICollectionViewDataSource {
     switch viewModel.dataSource[indexPath.section] {
     case .category(let categories):
       guard let cell = collectionView.dequeueReusableCell(
-        withReuseIdentifier: SearchResultCategotyCell.id,
+        withReuseIdentifier: SearchResultCategoryCell.id,
         for: indexPath
-      ) as? SearchResultCategotyCell else { return .init() }
+      ) as? SearchResultCategoryCell else { return .init() }
       
       cell.configure(with: categories[indexPath.item])
       return cell
