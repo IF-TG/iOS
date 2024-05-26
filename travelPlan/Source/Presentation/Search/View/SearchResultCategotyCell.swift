@@ -10,7 +10,7 @@ import SnapKit
 
 final class SearchResultCategotyCell: UICollectionViewCell {
   // MARK: - Properties
-  static let id = String(describing: TravelDestinationCell.self)
+  static let id = String(describing: SearchResultCategotyCell.self)
   
   private let tagLabel = PostSearchTagLabel().set {
     $0.textColor = UIColor.YG.highlight
