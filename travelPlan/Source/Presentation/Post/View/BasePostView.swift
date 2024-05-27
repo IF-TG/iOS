@@ -27,11 +27,14 @@ final class BasePostView: UIView {
   
   private let line = OneUnitHeightLine(color: .yg.gray0)
   
+  weak var baseDelegate: BasePostViewDelegate?
+  
   // MARK: - Lifecycle
   init(frame: CGRect, thumbnailView: UIView) {
     self.thumbnailView = thumbnailView
     super.init(frame: frame)
     configureUI()
+    bind()
   }
   
   required init?(coder: NSCoder) {
@@ -59,6 +62,20 @@ extension BasePostView {
 
 // MARK: - Private helpers
 extension BasePostView {
+  private func bind() {
+    footerView.heartTapNotifier = { [weak self] in
+      self?.baseDelegate?.didTapHeart()
+    }
+    
+    footerView.commentTapNotifier = { [weak self] in
+      self?.baseDelegate?.didTapComment()
+    }
+    
+    footerView.shareTapNotifier = { [weak self] in
+      self?.baseDelegate?.didTapShare()
+    }
+  }
+  
   private func setCellDivieder(_ isVisible: Bool) {
     guard isVisible else {
       showCellDivider()
@@ -99,7 +116,7 @@ extension BasePostView {
 // MARK: - Action
 extension BasePostView {
   @objc func didTapOption() {
-    print("DEBUG: pop up option scene !!")
+    baseDelegate?.didTapOption()
     UIView.touchAnimate(optionButton)
   }
 }
