@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class PostCellWithFiveThumbnails: UICollectionViewCell {
+final class PostCellWithFiveThumbnails: BasePostCell {
   static let id = String(describing: PostCellWithFiveThumbnails.self)
   
   // MARK: - Nested
@@ -52,6 +52,8 @@ final class PostCellWithFiveThumbnails: UICollectionViewCell {
   private let thumbnailView: PostFiveThumbnailsView
   
   private let postView: BasePostView
+  
+  weak var postViewDelegate: BasePostViewDelegate?
   
   // MARK: - Lifecycle
   override init(frame: CGRect) {
