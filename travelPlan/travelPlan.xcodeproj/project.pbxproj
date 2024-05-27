@@ -131,7 +131,6 @@
 		13E7EAC92BDE2C010027946C /* LeportsResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E7EAC82BDE2C010027946C /* LeportsResponseDTO.swift */; };
 		13E7EACB2BDE317F0027946C /* RestaurantResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E7EACA2BDE317F0027946C /* RestaurantResponseDTO.swift */; };
 		13E7EACF2BDE36640027946C /* TourFestivalResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E7EACE2BDE36640027946C /* TourFestivalResponseDTO.swift */; };
-		13E7EAD12BDE3B3F0027946C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 13E7EAD02BDE3B3F0027946C /* GoogleService-Info.plist */; };
 		13E7EAD32BDE3CC00027946C /* SearchDestinationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E7EAD22BDE3CC00027946C /* SearchDestinationViewModel.swift */; };
 		13E7EADF2BDF61880027946C /* IntroductionInfoShoppingEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E7EADE2BDF61880027946C /* IntroductionInfoShoppingEntity.swift */; };
 		13E7EAE12BDF61A70027946C /* FestivalEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E7EAE02BDF61A70027946C /* FestivalEntity.swift */; };
@@ -687,6 +686,7 @@
 		15EB39E62AC303C90025FFB4 /* BaseProfileAreaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EB39E52AC303C90025FFB4 /* BaseProfileAreaView.swift */; };
 		15EB3A012AC3477B0025FFB4 /* PostHeaderContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EB3A002AC3477B0025FFB4 /* PostHeaderContentView.swift */; };
 		15EB3A222AC99FCA0025FFB4 /* PostHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158BEF7C2A0E2C5F00C27861 /* PostHeaderView.swift */; };
+		15EBD7222C04E6070090B311 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 15EBD7212C04E6070090B311 /* GoogleService-Info.plist */; };
 		15EBD9172BE8A2BD00BCEA7F /* FirestorePostCommentHeartAPIEndopint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EBD9162BE8A2BD00BCEA7F /* FirestorePostCommentHeartAPIEndopint.swift */; };
 		15EBD9192BE8AC9400BCEA7F /* FirestorePostCommentHeartRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EBD9182BE8AC9400BCEA7F /* FirestorePostCommentHeartRepositoryTests.swift */; };
 		15EBD91B2BE8D38A00BCEA7F /* PostCommentHeartUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EBD91A2BE8D38A00BCEA7F /* PostCommentHeartUseCase.swift */; };
@@ -963,7 +963,6 @@
 		13E7EAC82BDE2C010027946C /* LeportsResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeportsResponseDTO.swift; sourceTree = "<group>"; };
 		13E7EACA2BDE317F0027946C /* RestaurantResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantResponseDTO.swift; sourceTree = "<group>"; };
 		13E7EACE2BDE36640027946C /* TourFestivalResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourFestivalResponseDTO.swift; sourceTree = "<group>"; };
-		13E7EAD02BDE3B3F0027946C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		13E7EAD22BDE3CC00027946C /* SearchDestinationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDestinationViewModel.swift; sourceTree = "<group>"; };
 		13E7EADE2BDF61880027946C /* IntroductionInfoShoppingEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroductionInfoShoppingEntity.swift; sourceTree = "<group>"; };
 		13E7EAE02BDF61A70027946C /* FestivalEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FestivalEntity.swift; sourceTree = "<group>"; };
@@ -1508,6 +1507,7 @@
 		15EA6B342ACEF627002783F0 /* EmptyStateBasedContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateBasedContentViewController.swift; sourceTree = "<group>"; };
 		15EB39E52AC303C90025FFB4 /* BaseProfileAreaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseProfileAreaView.swift; sourceTree = "<group>"; };
 		15EB3A002AC3477B0025FFB4 /* PostHeaderContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostHeaderContentView.swift; sourceTree = "<group>"; };
+		15EBD7212C04E6070090B311 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		15EBD9162BE8A2BD00BCEA7F /* FirestorePostCommentHeartAPIEndopint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestorePostCommentHeartAPIEndopint.swift; sourceTree = "<group>"; };
 		15EBD9182BE8AC9400BCEA7F /* FirestorePostCommentHeartRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestorePostCommentHeartRepositoryTests.swift; sourceTree = "<group>"; };
 		15EBD91A2BE8D38A00BCEA7F /* PostCommentHeartUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCommentHeartUseCase.swift; sourceTree = "<group>"; };
@@ -3170,7 +3170,7 @@
 		1594F52529FD517E00A58F20 = {
 			isa = PBXGroup;
 			children = (
-				13E7EAD02BDE3B3F0027946C /* GoogleService-Info.plist */,
+				15EBD7212C04E6070090B311 /* GoogleService-Info.plist */,
 				154CA5FA2BD38EAA0066B444 /* Secrets.xcconfig */,
 				137F19242B85F1F3008408AD /* travelPlan.entitlements */,
 				15F0A3F429FD58280049AB33 /* .swiftlint.yml */,
@@ -4392,13 +4392,13 @@
 				15EBDBBD2BC0236C00A8A91C /* mock_posts_response.json in Resources */,
 				158BEFBE2A0EB2A500C27861 /* Pretendard-ExtraBold.ttf in Resources */,
 				13EB3D2B2BF35D2900CA84F0 /* mock_tourAPI_introductionInfo_cultureFacility.json in Resources */,
-				13E7EAD12BDE3B3F0027946C /* GoogleService-Info.plist in Resources */,
 				15591DE12BBEA2B900128A9E /* mock_favoritePosts_fetch_response.json in Resources */,
 				151DF10F2AEECBB400D5D55B /* mock_response_notice.json in Resources */,
 				158BEFBD2A0EB2A500C27861 /* Pretendard-Medium.ttf in Resources */,
 				158BEFB82A0EB2A500C27861 /* Pretendard-Light.ttf in Resources */,
 				158BEFB92A0EB2A500C27861 /* Pretendard-ExtraLight.ttf in Resources */,
 				15FD50932BB4540A006CCCDD /* mock_postNestedComment_update_response.json in Resources */,
+				15EBD7222C04E6070090B311 /* GoogleService-Info.plist in Resources */,
 				158BEFC02A0EB2A500C27861 /* Pretendard-Black.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
