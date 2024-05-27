@@ -8,7 +8,7 @@
 import UIKit
 
 protocol BasePostViewDelegatable: AnyObject {
-  var postViewDelegate: BasePostViewDelegate? { get }
+  var postViewDelegate: BasePostViewDelegate? { get set }
 }
 
 typealias BasePostCell = UICollectionViewCell & BasePostViewDelegatable
