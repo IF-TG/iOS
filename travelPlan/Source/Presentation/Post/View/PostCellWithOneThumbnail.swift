@@ -33,7 +33,7 @@ final class PostCellWithOneThumbnail: BasePostCell {
   
   private let postView: BasePostView
   
-  weak var postViewDelegate: BasePostViewDelegate?
+  weak var postViewDelegate: PostViewDelegate?
   
   // MARK: - Lifecycle
   override init(frame: CGRect) {
