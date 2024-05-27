@@ -28,7 +28,7 @@ struct SearchResultListViewModelInput {
 
 enum SearchResultListViewModelState {
   case none
-  case reloadData
+  case firstReloadData
   case reloadItems(IndexPath)
 }
 
@@ -77,7 +77,7 @@ extension DefaultSearchResultListViewModel {
                                     isButtonSelected: true, imageData: TempSource.imageData, id: 456),
             ]
             self?.dataSource.append(.destination(travelInfos))
-            promise(.success(State.reloadData))
+            promise(.success(State.firstReloadData))
           }
         }.eraseToAnyPublisher()
       }
