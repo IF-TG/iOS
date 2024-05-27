@@ -144,7 +144,8 @@ struct MockPostsGeneratorForPaging {
         detail: postDetail,
         author: .init(
           profileImageData: UIImage(named: profilePath(i%5))!.jpegData(compressionQuality: 1),
-          nickname: userNames[i]),
+          nickname: userNames[i],
+          authorId: "1"),
         highResolveImages: postContentThumbnails[i].enumerated().map { (idx, imageString) in
           return Post.PostImage(
             imageData: UIImage(named: imageString)?.jpegData(compressionQuality: 1),

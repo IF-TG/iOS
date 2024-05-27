@@ -209,7 +209,6 @@ extension FeedViewController: ViewBindCase {
     case .unexpectedError(description: let description):
       print(description)
       // TODO: - 에러는 여기서 알림창으로 보여주기
-      break
     }
   }
   

@@ -9,7 +9,7 @@ import UIKit
 import SHCoordinator
 
 protocol FeedPostCoordinatorDelegate: AnyObject {
-  func showDetailPost(post: Post, category: Post.Category)
+  func showDetailPost(post: Post, category: Post.Category, blockedPost: @escaping (Int32) -> Void)
 }
 
 protocol FeedCoordinatorDelegate: FlowCoordinatorDelegate {
@@ -59,13 +59,24 @@ final class FeedCoordinator: FlowCoordinator {
       if $0 + 1 == categoryPageViewModel.numberOfItems {
         return DevelopmentViewController()
       }
-      // FIXME: - 실제로 서버 통신하게된다면 DefaultPostUseCase 써야합니다.
-      // 지금은 페이징 테스트때문에 MockPostUseCaseForPaging을 사용합니다.
-      // MockPostRepository()를 통해서 실제 서버의 resopnseDTO를 decodable한 데이터들을 처럼
-      // mock json을 받을 수 있지만 포스트가 3개 정보밖에 없습니다.
-      // let postUseCase = DefaultPostUseCase(postRepository: MockPostRepository())
+      
+      var viewModel: FeedPostViewModel
+      
+      #if DEBUG
       let mockPostFetchUseCase = MockPostFetchUseCase()
-      let viewModel = FeedPostViewModel(postCategory: feedCategory, postFetchUsecase: mockPostFetchUseCase)
+      viewModel = FeedPostViewModel(postCategory: feedCategory, postFetchUsecase: mockPostFetchUseCase)
+      #else
+      let service = SessionProvider()
+      let ownerStroage = OwnerStorage()
+      let defaultLoggedInUserRepository = DefaultLoggedInUserRepository(storage: ownerStorage)
+      let defaultPostRepository = DefaultPostRepository(
+        service: service,
+        loggedInUserRepository: defaultLoggedInUserRepository)
+      let defaultPostFetchUseCase = DefaultPostFetchUseCase(postRepository: defaultPostRepository)
+      viewModel = FeedPostViewModel(
+        postCategory: feedCategory,
+        postFetchUsecase: defaultPostFetchUseCase)
+      #endif
       return FeedPostViewController(type: feedCategory, viewModel: viewModel)
         .set { $0.coordinator = self }
     }
@@ -74,8 +85,11 @@ final class FeedCoordinator: FlowCoordinator {
 
 // MARK: - FeedPostCoordinatorDelegate
 extension FeedCoordinator: FeedPostCoordinatorDelegate {
-  func showDetailPost(post: Post, category: Post.Category) {
+  func showDetailPost(post: Post, category: Post.Category, blockedPost: @escaping (Int32) -> Void) {
     let childCoordinator = PostDetailCoordinator(presenter: presenter, post: post, category: category)
+    childCoordinator.blockedPost = { blockedPostId in
+      blockedPost(blockedPostId)
+    }
     addChild(with: childCoordinator)
   }
 }
