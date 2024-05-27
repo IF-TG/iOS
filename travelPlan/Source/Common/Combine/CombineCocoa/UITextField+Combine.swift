@@ -12,7 +12,7 @@ import Combine
 extension UITextField {
   /// A publihser emitting any text changes to this text field.
   var changed: AnyPublisher<String, Never> {
-    publihser(for: .editingChanged)
+    publisher(for: .editingChanged)
       .compactMap { ($0 as? UITextField)?.text }
       .eraseToAnyPublisher()
   }
@@ -20,7 +20,7 @@ extension UITextField {
   /// A publisher that emits whenever the user taps the **return button**
   /// and **ends the editing** on the text field.
   var returnPublisher: AnyPublisher<Void, Never> {
-    publihser(for: .editingDidEndOnExit)
+    publisher(for: .editingDidEndOnExit)
       .map {_ in}
       .eraseToAnyPublisher()
   }

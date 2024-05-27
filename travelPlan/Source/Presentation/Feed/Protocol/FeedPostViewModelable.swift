@@ -6,8 +6,46 @@
 //
 
 import Combine
+import Foundation
+
+struct FeedPostViewModelInput {
+  let feedRefresh: PassthroughSubject<Void, Never> = .init()
+  let nextPage: PassthroughSubject<Void, Never> = .init()
+  let viewDidLoad: PassthroughSubject<Void, Never> = .init()
+  let notifiedOrderFilterRequest: PassthroughSubject<TravelOrderType, Never>
+  let notifiedMainThemeFilterRequest: PassthroughSubject<TravelMainThemeType, Never>
+  let specificPostTapped: PassthroughSubject<Int, Never> = .init()
+  let postBlockSubject: PassthroughSubject<Int32, Never> = .init()
+  
+  init(
+    notifiedOrderFilterRequest: PassthroughSubject<TravelOrderType, Never>,
+    notifiedMainThemeFilterRequest: PassthroughSubject<TravelMainThemeType, Never>
+  ) {
+    self.notifiedOrderFilterRequest = notifiedOrderFilterRequest
+    self.notifiedMainThemeFilterRequest = notifiedMainThemeFilterRequest
+  }
+}
+
+@frozen enum FeedPostViewModelState {
+  case viewDidLoad
+  case refresh
+  case pagination(FeedPostViewModelPaginationState)
+  case unexpectedError(description: String)
+  case networking
+  case postFilterLoaded
+  ///
+  case detailPostShow(post: Post, category: Post.Category)
+  case deleteBlockedPost(IndexPath)
+  case none
+}
+
+@frozen enum FeedPostViewModelPaginationState {
+  case nextPage(reloadCompletion: () -> Void)
+  case loadingNextPage
+  case noMorePage
+}
 
 protocol FeedPostViewModelable: ViewModelable
-where Input == FeedPostViewModel.Input,
-      State == FeedPostViewModel.State,
+where Input == FeedPostViewModelInput,
+      State == FeedPostViewModelState,
       Output == AnyPublisher<State, Never> { }

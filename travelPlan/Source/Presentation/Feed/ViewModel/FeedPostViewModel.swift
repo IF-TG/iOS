@@ -8,37 +8,7 @@
 import Foundation
 import Combine
 
-class FeedPostViewModel: PostViewModel {
-  struct Input {
-    let feedRefresh: PassthroughSubject<Void, Never> = .init()
-    let nextPage: PassthroughSubject<Void, Never> = .init()
-    let viewDidLoad: PassthroughSubject<Void, Never> = .init()
-    let notifiedOrderFilterRequest: PassthroughSubject<TravelOrderType, Never>
-    let notifiedMainThemeFilterRequest: PassthroughSubject<TravelMainThemeType, Never>
-    let specificPostTapped: PassthroughSubject<Int, Never> = .init()
-    
-    init(
-      notifiedOrderFilterRequest: PassthroughSubject<TravelOrderType, Never>,
-      notifiedMainThemeFilterRequest: PassthroughSubject<TravelMainThemeType, Never>
-    ) {
-      self.notifiedOrderFilterRequest = notifiedOrderFilterRequest
-      self.notifiedMainThemeFilterRequest = notifiedMainThemeFilterRequest
-    }
-  }
-  
-  enum State {
-    case viewDidLoad
-    case refresh
-    case nextPage(reloadCompletion: () -> Void)
-    case loadingNextPage
-    case unexpectedError(description: String)
-    case noMorePage
-    case networking
-    case postFilterLoaded
-    case detailPostShow(post: Post, category: Post.Category)
-    case none
-  }
-  
+class FeedPostViewModel: PostViewModel {  
   // MARK: - Properties
   var currentPage: Int32 = 0
   
@@ -90,6 +60,7 @@ class FeedPostViewModel: PostViewModel {
 extension FeedPostViewModel: FeedPostViewModelable {
   func transform(_ input: Input) -> AnyPublisher<State, Never> {
     return Publishers.MergeMany([
+      postBlockSubjectStream(input),
       postFilterLoadingStartSubjectStream(),
       notifiedOrderFilterRequestStream(input),
       notifiedMainThemeFilterRequestStream(input),
@@ -105,6 +76,19 @@ extension FeedPostViewModel: FeedPostViewModelable {
 
 // MARK: - Private Helpers
 private extension FeedPostViewModel {
+  func postBlockSubjectStream(_ input: Input) -> Output {
+    return input.postBlockSubject.map { [weak self] blockedPostId -> State in
+      let blockedPostIdIndex = self?.posts.firstIndex(where: {
+        Int32($0.detail.postID)! == blockedPostId
+      })
+      guard let blockedPostIdIndex else {
+        return .unexpectedError(description: "앱 내부 동작 에러가 발생됬습니다. 차단된 포스트 아이디가 식별 불가능합니다.")
+      }
+      self?.posts.remove(at: blockedPostIdIndex)
+      return .deleteBlockedPost(IndexPath(item: blockedPostIdIndex, section: PostViewSection.post.rawValue))
+    }.eraseToAnyPublisher()
+  }
+  
   func postFilterLoadingStartSubjectStream() -> Output {
     postFilterLoadingStartSubject.map { [weak self] _ -> State in
       self?.isPostFiltering = true
@@ -127,7 +111,7 @@ private extension FeedPostViewModel {
         return self?.fetchPosts()
           .map { [weak self] _ -> State in
             if self?.hasMorePages == false {
-              return .noMorePage
+              return .pagination(.noMorePage)
             }
             return .postFilterLoaded
           }.catch { error in
@@ -161,7 +145,7 @@ private extension FeedPostViewModel {
         return self?.fetchPosts()
           .map { [weak self] _ -> State in
             if self?.hasMorePages == false {
-              return .noMorePage
+              return .pagination(.noMorePage)
             }
             return .postFilterLoaded
           }.catch { error in
@@ -171,7 +155,7 @@ private extension FeedPostViewModel {
           ).eraseToAnyPublisher()
       }.eraseToAnyPublisher()
   }
-  // TODO: - 초기에 인디케이터하력함
+  
   func viewDidLoadStream(_ input: Input) -> Output {
     return input.viewDidLoad.map { [weak self] _ in
       DispatchQueue.global(qos: .userInitiated).async {
@@ -197,9 +181,9 @@ private extension FeedPostViewModel {
   
   func nextPageStream(_ input: Input) -> Output {
     return input.nextPage
-      .flatMap { [weak self] in
+      .flatMap { [weak self] _ -> Output in
         if let hasMorePages = self?.hasMorePages, !hasMorePages {
-          return Just(State.noMorePage).eraseToAnyPublisher()
+          return Just(State.pagination(.noMorePage)).eraseToAnyPublisher()
         }
         self?.isPaging = true
         self?.nextPageLoadingStartSubject.send()
@@ -207,11 +191,11 @@ private extension FeedPostViewModel {
           .map { [weak self] _ -> State in
             if self?.hasMorePages == false {
               self?.isPaging = false
-              return .noMorePage
+              return .pagination(.noMorePage)
             }
-            return .nextPage {
+            return .pagination(.nextPage(reloadCompletion: {
               self?.isPaging = false
-            }
+            }))
           }.catch { error in
             return Just(State.unexpectedError(description: error.localizedDescription))
           }.eraseToAnyPublisher() ?? Just(
@@ -238,7 +222,7 @@ private extension FeedPostViewModel {
   
   func nextPageLoadingStartSubjectStream() -> Output {
     nextPageLoadingStartSubject.map { _ -> State in
-      return .loadingNextPage
+      return .pagination(.loadingNextPage)
     }.eraseToAnyPublisher()
   }
   

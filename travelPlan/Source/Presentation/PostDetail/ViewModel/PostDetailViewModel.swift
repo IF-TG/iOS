@@ -14,7 +14,7 @@ final class PostDetailViewModel {
   // MARK: - Dependencies
   private let postFetchUsecase: PostFetchUseCase
   
-  private let loggedInUserUseCase: LoggedInUserUseCase
+  private let ownerRepository: LoggedInUserRepository
   
   private let userBlockUseCase: UserBlockUseCase
   
@@ -37,20 +37,20 @@ final class PostDetailViewModel {
   
   private let actions: PostDetailViewModelActions?
   
-  private var postReportResultOption: PostDetailOption? = .none
+  private var postDetailOption: PostDetailOption? = .none
   
   // MARK: - Lifecycle
   init(
     post: Post,
     category: Post.Category,
     postFetchUsecase: PostFetchUseCase,
-    loggedInUserUseCase: LoggedInUserUseCase,
+    ownerRepository: LoggedInUserRepository,
     userBlockUseCase: UserBlockUseCase,
     actions: PostDetailViewModelActions?
   ) {
     self.postDetails = PostMapper.toPostDetails(post, category: category)
     self.postFetchUsecase = postFetchUsecase
-    self.loggedInUserUseCase = loggedInUserUseCase
+    self.ownerRepository = ownerRepository
     self.userBlockUseCase = userBlockUseCase
     self.actions = actions
   }
@@ -80,18 +80,27 @@ extension PostDetailViewModel: PostDetailViewModelPageDelegate {
   
   func showPostOption() {
     actions?.showPostOption { [weak self] optionState in
+      self?.postDetailOption = optionState
       switch optionState {
       case .postBlock:
         guard let authorNickname = self?.postDetails.author.nickname else {
           self?.showAlertForError(with: "앱 내부 문제가 발생되어 포스트 옵션을 선택할 수 없습니다.", completion: nil)
+          self?.postDetailOption = nil
           return
         }
         self?.actions?.showPostAuthorBlock(authorNickname) { wannaBlock in
-          if wannaBlock { self?.postAuthorBlockNotifier.send() }
+          if wannaBlock {
+            self?.postAuthorBlockNotifier.send()
+          } else {
+            self?.postDetailOption = nil
+          }
         }
       case .postReport:
         self?.actions?.showPostReport { reportType in
-          if reportType == .stopRequest { return }
+          if reportType == .stopRequest {
+            self?.postDetailOption = nil
+            return
+          }
           self?.postReportNotifier.send(reportType)
         }
       }
@@ -99,16 +108,15 @@ extension PostDetailViewModel: PostDetailViewModelPageDelegate {
   }
   
   func showPostReportResult() {
-    guard let postReportResultOption else {
+    guard let postDetailOption else {
       actions?.showAlertForError("앱 내부 문제가 발생됬습니다.", nil)
       return
     }
-    // TODO: - 포스트 차단의 경우 포스트 상세 나간 후에 이 post 제거로직 추가해주기.
-    // postReportNotifier, postAuthorBlockNotifier 호출 완료 시점 이 state를 통해. 완료 경고창 보여주기
-    // 화면에는 차단한 포스트 안 보이는게 좋음으로.
-    actions?.showPostReportResult(postReportResultOption)
-    // 차단 한 경우 화면 나가기
-    self.postReportResultOption = nil
+    actions?.showPostReportResult(postDetailOption)
+    if postDetailOption == .postBlock {
+      actions?.showFeedAfterBlockingFeed(Int32(postDetails.detail.postID) ?? -1)
+    }
+    self.postDetailOption = nil
   }
   
   func showCategory() {
@@ -171,14 +179,14 @@ private extension PostDetailViewModel {
     loggedInUserUseCaseHandler.map { [weak self] _ -> State in
       /// 로그인한 사용자라면 아이디가 반드시 로컬에 저장되야 합니다.
       guard
-        let loggedUserId = self?.loggedInUserUseCase.id,
+        let ownerId = self?.ownerRepository.id,
         let postAuthorId = self?.postDetails.author.authorId
       else {
         return .unexpectedError(description: "로그인한 사용자의 아이디가 없습니다.")
       }
       return .viewDidLoad(.loggedInUserInfo(
-        userProfile: self?.loggedInUserUseCase.profileImageData,
-        isPostOwner: postAuthorId == loggedUserId))
+        userProfile: self?.ownerRepository.profileImageData,
+        isPostOwner: postAuthorId == ownerId))
     }.eraseToAnyPublisher()
   }
   
@@ -205,20 +213,52 @@ private extension PostDetailViewModel {
   func postReportHandlerStream() -> Output {
     return postReportHandler.flatMap { responseType in
       // TODO: - 포스트 신고하기 api 없음.
-      // 참고로 지금시점 네트워크 프로세싱 중..
+      print(responseType)
+      // 참고로 지금시점 네트워크 프로세싱 중.
+      // 여기서 이제 레포지토리로 리포트 사유를 같이 보낸 후에 성공 아님 실패 결과 반환하면 됩 니다.
+      // 신고 완료 후
+      // return postResult 호출해야합니다. 그 곳에서 postDetailOption을 nil 처리합니다.
+//      switch responseType {
+//      case .inaccurateInformation:
+//
+//      case .personalInformationExposure:
+//
+//      case .spamOrRepetitiveContent:
+//
+//      case .vulgarOrAbusiveLanguage:
+//
+//      case .obsceneContent:
+//
+//      case .harmfulToMinors:
+//
+//      case .stopRequest:
+//
+//      }
       return Just(State.unexpectedError(description: "포스트 신고하기 api가 없습니다."))
         .eraseToAnyPublisher()
+      
     }.eraseToAnyPublisher()
   }
   
   func postAuthorBlockHandlerStream() -> Output {
-    return postAuthorBlockHandler.flatMap { _ in
-      // TODO: - 포스트 받아올때 포스트 올린 author에 identifier가 없어서
-      // block user api 호출 불가..
-      // let authorId = postDetails.author
-      
-      // 참고로 지금시점 네트워크 프로세싱 중..
-      return Just(State.unexpectedError(description: "포스트 저자 id가 없어 차단 api 호출할 수 없습니다")).eraseToAnyPublisher()
+    return postAuthorBlockHandler.flatMap { [weak self] _ in
+      guard let self else {
+        return Just(State.unexpectedError(description: "앱 내부 에러가 발생됬습니다.")).eraseToAnyPublisher()
+      }
+      guard let authorId = postDetails.author.authorId else {
+        return Just(State.unexpectedError(
+          description: "포스트 저자 id가 없어 차단 api 호출할 수 없습니다")
+        ).eraseToAnyPublisher()
+      }
+      return userBlockUseCase.blockUser(with: authorId)
+        .map { [weak self] _ in
+          self?.ownerRepository.addBlockedUser(with: authorId)
+          return .postReport(.completeUserBlock)
+        }
+        .catch { error in
+          return Just(State.unexpectedError(description: error.localizedDescription)).eraseToAnyPublisher()
+        }
+        .eraseToAnyPublisher()
     }.eraseToAnyPublisher()
   }
 }
@@ -232,9 +272,9 @@ private extension PostDetailViewModel {
 
 // MARK: - PostDetailTableViewDataSource
 extension PostDetailViewModel: PostDetailTableViewDataSource {
+  /// 포스트 업로드한 사용자 프로필로 이동히가 위해서 사용됩니다.
   var authorUserId: Int32 {
-    // FIXME: - 서버에서 포스트 올린 사용자의 id는 주지 않도록 설계했습니다.
-    return -1
+    return Int32(postDetails.author.authorId ?? "-1") ?? -1
   }
   
   var title: String {

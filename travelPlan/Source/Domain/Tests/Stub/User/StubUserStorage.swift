@@ -36,7 +36,7 @@ final class StubOwnerStorage: OwnerStorage {
   }
   
   var id: String? {
-    "sUSkn1ogJ5azdXaMYe0tt4sVJ8L2"
+    "11"
   }
   
   var user: UserEntity? {

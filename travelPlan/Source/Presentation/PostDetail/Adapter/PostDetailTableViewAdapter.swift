@@ -132,7 +132,11 @@ extension PostDetailTableViewAdapter: UITableViewDelegate {
     // MARK: - 내가 댓글이나 대댓글 달았을때 적용하자. RESTFul에선 실시간으로 댓글달린거 갱신이 불가능!! 내가단거 한정으로!!
   }
   
-  func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+  // swiftlint:disable cyclomatic_complexity
+  func tableView(
+    _ tableView: UITableView,
+    viewForHeaderInSection section: Int
+  ) -> UIView? {
     let sectionType = PostDetailSection(rawValue: section)
     guard let dataSource else { return nil }
     switch sectionType {
@@ -174,6 +178,7 @@ extension PostDetailTableViewAdapter: UITableViewDelegate {
       return commentHeader
     }
   }
+  // swiftlint:enable cyclomatic_complexity
   
   func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
     let sectionType = PostDetailSection(rawValue: section)
