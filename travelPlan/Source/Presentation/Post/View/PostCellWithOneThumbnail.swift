@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class PostCellWithOneThumbnail: BasePostCell {
+final class PostCellWithOneThumbnail: BasePostCell, BasePostViewDelegator {
   static let id = String(describing: PostCellWithOneThumbnail.self)
   
   // MARK: - Nested
@@ -41,6 +41,7 @@ final class PostCellWithOneThumbnail: BasePostCell {
     self.thumbnailView = thumbnailView
     postView = BasePostView(frame: frame, thumbnailView: thumbnailView)
     thumbnailView.heightAnchor.constraint(equalToConstant: 118).isActive = true
+    postView.baseDelegate = self
     super.init(frame: frame)
     setupUI()
   }
