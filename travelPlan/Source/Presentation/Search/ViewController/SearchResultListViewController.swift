@@ -34,7 +34,11 @@ final class SearchResultListViewController: UIViewController {
     $0.register(SearchResultCategoryCell.self, forCellWithReuseIdentifier: SearchResultCategoryCell.id)
     $0.register(TravelDestinationCell.self, forCellWithReuseIdentifier: TravelDestinationCell.id)
     $0.dataSource = self
+    $0.delegate = self
+    $0.allowsMultipleSelection = true
   }
+  
+  private var selectedTagIndexPath = IndexPath(item: .zero, section: .zero)
   
   private let input = SearchResultListViewModelInput()
   
@@ -65,13 +69,15 @@ extension SearchResultListViewController {
     viewModel
       .transform(input)
       .receive(on: RunLoop.main)
-      .sink { [weak self] state in
+      .sink { [weak self, selectedTagIndexPath] state in
         switch state {
         case .reloadItems(let indexPath):
           let indexPath = [IndexPath(item: indexPath.item, section: indexPath.section)]
           self?.collectionView.reloadItems(at: indexPath)
-        case .reloadData:
+        case .firstReloadData:
           self?.collectionView.reloadData()
+          
+          self?.collectionView.selectItem(at: selectedTagIndexPath, animated: false, scrollPosition: [])
         case .none:
           break
         }
@@ -108,7 +114,6 @@ extension SearchResultListViewController: UICollectionViewDataSource {
         withReuseIdentifier: SearchResultCategoryCell.id,
         for: indexPath
       ) as? SearchResultCategoryCell else { return .init() }
-      
       cell.configure(with: categories[indexPath.item])
       return cell
     case .destination(let destinationInfos):
@@ -124,9 +129,34 @@ extension SearchResultListViewController: UICollectionViewDataSource {
   }
 }
 
-// MARK: - Helpers
+// MARK: - UICollectionViewDelegate
+extension SearchResultListViewController: UICollectionViewDelegate {
+  func collectionView(
+    _ collectionView: UICollectionView,
+    didSelectItemAt indexPath: IndexPath
+  ) {
+    if indexPath.section == 0 {
+      guard selectedTagIndexPath != indexPath else { return }
+      
+      collectionView.deselectItem(at: selectedTagIndexPath, animated: false)
+      selectedTagIndexPath = indexPath
+    }
+  }
+  
+  func collectionView(
+    _ collectionView: UICollectionView,
+    didDeselectItemAt indexPath: IndexPath
+  ) {
+    if indexPath.section == 0,
+       selectedTagIndexPath == indexPath {
+      collectionView.selectItem(at: indexPath, animated: false, scrollPosition: [])
+    }
+  }
+}
+
+// MARK: - Private Helpers
 extension SearchResultListViewController {
-  func setupStyles() {
+  private func setupStyles() {
     view.backgroundColor = .white
   }
 }
