@@ -41,9 +41,9 @@ final class PostCellWithOneThumbnail: BasePostCell, BasePostViewDelegator {
     self.thumbnailView = thumbnailView
     postView = BasePostView(frame: frame, thumbnailView: thumbnailView)
     thumbnailView.heightAnchor.constraint(equalToConstant: 118).isActive = true
-    postView.baseDelegate = self
     super.init(frame: frame)
     setupUI()
+    postView.baseDelegate = self
   }
   
   required init?(coder: NSCoder) {

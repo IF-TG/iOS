@@ -61,9 +61,9 @@ final class PostCellWithFiveThumbnails: BasePostCell, BasePostViewDelegator {
     self.thumbnailView = contentView
     thumbnailView.clipsToBounds = true
     postView = BasePostView(frame: frame, thumbnailView: contentView)
-    postView.baseDelegate = self
     super.init(frame: frame)
     setupUI()
+    postView.baseDelegate = self
   }
   
   required init?(coder: NSCoder) {

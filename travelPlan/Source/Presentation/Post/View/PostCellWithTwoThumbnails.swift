@@ -52,9 +52,9 @@ final class PostCellWithTwoThumbnails: BasePostCell, BasePostViewDelegator {
     let contentView = PostTwoThumbnailsView()
     self.thumbnailView = contentView
     postView = BasePostView(frame: frame, thumbnailView: contentView)
-    postView.baseDelegate = self
     super.init(frame: frame)
     setupUI()
+    postView.baseDelegate = self
   }
   
   required init?(coder: NSCoder) {

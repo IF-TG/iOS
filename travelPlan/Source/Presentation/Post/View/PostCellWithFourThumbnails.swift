@@ -60,9 +60,9 @@ final class PostCellWithFourThumbnails: BasePostCell, BasePostViewDelegator {
     let contentView = PostFourThumbnailsView()
     self.thumbnailView = contentView
     postView = BasePostView(frame: frame, thumbnailView: contentView)
-    postView.baseDelegate = self
     super.init(frame: frame)
     setupUI()
+    postView.baseDelegate = self
   }
   
   required init?(coder: NSCoder) {
