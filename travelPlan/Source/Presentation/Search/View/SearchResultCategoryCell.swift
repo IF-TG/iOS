@@ -16,11 +16,17 @@ final class SearchResultCategoryCell: UICollectionViewCell {
     $0.textColor = UIColor.YG.highlight
   }
   
+  override var isSelected: Bool {
+    didSet {
+      isSelected ? selectedUI() : unselectedUI()
+    }
+  }
+  
   // MARK: - LifeCycle
   override init(frame: CGRect) {
     super.init(frame: frame)
     setupUI()
-    setupStyles()
+    unselectedUI()
   }
   
   required init?(coder: NSCoder) {
@@ -38,10 +44,18 @@ extension SearchResultCategoryCell {
 
 // MARK: - Private Helpers
 extension SearchResultCategoryCell {
-  private func setupStyles() {
-    contentView.backgroundColor = .yg.veryLightGray
-    contentView.layer.borderColor = UIColor.YG.gray0.cgColor
+  private func selectedUI() {
+    contentView.backgroundColor = .yg.primary.withAlphaComponent(0.15)
+    contentView.layer.borderColor = UIColor.yg.highlight.cgColor
+    contentView.layer.borderWidth = 1.5
+    tagLabel.textColor = .yg.highlight
+  }
+  
+  private func unselectedUI() {
+    contentView.backgroundColor = .yg.littleWhite
+    contentView.layer.borderColor = UIColor.yg.gray0.cgColor
     contentView.layer.borderWidth = 1
+    tagLabel.textColor = .yg.gray4
   }
 }
 
@@ -60,3 +74,7 @@ extension SearchResultCategoryCell: LayoutSupport {
     }
   }
 }
+
+/*
+ 현재 cell 클릭 여부에 따라서 내부 ui color 변경
+ */
