@@ -8,6 +8,8 @@
 import UIKit
 
 class PostFooterView: UIView {
+  typealias EventNotifier = () -> Void
+  
   // MARK: - Properties
   /// 초기 사용자가 포스트에 대해서 하트를 눌렀는지 상태 체크
   private var postHeartState: Bool? = false
@@ -40,6 +42,12 @@ class PostFooterView: UIView {
     $0.addTarget(self, action: #selector(didTapShare), for: .touchUpInside)
   }
   
+  var shareTapNotifier: EventNotifier?
+  
+  var heartTapNotifier: EventNotifier?
+  
+  var commentTapNotifier: EventNotifier?
+  
   // MARK: - Initialization
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -59,17 +67,16 @@ class PostFooterView: UIView {
 // MARK: - Action
 private extension PostFooterView {
   @objc func didTapHeart() {
-    // TODO: - 하트 취소, 수락 서버 갱신. 여기선 서버로 하트 취소한거 처리 해야합니다
     updatePostHeartState()
-    print("DEBUG: 찜")
+    shareTapNotifier?()
   }
   
   @objc func didTapComment() {
-    print("커맨드 화면 이동")
+    heartTapNotifier?()
   }
   
   @objc func didTapShare() {
-    print("share 화면으로 이동")
+    shareTapNotifier?()
   }
 }
 
