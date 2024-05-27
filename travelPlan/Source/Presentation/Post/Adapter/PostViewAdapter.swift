@@ -59,6 +59,7 @@ extension PostViewAdapter: UICollectionViewDataSource {
       else { return .init(frame: .zero) }
       let cell = makePostCell(collectionView, cellForItemAt: indexPath, with: numberOfThumbnails)
       cell?.configure(with: postItem)
+      cell?.postViewDelegate = self
       checkLastCell(cell, indexPath: indexPath)
       return cell ?? .init(frame: .zero)
     }
@@ -100,7 +101,7 @@ private extension PostViewAdapter {
     _ collectionView: UICollectionView,
     cellForItemAt indexPath: IndexPath,
     with numberOfThumbnails: PostThumbnailCountValue
-  ) -> (any UICollectionViewCell & PostCellConfigurable & PostCellEdgeDividable)? {
+  ) -> (any BasePostCell & PostCellConfigurable & PostCellEdgeDividable)? {
     return switch numberOfThumbnails {
     case .one:
       collectionView.dequeueReusableCell(
@@ -130,5 +131,24 @@ private extension PostViewAdapter {
 extension PostViewAdapter: UICollectionViewDelegate {
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     baseDelegate?.didTapPost(with: indexPath.row)
+  }
+}
+
+// MARK: - BasePostViewDelegate
+extension PostViewAdapter: PostViewDelegate {
+  func didTapComment(_ cell: UICollectionViewCell) {
+    baseDelegate?.tapComment(cell)
+  }
+  
+  func didTapShare(_ cell: UICollectionViewCell) {
+    baseDelegate?.share(cell)
+  }
+  
+  func didTapOption(_ cell: UICollectionViewCell) {
+    baseDelegate?.tapOption(cell)
+  }
+  
+  func didTapHeart(_ cell: UICollectionViewCell) {
+    baseDelegate?.tapHeart(cell)
   }
 }
