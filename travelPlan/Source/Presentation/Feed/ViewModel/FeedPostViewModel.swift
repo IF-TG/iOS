@@ -60,6 +60,7 @@ class FeedPostViewModel: PostViewModel {
 extension FeedPostViewModel: FeedPostViewModelable {
   func transform(_ input: Input) -> AnyPublisher<State, Never> {
     return Publishers.MergeMany([
+      postShareSubjectStream(input),
       postBlockSubjectStream(input),
       postFilterLoadingStartSubjectStream(),
       notifiedOrderFilterRequestStream(input),
