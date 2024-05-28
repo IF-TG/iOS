@@ -61,7 +61,7 @@ final class PostActivityItemSource: NSObject, UIActivityItemSource {
 fileprivate extension PostActivityItemSource {
   static func makeMetaData(with postId: Int, title: String) -> LPLinkMetadata {
     return {
-      $0.iconProvider = NSItemProvider(contentsOf: Bundle.main.url(forResource: "AppIcon", withExtension: "png"))
+      $0.iconProvider = NSItemProvider(object: UIImage(named: "AppIcon")!)
       $0.title = title
       if let deepLinkURL = URL(string: "yeoga://post/\(postId)") {
         $0.originalURL = deepLinkURL
