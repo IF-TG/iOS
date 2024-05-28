@@ -6,5 +6,9 @@
 	<array>
 		<string>Default</string>
 	</array>
+	<key>com.apple.developer.associated-domains</key>
+	<array>
+		<string>yeoga.onelink.me/Ux3i/w05swaw1</string>
+	</array>
 </dict>
 </plist>
