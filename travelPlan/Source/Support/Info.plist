@@ -5,6 +5,12 @@
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>yeoga</string>
+			</array>
+		</dict>
+		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
@@ -12,7 +18,6 @@
 				<string>com.googleusercontent.apps.867915446550-91bl3g0kfiulh1747ee5arlm34d3ekkq</string>
 			</array>
 		</dict>
-		<dict/>
 	</array>
 	<key>NSAppTransportSecurity</key>
 	<dict>
