@@ -12,6 +12,7 @@
 				<string>com.googleusercontent.apps.867915446550-91bl3g0kfiulh1747ee5arlm34d3ekkq</string>
 			</array>
 		</dict>
+		<dict/>
 	</array>
 	<key>NSAppTransportSecurity</key>
 	<dict>
@@ -19,7 +20,7 @@
 		<true/>
 		<key>NSExceptionDomains</key>
 		<dict>
-			<key>apis.data.go.kr</key>
+			<key>tong.visitkorea.or.kr</key>
 			<dict>
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
 				<true/>
@@ -28,22 +29,6 @@
 			</dict>
 		</dict>
 	</dict>
-  <key>NSAppTransportSecurity</key>
-  <dict>
-    <key>NSAllowsArbitraryLoads</key>
-    <true/>
-    <key>NSExceptionDomains</key>
-    <dict>
-      <key>tong.visitkorea.or.kr</key>
-      <dict>
-        <key>NSExceptionAllowsInsecureHTTPLoads</key>
-        <true/>
-        <key>NSIncludesSubdomains</key>
-        <true/>
-      </dict>
-    </dict>
-  </dict>
-
 	<key>PHPhotoLibraryPreventAutomaticLimitedAccessAlert</key>
 	<true/>
 	<key>TourAPI_ServiceKey</key>
