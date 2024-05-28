@@ -130,6 +130,11 @@ extension FeedPostViewController: ViewBindCase {
       postView.performBatchUpdates {
         postView.deleteItems(at: [deletedIndexPath])
       }
+    case .share(let title, let postId, let postImageData):
+      let item = PostActivityItemSource(image: UIImage(data: postImageData)!, title: title, postId: postId)
+      let activityItems: [Any] = [item]
+      
+      coordinator?.showPostShare(with: activityItems)
     }
   }
   
@@ -180,8 +185,11 @@ extension FeedPostViewController: PostViewAdapterDelegate {
   }
   
   func share(_ cell: UICollectionViewCell) {
-    // TODO: - 공유 input 로직 추가해야합니다.
-    print("피드 포스트 하트 클릭")
+    guard let indexPath = postView.indexPath(for: cell) else {
+      // TODO: - 알림창 보여주기. 예상치 못한 에러로 해당 포스트를 식별하지 못했습니니다.
+      return
+    }
+    input.postShareSubject.send((indexPath, cell.toImageData()))
   }
   
   func tapOption(_ cell: UICollectionViewCell) {

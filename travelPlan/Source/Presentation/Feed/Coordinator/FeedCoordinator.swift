@@ -10,6 +10,7 @@ import SHCoordinator
 
 protocol FeedPostCoordinatorDelegate: AnyObject {
   func showDetailPost(post: Post, category: Post.Category, blockedPost: @escaping (Int32) -> Void)
+  func showPostShare(with activityItems: [Any])
 }
 
 protocol FeedCoordinatorDelegate: FlowCoordinatorDelegate {
@@ -91,6 +92,14 @@ extension FeedCoordinator: FeedPostCoordinatorDelegate {
       blockedPost(blockedPostId)
     }
     addChild(with: childCoordinator)
+  }
+  
+  func showPostShare(with activityItems: [Any]) {
+    let activityVC = UIActivityViewController(
+      activityItems: activityItems,
+      applicationActivities: nil)
+    
+    viewController?.present(activityVC, animated: true, completion: nil)
   }
 }
 
