@@ -70,4 +70,3 @@ fileprivate extension PostActivityItemSource {
     }(LPLinkMetadata())
   }
 }
-
