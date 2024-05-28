@@ -131,7 +131,7 @@ extension FeedPostViewController: ViewBindCase {
         postView.deleteItems(at: [deletedIndexPath])
       }
     case .share(let title, let postId, let postImageData):
-      let item = PostActivityItemSource(image: UIImage(data: postImageData)!, title: title, postId: postId)
+      let item = PostActivityItemSource(imageData: postImageData, title: title, postId: postId)
       let activityItems: [Any] = [item]
       
       coordinator?.showPostShare(with: activityItems)
