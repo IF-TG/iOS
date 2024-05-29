@@ -112,8 +112,9 @@ extension AppDelegate: DeepLinkDelegate {
       NSLog("[AFSDK] This is a direct deep link")
     }
     
-    fruitNameStr = deepLinkObj.deeplinkValue
-    goToPostDetailScene(withFruitName: fruitNameStr!, deepLinkData: deepLinkObj.clickEvent)
+    // TODO: - 더더더더더더덛
+    let postId = deepLinkObj.deeplinkValue
+    goToPostDetailScene(with: postId!)
   }
 }
 
