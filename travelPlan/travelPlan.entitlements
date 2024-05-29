@@ -8,7 +8,7 @@
 	</array>
 	<key>com.apple.developer.associated-domains</key>
 	<array>
-		<string>yeoga.onelink.me</string>
+		<string>applinks:yeoga.onelink.me</string>
 	</array>
 </dict>
 </plist>

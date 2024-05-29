@@ -5,6 +5,8 @@
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
+			<key>CFBundleURLName</key>
+			<string>com.yeoga.app</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>yeogaapp</string>
