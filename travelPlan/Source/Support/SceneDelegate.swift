@@ -23,6 +23,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
   }
   
+  // TODO: - 여가 앱이 열려있을때에 url에 의해 접근되는 경우도 생각해야함
+  func scene(
+    _ scene: UIScene,
+    continue userActivity: NSUserActivity
+  ) {
+    if userActivity.activityType == NSUserActivityTypeBrowsingWeb {
+      guard let url = userActivity.webpageURL else { return }
+      
+    }
+  }
+  
   func sceneWillEnterForeground(_ scene: UIScene) {
     resumeLoginVideo(scene)
   }
