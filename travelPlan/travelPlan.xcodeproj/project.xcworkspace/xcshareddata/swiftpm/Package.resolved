@@ -1,5 +1,5 @@
 {
-  "originHash" : "cc9a49b6b0b7f5394c4cfad663be0b47580031276d9bc798d593a9366a61bd78",
+  "originHash" : "5e55532e87e1cc7636b31edb05c88047cb8f507dbcb2fd0ded1aeb3f4a0ddf96",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -44,6 +44,15 @@
       "state" : {
         "revision" : "c89ed571ae140f8eb1142735e6e23d7bb8c34cb2",
         "version" : "1.7.5"
+      }
+    },
+    {
+      "identity" : "appsflyerframework",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/AppsFlyerSDK/AppsFlyerFramework",
+      "state" : {
+        "revision" : "e248ac38ac97ab6926e500ace97e220d10df7d41",
+        "version" : "6.14.3"
       }
     },
     {
