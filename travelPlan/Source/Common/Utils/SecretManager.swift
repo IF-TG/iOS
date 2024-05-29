@@ -12,7 +12,7 @@ final class SecretManager {
   
   private init() {}
   
-  func apiKey(with type: APIKeyType) -> String? {
+  func get(with type: SecretType) -> String? {
     guard let key = Bundle.main.object(forInfoDictionaryKey: type.path) as? String else {
       print("\(type.path) api key얻어오는것을 실패했습니다.")
       return nil
@@ -22,13 +22,19 @@ final class SecretManager {
 }
 
 extension SecretManager {
-  @frozen enum APIKeyType {
+  @frozen enum SecretType {
     case tourAPI
+    case appsFlyerDevKey
+    case appleAppId
     
     var path: String {
       switch self {
       case .tourAPI:
         return "TourAPI_ServiceKey"
+      case .appsFlyerDevKey:
+        return "AppsFlyerDevKey"
+      case .appleAppId:
+        return "AppleAppId"
       }
     }
   }

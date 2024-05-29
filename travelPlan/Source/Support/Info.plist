@@ -36,6 +36,10 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>AppleAppId</key>
+	<string>$(AppleAppId)</string>
+	<key>AppsFlyerDevKey</key>
+	<string>$(AppsFlyerDevKey)</string>
 	<key>PHPhotoLibraryPreventAutomaticLimitedAccessAlert</key>
 	<true/>
 	<key>TourAPI_ServiceKey</key>
