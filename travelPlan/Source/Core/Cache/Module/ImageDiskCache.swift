@@ -5,6 +5,7 @@
 //  Created by 양승현 on 11/21/23.
 //
 
+// TODO: - 이미지 데이터로 변환하기
 import UIKit.UIImage
 
 public class ImageDiskCache {
