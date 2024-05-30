@@ -37,6 +37,7 @@ final class WrappedPaddingButton: UIView {
   init(frame: CGRect, padding: UIEdgeInsets, config: (UIButton) -> Void) {
     self.padding = padding
     super.init(frame: frame)
+    button.translatesAutoresizingMaskIntoConstraints = false
     config(button)
     setupUI()
   }
