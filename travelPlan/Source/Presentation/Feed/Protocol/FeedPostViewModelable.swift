@@ -9,7 +9,6 @@ import Combine
 import Foundation
 
 struct FeedPostViewModelInput {
-  typealias ImageData = Data
   let feedRefresh: PassthroughSubject<Void, Never> = .init()
   let nextPage: PassthroughSubject<Void, Never> = .init()
   let viewDidLoad: PassthroughSubject<Void, Never> = .init()
@@ -17,7 +16,7 @@ struct FeedPostViewModelInput {
   let notifiedMainThemeFilterRequest: PassthroughSubject<TravelMainThemeType, Never>
   let specificPostTapped: PassthroughSubject<Int, Never> = .init()
   let postBlockSubject: PassthroughSubject<Int32, Never> = .init()
-  let postShareSubject: PassthroughSubject<(IndexPath, ImageData), Never> = .init()
+  let postShareSubject: PassthroughSubject<(IndexPath), Never> = .init()
   
   init(
     notifiedOrderFilterRequest: PassthroughSubject<TravelOrderType, Never>,
@@ -31,7 +30,6 @@ struct FeedPostViewModelInput {
 @frozen enum FeedPostViewModelState {
   typealias Title = String
   typealias PostId = Int
-  typealias PostImageData = Data
   
   case viewDidLoad
   case refresh
@@ -39,7 +37,7 @@ struct FeedPostViewModelInput {
   case unexpectedError(description: String)
   case networking
   case postFilterLoaded
-  case share(Title, PostId, PostImageData)
+  case share(Title, PostId)
   ///
   case detailPostShow(post: Post, category: Post.Category)
   case deleteBlockedPost(IndexPath)

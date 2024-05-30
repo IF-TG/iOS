@@ -79,12 +79,12 @@ extension FeedPostViewModel: FeedPostViewModelable {
 private extension FeedPostViewModel {
   // TODO: - 포스트 아이디 Int로 변환해야함.
   func postShareSubjectStream(_ input: Input) -> Output {
-    return input.postShareSubject.map { [weak self] indexPath, imageData -> State in
+    return input.postShareSubject.map { [weak self] indexPath -> State in
       guard let item = self?.postItem(at: indexPath.item) else {
         return .unexpectedError(description: "앱 내부 서비스 에러가 발생됬습니다.")
       }
       let title = item.header.contentInfo.title
-      return .share(title, Int(item.postId)!, imageData)
+      return .share(title, Int(item.postId)!)
     }.eraseToAnyPublisher()
   }
   

@@ -10,22 +10,11 @@ import LinkPresentation
 
 final class PostActivityItemSource: NSObject, UIActivityItemSource {
   // MARK: - Properties
-  private let image: UIImage
   private let title: String
   private let postId: Int
   private var metadata: LPLinkMetadata?
   
-  init(image: UIImage, title: String, postId: Int) {
-    self.image = image
-    self.title = title
-    self.postId = postId
-    metadata = Self.makeMetaData(with: postId, title: title)
-    super.init()
-  }
-  
-  init(imageData: Data, title: String, postId: Int) {
-    // TODO: - 이미지 정보가 업을때 기본 이미지(이미지가 없어요) 이미지 넣기
-    self.image = UIImage(data: imageData) ?? UIImage()
+  init(title: String, postId: Int) {
     self.title = title
     self.postId = postId
     metadata = Self.makeMetaData(with: postId, title: title)
@@ -45,11 +34,9 @@ final class PostActivityItemSource: NSObject, UIActivityItemSource {
     _ activityViewController: UIActivityViewController,
     itemForActivityType activityType: UIActivity.ActivityType?
   ) -> Any? {
-    return image
+    return metadata?.url
   }
   
-  // FIXME: - 공유할 때 icon이 꽉 찬게 아니라 뒤에 여백이 있습니다.
-  // 스택오버플로우 글 을 보면 최소 40*40 이면 된다는데,, 안되는 문제가..
   // https://stackoverflow.com/questions/57850483/ios13-share-sheet-how-to-set-preview-thumbnail-when-sharing-uiimage
   func activityViewControllerLinkMetadata(
     _ activityViewController: UIActivityViewController
@@ -63,9 +50,10 @@ fileprivate extension PostActivityItemSource {
     return {
       $0.iconProvider = NSItemProvider(object: UIImage(named: "AppIcon")!)
       $0.title = title
-      if let deepLinkURL = URL(string: "yeoga://post/\(postId)") {
-        $0.originalURL = deepLinkURL
-      }
+      if let universalLinkURL = URL(string: "https://yeoga.onelink.me/HMyx/06lwa3b9?postId=\(postId)") {
+        $0.originalURL = universalLinkURL
+        $0.url = universalLinkURL
+      } 
       return $0
     }(LPLinkMetadata())
   }
