@@ -45,6 +45,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   }
   
   // MARK: - Open Universal Links
+  /// Universal link에 의해 시스템에서 여가 앱이 열린다면 이 함수가 호출됩니다.
+  /// userActivity에 AppsFlyer 에서 onelink로 제어하도록 합니다.
   func application(
     _ application: UIApplication,
     continue userActivity: NSUserActivity,
@@ -55,7 +57,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   }
   
   /// iOS9 이상부터 가능합니다.
-  /// 다른 앱 아니면 시스템으로부터 URL을 열 때 호출됨. URL scheme나 universal link 등의 상황에 호출됩니다.
+  /// 다른 앱 아니면 시스템으로부터 URL scheme으로 열 때 호출됩니다.
   func application(
     _ app: UIApplication,
     open url: URL,
@@ -79,7 +81,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 // MARK: - DeepLinkDelegate
 extension AppDelegate: DeepLinkDelegate {
   func didResolveDeepLink(_ result: DeepLinkResult) {
-    var fruitNameStr: String?
     switch result.status {
     case .notFound:
       NSLog("[AFSDK] Deep link not found")
@@ -90,31 +91,24 @@ extension AppDelegate: DeepLinkDelegate {
     case .found:
       NSLog("[AFSDK] Deep link found")
     }
-    
     guard let deepLinkObj: DeepLink = result.deepLink else {
       NSLog("[AFSDK] Could not extract deep link object")
       return
     }
     
-    if deepLinkObj.clickEvent.keys.contains("deep_link_sub2") {
-      let ReferrerId: String = deepLinkObj.clickEvent["deep_link_sub2"] as? String ?? ""
-      NSLog("[AFSDK] AppsFlyer: Referrer ID: \(ReferrerId)")
-    } else {
-      NSLog("[AFSDK] Could not extract referrerId")
-    }
-    
+    #if DEBUG
     let deepLinkStr: String = deepLinkObj.toString()
     NSLog("[AFSDK] DeepLink data is: \(deepLinkStr)")
+    #endif
     
-    if deepLinkObj.isDeferred == true {
-      NSLog("[AFSDK] This is a deferred deep link")
-    } else {
-      NSLog("[AFSDK] This is a direct deep link")
-    }
+    let relativePath = deepLinkObj.clickEvent["path"]
+    // TODO: - Deep link value를 설정했기에 그거 param에서 가져오도록 로직 개선해야함
+    // TODO:
+    // TODO:
+    // TODO: 
+    let postId = extractPostId(from: relativePath as? String)
     
-    // TODO: - 더더더더더더덛
-    let postId = deepLinkObj.deeplinkValue
-    goToPostDetailScene(with: postId!)
+    goToPostDetailScene(with: postId)
   }
 }
 
