@@ -122,16 +122,16 @@ extension FeedPostViewController: ViewBindCase {
     case .postFilterLoaded:
       postView.reloadData()
       stopIndicator()
-    case .detailPostShow(post: let post, category: let category):
-      coordinator?.showDetailPost(post: post, category: category) { [weak self] blockedPostId in
+    case .detailPostShow(let post):
+      coordinator?.showDetailPost(post: post) { [weak self] blockedPostId in
         self?.input.postBlockSubject.send(blockedPostId)
       }
     case .deleteBlockedPost(let deletedIndexPath):
       postView.performBatchUpdates {
         postView.deleteItems(at: [deletedIndexPath])
       }
-    case .share(let title, let postId, let postImageData):
-      let item = PostActivityItemSource(imageData: postImageData, title: title, postId: postId)
+    case .share(let title, let postId):
+      let item = PostActivityItemSource(title: title, postId: postId)
       let activityItems: [Any] = [item]
       
       coordinator?.showPostShare(with: activityItems)
@@ -189,7 +189,7 @@ extension FeedPostViewController: PostViewAdapterDelegate {
       // TODO: - 알림창 보여주기. 예상치 못한 에러로 해당 포스트를 식별하지 못했습니니다.
       return
     }
-    input.postShareSubject.send((indexPath, cell.toImageData()))
+    input.postShareSubject.send(indexPath)
   }
   
   func tapOption(_ cell: UICollectionViewCell) {

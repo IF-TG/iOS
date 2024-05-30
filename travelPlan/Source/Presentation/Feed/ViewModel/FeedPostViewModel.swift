@@ -244,7 +244,7 @@ private extension FeedPostViewModel {
         guard let post = self?.posts[index] else {
           return .unexpectedError(description: ReferenceError.invalidReference.localizedDescription)
         }
-        return .detailPostShow(post: post, category: post.category)
+        return .detailPostShow(post: post)
       }.eraseToAnyPublisher()
   }
   
