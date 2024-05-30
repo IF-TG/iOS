@@ -97,7 +97,7 @@ extension FeedCoordinator: FeedPostCoordinatorDelegate {
 // MARK: - FeedCoordinatorDelegate
 extension FeedCoordinator: FeedCoordinatorDelegate {  
   func showPostSearch() {
-    let childCoordinator = PostSearchCoordinator(presenter: presenter)
+    let childCoordinator = PostSearchCoordinator(presenter: presenter, searchType: .post)
     addChild(with: childCoordinator)
   }
   
