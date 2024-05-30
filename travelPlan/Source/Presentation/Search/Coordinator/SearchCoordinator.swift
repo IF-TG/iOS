@@ -10,6 +10,7 @@ import SHCoordinator
 
 protocol SearchCoordinatorDelegate: FlowCoordinatorDelegate {
   func showSearchDetail(type: SearchSectionType)
+  func showPostSearch()
 }
 
 final class SearchCoordinator: FlowCoordinator {
@@ -39,6 +40,11 @@ final class SearchCoordinator: FlowCoordinator {
 extension SearchCoordinator: SearchCoordinatorDelegate {
   func showSearchDetail(type: SearchSectionType) {
     let child = SearchMoreDetailCoordinator(presenter: presenter, viewControllerType: type)
+    addChild(with: child)
+  }
+  
+  func showPostSearch() {
+    let child = PostSearchCoordinator(presenter: presenter, searchType: .travelDestination)
     addChild(with: child)
   }
 }
