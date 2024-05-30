@@ -33,14 +33,24 @@ class PostFooterView: UIView {
     $0.label.text = "0"
   }
   
-  private lazy var shareButton = UIButton().set {
+  private lazy var shareButton = {
     $0.translatesAutoresizingMaskIntoConstraints = false
-    $0.contentMode = .scaleAspectFit
     let image = UIImage(named: "feedShare")
-    $0.setImage(image?.setColor(.yg.gray4), for: .normal)
+    if #available(iOS 15.0, *) {
+      var config = UIButton.Configuration.plain()
+      config.contentInsets = NSDirectionalEdgeInsets(top: 7, leading: 7, bottom: 7, trailing: 7)
+      config.image = image
+      config.imagePadding = 0
+      $0.configuration = config
+    } else {
+      $0.imageEdgeInsets = UIEdgeInsets(top: 7, left: 7, bottom: 7, right: 7)
+      $0.setImage(image?.setColor(.yg.gray4), for: .normal)
+    }
     $0.setImage(image?.setColor(.yg.gray4.withAlphaComponent(0.5)), for: .highlighted)
+    $0.imageView?.contentMode = .scaleAspectFit
     $0.addTarget(self, action: #selector(didTapShare), for: .touchUpInside)
-  }
+    return $0
+  }(UIButton())
   
   var shareTapNotifier: EventNotifier?
   
@@ -211,7 +221,7 @@ private extension PostFooterView {
     return [
       shareButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -13.5),
       shareButton.centerYAnchor.constraint(equalTo: centerYAnchor),
-      shareButton.heightAnchor.constraint(equalToConstant: 15),
-      shareButton.widthAnchor.constraint(equalToConstant: 15)]
+      shareButton.heightAnchor.constraint(equalToConstant: 30),
+      shareButton.widthAnchor.constraint(equalToConstant: 30)]
   }
 }
