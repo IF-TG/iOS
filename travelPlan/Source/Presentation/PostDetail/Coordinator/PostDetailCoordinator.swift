@@ -52,7 +52,7 @@ final class PostDetailCoordinator: NSObject, FlowCoordinator {
   
   var blockedPost: ((PostId) -> Void)?
   
-  init(presenter: UINavigationController?, post: Post, category: Post.Category) {
+  init(presenter: UINavigationController?, post: Post?, postId: PostId? = nil) {
     self.presenter = presenter
     super.init()
     let mockPostRepository = MockPostRepository()
@@ -88,15 +88,21 @@ final class PostDetailCoordinator: NSObject, FlowCoordinator {
       showCommentOption: { [weak self] isCommentOwner, optionCallBack in
         self?.showCommentOption(isCommentOwner: isCommentOwner, handler: optionCallBack)
       })
+    if post == nil, postId == nil {
+      NSLog("포스트, 포스트id 둘 중하나는 존재해야합니다")
+      return
+    }
     let postDetailVM = PostDetailViewModel(
       post: post,
-      category: category,
+      postId: postId,
       postFetchUsecase: defaultPostFetchUseCase,
       ownerRepository: loggedInUserRepository,
       userBlockUseCase: userBlockUseCase,
       actions: actions)
+    
+    // TODO: - identifier Int32로 변경하기
     let postDetailChatVM = PostDetailChatViewModel(
-      postId: post.detail.postID,
+      postId: post?.detail.postID ?? String(postId!),
       postCommentsAndPostLikeStateFetchUseCase: defaultPostCommetnsAndPostLikeStateFetchUseCase,
       postCommentUseCase: postCommentUseCase,
       postNestedCommentUseCase: postNestedCommentUseCase,
