@@ -41,14 +41,21 @@ final class PostDetailViewModel {
   
   // MARK: - Lifecycle
   init(
-    post: Post,
-    category: Post.Category,
+    post: Post?,
+    postId: Int32? = nil,
     postFetchUsecase: PostFetchUseCase,
     ownerRepository: LoggedInUserRepository,
     userBlockUseCase: UserBlockUseCase,
     actions: PostDetailViewModelActions?
   ) {
-    self.postDetails = PostMapper.toPostDetails(post, category: category)
+    if let post = post {
+      self.postDetails = PostMapper.toPostDetails(post, category: post.category)
+    } else {
+      // TODO: - postId만 온다는 것은, universal link를 통해 공유하기 로직으로 들어온 것입니다.
+      // postId에 따라 post 정보를 받은 후에 postDetails를 초기화 해야합니다.
+      fatalError("미구현")
+    }
+    
     self.postFetchUsecase = postFetchUsecase
     self.ownerRepository = ownerRepository
     self.userBlockUseCase = userBlockUseCase
