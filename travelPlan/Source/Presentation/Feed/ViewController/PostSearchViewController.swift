@@ -42,11 +42,11 @@ final class PostSearchViewController: UIViewController {
   }
   
   // MARK: - Properties
-  private let viewModel = PostSearchViewModel()
+  private let viewModel: any PostSearchViewModel
   
   weak var coordinator: PostSearchCoordinatorDelegate?
   
-  private lazy var input = Input(didChangeSearchTextField: searchTextField.changed)
+  private lazy var input = PostSearchViewModelInput(didChangeSearchTextField: searchTextField.changed)
   
   private lazy var searchBarButtonItem = UIBarButtonItem(
     image: UIImage(named: Constants.SearchBarButtonItem.imageName)?
@@ -113,10 +113,18 @@ final class PostSearchViewController: UIViewController {
                 withReuseIdentifier: PostSearchFooterView.id)
   }
   
-  // Combine
   private var subscriptions = Set<AnyCancellable>()
   
   // MARK: - LifeCycle
+  init(viewModel: any PostSearchViewModel) {
+    self.viewModel = viewModel
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     setupUI()
@@ -132,59 +140,34 @@ final class PostSearchViewController: UIViewController {
 }
 
 // MARK: - ViewBindCase
-extension PostSearchViewController: ViewBindCase {
-  typealias Input = PostSearchViewModel.Input
-  typealias ErrorType = PostSearchViewModel.ErrorType
-  typealias State = PostSearchViewModel.State
+extension PostSearchViewController {
   
   func bind() {
     let output = self.viewModel.transform(input)
     output
       .receive(on: RunLoop.main)
-      .sink { [weak self] result in
-        switch result {
-        case .finished:
-          print("completed")
-        case let .failure(error):
-          self?.handleError(error)
+      .sink { [weak self] state in
+        guard let self = self else { return }
+        
+        switch state {
+        case .gotoSearch(let text):
+          searchTextField.resignFirstResponder()
+          print("DEBUG: PostSearchVC -> PostSearchResultVC, keyword:\(text)")
+        case .presentAlert:
+          showAlert(alertType: .withCancel, message: Constants.Alert.message, target: self)
+        case .changeButtonColor(let isChanged):
+          if isChanged {
+            setupSearchBarButtonItemStyle(.yg.primary, isEnabled: true)
+          } else { setupSearchBarButtonItemStyle(.yg.gray1, isEnabled: false) }
+        case.goDownKeyboard:
+          navigationController?.navigationBar.endEditing(true)
+        case .reloadSections(let sectionIndex):
+          collectionView.reloadSections(.init(integer: sectionIndex))
+        case .none:
+          break
         }
-      } receiveValue: { [weak self] in
-        self?.render($0)
       }
       .store(in: &subscriptions)
-  }
-  
-  func render(_ state: State) {
-    switch state {
-    case .gotoSearch(let text):
-      searchTextField.resignFirstResponder()
-      print("DEBUG: PostSearchVC -> PostSearchResultVC, keyword:\(text)")
-    case .presentAlert:
-      showAlert(alertType: .withCancel, message: Constants.Alert.message, target: self)
-    case .changeButtonColor(let isChanged):
-      if isChanged {
-        setupSearchBarButtonItemStyle(.yg.primary, isEnabled: true)
-      } else { setupSearchBarButtonItemStyle(.yg.gray1, isEnabled: false) }
-    case.goDownKeyboard:
-      navigationController?.navigationBar.endEditing(true)
-    case .reloadSections(let sectionIndex):
-      collectionView.reloadSections(.init(integer: sectionIndex))
-    case .none: 
-      break
-    }
-  }
-  
-  func handleError(_ error: ErrorType) {
-    switch error {
-    case .unexpected:
-      print("DEBUG: Unexpected error occured")
-    case .deallocated:
-      print("DEBUG: Deallocated PostSearchViewModel")
-    case .invalidDataSource:
-      print("DEBUG: 올바르지 않은 model type입니다.")
-    case .none:
-      break
-    }
   }
 }
 
