@@ -9,7 +9,7 @@ import UIKit
 import SHCoordinator
 
 protocol FeedPostCoordinatorDelegate: AnyObject {
-  func showDetailPost(post: Post, category: Post.Category, blockedPost: @escaping (Int32) -> Void)
+  func showDetailPost(post: Post, blockedPost: @escaping (Int32) -> Void)
   func showPostShare(with activityItems: [Any])
 }
 
@@ -82,12 +82,23 @@ final class FeedCoordinator: FlowCoordinator {
         .set { $0.coordinator = self }
     }
   }
+  
+  func showPostDetailFromUniversalLink(with postId: Int32?) {
+    /// 사용자가 공유하기로 포스트 상세화면을 들어갈 경우
+    ///   차단하기 로직 실행시 메인 화면으로 전환시 해당 포스트가 존재하지 않기에, blockedPost를 호출하지 않습니다.
+    guard let postId = postId else {
+      // TODO: - 공유된 포스트 아이디의 식별자가 유효하지 않습니다. 라는 알림창 보여주기.
+      return
+    }
+    let childCoordinator = PostDetailCoordinator(presenter: presenter, post: nil, postId: postId)
+    addChild(with: childCoordinator)
+  }
 }
 
 // MARK: - FeedPostCoordinatorDelegate
 extension FeedCoordinator: FeedPostCoordinatorDelegate {
-  func showDetailPost(post: Post, category: Post.Category, blockedPost: @escaping (Int32) -> Void) {
-    let childCoordinator = PostDetailCoordinator(presenter: presenter, post: post, category: category)
+  func showDetailPost(post: Post, blockedPost: @escaping (Int32) -> Void) {
+    let childCoordinator = PostDetailCoordinator(presenter: presenter, post: post)
     childCoordinator.blockedPost = { blockedPostId in
       blockedPost(blockedPostId)
     }

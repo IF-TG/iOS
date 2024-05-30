@@ -57,4 +57,13 @@ extension MainCoordinator: MainCoordinatorDelegate {
   func showFeed() {
     mainTabBarPresenter.selectedIndex = 0
   }
+  
+  /// universal link에 의해 포스트가 실행될 경우, 포스트 상세 화면으로 이동해야합니다.
+  func showFeedDetail(with postId: Int32?) {
+    guard
+      let index = child.firstIndex(where: { $0 is FeedCoordinator}),
+      let feedCoordinator = child[index] as? FeedCoordinator
+    else { return }
+    feedCoordinator.showPostDetailFromUniversalLink(with: postId)
+  }
 }

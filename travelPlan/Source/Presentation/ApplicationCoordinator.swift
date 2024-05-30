@@ -55,7 +55,7 @@ extension ApplicationCoordinator {
   /// Notes:
   /// 1. MainCoordinator에서 login으로 가야할 때는 MainCoordinator를 삭제해야합니다.
   /// 2. app에서 시작될 때는 삭제해야할 prev coordinator가 없음으로 그냥 window에 등록합니다.
-  func gotoLoginPage(withDelete prevCoordinator: MainCoordinator? = nil) {
+  func gotoLoginPage(withDelete prevCoordinator: MainCoordinator? = nil, alertMessage: String? = nil) {
     let loginCoordinator = LoginCoordinator(presenter: .init())
     window.rootViewController = nil
     window.rootViewController = loginCoordinator.presenter
@@ -71,5 +71,21 @@ extension ApplicationCoordinator {
     window.rootViewController = mainCoordinator.mainTabBarPresenter
     addChild(with: mainCoordinator)
     prevCoordinator?.finish()
+  }
+  
+  /// universal link로 들어온 경우 ( 공유하기 )
+  /// 로그인하지 않은 경우 로그인 화면으로,
+  /// 로그인한 사용자인 경우 상세 화면으로 전환합니다.
+  func gotoFeedDetailWhenUserLoggedIn(with postId: Int32?) {
+    guard isSignIn else {
+      gotoLoginPage(alertMessage: "로그인을 하셔야 앱을 이용할 수 있습니다.")
+      return
+    }
+    if child.count == 0 {
+      gotoMainTapFeedPage()
+      (child.first as? MainCoordinator)?.showFeedDetail(with: postId)
+    } else {
+      (child.first as? MainCoordinator)?.showFeedDetail(with: postId)
+    }
   }
 }
