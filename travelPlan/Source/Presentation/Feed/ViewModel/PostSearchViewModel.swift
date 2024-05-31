@@ -8,11 +8,18 @@
 import Combine
 import Foundation
 
+struct PostSeaerchActions {
+  let showTourDestinationList: (String) -> Void
+  let showPostList: (String) -> Void
+  let pop: () -> Void
+}
+
 protocol PostSearchViewModel: ViewModelable, PostSearchCollectionViewDataSource
 where Input == PostSearchViewModelInput,
       State == PostSearchViewModelState {}
 
 struct PostSearchViewModelInput {
+  let didTapBackButton: PassthroughSubject<Void, Never> = .init()
   let viewDidLoad: PassthroughSubject<Void, Never> = .init()
   let didSelectedItem: PassthroughSubject<IndexPath, Never> = .init()
   let didTapRecentSearchTagDeleteButton: PassthroughSubject<IndexPath, Never> = .init()
@@ -49,8 +56,15 @@ final class DefaultPostSearchViewModel {
   // MARK: - Properties
   private var sectionModels: [PostSearchSectionModel] = []
   private var recentModels: [String] = []
+  private let searchType: SearchType
+  private let actions: PostSeaerchActions
   
   // MARK: - LifeCycle
+  init(searchType: SearchType, actions: PostSeaerchActions) {
+    self.searchType = searchType
+    self.actions = actions
+  }
+  
   deinit {
     print("deinit: \(DefaultPostSearchViewModel.self)")
   }
@@ -69,7 +83,8 @@ extension DefaultPostSearchViewModel: PostSearchViewModel {
       didTapRecentSeaerchTagDeleteButtonStream(input),
       didTapDeleteAllAlertStream(input),
       didTapCollectionViewStream(input),
-      didTapAlertCancelButtonStream(input)
+      didTapAlertCancelButtonStream(input),
+      didTapBackButtonStream(input)
     ]).eraseToAnyPublisher()
   }
   
@@ -153,6 +168,17 @@ extension DefaultPostSearchViewModel: PostSearchViewModel {
         }
       }
       .eraseToAnyPublisher()
+  }
+  
+  private func didTapBackButtonStream(_ input: Input) -> Output {
+    
+    return input.didTapBackButton
+      .map { [weak self] in
+        self?.actions.pop()
+        return State.none
+      }
+      .eraseToAnyPublisher()
+      
   }
 }
 

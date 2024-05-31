@@ -44,8 +44,6 @@ final class PostSearchViewController: UIViewController {
   // MARK: - Properties
   private let viewModel: any PostSearchViewModel
   
-  weak var coordinator: PostSearchCoordinatorDelegate?
-  
   private lazy var input = PostSearchViewModelInput(didChangeSearchTextField: searchTextField.changed)
   
   private lazy var searchBarButtonItem = UIBarButtonItem(
@@ -208,7 +206,7 @@ extension PostSearchViewController {
   }
   
   @objc private func didTapBackButton() {
-    coordinator?.finish(withAnimated: true)
+    input.didTapBackButton.send()
   }
   
   @objc private func didTapCollectionView() {

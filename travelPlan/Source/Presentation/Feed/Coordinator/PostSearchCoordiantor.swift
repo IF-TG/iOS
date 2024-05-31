@@ -8,14 +8,7 @@
 import UIKit
 import SHCoordinator
 
-protocol PostSearchCoordinatorDelegate: FlowCoordinatorDelegate { }
-
 final class PostSearchCoordinator: FlowCoordinator {
-  // MARK: - Nested
-  enum SearchType {
-    case travelDestination
-    case post
-  }
   
   // MARK: - Properties
   var parent: FlowCoordinator?
@@ -35,23 +28,31 @@ final class PostSearchCoordinator: FlowCoordinator {
   
   // MARK: - Helpers
   func start() {
-    let viewModel = DefaultPostSearchViewModel()
+    let actions = PostSeaerchActions(
+      showTourDestinationList: { [weak self] text in self?.showTourDestinationList(text: text) },
+      showPostList: { [weak self] text in self?.showPostList(text: text) },
+      pop: { [weak self] in self?.pop() }
+    )
+    
+    let viewModel = DefaultPostSearchViewModel(searchType: searchType, actions: actions)
     let viewController = PostSearchViewController(viewModel: viewModel)
-    viewController.coordinator = self
+    
     presenter?.pushViewController(viewController, animated: false)
   }
 }
 
-// MARK: - PostSearchCoordinatorDelegate 
-extension PostSearchCoordinator: PostSearchCoordinatorDelegate {
-  func showNext() {
-    switch searchType {
-    case .post:
-      // TODO: - 피드 검색 결과 vc 구현하고 coordinator 추가해야됨
-      break
-    case .travelDestination:
-      let childCoordinator = SearchResultListCoordinator(presenter: presenter)
-      addChild(with: childCoordinator)
-    }
+// MARK: - Private Helpers
+extension PostSearchCoordinator {
+  private func showTourDestinationList(text: String) {
+    let childCoordinator = SearchResultListCoordinator(presenter: presenter)
+    addChild(with: childCoordinator)
+  }
+  
+  private func showPostList(text: String) {
+    // TODO: - 피드 검색 결과 vc 구현하고 coordinator 추가해야됨
+  }
+  
+  private func pop() {
+    finish(withAnimated: false)
   }
 }
