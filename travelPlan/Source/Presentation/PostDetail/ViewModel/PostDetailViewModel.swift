@@ -23,7 +23,6 @@ final class PostDetailViewModel {
   private let userBlockUseCase: UserBlockUseCase
   
   // MARK: - Properties
-  // TODO: - PostDetails가 굳이 있어야할까? Post로 대체 안될까?
   private var postDetails: PostDetails?
   
   private let postId: Int32
@@ -146,7 +145,6 @@ extension PostDetailViewModel: PostDetailViewModelPageDelegate {
     self.postDetailOption = nil
   }
   
-  // TODO: - 이거 손좀 봐야함. 
   func showCategory() {
     guard let postDetails else { return }
     let themeTexts = postDetails.category.themes.compactMap { theme in
