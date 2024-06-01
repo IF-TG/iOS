@@ -33,7 +33,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
       if url.scheme == "https" || url.scheme == "http" {
         AppsFlyerLib.shared().handleOpen(url, options: nil)
       } else {
-        // 일반 URL 스킴. 그러나 유니버셜 링크 사용해서 사용X.
+        /// 일반 URL 스킴. 그러나 유니버셜 링크 사용해서 사용X.
+        /// 그러나 앱이 종료된후에 여기에도 동일하게 handleOpen(url:options:)를 호출해서 앱 델리게이트의 포스트 상세화면으로
+        /// 갈 수있게 호출을 해주어야 합니다.
+        AppsFlyerLib.shared().handleOpen(url, options: nil)
       }
     }
   }
@@ -46,7 +49,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     AppsFlyerLib.shared().continue(userActivity, restorationHandler: nil)
   }
   
-  /// URLSceme
+  /// URLSceme, universal link
   func scene(
     _ scene: UIScene,
     openURLContexts URLContexts: Set<UIOpenURLContext>
