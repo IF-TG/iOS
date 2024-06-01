@@ -8,8 +8,8 @@
 import Combine
 import Foundation
 
-struct PostSeaerchActions {
-  let showTourDestinationList: (String) -> Void
+struct PostSeaerchViewModelActions {
+  let showTravelDestinationList: (String) -> Void
   let showPostList: (String) -> Void
   let pop: () -> Void
 }
@@ -37,7 +37,7 @@ struct PostSearchViewModelInput {
 
 enum PostSearchViewModelState {
   case none
-  case gotoSearch(searchText: String)
+  case resignFirstResponder
   case presentAlert
   case changeButtonColor(Bool)
   case goDownKeyboard
@@ -57,10 +57,10 @@ final class DefaultPostSearchViewModel {
   private var sectionModels: [PostSearchSectionModel] = []
   private var recentModels: [String] = []
   private let searchType: SearchType
-  private let actions: PostSeaerchActions
+  private let actions: PostSeaerchViewModelActions
   
   // MARK: - LifeCycle
-  init(searchType: SearchType, actions: PostSeaerchActions) {
+  init(searchType: SearchType, actions: PostSeaerchViewModelActions) {
     self.searchType = searchType
     self.actions = actions
   }
@@ -119,7 +119,16 @@ extension DefaultPostSearchViewModel: PostSearchViewModel {
   
   private func didTapSearchButtonStream(_ input: Input) -> Output {
     return input.didTapSearchButton
-      .map { State.gotoSearch(searchText: $0) }
+      .map { [weak self] text in
+        guard let self = self else { return State.none }
+        switch searchType {
+        case .travelDestination:
+          actions.showTravelDestinationList(text)
+        case .post:
+          actions.showPostList(text)
+        }
+        return State.none
+      }
       .eraseToAnyPublisher()
   }
   
@@ -136,7 +145,16 @@ extension DefaultPostSearchViewModel: PostSearchViewModel {
         case .none:
           break
         }
-        return State.gotoSearch(searchText: searchText)
+        
+        guard let self = self else { return State.none }
+        
+        switch searchType {
+        case .travelDestination:
+          actions.showTravelDestinationList(searchText)
+        case .post:
+          actions.showPostList(searchText)
+        }
+        return State.resignFirstResponder
       }
       .eraseToAnyPublisher()
   }

@@ -28,8 +28,8 @@ final class PostSearchCoordinator: FlowCoordinator {
   
   // MARK: - Helpers
   func start() {
-    let actions = PostSeaerchActions(
-      showTourDestinationList: { [weak self] text in self?.showTourDestinationList(text: text) },
+    let actions = PostSeaerchViewModelActions(
+      showTravelDestinationList: { [weak self] text in self?.showTravelDestinationList(text: text) },
       showPostList: { [weak self] text in self?.showPostList(text: text) },
       pop: { [weak self] in self?.pop() }
     )
@@ -43,8 +43,8 @@ final class PostSearchCoordinator: FlowCoordinator {
 
 // MARK: - Private Helpers
 extension PostSearchCoordinator {
-  private func showTourDestinationList(text: String) {
-    let childCoordinator = SearchResultListCoordinator(presenter: presenter)
+  private func showTravelDestinationList(text: String) {
+    let childCoordinator = SearchResultListCoordinator(presenter: presenter, text: text)
     addChild(with: childCoordinator)
   }
   
