@@ -76,7 +76,7 @@ extension DefaultPostSearchViewModel: PostSearchViewModel {
   func transform(_ input: Input) -> Output {
     return Publishers.MergeMany([
       viewDidLoadStream(input),
-      didChangeTextFieldStream(input),
+      didChangeSearchTextFieldStream(input),
       didTapSearchButtonStream(input),
       didSelectedItemStream(input),
       didTapDeleteAllButtonStream(input),
@@ -109,7 +109,7 @@ extension DefaultPostSearchViewModel: PostSearchViewModel {
       .eraseToAnyPublisher()
   }
   
-  private func didChangeTextFieldStream(_ input: Input) -> Output {
+  private func didChangeSearchTextFieldStream(_ input: Input) -> Output {
     return input.didChangeSearchTextField
       .map { [weak self] in
         State.changeButtonColor(self?.isValueChanged(text: $0) ?? false)
