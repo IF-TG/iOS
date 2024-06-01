@@ -323,6 +323,15 @@ private extension PostDetailViewModel {
     "\(travelMainTheme.rawValue) > \(subTheme)"
   }
   
+  func addCategoryString(_ categoryString: inout String, type: TravelMainThemeType, subTheme: String) {
+    let newString = convertToString(type, subTheme: subTheme)
+    if categoryString.isEmpty {
+      categoryString += newString
+    } else {
+      categoryString += " , \(newString)"
+    }
+  }
+  
   func fetchPostDetails(with postId: Int32) {
     postSubscription = postFetchUseCase
       .fetchPost(with: postId).sink { [weak self] completion in
@@ -359,10 +368,18 @@ extension PostDetailViewModel: PostDetailTableViewDataSource {
     let seasons = postDetails.category.seasons.map { season in season.rawValue }
     let regions = postDetails.category.regions.map { region in region.rawValue }
     
-    if let subTheme = themes.first { categoryString += convertToString(.travelTheme(nil), subTheme: subTheme) }
-    if let subTheme = partners.first { categoryString += " , \(convertToString(.partner(nil), subTheme: subTheme))" }
-    if let subTheme = seasons.first { categoryString += " , \(convertToString(.season(nil), subTheme: subTheme))" }
-    if let subTheme = regions.first { categoryString += " , \(convertToString(.region(nil), subTheme: subTheme))" }
+    if let subTheme = themes.first {
+      addCategoryString(&categoryString, type: .travelTheme(nil), subTheme: subTheme)
+    }
+    if let subTheme = partners.first {
+      addCategoryString(&categoryString, type: .partner(nil), subTheme: subTheme)
+    }
+    if let subTheme = seasons.first {
+      addCategoryString(&categoryString, type: .season(nil), subTheme: subTheme)
+    }
+    if let subTheme = regions.first {
+      addCategoryString(&categoryString, type: .region(nil), subTheme: subTheme)
+    }
     
     return categoryString
   }
