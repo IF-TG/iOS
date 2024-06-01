@@ -27,9 +27,9 @@ final class PostActivityItemSource: NSObject, UIActivityItemSource {
     return title
   }
   
-  /// 링크로할 때 이미지가 보이지 않음.
-  /// 이미지로. 할때 링크가 보이지 않음.
-  // TODO: - 공유 버튼 작아서 잘 안눌림. 여백 포함으로 키우기
+  /// 링크로 반환할 때 이미지가 보이지 않음.
+  /// 이미지로 반환할 때 링크가 보이지 않음.
+  /// 여기서는 하나의 값을 반환해야하고, 액티비티 뷰 컨트롤러에 아이템 추가할 때 여러개 보여줄 항목들 추가하면 해결.
   func activityViewController(
     _ activityViewController: UIActivityViewController,
     itemForActivityType activityType: UIActivity.ActivityType?
