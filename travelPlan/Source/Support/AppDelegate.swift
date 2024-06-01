@@ -102,10 +102,6 @@ extension AppDelegate: DeepLinkDelegate {
     #endif
     
     let relativePath = deepLinkObj.clickEvent["path"]
-    // TODO: - Deep link value를 설정했기에 그거 param에서 가져오도록 로직 개선해야함
-    // TODO:
-    // TODO:
-    // TODO: 
     let postId = extractPostId(from: relativePath as? String)
     
     goToPostDetailScene(with: postId)
