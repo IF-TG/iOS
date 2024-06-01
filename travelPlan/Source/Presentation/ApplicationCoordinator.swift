@@ -81,11 +81,15 @@ extension ApplicationCoordinator {
       gotoLoginPage(alertMessage: "로그인을 하셔야 앱을 이용할 수 있습니다.")
       return
     }
-    if child.count == 0 {
+    if child.isEmpty {
       gotoMainTapFeedPage()
-      (child.first as? MainCoordinator)?.showFeedDetail(with: postId)
-    } else {
-      (child.first as? MainCoordinator)?.showFeedDetail(with: postId)
     }
+    let mainCoordinator = child.first as? MainCoordinator
+    
+    guard let postId = postId else {
+      mainCoordinator?.ShowAlertInFeed(title: "요청 실패", message: "유효하지 않은 포스트입니다.")
+      return
+    }
+    mainCoordinator?.showFeedDetail(with: postId)
   }
 }

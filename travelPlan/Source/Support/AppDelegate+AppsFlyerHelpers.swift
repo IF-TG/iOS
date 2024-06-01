@@ -40,7 +40,7 @@ extension AppDelegate {
       let sceneDelegate = windowScene.delegate as? SceneDelegate
     else { return }
           
-    sceneDelegate.appCoordinator?.gotoFeedDetailWhenUserLoggedIn(with: postId)
+    sceneDelegate.appCoordinator?.gotoFeedDetailByUniversalLink(with: postId)
   }
   
   /// Universal link의 url의 링크에 도메인을 제외한 path를 받으면, postId를 찾아 반환합니다.
