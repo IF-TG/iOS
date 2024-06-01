@@ -42,20 +42,6 @@ extension AppDelegate {
           
     sceneDelegate.appCoordinator?.gotoFeedDetailByUniversalLink(with: postId)
   }
-  
-  /// Universal link의 url의 링크에 도메인을 제외한 path를 받으면, postId를 찾아 반환합니다.
-  func extractPostId(from path: String?) -> Int32? {
-    guard let path = path else {
-      return nil
-    }
-    let parameters = path.split { $0=="/" }
-    /// 포스트아이디 위치 다음 parameter가 존재하는가?
-    if let postIdIndex = parameters.firstIndex(of: "postId"), postIdIndex + 1 < parameters.count {
-      let postId = parameters[postIdIndex + 1]
-      return Int32(postId)
-    }
-    return nil
-  }
 }
 
 extension AppDelegate {

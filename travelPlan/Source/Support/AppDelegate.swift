@@ -101,9 +101,11 @@ extension AppDelegate: DeepLinkDelegate {
     NSLog("[AFSDK] DeepLink data is: \(deepLinkStr)")
     #endif
     
-    let relativePath = deepLinkObj.clickEvent["path"]
-    let postId = extractPostId(from: relativePath as? String)
-    
+    let postIdString = deepLinkObj.clickEvent["postId"] as? String ?? "-1"
+    let postId = Int32(Int(postIdString) ?? -1)
+    if postId == -1 {
+      goToPostDetailScene(with: nil)
+    }
     goToPostDetailScene(with: postId)
   }
 }
