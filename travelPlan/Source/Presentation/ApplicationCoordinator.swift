@@ -87,7 +87,7 @@ extension ApplicationCoordinator {
     let mainCoordinator = child.first as? MainCoordinator
     
     guard let postId = postId else {
-      mainCoordinator?.ShowAlertInFeed(title: "요청 실패", message: "유효하지 않은 포스트입니다.")
+      mainCoordinator?.showAlertInFeed(title: "요청 실패", message: "유효하지 않은 포스트입니다.")
       return
     }
     mainCoordinator?.showFeedDetail(with: postId)

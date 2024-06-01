@@ -76,7 +76,7 @@ extension MainCoordinator {
     feedCoordinator.showPostDetailFromUniversalLink(with: postId)
   }
   
-  func ShowAlertInFeed(title: String, message: String) {
+  func showAlertInFeed(title: String, message: String) {
     feedCoordinator.showAlert(withTitle: title, message: message)
   }
 }
