@@ -83,22 +83,32 @@ final class FeedCoordinator: FlowCoordinator {
     }
   }
   
-  func showPostDetailFromUniversalLink(with postId: Int32?) {
+  func showPostDetailFromUniversalLink(with postId: Int32) {
     /// 사용자가 공유하기로 포스트 상세화면을 들어갈 경우
-    ///   차단하기 로직 실행시 메인 화면으로 전환시 해당 포스트가 존재하지 않기에, blockedPost를 호출하지 않습니다.
-    guard let postId = postId else {
-      // TODO: - 공유된 포스트 아이디의 식별자가 유효하지 않습니다. 라는 알림창 보여주기.
-      return
-    }
+    ///   차단하기 로직 실행시 메인 화면으로 전환시 해당 포스트가 존재하지 않기에, childCoordinator's blockedPost를 호출하지 않습니다.
     let childCoordinator = PostDetailCoordinator(presenter: presenter, post: nil, postId: postId)
     addChild(with: childCoordinator)
+  }
+  
+  func showAlert(withTitle title: String, message: String) {
+    let alert = UIAlertController(
+      title: title,
+      message: message,
+      preferredStyle: .alert
+    ).set {
+      $0.addAction(UIAlertAction(title: "확인", style: .default))
+    }
+    presenter?.present(alert, animated: true)
   }
 }
 
 // MARK: - FeedPostCoordinatorDelegate
 extension FeedCoordinator: FeedPostCoordinatorDelegate {
   func showDetailPost(post: Post, blockedPost: @escaping (Int32) -> Void) {
-    let childCoordinator = PostDetailCoordinator(presenter: presenter, post: post)
+    let childCoordinator = PostDetailCoordinator(
+      presenter: presenter,
+      post: post,
+      postId: Int32(post.detail.postID)!)
     childCoordinator.blockedPost = { blockedPostId in
       blockedPost(blockedPostId)
     }
