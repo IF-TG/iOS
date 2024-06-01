@@ -146,6 +146,7 @@ extension PostDetailViewModel: PostDetailViewModelPageDelegate {
     self.postDetailOption = nil
   }
   
+  // TODO: - 이거 손좀 봐야함. 
   func showCategory() {
     guard let postDetails else { return }
     let themeTexts = postDetails.category.themes.compactMap { theme in

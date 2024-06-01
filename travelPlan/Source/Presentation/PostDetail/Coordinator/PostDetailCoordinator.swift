@@ -56,7 +56,8 @@ final class PostDetailCoordinator: NSObject, FlowCoordinator {
     self.presenter = presenter
     super.init()
     let mockPostRepository = MockPostRepository()
-    let defaultPostFetchUseCase = DefaultPostFetchUseCase(postRepository: mockPostRepository)
+//    let defaultPostFetchUseCase = DefaultPostFetchUseCase(postRepository: mockPostRepository)
+    let defaultPostFetchUseCase = MockPostFetchUseCase()
     let defaultPostCommetnsAndPostLikeStateFetchUseCase = DefaultPostCommentsAndPostLikeStateFetchUseCase(
       postRepository: mockPostRepository)
     let postCommentUseCase = DefaultPostCommentUseCase(postCommentRepository: MockPostCommentRepository())
@@ -93,7 +94,7 @@ final class PostDetailCoordinator: NSObject, FlowCoordinator {
     let postDetailVM = PostDetailViewModel(
       post: post,
       postId: postId,
-      postFetchUsecase: defaultPostFetchUseCase,
+      postFetchUseCase: defaultPostFetchUseCase,
       ownerRepository: loggedInUserRepository,
       userBlockUseCase: userBlockUseCase,
       actions: actions)

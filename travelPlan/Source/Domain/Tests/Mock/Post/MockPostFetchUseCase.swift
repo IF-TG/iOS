@@ -10,14 +10,15 @@ import Foundation
 
 final class MockPostFetchUseCase: PostFetchUseCase {
   func fetchPost(with postId: Int32) -> AnyPublisher<Post, any Error> {
+    var mockPost = mockPostsGenerator.mockPostPage.posts[2]
     return Just(Post(
       liked: true,
       detail: .init(postID: "1", title: "공유하기에 의해 받아졌습니다.",
-                    content: [.init(sort: 1, text: "공유하기에 의해 받아진 컨텐츠")],
+                    content: mockPost.detail.content,
                     likes: 0, comments: 0, location: .init(x: 0, y: 0),
                     createAt: Date(), tripDate: .init(startDate: .init(), endDate: .init())),
-      author: .init(profileImageData: nil, nickname: "여행자"),
-      highResolveImages: [], category: .init(themes: [], regions: [], seasons: [], partners: [.lover]))
+      author: .init(profileImageData: nil, nickname: "여행자", authorId: "111"),
+      highResolveImages: mockPost.highResolveImages, category: .init(themes: [], regions: [], seasons: [], partners: [.lover]))
     ).setAnyErrorAndEraseToAnyPublisher()
   }
   
