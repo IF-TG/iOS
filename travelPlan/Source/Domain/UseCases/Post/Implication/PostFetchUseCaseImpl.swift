@@ -47,6 +47,12 @@ final class PostFetchUseCaseImpl {
 
 // MARK: - PostFetchUseCase
 extension PostFetchUseCaseImpl: PostFetchUseCase, PostsPageCreatable {
+  func fetchPost(
+    with postId: Int32
+  ) -> AnyPublisher<Post, any Error> {
+    fatalError("현재 spring server를 다시 사용하기에 firestore를 사용하지 않지만, 다시 firestore 사용해야한다면 이 함수 구현해야합니다.")
+  }
+  
   func fetchFilteredPosts(
     with page: PostFetchRequestValue
   ) -> FilteredPostsOutput {
