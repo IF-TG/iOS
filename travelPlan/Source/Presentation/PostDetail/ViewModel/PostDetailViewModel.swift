@@ -16,7 +16,7 @@ final class PostDetailViewModel {
   typealias SectionType = PostDetailSection
 
   // MARK: - Dependencies
-  private let postFetchUsecase: PostFetchUseCase
+  private let postFetchUseCase: PostFetchUseCase
   
   private let ownerRepository: LoggedInUserRepository
   
@@ -28,6 +28,11 @@ final class PostDetailViewModel {
   
   private let postId: Int32
   
+  private let actions: PostDetailViewModelActions?
+  
+  private var postDetailOption: PostDetailOption? = .none
+  
+  // MARK: - Combine Properties
   private var postSubscription: AnyCancellable?
   
   private let postDetailsFetchNotifier = PassthroughSubject<Void, Never>()
@@ -48,15 +53,11 @@ final class PostDetailViewModel {
   
   private let navigationInfo = PassthroughSubject<Void, Never>()
   
-  private let actions: PostDetailViewModelActions?
-  
-  private var postDetailOption: PostDetailOption? = .none
-  
   // MARK: - Lifecycle
   init(
     post: Post?,
     postId: Int32,
-    postFetchUsecase: PostFetchUseCase,
+    postFetchUseCase: PostFetchUseCase,
     ownerRepository: LoggedInUserRepository,
     userBlockUseCase: UserBlockUseCase,
     actions: PostDetailViewModelActions?
@@ -68,7 +69,7 @@ final class PostDetailViewModel {
       /// postId만 존재한다는 것은 universal link를 통해 공유하기 로직으로 접근된 것입니다.
       self.postId = postId
     }
-    self.postFetchUsecase = postFetchUsecase
+    self.postFetchUseCase = postFetchUseCase
     self.ownerRepository = ownerRepository
     self.userBlockUseCase = userBlockUseCase
     self.actions = actions
@@ -322,7 +323,7 @@ private extension PostDetailViewModel {
   }
   
   func fetchPostDetails(with postId: Int32) {
-    postSubscription = postFetchUsecase
+    postSubscription = postFetchUseCase
       .fetchPost(with: postId).sink { [weak self] completion in
       if case.failure(let error) = completion {
         self?.errorHandler.send(.failedToFetchPostDetails(error))

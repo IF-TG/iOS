@@ -65,7 +65,7 @@ final class FeedCoordinator: FlowCoordinator {
       
       #if DEBUG
       let mockPostFetchUseCase = MockPostFetchUseCase()
-      viewModel = FeedPostViewModel(postCategory: feedCategory, postFetchUsecase: mockPostFetchUseCase)
+      viewModel = FeedPostViewModel(postCategory: feedCategory, postFetchUseCase: mockPostFetchUseCase)
       #else
       let service = SessionProvider()
       let ownerStroage = OwnerStorage()
@@ -76,7 +76,7 @@ final class FeedCoordinator: FlowCoordinator {
       let defaultPostFetchUseCase = DefaultPostFetchUseCase(postRepository: defaultPostRepository)
       viewModel = FeedPostViewModel(
         postCategory: feedCategory,
-        postFetchUsecase: defaultPostFetchUseCase)
+        postFetchUseCase: defaultPostFetchUseCase)
       #endif
       return FeedPostViewController(type: feedCategory, viewModel: viewModel)
         .set { $0.coordinator = self }
