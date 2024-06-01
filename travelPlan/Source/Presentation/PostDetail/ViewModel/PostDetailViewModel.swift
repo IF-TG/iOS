@@ -8,6 +8,10 @@
 import Foundation
 import Combine
 
+@frozen enum PostDetailViewModelError {
+  case failedToFetchPostDetails(Error)
+}
+
 final class PostDetailViewModel {
   typealias SectionType = PostDetailSection
 
@@ -19,7 +23,16 @@ final class PostDetailViewModel {
   private let userBlockUseCase: UserBlockUseCase
   
   // MARK: - Properties
-  private var postDetails: PostDetails
+  // TODO: - PostDetails가 굳이 있어야할까? Post로 대체 안될까?
+  private var postDetails: PostDetails?
+  
+  private let postId: Int32
+  
+  private var postSubscription: AnyCancellable?
+  
+  private let postDetailsFetchNotifier = PassthroughSubject<Void, Never>()
+  
+  private let errorHandler = PassthroughSubject<PostDetailViewModelError, Never>()
   
   private let postAuthoommentEditNotifier = PassthroughSubject<IndexPath, Never>()
   
@@ -50,12 +63,11 @@ final class PostDetailViewModel {
   ) {
     if let post = post {
       self.postDetails = PostMapper.toPostDetails(post, category: post.category)
+      self.postId = Int32(post.detail.postID) ?? -1
     } else {
-      // TODO: - postId만 온다는 것은, universal link를 통해 공유하기 로직으로 들어온 것입니다.
-      // postId에 따라 post 정보를 받은 후에 postDetails를 초기화 해야합니다.
-      fatalError("미구현")
+      /// postId만 존재한다는 것은 universal link를 통해 공유하기 로직으로 접근된 것입니다.
+      self.postId = postId
     }
-    
     self.postFetchUsecase = postFetchUsecase
     self.ownerRepository = ownerRepository
     self.userBlockUseCase = userBlockUseCase
@@ -69,7 +81,14 @@ final class PostDetailViewModel {
 
 // MARK: - PostDetailViewModelPageDelegate
 extension PostDetailViewModel: PostDetailViewModelPageDelegate {
+  func showAlertAndDismiss(with description: String) {
+    showAlertForError(with: description) { [weak self] in
+      self?.actions?.finishWithAnim()
+    }
+  }
+  
   func showReviewWriting() {
+    guard let postDetails else { return }
     let postContents = postDetails.detail.content
     let reviewWritingEntity = ReviewWritingEntity(
       postId: postDetails.detail.postID,
@@ -90,7 +109,7 @@ extension PostDetailViewModel: PostDetailViewModelPageDelegate {
       self?.postDetailOption = optionState
       switch optionState {
       case .postBlock:
-        guard let authorNickname = self?.postDetails.author.nickname else {
+        guard let authorNickname = self?.postDetails?.author.nickname else {
           self?.showAlertForError(with: "앱 내부 문제가 발생되어 포스트 옵션을 선택할 수 없습니다.", completion: nil)
           self?.postDetailOption = nil
           return
@@ -115,7 +134,7 @@ extension PostDetailViewModel: PostDetailViewModelPageDelegate {
   }
   
   func showPostReportResult() {
-    guard let postDetailOption else {
+    guard let postDetailOption, let postDetails else {
       actions?.showAlertForError("앱 내부 문제가 발생됬습니다.", nil)
       return
     }
@@ -127,6 +146,7 @@ extension PostDetailViewModel: PostDetailViewModelPageDelegate {
   }
   
   func showCategory() {
+    guard let postDetails else { return }
     let themeTexts = postDetails.category.themes.compactMap { theme in
       "\(TravelMainThemeType.travelTheme(nil).rawValue) > \(theme.rawValue)"
     }
@@ -149,6 +169,8 @@ extension PostDetailViewModel: PostDetailViewModelable {
   func transform(_ input: PostDetailViewModelInput) -> AnyPublisher<PostDetailViewModelState, Never> {
     return Publishers.MergeMany([
       viewDidLoadStream(input),
+      errorHandlerStream(),
+      postDetailsFetchNotifierStream(),
       navigationInfoStream(),
       loggedInUserUseCaseHandlerStream(),
       postReportNotifierStream(),
@@ -161,12 +183,30 @@ extension PostDetailViewModel: PostDetailViewModelable {
 
 // MARK: - Private Input's Stream
 private extension PostDetailViewModel {
+  func errorHandlerStream() -> Output {
+    return errorHandler.map { errorState -> State in
+      switch errorState {
+      case .failedToFetchPostDetails(let error):
+        return .failedToFetchPost(description: error.localizedDescription)
+      }
+    }.eraseToAnyPublisher()
+  }
+  
+  /// Universal link에 의해 포스트 상세화면에 접근될 경우 호출되는 stream입니다.
+  func postDetailsFetchNotifierStream() -> Output {
+    return postDetailsFetchNotifier.map { [weak self] _ -> State in
+      self?.navigationInfo.send()
+      self?.loggedInUserUseCaseHandler.send()
+      return .viewDidLoad(.reloadData)
+    }.eraseToAnyPublisher()
+  }
+  
   func navigationInfoStream() -> Output {
     return navigationInfo.map { [weak self] _ -> State in
-      guard 
-        let postTitle = self?.postDetails.detail.title,
-        let startDate = self?.postDetails.detail.tripDate.startDate,
-        let endDate = self?.postDetails.detail.tripDate.endDate
+      guard
+        let postTitle = self?.postDetails?.detail.title,
+        let startDate = self?.postDetails?.detail.tripDate.startDate,
+        let endDate = self?.postDetails?.detail.tripDate.endDate
       else { return .none }
       let tripPeriod = DateTimeConverter.period(from: startDate, to: endDate)
       let postDuration = "\(tripPeriod)의 여정"
@@ -176,6 +216,11 @@ private extension PostDetailViewModel {
   func viewDidLoadStream(_ input: Input) -> Output {
     return input.viewDidLoad
       .map { [weak self] _ -> State in
+        /// postDetails가 nil인 경우는 universal link에의해 접근된 것이므로 서버에서 포스트 내용을 받아와야 합니다.
+        if self?.postDetails == nil, let postId = self?.postId {
+          self?.fetchPostDetails(with: postId)
+          return .networkProcessing
+        }
         self?.navigationInfo.send()
         self?.loggedInUserUseCaseHandler.send()
         return .none
@@ -187,7 +232,7 @@ private extension PostDetailViewModel {
       /// 로그인한 사용자라면 아이디가 반드시 로컬에 저장되야 합니다.
       guard
         let ownerId = self?.ownerRepository.id,
-        let postAuthorId = self?.postDetails.author.authorId
+        let postAuthorId = self?.postDetails?.author.authorId
       else {
         return .unexpectedError(description: "로그인한 사용자의 아이디가 없습니다.")
       }
@@ -252,7 +297,7 @@ private extension PostDetailViewModel {
       guard let self else {
         return Just(State.unexpectedError(description: "앱 내부 에러가 발생됬습니다.")).eraseToAnyPublisher()
       }
-      guard let authorId = postDetails.author.authorId else {
+      guard let authorId = postDetails?.author.authorId else {
         return Just(State.unexpectedError(
           description: "포스트 저자 id가 없어 차단 api 호출할 수 없습니다")
         ).eraseToAnyPublisher()
@@ -275,21 +320,37 @@ private extension PostDetailViewModel {
   func convertToString(_ travelMainTheme: TravelMainThemeType, subTheme: String) -> String {
     "\(travelMainTheme.rawValue) > \(subTheme)"
   }
+  
+  func fetchPostDetails(with postId: Int32) {
+    postSubscription = postFetchUsecase
+      .fetchPost(with: postId).sink { [weak self] completion in
+      if case.failure(let error) = completion {
+        self?.errorHandler.send(.failedToFetchPostDetails(error))
+      }
+    } receiveValue: { [weak self] postEntity in
+      self?.postDetails = PostMapper.toPostDetails(postEntity, category: postEntity.category)
+      self?.postDetailsFetchNotifier.send()
+    }
+  }
 }
 
 // MARK: - PostDetailTableViewDataSource
+/// PostDetails가 nil인 경우, numberOfSections을 0으로 반환합니다.
+/// postDetails가 nil이 아닌 경우에만 numberOfSections가 3이상으로 반환되고, PostDetailTableViewDataSource의 각 함수들은
+/// postDetails not nil 프로퍼티를 바탕으로 데이터를 adapter한테 반환합니다.
 extension PostDetailViewModel: PostDetailTableViewDataSource {
   /// 포스트 업로드한 사용자 프로필로 이동히가 위해서 사용됩니다.
   var authorUserId: Int32 {
-    return Int32(postDetails.author.authorId ?? "-1") ?? -1
+    return Int32(postDetails?.author.authorId ?? "-1") ?? -1
   }
   
   var title: String {
-    return postDetails.detail.title
+    return postDetails?.detail.title ?? "데이터가 존재하지 않습니다."
   }
    
   // MARK: - 특정 서브 카테고리에서 여러 개 고를 경우 그중 맨 처음 카테고리 타입만 보여주도록 우선 반환했습니다.
   var cateogry: String {
+    guard let postDetails else { return "" }
     var categoryString = ""
     let themes = postDetails.category.themes.map { theme in theme.rawValue }
     let partners = postDetails.category.partners.map { partner in partner.rawValue }
@@ -305,6 +366,13 @@ extension PostDetailViewModel: PostDetailTableViewDataSource {
   }
   
   var profileAreaItem: PostDetailProfileAreaInfo {
+    /// postDetails가 nil인 경우 viewDidLoad시점에 서버로부터 데이터를 가져오기에, postDetails가 nil일 확률은 희박합니다.
+    guard let postDetails else {
+      return .init(
+        userName: "여행자", userThumbnailData: nil,
+        travelDuration: "데이터가 존재하지 않습니다.", 
+        travelCalendarDateRange: "", uploadedDescription: "")
+    }
     let tripDate = postDetails.detail.tripDate
     return .init(
       userName: postDetails.author.nickname,
@@ -315,14 +383,16 @@ extension PostDetailViewModel: PostDetailTableViewDataSource {
   }
   
   func postContentItem(at row: Int) -> PostContentEntity {
-    return postDetails.detail.content[row]
+    return postDetails?.detail.content[row] ?? .text("")
   }
   
   var numberOfSections: Int {
+    guard let postDetails else { return 0 }
     return SectionType.defaultNumberOfSections
   }
   
   func numberOfRows(in section: Int) -> Int {
+    guard let postDetails else { return 0 }
     let sectionType: PostDetailSection = .init(rawValue: section)
     switch sectionType {
     case .postDescription:

@@ -156,6 +156,9 @@ extension PostDetailViewController: ViewBindCase {
       }.store(in: &subscriptions)
   }
   
+  // MARK: - render
+  /// 화면 전환은 output을 받은 VC의 render내부 scope는 main thread에 의해 제어됨으로.
+  ///   이때 뷰 관련 전환을 호출하도록 구현했습니다.
   func render(_ state: PostDetailViewModelState) {
     switch state {
     case .none:
@@ -171,6 +174,9 @@ extension PostDetailViewController: ViewBindCase {
       stopIndicator()
       /// postReportNotifier, postAuthorBlockNotifier호출 완료 시점 postReport State를 전송해야 합니다.
       viewModel.showPostReportResult()
+    case .failedToFetchPost(let description):
+      stopIndicator()
+      viewModel.showAlertAndDismiss(with: description)
     }
   }
   
@@ -215,6 +221,9 @@ extension PostDetailViewController: ViewBindCase {
       naviTitle.transform = .init(translationX: 0, y: naviTitle.font.lineHeight)
       naviDuration.transform = .init(translationX: 0, y: naviDuration.font.lineHeight)
       naviTitle.isHidden = true
+    case .reloadData:
+      stopIndicator()
+      tableView.reloadData()
     }
   }
   

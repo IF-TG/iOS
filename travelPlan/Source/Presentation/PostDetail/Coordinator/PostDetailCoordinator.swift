@@ -76,7 +76,8 @@ final class PostDetailCoordinator: NSObject, FlowCoordinator {
       showPostReportResult: { [weak self] option in self?.showPostReportResult(wtih: option) },
       showCategory: {[weak self] categories in self?.showCategory(with: categories) },
       showReviewWriting: { [weak self] entity in self?.showReviewWriting(entity: entity) },
-      showFeedAfterBlockingFeed: { [weak self] blockedPostId in self?.showFeedAfterBlockingFeed(blockedPostId) })
+      showFeedAfterBlockingFeed: { [weak self] blockedPostId in self?.showFeedAfterBlockingFeed(blockedPostId) },
+      finishWithAnim: { [weak self] in self?.finishWithAnim() })
     
     let chatActions = PostDetailChatViewModelActions(
       showAlertForError: { [weak self] message, completion in
@@ -124,6 +125,9 @@ final class PostDetailCoordinator: NSObject, FlowCoordinator {
 
 // MARK: - Actions Helpers
 extension PostDetailCoordinator {
+  func finishWithAnim() {
+    finish(withAnimated: true)
+  }
   func showReviewWriting(entity: ReviewWritingEntity) {
     let reviewWritingCoordinator = ReviewWritingCoordinator(presenter: presenter, mode: .edit(entity))
     addChild(with: reviewWritingCoordinator)
