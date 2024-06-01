@@ -198,8 +198,8 @@ extension PostDetailViewController: ViewBindCase {
     case .viewDidLoad(let chatViewDidLoadStream):
       switch chatViewDidLoadStream {
       case .reloadedCommentsWithPostFavoriteInfo(let isFavorite):
-        tableView.reloadData()
         stopIndicator()
+        tableView.reloadData()
         starButton.isSelected = isFavorite
       }
     }
