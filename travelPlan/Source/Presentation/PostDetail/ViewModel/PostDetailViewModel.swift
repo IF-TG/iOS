@@ -42,7 +42,7 @@ final class PostDetailViewModel {
   // MARK: - Lifecycle
   init(
     post: Post?,
-    postId: Int32? = nil,
+    postId: Int32,
     postFetchUsecase: PostFetchUseCase,
     ownerRepository: LoggedInUserRepository,
     userBlockUseCase: UserBlockUseCase,
