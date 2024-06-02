@@ -177,6 +177,13 @@ extension SearchViewController {
     
     navigationItem.leftBarButtonItems = barButtonItems
     navigationItem.rightBarButtonItem = searchBarButtonItem
+    
+    let appearance = UINavigationBarAppearance()
+    appearance.backgroundEffect = .none
+    
+    navigationController?.navigationBar.standardAppearance = appearance
+    navigationController?.navigationBar.scrollEdgeAppearance = appearance
+    navigationController?.navigationBar.compactAppearance = appearance
   }
 }
 
