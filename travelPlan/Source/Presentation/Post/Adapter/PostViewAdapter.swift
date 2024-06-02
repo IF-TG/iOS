@@ -105,23 +105,23 @@ private extension PostViewAdapter {
     return switch numberOfThumbnails {
     case .one:
       collectionView.dequeueReusableCell(
-        withReuseIdentifier: PostCellWithOneThumbnail.id, for: indexPath
+        withReuseIdentifier: PostCellWithOneThumbnail.identifier, for: indexPath
       ) as? PostCellWithOneThumbnail
     case .two:
       collectionView.dequeueReusableCell(
-        withReuseIdentifier: PostCellWithTwoThumbnails.id, for: indexPath
+        withReuseIdentifier: PostCellWithTwoThumbnails.identifier, for: indexPath
       ) as? PostCellWithTwoThumbnails
     case .three:
       collectionView.dequeueReusableCell(
-        withReuseIdentifier: PostCellWithThreeThumbnails.id, for: indexPath
+        withReuseIdentifier: PostCellWithThreeThumbnails.identifier, for: indexPath
       ) as? PostCellWithThreeThumbnails
     case .four:
       collectionView.dequeueReusableCell(
-        withReuseIdentifier: PostCellWithFourThumbnails.id, for: indexPath
+        withReuseIdentifier: PostCellWithFourThumbnails.identifier, for: indexPath
       ) as? PostCellWithFourThumbnails
     case .five:
       collectionView.dequeueReusableCell(
-        withReuseIdentifier: PostCellWithFiveThumbnails.id, for: indexPath
+        withReuseIdentifier: PostCellWithFiveThumbnails.identifier, for: indexPath
       ) as? PostCellWithFiveThumbnails
     }
   }
