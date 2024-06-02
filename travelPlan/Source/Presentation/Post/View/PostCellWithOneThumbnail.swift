@@ -28,7 +28,7 @@ final class PostCellWithOneThumbnail: BasePostCell, BasePostViewDelegator, CellI
   // MARK: - Properties
   private let thumbnailView: PostOneThumbnailView
   
-  private let postView: BasePostView
+  internal let postView: BasePostView
   
   weak var postViewDelegate: PostViewDelegate?
   
