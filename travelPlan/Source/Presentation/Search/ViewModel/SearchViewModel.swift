@@ -116,16 +116,12 @@ extension DefaultSearchViewModel {
   }
 }
 
-// TODO: - imageData를 사용하기 위해 잠시 import UIKit을 사용함.. usecase 완성되면 지울 예정
-import UIKit
-
 // MARK: - Private Helpers
 extension DefaultSearchViewModel {
   private func fetchData() {
     // 네트워크 요청을 수행해서 데이터를 가져옵니다.
     let festivalHeader = "베스트 축제 🎡"
-    let image = UIImage(named: "tempThumbnail1")!
-    let imageData = image.jpegData(compressionQuality: 1.0)!
+    let imageData = TempSource.imageData
     
     let searchFestivalInfo = SearchFestivalInfo(title: "대관령눈꽃축제", period: "24.05.11~24.05.20",
                                                         imageData: imageData, isSelectedButton: true)

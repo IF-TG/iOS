@@ -79,6 +79,10 @@ final class SearchView: UIView {
   }
   
   // MARK: - LifeCycle
+  convenience init() {
+    self.init(frame: .zero)
+  }
+  
   override init(frame: CGRect) {
     super.init(frame: frame)
     setupUI()

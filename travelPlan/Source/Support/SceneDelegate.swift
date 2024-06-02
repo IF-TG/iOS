@@ -10,8 +10,8 @@ import AppsFlyerLib
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   /// 이 객체를 참조하지 않아도 되지만, 앱스플라이어에서는 AppDelegate에서 one link를 처리하기에 이 객체 인스턴스를 선언했습니다..
-  var appCoordinator: ApplicationCoordinator?
-  
+  private(set) var appCoordinator: ApplicationCoordinator?
+
   func scene(
     _ scene: UIScene,
     willConnectTo session: UISceneSession,
