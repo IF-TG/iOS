@@ -35,7 +35,7 @@ struct PostDetailViewModelActions {
   let showReviewWriting: (ReviewWritingEntity) -> Void
   let showFeedAfterBlockingFeed: (PostId) -> Void
   
-  let finishWithAnim: ()->Void
+  let finishWithAnim: () -> Void
 }
 
 // MARK: - Input

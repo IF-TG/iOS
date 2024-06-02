@@ -10,7 +10,7 @@ import Foundation
 
 final class MockPostFetchUseCase: PostFetchUseCase {
   func fetchPost(with postId: Int32) -> AnyPublisher<Post, any Error> {
-    var mockPost = mockPostsGenerator.mockPostPage.posts[2]
+    let mockPost = mockPostsGenerator.mockPostPage.posts[2]
     return Just(Post(
       liked: true,
       detail: .init(postID: "1", title: "공유하기에 의해 받아졌습니다.",

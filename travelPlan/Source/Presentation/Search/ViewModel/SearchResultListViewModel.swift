@@ -74,7 +74,7 @@ extension DefaultSearchResultListViewModel {
               TravelDestinationInfo(place: "타이틀4", category: TourType.leports.toString, location: "전주",
                                     isButtonSelected: true, imageData: TempSource.imageData, id: 456),
               TravelDestinationInfo(place: "타이틀4", category: TourType.leports.toString, location: "전주",
-                                    isButtonSelected: true, imageData: TempSource.imageData, id: 456),
+                                    isButtonSelected: true, imageData: TempSource.imageData, id: 456)
             ]
             self?.dataSource.append(.destination(travelInfos))
             promise(.success(State.firstReloadData))
