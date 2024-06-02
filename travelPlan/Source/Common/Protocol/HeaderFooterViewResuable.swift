@@ -18,3 +18,5 @@ extension HeaderFooterViewResuable where Self: UITableView, Self: HeaderFooterVi
     ) as? R
   }
 }
+
+extension UITableView: HeaderFooterViewResuable {}
