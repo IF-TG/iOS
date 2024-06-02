@@ -104,25 +104,15 @@ private extension PostViewAdapter {
   ) -> (any BasePostCell & PostCellConfigurable & PostCellEdgeDividable)? {
     return switch numberOfThumbnails {
     case .one:
-      collectionView.dequeueReusableCell(
-        withReuseIdentifier: PostCellWithOneThumbnail.identifier, for: indexPath
-      ) as? PostCellWithOneThumbnail
+      collectionView.dequeueReusableCell(for: indexPath, type: PostCellWithOneThumbnail.self)
     case .two:
-      collectionView.dequeueReusableCell(
-        withReuseIdentifier: PostCellWithTwoThumbnails.identifier, for: indexPath
-      ) as? PostCellWithTwoThumbnails
+      collectionView.dequeueReusableCell(for: indexPath, type: PostCellWithTwoThumbnails.self)
     case .three:
-      collectionView.dequeueReusableCell(
-        withReuseIdentifier: PostCellWithThreeThumbnails.identifier, for: indexPath
-      ) as? PostCellWithThreeThumbnails
+      collectionView.dequeueReusableCell(for: indexPath, type: PostCellWithThreeThumbnails.self)
     case .four:
-      collectionView.dequeueReusableCell(
-        withReuseIdentifier: PostCellWithFourThumbnails.identifier, for: indexPath
-      ) as? PostCellWithFourThumbnails
+      collectionView.dequeueReusableCell(for: indexPath, type: PostCellWithFourThumbnails.self)
     case .five:
-      collectionView.dequeueReusableCell(
-        withReuseIdentifier: PostCellWithFiveThumbnails.identifier, for: indexPath
-      ) as? PostCellWithFiveThumbnails
+      collectionView.dequeueReusableCell(for: indexPath, type: PostCellWithFiveThumbnails.self)
     }
   }
 }
