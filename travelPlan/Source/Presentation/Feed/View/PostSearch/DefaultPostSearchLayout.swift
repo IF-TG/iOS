@@ -11,26 +11,6 @@ import UIKit
 class DefaultPostSearchLayout: CompositionalLayoutCreatable {
   
   enum Constants {
-    enum Recommendation {
-      enum Item {
-        static let estimatedWidth: CGFloat = 50
-        static let absoluteHeight: CGFloat = 30
-      }
-      enum Group {
-        static let estimatedWidth: CGFloat = 50
-        static let absoluteHeight: CGFloat = 30
-      }
-      enum Section {
-        static let interGroupSpacing: CGFloat = 8
-        enum ContentInset {
-          static let top: CGFloat = 8
-          static let leading: CGFloat = 20
-          static let bottom: CGFloat = 8
-          static let trailing: CGFloat = 20
-        }
-      }
-    }
-    
     enum Recent {
       enum Item {
         static let estimatedWidth: CGFloat = 50
@@ -78,26 +58,7 @@ class DefaultPostSearchLayout: CompositionalLayoutCreatable {
 // MARK: - Helpers
 extension DefaultPostSearchLayout {
   private func recommendationSearchSectionLayout() -> NSCollectionLayoutSection {
-    let itemSize = NSCollectionLayoutSize(
-      widthDimension: .estimated(Constants.Recommendation.Item.estimatedWidth),
-      heightDimension: .absolute(Constants.Recommendation.Item.absoluteHeight)
-    )
-    let item = NSCollectionLayoutItem(layoutSize: itemSize)
-    let groupSize = NSCollectionLayoutSize(
-      widthDimension: .estimated(Constants.Recommendation.Group.estimatedWidth),
-      heightDimension: .absolute(Constants.Recommendation.Group.absoluteHeight)
-    )
-    let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-    
-    let section = NSCollectionLayoutSection(group: group)
-    section.interGroupSpacing = Constants.Recommendation.Section.interGroupSpacing
-    section.contentInsets = .init(
-      top: Constants.Recommendation.Section.ContentInset.top,
-      leading: Constants.Recommendation.Section.ContentInset.leading,
-      bottom: Constants.Recommendation.Section.ContentInset.bottom,
-      trailing: Constants.Recommendation.Section.ContentInset.trailing
-    )
-    section.orthogonalScrollingBehavior = .continuous
+    let section = CollectionLayoutSectionProvider.createOneLineTagSection()
     
     section.boundarySupplementaryItems = [createHeaderViewLayout(), createRecommendationFooterViewLayout()]
     return section

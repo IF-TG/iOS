@@ -134,7 +134,6 @@ extension SearchFestivalCell {
     cancellable?.cancel()
     cancellable = starButton
       .tap
-      .subscribe(on: DispatchQueue.global(qos: .userInteractive))
       .receive(on: RunLoop.main)
       .sink {
         publisher.send(indexPath)
