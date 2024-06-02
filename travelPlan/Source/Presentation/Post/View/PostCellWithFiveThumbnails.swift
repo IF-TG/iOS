@@ -44,7 +44,6 @@ private final class PostFiveThumbnailsView: UIStackView {
   }
 }
 
-
 final class PostCellWithFiveThumbnails: BasePostCell, BasePostViewDelegator, CellIdentifiable {
   // MARK: - Properties
   private let thumbnailView: PostFiveThumbnailsView
