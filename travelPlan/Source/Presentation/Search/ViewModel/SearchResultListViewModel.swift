@@ -8,6 +8,11 @@
 import Foundation
 import Combine
 
+struct SearchResultListViewModelActions {
+  let pop: () -> Void
+  let showDetail: () -> Void
+}
+
 enum SearchResultSectionModel {
   case category([String])
   case destination([TravelDestinationInfo])
@@ -24,28 +29,41 @@ where Input == SearchResultListViewModelInput,
 struct SearchResultListViewModelInput {
   let viewDidLoad: PassthroughSubject<Void, Never> = .init()
   let didTapStarButton: PassthroughSubject<IndexPath, Never> = .init()
+  let didTapSearchButton: PassthroughSubject<String, Never> = .init()
+  let didTapBackButton: PassthroughSubject<Void, Never> = .init()
+  let didChangeSearchTextField: AnyPublisher<String, Never>
 }
 
 enum SearchResultListViewModelState {
   case none
   case firstReloadData
   case reloadItems(IndexPath)
+  case changeButtonColor(Bool)
 }
 
 final class DefaultSearchResultListViewModel: SearchResultListViewModel {
   // MARK: - Properties
   var dataSource = [SearchResultSectionModel]()
+  private let actions: SearchResultListViewModelActions
   
   // MARK: - LifeCycle
-  init() {
-    
+  init(actions: SearchResultListViewModelActions) {
+    self.actions = actions
+  }
+  
+  deinit {
+    print("deinit: \(Self.self)")
   }
   
   // MARK: - Transform
   func transform(_ input: Input) -> AnyPublisher<State, Never> {
     Publishers.MergeMany(
+      didTapBackButtonStream(input),
       viewDidLoadStream(input),
-      didTapStarButtonStream(input)
+      didTapStarButtonStream(input),
+      didTapDetailStream(input),
+      didChangeSearchTextFieldStream(input),
+      didTapSearchButtonStream(input)
     )
     .eraseToAnyPublisher()
   }
@@ -53,11 +71,20 @@ final class DefaultSearchResultListViewModel: SearchResultListViewModel {
 
 // MARK: - Private Helpers
 extension DefaultSearchResultListViewModel {
+  private func didTapBackButtonStream(_ input: Input) -> Output {
+    return input.didTapBackButton
+      .map { [weak self] in
+        self?.actions.pop()
+        return State.none
+      }
+      .eraseToAnyPublisher()
+  }
+  
   private func viewDidLoadStream(_ input: Input) -> Output {
     return input.viewDidLoad
       .flatMap { [weak self] _ in
         return Future { promise in
-          DispatchQueue.global().asyncAfter(deadline: .now() + 2.0) {
+          DispatchQueue.global().asyncAfter(deadline: .now() + 1.0) {
             self?.dataSource.append(.category(["전체"] + TourType.allCases.map { $0.toString }))
             
             let travelInfos = [
@@ -116,5 +143,34 @@ extension DefaultSearchResultListViewModel {
       }
     }
     .eraseToAnyPublisher()
+  }
+  
+  private func didTapDetailStream(_ input: Input) -> Output {
+    // TODO: - 상세화면으로 이동해야합니다.
+    return Just(State.none).eraseToAnyPublisher()
+  }
+  
+  private func didChangeSearchTextFieldStream(_ input: Input) -> Output {
+    return input.didChangeSearchTextField
+      .map { [weak self] in
+        State.changeButtonColor(self?.isValueChanged(text: $0) ?? false)
+      }
+      .eraseToAnyPublisher()
+  }
+  
+  private func didTapSearchButtonStream(_ input: Input) -> Output {
+    // TODO: - text 키워드를 기반으로 서버에 다시 요청해야합니다.
+    return input.didTapSearchButton
+      .map { [weak self] text in
+        print("search: \(text)")
+        return State.none
+      }
+      .eraseToAnyPublisher()
+  }
+  
+  private func isValueChanged(text: String) -> Bool {
+    if text.count > 0 {
+      return true
+    } else { return false }
   }
 }
