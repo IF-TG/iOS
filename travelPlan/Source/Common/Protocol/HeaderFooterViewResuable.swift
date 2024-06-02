@@ -10,7 +10,7 @@ import UIKit
 protocol HeaderFooterViewResuable {}
 
 extension HeaderFooterViewResuable where Self: UITableView, Self: HeaderFooterViewIdentifiable {
-  func dequeueResuableHeaderFooterView<R>(
+  func dequeueReusableHeaderFooterView<R>(
     type: R.Type
   ) -> R? where R: HeaderFooterViewIdentifiable, R: UITableViewHeaderFooterView {
     return self.dequeueReusableHeaderFooterView(
