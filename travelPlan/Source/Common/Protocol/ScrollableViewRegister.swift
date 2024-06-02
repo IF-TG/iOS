@@ -1,5 +1,5 @@
 //
-//  TableViewRegister.swift
+//  ScrollableViewRegister.swift
 //  travelPlan
 //
 //  Created by 양승현 on 6/2/24.
@@ -20,4 +20,14 @@ extension ScrollableViewRegister where Self: UITableView {
   }
 }
 
+extension ScrollableViewRegister where Self: UICollectionView {
+  func register<R>(type: R.Type) where R: UICollectionViewCell, R: CellIdentifiable {
+    self.register(R.self, forCellWithReuseIdentifier: R.identifier)
+  }
+  
+  // TODO: - Supplimentary view도 register 추가하기.
+  // func register<R>
+}
+
 extension UITableView: ScrollableViewRegister {}
+extension UICollectionView: ScrollableViewRegister {}
