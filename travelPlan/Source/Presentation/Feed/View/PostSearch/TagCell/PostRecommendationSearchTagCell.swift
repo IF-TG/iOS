@@ -12,7 +12,6 @@ class PostRecommendationSearchTagCell: UICollectionViewCell {
   enum Constants {
     enum ContentView {
       static let borderWidth: CGFloat = 1
-      static let cornerRadius: CGFloat = 15
       static let alphaComponent: CGFloat = 0.1
     }
     
@@ -53,7 +52,6 @@ extension PostRecommendationSearchTagCell {
     contentView.backgroundColor = .yg.primary.withAlphaComponent(Constants.ContentView.alphaComponent)
     contentView.layer.borderColor = UIColor.YG.gray0.cgColor
     contentView.layer.borderWidth = Constants.ContentView.borderWidth
-    contentView.layer.cornerRadius = Constants.ContentView.cornerRadius
   }
 }
 
@@ -61,6 +59,7 @@ extension PostRecommendationSearchTagCell {
 extension PostRecommendationSearchTagCell {
   func configure(_ text: String) {
     tagLabel.text = text
+    contentView.layer.cornerRadius = min(contentView.frame.width, contentView.frame.height) / 2
   }
 }
 

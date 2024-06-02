@@ -53,8 +53,6 @@ extension TravelDestinationCell {
     cancellable?.cancel()
     cancellable = containerView
       .starButtonTapPublisher
-      .subscribe(on: DispatchQueue.global(qos: .userInteractive))
-      .receive(on: RunLoop.main)
       .sink {
         publisher.send(indexPath)
       }

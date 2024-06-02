@@ -12,7 +12,6 @@ final class PostRecentSearchTagCell: UICollectionViewCell {
   enum Constants {
     enum ContentView {
       static let borderWidth: CGFloat = 1
-      static let cornerRadius: CGFloat = 15
     }
     
     enum TagLabel {
@@ -80,6 +79,7 @@ extension PostRecentSearchTagCell {
   func configure(_ text: String, delegate: PostRecentSearchTagCellDelegate?) {
     self.delegate = delegate
     tagLabel.text = text
+    contentView.layer.cornerRadius = min(contentView.frame.width, contentView.frame.height) / 2
   }
 }
 
@@ -106,7 +106,6 @@ extension PostRecentSearchTagCell {
     contentView.backgroundColor = .yg.veryLightGray
     contentView.layer.borderColor = UIColor.YG.gray0.cgColor
     contentView.layer.borderWidth = Constants.ContentView.borderWidth
-    contentView.layer.cornerRadius = Constants.ContentView.cornerRadius
   }
 }
 

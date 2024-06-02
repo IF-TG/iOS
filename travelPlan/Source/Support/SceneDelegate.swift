@@ -11,7 +11,9 @@ import AppsFlyerLib
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   /// 이 객체를 참조하지 않아도 되지만, 앱스플라이어에서는 AppDelegate에서 one link를 처리하기에 이 객체 인스턴스를 선언했습니다..
   var appCoordinator: ApplicationCoordinator?
-  
+
+  var window: UIWindow?
+
   func scene(
     _ scene: UIScene,
     willConnectTo session: UISceneSession,
@@ -21,6 +23,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     let window = UIWindow(windowScene: windowScene)
     appCoordinator = ApplicationCoordinator(window: window)
     appCoordinator?.start()
+    self.window = window
+    ApplicationCoordinator(window: window).set { $0.start() }
     window.makeKeyAndVisible()
     
     if #available(iOS 13.0, *) {
