@@ -13,7 +13,7 @@ protocol PostCellLayouter: LayoutSupport {
 
 extension PostCellLayouter where Self: UICollectionViewCell {
   func addSubviews() {
-    self.addSubview(postView)
+    contentView.addSubview(postView)
   }
   
   func setConstraints() {
