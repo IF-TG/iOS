@@ -148,9 +148,8 @@ extension PostSearchViewController {
         guard let self = self else { return }
         
         switch state {
-        case .gotoSearch(let text):
+        case .resignFirstResponder:
           searchTextField.resignFirstResponder()
-          print("DEBUG: PostSearchVC -> PostSearchResultVC, keyword:\(text)")
         case .presentAlert:
           showAlert(alertType: .withCancel, message: Constants.Alert.message, target: self)
         case .changeButtonColor(let isChanged):
