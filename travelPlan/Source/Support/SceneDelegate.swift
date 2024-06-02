@@ -21,10 +21,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   ) {
     guard let windowScene = (scene as? UIWindowScene) else { return }
     let window = UIWindow(windowScene: windowScene)
+    self.window = window
     appCoordinator = ApplicationCoordinator(window: window)
     appCoordinator?.start()
-    self.window = window
-    ApplicationCoordinator(window: window).set { $0.start() }
     window.makeKeyAndVisible()
     
     if #available(iOS 13.0, *) {
