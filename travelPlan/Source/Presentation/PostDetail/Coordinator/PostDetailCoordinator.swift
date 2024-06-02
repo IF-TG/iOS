@@ -52,11 +52,12 @@ final class PostDetailCoordinator: NSObject, FlowCoordinator {
   
   var blockedPost: ((PostId) -> Void)?
   
-  init(presenter: UINavigationController?, post: Post, category: Post.Category) {
+  init(presenter: UINavigationController?, post: Post?, postId: PostId) {
     self.presenter = presenter
     super.init()
     let mockPostRepository = MockPostRepository()
-    let defaultPostFetchUseCase = DefaultPostFetchUseCase(postRepository: mockPostRepository)
+//    let defaultPostFetchUseCase = DefaultPostFetchUseCase(postRepository: mockPostRepository)
+    let defaultPostFetchUseCase = MockPostFetchUseCase()
     let defaultPostCommetnsAndPostLikeStateFetchUseCase = DefaultPostCommentsAndPostLikeStateFetchUseCase(
       postRepository: mockPostRepository)
     let postCommentUseCase = DefaultPostCommentUseCase(postCommentRepository: MockPostCommentRepository())
@@ -76,7 +77,8 @@ final class PostDetailCoordinator: NSObject, FlowCoordinator {
       showPostReportResult: { [weak self] option in self?.showPostReportResult(wtih: option) },
       showCategory: {[weak self] categories in self?.showCategory(with: categories) },
       showReviewWriting: { [weak self] entity in self?.showReviewWriting(entity: entity) },
-      showFeedAfterBlockingFeed: { [weak self] blockedPostId in self?.showFeedAfterBlockingFeed(blockedPostId) })
+      showFeedAfterBlockingFeed: { [weak self] blockedPostId in self?.showFeedAfterBlockingFeed(blockedPostId) },
+      finishWithAnim: { [weak self] in self?.finishWithAnim() })
     
     let chatActions = PostDetailChatViewModelActions(
       showAlertForError: { [weak self] message, completion in
@@ -88,15 +90,18 @@ final class PostDetailCoordinator: NSObject, FlowCoordinator {
       showCommentOption: { [weak self] isCommentOwner, optionCallBack in
         self?.showCommentOption(isCommentOwner: isCommentOwner, handler: optionCallBack)
       })
+    
     let postDetailVM = PostDetailViewModel(
       post: post,
-      category: category,
-      postFetchUsecase: defaultPostFetchUseCase,
+      postId: postId,
+      postFetchUseCase: defaultPostFetchUseCase,
       ownerRepository: loggedInUserRepository,
       userBlockUseCase: userBlockUseCase,
       actions: actions)
+    
+    // TODO: - identifier Int32로 변경하기
     let postDetailChatVM = PostDetailChatViewModel(
-      postId: post.detail.postID,
+      postId: post?.detail.postID ?? String(postId),
       postCommentsAndPostLikeStateFetchUseCase: defaultPostCommetnsAndPostLikeStateFetchUseCase,
       postCommentUseCase: postCommentUseCase,
       postNestedCommentUseCase: postNestedCommentUseCase,
@@ -121,6 +126,9 @@ final class PostDetailCoordinator: NSObject, FlowCoordinator {
 
 // MARK: - Actions Helpers
 extension PostDetailCoordinator {
+  func finishWithAnim() {
+    finish(withAnimated: true)
+  }
   func showReviewWriting(entity: ReviewWritingEntity) {
     let reviewWritingCoordinator = ReviewWritingCoordinator(presenter: presenter, mode: .edit(entity))
     addChild(with: reviewWritingCoordinator)

@@ -8,6 +8,8 @@
 import UIKit
 
 class PostFooterView: UIView {
+  typealias EventNotifier = () -> Void
+  
   // MARK: - Properties
   /// 초기 사용자가 포스트에 대해서 하트를 눌렀는지 상태 체크
   private var postHeartState: Bool? = false
@@ -31,14 +33,21 @@ class PostFooterView: UIView {
     $0.label.text = "0"
   }
   
-  private lazy var shareButton = UIButton().set {
-    $0.translatesAutoresizingMaskIntoConstraints = false
-    $0.contentMode = .scaleAspectFit
+  private lazy var shareButton = WrappedPaddingButton(
+    padding: UIEdgeInsets(top: 7, left: 7, bottom: 7, right: 7)
+  ) {
     let image = UIImage(named: "feedShare")
     $0.setImage(image?.setColor(.yg.gray4), for: .normal)
     $0.setImage(image?.setColor(.yg.gray4.withAlphaComponent(0.5)), for: .highlighted)
+    $0.imageView?.contentMode = .scaleAspectFit
     $0.addTarget(self, action: #selector(didTapShare), for: .touchUpInside)
   }
+  
+  var shareTapNotifier: EventNotifier?
+  
+  var heartTapNotifier: EventNotifier?
+  
+  var commentTapNotifier: EventNotifier?
   
   // MARK: - Initialization
   override init(frame: CGRect) {
@@ -59,17 +68,16 @@ class PostFooterView: UIView {
 // MARK: - Action
 private extension PostFooterView {
   @objc func didTapHeart() {
-    // TODO: - 하트 취소, 수락 서버 갱신. 여기선 서버로 하트 취소한거 처리 해야합니다
     updatePostHeartState()
-    print("DEBUG: 찜")
+    shareTapNotifier?()
   }
   
   @objc func didTapComment() {
-    print("커맨드 화면 이동")
+    heartTapNotifier?()
   }
   
   @objc func didTapShare() {
-    print("share 화면으로 이동")
+    shareTapNotifier?()
   }
 }
 
@@ -204,7 +212,7 @@ private extension PostFooterView {
     return [
       shareButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -13.5),
       shareButton.centerYAnchor.constraint(equalTo: centerYAnchor),
-      shareButton.heightAnchor.constraint(equalToConstant: 15),
-      shareButton.widthAnchor.constraint(equalToConstant: 15)]
+      shareButton.heightAnchor.constraint(equalToConstant: 30),
+      shareButton.widthAnchor.constraint(equalToConstant: 30)]
   }
 }

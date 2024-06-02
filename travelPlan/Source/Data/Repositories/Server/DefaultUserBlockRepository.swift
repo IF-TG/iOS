@@ -45,6 +45,7 @@ final class DefaultUserBlockRepository: UserBlockRepository {
     }.eraseToAnyPublisher()
   }
   
+  // TODO: - 이것 또한 blockUser를 사용해야함.
   func unblockUser(with blockedUserId: String) -> AnyPublisher<Void, any Error> {
     fatalError("api 미구현된 api입니다.")
   }

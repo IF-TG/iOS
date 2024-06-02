@@ -7,8 +7,8 @@
 
 import UIKit
 
-final class PostCellWithOneThumbnail: UICollectionViewCell {
-  static let id = String(describing: PostCellWithOneThumbnail.self) 
+final class PostCellWithOneThumbnail: BasePostCell, BasePostViewDelegator {
+  static let id = String(describing: PostCellWithOneThumbnail.self)
   
   // MARK: - Nested
   private final class PostOneThumbnailView: UIImageView {
@@ -33,6 +33,8 @@ final class PostCellWithOneThumbnail: UICollectionViewCell {
   
   private let postView: BasePostView
   
+  weak var postViewDelegate: PostViewDelegate?
+  
   // MARK: - Lifecycle
   override init(frame: CGRect) {
     let thumbnailView = PostOneThumbnailView(frame: .zero)
@@ -41,6 +43,7 @@ final class PostCellWithOneThumbnail: UICollectionViewCell {
     thumbnailView.heightAnchor.constraint(equalToConstant: 118).isActive = true
     super.init(frame: frame)
     setupUI()
+    postView.baseDelegate = self
   }
   
   required init?(coder: NSCoder) {

@@ -59,20 +59,39 @@ private extension FavoritePostViewController {
 
 // MARK: - FavoritePostViewAdapterDelegate
 extension FavoritePostViewController: FavoritePostViewAdapterDelegate {
-  func scrollToNextPage() {
-    // TODO: - 서버에게 다음 페이지 호출로직 ..
-  }
-  
-  func didTapPost(with postIndex: Int) {
-    print("특정 포스트 상세 화면으로 이동")
-  }
-  
   func scrollDidScroll(
     _ scrollView: UIScrollView,
     scrollYPosition: CGFloat,
     direction: UIScrollView.ScrollVerticalDirection
   ) {
     delegate?.scrollDidScroll(scrollView, scrollYPosition: scrollYPosition, direction: direction)
+  }
+}
+
+// MARK: - PostViewAdapterDelegate
+extension FavoritePostViewController: PostViewAdapterDelegate {
+  func tapComment(_ cell: UICollectionViewCell) {
+    print("댓글 첫번째 화면 로직 구현해야합니다.")
+  }
+  
+  func share(_ cell: UICollectionViewCell) {
+    print("공유 로직 구현해야합니다.")
+  }
+  
+  func tapOption(_ cell: UICollectionViewCell) {
+    print("옵션 탭 로직 구현해야합니다.")
+  }
+  
+  func tapHeart(_ cell: UICollectionViewCell) {
+    print("하트 탭 로직 구현해야합니다.")
+  }
+  
+  func scrollToNextPage() {
+    print("다음 페이지 요청하도록 로직 구현해야합니다.")
+  }
+  
+  func didTapPost(with postIndex: Int) {
+    print("특정 포스트 상세 화면으로 이동")
   }
 }
 

@@ -19,7 +19,7 @@ class TourApiBaseRequestDTO: Encodable {
   init(numOfRows: Int?, pageNo: Int?) {
     self.numOfRows = numOfRows
     self.pageNo = pageNo
-    let apikey = APIManager.shared.apiKey(with: .tourAPI)
+    let apikey = SecretManager.shared.get(with: .tourAPI)
     self.serviceKey = apikey ?? ""
   }
   

@@ -12,4 +12,6 @@ protocol PostFetchUseCase {
   func fetchFilteredPosts(
     with page: PostFetchRequestValue
   ) -> AnyPublisher<PostsPage, Error>
+  
+  func fetchPost(with postId: Int32) -> AnyPublisher<Post, Error>
 }

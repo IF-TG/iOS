@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class PostCellWithTwoThumbnails: UICollectionViewCell {
+final class PostCellWithTwoThumbnails: BasePostCell, BasePostViewDelegator {
   static let id = String(describing: PostCellWithTwoThumbnails.self)
   
   // MARK: - Nested
@@ -45,6 +45,8 @@ final class PostCellWithTwoThumbnails: UICollectionViewCell {
   
   private let postView: BasePostView
   
+  weak var postViewDelegate: PostViewDelegate?
+  
   // MARK: - Lifecycle
   override init(frame: CGRect) {
     let contentView = PostTwoThumbnailsView()
@@ -52,6 +54,7 @@ final class PostCellWithTwoThumbnails: UICollectionViewCell {
     postView = BasePostView(frame: frame, thumbnailView: contentView)
     super.init(frame: frame)
     setupUI()
+    postView.baseDelegate = self
   }
   
   required init?(coder: NSCoder) {
