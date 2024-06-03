@@ -8,92 +8,66 @@
 import Foundation
 import Combine
 
-protocol SearchViewModel: ViewModelable
+struct SearchViewModelActions {
+  let showSearchDetail: (SearchSectionType) -> Void
+  let showPostSearch: () -> Void
+}
+
+protocol SearchViewModelDataSourceable {
+  func getCellViewModels(in section: Int) -> SearchItemType
+  func fetchHeaderTitle(in section: Int) -> String
+  func numberOfItemsInSection(in section: Int) -> Int
+  func numberOfSections() -> Int
+}
+
+protocol SearchViewModel: ViewModelable, SearchViewModelDataSourceable
 where Input == SearchViewModelInput,
-      State == SearchViewModelState { }
+      State == SearchViewModelState {}
 
 // MARK: - Input
 struct SearchViewModelInput {
   let viewDidLoad: PassthroughSubject<Void, Never> = .init()
   let didTapView: PassthroughSubject<Void, Never> = .init()
-  let didTapSearchButton: PassthroughSubject<String, Never> = .init()
   let didTapStarButton: PassthroughSubject<IndexPath, Never> = .init()
   let didTaplookingMoreButton: PassthroughSubject<Int, Never> = .init()
+  let textFieldDidBeginEditing: PassthroughSubject<Void, Never> = .init()
 }
 
 // MARK: - State
 enum SearchViewModelState {
   case goDownKeyboard
-  case gotoSearch
   case none
-  case showSearchMoreDetail(_ sectionType: SearchSectionType)
   case reloadItems(IndexPath)
 }
 
 final class DefaultSearchViewModel {
+  // MARK: - Dependencies
+  private let actions: SearchViewModelActions
+  
   // MARK: - Properties
   private var dataSource = [SearchSectionModel]()
+  
+  // MARK: - LifeCycle
+  init(actions: SearchViewModelActions) {
+    self.actions = actions
+  }
 }
 
-// MARK: - ViewModelCase
+// MARK: - SearchViewModel
 extension DefaultSearchViewModel: SearchViewModel {
   func transform(_ input: Input) -> Output {
     return Publishers.MergeMany([
       viewDidLoadStream(input),
       didTapCollectionViewStream(input),
-      didTapSearchButtonStream(input),
       didTaplookingMoreButtonStream(input),
-      didTapStarButtonStream(input)
+      didTapStarButtonStream(input),
+      textFieldDidBeginEditingStream(input)
     ]).eraseToAnyPublisher()
-  }
-  
-  private func viewDidLoadStream(_ input: Input) -> Output {
-    return input.viewDidLoad
-      .map { [weak self] _ in
-        self?.fetchData()
-        return State.none
-      }
-      .eraseToAnyPublisher()
-  }
-  
-  private func didTapCollectionViewStream(_ input: Input) -> Output {
-    return input.didTapView
-      .map { State.goDownKeyboard }
-      .eraseToAnyPublisher()
-  }
-  
-  private func didTapSearchButtonStream(_ input: Input) -> Output {
-    return input.didTapSearchButton
-      .map { text in
-        print("DEBUG: '\(text)' search")
-        return State.gotoSearch
-      }
-      .eraseToAnyPublisher()
-  }
-  
-  private func didTaplookingMoreButtonStream(_ input: Input) -> Output {
-    return input.didTaplookingMoreButton
-      .map { sectionIndex in
-        return State.showSearchMoreDetail(SearchSectionType(rawValue: sectionIndex) ?? .festival)
-      }
-      .eraseToAnyPublisher()
-  }
-  
-  private func didTapStarButtonStream(_ input: Input) -> Output {
-    return input.didTapStarButton
-      .flatMap { [weak self] indexPath in
-        guard let self = self else {
-          return Just(State.none).eraseToAnyPublisher()
-        }
-        return self.saveButtonState(indexPath: indexPath)
-          .eraseToAnyPublisher()
-      }
-      .eraseToAnyPublisher()
   }
 }
 
-// MARK: - Helpers
-extension DefaultSearchViewModel {
+// MARK: - SearchViewModelDataSourceable
+extension DefaultSearchViewModel: SearchViewModelDataSourceable {
   func getCellViewModels(in section: Int) -> SearchItemType {
     return dataSource[section].itemType
   }
@@ -118,6 +92,51 @@ extension DefaultSearchViewModel {
 
 // MARK: - Private Helpers
 extension DefaultSearchViewModel {
+  private func viewDidLoadStream(_ input: Input) -> Output {
+    return input.viewDidLoad
+      .map { [weak self] _ in
+        self?.fetchData()
+        return State.none
+      }
+      .eraseToAnyPublisher()
+  }
+  
+  private func didTapCollectionViewStream(_ input: Input) -> Output {
+    return input.didTapView
+      .map { State.goDownKeyboard }
+      .eraseToAnyPublisher()
+  }
+  
+  private func didTaplookingMoreButtonStream(_ input: Input) -> Output {
+    return input.didTaplookingMoreButton
+      .map { [weak self] sectionIndex in
+        self?.actions.showSearchDetail(SearchSectionType(rawValue: sectionIndex) ?? .festival)
+        return State.none
+      }
+      .eraseToAnyPublisher()
+  }
+  
+  private func didTapStarButtonStream(_ input: Input) -> Output {
+    return input.didTapStarButton
+      .flatMap { [weak self] indexPath in
+        guard let self = self else {
+          return Just(State.none).eraseToAnyPublisher()
+        }
+        return self.saveButtonState(indexPath: indexPath)
+          .eraseToAnyPublisher()
+      }
+      .eraseToAnyPublisher()
+  }
+  
+  private func textFieldDidBeginEditingStream(_ input: Input) -> Output {
+    return input.textFieldDidBeginEditing
+      .map { [weak self] in
+        self?.actions.showPostSearch()
+        return State.none
+      }
+      .eraseToAnyPublisher()
+  }
+  
   private func fetchData() {
     // 네트워크 요청을 수행해서 데이터를 가져옵니다.
     let festivalHeader = "베스트 축제 🎡"

@@ -31,8 +31,7 @@ final class SearchViewController: UIViewController {
   }
   
   // MARK: - Properties
-  weak var coordinator: SearchCoordinatorDelegate?
-  private let viewModel = DefaultSearchViewModel()
+  private let viewModel: any SearchViewModel
 //  private lazy var searchView: SearchView = .init().set {
 //    $0.delegate = self
 //  }
@@ -40,7 +39,7 @@ final class SearchViewController: UIViewController {
   private var isScrolledUntilTop = false
   
   private var subscriptions = Set<AnyCancellable>()
-  private lazy var input = DefaultSearchViewModel.Input()
+  private lazy var input = SearchViewModelInput()
   private let compositionalLayoutManager: CompositionalLayoutCreatable = MainSearchLayoutManager()
   
   private lazy var collectionView: UICollectionView = UICollectionView(
@@ -71,7 +70,7 @@ final class SearchViewController: UIViewController {
       .withRenderingMode(.alwaysTemplate),
     style: .plain,
     target: self,
-    action: #selector(didTapSearchButton)
+    action: nil
   ).set {
     $0.isEnabled = false
     $0.tintColor = .yg.gray1
@@ -89,6 +88,15 @@ final class SearchViewController: UIViewController {
   }
   
   // MARK: - LifeCycle
+  init(viewModel: any SearchViewModel) {
+    self.viewModel = viewModel
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     setupUI()
@@ -96,10 +104,6 @@ final class SearchViewController: UIViewController {
     setupNavigationBar()
     bind()
     input.viewDidLoad.send()
-  }
-  
-  deinit {
-    coordinator?.finish()
   }
 }
 
@@ -118,14 +122,7 @@ extension SearchViewController {
   internal func render(_ state: SearchViewModelState) {
     switch state {
     case .goDownKeyboard:
-//      searchView.endEditing(true)
       view.endEditing(true)
-    case .gotoSearch:
-      // FIXME: - mock 제거하고, 실제로는 search
-      coordinator?.showSearchDetail(type: .leports)
-//      navigationController?.pushViewController(MockSearchDestinationViewController(), animated: true)
-    case let .showSearchMoreDetail(sectionType):
-      coordinator?.showSearchDetail(type: sectionType)
     case .none:
       break
     case .reloadItems(let indexPath):
@@ -139,10 +136,6 @@ extension SearchViewController {
 private extension SearchViewController {
   @objc func didTapCollectionView() {
     input.didTapView.send()
-  }
-  
-  @objc func didTapSearchButton() {
-    
   }
 }
 
@@ -177,13 +170,6 @@ extension SearchViewController {
     
     navigationItem.leftBarButtonItems = barButtonItems
     navigationItem.rightBarButtonItem = searchBarButtonItem
-    
-    let appearance = UINavigationBarAppearance()
-    appearance.backgroundEffect = .none
-    
-    navigationController?.navigationBar.standardAppearance = appearance
-    navigationController?.navigationBar.scrollEdgeAppearance = appearance
-    navigationController?.navigationBar.compactAppearance = appearance
   }
 }
 
@@ -317,6 +303,7 @@ extension SearchViewController: TitleWithButtonHeaderViewDelegate {
 extension SearchViewController: UITextFieldDelegate {
   func textFieldDidBeginEditing(_ textField: UITextField) {
     textField.resignFirstResponder()
-    coordinator?.showPostSearch()
+    input.textFieldDidBeginEditing.send()
+//    coordinator?.showPostSearch()
   }
 }
