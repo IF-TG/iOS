@@ -156,6 +156,13 @@ extension SearchViewController {
   }
   
   private func setupNavigationBar() {
+    let appearance = UINavigationBarAppearance()
+    appearance.configureWithTransparentBackground()
+    
+    navigationController?.navigationBar.standardAppearance = appearance
+    navigationController?.navigationBar.scrollEdgeAppearance = appearance
+    navigationController?.navigationBar.compactAppearance = appearance
+    
     let textFieldButtonItem = UIBarButtonItem(customView: searchTextField)
     var barButtonItems = [UIBarButtonItem]()
     
