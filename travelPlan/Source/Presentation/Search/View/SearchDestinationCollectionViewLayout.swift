@@ -46,9 +46,15 @@ final class SearchDestinationCollectionViewLayout: CompositionalLayoutCreatable 
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
-        // TODO: - inset 제거하고 요구사항에 맞게 수정하기
-        section.contentInsets = .init(top: 0, leading: 40, bottom: 0, trailing: 40)
+        section.contentInsets = .init(top: 40, leading: 40, bottom: 40, trailing: 40)
         section.interGroupSpacing = 20
+        
+        let whiteRoundItem = NSCollectionLayoutDecorationItem
+          .background(elementKind: InnerRoundRectReusableView.baseID)
+        whiteRoundItem.contentInsets = .init(top: 20, leading: 20, bottom: 20, trailing: 20)
+        
+        section.decorationItems = [whiteRoundItem]
+        
         return section
       default:
         return nil
