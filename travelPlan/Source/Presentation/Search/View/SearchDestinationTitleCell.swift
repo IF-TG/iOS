@@ -76,6 +76,11 @@ final class SearchDestinationTitleCell: UICollectionViewCell {
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
+  
+  override func prepareForReuse() {
+    super.prepareForReuse()
+    heartButton.isSelected = false
+  }
 }
 
 // MARK: - LayoutSupport
@@ -132,9 +137,10 @@ extension SearchDestinationTitleCell: LayoutSupport {
 
 // MARK: - Helpers
 extension SearchDestinationTitleCell {
-  func configure(title: String?, address: String?) {
-    titleLabel.text = title
-    addressLabel.text = address
+  func configure(mainInfo: SearchDestinationSection.Main) {
+    titleLabel.text = mainInfo.title
+    addressLabel.text = mainInfo.address
+    heartButton.isSelected = mainInfo.isSelectedHeart
   }
   
   func updateToggleButtonVisibility() {
