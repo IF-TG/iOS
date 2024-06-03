@@ -8,11 +8,6 @@
 import UIKit
 import SHCoordinator
 
-protocol SearchCoordinatorDelegate: FlowCoordinatorDelegate {
-  func showSearchDetail(type: SearchSectionType)
-  func showPostSearch()
-}
-
 final class SearchCoordinator: FlowCoordinator {
   // MARK: - Properties
   var parent: FlowCoordinator?
@@ -30,20 +25,23 @@ final class SearchCoordinator: FlowCoordinator {
   
   // MARK: - Helpers
   func start() {
-    let viewController = SearchViewController()
-    viewController.coordinator = self
+    let actions = SearchViewModelActions(
+      showSearchDetail: { [weak self] type in self?.showSearchDetail(type: type) },
+      showPostSearch: { [weak self] in self?.showPostSearch() }
+    )
+    let viewModel = DefaultSearchViewModel(actions: actions)
+    let viewController = SearchViewController(viewModel: viewModel)
     presenter?.viewControllers = [viewController]
   }
 }
 
-// MARK: - SearchCoordinatorDelegate
-extension SearchCoordinator: SearchCoordinatorDelegate {
-  func showSearchDetail(type: SearchSectionType) {
+extension SearchCoordinator {
+  private func showSearchDetail(type: SearchSectionType) {
     let child = SearchMoreDetailCoordinator(presenter: presenter, viewControllerType: type)
     addChild(with: child)
   }
   
-  func showPostSearch() {
+  private func showPostSearch() {
     let child = PostSearchCoordinator(presenter: presenter, searchType: .travelDestination)
     addChild(with: child)
   }
