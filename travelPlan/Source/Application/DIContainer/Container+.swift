@@ -9,6 +9,7 @@ import Foundation
 import Swinject
 
 public extension Container {
+  /// Container에 a service register
   ///
   /// - Parameters:
   ///   - serviceType: 등록해야할 서비스의 Metatype을 as a value로 전달합니다.
@@ -21,7 +22,17 @@ public extension Container {
     name: ResolveType? = nil,
     factory: @escaping (Resolver) -> Service
   ) -> ServiceEntry<Service> {
-    register(serviceType, name: name, factory: factory)
+    return _register(serviceType, factory: factory, name: name?.rawValue)
+  }
+  
+  /// Container에 a service resolve
+  ///
+  /// - Parameters:
+  ///   - serviceType: resolve해야 할 서비스의 Metatype을 as a value로 전달합니다.
+  ///   - name: Service를 container에서 꺼내올때 구현체가 여러개인 경우 name으로 식별합니다.
+  @inline(__always)
+  func resolve<Service>(_: Service.Type, name: ResolveType?) -> Service? {
+    return _resolve(name: name?.rawValue) { (factory: (Resolver) -> Any) in factory(self) }
   }
 }
 
