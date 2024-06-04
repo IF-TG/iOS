@@ -18,6 +18,8 @@ final class PresentationAssembly: Assembly {
     
     // TODO: - Notification Page
     
+    // TODO: - Album Page
+    
     // TODO: - Main Page
     
     // TODO: - Setting Page
@@ -25,6 +27,10 @@ final class PresentationAssembly: Assembly {
     // TODO: - Favorite Page
     
     // TODO: - Search Page
+    
+    // TODO: - SearchDetail Page
+    
+    // TODO: - Plan Page
     
     // TODO: - ReviewWriting Page
     
