@@ -21,6 +21,12 @@ final class YeoGaAssembler {
   
   // MARK: - Lifecycle
   private init() {
-    self.assembler = Assembler([])
+    self.assembler = Assembler([
+      CoreAssembly(),
+      PersistentStorageAssembly(),
+      RepositoryAssembly(),
+      DomainAssembly(),
+      PresentationAssembly(),
+      FlowCoordinatorAssembly()])
   }
 }
