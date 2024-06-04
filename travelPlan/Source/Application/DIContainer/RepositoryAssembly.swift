@@ -33,17 +33,6 @@ final class RepositoryAssembly: Swinject.Assembly {
       return TourApiSessionProvider(session: mockSession)
     }
     
-    // MARK: - PersistentStorages UserStorage
-    container.register(OwnerStorage.self, name: .implementation(.default)) { _ in
-      UserDefaultsOwnerStorage()
-    }
-    
-    container.register(OwnerStorage.self, name: .testDouble(.stub)) { _ in
-      StubOwnerStorage()
-    }
-    
-    // TODO: - PersistentStorages LoginResponseStorage
-    
     // MARK: - Firestore PostComment
     container.register(PostAtomicCommentRepository.self, name: .implementation(.firestore)) { _ in
       FirestorePostCommentRepository(service: firestoreService)
