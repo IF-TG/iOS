@@ -8,12 +8,33 @@
 import Foundation
 import Swinject
 
-@frozen public enum ResolveType {
+@frozen public enum ResolveType: RawRepresentable {
   case implementation(ImplementationResolveType)
   case testDouble(TestDoubleResolveType)
+  
+  public typealias RawValue = String
+  
+  public var rawValue: String {
+    switch self {
+    case .implementation(let impl):
+      return impl.rawValue
+    case .testDouble(let testDouble):
+      return testDouble.rawValue
+    }
+  }
+  
+  public init?(rawValue: RawValue) {
+    if let impl = ImplementationResolveType(rawValue: rawValue) {
+      self = .implementation(impl)
+    } else if let testDouble = TestDoubleResolveType(rawValue: rawValue) {
+      self = .testDouble(testDouble)
+    } else {
+      return nil
+    }
+  }
 }
 
-@frozen public  enum ImplementationResolveType: String {
+@frozen public enum ImplementationResolveType: String {
   /// Spring server와 통신하는 구현체.
   case `default`
   /// Firestore와 통신하는 구현체
