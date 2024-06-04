@@ -6,20 +6,20 @@
 //
 
 import Foundation
+import Swinject
 
-@frozen enum ResolveType {
+@frozen public enum ResolveType {
   case implementation(ImplementationResolveType)
   case testDouble(TestDoubleResolveType)
 }
 
-
-@frozen enum ImplementationResolveType: String {
+@frozen public  enum ImplementationResolveType: String {
   /// Spring server와 통신하는 구현체.
   case `default`
   /// Firestore와 통신하는 구현체
   case firestore
 }
 
-@frozen enum TestDoubleResolveType: String {
+@frozen public enum TestDoubleResolveType: String {
   case mock, stub, dummy
 }
