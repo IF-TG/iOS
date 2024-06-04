@@ -22,7 +22,7 @@ final class CoreAssembly: Swinject.Assembly {
     }
     
     // MARK: - FirebaseStorageService
-    container.register(ImageStorageServiceProtocol.self, name: .implementation(.default)) { _ in
+    container.register(ImageStorageServiceProtocol.self, name: .implementation(.firestore)) { _ in
       FirebaseStorageService()
     }
     
