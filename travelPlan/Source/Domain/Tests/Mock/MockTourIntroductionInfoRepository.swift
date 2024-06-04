@@ -26,7 +26,7 @@ extension MockTourIntroductionInfoRepository: TourIntroductionInfoRepository {
       let mockData = TourAPIMockResponseType.introdution(.course).mockDataLoader
       return ((HTTPURLResponse(), mockData))
     }
-    let _ = TourContentId(contentId: 1871068, contentTypeId: TourType.course.rawValue)
+    _ = TourContentId(contentId: 1871068, contentTypeId: TourType.course.rawValue)
     
     return repository
       .fetchCourse(tourContentId: tourContentId)

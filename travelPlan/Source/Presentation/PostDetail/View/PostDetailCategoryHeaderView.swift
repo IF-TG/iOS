@@ -7,9 +7,7 @@
 
 import UIKit
 
-final class PostDetailCategoryHeaderView: UITableViewHeaderFooterView {
-  static let id = String(describing: PostDetailCategoryHeaderView.self)
-  
+final class PostDetailCategoryHeaderView: UITableViewHeaderFooterView, HeaderFooterViewIdentifiable {
   // MARK: - Properties
   private let categoryLabel = BasePaddingLabel(
     padding: .init(top: 16.5, left: 20, bottom: 8.5, right: 20),
