@@ -1,5 +1,5 @@
 //
-//  ResolveType.swift
+//  ServiceName.swift
 //  travelPlan
 //
 //  Created by 양승현 on 6/4/24.
@@ -8,7 +8,7 @@
 import Foundation
 import Swinject
 
-@frozen public enum ResolveType: RawRepresentable {
+@frozen public enum ServiceName: RawRepresentable {
   case implementation(ImplementationResolveType)
   case testDouble(TestDoubleResolveType)
   

@@ -19,7 +19,7 @@ public extension Container {
   @inline(__always)
   func register<Service>(
     _ serviceType: Service.Type,
-    name: ResolveType? = nil,
+    name: ServiceName? = nil,
     factory: @escaping (Resolver) -> Service
   ) -> ServiceEntry<Service> {
     return _register(serviceType, factory: factory, name: name?.rawValue)
@@ -31,7 +31,7 @@ public extension Container {
   ///   - serviceType: resolve해야 할 서비스의 Metatype을 as a value로 전달합니다.
   ///   - name: Service를 container에서 꺼내올때 구현체가 여러개인 경우 name으로 식별합니다.
   @inline(__always)
-  func resolve<Service>(_: Service.Type, name: ResolveType?) -> Service? {
+  func resolve<Service>(_: Service.Type, name: ServiceName?) -> Service? {
     return _resolve(name: name?.rawValue) { (factory: (Resolver) -> Any) in factory(self) }
   }
 }
