@@ -6,3 +6,28 @@
 //
 
 import Foundation
+import Swinject
+
+final class PresentationAssembly: Assembly {
+  func assemble(container: Swinject.Container) {
+    // TODO: - Login Page
+    
+    // TODO: - PostDetail Page
+    
+    // TODO: - Post
+    
+    // TODO: - Notification Page
+    
+    // TODO: - Main Page
+    
+    // TODO: - Setting Page
+    
+    // TODO: - Favorite Page
+    
+    // TODO: - Search Page
+    
+    // TODO: - ReviewWriting Page
+    
+    // TODO: - Feed Page
+  }
+}
