@@ -34,11 +34,12 @@ final class PresentationAssembly: Assembly {
     
     // TODO: - ReviewWriting Page
     
-    // TODO: - Feed Page
+    // MARK: - Feed Page
     container.register(DevelopmentViewController.self) { _ in
       DevelopmentViewController()
     }
-    container.register(CategoryPageViewDataSource.self, name: .implementation(.default)) { _ in
+    
+    container.register(CategoryPageViewDataSource.self) { _ in
       CategoryPageViewModel()
     }
     
@@ -60,37 +61,48 @@ final class PresentationAssembly: Assembly {
     
     container.register(
       (any FeedPostViewModelable & FeedPostViewAdapterDataSource).self,
+      name: .implementation(.interceptedDefault)
+    ) { (r, feedCategory: PostCategory) in
+      let interceptedPostFetchUseCase = r.resolve(PostFetchUseCase.self, name: .implementation(.interceptedDefault))!
+      return FeedPostViewModel(postCategory: feedCategory, postFetchUsecase: interceptedPostFetchUseCase)
+    }
+    
+    container.register(
+      (any FeedPostViewModelable & FeedPostViewAdapterDataSource).self,
       name: .testDouble(.mock)
     ) { (r, feedCategory: PostCategory) in
-      let mockPostFetchUseCase = r.resolve(MockPostFetchUseCase.self)!
+      let mockPostFetchUseCase = r.resolve(PostFetchUseCase.self, name: .testDouble(.mock))!
       return FeedPostViewModel(postCategory: feedCategory, postFetchUsecase: mockPostFetchUseCase)
-      }
+    }
     
     container.register([UIViewController].self, name: "DefaultFeedPageViews") { r in
-      let categoryPageViewModel = r.resolve(CategoryPageViewDataSource.self, name: .implementation(.default))!
+      let categoryPageViewModel = r.resolve(CategoryPageViewDataSource.self)!
       return (0..<categoryPageViewModel.numberOfItems).map {
         let feedCategory = categoryPageViewModel.postSearchFilterItem(at: $0)
         if $0 + 1 == categoryPageViewModel.numberOfItems {
           return r.resolve(DevelopmentViewController.self)!
         }
         let feedPostViewModel = r.resolve(
-          (any FeedPostViewModelable & FeedPostViewAdapterDataSource).self, name: .implementation(.default))!
+          (any FeedPostViewModelable & FeedPostViewAdapterDataSource).self,
+          name: .implementation(.default),
+          argument: feedCategory)!
         return FeedPostViewController(type: feedCategory, viewModel: feedPostViewModel)
       }
     }
     
     container.register([UIViewController].self, name: "MockFeedPageViews") { r in
-      let categoryPageViewModel = r.resolve(CategoryPageViewDataSource.self, name: .implementation(.default))!
+      let categoryPageViewModel = r.resolve(CategoryPageViewDataSource.self)!
       return (0..<categoryPageViewModel.numberOfItems).map {
         let feedCategory = categoryPageViewModel.postSearchFilterItem(at: $0)
         if $0 + 1 == categoryPageViewModel.numberOfItems {
           return r.resolve(DevelopmentViewController.self)!
         }
         let feedPostViewModel = r.resolve(
-          (any FeedPostViewModelable & FeedPostViewAdapterDataSource).self, name: .testDouble(.mock))!
+          (any FeedPostViewModelable & FeedPostViewAdapterDataSource).self,
+          name: .testDouble(.mock),
+          argument: feedCategory)!
         return FeedPostViewController(type: feedCategory, viewModel: feedPostViewModel)
       }
-      
     }
     
     container.register(FeedViewController.self, name: .implementation(.default)) { r in

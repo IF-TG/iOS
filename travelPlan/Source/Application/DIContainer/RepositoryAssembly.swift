@@ -28,8 +28,8 @@ final class RepositoryAssembly: Swinject.Assembly {
       return TourApiSessionProvider(session: session)
     }
     
-    container.register(Sessionable.self, name: .testDouble(.mock)) { r in
-      let mockSession = r.resolve(Session.self, name: .testDouble(.mock))!
+    container.register(Sessionable.self, name: .implementation(.interceptedDefault)) { r in
+      let mockSession = r.resolve(Session.self, name: .implementation(.interceptedDefault))!
       return TourApiSessionProvider(session: mockSession)
     }
     
@@ -107,6 +107,29 @@ final class RepositoryAssembly: Swinject.Assembly {
     // TODO: - Tour API
     
     // TODO: - SpringServer
+    
+    // TODO: - SpringServer User
+    container.register(LoggedInUserRepository.self, name: .implementation(.default)) { r in
+      let ownerStorage = r.resolve(OwnerStorage.self, name: .implementation(.default))!
+      return DefaultLoggedInUserRepository(storage: ownerStorage)
+    }
+    
+    container.register(LoggedInUserRepository.self, name: .testDouble(.stub)) { r in
+      let stubOwnerStroage = r.resolve(OwnerStorage.self, name: .testDouble(.stub))!
+      return DefaultLoggedInUserRepository(storage: stubOwnerStroage)
+    }
+    
+    // TODO: - SpringServer Post
+    container.register(PostRepository.self, name: .implementation(.default)) { r in
+      let defaultOwnerStorage = r.resolve(OwnerStorage.self, name: .implementation(.default))!
+      let defaultSessionProvider = r.resolve(Sessionable.self, name: .implementation(.default))!
+      return DefaultPostRepository(service: defaultSessionProvider, ownerStorage: defaultOwnerStorage)
+    }
+    
+    container.register(PostRepository.self, name: .implementation(.interceptedDefault)) { r in
+      let stubOwnerStorage = r.resolve(OwnerStorage.self, name: .testDouble(.stub))!
+      let mockSessionProvider = r.resolve(Sessionable.self, name: .testDouble(.mock))!
+      return DefaultPostRepository(service: mockSessionProvider, ownerStorage: stubOwnerStorage)
+    }
   }
 }
-

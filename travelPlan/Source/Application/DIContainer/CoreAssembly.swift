@@ -52,7 +52,7 @@ final class CoreAssembly: Swinject.Assembly {
       Session()
     }
     
-    container.register(Session.self, name: .testDouble(.mock)) { _ in
+    container.register(Session.self, name: .implementation(.interceptedDefault)) { _ in
       MockSession.default
     }
     
@@ -72,10 +72,9 @@ final class CoreAssembly: Swinject.Assembly {
       return ImageSessionProvider(session: session)
     }
     
-    container.register(ImageSessionable.self, name: .testDouble(.mock)) { r in
+    container.register(ImageSessionable.self, name: .implementation(.interceptedDefault)) { r in
       let mockSession = r.resolve(Session.self, name: .testDouble(.mock))!
       return ImageSessionProvider(session: mockSession)
     }
-
   }
 }

@@ -35,10 +35,13 @@ import Swinject
 }
 
 @frozen public enum ImplementationResolveType: String {
-  /// Spring server와 통신하는 구현체.
+  /// Spring server와 통신하는 구현체. 기본 객체
   case `default`
   /// Firestore와 통신하는 구현체
   case firestore
+  
+  /// URLProtocol을 가로챈 세션을 사용하는 구현체.
+  case interceptedDefault
 }
 
 @frozen public enum TestDoubleResolveType: String {
