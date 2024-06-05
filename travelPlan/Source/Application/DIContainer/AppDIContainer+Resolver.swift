@@ -8,6 +8,10 @@
 import Foundation
 
 extension AppDIContainer {  
+  func resolve<Service>(_: Service.Type) -> Service? {
+    return resolver.resolve(Service.self)
+  }
+  
   func resolve<Service>(_: Service.Type, name: ServiceName?) -> Service? {
     return resolver.resolve(Service.self, name: name)
   }
