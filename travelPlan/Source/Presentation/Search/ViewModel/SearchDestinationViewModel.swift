@@ -69,7 +69,12 @@ extension DefaultSearchDestinationViewModel {
       .delay(for: 0.5, scheduler: DispatchQueue.global(qos: .userInitiated))
       .map { [weak self] _ in
         let section1 = SearchDestinationSection.main(
-          .init(title: "서문수육애국밥", address: "대전 동구 대학로 37", isSelectedHeart: true, heartCount: 10)
+          .init(
+            title: "서문수육애국밥서문수육애국밥서문수육애국밥",
+            address: "대전 동구 대학로 37대전 동구 대학로 37대전 동구 대학로 37대전 동구 대학로 37대전 동구 대학로 37",
+            isSelectedHeart: true,
+            heartCount: 10
+          )
         )
         
         self?.dataSource.append(section1)
