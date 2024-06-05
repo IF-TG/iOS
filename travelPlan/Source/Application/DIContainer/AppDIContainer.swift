@@ -43,7 +43,7 @@ extension AppDIContainer: FeedCoordinatorDependencies {
   }
   
   func makePostDetailCoordinator(
-    presenter: UINavigationController,
+    presenter: UINavigationController?,
     post: Post?,
     postId: Int32
   ) -> PostDetailCoordinator {
@@ -51,20 +51,21 @@ extension AppDIContainer: FeedCoordinatorDependencies {
   }
   
   func makePostSearchCoordinator(
-    presenter: UINavigationController
+    presenter: UINavigationController?
   ) -> PostSearchCoordinator {
     return resolver.resolve(PostSearchCoordinator.self, argument: presenter)!
   }
   
   func makeNotificationCoordinator(
-    presenter: UINavigationController
+    presenter: UINavigationController?
   ) -> NotificationCenterCoordinator {
     return resolver.resolve(NotificationCenterCoordinator.self, argument: presenter)!
   }
   
   func makeReviewWritingCoordinator(
-    presenter: UINavigationController
+    presenter: UINavigationController?,
+    mode: ReviewWritingMode
   ) -> ReviewWritingCoordinator {
-    return resolver.resolve(ReviewWritingCoordinator.self, argument: presenter)!
+    return resolver.resolve(ReviewWritingCoordinator.self, arguments: presenter, mode)!
   }
 }
