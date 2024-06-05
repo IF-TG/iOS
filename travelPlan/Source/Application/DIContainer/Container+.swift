@@ -19,10 +19,10 @@ public extension Container {
   @inline(__always)
   func register<Service>(
     _ serviceType: Service.Type,
-    name: ServiceName? = nil,
+    name: ServiceName,
     factory: @escaping (Resolver) -> Service
   ) -> ServiceEntry<Service> {
-    return _register(serviceType, factory: factory, name: name?.rawValue)
+    return _register(serviceType, factory: factory, name: name.rawValue)
   }
   
   /// Container에 a service register할 때 인자값이 하나 요구되는 경우에 사용합니다.
@@ -30,10 +30,10 @@ public extension Container {
   @inline(__always)
   func register<Service, Arg1>(
     _ serviceType: Service.Type,
-    name: ServiceName? = nil,
+    name: ServiceName,
     factory: @escaping (Resolver, Arg1) -> Service
   ) -> ServiceEntry<Service> {
-    return _register(serviceType, factory: factory, name: name?.rawValue)
+    return _register(serviceType, factory: factory, name: name.rawValue)
   }
   
   /// Container에 a service register할 때 인자값이 두개 요구되는 경우에 사용합니다.
@@ -41,10 +41,10 @@ public extension Container {
   @inline(__always)
   func register<Service, Arg1, Arg2>(
     _ serviceType: Service.Type,
-    name: ServiceName? = nil,
+    name: ServiceName,
     factory: @escaping (Resolver, Arg1, Arg2) -> Service
   ) -> ServiceEntry<Service> {
-    return _register(serviceType, factory: factory, name: name?.rawValue)
+    return _register(serviceType, factory: factory, name: name.rawValue)
   }
   
   @discardableResult
