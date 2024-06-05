@@ -423,6 +423,7 @@
 		155EE41F2B1660D000D4D221 /* OperationGuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155EE41E2B1660D000D4D221 /* OperationGuideViewController.swift */; };
 		1561DC7C2BDF7DC200C25577 /* FirestorePostRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1561DC7B2BDF7DC200C25577 /* FirestorePostRepository.swift */; };
 		1563027D2C10C91E000B496E /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = 1563027C2C10C91E000B496E /* Swinject */; };
+		1563027F2C10D82E000B496E /* PresentationFeedAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1563027E2C10D82E000B496E /* PresentationFeedAssembly.swift */; };
 		1564A0A02BBFE0290045424B /* FavoritePostDirectoryNameUpdateRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1564A09F2BBFE0290045424B /* FavoritePostDirectoryNameUpdateRequestDTO.swift */; };
 		1564A0A22BBFE0780045424B /* FavoritePostDirectoryNameUpdateResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1564A0A12BBFE0780045424B /* FavoritePostDirectoryNameUpdateResponseDTO.swift */; };
 		1564A0A42BBFE25B0045424B /* UpdatedFavoritePostDirectoryName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1564A0A32BBFE25B0045424B /* UpdatedFavoritePostDirectoryName.swift */; };
@@ -1273,6 +1274,7 @@
 		155D0BB62B90DAB10042DFB6 /* MainError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainError.swift; sourceTree = "<group>"; };
 		155EE41E2B1660D000D4D221 /* OperationGuideViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationGuideViewController.swift; sourceTree = "<group>"; };
 		1561DC7B2BDF7DC200C25577 /* FirestorePostRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestorePostRepository.swift; sourceTree = "<group>"; };
+		1563027E2C10D82E000B496E /* PresentationFeedAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationFeedAssembly.swift; sourceTree = "<group>"; };
 		1564A09F2BBFE0290045424B /* FavoritePostDirectoryNameUpdateRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePostDirectoryNameUpdateRequestDTO.swift; sourceTree = "<group>"; };
 		1564A0A12BBFE0780045424B /* FavoritePostDirectoryNameUpdateResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePostDirectoryNameUpdateResponseDTO.swift; sourceTree = "<group>"; };
 		1564A0A32BBFE25B0045424B /* UpdatedFavoritePostDirectoryName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatedFavoritePostDirectoryName.swift; sourceTree = "<group>"; };
@@ -2736,6 +2738,7 @@
 				154070A12C0F8CC3000C9C42 /* FlowCoordinatorAssembly.swift */,
 				154070A32C0F8F94000C9C42 /* PersistentStorageAssembly.swift */,
 				154070AA2C103D2D000C9C42 /* AppDIContainer+Resolver.swift */,
+				1563027E2C10D82E000B496E /* PresentationFeedAssembly.swift */,
 			);
 			path = DIContainer;
 			sourceTree = "<group>";
@@ -4720,6 +4723,7 @@
 				15B5E7A72BBAE8B800C19F56 /* DefaultUserBlockUseCase.swift in Sources */,
 				154070AB2C103D2D000C9C42 /* AppDIContainer+Resolver.swift in Sources */,
 				13EB3D532BF50A2C00CA84F0 /* CultureFacilityUseCase.swift in Sources */,
+				1563027F2C10D82E000B496E /* PresentationFeedAssembly.swift in Sources */,
 				15B9285B2AF9DEAA003A20D4 /* PostDetailViewController.swift in Sources */,
 				13EB3D162BF0AE2C00CA84F0 /* IntroductionInfoLeportsEntity.swift in Sources */,
 				15FFAC012AD5D6710013DB57 /* FavoriteDirectorySettingViewDelegate.swift in Sources */,

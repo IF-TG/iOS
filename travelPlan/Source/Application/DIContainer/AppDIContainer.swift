@@ -27,6 +27,7 @@ final class AppDIContainer {
       PersistentStorageAssembly(),
       RepositoryAssembly(),
       DomainAssembly(),
+      PresentationFeedAssembly(),
       PresentationAssembly(),
       FlowCoordinatorAssembly()])
   }
