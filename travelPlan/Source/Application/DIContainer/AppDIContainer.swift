@@ -33,6 +33,29 @@ final class AppDIContainer {
   }
 }
 
+// MARK: - MainCoordinatorDependencies
+extension AppDIContainer: MainCoordinatorDependencies {
+  func makeFeedCoordinator(presenter: UINavigationController) -> FeedCoordinator {
+    return resolve(FeedCoordinator.self)!
+  }
+  
+  func makeSearchCoordinator(presenter: UINavigationController) -> SearchCoordinator {
+    return resolve(SearchCoordinator.self)!
+  }
+  
+  func makePlanCoordinator(persenter: UINavigationController) -> PlanCoordinator {
+    return resolve(PlanCoordinator.self)!
+  }
+  
+  func makeFavoriteCoordinator(presenter: UINavigationController) -> FavoriteCoordinator {
+    return resolve(FavoriteCoordinator.self)!
+  }
+  
+  func makeSettingCoordinator(presenter: UINavigationController) -> SettingCoordinator {
+    return resolve(SettingCoordinator.self)!
+  }
+}
+
 // MARK: - FeedCoordinatorDependencies
 extension AppDIContainer: FeedCoordinatorDependencies {
   func makeFeedViewController(with coordinator: FeedCoordinator) -> FeedViewController {
