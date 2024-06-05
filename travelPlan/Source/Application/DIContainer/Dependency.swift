@@ -27,7 +27,7 @@ final class Dependency<Value> {
   }
   
   convenience init(name: ServiceName? = nil) {
-    self.init(engine: YeoGaAssembler.default.assembler,name: name)
+    self.init(engine: AppDIContainer.shared.assembler, name: name)
   }
   
   // MARK: - Wrapped
