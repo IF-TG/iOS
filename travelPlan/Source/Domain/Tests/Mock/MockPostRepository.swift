@@ -20,7 +20,7 @@ final class MockPostRepository: PostRepository {
     let defaultLoggedInUserRepository = DefaultLoggedInUserRepository(storage: mockUserStroage)
     self.postRepository = DefaultPostRepository(
       service: mockService,
-      loggedInUserRepository: defaultLoggedInUserRepository)
+      ownerStorage: mockUserStroage)
   }
   
   func fetchPosts(
