@@ -341,9 +341,8 @@
 		1540478C2BE4BA45009E86FF /* DefaultPostHeartUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1540478B2BE4BA45009E86FF /* DefaultPostHeartUseCase.swift */; };
 		154047902BE4C075009E86FF /* BackgroundTaskManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1540478F2BE4C075009E86FF /* BackgroundTaskManager.swift */; };
 		154047932BE4D237009E86FF /* DefaultPostHeartUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154047922BE4D237009E86FF /* DefaultPostHeartUseCaseTests.swift */; };
-		154070832C0EE7F4000C9C42 /* Swinject-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 154070822C0EE7F4000C9C42 /* Swinject-Dynamic */; };
 		154070862C0F0147000C9C42 /* Dependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154070852C0F0147000C9C42 /* Dependency.swift */; };
-		154070882C0F110F000C9C42 /* YeoGaAssembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154070872C0F110F000C9C42 /* YeoGaAssembler.swift */; };
+		154070882C0F110F000C9C42 /* AppDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154070872C0F110F000C9C42 /* AppDIContainer.swift */; };
 		1540708D2C0F192F000C9C42 /* RepositoryAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1540708C2C0F192F000C9C42 /* RepositoryAssembly.swift */; };
 		1540708F2C0F1BDA000C9C42 /* CoreAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1540708E2C0F1BDA000C9C42 /* CoreAssembly.swift */; };
 		154070912C0F33B8000C9C42 /* ServiceName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154070902C0F33B8000C9C42 /* ServiceName.swift */; };
@@ -353,6 +352,7 @@
 		154070A02C0F8B0A000C9C42 /* PresentationAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1540709F2C0F8B0A000C9C42 /* PresentationAssembly.swift */; };
 		154070A22C0F8CC3000C9C42 /* FlowCoordinatorAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154070A12C0F8CC3000C9C42 /* FlowCoordinatorAssembly.swift */; };
 		154070A42C0F8F94000C9C42 /* PersistentStorageAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154070A32C0F8F94000C9C42 /* PersistentStorageAssembly.swift */; };
+		154070AB2C103D2D000C9C42 /* AppDIContainer+Resolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154070AA2C103D2D000C9C42 /* AppDIContainer+Resolver.swift */; };
 		1543DC942BC53D4B0041852F /* ReviewWritingThemeSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1543DC932BC53D4B0041852F /* ReviewWritingThemeSectionHeader.swift */; };
 		1543DC962BC53E810041852F /* ReviewWritingThemeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1543DC952BC53E810041852F /* ReviewWritingThemeCell.swift */; };
 		1543DC982BC56A020041852F /* ReviewCategorySelectCompletionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1543DC972BC56A020041852F /* ReviewCategorySelectCompletionView.swift */; };
@@ -422,6 +422,7 @@
 		155D0BB72B90DAB10042DFB6 /* MainError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155D0BB62B90DAB10042DFB6 /* MainError.swift */; };
 		155EE41F2B1660D000D4D221 /* OperationGuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155EE41E2B1660D000D4D221 /* OperationGuideViewController.swift */; };
 		1561DC7C2BDF7DC200C25577 /* FirestorePostRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1561DC7B2BDF7DC200C25577 /* FirestorePostRepository.swift */; };
+		1563027D2C10C91E000B496E /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = 1563027C2C10C91E000B496E /* Swinject */; };
 		1564A0A02BBFE0290045424B /* FavoritePostDirectoryNameUpdateRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1564A09F2BBFE0290045424B /* FavoritePostDirectoryNameUpdateRequestDTO.swift */; };
 		1564A0A22BBFE0780045424B /* FavoritePostDirectoryNameUpdateResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1564A0A12BBFE0780045424B /* FavoritePostDirectoryNameUpdateResponseDTO.swift */; };
 		1564A0A42BBFE25B0045424B /* UpdatedFavoritePostDirectoryName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1564A0A32BBFE25B0045424B /* UpdatedFavoritePostDirectoryName.swift */; };
@@ -1191,7 +1192,7 @@
 		1540478F2BE4C075009E86FF /* BackgroundTaskManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundTaskManager.swift; sourceTree = "<group>"; };
 		154047922BE4D237009E86FF /* DefaultPostHeartUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultPostHeartUseCaseTests.swift; sourceTree = "<group>"; };
 		154070852C0F0147000C9C42 /* Dependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dependency.swift; sourceTree = "<group>"; };
-		154070872C0F110F000C9C42 /* YeoGaAssembler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YeoGaAssembler.swift; sourceTree = "<group>"; };
+		154070872C0F110F000C9C42 /* AppDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDIContainer.swift; sourceTree = "<group>"; };
 		1540708C2C0F192F000C9C42 /* RepositoryAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryAssembly.swift; sourceTree = "<group>"; };
 		1540708E2C0F1BDA000C9C42 /* CoreAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreAssembly.swift; sourceTree = "<group>"; };
 		154070902C0F33B8000C9C42 /* ServiceName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceName.swift; sourceTree = "<group>"; };
@@ -1201,6 +1202,7 @@
 		1540709F2C0F8B0A000C9C42 /* PresentationAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationAssembly.swift; sourceTree = "<group>"; };
 		154070A12C0F8CC3000C9C42 /* FlowCoordinatorAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowCoordinatorAssembly.swift; sourceTree = "<group>"; };
 		154070A32C0F8F94000C9C42 /* PersistentStorageAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentStorageAssembly.swift; sourceTree = "<group>"; };
+		154070AA2C103D2D000C9C42 /* AppDIContainer+Resolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDIContainer+Resolver.swift"; sourceTree = "<group>"; };
 		1543DC932BC53D4B0041852F /* ReviewWritingThemeSectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWritingThemeSectionHeader.swift; sourceTree = "<group>"; };
 		1543DC952BC53E810041852F /* ReviewWritingThemeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWritingThemeCell.swift; sourceTree = "<group>"; };
 		1543DC972BC56A020041852F /* ReviewCategorySelectCompletionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCategorySelectCompletionView.swift; sourceTree = "<group>"; };
@@ -1685,7 +1687,6 @@
 				15A40D632BCFAEE80045C2C5 /* FirebaseStorageCombine-Community in Frameworks */,
 				1536CC512BC8D5D700EEAE2B /* ActivityIndicator in Frameworks */,
 				15A40D592BCFAEE80045C2C5 /* FirebaseAuth in Frameworks */,
-				154070832C0EE7F4000C9C42 /* Swinject-Dynamic in Frameworks */,
 				15803C4B2BDA1A4600D83F2B /* GoogleSignIn in Frameworks */,
 				151DF0CF2AEE397000D5D55B /* Alamofire in Frameworks */,
 				15A40D612BCFAEE80045C2C5 /* FirebaseStorage in Frameworks */,
@@ -1694,6 +1695,7 @@
 				15A40D5F2BCFAEE80045C2C5 /* FirebaseFirestoreCombine-Community in Frameworks */,
 				135A07D92BB7EEF7003D6C4D /* PhotosUI.framework in Frameworks */,
 				13E913932B0F3ECF00E15B11 /* SnapKit in Frameworks */,
+				1563027D2C10C91E000B496E /* Swinject in Frameworks */,
 				15A40D5D2BCFAEE80045C2C5 /* FirebaseFirestore in Frameworks */,
 				15A40D5B2BCFAEE80045C2C5 /* FirebaseAuthCombine-Community in Frameworks */,
 				151DF0D62AEE3C0700D5D55B /* SHCoordinator in Frameworks */,
@@ -2723,7 +2725,7 @@
 			isa = PBXGroup;
 			children = (
 				154070852C0F0147000C9C42 /* Dependency.swift */,
-				154070872C0F110F000C9C42 /* YeoGaAssembler.swift */,
+				154070872C0F110F000C9C42 /* AppDIContainer.swift */,
 				1540708C2C0F192F000C9C42 /* RepositoryAssembly.swift */,
 				1540708E2C0F1BDA000C9C42 /* CoreAssembly.swift */,
 				154070902C0F33B8000C9C42 /* ServiceName.swift */,
@@ -2733,6 +2735,7 @@
 				1540709F2C0F8B0A000C9C42 /* PresentationAssembly.swift */,
 				154070A12C0F8CC3000C9C42 /* FlowCoordinatorAssembly.swift */,
 				154070A32C0F8F94000C9C42 /* PersistentStorageAssembly.swift */,
+				154070AA2C103D2D000C9C42 /* AppDIContainer+Resolver.swift */,
 			);
 			path = DIContainer;
 			sourceTree = "<group>";
@@ -4425,7 +4428,7 @@
 				154CA5F82BD2C91C0066B444 /* SHFirestoreService */,
 				15803C4A2BDA1A4600D83F2B /* GoogleSignIn */,
 				15C36D9E2C06DD2500673C4B /* AppsFlyerLib */,
-				154070822C0EE7F4000C9C42 /* Swinject-Dynamic */,
+				1563027C2C10C91E000B496E /* Swinject */,
 			);
 			productName = travelPlan;
 			productReference = 1594F52E29FD517E00A58F20 /* travelPlan.app */;
@@ -4472,7 +4475,7 @@
 				154CA5F72BD2C91C0066B444 /* XCRemoteSwiftPackageReference "SHFirestoreService" */,
 				15803C492BDA1A4600D83F2B /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 				15C36D9D2C06DD2500673C4B /* XCRemoteSwiftPackageReference "AppsFlyerFramework" */,
-				154070812C0EE7F4000C9C42 /* XCRemoteSwiftPackageReference "Swinject" */,
+				1563027B2C10C91E000B496E /* XCRemoteSwiftPackageReference "Swinject" */,
 			);
 			productRefGroup = 1594F52F29FD517E00A58F20 /* Products */;
 			projectDirPath = "";
@@ -4715,6 +4718,7 @@
 				1586D3042AB193F7001D4A80 /* Season.swift in Sources */,
 				130CF3732B8F8A040051DEE8 /* LoginAPIEndPoints.swift in Sources */,
 				15B5E7A72BBAE8B800C19F56 /* DefaultUserBlockUseCase.swift in Sources */,
+				154070AB2C103D2D000C9C42 /* AppDIContainer+Resolver.swift in Sources */,
 				13EB3D532BF50A2C00CA84F0 /* CultureFacilityUseCase.swift in Sources */,
 				15B9285B2AF9DEAA003A20D4 /* PostDetailViewController.swift in Sources */,
 				13EB3D162BF0AE2C00CA84F0 /* IntroductionInfoLeportsEntity.swift in Sources */,
@@ -4895,7 +4899,7 @@
 				154070862C0F0147000C9C42 /* Dependency.swift in Sources */,
 				130990BE2C01007600D6E50C /* SearchResultCategoryCell.swift in Sources */,
 				1543DC962BC53E810041852F /* ReviewWritingThemeCell.swift in Sources */,
-				154070882C0F110F000C9C42 /* YeoGaAssembler.swift in Sources */,
+				154070882C0F110F000C9C42 /* AppDIContainer.swift in Sources */,
 				15BE6BD82BAF05F3009A2568 /* PostCommentSendingRequestDTO.swift in Sources */,
 				13AE0DD62BBD271A00652B99 /* AlbumPhotoDetailCoordinator.swift in Sources */,
 				155D0BB52B90D9390042DFB6 /* ReferenceError.swift in Sources */,
@@ -5792,20 +5796,20 @@
 				minimumVersion = 1.1.0;
 			};
 		};
-		154070812C0EE7F4000C9C42 /* XCRemoteSwiftPackageReference "Swinject" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Swinject/Swinject.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.9.1;
-			};
-		};
 		154CA5F72BD2C91C0066B444 /* XCRemoteSwiftPackageReference "SHFirestoreService" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SHcommit/SHFirestoreService.git";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 1.1.2;
+			};
+		};
+		1563027B2C10C91E000B496E /* XCRemoteSwiftPackageReference "Swinject" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Swinject/Swinject.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.9.1;
 			};
 		};
 		15803C492BDA1A4600D83F2B /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
@@ -5855,15 +5859,15 @@
 			package = 1536CC4F2BC8D5D700EEAE2B /* XCRemoteSwiftPackageReference "ActivityIndicator" */;
 			productName = ActivityIndicator;
 		};
-		154070822C0EE7F4000C9C42 /* Swinject-Dynamic */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 154070812C0EE7F4000C9C42 /* XCRemoteSwiftPackageReference "Swinject" */;
-			productName = "Swinject-Dynamic";
-		};
 		154CA5F82BD2C91C0066B444 /* SHFirestoreService */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 154CA5F72BD2C91C0066B444 /* XCRemoteSwiftPackageReference "SHFirestoreService" */;
 			productName = SHFirestoreService;
+		};
+		1563027C2C10C91E000B496E /* Swinject */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1563027B2C10C91E000B496E /* XCRemoteSwiftPackageReference "Swinject" */;
+			productName = Swinject;
 		};
 		15803C4A2BDA1A4600D83F2B /* GoogleSignIn */ = {
 			isa = XCSwiftPackageProductDependency;
