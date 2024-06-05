@@ -10,17 +10,19 @@ import SnapKit
 
 final class SearchDestinationTitleCell: UICollectionViewCell {
   // MARK: - Properties
-  static let id = String.init(describing: SearchDestinationTitleCell.self)
+  static var id: String {
+    return String.init(describing: SearchDestinationTitleCell.self)
+  }
   
   private let titleLabel = UILabel().set {
     $0.font = .init(pretendard: .medium_500(fontSize: 22))
     $0.textColor = .yg.gray7
-    $0.text = "타이틀타이틀타이틀타이틀타이틀타이틀타이틀타이틀타이틀타이틀타이틀타이틀타이틀타이틀타이틀타이틀타이틀"
+    $0.text = "타이틀"
     $0.numberOfLines = 0
   }
 
   private let addressLabel = UILabel().set {
-    $0.text = "주주소주주소주주소주주소주주소주주소주주소주주소주주소주주소주주소"
+    $0.text = "주소"
     $0.font = .init(pretendard: .regular_400(fontSize: 13))
     $0.textColor = .yg.gray6
   }
@@ -63,8 +65,8 @@ final class SearchDestinationTitleCell: UICollectionViewCell {
     $0.textColor = .yg.gray6
     $0.font = .init(pretendard: .regular_400(fontSize: 14))
   }
-
-//  private let shadowLayer = CALayer()
+  
+  private var isConfigured = false
   
   // MARK: - LifeCycle
   override init(frame: CGRect) {
@@ -80,6 +82,14 @@ final class SearchDestinationTitleCell: UICollectionViewCell {
   override func prepareForReuse() {
     super.prepareForReuse()
     heartButton.isSelected = false
+  }
+  
+  override func layoutSubviews() {
+    super.layoutSubviews()
+    if isConfigured {
+      setupStyles()
+      isConfigured.toggle()
+    }
   }
 }
 
@@ -102,7 +112,7 @@ extension SearchDestinationTitleCell: LayoutSupport {
   }
   
   func setConstraints() {
-    setupContentCompressionResistancePriorities()
+    addressLabel.setContentCompressionResistancePriority(.fittingSizeLevel, for: .horizontal)
     
     titleLabel.snp.makeConstraints {
       $0.top.equalToSuperview().inset(20)
@@ -141,6 +151,8 @@ extension SearchDestinationTitleCell {
     titleLabel.text = mainInfo.title
     addressLabel.text = mainInfo.address
     heartButton.isSelected = mainInfo.isSelectedHeart
+    
+    self.isConfigured = true
   }
   
   func updateToggleButtonVisibility() {
@@ -157,14 +169,16 @@ extension SearchDestinationTitleCell {
 
 // MARK: - Private Helpers
 extension SearchDestinationTitleCell {
-  private func setupContentCompressionResistancePriorities() {
-//    titleLabel.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
-    addressLabel.setContentCompressionResistancePriority(.fittingSizeLevel, for: .horizontal)
-  }
-  
   private func setupStyles() {
-    contentView.layer.cornerRadius = 20
-    contentView.backgroundColor = .black.withAlphaComponent(0.1)
+    contentView.backgroundColor = .white
+    contentView.layer.shadowPath = UIBezierPath(
+      roundedRect: CGRect(x: bounds.origin.x, y: bounds.origin.y, width: bounds.width, height: bounds.height),
+      cornerRadius: 40
+    ).cgPath
+    contentView.layer.shadowColor = UIColor.black.withAlphaComponent(0.5).cgColor
+    contentView.layer.cornerRadius = 40
+    contentView.layer.shadowOpacity = 0.4
+    contentView.layer.shadowOffset = .init(width: 0, height: 1)
   }
 }
 
