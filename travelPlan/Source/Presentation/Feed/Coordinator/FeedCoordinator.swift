@@ -50,7 +50,7 @@ final class FeedCoordinator: FlowCoordinator {
   
   private weak var viewController: FeedViewController?
   
-  init(presenter: UINavigationController?, dependencies: FeedCoordinatorDependencies = AppDIContainer.shared) {
+  init(presenter: UINavigationController?, dependencies: FeedCoordinatorDependencies) {
     self.presenter = presenter
     self.dependencies = dependencies
   }
