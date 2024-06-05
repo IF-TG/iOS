@@ -33,6 +33,7 @@ final class AppDIContainer {
   }
 }
 
+// MARK: - AppCoordinatorDependencies
 extension AppDIContainer: AppCoordinatorDependencies {
   func makeMainCoordinator() -> MainCoordinator {
     return resolve(MainCoordinator.self)!
