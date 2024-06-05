@@ -39,17 +39,22 @@ protocol MainCoordinatorDelegate: AnyObject {
 final class MainCoordinator: FlowCoordinator {
   // MARK: - Properties
   var parent: FlowCoordinator?
+  
   var child: [FlowCoordinator] = []
+  
   let presenter: UINavigationController? = nil
-  private let mainTabBarPresenter: MainTabBarController
+  
+  private(set) var tabBarController: MainTabBarController
   
   private var dependencies: MainCoordinatorDependencies
   
-  init(mainTabBarViewController: MainTabBarController, dependencies: MainCoordinatorDependencies) {
-    self.mainTabBarPresenter = mainTabBarViewController
+  // MARK: - Life cycle
+  init(tabBarController: MainTabBarController, dependencies: MainCoordinatorDependencies) {
+    self.tabBarController = tabBarController
     self.dependencies = dependencies
-    mainTabBarPresenter.coordinator = self
+    tabBarController.coordinator = self
   }
+  
   // MARK: - Helpers
   func start() {
     let feed = dependencies.makeFeedCoordinator(presenter: UINavigationController())
@@ -64,8 +69,8 @@ final class MainCoordinator: FlowCoordinator {
     addChild(with: favorite)
     addChild(with: setting)
     
-    mainTabBarPresenter.viewControllers = child.compactMap { $0.presenter }
-    mainTabBarPresenter.setTabBarIcon()
+    tabBarController.viewControllers = child.compactMap { $0.presenter }
+    tabBarController.setTabBarIcon()
   }
 }
 
@@ -80,7 +85,7 @@ extension MainCoordinator: MainCoordinatorDelegate {
   }
   
   func showFeed() {
-    mainTabBarPresenter.selectedIndex = 0
+    tabBarController.selectedIndex = 0
   }
 }
 

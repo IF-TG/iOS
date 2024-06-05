@@ -22,6 +22,9 @@ final class PresentationAssembly: Assembly {
     // TODO: - Album Page
     
     // TODO: - Main Page
+    container.register(MainTabBarController.self) { _ in
+      MainTabBarController()
+    }
     
     // TODO: - Setting Page
     

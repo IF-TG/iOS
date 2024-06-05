@@ -39,7 +39,11 @@ final class FlowCoordinatorAssembly: Assembly {
     
     // TODO: - Album Page
     
-    // TODO: - Main Flow Coordinator
+    // MARK: - Main Flow Coordinator
+    container.register(MainCoordinator.self) { r in
+      let tabBarController = r.resolve(MainTabBarController.self)!
+      return MainCoordinator(tabBarController: tabBarController, dependencies: appDIContainer)
+    }
     
     // FIXME: - Setting Flow Coordinator.
     container.register(SettingCoordinator.self) { (_, presenter: UINavigationController) in

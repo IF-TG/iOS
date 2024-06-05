@@ -8,6 +8,11 @@
 import UIKit
 import SHCoordinator
 
+protocol ApplicationDependencies {
+  func makeMainCoordinator() -> MainCoordinator
+  func makeLoginCoordinator() -> LoginCoordinator
+}
+
 final class ApplicationCoordinator: FlowCoordinator {
   // MARK: - Properties
   var parent: FlowCoordinator?
@@ -19,7 +24,7 @@ final class ApplicationCoordinator: FlowCoordinator {
       storage: UserDefaultsOwnerStorage()))
   private let window: UIWindow
   
-  private let appDIContainer: AppDIContainer
+  private let dependencies: ApplicationDependencies
   
   private var isSignIn: Bool {
     return true
@@ -30,9 +35,9 @@ final class ApplicationCoordinator: FlowCoordinator {
 // return true
   }
   
-  init(window: UIWindow, appDIContainer: AppDIContainer) {
+  init(window: UIWindow, dependencies: ApplicationDependencies) {
     self.window = window
-    self.appDIContainer = appDIContainer
+    self.dependencies = dependencies
   }
   
   func start() {
@@ -59,7 +64,7 @@ extension ApplicationCoordinator {
   /// 1. MainCoordinator에서 login으로 가야할 때는 MainCoordinator를 삭제해야합니다.
   /// 2. app에서 시작될 때는 삭제해야할 prev coordinator가 없음으로 그냥 window에 등록합니다.
   func gotoLoginPage(withDelete prevCoordinator: MainCoordinator? = nil, alertMessage: String? = nil) {
-    let loginCoordinator = LoginCoordinator(presenter: .init())
+    let loginCoordinator = dependencies.makeLoginCoordinator()
     window.rootViewController = nil
     window.rootViewController = loginCoordinator.presenter
     addChild(with: loginCoordinator)
@@ -67,11 +72,9 @@ extension ApplicationCoordinator {
   }
   
   func gotoMainTapFeedPage(withDelete prevCoordinator: LoginCoordinator? = nil) {
-    let mainTabBarController = MainTabBarController()
-    let mainCoordinator = MainCoordinator(
-      mainTabBarViewController: mainTabBarController)
+    let mainCoordinator = dependencies.makeMainCoordinator()
     window.rootViewController = nil
-    window.rootViewController = mainCoordinator.mainTabBarPresenter
+    window.rootViewController = mainCoordinator.tabBarController
     addChild(with: mainCoordinator)
     prevCoordinator?.finish()
   }
