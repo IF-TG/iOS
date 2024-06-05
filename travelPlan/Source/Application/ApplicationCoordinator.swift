@@ -16,12 +16,17 @@ protocol AppCoordinatorDependencies {
 final class ApplicationCoordinator: FlowCoordinator {
   // MARK: - Properties
   var parent: FlowCoordinator?
+  
   var child: [FlowCoordinator] = []
+  
   var presenter: UINavigationController?
+  
   var viewController: UIViewController?
+  
   private let loggedInOwnerManager = DefaultLoggedInUserUseCase(
     loggedInUserRepository: DefaultLoggedInUserRepository(
       storage: UserDefaultsOwnerStorage()))
+  
   private let window: UIWindow
   
   private let dependencies: AppCoordinatorDependencies
@@ -35,11 +40,13 @@ final class ApplicationCoordinator: FlowCoordinator {
 // return true
   }
   
+  // MARK: - Life clcye
   init(window: UIWindow, dependencies: AppCoordinatorDependencies) {
     self.window = window
     self.dependencies = dependencies
   }
   
+  // MARK: - Helpers
   func start() {
     // 루트 코디네이터는 parent가 nil 입니다.
     parent = nil
