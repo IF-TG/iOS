@@ -47,6 +47,15 @@ public extension Container {
     return _register(serviceType, factory: factory, name: name?.rawValue)
   }
   
+  @discardableResult
+  @inline(__always)
+  func register<Service>(
+    _ serviceType: Service.Type,
+    factory: @escaping (Resolver) -> Service
+  ) -> ServiceEntry<Service> {
+    return _register(serviceType, factory: factory, name: nil)
+  }
+  
   /// Container에 a service resolve
   ///
   /// - Parameters:
@@ -57,4 +66,3 @@ public extension Container {
     return resolve(Service.self, name: name?.rawValue)
   }
 }
-
