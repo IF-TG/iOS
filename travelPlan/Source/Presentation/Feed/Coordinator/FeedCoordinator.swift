@@ -8,6 +8,22 @@
 import UIKit
 import SHCoordinator
 
+protocol FeedCoordinatorDependencies {
+  /// 내부적으로 pageView들을 만듭니다.
+  func makeFeedViewController() -> FeedViewController
+  func makePostDetailCoordinator(
+    presenter: UINavigationController?,
+    post: Post?,
+    postId: Int32
+  ) -> PostDetailCoordinator
+  func makePostSearchCoordinator(presenter: UINavigationController?) -> PostSearchCoordinator
+  func makeNotificationCoordinator(presenter: UINavigationController?) -> NotificationCenterCoordinator
+  func makeReviewWritingCoordinator(
+    presenter: UINavigationController?,
+    mode: ReviewWritingMode
+  ) -> ReviewWritingCoordinator
+}
+
 protocol FeedPostCoordinatorDelegate: AnyObject {
   func showDetailPost(post: Post, blockedPost: @escaping (Int32) -> Void)
   func showPostShare(with activityItems: [Any])
@@ -25,68 +41,35 @@ protocol FeedCoordinatorDelegate: FlowCoordinatorDelegate {
 final class FeedCoordinator: FlowCoordinator {
   // MARK: - Properties
   var parent: FlowCoordinator?
+  
   var child: [FlowCoordinator] = []
+  
   var presenter: UINavigationController?
+  
+  private let dependencies: FeedCoordinatorDependencies
   
   private weak var viewController: FeedViewController?
   
-  init(presenter: UINavigationController?) {
+  init(presenter: UINavigationController?, dependencies: FeedCoordinatorDependencies = AppDIContainer.shared) {
     self.presenter = presenter
+    self.dependencies = dependencies
   }
   
   // MARK: - Helpers
   func start() {
-    let concurrentBackgroundQueue = DispatchQueue(
-      label: "backgroundQueue",
-      qos: .userInitiated,
-      attributes: .concurrent)
-    let feedViewModel = FeedViewModel(backgroundQueue: concurrentBackgroundQueue)
-    let categoryPageViewModel = CategoryPageViewModel()
-    let pageViews = makeFeedPageViews(with: categoryPageViewModel)
-    let vc = FeedViewController(
-      viewModel: feedViewModel,
-      categoryPageViewModel: categoryPageViewModel, 
-      pageViews: pageViews)
-    viewController = vc
-    vc.coordinator = self
-    presenter?.pushViewController(vc, animated: true)
+    let feedViewController = dependencies.makeFeedViewController()
+    viewController = feedViewController
+    feedViewController.coordinator = self
+    presenter?.pushViewController(feedViewController, animated: true)
   }
-  
-  private func makeFeedPageViews(
-    with categoryPageViewModel: CategoryPageViewDataSource
-  ) -> [UIViewController] {
-    return (0..<categoryPageViewModel.numberOfItems).map {
-      let feedCategory = categoryPageViewModel.postSearchFilterItem(at: $0)
-      if $0 + 1 == categoryPageViewModel.numberOfItems {
-        return DevelopmentViewController()
-      }
-      
-      var viewModel: FeedPostViewModel
-      
-      #if DEBUG
-      let mockPostFetchUseCase = MockPostFetchUseCase()
-      viewModel = FeedPostViewModel(postCategory: feedCategory, postFetchUsecase: mockPostFetchUseCase)
-      #else
-      let service = SessionProvider()
-      let ownerStroage = OwnerStorage()
-      let defaultLoggedInUserRepository = DefaultLoggedInUserRepository(storage: ownerStorage)
-      let defaultPostRepository = DefaultPostRepository(
-        service: service,
-        loggedInUserRepository: defaultLoggedInUserRepository)
-      let defaultPostFetchUseCase = DefaultPostFetchUseCase(postRepository: defaultPostRepository)
-      viewModel = FeedPostViewModel(
-        postCategory: feedCategory,
-        postFetchUseCase: defaultPostFetchUseCase)
-      #endif
-      return FeedPostViewController(type: feedCategory, viewModel: viewModel)
-        .set { $0.coordinator = self }
-    }
-  }
-  
+    
   func showPostDetailFromUniversalLink(with postId: Int32) {
     /// 사용자가 공유하기로 포스트 상세화면을 들어갈 경우
     ///   차단하기 로직 실행시 메인 화면으로 전환시 해당 포스트가 존재하지 않기에, childCoordinator's blockedPost를 호출하지 않습니다.
-    let childCoordinator = PostDetailCoordinator(presenter: presenter, post: nil, postId: postId)
+    let childCoordinator = dependencies.makePostDetailCoordinator(
+      presenter: presenter,
+      post: nil,
+      postId: postId)
     addChild(with: childCoordinator)
   }
   
@@ -105,10 +88,11 @@ final class FeedCoordinator: FlowCoordinator {
 // MARK: - FeedPostCoordinatorDelegate
 extension FeedCoordinator: FeedPostCoordinatorDelegate {
   func showDetailPost(post: Post, blockedPost: @escaping (Int32) -> Void) {
-    let childCoordinator = PostDetailCoordinator(
+    let childCoordinator = dependencies.makePostDetailCoordinator(
       presenter: presenter,
       post: post,
       postId: Int32(post.detail.postID)!)
+    
     childCoordinator.blockedPost = { blockedPostId in
       blockedPost(blockedPostId)
     }
@@ -127,12 +111,12 @@ extension FeedCoordinator: FeedPostCoordinatorDelegate {
 // MARK: - FeedCoordinatorDelegate
 extension FeedCoordinator: FeedCoordinatorDelegate {  
   func showPostSearch() {
-    let childCoordinator = PostSearchCoordinator(presenter: presenter)
+    let childCoordinator = dependencies.makePostSearchCoordinator(presenter: presenter)
     addChild(with: childCoordinator)
   }
   
   func showNotification() {
-    let childCoordinator = NotificationCenterCoordinator(presenter: presenter)
+    let childCoordinator = dependencies.makeNotificationCoordinator(presenter: presenter)
     addChild(with: childCoordinator)
   }
   
@@ -154,7 +138,7 @@ extension FeedCoordinator: FeedCoordinatorDelegate {
   }
   
   func showReviewWrite() {
-    let reviewWritingCoordinator = ReviewWritingCoordinator(presenter: presenter, mode: .new)
+    let reviewWritingCoordinator = dependencies.makeReviewWritingCoordinator(presenter: presenter, mode: .new)
     addChild(with: reviewWritingCoordinator)
   }
 }

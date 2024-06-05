@@ -19,6 +19,8 @@ final class ApplicationCoordinator: FlowCoordinator {
       storage: UserDefaultsOwnerStorage()))
   private let window: UIWindow
   
+  private let appDIContainer: AppDIContainer
+  
   private var isSignIn: Bool {
     return true
 //    로그인 할 경우 이를 통해 사용자가 로그인했는지 여부를 확인해야합니다.
@@ -28,8 +30,9 @@ final class ApplicationCoordinator: FlowCoordinator {
 // return true
   }
   
-  init(window: UIWindow) {
+  init(window: UIWindow, appDIContainer: AppDIContainer) {
     self.window = window
+    self.appDIContainer = appDIContainer
   }
   
   func start() {
