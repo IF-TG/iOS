@@ -13,15 +13,17 @@ final class Dependency<Value> {
   // MARK: - Properties
   private var value: Value?
   private let engine: Assembler
+  private let name: ServiceName?
   
   // MARK: - Lifecycle
-  init(value: Value? = nil, engine: Assembler) {
+  init(value: Value? = nil, engine: Assembler, name: ServiceName? = nil) {
     self.value = value
     self.engine = engine
+    self.name = name
   }
   
-  convenience init() {
-    self.init(engine: YeoGaAssembler.default.assembler)
+  convenience init(name: ServiceName? = nil) {
+    self.init(engine: YeoGaAssembler.default.assembler,name: name)
   }
   
   // MARK: - Wrapped
@@ -30,7 +32,7 @@ final class Dependency<Value> {
       if let value {
         return value
       }
-      if let value: Value = engine.resolver.resolve(Value.self) {
+      if let value: Value = engine.resolver.resolve(Value.self, name: name) {
         self.value = value
         return value
       }
