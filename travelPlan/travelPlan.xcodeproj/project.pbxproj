@@ -2746,6 +2746,7 @@
 		1540708A2C0F159D000C9C42 /* Application */ = {
 			isa = PBXGroup;
 			children = (
+				1503F92A2A4E068E002BC38D /* ApplicationCoordinator.swift */,
 				1594F53129FD517E00A58F20 /* AppDelegate.swift */,
 				1594F53329FD517E00A58F20 /* SceneDelegate.swift */,
 				15C36DA02C06E2E700673C4B /* AppDelegate+AppsFlyerHelpers.swift */,
@@ -3364,7 +3365,6 @@
 		1594F54629FD526900A58F20 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
-				1503F92A2A4E068E002BC38D /* ApplicationCoordinator.swift */,
 				1594A44F2C0596A100428D41 /* Share */,
 				15BB01B02A1EB4CF0035B486 /* Login */,
 				1546DF1A2B0A6CE700B49A55 /* PostDetail */,
