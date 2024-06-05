@@ -14,6 +14,7 @@ final class FirestorePostNestedCommentHeartRepository {
   
   // MARK: - Dependencies
   private let service: FirestoreServiceProtocol
+  
   private let backgroundQueue: DispatchQueue
   
   // MARK: - Properties

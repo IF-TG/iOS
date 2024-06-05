@@ -13,9 +13,11 @@ final class FirestoreUserProfileRepository {
   typealias Endpoint = FirestoreUserProfileAPIEndpoint
   
   // MARK: - Dependencies
-  private let backgroundQueue: DispatchQueue
   private let service: FirestoreServiceProtocol
+  
   private let firebaseStorageService: ImageStorageServiceProtocol
+  
+  private let backgroundQueue: DispatchQueue
   
   // MARK: - Properties
   private var subscriptions = Set<AnyCancellable?>()
