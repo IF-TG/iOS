@@ -8,7 +8,7 @@
 import UIKit
 import SHCoordinator
 
-protocol ApplicationDependencies {
+protocol AppCoordinatorDependencies {
   func makeMainCoordinator() -> MainCoordinator
   func makeLoginCoordinator() -> LoginCoordinator
 }
@@ -24,7 +24,7 @@ final class ApplicationCoordinator: FlowCoordinator {
       storage: UserDefaultsOwnerStorage()))
   private let window: UIWindow
   
-  private let dependencies: ApplicationDependencies
+  private let dependencies: AppCoordinatorDependencies
   
   private var isSignIn: Bool {
     return true
@@ -35,7 +35,7 @@ final class ApplicationCoordinator: FlowCoordinator {
 // return true
   }
   
-  init(window: UIWindow, dependencies: ApplicationDependencies) {
+  init(window: UIWindow, dependencies: AppCoordinatorDependencies) {
     self.window = window
     self.dependencies = dependencies
   }

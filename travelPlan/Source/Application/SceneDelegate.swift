@@ -21,7 +21,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     let window = UIWindow(windowScene: windowScene)
     let appDIContainer = AppDIContainer.shared
     
-    appCoordinator = ApplicationCoordinator(window: window, appDIContainer: appDIContainer)
+    appCoordinator = ApplicationCoordinator(window: window, dependencies: appDIContainer)
     appCoordinator?.start()
     window.makeKeyAndVisible()
     

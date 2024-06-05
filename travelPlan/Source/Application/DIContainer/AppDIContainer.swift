@@ -33,6 +33,16 @@ final class AppDIContainer {
   }
 }
 
+extension AppDIContainer: AppCoordinatorDependencies {
+  func makeMainCoordinator() -> MainCoordinator {
+    return resolve(MainCoordinator.self)!
+  }
+  
+  func makeLoginCoordinator() -> LoginCoordinator {
+    return resolve(LoginCoordinator.self)!
+  }
+}
+
 // MARK: - MainCoordinatorDependencies
 extension AppDIContainer: MainCoordinatorDependencies {
   func makeFeedCoordinator(presenter: UINavigationController) -> FeedCoordinator {
