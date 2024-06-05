@@ -18,8 +18,8 @@ final class MockPostFetchUseCase: PostFetchUseCase {
                     likes: 0, comments: 0, location: .init(x: 0, y: 0),
                     createAt: Date(), tripDate: .init(startDate: .init(), endDate: .init())),
       author: .init(profileImageData: nil, nickname: "여행자", authorId: "111"),
-      highResolveImages: mockPost.highResolveImages, category: 
-          .init(themes: [], regions: [], seasons: [], partners: [.lover]))
+      highResolveImages: mockPost.highResolveImages, 
+      category: .init(themes: [], regions: [], seasons: [], partners: [.lover]))
     ).setAnyErrorAndEraseToAnyPublisher()
   }
   

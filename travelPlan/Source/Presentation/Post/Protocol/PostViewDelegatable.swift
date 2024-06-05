@@ -11,4 +11,4 @@ protocol PostViewDelegatable: AnyObject {
   var postViewDelegate: PostViewDelegate? { get set }
 }
 
-typealias BasePostCell = UICollectionViewCell & PostViewDelegatable
+typealias BasePostCell = UICollectionViewCell & PostViewDelegatable & PostCellLayouter

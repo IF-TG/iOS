@@ -9,38 +9,16 @@ import UIKit
 
 extension PostDetailViewController {
   func registerReusableViews() {
-    tableView.register(
-      PostDetailCategoryHeaderView.self,
-      forHeaderFooterViewReuseIdentifier: PostDetailCategoryHeaderView.id)
-    tableView.register(
-      PostDetailTitleCell.self,
-      forCellReuseIdentifier: PostDetailTitleCell.id)
-    tableView.register(
-      PostDetailProfileAreaFooterView.self,
-      forHeaderFooterViewReuseIdentifier: PostDetailProfileAreaFooterView.id)
-    
-    tableView.register(
-      PostDetailContentTextCell.self,
-      forCellReuseIdentifier: PostDetailContentTextCell.id)
-    tableView.register(
-      PostDetailContentImageCell.self,
-      forCellReuseIdentifier: PostDetailContentImageCell.id)
-    tableView.register(
-      PostDetailContentFooterView.self,
-      forHeaderFooterViewReuseIdentifier: PostDetailContentFooterView.id)
-    tableView.register(
-      PostHeartAndShareAreaHeaderView.self,
-      forHeaderFooterViewReuseIdentifier: PostHeartAndShareAreaHeaderView.id)
-    
-    tableView.register(
-      PostDetailDeletedOrUnknwonCommentHeader.self,
-      forHeaderFooterViewReuseIdentifier: PostDetailDeletedOrUnknwonCommentHeader.id)
-    tableView.register(
-      PostDetailCommentHeader.self,
-      forHeaderFooterViewReuseIdentifier: PostDetailCommentHeader.id)
-    tableView.register(
-      PostDetailReplyCell.self,
-      forCellReuseIdentifier: PostDetailReplyCell.id)
+    tableView.register(type: PostDetailCategoryHeaderView.self)
+    tableView.register(type: PostDetailTitleCell.self)
+    tableView.register(type: PostDetailProfileAreaFooterView.self)
+    tableView.register(type: PostDetailContentTextCell.self)
+    tableView.register(type: PostDetailContentImageCell.self)
+    tableView.register(type: PostDetailContentFooterView.self)
+    tableView.register(type: PostHeartAndShareAreaHeaderView.self)
+    tableView.register(type: PostDetailDeletedOrUnknwonCommentHeader.self)
+    tableView.register(type: PostDetailCommentHeader.self)
+    tableView.register(type: PostDetailReplyCell.self)
   }
   
   func setTableView() {

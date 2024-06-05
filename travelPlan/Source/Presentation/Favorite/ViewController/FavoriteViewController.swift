@@ -64,12 +64,8 @@ class FavoriteViewController: UIViewController {
     $0.sectionHeaderHeight = Constant.itemHeight
     $0.backgroundColor = .white
     $0.bounces = false
-    $0.register(
-      FavoriteTableViewCell.self,
-      forCellReuseIdentifier: FavoriteTableViewCell.id)
-    $0.register(
-      FavoriteHeaderView.self,
-      forHeaderFooterViewReuseIdentifier: FavoriteHeaderView.id)
+    $0.register(type: FavoriteTableViewCell.self)
+    $0.register(type: FavoriteHeaderView.self)
   }
   
   private let navigationBarDivider = UIView(frame: .zero).set {

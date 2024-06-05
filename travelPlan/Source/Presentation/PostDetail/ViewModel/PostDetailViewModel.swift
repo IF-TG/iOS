@@ -404,7 +404,7 @@ extension PostDetailViewModel: PostDetailTableViewDataSource {
   }
   
   var numberOfSections: Int {
-    guard let postDetails else { return 0 }
+    if postDetails == nil { return 0 }
     return SectionType.defaultNumberOfSections
   }
   
@@ -427,7 +427,7 @@ extension PostDetailViewModel: PostDetailTableViewDataSource {
 // MARK: - ReviewWritingPostReceivable
 extension PostDetailViewModel: ReviewWritingPostReceivable {
   func receive(post: Post?) {
-    // TODO: - 편집한 리뷰작성 Post를 기반으로 화면을 갱신해야 합니다.
+    // MARK: - 편집한 리뷰작성 Post를 기반으로 화면을 갱신해야 합니다.
     // 이 아래꺼로 새로 작성된 post를 postDetails로 반영하고 reloadData 해주면 됩니다.
     // self.postDetails = PostMapper.toPostDetails(post, category: category)
     
@@ -437,7 +437,8 @@ extension PostDetailViewModel: ReviewWritingPostReceivable {
       // MARK: - firestore를 통해서 업로드한 것임으로 postId에서 데이터 받아와야합니다.
       // 받아온 후에 아래 로직으로 호출!
       // self.postDetails = PostMapper.toPostDetails(post, category: category)
-    } else if let post = post {
+    } else if  post != nil {
+      // MARK: - 이거 위 분기처리 let post = post 이거로 해야합니다. 지금 switlint준수하려구 이렇게 임시 적으로 했습니다.
       // self.postDetails = PostMapper.toPostDetails(post, category: category)
     }
   }

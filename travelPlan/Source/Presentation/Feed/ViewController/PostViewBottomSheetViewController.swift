@@ -37,9 +37,7 @@ final class PostViewBottomSheetViewController: UIViewController {
   }
   private let categoryView = UITableView(frame: .zero).set {
     $0.translatesAutoresizingMaskIntoConstraints = false
-    $0.register(
-      PostViewBottomSheetCell.self,
-      forCellReuseIdentifier: PostViewBottomSheetCell.id)
+    $0.register(type: PostViewBottomSheetCell.self)
     $0.rowHeight = Constants.CategoryView.cellSize.height
   }
   
