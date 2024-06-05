@@ -10,7 +10,7 @@ import SHCoordinator
 
 protocol FeedCoordinatorDependencies {
   /// 내부적으로 pageView들을 만듭니다.
-  func makeFeedViewController() -> FeedViewController
+  func makeFeedViewController(with coordinator: FeedCoordinator) -> FeedViewController
   func makePostDetailCoordinator(
     presenter: UINavigationController?,
     post: Post?,
@@ -57,9 +57,8 @@ final class FeedCoordinator: FlowCoordinator {
   
   // MARK: - Helpers
   func start() {
-    let feedViewController = dependencies.makeFeedViewController()
+    let feedViewController = dependencies.makeFeedViewController(with: self)
     viewController = feedViewController
-    feedViewController.coordinator = self
     presenter?.pushViewController(feedViewController, animated: true)
   }
     

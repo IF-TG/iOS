@@ -34,11 +34,17 @@ final class AppDIContainer {
 
 // MARK: - FeedCoordinatorDependencies
 extension AppDIContainer: FeedCoordinatorDependencies {
-  func makeFeedViewController() -> FeedViewController {
+  func makeFeedViewController(with coordinator: FeedCoordinator) -> FeedViewController {
     #if DEBUG
-    return resolver.resolve(FeedViewController.self, name: .testDouble(.mock))!
+    return resolver.resolve(
+      FeedViewController.self,
+      name: .testDouble(.mock),
+      argument: coordinator)!
     #else
-    return resolver.resolve(FeedViewController.self, name: .implementation(.default))!
+    return resolver.resolve(
+      FeedViewController.self,
+      name: .implementation(.default),
+      argument: coordinator)!
     #endif
   }
   

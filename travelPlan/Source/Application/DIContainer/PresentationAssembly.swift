@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SHCoordinator
 import Swinject
 
 final class PresentationAssembly: Assembly {
@@ -75,7 +76,7 @@ final class PresentationAssembly: Assembly {
       return FeedPostViewModel(postCategory: feedCategory, postFetchUsecase: mockPostFetchUseCase)
     }
     
-    container.register([UIViewController].self, name: "DefaultFeedPageViews") { r in
+    container.register([UIViewController].self, name: "DefaultFeedPageViews") { (r, coordinator: FeedCoordinator) in
       let categoryPageViewModel = r.resolve(CategoryPageViewDataSource.self)!
       return (0..<categoryPageViewModel.numberOfItems).map {
         let feedCategory = categoryPageViewModel.postSearchFilterItem(at: $0)
@@ -86,11 +87,16 @@ final class PresentationAssembly: Assembly {
           (any FeedPostViewModelable & FeedPostViewAdapterDataSource).self,
           name: .implementation(.default),
           argument: feedCategory)!
-        return FeedPostViewController(type: feedCategory, viewModel: feedPostViewModel)
+        return FeedPostViewController(
+          type: feedCategory,
+          viewModel: feedPostViewModel
+        ).set {
+          $0.coordinator = coordinator
+        }
       }
     }
     
-    container.register([UIViewController].self, name: "MockFeedPageViews") { r in
+    container.register([UIViewController].self, name: "MockFeedPageViews") { (r, coordinator: FeedCoordinator) in
       let categoryPageViewModel = r.resolve(CategoryPageViewDataSource.self)!
       return (0..<categoryPageViewModel.numberOfItems).map {
         let feedCategory = categoryPageViewModel.postSearchFilterItem(at: $0)
@@ -101,28 +107,45 @@ final class PresentationAssembly: Assembly {
           (any FeedPostViewModelable & FeedPostViewAdapterDataSource).self,
           name: .testDouble(.mock),
           argument: feedCategory)!
-        return FeedPostViewController(type: feedCategory, viewModel: feedPostViewModel)
+        return FeedPostViewController(
+          type: feedCategory,
+          viewModel: feedPostViewModel
+        ).set {
+          $0.coordinator = coordinator
+        }
       }
     }
     
-    container.register(FeedViewController.self, name: .implementation(.default)) { r in
-      let defaultPageViews = r.resolve([UIViewController].self, name: "DefaultFeedPageViews")!
+    container.register(FeedViewController.self, name: .implementation(.default)) { (r, coordinator: FeedCoordinator) in
+      let defaultPageViews = r.resolve(
+        [UIViewController].self,
+        name: "DefaultFeedPageViews",
+        argument: coordinator)!
       let feedViewModel = r.resolve((any FeedViewModelable).self)!
       let categoryPageViewModel = r.resolve(CategoryPageViewDataSource.self)!
       return FeedViewController(
         viewModel: feedViewModel,
         categoryPageViewModel: categoryPageViewModel,
-        pageViews: defaultPageViews)
+        pageViews: defaultPageViews
+      ).set {
+        $0.coordinator = coordinator
+      }
     }
     
-    container.register(FeedViewController.self, name: .testDouble(.mock)) { r in
-      let mockPageViews = r.resolve([UIViewController].self, name: "MockFeedPageViews")!
+    container.register(FeedViewController.self, name: .testDouble(.mock)) { (r, coordinator: FeedCoordinator) in
+      let mockPageViews = r.resolve(
+        [UIViewController].self,
+        name: "MockFeedPageViews",
+        argument: coordinator)!
       let feedViewModel = r.resolve((any FeedViewModelable).self)!
       let categoryPageViewModel = r.resolve(CategoryPageViewDataSource.self)!
       return FeedViewController(
         viewModel: feedViewModel,
         categoryPageViewModel: categoryPageViewModel,
-        pageViews: mockPageViews)
+        pageViews: mockPageViews
+      ).set {
+        $0.coordinator = coordinator
+      }
     }
   }
 }
