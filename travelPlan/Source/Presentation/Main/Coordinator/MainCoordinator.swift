@@ -8,6 +8,28 @@
 import UIKit
 import SHCoordinator
 
+protocol MainCoordinatorDependencies {
+  func makeFeedCoordinator(
+    presenter: UINavigationController
+  ) -> FeedCoordinator
+  
+  func makeSearchCoordinator(
+    presenter: UINavigationController
+  ) -> SearchCoordinator
+  
+  func makePlanCoordinator(
+    persenter: UINavigationController
+  ) -> PlanCoordinator
+  
+  func makeFavoriteCoordinator(
+    presenter: UINavigationController
+  ) -> FavoriteCoordinator
+  
+  func makeSettingCoordinator(
+    presenter: UINavigationController
+  ) -> SettingCoordinator
+}
+
 protocol MainCoordinatorDelegate: AnyObject {
   func finish()
   func showLogin()
@@ -19,25 +41,28 @@ final class MainCoordinator: FlowCoordinator {
   var parent: FlowCoordinator?
   var child: [FlowCoordinator] = []
   let presenter: UINavigationController? = nil
-  let mainTabBarPresenter: MainTabBarController
+  private let mainTabBarPresenter: MainTabBarController
   
-  init(mainTabBarViewController: MainTabBarController) {
+  private var dependencies: MainCoordinatorDependencies
+  
+  init(mainTabBarViewController: MainTabBarController, dependencies: MainCoordinatorDependencies) {
     self.mainTabBarPresenter = mainTabBarViewController
+    self.dependencies = dependencies
     mainTabBarPresenter.coordinator = self
   }
   // MARK: - Helpers
   func start() {
-    let feed = FeedCoordinator(presenter: UINavigationController())
-    let search = SearchCoordinator(presenter: UINavigationController())
-    let plan = PlanCoordinator(presenter: UINavigationController())
-    let favorite = FavoriteCoordinator(presenter: UINavigationController())
-    let profile = SettingCoordinator(presenter: UINavigationController())
+    let feed = dependencies.makeFeedCoordinator(presenter: UINavigationController())
+    let search = dependencies.makeSearchCoordinator(presenter: UINavigationController())
+    let plan = dependencies.makePlanCoordinator(persenter: UINavigationController())
+    let favorite = dependencies.makeFavoriteCoordinator(presenter: UINavigationController())
+    let setting = dependencies.makeSettingCoordinator(presenter: UINavigationController())
     
     addChild(with: feed)
     addChild(with: search)
     addChild(with: plan)
     addChild(with: favorite)
-    addChild(with: profile)
+    addChild(with: setting)
     
     mainTabBarPresenter.viewControllers = child.compactMap { $0.presenter }
     mainTabBarPresenter.setTabBarIcon()
@@ -66,8 +91,8 @@ extension MainCoordinator {
        let feedCoordinator = child[index] as? FeedCoordinator {
       return feedCoordinator
     }
-    /// Feed Coordinator는 MainCoordinator가 있다면 반드시 있어야 합니다.
-    let feed = FeedCoordinator(presenter: UINavigationController())
+    /// 사실 이 시점에, Feed Coordinator는 MainCoordinator가 있다면 반드시 있어야 합니다!!
+    let feed = dependencies.makeFeedCoordinator(presenter: UINavigationController())
     addChild(with: feed)
     return feed
   }
