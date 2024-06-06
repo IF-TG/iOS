@@ -37,6 +37,7 @@ where Input == SearchDestinationViewModelInput,
 
 struct SearchDestinationViewModelInput {
   let viewDidLoad: PassthroughSubject<Void, Never> = .init()
+  let didTapCopyAddressButton: PassthroughSubject<Void, Never> = .init()
 }
 
 enum SearchDestinationViewModelState {
@@ -52,17 +53,27 @@ final class DefaultSearchDestinationViewModel {
 
 // MARK: - SearchDestinationViewModel
 extension DefaultSearchDestinationViewModel: SearchDestinationViewModel {
-  
-  
   func transform(_ input: Input) -> Output {
-//    return Publishers.MergeMany(viewDidLoadStream)
-//      .eraseToAnyPublisher()
-    return viewDidLoadStream(input)
+    return Publishers.MergeMany([
+      viewDidLoadStream(input),
+      didTapCopyAddressButtonStream(input)
+    ])
+      .eraseToAnyPublisher()
+    
   }
 }
 
 // MARK: - Private Helpers
 extension DefaultSearchDestinationViewModel {
+  private func didTapCopyAddressButtonStream(_ input: Input) -> Output {
+    return input.didTapCopyAddressButton
+      .map { _ in
+        print("복사 버튼 클릭")
+        return State.none
+      }
+      .eraseToAnyPublisher()
+  }
+  
   private func viewDidLoadStream(_ input: Input) -> Output {
     // TODO: - type에 따라서 type에 맞게 data fetch 후, vc의 type에 맞게 content view구조를 보여주어야합니다.
     return input.viewDidLoad

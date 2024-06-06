@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Combine
 
 final class SearchDestinationTitleCell: UICollectionViewCell {
   // MARK: - Properties
@@ -39,11 +40,10 @@ final class SearchDestinationTitleCell: UICollectionViewCell {
     $0.imageView?.tintColor = .yg.gray6
     $0.addTarget(self, action: #selector(didTapToggleButton), for: .touchUpInside)
   }
-  private lazy var copyAddressButton = UIButton().set {
+  private let copyAddressButton = UIButton().set {
     $0.setTitle("복사", for: .normal)
     $0.setTitleColor(.yg.highlight, for: .normal)
     $0.titleLabel?.font = .init(pretendard: .medium_500(fontSize: 13))
-    $0.addTarget(self, action: #selector(didTapCopyAddressButton), for: .touchUpInside)
   }
   
   private let heartStackView = UIStackView().set {
@@ -67,6 +67,8 @@ final class SearchDestinationTitleCell: UICollectionViewCell {
   }
   
   private var isConfigured = false
+  
+  private var subscriptions = Set<AnyCancellable>()
   
   // MARK: - LifeCycle
   override init(frame: CGRect) {
@@ -165,6 +167,17 @@ extension SearchDestinationTitleCell {
       toggleButton.isHidden = true
     }
   }
+  
+  func bind(to publisher: PassthroughSubject<Void, Never>) {
+    subscriptions.removeAll()
+    
+    copyAddressButton.tap
+      .receive(on: RunLoop.main)
+      .sink {
+        publisher.send()
+      }
+      .store(in: &subscriptions)
+  }
 }
 
 // MARK: - Private Helpers
@@ -186,10 +199,6 @@ extension SearchDestinationTitleCell {
 private extension SearchDestinationTitleCell {
   @objc func didTapToggleButton(_ button: UIButton) {
     print("주소 자세히 보기!")
-  }
-  
-  @objc func didTapCopyAddressButton(_ button: UIButton) {
-    print("복사 버튼 클릭")
   }
   
   @objc func didTapHeartButton(_ button: UIButton) {
