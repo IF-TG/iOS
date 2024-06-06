@@ -173,7 +173,8 @@ extension SearchDestinationTitleCell {
     
     copyAddressButton.tap
       .receive(on: RunLoop.main)
-      .sink {
+      .sink { [weak self] in
+        UIPasteboard.general.string = self?.addressLabel.text
         publisher.send()
       }
       .store(in: &subscriptions)
@@ -185,11 +186,14 @@ extension SearchDestinationTitleCell {
   private func setupStyles() {
     contentView.backgroundColor = .white
     contentView.layer.shadowPath = UIBezierPath(
-      roundedRect: CGRect(x: bounds.origin.x, y: bounds.origin.y, width: bounds.width, height: bounds.height),
-      cornerRadius: 40
+      roundedRect: CGRect(x: bounds.origin.x, 
+                          y: bounds.origin.y,
+                          width: bounds.width,
+                          height: bounds.height),
+      cornerRadius: 20
     ).cgPath
     contentView.layer.shadowColor = UIColor.black.withAlphaComponent(0.5).cgColor
-    contentView.layer.cornerRadius = 40
+    contentView.layer.cornerRadius = 20
     contentView.layer.shadowOpacity = 0.4
     contentView.layer.shadowOffset = .init(width: 0, height: 1)
   }
