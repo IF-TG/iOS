@@ -35,24 +35,24 @@ final class PresentationFeedAssembly: Assembly {
       name: .implementation(.default)
     ) { (r, feedCategory: PostCategory) in
       let defaultPostFetchUseCase = r.resolve(PostFetchUseCase.self, name: .implementation(.default))!
-      return FeedPostViewModel(postCategory: feedCategory, postFetchUsecase: defaultPostFetchUseCase)
-    }
+      return FeedPostViewModel(postCategory: feedCategory, postFetchUseCase: defaultPostFetchUseCase)
+    }.inObjectScope(.transient)
     
     container.register(
       (any FeedPostViewModelable & FeedPostViewAdapterDataSource).self,
       name: .implementation(.interceptedDefault)
     ) { (r, feedCategory: PostCategory) in
       let interceptedPostFetchUseCase = r.resolve(PostFetchUseCase.self, name: .implementation(.interceptedDefault))!
-      return FeedPostViewModel(postCategory: feedCategory, postFetchUsecase: interceptedPostFetchUseCase)
-    }
+      return FeedPostViewModel(postCategory: feedCategory, postFetchUseCase: interceptedPostFetchUseCase)
+    }.inObjectScope(.transient)
     
     container.register(
       (any FeedPostViewModelable & FeedPostViewAdapterDataSource).self,
       name: .testDouble(.mock)
     ) { (r, feedCategory: PostCategory) in
       let mockPostFetchUseCase = r.resolve(PostFetchUseCase.self, name: .testDouble(.mock))!
-      return FeedPostViewModel(postCategory: feedCategory, postFetchUsecase: mockPostFetchUseCase)
-    }
+      return FeedPostViewModel(postCategory: feedCategory, postFetchUseCase: mockPostFetchUseCase)
+    }.inObjectScope(.transient)
     
     // MARK: - FeedPostViewController
     container.register([UIViewController].self, name: "DefaultFeedPageViews") { (r, coordinator: FeedCoordinator) in
