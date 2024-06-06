@@ -54,7 +54,7 @@ class SearchDestinationViewController: UIViewController {
   }
   private var collectionViewWillDisplayIsFirstCalled = false
   // FIXME: - will erase
-  private let mockThumbnailImageView = UIImageView().set {
+  private let thumbnailImageView = UIImageView().set {
 //    $0.image = .init(named: "seomun")
     $0.backgroundColor = .white
     $0.contentMode = .scaleAspectFill
@@ -81,12 +81,27 @@ class SearchDestinationViewController: UIViewController {
     setupStyles()
     setupUI()
     bind()
-    
     input.viewDidLoad.send()
+  }
+  
+  override func viewDidLayoutSubviews() {
+    super.viewDidLayoutSubviews()
+    setupThumbnailImageViewLayer()
   }
 }
 
 extension SearchDestinationViewController {
+  private func setupThumbnailImageViewLayer() {
+    let gradientLayer = CAGradientLayer()
+    gradientLayer.frame = thumbnailImageView.bounds
+    gradientLayer.colors = [
+      UIColor.black.withAlphaComponent(0.15).cgColor,
+      UIColor.clear.cgColor
+    ]
+    gradientLayer.locations = [0.01]
+    thumbnailImageView.layer.addSublayer(gradientLayer)
+  }
+  
   private func bind() {
     viewModel
       .transform(input)
@@ -98,7 +113,7 @@ extension SearchDestinationViewController {
         case .reloadData(let thumbnailData):
           self?.collectionView.reloadData()
           guard let self = self else { return }
-          self.mockThumbnailImageView.image = UIImage(data: thumbnailData)
+          self.thumbnailImageView.image = UIImage(data: thumbnailData)
         }
       }
       .store(in: &subscriptions)
@@ -147,17 +162,17 @@ private extension SearchDestinationViewController {
 extension SearchDestinationViewController: LayoutSupport {
   func addSubviews() {
     view.addSubview(collectionView)
-    view.addSubview(mockThumbnailImageView)
+    view.addSubview(thumbnailImageView)
   }
   
   func setConstraints() {
-    mockThumbnailImageView.snp.makeConstraints {
+    thumbnailImageView.snp.makeConstraints {
       $0.top.equalToSuperview()
       $0.leading.trailing.equalToSuperview()
       $0.height.equalTo(200)
     }
     collectionView.snp.makeConstraints {
-      $0.top.equalTo(mockThumbnailImageView.snp.bottom)
+      $0.top.equalTo(thumbnailImageView.snp.bottom)
       $0.leading.trailing.equalToSuperview()
       $0.bottom.equalTo(view.safeAreaLayoutGuide)
     }
@@ -196,6 +211,7 @@ extension SearchDestinationViewController: UICollectionViewDataSource {
       ) as? SearchDestinationTitleCell else { return .init() }
       
       titleCell.configure(mainInfo: info)
+      titleCell.bind(to: input.didTapCopyAddressButton)
       return titleCell
       
     case .temp:
