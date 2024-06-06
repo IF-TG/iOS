@@ -13,4 +13,14 @@ extension UIViewController {
     viewController.modalPresentationStyle = .overFullScreen
     present(viewController, animated: false, completion: completion)
   }
+  
+  func updateTabBarVisibility(_ visible: Bool) {
+    if visible {
+      tabBarController?.tabBar.isHidden = false
+      (tabBarController as? MainTabBarController)?.showShadowLayer()
+    } else {
+      tabBarController?.tabBar.isHidden = true
+      (tabBarController as? MainTabBarController)?.hideShadowLayer()
+    }
+  }
 }
