@@ -19,10 +19,21 @@ enum DestinationType {
 }
 
 class SearchDestinationViewController: UIViewController {
+  enum Common {
+    static var backgroundColor: UIColor {
+      return .yg.littleWhite
+    }
+  }
+  
   // MARK: - Dependencies
   private let viewModel: any SearchDestinationViewModel
   
   // MARK: - Properties
+  private let copyAlertView = CopyAlertView().set {
+    $0.isHidden = true
+    $0.alpha = 0
+  }
+  
   private lazy var starButton = UIButton().set {
     $0.setImage(.init(named: "emptyStar-border-white"), for: .normal)
     $0.addTarget(self, action: #selector(didTapStarButton(_:)), for: .touchUpInside)
@@ -48,15 +59,17 @@ class SearchDestinationViewController: UIViewController {
     $0.register(SearchDestinationTitleCell.self, forCellWithReuseIdentifier: SearchDestinationTitleCell.id)
     $0.register(SearchDestinationServiceCell.self, forCellWithReuseIdentifier: SearchDestinationServiceCell.id)
     $0.register(SearchDestinationContentCell.self, forCellWithReuseIdentifier: SearchDestinationContentCell.id)
-    $0.backgroundColor = .yg.littleWhite
+    $0.backgroundColor = Common.backgroundColor
     $0.dataSource = self
     $0.delegate = self
+    $0.layer.cornerRadius = 50
+    $0.layer.maskedCorners = CACornerMask(arrayLiteral: [.layerMinXMinYCorner, .layerMaxXMinYCorner])
   }
   private var collectionViewWillDisplayIsFirstCalled = false
   // FIXME: - will erase
   private let thumbnailImageView = UIImageView().set {
 //    $0.image = .init(named: "seomun")
-    $0.backgroundColor = .white
+    $0.backgroundColor = Common.backgroundColor
     $0.contentMode = .scaleAspectFill
     $0.clipsToBounds = true
   }
@@ -88,6 +101,16 @@ class SearchDestinationViewController: UIViewController {
     super.viewDidLayoutSubviews()
     setupThumbnailImageViewLayer()
   }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    updateTabBarVisibility(false)
+  }
+  
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    updateTabBarVisibility(true)
+  }
 }
 
 extension SearchDestinationViewController {
@@ -95,10 +118,10 @@ extension SearchDestinationViewController {
     let gradientLayer = CAGradientLayer()
     gradientLayer.frame = thumbnailImageView.bounds
     gradientLayer.colors = [
-      UIColor.black.withAlphaComponent(0.15).cgColor,
+      UIColor.black.withAlphaComponent(0.08).cgColor,
       UIColor.clear.cgColor
     ]
-    gradientLayer.locations = [0.01]
+    gradientLayer.locations = [0, 0.28]
     thumbnailImageView.layer.addSublayer(gradientLayer)
   }
   
@@ -108,6 +131,21 @@ extension SearchDestinationViewController {
       .receive(on: RunLoop.main)
       .sink { [weak self] state in
         switch state {
+        case .appearCopyAlert:
+          UIView.animate(withDuration: 1.0, animations: {
+            self?.copyAlertView.isHidden = false
+            self?.copyAlertView.alpha = 1
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+              UIView.animate(withDuration: 0.5, animations: {
+                self?.copyAlertView.alpha = 0
+              }) { _ in
+                self?.copyAlertView.isHidden = true
+              }
+            }
+          })
+          // TODO: - 주소 복사 수행 후, alert보이게 하기
+          
         case .none:
           break
         case .reloadData(let thumbnailData):
@@ -131,7 +169,7 @@ extension SearchDestinationViewController {
   }
   
   private func setupStyles() {
-    view.backgroundColor = .black
+    view.backgroundColor = Common.backgroundColor
   }
   
   private func resizeImage(image: UIImage?, size: CGSize) -> UIImage? {
@@ -161,20 +199,29 @@ private extension SearchDestinationViewController {
 // MARK: - LayoutSupport
 extension SearchDestinationViewController: LayoutSupport {
   func addSubviews() {
-    view.addSubview(collectionView)
     view.addSubview(thumbnailImageView)
+    view.addSubview(collectionView)
+    collectionView.addSubview(copyAlertView)
+    view.bringSubviewToFront(collectionView)
   }
   
   func setConstraints() {
     thumbnailImageView.snp.makeConstraints {
       $0.top.equalToSuperview()
       $0.leading.trailing.equalToSuperview()
-      $0.height.equalTo(200)
+      $0.height.equalTo(325)
     }
     collectionView.snp.makeConstraints {
-      $0.top.equalTo(thumbnailImageView.snp.bottom)
+      $0.top.equalTo(thumbnailImageView.snp.bottom).inset(50)
       $0.leading.trailing.equalToSuperview()
       $0.bottom.equalTo(view.safeAreaLayoutGuide)
+    }
+    
+    copyAlertView.snp.makeConstraints {
+      $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(7)
+      $0.centerX.equalTo(view.safeAreaLayoutGuide)
+      $0.leading.equalTo(view.safeAreaLayoutGuide).inset(11)
+      $0.height.equalTo(40)
     }
   }
 }
