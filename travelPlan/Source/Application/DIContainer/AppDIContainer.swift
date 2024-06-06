@@ -14,6 +14,8 @@ import SHCoordinator
 final class AppDIContainer {
   private(set) var assembler: Assembler
   
+  private(set) var container: Swinject.Container
+  
   var resolver: Resolver {
     assembler.resolver
   }
@@ -22,14 +24,19 @@ final class AppDIContainer {
   
   // MARK: - Lifecycle
   private init() {
+    self.container = Container()
     self.assembler = Assembler([
       CoreAssembly(),
       PersistentStorageAssembly(),
       RepositoryAssembly(),
       DomainAssembly(),
       PresentationFeedAssembly(),
-      PresentationAssembly(),
-      FlowCoordinatorAssembly()])
+      PresentationAssembly()],
+      container: container)
+  }
+  
+  func lazyApplyAssemblies() {
+    assembler.apply(assembly: FlowCoordinatorAssembly())
   }
 }
 
@@ -47,23 +54,23 @@ extension AppDIContainer: AppCoordinatorDependencies {
 // MARK: - MainCoordinatorDependencies
 extension AppDIContainer: MainCoordinatorDependencies {
   func makeFeedCoordinator(presenter: UINavigationController) -> FeedCoordinator {
-    return resolve(FeedCoordinator.self)!
+    return resolve(FeedCoordinator.self, argument: presenter)!
   }
   
   func makeSearchCoordinator(presenter: UINavigationController) -> SearchCoordinator {
-    return resolve(SearchCoordinator.self)!
+    return resolve(SearchCoordinator.self, argument: presenter)!
   }
   
-  func makePlanCoordinator(persenter: UINavigationController) -> PlanCoordinator {
-    return resolve(PlanCoordinator.self)!
+  func makePlanCoordinator(presenter: UINavigationController) -> PlanCoordinator {
+    return resolve(PlanCoordinator.self, argument: presenter)!
   }
   
   func makeFavoriteCoordinator(presenter: UINavigationController) -> FavoriteCoordinator {
-    return resolve(FavoriteCoordinator.self)!
+    return resolve(FavoriteCoordinator.self, argument: presenter)!
   }
   
   func makeSettingCoordinator(presenter: UINavigationController) -> SettingCoordinator {
-    return resolve(SettingCoordinator.self)!
+    return resolve(SettingCoordinator.self, argument: presenter)!
   }
 }
 
