@@ -20,16 +20,16 @@ final class DomainAssembly: Swinject.Assembly {
     container.register(PostFetchUseCase.self, name: .implementation(.default)) { r in
       let defaultPostRepository = r.resolve(PostRepository.self, name: .implementation(.default))!
       return DefaultPostFetchUseCase(postRepository: defaultPostRepository)
-    }
+    }.inObjectScope(.transient)
     
     container.register(PostFetchUseCase.self, name: .implementation(.interceptedDefault)) { r in
       let interceptedPostRepository = r.resolve(PostRepository.self, name: .implementation(.interceptedDefault))!
       return DefaultPostFetchUseCase(postRepository: interceptedPostRepository)
-    }
+    }.inObjectScope(.transient)
     
     container.register(PostFetchUseCase.self, name: .testDouble(.mock)) { _ in
       MockPostFetchUseCase()
-    }
+    }.inObjectScope(.transient)
     
     // TODO: - PostReviewWriting Use Case
     
