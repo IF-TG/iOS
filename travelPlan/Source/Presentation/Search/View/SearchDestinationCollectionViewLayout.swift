@@ -21,7 +21,7 @@ final class SearchDestinationCollectionViewLayout: CompositionalLayoutCreatable 
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = .init(top: 10, leading: 20, bottom: 0, trailing: 20)
+        section.contentInsets = .init(top: 38, leading: 20, bottom: 0, trailing: 20)
         return section
       case 1:
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
