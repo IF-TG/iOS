@@ -2312,6 +2312,7 @@
 		151DF0ED2AEEADFC00D5D55B /* Domain */ = {
 			isa = PBXGroup;
 			children = (
+				15D245252C11B8180055538F /* Assembly */,
 				151DF0EE2AEEAE1100D5D55B /* Entities */,
 				151DF0F92AEEB96400D5D55B /* Interfaces */,
 				151DF0F22AEEB28600D5D55B /* UseCases */,
@@ -2387,6 +2388,7 @@
 		151DF0F72AEEB4A200D5D55B /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				15D245262C11B82E0055538F /* Assembly */,
 				154CA6022BD399690066B444 /* Common */,
 				1383C8232B98646B00830F1A /* PersistentStorages */,
 				151DF0FF2AEEBC0700D5D55B /* Network */,
@@ -2742,17 +2744,10 @@
 			children = (
 				154070852C0F0147000C9C42 /* Dependency.swift */,
 				154070872C0F110F000C9C42 /* AppDIContainer.swift */,
-				1540708C2C0F192F000C9C42 /* RepositoryAssembly.swift */,
-				1540708E2C0F1BDA000C9C42 /* CoreAssembly.swift */,
 				154070902C0F33B8000C9C42 /* ServiceName.swift */,
 				154070922C0F35A9000C9C42 /* Container+.swift */,
 				154070942C0F5491000C9C42 /* Resolver+.swift */,
-				1540709D2C0F8A38000C9C42 /* DomainAssembly.swift */,
-				1540709F2C0F8B0A000C9C42 /* PresentationAssembly.swift */,
-				154070A12C0F8CC3000C9C42 /* FlowCoordinatorAssembly.swift */,
-				154070A32C0F8F94000C9C42 /* PersistentStorageAssembly.swift */,
 				154070AA2C103D2D000C9C42 /* AppDIContainer+Resolver.swift */,
-				1563027E2C10D82E000B496E /* PresentationFeedAssembly.swift */,
 			);
 			path = DIContainer;
 			sourceTree = "<group>";
@@ -2832,6 +2827,7 @@
 		1546DF182B0A653F00B49A55 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				15D245272C11B85E0055538F /* Assembly */,
 				1540478D2BE4C04C009E86FF /* BackgroundtaskManager */,
 				15803C342BD8EE3F00D83F2B /* XMLParser */,
 				15C36BB12BD0D722004AA8E9 /* Firebase */,
@@ -3379,6 +3375,7 @@
 		1594F54629FD526900A58F20 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				15D245242C11B7D80055538F /* Assembly */,
 				1594A44F2C0596A100428D41 /* Share */,
 				15BB01B02A1EB4CF0035B486 /* Login */,
 				1546DF1A2B0A6CE700B49A55 /* PostDetail */,
@@ -3774,6 +3771,41 @@
 				15EE50F42BF9BDF700628FC9 /* NicknameValidateState.swift */,
 			);
 			path = User;
+			sourceTree = "<group>";
+		};
+		15D245242C11B7D80055538F /* Assembly */ = {
+			isa = PBXGroup;
+			children = (
+				154070A12C0F8CC3000C9C42 /* FlowCoordinatorAssembly.swift */,
+				1540709F2C0F8B0A000C9C42 /* PresentationAssembly.swift */,
+				1563027E2C10D82E000B496E /* PresentationFeedAssembly.swift */,
+			);
+			path = Assembly;
+			sourceTree = "<group>";
+		};
+		15D245252C11B8180055538F /* Assembly */ = {
+			isa = PBXGroup;
+			children = (
+				1540709D2C0F8A38000C9C42 /* DomainAssembly.swift */,
+			);
+			path = Assembly;
+			sourceTree = "<group>";
+		};
+		15D245262C11B82E0055538F /* Assembly */ = {
+			isa = PBXGroup;
+			children = (
+				1540708C2C0F192F000C9C42 /* RepositoryAssembly.swift */,
+				154070A32C0F8F94000C9C42 /* PersistentStorageAssembly.swift */,
+			);
+			path = Assembly;
+			sourceTree = "<group>";
+		};
+		15D245272C11B85E0055538F /* Assembly */ = {
+			isa = PBXGroup;
+			children = (
+				1540708E2C0F1BDA000C9C42 /* CoreAssembly.swift */,
+			);
+			path = Assembly;
 			sourceTree = "<group>";
 		};
 		15D37F7E2B978309000E8FDB /* TravelCategory */ = {
