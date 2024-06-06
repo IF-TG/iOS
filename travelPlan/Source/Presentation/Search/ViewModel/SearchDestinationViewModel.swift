@@ -43,7 +43,7 @@ struct SearchDestinationViewModelInput {
 enum SearchDestinationViewModelState {
   case none
   case reloadData(thumbnailData: Data)
-//  case setupContent(type: DestinationType)
+  case appearCopyAlert
 }
 
 final class DefaultSearchDestinationViewModel {
@@ -68,8 +68,8 @@ extension DefaultSearchDestinationViewModel {
   private func didTapCopyAddressButtonStream(_ input: Input) -> Output {
     return input.didTapCopyAddressButton
       .map { _ in
-        print("복사 버튼 클릭")
-        return State.none
+        // todo 여기에 주소 text 넣기
+        return State.appearCopyAlert
       }
       .eraseToAnyPublisher()
   }
