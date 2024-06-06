@@ -665,6 +665,7 @@
 		15CB236F2A10C314003EAF20 /* PostCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15CB236E2A10C314003EAF20 /* PostCellViewModel.swift */; };
 		15CB23742A110FB4003EAF20 /* PostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15CB23732A110FB4003EAF20 /* PostViewModel.swift */; };
 		15CC64142A1DD4EF00857446 /* ConvenienceInit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FEB5E22A050A99000A5F33 /* ConvenienceInit.swift */; };
+		15D245232C11AF4C0055538F /* DebugHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D245222C11AF4C0055538F /* DebugHelpers.swift */; };
 		15D388232AFE75E100039946 /* PostDetailReplyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D388222AFE75E100039946 /* PostDetailReplyCell.swift */; };
 		15D388272AFF8AAA00039946 /* InputTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D388262AFF8AAA00039946 /* InputTextView.swift */; };
 		15D388292AFFA51C00039946 /* PostProfileAndCommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D388282AFFA51C00039946 /* PostProfileAndCommentView.swift */; };
@@ -1516,6 +1517,7 @@
 		15CB236E2A10C314003EAF20 /* PostCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCellViewModel.swift; sourceTree = "<group>"; };
 		15CB23732A110FB4003EAF20 /* PostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewModel.swift; sourceTree = "<group>"; };
 		15CE24112BE3AD85009EAFEE /* DefaultTourCommonInfoRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultTourCommonInfoRepositoryTests.swift; sourceTree = "<group>"; };
+		15D245222C11AF4C0055538F /* DebugHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugHelpers.swift; sourceTree = "<group>"; };
 		15D388222AFE75E100039946 /* PostDetailReplyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailReplyCell.swift; sourceTree = "<group>"; };
 		15D388262AFF8AAA00039946 /* InputTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputTextView.swift; sourceTree = "<group>"; };
 		15D388282AFFA51C00039946 /* PostProfileAndCommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostProfileAndCommentView.swift; sourceTree = "<group>"; };
@@ -3726,6 +3728,7 @@
 				15CB235D2A10B59E003EAF20 /* DateValidation */,
 				155527E12BBD6D64000122B4 /* KeyboardState.swift */,
 				154CA5FE2BD395030066B444 /* SecretManager.swift */,
+				15D245222C11AF4C0055538F /* DebugHelpers.swift */,
 				15FF36B72BE1DE4E00557276 /* DateTimeConverter.swift */,
 			);
 			path = Utils;
@@ -4290,8 +4293,8 @@
 			isa = PBXGroup;
 			children = (
 				130304742A23C7B900776A0D /* Delegate */,
-				13300FA72AC0804400952757 /* CellConfigurable.swift */,
 				15FEB5E22A050A99000A5F33 /* ConvenienceInit.swift */,
+				13300FA72AC0804400952757 /* CellConfigurable.swift */,
 				15FEB5E32A050A99000A5F33 /* ViewModelProtocols.swift */,
 				15FEB5E42A050A99000A5F33 /* LayoutSupport.swift */,
 				13300FAB2AC0883200952757 /* UICompositionalLayoutCreatable.swift */,
@@ -5260,6 +5263,7 @@
 				15FFAC3C2ADE50880013DB57 /* PostHeaderContentInfo.swift in Sources */,
 				13606E942AA187F500365F20 /* PostSearchTagLabel.swift in Sources */,
 				15C1F54A2AF2C356005FDA15 /* NotificationViewModelable.swift in Sources */,
+				15D245232C11AF4C0055538F /* DebugHelpers.swift in Sources */,
 				15FFAC072AD6ED5B0013DB57 /* Endpoint.swift in Sources */,
 				15CB235F2A10B5B8003EAF20 /* DateValidationManager.swift in Sources */,
 				15EF8CA32A0A197C0068C744 /* CategoryPageView.swift in Sources */,
