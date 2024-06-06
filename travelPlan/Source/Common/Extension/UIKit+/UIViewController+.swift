@@ -14,6 +14,7 @@ extension UIViewController {
     present(viewController, animated: false, completion: completion)
   }
   
+  /// 탭바의 Visibility를 담당합니다.
   func updateTabBarVisibility(_ visible: Bool) {
     if visible {
       tabBarController?.tabBar.isHidden = false
