@@ -12,9 +12,7 @@ import SHCoordinator
 /// 뷰 컨트롤러에서 사용할 타입 -> 뷰 모델에서 구현
 protocol PostDetailViewModelPageDelegate: AnyObject {
   func showAlertForError(with description: String, completion: (() -> Void)?)
-  func showPostOption()
   func showCategory()
-  func showPostReportResult()
   func showReviewWriting()
   func showAlertAndDismiss(with description: String)
 }
@@ -24,15 +22,11 @@ protocol PostDetailViewModelPageDelegate: AnyObject {
 struct PostDetailViewModelActions {
   typealias PostId = Int32
   let showAlertForError: (String, (() -> Void)?) -> Void
-  let showPostOption: (((PostOption) -> Void)?) -> Void
   
-  let showPostAuthorBlock: (String, ((Bool) -> Void)?) -> Void
-  /// 신고하기 종류 추가.
-  let showPostReport: (((PostReportType) -> Void)?) -> Void
-  let showPostReportResult: (PostOption) -> Void
   let showCategory: (([String])) -> Void
   
   let showReviewWriting: (ReviewWritingEntity) -> Void
+  
   let showFeedAfterBlockingFeed: (PostId) -> Void
   
   let finishWithAnim: () -> Void
@@ -40,10 +34,7 @@ struct PostDetailViewModelActions {
 
 // MARK: - Input
 struct PostDetailViewModelInput {
-  
   let viewDidLoad = PassthroughSubject<Void, Never>()
-  let postReportNotifier = PassthroughSubject<PostReportType, Never>()
-  let postAuthorBlockNotifier = PassthroughSubject<Void, Never>()
 }
 
 // MARK: - State
@@ -54,7 +45,6 @@ struct PostDetailViewModelInput {
   
   case viewDidLoad(PostDetailViewDidLoadState)
   case unexpectedError(description: String)
-  case postReport(PostReportState)
 }
 
 @frozen enum PostDetailViewDidLoadState {
@@ -65,16 +55,6 @@ struct PostDetailViewModelInput {
   case naviTitleInfo((Title, Duration))
   /// Universal link에 의해 서버에서 postDetails를 받은 경우에 사용됩니다.
   case reloadData
-}
-
-@frozen enum PostDetailOptionState {
-  case showUserBlock(String)
-  case showUserReport
-}
-
-@frozen enum PostReportState {
-  case completeReport
-  case completeUserBlock
 }
 
 // MARK: - ViewModelable
