@@ -60,16 +60,22 @@ final class PostDetailCoordinator: NSObject, FlowCoordinator {
     let postNestedCommentUseCase = DefaultPostNestedCommentUseCase(
       postNestedCommentRepository: MockPostNestedCommentRepository())
     let userBlockUseCase = DefaultUserBlockUseCase(userBlockRepository: MockWrappedUserBlockRepository())
+    
+    let optionActions = PostOptionViewModelActions(
+      showPostOption: { [weak self] optionCallback in self?.showOption(handler: optionCallback) },
+      showPostReport: { [weak self] reportCallback in self?.showPostReport(handler: reportCallback) },
+      showPostReportResult: { [weak self] option in self?.showPostReportResult(wtih: option) },
+      showPostAuthorBlock: { [weak self] authName, completion in
+        self?.showPostAuthorBlock(authName, handler: completion)
+      },
+      showAlertForError: {[weak self] message, completion in
+        self?.showAlertForError(with: message, completion: completion)
+      })
+    
     let actions = PostDetailViewModelActions(
       showAlertForError: { [weak self] message, completion in
         self?.showAlertForError(with: message, completion: completion)
       },
-      showPostOption: { [weak self] optionCallback in self?.showOption(handler: optionCallback) },
-      showPostAuthorBlock: { [weak self] authName, completion in
-        self?.showPostAuthorBlock(authName, handler: completion)
-      },
-      showPostReport: { [weak self] reportCallback in self?.showPostReport(handler: reportCallback) },
-      showPostReportResult: { [weak self] option in self?.showPostReportResult(wtih: option) },
       showCategory: {[weak self] categories in self?.showCategory(with: categories) },
       showReviewWriting: { [weak self] entity in self?.showReviewWriting(entity: entity) },
       showFeedAfterBlockingFeed: { [weak self] blockedPostId in self?.showFeedAfterBlockingFeed(blockedPostId) },
@@ -91,20 +97,31 @@ final class PostDetailCoordinator: NSObject, FlowCoordinator {
       postId: postId,
       postFetchUseCase: defaultPostFetchUseCase,
       ownerRepository: loggedInUserRepository,
-      userBlockUseCase: userBlockUseCase,
       actions: actions)
     
     // TODO: - identifier Int32로 변경하기
     let postDetailChatVM = PostDetailChatViewModel(
-      postId: post?.detail.postID ?? String(postId),
+      postId: String(postId),
       postCommentsAndPostLikeStateFetchUseCase: defaultPostCommetnsAndPostLikeStateFetchUseCase,
       postCommentUseCase: postCommentUseCase,
       postNestedCommentUseCase: postNestedCommentUseCase,
       ownerRepository: loggedInUserRepository,
       actions: chatActions)
+    
+    // TODO: - identifier Int32로 변경하기
+    let postOptionVM = PostOptionViewModel(
+      postId: postId,
+      postAuthorId: Int32(post?.author.authorId ?? "1"),
+      postAuthorNickName: post?.author.nickname,
+      postOptionLocation: .detailPage,
+      actions: optionActions,
+      ownerRepository: loggedInUserRepository,
+      userBlockUseCase: userBlockUseCase)
+    
     postDetailViewController = PostDetailViewController(
       viewModel: postDetailVM,
-      chatViewModel: postDetailChatVM)
+      chatViewModel: postDetailChatVM,
+      optionViewModel: postOptionVM)
     self.viewModelPostReceivable = postDetailVM
     presenter?.delegate = self
   }
