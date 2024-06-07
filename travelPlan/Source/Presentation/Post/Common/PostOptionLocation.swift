@@ -6,3 +6,10 @@
 //
 
 import Foundation
+
+@frozen enum PostOptionLocation {
+  /// 피드화면
+  case summaryPage
+  /// 상세 화면
+  case detailPage
+}
