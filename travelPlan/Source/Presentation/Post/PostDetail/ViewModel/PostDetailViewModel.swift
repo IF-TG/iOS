@@ -29,7 +29,7 @@ final class PostDetailViewModel {
   
   private let actions: PostDetailViewModelActions?
   
-  private var postDetailOption: PostDetailOption? = .none
+  private var postDetailOption: PostOption? = .none
   
   // MARK: - Combine Properties
   private var postSubscription: AnyCancellable?
@@ -42,11 +42,11 @@ final class PostDetailViewModel {
   
   private let loggedInUserUseCaseHandler = PassthroughSubject<Void, Never>()
   
-  private let postReportNotifier = PassthroughSubject<PostReportType, Never>()
+  // private let postReportNotifier = PassthroughSubject<PostReportType, Never>()
   
   private let postReportHandler = PassthroughSubject<PostReportType, Never>()
   
-  private let postAuthorBlockNotifier = PassthroughSubject<Void, Never>()
+  // private let postAuthorBlockNotifier = PassthroughSubject<Void, Never>()
   
   private let postAuthorBlockHandler = PassthroughSubject<Void, Never>()
   

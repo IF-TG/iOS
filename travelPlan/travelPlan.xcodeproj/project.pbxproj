@@ -404,6 +404,8 @@
 		15553BCF2BB348B0000AA896 /* mock_postNestedComment_send_response.json in Resources */ = {isa = PBXBuildFile; fileRef = 15553BCE2BB348B0000AA896 /* mock_postNestedComment_send_response.json */; };
 		15553BD42BB34BF2000AA896 /* XCTestCase+UseCaseTestsHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15553BD22BB34ACA000AA896 /* XCTestCase+UseCaseTestsHelpers.swift */; };
 		15553BD62BB34D06000AA896 /* PostNestedCommentUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15553BD52BB34D06000AA896 /* PostNestedCommentUseCaseTests.swift */; };
+		1555930D2C12F7F70078520D /* PostOptionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1555930C2C12F7F70078520D /* PostOptionViewModel.swift */; };
+		1555930F2C12FC990078520D /* PostOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1555930E2C12FC990078520D /* PostOption.swift */; };
 		155603DE2BBC093300981F48 /* PostDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155603DD2BBC093300981F48 /* PostDetails.swift */; };
 		155603E52BBC355500981F48 /* PostDetailCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155603E42BBC355500981F48 /* PostDetailCoordinator.swift */; };
 		1558033B2BF1ACAD008F631C /* PostNestedCommentHeartUseCaseImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1558033A2BF1ACAD008F631C /* PostNestedCommentHeartUseCaseImpl.swift */; };
@@ -1262,6 +1264,8 @@
 		15553BCE2BB348B0000AA896 /* mock_postNestedComment_send_response.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = mock_postNestedComment_send_response.json; sourceTree = "<group>"; };
 		15553BD22BB34ACA000AA896 /* XCTestCase+UseCaseTestsHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+UseCaseTestsHelpers.swift"; sourceTree = "<group>"; };
 		15553BD52BB34D06000AA896 /* PostNestedCommentUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostNestedCommentUseCaseTests.swift; sourceTree = "<group>"; };
+		1555930C2C12F7F70078520D /* PostOptionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostOptionViewModel.swift; sourceTree = "<group>"; };
+		1555930E2C12FC990078520D /* PostOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostOption.swift; sourceTree = "<group>"; };
 		155603DD2BBC093300981F48 /* PostDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetails.swift; sourceTree = "<group>"; };
 		155603E42BBC355500981F48 /* PostDetailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailCoordinator.swift; sourceTree = "<group>"; };
 		1558033A2BF1ACAD008F631C /* PostNestedCommentHeartUseCaseImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostNestedCommentHeartUseCaseImpl.swift; sourceTree = "<group>"; };
@@ -3082,10 +3086,20 @@
 		1555930A2C12F6790078520D /* Post */ = {
 			isa = PBXGroup;
 			children = (
+				1555930B2C12F7E20078520D /* Common */,
 				1546DF1A2B0A6CE700B49A55 /* PostDetail */,
 				15D7C48B2BAA0C3300BBD5EB /* PostSummary */,
 			);
 			path = Post;
+			sourceTree = "<group>";
+		};
+		1555930B2C12F7E20078520D /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				1555930C2C12F7F70078520D /* PostOptionViewModel.swift */,
+				1555930E2C12FC990078520D /* PostOption.swift */,
+			);
+			path = Common;
 			sourceTree = "<group>";
 		};
 		155603E32BBC354900981F48 /* Coordinator */ = {
@@ -4800,6 +4814,7 @@
 				13405F002AECF76300382796 /* BaseLoginButton.swift in Sources */,
 				15CAEF892BAED300008AEDB1 /* PostCommentAPIEndpoint.swift in Sources */,
 				15E982C12ACD16A2002B932F /* FavoriteDetailMenuAreaView.swift in Sources */,
+				1555930F2C12FC990078520D /* PostOption.swift in Sources */,
 				15F2A01C2B14E4E50014603D /* SettingMyProfileView.swift in Sources */,
 				152AD4F62A18B6C3008A2A11 /* FavoriteHeaderImageViews.swift in Sources */,
 				15B5E79B2BBAE3B400C19F56 /* UserBlockResponseDTO.swift in Sources */,
@@ -5277,6 +5292,7 @@
 				15CAEF852BAED1D8008AEDB1 /* PostCommentContainerResponseDTO.swift in Sources */,
 				15E670D92BDE2DA8002E1D19 /* FirestoreReviewWritingRepository.swift in Sources */,
 				15E9E5F82B9A45A600C2F1F7 /* MockResponseType.swift in Sources */,
+				1555930D2C12F7F70078520D /* PostOptionViewModel.swift in Sources */,
 				13BF40F52AD712EC00F3F082 /* UIViewController+TitleView.swift in Sources */,
 				1594A44E2C04F68E00428D41 /* BasePostViewDelegator.swift in Sources */,
 				13E7EAC52BDD63430027946C /* CultureFacilityResponseDTO.swift in Sources */,

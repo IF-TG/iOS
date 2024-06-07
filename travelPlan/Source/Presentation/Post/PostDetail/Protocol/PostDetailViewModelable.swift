@@ -24,12 +24,12 @@ protocol PostDetailViewModelPageDelegate: AnyObject {
 struct PostDetailViewModelActions {
   typealias PostId = Int32
   let showAlertForError: (String, (() -> Void)?) -> Void
-  let showPostOption: (((PostDetailOption) -> Void)?) -> Void
+  let showPostOption: (((PostOption) -> Void)?) -> Void
   
   let showPostAuthorBlock: (String, ((Bool) -> Void)?) -> Void
   /// 신고하기 종류 추가.
   let showPostReport: (((PostReportType) -> Void)?) -> Void
-  let showPostReportResult: (PostDetailOption) -> Void
+  let showPostReportResult: (PostOption) -> Void
   let showCategory: (([String])) -> Void
   
   let showReviewWriting: (ReviewWritingEntity) -> Void

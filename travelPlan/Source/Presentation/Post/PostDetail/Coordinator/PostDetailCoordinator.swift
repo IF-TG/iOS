@@ -14,11 +14,6 @@ import SHCoordinator
   case commentUserBlock = "차단하기"
 }
 
-@frozen enum PostDetailOption: String, CaseIterable {
-  case postBlock = "차단하기"
-  case postReport = "신고하기"
-}
-
 @frozen enum PostDetailWritingCacnelType {
   // 대댓글 작성
   case replyWrite
@@ -149,10 +144,10 @@ extension PostDetailCoordinator {
     postDetailViewController?.present(alert, animated: true)
   }
   
-  func showOption(handler: ((PostDetailOption) -> Void)?) {
+  func showOption(handler: ((PostOption) -> Void)?) {
     /// 액션시트에서 cancel은 하나밖에 안됩니다.
     let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-    PostDetailOption.allCases.forEach { option in
+    PostOption.allCases.forEach { option in
       alert.addAction(title: option.rawValue, style: .destructive) { _ in handler?(option) }
     }
     alert.addAction(title: "취소", style: .cancel, handler: nil)
@@ -201,7 +196,7 @@ extension PostDetailCoordinator {
     presenter?.present(alert, animated: true, completion: nil)
   }
   
-  func showPostReportResult(wtih option: PostDetailOption) {
+  func showPostReportResult(wtih option: PostOption) {
     switch option {
     case .postBlock:
       presenter?.present(PostOptionResultAlertController(type: .postAuthorBlock), animated: true)
