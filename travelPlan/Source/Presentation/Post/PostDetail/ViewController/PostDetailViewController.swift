@@ -225,6 +225,8 @@ extension PostDetailViewController: ViewBindCase {
       /// 이 시점에 노티피케이션을 통해서 추가적인 로직들이 실행됩니다.
       /// Notification.Name = hasUserBlocked
       stopIndicator()
+      /// 결과는 메인스레드에서 실행해야하는데, render시점은 메인스레드 보장임으로 이곳에서 호출합니다.
+      optionViewModel.showPostReportResult()
     case .unexpectedError(let description):
       stopIndicator()
       optionViewModel.showAlertForError(with: description, completion: nil)
