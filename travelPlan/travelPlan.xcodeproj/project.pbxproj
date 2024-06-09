@@ -406,6 +406,9 @@
 		15553BD62BB34D06000AA896 /* PostNestedCommentUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15553BD52BB34D06000AA896 /* PostNestedCommentUseCaseTests.swift */; };
 		1555930D2C12F7F70078520D /* PostOptionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1555930C2C12F7F70078520D /* PostOptionViewModel.swift */; };
 		1555930F2C12FC990078520D /* PostOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1555930E2C12FC990078520D /* PostOption.swift */; };
+		155593142C1324E50078520D /* PostOptionLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155593132C1324E50078520D /* PostOptionLocation.swift */; };
+		155593172C132DEE0078520D /* PostOptionViewModelable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155593162C132DEE0078520D /* PostOptionViewModelable.swift */; };
+		155593192C15657C0078520D /* PostBlockedNotifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155593182C15657C0078520D /* PostBlockedNotifiable.swift */; };
 		155603DE2BBC093300981F48 /* PostDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155603DD2BBC093300981F48 /* PostDetails.swift */; };
 		155603E52BBC355500981F48 /* PostDetailCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155603E42BBC355500981F48 /* PostDetailCoordinator.swift */; };
 		1558033B2BF1ACAD008F631C /* PostNestedCommentHeartUseCaseImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1558033A2BF1ACAD008F631C /* PostNestedCommentHeartUseCaseImpl.swift */; };
@@ -765,6 +768,7 @@
 		15F3765E2AFBF1A500B3BF35 /* PostDetailCommentHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F3765D2AFBF1A500B3BF35 /* PostDetailCommentHeader.swift */; };
 		15F376602AFBF22F00B3BF35 /* BasePostDetailCommentableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F3765F2AFBF22F00B3BF35 /* BasePostDetailCommentableView.swift */; };
 		15F376622AFE132900B3BF35 /* PostCommentEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F376612AFE132900B3BF35 /* PostCommentEntity.swift */; };
+		15F457362C15721900E2F305 /* Notification+Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F457352C15721900E2F305 /* Notification+Post.swift */; };
 		15F4AF462BC6B2E800E9C20E /* UITableView+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155527DD2BBD5821000122B4 /* UITableView+Helpers.swift */; };
 		15F4AF482BC6BF3F00E9C20E /* PostDetailDeletedOrUnknwonCommentHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F4AF472BC6BF3F00E9C20E /* PostDetailDeletedOrUnknwonCommentHeader.swift */; };
 		15F4B01B2BE3DF8A00FBE065 /* UIApplication+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F4B01A2BE3DF8A00FBE065 /* UIApplication+.swift */; };
@@ -1266,6 +1270,9 @@
 		15553BD52BB34D06000AA896 /* PostNestedCommentUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostNestedCommentUseCaseTests.swift; sourceTree = "<group>"; };
 		1555930C2C12F7F70078520D /* PostOptionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostOptionViewModel.swift; sourceTree = "<group>"; };
 		1555930E2C12FC990078520D /* PostOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostOption.swift; sourceTree = "<group>"; };
+		155593132C1324E50078520D /* PostOptionLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostOptionLocation.swift; sourceTree = "<group>"; };
+		155593162C132DEE0078520D /* PostOptionViewModelable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostOptionViewModelable.swift; sourceTree = "<group>"; };
+		155593182C15657C0078520D /* PostBlockedNotifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostBlockedNotifiable.swift; sourceTree = "<group>"; };
 		155603DD2BBC093300981F48 /* PostDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetails.swift; sourceTree = "<group>"; };
 		155603E42BBC355500981F48 /* PostDetailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailCoordinator.swift; sourceTree = "<group>"; };
 		1558033A2BF1ACAD008F631C /* PostNestedCommentHeartUseCaseImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostNestedCommentHeartUseCaseImpl.swift; sourceTree = "<group>"; };
@@ -1619,6 +1626,7 @@
 		15F3765D2AFBF1A500B3BF35 /* PostDetailCommentHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailCommentHeader.swift; sourceTree = "<group>"; };
 		15F3765F2AFBF22F00B3BF35 /* BasePostDetailCommentableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasePostDetailCommentableView.swift; sourceTree = "<group>"; };
 		15F376612AFE132900B3BF35 /* PostCommentEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCommentEntity.swift; sourceTree = "<group>"; };
+		15F457352C15721900E2F305 /* Notification+Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+Post.swift"; sourceTree = "<group>"; };
 		15F4AF472BC6BF3F00E9C20E /* PostDetailDeletedOrUnknwonCommentHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailDeletedOrUnknwonCommentHeader.swift; sourceTree = "<group>"; };
 		15F4B01A2BE3DF8A00FBE065 /* UIApplication+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+.swift"; sourceTree = "<group>"; };
 		15F5A1312BF5D67B00CDF2F0 /* PaginationError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaginationError.swift; sourceTree = "<group>"; };
@@ -3098,6 +3106,10 @@
 			children = (
 				1555930C2C12F7F70078520D /* PostOptionViewModel.swift */,
 				1555930E2C12FC990078520D /* PostOption.swift */,
+				155593132C1324E50078520D /* PostOptionLocation.swift */,
+				155593162C132DEE0078520D /* PostOptionViewModelable.swift */,
+				155593182C15657C0078520D /* PostBlockedNotifiable.swift */,
+				15F457352C15721900E2F305 /* Notification+Post.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -4865,6 +4877,7 @@
 				15FEB5E72A050A99000A5F33 /* UIButton+Combine.swift in Sources */,
 				15F376602AFBF22F00B3BF35 /* BasePostDetailCommentableView.swift in Sources */,
 				13EB3D432BF4DE3F00CA84F0 /* LeportsUseCase.swift in Sources */,
+				155593142C1324E50078520D /* PostOptionLocation.swift in Sources */,
 				13E7EACB2BDE317F0027946C /* RestaurantResponseDTO.swift in Sources */,
 				13E84AEA2BE372AF00B537B6 /* TourIntroductionInfoFestivalResponseDTO.swift in Sources */,
 				13E98F852BC53D8000F05295 /* ReviewWritingUseCase.swift in Sources */,
@@ -5002,6 +5015,7 @@
 				1526ED1A2BF647F200B629FB /* DefaultOwnerRelatedPostFetchUseCase.swift in Sources */,
 				15FFAC032AD5D98A0013DB57 /* FavoriteCoordinatorDelegate.swift in Sources */,
 				13AE0DDA2BC32E6100652B99 /* DefaultAlbumPhotoMaxCountUseCase.swift in Sources */,
+				155593172C132DEE0078520D /* PostOptionViewModelable.swift in Sources */,
 				15D388312B0159F600039946 /* PostHeartAndShareAreaHeaderView.swift in Sources */,
 				1572ABAD2BE63E03008AFE66 /* FirestorePostCommentRepository.swift in Sources */,
 				15FDCC912AE03F4A00716CC6 /* InnerRoundRectReusableView.swift in Sources */,
@@ -5036,6 +5050,7 @@
 				1540708D2C0F192F000C9C42 /* RepositoryAssembly.swift in Sources */,
 				158312E12AB36A9A0087034A /* UIViewController+.swift in Sources */,
 				151DF10B2AEEC58900D5D55B /* MockUrlProtocol.swift in Sources */,
+				15F457362C15721900E2F305 /* Notification+Post.swift in Sources */,
 				15050D3C2BE92EA100B3E26A /* TourApiImageRetrieveRequestDTO.swift in Sources */,
 				15CB23742A110FB4003EAF20 /* PostViewModel.swift in Sources */,
 				1568CC962C0B2A1B0056A298 /* PostCellLayouter.swift in Sources */,
@@ -5326,6 +5341,7 @@
 				15FBD5D02B98D90500076115 /* TravelThemeMapper.swift in Sources */,
 				15E9E5EA2B9A1CA500C2F1F7 /* DefaultPostRepository.swift in Sources */,
 				15C68AB22BF7A3F0007FBDD8 /* PostSearchUseCaseImpl.swift in Sources */,
+				155593192C15657C0078520D /* PostBlockedNotifiable.swift in Sources */,
 				159958832B0DDFED00B2E4DC /* UIStackView+Helpers.swift in Sources */,
 				15B928652AFA3980003A20D4 /* PostDetailContentFooterView.swift in Sources */,
 				15BE6BEA2BAF1CA1009A2568 /* DefaultPostCommentUseCase.swift in Sources */,

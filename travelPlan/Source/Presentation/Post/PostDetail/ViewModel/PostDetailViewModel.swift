@@ -64,7 +64,6 @@ final class PostDetailViewModel {
   }
   
   deinit {
-    NotificationCenter.default.removeObserver(self, name: .hasPostBlocked, object: nil)
     print("deinit: \(Self.self)")
   }
 }
