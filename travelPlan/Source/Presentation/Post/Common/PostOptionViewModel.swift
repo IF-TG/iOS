@@ -94,6 +94,10 @@ extension PostOptionViewModel: PostOptionViewModelPageDelegate {
       actions.showAlertForError("앱 내부 문제가 발생됬습니다.", nil)
       return
     }
+    
+    /// 차단 아이콘 보여주면서 노티피케이션 발송됩니다.
+    /// postOptionLocation이 postDetail인 경우 포스트 상세 화면에서 차단 아이콘 -> 포스트 상세 화면 에서 뒤로가기, -> 포스트 피드에서 해당 포스트 제거가 됩니다.
+    /// postOptionLocation이 postSummary인 경우 포스트 차단 아이콘 -> 포스트 피드에서 해당 포스트가 제거됩니다.
     actions.showPostReportResult(postOption)
     if postOption == .postBlock {
       NotificationCenter.default.post(
