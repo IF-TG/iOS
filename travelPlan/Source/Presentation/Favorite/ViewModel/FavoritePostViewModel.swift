@@ -33,6 +33,8 @@ final class FavoritePostViewModel: PostViewModel {
   
   var isPaging: Bool = false
   
+  var postHasBlockedNotifier = PassthroughSubject<PostBlockedElement?, Never>()
+  
   // MARK: - Lifecycle
   init(postFetchUsecase: PostFetchUseCase) {
     self.postFetchUsecase = postFetchUsecase
