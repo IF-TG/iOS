@@ -18,12 +18,15 @@ final class PostDetailViewController: UITableViewController {
                                            PostDetailChatDataSource &
                                            PostDetailChatViewModelPageDelegate)
   
+  typealias PostDetailOptionViewModelType = (any PostOptionViewModelable &
+                                             PostOptionViewModelPageDelegate)
+  
   // MARK: - Dependencies
   private let viewModel: PostDetailViewModelType
   
   private let chatViewModel: PostDetailChatViewModelType
   
-  private let optionViewModel: PostOptionViewModel
+  private let optionViewModel: PostDetailOptionViewModelType
   
   // MARK: - UI Properties
   private let inputAccessory = PostDetailInputAccessoryWrapper()
@@ -76,7 +79,7 @@ final class PostDetailViewController: UITableViewController {
   init(
     viewModel: PostDetailViewModelType,
     chatViewModel: PostDetailChatViewModelType,
-    optionViewModel: PostOptionViewModel
+    optionViewModel: PostDetailOptionViewModelType
   ) {
     self.viewModel = viewModel
     self.chatViewModel = chatViewModel

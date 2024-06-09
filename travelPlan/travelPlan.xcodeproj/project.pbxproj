@@ -768,7 +768,7 @@
 		15F3765E2AFBF1A500B3BF35 /* PostDetailCommentHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F3765D2AFBF1A500B3BF35 /* PostDetailCommentHeader.swift */; };
 		15F376602AFBF22F00B3BF35 /* BasePostDetailCommentableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F3765F2AFBF22F00B3BF35 /* BasePostDetailCommentableView.swift */; };
 		15F376622AFE132900B3BF35 /* PostCommentEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F376612AFE132900B3BF35 /* PostCommentEntity.swift */; };
-		15F457362C15721900E2F305 /* Notification+Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F457352C15721900E2F305 /* Notification+Post.swift */; };
+		15F457372C15732600E2F305 /* Notification+Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F457352C15721900E2F305 /* Notification+Post.swift */; };
 		15F4AF462BC6B2E800E9C20E /* UITableView+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155527DD2BBD5821000122B4 /* UITableView+Helpers.swift */; };
 		15F4AF482BC6BF3F00E9C20E /* PostDetailDeletedOrUnknwonCommentHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F4AF472BC6BF3F00E9C20E /* PostDetailDeletedOrUnknwonCommentHeader.swift */; };
 		15F4B01B2BE3DF8A00FBE065 /* UIApplication+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F4B01A2BE3DF8A00FBE065 /* UIApplication+.swift */; };
@@ -5050,7 +5050,7 @@
 				1540708D2C0F192F000C9C42 /* RepositoryAssembly.swift in Sources */,
 				158312E12AB36A9A0087034A /* UIViewController+.swift in Sources */,
 				151DF10B2AEEC58900D5D55B /* MockUrlProtocol.swift in Sources */,
-				15F457362C15721900E2F305 /* Notification+Post.swift in Sources */,
+				15F457372C15732600E2F305 /* Notification+Post.swift in Sources */,
 				15050D3C2BE92EA100B3E26A /* TourApiImageRetrieveRequestDTO.swift in Sources */,
 				15CB23742A110FB4003EAF20 /* PostViewModel.swift in Sources */,
 				1568CC962C0B2A1B0056A298 /* PostCellLayouter.swift in Sources */,
