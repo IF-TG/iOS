@@ -40,6 +40,8 @@ final class PostDetailViewModel {
   
   private let navigationInfo = PassthroughSubject<Void, Never>()
   
+  var postHasBlockedNotifier = PassthroughSubject<PostBlockedElement?, Never>()
+  
   // MARK: - Lifecycle
   init(
     post: Post?,
@@ -186,22 +188,24 @@ private extension PostDetailViewModel {
   }
 }
 
-// MARK: - Private Helpers
-private extension PostDetailViewModel {
-  func bind() {
-    NotificationCenter.default
-      .publisher(for: .hasPostBlocked)
-      .sink { [weak self] notification in
-        if let userInfo = notification.userInfo,
-           let postId = userInfo["postId"] as? Int32,
-           let postOptionLocation = userInfo["postOptionLocation"] as? PostOptionLocation {
-          if postId == Int32(self?.postDetails?.detail.postID ?? "-1") && postOptionLocation == .detailPage {
-            self?.actions?.showFeedAfterBlockingFeed(postId)
-          }
+// MARK: - PostBlockedNotifiable
+extension PostDetailViewModel: PostBlockedNotifiable {
+  private func bind() {
+    bindPostHasBlockedNotification().store(in: &subscriptions)
+    postHasBlockedNotifier.sink { [weak self] element in
+      if let element = element {
+        if element.postId == Int32(self?.postDetails?.detail.postID ?? "-1")
+            && element.postOptionLocation == .detailPage {
+          self?.actions?.showFeedAfterBlockingFeed(element.postId)
         }
-      }.store(in: &subscriptions)
+      }
+    }.store(in: &subscriptions)
   }
   
+}
+
+// MARK: - Private Helpers
+private extension PostDetailViewModel {
   func convertToString(_ travelMainTheme: TravelMainThemeType, subTheme: String) -> String {
     "\(travelMainTheme.rawValue) > \(subTheme)"
   }
