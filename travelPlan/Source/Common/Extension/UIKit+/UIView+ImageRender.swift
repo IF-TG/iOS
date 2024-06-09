@@ -13,7 +13,7 @@ public extension UIView {
   ///
   /// - Parameters size: 주어진 크기 기반으로 UIImage로 render합니다. nil인 경우 현제 뷰가 갖고 있는 크기를 바탕으로 이미지로 변환합니다.
   func toImage(withSize size: CGSize? = nil) -> UIImage {
-    var _size: CGSize = size ?? self.layer.bounds.size
+    let _size: CGSize = size ?? self.layer.bounds.size
     return UIGraphicsImageRenderer(size: _size).image { context in
       self.layer.render(in: context.cgContext)
     }
