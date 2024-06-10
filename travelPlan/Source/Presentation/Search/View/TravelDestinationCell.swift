@@ -18,6 +18,8 @@ class TravelDestinationCell: UICollectionViewCell {
   private lazy var containerView: BaseDestinationView<LeftAlignThreeLabelsView>
   = .init(centerView: LeftAlignThreeLabelsView(), imageViewType: .default)
   
+  private var contentId: Int?
+  
   private var cancellable: AnyCancellable?
   
   // MARK: - LifeCycle
