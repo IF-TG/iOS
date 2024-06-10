@@ -21,6 +21,8 @@ final class RepositoryAssembly: Swinject.Assembly {
     let firestoreService = container.resolve(FirestoreServiceProtocol.self, name: .implementation(.firestore))!
     let firestoreStorageService = container.resolve(
       ImageStorageServiceProtocol.self, name: .implementation(.firestore))!
+    let defaultSession = container.resolve(Sessionable.self, name: .implementation(.default))!
+    let mockSession = container.resolve(Sessionable.self, name: .implementation(.interceptedDefault))!
     
     // MARK: - Common Tour API
     container.register(Sessionable.self, name: .implementation(.default)) { r in
@@ -117,6 +119,14 @@ final class RepositoryAssembly: Swinject.Assembly {
     container.register(LoggedInUserRepository.self, name: .testDouble(.stub)) { r in
       let stubOwnerStroage = r.resolve(OwnerStorage.self, name: .testDouble(.stub))!
       return DefaultLoggedInUserRepository(storage: stubOwnerStroage)
+    }
+    
+    container.register(UserBlockRepository.self, name: .implementation(.default)) { _ in
+      return DefaultUserBlockRepository(service: defaultSession)
+    }
+    
+    container.register(UserBlockRepository.self, name: .implementation(.interceptedDefault)) { r in
+      return DefaultUserBlockRepository(service: mockSession)
     }
     
     // TODO: - SpringServer Post
