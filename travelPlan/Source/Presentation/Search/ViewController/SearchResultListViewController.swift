@@ -180,6 +180,11 @@ extension SearchResultListViewController: UICollectionViewDelegate {
       
       collectionView.deselectItem(at: selectedTagIndexPath, animated: false)
       selectedTagIndexPath = indexPath
+      
+      guard let categoryCell = collectionView.cellForItem(at: indexPath)
+              as? SearchResultCategoryCell else { return }
+      
+      input.didTapCategoryItem.send((indexPath.item, categoryCell.categoryId))
     }
   }
   
