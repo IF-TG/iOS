@@ -16,6 +16,64 @@ final class PresentationAssembly: Assembly {
     // TODO: - PostDetail Page
     
     // TODO: - Post
+    typealias PostOptionViewModelType = (any PostOptionViewModelable & PostOptionViewModelPageDelegate)
+    
+    container.register(
+      PostOptionViewModelType.self,
+      name: .implementation(.default)
+    ) { (
+      r, postId: Int32, postAuthorId: Int32?, postAuthorNickName: String?, 
+      postOptionLocation: PostOptionLocation, actions: PostOptionViewModelActions) in
+      
+      let defaultOwnerRepository = r.resolve(LoggedInUserRepository.self, name: .implementation(.default))!
+      let defaultUserBlockUseCase = r.resolve(UserBlockUseCase.self, name: .implementation(.default))!
+      return PostOptionViewModel(
+        postId: postId,
+        postAuthorId: postAuthorId,
+        postAuthorNickName: postAuthorNickName,
+        postOptionLocation: postOptionLocation,
+        actions: actions,
+        ownerRepository: defaultOwnerRepository,
+        userBlockUseCase: defaultUserBlockUseCase)
+    }
+    
+    container.register(
+      PostOptionViewModelType.self,
+      name: .implementation(.interceptedDefault)
+    ) { (
+      r, postId: Int32, postAuthorId: Int32?, postAuthorNickName: String?,
+      postOptionLocation: PostOptionLocation, actions: PostOptionViewModelActions) in
+      
+      let defaultOwnerRepository = r.resolve(LoggedInUserRepository.self, name: .implementation(.default))!
+      let firestoreUserBlockUseCase = r.resolve(UserBlockUseCase.self, name: .implementation(.interceptedDefault))!
+      return PostOptionViewModel(
+        postId: postId,
+        postAuthorId: postAuthorId,
+        postAuthorNickName: postAuthorNickName,
+        postOptionLocation: postOptionLocation,
+        actions: actions,
+        ownerRepository: defaultOwnerRepository,
+        userBlockUseCase: firestoreUserBlockUseCase)
+    }
+    
+    container.register(
+      PostOptionViewModelType.self,
+      name: .implementation(.firestore)
+    ) { (
+      r, postId: Int32, postAuthorId: Int32?, postAuthorNickName: String?,
+      postOptionLocation: PostOptionLocation, actions: PostOptionViewModelActions) in
+      
+      let defaultOwnerRepository = r.resolve(LoggedInUserRepository.self, name: .implementation(.default))!
+      let firestoreUserBlockUseCase = r.resolve(UserBlockUseCase.self, name: .implementation(.firestore))!
+      return PostOptionViewModel(
+        postId: postId,
+        postAuthorId: postAuthorId,
+        postAuthorNickName: postAuthorNickName,
+        postOptionLocation: postOptionLocation,
+        actions: actions,
+        ownerRepository: defaultOwnerRepository,
+        userBlockUseCase: firestoreUserBlockUseCase)
+    }
     
     // TODO: - Notification Page
     
