@@ -116,8 +116,9 @@ extension SearchResultListViewController {
           self?.collectionView.reloadItems(at: indexPath)
         case .firstReloadData:
           self?.collectionView.reloadData()
-          
           self?.collectionView.selectItem(at: selectedTagIndexPath, animated: false, scrollPosition: [])
+        case .reloadSection(let section):
+          self?.collectionView.reloadSections(IndexSet(integer: section))
         case .none:
           break
         }
