@@ -35,7 +35,7 @@ final class PresentationAssembly: Assembly {
         actions: actions,
         ownerRepository: defaultOwnerRepository,
         userBlockUseCase: defaultUserBlockUseCase)
-    }
+    }.inObjectScope(.transient)
     
     container.register(
       PostOptionViewModelType.self,
@@ -54,7 +54,7 @@ final class PresentationAssembly: Assembly {
         actions: actions,
         ownerRepository: defaultOwnerRepository,
         userBlockUseCase: firestoreUserBlockUseCase)
-    }
+    }.inObjectScope(.transient)
     
     container.register(
       PostOptionViewModelType.self,
@@ -73,7 +73,7 @@ final class PresentationAssembly: Assembly {
         actions: actions,
         ownerRepository: defaultOwnerRepository,
         userBlockUseCase: firestoreUserBlockUseCase)
-    }
+    }.inObjectScope(.transient)
     
     // TODO: - Notification Page
     
