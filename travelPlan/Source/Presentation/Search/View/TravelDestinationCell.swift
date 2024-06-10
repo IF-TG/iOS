@@ -43,19 +43,32 @@ class TravelDestinationCell: UICollectionViewCell {
 extension TravelDestinationCell {
   func configure(with info: TravelDestinationInfo) {
     containerView.configure(
-      centerViewInfo: LeftAlignThreeLabelsView.Model(place: info.place,
-                                                     category: info.category,
-                                                     location: info.location),
+      centerViewInfo: LeftAlignThreeLabelsView.Model(
+        place: info.place,
+        category: info.category,
+        location: info.location
+      ),
       imageData: info.imageData,
       isSelectedButton: info.isButtonSelected
     )
+    self.contentId = info.id
+  }
+  
+  func bind(to publisher: PassthroughSubject<(IndexPath, Int), Never>, indexPath: IndexPath) {
+    cancellable?.cancel()
+    cancellable = containerView
+      .starButtonTapPublisher
+      .sink { [weak self] in
+        guard let self = self, let contentId = self.contentId else { return }
+        publisher.send((indexPath, contentId))
+      }
   }
   
   func bind(to publisher: PassthroughSubject<IndexPath, Never>, indexPath: IndexPath) {
     cancellable?.cancel()
     cancellable = containerView
       .starButtonTapPublisher
-      .sink {
+      .sink { _ in
         publisher.send(indexPath)
       }
   }
