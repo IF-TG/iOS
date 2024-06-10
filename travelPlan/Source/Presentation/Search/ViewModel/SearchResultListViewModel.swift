@@ -95,7 +95,6 @@ extension DefaultSearchResultListViewModel {
             ))
             
             let travelInfos = [
-<<<<<<< HEAD
               TravelDestinationInfo(place: "숙박 mock", categoryId: TourType.accommodation.rawValue, 
                                     category: TourType.accommodation.toString, location: "강릉",
                                     isButtonSelected: true, imageData: TempSource.imageData, id: 1),
@@ -117,22 +116,6 @@ extension DefaultSearchResultListViewModel {
               TravelDestinationInfo(place: "레포츠 mock4", categoryId: TourType.leports.rawValue,
                                     category: TourType.leports.toString, location: "전주",
                                     isButtonSelected: true, imageData: TempSource.imageData, id: 7)
-=======
-              TravelDestinationInfo(place: "타이틀1", category: TourType.accommodation.toString, location: "강릉",
-                                    isButtonSelected: true, imageData: TempSource.imageData, id: 123),
-              TravelDestinationInfo(place: "타이틀2", category: TourType.attraction.toString, location: "인천",
-                                    isButtonSelected: false, imageData: TempSource.imageData, id: 234),
-              TravelDestinationInfo(place: "타이틀3", category: TourType.cultureFacility.toString, location: "대전",
-                                    isButtonSelected: false, imageData: TempSource.imageData, id: 345),
-              TravelDestinationInfo(place: "타이틀4", category: TourType.leports.toString, location: "전주",
-                                    isButtonSelected: true, imageData: TempSource.imageData, id: 456),
-              TravelDestinationInfo(place: "타이틀4", category: TourType.leports.toString, location: "전주",
-                                    isButtonSelected: true, imageData: TempSource.imageData, id: 456),
-              TravelDestinationInfo(place: "타이틀4", category: TourType.leports.toString, location: "전주",
-                                    isButtonSelected: true, imageData: TempSource.imageData, id: 456),
-              TravelDestinationInfo(place: "타이틀4", category: TourType.leports.toString, location: "전주",
-                                    isButtonSelected: true, imageData: TempSource.imageData, id: 456)
->>>>>>> 9bfa38a3aa02a2b1253b65ff576c6640c0bc4bd2
             ]
             self?.originalDestinationInfos = travelInfos
             self?.dataSource.append(.destination(travelInfos))
