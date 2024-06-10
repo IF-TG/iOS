@@ -13,6 +13,22 @@ final class DomainAssembly: Swinject.Assembly {
     // TODO: - Tour Use Case
     
     // TODO: - User Use Case
+    container.register(UserBlockUseCase.self, name: .implementation(.default)) { r in
+      let defaultUserBlockRepository = r.resolve(UserBlockRepository.self, name: .implementation(.default))!
+      return DefaultUserBlockUseCase(userBlockRepository: defaultUserBlockRepository)
+    }
+    
+    container.register(UserBlockUseCase.self, name: .implementation(.firestore)) { r in
+      let firestoreUserBlockRepository = r.resolve(UserBlockRepository.self, name: .implementation(.firestore))!
+      return DefaultUserBlockUseCase(userBlockRepository: firestoreUserBlockRepository)
+    }
+    
+    container.register(UserBlockUseCase.self, name: .implementation(.interceptedDefault)) { r in
+      let interceptedUserBlockRepository = r.resolve(
+        UserBlockRepository.self,
+        name: .implementation(.interceptedDefault))!
+      return DefaultUserBlockUseCase(userBlockRepository: interceptedUserBlockRepository)
+    }
     
     // TODO: - Album Use Case
     
