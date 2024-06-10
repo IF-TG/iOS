@@ -107,11 +107,12 @@ extension PostCollectionView {
   private func configureUI() {
     showsHorizontalScrollIndicator = false
     backgroundColor = Constant.backgroundColor
-    register(PostCellWithOneThumbnail.self, forCellWithReuseIdentifier: PostCellWithOneThumbnail.id)
-    register(PostCellWithTwoThumbnails.self, forCellWithReuseIdentifier: PostCellWithTwoThumbnails.id)
-    register(PostCellWithThreeThumbnails.self, forCellWithReuseIdentifier: PostCellWithThreeThumbnails.id)
-    register(PostCellWithFourThumbnails.self, forCellWithReuseIdentifier: PostCellWithFourThumbnails.id)
-    register(PostCellWithFiveThumbnails.self, forCellWithReuseIdentifier: PostCellWithFiveThumbnails.id)
+    register(PostCellWithOneThumbnail.self, forCellWithReuseIdentifier: PostCellWithOneThumbnail.identifier)
+    register(PostCellWithTwoThumbnails.self, forCellWithReuseIdentifier: PostCellWithTwoThumbnails.identifier)
+    register(PostCellWithThreeThumbnails.self, forCellWithReuseIdentifier: PostCellWithThreeThumbnails.identifier)
+    register(PostCellWithFourThumbnails.self, forCellWithReuseIdentifier: PostCellWithFourThumbnails.identifier)
+    register(PostCellWithFiveThumbnails.self, forCellWithReuseIdentifier: PostCellWithFiveThumbnails.identifier
+    )
     let nextPageCellNib = UINib(nibName: "BottomNextPageIndicatorCell", bundle: nil)
     register(nextPageCellNib, forCellWithReuseIdentifier: BottomNextPageIndicatorCell.identifier)
   }

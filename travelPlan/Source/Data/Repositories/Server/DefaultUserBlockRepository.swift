@@ -45,8 +45,10 @@ final class DefaultUserBlockRepository: UserBlockRepository {
     }.eraseToAnyPublisher()
   }
   
+  /// UnblockedUser또한 내부적으로 blockedUser를 사용합니다. firestore를 사용할땐 unblock을 직접 호출하도록 작성했는데,
+  /// 스프링 서버는 내부적으로 unblock합니다.
   func unblockUser(with blockedUserId: String) -> AnyPublisher<Void, any Error> {
-    fatalError("api 미구현된 api입니다.")
+    return blockUser(with: blockedUserId).map { _ in return () }.eraseToAnyPublisher()
   }
   
   func fetchBlockedUsers() -> AnyPublisher<[BlockedUserIdentifyEntity], any Error> {

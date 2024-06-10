@@ -33,13 +33,9 @@ extension FavoriteTableViewAdapter: UITableViewDataSource {
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    guard
-      let cell = tableView.dequeueReusableCell(
-        withIdentifier: FavoriteTableViewCell.id,
-        for: indexPath) as? FavoriteTableViewCell,
-      let item = dataSource?.cellItem(at: indexPath.row)
-    else {
-      return .init()
+    let cell = tableView.dequeueReusableCell(for: indexPath, type: FavoriteTableViewCell.self)
+    guard let item = dataSource?.cellItem(at: indexPath.row), let cell = cell else {
+      return .init(frame: .zero)
     }
     cell.configure(with: item)
     cell.delegate = self
@@ -60,13 +56,9 @@ extension FavoriteTableViewAdapter: UITableViewDelegate {
     _ tableView: UITableView,
     viewForHeaderInSection section: Int
   ) -> UIView? {
-    guard
-      let item = dataSource?.headerItem,
-      let header = tableView.dequeueReusableHeaderFooterView(
-        withIdentifier: FavoriteHeaderView.id
-      ) as? FavoriteHeaderView
-    else {
-      return .init()
+    let header = tableView.dequeueReusableHeaderFooterView(type: FavoriteHeaderView.self)
+    guard let item = dataSource?.headerItem, let header = header else { 
+      return .init(frame: .zero)
     }
     header.configure(with: item)
     return header

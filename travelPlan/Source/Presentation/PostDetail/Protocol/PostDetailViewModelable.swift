@@ -16,6 +16,7 @@ protocol PostDetailViewModelPageDelegate: AnyObject {
   func showCategory()
   func showPostReportResult()
   func showReviewWriting()
+  func showAlertAndDismiss(with description: String)
 }
 
 // MARK: - Actions
@@ -33,6 +34,8 @@ struct PostDetailViewModelActions {
   
   let showReviewWriting: (ReviewWritingEntity) -> Void
   let showFeedAfterBlockingFeed: (PostId) -> Void
+  
+  let finishWithAnim: () -> Void
 }
 
 // MARK: - Input
@@ -46,6 +49,7 @@ struct PostDetailViewModelInput {
 // MARK: - State
 @frozen enum PostDetailViewModelState {
   case none
+  case failedToFetchPost(description: String)
   case networkProcessing
   
   case viewDidLoad(PostDetailViewDidLoadState)
@@ -59,6 +63,8 @@ struct PostDetailViewModelInput {
   
   case loggedInUserInfo(userProfile: Data?, isPostOwner: Bool)
   case naviTitleInfo((Title, Duration))
+  /// Universal link에 의해 서버에서 postDetails를 받은 경우에 사용됩니다.
+  case reloadData
 }
 
 @frozen enum PostDetailOptionState {

@@ -74,46 +74,24 @@ extension PostDetailTableViewAdapter: UITableViewDataSource {
     guard let dataSource else { return .init(frame: .zero) }
     switch sectionType {
     case .postDescription:
-      guard let cell = tableView.dequeueReusableCell(
-        withIdentifier: PostDetailTitleCell.id,
-        for: indexPath
-      ) as? PostDetailTitleCell else {
-        return .init(frame: .zero)
-      }
-      cell.configure(with: dataSource.title)
-      return cell
+      let cell = tableView.dequeueReusableCell(for: indexPath, type: PostDetailTitleCell.self)
+      cell?.configure(with: dataSource.title)
+      return cell ?? .init(frame: .zero)
     case .postContent:
       let postContentItem = dataSource.postContentItem(at: indexPath.row)
       switch postContentItem {
       case .text(let text):
-        guard let cell = tableView.dequeueReusableCell(
-          withIdentifier: PostDetailContentTextCell.id,
-          for: indexPath
-        ) as? PostDetailContentTextCell else {
-          return .init(frame: .zero)
-        }
-        cell.configure(with: text)
-        return cell
+        let cell = tableView.dequeueReusableCell(for: indexPath, type: PostDetailContentTextCell.self)
+        cell?.configure(with: text)
+        return cell ?? .init(frame: .zero)
       case .image(let imagePath):
-        guard let cell = tableView.dequeueReusableCell(
-          withIdentifier: PostDetailContentImageCell.id,
-          for: indexPath
-        ) as? PostDetailContentImageCell  else {
-          return .init(frame: .zero)
-        }
-        cell.configure(with: imagePath)
-        return cell
+        let cell = tableView.dequeueReusableCell(for: indexPath, type: PostDetailContentImageCell.self)
+        cell?.configure(with: imagePath)
+        return cell ?? .init(frame: .zero)
       }
     default:
-      guard
-        let cell = tableView.dequeueReusableCell(
-          withIdentifier: PostDetailReplyCell.id,
-          for: indexPath
-        ) as? PostDetailReplyCell,
-        let chatDataSource
-      else {
-        return .init(frame: .zero)
-      }
+      let cell = tableView.dequeueReusableCell(for: indexPath, type: PostDetailReplyCell.self)
+      guard let chatDataSource, let cell else { return .init(frame: .zero) }
       cell.configure(with: chatDataSource.replyItem(at: indexPath))
       cell.delegate = self
       return cell
@@ -132,7 +110,6 @@ extension PostDetailTableViewAdapter: UITableViewDelegate {
     // MARK: - 내가 댓글이나 대댓글 달았을때 적용하자. RESTFul에선 실시간으로 댓글달린거 갱신이 불가능!! 내가단거 한정으로!!
   }
   
-  // swiftlint:disable cyclomatic_complexity
   func tableView(
     _ tableView: UITableView,
     viewForHeaderInSection section: Int
@@ -141,53 +118,33 @@ extension PostDetailTableViewAdapter: UITableViewDelegate {
     guard let dataSource else { return nil }
     switch sectionType {
     case .postDescription:
-      guard let header = tableView.dequeueReusableHeaderFooterView(
-        withIdentifier: PostDetailCategoryHeaderView.id
-      ) as? PostDetailCategoryHeaderView else {
-        return nil
-      }
-      header.configure(with: dataSource.cateogry)
+      let header = tableView.dequeueReusableHeaderFooterView(type: PostDetailCategoryHeaderView.self)
+      header?.configure(with: dataSource.cateogry)
       return header
     case .postContent: return nil
     case .postHeartAndShareArea:
-      guard let postHeartAreaHeader = tableView.dequeueReusableHeaderFooterView(
-        withIdentifier: PostHeartAndShareAreaHeaderView.id
-      ) as? PostHeartAndShareAreaHeaderView else {
-        return nil
-      }
-      postHeartAreaHeader.delegate = self
+      let postHeartAreaHeader = tableView.dequeueReusableHeaderFooterView(type: PostHeartAndShareAreaHeaderView.self)
+      postHeartAreaHeader?.delegate = self
       return postHeartAreaHeader
     default:
       guard let chatDataSource else { return nil }
       let cellInfo = chatDataSource.commentItem(in: PostDetailSection(rawValue: section))
       if cellInfo.isDeleted {
-        guard let commentHeader = tableView.dequeueReusableHeaderFooterView(
-          withIdentifier: PostDetailDeletedOrUnknwonCommentHeader.id
-        ) as? PostDetailDeletedOrUnknwonCommentHeader else {
-          return nil
-        }
-        return commentHeader
+        return tableView.dequeueReusableHeaderFooterView(type: PostDetailDeletedOrUnknwonCommentHeader.self)
       }
-      guard let commentHeader = tableView.dequeueReusableHeaderFooterView(
-        withIdentifier: PostDetailCommentHeader.id
-      ) as? PostDetailCommentHeader else {
-        return nil
-      }
-      commentHeader.configure(with: cellInfo.baseInfo)
-      commentHeader.delegate = self
+      let commentHeader = tableView.dequeueReusableHeaderFooterView(type: PostDetailCommentHeader.self)
+      commentHeader?.configure(with: cellInfo.baseInfo)
+      commentHeader?.delegate = self
       return commentHeader
     }
   }
-  // swiftlint:enable cyclomatic_complexity
   
   func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
     let sectionType = PostDetailSection(rawValue: section)
     guard let dataSource else { return nil }
     switch sectionType {
     case .postDescription:
-      guard let footer = tableView.dequeueReusableHeaderFooterView(
-        withIdentifier: PostDetailProfileAreaFooterView.id
-      ) as? PostDetailProfileAreaFooterView else {
+      guard let footer = tableView.dequeueReusableHeaderFooterView(type: PostDetailProfileAreaFooterView.self) else {
         return nil
       }
       if let specificHeight = footer.getHeightBelowDurationLabelMaxY() {
@@ -196,12 +153,7 @@ extension PostDetailTableViewAdapter: UITableViewDelegate {
       footer.configure(with: dataSource.profileAreaItem)
       return footer
     case .postContent:
-      guard let footer = tableView.dequeueReusableHeaderFooterView(
-        withIdentifier: PostDetailContentFooterView.id
-      ) as? PostDetailContentFooterView else {
-        return nil
-      }
-      return footer
+      return tableView.dequeueReusableHeaderFooterView(type: PostDetailContentFooterView.self)
     default:
       return nil
     }

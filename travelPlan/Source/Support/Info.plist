@@ -5,6 +5,14 @@
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
+			<key>CFBundleURLName</key>
+			<string>com.yeoga.app</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>yeogaapp</string>
+			</array>
+		</dict>
+		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
@@ -19,7 +27,7 @@
 		<true/>
 		<key>NSExceptionDomains</key>
 		<dict>
-			<key>apis.data.go.kr</key>
+			<key>tong.visitkorea.or.kr</key>
 			<dict>
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
 				<true/>
@@ -28,22 +36,10 @@
 			</dict>
 		</dict>
 	</dict>
-  <key>NSAppTransportSecurity</key>
-  <dict>
-    <key>NSAllowsArbitraryLoads</key>
-    <true/>
-    <key>NSExceptionDomains</key>
-    <dict>
-      <key>tong.visitkorea.or.kr</key>
-      <dict>
-        <key>NSExceptionAllowsInsecureHTTPLoads</key>
-        <true/>
-        <key>NSIncludesSubdomains</key>
-        <true/>
-      </dict>
-    </dict>
-  </dict>
-
+	<key>AppleAppId</key>
+	<string>$(AppleAppId)</string>
+	<key>AppsFlyerDevKey</key>
+	<string>$(AppsFlyerDevKey)</string>
 	<key>PHPhotoLibraryPreventAutomaticLimitedAccessAlert</key>
 	<true/>
 	<key>TourAPI_ServiceKey</key>

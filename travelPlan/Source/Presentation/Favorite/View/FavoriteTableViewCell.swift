@@ -8,7 +8,7 @@
 import UIKit
 
 // TODO: - 메뉴버튼 클릭시 우선순위 교체 로직 추가해야합니다.
-final class FavoriteTableViewCell: UITableViewCell {
+final class FavoriteTableViewCell: UITableViewCell, CellIdentifiable {
   enum Constant {
     static let deleteControlWidth = FavoriteViewController.Constant.deleteControlWidth
     enum DeleteButton {
@@ -69,9 +69,6 @@ final class FavoriteTableViewCell: UITableViewCell {
       }
     }
   }
-  
-  // MARK: - Identifier
-  static let id: String = String(describing: FavoriteTableViewCell.self)
 
   // MARK: - Properties
   private lazy var deleteButton = UIButton(frame: .zero).set {
@@ -152,7 +149,7 @@ final class FavoriteTableViewCell: UITableViewCell {
 
 // MARK: - Helpers
 extension FavoriteTableViewCell {
-  func configure(with data: FavoriteCellInfo?) {
+  func configure(with data: FavoriteInfo?) {
     let combinedTitle = titleAndInnerItemCount(data?.title, itemCount: data?.innerItemCount)
     self.titleLabel.text = combinedTitle
     editModeTitleLabel.text = data?.title

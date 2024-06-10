@@ -16,6 +16,7 @@ struct FeedPostViewModelInput {
   let notifiedMainThemeFilterRequest: PassthroughSubject<TravelMainThemeType, Never>
   let specificPostTapped: PassthroughSubject<Int, Never> = .init()
   let postBlockSubject: PassthroughSubject<Int32, Never> = .init()
+  let postShareSubject: PassthroughSubject<IndexPath, Never> = .init()
   
   init(
     notifiedOrderFilterRequest: PassthroughSubject<TravelOrderType, Never>,
@@ -27,14 +28,18 @@ struct FeedPostViewModelInput {
 }
 
 @frozen enum FeedPostViewModelState {
+  typealias Title = String
+  typealias PostId = Int
+  
   case viewDidLoad
   case refresh
   case pagination(FeedPostViewModelPaginationState)
   case unexpectedError(description: String)
   case networking
   case postFilterLoaded
+  case share(Title, PostId)
   ///
-  case detailPostShow(post: Post, category: Post.Category)
+  case detailPostShow(post: Post)
   case deleteBlockedPost(IndexPath)
   case none
 }
