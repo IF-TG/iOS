@@ -24,7 +24,7 @@ private final class PostOneThumbnailView: UIImageView {
   }
 }
 
-final class PostCellWithOneThumbnail: BasePostCell, BasePostViewDelegator, CellIdentifiable {
+final class PostCellWithOneThumbnail: BasePostCell, BasePostViewDelegator {
   // MARK: - Properties
   private let thumbnailView: PostOneThumbnailView
   

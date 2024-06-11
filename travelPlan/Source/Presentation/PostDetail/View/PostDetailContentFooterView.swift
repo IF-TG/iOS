@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class PostDetailContentFooterView: UITableViewHeaderFooterView, HeaderFooterViewIdentifiable {
+final class PostDetailContentFooterView: UITableViewHeaderFooterView {
   enum Constant {
     static let DividerHeight: CGFloat = 1
     static let spacing: CGFloat = 10

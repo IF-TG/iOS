@@ -20,3 +20,6 @@ extension CellIdentifiable where Self: UITableViewCell {
     return String(describing: self)
   }
 }
+
+extension UICollectionViewCell: CellIdentifiable {}
+extension UITableViewCell: CellIdentifiable {}

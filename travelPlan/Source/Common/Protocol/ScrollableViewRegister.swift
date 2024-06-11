@@ -10,7 +10,7 @@ import UIKit
 protocol ScrollableViewRegister { }
 extension ScrollableViewRegister where Self: UITableView {
   /// tableView reusable cell register
-  func register<R>(type: R.Type) where R: UITableViewCell, R: CellIdentifiable {
+  func register<R>(type: R.Type) where R: UITableViewCell {
     self.register(type.self, forCellReuseIdentifier: R.identifier)
   }
   
@@ -21,7 +21,7 @@ extension ScrollableViewRegister where Self: UITableView {
 }
 
 extension ScrollableViewRegister where Self: UICollectionView {
-  func register<R>(type: R.Type) where R: UICollectionViewCell, R: CellIdentifiable {
+  func register<R>(type: R.Type) where R: UICollectionViewCell {
     self.register(R.self, forCellWithReuseIdentifier: R.identifier)
   }
   

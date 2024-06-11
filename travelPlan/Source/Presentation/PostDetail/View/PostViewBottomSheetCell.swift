@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class PostViewBottomSheetCell: UITableViewCell, CellIdentifiable {
+final class PostViewBottomSheetCell: UITableViewCell {
   // MARK: - Constant
   struct Constant {
     enum Title {

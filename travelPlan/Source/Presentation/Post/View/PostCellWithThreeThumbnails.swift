@@ -36,7 +36,7 @@ private final class PostThreeThumbnailsView: UIStackView {
   }
 }
 
-final class PostCellWithThreeThumbnails: BasePostCell, BasePostViewDelegator, CellIdentifiable {
+final class PostCellWithThreeThumbnails: BasePostCell, BasePostViewDelegator {
   // MARK: - Properties
   private let thumbnailView: PostThreeThumbnailsView
   
