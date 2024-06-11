@@ -19,12 +19,12 @@ final class PostOptionViewModel {
   
   private var postOption: PostOption? = .none
   
-  private let postId: Int32
+  private var postId: Int32?
   
-  /// PostAuthor가 존재하지 않는 경우 유니버셜 링크를 통해 이동했기 때문입니다. 이때는 PostDetailVM에서 받아질 때까지 대기해야 합니다.
-  private let postAuthorId: Int32?
+  // TODO: - PostAuthor가 존재하지 않는 경우 유니버셜 링크를 통해 이동했기 때문입니다. 이때는 PostDetailVM에서 받아질 때까지 대기해야 합니다.
+  private var postAuthorId: Int32?
   
-  private let postAuthorNickname: String?
+  private var postAuthorNickname: String?
   
   private let postOptionLocation: PostOptionLocation
   
@@ -38,10 +38,12 @@ final class PostOptionViewModel {
   private let postAuthorBlockHandler = PassthroughSubject<Void, Never>()
   
   // MARK: - Lifecycle
-  // TODO: - postAuthorId가 존재하지 않을 수있음. 이 경우는 유니버셜 링크를 타고 들어오는 경우이고, 이때 메인에서 fetch하면 노티로 여기서도 받도록
-  // 구현해야함.
+  // TODO: - postAuthorId가 존재하지 않을 수있음. 이 경우는 유니버셜 링크를 타고 들어오는 경우이고, 이때 메인에서 fetch하면 노티로 여기서 postId,
+  // 저자 닉네임, 저자 이름 받도록 구현해야함.
+  
+  // postId가 nil인 경우는 피드에서 사용됩니다.
   init(
-    postId: Int32,
+    postId: Int32?,
     postAuthorId: Int32?,
     postAuthorNickName: String?,
     postOptionLocation: PostOptionLocation,
@@ -119,6 +121,7 @@ extension PostOptionViewModel: PostOptionViewModelPageDelegate {
 extension PostOptionViewModel: PostOptionViewModelable {
   func transform(_ input: PostOptionViewModelInput) -> Output {
     return Publishers.MergeMany([
+      postInfoSubjectStream(input),
       postReportNotifierStream(),
       postAuthorBlockNotifierStream(),
       postReportHandlerStream(),
@@ -129,6 +132,15 @@ extension PostOptionViewModel: PostOptionViewModelable {
 
 // MARK: - Private Stream Helpers
 private extension PostOptionViewModel {
+  /// 포스트 섬네일 화면에서 사용됩니다.
+  func postInfoSubjectStream(_ input: Input) -> Output {
+    return input.postInfoSubject.map { [weak self] postId, authorId, authorName in
+      self?.postId = postId
+      self?.postAuthorId = authorId
+      self?.postAuthorNickname = authorName
+      return .none
+    }.eraseToAnyPublisher()
+  }
   func postReportNotifierStream() -> Output {
     return postReportNotifier
       .map { reportType -> State in
@@ -173,6 +185,7 @@ private extension PostOptionViewModel {
       //      case .stopRequest:
       //
       //      }
+      // MARK: - completeReport 보내기.
       return Just(State.unexpectedError(description: "포스트 신고하기 api가 없습니다."))
         .eraseToAnyPublisher()
       
