@@ -26,6 +26,11 @@ line_length:
 #  min_length: 1200
 #  max_length: 1500
 
+function_parameter_count:
+  ignored_regex: 'register\('
+
+function_parameter_count:
+  ignored_regex: 'resolve\('
 
 nesting:
   type_level:

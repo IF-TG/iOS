@@ -48,7 +48,6 @@ public extension Container {
   }
   
   /// Container에 a service register할 때 인자값이 5개 요구되는 경우에 사용합니다.
-  // swiftlint:disable:next function_parameter_count
   @discardableResult
   @inline(__always)
   func register<Service, Arg1, Arg2, Arg3, Arg4, Arg5>(
@@ -60,7 +59,6 @@ public extension Container {
   }
   
   /// Container에 a service register할 때 인자값이 7개 요구되는 경우에 사용합니다.
-  // swiftlint:disable:next function_parameter_count
   @discardableResult
   @inline(__always)
   func register<Service, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7>(
