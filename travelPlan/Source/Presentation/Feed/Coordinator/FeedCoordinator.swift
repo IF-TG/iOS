@@ -27,6 +27,12 @@ protocol FeedCoordinatorDependencies {
 protocol FeedPostCoordinatorDelegate: AnyObject {
   func showDetailPost(post: Post, blockedPost: @escaping (Int32) -> Void)
   func showPostShare(with activityItems: [Any])
+  func showCompleteionPostBlocking()
+  
+  func showOption(handler: ((PostOption) -> Void)?)
+  func showPostReport(handler: ((PostReportType) -> Void)?)
+  func showPostReportResult(wtih option: PostOption)
+  func showPostAuthorBlock(_ authorName: String, handler: ((Bool) -> Void)?)
 }
 
 protocol FeedCoordinatorDelegate: FlowCoordinatorDelegate {
@@ -36,9 +42,10 @@ protocol FeedCoordinatorDelegate: FlowCoordinatorDelegate {
   func showPostMainThemeCategoryBottomSheet(mainTheme: TravelMainThemeType)
   func showPostOrderCategoryBottomSheet()
   func showReviewWrite()
+  func showAlertForError(with description: String, completion: (() -> Void)?)
 }
 
-final class FeedCoordinator: FlowCoordinator {
+final class FeedCoordinator: FlowCoordinator, AlertCoordinatable, PostOptionCoordinatable {
   // MARK: - Properties
   var parent: FlowCoordinator?
   
@@ -82,6 +89,21 @@ final class FeedCoordinator: FlowCoordinator {
     }
     presenter?.present(alert, animated: true)
   }
+  
+  func makePostOptionViewModelActions() -> PostOptionViewModelActions {
+    return PostOptionViewModelActions(
+      showPostOption: { [weak self] optionCallBack in
+        self?.showOption(handler: optionCallBack)
+      }) { [weak self] reportCallback in
+        self?.showPostReport(handler: reportCallback)
+      } showPostReportResult: { [weak self] option in
+        self?.showPostReportResult(wtih: option)
+      } showPostAuthorBlock: { [weak self] authorName, completion in
+        self?.showPostAuthorBlock(authorName, handler: completion)
+      } showAlertForError: { [weak self] message, completion in
+        self?.showAlertForError(with: message, completion: completion)
+      }
+  }
 }
 
 // MARK: - FeedPostCoordinatorDelegate
@@ -105,10 +127,14 @@ extension FeedCoordinator: FeedPostCoordinatorDelegate {
     
     viewController?.present(activityVC, animated: true, completion: nil)
   }
+  
+  func showCompleteionPostBlocking() {
+    presenter?.present(PostOptionResultAlertController(type: .postAuthorBlock), animated: true)
+  }
 }
 
 // MARK: - FeedCoordinatorDelegate
-extension FeedCoordinator: FeedCoordinatorDelegate {  
+extension FeedCoordinator: FeedCoordinatorDelegate {
   func showPostSearch() {
     let childCoordinator = dependencies.makePostSearchCoordinator(presenter: presenter)
     addChild(with: childCoordinator)
