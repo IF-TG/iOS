@@ -36,4 +36,20 @@ extension AppDIContainer {
   ) -> Service? {
     return resolver.resolve(Service.self, name: name, arguments: arg1, arg2, arg3)!
   }
+  
+  func resolve<Service, Arg1, Arg2, Arg3, Arg4, Arg5>(
+    _: Service.Type,
+    name: String? = nil,
+    arguments arg1: Arg1, _ arg2: Arg2, _ arg3: Arg3, _ arg4: Arg4, _ arg5: Arg5
+  ) -> Service? {
+    return resolver.resolve(Service.self, name: name, arguments: arg1, arg2, arg3, arg4, arg5)!
+  }
+  
+  func resolve<Service, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7>(
+    _: Service.Type,
+    name: String? = nil,
+    arguments arg1: Arg1, _ arg2: Arg2, _ arg3: Arg3, _ arg4: Arg4, _ arg5: Arg5, _ arg6: Arg6, _ arg7: Arg7
+  ) -> Service? {
+    return resolver.resolve(Service.self, name: name, arguments: arg1, arg2, arg3, arg4, arg5, arg6, arg7)!
+  }
 }
