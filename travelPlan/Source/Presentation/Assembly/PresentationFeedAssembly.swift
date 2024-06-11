@@ -27,7 +27,7 @@ final class PresentationFeedAssembly: Assembly {
         qos: .default,
         attributes: .concurrent)
       return FeedViewModel(backgroundQueue: backgroundQueue)
-    }
+    }.inObjectScope(.transient)
     
     // MARK: - FeedPostViewModel
     container.register(
@@ -55,59 +55,70 @@ final class PresentationFeedAssembly: Assembly {
     }.inObjectScope(.transient)
     
     // MARK: - FeedPostViewController
-    typealias PostOptionViewModelType = any PostOptionViewModelable & PostOptionViewModelPageDelegate
+    let categoryPageViewMdoel = container.resolve(CategoryPageViewDataSource.self)!
+    let feedPageServiceNames = makeFeedPageCategoryServiceNames(categoryPageViewMdoel)
+    let defaultFeedPageServiceNames = makeDefaultFeedPageServiceNames(feedPageServiceNames)
+    let mockFeedPageServiceNames = makeMockFeedPageServiceNames(feedPageServiceNames)
+    let numberOfCategories = categoryPageViewMdoel.numberOfItems
     
-    container.register([UIViewController].self, name: "DefaultFeedPageViews") { (r, coordinator: FeedCoordinator) in
-      let categoryPageViewModel = r.resolve(CategoryPageViewDataSource.self)!
-      return (0..<categoryPageViewModel.numberOfItems).map {
-        let feedCategory = categoryPageViewModel.postSearchFilterItem(at: $0)
-        if $0 + 1 == categoryPageViewModel.numberOfItems {
-          return r.resolve(DevelopmentViewController.self)!
-        }
-        let feedPostViewModel = r.resolve(
-          (any FeedPostViewModelable & FeedPostViewAdapterDataSource).self,
-          name: .implementation(.default),
-          argument: feedCategory)!
-        let postOptionViewModel = r.resolve(
-          PostOptionViewModelType.self,
-          name: .implementation(.default),
-          arguments: nil as Int32?, nil as Int32?, nil as String?, 
-            PostOptionLocation.summaryPage, coordinator.makePostOptionViewModelActions())!
+    /// 마지막 인덱스는 개발자 페이지인데, 위에서 이미 등록됬습니다.
+    for index in 0..<numberOfCategories - 1 {
+      let feedCategory = categoryPageViewMdoel.postSearchFilterItem(at: index)
+      let defaultFeedPageServiceName = feedPageServiceNames[index]
+      let mockFeedPageServiceName = mockFeedPageServiceNames[index]
+      
+      // MARK: - 피드 페이지뷰컨트롤러 default, mock register.
+      container.register(
+        UIViewController.self,
+        name: defaultFeedPageServiceName
+      ) { (r, coordinator: FeedCoordinator) in
+        let defaultFeedPostViewModel = self.resolveFeedPostViewModel(
+          r,
+          serviceName: .implementation(.default),
+          arguemnt: feedCategory)
+        let defaultPostOptionViewModel = self.resolvePostOptionViewModel(
+          r,
+          serviceName: .implementation(.default),
+          actions: coordinator.makePostOptionViewModelActions())
         return FeedPostViewController(
           type: feedCategory,
-          viewModel: feedPostViewModel, 
-          postOptionViewModel: postOptionViewModel
-        ).set {
-          $0.coordinator = coordinator
-        }
+          viewModel: defaultFeedPostViewModel,
+          postOptionViewModel: defaultPostOptionViewModel)
+      }
+      
+      container.register(UIViewController.self, name: mockFeedPageServiceName) { (r, coordinator: FeedCoordinator) in
+        let mockFeedPostVM = self.resolveFeedPostViewModel(
+          r,
+          serviceName: .testDouble(.mock),
+          arguemnt: feedCategory)
+        let mockPostOptionVM = self.resolvePostOptionViewModel(
+          r,
+          serviceName: .testDouble(.mock),
+          actions: coordinator.makePostOptionViewModelActions())
+        return FeedPostViewController(
+          type: feedCategory,
+          viewModel: mockFeedPostVM,
+          postOptionViewModel: mockPostOptionVM)
       }
     }
     
-    container.register([UIViewController].self, name: "MockFeedPageViews") { (r, coordinator: FeedCoordinator) in
-      let categoryPageViewModel = r.resolve(CategoryPageViewDataSource.self)!
-      return (0..<categoryPageViewModel.numberOfItems).map {
-        let feedCategory = categoryPageViewModel.postSearchFilterItem(at: $0)
-        if $0 + 1 == categoryPageViewModel.numberOfItems {
-          return r.resolve(DevelopmentViewController.self)!
-        }
-        let feedPostViewModel = r.resolve(
-          (any FeedPostViewModelable & FeedPostViewAdapterDataSource).self,
-          name: .testDouble(.mock),
-          argument: feedCategory)!
-        
-        let postOptionViewModel = r.resolve(
-          PostOptionViewModelType.self,
-          name: .testDouble(.mock),
-          arguments: nil as Int32?, nil as Int32?, nil as String?, 
-            PostOptionLocation.summaryPage, coordinator.makePostOptionViewModelActions())!
-        return FeedPostViewController(
-          type: feedCategory,
-          viewModel: feedPostViewModel, 
-          postOptionViewModel: postOptionViewModel
-        ).set {
-          $0.coordinator = coordinator
-        }
+    // MARK: - FeedPageViewControllers
+    container.register([UIViewController].self, name: "DefaultFeedPageViews") { (r, coordinator: FeedCoordinator) in
+      let defaultFeedPageViewControllers = (0..<numberOfCategories-1).map {
+        r.resolve(
+          UIViewController.self,
+          name: defaultFeedPageServiceNames[$0], argument: coordinator)!
       }
+      return defaultFeedPageViewControllers + [r.resolve(DevelopmentViewController.self)!]
+    }
+    
+    container.register([UIViewController].self, name: "MockFeedPageViews") { (r, coordinator: FeedCoordinator) in
+      let mockFeedPageViewControllers = (0..<numberOfCategories-1).map {
+        r.resolve(
+          UIViewController.self,
+          name: mockFeedPageServiceNames[$0], argument: coordinator)!
+      }
+      return mockFeedPageViewControllers + [r.resolve(DevelopmentViewController.self)!]
     }
     
     // MARK: - FeedViewController
@@ -144,4 +155,46 @@ final class PresentationFeedAssembly: Assembly {
     }
   }
   // swiftlint:enable function_body_length
+}
+
+// MARK: - Private Helpers
+private extension PresentationFeedAssembly {
+  typealias PostOptionViewModelType = any PostOptionViewModelable & PostOptionViewModelPageDelegate
+  
+  func makeFeedPageCategoryServiceNames(_ categoryPageDataSource: CategoryPageViewDataSource) -> [String] {
+    return (0..<categoryPageDataSource.numberOfItems).map {
+      categoryPageDataSource.travelMainCategoryTitle(at: $0)
+    }
+  }
+  
+  func makeDefaultFeedPageServiceNames(_ mainCategoryTitles: [String]) -> [String] {
+    return mainCategoryTitles.map { "default" + $0 }
+  }
+  
+  func makeMockFeedPageServiceNames(_ mainCategoryTitles: [String]) -> [String] {
+    return mainCategoryTitles.map { "mock" + $0 }
+  }
+  
+  func resolveFeedPostViewModel(
+    _ r: Resolver,
+    serviceName: ServiceName,
+    arguemnt: PostCategory
+  ) -> (any FeedPostViewModelable & FeedPostViewAdapterDataSource) {
+    r.resolve(
+      (any FeedPostViewModelable & FeedPostViewAdapterDataSource).self,
+      name: serviceName,
+      argument: arguemnt)!
+  }
+  
+  func resolvePostOptionViewModel(
+    _ r: Resolver,
+    serviceName: ServiceName,
+    actions: PostOptionViewModelActions
+  ) -> PostOptionViewModelType {
+    return r.resolve(
+      PostOptionViewModelType.self,
+      name: serviceName,
+      arguments: nil as Int32?, nil as Int32?, nil as String?,
+      PostOptionLocation.summaryPage, actions)!
+  }
 }
