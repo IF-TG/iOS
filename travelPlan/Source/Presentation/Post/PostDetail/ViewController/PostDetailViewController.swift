@@ -230,6 +230,8 @@ extension PostDetailViewController: ViewBindCase {
     case .unexpectedError(let description):
       stopIndicator()
       optionViewModel.showAlertForError(with: description, completion: nil)
+    case .none:
+      break
     }
   }
     
