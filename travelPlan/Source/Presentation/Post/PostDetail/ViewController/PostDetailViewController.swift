@@ -221,6 +221,7 @@ extension PostDetailViewController: ViewBindCase {
       startIndicator()
     case .completeReport:
       stopIndicator()
+      optionViewModel.showPostReportResult()
     case .completeUserBlock:
       /// 이 시점에 노티피케이션을 통해서 추가적인 로직들이 실행됩니다.
       /// Notification.Name = hasUserBlocked
