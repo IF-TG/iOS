@@ -101,13 +101,17 @@ extension PostOptionViewModel: PostOptionViewModelPageDelegate {
     /// postOptionLocation이 postDetail인 경우 포스트 상세 화면에서 차단 아이콘 -> 포스트 상세 화면 에서 뒤로가기, -> 포스트 피드에서 해당 포스트 제거가 됩니다.
     /// postOptionLocation이 postSummary인 경우 포스트 차단 아이콘 -> 포스트 피드에서 해당 포스트가 제거됩니다.
     actions.showPostReportResult(postOption)
+    guard let postId else {
+      self.postOption = nil
+      actions.showAlertForError("포스트 식별이 불가능합니다. 개발자팀에게 문의 주시면 감사합니다.", nil)
+      return
+    }
     if postOption == .postBlock {
       NotificationCenter.default.post(
         name: .hasPostBlocked,
         object: nil,
         userInfo: ["postId": postId,
                    "postOptionLocation": postOptionLocation])
-      // TODO: - 피드 섬네일 뷰컨에서는 이 노티받고, location이 summary면 이 posti만 제거하고 알림창보여주는로직 동일하게 적용하도록.
     }
     self.postOption = nil
   }
