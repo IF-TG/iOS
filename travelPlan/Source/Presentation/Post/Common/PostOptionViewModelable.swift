@@ -28,7 +28,7 @@ struct PostOptionViewModelActions {
 
 struct PostOptionViewModelInput {
   /// 피드 상세 화면이 아닌 피드 화면에서는 특정 피드 데이터를 받은 후에 포스트 옵션을 실행해야합니다.
-  let postInfoSubject: PassthroughSubject<(postId: Int32, authorId: Int32, authorName: String), Never>
+  let postInfoSubject: PassthroughSubject<PostOptionInfo, Never>
 
   init() {
     postInfoSubject = .init()

@@ -7,8 +7,14 @@
 
 import Foundation
 
+struct PostOptionInfo {
+  let postId: Int32
+  let authorId: Int32
+  let authorName: String
+}
+
 protocol FeedPostViewAdapterDataSource: PostViewAdapterDataSource {
   var headerItem: PostFilterOptions { get }
   
-  func postInfoForPostOption(from indexPath: IndexPath) -> (postId: Int32, authorId: Int32, authorName: String)
+  func postInfoForPostOption(from indexPath: IndexPath) -> PostOptionInfo
 }

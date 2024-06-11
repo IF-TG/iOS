@@ -351,10 +351,13 @@ extension FeedPostViewModel {
 extension FeedPostViewModel: FeedPostViewAdapterDataSource {
   func postInfoForPostOption(
     from indexPath: IndexPath
-  ) -> (postId: Int32, authorId: Int32, authorName: String) {
+  ) -> PostOptionInfo {
     let post = posts[indexPath.row]
     // TODO: - 사용자 아이디는 존재해야합니다. 서버 api가 반영되니 post authorid 옵셔널 제거해야합니다.
-    return (Int32(post.detail.postID) ?? -1, Int32(post.author.authorId!) ?? -1, post.author.nickname)
+    return PostOptionInfo(
+      postId: Int32(post.detail.postID) ?? -1,
+      authorId: Int32(post.author.authorId!) ?? -1,
+      authorName: post.author.nickname)
   }
   
   var headerItem: PostFilterOptions {

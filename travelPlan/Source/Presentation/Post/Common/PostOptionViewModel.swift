@@ -134,10 +134,10 @@ extension PostOptionViewModel: PostOptionViewModelable {
 private extension PostOptionViewModel {
   /// 포스트 섬네일 화면에서 사용됩니다.
   func postInfoSubjectStream(_ input: Input) -> Output {
-    return input.postInfoSubject.map { [weak self] postId, authorId, authorName in
-      self?.postId = postId
-      self?.postAuthorId = authorId
-      self?.postAuthorNickname = authorName
+    return input.postInfoSubject.map { [weak self] postOptionInfo in
+      self?.postId = postOptionInfo.postId
+      self?.postAuthorId = postOptionInfo.authorId
+      self?.postAuthorNickname = postOptionInfo.authorName
       return .none
     }.eraseToAnyPublisher()
   }

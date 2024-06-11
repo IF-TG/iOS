@@ -71,7 +71,8 @@ final class PresentationFeedAssembly: Assembly {
         let postOptionViewModel = r.resolve(
           PostOptionViewModelType.self,
           name: .implementation(.default),
-          arguments: nil as Int32?, nil as Int32?, nil as String?, PostOptionLocation.summaryPage, coordinator.makePostOptionViewModelActions())!
+          arguments: nil as Int32?, nil as Int32?, nil as String?, 
+            PostOptionLocation.summaryPage, coordinator.makePostOptionViewModelActions())!
         return FeedPostViewController(
           type: feedCategory,
           viewModel: feedPostViewModel, 
@@ -97,7 +98,8 @@ final class PresentationFeedAssembly: Assembly {
         let postOptionViewModel = r.resolve(
           PostOptionViewModelType.self,
           name: .testDouble(.mock),
-          arguments: nil as Int32?, nil as Int32?, nil as String?, PostOptionLocation.summaryPage, coordinator.makePostOptionViewModelActions())!
+          arguments: nil as Int32?, nil as Int32?, nil as String?, 
+            PostOptionLocation.summaryPage, coordinator.makePostOptionViewModelActions())!
         return FeedPostViewController(
           type: feedCategory,
           viewModel: feedPostViewModel, 
