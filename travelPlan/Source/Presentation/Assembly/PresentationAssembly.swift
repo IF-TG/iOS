@@ -22,7 +22,7 @@ final class PresentationAssembly: Assembly {
       PostOptionViewModelType.self,
       name: .implementation(.default)
     ) { (
-      r, postId: Int32, postAuthorId: Int32?, postAuthorNickName: String?, 
+      r, postId: Int32?, postAuthorId: Int32?, postAuthorNickName: String?, 
       postOptionLocation: PostOptionLocation, actions: PostOptionViewModelActions) in
       
       let defaultOwnerRepository = r.resolve(LoggedInUserRepository.self, name: .implementation(.default))!
@@ -41,26 +41,45 @@ final class PresentationAssembly: Assembly {
       PostOptionViewModelType.self,
       name: .implementation(.interceptedDefault)
     ) { (
-      r, postId: Int32, postAuthorId: Int32?, postAuthorNickName: String?,
+      r, postId: Int32?, postAuthorId: Int32?, postAuthorNickName: String?,
       postOptionLocation: PostOptionLocation, actions: PostOptionViewModelActions) in
       
-      let defaultOwnerRepository = r.resolve(LoggedInUserRepository.self, name: .implementation(.default))!
-      let firestoreUserBlockUseCase = r.resolve(UserBlockUseCase.self, name: .implementation(.interceptedDefault))!
+      let stubOwnerRepository = r.resolve(LoggedInUserRepository.self, name: .testDouble(.stub))!
+      let interceptedUserBlockUseCase = r.resolve(UserBlockUseCase.self, name: .implementation(.interceptedDefault))!
       return PostOptionViewModel(
         postId: postId,
         postAuthorId: postAuthorId,
         postAuthorNickName: postAuthorNickName,
         postOptionLocation: postOptionLocation,
         actions: actions,
-        ownerRepository: defaultOwnerRepository,
-        userBlockUseCase: firestoreUserBlockUseCase)
+        ownerRepository: stubOwnerRepository,
+        userBlockUseCase: interceptedUserBlockUseCase)
+    }.inObjectScope(.transient)
+    
+    container.register(
+      PostOptionViewModelType.self,
+      name: .testDouble(.mock)
+    ) { (
+      r, postId: Int32?, postAuthorId: Int32?, postAuthorNickName: String?,
+      postOptionLocation: PostOptionLocation, actions: PostOptionViewModelActions) in
+      
+      let stubOwnerRepository = r.resolve(LoggedInUserRepository.self, name: .testDouble(.stub))!
+      let mockUserBlockUseCase = r.resolve(UserBlockUseCase.self, name: .testDouble(.mock))!
+      return PostOptionViewModel(
+        postId: postId,
+        postAuthorId: postAuthorId,
+        postAuthorNickName: postAuthorNickName,
+        postOptionLocation: postOptionLocation,
+        actions: actions,
+        ownerRepository: stubOwnerRepository,
+        userBlockUseCase: mockUserBlockUseCase)
     }.inObjectScope(.transient)
     
     container.register(
       PostOptionViewModelType.self,
       name: .implementation(.firestore)
     ) { (
-      r, postId: Int32, postAuthorId: Int32?, postAuthorNickName: String?,
+      r, postId: Int32?, postAuthorId: Int32?, postAuthorNickName: String?,
       postOptionLocation: PostOptionLocation, actions: PostOptionViewModelActions) in
       
       let defaultOwnerRepository = r.resolve(LoggedInUserRepository.self, name: .implementation(.default))!
