@@ -14,7 +14,7 @@ final class FeedPostViewController: UIViewController {
     
   private var postViewAdapter: PostViewAdapter?
   
-  private var subscription: AnyCancellable?
+  private var subscriptions = Set<AnyCancellable>()
   
   private var sortingHeader: PostSortingAreaView? {
     let indexPath = IndexPath(item: 0, section: 0)
@@ -31,19 +31,25 @@ final class FeedPostViewController: UIViewController {
   private let mainThemeFilterNotifier = PassthroughSubject<TravelMainThemeType, Never>()
 
   private let viewModel: any FeedPostViewModelable & FeedPostViewAdapterDataSource
+  
+  private var postOptionViewModel: any PostOptionViewModelable & PostOptionViewModelPageDelegate
 
   private lazy var input = FeedPostViewModelInput(
     notifiedOrderFilterRequest: orderFilterNotifier,
     notifiedMainThemeFilterRequest: mainThemeFilterNotifier)
+  
+  private let postOptionInput = PostOptionViewModelInput()
   
   weak var coordinator: FeedPostCoordinatorDelegate?
   
   // MARK: - Lifecycle
   init(
     type feedCategory: PostCategory,
-    viewModel: any FeedPostViewModelable & FeedPostViewAdapterDataSource
+    viewModel: any FeedPostViewModelable & FeedPostViewAdapterDataSource,
+    postOptionViewModel: any PostOptionViewModelable & PostOptionViewModelPageDelegate
   ) {
     self.viewModel = viewModel
+    self.postOptionViewModel = postOptionViewModel
     super.init(nibName: nil, bundle: nil)
     postView.refreshControl = refresher
     if feedCategory.mainTheme == .all {
@@ -95,9 +101,32 @@ extension FeedPostViewController: ViewBindCase {
   
   func bind() {
     refresher.addTarget(self, action: #selector(refreshNotifications), for: .valueChanged)
-    let output = viewModel.transform(input)
-    subscription = output.receive(on: DispatchQueue.main).sink { [unowned self] state in
-      render(state)
+    viewModel
+      .transform(input)
+      .receive(on: RunLoop.current)
+      .sink { [weak self] state in
+        self?.render(state)
+      }.store(in: &subscriptions)
+    
+    postOptionViewModel
+      .transform(postOptionInput)
+      .receive(on: RunLoop.current)
+      .sink { [weak self] optionState in
+        self?.render(optionState)
+      }.store(in: &subscriptions)
+  }
+  
+  func render(_ state: PostOptionViewModelState) {
+    switch state {
+    case .none:
+      stopIndicator()
+    case .networkProcessing:
+      startIndicator()
+    case .completeReport, .completeUserBlock:
+      stopIndicator()
+      postOptionViewModel.showPostReportResult()
+    case .unexpectedError(let description):
+      postOptionViewModel.showAlertForError(with: description, completion: nil)
     }
   }
   
@@ -135,6 +164,9 @@ extension FeedPostViewController: ViewBindCase {
       let activityItems: [Any] = [item]
       
       coordinator?.showPostShare(with: activityItems)
+    case .completePostBlock:
+      coordinator?.showCompleteionPostBlocking()
+      stopIndicator()
     }
   }
   
@@ -195,6 +227,12 @@ extension FeedPostViewController: PostViewAdapterDelegate {
   func tapOption(_ cell: UICollectionViewCell) {
     // TODO: - 옵션 input 로직 추가해야합니다.
     print("피드 포스트 옵션 클릭")
+    guard let indexPath = postView.indexPath(for: cell) else {
+      return
+    }
+    let postInfo = viewModel.postInfoForPostOption(from: indexPath)
+    postOptionInput.postInfoSubject.send(postInfo)
+    postOptionViewModel.showPostOption()
   }
   
   func tapHeart(_ cell: UICollectionViewCell) {
