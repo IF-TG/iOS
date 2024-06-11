@@ -32,7 +32,7 @@ extension PostOptionCoordinatable where Self: FlowCoordinator, Self: AlertCoordi
     }
     presenter?.present(alert, animated: true, completion: nil)
   }
-
+  
   func showPostReportResult(wtih option: PostOption) {
     switch option {
     case .postBlock:
@@ -50,13 +50,6 @@ extension PostOptionCoordinatable where Self: FlowCoordinator, Self: AlertCoordi
     ).set {
       $0.addAction(title: "취소", style: .cancel) { _ in handler?(false) }
       $0.addAction(title: "차단", style: .destructive) { _ in handler?(true) }
-    }
-    presenter?.present(alert, animated: true)
-  }
-
-  func showAlertForError(with description: String, completion: (() -> Void)?) {
-    let alert = UIAlertController(title: nil, message: description, preferredStyle: .alert).set {
-      $0.addAction(title: "OK", style: .default) { _ in completion?() }
     }
     presenter?.present(alert, animated: true)
   }
