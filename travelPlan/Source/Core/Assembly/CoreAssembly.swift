@@ -62,8 +62,9 @@ final class CoreAssembly: Swinject.Assembly {
     }
     
     /// Mock 객체를 주입받은 구현체를 testDuble == mock 으로 지정합니다.
-    container.register(Sessionable.self, name: .testDouble(.mock)) { r in
-      let mockSession = r.resolve(Session.self, name: .testDouble(.mock))!
+    /// 그러나 MockSession을 활용할 경우 implementation(.interceptedDefault)로 이름을 지정합니다.
+    container.register(Sessionable.self, name: .implementation(.interceptedDefault)) { r in
+      let mockSession = r.resolve(Session.self, name: .implementation(.interceptedDefault))!
       return SessionProvider(session: mockSession)
     }
     
