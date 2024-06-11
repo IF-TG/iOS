@@ -9,6 +9,8 @@ import Foundation
 import Combine
 
 class FeedPostViewModel: PostViewModel {
+  typealias PostId = Int32
+  
   // MARK: - Dependencies
   private let postFetchUseCase: PostFetchUseCase
   
@@ -51,7 +53,12 @@ class FeedPostViewModel: PostViewModel {
   
   private let viewDidLoadHandler = PassthroughSubject<Void, Never>()
   
+  /// haspostBlocked notification으로부터 알림을 전달받습니다.
   var postHasBlockedNotifier = PassthroughSubject<PostBlockedElement?, Never>()
+  
+  private let postHasBlockedHandler = PassthroughSubject<PostId, Never>()
+  
+  private let blockedPostAlertSubject = PassthroughSubject<Void, Never>()
   
   private var subscriptions = Set<AnyCancellable>()
   
@@ -59,6 +66,7 @@ class FeedPostViewModel: PostViewModel {
   init(postCategory: PostCategory, postFetchUseCase: PostFetchUseCase) {
     self.postFetchUseCase = postFetchUseCase
     self.category = postCategory
+    bind()
   }
 }
 
@@ -76,7 +84,9 @@ extension FeedPostViewModel: FeedPostViewModelable {
       nextPageStream(input),
       feedRefreshStream(input),
       nextPageLoadingStartSubjectStream(),
-      specificPostTappedStream(input)]
+      specificPostTappedStream(input),
+      postHasBlockedHandlerStream(),
+      blockedPostAlertSubjectStream()]
     ).eraseToAnyPublisher()
   }
 }
@@ -97,14 +107,8 @@ private extension FeedPostViewModel {
   /// 포스트 상세 화면에서 차단로직 호출될 경우 포스트 피드에서도 해당 포스트를 제거하는 로직입니다.
   func postBlockSubjectStream(_ input: Input) -> Output {
     return input.postBlockSubject.map { [weak self] blockedPostId -> State in
-      let blockedPostIdIndex = self?.posts.firstIndex(where: {
-        Int32($0.detail.postID)! == blockedPostId
-      })
-      guard let blockedPostIdIndex else {
-        return .unexpectedError(description: "앱 내부 동작 에러가 발생됬습니다. 차단된 포스트 아이디가 식별 불가능합니다.")
-      }
-      self?.posts.remove(at: blockedPostIdIndex)
-      return .deleteBlockedPost(IndexPath(item: blockedPostIdIndex, section: PostViewSection.post.rawValue))
+      self?.postHasBlockedHandler.send(blockedPostId)
+      return .none
     }.eraseToAnyPublisher()
   }
   
@@ -257,6 +261,26 @@ private extension FeedPostViewModel {
       }.eraseToAnyPublisher()
   }
   
+  func postHasBlockedHandlerStream() -> Output {
+    return postHasBlockedHandler.map { [weak self] postId -> State in
+      let blockedPostIdIndex = self?.posts.firstIndex(where: {
+        Int32($0.detail.postID)! == postId
+      })
+      
+      guard let blockedPostIdIndex else {
+        return .unexpectedError(description: "앱 내부 동작 에러가 발생됬습니다. 차단된 포스트 아이디가 식별 불가능합니다.")
+      }
+      self?.posts.remove(at: blockedPostIdIndex)
+      return .deleteBlockedPost(IndexPath(item: blockedPostIdIndex, section: PostViewSection.post.rawValue))
+    }.eraseToAnyPublisher()
+  }
+  
+  func blockedPostAlertSubjectStream() -> Output {
+    return blockedPostAlertSubject.map { _ -> State in
+      return .completePostBlock
+    }.eraseToAnyPublisher()
+  }
+  
   func appendPosts(_ postPages: PostsPage) {
     posts += postPages.posts
   }
@@ -270,37 +294,23 @@ private extension FeedPostViewModel {
     }
   }
   
-//  func bind() {
-//    
-//    /// 포스트 상세화면에서 해당 포스트 차단의 경우가 아닌, 포스트 섬네일에서 해당 포스트 차단의 경우 아래의 바인딩 로직들이 호출됩니다.
-//    bindPostHasBlockedNotification().store(in: &subscriptions)
-//    postHasBlockedNotifier.sink { [weak self] element in
-//      if let element = element {
-//        /// 섬네일 화면에서 해당 포스트 차단한 경우
-//        guard element.postOptionLocation == .summaryPage else {
-//          return
-//        }
-//        
-//        
-//        let blockedPostIdIndex = self?.posts.firstIndex(where: {
-//          Int32($0.detail.postID)! == element.postId
-//        })
-//        
-//        guard let blockedPostIdIndex else {
-//          return .unexpectedError(description: "앱 내부 동작 에러가 발생됬습니다. 차단된 포스트 아이디가 식별 불가능합니다.")
-//        }
-//        self?.posts.remove(at: blockedPostIdIndex)
-//        return .deleteBlockedPost(IndexPath(item: blockedPostIdIndex, section: PostViewSection.post.rawValue))
-//
-//        
-//        
-//        if element.postId == Int32(self?.postDetails?.detail.postID ?? "-1")
-//            && element.postOptionLocation == .detailPage {
-//          self?.actions?.showFeedAfterBlockingFeed(element.postId)
-//        }
-//      }
-//    }.store(in: &subscriptions)
-//  }
+  func bind() {
+    
+    /// 포스트 상세화면에서 해당 포스트 차단의 경우가 아닌, 포스트 섬네일에서 해당 포스트 차단의 경우 아래의 바인딩 로직들이 호출됩니다.
+    bindPostHasBlockedNotification().store(in: &subscriptions)
+    postHasBlockedNotifier.sink { [weak self] element in
+      if let element = element {
+        /// 섬네일 화면에서 해당 포스트 차단한 경우
+        guard element.postOptionLocation == .summaryPage else {
+          return
+        }
+        /// 포스트 상세화면에서 포스트가 차단될 경우, 상세화면 측에서 차단아이콘을 보여줍니다.
+        /// 피드에서 포스트 차단할 경우 아래의 Subject를 통해 사용자에게 보여줍니다.
+        self?.blockedPostAlertSubject.send()
+        self?.postHasBlockedHandler.send(element.postId)
+      }
+    }.store(in: &subscriptions)
+  }
 }
 
 // MARK: - PostDataSource
@@ -339,6 +349,14 @@ extension FeedPostViewModel {
 
 // MARK: - FeedPostViewAdapterDataSource
 extension FeedPostViewModel: FeedPostViewAdapterDataSource {
+  func postInfoForPostOption(
+    from indexPath: IndexPath
+  ) -> (postId: Int32, authorId: Int32, authorName: String) {
+    let post = posts[indexPath.row]
+    // TODO: - 사용자 아이디는 존재해야합니다. 서버 api가 반영되니 post authorid 옵셔널 제거해야합니다.
+    return (Int32(post.detail.postID) ?? -1, Int32(post.author.authorId!) ?? -1, post.author.nickname)
+  }
+  
   var headerItem: PostFilterOptions {
     return .travelMainTheme(category.mainTheme)
   }
