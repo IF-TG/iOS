@@ -55,6 +55,8 @@ final class PresentationFeedAssembly: Assembly {
     }.inObjectScope(.transient)
     
     // MARK: - FeedPostViewController
+    typealias PostOptionViewModelType = any PostOptionViewModelable & PostOptionViewModelPageDelegate
+    
     container.register([UIViewController].self, name: "DefaultFeedPageViews") { (r, coordinator: FeedCoordinator) in
       let categoryPageViewModel = r.resolve(CategoryPageViewDataSource.self)!
       return (0..<categoryPageViewModel.numberOfItems).map {
@@ -66,9 +68,14 @@ final class PresentationFeedAssembly: Assembly {
           (any FeedPostViewModelable & FeedPostViewAdapterDataSource).self,
           name: .implementation(.default),
           argument: feedCategory)!
+        let postOptionViewModel = r.resolve(
+          PostOptionViewModelType.self,
+          name: .implementation(.default),
+          arguments: nil as Int32?, nil as Int32?, nil as String?, PostOptionLocation.summaryPage, coordinator.makePostOptionViewModelActions())!
         return FeedPostViewController(
           type: feedCategory,
-          viewModel: feedPostViewModel
+          viewModel: feedPostViewModel, 
+          postOptionViewModel: postOptionViewModel
         ).set {
           $0.coordinator = coordinator
         }
@@ -86,9 +93,15 @@ final class PresentationFeedAssembly: Assembly {
           (any FeedPostViewModelable & FeedPostViewAdapterDataSource).self,
           name: .testDouble(.mock),
           argument: feedCategory)!
+        
+        let postOptionViewModel = r.resolve(
+          PostOptionViewModelType.self,
+          name: .testDouble(.mock),
+          arguments: nil as Int32?, nil as Int32?, nil as String?, PostOptionLocation.summaryPage, coordinator.makePostOptionViewModelActions())!
         return FeedPostViewController(
           type: feedCategory,
-          viewModel: feedPostViewModel
+          viewModel: feedPostViewModel, 
+          postOptionViewModel: postOptionViewModel
         ).set {
           $0.coordinator = coordinator
         }
