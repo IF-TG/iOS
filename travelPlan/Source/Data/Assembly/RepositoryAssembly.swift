@@ -129,6 +129,10 @@ final class RepositoryAssembly: Swinject.Assembly {
       return DefaultUserBlockRepository(service: mockSession)
     }
     
+    container.register(UserBlockRepository.self, name: .testDouble(.mock)) { _ in
+      return MockWrappedUserBlockRepository()
+    }
+    
     // TODO: - SpringServer Post
     container.register(PostRepository.self, name: .implementation(.default)) { r in
       let defaultOwnerStorage = r.resolve(OwnerStorage.self, name: .implementation(.default))!

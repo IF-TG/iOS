@@ -30,6 +30,11 @@ final class DomainAssembly: Swinject.Assembly {
       return DefaultUserBlockUseCase(userBlockRepository: interceptedUserBlockRepository)
     }
     
+    container.register(UserBlockUseCase.self, name: .testDouble(.mock)) { r in
+      let mockUserBlockRepository = r.resolve(UserBlockRepository.self,name: .testDouble(.mock))!
+      return DefaultUserBlockUseCase(userBlockRepository: mockUserBlockRepository)
+    }
+    
     // TODO: - Album Use Case
     
     // TODO: - Post Use Case
