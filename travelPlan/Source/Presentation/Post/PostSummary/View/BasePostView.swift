@@ -67,10 +67,6 @@ extension BasePostView {
       self?.baseDelegate?.didTapHeart()
     }
     
-    footerView.commentTapNotifier = { [weak self] in
-      self?.baseDelegate?.didTapComment()
-    }
-    
     footerView.shareTapNotifier = { [weak self] in
       self?.baseDelegate?.didTapShare()
     }

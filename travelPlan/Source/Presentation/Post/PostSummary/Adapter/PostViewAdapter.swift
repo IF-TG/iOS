@@ -125,11 +125,7 @@ extension PostViewAdapter: UICollectionViewDelegate {
 }
 
 // MARK: - BasePostViewDelegate
-extension PostViewAdapter: PostViewDelegate {
-  func didTapComment(_ cell: UICollectionViewCell) {
-    baseDelegate?.tapComment(cell)
-  }
-  
+extension PostViewAdapter: PostViewDelegate {  
   func didTapShare(_ cell: UICollectionViewCell) {
     baseDelegate?.share(cell)
   }

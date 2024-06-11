@@ -11,7 +11,6 @@ protocol PostViewAdapterDelegate: AnyObject {
   func didTapPost(with postIndex: Int)
   func scrollToNextPage()
   
-  func tapComment(_ cell: UICollectionViewCell)
   func share(_ cell: UICollectionViewCell)
   func tapOption(_ cell: UICollectionViewCell)
   func tapHeart(_ cell: UICollectionViewCell)

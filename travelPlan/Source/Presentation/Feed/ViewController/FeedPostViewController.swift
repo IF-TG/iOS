@@ -211,25 +211,13 @@ private extension FeedPostViewController {
 
 // MARK: - PostViewAdapterDelegate
 extension FeedPostViewController: PostViewAdapterDelegate {
-  func tapComment(_ cell: UICollectionViewCell) {
-    // TODO: - 댓글 input 로직 추가해야합니다.
-    print("피드 포스트 댓글 클릭")
-  }
-  
   func share(_ cell: UICollectionViewCell) {
-    guard let indexPath = postView.indexPath(for: cell) else {
-      // TODO: - 알림창 보여주기. 예상치 못한 에러로 해당 포스트를 식별하지 못했습니니다.
-      return
-    }
+    guard let indexPath = postView.indexPath(for: cell) else { return }
     input.postShareSubject.send(indexPath)
   }
   
   func tapOption(_ cell: UICollectionViewCell) {
-    // TODO: - 옵션 input 로직 추가해야합니다.
-    print("피드 포스트 옵션 클릭")
-    guard let indexPath = postView.indexPath(for: cell) else {
-      return
-    }
+    guard let indexPath = postView.indexPath(for: cell) else { return }
     let postInfo = viewModel.postInfoForPostOption(from: indexPath)
     postOptionInput.postInfoSubject.send(postInfo)
     postOptionViewModel.showPostOption()
