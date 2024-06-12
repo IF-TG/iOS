@@ -9,17 +9,11 @@ import UIKit
 
 protocol CellIdentifiable {}
 
-extension CellIdentifiable where Self: UICollectionViewCell {
+extension CellIdentifiable {
   static var identifier: String {
     return String(describing: self)
   }
 }
 
-extension CellIdentifiable where Self: UITableViewCell {
-  static var identifier: String {
-    return String(describing: self)
-  }
-}
-
-extension UICollectionViewCell: CellIdentifiable {}
 extension UITableViewCell: CellIdentifiable {}
+extension UICollectionReusableView: CellIdentifiable {}
