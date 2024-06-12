@@ -49,12 +49,13 @@ class SearchDestinationViewController: UIViewController {
   }
   private let type: DestinationType
   
-  private let layout = SearchDestinationCollectionViewLayout().makeLayout().set {
-    $0.register(InnerRoundRectReusableView.self, forDecorationViewOfKind: InnerRoundRectReusableView.baseID)
-  }
+  private let layout = SearchDestinationCollectionViewLayout()
+  
   private lazy var collectionView = UICollectionView(
     frame: .zero,
-    collectionViewLayout: layout
+    collectionViewLayout: layout.makeLayout().set {
+      $0.register(InnerRoundRectReusableView.self, forDecorationViewOfKind: InnerRoundRectReusableView.baseID)
+    }
   ).set {
     $0.register(SearchDestinationHeaderView.self,
                 forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
