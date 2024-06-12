@@ -22,17 +22,6 @@ final class RepositoryAssembly: Swinject.Assembly {
     let firestoreStorageService = container.resolve(
       ImageStorageServiceProtocol.self, name: .implementation(.firestore))!
     
-    // MARK: - Common Tour API
-    container.register(Sessionable.self, name: .implementation(.default)) { r in
-      let session = r.resolve(Session.self, name: .implementation(.default))!
-      return TourApiSessionProvider(session: session)
-    }
-    
-    container.register(Sessionable.self, name: .implementation(.interceptedDefault)) { r in
-      let mockSession = r.resolve(Session.self, name: .implementation(.interceptedDefault))!
-      return TourApiSessionProvider(session: mockSession)
-    }
-    
     // MARK: - Firestore PostComment
     container.register(PostAtomicCommentRepository.self, name: .implementation(.firestore)) { _ in
       FirestorePostCommentRepository(service: firestoreService)
