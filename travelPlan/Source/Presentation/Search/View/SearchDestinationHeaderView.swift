@@ -14,6 +14,7 @@ final class SearchDestinationHeaderView: UICollectionReusableView {
     frame: .zero,
     collectionViewLayout: self.makeCompositionalLayout()
   ).set {
+    $0.contentInsetAdjustmentBehavior = .never
     $0.dataSource = self
     $0.register(SearchDestinationImageCell.self, forCellWithReuseIdentifier: SearchDestinationImageCell.identifier)
   }
@@ -86,7 +87,6 @@ extension SearchDestinationHeaderView: UICollectionViewDataSource {
     ) as? SearchDestinationImageCell else { return .init() }
     
     cell.configure(with: dataSource[indexPath.item])
-    
     return cell
   }
 }
