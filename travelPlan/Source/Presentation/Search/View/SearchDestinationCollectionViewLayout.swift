@@ -16,75 +16,14 @@ final class SearchDestinationCollectionViewLayout: CompositionalLayoutCreatable 
   }
   
   func makeLayout() -> UICollectionViewCompositionalLayout {
-    return UICollectionViewCompositionalLayout { section, _ in
+    return UICollectionViewCompositionalLayout { [weak self] section, _ in
       switch section {
       case 0:
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
-                                              heightDimension: .estimated(95))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
-                                               heightDimension: .estimated(95))
-        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
-        
-        let section = NSCollectionLayoutSection(group: group)
-//        section.contentInsets = .init(top: 38, leading: 20, bottom: 0, trailing: 20)
-        section.contentInsets = .init(
-          top: 20,
-          leading: Constant.SectionZero.sectionInsetLeading,
-          bottom: 0,
-          trailing: Constant.SectionZero.sectionInsetTrailing
-        )
-        
-        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
-                                                heightDimension: .absolute(325)) // height를 전체 비율로 가져가기(0.4)
-        let header = NSCollectionLayoutBoundarySupplementaryItem(
-          layoutSize: headerSize,
-          elementKind: UICollectionView.elementKindSectionHeader,
-          alignment: .top
-        )
-        header.contentInsets = .init(
-          top: 0,
-          leading: -Constant.SectionZero.sectionInsetLeading,
-          bottom: 0,
-          trailing: -Constant.SectionZero.sectionInsetTrailing
-        )
-        
-        section.boundarySupplementaryItems = [header]
-        return section
+        return self?.makeFirstLayoutSection()
       case 1:
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
-                                              heightDimension: .fractionalHeight(1))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
-                                               heightDimension: .absolute(91))
-        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
-        
-        let section = NSCollectionLayoutSection(group: group)
-        // TODO: - inset 제거하고 요구사항에 맞게 수정하기
-        section.contentInsets = .init(top: 0, leading: 20, bottom: 0, trailing: 20)
-        return section
+        return self?.makeSecondLayoutSection()
       case 2:
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
-                                              heightDimension: .estimated(150))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
-                                               heightDimension: .estimated(150))
-        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
-        
-        let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = .init(top: 40, leading: 40, bottom: 40, trailing: 40)
-        section.interGroupSpacing = 20
-        
-        let whiteRoundItem = NSCollectionLayoutDecorationItem
-          .background(elementKind: InnerRoundRectReusableView.baseID)
-        whiteRoundItem.contentInsets = .init(top: 20, leading: 20, bottom: 20, trailing: 20)
-        
-        section.decorationItems = [whiteRoundItem]
-        
-        return section
+        return self?.makeThirdLayoutSection()
       default:
         return nil
       }
@@ -94,30 +33,76 @@ final class SearchDestinationCollectionViewLayout: CompositionalLayoutCreatable 
 
 // MARK: - Private Helpers
 extension SearchDestinationCollectionViewLayout {
-//  private func firstSectionLayout() -> NSCollectionLayoutSection {
-//    let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
-//                                          heightDimension: .estimated(95))
-//    let item = NSCollectionLayoutItem(layoutSize: itemSize)
-//    
-//    let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
-//                                           heightDimension: .estimated(95))
-//    let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
-//    
-//    let section = NSCollectionLayoutSection(group: group)
-//    section.contentInsets = .init(top: 0, leading: 20, bottom: 0, trailing: 20)
-//    return section
-//  }
-//  
-//  private func secondSectionLayout() -> NSCollectionLayoutSection {
-//    let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
-//                                          heightDimension: .fractionalHeight(1))
-//    let item = NSCollectionLayoutItem(layoutSize: itemSize)
-//    
-//    let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
-//                                           heightDimension: .absolute(90))
-//    let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
-//    
-//    let section = NSCollectionLayoutSection(group: group)
-//    return section
-//  }
+  private func makeFirstLayoutSection() -> NSCollectionLayoutSection {
+    let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                          heightDimension: .estimated(95))
+    let item = NSCollectionLayoutItem(layoutSize: itemSize)
+    
+    let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                           heightDimension: .estimated(95))
+    let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+    
+    let section = NSCollectionLayoutSection(group: group)
+//        section.contentInsets = .init(top: 38, leading: 20, bottom: 0, trailing: 20)
+    section.contentInsets = .init(
+      top: 20,
+      leading: Constant.SectionZero.sectionInsetLeading,
+      bottom: 0,
+      trailing: Constant.SectionZero.sectionInsetTrailing
+    )
+    
+    let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                            heightDimension: .absolute(325)) // height를 전체 비율로 가져가기(0.4)
+    let header = NSCollectionLayoutBoundarySupplementaryItem(
+      layoutSize: headerSize,
+      elementKind: UICollectionView.elementKindSectionHeader,
+      alignment: .top
+    )
+    header.contentInsets = .init(
+      top: 0,
+      leading: -Constant.SectionZero.sectionInsetLeading,
+      bottom: 0,
+      trailing: -Constant.SectionZero.sectionInsetTrailing
+    )
+    
+    section.boundarySupplementaryItems = [header]
+    return section
+  }
+  
+  private func makeSecondLayoutSection() -> NSCollectionLayoutSection {
+    let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                          heightDimension: .fractionalHeight(1))
+    let item = NSCollectionLayoutItem(layoutSize: itemSize)
+    
+    let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                           heightDimension: .absolute(91))
+    let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+    
+    let section = NSCollectionLayoutSection(group: group)
+    // TODO: - inset 제거하고 요구사항에 맞게 수정하기
+    section.contentInsets = .init(top: 0, leading: 20, bottom: 0, trailing: 20)
+    return section
+  }
+  
+  private func makeThirdLayoutSection() -> NSCollectionLayoutSection {
+    let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                          heightDimension: .estimated(150))
+    let item = NSCollectionLayoutItem(layoutSize: itemSize)
+    
+    let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                           heightDimension: .estimated(150))
+    let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+    
+    let section = NSCollectionLayoutSection(group: group)
+    section.contentInsets = .init(top: 40, leading: 40, bottom: 40, trailing: 40)
+    section.interGroupSpacing = 20
+    
+    let whiteRoundItem = NSCollectionLayoutDecorationItem
+      .background(elementKind: InnerRoundRectReusableView.baseID)
+    whiteRoundItem.contentInsets = .init(top: 20, leading: 20, bottom: 20, trailing: 20)
+    
+    section.decorationItems = [whiteRoundItem]
+    
+    return section
+  }
 }
