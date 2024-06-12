@@ -29,7 +29,7 @@ class SearchDestinationViewController: UIViewController {
   private let viewModel: any SearchDestinationViewModel
   
   // MARK: - Properties
-  private let copyAlertView = CopyAlertView().set {
+  private let landscapeToastView = LandscapeToastView(text: "복사되었습니다.").set {
     $0.isHidden = true
     $0.alpha = 0
   }
@@ -133,14 +133,14 @@ extension SearchDestinationViewController {
         switch state {
         case .appearCopyAlert:
           UIView.animate(withDuration: 1.0, animations: {
-            self?.copyAlertView.isHidden = false
-            self?.copyAlertView.alpha = 1
+            self?.landscapeToastView.isHidden = false
+            self?.landscapeToastView.alpha = 1
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
               UIView.animate(withDuration: 0.5, animations: {
-                self?.copyAlertView.alpha = 0
+                self?.landscapeToastView.alpha = 0
               }) { _ in
-                self?.copyAlertView.isHidden = true
+                self?.landscapeToastView.isHidden = true
               }
             }
           })
@@ -201,7 +201,7 @@ extension SearchDestinationViewController: LayoutSupport {
   func addSubviews() {
     view.addSubview(thumbnailImageView)
     view.addSubview(collectionView)
-    collectionView.addSubview(copyAlertView)
+    collectionView.addSubview(landscapeToastView)
     view.bringSubviewToFront(collectionView)
   }
   
@@ -217,7 +217,7 @@ extension SearchDestinationViewController: LayoutSupport {
       $0.bottom.equalTo(view.safeAreaLayoutGuide)
     }
     
-    copyAlertView.snp.makeConstraints {
+    landscapeToastView.snp.makeConstraints {
       $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(7)
       $0.centerX.equalTo(view.safeAreaLayoutGuide)
       $0.leading.equalTo(view.safeAreaLayoutGuide).inset(11)
