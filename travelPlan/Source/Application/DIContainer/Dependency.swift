@@ -18,6 +18,8 @@ final class Dependency<Value> {
   private var value: Value?
   private let engine: Assembler
   private let name: ServiceName?
+  /// ServiceName 이 아닌 _name은 String타입입니다.
+  private var _name: String?
   
   // MARK: - Lifecycle
   init(value: Value? = nil, engine: Assembler, name: ServiceName? = nil) {
@@ -30,12 +32,24 @@ final class Dependency<Value> {
     self.init(engine: AppDIContainer.shared.assembler, name: name)
   }
   
+  convenience init(name: String? = nil) {
+    self.init(engine: AppDIContainer.shared.assembler)
+    self._name = name
+  }
+  
   // MARK: - Wrapped
   var wrappedValue: Value {
     get {
       if let value {
         return value
       }
+      /// String으로 Service Key를 지정한 경우
+      if let _name = _name, let value = engine.resolver.resolve(Value.self, name: _name) {
+        self.value = value
+        return value
+      }
+      
+      /// ServiceKey로 이름을 지정한 경우
       if let value: Value = engine.resolver.resolve(Value.self, name: name) {
         self.value = value
         return value
