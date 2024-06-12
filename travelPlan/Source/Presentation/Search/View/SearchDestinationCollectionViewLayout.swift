@@ -22,6 +22,16 @@ final class SearchDestinationCollectionViewLayout: CompositionalLayoutCreatable 
         
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = .init(top: 38, leading: 20, bottom: 0, trailing: 20)
+        
+        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                                heightDimension: .absolute(325))
+        let header = NSCollectionLayoutBoundarySupplementaryItem(
+          layoutSize: headerSize,
+          elementKind: UICollectionView.elementKindSectionHeader,
+          alignment: .top
+        )
+        
+        section.boundarySupplementaryItems = [header]
         return section
       case 1:
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
