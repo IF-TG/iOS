@@ -109,14 +109,12 @@ final class RepositoryAssembly: Swinject.Assembly {
     // TODO: - SpringServer
     
     // TODO: - SpringServer User
-    container.register(LoggedInUserRepository.self, name: .implementation(.default)) { r in
-      let ownerStorage = r.resolve(OwnerStorage.self, name: .implementation(.default))!
-      return DefaultLoggedInUserRepository(storage: ownerStorage)
+    container.register(LoggedInUserRepository.self, name: .implementation(.default)) { _ in
+      return DefaultLoggedInUserRepository(storage: Dependency(name: .implementation(.default)))
     }
     
-    container.register(LoggedInUserRepository.self, name: .testDouble(.stub)) { r in
-      let stubOwnerStroage = r.resolve(OwnerStorage.self, name: .testDouble(.stub))!
-      return DefaultLoggedInUserRepository(storage: stubOwnerStroage)
+    container.register(LoggedInUserRepository.self, name: .testDouble(.stub)) { _ in
+      return DefaultLoggedInUserRepository(storage: Dependency(name: .testDouble(.stub)))
     }
     
     // TODO: - SpringServer Post

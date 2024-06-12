@@ -11,6 +11,7 @@ import SHCoordinator
 protocol AppCoordinatorDependencies {
   func makeMainCoordinator() -> MainCoordinator
   func makeLoginCoordinator() -> LoginCoordinator
+  func makeLoginOwnerRepository() -> LoggedInUserRepository
 }
 
 final class ApplicationCoordinator: FlowCoordinator {
@@ -23,9 +24,7 @@ final class ApplicationCoordinator: FlowCoordinator {
   
   var viewController: UIViewController?
   
-  private let loggedInOwnerManager = DefaultLoggedInUserUseCase(
-    loggedInUserRepository: DefaultLoggedInUserRepository(
-      storage: UserDefaultsOwnerStorage()))
+  private lazy var loggedInOwnerManager: LoggedInUserRepository = dependencies.makeLoginOwnerRepository()
   
   private let window: UIWindow
   
