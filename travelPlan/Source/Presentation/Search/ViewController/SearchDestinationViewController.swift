@@ -56,6 +56,9 @@ class SearchDestinationViewController: UIViewController {
     frame: .zero,
     collectionViewLayout: layout
   ).set {
+    $0.register(SearchDestinationHeaderView.self,
+                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+                withReuseIdentifier: SearchDestinationHeaderView.identifier)
     $0.register(SearchDestinationTitleCell.self, forCellWithReuseIdentifier: SearchDestinationTitleCell.id)
     $0.register(SearchDestinationServiceCell.self, forCellWithReuseIdentifier: SearchDestinationServiceCell.id)
     $0.register(SearchDestinationContentCell.self, forCellWithReuseIdentifier: SearchDestinationContentCell.id)
@@ -64,15 +67,16 @@ class SearchDestinationViewController: UIViewController {
     $0.delegate = self
     $0.layer.cornerRadius = 50
     $0.layer.maskedCorners = CACornerMask(arrayLiteral: [.layerMinXMinYCorner, .layerMaxXMinYCorner])
+    $0.contentInsetAdjustmentBehavior = .never
   }
   private var collectionViewWillDisplayIsFirstCalled = false
-  // FIXME: - will erase
-  private let thumbnailImageView = UIImageView().set {
-//    $0.image = .init(named: "seomun")
-    $0.backgroundColor = Common.backgroundColor
-    $0.contentMode = .scaleAspectFill
-    $0.clipsToBounds = true
-  }
+  
+//  private let thumbnailImageView = UIImageView().set {
+////    $0.image = .init(named: "seomun")
+//    $0.backgroundColor = Common.backgroundColor
+//    $0.contentMode = .scaleAspectFill
+//    $0.clipsToBounds = true
+//  }
   
   private let input = SearchDestinationViewModelInput()
   
@@ -99,7 +103,7 @@ class SearchDestinationViewController: UIViewController {
   
   override func viewDidLayoutSubviews() {
     super.viewDidLayoutSubviews()
-    setupThumbnailImageViewLayer()
+//    setupThumbnailImageViewLayer()
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -114,16 +118,16 @@ class SearchDestinationViewController: UIViewController {
 }
 
 extension SearchDestinationViewController {
-  private func setupThumbnailImageViewLayer() {
-    let gradientLayer = CAGradientLayer()
-    gradientLayer.frame = thumbnailImageView.bounds
-    gradientLayer.colors = [
-      UIColor.black.withAlphaComponent(0.08).cgColor,
-      UIColor.clear.cgColor
-    ]
-    gradientLayer.locations = [0, 0.28]
-    thumbnailImageView.layer.addSublayer(gradientLayer)
-  }
+//  private func setupThumbnailImageViewLayer() {
+//    let gradientLayer = CAGradientLayer()
+//    gradientLayer.frame = thumbnailImageView.bounds
+//    gradientLayer.colors = [
+//      UIColor.black.withAlphaComponent(0.08).cgColor,
+//      UIColor.clear.cgColor
+//    ]
+//    gradientLayer.locations = [0, 0.28]
+//    thumbnailImageView.layer.addSublayer(gradientLayer)
+//  }
   
   private func bind() {
     viewModel
@@ -148,10 +152,9 @@ extension SearchDestinationViewController {
           
         case .none:
           break
-        case .reloadData(let thumbnailData):
+        case .reloadData:
           self?.collectionView.reloadData()
           guard let self = self else { return }
-          self.thumbnailImageView.image = UIImage(data: thumbnailData)
         }
       }
       .store(in: &subscriptions)
@@ -199,20 +202,21 @@ private extension SearchDestinationViewController {
 // MARK: - LayoutSupport
 extension SearchDestinationViewController: LayoutSupport {
   func addSubviews() {
-    view.addSubview(thumbnailImageView)
+//    view.addSubview(thumbnailImageView)
     view.addSubview(collectionView)
     collectionView.addSubview(copyAlertView)
     view.bringSubviewToFront(collectionView)
   }
   
   func setConstraints() {
-    thumbnailImageView.snp.makeConstraints {
-      $0.top.equalToSuperview()
-      $0.leading.trailing.equalToSuperview()
-      $0.height.equalTo(325)
-    }
+//    thumbnailImageView.snp.makeConstraints {
+//      $0.top.equalToSuperview()
+//      $0.leading.trailing.equalToSuperview()
+//      $0.height.equalTo(325)
+//    }
     collectionView.snp.makeConstraints {
-      $0.top.equalTo(thumbnailImageView.snp.bottom).inset(50)
+      $0.top.equalToSuperview()
+//      $0.top.equalTo(thumbnailImageView.snp.bottom).inset(50)
       $0.leading.trailing.equalToSuperview()
       $0.bottom.equalTo(view.safeAreaLayoutGuide)
     }
@@ -273,6 +277,23 @@ extension SearchDestinationViewController: UICollectionViewDataSource {
       contentCell.configure(with: infos[indexPath.item])
       return contentCell
     }
+  }
+  
+  func collectionView(
+    _ collectionView: UICollectionView,
+    viewForSupplementaryElementOfKind kind: String,
+    at indexPath: IndexPath
+  ) -> UICollectionReusableView {
+    guard let headerView = collectionView.dequeueReusableSupplementaryView(
+      ofKind: UICollectionView.elementKindSectionHeader,
+      withReuseIdentifier: SearchDestinationHeaderView.identifier,
+      for: indexPath
+    ) as? SearchDestinationHeaderView else { return .init() }
+    if case .main(let mainInfo) = viewModel.dataSource[indexPath.section] {
+      headerView.configure(with: mainInfo.headerInfo.imageDatas)
+      return headerView
+    }
+    return .init()
   }
 }
 
