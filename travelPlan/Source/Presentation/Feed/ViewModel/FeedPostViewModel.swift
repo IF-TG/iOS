@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-class FeedPostViewModel: PostViewModel {
+final class FeedPostViewModel: PostViewModel {
   typealias PostId = Int32
   
   // MARK: - Dependencies
@@ -304,6 +304,8 @@ private extension FeedPostViewModel {
         guard element.postOptionLocation == .summaryPage else {
           return
         }
+        // FIXME: - 이게 서로 다른 페이지뷰에서 노티쏠떄... 예를들어 전체 -> 계절, 지역 뷰딛로드 호출후에 전체에서 3번 삭제하면 중복 함수들 호출되는데. 수정해야함
+        print("hihi")
         /// 포스트 상세화면에서 포스트가 차단될 경우, 상세화면 측에서 차단아이콘을 보여줍니다.
         /// 피드에서 포스트 차단할 경우 아래의 Subject를 통해 사용자에게 보여줍니다.
         self?.blockedPostAlertSubject.send()
