@@ -66,22 +66,15 @@ class SearchDestinationViewController: UIViewController {
     $0.backgroundColor = Common.backgroundColor
     $0.dataSource = self
     $0.delegate = self
-    $0.layer.cornerRadius = 50
-    $0.layer.maskedCorners = CACornerMask(arrayLiteral: [.layerMinXMinYCorner, .layerMaxXMinYCorner])
     $0.contentInsetAdjustmentBehavior = .never
   }
-  private var collectionViewWillDisplayIsFirstCalled = false
-  
-//  private let thumbnailImageView = UIImageView().set {
-////    $0.image = .init(named: "seomun")
-//    $0.backgroundColor = Common.backgroundColor
-//    $0.contentMode = .scaleAspectFill
-//    $0.clipsToBounds = true
-//  }
   
   private let input = SearchDestinationViewModelInput()
   
   private var subscriptions = Set<AnyCancellable>()
+  
+  private var isHeaderViewFirstDequeue = false
+  
   // MARK: - LifeCycle
   init(viewModel: any SearchDestinationViewModel, type: DestinationType) {
     self.viewModel = viewModel
@@ -104,7 +97,6 @@ class SearchDestinationViewController: UIViewController {
   
   override func viewDidLayoutSubviews() {
     super.viewDidLayoutSubviews()
-//    setupThumbnailImageViewLayer()
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -119,17 +111,6 @@ class SearchDestinationViewController: UIViewController {
 }
 
 extension SearchDestinationViewController {
-//  private func setupThumbnailImageViewLayer() {
-//    let gradientLayer = CAGradientLayer()
-//    gradientLayer.frame = thumbnailImageView.bounds
-//    gradientLayer.colors = [
-//      UIColor.black.withAlphaComponent(0.08).cgColor,
-//      UIColor.clear.cgColor
-//    ]
-//    gradientLayer.locations = [0, 0.28]
-//    thumbnailImageView.layer.addSublayer(gradientLayer)
-//  }
-  
   private func bind() {
     viewModel
       .transform(input)
@@ -137,20 +118,7 @@ extension SearchDestinationViewController {
       .sink { [weak self] state in
         switch state {
         case .appearCopyAlert:
-          UIView.animate(withDuration: 1.0, animations: {
-            self?.copyAlertView.isHidden = false
-            self?.copyAlertView.alpha = 1
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-              UIView.animate(withDuration: 0.5, animations: {
-                self?.copyAlertView.alpha = 0
-              }) { _ in
-                self?.copyAlertView.isHidden = true
-              }
-            }
-          })
-          // TODO: - 주소 복사 수행 후, alert보이게 하기
-          
+          self?.copyAlertView.performGhostAnimation()
         case .none:
           break
         case .reloadData:
@@ -203,21 +171,14 @@ private extension SearchDestinationViewController {
 // MARK: - LayoutSupport
 extension SearchDestinationViewController: LayoutSupport {
   func addSubviews() {
-//    view.addSubview(thumbnailImageView)
     view.addSubview(collectionView)
     collectionView.addSubview(copyAlertView)
     view.bringSubviewToFront(collectionView)
   }
   
   func setConstraints() {
-//    thumbnailImageView.snp.makeConstraints {
-//      $0.top.equalToSuperview()
-//      $0.leading.trailing.equalToSuperview()
-//      $0.height.equalTo(325)
-//    }
     collectionView.snp.makeConstraints {
       $0.top.equalToSuperview()
-//      $0.top.equalTo(thumbnailImageView.snp.bottom).inset(50)
       $0.leading.trailing.equalToSuperview()
       $0.bottom.equalTo(view.safeAreaLayoutGuide)
     }
@@ -291,7 +252,10 @@ extension SearchDestinationViewController: UICollectionViewDataSource {
       for: indexPath
     ) as? SearchDestinationHeaderView else { return .init() }
     if case .main(let mainInfo) = viewModel.dataSource[indexPath.section] {
-      headerView.configure(with: mainInfo.headerInfo.imageDatas)
+      if !isHeaderViewFirstDequeue {
+        headerView.configure(with: mainInfo.headerInfo.imageDatas)
+        isHeaderViewFirstDequeue.toggle()
+      }
       return headerView
     }
     return .init()
