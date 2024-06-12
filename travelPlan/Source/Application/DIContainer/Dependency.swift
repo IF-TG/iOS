@@ -8,10 +8,30 @@
 import Foundation
 import Swinject
 
-/// 실험중인 객체입니다.
-/// 원래 dependency를 등록할때 Assembly에서 등록하기에 아직까지 이 Wrapper 객체를 사용한다고 이점이 없는것 같습니다.
-/// Dependency를 container에 register할 때 protocol인 경우 Mock, Stub, Default etc... 의존성이 등록되고 name으로 가져와야하지만,
-/// @Dependency 프로퍼티를 다시 init시점에 초기화할 때 두번 초기화가 되게 됩니다.
+/// Swinject에서 resolve를 쉽게 해결해주는 Property wrapper 입니다.
+///
+/// Notes:
+/// - @Dependency 어노테이션을 표기할 경우 `name` 을 외부에서 지정해야할 때,
+///     해당 프로퍼티를 소유한 객체의 init시점에 name을 받아 초기화 해야 함으로  두 번 초기화가 되게 됩니다.
+///   - 아래 예시 코드로 해결할 수 있습니다.
+/// - 장점: resolve 호출을 wrapping해줍니다.
+/// - 단점: 기존 방식은 Service를 등록할 때 등록시점에 factory를 통해 모든 의존성을 resolve합니다. property Wrapper는 단순해져서 해당 구체Service타입 통해 확인해야합니다.
+/// ```
+/// /// Declare
+/// class UseCase {
+///   // MARK: -
+///   // @Dependency var repository: Repository [ x ]
+///   var repository: Dependency<Repository>
+///
+///   init(repository: Dependency<Repository>) {
+///     self.repository = repository
+///   }
+/// }
+///
+/// /// Usage
+/// // 주의할 점은 .init 으로 propertyWrapper를 초기화 할 경우 컴파일러가 추론을 못 할수도 있어서 명확하게 Dependency(...) 호출해야 합니다.
+///  let useCase = UseCase(repository: Dependency(name: .implement(.default)))
+/// ```
 @propertyWrapper
 final class Dependency<Value> {
   // MARK: - Properties
@@ -20,14 +40,10 @@ final class Dependency<Value> {
   private let name: ServiceName?
   
   // MARK: - Lifecycle
-  init(value: Value? = nil, engine: Assembler, name: ServiceName? = nil) {
+  init(value: Value? = nil, engine: Assembler = AppDIContainer.shared.assembler, name: ServiceName? = nil) {
     self.value = value
     self.engine = engine
     self.name = name
-  }
-  
-  convenience init(name: ServiceName? = nil) {
-    self.init(engine: AppDIContainer.shared.assembler, name: name)
   }
   
   // MARK: - Wrapped
