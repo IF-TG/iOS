@@ -1,5 +1,5 @@
 //
-//  CopyAlertView.swift
+//  LandscapeToastView.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 6/6/24.
@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-final class CopyAlertView: UIView {
+final class LandscapeToastView: UIView {
   // MARK: - Properties
   private let label = UILabel().set {
     $0.text = "복사되었습니다."
@@ -17,6 +17,15 @@ final class CopyAlertView: UIView {
   }
   
   // MARK: - LifeCycle
+  convenience init(
+    color: UIColor = UIColor.yg.primary.withAlphaComponent(0.8),
+    text: String
+  ) {
+    label.text = text
+    backgroundColor = color
+    self.init(frame: .zero)
+  }
+  
   override init(frame: CGRect) {
     super.init(frame: frame)
     setupUI()
@@ -29,14 +38,13 @@ final class CopyAlertView: UIView {
 }
 
 // MARK: - Private Helpers
-extension CopyAlertView {
+extension LandscapeToastView {
   private func setupStyles() {
-    backgroundColor = .yg.primary.withAlphaComponent(0.8)
     layer.cornerRadius = 6
   }
 }
 
-extension CopyAlertView: LayoutSupport {
+extension LandscapeToastView: LayoutSupport {
   func addSubviews() {
     addSubview(label)
   }

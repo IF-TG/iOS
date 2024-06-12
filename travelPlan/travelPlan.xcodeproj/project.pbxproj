@@ -37,7 +37,7 @@
 		131A110C2AB5D55C007BDD66 /* SearchMoreDetailCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131A110B2AB5D55C007BDD66 /* SearchMoreDetailCoordinator.swift */; };
 		131C4DFC2C08F7570005D30F /* SearchResultListCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131C4DFB2C08F7570005D30F /* SearchResultListCoordinator.swift */; };
 		131C4DFE2C09C4740005D30F /* SearchType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131C4DFD2C09C4740005D30F /* SearchType.swift */; };
-		131C4E002C10CF370005D30F /* CopyAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131C4DFF2C10CF360005D30F /* CopyAlertView.swift */; };
+		131C4E002C10CF370005D30F /* LandscapeToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131C4DFF2C10CF360005D30F /* LandscapeToastView.swift */; };
 		131C4E3D2C174BAF0005D30F /* TravelDestinationCategoryInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131C4E3C2C174BAF0005D30F /* TravelDestinationCategoryInfo.swift */; };
 		13254FE32A05147200094218 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13254FE22A05147200094218 /* MainTabBarController.swift */; };
 		13254FE52A05157900094218 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13254FE42A05157900094218 /* FeedViewController.swift */; };
@@ -881,7 +881,7 @@
 		131A110B2AB5D55C007BDD66 /* SearchMoreDetailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMoreDetailCoordinator.swift; sourceTree = "<group>"; };
 		131C4DFB2C08F7570005D30F /* SearchResultListCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultListCoordinator.swift; sourceTree = "<group>"; };
 		131C4DFD2C09C4740005D30F /* SearchType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchType.swift; sourceTree = "<group>"; };
-		131C4DFF2C10CF360005D30F /* CopyAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopyAlertView.swift; sourceTree = "<group>"; };
+		131C4DFF2C10CF360005D30F /* LandscapeToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandscapeToastView.swift; sourceTree = "<group>"; };
 		131C4E3C2C174BAF0005D30F /* TravelDestinationCategoryInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelDestinationCategoryInfo.swift; sourceTree = "<group>"; };
 		13254FE22A05147200094218 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		13254FE42A05157900094218 /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
@@ -3201,7 +3201,7 @@
 				15E1550B2BAB47F400582E12 /* BottomNextPageIndicatorCell.swift */,
 				15E1550C2BAB47F400582E12 /* BottomNextPageIndicatorCell.xib */,
 				150A543C2BC82C61005D8108 /* BottomBasedTooltipView.swift */,
-				131C4DFF2C10CF360005D30F /* CopyAlertView.swift */,
+				131C4DFF2C10CF360005D30F /* LandscapeToastView.swift */,
 				1568CC7E2C08F0F60056A298 /* WrappedPaddingButton.swift */,
 			);
 			path = View;
@@ -5136,7 +5136,7 @@
 				13EB3D692BF602CB00CA84F0 /* AccommodationEntity.swift in Sources */,
 				13A93EE52ACDE0EC00FC4BBD /* SearchDetailHeaderView.swift in Sources */,
 				154CA6012BD398D40066B444 /* RelativeURLPathProvidable.swift in Sources */,
-				131C4E002C10CF370005D30F /* CopyAlertView.swift in Sources */,
+				131C4E002C10CF370005D30F /* LandscapeToastView.swift in Sources */,
 				15259DEC2ACAAAB200C14F62 /* LocationSearchViewController.swift in Sources */,
 				15553BC62BB3445A000AA896 /* DefaultPostNestedCommentRepository.swift in Sources */,
 				1572ABBA2BE753E4008AFE66 /* FirestorePostCommentResponseDTO.swift in Sources */,
