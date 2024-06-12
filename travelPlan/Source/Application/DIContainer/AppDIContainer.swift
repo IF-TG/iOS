@@ -29,18 +29,12 @@ final class AppDIContainer {
     assembler.apply(assemblies: [
       CoreAssembly(),
       PersistentStorageAssembly(),
+      TourRepositoryAssembly(),
+      SpringServierRepository(),
       FirebaseRepositoryAssembly(),
       DomainAssembly(),
       PresentationFeedAssembly(),
       PresentationAssembly()])
-//    self.assembler = Assembler([
-//      CoreAssembly(),
-//      PersistentStorageAssembly(),
-//      FirebaseRepositoryAssembly(),
-//      DomainAssembly(),
-//      PresentationFeedAssembly(),
-//      PresentationAssembly()],
-//      container: container)
   }
   
   func lazyApplyAssemblies() {
