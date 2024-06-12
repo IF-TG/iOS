@@ -8,6 +8,13 @@
 import UIKit
 
 final class SearchDestinationCollectionViewLayout: CompositionalLayoutCreatable {
+  enum Constant {
+    enum SectionZero {
+      static var sectionInsetLeading: CGFloat = 20
+      static var sectionInsetTrailing: CGFloat = 20
+    }
+  }
+  
   func makeLayout() -> UICollectionViewCompositionalLayout {
     return UICollectionViewCompositionalLayout { section, _ in
       switch section {
@@ -21,14 +28,26 @@ final class SearchDestinationCollectionViewLayout: CompositionalLayoutCreatable 
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = .init(top: 38, leading: 20, bottom: 0, trailing: 20)
+//        section.contentInsets = .init(top: 38, leading: 20, bottom: 0, trailing: 20)
+        section.contentInsets = .init(
+          top: 20,
+          leading: Constant.SectionZero.sectionInsetLeading,
+          bottom: 0,
+          trailing: Constant.SectionZero.sectionInsetTrailing
+        )
         
         let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
-                                                heightDimension: .absolute(325))
+                                                heightDimension: .absolute(325)) // height를 전체 비율로 가져가기(0.4)
         let header = NSCollectionLayoutBoundarySupplementaryItem(
           layoutSize: headerSize,
           elementKind: UICollectionView.elementKindSectionHeader,
           alignment: .top
+        )
+        header.contentInsets = .init(
+          top: 0,
+          leading: -Constant.SectionZero.sectionInsetLeading,
+          bottom: 0,
+          trailing: -Constant.SectionZero.sectionInsetTrailing
         )
         
         section.boundarySupplementaryItems = [header]
