@@ -29,14 +29,14 @@ final class AppDIContainer {
     assembler.apply(assemblies: [
       CoreAssembly(),
       PersistentStorageAssembly(),
-      RepositoryAssembly(),
+      FirebaseRepositoryAssembly(),
       DomainAssembly(),
       PresentationFeedAssembly(),
       PresentationAssembly()])
 //    self.assembler = Assembler([
 //      CoreAssembly(),
 //      PersistentStorageAssembly(),
-//      RepositoryAssembly(),
+//      FirebaseRepositoryAssembly(),
 //      DomainAssembly(),
 //      PresentationFeedAssembly(),
 //      PresentationAssembly()],

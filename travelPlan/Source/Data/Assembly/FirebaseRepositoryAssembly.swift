@@ -1,5 +1,5 @@
 //
-//  RepositoryAssembly.swift
+//  FirebaseRepositoryAssembly.swift
 //  travelPlan
 //
 //  Created by 양승현 on 6/4/24.
@@ -10,7 +10,7 @@ import Swinject
 import Alamofire
 import SHFirestoreService
 
-final class RepositoryAssembly: Swinject.Assembly {
+final class FirebaseRepositoryAssembly: Swinject.Assembly {
   func assemble(container: Swinject.Container) {
     // MARK: - SHFirestoreService
     container.register(FirestoreServiceProtocol.self, name: .implementation(.firestore)) { _ in

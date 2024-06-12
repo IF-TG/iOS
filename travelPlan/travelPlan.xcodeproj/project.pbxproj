@@ -343,7 +343,7 @@
 		154047932BE4D237009E86FF /* DefaultPostHeartUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154047922BE4D237009E86FF /* DefaultPostHeartUseCaseTests.swift */; };
 		154070862C0F0147000C9C42 /* Dependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154070852C0F0147000C9C42 /* Dependency.swift */; };
 		154070882C0F110F000C9C42 /* AppDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154070872C0F110F000C9C42 /* AppDIContainer.swift */; };
-		1540708D2C0F192F000C9C42 /* RepositoryAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1540708C2C0F192F000C9C42 /* RepositoryAssembly.swift */; };
+		1540708D2C0F192F000C9C42 /* FirebaseRepositoryAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1540708C2C0F192F000C9C42 /* FirebaseRepositoryAssembly.swift */; };
 		1540708F2C0F1BDA000C9C42 /* CoreAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1540708E2C0F1BDA000C9C42 /* CoreAssembly.swift */; };
 		154070912C0F33B8000C9C42 /* ServiceName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154070902C0F33B8000C9C42 /* ServiceName.swift */; };
 		154070932C0F35A9000C9C42 /* Container+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154070922C0F35A9000C9C42 /* Container+.swift */; };
@@ -1203,7 +1203,7 @@
 		154047922BE4D237009E86FF /* DefaultPostHeartUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultPostHeartUseCaseTests.swift; sourceTree = "<group>"; };
 		154070852C0F0147000C9C42 /* Dependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dependency.swift; sourceTree = "<group>"; };
 		154070872C0F110F000C9C42 /* AppDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDIContainer.swift; sourceTree = "<group>"; };
-		1540708C2C0F192F000C9C42 /* RepositoryAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryAssembly.swift; sourceTree = "<group>"; };
+		1540708C2C0F192F000C9C42 /* FirebaseRepositoryAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseRepositoryAssembly.swift; sourceTree = "<group>"; };
 		1540708E2C0F1BDA000C9C42 /* CoreAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreAssembly.swift; sourceTree = "<group>"; };
 		154070902C0F33B8000C9C42 /* ServiceName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceName.swift; sourceTree = "<group>"; };
 		154070922C0F35A9000C9C42 /* Container+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Container+.swift"; sourceTree = "<group>"; };
@@ -3798,7 +3798,7 @@
 		15D245262C11B82E0055538F /* Assembly */ = {
 			isa = PBXGroup;
 			children = (
-				1540708C2C0F192F000C9C42 /* RepositoryAssembly.swift */,
+				1540708C2C0F192F000C9C42 /* FirebaseRepositoryAssembly.swift */,
 				154070A32C0F8F94000C9C42 /* PersistentStorageAssembly.swift */,
 				15A0A86A2C19579E00C56DCB /* TourRepositoryAssembly.swift */,
 				15A0A86C2C19589300C56DCB /* SpringServierRepository.swift */,
@@ -5017,7 +5017,7 @@
 				130CF3842B9248750051DEE8 /* OAuthType.swift in Sources */,
 				15FD508D2BB44F9E006CCCDD /* PostNestedCommentUpdateRequestDTO.swift in Sources */,
 				15E670DF2BDF7B52002E1D19 /* FirestorePostAPIEndpoint.swift in Sources */,
-				1540708D2C0F192F000C9C42 /* RepositoryAssembly.swift in Sources */,
+				1540708D2C0F192F000C9C42 /* FirebaseRepositoryAssembly.swift in Sources */,
 				158312E12AB36A9A0087034A /* UIViewController+.swift in Sources */,
 				151DF10B2AEEC58900D5D55B /* MockUrlProtocol.swift in Sources */,
 				15050D3C2BE92EA100B3E26A /* TourApiImageRetrieveRequestDTO.swift in Sources */,
