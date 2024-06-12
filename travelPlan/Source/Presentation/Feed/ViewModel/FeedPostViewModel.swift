@@ -50,8 +50,8 @@ class FeedPostViewModel: PostViewModel {
   private let viewDidLoadHandler = PassthroughSubject<Void, Never>()
   
   // MARK: - Lifecycle
-  init(postCategory: PostCategory, postFetchUsecase: PostFetchUseCase) {
-    self.postFetchUseCase = postFetchUsecase
+  init(postCategory: PostCategory, postFetchUseCase: PostFetchUseCase) {
+    self.postFetchUseCase = postFetchUseCase
     self.category = postCategory
   }
 }
@@ -233,9 +233,11 @@ private extension FeedPostViewModel {
   }
   
   func nextPageLoadingStartSubjectStream() -> Output {
-    nextPageLoadingStartSubject.map { _ -> State in
-      return .pagination(.loadingNextPage)
-    }.eraseToAnyPublisher()
+    nextPageLoadingStartSubject
+      .receive(on: DispatchQueue.main)
+      .map { _ -> State in
+        return .pagination(.loadingNextPage)
+      }.eraseToAnyPublisher()
   }
   
   func specificPostTappedStream(_ input: Input) -> Output {

@@ -49,8 +49,8 @@ final class ReviewWritingCoordinator: FlowCoordinator {
 //    let firestoreReviewWritingRepository = FirestoreReviewWritingRepository(service: FirestoreService())
 //    let reviewWritingUseCase = DefaultReviewWritingUseCase(reviewWritingRepository: firestoreReviewWritingRepository)
     let photoAuthUseCase = DefaultPhotoAuthorizationUseCase()
-    let mockStorage = StubOwnerStorage()
-    let loggedInUserRepository = DefaultLoggedInUserRepository(storage: mockStorage)
+    // MARK: - DI C에 등록시 DefaultLoggedInUserRepository(stroage: .init(name:)을 통해 주입해야합니다.
+    let loggedInUserRepository = DefaultLoggedInUserRepository(storage: .init(value: StubOwnerStorage()))
     let loggedInOwnerUseCase = DefaultLoggedInUserUseCase(loggedInUserRepository: loggedInUserRepository)
     let viewModel = DefaultReviewWritingViewModel(
       photoAuthorizationUseCase: photoAuthUseCase,
