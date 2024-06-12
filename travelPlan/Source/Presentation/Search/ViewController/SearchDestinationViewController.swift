@@ -29,10 +29,7 @@ class SearchDestinationViewController: UIViewController {
   private let viewModel: any SearchDestinationViewModel
   
   // MARK: - Properties
-  private let copyAlertView = CopyAlertView().set {
-    $0.isHidden = true
-    $0.alpha = 0
-  }
+  private let copyAlertView = CopyAlertView()
   
   private lazy var starButton = UIButton().set {
     $0.setImage(.init(named: "emptyStar-border-white"), for: .normal)
