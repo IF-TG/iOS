@@ -22,6 +22,7 @@ final class LandscapeToastView: UIView {
     text: String
   ) {
     super.init(frame: .zero)
+    
     label.text = text
     backgroundColor = color
     
@@ -32,20 +33,6 @@ final class LandscapeToastView: UIView {
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
-  
-//  convenience init(
-//    color: UIColor = UIColor.yg.primary.withAlphaComponent(0.8),
-//    text: String
-//  ) {
-//    label.text = text
-//    backgroundColor = color
-//    self.init(frame: .zero)
-//  }
-  
-//  override init(frame: CGRect) {
-//    super.init(frame: frame)
-//    
-//  }
 }
 
 // MARK: - Private Helpers
