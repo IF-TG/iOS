@@ -14,9 +14,9 @@ final class SearchDestinationHeaderView: UICollectionReusableView {
     frame: .zero,
     collectionViewLayout: self.makeCompositionalLayout()
   ).set {
+    $0.register(type: SearchDestinationImageCell.self)
     $0.contentInsetAdjustmentBehavior = .never
     $0.dataSource = self
-    $0.register(SearchDestinationImageCell.self, forCellWithReuseIdentifier: SearchDestinationImageCell.identifier)
   }
   
   private var dataSource = [Data]()
@@ -25,6 +25,7 @@ final class SearchDestinationHeaderView: UICollectionReusableView {
   override init(frame: CGRect) {
     super.init(frame: frame)
     setupUI()
+    setupLayer()
   }
   
   required init?(coder: NSCoder) {
@@ -42,6 +43,17 @@ extension SearchDestinationHeaderView {
 
 // MARK: - Private Helpers
 extension SearchDestinationHeaderView {
+  private func setupLayer() {
+    let gradientLayer = CAGradientLayer()
+    gradientLayer.frame = bounds
+    gradientLayer.colors = [
+      UIColor.black.withAlphaComponent(0.08).cgColor,
+      UIColor.clear.cgColor
+    ]
+    gradientLayer.locations = [0, 0.28]
+    layer.addSublayer(gradientLayer)
+  }
+  
   private func makeCompositionalLayout() -> UICollectionViewCompositionalLayout {
     return UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ in
       switch sectionIndex {
