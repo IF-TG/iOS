@@ -8,6 +8,8 @@
 import UIKit
 import SnapKit
 
+/// 사용하는 곳에서는 해당 뷰의 레이아웃을 잡아주어야 합니다.
+/// 하지만 특정 이벤트 시 해당 뷰를 보이기 때문에, 기본적으로 뷰를 숨기도록 구현했습니다.
 final class CopyAlertView: UIView {
   // MARK: - Properties
   private let label = UILabel().set {
@@ -31,6 +33,8 @@ final class CopyAlertView: UIView {
 // MARK: - Private Helpers
 extension CopyAlertView {
   private func setupStyles() {
+    isHidden = true
+    alpha = 0
     backgroundColor = .yg.primary.withAlphaComponent(0.8)
     layer.cornerRadius = 6
   }
