@@ -49,3 +49,21 @@ extension CopyAlertView: LayoutSupport {
     }
   }
 }
+
+// MARK: - Helpers
+extension CopyAlertView {
+  func performGhostAnimation() {
+    UIView.animate(withDuration: 1.0, animations: {
+      self.isHidden = false
+      self.alpha = 1
+      
+      DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+        UIView.animate(withDuration: 0.5, animations: {
+          self.alpha = 0
+        }) { _ in
+          self.isHidden = true
+        }
+      }
+    })
+  }
+}
