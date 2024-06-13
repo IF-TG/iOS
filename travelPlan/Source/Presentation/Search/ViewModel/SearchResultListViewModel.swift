@@ -8,6 +8,11 @@
 import Foundation
 import Combine
 
+protocol SearchResultListViewModelPageDelegate {
+  func pop()
+  func showDetail()
+}
+
 struct SearchResultListViewModelActions {
   let pop: () -> Void
   let showDetail: () -> Void
@@ -22,7 +27,7 @@ protocol SearchResultDataSourceable {
   var dataSource: [SearchResultSectionModel] { get }
 }
 
-protocol SearchResultListViewModel: ViewModelable, SearchResultDataSourceable
+protocol SearchResultListViewModel: ViewModelable, SearchResultDataSourceable, SearchResultListViewModelPageDelegate
 where Input == SearchResultListViewModelInput,
       State == SearchResultListViewModelState { }
 
@@ -30,7 +35,6 @@ struct SearchResultListViewModelInput {
   let viewDidLoad: PassthroughSubject<Void, Never> = .init()
   let didTapStarButton: PassthroughSubject<(IndexPath, Int), Never> = .init()
   let didTapSearchButton: PassthroughSubject<String, Never> = .init()
-  let didTapBackButton: PassthroughSubject<Void, Never> = .init()
   let didChangeSearchTextField: AnyPublisher<String, Never>
   let didTapCategoryItem: PassthroughSubject<(Int, Int?), Never> = .init()
 }
@@ -61,7 +65,6 @@ final class DefaultSearchResultListViewModel: SearchResultListViewModel {
   // MARK: - Transform
   func transform(_ input: Input) -> AnyPublisher<State, Never> {
     Publishers.MergeMany(
-      didTapBackButtonStream(input),
       viewDidLoadStream(input),
       didTapStarButtonStream(input),
       didTapDetailStream(input),
@@ -75,15 +78,6 @@ final class DefaultSearchResultListViewModel: SearchResultListViewModel {
 
 // MARK: - Private Helpers
 extension DefaultSearchResultListViewModel {
-  private func didTapBackButtonStream(_ input: Input) -> Output {
-    return input.didTapBackButton
-      .map { [weak self] in
-        self?.actions.pop()
-        return State.none
-      }
-      .eraseToAnyPublisher()
-  }
-  
   private func viewDidLoadStream(_ input: Input) -> Output {
     return input.viewDidLoad
       .flatMap { [weak self] _ in
@@ -215,5 +209,16 @@ extension DefaultSearchResultListViewModel {
     if text.count > 0 {
       return true
     } else { return false }
+  }
+}
+
+// MARK: - SearchResultListViewModelPageDelegate
+extension DefaultSearchResultListViewModel {
+  func pop() {
+    actions.pop()
+  }
+  
+  func showDetail() {
+    actions.showDetail()
   }
 }
