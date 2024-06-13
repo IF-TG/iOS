@@ -32,7 +32,7 @@ final class SettingCoordinator: FlowCoordinator {
     }
     
     let stubOwnerStorage = StubOwnerStorage()
-    let loggedInUserRepository = DefaultLoggedInUserRepository(storage: stubOwnerStorage)
+    let loggedInUserRepository = DefaultLoggedInUserRepository(storage: .init(value: stubOwnerStorage))
     let loggedInUserUseCase = DefaultLoggedInUserUseCase(loggedInUserRepository: loggedInUserRepository)
     
     let viewModel = SettingViewModel(loggedInUserUseCase: loggedInUserUseCase, actions: actions)
