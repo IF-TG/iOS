@@ -8,7 +8,7 @@
 import UIKit
 
 // TODO: - 메뉴버튼 클릭시 우선순위 교체 로직 추가해야합니다.
-final class FavoriteTableViewCell: UITableViewCell, CellIdentifiable {
+final class FavoriteTableViewCell: UITableViewCell {
   enum Constant {
     static let deleteControlWidth = FavoriteViewController.Constant.deleteControlWidth
     enum DeleteButton {

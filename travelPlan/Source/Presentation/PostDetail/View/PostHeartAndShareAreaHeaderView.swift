@@ -13,7 +13,7 @@ protocol PostHeartAndShareAreaHeaderViewDelegate: AnyObject {
   func didTapShare()
 }
 
-final class PostHeartAndShareAreaHeaderView: UITableViewHeaderFooterView, HeaderFooterViewIdentifiable {
+final class PostHeartAndShareAreaHeaderView: UITableViewHeaderFooterView {
   // MARK: - Properties
   private var postHeartState: Bool? = false
   

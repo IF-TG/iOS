@@ -8,7 +8,43 @@
 import Combine
 import Foundation
 
-final class PostSearchViewModel {
+struct PostSeaerchViewModelActions {
+  let showTravelDestinationList: (String) -> Void
+  let showPostList: (String) -> Void
+  let pop: () -> Void
+}
+
+protocol PostSearchViewModel: ViewModelable, PostSearchCollectionViewDataSource
+where Input == PostSearchViewModelInput,
+      State == PostSearchViewModelState {}
+
+struct PostSearchViewModelInput {
+  let didTapBackButton: PassthroughSubject<Void, Never> = .init()
+  let viewDidLoad: PassthroughSubject<Void, Never> = .init()
+  let didSelectedItem: PassthroughSubject<IndexPath, Never> = .init()
+  let didTapRecentSearchTagDeleteButton: PassthroughSubject<IndexPath, Never> = .init()
+  let didTapDeleteAllButton: PassthroughSubject<Void, Never> = .init()
+  let didChangeSearchTextField: AnyPublisher<String, Never>
+  let didTapSearchButton: PassthroughSubject<String, Never> = .init()
+  let didTapDeleteAllAlert: PassthroughSubject<Void, Never> = .init()
+  let didTapCollectionView: PassthroughSubject<Void, Never> = .init()
+  let didTapAlertCancelButton: PassthroughSubject<Void, Never> = .init()
+  
+  init(didChangeSearchTextField: AnyPublisher<String, Never>) {
+    self.didChangeSearchTextField = didChangeSearchTextField
+  }
+}
+
+enum PostSearchViewModelState {
+  case none
+  case resignFirstResponder
+  case presentAlert
+  case changeButtonColor(Bool)
+  case goDownKeyboard
+  case reloadSections(sectionIndex: Int)
+}
+
+final class DefaultPostSearchViewModel {
   enum Constants {
     enum CollectionView {
       static let edgeInsetWidth: CGFloat = PostSearchViewController.Constants
@@ -17,84 +53,38 @@ final class PostSearchViewModel {
     }
   }
   
-  // MARK: - Input
-  struct Input {
-    let viewDidLoad: PassthroughSubject<Void, Never>
-    let didSelectedItem: PassthroughSubject<IndexPath, ErrorType>
-    let didTapRecentSearchTagDeleteButton: PassthroughSubject<IndexPath, Never>
-    let didTapDeleteAllButton: PassthroughSubject<Void, Never>
-    let didChangeSearchTextField: AnyPublisher<String, Never>
-    let didTapSearchButton: PassthroughSubject<String, Never>
-    let didTapDeleteAllAlert: PassthroughSubject<Void, ErrorType>
-    let didTapCollectionView: PassthroughSubject<Void, Never>
-    let didTapAlertCancelButton: PassthroughSubject<Void, Never>
-    
-    init(
-      viewDidLoad: PassthroughSubject<Void, Never> = .init(),
-      didSelectedItem: PassthroughSubject<IndexPath, ErrorType> = .init(),
-      didTapRecentSearchTagDeleteButton: PassthroughSubject<IndexPath, Never> = .init(),
-      didTapDeleteAllButton: PassthroughSubject<Void, Never> = .init(),
-      didChangeSearchTextField: AnyPublisher<String, Never>,
-      didTapSearchButton: PassthroughSubject<String, Never> = .init(),
-      didTapDeleteAllAlert: PassthroughSubject<Void, ErrorType> = .init(),
-      didTapCollectionView: PassthroughSubject<Void, Never> = .init(),
-      didTapAlertCancelButton: PassthroughSubject<Void, Never> = .init()
-    ) {
-      self.viewDidLoad = viewDidLoad
-      self.didSelectedItem = didSelectedItem
-      self.didTapRecentSearchTagDeleteButton = didTapRecentSearchTagDeleteButton
-      self.didTapDeleteAllButton = didTapDeleteAllButton
-      self.didChangeSearchTextField = didChangeSearchTextField
-      self.didTapSearchButton = didTapSearchButton
-      self.didTapDeleteAllAlert = didTapDeleteAllAlert
-      self.didTapCollectionView = didTapCollectionView
-      self.didTapAlertCancelButton = didTapAlertCancelButton
-    }
-  }
-  
-  // MARK: - State
-  enum State {
-    case none
-    case gotoSearch(searchText: String)
-    case presentAlert
-    case changeButtonColor(Bool)
-    case goDownKeyboard
-    case reloadSections(sectionIndex: Int)
-  }
-  
-  // MARK: - Error
-  enum ErrorType: Error {
-    case none
-    case unexpected
-    case invalidDataSource
-    case deallocated
-  }
-  
   // MARK: - Properties
   private var sectionModels: [PostSearchSectionModel] = []
   private var recentModels: [String] = []
+  private let searchType: SearchType
+  private let actions: PostSeaerchViewModelActions
   
   // MARK: - LifeCycle
+  init(searchType: SearchType, actions: PostSeaerchViewModelActions) {
+    self.searchType = searchType
+    self.actions = actions
+  }
+  
   deinit {
-    print("deinit: \(Self.self)")
+    print("deinit: \(DefaultPostSearchViewModel.self)")
   }
 }
 
-// MARK: - ViewModelCase
-extension PostSearchViewModel: ViewModelCase {
-  typealias Output = AnyPublisher<State, ErrorType>
+// MARK: - PostSearchViewModel
+extension DefaultPostSearchViewModel: PostSearchViewModel {
   
   func transform(_ input: Input) -> Output {
     return Publishers.MergeMany([
       viewDidLoadStream(input),
-      didChangeTextFieldStream(input),
+      didChangeSearchTextFieldStream(input),
       didTapSearchButtonStream(input),
       didSelectedItemStream(input),
       didTapDeleteAllButtonStream(input),
       didTapRecentSeaerchTagDeleteButtonStream(input),
       didTapDeleteAllAlertStream(input),
       didTapCollectionViewStream(input),
-      didTapAlertCancelButtonStream(input)
+      didTapAlertCancelButtonStream(input),
+      didTapBackButtonStream(input)
     ]).eraseToAnyPublisher()
   }
   
@@ -104,45 +94,47 @@ extension PostSearchViewModel: ViewModelCase {
         self?.loadData()
         return State.none
       }
-      .setFailureType(to: ErrorType.self)
       .eraseToAnyPublisher()
   }
   
   private func didTapAlertCancelButtonStream(_ input: Input) -> Output {
     return input.didTapAlertCancelButton
-      .tryMap {
-        return .none
-      }
-      .mapError { _ in ErrorType.unexpected }
+      .map { State.none }
       .eraseToAnyPublisher()
   }
   
   private func didTapCollectionViewStream(_ input: Input) -> Output {
     return input.didTapCollectionView
-      .tryMap { State.goDownKeyboard }
-      .mapError { _ in ErrorType.none }
+      .map { State.goDownKeyboard }
       .eraseToAnyPublisher()
   }
   
-  private func didChangeTextFieldStream(_ input: Input) -> Output {
+  private func didChangeSearchTextFieldStream(_ input: Input) -> Output {
     return input.didChangeSearchTextField
       .map { [weak self] in
         State.changeButtonColor(self?.isValueChanged(text: $0) ?? false)
       }
-      .setFailureType(to: ErrorType.self)
       .eraseToAnyPublisher()
   }
   
   private func didTapSearchButtonStream(_ input: Input) -> Output {
     return input.didTapSearchButton
-      .tryMap { State.gotoSearch(searchText: $0) }
-      .mapError { $0 as? ErrorType ?? .unexpected }
+      .map { [weak self] text in
+        guard let self = self else { return State.none }
+        switch searchType {
+        case .travelDestination:
+          actions.showTravelDestinationList(text)
+        case .post:
+          actions.showPostList(text)
+        }
+        return State.none
+      }
       .eraseToAnyPublisher()
   }
   
   private func didSelectedItemStream(_ input: Input) -> Output {
     return input.didSelectedItem
-      .tryMap { [weak self] indexPath in
+      .map { [weak self] indexPath in
         var searchText = ""
         
         switch self?.sectionModels[indexPath.section].sectionItem {
@@ -151,29 +143,34 @@ extension PostSearchViewModel: ViewModelCase {
         case let .recent(items):
           searchText = items[indexPath.item]
         case .none:
-          throw ErrorType.invalidDataSource
+          break
         }
         
-        return State.gotoSearch(searchText: searchText)
+        guard let self = self else { return State.none }
+        
+        switch searchType {
+        case .travelDestination:
+          actions.showTravelDestinationList(searchText)
+        case .post:
+          actions.showPostList(searchText)
+        }
+        return State.resignFirstResponder
       }
-      .mapError { $0 as? ErrorType ?? .unexpected }
       .eraseToAnyPublisher()
   }
   
   private func didTapDeleteAllButtonStream(_ input: Input) -> Output {
     return input.didTapDeleteAllButton
-      .tryMap { _ in State.presentAlert }
-      .mapError { $0 as? ErrorType ?? .unexpected }
+      .map { _ in State.presentAlert }
       .eraseToAnyPublisher()
   }
   
   private func didTapRecentSeaerchTagDeleteButtonStream(_ input: Input) -> Output {
     return input.didTapRecentSearchTagDeleteButton
-      .tryMap { [weak self] indexPath in
+      .map { [weak self] indexPath in
         self?.removeRecentItem(at: indexPath.item)
         return .reloadSections(sectionIndex: indexPath.section)
       }
-      .mapError { $0 as? ErrorType ?? .unexpected }
       .eraseToAnyPublisher()
   }
   
@@ -188,13 +185,23 @@ extension PostSearchViewModel: ViewModelCase {
           }
         }
       }
-      .mapError { $0 as? ErrorType ?? .unexpected }
       .eraseToAnyPublisher()
+  }
+  
+  private func didTapBackButtonStream(_ input: Input) -> Output {
+    
+    return input.didTapBackButton
+      .map { [weak self] in
+        self?.actions.pop()
+        return State.none
+      }
+      .eraseToAnyPublisher()
+      
   }
 }
 
 // MARK: - Helpers
-extension PostSearchViewModel {
+extension DefaultPostSearchViewModel {
   private func loadData() {
     // recommendation
     let recommendatoinModels = PostSearchSectionModel.createRecommendationMock()
@@ -252,7 +259,7 @@ extension PostSearchViewModel {
 }
 
 // MARK: - PostSearchCollectionViewDataSource
-extension PostSearchViewModel: PostSearchCollectionViewDataSource {
+extension DefaultPostSearchViewModel {
   func getTextString(at indexPath: IndexPath) -> String {
     switch sectionModels[indexPath.section].sectionItem {
     case let .recent(items): return items[indexPath.item]

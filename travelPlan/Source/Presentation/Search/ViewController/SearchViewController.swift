@@ -31,16 +31,15 @@ final class SearchViewController: UIViewController {
   }
   
   // MARK: - Properties
-  weak var coordinator: SearchCoordinatorDelegate?
-  private let viewModel = DefaultSearchViewModel()
-  private lazy var searchView: SearchView = .init().set {
-    $0.delegate = self
-  }
+  private let viewModel: any SearchViewModel
+//  private lazy var searchView: SearchView = .init().set {
+//    $0.delegate = self
+//  }
   
   private var isScrolledUntilTop = false
   
   private var subscriptions = Set<AnyCancellable>()
-  private lazy var input = DefaultSearchViewModel.Input()
+  private lazy var input = SearchViewModelInput()
   private let compositionalLayoutManager: CompositionalLayoutCreatable = MainSearchLayoutManager()
   
   private lazy var collectionView: UICollectionView = UICollectionView(
@@ -66,22 +65,45 @@ final class SearchViewController: UIViewController {
                 withReuseIdentifier: TitleWithButtonHeaderView.id)
   }
   
+  private lazy var searchBarButtonItem = UIBarButtonItem(
+    image: UIImage(named: "search")?
+      .withRenderingMode(.alwaysTemplate),
+    style: .plain,
+    target: self,
+    action: nil
+  ).set {
+    $0.isEnabled = false
+    $0.tintColor = .yg.gray1
+  }
+  
+  private lazy var searchTextField: UITextField = UITextField().set {
+    $0.attributedPlaceholder = .init(
+      string: "여행지 및 축제를 검색해보세요.",
+      attributes: [NSAttributedString.Key.foregroundColor: UIColor.yg.gray1]
+    )
+    $0.textColor = .yg.gray5
+    $0.font = .init(pretendard: .regular_400(fontSize: 16))
+    $0.autocorrectionType = .no
+    $0.delegate = self
+  }
+  
   // MARK: - LifeCycle
+  init(viewModel: any SearchViewModel) {
+    self.viewModel = viewModel
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     setupUI()
     setupStyles()
+    setupNavigationBar()
     bind()
     input.viewDidLoad.send()
-  }
-  
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    navigationController?.isNavigationBarHidden = true
-  }
-  
-  deinit {
-    coordinator?.finish()
   }
 }
 
@@ -100,13 +122,7 @@ extension SearchViewController {
   internal func render(_ state: SearchViewModelState) {
     switch state {
     case .goDownKeyboard:
-      searchView.endEditing(true)
-    case .gotoSearch:
-      // FIXME: - mock 제거하고, 실제로는 search
-      coordinator?.showSearchDetail(type: .leports)
-//      navigationController?.pushViewController(MockSearchDestinationViewController(), animated: true)
-    case let .showSearchMoreDetail(sectionType):
-      coordinator?.showSearchDetail(type: sectionType)
+      view.endEditing(true)
     case .none:
       break
     case .reloadItems(let indexPath):
@@ -117,13 +133,13 @@ extension SearchViewController {
 }
 
 // MARK: - Actions
-extension SearchViewController {
-  @objc private func didTapCollectionView() {
+private extension SearchViewController {
+  @objc func didTapCollectionView() {
     input.didTapView.send()
   }
 }
 
-// MARK: - Helpers
+// MARK: - Private Helpers
 extension SearchViewController {
   private func setupStyles() {
     view.backgroundColor = .white
@@ -138,27 +154,51 @@ extension SearchViewController {
     default: return nil
     }
   }
+  
+  private func setupNavigationBar() {
+    let appearance = UINavigationBarAppearance()
+    appearance.configureWithTransparentBackground()
+    
+    navigationController?.navigationBar.standardAppearance = appearance
+    navigationController?.navigationBar.scrollEdgeAppearance = appearance
+    navigationController?.navigationBar.compactAppearance = appearance
+    
+    let textFieldButtonItem = UIBarButtonItem(customView: searchTextField)
+    var barButtonItems = [UIBarButtonItem]()
+    
+    barButtonItems.append(textFieldButtonItem)
+    
+    // textField width Layout 지정
+    if let customView = textFieldButtonItem.customView {
+      customView.snp.makeConstraints {
+        $0.width.equalTo(260)
+      }
+    }
+    
+    navigationItem.leftBarButtonItems = barButtonItems
+    navigationItem.rightBarButtonItem = searchBarButtonItem
+  }
 }
 
 // MARK: - LayoutSupport
 extension SearchViewController: LayoutSupport {
   func addSubviews() {
-    view.addSubview(searchView)
+//    view.addSubview(searchView)
     view.addSubview(collectionView)
   }
   
   func setConstraints() {
-    searchView.snp.makeConstraints {
-      $0.top.equalTo(view.safeAreaLayoutGuide).inset(Constants.SearchView.Spacing.top)
-      $0.leading.equalToSuperview()
-        .inset(Constants.SearchView.Spacing.leading)
-      $0.trailing.equalToSuperview()
-        .inset(Constants.SearchView.Spacing.trailing)
-      $0.height.equalTo(Constants.SearchView.height)
-    }
+//    searchView.snp.makeConstraints {
+//      $0.top.equalTo(view.safeAreaLayoutGuide).inset(Constants.SearchView.Spacing.top)
+//      $0.leading.equalToSuperview()
+//        .inset(Constants.SearchView.Spacing.leading)
+//      $0.trailing.equalToSuperview()
+//        .inset(Constants.SearchView.Spacing.trailing)
+//      $0.height.equalTo(Constants.SearchView.height)
+//    }
     
     collectionView.snp.makeConstraints {
-      $0.top.equalTo(searchView.snp.bottom).offset(Constants.CollectionView.Spacing.Offset.top)
+      $0.top.equalTo(view.safeAreaLayoutGuide)
       $0.leading.trailing.equalToSuperview()
       $0.bottom.equalToSuperview()
     }
@@ -232,16 +272,16 @@ extension SearchViewController: UICollectionViewDataSource {
 
 // MARK: - UICollectionViewDelegate
 extension SearchViewController: UICollectionViewDelegate {
-  func scrollViewDidScroll(_ scrollView: UIScrollView) {
-    let currentTopMargin = Constants.SearchView.Spacing.top - scrollView.contentOffset.y
-    isScrolledUntilTop = currentTopMargin > CGFloat.zero
-
-    if isScrolledUntilTop {
-      searchView.snp.updateConstraints {
-        $0.top.equalTo(view.safeAreaLayoutGuide).inset(currentTopMargin)
-      }
-    }
-  }
+//  func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//    let currentTopMargin = Constants.SearchView.Spacing.top - scrollView.contentOffset.y
+//    isScrolledUntilTop = currentTopMargin > CGFloat.zero
+//
+//    if isScrolledUntilTop {
+//      searchView.snp.updateConstraints {
+//        $0.top.equalTo(view.safeAreaLayoutGuide).inset(currentTopMargin)
+//      }
+//    }
+//  }
   
   func collectionView(
     _ collectionView: UICollectionView,
@@ -253,16 +293,24 @@ extension SearchViewController: UICollectionViewDelegate {
 }
 
 // MARK: - SearchViewDelegate
-extension SearchViewController: SearchViewDelegate {
-  func didTapSearchButton(_ searchView: SearchView, text: String) {
-    input.didTapSearchButton.send(text)
-  }
-}
+//extension SearchViewController: SearchViewDelegate {
+//  func didTapSearchButton(_ searchView: SearchView, text: String) {
+//    input.didTapSearchButton.send(text)
+//  }
+//}
 
 // MARK: - TitleWithButtonHeaderViewDelegate
 extension SearchViewController: TitleWithButtonHeaderViewDelegate {
   // pushTODO: - 각 타입에 맞게 화면전환을 해야합니다.
   func didTaplookingMoreButton(_ button: UIButton, in section: Int) {
     input.didTaplookingMoreButton.send(section)
+  }
+}
+
+extension SearchViewController: UITextFieldDelegate {
+  func textFieldDidBeginEditing(_ textField: UITextField) {
+    textField.resignFirstResponder()
+    input.textFieldDidBeginEditing.send()
+//    coordinator?.showPostSearch()
   }
 }

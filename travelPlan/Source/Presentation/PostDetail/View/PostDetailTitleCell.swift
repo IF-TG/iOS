@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class PostDetailTitleCell: UITableViewCell, CellIdentifiable {
+final class PostDetailTitleCell: UITableViewCell {
   // MARK: - Properties
   private let titleLabel = BasePaddingLabel(
     padding: .init(top: 10, left: 20, bottom: 10, right: 20),

@@ -19,7 +19,7 @@ protocol PostDetailReplyCellDelegate: AnyObject {
   func didCanceledHeart(_ cell: UITableViewCell)
 }
 
-final class PostDetailReplyCell: UITableViewCell, CellIdentifiable {
+final class PostDetailReplyCell: UITableViewCell {
   // MARK: - Properties
   private let replyView = BasePostDetailCommentableView(usageType: .reply)
   

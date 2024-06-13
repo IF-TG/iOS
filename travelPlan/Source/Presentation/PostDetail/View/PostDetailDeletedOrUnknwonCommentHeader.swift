@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class PostDetailDeletedOrUnknwonCommentHeader: UITableViewHeaderFooterView, HeaderFooterViewIdentifiable {
+final class PostDetailDeletedOrUnknwonCommentHeader: UITableViewHeaderFooterView {
   // MARK: - Lifecycle
   override init(reuseIdentifier: String?) {
     super.init(reuseIdentifier: reuseIdentifier)

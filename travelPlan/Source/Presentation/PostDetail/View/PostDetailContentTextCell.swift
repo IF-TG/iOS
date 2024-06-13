@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class PostDetailContentTextCell: UITableViewCell, CellIdentifiable {
+final class PostDetailContentTextCell: UITableViewCell {
   // MARK: - Properties
   private lazy var label = UITextView(frame: .zero, textContainer: nil).set {
     $0.translatesAutoresizingMaskIntoConstraints = false

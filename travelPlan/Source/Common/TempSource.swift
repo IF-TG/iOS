@@ -12,7 +12,7 @@ struct TempSource {
   private init() { }
   
   static var imageData: Data {
-    let image = UIImage(named: "tempThumbnail1")!
+    let image = UIImage(named: "tempThumbnail10")!
     let imageData = image.jpegData(compressionQuality: 1.0)!
     
     return imageData

@@ -40,14 +40,45 @@ final class SearchResultListViewController: UIViewController {
   
   private var selectedTagIndexPath = IndexPath(item: .zero, section: .zero)
   
-  private let input = SearchResultListViewModelInput()
+  private lazy var input = SearchResultListViewModelInput(didChangeSearchTextField: searchTextField.changed)
   
   private var subscriptions = Set<AnyCancellable>()
   
+  private lazy var searchBarButtonItem = UIBarButtonItem(
+    image: UIImage(named: "search")?
+      .withRenderingMode(.alwaysTemplate),
+    style: .plain,
+    target: self,
+    action: #selector(didTapSearchButton)
+  ).set {
+    $0.tintColor = .yg.primary
+  }
+  
+  private lazy var backButtonItem = UIBarButtonItem(
+    image: UIImage(named: "back")?
+      .withRenderingMode(.alwaysOriginal),
+    style: .plain,
+    target: self,
+    action: #selector(didTapBackButton)
+  )
+  
+  private lazy var searchTextField: UITextField = UITextField().set {
+    $0.attributedPlaceholder = .init(
+      string: "여행지 및 축제를 검색해보세요.",
+      attributes: [NSAttributedString.Key.foregroundColor: UIColor.yg.gray1]
+    )
+    $0.textColor = .yg.gray5
+    $0.font = .init(pretendard: .regular_400(fontSize: 16))
+    $0.autocorrectionType = .no
+    $0.delegate = self
+  }
+  
   // MARK: - LifeCycle
-  init(viewModel: any SearchResultListViewModel) {
+  init(viewModel: any SearchResultListViewModel, text: String) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
+    
+    self.searchTextField.text = text
   }
   
   required init?(coder: NSCoder) {
@@ -58,8 +89,13 @@ final class SearchResultListViewController: UIViewController {
     super.viewDidLoad()
     setupUI()
     setupStyles()
+    setupNavigationBar()
     bind()
     input.viewDidLoad.send()
+  }
+  
+  deinit {
+    print("deinit: \(Self.self)")
   }
 }
 
@@ -71,13 +107,18 @@ extension SearchResultListViewController {
       .receive(on: RunLoop.main)
       .sink { [weak self, selectedTagIndexPath] state in
         switch state {
+        case .changeButtonColor(let isChanged):
+          if isChanged {
+            self?.setupSearchBarButtonItemStyle(.yg.primary, isEnabled: true)
+          } else { self?.setupSearchBarButtonItemStyle(.yg.gray1, isEnabled: false) }
         case .reloadItems(let indexPath):
           let indexPath = [IndexPath(item: indexPath.item, section: indexPath.section)]
           self?.collectionView.reloadItems(at: indexPath)
         case .firstReloadData:
           self?.collectionView.reloadData()
-          
           self?.collectionView.selectItem(at: selectedTagIndexPath, animated: false, scrollPosition: [])
+        case .reloadSection(let section):
+          self?.collectionView.reloadSections(IndexSet(integer: section))
         case .none:
           break
         }
@@ -140,6 +181,11 @@ extension SearchResultListViewController: UICollectionViewDelegate {
       
       collectionView.deselectItem(at: selectedTagIndexPath, animated: false)
       selectedTagIndexPath = indexPath
+      
+      guard let categoryCell = collectionView.cellForItem(at: indexPath)
+              as? SearchResultCategoryCell else { return }
+      
+      input.didTapCategoryItem.send((indexPath.item, categoryCell.categoryId))
     }
   }
   
@@ -156,8 +202,31 @@ extension SearchResultListViewController: UICollectionViewDelegate {
 
 // MARK: - Private Helpers
 extension SearchResultListViewController {
+  private func setupSearchBarButtonItemStyle(_ color: UIColor, isEnabled: Bool) {
+    searchBarButtonItem.tintColor = color
+    searchBarButtonItem.isEnabled = isEnabled
+  }
+  
   private func setupStyles() {
     view.backgroundColor = .white
+  }
+  
+  private func setupNavigationBar() {
+    let textFieldButtonItem = UIBarButtonItem(customView: searchTextField)
+    var barButtonItems = [UIBarButtonItem]()
+    
+    barButtonItems.append(backButtonItem)
+    barButtonItems.append(textFieldButtonItem)
+    
+    // textField width Layout 지정
+    if let customView = textFieldButtonItem.customView {
+      customView.snp.makeConstraints {
+        $0.width.equalTo(260)
+      }
+    }
+    
+    navigationItem.leftBarButtonItems = barButtonItems
+    navigationItem.rightBarButtonItem = searchBarButtonItem
   }
 }
 
@@ -172,5 +241,23 @@ extension SearchResultListViewController: LayoutSupport {
       $0.leading.trailing.equalToSuperview()
       $0.top.bottom.equalTo(view.safeAreaLayoutGuide)
     }
+  }
+}
+
+// MARK: - UITextFieldDelegate
+extension SearchResultListViewController: UITextFieldDelegate {
+  func textFieldDidBeginEditing(_ textField: UITextField) {
+    
+  }
+}
+
+// MARK: - Actions
+private extension SearchResultListViewController {
+  @objc func didTapSearchButton() {
+    input.didTapSearchButton.send(self.searchTextField.text ?? "")
+  }
+  
+  @objc func didTapBackButton() {
+    viewModel.pop()
   }
 }

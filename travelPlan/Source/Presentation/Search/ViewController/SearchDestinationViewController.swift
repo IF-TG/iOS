@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Combine
 
 enum DestinationType {
   case cultureFacility
@@ -18,7 +19,21 @@ enum DestinationType {
 }
 
 class SearchDestinationViewController: UIViewController {
+  enum Common {
+    static var backgroundColor: UIColor {
+      return .yg.littleWhite
+    }
+  }
+  
+  // MARK: - Dependencies
+  private let viewModel: any SearchDestinationViewModel
+  
   // MARK: - Properties
+  private let landscapeToastView = LandscapeToastView(text: "복사되었습니다.").set {
+    $0.isHidden = true
+    $0.alpha = 0
+  }
+  
   private lazy var starButton = UIButton().set {
     $0.setImage(.init(named: "emptyStar-border-white"), for: .normal)
     $0.addTarget(self, action: #selector(didTapStarButton(_:)), for: .touchUpInside)
@@ -33,26 +48,38 @@ class SearchDestinationViewController: UIViewController {
     $0.addTarget(self, action: #selector(didTapShareButton(_:)), for: .touchUpInside)
   }
   private let type: DestinationType
+  
+  private let layout = SearchDestinationCollectionViewLayout().makeLayout().set {
+    $0.register(InnerRoundRectReusableView.self, forDecorationViewOfKind: InnerRoundRectReusableView.baseID)
+  }
   private lazy var collectionView = UICollectionView(
     frame: .zero,
-    collectionViewLayout: SearchDestinationCollectionViewLayout().makeLayout()
+    collectionViewLayout: layout
   ).set {
     $0.register(SearchDestinationTitleCell.self, forCellWithReuseIdentifier: SearchDestinationTitleCell.id)
     $0.register(SearchDestinationServiceCell.self, forCellWithReuseIdentifier: SearchDestinationServiceCell.id)
     $0.register(SearchDestinationContentCell.self, forCellWithReuseIdentifier: SearchDestinationContentCell.id)
-    $0.backgroundColor = .yg.littleWhite
+    $0.backgroundColor = Common.backgroundColor
     $0.dataSource = self
     $0.delegate = self
+    $0.layer.cornerRadius = 50
+    $0.layer.maskedCorners = CACornerMask(arrayLiteral: [.layerMinXMinYCorner, .layerMaxXMinYCorner])
   }
   private var collectionViewWillDisplayIsFirstCalled = false
   // FIXME: - will erase
-  private let mockThumbnailImageView = UIImageView().set {
-    $0.image = .init(named: "seomun")
+  private let thumbnailImageView = UIImageView().set {
+//    $0.image = .init(named: "seomun")
+    $0.backgroundColor = Common.backgroundColor
     $0.contentMode = .scaleAspectFill
     $0.clipsToBounds = true
   }
+  
+  private let input = SearchDestinationViewModelInput()
+  
+  private var subscriptions = Set<AnyCancellable>()
   // MARK: - LifeCycle
-  init(type: DestinationType) {
+  init(viewModel: any SearchDestinationViewModel, type: DestinationType) {
+    self.viewModel = viewModel
     self.type = type
     super.init(nibName: nil, bundle: nil)
   }
@@ -66,6 +93,68 @@ class SearchDestinationViewController: UIViewController {
     setupNavigationBar()
     setupStyles()
     setupUI()
+    bind()
+    input.viewDidLoad.send()
+  }
+  
+  override func viewDidLayoutSubviews() {
+    super.viewDidLayoutSubviews()
+    setupThumbnailImageViewLayer()
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    updateTabBarVisibility(false)
+  }
+  
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    updateTabBarVisibility(true)
+  }
+}
+
+extension SearchDestinationViewController {
+  private func setupThumbnailImageViewLayer() {
+    let gradientLayer = CAGradientLayer()
+    gradientLayer.frame = thumbnailImageView.bounds
+    gradientLayer.colors = [
+      UIColor.black.withAlphaComponent(0.08).cgColor,
+      UIColor.clear.cgColor
+    ]
+    gradientLayer.locations = [0, 0.28]
+    thumbnailImageView.layer.addSublayer(gradientLayer)
+  }
+  
+  private func bind() {
+    viewModel
+      .transform(input)
+      .receive(on: RunLoop.main)
+      .sink { [weak self] state in
+        switch state {
+        case .appearCopyAlert:
+          UIView.animate(withDuration: 1.0, animations: {
+            self?.landscapeToastView.isHidden = false
+            self?.landscapeToastView.alpha = 1
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+              UIView.animate(withDuration: 0.5, animations: {
+                self?.landscapeToastView.alpha = 0
+              }) { _ in
+                self?.landscapeToastView.isHidden = true
+              }
+            }
+          })
+          // TODO: - 주소 복사 수행 후, alert보이게 하기
+          
+        case .none:
+          break
+        case .reloadData(let thumbnailData):
+          self?.collectionView.reloadData()
+          guard let self = self else { return }
+          self.thumbnailImageView.image = UIImage(data: thumbnailData)
+        }
+      }
+      .store(in: &subscriptions)
   }
 }
 
@@ -73,16 +162,14 @@ class SearchDestinationViewController: UIViewController {
 extension SearchDestinationViewController {
   private func setupNavigationBar() {
     setupDefaultBackBarButtonItem(tintColor: .white)
-    navigationItem.rightBarButtonItems = [UIBarButtonItem(customView: shareButton),
-                                          UIBarButtonItem(customView: starButton)]
-    let appearance = UINavigationBarAppearance()
-    appearance.backgroundEffect = .none
-    navigationController?.navigationBar.standardAppearance = appearance
-    navigationController?.navigationBar.scrollEdgeAppearance = appearance
+    navigationItem.rightBarButtonItems = [
+      UIBarButtonItem(customView: shareButton),
+      UIBarButtonItem(customView: starButton)
+    ]
   }
   
   private func setupStyles() {
-    view.backgroundColor = .black
+    view.backgroundColor = Common.backgroundColor
   }
   
   private func resizeImage(image: UIImage?, size: CGSize) -> UIImage? {
@@ -112,20 +199,29 @@ private extension SearchDestinationViewController {
 // MARK: - LayoutSupport
 extension SearchDestinationViewController: LayoutSupport {
   func addSubviews() {
+    view.addSubview(thumbnailImageView)
     view.addSubview(collectionView)
-    view.addSubview(mockThumbnailImageView)
+    collectionView.addSubview(landscapeToastView)
+    view.bringSubviewToFront(collectionView)
   }
   
   func setConstraints() {
-    mockThumbnailImageView.snp.makeConstraints {
+    thumbnailImageView.snp.makeConstraints {
       $0.top.equalToSuperview()
       $0.leading.trailing.equalToSuperview()
-      $0.height.equalTo(200)
+      $0.height.equalTo(325)
     }
     collectionView.snp.makeConstraints {
-      $0.top.equalTo(mockThumbnailImageView.snp.bottom)
+      $0.top.equalTo(thumbnailImageView.snp.bottom).inset(50)
       $0.leading.trailing.equalToSuperview()
       $0.bottom.equalTo(view.safeAreaLayoutGuide)
+    }
+    
+    landscapeToastView.snp.makeConstraints {
+      $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(7)
+      $0.centerX.equalTo(view.safeAreaLayoutGuide)
+      $0.leading.equalTo(view.safeAreaLayoutGuide).inset(11)
+      $0.height.equalTo(40)
     }
   }
 }
@@ -133,22 +229,20 @@ extension SearchDestinationViewController: LayoutSupport {
 // MARK: - UICollectionViewDataSource
 extension SearchDestinationViewController: UICollectionViewDataSource {
   func numberOfSections(in collectionView: UICollectionView) -> Int {
-    3
+    return viewModel.dataSource.count
   }
 
   func collectionView(
     _ collectionView: UICollectionView,
     numberOfItemsInSection section: Int
   ) -> Int {
-    switch section {
-    case 0: 
+    switch viewModel.dataSource[section] {
+    case .main:
       return 1
-    case 1:
-      return 1
-    case 2:
-      return 6
-    default:
-      return 1
+    case .temp:
+      return 0
+    case .content(let infos):
+      return infos.count
     }
   }
   
@@ -156,58 +250,28 @@ extension SearchDestinationViewController: UICollectionViewDataSource {
     _ collectionView: UICollectionView,
     cellForItemAt indexPath: IndexPath
   ) -> UICollectionViewCell {
-    switch indexPath.section {
-    case 0:
+    switch viewModel.dataSource[indexPath.section] {
+    case .main(let info):
       guard let titleCell = collectionView.dequeueReusableCell(
         withReuseIdentifier: SearchDestinationTitleCell.id,
         for: indexPath
       ) as? SearchDestinationTitleCell else { return .init() }
-      titleCell.configure(title: "서문수육애국밥", address: "대전 동구 대학로 37")
+      
+      titleCell.configure(mainInfo: info)
+      titleCell.bind(to: input.didTapCopyAddressButton)
       return titleCell
-    case 1:
-      guard let serviceCell = collectionView.dequeueReusableCell(
-        withReuseIdentifier: SearchDestinationServiceCell.id,
-        for: indexPath
-      ) as? SearchDestinationServiceCell else { return .init() }
-      let mockModels: [SearchDestinationServiceTypeViewInfo] = [
-        // TODO: - 추후에 ServiceType을 enum으로 정의하기
-        .init(imageName: "cooker", title: "식당"),
-        .init(imageName: "parking", title: "주차가능"),
-        .init(imageName: "takeout", title: "포장가능")
-      ]
-      serviceCell.configure(models: mockModels)
-      return serviceCell
-    case 2:
+      
+    case .temp:
+      return UICollectionViewCell()
+      
+    case .content(let infos):
       guard let contentCell = collectionView.dequeueReusableCell(
         withReuseIdentifier: SearchDestinationContentCell.id,
         for: indexPath
       ) as? SearchDestinationContentCell else { return .init() }
-      let mockModels: [SearchDestinationContentInfo] = [
-        .init(title: "🕐영업시간",
-              description: """
-                           월 09:00 ~ 18:00
-                           화 09:00 ~ 18:00
-                           수 09:00 ~ 18:00
-                           목 09:00 ~ 18:00
-                           금 09:00 ~ 18:00
-                           """
-             ),
-        .init(title: "⛔️휴무일", description: "둘째 넷째 화요일"),
-        .init(title: "🍱대표 메뉴", description: """
-        수육국밥:     7,000원
-        머리고기국밥:  8,000원
-        순대국밥:     8,000원
-        특 모듬국밥:   8,000원
-        """),
-        .init(title: "🅿️주차요금", description: "무료"),
-        .init(title: "📞️전화번호", description: "042-282-5954"),
-        .init(title: "✔️️서비스", description: "주차 가능 / 포장 가능")
-      ]
-      let mockModel = mockModels[indexPath.item]
-      contentCell.configure(with: mockModel)
+      
+      contentCell.configure(with: infos[indexPath.item])
       return contentCell
-    default:
-      return .init()
     }
   }
 }

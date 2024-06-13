@@ -15,7 +15,7 @@ extension CellReusable where Self: UICollectionView {
   func dequeueReusableCell<R>(
     for indexPath: IndexPath,
     type: R.Type
-  ) -> R? where R: UICollectionViewCell & CellIdentifiable {
+  ) -> R? where R: UICollectionViewCell {
     return self.dequeueReusableCell(
       withReuseIdentifier: R.identifier,
       for: indexPath
@@ -27,7 +27,7 @@ extension CellReusable where Self: UITableView {
   func dequeueReusableCell<R>(
     for indexPath: IndexPath,
     type: R.Type
-  ) -> R? where R: UITableViewCell & CellIdentifiable {
+  ) -> R? where R: UITableViewCell {
     return self.dequeueReusableCell(
       withIdentifier: R.identifier,
       for: indexPath

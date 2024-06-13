@@ -14,3 +14,5 @@ extension HeaderFooterViewIdentifiable where Self: UITableViewHeaderFooterView {
     return String(describing: self)
   }
 }
+
+extension UITableViewHeaderFooterView: HeaderFooterViewIdentifiable {}

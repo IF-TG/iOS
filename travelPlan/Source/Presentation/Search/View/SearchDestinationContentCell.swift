@@ -8,11 +8,6 @@
 import UIKit
 import SnapKit
 
-struct SearchDestinationContentInfo {
-  let title: String?
-  let description: String?
-}
-
 final class SearchDestinationContentCell: UICollectionViewCell {
   // MARK: - Properties
   static let id = String(describing: SearchDestinationContentCell.self)
@@ -65,8 +60,8 @@ extension SearchDestinationContentCell: LayoutSupport {
 
 // MARK: - Helpers
 extension SearchDestinationContentCell {
-  func configure(with model: SearchDestinationContentInfo) {
-    titleLabel.text = model.title
-    descriptionLabel.text = model.description
+  func configure(with info: SearchDestinationSection.Content) {
+    titleLabel.text = info.title
+    descriptionLabel.text = info.description
   }
 }
