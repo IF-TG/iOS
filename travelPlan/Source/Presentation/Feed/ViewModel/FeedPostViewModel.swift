@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-class FeedPostViewModel: PostViewModel {
+final class FeedPostViewModel: PostViewModel {
   typealias PostId = Int32
   
   // MARK: - Dependencies
@@ -301,13 +301,20 @@ private extension FeedPostViewModel {
     postHasBlockedNotifier.sink { [weak self] element in
       if let element = element {
         /// 섬네일 화면에서 해당 포스트 차단한 경우
-        guard element.postOptionLocation == .summaryPage else {
+        guard element.postOptionLocation == .summaryPage(nil) else {
           return
         }
-        /// 포스트 상세화면에서 포스트가 차단될 경우, 상세화면 측에서 차단아이콘을 보여줍니다.
-        /// 피드에서 포스트 차단할 경우 아래의 Subject를 통해 사용자에게 보여줍니다.
-        self?.blockedPostAlertSubject.send()
-        self?.postHasBlockedHandler.send(element.postId)
+        if case .summaryPage(let themeType) = element.postOptionLocation {
+          if themeType?.rawValue == self?.category.mainTheme.rawValue {
+            /// 포스트 옵션 뷰 모델에서 서머리 페이지에서 발생된 신고의 경우 해당 메인 카테고리의 어느 카테고리인지 명시하지 않으면,
+            ///   노티피케이션 특징으로 인해 서로 다른 카테고리의 feed post viewModel에서 반응하게 됩니다.
+            ///
+            /// 포스트 상세화면에서 포스트가 차단될 경우, 상세화면 측에서 차단아이콘을 보여줍니다.
+            /// 피드에서 포스트 차단할 경우 아래의 Subject를 통해 사용자에게 보여줍니다.
+            self?.blockedPostAlertSubject.send()
+            self?.postHasBlockedHandler.send(element.postId)
+          }
+        }
       }
     }.store(in: &subscriptions)
   }

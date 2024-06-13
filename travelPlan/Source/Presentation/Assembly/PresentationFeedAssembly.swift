@@ -79,7 +79,8 @@ final class PresentationFeedAssembly: Assembly {
         let defaultPostOptionViewModel = self.resolvePostOptionViewModel(
           r,
           serviceName: .implementation(.default),
-          actions: coordinator.makePostOptionViewModelActions())
+          actions: coordinator.makePostOptionViewModelActions(),
+          mainThemeType: feedCategory.mainTheme)
         return FeedPostViewController(
           type: feedCategory,
           viewModel: defaultFeedPostViewModel,
@@ -94,7 +95,8 @@ final class PresentationFeedAssembly: Assembly {
         let mockPostOptionVM = self.resolvePostOptionViewModel(
           r,
           serviceName: .testDouble(.mock),
-          actions: coordinator.makePostOptionViewModelActions())
+          actions: coordinator.makePostOptionViewModelActions(),
+          mainThemeType: feedCategory.mainTheme)
         return FeedPostViewController(
           type: feedCategory,
           viewModel: mockFeedPostVM,
@@ -189,12 +191,13 @@ private extension PresentationFeedAssembly {
   func resolvePostOptionViewModel(
     _ r: Resolver,
     serviceName: ServiceName,
-    actions: PostOptionViewModelActions
+    actions: PostOptionViewModelActions,
+    mainThemeType: TravelMainThemeType?
   ) -> PostOptionViewModelType {
     return r.resolve(
       PostOptionViewModelType.self,
       name: serviceName,
       arguments: nil as Int32?, nil as Int32?, nil as String?,
-      PostOptionLocation.summaryPage, actions)!
+      PostOptionLocation.summaryPage(mainThemeType), actions)!
   }
 }

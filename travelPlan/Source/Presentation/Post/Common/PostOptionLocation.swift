@@ -7,7 +7,7 @@
 
 import Foundation
 
-@frozen enum PostOptionLocation: Equatable  {
+@frozen enum PostOptionLocation: Equatable {
   /// 피드화면
   /// 이 경우 어느 카테고리인지 식별하지 않을 경우 모든 카테고리에서 동일하게 적용됨으로.
   /// 특정 카테고리임을 식별해야 합니다.
@@ -15,7 +15,7 @@ import Foundation
   /// 상세 화면
   case detailPage
   
-  static func ==(lhs: PostOptionLocation, rhs: Self) -> Bool {
+  static func ==(lhs: Self, rhs: Self) -> Bool {
     return lhs.rawValue == rhs.rawValue
   }
 }

@@ -123,6 +123,8 @@ extension FeedPostViewController: ViewBindCase {
     case .networkProcessing:
       startIndicator()
     case .completeReport, .completeUserBlock:
+      // MARK: - 어랏? 이게 호출되네? - 1
+      print("0")
       stopIndicator()
       postOptionViewModel.showPostReportResult()
     case .unexpectedError(let description):
@@ -156,6 +158,8 @@ extension FeedPostViewController: ViewBindCase {
         self?.input.postBlockSubject.send(blockedPostId)
       }
     case .deleteBlockedPost(let deletedIndexPath):
+      print("2")
+      /// 2. 호출 된다.
       postView.performBatchUpdates {
         postView.deleteItems(at: [deletedIndexPath])
       }
@@ -165,6 +169,9 @@ extension FeedPostViewController: ViewBindCase {
       
       coordinator?.showPostShare(with: activityItems)
     case .completePostBlock:
+      // MARK: - 어랏? 이게 호출되네? - 2
+      // 1. 호출된다.
+      print("1")
       coordinator?.showCompleteionPostBlocking()
       stopIndicator()
     }
