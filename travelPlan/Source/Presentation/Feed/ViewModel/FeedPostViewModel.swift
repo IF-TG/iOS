@@ -47,8 +47,6 @@ final class FeedPostViewModel: PostViewModel {
   private lazy var userSelectedCategory: PostCategory = category
 
   // MARK: - Combine Properties
-  private let nextPageLoadingStartSubject = PassthroughSubject<Void, Never>()
-  
   private let postFilterLoadingStartSubject = PassthroughSubject<Void, Never>()
   
   private let viewDidLoadHandler = PassthroughSubject<Void, Never>()
@@ -81,9 +79,9 @@ extension FeedPostViewModel: FeedPostViewModelable {
       notifiedMainThemeFilterRequestStream(input),
       viewDidLoadStream(input),
       viewDidLoadHandlerStream(),
-      nextPageStream(input),
+      isAvailableNextPageStream(input),
+      fetchNextPageStream(input),
       feedRefreshStream(input),
-      nextPageLoadingStartSubjectStream(),
       specificPostTappedStream(input),
       postHasBlockedHandlerStream(),
       blockedPostAlertSubjectStream()]
@@ -202,15 +200,25 @@ private extension FeedPostViewModel {
       }.eraseToAnyPublisher()
   }
   
-  func nextPageStream(_ input: Input) -> Output {
-    return input.nextPage
-      .flatMap { [weak self] _ -> Output in
+  func isAvailableNextPageStream(_ input: Input) -> Output {
+    return input.isAvailableNextPage
+      .map { [weak self] _ -> State in
         if let hasMorePages = self?.hasMorePages, !hasMorePages {
-          return Just(State.pagination(.noMorePage)).eraseToAnyPublisher()
+          return .pagination(.noMorePage)
         }
         self?.isPaging = true
-        self?.nextPageLoadingStartSubject.send()
-        return self?.fetchPosts()
+        return .pagination(.loadingNextPage)
+      }
+      .eraseToAnyPublisher()
+  }
+  
+  func fetchNextPageStream(_ input: Input) -> Output {
+    return input.fetchNextPage
+      .flatMap { [weak self] _ -> Output in
+        guard let self else {
+          return Just(.unexpectedError(description: "앱 동작 에러가 발생됬습니다.")).eraseToAnyPublisher()
+        }
+        return fetchPosts()
           .map { [weak self] _ -> State in
             if self?.hasMorePages == false {
               self?.isPaging = false
@@ -221,11 +229,8 @@ private extension FeedPostViewModel {
             }))
           }.catch { error in
             return Just(State.unexpectedError(description: error.localizedDescription))
-          }.eraseToAnyPublisher() ?? Just(
-            State.unexpectedError(description: "앱 동작 에러가 발생됬습니다.")
-          ).eraseToAnyPublisher()
-      }
-      .eraseToAnyPublisher()
+          }.eraseToAnyPublisher()
+      }.eraseToAnyPublisher()
   }
   
   func feedRefreshStream(_ input: Input) -> Output {
@@ -240,14 +245,6 @@ private extension FeedPostViewModel {
           }.eraseToAnyPublisher() ?? Just(
             State.unexpectedError(description: "앱 동작 중 에러가 발생됬습니다.")
           ).eraseToAnyPublisher()
-      }.eraseToAnyPublisher()
-  }
-  
-  func nextPageLoadingStartSubjectStream() -> Output {
-    nextPageLoadingStartSubject
-      .receive(on: DispatchQueue.main)
-      .map { _ -> State in
-        return .pagination(.loadingNextPage)
       }.eraseToAnyPublisher()
   }
   

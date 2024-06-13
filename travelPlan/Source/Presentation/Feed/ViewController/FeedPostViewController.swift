@@ -123,8 +123,6 @@ extension FeedPostViewController: ViewBindCase {
     case .networkProcessing:
       startIndicator()
     case .completeReport, .completeUserBlock:
-      // MARK: - 어랏? 이게 호출되네? - 1
-      print("0")
       stopIndicator()
       postOptionViewModel.showPostReportResult()
     case .unexpectedError(let description):
@@ -158,8 +156,7 @@ extension FeedPostViewController: ViewBindCase {
         self?.input.postBlockSubject.send(blockedPostId)
       }
     case .deleteBlockedPost(let deletedIndexPath):
-      print("2")
-      /// 2. 호출 된다.
+      // FIXME: - 삭제하면 이상하게 아래꺠 중복된게 한번 올라옴. 스크롤해서 다시보면 제데로된 데이터에 의해 할당되는데..
       postView.performBatchUpdates {
         postView.deleteItems(at: [deletedIndexPath])
       }
@@ -169,9 +166,6 @@ extension FeedPostViewController: ViewBindCase {
       
       coordinator?.showPostShare(with: activityItems)
     case .completePostBlock:
-      // MARK: - 어랏? 이게 호출되네? - 2
-      // 1. 호출된다.
-      print("1")
       coordinator?.showCompleteionPostBlocking()
       stopIndicator()
     }
@@ -183,7 +177,15 @@ extension FeedPostViewController: ViewBindCase {
       postView.reloadData()
       reloadCompletion()
     case .loadingNextPage:
+      // FIXME: - 이거하는데 인디케이터 잘안보이네 마지막으로 가고 -> 한번 더 스크롤해야 보인다.
+      /// 바텀 리프레시를 보여주기 위해 section reload를 합니다.
       postView.reloadSections(IndexSet(integer: PostViewSection.bottomRefresh.rawValue))
+      /// 기존에 flatMap에서 내부적으로 state .loadingNextPage를 방출하는 퍼블리셔에게 send후 posts fetch를 반환하도록 구현했지만 이 경우 간혹가다
+      /// loadingNextPage state가 VC에서 받는 속도보다, 비동기 처리로 인한 fetchPosts에 의해 다음 화면이 전환되는 경우 아래의 에러가 발생됩니다.
+      /// "특정 포스트 삭제 후 deleteItmes(at:)을 호출할 경우 추가적으로 데이터를 추가해서 반영될 때, 섹션 아이템 수가 9개여야하지만 4개로 유지된다는 에러가 발생됩니다."
+      ///
+      /// 안전하게 리프레시를 보여줌 보장 후 다음 페이지를 불러옵니다.
+      input.fetchNextPage.send()
     case .noMorePage:
       stopIndicator()
     }
@@ -240,7 +242,7 @@ extension FeedPostViewController: PostViewAdapterDelegate {
   }
   
   func scrollToNextPage() {
-    input.nextPage.send()
+    input.isAvailableNextPage.send()
   }
 }
 

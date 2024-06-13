@@ -10,7 +10,9 @@ import Foundation
 
 struct FeedPostViewModelInput {
   let feedRefresh: PassthroughSubject<Void, Never> = .init()
-  let nextPage: PassthroughSubject<Void, Never> = .init()
+  let isAvailableNextPage: PassthroughSubject<Void, Never> = .init()
+  let fetchNextPage: PassthroughSubject<Void, Never> = .init()
+  
   let viewDidLoad: PassthroughSubject<Void, Never> = .init()
   let notifiedOrderFilterRequest: PassthroughSubject<TravelOrderType, Never>
   let notifiedMainThemeFilterRequest: PassthroughSubject<TravelMainThemeType, Never>
