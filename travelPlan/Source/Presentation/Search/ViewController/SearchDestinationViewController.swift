@@ -60,9 +60,9 @@ class SearchDestinationViewController: UIViewController {
     $0.register(SearchDestinationHeaderView.self,
                 forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                 withReuseIdentifier: SearchDestinationHeaderView.identifier)
-    $0.register(SearchDestinationTitleCell.self, forCellWithReuseIdentifier: SearchDestinationTitleCell.id)
-    $0.register(SearchDestinationServiceCell.self, forCellWithReuseIdentifier: SearchDestinationServiceCell.id)
-    $0.register(SearchDestinationContentCell.self, forCellWithReuseIdentifier: SearchDestinationContentCell.id)
+    $0.register(type: SearchDestinationTitleCell.self)
+    $0.register(type: SearchDestinationServiceCell.self)
+    $0.register(type: SearchDestinationContentCell.self)
     $0.backgroundColor = Common.backgroundColor
     $0.dataSource = self
     $0.delegate = self
