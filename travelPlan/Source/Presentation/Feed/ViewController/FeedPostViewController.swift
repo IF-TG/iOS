@@ -176,7 +176,6 @@ extension FeedPostViewController: ViewBindCase {
       postView.reloadData()
       reloadCompletion()
     case .loadingNextPage:
-      // FIXME: - 이거하는데 인디케이터 잘안보이네 마지막으로 가고 -> 한번 더 스크롤해야 보인다.
       /// 바텀 리프레시를 보여주기 위해 section reload를 합니다.
       postView.reloadSections(IndexSet(integer: PostViewSection.bottomRefresh.rawValue))
       /// 기존에 flatMap에서 내부적으로 state .loadingNextPage를 방출하는 퍼블리셔에게 send후 posts fetch를 반환하도록 구현했지만 이 경우 간혹가다
