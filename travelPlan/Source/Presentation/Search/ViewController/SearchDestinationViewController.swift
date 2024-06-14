@@ -29,10 +29,7 @@ class SearchDestinationViewController: UIViewController {
   private let viewModel: any SearchDestinationViewModel
   
   // MARK: - Properties
-  private let landscapeToastView = LandscapeToastView(text: "복사되었습니다.").set {
-    $0.isHidden = true
-    $0.alpha = 0
-  }
+  private let landscapeToastView = LandscapeToastView(text: "복사되었습니다.")
   
   private lazy var starButton = UIButton().set {
     $0.setImage(.init(named: "emptyStar-border-white"), for: .normal)
@@ -93,10 +90,6 @@ class SearchDestinationViewController: UIViewController {
     setupUI()
     bind()
     input.viewDidLoad.send()
-  }
-  
-  override func viewDidLayoutSubviews() {
-    super.viewDidLayoutSubviews()
   }
   
   override func viewWillAppear(_ animated: Bool) {
