@@ -53,7 +53,7 @@ final class FeedPostViewController: UIViewController {
     super.init(nibName: nil, bundle: nil)
     postView.refreshControl = refresher
     if feedCategory.mainTheme == .all {
-      postViewAdapter = PostViewAdapter(dataSource: viewModel, collectionView: postView)
+      postViewAdapter = PostViewAdapter(dataSource: self.viewModel, collectionView: postView)
       postViewAdapter?.baseDelegate = self
       return
     }
@@ -62,7 +62,7 @@ final class FeedPostViewController: UIViewController {
       forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
       withReuseIdentifier: PostSortingAreaView.id)
     updatePostViewLayout()
-    postViewAdapter = FeedPostViewAdapter(dataSource: viewModel, collectionView: postView)
+    postViewAdapter = FeedPostViewAdapter(dataSource: self.viewModel, collectionView: postView)
     postViewAdapter?.baseDelegate = self
   }
   
@@ -156,11 +156,10 @@ extension FeedPostViewController: ViewBindCase {
         self?.input.postBlockSubject.send(blockedPostId)
       }
     case .deleteBlockedPost(let deletedIndexPath):
-      // FIXME: - 삭제하면 이상하게 아래꺠 중복된게 한번 올라옴. 스크롤해서 다시보면 제데로된 데이터에 의해 할당되는데..
       postView.performBatchUpdates {
         postView.deleteItems(at: [deletedIndexPath])
       } completion: { _ in
-        
+        //.self.postView.reloadItems(at: self.postView.indexPathsForVisibleItems)
       }
     case .share(let title, let postId):
       let item = PostActivityItemSource(title: title, postId: postId)
