@@ -9,6 +9,12 @@ import UIKit
 import SnapKit
 
 final class SearchDestinationHeaderView: UICollectionReusableView {
+  enum Constant {
+    static var bumperViewHeight: CGFloat {
+      return 38-SearchDestinationCollectionViewLayout.Constant.SectionZero.sectionInsetTop
+    }
+  }
+  
   // MARK: - Properties
   private lazy var collectionView = UICollectionView(
     frame: .zero,
@@ -21,11 +27,18 @@ final class SearchDestinationHeaderView: UICollectionReusableView {
   
   private var dataSource = [Data]()
   
+  private let bumperView = UIView().set {
+    $0.backgroundColor = .yg.littleWhite
+    $0.layer.cornerRadius = Constant.bumperViewHeight
+    $0.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+  }
+  
   // MARK: - LifeCycle
   override init(frame: CGRect) {
     super.init(frame: frame)
     setupUI()
     setupLayer()
+    setupStyles()
   }
   
   required init?(coder: NSCoder) {
@@ -39,10 +52,18 @@ extension SearchDestinationHeaderView {
     dataSource = imageDatas
     collectionView.reloadData()
   }
+  
+  func scrollViewDidScroll(scrollView: UIScrollView) {
+    
+  }
 }
 
 // MARK: - Private Helpers
 extension SearchDestinationHeaderView {
+  private func setupStyles() {
+    self.clipsToBounds = true
+  }
+  
   private func setupLayer() {
     let gradientLayer = CAGradientLayer()
     gradientLayer.frame = bounds
@@ -107,11 +128,19 @@ extension SearchDestinationHeaderView: UICollectionViewDataSource {
 extension SearchDestinationHeaderView: LayoutSupport {
   func addSubviews() {
     addSubview(collectionView)
+    addSubview(bumperView)
+    bringSubviewToFront(bumperView)
   }
   
   func setConstraints() {
     collectionView.snp.makeConstraints {
       $0.edges.equalToSuperview()
+    }
+    
+    bumperView.snp.makeConstraints {
+      $0.leading.trailing.equalToSuperview()
+      $0.height.equalTo(Constant.bumperViewHeight * 2)
+      $0.bottom.equalToSuperview().offset(Constant.bumperViewHeight)
     }
   }
 }

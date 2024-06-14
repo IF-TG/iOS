@@ -10,8 +10,9 @@ import UIKit
 final class SearchDestinationCollectionViewLayout: CompositionalLayoutCreatable {
   enum Constant {
     enum SectionZero {
-      static var sectionInsetLeading: CGFloat = 20
-      static var sectionInsetTrailing: CGFloat = 20
+      static var sectionInsetTop: CGFloat { 5 }
+      static var sectionInsetLeading: CGFloat { 20 }
+      static var sectionInsetTrailing: CGFloat { 20 }
     }
   }
   
@@ -43,9 +44,8 @@ extension SearchDestinationCollectionViewLayout {
     let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
     
     let section = NSCollectionLayoutSection(group: group)
-//        section.contentInsets = .init(top: 38, leading: 20, bottom: 0, trailing: 20)
     section.contentInsets = .init(
-      top: 20,
+      top: Constant.SectionZero.sectionInsetTop,
       leading: Constant.SectionZero.sectionInsetLeading,
       bottom: 0,
       trailing: Constant.SectionZero.sectionInsetTrailing
