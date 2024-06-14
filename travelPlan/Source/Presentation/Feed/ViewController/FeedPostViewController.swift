@@ -155,11 +155,9 @@ extension FeedPostViewController: ViewBindCase {
       coordinator?.showDetailPost(post: post) { [weak self] blockedPostId in
         self?.input.postBlockSubject.send(blockedPostId)
       }
-    case .deleteBlockedPost(let deletedIndexPath):
+    case .deleteBlockedPost(let delgetedIndexPath):
       postView.performBatchUpdates {
         postView.deleteItems(at: [deletedIndexPath])
-      } completion: { _ in
-        //.self.postView.reloadItems(at: self.postView.indexPathsForVisibleItems)
       }
     case .share(let title, let postId):
       let item = PostActivityItemSource(title: title, postId: postId)
