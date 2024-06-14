@@ -159,15 +159,14 @@ extension FeedPostViewController: ViewBindCase {
       // FIXME: - 삭제하면 이상하게 아래꺠 중복된게 한번 올라옴. 스크롤해서 다시보면 제데로된 데이터에 의해 할당되는데..
       postView.performBatchUpdates {
         postView.deleteItems(at: [deletedIndexPath])
+      } completion: { _ in
+        
       }
     case .share(let title, let postId):
       let item = PostActivityItemSource(title: title, postId: postId)
       let activityItems: [Any] = [item]
       
       coordinator?.showPostShare(with: activityItems)
-    case .completePostBlock:
-      coordinator?.showCompleteionPostBlocking()
-      stopIndicator()
     }
   }
   
@@ -238,6 +237,7 @@ extension FeedPostViewController: PostViewAdapterDelegate {
   }
   
   func didTapPost(with postIndex: Int) {
+    print("hi")
     input.specificPostTapped.send(postIndex)
   }
   

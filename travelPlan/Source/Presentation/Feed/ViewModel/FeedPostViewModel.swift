@@ -56,8 +56,6 @@ final class FeedPostViewModel: PostViewModel {
   
   private let postHasBlockedHandler = PassthroughSubject<PostId, Never>()
   
-  private let blockedPostAlertSubject = PassthroughSubject<Void, Never>()
-  
   private var subscriptions = Set<AnyCancellable>()
   
   // MARK: - Lifecycle
@@ -83,8 +81,7 @@ extension FeedPostViewModel: FeedPostViewModelable {
       fetchNextPageStream(input),
       feedRefreshStream(input),
       specificPostTappedStream(input),
-      postHasBlockedHandlerStream(),
-      blockedPostAlertSubjectStream()]
+      postHasBlockedHandlerStream()]
     ).eraseToAnyPublisher()
   }
 }
@@ -258,6 +255,7 @@ private extension FeedPostViewModel {
       }.eraseToAnyPublisher()
   }
   
+  // MARK: - 포스트 차단
   func postHasBlockedHandlerStream() -> Output {
     return postHasBlockedHandler.map { [weak self] postId -> State in
       let blockedPostIdIndex = self?.posts.firstIndex(where: {
@@ -269,12 +267,6 @@ private extension FeedPostViewModel {
       }
       self?.posts.remove(at: blockedPostIdIndex)
       return .deleteBlockedPost(IndexPath(item: blockedPostIdIndex, section: PostViewSection.post.rawValue))
-    }.eraseToAnyPublisher()
-  }
-  
-  func blockedPostAlertSubjectStream() -> Output {
-    return blockedPostAlertSubject.map { _ -> State in
-      return .completePostBlock
     }.eraseToAnyPublisher()
   }
   
@@ -306,9 +298,7 @@ private extension FeedPostViewModel {
             /// 포스트 옵션 뷰 모델에서 서머리 페이지에서 발생된 신고의 경우 해당 메인 카테고리의 어느 카테고리인지 명시하지 않으면,
             ///   노티피케이션 특징으로 인해 서로 다른 카테고리의 feed post viewModel에서 반응하게 됩니다.
             ///
-            /// 포스트 상세화면에서 포스트가 차단될 경우, 상세화면 측에서 차단아이콘을 보여줍니다.
-            /// 피드에서 포스트 차단할 경우 아래의 Subject를 통해 사용자에게 보여줍니다.
-            self?.blockedPostAlertSubject.send()
+            /// 포스트 상세화면에서 포스트가 차단될 경우, PostOptionVM에서 차단 완료 알림창을 수행합니다..
             self?.postHasBlockedHandler.send(element.postId)
           }
         }

@@ -27,7 +27,6 @@ protocol FeedCoordinatorDependencies {
 protocol FeedPostCoordinatorDelegate: AnyObject {
   func showDetailPost(post: Post, blockedPost: @escaping (Int32) -> Void)
   func showPostShare(with activityItems: [Any])
-  func showCompleteionPostBlocking()
   
   func showOption(handler: ((PostOption) -> Void)?)
   func showPostReport(handler: ((PostReportType) -> Void)?)
@@ -126,10 +125,6 @@ extension FeedCoordinator: FeedPostCoordinatorDelegate {
       applicationActivities: nil)
     
     viewController?.present(activityVC, animated: true, completion: nil)
-  }
-  
-  func showCompleteionPostBlocking() {
-    presenter?.present(PostOptionResultAlertController(type: .postAuthorBlock), animated: true)
   }
 }
 

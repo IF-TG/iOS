@@ -43,7 +43,6 @@ struct FeedPostViewModelInput {
   ///
   case detailPostShow(post: Post)
   case deleteBlockedPost(IndexPath)
-  case completePostBlock
   case none
 }
 
