@@ -118,19 +118,7 @@ extension SearchDestinationViewController {
       .sink { [weak self] state in
         switch state {
         case .appearCopyAlert:
-          UIView.animate(withDuration: 1.0, animations: {
-            self?.landscapeToastView.isHidden = false
-            self?.landscapeToastView.alpha = 1
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-              UIView.animate(withDuration: 0.5, animations: {
-                self?.landscapeToastView.alpha = 0
-              }) { _ in
-                self?.landscapeToastView.isHidden = true
-              }
-            }
-          })
-          // TODO: - 주소 복사 수행 후, alert보이게 하기
+          self?.landscapeToastView.performGhostAnimation()
         case .none:
           break
         case .reloadData:
