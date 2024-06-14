@@ -85,7 +85,10 @@ final class PresentationFeedAssembly: Assembly {
           type: feedCategory,
           viewModel: defaultFeedPostViewModel,
           postOptionViewModel: defaultPostOptionViewModel)
-      }
+        .set {
+          $0.coordinator = coordinator
+        }
+      }.inObjectScope(.transient)
       
       container.register(UIViewController.self, name: mockFeedPageServiceName) { (r, coordinator: FeedCoordinator) in
         let mockFeedPostVM = self.resolveFeedPostViewModel(
@@ -100,8 +103,11 @@ final class PresentationFeedAssembly: Assembly {
         return FeedPostViewController(
           type: feedCategory,
           viewModel: mockFeedPostVM,
-          postOptionViewModel: mockPostOptionVM)
-      }
+          postOptionViewModel: mockPostOptionVM
+        ).set {
+          $0.coordinator = coordinator
+        }
+      }.inObjectScope(.transient)
     }
     
     // MARK: - FeedPageViewControllers
@@ -112,7 +118,7 @@ final class PresentationFeedAssembly: Assembly {
           name: defaultFeedPageServiceNames[$0], argument: coordinator)!
       }
       return defaultFeedPageViewControllers + [r.resolve(DevelopmentViewController.self)!]
-    }
+    }.inObjectScope(.transient)
     
     container.register([UIViewController].self, name: "MockFeedPageViews") { (r, coordinator: FeedCoordinator) in
       let mockFeedPageViewControllers = (0..<numberOfCategories-1).map {
@@ -121,7 +127,7 @@ final class PresentationFeedAssembly: Assembly {
           name: mockFeedPageServiceNames[$0], argument: coordinator)!
       }
       return mockFeedPageViewControllers + [r.resolve(DevelopmentViewController.self)!]
-    }
+    }.inObjectScope(.transient)
     
     // MARK: - FeedViewController
     container.register(FeedViewController.self, name: .implementation(.default)) { (r, coordinator: FeedCoordinator) in
