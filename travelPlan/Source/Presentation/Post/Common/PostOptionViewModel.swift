@@ -8,6 +8,7 @@
 import Combine
 import Foundation
 
+/// 이 객체에서는 신고하기, 차단하기 로직 담당 서버에 반영된 경우 알림창 담당 completion을 노티피케이션으로 전송합니다.
 final class PostOptionViewModel {
   // MARK: - Dependencies
   private let ownerRepository: LoggedInUserRepository
