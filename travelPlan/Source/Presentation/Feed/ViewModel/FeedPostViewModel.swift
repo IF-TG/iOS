@@ -257,7 +257,9 @@ private extension FeedPostViewModel {
   
   // MARK: - 포스트 차단
   func postHasBlockedHandlerStream() -> Output {
-    return postHasBlockedHandler.map { [weak self] postId -> State in
+    return postHasBlockedHandler
+      .receive(on: DispatchQueue.main) // 삭제로직은 sync 동작되는 main thread에서 담당하므로 동시성 문제 해결.
+      .map { [weak self] postId -> State in
       let blockedPostIdIndex = self?.posts.firstIndex(where: {
         Int32($0.detail.postID)! == postId
       })
@@ -265,7 +267,11 @@ private extension FeedPostViewModel {
       guard let blockedPostIdIndex else {
         return .unexpectedError(description: "앱 내부 동작 에러가 발생됬습니다. 차단된 포스트 아이디가 식별 불가능합니다.")
       }
+      // MARK: 주의! posts 뿐 아니라 postThumbnails에 대해서도 동일하게 삭제해야합니다.
+      /// PostViewAdapter에서는 posts가 아니라 postThumbnails 변수를 통해 cell identifier를식별하기 때문입니다.
+      /// 주의!!!!! 나이스 - 석현이형 -
       self?.posts.remove(at: blockedPostIdIndex)
+      self?.postThumbnails.remove(at: blockedPostIdIndex)
       return .deleteBlockedPost(IndexPath(item: blockedPostIdIndex, section: PostViewSection.post.rawValue))
     }.eraseToAnyPublisher()
   }
