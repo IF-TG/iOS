@@ -12,14 +12,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   /// 이 객체를 참조하지 않아도 되지만, 앱스플라이어에서는 AppDelegate에서 one link를 처리하기에 이 객체 인스턴스를 선언했습니다..
   private(set) var appCoordinator: ApplicationCoordinator?
 
+  private(set) var appDIContainer = AppDIContainer.shared
+  
   func scene(
     _ scene: UIScene,
     willConnectTo session: UISceneSession,
     options connectionOptions: UIScene.ConnectionOptions
   ) {
+    appDIContainer.lazyApplyAssemblies()
     guard let windowScene = (scene as? UIWindowScene) else { return }
     let window = UIWindow(windowScene: windowScene)
-    appCoordinator = ApplicationCoordinator(window: window)
+    
+    appCoordinator = ApplicationCoordinator(window: window, dependencies: appDIContainer)
     appCoordinator?.start()
     window.makeKeyAndVisible()
     

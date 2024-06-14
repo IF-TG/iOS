@@ -29,7 +29,10 @@ class SearchDestinationViewController: UIViewController {
   private let viewModel: any SearchDestinationViewModel
   
   // MARK: - Properties
-  private let copyAlertView = CopyAlertView()
+  private let landscapeToastView = LandscapeToastView(text: "복사되었습니다.").set {
+    $0.isHidden = true
+    $0.alpha = 0
+  }
   
   private lazy var starButton = UIButton().set {
     $0.setImage(.init(named: "emptyStar-border-white"), for: .normal)
@@ -115,7 +118,19 @@ extension SearchDestinationViewController {
       .sink { [weak self] state in
         switch state {
         case .appearCopyAlert:
-          self?.copyAlertView.performGhostAnimation()
+          UIView.animate(withDuration: 1.0, animations: {
+            self?.landscapeToastView.isHidden = false
+            self?.landscapeToastView.alpha = 1
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+              UIView.animate(withDuration: 0.5, animations: {
+                self?.landscapeToastView.alpha = 0
+              }) { _ in
+                self?.landscapeToastView.isHidden = true
+              }
+            }
+          })
+          // TODO: - 주소 복사 수행 후, alert보이게 하기
         case .none:
           break
         case .reloadData:
@@ -169,7 +184,7 @@ private extension SearchDestinationViewController {
 extension SearchDestinationViewController: LayoutSupport {
   func addSubviews() {
     view.addSubview(collectionView)
-    collectionView.addSubview(copyAlertView)
+    collectionView.addSubview(landscapeToastView)
     view.bringSubviewToFront(collectionView)
   }
   
@@ -180,7 +195,7 @@ extension SearchDestinationViewController: LayoutSupport {
       $0.bottom.equalTo(view.safeAreaLayoutGuide)
     }
     
-    copyAlertView.snp.makeConstraints {
+    landscapeToastView.snp.makeConstraints {
       $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(7)
       $0.centerX.equalTo(view.safeAreaLayoutGuide)
       $0.leading.equalTo(view.safeAreaLayoutGuide).inset(11)

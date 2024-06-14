@@ -13,10 +13,13 @@ final class FirestoreUserProfileSettingRepository {
   typealias Endpoint = FirestoreUserProfileSettingAPIEndopint
   
   // MARK: - Dependencies
-  private let backgroundQueue: DispatchQueue
   private let service: FirestoreServiceProtocol
+  
   private let firebaseStorageService: ImageStorageServiceProtocol
+  
   private let ownerStorage: OwnerStorage
+  
+  private let backgroundQueue: DispatchQueue
   
   // MARK: - Properties
   private var subscriptions = Set<AnyCancellable?>()
@@ -25,8 +28,8 @@ final class FirestoreUserProfileSettingRepository {
   init(
     service: FirestoreServiceProtocol,
     firebaseStorageService: ImageStorageServiceProtocol,
-    backgroundQueue: DispatchQueue = .global(qos: .userInitiated),
-    ownerStorage: OwnerStorage
+    ownerStorage: OwnerStorage,
+    backgroundQueue: DispatchQueue = .global(qos: .userInitiated)
   ) {
     self.service = service
     self.ownerStorage = ownerStorage

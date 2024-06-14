@@ -61,7 +61,7 @@ final class PostDetailCoordinator: NSObject, FlowCoordinator {
     let defaultPostCommetnsAndPostLikeStateFetchUseCase = DefaultPostCommentsAndPostLikeStateFetchUseCase(
       postRepository: mockPostRepository)
     let postCommentUseCase = DefaultPostCommentUseCase(postCommentRepository: MockPostCommentRepository())
-    let loggedInUserRepository = DefaultLoggedInUserRepository(storage: StubOwnerStorage())
+    let loggedInUserRepository = DefaultLoggedInUserRepository(storage: .init(value: StubOwnerStorage()))
     let postNestedCommentUseCase = DefaultPostNestedCommentUseCase(
       postNestedCommentRepository: MockPostNestedCommentRepository())
     let userBlockUseCase = DefaultUserBlockUseCase(userBlockRepository: MockWrappedUserBlockRepository())

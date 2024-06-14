@@ -8,16 +8,27 @@
 import UIKit
 import SHCoordinator
 
+protocol AppCoordinatorDependencies {
+  func makeMainCoordinator() -> MainCoordinator
+  func makeLoginCoordinator() -> LoginCoordinator
+  func makeLoginOwnerRepository() -> LoggedInUserRepository
+}
+
 final class ApplicationCoordinator: FlowCoordinator {
   // MARK: - Properties
   var parent: FlowCoordinator?
+  
   var child: [FlowCoordinator] = []
+  
   var presenter: UINavigationController?
+  
   var viewController: UIViewController?
-  private let loggedInOwnerManager = DefaultLoggedInUserUseCase(
-    loggedInUserRepository: DefaultLoggedInUserRepository(
-      storage: UserDefaultsOwnerStorage()))
+  
+  private lazy var loggedInOwnerManager: LoggedInUserRepository = dependencies.makeLoginOwnerRepository()
+  
   private let window: UIWindow
+  
+  private let dependencies: AppCoordinatorDependencies
   
   private var isSignIn: Bool {
     return true
@@ -28,10 +39,13 @@ final class ApplicationCoordinator: FlowCoordinator {
 // return true
   }
   
-  init(window: UIWindow) {
+  // MARK: - Life clcye
+  init(window: UIWindow, dependencies: AppCoordinatorDependencies) {
     self.window = window
+    self.dependencies = dependencies
   }
   
+  // MARK: - Helpers
   func start() {
     // 루트 코디네이터는 parent가 nil 입니다.
     parent = nil
@@ -56,7 +70,7 @@ extension ApplicationCoordinator {
   /// 1. MainCoordinator에서 login으로 가야할 때는 MainCoordinator를 삭제해야합니다.
   /// 2. app에서 시작될 때는 삭제해야할 prev coordinator가 없음으로 그냥 window에 등록합니다.
   func gotoLoginPage(withDelete prevCoordinator: MainCoordinator? = nil, alertMessage: String? = nil) {
-    let loginCoordinator = LoginCoordinator(presenter: .init())
+    let loginCoordinator = dependencies.makeLoginCoordinator()
     window.rootViewController = nil
     window.rootViewController = loginCoordinator.presenter
     addChild(with: loginCoordinator)
@@ -64,11 +78,9 @@ extension ApplicationCoordinator {
   }
   
   func gotoMainTapFeedPage(withDelete prevCoordinator: LoginCoordinator? = nil) {
-    let mainTabBarController = MainTabBarController()
-    let mainCoordinator = MainCoordinator(
-      mainTabBarViewController: mainTabBarController)
+    let mainCoordinator = dependencies.makeMainCoordinator()
     window.rootViewController = nil
-    window.rootViewController = mainCoordinator.mainTabBarPresenter
+    window.rootViewController = mainCoordinator.tabBarController
     addChild(with: mainCoordinator)
     prevCoordinator?.finish()
   }

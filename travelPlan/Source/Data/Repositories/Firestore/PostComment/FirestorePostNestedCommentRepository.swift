@@ -14,8 +14,9 @@ final class FirestorePostNestedCommentRepository {
   typealias Endpoint = FirestorePostNestedCommentAPIEndpoint
   
   // MARK: - Dependencies
-  private let backgroundQueue: DispatchQueue
   private let service: FirestoreServiceProtocol
+  
+  private let backgroundQueue: DispatchQueue
   
   // MARK: - Properties
   private var subscriptions = Set<AnyCancellable?>()

@@ -13,14 +13,15 @@ final class DefaultPostRepository {
   // MARK: - Dependencies
   private let service: Sessionable
   
-  private let loggedInUserRepository: LoggedInUserRepository
+  private let ownerStorage: OwnerStorage
+  
   // MARK: - Properties
   private var subscriptions = Set<AnyCancellable>()
   
   // MARK: - Lifecycle
-  init(service: Sessionable, loggedInUserRepository: LoggedInUserRepository) {
+  init(service: Sessionable, ownerStorage: OwnerStorage) {
     self.service = service
-    self.loggedInUserRepository = loggedInUserRepository
+    self.ownerStorage = ownerStorage
   }
 }
 
@@ -37,7 +38,7 @@ extension DefaultPostRepository: PostRepository {
         return
       }
       
-      guard let loggedInUserId = loggedInUserRepository.id, let userId = Int64(loggedInUserId) else {
+      guard let loggedInUserId = ownerStorage.id, let userId = Int64(loggedInUserId) else {
         promise(.failure(LoggedInUserRepositoryError.invalidUserId))
         return
       }

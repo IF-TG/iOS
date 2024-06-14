@@ -10,67 +10,67 @@ import Foundation
 /// UserStorage에서 로그인한 사용자 데이터를 가져옵니다.
 final class DefaultLoggedInUserRepository: LoggedInUserRepository {
   // MARK: - Dependencies
-  let storage: OwnerStorage
+  let storage: Dependency<OwnerStorage>
   
   // MARK: - Properties
   var nickname: String? {
-    storage.nickname
+    storage.wrappedValue.nickname
   }
   
   var profileImageData: Data? {
-    storage.profileImageData
+    storage.wrappedValue.profileImageData
   }
   
   var isSavedProfileInServer: Bool {
-    storage.isSavedProfileInServer
+    storage.wrappedValue.isSavedProfileInServer
   }
   
   var id: String? {
-    storage.id
+    storage.wrappedValue.id
   }
   
   var user: UserEntity? {
-    storage.user
+    storage.wrappedValue.user
   }
   
   var blockedUsers: [BlockedUserId] {
-    storage.blockedUsers
+    storage.wrappedValue.blockedUsers
   }
   
   // MARK: - Lifecycle
-  init(storage: OwnerStorage) {
+  init(storage: Dependency<OwnerStorage>) {
     self.storage = storage
   }
   
   // MARK: - Helpers
   func setUser(with userInfo: UserEntity) {
-    storage.setUser(with: userInfo)
+    storage.wrappedValue.setUser(with: userInfo)
   }
   
   func hasBlockedUser(with userId: BlockedUserId) -> Bool {
-    storage.hasBlockedUser(with: userId)
+    storage.wrappedValue.hasBlockedUser(with: userId)
   }
   
   func addBlockedUser(with userId: BlockedUserId) {
-    storage.addBlockedUser(with: userId)
+    storage.wrappedValue.addBlockedUser(with: userId)
   }
   
   func deleteBlockedUser(with userId: BlockedUserId) {
-    storage.deleteBlockedUser(with: userId)
+    storage.wrappedValue.deleteBlockedUser(with: userId)
   }
   
   @discardableResult
   func updateNickname(with nickname: String) -> Bool {
-    storage.updateNickname(with: nickname)
+    storage.wrappedValue.updateNickname(with: nickname)
   }
   
   @discardableResult
   func updateProfileImageData(with data: Data) -> Bool {
-    storage.updateProfileImageData(with: data)
+    storage.wrappedValue.updateProfileImageData(with: data)
   }
   
   @discardableResult
   func deleteProfileImageData() -> Bool {
-    storage.deleteProfileImageData()
+    storage.wrappedValue.deleteProfileImageData()
   }
 }

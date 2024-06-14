@@ -258,6 +258,6 @@ private extension SearchResultListViewController {
   }
   
   @objc func didTapBackButton() {
-    input.didTapBackButton.send()
+    viewModel.pop()
   }
 }

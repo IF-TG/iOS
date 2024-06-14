@@ -22,6 +22,5 @@ extension PostCellLayouter where Self: UICollectionViewCell {
       postView.topAnchor.constraint(equalTo: contentView.topAnchor),
       postView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
       postView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)])
-
   }
 }
