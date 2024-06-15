@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-final class FeedPostViewModel: PostViewModel {
+final class FeedPostViewModel: PostViewModel, PostOptionNotificationBinder {
   typealias PostId = Int32
   
   // MARK: - Dependencies
@@ -52,12 +52,18 @@ final class FeedPostViewModel: PostViewModel {
   
   private let viewDidLoadHandler = PassthroughSubject<Void, Never>()
   
-  /// haspostBlocked notification으로부터 알림을 전달받습니다.
-  var postHasBlockedNotifier = PassthroughSubject<PostBlockedElement?, Never>()
-  
   private let postHasBlockedHandler = PassthroughSubject<PostId, Never>()
   
   private var subscriptions = Set<AnyCancellable>()
+  
+  private let postShareNotifierByPostOption = PassthroughSubject<PostShareElement, Never>()
+  
+  var postOptionNotificationSubscriptions = Set<AnyCancellable>()
+  
+  var userWantToSharePostNotifier = PassthroughSubject<PostShareElement, Never>()
+  
+  /// haspostBlocked notification으로부터 알림을 전달받습니다.
+  var postHasBlockedNotifier = PassthroughSubject<PostBlockedElement?, Never>()
   
   // MARK: - Lifecycle
   init(postCategory: PostCategory, postFetchUseCase: PostFetchUseCase) {
@@ -71,6 +77,7 @@ final class FeedPostViewModel: PostViewModel {
 extension FeedPostViewModel: FeedPostViewModelable {
   func transform(_ input: Input) -> AnyPublisher<State, Never> {
     return Publishers.MergeMany([
+      postShareNotifierByPostOptionSream(),
       postShareSubjectStream(input),
       postBlockSubjectStream(input),
       postFilterLoadingStartSubjectStream(),
@@ -89,6 +96,13 @@ extension FeedPostViewModel: FeedPostViewModelable {
 
 // MARK: - Private Helpers
 private extension FeedPostViewModel {
+  func postShareNotifierByPostOptionSream() -> Output {
+    return postShareNotifierByPostOption
+      .map { element -> State in
+        return .share(element.postTitle, FeedPostViewModelState.PostId(element.postId))
+      }.eraseToAnyPublisher()
+  }
+  
   // TODO: - 포스트 아이디 Int로 변환해야함.
   func postShareSubjectStream(_ input: Input) -> Output {
     return input.postShareSubject.map { [weak self] indexPath -> State in
@@ -291,9 +305,7 @@ private extension FeedPostViewModel {
   }
   
   func bind() {
-    /// 포스트 상세화면에서 해당 포스트 차단의 경우가 아닌, 포스트 섬네일에서 해당 포스트 차단의 경우 아래의 바인딩 로직들이 호출됩니다.
-    makePostHasBlockedNotificationPublisher().store(in: &subscriptions)
-    postHasBlockedNotifier.sink { [weak self] element in
+    bindPostOptionResult { [weak self] element in
       if let element = element {
         /// 섬네일 화면에서 해당 포스트 차단한 경우
         guard element.postOptionLocation == .summaryPage(nil) else {
@@ -309,7 +321,10 @@ private extension FeedPostViewModel {
           }
         }
       }
-    }.store(in: &subscriptions)
+    } postShareHandler: { [weak self] element in
+      // TODO: - 액션시트보여주기.
+      self?.postShareNotifierByPostOption.send(element)
+    }
   }
 }
 
@@ -357,7 +372,8 @@ extension FeedPostViewModel: FeedPostViewAdapterDataSource {
     return PostOptionInfo(
       postId: Int32(post.detail.postID) ?? -1,
       authorId: Int32(post.author.authorId!) ?? -1,
-      authorName: post.author.nickname)
+      authorName: post.author.nickname,
+      postTitle: post.detail.title)
   }
   
   var headerItem: PostFilterOptions {
