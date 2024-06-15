@@ -155,7 +155,7 @@ extension FeedPostViewController: ViewBindCase {
       coordinator?.showDetailPost(post: post) { [weak self] blockedPostId in
         self?.input.postBlockSubject.send(blockedPostId)
       }
-    case .deleteBlockedPost(let delgetedIndexPath):
+    case .deleteBlockedPost(let deletedIndexPath):
       postView.performBatchUpdates {
         postView.deleteItems(at: [deletedIndexPath])
       }
