@@ -322,6 +322,10 @@ extension PostDetailViewModel: ReviewWritingPostReceivable {
     
     // FIXME: - 포스트 편집된거 줄때 카테고리도 편집될수있어서 카테고리까지 같이 줘야 합니다.
     print("DEBUG: PostDetailViewModel에서 편집된 post 객체 받음")
+    // MARK: - 포스트 상세 화면에서 포스트를 수정한 경우
+    // (특히 제목을 수정한 경우)에 PostDetailVC -> PostOpttionVM으로 변경된 PostTitle정보를 전달해야합니다.
+    // PostOptionVMInput을 통해 새로 변경된 데이터들을 PostDetailVM에서 보내야 합니다.
+    
     if post == nil {
       // MARK: - firestore를 통해서 업로드한 것임으로 postId에서 데이터 받아와야합니다.
       // 받아온 후에 아래 로직으로 호출!
