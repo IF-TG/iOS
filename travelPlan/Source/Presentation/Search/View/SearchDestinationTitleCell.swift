@@ -16,7 +16,7 @@ final class SearchDestinationTitleCell: UICollectionViewCell {
   }
   
   private let titleLabel = UILabel().set {
-    $0.font = .init(pretendard: .medium_500(fontSize: 22))
+    $0.font = .init(pretendard: .medium_500(fontSize: 20))
     $0.textColor = .yg.gray7
     $0.text = "타이틀"
     $0.numberOfLines = 0
