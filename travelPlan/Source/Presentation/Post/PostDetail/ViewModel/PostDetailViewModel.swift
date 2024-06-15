@@ -12,7 +12,7 @@ import Combine
   case failedToFetchPostDetails(Error)
 }
 
-final class PostDetailViewModel {
+final class PostDetailViewModel: PostBlockedNotifiable, UserWantToSharePostNotifiable {
   typealias SectionType = PostDetailSection
 
   // MARK: - Dependencies
@@ -41,6 +41,8 @@ final class PostDetailViewModel {
   private let navigationInfo = PassthroughSubject<Void, Never>()
   
   var postHasBlockedNotifier = PassthroughSubject<PostBlockedElement?, Never>()
+  
+  var userWantToSharePostNotifier = PassthroughSubject<PostId, Never>()
   
   // MARK: - Lifecycle
   init(
@@ -187,11 +189,13 @@ private extension PostDetailViewModel {
   }
 }
 
-// MARK: - PostBlockedNotifiable
-extension PostDetailViewModel: PostBlockedNotifiable {
-  private func bind() {
+// MARK: - Private Helpers
+private extension PostDetailViewModel {
+  func bind() {
     makePostHasBlockedNotificationPublisher().store(in: &subscriptions)
-    postHasBlockedNotifier.sink { [weak self] element in
+    postHasBlockedNotifier
+      .receive(on: DispatchQueue.main)
+      .sink { [weak self] element in
       if let element = element {
         if element.postId == Int32(self?.postDetails?.detail.postID ?? "-1")
             && element.postOptionLocation == .detailPage {
@@ -199,12 +203,17 @@ extension PostDetailViewModel: PostBlockedNotifiable {
         }
       }
     }.store(in: &subscriptions)
+    
+    makeUserWantToSharePostNotificationPublisher().store(in: &subscriptions)
+    userWantToSharePostNotifier
+      .receive(on: DispatchQueue.main)
+      .sink { postId in
+        // TODO: - 수저아자자자잦자
+        // 여기서 공유하는 화면 보여줘야함. ㅇㅇ
+//        self?.action
+      }.store(in: &subscriptions)
   }
   
-}
-
-// MARK: - Private Helpers
-private extension PostDetailViewModel {
   func convertToString(_ travelMainTheme: TravelMainThemeType, subTheme: String) -> String {
     "\(travelMainTheme.rawValue) > \(subTheme)"
   }
