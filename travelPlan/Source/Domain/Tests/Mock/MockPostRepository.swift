@@ -16,10 +16,11 @@ final class MockPostRepository: PostRepository {
   
   init() {
     self.mockService = SessionProvider(session: MockSession.default)
-    let stubUserStroage = StubOwnerStorage()
+    let stubOwnerStorage = StubOwnerStorage()
+    let defaultLoggedInUserRepository = DefaultLoggedInUserRepository(storage: Dependency(value: stubOwnerStorage))
     self.postRepository = DefaultPostRepository(
       service: mockService,
-      ownerStorage: stubUserStroage)
+      ownerStorage: stubOwnerStorage)
   }
   
   func fetchPosts(

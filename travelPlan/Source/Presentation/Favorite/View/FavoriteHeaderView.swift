@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class FavoriteHeaderView: UITableViewHeaderFooterView, HeaderFooterViewIdentifiable {
+final class FavoriteHeaderView: UITableViewHeaderFooterView {
   enum Constant {
     static let navigationBarDividerHeight: CGFloat = 0.33
     enum ImageViews {

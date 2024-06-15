@@ -9,6 +9,7 @@ import Foundation
 
 struct TravelDestinationInfo {
   let place: String
+  let categoryId: Int
   let category: String
   let location: String
   var isButtonSelected: Bool

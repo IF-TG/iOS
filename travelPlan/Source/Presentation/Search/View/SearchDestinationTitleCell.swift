@@ -7,20 +7,23 @@
 
 import UIKit
 import SnapKit
+import Combine
 
 final class SearchDestinationTitleCell: UICollectionViewCell {
   // MARK: - Properties
-  static let id = String.init(describing: SearchDestinationTitleCell.self)
+  static var id: String {
+    return String.init(describing: SearchDestinationTitleCell.self)
+  }
   
   private let titleLabel = UILabel().set {
-    $0.font = .init(pretendard: .medium_500(fontSize: 22))
+    $0.font = .init(pretendard: .medium_500(fontSize: 20))
     $0.textColor = .yg.gray7
-    $0.text = "타이틀타이틀타이틀타이틀타이틀타이틀타이틀타이틀타이틀타이틀타이틀타이틀타이틀타이틀타이틀타이틀타이틀"
+    $0.text = "타이틀"
     $0.numberOfLines = 0
   }
 
   private let addressLabel = UILabel().set {
-    $0.text = "주주소주주소주주소주주소주주소주주소주주소주주소주주소주주소주주소"
+    $0.text = "주소"
     $0.font = .init(pretendard: .regular_400(fontSize: 13))
     $0.textColor = .yg.gray6
   }
@@ -37,11 +40,10 @@ final class SearchDestinationTitleCell: UICollectionViewCell {
     $0.imageView?.tintColor = .yg.gray6
     $0.addTarget(self, action: #selector(didTapToggleButton), for: .touchUpInside)
   }
-  private lazy var copyAddressButton = UIButton().set {
+  private let copyAddressButton = UIButton().set {
     $0.setTitle("복사", for: .normal)
     $0.setTitleColor(.yg.highlight, for: .normal)
     $0.titleLabel?.font = .init(pretendard: .medium_500(fontSize: 13))
-    $0.addTarget(self, action: #selector(didTapCopyAddressButton), for: .touchUpInside)
   }
   
   private let heartStackView = UIStackView().set {
@@ -63,8 +65,10 @@ final class SearchDestinationTitleCell: UICollectionViewCell {
     $0.textColor = .yg.gray6
     $0.font = .init(pretendard: .regular_400(fontSize: 14))
   }
-
-//  private let shadowLayer = CALayer()
+  
+  private var isConfigured = false
+  
+  private var subscriptions = Set<AnyCancellable>()
   
   // MARK: - LifeCycle
   override init(frame: CGRect) {
@@ -75,6 +79,19 @@ final class SearchDestinationTitleCell: UICollectionViewCell {
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+  
+  override func prepareForReuse() {
+    super.prepareForReuse()
+    heartButton.isSelected = false
+  }
+  
+  override func layoutSubviews() {
+    super.layoutSubviews()
+    if isConfigured {
+      setupStyles()
+      isConfigured.toggle()
+    }
   }
 }
 
@@ -97,7 +114,7 @@ extension SearchDestinationTitleCell: LayoutSupport {
   }
   
   func setConstraints() {
-    setupContentCompressionResistancePriorities()
+    addressLabel.setContentCompressionResistancePriority(.fittingSizeLevel, for: .horizontal)
     
     titleLabel.snp.makeConstraints {
       $0.top.equalToSuperview().inset(20)
@@ -132,9 +149,12 @@ extension SearchDestinationTitleCell: LayoutSupport {
 
 // MARK: - Helpers
 extension SearchDestinationTitleCell {
-  func configure(title: String?, address: String?) {
-    titleLabel.text = title
-    addressLabel.text = address
+  func configure(mainInfo: SearchDestinationSection.Main) {
+    titleLabel.text = mainInfo.title
+    addressLabel.text = mainInfo.address
+    heartButton.isSelected = mainInfo.isSelectedHeart
+    
+    self.isConfigured = true
   }
   
   func updateToggleButtonVisibility() {
@@ -147,18 +167,36 @@ extension SearchDestinationTitleCell {
       toggleButton.isHidden = true
     }
   }
+  
+  func bind(to publisher: PassthroughSubject<Void, Never>) {
+    subscriptions.removeAll()
+    
+    copyAddressButton.tap
+      .receive(on: RunLoop.main)
+      .sink { [weak self] in
+        UIPasteboard.general.string = self?.addressLabel.text
+        publisher.send()
+      }
+      .store(in: &subscriptions)
+  }
 }
 
 // MARK: - Private Helpers
 extension SearchDestinationTitleCell {
-  private func setupContentCompressionResistancePriorities() {
-//    titleLabel.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
-    addressLabel.setContentCompressionResistancePriority(.fittingSizeLevel, for: .horizontal)
-  }
-  
   private func setupStyles() {
+    contentView.backgroundColor = .white
+    contentView.layer.shadowPath = UIBezierPath(
+      roundedRect: CGRect(x: bounds.origin.x, 
+                          y: bounds.origin.y + 2,
+                          width: bounds.width,
+                          height: bounds.height),
+      cornerRadius: 20
+    ).cgPath
+    contentView.layer.shadowColor = UIColor.black.withAlphaComponent(0.3).cgColor
     contentView.layer.cornerRadius = 20
-    contentView.backgroundColor = .black.withAlphaComponent(0.1)
+    contentView.layer.shadowRadius = 5
+    contentView.layer.shadowOpacity = 0.2
+    contentView.layer.shadowOffset = .init(width: 0, height: 1)
   }
 }
 
@@ -166,10 +204,6 @@ extension SearchDestinationTitleCell {
 private extension SearchDestinationTitleCell {
   @objc func didTapToggleButton(_ button: UIButton) {
     print("주소 자세히 보기!")
-  }
-  
-  @objc func didTapCopyAddressButton(_ button: UIButton) {
-    print("복사 버튼 클릭")
   }
   
   @objc func didTapHeartButton(_ button: UIButton) {

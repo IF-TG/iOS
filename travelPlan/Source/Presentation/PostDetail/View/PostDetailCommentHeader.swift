@@ -20,7 +20,7 @@ protocol PostDetailCommentDelegate: AnyObject {
   func didTapProfile(_ header: UITableViewHeaderFooterView)
 }
 
-final class PostDetailCommentHeader: UITableViewHeaderFooterView, HeaderFooterViewIdentifiable {
+final class PostDetailCommentHeader: UITableViewHeaderFooterView {
   // MARK: - Properties
   private let commentView = BasePostDetailCommentableView(usageType: .comment)
   

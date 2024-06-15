@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class PostDetailContentImageCell: UITableViewCell, CellIdentifiable {
+final class PostDetailContentImageCell: UITableViewCell {
   enum Constant {
     static let imageHeight: CGFloat = 235
   }

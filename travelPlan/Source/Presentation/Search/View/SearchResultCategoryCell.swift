@@ -10,11 +10,15 @@ import SnapKit
 
 final class SearchResultCategoryCell: UICollectionViewCell {
   // MARK: - Properties
-  static let id = String(describing: SearchResultCategoryCell.self)
+  static var id: String {
+    return String(describing: SearchResultCategoryCell.self)
+  }
   
   private let tagLabel = PostSearchTagLabel().set {
     $0.textColor = UIColor.YG.highlight
   }
+  
+  private(set) var categoryId: Int?
   
   override var isSelected: Bool {
     didSet {
@@ -36,8 +40,9 @@ final class SearchResultCategoryCell: UICollectionViewCell {
 
 // MARK: - Helpers
 extension SearchResultCategoryCell {
-  func configure(with textString: String) {
-    tagLabel.text = textString
+  func configure(with info: TravelDestinationCategoryInfo) {
+    tagLabel.text = info.title
+    categoryId = info.categoryId
     contentView.layer.cornerRadius = min(contentView.frame.width, contentView.frame.height) / 2
   }
 }

@@ -12,7 +12,7 @@ protocol HeaderFooterViewResuable {}
 extension HeaderFooterViewResuable where Self: UITableView {
   func dequeueReusableHeaderFooterView<R>(
     type: R.Type
-  ) -> R? where R: HeaderFooterViewIdentifiable, R: UITableViewHeaderFooterView {
+  ) -> R? where R: UITableViewHeaderFooterView {
     return self.dequeueReusableHeaderFooterView(
       withIdentifier: R.identifier
     ) as? R

@@ -11,6 +11,9 @@ import Swinject
 @frozen public enum ServiceName: RawRepresentable {
   case implementation(ImplementationResolveType)
   case testDouble(TestDoubleResolveType)
+  /// resolve, register할 때 String으로 name지정이 가능합니다.
+  /// 일반적으로 제공되는 register, resolve 함수들을 이용해도 좋지만 이 case를 사용함으로 Dependency 초기화 및 Dependency의 init시점에 받는 값을 단순화 할 수 있습니다.
+  case custom(String)
   
   public typealias RawValue = String
   
@@ -20,6 +23,8 @@ import Swinject
       return impl.rawValue
     case .testDouble(let testDouble):
       return testDouble.rawValue
+    case .custom(let serviceName):
+      return serviceName
     }
   }
   

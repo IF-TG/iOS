@@ -15,6 +15,7 @@ disabled_rules:
     - identifier_name
     - type_name
     - file_length
+    - line_length
 
 
 line_length:
@@ -39,4 +40,3 @@ nesting:
   statement_level:
     warning: 5
     error: 10
-

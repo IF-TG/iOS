@@ -1,5 +1,5 @@
 //
-//  RepositoryAssembly.swift
+//  FirebaseRepositoryAssembly.swift
 //  travelPlan
 //
 //  Created by 양승현 on 6/4/24.
@@ -10,7 +10,7 @@ import Swinject
 import Alamofire
 import SHFirestoreService
 
-final class RepositoryAssembly: Swinject.Assembly {
+final class FirebaseRepositoryAssembly: Swinject.Assembly {
   func assemble(container: Swinject.Container) {
     // MARK: - SHFirestoreService
     container.register(FirestoreServiceProtocol.self, name: .implementation(.firestore)) { _ in
@@ -23,17 +23,6 @@ final class RepositoryAssembly: Swinject.Assembly {
       ImageStorageServiceProtocol.self, name: .implementation(.firestore))!
     let defaultSession = container.resolve(Sessionable.self, name: .implementation(.default))!
     let mockSession = container.resolve(Sessionable.self, name: .implementation(.interceptedDefault))!
-    
-    // MARK: - Common Tour API
-    container.register(Sessionable.self, name: .implementation(.default)) { r in
-      let session = r.resolve(Session.self, name: .implementation(.default))!
-      return TourApiSessionProvider(session: session)
-    }
-    
-    container.register(Sessionable.self, name: .implementation(.interceptedDefault)) { r in
-      let mockSession = r.resolve(Session.self, name: .implementation(.interceptedDefault))!
-      return TourApiSessionProvider(session: mockSession)
-    }
     
     // MARK: - Firestore PostComment
     container.register(PostAtomicCommentRepository.self, name: .implementation(.firestore)) { _ in
@@ -111,14 +100,12 @@ final class RepositoryAssembly: Swinject.Assembly {
     // TODO: - SpringServer
     
     // TODO: - SpringServer User
-    container.register(LoggedInUserRepository.self, name: .implementation(.default)) { r in
-      let ownerStorage = r.resolve(OwnerStorage.self, name: .implementation(.default))!
-      return DefaultLoggedInUserRepository(storage: ownerStorage)
+    container.register(LoggedInUserRepository.self, name: .implementation(.default)) { _ in
+      return DefaultLoggedInUserRepository(storage: .init(name: .implementation(.default)))
     }
     
-    container.register(LoggedInUserRepository.self, name: .testDouble(.stub)) { r in
-      let stubOwnerStroage = r.resolve(OwnerStorage.self, name: .testDouble(.stub))!
-      return DefaultLoggedInUserRepository(storage: stubOwnerStroage)
+    container.register(LoggedInUserRepository.self, name: .testDouble(.stub)) { _ in
+      return DefaultLoggedInUserRepository(storage: .init(name: .testDouble(.stub)))
     }
     
     container.register(UserBlockRepository.self, name: .implementation(.default)) { _ in

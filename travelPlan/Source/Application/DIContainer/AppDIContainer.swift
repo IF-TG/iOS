@@ -25,14 +25,16 @@ final class AppDIContainer {
   // MARK: - Lifecycle
   private init() {
     self.container = Container()
-    self.assembler = Assembler([
+    self.assembler = Assembler([], container: container)
+    assembler.apply(assemblies: [
       CoreAssembly(),
       PersistentStorageAssembly(),
-      RepositoryAssembly(),
+      TourRepositoryAssembly(),
+      SpringServierRepository(),
+      FirebaseRepositoryAssembly(),
       DomainAssembly(),
       PresentationFeedAssembly(),
-      PresentationAssembly()],
-      container: container)
+      PresentationAssembly()])
   }
   
   func lazyApplyAssemblies() {
@@ -42,6 +44,14 @@ final class AppDIContainer {
 
 // MARK: - AppCoordinatorDependencies
 extension AppDIContainer: AppCoordinatorDependencies {
+  func makeLoginOwnerRepository() -> any LoggedInUserRepository {
+    #if DEBUG
+    return resolve(LoggedInUserRepository.self, name: .testDouble(.stub))!
+    #else
+    return resolve(LoggedInUserRepository.self, name: .implementation(.default))!
+    #endif
+  }
+  
   func makeMainCoordinator() -> MainCoordinator {
     return resolve(MainCoordinator.self)!
   }
