@@ -26,7 +26,7 @@ protocol FeedCoordinatorDependencies {
 
 protocol FeedPostCoordinatorDelegate: AnyObject {
   func showDetailPost(post: Post, blockedPost: @escaping (Int32) -> Void)
-  func showPostShare(with activityItems: [Any])
+  func showPostShareSheet(with activityItem: PostActivityItemSource)
   
   func showOption(handler: ((PostOption) -> Void)?)
   func showPostReport(handler: ((PostReportType) -> Void)?)
@@ -44,7 +44,7 @@ protocol FeedCoordinatorDelegate: FlowCoordinatorDelegate {
   func showAlertForError(with description: String, completion: (() -> Void)?)
 }
 
-final class FeedCoordinator: FlowCoordinator, AlertCoordinatable, PostOptionCoordinatable {
+final class FeedCoordinator: FlowCoordinator, AlertCoordinatable, PostOptionCoordinatable, PostShareCoordinatable {
   // MARK: - Properties
   var parent: FlowCoordinator?
   
@@ -118,14 +118,6 @@ extension FeedCoordinator: FeedPostCoordinatorDelegate {
       blockedPost(blockedPostId)
     }
     addChild(with: childCoordinator)
-  }
-  
-  func showPostShare(with activityItems: [Any]) {
-    let activityVC = UIActivityViewController(
-      activityItems: activityItems,
-      applicationActivities: nil)
-    
-    viewController?.present(activityVC, animated: true, completion: nil)
   }
 }
 

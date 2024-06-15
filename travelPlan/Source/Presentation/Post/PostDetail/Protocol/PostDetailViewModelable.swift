@@ -21,6 +21,9 @@ protocol PostDetailViewModelPageDelegate: AnyObject {
 /// 뷰 모델에서 사용할 타입. -> 코디네이터에서 구현
 struct PostDetailViewModelActions {
   typealias PostId = Int32
+  typealias PostTitle = String
+  typealias PostShareElement = (postId: PostId, postTitle: PostTitle)
+  
   let showAlertForError: (String, (() -> Void)?) -> Void
   
   let showCategory: (([String])) -> Void
@@ -30,6 +33,8 @@ struct PostDetailViewModelActions {
   let showFeedAfterBlockingFeed: (PostId) -> Void
   
   let finishWithAnim: () -> Void
+  
+  let showPostShare: (PostShareElement) -> Void
 }
 
 // MARK: - Input

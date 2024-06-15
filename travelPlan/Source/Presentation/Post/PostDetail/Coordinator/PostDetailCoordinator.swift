@@ -34,7 +34,7 @@ import SHCoordinator
 }
 
 // MARK: - PostDetailCoordinator
-final class PostDetailCoordinator: NSObject, FlowCoordinator, PostOptionCoordinatable, AlertCoordinatable {
+final class PostDetailCoordinator: NSObject, FlowCoordinator, PostOptionCoordinatable, AlertCoordinatable, PostShareCoordinatable {
   typealias PostId = Int32
   
   var parent: FlowCoordinator?
@@ -80,7 +80,11 @@ final class PostDetailCoordinator: NSObject, FlowCoordinator, PostOptionCoordina
       showCategory: {[weak self] categories in self?.showCategory(with: categories) },
       showReviewWriting: { [weak self] entity in self?.showReviewWriting(entity: entity) },
       showFeedAfterBlockingFeed: { [weak self] blockedPostId in self?.showFeedAfterBlockingFeed(blockedPostId) },
-      finishWithAnim: { [weak self] in self?.finishWithAnim() })
+      finishWithAnim: { [weak self] in self?.finishWithAnim() }, 
+      showPostShare: { [weak self] element in
+        self?.showPostShareSheet(with: .init(
+          title: element.postTitle,
+          postId: Int(element.postId)))})
     
     let chatActions = PostDetailChatViewModelActions(
       showAlertForError: { [weak self] message, completion in

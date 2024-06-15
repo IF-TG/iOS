@@ -161,9 +161,8 @@ extension FeedPostViewController: ViewBindCase {
       }
     case .share(let title, let postId):
       let item = PostActivityItemSource(title: title, postId: postId)
-      let activityItems: [Any] = [item]
       
-      coordinator?.showPostShare(with: activityItems)
+      coordinator?.showPostShareSheet(with: item)
     }
   }
   

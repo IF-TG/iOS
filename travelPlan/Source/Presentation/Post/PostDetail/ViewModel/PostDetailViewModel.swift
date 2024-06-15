@@ -42,7 +42,7 @@ final class PostDetailViewModel: PostBlockedNotifiable, UserWantToSharePostNotif
   
   var postHasBlockedNotifier = PassthroughSubject<PostBlockedElement?, Never>()
   
-  var userWantToSharePostNotifier = PassthroughSubject<PostId, Never>()
+  var userWantToSharePostNotifier = PassthroughSubject<PostShareElement, Never>()
   
   // MARK: - Lifecycle
   init(
@@ -207,10 +207,13 @@ private extension PostDetailViewModel {
     makeUserWantToSharePostNotificationPublisher().store(in: &subscriptions)
     userWantToSharePostNotifier
       .receive(on: DispatchQueue.main)
-      .sink { postId in
+      .sink { [weak self] element in
         // TODO: - 수저아자자자잦자
+        /// 운동하구와서. 여기서이제 postTitle, id기반 공유하기 바텀시또 호출하는 로직 구현해야함. 다 왔다.
+        /// 이걸 마찬가지로 feedPostVM에서도 적용해야함 동일하게.
         // 여기서 공유하는 화면 보여줘야함. ㅇㅇ
 //        self?.action
+        self?.actions?.showPostShare(element)
       }.store(in: &subscriptions)
   }
   
