@@ -52,10 +52,6 @@ extension SearchDestinationHeaderView {
     dataSource = imageDatas
     collectionView.reloadData()
   }
-  
-  func scrollViewDidScroll(scrollView: UIScrollView) {
-    
-  }
 }
 
 // MARK: - Private Helpers
