@@ -3120,17 +3120,9 @@
 			isa = PBXGroup;
 			children = (
 				1594A4502C0596E800428D41 /* PostActivityItemSource.swift */,
-				1555930C2C12F7F70078520D /* PostOptionViewModel.swift */,
-				1555930E2C12FC990078520D /* PostOption.swift */,
-				155593132C1324E50078520D /* PostOptionLocation.swift */,
-				155593162C132DEE0078520D /* PostOptionViewModelable.swift */,
-				155593182C15657C0078520D /* PostBlockedNotifiable.swift */,
-				15F457382C157F7D00E2F305 /* PostOptionCoordinatable.swift */,
 				15EDCA532C1D989500C5BD7C /* PostNotificationManager.swift */,
-				15EDCA562C1DB56D00C5BD7C /* UserWantToSharePostNotifiable.swift */,
-				15EDCA582C1DBE1800C5BD7C /* PostOptionViewModelInfo.swift */,
-				15EDCA5A2C1DD7CF00C5BD7C /* PostShareCoordinatable.swift */,
-				15EDCA5E2C1DE2BA00C5BD7C /* PostOptionNotificationBinder.swift */,
+				15EDCA612C1DF0DA00C5BD7C /* ViewModel */,
+				15EDCA602C1DF0C200C5BD7C /* Protocol */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -4172,6 +4164,30 @@
 				15F3763B2AFB7D1E00B3BF35 /* PostViewAdapterDelegate.swift */,
 			);
 			path = PostView;
+			sourceTree = "<group>";
+		};
+		15EDCA602C1DF0C200C5BD7C /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				15EDCA5A2C1DD7CF00C5BD7C /* PostShareCoordinatable.swift */,
+				155593182C15657C0078520D /* PostBlockedNotifiable.swift */,
+				15EDCA562C1DB56D00C5BD7C /* UserWantToSharePostNotifiable.swift */,
+				15EDCA5E2C1DE2BA00C5BD7C /* PostOptionNotificationBinder.swift */,
+				15F457382C157F7D00E2F305 /* PostOptionCoordinatable.swift */,
+				155593162C132DEE0078520D /* PostOptionViewModelable.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
+		15EDCA612C1DF0DA00C5BD7C /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				155593132C1324E50078520D /* PostOptionLocation.swift */,
+				15EDCA582C1DBE1800C5BD7C /* PostOptionViewModelInfo.swift */,
+				1555930E2C12FC990078520D /* PostOption.swift */,
+				1555930C2C12F7F70078520D /* PostOptionViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		15EE50FE2BF9EF9800628FC9 /* User */ = {
