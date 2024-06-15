@@ -37,7 +37,7 @@ final class PostOptionViewModel {
   // TODO: - postAuthorId가 존재하지 않을 수있음. 이 경우는 유니버셜 링크를 타고 들어오는 경우이고, 이때 메인에서 fetch하면 노티로 여기서 postId,
   // 저자 닉네임, 저자 이름 받도록 구현해야함.
   
-  // postId가 nil인 경우는 피드에서 사용됩니다.
+  /// postId가 nil인 경우는 피드(포스트 써머리 화면)에서 사용됩니다.
   init(
     dataSource: PostOptionViewModelInfo,
     actions: PostOptionViewModelActions,
@@ -55,13 +55,11 @@ final class PostOptionViewModel {
 extension PostOptionViewModel: PostOptionViewModelPageDelegate {
   /// 해당 포스트가 타인일 경우 포소트 신고하기, 포스트 차단하기 액션 시트창이 보여집니다.
   ///   자기자신의 포스트일 경우 공유하기 액션 시트창이 보여집니다.
-  ///
-  ///   Int32(ownerRepository.id!)! == dataSource.postAuthorId
   func showPostOption() {
-    print("hihi")
     // TODO: - id Int32로 수정해야합니다.
     if let postId = dataSource.postId,
-       let postTitle = dataSource.postTitle {
+       let postTitle = dataSource.postTitle,
+       Int32(ownerRepository.id!)! == dataSource.postAuthorId {
       actions.showPostOptionForMine {
         PostNotificationManager.shared.notifyUserWantToSharePost(postId: postId, postTitle: postTitle)
       }
