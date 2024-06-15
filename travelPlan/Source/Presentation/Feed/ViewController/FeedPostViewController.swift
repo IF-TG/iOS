@@ -161,8 +161,7 @@ extension FeedPostViewController: ViewBindCase {
     case .share(let title, let postId):
       let item = PostActivityItemSource(title: title, postId: postId)
       
-      coordinator?.showPostShareSheet(with: item)
-    }
+      coordinator?.showPostShareSheet(with: item)    }
   }
   
   func handlePaginationState(_ state: FeedPostViewModelPaginationState) {

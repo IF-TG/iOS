@@ -322,7 +322,6 @@ private extension FeedPostViewModel {
         }
       }
     } postShareHandler: { [weak self] element in
-      // TODO: - 액션시트보여주기.
       self?.postShareNotifierByPostOption.send(element)
     }
   }
