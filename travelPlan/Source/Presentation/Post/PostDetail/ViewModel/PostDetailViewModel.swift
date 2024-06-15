@@ -12,7 +12,7 @@ import Combine
   case failedToFetchPostDetails(Error)
 }
 
-final class PostDetailViewModel: PostBlockedNotifiable, UserWantToSharePostNotifiable {
+final class PostDetailViewModel: PostOptionNotificationBinder {
   typealias SectionType = PostDetailSection
 
   // MARK: - Dependencies
@@ -39,6 +39,8 @@ final class PostDetailViewModel: PostBlockedNotifiable, UserWantToSharePostNotif
   private let loggedInUserUseCaseHandler = PassthroughSubject<Void, Never>()
   
   private let navigationInfo = PassthroughSubject<Void, Never>()
+  
+  var postOptionNotificationSubscriptions = Set<AnyCancellable>()
   
   var postHasBlockedNotifier = PassthroughSubject<PostBlockedElement?, Never>()
   
@@ -192,24 +194,16 @@ private extension PostDetailViewModel {
 // MARK: - Private Helpers
 private extension PostDetailViewModel {
   func bind() {
-    makePostHasBlockedNotificationPublisher().store(in: &subscriptions)
-    postHasBlockedNotifier
-      .receive(on: DispatchQueue.main)
-      .sink { [weak self] element in
+    bindPostOptionResult { [weak self] element in
       if let element = element {
         if element.postId == Int32(self?.postDetails?.detail.postID ?? "-1")
             && element.postOptionLocation == .detailPage {
           self?.actions?.showFeedAfterBlockingFeed(element.postId)
         }
       }
-    }.store(in: &subscriptions)
-    
-    makeUserWantToSharePostNotificationPublisher().store(in: &subscriptions)
-    userWantToSharePostNotifier
-      .receive(on: DispatchQueue.main)
-      .sink { [weak self] element in
-        self?.actions?.showPostShare(element)
-      }.store(in: &subscriptions)
+    } postShareHandler: { [weak self] element in
+      self?.actions?.showPostShare(element)
+    }
   }
   
   func convertToString(_ travelMainTheme: TravelMainThemeType, subTheme: String) -> String {
