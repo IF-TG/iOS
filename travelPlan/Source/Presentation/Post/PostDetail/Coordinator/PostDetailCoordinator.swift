@@ -63,6 +63,7 @@ final class PostDetailCoordinator: NSObject, FlowCoordinator, PostOptionCoordina
     
     let optionActions = PostOptionViewModelActions(
       showPostOption: { [weak self] optionCallback in self?.showOption(handler: optionCallback) },
+      showPostOptionForMine: { [weak self] callback in self?.showPostOptionForMine(completion: callback)},
       showPostReport: { [weak self] reportCallback in self?.showPostReport(handler: reportCallback) },
       showPostReportResult: { [weak self] option in self?.showPostReportResult(wtih: option) },
       showPostAuthorBlock: { [weak self] authName, completion in
