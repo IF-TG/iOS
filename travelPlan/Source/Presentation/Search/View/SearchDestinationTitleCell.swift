@@ -187,14 +187,15 @@ extension SearchDestinationTitleCell {
     contentView.backgroundColor = .white
     contentView.layer.shadowPath = UIBezierPath(
       roundedRect: CGRect(x: bounds.origin.x, 
-                          y: bounds.origin.y,
+                          y: bounds.origin.y + 2,
                           width: bounds.width,
                           height: bounds.height),
       cornerRadius: 20
     ).cgPath
-    contentView.layer.shadowColor = UIColor.black.withAlphaComponent(0.5).cgColor
+    contentView.layer.shadowColor = UIColor.black.withAlphaComponent(0.3).cgColor
     contentView.layer.cornerRadius = 20
-    contentView.layer.shadowOpacity = 0.4
+    contentView.layer.shadowRadius = 5
+    contentView.layer.shadowOpacity = 0.2
     contentView.layer.shadowOffset = .init(width: 0, height: 1)
   }
 }
