@@ -29,10 +29,11 @@ extension PostNotificationManager {
                  "postOptionLocation": postOptionLocation])
   }
   
-  func notifyUserWantToSharePost(postId: Int32) {
+  func notifyUserWantToSharePost(postId: Int32, postTitle: String) {
     NotificationCenter.default.post(
       name: .postShareFromPostOptionActionSheet,
       object: nil,
-      userInfo: ["postId": postId])
+      userInfo: ["postId": postId,
+                 "postTitle": postTitle])
   }
 }
