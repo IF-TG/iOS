@@ -232,7 +232,6 @@ extension FeedPostViewController: PostViewAdapterDelegate {
   }
   
   func didTapPost(with postIndex: Int) {
-    print("hi")
     input.specificPostTapped.send(postIndex)
   }
   

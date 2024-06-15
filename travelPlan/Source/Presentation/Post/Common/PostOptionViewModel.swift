@@ -65,7 +65,6 @@ extension PostOptionViewModel: PostOptionViewModelPageDelegate {
       }
       return
     }
-    print("hihihi")
     actions.showPostOption { [weak self] optionState in
       guard let postAuthorNickname = self?.dataSource.postAuthorNickname else {
         self?.actions.showAlertForError("여행 후기 포스트 저자의 식별자가 유효하지 않습니다.", nil)
