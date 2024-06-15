@@ -139,6 +139,9 @@ extension PostOptionViewModel: PostOptionViewModelable {
 // MARK: - Private Stream Helpers
 private extension PostOptionViewModel {
   /// 포스트 섬네일 화면에서 사용됩니다.
+  /// 포스트 섬네일(서머리)화면은 여러 포스트가 있고, 그중 특정한 포스트에 대한 정보는 포스트 옵션 버튼 클릭을 통해서만 얻을 수 있습니다.
+  ///
+  /// 또한 포스트 상세 화면에서 포스트를 수정한 경우(제목을 수정한 경우)에도 이 input을 통해 새로 변경된 데이터들을 PostDetailVM에서 보내야 합니다.
   func postInfoSubjectStream(_ input: Input) -> Output {
     return input.postInfoSubject.map { [weak self] postOptionInfo in
       self?.dataSource.postId = postOptionInfo.postId
