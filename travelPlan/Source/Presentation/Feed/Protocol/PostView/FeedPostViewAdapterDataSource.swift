@@ -11,6 +11,7 @@ struct PostOptionInfo {
   let postId: Int32
   let authorId: Int32
   let authorName: String
+  let postTitle: String
 }
 
 protocol FeedPostViewAdapterDataSource: PostViewAdapterDataSource {

@@ -31,7 +31,10 @@ struct PostOptionViewModelActions {
 }
 
 struct PostOptionViewModelInput {
-  /// 피드 상세 화면이 아닌 피드 화면에서는 특정 피드 데이터를 받은 후에 포스트 옵션을 실행해야합니다.
+  /// 피드 상세 화면에서 포스트 옵션을 눌렀을 경우 특정 피드이기에 해당 데이터를 갖고 있지만,
+  /// 피드 summary 화면에서는 여러 여행 후기 포스트 중 특정한 포스트에 대해서 포스트 옵션 버튼이 클릭되고, 그때 해당 포스트의 정보를 postOptionVM에게 전달합니다.
+  ///
+  /// 즉, 피드 상세 화면이 아닌 피드 화면에서는 특정 피드 데이터를 받아야만 포스트 옵션( 포스트 차단, 신고, 공유하기 )가 실행됩니다.
   let postInfoSubject: PassthroughSubject<PostOptionInfo, Never>
 
   init() {
