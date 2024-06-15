@@ -200,10 +200,10 @@ private extension PresentationFeedAssembly {
     actions: PostOptionViewModelActions,
     mainThemeType: TravelMainThemeType?
   ) -> PostOptionViewModelType {
+    let dataSource = PostOptionViewModelInfo(postOptionLocation: .summaryPage(mainThemeType))
     return r.resolve(
       PostOptionViewModelType.self,
       name: serviceName,
-      arguments: nil as Int32?, nil as Int32?, nil as String?,
-      PostOptionLocation.summaryPage(mainThemeType), actions)!
+      arguments: dataSource, actions)!
   }
 }
