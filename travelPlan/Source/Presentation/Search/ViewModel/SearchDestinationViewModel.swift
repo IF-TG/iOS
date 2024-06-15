@@ -18,6 +18,11 @@ enum SearchDestinationSection {
     let address: String
     var isSelectedHeart: Bool
     var heartCount: Int
+    let headerInfo: Header
+    
+    struct Header {
+      let imageDatas: [Data]
+    }
   }
   
   struct Content {
@@ -42,7 +47,7 @@ struct SearchDestinationViewModelInput {
 
 enum SearchDestinationViewModelState {
   case none
-  case reloadData(thumbnailData: Data)
+  case reloadData
   case appearCopyAlert
 }
 
@@ -79,12 +84,19 @@ extension DefaultSearchDestinationViewModel {
     return input.viewDidLoad
       .delay(for: 0.5, scheduler: DispatchQueue.global(qos: .userInitiated))
       .map { [weak self] _ in
+        
+        let thumbnailDatas = [TempSource.imageData,
+                             TempSource.imageData2,
+                             TempSource.imageData,
+                             TempSource.imageData2]
+        
         let section1 = SearchDestinationSection.main(
           .init(
             title: "서문수육애국밥서문수육애국밥서문수육애국밥",
             address: "대전 동구 대학로 37대전 동구 대학로 37대전 동구 대학로 37대전 동구 대학로 37대전 동구 대학로 37",
             isSelectedHeart: true,
-            heartCount: 10
+            heartCount: 10,
+            headerInfo: SearchDestinationSection.Main.Header(imageDatas: thumbnailDatas)
           )
         )
         
@@ -114,9 +126,8 @@ extension DefaultSearchDestinationViewModel {
           .init(title: "타이틀2", description: "설명2")
         ])
         self?.dataSource.append(section2)
-        
-        let thumbnailData = TempSource.imageData
-        return State.reloadData(thumbnailData: thumbnailData)
+      
+        return State.reloadData
       }
       .eraseToAnyPublisher()
   }

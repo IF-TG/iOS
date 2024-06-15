@@ -39,6 +39,8 @@
 		131C4DFE2C09C4740005D30F /* SearchType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131C4DFD2C09C4740005D30F /* SearchType.swift */; };
 		131C4E002C10CF370005D30F /* LandscapeToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131C4DFF2C10CF360005D30F /* LandscapeToastView.swift */; };
 		131C4E3D2C174BAF0005D30F /* TravelDestinationCategoryInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131C4E3C2C174BAF0005D30F /* TravelDestinationCategoryInfo.swift */; };
+		131C4E3F2C18C9EC0005D30F /* SearchDestinationHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131C4E3E2C18C9EC0005D30F /* SearchDestinationHeaderView.swift */; };
+		131C4E412C196A290005D30F /* SearchDestinationImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131C4E402C196A290005D30F /* SearchDestinationImageCell.swift */; };
 		13254FE32A05147200094218 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13254FE22A05147200094218 /* MainTabBarController.swift */; };
 		13254FE52A05157900094218 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13254FE42A05157900094218 /* FeedViewController.swift */; };
 		13254FE72A05158E00094218 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13254FE62A05158E00094218 /* SearchViewController.swift */; };
@@ -900,6 +902,8 @@
 		131C4DFD2C09C4740005D30F /* SearchType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchType.swift; sourceTree = "<group>"; };
 		131C4DFF2C10CF360005D30F /* LandscapeToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandscapeToastView.swift; sourceTree = "<group>"; };
 		131C4E3C2C174BAF0005D30F /* TravelDestinationCategoryInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelDestinationCategoryInfo.swift; sourceTree = "<group>"; };
+		131C4E3E2C18C9EC0005D30F /* SearchDestinationHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDestinationHeaderView.swift; sourceTree = "<group>"; };
+		131C4E402C196A290005D30F /* SearchDestinationImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDestinationImageCell.swift; sourceTree = "<group>"; };
 		13254FE22A05147200094218 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		13254FE42A05157900094218 /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
 		13254FE62A05158E00094218 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
@@ -1793,6 +1797,8 @@
 				139DEE392B17CAC900363E7B /* SearchDestinationServiceTypeView.swift */,
 				139DEE3B2B18274200363E7B /* SearchDestinationContentCell.swift */,
 				130990BD2C01007600D6E50C /* SearchResultCategoryCell.swift */,
+				131C4E3E2C18C9EC0005D30F /* SearchDestinationHeaderView.swift */,
+				131C4E402C196A290005D30F /* SearchDestinationImageCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -5152,6 +5158,7 @@
 				15FBD5DA2B98DFD000076115 /* Post.swift in Sources */,
 				15F3763C2AFB7D1E00B3BF35 /* PostViewAdapterDelegate.swift in Sources */,
 				15AE48562BE93A030035D980 /* DefaultTourImageRetrieveInfoRepository.swift in Sources */,
+				131C4E412C196A290005D30F /* SearchDestinationImageCell.swift in Sources */,
 				13C32A3D2B0A2FF30046ED98 /* PictureImageViewDelegate.swift in Sources */,
 				13E84AE82BE370E000B537B6 /* TourAPIIntroductionInfoRequestDTO.swift in Sources */,
 				152AD4F02A189CFC008A2A11 /* FavoriteHeaderView.swift in Sources */,
@@ -5224,6 +5231,7 @@
 				1546DF3B2B0C5B7C00B49A55 /* ImageDiskCache.swift in Sources */,
 				13EB3D0E2BF0339800CA84F0 /* IntroductionInfoAttractionEntity.swift in Sources */,
 				13E98F982BCA6FE900F05295 /* ReviewWritingSaveRequestDTO.swift in Sources */,
+				131C4E3F2C18C9EC0005D30F /* SearchDestinationHeaderView.swift in Sources */,
 				15803C5A2BDA583700D83F2B /* UserProfileResponseDTO.swift in Sources */,
 				15B01DAD2BA95A2500BE9F98 /* LoggedInUserUseCase.swift in Sources */,
 				151DF0DA2AEE6DF700D5D55B /* NoticeViewController.swift in Sources */,

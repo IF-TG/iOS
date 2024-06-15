@@ -29,10 +29,7 @@ class SearchDestinationViewController: UIViewController {
   private let viewModel: any SearchDestinationViewModel
   
   // MARK: - Properties
-  private let landscapeToastView = LandscapeToastView(text: "복사되었습니다.").set {
-    $0.isHidden = true
-    $0.alpha = 0
-  }
+  private let landscapeToastView = LandscapeToastView(text: "복사되었습니다.")
   
   private lazy var starButton = UIButton().set {
     $0.setImage(.init(named: "emptyStar-border-white"), for: .normal)
@@ -49,34 +46,32 @@ class SearchDestinationViewController: UIViewController {
   }
   private let type: DestinationType
   
-  private let layout = SearchDestinationCollectionViewLayout().makeLayout().set {
-    $0.register(InnerRoundRectReusableView.self, forDecorationViewOfKind: InnerRoundRectReusableView.baseID)
-  }
+  private let layout = SearchDestinationCollectionViewLayout()
+  
   private lazy var collectionView = UICollectionView(
     frame: .zero,
-    collectionViewLayout: layout
+    collectionViewLayout: layout.makeLayout().set {
+      $0.register(InnerRoundRectReusableView.self, forDecorationViewOfKind: InnerRoundRectReusableView.baseID)
+    }
   ).set {
-    $0.register(SearchDestinationTitleCell.self, forCellWithReuseIdentifier: SearchDestinationTitleCell.id)
-    $0.register(SearchDestinationServiceCell.self, forCellWithReuseIdentifier: SearchDestinationServiceCell.id)
-    $0.register(SearchDestinationContentCell.self, forCellWithReuseIdentifier: SearchDestinationContentCell.id)
+    $0.register(SearchDestinationHeaderView.self,
+                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+                withReuseIdentifier: SearchDestinationHeaderView.identifier)
+    $0.register(type: SearchDestinationTitleCell.self)
+    $0.register(type: SearchDestinationServiceCell.self)
+    $0.register(type: SearchDestinationContentCell.self)
     $0.backgroundColor = Common.backgroundColor
     $0.dataSource = self
     $0.delegate = self
-    $0.layer.cornerRadius = 50
-    $0.layer.maskedCorners = CACornerMask(arrayLiteral: [.layerMinXMinYCorner, .layerMaxXMinYCorner])
-  }
-  private var collectionViewWillDisplayIsFirstCalled = false
-  // FIXME: - will erase
-  private let thumbnailImageView = UIImageView().set {
-//    $0.image = .init(named: "seomun")
-    $0.backgroundColor = Common.backgroundColor
-    $0.contentMode = .scaleAspectFill
-    $0.clipsToBounds = true
+    $0.contentInsetAdjustmentBehavior = .never
   }
   
   private let input = SearchDestinationViewModelInput()
   
   private var subscriptions = Set<AnyCancellable>()
+  
+  private var isHeaderViewFirstDequeue = false
+  
   // MARK: - LifeCycle
   init(viewModel: any SearchDestinationViewModel, type: DestinationType) {
     self.viewModel = viewModel
@@ -97,11 +92,6 @@ class SearchDestinationViewController: UIViewController {
     input.viewDidLoad.send()
   }
   
-  override func viewDidLayoutSubviews() {
-    super.viewDidLayoutSubviews()
-    setupThumbnailImageViewLayer()
-  }
-  
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     updateTabBarVisibility(false)
@@ -114,17 +104,6 @@ class SearchDestinationViewController: UIViewController {
 }
 
 extension SearchDestinationViewController {
-  private func setupThumbnailImageViewLayer() {
-    let gradientLayer = CAGradientLayer()
-    gradientLayer.frame = thumbnailImageView.bounds
-    gradientLayer.colors = [
-      UIColor.black.withAlphaComponent(0.08).cgColor,
-      UIColor.clear.cgColor
-    ]
-    gradientLayer.locations = [0, 0.28]
-    thumbnailImageView.layer.addSublayer(gradientLayer)
-  }
-  
   private func bind() {
     viewModel
       .transform(input)
@@ -132,26 +111,12 @@ extension SearchDestinationViewController {
       .sink { [weak self] state in
         switch state {
         case .appearCopyAlert:
-          UIView.animate(withDuration: 1.0, animations: {
-            self?.landscapeToastView.isHidden = false
-            self?.landscapeToastView.alpha = 1
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-              UIView.animate(withDuration: 0.5, animations: {
-                self?.landscapeToastView.alpha = 0
-              }) { _ in
-                self?.landscapeToastView.isHidden = true
-              }
-            }
-          })
-          // TODO: - 주소 복사 수행 후, alert보이게 하기
-          
+          self?.landscapeToastView.performGhostAnimation()
         case .none:
           break
-        case .reloadData(let thumbnailData):
+        case .reloadData:
           self?.collectionView.reloadData()
           guard let self = self else { return }
-          self.thumbnailImageView.image = UIImage(data: thumbnailData)
         }
       }
       .store(in: &subscriptions)
@@ -199,20 +164,14 @@ private extension SearchDestinationViewController {
 // MARK: - LayoutSupport
 extension SearchDestinationViewController: LayoutSupport {
   func addSubviews() {
-    view.addSubview(thumbnailImageView)
     view.addSubview(collectionView)
     collectionView.addSubview(landscapeToastView)
     view.bringSubviewToFront(collectionView)
   }
   
   func setConstraints() {
-    thumbnailImageView.snp.makeConstraints {
-      $0.top.equalToSuperview()
-      $0.leading.trailing.equalToSuperview()
-      $0.height.equalTo(325)
-    }
     collectionView.snp.makeConstraints {
-      $0.top.equalTo(thumbnailImageView.snp.bottom).inset(50)
+      $0.top.equalToSuperview()
       $0.leading.trailing.equalToSuperview()
       $0.bottom.equalTo(view.safeAreaLayoutGuide)
     }
@@ -273,6 +232,26 @@ extension SearchDestinationViewController: UICollectionViewDataSource {
       contentCell.configure(with: infos[indexPath.item])
       return contentCell
     }
+  }
+  
+  func collectionView(
+    _ collectionView: UICollectionView,
+    viewForSupplementaryElementOfKind kind: String,
+    at indexPath: IndexPath
+  ) -> UICollectionReusableView {
+    guard let headerView = collectionView.dequeueReusableSupplementaryView(
+      ofKind: UICollectionView.elementKindSectionHeader,
+      withReuseIdentifier: SearchDestinationHeaderView.identifier,
+      for: indexPath
+    ) as? SearchDestinationHeaderView else { return .init() }
+    if case .main(let mainInfo) = viewModel.dataSource[indexPath.section] {
+      if !isHeaderViewFirstDequeue {
+        headerView.configure(with: mainInfo.headerInfo.imageDatas)
+        isHeaderViewFirstDequeue.toggle()
+      }
+      return headerView
+    }
+    return .init()
   }
 }
 
