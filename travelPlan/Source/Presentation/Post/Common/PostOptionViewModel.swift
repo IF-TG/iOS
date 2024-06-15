@@ -64,7 +64,16 @@ final class PostOptionViewModel {
 
 // MARK: - PostOptionViewModelPageDelegate
 extension PostOptionViewModel: PostOptionViewModelPageDelegate {
+  /// 해당 포스트가 타인일 경우 포소트 신고하기, 포스트 차단하기 액션 시트창이 보여집니다.
+  ///   자기자신의 포스트일 경우 공유하기 액션 시트창이 보여집니다.
   func showPostOption() {
+    // TODO: - id Int32로 수정해야합니다.
+    if let postId, Int32(ownerRepository.id!)! == postAuthorId {
+      actions.showPostOptionForMine {
+        PostNotificationManager.shared.notifyUserWantToSharePost(postId: postId)
+      }
+      return
+    }
     actions.showPostOption { [weak self] optionState in
       guard let postAuthorNickname = self?.postAuthorNickname else {
         self?.actions.showAlertForError("여행 후기 포스트 저자의 식별자가 유효하지 않습니다.", nil)
@@ -108,11 +117,9 @@ extension PostOptionViewModel: PostOptionViewModelPageDelegate {
       return
     }
     if postOption == .postBlock {
-      NotificationCenter.default.post(
-        name: .hasPostBlocked,
-        object: nil,
-        userInfo: ["postId": postId,
-                   "postOptionLocation": postOptionLocation])
+      PostNotificationManager.shared.notifyPostHasBlocked(
+        postId: postId,
+        postOptionLocation: postOptionLocation)
     }
     self.postOption = nil
   }
