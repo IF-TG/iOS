@@ -8,12 +8,11 @@
 import UIKit
 import SHCoordinator
 
-protocol ShareActivityCoordinatable {
-  func showActivitySheetForShare(with activityItems: [Any])
-}
+/// ActivityViewController의 화면 전환을 제어하는 코드 중복 최소화를 위한 프로토콜입니다.
+protocol ShareActivityCoordinatable { }
 
 extension ShareActivityCoordinatable where Self: FlowCoordinator {
-  func showActivitySheet(with activityItems: [Any]) {
+  func showActivitySheet(with activityItems: [Any], applicationActivities: [UIActivity]? = nil) {
     let activityViewController = UIActivityViewController(
       activityItems: activityItems,
       applicationActivities: nil)
