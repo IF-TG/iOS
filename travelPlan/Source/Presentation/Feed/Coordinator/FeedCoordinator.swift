@@ -90,10 +90,11 @@ final class FeedCoordinator: FlowCoordinator, AlertCoordinatable, PostOptionCoor
   }
   
   func makePostOptionViewModelActions() -> PostOptionViewModelActions {
-    return PostOptionViewModelActions(
-      showPostOption: { [weak self] optionCallBack in
+    return PostOptionViewModelActions { [weak self] optionCallBack in
         self?.showOption(handler: optionCallBack)
-      }) { [weak self] reportCallback in
+      } showPostOptionForMine: { [weak self] completion in
+        self?.showPostOptionForMine(completion: completion)
+      } showPostReport: { [weak self] reportCallback in
         self?.showPostReport(handler: reportCallback)
       } showPostReportResult: { [weak self] option in
         self?.showPostReportResult(wtih: option)

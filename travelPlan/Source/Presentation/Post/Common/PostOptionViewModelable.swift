@@ -15,7 +15,11 @@ protocol PostOptionViewModelPageDelegate: AnyObject {
 }
 
 struct PostOptionViewModelActions {
+  typealias Completion = () -> Void
   let showPostOption: (((PostOption) -> Void)?) -> Void
+  
+  /// showPostOption -> 자신의 포스트인 경우 호출해야 합니다.
+  let showPostOptionForMine: (Completion?) -> Void
   
   let showPostReport: (((PostReportType) -> Void)?) -> Void
   let showPostReportResult: (PostOption) -> Void

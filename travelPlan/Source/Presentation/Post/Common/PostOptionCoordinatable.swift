@@ -21,6 +21,13 @@ extension PostOptionCoordinatable where Self: FlowCoordinator, Self: AlertCoordi
     presenter?.present(alert, animated: true)
   }
   
+  func showPostOptionForMine(completion: (() -> Void)?) {
+    let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+    alert.addAction(title: "공유하기", style: .default) { _ in completion?() }
+    alert.addAction(title: "취소", style: .cancel, handler: nil)
+    presenter?.present(alert, animated: true)
+  }
+  
   func showPostReport(handler: ((PostReportType) -> Void)?) {
     let alert = UIAlertController(title: "신고하기", message: nil, preferredStyle: .alert)
     PostReportType.allCases.forEach { report in
