@@ -20,14 +20,9 @@ final class PostOptionViewModel {
   
   private var postOption: PostOption? = .none
   
-  private var postId: Int32?
-  
-  // TODO: - PostAuthor가 존재하지 않는 경우 유니버셜 링크를 통해 이동했기 때문입니다. 이때는 PostDetailVM에서 받아질 때까지 대기해야 합니다.
-  private var postAuthorId: Int32?
-  
-  private var postAuthorNickname: String?
-  
-  private let postOptionLocation: PostOptionLocation
+  // TODO: - PostAuthor가 존재하지 않는 경우 유니버셜 링크를 통해 이동했기 때문입니다. 이때는 PostDetailVM에서 받은 후에 노티를 통해
+  // 옵션에서 받아야 합니다.때까지 대기해야 합니다.
+  private var dataSource: PostOptionViewModelInfo
   
   // MARK: - Combine Properties
   private let postReportNotifier = PassthroughSubject<PostReportType, Never>()
@@ -44,18 +39,12 @@ final class PostOptionViewModel {
   
   // postId가 nil인 경우는 피드에서 사용됩니다.
   init(
-    postId: Int32?,
-    postAuthorId: Int32?,
-    postAuthorNickName: String?,
-    postOptionLocation: PostOptionLocation,
+    dataSource: PostOptionViewModelInfo,
     actions: PostOptionViewModelActions,
     ownerRepository: LoggedInUserRepository,
     userBlockUseCase: UserBlockUseCase
   ) {
-    self.postId = postId
-    self.postAuthorId = postAuthorId
-    self.postAuthorNickname = postAuthorNickName
-    self.postOptionLocation = postOptionLocation
+    self.dataSource = dataSource
     self.actions = actions
     self.ownerRepository = ownerRepository
     self.userBlockUseCase = userBlockUseCase
@@ -68,14 +57,14 @@ extension PostOptionViewModel: PostOptionViewModelPageDelegate {
   ///   자기자신의 포스트일 경우 공유하기 액션 시트창이 보여집니다.
   func showPostOption() {
     // TODO: - id Int32로 수정해야합니다.
-    if let postId, Int32(ownerRepository.id!)! == postAuthorId {
+    if let postId = dataSource.postId, Int32(ownerRepository.id!)! == dataSource.postAuthorId {
       actions.showPostOptionForMine {
         PostNotificationManager.shared.notifyUserWantToSharePost(postId: postId)
       }
       return
     }
     actions.showPostOption { [weak self] optionState in
-      guard let postAuthorNickname = self?.postAuthorNickname else {
+      guard let postAuthorNickname = self?.dataSource.postAuthorNickname else {
         self?.actions.showAlertForError("여행 후기 포스트 저자의 식별자가 유효하지 않습니다.", nil)
         return
       }
@@ -111,7 +100,7 @@ extension PostOptionViewModel: PostOptionViewModelPageDelegate {
     /// postOptionLocation이 postDetail인 경우 포스트 상세 화면에서 차단 아이콘 -> 포스트 상세 화면 에서 뒤로가기, -> 포스트 피드에서 해당 포스트 제거가 됩니다.
     /// postOptionLocation이 postSummary인 경우 포스트 차단 아이콘 -> 포스트 피드에서 해당 포스트가 제거됩니다.
     actions.showPostReportResult(postOption)
-    guard let postId else {
+    guard let postId = dataSource.postId else {
       self.postOption = nil
       actions.showAlertForError("포스트 식별이 불가능합니다. 개발자팀에게 문의 주시면 감사합니다.", nil)
       return
@@ -119,7 +108,7 @@ extension PostOptionViewModel: PostOptionViewModelPageDelegate {
     if postOption == .postBlock {
       PostNotificationManager.shared.notifyPostHasBlocked(
         postId: postId,
-        postOptionLocation: postOptionLocation)
+        postOptionLocation: dataSource.postOptionLocation)
     }
     self.postOption = nil
   }
@@ -147,9 +136,9 @@ private extension PostOptionViewModel {
   /// 포스트 섬네일 화면에서 사용됩니다.
   func postInfoSubjectStream(_ input: Input) -> Output {
     return input.postInfoSubject.map { [weak self] postOptionInfo in
-      self?.postId = postOptionInfo.postId
-      self?.postAuthorId = postOptionInfo.authorId
-      self?.postAuthorNickname = postOptionInfo.authorName
+      self?.dataSource.postId = postOptionInfo.postId
+      self?.dataSource.postAuthorId = postOptionInfo.authorId
+      self?.dataSource.postAuthorNickname = postOptionInfo.authorName
       return .none
     }.eraseToAnyPublisher()
   }
@@ -210,7 +199,7 @@ private extension PostOptionViewModel {
         return Just(State.unexpectedError(description: "앱 내부 에러가 발생됬습니다.")).eraseToAnyPublisher()
       }
       
-      guard let postAuthorId = postAuthorId else {
+      guard let postAuthorId = dataSource.postAuthorId else {
         return Just(.unexpectedError(description: "여행 후기 포스트 저자의 식별자가 유효하지 않습니다.")).eraseToAnyPublisher()
       }
       
