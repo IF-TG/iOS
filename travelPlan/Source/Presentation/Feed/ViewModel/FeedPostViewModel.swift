@@ -21,10 +21,6 @@ final class FeedPostViewModel: PostViewModel {
   
   let perPage: Int32 = 5
   
-  var posts: [Post] = []
-  
-  var postThumbnails: [[Data]] = []
-  
   var isPaging: Bool = false
   
   var isRefreshing: Bool = false
@@ -40,7 +36,12 @@ final class FeedPostViewModel: PostViewModel {
     attributes: .concurrent
   )
   
+  // MARK: - Data source Properties
   private var category: PostCategory
+  
+  var posts: [Post] = []
+  
+  var postThumbnails: [[Data]] = []
   
   /// 사용자가 선택한 카테고리는 요청이 완료되야만 category에 사용자가 요청했던 데이터를 보여줌과
   ///   동시에 category 사용자가 선택한 카테고리로  업데이트 해야합니다.
@@ -290,7 +291,6 @@ private extension FeedPostViewModel {
   }
   
   func bind() {
-    
     /// 포스트 상세화면에서 해당 포스트 차단의 경우가 아닌, 포스트 섬네일에서 해당 포스트 차단의 경우 아래의 바인딩 로직들이 호출됩니다.
     bindPostHasBlockedNotification().store(in: &subscriptions)
     postHasBlockedNotifier.sink { [weak self] element in
@@ -372,6 +372,7 @@ extension FeedPostViewModel: FeedPostViewAdapterDataSource {
     return PostThumbnailCountValue(postItem(at: index).content.thumbnailImageDataList.count)
   }
   
+  /// PostThumbnails Cell의 선정은 postThumbnails 프로퍼티에 의해 결정됩니다.
   func postItem(at index: Int) -> PostInfo {
     let post = posts[index]
     let postInfo = PostMapper.toPostInfo(post, thumbnails: postThumbnails[index])
