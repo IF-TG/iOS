@@ -110,11 +110,14 @@ final class PostDetailCoordinator: NSObject, FlowCoordinator, PostOptionCoordina
       actions: chatActions)
     
     // TODO: - identifier Int32로 변경하기
-    let postOptionVM = PostOptionViewModel(
+    let postOptionDataSource = PostOptionViewModelInfo(
       postId: postId,
       postAuthorId: Int32(post?.author.authorId ?? "1"),
-      postAuthorNickName: post?.author.nickname,
+      postAuthorNickname: post?.author.nickname,
       postOptionLocation: .detailPage,
+      postTitle: post?.detail.title)
+    let postOptionVM = PostOptionViewModel(
+      dataSource: postOptionDataSource,
       actions: optionActions,
       ownerRepository: loggedInUserRepository,
       userBlockUseCase: userBlockUseCase)
