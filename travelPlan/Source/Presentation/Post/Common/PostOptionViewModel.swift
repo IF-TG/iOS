@@ -57,9 +57,11 @@ extension PostOptionViewModel: PostOptionViewModelPageDelegate {
   ///   자기자신의 포스트일 경우 공유하기 액션 시트창이 보여집니다.
   func showPostOption() {
     // TODO: - id Int32로 수정해야합니다.
-    if let postId = dataSource.postId, Int32(ownerRepository.id!)! == dataSource.postAuthorId {
+    if let postId = dataSource.postId,
+       let postTitle = dataSource.postTitle,
+       Int32(ownerRepository.id!)! == dataSource.postAuthorId {
       actions.showPostOptionForMine {
-        PostNotificationManager.shared.notifyUserWantToSharePost(postId: postId)
+        PostNotificationManager.shared.notifyUserWantToSharePost(postId: postId, postTitle: postTitle)
       }
       return
     }

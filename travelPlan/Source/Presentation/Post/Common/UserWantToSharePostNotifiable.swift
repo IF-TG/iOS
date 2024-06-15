@@ -10,8 +10,10 @@ import Combine
 
 protocol UserWantToSharePostNotifiable {
   typealias PostId = Int32
+  typealias PostTitle = String
+  typealias PostShareElement = (postId: PostId, postTitle: PostTitle)
   
-  var userWantToSharePostNotifier: PassthroughSubject<PostId, Never> { get }
+  var userWantToSharePostNotifier: PassthroughSubject<PostShareElement, Never> { get }
   
   func makeUserWantToSharePostNotificationPublisher() -> AnyCancellable
 }
@@ -23,8 +25,9 @@ extension UserWantToSharePostNotifiable where Self: AnyObject {
       .publisher(for: .postShareFromPostOptionActionSheet)
       .sink { [weak self] notification in
         if let userInfo = notification.userInfo,
-           let postId = userInfo["postId"] as? Int32 {
-          self?.userWantToSharePostNotifier.send(postId)
+           let postId = userInfo["postId"] as? Int32,
+           let postTitle = userInfo["postTitle"] as? String {
+          self?.userWantToSharePostNotifier.send((postId, postTitle))
         }
       }
   }
