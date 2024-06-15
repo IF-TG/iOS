@@ -27,6 +27,7 @@ protocol FeedCoordinatorDependencies {
 protocol FeedPostCoordinatorDelegate: AnyObject {
   func showDetailPost(post: Post, blockedPost: @escaping (Int32) -> Void)
   func showPostShareSheet(with activityItem: PostActivityItemSource)
+  func showAlertForError(with description: String, completion: (() -> Void)?)
   
   func showOption(handler: ((PostOption) -> Void)?)
   func showPostReport(handler: ((PostReportType) -> Void)?)

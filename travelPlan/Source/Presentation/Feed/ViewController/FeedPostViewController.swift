@@ -138,8 +138,7 @@ extension FeedPostViewController: ViewBindCase {
     case .pagination(let paginationState):
       handlePaginationState(paginationState)
     case .unexpectedError(let description):
-      // 코디네이터에서 알림창 호출
-      print("에러발생 :\(description)")
+      coordinator?.showAlertForError(with: description, completion: nil)
     case .none:
       break
     case .viewDidLoad:
