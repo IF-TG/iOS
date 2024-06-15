@@ -190,7 +190,7 @@ private extension PostDetailViewModel {
 // MARK: - PostBlockedNotifiable
 extension PostDetailViewModel: PostBlockedNotifiable {
   private func bind() {
-    bindPostHasBlockedNotification().store(in: &subscriptions)
+    makePostHasBlockedNotificationPublisher().store(in: &subscriptions)
     postHasBlockedNotifier.sink { [weak self] element in
       if let element = element {
         if element.postId == Int32(self?.postDetails?.detail.postID ?? "-1")

@@ -292,7 +292,7 @@ private extension FeedPostViewModel {
   
   func bind() {
     /// 포스트 상세화면에서 해당 포스트 차단의 경우가 아닌, 포스트 섬네일에서 해당 포스트 차단의 경우 아래의 바인딩 로직들이 호출됩니다.
-    bindPostHasBlockedNotification().store(in: &subscriptions)
+    makePostHasBlockedNotificationPublisher().store(in: &subscriptions)
     postHasBlockedNotifier.sink { [weak self] element in
       if let element = element {
         /// 섬네일 화면에서 해당 포스트 차단한 경우
