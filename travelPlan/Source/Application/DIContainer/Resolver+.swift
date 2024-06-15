@@ -39,6 +39,14 @@ public extension Resolver {
     return resolve(Service.self, name: name?.rawValue, arguments: arg1, arg2, arg3)
   }
   
+  func resolve<Service, Arg1, Arg2, Arg3, Arg4>(
+    _: Service.Type,
+    name: ServiceName?,
+    arguments arg1: Arg1, _ arg2: Arg2, _ arg3: Arg3, _ arg4: Arg4
+  ) -> Service? {
+    return resolve(Service.self, name: name?.rawValue, arguments: arg1, arg2, arg3, arg4)
+  }
+  
   // swiftlint:disable:next function_parameter_count
   func resolve<Service, Arg1, Arg2, Arg3, Arg4, Arg5>(
     _: Service.Type,
