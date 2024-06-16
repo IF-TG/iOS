@@ -20,8 +20,6 @@ final class PostDetailViewModel: PostOptionNotificationBinder {
   
   private let ownerRepository: LoggedInUserRepository
   
-  // private let userBlockUseCase: UserBlockUseCase
-  
   // MARK: - Properties
   private var postDetails: PostDetails?
   
