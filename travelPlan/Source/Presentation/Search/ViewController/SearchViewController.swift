@@ -293,11 +293,11 @@ extension SearchViewController: UICollectionViewDelegate {
 }
 
 // MARK: - SearchViewDelegate
-//extension SearchViewController: SearchViewDelegate {
-//  func didTapSearchButton(_ searchView: SearchView, text: String) {
-//    input.didTapSearchButton.send(text)
-//  }
-//}
+// extension SearchViewController: SearchViewDelegate {
+//   func didTapSearchButton(_ searchView: SearchView, text: String) {
+//     input.didTapSearchButton.send(text)
+//   }
+// }
 
 // MARK: - TitleWithButtonHeaderViewDelegate
 extension SearchViewController: TitleWithButtonHeaderViewDelegate {
