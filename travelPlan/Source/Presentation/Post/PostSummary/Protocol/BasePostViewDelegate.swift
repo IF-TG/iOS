@@ -8,7 +8,6 @@
 import Foundation
 
 protocol BasePostViewDelegate: AnyObject {
-  func didTapComment()
   func didTapShare()
   func didTapOption()
   func didTapHeart()

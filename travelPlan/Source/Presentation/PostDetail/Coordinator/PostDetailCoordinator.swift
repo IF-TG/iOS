@@ -14,11 +14,6 @@ import SHCoordinator
   case commentUserBlock = "차단하기"
 }
 
-@frozen enum PostDetailOption: String, CaseIterable {
-  case postBlock = "차단하기"
-  case postReport = "신고하기"
-}
-
 @frozen enum PostDetailWritingCacnelType {
   // 대댓글 작성
   case replyWrite
@@ -39,7 +34,7 @@ import SHCoordinator
 }
 
 // MARK: - PostDetailCoordinator
-final class PostDetailCoordinator: NSObject, FlowCoordinator {
+final class PostDetailCoordinator: NSObject, FlowCoordinator, PostOptionCoordinatable, AlertCoordinatable, PostShareCoordinatable {
   typealias PostId = Int32
   
   var parent: FlowCoordinator?
@@ -65,20 +60,31 @@ final class PostDetailCoordinator: NSObject, FlowCoordinator {
     let postNestedCommentUseCase = DefaultPostNestedCommentUseCase(
       postNestedCommentRepository: MockPostNestedCommentRepository())
     let userBlockUseCase = DefaultUserBlockUseCase(userBlockRepository: MockWrappedUserBlockRepository())
+    
+    let optionActions = PostOptionViewModelActions(
+      showPostOption: { [weak self] optionCallback in self?.showOption(handler: optionCallback) },
+      showPostOptionForMine: { [weak self] callback in self?.showPostOptionForMine(completion: callback)},
+      showPostReport: { [weak self] reportCallback in self?.showPostReport(handler: reportCallback) },
+      showPostReportResult: { [weak self] option in self?.showPostReportResult(wtih: option) },
+      showPostAuthorBlock: { [weak self] authName, completion in
+        self?.showPostAuthorBlock(authName, handler: completion)
+      },
+      showAlertForError: {[weak self] message, completion in
+        self?.showAlertForError(with: message, completion: completion)
+      })
+    
     let actions = PostDetailViewModelActions(
       showAlertForError: { [weak self] message, completion in
         self?.showAlertForError(with: message, completion: completion)
       },
-      showPostOption: { [weak self] optionCallback in self?.showOption(handler: optionCallback) },
-      showPostAuthorBlock: { [weak self] authName, completion in
-        self?.showPostAuthorBlock(authName, handler: completion)
-      },
-      showPostReport: { [weak self] reportCallback in self?.showPostReport(handler: reportCallback) },
-      showPostReportResult: { [weak self] option in self?.showPostReportResult(wtih: option) },
       showCategory: {[weak self] categories in self?.showCategory(with: categories) },
       showReviewWriting: { [weak self] entity in self?.showReviewWriting(entity: entity) },
       showFeedAfterBlockingFeed: { [weak self] blockedPostId in self?.showFeedAfterBlockingFeed(blockedPostId) },
-      finishWithAnim: { [weak self] in self?.finishWithAnim() })
+      finishWithAnim: { [weak self] in self?.finishWithAnim() }, 
+      showPostShare: { [weak self] element in
+        self?.showPostShareSheet(with: .init(
+          title: element.postTitle,
+          postId: Int(element.postId)))})
     
     let chatActions = PostDetailChatViewModelActions(
       showAlertForError: { [weak self] message, completion in
@@ -96,20 +102,34 @@ final class PostDetailCoordinator: NSObject, FlowCoordinator {
       postId: postId,
       postFetchUseCase: defaultPostFetchUseCase,
       ownerRepository: loggedInUserRepository,
-      userBlockUseCase: userBlockUseCase,
       actions: actions)
     
     // TODO: - identifier Int32로 변경하기
     let postDetailChatVM = PostDetailChatViewModel(
-      postId: post?.detail.postID ?? String(postId),
+      postId: String(postId),
       postCommentsAndPostLikeStateFetchUseCase: defaultPostCommetnsAndPostLikeStateFetchUseCase,
       postCommentUseCase: postCommentUseCase,
       postNestedCommentUseCase: postNestedCommentUseCase,
       ownerRepository: loggedInUserRepository,
       actions: chatActions)
+    
+    // TODO: - identifier Int32로 변경하기
+    let postOptionDataSource = PostOptionViewModelInfo(
+      postId: postId,
+      postAuthorId: Int32(post?.author.authorId ?? "1"),
+      postAuthorNickname: post?.author.nickname,
+      postOptionLocation: .detailPage,
+      postTitle: post?.detail.title)
+    let postOptionVM = PostOptionViewModel(
+      dataSource: postOptionDataSource,
+      actions: optionActions,
+      ownerRepository: loggedInUserRepository,
+      userBlockUseCase: userBlockUseCase)
+    
     postDetailViewController = PostDetailViewController(
       viewModel: postDetailVM,
-      chatViewModel: postDetailChatVM)
+      chatViewModel: postDetailChatVM,
+      optionViewModel: postOptionVM)
     self.viewModelPostReceivable = postDetailVM
     presenter?.delegate = self
   }
@@ -134,29 +154,8 @@ extension PostDetailCoordinator {
     addChild(with: reviewWritingCoordinator)
   }
   
-  func showAlertForError(with description: String, completion: (() -> Void)?) {
-    let alert = UIAlertController(title: nil, message: description, preferredStyle: .alert).set {
-      $0.addAction(title: "OK", style: .default) { _ in completion?() }
-    }
-    postDetailViewController?.present(alert, animated: true)
-  }
-  
   func showAnAlertToAskWhetherToCancelWriting(type: PostDetailWritingCacnelType, completion: ((Bool) -> Void)?) {
-    let alert = UIAlertController(title: type.alertMessage, message: nil, preferredStyle: .alert).set {
-      $0.addAction(title: "아니요", style: .cancel) { _ in completion?(false) }
-      $0.addAction(title: "예", style: .default) { _ in completion?(true) }
-    }
-    postDetailViewController?.present(alert, animated: true)
-  }
-  
-  func showOption(handler: ((PostDetailOption) -> Void)?) {
-    /// 액션시트에서 cancel은 하나밖에 안됩니다.
-    let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-    PostDetailOption.allCases.forEach { option in
-      alert.addAction(title: option.rawValue, style: .destructive) { _ in handler?(option) }
-    }
-    alert.addAction(title: "취소", style: .cancel, handler: nil)
-    presenter?.present(alert, animated: true)
+    showAlertWithYesNo(with: type.alertMessage, message: nil, completion: completion)
   }
   
   func showCommentOption(isCommentOwner: Bool, handler: ((PostDetailCommentOption) -> Void)?) {
@@ -177,39 +176,6 @@ extension PostDetailCoordinator {
     presenter?.present(alert, animated: true)
   }
   
-  func showPostAuthorBlock(_ authorName: String, handler: ((Bool) -> Void)?) {
-    let alert = UIAlertController(
-      title: "‘\(authorName)’님을 차단하시겠습니까?",
-      message: "이 유저의 모든 게시물이 보이지 않고\n회원님에게 좋아요, 댓글을 남길 수 없으며\n팔로우가 취소됩니다.",
-      preferredStyle: .alert
-    ).set {
-      $0.addAction(title: "취소", style: .cancel) { _ in handler?(false) }
-      $0.addAction(title: "차단", style: .destructive) { _ in handler?(true) }
-    }
-    presenter?.present(alert, animated: true)
-  }
-  
-  func showPostReport(handler: ((PostReportType) -> Void)?) {
-    let alert = UIAlertController(title: "신고하기", message: nil, preferredStyle: .alert)
-    PostReportType.allCases.forEach { report in
-      var isStoppedRequest = false
-      if report == .stopRequest { isStoppedRequest = true }
-      alert.addAction(title: report.toKorean, style: isStoppedRequest ? .destructive : .default) { _ in
-        handler?(report)
-      }
-    }
-    presenter?.present(alert, animated: true, completion: nil)
-  }
-  
-  func showPostReportResult(wtih option: PostDetailOption) {
-    switch option {
-    case .postBlock:
-      presenter?.present(PostOptionResultAlertController(type: .postAuthorBlock), animated: true)
-    case .postReport:
-      presenter?.present(PostOptionResultAlertController(type: .postReport), animated: true)
-    }
-  }
-  
   func showCategory(with categories: [String]) {
     let categoryViewController = PostDetailCategoryViewController(style: .plain, dataSource: categories)
     presenter?.pushViewController(categoryViewController, animated: true)
@@ -218,13 +184,6 @@ extension PostDetailCoordinator {
   func showFeedAfterBlockingFeed(_ postId: Int32) {
     blockedPost?(postId)
     finish(withAnimated: true)
-  }
-}
-
-// MARK: - Fileprivate Helpers
-fileprivate extension UIAlertController {
-  func addAction(title: String, style: UIAlertAction.Style, handler: ((UIAlertAction) -> Void)?) {
-    self.addAction(UIAlertAction(title: title, style: style, handler: handler))
   }
 }
 

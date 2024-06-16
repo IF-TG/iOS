@@ -8,7 +8,6 @@
 import UIKit
 
 protocol PostViewDelegate: AnyObject {
-  func didTapComment(_ cell: UICollectionViewCell)
   func didTapShare(_ cell: UICollectionViewCell)
   func didTapOption(_ cell: UICollectionViewCell)
   func didTapHeart(_ cell: UICollectionViewCell)

@@ -47,8 +47,6 @@ class PostFooterView: UIView {
   
   var heartTapNotifier: EventNotifier?
   
-  var commentTapNotifier: EventNotifier?
-  
   // MARK: - Initialization
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -69,10 +67,6 @@ class PostFooterView: UIView {
 private extension PostFooterView {
   @objc func didTapHeart() {
     updatePostHeartState()
-    shareTapNotifier?()
-  }
-  
-  @objc func didTapComment() {
     heartTapNotifier?()
   }
   
@@ -112,15 +106,7 @@ extension PostFooterView {
   private func configureUI() {
     translatesAutoresizingMaskIntoConstraints = false
     setupUI()
-    setCommentIconTapGesture()
     setHeartIconTapGesture()
-  }
-  
-  private func setCommentIconTapGesture() {
-    commentStackView.icon.isUserInteractionEnabled = true
-    let tap = UITapGestureRecognizer(
-      target: self, action: #selector(didTapComment))
-    commentStackView.icon.addGestureRecognizer(tap)
   }
   
   private func setHeartIconTapGesture() {

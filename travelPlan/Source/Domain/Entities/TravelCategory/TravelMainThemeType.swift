@@ -97,3 +97,11 @@ extension TravelMainThemeType: RawRepresentable {
     }
   }
 }
+
+// MARK: - Equatable
+extension TravelMainThemeType: Equatable {
+  /// Associated value는 무시하고 rawValue를 기준으로 비교합니다.
+  static func ==(lhs: TravelMainThemeType, rhs: TravelMainThemeType) -> Bool {
+    return lhs.rawValue == rhs.rawValue
+  }
+}

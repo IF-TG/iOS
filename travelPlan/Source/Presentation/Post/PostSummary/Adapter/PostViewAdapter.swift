@@ -55,7 +55,7 @@ extension PostViewAdapter: UICollectionViewDataSource {
     let postSection = PostViewSection(rawValue: indexPath.section)
     if postSection == .post {
       guard let numberOfThumbnails = dataSource?.numberOfThumbnailsInPost(at: indexPath.row),
-        let postItem = dataSource?.postItem(at: indexPath.row)
+        let postItem = dataSource?.postItem(at: indexPath.item)
       else { return .init(frame: .zero) }
       let cell = makePostCell(collectionView, cellForItemAt: indexPath, with: numberOfThumbnails)
       cell?.configure(with: postItem)
@@ -125,11 +125,7 @@ extension PostViewAdapter: UICollectionViewDelegate {
 }
 
 // MARK: - BasePostViewDelegate
-extension PostViewAdapter: PostViewDelegate {
-  func didTapComment(_ cell: UICollectionViewCell) {
-    baseDelegate?.tapComment(cell)
-  }
-  
+extension PostViewAdapter: PostViewDelegate {  
   func didTapShare(_ cell: UICollectionViewCell) {
     baseDelegate?.share(cell)
   }
