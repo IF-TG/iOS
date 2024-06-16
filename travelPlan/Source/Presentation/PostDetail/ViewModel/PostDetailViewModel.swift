@@ -72,6 +72,16 @@ final class PostDetailViewModel: PostOptionNotificationBinder {
 
 // MARK: - PostDetailViewModelPageDelegate
 extension PostDetailViewModel: PostDetailViewModelPageDelegate {
+  func showPostShareSheet() {
+    guard let postDetails else {
+      actions?.showAlertForError("포스트 상세 화면 데이터가 존재하지 않습니다.", nil)
+      return
+    }
+    // TODO: - postId Identifier Int32로 변경해야합니다.
+    let postActivityItemSource = PostActivityItemSource(title: postDetails.detail.title, postId: Int(Int32(postDetails.detail.postID) ?? -1))
+    actions?.showPostShareSheet(postActivityItemSource)
+  }
+  
   func showAlertAndDismiss(with description: String) {
     showAlertForError(with: description) { [weak self] in
       self?.actions?.finishWithAnim()

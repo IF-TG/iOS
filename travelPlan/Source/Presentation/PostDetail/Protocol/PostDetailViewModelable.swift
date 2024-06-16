@@ -15,6 +15,7 @@ protocol PostDetailViewModelPageDelegate: AnyObject {
   func showCategory()
   func showReviewWriting()
   func showAlertAndDismiss(with description: String)
+  func showPostShareSheet()
 }
 
 // MARK: - Actions
@@ -35,6 +36,8 @@ struct PostDetailViewModelActions {
   let finishWithAnim: () -> Void
   
   let showPostShare: (PostShareElement) -> Void
+  
+  let showPostShareSheet: (PostActivityItemSource) -> Void
 }
 
 // MARK: - Input

@@ -84,7 +84,10 @@ final class PostDetailCoordinator: NSObject, FlowCoordinator, PostOptionCoordina
       showPostShare: { [weak self] element in
         self?.showPostShareSheet(with: .init(
           title: element.postTitle,
-          postId: Int(element.postId)))})
+          postId: Int(element.postId)))}, 
+      showPostShareSheet: { [weak self] postActivityItemSource in
+        self?.showPostShareSheet(with: postActivityItemSource)
+      })
     
     let chatActions = PostDetailChatViewModelActions(
       showAlertForError: { [weak self] message, completion in
