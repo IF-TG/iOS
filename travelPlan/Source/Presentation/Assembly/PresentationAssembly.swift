@@ -10,6 +10,7 @@ import SHCoordinator
 import Swinject
 
 final class PresentationAssembly: Assembly {
+  // swiftlint:disable:next function_body_length
   func assemble(container: Swinject.Container) {
     // TODO: - Login Page
     

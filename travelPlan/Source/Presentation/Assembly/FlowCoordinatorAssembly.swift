@@ -28,6 +28,7 @@ import Swinject
 /// }
 /// ```
 final class FlowCoordinatorAssembly: Assembly {
+  // swiftlint:disable:next function_body_length
   func assemble(container: Swinject.Container) {
     let appDIContainer = AppDIContainer.shared
     

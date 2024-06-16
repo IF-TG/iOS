@@ -9,6 +9,7 @@ import Swinject
 import Foundation
 
 final class SpringServierRepository: Assembly {
+  // swiftlint:disable:next function_body_length
   func assemble(container: Swinject.Container) {
     // TODO: - SpringServer
     

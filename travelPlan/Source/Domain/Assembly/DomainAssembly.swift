@@ -9,6 +9,7 @@ import Foundation
 import Swinject
 
 final class DomainAssembly: Swinject.Assembly {
+  // swiftlint:disable:next function_body_length
   func assemble(container: Container) {
     // TODO: - Tour Use Case
     
