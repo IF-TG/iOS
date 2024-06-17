@@ -1,6 +1,6 @@
 {
   "result": {
-    "objectId": "777",
+    "objectId": 777,
     "value": true
   },
   "status": "OK",
