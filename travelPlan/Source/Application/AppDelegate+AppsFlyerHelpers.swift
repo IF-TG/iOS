@@ -34,7 +34,7 @@ extension AppDelegate {
       object: nil)
   }
   
-  func goToPostDetailScene(with postId: Int32?) {
+  func goToPostDetailScene(with postId: UserIdentifier?) {
     guard
       let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
       let sceneDelegate = windowScene.delegate as? SceneDelegate

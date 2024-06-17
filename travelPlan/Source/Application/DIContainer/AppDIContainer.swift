@@ -103,7 +103,7 @@ extension AppDIContainer: FeedCoordinatorDependencies {
   func makePostDetailCoordinator(
     presenter: UINavigationController?,
     post: Post?,
-    postId: Int32
+    postId: PostIdentifier
   ) -> PostDetailCoordinator {
     return resolver.resolve(PostDetailCoordinator.self, arguments: presenter, post, postId)!
   }

@@ -101,8 +101,9 @@ extension AppDelegate: DeepLinkDelegate {
     NSLog("[AFSDK] DeepLink data is: \(deepLinkStr)")
     #endif
     
-    let postIdString = deepLinkObj.clickEvent["postId"] as? String ?? "-1"
-    let postId = Int32(Int(postIdString) ?? -1)
+    /// 딥 링크 obj 에서 postId를 찾을 수 없을 경우 -1로 변환후 기본 화면으로 이동하도록 합니다.
+    let postIdString = deepLinkObj.clickEvent["postId"] as? String
+    let postId = UserIdentifier(postIdString ?? "-1")
     if postId == -1 {
       goToPostDetailScene(with: nil)
     }
