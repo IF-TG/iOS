@@ -13,7 +13,7 @@ final class DefaultNoticeUseCase: NoticeUseCase {
   private let notificationRepository: WhatsNewNotificationRepository
   
   // MARK: - Properties
-  var noticeEntities: CurrentValueSubject<[NoticeEntity], Never> = .init([])
+  var noticeEntities: CurrentValueSubject<[NoticeEntity], any Error> = .init([])
   
   private var subscriptions = Set<AnyCancellable>()
   
@@ -25,8 +25,12 @@ final class DefaultNoticeUseCase: NoticeUseCase {
   func fetchNotices() {
     notificationRepository
       .fetchNotices()
-      .sink { [weak self] noticeEntities in
+      .sink(receiveCompletion: { [weak self] completion in
+        if case .failure(let error) = completion {
+          self?.noticeEntities.send(completion: .failure(error))
+        }
+      }, receiveValue: { [weak self] noticeEntities in
         self?.noticeEntities.send(noticeEntities)
-      }.store(in: &subscriptions)
+      }).store(in: &subscriptions)
   }
 }

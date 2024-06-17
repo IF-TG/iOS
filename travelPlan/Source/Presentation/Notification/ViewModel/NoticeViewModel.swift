@@ -67,6 +67,7 @@ private extension NoticeViewModel {
   func bind() {
     noticeUseCase.noticeEntities
       .receive(on: DispatchQueue.main)
+      .catch { _ in return Just([]) }
       .sink { [weak self] noticeEntities in
         self?.notices = noticeEntities.map {
           return .init(
