@@ -15,13 +15,15 @@ final class StubOwnerStorageForUserProfileSetting: OwnerStorage {
   var nickname: String? = "테스트유저"
   var profileImageData: Data?
   var isSavedProfileInServer: Bool = false
-  var id: String? = "testUser11"
-  var user: travelPlan.UserEntity? = .init(id: "testUser11", nickname: "테스트유저", profileImageUrl: "", isSavedProfileInServer: false)
-  var blockedUsers: [BlockedUserId] = []
+  var id: UserIdentifier? = 11
+  var user: travelPlan.UserEntity? = .init(
+    id: 11, nickname: "테스트유저", 
+    profileImageUrl: "", isSavedProfileInServer: false)
+  var blockedUsers: [UserIdentifier] = []
   func setUser(with userInfo: travelPlan.UserEntity) {}
-  func addBlockedUser(with userId: BlockedUserId) {}
-  func deleteBlockedUser(with userId: BlockedUserId) {}
-  func hasBlockedUser(with userId: BlockedUserId) -> Bool { true }
+  func addBlockedUser(with userId: UserIdentifier) {}
+  func deleteBlockedUser(with userId: UserIdentifier) {}
+  func hasBlockedUser(with userId: UserIdentifier) -> Bool { true }
   func updateNickname(with nickname: String) -> Bool { true }
   func updateProfileImagePath(with imagePath: String) -> Bool {
     print("프로필 이미지 경로 업데이트 됬습니다.")
@@ -40,7 +42,7 @@ final class StubOwnerStorageForUserProfileSetting: OwnerStorage {
 final class FirestoreUserProfileSettingRepositoryIntegrationTests: BaseXCTestCase {
   // MARK: - Properties
   var sut: UserProfileSettingRepository!
-  let mockTestUserId = "testUser11"
+  let mockTestUserId: UserIdentifier = 11
   
   override func setUp() {
     super.setUp()
@@ -70,7 +72,8 @@ extension FirestoreUserProfileSettingRepositoryIntegrationTests {
   // MARK: - saveProfile tests
   func test_saveProfile호출시Storage에프로필이잘저장되는지와DB필드에Path가잘저장되는지_ShouldReturnTrue() {
     // Act
-    let testPublisher = sut.saveProfile(with: mockTestUserId, nickname: "테스트여행유저", profileImageData: "프로필".data(using: .utf8))
+    let testPublisher = sut.saveProfile(
+      with: mockTestUserId, nickname: "테스트여행유저", profileImageData: "프로필".data(using: .utf8))
     execute(fromPublisher: testPublisher).store(in: &subscriptions)
     wait(for: [expectation], timeout: 7.777)
     
@@ -83,7 +86,7 @@ extension FirestoreUserProfileSettingRepositoryIntegrationTests {
   
   func test_saveProfile호출시_DB필드에_이미지가없는경우Path가잘저장되는지_ShouldReturnTrue() {
     // Act
-    let testPublisher = sut.saveProfile(with: "testUser11", nickname: "테스트여행유저", profileImageData: nil)
+    let testPublisher = sut.saveProfile(with: 11, nickname: "테스트여행유저", profileImageData: nil)
     execute(fromPublisher: testPublisher).store(in: &subscriptions)
     wait(for: [expectation], timeout: 7.777)
     
@@ -175,12 +178,13 @@ extension FirestoreUserProfileSettingRepositoryIntegrationTests {
 
 fileprivate extension FirestoreUserProfileSettingRepositoryIntegrationTests {
   func deleteTestUserDocument() {
-    Firestore.firestore().collection("users").document(mockTestUserId).delete { _ in }
+    Firestore.firestore().collection("users").document(String(mockTestUserId)).delete { _ in }
   }
   
   
   func recoverUserName() {
-    Firestore.firestore().collection("users").document(mockTestUserId).updateData(["nickname": "테스트여행자"]).sink { _ in
+    Firestore.firestore().collection("users")
+      .document(String(mockTestUserId)).updateData(["nickname": "테스트여행자"]).sink { _ in
     } receiveValue: { _ in
     }.store(in: &subscriptions)
   }
