@@ -9,9 +9,8 @@ import Foundation
 import Combine
 
 protocol UserWantToSharePostNotifiable {
-  typealias PostId = Int32
   typealias PostTitle = String
-  typealias PostShareElement = (postId: PostId, postTitle: PostTitle)
+  typealias PostShareElement = (postId: PostIdentifier, postTitle: PostTitle)
   
   var userWantToSharePostNotifier: PassthroughSubject<PostShareElement, Never> { get }
   
@@ -25,7 +24,7 @@ extension UserWantToSharePostNotifiable where Self: AnyObject {
       .publisher(for: .postShareFromPostOptionActionSheet)
       .sink { [weak self] notification in
         if let userInfo = notification.userInfo,
-           let postId = userInfo["postId"] as? Int32,
+           let postId = userInfo["postId"] as? PostIdentifier,
            let postTitle = userInfo["postTitle"] as? String {
           self?.userWantToSharePostNotifier.send((postId, postTitle))
         }

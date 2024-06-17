@@ -37,7 +37,7 @@ final class FlowCoordinatorAssembly: Assembly {
     // MARK: - PostDetail Flow Coordinator
     container.register(
       PostDetailCoordinator.self
-    ) { (_, presenter: UINavigationController?, post: Post?, postId: PostDetailCoordinator.PostId) in
+    ) { (_, presenter: UINavigationController?, post: Post?, postId: PostIdentifier) in
       return PostDetailCoordinator(presenter: presenter, post: post, postId: postId)
     }
     

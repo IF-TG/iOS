@@ -20,7 +20,7 @@ extension PostOptionNotificationBinder {
   /// - Parameter postShareHandler: 사용자가 포스트 옵션 버튼을 누른 후 공유하기를 누른 경우 postShareHandler가 호출됩니다.
   func bindPostOptionResult(
     postBlockHandler: @escaping (PostBlockedElement?) -> Void,
-    postShareHandler: @escaping ((postId: Int32, postTitle: String)) -> Void
+    postShareHandler: @escaping ((postId: PostIdentifier, postTitle: String)) -> Void
   ) {
     makePostHasBlockedNotificationPublisher()
       .store(in: &postOptionNotificationSubscriptions)

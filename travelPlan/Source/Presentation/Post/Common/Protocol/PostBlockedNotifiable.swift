@@ -10,8 +10,7 @@ import Foundation
 
 /// 사용자가 포스트를 차단할 때 postHasBlockedNotifier를 통해 특정 postId를 수신받을 수 있습니다.
 protocol PostBlockedNotifiable {
-  typealias PostId = Int32
-  typealias PostBlockedElement = (postId: PostId, postOptionLocation: PostOptionLocation)
+  typealias PostBlockedElement = (postId: PostIdentifier, postOptionLocation: PostOptionLocation)
   
   /// 옵셔널이 보내질 경우 notification.userInfo가 잘못된 경우 입니다.
   var postHasBlockedNotifier: PassthroughSubject<PostBlockedElement?, Never> { get }
@@ -28,7 +27,7 @@ extension PostBlockedNotifiable where Self: AnyObject {
       .publisher(for: .hasPostBlocked)
       .sink { [weak self] notification in
         if let userInfo = notification.userInfo,
-           let postId = userInfo["postId"] as? Int32,
+           let postId = userInfo["postId"] as? PostIdentifier,
            let postOptionLocation = userInfo["postOptionLocation"] as? PostOptionLocation {
           self?.postHasBlockedNotifier.send((postId, postOptionLocation))
           return

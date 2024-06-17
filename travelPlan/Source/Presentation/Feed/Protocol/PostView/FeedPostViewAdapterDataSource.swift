@@ -8,8 +8,8 @@
 import Foundation
 
 struct PostOptionInfo {
-  let postId: Int32
-  let authorId: Int32
+  let postId: PostIdentifier
+  let authorId: UserIdentifier
   let authorName: String
   let postTitle: String
 }

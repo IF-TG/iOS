@@ -35,8 +35,6 @@ import SHCoordinator
 
 // MARK: - PostDetailCoordinator
 final class PostDetailCoordinator: NSObject, FlowCoordinator, PostOptionCoordinatable, AlertCoordinatable, PostShareCoordinatable {
-  typealias PostId = Int32
-  
   var parent: FlowCoordinator?
   var child: [FlowCoordinator] = []
   var presenter: UINavigationController?
@@ -45,9 +43,9 @@ final class PostDetailCoordinator: NSObject, FlowCoordinator, PostOptionCoordina
   private var postDetailViewController: PostDetailViewController?
   weak private var viewModelPostReceivable: ReviewWritingPostReceivable?
   
-  var blockedPost: ((PostId) -> Void)?
+  var blockedPost: ((PostIdentifier) -> Void)?
   
-  init(presenter: UINavigationController?, post: Post?, postId: PostId) {
+  init(presenter: UINavigationController?, post: Post?, postId: PostIdentifier) {
     self.presenter = presenter
     super.init()
     let mockPostRepository = MockPostRepository()
@@ -84,7 +82,7 @@ final class PostDetailCoordinator: NSObject, FlowCoordinator, PostOptionCoordina
       showPostShare: { [weak self] element in
         self?.showPostShareSheet(with: .init(
           title: element.postTitle,
-          postId: Int(element.postId)))}, 
+          postId: element.postId))}, 
       showPostShareSheet: { [weak self] postActivityItemSource in
         self?.showPostShareSheet(with: postActivityItemSource)
       })
@@ -107,19 +105,17 @@ final class PostDetailCoordinator: NSObject, FlowCoordinator, PostOptionCoordina
       ownerRepository: loggedInUserRepository,
       actions: actions)
     
-    // TODO: - identifier Int32로 변경하기
     let postDetailChatVM = PostDetailChatViewModel(
-      postId: String(postId),
+      postId: postId,
       postCommentsAndPostLikeStateFetchUseCase: defaultPostCommetnsAndPostLikeStateFetchUseCase,
       postCommentUseCase: postCommentUseCase,
       postNestedCommentUseCase: postNestedCommentUseCase,
       ownerRepository: loggedInUserRepository,
       actions: chatActions)
     
-    // TODO: - identifier Int32로 변경하기
     let postOptionDataSource = PostOptionViewModelInfo(
       postId: postId,
-      postAuthorId: Int32(post?.author.authorId ?? "1"),
+      postAuthorId: post?.author.authorId,
       postAuthorNickname: post?.author.nickname,
       postOptionLocation: .detailPage,
       postTitle: post?.detail.title)
@@ -184,7 +180,7 @@ extension PostDetailCoordinator {
     presenter?.pushViewController(categoryViewController, animated: true)
   }
   
-  func showFeedAfterBlockingFeed(_ postId: Int32) {
+  func showFeedAfterBlockingFeed(_ postId: Int64) {
     blockedPost?(postId)
     finish(withAnimated: true)
   }

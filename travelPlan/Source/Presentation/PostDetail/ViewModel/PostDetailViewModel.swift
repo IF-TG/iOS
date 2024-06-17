@@ -23,7 +23,7 @@ final class PostDetailViewModel: PostOptionNotificationBinder {
   // MARK: - Properties
   private var postDetails: PostDetails?
   
-  private let postId: Int32
+  private let postId: PostIdentifier
   
   private let actions: PostDetailViewModelActions?
   
@@ -47,14 +47,14 @@ final class PostDetailViewModel: PostOptionNotificationBinder {
   // MARK: - Lifecycle
   init(
     post: Post?,
-    postId: Int32,
+    postId: PostIdentifier,
     postFetchUseCase: PostFetchUseCase,
     ownerRepository: LoggedInUserRepository,
     actions: PostDetailViewModelActions?
   ) {
     if let post = post {
       self.postDetails = PostMapper.toPostDetails(post, category: post.category)
-      self.postId = Int32(post.detail.postID) ?? -1
+      self.postId = post.detail.postID
     } else {
       /// postId만 존재한다는 것은 universal link를 통해 공유하기 로직으로 접근된 것입니다.
       self.postId = postId
@@ -77,8 +77,9 @@ extension PostDetailViewModel: PostDetailViewModelPageDelegate {
       actions?.showAlertForError("포스트 상세 화면 데이터가 존재하지 않습니다.", nil)
       return
     }
-    // TODO: - postId Identifier Int32로 변경해야합니다.
-    let postActivityItemSource = PostActivityItemSource(title: postDetails.detail.title, postId: Int(Int32(postDetails.detail.postID) ?? -1))
+    let postActivityItemSource = PostActivityItemSource(
+      title: postDetails.detail.title,
+      postId: postDetails.detail.postID)
     actions?.showPostShareSheet(postActivityItemSource)
   }
   
@@ -204,8 +205,7 @@ private extension PostDetailViewModel {
   func bind() {
     bindPostOptionResult { [weak self] element in
       if let element = element {
-        if element.postId == Int32(self?.postDetails?.detail.postID ?? "-1")
-            && element.postOptionLocation == .detailPage {
+        if element.postId == self?.postId && element.postOptionLocation == .detailPage {
           self?.actions?.showFeedAfterBlockingFeed(element.postId)
         }
       }
@@ -227,7 +227,7 @@ private extension PostDetailViewModel {
     }
   }
   
-  func fetchPostDetails(with postId: Int32) {
+  func fetchPostDetails(with postId: Int64) {
     postFetchUseCase
       .fetchPost(with: postId).sink { [weak self] completion in
       if case.failure(let error) = completion {
@@ -246,8 +246,8 @@ private extension PostDetailViewModel {
 /// postDetails not nil 프로퍼티를 바탕으로 데이터를 adapter한테 반환합니다.
 extension PostDetailViewModel: PostDetailTableViewDataSource {
   /// 포스트 업로드한 사용자 프로필로 이동히가 위해서 사용됩니다.
-  var authorUserId: Int32 {
-    return Int32(postDetails?.author.authorId ?? "-1") ?? -1
+  var authorUserId: UserIdentifier? {
+    return postDetails?.author.authorId
   }
   
   var title: String {

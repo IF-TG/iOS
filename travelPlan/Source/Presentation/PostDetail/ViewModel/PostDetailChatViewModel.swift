@@ -32,7 +32,7 @@ final class PostDetailChatViewModel {
   private let ownerRepository: LoggedInUserRepository
   
   // MARK: - Properties
-  private let postId: String
+  private let postId: PostIdentifier
   
   private var comments: [PostCommentEntity] = []
   
@@ -84,7 +84,7 @@ final class PostDetailChatViewModel {
   
   // MARK: - Lifecycle
   init(
-    postId: String,
+    postId: PostIdentifier,
     postCommentsAndPostLikeStateFetchUseCase: PostCommentsAndPostLikeStateFetchUseCase,
     postCommentUseCase: PostCommentUseCase,
     postNestedCommentUseCase: PostNestedCommentUseCase,

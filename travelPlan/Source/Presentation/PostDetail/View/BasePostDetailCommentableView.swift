@@ -8,7 +8,7 @@
 import UIKit
 
 struct BasePostDetailCommentInfo {
-  let commentId: String
+  let commentId: Int64
   let userName: String
   let userProfileImageData: Data?
   let timestamp: String
