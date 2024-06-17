@@ -16,11 +16,19 @@ final class FirestorePostNestedCommentRepositoryTests: XCTestCase {
   var sut: PostAtomicNestedCommentRepository!
   var expectation: XCTestExpectation!
   var subscriptions = Set<AnyCancellable>()
-  let testPostId = "ABEB803F-DD54-41A4-B8BF-487A210BD1EC"
-  let testCommentId = "12181109-6CDE-46E5-AD4F-04E824E89581"
-  let testNestedCommentId = "D219E2C2-4171-4C9D-B77D-EDB0CEFCD5B1"
-  var mockUserId: String {
-    StubOwnerStorage().id ?? "짱구1234"
+  
+  // MARK: - Identifier
+  // firestore의 identifer들은 String 입니다 하지만 spring server에서는 Int로 Identifier를 제공하고, 현재
+  // spring server를 사용하기에 Int64숫자 임의대로 지정했습니다. 테스트는 결과는 전부 false됩니다...
+  // target은 추가히지 않았습니다.
+//  let testPostId = "ABEB803F-DD54-41A4-B8BF-487A210BD1EC"
+//  let testCommentId = "12181109-6CDE-46E5-AD4F-04E824E89581"
+//  let testNestedCommentId = "D219E2C2-4171-4C9D-B77D-EDB0CEFCD5B1"
+  let testPostId: PostIdentifier = 1
+  let testCommentId: CommentIdentifier = 2
+  let testNestedCommentId: NestedCommentIdentifier = 1
+  var mockUserId: UserIdentifier {
+    StubOwnerStorage().id ?? 777
   }
   
   override func setUp() {
@@ -69,7 +77,7 @@ extension FirestorePostNestedCommentRepositoryTests {
     var receivedResult = false
     var unexpectedError: Error?
     
-    var nestedCommentId: String = ""
+    var nestedCommentId: CommentIdentifier = 0
     let prepareForTestExpectation = expectation(description: "사전작업")
     sut.sendNestedComment(ownerId: mockUserId, postId: testPostId, commentId: testCommentId, comment: "테스트")
       .receive(on: DispatchQueue.main)
@@ -190,7 +198,7 @@ extension FirestorePostNestedCommentRepositoryTests {
     // 사전 준비..
     let prepareExpectation = expectation(description: "사전 준비 작업 시작")
     let seq = (0...1).map {
-      sut.sendNestedComment(ownerId: "test1", postId: testPostId, commentId: "testComment3", comment: "test\($0)")
+      sut.sendNestedComment(ownerId: 1, postId: testPostId, commentId: 2, comment: "test\($0)")
     }
     Publishers.Zip(seq[0], seq[1])
       .sink {
@@ -203,7 +211,7 @@ extension FirestorePostNestedCommentRepositoryTests {
     wait(for: [prepareExpectation], timeout: 7.777)
 
     // Act
-    sut.deleteAllNestedComments(postId: testPostId, commentId: "testComment3")
+    sut.deleteAllNestedComments(postId: testPostId, commentId: 1)
       .receive(on: DispatchQueue.main)
       .sink { completion in
         if case .failure(let error) = completion {

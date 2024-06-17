@@ -34,7 +34,7 @@ final class DefaultPostCommentsAndPostLikeStateFetchUseCaseTests: XCTestCase {
 extension DefaultPostCommentsAndPostLikeStateFetchUseCaseTests {
   func test_fetchComments호출시_mockJson을디코딩해_PostCommentContainer를_받는경우_ShouldReturnTrue() {
     // Arrange
-    let mockReqeustValue = PostCommentsRequestValue(page: 1, perPage: 5, postId: "1")
+    let mockReqeustValue = PostCommentsRequestValue(page: 1, perPage: 5, postId: 1)
     var result = false
     var unexpectedError: Error?
     

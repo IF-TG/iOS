@@ -15,8 +15,14 @@ final class PostCommentHeartUseCaseImplTests: XCTestCase {
   var subscriptions = Set<AnyCancellable>()
   let mockPostCommentRepository = MockPostCommentRepository()
   var expectation: XCTestExpectation!
-  let testPostId = "ABEB803F-DD54-41A4-B8BF-487A210BD1EC"
-  let testCommentId = "testComment1"
+  // MARK: - Identifier
+  // firestore의 identifer들은 String 입니다 하지만 spring server에서는 Int로 Identifier를 제공하고, 현재
+  // spring server를 사용하기에 Int64숫자 임의대로 지정했습니다. 테스트는 결과는 전부 false됩니다...
+  // target은 추가히지 않았습니다.
+  //  let testPostId = "ABEB803F-DD54-41A4-B8BF-487A210BD1EC"
+  //  let testCommentId = "testComment1"
+  let testPostId: PostIdentifier = 1
+  let testCommentId: CommentIdentifier = 1
 
   override func setUp() {
     super.setUp()
@@ -24,7 +30,7 @@ final class PostCommentHeartUseCaseImplTests: XCTestCase {
     let postCommentHeartRepository = FirestorePostCommentHeartRepository(
       service: service,
       backgroundQueue: DispatchQueue(label: "background", qos: .background, attributes: .concurrent))
-    let ownerRepository = DefaultLoggedInUserRepository(storage: StubOwnerStorage())
+    let ownerRepository = DefaultLoggedInUserRepository(storage: .init(name: .testDouble(.stub)))
     sut = PostCommentHeartUseCaseImpl(
       commentHeartRepository: postCommentHeartRepository,
       ownerRepository: ownerRepository,

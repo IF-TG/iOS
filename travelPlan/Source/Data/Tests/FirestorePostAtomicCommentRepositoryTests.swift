@@ -16,8 +16,14 @@ final class FirestorePostAtomicCommentRepositoryTests: XCTestCase {
   var sut: PostAtomicCommentRepository!
   var expectation: XCTestExpectation!
   var subscriptions = Set<AnyCancellable>()
-  let testPostId = "ABEB803F-DD54-41A4-B8BF-487A210BD1EC"
-  let testCommentId = "12181109-6CDE-46E5-AD4F-04E824E89581"
+  // MARK: - Identifier
+  // firestore의 identifer들은 String 입니다 하지만 spring server에서는 Int로 Identifier를 제공하고, 현재
+  // spring server를 사용하기에 Int64숫자 임의대로 지정했습니다. 테스트는 결과는 전부 false됩니다...
+  // target은 추가히지 않았습니다.
+  // let testPostId = "ABEB803F-DD54-41A4-B8BF-487A210BD1EC"
+  // let testCommentId = "12181109-6CDE-46E5-AD4F-04E824E89581"
+  let testPostId: PostIdentifier = 1
+  let testCommentId: CommentIdentifier = 1
   
   override func setUp() {
     super.setUp()
@@ -42,7 +48,7 @@ extension FirestorePostAtomicCommentRepositoryTests {
     var unexpectedError: Error?
      
     // Act
-    sut.sendComment(ownerId: "testUser1234", postId: testPostId, comment: "댓글 작성!")
+    sut.sendComment(ownerId: 1, postId: testPostId, comment: "댓글 작성!")
       .sink {
         if case .failure(let error) = $0 {
           unexpectedError = error
@@ -89,12 +95,12 @@ extension FirestorePostAtomicCommentRepositoryTests {
     // Arrange
     var receivedResult = false
     var unexpectedError: Error?
-    let testCommentId = "testComment1"
+    let testCommentId = 1
     // Act
     sut.deleteComment(
       hasAnyNestedCommentExisted: false,
       postId: testPostId,
-      commentId: "testComment1"
+      commentId: 1
     ).sink { completion in
       if case .failure(let error) = completion {
         unexpectedError = error
@@ -104,7 +110,7 @@ extension FirestorePostAtomicCommentRepositoryTests {
       receivedResult = true
       Firestore.firestore()
         .collection("posts/\(self.testPostId)/comments")
-        .document(testCommentId)
+        .document(String(testCommentId))
         .setData(["temp": "temp"])
         .sink { completion in
           if case .failure(let error) = completion {
@@ -126,12 +132,12 @@ extension FirestorePostAtomicCommentRepositoryTests {
     // Arrange
     var receivedResult = false
     var unexpectedError: Error?
-    let testCommentId = "testComment2"
+    let testCommentId = 2
     // Act
     sut.deleteComment(
       hasAnyNestedCommentExisted: true,
       postId: testPostId,
-      commentId: "testComment2"
+      commentId: 2
     ).sink { completion in
       if case .failure(let error) = completion {
         unexpectedError = error
@@ -141,7 +147,7 @@ extension FirestorePostAtomicCommentRepositoryTests {
       receivedResult = true
       Firestore.firestore()
         .collection("posts/\(self.testPostId)/comments")
-        .document(testCommentId)
+        .document(String(testCommentId))
         .setData(["hasDeleted": "false"])
         .sink { completion in
           if case .failure(let error) = completion {

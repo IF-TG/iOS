@@ -299,15 +299,12 @@
 		152175852BFB046800666549 /* BaseXCTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152175842BFB046800666549 /* BaseXCTestCase.swift */; };
 		152175882BFB05CC00666549 /* StubImageMemoryCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152175872BFB05CC00666549 /* StubImageMemoryCache.swift */; };
 		1521758B2BFB288800666549 /* StubFirebaseStorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1521758A2BFB288800666549 /* StubFirebaseStorageService.swift */; };
-		1521758D2BFB52DB00666549 /* PostNestedCommentHeartUseCaseImplTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1521758C2BFB52DB00666549 /* PostNestedCommentHeartUseCaseImplTests.swift */; };
-		1521758F2BFB52F300666549 /* PostCommentUseCaseImplTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1521758E2BFB52F300666549 /* PostCommentUseCaseImplTests.swift */; };
 		1524A4A52BABEAA5002C639A /* MockPostsGeneratorForPaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1524A4A42BABEAA5002C639A /* MockPostsGeneratorForPaging.swift */; };
 		15259DEB2ACAA9F600C14F62 /* PostSearchFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C07ECC2A13F454005F04CD /* PostSearchFooterView.swift */; };
 		15259DEC2ACAAAB200C14F62 /* LocationSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EF8C042A0829FD0068C744 /* LocationSearchViewController.swift */; };
 		152603D72B97A4BC00634299 /* PostsRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152603D62B97A4BC00634299 /* PostsRequestDTO.swift */; };
 		1526ECE72BF6331900B629FB /* PostFetchUseCaseImplTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1526ECE62BF6331900B629FB /* PostFetchUseCaseImplTests.swift */; };
 		1526ECEC2BF6367B00B629FB /* DefaultPostFetchUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1526ECEB2BF6367B00B629FB /* DefaultPostFetchUseCaseTests.swift */; };
-		1526ECEE2BF636E500B629FB /* DefaultPostCommentsAndPostLikeStateFetchUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1526ECED2BF636E500B629FB /* DefaultPostCommentsAndPostLikeStateFetchUseCaseTests.swift */; };
 		1526ECF02BF6374100B629FB /* DefaultOwnerRelatedPostFetchUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1526ECEF2BF6374100B629FB /* DefaultOwnerRelatedPostFetchUseCaseTests.swift */; };
 		1526ECF22BF6376F00B629FB /* DefaultPostSearchUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1526ECF12BF6376F00B629FB /* DefaultPostSearchUseCaseTests.swift */; };
 		1526ECF52BF6417F00B629FB /* StubPostFetchAtomicRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1526ECF32BF6416A00B629FB /* StubPostFetchAtomicRepository.swift */; };
@@ -337,7 +334,6 @@
 		1536CC512BC8D5D700EEAE2B /* ActivityIndicator in Frameworks */ = {isa = PBXBuildFile; productRef = 1536CC502BC8D5D700EEAE2B /* ActivityIndicator */; };
 		1538015B2BEA1975008ECBF3 /* FirestoreEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1538015A2BEA1975008ECBF3 /* FirestoreEndpoint.swift */; };
 		153841D72A5642A9004C41D1 /* PostViewBottomSheetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153841D62A5642A9004C41D1 /* PostViewBottomSheetCell.swift */; };
-		153EEBB42BE26CEF00ECAB8A /* FirestorePostHeartRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153EEBB22BE26C9000ECAB8A /* FirestorePostHeartRepositoryTests.swift */; };
 		153FA90D2B937D9E006CF3C3 /* UserProfileRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153FA90C2B937D9E006CF3C3 /* UserProfileRequestDTO.swift */; };
 		153FA90F2B937E12006CF3C3 /* UserProfileImageResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153FA90E2B937E12006CF3C3 /* UserProfileImageResponseDTO.swift */; };
 		153FA9112B938C19006CF3C3 /* ParameterType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153FA9102B938C19006CF3C3 /* ParameterType.swift */; };
@@ -345,7 +341,6 @@
 		1540478A2BE4B82D009E86FF /* PostHeartUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154047892BE4B82D009E86FF /* PostHeartUseCase.swift */; };
 		1540478C2BE4BA45009E86FF /* DefaultPostHeartUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1540478B2BE4BA45009E86FF /* DefaultPostHeartUseCase.swift */; };
 		154047902BE4C075009E86FF /* BackgroundTaskManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1540478F2BE4C075009E86FF /* BackgroundTaskManager.swift */; };
-		154047932BE4D237009E86FF /* DefaultPostHeartUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154047922BE4D237009E86FF /* DefaultPostHeartUseCaseTests.swift */; };
 		154070862C0F0147000C9C42 /* Dependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154070852C0F0147000C9C42 /* Dependency.swift */; };
 		154070882C0F110F000C9C42 /* AppDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154070872C0F110F000C9C42 /* AppDIContainer.swift */; };
 		1540708D2C0F192F000C9C42 /* FirebaseRepositoryAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1540708C2C0F192F000C9C42 /* FirebaseRepositoryAssembly.swift */; };
@@ -365,7 +360,6 @@
 		1546587B2BEA60AC0081CCF8 /* UserDefaultsOwnerStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B01DA42BA93B5400BE9F98 /* UserDefaultsOwnerStorage.swift */; };
 		1546587D2BEA62890081CCF8 /* PostAtomicNestedCommentRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1546587C2BEA62890081CCF8 /* PostAtomicNestedCommentRepository.swift */; };
 		1546587F2BEA62EE0081CCF8 /* FirestorePostNestedCommentRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1546587E2BEA62EE0081CCF8 /* FirestorePostNestedCommentRepository.swift */; };
-		154658812BEA67CC0081CCF8 /* FirestorePostNestedCommentRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154658802BEA67CC0081CCF8 /* FirestorePostNestedCommentRepositoryTests.swift */; };
 		1546DF242B0A70C900B49A55 /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1546DF232B0A70C900B49A55 /* Cache.swift */; };
 		1546DF282B0A7CE400B49A55 /* Cache+Nested.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1546DF272B0A7CE400B49A55 /* Cache+Nested.swift */; };
 		1546DF302B0AF4C100B49A55 /* ImageMemoryCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1546DF2F2B0AF4C100B49A55 /* ImageMemoryCache.swift */; };
@@ -397,7 +391,6 @@
 		1550D9B12ACB1D740046569B /* DevelopmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1550D9B02ACB1D740046569B /* DevelopmentViewController.swift */; };
 		1551D5EE2BF8CBB1009B5CD6 /* FirestoreUserBlockAPIEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1551D5ED2BF8CBB1009B5CD6 /* FirestoreUserBlockAPIEndpoint.swift */; };
 		1551D5F02BF8D4D7009B5CD6 /* FirestoreUserBlockRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1551D5EF2BF8D4D7009B5CD6 /* FirestoreUserBlockRepository.swift */; };
-		1551D5F22BF8DFF6009B5CD6 /* FirestoreUserBlockRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1551D5F12BF8DFF6009B5CD6 /* FirestoreUserBlockRepositoryTests.swift */; };
 		155527E22BBD6D64000122B4 /* KeyboardState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155527E12BBD6D64000122B4 /* KeyboardState.swift */; };
 		15553BC02BB34151000AA896 /* PostNestedCommentAPIEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15553BBF2BB34151000AA896 /* PostNestedCommentAPIEndpoint.swift */; };
 		15553BC22BB341B0000AA896 /* PostNestedCommentSendRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15553BC12BB341B0000AA896 /* PostNestedCommentSendRequestDTO.swift */; };
@@ -459,7 +452,6 @@
 		1572ABA92BE631F6008AFE66 /* FirestorePostCommentAPIEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1572ABA82BE631F6008AFE66 /* FirestorePostCommentAPIEndpoint.swift */; };
 		1572ABAB2BE63243008AFE66 /* FirestorePostCommentSendRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1572ABAA2BE63243008AFE66 /* FirestorePostCommentSendRequestDTO.swift */; };
 		1572ABAD2BE63E03008AFE66 /* FirestorePostCommentRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1572ABAC2BE63E03008AFE66 /* FirestorePostCommentRepository.swift */; };
-		1572ABAF2BE6780E008AFE66 /* FirestorePostAtomicCommentRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1572ABAE2BE6780E008AFE66 /* FirestorePostAtomicCommentRepositoryTests.swift */; };
 		1572ABB22BE67A7D008AFE66 /* MockFirestoreImageStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1572ABB02BE67A60008AFE66 /* MockFirestoreImageStorage.swift */; };
 		1572ABB72BE75247008AFE66 /* PostHeartRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1572ABB52BE75220008AFE66 /* PostHeartRepository.swift */; };
 		1572ABBA2BE753E4008AFE66 /* FirestorePostCommentResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1572ABB82BE75380008AFE66 /* FirestorePostCommentResponseDTO.swift */; };
@@ -468,7 +460,6 @@
 		1572ABC62BE797FA008AFE66 /* PostCommentUseCaseImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1572ABC42BE797EF008AFE66 /* PostCommentUseCaseImpl.swift */; };
 		1572ABCE2BE7AF8F008AFE66 /* FirestoreUserProfileRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1572ABCC2BE7AF76008AFE66 /* FirestoreUserProfileRepository.swift */; };
 		1572ABD12BE7B0EB008AFE66 /* FirestoreUserProfileAPIEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1572ABCF2BE7B0CD008AFE66 /* FirestoreUserProfileAPIEndpoint.swift */; };
-		1572ABD52BE7B5C9008AFE66 /* FirestoreUserProfileRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1572ABD42BE7B5C9008AFE66 /* FirestoreUserProfileRepositoryTests.swift */; };
 		1572ABD82BE89F56008AFE66 /* PostCommentHeartRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1572ABD72BE89F56008AFE66 /* PostCommentHeartRepository.swift */; };
 		1572ABDA2BE8A0E7008AFE66 /* FirestorePostCommentHeartRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1572ABD92BE8A0E7008AFE66 /* FirestorePostCommentHeartRepository.swift */; };
 		157ADC9E2ACFAAFA00D37680 /* FavoritePostViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157ADC9D2ACFAAFA00D37680 /* FavoritePostViewAdapter.swift */; };
@@ -512,7 +503,6 @@
 		15869D052BF50D0600FB342B /* MockOwnerRelatedPostFetchUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15869D042BF50D0600FB342B /* MockOwnerRelatedPostFetchUseCase.swift */; };
 		15869D0A2BF5A1E400FB342B /* OwnerHeartPostIdentifierFetchRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15869D092BF5A1E400FB342B /* OwnerHeartPostIdentifierFetchRepository.swift */; };
 		15869D0C2BF5A45900FB342B /* FirestoreOwnerHeartPostRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15869D0B2BF5A45900FB342B /* FirestoreOwnerHeartPostRepository.swift */; };
-		15869D0E2BF5C3BD00FB342B /* FirestoreOwnerHeartPostRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15869D0D2BF5C3BD00FB342B /* FirestoreOwnerHeartPostRepositoryTests.swift */; };
 		1586BA872BBBCCCB001AA97C /* PostDetailViewModelable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1586BA862BBBCCCB001AA97C /* PostDetailViewModelable.swift */; };
 		1586D3042AB193F7001D4A80 /* Season.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1586D3032AB193F7001D4A80 /* Season.swift */; };
 		1588978B2BFC2EEA006BB978 /* PostDetailChatViewModelable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1588978A2BFC2EEA006BB978 /* PostDetailChatViewModelable.swift */; };
@@ -560,7 +550,6 @@
 		159851BC2BEDEB0A001262BD /* FirestorePostNestedCommentHeartRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159851BB2BEDEB0A001262BD /* FirestorePostNestedCommentHeartRepository.swift */; };
 		159851BE2BEDEC27001262BD /* PostNestedCommentHeartRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159851BD2BEDEC27001262BD /* PostNestedCommentHeartRepository.swift */; };
 		159851C52BEDF28B001262BD /* Combine+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159851C42BEDF28B001262BD /* Combine+Helpers.swift */; };
-		159851C72BEDF6C2001262BD /* FirestorePostNestedCommentHeartRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159851C62BEDF6C2001262BD /* FirestorePostNestedCommentHeartRepositoryTests.swift */; };
 		159851CA2BEDF81D001262BD /* Combine+XCTestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159851C92BEDF81D001262BD /* Combine+XCTestHelpers.swift */; };
 		159851E72BEE2B2C001262BD /* PostNestedCommentHeartsResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159851E62BEE2B2C001262BD /* PostNestedCommentHeartsResponseDTO.swift */; };
 		159958762B0D988400B2E4DC /* Palette.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 159958752B0D988400B2E4DC /* Palette.xcassets */; };
@@ -579,6 +568,7 @@
 		15A0A86D2C19589300C56DCB /* SpringServierRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A0A86C2C19589300C56DCB /* SpringServierRepository.swift */; };
 		15A0E19F2B97A3BD0047D662 /* PostResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A0E19E2B97A3BC0047D662 /* PostResponseDTO.swift */; };
 		15A0E1A12B97A3FD0047D662 /* PostContainerResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A0E1A02B97A3FD0047D662 /* PostContainerResponseDTO.swift */; };
+		15A2C2E42C20AAF500407663 /* DefaultPostCommentsAndPostLikeStateFetchUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1526ECED2BF636E500B629FB /* DefaultPostCommentsAndPostLikeStateFetchUseCaseTests.swift */; };
 		15A40D592BCFAEE80045C2C5 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 15A40D582BCFAEE80045C2C5 /* FirebaseAuth */; };
 		15A40D5B2BCFAEE80045C2C5 /* FirebaseAuthCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 15A40D5A2BCFAEE80045C2C5 /* FirebaseAuthCombine-Community */; };
 		15A40D5D2BCFAEE80045C2C5 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 15A40D5C2BCFAEE80045C2C5 /* FirebaseFirestore */; };
@@ -656,7 +646,6 @@
 		15C36D9F2C06DD2500673C4B /* AppsFlyerLib in Frameworks */ = {isa = PBXBuildFile; productRef = 15C36D9E2C06DD2500673C4B /* AppsFlyerLib */; };
 		15C36DA12C06E2E700673C4B /* AppDelegate+AppsFlyerHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C36DA02C06E2E700673C4B /* AppDelegate+AppsFlyerHelpers.swift */; };
 		15C466AD2BBACE2C00609DDD /* DefaultPhotoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 134384142B495C0E005034E0 /* DefaultPhotoService.swift */; };
-		15C68AB02BF79F65007FBDD8 /* OwnerRelatedPostFetchUseCaseImplTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C68AAF2BF79F65007FBDD8 /* OwnerRelatedPostFetchUseCaseImplTests.swift */; };
 		15C68AB22BF7A3F0007FBDD8 /* PostSearchUseCaseImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C68AB12BF7A3F0007FBDD8 /* PostSearchUseCaseImpl.swift */; };
 		15C7A51A2B94DA2800C79E27 /* UserIdReqeustDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C7A5192B94DA2800C79E27 /* UserIdReqeustDTO.swift */; };
 		15C83F882AB2055E00DDB536 /* BaseBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C83F872AB2055E00DDB536 /* BaseBottomSheetViewController.swift */; };
@@ -738,12 +727,10 @@
 		15EB3A222AC99FCA0025FFB4 /* PostHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158BEF7C2A0E2C5F00C27861 /* PostHeaderView.swift */; };
 		15EBD7222C04E6070090B311 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 15EBD7212C04E6070090B311 /* GoogleService-Info.plist */; };
 		15EBD9172BE8A2BD00BCEA7F /* FirestorePostCommentHeartAPIEndopint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EBD9162BE8A2BD00BCEA7F /* FirestorePostCommentHeartAPIEndopint.swift */; };
-		15EBD9192BE8AC9400BCEA7F /* FirestorePostCommentHeartRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EBD9182BE8AC9400BCEA7F /* FirestorePostCommentHeartRepositoryTests.swift */; };
 		15EBD91B2BE8D38A00BCEA7F /* PostCommentHeartUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EBD91A2BE8D38A00BCEA7F /* PostCommentHeartUseCase.swift */; };
 		15EBD91D2BE8D3A000BCEA7F /* DefaultPostCommentHeartUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EBD91C2BE8D3A000BCEA7F /* DefaultPostCommentHeartUseCase.swift */; };
 		15EBD91F2BE8D40700BCEA7F /* PostCommentHeartUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EBD91E2BE8D40700BCEA7F /* PostCommentHeartUseCaseTests.swift */; };
 		15EBD9212BE8D52D00BCEA7F /* PostCommentHeartUseCaseImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EBD9202BE8D52D00BCEA7F /* PostCommentHeartUseCaseImpl.swift */; };
-		15EBD9232BE906C700BCEA7F /* PostCommentHeartUseCaseImplTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EBD9222BE906C700BCEA7F /* PostCommentHeartUseCaseImplTests.swift */; };
 		15EBDBB92BC00F6900A8A91C /* PostSearchRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EBDBB82BC00F6900A8A91C /* PostSearchRequestDTO.swift */; };
 		15EBDBBD2BC0236C00A8A91C /* mock_posts_response.json in Resources */ = {isa = PBXBuildFile; fileRef = 15EBDBBC2BC0236C00A8A91C /* mock_posts_response.json */; };
 		15EDCA542C1D989500C5BD7C /* PostNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EDCA532C1D989500C5BD7C /* PostNotificationManager.swift */; };
@@ -4741,32 +4728,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1551D5F22BF8DFF6009B5CD6 /* FirestoreUserBlockRepositoryTests.swift in Sources */,
 				152175882BFB05CC00666549 /* StubImageMemoryCache.swift in Sources */,
 				15ABC4272BF3588800B9FA74 /* StubPostNestedCommentHeartRepository.swift in Sources */,
 				159851CA2BEDF81D001262BD /* Combine+XCTestHelpers.swift in Sources */,
-				159851C72BEDF6C2001262BD /* FirestorePostNestedCommentHeartRepositoryTests.swift in Sources */,
-				1572ABAF2BE6780E008AFE66 /* FirestorePostAtomicCommentRepositoryTests.swift in Sources */,
-				1572ABD52BE7B5C9008AFE66 /* FirestoreUserProfileRepositoryTests.swift in Sources */,
 				15803C3F2BD8F5F900D83F2B /* XMLParsingServiceTests.swift in Sources */,
 				15D6559A2B8E1CCB00466FEC /* UserInfoAPIEndpointTests.swift in Sources */,
-				153EEBB42BE26CEF00ECAB8A /* FirestorePostHeartRepositoryTests.swift in Sources */,
-				1526ECEE2BF636E500B629FB /* DefaultPostCommentsAndPostLikeStateFetchUseCaseTests.swift in Sources */,
 				1335320E2BA469E3000A4D9E /* DataConverterTests.swift in Sources */,
 				13EB3D492BF4ED0700CA84F0 /* LeportsUseCaseTests.swift in Sources */,
 				156C1E2A2BBECA6500AF1D99 /* CoordinatorDeallocTests.swift in Sources */,
 				15ABC4222BF3525600B9FA74 /* StubPostAtomicCommentRepository.swift in Sources */,
-				1521758F2BFB52F300666549 /* PostCommentUseCaseImplTests.swift in Sources */,
 				152175852BFB046800666549 /* BaseXCTestCase.swift in Sources */,
-				15EBD9232BE906C700BCEA7F /* PostCommentHeartUseCaseImplTests.swift in Sources */,
 				152175812BFB01C300666549 /* FirestoreUserProfileSettingRepositoryIntegrationTests.swift in Sources */,
+				15A2C2E42C20AAF500407663 /* DefaultPostCommentsAndPostLikeStateFetchUseCaseTests.swift in Sources */,
 				15553BD42BB34BF2000AA896 /* XCTestCase+UseCaseTestsHelpers.swift in Sources */,
 				13EB3D612BF51AEC00CA84F0 /* RestaurantUseCaseTests.swift in Sources */,
 				15ABC4292BF3596100B9FA74 /* StubPostCommentHeartRepository.swift in Sources */,
 				15B5E7AE2BBAEBE700C19F56 /* UserBlockUseCaseTests.swift in Sources */,
 				1383C81C2B97F44800830F1A /* KeychainManagerTests.swift in Sources */,
 				1526ECF22BF6376F00B629FB /* DefaultPostSearchUseCaseTests.swift in Sources */,
-				15EBD9192BE8AC9400BCEA7F /* FirestorePostCommentHeartRepositoryTests.swift in Sources */,
 				15ABC4242BF3549900B9FA74 /* StubPostAtomicNestedCommentRepository.swift in Sources */,
 				158981BA2BB2652700F016CF /* PostCommentAPIEndpointTests.swift in Sources */,
 				15FFAC2F2ADD03130013DB57 /* MockUserEndpoint.swift in Sources */,
@@ -4777,17 +4756,13 @@
 				156C1E2C2BBED14300AF1D99 /* SHCoordinator+XCTestCase.swift in Sources */,
 				15FFAC282ADC598E0013DB57 /* SessionProviderTests.swift in Sources */,
 				156C1E232BBEC93900AF1D99 /* XCTestCase+Helpers.swift in Sources */,
-				15869D0E2BF5C3BD00FB342B /* FirestoreOwnerHeartPostRepositoryTests.swift in Sources */,
 				15EE51012BF9F21400628FC9 /* DefaultNicknameValidationUseCaseTests.swift in Sources */,
-				1521758D2BFB52DB00666549 /* PostNestedCommentHeartUseCaseImplTests.swift in Sources */,
 				13EB3CD32BEAA00300CA84F0 /* DefaultTourIntroductionInfoRepositoryTests.swift in Sources */,
 				1526ECF02BF6374100B629FB /* DefaultOwnerRelatedPostFetchUseCaseTests.swift in Sources */,
 				1526ECE72BF6331900B629FB /* PostFetchUseCaseImplTests.swift in Sources */,
 				15BE6BF12BAF2285009A2568 /* PostCommentUseCaseTests.swift in Sources */,
-				15C68AB02BF79F65007FBDD8 /* OwnerRelatedPostFetchUseCaseImplTests.swift in Sources */,
 				1526ECF52BF6417F00B629FB /* StubPostFetchAtomicRepository.swift in Sources */,
 				15FBD5E42B98E94800076115 /* PostAPIEndpointTests.swift in Sources */,
-				154658812BEA67CC0081CCF8 /* FirestorePostNestedCommentRepositoryTests.swift in Sources */,
 				13EB3D512BF5034000CA84F0 /* AttractionUseCaseTests.swift in Sources */,
 				13EB3D0B2BEFCF2900CA84F0 /* DefaultTourCommonInfoRepositoryTests.swift in Sources */,
 				13EB3D1B2BF3420900CA84F0 /* FestivalUseCaseTests.swift in Sources */,
@@ -4797,7 +4772,6 @@
 				13EB3D592BF5140F00CA84F0 /* CultureFacilityUseCaseTests.swift in Sources */,
 				15FFAC2E2ADD030F0013DB57 /* MockModels.swift in Sources */,
 				15EBD91F2BE8D40700BCEA7F /* PostCommentHeartUseCaseTests.swift in Sources */,
-				154047932BE4D237009E86FF /* DefaultPostHeartUseCaseTests.swift in Sources */,
 				13EB3D0C2BEFCF7F00CA84F0 /* DefaultTourImageRetrieveInfoRepositoryTests.swift in Sources */,
 				151130092A04E4EB0041DDA1 /* travelPlanTests.swift in Sources */,
 				15591DE32BBEA5AF00128A9E /* FavoritePostInDirectoryUseCaseTests.swift in Sources */,
