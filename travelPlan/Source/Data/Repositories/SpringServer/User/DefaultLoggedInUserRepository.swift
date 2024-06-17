@@ -25,7 +25,7 @@ final class DefaultLoggedInUserRepository: LoggedInUserRepository {
     storage.wrappedValue.isSavedProfileInServer
   }
   
-  var id: String? {
+  var id: UserIdentifier? {
     storage.wrappedValue.id
   }
   
@@ -33,7 +33,7 @@ final class DefaultLoggedInUserRepository: LoggedInUserRepository {
     storage.wrappedValue.user
   }
   
-  var blockedUsers: [BlockedUserId] {
+  var blockedUsers: [UserIdentifier] {
     storage.wrappedValue.blockedUsers
   }
   
@@ -47,15 +47,15 @@ final class DefaultLoggedInUserRepository: LoggedInUserRepository {
     storage.wrappedValue.setUser(with: userInfo)
   }
   
-  func hasBlockedUser(with userId: BlockedUserId) -> Bool {
+  func hasBlockedUser(with userId: UserIdentifier) -> Bool {
     storage.wrappedValue.hasBlockedUser(with: userId)
   }
   
-  func addBlockedUser(with userId: BlockedUserId) {
+  func addBlockedUser(with userId: UserIdentifier) {
     storage.wrappedValue.addBlockedUser(with: userId)
   }
   
-  func deleteBlockedUser(with userId: BlockedUserId) {
+  func deleteBlockedUser(with userId: UserIdentifier) {
     storage.wrappedValue.deleteBlockedUser(with: userId)
   }
   

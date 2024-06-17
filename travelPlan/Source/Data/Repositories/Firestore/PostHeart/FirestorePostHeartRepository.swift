@@ -34,8 +34,8 @@ final class FirestorePostHeartRepository {
 // MARK: - PostHeartRepository
 extension FirestorePostHeartRepository: PostHeartRepository {
   func heartPost(
-    _ postId: String,
-    userId: String
+    _ postId: PostIdentifier,
+    userId: UserIdentifier
   ) -> AnyPublisher<Void, any Error> {
     let endpoint = Endpoint.makeHeartPostEndpoint(postId: postId, userId: userId)
     return Future { [weak self, backgroundQueue] promise in
@@ -54,8 +54,8 @@ extension FirestorePostHeartRepository: PostHeartRepository {
   }
   
   func hatePost(
-    _ postId: String,
-    userId: String
+    _ postId: PostIdentifier,
+    userId: UserIdentifier
   ) -> AnyPublisher<Void, any Error> {
     let endpoint = Endpoint.makeHatePostEndpoint(postId: postId, userId: userId)
     return Future { [weak self, backgroundQueue] promise in
@@ -75,7 +75,7 @@ extension FirestorePostHeartRepository: PostHeartRepository {
   
   /// Posts collection에서 a specific document의 heartNum 필드 값을 transaction을 활용해 증가, 감소 시킵니다.
   func updatePostHearts(
-    _ postId: String,
+    _ postId: PostIdentifier,
     willHeartPost: Bool
   ) -> AnyPublisher<Void, any Error> {
     let endpoint = Endpoint.makeTogglePostHeartsEndpoint(postId: postId)
@@ -116,7 +116,7 @@ extension FirestorePostHeartRepository: PostHeartRepository {
   }
   
   func fetchPostHearts(
-    _ postId: String
+    _ postId: PostIdentifier
   ) -> AnyPublisher<Int, any Error> {
     let endpoint = Endpoint.makeFetchPostHeartsEndpoint(postId)
     return Future { [weak self, backgroundQueue] promise in

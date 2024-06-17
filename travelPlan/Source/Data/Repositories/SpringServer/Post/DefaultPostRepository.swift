@@ -38,7 +38,7 @@ extension DefaultPostRepository: PostRepository {
         return
       }
       
-      guard let loggedInUserId = ownerStorage.id, let userId = Int64(loggedInUserId) else {
+      guard let ownerId = ownerStorage.id else {
         promise(.failure(LoggedInUserRepositoryError.invalidUserId))
         return
       }
@@ -47,7 +47,7 @@ extension DefaultPostRepository: PostRepository {
         page: page,
         perPage: perPage,
         category: category,
-        userId: userId)
+        userId: ownerId)
       let endpoint = Endpoint.fetchPosts(with: requestDTO)
       
       service.request(endpoint: endpoint)
@@ -69,7 +69,7 @@ extension DefaultPostRepository: PostRepository {
   func fetchComments(
     page: Int32,
     perPage: Int32,
-    postId: String
+    postId: PostIdentifier
   ) -> AnyPublisher<PostCommentContainerEntity, any Error> {
     let requestDTO = PostCommentsRequestDTO(page: page, perPage: perPage, postId: postId)
     let endpoint = Endpoint.fetchComments(with: requestDTO)

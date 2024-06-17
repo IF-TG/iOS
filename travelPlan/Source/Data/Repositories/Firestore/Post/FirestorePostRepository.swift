@@ -90,7 +90,7 @@ extension FirestorePostRepository: PostFetchAtomicRepository {
   func fetchOwnerLikedPosts(
     page: Int32,
     perPage: Int32 = 10,
-    likedPostIdList: [String]
+    likedPostIdList: [PostIdentifier]
   ) -> AnyPublisher<[AtomicPost], any Error> {
     return Future { [weak self] promise in
       guard let self else {
@@ -269,7 +269,7 @@ extension FirestorePostRepository {
 // MARK: - Private Helpers
 extension FirestorePostRepository {
   func makeSpecificPostFetchEndpoints(
-    _ postIdList: [String],
+    _ postIdList: [PostIdentifier],
     from: Int,
     to: Int
   ) -> [FirestoreEndpoint<FirestorePostResponseDTO>] {

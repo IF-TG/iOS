@@ -10,6 +10,7 @@ import Combine
 
 final class DefaultPostNestedCommentRepository: PostNestedCommentRepository {
   typealias endpoint = PostNestedCommentAPIEndpoint
+  
   // MARK: - Dependencies
   private let service: Sessionable
   private let backgroundQueue: DispatchQueue
@@ -25,7 +26,7 @@ final class DefaultPostNestedCommentRepository: PostNestedCommentRepository {
   
   // MARK: - Helpers
   func sendNestedComment(
-    commentId: String,
+    commentId: CommentIdentifier,
     comment: String
   ) -> AnyPublisher<PostNestedCommentEntity, any Error> {
     let requestDTO = PostNestedCommentSendRequestDTO(commentId: commentId, comment: comment)
@@ -51,7 +52,7 @@ final class DefaultPostNestedCommentRepository: PostNestedCommentRepository {
   }
   
   func updateNestedComment(
-    nestedCommentId: String,
+    nestedCommentId: NestedCommentIdentifier,
     comment: String
   ) -> AnyPublisher<Bool, any Error> {
     let requestDTO = PostNestedCommentUpdateRequestDTO(nestedCommentId: nestedCommentId, comment: comment)
@@ -79,7 +80,7 @@ final class DefaultPostNestedCommentRepository: PostNestedCommentRepository {
     }.eraseToAnyPublisher()
   }
   
-  func deleteNestedComment(nestedCommentId: String) -> AnyPublisher<DeletedNestedCommentResult, any Error> {
+  func deleteNestedComment(nestedCommentId: NestedCommentIdentifier) -> AnyPublisher<DeletedNestedCommentResult, any Error> {
     let requestDTO = PostNestedCommentDeleteRequestDTO(nestedCommentId: nestedCommentId)
     return Future { [weak self] promise in
       guard let self else {
@@ -101,7 +102,7 @@ final class DefaultPostNestedCommentRepository: PostNestedCommentRepository {
     }.eraseToAnyPublisher()
   }
   
-  func toggleCommentHeart(nestedCommentId: String) -> AnyPublisher<ToggledPostCommentHeartEntity, any Error> {
+  func toggleCommentHeart(nestedCommentId: NestedCommentIdentifier) -> AnyPublisher<ToggledPostCommentHeartEntity, any Error> {
     let requestDTO = PostNestedCommentHeartToggleRequestDTO(id: nestedCommentId)
     let endpoint = endpoint.toggleCommentHeart(with: requestDTO)
     return Future { [weak self] promise in

@@ -8,7 +8,7 @@
 import Foundation
 
 struct UserProfileSaveRequestDTO: Encodable {
-  let uid: String
+  let uid: UserIdentifier
   let nickname: String
   let profileImagePath: String
 }

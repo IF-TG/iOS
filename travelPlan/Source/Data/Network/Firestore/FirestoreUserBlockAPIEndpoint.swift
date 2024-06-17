@@ -11,17 +11,17 @@ struct FirestoreUserBlockAPIEndpoint {
   private init() {}
   
   static func makeUserBlockEndpoint(
-    ownerId: String,
-    willBlockedUserId blockedUserId: String
+    ownerId: UserIdentifier,
+    willBlockedUserId blockedUserId: UserIdentifier
   ) -> FirestoreEndpoint<String> {
     return FirestoreEndpoint(
-      method: .save(blockedUserId),
+      method: .save(String(blockedUserId)),
       requestType: .users(.blockUser(ownerId)))
   }
   
   static func makeBlockedUserUnblockEndpoint(
-    ownerId: String,
-    blockedUserId: String
+    ownerId: UserIdentifier,
+    blockedUserId: UserIdentifier
   ) -> FirestoreEndpoint<String> {
     return FirestoreEndpoint(
       method: .delete,
@@ -29,7 +29,7 @@ struct FirestoreUserBlockAPIEndpoint {
   }
   
   static func makeBlockedUsersFetchEndpoint(
-    ownerId: String
+    ownerId: UserIdentifier
   ) -> FirestoreEndpoint<[String]> {
     return FirestoreEndpoint(
       method: .retrieveDocumentIdList,

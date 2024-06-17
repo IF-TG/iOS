@@ -13,7 +13,7 @@ struct FirestoreUserProfileSettingAPIEndopint {
   ) -> FirestoreEndpoint<VoidResponseDTO> {
     return .init(
       requestDTO: requestDTO,
-      method: .save(requestDTO.uid),
+      method: .save(String(requestDTO.uid)),
       requestType: .users(.userDocument(.saveUserProfile)))
   }
   
@@ -24,7 +24,7 @@ struct FirestoreUserProfileSettingAPIEndopint {
   }
   
   static func makeNicknameUpdateEndpoint(
-    ownerId: String,
+    ownerId: UserIdentifier,
     with requestDTO: UserNicknameRequestDTO
   ) -> FirestoreEndpoint<VoidResponseDTO> {
     return FirestoreEndpoint(
@@ -34,7 +34,7 @@ struct FirestoreUserProfileSettingAPIEndopint {
   }
   
   static func makeProfileImageUpdateEndpoint(
-    ownerId: String,
+    ownerId: UserIdentifier,
     with profileImageUrl: String
   ) -> FirestoreEndpoint<VoidResponseDTO> {
     let requestDict = ["profileImagePath": profileImageUrl]
@@ -47,7 +47,7 @@ struct FirestoreUserProfileSettingAPIEndopint {
   /// RequestDict 타입은 다음과 같아야 합니다.[profileImagepath: ""]
   /// Firebase firestorage 필드 value는 옵셔널이 없기에 ""로 대체합니다.
   static func makeProfileImageDeleteEndpoint(
-    ownerId: String
+    ownerId: UserIdentifier
   ) -> FirestoreEndpoint<VoidResponseDTO> {
     let requestDict = ["profileImagePath": ""]
     return FirestoreEndpoint(

@@ -8,22 +8,20 @@
 import Foundation
 
 protocol OwnerStorage {
-  typealias BlockedUserId = String
-  
   var nickname: String? { get }
   var profileImageData: Data? { get }
   var isSavedProfileInServer: Bool { get }
-  var id: String? { get }
+  var id: UserIdentifier? { get }
   var user: UserEntity? { get }
-  var blockedUsers: [BlockedUserId] { get }
+  var blockedUsers: [UserIdentifier] { get }
   
   func setUser(with userInfo: UserEntity)
   
-  func addBlockedUser(with userId: BlockedUserId)
+  func addBlockedUser(with userId: UserIdentifier)
   
-  func deleteBlockedUser(with userId: BlockedUserId)
+  func deleteBlockedUser(with userId: UserIdentifier)
   
-  func hasBlockedUser(with userId: BlockedUserId) -> Bool
+  func hasBlockedUser(with userId: UserIdentifier) -> Bool
   
   @discardableResult
   func updateNickname(with nickname: String) -> Bool

@@ -94,12 +94,14 @@ private extension DefaultLoginRepository {
   
   private func handleFirebaseAuthFlow(promise: @escaping Future<Bool, Error>.Promise) {
     /// 파이어 베이스 auth를 통해 로그인한 사용자입니다.
-    guard let userUid = Auth.auth().currentUser?.uid else {
+    guard let _ = Auth.auth().currentUser?.uid else {
       promise(.failure(DefaultLoginRepositoryError.invalidFirebaseAuthCurrentUserUID))
       return
     }
+    /// 지금 현재 firestore가 아닌 spring server를 활용하기로 했기에, -1을 넣습니다. 만일 다시 firestore를 사용할 경우
+    /// fetchProfile(with: userUid)  이렇게 firestore에서 제공하는 String의 uid를 넣어야합니다.
     let subscription = userProfileRepository
-      .fetchProfile(with: userUid)
+      .fetchProfile(with: -1)
       .sink { completion in
         if case .failure(let error) = completion {
           promise(.failure(error))

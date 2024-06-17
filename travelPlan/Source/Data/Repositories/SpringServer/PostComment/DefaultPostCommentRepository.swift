@@ -23,7 +23,10 @@ final class DefaultPostCommentRepository: PostCommentRepository {
     self.backgroundQueue = backgroundQueue
   }
   
-  func sendComment(postId: String, comment: String) -> AnyPublisher<PostCommentEntity, any Error> {
+  func sendComment(
+    postId: PostIdentifier,
+    comment: String
+  ) -> AnyPublisher<PostCommentEntity, any Error> {
     let requestDTO = PostCommentSendingRequestDTO(postId: postId, comment: comment)
     return Future { [weak self] promise in
       guard let self else {
@@ -47,7 +50,11 @@ final class DefaultPostCommentRepository: PostCommentRepository {
     }.eraseToAnyPublisher()
   }
   
-  func updateComment(postId: String? = nil, commentId: String, comment: String) -> AnyPublisher<Bool, any Error> {
+  func updateComment(
+    postId: PostIdentifier? = nil,
+    commentId: CommentIdentifier,
+    comment: String
+  ) -> AnyPublisher<Bool, any Error> {
     let requestDTO = PostCommentUpdateRequestDTO(commentId: commentId, comment: comment)
     return Future { [weak self] promise in
       guard let self else {
@@ -69,7 +76,10 @@ final class DefaultPostCommentRepository: PostCommentRepository {
     }.eraseToAnyPublisher()
   }
   
-  func deleteComment(postId: String? = nil, commentId: String) -> AnyPublisher<Bool, any Error> {
+  func deleteComment(
+    postId: PostIdentifier? = nil,
+    commentId: CommentIdentifier
+  ) -> AnyPublisher<Bool, any Error> {
     let requestDTO = PostCommentDeleteRequestDTO(commentId: commentId)
     return Future { [weak self] promise in
       guard let self else {
@@ -94,7 +104,7 @@ final class DefaultPostCommentRepository: PostCommentRepository {
   func fetchComments(
     page: Int32,
     perPage: Int32,
-    postId: String
+    postId: PostIdentifier
   ) -> AnyPublisher<[PostCommentEntity], any Error> {
     let requestDTO = PostCommentsRequestDTO(page: page, perPage: perPage, postId: postId)
     return Future { [weak self] promise in
@@ -130,8 +140,8 @@ final class DefaultPostCommentRepository: PostCommentRepository {
   }
   
   func toggleCommentHeart(
-    postId: String? = nil,
-    commentId: String
+    postId: PostIdentifier? = nil,
+    commentId: CommentIdentifier
   ) -> AnyPublisher<ToggledPostCommentHeartEntity, any Error> {
     let requestDTO = PostCommentHeartToggleRequestDTO(id: commentId)
     return Future { [weak self] promise in

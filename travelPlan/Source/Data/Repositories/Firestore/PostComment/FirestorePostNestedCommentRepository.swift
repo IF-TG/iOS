@@ -34,8 +34,8 @@ final class FirestorePostNestedCommentRepository {
 // MARK: - PostAtomicNestedCommentRepository
 extension FirestorePostNestedCommentRepository: PostAtomicNestedCommentRepository {
   func fetchNestedComments(
-    postId: String,
-    commentId: String
+    postId: PostIdentifier,
+    commentId: CommentIdentifier
   ) -> AnyPublisher<[PostAtomicNestedCommentEntity], any Error> {
     let endpoint = Endpoint.makeNestedCommentsFetchEndpoint(withPostId: postId, commentId: commentId)
     return Future { [weak self, backgroundQueue] promise in
@@ -55,8 +55,8 @@ extension FirestorePostNestedCommentRepository: PostAtomicNestedCommentRepositor
   }
   
   func fetchTheNumberOfNestedComments(
-    postId: String,
-    commentId: String
+    postId: PostIdentifier,
+    commentId: CommentIdentifier
   ) -> AnyPublisher<Int, any Error> {
     let endpoint = Endpoint.makeTheNumberOfNestedCommentsFetchEndpoint(withPostId: postId, commentId: commentId)
     return Future { [weak self, backgroundQueue] promise in
@@ -75,17 +75,18 @@ extension FirestorePostNestedCommentRepository: PostAtomicNestedCommentRepositor
   }
   
   func sendNestedComment(
-    ownerId: String,
-    postId: String,
-    commentId: String,
+    ownerId: UserIdentifier,
+    postId: PostIdentifier,
+    commentId: CommentIdentifier,
     comment: String
   ) -> AnyPublisher<PostAtomicNestedCommentEntity, any Error> {
-    let nestedCommentId = UUID().uuidString
+    // let nestedCommentId = UUID().uuidString
+    // MARK: Firestore가 아닌 spring 서버를 활용하기에 -1을 넣습니다.
     let requestDTO = FirestorePostNestedCommentSendRequestDTO(
-      nestedCommentId: nestedCommentId, authorId: ownerId,
+      nestedCommentId: -1, authorId: ownerId,
       comment: comment, hearts: 0, createAt: Timestamp(date: Date()))
     let endpoint = Endpoint.makeNestedCommentSendEndpoint(
-      withPostId: postId, commentId: commentId, nestedCommentId: nestedCommentId, requestDTO: requestDTO)
+      withPostId: postId, commentId: commentId, nestedCommentId: -1, requestDTO: requestDTO)
     return Future { [weak self, backgroundQueue] promise in
       guard let self else {
         promise(.failure(ReferenceError.invalidReference))
@@ -100,7 +101,7 @@ extension FirestorePostNestedCommentRepository: PostAtomicNestedCommentRepositor
           }
         } receiveValue: { _ in
           let atomicEntity = PostAtomicNestedCommentEntity(
-            nestedCommentId: nestedCommentId, authorId: ownerId, comment: comment,
+            nestedCommentId: -1, authorId: ownerId, comment: comment,
             createAt: requestDTO.createAt.dateValue(), hearts: 0)
           promise(.success(atomicEntity))
         }
@@ -109,9 +110,9 @@ extension FirestorePostNestedCommentRepository: PostAtomicNestedCommentRepositor
   }
   
   func updateNestedComment(
-    postId: String,
-    commentId: String,
-    nestedCommentId: String,
+    postId: PostIdentifier,
+    commentId: CommentIdentifier,
+    nestedCommentId: NestedCommentIdentifier,
     comment: String
   ) -> AnyPublisher<Void, any Error> {
     let requestDTO = PostNestedCommentUpdateRequestDTO(nestedCommentId: nestedCommentId, comment: comment)
@@ -129,9 +130,9 @@ extension FirestorePostNestedCommentRepository: PostAtomicNestedCommentRepositor
   /// 대댓글 제거할때 대댓글 전부 제거됬고, 댓글도 제거됬으면 트랜젝선으로 댓 삭, 대댓 삭 둘다 처리해야하는데.
   /// 삭제된 댓글에서 대댓글을 제거할 경우에, 더이상 대댓글이 달리지 않기 때문에 트랜젝션을 꼭 안써도 된다.
   func deleteNestedComment(
-    postId: String,
-    commentId: String,
-    nestedCommentId: String
+    postId: PostIdentifier,
+    commentId: CommentIdentifier,
+    nestedCommentId: NestedCommentIdentifier
   ) -> AnyPublisher<Void, any Error> {
     let endpoint = Endpoint.makeNestedCommentDeleteEndpoint(
       withPostId: postId, commentId: commentId, nestedCommentId: nestedCommentId)
@@ -145,8 +146,8 @@ extension FirestorePostNestedCommentRepository: PostAtomicNestedCommentRepositor
   }
   
   func deleteAllNestedComments(
-    postId: String,
-    commentId: String
+    postId: PostIdentifier,
+    commentId: CommentIdentifier
   ) -> AnyPublisher<Void, any Error> {
     let endpoint = Endpoint.makeNestedCommentsAllDeleteEndpoint(withPostId: postId, commentId: commentId)
     return Future { [weak self, backgroundQueue] promise in

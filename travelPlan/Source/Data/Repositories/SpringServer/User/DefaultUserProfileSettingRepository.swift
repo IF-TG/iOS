@@ -64,12 +64,12 @@ extension DefaultUserProfileSettingRepository: UserProfileSettingRepository {
         return
       }
       
-      guard let loggedInUserId = userStorage.id, let userId = Int64(loggedInUserId) else {
+      guard let ownerId = userStorage.id else {
         promise(.failure(OwnerError.invalidOwnerId))
         return
       }
       
-      let requestDTO = UserNicknamePatchRequestDTO(nickname: name, userId: userId)
+      let requestDTO = UserNicknamePatchRequestDTO(nickname: name, userId: ownerId)
       let endpoint = UserInfoAPIEndpoint.updateUserNickname(with: requestDTO)
       service.request(endpoint: endpoint)
         .subscribe(on: backgroundQueue)
@@ -97,12 +97,12 @@ extension DefaultUserProfileSettingRepository: UserProfileSettingRepository {
         return
       }
       
-      guard let loggedInUserId = userStorage.id, let userId = Int64(loggedInUserId) else {
+      guard let ownerId = userStorage.id else {
         promise(.failure(OwnerError.invalidOwnerId))
         return
       }
       
-      let userIdReqeustDTO = UserIdReqeustDTO(userId: userId)
+      let userIdReqeustDTO = UserIdReqeustDTO(userId: ownerId)
       let reqeustDTO = UserProfileRequestDTO(profile: profileImageData.base64EncodedString())
       let endpoint = UserInfoAPIEndpoint.updateProfile(withQuery: userIdReqeustDTO, body: reqeustDTO)
       service.request(endpoint: endpoint)
@@ -132,15 +132,12 @@ extension DefaultUserProfileSettingRepository: UserProfileSettingRepository {
         return
       }
       
-      guard
-        let loggedInUserId = userStorage.id,
-        let userId = Int64(loggedInUserId)
-      else {
+      guard let ownerId = userStorage.id else {
         promise(.failure(OwnerError.invalidOwnerId))
         return
       }
       
-      let userIdRequestDTO = UserIdReqeustDTO(userId: userId)
+      let userIdRequestDTO = UserIdReqeustDTO(userId: ownerId)
       let requestDTO = UserProfileRequestDTO(profile: profileImageData.base64EncodedString())
       let endpoint = UserInfoAPIEndpoint.saveProfile(withQuery: userIdRequestDTO, body: requestDTO)
       service.request(endpoint: endpoint)
@@ -170,12 +167,12 @@ extension DefaultUserProfileSettingRepository: UserProfileSettingRepository {
         return
       }
       
-      guard let loggedInUserId = userStorage.id, let userId = Int64(loggedInUserId) else {
+      guard let ownerId = userStorage.id else {
         promise(.failure(OwnerError.invalidOwnerId))
         return
       }
       
-      let requestDTO = UserIdReqeustDTO(userId: userId)
+      let requestDTO = UserIdReqeustDTO(userId: ownerId)
       let endpoint = UserInfoAPIEndpoint.deleteProfile(with: requestDTO)
       
       service.request(endpoint: endpoint)
@@ -192,7 +189,7 @@ extension DefaultUserProfileSettingRepository: UserProfileSettingRepository {
   }
   
   // TODO: - 프로필 전체 저장로직.
-  func saveProfile(with userId: String, nickname: String, profileImageData: Data?) -> AnyPublisher<Void, any Error> {
+  func saveProfile(with userId: UserIdentifier, nickname: String, profileImageData: Data?) -> AnyPublisher<Void, any Error> {
     fatalError("서버에서 미 구현된 api 입니다.")
   }
 }
