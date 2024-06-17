@@ -8,8 +8,8 @@
 import Foundation
 
 struct PostNestedCommentEntity {
-  let nestedCommentId: String
-  let authorId: String
+  let nestedCommentId: NestedCommentIdentifier
+  let authorId: UserIdentifier
   let userProfileImageData: Data?
   let nickname: String
   var timestamp: String

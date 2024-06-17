@@ -35,8 +35,8 @@ final class PostCommentHeartUseCaseImpl {
 // MARK: - PostCommentHeartUseCase
 extension PostCommentHeartUseCaseImpl: PostCommentHeartUseCase {
   func toggleCommentHeart(
-    postId: String,
-    commentId: String
+    postId: PostIdentifier,
+    commentId: CommentIdentifier
   ) -> AnyPublisher<ToggledPostCommentHeartEntity, any Error> {
     return Future { [weak self, backgroundQueue] promise in
       guard let ownerId = self?.ownerRepository.id else {

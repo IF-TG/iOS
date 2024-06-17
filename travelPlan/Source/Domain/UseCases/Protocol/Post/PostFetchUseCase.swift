@@ -13,5 +13,5 @@ protocol PostFetchUseCase {
     with page: PostFetchRequestValue
   ) -> AnyPublisher<PostsPage, Error>
   
-  func fetchPost(with postId: Int32) -> AnyPublisher<Post, Error>
+  func fetchPost(with postId: PostIdentifier) -> AnyPublisher<Post, Error>
 }

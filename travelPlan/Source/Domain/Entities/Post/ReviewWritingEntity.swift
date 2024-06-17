@@ -8,7 +8,7 @@
 import Foundation
 
 struct ReviewWritingEntity {
-  let postId: String
+  let postId: PostIdentifier
   var category: Post.Category
   var tripDate: Post.TripDate
   var title: String
@@ -17,5 +17,5 @@ struct ReviewWritingEntity {
   var mapY: Double = 0.0
   
   // firestore일때 authorId가 필요합니다.
-  var authorId: String?
+  var authorId: UserIdentifier?
 }

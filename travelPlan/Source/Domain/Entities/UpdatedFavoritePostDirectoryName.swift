@@ -10,6 +10,6 @@ import Foundation
 /// Post scrap controller's update folder name.
 struct UpdatedFavoritePostDirectoryName {
   let directoryId: Int64
-  let userId: Int64
+  let userId: UserIdentifier
   let directoryname: String
 }

@@ -144,7 +144,7 @@ final class MockPostsGeneratorForPaging {
       }()
       
       let postDetail = Post.Detail(
-        postID: "\(i)",
+        postID: PostIdentifier(i),
         title: titles[i],
         content: [Post.PostContent(sort: 1, text: postContentTexts[i])],
         likes: Int32(postHearts[i]),
@@ -167,7 +167,7 @@ final class MockPostsGeneratorForPaging {
         author: .init(
           profileImageData: profileImageData,
           nickname: userNames[i],
-          authorId: "1"),
+          authorId: 123),
         highResolveImages: highResolveImages,
         category: .init(themes: [.adventure, .festivals, .relaxation],
                         regions: [.busan], seasons: [.fall],

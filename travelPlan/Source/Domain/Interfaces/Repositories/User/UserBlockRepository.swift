@@ -8,7 +8,7 @@
 import Combine
 
 protocol UserBlockRepository {
-  func blockUser(with userId: String) -> AnyPublisher<BlockedUserIdentifyEntity, Error>
-  func unblockUser(with blockedUserId: String) -> AnyPublisher<Void, Error>
+  func blockUser(with userId: Int64) -> AnyPublisher<BlockedUserIdentifyEntity, Error>
+  func unblockUser(with blockedUserId: Int64) -> AnyPublisher<Void, Error>
   func fetchBlockedUsers() -> AnyPublisher<[BlockedUserIdentifyEntity], Error>
 }

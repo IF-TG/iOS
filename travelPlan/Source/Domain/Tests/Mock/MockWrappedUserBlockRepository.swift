@@ -17,21 +17,21 @@ final class MockWrappedUserBlockRepository: UserBlockRepository {
 
 extension MockWrappedUserBlockRepository {
   func blockUser(
-    with userId: String
+    with userId: UserIdentifier
   ) -> AnyPublisher<BlockedUserIdentifyEntity, any Error> {
     return Just(BlockedUserIdentifyEntity(
-      userId: "testId1234", isBlocked: true)
+      userId: 1234, isBlocked: true)
     ).setAnyErrorAndEraseToAnyPublisher()
   }
   
-  func unblockUser(with blockedUserId: String) -> AnyPublisher<Void, any Error> {
+  func unblockUser(with blockedUserId: UserIdentifier) -> AnyPublisher<Void, any Error> {
     return Just(()).setAnyErrorAndEraseToAnyPublisher()
   }
   
   func fetchBlockedUsers() -> AnyPublisher<[BlockedUserIdentifyEntity], any Error> {
     return Just([
-      .init(userId: "testId3", isBlocked: true),
-      .init(userId: "testId4", isBlocked: true)])
+      .init(userId: 1234, isBlocked: true),
+      .init(userId: 1234, isBlocked: true)])
     .setAnyErrorAndEraseToAnyPublisher()
   }
 }

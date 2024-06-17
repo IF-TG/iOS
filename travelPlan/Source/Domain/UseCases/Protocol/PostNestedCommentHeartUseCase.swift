@@ -10,8 +10,8 @@ import Combine
 
 protocol PostNestedCommentHeartUseCase {
   func toggleNestedCommentHeart(
-    postId: String,
-    commentId: String,
-    nestedCommentId: String
+    postId: PostIdentifier,
+    commentId: CommentIdentifier,
+    nestedCommentId: NestedCommentIdentifier
   ) -> AnyPublisher<ToggledPostCommentHeartEntity, any Error>
 }
