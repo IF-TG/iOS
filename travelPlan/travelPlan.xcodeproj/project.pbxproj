@@ -679,6 +679,7 @@
 		15CB23742A110FB4003EAF20 /* PostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15CB23732A110FB4003EAF20 /* PostViewModel.swift */; };
 		15CC64142A1DD4EF00857446 /* ConvenienceInit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FEB5E22A050A99000A5F33 /* ConvenienceInit.swift */; };
 		15D245232C11AF4C0055538F /* DebugHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D245222C11AF4C0055538F /* DebugHelpers.swift */; };
+		15D283FC2C20111400B39AC8 /* YeogaTypealias.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D283FB2C20111400B39AC8 /* YeogaTypealias.swift */; };
 		15D388232AFE75E100039946 /* PostDetailReplyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D388222AFE75E100039946 /* PostDetailReplyCell.swift */; };
 		15D388272AFF8AAA00039946 /* InputTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D388262AFF8AAA00039946 /* InputTextView.swift */; };
 		15D388292AFFA51C00039946 /* PostProfileAndCommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D388282AFFA51C00039946 /* PostProfileAndCommentView.swift */; };
@@ -1553,6 +1554,7 @@
 		15CB23732A110FB4003EAF20 /* PostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewModel.swift; sourceTree = "<group>"; };
 		15CE24112BE3AD85009EAFEE /* DefaultTourCommonInfoRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultTourCommonInfoRepositoryTests.swift; sourceTree = "<group>"; };
 		15D245222C11AF4C0055538F /* DebugHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugHelpers.swift; sourceTree = "<group>"; };
+		15D283FB2C20111400B39AC8 /* YeogaTypealias.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YeogaTypealias.swift; sourceTree = "<group>"; };
 		15D388222AFE75E100039946 /* PostDetailReplyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailReplyCell.swift; sourceTree = "<group>"; };
 		15D388262AFF8AAA00039946 /* InputTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputTextView.swift; sourceTree = "<group>"; };
 		15D388282AFFA51C00039946 /* PostProfileAndCommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostProfileAndCommentView.swift; sourceTree = "<group>"; };
@@ -4380,6 +4382,7 @@
 				15FEB5DF2A050A99000A5F33 /* Extension */,
 				15FEB5E12A050A99000A5F33 /* Protocol */,
 				130990C12C01BE5A00D6E50C /* TempSource.swift */,
+				15D283FB2C20111400B39AC8 /* YeogaTypealias.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -4830,6 +4833,7 @@
 				15CC64142A1DD4EF00857446 /* ConvenienceInit.swift in Sources */,
 				15EDCA572C1DB56D00C5BD7C /* UserWantToSharePostNotifiable.swift in Sources */,
 				15FBD5D22B98DA0E00076115 /* TravelOrderTypeMapper.swift in Sources */,
+				15D283FC2C20111400B39AC8 /* YeogaTypealias.swift in Sources */,
 				150727262BBAB9E400271217 /* PostNestedCommentHeartToggleRequestDTO.swift in Sources */,
 				154070A42C0F8F94000C9C42 /* PersistentStorageAssembly.swift in Sources */,
 				15ABFFBF2BDCDB9400D57C7C /* FirestoreReviewWritingEndpoint.swift in Sources */,
