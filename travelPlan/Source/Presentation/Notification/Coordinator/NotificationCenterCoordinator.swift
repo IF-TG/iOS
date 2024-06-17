@@ -39,7 +39,7 @@ final class NotificationCenterCoordinator: FlowCoordinator {
 
     let mockSession = MockSession.default
     let service = SessionProvider(session: mockSession)
-    let notificationRepository = DefaultNotificationRepository(service: service)
+    let notificationRepository = DefaultWhatsNewNotificationRepository(service: service)
     let noticeUseCase = DefaultNoticeUseCase(notificationRepository: notificationRepository)
     let noticeViewModel = NoticeViewModel(noticeUseCase: noticeUseCase)
     

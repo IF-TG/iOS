@@ -10,7 +10,7 @@ import Foundation
 
 final class DefaultNoticeUseCase: NoticeUseCase {
   // MARK: - Dependencies
-  private let notificationRepository: NotificationRepository
+  private let notificationRepository: WhatsNewNotificationRepository
   
   // MARK: - Properties
   var noticeEntities: CurrentValueSubject<[NoticeEntity], Never> = .init([])
@@ -18,7 +18,7 @@ final class DefaultNoticeUseCase: NoticeUseCase {
   private var subscriptions = Set<AnyCancellable>()
   
   // MARK: - Lifecycle
-  init(notificationRepository: NotificationRepository) {
+  init(notificationRepository: WhatsNewNotificationRepository) {
     self.notificationRepository = notificationRepository
   }
   
