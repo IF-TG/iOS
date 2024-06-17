@@ -7,6 +7,7 @@
 
 import UIKit
 import SHCoordinator
+import SHFirestoreService
 
 protocol NotificationCenterCoordinatorDelegate: AnyObject {
   func finish()
@@ -37,9 +38,11 @@ final class NotificationCenterCoordinator: FlowCoordinator {
       return ((urlResponse, responseData))
     }
 
-    let mockSession = MockSession.default
-    let service = SessionProvider(session: mockSession)
-    let notificationRepository = DefaultWhatsNewNotificationRepository(service: service)
+//    let mockSession = MockSession.default
+//    let service = SessionProvider(session: mockSession)
+//    let notificationRepository = DefaultWhatsNewNotificationRepository(service: service)
+    let firestoreService = FirestoreService()
+    let notificationRepository = FirestoreWhatsNewNotificationRepository(service: firestoreService)
     let noticeUseCase = DefaultNoticeUseCase(notificationRepository: notificationRepository)
     let noticeViewModel = NoticeViewModel(noticeUseCase: noticeUseCase)
     
