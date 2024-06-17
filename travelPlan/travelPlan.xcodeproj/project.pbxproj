@@ -288,8 +288,7 @@
 		151DF0F02AEEAE2100D5D55B /* NoticeEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151DF0EF2AEEAE2100D5D55B /* NoticeEntity.swift */; };
 		151DF0F42AEEB29500D5D55B /* NoticeUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151DF0F32AEEB29500D5D55B /* NoticeUseCase.swift */; };
 		151DF0F62AEEB2D200D5D55B /* DefaultNoticeUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151DF0F52AEEB2D200D5D55B /* DefaultNoticeUseCase.swift */; };
-		151DF0FC2AEEBA0100D5D55B /* NotificationRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151DF0FB2AEEBA0100D5D55B /* NotificationRepository.swift */; };
-		151DF0FE2AEEBBE200D5D55B /* DefaultNotificationRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151DF0FD2AEEBBE200D5D55B /* DefaultNotificationRepository.swift */; };
+		151DF0FE2AEEBBE200D5D55B /* DefaultWhatsNewNotificationRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151DF0FD2AEEBBE200D5D55B /* DefaultWhatsNewNotificationRepository.swift */; };
 		151DF1012AEEBD0A00D5D55B /* NotificationAPIEndpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151DF1002AEEBD0A00D5D55B /* NotificationAPIEndpoints.swift */; };
 		151DF1052AEEBE0F00D5D55B /* NoticeResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151DF1042AEEBE0F00D5D55B /* NoticeResponseDTO.swift */; };
 		151DF10A2AEEC58600D5D55B /* MockSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFAC1B2ADC2BC20013DB57 /* MockSession.swift */; };
@@ -680,6 +679,11 @@
 		15CC64142A1DD4EF00857446 /* ConvenienceInit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FEB5E22A050A99000A5F33 /* ConvenienceInit.swift */; };
 		15D245232C11AF4C0055538F /* DebugHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D245222C11AF4C0055538F /* DebugHelpers.swift */; };
 		15D283FC2C20111400B39AC8 /* YeogaTypealias.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D283FB2C20111400B39AC8 /* YeogaTypealias.swift */; };
+		15D283FE2C20483800B39AC8 /* FirestoreWhatsNewNotificationRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D283FD2C20483800B39AC8 /* FirestoreWhatsNewNotificationRepository.swift */; };
+		15D284002C2049BD00B39AC8 /* FirestoreWhatsNewNotificaitonEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D283FF2C2049BD00B39AC8 /* FirestoreWhatsNewNotificaitonEndpoint.swift */; };
+		15D284022C204C8100B39AC8 /* WhatsNewNotificationResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D284012C204C8100B39AC8 /* WhatsNewNotificationResponseDTO.swift */; };
+		15D284042C204F2600B39AC8 /* WhatsNewNotificationRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D284032C204F2600B39AC8 /* WhatsNewNotificationRepository.swift */; };
+		15D284062C204FC700B39AC8 /* FirestoreWhatsNewNotificationRepoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D284052C204FC700B39AC8 /* FirestoreWhatsNewNotificationRepoTests.swift */; };
 		15D388232AFE75E100039946 /* PostDetailReplyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D388222AFE75E100039946 /* PostDetailReplyCell.swift */; };
 		15D388272AFF8AAA00039946 /* InputTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D388262AFF8AAA00039946 /* InputTextView.swift */; };
 		15D388292AFFA51C00039946 /* PostProfileAndCommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D388282AFFA51C00039946 /* PostProfileAndCommentView.swift */; };
@@ -1172,8 +1176,7 @@
 		151DF0EF2AEEAE2100D5D55B /* NoticeEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeEntity.swift; sourceTree = "<group>"; };
 		151DF0F32AEEB29500D5D55B /* NoticeUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeUseCase.swift; sourceTree = "<group>"; };
 		151DF0F52AEEB2D200D5D55B /* DefaultNoticeUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultNoticeUseCase.swift; sourceTree = "<group>"; };
-		151DF0FB2AEEBA0100D5D55B /* NotificationRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationRepository.swift; sourceTree = "<group>"; };
-		151DF0FD2AEEBBE200D5D55B /* DefaultNotificationRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultNotificationRepository.swift; sourceTree = "<group>"; };
+		151DF0FD2AEEBBE200D5D55B /* DefaultWhatsNewNotificationRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultWhatsNewNotificationRepository.swift; sourceTree = "<group>"; };
 		151DF1002AEEBD0A00D5D55B /* NotificationAPIEndpoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationAPIEndpoints.swift; sourceTree = "<group>"; };
 		151DF1042AEEBE0F00D5D55B /* NoticeResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeResponseDTO.swift; sourceTree = "<group>"; };
 		151DF10E2AEECBB400D5D55B /* mock_response_notice.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = mock_response_notice.json; sourceTree = "<group>"; };
@@ -1555,6 +1558,11 @@
 		15CE24112BE3AD85009EAFEE /* DefaultTourCommonInfoRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultTourCommonInfoRepositoryTests.swift; sourceTree = "<group>"; };
 		15D245222C11AF4C0055538F /* DebugHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugHelpers.swift; sourceTree = "<group>"; };
 		15D283FB2C20111400B39AC8 /* YeogaTypealias.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YeogaTypealias.swift; sourceTree = "<group>"; };
+		15D283FD2C20483800B39AC8 /* FirestoreWhatsNewNotificationRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreWhatsNewNotificationRepository.swift; sourceTree = "<group>"; };
+		15D283FF2C2049BD00B39AC8 /* FirestoreWhatsNewNotificaitonEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreWhatsNewNotificaitonEndpoint.swift; sourceTree = "<group>"; };
+		15D284012C204C8100B39AC8 /* WhatsNewNotificationResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsNewNotificationResponseDTO.swift; sourceTree = "<group>"; };
+		15D284032C204F2600B39AC8 /* WhatsNewNotificationRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhatsNewNotificationRepository.swift; sourceTree = "<group>"; };
+		15D284052C204FC700B39AC8 /* FirestoreWhatsNewNotificationRepoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreWhatsNewNotificationRepoTests.swift; sourceTree = "<group>"; };
 		15D388222AFE75E100039946 /* PostDetailReplyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailReplyCell.swift; sourceTree = "<group>"; };
 		15D388262AFF8AAA00039946 /* InputTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputTextView.swift; sourceTree = "<group>"; };
 		15D388282AFFA51C00039946 /* PostProfileAndCommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostProfileAndCommentView.swift; sourceTree = "<group>"; };
@@ -2861,7 +2869,7 @@
 		1540709B2C0F6E10000C9C42 /* Notification */ = {
 			isa = PBXGroup;
 			children = (
-				151DF0FD2AEEBBE200D5D55B /* DefaultNotificationRepository.swift */,
+				151DF0FD2AEEBBE200D5D55B /* DefaultWhatsNewNotificationRepository.swift */,
 			);
 			path = Notification;
 			sourceTree = "<group>";
@@ -3254,6 +3262,7 @@
 				1521757E2BFB014400666549 /* PostHeart */,
 				1521757D2BFB012B00666549 /* User */,
 				1521757C2BFB012000666549 /* Post */,
+				15D283FD2C20483800B39AC8 /* FirestoreWhatsNewNotificationRepository.swift */,
 			);
 			path = Firestore;
 			sourceTree = "<group>";
@@ -3273,6 +3282,7 @@
 				159851B92BEDEA1A001262BD /* FirestoreNestedCommentHeartAPIEndpoints.swift */,
 				150D4E682BEA5DA5004509D6 /* FirestorePostNestedCommentAPIEndpoint.swift */,
 				1551D5ED2BF8CBB1009B5CD6 /* FirestoreUserBlockAPIEndpoint.swift */,
+				15D283FF2C2049BD00B39AC8 /* FirestoreWhatsNewNotificaitonEndpoint.swift */,
 			);
 			path = Firestore;
 			sourceTree = "<group>";
@@ -3287,6 +3297,7 @@
 				154F857E2BE0A71D00452D71 /* FirestorePostResponseDTO.swift */,
 				15445EA92BEB71430035B2FC /* PostAtomicNestedCommentResponseDTO.swift */,
 				159851E62BEE2B2C001262BD /* PostNestedCommentHeartsResponseDTO.swift */,
+				15D284012C204C8100B39AC8 /* WhatsNewNotificationResponseDTO.swift */,
 			);
 			path = ResponseDTO;
 			sourceTree = "<group>";
@@ -3513,7 +3524,7 @@
 		159851C12BEDEE14001262BD /* Notification */ = {
 			isa = PBXGroup;
 			children = (
-				151DF0FB2AEEBA0100D5D55B /* NotificationRepository.swift */,
+				15D284032C204F2600B39AC8 /* WhatsNewNotificationRepository.swift */,
 			);
 			path = Notification;
 			sourceTree = "<group>";
@@ -4003,6 +4014,7 @@
 				15869D0D2BF5C3BD00FB342B /* FirestoreOwnerHeartPostRepositoryTests.swift */,
 				1551D5F12BF8DFF6009B5CD6 /* FirestoreUserBlockRepositoryTests.swift */,
 				152175802BFB01C300666549 /* FirestoreUserProfileSettingRepositoryIntegrationTests.swift */,
+				15D284052C204FC700B39AC8 /* FirestoreWhatsNewNotificationRepoTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -4790,6 +4802,7 @@
 				151130092A04E4EB0041DDA1 /* travelPlanTests.swift in Sources */,
 				15591DE32BBEA5AF00128A9E /* FavoritePostInDirectoryUseCaseTests.swift in Sources */,
 				15553BD62BB34D06000AA896 /* PostNestedCommentUseCaseTests.swift in Sources */,
+				15D284062C204FC700B39AC8 /* FirestoreWhatsNewNotificationRepoTests.swift in Sources */,
 				1526ECF82BF6435800B629FB /* StubPostHeartRepository.swift in Sources */,
 				13EB3CCD2BEA6B7900CA84F0 /* DefaultTourFestivalInfoRepositoryTests.swift in Sources */,
 				13EB3D9C2BF7DDFA00CA84F0 /* CourseUseCaseTests.swift in Sources */,
@@ -4873,6 +4886,7 @@
 				130CF3732B8F8A040051DEE8 /* LoginAPIEndPoints.swift in Sources */,
 				15B5E7A72BBAE8B800C19F56 /* DefaultUserBlockUseCase.swift in Sources */,
 				154070AB2C103D2D000C9C42 /* AppDIContainer+Resolver.swift in Sources */,
+				15D284002C2049BD00B39AC8 /* FirestoreWhatsNewNotificaitonEndpoint.swift in Sources */,
 				13EB3D532BF50A2C00CA84F0 /* CultureFacilityUseCase.swift in Sources */,
 				1563027F2C10D82E000B496E /* PresentationFeedAssembly.swift in Sources */,
 				15B9285B2AF9DEAA003A20D4 /* PostDetailViewController.swift in Sources */,
@@ -4902,7 +4916,6 @@
 				15BE6BE62BAF1A3C009A2568 /* PostCommentUseCase.swift in Sources */,
 				15C1F5442AF2BF48005FDA15 /* NotificationViewAdapterDataSource.swift in Sources */,
 				1518BC132BB00DB200FD1A74 /* PostCommentUpdateResponseDTO.swift in Sources */,
-				151DF0FC2AEEBA0100D5D55B /* NotificationRepository.swift in Sources */,
 				15FEB5EC2A050A99000A5F33 /* ViewModelProtocols.swift in Sources */,
 				15C466AD2BBACE2C00609DDD /* DefaultPhotoService.swift in Sources */,
 				159F38BB2AFA9F32000A24C2 /* PostDetailCategoryHeaderView.swift in Sources */,
@@ -5140,6 +5153,7 @@
 				13EB3D632BF5FCFF00CA84F0 /* TourIntroductionInfoAccommodationResponseDTO.swift in Sources */,
 				13EB3D452BF4DECD00CA84F0 /* LeportsEntity.swift in Sources */,
 				15C1F55F2AF3CDD4005FDA15 /* SettingTopSheetView.swift in Sources */,
+				15D284022C204C8100B39AC8 /* WhatsNewNotificationResponseDTO.swift in Sources */,
 				15EE50FB2BF9BE7000628FC9 /* DefaultUserProfileImageSettingUseCase.swift in Sources */,
 				159851BA2BEDEA1A001262BD /* FirestoreNestedCommentHeartAPIEndpoints.swift in Sources */,
 				15553BCA2BB346A3000AA896 /* DefaultPostNestedCommentUseCase.swift in Sources */,
@@ -5321,6 +5335,7 @@
 				15CAEF7F2BAED14C008AEDB1 /* PostCommentsRequestDTO.swift in Sources */,
 				13EB3D872BF71DE200CA84F0 /* TourAPIMockResponseType.swift in Sources */,
 				1303047B2A24938700776A0D /* SearchView.swift in Sources */,
+				15D284042C204F2600B39AC8 /* WhatsNewNotificationRepository.swift in Sources */,
 				1568CC942C0B25B70056A298 /* CellIdentifiable.swift in Sources */,
 				1519412B2B138F7E00D9B6BF /* PostCellConfigurable.swift in Sources */,
 				15098D042BA5DB490012962A /* MyInformationCoordinator.swift in Sources */,
@@ -5353,6 +5368,7 @@
 				130304842A25117200776A0D /* SearchFestivalCell.swift in Sources */,
 				15D60D362AEB84FE0087FEC0 /* NotificationCenterViewController.swift in Sources */,
 				15D60D4C2AED17660087FEC0 /* RedIconBasedUnderbarSegmentedControl.swift in Sources */,
+				15D283FE2C20483800B39AC8 /* FirestoreWhatsNewNotificationRepository.swift in Sources */,
 				13EB3D102BF0396F00CA84F0 /* TourIntroductionInfoAttractionResponseDTO.swift in Sources */,
 				13EB3D122BF0814C00CA84F0 /* IntroductionInfoCultureFacilityEntity.swift in Sources */,
 				154070952C0F5491000C9C42 /* Resolver+.swift in Sources */,
@@ -5365,7 +5381,7 @@
 				1546587D2BEA62890081CCF8 /* PostAtomicNestedCommentRepository.swift in Sources */,
 				130CF38B2B9347790051DEE8 /* LoginStrategy.swift in Sources */,
 				13274C5C2A59B4AD001F141C /* SearchFestivalModel.swift in Sources */,
-				151DF0FE2AEEBBE200D5D55B /* DefaultNotificationRepository.swift in Sources */,
+				151DF0FE2AEEBBE200D5D55B /* DefaultWhatsNewNotificationRepository.swift in Sources */,
 				158BEF792A0E27BD00C27861 /* PostCollectionView.swift in Sources */,
 				1594F53429FD517E00A58F20 /* SceneDelegate.swift in Sources */,
 				15302C552B9E23E900B1EA3F /* UIViewController+Indicator.swift in Sources */,
