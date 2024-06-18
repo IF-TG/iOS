@@ -41,12 +41,12 @@ final class FlowCoordinatorAssembly: Assembly {
       return PostDetailCoordinator(presenter: presenter, post: post, postId: postId)
     }
     
-    // TODO: - Notification Flow Coordinator
+    // MARK: - Notification Flow Coordinator
     container.register(
       NotificationCenterCoordinator.self,
       name: .implementation(.firestore)
     ) { (_, presenter: UINavigationController ) in
-      return NotificationCenterCoordinator(presenter: presenter)
+      return NotificationCenterCoordinator(presenter: presenter, dependencies: appDIContainer)
     }
     
     // TODO: - Album Page
