@@ -240,7 +240,7 @@ private extension PostDetailViewModel {
     } receiveValue: { [weak self] postEntity in
       self?.postDetails = PostMapper.toPostDetails(postEntity, category: postEntity.category)
       self?.postDetailsFetchNotifier.send()
-      // TODO: - 노티피케이션 센터한테 보내야함.
+      PostNotificationManager.shared.notifyPostDetailFetchForAccessingUniversalLink(post: postEntity)
     }.store(in: &subscriptions)
   }
 }
