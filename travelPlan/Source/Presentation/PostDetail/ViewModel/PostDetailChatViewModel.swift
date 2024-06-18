@@ -187,10 +187,6 @@ private extension PostDetailChatViewModel {
           postId: postId)
         return postCommentsAndPostLikeStateFetchUseCase.fetchCommentsAndPostLikeStatus(with: postCommentRequestValue)
           .map {[weak self] postCommentContainerEntity -> State in
-            // TODO: - 이건 여기서 보내고 디테일 뷰모델로 보내자. 근데 애초에 사용자가 찜한 저장소는 코어에 저장할거라서..
-            // read 비용 줄이려고 ,, 뷰모델로 꼮 안보내도 될거같기도해
-            // self?.postDetails.isFavorite = postCommentContainerEntity.isFavorited
-            
             self?.comments += postCommentContainerEntity.comments
             return .viewDidLoad(
               .reloadedCommentsWithPostFavoriteInfo(postCommentContainerEntity.isFavorited))

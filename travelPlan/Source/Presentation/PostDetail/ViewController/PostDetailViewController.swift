@@ -211,6 +211,7 @@ extension PostDetailViewController: ViewBindCase {
         stopIndicator()
         tableView.reloadData()
         starButton.isSelected = isFavorite
+        input.favoriteStateOnViewDidLoad.send(isFavorite)
       }
     }
   }

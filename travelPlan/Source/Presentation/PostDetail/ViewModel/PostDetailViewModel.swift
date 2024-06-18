@@ -27,6 +27,8 @@ final class PostDetailViewModel: PostOptionNotificationBinder {
   
   private let actions: PostDetailViewModelActions?
   
+  private var isFavorite: Bool = false
+  
   // MARK: - Combine Properties
   private var subscriptions = Set<AnyCancellable>()
   
@@ -130,6 +132,7 @@ extension PostDetailViewModel: PostDetailViewModelPageDelegate {
 extension PostDetailViewModel: PostDetailViewModelable {
   func transform(_ input: PostDetailViewModelInput) -> AnyPublisher<PostDetailViewModelState, Never> {
     return Publishers.MergeMany([
+      favoriteStateOnViewDidLoadStream(input),
       viewDidLoadStream(input),
       errorHandlerStream(),
       postDetailsFetchNotifierStream(),
@@ -141,6 +144,14 @@ extension PostDetailViewModel: PostDetailViewModelable {
 
 // MARK: - Private Input's Stream
 private extension PostDetailViewModel {
+  func favoriteStateOnViewDidLoadStream(_ input: Input) -> Output {
+    return input
+      .favoriteStateOnViewDidLoad
+      .map { [weak self] isFavorite in
+        self?.isFavorite = isFavorite
+        return .none
+      }.eraseToAnyPublisher()
+  }
   func errorHandlerStream() -> Output {
     return errorHandler.map { errorState -> State in
       switch errorState {
