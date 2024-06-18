@@ -8,8 +8,6 @@
 import UIKit
 
 final class PostDetailContentFooterView: UITableViewHeaderFooterView {
-  static let id = String(describing: PostDetailContentFooterView.self)
-  
   enum Constant {
     static let DividerHeight: CGFloat = 1
     static let spacing: CGFloat = 10

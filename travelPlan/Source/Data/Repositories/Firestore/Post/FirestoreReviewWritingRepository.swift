@@ -80,7 +80,7 @@ extension FirestoreReviewWritingRepository: ReviewWritingRepository {
     }.eraseToAnyPublisher()
   }
   
-  func updatePost(entity: ReviewWritingEntity, postId: String) -> AnyPublisher<Post?, any Error> {
+  func updatePost(entity: ReviewWritingEntity, postId: PostIdentifier) -> AnyPublisher<Post?, any Error> {
     return Future { [weak self] promise in
       /// 사용자가 확인 버튼을 눌렀을 때 명확히 서버에 저장되어야 합니다.
       guard let self else {

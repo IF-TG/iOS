@@ -21,9 +21,6 @@ protocol PostDetailCommentDelegate: AnyObject {
 }
 
 final class PostDetailCommentHeader: UITableViewHeaderFooterView {
-  
-  static let id = String(describing: PostDetailCommentHeader.self)
-  
   // MARK: - Properties
   private let commentView = BasePostDetailCommentableView(usageType: .comment)
   

@@ -8,8 +8,6 @@
 import UIKit
 
 final class PostDetailProfileAreaFooterView: UITableViewHeaderFooterView {
-  static let id = String(describing: PostDetailProfileAreaFooterView.self)
-  
   enum Constant {
     enum ProfileAreaViewSpacing {
       static let leaidng: CGFloat = 10

@@ -8,6 +8,6 @@
 import Foundation
 
 struct PostCommentUpdateRequestDTO: Encodable {
-  let commentId: String
+  let commentId: CommentIdentifier
   let comment: String
 }

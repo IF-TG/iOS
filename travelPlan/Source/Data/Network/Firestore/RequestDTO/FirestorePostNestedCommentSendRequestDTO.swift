@@ -9,8 +9,8 @@ import Foundation
 import FirebaseFirestore
 
 struct FirestorePostNestedCommentSendRequestDTO: Encodable {
-  let nestedCommentId: String
-  let authorId: String
+  let nestedCommentId: NestedCommentIdentifier
+  let authorId: UserIdentifier
   let comment: String
   let hearts: Int
   let createAt: Timestamp

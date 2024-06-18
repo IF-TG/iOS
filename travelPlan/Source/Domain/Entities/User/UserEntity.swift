@@ -8,7 +8,7 @@
 import Foundation
 
 struct UserEntity: Equatable {
-  let id: String
+  let id: UserIdentifier
   var nickname: String
   var profileImageUrl: String
   var profileImageData: Data?

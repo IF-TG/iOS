@@ -25,7 +25,7 @@ final class DefaultPostFetchUseCase: PostFetchUseCase {
   }
   
   // TODO: - 서버에서 api제공하면 고치기.
-  func fetchPost(with postId: Int32) -> AnyPublisher<Post, any Error> {
+  func fetchPost(with postId: PostIdentifier) -> AnyPublisher<Post, any Error> {
     fatalError("서버에서 제공된 api가 없습니다.")
   }
 }

@@ -30,30 +30,30 @@ final class UserDefaultsOwnerStorage {
 
 // MARK: - OwnerStorage
 extension UserDefaultsOwnerStorage: OwnerStorage {
-  var blockedUsers: [BlockedUserId] {
-    guard let blockedUsers = UserDefaultsManager[.blockedUsers] as? [String] else {
+  var blockedUsers: [UserIdentifier] {
+    guard let blockedUsers = UserDefaultsManager[.blockedUsers] as? [UserIdentifier] else {
       return []
     }
     return blockedUsers
   }
   
-  func hasBlockedUser(with userId: BlockedUserId) -> Bool {
+  func hasBlockedUser(with userId: UserIdentifier) -> Bool {
     return blockedUsers.contains(where: { blockedUser in
       return blockedUser == userId
     })
   }
   
-  func addBlockedUser(with userId: BlockedUserId) {
+  func addBlockedUser(with userId: UserIdentifier) {
     backgroundQueue.async {
-      var blockedUserList = userDefaults[.blockedUsers] as? [String] ?? []
+      var blockedUserList = userDefaults[.blockedUsers] as? [UserIdentifier] ?? []
       blockedUserList.append(userId)
       userDefaults[.blockedUsers] = blockedUserList
     }
   }
   
-  func deleteBlockedUser(with userId: BlockedUserId) {
+  func deleteBlockedUser(with userId: UserIdentifier) {
     backgroundQueue.async {
-      var blockedUserList = userDefaults[.blockedUsers] as? [String] ?? []
+      var blockedUserList = userDefaults[.blockedUsers] as? [UserIdentifier] ?? []
       if let blockedUserIndex = blockedUserList.firstIndex(of: userId) {
         blockedUserList.remove(at: blockedUserIndex)
       }
@@ -76,7 +76,7 @@ extension UserDefaultsOwnerStorage: OwnerStorage {
     return false
   }
   
-  var id: String? {
+  var id: UserIdentifier? {
     user?.id
   }
   

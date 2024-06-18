@@ -18,10 +18,15 @@ final class PostDetailViewController: UITableViewController {
                                            PostDetailChatDataSource &
                                            PostDetailChatViewModelPageDelegate)
   
+  typealias PostDetailOptionViewModelType = (any PostOptionViewModelable &
+                                             PostOptionViewModelPageDelegate)
+  
   // MARK: - Dependencies
   private let viewModel: PostDetailViewModelType
   
   private let chatViewModel: PostDetailChatViewModelType
+  
+  private let optionViewModel: PostDetailOptionViewModelType
   
   // MARK: - UI Properties
   private let inputAccessory = PostDetailInputAccessoryWrapper()
@@ -73,10 +78,12 @@ final class PostDetailViewController: UITableViewController {
   // MARK: - Lifecycle
   init(
     viewModel: PostDetailViewModelType,
-    chatViewModel: PostDetailChatViewModelType
+    chatViewModel: PostDetailChatViewModelType,
+    optionViewModel: PostDetailOptionViewModelType
   ) {
     self.viewModel = viewModel
     self.chatViewModel = chatViewModel
+    self.optionViewModel = optionViewModel
     super.init(style: .grouped)
     adapter = PostDetailTableViewAdapter(
       dataSource: viewModel,
@@ -154,6 +161,13 @@ extension PostDetailViewController: ViewBindCase {
       .sink { [weak self] state in
         self?.render(state)
       }.store(in: &subscriptions)
+    
+    let optionViewModelOutput = optionViewModel.transform(PostOptionViewModelInput())
+    optionViewModelOutput
+      .receive(on: RunLoop.current)
+      .sink { [weak self] state in
+        self?.render(state)
+      }.store(in: &subscriptions)
   }
   
   // MARK: - render
@@ -170,10 +184,6 @@ extension PostDetailViewController: ViewBindCase {
       startIndicator()
     case .viewDidLoad(let viewDidLoadState):
       handleViewDidLoadState(viewDidLoadState)
-    case .postReport:
-      stopIndicator()
-      /// postReportNotifier, postAuthorBlockNotifier호출 완료 시점 postReport State를 전송해야 합니다.
-      viewModel.showPostReportResult()
     case .failedToFetchPost(let description):
       stopIndicator()
       viewModel.showAlertAndDismiss(with: description)
@@ -202,6 +212,27 @@ extension PostDetailViewController: ViewBindCase {
         tableView.reloadData()
         starButton.isSelected = isFavorite
       }
+    }
+  }
+  
+  func render(_ state: PostOptionViewModelState) {
+    switch state {
+    case .networkProcessing:
+      startIndicator()
+    case .completeReport:
+      stopIndicator()
+      optionViewModel.showPostReportResult()
+    case .completeUserBlock:
+      /// 이 시점에 노티피케이션을 통해서 추가적인 로직들이 실행됩니다.
+      /// Notification.Name = hasUserBlocked
+      stopIndicator()
+      /// 결과는 메인스레드에서 실행해야하는데, render시점은 메인스레드 보장임으로 이곳에서 호출합니다.
+      optionViewModel.showPostReportResult()
+    case .unexpectedError(let description):
+      stopIndicator()
+      optionViewModel.showAlertForError(with: description, completion: nil)
+    case .none:
+      break
     }
   }
     
@@ -432,8 +463,8 @@ extension PostDetailViewController: PostDetailTableViewAdapterDelegate {
     naviTitleAnimator?.startAnimation()
   }
   
-  func showUploadedUserProfilePage(with userId: Int32) {
-    print("업로드 유저 프로필 화면으로 이동!!")
+  func showUploadedUserProfilePage(with userId: UserIdentifier?) {
+    print("author profile화면이동. 그러나 구현 X 예정.")
   }
   
   func showCategoryDetailPage() {
@@ -505,7 +536,7 @@ extension PostDetailViewController: PostDetailInputAccessoryWrapperDelegate {
 // MARK: - PostHeartAndShareAreaHeaderViewDelegate
 extension PostDetailViewController: PostHeartAndShareAreaHeaderViewDelegate {
   func didTapOption() {
-    viewModel.showPostOption()
+    optionViewModel.showPostOption()
   }
   
   func didTapHeart(isFavorite: Bool) {
@@ -513,6 +544,6 @@ extension PostDetailViewController: PostHeartAndShareAreaHeaderViewDelegate {
   }
   
   func didTapShare() {
-    print("공유클릭 도깨비 아님주의.")
+    viewModel.showPostShareSheet()
   }
 }

@@ -17,7 +17,7 @@ protocol PostRepository {
   func fetchComments(
     page: Int32,
     perPage: Int32,
-    postId: String
+    postId: Int64
   ) -> AnyPublisher<PostCommentContainerEntity, Error>
   
   func fetchLikedPostsByLoggedInUser(

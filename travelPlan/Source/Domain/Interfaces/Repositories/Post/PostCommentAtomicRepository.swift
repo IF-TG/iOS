@@ -10,24 +10,24 @@ import Combine
  
 protocol PostAtomicCommentRepository {
   func fetchComments(
-    postId: String
+    postId: PostIdentifier
   ) -> AnyPublisher<[PostAtomicCommentEntity], Error>
   
   func sendComment(
-    ownerId: String,
-    postId: String,
+    ownerId: UserIdentifier,
+    postId: PostIdentifier,
     comment: String
   ) -> AnyPublisher<PostAtomicCommentEntity, Error>
   
   func updateComment(
-    postId: String,
-    commentId: String,
+    postId: PostIdentifier,
+    commentId: CommentIdentifier,
     comment: String
   ) -> AnyPublisher<Void, Error>
   
   func deleteComment(
     hasAnyNestedCommentExisted: Bool,
-    postId: String,
-    commentId: String
+    postId: PostIdentifier,
+    commentId: CommentIdentifier
   ) -> AnyPublisher<Void, Error>
 }

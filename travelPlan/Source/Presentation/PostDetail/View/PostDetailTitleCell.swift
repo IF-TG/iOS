@@ -8,8 +8,6 @@
 import UIKit
 
 final class PostDetailTitleCell: UITableViewCell {
-  static let id = String(describing: PostDetailTitleCell.self)
-  
   // MARK: - Properties
   private let titleLabel = BasePaddingLabel(
     padding: .init(top: 10, left: 20, bottom: 10, right: 20),

@@ -13,10 +13,13 @@ final class FirestoreUserProfileSettingRepository {
   typealias Endpoint = FirestoreUserProfileSettingAPIEndopint
   
   // MARK: - Dependencies
-  private let backgroundQueue: DispatchQueue
   private let service: FirestoreServiceProtocol
+  
   private let firebaseStorageService: ImageStorageServiceProtocol
+  
   private let ownerStorage: OwnerStorage
+  
+  private let backgroundQueue: DispatchQueue
   
   // MARK: - Properties
   private var subscriptions = Set<AnyCancellable?>()
@@ -25,8 +28,8 @@ final class FirestoreUserProfileSettingRepository {
   init(
     service: FirestoreServiceProtocol,
     firebaseStorageService: ImageStorageServiceProtocol,
-    backgroundQueue: DispatchQueue = .global(qos: .userInitiated),
-    ownerStorage: OwnerStorage
+    ownerStorage: OwnerStorage,
+    backgroundQueue: DispatchQueue = .global(qos: .userInitiated)
   ) {
     self.service = service
     self.ownerStorage = ownerStorage
@@ -47,7 +50,7 @@ extension FirestoreUserProfileSettingRepository: UserProfileSettingRepository {
   ///     - Firebase stroage에 프로필을 저장합니다.
   ///     - 해당 storage에 저장된 path를 받아와서 firestore에 user's collection에 userId를 문서 id로 문서를 저장합니다.
   func saveProfile(
-    with userId: String,
+    with userId: UserIdentifier,
     nickname: String,
     profileImageData: Data?
   ) -> AnyPublisher<Void, any Error> {
@@ -241,7 +244,7 @@ extension FirestoreUserProfileSettingRepository: UserProfileSettingRepository {
 
 // MARK: - Private Helpers
 extension FirestoreUserProfileSettingRepository {
-  private func saveProfileWithoutProfileImage(with userId: String, nickname: String) -> AnyPublisher<Void, Error> {
+  private func saveProfileWithoutProfileImage(with userId: UserIdentifier, nickname: String) -> AnyPublisher<Void, Error> {
     let requestDTO = UserProfileSaveRequestDTO(
       uid: userId,
       nickname: nickname,
@@ -269,7 +272,7 @@ extension FirestoreUserProfileSettingRepository {
   }
   
   private func saveProfileWithProfileImage(
-    userId: String,
+    userId: UserIdentifier,
     nickname: String,
     imageUrl: String
   ) -> AnyPublisher<Void, Error> {

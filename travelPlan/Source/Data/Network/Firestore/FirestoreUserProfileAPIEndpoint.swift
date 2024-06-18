@@ -8,7 +8,7 @@
 import Foundation
 
 struct FirestoreUserProfileAPIEndpoint {
-  static func makeUserProfileFetchEndpoint(userUID: String) -> FirestoreEndpoint<UserProfileResponseDTO> {
+  static func makeUserProfileFetchEndpoint(userUID: UserIdentifier) -> FirestoreEndpoint<UserProfileResponseDTO> {
     return .init(
       method: .get,
       requestType: .users(.userDocument(.fetchUserProfile(userUID))))

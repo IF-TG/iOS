@@ -14,6 +14,7 @@ final class FirestorePostCommentHeartRepository {
   
   // MARK: - Dependencies
   private let service: FirestoreServiceProtocol
+  
   private let backgroundQueue: DispatchQueue
   
   // MARK: - Properties
@@ -33,8 +34,8 @@ final class FirestorePostCommentHeartRepository {
 extension FirestorePostCommentHeartRepository: PostCommentHeartRepository {
   /// 댓글 좋아요한 사용자 컬랙션에 좋아요한 사용자 리스트를 받아옵니다.
   func fetchCommentHeartUsers(
-    with postId: String,
-    commentId: String
+    with postId: PostIdentifier,
+    commentId: CommentIdentifier
   ) -> AnyPublisher<[UserIdentifier], any Error> {
     let endpoint = Endpoint.makeCommentHeartUsersFetchEndpoint(with: postId, commentId: commentId)
     return Future { [weak self, backgroundQueue] promise in
@@ -47,7 +48,8 @@ extension FirestorePostCommentHeartRepository: PostCommentHeartRepository {
             promise(.failure(error))
           }
         } receiveValue: { commentHeartUsers in
-          promise(.success(commentHeartUsers))
+          // MARK: 현재 Firestore를 사용하지 않고 spring을 사용하기로 해서 사용하지 -1을 대입했습니다.
+          promise(.success(commentHeartUsers.map { Int64($0) ?? -1}))
         }
       self?.subscriptions.insert(retrieveSubscription)
     }.eraseToAnyPublisher()
@@ -55,8 +57,8 @@ extension FirestorePostCommentHeartRepository: PostCommentHeartRepository {
   
   /// 댓글 좋아요한 사용자 컬랙션에 좋아요한 사용자들 number를 받아옵니다.
   func fetchCommentHearts(
-    with postId: String,
-    commentId: String
+    with postId: PostIdentifier,
+    commentId: CommentIdentifier
   ) -> AnyPublisher<Int, any Error> {
     return Future { [weak self, backgroundQueue] promise in
       let endpoint = Endpoint.makeCommentHeartsFetchEndpoint(withPostId: postId, commentId: commentId)
@@ -76,9 +78,9 @@ extension FirestorePostCommentHeartRepository: PostCommentHeartRepository {
   
   /// 댓글 좋아요한 사용자 컬랙션에 사용자를 추가합니다.
   func heartComment(
-    with postId: String,
-    commentId: String,
-    userId: String
+    with postId: PostIdentifier,
+    commentId: CommentIdentifier,
+    userId: UserIdentifier
   ) -> AnyPublisher<Void, any Error> {
     let endpoint = Endpoint.makeCommentHeartEndpoint(with: postId, commentId: commentId, userId: userId)
     return Future { [weak self, backgroundQueue] promise in
@@ -99,9 +101,9 @@ extension FirestorePostCommentHeartRepository: PostCommentHeartRepository {
   
   /// 댓글 좋아요한 사용자 컬랙션에 사용자를 제거합니다.
   func hateComment(
-    with postId: String,
-    commentId: String,
-    userId: String
+    with postId: PostIdentifier,
+    commentId: CommentIdentifier,
+    userId: UserIdentifier
   ) -> AnyPublisher<Void, any Error> {
     let endpoint = Endpoint.makeCommentHateEndpoint(with: postId, commentId: commentId, userId: userId)
     return Future { [weak self, backgroundQueue] promise in
@@ -122,9 +124,9 @@ extension FirestorePostCommentHeartRepository: PostCommentHeartRepository {
   
   /// 트렌젝션을 통해 댓글 좋아요한 사용자에 추가하고, 댓글 필드에 heartNum을 증가 또는 감소 시킵니다.
   func updateCommentHearts(
-    with postId: String,
-    commentId: String,
-    userId: String,
+    with postId: PostIdentifier,
+    commentId: CommentIdentifier,
+    userId: UserIdentifier,
     willHeartComment: Bool
   ) -> AnyPublisher<Void, any Error> {
     let endpoint = Endpoint.makePostHeartsToggleEndpoint(with: postId, commentId: commentId)

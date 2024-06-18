@@ -68,9 +68,10 @@ final class GoogleLoginStrategyWithFirebase: LoginStrategy {
         }
         
         /// 첫 사용자인가?
+        /// 현재 firestore를 사용하지 않고 다시 spring server를 사용하기로 했으므로 uid는 -1을 넣습니다.
         if result?.additionalUserInfo?.isNewUser == true, let userUid = result?.user.uid {
           let requestDTO = UserProfileSaveRequestDTO(
-            uid: userUid,
+            uid: -1,
             nickname: "여행자",
             profileImagePath: "")
           

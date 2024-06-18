@@ -30,7 +30,7 @@ final class MyInformationCoordinator: FlowCoordinator {
     let firestoreService = FirestoreService()
     let firebaseStorageService = FirebaseStorageService()
     let stubOwnerStorage = StubOwnerStorage()
-    let loggedInUserRepository = DefaultLoggedInUserRepository(storage: stubOwnerStorage)
+    let loggedInUserRepository = DefaultLoggedInUserRepository(storage: .init(value: stubOwnerStorage))
     let loggedInUserUseCase = DefaultLoggedInUserUseCase(loggedInUserRepository: loggedInUserRepository)
     
     let userProfileSettingRepository = FirestoreUserProfileSettingRepository(

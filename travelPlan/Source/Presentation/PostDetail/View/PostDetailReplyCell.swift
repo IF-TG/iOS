@@ -20,8 +20,6 @@ protocol PostDetailReplyCellDelegate: AnyObject {
 }
 
 final class PostDetailReplyCell: UITableViewCell {
-  static let id = String(describing: PostDetailReplyCell.self)
-  
   // MARK: - Properties
   private let replyView = BasePostDetailCommentableView(usageType: .reply)
   

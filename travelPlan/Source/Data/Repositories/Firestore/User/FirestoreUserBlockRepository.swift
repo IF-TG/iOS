@@ -42,7 +42,7 @@ extension FirestoreUserBlockRepository: UserBlockRepository {
   /// 서버에 사용자를 차단하고,
   /// 로컬에 저장합니다.
   func blockUser(
-    with userId: String
+    with userId: UserIdentifier
   ) -> AnyPublisher<BlockedUserIdentifyEntity, any Error> {
     guard let ownerId = ownerStorage.id else {
       return Fail(error: OwnerError.invalidOwnerId).eraseToAnyPublisher()
@@ -73,7 +73,7 @@ extension FirestoreUserBlockRepository: UserBlockRepository {
   
   /// 차단된 사용자를 서버에 접근해 해제하고, 로컬에도 해제합니다.
   func unblockUser(
-    with blockedUserId: String
+    with blockedUserId: UserIdentifier
   ) -> AnyPublisher<Void, any Error> {
     guard let ownerId = ownerStorage.id else {
       return Fail(error: OwnerError.invalidOwnerId).eraseToAnyPublisher()
@@ -122,8 +122,10 @@ extension FirestoreUserBlockRepository: UserBlockRepository {
             promise(.failure(error))
           }
         } receiveValue: { [weak self] blockedUsers in
-          blockedUsers.forEach { self?.ownerStorage.addBlockedUser(with: $0) }
-          promise(.success(self?.makeBlockedUserIdentifiers(from: blockedUsers) ?? []))
+          // MARK: 현재 firestore가 아닌 spring server를 이용하기에, -1을 대입합니다.
+          blockedUsers.forEach { self?.ownerStorage.addBlockedUser(with: UserIdentifier($0) ?? -1) }
+          promise(.success(
+            self?.makeBlockedUserIdentifiers(from: blockedUsers.map { UserIdentifier($0) ?? -1 }) ?? []))
         }
       self?.subscriptions.insert(BlockedUsersFetchSubscription)
     }.eraseToAnyPublisher()
@@ -133,7 +135,7 @@ extension FirestoreUserBlockRepository: UserBlockRepository {
 // MARK: - Private Helpers
 private extension FirestoreUserBlockRepository {
   func makeBlockedUserIdentifiers(
-    from blockedUsers: [String]
+    from blockedUsers: [UserIdentifier]
   ) -> [BlockedUserIdentifyEntity] {
     return blockedUsers.map { BlockedUserIdentifyEntity(userId: $0, isBlocked: true) }
   }

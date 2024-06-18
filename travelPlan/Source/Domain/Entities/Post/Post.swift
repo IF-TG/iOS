@@ -44,7 +44,7 @@ struct Post {
 // MARK: - Nested
 extension Post {
   struct Detail<ContentType> {
-    let postID: String
+    let postID: PostIdentifier
     let title: String
     let content: ContentType
     let likes: Int32
@@ -67,7 +67,7 @@ extension Post {
   struct Author {
     let profileImageData: Data?
     let nickname: String
-    var authorId: String?
+    var authorId: UserIdentifier
   }
   
   struct TripDate {

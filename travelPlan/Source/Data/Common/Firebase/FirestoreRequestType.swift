@@ -41,10 +41,10 @@ import SHFirestoreService
 // MARK: - FirestoreRequest + UsersRequest
 extension FirestoreRequestType {
   @frozen enum UsersCollection {
-    typealias PostId = String
-    typealias UserId = String
-    typealias OwnerId = String
-    typealias BlockedUserId = String
+    typealias PostId = PostIdentifier
+    typealias UserId = UserIdentifier
+    typealias OwnerId = UserIdentifier
+    typealias BlockedUserId = UserIdentifier
     
     /// 모든 유저 문서 받아옴
     case fetchAllUsers
@@ -85,15 +85,15 @@ extension FirestoreRequestType {
       case .heartPost:
         return nil
       case .hatePost(_, let postId):
-        return postId
+        return String(postId)
       case .fetchHeartPostIdentifiers:
         return nil
       case .hasOwnerHeartPost(_, let postId):
-        return postId
+        return String(postId)
       case .blockUser:
         return nil
       case .unblockUser(_, let blockedUserId):
-        return blockedUserId
+        return String(blockedUserId)
       case .fetchBlockedUsers:
         return nil
       }
@@ -129,19 +129,20 @@ extension FirestoreRequestType {
   }
   
   @frozen enum UserDocument {
-    typealias OwnerId = String
-    case fetchUserProfile(String)
+    typealias OwnerId = UserIdentifier
+    
+    case fetchUserProfile(OwnerId)
     case saveUserProfile
     case updateProfileImage(OwnerId)
     case updateName(OwnerId)
     case deleteProfileImagePath(OwnerId)
     case isNameDuplicated
-    case blockedUsersCollection(String, BlockedUserCollection)
+    case blockedUsersCollection(OwnerId, BlockedUserCollection)
     
     var docuemntPath: String? {
       switch self {
       case .fetchUserProfile(let UID):
-        return UID
+        return String(UID)
       case .saveUserProfile:
         return nil
       case .blockedUsersCollection(_, let requestType):
@@ -152,11 +153,11 @@ extension FirestoreRequestType {
       case .isNameDuplicated:
         return nil
       case .updateName(let ownerId):
-        return ownerId
+        return String(ownerId)
       case .updateProfileImage(let ownerId):
-        return ownerId
+        return String(ownerId)
       case .deleteProfileImagePath(let ownerId):
-        return ownerId
+        return String(ownerId)
       }
     }
     
@@ -202,15 +203,15 @@ extension FirestoreRequestType {
 // MARK: - Posts
 extension FirestoreRequestType {
   @frozen enum PostsCollection {
-    typealias PostId = String
-    typealias UserId = String
-    typealias CommentId = String
-    typealias NestedCommentId = String
+    typealias PostId = PostIdentifier
+    typealias UserId = UserIdentifier
+    typealias CommentId = CommentIdentifier
+    typealias NestedCommentId = NestedCommentIdentifier
     
     case save
-    case update(postId: String)
+    case update(postId: PostId)
     case fetch
-    case fetchSpecificPost(postId: String)
+    case fetchSpecificPost(postId: PostId)
     
     // MARK: - PostHearts
     case fetchPostHearts(PostId)
@@ -270,7 +271,7 @@ extension FirestoreRequestType {
       "nested-comments"
     }
     
-    private func commentPath(from postId: String) -> String {
+    private func commentPath(from postId: PostIdentifier) -> String {
       return "\(rootPath)/\(postId)/\(comments)"
     }
     
@@ -279,41 +280,41 @@ extension FirestoreRequestType {
       case .save:
         return nil
       case .update(let postId):
-        return postId
+        return String(postId)
       case .fetch:
         return nil
       case .fetchSpecificPost(let postId):
-        return postId
+        return String(postId)
       case .togglePostHearts(let postId):
-        return postId
+        return String(postId)
       case .fetchPostHearts(let postId):
-        return postId
+        return String(postId)
       case .fetchCommentHeartUsers:
         return nil
       case .heartComment:
         return nil
       case .hateComment(_, _, let userId):
-        return userId
+        return String(userId)
       case .updateCommentHearts(_, let commentId):
-        return commentId
+        return String(commentId)
       case .fetchCommentHearts(_, let commentId):
-        return commentId
+        return String(commentId)
       case .saveComment:
         return nil
       case .updateComment(_, let commentId):
-        return commentId
+        return String(commentId)
       case .deleteCommentWhenNestedCommentExists(_, let commentId):
-        return commentId
+        return String(commentId)
       case .deleteComment(_, let commentId):
-        return commentId
+        return String(commentId)
       case .fetchComments:
         return nil
       case .saveNestedComment:
         return nil
       case .deleteNestedComment(_, _, let nestedCommentId):
-        return nestedCommentId
+        return String(nestedCommentId)
       case .updateNestedComment(_, _, let nestedCommentId):
-        return nestedCommentId
+        return String(nestedCommentId)
       case .fetchNestedComments:
         return nil
       case .deleteAllNestedComments:
@@ -323,11 +324,11 @@ extension FirestoreRequestType {
       case .heartNestedComment:
         return nil
       case .hateNestedComment(_, _, _, let userId):
-        return userId
+        return String(userId)
       case .updateNestedCommentHearts(_, _, let nestedCommentId):
-        return nestedCommentId
+        return String(nestedCommentId)
       case .fetchNestedCommentHearts(_, _, let nestedCommentId):
-        return nestedCommentId
+        return String(nestedCommentId)
       }
     }
     

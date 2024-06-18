@@ -8,8 +8,8 @@
 import Foundation
 
 struct PostAtomicCommentEntity {
-  let commentId: String
-  let authorId: String
+  let commentId: CommentIdentifier
+  let authorId: UserIdentifier
   let comment: String
   let createAt: Date
   let hasDeleted: Bool

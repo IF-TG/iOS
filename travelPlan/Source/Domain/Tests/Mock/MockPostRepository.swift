@@ -16,11 +16,11 @@ final class MockPostRepository: PostRepository {
   
   init() {
     self.mockService = SessionProvider(session: MockSession.default)
-    let mockUserStroage = StubOwnerStorage()
-    let defaultLoggedInUserRepository = DefaultLoggedInUserRepository(storage: mockUserStroage)
+    let stubOwnerStorage = StubOwnerStorage()
+    _ = DefaultLoggedInUserRepository(storage: Dependency(value: stubOwnerStorage))
     self.postRepository = DefaultPostRepository(
       service: mockService,
-      loggedInUserRepository: defaultLoggedInUserRepository)
+      ownerStorage: stubOwnerStorage)
   }
   
   func fetchPosts(
@@ -51,7 +51,7 @@ final class MockPostRepository: PostRepository {
   func fetchComments(
     page: Int32,
     perPage: Int32,
-    postId: String
+    postId: PostIdentifier
   ) -> AnyPublisher<PostCommentContainerEntity, any Error> {
     MockUrlProtocol.requestHandler = { _ in
       let mockData = MockResponseType.post(.whenPostCommentContainerResponse).mockDataLoader

@@ -13,12 +13,12 @@ struct PostsRequestDTO: Encodable {
   let orderMethod: String
   let mainCategory: String
   let subCategory: String?
-  let userId: Int64
+  let userId: UserIdentifier
 }
 
 // MARK: - Helpers
 extension PostsRequestDTO {
-  static func makeRequestDTO(page: Int32, perPage: Int32, category: PostCategory, userId: Int64) -> Self {
+  static func makeRequestDTO(page: Int32, perPage: Int32, category: PostCategory, userId: UserIdentifier) -> Self {
     let orderByRequestDTO = TravelOrderTypeMapper.toDTO(category.orderBy)
     let mainCategoryRequestDTO = TravelMainThemeTypeMapper.toMainCategoryDTO(category.mainTheme)
     let subCategoryRequestDTO = TravelMainThemeTypeMapper.toSubCategoryDTO(category.mainTheme)

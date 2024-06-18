@@ -15,6 +15,6 @@ protocol PostDetailTableViewAdapterDelegate: AnyObject {
   func disappearDurationInTableView()
   
   // MARK: - 프로필 페이지는 화면이 없기 때문에 일단 미반영!
-  func showUploadedUserProfilePage(with userId: Int32)
+  func showUploadedUserProfilePage(with userId: UserIdentifier?)
   func showCategoryDetailPage()
 }

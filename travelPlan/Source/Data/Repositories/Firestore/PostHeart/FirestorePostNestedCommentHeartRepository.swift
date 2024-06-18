@@ -14,6 +14,7 @@ final class FirestorePostNestedCommentHeartRepository {
   
   // MARK: - Dependencies
   private let service: FirestoreServiceProtocol
+  
   private let backgroundQueue: DispatchQueue
   
   // MARK: - Properties
@@ -33,9 +34,9 @@ final class FirestorePostNestedCommentHeartRepository {
 
 extension FirestorePostNestedCommentHeartRepository: PostNestedCommentHeartRepository {
   func fetchNestedCommentHeartUsers(
-    with postId: String,
-    commentId: String,
-    nestedCommentId: String
+    with postId: PostIdentifier,
+    commentId: CommentIdentifier,
+    nestedCommentId: NestedCommentIdentifier
   ) -> AnyPublisher<[UserIdentifier], any Error> {
     let endpoint = Endpoint.makeNestedCommentHeartUsersFetchEndpoint(
       withPostId: postId,
@@ -50,16 +51,17 @@ extension FirestorePostNestedCommentHeartRepository: PostNestedCommentHeartRepos
             promise(.failure(error))
           }
         } receiveValue: { responseDTO in
-          promise(.success(responseDTO))
+          // Spring Server를 사용해 Firestore를 사용하지 않지만, Firestore를 사용해야한다면 타입은 String이 되야 합니다.
+          promise(.success(responseDTO.map {UserIdentifier($0) ?? -1}))
         }
       self?.subscriptions.insert(fetch)
     }.eraseToAnyPublisher()
   }
   
   func fetchNestedCommentHearts(
-    with postId: String,
-    commentId: String,
-    nestedCommentId: String
+    with postId: PostIdentifier,
+    commentId: CommentIdentifier,
+    nestedCommentId: NestedCommentIdentifier
   ) -> AnyPublisher<Int, any Error> {
     let endpoint = Endpoint.makeNestedCommentHeartsFetchEndpoint(
       withPostId: postId, commentId: commentId, nestedCommentId: nestedCommentId)
@@ -79,10 +81,10 @@ extension FirestorePostNestedCommentHeartRepository: PostNestedCommentHeartRepos
   }
   
   func heartNestedComment(
-    with postId: String,
-    commentId: String,
-    nestedCommentId: String,
-    userId: String
+    with postId: PostIdentifier,
+    commentId: CommentIdentifier,
+    nestedCommentId: NestedCommentIdentifier,
+    userId: UserIdentifier
   ) -> AnyPublisher<Void, any Error> {
     let endpoint = Endpoint.makeNestedCommentHeartEndpoint(
       withPostId: postId,
@@ -104,10 +106,10 @@ extension FirestorePostNestedCommentHeartRepository: PostNestedCommentHeartRepos
   }
   
   func hateNestedComment(
-    with postId: String,
-    commentId: String,
-    nestedCommentId: String,
-    userId: String
+    with postId: PostIdentifier,
+    commentId: CommentIdentifier,
+    nestedCommentId: NestedCommentIdentifier,
+    userId: UserIdentifier
   ) -> AnyPublisher<Void, any Error> {
     let endpoint = Endpoint.makeNestedCommentHateEndpoint(
       withPostId: postId, commentId: commentId, nestedCommentId: nestedCommentId, userId: userId)
@@ -121,9 +123,9 @@ extension FirestorePostNestedCommentHeartRepository: PostNestedCommentHeartRepos
   }
   
   func updateNestedCommentHearts(
-    with postId: String,
-    commentId: String,
-    nestedCommentId: String,
+    with postId: PostIdentifier,
+    commentId: CommentIdentifier,
+    nestedCommentId: NestedCommentIdentifier,
     willHeartComment: Bool
   ) -> AnyPublisher<Void, any Error> {
     let endpoint = Endpoint.makeNestedCommentHeartsUpdateEndpoint(

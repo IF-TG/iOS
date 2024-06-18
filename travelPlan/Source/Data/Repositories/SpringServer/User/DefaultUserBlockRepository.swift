@@ -1,0 +1,73 @@
+//
+//  DefaultUserBlockRepository.swift
+//  travelPlan
+//
+//  Created by 양승현 on 4/1/24.
+//
+
+import Foundation
+import Combine
+
+final class DefaultUserBlockRepository: UserBlockRepository {
+  typealias endpoint = UserBlockAPIEndpoint
+  
+  // MARK: - Dependencies
+  private let service: Sessionable
+  private let backgroundQueue: DispatchQueue
+  
+  // MARK: - Properites
+  private var subscriptions = Set<AnyCancellable>()
+  
+  // MARK: - Lifecycle
+  init(service: Sessionable, backgroundQueue: DispatchQueue = DispatchQueue.global(qos: .background)) {
+    self.service = service
+    self.backgroundQueue = backgroundQueue
+  }
+  
+  func blockUser(with userId: UserIdentifier) -> AnyPublisher<BlockedUserIdentifyEntity, any Error> {
+    let requestDTO = UserBlockRequestDTO(blockedUserId: userId)
+    return Future { [weak self] promise in
+      guard let self else {
+        promise(.failure(ReferenceError.invalidReference))
+        return
+      }
+      service.request(endpoint: endpoint.blockUser(with: requestDTO))
+        .subscribe(on: backgroundQueue)
+        .mapConnectionError()
+        .map { $0.result }
+        .sink { completion in
+          if case .failure(let error) = completion {
+            promise(.failure(error))
+          }
+        } receiveValue: { result in
+          promise(.success(result.toDomain()))
+        }.store(in: &subscriptions)
+    }.eraseToAnyPublisher()
+  }
+  
+  /// UnblockedUser또한 내부적으로 blockedUser를 사용합니다. firestore를 사용할땐 unblock을 직접 호출하도록 작성했는데,
+  /// 스프링 서버는 내부적으로 unblock합니다.
+  func unblockUser(with blockedUserId: UserIdentifier) -> AnyPublisher<Void, any Error> {
+    return blockUser(with: blockedUserId).map { _ in return () }.eraseToAnyPublisher()
+  }
+  
+  func fetchBlockedUsers() -> AnyPublisher<[BlockedUserIdentifyEntity], any Error> {
+    return Future { [weak self] promise in
+      guard let self else {
+        promise(.failure(ReferenceError.invalidReference))
+        return
+      }
+      service.request(endpoint: endpoint.fetchBlockedUsers())
+        .subscribe(on: backgroundQueue)
+        .mapConnectionError()
+        .map { $0.result }
+        .sink { completion in
+          if case .failure(let error) = completion {
+            promise(.failure(error))
+          }
+        } receiveValue: { _ in
+          fatalError("spring server에서 제공하는 사용자 이름 프로필로는 해당 사용자를 식별할수 없습니다. api 수정되야합니다")
+        }.store(in: &subscriptions)
+    }.eraseToAnyPublisher()
+  }
+}

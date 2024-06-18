@@ -21,5 +21,5 @@ protocol UserProfileSettingRepository {
   func updateProfileImage(with profileImageData: Data) -> AnyPublisher<Bool, Error>
   func saveProfileImage(with profileImageData: Data) -> AnyPublisher<Bool, Error>
   func deleteProfileImage() -> AnyPublisher<Bool, Error>
-  func saveProfile(with userId: String, nickname: String, profileImageData: Data?) -> AnyPublisher<Void, Error> 
+  func saveProfile(with userId: UserIdentifier, nickname: String, profileImageData: Data?) -> AnyPublisher<Void, Error> 
 }

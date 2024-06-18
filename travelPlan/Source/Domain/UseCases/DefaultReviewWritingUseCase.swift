@@ -36,5 +36,5 @@ extension DefaultReviewWritingUseCase: ReviewWritingUseCase {
 
 struct ReviewWritingUseCaseUpdateRequestValue {
   let entity: ReviewWritingEntity
-  let postId: String
+  let postId: PostIdentifier
 }

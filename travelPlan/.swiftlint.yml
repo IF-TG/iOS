@@ -15,6 +15,7 @@ disabled_rules:
     - identifier_name
     - type_name
     - file_length
+    - line_length
 
 
 line_length:
@@ -26,7 +27,6 @@ line_length:
 #  min_length: 1200
 #  max_length: 1500
 
-
 nesting:
   type_level:
     warning: 5
@@ -34,4 +34,3 @@ nesting:
   statement_level:
     warning: 5
     error: 10
-

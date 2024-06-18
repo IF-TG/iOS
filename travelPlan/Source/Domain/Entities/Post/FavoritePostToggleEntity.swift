@@ -8,6 +8,6 @@
 import Foundation
 
 struct FavoritePostToggleEntity {
-  let postId: Int64
+  let postId: PostIdentifier
   let isScrapped: Bool
 }

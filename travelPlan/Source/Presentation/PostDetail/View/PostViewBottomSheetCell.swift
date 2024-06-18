@@ -8,10 +8,6 @@
 import UIKit
 
 final class PostViewBottomSheetCell: UITableViewCell {
-  // MARK: - Identnfier
-  static let id: String = .init(
-    describing: PostViewBottomSheetCell.self)
-  
   // MARK: - Constant
   struct Constant {
     enum Title {

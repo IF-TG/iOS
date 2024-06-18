@@ -8,8 +8,6 @@
 import UIKit
 
 final class PostDetailContentImageCell: UITableViewCell {
-  static let id = String(describing: PostDetailContentImageCell.self)
-  
   enum Constant {
     static let imageHeight: CGFloat = 235
   }

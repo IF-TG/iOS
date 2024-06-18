@@ -21,9 +21,9 @@ final class DefaultPostNestedCommentHeartUseCase {
 // MARK: - PostNestedCommentHeartUseCase
 extension DefaultPostNestedCommentHeartUseCase: PostNestedCommentHeartUseCase {
   func toggleNestedCommentHeart(
-    postId: String,
-    commentId: String,
-    nestedCommentId: String
+    postId: PostIdentifier,
+    commentId: CommentIdentifier,
+    nestedCommentId: NestedCommentIdentifier
   ) -> AnyPublisher<ToggledPostCommentHeartEntity, any Error> {
     return postNestedCommentRepository
       .toggleCommentHeart(nestedCommentId: nestedCommentId)

@@ -8,8 +8,6 @@
 import UIKit
 
 final class PostDetailContentTextCell: UITableViewCell {
-  static let id = String(describing: PostDetailContentTextCell.self)
-  
   // MARK: - Properties
   private lazy var label = UITextView(frame: .zero, textContainer: nil).set {
     $0.translatesAutoresizingMaskIntoConstraints = false

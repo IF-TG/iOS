@@ -8,17 +8,16 @@
 import Foundation
 import Combine
 
-class FeedPostViewModel: PostViewModel {  
+final class FeedPostViewModel: PostViewModel, PostOptionNotificationBinder {
+  // MARK: - Dependencies
+  private let postFetchUseCase: PostFetchUseCase
+  
   // MARK: - Properties
   var currentPage: Int32 = 0
   
   var nextPage: Int32 { hasMorePages ? currentPage + 1 : currentPage }
   
   let perPage: Int32 = 5
-  
-  var posts: [Post] = []
-  
-  var postThumbnails: [[Data]] = []
   
   var isPaging: Bool = false
   
@@ -35,24 +34,40 @@ class FeedPostViewModel: PostViewModel {
     attributes: .concurrent
   )
   
+  // MARK: - Data source Properties
   private var category: PostCategory
+  
+  var posts: [Post] = []
+  
+  var postThumbnails: [[Data]] = []
   
   /// 사용자가 선택한 카테고리는 요청이 완료되야만 category에 사용자가 요청했던 데이터를 보여줌과
   ///   동시에 category 사용자가 선택한 카테고리로  업데이트 해야합니다.
   private lazy var userSelectedCategory: PostCategory = category
-  
-  private let postFetchUseCase: PostFetchUseCase
-  
-  private let nextPageLoadingStartSubject = PassthroughSubject<Void, Never>()
-  
+
+  // MARK: - Combine Properties
   private let postFilterLoadingStartSubject = PassthroughSubject<Void, Never>()
   
   private let viewDidLoadHandler = PassthroughSubject<Void, Never>()
   
+  private let postHasBlockedHandler = PassthroughSubject<PostIdentifier, Never>()
+  
+  private var subscriptions = Set<AnyCancellable>()
+  
+  private let postShareNotifierByPostOption = PassthroughSubject<PostShareElement, Never>()
+  
+  var postOptionNotificationSubscriptions = Set<AnyCancellable>()
+  
+  var userWantToSharePostNotifier = PassthroughSubject<PostShareElement, Never>()
+  
+  /// haspostBlocked notification으로부터 알림을 전달받습니다.
+  var postHasBlockedNotifier = PassthroughSubject<PostBlockedElement?, Never>()
+  
   // MARK: - Lifecycle
-  init(postCategory: PostCategory, postFetchUsecase: PostFetchUseCase) {
-    self.postFetchUseCase = postFetchUsecase
+  init(postCategory: PostCategory, postFetchUseCase: PostFetchUseCase) {
+    self.postFetchUseCase = postFetchUseCase
     self.category = postCategory
+    bind()
   }
 }
 
@@ -60,6 +75,7 @@ class FeedPostViewModel: PostViewModel {
 extension FeedPostViewModel: FeedPostViewModelable {
   func transform(_ input: Input) -> AnyPublisher<State, Never> {
     return Publishers.MergeMany([
+      postShareNotifierByPostOptionSream(),
       postShareSubjectStream(input),
       postBlockSubjectStream(input),
       postFilterLoadingStartSubjectStream(),
@@ -67,16 +83,25 @@ extension FeedPostViewModel: FeedPostViewModelable {
       notifiedMainThemeFilterRequestStream(input),
       viewDidLoadStream(input),
       viewDidLoadHandlerStream(),
-      nextPageStream(input),
+      isAvailableNextPageStream(input),
+      fetchNextPageStream(input),
       feedRefreshStream(input),
-      nextPageLoadingStartSubjectStream(),
-      specificPostTappedStream(input)]
+      specificPostTappedStream(input),
+      postHasBlockedHandlerStream()]
     ).eraseToAnyPublisher()
   }
 }
 
-// MARK: - Private Helpers
+// MARK: - Private Stream Helpers
 private extension FeedPostViewModel {
+  // MARK: - 포스트 공유 Stream
+  func postShareNotifierByPostOptionSream() -> Output {
+    return postShareNotifierByPostOption
+      .map { element -> State in
+        return .share(element.postTitle, element.postId)
+      }.eraseToAnyPublisher()
+  }
+  
   // TODO: - 포스트 아이디 Int로 변환해야함.
   func postShareSubjectStream(_ input: Input) -> Output {
     return input.postShareSubject.map { [weak self] indexPath -> State in
@@ -84,23 +109,11 @@ private extension FeedPostViewModel {
         return .unexpectedError(description: "앱 내부 서비스 에러가 발생됬습니다.")
       }
       let title = item.header.contentInfo.title
-      return .share(title, Int(item.postId)!)
+      return .share(title, item.postId)
     }.eraseToAnyPublisher()
   }
   
-  func postBlockSubjectStream(_ input: Input) -> Output {
-    return input.postBlockSubject.map { [weak self] blockedPostId -> State in
-      let blockedPostIdIndex = self?.posts.firstIndex(where: {
-        Int32($0.detail.postID)! == blockedPostId
-      })
-      guard let blockedPostIdIndex else {
-        return .unexpectedError(description: "앱 내부 동작 에러가 발생됬습니다. 차단된 포스트 아이디가 식별 불가능합니다.")
-      }
-      self?.posts.remove(at: blockedPostIdIndex)
-      return .deleteBlockedPost(IndexPath(item: blockedPostIdIndex, section: PostViewSection.post.rawValue))
-    }.eraseToAnyPublisher()
-  }
-  
+  // MARK: - 포스트 필터 관련 Stream
   func postFilterLoadingStartSubjectStream() -> Output {
     postFilterLoadingStartSubject.map { [weak self] _ -> State in
       self?.isPostFiltering = true
@@ -168,6 +181,7 @@ private extension FeedPostViewModel {
       }.eraseToAnyPublisher()
   }
   
+  // MARK: - 피드 life cycle 관련 Stream
   func viewDidLoadStream(_ input: Input) -> Output {
     return input.viewDidLoad.map { [weak self] _ in
       DispatchQueue.global(qos: .userInitiated).async {
@@ -191,15 +205,26 @@ private extension FeedPostViewModel {
       }.eraseToAnyPublisher()
   }
   
-  func nextPageStream(_ input: Input) -> Output {
-    return input.nextPage
-      .flatMap { [weak self] _ -> Output in
+  // MARK: - 포스트 페이징 관련 Stream
+  func isAvailableNextPageStream(_ input: Input) -> Output {
+    return input.isAvailableNextPage
+      .map { [weak self] _ -> State in
         if let hasMorePages = self?.hasMorePages, !hasMorePages {
-          return Just(State.pagination(.noMorePage)).eraseToAnyPublisher()
+          return .pagination(.noMorePage)
         }
         self?.isPaging = true
-        self?.nextPageLoadingStartSubject.send()
-        return self?.fetchPosts()
+        return .pagination(.loadingNextPage)
+      }
+      .eraseToAnyPublisher()
+  }
+  
+  func fetchNextPageStream(_ input: Input) -> Output {
+    return input.fetchNextPage
+      .flatMap { [weak self] _ -> Output in
+        guard let self else {
+          return Just(.unexpectedError(description: "앱 동작 에러가 발생됬습니다.")).eraseToAnyPublisher()
+        }
+        return fetchPosts()
           .map { [weak self] _ -> State in
             if self?.hasMorePages == false {
               self?.isPaging = false
@@ -210,13 +235,11 @@ private extension FeedPostViewModel {
             }))
           }.catch { error in
             return Just(State.unexpectedError(description: error.localizedDescription))
-          }.eraseToAnyPublisher() ?? Just(
-            State.unexpectedError(description: "앱 동작 에러가 발생됬습니다.")
-          ).eraseToAnyPublisher()
-      }
-      .eraseToAnyPublisher()
+          }.eraseToAnyPublisher()
+      }.eraseToAnyPublisher()
   }
   
+  // MARK: - 포스트 Reload 관련 Stream
   func feedRefreshStream(_ input: Input) -> Output {
     return input.feedRefresh
       .flatMap { [weak self] in
@@ -232,12 +255,6 @@ private extension FeedPostViewModel {
       }.eraseToAnyPublisher()
   }
   
-  func nextPageLoadingStartSubjectStream() -> Output {
-    nextPageLoadingStartSubject.map { _ -> State in
-      return .pagination(.loadingNextPage)
-    }.eraseToAnyPublisher()
-  }
-  
   func specificPostTappedStream(_ input: Input) -> Output {
     return input.specificPostTapped
       .map { [weak self] index -> State in
@@ -248,16 +265,74 @@ private extension FeedPostViewModel {
       }.eraseToAnyPublisher()
   }
   
+  // MARK: - 포스트 차단 관련 stream
+  func postHasBlockedHandlerStream() -> Output {
+    return postHasBlockedHandler
+      .receive(on: DispatchQueue.main) // 삭제로직은 sync 동작되는 main thread에서 담당하므로 동시성 문제 해결.
+      .map { [weak self] postId -> State in
+      let blockedPostIdIndex = self?.posts.firstIndex(where: {
+        $0.detail.postID == postId
+      })
+      
+      guard let blockedPostIdIndex else {
+        return .unexpectedError(description: "앱 내부 동작 에러가 발생됬습니다. 차단된 포스트 아이디가 식별 불가능합니다.")
+      }
+      // MARK: 주의! posts 뿐 아니라 postThumbnails에 대해서도 동일하게 삭제해야합니다.
+      /// PostViewAdapter에서는 posts가 아니라 postThumbnails 변수를 통해 cell identifier를식별하기 때문입니다.
+      /// 주의!!!!! 나이스 - 석현이형 -
+      self?.posts.remove(at: blockedPostIdIndex)
+      self?.postThumbnails.remove(at: blockedPostIdIndex)
+      return .deleteBlockedPost(IndexPath(item: blockedPostIdIndex, section: PostViewSection.post.rawValue))
+    }.eraseToAnyPublisher()
+  }
+  
+  /// 포스트 상세 화면에서 차단로직 호출될 경우 포스트 피드에서도 해당 포스트를 제거하는 로직입니다.
+  func postBlockSubjectStream(_ input: Input) -> Output {
+    return input.postBlockSubject.map { [weak self] blockedPostId -> State in
+      self?.postHasBlockedHandler.send(blockedPostId)
+      return .none
+    }.eraseToAnyPublisher()
+  }
+}
+
+// MARK: - Helpers
+extension FeedPostViewModel {
+  @inlinable
   func appendPosts(_ postPages: PostsPage) {
     posts += postPages.posts
   }
-  
+}
+
+// MARK: - Private Helpers
+extension FeedPostViewModel {
   func removeAllPage() {
     queueForLocking.async(flags: .barrier) { [weak self] in
       self?.currentPage = 0
       self?.posts.removeAll()
       self?.postThumbnails.removeAll()
       self?.hasMorePages = true
+    }
+  }
+  
+  func bind() {
+    bindPostOptionResult { [weak self] element in
+      if let element = element {
+        /// 섬네일 화면에서 해당 포스트 차단한 경우
+        guard element.postOptionLocation == .summaryPage(nil) else {
+          return
+        }
+        if case .summaryPage(let themeType) = element.postOptionLocation {
+          if themeType?.rawValue == self?.category.mainTheme.rawValue {
+            /// 포스트 옵션 뷰 모델에서 서머리 페이지에서 발생된 신고의 경우 해당 메인 카테고리의 어느 카테고리인지 명시하지 않으면,
+            ///   노티피케이션 특징으로 인해 서로 다른 카테고리의 feed post viewModel에서 반응하게 됩니다.
+            ///
+            /// 포스트 상세화면에서 포스트가 차단될 경우, PostOptionVM에서 차단 완료 알림창을 수행합니다..
+            self?.postHasBlockedHandler.send(element.postId)
+          }
+        }
+      }
+    } postShareHandler: { [weak self] element in
+      self?.postShareNotifierByPostOption.send(element)
     }
   }
 }
@@ -298,6 +373,17 @@ extension FeedPostViewModel {
 
 // MARK: - FeedPostViewAdapterDataSource
 extension FeedPostViewModel: FeedPostViewAdapterDataSource {
+  func postInfoForPostOption(
+    from indexPath: IndexPath
+  ) -> PostOptionInfo {
+    let post = posts[indexPath.row]
+    return PostOptionInfo(
+      postId: post.detail.postID,
+      authorId: post.author.authorId,
+      authorName: post.author.nickname,
+      postTitle: post.detail.title)
+  }
+  
   var headerItem: PostFilterOptions {
     return .travelMainTheme(category.mainTheme)
   }
@@ -310,6 +396,7 @@ extension FeedPostViewModel: FeedPostViewAdapterDataSource {
     return PostThumbnailCountValue(postItem(at: index).content.thumbnailImageDataList.count)
   }
   
+  /// PostThumbnails Cell의 선정은 postThumbnails 프로퍼티에 의해 결정됩니다.
   func postItem(at index: Int) -> PostInfo {
     let post = posts[index]
     let postInfo = PostMapper.toPostInfo(post, thumbnails: postThumbnails[index])

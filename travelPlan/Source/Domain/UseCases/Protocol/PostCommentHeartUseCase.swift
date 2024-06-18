@@ -9,5 +9,8 @@ import Foundation
 import Combine
 
 protocol PostCommentHeartUseCase {
-  func toggleCommentHeart(postId: String, commentId: String) -> AnyPublisher<ToggledPostCommentHeartEntity, Error>
+  func toggleCommentHeart(
+    postId: PostIdentifier,
+    commentId: CommentIdentifier
+  ) -> AnyPublisher<ToggledPostCommentHeartEntity, Error>
 }

@@ -55,7 +55,8 @@ extension FirestoreOwnerHeartPostRepository: OwnerHeartPostRepository {
             promise(.failure(error))
           }
         } receiveValue: { postIdentifiers in
-          promise(.success(postIdentifiers))
+          // MARK: 현재 firestore가 아닌 spring server를 사용하기에 사용되지 않음으로 옵셔널 해제시 -1부여합니다.
+          promise(.success(postIdentifiers.map { PostIdentifier($0) ?? -1}))
         }
       self?.subscriptions.insert(request)
     }.eraseToAnyPublisher()

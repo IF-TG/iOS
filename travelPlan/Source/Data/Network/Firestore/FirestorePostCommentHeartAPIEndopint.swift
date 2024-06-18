@@ -8,30 +8,29 @@
 import Foundation
 
 struct FirestorePostCommentHeartAPIEndopint {
-  typealias UserIdentifier = String
   static func makeCommentHeartUsersFetchEndpoint(
-    with postId: String,
-    commentId: String
-  ) -> FirestoreEndpoint<[UserIdentifier]> {
+    with postId: PostIdentifier,
+    commentId: CommentIdentifier
+  ) -> FirestoreEndpoint<[String]> {
     return FirestoreEndpoint(
       method: .retrieveDocumentIdList,
       requestType: .posts(.fetchCommentHeartUsers(postId, commentId)))
   }
   
   static func makeCommentHeartEndpoint(
-    with postId: String,
-    commentId: String,
-    userId: String
+    with postId: PostIdentifier,
+    commentId: CommentIdentifier,
+    userId: UserIdentifier
   ) -> FirestoreEndpoint<UserIdentifier> {
     return .init(
-      method: .save(userId),
+      method: .save(String(userId)),
       requestType: .posts(.heartComment(postId, commentId)))
   }
   
   static func makeCommentHateEndpoint(
-    with postId: String,
-    commentId: String,
-    userId: String
+    with postId: PostIdentifier,
+    commentId: CommentIdentifier,
+    userId: UserIdentifier
   ) -> FirestoreEndpoint<VoidResponseDTO> {
     return .init(
       method: .delete,
@@ -39,8 +38,8 @@ struct FirestorePostCommentHeartAPIEndopint {
   }
   
   static func makePostHeartsToggleEndpoint(
-    with postId: String,
-    commentId: String
+    with postId: PostIdentifier,
+    commentId: CommentIdentifier
   ) -> FirestoreEndpoint<VoidResponseDTO> {
     return.init(
       method: .update,
@@ -48,8 +47,8 @@ struct FirestorePostCommentHeartAPIEndopint {
   }
   
   static func makeCommentHeartsFetchEndpoint(
-    withPostId postId: String,
-    commentId: String
+    withPostId postId: PostIdentifier,
+    commentId: CommentIdentifier
   ) -> FirestoreEndpoint<PostNestedCommentHeartsResponseDTO> {
     return .init(
       method: .get,

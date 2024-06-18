@@ -10,8 +10,8 @@ import FirebaseFirestore
 
 struct FirestoreReviewWritingSaveRequestDTO: Encodable {
   var reviewWritingSaveRequestDTO: ReviewWritingSaveRequestDTO
-  let postId: String
-  let authorId: String
+  let postId: PostIdentifier
+  let authorId: UserIdentifier
   let likeNum: Int = 0
   let commentNum: Int = 0
   let createAt: Timestamp
@@ -60,8 +60,8 @@ struct FirestoreReviewWritingSaveRequestDTO: Encodable {
 extension FirestoreReviewWritingSaveRequestDTO {
   static func makeRequestDTO(
     entity: ReviewWritingEntity,
-    postId: String,
-    authorId: String
+    postId: PostIdentifier,
+    authorId: UserIdentifier
   ) -> Self {
     return .init(
       reviewWritingSaveRequestDTO: ReviewWritingSaveRequestDTO.makeRequestDTO(entity: entity),

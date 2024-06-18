@@ -10,12 +10,14 @@ import Foundation
 
 struct FeedPostViewModelInput {
   let feedRefresh: PassthroughSubject<Void, Never> = .init()
-  let nextPage: PassthroughSubject<Void, Never> = .init()
+  let isAvailableNextPage: PassthroughSubject<Void, Never> = .init()
+  let fetchNextPage: PassthroughSubject<Void, Never> = .init()
+  
   let viewDidLoad: PassthroughSubject<Void, Never> = .init()
   let notifiedOrderFilterRequest: PassthroughSubject<TravelOrderType, Never>
   let notifiedMainThemeFilterRequest: PassthroughSubject<TravelMainThemeType, Never>
   let specificPostTapped: PassthroughSubject<Int, Never> = .init()
-  let postBlockSubject: PassthroughSubject<Int32, Never> = .init()
+  let postBlockSubject: PassthroughSubject<UserIdentifier, Never> = .init()
   let postShareSubject: PassthroughSubject<IndexPath, Never> = .init()
   
   init(
@@ -29,7 +31,6 @@ struct FeedPostViewModelInput {
 
 @frozen enum FeedPostViewModelState {
   typealias Title = String
-  typealias PostId = Int
   
   case viewDidLoad
   case refresh
@@ -37,7 +38,7 @@ struct FeedPostViewModelInput {
   case unexpectedError(description: String)
   case networking
   case postFilterLoaded
-  case share(Title, PostId)
+  case share(Title, PostIdentifier)
   ///
   case detailPostShow(post: Post)
   case deleteBlockedPost(IndexPath)

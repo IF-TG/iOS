@@ -13,9 +13,11 @@ final class FirestoreUserProfileRepository {
   typealias Endpoint = FirestoreUserProfileAPIEndpoint
   
   // MARK: - Dependencies
-  private let backgroundQueue: DispatchQueue
   private let service: FirestoreServiceProtocol
+  
   private let firebaseStorageService: ImageStorageServiceProtocol
+  
+  private let backgroundQueue: DispatchQueue
   
   // MARK: - Properties
   private var subscriptions = Set<AnyCancellable?>()
@@ -34,7 +36,7 @@ final class FirestoreUserProfileRepository {
 
 // MARK: - UserProfileRepository
 extension FirestoreUserProfileRepository: UserProfileRepository {
-  func fetchProfile(with userId: String) -> AnyPublisher<UserEntity, any Error> {
+  func fetchProfile(with userId: UserIdentifier) -> AnyPublisher<UserEntity, any Error> {
     let endpoint = Endpoint.makeUserProfileFetchEndpoint(userUID: userId)
     return Future { [weak self, backgroundQueue] promise in
       let requestSubscription = self?.service.request(endpoint: endpoint)
@@ -69,7 +71,7 @@ extension FirestoreUserProfileRepository: UserProfileRepository {
   }
   
   func fetchProfileImageData(
-    with userId: String
+    with userId: UserIdentifier
   ) -> AnyPublisher<ProfileImageEntity, any Error> {
     return Future { [weak self] promise in
       let subscription = self?.fetchProfile(with: userId).sink { completion in

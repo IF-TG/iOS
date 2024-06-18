@@ -83,8 +83,7 @@ final class ReviewWritingViewController: UIViewController {
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    tabBarController?.tabBar.isHidden = true
-    (tabBarController as? MainTabBarController)?.hideShadowLayer()
+    updateTabBarVisibility(false)
     finishButton.isEnabled = false
   }
   
@@ -98,8 +97,7 @@ final class ReviewWritingViewController: UIViewController {
   
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
-    tabBarController?.tabBar.isHidden = false
-    (tabBarController as? MainTabBarController)?.showShadowLayer()
+    updateTabBarVisibility(true)
   }
   
   override func viewSafeAreaInsetsDidChange() {

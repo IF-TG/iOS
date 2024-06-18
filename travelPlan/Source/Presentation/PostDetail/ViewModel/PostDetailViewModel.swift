@@ -12,7 +12,7 @@ import Combine
   case failedToFetchPostDetails(Error)
 }
 
-final class PostDetailViewModel {
+final class PostDetailViewModel: PostOptionNotificationBinder {
   typealias SectionType = PostDetailSection
 
   // MARK: - Dependencies
@@ -20,52 +20,41 @@ final class PostDetailViewModel {
   
   private let ownerRepository: LoggedInUserRepository
   
-  private let userBlockUseCase: UserBlockUseCase
-  
   // MARK: - Properties
   private var postDetails: PostDetails?
   
-  private var isLoadedByUniversalLink = false
-  
-  private let postId: Int32
+  private let postId: PostIdentifier
   
   private let actions: PostDetailViewModelActions?
   
-  private var postDetailOption: PostDetailOption? = .none
-  
   // MARK: - Combine Properties
-  private var postSubscription: AnyCancellable?
+  private var subscriptions = Set<AnyCancellable>()
   
   private let postDetailsFetchNotifier = PassthroughSubject<Void, Never>()
   
   private let errorHandler = PassthroughSubject<PostDetailViewModelError, Never>()
   
-  private let postAuthoommentEditNotifier = PassthroughSubject<IndexPath, Never>()
-  
   private let loggedInUserUseCaseHandler = PassthroughSubject<Void, Never>()
   
-  private let postReportNotifier = PassthroughSubject<PostReportType, Never>()
-  
-  private let postReportHandler = PassthroughSubject<PostReportType, Never>()
-  
-  private let postAuthorBlockNotifier = PassthroughSubject<Void, Never>()
-  
-  private let postAuthorBlockHandler = PassthroughSubject<Void, Never>()
-  
   private let navigationInfo = PassthroughSubject<Void, Never>()
+  
+  var postOptionNotificationSubscriptions = Set<AnyCancellable>()
+  
+  var postHasBlockedNotifier = PassthroughSubject<PostBlockedElement?, Never>()
+  
+  var userWantToSharePostNotifier = PassthroughSubject<PostShareElement, Never>()
   
   // MARK: - Lifecycle
   init(
     post: Post?,
-    postId: Int32,
+    postId: PostIdentifier,
     postFetchUseCase: PostFetchUseCase,
     ownerRepository: LoggedInUserRepository,
-    userBlockUseCase: UserBlockUseCase,
     actions: PostDetailViewModelActions?
   ) {
     if let post = post {
       self.postDetails = PostMapper.toPostDetails(post, category: post.category)
-      self.postId = Int32(post.detail.postID) ?? -1
+      self.postId = post.detail.postID
     } else {
       /// postId만 존재한다는 것은 universal link를 통해 공유하기 로직으로 접근된 것입니다.
       /// 이 경우 피드 화면 -> 상세화면으로 오는게 아닌, 특정 postId를 기반으로 바로 상세화면으로 접근되는 것이기에, 별도로 서버에 fetch 해야합니다.
@@ -73,8 +62,8 @@ final class PostDetailViewModel {
     }
     self.postFetchUseCase = postFetchUseCase
     self.ownerRepository = ownerRepository
-    self.userBlockUseCase = userBlockUseCase
     self.actions = actions
+    bind()
   }
   
   deinit {
@@ -84,6 +73,17 @@ final class PostDetailViewModel {
 
 // MARK: - PostDetailViewModelPageDelegate
 extension PostDetailViewModel: PostDetailViewModelPageDelegate {
+  func showPostShareSheet() {
+    guard let postDetails else {
+      actions?.showAlertForError("포스트 상세 화면 데이터가 존재하지 않습니다.", nil)
+      return
+    }
+    let postActivityItemSource = PostActivityItemSource(
+      title: postDetails.detail.title,
+      postId: postDetails.detail.postID)
+    actions?.showPostShareSheet(postActivityItemSource)
+  }
+  
   func showAlertAndDismiss(with description: String) {
     showAlertForError(with: description) { [weak self] in
       self?.actions?.finishWithAnim()
@@ -105,47 +105,6 @@ extension PostDetailViewModel: PostDetailViewModelPageDelegate {
   
   func showAlertForError(with description: String, completion: (() -> Void)?) {
     actions?.showAlertForError(description, completion)
-  }
-  
-  func showPostOption() {
-    actions?.showPostOption { [weak self] optionState in
-      self?.postDetailOption = optionState
-      switch optionState {
-      case .postBlock:
-        guard let authorNickname = self?.postDetails?.author.nickname else {
-          self?.showAlertForError(with: "앱 내부 문제가 발생되어 포스트 옵션을 선택할 수 없습니다.", completion: nil)
-          self?.postDetailOption = nil
-          return
-        }
-        self?.actions?.showPostAuthorBlock(authorNickname) { wannaBlock in
-          if wannaBlock {
-            self?.postAuthorBlockNotifier.send()
-          } else {
-            self?.postDetailOption = nil
-          }
-        }
-      case .postReport:
-        self?.actions?.showPostReport { reportType in
-          if reportType == .stopRequest {
-            self?.postDetailOption = nil
-            return
-          }
-          self?.postReportNotifier.send(reportType)
-        }
-      }
-    }
-  }
-  
-  func showPostReportResult() {
-    guard let postDetailOption, let postDetails else {
-      actions?.showAlertForError("앱 내부 문제가 발생됬습니다.", nil)
-      return
-    }
-    actions?.showPostReportResult(postDetailOption)
-    if postDetailOption == .postBlock {
-      actions?.showFeedAfterBlockingFeed(Int32(postDetails.detail.postID) ?? -1)
-    }
-    self.postDetailOption = nil
   }
   
   func showCategory() {
@@ -175,11 +134,7 @@ extension PostDetailViewModel: PostDetailViewModelable {
       errorHandlerStream(),
       postDetailsFetchNotifierStream(),
       navigationInfoStream(),
-      loggedInUserUseCaseHandlerStream(),
-      postReportNotifierStream(),
-      postAuthorBlockNotifierStream(),
-      postReportHandlerStream(),
-      postAuthorBlockHandlerStream()
+      loggedInUserUseCaseHandlerStream()
     ]).eraseToAnyPublisher()
   }
 }
@@ -242,78 +197,6 @@ private extension PostDetailViewModel {
         isPostOwner: postAuthorId == ownerId))
     }.eraseToAnyPublisher()
   }
-  
-  func postReportNotifierStream() -> Output {
-    return postReportNotifier
-      .map { reportType -> State in
-        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-          self?.postReportHandler.send(reportType)
-        }
-        return .networkProcessing
-      }.eraseToAnyPublisher()
-  }
-  
-  func postAuthorBlockNotifierStream() -> Output {
-    return postAuthorBlockNotifier
-      .map { _ -> State in
-        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-          self?.postAuthorBlockHandler.send()
-        }
-        return .networkProcessing
-      }.eraseToAnyPublisher()
-  }
-  
-  func postReportHandlerStream() -> Output {
-    return postReportHandler.flatMap { responseType in
-      // TODO: - 포스트 신고하기 api 없음.
-      print(responseType)
-      // 참고로 지금시점 네트워크 프로세싱 중.
-      // 여기서 이제 레포지토리로 리포트 사유를 같이 보낸 후에 성공 아님 실패 결과 반환하면 됩 니다.
-      // 신고 완료 후
-      // return postResult 호출해야합니다. 그 곳에서 postDetailOption을 nil 처리합니다.
-//      switch responseType {
-//      case .inaccurateInformation:
-//
-//      case .personalInformationExposure:
-//
-//      case .spamOrRepetitiveContent:
-//
-//      case .vulgarOrAbusiveLanguage:
-//
-//      case .obsceneContent:
-//
-//      case .harmfulToMinors:
-//
-//      case .stopRequest:
-//
-//      }
-      return Just(State.unexpectedError(description: "포스트 신고하기 api가 없습니다."))
-        .eraseToAnyPublisher()
-      
-    }.eraseToAnyPublisher()
-  }
-  
-  func postAuthorBlockHandlerStream() -> Output {
-    return postAuthorBlockHandler.flatMap { [weak self] _ in
-      guard let self else {
-        return Just(State.unexpectedError(description: "앱 내부 에러가 발생됬습니다.")).eraseToAnyPublisher()
-      }
-      guard let authorId = postDetails?.author.authorId else {
-        return Just(State.unexpectedError(
-          description: "포스트 저자 id가 없어 차단 api 호출할 수 없습니다")
-        ).eraseToAnyPublisher()
-      }
-      return userBlockUseCase.blockUser(with: authorId)
-        .map { [weak self] _ in
-          self?.ownerRepository.addBlockedUser(with: authorId)
-          return .postReport(.completeUserBlock)
-        }
-        .catch { error in
-          return Just(State.unexpectedError(description: error.localizedDescription)).eraseToAnyPublisher()
-        }
-        .eraseToAnyPublisher()
-    }.eraseToAnyPublisher()
-  }
 }
 
 // MARK: - Private Helpers
@@ -321,6 +204,18 @@ private extension PostDetailViewModel {
   func configureForInitialSetting() {
     navigationInfo.send()
     loggedInUserUseCaseHandler.send()
+  }
+
+  func bind() {
+    bindPostOptionResult { [weak self] element in
+      if let element = element {
+        if element.postId == self?.postId && element.postOptionLocation == .detailPage {
+          self?.actions?.showFeedAfterBlockingFeed(element.postId)
+        }
+      }
+    } postShareHandler: { [weak self] element in
+      self?.actions?.showPostShare(element)
+    }
   }
   
   func convertToString(_ travelMainTheme: TravelMainThemeType, subTheme: String) -> String {
@@ -336,8 +231,8 @@ private extension PostDetailViewModel {
     }
   }
   
-  func fetchPostDetails(with postId: Int32) {
-    postSubscription = postFetchUseCase
+  func fetchPostDetails(with postId: Int64) {
+    postFetchUseCase
       .fetchPost(with: postId).sink { [weak self] completion in
       if case.failure(let error) = completion {
         self?.errorHandler.send(.failedToFetchPostDetails(error))
@@ -345,8 +240,8 @@ private extension PostDetailViewModel {
     } receiveValue: { [weak self] postEntity in
       self?.postDetails = PostMapper.toPostDetails(postEntity, category: postEntity.category)
       self?.postDetailsFetchNotifier.send()
-      // 노티피케이션 센터한테 보내야함.
-    }
+      // TODO: - 노티피케이션 센터한테 보내야함.
+    }.store(in: &subscriptions)
   }
 }
 
@@ -356,8 +251,8 @@ private extension PostDetailViewModel {
 /// postDetails not nil 프로퍼티를 바탕으로 데이터를 adapter한테 반환합니다.
 extension PostDetailViewModel: PostDetailTableViewDataSource {
   /// 포스트 업로드한 사용자 프로필로 이동히가 위해서 사용됩니다.
-  var authorUserId: Int32 {
-    return Int32(postDetails?.author.authorId ?? "-1") ?? -1
+  var authorUserId: UserIdentifier? {
+    return postDetails?.author.authorId
   }
   
   var title: String {
@@ -411,7 +306,7 @@ extension PostDetailViewModel: PostDetailTableViewDataSource {
   }
   
   var numberOfSections: Int {
-    guard let postDetails else { return 0 }
+    if postDetails == nil { return 0 }
     return SectionType.defaultNumberOfSections
   }
   
@@ -434,17 +329,22 @@ extension PostDetailViewModel: PostDetailTableViewDataSource {
 // MARK: - ReviewWritingPostReceivable
 extension PostDetailViewModel: ReviewWritingPostReceivable {
   func receive(post: Post?) {
-    // TODO: - 편집한 리뷰작성 Post를 기반으로 화면을 갱신해야 합니다.
+    // MARK: - 편집한 리뷰작성 Post를 기반으로 화면을 갱신해야 합니다.
     // 이 아래꺼로 새로 작성된 post를 postDetails로 반영하고 reloadData 해주면 됩니다.
     // self.postDetails = PostMapper.toPostDetails(post, category: category)
     
     // FIXME: - 포스트 편집된거 줄때 카테고리도 편집될수있어서 카테고리까지 같이 줘야 합니다.
     print("DEBUG: PostDetailViewModel에서 편집된 post 객체 받음")
+    // MARK: - 포스트 상세 화면에서 포스트를 수정한 경우
+    // (특히 제목을 수정한 경우)에 PostDetailVC -> PostOpttionVM으로 변경된 PostTitle정보를 전달해야합니다.
+    // PostOptionVMInput을 통해 새로 변경된 데이터들을 PostDetailVM에서 보내야 합니다.
+    
     if post == nil {
       // MARK: - firestore를 통해서 업로드한 것임으로 postId에서 데이터 받아와야합니다.
       // 받아온 후에 아래 로직으로 호출!
       // self.postDetails = PostMapper.toPostDetails(post, category: category)
-    } else if let post = post {
+    } else if  post != nil {
+      // MARK: - 이거 위 분기처리 let post = post 이거로 해야합니다. 지금 switlint준수하려구 이렇게 임시 적으로 했습니다.
       // self.postDetails = PostMapper.toPostDetails(post, category: category)
     }
   }
