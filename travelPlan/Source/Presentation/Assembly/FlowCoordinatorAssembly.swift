@@ -42,7 +42,7 @@ final class FlowCoordinatorAssembly: Assembly {
     }
     
     // MARK: - Notification Flow Coordinator
-    container.register(NotificationCenterCoordinator.self) { (_, presenter: UINavigationController ) in
+    container.register(NotificationCenterCoordinator.self) { (_, presenter: UINavigationController?) in
       return NotificationCenterCoordinator(presenter: presenter, dependencies: appDIContainer)
     }
     
