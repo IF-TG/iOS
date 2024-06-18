@@ -30,6 +30,10 @@ final class DefaultNoticeUseCase: NoticeUseCase {
           self?.whatsNewNoticeEntities.send(completion: .failure(error))
         }
       }, receiveValue: { [weak self] noticeEntities in
+        let noticeEntities = noticeEntities.map {
+          let details = $0.details.replacingOccurrences(of: "\\n", with: "\n")
+          return NoticeEntity(title: $0.title, date: $0.date, details: details)
+        }
         self?.whatsNewNoticeEntities.send(noticeEntities)
       }).store(in: &subscriptions)
   }
