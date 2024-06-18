@@ -544,6 +544,6 @@ extension PostDetailViewController: PostHeartAndShareAreaHeaderViewDelegate {
   }
   
   func didTapShare() {
-    print("공유클릭 도깨비 아님주의.")
+    viewModel.showPostShareSheet()
   }
 }

@@ -11,6 +11,7 @@ import Alamofire
 import SHFirestoreService
 
 final class FirebaseRepositoryAssembly: Swinject.Assembly {
+  // swiftlint:disable:next function_body_length
   func assemble(container: Swinject.Container) {
     // MARK: - SHFirestoreService
     container.register(FirestoreServiceProtocol.self, name: .implementation(.firestore)) { _ in

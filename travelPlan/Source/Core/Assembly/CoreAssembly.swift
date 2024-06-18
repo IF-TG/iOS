@@ -10,6 +10,7 @@ import Swinject
 import Alamofire
 
 final class CoreAssembly: Swinject.Assembly {
+  // swiftlint:disable:next function_body_length
   func assemble(container: Swinject.Container) {
     // MARK: - BackgroundTaskManager
     container.register(BackgroundTaskManager.self, name: .implementation(.default)) { _ in

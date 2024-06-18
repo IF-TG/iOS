@@ -94,8 +94,9 @@ extension FeedPostViewModel: FeedPostViewModelable {
   }
 }
 
-// MARK: - Private Helpers
+// MARK: - Private Stream Helpers
 private extension FeedPostViewModel {
+  // MARK: - 포스트 공유 Stream
   func postShareNotifierByPostOptionSream() -> Output {
     return postShareNotifierByPostOption
       .map { element -> State in
@@ -114,14 +115,7 @@ private extension FeedPostViewModel {
     }.eraseToAnyPublisher()
   }
   
-  /// 포스트 상세 화면에서 차단로직 호출될 경우 포스트 피드에서도 해당 포스트를 제거하는 로직입니다.
-  func postBlockSubjectStream(_ input: Input) -> Output {
-    return input.postBlockSubject.map { [weak self] blockedPostId -> State in
-      self?.postHasBlockedHandler.send(blockedPostId)
-      return .none
-    }.eraseToAnyPublisher()
-  }
-  
+  // MARK: - 포스트 필터 관련 Stream
   func postFilterLoadingStartSubjectStream() -> Output {
     postFilterLoadingStartSubject.map { [weak self] _ -> State in
       self?.isPostFiltering = true
@@ -189,6 +183,7 @@ private extension FeedPostViewModel {
       }.eraseToAnyPublisher()
   }
   
+  // MARK: - 피드 life cycle 관련 Stream
   func viewDidLoadStream(_ input: Input) -> Output {
     return input.viewDidLoad.map { [weak self] _ in
       DispatchQueue.global(qos: .userInitiated).async {
@@ -212,6 +207,7 @@ private extension FeedPostViewModel {
       }.eraseToAnyPublisher()
   }
   
+  // MARK: - 포스트 페이징 관련 Stream
   func isAvailableNextPageStream(_ input: Input) -> Output {
     return input.isAvailableNextPage
       .map { [weak self] _ -> State in
@@ -245,6 +241,7 @@ private extension FeedPostViewModel {
       }.eraseToAnyPublisher()
   }
   
+  // MARK: - 포스트 Reload 관련 Stream
   func feedRefreshStream(_ input: Input) -> Output {
     return input.feedRefresh
       .flatMap { [weak self] in
@@ -270,7 +267,7 @@ private extension FeedPostViewModel {
       }.eraseToAnyPublisher()
   }
   
-  // MARK: - 포스트 차단
+  // MARK: - 포스트 차단 관련 stream
   func postHasBlockedHandlerStream() -> Output {
     return postHasBlockedHandler
       .receive(on: DispatchQueue.main) // 삭제로직은 sync 동작되는 main thread에서 담당하므로 동시성 문제 해결.
@@ -291,10 +288,25 @@ private extension FeedPostViewModel {
     }.eraseToAnyPublisher()
   }
   
+  /// 포스트 상세 화면에서 차단로직 호출될 경우 포스트 피드에서도 해당 포스트를 제거하는 로직입니다.
+  func postBlockSubjectStream(_ input: Input) -> Output {
+    return input.postBlockSubject.map { [weak self] blockedPostId -> State in
+      self?.postHasBlockedHandler.send(blockedPostId)
+      return .none
+    }.eraseToAnyPublisher()
+  }
+}
+
+// MARK: - Helpers
+extension FeedPostViewModel {
+  @inlinable
   func appendPosts(_ postPages: PostsPage) {
     posts += postPages.posts
   }
-  
+}
+
+// MARK: - Private Helpers
+extension FeedPostViewModel {
   func removeAllPage() {
     queueForLocking.async(flags: .barrier) { [weak self] in
       self?.currentPage = 0

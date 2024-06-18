@@ -9,6 +9,7 @@ import Foundation
 import Swinject
 
 final class PersistentStorageAssembly: Swinject.Assembly {
+  // swiftlint:disable:next function_body_length
   func assemble(container: Swinject.Container) {
     // MARK: - PersistentStorages UserStorage
     container.register(OwnerStorage.self, name: .implementation(.default)) { _ in

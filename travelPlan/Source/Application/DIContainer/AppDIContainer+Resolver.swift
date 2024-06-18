@@ -37,6 +37,7 @@ extension AppDIContainer {
     return resolver.resolve(Service.self, name: name, arguments: arg1, arg2, arg3)!
   }
   
+  // swiftlint:disable:next function_parameter_count
   func resolve<Service, Arg1, Arg2, Arg3, Arg4, Arg5>(
     _: Service.Type,
     name: String? = nil,
@@ -45,6 +46,7 @@ extension AppDIContainer {
     return resolver.resolve(Service.self, name: name, arguments: arg1, arg2, arg3, arg4, arg5)!
   }
   
+  // swiftlint:disable:next function_parameter_count
   func resolve<Service, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7>(
     _: Service.Type,
     name: String? = nil,

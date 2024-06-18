@@ -25,8 +25,9 @@ extension ScrollableViewRegister where Self: UICollectionView {
     self.register(R.self, forCellWithReuseIdentifier: R.identifier)
   }
   
-  // TODO: - Supplimentary view도 register 추가하기.
-  // func register<R>
+  func register<R>(type: R.Type, forSupplementaryViewOfKind kind: String) where R: UICollectionReusableView {
+    self.register(R.self, forSupplementaryViewOfKind: kind, withReuseIdentifier: R.identifier)
+  }
 }
 
 extension UITableView: ScrollableViewRegister {}
