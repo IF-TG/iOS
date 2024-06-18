@@ -25,6 +25,8 @@ final class PostDetailViewModel {
   // MARK: - Properties
   private var postDetails: PostDetails?
   
+  private var isLoadedByUniversalLink = false
+  
   private let postId: Int32
   
   private let actions: PostDetailViewModelActions?
@@ -66,6 +68,7 @@ final class PostDetailViewModel {
       self.postId = Int32(post.detail.postID) ?? -1
     } else {
       /// postId만 존재한다는 것은 universal link를 통해 공유하기 로직으로 접근된 것입니다.
+      /// 이 경우 피드 화면 -> 상세화면으로 오는게 아닌, 특정 postId를 기반으로 바로 상세화면으로 접근되는 것이기에, 별도로 서버에 fetch 해야합니다.
       self.postId = postId
     }
     self.postFetchUseCase = postFetchUseCase
@@ -195,8 +198,7 @@ private extension PostDetailViewModel {
   /// Universal link에 의해 포스트 상세화면에 접근될 경우 호출되는 stream입니다.
   func postDetailsFetchNotifierStream() -> Output {
     return postDetailsFetchNotifier.map { [weak self] _ -> State in
-      self?.navigationInfo.send()
-      self?.loggedInUserUseCaseHandler.send()
+      self?.configureForInitialSetting()
       return .viewDidLoad(.reloadData)
     }.eraseToAnyPublisher()
   }
@@ -221,8 +223,7 @@ private extension PostDetailViewModel {
           self?.fetchPostDetails(with: postId)
           return .networkProcessing
         }
-        self?.navigationInfo.send()
-        self?.loggedInUserUseCaseHandler.send()
+        self?.configureForInitialSetting()
         return .none
       }.eraseToAnyPublisher()
   }
@@ -317,6 +318,11 @@ private extension PostDetailViewModel {
 
 // MARK: - Private Helpers
 private extension PostDetailViewModel {
+  func configureForInitialSetting() {
+    navigationInfo.send()
+    loggedInUserUseCaseHandler.send()
+  }
+  
   func convertToString(_ travelMainTheme: TravelMainThemeType, subTheme: String) -> String {
     "\(travelMainTheme.rawValue) > \(subTheme)"
   }
@@ -339,6 +345,7 @@ private extension PostDetailViewModel {
     } receiveValue: { [weak self] postEntity in
       self?.postDetails = PostMapper.toPostDetails(postEntity, category: postEntity.category)
       self?.postDetailsFetchNotifier.send()
+      // 노티피케이션 센터한테 보내야함.
     }
   }
 }
