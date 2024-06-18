@@ -17,11 +17,11 @@ final class DefaultUserBlockUseCase: UserBlockUseCase {
     self.userBlockRepository = userBlockRepository
   }
     
-  func blockUser(with userId: String) -> AnyPublisher<BlockedUserIdentifyEntity, any Error> {
+  func blockUser(with userId: UserIdentifier) -> AnyPublisher<BlockedUserIdentifyEntity, any Error> {
     return userBlockRepository.blockUser(with: userId)
   }
   
-  func unblockUser(with blockedUserId: String) -> AnyPublisher<Void, any Error> {
+  func unblockUser(with blockedUserId: UserIdentifier) -> AnyPublisher<Void, any Error> {
     return userBlockRepository.unblockUser(with: blockedUserId)
   }
   

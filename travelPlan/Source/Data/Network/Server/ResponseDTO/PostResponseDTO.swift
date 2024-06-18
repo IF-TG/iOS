@@ -10,8 +10,10 @@ import os.log
 
 struct PostResponseDTO: Decodable {
   // MARK: - Properties
-  let postID: String
+  let postID: PostIdentifier
   let postImages: [PostImage]
+  // TODO: - 서버에서 autourId를 api에 추가하면 반영 CodingKeys에 반영해야합니다.
+  let authorId: UserIdentifier
   let title: String
   let content: String
   let likes: Int32
@@ -32,6 +34,7 @@ struct PostResponseDTO: Decodable {
   enum CodingKeys: String, CodingKey {
     case postID = "postId"
     case postImages = "postImgUri"
+    case authorId
     case title
     case content
     case likes = "likeNum"
@@ -52,7 +55,8 @@ struct PostResponseDTO: Decodable {
   
   init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
-    self.postID = String(try container.decode(Int.self, forKey: .postID))
+    self.postID = try container.decode(PostIdentifier.self, forKey: .postID)
+    self.authorId = try container.decode(UserIdentifier.self, forKey: .authorId)
     self.postImages = try container.decode([PostImage].self, forKey: .postImages)
     self.title = try container.decode(String.self, forKey: .title)
     self.content = try container.decode(String.self, forKey: .content)
@@ -134,7 +138,7 @@ extension PostResponseDTO {
   }
   
   func toDomain(with authorProfileData: Data?) -> Post.Author {
-    .init(profileImageData: authorProfileData, nickname: nickname)
+    .init(profileImageData: authorProfileData, nickname: nickname, authorId: authorId)
   }
   
   func toDomain() -> Post.TripDate {

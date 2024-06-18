@@ -8,7 +8,7 @@
 import Foundation
 
 struct PostCommentHeartToggleRequestDTO: Encodable {
-  let id: String
+  let id: PostIdentifier
 
   enum CodingKeys: String, CodingKey {
     case id = "objectId"

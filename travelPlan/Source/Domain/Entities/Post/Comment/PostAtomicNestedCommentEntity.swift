@@ -8,8 +8,8 @@
 import Foundation
 
 struct PostAtomicNestedCommentEntity {
-  let nestedCommentId: String
-  let authorId: String
+  let nestedCommentId: NestedCommentIdentifier
+  let authorId: UserIdentifier
   let comment: String
   let createAt: Date
   let hearts: Int

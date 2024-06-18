@@ -14,7 +14,7 @@ protocol FeedCoordinatorDependencies {
   func makePostDetailCoordinator(
     presenter: UINavigationController?,
     post: Post?,
-    postId: Int32
+    postId: PostIdentifier
   ) -> PostDetailCoordinator
   func makePostSearchCoordinator(presenter: UINavigationController?) -> PostSearchCoordinator
   func makeNotificationCoordinator(presenter: UINavigationController?) -> NotificationCenterCoordinator
@@ -25,7 +25,7 @@ protocol FeedCoordinatorDependencies {
 }
 
 protocol FeedPostCoordinatorDelegate: AnyObject {
-  func showDetailPost(post: Post, blockedPost: @escaping (Int32) -> Void)
+  func showDetailPost(post: Post, blockedPost: @escaping (PostIdentifier) -> Void)
   func showPostShareSheet(with activityItem: PostActivityItemSource)
   func showAlertForError(with description: String, completion: (() -> Void)?)
   
@@ -69,7 +69,7 @@ final class FeedCoordinator: FlowCoordinator, AlertCoordinatable, PostOptionCoor
     presenter?.pushViewController(feedViewController, animated: true)
   }
     
-  func showPostDetailFromUniversalLink(with postId: Int32) {
+  func showPostDetailFromUniversalLink(with postId: PostIdentifier) {
     /// 사용자가 공유하기로 포스트 상세화면을 들어갈 경우
     ///   차단하기 로직 실행시 메인 화면으로 전환시 해당 포스트가 존재하지 않기에, childCoordinator's blockedPost를 호출하지 않습니다.
     let childCoordinator = dependencies.makePostDetailCoordinator(
@@ -109,11 +109,11 @@ final class FeedCoordinator: FlowCoordinator, AlertCoordinatable, PostOptionCoor
 
 // MARK: - FeedPostCoordinatorDelegate
 extension FeedCoordinator: FeedPostCoordinatorDelegate {
-  func showDetailPost(post: Post, blockedPost: @escaping (Int32) -> Void) {
+  func showDetailPost(post: Post, blockedPost: @escaping (PostIdentifier) -> Void) {
     let childCoordinator = dependencies.makePostDetailCoordinator(
       presenter: presenter,
       post: post,
-      postId: Int32(post.detail.postID)!)
+      postId: post.detail.postID)
     
     childCoordinator.blockedPost = { blockedPostId in
       blockedPost(blockedPostId)

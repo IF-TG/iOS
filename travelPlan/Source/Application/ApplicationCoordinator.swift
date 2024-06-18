@@ -88,7 +88,7 @@ extension ApplicationCoordinator {
   /// universal link로 들어온 경우 ( 공유하기 )
   /// 로그인하지 않은 경우 로그인 화면으로,
   /// 로그인한 사용자인 경우 상세 화면으로 전환합니다.
-  func gotoFeedDetailByUniversalLink(with postId: Int32?) {
+  func gotoFeedDetailByUniversalLink(with postId: UserIdentifier?) {
     guard isSignIn else {
       gotoLoginPage(alertMessage: "로그인을 하셔야 앱을 이용할 수 있습니다.")
       return

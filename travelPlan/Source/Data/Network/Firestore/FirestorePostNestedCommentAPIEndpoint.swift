@@ -8,23 +8,22 @@
 import Foundation
 
 struct FirestorePostNestedCommentAPIEndpoint {
-  typealias NestedCommentIdentifier = String
   static func makeNestedCommentSendEndpoint(
-    withPostId postId: String,
-    commentId: String,
-    nestedCommentId: String,
+    withPostId postId: PostIdentifier,
+    commentId: CommentIdentifier,
+    nestedCommentId: NestedCommentIdentifier,
     requestDTO: FirestorePostNestedCommentSendRequestDTO
   ) -> FirestoreEndpoint<NestedCommentIdentifier> {
     return FirestoreEndpoint(
       requestDTO: requestDTO,
-      method: .save(nestedCommentId),
+      method: .save(String(nestedCommentId)),
       requestType: .posts(.saveNestedComment(postId, commentId)))
   }
   
   static func makeNestedCommentDeleteEndpoint(
-    withPostId postId: String,
-    commentId: String,
-    nestedCommentId: String
+    withPostId postId: PostIdentifier,
+    commentId: CommentIdentifier,
+    nestedCommentId: NestedCommentIdentifier
   ) -> FirestoreEndpoint<VoidResponseDTO> {
     return FirestoreEndpoint(
       method: .delete,
@@ -32,9 +31,9 @@ struct FirestorePostNestedCommentAPIEndpoint {
   }
   
   static func makeNestedCommentUpdateEndpoint(
-    withPostId postId: String,
-    commentId: String,
-    nestedCommentId: String,
+    withPostId postId: PostIdentifier,
+    commentId: CommentIdentifier,
+    nestedCommentId: NestedCommentIdentifier,
     requestDTO: PostNestedCommentUpdateRequestDTO
   ) -> FirestoreEndpoint<VoidResponseDTO> {
     return FirestoreEndpoint(
@@ -44,8 +43,8 @@ struct FirestorePostNestedCommentAPIEndpoint {
   }
   
   static func makeNestedCommentsFetchEndpoint(
-    withPostId postId: String,
-    commentId: String
+    withPostId postId: PostIdentifier,
+    commentId: CommentIdentifier
   ) -> FirestoreEndpoint<[PostAtomicNestedCommentResponseDTO]> {
     return FirestoreEndpoint(
       method: .get,
@@ -53,8 +52,8 @@ struct FirestorePostNestedCommentAPIEndpoint {
   }
 
   static func makeTheNumberOfNestedCommentsFetchEndpoint(
-    withPostId postId: String,
-    commentId: String
+    withPostId postId: PostIdentifier,
+    commentId: CommentIdentifier
   ) -> FirestoreEndpoint<Int> {
     return FirestoreEndpoint(
       method: .retrieveNumberOfDocuments,
@@ -62,8 +61,8 @@ struct FirestorePostNestedCommentAPIEndpoint {
   }
   
   static func makeNestedCommentsAllDeleteEndpoint(
-    withPostId postId: String,
-    commentId: String
+    withPostId postId: PostIdentifier,
+    commentId: CommentIdentifier
   ) -> FirestoreEndpoint<VoidResponseDTO> {
     return FirestoreEndpoint(
       method: .deleteACollection,

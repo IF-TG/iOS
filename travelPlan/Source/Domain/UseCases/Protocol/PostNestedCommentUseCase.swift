@@ -9,20 +9,20 @@ import Combine
 
 protocol PostNestedCommentUseCase {
   func sendNestedComment(
-    postId: String,
-    commentId: String,
+    postId: PostIdentifier,
+    commentId: CommentIdentifier,
     comment: String
   ) -> AnyPublisher<PostNestedCommentEntity, Error>
   func updateNestedComment(
-    postId: String,
-    commentId: String,
-    nestedCommentId: String,
+    postId: PostIdentifier,
+    commentId: CommentIdentifier,
+    nestedCommentId: NestedCommentIdentifier,
     comment: String
   ) -> AnyPublisher<Bool, Error>
   func deleteNestedComment(
-    postId: String,
-    commentId: String,
-    nestedCommentId: String,
+    postId: PostIdentifier,
+    commentId: CommentIdentifier,
+    nestedCommentId: NestedCommentIdentifier,
     hasDeletedComment: Bool
   ) -> AnyPublisher<DeletedNestedCommentResult, Error>
 }

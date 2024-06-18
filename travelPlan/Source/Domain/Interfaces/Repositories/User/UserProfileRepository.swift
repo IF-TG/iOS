@@ -9,6 +9,6 @@ import Foundation
 import Combine
 
 protocol UserProfileRepository {
-  func fetchProfileImageData(with userId: String) -> AnyPublisher<ProfileImageEntity, Error>
-  func fetchProfile(with userId: String) -> AnyPublisher<UserEntity, Error>
+  func fetchProfileImageData(with userId: UserIdentifier) -> AnyPublisher<ProfileImageEntity, Error>
+  func fetchProfile(with userId: UserIdentifier) -> AnyPublisher<UserEntity, Error>
 }

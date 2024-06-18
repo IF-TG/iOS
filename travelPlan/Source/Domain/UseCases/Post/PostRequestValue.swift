@@ -16,5 +16,5 @@ struct PostFetchRequestValue {
 struct PostCommentsRequestValue {
   let page: Int32
   let perPage: Int32
-  let postId: String
+  let postId: PostIdentifier
 }

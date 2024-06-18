@@ -12,7 +12,6 @@ final class PostFetchUseCaseImpl {
   typealias IndexedUserEntity = (index: Int, user: UserEntity)
   typealias IndexedUserPublisher = AnyPublisher<IndexedUserEntity, any Error>
   typealias FilteredPostsOutput = AnyPublisher<PostsPage, any Error>
-  typealias PostIdentifier = String
   
   // MARK: - Dependencies
   private let postFetchAtomicRepository: PostFetchAtomicRepository
@@ -48,7 +47,7 @@ final class PostFetchUseCaseImpl {
 // MARK: - PostFetchUseCase
 extension PostFetchUseCaseImpl: PostFetchUseCase, PostsPageCreatable {
   func fetchPost(
-    with postId: Int32
+    with postId: PostIdentifier
   ) -> AnyPublisher<Post, any Error> {
     fatalError("현재 spring server를 다시 사용하기에 firestore를 사용하지 않지만, 다시 firestore 사용해야한다면 이 함수 구현해야합니다.")
   }
@@ -66,6 +65,7 @@ extension PostFetchUseCaseImpl: PostFetchUseCase, PostsPageCreatable {
       }
       
       let hasHeartPost: [Bool] = atomicPosts.compactMap { [weak self] atomicPost -> Bool? in
+        // MARK: - Firestore를 사용하게 될 경우 uuid는 String을 사용해야 합니다.
         return self?.hasOwnerHeartPost(ownerheartPostIdentifiers, postId: atomicPost.detail.postID)
       }
       

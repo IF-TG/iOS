@@ -1,7 +1,7 @@
 {
   "result": [
     {
-      "postId": "0",
+      "postId": 0,
       "profileImgUri": "tempProfile1",
       "title": "포스트1",
       "nickname": "Capturing the Beauty of Ocean Bliss",
@@ -42,7 +42,7 @@
       "liked": true
     },
     {
-      "postId": "1",
+      "postId": 1,
       "profileImgUri": "tempProfile2",
       "title": "포스트11",
       "nickname": "닉네임2",
@@ -87,7 +87,7 @@
       "liked": true
     },
     {
-      "postId": "0",
+      "postId": 0,
       "profileImgUri": "tempProfile3",
       "title": "포스트3",
       "nickname": "닉네임3",

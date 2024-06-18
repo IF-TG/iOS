@@ -174,8 +174,13 @@ extension DefaultReviewWritingViewModel {
         switch mode {
         case .new:
           // TODO: - 사용자가 정의한 테마 설정을 기반으로 eneity를 정의해야합니다.
+          
+          // MARK: About postId.
+          // postId를 생성한 이유는 Firestore를 사용할 때 postId를 직접 지정하기 위해서 입니다.
+          // 지정할 때 identifiable한 알고리즘을 사용해야합니다.
+          // 지금은 spring server을 사용하므로 -1을 넣습니다.
           let tempThemeEntity = ReviewWritingEntity(
-            postId: UUID().uuidString,
+            postId: -1,
             category: .init(themes: [.adventure],
                             regions: [.busan],
                             seasons: [.fall],

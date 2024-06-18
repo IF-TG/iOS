@@ -20,13 +20,13 @@ final class DefaultUserProfileRepository: UserProfileRepository {
     self.service = service
   }
   
-  func fetchProfileImageData(with userId: String) -> AnyPublisher<ProfileImageEntity, Error> {
+  func fetchProfileImageData(with userId: UserIdentifier) -> AnyPublisher<ProfileImageEntity, Error> {
     return Future { [weak self] promise in
-      guard let self, let id = Int64(userId) else {
+      guard let self else {
         promise(.failure(ReferenceError.invalidReference))
         return
       }
-      let requestDTO = UserIdReqeustDTO(userId: id)
+      let requestDTO = UserIdReqeustDTO(userId: userId)
       let endpoint = UserInfoAPIEndpoint.fetchProfile(with: requestDTO)
       
       service.request(endpoint: endpoint)
@@ -48,7 +48,7 @@ final class DefaultUserProfileRepository: UserProfileRepository {
     }.eraseToAnyPublisher()
   }
   
-  func fetchProfile(with userId: String) -> AnyPublisher<UserEntity, any Error> {
+  func fetchProfile(with userId: UserIdentifier) -> AnyPublisher<UserEntity, any Error> {
     fatalError("서버에서 구현되지 않은 api 요청 함수입니다.")
   }
 }

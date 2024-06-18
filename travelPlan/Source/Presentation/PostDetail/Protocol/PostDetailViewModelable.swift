@@ -21,7 +21,7 @@ protocol PostDetailViewModelPageDelegate: AnyObject {
 // MARK: - Actions
 /// 뷰 모델에서 사용할 타입. -> 코디네이터에서 구현
 struct PostDetailViewModelActions {
-  typealias PostId = Int32
+  typealias PostId = Int64
   typealias PostTitle = String
   typealias PostShareElement = (postId: PostId, postTitle: PostTitle)
   

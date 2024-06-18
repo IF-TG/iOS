@@ -8,7 +8,8 @@
 import Foundation
 
 struct PostCommentResponseDTO: Decodable {
-  let commentId: String
+  let commentId: CommentIdentifier
+  let authorId: UserIdentifier
   let userProfileURL: String
   let nickname: String
   let timestamp: String
@@ -22,6 +23,8 @@ struct PostCommentResponseDTO: Decodable {
   enum CodingKeys: String, CodingKey {
     case commentId
     case userProfileURL = "profileImgUri"
+    // TODO: - 서버에서 authorId api에 추가하면 해당 key로 대응해야 합니다.
+    case authorId
     case nickname
     case timestamp = "createAt"
     case comment
@@ -36,10 +39,9 @@ struct PostCommentResponseDTO: Decodable {
 // MARK: - Mappings to Domain
 extension PostCommentResponseDTO {
   func toDomain(with commentAuthorImageData: Data?, nestedCommentAuthorsImageData: [Data?]) -> PostCommentEntity {
-    // MARK: - FIXME: - 서버에서 autourID를 받아와야합니다.
     return PostCommentEntity(
       commentId: commentId, 
-      authorId: "",
+      authorId: authorId,
       userProfileImageData: commentAuthorImageData,
       userName: nickname,
       timestamp: timestamp,

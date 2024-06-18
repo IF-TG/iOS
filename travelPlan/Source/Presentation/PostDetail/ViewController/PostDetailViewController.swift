@@ -463,8 +463,8 @@ extension PostDetailViewController: PostDetailTableViewAdapterDelegate {
     naviTitleAnimator?.startAnimation()
   }
   
-  func showUploadedUserProfilePage(with userId: Int32) {
-    print("업로드 유저 프로필 화면으로 이동!!")
+  func showUploadedUserProfilePage(with userId: UserIdentifier?) {
+    print("author profile화면이동. 그러나 구현 X 예정.")
   }
   
   func showCategoryDetailPage() {

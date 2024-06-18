@@ -9,8 +9,8 @@ import Foundation
 import FirebaseFirestore
 
 struct FirestorePostCommentResponseDTO: Decodable {
-  let authorId: String
-  let commentId: String
+  let authorId: UserIdentifier
+  let commentId: CommentIdentifier
   let comment: String
   let createAt: Timestamp
   let hasDeleted: Bool

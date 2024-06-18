@@ -59,7 +59,7 @@ extension PostOptionViewModel: PostOptionViewModelPageDelegate {
     // TODO: - id Int32로 수정해야합니다.
     if let postId = dataSource.postId,
        let postTitle = dataSource.postTitle,
-       Int32(ownerRepository.id!)! == dataSource.postAuthorId {
+       ownerRepository.id == dataSource.postAuthorId {
       actions.showPostOptionForMine {
         PostNotificationManager.shared.notifyUserWantToSharePost(postId: postId, postTitle: postTitle)
       }
@@ -209,9 +209,9 @@ private extension PostOptionViewModel {
         return Just(.unexpectedError(description: "여행 후기 포스트 저자의 식별자가 유효하지 않습니다.")).eraseToAnyPublisher()
       }
       
-      return userBlockUseCase.blockUser(with: String(postAuthorId))
+      return userBlockUseCase.blockUser(with: postAuthorId)
         .map { [weak self, postAuthorId] _ in
-          self?.ownerRepository.addBlockedUser(with: String(postAuthorId))
+          self?.ownerRepository.addBlockedUser(with: postAuthorId)
           return .completeUserBlock
         }
         .catch { error in

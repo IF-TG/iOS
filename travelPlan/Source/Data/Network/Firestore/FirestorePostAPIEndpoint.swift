@@ -16,7 +16,7 @@ struct FirestorePostAPIEndpoint {
   }
   
   static func makeSpecificPostFetchEndpoint(
-    postId: String
+    postId: PostIdentifier
   ) -> FirestoreEndpoint<FirestorePostResponseDTO> {
     return FirestoreEndpoint(
       method: .get,

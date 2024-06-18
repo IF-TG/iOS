@@ -39,7 +39,7 @@ final class DefaultPostHeartUseCase {
 // MARK: - PostHeartUseCase
 extension DefaultPostHeartUseCase: PostHeartUseCase {
   func fetchPostHearts(
-    _ postId: String
+    _ postId: PostIdentifier
   ) -> AnyPublisher<Int, any Error> {
     return postHeartRepository
       .fetchPostHearts(postId)
@@ -48,7 +48,7 @@ extension DefaultPostHeartUseCase: PostHeartUseCase {
   }
   
   func heartPost(
-    _ postId: String
+    _ postId: PostIdentifier
   ) -> AnyPublisher<Void, any Error> {
     return Future { [weak self] promise in
       guard let ownerId = self?.loggedInUserRepository.id else {
@@ -85,7 +85,7 @@ extension DefaultPostHeartUseCase: PostHeartUseCase {
   }
   
   func hatePost(
-    _ postId: String
+    _ postId: PostIdentifier
   ) -> AnyPublisher<Void, any Error> {
     return Future { [weak self] promise in
       guard let ownerId = self?.loggedInUserRepository.id else {
@@ -126,7 +126,7 @@ extension DefaultPostHeartUseCase: PostHeartUseCase {
 private extension DefaultPostHeartUseCase {
   func handlePostHeartsUpdate(
     with group: DispatchGroup,
-    usingPostId postId: String,
+    usingPostId postId: PostIdentifier,
     willHeartPost: Bool,
     promise: @escaping Future<Void, Error>.Promise
   ) {

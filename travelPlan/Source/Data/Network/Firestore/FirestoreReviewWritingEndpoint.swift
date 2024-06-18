@@ -13,7 +13,7 @@ struct FirestoreReviewWritingEndpoint {
   ) -> FirestoreEndpoint<ReviewWritingSaveResponseDTO> {
     return .init(
       requestDTO: requestDTO,
-      method: .save(requestDTO.postId),
+      method: .save(String(requestDTO.postId)),
       requestType: .posts(.save))
   }
   

@@ -9,8 +9,6 @@ import Foundation
 import Combine
 
 final class FeedPostViewModel: PostViewModel, PostOptionNotificationBinder {
-  typealias PostId = Int32
-  
   // MARK: - Dependencies
   private let postFetchUseCase: PostFetchUseCase
   
@@ -52,7 +50,7 @@ final class FeedPostViewModel: PostViewModel, PostOptionNotificationBinder {
   
   private let viewDidLoadHandler = PassthroughSubject<Void, Never>()
   
-  private let postHasBlockedHandler = PassthroughSubject<PostId, Never>()
+  private let postHasBlockedHandler = PassthroughSubject<PostIdentifier, Never>()
   
   private var subscriptions = Set<AnyCancellable>()
   
@@ -100,7 +98,7 @@ private extension FeedPostViewModel {
   func postShareNotifierByPostOptionSream() -> Output {
     return postShareNotifierByPostOption
       .map { element -> State in
-        return .share(element.postTitle, FeedPostViewModelState.PostId(element.postId))
+        return .share(element.postTitle, element.postId)
       }.eraseToAnyPublisher()
   }
   
@@ -111,7 +109,7 @@ private extension FeedPostViewModel {
         return .unexpectedError(description: "앱 내부 서비스 에러가 발생됬습니다.")
       }
       let title = item.header.contentInfo.title
-      return .share(title, Int(item.postId)!)
+      return .share(title, item.postId)
     }.eraseToAnyPublisher()
   }
   
@@ -273,7 +271,7 @@ private extension FeedPostViewModel {
       .receive(on: DispatchQueue.main) // 삭제로직은 sync 동작되는 main thread에서 담당하므로 동시성 문제 해결.
       .map { [weak self] postId -> State in
       let blockedPostIdIndex = self?.posts.firstIndex(where: {
-        Int32($0.detail.postID)! == postId
+        $0.detail.postID == postId
       })
       
       guard let blockedPostIdIndex else {
@@ -379,10 +377,9 @@ extension FeedPostViewModel: FeedPostViewAdapterDataSource {
     from indexPath: IndexPath
   ) -> PostOptionInfo {
     let post = posts[indexPath.row]
-    // TODO: - 사용자 아이디는 존재해야합니다. 서버 api가 반영되니 post authorid 옵셔널 제거해야합니다.
     return PostOptionInfo(
-      postId: Int32(post.detail.postID) ?? -1,
-      authorId: Int32(post.author.authorId!) ?? -1,
+      postId: post.detail.postID,
+      authorId: post.author.authorId,
       authorName: post.author.nickname,
       postTitle: post.detail.title)
   }

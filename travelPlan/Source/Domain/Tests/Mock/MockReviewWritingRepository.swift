@@ -31,7 +31,7 @@ extension MockReviewWritingRepository: ReviewWritingRepository {
       .eraseToAnyPublisher()
   }
   
-  func updatePost(entity: ReviewWritingEntity, postId: String) -> AnyPublisher<Post?, any Error> {
+  func updatePost(entity: ReviewWritingEntity, postId: PostIdentifier) -> AnyPublisher<Post?, any Error> {
     MockUrlProtocol.requestHandler = { _ in
       let mockResponseData = MockResponseType.post(.reviewWritingPostResponse).mockDataLoader
       return ((HTTPURLResponse(), mockResponseData))

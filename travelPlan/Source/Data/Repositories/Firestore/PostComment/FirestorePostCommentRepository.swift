@@ -51,20 +51,21 @@ final class FirestorePostCommentRepository {
 // MARK: - PostAtomicCommentRepository
 extension FirestorePostCommentRepository: PostAtomicCommentRepository {
   func sendComment(
-    ownerId: String,
-    postId: String,
+    ownerId: UserIdentifier,
+    postId: PostIdentifier,
     comment: String
   ) -> AnyPublisher<PostAtomicCommentEntity, any Error> {
-    let commentId = UUID().uuidString
+    // 현재 Firestore가 아닌 Spring server을 사용하기로 번복했기에, -1을 넣습니다.
+    // let commentId = UUID().uuidString
     
     let requestDTO = FirestorePostCommentSendRequestDTO(
-      commentId: commentId,
+      commentId: -1,
       authorId: ownerId,
       createAt: Timestamp(date: Date()),
       comment: comment,
       hasDeleted: false,
       heartNum: 0)
-    let endpoint = Endpoint.makeCommentSendEndpoint(postId: postId, commentId: commentId, with: requestDTO)
+    let endpoint = Endpoint.makeCommentSendEndpoint(postId: postId, commentId: -1, with: requestDTO)
     
     return Future { [weak self, backgroundQueue] promise in
       guard let self else {
@@ -80,7 +81,7 @@ extension FirestorePostCommentRepository: PostAtomicCommentRepository {
           }
         } receiveValue: { _ in
           let postAtomicCommentEntity = PostAtomicCommentEntity(
-            commentId: commentId, authorId: ownerId,
+            commentId: -1, authorId: ownerId,
             comment: comment, createAt: requestDTO.createAt.dateValue(),
             hasDeleted: false, hearts: 0)
           promise(.success(postAtomicCommentEntity))
@@ -90,8 +91,8 @@ extension FirestorePostCommentRepository: PostAtomicCommentRepository {
   }
  
   func updateComment(
-    postId: String,
-    commentId: String,
+    postId: PostIdentifier,
+    commentId: CommentIdentifier,
     comment: String
   ) -> AnyPublisher<Void, any Error> {
     let requestDTO = PostCommentUpdateRequestDTO(commentId: commentId, comment: comment)
@@ -117,8 +118,8 @@ extension FirestorePostCommentRepository: PostAtomicCommentRepository {
   
   func deleteComment(
     hasAnyNestedCommentExisted: Bool,
-    postId: String,
-    commentId: String
+    postId: PostIdentifier,
+    commentId: CommentIdentifier
   ) -> AnyPublisher<Void, any Error> {
     let endpoint = switch hasAnyNestedCommentExisted {
     case true:
@@ -142,7 +143,7 @@ extension FirestorePostCommentRepository: PostAtomicCommentRepository {
   }
   
   func fetchComments(
-    postId: String
+    postId: PostIdentifier
   ) -> AnyPublisher<[PostAtomicCommentEntity], any Error> {
     let endpoint = Endpoint.makeCommentsFetchEndpoint(postId: postId)
     return Future { [weak self, backgroundQueue] promise in

@@ -17,14 +17,14 @@ protocol PostHeartRepository {
   /// func fetchHeartUsers(_ postId: String) -> AnyPublisher<[String], Error>
 
   /// 포스트 좋아요 한 개수를 반환합니다.
-  func fetchPostHearts(_ postId: String) -> AnyPublisher<Int, Error>
+  func fetchPostHearts(_ postId: PostIdentifier) -> AnyPublisher<Int, Error>
   
   /// 사용자가 포스트를 하트 표시 합니다.
-  func heartPost(_ postId: String, userId: String) -> AnyPublisher<Void, Error>
+  func heartPost(_ postId: PostIdentifier, userId: UserIdentifier) -> AnyPublisher<Void, Error>
   
   /// 사용자가 포스트 하트표시 하지 않습니다.
-  func hatePost(_ postId: String, userId: String) -> AnyPublisher<Void, Error>
+  func hatePost(_ postId: PostIdentifier, userId: UserIdentifier) -> AnyPublisher<Void, Error>
   
   /// DB내부에서 serial하게 포스트 좋아요 개수를 증가 또는 감소 시킵니다.
-  func updatePostHearts(_ postId: String, willHeartPost: Bool) -> AnyPublisher<Void, Error>
+  func updatePostHearts(_ postId: PostIdentifier, willHeartPost: Bool) -> AnyPublisher<Void, Error>
 }

@@ -30,9 +30,9 @@ final class PostNestedCommentHeartUseCaseImpl {
 // MARK: - PostNestedCommentHeartUseCase
 extension PostNestedCommentHeartUseCaseImpl: PostNestedCommentHeartUseCase {
   func toggleNestedCommentHeart(
-    postId: String,
-    commentId: String,
-    nestedCommentId: String
+    postId: PostIdentifier,
+    commentId: CommentIdentifier,
+    nestedCommentId: NestedCommentIdentifier
   ) -> AnyPublisher<ToggledPostCommentHeartEntity, any Error> {
     return Future { [weak self] promise in
       guard let ownerId = self?.ownerRepository.id else {

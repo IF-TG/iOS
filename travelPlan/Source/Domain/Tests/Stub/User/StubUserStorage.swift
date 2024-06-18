@@ -13,15 +13,15 @@ final class StubOwnerStorage: OwnerStorage {
     return true
   }
   
-  var blockedUsers: [BlockedUserId] {
+  var blockedUsers: [UserIdentifier] {
     []
   }
   
-  func addBlockedUser(with userId: BlockedUserId) {}
+  func addBlockedUser(with userId: UserIdentifier) {}
   
-  func deleteBlockedUser(with userId: BlockedUserId) {}
+  func deleteBlockedUser(with userId: UserIdentifier) {}
   
-  func hasBlockedUser(with userId: BlockedUserId) -> Bool { return false }
+  func hasBlockedUser(with userId: UserIdentifier) -> Bool { return false }
   
   var nickname: String? {
     "난짱구"
@@ -35,12 +35,12 @@ final class StubOwnerStorage: OwnerStorage {
     false
   }
   
-  var id: String? {
-    "11"
+  var id: UserIdentifier? {
+    11
   }
   
   var user: UserEntity? {
-    .init(id: "1", nickname: "난짱구", profileImageUrl: "", isSavedProfileInServer: false)
+    .init(id: 1, nickname: "난짱구", profileImageUrl: "", isSavedProfileInServer: false)
   }
   
   func setUser(with userInfo: UserEntity) { }

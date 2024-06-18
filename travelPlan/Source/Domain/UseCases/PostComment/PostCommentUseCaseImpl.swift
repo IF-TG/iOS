@@ -47,7 +47,7 @@ final class PostCommentUseCaseImpl {
 extension PostCommentUseCaseImpl: PostCommentUseCase {
   // MARK: - Comemnt send
   func sendComment(
-    postId: String,
+    postId: PostIdentifier,
     comment: String
   ) -> AnyPublisher<PostCommentEntity, any Error> {
     guard let ownerId = ownerRepository.id else {
@@ -93,8 +93,8 @@ extension PostCommentUseCaseImpl: PostCommentUseCase {
   
   // MARK: - Comment update
   func updateComment(
-    postId: String,
-    commentId: String,
+    postId: PostIdentifier,
+    commentId: CommentIdentifier,
     comment: String
   ) -> AnyPublisher<Bool, any Error> {
     return postAtomicCommentRepository
@@ -105,8 +105,8 @@ extension PostCommentUseCaseImpl: PostCommentUseCase {
   
   // MARK: - Comment delete
   func deleteComment(
-    postId: String,
-    commentId: String
+    postId: PostIdentifier,
+    commentId: CommentIdentifier
   ) -> AnyPublisher<Bool, any Error> {
     return postNestedCommentRepository.fetchTheNumberOfNestedComments(postId: postId, commentId: commentId)
       .flatMap { [weak self] numberOfNestedComments in
@@ -221,8 +221,6 @@ extension PostCommentUseCaseImpl: PostCommentUseCase {
 
 // MARK: - Private Helpers
 private extension PostCommentUseCaseImpl {
-  typealias UserIdentifier = String
-  
   // MARK: - Comment send Helpers
   private func handleCommentSend(
     author: UserEntity?,
@@ -249,29 +247,29 @@ private extension PostCommentUseCaseImpl {
   }
   
   // MARK: - Comment delete Helpers
-  private func fetchUserProfileEntity(with userId: String) -> AnyPublisher<UserEntity, any Error> {
+  private func fetchUserProfileEntity(with userId: UserIdentifier) -> AnyPublisher<UserEntity, any Error> {
     return userProfileRepository.fetchProfile(with: userId)
   }
   
   private func fetchAtomicNestedComments(
-    postId: String,
-    commentId: String
+    postId: PostIdentifier,
+    commentId: CommentIdentifier
   ) -> AnyPublisher<[PostAtomicNestedCommentEntity], any Error> {
     return postNestedCommentRepository.fetchNestedComments(postId: postId, commentId: commentId)
   }
   
   private func fetchNestedCommentHeartUsers(
-    postId: String,
-    commentId: String,
-    nestedCommentId: String
+    postId: PostIdentifier,
+    commentId: CommentIdentifier,
+    nestedCommentId: NestedCommentIdentifier
   ) -> AnyPublisher<[UserIdentifier], any Error> {
     return postNestedCommentHeartRepository
       .fetchNestedCommentHeartUsers(with: postId, commentId: commentId, nestedCommentId: nestedCommentId)
   }
   
   private func fetchCommentHeartUsers(
-    postId: String,
-    commentId: String
+    postId: PostIdentifier,
+    commentId: CommentIdentifier
   ) -> AnyPublisher<[UserIdentifier], any Error> {
     return postCommentHeartRepository.fetchCommentHeartUsers(with: postId, commentId: commentId)
   }
@@ -279,8 +277,8 @@ private extension PostCommentUseCaseImpl {
   private func makePostNestedCommentEntity(
     authorEntity: UserEntity,
     postAtomicNestedComment: PostAtomicNestedCommentEntity,
-    nestedCommentHeartUsers: [String],
-    ownerId: String
+    nestedCommentHeartUsers: [UserIdentifier],
+    ownerId: UserIdentifier
   ) -> PostNestedCommentEntity {
     let isOnHeart = hasOwnerHeartedSpecificComment(ownerId, from: nestedCommentHeartUsers)
     return PostNestedCommentEntity(
@@ -322,9 +320,9 @@ private extension PostCommentUseCaseImpl {
   }
   
   private func fetchIndexedNestedComments(
-    withPostId postId: String,
-    commentId: String,
-    ownerId: String
+    withPostId postId: PostIdentifier,
+    commentId: CommentIdentifier,
+    ownerId: UserIdentifier
   ) -> AnyPublisher<[PostNestedCommentEntity], any Error> {
     return fetchAtomicNestedComments(postId: postId, commentId: commentId)
       .flatMap { postAtomicNestedComments in
@@ -375,9 +373,9 @@ private extension PostCommentUseCaseImpl {
   
   func logFetchNestedCommentAuthorError(
     error: Error,
-    authorId: String?,
-    postId: String,
-    commentId: String
+    authorId: UserIdentifier?,
+    postId: PostIdentifier,
+    commentId: CommentIdentifier
   ) {
     os_log("[네트워크 에러] 사용자 정보 받아오는 도중 에러 발생 Error: %@\n authorId: %@, postId: %@, commentId: %@",
            log: .init(subsystem: "com.yeoga.app", category: "network"),
@@ -390,8 +388,8 @@ private extension PostCommentUseCaseImpl {
   
   func logFetchNestedCommentsError(
     error: Error,
-    postId: String,
-    commentId: String
+    postId: PostIdentifier,
+    commentId: CommentIdentifier
   ) {
     os_log("[네트워크 에러] 대댓글 정보를 받아오는 도중 에러 발생 Error: %@\n postId: %@, commentId: %@",
            log: .init(subsystem: "com.yeoga.app", category: "network"),

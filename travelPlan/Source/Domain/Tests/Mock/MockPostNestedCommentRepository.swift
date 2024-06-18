@@ -21,7 +21,7 @@ final class MockPostNestedCommentRepository: PostNestedCommentRepository {
   
   // MARK: - Helpers
   func sendNestedComment(
-    commentId: String,
+    commentId: CommentIdentifier,
     comment: String
   ) -> AnyPublisher<PostNestedCommentEntity, any Error> {
     MockUrlProtocol.requestHandler = { _ in
@@ -41,7 +41,7 @@ final class MockPostNestedCommentRepository: PostNestedCommentRepository {
             // 잠깐 사용자가 보냈던 nestedComment로 가로체겠습니다.
             let interceptedEntity = PostNestedCommentEntity(
               nestedCommentId: entity.nestedCommentId,
-              authorId: "testUserId1234",
+              authorId: 1234,
               userProfileImageData: entity.userProfileImageData,
               nickname: entity.nickname,
               timestamp: entity.timestamp,
@@ -55,7 +55,10 @@ final class MockPostNestedCommentRepository: PostNestedCommentRepository {
     }.eraseToAnyPublisher()
   }
   
-  func updateNestedComment(nestedCommentId: String, comment: String) -> AnyPublisher<Bool, any Error> {
+  func updateNestedComment(
+    nestedCommentId: NestedCommentIdentifier,
+    comment: String
+  ) -> AnyPublisher<Bool, any Error> {
     MockUrlProtocol.requestHandler = { _ in
       let mockData = MockResponseType.postNestedComment(.whenCommentUpdate).mockDataLoader
       return ((HTTPURLResponse(), mockData))
@@ -76,7 +79,9 @@ final class MockPostNestedCommentRepository: PostNestedCommentRepository {
     }.eraseToAnyPublisher()
   }
   
-  func deleteNestedComment(nestedCommentId: String) -> AnyPublisher<DeletedNestedCommentResult, any Error> {
+  func deleteNestedComment(
+    nestedCommentId: NestedCommentIdentifier
+  ) -> AnyPublisher<DeletedNestedCommentResult, any Error> {
     MockUrlProtocol.requestHandler = { _ in
       let mockData = MockResponseType.postNestedComment(.whenCommentDelete).mockDataLoader
       return ((HTTPURLResponse(), mockData))
@@ -99,7 +104,9 @@ final class MockPostNestedCommentRepository: PostNestedCommentRepository {
     }.eraseToAnyPublisher()
   }
   
-  func toggleCommentHeart(nestedCommentId: String) -> AnyPublisher<ToggledPostCommentHeartEntity, any Error> {
+  func toggleCommentHeart(
+    nestedCommentId: NestedCommentIdentifier
+  ) -> AnyPublisher<ToggledPostCommentHeartEntity, any Error> {
     MockUrlProtocol.requestHandler = { _ in
       let mock = MockResponseType.postComment(.whenCommentHeartToggle).mockDataLoader
       return ((HTTPURLResponse(), mock))

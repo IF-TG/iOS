@@ -18,8 +18,8 @@ final class DefaultPostCommentHeartUseCase: PostCommentHeartUseCase {
   }
   
   func toggleCommentHeart(
-    postId: String,
-    commentId: String
+    postId: PostIdentifier,
+    commentId: CommentIdentifier
   ) -> AnyPublisher<ToggledPostCommentHeartEntity, any Error> {
     return postCommentRepository
       .toggleCommentHeart(postId: postId, commentId: commentId)

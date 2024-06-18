@@ -9,5 +9,5 @@ import Foundation
 
 struct UserNicknamePatchRequestDTO: Encodable {
   let nickname: String
-  let userId: Int64
+  let userId: UserIdentifier
 }

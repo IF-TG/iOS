@@ -8,35 +8,34 @@
 import Foundation
 
 struct FirestoreNestedCommentHeartAPIEndpoints {
-  typealias UserIdentifier = String
   private init() {}
   
   static func makeNestedCommentHeartUsersFetchEndpoint(
-    withPostId postId: String,
-    commentId: String,
-    nestedCommentId: String
-  ) -> FirestoreEndpoint<[UserIdentifier]> {
+    withPostId postId: PostIdentifier,
+    commentId: CommentIdentifier,
+    nestedCommentId: NestedCommentIdentifier
+  ) -> FirestoreEndpoint<[String]> {
     return FirestoreEndpoint(
       method: .retrieveDocumentIdList,
       requestType: .posts(.fetchNestedCommentHeartUsers(postId, commentId, nestedCommentId)))
   }
   
   static func makeNestedCommentHeartEndpoint(
-    withPostId postId: String,
-    commentId: String,
-    nestedCommentId: String,
-    userId: String
+    withPostId postId: PostIdentifier,
+    commentId: CommentIdentifier,
+    nestedCommentId: NestedCommentIdentifier,
+    userId: UserIdentifier
   ) -> FirestoreEndpoint<UserIdentifier> {
     return FirestoreEndpoint(
-      method: .save(userId),
+      method: .save(String(userId)),
       requestType: .posts(.heartNestedComment(postId, commentId, nestedCommentId)))
   }
   
   static func makeNestedCommentHateEndpoint(
-    withPostId postId: String,
-    commentId: String,
-    nestedCommentId: String,
-    userId: String
+    withPostId postId: PostIdentifier,
+    commentId: CommentIdentifier,
+    nestedCommentId: NestedCommentIdentifier,
+    userId: UserIdentifier
   ) -> FirestoreEndpoint<VoidResponseDTO> {
     return FirestoreEndpoint(
       method: .delete,
@@ -44,9 +43,9 @@ struct FirestoreNestedCommentHeartAPIEndpoints {
   }
   
   static func makeNestedCommentHeartsUpdateEndpoint(
-    withPostId postId: String,
-    commentId: String,
-    nestedCommentId: String
+    withPostId postId: PostIdentifier,
+    commentId: CommentIdentifier,
+    nestedCommentId: NestedCommentIdentifier
   ) -> FirestoreEndpoint<VoidResponseDTO> {
     return FirestoreEndpoint(
       method: .update,
@@ -55,9 +54,9 @@ struct FirestoreNestedCommentHeartAPIEndpoints {
   
   /// 대댓글 개수 받아오기
   static func makeNestedCommentHeartsFetchEndpoint(
-    withPostId postId: String,
-    commentId: String,
-    nestedCommentId: String
+    withPostId postId: PostIdentifier,
+    commentId: CommentIdentifier,
+    nestedCommentId: NestedCommentIdentifier
   ) -> FirestoreEndpoint<PostNestedCommentHeartsResponseDTO> {
     return FirestoreEndpoint(
       method: .get,

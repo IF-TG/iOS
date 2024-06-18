@@ -83,8 +83,9 @@ struct FirestorePostImageFileResponseDTO: Decodable {
 // MARK: - Mappings DTO
 extension FirestorePostResponseDTO {
   func toDomain() -> Post.Detail<[Post.PostContent]> {
+    // MARK: - Firestore를 사용하게 될 경우 uuid는 String을 사용해야 합니다.
     return Post.Detail(
-      postID: postId,
+      postID: Int64(postId)!,
       title: title,
       content: content.map { $0.toDomain() },
       likes: Int32(likes),
@@ -105,10 +106,11 @@ extension FirestorePostResponseDTO {
   }
   
   func toDomain(with authorImageData: Data?, authorName: String) -> Post.Author {
+    // MARK: - Firestore를 사용하게 될 경우 uuid는 String을 사용해야 합니다.
     return .init(
       profileImageData: authorImageData,
       nickname: authorName,
-      authorId: authorId)
+      authorId: Int64(authorId) ?? -1)
   }
   
   func toDomain() -> Post.Category {
@@ -126,7 +128,7 @@ extension FirestorePostResponseDTO {
   
   func toDomain(postImages: [Post.PostImage]) -> AtomicPost {
     return AtomicPost(
-      authorId: authorId,
+      authorId: Int64(authorId)!,
       detail: toDomain(),
       category: toDomain(),
       highResolveImages: postImages)

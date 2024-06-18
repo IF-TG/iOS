@@ -8,8 +8,8 @@
 import Foundation
 
 struct PostCommentEntity {
-  let commentId: String
-  var authorId: String
+  let commentId: CommentIdentifier
+  var authorId: UserIdentifier
   var userProfileImageData: Data?
   var userName: String
   var timestamp: String

@@ -34,7 +34,7 @@ final class StubUserProfileSettingRepository: UserProfileSettingRepository {
   }
   
   func saveProfile(
-    with userId: String,
+    with userId: UserIdentifier,
     nickname: String,
     profileImageData: Data?
   ) -> AnyPublisher<Void, any Error> {

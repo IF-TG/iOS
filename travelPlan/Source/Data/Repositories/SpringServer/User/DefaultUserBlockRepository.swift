@@ -24,8 +24,8 @@ final class DefaultUserBlockRepository: UserBlockRepository {
     self.backgroundQueue = backgroundQueue
   }
   
-  func blockUser(with userId: String) -> AnyPublisher<BlockedUserIdentifyEntity, any Error> {
-    let requestDTO = UserBlockRequestDTO(blockedUserId: Int64(userId) ?? Int64(0))
+  func blockUser(with userId: UserIdentifier) -> AnyPublisher<BlockedUserIdentifyEntity, any Error> {
+    let requestDTO = UserBlockRequestDTO(blockedUserId: userId)
     return Future { [weak self] promise in
       guard let self else {
         promise(.failure(ReferenceError.invalidReference))
@@ -47,7 +47,7 @@ final class DefaultUserBlockRepository: UserBlockRepository {
   
   /// UnblockedUser또한 내부적으로 blockedUser를 사용합니다. firestore를 사용할땐 unblock을 직접 호출하도록 작성했는데,
   /// 스프링 서버는 내부적으로 unblock합니다.
-  func unblockUser(with blockedUserId: String) -> AnyPublisher<Void, any Error> {
+  func unblockUser(with blockedUserId: UserIdentifier) -> AnyPublisher<Void, any Error> {
     return blockUser(with: blockedUserId).map { _ in return () }.eraseToAnyPublisher()
   }
   

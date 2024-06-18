@@ -8,7 +8,7 @@
 import Foundation
 
 struct UserBlockResponseDTO: Decodable {
-  let blockedUserId: Int64
+  let blockedUserId: UserIdentifier
   let isBlocked: Bool
   
   enum CodingKeys: String, CodingKey {
@@ -20,6 +20,6 @@ struct UserBlockResponseDTO: Decodable {
 // MARK: - Mappings to Domain
 extension UserBlockResponseDTO {
   func toDomain() -> BlockedUserIdentifyEntity {
-    return .init(userId: String(blockedUserId), isBlocked: isBlocked)
+    return .init(userId: blockedUserId, isBlocked: isBlocked)
   }
 }

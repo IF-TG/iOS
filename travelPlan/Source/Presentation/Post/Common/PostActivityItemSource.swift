@@ -11,10 +11,10 @@ import LinkPresentation
 final class PostActivityItemSource: NSObject, UIActivityItemSource {
   // MARK: - Properties
   private let title: String
-  private let postId: Int
+  private let postId: PostIdentifier
   private var metadata: LPLinkMetadata?
   
-  init(title: String, postId: Int) {
+  init(title: String, postId: PostIdentifier) {
     self.title = title
     self.postId = postId
     metadata = Self.makeMetaData(with: postId, title: title)
@@ -46,7 +46,7 @@ final class PostActivityItemSource: NSObject, UIActivityItemSource {
 }
 
 fileprivate extension PostActivityItemSource {
-  static func makeMetaData(with postId: Int, title: String) -> LPLinkMetadata {
+  static func makeMetaData(with postId: PostIdentifier, title: String) -> LPLinkMetadata {
     return {
       $0.iconProvider = NSItemProvider(object: UIImage(named: "AppIcon")!)
       $0.title = title

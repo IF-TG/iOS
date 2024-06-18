@@ -45,8 +45,8 @@ final class PostNestedCommentUseCaseImpl {
 
 extension PostNestedCommentUseCaseImpl: PostNestedCommentUseCase {
   func sendNestedComment(
-    postId: String,
-    commentId: String,
+    postId: PostIdentifier,
+    commentId: CommentIdentifier,
     comment: String
   ) -> AnyPublisher<PostNestedCommentEntity, any Error> {
     guard let ownerId = ownerRepository.id else {
@@ -73,9 +73,9 @@ extension PostNestedCommentUseCaseImpl: PostNestedCommentUseCase {
   }
   
   func updateNestedComment(
-    postId: String,
-    commentId: String,
-    nestedCommentId: String,
+    postId: PostIdentifier,
+    commentId: CommentIdentifier,
+    nestedCommentId: NestedCommentIdentifier,
     comment: String
   ) -> AnyPublisher<Bool, any Error> {
     return nestedCommentRepository
@@ -94,9 +94,9 @@ extension PostNestedCommentUseCaseImpl: PostNestedCommentUseCase {
   /// - 대댓글이 전부 제거된 로직 수행후 댓글도 삭제된 것이라면, 여기서 해당 댓글도 삭제합니다.
   /// - 사용측에선 대댓 개수 확인하고 해당 댓글도 제거하는 ui 반영해야 합니다.
   func deleteNestedComment(
-    postId: String,
-    commentId: String,
-    nestedCommentId: String,
+    postId: PostIdentifier,
+    commentId: CommentIdentifier,
+    nestedCommentId: NestedCommentIdentifier,
     hasDeletedComment: Bool
   ) -> AnyPublisher<DeletedNestedCommentResult, any Error> {
     return nestedCommentRepository

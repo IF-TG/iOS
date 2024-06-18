@@ -21,7 +21,7 @@ final class PostNotificationManager {
 
 // MARK: - For post option
 extension PostNotificationManager {
-  func notifyPostHasBlocked(postId: Int32, postOptionLocation: PostOptionLocation) {
+  func notifyPostHasBlocked(postId: Int64, postOptionLocation: PostOptionLocation) {
     NotificationCenter.default.post(
       name: .hasPostBlocked,
       object: nil,
@@ -29,7 +29,7 @@ extension PostNotificationManager {
                  "postOptionLocation": postOptionLocation])
   }
   
-  func notifyUserWantToSharePost(postId: Int32, postTitle: String) {
+  func notifyUserWantToSharePost(postId: Int64, postTitle: String) {
     NotificationCenter.default.post(
       name: .postShareFromPostOptionActionSheet,
       object: nil,

@@ -8,5 +8,5 @@
 import Foundation
 
 struct PostNestedCommentDeleteRequestDTO: Encodable {
-  let nestedCommentId: String
+  let nestedCommentId: NestedCommentIdentifier
 }
