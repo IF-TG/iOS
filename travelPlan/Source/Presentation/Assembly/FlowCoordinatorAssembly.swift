@@ -28,7 +28,6 @@ import Swinject
 /// }
 /// ```
 final class FlowCoordinatorAssembly: Assembly {
-  // swiftlint:disable:next function_body_length
   func assemble(container: Swinject.Container) {
     let appDIContainer = AppDIContainer.shared
     
@@ -46,7 +45,7 @@ final class FlowCoordinatorAssembly: Assembly {
       return NotificationCenterCoordinator(presenter: presenter, dependencies: appDIContainer)
     }
     
-    // TODO: - Album Page
+    // TODO: - Album Coordinator
     
     // MARK: - Main Flow Coordinator
     container.register(MainCoordinator.self) { r in
