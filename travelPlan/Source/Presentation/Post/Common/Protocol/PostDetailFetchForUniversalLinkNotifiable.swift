@@ -13,11 +13,11 @@ import Foundation
 protocol PostDetailFetchForUniversalLinkNotifiable {
   var fetchedPostDetailNotifier: PassthroughSubject<FetchedPostDetailForUniversalLinkEntity, Never> { get }
   
-  func makeFetchedPostDetailNotificationPublisher() -> AnyCancellable
+  func makeFetchedPostDetailNotificationSubscriber() -> AnyCancellable
 }
 
 extension PostDetailFetchForUniversalLinkNotifiable where Self: AnyObject {
-  func makeFetchedPostDetailNotificationSubscribe() -> AnyCancellable {
+  func makeFetchedPostDetailNotificationSubscriber() -> AnyCancellable {
     return NotificationCenter
       .default
       .publisher(for: .fetchedPostDetailForUniversalLink)
