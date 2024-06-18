@@ -10,7 +10,7 @@ import Foundation
 
 final class NoticeViewModel {
   // MARK: - Dependencies
-  private let noticeUseCase: Dependency<NoticeUseCase>
+  private let noticeUseCase: NoticeUseCase
   
   // MARK: - Properties
   private var notices: [NoticeCellInfo] = []
@@ -20,7 +20,7 @@ final class NoticeViewModel {
   private var subscriptions = Set<AnyCancellable>()
   
   // MARK: - Lifecycle
-  init(noticeUseCase: Dependency<NoticeUseCase>) {
+  init(noticeUseCase: NoticeUseCase) {
     self.noticeUseCase = noticeUseCase
     bind()
   }
@@ -42,7 +42,7 @@ private extension NoticeViewModel {
   func viewDidLoadStream(_ input: Input) -> Output {
     return input.viewDidLoad
       .map { [weak self] _ in
-        self?.noticeUseCase.wrappedValue.fetchWhatsNewNotices()
+        self?.noticeUseCase.fetchWhatsNewNotices()
         return .none
       }.eraseToAnyPublisher()
   }
