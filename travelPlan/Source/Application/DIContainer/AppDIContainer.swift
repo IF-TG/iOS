@@ -127,3 +127,12 @@ extension AppDIContainer: FeedCoordinatorDependencies {
     return resolver.resolve(ReviewWritingCoordinator.self, arguments: presenter, mode)!
   }
 }
+
+// MARK: - NotificationCenterCoordinatorDependencies
+extension AppDIContainer: NotificationCenterCoordinatorDependencies {
+  func makeNotificationCenterViewController(
+    with coordinator: NotificationCenterCoordinator
+  ) -> NotificationCenterViewController {
+    resolver.resolve(NotificationCenterViewController.self, argument: coordinator)!
+  }
+}

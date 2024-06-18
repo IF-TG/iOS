@@ -42,6 +42,12 @@ final class FlowCoordinatorAssembly: Assembly {
     }
     
     // TODO: - Notification Flow Coordinator
+    container.register(
+      NotificationCenterCoordinator.self,
+      name: .implementation(.firestore)
+    ) { (_, presenter: UINavigationController ) in
+      return NotificationCenterCoordinator(presenter: presenter)
+    }
     
     // TODO: - Album Page
     

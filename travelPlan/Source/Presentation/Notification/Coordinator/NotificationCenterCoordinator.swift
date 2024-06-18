@@ -9,6 +9,12 @@ import UIKit
 import SHCoordinator
 import SHFirestoreService
 
+protocol NotificationCenterCoordinatorDependencies {
+  func makeNotificationCenterViewController(
+    with coordinator: NotificationCenterCoordinator
+  ) -> NotificationCenterViewController
+}
+
 protocol NotificationCenterCoordinatorDelegate: AnyObject {
   func finish()
 }
