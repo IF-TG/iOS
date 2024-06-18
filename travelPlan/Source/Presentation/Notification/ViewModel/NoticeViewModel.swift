@@ -65,7 +65,7 @@ private extension NoticeViewModel {
 // MARK: - Private Helpers
 private extension NoticeViewModel {
   func bind() {
-    noticeUseCase.wrappedValue.whatsNewNoticeEntities
+    noticeUseCase.whatsNewNoticeEntities
       .receive(on: DispatchQueue.main)
       .catch { _ in return Just([]) }
       .sink { [weak self] noticeEntities in
