@@ -10,7 +10,7 @@ import Foundation
 
 final class DefaultNoticeUseCase: NoticeUseCase {
   // MARK: - Dependencies
-  private let whatsNewNotificationRepository: Dependency<WhatsNewNotificationRepository>
+  private let whatsNewNotificationRepository: WhatsNewNotificationRepository
   
   // MARK: - Properties
   var whatsNewNoticeEntities: CurrentValueSubject<[NoticeEntity], any Error> = .init([])
@@ -18,13 +18,12 @@ final class DefaultNoticeUseCase: NoticeUseCase {
   private var subscriptions = Set<AnyCancellable>()
   
   // MARK: - Lifecycle
-  init(whatsNewNotificationRepository: Dependency<WhatsNewNotificationRepository>) {
+  init(whatsNewNotificationRepository: WhatsNewNotificationRepository) {
     self.whatsNewNotificationRepository = whatsNewNotificationRepository
   }
   
   func fetchWhatsNewNotices() {
     whatsNewNotificationRepository
-      .wrappedValue
       .fetchNotices()
       .sink(receiveCompletion: { [weak self] completion in
         if case .failure(let error) = completion {
