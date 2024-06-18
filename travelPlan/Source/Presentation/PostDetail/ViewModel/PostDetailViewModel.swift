@@ -240,7 +240,12 @@ private extension PostDetailViewModel {
     } receiveValue: { [weak self] postEntity in
       self?.postDetails = PostMapper.toPostDetails(postEntity, category: postEntity.category)
       self?.postDetailsFetchNotifier.send()
-      PostNotificationManager.shared.notifyPostDetailFetchForAccessingUniversalLink(post: postEntity)
+      PostNotificationManager.shared.notifyPostDetailFetchForAccessingUniversalLink(post: postEntity) {
+        if !$0 {
+          self?.actions?.showAlertForError("postIdentifier가 유효하지 않습니다.", nil)
+          self?.actions?.finishWithAnim()
+        }
+      }
     }.store(in: &subscriptions)
   }
 }
