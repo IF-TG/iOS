@@ -1,5 +1,5 @@
 //
-//  MockWhatsNewNotificationRepository.swift
+//  InterceptedWhatsNewNotificationRepository.swift
 //  travelPlan
 //
 //  Created by 양승현 on 6/18/24.
@@ -8,7 +8,7 @@
 import Combine
 import Foundation
 
-struct MockWhatsNewNotificationRepository: WhatsNewNotificationRepository {
+struct InterceptedWhatsNewNotificationRepository: WhatsNewNotificationRepository {
   private let whatsNewNotificationRepository = DefaultWhatsNewNotificationRepository(
     service: SessionProvider(session: MockSession.default))
   

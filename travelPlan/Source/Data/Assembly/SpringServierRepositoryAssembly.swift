@@ -50,5 +50,14 @@ final class SpringServierRepositoryAssembly: Assembly {
       let mockSessionProvider = r.resolve(Sessionable.self, name: .testDouble(.mock))!
       return DefaultPostRepository(service: mockSessionProvider, ownerStorage: stubOwnerStorage)
     }
+    
+    // MARK: - whatsNewNotification
+    container.register(WhatsNewNotificationRepository.self, name: .implementation(.default)) { _ in
+      return DefaultWhatsNewNotificationRepository(service: defaultSession)
+    }
+    
+    container.register(WhatsNewNotificationRepository.self, name: .implementation(.interceptedDefault)) { _ in
+      return InterceptedWhatsNewNotificationRepository()
+    }
   }
 }

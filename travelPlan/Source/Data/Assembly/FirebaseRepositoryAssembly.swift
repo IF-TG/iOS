@@ -93,5 +93,10 @@ final class FirebaseRepositoryAssembly: Swinject.Assembly {
         firebaseStorageService: firestoreStorageService,
         ownerStorage: ownerStorage)
     }
+    
+    // MARK: - Firestore whatsNewNotification
+    container.register(WhatsNewNotificationRepository.self, name: .implementation(.firestore)) { _ in
+      return FirestoreWhatsNewNotificationRepository(service: firestoreService)
+    }
   }
 }
