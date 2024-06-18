@@ -10,9 +10,7 @@ import SHCoordinator
 import SHFirestoreService
 
 protocol NotificationCenterCoordinatorDependencies {
-  func makeNotificationCenterViewController(
-    with coordinator: NotificationCenterCoordinator
-  ) -> NotificationCenterViewController
+  func makeNotificationCenterViewController() -> NotificationCenterViewController
 }
 
 protocol NotificationCenterCoordinatorDelegate: AnyObject {
@@ -24,39 +22,19 @@ final class NotificationCenterCoordinator: FlowCoordinator {
   var parent: FlowCoordinator?
   var child: [FlowCoordinator] = []
   var presenter: UINavigationController?
+  var dependencies: NotificationCenterCoordinatorDependencies
   
   // MARK: - Lifecycle
-  init(presenter: UINavigationController?) {
+  init(
+    presenter: UINavigationController?,
+    dependencies: NotificationCenterCoordinatorDependencies
+  ) {
     self.presenter = presenter
+    self.dependencies = dependencies
   }
   
   func start() {
-    MockUrlProtocol.requestHandler = { request in
-      guard let path = Bundle.main.path(forResource: "mock_response_notice", ofType: "json") else {
-        return ((HTTPURLResponse(), Data()))
-      }
-      guard let jsonStr = try? String(contentsOfFile: path) else {
-        return ((HTTPURLResponse(), Data()))
-      }
-      let responseData = jsonStr.data(using: .utf8)!
-      let mockURL = request.url!
-      let urlResponse = HTTPURLResponse(url: mockURL, statusCode: 203, httpVersion: nil, headerFields: nil)!
-      return ((urlResponse, responseData))
-    }
-
-//    let mockSession = MockSession.default
-//    let service = SessionProvider(session: mockSession)
-//    let notificationRepository = DefaultWhatsNewNotificationRepository(service: service)
-    let firestoreService = FirestoreService()
-    let notificationRepository = FirestoreWhatsNewNotificationRepository(service: firestoreService)
-    let noticeUseCase = DefaultNoticeUseCase(notificationRepository: notificationRepository)
-    let noticeViewModel = NoticeViewModel(noticeUseCase: noticeUseCase)
-    
-    let notificationViewModel = NotificationViewModel()
-    
-    let vc = NotificationCenterViewController(
-      noticeViewModel: noticeViewModel,
-      notificationViewModel: notificationViewModel)
+    let vc = dependencies.makeNotificationCenterViewController()
     vc.coordinator = self
     presenter?.pushViewController(vc, animated: true)
   }
