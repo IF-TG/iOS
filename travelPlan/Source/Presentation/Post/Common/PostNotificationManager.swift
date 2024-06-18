@@ -11,7 +11,7 @@ import Foundation
 extension Notification.Name {
   static let hasPostBlocked = Notification.Name("PostBlocked")
   static let postShareFromPostOptionActionSheet = Notification.Name("PostShareFromPostOptionActionSheet")
-  static let PostDetailFetchForAccessingUniversalLink = Notification.Name("PostDetailFetchForAccessingUniversalLink")
+  static let fetchedPostDetailForUniversalLink = Notification.Name("fetchedPostDetailForUniversalLink")
 }
 
 final class PostNotificationManager {
@@ -40,13 +40,21 @@ extension PostNotificationManager {
   
   /// universal link에 의해 특정 포스트로 바로 들어와질 경우, PostDetailVM에서만 데이터를 fetch해서 소유하게 됩니다.
   /// 이때 PostDetailChatVM, PostOptionVM에게도 알려주어야 합니다.
-  func notifyPostDetailFetchForAccessingUniversalLink(post: Post) {
+  func notifyPostDetailFetchForAccessingUniversalLink(post: Post, completion: @escaping (Bool)->Void) {
+    
+    let fetchedPostDetailForUniversalLinkEntity = FetchedPostDetailForUniversalLinkEntity(
+      postId: post.detail.postID,
+      postTitle: post.detail.title,
+      authorId: post.author.authorId,
+      postAuthorNickname: post.author.nickname)
+    guard let fetchedPostDetailData = try? JSONEncoder().encode(fetchedPostDetailForUniversalLinkEntity) else {
+      completion(false)
+      return
+    }
+    
     NotificationCenter.default.post(
-      name: .PostDetailFetchForAccessingUniversalLink,
+      name: .fetchedPostDetailForUniversalLink,
       object: nil,
-      userInfo: ["postId": post.detail.postID,
-                 "postAuthorId": post.author.authorId,
-                 "postAuthorNickname": post.author.nickname,
-                 "postTitle": post.detail.title])
+      userInfo: ["fetchedPostDetailForUniversalLink": fetchedPostDetailData])
   }
 }
