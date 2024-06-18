@@ -11,6 +11,9 @@ import Foundation
 final class SpringServierRepositoryAssembly: Assembly {
   // swiftlint:disable:next function_body_length
   func assemble(container: Swinject.Container) {
+    let defaultSession = container.resolve(Sessionable.self, name: .implementation(.default))!
+    let mockSession = container.resolve(Sessionable.self, name: .implementation(.interceptedDefault))!
+    
     // TODO: - SpringServer
     
     // TODO: - SpringServer User
@@ -47,19 +50,5 @@ final class SpringServierRepositoryAssembly: Assembly {
       let mockSessionProvider = r.resolve(Sessionable.self, name: .testDouble(.mock))!
       return DefaultPostRepository(service: mockSessionProvider, ownerStorage: stubOwnerStorage)
     }
-    
-    // TODO: - SpringServer Post
-    container.register(PostRepository.self, name: .implementation(.default)) { r in
-      let defaultOwnerStorage = r.resolve(OwnerStorage.self, name: .implementation(.default))!
-      let defaultSessionProvider = r.resolve(Sessionable.self, name: .implementation(.default))!
-      return DefaultPostRepository(service: defaultSessionProvider, ownerStorage: defaultOwnerStorage)
-    }
-    
-    container.register(PostRepository.self, name: .implementation(.interceptedDefault)) { r in
-      let stubOwnerStorage = r.resolve(OwnerStorage.self, name: .testDouble(.stub))!
-      let mockSessionProvider = r.resolve(Sessionable.self, name: .testDouble(.mock))!
-      return DefaultPostRepository(service: mockSessionProvider, ownerStorage: stubOwnerStorage)
-    }
-
   }
 }
