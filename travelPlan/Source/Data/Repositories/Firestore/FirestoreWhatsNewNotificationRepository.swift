@@ -18,9 +18,8 @@ final class FirestoreWhatsNewNotificationRepository {
   private var subscription: AnyCancellable?
   
   // MARK: - Lifecycle
-  init(service: FirestoreServiceProtocol, subscription: AnyCancellable? = nil) {
+  init(service: FirestoreServiceProtocol) {
     self.service = service
-    self.subscription = subscription
   }
 }
 
