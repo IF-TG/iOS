@@ -8,7 +8,8 @@
 import UIKit
 import SHCoordinator
 
-protocol PostAuthorBlockCoordinatable { 
+/// 포스트에서 특정 사용자를 차단할 때 화면전환을 제어할 수 있는 protocol입니다.
+protocol PostAuthorBlockCoordinatable {
   func showPostAuthorBlock(_ authorName: String, handler: ((Bool) -> Void)?)
 }
 
