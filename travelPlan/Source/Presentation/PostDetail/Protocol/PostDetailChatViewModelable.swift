@@ -96,6 +96,9 @@ struct PostDetailChatViewModelInput {
   typealias Section = Int
   case blockedComment(Section)
   case blockedNestedComment(IndexPath)
+  
+  /// 대댓 차단된 후에 대댓이 없고, 댓글도 차단 or 삭제된 상태입니다.
+  case deleteCommentIfNoNestedCommentsAfterDeleteOrBlock(Section)
 }
 
 // MARK: - ViewModelable

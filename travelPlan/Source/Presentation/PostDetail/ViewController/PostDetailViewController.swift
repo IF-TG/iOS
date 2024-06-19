@@ -332,6 +332,10 @@ extension PostDetailViewController: ViewBindCase {
       UITableView.performWithoutAnimation {
         tableView.deleteRows(at: [indexPath], with: .automatic)
       }
+    case .deleteCommentIfNoNestedCommentsAfterDeleteOrBlock(let section):
+      UITableView.performWithoutAnimation {
+        tableView.deleteSections(IndexSet(integer: section), with: .fade)
+      }
     }
   }
   

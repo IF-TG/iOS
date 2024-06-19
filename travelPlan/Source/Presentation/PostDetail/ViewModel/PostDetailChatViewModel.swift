@@ -8,9 +8,9 @@
 import Combine
 import Foundation
 
-@frozen enum PostDetailChatBlockType {
-  case comment
-  case nestedComment
+@frozen enum PostDetailNestedCommentBlockSuccessState {
+  case deleteComment(Int)
+  case blockNestedComment(IndexPath)
 }
 
 final class PostDetailChatViewModel {
@@ -89,7 +89,8 @@ final class PostDetailChatViewModel {
   
   private let blockedCommentCompletionNotifier = PassthroughSubject<BlockedCommentSection, Never>()
   
-  private let blockedNestedCommentCompletionNotifier = PassthroughSubject<IndexPath, Never>()
+  private let blockedNestedCommentCompletionNotifier = PassthroughSubject<
+    PostDetailNestedCommentBlockSuccessState, Never>()
   
   private let commentUseCaseNotifier = PassthroughSubject<CommentUseCaseInput, Never>()
   
@@ -249,6 +250,7 @@ private extension PostDetailChatViewModel {
         }
         self?.showAlertForError(with: "차단되었던 상대입니다. 다시 시도해주세요.", completion: nil)
       }
+    subscriptions.insert(subscription)
   }
   
   func configureAfterCommentBlock(_ details: willBlockCommentDetails) {
@@ -263,20 +265,34 @@ private extension PostDetailChatViewModel {
   }
   
   func configureAfterNestedCommentBlock(_ details: willBlockNestedCommentDetails) {
+    let commentSectionIdx = details.commentSectionIndex
     /// 아직 차단 전 상태이므로 commentIdx는 거의 찾을 수 있습니다.
-    guard let nestedComemntIndex = comments[details.commentSectionIndex]
+    guard let nestedComemntIndex = comments[commentSectionIdx]
       .nestedComments
       .firstIndex(where: { $0.nestedCommentId == details.nestedCommentId})
     else {
       actions.showAlertForError("차단된 NestedCommentIdentifier를 식별할 수 없습니다.", nil)
       return
     }
-    
-    comments[details.commentSectionIndex].nestedComments.remove(at: nestedComemntIndex)
     // MARK: 실제로 IndexPath는 적용될 때는 PostDetailSection을 적용해야합니다.
-    blockedNestedCommentCompletionNotifier.send(IndexPath(
+    comments[commentSectionIdx].nestedComments.remove(at: nestedComemntIndex)
+    
+    if comments[commentSectionIdx].nestedComments.isEmpty {
+      if comments[commentSectionIdx].isDeleted || comments[commentSectionIdx].isBlocked {
+        /// 차단 후 VM 내부 dataSource에서 제거한 후에 대댓글이 아무것도 없는 경우 댓글도 삭제 or 차단된 경우 댓글을 제거합니다.
+        comments.remove(at: commentSectionIdx)
+        blockedNestedCommentCompletionNotifier.send(
+          .deleteComment(commentSectionIdx + SectionType.defaultNumberOfSections))
+        return
+      }
+    }
+    
+    /// 차단 후 VM 내부 dataSource에서 제거한 후에 대댓글이 1개 이상 있을 경우 사용자가 차단한 대댓글만 차단합니다.
+    /// 대댓글이 없는 경우에도 댓글이 차단, 제거되지 않은 경우 이 스트림만 방출합니다.
+    let indexPath = IndexPath(
       row: nestedComemntIndex,
-      section: PostDetailSection.defaultNumberOfSections + details.commentSectionIndex))
+      section: PostDetailSection.defaultNumberOfSections + commentSectionIdx)
+    blockedNestedCommentCompletionNotifier.send(.blockNestedComment(indexPath))
   }
   
   // MARK: - Chat Block Notifier Stream
@@ -288,7 +304,14 @@ private extension PostDetailChatViewModel {
   
   func blockedNestedCommentCompletionNotifierStream() -> Output {
     return blockedNestedCommentCompletionNotifier
-      .map { State.blockedChat(.blockedNestedComment($0))}
+      .map { blockedState -> State in
+        switch blockedState {
+        case .deleteComment(let commentIndex):
+          return .blockedChat(.deleteCommentIfNoNestedCommentsAfterDeleteOrBlock(commentIndex))
+        case .blockNestedComment(let indexPath):
+          return .blockedChat(.blockedNestedComment(indexPath))
+        }
+      }
       .eraseToAnyPublisher()
   }
 }
