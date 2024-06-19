@@ -216,7 +216,7 @@ extension PostDetailChatViewModel: PostDetailChatViewModelable {
 private extension PostDetailChatViewModel {
   func blockComment(_ details: willBlockCommentDetails) {
     let subscription = userBlockUseCase.blockUser(with: details.userId)
-      .receive(on: DispatchQueue.global(qos: .userInitiated))
+      .receive(on: DispatchQueue.main)
       .sink { [weak self] completion in
         if case .failure(let error) = completion {
           self?.actions.showAlertForError(
@@ -236,7 +236,7 @@ private extension PostDetailChatViewModel {
   func blockNestedComment(_ details: willBlockNestedCommentDetails) {
     let subscription = userBlockUseCase
       .blockUser(with: details.userId)
-      .receive(on: DispatchQueue.global(qos: .userInitiated))
+      .receive(on: DispatchQueue.main)
       .sink { [weak self] completion in
         if case .failure(let error) = completion {
           self?.actions.showAlertForError("예기치 못한 에러가 발생됬습니다. \(error.localizedDescription)", nil)
@@ -661,7 +661,10 @@ extension PostDetailChatViewModel: PostDetailChatDataSource {
       comment: postComment.isDeleted ? "댓글이 삭제되었습니다." : postComment.comment,
       isOnHeart: postComment.isOnHeart,
       heartCountText: "\(postComment.hearts)")
-    return .init(baseInfo: baseInfo, isDeleted: postComment.isDeleted)
+    return .init(
+      baseInfo: baseInfo,
+      isDeleted: postComment.isDeleted,
+      isBlocked: postComment.isBlocked)
   }
   
   func replyItem(at indexPath: IndexPath) -> PostReplyInfo {

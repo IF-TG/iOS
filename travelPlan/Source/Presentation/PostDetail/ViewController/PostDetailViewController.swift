@@ -325,11 +325,11 @@ extension PostDetailViewController: ViewBindCase {
     stopIndicator()
     switch blockedChatState {
     case .blockedComment(let section):
-      tableView.performBatchUpdates {
-        tableView.reloadSections([section], with: .automatic)
+      UITableView.performWithoutAnimation {
+        tableView.reloadSections(IndexSet(integer: section), with: .fade)
       }
     case .blockedNestedComment(let indexPath):
-      tableView.performBatchUpdates {
+      UITableView.performWithoutAnimation {
         tableView.deleteRows(at: [indexPath], with: .automatic)
       }
     }

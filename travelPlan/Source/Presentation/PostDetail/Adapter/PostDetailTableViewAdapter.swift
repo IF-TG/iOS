@@ -129,7 +129,7 @@ extension PostDetailTableViewAdapter: UITableViewDelegate {
     default:
       guard let chatDataSource else { return nil }
       let cellInfo = chatDataSource.commentItem(in: PostDetailSection(rawValue: section))
-      if cellInfo.isDeleted {
+      if cellInfo.isDeleted || cellInfo.isBlocked {
         return tableView.dequeueReusableHeaderFooterView(type: PostDetailDeletedOrUnknwonCommentHeader.self)
       }
       let commentHeader = tableView.dequeueReusableHeaderFooterView(type: PostDetailCommentHeader.self)
