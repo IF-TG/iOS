@@ -13,6 +13,7 @@ final class MockPostRepository: PostRepository {
   let mockService: Sessionable
   var subscriptions = Set<AnyCancellable?>()
   let postRepository: PostRepository
+  var cache: [String: Data] = [:]
   
   init() {
     self.mockService = SessionProvider(session: MockSession.default)
@@ -68,7 +69,46 @@ final class MockPostRepository: PostRepository {
               promise(.failure(error))
             }
           }, receiveValue: { postCommentContainerEntity in
-            promise(.success(postCommentContainerEntity))
+            let json파일에asset경로다시한번UIImage_named_로변환한데이터 = postCommentContainerEntity
+              .comments.map {
+                let str = $0.userProfileImageData!.base64EncodedString()
+                if self?.cache[str] == nil {
+                  self?.cache[str] = UIImage(named: str)?.jpegData(compressionQuality: 1)
+                }
+                let commentUserImage = self?.cache[str]
+                let nestedCommentUserImages = $0.nestedComments.map {
+                  let nStr = $0.userProfileImageData!.base64EncodedString()
+                  if self?.cache[nStr] == nil {
+                    self?.cache[nStr] = UIImage(named: nStr)?.jpegData(compressionQuality: 1)
+                  }
+                  return self?.cache[nStr]
+                }
+                return PostCommentEntity(
+                  commentId: $0.commentId,
+                  authorId: $0.authorId,
+                  userProfileImageData: commentUserImage,
+                  userName: $0.userName,
+                  timestamp: $0.timestamp,
+                  comment: $0.comment,
+                  isDeleted: $0.isDeleted,
+                  isOnHeart: $0.isOnHeart,
+                  isBlocked: $0.isBlocked,
+                  hearts: $0.hearts,
+                  nestedComments: $0.nestedComments.enumerated().map { i, nestedComment in
+                    PostNestedCommentEntity(
+                      nestedCommentId: nestedComment.nestedCommentId,
+                      authorId: nestedComment.authorId,
+                      userProfileImageData: nestedCommentUserImages[i],
+                      nickname: nestedComment.nickname,
+                      timestamp: nestedComment.timestamp,
+                      comment: nestedComment.comment,
+                      hearts: nestedComment.hearts,
+                      isOnHeart: nestedComment.isOnHeart)
+                  })
+              }
+            promise(.success(.init(
+              comments: json파일에asset경로다시한번UIImage_named_로변환한데이터,
+              isFavorited: postCommentContainerEntity.isFavorited)))
           })
         self?.subscriptions.insert(subscription)
       }
