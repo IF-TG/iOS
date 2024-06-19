@@ -213,6 +213,8 @@ extension PostDetailViewController: ViewBindCase {
         starButton.isSelected = isFavorite
         input.favoriteStateOnViewDidLoad.send(isFavorite)
       }
+    case .blockedChat(let blockedChatState):
+      handleBlockedChatState(blockedChatState)
     }
   }
   
@@ -316,6 +318,20 @@ extension PostDetailViewController: ViewBindCase {
       inputAccessory.clearEditingText()
       inputAccessory.hideKeyboard()
       stopIndicator()
+    }
+  }
+  
+  func handleBlockedChatState(_ blockedChatState: PostDetailChatBlockState) {
+    stopIndicator()
+    switch blockedChatState {
+    case .blockedComment(let section):
+      tableView.performBatchUpdates {
+        tableView.reloadSections([section], with: .automatic)
+      }
+    case .blockedNestedComment(let indexPath):
+      tableView.performBatchUpdates {
+        tableView.deleteRows(at: [indexPath], with: .automatic)
+      }
     }
   }
   
