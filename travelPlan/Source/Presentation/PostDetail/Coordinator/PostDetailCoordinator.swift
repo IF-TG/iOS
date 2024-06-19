@@ -159,7 +159,10 @@ extension PostDetailCoordinator {
   
   func showCommentOption(isCommentOwner: Bool, handler: ((PostDetailCommentOption) -> Void)?) {
     guard isCommentOwner else {
-      // 여기선 타인임으로 차단하기 기능만!!
+      /// 이 로직은 타인일 경우 댓글 옵션으 클릭했을 때 보여지는 로직입니다.
+      ///
+      /// 타인은 댓글에서 옵션을 선택할 때 차단하기 기능을 선택 할 수 있습니다.
+      /// 서버에서 제공하는 댓, 대댓글 신고하기 api가 없습니다.
       let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
       alert.addAction(title: "차단하기", style: .destructive) { _ in handler?(.commentUserBlock) }
       alert.addAction(title: "취소", style: .cancel, handler: nil)

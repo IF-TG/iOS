@@ -106,6 +106,8 @@ extension PostDetailChatViewModel: PostDetailChatViewModelPageDelegate {
     actions.showAlertForError(description, completion)
   }
   
+  /// 타인의 경우 차단하기 or 취소하기만 보여집니다.
+  /// 서버에서 댓글, 대댓글 신고하기 api는 없기 때문입니다.
   func showCommentOption(section: PostDetailSection) {
     let comment = comments[section.commentIndex]
     guard let ownerId = ownerRepository.id else {
