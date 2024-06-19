@@ -23,6 +23,7 @@ struct PostDetailChatViewModelActions {
   let showAlertForError: (String, (() -> Void)?) -> Void
   let showAnAlertToAskWhetherToCancelWriting: (PostDetailWritingCacnelType, ((Bool) -> Void)?) -> Void
   let showCommentOption: (isCommentOwner, ((PostDetailCommentOption) -> Void)?) -> Void
+  let showPostAuthorBlock: (String, ((Bool) -> Void)?) -> Void
 }
 
 // MARK: - Input
