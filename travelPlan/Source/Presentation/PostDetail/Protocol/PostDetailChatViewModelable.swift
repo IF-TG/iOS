@@ -46,6 +46,7 @@ struct PostDetailChatViewModelInput {
   
   case keyboard(PostDetailKeyboardState)
   case viewDidLoad(PostDetailChatViewDidLoadStream)
+  case blockedChat(PostDetailChatBlockState)
 }
 
 @frozen enum PostDetailKeyboardState {
@@ -89,6 +90,12 @@ struct PostDetailChatViewModelInput {
   case reloadWithNestedCommentsWhenCommentDelete(Int)
   
   case reloadWhenCommentUpdate(Int)
+}
+
+@frozen enum PostDetailChatBlockState {
+  typealias Section = Int
+  case blockedComment(Section)
+  case blockedNestedComment(IndexPath)
 }
 
 // MARK: - ViewModelable
