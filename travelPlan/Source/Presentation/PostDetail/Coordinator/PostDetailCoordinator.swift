@@ -96,6 +96,8 @@ final class PostDetailCoordinator: NSObject, FlowCoordinator, PostOptionCoordina
       },
       showCommentOption: { [weak self] isCommentOwner, optionCallBack in
         self?.showCommentOption(isCommentOwner: isCommentOwner, handler: optionCallBack)
+      }, showPostAuthorBlock: { [weak self] authName, completion in
+        self?.showPostAuthorBlock(authName, handler: completion)
       })
     
     let postDetailVM = PostDetailViewModel(
@@ -110,6 +112,7 @@ final class PostDetailCoordinator: NSObject, FlowCoordinator, PostOptionCoordina
       postCommentsAndPostLikeStateFetchUseCase: defaultPostCommetnsAndPostLikeStateFetchUseCase,
       postCommentUseCase: postCommentUseCase,
       postNestedCommentUseCase: postNestedCommentUseCase,
+      userBlockUseCase: userBlockUseCase,
       ownerRepository: loggedInUserRepository,
       actions: chatActions)
     
