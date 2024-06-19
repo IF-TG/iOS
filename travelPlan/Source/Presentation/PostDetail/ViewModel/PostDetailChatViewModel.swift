@@ -194,7 +194,9 @@ extension PostDetailChatViewModel: PostDetailChatViewModelable {
       nestedCommentEditNotifierStream(),
       commentEditNotifierStream(),
       nestedCommentUseCaseNotifierStream(),
-      viewDidLoadStream(input)
+      viewDidLoadStream(input),
+      blockedCommentCompletionNotifierStream(),
+      blockedNestedCommentCompletionNotifierStream()
     ]).eraseToAnyPublisher()
   }
 }
@@ -224,6 +226,7 @@ private extension PostDetailChatViewModel {
     /// 아직 차단 전 상태이므로 commentIdx는 거의 찾을 수 있습니다.
     guard let blockedCommentIndex = comments.firstIndex(where: {$0.commentId == details.commentId}) else {
       actions.showAlertForError("차단된 CommentIdentifier를 식별할 수 없습니다.", nil)
+      return
     }
     comments[blockedCommentIndex].isBlocked = true
     // MARK: 실제로 IndexPath는 적용될 때는 PostDetailSection을 적용해야합니다.
@@ -234,6 +237,7 @@ private extension PostDetailChatViewModel {
     /// 아직 차단 전 상태이므로 commentIdx는 거의 찾을 수 있습니다.
     guard let blockedCommentIndex = comments.firstIndex(where: {$0.commentId == details.commentId}) else {
       actions.showAlertForError("차단된 CommentIdentifier를 식별할 수 없습니다.", nil)
+      return
     }
     
     /// 아직 차단 전 상태이므로 commentIdx는 거의 찾을 수 있습니다.
@@ -242,6 +246,7 @@ private extension PostDetailChatViewModel {
       .firstIndex(where: { $0.nestedCommentId == details.nestedCommentId})
     else {
       actions.showAlertForError("차단된 NestedCommentIdentifier를 식별할 수 없습니다.", nil)
+      return
     }
     
     comments[blockedCommentIndex].nestedComments.remove(at: nestedComemntIndex)
@@ -249,6 +254,19 @@ private extension PostDetailChatViewModel {
     blockedNestedCommentCompletionNotifier.send(IndexPath(
       item: nestedComemntIndex,
       section: PostDetailSection.defaultNumberOfSections + blockedCommentIndex))
+  }
+  
+  // MARK: - Chat Block Notifier Stream
+  func blockedCommentCompletionNotifierStream() -> Output {
+    return blockedCommentCompletionNotifier
+      .map { State.blockedChat(.blockedComment($0)) }
+      .eraseToAnyPublisher()
+  }
+  
+  func blockedNestedCommentCompletionNotifierStream() -> Output {
+    return blockedNestedCommentCompletionNotifier
+      .map { State.blockedChat(.blockedNestedComment($0))}
+      .eraseToAnyPublisher()
   }
 }
 
