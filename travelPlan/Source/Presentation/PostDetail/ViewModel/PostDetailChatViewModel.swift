@@ -18,9 +18,13 @@ final class PostDetailChatViewModel {
   typealias CommentToBlockId = CommentIdentifier
   typealias BlockedCommentSection = Int
   
-  typealias BlockedCommentDetails = (commentId: CommentToBlockId, userId: UserToBlockId)
-  typealias BlockedNestedCommentDetails = (
-    commentId: CommentIdentifier, nestedCommentId: NestedCommentIdentifier, userId: UserToBlockId)
+  typealias willBlockCommentDetails = (commentId: CommentToBlockId, userId: UserToBlockId)
+  /// SectionType에 의해 변환된 commentSection입니다.
+  struct willBlockNestedCommentDetails {
+    let commentSectionIndex: Int
+    let nestedCommentId: NestedCommentIdentifier
+    let userId: UserToBlockId
+  }
   
   // MARK: - Nested
   @frozen fileprivate enum CommentUseCaseInput {
@@ -174,7 +178,14 @@ extension PostDetailChatViewModel: PostDetailChatViewModelPageDelegate {
         // TODO: - 업데이트는 로직을 isNestedCommentUpdating 이걸 추가하면서 대댓글 작성 과 같게 로직을 짜야 합니다.
         self?.nestedCommentEditNotifier.send(indexPath)
       case .commentUserBlock:
-        self?.showAlertForError(with: "대댓글 차단 기능은 다음 업데이트 때 구현될 예정입니다.", completion: nil)
+        self?.actions.showPostAuthorBlock(nestedComment.nickname, { [weak self] wannaBlock in
+          if wannaBlock {
+            self?.blockNestedComment(.init(
+              commentSectionIndex: commentSectionIndex,
+              nestedCommentId: nestedComment.nestedCommentId,
+              userId: nestedComment.authorId))
+          }
+        })
       }
     }
   }
@@ -203,13 +214,13 @@ extension PostDetailChatViewModel: PostDetailChatViewModelable {
 
 // MARK: - Private Chat Block Helpers
 private extension PostDetailChatViewModel {
-  func blockComment(_ details: BlockedCommentDetails) {
+  func blockComment(_ details: willBlockCommentDetails) {
     let subscription = userBlockUseCase.blockUser(with: details.userId)
       .receive(on: DispatchQueue.global(qos: .userInitiated))
       .sink { [weak self] completion in
-        if case .failure(let error) = completion  {
+        if case .failure(let error) = completion {
           self?.actions.showAlertForError(
-            "예기치 못한 에러가 발생됬습니다.\(error.localizedDescription)", nil)
+            "예기치 못한 에러가 발생됬습니다. \(error.localizedDescription)", nil)
         }
       } receiveValue: { [weak self] entity in
         if entity.isBlocked {
@@ -222,7 +233,25 @@ private extension PostDetailChatViewModel {
     subscriptions.insert(subscription)
   }
   
-  func configureAfterCommentBlock(_ details: BlockedCommentDetails) {
+  func blockNestedComment(_ details: willBlockNestedCommentDetails) {
+    let subscription = userBlockUseCase
+      .blockUser(with: details.userId)
+      .receive(on: DispatchQueue.global(qos: .userInitiated))
+      .sink { [weak self] completion in
+        if case .failure(let error) = completion {
+          self?.actions.showAlertForError("예기치 못한 에러가 발생됬습니다. \(error.localizedDescription)", nil)
+        }
+      } receiveValue: { [weak self] entity in
+        if entity.isBlocked {
+          self?.showAlertForError(with: "차단되었습니다.", completion: {
+            self?.configureAfterNestedCommentBlock(details)
+          })
+        }
+        self?.showAlertForError(with: "차단되었던 상대입니다. 다시 시도해주세요.", completion: nil)
+      }
+  }
+  
+  func configureAfterCommentBlock(_ details: willBlockCommentDetails) {
     /// 아직 차단 전 상태이므로 commentIdx는 거의 찾을 수 있습니다.
     guard let blockedCommentIndex = comments.firstIndex(where: {$0.commentId == details.commentId}) else {
       actions.showAlertForError("차단된 CommentIdentifier를 식별할 수 없습니다.", nil)
@@ -233,15 +262,9 @@ private extension PostDetailChatViewModel {
     blockedCommentCompletionNotifier.send(PostDetailSection.defaultNumberOfSections + blockedCommentIndex)
   }
   
-  func configureAfterNestedCommentBlock(_ details: BlockedNestedCommentDetails) {
+  func configureAfterNestedCommentBlock(_ details: willBlockNestedCommentDetails) {
     /// 아직 차단 전 상태이므로 commentIdx는 거의 찾을 수 있습니다.
-    guard let blockedCommentIndex = comments.firstIndex(where: {$0.commentId == details.commentId}) else {
-      actions.showAlertForError("차단된 CommentIdentifier를 식별할 수 없습니다.", nil)
-      return
-    }
-    
-    /// 아직 차단 전 상태이므로 commentIdx는 거의 찾을 수 있습니다.
-    guard let nestedComemntIndex = comments[blockedCommentIndex]
+    guard let nestedComemntIndex = comments[details.commentSectionIndex]
       .nestedComments
       .firstIndex(where: { $0.nestedCommentId == details.nestedCommentId})
     else {
@@ -249,11 +272,11 @@ private extension PostDetailChatViewModel {
       return
     }
     
-    comments[blockedCommentIndex].nestedComments.remove(at: nestedComemntIndex)
+    comments[details.commentSectionIndex].nestedComments.remove(at: nestedComemntIndex)
     // MARK: 실제로 IndexPath는 적용될 때는 PostDetailSection을 적용해야합니다.
     blockedNestedCommentCompletionNotifier.send(IndexPath(
       row: nestedComemntIndex,
-      section: PostDetailSection.defaultNumberOfSections + blockedCommentIndex))
+      section: PostDetailSection.defaultNumberOfSections + details.commentSectionIndex))
   }
   
   // MARK: - Chat Block Notifier Stream
