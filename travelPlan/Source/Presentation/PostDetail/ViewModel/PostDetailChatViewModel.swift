@@ -252,7 +252,7 @@ private extension PostDetailChatViewModel {
     comments[blockedCommentIndex].nestedComments.remove(at: nestedComemntIndex)
     // MARK: 실제로 IndexPath는 적용될 때는 PostDetailSection을 적용해야합니다.
     blockedNestedCommentCompletionNotifier.send(IndexPath(
-      item: nestedComemntIndex,
+      row: nestedComemntIndex,
       section: PostDetailSection.defaultNumberOfSections + blockedCommentIndex))
   }
   
