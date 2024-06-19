@@ -53,6 +53,7 @@ final class PostDetailChatViewModel {
   // MARK: - Properties
   private let postId: PostIdentifier
   
+  // TODO: - 댓글 받아올때 차단된 유저들 저장한 다음에, 해당기록 꺼내와서 필터링하기.(피드로 나갔다가 다시 들어오는 경우) 생각.
   private var comments: [PostCommentEntity] = []
   
   /// 사용자가 대댓글 작성중인 경우 not nil. 댓글을 작성중인 경우 nil
