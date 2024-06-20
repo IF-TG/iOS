@@ -49,6 +49,7 @@ final class MockPostRepository: PostRepository {
     }.eraseToAnyPublisher()
   }
   
+  // swiftlint:disable:next function_body_length
   func fetchComments(
     page: Int32,
     perPage: Int32,

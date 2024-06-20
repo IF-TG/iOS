@@ -13,6 +13,9 @@ import Foundation
   case blockNestedComment(IndexPath)
 }
 
+/// 댓글 차단시 차단된 리스트에 추가할까 생각했는데, 유즈케이스 내부적으로 는 차단할때 서버에 저장 및 로컬에 저장합니다.
+/// 사용자가 특정 댓, 대댓글 차단 후 화면 뒤로갔다 다시 해당 포스트 상세 화면 들어올때 서버에서 다시 댓글을 fetch해오는데, 차단된 유저는 필터링 걸칠 것이므로
+///   여기서 fetchComment할 때 차단된 유저 필터링을 거치지 않습니다.
 final class PostDetailChatViewModel {
   typealias UserToBlockId = UserIdentifier
   typealias CommentToBlockId = CommentIdentifier
@@ -53,7 +56,6 @@ final class PostDetailChatViewModel {
   // MARK: - Properties
   private let postId: PostIdentifier
   
-  // TODO: - 댓글 받아올때 차단된 유저들 저장한 다음에, 해당기록 꺼내와서 필터링하기.(피드로 나갔다가 다시 들어오는 경우) 생각.
   private var comments: [PostCommentEntity] = []
   
   /// 사용자가 대댓글 작성중인 경우 not nil. 댓글을 작성중인 경우 nil
