@@ -9,7 +9,7 @@ import Combine
 import Foundation
 
 /// 이 객체에서는 신고하기, 차단하기 로직 담당 서버에 반영된 경우 알림창 담당 completion을 노티피케이션으로 전송합니다.
-final class PostOptionViewModel {
+final class PostOptionViewModel: PostDetailFetchForUniversalLinkNotifiable {
   // MARK: - Dependencies
   private let ownerRepository: LoggedInUserRepository
   
@@ -20,8 +20,6 @@ final class PostOptionViewModel {
   
   private var postOption: PostOption? = .none
   
-  // TODO: - PostAuthor가 존재하지 않는 경우 유니버셜 링크를 통해 이동했기 때문입니다. 이때는 PostDetailVM에서 받은 후에 노티를 통해
-  // 옵션에서 받아야 합니다.때까지 대기해야 합니다.
   private var dataSource: PostOptionViewModelInfo
   
   // MARK: - Combine Properties
@@ -33,11 +31,14 @@ final class PostOptionViewModel {
   
   private let postAuthorBlockHandler = PassthroughSubject<Void, Never>()
   
-  // MARK: - Lifecycle
-  // TODO: - postAuthorId가 존재하지 않을 수있음. 이 경우는 유니버셜 링크를 타고 들어오는 경우이고, 이때 메인에서 fetch하면 노티로 여기서 postId,
-  // 저자 닉네임, 저자 이름 받도록 구현해야함.
+  var fetchedPostDetailNotifier = PassthroughSubject<FetchedPostDetailForUniversalLinkEntity, Never>()
   
+  private var subscriptions = Set<AnyCancellable>()
+  
+  // MARK: - Lifecycle
   /// postId가 nil인 경우는 피드(포스트 써머리 화면)에서 사용됩니다.
+  /// dataSource.postId == nil인 경우, 피드 화면 즉, 포스트 summary(thumbnail)에서 사용됩니다. 피드 화면은 여러 포스트들이 있으므로 사용자가 옵션 기능을
+  /// 호출하기 전까지는 어느  postId인지 모르기 때문입니다.
   init(
     dataSource: PostOptionViewModelInfo,
     actions: PostOptionViewModelActions,
@@ -48,6 +49,29 @@ final class PostOptionViewModel {
     self.actions = actions
     self.ownerRepository = ownerRepository
     self.userBlockUseCase = userBlockUseCase
+    bind()
+  }
+}
+
+// MARK: - Private Helpers
+private extension PostOptionViewModel {
+  func bind() {
+    /// 포스트 상세 화면에서 사용되는 경우에만 유니버셜 링크에 의해  데이터를 postDetailVM에서 받는 경우에 대한 바인딩을 합니다.
+    /// 유니버셜 링크에 의해 들어와질 경우, postDetailVM에서 유니버셜 리크를 통해 확인된 postId 데이터를 받기 전까지 Self.dataSource가 호출될 일은 없습니다.
+    guard dataSource.postOptionLocation == .detailPage else {
+      return
+    }
+    makeFetchedPostDetailNotificationSubscriber()
+      .store(in: &subscriptions)
+    
+    fetchedPostDetailNotifier
+      .receive(on: RunLoop.current)
+      .sink { [weak self] entity in
+        self?.dataSource.postId = entity.postId
+        self?.dataSource.postAuthorId = entity.authorId
+        self?.dataSource.postAuthorNickname = entity.postAuthorNickname
+        self?.dataSource.postTitle = entity.postTitle
+      }.store(in: &subscriptions)
   }
 }
 
@@ -56,7 +80,6 @@ extension PostOptionViewModel: PostOptionViewModelPageDelegate {
   /// 해당 포스트가 타인일 경우 포소트 신고하기, 포스트 차단하기 액션 시트창이 보여집니다.
   ///   자기자신의 포스트일 경우 공유하기 액션 시트창이 보여집니다.
   func showPostOption() {
-    // TODO: - id Int32로 수정해야합니다.
     if let postId = dataSource.postId,
        let postTitle = dataSource.postTitle,
        ownerRepository.id == dataSource.postAuthorId {

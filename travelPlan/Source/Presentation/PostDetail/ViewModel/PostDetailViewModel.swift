@@ -27,6 +27,8 @@ final class PostDetailViewModel: PostOptionNotificationBinder {
   
   private let actions: PostDetailViewModelActions?
   
+  private var isFavorite: Bool = false
+  
   // MARK: - Combine Properties
   private var subscriptions = Set<AnyCancellable>()
   
@@ -57,6 +59,7 @@ final class PostDetailViewModel: PostOptionNotificationBinder {
       self.postId = post.detail.postID
     } else {
       /// postId만 존재한다는 것은 universal link를 통해 공유하기 로직으로 접근된 것입니다.
+      /// 이 경우 피드 화면 -> 상세화면으로 오는게 아닌, 특정 postId를 기반으로 바로 상세화면으로 접근되는 것이기에, 별도로 서버에 fetch 해야합니다.
       self.postId = postId
     }
     self.postFetchUseCase = postFetchUseCase
@@ -129,6 +132,7 @@ extension PostDetailViewModel: PostDetailViewModelPageDelegate {
 extension PostDetailViewModel: PostDetailViewModelable {
   func transform(_ input: PostDetailViewModelInput) -> AnyPublisher<PostDetailViewModelState, Never> {
     return Publishers.MergeMany([
+      favoriteStateOnViewDidLoadStream(input),
       viewDidLoadStream(input),
       errorHandlerStream(),
       postDetailsFetchNotifierStream(),
@@ -140,6 +144,14 @@ extension PostDetailViewModel: PostDetailViewModelable {
 
 // MARK: - Private Input's Stream
 private extension PostDetailViewModel {
+  func favoriteStateOnViewDidLoadStream(_ input: Input) -> Output {
+    return input
+      .favoriteStateOnViewDidLoad
+      .map { [weak self] isFavorite in
+        self?.isFavorite = isFavorite
+        return .none
+      }.eraseToAnyPublisher()
+  }
   func errorHandlerStream() -> Output {
     return errorHandler.map { errorState -> State in
       switch errorState {
@@ -152,8 +164,7 @@ private extension PostDetailViewModel {
   /// Universal link에 의해 포스트 상세화면에 접근될 경우 호출되는 stream입니다.
   func postDetailsFetchNotifierStream() -> Output {
     return postDetailsFetchNotifier.map { [weak self] _ -> State in
-      self?.navigationInfo.send()
-      self?.loggedInUserUseCaseHandler.send()
+      self?.configureForInitialSetting()
       return .viewDidLoad(.reloadData)
     }.eraseToAnyPublisher()
   }
@@ -178,8 +189,7 @@ private extension PostDetailViewModel {
           self?.fetchPostDetails(with: postId)
           return .networkProcessing
         }
-        self?.navigationInfo.send()
-        self?.loggedInUserUseCaseHandler.send()
+        self?.configureForInitialSetting()
         return .none
       }.eraseToAnyPublisher()
   }
@@ -202,6 +212,11 @@ private extension PostDetailViewModel {
 
 // MARK: - Private Helpers
 private extension PostDetailViewModel {
+  func configureForInitialSetting() {
+    navigationInfo.send()
+    loggedInUserUseCaseHandler.send()
+  }
+
   func bind() {
     bindPostOptionResult { [weak self] element in
       if let element = element {
@@ -236,6 +251,12 @@ private extension PostDetailViewModel {
     } receiveValue: { [weak self] postEntity in
       self?.postDetails = PostMapper.toPostDetails(postEntity, category: postEntity.category)
       self?.postDetailsFetchNotifier.send()
+      PostNotificationManager.shared.notifyPostDetailFetchForAccessingUniversalLink(post: postEntity) {
+        if !$0 {
+          self?.actions?.showAlertForError("postIdentifier가 유효하지 않습니다.", nil)
+          self?.actions?.finishWithAnim()
+        }
+      }
     }.store(in: &subscriptions)
   }
 }
