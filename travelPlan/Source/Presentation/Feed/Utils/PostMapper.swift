@@ -25,9 +25,9 @@ struct PostMapper {
       text: post.detail.content.first?.text ?? "",
       thumbnailImageDataList: thumbnails)
     let postFooterInfo = PostFooterInfo(
-      heartCount: String(post.detail.likes),
+      heartCount: post.detail.likes,
       heartState: post.liked ?? false,
-      commentCount: String(post.detail.comments))
+      commentCount: post.detail.comments)
     return PostInfo(
       postId: post.detail.postID,
       header: postHeaderInfo,
@@ -69,7 +69,7 @@ struct PostMapper {
       detail: postDetail,
       author: post.author,
       isFavorite: false,
-      hasHeart: post.liked ?? false ,
+      hasHeart: post.liked ?? false,
       category: category)
   }
 }

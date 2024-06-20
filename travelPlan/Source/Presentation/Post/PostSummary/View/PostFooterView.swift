@@ -116,12 +116,21 @@ extension PostFooterView {
     heartStackView.icon.addGestureRecognizer(tap)
   }
   
-  private func setHeart(with text: String?) {
-    heartStackView.label.text = text
+  private func setHeart(with count: Int32?) {
+    guard let count = count else {
+      heartStackView.label.text = "0"
+      return
+    }
+    heartStackView.label.text = "\(NumberFormatterWithSuffix.format(number: Int(count)))"
   }
   
-  private func setComment(with text: String?) {
-    commentStackView.label.text = text
+  private func setComment(with count: Int32?) {
+    guard let count = count else {
+      commentStackView.label.text = "0"
+      return
+    }
+    commentStackView.label.text = "\(NumberFormatterWithSuffix.format(number: Int(count)))"
+    
   }
 
   private func setHeartIcon(with state: Bool) {

@@ -9,13 +9,13 @@ import Foundation
 
 struct PostFooterInfo {
   // heart text
-  let heartCount: String
+  let heartCount: Int32
   // 로그인한 유저가 하트를 눌렀는가?
   let heartState: Bool
   // comment text
-  let commentCount: String
+  let commentCount: Int32
   
   static func makeDefault() -> Self {
-    return Self(heartCount: "0", heartState: false, commentCount: "0")
+    return Self(heartCount: 0, heartState: false, commentCount: 0)
   }
 }
