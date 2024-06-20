@@ -13,19 +13,19 @@ import Combine
 struct StubPostAtomicCommentRepository: PostAtomicCommentRepository {
   private let createAt: Date = DateTimeConverter.toDate(from: "2024.5.14")!
   func fetchComments(
-    postId: String
+    postId: PostIdentifier
   ) -> AnyPublisher<[travelPlan.PostAtomicCommentEntity], any Error> {
     return Just([
       travelPlan.PostAtomicCommentEntity(
-        commentId: "11",
-        authorId: "11",
+        commentId: 11,
+        authorId: 11,
         comment: "댓1",
         createAt: createAt,
         hasDeleted: false,
         hearts: 0),
       travelPlan.PostAtomicCommentEntity(
-        commentId: "22",
-        authorId: "22",
+        commentId: 22,
+        authorId: 22,
         comment: "댓2",
         createAt: createAt,
         hasDeleted: false, hearts: 0)
@@ -33,12 +33,12 @@ struct StubPostAtomicCommentRepository: PostAtomicCommentRepository {
   }
   
   func sendComment(
-    ownerId: String,
-    postId: String,
+    ownerId: UserIdentifier,
+    postId: PostIdentifier,
     comment: String
   ) -> AnyPublisher<travelPlan.PostAtomicCommentEntity, any Error> {
     return Just(travelPlan.PostAtomicCommentEntity(
-      commentId: "12",
+      commentId: 12,
       authorId: ownerId,
       comment: comment,
       createAt: createAt,
@@ -48,8 +48,8 @@ struct StubPostAtomicCommentRepository: PostAtomicCommentRepository {
   }
   
   func updateComment(
-    postId: String,
-    commentId: String,
+    postId: PostIdentifier,
+    commentId: CommentIdentifier,
     comment: String
   ) -> AnyPublisher<Void, any Error> {
     return Just(()).setAnyErrorAndEraseToAnyPublisher()
@@ -57,8 +57,8 @@ struct StubPostAtomicCommentRepository: PostAtomicCommentRepository {
   
   func deleteComment(
     hasAnyNestedCommentExisted: Bool,
-    postId: String,
-    commentId: String
+    postId: PostIdentifier,
+    commentId: CommentIdentifier
   ) -> AnyPublisher<Void, any Error> {
     return Just(()).setAnyErrorAndEraseToAnyPublisher()
   }

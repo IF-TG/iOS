@@ -8,9 +8,12 @@
 import Swinject
 import Foundation
 
-final class SpringServierRepository: Assembly {
+final class SpringServierRepositoryAssembly: Assembly {
   // swiftlint:disable:next function_body_length
   func assemble(container: Swinject.Container) {
+    let defaultSession = container.resolve(Sessionable.self, name: .implementation(.default))!
+    let mockSession = container.resolve(Sessionable.self, name: .implementation(.interceptedDefault))!
+    
     // TODO: - SpringServer
     
     // TODO: - SpringServer User
@@ -20,6 +23,19 @@ final class SpringServierRepository: Assembly {
     
     container.register(LoggedInUserRepository.self, name: .testDouble(.stub)) { _ in
       return DefaultLoggedInUserRepository(storage: Dependency(name: .testDouble(.stub)))
+    }
+    
+    // MARK: UserBlockRepository
+    container.register(UserBlockRepository.self, name: .implementation(.default)) { _ in
+      return DefaultUserBlockRepository(service: defaultSession)
+    }
+    
+    container.register(UserBlockRepository.self, name: .implementation(.interceptedDefault)) { r in
+      return DefaultUserBlockRepository(service: mockSession)
+    }
+    
+    container.register(UserBlockRepository.self, name: .testDouble(.mock)) { _ in
+      return MockWrappedUserBlockRepository()
     }
     
     // TODO: - SpringServer Post
@@ -33,6 +49,15 @@ final class SpringServierRepository: Assembly {
       let stubOwnerStorage = r.resolve(OwnerStorage.self, name: .testDouble(.stub))!
       let mockSessionProvider = r.resolve(Sessionable.self, name: .testDouble(.mock))!
       return DefaultPostRepository(service: mockSessionProvider, ownerStorage: stubOwnerStorage)
+    }
+    
+    // MARK: - whatsNewNotification
+    container.register(WhatsNewNotificationRepository.self, name: .implementation(.default)) { _ in
+      return DefaultWhatsNewNotificationRepository(service: defaultSession)
+    }
+    
+    container.register(WhatsNewNotificationRepository.self, name: .implementation(.interceptedDefault)) { _ in
+      return InterceptedWhatsNewNotificationRepository()
     }
   }
 }

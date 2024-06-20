@@ -10,23 +10,31 @@ import Foundation
 
 final class DefaultNoticeUseCase: NoticeUseCase {
   // MARK: - Dependencies
-  private let notificationRepository: NotificationRepository
+  private let whatsNewNotificationRepository: WhatsNewNotificationRepository
   
   // MARK: - Properties
-  var noticeEntities: CurrentValueSubject<[NoticeEntity], Never> = .init([])
+  var whatsNewNoticeEntities: CurrentValueSubject<[NoticeEntity], any Error> = .init([])
   
   private var subscriptions = Set<AnyCancellable>()
   
   // MARK: - Lifecycle
-  init(notificationRepository: NotificationRepository) {
-    self.notificationRepository = notificationRepository
+  init(whatsNewNotificationRepository: WhatsNewNotificationRepository) {
+    self.whatsNewNotificationRepository = whatsNewNotificationRepository
   }
   
-  func fetchNotices() {
-    notificationRepository
+  func fetchWhatsNewNotices() {
+    whatsNewNotificationRepository
       .fetchNotices()
-      .sink { [weak self] noticeEntities in
-        self?.noticeEntities.send(noticeEntities)
-      }.store(in: &subscriptions)
+      .sink(receiveCompletion: { [weak self] completion in
+        if case .failure(let error) = completion {
+          self?.whatsNewNoticeEntities.send(completion: .failure(error))
+        }
+      }, receiveValue: { [weak self] noticeEntities in
+        let noticeEntities = noticeEntities.map {
+          let details = $0.details.replacingOccurrences(of: "\\n", with: "\n")
+          return NoticeEntity(title: $0.title, date: $0.date, details: details)
+        }
+        self?.whatsNewNoticeEntities.send(noticeEntities)
+      }).store(in: &subscriptions)
   }
 }

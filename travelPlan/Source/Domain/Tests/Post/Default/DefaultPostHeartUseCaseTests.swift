@@ -16,7 +16,13 @@ final class DefaultPostHeartUseCaseTests: XCTestCase {
   var sut: PostHeartUseCase!
   var subscriptions = Set<AnyCancellable>()
   var expectation: XCTestExpectation!
-  let testPostId = "ABEB803F-DD54-41A4-B8BF-487A210BD1EC"
+  
+  // MARK: - Identifier
+  // firestore의 identifer들은 String 입니다 하지만 spring server에서는 Int로 Identifier를 제공하고, 현재
+  // spring server를 사용하기에 Int64숫자 임의대로 지정했습니다. 테스트는 결과는 전부 false됩니다...
+  // target은 추가히지 않았습니다.
+  // let testPostId = "ABEB803F-DD54-41A4-B8BF-487A210BD1EC"
+  let testPostId: PostIdentifier = 1
   
   // MARK: - Lifecycle
   override func setUp() {

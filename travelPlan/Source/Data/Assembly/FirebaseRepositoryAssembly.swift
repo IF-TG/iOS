@@ -22,8 +22,6 @@ final class FirebaseRepositoryAssembly: Swinject.Assembly {
     let firestoreService = container.resolve(FirestoreServiceProtocol.self, name: .implementation(.firestore))!
     let firestoreStorageService = container.resolve(
       ImageStorageServiceProtocol.self, name: .implementation(.firestore))!
-    let defaultSession = container.resolve(Sessionable.self, name: .implementation(.default))!
-    let mockSession = container.resolve(Sessionable.self, name: .implementation(.interceptedDefault))!
     
     // MARK: - Firestore PostComment
     container.register(PostAtomicCommentRepository.self, name: .implementation(.firestore)) { _ in
@@ -96,42 +94,9 @@ final class FirebaseRepositoryAssembly: Swinject.Assembly {
         ownerStorage: ownerStorage)
     }
     
-    // TODO: - Tour API
-    
-    // TODO: - SpringServer
-    
-    // TODO: - SpringServer User
-    container.register(LoggedInUserRepository.self, name: .implementation(.default)) { _ in
-      return DefaultLoggedInUserRepository(storage: .init(name: .implementation(.default)))
-    }
-    
-    container.register(LoggedInUserRepository.self, name: .testDouble(.stub)) { _ in
-      return DefaultLoggedInUserRepository(storage: .init(name: .testDouble(.stub)))
-    }
-    
-    container.register(UserBlockRepository.self, name: .implementation(.default)) { _ in
-      return DefaultUserBlockRepository(service: defaultSession)
-    }
-    
-    container.register(UserBlockRepository.self, name: .implementation(.interceptedDefault)) { r in
-      return DefaultUserBlockRepository(service: mockSession)
-    }
-    
-    container.register(UserBlockRepository.self, name: .testDouble(.mock)) { _ in
-      return MockWrappedUserBlockRepository()
-    }
-    
-    // TODO: - SpringServer Post
-    container.register(PostRepository.self, name: .implementation(.default)) { r in
-      let defaultOwnerStorage = r.resolve(OwnerStorage.self, name: .implementation(.default))!
-      let defaultSessionProvider = r.resolve(Sessionable.self, name: .implementation(.default))!
-      return DefaultPostRepository(service: defaultSessionProvider, ownerStorage: defaultOwnerStorage)
-    }
-    
-    container.register(PostRepository.self, name: .implementation(.interceptedDefault)) { r in
-      let stubOwnerStorage = r.resolve(OwnerStorage.self, name: .testDouble(.stub))!
-      let mockSessionProvider = r.resolve(Sessionable.self, name: .testDouble(.mock))!
-      return DefaultPostRepository(service: mockSessionProvider, ownerStorage: stubOwnerStorage)
+    // MARK: - Firestore whatsNewNotification
+    container.register(WhatsNewNotificationRepository.self, name: .implementation(.firestore)) { _ in
+      return FirestoreWhatsNewNotificationRepository(service: firestoreService)
     }
   }
 }

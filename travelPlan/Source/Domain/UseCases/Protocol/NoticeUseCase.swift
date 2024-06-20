@@ -8,7 +8,7 @@
 import Combine
 
 protocol NoticeUseCase {
-  var noticeEntities: CurrentValueSubject<[NoticeEntity], Never> { get }
+  var whatsNewNoticeEntities: CurrentValueSubject<[NoticeEntity], any Error> { get }
   
-  func fetchNotices()
+  func fetchWhatsNewNotices()
 }

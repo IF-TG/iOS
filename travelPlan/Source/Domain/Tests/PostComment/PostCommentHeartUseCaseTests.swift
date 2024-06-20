@@ -34,7 +34,7 @@ final class PostCommentHeartUseCaseTests: XCTestCase {
     var unexpectedError: Error?
     
     // Act
-    subscription = sut.toggleCommentHeart(postId: "1",commentId: "1")
+    subscription = sut.toggleCommentHeart(postId: 1,commentId: 1)
       .sink { [unowned self] completion in
         if case .failure(let error) = completion {
           unexpectedError = error
