@@ -11,7 +11,7 @@ import Foundation
 
 final class StubPostFetchAtomicRepository: PostFetchAtomicRepository {
   private let stubPostDetail: Post.Detail<[Post.PostContent]> = .init(
-    postID: "11", title: "temp", content: [.init(sort: 0, text: "temp")],
+    postID: 11, title: "temp", content: [.init(sort: 0, text: "temp")],
     likes: 0, comments: 0, location: .init(x: 0, y: 0), createAt: Date(),
     tripDate: .init(startDate: Date(), endDate: Date()))
   
@@ -19,9 +19,9 @@ final class StubPostFetchAtomicRepository: PostFetchAtomicRepository {
   
   private var stubAtomicPost: [AtomicPost] {
     return [
-      AtomicPost(authorId: "1", detail: stubPostDetail, category: category,
+      AtomicPost(authorId: 1, detail: stubPostDetail, category: category,
                  highResolveImages: [.init(imageData: Data(), sort: 1)]),
-      AtomicPost(authorId: "2", detail: stubPostDetail, category: category,
+      AtomicPost(authorId: 2, detail: stubPostDetail, category: category,
                  highResolveImages: [.init(imageData: Data(), sort: 1)])]
   }
   
@@ -36,7 +36,7 @@ final class StubPostFetchAtomicRepository: PostFetchAtomicRepository {
   func fetchOwnerLikedPosts(
     page: Int32,
     perPage: Int32,
-    likedPostIdList: [String]
+    likedPostIdList: [PostIdentifier]
   ) -> AnyPublisher<[AtomicPost], any Error> {
     return makeAtomicPostsPublisher()
   }

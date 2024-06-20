@@ -27,9 +27,9 @@ final class PostCommentUseCaseImplTests: XCTestCase {
     let postNestedCommentHeartRepository = FirestorePostNestedCommentHeartRepository(
       service: service,
       backgroundQueue: DispatchQueue(label: "background", qos: .background, attributes: .concurrent))
-    let ownerRepository = DefaultLoggedInUserRepository(storage: StubOwnerStorage())
+    let ownerRepository = DefaultLoggedInUserRepository(storage: .init(name: .testDouble(.stub)))
     sut = PostCommentUseCaseImpl(
-      ownerRepository: DefaultLoggedInUserRepository(storage: StubOwnerStorage()),
+      ownerRepository: DefaultLoggedInUserRepository(storage: .init(name: .testDouble(.stub))),
       postAtomicCommentRepository: stubPostAtomicCommentRepository,
       postNestedCommentRepository: stubPostAtomicNestedCommentRepository,
       userProfileRepository: mockUserProfileRepository,
@@ -53,7 +53,7 @@ extension PostCommentUseCaseImplTests {
     var receivedResult: Bool = false
     
     // Act
-    let publisher = sut.fetchComments(with: .init(page: 0, perPage: 0, postId: "1"))
+    let publisher = sut.fetchComments(with: .init(page: 0, perPage: 0, postId: 1))
       .map { print($0); return () }
     
     sink(fromPublisher: publisher, withExpectation: expectation) { error, result in

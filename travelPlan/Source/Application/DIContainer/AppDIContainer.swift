@@ -30,7 +30,7 @@ final class AppDIContainer {
       CoreAssembly(),
       PersistentStorageAssembly(),
       TourRepositoryAssembly(),
-      SpringServierRepository(),
+      SpringServierRepositoryAssembly(),
       FirebaseRepositoryAssembly(),
       DomainAssembly(),
       PresentationFeedAssembly(),
@@ -125,5 +125,20 @@ extension AppDIContainer: FeedCoordinatorDependencies {
     mode: ReviewWritingMode
   ) -> ReviewWritingCoordinator {
     return resolver.resolve(ReviewWritingCoordinator.self, arguments: presenter, mode)!
+  }
+}
+
+// MARK: - NotificationCenterCoordinatorDependencies
+extension AppDIContainer: NotificationCenterCoordinatorDependencies {
+  /// 업데이트마다 보여지는 공지사항은  spring server를 활용한 레포를 구현했지만, 해당 기능 제공이 불확실해서
+  ///   Firestore로도 구현했습니다. firestore에서 로그인하지 않아도 공지사항을 read할 수 있도록 특정 컬랙션 규칙을 수정했습니다.
+  func makeNotificationCenterViewController() -> NotificationCenterViewController {
+    #if DEBUG
+    return resolver.resolve(NotificationCenterViewController.self, name: .implementation(.firestore))!
+    // return resolver.resolve(NotificationCenterViewController.self, name: .implementation(.interceptedDefault))!
+    #else
+    return resolver.resolve(NotificationCenterViewController.self, name: .implementation(.firestore))!
+    // return resolver.resolve(NotificationCenterViewController.self, name: .implementation(.default))!
+    #endif
   }
 }

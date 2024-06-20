@@ -42,7 +42,7 @@ private extension NoticeViewModel {
   func viewDidLoadStream(_ input: Input) -> Output {
     return input.viewDidLoad
       .map { [weak self] _ in
-        self?.noticeUseCase.fetchNotices()
+        self?.noticeUseCase.fetchWhatsNewNotices()
         return .none
       }.eraseToAnyPublisher()
   }
@@ -65,8 +65,9 @@ private extension NoticeViewModel {
 // MARK: - Private Helpers
 private extension NoticeViewModel {
   func bind() {
-    noticeUseCase.noticeEntities
+    noticeUseCase.whatsNewNoticeEntities
       .receive(on: DispatchQueue.main)
+      .catch { _ in return Just([]) }
       .sink { [weak self] noticeEntities in
         self?.notices = noticeEntities.map {
           return .init(

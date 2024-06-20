@@ -36,13 +36,21 @@ import Swinject
 final class Dependency<Value> {
   // MARK: - Properties
   private var value: Value?
-  private let engine: Assembler
+  private let assembler: Assembler
+  /// 컨테이너에 register할 때 resolver가 필요한 경우 지정하면 DI graph 형성시 이를 통해 가져옵니다.
+  private let resolver: Resolver?
   private let name: ServiceName?
   
   // MARK: - Lifecycle
-  init(value: Value? = nil, engine: Assembler = AppDIContainer.shared.assembler, name: ServiceName? = nil) {
+  init(
+    value: Value? = nil,
+    resolver: Resolver? = nil,
+    assembler: Assembler = AppDIContainer.shared.assembler,
+    name: ServiceName? = nil
+  ) {
     self.value = value
-    self.engine = engine
+    self.resolver = resolver
+    self.assembler = assembler
     self.name = name
   }
   
@@ -53,8 +61,13 @@ final class Dependency<Value> {
         return value
       }
       
+      if let resolver = resolver, let value: Value = resolver.resolve(Value.self, name: name) {
+        self.value = value
+        return value
+      }
+      
       /// ServiceKey로 이름을 지정한 경우
-      if let value: Value = engine.resolver.resolve(Value.self, name: name) {
+      if let value: Value = assembler.resolver.resolve(Value.self, name: name) {
         self.value = value
         return value
       }

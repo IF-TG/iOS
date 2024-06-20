@@ -11,43 +11,43 @@ import Combine
 
 struct StubPostNestedCommentHeartRepository: PostNestedCommentHeartRepository {
   func fetchNestedCommentHeartUsers(
-    with postId: String,
-    commentId: String,
-    nestedCommentId: String
+    with postId: PostIdentifier,
+    commentId: CommentIdentifier,
+    nestedCommentId: NestedCommentIdentifier
   ) -> AnyPublisher<[UserIdentifier], any Error> {
-    return Just(["111", "222"]).setAnyErrorAndEraseToAnyPublisher()
+    return Just([111, 222]).setAnyErrorAndEraseToAnyPublisher()
   }
   
   func fetchNestedCommentHearts(
-    with postId: String,
-    commentId: String,
-    nestedCommentId: String
+    with postId: PostIdentifier,
+    commentId: CommentIdentifier,
+    nestedCommentId: NestedCommentIdentifier
   ) -> AnyPublisher<Int, any Error> {
     return Just(2).setAnyErrorAndEraseToAnyPublisher()
   }
   
   func heartNestedComment(
-    with postId: String,
-    commentId: String,
-    nestedCommentId: String,
-    userId: String
+    with postId: PostIdentifier,
+    commentId: CommentIdentifier,
+    nestedCommentId: NestedCommentIdentifier,
+    userId: UserIdentifier
   ) -> AnyPublisher<Void, any Error> {
     return Just(()).setAnyErrorAndEraseToAnyPublisher()
   }
   
   func hateNestedComment(
-    with postId: String,
-    commentId: String,
-    nestedCommentId: String,
-    userId: String
+    with postId: PostIdentifier,
+    commentId: CommentIdentifier,
+    nestedCommentId: NestedCommentIdentifier,
+    userId: UserIdentifier
   ) -> AnyPublisher<Void, any Error> {
     return Just(()).setAnyErrorAndEraseToAnyPublisher()
   }
   
   func updateNestedCommentHearts(
-    with postId: String,
-    commentId: String,
-    nestedCommentId: String,
+    with postId: PostIdentifier,
+    commentId: CommentIdentifier,
+    nestedCommentId: NestedCommentIdentifier,
     willHeartComment: Bool
   ) -> AnyPublisher<Void, any Error> {
     return Just(()).setAnyErrorAndEraseToAnyPublisher()

@@ -62,5 +62,23 @@ final class DomainAssembly: Swinject.Assembly {
     // TODO: - FavoriteDirectory Use Case
     
     // TODO: - Authentication Use Case
+    
+    // MARK: - Notice Use Case
+    container.register(NoticeUseCase.self, name: .implementation(.default)) { r in
+      let defaultWhatsNewRepo = r.resolve(WhatsNewNotificationRepository.self, name: .implementation(.default))!
+      return DefaultNoticeUseCase(whatsNewNotificationRepository: defaultWhatsNewRepo)
+    }
+    
+    container.register(NoticeUseCase.self, name: .implementation(.interceptedDefault)) { r in
+      let interceptedWhatsNewRepo = r.resolve(
+        WhatsNewNotificationRepository.self,
+        name: .implementation(.interceptedDefault))!
+      return DefaultNoticeUseCase(whatsNewNotificationRepository: interceptedWhatsNewRepo)
+    }
+    
+    container.register(NoticeUseCase.self, name: .implementation(.firestore)) { r in
+      let firestoreWhatsNewRepo = r.resolve(WhatsNewNotificationRepository.self, name: .implementation(.firestore))!
+      return DefaultNoticeUseCase(whatsNewNotificationRepository: firestoreWhatsNewRepo)
+    }
   }
 }
