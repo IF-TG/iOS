@@ -616,9 +616,10 @@ private extension PostDetailChatViewModel {
         /// 대댓글 제거
         self?.comments[commentSectionIndex].nestedComments.remove(at: indexPath.row)
         
-        // TODO: - 이 로직은 서버에서 대댓글제거할때 마지막 대댓글인지 확인해야하는데, 스프링에선 대댓글 제거만으로 알 수 없습니다.
+        // MARK: 이 로직은 서버에서 대댓글제거할때 마지막 대댓글인지 확인해야하는데, 스프링에선 대댓글 제거만으로 알 수 없습니다.
         /// 그래서 임시적으로 이곳에서 작업합니다.
         /// 서버에서 현재 대댓글 개수가 몇 개인지 알수있는 api있으면 더 확실하게 좋을거같습니다.
+        /// 그러나 현재 가지고 있는 데이터 기준으로 하기로 결정 났으므로 현상태 유지!
         if self?.comments[commentSectionIndex].nestedComments.count == 0 && hasDeletedComment {
           self?.comments.remove(at: commentSectionIndex)
           /// 테이블뷰에 실제로 특정 셀 제거 후 리로드 명령은 실제 indexPath로 해야합니다.
