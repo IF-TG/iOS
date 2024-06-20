@@ -14,4 +14,8 @@ struct PostFooterInfo {
   let heartState: Bool
   // comment text
   let commentCount: String
+  
+  static func makeDefault() -> Self {
+    return Self(heartCount: "0", heartState: false, commentCount: "0")
+  }
 }
