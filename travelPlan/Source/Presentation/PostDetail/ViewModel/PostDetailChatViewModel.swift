@@ -49,6 +49,10 @@ final class PostDetailChatViewModel {
   
   private let postNestedCommentUseCase: PostNestedCommentUseCase
   
+  private let postCommentHeartUseCase: PostCommentHeartUseCase
+  
+  private let postNestedCommentHeartUseCase: PostNestedCommentHeartUseCase
+  
   private let ownerRepository: LoggedInUserRepository
   
   private let userBlockUseCase: UserBlockUseCase
@@ -114,7 +118,9 @@ final class PostDetailChatViewModel {
     postId: PostIdentifier,
     postCommentsAndPostLikeStateFetchUseCase: PostCommentsAndPostLikeStateFetchUseCase,
     postCommentUseCase: PostCommentUseCase,
+    postCommentHeartUseCase: PostCommentHeartUseCase,
     postNestedCommentUseCase: PostNestedCommentUseCase,
+    postNestedCommentHeartUseCase: PostNestedCommentHeartUseCase,
     userBlockUseCase: UserBlockUseCase,
     ownerRepository: LoggedInUserRepository,
     actions: PostDetailChatViewModelActions
@@ -122,7 +128,9 @@ final class PostDetailChatViewModel {
     self.postId = postId
     self.postCommentsAndPostLikeStateFetchUseCase = postCommentsAndPostLikeStateFetchUseCase
     self.postCommentUseCase = postCommentUseCase
+    self.postCommentHeartUseCase = postCommentHeartUseCase
     self.postNestedCommentUseCase = postNestedCommentUseCase
+    self.postNestedCommentHeartUseCase = postNestedCommentHeartUseCase
     self.userBlockUseCase = userBlockUseCase
     self.ownerRepository = ownerRepository
     self.actions = actions
@@ -211,8 +219,60 @@ extension PostDetailChatViewModel: PostDetailChatViewModelable {
       nestedCommentUseCaseNotifierStream(),
       viewDidLoadStream(input),
       blockedCommentCompletionNotifierStream(),
-      blockedNestedCommentCompletionNotifierStream()
+      blockedNestedCommentCompletionNotifierStream(),
+      heartEventNotifierStream(input)
     ]).eraseToAnyPublisher()
+  }
+}
+
+// MARK: - Private Heart Helpers
+private extension PostDetailChatViewModel {
+  private func heartEventNotifierStream(_ input: Input) -> Output {
+    return input.heartEventNotifier
+      .flatMap { [weak self] heartState -> Output in
+        guard let self else {
+          return Just(.unexpectedError(
+            description: "예기치 못한 에러가 발생됬습니다. \(ReferenceError.invalidReference.localizedDescription)")
+          ).eraseToAnyPublisher()
+        }
+        switch heartState {
+        case .post:
+          print("포스트 하트 api 없음")
+          return Just(.none).eraseToAnyPublisher()
+        case .postComment(let section):
+          return togglePostCommentHeart(for: section)
+        case .postNestedComment(let indexPath):
+          return togglePostNestedCommentHeart(for: indexPath)
+        }
+      }.eraseToAnyPublisher()
+  }
+  
+  private func togglePostCommentHeart(for section: Int) -> Output {
+    let commentSection = PostDetailSection.commentIndex(section: section)
+    let commentId = comments[commentSection].commentId
+    return postCommentHeartUseCase
+      .toggleCommentHeart(postId: postId, commentId: commentId)
+      .map { _ -> State in return .none }
+      .catch {
+        let errorDescription = "예기치 못한 에러가 발생됬습니다. \($0.localizedDescription)"
+        return Just(State.unexpectedError(description: errorDescription)).eraseToAnyPublisher()
+      }
+      .eraseToAnyPublisher()
+  }
+  
+  private func togglePostNestedCommentHeart(for indexPath: IndexPath) -> Output {
+    let commentSection = PostDetailSection.commentIndex(section: indexPath.section)
+    let comment = comments[commentSection]
+    let commentId = comment.commentId
+    let nestedCommentId = comment.nestedComments[indexPath.row].nestedCommentId
+    return postNestedCommentHeartUseCase
+      .toggleNestedCommentHeart(postId: postId, commentId: commentId, nestedCommentId: nestedCommentId)
+      .map { _ in State.none }
+      .catch {
+        let errorDescription = "예기치 못한 에러가 발생됬습니다. \($0.localizedDescription)"
+        return Just(State.unexpectedError(description: errorDescription)).eraseToAnyPublisher()
+      }
+      .eraseToAnyPublisher()
   }
 }
 
