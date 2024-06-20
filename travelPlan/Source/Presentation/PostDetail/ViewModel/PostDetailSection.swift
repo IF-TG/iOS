@@ -14,7 +14,7 @@ import Foundation
   case postDescription
   /// 1
   case postContent
-  /// 2
+  /// 2 -> 이 섹션만 reload할 경우 글자수, 하트수 독립적 증가 가능. 좋음.
   case postHeartAndShareArea
   
   /// 3 이상부터는 comments가 있습니다.
