@@ -252,7 +252,10 @@ private extension PostDetailChatViewModel {
     let commentId = comments[commentSection].commentId
     return postCommentHeartUseCase
       .toggleCommentHeart(postId: postId, commentId: commentId)
-      .map { _ -> State in return .none }
+      .map { [weak self] entity -> State in
+        self?.comments[commentSection].isOnHeart = entity.isOnHeart
+        return .none
+      }
       .catch {
         let errorDescription = "예기치 못한 에러가 발생됬습니다. \($0.localizedDescription)"
         return Just(State.unexpectedError(description: errorDescription)).eraseToAnyPublisher()
@@ -267,7 +270,10 @@ private extension PostDetailChatViewModel {
     let nestedCommentId = comment.nestedComments[indexPath.row].nestedCommentId
     return postNestedCommentHeartUseCase
       .toggleNestedCommentHeart(postId: postId, commentId: commentId, nestedCommentId: nestedCommentId)
-      .map { _ in State.none }
+      .map { [weak self] entity -> State in
+        self?.comments[commentSection].nestedComments[indexPath.row].isOnHeart = entity.isOnHeart
+        return .none
+      }
       .catch {
         let errorDescription = "예기치 못한 에러가 발생됬습니다. \($0.localizedDescription)"
         return Just(State.unexpectedError(description: errorDescription)).eraseToAnyPublisher()
