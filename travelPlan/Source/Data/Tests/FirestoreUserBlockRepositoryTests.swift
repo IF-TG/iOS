@@ -37,9 +37,10 @@ extension FirestoreUserBlockRepositoryTests {
     // Arrange
     var hasReceivedResult = false
     var unexpectedError: Error?
+    // let userId = "testUserId123"
     
     // Act
-    let blockUserPublisher = sut.blockUser(with: "testUserId123").receive(on: RunLoop.current)
+    let blockUserPublisher = sut.blockUser(with: 1).receive(on: RunLoop.current)
     sink(fromPublisher: blockUserPublisher, withExpectation: expectation) { err, res in
       unexpectedError = err
       hasReceivedResult = res
@@ -55,9 +56,10 @@ extension FirestoreUserBlockRepositoryTests {
     // Arrange
     var hasReceivedResult = false
     var unexpectedError: Error?
+    // let userId = "testUserId123"
     
     // Act
-    let blockUserPublisher = sut.unblockUser(with: "testUserId123").receive(on: RunLoop.current)
+    let blockUserPublisher = sut.unblockUser(with: 1).receive(on: RunLoop.current)
     sink(fromPublisher: blockUserPublisher, withExpectation: expectation) { err, res in
       unexpectedError = err
       hasReceivedResult = res

@@ -11,7 +11,7 @@ import Foundation
 
 final class StubOwnerHeartPostRepository: OwnerHeartPostRepository {
   func fetchOwnerHeartPostIdentifiers() -> AnyPublisher<[PostIdentifier], any Error> {
-    return Just(["tempPostId1", "tempPostId2"]).setAnyErrorAndEraseToAnyPublisher()
+    return Just([11, 232]).setAnyErrorAndEraseToAnyPublisher()
   }
   
   func hasOwnerHeartPost(postId: PostIdentifier) -> AnyPublisher<Bool, any Error> {

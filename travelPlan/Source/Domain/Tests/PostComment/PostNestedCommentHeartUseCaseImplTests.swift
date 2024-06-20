@@ -14,9 +14,16 @@ final class PostNestedCommentHeartUseCaseImplTests: XCTestCase {
   var sut: PostNestedCommentHeartUseCaseImpl!
   var subscriptions = Set<AnyCancellable>()
   var expectation: XCTestExpectation!
-  let testPostId = "ABEB803F-DD54-41A4-B8BF-487A210BD1EC"
-  let testCommentId = "12181109-6CDE-46E5-AD4F-04E824E89581"
-  let testNestedCommentId = "941C554D-CB1E-4B7E-A749-9DA76E67D960"
+  // MARK: - Identifier
+  // firestore의 identifer들은 String 입니다 하지만 spring server에서는 Int로 Identifier를 제공하고, 현재
+  // spring server를 사용하기에 Int64숫자 임의대로 지정했습니다. 테스트는 결과는 전부 false됩니다...
+  // target은 추가히지 않았습니다.
+  //  let testPostId = "ABEB803F-DD54-41A4-B8BF-487A210BD1EC"
+  //  let testCommentId = "testComment1"
+  //  let testUserId = "testUser1"
+  let testPostId: PostIdentifier = 1
+  let testCommentId: CommentIdentifier = 1
+  let testNestedCommentId: NestedCommentIdentifier = 1
   
   override func setUp() {
     super.setUp()
@@ -24,7 +31,7 @@ final class PostNestedCommentHeartUseCaseImplTests: XCTestCase {
     let postNestedCommentHeartRepository = FirestorePostNestedCommentHeartRepository(
       service: service,
       backgroundQueue: DispatchQueue(label: "background", qos: .background, attributes: .concurrent))
-    let ownerRepository = DefaultLoggedInUserRepository(storage: StubOwnerStorage())
+    let ownerRepository = DefaultLoggedInUserRepository(storage: .init(name: .testDouble(.stub)))
     sut = PostNestedCommentHeartUseCaseImpl(
       nestedCommentHeartRepository: postNestedCommentHeartRepository,
       ownerRepository: ownerRepository)

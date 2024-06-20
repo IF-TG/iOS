@@ -41,7 +41,7 @@ extension PostNestedCommentUseCaseTests {
     var unexpectedError: Error?
     
     // Act
-    subscription = sut.sendNestedComment(postId: "111", commentId: "1", comment: "대댓글대댓글")
+    subscription = sut.sendNestedComment(postId: 111, commentId: 1, comment: "대댓글대댓글")
       .sink { [unowned self] completion in
         if case .failure(let error) = completion {
           unexpectedError = error
@@ -65,7 +65,7 @@ extension PostNestedCommentUseCaseTests {
     var unexpectedError: Error?
     
     // Act
-    subscription = sut.updateNestedComment(postId: "111", commentId: "222", nestedCommentId: "333", comment: "대댓글 대댓글수정")
+    subscription = sut.updateNestedComment(postId: 111, commentId: 222, nestedCommentId: 333, comment: "대댓글 대댓글수정")
       .sink { [unowned self] completion in
         if case .failure(let error) = completion {
           unexpectedError = error
@@ -89,7 +89,7 @@ extension PostNestedCommentUseCaseTests {
     var unexpectedError: Error?
     
     // Act
-    subscription = sut.deleteNestedComment(postId: "111", commentId: "222", nestedCommentId: "333", hasDeletedComment: false)
+    subscription = sut.deleteNestedComment(postId: 111, commentId: 222, nestedCommentId: 333, hasDeletedComment: false)
       .sink { [unowned self] completion in
         if case .failure(let error) = completion {
           unexpectedError = error

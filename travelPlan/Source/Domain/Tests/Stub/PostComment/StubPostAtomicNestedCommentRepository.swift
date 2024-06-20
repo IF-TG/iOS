@@ -14,25 +14,25 @@ struct StubPostAtomicNestedCommentRepository: PostAtomicNestedCommentRepository 
   private let createAt: Date = DateTimeConverter.toDate(from: "2024.5.14")!
   
   func fetchNestedComments(
-    postId: String,
-    commentId: String
+    postId: PostIdentifier,
+    commentId: CommentIdentifier
   ) -> AnyPublisher<[travelPlan.PostAtomicNestedCommentEntity], any Error> {
     Just([
       PostAtomicNestedCommentEntity(
-        nestedCommentId: "\(Int.random(in: 1000...7777))",
-        authorId: "test1234",
+        nestedCommentId: Int64.random(in: 1000...7777),
+        authorId: 1,
         comment: "야호!!",
         createAt: createAt,
         hearts: 0),
       PostAtomicNestedCommentEntity(
-        nestedCommentId: "\(Int.random(in: 1000...7777))",
-        authorId: "test1235",
+        nestedCommentId: Int64.random(in: 1000...7777),
+        authorId: 2,
         comment: "야호!!",
         createAt: createAt,
         hearts: 0),
       PostAtomicNestedCommentEntity(
-        nestedCommentId: "\(Int.random(in: 1000...7777))",
-        authorId: "test1236",
+        nestedCommentId: Int64.random(in: 1000...7777),
+        authorId: 3,
         comment: "야호!!",
         createAt: createAt,
         hearts: 0)
@@ -40,21 +40,21 @@ struct StubPostAtomicNestedCommentRepository: PostAtomicNestedCommentRepository 
   }
   
   func fetchTheNumberOfNestedComments(
-    postId: String,
-    commentId: String
+    postId: PostIdentifier,
+    commentId: CommentIdentifier
   ) -> AnyPublisher<Int, any Error> {
     Just(2).setAnyErrorAndEraseToAnyPublisher()
   }
   
   func sendNestedComment(
-    ownerId: String,
-    postId: String,
-    commentId: String, 
+    ownerId: CommentIdentifier,
+    postId: PostIdentifier,
+    commentId: CommentIdentifier,
     comment: String
   ) -> AnyPublisher<travelPlan.PostAtomicNestedCommentEntity, any Error> {
     return Just(PostAtomicNestedCommentEntity(
-      nestedCommentId: "1111", 
-      authorId: "1231",
+      nestedCommentId: 1111,
+      authorId: 1231,
       comment: comment,
       createAt: createAt,
       hearts: 0))
@@ -62,25 +62,25 @@ struct StubPostAtomicNestedCommentRepository: PostAtomicNestedCommentRepository 
   }
   
   func updateNestedComment(
-    postId: String,
-    commentId: String,
-    nestedCommentId: String,
+    postId: PostIdentifier,
+    commentId: CommentIdentifier,
+    nestedCommentId: NestedCommentIdentifier,
     comment: String
   ) -> AnyPublisher<Void, any Error> {
     return Just(()).setAnyErrorAndEraseToAnyPublisher()
   }
   
   func deleteNestedComment(
-    postId: String,
-    commentId: String,
-    nestedCommentId: String
+    postId: PostIdentifier,
+    commentId: CommentIdentifier,
+    nestedCommentId: NestedCommentIdentifier
   ) -> AnyPublisher<Void, any Error> {
     return Just(()).setAnyErrorAndEraseToAnyPublisher()
   }
   
   func deleteAllNestedComments(
-    postId: String,
-    commentId: String
+    postId: PostIdentifier,
+    commentId: CommentIdentifier
   ) -> AnyPublisher<Void, any Error> {
     return Just(()).setAnyErrorAndEraseToAnyPublisher()
   }

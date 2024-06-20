@@ -75,8 +75,56 @@ final class PresentationAssembly: Assembly {
         userBlockUseCase: firestoreUserBlockUseCase)
     }.inObjectScope(.transient)
     
-    // TODO: - Notification Page
+    // MARK: - Notification Page
+    typealias NoticeViewModelType = any NoticeViewModelable & NoticeViewAdapterDataSource
+    typealias NotificationViewModelType = any NotificationViewModelable & NotificationViewAdapterDataSource
     
+    // MARK: NotificationViewModelType
+    container.register(NotificationViewModelType.self) { _ in
+      return NotificationViewModel()
+    }
+    
+    // MARK: NoticeViewModelType
+    container.register(NoticeViewModelType.self, name: .implementation(.default)) { r in
+      let defaultNoticeUseCase = r.resolve(NoticeUseCase.self, name: .implementation(.default))!
+      return NoticeViewModel(noticeUseCase: defaultNoticeUseCase)
+    }
+    
+    container.register(NoticeViewModelType.self, name: .implementation(.interceptedDefault)) { r in
+      let interceptedNoticeUseCase = r.resolve(NoticeUseCase.self, name: .implementation(.interceptedDefault))!
+      return NoticeViewModel(noticeUseCase: interceptedNoticeUseCase)
+    }
+    
+    container.register(NoticeViewModelType.self, name: .implementation(.firestore)) { r in
+      let firestoreNoticeUseCase = r.resolve(NoticeUseCase.self, name: .implementation(.firestore))!
+      return NoticeViewModel(noticeUseCase: firestoreNoticeUseCase)
+    }
+    
+    // MARK: NotificationCenterViewController
+    container.register(NotificationCenterViewController.self, name: .implementation(.default)) { r in
+      let defaultNotificationViewModel = r.resolve(NotificationViewModelType.self)!
+      let defaultNoticeViewModel = r.resolve(NoticeViewModelType.self, name: .implementation(.default))!
+      return NotificationCenterViewController(
+        noticeViewModel: defaultNoticeViewModel,
+        notificationViewModel: defaultNotificationViewModel)
+    }
+    
+    container.register(NotificationCenterViewController.self, name: .implementation(.interceptedDefault)) { r in
+      let defaultNotificationViewModel = r.resolve(NotificationViewModelType.self)!
+      let interceptedNoticeViewModel = r.resolve(NoticeViewModelType.self, name: .implementation(.interceptedDefault))!
+      return NotificationCenterViewController(
+        noticeViewModel: interceptedNoticeViewModel,
+        notificationViewModel: defaultNotificationViewModel)
+    }
+    
+    container.register(NotificationCenterViewController.self, name: .implementation(.firestore)) { r in
+      let defaultNotificationViewModel = r.resolve(NotificationViewModelType.self)!
+      let firestoreNoticeViewModel = r.resolve(NoticeViewModelType.self, name: .implementation(.firestore))!
+      return NotificationCenterViewController(
+        noticeViewModel: firestoreNoticeViewModel,
+        notificationViewModel: defaultNotificationViewModel)
+    }
+
     // TODO: - Album Page
     
     // TODO: - Main Page

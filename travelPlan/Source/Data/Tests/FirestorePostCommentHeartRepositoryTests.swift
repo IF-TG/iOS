@@ -20,9 +20,16 @@ final class FirestorePostCommentHeartRepositoryTests: XCTestCase {
   }()
   var expectation: XCTestExpectation!
   var subscriptions = Set<AnyCancellable>()
-  let testPostId = "ABEB803F-DD54-41A4-B8BF-487A210BD1EC"
-  let testCommentId = "testComment1"
-  let testUserId = "testUser1"
+  // MARK: - Identifier
+  // firestore의 identifer들은 String 입니다 하지만 spring server에서는 Int로 Identifier를 제공하고, 현재
+  // spring server를 사용하기에 Int64숫자 임의대로 지정했습니다. 테스트는 결과는 전부 false됩니다...
+  // target은 추가히지 않았습니다.
+  //  let testPostId = "ABEB803F-DD54-41A4-B8BF-487A210BD1EC"
+  //  let testCommentId = "testComment1"
+  //  let testUserId = "testUser1"
+  let testPostId: PostIdentifier = 1
+  let testCommentId: CommentIdentifier = 1
+  let testUserId: UserIdentifier = 1
   
   override func setUp() {
     super.setUp()
@@ -93,9 +100,9 @@ extension FirestorePostCommentHeartRepositoryTests {
     var unexpectedError: Error?
     Firestore.firestore()
       .collection("posts")
-      .document(testPostId)
+      .document(String(testPostId))
       .collection("comments")
-      .document(testCommentId)
+      .document(String(testCommentId))
       .collection("comment-hearts")
       .getDocuments()
       .sink {
@@ -199,9 +206,9 @@ fileprivate extension FirestorePostCommentHeartRepositoryTests {
   func retrieveHeartsInComment(withExpectation: XCTestExpectation, _ completion: @escaping (Int) -> Void) {
     Firestore.firestore()
       .collection("posts")
-      .document(testPostId)
+      .document(String(testPostId))
       .collection("comments")
-      .document(testCommentId)
+      .document(String(testCommentId))
       .getDocument()
       .map { $0.data()?["heartNum"] as? Int ?? -1 }
       .sink {

@@ -12,6 +12,7 @@ import SHFirestoreService
 @frozen enum FirestoreRequestType: FirestoreAccessible {
   case users(UsersCollection)
   case posts(PostsCollection)
+  case whatsNewNotifications
   
   private var collectionPath: String {
     switch self {
@@ -19,6 +20,8 @@ import SHFirestoreService
       users.collectionPath
     case .posts(let posts):
       posts.collectionPath
+    case .whatsNewNotifications:
+      "whatsNewNotifications"
     }
   }
   
@@ -34,6 +37,8 @@ import SHFirestoreService
     case .posts(let posts):
       guard let documentPath = posts.documentpath else { return nil }
       return collectionRef.document(documentPath)
+    case .whatsNewNotifications:
+      return nil
     }
   }
 }

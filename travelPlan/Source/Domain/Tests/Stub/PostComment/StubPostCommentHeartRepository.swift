@@ -11,39 +11,39 @@ import Combine
 
 struct StubPostCommentHeartRepository: PostCommentHeartRepository {
   func fetchCommentHeartUsers(
-    with postId: String,
-    commentId: String
+    with postId: PostIdentifier,
+    commentId: CommentIdentifier
   ) -> AnyPublisher<[UserIdentifier], any Error> {
-    Just(["userId1234", "userId1235"]).setAnyErrorAndEraseToAnyPublisher()
+    Just([11, 22]).setAnyErrorAndEraseToAnyPublisher()
   }
   
   func fetchCommentHearts(
-    with postId: String,
-    commentId: String
+    with postId: PostIdentifier,
+    commentId: CommentIdentifier
   ) -> AnyPublisher<Int, any Error> {
     Just(2).setAnyErrorAndEraseToAnyPublisher()
   }
   
   func heartComment(
-    with postId: String,
-    commentId: String,
-    userId: String
+    with postId: PostIdentifier,
+    commentId: CommentIdentifier,
+    userId: UserIdentifier
   ) -> AnyPublisher<Void, any Error> {
     Just(()).setAnyErrorAndEraseToAnyPublisher()
   }
   
   func hateComment(
-    with postId: String,
-    commentId: String,
-    userId: String
+    with postId: PostIdentifier,
+    commentId: CommentIdentifier,
+    userId: UserIdentifier
   ) -> AnyPublisher<Void, any Error> {
     Just(()).setAnyErrorAndEraseToAnyPublisher()
   }
   
   func updateCommentHearts(
-    with postId: String,
-    commentId: String,
-    userId: String,
+    with postId: PostIdentifier,
+    commentId: CommentIdentifier,
+    userId: UserIdentifier,
     willHeartComment: Bool
   ) -> AnyPublisher<Void, any Error> {
     Just(()).setAnyErrorAndEraseToAnyPublisher()

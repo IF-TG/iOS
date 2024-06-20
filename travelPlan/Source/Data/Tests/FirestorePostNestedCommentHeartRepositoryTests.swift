@@ -16,9 +16,16 @@ final class FirestorePostNestedCommentHeartRepositoryTests: XCTestCase {
   var sut: PostNestedCommentHeartRepository!
   var expectation: XCTestExpectation!
   var subscriptions = Set<AnyCancellable>()
-  let testPostId = "ABEB803F-DD54-41A4-B8BF-487A210BD1EC"
-  let testCommentId = "12181109-6CDE-46E5-AD4F-04E824E89581"
-  let testNestedCommentId = "941C554D-CB1E-4B7E-A749-9DA76E67D960"
+  // MARK: - Identifier
+  // firestore의 identifer들은 String 입니다 하지만 spring server에서는 Int로 Identifier를 제공하고, 현재
+  // spring server를 사용하기에 Int64숫자 임의대로 지정했습니다. 테스트는 결과는 전부 false됩니다...
+  // target은 추가히지 않았습니다.
+  //  let testPostId = "ABEB803F-DD54-41A4-B8BF-487A210BD1EC"
+  //  let testCommentId = "12181109-6CDE-46E5-AD4F-04E824E89581"
+  //  let testNestedCommentId = "941C554D-CB1E-4B7E-A749-9DA76E67D960"
+  let testPostId: PostIdentifier = 1
+  let testCommentId: CommentIdentifier = 1
+  let testNestedCommentId: NestedCommentIdentifier = 1
   
   override func setUp() {
     super.setUp()
@@ -46,7 +53,7 @@ extension FirestorePostNestedCommentHeartRepositoryTests {
     // Act
     let taskPublisher = sut.heartNestedComment(
       with: testPostId, commentId: testCommentId,
-      nestedCommentId: testNestedCommentId, userId: "testUser1234")
+      nestedCommentId: testNestedCommentId, userId: 1)
     sink(
       fromPublisher: taskPublisher,
       withExpectation: expectation) { error, result in
@@ -65,7 +72,7 @@ extension FirestorePostNestedCommentHeartRepositoryTests {
     // Arrange
     var unexpectedError: Error?
     var hasReceivedResult: Bool = false
-    let testUserName = "testUser12345"
+    let testUserName: Int64 = 1
     var prevExpectation = expectation(description: "사전 준비작업으로 위에서 테스트한 함수가 사용됩니다")
     sut.heartNestedComment(
       with: testPostId, commentId: testCommentId, nestedCommentId: testNestedCommentId, userId: testUserName)

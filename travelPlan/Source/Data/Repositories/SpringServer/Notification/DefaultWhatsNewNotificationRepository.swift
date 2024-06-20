@@ -7,7 +7,7 @@
 
 import Combine
 
-final class DefaultNotificationRepository {
+final class DefaultWhatsNewNotificationRepository {
   // MARK: - Properties
   private let service: Sessionable
   
@@ -19,9 +19,9 @@ final class DefaultNotificationRepository {
   }
 }
 
-// MARK: - NotificationRepository
-extension DefaultNotificationRepository: NotificationRepository {
-  func fetchNotices() -> AnyPublisher<[NoticeEntity], Never> {
+// MARK: - WhatsNewNotificationRepository
+extension DefaultWhatsNewNotificationRepository: WhatsNewNotificationRepository {
+  func fetchNotices() -> AnyPublisher<[NoticeEntity], any Error> {
     let noticeEndpoint = NotificationAPIEndpoints.fetchNotices()
     return Future { [weak self] promise in
       self?.subscription = self?.service
@@ -31,7 +31,7 @@ extension DefaultNotificationRepository: NotificationRepository {
           case .finished:
             return
           case .failure(let error):
-            print("DEBUG: \(error.localizedDescription)")
+            promise(.failure(error))
           }
         } receiveValue: { responseDTO in
           promise(.success(responseDTO.map { $0.toDomain }))
