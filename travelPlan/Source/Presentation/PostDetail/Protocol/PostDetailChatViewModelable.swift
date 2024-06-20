@@ -23,6 +23,7 @@ struct PostDetailChatViewModelActions {
   let showAlertForError: (String, (() -> Void)?) -> Void
   let showAnAlertToAskWhetherToCancelWriting: (PostDetailWritingCacnelType, ((Bool) -> Void)?) -> Void
   let showCommentOption: (isCommentOwner, ((PostDetailCommentOption) -> Void)?) -> Void
+  let showPostAuthorBlock: (String, ((Bool) -> Void)?) -> Void
 }
 
 // MARK: - Input
@@ -45,6 +46,7 @@ struct PostDetailChatViewModelInput {
   
   case keyboard(PostDetailKeyboardState)
   case viewDidLoad(PostDetailChatViewDidLoadStream)
+  case blockedChat(PostDetailChatBlockState)
 }
 
 @frozen enum PostDetailKeyboardState {
@@ -88,6 +90,15 @@ struct PostDetailChatViewModelInput {
   case reloadWithNestedCommentsWhenCommentDelete(Int)
   
   case reloadWhenCommentUpdate(Int)
+}
+
+@frozen enum PostDetailChatBlockState {
+  typealias Section = Int
+  case blockedComment(Section)
+  case blockedNestedComment(IndexPath)
+  
+  /// 대댓 차단된 후에 대댓이 없고, 댓글도 차단 or 삭제된 상태입니다.
+  case deleteCommentIfNoNestedCommentsAfterDeleteOrBlock(Section)
 }
 
 // MARK: - ViewModelable

@@ -514,6 +514,7 @@
 		158897912BFC403F006BB978 /* PostDetailChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158897902BFC403F006BB978 /* PostDetailChatViewModel.swift */; };
 		15889D4C2AE0375700B1CB31 /* SearchDetailHeaderInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A93EE62ACDE4AB00FC4BBD /* SearchDetailHeaderInfo.swift */; };
 		158981BA2BB2652700F016CF /* PostCommentAPIEndpointTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158981B92BB2652700F016CF /* PostCommentAPIEndpointTests.swift */; };
+		158AC00A2C22B7DC00C56AF8 /* PostAuthorBlockCoordinatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158AC0092C22B7DC00C56AF8 /* PostAuthorBlockCoordinatable.swift */; };
 		158BEF772A0E279700C27861 /* BasePostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158BEF762A0E279700C27861 /* BasePostView.swift */; };
 		158BEF792A0E27BD00C27861 /* PostCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158BEF782A0E27BD00C27861 /* PostCollectionView.swift */; };
 		158BEF812A0E2C9E00C27861 /* PostFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158BEF802A0E2C9E00C27861 /* PostFooterView.swift */; };
@@ -1396,6 +1397,7 @@
 		1588978E2BFC3FBA006BB978 /* PostDetailChatDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailChatDataSource.swift; sourceTree = "<group>"; };
 		158897902BFC403F006BB978 /* PostDetailChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailChatViewModel.swift; sourceTree = "<group>"; };
 		158981B92BB2652700F016CF /* PostCommentAPIEndpointTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PostCommentAPIEndpointTests.swift; path = Source/Data/Network/Tests/PostCommentAPIEndpointTests.swift; sourceTree = SOURCE_ROOT; };
+		158AC0092C22B7DC00C56AF8 /* PostAuthorBlockCoordinatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostAuthorBlockCoordinatable.swift; sourceTree = "<group>"; };
 		158BEF762A0E279700C27861 /* BasePostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasePostView.swift; sourceTree = "<group>"; };
 		158BEF782A0E27BD00C27861 /* PostCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCollectionView.swift; sourceTree = "<group>"; };
 		158BEF7C2A0E2C5F00C27861 /* PostHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostHeaderView.swift; sourceTree = "<group>"; };
@@ -4209,6 +4211,7 @@
 				15F457382C157F7D00E2F305 /* PostOptionCoordinatable.swift */,
 				155593162C132DEE0078520D /* PostOptionViewModelable.swift */,
 				153AB1DF2C21B560003F4E97 /* PostDetailFetchForUniversalLinkNotifiable.swift */,
+				158AC0092C22B7DC00C56AF8 /* PostAuthorBlockCoordinatable.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -5330,6 +5333,7 @@
 				13C9C1AF2A17FFC400DF1FFF /* PostSearchHeaderViewDelegate.swift in Sources */,
 				15F4B01B2BE3DF8A00FBE065 /* UIApplication+.swift in Sources */,
 				15869CE32BF45E7300FB342B /* AtomicPost.swift in Sources */,
+				158AC00A2C22B7DC00C56AF8 /* PostAuthorBlockCoordinatable.swift in Sources */,
 				15FFAC092AD7C1260013DB57 /* Requestable.swift in Sources */,
 				15D655A02B8F6F6300466FEC /* MyInformationViewModelable.swift in Sources */,
 				15FBD5DE2B98E4F100076115 /* PostRepository.swift in Sources */,

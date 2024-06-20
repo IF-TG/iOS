@@ -10,6 +10,7 @@ import UIKit
 struct PostCommentInfo {
   let baseInfo: BasePostDetailCommentInfo
   let isDeleted: Bool
+  let isBlocked: Bool
 }
 
 protocol PostDetailCommentDelegate: AnyObject {
