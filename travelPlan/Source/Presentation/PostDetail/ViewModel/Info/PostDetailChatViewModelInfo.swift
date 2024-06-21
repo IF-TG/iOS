@@ -15,5 +15,10 @@ struct PostDetailChatViewModelInfo {
   /// Flow2: 피드 화면에서 특정한 여행 후기 summary(thumbnail)를 클릭해 여행 후기 상세 화면으로 이동됬을 때
   /// - hasEnteredByDefferedDeepLink는 false이므로 이때 노티피케이션을 통해 상세화면 들어오기 이전 post thumbnail cell에서 대댓글 전체 개수를
   ///   증가 혹은 감소합니다.
-  let hasEnteredByDeferredDeepLink = false
+  let hasEnteredByDeferredDeepLink: Bool
+  
+  init(postId: PostIdentifier, hasEnteredByDeferredDeepLink: Bool = false) {
+    self.postId = postId
+    self.hasEnteredByDeferredDeepLink = hasEnteredByDeferredDeepLink
+  }
 }

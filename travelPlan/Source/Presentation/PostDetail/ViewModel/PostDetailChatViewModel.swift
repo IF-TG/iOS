@@ -58,8 +58,6 @@ final class PostDetailChatViewModel {
   private let userBlockUseCase: UserBlockUseCase
   
   // MARK: - Properties
-  private let postId: PostIdentifier
-  
   private var comments: [PostCommentEntity] = []
   
   /// 사용자가 대댓글 작성중인 경우 not nil. 댓글을 작성중인 경우 nil
@@ -73,6 +71,13 @@ final class PostDetailChatViewModel {
   
   private let actions: PostDetailChatViewModelActions
   
+  /// Flow1: 앱스플라이엉 디퍼드 딥 링크에 의해 접속될 경우
+  /// - 사용자가 댓글, 대댓글 작성 및 제거할 때 post Footer info만 새로 개선해주고, 피드화면에서는 알려주지 않아도 됩니다.
+  /// Flow2: 피드 화면에서 특정한 여행 후기 summary(thumbnail)를 클릭해 여행 후기 상세 화면으로 이동됬을 때
+  /// - hasEnteredByDefferedDeepLink는 false이므로 이때 노티피케이션을 통해 상세화면 들어오기 이전 post thumbnail cell에서 대댓글 전체 개수를
+  ///   증가 혹은 감소합니다.
+  private var postDetailChatInfo: PostDetailChatViewModelInfo
+  
   // MARK: - Pagination Properties
   // TODO: - 댓글 페이징 추가해야합니다.
   private var isPaging: Bool = false
@@ -83,7 +88,7 @@ final class PostDetailChatViewModel {
   
   private var nextPage: Int32 { hasMorePages ? currentPage + 1 : currentPage }
   
-  // 서버에서 얻어와야 합니다.
+  // TODO: - 서버에서 전체 개수는 주지 않고 fetch했을 때 빈 배열이 온다면 데이터 없는거로 간주하기로 약속했슴돠.
   private var totalCommentCount: Int32 = 0
   
   private var hasMorePages: Bool {
@@ -115,7 +120,7 @@ final class PostDetailChatViewModel {
   
   // MARK: - Lifecycle
   init(
-    postId: PostIdentifier,
+    postDetailChatInfo: PostDetailChatViewModelInfo,
     postCommentsAndPostLikeStateFetchUseCase: PostCommentsAndPostLikeStateFetchUseCase,
     postCommentUseCase: PostCommentUseCase,
     postCommentHeartUseCase: PostCommentHeartUseCase,
@@ -125,7 +130,7 @@ final class PostDetailChatViewModel {
     ownerRepository: LoggedInUserRepository,
     actions: PostDetailChatViewModelActions
   ) {
-    self.postId = postId
+    self.postDetailChatInfo = postDetailChatInfo
     self.postCommentsAndPostLikeStateFetchUseCase = postCommentsAndPostLikeStateFetchUseCase
     self.postCommentUseCase = postCommentUseCase
     self.postCommentHeartUseCase = postCommentHeartUseCase
@@ -251,7 +256,7 @@ private extension PostDetailChatViewModel {
     let commentSection = PostDetailSection.commentIndex(section: section)
     let commentId = comments[commentSection].commentId
     return postCommentHeartUseCase
-      .toggleCommentHeart(postId: postId, commentId: commentId)
+      .toggleCommentHeart(postId: postDetailChatInfo.postId, commentId: commentId)
       .map { [weak self] entity -> State in
         self?.comments[commentSection].isOnHeart = entity.isOnHeart
         return .none
@@ -269,7 +274,10 @@ private extension PostDetailChatViewModel {
     let commentId = comment.commentId
     let nestedCommentId = comment.nestedComments[indexPath.row].nestedCommentId
     return postNestedCommentHeartUseCase
-      .toggleNestedCommentHeart(postId: postId, commentId: commentId, nestedCommentId: nestedCommentId)
+      .toggleNestedCommentHeart(
+        postId: postDetailChatInfo.postId,
+        commentId: commentId,
+        nestedCommentId: nestedCommentId)
       .map { [weak self] entity -> State in
         self?.comments[commentSection].nestedComments[indexPath.row].isOnHeart = entity.isOnHeart
         return .none
@@ -397,7 +405,7 @@ private extension PostDetailChatViewModel {
         let postCommentRequestValue = PostCommentsRequestValue(
           page: currentPage,
           perPage: perPage,
-          postId: postId)
+          postId: postDetailChatInfo.postId)
         return postCommentsAndPostLikeStateFetchUseCase.fetchCommentsAndPostLikeStatus(with: postCommentRequestValue)
           .map {[weak self] postCommentContainerEntity -> State in
             self?.comments += postCommentContainerEntity.comments
@@ -587,7 +595,7 @@ private extension PostDetailChatViewModel {
   // MARK: - Comment Stream
   /// 댓글 전송할 때
   func sendCommentStream(with text: String) -> Output {
-    postCommentUseCase.sendComment(postId: postId, comment: text)
+    postCommentUseCase.sendComment(postId: postDetailChatInfo.postId, comment: text)
       .map { [weak self] postCommentEntity -> State in
         self?.comments.append(postCommentEntity)
         return .comment(.reloadedComment)
@@ -600,7 +608,7 @@ private extension PostDetailChatViewModel {
     /// 포스트는 섹션 \(PostDetailSectionType.defaultNumberOfSections)부터 시작합니다.
     let commentId = comments[section.commentIndex].commentId
     return postCommentUseCase
-      .deleteComment(postId: postId, commentId: commentId)
+      .deleteComment(postId: postDetailChatInfo.postId, commentId: commentId)
       .map { [weak self] result -> State in
         if result {
           self?.comments[section.commentIndex].isDeleted = result
@@ -631,7 +639,10 @@ private extension PostDetailChatViewModel {
     let commentIdx = SectionType.commentIndex(section: section)
     let comment = comments[commentIdx]
     return postCommentUseCase
-      .updateComment(postId: postId, commentId: comment.commentId, comment: editedText)
+      .updateComment(
+        postId: postDetailChatInfo.postId,
+        commentId: comment.commentId,
+        comment: editedText)
       .map { [weak self] result -> State in
         guard result else {
           return .unexpectedError(description: "서버에서 에러가 발생되어 댓글이 편집되지 않았습니다.")
@@ -654,7 +665,7 @@ private extension PostDetailChatViewModel {
     let commentSection = SectionType.commentIndex(section: replyingSection)
     let commentId = comments[commentSection].commentId
     return postNestedCommentUseCase
-      .sendNestedComment(postId: postId, commentId: commentId, comment: text)
+      .sendNestedComment(postId: postDetailChatInfo.postId, commentId: commentId, comment: text)
       .map { [weak self] postNestedCommentEntity -> State in
         self?.comments[commentSection].nestedComments.append(postNestedCommentEntity)
         self?.replyingSection = nil
@@ -674,7 +685,7 @@ private extension PostDetailChatViewModel {
     let hasDeletedComment = comments[commentSectionIndex].isDeleted
     return postNestedCommentUseCase
       .deleteNestedComment(
-        postId: postId,
+        postId: postDetailChatInfo.postId,
         commentId: commentId,
         nestedCommentId: nestedCommentId,
         hasDeletedComment: hasDeletedComment)
@@ -716,7 +727,7 @@ private extension PostDetailChatViewModel {
     let commentId = comments[commentIdx].commentId
     return postNestedCommentUseCase
       .updateNestedComment(
-        postId: postId,
+        postId: postDetailChatInfo.postId,
         commentId: commentId,
         nestedCommentId: nestedComment.nestedCommentId,
         comment: editedText)
