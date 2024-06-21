@@ -242,7 +242,8 @@ private extension PostDetailChatViewModel {
   
   @inline(__always)
   func numberOfComments() -> Int32 {
-    return comments.map { Int32($0.nestedComments.count) }.reduce(Int32(0), +)
+    let filteredComments = comments.filter { !$0.isDeleted }
+    return filteredComments.map { Int32($0.nestedComments.count) }.reduce(Int32(0), +) + Int32(filteredComments.count)
   }
 }
 
@@ -614,6 +615,7 @@ private extension PostDetailChatViewModel {
     postCommentUseCase.sendComment(postId: postDetailChatInfo.postId, comment: text)
       .map { [weak self] postCommentEntity -> State in
         self?.comments.append(postCommentEntity)
+        self?.notifyModifiedCommentsOfCommentAndReply()
         return .comment(.reloadedComment)
       }.catch { error in
         return Just(State.unexpectedError(description: error.localizedDescription))
@@ -629,17 +631,20 @@ private extension PostDetailChatViewModel {
         if result {
           self?.comments[section.commentIndex].isDeleted = result
           
+          /// self가 유효하다면 반드시 삭제되야 할 section의 대댓글 개수를 받아올 수 있습니다.
           guard let nestedCommentCount = self?.comments[section.commentIndex].nestedComments.count else {
             return .unexpectedError(description: "댓글이 삭제되지 않았습니다.")
           }
           
           /// 대댓글 있는 경우
           if nestedCommentCount > 0 {
+            self?.notifyModifiedCommentsOfCommentAndReply()
             return .comment(.reloadWithNestedCommentsWhenCommentDelete(section.sectionIndex))
           }
           
           /// 대댓글 없는 경우
           self?.comments.remove(at: section.commentIndex)
+          self?.notifyModifiedCommentsOfCommentAndReply()
           return .comment(.reloadWhenCommentDelete(section.sectionIndex))
         }
         return .unexpectedError(description: "서버에서 에러가 발생되 댓글이 삭제되지 않았습니다.")
@@ -684,6 +689,7 @@ private extension PostDetailChatViewModel {
       .sendNestedComment(postId: postDetailChatInfo.postId, commentId: commentId, comment: text)
       .map { [weak self] postNestedCommentEntity -> State in
         self?.comments[commentSection].nestedComments.append(postNestedCommentEntity)
+        self?.notifyModifiedCommentsOfCommentAndReply()
         self?.replyingSection = nil
         /// 대댓글이 속한 댓글 섹션은 replyingSection을 보내주어야 합니다.
         return .nestedComment(.sentSuccessfully(replyingSection))
@@ -692,7 +698,7 @@ private extension PostDetailChatViewModel {
       }.eraseToAnyPublisher()
   }
   
-  // MARK: 삭제된건 더이상 댓글 못달도록 UI 반영해야합니다!
+  // MARK: 삭제된 댓글에 대해서 더이상 대댓글 못달도록 UI 반영 완료
   func deleteNestedCommentStream(with indexPath: IndexPath) -> Output {
     /// 포스트는 섹션 \(PostDetailSectionType.defaultNumberOfSections)부터 시작합니다.
     let commentSectionIndex = SectionType.commentIndex(section: indexPath.section)
@@ -708,6 +714,7 @@ private extension PostDetailChatViewModel {
       .map { [weak self] deletedNestedCommentState -> State in
         /// 대댓글 제거
         self?.comments[commentSectionIndex].nestedComments.remove(at: indexPath.row)
+        self?.notifyModifiedCommentsOfCommentAndReply()
         
         // MARK: 이 로직은 서버에서 대댓글제거할때 마지막 대댓글인지 확인해야하는데, 스프링에선 대댓글 제거만으로 알 수 없습니다.
         /// 그래서 임시적으로 이곳에서 작업합니다.
