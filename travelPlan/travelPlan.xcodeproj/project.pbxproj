@@ -465,6 +465,7 @@
 		1572ABD12BE7B0EB008AFE66 /* FirestoreUserProfileAPIEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1572ABCF2BE7B0CD008AFE66 /* FirestoreUserProfileAPIEndpoint.swift */; };
 		1572ABD82BE89F56008AFE66 /* PostCommentHeartRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1572ABD72BE89F56008AFE66 /* PostCommentHeartRepository.swift */; };
 		1572ABDA2BE8A0E7008AFE66 /* FirestorePostCommentHeartRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1572ABD92BE8A0E7008AFE66 /* FirestorePostCommentHeartRepository.swift */; };
+		157971132C253226007A88DB /* PostDetailChatViewModelInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157971122C253226007A88DB /* PostDetailChatViewModelInfo.swift */; };
 		157ADC9E2ACFAAFA00D37680 /* FavoritePostViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157ADC9D2ACFAAFA00D37680 /* FavoritePostViewAdapter.swift */; };
 		157ADCA02ACFB33100D37680 /* UIScrollView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157ADC9F2ACFB33100D37680 /* UIScrollView+.swift */; };
 		157ADCA22ACFB55800D37680 /* FavoritePostViewAdapterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157ADCA12ACFB55800D37680 /* FavoritePostViewAdapterDelegate.swift */; };
@@ -1349,6 +1350,7 @@
 		1572ABD42BE7B5C9008AFE66 /* FirestoreUserProfileRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreUserProfileRepositoryTests.swift; sourceTree = "<group>"; };
 		1572ABD72BE89F56008AFE66 /* PostCommentHeartRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCommentHeartRepository.swift; sourceTree = "<group>"; };
 		1572ABD92BE8A0E7008AFE66 /* FirestorePostCommentHeartRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestorePostCommentHeartRepository.swift; sourceTree = "<group>"; };
+		157971122C253226007A88DB /* PostDetailChatViewModelInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailChatViewModelInfo.swift; sourceTree = "<group>"; };
 		157ADC9D2ACFAAFA00D37680 /* FavoritePostViewAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoritePostViewAdapter.swift; sourceTree = "<group>"; };
 		157ADC9F2ACFB33100D37680 /* UIScrollView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScrollView+.swift"; sourceTree = "<group>"; };
 		157ADCA12ACFB55800D37680 /* FavoritePostViewAdapterDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePostViewAdapterDelegate.swift; sourceTree = "<group>"; };
@@ -2953,6 +2955,7 @@
 		1546DF1E2B0A6D4200B49A55 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				157971112C253219007A88DB /* Info */,
 				15B9286E2AFA49C4003A20D4 /* PostDetailViewModel.swift */,
 				1588978C2BFC3105006BB978 /* PostDetailSection.swift */,
 				158897902BFC403F006BB978 /* PostDetailChatViewModel.swift */,
@@ -3216,6 +3219,14 @@
 				152715402BA0D5AE0077D033 /* UserProfileRepository.swift */,
 			);
 			path = User;
+			sourceTree = "<group>";
+		};
+		157971112C253219007A88DB /* Info */ = {
+			isa = PBXGroup;
+			children = (
+				157971122C253226007A88DB /* PostDetailChatViewModelInfo.swift */,
+			);
+			path = Info;
 			sourceTree = "<group>";
 		};
 		15803C342BD8EE3F00D83F2B /* XMLParser */ = {
@@ -5398,6 +5409,7 @@
 				15D388272AFF8AAA00039946 /* InputTextView.swift in Sources */,
 				15553BC02BB34151000AA896 /* PostNestedCommentAPIEndpoint.swift in Sources */,
 				13F6DACA2B52711E00573B86 /* SlideDownAnimator.swift in Sources */,
+				157971132C253226007A88DB /* PostDetailChatViewModelInfo.swift in Sources */,
 				13EB3D692BF602CB00CA84F0 /* AccommodationEntity.swift in Sources */,
 				13A93EE52ACDE0EC00FC4BBD /* SearchDetailHeaderView.swift in Sources */,
 				154CA6012BD398D40066B444 /* RelativeURLPathProvidable.swift in Sources */,
