@@ -237,7 +237,8 @@ private extension PostDetailChatViewModel {
     guard postDetailChatInfo.hasEnteredByDeferredDeepLink else { return }
     PostNotificationManager.shared.notifyUpdatedPostComments(
       postId: postDetailChatInfo.postId,
-      numberOfPostComments: numberOfComments())
+      numberOfPostComments: numberOfComments(),
+      hasEnteredByDeferredDeepLink: postDetailChatInfo.hasEnteredByDeferredDeepLink)
   }
   
   @inline(__always)
