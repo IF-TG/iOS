@@ -230,6 +230,22 @@ extension PostDetailChatViewModel: PostDetailChatViewModelable {
   }
 }
 
+// MARK: - Private Helpers
+private extension PostDetailChatViewModel {
+  /// 댓글, 대댓글 총 개수가 변경될 경우 Notification Center를 통해 notify합니다.
+  func notifyModifiedCommentsOfCommentAndReply() {
+    guard postDetailChatInfo.hasEnteredByDeferredDeepLink else { return }
+    PostNotificationManager.shared.notifyUpdatedPostComments(
+      postId: postDetailChatInfo.postId,
+      numberOfPostComments: numberOfComments())
+  }
+  
+  @inline(__always)
+  func numberOfComments() -> Int32 {
+    return comments.map { Int32($0.nestedComments.count) }.reduce(Int32(0), +)
+  }
+}
+
 // MARK: - Private Heart Helpers
 private extension PostDetailChatViewModel {
   private func heartEventNotifierStream(_ input: Input) -> Output {
