@@ -10,14 +10,14 @@ import Combine
 
 final class LoginViewController: UIViewController {
   // MARK: - Properteis
-  var viewModel: LoginViewModel!
+  private let viewModel: any LoginViewModel
   private var subscriptions = Set<AnyCancellable>()
   weak var coordinator: LoginCoordinatorDelegate?
   
   private lazy var loginView = LoginView().set {
     $0.delegate = self
   }
-  private let input = LoginViewModel.Input()
+  private let input = LoginViewModelInput()
   private let loginPlayerSupporter = LoginPlayerSupporter()
   
   // MARK: - Lifecycle
@@ -29,7 +29,7 @@ final class LoginViewController: UIViewController {
     bind()
   }
   
-  init(viewModel: LoginViewModel) {
+  init(viewModel: any LoginViewModel) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
   }
@@ -50,11 +50,7 @@ final class LoginViewController: UIViewController {
 }
 
 // MARK: - ViewBindCaes
-extension LoginViewController: ViewBindCase {
-  typealias Input = LoginViewModel.Input
-  typealias ErrorType = LoginViewModel.ErrorType
-  typealias State = LoginViewModel.State
-  
+extension LoginViewController {
   func bind() {
     viewModel.transform(input)
       .sink(receiveValue: { [weak self] in
@@ -63,7 +59,7 @@ extension LoginViewController: ViewBindCase {
       .store(in: &subscriptions)
   }
   
-  func render(_ state: State) {
+  func render(_ state: LoginViewModelState) {
     switch state {
     case .presentFeed:
       coordinator?.showFeedPage()
@@ -71,8 +67,6 @@ extension LoginViewController: ViewBindCase {
       break
     }
   }
-  
-  func handleError(_ error: ErrorType) { }
 }
 
 // MARK: - Helpers
