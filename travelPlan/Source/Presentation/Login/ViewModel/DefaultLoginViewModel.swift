@@ -1,5 +1,5 @@
 //
-//  LoginViewModel.swift
+//  DefaultLoginViewModel.swift
 //  travelPlan
 //
 //  Created by 양승현 on 2023/05/25.
@@ -8,20 +8,20 @@
 import Combine
 import Foundation
 
-final class LoginViewModel {
-  // MARK: - Nested
-  struct Input {
-    let didTapLoginButton: PassthroughSubject<OAuthType, Never>
-    init(didTapLoginButton: PassthroughSubject<OAuthType, Never> = .init()) {
-      self.didTapLoginButton = didTapLoginButton
-    }
-  }
-  
-  enum State {
-    case none
-    case presentFeed
-  }
-  
+struct LoginViewModelInput {
+  let didTapLoginButton: PassthroughSubject<OAuthType, Never> = .init()
+}
+
+enum LoginViewModelState {
+  case none
+  case presentFeed
+}
+
+protocol LoginViewModel: ViewModelable
+where LoginViewModelInput == Input,
+      LoginViewModelState == State {}
+
+final class DefaultLoginViewModel {
   // MARK: - Properties
   private let loginUseCase: LoginUseCase
   
@@ -31,14 +31,12 @@ final class LoginViewModel {
   }
   
   deinit {
-    print("deinit: \(Self.self)")
+    print("deinit: \(DefaultLoginViewModel.self)")
   }
 }
 
-// MARK: - ViewModelCase
-extension LoginViewModel: ViewModelCase {
-  typealias ErrorType = Never
-  
+// MARK: - LoginViewModel
+extension DefaultLoginViewModel: LoginViewModel {
   func transform(_ input: Input) -> Output {
     return Publishers
       .MergeMany([
@@ -49,7 +47,7 @@ extension LoginViewModel: ViewModelCase {
 }
 
 // MARK: - Input operator chain Flow
-private extension LoginViewModel {
+private extension DefaultLoginViewModel {
   private func didTapLoginButtonStream(_ input: Input) -> Output {
     return input
       .didTapLoginButton

@@ -56,7 +56,7 @@ final class LoginCoordinator: FlowCoordinator {
       userProfileRepository: userProfileRepository,
       firestoreService: FirestoreService())
     let useCase = DefaultLoginUseCase(loginRepository: repository)
-    let loginVM = LoginViewModel(loginUseCase: useCase)
+    let loginVM = DefaultLoginViewModel(loginUseCase: useCase)
     let loginViewController = LoginViewController(viewModel: loginVM)
     viewController = loginViewController
     loginViewController.coordinator = self
