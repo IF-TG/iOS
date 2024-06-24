@@ -245,6 +245,7 @@
 		15050D3A2BE92CEC00B3E26A /* TourImageInfoAPIEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15050D392BE92CEC00B3E26A /* TourImageInfoAPIEndpoint.swift */; };
 		15050D3C2BE92EA100B3E26A /* TourApiImageRetrieveRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15050D3B2BE92EA100B3E26A /* TourApiImageRetrieveRequestDTO.swift */; };
 		15050D3E2BE92F1800B3E26A /* TourApiRetrievedImageResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15050D3D2BE92F1800B3E26A /* TourApiRetrievedImageResponseDTO.swift */; };
+		1505E6092C245813009788AA /* NumberFormatterWithSuffix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1505E6082C245813009788AA /* NumberFormatterWithSuffix.swift */; };
 		150727262BBAB9E400271217 /* PostNestedCommentHeartToggleRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150727252BBAB9E400271217 /* PostNestedCommentHeartToggleRequestDTO.swift */; };
 		15098D042BA5DB490012962A /* MyInformationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15098D032BA5DB490012962A /* MyInformationCoordinator.swift */; };
 		15098D062BA5E8360012962A /* MyInformationAlbumSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15098D052BA5E8360012962A /* MyInformationAlbumSheetViewController.swift */; };
@@ -336,7 +337,6 @@
 		153841D72A5642A9004C41D1 /* PostViewBottomSheetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153841D62A5642A9004C41D1 /* PostViewBottomSheetCell.swift */; };
 		153AB1E02C21B560003F4E97 /* PostDetailFetchForUniversalLinkNotifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153AB1DF2C21B560003F4E97 /* PostDetailFetchForUniversalLinkNotifiable.swift */; };
 		153AB1E22C21B68C003F4E97 /* FetchedPostDetailForUniversalLinkEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153AB1E12C21B68C003F4E97 /* FetchedPostDetailForUniversalLinkEntity.swift */; };
-		153EEBB42BE26CEF00ECAB8A /* FirestorePostHeartRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153EEBB22BE26C9000ECAB8A /* FirestorePostHeartRepositoryTests.swift */; };
 		153FA90D2B937D9E006CF3C3 /* UserProfileRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153FA90C2B937D9E006CF3C3 /* UserProfileRequestDTO.swift */; };
 		153FA90F2B937E12006CF3C3 /* UserProfileImageResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153FA90E2B937E12006CF3C3 /* UserProfileImageResponseDTO.swift */; };
 		153FA9112B938C19006CF3C3 /* ParameterType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153FA9102B938C19006CF3C3 /* ParameterType.swift */; };
@@ -1125,6 +1125,7 @@
 		15050D392BE92CEC00B3E26A /* TourImageInfoAPIEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourImageInfoAPIEndpoint.swift; sourceTree = "<group>"; };
 		15050D3B2BE92EA100B3E26A /* TourApiImageRetrieveRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourApiImageRetrieveRequestDTO.swift; sourceTree = "<group>"; };
 		15050D3D2BE92F1800B3E26A /* TourApiRetrievedImageResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourApiRetrievedImageResponseDTO.swift; sourceTree = "<group>"; };
+		1505E6082C245813009788AA /* NumberFormatterWithSuffix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberFormatterWithSuffix.swift; sourceTree = "<group>"; };
 		150727252BBAB9E400271217 /* PostNestedCommentHeartToggleRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostNestedCommentHeartToggleRequestDTO.swift; sourceTree = "<group>"; };
 		15098D032BA5DB490012962A /* MyInformationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInformationCoordinator.swift; sourceTree = "<group>"; };
 		15098D052BA5E8360012962A /* MyInformationAlbumSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInformationAlbumSheetViewController.swift; sourceTree = "<group>"; };
@@ -3149,6 +3150,7 @@
 				15EDCA532C1D989500C5BD7C /* PostNotificationManager.swift */,
 				15EDCA612C1DF0DA00C5BD7C /* ViewModel */,
 				15EDCA602C1DF0C200C5BD7C /* Protocol */,
+				1505E6082C245813009788AA /* NumberFormatterWithSuffix.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -5354,6 +5356,7 @@
 				15F36A1A2AB1A18200971803 /* CaseIterable+.swift in Sources */,
 				154FBC172BC2CDB40070D2FE /* PostReportType.swift in Sources */,
 				130990B92BFF18A900D6E50C /* SearchResultListViewModel.swift in Sources */,
+				1505E6092C245813009788AA /* NumberFormatterWithSuffix.swift in Sources */,
 				15CB23692A10B9CF003EAF20 /* PostFooterInfo.swift in Sources */,
 				130304842A25117200776A0D /* SearchFestivalCell.swift in Sources */,
 				15D60D362AEB84FE0087FEC0 /* NotificationCenterViewController.swift in Sources */,

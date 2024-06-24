@@ -389,6 +389,29 @@ private extension PostDetailViewController {
     naviTitle.alpha = 0
   }
 }
+
+// MARK: - Private Heart Helpers
+private extension PostDetailViewController {
+  @inline(__always)
+  private func handleReplyHeart(for cell: UITableViewCell) {
+    guard let indexPath = tableView.indexPath(for: cell) else {
+      viewModel.showAlertForError(with: "해당 댓글을 식별할 수 없습니다.\n 앱 서비스에 문제가 발생됬습니다.", completion: nil)
+      return
+    }
+    chatInput.heartEventNotifier.send(.postNestedComment(indexPath))
+  }
+  
+  @inline(__always)
+  private func handleCommentHeart(for header: UITableViewHeaderFooterView) {
+    guard
+      let section = tableView.section(for: header, numberOfSections: viewModel.numberOfSections + chatViewModel.numberOfSections)
+    else {
+      viewModel.showAlertForError(with: "댓글 하트할 수 없습니다.\n앱 서비스에 문제가 발생됬습니다.", completion: nil)
+      return
+    }
+    chatInput.heartEventNotifier.send(.postComment(section))
+  }
+}
   
 // MARK: - Actions
 extension PostDetailViewController {
@@ -508,11 +531,11 @@ extension PostDetailViewController: PostDetailReplyCellDelegate {
   }
   
   func didTapHeart(_ cell: UITableViewCell, isOnHeart: Bool) {
-    print("대댓 하트 뿅")
+    handleReplyHeart(for: cell)
   }
   
   func didCanceledHeart(_ cell: UITableViewCell) {
-    print("대댓 하트 취소")
+    handleReplyHeart(for: cell)
   }
 }
 
@@ -529,9 +552,13 @@ extension PostDetailViewController: PostDetailCommentDelegate {
     chatViewModel.showCommentOption(section: PostDetailSection(rawValue: section))
   }
   
-  func didTapHeart(_ header: UITableViewHeaderFooterView, _ isOnHeart: Bool) {}
+  func didTapHeart(_ header: UITableViewHeaderFooterView, _ isOnHeart: Bool) {
+    handleCommentHeart(for: header)
+  }
   
-  func didTapCanceledHeart(_ header: UITableViewHeaderFooterView) {}
+  func didTapCanceledHeart(_ header: UITableViewHeaderFooterView) {
+    handleCommentHeart(for: header)
+  }
   
   func didTapReply(_ header: UITableViewHeaderFooterView) {
     guard let section = tableView.section(
@@ -561,7 +588,7 @@ extension PostDetailViewController: PostHeartAndShareAreaHeaderViewDelegate {
   }
   
   func didTapHeart(isFavorite: Bool) {
-    print("포스트 하트클릭")
+    print("포스트 하트클릭 api없어서 미 구현")
   }
   
   func didTapShare() {

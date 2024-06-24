@@ -25,9 +25,9 @@ struct PostMapper {
       text: post.detail.content.first?.text ?? "",
       thumbnailImageDataList: thumbnails)
     let postFooterInfo = PostFooterInfo(
-      heartCount: String(post.detail.likes),
+      heartCount: post.detail.likes,
       heartState: post.liked ?? false,
-      commentCount: String(post.detail.comments))
+      commentCount: post.detail.comments)
     return PostInfo(
       postId: post.detail.postID,
       header: postHeaderInfo,
@@ -63,7 +63,13 @@ struct PostMapper {
       content: content, likes: post.detail.likes,
       comments: post.detail.comments, location: post.detail.location,
       createAt: post.detail.createAt, tripDate: post.detail.tripDate)
-    // 좋아요는 서버를 통해 확인받아야 합니다.
-    return PostDetails(detail: postDetail, author: post.author, isFavorite: false, category: category)
+    
+    /// Firestore를 사용한 경우 좋아요는 서버를 통해 확인받아야 합니다.
+    return PostDetails(
+      detail: postDetail,
+      author: post.author,
+      isFavorite: false,
+      hasHeart: post.liked ?? false,
+      category: category)
   }
 }

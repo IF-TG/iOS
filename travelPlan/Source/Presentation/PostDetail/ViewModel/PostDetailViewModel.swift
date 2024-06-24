@@ -262,9 +262,15 @@ private extension PostDetailViewModel {
 }
 
 // MARK: - PostDetailTableViewDataSource
-/// PostDetails가 nil인 경우, numberOfSections을 0으로 반환합니다.
-/// postDetails가 nil이 아닌 경우에만 numberOfSections가 3이상으로 반환되고, PostDetailTableViewDataSource의 각 함수들은
-/// postDetails not nil 프로퍼티를 바탕으로 데이터를 adapter한테 반환합니다.
+/// Note 1:
+/// - PostDetails가 nil인 경우, numberOfSections을 0으로 반환합니다.
+/// - postDetails가 nil이 아닌 경우에만 numberOfSections가 3이상으로 반환되고, PostDetailTableViewDataSource의 각 함수들은
+/// - postDetails not nil 프로퍼티를 바탕으로 데이터를 adapter한테 반환합니다.
+///
+/// Note 2: postDetails 프로퍼티에 대해
+/// - postDetails가 nil인 경우 공유하기(유니버셜 링크)로 여행후기 상세화면이 들어와집니다.
+///     viewDidLoad시점에 서버로부터 데이터를 가져오기 전에는 dataSource == 0이고 가져온 후에서야 이 함수들이 호출될 것이므로
+///     postDetails가 nil일 확률은 희박합니다.
 extension PostDetailViewModel: PostDetailTableViewDataSource {
   /// 포스트 업로드한 사용자 프로필로 이동히가 위해서 사용됩니다.
   var authorUserId: UserIdentifier? {
@@ -301,7 +307,9 @@ extension PostDetailViewModel: PostDetailTableViewDataSource {
   }
   
   var profileAreaItem: PostDetailProfileAreaInfo {
-    /// postDetails가 nil인 경우 viewDidLoad시점에 서버로부터 데이터를 가져오기에, postDetails가 nil일 확률은 희박합니다.
+    /// postDetails가 nil인 경우 공유하기(유니버셜 링크)로 여행후기 상세화면이 들어와집니다.
+    ///   viewDidLoad시점에 서버로부터 데이터를 가져오기 전에는 dataSource == 0이고 가져온 후에서야 이 함수들이 호출될 것이므로
+    ///   postDetails가 nil일 확률은 희박합니다.
     guard let postDetails else {
       return .init(
         userName: "여행자", userThumbnailData: nil,
@@ -315,6 +323,16 @@ extension PostDetailViewModel: PostDetailTableViewDataSource {
       travelDuration: DateTimeConverter.periodYMD(from: tripDate.startDate, to: tripDate.endDate),
       travelCalendarDateRange: DateTimeConverter.period(from: tripDate.startDate, to: tripDate.endDate),
       uploadedDescription: DateTimeConverter.toString(from: postDetails.detail.createAt))
+  }
+  
+  var postFooterItem: PostFooterInfo {
+    guard let postDetails else {
+      return PostFooterInfo.makeDefault()
+    }
+    return PostFooterInfo(
+      heartCount: postDetails.detail.likes,
+      heartState: postDetails.hasHeart,
+      commentCount: postDetails.detail.comments)
   }
   
   func postContentItem(at row: Int) -> PostContentEntity {
