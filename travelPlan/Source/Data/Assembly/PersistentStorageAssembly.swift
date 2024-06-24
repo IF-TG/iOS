@@ -21,5 +21,8 @@ final class PersistentStorageAssembly: Swinject.Assembly {
     }
     
     // TODO: - PersistentStorages LoginResponseStorage
+    container.register(LoginResultStorage.self, name: .implementation(.default)) { _ in
+      UserDefaultsLoginResultStorage()
+    }
   }
 }
