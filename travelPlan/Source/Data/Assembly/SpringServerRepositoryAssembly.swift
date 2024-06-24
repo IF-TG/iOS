@@ -1,5 +1,5 @@
 //
-//  SpringServierRepository.swift
+//  SpringServerRepository.swift
 //  travelPlan
 //
 //  Created by 양승현 on 6/12/24.
@@ -8,7 +8,7 @@
 import Swinject
 import Foundation
 
-final class SpringServierRepositoryAssembly: Assembly {
+final class SpringServerRepositoryAssembly: Assembly {
   // swiftlint:disable:next function_body_length
   func assemble(container: Swinject.Container) {
     let defaultSession = container.resolve(Sessionable.self, name: .implementation(.default))!

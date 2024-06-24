@@ -30,7 +30,7 @@ final class AppDIContainer {
       CoreAssembly(),
       PersistentStorageAssembly(),
       TourRepositoryAssembly(),
-      SpringServierRepositoryAssembly(),
+      SpringServerRepositoryAssembly(),
       FirebaseRepositoryAssembly(),
       DomainAssembly(),
       PresentationFeedAssembly(),
