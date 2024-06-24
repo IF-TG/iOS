@@ -230,19 +230,25 @@ extension PostDetailChatViewModel: PostDetailChatViewModelable {
   }
 }
 
-// MARK: - Private Helpers
-private extension PostDetailChatViewModel {
+// MARK: - Helpers
+extension PostDetailChatViewModel {
   /// 댓글, 대댓글 총 개수가 변경될 경우 Notification Center를 통해 notify합니다.
+  /// 내부적으로 댓, 대댓글 삭제, 추가될 때 VM STream에서 output으로 방출전에 이함수를 호출해서 notification center로 notify했더니,
+  /// 재사용큐 리로드 데이터 소스가 일치하지 않기에, 명확하게 댓, 대댓글 추가된 후 화면에 보여진 후에 notify를 해야합니다.
   func notifyModifiedCommentsOfCommentAndReply() {
-    guard postDetailChatInfo.hasEnteredByDeferredDeepLink else { return }
+    //이건 받는측에서 해야함
+//    guard postDetailChatInfo.hasEnteredByDeferredDeepLink else { return }
     PostNotificationManager.shared.notifyUpdatedPostComments(
       postId: postDetailChatInfo.postId,
       numberOfPostComments: numberOfComments(),
       hasEnteredByDeferredDeepLink: postDetailChatInfo.hasEnteredByDeferredDeepLink)
   }
-  
+}
+
+// MARK: - Private Helpers
+private extension PostDetailChatViewModel {
   @inline(__always)
-  func numberOfComments() -> Int32 {
+  private func numberOfComments() -> Int32 {
     let filteredComments = comments.filter { !$0.isDeleted }
     return filteredComments.map { Int32($0.nestedComments.count) }.reduce(Int32(0), +) + Int32(filteredComments.count)
   }
@@ -616,7 +622,6 @@ private extension PostDetailChatViewModel {
     postCommentUseCase.sendComment(postId: postDetailChatInfo.postId, comment: text)
       .map { [weak self] postCommentEntity -> State in
         self?.comments.append(postCommentEntity)
-        self?.notifyModifiedCommentsOfCommentAndReply()
         return .comment(.reloadedComment)
       }.catch { error in
         return Just(State.unexpectedError(description: error.localizedDescription))
@@ -639,13 +644,11 @@ private extension PostDetailChatViewModel {
           
           /// 대댓글 있는 경우
           if nestedCommentCount > 0 {
-            self?.notifyModifiedCommentsOfCommentAndReply()
             return .comment(.reloadWithNestedCommentsWhenCommentDelete(section.sectionIndex))
           }
           
           /// 대댓글 없는 경우
           self?.comments.remove(at: section.commentIndex)
-          self?.notifyModifiedCommentsOfCommentAndReply()
           return .comment(.reloadWhenCommentDelete(section.sectionIndex))
         }
         return .unexpectedError(description: "서버에서 에러가 발생되 댓글이 삭제되지 않았습니다.")
@@ -690,7 +693,6 @@ private extension PostDetailChatViewModel {
       .sendNestedComment(postId: postDetailChatInfo.postId, commentId: commentId, comment: text)
       .map { [weak self] postNestedCommentEntity -> State in
         self?.comments[commentSection].nestedComments.append(postNestedCommentEntity)
-        self?.notifyModifiedCommentsOfCommentAndReply()
         self?.replyingSection = nil
         /// 대댓글이 속한 댓글 섹션은 replyingSection을 보내주어야 합니다.
         return .nestedComment(.sentSuccessfully(replyingSection))
@@ -715,7 +717,6 @@ private extension PostDetailChatViewModel {
       .map { [weak self] deletedNestedCommentState -> State in
         /// 대댓글 제거
         self?.comments[commentSectionIndex].nestedComments.remove(at: indexPath.row)
-        self?.notifyModifiedCommentsOfCommentAndReply()
         
         // MARK: 서버에서 대댓글 제거할때 마지막 대댓글인지 확인해야하는데, 현 api response에선 알 수 없습니다.
         /// 현재 앱에서 가지고 있는 데이터 기준으로 처리 하도록 의견 결정했음으로 현상태 유지합니다.

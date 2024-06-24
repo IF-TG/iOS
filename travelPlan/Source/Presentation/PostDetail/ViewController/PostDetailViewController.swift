@@ -187,6 +187,10 @@ extension PostDetailViewController: ViewBindCase {
     case .failedToFetchPost(let description):
       stopIndicator()
       viewModel.showAlertAndDismiss(with: description)
+    case .updatePostFooterInfo:
+      UIView.performWithoutAnimation {
+        tableView.reloadSections(IndexSet(integer: PostDetailSection.postHeartAndShareArea.sectionIndex), with: .none)
+      }
     }
   }
   
@@ -268,16 +272,19 @@ extension PostDetailViewController: ViewBindCase {
       tableView.scrollToRow(
         at: IndexPath(row: NSNotFound, section: viewModel.numberOfSections-1),
         at: .bottom, animated: false)
+      chatViewModel.notifyModifiedCommentsOfCommentAndReply()
       stopIndicator()
     case .reloadWhenCommentDelete(let section):
       UITableView.performWithoutAnimation {
         tableView.deleteSections(IndexSet(integer: section), with: .none)
       }
+      chatViewModel.notifyModifiedCommentsOfCommentAndReply()
       stopIndicator()
     case .reloadWithNestedCommentsWhenCommentDelete(let section):
       UITableView.performWithoutAnimation {
         tableView.reloadSections(IndexSet(integer: section), with: .none)
       }
+      chatViewModel.notifyModifiedCommentsOfCommentAndReply()
       stopIndicator()
     case .reloadWhenCommentUpdate(let section):
       UITableView.performWithoutAnimation {
@@ -297,6 +304,7 @@ extension PostDetailViewController: ViewBindCase {
       UITableView.performWithoutAnimation {
         tableView.reloadSections(IndexSet(integer: section), with: .none)
       }
+      chatViewModel.notifyModifiedCommentsOfCommentAndReply()
       stopIndicator()
     case .reload(let indexPath):
       UITableView.performWithoutAnimation {
@@ -309,6 +317,7 @@ extension PostDetailViewController: ViewBindCase {
       UITableView.performWithoutAnimation {
         tableView.deleteSections(IndexSet(integer: indexPath.section), with: .none)
       }
+      chatViewModel.notifyModifiedCommentsOfCommentAndReply()
       stopIndicator()
     case .reloadWhenCommentUpdate(let indexPath):
       UITableView.performWithoutAnimation {
