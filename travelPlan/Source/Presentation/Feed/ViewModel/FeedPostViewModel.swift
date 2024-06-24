@@ -13,6 +13,8 @@ final class FeedPostViewModel: PostViewModel, PostOptionNotificationBinder {
   private let postFetchUseCase: PostFetchUseCase
   
   // MARK: - Properties
+  private var hasEnteredPostDetailScene = false
+  
   var currentPage: Int32 = 0
   
   var nextPage: Int32 { hasMorePages ? currentPage + 1 : currentPage }
@@ -63,6 +65,8 @@ final class FeedPostViewModel: PostViewModel, PostOptionNotificationBinder {
   /// haspostBlocked notification으로부터 알림을 전달받습니다.
   var postHasBlockedNotifier = PassthroughSubject<PostBlockedElement?, Never>()
   
+  var updatedPostCommentsNotifier = PassthroughSubject<UpdatedPostCommentsEntity, Never>()
+  
   // MARK: - Lifecycle
   init(postCategory: PostCategory, postFetchUseCase: PostFetchUseCase) {
     self.postFetchUseCase = postFetchUseCase
@@ -87,13 +91,35 @@ extension FeedPostViewModel: FeedPostViewModelable {
       fetchNextPageStream(input),
       feedRefreshStream(input),
       specificPostTappedStream(input),
-      postHasBlockedHandlerStream()]
+      postHasBlockedHandlerStream(),
+      updatedPostCommentsNotifierStream()]
     ).eraseToAnyPublisher()
   }
 }
 
 // MARK: - Private Stream Helpers
 private extension FeedPostViewModel {
+  func updatedPostCommentsNotifierStream() -> Output {
+    return updatedPostCommentsNotifier.map { [weak self] updatedPostCommentsEntity -> State in
+      /// 디퍼드 딥링킹에 의해 들어온 경우 피드 화면 특정 셀 ->포스트 상세화면으로 이동하지 않고 바로 포스트 상세화면으로 이동하기에 처리하지 않습니다.
+      if updatedPostCommentsEntity.hasEnteredByDeferredDeepLink {
+        return .none
+      }
+      
+      /// 일치하지 않는 postId를 수신받을 경우에 아무 변화가 일어나지 않습니다.
+      guard let postIndex = self?.posts.firstIndex(where: {$0.detail.postID == updatedPostCommentsEntity.postId }) else {
+        return .none
+      }
+      
+      if self?.hasEnteredPostDetailScene == false {
+        return .none
+      }
+      
+      self?.posts[postIndex].detail.comments = updatedPostCommentsEntity.postComments
+      return .reloadCell(IndexPath(item: postIndex, section: PostViewSection.post.rawValue))
+    }.eraseToAnyPublisher()
+  }
+  
   // MARK: - 포스트 공유 Stream
   func postShareNotifierByPostOptionSream() -> Output {
     return postShareNotifierByPostOption
@@ -261,6 +287,7 @@ private extension FeedPostViewModel {
         guard let post = self?.posts[index] else {
           return .unexpectedError(description: ReferenceError.invalidReference.localizedDescription)
         }
+        self?.hasEnteredPostDetailScene = true
         return .detailPostShow(post: post)
       }.eraseToAnyPublisher()
   }
@@ -334,6 +361,8 @@ extension FeedPostViewModel {
     } postShareHandler: { [weak self] element in
       self?.postShareNotifierByPostOption.send(element)
     }
+    
+    makeUpdatedPostCommentsNotificationSubscriber().store(in: &subscriptions)
   }
 }
 

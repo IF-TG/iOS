@@ -162,6 +162,8 @@ extension FeedPostViewController: ViewBindCase {
       let item = PostActivityItemSource(title: title, postId: postId)
       
       coordinator?.showPostShareSheet(with: item)
+    case .reloadCell(let indexPath):
+      postView.reloadItems(at: [indexPath])
     }
   }
   

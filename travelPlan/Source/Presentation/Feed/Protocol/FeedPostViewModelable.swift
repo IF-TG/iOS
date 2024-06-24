@@ -31,7 +31,7 @@ struct FeedPostViewModelInput {
 
 @frozen enum FeedPostViewModelState {
   typealias Title = String
-  
+  case reloadCell(IndexPath)
   case viewDidLoad
   case refresh
   case pagination(FeedPostViewModelPaginationState)
