@@ -236,8 +236,6 @@ extension PostDetailChatViewModel {
   /// 내부적으로 댓, 대댓글 삭제, 추가될 때 VM STream에서 output으로 방출전에 이함수를 호출해서 notification center로 notify했더니,
   /// 재사용큐 리로드 데이터 소스가 일치하지 않기에, 명확하게 댓, 대댓글 추가된 후 화면에 보여진 후에 notify를 해야합니다.
   func notifyModifiedCommentsOfCommentAndReply() {
-    //이건 받는측에서 해야함
-//    guard postDetailChatInfo.hasEnteredByDeferredDeepLink else { return }
     PostNotificationManager.shared.notifyUpdatedPostComments(
       postId: postDetailChatInfo.postId,
       numberOfPostComments: numberOfComments(),
