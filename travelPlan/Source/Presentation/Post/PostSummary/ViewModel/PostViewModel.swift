@@ -20,4 +20,7 @@ protocol PostDataSource {
   func fetchPosts() -> AnyPublisher<Void, Error>
 }
 
-typealias PostViewModel = PostDataSource & PostViewAdapterDataSource & PostBlockedNotifiable
+typealias PostViewModel = (PostDataSource &
+                           PostViewAdapterDataSource &
+                           PostBlockedNotifiable &
+                           UpdatedPostCommentsNotifiable)

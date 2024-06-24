@@ -35,6 +35,9 @@ final class FavoritePostViewModel: PostViewModel {
   
   var postHasBlockedNotifier = PassthroughSubject<PostBlockedElement?, Never>()
   
+  // TODO: - 바인드 처리해야합니다. 피드처럼
+  var updatedPostCommentsNotifier = PassthroughSubject<UpdatedPostCommentsEntity, Never>()
+  
   // MARK: - Lifecycle
   init(postFetchUsecase: PostFetchUseCase) {
     self.postFetchUsecase = postFetchUsecase
