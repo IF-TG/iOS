@@ -31,18 +31,22 @@ struct FeedPostViewModelInput {
 
 @frozen enum FeedPostViewModelState {
   typealias Title = String
-  case reloadCell(IndexPath)
-  case viewDidLoad
-  case refresh
   case pagination(FeedPostViewModelPaginationState)
   case unexpectedError(description: String)
   case networking
-  case postFilterLoaded
   case share(Title, PostIdentifier)
-  ///
   case detailPostShow(post: Post)
-  case deleteBlockedPost(IndexPath)
+  case load(FeedPostViewModelLoadState)
   case none
+}
+
+@frozen enum FeedPostViewModelLoadState {
+  // 댓글 총 개수 or 하트 총 개수 or 하트 여부가 변경될 때 이 case를 통해 ui를 업데이트해야합니다.
+  case reloadCell(IndexPath)
+  case viewDidLoad
+  case refresh
+  case postFilterLoaded
+  case deleteBlockedPost(IndexPath)
 }
 
 @frozen enum FeedPostViewModelPaginationState {

@@ -116,7 +116,7 @@ private extension FeedPostViewModel {
       }
       
       self?.posts[postIndex].detail.comments = updatedPostCommentsEntity.postComments
-      return .reloadCell(IndexPath(item: postIndex, section: PostViewSection.post.rawValue))
+      return .load(.reloadCell(IndexPath(item: postIndex, section: PostViewSection.post.rawValue)))
     }.eraseToAnyPublisher()
   }
   
@@ -128,7 +128,6 @@ private extension FeedPostViewModel {
       }.eraseToAnyPublisher()
   }
   
-  // TODO: - 포스트 아이디 Int로 변환해야함.
   func postShareSubjectStream(_ input: Input) -> Output {
     return input.postShareSubject.map { [weak self] indexPath -> State in
       guard let item = self?.postItem(at: indexPath.item) else {
@@ -164,7 +163,7 @@ private extension FeedPostViewModel {
             if self?.hasMorePages == false {
               return .pagination(.noMorePage)
             }
-            return .postFilterLoaded
+            return .load(.postFilterLoaded)
           }.catch { error in
             return Just(State.unexpectedError(description: error.localizedDescription))
           }.eraseToAnyPublisher() ?? Just(
@@ -198,7 +197,7 @@ private extension FeedPostViewModel {
             if self?.hasMorePages == false {
               return .pagination(.noMorePage)
             }
-            return .postFilterLoaded
+            return .load(.postFilterLoaded)
           }.catch { error in
             return Just(State.unexpectedError(description: error.localizedDescription))
           }.eraseToAnyPublisher() ?? Just(
@@ -221,8 +220,8 @@ private extension FeedPostViewModel {
     return viewDidLoadHandler
       .flatMap { [weak self] _ in
         return self?.fetchPosts()
-          .map { _ in
-            State.viewDidLoad
+          .map { _ -> State in
+            return .load(.viewDidLoad)
           }.catch { error in
             return Just(State.unexpectedError(description: error.localizedDescription))
           }.eraseToAnyPublisher() ?? Just(
@@ -272,7 +271,7 @@ private extension FeedPostViewModel {
         self?.isRefreshing = true
         return self?.fetchPosts()
           .map { _ -> State in
-            return .refresh
+            return .load(.refresh)
           }.catch { error in
             return Just(State.unexpectedError(description: error.localizedDescription))
           }.eraseToAnyPublisher() ?? Just(
@@ -309,7 +308,7 @@ private extension FeedPostViewModel {
       /// 주의!!!!! 나이스 - 석현이형 -
       self?.posts.remove(at: blockedPostIdIndex)
       self?.postThumbnails.remove(at: blockedPostIdIndex)
-      return .deleteBlockedPost(IndexPath(item: blockedPostIdIndex, section: PostViewSection.post.rawValue))
+      return .load(.deleteBlockedPost(IndexPath(item: blockedPostIdIndex, section: PostViewSection.post.rawValue)))
     }.eraseToAnyPublisher()
   }
   
