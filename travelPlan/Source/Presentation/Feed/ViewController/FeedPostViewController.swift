@@ -132,39 +132,50 @@ extension FeedPostViewController: ViewBindCase {
   
   func render(_ state: State) {
     switch state {
-    case .refresh:
-      postView.reloadData()
-      refresher.endRefreshing()
     case .pagination(let paginationState):
       handlePaginationState(paginationState)
     case .unexpectedError(let description):
       coordinator?.showAlertForError(with: description, completion: nil)
     case .none:
       break
-    case .viewDidLoad:
-      stopIndicator()
-      postView.reloadData()
-      print("피드 포스트 viewDidLoad")
     case .networking:
       startIndicator()
-    case .postFilterLoaded:
-      postView.reloadData()
-      stopIndicator()
     case .detailPostShow(let post):
       coordinator?.showDetailPost(post: post) { [weak self] blockedPostId in
         self?.input.postBlockSubject.send(blockedPostId)
-      }
-    case .deleteBlockedPost(let deletedIndexPath):
-      postView.performBatchUpdates {
-        postView.deleteItems(at: [deletedIndexPath])
       }
     case .share(let title, let postId):
       let item = PostActivityItemSource(title: title, postId: postId)
       
       coordinator?.showPostShareSheet(with: item)
+    case .load(let loadState):
+      handleLoadState(loadState)
     }
   }
   
+  @inline(__always)
+  func handleLoadState(_ state: FeedPostViewModelLoadState) {
+    switch state {
+    case .reloadCell(let indexPath):
+      postView.reloadItems(at: [indexPath])
+    case .viewDidLoad:
+      stopIndicator()
+      postView.reloadData()
+      print("피드 포스트 viewDidLoad")
+    case .refresh:
+      postView.reloadData()
+      refresher.endRefreshing()
+    case .postFilterLoaded:
+      postView.reloadData()
+      stopIndicator()
+    case .deleteBlockedPost(let deletedIndexPath):
+      postView.performBatchUpdates {
+        postView.deleteItems(at: [deletedIndexPath])
+      }
+    }
+  }
+  
+  @inline(__always)
   func handlePaginationState(_ state: FeedPostViewModelPaginationState) {
     switch state {
     case .nextPage(let reloadCompletion):

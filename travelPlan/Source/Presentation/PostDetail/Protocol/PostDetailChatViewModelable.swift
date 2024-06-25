@@ -116,4 +116,5 @@ where Input == PostDetailChatViewModelInput,
   typealias UserInputText = String
   typealias Section = Int
   typealias SectionType = PostDetailSection
+  func notifyModifiedCommentsOfCommentAndReply()
 }

@@ -53,6 +53,7 @@ struct PostDetailViewModelInput {
   case none
   case failedToFetchPost(description: String)
   case networkProcessing
+  case updatePostFooterInfo
   
   case viewDidLoad(PostDetailViewDidLoadState)
   case unexpectedError(description: String)

@@ -12,7 +12,7 @@ import Combine
   case failedToFetchPostDetails(Error)
 }
 
-final class PostDetailViewModel: PostOptionNotificationBinder {
+final class PostDetailViewModel: PostOptionNotificationBinder, UpdatedPostCommentsNotifiable {
   typealias SectionType = PostDetailSection
 
   // MARK: - Dependencies
@@ -45,6 +45,8 @@ final class PostDetailViewModel: PostOptionNotificationBinder {
   var postHasBlockedNotifier = PassthroughSubject<PostBlockedElement?, Never>()
   
   var userWantToSharePostNotifier = PassthroughSubject<PostShareElement, Never>()
+  
+  var updatedPostCommentsNotifier = PassthroughSubject<UpdatedPostCommentsEntity, Never>()
   
   // MARK: - Lifecycle
   init(
@@ -137,7 +139,8 @@ extension PostDetailViewModel: PostDetailViewModelable {
       errorHandlerStream(),
       postDetailsFetchNotifierStream(),
       navigationInfoStream(),
-      loggedInUserUseCaseHandlerStream()
+      loggedInUserUseCaseHandlerStream(),
+      updatedPostCommentsNotifierStream()
     ]).eraseToAnyPublisher()
   }
 }
@@ -208,6 +211,16 @@ private extension PostDetailViewModel {
         isPostOwner: postAuthorId == ownerId))
     }.eraseToAnyPublisher()
   }
+  
+  func updatedPostCommentsNotifierStream() -> Output {
+    return updatedPostCommentsNotifier.map { [weak self] entity -> State in
+      guard entity.postId == self?.postDetails?.detail.postID else {
+        return .none
+      }
+      self?.postDetails?.detail.comments = entity.postComments
+      return .updatePostFooterInfo
+    }.eraseToAnyPublisher()
+  }
 }
 
 // MARK: - Private Helpers
@@ -227,6 +240,8 @@ private extension PostDetailViewModel {
     } postShareHandler: { [weak self] element in
       self?.actions?.showPostShare(element)
     }
+    
+    makeUpdatedPostCommentsNotificationSubscriber().store(in: &subscriptions)
   }
   
   func convertToString(_ travelMainTheme: TravelMainThemeType, subTheme: String) -> String {

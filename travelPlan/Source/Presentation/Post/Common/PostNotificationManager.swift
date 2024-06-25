@@ -63,11 +63,16 @@ extension PostNotificationManager {
   /// 포스트 상세 화면에서 댓글, 대댓글 삭제 or 추가지 때 포스트 상세화면에서 보여지는 댓글 총 개수가 반영되야 합니다.
   /// 피드 화면 -> 피드 상세 화면으로 이동한 경우, 다시 뒤로 갈 때 피드 화면에서도 댓글 총 개수가 반영되야 합니다.
   ///   차단하기에 의해 댓글 화면에서 사라진 경우 포스트 총 개수에 변화는 반영하지 않습니다.
-  func notifyUpdatedPostComments(postId: PostIdentifier, numberOfPostComments: Int32) {
+  func notifyUpdatedPostComments(
+    postId: PostIdentifier,
+    numberOfPostComments: Int32,
+    hasEnteredByDeferredDeepLink: Bool
+  ) {
     NotificationCenter.default.post(
       name: .updatedPostComments,
       object: nil,
       userInfo: ["postId": postId,
-                 "postComments": numberOfPostComments])
+                 "postComments": numberOfPostComments,
+                 "hasEnteredByDeferredDeepLink": hasEnteredByDeferredDeepLink])
   }
 }

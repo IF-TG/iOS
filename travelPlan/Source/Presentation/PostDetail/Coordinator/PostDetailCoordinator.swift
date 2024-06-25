@@ -112,9 +112,13 @@ final class PostDetailCoordinator: NSObject, FlowCoordinator, PostOptionCoordina
       postFetchUseCase: defaultPostFetchUseCase,
       ownerRepository: loggedInUserRepository,
       actions: actions)
+    
+    let postDetailChatViewModelInfo = PostDetailChatViewModelInfo(
+      postId: postId, 
+      hasEnteredByDeferredDeepLink: post == nil)
 
     let postDetailChatVM = PostDetailChatViewModel(
-      postId: postId,
+      postDetailChatInfo: postDetailChatViewModelInfo,
       postCommentsAndPostLikeStateFetchUseCase: defaultPostCommetnsAndPostLikeStateFetchUseCase,
       postCommentUseCase: postCommentUseCase,
       postCommentHeartUseCase: postCommentHeartUseCase,
