@@ -11,7 +11,7 @@ import SHCoordinator
 protocol PostDetailCoordinatorDependencies {
   func makePostDetailViewController(postId: PostIdentifier, post: Post?) -> PostDetailViewController
   func makeReviewWritingCoordinator(presenter: UINavigationController?, mode: ReviewWritingMode) -> FlowCoordinator
-  func makePostDetailCateogryViewController(dataSource: [String]) -> UIViewController
+  func makePostDetailCategoryViewController(dataSource: [String]) -> UIViewController
 }
 
 @frozen enum PostDetailCommentOption: String, CaseIterable {
@@ -172,7 +172,7 @@ extension PostDetailCoordinator {
   }
   
   func showCategory(with categories: [String]) {
-    let categoryViewController = dependencies.makePostDetailCateogryViewController(dataSource: categories)
+    let categoryViewController = dependencies.makePostDetailCategoryViewController(dataSource: categories)
     presenter?.pushViewController(categoryViewController, animated: true)
   }
   
