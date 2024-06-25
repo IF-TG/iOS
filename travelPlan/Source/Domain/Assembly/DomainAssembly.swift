@@ -158,7 +158,28 @@ final class DomainAssembly: Swinject.Assembly {
         ownerRepository: defaultOwnerRepository)
     }
     
-    // TODOg: - PostNestedComment Heart Use Case
+    // MARK: - PostNestedComment Heart Use Case
+    container.register(PostNestedCommentHeartUseCase.self, name: .implementation(.default)) { r in
+      let defaultPostCommentRepository = r.resolve(PostNestedCommentRepository.self, name: .implementation(.default))!
+      return DefaultPostNestedCommentHeartUseCase(postNestedCommentRepository: defaultPostCommentRepository)
+    }
+    
+    container.register(PostNestedCommentHeartUseCase.self, name: .implementation(.interceptedDefault)) { r in
+      let interceptedPostCommentRepository = r.resolve(
+        PostNestedCommentRepository.self, name: .implementation(.interceptedDefault))!
+      return DefaultPostNestedCommentHeartUseCase(postNestedCommentRepository: interceptedPostCommentRepository)
+    }
+    
+    container.register(PostNestedCommentHeartUseCase.self, name: .implementation(.firestore)) { r in
+      let firestoreNestedCommentHeartRepository = r.resolve(
+        PostNestedCommentHeartRepository.self, name: .implementation(.firestore))!
+      let defaultOwnerRepository = r.resolve(LoggedInUserRepository.self, name: .implementation(.default))!
+      return PostNestedCommentHeartUseCaseImpl(
+        nestedCommentHeartRepository: firestoreNestedCommentHeartRepository, 
+        ownerRepository: defaultOwnerRepository)
+    }
+    
+    // TODO: - Post Heart Use Case
     
     // TODO: - FavoriteDirectory Use Case
     
