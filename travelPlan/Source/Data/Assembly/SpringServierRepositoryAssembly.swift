@@ -31,7 +31,7 @@ final class SpringServierRepositoryAssembly: Assembly {
       return DefaultUserBlockRepository(service: defaultSession)
     }
     
-    container.register(UserBlockRepository.self, name: .implementation(.interceptedDefault)) { r in
+    container.register(UserBlockRepository.self, name: .implementation(.interceptedDefault)) { _ in
       return DefaultUserBlockRepository(service: mockSession)
     }
     
