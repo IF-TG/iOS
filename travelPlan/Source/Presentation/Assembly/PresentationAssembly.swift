@@ -31,7 +31,7 @@ final class PresentationAssembly: Assembly {
     }
     
     container.register(
-      PostDetailViewModel.self, name: .testDouble(.mock)
+      PostDetailViewModelType.self, name: .testDouble(.mock)
     ) { (r, postId: PostIdentifier, post: Post?, actions: PostDetailViewModelActions) in
       let mockPostFetchUseCase = r.resolve(PostFetchUseCase.self, name: .testDouble(.mock))!
       let stubOwnerRepository = r.resolve(LoggedInUserRepository.self, name: .testDouble(.stub))!
@@ -100,6 +100,35 @@ final class PresentationAssembly: Assembly {
         userBlockUseCase: mockUserBlockUseCase,
         ownerRepository: stubOwnerRepository,
         actions: actions)
+    }
+    
+    // MARK: - PostDetailViewController
+    container.register(
+      PostDetailViewController.self, name: .implementation(.default)
+    ) { (r, coordinator: PostDetailCoordinator) in
+      let mockPostDetailViewModel = r.resolve(PostDetailViewModelType.self, name: .testDouble(.mock))!
+      let mockPostDetailChatViewModel = r.resolve(
+        PostDetailChatViewModelType.self, name: .testDouble(.mock))!
+      let mockPostOptionViewModel = r.resolve(PostOptionViewModelType.self, name: .testDouble(.mock))!
+      coordinator.setPostReceivable(mockPostDetailViewModel)
+      return PostDetailViewController(
+        viewModel: mockPostDetailViewModel,
+        chatViewModel: mockPostDetailChatViewModel,
+        optionViewModel: mockPostOptionViewModel)
+    }
+    
+    container.register(
+      PostDetailViewController.self, name: .testDouble(.mock)
+    ) { (r, coordinator: PostDetailCoordinator) in
+      let defaultPostDetailViewModel = r.resolve(PostDetailViewModelType.self, name: .implementation(.default))!
+      let defaultPostDetailChatViewModel = r.resolve(
+        PostDetailChatViewModelType.self, name: .implementation(.default))!
+      let postOptionViewModel = r.resolve(PostOptionViewModelType.self, name: .implementation(.default))!
+      coordinator.setPostReceivable(defaultPostDetailViewModel)
+      return PostDetailViewController(
+        viewModel: defaultPostDetailViewModel,
+        chatViewModel: defaultPostDetailChatViewModel,
+        optionViewModel: postOptionViewModel)
     }
     
     // MARK: - Post OptionViewModel Type
