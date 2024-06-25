@@ -145,15 +145,21 @@ extension AppDIContainer: NotificationCenterCoordinatorDependencies {
 
 // MARK: - PostDetailCoordinatorDependencies
 extension AppDIContainer: PostDetailCoordinatorDependencies {
-  func makePostDetailViewController(postId: PostIdentifier, post: Post?) -> PostDetailViewController {
+  func makePostDetailViewController(postId: PostIdentifier, post: Post?, coordinator: PostDetailCoordinator) -> PostDetailViewController {
     #if DEBUG
-    return resolver.resolve(PostDetailViewController.self, name: .testDouble(.mock))!
+    return resolver.resolve(
+      PostDetailViewController.self,
+      name: .testDouble(.mock),
+      arguments: coordinator, postId, post)!
     #else
-    return resolver.resolve(PostDetailViewController.self, name: .implementation(.default))!
+    return resolver.resolve(
+      PostDetailViewController.self,
+      name: .implementation(.default),
+      arguments: coordinator, postId, post)!
     #endif
   }
   
-  // TODO: - ReviewWriting register에 등록하면 이곳에서 반영해야합니다.(꺼내야합니다.)
+  // TODO: - ReviewWriting register에 등록하면 이곳에서 반영해야합니다.(꺼내야합니다.) 인자값 등드
   func makeReviewWritingCoordinator(
     presenter: UINavigationController?,
     mode: ReviewWritingMode

@@ -105,11 +105,21 @@ final class PresentationAssembly: Assembly {
     // MARK: - PostDetailViewController
     container.register(
       PostDetailViewController.self, name: .implementation(.default)
-    ) { (r, coordinator: PostDetailCoordinator) in
-      let mockPostDetailViewModel = r.resolve(PostDetailViewModelType.self, name: .testDouble(.mock))!
+    ) { (r, coordinator: PostDetailCoordinator, postId: PostIdentifier, post: Post?) in
+      let mockPostDetailViewModel = r.resolve(
+        PostDetailViewModelType.self,
+        name: .testDouble(.mock),
+        arguments: postId, post, coordinator.makePostDetailViewModelActions())!
       let mockPostDetailChatViewModel = r.resolve(
-        PostDetailChatViewModelType.self, name: .testDouble(.mock))!
-      let mockPostOptionViewModel = r.resolve(PostOptionViewModelType.self, name: .testDouble(.mock))!
+        PostDetailChatViewModelType.self,
+        name: .testDouble(.mock),
+        arguments: postId, post, coordinator.makePostDetailChatViewModelActions())!
+      let mockPostOptionViewModel = r.resolve(
+        PostOptionViewModelType.self,
+        name: .testDouble(.mock),
+        arguments: 
+          coordinator.makePostOptionViewModelInfo(postId: postId, post: post),
+          coordinator.makePostOptionViewModelActions())!
       coordinator.setPostReceivable(mockPostDetailViewModel)
       return PostDetailViewController(
         viewModel: mockPostDetailViewModel,
@@ -119,11 +129,21 @@ final class PresentationAssembly: Assembly {
     
     container.register(
       PostDetailViewController.self, name: .testDouble(.mock)
-    ) { (r, coordinator: PostDetailCoordinator) in
-      let defaultPostDetailViewModel = r.resolve(PostDetailViewModelType.self, name: .implementation(.default))!
+    ) { (r, coordinator: PostDetailCoordinator, postId: PostIdentifier, post: Post?) in
+      let defaultPostDetailViewModel = r.resolve(
+        PostDetailViewModelType.self,
+        name: .implementation(.default),
+        arguments: postId, post, coordinator.makePostDetailViewModelActions())!
       let defaultPostDetailChatViewModel = r.resolve(
-        PostDetailChatViewModelType.self, name: .implementation(.default))!
-      let postOptionViewModel = r.resolve(PostOptionViewModelType.self, name: .implementation(.default))!
+        PostDetailChatViewModelType.self, 
+        name: .implementation(.default),
+        arguments: postId, post, coordinator.makePostDetailChatViewModelActions())!
+      let postOptionViewModel = r.resolve(
+        PostOptionViewModelType.self,
+        name: .implementation(.default),
+        arguments: 
+          coordinator.makePostOptionViewModelInfo(postId: postId, post: post),
+          coordinator.makePostOptionViewModelActions())!
       coordinator.setPostReceivable(defaultPostDetailViewModel)
       return PostDetailViewController(
         viewModel: defaultPostDetailViewModel,
@@ -189,7 +209,7 @@ final class PresentationAssembly: Assembly {
     }.inObjectScope(.transient)
     
     // MARK: - PostDetailCategoryViewController
-    container.register(PostDetailCategoryViewController.self) { (r, dataSource: [String]) in
+    container.register(PostDetailCategoryViewController.self) { (_, dataSource: [String]) in
       return PostDetailCategoryViewController(style: .plain, dataSource: dataSource)
     }
     

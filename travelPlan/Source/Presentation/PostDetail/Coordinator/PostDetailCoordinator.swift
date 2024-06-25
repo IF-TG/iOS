@@ -9,7 +9,11 @@ import UIKit
 import SHCoordinator
 
 protocol PostDetailCoordinatorDependencies {
-  func makePostDetailViewController(postId: PostIdentifier, post: Post?) -> PostDetailViewController
+  func makePostDetailViewController(
+    postId: PostIdentifier,
+    post: Post?,
+    coordinator: PostDetailCoordinator
+  ) -> PostDetailViewController
   func makeReviewWritingCoordinator(presenter: UINavigationController?, mode: ReviewWritingMode) -> FlowCoordinator
   func makePostDetailCategoryViewController(dataSource: [String]) -> UIViewController
 }
@@ -62,7 +66,10 @@ final class PostDetailCoordinator: NSObject, FlowCoordinator, PostOptionCoordina
     self.presenter = presenter
     self.dependencies = dependencies
     super.init()
-    postDetailViewController = dependencies.makePostDetailViewController(postId: postId, post: post)
+    postDetailViewController = dependencies.makePostDetailViewController(
+      postId: postId,
+      post: post,
+      coordinator: self)
     presenter?.delegate = self
   }
   
@@ -123,6 +130,15 @@ extension PostDetailCoordinator {
       }, showPostAuthorBlock: { [weak self] authName, completion in
         self?.showPostAuthorBlock(authName, handler: completion)
       })
+  }
+  
+  func makePostOptionViewModelInfo(postId: PostIdentifier, post: Post?) -> PostOptionViewModelInfo {
+    return PostOptionViewModelInfo(
+      postId: postId,
+      postAuthorId: post?.author.authorId,
+      postAuthorNickname: post?.author.nickname,
+      postOptionLocation: .detailPage,
+      postTitle: post?.detail.title)
   }
 }
 
