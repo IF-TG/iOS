@@ -188,6 +188,11 @@ final class PresentationAssembly: Assembly {
         userBlockUseCase: firestoreUserBlockUseCase)
     }.inObjectScope(.transient)
     
+    // MARK: - PostDetailCategoryViewController
+    container.register(PostDetailCategoryViewController.self) { (r, dataSource: [String]) in
+      return PostDetailCategoryViewController(style: .plain, dataSource: dataSource)
+    }
+    
     // MARK: - Notification Page
     typealias NoticeViewModelType = any NoticeViewModelable & NoticeViewAdapterDataSource
     typealias NotificationViewModelType = any NotificationViewModelable & NotificationViewAdapterDataSource
