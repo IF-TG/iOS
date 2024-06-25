@@ -145,7 +145,11 @@ extension AppDIContainer: NotificationCenterCoordinatorDependencies {
 
 // MARK: - PostDetailCoordinatorDependencies
 extension AppDIContainer: PostDetailCoordinatorDependencies {
-  func makePostDetailViewController(postId: PostIdentifier, post: Post?, coordinator: PostDetailCoordinator) -> PostDetailViewController {
+  func makePostDetailViewController(
+    postId: PostIdentifier,
+    post: Post?,
+    coordinator: PostDetailCoordinator
+  ) -> PostDetailViewController {
     #if DEBUG
     return resolver.resolve(
       PostDetailViewController.self,
