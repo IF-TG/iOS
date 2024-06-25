@@ -102,8 +102,7 @@ final class PresentationAssembly: Assembly {
         actions: actions)
     }
     
-    
-    // TODO: - Post
+    // MARK: - Post OptionViewModel Type
     container.register(
       PostOptionViewModelType.self,
       name: .implementation(.default)
