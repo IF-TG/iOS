@@ -48,70 +48,13 @@ final class PostDetailCoordinator: NSObject, FlowCoordinator, PostOptionCoordina
   init(presenter: UINavigationController?, post: Post?, postId: PostIdentifier) {
     self.presenter = presenter
     super.init()
-    let mockPostRepository = MockPostRepository()
-//    let defaultPostFetchUseCase = DefaultPostFetchUseCase(postRepository: mockPostRepository)
-    let defaultPostFetchUseCase = MockPostFetchUseCase()
-    let mockPostCommentRepository = MockPostCommentRepository()
-    let defaultPostCommetnsAndPostLikeStateFetchUseCase = DefaultPostCommentsAndPostLikeStateFetchUseCase(
-      postRepository: mockPostRepository)
-    let mockPostNestedCommentRepository = MockPostNestedCommentRepository()
-    let postCommentUseCase = DefaultPostCommentUseCase(postCommentRepository: mockPostCommentRepository)
-    let loggedInUserRepository = DefaultLoggedInUserRepository(storage: .init(value: StubOwnerStorage()))
-    let postNestedCommentUseCase = DefaultPostNestedCommentUseCase(
-      postNestedCommentRepository: mockPostNestedCommentRepository)
-    let userBlockUseCase = DefaultUserBlockUseCase(userBlockRepository: MockWrappedUserBlockRepository())
-    
-    let postCommentHeartUseCase = DefaultPostCommentHeartUseCase(postCommentRepository: mockPostCommentRepository)
-    let postNestedCommentHeartUseCase = DefaultPostNestedCommentHeartUseCase(
-      postNestedCommentRepository: mockPostNestedCommentRepository)
-    
-    let optionActions = PostOptionViewModelActions(
-      showPostOption: { [weak self] optionCallback in self?.showOption(handler: optionCallback) },
-      showPostOptionForMine: { [weak self] callback in self?.showPostOptionForMine(completion: callback)},
-      showPostReport: { [weak self] reportCallback in self?.showPostReport(handler: reportCallback) },
-      showPostReportResult: { [weak self] option in self?.showPostReportResult(wtih: option) },
-      showPostAuthorBlock: { [weak self] authName, completion in
-        self?.showPostAuthorBlock(authName, handler: completion)
-      },
-      showAlertForError: {[weak self] message, completion in
-        self?.showAlertForError(with: message, completion: completion)
-      })
-    
-    let actions = PostDetailViewModelActions(
-      showAlertForError: { [weak self] message, completion in
-        self?.showAlertForError(with: message, completion: completion)
-      },
-      showCategory: {[weak self] categories in self?.showCategory(with: categories) },
-      showReviewWriting: { [weak self] entity in self?.showReviewWriting(entity: entity) },
-      showFeedAfterBlockingFeed: { [weak self] blockedPostId in self?.showFeedAfterBlockingFeed(blockedPostId) },
-      finishWithAnim: { [weak self] in self?.finishWithAnim() }, 
-      showPostShare: { [weak self] element in
-        self?.showPostShareSheet(with: .init(
-          title: element.postTitle,
-          postId: element.postId))}, 
-      showPostShareSheet: { [weak self] postActivityItemSource in
-        self?.showPostShareSheet(with: postActivityItemSource)
-      })
-    
-    let chatActions = PostDetailChatViewModelActions(
-      showAlertForError: { [weak self] message, completion in
-        self?.showAlertForError(with: message, completion: completion)
-      },
-      showAnAlertToAskWhetherToCancelWriting: { [weak self] type, completion in
-        self?.showAnAlertToAskWhetherToCancelWriting(type: type, completion: completion)
-      },
-      showCommentOption: { [weak self] isCommentOwner, optionCallBack in
-        self?.showCommentOption(isCommentOwner: isCommentOwner, handler: optionCallBack)
-      }, showPostAuthorBlock: { [weak self] authName, completion in
-        self?.showPostAuthorBlock(authName, handler: completion)
-      })
     
     let postDetailVM = PostDetailViewModel(
       post: post,
       postId: postId,
       postFetchUseCase: defaultPostFetchUseCase,
       ownerRepository: loggedInUserRepository,
-      actions: actions)
+      actions: makePostDetailViewModelActions())
     
     let postDetailChatViewModelInfo = PostDetailChatViewModelInfo(
       postId: postId, 
@@ -126,7 +69,7 @@ final class PostDetailCoordinator: NSObject, FlowCoordinator, PostOptionCoordina
       postNestedCommentHeartUseCase: postNestedCommentHeartUseCase,
       userBlockUseCase: userBlockUseCase,
       ownerRepository: loggedInUserRepository,
-      actions: chatActions)
+      actions: makePostDetailChatViewModelActions())
     
     let postOptionDataSource = PostOptionViewModelInfo(
       postId: postId,
@@ -136,7 +79,7 @@ final class PostDetailCoordinator: NSObject, FlowCoordinator, PostOptionCoordina
       postTitle: post?.detail.title)
     let postOptionVM = PostOptionViewModel(
       dataSource: postOptionDataSource,
-      actions: optionActions,
+      actions: makePostOptionViewModelActions(),
       ownerRepository: loggedInUserRepository,
       userBlockUseCase: userBlockUseCase)
     
@@ -155,6 +98,56 @@ final class PostDetailCoordinator: NSObject, FlowCoordinator, PostOptionCoordina
   func start() {
     guard let postDetailViewController else { return }
     presenter?.pushViewController(postDetailViewController, animated: true)
+  }
+}
+
+// MARK: - Factory Heleprs
+extension PostDetailCoordinator {
+  func makePostOptionViewModelActions() -> PostOptionViewModelActions {
+    return PostOptionViewModelActions(
+      showPostOption: { [weak self] optionCallback in self?.showOption(handler: optionCallback) },
+      showPostOptionForMine: { [weak self] callback in self?.showPostOptionForMine(completion: callback)},
+      showPostReport: { [weak self] reportCallback in self?.showPostReport(handler: reportCallback) },
+      showPostReportResult: { [weak self] option in self?.showPostReportResult(wtih: option) },
+      showPostAuthorBlock: { [weak self] authName, completion in
+        self?.showPostAuthorBlock(authName, handler: completion)
+      },
+      showAlertForError: {[weak self] message, completion in
+        self?.showAlertForError(with: message, completion: completion)
+      })
+  }
+  
+  func makePostDetailViewModelActions() -> PostDetailViewModelActions {
+    return PostDetailViewModelActions(
+      showAlertForError: { [weak self] message, completion in
+        self?.showAlertForError(with: message, completion: completion)
+      },
+      showCategory: {[weak self] categories in self?.showCategory(with: categories) },
+      showReviewWriting: { [weak self] entity in self?.showReviewWriting(entity: entity) },
+      showFeedAfterBlockingFeed: { [weak self] blockedPostId in self?.showFeedAfterBlockingFeed(blockedPostId) },
+      finishWithAnim: { [weak self] in self?.finishWithAnim() },
+      showPostShare: { [weak self] element in
+        self?.showPostShareSheet(with: .init(
+          title: element.postTitle,
+          postId: element.postId))},
+      showPostShareSheet: { [weak self] postActivityItemSource in
+        self?.showPostShareSheet(with: postActivityItemSource)
+      })
+  }
+  
+  func makePostDetailChatViewModelActions() -> PostDetailChatViewModelActions {
+    PostDetailChatViewModelActions(
+      showAlertForError: { [weak self] message, completion in
+        self?.showAlertForError(with: message, completion: completion)
+      },
+      showAnAlertToAskWhetherToCancelWriting: { [weak self] type, completion in
+        self?.showAnAlertToAskWhetherToCancelWriting(type: type, completion: completion)
+      },
+      showCommentOption: { [weak self] isCommentOwner, optionCallBack in
+        self?.showCommentOption(isCommentOwner: isCommentOwner, handler: optionCallBack)
+      }, showPostAuthorBlock: { [weak self] authName, completion in
+        self?.showPostAuthorBlock(authName, handler: completion)
+      })
   }
 }
 
