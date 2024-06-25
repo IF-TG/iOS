@@ -11,9 +11,29 @@ import Swinject
 final class DomainAssembly: Swinject.Assembly {
   // swiftlint:disable:next function_body_length
   func assemble(container: Container) {
+    userUseCase(container: container)
+    postUseCase(container: container)
+    noticeUseCase(container: container)
+    
     // TODO: - Tour Use Case
     
-    // TODO: - User Use Case
+    // TODO: - Album Use Case
+    
+    // TODO: - PostReviewWriting Use Case
+    
+    // TODO: - PostComment Use Case
+    
+    // TODO: - PostNestedComment Use Case
+    
+    // TODO: - FavoriteDirectory Use Case
+    
+    // TODO: - Authentication Use Case
+  }
+}
+
+// MARK: - Private Helpers
+private extension DomainAssembly {
+  func userUseCase(container: Container) {
     container.register(UserBlockUseCase.self, name: .implementation(.default)) { r in
       let defaultUserBlockRepository = r.resolve(UserBlockRepository.self, name: .implementation(.default))!
       return DefaultUserBlockUseCase(userBlockRepository: defaultUserBlockRepository)
@@ -35,10 +55,9 @@ final class DomainAssembly: Swinject.Assembly {
       let mockUserBlockRepository = r.resolve(UserBlockRepository.self,name: .testDouble(.mock))!
       return DefaultUserBlockUseCase(userBlockRepository: mockUserBlockRepository)
     }
-    
-    // TODO: - Album Use Case
-    
-    // TODO: - Post Use Case
+  }
+  
+  func postUseCase(container: Container) {
     container.register(PostFetchUseCase.self, name: .implementation(.default)) { r in
       let defaultPostRepository = r.resolve(PostRepository.self, name: .implementation(.default))!
       return DefaultPostFetchUseCase(postRepository: defaultPostRepository)
@@ -52,18 +71,9 @@ final class DomainAssembly: Swinject.Assembly {
     container.register(PostFetchUseCase.self, name: .testDouble(.mock)) { _ in
       MockPostFetchUseCase()
     }.inObjectScope(.transient)
-    
-    // TODO: - PostReviewWriting Use Case
-    
-    // TODO: - PostComment Use Case
-    
-    // TODO: - PostNestedComment Use Case
-    
-    // TODO: - FavoriteDirectory Use Case
-    
-    // TODO: - Authentication Use Case
-    
-    // MARK: - Notice Use Case
+  }
+  
+  func noticeUseCase(container: Container) {
     container.register(NoticeUseCase.self, name: .implementation(.default)) { r in
       let defaultWhatsNewRepo = r.resolve(WhatsNewNotificationRepository.self, name: .implementation(.default))!
       return DefaultNoticeUseCase(whatsNewNotificationRepository: defaultWhatsNewRepo)
