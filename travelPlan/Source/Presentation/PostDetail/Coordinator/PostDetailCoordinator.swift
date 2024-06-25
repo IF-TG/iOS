@@ -8,6 +8,12 @@
 import UIKit
 import SHCoordinator
 
+protocol PostDetailCoordinatorDependencies {
+  func makePostDetailViewController(postId: PostIdentifier, post: Post?) -> PostDetailViewController
+  func makeReviewWritingCoordinator(presenter: UINavigationController?, mode: ReviewWritingMode) -> FlowCoordinator
+  func makePostDetailCateogryViewController(dataSource: [String]) -> UIViewController
+}
+
 @frozen enum PostDetailCommentOption: String, CaseIterable {
   case commentUpdate = "편집하기"
   case commentDelete = "삭제하기"
@@ -45,49 +51,18 @@ final class PostDetailCoordinator: NSObject, FlowCoordinator, PostOptionCoordina
   
   var blockedPost: ((PostIdentifier) -> Void)?
   
-  init(presenter: UINavigationController?, post: Post?, postId: PostIdentifier) {
+  private let dependencies: PostDetailCoordinatorDependencies
+  
+  init(
+    presenter: UINavigationController?,
+    post: Post?,
+    postId: PostIdentifier,
+    dependencies: PostDetailCoordinatorDependencies
+  ) {
     self.presenter = presenter
+    self.dependencies = dependencies
     super.init()
-    
-    let postDetailVM = PostDetailViewModel(
-      post: post,
-      postId: postId,
-      postFetchUseCase: defaultPostFetchUseCase,
-      ownerRepository: loggedInUserRepository,
-      actions: makePostDetailViewModelActions())
-    
-    let postDetailChatViewModelInfo = PostDetailChatViewModelInfo(
-      postId: postId, 
-      hasEnteredByDeferredDeepLink: post == nil)
-
-    let postDetailChatVM = PostDetailChatViewModel(
-      postDetailChatInfo: postDetailChatViewModelInfo,
-      postCommentsAndPostLikeStateFetchUseCase: defaultPostCommetnsAndPostLikeStateFetchUseCase,
-      postCommentUseCase: postCommentUseCase,
-      postCommentHeartUseCase: postCommentHeartUseCase,
-      postNestedCommentUseCase: postNestedCommentUseCase,
-      postNestedCommentHeartUseCase: postNestedCommentHeartUseCase,
-      userBlockUseCase: userBlockUseCase,
-      ownerRepository: loggedInUserRepository,
-      actions: makePostDetailChatViewModelActions())
-    
-    let postOptionDataSource = PostOptionViewModelInfo(
-      postId: postId,
-      postAuthorId: post?.author.authorId,
-      postAuthorNickname: post?.author.nickname,
-      postOptionLocation: .detailPage,
-      postTitle: post?.detail.title)
-    let postOptionVM = PostOptionViewModel(
-      dataSource: postOptionDataSource,
-      actions: makePostOptionViewModelActions(),
-      ownerRepository: loggedInUserRepository,
-      userBlockUseCase: userBlockUseCase)
-    
-    postDetailViewController = PostDetailViewController(
-      viewModel: postDetailVM,
-      chatViewModel: postDetailChatVM,
-      optionViewModel: postOptionVM)
-    self.viewModelPostReceivable = postDetailVM
+    postDetailViewController = dependencies.makePostDetailViewController(postId: postId, post: post)
     presenter?.delegate = self
   }
   
@@ -151,13 +126,23 @@ extension PostDetailCoordinator {
   }
 }
 
+// MARK: - Helpers
+extension PostDetailCoordinator {
+  func setPostReceivable(_ delegator: ReviewWritingPostReceivable) {
+    self.viewModelPostReceivable = delegator
+  }
+}
+
 // MARK: - Actions Helpers
 extension PostDetailCoordinator {
   func finishWithAnim() {
     finish(withAnimated: true)
   }
   func showReviewWriting(entity: ReviewWritingEntity) {
-    let reviewWritingCoordinator = ReviewWritingCoordinator(presenter: presenter, mode: .edit(entity))
+    let reviewWritingCoordinator = dependencies
+      .makeReviewWritingCoordinator(
+        presenter: presenter,
+        mode: .edit(entity))
     addChild(with: reviewWritingCoordinator)
   }
   
@@ -187,7 +172,7 @@ extension PostDetailCoordinator {
   }
   
   func showCategory(with categories: [String]) {
-    let categoryViewController = PostDetailCategoryViewController(style: .plain, dataSource: categories)
+    let categoryViewController = dependencies.makePostDetailCateogryViewController(dataSource: categories)
     presenter?.pushViewController(categoryViewController, animated: true)
   }
   

@@ -80,4 +80,5 @@ where Input == PostDetailViewModelInput,
 
 typealias PostDetailViewModelType = (any PostDetailViewModelable &
                                      PostDetailTableViewDataSource &
-                                     PostDetailViewModelPageDelegate)
+                                     PostDetailViewModelPageDelegate &
+                                     ReviewWritingPostReceivable)
