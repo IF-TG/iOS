@@ -61,7 +61,7 @@ final class SpringServierRepositoryAssembly: Assembly {
       return DefaultPostCommentRepository(service: defaultSession)
     }
     
-    container.register(PostCommentRepository.self, name: .testDouble(.mock)) { _ in
+    container.register(PostCommentRepository.self, name: .implementation(.interceptedDefault)) { _ in
       return MockPostCommentRepository()
     }
     
@@ -70,7 +70,7 @@ final class SpringServierRepositoryAssembly: Assembly {
       return DefaultPostNestedCommentRepository(service: defaultSession)
     }
     
-    container.register(PostNestedCommentRepository.self, name: .testDouble(.mock)) { _ in
+    container.register(PostNestedCommentRepository.self, name: .implementation(.interceptedDefault)) { _ in
       return MockPostNestedCommentRepository()
     }
     
