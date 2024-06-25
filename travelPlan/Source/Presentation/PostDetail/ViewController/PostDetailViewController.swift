@@ -187,6 +187,10 @@ extension PostDetailViewController: ViewBindCase {
     case .failedToFetchPost(let description):
       stopIndicator()
       viewModel.showAlertAndDismiss(with: description)
+    case .updatePostFooterInfo:
+      UIView.performWithoutAnimation {
+        tableView.reloadSections(IndexSet(integer: PostDetailSection.postHeartAndShareArea.sectionIndex), with: .none)
+      }
     }
   }
   
@@ -268,16 +272,19 @@ extension PostDetailViewController: ViewBindCase {
       tableView.scrollToRow(
         at: IndexPath(row: NSNotFound, section: viewModel.numberOfSections-1),
         at: .bottom, animated: false)
+      chatViewModel.notifyModifiedCommentsOfCommentAndReply()
       stopIndicator()
     case .reloadWhenCommentDelete(let section):
       UITableView.performWithoutAnimation {
         tableView.deleteSections(IndexSet(integer: section), with: .none)
       }
+      chatViewModel.notifyModifiedCommentsOfCommentAndReply()
       stopIndicator()
     case .reloadWithNestedCommentsWhenCommentDelete(let section):
       UITableView.performWithoutAnimation {
         tableView.reloadSections(IndexSet(integer: section), with: .none)
       }
+      chatViewModel.notifyModifiedCommentsOfCommentAndReply()
       stopIndicator()
     case .reloadWhenCommentUpdate(let section):
       UITableView.performWithoutAnimation {
@@ -297,6 +304,7 @@ extension PostDetailViewController: ViewBindCase {
       UITableView.performWithoutAnimation {
         tableView.reloadSections(IndexSet(integer: section), with: .none)
       }
+      chatViewModel.notifyModifiedCommentsOfCommentAndReply()
       stopIndicator()
     case .reload(let indexPath):
       UITableView.performWithoutAnimation {
@@ -309,6 +317,7 @@ extension PostDetailViewController: ViewBindCase {
       UITableView.performWithoutAnimation {
         tableView.deleteSections(IndexSet(integer: indexPath.section), with: .none)
       }
+      chatViewModel.notifyModifiedCommentsOfCommentAndReply()
       stopIndicator()
     case .reloadWhenCommentUpdate(let indexPath):
       UITableView.performWithoutAnimation {
@@ -387,6 +396,29 @@ private extension PostDetailViewController {
       naviDuration.bottomAnchor.constraint(equalTo: naviTitleView.bottomAnchor)])
     navigationItem.titleView = naviTitleView
     naviTitle.alpha = 0
+  }
+}
+
+// MARK: - Private Heart Helpers
+private extension PostDetailViewController {
+  @inline(__always)
+  private func handleReplyHeart(for cell: UITableViewCell) {
+    guard let indexPath = tableView.indexPath(for: cell) else {
+      viewModel.showAlertForError(with: "해당 댓글을 식별할 수 없습니다.\n 앱 서비스에 문제가 발생됬습니다.", completion: nil)
+      return
+    }
+    chatInput.heartEventNotifier.send(.postNestedComment(indexPath))
+  }
+  
+  @inline(__always)
+  private func handleCommentHeart(for header: UITableViewHeaderFooterView) {
+    guard
+      let section = tableView.section(for: header, numberOfSections: viewModel.numberOfSections + chatViewModel.numberOfSections)
+    else {
+      viewModel.showAlertForError(with: "댓글 하트할 수 없습니다.\n앱 서비스에 문제가 발생됬습니다.", completion: nil)
+      return
+    }
+    chatInput.heartEventNotifier.send(.postComment(section))
   }
 }
   
@@ -508,11 +540,11 @@ extension PostDetailViewController: PostDetailReplyCellDelegate {
   }
   
   func didTapHeart(_ cell: UITableViewCell, isOnHeart: Bool) {
-    print("대댓 하트 뿅")
+    handleReplyHeart(for: cell)
   }
   
   func didCanceledHeart(_ cell: UITableViewCell) {
-    print("대댓 하트 취소")
+    handleReplyHeart(for: cell)
   }
 }
 
@@ -529,9 +561,13 @@ extension PostDetailViewController: PostDetailCommentDelegate {
     chatViewModel.showCommentOption(section: PostDetailSection(rawValue: section))
   }
   
-  func didTapHeart(_ header: UITableViewHeaderFooterView, _ isOnHeart: Bool) {}
+  func didTapHeart(_ header: UITableViewHeaderFooterView, _ isOnHeart: Bool) {
+    handleCommentHeart(for: header)
+  }
   
-  func didTapCanceledHeart(_ header: UITableViewHeaderFooterView) {}
+  func didTapCanceledHeart(_ header: UITableViewHeaderFooterView) {
+    handleCommentHeart(for: header)
+  }
   
   func didTapReply(_ header: UITableViewHeaderFooterView) {
     guard let section = tableView.section(
@@ -561,7 +597,7 @@ extension PostDetailViewController: PostHeartAndShareAreaHeaderViewDelegate {
   }
   
   func didTapHeart(isFavorite: Bool) {
-    print("포스트 하트클릭")
+    print("포스트 하트클릭 api없어서 미 구현")
   }
   
   func didTapShare() {

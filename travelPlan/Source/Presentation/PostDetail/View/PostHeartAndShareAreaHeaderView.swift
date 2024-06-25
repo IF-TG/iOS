@@ -72,9 +72,17 @@ final class PostHeartAndShareAreaHeaderView: UITableViewHeaderFooterView {
 // MARK: - Helpers
 extension PostHeartAndShareAreaHeaderView {
   func configure(with info: PostFooterInfo?) {
-    heartStackView.setCountLabel(text: info?.heartCount)
-    commentStackView.setCountLabel(text: info?.commentCount)
     setHeartIcon(with: info?.heartState ?? false)
+    if let heartCount = info?.heartCount {
+      heartStackView.setCountLabel(text: NumberFormatterWithSuffix.format(number: Int(heartCount)))
+    } else {
+      heartStackView.setCountLabel(text: "0")
+    }
+    if let commentCount = info?.commentCount {
+      commentStackView.setCountLabel(text: NumberFormatterWithSuffix.format(number: Int(commentCount)))
+    } else {
+      commentStackView.setCountLabel(text: "0")
+    }
   }
   
   func updatePostHeartState() {

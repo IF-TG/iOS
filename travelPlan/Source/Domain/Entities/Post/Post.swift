@@ -8,8 +8,8 @@
 import Foundation
 
 struct Post {
-  let liked: Bool?
-  let detail: Detail<[PostContent]>
+  var liked: Bool?
+  var detail: Detail<[PostContent]>
   let author: Author
   let highResolveImages: [PostImage]
   let category: Category
@@ -47,8 +47,8 @@ extension Post {
     let postID: PostIdentifier
     let title: String
     let content: ContentType
-    let likes: Int32
-    let comments: Int32
+    var likes: Int32
+    var comments: Int32
     let location: Location
     let createAt: Date
     let tripDate: TripDate

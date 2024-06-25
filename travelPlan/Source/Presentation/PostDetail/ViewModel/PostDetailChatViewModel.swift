@@ -49,13 +49,15 @@ final class PostDetailChatViewModel {
   
   private let postNestedCommentUseCase: PostNestedCommentUseCase
   
+  private let postCommentHeartUseCase: PostCommentHeartUseCase
+  
+  private let postNestedCommentHeartUseCase: PostNestedCommentHeartUseCase
+  
   private let ownerRepository: LoggedInUserRepository
   
   private let userBlockUseCase: UserBlockUseCase
   
   // MARK: - Properties
-  private let postId: PostIdentifier
-  
   private var comments: [PostCommentEntity] = []
   
   /// 사용자가 대댓글 작성중인 경우 not nil. 댓글을 작성중인 경우 nil
@@ -69,6 +71,13 @@ final class PostDetailChatViewModel {
   
   private let actions: PostDetailChatViewModelActions
   
+  /// Flow1: 앱스플라이어 디퍼드 딥 링크에 의해 접속될 경우
+  /// - 사용자가 댓글, 대댓글 작성 및 제거할 때 postDetailChatDataSource's post Footer info만 새로 개선해주고, 피드화면에서는 알려주지 않아도 됩니다.
+  /// Flow2: 피드 화면에서 특정한 여행 후기 summary(thumbnail)를 클릭해 여행 후기 상세 화면으로 이동했을 때
+  /// - hasEnteredByDefferedDeepLink는 false이므로 이때 노티피케이션을 통해 상세화면 들어오기 이전 post thumbnail cell에서 대댓글 전체 개수를
+  ///   증가 혹은 감소합니다.
+  private let postDetailChatInfo: PostDetailChatViewModelInfo
+  
   // MARK: - Pagination Properties
   // TODO: - 댓글 페이징 추가해야합니다.
   private var isPaging: Bool = false
@@ -79,7 +88,7 @@ final class PostDetailChatViewModel {
   
   private var nextPage: Int32 { hasMorePages ? currentPage + 1 : currentPage }
   
-  // 서버에서 얻어와야 합니다.
+  // TODO: - 서버에서 전체 개수는 주지 않고 fetch했을 때 빈 배열이 온다면 데이터 없는거로 간주하기로 약속했슴돠.
   private var totalCommentCount: Int32 = 0
   
   private var hasMorePages: Bool {
@@ -111,18 +120,22 @@ final class PostDetailChatViewModel {
   
   // MARK: - Lifecycle
   init(
-    postId: PostIdentifier,
+    postDetailChatInfo: PostDetailChatViewModelInfo,
     postCommentsAndPostLikeStateFetchUseCase: PostCommentsAndPostLikeStateFetchUseCase,
     postCommentUseCase: PostCommentUseCase,
+    postCommentHeartUseCase: PostCommentHeartUseCase,
     postNestedCommentUseCase: PostNestedCommentUseCase,
+    postNestedCommentHeartUseCase: PostNestedCommentHeartUseCase,
     userBlockUseCase: UserBlockUseCase,
     ownerRepository: LoggedInUserRepository,
     actions: PostDetailChatViewModelActions
   ) {
-    self.postId = postId
+    self.postDetailChatInfo = postDetailChatInfo
     self.postCommentsAndPostLikeStateFetchUseCase = postCommentsAndPostLikeStateFetchUseCase
     self.postCommentUseCase = postCommentUseCase
+    self.postCommentHeartUseCase = postCommentHeartUseCase
     self.postNestedCommentUseCase = postNestedCommentUseCase
+    self.postNestedCommentHeartUseCase = postNestedCommentHeartUseCase
     self.userBlockUseCase = userBlockUseCase
     self.ownerRepository = ownerRepository
     self.actions = actions
@@ -211,8 +224,91 @@ extension PostDetailChatViewModel: PostDetailChatViewModelable {
       nestedCommentUseCaseNotifierStream(),
       viewDidLoadStream(input),
       blockedCommentCompletionNotifierStream(),
-      blockedNestedCommentCompletionNotifierStream()
+      blockedNestedCommentCompletionNotifierStream(),
+      heartEventNotifierStream(input)
     ]).eraseToAnyPublisher()
+  }
+}
+
+// MARK: - Helpers
+extension PostDetailChatViewModel {
+  /// 댓글, 대댓글 총 개수가 변경될 경우 Notification Center를 통해 notify합니다.
+  /// 내부적으로 댓, 대댓글 삭제, 추가될 때 VM STream에서 output으로 방출전에 이함수를 호출해서 notification center로 notify했더니,
+  /// 재사용큐 리로드 데이터 소스가 일치하지 않기에, 명확하게 댓, 대댓글 추가된 후 화면에 보여진 후에 notify를 해야합니다.
+  func notifyModifiedCommentsOfCommentAndReply() {
+    PostNotificationManager.shared.notifyUpdatedPostComments(
+      postId: postDetailChatInfo.postId,
+      numberOfPostComments: numberOfComments(),
+      hasEnteredByDeferredDeepLink: postDetailChatInfo.hasEnteredByDeferredDeepLink)
+  }
+}
+
+// MARK: - Private Helpers
+private extension PostDetailChatViewModel {
+  @inline(__always)
+  private func numberOfComments() -> Int32 {
+    let filteredComments = comments.filter { !$0.isDeleted }
+    return filteredComments.map { Int32($0.nestedComments.count) }.reduce(Int32(0), +) + Int32(filteredComments.count)
+  }
+}
+
+// MARK: - Private Heart Helpers
+private extension PostDetailChatViewModel {
+  private func heartEventNotifierStream(_ input: Input) -> Output {
+    return input.heartEventNotifier
+      .flatMap { [weak self] heartState -> Output in
+        guard let self else {
+          return Just(.unexpectedError(
+            description: "예기치 못한 에러가 발생됬습니다. \(ReferenceError.invalidReference.localizedDescription)")
+          ).eraseToAnyPublisher()
+        }
+        switch heartState {
+        case .post:
+          print("포스트 하트 api 없음")
+          return Just(.none).eraseToAnyPublisher()
+        case .postComment(let section):
+          return togglePostCommentHeart(for: section)
+        case .postNestedComment(let indexPath):
+          return togglePostNestedCommentHeart(for: indexPath)
+        }
+      }.eraseToAnyPublisher()
+  }
+  
+  private func togglePostCommentHeart(for section: Int) -> Output {
+    let commentSection = PostDetailSection.commentIndex(section: section)
+    let commentId = comments[commentSection].commentId
+    return postCommentHeartUseCase
+      .toggleCommentHeart(postId: postDetailChatInfo.postId, commentId: commentId)
+      .map { [weak self] entity -> State in
+        self?.comments[commentSection].isOnHeart = entity.isOnHeart
+        return .none
+      }
+      .catch {
+        let errorDescription = "예기치 못한 에러가 발생됬습니다. \($0.localizedDescription)"
+        return Just(State.unexpectedError(description: errorDescription)).eraseToAnyPublisher()
+      }
+      .eraseToAnyPublisher()
+  }
+  
+  private func togglePostNestedCommentHeart(for indexPath: IndexPath) -> Output {
+    let commentSection = PostDetailSection.commentIndex(section: indexPath.section)
+    let comment = comments[commentSection]
+    let commentId = comment.commentId
+    let nestedCommentId = comment.nestedComments[indexPath.row].nestedCommentId
+    return postNestedCommentHeartUseCase
+      .toggleNestedCommentHeart(
+        postId: postDetailChatInfo.postId,
+        commentId: commentId,
+        nestedCommentId: nestedCommentId)
+      .map { [weak self] entity -> State in
+        self?.comments[commentSection].nestedComments[indexPath.row].isOnHeart = entity.isOnHeart
+        return .none
+      }
+      .catch {
+        let errorDescription = "예기치 못한 에러가 발생됬습니다. \($0.localizedDescription)"
+        return Just(State.unexpectedError(description: errorDescription)).eraseToAnyPublisher()
+      }
+      .eraseToAnyPublisher()
   }
 }
 
@@ -331,7 +427,7 @@ private extension PostDetailChatViewModel {
         let postCommentRequestValue = PostCommentsRequestValue(
           page: currentPage,
           perPage: perPage,
-          postId: postId)
+          postId: postDetailChatInfo.postId)
         return postCommentsAndPostLikeStateFetchUseCase.fetchCommentsAndPostLikeStatus(with: postCommentRequestValue)
           .map {[weak self] postCommentContainerEntity -> State in
             self?.comments += postCommentContainerEntity.comments
@@ -521,7 +617,7 @@ private extension PostDetailChatViewModel {
   // MARK: - Comment Stream
   /// 댓글 전송할 때
   func sendCommentStream(with text: String) -> Output {
-    postCommentUseCase.sendComment(postId: postId, comment: text)
+    postCommentUseCase.sendComment(postId: postDetailChatInfo.postId, comment: text)
       .map { [weak self] postCommentEntity -> State in
         self?.comments.append(postCommentEntity)
         return .comment(.reloadedComment)
@@ -534,11 +630,12 @@ private extension PostDetailChatViewModel {
     /// 포스트는 섹션 \(PostDetailSectionType.defaultNumberOfSections)부터 시작합니다.
     let commentId = comments[section.commentIndex].commentId
     return postCommentUseCase
-      .deleteComment(postId: postId, commentId: commentId)
+      .deleteComment(postId: postDetailChatInfo.postId, commentId: commentId)
       .map { [weak self] result -> State in
         if result {
           self?.comments[section.commentIndex].isDeleted = result
           
+          /// self가 유효하다면 반드시 삭제되야 할 section의 대댓글 개수를 받아올 수 있습니다.
           guard let nestedCommentCount = self?.comments[section.commentIndex].nestedComments.count else {
             return .unexpectedError(description: "댓글이 삭제되지 않았습니다.")
           }
@@ -565,7 +662,10 @@ private extension PostDetailChatViewModel {
     let commentIdx = SectionType.commentIndex(section: section)
     let comment = comments[commentIdx]
     return postCommentUseCase
-      .updateComment(postId: postId, commentId: comment.commentId, comment: editedText)
+      .updateComment(
+        postId: postDetailChatInfo.postId,
+        commentId: comment.commentId,
+        comment: editedText)
       .map { [weak self] result -> State in
         guard result else {
           return .unexpectedError(description: "서버에서 에러가 발생되어 댓글이 편집되지 않았습니다.")
@@ -588,7 +688,7 @@ private extension PostDetailChatViewModel {
     let commentSection = SectionType.commentIndex(section: replyingSection)
     let commentId = comments[commentSection].commentId
     return postNestedCommentUseCase
-      .sendNestedComment(postId: postId, commentId: commentId, comment: text)
+      .sendNestedComment(postId: postDetailChatInfo.postId, commentId: commentId, comment: text)
       .map { [weak self] postNestedCommentEntity -> State in
         self?.comments[commentSection].nestedComments.append(postNestedCommentEntity)
         self?.replyingSection = nil
@@ -599,7 +699,7 @@ private extension PostDetailChatViewModel {
       }.eraseToAnyPublisher()
   }
   
-  // MARK: 삭제된건 더이상 댓글 못달도록 UI 반영해야합니다!
+  // MARK: 삭제된 댓글에 대해서 더이상 대댓글 못달도록 UI 반영 완료
   func deleteNestedCommentStream(with indexPath: IndexPath) -> Output {
     /// 포스트는 섹션 \(PostDetailSectionType.defaultNumberOfSections)부터 시작합니다.
     let commentSectionIndex = SectionType.commentIndex(section: indexPath.section)
@@ -608,7 +708,7 @@ private extension PostDetailChatViewModel {
     let hasDeletedComment = comments[commentSectionIndex].isDeleted
     return postNestedCommentUseCase
       .deleteNestedComment(
-        postId: postId,
+        postId: postDetailChatInfo.postId,
         commentId: commentId,
         nestedCommentId: nestedCommentId,
         hasDeletedComment: hasDeletedComment)
@@ -616,9 +716,8 @@ private extension PostDetailChatViewModel {
         /// 대댓글 제거
         self?.comments[commentSectionIndex].nestedComments.remove(at: indexPath.row)
         
-        // TODO: - 이 로직은 서버에서 대댓글제거할때 마지막 대댓글인지 확인해야하는데, 스프링에선 대댓글 제거만으로 알 수 없습니다.
-        /// 그래서 임시적으로 이곳에서 작업합니다.
-        /// 서버에서 현재 대댓글 개수가 몇 개인지 알수있는 api있으면 더 확실하게 좋을거같습니다.
+        // MARK: 서버에서 대댓글 제거할때 마지막 대댓글인지 확인해야하는데, 현 api response에선 알 수 없습니다.
+        /// 현재 앱에서 가지고 있는 데이터 기준으로 처리 하도록 의견 결정했음으로 현상태 유지합니다.
         if self?.comments[commentSectionIndex].nestedComments.count == 0 && hasDeletedComment {
           self?.comments.remove(at: commentSectionIndex)
           /// 테이블뷰에 실제로 특정 셀 제거 후 리로드 명령은 실제 indexPath로 해야합니다.
@@ -649,7 +748,7 @@ private extension PostDetailChatViewModel {
     let commentId = comments[commentIdx].commentId
     return postNestedCommentUseCase
       .updateNestedComment(
-        postId: postId,
+        postId: postDetailChatInfo.postId,
         commentId: commentId,
         nestedCommentId: nestedComment.nestedCommentId,
         comment: editedText)

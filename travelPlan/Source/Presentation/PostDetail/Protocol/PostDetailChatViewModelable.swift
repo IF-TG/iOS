@@ -34,6 +34,7 @@ struct PostDetailChatViewModelInput {
   let keyboardHideNotifier = PassthroughSubject<Void, Never>()
   let commentSendHandler = PassthroughSubject<UserInputText, Never>()
   let replyStartNotifier = PassthroughSubject<Int, Never>()
+  let heartEventNotifier = PassthroughSubject<PostDetailHeartState, Never>()
 }
 
 // MARK: - State
@@ -47,6 +48,13 @@ struct PostDetailChatViewModelInput {
   case keyboard(PostDetailKeyboardState)
   case viewDidLoad(PostDetailChatViewDidLoadStream)
   case blockedChat(PostDetailChatBlockState)
+}
+
+@frozen enum PostDetailHeartState {
+  typealias Section = Int
+  case post
+  case postComment(Section)
+  case postNestedComment(IndexPath)
 }
 
 @frozen enum PostDetailKeyboardState {
@@ -108,4 +116,5 @@ where Input == PostDetailChatViewModelInput,
   typealias UserInputText = String
   typealias Section = Int
   typealias SectionType = PostDetailSection
+  func notifyModifiedCommentsOfCommentAndReply()
 }

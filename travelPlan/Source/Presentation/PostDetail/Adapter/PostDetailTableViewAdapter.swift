@@ -125,6 +125,7 @@ extension PostDetailTableViewAdapter: UITableViewDelegate {
     case .postHeartAndShareArea:
       let postHeartAreaHeader = tableView.dequeueReusableHeaderFooterView(type: PostHeartAndShareAreaHeaderView.self)
       postHeartAreaHeader?.delegate = self
+      postHeartAreaHeader?.configure(with: dataSource.postFooterItem)
       return postHeartAreaHeader
     default:
       guard let chatDataSource else { return nil }

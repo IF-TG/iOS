@@ -8,8 +8,9 @@
 import Foundation
 
 struct PostDetails {
-  let detail: Post.Detail<[PostContentEntity]>
+  var detail: Post.Detail<[PostContentEntity]>
   let author: Post.Author
   var isFavorite: Bool
+  var hasHeart: Bool
   let category: Post.Category
 }

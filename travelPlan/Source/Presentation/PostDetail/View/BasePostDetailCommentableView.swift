@@ -101,8 +101,10 @@ final class BasePostDetailCommentableView: BaseProfileAreaView {
     didSet {
       animateHeartCancelLabel()
       if isOnHeart {
+        increaseHeartLabel()
         animateSelectedHeartIcon()
       } else {
+        decreaseHeartLabel()
         animateDeselectedHeartIcon()
       }
     }
@@ -222,6 +224,28 @@ extension BasePostDetailCommentableView {
 
 // MARK: - Private Helpers
 extension BasePostDetailCommentableView {
+  @inline(__always)
+  func extractHeartCount() -> Int {
+    guard
+      let text = heartLabel.text,
+      let heartCount = text.split(separator: " ").compactMap({ Int(String($0)) }).first
+    else { return 0 }
+    return heartCount
+  }
+  
+  func increaseHeartLabel() {
+    setHeartLabelHeartOnState("\(extractHeartCount()+1)")
+  }
+  
+  func decreaseHeartLabel() {
+    let decreasedHeartCount = extractHeartCount() - 1
+    if decreasedHeartCount < 0 {
+      setHeartLabelHeartOffState("0")
+      return
+    }
+    setHeartLabelHeartOffState("\(extractHeartCount()-1)")
+  }
+  
   private func setOptionViewTapGesture() {
     let tap = UITapGestureRecognizer(target: self, action: #selector(didTapOption))
     optionView.addGestureRecognizer(tap)
@@ -276,11 +300,13 @@ extension BasePostDetailCommentableView {
 // MARK: - Actions
 private extension BasePostDetailCommentableView {
   @objc func didTapHeartIcon() {
+    isOnHeart.toggle()
     delegate?.didTapHeart(isOnHeart)
   }
   
   @objc func didCanceledHeart() {
     guard isOnHeart else { return }
+    isOnHeart.toggle()
     delegate?.didCanceledHeart()
   }
   

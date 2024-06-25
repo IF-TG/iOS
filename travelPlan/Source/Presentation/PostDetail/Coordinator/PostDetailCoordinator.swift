@@ -51,13 +51,19 @@ final class PostDetailCoordinator: NSObject, FlowCoordinator, PostOptionCoordina
     let mockPostRepository = MockPostRepository()
 //    let defaultPostFetchUseCase = DefaultPostFetchUseCase(postRepository: mockPostRepository)
     let defaultPostFetchUseCase = MockPostFetchUseCase()
+    let mockPostCommentRepository = MockPostCommentRepository()
     let defaultPostCommetnsAndPostLikeStateFetchUseCase = DefaultPostCommentsAndPostLikeStateFetchUseCase(
       postRepository: mockPostRepository)
-    let postCommentUseCase = DefaultPostCommentUseCase(postCommentRepository: MockPostCommentRepository())
+    let mockPostNestedCommentRepository = MockPostNestedCommentRepository()
+    let postCommentUseCase = DefaultPostCommentUseCase(postCommentRepository: mockPostCommentRepository)
     let loggedInUserRepository = DefaultLoggedInUserRepository(storage: .init(value: StubOwnerStorage()))
     let postNestedCommentUseCase = DefaultPostNestedCommentUseCase(
-      postNestedCommentRepository: MockPostNestedCommentRepository())
+      postNestedCommentRepository: mockPostNestedCommentRepository)
     let userBlockUseCase = DefaultUserBlockUseCase(userBlockRepository: MockWrappedUserBlockRepository())
+    
+    let postCommentHeartUseCase = DefaultPostCommentHeartUseCase(postCommentRepository: mockPostCommentRepository)
+    let postNestedCommentHeartUseCase = DefaultPostNestedCommentHeartUseCase(
+      postNestedCommentRepository: mockPostNestedCommentRepository)
     
     let optionActions = PostOptionViewModelActions(
       showPostOption: { [weak self] optionCallback in self?.showOption(handler: optionCallback) },
@@ -107,11 +113,17 @@ final class PostDetailCoordinator: NSObject, FlowCoordinator, PostOptionCoordina
       ownerRepository: loggedInUserRepository,
       actions: actions)
     
+    let postDetailChatViewModelInfo = PostDetailChatViewModelInfo(
+      postId: postId, 
+      hasEnteredByDeferredDeepLink: post == nil)
+
     let postDetailChatVM = PostDetailChatViewModel(
-      postId: postId,
+      postDetailChatInfo: postDetailChatViewModelInfo,
       postCommentsAndPostLikeStateFetchUseCase: defaultPostCommetnsAndPostLikeStateFetchUseCase,
       postCommentUseCase: postCommentUseCase,
+      postCommentHeartUseCase: postCommentHeartUseCase,
       postNestedCommentUseCase: postNestedCommentUseCase,
+      postNestedCommentHeartUseCase: postNestedCommentHeartUseCase,
       userBlockUseCase: userBlockUseCase,
       ownerRepository: loggedInUserRepository,
       actions: chatActions)
