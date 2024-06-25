@@ -51,6 +51,29 @@ final class SpringServierRepositoryAssembly: Assembly {
       return DefaultPostRepository(service: mockSessionProvider, ownerStorage: stubOwnerStorage)
     }
     
+    // MARK: 페이징 가능한 PostRepository
+    container.register(PostRepository.self, name: .testDouble(.mock)) { _ in
+      return MockPostRepository()
+    }
+    
+    // MARK: - PostComment
+    container.register(PostCommentRepository.self, name: .implementation(.default)) { _ in
+      return DefaultPostCommentRepository(service: defaultSession)
+    }
+    
+    container.register(PostCommentRepository.self, name: .testDouble(.mock)) { _ in
+      return MockPostCommentRepository()
+    }
+    
+    // MARK: - PostNestedComment
+    container.register(PostNestedCommentRepository.self, name: .implementation(.default)) { _ in
+      return DefaultPostNestedCommentRepository(service: defaultSession)
+    }
+    
+    container.register(PostNestedCommentRepository.self, name: .testDouble(.mock)) { _ in
+      return MockPostNestedCommentRepository()
+    }
+    
     // MARK: - whatsNewNotification
     container.register(WhatsNewNotificationRepository.self, name: .implementation(.default)) { _ in
       return DefaultWhatsNewNotificationRepository(service: defaultSession)
