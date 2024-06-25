@@ -14,11 +14,36 @@ final class PresentationAssembly: Assembly {
   func assemble(container: Swinject.Container) {
     // TODO: - Login Page
     
-    // TODO: - PostDetail Page
+    // MARK: - PostDetail Page
+    // MARK: - PostDetailViewModelType
+    container.register(
+      PostDetailViewModelType.self,
+      name: .implementation(.default)
+    ) { (r, postId: PostIdentifier, post: Post?, actions: PostDetailViewModelActions) in
+      let defaultPostFetchUseCase = r.resolve(PostFetchUseCase.self, name: .implementation(.default))!
+      let defaultOwnerRepository = r.resolve(LoggedInUserRepository.self, name: .implementation(.default))!
+      return PostDetailViewModel(
+        post: post,
+        postId: postId,
+        postFetchUseCase: defaultPostFetchUseCase,
+        ownerRepository: defaultOwnerRepository,
+        actions: actions)
+    }
+    
+    container.register(
+      PostDetailViewModel.self, name: .testDouble(.mock)
+    ) { (r, postId: PostIdentifier, post: Post?, actions: PostDetailViewModelActions) in
+      let mockPostFetchUseCase = r.resolve(PostFetchUseCase.self, name: .testDouble(.mock))!
+      let stubOwnerRepository = r.resolve(LoggedInUserRepository.self, name: .testDouble(.stub))!
+      return PostDetailViewModel(
+        post: post,
+        postId: postId,
+        postFetchUseCase: mockPostFetchUseCase,
+        ownerRepository: stubOwnerRepository,
+        actions: actions)
+    }
     
     // TODO: - Post
-    typealias PostOptionViewModelType = (any PostOptionViewModelable & PostOptionViewModelPageDelegate)
-    
     container.register(
       PostOptionViewModelType.self,
       name: .implementation(.default)
