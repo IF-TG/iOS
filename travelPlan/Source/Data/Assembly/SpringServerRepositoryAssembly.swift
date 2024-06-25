@@ -7,6 +7,7 @@
 
 import Swinject
 import Foundation
+import SHFirestoreService
 
 final class SpringServerRepositoryAssembly: Assembly {
   // swiftlint:disable:next function_body_length
@@ -14,7 +15,22 @@ final class SpringServerRepositoryAssembly: Assembly {
     let defaultSession = container.resolve(Sessionable.self, name: .implementation(.default))!
     let mockSession = container.resolve(Sessionable.self, name: .implementation(.interceptedDefault))!
     
-    // TODO: - SpringServer
+    // MARK: - LoginRepository
+    container.register(LoginRepository.self) { r in
+      let authenticationService = r.resolve(AuthenticationService.self, name: .implementation(.default))!
+      let loginResultStorage = r.resolve(LoginResultStorage.self, name: .implementation(.default))!
+      let loggedInUserRepository = r.resolve(LoggedInUserRepository.self, name: .testDouble(.stub))!
+      let userProfileRepository = r.resolve(UserProfileRepository.self, name: .implementation(.firestore))!
+      let firestoreService = r.resolve(FirestoreServiceProtocol.self, name: .implementation(.firestore))!
+      
+      return DefaultLoginRepository(
+        authService: authenticationService,
+        loginResultStorage: loginResultStorage,
+        loggedInUserRepository: loggedInUserRepository,
+        userProfileRepository: userProfileRepository,
+        firestoreService: firestoreService
+      )
+    }
     
     // TODO: - SpringServer User
     container.register(LoggedInUserRepository.self, name: .implementation(.default)) { _ in

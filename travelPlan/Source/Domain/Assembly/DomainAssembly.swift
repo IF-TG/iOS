@@ -14,7 +14,7 @@ final class DomainAssembly: Swinject.Assembly {
     userUseCase(container: container)
     postUseCase(container: container)
     noticeUseCase(container: container)
-    
+    loginUseCase(container: container)
     // TODO: - Tour Use Case
     
     // TODO: - Album Use Case
@@ -89,6 +89,13 @@ private extension DomainAssembly {
     container.register(NoticeUseCase.self, name: .implementation(.firestore)) { r in
       let firestoreWhatsNewRepo = r.resolve(WhatsNewNotificationRepository.self, name: .implementation(.firestore))!
       return DefaultNoticeUseCase(whatsNewNotificationRepository: firestoreWhatsNewRepo)
+    }
+  }
+  
+  func loginUseCase(container: Container) {
+    container.register(LoginUseCase.self) { r in
+      let loginRepository = r.resolve(LoginRepository.self)!
+      return DefaultLoginUseCase(loginRepository: loginRepository)
     }
   }
 }

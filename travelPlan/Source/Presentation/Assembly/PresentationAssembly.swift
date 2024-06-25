@@ -13,6 +13,16 @@ final class PresentationAssembly: Assembly {
   // swiftlint:disable:next function_body_length
   func assemble(container: Swinject.Container) {
     // TODO: - Login Page
+    container.register((any LoginViewModel).self) { r in
+      let loginRepository = r.resolve(LoginRepository.self)!
+      let loginUseCase = r.resolve(LoginUseCase.self)!
+      return DefaultLoginViewModel(loginUseCase: loginUseCase)
+    }
+    
+    container.register(LoginViewController.self) { r in
+      let loginViewModel = r.resolve((any LoginViewModel).self)!
+      return LoginViewController(viewModel: loginViewModel)
+    }
     
     // TODO: - PostDetail Page
     
