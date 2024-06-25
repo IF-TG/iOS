@@ -31,7 +31,8 @@ final class PresentationAssembly: Assembly {
     }
     
     container.register(
-      PostDetailViewModelType.self, name: .testDouble(.mock)
+      PostDetailViewModelType.self,
+      name: .testDouble(.mock)
     ) { (r, postId: PostIdentifier, post: Post?, actions: PostDetailViewModelActions) in
       let mockPostFetchUseCase = r.resolve(PostFetchUseCase.self, name: .testDouble(.mock))!
       let stubOwnerRepository = r.resolve(LoggedInUserRepository.self, name: .testDouble(.stub))!
@@ -108,16 +109,16 @@ final class PresentationAssembly: Assembly {
     ) { (r, coordinator: PostDetailCoordinator, postId: PostIdentifier, post: Post?) in
       let mockPostDetailViewModel = r.resolve(
         PostDetailViewModelType.self,
-        name: .testDouble(.mock),
+        name: .implementation(.default),
         arguments: postId, post, coordinator.makePostDetailViewModelActions())!
       let mockPostDetailChatViewModel = r.resolve(
         PostDetailChatViewModelType.self,
-        name: .testDouble(.mock),
+        name: .implementation(.default),
         arguments: postId, post, coordinator.makePostDetailChatViewModelActions())!
       let mockPostOptionViewModel = r.resolve(
         PostOptionViewModelType.self,
-        name: .testDouble(.mock),
-        arguments: 
+        name: .implementation(.default),
+        arguments:
           coordinator.makePostOptionViewModelInfo(postId: postId, post: post),
           coordinator.makePostOptionViewModelActions())!
       coordinator.setPostReceivable(mockPostDetailViewModel)
@@ -132,15 +133,15 @@ final class PresentationAssembly: Assembly {
     ) { (r, coordinator: PostDetailCoordinator, postId: PostIdentifier, post: Post?) in
       let defaultPostDetailViewModel = r.resolve(
         PostDetailViewModelType.self,
-        name: .implementation(.default),
+        name: .testDouble(.mock),
         arguments: postId, post, coordinator.makePostDetailViewModelActions())!
       let defaultPostDetailChatViewModel = r.resolve(
         PostDetailChatViewModelType.self, 
-        name: .implementation(.default),
+        name: .testDouble(.mock),
         arguments: postId, post, coordinator.makePostDetailChatViewModelActions())!
       let postOptionViewModel = r.resolve(
         PostOptionViewModelType.self,
-        name: .implementation(.default),
+        name: .testDouble(.mock),
         arguments: 
           coordinator.makePostOptionViewModelInfo(postId: postId, post: post),
           coordinator.makePostOptionViewModelActions())!
