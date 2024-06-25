@@ -77,3 +77,7 @@ where Input == PostDetailViewModelInput,
   typealias UserInputText = String
   typealias Section = Int
 }
+
+typealias PostDetailViewModelType = (any PostDetailViewModelable &
+                                     PostDetailTableViewDataSource &
+                                     PostDetailViewModelPageDelegate)
