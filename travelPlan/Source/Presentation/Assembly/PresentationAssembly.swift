@@ -43,6 +43,66 @@ final class PresentationAssembly: Assembly {
         actions: actions)
     }
     
+    // MARK: - PostDetailChatViewModelType
+    container.register(PostDetailChatViewModelInfo.self) { (_, postId: PostIdentifier, post: Post?) in
+      return PostDetailChatViewModelInfo(postId: postId, hasEnteredByDeferredDeepLink: post == nil)
+    }.inObjectScope(.transient)
+    
+    container.register(
+      PostDetailChatViewModelType.self, name: .implementation(.default)
+    ) { (r, postId: PostIdentifier, post: Post?, actions: PostDetailChatViewModelActions) in
+      let postDetailChatInfo = r.resolve(PostDetailChatViewModelInfo.self, arguments: postId, post)!
+      let defaultPostCommentAndPostLitedStateFetchUseCase = r.resolve(
+        DefaultPostCommentsAndPostLikeStateFetchUseCase.self, name: .implementation(.default))!
+      let defaultPostCommentUseCase = r.resolve(PostCommentUseCase.self, name: .implementation(.default))!
+      let defaultPostCommentHeartUseCase = r.resolve(PostCommentHeartUseCase.self, name: .implementation(.default))!
+      let defaultPostNestedCommentUseCase = r.resolve(PostNestedCommentUseCase.self, name: .implementation(.default))!
+      let defaultPostNestedCommentHeartUseCase = r.resolve(
+        PostNestedCommentHeartUseCase.self, name: .implementation(.default))!
+      let defaultUserBlockUseCase = r.resolve(UserBlockUseCase.self, name: .implementation(.default))!
+      let defaultOwnerRepository = r.resolve(LoggedInUserRepository.self, name: .implementation(.default))!
+      
+      return PostDetailChatViewModel(
+        postDetailChatInfo: postDetailChatInfo,
+        postCommentsAndPostLikeStateFetchUseCase: defaultPostCommentAndPostLitedStateFetchUseCase,
+        postCommentUseCase: defaultPostCommentUseCase,
+        postCommentHeartUseCase: defaultPostCommentHeartUseCase,
+        postNestedCommentUseCase: defaultPostNestedCommentUseCase,
+        postNestedCommentHeartUseCase: defaultPostNestedCommentHeartUseCase,
+        userBlockUseCase: defaultUserBlockUseCase,
+        ownerRepository: defaultOwnerRepository,
+        actions: actions)
+    }
+    
+    container.register(
+      PostDetailChatViewModelType.self, name: .testDouble(.mock)
+    ) { (r, postId: PostIdentifier, post: Post?, actions: PostDetailChatViewModelActions) in
+      let postDetailChatInfo = r.resolve(PostDetailChatViewModelInfo.self, arguments: postId, post)!
+      let interceptedPostCommentAndPostLitedStateFetchUseCase = r.resolve(
+        DefaultPostCommentsAndPostLikeStateFetchUseCase.self, name: .implementation(.interceptedDefault))!
+      let interceptedPostCommentUseCase = r.resolve(PostCommentUseCase.self, name: .implementation(.interceptedDefault))!
+      let interceptedPostCommentHeartUseCase = r.resolve(
+        PostCommentHeartUseCase.self, name: .implementation(.interceptedDefault))!
+      let interceptedPostNestedCommentUseCase = r.resolve(
+        PostNestedCommentUseCase.self, name: .implementation(.interceptedDefault))!
+      let interceptedPostNestedCommentHeartUseCase = r.resolve(
+        PostNestedCommentHeartUseCase.self, name: .implementation(.interceptedDefault))!
+      let mockUserBlockUseCase = r.resolve(UserBlockUseCase.self, name: .testDouble(.mock))!
+      let stubOwnerRepository = r.resolve(LoggedInUserRepository.self, name: .testDouble(.stub))!
+      
+      return PostDetailChatViewModel(
+        postDetailChatInfo: postDetailChatInfo,
+        postCommentsAndPostLikeStateFetchUseCase: interceptedPostCommentAndPostLitedStateFetchUseCase,
+        postCommentUseCase: interceptedPostCommentUseCase,
+        postCommentHeartUseCase: interceptedPostCommentHeartUseCase,
+        postNestedCommentUseCase: interceptedPostNestedCommentUseCase,
+        postNestedCommentHeartUseCase: interceptedPostNestedCommentHeartUseCase,
+        userBlockUseCase: mockUserBlockUseCase,
+        ownerRepository: stubOwnerRepository,
+        actions: actions)
+    }
+    
+    
     // TODO: - Post
     container.register(
       PostOptionViewModelType.self,
