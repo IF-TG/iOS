@@ -53,7 +53,7 @@ final class PresentationAssembly: Assembly {
     ) { (r, postId: PostIdentifier, post: Post?, actions: PostDetailChatViewModelActions) in
       let postDetailChatInfo = r.resolve(PostDetailChatViewModelInfo.self, arguments: postId, post)!
       let defaultPostCommentAndPostLitedStateFetchUseCase = r.resolve(
-        DefaultPostCommentsAndPostLikeStateFetchUseCase.self, name: .implementation(.default))!
+        PostCommentsAndPostLikeStateFetchUseCase.self, name: .implementation(.default))!
       let defaultPostCommentUseCase = r.resolve(PostCommentUseCase.self, name: .implementation(.default))!
       let defaultPostCommentHeartUseCase = r.resolve(PostCommentHeartUseCase.self, name: .implementation(.default))!
       let defaultPostNestedCommentUseCase = r.resolve(PostNestedCommentUseCase.self, name: .implementation(.default))!
@@ -79,7 +79,7 @@ final class PresentationAssembly: Assembly {
     ) { (r, postId: PostIdentifier, post: Post?, actions: PostDetailChatViewModelActions) in
       let postDetailChatInfo = r.resolve(PostDetailChatViewModelInfo.self, arguments: postId, post)!
       let interceptedPostCommentAndPostLitedStateFetchUseCase = r.resolve(
-        DefaultPostCommentsAndPostLikeStateFetchUseCase.self, name: .implementation(.interceptedDefault))!
+        PostCommentsAndPostLikeStateFetchUseCase.self, name: .implementation(.interceptedDefault))!
       let interceptedPostCommentUseCase = r.resolve(PostCommentUseCase.self, name: .implementation(.interceptedDefault))!
       let interceptedPostCommentHeartUseCase = r.resolve(
         PostCommentHeartUseCase.self, name: .implementation(.interceptedDefault))!
