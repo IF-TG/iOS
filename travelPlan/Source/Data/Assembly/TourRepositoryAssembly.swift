@@ -10,7 +10,6 @@ import Swinject
 import Foundation
 
 final class TourRepositoryAssembly: Assembly {
-  // swiftlint:disable:next function_body_length
   func assemble(container: Swinject.Container) {
     // MARK: - Common Tour API
     container.register(Sessionable.self, name: .implementation(.default)) { r in
