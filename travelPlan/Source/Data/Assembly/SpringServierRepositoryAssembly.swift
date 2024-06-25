@@ -51,7 +51,6 @@ final class SpringServierRepositoryAssembly: Assembly {
       return DefaultPostRepository(service: mockSessionProvider, ownerStorage: stubOwnerStorage)
     }
     
-    // MARK: 페이징 가능한 PostRepository
     container.register(PostRepository.self, name: .testDouble(.mock)) { _ in
       return MockPostRepository()
     }
