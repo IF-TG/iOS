@@ -32,7 +32,7 @@ final class DomainAssembly: Swinject.Assembly {
     }
     
     container.register(UserBlockUseCase.self, name: .testDouble(.mock)) { r in
-      let mockUserBlockRepository = r.resolve(UserBlockRepository.self,name: .testDouble(.mock))!
+      let mockUserBlockRepository = r.resolve(UserBlockRepository.self, name: .testDouble(.mock))!
       return DefaultUserBlockUseCase(userBlockRepository: mockUserBlockRepository)
     }
     
@@ -77,7 +77,7 @@ final class DomainAssembly: Swinject.Assembly {
     }
     
     container.register(
-      DefaultPostCommentsAndPostLikeStateFetchUseCase.self,
+      PostCommentsAndPostLikeStateFetchUseCase.self,
       name: .implementation(.default)
     ) { r in
       let defaultPostRepository = r.resolve(PostRepository.self, name: .implementation(.default))!
@@ -114,6 +114,28 @@ final class DomainAssembly: Swinject.Assembly {
     }
         
     // TODO: - PostNestedComment Use Case
+    container.register(PostNestedCommentUseCase.self, name: .implementation(.default)) { r in
+      let defaultPostNestedCommentRepository = r.resolve(
+        PostNestedCommentRepository.self, name: .implementation(.default))!
+      return DefaultPostNestedCommentUseCase(postNestedCommentRepository: defaultPostNestedCommentRepository)
+    }
+    
+    container.register(PostNestedCommentUseCase.self, name: .implementation(.interceptedDefault)) { r in
+      let interceptedPostNestedCommentRepository = r.resolve(
+        PostNestedCommentRepository.self, name: .implementation(.interceptedDefault))!
+      return DefaultPostNestedCommentUseCase(postNestedCommentRepository: interceptedPostNestedCommentRepository)
+    }
+    
+    container.register(PostNestedCommentUseCase.self, name: .implementation(.firestore)) { r in
+      let firestoreNestedCommentRepository = r.resolve(
+        PostAtomicNestedCommentRepository.self, name: .implementation(.firestore))!
+      let ownerRepository = r.resolve(LoggedInUserRepository.self, name: .implementation(.default))!
+      let firestoreCommentRepository = r.resolve(PostAtomicCommentRepository.self, name: .implementation(.firestore))!
+      return PostNestedCommentUseCaseImpl(
+        nestedCommentRepository: firestoreNestedCommentRepository,
+        ownerRepository: ownerRepository,
+        commentRepository: firestoreCommentRepository)
+    }
     
     // TODO: - FavoriteDirectory Use Case
     
