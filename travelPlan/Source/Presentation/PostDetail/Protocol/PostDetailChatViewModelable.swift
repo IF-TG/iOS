@@ -118,3 +118,7 @@ where Input == PostDetailChatViewModelInput,
   typealias SectionType = PostDetailSection
   func notifyModifiedCommentsOfCommentAndReply()
 }
+
+typealias PostDetailChatViewModelType = (any PostDetailChatViewModelable &
+                                         PostDetailChatDataSource &
+                                         PostDetailChatViewModelPageDelegate)

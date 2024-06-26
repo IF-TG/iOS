@@ -33,7 +33,7 @@ private extension NotificationViewModel {
   func didTapCellStream(_ input: Input) -> Output {
     return input.didTapCell.map { [weak self] index in
       // TODO: - 해당 포스트 아이디와 함꼐 상세 디테일 포스트 화면으로 이동해야합니다. 임시로 UUID
-      // TODO: - 서버에 이 알림 확인했다고 해야합니다.
+      /// 서버에 이 알림 확인했다고 해야합니다.
       self?.notifications[index].isChecked = true
       return .showDetailPostPage(postId: .init(), index: index)
     }.eraseToAnyPublisher()

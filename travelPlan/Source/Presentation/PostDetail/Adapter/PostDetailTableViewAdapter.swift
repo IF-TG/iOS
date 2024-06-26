@@ -106,8 +106,7 @@ extension PostDetailTableViewAdapter: UITableViewDelegate {
       postTitleCellMaxY = cell.frame.maxY
       isDisplyingTitleInNavi = true
     }
-    // TODO: - 서버에서 만약 댓글달았을때 에대한 bool값 있으면 배ㅁ경색 파랑 -> 원래색으로 돌아오는 피그마 ui추가.
-    // MARK: - 내가 댓글이나 대댓글 달았을때 적용하자. RESTFul에선 실시간으로 댓글달린거 갱신이 불가능!! 내가단거 한정으로!!
+    // MARK: 시간날 때 대댓, 댓글 자신이 달았을 경우 살짝 파랑 -> 흰색 되돌아오는 애니메이션 추가하기
   }
   
   func tableView(

@@ -10,23 +10,12 @@ import Combine
 import SHCoordinator
 
 final class PostDetailViewController: UITableViewController {
-  typealias PostDetailViewModelType = (any PostDetailViewModelable &
-                                       PostDetailTableViewDataSource &
-                                       PostDetailViewModelPageDelegate)
-  
-  typealias PostDetailChatViewModelType = (any PostDetailChatViewModelable &
-                                           PostDetailChatDataSource &
-                                           PostDetailChatViewModelPageDelegate)
-  
-  typealias PostDetailOptionViewModelType = (any PostOptionViewModelable &
-                                             PostOptionViewModelPageDelegate)
-  
   // MARK: - Dependencies
   private let viewModel: PostDetailViewModelType
   
   private let chatViewModel: PostDetailChatViewModelType
   
-  private let optionViewModel: PostDetailOptionViewModelType
+  private let optionViewModel: PostOptionViewModelType
   
   // MARK: - UI Properties
   private let inputAccessory = PostDetailInputAccessoryWrapper()
@@ -79,7 +68,7 @@ final class PostDetailViewController: UITableViewController {
   init(
     viewModel: PostDetailViewModelType,
     chatViewModel: PostDetailChatViewModelType,
-    optionViewModel: PostDetailOptionViewModelType
+    optionViewModel: PostOptionViewModelType
   ) {
     self.viewModel = viewModel
     self.chatViewModel = chatViewModel
