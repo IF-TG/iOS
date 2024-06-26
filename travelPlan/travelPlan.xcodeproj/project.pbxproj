@@ -270,6 +270,7 @@
 		1518BC292BB0486400FD1A74 /* mock_postComment_toggleCommentHeart_response.json in Resources */ = {isa = PBXBuildFile; fileRef = 1518BC282BB0486400FD1A74 /* mock_postComment_toggleCommentHeart_response.json */; };
 		1519412B2B138F7E00D9B6BF /* PostCellConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1519412A2B138F7E00D9B6BF /* PostCellConfigurable.swift */; };
 		15198E962BADE2BB0011930D /* PostThumbnails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15198E952BADE2BB0011930D /* PostThumbnails.swift */; };
+		151AF4DB2C2C0E7E004B98EE /* ProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151AF4DA2C2C0E7E004B98EE /* ProgressView.swift */; };
 		151BDAD42B16E8EA002F36C3 /* UIGestureRecognizer+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151BDAD32B16E8EA002F36C3 /* UIGestureRecognizer+Combine.swift */; };
 		151BDAD62B16EE07002F36C3 /* UIView+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151BDAD52B16EE07002F36C3 /* UIView+Combine.swift */; };
 		151BDAD82B16EF96002F36C3 /* UIGestureRecognizer+GestureType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151BDAD72B16EF96002F36C3 /* UIGestureRecognizer+GestureType.swift */; };
@@ -1155,6 +1156,7 @@
 		1518BC282BB0486400FD1A74 /* mock_postComment_toggleCommentHeart_response.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = mock_postComment_toggleCommentHeart_response.json; sourceTree = "<group>"; };
 		1519412A2B138F7E00D9B6BF /* PostCellConfigurable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCellConfigurable.swift; sourceTree = "<group>"; };
 		15198E952BADE2BB0011930D /* PostThumbnails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostThumbnails.swift; sourceTree = "<group>"; };
+		151AF4DA2C2C0E7E004B98EE /* ProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressView.swift; sourceTree = "<group>"; };
 		151BDAD32B16E8EA002F36C3 /* UIGestureRecognizer+Combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIGestureRecognizer+Combine.swift"; sourceTree = "<group>"; };
 		151BDAD52B16EE07002F36C3 /* UIView+Combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Combine.swift"; sourceTree = "<group>"; };
 		151BDAD72B16EF96002F36C3 /* UIGestureRecognizer+GestureType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIGestureRecognizer+GestureType.swift"; sourceTree = "<group>"; };
@@ -3402,6 +3404,7 @@
 				150A543C2BC82C61005D8108 /* BottomBasedTooltipView.swift */,
 				131C4DFF2C10CF360005D30F /* LandscapeToastView.swift */,
 				1568CC7E2C08F0F60056A298 /* WrappedPaddingButton.swift */,
+				151AF4DA2C2C0E7E004B98EE /* ProgressView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -4860,6 +4863,7 @@
 				1503F9312A4E0A4F002BC38D /* MainCoordinator.swift in Sources */,
 				133532062BA42F6E000A4D9E /* Data+.swift in Sources */,
 				1526ED122BF6475100B629FB /* PostFetchUseCaseImpl.swift in Sources */,
+				151AF4DB2C2C0E7E004B98EE /* ProgressView.swift in Sources */,
 				15FBD5D82B98DC6E00076115 /* TravelMainThemeTypeMapper.swift in Sources */,
 				15B5E7AC2BBAEA3B00C19F56 /* MockWrappedUserBlockRepository.swift in Sources */,
 				1540478C2BE4BA45009E86FF /* DefaultPostHeartUseCase.swift in Sources */,
