@@ -51,6 +51,7 @@ public class BasePlanCategorySelectionViewController: UIViewController {
   
   private let nextButton = UIButton(frame: .zero).set {
     $0.translatesAutoresizingMaskIntoConstraints = false
+    $0.isUserInteractionEnabled = false
   }
   
   lazy var descriptionLabelForMakingAPlan = BaseLabel(fontType: .medium_500(fontSize: 12)).set {
@@ -59,6 +60,14 @@ public class BasePlanCategorySelectionViewController: UIViewController {
   
   // MARK: - Properties
   @Published internal var hasSelected: Bool = false
+  
+  var nextButtonTapPublisher: AnyPublisher<Void, Never> {
+    nextButton.tap
+  }
+  
+  var prevButtonTapPublisher: AnyPublisher<Void, Never> {
+    prevButton.tap
+  }
   
   private let selectionType: PlanCategorySelectionType
   
@@ -127,6 +136,7 @@ private extension BasePlanCategorySelectionViewController {
     animateForTransitionButton {
       self.nextButton.alpha = 1
     }
+    nextButton.isUserInteractionEnabled = true
     if selectionType == .end {
       animateForTransitionButton {
         self.descriptionLabelForMakingAPlan.alpha = 1.0
@@ -136,6 +146,7 @@ private extension BasePlanCategorySelectionViewController {
   
   func deactiveNextButton() {
     animateForTransitionButton { self.nextButton.alpha = 0.3 }
+    nextButton.isUserInteractionEnabled = false
     if selectionType == .end {
       animateForTransitionButton {
         self.descriptionLabelForMakingAPlan.alpha = 0.3
