@@ -34,7 +34,7 @@ public class BasePlanCategorySelectionViewController: UIViewController {
   }
   
   /// 외부에서 구체적인 타입을 주입해야합니다.
-  private let cateogryView: UIView
+  private let contentViewForCateogry: UIView
   
   private lazy var selectionDescriptionLabel = IconWithLabelStackView(
     iconInfo: .init(size: .init(width: 16.67, height: 16.67), iconPath: "circle_exclamation_icon"),
@@ -66,6 +66,7 @@ public class BasePlanCategorySelectionViewController: UIViewController {
     self.selectionType = selectionType
     super.init(nibName: nil, bundle: nil)
     configureTransitionButton()
+    setupUI()
   }
   
   /// 사용 안함!!!
@@ -165,5 +166,47 @@ private extension BasePlanCategorySelectionViewController {
       prevButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,constant: -20),
       prevButton.widthAnchor.constraint(equalToConstant: 35),
       prevButton.heightAnchor.constraint(equalToConstant: 35)])
+  }
+}
+
+// MARK: - LayoutSupport
+extension BasePlanCategorySelectionViewController: LayoutSupport {
+  func addSubviews() {
+    [
+      progressBar,
+      titleLabel,
+      contentViewForCateogry,
+      selectionDescriptionLabel,
+      nextButton
+    ].forEach(view.addSubview)
+  }
+  
+  func setConstraints() {
+    NSLayoutConstraint.activate([
+      progressBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+      progressBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+      progressBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+      progressBar.heightAnchor.constraint(equalToConstant: 3),
+    
+      titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+      titleLabel.topAnchor.constraint(equalTo: progressBar.bottomAnchor, constant: 20+77),
+      titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor, constant: -20),
+      
+      contentViewForCateogry.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+      contentViewForCateogry.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
+      contentViewForCateogry.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+      contentViewForCateogry.bottomAnchor.constraint(
+        lessThanOrEqualTo: selectionDescriptionLabel.topAnchor, constant: -10),
+      
+      selectionDescriptionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+      selectionDescriptionLabel.bottomAnchor.constraint(
+        equalTo: view.safeAreaLayoutGuide.bottomAnchor,
+        constant: -78),
+      
+      nextButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
+      nextButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -27.5),
+      nextButton.widthAnchor.constraint(equalToConstant: 35),
+      nextButton.heightAnchor.constraint(equalToConstant: 35)      
+    ])
   }
 }
