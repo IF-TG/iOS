@@ -36,13 +36,21 @@ public class BasePlanCategorySelectionViewController: UIViewController {
   /// 외부에서 구체적인 타입을 주입해야합니다.
   private let cateogryView: UIView
   
-  private let selectionDescriptionLabel = IconWithLabelStackView(
+  private lazy var selectionDescriptionLabel = IconWithLabelStackView(
     iconInfo: .init(size: .init(width: 16.67, height: 16.67), iconPath: "circle_exclamation_icon"),
-    countInfo: .init(fontType: .regular_400(fontSize: 14), lineHeight: nil))
+    countInfo: .init(fontType: .regular_400(fontSize: 14), lineHeight: nil)
+  ).set {
+    $0.translatesAutoresizingMaskIntoConstraints = false
+    $0.setCountLabel(text: "다양한 선택을 할 수 있어요.")
+  }
   
-  private lazy var prevButton = UIButton(frame: .zero)
+  private lazy var prevButton = UIButton(frame: .zero).set {
+    $0.translatesAutoresizingMaskIntoConstraints = false
+  }
   
-  private let nextButton = UIButton(frame: .zero)
+  private let nextButton = UIButton(frame: .zero).set {
+    $0.translatesAutoresizingMaskIntoConstraints = false
+  }
   
   lazy var descriptionLabelForMakingAPlan = BaseLabel(fontType: .medium_500(fontSize: 12)).set {
     $0.alpha = 0
@@ -93,9 +101,12 @@ private extension BasePlanCategorySelectionViewController {
     case .middle:
       nextButton.setImage(UIImage(named: "chevron-right-icon"), for: .normal)
       prevButton.setImage(UIImage(named: "chevron-left-icon"), for: .normal)
+      layoutPrevButton()
     case .end:
       prevButton.setImage(UIImage(named: "chevron-left-icon"), for: .normal)
       nextButton.setImage(UIImage(named: "arrow-narrow-right-icon"), for: .normal)
+      layoutPrevButton()
+      layoutDescriptionLabelForMakingAPlan()
     }
   }
   
@@ -137,5 +148,22 @@ private extension BasePlanCategorySelectionViewController {
     animateForTransitionButton {
       self.prevButton.alpha = 0.3
     }
+  }
+  
+  // MARK: - Layout for lazy UI component
+  func layoutDescriptionLabelForMakingAPlan() {
+    view.addSubview(descriptionLabelForMakingAPlan)
+    NSLayoutConstraint.activate([
+      descriptionLabelForMakingAPlan.topAnchor.constraint(equalTo: nextButton.bottomAnchor, constant: 7),
+      descriptionLabelForMakingAPlan.centerXAnchor.constraint(equalTo: nextButton.centerXAnchor)])
+  }
+  
+  func layoutPrevButton() {
+    view.addSubview(prevButton)
+    NSLayoutConstraint.activate([
+      prevButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+      prevButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,constant: -20),
+      prevButton.widthAnchor.constraint(equalToConstant: 35),
+      prevButton.heightAnchor.constraint(equalToConstant: 35)])
   }
 }
