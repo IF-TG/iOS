@@ -81,7 +81,7 @@ extension DefaultLoginRepository: LoginRepository {
 // MARK: - Private performLogin(type:) handler
 private extension DefaultLoginRepository {
   /// Backend server와 통신 후 jwtDTO를 받을 경우 이 함수에서 제어합니다.
-  private func handleJwtDTO(_ jwtDTO: JWTResponseDTO, promise: @escaping Future<Bool, Error>.Promise) {
+  private func handleJwtDTO(_ jwtDTO: JWTResponseDTO, promise: Future<Bool, Error>.Promise) {
     guard loginResponseStorage.saveTokens(jwtDTO: jwtDTO) else {
       promise(.failure(DefaultLoginRepositoryError.tokensSavingFailed))
       return
