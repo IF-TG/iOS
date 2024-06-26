@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 @frozen enum PlanCategorySelectionType {
   /// 첫 선택
@@ -57,16 +58,20 @@ public class BasePlanCategorySelectionViewController: UIViewController {
   }
   
   // MARK: - Properties
-  private let hasSelected: Bool = false
+  @Published internal var hasSelected: Bool = false
   
   private let selectionType: PlanCategorySelectionType
   
-  init(cateogryView: UIView, selectionType: PlanCategorySelectionType) {
-    self.cateogryView = cateogryView
+  private var subscriptions = Set<AnyCancellable>()
+  
+  // MARK: - Lifecycle
+  init(contentViewForCateogry: UIView, selectionType: PlanCategorySelectionType) {
+    self.contentViewForCateogry = contentViewForCateogry
     self.selectionType = selectionType
     super.init(nibName: nil, bundle: nil)
     configureTransitionButton()
     setupUI()
+    bind()
   }
   
   /// 사용 안함!!!
@@ -129,25 +134,12 @@ private extension BasePlanCategorySelectionViewController {
     }
   }
   
-  func activePrevButton() {
-    animateForTransitionButton {
-      self.prevButton.alpha = 1
-    }
-  }
-  
   func deactiveNextButton() {
     animateForTransitionButton { self.nextButton.alpha = 0.3 }
     if selectionType == .end {
       animateForTransitionButton {
         self.descriptionLabelForMakingAPlan.alpha = 0.3
       }
-    }
-  }
-  
-  func deactivePrevButton() {
-    if selectionType == .start { return }
-    animateForTransitionButton {
-      self.prevButton.alpha = 0.3
     }
   }
   
@@ -163,9 +155,21 @@ private extension BasePlanCategorySelectionViewController {
     view.addSubview(prevButton)
     NSLayoutConstraint.activate([
       prevButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-      prevButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,constant: -20),
+      prevButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
       prevButton.widthAnchor.constraint(equalToConstant: 35),
       prevButton.heightAnchor.constraint(equalToConstant: 35)])
+  }
+  
+  func bind() {
+    $hasSelected
+      .receive(on: RunLoop.current)
+      .sink { [weak self] state in
+        if state {
+          self?.activeNextButton()
+        } else {
+          self?.deactiveNextButton()
+        }
+      }.store(in: &subscriptions)
   }
 }
 
@@ -206,7 +210,7 @@ extension BasePlanCategorySelectionViewController: LayoutSupport {
       nextButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
       nextButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -27.5),
       nextButton.widthAnchor.constraint(equalToConstant: 35),
-      nextButton.heightAnchor.constraint(equalToConstant: 35)      
+      nextButton.heightAnchor.constraint(equalToConstant: 35)
     ])
   }
 }
