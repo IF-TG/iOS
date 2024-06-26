@@ -5,7 +5,8 @@
 //  Created by 양승현 on 11/21/23.
 //
 
-// TODO: - 이미지 데이터로 변환하기
+// MARK: - 이미지 데이터로 변환하기
+/// 이미지를 데이터로 변환해서 저장하려고했으나 spring server에선 base64로 이미지를 제공하기에 이미지 key 식별이 어려우므로 지금 형식 유지
 import UIKit.UIImage
 
 public class ImageDiskCache {

@@ -69,13 +69,15 @@ final class GoogleLoginStrategyWithFirebase: LoginStrategy {
         
         /// 첫 사용자인가?
         /// 현재 firestore를 사용하지 않고 다시 spring server를 사용하기로 했으므로 uid는 -1을 넣습니다.
-        if result?.additionalUserInfo?.isNewUser == true, let userUid = result?.user.uid {
+        ///    result?.user.uid를 사용해야합니다.
+        if result?.additionalUserInfo?.isNewUser == true, result?.user.uid != nil {
           let requestDTO = UserProfileSaveRequestDTO(
             uid: -1,
             nickname: "여행자",
             profileImagePath: "")
           
-          // FIXME: - UserProfileSEttingUseCase나 레포지토리 사용해야합니다.
+          // MARK: - UserProfileSEttingUseCase나 레포지토리 사용해야합니다.
+          /// 그러나 현재 firestore service를 사용하지 않아 임시 보류합니다.
           let endpoint = FirestoreUserProfileSettingAPIEndopint.saveUserProfileEndpoint(with: requestDTO)
           self?.subscription = self?.firestoreService.request(endpoint: endpoint)
             .sink { completion in
