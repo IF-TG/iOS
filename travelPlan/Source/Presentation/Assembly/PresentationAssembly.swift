@@ -150,7 +150,6 @@ final class PresentationAssembly: Assembly {
 private extension PresentationAssembly {
   func loginPage(container: Container) {
     container.register((any LoginViewModel).self) { r in
-      let loginRepository = r.resolve(LoginRepository.self)!
       let loginUseCase = r.resolve(LoginUseCase.self)!
       return DefaultLoginViewModel(loginUseCase: loginUseCase)
     }
