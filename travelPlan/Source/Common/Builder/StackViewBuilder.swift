@@ -50,12 +50,13 @@ public class StackViewBuilder: Builder {
   }
   
   func build() -> UIStackView {
-    let stackView = UIStackView(arrangedSubviews: arrangedSubviews)
-    stackView.axis = axis
-    stackView.distribution = distribution
-    stackView.alignment = alignment
-    stackView.spacing = spacing
-    return stackView
+    return UIStackView(arrangedSubviews: arrangedSubviews)
+      .set {
+        $0.axis = axis
+        $0.distribution = distribution
+        $0.alignment = alignment
+        $0.spacing = spacing
+      }
   }
 }
 
