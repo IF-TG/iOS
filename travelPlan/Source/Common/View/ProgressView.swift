@@ -82,13 +82,13 @@ public extension ProgressView {
   
   func increase(_ steps: Int = 1) {
     let nextProgress = progress + Float(steps) * oneStepProgress
-    let availableProgress = isOutOfProgress(nextProgress) ? maxProgress : minProgress
+    let availableProgress = isOutOfProgress(nextProgress) ? maxProgress : nextProgress
     animate(from: availableProgress)
   }
   
   func decrease(_ steps: Int = 1) {
     let nextProgress = progress - Float(steps) * oneStepProgress
-    let availableProgress = isOutOfProgress(nextProgress) ? minProgress : maxProgress
+    let availableProgress = isOutOfProgress(nextProgress) ? minProgress : nextProgress
     animate(from: availableProgress)
   }
 }
