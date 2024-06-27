@@ -49,7 +49,7 @@ final public class ProgressView: UIProgressView {
     self.progressTintColor = tintColor
     self.trackTintColor = backgroundColor
     bind()
-    setProgress(by: 1)
+    setProgress(oneStepProgress, animated: true)
   }
   
   /// Auto layout 수월하게 사용하기 위한 initializer
@@ -88,7 +88,7 @@ public extension ProgressView {
   
   func decrease(_ steps: Int = 1) {
     let nextProgress = progress - Float(steps) * oneStepProgress
-    let availableProgress = isOutOfProgress(nextProgress) ? maxProgress : minProgress
+    let availableProgress = isOutOfProgress(nextProgress) ? minProgress : maxProgress
     animate(from: availableProgress)
   }
 }
