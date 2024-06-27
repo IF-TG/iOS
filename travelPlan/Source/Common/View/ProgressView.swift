@@ -19,11 +19,7 @@ final public class ProgressView: UIProgressView {
   }
   
   /// Progress bar을 n개의 단계로 나눕니다.
-  private var totalSteps: Int = 0 {
-    didSet {
-      setProgress(oneStepProgress, animated: true)
-    }
-  }
+  private var totalSteps: Int
   
   /// Progress step이 이동될 때 애니메이션 진행기간
   private var animationDuration: TimeInterval
@@ -53,6 +49,7 @@ final public class ProgressView: UIProgressView {
     self.progressTintColor = tintColor
     self.trackTintColor = backgroundColor
     bind()
+    setProgress(by: 1)
   }
   
   /// Auto layout 수월하게 사용하기 위한 initializer
