@@ -40,7 +40,7 @@ final class FlowCoordinatorAssembly: Assembly {
     container.register(
       PostDetailCoordinator.self
     ) { (_, presenter: UINavigationController?, post: Post?, postId: PostIdentifier) in
-      return PostDetailCoordinator(presenter: presenter, post: post, postId: postId)
+      return PostDetailCoordinator(presenter: presenter, post: post, postId: postId, dependencies: appDIContainer)
     }
     
     // MARK: - Notification Flow Coordinator

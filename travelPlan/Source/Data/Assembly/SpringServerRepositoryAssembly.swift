@@ -10,8 +10,8 @@ import Foundation
 import SHFirestoreService
 
 final class SpringServerRepositoryAssembly: Assembly {
-  // swiftlint:disable:next function_body_length
   func assemble(container: Swinject.Container) {
+    // MARK: - Session
     let defaultSession = container.resolve(Sessionable.self, name: .implementation(.default))!
     let mockSession = container.resolve(Sessionable.self, name: .implementation(.interceptedDefault))!
     
@@ -33,6 +33,8 @@ final class SpringServerRepositoryAssembly: Assembly {
     }
     
     // TODO: - SpringServer User
+    
+    // MARK: - Owner Repository
     container.register(LoggedInUserRepository.self, name: .implementation(.default)) { _ in
       return DefaultLoggedInUserRepository(storage: Dependency(name: .implementation(.default)))
     }
@@ -41,12 +43,15 @@ final class SpringServerRepositoryAssembly: Assembly {
       return DefaultLoggedInUserRepository(storage: Dependency(name: .testDouble(.stub)))
     }
     
-    // MARK: UserBlockRepository
+    // TODO: - UserProfile
+    // TODO: - UserProfileSetting
+    
+    // MARK: UserBlockRepgository
     container.register(UserBlockRepository.self, name: .implementation(.default)) { _ in
       return DefaultUserBlockRepository(service: defaultSession)
     }
     
-    container.register(UserBlockRepository.self, name: .implementation(.interceptedDefault)) { r in
+    container.register(UserBlockRepository.self, name: .implementation(.interceptedDefault)) { _ in
       return DefaultUserBlockRepository(service: mockSession)
     }
     
@@ -54,7 +59,7 @@ final class SpringServerRepositoryAssembly: Assembly {
       return MockWrappedUserBlockRepository()
     }
     
-    // TODO: - SpringServer Post
+    // MARK: - Post
     container.register(PostRepository.self, name: .implementation(.default)) { r in
       let defaultOwnerStorage = r.resolve(OwnerStorage.self, name: .implementation(.default))!
       let defaultSessionProvider = r.resolve(Sessionable.self, name: .implementation(.default))!
@@ -66,6 +71,30 @@ final class SpringServerRepositoryAssembly: Assembly {
       let mockSessionProvider = r.resolve(Sessionable.self, name: .testDouble(.mock))!
       return DefaultPostRepository(service: mockSessionProvider, ownerStorage: stubOwnerStorage)
     }
+    
+    container.register(PostRepository.self, name: .testDouble(.mock)) { _ in
+      return MockPostRepository()
+    }
+    
+    // MARK: - PostComment
+    container.register(PostCommentRepository.self, name: .implementation(.default)) { _ in
+      return DefaultPostCommentRepository(service: defaultSession)
+    }
+    
+    container.register(PostCommentRepository.self, name: .implementation(.interceptedDefault)) { _ in
+      return MockPostCommentRepository()
+    }
+    
+    // MARK: - PostNestedComment
+    container.register(PostNestedCommentRepository.self, name: .implementation(.default)) { _ in
+      return DefaultPostNestedCommentRepository(service: defaultSession)
+    }
+    
+    container.register(PostNestedCommentRepository.self, name: .implementation(.interceptedDefault)) { _ in
+      return MockPostNestedCommentRepository()
+    }
+    
+    // TODO: - ReviewWriting
     
     // MARK: - whatsNewNotification
     container.register(WhatsNewNotificationRepository.self, name: .implementation(.default)) { _ in

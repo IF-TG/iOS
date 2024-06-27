@@ -94,7 +94,8 @@ private extension DefaultLoginRepository {
   
   private func handleFirebaseAuthFlow(promise: @escaping Future<Bool, Error>.Promise) {
     /// 파이어 베이스 auth를 통해 로그인한 사용자입니다.
-    guard let _ = Auth.auth().currentUser?.uid else {
+    /// Auth.auth().currentUser?.uid정보를 fetchProfile(with:) 인자값으로 주어야 합니다.
+    if Auth.auth().currentUser?.uid == nil {
       promise(.failure(DefaultLoginRepositoryError.invalidFirebaseAuthCurrentUserUID))
       return
     }

@@ -57,3 +57,6 @@ protocol PostOptionViewModelable: ViewModelable
 where Input == PostOptionViewModelInput,
       State == PostOptionViewModelState,
       Output == AnyPublisher<State, Never> { }
+
+typealias PostOptionViewModelType = (any PostOptionViewModelable &
+                                           PostOptionViewModelPageDelegate)

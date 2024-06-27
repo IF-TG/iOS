@@ -167,8 +167,6 @@ final class PresentationFeedAssembly: Assembly {
 
 // MARK: - Private Helpers
 private extension PresentationFeedAssembly {
-  typealias PostOptionViewModelType = any PostOptionViewModelable & PostOptionViewModelPageDelegate
-  
   func makeFeedPageCategoryServiceNames(_ categoryPageDataSource: CategoryPageViewDataSource) -> [String] {
     return (0..<categoryPageDataSource.numberOfItems).map {
       categoryPageDataSource.travelMainCategoryTitle(at: $0)
