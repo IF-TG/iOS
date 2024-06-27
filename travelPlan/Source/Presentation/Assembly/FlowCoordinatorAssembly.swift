@@ -32,6 +32,9 @@ final class FlowCoordinatorAssembly: Assembly {
     let appDIContainer = AppDIContainer.shared
     
     // TODO: - Login Flow Coordinator
+    container.register(LoginCoordinator.self) { _ in
+      return LoginCoordinator(presenter: nil, dependencies: appDIContainer)
+    }
     
     // MARK: - PostDetail Flow Coordinator
     container.register(

@@ -30,7 +30,7 @@ final class AppDIContainer {
       CoreAssembly(),
       PersistentStorageAssembly(),
       TourRepositoryAssembly(),
-      SpringServierRepositoryAssembly(),
+      SpringServerRepositoryAssembly(),
       FirebaseRepositoryAssembly(),
       DomainAssembly(),
       PresentationFeedAssembly(),
@@ -143,6 +143,13 @@ extension AppDIContainer: NotificationCenterCoordinatorDependencies {
   }
 }
 
+// MARK: - LoginCoordinatorDependencies
+extension AppDIContainer: LoginCoordinatorDependencies {
+  func makeLoginViewController() -> LoginViewController {
+    return resolver.resolve(LoginViewController.self)!
+  }
+}
+
 // MARK: - PostDetailCoordinatorDependencies
 extension AppDIContainer: PostDetailCoordinatorDependencies {
   func makePostDetailViewController(
@@ -150,17 +157,17 @@ extension AppDIContainer: PostDetailCoordinatorDependencies {
     post: Post?,
     coordinator: PostDetailCoordinator
   ) -> PostDetailViewController {
-    #if DEBUG
+#if DEBUG
     return resolver.resolve(
       PostDetailViewController.self,
       name: .testDouble(.mock),
       arguments: coordinator, postId, post)!
-    #else
+#else
     return resolver.resolve(
       PostDetailViewController.self,
       name: .implementation(.default),
       arguments: coordinator, postId, post)!
-    #endif
+#endif
   }
   
   // TODO: - ReviewWriting register에 등록하면 이곳에서 반영해야합니다.(꺼내야합니다.) 인자값 등드

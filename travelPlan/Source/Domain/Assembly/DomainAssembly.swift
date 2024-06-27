@@ -9,11 +9,31 @@ import Foundation
 import Swinject
 
 final class DomainAssembly: Swinject.Assembly {
-  // swiftlint:disable:next function_body_length
   func assemble(container: Container) {
+    userUseCase(container: container)
+    postUseCase(container: container)
+    postCommentUseCase(container: container)
+    postNestedCommentUseCase(container: container)
+    postCommentHeartUseCase(container: container)
+    postNestedCommentHeartUseCase(container: container)
+    noticeUseCase(container: container)
+    loginUseCase(container: container)
+    
     // TODO: - Tour Use Case
     
-    // TODO: - User Use Case
+    // TODO: - Album Use Case
+    
+    // TODO: - PostReviewWriting Use Case
+    
+    // TODO: - FavoriteDirectory Use Case
+    
+    // TODO: - Authentication Use Case
+  }
+}
+
+// MARK: - Private Helpers
+private extension DomainAssembly {
+  func userUseCase(container: Container) {
     container.register(UserBlockUseCase.self, name: .implementation(.default)) { r in
       let defaultUserBlockRepository = r.resolve(UserBlockRepository.self, name: .implementation(.default))!
       return DefaultUserBlockUseCase(userBlockRepository: defaultUserBlockRepository)
@@ -35,10 +55,9 @@ final class DomainAssembly: Swinject.Assembly {
       let mockUserBlockRepository = r.resolve(UserBlockRepository.self, name: .testDouble(.mock))!
       return DefaultUserBlockUseCase(userBlockRepository: mockUserBlockRepository)
     }
-    
-    // TODO: - Album Use Case
-    
-    // TODO: - Post Use Case
+  }
+  
+  func postUseCase(container: Container) {
     container.register(PostFetchUseCase.self, name: .implementation(.default)) { r in
       let defaultPostRepository = r.resolve(PostRepository.self, name: .implementation(.default))!
       return DefaultPostFetchUseCase(postRepository: defaultPostRepository)
@@ -64,10 +83,9 @@ final class DomainAssembly: Swinject.Assembly {
         postHeartRepository: firestorePostHeartRepository,
         ownerHeartPostRepository: firestoreOwnerHeartPostRepo)
     }
-    
-    // TODO: - PostReviewWriting Use Case
-    
-    // MARK: - PostComment Use Case
+  }
+  
+  func postCommentUseCase(container: Container) {
     container.register(
       PostCommentsAndPostLikeStateFetchUseCase.self,
       name: .implementation(.interceptedDefault)
@@ -112,8 +130,9 @@ final class DomainAssembly: Swinject.Assembly {
         postCommentHeartRepository: postCommentHeartRepository,
         backgroundQueue: .init(label: "backgorundQUeue", qos: .userInitiated, attributes: .concurrent))
     }
-        
-    // MARK: - PostNestedComment Use Case
+  }
+  
+  func postNestedCommentUseCase(container: Container) {
     container.register(PostNestedCommentUseCase.self, name: .implementation(.default)) { r in
       let defaultPostNestedCommentRepository = r.resolve(
         PostNestedCommentRepository.self, name: .implementation(.default))!
@@ -136,8 +155,9 @@ final class DomainAssembly: Swinject.Assembly {
         ownerRepository: ownerRepository,
         commentRepository: firestoreCommentRepository)
     }
-    
-    // MARK: - PostComment Heart Use Case
+  }
+  
+  func postCommentHeartUseCase(container: Container) {
     container.register(PostCommentHeartUseCase.self, name: .implementation(.default)) { r in
       let postCommentRepository = r.resolve(PostCommentRepository.self, name: .implementation(.default))!
       return DefaultPostCommentHeartUseCase(postCommentRepository: postCommentRepository)
@@ -157,8 +177,9 @@ final class DomainAssembly: Swinject.Assembly {
         commentHeartRepository: firestorePostCommentHeartRepository,
         ownerRepository: defaultOwnerRepository)
     }
-    
-    // MARK: - PostNestedComment Heart Use Case
+  }
+  
+  func postNestedCommentHeartUseCase(container: Container) {
     container.register(PostNestedCommentHeartUseCase.self, name: .implementation(.default)) { r in
       let defaultPostCommentRepository = r.resolve(PostNestedCommentRepository.self, name: .implementation(.default))!
       return DefaultPostNestedCommentHeartUseCase(postNestedCommentRepository: defaultPostCommentRepository)
@@ -175,17 +196,12 @@ final class DomainAssembly: Swinject.Assembly {
         PostNestedCommentHeartRepository.self, name: .implementation(.firestore))!
       let defaultOwnerRepository = r.resolve(LoggedInUserRepository.self, name: .implementation(.default))!
       return PostNestedCommentHeartUseCaseImpl(
-        nestedCommentHeartRepository: firestoreNestedCommentHeartRepository, 
+        nestedCommentHeartRepository: firestoreNestedCommentHeartRepository,
         ownerRepository: defaultOwnerRepository)
     }
-    
-    // TODO: - Post Heart Use Case
-    
-    // TODO: - FavoriteDirectory Use Case
-    
-    // TODO: - Authentication Use Case
-    
-    // MARK: - Notice Use Case
+  }
+  
+  func noticeUseCase(container: Container) {
     container.register(NoticeUseCase.self, name: .implementation(.default)) { r in
       let defaultWhatsNewRepo = r.resolve(WhatsNewNotificationRepository.self, name: .implementation(.default))!
       return DefaultNoticeUseCase(whatsNewNotificationRepository: defaultWhatsNewRepo)
@@ -201,6 +217,13 @@ final class DomainAssembly: Swinject.Assembly {
     container.register(NoticeUseCase.self, name: .implementation(.firestore)) { r in
       let firestoreWhatsNewRepo = r.resolve(WhatsNewNotificationRepository.self, name: .implementation(.firestore))!
       return DefaultNoticeUseCase(whatsNewNotificationRepository: firestoreWhatsNewRepo)
+    }
+  }
+  
+  func loginUseCase(container: Container) {
+    container.register(LoginUseCase.self) { r in
+      let loginRepository = r.resolve(LoginRepository.self)!
+      return DefaultLoginUseCase(loginRepository: loginRepository)
     }
   }
 }

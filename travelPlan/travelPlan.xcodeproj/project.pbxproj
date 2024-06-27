@@ -572,7 +572,7 @@
 		159F38BF2AFAA329000A24C2 /* PostDetailTitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159F38BE2AFAA329000A24C2 /* PostDetailTitleCell.swift */; };
 		159F38CA2AFAABF9000A24C2 /* PostDetailProfileAreaFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159F38C92AFAABF9000A24C2 /* PostDetailProfileAreaFooterView.swift */; };
 		15A0A86B2C19579E00C56DCB /* TourRepositoryAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A0A86A2C19579E00C56DCB /* TourRepositoryAssembly.swift */; };
-		15A0A86D2C19589300C56DCB /* SpringServierRepositoryAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A0A86C2C19589300C56DCB /* SpringServierRepositoryAssembly.swift */; };
+		15A0A86D2C19589300C56DCB /* SpringServerRepositoryAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A0A86C2C19589300C56DCB /* SpringServerRepositoryAssembly.swift */; };
 		15A0E19F2B97A3BD0047D662 /* PostResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A0E19E2B97A3BC0047D662 /* PostResponseDTO.swift */; };
 		15A0E1A12B97A3FD0047D662 /* PostContainerResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A0E1A02B97A3FD0047D662 /* PostContainerResponseDTO.swift */; };
 		15A2C2E42C20AAF500407663 /* DefaultPostCommentsAndPostLikeStateFetchUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1526ECED2BF636E500B629FB /* DefaultPostCommentsAndPostLikeStateFetchUseCaseTests.swift */; };
@@ -627,7 +627,7 @@
 		15B9286D2AFA47B0003A20D4 /* PostDetailTableViewAdapterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B9286C2AFA47B0003A20D4 /* PostDetailTableViewAdapterDelegate.swift */; };
 		15B9286F2AFA49C4003A20D4 /* PostDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B9286E2AFA49C4003A20D4 /* PostDetailViewModel.swift */; };
 		15BB01B62A1EB5000035B486 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BB01B52A1EB5000035B486 /* LoginViewController.swift */; };
-		15BB01B82A1EB5070035B486 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BB01B72A1EB5070035B486 /* LoginViewModel.swift */; };
+		15BB01B82A1EB5070035B486 /* DefaultLoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BB01B72A1EB5070035B486 /* DefaultLoginViewModel.swift */; };
 		15BE6BD42BAEF83D009A2568 /* mock_response_postCommentContainer.json in Resources */ = {isa = PBXBuildFile; fileRef = 15BE6BD32BAEF82A009A2568 /* mock_response_postCommentContainer.json */; };
 		15BE6BD82BAF05F3009A2568 /* PostCommentSendingRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BE6BD72BAF05F3009A2568 /* PostCommentSendingRequestDTO.swift */; };
 		15BE6BDB2BAF08B4009A2568 /* PostCommentRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BE6BDA2BAF08B4009A2568 /* PostCommentRepository.swift */; };
@@ -1463,7 +1463,7 @@
 		159F38BE2AFAA329000A24C2 /* PostDetailTitleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailTitleCell.swift; sourceTree = "<group>"; };
 		159F38C92AFAABF9000A24C2 /* PostDetailProfileAreaFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailProfileAreaFooterView.swift; sourceTree = "<group>"; };
 		15A0A86A2C19579E00C56DCB /* TourRepositoryAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourRepositoryAssembly.swift; sourceTree = "<group>"; };
-		15A0A86C2C19589300C56DCB /* SpringServierRepositoryAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpringServierRepositoryAssembly.swift; sourceTree = "<group>"; };
+		15A0A86C2C19589300C56DCB /* SpringServerRepositoryAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpringServerRepositoryAssembly.swift; sourceTree = "<group>"; };
 		15A0E19E2B97A3BC0047D662 /* PostResponseDTO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostResponseDTO.swift; sourceTree = "<group>"; };
 		15A0E1A02B97A3FD0047D662 /* PostContainerResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostContainerResponseDTO.swift; sourceTree = "<group>"; };
 		15A2C2FA2C2176A800407663 /* InterceptedWhatsNewNotificationRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterceptedWhatsNewNotificationRepository.swift; sourceTree = "<group>"; };
@@ -1512,7 +1512,7 @@
 		15B9286C2AFA47B0003A20D4 /* PostDetailTableViewAdapterDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailTableViewAdapterDelegate.swift; sourceTree = "<group>"; };
 		15B9286E2AFA49C4003A20D4 /* PostDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailViewModel.swift; sourceTree = "<group>"; };
 		15BB01B52A1EB5000035B486 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
-		15BB01B72A1EB5070035B486 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		15BB01B72A1EB5070035B486 /* DefaultLoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultLoginViewModel.swift; sourceTree = "<group>"; };
 		15BE6BD32BAEF82A009A2568 /* mock_response_postCommentContainer.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = mock_response_postCommentContainer.json; sourceTree = "<group>"; };
 		15BE6BD72BAF05F3009A2568 /* PostCommentSendingRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCommentSendingRequestDTO.swift; sourceTree = "<group>"; };
 		15BE6BDA2BAF08B4009A2568 /* PostCommentRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCommentRepository.swift; sourceTree = "<group>"; };
@@ -3646,7 +3646,7 @@
 		15BB01B12A1EB4D80035B486 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				15BB01B72A1EB5070035B486 /* LoginViewModel.swift */,
+				15BB01B72A1EB5070035B486 /* DefaultLoginViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -3886,7 +3886,7 @@
 				1540708C2C0F192F000C9C42 /* FirebaseRepositoryAssembly.swift */,
 				154070A32C0F8F94000C9C42 /* PersistentStorageAssembly.swift */,
 				15A0A86A2C19579E00C56DCB /* TourRepositoryAssembly.swift */,
-				15A0A86C2C19589300C56DCB /* SpringServierRepositoryAssembly.swift */,
+				15A0A86C2C19589300C56DCB /* SpringServerRepositoryAssembly.swift */,
 			);
 			path = Assembly;
 			sourceTree = "<group>";
@@ -5202,7 +5202,7 @@
 				157ADCAE2AD00AB400D37680 /* FavoriteLocationViewController.swift in Sources */,
 				1561DC7C2BDF7DC200C25577 /* FirestorePostRepository.swift in Sources */,
 				13EB3CFF2BED403900CA84F0 /* TourType.swift in Sources */,
-				15BB01B82A1EB5070035B486 /* LoginViewModel.swift in Sources */,
+				15BB01B82A1EB5070035B486 /* DefaultLoginViewModel.swift in Sources */,
 				1594A4512C0596E800428D41 /* PostActivityItemSource.swift in Sources */,
 				1526ED1B2BF647F200B629FB /* DefaultPostCommentsAndPostLikeStateFetchUseCase.swift in Sources */,
 				152715412BA0D5AE0077D033 /* UserProfileRepository.swift in Sources */,
@@ -5466,7 +5466,7 @@
 				13405F0B2AEEF1E400382796 /* LoginButtonDelegate.swift in Sources */,
 				13300FAE2AC2093D00952757 /* SearchSectionType.swift in Sources */,
 				1570FDB22AB1B616006FBAA3 /* TravelOrderType.swift in Sources */,
-				15A0A86D2C19589300C56DCB /* SpringServierRepositoryAssembly.swift in Sources */,
+				15A0A86D2C19589300C56DCB /* SpringServerRepositoryAssembly.swift in Sources */,
 				13405F6D2AF6804F00382796 /* ReviewWritingContentView.swift in Sources */,
 				15FFAC0F2AD9C3B20013DB57 /* Responsable.swift in Sources */,
 				13E7EAEB2BE025D10027946C /* TourFestivalInfoRepository.swift in Sources */,

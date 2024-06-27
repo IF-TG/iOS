@@ -9,6 +9,10 @@ import UIKit
 import SHCoordinator
 import SHFirestoreService
 
+protocol LoginCoordinatorDependencies {
+  func makeLoginViewController() -> LoginViewController
+}
+
 protocol LoginCoordinatorDelegate: FlowCoordinatorDelegate {
   func showFeedPage()
 }
@@ -17,50 +21,18 @@ final class LoginCoordinator: FlowCoordinator {
   // MARK: - Properties
   var parent: FlowCoordinator?
   var child: [FlowCoordinator] = []
-  let presenter: UINavigationController?
-  weak var viewController: UIViewController?
+  var presenter: UINavigationController?
+  private let dependencies: any LoginCoordinatorDependencies
 
   // MARK: - Lifecycle
-  init(presenter: UINavigationController?) {
+  init(presenter: UINavigationController?, dependencies: any LoginCoordinatorDependencies) {
     self.presenter = .init()
+    self.dependencies = dependencies
   }
   
   func start() {
-    let json = """
-      {
-        "accessToken": "StringAbc",
-        "refreshToken": "StringAbcd",
-        "accessTokenExpiresIn": 3600000,
-        "refreshTokenExpiresIn": 1200000000
-      }
-    """
-    MockUrlProtocol.requestHandler = { _ in
-      let responseData = json.data(using: .utf8)!
-      return ((HTTPURLResponse(), responseData))
-    }
-    
-    let mockSession = MockSession.default
-    let sessionProvider = SessionProvider(session: mockSession)
-    let authService = DefaultAuthenticationService(sessionProvider: sessionProvider)
-    let loginResultStorage = UserDefaultsLoginResultStorage()
-    
-    // let storage = UserDefaultsOwnerStorage()
-    let loggedInUserRepository = DefaultLoggedInUserRepository(storage: .init(name: .implementation(.default)))
-    let userProfileRepository = FirestoreUserProfileRepository(
-      service: FirestoreService(),
-      firebaseStorageService: FirebaseStorageService())
-    let repository = DefaultLoginRepository(
-      authService: authService,
-      loginResultStorage: loginResultStorage,
-      loggedInUserRepository: loggedInUserRepository, 
-      userProfileRepository: userProfileRepository,
-      firestoreService: FirestoreService())
-    let useCase = DefaultLoginUseCase(loginRepository: repository)
-    let loginVM = LoginViewModel(loginUseCase: useCase)
-    let loginViewController = LoginViewController(viewModel: loginVM)
-    viewController = loginViewController
-    loginViewController.coordinator = self
-    presenter?.viewControllers = [loginViewController]
+    presenter?.viewControllers = [dependencies.makeLoginViewController()]
+//    loginViewController.coordinator = self
   }
   
   deinit {

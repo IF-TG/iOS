@@ -39,6 +39,19 @@ extension AppleLoginStrategy: ASAuthorizationControllerDelegate {
     controller: ASAuthorizationController,
     didCompleteWithAuthorization authorization: ASAuthorization
   ) {
+    MockUrlProtocol.requestHandler = { _ in
+      let mockData = """
+        {
+          "accessToken": "StringAbc",
+          "refreshToken": "StringAbcd",
+          "accessTokenExpiresIn": 3600000,
+          "refreshTokenExpiresIn": 1200000000
+        }
+      """.data(using: .utf8)!
+      
+      return ((HTTPURLResponse(), mockData))
+    }
+
     guard let credential = authorization.credential as? ASAuthorizationAppleIDCredential,
           let authorizationCode = credential.authorizationCode,
           let identityToken = credential.identityToken else { return }

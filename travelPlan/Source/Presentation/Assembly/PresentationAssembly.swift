@@ -12,7 +12,7 @@ import Swinject
 final class PresentationAssembly: Assembly {
   // swiftlint:disable:next function_body_length
   func assemble(container: Swinject.Container) {
-    // TODO: - Login Page
+    loginPage(container: container)
     
     // MARK: - PostDetail Page
     // MARK: - PostDetailViewModelType
@@ -282,5 +282,20 @@ final class PresentationAssembly: Assembly {
     // TODO: - Plan Page
     
     // TODO: - ReviewWriting Page
+  }
+}
+
+// MARK: - Login Page
+private extension PresentationAssembly {
+  func loginPage(container: Container) {
+    container.register((any LoginViewModel).self) { r in
+      let loginUseCase = r.resolve(LoginUseCase.self)!
+      return DefaultLoginViewModel(loginUseCase: loginUseCase)
+    }
+    
+    container.register(LoginViewController.self) { r in
+      let loginViewModel = r.resolve((any LoginViewModel).self)!
+      return LoginViewController(viewModel: loginViewModel)
+    }
   }
 }

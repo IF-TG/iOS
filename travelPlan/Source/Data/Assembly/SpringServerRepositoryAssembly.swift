@@ -1,5 +1,5 @@
 //
-//  SpringServierRepository.swift
+//  SpringServerRepository.swift
 //  travelPlan
 //
 //  Created by 양승현 on 6/12/24.
@@ -7,12 +7,32 @@
 
 import Swinject
 import Foundation
+import SHFirestoreService
 
-final class SpringServierRepositoryAssembly: Assembly {
+final class SpringServerRepositoryAssembly: Assembly {
   func assemble(container: Swinject.Container) {
     // MARK: - Session
     let defaultSession = container.resolve(Sessionable.self, name: .implementation(.default))!
     let mockSession = container.resolve(Sessionable.self, name: .implementation(.interceptedDefault))!
+    
+    // MARK: - LoginRepository
+    container.register(LoginRepository.self) { r in
+      let authenticationService = r.resolve(AuthenticationService.self, name: .implementation(.default))!
+      let loginResultStorage = r.resolve(LoginResultStorage.self, name: .implementation(.default))!
+      let loggedInUserRepository = r.resolve(LoggedInUserRepository.self, name: .testDouble(.stub))!
+      let userProfileRepository = r.resolve(UserProfileRepository.self, name: .implementation(.firestore))!
+      let firestoreService = r.resolve(FirestoreServiceProtocol.self, name: .implementation(.firestore))!
+      
+      return DefaultLoginRepository(
+        authService: authenticationService,
+        loginResultStorage: loginResultStorage,
+        loggedInUserRepository: loggedInUserRepository,
+        userProfileRepository: userProfileRepository,
+        firestoreService: firestoreService
+      )
+    }
+    
+    // TODO: - SpringServer User
     
     // MARK: - Owner Repository
     container.register(LoggedInUserRepository.self, name: .implementation(.default)) { _ in

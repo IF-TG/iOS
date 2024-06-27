@@ -33,6 +33,11 @@ final class CoreAssembly: Swinject.Assembly {
       GoogleLoginStrategyWithFirebase()
     }
     
+    container.register(AuthenticationService.self, name: .implementation(.default)) { r in
+      let session = r.resolve(Sessionable.self, name: .implementation(.interceptedDefault))!
+      return DefaultAuthenticationService(sessionProvider: session)
+    }
+    
     // MARK: - ImageIO
     container.register(ImageIO.self, name: .implementation(.default)) { _ in
       ImageIO()
