@@ -43,6 +43,7 @@ public class BasePlanCategorySelectionViewController: UIViewController {
   ).set {
     $0.translatesAutoresizingMaskIntoConstraints = false
     $0.setCountLabel(text: "다양한 선택을 할 수 있어요.")
+    $0.setLabelColor(.yg.gray0)
   }
   
   private lazy var prevButton = UIButton(frame: .zero).set {
@@ -55,18 +56,30 @@ public class BasePlanCategorySelectionViewController: UIViewController {
   }
   
   lazy var descriptionLabelForMakingAPlan = BaseLabel(fontType: .medium_500(fontSize: 12)).set {
-    $0.alpha = 0
+    $0.alpha = 0.3
+    $0.text = "플랜 세우기"
+    $0.textColor = .yg.primary
   }
   
   // MARK: - Properties
+  /// 하위 객체 및 외부 객체에서는 이 값 변경시  next 버튼이 활성화 or 비활성화 됩니다.
   @Published internal var hasSelected: Bool = false
   
   var nextButtonTapPublisher: AnyPublisher<Void, Never> {
-    nextButton.tap
+    nextButton
+      .tap
+      .filter { [weak self] _ in self?.hasSelected == true }
+      .map { [weak self] _ in
+        self?.increaseProgress()
+      }.eraseToAnyPublisher()
   }
   
   var prevButtonTapPublisher: AnyPublisher<Void, Never> {
-    prevButton.tap
+    prevButton
+      .tap
+      .map { [weak self] _ in
+        self?.decreaseProgress()
+      }.eraseToAnyPublisher()
   }
   
   private let selectionType: PlanCategorySelectionType
@@ -78,9 +91,15 @@ public class BasePlanCategorySelectionViewController: UIViewController {
     self.contentViewForCateogry = contentViewForCateogry
     self.selectionType = selectionType
     super.init(nibName: nil, bundle: nil)
-    configureTransitionButton()
+  }
+  
+  public override func viewDidLoad() {
+    super.viewDidLoad()
     setupUI()
+    configureTransitionButton()
     bind()
+    view.backgroundColor = .white
+    hasSelected = true
   }
   
   /// 사용 안함!!!
@@ -193,7 +212,7 @@ extension BasePlanCategorySelectionViewController: LayoutSupport {
       contentViewForCateogry,
       selectionDescriptionLabel,
       nextButton
-    ].forEach(view.addSubview)
+    ].forEach { view.addSubview($0) }
   }
   
   func setConstraints() {
