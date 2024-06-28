@@ -9,6 +9,11 @@ import UIKit
 
 /// 간단하게 size를 지정하고, configure 함수를 통해 layout item, gorup, section의  속성을 설정해서 Section을 build합니다.
 public class CompositionalSectionLayoutBuilder {
+  @frozen public enum GroupStyle {
+    case vertial
+    case horizontal
+  }
+  
   // MARK: - Properties
   private lazy var itemSize: NSCollectionLayoutSize = NSCollectionLayoutSize(
     widthDimension: .fractionalWidth(1.0),
@@ -38,6 +43,16 @@ public class CompositionalSectionLayoutBuilder {
   
   public func setOrthogonalScrollingBehavior(_ behavior: UICollectionLayoutSectionOrthogonalScrollingBehavior) -> Self {
     self.orthogonalScrollingBehavior = behavior
+    return self
+  }
+  
+  public func setGroupStyle(_ groupStyle: GroupStyle) -> Self {
+    switch groupStyle {
+    case .vertial:
+      group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+    case .horizontal:
+      group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+    }
     return self
   }
   
