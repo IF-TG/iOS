@@ -72,6 +72,8 @@ public class BasePlanCategorySelectionViewController: UIViewController {
       .filter { [weak self] _ in self?.hasSelected == true }
       .map { [weak self] _ in
         self?.increaseProgress()
+        self?.hasSelected = false
+        self?.setNextSelection()
       }.eraseToAnyPublisher()
   }
   
@@ -80,10 +82,12 @@ public class BasePlanCategorySelectionViewController: UIViewController {
       .tap
       .map { [weak self] _ in
         self?.decreaseProgress()
+        self?.hasSelected = true
+        self?.setPrevSelection()
       }.eraseToAnyPublisher()
   }
   
-  private var selectionType: PlanCategorySelectionType {
+  private(set) var selectionType: PlanCategorySelectionType {
     didSet {
       configureTransitionButton()
     }
@@ -120,14 +124,6 @@ public extension BasePlanCategorySelectionViewController {
       text: highlightedText,
       additionalAttributes: [.foregroundColor: UIColor.yg.primary.cgColor])
     titleLabel.setHighlight(with: highlightFontInfo)
-  }
-  
-  func increaseProgress() {
-    progressBar.increase()
-  }
-  
-  func decreaseProgress() {
-    progressBar.decrease()
   }
 }
 
@@ -195,6 +191,30 @@ private extension BasePlanCategorySelectionViewController {
           self?.deactiveNextButton()
         }
       }.store(in: &subscriptions)
+  }
+  
+  func increaseProgress() {
+    progressBar.increase()
+  }
+  
+  func decreaseProgress() {
+    progressBar.decrease()
+  }
+  
+  func setNextSelection() {
+    if selectionType == .start {
+      selectionType = .middle
+    } else if selectionType == .middle {
+      selectionType = .end
+    }
+  }
+  
+  func setPrevSelection() {
+    if selectionType == .end {
+      selectionType = .middle
+    } else if selectionType == .middle {
+      selectionType = .start
+    }
   }
 }
 
