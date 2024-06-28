@@ -208,6 +208,50 @@ private extension PlanCategorySelectionViewController {
         animated: true)
     }.store(in: &subscriptions)
   }
+  
+  func makeCompositionalLayout() -> UICollectionViewLayout? {
+    return UICollectionViewCompositionalLayout { sectionIdx, environment in
+      guard let sectionType = SectionType(rawValue: sectionIdx) else { return .none }
+      if sectionType == .region {
+        return self.makeSection(with: 1.0/3.0, groupHeightDimension: 400)
+      }
+      return self.makeSection(with: 1.0/2.0, groupHeightDimension: 272)
+    }
+  }
+}
+
+// MARK: - Compositional Layout Build
+private extension PlanCategorySelectionViewController {
+  // MARK: Constants
+  typealias NSSection = NSCollectionLayoutSection
+  var cellHeight: CGFloat { 48 }
+  var lineSpacing: CGFloat { 16 }
+  var interItemSpacing: CGFloat { 8 }
+  var scrollDirection: UICollectionLayoutSectionOrthogonalScrollingBehavior { .continuous }
+  var sectionInset: NSDirectionalEdgeInsets { NSDirectionalEdgeInsets(top: 0, leading: 7, bottom: 0, trailing: 7) }
+
+  // MARK: - Helpers
+  func makeSection(
+    with itemFractionalWidth: CGFloat,
+    groupHeightDimension: CGFloat
+  ) -> NSSection {
+    return NSSection
+      .Builder()
+      .setItemSize(
+        .init(widthDimension: .fractionalWidth(itemFractionalWidth), heightDimension: .fractionalHeight(cellHeight)))
+      .setGroupSize(.init(widthDimension: .fractionalWidth(1), heightDimension: .estimated(groupHeightDimension)))
+      .setGroupStyle(.horizontal)
+      .configureItem {
+        $0.contentInsets = .init(top: 0, leading: interItemSpacing, bottom: 0, trailing: interItemSpacing)
+      }
+      .configureGoup { $0.interItemSpacing = .fixed(interItemSpacing) }
+      .build()
+      .set {
+        $0.contentInsets = sectionInset
+        $0.interGroupSpacing = lineSpacing
+        $0.orthogonalScrollingBehavior = scrollDirection
+      }
+  }
 }
 
 // MARK: - ReviewWritingThemeCellDelegate
@@ -281,7 +325,7 @@ extension PlanCategorySelectionViewController: UICollectionViewDataSource {
 // MARK: - UICollectionViewDelegate
 extension PlanCategorySelectionViewController: UICollectionViewDelegate { }
 
-// MARK: - UICollectionViewDelegateFlowLayout
+//// MARK: - UICollectionViewDelegateFlowLayout
 extension PlanCategorySelectionViewController: UICollectionViewDelegateFlowLayout {
   func collectionView(
     _ collectionView: UICollectionView,
@@ -310,7 +354,7 @@ extension PlanCategorySelectionViewController: UICollectionViewDelegateFlowLayou
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
     return 10
   }
-  
+
 
 }
 
