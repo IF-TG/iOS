@@ -7,7 +7,12 @@
 
 import UIKit
 
-fileprivate extension TravelTheme {
+protocol PlanCategorySelectionConfigurable {
+  var toPlanSelectionCategory: String { get }
+}
+
+// MARK: SOLID OCP 느낌으로다가.. 기존 layer Entity에는 변화 x
+extension TravelTheme: PlanCategorySelectionConfigurable {
   var toPlanSelectionCategory: String {
     let icon: String = switch self {
     case .relaxation: "🍃"
@@ -21,8 +26,8 @@ fileprivate extension TravelTheme {
   }
 }
 
-fileprivate extension TravelRegion {
-  var toPlanSelectionCateogry: String {
+extension TravelRegion: PlanCategorySelectionConfigurable {
+  var toPlanSelectionCategory: String {
     switch self {
     case .seoul:
       "서울"
@@ -62,8 +67,14 @@ fileprivate extension TravelRegion {
   }
 }
 
-final class PlanCategorySelectionViewController: UIViewController {
-  struct Element<C: CaseIterable> {
+extension TravelPartner: PlanCategorySelectionConfigurable {
+  var toPlanSelectionCategory: String {
+    self.rawValue
+  }
+}
+
+final class PlanCategorySelectionViewController: BasePlanCategorySelectionViewController {
+  struct Element<C> where C: CaseIterable, C: PlanCategorySelectionConfigurable  {
     let caetrogyType: C
     var isSelected: Bool
   }
@@ -99,11 +110,23 @@ final class PlanCategorySelectionViewController: UIViewController {
   }
   
   // MARK: - Properties
-  private lazy var selection = makeCollectionView()
   
-  private lazy var partnerCategoryView = makeCollectionView()
+  private let categorySelectionCollectionView = {
+    let flowLayout = UICollectionViewFlowLayout().set {
+      $0.minimumLineSpacing = 16
+      $0.minimumInteritemSpacing = 8
+      $0.sectionInset = .init(top: 0, left: 7, bottom: 0, right: -7)
+      $0.scrollDirection = .vertical
+    }
+    let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
+    return collectionView.set {
+      $0.register(ReviewWritingThemeCell.self, forCellWithReuseIdentifier: ReviewWritingThemeCell.identifier)
+      $0.isPagingEnabled = true
+    }
+  }()
   
-  private lazy var themeCategoryView = makeCollectionView()
+  
+  // MARK: - Properties
   
   private lazy var regions: [Element<TravelRegion>] = makeAllcasesToElement(of: TravelRegion.self)
   
@@ -112,13 +135,24 @@ final class PlanCategorySelectionViewController: UIViewController {
   private lazy var themes: [Element<TravelTheme>] = makeAllcasesToElement(of: TravelTheme.self)
   
   // MARK: - Lifecycle
+  init() {
+    super.init(contentViewForCateogry: categorySelectionCollectionView, selectionType: .start)
+    categorySelectionCollectionView.dataSource = self
+    categorySelectionCollectionView.delegate = self
+  }
+  
+  override func viewDidLoad() {
+    super.viewDidLoad()
+  }
+  
+  required init?(coder: NSCoder) { nil }
 }
 
 // MARK: - Private Helpers
 private extension PlanCategorySelectionViewController {
   func makeAllcasesToElement<T>(
     of type: T.Type
-  ) -> [Element<T>] where T: CaseIterable {
+  ) -> [Element<T>] where T: CaseIterable, T: PlanCategorySelectionConfigurable {
     return type
       .allCases
       .reduce(into: [Element<T>]()) { $0.append(.init(caetrogyType: $1, isSelected: false)) }
@@ -134,17 +168,15 @@ private extension PlanCategorySelectionViewController {
       .build()
   }
   
-  func makeCollectionView() -> UICollectionView {
-    let flowLayout = UICollectionViewFlowLayout().set {
-      $0.minimumLineSpacing = 16
-      $0.minimumInteritemSpacing = 8
-      $0.sectionInset = .init(top: 0, left: 7, bottom: 0, right: -7)
-      $0.scrollDirection = .vertical
-    }
-    let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
-    return collectionView.set {
-      $0.register(ReviewWritingThemeCell.self, forCellWithReuseIdentifier: ReviewWritingThemeCell.identifier)
-    }
+  @inline(__always)
+  func configureCell<DataSource>(
+    _ cell: ReviewWritingThemeCell?,
+    element: Element<DataSource>
+  ) where DataSource: CaseIterable, DataSource: PlanCategorySelectionConfigurable {
+    cell?.configure(
+      themeText: element.caetrogyType.toPlanSelectionCategory,
+      isSelected: element.isSelected,
+      isEnableMultiSelection: true)
   }
 }
 
@@ -154,7 +186,22 @@ extension PlanCategorySelectionViewController: ReviewWritingThemeCellDelegate {
     _ cell: ReviewWritingThemeCell?,
     isSelected: Bool
   ) {
-    <#code#>
+    guard
+      let cell,
+      let indexPath = categorySelectionCollectionView.indexPath(for: cell),
+      let sectionType = SectionType.toSectionType(indexPath: indexPath)
+    else { return }
+    
+    let item = indexPath.item
+    
+    switch sectionType {
+    case .region:
+      regions[item].isSelected = isSelected
+    case .partner:
+      partners[item].isSelected = isSelected
+    case .theme:
+      themes[item].isSelected = isSelected
+    }
   }
 }
 
@@ -172,26 +219,46 @@ extension PlanCategorySelectionViewController: UICollectionViewDataSource {
     cellForItemAt indexPath: IndexPath
   ) -> UICollectionViewCell {
     guard let sectionType = SectionType.toSectionType(indexPath: indexPath) else { return .init() }
-    
+    let item = indexPath.item
     let cell = collectionView.dequeueReusableCell(for: indexPath, type: ReviewWritingThemeCell.self)
     cell?.delegate = self
     switch sectionType {
-    case .region:
-      
+    case .region: 
+      configureCell(cell, element: regions[item])
     case .partner:
-      <#code#>
+      configureCell(cell, element: partners[item])
     case .theme:
-      <#code#>
+      configureCell(cell, element: themes[item])
     }
+    return cell ?? .init(frame: .zero)
   }
 }
 
 // MARK: - UICollectionViewDelegate
-extension PlanCategorySelectionViewController: UICollectionViewDelegate {
-  
-}
+extension PlanCategorySelectionViewController: UICollectionViewDelegate { }
 
 // MARK: - UICollectionViewDelegateFlowLayout
 extension PlanCategorySelectionViewController: UICollectionViewDelegateFlowLayout {
-  
+  func collectionView(
+    _ collectionView: UICollectionView,
+    layout collectionViewLayout: UICollectionViewLayout,
+    sizeForItemAt indexPath: IndexPath
+  ) -> CGSize {
+    guard 
+      let sectionType = SectionType.toSectionType(indexPath: indexPath),
+      let flowLayout = collectionViewLayout as? UICollectionViewFlowLayout
+    else { return .zero }
+    let cvWidth = collectionView.bounds.width
+    let cellHeight = 48.0
+    
+    /// 3 Row가 있는 경우
+    if sectionType == .region {
+      let width = (cvWidth - 2 * flowLayout.minimumInteritemSpacing)/3
+      return CGSize(width: width, height: cellHeight)
+    }
+    
+    /// 2 Row 가 있는 경우
+    let width = (cvWidth - flowLayout.minimumInteritemSpacing)/2
+    return CGSize(width: width, height: cellHeight)
+  }
 }
