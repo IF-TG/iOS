@@ -46,8 +46,9 @@ public class BasePlanCategorySelectionViewController: UIViewController {
     $0.setLabelColor(.yg.gray0)
   }
   
-  private lazy var prevButton = UIButton(frame: .zero).set {
+  private let prevButton = UIButton(frame: .zero).set {
     $0.translatesAutoresizingMaskIntoConstraints = false
+    $0.setImage(UIImage(named: "chevron-left-icon"), for: .normal)
   }
   
   private let nextButton = UIButton(frame: .zero).set {
@@ -82,7 +83,11 @@ public class BasePlanCategorySelectionViewController: UIViewController {
       }.eraseToAnyPublisher()
   }
   
-  private let selectionType: PlanCategorySelectionType
+  private var selectionType: PlanCategorySelectionType {
+    didSet {
+      configureTransitionButton()
+    }
+  }
   
   private var subscriptions = Set<AnyCancellable>()
   
@@ -131,16 +136,23 @@ private extension BasePlanCategorySelectionViewController {
   func configureTransitionButton() {
     switch selectionType {
     case .start:
-      nextButton.setImage(UIImage(named: "chevron-right-icon"), for: .normal)
+      animateForTransitionButton {
+        self.prevButton.alpha = 0
+        self.descriptionLabelForMakingAPlan.alpha = 0
+        self.nextButton.setImage(UIImage(named: "chevron-right-icon"), for: .normal)
+      }
     case .middle:
-      nextButton.setImage(UIImage(named: "chevron-right-icon"), for: .normal)
-      prevButton.setImage(UIImage(named: "chevron-left-icon"), for: .normal)
-      layoutPrevButton()
+      animateForTransitionButton {
+        self.prevButton.alpha = 1
+        self.nextButton.setImage(UIImage(named: "chevron-right-icon"), for: .normal)
+        self.descriptionLabelForMakingAPlan.alpha = 0
+      }
     case .end:
-      prevButton.setImage(UIImage(named: "chevron-left-icon"), for: .normal)
-      nextButton.setImage(UIImage(named: "arrow-narrow-right-icon"), for: .normal)
-      layoutPrevButton()
-      layoutDescriptionLabelForMakingAPlan()
+      animateForTransitionButton {
+        self.prevButton.alpha = 1
+        self.nextButton.setImage(UIImage(named: "arrow-narrow-right-icon"), for: .normal)
+        self.descriptionLabelForMakingAPlan.alpha = 30
+      }
     }
   }
   
@@ -173,23 +185,6 @@ private extension BasePlanCategorySelectionViewController {
     }
   }
   
-  // MARK: - Layout for lazy UI component
-  func layoutDescriptionLabelForMakingAPlan() {
-    view.addSubview(descriptionLabelForMakingAPlan)
-    NSLayoutConstraint.activate([
-      descriptionLabelForMakingAPlan.topAnchor.constraint(equalTo: nextButton.bottomAnchor, constant: 7),
-      descriptionLabelForMakingAPlan.centerXAnchor.constraint(equalTo: nextButton.centerXAnchor)])
-  }
-  
-  func layoutPrevButton() {
-    view.addSubview(prevButton)
-    NSLayoutConstraint.activate([
-      prevButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-      prevButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
-      prevButton.widthAnchor.constraint(equalToConstant: 35),
-      prevButton.heightAnchor.constraint(equalToConstant: 35)])
-  }
-  
   func bind() {
     $hasSelected
       .receive(on: RunLoop.current)
@@ -211,7 +206,9 @@ extension BasePlanCategorySelectionViewController: LayoutSupport {
       titleLabel,
       contentViewForCateogry,
       selectionDescriptionLabel,
-      nextButton
+      nextButton,
+      prevButton,
+      descriptionLabelForMakingAPlan
     ].forEach { view.addSubview($0) }
   }
   
@@ -237,10 +234,18 @@ extension BasePlanCategorySelectionViewController: LayoutSupport {
         equalTo: view.safeAreaLayoutGuide.bottomAnchor,
         constant: -78),
       
+      prevButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+      prevButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
+      prevButton.widthAnchor.constraint(equalToConstant: 35),
+      prevButton.heightAnchor.constraint(equalToConstant: 35),
+      
       nextButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
       nextButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -27.5),
       nextButton.widthAnchor.constraint(equalToConstant: 35),
-      nextButton.heightAnchor.constraint(equalToConstant: 35)
+      nextButton.heightAnchor.constraint(equalToConstant: 35),
+      
+      descriptionLabelForMakingAPlan.topAnchor.constraint(equalTo: nextButton.bottomAnchor, constant: 7),
+      descriptionLabelForMakingAPlan.centerXAnchor.constraint(equalTo: nextButton.centerXAnchor)
     ])
   }
 }
