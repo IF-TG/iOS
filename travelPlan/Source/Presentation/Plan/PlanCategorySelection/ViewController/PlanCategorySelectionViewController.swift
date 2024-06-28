@@ -208,16 +208,6 @@ private extension PlanCategorySelectionViewController {
         animated: true)
     }.store(in: &subscriptions)
   }
-  
-  func makeCompositionalLayout() -> UICollectionViewLayout? {
-    return UICollectionViewCompositionalLayout { sectionIdx, environment in
-      guard let sectionType = SectionType(rawValue: sectionIdx) else { return .none }
-      if sectionType == .region {
-        return self.makeSection(with: 1.0/3.0, groupHeightDimension: 400)
-      }
-      return self.makeSection(with: 1.0/2.0, groupHeightDimension: 272)
-    }
-  }
 }
 
 // MARK: - Compositional Layout Build
@@ -229,8 +219,18 @@ private extension PlanCategorySelectionViewController {
   var interItemSpacing: CGFloat { 8 }
   var scrollDirection: UICollectionLayoutSectionOrthogonalScrollingBehavior { .continuous }
   var sectionInset: NSDirectionalEdgeInsets { NSDirectionalEdgeInsets(top: 0, leading: 7, bottom: 0, trailing: 7) }
-
+  
   // MARK: - Helpers
+  func makeCompositionalLayout() -> UICollectionViewLayout? {
+    return UICollectionViewCompositionalLayout { sectionIdx, environment in
+      guard let sectionType = SectionType(rawValue: sectionIdx) else { return .none }
+      if sectionType == .region {
+        return self.makeSection(with: 1.0/3.0, groupHeightDimension: 400)
+      }
+      return self.makeSection(with: 1.0/2.0, groupHeightDimension: 272)
+    }
+  }
+  
   func makeSection(
     with itemFractionalWidth: CGFloat,
     groupHeightDimension: CGFloat
