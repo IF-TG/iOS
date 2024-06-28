@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 protocol PlanCategorySelectionConfigurable {
   var toPlanSelectionCategory: String { get }
@@ -74,7 +75,7 @@ extension TravelPartner: PlanCategorySelectionConfigurable {
 }
 
 final class PlanCategorySelectionViewController: BasePlanCategorySelectionViewController {
-  struct Element<C> where C: CaseIterable, C: PlanCategorySelectionConfigurable  {
+  struct Element<C> where C: CaseIterable, C: PlanCategorySelectionConfigurable {
     let caetrogyType: C
     var isSelected: Bool
   }
@@ -115,24 +116,28 @@ final class PlanCategorySelectionViewController: BasePlanCategorySelectionViewCo
     let flowLayout = UICollectionViewFlowLayout().set {
       $0.minimumLineSpacing = 16
       $0.minimumInteritemSpacing = 8
-      $0.sectionInset = .init(top: 0, left: 7, bottom: 0, right: -7)
-      $0.scrollDirection = .vertical
+      $0.sectionInset = .init(top: 0, left: 7, bottom: 0, right: 7)
+      $0.scrollDirection = .horizontal
     }
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
     return collectionView.set {
+      $0.translatesAutoresizingMaskIntoConstraints = false
       $0.register(ReviewWritingThemeCell.self, forCellWithReuseIdentifier: ReviewWritingThemeCell.identifier)
       $0.isPagingEnabled = true
+      $0.isScrollEnabled = false
     }
   }()
   
-  
   // MARK: - Properties
-  
   private lazy var regions: [Element<TravelRegion>] = makeAllcasesToElement(of: TravelRegion.self)
   
   private lazy var partners: [Element<TravelPartner>] = makeAllcasesToElement(of: TravelPartner.self)
   
   private lazy var themes: [Element<TravelTheme>] = makeAllcasesToElement(of: TravelTheme.self)
+  
+  private var subscriptions = Set<AnyCancellable>()
+  
+  private var currentPage = 0
   
   // MARK: - Lifecycle
   init() {
@@ -143,6 +148,7 @@ final class PlanCategorySelectionViewController: BasePlanCategorySelectionViewCo
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    bind()
   }
   
   required init?(coder: NSCoder) { nil }
@@ -178,6 +184,30 @@ private extension PlanCategorySelectionViewController {
       isSelected: element.isSelected,
       isEnableMultiSelection: true)
   }
+  
+  func bind() {
+    nextButtonTapPublisher.sink { [weak self] _ in
+      guard let self else { return }
+      if currentPage == 2 {
+        // MARK: 사용자가 모든 카테고리 전부 선정. 다음 page로 이동해야합니다.
+      } else {
+        
+        categorySelectionCollectionView.scrollToItem(
+          at: IndexPath(item: 0, section: currentPage+1),
+          at: .right,
+          animated: true)
+      }
+    }.store(in: &subscriptions)
+    
+    prevButtonTapPublisher.sink { [weak self] _ in   
+      guard let self else { return }
+      if currentPage == 0 { return }
+      categorySelectionCollectionView.scrollToItem(
+        at: IndexPath(item: 0, section: currentPage-1),
+        at: .left,
+        animated: true)
+    }.store(in: &subscriptions)
+  }
 }
 
 // MARK: - ReviewWritingThemeCellDelegate
@@ -207,11 +237,25 @@ extension PlanCategorySelectionViewController: ReviewWritingThemeCellDelegate {
 
 // MARK: - UICollectionViewDataSource
 extension PlanCategorySelectionViewController: UICollectionViewDataSource {
+  func numberOfSections(in collectionView: UICollectionView) -> Int {
+    return SectionType.count
+  }
+  
   func collectionView(
     _ collectionView: UICollectionView,
     numberOfItemsInSection section: Int
   ) -> Int {
-    return SectionType.count
+    let sectionType = SectionType(rawValue: section)
+    switch sectionType {
+    case .region:
+      return regions.count
+    case .partner:
+      return partners.count
+    case .theme:
+      return themes.count
+    default:
+      return 0
+    }
   }
   
   func collectionView(
@@ -250,15 +294,23 @@ extension PlanCategorySelectionViewController: UICollectionViewDelegateFlowLayou
     else { return .zero }
     let cvWidth = collectionView.bounds.width
     let cellHeight = 48.0
+    let sectionInsetWidth = flowLayout.sectionInset.left + flowLayout.sectionInset.right
     
     /// 3 Row가 있는 경우
     if sectionType == .region {
-      let width = (cvWidth - 2 * flowLayout.minimumInteritemSpacing)/3
+      let width = (cvWidth - 2 * flowLayout.minimumInteritemSpacing - sectionInsetWidth)/3
       return CGSize(width: width, height: cellHeight)
     }
     
     /// 2 Row 가 있는 경우
-    let width = (cvWidth - flowLayout.minimumInteritemSpacing)/2
+    let width = (cvWidth - flowLayout.minimumInteritemSpacing - sectionInsetWidth)/2
     return CGSize(width: width, height: cellHeight)
   }
+  
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+    return 10
+  }
+  
+
 }
+
