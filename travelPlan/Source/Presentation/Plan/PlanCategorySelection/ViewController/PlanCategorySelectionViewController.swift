@@ -10,7 +10,7 @@ import Combine
 
 final class PlanCategorySelectionViewController: BasePlanCategorySelectionViewController {
   struct Element<C> where C: CaseIterable, C: PlanCategorySelectionConfigurable {
-    let caetrogyType: C
+    let categoryType: C
     var isSelected: Bool
   }
   
@@ -72,7 +72,7 @@ private extension PlanCategorySelectionViewController {
   ) -> [Element<T>] where T: CaseIterable, T: PlanCategorySelectionConfigurable {
     return type
       .allCases
-      .reduce(into: [Element<T>]()) { $0.append(.init(caetrogyType: $1, isSelected: false)) }
+      .reduce(into: [Element<T>]()) { $0.append(.init(categoryType: $1, isSelected: false)) }
   }
   
   func makePlanCategoryStackView(for subviews: [UIView]) -> UIStackView {
@@ -91,7 +91,7 @@ private extension PlanCategorySelectionViewController {
     element: Element<DataSource>
   ) where DataSource: CaseIterable, DataSource: PlanCategorySelectionConfigurable {
     cell?.configure(
-      themeText: element.caetrogyType.toPlanSelectionCategory,
+      themeText: element.categoryType.toPlanSelectionCategory,
       isSelected: element.isSelected,
       isEnableMultiSelection: true)
   }
@@ -104,7 +104,9 @@ private extension PlanCategorySelectionViewController {
         print("hihi")
         // 요기
         // 요기요
-        
+        let selectedRegions = regions.filter { $0.isSelected }.map { $0.categoryType }
+        let selectedPartners = partners.filter { $0.isSelected }.map { $0.categoryType }
+        let selectedThemes = themes.filter { $0.isSelected }.map { $0.categoryType }
       } else {
         currentPage += 1
         if currentPage == 1 && hasSelectedAnyPartners {
