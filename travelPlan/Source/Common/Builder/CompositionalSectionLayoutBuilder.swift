@@ -10,11 +10,6 @@ import UIKit
 public struct CollectionLayoutSize {
   let width: NSCollectionLayoutDimension
   let height: NSCollectionLayoutDimension
-
-  init(width: NSCollectionLayoutDimension, height: NSCollectionLayoutDimension) {
-    self.width = width
-    self.height = height
-  }
   
   fileprivate func asNSCollectionLayoutSize() -> NSCollectionLayoutSize {
     return NSCollectionLayoutSize(widthDimension: width, heightDimension: height)
@@ -36,23 +31,25 @@ public struct CollectionLayoutSize {
 /// - configureItem(_:), configureGroup(_:) 를 호출하세요.
 /// - Section에 대한 backgroundview 등 attributes를 호출하려면 build() 이후 set을 통해 설정할 수 있습니다.
 public class CompositionalSectionLayoutBuilder {
+  public typealias makeSubItems = (CompositionalSectionLayoutBuilder) -> [NSCollectionLayoutItem]
+  
   @frozen public enum GroupStyle {
     case vertial
     case horizontal
   }
   
   // MARK: - Properties
-  private lazy var itemSize: NSCollectionLayoutSize = NSCollectionLayoutSize(
+  private(set) var itemSize: NSCollectionLayoutSize = NSCollectionLayoutSize(
     widthDimension: .fractionalWidth(1.0),
     heightDimension: .fractionalHeight(1.0))
   
-  private var groupSize: NSCollectionLayoutSize = NSCollectionLayoutSize(
+  private(set) var groupSize: NSCollectionLayoutSize = NSCollectionLayoutSize(
     widthDimension: .fractionalWidth(1.0),
     heightDimension: .fractionalHeight(1.0))
   
-  private var item: NSCollectionLayoutItem!
+  private(set) var item: NSCollectionLayoutItem!
   
-  private var group: NSCollectionLayoutGroup!
+  private(set) var group: NSCollectionLayoutGroup!
   
   private var orthogonalScrollingBehavior: UICollectionLayoutSectionOrthogonalScrollingBehavior = .none
   
@@ -76,15 +73,17 @@ public class CompositionalSectionLayoutBuilder {
   }
   
   /// Group의 arranged state를 지정해야합니다. 그렇지 않을 경우 기본값 horizontal로 지정됩니다.
-  public func setGroupStyle(_ groupStyle: GroupStyle) -> Self {
+  /// makeSubItems를 통해 직접 subites를 지정할 수 있습니다.
+  ///   CompositionalSectionLayoutBuilder에 반영된 ItemSize 등을 참조해서 SubItem을 직접 만들 수도 있습니다.
+  public func setGroupStyle(_ groupStyle: GroupStyle, makeSubitems: makeSubItems? = nil) -> Self {
     if item == nil {
       item = NSCollectionLayoutItem(layoutSize: itemSize)
     }
     switch groupStyle {
     case .vertial:
-      group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+      group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: makeSubitems?(self) ?? [item])
     case .horizontal:
-      group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+      group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: makeSubitems?(self) ?? [item])
     }
     return self
   }
