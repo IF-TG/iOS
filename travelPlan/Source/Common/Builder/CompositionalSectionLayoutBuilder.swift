@@ -7,12 +7,16 @@
 
 import UIKit
 
-public class CollectionLayoutSize: NSCollectionLayoutSize {
-  public let width: NSCollectionLayoutDimension
-  public let height: NSCollectionLayoutDimension
+final class CollectionLayoutSize {
+  let width: NSCollectionLayoutDimension
+  let height: NSCollectionLayoutDimension
+
+  init(width: NSCollectionLayoutDimension, height: NSCollectionLayoutDimension) {
+    self.width = width
+    self.height = height
+  }
   
-  @inlinable
-  public func asNSCollectionLayoutSize() -> NSCollectionLayoutSize {
+  fileprivate func asNSCollectionLayoutSize() -> NSCollectionLayoutSize {
     return NSCollectionLayoutSize(widthDimension: width, heightDimension: height)
   }
 }
