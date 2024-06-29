@@ -108,7 +108,6 @@ public class BasePlanCategorySelectionViewController: UIViewController {
     configureTransitionButton()
     bind()
     view.backgroundColor = .white
-    hasSelected = true
   }
   
   /// 사용 안함!!!
@@ -136,18 +135,21 @@ private extension BasePlanCategorySelectionViewController {
         self.prevButton.alpha = 0
         self.descriptionLabelForMakingAPlan.alpha = 0
         self.nextButton.setImage(UIImage(named: "chevron-right-icon"), for: .normal)
+        self.setTitleLabel("어느 지역으로 떠나시나요?", withHighlighted: "지역")
       }
     case .middle:
       animateForTransitionButton {
         self.prevButton.alpha = 1
         self.nextButton.setImage(UIImage(named: "chevron-right-icon"), for: .normal)
         self.descriptionLabelForMakingAPlan.alpha = 0
+        self.setTitleLabel("함께하는 동반자가 있으신가요?", withHighlighted: "동반자")
       }
     case .end:
       animateForTransitionButton {
         self.prevButton.alpha = 1
         self.nextButton.setImage(UIImage(named: "arrow-narrow-right-icon"), for: .normal)
         self.descriptionLabelForMakingAPlan.alpha = 30
+        self.setTitleLabel("이번 여행의 테마는 무엇인가요?", withHighlighted: "테마")
       }
     }
   }
@@ -246,13 +248,13 @@ extension BasePlanCategorySelectionViewController: LayoutSupport {
       contentViewForCateogry.leadingAnchor.constraint(equalTo: view.leadingAnchor),
       contentViewForCateogry.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
       contentViewForCateogry.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-      contentViewForCateogry.bottomAnchor.constraint(
-        lessThanOrEqualTo: selectionDescriptionLabel.topAnchor, constant: -10),
+      contentViewForCateogry.heightAnchor.constraint(lessThanOrEqualToConstant: 400),
       
       selectionDescriptionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
       selectionDescriptionLabel.bottomAnchor.constraint(
         equalTo: view.safeAreaLayoutGuide.bottomAnchor,
         constant: -78),
+      selectionDescriptionLabel.heightAnchor.constraint(equalToConstant: 25),
       
       prevButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
       prevButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
