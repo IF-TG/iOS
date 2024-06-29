@@ -131,6 +131,18 @@ final class PlanCategorySelectionViewController: BasePlanCategorySelectionViewCo
   
   private lazy var themes: [Element<TravelTheme>] = makeAllcasesToElement(of: TravelTheme.self)
   
+  private var hasSelectedAnyRegions: Bool {
+    regions.contains { $0.isSelected }
+  }
+  
+  private var hasSelectedAnyPartners: Bool {
+    partners.contains { $0.isSelected }
+  }
+  
+  private var hasSelectedAnyThemes: Bool {
+    themes.contains { $0.isSelected }
+  }
+  
   private var subscriptions = Set<AnyCancellable>()
   
   private var currentPage = 0
@@ -186,8 +198,16 @@ private extension PlanCategorySelectionViewController {
       guard let self else { return }
       if currentPage == 2 {
         // MARK: 사용자가 모든 카테고리 전부 선정. 다음 page로 이동해야합니다.
+        print("hihi")
+        // 요기
+        // 요기요
       } else {
         currentPage += 1
+        if currentPage == 1 && hasSelectedAnyPartners {
+          hasSelected = true
+        } else if currentPage == 2 && hasSelectedAnyThemes {
+          hasSelected = true
+        }
         categorySelectionCollectionView.scrollToItem(
           at: IndexPath(item: 0, section: currentPage),
           at: .right,
@@ -230,7 +250,6 @@ private extension PlanCategorySelectionViewController {
     let cellHeight: CGFloat = 48
     let lineSpacing: CGFloat = 16
     let interItemSpacing: CGFloat = 8
-    let scrollDirection: UICollectionLayoutSectionOrthogonalScrollingBehavior = .groupPaging
     let inset: NSDirectionalEdgeInsets = NSDirectionalEdgeInsets(top: 0, leading: 7, bottom: 0, trailing: 7)
 
     return NSSection
@@ -278,10 +297,13 @@ extension PlanCategorySelectionViewController: ReviewWritingThemeCellDelegate {
     switch sectionType {
     case .region:
       regions[item].isSelected = isSelected
+      hasSelected = hasSelectedAnyRegions
     case .partner:
       partners[item].isSelected = isSelected
+      hasSelected = hasSelectedAnyPartners
     case .theme:
       themes[item].isSelected = isSelected
+      hasSelected = hasSelectedAnyThemes
     }
   }
 }
