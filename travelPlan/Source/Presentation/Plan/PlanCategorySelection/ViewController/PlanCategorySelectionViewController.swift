@@ -172,7 +172,7 @@ private extension PlanCategorySelectionViewController {
         horizontalGroup.interItemSpacing = .fixed(interItemSpacing)
         return [horizontalGroup]
       }
-      .configureGoup {
+      .configureGroup {
         $0.interItemSpacing = .fixed(interItemSpacing)
         $0.contentInsets = inset
       }

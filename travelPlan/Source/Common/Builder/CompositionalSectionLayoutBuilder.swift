@@ -97,7 +97,7 @@ public class CompositionalSectionLayoutBuilder {
     return self
   }
   
-  public func configureGoup(_ config: (NSCollectionLayoutGroup) -> Void) -> Self {
+  public func configureGroup(_ config: (NSCollectionLayoutGroup) -> Void) -> Self {
     if group == nil {
       group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
     }
