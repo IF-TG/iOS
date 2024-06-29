@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class CollectionLayoutSize {
+public struct CollectionLayoutSize {
   let width: NSCollectionLayoutDimension
   let height: NSCollectionLayoutDimension
 
