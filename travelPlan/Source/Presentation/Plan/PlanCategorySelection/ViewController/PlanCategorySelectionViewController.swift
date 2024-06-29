@@ -8,110 +8,13 @@
 import UIKit
 import Combine
 
-protocol PlanCategorySelectionConfigurable {
-  var toPlanSelectionCategory: String { get }
-}
-
-// MARK: SOLID OCP 느낌으로다가.. 기존 layer Entity에는 변화 x
-extension TravelTheme: PlanCategorySelectionConfigurable {
-  var toPlanSelectionCategory: String {
-    let icon: String = switch self {
-    case .relaxation: "🍃"
-    case .shopping: "🛍️"
-    case .campingGlamping: "⛺"
-    case .adventure: "🔦"
-    case .local: "🪁"
-    case .festivals: "🎉"
-    }
-    return "\(icon) \(self.rawValue)"
-  }
-}
-
-extension TravelRegion: PlanCategorySelectionConfigurable {
-  var toPlanSelectionCategory: String {
-    switch self {
-    case .seoul:
-      "서울"
-    case .busan:
-      "부산"
-    case .incheon:
-      "인천"
-    case .daegu:
-      "대구"
-    case .gwangju:
-      "광주"
-    case .daejeon:
-      "대전"
-    case .ulsan:
-      "울산"
-    case .sejong:
-      "세종"
-    case .gyeonggido:
-      "경기"
-    case .chungcheongbukdo:
-      "충북"
-    case .chungcheongnamdo:
-      "충남"
-    case .jeollabukdo:
-      "전북"
-    case .jeollanamdo:
-      "전남"
-    case .gyeongsangbukdo:
-      "경북"
-    case .gyeongsangnamdo:
-      "경남"
-    case .gangwonSpecialSelfGoverningProvince:
-      "강원"
-    case .jejuSpecialSelfGoverningProvince:
-      "제주"
-    }
-  }
-}
-
-extension TravelPartner: PlanCategorySelectionConfigurable {
-  var toPlanSelectionCategory: String {
-    self.rawValue
-  }
-}
-
 final class PlanCategorySelectionViewController: BasePlanCategorySelectionViewController {
   struct Element<C> where C: CaseIterable, C: PlanCategorySelectionConfigurable {
     let caetrogyType: C
     var isSelected: Bool
   }
   
-  @frozen enum SectionType: Int, CaseIterable {
-    case region = 0
-    case partner = 1
-    case theme = 2
-    
-    var numberOfItems: Int {
-      switch self {
-      case .region:
-        TravelRegion.count
-      case .partner:
-        TravelPartner.count
-      case .theme:
-        TravelTheme.count
-      }
-    }
-    
-    static func toSectionType(indexPath: IndexPath) -> SectionType? {
-      switch indexPath.section {
-      case 0:
-        return .region
-      case 1:
-        return .partner
-      case 2:
-        return .theme
-      default:
-        return nil
-      }
-    }
-  }
-  
-  // MARK: - Properties
-  
+  // MARK: - Properties 
   private let categorySelectionCollectionView = {
     let collectionView = UICollectionView(
       frame: .zero,
@@ -201,6 +104,7 @@ private extension PlanCategorySelectionViewController {
         print("hihi")
         // 요기
         // 요기요
+        
       } else {
         currentPage += 1
         if currentPage == 1 && hasSelectedAnyPartners {
