@@ -100,13 +100,11 @@ private extension PlanCategorySelectionViewController {
     nextButtonTapPublisher.sink { [weak self] _ in
       guard let self else { return }
       if currentPage == 2 {
-        // MARK: 사용자가 모든 카테고리 전부 선정. 다음 page로 이동해야합니다.
-        print("hihi")
-        // 요기
-        // 요기요
+        // MARK: 사용자가 모든 페이지의 카테고리들을 선택했습니다. 이 scope시점에 서버에 보낼 데이터를 저장 후 다음 page로 이동해야 합니다.
         let selectedRegions = regions.filter { $0.isSelected }.map { $0.categoryType }
-        let selectedPartners = partners.filter { $0.isSelected }.map { $0.categoryType }
-        let selectedThemes = themes.filter { $0.isSelected }.map { $0.categoryType }
+        _=partners.filter { $0.isSelected }.map { $0.categoryType }
+        _=themes.filter { $0.isSelected }.map { $0.categoryType }
+        return
       } else {
         currentPage += 1
         if currentPage == 1 && hasSelectedAnyPartners {
