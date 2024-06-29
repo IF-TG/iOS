@@ -113,13 +113,9 @@ final class PlanCategorySelectionViewController: BasePlanCategorySelectionViewCo
   // MARK: - Properties
   
   private let categorySelectionCollectionView = {
-    let flowLayout = UICollectionViewFlowLayout().set {
-      $0.minimumLineSpacing = 16
-      $0.minimumInteritemSpacing = 8
-      $0.sectionInset = .init(top: 0, left: 7, bottom: 0, right: 7)
-      $0.scrollDirection = .horizontal
-    }
-    let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
+    let collectionView = UICollectionView(
+      frame: .zero,
+      collectionViewLayout: PlanCategorySelectionViewController.makeCompositionalLayout())
     return collectionView.set {
       $0.translatesAutoresizingMaskIntoConstraints = false
       $0.register(ReviewWritingThemeCell.self, forCellWithReuseIdentifier: ReviewWritingThemeCell.identifier)
@@ -191,9 +187,9 @@ private extension PlanCategorySelectionViewController {
       if currentPage == 2 {
         // MARK: 사용자가 모든 카테고리 전부 선정. 다음 page로 이동해야합니다.
       } else {
-        
+        currentPage += 1
         categorySelectionCollectionView.scrollToItem(
-          at: IndexPath(item: 0, section: currentPage+1),
+          at: IndexPath(item: 0, section: currentPage),
           at: .right,
           animated: true)
       }
@@ -202,8 +198,9 @@ private extension PlanCategorySelectionViewController {
     prevButtonTapPublisher.sink { [weak self] _ in   
       guard let self else { return }
       if currentPage == 0 { return }
+      currentPage -= 1
       categorySelectionCollectionView.scrollToItem(
-        at: IndexPath(item: 0, section: currentPage-1),
+        at: IndexPath(item: 0, section: currentPage),
         at: .left,
         animated: true)
     }.store(in: &subscriptions)
@@ -214,42 +211,52 @@ private extension PlanCategorySelectionViewController {
 private extension PlanCategorySelectionViewController {
   // MARK: Constants
   typealias NSSection = NSCollectionLayoutSection
-  var cellHeight: CGFloat { 48 }
-  var lineSpacing: CGFloat { 16 }
-  var interItemSpacing: CGFloat { 8 }
-  var scrollDirection: UICollectionLayoutSectionOrthogonalScrollingBehavior { .continuous }
-  var sectionInset: NSDirectionalEdgeInsets { NSDirectionalEdgeInsets(top: 0, leading: 7, bottom: 0, trailing: 7) }
   
   // MARK: - Helpers
-  func makeCompositionalLayout() -> UICollectionViewLayout? {
-    return UICollectionViewCompositionalLayout { sectionIdx, environment in
+  static func makeCompositionalLayout() -> UICollectionViewLayout {
+    return UICollectionViewCompositionalLayout { sectionIdx, _ in
       guard let sectionType = SectionType(rawValue: sectionIdx) else { return .none }
       if sectionType == .region {
         return self.makeSection(with: 1.0/3.0, groupHeightDimension: 400)
       }
-      return self.makeSection(with: 1.0/2.0, groupHeightDimension: 272)
+      return self.makeSection(with: 0.5, groupHeightDimension: 400)
     }
   }
   
-  func makeSection(
+  static func makeSection(
     with itemFractionalWidth: CGFloat,
     groupHeightDimension: CGFloat
   ) -> NSSection {
+    let cellHeight: CGFloat = 48
+    let lineSpacing: CGFloat = 16
+    let interItemSpacing: CGFloat = 8
+    let scrollDirection: UICollectionLayoutSectionOrthogonalScrollingBehavior = .groupPaging
+    let inset: NSDirectionalEdgeInsets = NSDirectionalEdgeInsets(top: 0, leading: 7, bottom: 0, trailing: 7)
+
     return NSSection
       .Builder()
-      .setItemSize(
-        .init(widthDimension: .fractionalWidth(itemFractionalWidth), heightDimension: .fractionalHeight(cellHeight)))
-      .setGroupSize(.init(widthDimension: .fractionalWidth(1), heightDimension: .estimated(groupHeightDimension)))
-      .setGroupStyle(.horizontal)
-      .configureItem {
-        $0.contentInsets = .init(top: 0, leading: interItemSpacing, bottom: 0, trailing: interItemSpacing)
+      .setItemSize(.init(width: .fractionalWidth(itemFractionalWidth), height: .fractionalHeight(1)))
+      .setGroupSize(.init(width: .fractionalWidth(1.0), height: .absolute(groupHeightDimension)))
+      .setGroupStyle(.vertial) {
+        let horizontalGroupSize = NSCollectionLayoutSize(
+          widthDimension: .fractionalWidth(1.0),
+          heightDimension: .absolute(cellHeight))
+        let horizontalGroup = NSCollectionLayoutGroup.horizontal(
+          layoutSize: horizontalGroupSize,
+          subitems: [$0.item])
+        horizontalGroup.interItemSpacing = .fixed(interItemSpacing)
+        return [horizontalGroup]
       }
-      .configureGoup { $0.interItemSpacing = .fixed(interItemSpacing) }
+      .configureGoup {
+        $0.interItemSpacing = .fixed(interItemSpacing)
+        $0.contentInsets = inset
+      }
+      .configureItem { $0.contentInsets = inset }
       .build()
       .set {
-        $0.contentInsets = sectionInset
+        $0.contentInsets = inset
         $0.interGroupSpacing = lineSpacing
-        $0.orthogonalScrollingBehavior = scrollDirection
+        $0.orthogonalScrollingBehavior = .groupPagingCentered
       }
   }
 }
@@ -324,37 +331,3 @@ extension PlanCategorySelectionViewController: UICollectionViewDataSource {
 
 // MARK: - UICollectionViewDelegate
 extension PlanCategorySelectionViewController: UICollectionViewDelegate { }
-
-//// MARK: - UICollectionViewDelegateFlowLayout
-extension PlanCategorySelectionViewController: UICollectionViewDelegateFlowLayout {
-  func collectionView(
-    _ collectionView: UICollectionView,
-    layout collectionViewLayout: UICollectionViewLayout,
-    sizeForItemAt indexPath: IndexPath
-  ) -> CGSize {
-    guard 
-      let sectionType = SectionType.toSectionType(indexPath: indexPath),
-      let flowLayout = collectionViewLayout as? UICollectionViewFlowLayout
-    else { return .zero }
-    let cvWidth = collectionView.bounds.width
-    let cellHeight = 48.0
-    let sectionInsetWidth = flowLayout.sectionInset.left + flowLayout.sectionInset.right
-    
-    /// 3 Row가 있는 경우
-    if sectionType == .region {
-      let width = (cvWidth - 2 * flowLayout.minimumInteritemSpacing - sectionInsetWidth)/3
-      return CGSize(width: width, height: cellHeight)
-    }
-    
-    /// 2 Row 가 있는 경우
-    let width = (cvWidth - flowLayout.minimumInteritemSpacing - sectionInsetWidth)/2
-    return CGSize(width: width, height: cellHeight)
-  }
-  
-  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-    return 10
-  }
-
-
-}
-
