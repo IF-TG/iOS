@@ -385,6 +385,8 @@
 		154CA6232BD3AE100066B444 /* TourCommonInfoEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154CA6222BD3AE100066B444 /* TourCommonInfoEntity.swift */; };
 		154CA6272BD3B5A70066B444 /* TourApiError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154CA6262BD3B5A70066B444 /* TourApiError.swift */; };
 		154CA6322BD40C5C0066B444 /* TourApiSessionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154CA6312BD40C5C0066B444 /* TourApiSessionProvider.swift */; };
+		154DF62D2C33149F00E19A75 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 154DF62C2C33149F00E19A75 /* Realm */; };
+		154DF62F2C33149F00E19A75 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 154DF62E2C33149F00E19A75 /* RealmSwift */; };
 		154ECA172AB0B5D40093AF25 /* TravelMainThemeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154ECA162AB0B5D40093AF25 /* TravelMainThemeType.swift */; };
 		154F857F2BE0A71D00452D71 /* FirestorePostResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154F857E2BE0A71D00452D71 /* FirestorePostResponseDTO.swift */; };
 		154FBC172BC2CDB40070D2FE /* PostReportType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154FBC162BC2CDB40070D2FE /* PostReportType.swift */; };
@@ -1763,8 +1765,10 @@
 				15803C4B2BDA1A4600D83F2B /* GoogleSignIn in Frameworks */,
 				151DF0CF2AEE397000D5D55B /* Alamofire in Frameworks */,
 				15A40D612BCFAEE80045C2C5 /* FirebaseStorage in Frameworks */,
+				154DF62D2C33149F00E19A75 /* Realm in Frameworks */,
 				154CA5F92BD2C91C0066B444 /* SHFirestoreService in Frameworks */,
 				15C36D9F2C06DD2500673C4B /* AppsFlyerLib in Frameworks */,
+				154DF62F2C33149F00E19A75 /* RealmSwift in Frameworks */,
 				15A40D5F2BCFAEE80045C2C5 /* FirebaseFirestoreCombine-Community in Frameworks */,
 				135A07D92BB7EEF7003D6C4D /* PhotosUI.framework in Frameworks */,
 				13E913932B0F3ECF00E15B11 /* SnapKit in Frameworks */,
@@ -4609,6 +4613,8 @@
 				15803C4A2BDA1A4600D83F2B /* GoogleSignIn */,
 				15C36D9E2C06DD2500673C4B /* AppsFlyerLib */,
 				1563027C2C10C91E000B496E /* Swinject */,
+				154DF62C2C33149F00E19A75 /* Realm */,
+				154DF62E2C33149F00E19A75 /* RealmSwift */,
 			);
 			productName = travelPlan;
 			productReference = 1594F52E29FD517E00A58F20 /* travelPlan.app */;
@@ -4656,6 +4662,7 @@
 				15803C492BDA1A4600D83F2B /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 				15C36D9D2C06DD2500673C4B /* XCRemoteSwiftPackageReference "AppsFlyerFramework" */,
 				1563027B2C10C91E000B496E /* XCRemoteSwiftPackageReference "Swinject" */,
+				154DF62B2C33149F00E19A75 /* XCRemoteSwiftPackageReference "realm-swift" */,
 			);
 			productRefGroup = 1594F52F29FD517E00A58F20 /* Products */;
 			projectDirPath = "";
@@ -6014,6 +6021,14 @@
 				minimumVersion = 1.1.2;
 			};
 		};
+		154DF62B2C33149F00E19A75 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		1563027B2C10C91E000B496E /* XCRemoteSwiftPackageReference "Swinject" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Swinject/Swinject.git";
@@ -6073,6 +6088,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 154CA5F72BD2C91C0066B444 /* XCRemoteSwiftPackageReference "SHFirestoreService" */;
 			productName = SHFirestoreService;
+		};
+		154DF62C2C33149F00E19A75 /* Realm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 154DF62B2C33149F00E19A75 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = Realm;
+		};
+		154DF62E2C33149F00E19A75 /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 154DF62B2C33149F00E19A75 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
 		};
 		1563027C2C10C91E000B496E /* Swinject */ = {
 			isa = XCSwiftPackageProductDependency;
