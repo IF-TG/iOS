@@ -437,6 +437,7 @@
 		155D0BAC2B90CB5B0042DFB6 /* UserNicknamePatchRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155D0BAB2B90CB5B0042DFB6 /* UserNicknamePatchRequestDTO.swift */; };
 		155D0BB52B90D9390042DFB6 /* ReferenceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155D0BB42B90D9390042DFB6 /* ReferenceError.swift */; };
 		155D0BB72B90DAB10042DFB6 /* MainError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155D0BB62B90DAB10042DFB6 /* MainError.swift */; };
+		155D24BC2C40591800E9FD17 /* Synchronized.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155D24BB2C40591800E9FD17 /* Synchronized.swift */; };
 		155EE41F2B1660D000D4D221 /* OperationGuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155EE41E2B1660D000D4D221 /* OperationGuideViewController.swift */; };
 		1561DC7C2BDF7DC200C25577 /* FirestorePostRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1561DC7B2BDF7DC200C25577 /* FirestorePostRepository.swift */; };
 		1563027D2C10C91E000B496E /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = 1563027C2C10C91E000B496E /* Swinject */; };
@@ -1336,6 +1337,7 @@
 		155D0BAB2B90CB5B0042DFB6 /* UserNicknamePatchRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserNicknamePatchRequestDTO.swift; sourceTree = "<group>"; };
 		155D0BB42B90D9390042DFB6 /* ReferenceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferenceError.swift; sourceTree = "<group>"; };
 		155D0BB62B90DAB10042DFB6 /* MainError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainError.swift; sourceTree = "<group>"; };
+		155D24BB2C40591800E9FD17 /* Synchronized.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Synchronized.swift; sourceTree = "<group>"; };
 		155EE41E2B1660D000D4D221 /* OperationGuideViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationGuideViewController.swift; sourceTree = "<group>"; };
 		1561DC7B2BDF7DC200C25577 /* FirestorePostRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestorePostRepository.swift; sourceTree = "<group>"; };
 		1563027E2C10D82E000B496E /* PresentationFeedAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationFeedAssembly.swift; sourceTree = "<group>"; };
@@ -3894,6 +3896,7 @@
 				154CA5FE2BD395030066B444 /* SecretManager.swift */,
 				15D245222C11AF4C0055538F /* DebugHelpers.swift */,
 				15FF36B72BE1DE4E00557276 /* DateTimeConverter.swift */,
+				155D24BB2C40591800E9FD17 /* Synchronized.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -5588,6 +5591,7 @@
 				13E7EADF2BDF61880027946C /* IntroductionInfoShoppingEntity.swift in Sources */,
 				15D3882D2AFFBB5B00039946 /* PostDetailInputAccessoryWrapper.swift in Sources */,
 				1503F9372A4E1103002BC38D /* FavoriteCoordinator.swift in Sources */,
+				155D24BC2C40591800E9FD17 /* Synchronized.swift in Sources */,
 				15D3DA202BBFCDED0099C384 /* FavoritePostScrapResponseDTO.swift in Sources */,
 				1599587F2B0DC56D00B2E4DC /* PostCellWithFourThumbnails.swift in Sources */,
 				15F5A1342BF5D92900CDF2F0 /* FirestoreServiceError+.swift in Sources */,
