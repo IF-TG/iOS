@@ -47,7 +47,17 @@ extension DefaultDestinationScrapRepository: DestinationScrapRepository {
       .eraseToAnyPublisher()
   }
   
-  func updateDestinationScrap() -> AnyPublisher<Void, Never> {
-    <#code#>
+  func updateDestinationScrap(
+    objectIdList: [Int64],
+    forderName: String
+  ) -> AnyPublisher<[UpdatedDestinationScrap], any Error> {
+    let requestDTO = DestinationScrapUpdateRequestDTO(objectIdList: objectIdList, forderName: forderName)
+    let endpoint = DestinationScrapEndpoints.updateDestinationScrap(with: requestDTO)
+    
+    return session.request(endpoint: endpoint)
+      .subscribe(on: backgroundQueue)
+      .mapConnectionError()
+      .map { $0.result.map { $0.toDomain() } }
+      .eraseToAnyPublisher()
   }
 }
