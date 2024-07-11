@@ -200,10 +200,11 @@ extension RequestType {
     case toggleScrap
     case Detail
     case scrapList
+    case updateScrap
     
     var path: String {
       switch self {
-      case .toggleScrap: return "destination/scrap"
+      case .toggleScrap, .updateScrap: return "destination/scrap"
       case .Detail: return "destination/detail"
       case .scrapList: return "destination/scrap/detail"
       }
