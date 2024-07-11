@@ -17,11 +17,6 @@ final class TourRepositoryAssembly: Assembly {
       return TourApiSessionProvider(session: session)
     }
     
-    container.register(Sessionable.self, name: .intercept) { r in
-      let mockSession = r.resolve(Session.self, name: .intercept)!
-      return TourApiSessionProvider(session: mockSession)
-    }
-    
     // TODO: - Tour Api Repository
     
   }
