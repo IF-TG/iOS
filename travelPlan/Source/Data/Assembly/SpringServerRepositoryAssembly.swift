@@ -13,7 +13,6 @@ final class SpringServerRepositoryAssembly: Assembly {
   func assemble(container: Swinject.Container) {
     // MARK: - Session
     let defaultSession = container.resolve(Sessionable.self)!
-    let mockSession = container.resolve(Sessionable.self, name: .intercept)!
     
     // MARK: - LoginRepository
     container.register(LoginRepository.self) { r in
@@ -47,21 +46,11 @@ final class SpringServerRepositoryAssembly: Assembly {
       return DefaultUserBlockRepository(service: defaultSession)
     }
     
-    container.register(UserBlockRepository.self, name: .intercept) { _ in
-      return DefaultUserBlockRepository(service: mockSession)
-    }
-    
     // MARK: - Post
     container.register(PostRepository.self) { r in
       let defaultOwnerStorage = r.resolve(OwnerStorage.self)!
       let defaultSessionProvider = r.resolve(Sessionable.self)!
       return DefaultPostRepository(service: defaultSessionProvider, ownerStorage: defaultOwnerStorage)
-    }
-    
-    container.register(PostRepository.self, name: .intercept) { r in
-      let stubOwnerStorage = StubOwnerStorage()
-      let mockSessionProvider = r.resolve(Sessionable.self, name: .intercept)!
-      return DefaultPostRepository(service: mockSessionProvider, ownerStorage: stubOwnerStorage)
     }
     
     // MARK: - PostComment
@@ -74,19 +63,11 @@ final class SpringServerRepositoryAssembly: Assembly {
       return DefaultPostNestedCommentRepository(service: defaultSession)
     }
     
-    container.register(PostNestedCommentRepository.self, name: .intercept) { _ in
-      return MockPostNestedCommentRepository()
-    }
-    
     // TODO: - ReviewWriting
     
     // MARK: - whatsNewNotification
     container.register(WhatsNewNotificationRepository.self) { _ in
       return DefaultWhatsNewNotificationRepository(service: defaultSession)
-    }
-    
-    container.register(WhatsNewNotificationRepository.self, name: .intercept) { _ in
-      return InterceptedWhatsNewNotificationRepository()
     }
   }
 }

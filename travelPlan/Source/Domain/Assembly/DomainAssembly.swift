@@ -59,7 +59,7 @@ private extension DomainAssembly {
       return DefaultPostFetchUseCase(postRepository: defaultPostRepository)
 #endif
     }.inObjectScope(.transient)
-
+    
     container.register(PostFetchUseCase.self, name: .firebase) { r in
       let firestorePostFetchAtomicRepo = r.resolve(PostFetchAtomicRepository.self, name: .firebase)!
       let firestoreUserProfileRepository = r.resolve(UserProfileRepository.self, name: .firebase)!
@@ -103,13 +103,13 @@ private extension DomainAssembly {
   
   func postNestedCommentUseCase(container: Container) {
     container.register(PostNestedCommentUseCase.self) { r in
-      #if DEBUG
+#if DEBUG
       let wrappedRepository = MockPostNestedCommentRepository()
       return DefaultPostNestedCommentUseCase(postNestedCommentRepository: wrappedRepository)
-      #else
+#else
       let defaultPostNestedCommentRepository = r.resolve(PostNestedCommentRepository.self)!
       return DefaultPostNestedCommentUseCase(postNestedCommentRepository: defaultPostNestedCommentRepository)
-      #endif
+#endif
     }
     
     container.register(PostNestedCommentUseCase.self, name: .firebase) { r in
@@ -141,15 +141,15 @@ private extension DomainAssembly {
   
   func postNestedCommentHeartUseCase(container: Container) {
     container.register(PostNestedCommentHeartUseCase.self) { r in
-      #if DEBUG
+#if DEBUG
       let mockPostNestedCommentRepository = MockPostNestedCommentRepository()
       return DefaultPostNestedCommentHeartUseCase(postNestedCommentRepository: mockPostNestedCommentRepository)
-      #else
+#else
       let defaultPostCommentRepository = r.resolve(PostNestedCommentRepository.self)!
       return DefaultPostNestedCommentHeartUseCase(postNestedCommentRepository: defaultPostCommentRepository)
-      #endif
+#endif
     }
-
+    
     container.register(PostNestedCommentHeartUseCase.self, name: .firebase) { r in
       let firestoreNestedCommentHeartRepository = r.resolve(PostNestedCommentHeartRepository.self, name: .firebase)!
       let defaultOwnerRepository = r.resolve(LoggedInUserRepository.self)!
@@ -161,13 +161,23 @@ private extension DomainAssembly {
   
   func noticeUseCase(container: Container) {
     container.register(NoticeUseCase.self) { r in
+#if DEBUG
+      let interceptedWhatsNewNotificationRepo = InterceptedWhatsNewNotificationRepository()
+      return DefaultNoticeUseCase(whatsNewNotificationRepository: interceptedWhatsNewNotificationRepo)
+#else
       let defaultWhatsNewRepo = r.resolve(WhatsNewNotificationRepository.self)!
       return DefaultNoticeUseCase(whatsNewNotificationRepository: defaultWhatsNewRepo)
+#endif
     }
     
     container.register(NoticeUseCase.self, name: .firebase) { r in
+#if DEBUG
+      let interceptedWhatsNewNotificationRepo = InterceptedWhatsNewNotificationRepository()
+      return DefaultNoticeUseCase(whatsNewNotificationRepository: interceptedWhatsNewNotificationRepo)
+#else
       let firestoreWhatsNewRepo = r.resolve(WhatsNewNotificationRepository.self, name: .firebase)!
       return DefaultNoticeUseCase(whatsNewNotificationRepository: firestoreWhatsNewRepo)
+#endif
     }
   }
   
