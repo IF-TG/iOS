@@ -8,7 +8,20 @@
 import Foundation
 
 struct DestinationScrapUpdateResponseDTO: Decodable {
-  let objectId: Int64
+  let scrapId: Int64
   let userId: Int64
   let folderName: String
+  
+  private enum CodingKeys: String, CodingKey {
+    case scrapId = "objectId"
+    case userId
+    case folderName
+  }
+}
+
+// MARK: - Mapping Domain
+extension DestinationScrapUpdateResponseDTO {
+  func toDomain() -> UpdatedDestinationScrap {
+    return .init(scrapId: scrapId, userId: userId, folderName: folderName)
+  }
 }
