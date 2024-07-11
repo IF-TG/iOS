@@ -73,6 +73,8 @@ final class FlowCoordinatorAssembly: Assembly {
     
     // TODO: - SearchDetail Flow Coordinator
     
+    // TODO: - PostSearchCoordinator
+    
     // FIXME: - Plan Flow Coordinator
     container.register(PlanCoordinator.self) { (_, presenter: UINavigationController) in
       PlanCoordinator(presenter: presenter)
