@@ -11,16 +11,12 @@ import Swinject
 final class PersistentStorageAssembly: Swinject.Assembly {
   func assemble(container: Swinject.Container) {
     // MARK: - PersistentStorages UserStorage
-    container.register(OwnerStorage.self, name: .implementation(.default)) { _ in
+    container.register(OwnerStorage.self) { _ in
       UserDefaultsOwnerStorage()
     }
     
-    container.register(OwnerStorage.self, name: .testDouble(.stub)) { _ in
-      StubOwnerStorage()
-    }
-    
     // TODO: - PersistentStorages LoginResponseStorage
-    container.register(LoginResultStorage.self, name: .implementation(.default)) { _ in
+    container.register(LoginResultStorage.self) { _ in
       UserDefaultsLoginResultStorage()
     }
   }
