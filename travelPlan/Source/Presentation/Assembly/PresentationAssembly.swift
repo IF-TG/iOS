@@ -20,12 +20,12 @@ final class PresentationAssembly: Assembly {
       PostDetailViewModelType.self
     ) { (r, postId: PostIdentifier, post: Post?, actions: PostDetailViewModelActions) in
       let defaultPostFetchUseCase = r.resolve(PostFetchUseCase.self)!
-      let defaultOwnerRepository = r.resolve(LoggedInUserRepository.self)!
+      let ownerRepository = self.ownerRepository(with: r)
       return PostDetailViewModel(
         post: post,
         postId: postId,
         postFetchUseCase: defaultPostFetchUseCase,
-        ownerRepository: defaultOwnerRepository,
+        ownerRepository: ownerRepository,
         actions: actions)
     }
     
@@ -46,7 +46,7 @@ final class PresentationAssembly: Assembly {
       let defaultPostNestedCommentHeartUseCase = r.resolve(
         PostNestedCommentHeartUseCase.self)!
       let defaultUserBlockUseCase = r.resolve(UserBlockUseCase.self)!
-      let defaultOwnerRepository = r.resolve(LoggedInUserRepository.self)!
+      let ownerRepository = self.ownerRepository(with: r)
       
       return PostDetailChatViewModel(
         postDetailChatInfo: postDetailChatInfo,
@@ -56,43 +56,43 @@ final class PresentationAssembly: Assembly {
         postNestedCommentUseCase: defaultPostNestedCommentUseCase,
         postNestedCommentHeartUseCase: defaultPostNestedCommentHeartUseCase,
         userBlockUseCase: defaultUserBlockUseCase,
-        ownerRepository: defaultOwnerRepository,
+        ownerRepository: ownerRepository,
         actions: actions)
     }
-        
+    
     // MARK: - PostDetailViewController
     container.register(
       PostDetailViewController.self
     ) { (r, coordinator: PostDetailCoordinator, postId: PostIdentifier, post: Post?) in
-      let mockPostDetailViewModel = r.resolve(
+      let postDetailViewModel = r.resolve(
         PostDetailViewModelType.self,
         arguments: postId, post, coordinator.makePostDetailViewModelActions())!
-      let mockPostDetailChatViewModel = r.resolve(
+      let postDetailChatViewModel = r.resolve(
         PostDetailChatViewModelType.self,
         arguments: postId, post, coordinator.makePostDetailChatViewModelActions())!
-      let mockPostOptionViewModel = r.resolve(
+      let postOptionViewModel = r.resolve(
         PostOptionViewModelType.self,
         arguments:
           coordinator.makePostOptionViewModelInfo(postId: postId, post: post),
-          coordinator.makePostOptionViewModelActions())!
-      coordinator.setPostReceivable(mockPostDetailViewModel)
+        coordinator.makePostOptionViewModelActions())!
+      coordinator.setPostReceivable(postDetailViewModel)
       return PostDetailViewController(
-        viewModel: mockPostDetailViewModel,
-        chatViewModel: mockPostDetailChatViewModel,
-        optionViewModel: mockPostOptionViewModel)
+        viewModel: postDetailViewModel,
+        chatViewModel: postDetailChatViewModel,
+        optionViewModel: postOptionViewModel)
     }
     
     // MARK: - Post OptionViewModel Type
     container.register(
       PostOptionViewModelType.self
     ) { (r, postOptionDataSource: PostOptionViewModelInfo, actions: PostOptionViewModelActions) in
-      let defaultOwnerRepository = r.resolve(LoggedInUserRepository.self)!
+      let ownerRepository = self.ownerRepository(with: r)
       let defaultUserBlockUseCase = r.resolve(UserBlockUseCase.self)!
       
       return PostOptionViewModel(
         dataSource: postOptionDataSource,
         actions: actions,
-        ownerRepository: defaultOwnerRepository,
+        ownerRepository: ownerRepository,
         userBlockUseCase: defaultUserBlockUseCase)
     }.inObjectScope(.transient)
     
@@ -100,13 +100,13 @@ final class PresentationAssembly: Assembly {
       PostOptionViewModelType.self,
       name: .firebase
     ) { (r, postOptionDataSource: PostOptionViewModelInfo, actions: PostOptionViewModelActions) in
-      let defaultOwnerRepository = r.resolve(LoggedInUserRepository.self)!
+      let ownerRepository = self.ownerRepository(with: r)
       let firestoreUserBlockUseCase = r.resolve(UserBlockUseCase.self, name: .firebase)!
       
       return PostOptionViewModel(
         dataSource: postOptionDataSource,
         actions: actions,
-        ownerRepository: defaultOwnerRepository,
+        ownerRepository: ownerRepository,
         userBlockUseCase: firestoreUserBlockUseCase)
     }.inObjectScope(.transient)
     
@@ -151,7 +151,7 @@ final class PresentationAssembly: Assembly {
         noticeViewModel: firestoreNoticeViewModel,
         notificationViewModel: defaultNotificationViewModel)
     }
-
+    
     // TODO: - Album Page
     
     // TODO: - Main Page
@@ -185,5 +185,13 @@ private extension PresentationAssembly {
       let loginViewModel = r.resolve((any LoginViewModel).self)!
       return LoginViewController(viewModel: loginViewModel)
     }
+  }
+  
+  func ownerRepository(with r: Resolver) -> any LoggedInUserRepository {
+#if DEBUG
+    return DefaultLoggedInUserRepository(storage: .init(value: StubOwnerStorage()))
+#else
+    return r.resolve(LoggedInUserRepository.self)!
+#endif
   }
 }
