@@ -64,6 +64,13 @@
 		133532042BA42DDE000A4D9E /* Double+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 133532032BA42DDE000A4D9E /* Double+.swift */; };
 		133532062BA42F6E000A4D9E /* Data+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 133532052BA42F6E000A4D9E /* Data+.swift */; };
 		1335320E2BA469E3000A4D9E /* DataConverterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1335320D2BA469E3000A4D9E /* DataConverterTests.swift */; };
+		1335B8AE2C319C4200DB233B /* SearchDestinationUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1335B8AD2C319C4200DB233B /* SearchDestinationUseCase.swift */; };
+		1335B8B02C319C9C00DB233B /* DefaultSearchDestinationUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1335B8AF2C319C9C00DB233B /* DefaultSearchDestinationUseCase.swift */; };
+		1335B8B52C319E7300DB233B /* DestinationRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1335B8B42C319E7300DB233B /* DestinationRepository.swift */; };
+		1335B8B72C319EB200DB233B /* DefaultDestinationRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1335B8B62C319EB200DB233B /* DefaultDestinationRepository.swift */; };
+		1335B8B92C31A1AA00DB233B /* DestinationScrapEndpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1335B8B82C31A1AA00DB233B /* DestinationScrapEndpoints.swift */; };
+		1335B8BB2C31AA5000DB233B /* DestinationScrapRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1335B8BA2C31AA5000DB233B /* DestinationScrapRequestDTO.swift */; };
+		1335B8BD2C31AA6300DB233B /* DestinationScrapResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1335B8BC2C31AA6300DB233B /* DestinationScrapResponseDTO.swift */; };
 		13405EFC2AECEBD800382796 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13405EFB2AECEBD700382796 /* LoginView.swift */; };
 		13405F002AECF76300382796 /* BaseLoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13405EFF2AECF76300382796 /* BaseLoginButton.swift */; };
 		13405F042AED899800382796 /* KakaoLoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13405F032AED899800382796 /* KakaoLoginButton.swift */; };
@@ -106,6 +113,7 @@
 		13813A232AAA459900AF6AEB /* PostSearchCollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13813A222AAA459900AF6AEB /* PostSearchCollectionViewDelegate.swift */; };
 		1383C81C2B97F44800830F1A /* KeychainManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1383C81B2B97F44800830F1A /* KeychainManagerTests.swift */; };
 		1383C81F2B9815B700830F1A /* KeychainKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1383C81E2B9815B700830F1A /* KeychainKey.swift */; };
+		1385F6692C3FA797003DB336 /* DestinationScrapRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1385F6682C3FA797003DB336 /* DestinationScrapRepository.swift */; };
 		1390CC5D2A8BADEC00E34DC3 /* TitleWithButtonHeaderViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1390CC5C2A8BADEC00E34DC3 /* TitleWithButtonHeaderViewDelegate.swift */; };
 		139DEDEB2B163D9A00363E7B /* SearchDestinationCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139DEDEA2B163D9A00363E7B /* SearchDestinationCollectionViewLayout.swift */; };
 		139DEE102B16ADF300363E7B /* SearchDestinationServiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139DEE0F2B16ADF300363E7B /* SearchDestinationServiceCell.swift */; };
@@ -943,6 +951,13 @@
 		133532032BA42DDE000A4D9E /* Double+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+.swift"; sourceTree = "<group>"; };
 		133532052BA42F6E000A4D9E /* Data+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+.swift"; sourceTree = "<group>"; };
 		1335320D2BA469E3000A4D9E /* DataConverterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataConverterTests.swift; sourceTree = "<group>"; };
+		1335B8AD2C319C4200DB233B /* SearchDestinationUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDestinationUseCase.swift; sourceTree = "<group>"; };
+		1335B8AF2C319C9C00DB233B /* DefaultSearchDestinationUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultSearchDestinationUseCase.swift; sourceTree = "<group>"; };
+		1335B8B42C319E7300DB233B /* DestinationRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationRepository.swift; sourceTree = "<group>"; };
+		1335B8B62C319EB200DB233B /* DefaultDestinationRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultDestinationRepository.swift; sourceTree = "<group>"; };
+		1335B8B82C31A1AA00DB233B /* DestinationScrapEndpoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationScrapEndpoints.swift; sourceTree = "<group>"; };
+		1335B8BA2C31AA5000DB233B /* DestinationScrapRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationScrapRequestDTO.swift; sourceTree = "<group>"; };
+		1335B8BC2C31AA6300DB233B /* DestinationScrapResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationScrapResponseDTO.swift; sourceTree = "<group>"; };
 		13405EFB2AECEBD700382796 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		13405EFF2AECF76300382796 /* BaseLoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseLoginButton.swift; sourceTree = "<group>"; };
 		13405F032AED899800382796 /* KakaoLoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoLoginButton.swift; sourceTree = "<group>"; };
@@ -988,6 +1003,7 @@
 		13813A222AAA459900AF6AEB /* PostSearchCollectionViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSearchCollectionViewDelegate.swift; sourceTree = "<group>"; };
 		1383C81B2B97F44800830F1A /* KeychainManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManagerTests.swift; sourceTree = "<group>"; };
 		1383C81E2B9815B700830F1A /* KeychainKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainKey.swift; sourceTree = "<group>"; };
+		1385F6682C3FA797003DB336 /* DestinationScrapRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationScrapRepository.swift; sourceTree = "<group>"; };
 		1390CC5C2A8BADEC00E34DC3 /* TitleWithButtonHeaderViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleWithButtonHeaderViewDelegate.swift; sourceTree = "<group>"; };
 		1390CC6E2A8E0B2800E34DC3 /* SearchStarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchStarButton.swift; sourceTree = "<group>"; };
 		139DEDEA2B163D9A00363E7B /* SearchDestinationCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDestinationCollectionViewLayout.swift; sourceTree = "<group>"; };
@@ -1925,6 +1941,24 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
+		1335B8AC2C319C2700DB233B /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				1335B8AD2C319C4200DB233B /* SearchDestinationUseCase.swift */,
+				1335B8AF2C319C9C00DB233B /* DefaultSearchDestinationUseCase.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		1335B8B12C319D1E00DB233B /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				1385F6672C3FA774003DB336 /* Protocol */,
+				1335B8B62C319EB200DB233B /* DefaultDestinationRepository.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
 		13405F092AEEF1CA00382796 /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
@@ -2064,6 +2098,15 @@
 				1383C81E2B9815B700830F1A /* KeychainKey.swift */,
 			);
 			path = KeychainStorage;
+			sourceTree = "<group>";
+		};
+		1385F6672C3FA774003DB336 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				1385F6682C3FA797003DB336 /* DestinationScrapRepository.swift */,
+				1335B8B42C319E7300DB233B /* DestinationRepository.swift */,
+			);
+			path = Protocol;
 			sourceTree = "<group>";
 		};
 		13BF411E2ADBEC4100F3F082 /* View */ = {
@@ -2431,6 +2474,7 @@
 		151DF0F22AEEB28600D5D55B /* UseCases */ = {
 			isa = PBXGroup;
 			children = (
+				1335B8AC2C319C2700DB233B /* Search */,
 				151DF0F52AEEB2D200D5D55B /* DefaultNoticeUseCase.swift */,
 				13EB3D902BF7C66B00CA84F0 /* Tour */,
 				151DF0F12AEEB27400D5D55B /* Protocol */,
@@ -2520,6 +2564,7 @@
 				15D3DA1F2BBFCDED0099C384 /* FavoritePostScrapResponseDTO.swift */,
 				1564A0A12BBFE0780045424B /* FavoritePostDirectoryNameUpdateResponseDTO.swift */,
 				13E98F9F2BCE61D800F05295 /* ReviewWritingSaveResponseDTO.swift */,
+				1335B8BC2C31AA6300DB233B /* DestinationScrapResponseDTO.swift */,
 			);
 			path = ResponseDTO;
 			sourceTree = "<group>";
@@ -3035,6 +3080,7 @@
 				15B5E79E2BBAE51C00C19F56 /* UserBlockAPIEndpoint.swift */,
 				15591DD12BBE993500128A9E /* FavoritePostAPIEndpoint.swift */,
 				13E98F952BC98B4100F05295 /* ReviewWritingEndpoints.swift */,
+				1335B8B82C31A1AA00DB233B /* DestinationScrapEndpoints.swift */,
 			);
 			path = Server;
 			sourceTree = "<group>";
@@ -3090,6 +3136,7 @@
 		154CA61C2BD3AD0B0066B444 /* SpringServer */ = {
 			isa = PBXGroup;
 			children = (
+				1335B8B12C319D1E00DB233B /* Search */,
 				1540709C2C0F6E68000C9C42 /* FavoriteDirectory */,
 				1540709B2C0F6E10000C9C42 /* Notification */,
 				1540709A2C0F6DFE000C9C42 /* Authentication */,
@@ -3969,6 +4016,7 @@
 				13E98F9B2BCDCF1300F05295 /* ReviewWritingUpdateRequestDTO.swift */,
 				15D3DA1D2BBFCDA20099C384 /* FavoritePostScrapRequestDTO.swift */,
 				1564A09F2BBFE0290045424B /* FavoritePostDirectoryNameUpdateRequestDTO.swift */,
+				1335B8BA2C31AA5000DB233B /* DestinationScrapRequestDTO.swift */,
 			);
 			path = RequestDTO;
 			sourceTree = "<group>";
@@ -4844,9 +4892,11 @@
 				15591DD42BBE99E200128A9E /* FavoritePostRequestDTO.swift in Sources */,
 				15869CE92BF4FE2F00FB342B /* PostFetchUseCase.swift in Sources */,
 				15803C632BDAB23E00D83F2B /* ImageStorageServiceProtocol.swift in Sources */,
+				1335B8BB2C31AA5000DB233B /* DestinationScrapRequestDTO.swift in Sources */,
 				13E7EAD32BDE3CC00027946C /* SearchDestinationViewModel.swift in Sources */,
 				13EB3D6B2BF6037900CA84F0 /* AccommodationUseCase.swift in Sources */,
 				152834D52BAB4DED00453DD1 /* PostViewSection.swift in Sources */,
+				1335B8B52C319E7300DB233B /* DestinationRepository.swift in Sources */,
 				13405F082AEE212500382796 /* GoogleLoginButton.swift in Sources */,
 				15E0BA0F2BF273DC00EBCDD9 /* DeletedNestedCommentResult.swift in Sources */,
 				15CC64142A1DD4EF00857446 /* ConvenienceInit.swift in Sources */,
@@ -5021,6 +5071,7 @@
 				15D867CD2AD4003E00F35811 /* FavoriteViewModelable.swift in Sources */,
 				152AD52A2A1B8D6E008A2A11 /* MockFavoriteUseCase.swift in Sources */,
 				139DEE102B16ADF300363E7B /* SearchDestinationServiceCell.swift in Sources */,
+				1335B8BD2C31AA6300DB233B /* DestinationScrapResponseDTO.swift in Sources */,
 				15FFABFF2AD5D57B0013DB57 /* FavoriteInfo.swift in Sources */,
 				15A4F28B2ACC072A001AA51D /* PrimaryColorToneRoundLabel.swift in Sources */,
 				1325508E2A13EE8E00094218 /* PostRecentSearchHeaderView.swift in Sources */,
@@ -5067,6 +5118,7 @@
 				15CB235B2A109CA4003EAF20 /* PostHeaderContentBottomInfo.swift in Sources */,
 				130304792A24936D00776A0D /* SearchViewModel.swift in Sources */,
 				13EB3D922BF7C74500CA84F0 /* CourseUseCase.swift in Sources */,
+				1335B8B92C31A1AA00DB233B /* DestinationScrapEndpoints.swift in Sources */,
 				15869D032BF50CED00FB342B /* MockPostFetchUseCase.swift in Sources */,
 				15B5E7992BBAE34E00C19F56 /* UserBlockRequestDTO.swift in Sources */,
 				1595B5302BAD9DAC00DA5039 /* PostMainThemeCategoryBottomSheet.swift in Sources */,
@@ -5142,6 +5194,7 @@
 				15B5E7B02BBAEE4100C19F56 /* BlockedUserProfileResponseDTO.swift in Sources */,
 				15EE50F12BF9BCA700628FC9 /* UserProfileImageSettingUseCase.swift in Sources */,
 				15EFB6C82AF51CFE00AA629C /* PostSearchCollectionViewAdapter.swift in Sources */,
+				1385F6692C3FA797003DB336 /* DestinationScrapRepository.swift in Sources */,
 				157ADCA42ACFF31D00D37680 /* FavoritePostViewController.swift in Sources */,
 				134384082B48005F005034E0 /* AlbumViewController.swift in Sources */,
 				158C6A372B0D138500C30856 /* ImageIO.swift in Sources */,
@@ -5418,6 +5471,7 @@
 				15553BC02BB34151000AA896 /* PostNestedCommentAPIEndpoint.swift in Sources */,
 				13F6DACA2B52711E00573B86 /* SlideDownAnimator.swift in Sources */,
 				157971132C253226007A88DB /* PostDetailChatViewModelInfo.swift in Sources */,
+				1335B8B02C319C9C00DB233B /* DefaultSearchDestinationUseCase.swift in Sources */,
 				13EB3D692BF602CB00CA84F0 /* AccommodationEntity.swift in Sources */,
 				13A93EE52ACDE0EC00FC4BBD /* SearchDetailHeaderView.swift in Sources */,
 				154CA6012BD398D40066B444 /* RelativeURLPathProvidable.swift in Sources */,
@@ -5476,6 +5530,7 @@
 				13405F062AEE17B100382796 /* AppleLoginButton.swift in Sources */,
 				15ABC42B2BF45B5900B9FA74 /* PostFetchAtomicRepository.swift in Sources */,
 				151DF0DE2AEE709800D5D55B /* Bool+.swift in Sources */,
+				1335B8AE2C319C4200DB233B /* SearchDestinationUseCase.swift in Sources */,
 				154CA6272BD3B5A70066B444 /* TourApiError.swift in Sources */,
 				150F17FA2B166C1C008C0E17 /* BaseSettingViewController.swift in Sources */,
 				1503F93D2A4E1291002BC38D /* PlanCoordinator.swift in Sources */,
@@ -5487,6 +5542,7 @@
 				15E0BA0D2BF1C0B800EBCDD9 /* DefaultPostNestedCommentHeartUseCase.swift in Sources */,
 				130304822A250DF600776A0D /* TitleWithButtonHeaderView.swift in Sources */,
 				15ABC42D2BF45B7200B9FA74 /* PostSearchAtomicRepository.swift in Sources */,
+				1335B8B72C319EB200DB233B /* DefaultDestinationRepository.swift in Sources */,
 				13E98F942BC7E42E00F05295 /* PostContentEntity.swift in Sources */,
 				15C1F55C2AF37CA8005FDA15 /* NSMutableAttributedString+.swift in Sources */,
 				13A93EE92AD0065300FC4BBD /* SearchMoreDetailLayoutManager.swift in Sources */,
