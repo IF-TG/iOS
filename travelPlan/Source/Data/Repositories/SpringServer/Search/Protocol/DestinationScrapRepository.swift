@@ -9,6 +9,7 @@ import Foundation
 import Combine
 
 protocol DestinationScrapRepository {
-  func toggleDestinationScrap() -> AnyPublisher<Void, Never>
-  func getDestination() -> AnyPublisher<Void, Never>
+  func getDestinationScrapList() -> AnyPublisher<Void, Never>
+  func toggleDestinationScrap(id: Int64, forderName: String) -> AnyPublisher<DestinationScrapToggler, any Error>
+  func updateDestinationScrap() -> AnyPublisher<Void, Never>
 }
