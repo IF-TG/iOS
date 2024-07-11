@@ -270,6 +270,17 @@
 		1518BC292BB0486400FD1A74 /* mock_postComment_toggleCommentHeart_response.json in Resources */ = {isa = PBXBuildFile; fileRef = 1518BC282BB0486400FD1A74 /* mock_postComment_toggleCommentHeart_response.json */; };
 		1519412B2B138F7E00D9B6BF /* PostCellConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1519412A2B138F7E00D9B6BF /* PostCellConfigurable.swift */; };
 		15198E962BADE2BB0011930D /* PostThumbnails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15198E952BADE2BB0011930D /* PostThumbnails.swift */; };
+		151AF4DB2C2C0E7E004B98EE /* ProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151AF4DA2C2C0E7E004B98EE /* ProgressView.swift */; };
+		151AF4DF2C2C35BC004B98EE /* BasePlanCategorySelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151AF4DE2C2C35BC004B98EE /* BasePlanCategorySelectionViewController.swift */; };
+		151AF50A2C2D72FF004B98EE /* StackViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151AF5092C2D72FF004B98EE /* StackViewBuilder.swift */; };
+		151AF50C2C2D7311004B98EE /* Builder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151AF50B2C2D7311004B98EE /* Builder.swift */; };
+		151AF50E2C2DA97F004B98EE /* PlanCategorySelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151AF50D2C2DA97F004B98EE /* PlanCategorySelectionViewController.swift */; };
+		151AF5492C2EFD7B004B98EE /* CompositionalSectionLayoutBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151AF5482C2EFD7B004B98EE /* CompositionalSectionLayoutBuilder.swift */; };
+		151AF54C2C306773004B98EE /* TravelTheme+PlanCategorySelectionConfigure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151AF54B2C306773004B98EE /* TravelTheme+PlanCategorySelectionConfigure.swift */; };
+		151AF54E2C30691C004B98EE /* TravelRegion+PlanCategorySelectionConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151AF54D2C30691C004B98EE /* TravelRegion+PlanCategorySelectionConfigurable.swift */; };
+		151AF5502C306A20004B98EE /* TravelTheme+PlanCategorySelectionConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151AF54F2C306A20004B98EE /* TravelTheme+PlanCategorySelectionConfigurable.swift */; };
+		151AF5532C306AF0004B98EE /* PlanCategorySelectionConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151AF5522C306AF0004B98EE /* PlanCategorySelectionConfigurable.swift */; };
+		151AF5562C306B26004B98EE /* PlanCategorySelectionCollecionSectionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151AF5552C306B26004B98EE /* PlanCategorySelectionCollecionSectionType.swift */; };
 		151BDAD42B16E8EA002F36C3 /* UIGestureRecognizer+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151BDAD32B16E8EA002F36C3 /* UIGestureRecognizer+Combine.swift */; };
 		151BDAD62B16EE07002F36C3 /* UIView+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151BDAD52B16EE07002F36C3 /* UIView+Combine.swift */; };
 		151BDAD82B16EF96002F36C3 /* UIGestureRecognizer+GestureType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151BDAD72B16EF96002F36C3 /* UIGestureRecognizer+GestureType.swift */; };
@@ -1155,6 +1166,17 @@
 		1518BC282BB0486400FD1A74 /* mock_postComment_toggleCommentHeart_response.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = mock_postComment_toggleCommentHeart_response.json; sourceTree = "<group>"; };
 		1519412A2B138F7E00D9B6BF /* PostCellConfigurable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCellConfigurable.swift; sourceTree = "<group>"; };
 		15198E952BADE2BB0011930D /* PostThumbnails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostThumbnails.swift; sourceTree = "<group>"; };
+		151AF4DA2C2C0E7E004B98EE /* ProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressView.swift; sourceTree = "<group>"; };
+		151AF4DE2C2C35BC004B98EE /* BasePlanCategorySelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasePlanCategorySelectionViewController.swift; sourceTree = "<group>"; };
+		151AF5092C2D72FF004B98EE /* StackViewBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StackViewBuilder.swift; sourceTree = "<group>"; };
+		151AF50B2C2D7311004B98EE /* Builder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Builder.swift; sourceTree = "<group>"; };
+		151AF50D2C2DA97F004B98EE /* PlanCategorySelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanCategorySelectionViewController.swift; sourceTree = "<group>"; };
+		151AF5482C2EFD7B004B98EE /* CompositionalSectionLayoutBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompositionalSectionLayoutBuilder.swift; sourceTree = "<group>"; };
+		151AF54B2C306773004B98EE /* TravelTheme+PlanCategorySelectionConfigure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TravelTheme+PlanCategorySelectionConfigure.swift"; sourceTree = "<group>"; };
+		151AF54D2C30691C004B98EE /* TravelRegion+PlanCategorySelectionConfigurable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TravelRegion+PlanCategorySelectionConfigurable.swift"; sourceTree = "<group>"; };
+		151AF54F2C306A20004B98EE /* TravelTheme+PlanCategorySelectionConfigurable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TravelTheme+PlanCategorySelectionConfigurable.swift"; sourceTree = "<group>"; };
+		151AF5522C306AF0004B98EE /* PlanCategorySelectionConfigurable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanCategorySelectionConfigurable.swift; sourceTree = "<group>"; };
+		151AF5552C306B26004B98EE /* PlanCategorySelectionCollecionSectionType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanCategorySelectionCollecionSectionType.swift; sourceTree = "<group>"; };
 		151BDAD32B16E8EA002F36C3 /* UIGestureRecognizer+Combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIGestureRecognizer+Combine.swift"; sourceTree = "<group>"; };
 		151BDAD52B16EE07002F36C3 /* UIView+Combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Combine.swift"; sourceTree = "<group>"; };
 		151BDAD72B16EF96002F36C3 /* UIGestureRecognizer+GestureType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIGestureRecognizer+GestureType.swift"; sourceTree = "<group>"; };
@@ -2327,6 +2349,62 @@
 			path = travelPlanUITests;
 			sourceTree = "<group>";
 		};
+		151AF4DC2C2C3586004B98EE /* PlanCategorySelection */ = {
+			isa = PBXGroup;
+			children = (
+				151AF5512C306AE7004B98EE /* Protocol */,
+				151AF54A2C3066ED004B98EE /* Extension */,
+				151AF4DD2C2C35AD004B98EE /* ViewController */,
+			);
+			path = PlanCategorySelection;
+			sourceTree = "<group>";
+		};
+		151AF4DD2C2C35AD004B98EE /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				151AF4DE2C2C35BC004B98EE /* BasePlanCategorySelectionViewController.swift */,
+				151AF50D2C2DA97F004B98EE /* PlanCategorySelectionViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		151AF5082C2D72F3004B98EE /* Builder */ = {
+			isa = PBXGroup;
+			children = (
+				151AF50B2C2D7311004B98EE /* Builder.swift */,
+				151AF5092C2D72FF004B98EE /* StackViewBuilder.swift */,
+				151AF5482C2EFD7B004B98EE /* CompositionalSectionLayoutBuilder.swift */,
+			);
+			path = Builder;
+			sourceTree = "<group>";
+		};
+		151AF54A2C3066ED004B98EE /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				151AF54B2C306773004B98EE /* TravelTheme+PlanCategorySelectionConfigure.swift */,
+				151AF54D2C30691C004B98EE /* TravelRegion+PlanCategorySelectionConfigurable.swift */,
+				151AF54F2C306A20004B98EE /* TravelTheme+PlanCategorySelectionConfigurable.swift */,
+				151AF5552C306B26004B98EE /* PlanCategorySelectionCollecionSectionType.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		151AF5512C306AE7004B98EE /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				151AF5542C306AF3004B98EE /* ViewController */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
+		151AF5542C306AF3004B98EE /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				151AF5522C306AF0004B98EE /* PlanCategorySelectionConfigurable.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
 		151DF0DF2AEE827C00D5D55B /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -3402,6 +3480,7 @@
 				150A543C2BC82C61005D8108 /* BottomBasedTooltipView.swift */,
 				131C4DFF2C10CF360005D30F /* LandscapeToastView.swift */,
 				1568CC7E2C08F0F60056A298 /* WrappedPaddingButton.swift */,
+				151AF4DA2C2C0E7E004B98EE /* ProgressView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -3696,6 +3775,7 @@
 		15BED2FD2A0824A900F86321 /* Plan */ = {
 			isa = PBXGroup;
 			children = (
+				151AF4DC2C2C3586004B98EE /* PlanCategorySelection */,
 				1503F93B2A4E128B002BC38D /* Coordinator */,
 				15BED2FE2A0824B800F86321 /* ViewController */,
 			);
@@ -4404,6 +4484,7 @@
 		15FEB5D82A050A99000A5F33 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				151AF5082C2D72F3004B98EE /* Builder */,
 				152175822BFB02EE00666549 /* XCTest */,
 				15B96B042BC79D0D0045B19B /* Combine */,
 				155D0BAF2B90D3980042DFB6 /* Error */,
@@ -4831,8 +4912,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				15591DD82BBE9D1800128A9E /* DefaultFavoritePostInDirectoryRepository.swift in Sources */,
+				151AF5502C306A20004B98EE /* TravelTheme+PlanCategorySelectionConfigurable.swift in Sources */,
 				1526ED232BF64CDD00B629FB /* StubUserProfileRepository.swift in Sources */,
 				158695972AE620610087CCB3 /* FeedPostViewModel.swift in Sources */,
+				151AF50C2C2D7311004B98EE /* Builder.swift in Sources */,
 				15FC90D92ACC56280033A1E5 /* FavoriteTableViewCell.swift in Sources */,
 				1568CCA32C0C32890056A298 /* HeaderFooterViewResuable.swift in Sources */,
 				1546587F2BEA62EE0081CCF8 /* FirestorePostNestedCommentRepository.swift in Sources */,
@@ -4860,6 +4943,7 @@
 				1503F9312A4E0A4F002BC38D /* MainCoordinator.swift in Sources */,
 				133532062BA42F6E000A4D9E /* Data+.swift in Sources */,
 				1526ED122BF6475100B629FB /* PostFetchUseCaseImpl.swift in Sources */,
+				151AF4DB2C2C0E7E004B98EE /* ProgressView.swift in Sources */,
 				15FBD5D82B98DC6E00076115 /* TravelMainThemeTypeMapper.swift in Sources */,
 				15B5E7AC2BBAEA3B00C19F56 /* MockWrappedUserBlockRepository.swift in Sources */,
 				1540478C2BE4BA45009E86FF /* DefaultPostHeartUseCase.swift in Sources */,
@@ -4916,6 +5000,7 @@
 				1546587B2BEA60AC0081CCF8 /* UserDefaultsOwnerStorage.swift in Sources */,
 				15D655822B8E079200466FEC /* UserInfoAPIEndpoint.swift in Sources */,
 				15C1F55A2AF37092005FDA15 /* BaseLabel.swift in Sources */,
+				151AF4DF2C2C35BC004B98EE /* BasePlanCategorySelectionViewController.swift in Sources */,
 				157ADCA02ACFB33100D37680 /* UIScrollView+.swift in Sources */,
 				1595B52E2BAD9D5B00DA5039 /* PostOrderCategoryBottomSheet.swift in Sources */,
 				13254FE72A05158E00094218 /* SearchViewController.swift in Sources */,
@@ -4947,6 +5032,7 @@
 				13813A232AAA459900AF6AEB /* PostSearchCollectionViewDelegate.swift in Sources */,
 				15C1F5402AF29CDE005FDA15 /* NotificationIconType.swift in Sources */,
 				1518BC232BB0415500FD1A74 /* PostCommentHeartToggleRequestDTO.swift in Sources */,
+				151AF54E2C30691C004B98EE /* TravelRegion+PlanCategorySelectionConfigurable.swift in Sources */,
 				13E7EAED2BE028390027946C /* DefaultTourFestivalInfoRepository.swift in Sources */,
 				1546DF242B0A70C900B49A55 /* Cache.swift in Sources */,
 				155EE41F2B1660D000D4D221 /* OperationGuideViewController.swift in Sources */,
@@ -5029,6 +5115,7 @@
 				15591DD22BBE993500128A9E /* FavoritePostAPIEndpoint.swift in Sources */,
 				130FA91F2A359EE300E739C5 /* SearchViewDelegate.swift in Sources */,
 				13E7EAE72BDF90BA0027946C /* TourAPIFestivalRequestDTO.swift in Sources */,
+				151AF50A2C2D72FF004B98EE /* StackViewBuilder.swift in Sources */,
 				1564A0A02BBFE0290045424B /* FavoritePostDirectoryNameUpdateRequestDTO.swift in Sources */,
 				1343840D2B4803FE005034E0 /* BaseNavigationRightButton.swift in Sources */,
 				15EE50FD2BF9BEA400628FC9 /* DefaultNicknameValidationUseCase.swift in Sources */,
@@ -5078,6 +5165,7 @@
 				130990BE2C01007600D6E50C /* SearchResultCategoryCell.swift in Sources */,
 				1543DC962BC53E810041852F /* ReviewWritingThemeCell.swift in Sources */,
 				154070882C0F110F000C9C42 /* AppDIContainer.swift in Sources */,
+				151AF54C2C306773004B98EE /* TravelTheme+PlanCategorySelectionConfigure.swift in Sources */,
 				15BE6BD82BAF05F3009A2568 /* PostCommentSendingRequestDTO.swift in Sources */,
 				13AE0DD62BBD271A00652B99 /* AlbumPhotoDetailCoordinator.swift in Sources */,
 				155D0BB52B90D9390042DFB6 /* ReferenceError.swift in Sources */,
@@ -5137,6 +5225,7 @@
 				151DF10B2AEEC58900D5D55B /* MockUrlProtocol.swift in Sources */,
 				15F457392C157F7D00E2F305 /* PostOptionCoordinatable.swift in Sources */,
 				15050D3C2BE92EA100B3E26A /* TourApiImageRetrieveRequestDTO.swift in Sources */,
+				151AF5492C2EFD7B004B98EE /* CompositionalSectionLayoutBuilder.swift in Sources */,
 				15CB23742A110FB4003EAF20 /* PostViewModel.swift in Sources */,
 				1568CC962C0B2A1B0056A298 /* PostCellLayouter.swift in Sources */,
 				15B5E7B02BBAEE4100C19F56 /* BlockedUserProfileResponseDTO.swift in Sources */,
@@ -5291,6 +5380,7 @@
 				1572ABDA2BE8A0E7008AFE66 /* FirestorePostCommentHeartRepository.swift in Sources */,
 				158695952AE54D010087CCB3 /* FeedPostViewAdapterDataSource.swift in Sources */,
 				13EB3D4B2BF4FF8500CA84F0 /* AttractionUseCase.swift in Sources */,
+				151AF50E2C2DA97F004B98EE /* PlanCategorySelectionViewController.swift in Sources */,
 				1518BC272BB044ED00FD1A74 /* ToggledPostCommentHeartEntity.swift in Sources */,
 				15869D0A2BF5A1E400FB342B /* OwnerHeartPostIdentifierFetchRepository.swift in Sources */,
 				15DA4C7F2ACD78C1003A7900 /* Int+.swift in Sources */,
@@ -5397,6 +5487,7 @@
 				158BEF792A0E27BD00C27861 /* PostCollectionView.swift in Sources */,
 				1594F53429FD517E00A58F20 /* SceneDelegate.swift in Sources */,
 				15302C552B9E23E900B1EA3F /* UIViewController+Indicator.swift in Sources */,
+				151AF5562C306B26004B98EE /* PlanCategorySelectionCollecionSectionType.swift in Sources */,
 				15FBA7E52B1343CB00C9B1E7 /* PostThumbnailValue.swift in Sources */,
 				13EB3D372BF4904F00CA84F0 /* DefaultShoppingUseCase.swift in Sources */,
 				15591DD62BBE9C5200128A9E /* FavoritePostInDirectoryRepository.swift in Sources */,
@@ -5421,6 +5512,7 @@
 				13EB3D692BF602CB00CA84F0 /* AccommodationEntity.swift in Sources */,
 				13A93EE52ACDE0EC00FC4BBD /* SearchDetailHeaderView.swift in Sources */,
 				154CA6012BD398D40066B444 /* RelativeURLPathProvidable.swift in Sources */,
+				151AF5532C306AF0004B98EE /* PlanCategorySelectionConfigurable.swift in Sources */,
 				131C4E002C10CF370005D30F /* LandscapeToastView.swift in Sources */,
 				15259DEC2ACAAAB200C14F62 /* LocationSearchViewController.swift in Sources */,
 				15553BC62BB3445A000AA896 /* DefaultPostNestedCommentRepository.swift in Sources */,

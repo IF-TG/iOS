@@ -7,12 +7,14 @@
 
 import Foundation
 
+extension CaseIterable where Self: RawRepresentable {
+  static var count: Int {
+    Self.allCases.count
+  }
+}
+
 extension CaseIterable where Self: RawRepresentable, Self.RawValue == String {
   static var toKoreanList: [String] {
     allCases.map { $0.rawValue }
-  }
-  
-  static var count: Int {
-    Self.allCases.count
   }
 }

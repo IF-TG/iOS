@@ -12,7 +12,6 @@ struct InterceptedWhatsNewNotificationRepository: WhatsNewNotificationRepository
   private let whatsNewNotificationRepository = DefaultWhatsNewNotificationRepository(
     service: SessionProvider(session: MockSession.default))
   
-
   func fetchNotices() -> AnyPublisher<[NoticeEntity], any Error> {
     MockUrlProtocol.requestHandler = { request in
       guard let path = Bundle.main.path(forResource: "mock_response_notice", ofType: "json") else {
