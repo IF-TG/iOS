@@ -8,12 +8,6 @@
 import Foundation
 
 struct DestinationScrapEndpoints {
-//  static func getAllDestinationScrapsByScrapFolderAndUserId(
-//    with requestDTO: RequestDTO1
-//  ) -> Endpoint<CommonDTO<ResopnseDTO>> {
-//    
-//  }
-  
   static func toggleDestinationScrap(
     with requestDTO: DestinationScrapRequestDTO
   ) -> Endpoint<CommonDTO<DestinationScrapResponseDTO>> {
@@ -24,11 +18,5 @@ struct DestinationScrapEndpoints {
       parameters: [.body(requestDTO)],
       requestType: .destination(.toggleScrap)
     )
-  }
-  
-  static func updateDestinationScrap(
-    with requestDTO: RequestDTO3
-  ) -> Endpoint<CommonDTO<ResponseDTO2>> {
-    
   }
 }
