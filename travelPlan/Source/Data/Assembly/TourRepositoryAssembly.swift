@@ -12,13 +12,13 @@ import Foundation
 final class TourRepositoryAssembly: Assembly {
   func assemble(container: Swinject.Container) {
     // MARK: - Common Tour API
-    container.register(Sessionable.self, name: .implementation(.default)) { r in
-      let session = r.resolve(Session.self, name: .implementation(.default))!
+    container.register(Sessionable.self) { r in
+      let session = r.resolve(Session.self)!
       return TourApiSessionProvider(session: session)
     }
     
-    container.register(Sessionable.self, name: .implementation(.interceptedDefault)) { r in
-      let mockSession = r.resolve(Session.self, name: .implementation(.interceptedDefault))!
+    container.register(Sessionable.self, name: .intercept) { r in
+      let mockSession = r.resolve(Session.self, name: .intercept)!
       return TourApiSessionProvider(session: mockSession)
     }
     
