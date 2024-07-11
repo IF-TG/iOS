@@ -71,7 +71,9 @@ private extension DomainAssembly {
         postHeartRepository: firestorePostHeartRepository,
         ownerHeartPostRepository: firestoreOwnerHeartPostRepo)
     }
-    
+  }
+  
+  func postCommentUseCase(container: Container) {
     container.register(PostCommentsAndPostLikeStateFetchUseCase.self) { r in
       let defaultPostRepository = r.resolve(PostRepository.self)!
       return DefaultPostCommentsAndPostLikeStateFetchUseCase(postRepository: defaultPostRepository)
