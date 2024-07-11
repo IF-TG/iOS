@@ -21,7 +21,7 @@ final class DefaultTourFestivalInfoRepository {
   // MARK: - LifeCycle
   init(service: any Sessionable,
        imageService: any ImageSessionable,
-       backgroundQueue: DispatchQueue = .global(qos: .background)
+       backgroundQueue: DispatchQueue = .global(qos: .userInitiated)
   ) {
     self.service = service
     self.imageService = imageService
