@@ -21,7 +21,7 @@ struct DestinationScrapEndpoints {
   }
   
   static func getDestinationScrapList(
-    with requestDTO: DestinaionScrapListRequestDTO
+    with requestDTO: DestinationScrapListRequestDTO
   ) -> Endpoint<CommonDTO<DestinationScrapListResponseDTO>> {
     return .init(
       scheme: "http",
@@ -29,6 +29,18 @@ struct DestinationScrapEndpoints {
       method: .get,
       parameters: [.query(requestDTO)],
       requestType: .destination(.scrapList)
+    )
+  }
+  
+  static func updateDestinationScrap(
+    with requestDTO: DestinationScrapUpdateRequestDTO
+  ) -> Endpoint<CommonDTO<[DestinationScrapUpdateResponseDTO]>> {
+    return .init(
+      scheme: "http",
+      host: "localhost:8080",
+      method: .put,
+      parameters: [.body(requestDTO)],
+      requestType: .destination(.updateScrap)
     )
   }
 }
