@@ -75,13 +75,23 @@ private extension DomainAssembly {
   
   func postCommentUseCase(container: Container) {
     container.register(PostCommentsAndPostLikeStateFetchUseCase.self) { r in
+#if DEBUG
+      let mockPostRepository = MockPostRepository()
+      return DefaultPostCommentsAndPostLikeStateFetchUseCase(postRepository: mockPostRepository)
+#else
       let defaultPostRepository = r.resolve(PostRepository.self)!
       return DefaultPostCommentsAndPostLikeStateFetchUseCase(postRepository: defaultPostRepository)
+#endif
     }
     
     container.register(PostCommentUseCase.self) { r in
+#if DEBUG
+      let mockPostCommentRepository = MockPostCommentRepository()
+      return DefaultPostCommentUseCase(postCommentRepository: mockPostCommentRepository)
+#else
       let defaultPostCommentRepository = r.resolve(PostCommentRepository.self)!
       return DefaultPostCommentUseCase(postCommentRepository: defaultPostCommentRepository)
+#endif
     }
     
     container.register(PostCommentUseCase.self, name: .firebase) { r in
@@ -127,8 +137,13 @@ private extension DomainAssembly {
   
   func postCommentHeartUseCase(container: Container) {
     container.register(PostCommentHeartUseCase.self) { r in
+#if DEBUG
+      let mockPostCommentRepository = MockPostCommentRepository()
+      return DefaultPostCommentHeartUseCase(postCommentRepository: mockPostCommentRepository)
+#else
       let postCommentRepository = r.resolve(PostCommentRepository.self)!
       return DefaultPostCommentHeartUseCase(postCommentRepository: postCommentRepository)
+#endif
     }
     
     container.register(PostCommentHeartUseCase.self, name: .firebase) { r in
