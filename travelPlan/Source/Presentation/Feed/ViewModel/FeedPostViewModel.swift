@@ -31,10 +31,7 @@ final class FeedPostViewModel: PostViewModel, PostOptionNotificationBinder {
   /// 다음 페이지 요청 실패할 경우 hasMorePages를 false로 바꾸어야 합니다.
   var hasMorePages = true
   
-  private let queueForLocking = DispatchQueue(
-    label: "com.yeoga.app.feedPosVM.queue",
-    attributes: .concurrent
-  )
+  private let lock = NSLock()
   
   // MARK: - Data source Properties
   private var category: PostCategory
@@ -141,10 +138,10 @@ private extension FeedPostViewModel {
   // MARK: - 포스트 필터 관련 Stream
   func postFilterLoadingStartSubjectStream() -> Output {
     postFilterLoadingStartSubject.map { [weak self] _ -> State in
+      self?.lock.lock()
       self?.isPostFiltering = true
-      self?.queueForLocking.async(flags: .barrier) {
-        self?.hasMorePages = true
-      }
+      self?.hasMorePages = true
+      self?.lock.unlock()
       return .networking
     }.eraseToAnyPublisher()
   }
@@ -325,19 +322,21 @@ private extension FeedPostViewModel {
 extension FeedPostViewModel {
   @inlinable
   func appendPosts(_ postPages: PostsPage) {
+    lock.lock()
     posts += postPages.posts
+    lock.unlock()
   }
 }
 
 // MARK: - Private Helpers
 extension FeedPostViewModel {
   func removeAllPage() {
-    queueForLocking.async(flags: .barrier) { [weak self] in
-      self?.currentPage = 0
-      self?.posts.removeAll()
-      self?.postThumbnails.removeAll()
-      self?.hasMorePages = true
-    }
+    lock.lock()
+    currentPage = 0
+    posts.removeAll()
+    postThumbnails.removeAll()
+    hasMorePages = true
+    lock.unlock()
   }
   
   func bind() {
@@ -382,15 +381,17 @@ extension FeedPostViewModel {
         if let userSelectedCategory = self?.userSelectedCategory {
           self?.category = userSelectedCategory
         }
+        self?.lock.lock()
         self?.postThumbnails.append(contentsOf: postsPage.thumbnails.map { $0.postImageDataList })
         self?.currentPage += 1
+        self?.lock.unlock()
         self?.appendPosts(postsPage)
       }
       .catch { [weak self] error -> AnyPublisher<Void, any Error> in
         if error.isNoMorePage {
-          self?.queueForLocking.async(flags: .barrier) {
-            self?.hasMorePages = false
-          }
+          self?.lock.lock()
+          self?.hasMorePages = false
+          self?.lock.unlock()
           return Just(()).setFailureType(to: (any Error).self).eraseToAnyPublisher()
         }
         return Fail(error: error).eraseToAnyPublisher()
