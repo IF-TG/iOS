@@ -17,30 +17,15 @@ final class PresentationAssembly: Assembly {
     // MARK: - PostDetail Page
     // MARK: - PostDetailViewModelType
     container.register(
-      PostDetailViewModelType.self,
-      name: .implementation(.default)
+      PostDetailViewModelType.self
     ) { (r, postId: PostIdentifier, post: Post?, actions: PostDetailViewModelActions) in
-      let defaultPostFetchUseCase = r.resolve(PostFetchUseCase.self, name: .implementation(.default))!
-      let defaultOwnerRepository = r.resolve(LoggedInUserRepository.self, name: .implementation(.default))!
+      let defaultPostFetchUseCase = r.resolve(PostFetchUseCase.self)!
+      let defaultOwnerRepository = r.resolve(LoggedInUserRepository.self)!
       return PostDetailViewModel(
         post: post,
         postId: postId,
         postFetchUseCase: defaultPostFetchUseCase,
         ownerRepository: defaultOwnerRepository,
-        actions: actions)
-    }
-    
-    container.register(
-      PostDetailViewModelType.self,
-      name: .testDouble(.mock)
-    ) { (r, postId: PostIdentifier, post: Post?, actions: PostDetailViewModelActions) in
-      let mockPostFetchUseCase = r.resolve(PostFetchUseCase.self, name: .testDouble(.mock))!
-      let stubOwnerRepository = r.resolve(LoggedInUserRepository.self, name: .testDouble(.stub))!
-      return PostDetailViewModel(
-        post: post,
-        postId: postId,
-        postFetchUseCase: mockPostFetchUseCase,
-        ownerRepository: stubOwnerRepository,
         actions: actions)
     }
     
@@ -50,18 +35,18 @@ final class PresentationAssembly: Assembly {
     }.inObjectScope(.transient)
     
     container.register(
-      PostDetailChatViewModelType.self, name: .implementation(.default)
+      PostDetailChatViewModelType.self
     ) { (r, postId: PostIdentifier, post: Post?, actions: PostDetailChatViewModelActions) in
       let postDetailChatInfo = r.resolve(PostDetailChatViewModelInfo.self, arguments: postId, post)!
       let defaultPostCommentAndPostLitedStateFetchUseCase = r.resolve(
-        PostCommentsAndPostLikeStateFetchUseCase.self, name: .implementation(.default))!
-      let defaultPostCommentUseCase = r.resolve(PostCommentUseCase.self, name: .implementation(.default))!
-      let defaultPostCommentHeartUseCase = r.resolve(PostCommentHeartUseCase.self, name: .implementation(.default))!
-      let defaultPostNestedCommentUseCase = r.resolve(PostNestedCommentUseCase.self, name: .implementation(.default))!
+        PostCommentsAndPostLikeStateFetchUseCase.self)!
+      let defaultPostCommentUseCase = r.resolve(PostCommentUseCase.self)!
+      let defaultPostCommentHeartUseCase = r.resolve(PostCommentHeartUseCase.self)!
+      let defaultPostNestedCommentUseCase = r.resolve(PostNestedCommentUseCase.self)!
       let defaultPostNestedCommentHeartUseCase = r.resolve(
-        PostNestedCommentHeartUseCase.self, name: .implementation(.default))!
-      let defaultUserBlockUseCase = r.resolve(UserBlockUseCase.self, name: .implementation(.default))!
-      let defaultOwnerRepository = r.resolve(LoggedInUserRepository.self, name: .implementation(.default))!
+        PostNestedCommentHeartUseCase.self)!
+      let defaultUserBlockUseCase = r.resolve(UserBlockUseCase.self)!
+      let defaultOwnerRepository = r.resolve(LoggedInUserRepository.self)!
       
       return PostDetailChatViewModel(
         postDetailChatInfo: postDetailChatInfo,
@@ -74,50 +59,19 @@ final class PresentationAssembly: Assembly {
         ownerRepository: defaultOwnerRepository,
         actions: actions)
     }
-    
-    container.register(
-      PostDetailChatViewModelType.self, name: .testDouble(.mock)
-    ) { (r, postId: PostIdentifier, post: Post?, actions: PostDetailChatViewModelActions) in
-      let postDetailChatInfo = r.resolve(PostDetailChatViewModelInfo.self, arguments: postId, post)!
-      let interceptedPostCommentAndPostLitedStateFetchUseCase = r.resolve(
-        PostCommentsAndPostLikeStateFetchUseCase.self, name: .implementation(.interceptedDefault))!
-      let interceptedPostCommentUseCase = r.resolve(PostCommentUseCase.self, name: .implementation(.interceptedDefault))!
-      let interceptedPostCommentHeartUseCase = r.resolve(
-        PostCommentHeartUseCase.self, name: .implementation(.interceptedDefault))!
-      let interceptedPostNestedCommentUseCase = r.resolve(
-        PostNestedCommentUseCase.self, name: .implementation(.interceptedDefault))!
-      let interceptedPostNestedCommentHeartUseCase = r.resolve(
-        PostNestedCommentHeartUseCase.self, name: .implementation(.interceptedDefault))!
-      let mockUserBlockUseCase = r.resolve(UserBlockUseCase.self, name: .testDouble(.mock))!
-      let stubOwnerRepository = r.resolve(LoggedInUserRepository.self, name: .testDouble(.stub))!
-      
-      return PostDetailChatViewModel(
-        postDetailChatInfo: postDetailChatInfo,
-        postCommentsAndPostLikeStateFetchUseCase: interceptedPostCommentAndPostLitedStateFetchUseCase,
-        postCommentUseCase: interceptedPostCommentUseCase,
-        postCommentHeartUseCase: interceptedPostCommentHeartUseCase,
-        postNestedCommentUseCase: interceptedPostNestedCommentUseCase,
-        postNestedCommentHeartUseCase: interceptedPostNestedCommentHeartUseCase,
-        userBlockUseCase: mockUserBlockUseCase,
-        ownerRepository: stubOwnerRepository,
-        actions: actions)
-    }
-    
+        
     // MARK: - PostDetailViewController
     container.register(
-      PostDetailViewController.self, name: .implementation(.default)
+      PostDetailViewController.self
     ) { (r, coordinator: PostDetailCoordinator, postId: PostIdentifier, post: Post?) in
       let mockPostDetailViewModel = r.resolve(
         PostDetailViewModelType.self,
-        name: .implementation(.default),
         arguments: postId, post, coordinator.makePostDetailViewModelActions())!
       let mockPostDetailChatViewModel = r.resolve(
         PostDetailChatViewModelType.self,
-        name: .implementation(.default),
         arguments: postId, post, coordinator.makePostDetailChatViewModelActions())!
       let mockPostOptionViewModel = r.resolve(
         PostOptionViewModelType.self,
-        name: .implementation(.default),
         arguments:
           coordinator.makePostOptionViewModelInfo(postId: postId, post: post),
           coordinator.makePostOptionViewModelActions())!
@@ -128,37 +82,12 @@ final class PresentationAssembly: Assembly {
         optionViewModel: mockPostOptionViewModel)
     }
     
-    container.register(
-      PostDetailViewController.self, name: .testDouble(.mock)
-    ) { (r, coordinator: PostDetailCoordinator, postId: PostIdentifier, post: Post?) in
-      let defaultPostDetailViewModel = r.resolve(
-        PostDetailViewModelType.self,
-        name: .testDouble(.mock),
-        arguments: postId, post, coordinator.makePostDetailViewModelActions())!
-      let defaultPostDetailChatViewModel = r.resolve(
-        PostDetailChatViewModelType.self, 
-        name: .testDouble(.mock),
-        arguments: postId, post, coordinator.makePostDetailChatViewModelActions())!
-      let postOptionViewModel = r.resolve(
-        PostOptionViewModelType.self,
-        name: .testDouble(.mock),
-        arguments: 
-          coordinator.makePostOptionViewModelInfo(postId: postId, post: post),
-          coordinator.makePostOptionViewModelActions())!
-      coordinator.setPostReceivable(defaultPostDetailViewModel)
-      return PostDetailViewController(
-        viewModel: defaultPostDetailViewModel,
-        chatViewModel: defaultPostDetailChatViewModel,
-        optionViewModel: postOptionViewModel)
-    }
-    
     // MARK: - Post OptionViewModel Type
     container.register(
-      PostOptionViewModelType.self,
-      name: .implementation(.default)
+      PostOptionViewModelType.self
     ) { (r, postOptionDataSource: PostOptionViewModelInfo, actions: PostOptionViewModelActions) in
-      let defaultOwnerRepository = r.resolve(LoggedInUserRepository.self, name: .implementation(.default))!
-      let defaultUserBlockUseCase = r.resolve(UserBlockUseCase.self, name: .implementation(.default))!
+      let defaultOwnerRepository = r.resolve(LoggedInUserRepository.self)!
+      let defaultUserBlockUseCase = r.resolve(UserBlockUseCase.self)!
       
       return PostOptionViewModel(
         dataSource: postOptionDataSource,
@@ -169,38 +98,10 @@ final class PresentationAssembly: Assembly {
     
     container.register(
       PostOptionViewModelType.self,
-      name: .implementation(.interceptedDefault)
+      name: .firebase
     ) { (r, postOptionDataSource: PostOptionViewModelInfo, actions: PostOptionViewModelActions) in
-      let stubOwnerRepository = r.resolve(LoggedInUserRepository.self, name: .testDouble(.stub))!
-      let interceptedUserBlockUseCase = r.resolve(UserBlockUseCase.self, name: .implementation(.interceptedDefault))!
-      
-      return PostOptionViewModel(
-        dataSource: postOptionDataSource,
-        actions: actions,
-        ownerRepository: stubOwnerRepository,
-        userBlockUseCase: interceptedUserBlockUseCase)
-    }.inObjectScope(.transient)
-    
-    container.register(
-      PostOptionViewModelType.self,
-      name: .testDouble(.mock)
-    ) { (r, postOptionDataSource: PostOptionViewModelInfo, actions: PostOptionViewModelActions) in
-      let stubOwnerRepository = r.resolve(LoggedInUserRepository.self, name: .testDouble(.stub))!
-      let mockUserBlockUseCase = r.resolve(UserBlockUseCase.self, name: .testDouble(.mock))!
-      
-      return PostOptionViewModel(
-        dataSource: postOptionDataSource,
-        actions: actions,
-        ownerRepository: stubOwnerRepository,
-        userBlockUseCase: mockUserBlockUseCase)
-    }.inObjectScope(.transient)
-    
-    container.register(
-      PostOptionViewModelType.self,
-      name: .implementation(.firestore)
-    ) { (r, postOptionDataSource: PostOptionViewModelInfo, actions: PostOptionViewModelActions) in
-      let defaultOwnerRepository = r.resolve(LoggedInUserRepository.self, name: .implementation(.default))!
-      let firestoreUserBlockUseCase = r.resolve(UserBlockUseCase.self, name: .implementation(.firestore))!
+      let defaultOwnerRepository = r.resolve(LoggedInUserRepository.self)!
+      let firestoreUserBlockUseCase = r.resolve(UserBlockUseCase.self, name: .firebase)!
       
       return PostOptionViewModel(
         dataSource: postOptionDataSource,
@@ -224,41 +125,28 @@ final class PresentationAssembly: Assembly {
     }
     
     // MARK: NoticeViewModelType
-    container.register(NoticeViewModelType.self, name: .implementation(.default)) { r in
-      let defaultNoticeUseCase = r.resolve(NoticeUseCase.self, name: .implementation(.default))!
+    container.register(NoticeViewModelType.self) { r in
+      let defaultNoticeUseCase = r.resolve(NoticeUseCase.self)!
       return NoticeViewModel(noticeUseCase: defaultNoticeUseCase)
     }
     
-    container.register(NoticeViewModelType.self, name: .implementation(.interceptedDefault)) { r in
-      let interceptedNoticeUseCase = r.resolve(NoticeUseCase.self, name: .implementation(.interceptedDefault))!
-      return NoticeViewModel(noticeUseCase: interceptedNoticeUseCase)
-    }
-    
-    container.register(NoticeViewModelType.self, name: .implementation(.firestore)) { r in
-      let firestoreNoticeUseCase = r.resolve(NoticeUseCase.self, name: .implementation(.firestore))!
+    container.register(NoticeViewModelType.self, name: .firebase) { r in
+      let firestoreNoticeUseCase = r.resolve(NoticeUseCase.self, name: .firebase)!
       return NoticeViewModel(noticeUseCase: firestoreNoticeUseCase)
     }
     
     // MARK: NotificationCenterViewController
-    container.register(NotificationCenterViewController.self, name: .implementation(.default)) { r in
+    container.register(NotificationCenterViewController.self) { r in
       let defaultNotificationViewModel = r.resolve(NotificationViewModelType.self)!
-      let defaultNoticeViewModel = r.resolve(NoticeViewModelType.self, name: .implementation(.default))!
+      let defaultNoticeViewModel = r.resolve(NoticeViewModelType.self)!
       return NotificationCenterViewController(
         noticeViewModel: defaultNoticeViewModel,
         notificationViewModel: defaultNotificationViewModel)
     }
     
-    container.register(NotificationCenterViewController.self, name: .implementation(.interceptedDefault)) { r in
+    container.register(NotificationCenterViewController.self, name: .firebase) { r in
       let defaultNotificationViewModel = r.resolve(NotificationViewModelType.self)!
-      let interceptedNoticeViewModel = r.resolve(NoticeViewModelType.self, name: .implementation(.interceptedDefault))!
-      return NotificationCenterViewController(
-        noticeViewModel: interceptedNoticeViewModel,
-        notificationViewModel: defaultNotificationViewModel)
-    }
-    
-    container.register(NotificationCenterViewController.self, name: .implementation(.firestore)) { r in
-      let defaultNotificationViewModel = r.resolve(NotificationViewModelType.self)!
-      let firestoreNoticeViewModel = r.resolve(NoticeViewModelType.self, name: .implementation(.firestore))!
+      let firestoreNoticeViewModel = r.resolve(NoticeViewModelType.self, name: .firebase)!
       return NotificationCenterViewController(
         noticeViewModel: firestoreNoticeViewModel,
         notificationViewModel: defaultNotificationViewModel)
