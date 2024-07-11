@@ -15,5 +15,5 @@ import Swinject
 
 @frozen public enum ImplementationResolveType: String {
   /// Firestore와 통신하는 구현체
-  case firestore
+  case firebase
 }
