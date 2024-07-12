@@ -9,5 +9,5 @@ import Foundation
 
 struct DestinationScrapUpdateRequestDTO: Encodable {
   let objectIdList: [Int64]
-  let forderName: String
+  let folderName: String
 }

@@ -9,15 +9,15 @@ import Foundation
 import Combine
 
 protocol DestinationScrapRepository {
-  func getDestinationScrapList(folderName: String) -> AnyPublisher<DestinationScrapList, any Error>
+  func getDestinationScrapList(folderName: String) -> AnyPublisher<[DestinationScrapDetail], any Error>
   
   func toggleDestinationScrap(
     id: Int64,
-    forderName: String
+    folderName: String
   ) -> AnyPublisher<DestinationScrapToggler, any Error>
   
   func updateDestinationScrap(
     objectIdList: [Int64],
-    forderName: String
+    folderName: String
   ) -> AnyPublisher<[UpdatedDestinationScrap], any Error>
 }
