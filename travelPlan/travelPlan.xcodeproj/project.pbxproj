@@ -117,8 +117,16 @@
 		1385F66B2C3FADBE003DB336 /* DefaultDestinationScrapRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1385F66A2C3FADBE003DB336 /* DefaultDestinationScrapRepository.swift */; };
 		1385F66E2C3FCB2F003DB336 /* DestinationScrapToggler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1385F66D2C3FCB2F003DB336 /* DestinationScrapToggler.swift */; };
 		1385F6702C404108003DB336 /* DestinationScrapListRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1385F66F2C404108003DB336 /* DestinationScrapListRequestDTO.swift */; };
-		1385F6722C404129003DB336 /* DestinationScrapListResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1385F6712C404129003DB336 /* DestinationScrapListResponseDTO.swift */; };
+		1385F6722C404129003DB336 /* DestinationScrapDetailResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1385F6712C404129003DB336 /* DestinationScrapDetailResponseDTO.swift */; };
 		1385F6742C405364003DB336 /* DestinationScrapList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1385F6732C405364003DB336 /* DestinationScrapList.swift */; };
+		1385F6762C4068C5003DB336 /* DestinationScrapUpdateRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1385F6752C4068C5003DB336 /* DestinationScrapUpdateRequestDTO.swift */; };
+		1385F6782C4068F4003DB336 /* DestinationScrapUpdateResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1385F6772C4068F4003DB336 /* DestinationScrapUpdateResponseDTO.swift */; };
+		1385F67A2C407937003DB336 /* UpdatedDestinationScrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1385F6792C407937003DB336 /* UpdatedDestinationScrap.swift */; };
+		1385F67E2C410F23003DB336 /* DestinationScrapRepositoryDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1385F67D2C410F23003DB336 /* DestinationScrapRepositoryDecorator.swift */; };
+		1385F6822C4112DD003DB336 /* mock_response_getDestinationScrapList.json in Resources */ = {isa = PBXBuildFile; fileRef = 1385F6802C4112DD003DB336 /* mock_response_getDestinationScrapList.json */; };
+		1385F6882C411582003DB336 /* mock_response_toggleDestinationScrap.json in Resources */ = {isa = PBXBuildFile; fileRef = 1385F6862C411582003DB336 /* mock_response_toggleDestinationScrap.json */; };
+		1385F68E2C411697003DB336 /* mock_response_updateDestinationScrap.json in Resources */ = {isa = PBXBuildFile; fileRef = 1385F68C2C411697003DB336 /* mock_response_updateDestinationScrap.json */; };
+		1385F6902C4118B4003DB336 /* DestinationScrapRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1385F68F2C4118B4003DB336 /* DestinationScrapRepositoryTests.swift */; };
 		1390CC5D2A8BADEC00E34DC3 /* TitleWithButtonHeaderViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1390CC5C2A8BADEC00E34DC3 /* TitleWithButtonHeaderViewDelegate.swift */; };
 		139DEDEB2B163D9A00363E7B /* SearchDestinationCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139DEDEA2B163D9A00363E7B /* SearchDestinationCollectionViewLayout.swift */; };
 		139DEE102B16ADF300363E7B /* SearchDestinationServiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139DEE0F2B16ADF300363E7B /* SearchDestinationServiceCell.swift */; };
@@ -457,7 +465,6 @@
 		1568CCA82C0C3B920056A298 /* ScrollableViewRegister.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1568CCA72C0C3B920056A298 /* ScrollableViewRegister.swift */; };
 		156C1E232BBEC93900AF1D99 /* XCTestCase+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15529F802BBEC50B00FED360 /* XCTestCase+Helpers.swift */; };
 		156C1E242BBEC93B00AF1D99 /* XCTestCase+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15529F802BBEC50B00FED360 /* XCTestCase+Helpers.swift */; };
-		156C1E2A2BBECA6500AF1D99 /* CoordinatorDeallocTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156C1E292BBECA6500AF1D99 /* CoordinatorDeallocTests.swift */; };
 		156C1E2C2BBED14300AF1D99 /* SHCoordinator+XCTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156C1E2B2BBED14300AF1D99 /* SHCoordinator+XCTestCase.swift */; };
 		1570FDB22AB1B616006FBAA3 /* TravelOrderType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1570FDB12AB1B616006FBAA3 /* TravelOrderType.swift */; };
 		1570FDB72AB1E29C006FBAA3 /* Notification+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1570FDB62AB1E29C006FBAA3 /* Notification+.swift */; };
@@ -1012,8 +1019,16 @@
 		1385F66A2C3FADBE003DB336 /* DefaultDestinationScrapRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultDestinationScrapRepository.swift; sourceTree = "<group>"; };
 		1385F66D2C3FCB2F003DB336 /* DestinationScrapToggler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationScrapToggler.swift; sourceTree = "<group>"; };
 		1385F66F2C404108003DB336 /* DestinationScrapListRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationScrapListRequestDTO.swift; sourceTree = "<group>"; };
-		1385F6712C404129003DB336 /* DestinationScrapListResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationScrapListResponseDTO.swift; sourceTree = "<group>"; };
+		1385F6712C404129003DB336 /* DestinationScrapDetailResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationScrapDetailResponseDTO.swift; sourceTree = "<group>"; };
 		1385F6732C405364003DB336 /* DestinationScrapList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationScrapList.swift; sourceTree = "<group>"; };
+		1385F6752C4068C5003DB336 /* DestinationScrapUpdateRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationScrapUpdateRequestDTO.swift; sourceTree = "<group>"; };
+		1385F6772C4068F4003DB336 /* DestinationScrapUpdateResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationScrapUpdateResponseDTO.swift; sourceTree = "<group>"; };
+		1385F6792C407937003DB336 /* UpdatedDestinationScrap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatedDestinationScrap.swift; sourceTree = "<group>"; };
+		1385F67D2C410F23003DB336 /* DestinationScrapRepositoryDecorator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationScrapRepositoryDecorator.swift; sourceTree = "<group>"; };
+		1385F6812C4112DD003DB336 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/mock_response_getDestinationScrapList.json; sourceTree = "<group>"; };
+		1385F6872C411582003DB336 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/mock_response_toggleDestinationScrap.json; sourceTree = "<group>"; };
+		1385F68D2C411697003DB336 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/mock_response_updateDestinationScrap.json; sourceTree = "<group>"; };
+		1385F68F2C4118B4003DB336 /* DestinationScrapRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationScrapRepositoryTests.swift; sourceTree = "<group>"; };
 		1390CC5C2A8BADEC00E34DC3 /* TitleWithButtonHeaderViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleWithButtonHeaderViewDelegate.swift; sourceTree = "<group>"; };
 		1390CC6E2A8E0B2800E34DC3 /* SearchStarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchStarButton.swift; sourceTree = "<group>"; };
 		139DEDEA2B163D9A00363E7B /* SearchDestinationCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDestinationCollectionViewLayout.swift; sourceTree = "<group>"; };
@@ -2125,8 +2140,19 @@
 			children = (
 				1385F66D2C3FCB2F003DB336 /* DestinationScrapToggler.swift */,
 				1385F6732C405364003DB336 /* DestinationScrapList.swift */,
+				1385F6792C407937003DB336 /* UpdatedDestinationScrap.swift */,
 			);
 			path = Destination;
+			sourceTree = "<group>";
+		};
+		1385F67F2C41129C003DB336 /* DestinationScrap */ = {
+			isa = PBXGroup;
+			children = (
+				1385F6802C4112DD003DB336 /* mock_response_getDestinationScrapList.json */,
+				1385F6862C411582003DB336 /* mock_response_toggleDestinationScrap.json */,
+				1385F68C2C411697003DB336 /* mock_response_updateDestinationScrap.json */,
+			);
+			path = DestinationScrap;
 			sourceTree = "<group>";
 		};
 		13BF411E2ADBEC4100F3F082 /* View */ = {
@@ -2586,7 +2612,8 @@
 				1564A0A12BBFE0780045424B /* FavoritePostDirectoryNameUpdateResponseDTO.swift */,
 				13E98F9F2BCE61D800F05295 /* ReviewWritingSaveResponseDTO.swift */,
 				1335B8BC2C31AA6300DB233B /* DestinationScrapToggleResponseDTO.swift */,
-				1385F6712C404129003DB336 /* DestinationScrapListResponseDTO.swift */,
+				1385F6712C404129003DB336 /* DestinationScrapDetailResponseDTO.swift */,
+				1385F6772C4068F4003DB336 /* DestinationScrapUpdateResponseDTO.swift */,
 			);
 			path = ResponseDTO;
 			sourceTree = "<group>";
@@ -2603,6 +2630,7 @@
 		151DF1072AEEC53400D5D55B /* MockJson */ = {
 			isa = PBXGroup;
 			children = (
+				1385F67F2C41129C003DB336 /* DestinationScrap */,
 				13EB3D1E2BF346CD00CA84F0 /* TourAPI */,
 				15591DDF2BBEA28D00128A9E /* FavoriteDirectory */,
 				15553BCD2BB3488D000AA896 /* NestedPostComment */,
@@ -3334,6 +3362,7 @@
 				15803C452BD9328100D83F2B /* MockEndpoint.swift */,
 				1572ABB02BE67A60008AFE66 /* MockFirestoreImageStorage.swift */,
 				15A2C2FA2C2176A800407663 /* InterceptedWhatsNewNotificationRepository.swift */,
+				1385F67D2C410F23003DB336 /* DestinationScrapRepositoryDecorator.swift */,
 			);
 			path = Mock;
 			sourceTree = "<group>";
@@ -4040,6 +4069,7 @@
 				1564A09F2BBFE0290045424B /* FavoritePostDirectoryNameUpdateRequestDTO.swift */,
 				1335B8BA2C31AA5000DB233B /* DestinationScrapToggleRequestDTO.swift */,
 				1385F66F2C404108003DB336 /* DestinationScrapListRequestDTO.swift */,
+				1385F6752C4068C5003DB336 /* DestinationScrapUpdateRequestDTO.swift */,
 			);
 			path = RequestDTO;
 			sourceTree = "<group>";
@@ -4102,6 +4132,7 @@
 				1551D5F12BF8DFF6009B5CD6 /* FirestoreUserBlockRepositoryTests.swift */,
 				152175802BFB01C300666549 /* FirestoreUserProfileSettingRepositoryIntegrationTests.swift */,
 				15D284052C204FC700B39AC8 /* FirestoreWhatsNewNotificationRepoTests.swift */,
+				1385F68F2C4118B4003DB336 /* DestinationScrapRepositoryTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -4775,6 +4806,8 @@
 				159958762B0D988400B2E4DC /* Palette.xcassets in Resources */,
 				158BEFBC2A0EB2A500C27861 /* Pretendard-SemiBold.ttf in Resources */,
 				1564A0A62BBFE3C60045424B /* mock_favoritePostDirectoryName_update_response.json in Resources */,
+				1385F6882C411582003DB336 /* mock_response_toggleDestinationScrap.json in Resources */,
+				1385F68E2C411697003DB336 /* mock_response_updateDestinationScrap.json in Resources */,
 				1518BC1F2BB02DEE00FD1A74 /* mock_postComment_delete_response.json in Resources */,
 				158BEFBF2A0EB2A500C27861 /* Pretendard-Thin.ttf in Resources */,
 				1518BC212BB03BF300FD1A74 /* mock_postComment_fetchComments_response.json in Resources */,
@@ -4782,6 +4815,7 @@
 				15E1550D2BAB47F400582E12 /* BottomNextPageIndicatorCell.xib in Resources */,
 				1518BC1B2BB022D100FD1A74 /* mock_postComment_update_response.json in Resources */,
 				13EB3D8A2BF71EAE00CA84F0 /* mock_tourAPI_introductionInfo_accommodation.json in Resources */,
+				1385F6822C4112DD003DB336 /* mock_response_getDestinationScrapList.json in Resources */,
 				15FB96722BC4270E00706312 /* PostDetailCategoryCell.xib in Resources */,
 				158BEFBA2A0EB2A500C27861 /* Pretendard-Bold.ttf in Resources */,
 				13EB3D312BF35D9700CA84F0 /* mock_tourAPI_introductionInfo_restaurant.json in Resources */,
@@ -4835,10 +4869,10 @@
 				15ABC4272BF3588800B9FA74 /* StubPostNestedCommentHeartRepository.swift in Sources */,
 				159851CA2BEDF81D001262BD /* Combine+XCTestHelpers.swift in Sources */,
 				15803C3F2BD8F5F900D83F2B /* XMLParsingServiceTests.swift in Sources */,
+				1385F6902C4118B4003DB336 /* DestinationScrapRepositoryTests.swift in Sources */,
 				15D6559A2B8E1CCB00466FEC /* UserInfoAPIEndpointTests.swift in Sources */,
 				1335320E2BA469E3000A4D9E /* DataConverterTests.swift in Sources */,
 				13EB3D492BF4ED0700CA84F0 /* LeportsUseCaseTests.swift in Sources */,
-				156C1E2A2BBECA6500AF1D99 /* CoordinatorDeallocTests.swift in Sources */,
 				15ABC4222BF3525600B9FA74 /* StubPostAtomicCommentRepository.swift in Sources */,
 				152175852BFB046800666549 /* BaseXCTestCase.swift in Sources */,
 				152175812BFB01C300666549 /* FirestoreUserProfileSettingRepositoryIntegrationTests.swift in Sources */,
@@ -5018,7 +5052,7 @@
 				15A859A02BB56E18002C0CA0 /* PostContainer.swift in Sources */,
 				13606E8C2A9F959F00365F20 /* PostRecommendationSearchHeaderView.swift in Sources */,
 				13813A232AAA459900AF6AEB /* PostSearchCollectionViewDelegate.swift in Sources */,
-				1385F6722C404129003DB336 /* DestinationScrapListResponseDTO.swift in Sources */,
+				1385F6722C404129003DB336 /* DestinationScrapDetailResponseDTO.swift in Sources */,
 				15C1F5402AF29CDE005FDA15 /* NotificationIconType.swift in Sources */,
 				1518BC232BB0415500FD1A74 /* PostCommentHeartToggleRequestDTO.swift in Sources */,
 				13E7EAED2BE028390027946C /* DefaultTourFestivalInfoRepository.swift in Sources */,
@@ -5047,6 +5081,7 @@
 				15A0E1A12B97A3FD0047D662 /* PostContainerResponseDTO.swift in Sources */,
 				15E155062BAB01F900582E12 /* PostMapper.swift in Sources */,
 				15EBDBB92BC00F6900A8A91C /* PostSearchRequestDTO.swift in Sources */,
+				1385F67A2C407937003DB336 /* UpdatedDestinationScrap.swift in Sources */,
 				155D0BB72B90DAB10042DFB6 /* MainError.swift in Sources */,
 				15803C362BD8EE6500D83F2B /* XMLParsingServiceProtocol.swift in Sources */,
 				1540708F2C0F1BDA000C9C42 /* CoreAssembly.swift in Sources */,
@@ -5130,6 +5165,7 @@
 				133531F92BA1A0B8000A4D9E /* KeychainLoginResponseStorage.swift in Sources */,
 				139DEDEB2B163D9A00363E7B /* SearchDestinationCollectionViewLayout.swift in Sources */,
 				15F36A1C2AB1A45600971803 /* TravelPartner.swift in Sources */,
+				1385F6782C4068F4003DB336 /* DestinationScrapUpdateResponseDTO.swift in Sources */,
 				130CF3712B8F855F0051DEE8 /* LoginRequestDTO.swift in Sources */,
 				1503F9402A4E1327002BC38D /* FeedCoordinator.swift in Sources */,
 				15EB3A012AC3477B0025FFB4 /* PostHeaderContentView.swift in Sources */,
@@ -5270,6 +5306,7 @@
 				159851BC2BEDEB0A001262BD /* FirestorePostNestedCommentHeartRepository.swift in Sources */,
 				15D3DA1E2BBFCDA20099C384 /* FavoritePostScrapRequestDTO.swift in Sources */,
 				15803C382BD8F3BC00D83F2B /* XMLParsingService.swift in Sources */,
+				1385F67E2C410F23003DB336 /* DestinationScrapRepositoryDecorator.swift in Sources */,
 				15F36A182AB1986000971803 /* TravelTheme.swift in Sources */,
 				15B5E7A52BBAE85E00C19F56 /* UserBlockUseCase.swift in Sources */,
 				15F4AF462BC6B2E800E9C20E /* UITableView+Helpers.swift in Sources */,
@@ -5598,6 +5635,7 @@
 				159F38BF2AFAA329000A24C2 /* PostDetailTitleCell.swift in Sources */,
 				15FEB5EA2A050A99000A5F33 /* UIColor+.swift in Sources */,
 				15FFABFD2AD5C75A0013DB57 /* FavoriteTableViewCellDelegate.swift in Sources */,
+				1385F6762C4068C5003DB336 /* DestinationScrapUpdateRequestDTO.swift in Sources */,
 				15B01DA72BA941D800BE9F98 /* LoggedInUserRepository.swift in Sources */,
 				1540478A2BE4B82D009E86FF /* PostHeartUseCase.swift in Sources */,
 				15198E962BADE2BB0011930D /* PostThumbnails.swift in Sources */,
@@ -5665,6 +5703,30 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		1385F6802C4112DD003DB336 /* mock_response_getDestinationScrapList.json */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1385F6812C4112DD003DB336 /* en */,
+			);
+			name = mock_response_getDestinationScrapList.json;
+			sourceTree = "<group>";
+		};
+		1385F6862C411582003DB336 /* mock_response_toggleDestinationScrap.json */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1385F6872C411582003DB336 /* en */,
+			);
+			name = mock_response_toggleDestinationScrap.json;
+			sourceTree = "<group>";
+		};
+		1385F68C2C411697003DB336 /* mock_response_updateDestinationScrap.json */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1385F68D2C411697003DB336 /* en */,
+			);
+			name = mock_response_updateDestinationScrap.json;
+			sourceTree = "<group>";
+		};
 		13E622BD2BD02401003E4FA4 /* mock_reviewWriting_post_response.json */ = {
 			isa = PBXVariantGroup;
 			children = (
