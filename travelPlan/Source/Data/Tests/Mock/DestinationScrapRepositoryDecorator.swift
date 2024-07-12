@@ -1,5 +1,5 @@
 //
-//  WrappedDestinationScrapRepository.swift
+//  DestinationScrapRepositoryDecorator.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 7/12/24.
@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-final class WrappedDestinationScrapRepository {
+final class DestinationScrapRepositoryDecorator {
   // MARK: - Properties
   private let repository: DestinationScrapRepository
   
@@ -22,7 +22,7 @@ final class WrappedDestinationScrapRepository {
 }
 
 // MARK: - DestinationScrapRepository
-extension WrappedDestinationScrapRepository: DestinationScrapRepository {
+extension DestinationScrapRepositoryDecorator: DestinationScrapRepository {
   func getDestinationScrapList(
     folderName: String
   ) -> AnyPublisher<[DestinationScrapDetail], any Error> {
