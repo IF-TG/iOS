@@ -1,5 +1,5 @@
 //
-//  DestinationScrapListResponseDTO.swift
+//  DestinationScrapDetailResponseDTO.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 7/12/24.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct DestinationScrapListResponseDTO: Decodable {
+struct DestinationScrapDetailResponseDTO: Decodable {
   let id: Int64
   let contentTypeId: Int32
   let title: String
@@ -30,8 +30,9 @@ struct DestinationScrapListResponseDTO: Decodable {
 }
 
 // MARK: - Mapping Domain
-extension DestinationScrapListResponseDTO {
-  func toDomain() -> DestinationScrapList {
-    
+extension DestinationScrapDetailResponseDTO {
+  // TODO: - DestinationScrapList init 인자 추가해주기
+  func toDomain() -> DestinationScrapDetail {
+    .init()
   }
 }

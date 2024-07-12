@@ -8,6 +8,6 @@
 import Foundation
 
 // TODO: - 프로퍼티 정의해야 함
-struct DestinationScrapList {
+struct DestinationScrapDetail {
   
 }
