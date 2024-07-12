@@ -13,6 +13,7 @@ import Foundation
   case postComment(PostCommentResponse)
   case postNestedComment(PostNestedCommentResponse)
   case favoriteDirectory(FavoriteDirectory)
+  case destinationScrap(DestinationScrapResponse)
   
   var filePath: String {
     return switch self {
@@ -26,6 +27,8 @@ import Foundation
       directoryType.filePath
     case .post(let response):
       response.filePath
+    case .destinationScrap(let response):
+      response.filPath
     }
   }
   
@@ -136,6 +139,22 @@ extension MockResponseType {
           .whenFavoritePostDirectoryNameUpdate: "mock_favoritePostDirectoryName_update_response"
         ] [self]!
       }
+    }
+  }
+}
+
+extension MockResponseType {
+  @frozen enum DestinationScrapResponse {
+    case getAllDestinationScrapsByScrapFolderAndUserId
+    case toggleDestinationScrap
+    case updateDestinationScrap
+    
+    var filPath: String {
+      [
+        .getAllDestinationScrapsByScrapFolderAndUserId: "mock_response_getDestinationScrapList",
+        .toggleDestinationScrap: "mock_response_toggleDestinationScrap",
+        .updateDestinationScrap: "mock_response_updateDestinationScrap"
+      ][self]!
     }
   }
 }
