@@ -71,6 +71,7 @@
 		1335B8B92C31A1AA00DB233B /* DestinationScrapEndpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1335B8B82C31A1AA00DB233B /* DestinationScrapEndpoints.swift */; };
 		1335B8BB2C31AA5000DB233B /* DestinationScrapToggleRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1335B8BA2C31AA5000DB233B /* DestinationScrapToggleRequestDTO.swift */; };
 		1335B8BD2C31AA6300DB233B /* DestinationScrapToggleResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1335B8BC2C31AA6300DB233B /* DestinationScrapToggleResponseDTO.swift */; };
+		134055612C43085600EC8877 /* DestinationSearchRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 134055602C43085600EC8877 /* DestinationSearchRepository.swift */; };
 		13405EFC2AECEBD800382796 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13405EFB2AECEBD700382796 /* LoginView.swift */; };
 		13405F002AECF76300382796 /* BaseLoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13405EFF2AECF76300382796 /* BaseLoginButton.swift */; };
 		13405F042AED899800382796 /* KakaoLoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13405F032AED899800382796 /* KakaoLoginButton.swift */; };
@@ -990,6 +991,7 @@
 		1335B8B82C31A1AA00DB233B /* DestinationScrapEndpoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationScrapEndpoints.swift; sourceTree = "<group>"; };
 		1335B8BA2C31AA5000DB233B /* DestinationScrapToggleRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationScrapToggleRequestDTO.swift; sourceTree = "<group>"; };
 		1335B8BC2C31AA6300DB233B /* DestinationScrapToggleResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationScrapToggleResponseDTO.swift; sourceTree = "<group>"; };
+		134055602C43085600EC8877 /* DestinationSearchRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationSearchRepository.swift; sourceTree = "<group>"; };
 		13405EFB2AECEBD700382796 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		13405EFF2AECF76300382796 /* BaseLoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseLoginButton.swift; sourceTree = "<group>"; };
 		13405F032AED899800382796 /* KakaoLoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoLoginButton.swift; sourceTree = "<group>"; };
@@ -2170,6 +2172,7 @@
 			children = (
 				1385F6682C3FA797003DB336 /* DestinationScrapRepository.swift */,
 				1335B8B42C319E7300DB233B /* DestinationRepository.swift */,
+				134055602C43085600EC8877 /* DestinationSearchRepository.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -5238,6 +5241,7 @@
 				15EE50F92BF9BE4700628FC9 /* DefaultUserNicknameSettingUseCase.swift in Sources */,
 				13813A212AAA458000AF6AEB /* PostSearchCollectionViewDataSource.swift in Sources */,
 				1343840B2B480360005034E0 /* BaseNavigationLeftButton.swift in Sources */,
+				134055612C43085600EC8877 /* DestinationSearchRepository.swift in Sources */,
 				15F0D1B42A51BFB800D04773 /* PostSearchCoordiantor.swift in Sources */,
 				13E84AE42BE36CAF00B537B6 /* TourIntroductionInfoRepository.swift in Sources */,
 				15F0D19A2A4EF49700D04773 /* CategoryPageViewAdapter.swift in Sources */,
