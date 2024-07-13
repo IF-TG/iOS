@@ -31,54 +31,32 @@ final class PresentationFeedAssembly: Assembly {
     
     // MARK: - FeedPostViewModel
     container.register(
-      (any FeedPostViewModelable & FeedPostViewAdapterDataSource).self,
-      name: .implementation(.default)
+      (any FeedPostViewModelable & FeedPostViewAdapterDataSource).self
     ) { (r, feedCategory: PostCategory) in
-      let defaultPostFetchUseCase = r.resolve(PostFetchUseCase.self, name: .implementation(.default))!
+      let defaultPostFetchUseCase = r.resolve(PostFetchUseCase.self)!
       return FeedPostViewModel(postCategory: feedCategory, postFetchUseCase: defaultPostFetchUseCase)
-    }.inObjectScope(.transient)
-    
-    container.register(
-      (any FeedPostViewModelable & FeedPostViewAdapterDataSource).self,
-      name: .implementation(.interceptedDefault)
-    ) { (r, feedCategory: PostCategory) in
-      let interceptedPostFetchUseCase = r.resolve(PostFetchUseCase.self, name: .implementation(.interceptedDefault))!
-      return FeedPostViewModel(postCategory: feedCategory, postFetchUseCase: interceptedPostFetchUseCase)
-    }.inObjectScope(.transient)
-    
-    container.register(
-      (any FeedPostViewModelable & FeedPostViewAdapterDataSource).self,
-      name: .testDouble(.mock)
-    ) { (r, feedCategory: PostCategory) in
-      let mockPostFetchUseCase = r.resolve(PostFetchUseCase.self, name: .testDouble(.mock))!
-      return FeedPostViewModel(postCategory: feedCategory, postFetchUseCase: mockPostFetchUseCase)
     }.inObjectScope(.transient)
     
     // MARK: - FeedPostViewController
     let categoryPageViewMdoel = container.resolve(CategoryPageViewDataSource.self)!
     let feedPageServiceNames = makeFeedPageCategoryServiceNames(categoryPageViewMdoel)
-    let defaultFeedPageServiceNames = makeDefaultFeedPageServiceNames(feedPageServiceNames)
-    let mockFeedPageServiceNames = makeMockFeedPageServiceNames(feedPageServiceNames)
     let numberOfCategories = categoryPageViewMdoel.numberOfItems
     
     /// 마지막 인덱스는 개발자 페이지인데, 위에서 이미 등록됬습니다.
     for index in 0..<numberOfCategories - 1 {
       let feedCategory = categoryPageViewMdoel.postSearchFilterItem(at: index)
-      let defaultFeedPageServiceName = feedPageServiceNames[index]
-      let mockFeedPageServiceName = mockFeedPageServiceNames[index]
+      let feedPageServiceName = feedPageServiceNames[index]
       
       // MARK: - 피드 페이지뷰컨트롤러 default, mock register.
       container.register(
         UIViewController.self,
-        name: defaultFeedPageServiceName
+        name: feedPageServiceName
       ) { (r, coordinator: FeedCoordinator) in
         let defaultFeedPostViewModel = self.resolveFeedPostViewModel(
           r,
-          serviceName: .implementation(.default),
           arguemnt: feedCategory)
         let defaultPostOptionViewModel = self.resolvePostOptionViewModel(
           r,
-          serviceName: .implementation(.default),
           actions: coordinator.makePostOptionViewModelActions(),
           mainThemeType: feedCategory.mainTheme)
         return FeedPostViewController(
@@ -89,25 +67,6 @@ final class PresentationFeedAssembly: Assembly {
           $0.coordinator = coordinator
         }
       }.inObjectScope(.transient)
-      
-      container.register(UIViewController.self, name: mockFeedPageServiceName) { (r, coordinator: FeedCoordinator) in
-        let mockFeedPostVM = self.resolveFeedPostViewModel(
-          r,
-          serviceName: .testDouble(.mock),
-          arguemnt: feedCategory)
-        let mockPostOptionVM = self.resolvePostOptionViewModel(
-          r,
-          serviceName: .testDouble(.mock),
-          actions: coordinator.makePostOptionViewModelActions(),
-          mainThemeType: feedCategory.mainTheme)
-        return FeedPostViewController(
-          type: feedCategory,
-          viewModel: mockFeedPostVM,
-          postOptionViewModel: mockPostOptionVM
-        ).set {
-          $0.coordinator = coordinator
-        }
-      }.inObjectScope(.transient)
     }
     
     // MARK: - FeedPageViewControllers
@@ -115,22 +74,13 @@ final class PresentationFeedAssembly: Assembly {
       let defaultFeedPageViewControllers = (0..<numberOfCategories-1).map {
         r.resolve(
           UIViewController.self,
-          name: defaultFeedPageServiceNames[$0], argument: coordinator)!
+          name: feedPageServiceNames[$0], argument: coordinator)!
       }
       return defaultFeedPageViewControllers + [r.resolve(DevelopmentViewController.self)!]
     }.inObjectScope(.transient)
     
-    container.register([UIViewController].self, name: "MockFeedPageViews") { (r, coordinator: FeedCoordinator) in
-      let mockFeedPageViewControllers = (0..<numberOfCategories-1).map {
-        r.resolve(
-          UIViewController.self,
-          name: mockFeedPageServiceNames[$0], argument: coordinator)!
-      }
-      return mockFeedPageViewControllers + [r.resolve(DevelopmentViewController.self)!]
-    }.inObjectScope(.transient)
-    
     // MARK: - FeedViewController
-    container.register(FeedViewController.self, name: .implementation(.default)) { (r, coordinator: FeedCoordinator) in
+    container.register(FeedViewController.self) { (r, coordinator: FeedCoordinator) in
       let defaultPageViews = r.resolve(
         [UIViewController].self,
         name: "DefaultFeedPageViews",
@@ -141,22 +91,6 @@ final class PresentationFeedAssembly: Assembly {
         viewModel: feedViewModel,
         categoryPageViewModel: categoryPageViewModel,
         pageViews: defaultPageViews
-      ).set {
-        $0.coordinator = coordinator
-      }
-    }
-    
-    container.register(FeedViewController.self, name: .testDouble(.mock)) { (r, coordinator: FeedCoordinator) in
-      let mockPageViews = r.resolve(
-        [UIViewController].self,
-        name: "MockFeedPageViews",
-        argument: coordinator)!
-      let feedViewModel = r.resolve((any FeedViewModelable).self)!
-      let categoryPageViewModel = r.resolve(CategoryPageViewDataSource.self)!
-      return FeedViewController(
-        viewModel: feedViewModel,
-        categoryPageViewModel: categoryPageViewModel,
-        pageViews: mockPageViews
       ).set {
         $0.coordinator = coordinator
       }
@@ -173,35 +107,23 @@ private extension PresentationFeedAssembly {
     }
   }
   
-  func makeDefaultFeedPageServiceNames(_ mainCategoryTitles: [String]) -> [String] {
-    return mainCategoryTitles.map { "default" + $0 }
-  }
-  
-  func makeMockFeedPageServiceNames(_ mainCategoryTitles: [String]) -> [String] {
-    return mainCategoryTitles.map { "mock" + $0 }
-  }
-  
   func resolveFeedPostViewModel(
     _ r: Resolver,
-    serviceName: ServiceName,
     arguemnt: PostCategory
   ) -> (any FeedPostViewModelable & FeedPostViewAdapterDataSource) {
     r.resolve(
       (any FeedPostViewModelable & FeedPostViewAdapterDataSource).self,
-      name: serviceName,
       argument: arguemnt)!
   }
   
   func resolvePostOptionViewModel(
     _ r: Resolver,
-    serviceName: ServiceName,
     actions: PostOptionViewModelActions,
     mainThemeType: TravelMainThemeType?
   ) -> PostOptionViewModelType {
     let dataSource = PostOptionViewModelInfo(postOptionLocation: .summaryPage(mainThemeType))
     return r.resolve(
       PostOptionViewModelType.self,
-      name: serviceName,
       arguments: dataSource, actions)!
   }
 }

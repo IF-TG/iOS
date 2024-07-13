@@ -2,103 +2,54 @@
 //  DefaultPostHeartUseCaseTests.swift
 //  travelPlanTests
 //
-//  Created by 양승현 on 5/3/24.
+//  Created by 양승현 on 7/13/24.
 //
 
 import XCTest
 import Combine
-@testable import FirebaseFirestore
-@testable import SHFirestoreService
 @testable import travelPlan
 
-final class DefaultPostHeartUseCaseTests: XCTestCase {
-  // MARK: - Properties
+final class DefaultPostHeartUseCaseTests: BaseXCTestCase {
   var sut: PostHeartUseCase!
-  var subscriptions = Set<AnyCancellable>()
-  var expectation: XCTestExpectation!
   
-  // MARK: - Identifier
-  // firestore의 identifer들은 String 입니다 하지만 spring server에서는 Int로 Identifier를 제공하고, 현재
-  // spring server를 사용하기에 Int64숫자 임의대로 지정했습니다. 테스트는 결과는 전부 false됩니다...
-  // target은 추가히지 않았습니다.
-  // let testPostId = "ABEB803F-DD54-41A4-B8BF-487A210BD1EC"
-  let testPostId: PostIdentifier = 1
-  
-  // MARK: - Lifecycle
   override func setUp() {
     super.setUp()
-    let backgroundQueue = DispatchQueue.global(qos: .userInteractive)
-    let service = FirestoreService()
-    let postHeartRepository = FirestorePostHeartRepository(service: service, backgroundQueue: backgroundQueue)
-    let mockStorage = StubOwnerStorage()
-    let loggedInUserRepository = DefaultLoggedInUserRepository(storage: mockStorage)
-    sut = DefaultPostHeartUseCase(
-      backgroundQueue: backgroundQueue,
-      postHeartRepository: postHeartRepository,
-      loggedInUserRepository: loggedInUserRepository)
-    expectation = XCTestExpectation(description: "PostHeartUseCase 테스트. Firestore에 실제 접근합니다.")
+    let mockPostRepositoryDecorator = PostRepositoryDecorator()
+    sut = DefaultPostHeartUseCase(postRepository: mockPostRepositoryDecorator)
   }
   
   override func tearDown() {
     super.tearDown()
     sut = nil
-    subscriptions.removeAll()
-    expectation = nil
-  }
-}
-
-// MARK: 이 테스트는 실제 파이어스토어에 테스트 문서에서 진행되는 테스트입니다.
-extension DefaultPostHeartUseCaseTests {
-  func test_postHeart를눌렀을때성공적으로Void를반환하는지테스트() {
-    // Arrange
-    var hasReceivedResult = false
-    var unexpectedErr: Error?
-    
-    // Act
-    sut.heartPost(testPostId)
-      .receive(on: DispatchQueue.main)
-      .sink {
-        if case .failure(let error) = $0 {
-          unexpectedErr = error
-          self.expectation.fulfill()
-        }
-      } receiveValue: { _ in
-        hasReceivedResult = true
-        self.expectation.fulfill()
-      }.store(in: &subscriptions)
-    
-    wait(for: [expectation], timeout: 7.777)
-    
-    // Assert
-    checkIfUnexpectedErrorOccurred(unexpectedErr, functionName: "postHeartUseCase.heartPost")
-    XCTAssertTrue(hasReceivedResult, "포스트 좋아요 누를때 Void를 반환받아야 하지만 받지 못했습니다.")
   }
   
-  // 이상하게.. FieldValue.increment() +1은 처음엔 잘되고 두번째 연이어 호출하면 +2씩 증가가됩니다.
-  // increment()에서 -1을 해도 처음엔 db에 감소되지 않고 두번이상할떄 차감됩니다
-  // 그래서 그냥 트랜젝션에 로직을 추가했습니다.
-  func test_hateHeart를눌렀을때성공적으로Void를반환하는지테스트() {
+  // MARK: - Tests
+  
+  func test_whenPostHeart_shouldReturnVoid() {
     // Arrange
-    var hasReceivedResult = false
-    var unexpectedErr: Error?
+    let task = sut.heartPost(777)
     
     // Act
-    sut.hatePost(testPostId)
-      .receive(on: DispatchQueue.main)
-      .sink {
-        if case .failure(let error) = $0 {
-          unexpectedErr = error
-          self.expectation.fulfill()
-        }
-      } receiveValue: { _ in
-        hasReceivedResult = true
-        self.expectation.fulfill()
-      }.store(in: &subscriptions)
-    
+    execute(fromPublisher: task).store(in: &subscriptions)
     wait(for: [expectation], timeout: 7.777)
     
     // Assert
-    checkIfUnexpectedErrorOccurred(unexpectedErr, functionName: "postHeartUseCase.heartPost")
-    XCTAssertTrue(hasReceivedResult, "포스트 좋아요 누를때 Void를 반환받아야 하지만 받지 못했습니다.")
+    checkIfUnexpectedErrorOccurred(unexpectedError, functionName: "heartPost")
+    XCTAssert(hasReceivedResult, notReceivedErrorMessage)
+  }
+  
+  /// PostRepository의 토글은 결과로 항상 true를 반환함으로, hate시점은 에러를 던져야 합니다.
+  func test_whenPostHate_shouldThrowError() {
+    // Arrange
+    let task = sut.hatePost(777)
+    
+    // Act
+    execute(fromPublisher: task).store(in: &subscriptions)
+    wait(for: [expectation], timeout: 30)
+    
+    // Assert
+    XCTAssertFalse(hasReceivedResult, "에러를 던져야 하기 때문에 반환받은 값을 받지 않아야합니다.")
+    XCTAssertNotNil(unexpectedError, "에러를 던져야하지만 에러가 던져지지 않았습니다.")
+    print(unexpectedError?.localizedDescription)
   }
 }

@@ -12,16 +12,15 @@ import SHFirestoreService
 final class SpringServerRepositoryAssembly: Assembly {
   func assemble(container: Swinject.Container) {
     // MARK: - Session
-    let defaultSession = container.resolve(Sessionable.self, name: .implementation(.default))!
-    let mockSession = container.resolve(Sessionable.self, name: .implementation(.interceptedDefault))!
+    let defaultSession = container.resolve(Sessionable.self)!
     
     // MARK: - LoginRepository
     container.register(LoginRepository.self) { r in
-      let authenticationService = r.resolve(AuthenticationService.self, name: .implementation(.default))!
-      let loginResultStorage = r.resolve(LoginResultStorage.self, name: .implementation(.default))!
-      let loggedInUserRepository = r.resolve(LoggedInUserRepository.self, name: .testDouble(.stub))!
-      let userProfileRepository = r.resolve(UserProfileRepository.self, name: .implementation(.firestore))!
-      let firestoreService = r.resolve(FirestoreServiceProtocol.self, name: .implementation(.firestore))!
+      let authenticationService = r.resolve(AuthenticationService.self)!
+      let loginResultStorage = r.resolve(LoginResultStorage.self)!
+      let loggedInUserRepository = r.resolve(LoggedInUserRepository.self)!
+      let userProfileRepository = r.resolve(UserProfileRepository.self)!
+      let firestoreService = r.resolve(FirestoreServiceProtocol.self, name: .firebase)!
       
       return DefaultLoginRepository(
         authService: authenticationService,
@@ -35,74 +34,40 @@ final class SpringServerRepositoryAssembly: Assembly {
     // TODO: - SpringServer User
     
     // MARK: - Owner Repository
-    container.register(LoggedInUserRepository.self, name: .implementation(.default)) { _ in
-      return DefaultLoggedInUserRepository(storage: Dependency(name: .implementation(.default)))
-    }
-    
-    container.register(LoggedInUserRepository.self, name: .testDouble(.stub)) { _ in
-      return DefaultLoggedInUserRepository(storage: Dependency(name: .testDouble(.stub)))
+    container.register(LoggedInUserRepository.self) { _ in
+      return DefaultLoggedInUserRepository(storage: Dependency())
     }
     
     // TODO: - UserProfile
     // TODO: - UserProfileSetting
     
     // MARK: UserBlockRepgository
-    container.register(UserBlockRepository.self, name: .implementation(.default)) { _ in
+    container.register(UserBlockRepository.self) { _ in
       return DefaultUserBlockRepository(service: defaultSession)
     }
     
-    container.register(UserBlockRepository.self, name: .implementation(.interceptedDefault)) { _ in
-      return DefaultUserBlockRepository(service: mockSession)
-    }
-    
-    container.register(UserBlockRepository.self, name: .testDouble(.mock)) { _ in
-      return MockWrappedUserBlockRepository()
-    }
-    
     // MARK: - Post
-    container.register(PostRepository.self, name: .implementation(.default)) { r in
-      let defaultOwnerStorage = r.resolve(OwnerStorage.self, name: .implementation(.default))!
-      let defaultSessionProvider = r.resolve(Sessionable.self, name: .implementation(.default))!
+    container.register(PostRepository.self) { r in
+      let defaultOwnerStorage = r.resolve(OwnerStorage.self)!
+      let defaultSessionProvider = r.resolve(Sessionable.self)!
       return DefaultPostRepository(service: defaultSessionProvider, ownerStorage: defaultOwnerStorage)
     }
     
-    container.register(PostRepository.self, name: .implementation(.interceptedDefault)) { r in
-      let stubOwnerStorage = r.resolve(OwnerStorage.self, name: .testDouble(.stub))!
-      let mockSessionProvider = r.resolve(Sessionable.self, name: .testDouble(.mock))!
-      return DefaultPostRepository(service: mockSessionProvider, ownerStorage: stubOwnerStorage)
-    }
-    
-    container.register(PostRepository.self, name: .testDouble(.mock)) { _ in
-      return MockPostRepository()
-    }
-    
     // MARK: - PostComment
-    container.register(PostCommentRepository.self, name: .implementation(.default)) { _ in
+    container.register(PostCommentRepository.self) { _ in
       return DefaultPostCommentRepository(service: defaultSession)
     }
     
-    container.register(PostCommentRepository.self, name: .implementation(.interceptedDefault)) { _ in
-      return MockPostCommentRepository()
-    }
-    
     // MARK: - PostNestedComment
-    container.register(PostNestedCommentRepository.self, name: .implementation(.default)) { _ in
+    container.register(PostNestedCommentRepository.self) { _ in
       return DefaultPostNestedCommentRepository(service: defaultSession)
-    }
-    
-    container.register(PostNestedCommentRepository.self, name: .implementation(.interceptedDefault)) { _ in
-      return MockPostNestedCommentRepository()
     }
     
     // TODO: - ReviewWriting
     
     // MARK: - whatsNewNotification
-    container.register(WhatsNewNotificationRepository.self, name: .implementation(.default)) { _ in
+    container.register(WhatsNewNotificationRepository.self) { _ in
       return DefaultWhatsNewNotificationRepository(service: defaultSession)
-    }
-    
-    container.register(WhatsNewNotificationRepository.self, name: .implementation(.interceptedDefault)) { _ in
-      return InterceptedWhatsNewNotificationRepository()
     }
   }
 }

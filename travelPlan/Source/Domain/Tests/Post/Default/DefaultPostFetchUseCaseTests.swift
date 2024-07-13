@@ -18,7 +18,7 @@ final class DefaultPostFetchUseCaseTests: XCTestCase {
   // MARK: - Lifecycle
   override func setUp() {
     super.setUp()
-    mockRepository = MockPostRepository()
+    mockRepository = PostRepositoryDecorator()
     sut = DefaultPostFetchUseCase(postRepository: mockRepository)
     expectation = XCTestExpectation(description: "Finish")
   }

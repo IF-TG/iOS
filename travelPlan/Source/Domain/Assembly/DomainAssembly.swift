@@ -34,93 +34,85 @@ final class DomainAssembly: Swinject.Assembly {
 // MARK: - Private Helpers
 private extension DomainAssembly {
   func userUseCase(container: Container) {
-    container.register(UserBlockUseCase.self, name: .implementation(.default)) { r in
-      let defaultUserBlockRepository = r.resolve(UserBlockRepository.self, name: .implementation(.default))!
+    container.register(UserBlockUseCase.self) { r in
+#if DEBUG
+      let wrappedRepo = MockWrappedUserBlockRepository()
+      return DefaultUserBlockUseCase(userBlockRepository: wrappedRepo)
+#else
+      let defaultUserBlockRepository = r.resolve(UserBlockRepository.self)!
       return DefaultUserBlockUseCase(userBlockRepository: defaultUserBlockRepository)
+#endif
     }
     
-    container.register(UserBlockUseCase.self, name: .implementation(.firestore)) { r in
-      let firestoreUserBlockRepository = r.resolve(UserBlockRepository.self, name: .implementation(.firestore))!
+    container.register(UserBlockUseCase.self, name: .firebase) { r in
+      let firestoreUserBlockRepository = r.resolve(UserBlockRepository.self, name: .firebase)!
       return DefaultUserBlockUseCase(userBlockRepository: firestoreUserBlockRepository)
-    }
-    
-    container.register(UserBlockUseCase.self, name: .implementation(.interceptedDefault)) { r in
-      let interceptedUserBlockRepository = r.resolve(
-        UserBlockRepository.self,
-        name: .implementation(.interceptedDefault))!
-      return DefaultUserBlockUseCase(userBlockRepository: interceptedUserBlockRepository)
-    }
-    
-    container.register(UserBlockUseCase.self, name: .testDouble(.mock)) { r in
-      let mockUserBlockRepository = r.resolve(UserBlockRepository.self, name: .testDouble(.mock))!
-      return DefaultUserBlockUseCase(userBlockRepository: mockUserBlockRepository)
     }
   }
   
   func postUseCase(container: Container) {
-    container.register(PostFetchUseCase.self, name: .implementation(.default)) { r in
-      let defaultPostRepository = r.resolve(PostRepository.self, name: .implementation(.default))!
+    container.register(PostFetchUseCase.self) { r in
+#if DEBUG
+      return MockPostFetchUseCase()
+#else
+      let defaultPostRepository = r.resolve(PostRepository.self)!
       return DefaultPostFetchUseCase(postRepository: defaultPostRepository)
+#endif
     }.inObjectScope(.transient)
     
-    container.register(PostFetchUseCase.self, name: .implementation(.interceptedDefault)) { r in
-      let interceptedPostRepository = r.resolve(PostRepository.self, name: .implementation(.interceptedDefault))!
-      return DefaultPostFetchUseCase(postRepository: interceptedPostRepository)
-    }.inObjectScope(.transient)
-    
-    container.register(PostFetchUseCase.self, name: .testDouble(.mock)) { _ in
-      MockPostFetchUseCase()
-    }.inObjectScope(.transient)
-    
-    container.register(PostFetchUseCase.self, name: .implementation(.firestore)) { r in
-      let firestorePostFetchAtomicRepo = r.resolve(PostFetchAtomicRepository.self, name: .implementation(.default))!
-      let firestoreUserProfileRepository = r.resolve(UserProfileRepository.self, name: .implementation(.firestore))!
-      let firestorePostHeartRepository = r.resolve(PostHeartRepository.self, name: .implementation(.firestore))!
-      let firestoreOwnerHeartPostRepo = r.resolve(OwnerHeartPostRepository.self, name: .implementation(.firestore))!
+    container.register(PostFetchUseCase.self, name: .firebase) { r in
+      let firestorePostFetchAtomicRepo = r.resolve(PostFetchAtomicRepository.self, name: .firebase)!
+      let firestoreUserProfileRepository = r.resolve(UserProfileRepository.self, name: .firebase)!
+      let firestorePostHeartRepository = r.resolve(PostHeartRepository.self, name: .firebase)!
+      let firestoreOwnerHeartPostRepo = r.resolve(OwnerHeartPostRepository.self, name: .firebase)!
       return PostFetchUseCaseImpl(
         postFetchAtomicRepository: firestorePostFetchAtomicRepo,
         userProfileRepository: firestoreUserProfileRepository,
         postHeartRepository: firestorePostHeartRepository,
         ownerHeartPostRepository: firestoreOwnerHeartPostRepo)
     }
+    
+    container.register(PostHeartUseCase.self) { r in
+#if DEBUG
+      let mockPostRepoDecorator = PostRepositoryDecorator()
+      return DefaultPostHeartUseCase(postRepository: mockPostRepoDecorator)
+#else
+      let defaultPostRepository = r.resolve(PostRepository.self)!
+      return DefaultPostHeartUseCase(postRepository: defaultPostRepository)
+#endif
+
+    }
   }
   
   func postCommentUseCase(container: Container) {
-    container.register(
-      PostCommentsAndPostLikeStateFetchUseCase.self,
-      name: .implementation(.interceptedDefault)
-    ) { r in
-      let mockPostRepository = r.resolve(PostRepository.self, name: .testDouble(.mock))!
+    container.register(PostCommentsAndPostLikeStateFetchUseCase.self) { r in
+#if DEBUG
+      let mockPostRepository = PostRepositoryDecorator()
       return DefaultPostCommentsAndPostLikeStateFetchUseCase(postRepository: mockPostRepository)
-    }
-    
-    container.register(
-      PostCommentsAndPostLikeStateFetchUseCase.self,
-      name: .implementation(.default)
-    ) { r in
-      let defaultPostRepository = r.resolve(PostRepository.self, name: .implementation(.default))!
+#else
+      let defaultPostRepository = r.resolve(PostRepository.self)!
       return DefaultPostCommentsAndPostLikeStateFetchUseCase(postRepository: defaultPostRepository)
+#endif
     }
     
-    container.register(PostCommentUseCase.self, name: .implementation(.default)) { r in
-      let defaultPostCommentRepository = r.resolve(PostCommentRepository.self, name: .implementation(.default))!
+    container.register(PostCommentUseCase.self) { r in
+#if DEBUG
+      let mockPostCommentRepository = MockPostCommentRepository()
+      return DefaultPostCommentUseCase(postCommentRepository: mockPostCommentRepository)
+#else
+      let defaultPostCommentRepository = r.resolve(PostCommentRepository.self)!
       return DefaultPostCommentUseCase(postCommentRepository: defaultPostCommentRepository)
+#endif
     }
     
-    container.register(PostCommentUseCase.self, name: .implementation(.interceptedDefault)) { r in
-      let postCommentRepository = r.resolve(PostCommentRepository.self, name: .implementation(.interceptedDefault))!
-      return DefaultPostCommentUseCase(postCommentRepository: postCommentRepository)
-    }
-    
-    container.register(PostCommentUseCase.self, name: .implementation(.firestore)) { r in
-      let ownerRepository = r.resolve(LoggedInUserRepository.self, name: .implementation(.default))!
-      let postAtomicCommentRepository = r.resolve(PostAtomicCommentRepository.self, name: .implementation(.firestore))!
+    container.register(PostCommentUseCase.self, name: .firebase) { r in
+      let ownerRepository = r.resolve(LoggedInUserRepository.self)!
+      let postAtomicCommentRepository = r.resolve(PostAtomicCommentRepository.self, name: .firebase)!
       let postAtomicNestedCommentRepo = r.resolve(
-        PostAtomicNestedCommentRepository.self, name: .implementation(.firestore))!
-      let firestoreUserProfileRepository = r.resolve(UserProfileRepository.self, name: .implementation(.firestore))!
-      let postNestedCommentHeartRepository = r.resolve(
-        PostNestedCommentHeartRepository.self, name: .implementation(.firestore))!
-      let postCommentHeartRepository = r.resolve(PostCommentHeartRepository.self, name: .implementation(.firestore))!
+        PostAtomicNestedCommentRepository.self, name: .firebase)!
+      let firestoreUserProfileRepository = r.resolve(UserProfileRepository.self, name: .firebase)!
+      let postNestedCommentHeartRepository = r.resolve(PostNestedCommentHeartRepository.self, name: .firebase)!
+      let postCommentHeartRepository = r.resolve(PostCommentHeartRepository.self, name: .firebase)!
       return PostCommentUseCaseImpl(
         ownerRepository: ownerRepository,
         postAtomicCommentRepository: postAtomicCommentRepository,
@@ -133,23 +125,20 @@ private extension DomainAssembly {
   }
   
   func postNestedCommentUseCase(container: Container) {
-    container.register(PostNestedCommentUseCase.self, name: .implementation(.default)) { r in
-      let defaultPostNestedCommentRepository = r.resolve(
-        PostNestedCommentRepository.self, name: .implementation(.default))!
+    container.register(PostNestedCommentUseCase.self) { r in
+#if DEBUG
+      let wrappedRepository = MockPostNestedCommentRepository()
+      return DefaultPostNestedCommentUseCase(postNestedCommentRepository: wrappedRepository)
+#else
+      let defaultPostNestedCommentRepository = r.resolve(PostNestedCommentRepository.self)!
       return DefaultPostNestedCommentUseCase(postNestedCommentRepository: defaultPostNestedCommentRepository)
+#endif
     }
     
-    container.register(PostNestedCommentUseCase.self, name: .implementation(.interceptedDefault)) { r in
-      let interceptedPostNestedCommentRepository = r.resolve(
-        PostNestedCommentRepository.self, name: .implementation(.interceptedDefault))!
-      return DefaultPostNestedCommentUseCase(postNestedCommentRepository: interceptedPostNestedCommentRepository)
-    }
-    
-    container.register(PostNestedCommentUseCase.self, name: .implementation(.firestore)) { r in
-      let firestoreNestedCommentRepository = r.resolve(
-        PostAtomicNestedCommentRepository.self, name: .implementation(.firestore))!
-      let ownerRepository = r.resolve(LoggedInUserRepository.self, name: .implementation(.default))!
-      let firestoreCommentRepository = r.resolve(PostAtomicCommentRepository.self, name: .implementation(.firestore))!
+    container.register(PostNestedCommentUseCase.self, name: .firebase) { r in
+      let firestoreNestedCommentRepository = r.resolve(PostAtomicNestedCommentRepository.self, name: .firebase)!
+      let ownerRepository = r.resolve(LoggedInUserRepository.self)!
+      let firestoreCommentRepository = r.resolve(PostAtomicCommentRepository.self, name: .firebase)!
       return PostNestedCommentUseCaseImpl(
         nestedCommentRepository: firestoreNestedCommentRepository,
         ownerRepository: ownerRepository,
@@ -158,21 +147,20 @@ private extension DomainAssembly {
   }
   
   func postCommentHeartUseCase(container: Container) {
-    container.register(PostCommentHeartUseCase.self, name: .implementation(.default)) { r in
-      let postCommentRepository = r.resolve(PostCommentRepository.self, name: .implementation(.default))!
+    container.register(PostCommentHeartUseCase.self) { r in
+#if DEBUG
+      let mockPostCommentRepository = MockPostCommentRepository()
+      return DefaultPostCommentHeartUseCase(postCommentRepository: mockPostCommentRepository)
+#else
+      let postCommentRepository = r.resolve(PostCommentRepository.self)!
       return DefaultPostCommentHeartUseCase(postCommentRepository: postCommentRepository)
+#endif
     }
     
-    container.register(PostCommentHeartUseCase.self, name: .implementation(.interceptedDefault)) { r in
-      let interceptedPostCommentRepository = r.resolve(
-        PostCommentRepository.self, name: .implementation(.interceptedDefault))!
-      return DefaultPostCommentHeartUseCase(postCommentRepository: interceptedPostCommentRepository)
-    }
-    
-    container.register(PostCommentHeartUseCase.self, name: .implementation(.firestore)) { r in
+    container.register(PostCommentHeartUseCase.self, name: .firebase) { r in
       let firestorePostCommentHeartRepository = r.resolve(
-        PostCommentHeartRepository.self, name: .implementation(.firestore))!
-      let defaultOwnerRepository = r.resolve(LoggedInUserRepository.self, name: .implementation(.default))!
+        PostCommentHeartRepository.self, name: .firebase)!
+      let defaultOwnerRepository = r.resolve(LoggedInUserRepository.self)!
       return PostCommentHeartUseCaseImpl(
         commentHeartRepository: firestorePostCommentHeartRepository,
         ownerRepository: defaultOwnerRepository)
@@ -180,21 +168,19 @@ private extension DomainAssembly {
   }
   
   func postNestedCommentHeartUseCase(container: Container) {
-    container.register(PostNestedCommentHeartUseCase.self, name: .implementation(.default)) { r in
-      let defaultPostCommentRepository = r.resolve(PostNestedCommentRepository.self, name: .implementation(.default))!
+    container.register(PostNestedCommentHeartUseCase.self) { r in
+#if DEBUG
+      let mockPostNestedCommentRepository = MockPostNestedCommentRepository()
+      return DefaultPostNestedCommentHeartUseCase(postNestedCommentRepository: mockPostNestedCommentRepository)
+#else
+      let defaultPostCommentRepository = r.resolve(PostNestedCommentRepository.self)!
       return DefaultPostNestedCommentHeartUseCase(postNestedCommentRepository: defaultPostCommentRepository)
+#endif
     }
     
-    container.register(PostNestedCommentHeartUseCase.self, name: .implementation(.interceptedDefault)) { r in
-      let interceptedPostCommentRepository = r.resolve(
-        PostNestedCommentRepository.self, name: .implementation(.interceptedDefault))!
-      return DefaultPostNestedCommentHeartUseCase(postNestedCommentRepository: interceptedPostCommentRepository)
-    }
-    
-    container.register(PostNestedCommentHeartUseCase.self, name: .implementation(.firestore)) { r in
-      let firestoreNestedCommentHeartRepository = r.resolve(
-        PostNestedCommentHeartRepository.self, name: .implementation(.firestore))!
-      let defaultOwnerRepository = r.resolve(LoggedInUserRepository.self, name: .implementation(.default))!
+    container.register(PostNestedCommentHeartUseCase.self, name: .firebase) { r in
+      let firestoreNestedCommentHeartRepository = r.resolve(PostNestedCommentHeartRepository.self, name: .firebase)!
+      let defaultOwnerRepository = r.resolve(LoggedInUserRepository.self)!
       return PostNestedCommentHeartUseCaseImpl(
         nestedCommentHeartRepository: firestoreNestedCommentHeartRepository,
         ownerRepository: defaultOwnerRepository)
@@ -202,21 +188,24 @@ private extension DomainAssembly {
   }
   
   func noticeUseCase(container: Container) {
-    container.register(NoticeUseCase.self, name: .implementation(.default)) { r in
-      let defaultWhatsNewRepo = r.resolve(WhatsNewNotificationRepository.self, name: .implementation(.default))!
+    container.register(NoticeUseCase.self) { r in
+#if DEBUG
+      let interceptedWhatsNewNotificationRepo = InterceptedWhatsNewNotificationRepository()
+      return DefaultNoticeUseCase(whatsNewNotificationRepository: interceptedWhatsNewNotificationRepo)
+#else
+      let defaultWhatsNewRepo = r.resolve(WhatsNewNotificationRepository.self)!
       return DefaultNoticeUseCase(whatsNewNotificationRepository: defaultWhatsNewRepo)
+#endif
     }
     
-    container.register(NoticeUseCase.self, name: .implementation(.interceptedDefault)) { r in
-      let interceptedWhatsNewRepo = r.resolve(
-        WhatsNewNotificationRepository.self,
-        name: .implementation(.interceptedDefault))!
-      return DefaultNoticeUseCase(whatsNewNotificationRepository: interceptedWhatsNewRepo)
-    }
-    
-    container.register(NoticeUseCase.self, name: .implementation(.firestore)) { r in
-      let firestoreWhatsNewRepo = r.resolve(WhatsNewNotificationRepository.self, name: .implementation(.firestore))!
+    container.register(NoticeUseCase.self, name: .firebase) { r in
+#if DEBUG
+      let interceptedWhatsNewNotificationRepo = InterceptedWhatsNewNotificationRepository()
+      return DefaultNoticeUseCase(whatsNewNotificationRepository: interceptedWhatsNewNotificationRepo)
+#else
+      let firestoreWhatsNewRepo = r.resolve(WhatsNewNotificationRepository.self, name: .firebase)!
       return DefaultNoticeUseCase(whatsNewNotificationRepository: firestoreWhatsNewRepo)
+#endif
     }
   }
   

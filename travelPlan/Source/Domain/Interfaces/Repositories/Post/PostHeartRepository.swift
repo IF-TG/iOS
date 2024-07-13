@@ -8,6 +8,7 @@
 import Foundation
 import Combine
 
+// MARK: - Firestore에서 사용됨.
 protocol PostHeartRepository {
   /// 포스트 좋아요 한 사용자들의 ID를 반환합니다.
   /// posts's collection - specific post document - post-hearts's collection일때는 가능했으나

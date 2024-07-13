@@ -118,6 +118,7 @@ extension RequestType {
     case postCommentsFetch
     case likedPostsByLoggedInUserFetch
     case postSearch
+    case toggleLike
     
     var path: String {
       switch self {
@@ -131,6 +132,8 @@ extension RequestType {
         "post/search"
       case .save, .update:
         "post"
+      case .toggleLike:
+        "post/like"
       }
     }
   }
