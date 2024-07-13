@@ -20,6 +20,8 @@ struct FeedPostViewModelInput {
   let postBlockSubject: PassthroughSubject<UserIdentifier, Never> = .init()
   let postShareSubject: PassthroughSubject<IndexPath, Never> = .init()
   
+  let postHeartSubject: PassthroughSubject<IndexPath, Never> = .init()
+  
   init(
     notifiedOrderFilterRequest: PassthroughSubject<TravelOrderType, Never>,
     notifiedMainThemeFilterRequest: PassthroughSubject<TravelMainThemeType, Never>
