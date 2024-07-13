@@ -8,7 +8,7 @@
 import Foundation
 
 /// **좌표 정보 조회**
-struct TourCoordinate {
-  let mapX: String
-  let mapY: String
+struct TourCoordinate<T> {
+  let mapX: T
+  let mapY: T
 }

@@ -7,12 +7,12 @@
 
 import Foundation
 
-struct TourCommonInfoEntity {
+struct TourCommonInfoEntity<T> {
   let id: TourContentId
   let address: TourAddress
   let contact: TourContact
-  let coordinate: TourCoordinate
-  let image: ImageInfo
+  let coordinate: TourCoordinate<T>
+  let image: TourImage
   let overview: String
   let title: String
 }
