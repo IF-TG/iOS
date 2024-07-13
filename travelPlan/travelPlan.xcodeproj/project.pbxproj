@@ -530,6 +530,8 @@
 		1588F20D2C424CD0005C5EA8 /* DefaultPostHeartUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1588F20C2C424CD0005C5EA8 /* DefaultPostHeartUseCase.swift */; };
 		1588F20E2C4258F0005C5EA8 /* PostHeartUseCaseImplTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154047922BE4D237009E86FF /* PostHeartUseCaseImplTests.swift */; };
 		1588F2102C425977005C5EA8 /* DefaultPostHeartUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1588F20F2C425977005C5EA8 /* DefaultPostHeartUseCaseTests.swift */; };
+		1588F2122C4273EC005C5EA8 /* PostCellEdgeDividable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1588F2112C4273EC005C5EA8 /* PostCellEdgeDividable.swift */; };
+		1588F2142C4273FF005C5EA8 /* PostHeartsConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1588F2132C4273FF005C5EA8 /* PostHeartsConfigurable.swift */; };
 		158981BA2BB2652700F016CF /* PostCommentAPIEndpointTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158981B92BB2652700F016CF /* PostCommentAPIEndpointTests.swift */; };
 		158AC00A2C22B7DC00C56AF8 /* PostAuthorBlockCoordinatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158AC0092C22B7DC00C56AF8 /* PostAuthorBlockCoordinatable.swift */; };
 		158BEF772A0E279700C27861 /* BasePostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158BEF762A0E279700C27861 /* BasePostView.swift */; };
@@ -1431,6 +1433,8 @@
 		158897902BFC403F006BB978 /* PostDetailChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailChatViewModel.swift; sourceTree = "<group>"; };
 		1588F20C2C424CD0005C5EA8 /* DefaultPostHeartUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultPostHeartUseCase.swift; sourceTree = "<group>"; };
 		1588F20F2C425977005C5EA8 /* DefaultPostHeartUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultPostHeartUseCaseTests.swift; sourceTree = "<group>"; };
+		1588F2112C4273EC005C5EA8 /* PostCellEdgeDividable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCellEdgeDividable.swift; sourceTree = "<group>"; };
+		1588F2132C4273FF005C5EA8 /* PostHeartsConfigurable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostHeartsConfigurable.swift; sourceTree = "<group>"; };
 		158981B92BB2652700F016CF /* PostCommentAPIEndpointTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PostCommentAPIEndpointTests.swift; path = Source/Data/Network/Tests/PostCommentAPIEndpointTests.swift; sourceTree = SOURCE_ROOT; };
 		158AC0092C22B7DC00C56AF8 /* PostAuthorBlockCoordinatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostAuthorBlockCoordinatable.swift; sourceTree = "<group>"; };
 		158BEF762A0E279700C27861 /* BasePostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasePostView.swift; sourceTree = "<group>"; };
@@ -4189,6 +4193,8 @@
 				1594A44B2C04F25C00428D41 /* PostViewDelegate.swift */,
 				1594A44D2C04F68E00428D41 /* BasePostViewDelegator.swift */,
 				1568CC952C0B2A1B0056A298 /* PostCellLayouter.swift */,
+				1588F2112C4273EC005C5EA8 /* PostCellEdgeDividable.swift */,
+				1588F2132C4273FF005C5EA8 /* PostHeartsConfigurable.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -5392,6 +5398,7 @@
 				13EB3D4B2BF4FF8500CA84F0 /* AttractionUseCase.swift in Sources */,
 				151AF50E2C2DA97F004B98EE /* PlanCategorySelectionViewController.swift in Sources */,
 				1518BC272BB044ED00FD1A74 /* ToggledPostCommentHeartEntity.swift in Sources */,
+				1588F2122C4273EC005C5EA8 /* PostCellEdgeDividable.swift in Sources */,
 				15869D0A2BF5A1E400FB342B /* OwnerHeartPostIdentifierFetchRepository.swift in Sources */,
 				15DA4C7F2ACD78C1003A7900 /* Int+.swift in Sources */,
 				1572ABD82BE89F56008AFE66 /* PostCommentHeartRepository.swift in Sources */,
@@ -5596,6 +5603,7 @@
 				13C9F4DB2BFB3289004D37D5 /* SearchResultListViewController.swift in Sources */,
 				130CF38F2B9356370051DEE8 /* AuthenticationService.swift in Sources */,
 				13E7EADF2BDF61880027946C /* IntroductionInfoShoppingEntity.swift in Sources */,
+				1588F2142C4273FF005C5EA8 /* PostHeartsConfigurable.swift in Sources */,
 				15D3882D2AFFBB5B00039946 /* PostDetailInputAccessoryWrapper.swift in Sources */,
 				1503F9372A4E1103002BC38D /* FavoriteCoordinator.swift in Sources */,
 				155D24BC2C40591800E9FD17 /* Synchronized.swift in Sources */,
