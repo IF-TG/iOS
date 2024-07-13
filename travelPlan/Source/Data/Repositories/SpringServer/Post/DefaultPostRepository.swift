@@ -166,4 +166,23 @@ extension DefaultPostRepository: PostRepository {
         }.store(in: &subscriptions)
     }.eraseToAnyPublisher()
   }
+  
+  func togglePostHeart(
+    postId: PostIdentifier
+  ) -> AnyPublisher<Bool, any Error> {
+    let requestDTO = PostCommentHeartToggleRequestDTO(id: postId)
+    let endpoint = Endpoint.togglePostLike(with: requestDTO)
+    return Future<Bool, any Error> { [weak self] promise in
+      guard let self else {
+        promise(.failure(ReferenceError.invalidReference))
+        return
+      }
+      service.request(endpoint: endpoint)
+        .mapConnectionError()
+        .map { $0.result.isOnHeart }
+        .sink(promise: promise, receivedValue: { result in
+          promise(.success(result))
+        }).store(in: &subscriptions)
+    }.eraseToAnyPublisher()
+  }
 }

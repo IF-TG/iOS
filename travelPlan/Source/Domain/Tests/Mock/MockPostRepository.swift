@@ -167,4 +167,7 @@ final class MockPostRepository: PostRepository {
     }.eraseToAnyPublisher()
   }
   
+  func togglePostHeart(postId: Int64) -> AnyPublisher<Bool, any Error> {
+    return Just(true).setAnyErrorAndEraseToAnyPublisher()
+  }
 }

@@ -32,4 +32,6 @@ protocol PostRepository {
     isTitle: Bool,
     isContent: Bool
   ) -> AnyPublisher<[Post], Error>
+  
+  func togglePostHeart(postId: Int64) -> AnyPublisher<Bool, Error>
 }
