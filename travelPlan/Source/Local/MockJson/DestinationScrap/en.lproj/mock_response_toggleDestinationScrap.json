@@ -1,0 +1,9 @@
+{
+  "result": {
+    "objectId" : 12345,
+    "value" : true
+  },
+  "status": "OK",
+  "statusCode": "200",
+  "message": "성공"
+}

@@ -1,0 +1,22 @@
+{
+  "result": [
+    {
+      "objectId": 45667,
+      "userId": 776,
+      "folderName": "전체"
+    },
+    {
+      "objectId": 45668,
+      "userId": 777,
+      "folderName": "전체"
+    },
+    {
+      "objectId": 45669,
+      "userId": 778,
+      "folderName": "전체"
+    }
+  ],
+  "status": "OK",
+  "statusCode": "200",
+  "message": "성공"
+}
