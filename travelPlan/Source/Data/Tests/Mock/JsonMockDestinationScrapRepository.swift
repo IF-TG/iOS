@@ -23,7 +23,7 @@ final class JsonMockDestinationScrapRepository {
 
 // MARK: - DestinationScrapRepository
 extension JsonMockDestinationScrapRepository: DestinationScrapRepository {
-  func getDestinationScrapList(
+  func getDestinationScrapList(	
     folderName: String
   ) -> AnyPublisher<[DestinationScrapDetail], any Error> {
     MockUrlProtocol.requestHandler = { _ in
