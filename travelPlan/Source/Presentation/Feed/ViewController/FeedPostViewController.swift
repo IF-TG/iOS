@@ -237,8 +237,8 @@ extension FeedPostViewController: PostViewAdapterDelegate {
   }
   
   func tapHeart(_ cell: UICollectionViewCell) {
-    // TODO: - 하트, input 로직 추가해야합니다.
-    print("피드 포스트 하트 클릭")
+    guard let indexPath = postView.indexPath(for: cell) else { return }
+    input.postHeartSubject.send(indexPath)
   }
   
   func didTapPost(with postIndex: Int) {
