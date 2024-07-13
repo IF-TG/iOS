@@ -51,18 +51,16 @@ extension DefaultPostRepository: PostRepository {
       let endpoint = Endpoint.fetchPosts(with: requestDTO)
       
       service.request(endpoint: endpoint)
-        .mapError { MainError.networkError($0) }
-        .sink { completion in
-          if case .failure(let error) = completion {
-            promise(.failure(error))
-          }
-        } receiveValue: { responseDTO in
+        .mapConnectionError()
+        .map { responseDTO in
           let postContainers = responseDTO.result.map { $0.toDomain() }
-          let postsPage = PostsPage(
+          return PostsPage(
             posts: postContainers.map { $0.post },
             thumbnails: postContainers.map { $0.thumbnail })
-          promise(.success(postsPage))
+        }.sink(promise: promise) {
+          promise(.success($0))
         }.store(in: &subscriptions)
+        
     }.eraseToAnyPublisher()
   }
   
@@ -80,16 +78,10 @@ extension DefaultPostRepository: PostRepository {
       }
       
       service.request(endpoint: endpoint)
-        .mapError {
-          return $0.asConnectionError }
-        .map { $0.result }
-        .sink { completion in
-          if case .failure(let error) = completion {
-            promise(.failure(error))
-          }
-        } receiveValue: { response in
+        .mapConnectionError()
+        .map { response in
           var nestedCommentAuthorImages: [[Data?]] = []
-          let commentAuthorImages: [Data?] = response.comments.enumerated().map {
+          let commentAuthorImages: [Data?] = response.result.comments.enumerated().map {
             let commentAuthorImage = Data(base64Encoded: $1.userProfileURL)
             let nestedAuthorImages = $1.nestedComments.map { nestedCommentResponseDTO in
               return Data(base64Encoded: nestedCommentResponseDTO.userProfileURL)
@@ -97,11 +89,13 @@ extension DefaultPostRepository: PostRepository {
             nestedCommentAuthorImages.append(nestedAuthorImages)
             return commentAuthorImage
           }
-          let entities = response.toDomain(
+          return response.result.toDomain(
             with: commentAuthorImages,
             nestedCommentAuthorProfileImageDataList: nestedCommentAuthorImages)
-          promise(.success(entities))
-        }.store(in: &subscriptions)
+        }
+        .sink(promise: promise, receivedValue: {
+          promise(.success($0))
+        }).store(in: &subscriptions)
     }.eraseToAnyPublisher()
   }
   
@@ -117,17 +111,14 @@ extension DefaultPostRepository: PostRepository {
         return
       }
       service.request(endpoint: endpoint)
-        .mapError { MainError.networkError($0) }
-        .sink { completion in
-          if case .failure(let error) = completion {
-            promise(.failure(error))
-          }
-        } receiveValue: { responseDTO in
+        .mapConnectionError()
+        .map { responseDTO in
           let postContainers = responseDTO.result.map { $0.toDomain() }
-          let postsPage = PostsPage(
+          return PostsPage(
             posts: postContainers.map { $0.post },
             thumbnails: postContainers.map { $0.thumbnail })
-          promise(.success(postsPage))
+        }.sink(promise: promise) {
+          promise(.success($0))
         }.store(in: &subscriptions)
     }.eraseToAnyPublisher()
   }
@@ -153,17 +144,10 @@ extension DefaultPostRepository: PostRepository {
       }
       service.request(endpoint: endpoint)
         .mapConnectionError()
-        .map { $0.result }
-        .sink { completion in
-          if case .failure(let error) = completion {
-            promise(.failure(error))
-          }
-        } receiveValue: { responseDTO in
-          let posts: [Post] = responseDTO.map { responsePostDTO in
-            return responsePostDTO.toDomain()
-          }
+        .map { $0.result.map { postDTO in postDTO.toDomain() } }
+        .sink(promise: promise, receivedValue: { posts in
           promise(.success(posts))
-        }.store(in: &subscriptions)
+        }).store(in: &subscriptions)
     }.eraseToAnyPublisher()
   }
   
