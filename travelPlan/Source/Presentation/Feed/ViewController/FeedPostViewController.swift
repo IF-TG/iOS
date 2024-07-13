@@ -150,6 +150,9 @@ extension FeedPostViewController: ViewBindCase {
       coordinator?.showPostShareSheet(with: item)
     case .load(let loadState):
       handleLoadState(loadState)
+    case .updatedHearts(let indexPath, let numberOfHearts):
+      let cell = postView.cellForItem(at: indexPath) as? PostHeartsConfigurable
+      cell?.setPostHearts(with: Int32(numberOfHearts))
     }
   }
   
