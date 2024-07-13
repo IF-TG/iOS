@@ -1,5 +1,5 @@
 //
-//  DefaultPostHeartUseCaseTests.swift
+//  PostHeartUseCaseImplTests.swift
 //  travelPlanTests
 //
 //  Created by 양승현 on 5/3/24.
@@ -11,7 +11,7 @@ import Combine
 @testable import SHFirestoreService
 @testable import travelPlan
 
-final class DefaultPostHeartUseCaseTests: XCTestCase {
+final class PostHeartUseCaseImplTests: XCTestCase {
   // MARK: - Properties
   var sut: PostHeartUseCase!
   var subscriptions = Set<AnyCancellable>()
