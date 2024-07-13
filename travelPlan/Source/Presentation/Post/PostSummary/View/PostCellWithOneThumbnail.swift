@@ -67,3 +67,10 @@ extension PostCellWithOneThumbnail: PostCellEdgeDividable {
     postView.hideCellDivider()
   }
 }
+
+// MARK: - PostHeartsConfigurable
+extension PostCellWithOneThumbnail: PostHeartsConfigurable {
+  func setPostHearts(with hearts: Int32) {
+    postView.setPostHearts(with: hearts)
+  }
+}
