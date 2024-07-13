@@ -22,8 +22,12 @@ final class DefaultDestinationScrapRepository {
 
 extension DefaultDestinationScrapRepository: DestinationScrapRepository {
   // FIXME: - page 및 perPage는 어떤 방식으로 적용할 것인지?
-  func getDestinationScrapList(folderName: String) -> AnyPublisher<[DestinationScrapDetail], any Error> {
-    let requestDTO = DestinationScrapListRequestDTO(folderName: folderName, page: nil, perPage: nil)
+  func getDestinationScrapList(
+    folderName: String,
+    page: Int32? = nil,
+    perPage: Int32? = nil
+  ) -> AnyPublisher<[DestinationScrapDetail], any Error> {
+    let requestDTO = DestinationScrapListRequestDTO(folderName: folderName, page: page, perPage: perPage)
     let endpoint = DestinationScrapEndpoints.getDestinationScrapList(with: requestDTO)
     
     return service.request(endpoint: endpoint)
