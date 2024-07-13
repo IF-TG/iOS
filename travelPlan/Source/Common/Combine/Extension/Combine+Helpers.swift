@@ -28,6 +28,19 @@ public extension Publisher where Self.Failure == Never {
   }
 }
 
+/// Delay를 넣은 후 type erase된 퍼블리셔를 방출할 때 사용합니다.
+public extension Publisher {
+  func eraseToAnyPublisherWithDelay<S>(
+    for interval: S.SchedulerTimeType.Stride,
+    tolerance: S.SchedulerTimeType.Stride? = nil,
+    scheduler: S,
+    options: S.SchedulerOptions? = nil
+  ) -> AnyPublisher<Self.Output, Self.Failure> where S: Scheduler {
+    return self
+      .delay(for: interval, tolerance: tolerance, scheduler: scheduler, options: options)
+      .eraseToAnyPublisher()
+  }
+}
 /// promise를 사용할 때 에러는 promise 방출을 보장합니다.
 /// 테스트할때 이 지점에 디버깅체크를 하면 수월하게 테스트를 할 수 있습니다.
 public extension Publisher where Failure == Error {

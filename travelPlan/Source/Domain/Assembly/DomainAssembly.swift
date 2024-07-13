@@ -71,12 +71,23 @@ private extension DomainAssembly {
         postHeartRepository: firestorePostHeartRepository,
         ownerHeartPostRepository: firestoreOwnerHeartPostRepo)
     }
+    
+    container.register(PostHeartUseCase.self) { r in
+#if DEBUG
+      let mockPostRepoDecorator = PostRepositoryDecorator()
+      return DefaultPostHeartUseCase(postRepository: mockPostRepoDecorator)
+#else
+      let defaultPostRepository = r.resolve(PostRepository.self)!
+      return DefaultPostHeartUseCase(postRepository: defaultPostRepository)
+#endif
+
+    }
   }
   
   func postCommentUseCase(container: Container) {
     container.register(PostCommentsAndPostLikeStateFetchUseCase.self) { r in
 #if DEBUG
-      let mockPostRepository = MockPostRepository()
+      let mockPostRepository = PostRepositoryDecorator()
       return DefaultPostCommentsAndPostLikeStateFetchUseCase(postRepository: mockPostRepository)
 #else
       let defaultPostRepository = r.resolve(PostRepository.self)!
