@@ -13,9 +13,6 @@ final class DefaultDestinationScrapRepository {
   private let service: Sessionable
   private let backgroundQueue: DispatchQueue
   
-  // MARK: - Properties
-  private let subscriptions = Set<AnyCancellable>()
-  
   // MARK: - LifeCycle
   init(service: Sessionable, backgroundQueue: DispatchQueue = .global(qos: .userInitiated)) {
     self.service = service
