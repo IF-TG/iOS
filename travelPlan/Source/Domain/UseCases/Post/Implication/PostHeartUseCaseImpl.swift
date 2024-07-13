@@ -1,5 +1,5 @@
 //
-//  DefaultPostHeartUseCase.swift
+//  PostHeartUseCaseImpl.swift
 //  travelPlan
 //
 //  Created by 양승현 on 5/3/24.
@@ -13,7 +13,7 @@ import Combine
   case invalidReference
 }
 
-final class DefaultPostHeartUseCase {
+final class PostHeartUseCaseImpl {
   // MARK: - Dependencies
   private let backgroundQueue: DispatchQueue
   
@@ -37,7 +37,7 @@ final class DefaultPostHeartUseCase {
 }
 
 // MARK: - PostHeartUseCase
-extension DefaultPostHeartUseCase: PostHeartUseCase {
+extension PostHeartUseCaseImpl: PostHeartUseCase {
   func fetchPostHearts(
     _ postId: PostIdentifier
   ) -> AnyPublisher<Int, any Error> {
@@ -123,7 +123,7 @@ extension DefaultPostHeartUseCase: PostHeartUseCase {
 }
 
 // MARK: - Private Helpers
-private extension DefaultPostHeartUseCase {
+private extension PostHeartUseCaseImpl {
   func handlePostHeartsUpdate(
     with group: DispatchGroup,
     usingPostId postId: PostIdentifier,
