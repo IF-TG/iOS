@@ -33,12 +33,15 @@ struct FeedPostViewModelInput {
 
 @frozen enum FeedPostViewModelState {
   typealias Title = String
+  typealias NumberOfHearts = Int32
+  
   case pagination(FeedPostViewModelPaginationState)
   case unexpectedError(description: String)
   case networking
   case share(Title, PostIdentifier)
   case detailPostShow(post: Post)
   case load(FeedPostViewModelLoadState)
+  case updatedHearts(IndexPath, NumberOfHearts)
   case none
 }
 
