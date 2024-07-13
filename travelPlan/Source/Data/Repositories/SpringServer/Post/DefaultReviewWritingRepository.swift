@@ -17,7 +17,7 @@ final class DefaultReviewWritingRepository {
   private var subscriptions = Set<AnyCancellable?>()
   
   // MARK: - LifeCycle
-  init(service: Sessionable, backgroundQueue: DispatchQueue = .global(qos: .background)) {
+  init(service: Sessionable, backgroundQueue: DispatchQueue = .global(qos: .userInitiated)) {
     self.service = service
     self.backgroundQueue = backgroundQueue
   }

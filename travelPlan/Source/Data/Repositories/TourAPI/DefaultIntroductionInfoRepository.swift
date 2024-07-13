@@ -14,7 +14,7 @@ final class DefaultTourIntroductionInfoRepository {
   private let backgroundQueue: DispatchQueue
   
   // MARK: - LifeCycle
-  init(service: Sessionable, backgroundQueue: DispatchQueue = .global(qos: .background)) {
+  init(service: Sessionable, backgroundQueue: DispatchQueue = .global(qos: .userInitiated)) {
     self.service = service
     self.backgroundQueue = backgroundQueue
   }
