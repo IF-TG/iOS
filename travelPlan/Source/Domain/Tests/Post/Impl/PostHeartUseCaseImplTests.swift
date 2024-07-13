@@ -30,9 +30,9 @@ final class PostHeartUseCaseImplTests: XCTestCase {
     let backgroundQueue = DispatchQueue.global(qos: .userInteractive)
     let service = FirestoreService()
     let postHeartRepository = FirestorePostHeartRepository(service: service, backgroundQueue: backgroundQueue)
-    let mockStorage = StubOwnerStorage()
-    let loggedInUserRepository = DefaultLoggedInUserRepository(storage: mockStorage)
-    sut = DefaultPostHeartUseCase(
+    let stubStorage = StubOwnerStorage()
+    let loggedInUserRepository = DefaultLoggedInUserRepository(storage: .init(value: stubStorage))
+    sut = PostHeartUseCaseImpl(
       backgroundQueue: backgroundQueue,
       postHeartRepository: postHeartRepository,
       loggedInUserRepository: loggedInUserRepository)
@@ -48,7 +48,7 @@ final class PostHeartUseCaseImplTests: XCTestCase {
 }
 
 // MARK: 이 테스트는 실제 파이어스토어에 테스트 문서에서 진행되는 테스트입니다.
-extension DefaultPostHeartUseCaseTests {
+extension PostHeartUseCaseImplTests {
   func test_postHeart를눌렀을때성공적으로Void를반환하는지테스트() {
     // Arrange
     var hasReceivedResult = false
