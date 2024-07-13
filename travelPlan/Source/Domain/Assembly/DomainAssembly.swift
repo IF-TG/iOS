@@ -76,7 +76,7 @@ private extension DomainAssembly {
   func postCommentUseCase(container: Container) {
     container.register(PostCommentsAndPostLikeStateFetchUseCase.self) { r in
 #if DEBUG
-      let mockPostRepository = MockPostRepository()
+      let mockPostRepository = PostRepositoryDecorator()
       return DefaultPostCommentsAndPostLikeStateFetchUseCase(postRepository: mockPostRepository)
 #else
       let defaultPostRepository = r.resolve(PostRepository.self)!

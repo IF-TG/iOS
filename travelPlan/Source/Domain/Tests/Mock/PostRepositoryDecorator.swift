@@ -1,5 +1,5 @@
 //
-//  MockPostRepository.swift
+//  PostRepositoryDecorator.swift
 //  travelPlan
 //
 //  Created by 양승현 on 3/8/24.
@@ -8,7 +8,7 @@
 import Combine
 import UIKit
 
-final class MockPostRepository: PostRepository {
+final class PostRepositoryDecorator: PostRepository {
   typealias Endpoint = PostAPIEndpoint
   let mockService: Sessionable
   var subscriptions = Set<AnyCancellable?>()
