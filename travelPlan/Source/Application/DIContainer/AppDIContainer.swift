@@ -46,9 +46,10 @@ final class AppDIContainer {
 extension AppDIContainer: AppCoordinatorDependencies {
   func makeLoginOwnerRepository() -> any LoggedInUserRepository {
     #if DEBUG
-    return resolve(LoggedInUserRepository.self, name: .testDouble(.stub))!
+    let stubOwnerStorage = StubOwnerStorage()
+    return DefaultLoggedInUserRepository(storage: .init(value: stubOwnerStorage))
     #else
-    return resolve(LoggedInUserRepository.self, name: .implementation(.default))!
+    return resolve(LoggedInUserRepository.self)!
     #endif
   }
   
@@ -87,17 +88,7 @@ extension AppDIContainer: MainCoordinatorDependencies {
 // MARK: - FeedCoordinatorDependencies
 extension AppDIContainer: FeedCoordinatorDependencies {
   func makeFeedViewController(with coordinator: FeedCoordinator) -> FeedViewController {
-    #if DEBUG
-    return resolver.resolve(
-      FeedViewController.self,
-      name: .testDouble(.mock),
-      argument: coordinator)!
-    #else
-    return resolver.resolve(
-      FeedViewController.self,
-      name: .implementation(.default),
-      argument: coordinator)!
-    #endif
+    return resolver.resolve(FeedViewController.self, argument: coordinator)!
   }
   
   func makePostDetailCoordinator(
@@ -133,13 +124,8 @@ extension AppDIContainer: NotificationCenterCoordinatorDependencies {
   /// 업데이트마다 보여지는 공지사항은  spring server를 활용한 레포를 구현했지만, 해당 기능 제공이 불확실해서
   ///   Firestore로도 구현했습니다. firestore에서 로그인하지 않아도 공지사항을 read할 수 있도록 특정 컬랙션 규칙을 수정했습니다.
   func makeNotificationCenterViewController() -> NotificationCenterViewController {
-    #if DEBUG
-    return resolver.resolve(NotificationCenterViewController.self, name: .implementation(.firestore))!
-    // return resolver.resolve(NotificationCenterViewController.self, name: .implementation(.interceptedDefault))!
-    #else
-    return resolver.resolve(NotificationCenterViewController.self, name: .implementation(.firestore))!
+    return resolver.resolve(NotificationCenterViewController.self, name: .firebase)!
     // return resolver.resolve(NotificationCenterViewController.self, name: .implementation(.default))!
-    #endif
   }
 }
 
@@ -157,17 +143,7 @@ extension AppDIContainer: PostDetailCoordinatorDependencies {
     post: Post?,
     coordinator: PostDetailCoordinator
   ) -> PostDetailViewController {
-#if DEBUG
-    return resolver.resolve(
-      PostDetailViewController.self,
-      name: .testDouble(.mock),
-      arguments: coordinator, postId, post)!
-#else
-    return resolver.resolve(
-      PostDetailViewController.self,
-      name: .implementation(.default),
-      arguments: coordinator, postId, post)!
-#endif
+    return resolver.resolve(PostDetailViewController.self, arguments: coordinator, postId, post)!
   }
   
   // TODO: - ReviewWriting register에 등록하면 이곳에서 반영해야합니다.(꺼내야합니다.) 인자값 등드
@@ -175,7 +151,7 @@ extension AppDIContainer: PostDetailCoordinatorDependencies {
     presenter: UINavigationController?,
     mode: ReviewWritingMode
   ) -> any SHCoordinator.FlowCoordinator {
-    return resolver.resolve(ReviewWritingCoordinator.self, name: .implementation(.default), arguments: presenter, mode)!
+    return resolver.resolve(ReviewWritingCoordinator.self, arguments: presenter, mode)!
   }
   
   func makePostDetailCategoryViewController(dataSource: [String]) -> UIViewController {
