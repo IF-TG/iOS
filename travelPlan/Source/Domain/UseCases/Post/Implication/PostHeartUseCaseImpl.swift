@@ -37,7 +37,7 @@ final class PostHeartUseCaseImpl {
 }
 
 // MARK: - PostHeartUseCase
-extension PostHeartUseCaseImpl: PostHeartUseCase {
+extension PostHeartUseCaseImpl: PostHeartUseCase, FetchPostHeartsUseCase {
   func fetchPostHearts(
     _ postId: PostIdentifier
   ) -> AnyPublisher<Int, any Error> {
