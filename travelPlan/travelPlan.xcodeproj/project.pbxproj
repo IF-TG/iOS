@@ -122,7 +122,7 @@
 		1385F6762C4068C5003DB336 /* DestinationScrapUpdateRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1385F6752C4068C5003DB336 /* DestinationScrapUpdateRequestDTO.swift */; };
 		1385F6782C4068F4003DB336 /* DestinationScrapUpdateResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1385F6772C4068F4003DB336 /* DestinationScrapUpdateResponseDTO.swift */; };
 		1385F67A2C407937003DB336 /* UpdatedDestinationScrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1385F6792C407937003DB336 /* UpdatedDestinationScrap.swift */; };
-		1385F67E2C410F23003DB336 /* DestinationScrapRepositoryDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1385F67D2C410F23003DB336 /* DestinationScrapRepositoryDecorator.swift */; };
+		1385F67E2C410F23003DB336 /* JsonMockDestinationScrapRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1385F67D2C410F23003DB336 /* JsonMockDestinationScrapRepository.swift */; };
 		1385F6822C4112DD003DB336 /* mock_response_getDestinationScrapList.json in Resources */ = {isa = PBXBuildFile; fileRef = 1385F6802C4112DD003DB336 /* mock_response_getDestinationScrapList.json */; };
 		1385F6882C411582003DB336 /* mock_response_toggleDestinationScrap.json in Resources */ = {isa = PBXBuildFile; fileRef = 1385F6862C411582003DB336 /* mock_response_toggleDestinationScrap.json */; };
 		1385F68E2C411697003DB336 /* mock_response_updateDestinationScrap.json in Resources */ = {isa = PBXBuildFile; fileRef = 1385F68C2C411697003DB336 /* mock_response_updateDestinationScrap.json */; };
@@ -1024,7 +1024,7 @@
 		1385F6752C4068C5003DB336 /* DestinationScrapUpdateRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationScrapUpdateRequestDTO.swift; sourceTree = "<group>"; };
 		1385F6772C4068F4003DB336 /* DestinationScrapUpdateResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationScrapUpdateResponseDTO.swift; sourceTree = "<group>"; };
 		1385F6792C407937003DB336 /* UpdatedDestinationScrap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatedDestinationScrap.swift; sourceTree = "<group>"; };
-		1385F67D2C410F23003DB336 /* DestinationScrapRepositoryDecorator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationScrapRepositoryDecorator.swift; sourceTree = "<group>"; };
+		1385F67D2C410F23003DB336 /* JsonMockDestinationScrapRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonMockDestinationScrapRepository.swift; sourceTree = "<group>"; };
 		1385F6812C4112DD003DB336 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/mock_response_getDestinationScrapList.json; sourceTree = "<group>"; };
 		1385F6872C411582003DB336 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/mock_response_toggleDestinationScrap.json; sourceTree = "<group>"; };
 		1385F68D2C411697003DB336 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/mock_response_updateDestinationScrap.json; sourceTree = "<group>"; };
@@ -3362,7 +3362,7 @@
 				15803C452BD9328100D83F2B /* MockEndpoint.swift */,
 				1572ABB02BE67A60008AFE66 /* MockFirestoreImageStorage.swift */,
 				15A2C2FA2C2176A800407663 /* InterceptedWhatsNewNotificationRepository.swift */,
-				1385F67D2C410F23003DB336 /* DestinationScrapRepositoryDecorator.swift */,
+				1385F67D2C410F23003DB336 /* JsonMockDestinationScrapRepository.swift */,
 			);
 			path = Mock;
 			sourceTree = "<group>";
@@ -5306,7 +5306,7 @@
 				159851BC2BEDEB0A001262BD /* FirestorePostNestedCommentHeartRepository.swift in Sources */,
 				15D3DA1E2BBFCDA20099C384 /* FavoritePostScrapRequestDTO.swift in Sources */,
 				15803C382BD8F3BC00D83F2B /* XMLParsingService.swift in Sources */,
-				1385F67E2C410F23003DB336 /* DestinationScrapRepositoryDecorator.swift in Sources */,
+				1385F67E2C410F23003DB336 /* JsonMockDestinationScrapRepository.swift in Sources */,
 				15F36A182AB1986000971803 /* TravelTheme.swift in Sources */,
 				15B5E7A52BBAE85E00C19F56 /* UserBlockUseCase.swift in Sources */,
 				15F4AF462BC6B2E800E9C20E /* UITableView+Helpers.swift in Sources */,

@@ -1,5 +1,5 @@
 //
-//  DestinationScrapRepositoryDecorator.swift
+//  JsonMockDestinationScrapRepository.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 7/12/24.
@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-final class DestinationScrapRepositoryDecorator {
+final class JsonMockDestinationScrapRepository {
   // MARK: - Properties
   private let repository: DestinationScrapRepository
   
@@ -22,7 +22,7 @@ final class DestinationScrapRepositoryDecorator {
 }
 
 // MARK: - DestinationScrapRepository
-extension DestinationScrapRepositoryDecorator: DestinationScrapRepository {
+extension JsonMockDestinationScrapRepository: DestinationScrapRepository {
   func getDestinationScrapList(
     folderName: String
   ) -> AnyPublisher<[DestinationScrapDetail], any Error> {

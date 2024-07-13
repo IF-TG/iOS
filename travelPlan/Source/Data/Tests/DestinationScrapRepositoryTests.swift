@@ -12,12 +12,12 @@ import Foundation
 
 final class DestinationScrapRepositoryTests: BaseXCTestCase {
   // MARK: - Properties
-  private var sut: DestinationScrapRepositoryDecorator!
+  private var sut: JsonMockDestinationScrapRepository!
 
   // MARK: - LifeCycle
   override func setUp() {
     super.setUp()
-    sut = DestinationScrapRepositoryDecorator(backgroundQueue: .main)
+    sut = JsonMockDestinationScrapRepository(backgroundQueue: .main)
     subscriptions = .init()
   }
   
