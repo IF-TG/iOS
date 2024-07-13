@@ -47,8 +47,53 @@ final class PostRepositoryDecorator: PostRepository {
       let mockData = MockResponseType.post(.whenPostCommentContainerResponse).mockDataLoader
       return ((HTTPURLResponse(), mockData))
     }
+    
+    // MARK: - 이 시점은 mock json에 base64이미지 str이 담긴게 아니라 에셋에 있는 이미지 경로를 담았기에 포스트 상세 화면에서
+    // 댓글, 대댓글 작성자 이미지는 nil이 됩니다.
     return postRepository
       .fetchComments(page: page, perPage: perPage, postId: postId)
+      .map { [weak self] postCommentContainerEntity in
+        let json파일에asset경로다시한번UIImage_named_로변환한데이터 = postCommentContainerEntity
+          .comments.map {
+            let str = $0.userProfileImageData!.base64EncodedString()
+            if self?.cache[str] == nil {
+              self?.cache[str] = UIImage(named: str)?.jpegData(compressionQuality: 1)
+            }
+            let commentUserImage = self?.cache[str]
+            let nestedCommentUserImages = $0.nestedComments.map {
+              let nStr = $0.userProfileImageData!.base64EncodedString()
+              if self?.cache[nStr] == nil {
+                self?.cache[nStr] = UIImage(named: nStr)?.jpegData(compressionQuality: 1)
+              }
+              return self?.cache[nStr]
+            }
+            return PostCommentEntity(
+              commentId: $0.commentId,
+              authorId: $0.authorId,
+              userProfileImageData: commentUserImage,
+              userName: $0.userName,
+              timestamp: $0.timestamp,
+              comment: $0.comment,
+              isDeleted: $0.isDeleted,
+              isOnHeart: $0.isOnHeart,
+              isBlocked: $0.isBlocked,
+              hearts: $0.hearts,
+              nestedComments: $0.nestedComments.enumerated().map { i, nestedComment in
+                PostNestedCommentEntity(
+                  nestedCommentId: nestedComment.nestedCommentId,
+                  authorId: nestedComment.authorId,
+                  userProfileImageData: nestedCommentUserImages[i],
+                  nickname: nestedComment.nickname,
+                  timestamp: nestedComment.timestamp,
+                  comment: nestedComment.comment,
+                  hearts: nestedComment.hearts,
+                  isOnHeart: nestedComment.isOnHeart)
+              })
+          }
+        return PostCommentContainerEntity(
+          comments: json파일에asset경로다시한번UIImage_named_로변환한데이터,
+          isFavorited: postCommentContainerEntity.isFavorited)
+      }
       .eraseToAnyPublisherWithDelay(for: .seconds(0.07), scheduler: RunLoop.current)
   }
   
