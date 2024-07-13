@@ -51,4 +51,14 @@ struct PostAPIEndpoint {
       parameters: [.query(requestDTO)],
       requestType: .post(.postSearch))
   }
+  
+  static func togglePostLike(
+    with requestDTO: PostCommentHeartToggleRequestDTO
+  ) -> Endpoint<CommonDTO<PostCommentHeartToggleResponseDTO>> {
+    return Endpoint(
+      host: "localhost:8080",
+      method: .post,
+      parameters: [.body(requestDTO)],
+      requestType: .post(.toggleLike))
+  }
 }
