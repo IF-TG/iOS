@@ -47,6 +47,10 @@ final class BasePostView: UIView {
   func setPostHearts(with hearts: Int32) {
     footerView.setHearts(with: hearts)
   }
+  
+  func setPostHeartUI(with hasHeart: Bool) {
+    footerView.updatePostHeartState(with: hasHeart)
+  }
 }
 
 // MARK: - Helpers
