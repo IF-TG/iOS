@@ -1,0 +1,32 @@
+{
+    "result": {
+        "destinations": [
+            {
+                "id": 1234567890123456,
+                "contentTypeId": 12345,
+                "title": "Beautiful Beach",
+                "thumbnailUrl": "tempThumbnail12",
+                "address": "123 Ocean Drive, Beach City",
+                "largeCategory": "Nature",
+                "smallCategory": "Beaches",
+                "middleCategory": "Tropical",
+                "scraped": true
+            },
+            {
+                "id": 9876543210987654,
+                "contentTypeId": 67890,
+                "title": "Mountain Hike",
+                "thumbnailUrl": "tempThumbnail11",
+                "address": "456 Mountain Road, Hill Town",
+                "largeCategory": "Adventure",
+                "smallCategory": "Hiking",
+                "middleCategory": "Mountain",
+                "scraped": false
+            }
+        ],
+        "gptRelated": true
+    },
+    "status": "success",
+    "statusCode": "200",
+    "message": "Request completed successfully."
+}
