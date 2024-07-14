@@ -31,7 +31,7 @@ final class DestinationScrapRepositoryTests: BaseXCTestCase {
     let folderName = "전체"
     
     // Act
-    let publisher = sut.getDestinationScrapList(folderName: folderName)
+    let publisher = sut.getDestinationScrapList(folderName: folderName, page: nil, perPage: nil)
     
     _=execute(fromPublisher: publisher)
     wait(for: [expectation], timeout: 7.777)

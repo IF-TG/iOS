@@ -32,7 +32,7 @@ extension DestinationSearchRepositoryTests {
     let keyword = "테스트 키워트"
     
     // Act
-    let publisher = sut.fetchDestinationList(by: keyword)
+    let publisher = sut.fetchDestinationList(by: keyword, page: nil, perPage: nil)
     execute(fromPublisher: publisher).store(in: &subscriptions)
     wait(for: [expectation], timeout: 7.77)
     
