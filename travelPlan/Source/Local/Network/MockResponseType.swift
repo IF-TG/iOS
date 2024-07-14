@@ -148,12 +148,13 @@ extension MockResponseType {
     case getAllDestinationScrapsByScrapFolderAndUserId
     case toggleDestinationScrap
     case updateDestinationScrap
-    
+    case getAllByKeyword
     var filPath: String {
       [
         .getAllDestinationScrapsByScrapFolderAndUserId: "mock_response_getDestinationScrapList",
         .toggleDestinationScrap: "mock_response_toggleDestinationScrap",
-        .updateDestinationScrap: "mock_response_updateDestinationScrap"
+        .updateDestinationScrap: "mock_response_updateDestinationScrap",
+        .getAllByKeyword: "mock_response_getAllByKeyword"
       ][self]!
     }
   }
