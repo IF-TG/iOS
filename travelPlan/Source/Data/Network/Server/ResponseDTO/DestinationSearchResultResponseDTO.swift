@@ -17,14 +17,10 @@ struct DestinationSearchResultResponseDTO: Decodable {
     let title: String
     let thumbnailUrl: String
     let address: String
-    let category: Category
+    let largeCategory: String
+    let middleCategory: String
+    let smallCategory: String
     let scraped: Bool
-    
-    struct Category: Decodable {
-      let largeCategory: String
-      let middleCategory: String
-      let smallCategory: String
-    }
   }
 }
 
@@ -38,9 +34,9 @@ extension DestinationSearchResultResponseDTO {
         thumbnailURL: $0.thumbnailUrl,
         address: $0.address,
         category: .init(
-          largeCategory: $0.category.largeCategory,
-          middleCategory: $0.category.middleCategory,
-          smallCategory: $0.category.smallCategory
+          largeCategory: $0.largeCategory,
+          middleCategory: $0.middleCategory,
+          smallCategory: $0.smallCategory
         ),
         isScraped: $0.scraped
       )
