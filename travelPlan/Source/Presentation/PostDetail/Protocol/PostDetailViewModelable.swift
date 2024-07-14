@@ -61,7 +61,7 @@ struct PostDetailViewModelInput {
   case viewDidLoad(PostDetailViewDidLoadState)
   case unexpectedError(description: String)
   
-  case updatedHearts(NumberOfHearts)
+  case updatedHearts(NumberOfHearts, hasHeart: Bool)
 }
 
 @frozen enum PostDetailViewDidLoadState {

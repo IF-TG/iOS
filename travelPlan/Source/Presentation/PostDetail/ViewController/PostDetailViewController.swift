@@ -180,7 +180,7 @@ extension PostDetailViewController: ViewBindCase {
       UIView.performWithoutAnimation {
         tableView.reloadSections(IndexSet(integer: PostDetailSection.postHeartAndShareArea.sectionIndex), with: .none)
       }
-    case .updatedHearts(let numberOfHearts):
+    case .updatedHearts(let numberOfHearts, let hasHeart):
       let postheartAndShareArea = tableView
         .headerView(
           forSection: PostDetailSection.postHeartAndShareArea.sectionIndex

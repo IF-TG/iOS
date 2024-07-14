@@ -169,7 +169,9 @@ private extension PostDetailViewModel {
                   self?.postDetails?.detail.likes -= 1
                 }
               }
-              return .updatedHearts(self?.postDetails?.detail.likes ?? 0)
+              return .updatedHearts(
+                self?.postDetails?.detail.likes ?? 0,
+                hasHeart: false)
             }
             .catch { Just(State.unexpectedError(description: $0.localizedDescription)) }
             .eraseToAnyPublisher()
@@ -181,7 +183,9 @@ private extension PostDetailViewModel {
               self?.postDetails?.hasHeart = true
               self?.postDetails?.detail.likes += 1
             }
-            return .updatedHearts(self?.postDetails?.detail.likes ?? 0)
+            return .updatedHearts(
+              self?.postDetails?.detail.likes ?? 0,
+              hasHeart: true)
           }.catch { Just(State.unexpectedError(description: $0.localizedDescription)) }
           .eraseToAnyPublisher()
       }.eraseToAnyPublisher()
