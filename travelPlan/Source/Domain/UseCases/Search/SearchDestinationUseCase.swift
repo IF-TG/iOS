@@ -8,5 +8,5 @@
 import Foundation
 
 protocol SearchDestinationUseCase {
-  
+  func execute(keyword: String, page: Int?, perPage: Int?) -> 
 }
