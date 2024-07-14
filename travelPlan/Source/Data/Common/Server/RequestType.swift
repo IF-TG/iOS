@@ -17,7 +17,6 @@ import Foundation
   case favoritePostInDirectory(FavoritePostInDirectory)
   case destination(DestinationRequestType)
   
-  
   var path: String {
     return switch self {
     case .none:
@@ -204,12 +203,14 @@ extension RequestType {
     case Detail
     case scrapList
     case updateScrap
+    case search
     
     var path: String {
       switch self {
       case .toggleScrap, .updateScrap: return "destination/scrap"
       case .Detail: return "destination/detail"
       case .scrapList: return "destination/scrap/detail"
+      case .search: return "destination/search"
       }
     }
   }
