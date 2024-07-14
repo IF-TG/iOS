@@ -2,8 +2,8 @@
     "result": {
         "destinations": [
             {
-                "id": 1234567890123456,
-                "contentTypeId": 12345,
+                "id": 1234,
+                "contentTypeId": 123,
                 "title": "Beautiful Beach",
                 "thumbnailUrl": "tempThumbnail12",
                 "address": "123 Ocean Drive, Beach City",
@@ -13,8 +13,8 @@
                 "scraped": true
             },
             {
-                "id": 9876543210987654,
-                "contentTypeId": 67890,
+                "id": 987,
+                "contentTypeId": 678,
                 "title": "Mountain Hike",
                 "thumbnailUrl": "tempThumbnail11",
                 "address": "456 Mountain Road, Hill Town",
