@@ -18,7 +18,7 @@ final class DefaultOwnerRelatedPostFetchUseCaseTests: XCTestCase {
   // MARK: - Lifecycle
   override func setUp() {
     super.setUp()
-    mockRepository = PostRepositoryDecorator()
+    mockRepository = JsonMockPostRepository()
     sut = DefaultOwnerRelatedPostFetchUseCase(postRepository: mockRepository)
     expectation = XCTestExpectation(description: "Finish")
   }

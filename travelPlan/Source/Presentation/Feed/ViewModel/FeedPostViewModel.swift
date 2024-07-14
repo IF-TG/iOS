@@ -12,6 +12,8 @@ final class FeedPostViewModel: PostViewModel, PostOptionNotificationBinder {
   // MARK: - Dependencies
   private let postFetchUseCase: PostFetchUseCase
   
+  private let postHeartUseCase: PostHeartUseCase
+  
   // MARK: - Properties
   private var hasEnteredPostDetailScene = false
   
@@ -65,9 +67,14 @@ final class FeedPostViewModel: PostViewModel, PostOptionNotificationBinder {
   var updatedPostCommentsNotifier = PassthroughSubject<UpdatedPostCommentsEntity, Never>()
   
   // MARK: - Lifecycle
-  init(postCategory: PostCategory, postFetchUseCase: PostFetchUseCase) {
+  init(
+    postCategory: PostCategory,
+    postFetchUseCase: PostFetchUseCase,
+    postHeartUseCase: PostHeartUseCase
+  ) {
     self.postFetchUseCase = postFetchUseCase
     self.category = postCategory
+    self.postHeartUseCase = postHeartUseCase
     bind()
   }
 }
@@ -76,6 +83,7 @@ final class FeedPostViewModel: PostViewModel, PostOptionNotificationBinder {
 extension FeedPostViewModel: FeedPostViewModelable {
   func transform(_ input: Input) -> AnyPublisher<State, Never> {
     return Publishers.MergeMany([
+      postHeartStream(input),
       postShareNotifierByPostOptionSream(),
       postShareSubjectStream(input),
       postBlockSubjectStream(input),
@@ -96,6 +104,42 @@ extension FeedPostViewModel: FeedPostViewModelable {
 
 // MARK: - Private Stream Helpers
 private extension FeedPostViewModel {
+  func postHeartStream(_ input: Input) -> Output {
+    return input
+      .postHeartSubject
+      .flatMap { [weak self] indexPath -> AnyPublisher<State, Never> in
+        guard let self else { return Just(State.none).eraseToAnyPublisher() }
+        let post = posts[indexPath.item]
+        let postId = post.detail.postID
+        let hasHeartPost = post.liked ?? false
+        if hasHeartPost {
+          return postHeartUseCase.hatePost(postId)
+            .map { [weak self] in
+              self?.synchronized.sync {
+                self?.posts[indexPath.item].liked = false
+                if self?.posts[indexPath.item].detail.likes ?? 0 > 0 {
+                  self?.posts[indexPath.item].detail.likes -= 1
+                }
+              }
+              return .updatedHearts(indexPath, self?.posts[indexPath.item].detail.likes ?? 0)
+            }
+            .catch { Just(State.unexpectedError(description: $0.localizedDescription)) }
+            .eraseToAnyPublisher()
+        }
+        return postHeartUseCase.heartPost(postId)
+          .map { [weak self] in
+            self?.synchronized.sync {
+              self?.posts[indexPath.item].liked = true
+              self?.posts[indexPath.item].detail.likes += 1
+            }
+            return .updatedHearts(indexPath, self?.posts[indexPath.item].detail.likes ?? 0)
+          }
+          .catch { Just(State.unexpectedError(description: $0.localizedDescription)) }
+          .eraseToAnyPublisher()
+        
+      }.eraseToAnyPublisher()
+  }
+  
   func updatedPostCommentsNotifierStream() -> Output {
     return updatedPostCommentsNotifier.map { [weak self] updatedPostCommentsEntity -> State in
       /// 디퍼드 딥링킹에 의해 들어온 경우 피드 화면 특정 셀 ->포스트 상세화면으로 이동하지 않고 바로 포스트 상세화면으로 이동하기에 처리하지 않습니다.
@@ -374,8 +418,10 @@ extension FeedPostViewModel {
       .map { [weak self] postsPage in
         if self?.isRefreshing == true || self?.isPostFiltering == true {
           self?.removeAllPage()
-          self?.isRefreshing = false
-          self?.isPostFiltering = false
+          self?.synchronized.sync {
+            self?.isRefreshing = false
+            self?.isPostFiltering = false
+          }
         }
         if let userSelectedCategory = self?.userSelectedCategory {
           self?.category = userSelectedCategory

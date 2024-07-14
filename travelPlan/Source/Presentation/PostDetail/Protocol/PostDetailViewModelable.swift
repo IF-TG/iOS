@@ -46,10 +46,13 @@ struct PostDetailViewModelInput {
   let viewDidLoad = PassthroughSubject<Void, Never>()
   /// spring server api에서 초기 채팅을 받아올 때 포스트 좋아요 정보도 함께 제공합니다.
   let favoriteStateOnViewDidLoad = PassthroughSubject<IsPostFavorite, Never>()
+  let postHeartSubject = PassthroughSubject<Void, Never>()
 }
 
 // MARK: - State
 @frozen enum PostDetailViewModelState {
+  typealias NumberOfHearts = Int32
+  
   case none
   case failedToFetchPost(description: String)
   case networkProcessing
@@ -57,6 +60,8 @@ struct PostDetailViewModelInput {
   
   case viewDidLoad(PostDetailViewDidLoadState)
   case unexpectedError(description: String)
+  
+  case updatedHearts(NumberOfHearts)
 }
 
 @frozen enum PostDetailViewDidLoadState {

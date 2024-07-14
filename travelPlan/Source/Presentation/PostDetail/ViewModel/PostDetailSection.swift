@@ -39,7 +39,12 @@ import Foundation
   
   /// collect view에서 델리게이트나 데이터 소스 관련 메서드를 처리할때 sectionIndex를 통해 원하는 reusable view에 접근할 수 있습니다.
   var sectionIndex: Int {
-    rawValue
+    switch self {
+    case .comments(let idx):
+      return idx + Self.defaultNumberOfSections
+    default:
+      return rawValue
+    }
   }
 }
 

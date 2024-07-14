@@ -180,6 +180,12 @@ extension PostDetailViewController: ViewBindCase {
       UIView.performWithoutAnimation {
         tableView.reloadSections(IndexSet(integer: PostDetailSection.postHeartAndShareArea.sectionIndex), with: .none)
       }
+    case .updatedHearts(let numberOfHearts):
+      let postheartAndShareArea = tableView
+        .headerView(
+          forSection: PostDetailSection.postHeartAndShareArea.sectionIndex
+        ) as? PostHeartAndShareAreaHeaderView
+      postheartAndShareArea?.setHearts(with: numberOfHearts)
     }
   }
   
@@ -585,8 +591,8 @@ extension PostDetailViewController: PostHeartAndShareAreaHeaderViewDelegate {
     optionViewModel.showPostOption()
   }
   
-  func didTapHeart(isFavorite: Bool) {
-    print("포스트 하트클릭 api없어서 미 구현")
+  func didTapHeart() {
+    input.postHeartSubject.send()
   }
   
   func didTapShare() {

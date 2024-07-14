@@ -78,10 +78,19 @@ private extension PostFooterView {
 // MARK: - Helper
 extension PostFooterView {
   func configure(with data: PostFooterInfo?) {
-    setHeart(with: data?.heartCount)
+    setHearts(with: data?.heartCount)
     setHeartIcon(with: data?.heartState ?? false)
-    setComment(with: data?.commentCount)
+    setComments(with: data?.commentCount)
   }
+  
+  func setHearts(with count: Int32?) {
+    guard let count = count else {
+      heartStackView.label.text = "0"
+      return
+    }
+    heartStackView.label.text = "\(NumberFormatterWithSuffix.format(number: Int(count)))"
+  }
+
   
   func updatePostHeartState() {
     /// 여기서 서버 포스트에 대한 로그인 사용자 포스트 상태 관련 처리
@@ -109,30 +118,21 @@ extension PostFooterView {
     setHeartIconTapGesture()
   }
   
+  private func setComments(with count: Int32?) {
+    guard let count = count else {
+      commentStackView.label.text = "0"
+      return
+    }
+    commentStackView.label.text = "\(NumberFormatterWithSuffix.format(number: Int(count)))"
+  }
+  
   private func setHeartIconTapGesture() {
     heartStackView.icon.isUserInteractionEnabled = true
     let tap = UITapGestureRecognizer(
       target: self, action: #selector(didTapHeart))
     heartStackView.icon.addGestureRecognizer(tap)
   }
-  
-  private func setHeart(with count: Int32?) {
-    guard let count = count else {
-      heartStackView.label.text = "0"
-      return
-    }
-    heartStackView.label.text = "\(NumberFormatterWithSuffix.format(number: Int(count)))"
-  }
-  
-  private func setComment(with count: Int32?) {
-    guard let count = count else {
-      commentStackView.label.text = "0"
-      return
-    }
-    commentStackView.label.text = "\(NumberFormatterWithSuffix.format(number: Int(count)))"
     
-  }
-
   private func setHeartIcon(with state: Bool) {
     postHeartState = state
     if state {

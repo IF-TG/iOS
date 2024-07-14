@@ -74,7 +74,7 @@ private extension DomainAssembly {
     
     container.register(PostHeartUseCase.self) { r in
 #if DEBUG
-      let mockPostRepoDecorator = PostRepositoryDecorator()
+      let mockPostRepoDecorator = JsonMockPostRepository()
       return DefaultPostHeartUseCase(postRepository: mockPostRepoDecorator)
 #else
       let defaultPostRepository = r.resolve(PostRepository.self)!
@@ -87,7 +87,7 @@ private extension DomainAssembly {
   func postCommentUseCase(container: Container) {
     container.register(PostCommentsAndPostLikeStateFetchUseCase.self) { r in
 #if DEBUG
-      let mockPostRepository = PostRepositoryDecorator()
+      let mockPostRepository = JsonMockPostRepository()
       return DefaultPostCommentsAndPostLikeStateFetchUseCase(postRepository: mockPostRepository)
 #else
       let defaultPostRepository = r.resolve(PostRepository.self)!

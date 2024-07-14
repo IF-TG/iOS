@@ -307,8 +307,8 @@ extension PostDetailTableViewAdapter: PostHeartAndShareAreaHeaderViewDelegate {
     delegate?.didTapOption()
   }
   
-  func didTapHeart(isFavorite: Bool) {
-    delegate?.didTapHeart(isFavorite: isFavorite)
+  func didTapHeart() {
+    delegate?.didTapHeart()
   }
   
   func didTapShare() {
