@@ -10,7 +10,7 @@ import XCTest
 
 final class DestinationSearchRepositoryTests: BaseXCTestCase {
   // MARK: - Properties
-  private var sut: JsonMockDestinationSearchRepository!
+  private var sut: DestinationSearchRepository!
   
   // MARK: - LifeCycle
   override func setUp() {
