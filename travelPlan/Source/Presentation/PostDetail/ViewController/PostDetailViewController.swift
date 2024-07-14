@@ -39,8 +39,10 @@ final class PostDetailViewController: UITableViewController {
   
   private var naviDurationAnimator: UIViewPropertyAnimator?
   
+  private var hasViewDidAppearAtOnceForInputAccessoryView = false
+  
   override var canBecomeFirstResponder: Bool {
-    return true
+    return hasViewDidAppearAtOnceForInputAccessoryView
   }
   
   override var inputAccessoryView: UIView? {
@@ -79,6 +81,7 @@ final class PostDetailViewController: UITableViewController {
       chatDataSource: chatViewModel,
       delegate: self,
       tableView: tableView)
+    hidesBottomBarWhenPushed = true
   }
   
   required init?(coder: NSCoder) {
@@ -103,19 +106,13 @@ final class PostDetailViewController: UITableViewController {
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     setTitleView()
-  }
-  
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    (self.tabBarController as? MainTabBarController)?.hideShadowLayer()
-    self.tabBarController?.tabBar.isHidden = true
+    hasViewDidAppearAtOnceForInputAccessoryView = true
+    becomeFirstResponder()
   }
   
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
     navigationController?.navigationBar.topItem?.titleView = nil
-    (self.tabBarController as? MainTabBarController)?.showShadowLayer()
-    self.tabBarController?.tabBar.isHidden = false
   }
   
   deinit {
