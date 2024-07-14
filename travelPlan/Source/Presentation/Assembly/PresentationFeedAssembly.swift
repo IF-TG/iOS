@@ -34,7 +34,11 @@ final class PresentationFeedAssembly: Assembly {
       (any FeedPostViewModelable & FeedPostViewAdapterDataSource).self
     ) { (r, feedCategory: PostCategory) in
       let defaultPostFetchUseCase = r.resolve(PostFetchUseCase.self)!
-      return FeedPostViewModel(postCategory: feedCategory, postFetchUseCase: defaultPostFetchUseCase)
+      let defaultPostHeartUseCase = r.resolve(PostHeartUseCase.self)!
+      return FeedPostViewModel(
+        postCategory: feedCategory,
+        postFetchUseCase: defaultPostFetchUseCase,
+        postHeartUseCase: defaultPostHeartUseCase)
     }.inObjectScope(.transient)
     
     // MARK: - FeedPostViewController

@@ -18,7 +18,7 @@ final class DefaultPostCommentsAndPostLikeStateFetchUseCaseTests: XCTestCase {
   // MARK: - Lifecycle
   override func setUp() {
     super.setUp()
-    mockRepository = PostRepositoryDecorator()
+    mockRepository = JsonMockPostRepository()
     sut = DefaultPostCommentsAndPostLikeStateFetchUseCase(postRepository: mockRepository)
     expectation = XCTestExpectation(description: "Finish")
   }

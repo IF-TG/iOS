@@ -14,7 +14,7 @@ final class DefaultPostHeartUseCaseTests: BaseXCTestCase {
   
   override func setUp() {
     super.setUp()
-    let mockPostRepositoryDecorator = PostRepositoryDecorator()
+    let mockPostRepositoryDecorator = JsonMockPostRepository()
     sut = DefaultPostHeartUseCase(postRepository: mockPostRepositoryDecorator)
   }
   

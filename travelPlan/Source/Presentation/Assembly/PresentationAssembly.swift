@@ -20,11 +20,13 @@ final class PresentationAssembly: Assembly {
       PostDetailViewModelType.self
     ) { (r, postId: PostIdentifier, post: Post?, actions: PostDetailViewModelActions) in
       let defaultPostFetchUseCase = r.resolve(PostFetchUseCase.self)!
+      let defaultPostHeartUseCase = r.resolve(PostHeartUseCase.self)!
       let ownerRepository = self.ownerRepository(with: r)
       return PostDetailViewModel(
         post: post,
         postId: postId,
-        postFetchUseCase: defaultPostFetchUseCase,
+        postFetchUseCase: defaultPostFetchUseCase, 
+        postHeartUseCase: defaultPostHeartUseCase,
         ownerRepository: ownerRepository,
         actions: actions)
     }
