@@ -31,8 +31,21 @@ struct DestinationScrapDetailResponseDTO: Decodable {
 
 // MARK: - Mapping Domain
 extension DestinationScrapDetailResponseDTO {
-  // TODO: - DestinationScrapList init 인자 추가해주기
   func toDomain() -> DestinationScrapDetail {
-    .init()
+    return .init(
+      id: .init(scrapId: id, contentTypdId: contentTypeId),
+      title: title,
+      address: .init(address1: address, address2: addressDetail),
+      map: .init(mapX: mapX, mapY: mapY),
+      overview: overview,
+      tel: tel,
+      category: .init(
+        largeCategory: category.largeCategory,
+        middleCategory: category.middleCategory,
+        smallCategory: category.smallCategory
+      ),
+      thumbnail: thumbnail,
+      isScraped: scraped
+    )
   }
 }

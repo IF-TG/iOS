@@ -74,7 +74,7 @@ struct TourApiCommonInfoResponseDTO: Decodable {
 
 // MARK: - Mappings to Domain
 extension TourApiCommonInfoResponseDTO {
-  func toDomain(firstImageData: Data?, thumbnailImageDate: Data?) -> TourCommonInfoEntity {
+  func toDomain(firstImageData: Data?, thumbnailImageDate: Data?) -> TourCommonInfoEntity<String> {
     .init(
       id: .init(contentId: contentid, contentTypeId: contenttypeid),
       address: .init(address1: addr1, address2: addr2),

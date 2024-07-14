@@ -127,6 +127,10 @@
 		1385F6882C411582003DB336 /* mock_response_toggleDestinationScrap.json in Resources */ = {isa = PBXBuildFile; fileRef = 1385F6862C411582003DB336 /* mock_response_toggleDestinationScrap.json */; };
 		1385F68E2C411697003DB336 /* mock_response_updateDestinationScrap.json in Resources */ = {isa = PBXBuildFile; fileRef = 1385F68C2C411697003DB336 /* mock_response_updateDestinationScrap.json */; };
 		1385F6902C4118B4003DB336 /* DestinationScrapRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1385F68F2C4118B4003DB336 /* DestinationScrapRepositoryTests.swift */; };
+		1385F6922C427BA6003DB336 /* TourCoordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1385F6912C427BA6003DB336 /* TourCoordinate.swift */; };
+		1385F6942C427BC2003DB336 /* TourContact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1385F6932C427BC2003DB336 /* TourContact.swift */; };
+		1385F6962C427BD8003DB336 /* TourAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1385F6952C427BD8003DB336 /* TourAddress.swift */; };
+		1385F6982C427BE6003DB336 /* TourImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1385F6972C427BE6003DB336 /* TourImage.swift */; };
 		1390CC5D2A8BADEC00E34DC3 /* TitleWithButtonHeaderViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1390CC5C2A8BADEC00E34DC3 /* TitleWithButtonHeaderViewDelegate.swift */; };
 		139DEDEB2B163D9A00363E7B /* SearchDestinationCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139DEDEA2B163D9A00363E7B /* SearchDestinationCollectionViewLayout.swift */; };
 		139DEE102B16ADF300363E7B /* SearchDestinationServiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139DEE0F2B16ADF300363E7B /* SearchDestinationServiceCell.swift */; };
@@ -1047,6 +1051,10 @@
 		1385F6872C411582003DB336 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/mock_response_toggleDestinationScrap.json; sourceTree = "<group>"; };
 		1385F68D2C411697003DB336 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/mock_response_updateDestinationScrap.json; sourceTree = "<group>"; };
 		1385F68F2C4118B4003DB336 /* DestinationScrapRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationScrapRepositoryTests.swift; sourceTree = "<group>"; };
+		1385F6912C427BA6003DB336 /* TourCoordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourCoordinate.swift; sourceTree = "<group>"; };
+		1385F6932C427BC2003DB336 /* TourContact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourContact.swift; sourceTree = "<group>"; };
+		1385F6952C427BD8003DB336 /* TourAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourAddress.swift; sourceTree = "<group>"; };
+		1385F6972C427BE6003DB336 /* TourImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourImage.swift; sourceTree = "<group>"; };
 		1390CC5C2A8BADEC00E34DC3 /* TitleWithButtonHeaderViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleWithButtonHeaderViewDelegate.swift; sourceTree = "<group>"; };
 		1390CC6E2A8E0B2800E34DC3 /* SearchStarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchStarButton.swift; sourceTree = "<group>"; };
 		139DEDEA2B163D9A00363E7B /* SearchDestinationCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDestinationCollectionViewLayout.swift; sourceTree = "<group>"; };
@@ -2579,6 +2587,10 @@
 				13EB3CD52BEB689A00CA84F0 /* TourContentId.swift */,
 				13EB3CFE2BED403900CA84F0 /* TourType.swift */,
 				13EB3D3C2BF4C45A00CA84F0 /* TourSearchResultEntity.swift */,
+				1385F6912C427BA6003DB336 /* TourCoordinate.swift */,
+				1385F6932C427BC2003DB336 /* TourContact.swift */,
+				1385F6952C427BD8003DB336 /* TourAddress.swift */,
+				1385F6972C427BE6003DB336 /* TourImage.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -5104,6 +5116,7 @@
 				15D3882F2B01504900039946 /* IconWithLabelStackView.swift in Sources */,
 				1586D3042AB193F7001D4A80 /* Season.swift in Sources */,
 				130CF3732B8F8A040051DEE8 /* LoginAPIEndPoints.swift in Sources */,
+				1385F6942C427BC2003DB336 /* TourContact.swift in Sources */,
 				15B5E7A72BBAE8B800C19F56 /* DefaultUserBlockUseCase.swift in Sources */,
 				154070AB2C103D2D000C9C42 /* AppDIContainer+Resolver.swift in Sources */,
 				15D284002C2049BD00B39AC8 /* FirestoreWhatsNewNotificaitonEndpoint.swift in Sources */,
@@ -5352,6 +5365,7 @@
 				15553BC82BB34643000AA896 /* PostNestedCommentUseCase.swift in Sources */,
 				159958792B0DC51900B2E4DC /* PostCellWithOneThumbnail.swift in Sources */,
 				13EB3D392BF4B9A500CA84F0 /* ShoppingEntity.swift in Sources */,
+				1385F6922C427BA6003DB336 /* TourCoordinate.swift in Sources */,
 				1594A44C2C04F25C00428D41 /* PostViewDelegate.swift in Sources */,
 				130CF3842B9248750051DEE8 /* OAuthType.swift in Sources */,
 				15FD508D2BB44F9E006CCCDD /* PostNestedCommentUpdateRequestDTO.swift in Sources */,
@@ -5423,6 +5437,7 @@
 				15F4AF462BC6B2E800E9C20E /* UITableView+Helpers.swift in Sources */,
 				1546DF322B0AF54300B49A55 /* ImageMemoryCachable.swift in Sources */,
 				15EA6B352ACEF627002783F0 /* EmptyStateBasedContentViewController.swift in Sources */,
+				1385F6962C427BD8003DB336 /* TourAddress.swift in Sources */,
 				15869CEB2BF4FE4B00FB342B /* OwnerRelatedPostFetchUseCase.swift in Sources */,
 				1594A4532C05997B00428D41 /* UIView+ImageRender.swift in Sources */,
 				13AE0DD22BBC42C000652B99 /* PhotoOrderView.swift in Sources */,
@@ -5757,6 +5772,7 @@
 				1540478A2BE4B82D009E86FF /* PostHeartUseCase.swift in Sources */,
 				15198E962BADE2BB0011930D /* PostThumbnails.swift in Sources */,
 				154CA6322BD40C5C0066B444 /* TourApiSessionProvider.swift in Sources */,
+				1385F6982C427BE6003DB336 /* TourImage.swift in Sources */,
 				15B01DAB2BA9472300BE9F98 /* StubUserStorage.swift in Sources */,
 				13606E982AA4F26500365F20 /* DefaultPostSearchLayout.swift in Sources */,
 				15FBD5D42B98DAB000076115 /* TravelRegionMapper.swift in Sources */,
