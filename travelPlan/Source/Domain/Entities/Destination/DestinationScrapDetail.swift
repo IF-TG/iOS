@@ -1,5 +1,5 @@
 //
-//  DestinationScrapList.swift
+//  DestinationScrapDetail.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 7/12/24.
