@@ -64,6 +64,13 @@
 		133532042BA42DDE000A4D9E /* Double+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 133532032BA42DDE000A4D9E /* Double+.swift */; };
 		133532062BA42F6E000A4D9E /* Data+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 133532052BA42F6E000A4D9E /* Data+.swift */; };
 		1335320E2BA469E3000A4D9E /* DataConverterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1335320D2BA469E3000A4D9E /* DataConverterTests.swift */; };
+		1335B8AE2C319C4200DB233B /* SearchDestinationUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1335B8AD2C319C4200DB233B /* SearchDestinationUseCase.swift */; };
+		1335B8B02C319C9C00DB233B /* DefaultSearchDestinationUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1335B8AF2C319C9C00DB233B /* DefaultSearchDestinationUseCase.swift */; };
+		1335B8B52C319E7300DB233B /* DestinationRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1335B8B42C319E7300DB233B /* DestinationRepository.swift */; };
+		1335B8B72C319EB200DB233B /* DefaultDestinationRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1335B8B62C319EB200DB233B /* DefaultDestinationRepository.swift */; };
+		1335B8B92C31A1AA00DB233B /* DestinationScrapEndpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1335B8B82C31A1AA00DB233B /* DestinationScrapEndpoints.swift */; };
+		1335B8BB2C31AA5000DB233B /* DestinationScrapToggleRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1335B8BA2C31AA5000DB233B /* DestinationScrapToggleRequestDTO.swift */; };
+		1335B8BD2C31AA6300DB233B /* DestinationScrapToggleResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1335B8BC2C31AA6300DB233B /* DestinationScrapToggleResponseDTO.swift */; };
 		13405EFC2AECEBD800382796 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13405EFB2AECEBD700382796 /* LoginView.swift */; };
 		13405F002AECF76300382796 /* BaseLoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13405EFF2AECF76300382796 /* BaseLoginButton.swift */; };
 		13405F042AED899800382796 /* KakaoLoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13405F032AED899800382796 /* KakaoLoginButton.swift */; };
@@ -106,6 +113,20 @@
 		13813A232AAA459900AF6AEB /* PostSearchCollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13813A222AAA459900AF6AEB /* PostSearchCollectionViewDelegate.swift */; };
 		1383C81C2B97F44800830F1A /* KeychainManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1383C81B2B97F44800830F1A /* KeychainManagerTests.swift */; };
 		1383C81F2B9815B700830F1A /* KeychainKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1383C81E2B9815B700830F1A /* KeychainKey.swift */; };
+		1385F6692C3FA797003DB336 /* DestinationScrapRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1385F6682C3FA797003DB336 /* DestinationScrapRepository.swift */; };
+		1385F66B2C3FADBE003DB336 /* DefaultDestinationScrapRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1385F66A2C3FADBE003DB336 /* DefaultDestinationScrapRepository.swift */; };
+		1385F66E2C3FCB2F003DB336 /* DestinationScrapToggler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1385F66D2C3FCB2F003DB336 /* DestinationScrapToggler.swift */; };
+		1385F6702C404108003DB336 /* DestinationScrapListRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1385F66F2C404108003DB336 /* DestinationScrapListRequestDTO.swift */; };
+		1385F6722C404129003DB336 /* DestinationScrapDetailResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1385F6712C404129003DB336 /* DestinationScrapDetailResponseDTO.swift */; };
+		1385F6742C405364003DB336 /* DestinationScrapList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1385F6732C405364003DB336 /* DestinationScrapList.swift */; };
+		1385F6762C4068C5003DB336 /* DestinationScrapUpdateRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1385F6752C4068C5003DB336 /* DestinationScrapUpdateRequestDTO.swift */; };
+		1385F6782C4068F4003DB336 /* DestinationScrapUpdateResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1385F6772C4068F4003DB336 /* DestinationScrapUpdateResponseDTO.swift */; };
+		1385F67A2C407937003DB336 /* UpdatedDestinationScrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1385F6792C407937003DB336 /* UpdatedDestinationScrap.swift */; };
+		1385F67E2C410F23003DB336 /* JsonMockDestinationScrapRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1385F67D2C410F23003DB336 /* JsonMockDestinationScrapRepository.swift */; };
+		1385F6822C4112DD003DB336 /* mock_response_getDestinationScrapList.json in Resources */ = {isa = PBXBuildFile; fileRef = 1385F6802C4112DD003DB336 /* mock_response_getDestinationScrapList.json */; };
+		1385F6882C411582003DB336 /* mock_response_toggleDestinationScrap.json in Resources */ = {isa = PBXBuildFile; fileRef = 1385F6862C411582003DB336 /* mock_response_toggleDestinationScrap.json */; };
+		1385F68E2C411697003DB336 /* mock_response_updateDestinationScrap.json in Resources */ = {isa = PBXBuildFile; fileRef = 1385F68C2C411697003DB336 /* mock_response_updateDestinationScrap.json */; };
+		1385F6902C4118B4003DB336 /* DestinationScrapRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1385F68F2C4118B4003DB336 /* DestinationScrapRepositoryTests.swift */; };
 		1390CC5D2A8BADEC00E34DC3 /* TitleWithButtonHeaderViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1390CC5C2A8BADEC00E34DC3 /* TitleWithButtonHeaderViewDelegate.swift */; };
 		139DEDEB2B163D9A00363E7B /* SearchDestinationCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139DEDEA2B163D9A00363E7B /* SearchDestinationCollectionViewLayout.swift */; };
 		139DEE102B16ADF300363E7B /* SearchDestinationServiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139DEE0F2B16ADF300363E7B /* SearchDestinationServiceCell.swift */; };
@@ -348,6 +369,7 @@
 		153841D72A5642A9004C41D1 /* PostViewBottomSheetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153841D62A5642A9004C41D1 /* PostViewBottomSheetCell.swift */; };
 		153AB1E02C21B560003F4E97 /* PostDetailFetchForUniversalLinkNotifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153AB1DF2C21B560003F4E97 /* PostDetailFetchForUniversalLinkNotifiable.swift */; };
 		153AB1E22C21B68C003F4E97 /* FetchedPostDetailForUniversalLinkEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153AB1E12C21B68C003F4E97 /* FetchedPostDetailForUniversalLinkEntity.swift */; };
+		153EAD012C42A57E00BC0611 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 153EAD002C42A57E00BC0611 /* RealmSwift */; };
 		153FA90D2B937D9E006CF3C3 /* UserProfileRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153FA90C2B937D9E006CF3C3 /* UserProfileRequestDTO.swift */; };
 		153FA90F2B937E12006CF3C3 /* UserProfileImageResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153FA90E2B937E12006CF3C3 /* UserProfileImageResponseDTO.swift */; };
 		153FA9112B938C19006CF3C3 /* ParameterType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153FA9102B938C19006CF3C3 /* ParameterType.swift */; };
@@ -959,6 +981,13 @@
 		133532032BA42DDE000A4D9E /* Double+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+.swift"; sourceTree = "<group>"; };
 		133532052BA42F6E000A4D9E /* Data+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+.swift"; sourceTree = "<group>"; };
 		1335320D2BA469E3000A4D9E /* DataConverterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataConverterTests.swift; sourceTree = "<group>"; };
+		1335B8AD2C319C4200DB233B /* SearchDestinationUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDestinationUseCase.swift; sourceTree = "<group>"; };
+		1335B8AF2C319C9C00DB233B /* DefaultSearchDestinationUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultSearchDestinationUseCase.swift; sourceTree = "<group>"; };
+		1335B8B42C319E7300DB233B /* DestinationRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationRepository.swift; sourceTree = "<group>"; };
+		1335B8B62C319EB200DB233B /* DefaultDestinationRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultDestinationRepository.swift; sourceTree = "<group>"; };
+		1335B8B82C31A1AA00DB233B /* DestinationScrapEndpoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationScrapEndpoints.swift; sourceTree = "<group>"; };
+		1335B8BA2C31AA5000DB233B /* DestinationScrapToggleRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationScrapToggleRequestDTO.swift; sourceTree = "<group>"; };
+		1335B8BC2C31AA6300DB233B /* DestinationScrapToggleResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationScrapToggleResponseDTO.swift; sourceTree = "<group>"; };
 		13405EFB2AECEBD700382796 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		13405EFF2AECF76300382796 /* BaseLoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseLoginButton.swift; sourceTree = "<group>"; };
 		13405F032AED899800382796 /* KakaoLoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoLoginButton.swift; sourceTree = "<group>"; };
@@ -1004,6 +1033,20 @@
 		13813A222AAA459900AF6AEB /* PostSearchCollectionViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSearchCollectionViewDelegate.swift; sourceTree = "<group>"; };
 		1383C81B2B97F44800830F1A /* KeychainManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManagerTests.swift; sourceTree = "<group>"; };
 		1383C81E2B9815B700830F1A /* KeychainKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainKey.swift; sourceTree = "<group>"; };
+		1385F6682C3FA797003DB336 /* DestinationScrapRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationScrapRepository.swift; sourceTree = "<group>"; };
+		1385F66A2C3FADBE003DB336 /* DefaultDestinationScrapRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultDestinationScrapRepository.swift; sourceTree = "<group>"; };
+		1385F66D2C3FCB2F003DB336 /* DestinationScrapToggler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationScrapToggler.swift; sourceTree = "<group>"; };
+		1385F66F2C404108003DB336 /* DestinationScrapListRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationScrapListRequestDTO.swift; sourceTree = "<group>"; };
+		1385F6712C404129003DB336 /* DestinationScrapDetailResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationScrapDetailResponseDTO.swift; sourceTree = "<group>"; };
+		1385F6732C405364003DB336 /* DestinationScrapList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationScrapList.swift; sourceTree = "<group>"; };
+		1385F6752C4068C5003DB336 /* DestinationScrapUpdateRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationScrapUpdateRequestDTO.swift; sourceTree = "<group>"; };
+		1385F6772C4068F4003DB336 /* DestinationScrapUpdateResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationScrapUpdateResponseDTO.swift; sourceTree = "<group>"; };
+		1385F6792C407937003DB336 /* UpdatedDestinationScrap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatedDestinationScrap.swift; sourceTree = "<group>"; };
+		1385F67D2C410F23003DB336 /* JsonMockDestinationScrapRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonMockDestinationScrapRepository.swift; sourceTree = "<group>"; };
+		1385F6812C4112DD003DB336 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/mock_response_getDestinationScrapList.json; sourceTree = "<group>"; };
+		1385F6872C411582003DB336 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/mock_response_toggleDestinationScrap.json; sourceTree = "<group>"; };
+		1385F68D2C411697003DB336 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/mock_response_updateDestinationScrap.json; sourceTree = "<group>"; };
+		1385F68F2C4118B4003DB336 /* DestinationScrapRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationScrapRepositoryTests.swift; sourceTree = "<group>"; };
 		1390CC5C2A8BADEC00E34DC3 /* TitleWithButtonHeaderViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleWithButtonHeaderViewDelegate.swift; sourceTree = "<group>"; };
 		1390CC6E2A8E0B2800E34DC3 /* SearchStarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchStarButton.swift; sourceTree = "<group>"; };
 		139DEDEA2B163D9A00363E7B /* SearchDestinationCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDestinationCollectionViewLayout.swift; sourceTree = "<group>"; };
@@ -1797,6 +1840,7 @@
 				15A40D612BCFAEE80045C2C5 /* FirebaseStorage in Frameworks */,
 				154CA5F92BD2C91C0066B444 /* SHFirestoreService in Frameworks */,
 				15C36D9F2C06DD2500673C4B /* AppsFlyerLib in Frameworks */,
+				153EAD012C42A57E00BC0611 /* RealmSwift in Frameworks */,
 				15A40D5F2BCFAEE80045C2C5 /* FirebaseFirestoreCombine-Community in Frameworks */,
 				135A07D92BB7EEF7003D6C4D /* PhotosUI.framework in Frameworks */,
 				13E913932B0F3ECF00E15B11 /* SnapKit in Frameworks */,
@@ -1957,6 +2001,25 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
+		1335B8AC2C319C2700DB233B /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				1335B8AD2C319C4200DB233B /* SearchDestinationUseCase.swift */,
+				1335B8AF2C319C9C00DB233B /* DefaultSearchDestinationUseCase.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		1335B8B12C319D1E00DB233B /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				1385F6672C3FA774003DB336 /* Protocol */,
+				1335B8B62C319EB200DB233B /* DefaultDestinationRepository.swift */,
+				1385F66A2C3FADBE003DB336 /* DefaultDestinationScrapRepository.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
 		13405F092AEEF1CA00382796 /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
@@ -2096,6 +2159,35 @@
 				1383C81E2B9815B700830F1A /* KeychainKey.swift */,
 			);
 			path = KeychainStorage;
+			sourceTree = "<group>";
+		};
+		1385F6672C3FA774003DB336 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				1385F6682C3FA797003DB336 /* DestinationScrapRepository.swift */,
+				1335B8B42C319E7300DB233B /* DestinationRepository.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
+		1385F66C2C3FCAE3003DB336 /* Destination */ = {
+			isa = PBXGroup;
+			children = (
+				1385F66D2C3FCB2F003DB336 /* DestinationScrapToggler.swift */,
+				1385F6732C405364003DB336 /* DestinationScrapList.swift */,
+				1385F6792C407937003DB336 /* UpdatedDestinationScrap.swift */,
+			);
+			path = Destination;
+			sourceTree = "<group>";
+		};
+		1385F67F2C41129C003DB336 /* DestinationScrap */ = {
+			isa = PBXGroup;
+			children = (
+				1385F6802C4112DD003DB336 /* mock_response_getDestinationScrapList.json */,
+				1385F6862C411582003DB336 /* mock_response_toggleDestinationScrap.json */,
+				1385F68C2C411697003DB336 /* mock_response_updateDestinationScrap.json */,
+			);
+			path = DestinationScrap;
 			sourceTree = "<group>";
 		};
 		13BF411E2ADBEC4100F3F082 /* View */ = {
@@ -2473,6 +2565,7 @@
 		151DF0EE2AEEAE1100D5D55B /* Entities */ = {
 			isa = PBXGroup;
 			children = (
+				1385F66C2C3FCAE3003DB336 /* Destination */,
 				13E84AEB2BE39C2900B537B6 /* TourDestinationType */,
 				15CE24142BE3B0B8009EAFEE /* User */,
 				15D37F7E2B978309000E8FDB /* TravelCategory */,
@@ -2519,6 +2612,7 @@
 		151DF0F22AEEB28600D5D55B /* UseCases */ = {
 			isa = PBXGroup;
 			children = (
+				1335B8AC2C319C2700DB233B /* Search */,
 				151DF0F52AEEB2D200D5D55B /* DefaultNoticeUseCase.swift */,
 				13EB3D902BF7C66B00CA84F0 /* Tour */,
 				151DF0F12AEEB27400D5D55B /* Protocol */,
@@ -2608,6 +2702,9 @@
 				15D3DA1F2BBFCDED0099C384 /* FavoritePostScrapResponseDTO.swift */,
 				1564A0A12BBFE0780045424B /* FavoritePostDirectoryNameUpdateResponseDTO.swift */,
 				13E98F9F2BCE61D800F05295 /* ReviewWritingSaveResponseDTO.swift */,
+				1335B8BC2C31AA6300DB233B /* DestinationScrapToggleResponseDTO.swift */,
+				1385F6712C404129003DB336 /* DestinationScrapDetailResponseDTO.swift */,
+				1385F6772C4068F4003DB336 /* DestinationScrapUpdateResponseDTO.swift */,
 			);
 			path = ResponseDTO;
 			sourceTree = "<group>";
@@ -2624,6 +2721,7 @@
 		151DF1072AEEC53400D5D55B /* MockJson */ = {
 			isa = PBXGroup;
 			children = (
+				1385F67F2C41129C003DB336 /* DestinationScrap */,
 				13EB3D1E2BF346CD00CA84F0 /* TourAPI */,
 				15591DDF2BBEA28D00128A9E /* FavoriteDirectory */,
 				15553BCD2BB3488D000AA896 /* NestedPostComment */,
@@ -3125,6 +3223,7 @@
 				15B5E79E2BBAE51C00C19F56 /* UserBlockAPIEndpoint.swift */,
 				15591DD12BBE993500128A9E /* FavoritePostAPIEndpoint.swift */,
 				13E98F952BC98B4100F05295 /* ReviewWritingEndpoints.swift */,
+				1335B8B82C31A1AA00DB233B /* DestinationScrapEndpoints.swift */,
 			);
 			path = Server;
 			sourceTree = "<group>";
@@ -3180,6 +3279,7 @@
 		154CA61C2BD3AD0B0066B444 /* SpringServer */ = {
 			isa = PBXGroup;
 			children = (
+				1335B8B12C319D1E00DB233B /* Search */,
 				1540709C2C0F6E68000C9C42 /* FavoriteDirectory */,
 				1540709B2C0F6E10000C9C42 /* Notification */,
 				1540709A2C0F6DFE000C9C42 /* Authentication */,
@@ -3355,6 +3455,7 @@
 				15803C452BD9328100D83F2B /* MockEndpoint.swift */,
 				1572ABB02BE67A60008AFE66 /* MockFirestoreImageStorage.swift */,
 				15A2C2FA2C2176A800407663 /* InterceptedWhatsNewNotificationRepository.swift */,
+				1385F67D2C410F23003DB336 /* JsonMockDestinationScrapRepository.swift */,
 			);
 			path = Mock;
 			sourceTree = "<group>";
@@ -4062,6 +4163,9 @@
 				13E98F9B2BCDCF1300F05295 /* ReviewWritingUpdateRequestDTO.swift */,
 				15D3DA1D2BBFCDA20099C384 /* FavoritePostScrapRequestDTO.swift */,
 				1564A09F2BBFE0290045424B /* FavoritePostDirectoryNameUpdateRequestDTO.swift */,
+				1335B8BA2C31AA5000DB233B /* DestinationScrapToggleRequestDTO.swift */,
+				1385F66F2C404108003DB336 /* DestinationScrapListRequestDTO.swift */,
+				1385F6752C4068C5003DB336 /* DestinationScrapUpdateRequestDTO.swift */,
 			);
 			path = RequestDTO;
 			sourceTree = "<group>";
@@ -4124,6 +4228,7 @@
 				1551D5F12BF8DFF6009B5CD6 /* FirestoreUserBlockRepositoryTests.swift */,
 				152175802BFB01C300666549 /* FirestoreUserProfileSettingRepositoryIntegrationTests.swift */,
 				15D284052C204FC700B39AC8 /* FirestoreWhatsNewNotificationRepoTests.swift */,
+				1385F68F2C4118B4003DB336 /* DestinationScrapRepositoryTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -4705,6 +4810,7 @@
 				15803C4A2BDA1A4600D83F2B /* GoogleSignIn */,
 				15C36D9E2C06DD2500673C4B /* AppsFlyerLib */,
 				1563027C2C10C91E000B496E /* Swinject */,
+				153EAD002C42A57E00BC0611 /* RealmSwift */,
 			);
 			productName = travelPlan;
 			productReference = 1594F52E29FD517E00A58F20 /* travelPlan.app */;
@@ -4752,6 +4858,7 @@
 				15803C492BDA1A4600D83F2B /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 				15C36D9D2C06DD2500673C4B /* XCRemoteSwiftPackageReference "AppsFlyerFramework" */,
 				1563027B2C10C91E000B496E /* XCRemoteSwiftPackageReference "Swinject" */,
+				153EACFF2C42A57E00BC0611 /* XCRemoteSwiftPackageReference "realm-swift" */,
 			);
 			productRefGroup = 1594F52F29FD517E00A58F20 /* Products */;
 			projectDirPath = "";
@@ -4800,6 +4907,8 @@
 				159958762B0D988400B2E4DC /* Palette.xcassets in Resources */,
 				158BEFBC2A0EB2A500C27861 /* Pretendard-SemiBold.ttf in Resources */,
 				1564A0A62BBFE3C60045424B /* mock_favoritePostDirectoryName_update_response.json in Resources */,
+				1385F6882C411582003DB336 /* mock_response_toggleDestinationScrap.json in Resources */,
+				1385F68E2C411697003DB336 /* mock_response_updateDestinationScrap.json in Resources */,
 				1518BC1F2BB02DEE00FD1A74 /* mock_postComment_delete_response.json in Resources */,
 				158BEFBF2A0EB2A500C27861 /* Pretendard-Thin.ttf in Resources */,
 				1518BC212BB03BF300FD1A74 /* mock_postComment_fetchComments_response.json in Resources */,
@@ -4807,6 +4916,7 @@
 				15E1550D2BAB47F400582E12 /* BottomNextPageIndicatorCell.xib in Resources */,
 				1518BC1B2BB022D100FD1A74 /* mock_postComment_update_response.json in Resources */,
 				13EB3D8A2BF71EAE00CA84F0 /* mock_tourAPI_introductionInfo_accommodation.json in Resources */,
+				1385F6822C4112DD003DB336 /* mock_response_getDestinationScrapList.json in Resources */,
 				15FB96722BC4270E00706312 /* PostDetailCategoryCell.xib in Resources */,
 				158BEFBA2A0EB2A500C27861 /* Pretendard-Bold.ttf in Resources */,
 				13EB3D312BF35D9700CA84F0 /* mock_tourAPI_introductionInfo_restaurant.json in Resources */,
@@ -4860,6 +4970,7 @@
 				15ABC4272BF3588800B9FA74 /* StubPostNestedCommentHeartRepository.swift in Sources */,
 				159851CA2BEDF81D001262BD /* Combine+XCTestHelpers.swift in Sources */,
 				15803C3F2BD8F5F900D83F2B /* XMLParsingServiceTests.swift in Sources */,
+				1385F6902C4118B4003DB336 /* DestinationScrapRepositoryTests.swift in Sources */,
 				15D6559A2B8E1CCB00466FEC /* UserInfoAPIEndpointTests.swift in Sources */,
 				1335320E2BA469E3000A4D9E /* DataConverterTests.swift in Sources */,
 				13EB3D492BF4ED0700CA84F0 /* LeportsUseCaseTests.swift in Sources */,
@@ -4943,9 +5054,11 @@
 				15591DD42BBE99E200128A9E /* FavoritePostRequestDTO.swift in Sources */,
 				15869CE92BF4FE2F00FB342B /* PostFetchUseCase.swift in Sources */,
 				15803C632BDAB23E00D83F2B /* ImageStorageServiceProtocol.swift in Sources */,
+				1335B8BB2C31AA5000DB233B /* DestinationScrapToggleRequestDTO.swift in Sources */,
 				13E7EAD32BDE3CC00027946C /* SearchDestinationViewModel.swift in Sources */,
 				13EB3D6B2BF6037900CA84F0 /* AccommodationUseCase.swift in Sources */,
 				152834D52BAB4DED00453DD1 /* PostViewSection.swift in Sources */,
+				1335B8B52C319E7300DB233B /* DestinationRepository.swift in Sources */,
 				13405F082AEE212500382796 /* GoogleLoginButton.swift in Sources */,
 				15E0BA0F2BF273DC00EBCDD9 /* DeletedNestedCommentResult.swift in Sources */,
 				15CC64142A1DD4EF00857446 /* ConvenienceInit.swift in Sources */,
@@ -5046,6 +5159,7 @@
 				15A859A02BB56E18002C0CA0 /* PostContainer.swift in Sources */,
 				13606E8C2A9F959F00365F20 /* PostRecommendationSearchHeaderView.swift in Sources */,
 				13813A232AAA459900AF6AEB /* PostSearchCollectionViewDelegate.swift in Sources */,
+				1385F6722C404129003DB336 /* DestinationScrapDetailResponseDTO.swift in Sources */,
 				15C1F5402AF29CDE005FDA15 /* NotificationIconType.swift in Sources */,
 				1518BC232BB0415500FD1A74 /* PostCommentHeartToggleRequestDTO.swift in Sources */,
 				151AF54E2C30691C004B98EE /* TravelRegion+PlanCategorySelectionConfigurable.swift in Sources */,
@@ -5075,6 +5189,7 @@
 				15A0E1A12B97A3FD0047D662 /* PostContainerResponseDTO.swift in Sources */,
 				15E155062BAB01F900582E12 /* PostMapper.swift in Sources */,
 				15EBDBB92BC00F6900A8A91C /* PostSearchRequestDTO.swift in Sources */,
+				1385F67A2C407937003DB336 /* UpdatedDestinationScrap.swift in Sources */,
 				155D0BB72B90DAB10042DFB6 /* MainError.swift in Sources */,
 				15803C362BD8EE6500D83F2B /* XMLParsingServiceProtocol.swift in Sources */,
 				1540708F2C0F1BDA000C9C42 /* CoreAssembly.swift in Sources */,
@@ -5093,6 +5208,7 @@
 				15803C512BDA4DC700D83F2B /* FirestoreUserProfileSettingAPIEndopint.swift in Sources */,
 				15B5E79F2BBAE51C00C19F56 /* UserBlockAPIEndpoint.swift in Sources */,
 				15E9E5F22B9A35F300C2F1F7 /* JsonMockPostRepository.swift in Sources */,
+				1385F66E2C3FCB2F003DB336 /* DestinationScrapToggler.swift in Sources */,
 				151DF0F62AEEB2D200D5D55B /* DefaultNoticeUseCase.swift in Sources */,
 				15803C482BD932D500D83F2B /* MockEndpoint.swift in Sources */,
 				15BE6BDE2BAF0930009A2568 /* DefaultPostCommentRepository.swift in Sources */,
@@ -5123,6 +5239,7 @@
 				15D867CD2AD4003E00F35811 /* FavoriteViewModelable.swift in Sources */,
 				152AD52A2A1B8D6E008A2A11 /* MockFavoriteUseCase.swift in Sources */,
 				139DEE102B16ADF300363E7B /* SearchDestinationServiceCell.swift in Sources */,
+				1335B8BD2C31AA6300DB233B /* DestinationScrapToggleResponseDTO.swift in Sources */,
 				15FFABFF2AD5D57B0013DB57 /* FavoriteInfo.swift in Sources */,
 				15A4F28B2ACC072A001AA51D /* PrimaryColorToneRoundLabel.swift in Sources */,
 				1325508E2A13EE8E00094218 /* PostRecentSearchHeaderView.swift in Sources */,
@@ -5157,6 +5274,7 @@
 				133531F92BA1A0B8000A4D9E /* KeychainLoginResponseStorage.swift in Sources */,
 				139DEDEB2B163D9A00363E7B /* SearchDestinationCollectionViewLayout.swift in Sources */,
 				15F36A1C2AB1A45600971803 /* TravelPartner.swift in Sources */,
+				1385F6782C4068F4003DB336 /* DestinationScrapUpdateResponseDTO.swift in Sources */,
 				130CF3712B8F855F0051DEE8 /* LoginRequestDTO.swift in Sources */,
 				1503F9402A4E1327002BC38D /* FeedCoordinator.swift in Sources */,
 				15EB3A012AC3477B0025FFB4 /* PostHeaderContentView.swift in Sources */,
@@ -5170,6 +5288,7 @@
 				15CB235B2A109CA4003EAF20 /* PostHeaderContentBottomInfo.swift in Sources */,
 				130304792A24936D00776A0D /* SearchViewModel.swift in Sources */,
 				13EB3D922BF7C74500CA84F0 /* CourseUseCase.swift in Sources */,
+				1335B8B92C31A1AA00DB233B /* DestinationScrapEndpoints.swift in Sources */,
 				15869D032BF50CED00FB342B /* MockPostFetchUseCase.swift in Sources */,
 				15B5E7992BBAE34E00C19F56 /* UserBlockRequestDTO.swift in Sources */,
 				1595B5302BAD9DAC00DA5039 /* PostMainThemeCategoryBottomSheet.swift in Sources */,
@@ -5185,6 +5304,7 @@
 				15BE6BD82BAF05F3009A2568 /* PostCommentSendingRequestDTO.swift in Sources */,
 				13AE0DD62BBD271A00652B99 /* AlbumPhotoDetailCoordinator.swift in Sources */,
 				155D0BB52B90D9390042DFB6 /* ReferenceError.swift in Sources */,
+				1385F6742C405364003DB336 /* DestinationScrapList.swift in Sources */,
 				15EDCA5F2C1DE2BA00C5BD7C /* PostOptionNotificationBinder.swift in Sources */,
 				13E98FA02BCE61D800F05295 /* ReviewWritingSaveResponseDTO.swift in Sources */,
 				135A07D52BB55A13003D6C4D /* PhotoAuthorizationViewDelegate.swift in Sources */,
@@ -5247,6 +5367,7 @@
 				15B5E7B02BBAEE4100C19F56 /* BlockedUserProfileResponseDTO.swift in Sources */,
 				15EE50F12BF9BCA700628FC9 /* UserProfileImageSettingUseCase.swift in Sources */,
 				15EFB6C82AF51CFE00AA629C /* PostSearchCollectionViewAdapter.swift in Sources */,
+				1385F6692C3FA797003DB336 /* DestinationScrapRepository.swift in Sources */,
 				157ADCA42ACFF31D00D37680 /* FavoritePostViewController.swift in Sources */,
 				134384082B48005F005034E0 /* AlbumViewController.swift in Sources */,
 				158C6A372B0D138500C30856 /* ImageIO.swift in Sources */,
@@ -5296,6 +5417,7 @@
 				159851BC2BEDEB0A001262BD /* FirestorePostNestedCommentHeartRepository.swift in Sources */,
 				15D3DA1E2BBFCDA20099C384 /* FavoritePostScrapRequestDTO.swift in Sources */,
 				15803C382BD8F3BC00D83F2B /* XMLParsingService.swift in Sources */,
+				1385F67E2C410F23003DB336 /* JsonMockDestinationScrapRepository.swift in Sources */,
 				15F36A182AB1986000971803 /* TravelTheme.swift in Sources */,
 				15B5E7A52BBAE85E00C19F56 /* UserBlockUseCase.swift in Sources */,
 				15F4AF462BC6B2E800E9C20E /* UITableView+Helpers.swift in Sources */,
@@ -5331,6 +5453,7 @@
 				156759B12A0D774500849CE2 /* FeedViewModel.swift in Sources */,
 				159851BE2BEDEC27001262BD /* PostNestedCommentHeartRepository.swift in Sources */,
 				154CA61F2BD3AD5C0066B444 /* DefaultTourCommonInfoRepository.swift in Sources */,
+				1385F66B2C3FADBE003DB336 /* DefaultDestinationScrapRepository.swift in Sources */,
 				151DF0E12AEE828900D5D55B /* NoticeCell.swift in Sources */,
 				15F0D1B02A51BDFE00D04773 /* CategoryPageViewDataSource.swift in Sources */,
 				1572ABB72BE75247008AFE66 /* PostHeartRepository.swift in Sources */,
@@ -5520,12 +5643,14 @@
 				13A6C2DB2AB782A100EABD76 /* UIViewController+BackBarButtonItem.swift in Sources */,
 				133532002BA2D3E3000A4D9E /* UserDefaultsLoginResultStorage.swift in Sources */,
 				159E387C2BBAD464008825B0 /* LikedPostsByLoggedInUserRequestDTO.swift in Sources */,
+				1385F6702C404108003DB336 /* DestinationScrapListRequestDTO.swift in Sources */,
 				13300FA42AC0688300952757 /* BaseDestinationView.swift in Sources */,
 				13E98F962BC98B4100F05295 /* ReviewWritingEndpoints.swift in Sources */,
 				15D388272AFF8AAA00039946 /* InputTextView.swift in Sources */,
 				15553BC02BB34151000AA896 /* PostNestedCommentAPIEndpoint.swift in Sources */,
 				13F6DACA2B52711E00573B86 /* SlideDownAnimator.swift in Sources */,
 				157971132C253226007A88DB /* PostDetailChatViewModelInfo.swift in Sources */,
+				1335B8B02C319C9C00DB233B /* DefaultSearchDestinationUseCase.swift in Sources */,
 				13EB3D692BF602CB00CA84F0 /* AccommodationEntity.swift in Sources */,
 				13A93EE52ACDE0EC00FC4BBD /* SearchDetailHeaderView.swift in Sources */,
 				154CA6012BD398D40066B444 /* RelativeURLPathProvidable.swift in Sources */,
@@ -5585,6 +5710,7 @@
 				13405F062AEE17B100382796 /* AppleLoginButton.swift in Sources */,
 				15ABC42B2BF45B5900B9FA74 /* PostFetchAtomicRepository.swift in Sources */,
 				151DF0DE2AEE709800D5D55B /* Bool+.swift in Sources */,
+				1335B8AE2C319C4200DB233B /* SearchDestinationUseCase.swift in Sources */,
 				154CA6272BD3B5A70066B444 /* TourApiError.swift in Sources */,
 				150F17FA2B166C1C008C0E17 /* BaseSettingViewController.swift in Sources */,
 				1503F93D2A4E1291002BC38D /* PlanCoordinator.swift in Sources */,
@@ -5596,6 +5722,7 @@
 				15E0BA0D2BF1C0B800EBCDD9 /* DefaultPostNestedCommentHeartUseCase.swift in Sources */,
 				130304822A250DF600776A0D /* TitleWithButtonHeaderView.swift in Sources */,
 				15ABC42D2BF45B7200B9FA74 /* PostSearchAtomicRepository.swift in Sources */,
+				1335B8B72C319EB200DB233B /* DefaultDestinationRepository.swift in Sources */,
 				13E98F942BC7E42E00F05295 /* PostContentEntity.swift in Sources */,
 				15C1F55C2AF37CA8005FDA15 /* NSMutableAttributedString+.swift in Sources */,
 				13A93EE92AD0065300FC4BBD /* SearchMoreDetailLayoutManager.swift in Sources */,
@@ -5625,6 +5752,7 @@
 				159F38BF2AFAA329000A24C2 /* PostDetailTitleCell.swift in Sources */,
 				15FEB5EA2A050A99000A5F33 /* UIColor+.swift in Sources */,
 				15FFABFD2AD5C75A0013DB57 /* FavoriteTableViewCellDelegate.swift in Sources */,
+				1385F6762C4068C5003DB336 /* DestinationScrapUpdateRequestDTO.swift in Sources */,
 				15B01DA72BA941D800BE9F98 /* LoggedInUserRepository.swift in Sources */,
 				1540478A2BE4B82D009E86FF /* PostHeartUseCase.swift in Sources */,
 				15198E962BADE2BB0011930D /* PostThumbnails.swift in Sources */,
@@ -5693,6 +5821,30 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		1385F6802C4112DD003DB336 /* mock_response_getDestinationScrapList.json */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1385F6812C4112DD003DB336 /* en */,
+			);
+			name = mock_response_getDestinationScrapList.json;
+			sourceTree = "<group>";
+		};
+		1385F6862C411582003DB336 /* mock_response_toggleDestinationScrap.json */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1385F6872C411582003DB336 /* en */,
+			);
+			name = mock_response_toggleDestinationScrap.json;
+			sourceTree = "<group>";
+		};
+		1385F68C2C411697003DB336 /* mock_response_updateDestinationScrap.json */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1385F68D2C411697003DB336 /* en */,
+			);
+			name = mock_response_updateDestinationScrap.json;
+			sourceTree = "<group>";
+		};
 		13E622BD2BD02401003E4FA4 /* mock_reviewWriting_post_response.json */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -6118,6 +6270,14 @@
 				minimumVersion = 1.1.0;
 			};
 		};
+		153EACFF2C42A57E00BC0611 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.0.0;
+			};
+		};
 		154CA5F72BD2C91C0066B444 /* XCRemoteSwiftPackageReference "SHFirestoreService" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SHcommit/SHFirestoreService.git";
@@ -6180,6 +6340,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 1536CC4F2BC8D5D700EEAE2B /* XCRemoteSwiftPackageReference "ActivityIndicator" */;
 			productName = ActivityIndicator;
+		};
+		153EAD002C42A57E00BC0611 /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 153EACFF2C42A57E00BC0611 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
 		};
 		154CA5F82BD2C91C0066B444 /* SHFirestoreService */ = {
 			isa = XCSwiftPackageProductDependency;

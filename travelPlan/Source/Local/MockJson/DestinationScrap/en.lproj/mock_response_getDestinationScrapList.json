@@ -1,0 +1,45 @@
+{
+  "result": [
+    {
+      "id": 1234567890123456,
+      "contentTypeId": 123,
+      "title": "Example Title",
+      "address": "123 Example Street",
+      "addressDetail": "Apt 456",
+      "mapX": 127.123456,
+      "mapY": 37.123456,
+      "overview": "This is an example overview of the content.",
+      "tel": "123-456-7890",
+      "category": {
+        "largeCategory": "Large Example Category",
+        "middleCategory": "Middle Example Category",
+        "smallCategory": "Small Example Category"
+      },
+      "zipcode": "12345",
+      "thumbnail": "tempThumbnail12",
+      "scraped": true
+    },
+    {
+      "id": 9876543210987654,
+      "contentTypeId": 456,
+      "title": "Another Example Title",
+      "address": "456 Another Street",
+      "addressDetail": "Suite 789",
+      "mapX": 126.654321,
+      "mapY": 36.654321,
+      "overview": "This is another example overview of the content.",
+      "tel": "987-654-3210",
+      "category": {
+        "largeCategory": "Another Large Category",
+        "middleCategory": "Another Middle Category",
+        "smallCategory": "Another Small Category"
+      },
+      "zipcode": "54321",
+      "thumbnail": "tempThumbnail12",
+      "scraped": false
+    }
+  ],
+  "status": "OK",
+  "statusCode": "200",
+  "message": "Data retrieved successfully"
+}

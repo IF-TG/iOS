@@ -15,6 +15,8 @@ import Foundation
   case postComment(PostCommentRequestType)
   case postNestedComment(PostNestedCommentRequestType)
   case favoritePostInDirectory(FavoritePostInDirectory)
+  case destination(DestinationRequestType)
+  
   
   var path: String {
     return switch self {
@@ -32,6 +34,8 @@ import Foundation
       loginRequestType.path
     case .favoritePostInDirectory(let favoritePost):
       favoritePost.path
+    case .destination(let destination):
+      destination.path
     }
   }
 }
@@ -189,6 +193,23 @@ extension RequestType {
         "post/scrap"
       case .favoritePostDirectoryNameUpdate:
         "post/scrap"
+      }
+    }
+  }
+}
+
+extension RequestType {
+  @frozen enum DestinationRequestType {
+    case toggleScrap
+    case Detail
+    case scrapList
+    case updateScrap
+    
+    var path: String {
+      switch self {
+      case .toggleScrap, .updateScrap: return "destination/scrap"
+      case .Detail: return "destination/detail"
+      case .scrapList: return "destination/scrap/detail"
       }
     }
   }

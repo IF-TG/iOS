@@ -7,6 +7,7 @@
 
 import UIKit
 import AppsFlyerLib
+import RealmSwift
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   /// 이 객체를 참조하지 않아도 되지만, 앱스플라이어에서는 AppDelegate에서 one link를 처리하기에 이 객체 인스턴스를 선언했습니다..
@@ -19,6 +20,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     willConnectTo session: UISceneSession,
     options connectionOptions: UIScene.ConnectionOptions
   ) {
+    #if DEBUG
+    /// Working with Realm Browser
+    print("DEBUG Realm db location: ", Realm.Configuration.defaultConfiguration.fileURL!)
+    #endif
+    
     appDIContainer.lazyApplyAssemblies()
     guard let windowScene = (scene as? UIWindowScene) else { return }
     let window = UIWindow(windowScene: windowScene)
