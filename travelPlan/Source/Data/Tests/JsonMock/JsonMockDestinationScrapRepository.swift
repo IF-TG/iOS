@@ -40,7 +40,7 @@ extension JsonMockDestinationScrapRepository: DestinationScrapRepository {
   
   func toggleDestinationScrap(
     id: Int64,
-    folderName: String
+    folderName: String?
   ) -> AnyPublisher<DestinationScrapToggler, any Error> {
     MockUrlProtocol.requestHandler = { _ in
       let mockData = MockResponseType

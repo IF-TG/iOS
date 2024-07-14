@@ -8,6 +8,6 @@
 import Foundation
 
 struct DestinationScrapToggler {
-  let scrapId: Int64
+  let id: Int64
   let isSelected: Bool
 }

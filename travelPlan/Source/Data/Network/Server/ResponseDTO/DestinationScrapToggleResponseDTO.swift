@@ -19,6 +19,6 @@ struct DestinationScrapToggleResponseDTO: Decodable {
 
 extension DestinationScrapToggleResponseDTO {
   func toDomain() -> DestinationScrapToggler {
-    return .init(scrapId: scrapId, isSelected: isSelected)
+    return .init(id: scrapId, isSelected: isSelected)
   }
 }

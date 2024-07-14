@@ -21,7 +21,6 @@ final class DefaultDestinationScrapRepository {
 }
 
 extension DefaultDestinationScrapRepository: DestinationScrapRepository {
-  // FIXME: - page 및 perPage는 어떤 방식으로 적용할 것인지?
   func getDestinationScrapList(
     folderName: String,
     page: Int32? = nil,
@@ -37,7 +36,7 @@ extension DefaultDestinationScrapRepository: DestinationScrapRepository {
       .eraseToAnyPublisher()
   }
   
-  func toggleDestinationScrap(id: Int64, folderName: String) -> AnyPublisher<DestinationScrapToggler, any Error> {
+  func toggleDestinationScrap(id: Int64, folderName: String?) -> AnyPublisher<DestinationScrapToggler, any Error> {
     let requestDTO = DestinationScrapToggleRequestDTO(objectId: id, forderName: folderName)
     let endpoint = DestinationScrapEndpoints.toggleDestinationScrap(with: requestDTO)
     

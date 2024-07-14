@@ -45,11 +45,11 @@ final class DestinationScrapRepositoryTests: BaseXCTestCase {
   
   func test_toggleDestinationScrap호출시_토글결과엔터티가return되는지() {
     // Arrange
-    let scrapId: Int64 = 122
+    let id: Int64 = 122
     let folderName = "전체"
     
     // Act
-    let publisher = sut.toggleDestinationScrap(id: scrapId, folderName: folderName)
+    let publisher = sut.toggleDestinationScrap(id: id, folderName: folderName)
     
     _=execute(fromPublisher: publisher)
     wait(for: [expectation], timeout: 7.777)

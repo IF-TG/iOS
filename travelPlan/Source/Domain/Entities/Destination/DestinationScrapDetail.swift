@@ -25,7 +25,7 @@ struct DestinationScrapDetail {
   }
   
   struct Id {
-    let scrapId: Int64
+    let id: Int64
     let contentTypdId: Int32
   }
 }
