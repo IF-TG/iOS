@@ -44,7 +44,7 @@ private final class PostFiveThumbnailsView: UIStackView {
   }
 }
 
-final class PostCellWithFiveThumbnails: BasePostCell, BasePostViewDelegator {
+final class PostCellWithFiveThumbnails: BasePostCell, BasePostViewDelegator, PostHeartsConfigurable {
   // MARK: - Properties
   private let thumbnailView: PostFiveThumbnailsView
   
@@ -85,12 +85,5 @@ extension PostCellWithFiveThumbnails: PostCellConfigurable {
 extension PostCellWithFiveThumbnails: PostCellEdgeDividable {
   func hideCellDivider() {
     postView.hideCellDivider()
-  }
-}
-
-// MARK: - PostHeartsConfigurable
-extension PostCellWithFiveThumbnails: PostHeartsConfigurable {
-  func setPostHearts(with hearts: Int32) {
-    postView.setPostHearts(with: hearts)
   }
 }

@@ -36,7 +36,7 @@ private final class PostTwoThumbnailsView: UIStackView {
   }
 }
 
-final class PostCellWithTwoThumbnails: BasePostCell, BasePostViewDelegator {
+final class PostCellWithTwoThumbnails: BasePostCell, BasePostViewDelegator, PostHeartsConfigurable {
   // MARK: - Properties
   private let thumbnailView: PostTwoThumbnailsView
   
@@ -76,12 +76,5 @@ extension PostCellWithTwoThumbnails: PostCellConfigurable {
 extension PostCellWithTwoThumbnails: PostCellEdgeDividable {
   func hideCellDivider() {
     postView.hideCellDivider()
-  }
-}
-
-// MARK: - PostHeartsConfigurable
-extension PostCellWithTwoThumbnails: PostHeartsConfigurable {
-  func setPostHearts(with hearts: Int32) {
-    postView.setPostHearts(with: hearts)
   }
 }
