@@ -106,10 +106,6 @@ final class PostDetailViewController: UITableViewController {
     setTitleView()
   }
   
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-  }
-  
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
     navigationController?.navigationBar.topItem?.titleView = nil
