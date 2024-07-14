@@ -32,7 +32,7 @@ final class DefaultTourCommonInfoRepository: TourCommonInfoRepository {
     contentId: Int,
     numOfRows: Int?,
     pageNo: Int?
-  ) -> AnyPublisher<TourCommonInfoEntity, any Error> {
+  ) -> AnyPublisher<TourCommonInfoEntity<String>, any Error> {
     let requestDTO = TourApiCommonInfoRequestDTO(contentId: contentId, numOfRows: 10, pageNo: 1)
     let endpoint = Endpoint.makeCommonInfoAPIEndpoint(with: requestDTO)
     
@@ -43,7 +43,7 @@ final class DefaultTourCommonInfoRepository: TourCommonInfoRepository {
         let resultCode = $0.response.header.resultCode
         
         guard resultCode == "0000" else {
-          return Fail<TourCommonInfoEntity, any Error>(
+          return Fail<TourCommonInfoEntity<String>, any Error>(
             error: TourAPIError.publicDataPortalError(.init(code: String(resultCode.suffix(2))))
           )
           .eraseToAnyPublisher()
