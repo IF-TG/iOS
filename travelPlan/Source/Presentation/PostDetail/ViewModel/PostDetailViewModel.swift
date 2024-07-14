@@ -169,9 +169,11 @@ private extension PostDetailViewModel {
                   self?.postDetails?.detail.likes -= 1
                 }
               }
-              return .updatedHearts(
-                self?.postDetails?.detail.likes ?? 0,
-                hasHeart: false)
+              let postHeartInfo = PostHeartInfo(
+                postId: postId,
+                numberOfPostHearts: self?.postDetails?.detail.likes ?? 0,
+                hasHeartPost: false)
+              return .updatedHearts(postHeartInfo)
             }
             .catch { Just(State.unexpectedError(description: $0.localizedDescription)) }
             .eraseToAnyPublisher()
@@ -183,9 +185,11 @@ private extension PostDetailViewModel {
               self?.postDetails?.hasHeart = true
               self?.postDetails?.detail.likes += 1
             }
-            return .updatedHearts(
-              self?.postDetails?.detail.likes ?? 0,
-              hasHeart: true)
+            let postHeartInfo = PostHeartInfo(
+              postId: postId,
+              numberOfPostHearts: self?.postDetails?.detail.likes ?? 0,
+              hasHeartPost: true)
+            return .updatedHearts(postHeartInfo)
           }.catch { Just(State.unexpectedError(description: $0.localizedDescription)) }
           .eraseToAnyPublisher()
       }.eraseToAnyPublisher()
