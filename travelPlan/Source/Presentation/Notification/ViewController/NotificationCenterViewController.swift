@@ -55,6 +55,7 @@ final class NotificationCenterViewController: UIViewController {
       NotificationViewController(viewModel: notificationViewModel),
       NoticeViewController(viewModel: noticeViewModel)]
     super.init(nibName: nil, bundle: nil)
+    hidesBottomBarWhenPushed = true
   }
   
   required init?(coder: NSCoder) {
@@ -64,16 +65,6 @@ final class NotificationCenterViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     configureUI()
-  }
-  
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    setTabBarVisible(false)
-  }
-  
-  override func viewWillDisappear(_ animated: Bool) {
-    super.viewWillDisappear(animated)
-    setTabBarVisible(true)
   }
   
   deinit {
@@ -129,17 +120,6 @@ private extension NotificationCenterViewController {
       naviBarDivider.trailingAnchor.constraint(equalTo: view.trailingAnchor),
       naviBarDivider.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: -Const.dividerHeight),
       naviBarDivider.heightAnchor.constraint(equalToConstant: Const.dividerHeight)])
-  }
-  
-  func setTabBarVisible(_ showTabBar: Bool) {
-    let zPos = showTabBar ? 0 : -1
-    guard let mainTabBarController = tabBarController as? MainTabBarController else { return }
-    if showTabBar {
-      mainTabBarController.showShadowLayer()
-    } else {
-      mainTabBarController.hideShadowLayer()
-    }
-    mainTabBarController.tabBar.layer.zPosition = CGFloat(zPos)
   }
 }
 
