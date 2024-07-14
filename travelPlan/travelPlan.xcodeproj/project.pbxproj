@@ -78,6 +78,8 @@
 		134055692C43276B00EC8877 /* DestinationSearchResultResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 134055682C43276B00EC8877 /* DestinationSearchResultResponseDTO.swift */; };
 		134055712C44171000EC8877 /* mock_response_getAllByKeyword.json in Resources */ = {isa = PBXBuildFile; fileRef = 1340556F2C44171000EC8877 /* mock_response_getAllByKeyword.json */; };
 		134055732C441DA300EC8877 /* ThumbnailDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 134055722C441DA300EC8877 /* ThumbnailDestination.swift */; };
+		134055752C44439500EC8877 /* JsonMockDestinationSearchRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 134055742C44439500EC8877 /* JsonMockDestinationSearchRepository.swift */; };
+		134055782C4449D800EC8877 /* DestinationSearchRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 134055772C4449D800EC8877 /* DestinationSearchRepositoryTests.swift */; };
 		13405EFC2AECEBD800382796 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13405EFB2AECEBD700382796 /* LoginView.swift */; };
 		13405F002AECF76300382796 /* BaseLoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13405EFF2AECF76300382796 /* BaseLoginButton.swift */; };
 		13405F042AED899800382796 /* KakaoLoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13405F032AED899800382796 /* KakaoLoginButton.swift */; };
@@ -1004,6 +1006,8 @@
 		134055682C43276B00EC8877 /* DestinationSearchResultResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationSearchResultResponseDTO.swift; sourceTree = "<group>"; };
 		134055702C44171000EC8877 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/mock_response_getAllByKeyword.json; sourceTree = "<group>"; };
 		134055722C441DA300EC8877 /* ThumbnailDestination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbnailDestination.swift; sourceTree = "<group>"; };
+		134055742C44439500EC8877 /* JsonMockDestinationSearchRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonMockDestinationSearchRepository.swift; sourceTree = "<group>"; };
+		134055772C4449D800EC8877 /* DestinationSearchRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationSearchRepositoryTests.swift; sourceTree = "<group>"; };
 		13405EFB2AECEBD700382796 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		13405EFF2AECF76300382796 /* BaseLoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseLoginButton.swift; sourceTree = "<group>"; };
 		13405F032AED899800382796 /* KakaoLoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoLoginButton.swift; sourceTree = "<group>"; };
@@ -2037,6 +2041,15 @@
 				134055622C43090B00EC8877 /* DefaultDestinationSearchRepository.swift */,
 			);
 			path = Search;
+			sourceTree = "<group>";
+		};
+		134055762C44474F00EC8877 /* JsonMock */ = {
+			isa = PBXGroup;
+			children = (
+				1385F67D2C410F23003DB336 /* JsonMockDestinationScrapRepository.swift */,
+				134055742C44439500EC8877 /* JsonMockDestinationSearchRepository.swift */,
+			);
+			path = JsonMock;
 			sourceTree = "<group>";
 		};
 		13405F092AEEF1CA00382796 /* Protocol */ = {
@@ -3483,7 +3496,6 @@
 				15803C452BD9328100D83F2B /* MockEndpoint.swift */,
 				1572ABB02BE67A60008AFE66 /* MockFirestoreImageStorage.swift */,
 				15A2C2FA2C2176A800407663 /* InterceptedWhatsNewNotificationRepository.swift */,
-				1385F67D2C410F23003DB336 /* JsonMockDestinationScrapRepository.swift */,
 			);
 			path = Mock;
 			sourceTree = "<group>";
@@ -4238,6 +4250,7 @@
 		15D655962B8E1C6900466FEC /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				134055762C44474F00EC8877 /* JsonMock */,
 				152175862BFB05B800666549 /* Stub */,
 				15803C472BD932B600D83F2B /* Mock */,
 				15D655992B8E1CCB00466FEC /* UserInfoAPIEndpointTests.swift */,
@@ -4258,6 +4271,7 @@
 				152175802BFB01C300666549 /* FirestoreUserProfileSettingRepositoryIntegrationTests.swift */,
 				15D284052C204FC700B39AC8 /* FirestoreWhatsNewNotificationRepoTests.swift */,
 				1385F68F2C4118B4003DB336 /* DestinationScrapRepositoryTests.swift */,
+				134055772C4449D800EC8877 /* DestinationSearchRepositoryTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -5022,6 +5036,7 @@
 				156C1E2C2BBED14300AF1D99 /* SHCoordinator+XCTestCase.swift in Sources */,
 				15FFAC282ADC598E0013DB57 /* SessionProviderTests.swift in Sources */,
 				156C1E232BBEC93900AF1D99 /* XCTestCase+Helpers.swift in Sources */,
+				134055782C4449D800EC8877 /* DestinationSearchRepositoryTests.swift in Sources */,
 				15EE51012BF9F21400628FC9 /* DefaultNicknameValidationUseCaseTests.swift in Sources */,
 				13EB3CD32BEAA00300CA84F0 /* DefaultTourIntroductionInfoRepositoryTests.swift in Sources */,
 				1526ECF02BF6374100B629FB /* DefaultOwnerRelatedPostFetchUseCaseTests.swift in Sources */,
@@ -5095,6 +5110,7 @@
 				15D283FC2C20111400B39AC8 /* YeogaTypealias.swift in Sources */,
 				150727262BBAB9E400271217 /* PostNestedCommentHeartToggleRequestDTO.swift in Sources */,
 				154070A42C0F8F94000C9C42 /* PersistentStorageAssembly.swift in Sources */,
+				134055752C44439500EC8877 /* JsonMockDestinationSearchRepository.swift in Sources */,
 				15ABFFBF2BDCDB9400D57C7C /* FirestoreReviewWritingEndpoint.swift in Sources */,
 				15D655952B8E17D400466FEC /* StubUserProfileSettingRepository.swift in Sources */,
 				1503F9312A4E0A4F002BC38D /* MainCoordinator.swift in Sources */,
