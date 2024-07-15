@@ -1,5 +1,5 @@
 //
-//  DestinationScrapList.swift
+//  DestinationScrapDetail.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 7/12/24.
@@ -25,7 +25,7 @@ struct DestinationScrapDetail {
   }
   
   struct Id {
-    let scrapId: Int64
+    let id: Int64
     let contentTypdId: Int32
   }
 }

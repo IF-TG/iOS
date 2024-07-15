@@ -9,5 +9,5 @@ import Foundation
 
 struct DestinationScrapToggleRequestDTO: Encodable {
   let objectId: Int64
-  let forderName: String
+  let forderName: String?
 }

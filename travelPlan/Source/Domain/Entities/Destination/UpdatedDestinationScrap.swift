@@ -8,7 +8,7 @@
 import Foundation
 
 struct UpdatedDestinationScrap {
-  let scrapId: Int64
+  let id: Int64
   let userId: Int64
   let folderName: String
 }

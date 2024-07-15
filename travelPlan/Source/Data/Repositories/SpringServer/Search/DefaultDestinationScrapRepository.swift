@@ -13,9 +13,6 @@ final class DefaultDestinationScrapRepository {
   private let service: Sessionable
   private let backgroundQueue: DispatchQueue
   
-  // MARK: - Properties
-  private let subscriptions = Set<AnyCancellable>()
-  
   // MARK: - LifeCycle
   init(service: Sessionable, backgroundQueue: DispatchQueue = .global(qos: .userInitiated)) {
     self.service = service
@@ -24,9 +21,12 @@ final class DefaultDestinationScrapRepository {
 }
 
 extension DefaultDestinationScrapRepository: DestinationScrapRepository {
-  // FIXME: - page 및 perPage는 어떤 방식으로 적용할 것인지?
-  func getDestinationScrapList(folderName: String) -> AnyPublisher<[DestinationScrapDetail], any Error> {
-    let requestDTO = DestinationScrapListRequestDTO(folderName: folderName, page: nil, perPage: nil)
+  func getDestinationScrapList(
+    folderName: String,
+    page: Int32? = nil,
+    perPage: Int32? = nil
+  ) -> AnyPublisher<[DestinationScrapDetail], any Error> {
+    let requestDTO = DestinationScrapListRequestDTO(folderName: folderName, page: page, perPage: perPage)
     let endpoint = DestinationScrapEndpoints.getDestinationScrapList(with: requestDTO)
     
     return service.request(endpoint: endpoint)
@@ -36,7 +36,7 @@ extension DefaultDestinationScrapRepository: DestinationScrapRepository {
       .eraseToAnyPublisher()
   }
   
-  func toggleDestinationScrap(id: Int64, folderName: String) -> AnyPublisher<DestinationScrapToggler, any Error> {
+  func toggleDestinationScrap(id: Int64, folderName: String?) -> AnyPublisher<DestinationScrapToggler, any Error> {
     let requestDTO = DestinationScrapToggleRequestDTO(objectId: id, forderName: folderName)
     let endpoint = DestinationScrapEndpoints.toggleDestinationScrap(with: requestDTO)
     

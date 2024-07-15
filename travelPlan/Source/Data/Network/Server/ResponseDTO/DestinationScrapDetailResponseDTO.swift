@@ -33,7 +33,7 @@ struct DestinationScrapDetailResponseDTO: Decodable {
 extension DestinationScrapDetailResponseDTO {
   func toDomain() -> DestinationScrapDetail {
     return .init(
-      id: .init(scrapId: id, contentTypdId: contentTypeId),
+      id: .init(id: id, contentTypdId: contentTypeId),
       title: title,
       address: .init(address1: address, address2: addressDetail),
       map: .init(mapX: mapX, mapY: mapY),
