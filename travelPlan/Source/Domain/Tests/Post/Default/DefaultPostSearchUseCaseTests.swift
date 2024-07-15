@@ -18,7 +18,7 @@ final class DefaultPostSearchUseCaseTests: XCTestCase {
   // MARK: - Lifecycle
   override func setUp() {
     super.setUp()
-    mockRepository = PostRepositoryDecorator()
+    mockRepository = JsonMockPostRepository()
     sut = DefaultPostSearchUseCase(postRepository: mockRepository)
     expectation = XCTestExpectation(description: "Finish")
   }

@@ -20,6 +20,8 @@ final class PostDetailViewModel: PostOptionNotificationBinder, UpdatedPostCommen
   
   private let ownerRepository: LoggedInUserRepository
   
+  private let postHeartUseCase: PostHeartUseCase
+  
   // MARK: - Properties
   private var postDetails: PostDetails?
   
@@ -28,6 +30,8 @@ final class PostDetailViewModel: PostOptionNotificationBinder, UpdatedPostCommen
   private let actions: PostDetailViewModelActions?
   
   private var isFavorite: Bool = false
+  
+  private let synchronized = Synchronized()
   
   // MARK: - Combine Properties
   private var subscriptions = Set<AnyCancellable>()
@@ -53,6 +57,7 @@ final class PostDetailViewModel: PostOptionNotificationBinder, UpdatedPostCommen
     post: Post?,
     postId: PostIdentifier,
     postFetchUseCase: PostFetchUseCase,
+    postHeartUseCase: PostHeartUseCase,
     ownerRepository: LoggedInUserRepository,
     actions: PostDetailViewModelActions?
   ) {
@@ -65,6 +70,7 @@ final class PostDetailViewModel: PostOptionNotificationBinder, UpdatedPostCommen
       self.postId = postId
     }
     self.postFetchUseCase = postFetchUseCase
+    self.postHeartUseCase = postHeartUseCase
     self.ownerRepository = ownerRepository
     self.actions = actions
     bind()
@@ -134,6 +140,7 @@ extension PostDetailViewModel: PostDetailViewModelPageDelegate {
 extension PostDetailViewModel: PostDetailViewModelable {
   func transform(_ input: PostDetailViewModelInput) -> AnyPublisher<PostDetailViewModelState, Never> {
     return Publishers.MergeMany([
+      postHeartStream(input),
       favoriteStateOnViewDidLoadStream(input),
       viewDidLoadStream(input),
       errorHandlerStream(),
@@ -147,6 +154,47 @@ extension PostDetailViewModel: PostDetailViewModelable {
 
 // MARK: - Private Input's Stream
 private extension PostDetailViewModel {
+  func postHeartStream(_ input: Input) -> Output {
+    return input
+      .postHeartSubject
+      .flatMap { [weak self] _ -> AnyPublisher<State, Never> in
+        guard let self, let postDetails else { return Just(State.none).eraseToAnyPublisher() }
+        let postId = postDetails.detail.postID
+        if postDetails.hasHeart {
+          return postHeartUseCase.hatePost(postId)
+            .map { [weak self] _ -> State in
+              self?.synchronized.sync {
+                self?.postDetails?.hasHeart = false
+                if postDetails.detail.likes > 0 {
+                  self?.postDetails?.detail.likes -= 1
+                }
+              }
+              let postHeartInfo = PostHeartInfo(
+                postId: postId,
+                numberOfPostHearts: self?.postDetails?.detail.likes ?? 0,
+                hasHeartPost: false)
+              return .updatedHearts(postHeartInfo)
+            }
+            .catch { Just(State.unexpectedError(description: $0.localizedDescription)) }
+            .eraseToAnyPublisher()
+        }
+        
+        return postHeartUseCase.heartPost(postId)
+          .map { [weak self] _ -> State in
+            self?.synchronized.sync {
+              self?.postDetails?.hasHeart = true
+              self?.postDetails?.detail.likes += 1
+            }
+            let postHeartInfo = PostHeartInfo(
+              postId: postId,
+              numberOfPostHearts: self?.postDetails?.detail.likes ?? 0,
+              hasHeartPost: true)
+            return .updatedHearts(postHeartInfo)
+          }.catch { Just(State.unexpectedError(description: $0.localizedDescription)) }
+          .eraseToAnyPublisher()
+      }.eraseToAnyPublisher()
+  }
+  
   func favoriteStateOnViewDidLoadStream(_ input: Input) -> Output {
     return input
       .favoriteStateOnViewDidLoad

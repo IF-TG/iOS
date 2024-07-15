@@ -9,7 +9,7 @@ import UIKit
 
 protocol PostHeartAndShareAreaHeaderViewDelegate: AnyObject {
   func didTapOption()
-  func didTapHeart(isFavorite: Bool)
+  func didTapHeart()
   func didTapShare()
 }
 
@@ -74,7 +74,7 @@ extension PostHeartAndShareAreaHeaderView {
   func configure(with info: PostFooterInfo?) {
     setHeartIcon(with: info?.heartState ?? false)
     if let heartCount = info?.heartCount {
-      heartStackView.setCountLabel(text: NumberFormatterWithSuffix.format(number: Int(heartCount)))
+      setHearts(with: heartCount)
     } else {
       heartStackView.setCountLabel(text: "0")
     }
@@ -83,6 +83,10 @@ extension PostHeartAndShareAreaHeaderView {
     } else {
       commentStackView.setCountLabel(text: "0")
     }
+  }
+  
+  func setHearts(with hearts: Int32) {
+    heartStackView.setCountLabel(text: NumberFormatterWithSuffix.format(number: Int(hearts)))
   }
   
   func updatePostHeartState() {
@@ -159,7 +163,7 @@ extension PostHeartAndShareAreaHeaderView {
 private extension PostHeartAndShareAreaHeaderView {
   @objc func didTapHeart() {
     updatePostHeartState()
-    delegate?.didTapHeart(isFavorite: postHeartState ?? false)
+    delegate?.didTapHeart()
   }
   
   @objc func didTapComment() { }

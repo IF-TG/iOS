@@ -44,7 +44,8 @@ private final class PostFourThumbnailsView: UIStackView {
   }
 }
 
-final class PostCellWithFourThumbnails: BasePostCell, BasePostViewDelegator {
+final class PostCellWithFourThumbnails: BasePostCell, BasePostViewDelegator, PostHeartsConfigurable,
+                                        PostCellEdgeDividable {
   // MARK: - Properties
   private var thumbnailView: PostFourThumbnailsView
   
@@ -77,12 +78,5 @@ extension PostCellWithFourThumbnails: PostCellConfigurable {
   func configure(with info: PostInfo?) {
     postView.configure(with: info)
     thumbnailView.configureThumbnail(with: info?.content.thumbnailImageDataList)
-  }
-}
-
-// MARK: - PostCellEdgeDividable
-extension PostCellWithFourThumbnails: PostCellEdgeDividable {
-  func hideCellDivider() {
-    postView.hideCellDivider()
   }
 }

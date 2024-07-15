@@ -7,10 +7,6 @@
 
 import UIKit
 
-protocol PostCellEdgeDividable: AnyObject {
-  func hideCellDivider()
-}
-
 final class BasePostView: UIView {
   // MARK: - Properties
   private let headerView = PostHeaderView()
@@ -46,6 +42,14 @@ final class BasePostView: UIView {
     setReviewLabel(with: post?.content.text)
     footerView.configure(with: post?.footer)
     setCellDivieder(post == nil)
+  }
+  
+  func setPostHearts(with hearts: Int32) {
+    footerView.setHearts(with: hearts)
+  }
+  
+  func setPostHeartUI(with hasHeart: Bool) {
+    footerView.updatePostHeartState(with: hasHeart)
   }
 }
 

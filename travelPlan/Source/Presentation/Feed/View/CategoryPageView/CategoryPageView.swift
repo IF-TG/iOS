@@ -67,6 +67,13 @@ extension CategoryPageView {
     else { return }
     targetViewController.handleMainThemeFilter(with: mainTheme)
   }
+  
+  func setPostHeart(with: PostHeartInfo) {
+    (postPageViewController
+      .viewControllers?
+      .first as? FeedPostViewController
+    )?.setPostHeart(with: with)
+  }
 }
 
 // MARK: - Private Helpers

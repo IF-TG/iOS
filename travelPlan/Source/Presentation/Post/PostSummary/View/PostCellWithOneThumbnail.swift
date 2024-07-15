@@ -24,7 +24,8 @@ private final class PostOneThumbnailView: UIImageView {
   }
 }
 
-final class PostCellWithOneThumbnail: BasePostCell, BasePostViewDelegator {
+final class PostCellWithOneThumbnail: BasePostCell, BasePostViewDelegator, PostHeartsConfigurable, 
+                                      PostCellEdgeDividable {
   // MARK: - Properties
   private let thumbnailView: PostOneThumbnailView
   
@@ -58,12 +59,5 @@ extension PostCellWithOneThumbnail: PostCellConfigurable {
   func configure(with post: PostInfo?) {
     postView.configure(with: post)
     thumbnailView.configureThumbnail(with: post?.content.thumbnailImageDataList)
-  }
-}
-
-// MARK: - PostCellEdgeDividable
-extension PostCellWithOneThumbnail: PostCellEdgeDividable {
-  func hideCellDivider() {
-    postView.hideCellDivider()
   }
 }
