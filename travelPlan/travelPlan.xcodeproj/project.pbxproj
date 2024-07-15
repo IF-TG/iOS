@@ -100,6 +100,7 @@
 		1344DA102B13A8C70031CC7A /* SearchDestinationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1344DA0F2B13A8C70031CC7A /* SearchDestinationViewController.swift */; };
 		1344DA142B14F5770031CC7A /* SearchDestinationTitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1344DA132B14F5770031CC7A /* SearchDestinationTitleCell.swift */; };
 		13491A932C450C5E002A2B28 /* DestinationSearchResultUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13491A922C450C5E002A2B28 /* DestinationSearchResultUseCase.swift */; };
+		13491A972C451289002A2B28 /* DefaultDestinationSearchResultUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13491A962C451289002A2B28 /* DefaultDestinationSearchResultUseCase.swift */; };
 		134CCB342AFFFB2900D51D84 /* ReviewWritingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 134CCB332AFFFB2900D51D84 /* ReviewWritingViewModel.swift */; };
 		134CCB672B028D9C00D51D84 /* ReviewWritingContentViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 134CCB662B028D9C00D51D84 /* ReviewWritingContentViewDelegate.swift */; };
 		135A07C02BA94A9C003D6C4D /* AlbumViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 135A07BF2BA94A9C003D6C4D /* AlbumViewModel.swift */; };
@@ -1032,6 +1033,7 @@
 		1344DA0F2B13A8C70031CC7A /* SearchDestinationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDestinationViewController.swift; sourceTree = "<group>"; };
 		1344DA132B14F5770031CC7A /* SearchDestinationTitleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDestinationTitleCell.swift; sourceTree = "<group>"; };
 		13491A922C450C5E002A2B28 /* DestinationSearchResultUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationSearchResultUseCase.swift; sourceTree = "<group>"; };
+		13491A962C451289002A2B28 /* DefaultDestinationSearchResultUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultDestinationSearchResultUseCase.swift; sourceTree = "<group>"; };
 		134CCB332AFFFB2900D51D84 /* ReviewWritingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWritingViewModel.swift; sourceTree = "<group>"; };
 		134CCB662B028D9C00D51D84 /* ReviewWritingContentViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWritingContentViewDelegate.swift; sourceTree = "<group>"; };
 		135A07BF2BA94A9C003D6C4D /* AlbumViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumViewModel.swift; sourceTree = "<group>"; };
@@ -2029,14 +2031,6 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
-		1335B8AC2C319C2700DB233B /* Search */ = {
-			isa = PBXGroup;
-			children = (
-				13491A922C450C5E002A2B28 /* DestinationSearchResultUseCase.swift */,
-			);
-			path = Search;
-			sourceTree = "<group>";
-		};
 		1335B8B12C319D1E00DB233B /* Search */ = {
 			isa = PBXGroup;
 			children = (
@@ -2126,6 +2120,22 @@
 				1343840C2B4803FE005034E0 /* BaseNavigationRightButton.swift */,
 			);
 			path = Navigation;
+			sourceTree = "<group>";
+		};
+		13491A942C451216002A2B28 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				13491A922C450C5E002A2B28 /* DestinationSearchResultUseCase.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		13491A952C45126F002A2B28 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				13491A962C451289002A2B28 /* DefaultDestinationSearchResultUseCase.swift */,
+			);
+			path = Search;
 			sourceTree = "<group>";
 		};
 		135A07BE2BA948FE003D6C4D /* ViewModel */ = {
@@ -2630,6 +2640,7 @@
 		151DF0F12AEEB27400D5D55B /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
+				13491A942C451216002A2B28 /* Search */,
 				15869CE72BF4FD6300FB342B /* Post */,
 				1572ABC72BE79DE9008AFE66 /* User */,
 				15E0BA032BF1B84100EBCDD9 /* Album */,
@@ -2656,7 +2667,7 @@
 		151DF0F22AEEB28600D5D55B /* UseCases */ = {
 			isa = PBXGroup;
 			children = (
-				1335B8AC2C319C2700DB233B /* Search */,
+				13491A952C45126F002A2B28 /* Search */,
 				151DF0F52AEEB2D200D5D55B /* DefaultNoticeUseCase.swift */,
 				13EB3D902BF7C66B00CA84F0 /* Tour */,
 				151DF0F12AEEB27400D5D55B /* Protocol */,
@@ -5848,6 +5859,7 @@
 				1543DC982BC56A020041852F /* ReviewCategorySelectCompletionView.swift in Sources */,
 				152715452BA0D60F0077D033 /* DefaultUserProfileRepository.swift in Sources */,
 				15B9286F2AFA49C4003A20D4 /* PostDetailViewModel.swift in Sources */,
+				13491A972C451289002A2B28 /* DefaultDestinationSearchResultUseCase.swift in Sources */,
 				15FFAC112AD9C7A10013DB57 /* Sessionable.swift in Sources */,
 				154CA60D2BD3A2F80066B444 /* TourApiCommonInfoRequestDTO.swift in Sources */,
 				154CA6232BD3AE100066B444 /* TourCommonInfoEntity.swift in Sources */,

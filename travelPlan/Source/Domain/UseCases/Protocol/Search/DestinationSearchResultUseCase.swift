@@ -8,10 +8,11 @@
 import Foundation
 import Combine
 
+/// 여행지 검색 결과
 protocol DestinationSearchResultUseCase {
   func fetchDestinationList(
     keyword: String,
-    page: Int?,
-    perPage: Int?
+    page: Int32?,
+    perPage: Int32?
   ) -> AnyPublisher<[ThumbnailDestination], any Error>
 }

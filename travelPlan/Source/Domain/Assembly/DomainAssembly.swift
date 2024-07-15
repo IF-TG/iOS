@@ -33,6 +33,28 @@ final class DomainAssembly: Swinject.Assembly {
 
 // MARK: - Private Helpers
 private extension DomainAssembly {
+  func destinationSearchResultUseCase(container: Container) {
+    container.register(DestinationSearchResultUseCase.self) { r in
+      let searchRepository: any DestinationSearchRepository
+      let scrapRepository: any DestinationScrapRepository
+#if DEBUG
+      searchRepository = JsonMockDestinationSearchRepository()
+      scrapRepository = JsonMockDestinationScrapRepository()
+      return DefaultDestinationSearchResultUseCase(
+        destinationSearchRepository: searchRepository,
+        destinationScrapRepository: scrapRepository
+      )
+#else
+      seaerchRepository = r.resolve(DestinationSearchRepository.self)!
+      scrapRepository = r.resolve(DestinationScrapRepository.self)!
+      return DefaultDestinationSearchResultUseCase(
+        destinationSearchRepository: searchRepository,
+        destinationScrapRepository: scrapRepository
+      )
+#endif
+    }
+  }
+  
   func userUseCase(container: Container) {
     container.register(UserBlockUseCase.self) { r in
 #if DEBUG
