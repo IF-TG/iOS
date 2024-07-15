@@ -7,12 +7,11 @@
 
 import Foundation
 import Combine
+
 final class DefaultDestinationSearchResultUseCase {
   // MARK: - Dependencies
   private let searchRepository: DestinationSearchRepository
   private let scrapRepository: DestinationScrapRepository
-  
-  // MARK: - Properties
   
   // MARK: - LifeCycle
   init(
@@ -33,9 +32,10 @@ extension DefaultDestinationSearchResultUseCase: DestinationSearchResultUseCase 
     return searchRepository.fetchDestinationList(by: keyword, page: page, perPage: perPage)
   }
   
-
-
-  func toggleScrap(id: Int64, folderName: String?) {
-    
+  func toggleScrap(
+    id: Int64,
+    folderName: String?
+  ) -> AnyPublisher<DestinationScrapToggler, any Error> {
+    return scrapRepository.toggleDestinationScrap(id: id, folderName: folderName)
   }
 }
