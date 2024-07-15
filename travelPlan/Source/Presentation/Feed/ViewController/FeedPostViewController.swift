@@ -91,6 +91,10 @@ extension FeedPostViewController {
     guard let mainTheme else { return }
     mainThemeFilterNotifier.send(mainTheme)
   }
+  
+  func setPostHeart(with: PostHeartInfo) {
+    input.changedHeartStateSubject.send(with)
+  }
 }
 
 // MARK: - ViewBindCase
@@ -150,9 +154,14 @@ extension FeedPostViewController: ViewBindCase {
       coordinator?.showPostShareSheet(with: item)
     case .load(let loadState):
       handleLoadState(loadState)
-    case .updatedHearts(let indexPath, let numberOfHearts):
-      let cell = postView.cellForItem(at: indexPath) as? PostHeartsConfigurable
-      cell?.setPostHearts(with: Int32(numberOfHearts))
+    case .updatedHearts(let updatedInfo):
+      
+      let cell = postView.cellForItem(at: updatedInfo.indexPath) as? PostHeartsConfigurable
+      cell?.setPostHearts(with: updatedInfo.numberOfHearts)
+      if let hasHeart = updatedInfo.hasHeartPost {
+        /// 포스트 상세 화면에서 하트가 변경되었기에, 애니메이션을 직접 호출해서 변경해야 합니다.
+        cell?.setPostHeartUI(with: hasHeart)
+      }
     }
   }
   

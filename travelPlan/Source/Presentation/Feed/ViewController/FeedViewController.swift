@@ -88,6 +88,13 @@ final class FeedViewController: UIViewController {
   }
 }
 
+// MARK: - Public Helpers
+extension FeedViewController {
+  func setPostHeart(with: PostHeartInfo) {
+    categoryPageView.setPostHeart(with: with)
+  }
+}
+
 // MARK: - Private Helpers
 extension FeedViewController {
   // redEffectTODO: - 사용자가 확인하지 않은 알림이 있을 경우 아래 코드 호출해서 빨간 알림 이펙트 추가해야합니다.

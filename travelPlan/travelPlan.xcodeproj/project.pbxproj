@@ -528,6 +528,8 @@
 		15803C5F2BDA906300D83F2B /* VoidResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15803C5E2BDA906300D83F2B /* VoidResponseDTO.swift */; };
 		15803C612BDAA1A600D83F2B /* FirebaseStorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15803C602BDAA1A600D83F2B /* FirebaseStorageService.swift */; };
 		15803C632BDAB23E00D83F2B /* ImageStorageServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15803C622BDAB23E00D83F2B /* ImageStorageServiceProtocol.swift */; };
+		1581F2D72C43E8A700A06171 /* PostHeartInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1581F2D62C43E8A700A06171 /* PostHeartInfo.swift */; };
+		1581F2D92C43E9BD00A06171 /* UpdatedPostHeartInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1581F2D82C43E9BD00A06171 /* UpdatedPostHeartInfo.swift */; };
 		158312E12AB36A9A0087034A /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158312E02AB36A9A0087034A /* UIViewController+.swift */; };
 		158439152BAAC80B00348509 /* FavoritePostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158439142BAAC80B00348509 /* FavoritePostViewModel.swift */; };
 		15847C192BF7573600822008 /* OwnerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15847C182BF7573600822008 /* OwnerError.swift */; };
@@ -1457,6 +1459,8 @@
 		15803C5E2BDA906300D83F2B /* VoidResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoidResponseDTO.swift; sourceTree = "<group>"; };
 		15803C602BDAA1A600D83F2B /* FirebaseStorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseStorageService.swift; sourceTree = "<group>"; };
 		15803C622BDAB23E00D83F2B /* ImageStorageServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageStorageServiceProtocol.swift; sourceTree = "<group>"; };
+		1581F2D62C43E8A700A06171 /* PostHeartInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostHeartInfo.swift; sourceTree = "<group>"; };
+		1581F2D82C43E9BD00A06171 /* UpdatedPostHeartInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatedPostHeartInfo.swift; sourceTree = "<group>"; };
 		158312E02AB36A9A0087034A /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
 		158439142BAAC80B00348509 /* FavoritePostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePostViewModel.swift; sourceTree = "<group>"; };
 		15847C182BF7573600822008 /* OwnerError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerError.swift; sourceTree = "<group>"; };
@@ -4522,6 +4526,8 @@
 				158695962AE620610087CCB3 /* FeedPostViewModel.swift */,
 				134CCB332AFFFB2900D51D84 /* ReviewWritingViewModel.swift */,
 				131C4DFD2C09C4740005D30F /* SearchType.swift */,
+				1581F2D62C43E8A700A06171 /* PostHeartInfo.swift */,
+				1581F2D82C43E9BD00A06171 /* UpdatedPostHeartInfo.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -5298,6 +5304,7 @@
 				13CB6D322A1E9F6600D185B2 /* CautionAlertViewController.swift in Sources */,
 				130369662AEC3AA2007E980C /* NSRange+.swift in Sources */,
 				150A543D2BC82C61005D8108 /* BottomBasedTooltipView.swift in Sources */,
+				1581F2D72C43E8A700A06171 /* PostHeartInfo.swift in Sources */,
 				15CB235B2A109CA4003EAF20 /* PostHeaderContentBottomInfo.swift in Sources */,
 				130304792A24936D00776A0D /* SearchViewModel.swift in Sources */,
 				13EB3D922BF7C74500CA84F0 /* CourseUseCase.swift in Sources */,
@@ -5560,6 +5567,7 @@
 				158695992AE621010087CCB3 /* FeedPostViewModelable.swift in Sources */,
 				13405F6B2AF665B100382796 /* ReviewWritingCoordinator.swift in Sources */,
 				158897912BFC403F006BB978 /* PostDetailChatViewModel.swift in Sources */,
+				1581F2D92C43E9BD00A06171 /* UpdatedPostHeartInfo.swift in Sources */,
 				13EB3D182BF0AE5900CA84F0 /* TourIntroductionInfoLeportsResponseDTO.swift in Sources */,
 				15C36DA12C06E2E700673C4B /* AppDelegate+AppsFlyerHelpers.swift in Sources */,
 				15FBD5CE2B98D13D00076115 /* TravelPartnerMapper.swift in Sources */,

@@ -83,6 +83,7 @@ final class FeedPostViewModel: PostViewModel, PostOptionNotificationBinder {
 extension FeedPostViewModel: FeedPostViewModelable {
   func transform(_ input: Input) -> AnyPublisher<State, Never> {
     return Publishers.MergeMany([
+      changedHeartStateSubjectStream(input),
       postHeartStream(input),
       postShareNotifierByPostOptionSream(),
       postShareSubjectStream(input),
@@ -104,6 +105,29 @@ extension FeedPostViewModel: FeedPostViewModelable {
 
 // MARK: - Private Stream Helpers
 private extension FeedPostViewModel {
+  /// 포스트 상세화면에서 포스트 하트를 누른 경우 이 로직이 호출됩니다.
+  /// 단, 디퍼드 딥 링킹에의해 포스트 상세화면에 들어간 경우에는 이 로직에서 postIdentifier가 없다면 변경되지 않습니다.
+  func changedHeartStateSubjectStream(_ input: Input) -> Output {
+    return input
+      .changedHeartStateSubject
+      .map { [weak self] postHeartInfo -> State in
+        if let postIndex = self?.posts.firstIndex(where: {$0.detail.postID == postHeartInfo.postId }) {
+          self?.synchronized.sync {
+            self?.posts[postIndex].detail.likes = postHeartInfo.numberOfPostHearts
+            self?.posts[postIndex].liked = postHeartInfo.hasHeartPost
+          }
+          let section = PostViewSection.post.rawValue
+          let indexPath = IndexPath(item: postIndex, section: section)
+          return .updatedHearts(.init(
+            indexPath: indexPath,
+            numberOfHearts: postHeartInfo.numberOfPostHearts,
+            hasHeartPost: postHeartInfo.hasHeartPost))
+        }
+        /// postst에 상세 화면에서 변경된 포스트의 postId가 존재하지 않는다면, 디퍼드 딥링킹에 들어온 경우임으로 처리를 하지 않습니다.
+        return .none
+      }.eraseToAnyPublisher()
+  }
+  
   func postHeartStream(_ input: Input) -> Output {
     return input
       .postHeartSubject
@@ -121,7 +145,11 @@ private extension FeedPostViewModel {
                   self?.posts[indexPath.item].detail.likes -= 1
                 }
               }
-              return .updatedHearts(indexPath, self?.posts[indexPath.item].detail.likes ?? 0)
+              
+              return .updatedHearts(.init(
+                indexPath: indexPath, 
+                numberOfHearts: self?.posts[indexPath.item].detail.likes ?? 0,
+                hasHeartPost: nil))
             }
             .catch { Just(State.unexpectedError(description: $0.localizedDescription)) }
             .eraseToAnyPublisher()
@@ -132,7 +160,10 @@ private extension FeedPostViewModel {
               self?.posts[indexPath.item].liked = true
               self?.posts[indexPath.item].detail.likes += 1
             }
-            return .updatedHearts(indexPath, self?.posts[indexPath.item].detail.likes ?? 0)
+            return .updatedHearts(.init(
+              indexPath: indexPath,
+              numberOfHearts: self?.posts[indexPath.item].detail.likes ?? 0,
+              hasHeartPost: nil))
           }
           .catch { Just(State.unexpectedError(description: $0.localizedDescription)) }
           .eraseToAnyPublisher()
