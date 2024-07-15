@@ -14,6 +14,9 @@ final class SpringServerRepositoryAssembly: Assembly {
     // MARK: - Session
     let defaultSession = container.resolve(Sessionable.self)!
     
+    destinationSearchRepository(container: container)
+    destinationScrapRepository(container: container)
+    
     // MARK: - LoginRepository
     container.register(LoginRepository.self) { r in
       let authenticationService = r.resolve(AuthenticationService.self)!
@@ -68,6 +71,23 @@ final class SpringServerRepositoryAssembly: Assembly {
     // MARK: - whatsNewNotification
     container.register(WhatsNewNotificationRepository.self) { _ in
       return DefaultWhatsNewNotificationRepository(service: defaultSession)
+    }
+  }
+}
+
+// MARK: - Private Helpers
+extension SpringServerRepositoryAssembly {
+  private func destinationSearchRepository(container: Container) {
+    container.register(DestinationSearchRepository.self) { r in
+      let service = r.resolve(Sessionable.self)!
+      return DefaultDestinationSearchRepository(service: service)
+    }
+  }
+  
+  private func destinationScrapRepository(container: Container) {
+    container.register(DestinationScrapRepository.self) { r in
+      let service = r.resolve(Sessionable.self)!
+      return DefaultDestinationScrapRepository(service: service)
     }
   }
 }
