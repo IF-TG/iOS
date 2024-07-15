@@ -92,14 +92,21 @@ extension PostFooterView {
   }
 
   
-  func updatePostHeartState() {
+  func updatePostHeartState(with hasHeart: Bool? = nil) {
     /// 여기서 서버 포스트에 대한 로그인 사용자 포스트 상태 관련 처리
     guard let heartState = postHeartState else {
       setHeartIcon(with: false)
       postHeartState = false
       return
     }
-    postHeartState = !heartState
+    
+    /// 매개변수에 의해 직접 업데이트.
+    if let hasHeart {
+      postHeartState = hasHeart
+    } else {
+      /// 기존에 갖는 상태의 반대로 업데이트
+      postHeartState = !heartState
+    }
     guard postHeartState! else {
       setHeartIcon(with: false)
       unselectedHeartAnim()

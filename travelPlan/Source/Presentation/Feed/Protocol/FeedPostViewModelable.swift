@@ -21,6 +21,8 @@ struct FeedPostViewModelInput {
   let postShareSubject: PassthroughSubject<IndexPath, Never> = .init()
   
   let postHeartSubject: PassthroughSubject<IndexPath, Never> = .init()
+  /// 포스트 상세 화면에서 하트가 변경된 경우 사용됩니다.
+  let changedHeartStateSubject: PassthroughSubject<PostHeartInfo, Never> = .init()
   
   init(
     notifiedOrderFilterRequest: PassthroughSubject<TravelOrderType, Never>,
@@ -33,7 +35,6 @@ struct FeedPostViewModelInput {
 
 @frozen enum FeedPostViewModelState {
   typealias Title = String
-  typealias NumberOfHearts = Int32
   
   case pagination(FeedPostViewModelPaginationState)
   case unexpectedError(description: String)
@@ -41,7 +42,7 @@ struct FeedPostViewModelInput {
   case share(Title, PostIdentifier)
   case detailPostShow(post: Post)
   case load(FeedPostViewModelLoadState)
-  case updatedHearts(IndexPath, NumberOfHearts)
+  case updatedHearts(UpdatedPostHeartInfo)
   case none
 }
 

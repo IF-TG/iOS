@@ -51,8 +51,6 @@ struct PostDetailViewModelInput {
 
 // MARK: - State
 @frozen enum PostDetailViewModelState {
-  typealias NumberOfHearts = Int32
-  
   case none
   case failedToFetchPost(description: String)
   case networkProcessing
@@ -61,7 +59,7 @@ struct PostDetailViewModelInput {
   case viewDidLoad(PostDetailViewDidLoadState)
   case unexpectedError(description: String)
   
-  case updatedHearts(NumberOfHearts)
+  case updatedHearts(PostHeartInfo)
 }
 
 @frozen enum PostDetailViewDidLoadState {

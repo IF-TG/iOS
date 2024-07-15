@@ -177,12 +177,21 @@ extension PostDetailViewController: ViewBindCase {
       UIView.performWithoutAnimation {
         tableView.reloadSections(IndexSet(integer: PostDetailSection.postHeartAndShareArea.sectionIndex), with: .none)
       }
-    case .updatedHearts(let numberOfHearts):
+    case .updatedHearts(let updatedInfo):
       let postheartAndShareArea = tableView
         .headerView(
           forSection: PostDetailSection.postHeartAndShareArea.sectionIndex
         ) as? PostHeartAndShareAreaHeaderView
-      postheartAndShareArea?.setHearts(with: numberOfHearts)
+      postheartAndShareArea?.setHearts(with: updatedInfo.numberOfPostHearts)
+      
+      /// 이전 화면에게 notify 합니다.
+      /// 디퍼드 딮 링크에 의해 들어온 경우 이전화면에서는 posts 데이터에 해당 postId가 없는 경우가 있고,
+      /// 그 경우엔 이전 화면의 특정 cell에선 갱신된 하트가 반영되지 않습니다.
+      (navigationController?
+        .viewControllers
+        .first(where: { $0 is FeedViewController }) as? FeedViewController
+      )?.setPostHeart(with: updatedInfo)
+        
     }
   }
   

@@ -36,7 +36,8 @@ private final class PostThreeThumbnailsView: UIStackView {
   }
 }
 
-final class PostCellWithThreeThumbnails: BasePostCell, BasePostViewDelegator {
+final class PostCellWithThreeThumbnails: BasePostCell, BasePostViewDelegator, PostHeartsConfigurable,
+                                         PostCellEdgeDividable {
   // MARK: - Properties
   private let thumbnailView: PostThreeThumbnailsView
   
@@ -69,19 +70,5 @@ extension PostCellWithThreeThumbnails: PostCellConfigurable {
   func configure(with info: PostInfo?) {
     postView.configure(with: info)
     thumbnailView.configureThumbnail(with: info?.content.thumbnailImageDataList)
-  }
-}
-
-// MARK: - PostCellEdgeDividable
-extension PostCellWithThreeThumbnails: PostCellEdgeDividable {
-  func hideCellDivider() {
-    postView.hideCellDivider()
-  }
-}
-
-// MARK: - PostHeartsConfigurable
-extension PostCellWithThreeThumbnails: PostHeartsConfigurable {
-  func setPostHearts(with hearts: Int32) {
-    postView.setPostHearts(with: hearts)
   }
 }
