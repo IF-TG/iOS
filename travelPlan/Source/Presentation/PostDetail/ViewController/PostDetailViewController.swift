@@ -39,8 +39,10 @@ final class PostDetailViewController: UITableViewController {
   
   private var naviDurationAnimator: UIViewPropertyAnimator?
   
+  private var hasViewDidAppearAtOnceForInputAccessoryView = false
+  
   override var canBecomeFirstResponder: Bool {
-    return true
+    return hasViewDidAppearAtOnceForInputAccessoryView
   }
   
   override var inputAccessoryView: UIView? {
@@ -104,6 +106,8 @@ final class PostDetailViewController: UITableViewController {
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     setTitleView()
+    hasViewDidAppearAtOnceForInputAccessoryView = true
+    becomeFirstResponder()
   }
   
   override func viewWillDisappear(_ animated: Bool) {
