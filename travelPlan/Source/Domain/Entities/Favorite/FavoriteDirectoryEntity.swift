@@ -13,6 +13,9 @@ final class FavoriteDirectoryEntity: Object {
   /// 디렉터리 이름
   @Persisted var title: String
   
+  /// Persistence storage에서 가져올 때 이를 기준으로 가장빠른 순으로 정렬되어 가져옵니다.
+  @Persisted var createAt: Date = .init()
+  
   /// 디렉터리의 대표 이미지
   @Persisted var imageThumbnails = List<Data>()
   
