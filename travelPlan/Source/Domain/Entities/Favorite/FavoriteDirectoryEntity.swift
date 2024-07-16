@@ -38,6 +38,7 @@ final class FavoriteDirectoryEntity: Object {
     destinationIdentifiers: [Int64] = []
   ) {
     self.title = title
+    self.createAt = createAt
     super.init()
     self.imageThumbnails.append(objectsIn: imageThumbnails)
     self.postIdentifiers.append(objectsIn: postIdentifiers)
