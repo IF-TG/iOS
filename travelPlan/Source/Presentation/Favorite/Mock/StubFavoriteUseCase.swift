@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct MockFavoriteUseCase {
+struct StubFavoriteUseCase {
   private let profileImageURLs = ["tempThumbnail7", "tempThumbnail13"]
   
   lazy var favoriteHeader: FavoriteHeaderDirectoryEntity = .init(
@@ -15,6 +15,8 @@ struct MockFavoriteUseCase {
     imageURLs: profileImageURLs)
   
   lazy var favoriteDirectories: [FavoriteDirectoryEntity] = [
-    .init(id: 0, title: "분위기 있는 카페", innerItemCount: 0, imageURL: profileImageURLs[0]),
-    .init(id: 1, title: "벌써 10월이야? 단풍 명소~", innerItemCount: 1, imageURL: profileImageURLs[1])]
+    .init(title: "분위기 있는 카페", imageThumbnails: [
+      UIImage(named: profileImageURLs[0])!.jpegData(compressionQuality: 1)!]),
+    .init(title: "벌써 7월? 무더위네!!", imageThumbnails: [
+      UIImage(named: profileImageURLs[1])!.jpegData(compressionQuality: 1)!])]
 }
