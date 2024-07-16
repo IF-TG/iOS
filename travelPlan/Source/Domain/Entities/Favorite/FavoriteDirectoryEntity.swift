@@ -11,6 +11,7 @@ import Foundation
 final class FavoriteDirectoryEntity: Object {
   /// PK
   /// 디렉터리 이름
+  /// 이걸 PK로 하면 이름 변경할때 PK가 변경되는데 이러면 안되는데.
   @Persisted(primaryKey: true) var title: String?
   
   /// Persistence storage에서 가져올 때 이를 기준으로 가장빠른 순으로 정렬되어 가져옵니다.
