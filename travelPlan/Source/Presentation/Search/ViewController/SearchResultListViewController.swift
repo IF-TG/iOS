@@ -74,11 +74,9 @@ final class SearchResultListViewController: UIViewController {
   }
   
   // MARK: - LifeCycle
-  init(viewModel: any SearchResultListViewModel, text: String) {
+  init(viewModel: any SearchResultListViewModel) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
-    
-    self.searchTextField.text = text
   }
   
   required init?(coder: NSCoder) {
@@ -114,7 +112,8 @@ extension SearchResultListViewController {
         case .reloadItems(let indexPath):
           let indexPath = [IndexPath(item: indexPath.item, section: indexPath.section)]
           self?.collectionView.reloadItems(at: indexPath)
-        case .firstReloadData:
+        case .firstReloadData(let searchKeyword):
+          self?.searchTextField.text = searchKeyword
           self?.collectionView.reloadData()
           self?.collectionView.selectItem(at: selectedTagIndexPath, animated: false, scrollPosition: [])
         case .reloadSection(let section):
@@ -185,7 +184,8 @@ extension SearchResultListViewController: UICollectionViewDelegate {
       guard let categoryCell = collectionView.cellForItem(at: indexPath)
               as? SearchResultCategoryCell else { return }
       
-      input.didTapCategoryItem.send((indexPath.item, categoryCell.categoryId))
+      guard let contentTypeId = categoryCell.contentTypeId else { return }
+      input.didTapCategoryItem.send((indexPath.item, contentTypeId))
     }
   }
   

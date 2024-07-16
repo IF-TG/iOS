@@ -41,7 +41,7 @@ struct SearchResultListViewModelInput {
 
 enum SearchResultListViewModelState {
   case none
-  case firstReloadData
+  case firstReloadData(String)
   case reloadSection(Int)
   case reloadItems(IndexPath)
   case changeButtonColor(Bool)
@@ -51,6 +51,7 @@ final class DefaultSearchResultListViewModel: SearchResultListViewModel {
   // MARK: - Dependencies
   private let actions: SearchResultListViewModelActions
   private let useCase: any DestinationSearchResultUseCase
+  private var searchKeyword: String
   
   // MARK: - Properties
   var dataSource = [SearchResultSectionModel]()
@@ -59,10 +60,12 @@ final class DefaultSearchResultListViewModel: SearchResultListViewModel {
   // MARK: - LifeCycle
   init(
     actions: SearchResultListViewModelActions,
+    searchKeyword: String,
     useCase: any DestinationSearchResultUseCase
   ) {
     self.actions = actions
     self.useCase = useCase
+    self.searchKeyword = searchKeyword
   }
   
   deinit {
@@ -87,11 +90,9 @@ final class DefaultSearchResultListViewModel: SearchResultListViewModel {
 extension DefaultSearchResultListViewModel {
   private func viewDidLoadStream(_ input: Input) -> Output {
     return input.viewDidLoad.flatMap { [weak self] _ in
-      // keyword를 기반으로 useCase 호출
-      let tempKeyword = "viewModel에서 호출한 임시 키워드"
       guard let self = self else { return Just(State.none).eraseToAnyPublisher() }
       
-      return self.useCase.fetchDestinationList(keyword: tempKeyword, page: nil, perPage: nil)
+      return self.useCase.fetchDestinationList(keyword: searchKeyword, page: nil, perPage: nil)
         .map { (thumbnailDestinations: [ThumbnailDestination]) in
           self.dataSource.append(.category(
             [TravelDestinationCategoryInfo(contentTypeId: nil, title: "전체")] +
@@ -109,7 +110,7 @@ extension DefaultSearchResultListViewModel {
           }
           
           self.dataSource.append(.destination(travelDestinationInfos))
-          return State.firstReloadData
+          return State.firstReloadData(self.searchKeyword)
         }
         .catch { _ in return Just(State.none).eraseToAnyPublisher() }
         .eraseToAnyPublisher()

@@ -10,11 +10,23 @@ import SHCoordinator
 
 protocol SearchResultListCoordinatorDelegate: FlowCoordinatorDelegate { }
 
+protocol SearchResultListCoordinatorDependencies: AnyObject {
+  func makeSearchResultListViewController(
+    actions: SearchResultListViewModelActions,
+    text: String
+  ) -> SearchResultListViewController
+  // TODO: - SearchDestinationCoordinator 만들어야 함
+//  func makeSearchDestinationCoordinator() -> SearchDestinationCoordinator
+}
+
 final class SearchResultListCoordinator: FlowCoordinator {
+  // MARK: - Dependencies
+  private let dependencies: SearchResultListCoordinatorDependencies = AppDIContainer.shared
+  var presenter: UINavigationController?
+  
   // MARK: - Properties
   var parent: (any FlowCoordinator)?
   var child: [any FlowCoordinator] = []
-  var presenter: UINavigationController?
   private let text: String
   
   // MARK: - LifeCycle
@@ -33,8 +45,8 @@ final class SearchResultListCoordinator: FlowCoordinator {
       pop: { [weak self] in self?.pop() },
       showDetail: { [weak self] in self?.showDetail() }
     )
-    let viewModel = DefaultSearchResultListViewModel(actions: actions)
-    let viewController = SearchResultListViewController(viewModel: viewModel, text: text)
+    
+    let viewController = dependencies.makeSearchResultListViewController(actions: actions, text: text)
     presenter?.pushViewController(viewController, animated: true)
   }
 }
