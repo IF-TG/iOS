@@ -10,7 +10,7 @@ import UIKit
 struct StubFavoriteUseCase {
   private let profileImageURLs = ["tempThumbnail7", "tempThumbnail13"]
   
-  lazy var favoriteHeader: FavoriteHeaderDirectoryEntity = .init(
+  lazy var favoriteHeader: FavoriteAllDirectoryEntity = .init(
     categoryCount: favoriteDirectories.count,
     imageURLs: profileImageURLs)
   
