@@ -1,5 +1,5 @@
 //
-//  PostRecommendationSearchTagCell.swift
+//  SearchHistoryRecommendationTagCell.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 2023/05/10.
@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class PostRecommendationSearchTagCell: UICollectionViewCell {
+class SearchHistoryRecommendationTagCell: UICollectionViewCell {
   enum Constants {
     enum ContentView {
       static let borderWidth: CGFloat = 1
@@ -30,7 +30,7 @@ class PostRecommendationSearchTagCell: UICollectionViewCell {
     return String(describing: self)
   }
   
-  private let tagLabel = PostSearchTagLabel().set {
+  private let tagLabel = SearchHistoryTagLabel().set {
     $0.textColor = UIColor.YG.highlight
   }
   
@@ -47,7 +47,7 @@ class PostRecommendationSearchTagCell: UICollectionViewCell {
 }
 
 // MARK: - Helpers
-extension PostRecommendationSearchTagCell {
+extension SearchHistoryRecommendationTagCell {
   private func setupStyles() {
     contentView.backgroundColor = .yg.primary.withAlphaComponent(Constants.ContentView.alphaComponent)
     contentView.layer.borderColor = UIColor.YG.gray0.cgColor
@@ -56,7 +56,7 @@ extension PostRecommendationSearchTagCell {
 }
 
 // MARK: - Public Helpers
-extension PostRecommendationSearchTagCell {
+extension SearchHistoryRecommendationTagCell {
   func configure(_ text: String) {
     tagLabel.text = text
     contentView.layer.cornerRadius = min(contentView.frame.width, contentView.frame.height) / 2
@@ -64,7 +64,7 @@ extension PostRecommendationSearchTagCell {
 }
 
 // MARK: - LayoutSupport
-extension PostRecommendationSearchTagCell: LayoutSupport {
+extension SearchHistoryRecommendationTagCell: LayoutSupport {
   func addSubviews() {
     contentView.addSubview(tagLabel)
   }

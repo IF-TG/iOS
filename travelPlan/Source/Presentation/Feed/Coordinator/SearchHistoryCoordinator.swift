@@ -1,5 +1,5 @@
 //
-//  PostSearchCoordiantor.swift
+//  SearchHistoryCoordinator.swift
 //  travelPlan
 //
 //  Created by 양승현 on 2023/07/02.
@@ -8,11 +8,11 @@
 import UIKit
 import SHCoordinator
 
-protocol PostSearchCoordinatorDependencies {
-  func makePostSearchViewController(
-    actions: PostSeaerchViewModelActions,
+protocol SearchHistoryCoordinatorDependencies {
+  func makeSearchHistoryViewController(
+    actions: SearchHistoryViewModelActions,
     searchType: SearchType
-  ) -> PostSearchViewController
+  ) -> SearchHistoryViewController
   
   func makeSearchResultListCoordinator(
     presenter: UINavigationController?,
@@ -22,9 +22,9 @@ protocol PostSearchCoordinatorDependencies {
   // TODO: -  make포스트 검색 결과 coordinator
 }
 
-final class PostSearchCoordinator: FlowCoordinator {
+final class SearchHistoryCoordinator: FlowCoordinator {
   // MARK: - Dependencies
-  private let dependencies: PostSearchCoordinatorDependencies = AppDIContainer.shared
+  private let dependencies: SearchHistoryCoordinatorDependencies = AppDIContainer.shared
   var presenter: UINavigationController?
   
   // MARK: - Properties
@@ -39,12 +39,12 @@ final class PostSearchCoordinator: FlowCoordinator {
   }
   
   deinit {
-    print("deinit: \(Self.self)")
+    print("deinit: \(SearchHistoryCoordinator.self)")
   }
   
   // MARK: - Helpers
   func start() {
-    let actions = PostSeaerchViewModelActions(
+    let actions = SearchHistoryViewModelActions(
       showTravelDestinationList: { [weak self] searchKeyword in
         self?.showTravelDestinationList(searchKeyword: searchKeyword) },
       showPostList: { [weak self] text in 
@@ -53,15 +53,15 @@ final class PostSearchCoordinator: FlowCoordinator {
         self?.pop() }
     )
     
-    let viewModel = DefaultPostSearchViewModel(searchType: searchType, actions: actions)
-    let viewController = PostSearchViewController(viewModel: viewModel)
+    let viewModel = DefaultSearchHistoryViewModel(searchType: searchType, actions: actions)
+    let viewController = SearchHistoryViewController(viewModel: viewModel)
     
     presenter?.pushViewController(viewController, animated: false)
   }
 }
 
 // MARK: - Private Helpers
-extension PostSearchCoordinator {
+extension SearchHistoryCoordinator {
   private func showTravelDestinationList(searchKeyword: String) {
     let childCoordinator = dependencies.makeSearchResultListCoordinator(
       presenter: presenter,

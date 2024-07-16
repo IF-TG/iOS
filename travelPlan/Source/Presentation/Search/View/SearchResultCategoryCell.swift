@@ -14,7 +14,7 @@ final class SearchResultCategoryCell: UICollectionViewCell {
     return String(describing: SearchResultCategoryCell.self)
   }
   
-  private let tagLabel = PostSearchTagLabel().set {
+  private let tagLabel = SearchHistoryTagLabel().set {
     $0.textColor = UIColor.YG.highlight
   }
   

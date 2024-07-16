@@ -17,10 +17,10 @@ protocol FeedCoordinatorDependencies {
     postId: PostIdentifier
   ) -> PostDetailCoordinator
   
-  func makePostSearchCoordinator(
+  func makeSearchHistoryCoordinator(
     presenter: UINavigationController?,
     searchType: SearchType
-  ) -> PostSearchCoordinator
+  ) -> SearchHistoryCoordinator
   
   func makeNotificationCoordinator(presenter: UINavigationController?) -> NotificationCenterCoordinator
   func makeReviewWritingCoordinator(
@@ -41,7 +41,7 @@ protocol FeedPostCoordinatorDelegate: AnyObject {
 }
 
 protocol FeedCoordinatorDelegate: FlowCoordinatorDelegate {
-  func showPostSearch()
+  func showSearchHistory()
   func showNotification()
   func showTotalBottomSheet()
   func showPostMainThemeCategoryBottomSheet(mainTheme: TravelMainThemeType)
@@ -129,8 +129,8 @@ extension FeedCoordinator: FeedPostCoordinatorDelegate {
 
 // MARK: - FeedCoordinatorDelegate
 extension FeedCoordinator: FeedCoordinatorDelegate {
-  func showPostSearch() {
-    let childCoordinator = dependencies.makePostSearchCoordinator(presenter: presenter, searchType: .post)
+  func showSearchHistory() {
+    let childCoordinator = dependencies.makeSearchHistoryCoordinator(presenter: presenter, searchType: .post)
     addChild(with: childCoordinator)
   }
   

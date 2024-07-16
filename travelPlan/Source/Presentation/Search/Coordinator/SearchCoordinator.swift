@@ -16,10 +16,10 @@ protocol SearchCoordinatorDependencies: AnyObject {
     viewControllerType: SearchSectionType
   ) -> SearchMoreDetailCoordinator
   
-  func makePostSearchCoordinator(
+  func makeSearchHistoryCoordinator(
     presenter: UINavigationController?,
     searchType: SearchType
-  ) -> PostSearchCoordinator
+  ) -> SearchHistoryCoordinator
 }
 
 final class SearchCoordinator: FlowCoordinator {
@@ -44,7 +44,7 @@ final class SearchCoordinator: FlowCoordinator {
   func start() {
     let actions = SearchViewModelActions(
       showSearchDetail: { [weak self] type in self?.showSearchDetail(type: type) },
-      showPostSearch: { [weak self] in self?.showPostSearch() }
+      showSearchHistory: { [weak self] in self?.showSearchHistory() }
     )
     
     let viewController = dependencies.makeSearchViewController(actions: actions)
@@ -61,8 +61,8 @@ extension SearchCoordinator {
     addChild(with: child)
   }
   
-  private func showPostSearch() {
-    let child = dependencies.makePostSearchCoordinator(presenter: presenter, searchType: .travelDestination)
+  private func showSearchHistory() {
+    let child = dependencies.makeSearchHistoryCoordinator(presenter: presenter, searchType: .travelDestination)
     addChild(with: child)
   }
 }

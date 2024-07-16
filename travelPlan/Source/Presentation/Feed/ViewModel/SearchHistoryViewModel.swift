@@ -1,5 +1,5 @@
 //
-//  PostSearchViewModel.swift
+//  SearchHistoryViewModel.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 2023/05/10.
@@ -8,17 +8,17 @@
 import Combine
 import Foundation
 
-struct PostSeaerchViewModelActions {
+struct SearchHistoryViewModelActions {
   let showTravelDestinationList: (String) -> Void
   let showPostList: (String) -> Void
   let pop: () -> Void
 }
 
-protocol PostSearchViewModel: ViewModelable, PostSearchCollectionViewDataSource
-where Input == PostSearchViewModelInput,
-      State == PostSearchViewModelState {}
+protocol SearchHistoryViewModel: ViewModelable, SearchHistoryCollectionViewDataSource
+where Input == SearchHistoryViewModelInput,
+      State == SearchHistoryViewModelState {}
 
-struct PostSearchViewModelInput {
+struct SearchHistoryViewModelInput {
   let didTapBackButton: PassthroughSubject<Void, Never> = .init()
   let viewDidLoad: PassthroughSubject<Void, Never> = .init()
   let didSelectedItem: PassthroughSubject<IndexPath, Never> = .init()
@@ -35,7 +35,7 @@ struct PostSearchViewModelInput {
   }
 }
 
-enum PostSearchViewModelState {
+enum SearchHistoryViewModelState {
   case none
   case resignFirstResponder
   case presentAlert
@@ -44,34 +44,34 @@ enum PostSearchViewModelState {
   case reloadSections(sectionIndex: Int)
 }
 
-final class DefaultPostSearchViewModel {
+final class DefaultSearchHistoryViewModel {
   enum Constants {
     enum CollectionView {
-      static let edgeInsetWidth: CGFloat = PostSearchViewController.Constants
-        .CollectionViewLayout.Inset.left + PostSearchViewController.Constants
+      static let edgeInsetWidth: CGFloat = SearchHistoryViewController.Constants
+        .CollectionViewLayout.Inset.left + SearchHistoryViewController.Constants
         .CollectionViewLayout.Inset.right
     }
   }
   
   // MARK: - Properties
-  private var sectionModels: [PostSearchSectionModel] = []
+  private var sectionModels: [SearchHistorySectionModel] = []
   private var recentModels: [String] = []
   private let searchType: SearchType
-  private let actions: PostSeaerchViewModelActions
+  private let actions: SearchHistoryViewModelActions
   
   // MARK: - LifeCycle
-  init(searchType: SearchType, actions: PostSeaerchViewModelActions) {
+  init(searchType: SearchType, actions: SearchHistoryViewModelActions) {
     self.searchType = searchType
     self.actions = actions
   }
   
   deinit {
-    print("deinit: \(DefaultPostSearchViewModel.self)")
+    print("deinit: \(DefaultSearchHistoryViewModel.self)")
   }
 }
 
-// MARK: - PostSearchViewModel
-extension DefaultPostSearchViewModel: PostSearchViewModel {
+// MARK: - SearchHistoryViewModel
+extension DefaultSearchHistoryViewModel: SearchHistoryViewModel {
   
   func transform(_ input: Input) -> Output {
     return Publishers.MergeMany([
@@ -181,7 +181,7 @@ extension DefaultPostSearchViewModel: PostSearchViewModel {
         return Future { promise in
           DispatchQueue.global().asyncAfter(deadline: .now()) { [weak self] in
             self?.removeAllRecentItems()
-            promise(.success(.reloadSections(sectionIndex: PostSearchSection.recent.rawValue)))
+            promise(.success(.reloadSections(sectionIndex: SearchHistorySection.recent.rawValue)))
           }
         }
       }
@@ -201,25 +201,25 @@ extension DefaultPostSearchViewModel: PostSearchViewModel {
 }
 
 // MARK: - Helpers
-extension DefaultPostSearchViewModel {
+extension DefaultSearchHistoryViewModel {
   private func loadData() {
     // recommendation
-    let recommendatoinModels = PostSearchSectionModel.createRecommendationMock()
+    let recommendatoinModels = SearchHistorySectionModel.createRecommendationMock()
     let transformedModels = recommendatoinModels.map { "#"+$0 }
     
     sectionModels.append(
-      PostSearchSectionModel(
+      SearchHistorySectionModel(
         sectionItem: .recommendation(items: transformedModels),
-        section: .recommendation(title: PostSearchSectionModel.createRecommendationHeaderMock())
+        section: .recommendation(title: SearchHistorySectionModel.createRecommendationHeaderMock())
       )
     )
     
     // recent
-    self.recentModels = PostSearchSectionModel.createRecentMock()
+    self.recentModels = SearchHistorySectionModel.createRecentMock()
     sectionModels.append(
-      PostSearchSectionModel(
+      SearchHistorySectionModel(
         sectionItem: .recent(items: recentModels),
-        section: .recent(title: PostSearchSectionModel.createRecentHeaderMock())
+        section: .recent(title: SearchHistorySectionModel.createRecentHeaderMock())
       )
     )
   }
@@ -243,7 +243,7 @@ extension DefaultPostSearchViewModel {
   }
   
   // recent section이 있는지 확인합니다.
-  private func isRecentSection(item: PostSearchSectionModel) -> Bool {
+  private func isRecentSection(item: SearchHistorySectionModel) -> Bool {
     if case .recent = item.sectionItem {
       return true
     } else {
@@ -258,8 +258,8 @@ extension DefaultPostSearchViewModel {
   }
 }
 
-// MARK: - PostSearchCollectionViewDataSource
-extension DefaultPostSearchViewModel {
+// MARK: - SearchHistoryCollectionViewDataSource
+extension DefaultSearchHistoryViewModel {
   func getTextString(at indexPath: IndexPath) -> String {
     switch sectionModels[indexPath.section].sectionItem {
     case let .recent(items): return items[indexPath.item]
@@ -271,7 +271,7 @@ extension DefaultPostSearchViewModel {
     return sectionModels.count
   }
   
-  func cellForItems(at section: Int) -> PostSearchSectionModel.Item {
+  func cellForItems(at section: Int) -> SearchHistorySectionModel.Item {
     return sectionModels[section].sectionItem
   }
   
@@ -284,7 +284,7 @@ extension DefaultPostSearchViewModel {
     }
   }
 
-  func fetchHeaderTitle(in section: Int) -> PostSearchSectionModel.Section {
+  func fetchHeaderTitle(in section: Int) -> SearchHistorySectionModel.Section {
     return sectionModels[section].section
   }
 }

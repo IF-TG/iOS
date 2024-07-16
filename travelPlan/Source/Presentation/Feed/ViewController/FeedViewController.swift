@@ -198,8 +198,8 @@ extension FeedViewController: ViewBindCase {
     case .updateNotificationRedIcon:
       // 알림TODO: - 알림 온 경우. feedVM에서 1~5초 간격으로 알림이 왔는지 여부를 확인합니다.
       notificationBarItem.updateNotificationRedIcon(.notChecked)
-    case .goToPostSearch:
-      coordinator?.showPostSearch()
+    case .goToSearchHistory:
+      coordinator?.showSearchHistory()
     case .goToNotification:
       coordinator?.showNotification()
       notificationBarItem.updateNotificationRedIcon(.none)

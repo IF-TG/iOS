@@ -33,7 +33,7 @@ final class FlowCoordinatorAssembly: Assembly {
     
     searchResultListCoordinator(container: container)
     searchCoordinator(container: container)
-    postSearchCoordinator(container: container)
+    searchHistoryCoordinator(container: container)
     
     // TODO: - Login Flow Coordinator
     container.register(LoginCoordinator.self) { _ in
@@ -72,8 +72,6 @@ final class FlowCoordinatorAssembly: Assembly {
     
     // TODO: - SearchDetail Flow Coordinator
     
-    // TODO: - PostSearchCoordinator
-    
     // FIXME: - Plan Flow Coordinator
     container.register(PlanCoordinator.self) { (_, presenter: UINavigationController) in
       PlanCoordinator(presenter: presenter)
@@ -110,10 +108,10 @@ private extension FlowCoordinatorAssembly {
     }
   }
   
-  func postSearchCoordinator(container: Container) {
-    container.register(PostSearchCoordinator.self) { 
+  func searchHistoryCoordinator(container: Container) {
+    container.register(SearchHistoryCoordinator.self) {
       (r, presenter: UINavigationController?, searchType: SearchType)in
-      return PostSearchCoordinator(presenter: presenter, searchType: searchType)
+      return SearchHistoryCoordinator(presenter: presenter, searchType: searchType)
     }
   }
 }

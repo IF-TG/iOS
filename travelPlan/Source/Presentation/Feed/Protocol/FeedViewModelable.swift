@@ -43,7 +43,7 @@ struct FeedViewModelInput {
   
   /// NotificationViewController로 들어가게 된다면 영구저장소의 feed알림 확인 상태를 .none or true (확인했다)로 변경해야 합니다.
   case goToNotification
-  case goToPostSearch
+  case goToSearchHistory
   
   /// 타인으로부터 알림이 발생될 경우 vm에서 1~5초간 서버로부터 감지하다 알림이 왔다고 icon 색을 빨간색으로 변경해야 합니다.
   /// 동시에 영구저장소도 feed에서 알림을 확인했는지 유무를 false(확인 안했다)로 업데이트 해야합니다.

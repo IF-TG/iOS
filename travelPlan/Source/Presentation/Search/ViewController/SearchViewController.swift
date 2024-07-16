@@ -311,6 +311,5 @@ extension SearchViewController: UITextFieldDelegate {
   func textFieldDidBeginEditing(_ textField: UITextField) {
     textField.resignFirstResponder()
     input.textFieldDidBeginEditing.send()
-//    coordinator?.showPostSearch()
   }
 }

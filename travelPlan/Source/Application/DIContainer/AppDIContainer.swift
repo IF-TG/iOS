@@ -162,11 +162,11 @@ extension AppDIContainer: SearchCoordinatorDependencies {
     return resolver.resolve(SearchMoreDetailCoordinator.self, arguments: presenter, viewControllerType)!
   }
   
-  func makePostSearchCoordinator(
+  func makeSearchHistoryCoordinator(
     presenter: UINavigationController?,
     searchType: SearchType
-  ) -> PostSearchCoordinator {
-    return resolver.resolve(PostSearchCoordinator.self, arguments: presenter, searchType)!
+  ) -> SearchHistoryCoordinator {
+    return resolver.resolve(SearchHistoryCoordinator.self, arguments: presenter, searchType)!
   }
   
   func makeSearchViewController(actions: SearchViewModelActions) -> SearchViewController {
@@ -184,13 +184,13 @@ extension AppDIContainer: SearchResultListCoordinatorDependencies {
   }
 }
 
-// MARK: - PostSearchCoordinatorDependencies
-extension AppDIContainer: PostSearchCoordinatorDependencies {
-  func makePostSearchViewController(
-    actions: PostSeaerchViewModelActions,
+// MARK: - SearchHistoryCoordinatorDependencies
+extension AppDIContainer: SearchHistoryCoordinatorDependencies {
+  func makeSearchHistoryViewController(
+    actions: SearchHistoryViewModelActions,
     searchType: SearchType
-  ) -> PostSearchViewController {
-    return resolver.resolve(PostSearchViewController.self, arguments: actions, searchType)!
+  ) -> SearchHistoryViewController {
+    return resolver.resolve(SearchHistoryViewController.self, arguments: actions, searchType)!
   }
   
   func makeSearchResultListCoordinator(

@@ -1,5 +1,5 @@
 //
-//  PostSearchCollectionViewAdapter.swift
+//  SearchHistoryCollectionViewAdapter.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 2023/09/07.
@@ -7,29 +7,29 @@
 
 import UIKit
 
-final class PostSearchCollectionViewAdapter: NSObject {
+final class SearchHistoryCollectionViewAdapter: NSObject {
   // MARK: - Properties
-  weak var dataSource: PostSearchCollectionViewDataSource?
-  weak var delegate: (PostSearchCollectionViewDelegate &
-                      PostRecentSearchTagCellDelegate &
-                      PostSearchHeaderViewDelegate)?
+  weak var dataSource: SearchHistoryCollectionViewDataSource?
+  weak var delegate: (SearchHistoryCollectionViewDelegate &
+                      SearchHistoryRecentTagCellDelegate &
+                      SearchHistoryHeaderViewDelegate)?
   
   // MARK: - LifeCycle
-  init(dataSource: PostSearchCollectionViewDataSource? = nil,
-       delegate: (PostSearchCollectionViewDelegate &
-                  PostRecentSearchTagCellDelegate &
-                  PostSearchHeaderViewDelegate)? = nil) {
+  init(dataSource: SearchHistoryCollectionViewDataSource? = nil,
+       delegate: (SearchHistoryCollectionViewDelegate &
+                  SearchHistoryRecentTagCellDelegate &
+                  SearchHistoryHeaderViewDelegate)? = nil) {
     self.dataSource = dataSource
     self.delegate = delegate
   }
   
   deinit {
-    print("deinit: \(PostSearchCollectionViewAdapter.self)")
+    print("deinit: \(SearchHistoryCollectionViewAdapter.self)")
   }
 }
 
 // MARK: - Helpers
-extension PostSearchCollectionViewAdapter {
+extension SearchHistoryCollectionViewAdapter {
   private func headerView(
     at indexPath: IndexPath,
     in collectionView: UICollectionView
@@ -79,12 +79,12 @@ extension PostSearchCollectionViewAdapter {
     in collectionView: UICollectionView
   ) -> UICollectionReusableView {
     switch indexPath.section {
-    case PostSearchSection.recommendation.rawValue:
+    case SearchHistorySection.recommendation.rawValue:
       guard let lineFooterView = collectionView.dequeueReusableSupplementaryView(
         ofKind: UICollectionView.elementKindSectionFooter,
-        withReuseIdentifier: PostSearchFooterView.id,
+        withReuseIdentifier: SearchHistoryFooterView.id,
         for: indexPath
-      ) as? PostSearchFooterView else { return .init() }
+      ) as? SearchHistoryFooterView else { return .init() }
       
       return lineFooterView
     default:
@@ -98,9 +98,9 @@ extension PostSearchCollectionViewAdapter {
     in collectionView: UICollectionView
   ) -> UICollectionViewCell {
     guard let cell = collectionView.dequeueReusableCell(
-      withReuseIdentifier: PostRecommendationSearchTagCell.id,
+      withReuseIdentifier: SearchHistoryRecommendationTagCell.id,
       for: indexPath
-    ) as? PostRecommendationSearchTagCell else { return .init() }
+    ) as? SearchHistoryRecommendationTagCell else { return .init() }
     
     cell.configure(items[indexPath.item])
     return cell
@@ -112,9 +112,9 @@ extension PostSearchCollectionViewAdapter {
     in collectionView: UICollectionView
   ) -> UICollectionViewCell {
     guard let cell = collectionView.dequeueReusableCell(
-      withReuseIdentifier: PostRecentSearchTagCell.id,
+      withReuseIdentifier: SearchHistoryRecentTagCell.id,
       for: indexPath
-    ) as? PostRecentSearchTagCell else { return .init() }
+    ) as? SearchHistoryRecentTagCell else { return .init() }
     
     cell.configure(items[indexPath.item], delegate: delegate)
     return cell
@@ -122,7 +122,7 @@ extension PostSearchCollectionViewAdapter {
 }
 
 // MARK: - UICollectionViewDataSource
-extension PostSearchCollectionViewAdapter: UICollectionViewDataSource {
+extension SearchHistoryCollectionViewAdapter: UICollectionViewDataSource {
   func numberOfSections(in collectionView: UICollectionView) -> Int {
     return dataSource?.numberOfSections() ?? .zero
   }
@@ -165,7 +165,7 @@ extension PostSearchCollectionViewAdapter: UICollectionViewDataSource {
 }
 
 // MARK: - UICollectionViewDelegate
-extension PostSearchCollectionViewAdapter: UICollectionViewDelegate {
+extension SearchHistoryCollectionViewAdapter: UICollectionViewDelegate {
   func collectionView(
     _ collectionView: UICollectionView,
     didSelectItemAt indexPath: IndexPath

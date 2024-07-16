@@ -10,7 +10,7 @@ import Combine
 
 struct SearchViewModelActions {
   let showSearchDetail: (SearchSectionType) -> Void
-  let showPostSearch: () -> Void
+  let showSearchHistory: () -> Void
 }
 
 protocol SearchViewModelDataSourceable {
@@ -131,7 +131,7 @@ extension DefaultSearchViewModel {
   private func textFieldDidBeginEditingStream(_ input: Input) -> Output {
     return input.textFieldDidBeginEditing
       .map { [weak self] in
-        self?.actions.showPostSearch()
+        self?.actions.showSearchHistory()
         return State.none
       }
       .eraseToAnyPublisher()
