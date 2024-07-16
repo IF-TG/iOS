@@ -14,7 +14,7 @@ protocol MainCoordinatorDependencies {
   ) -> FeedCoordinator
   
   func makeSearchCoordinator(
-    presenter: UINavigationController
+    presenter: UINavigationController?
   ) -> SearchCoordinator
   
   func makePlanCoordinator(
