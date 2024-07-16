@@ -10,5 +10,5 @@ import Foundation
 struct FavoriteInfo {
   let title: String
   let innerItemCount: Int
-  let imageURL: String?
+  let imageData: [Data]?
 }

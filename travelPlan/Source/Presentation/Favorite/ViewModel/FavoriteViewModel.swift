@@ -5,33 +5,21 @@
 //  Created by 양승현 on 2023/05/22.
 //
 
+import Realm
 import Foundation
 import Combine
 
-// 임시
-struct FavoriteHeaderDirectoryEntity {
-  let categoryCount: Int
-  let imageURLs: [String?]
-}
-
-struct FavoriteDirectoryEntity {
-  var id: Int
-  var title: String
-  var innerItemCount: Int
-  var imageURL: String?
-}
-
 final class FavoriteViewModel {
   // MARK: - Dependencies
-  private var useCase: MockFavoriteUseCase
+  private var useCase: StubFavoriteUseCase
   
   // MARK: - Properties
-  private var headerDirectory: FavoriteHeaderDirectoryEntity
+  private var headerDirectory: FavoriteAllDirectoryEntity
   private var favoriteDirectories: [FavoriteDirectoryEntity]
   
   // MARK: - Lifecycles
   init() {
-    self.useCase = MockFavoriteUseCase()
+    self.useCase = StubFavoriteUseCase()
     headerDirectory = useCase.favoriteHeader
     favoriteDirectories = useCase.favoriteDirectories
   }
@@ -43,13 +31,16 @@ extension FavoriteViewModel: FavoriteTableViewAdapterDataSource {
     favoriteDirectories.count
   }
   
-  var headerItem: FavoriteHeaderDirectoryEntity {
+  var headerItem: FavoriteAllDirectoryEntity {
     return headerDirectory
   }
   
   func cellItem(at index: Int) -> FavoriteInfo {
     let item = favoriteDirectories[index]
-    return FavoriteInfo(title: item.title, innerItemCount: item.innerItemCount, imageURL: item.imageURL)
+    return FavoriteInfo(
+      title: item.title ?? "",
+      innerItemCount: item.innerItemCount,
+      imageData: Array(item.imageThumbnails))
   }
 }
 
@@ -103,11 +94,7 @@ extension FavoriteViewModel: FavoriteViewModelable {
     return input.addNewDirectory
       .compactMap { $0 }
       .map { [weak self] title in
-        let newDirectory = FavoriteDirectoryEntity(
-          id: 0,
-          title: title,
-          innerItemCount: 0,
-          imageURL: nil)
+        let newDirectory = FavoriteDirectoryEntity(title: title)
         self?.favoriteDirectories.append(newDirectory)
         let indexPath = IndexPath(item: (self?.numberOfItems ?? 1)-1, section: 0)
         return .newDirectory(indexPath)

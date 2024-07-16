@@ -12,7 +12,8 @@ struct StubFavoriteUseCase {
   
   lazy var favoriteHeader: FavoriteAllDirectoryEntity = .init(
     categoryCount: favoriteDirectories.count,
-    imageURLs: profileImageURLs)
+    imageData: [UIImage(named: profileImageURLs[0])!.jpegData(compressionQuality: 1)!,
+                UIImage(named: profileImageURLs[1])!.jpegData(compressionQuality: 1)!])
   
   lazy var favoriteDirectories: [FavoriteDirectoryEntity] = [
     .init(title: "분위기 있는 카페", imageThumbnails: [

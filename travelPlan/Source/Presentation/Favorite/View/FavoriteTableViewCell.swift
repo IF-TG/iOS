@@ -150,14 +150,21 @@ final class FavoriteTableViewCell: UITableViewCell {
 // MARK: - Helpers
 extension FavoriteTableViewCell {
   func configure(with data: FavoriteInfo?) {
+    if data == nil {
+      self.textLabel?.text = nil
+      self.editModeTitleLabel.text = nil
+      self.quarterImageView.image = nil
+    }
     let combinedTitle = titleAndInnerItemCount(data?.title, itemCount: data?.innerItemCount)
     self.titleLabel.text = combinedTitle
     editModeTitleLabel.text = data?.title
-    guard let imageURL = data?.imageURL else {
+    
+    guard let imageData = data?.imageData else {
       quarterImageView.image = nil
       return
     }
-    self.quarterImageView.image = UIImage(named: imageURL)
+    if imageData.isEmpty { return }
+    self.quarterImageView.image = UIImage(data: imageData[0])
   }
 }
 

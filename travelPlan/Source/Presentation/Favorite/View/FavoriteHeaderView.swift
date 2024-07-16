@@ -56,9 +56,9 @@ final class FavoriteHeaderView: UITableViewHeaderFooterView {
 
 // MARK: - Helpers
 extension FavoriteHeaderView {
-  func configure(with data: FavoriteHeaderDirectoryEntity) {
+  func configure(with data: FavoriteAllDirectoryEntity) {
     setTitle(with: data.categoryCount)
-    setImageViews(with: data.imageURLs)
+    setImageViews(with: Array(data.imageData))
   }
   
   func updateTotalCount(with count: Int) {
@@ -85,7 +85,7 @@ private extension FavoriteHeaderView {
   }
   
   @MainActor
-  func setImageViews(with images: [String?]) {
+  func setImageViews(with images: [Data]?) {
     imageViews.configure(with: images)
   }
 }

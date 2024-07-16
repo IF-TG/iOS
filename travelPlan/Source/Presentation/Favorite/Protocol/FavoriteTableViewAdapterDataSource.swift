@@ -9,6 +9,6 @@ import UIKit
 
 protocol FavoriteTableViewAdapterDataSource: AnyObject {
   var numberOfItems: Int { get }
-  var headerItem: FavoriteHeaderDirectoryEntity { get }
+  var headerItem: FavoriteAllDirectoryEntity { get }
   func cellItem(at index: Int) -> FavoriteInfo
 }
