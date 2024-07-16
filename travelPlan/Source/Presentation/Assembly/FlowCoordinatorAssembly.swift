@@ -31,6 +31,10 @@ final class FlowCoordinatorAssembly: Assembly {
   func assemble(container: Swinject.Container) {
     let appDIContainer = AppDIContainer.shared
     
+    searchResultListCoordinator(container: container)
+    searchCoordinator(container: container)
+    postSearchCoordinator(container: container)
+    
     // TODO: - Login Flow Coordinator
     container.register(LoginCoordinator.self) { _ in
       return LoginCoordinator(presenter: nil, dependencies: appDIContainer)
@@ -66,11 +70,6 @@ final class FlowCoordinatorAssembly: Assembly {
       FavoriteCoordinator(presenter: presenter)
     }
     
-    // FIXME: - Search Flow Coordinator.
-    container.register(SearchCoordinator.self) { (_, presenter: UINavigationController) in
-      SearchCoordinator(presenter: presenter)
-    }
-    
     // TODO: - SearchDetail Flow Coordinator
     
     // TODO: - PostSearchCoordinator
@@ -85,6 +84,36 @@ final class FlowCoordinatorAssembly: Assembly {
     // MARK: - Feed Flow Coordinator
     container.register(FeedCoordinator.self) { (_, presenter: UINavigationController) in
       FeedCoordinator(presenter: presenter, dependencies: appDIContainer)
+    }
+  }
+}
+
+// MARK: - Private Helpers
+private extension FlowCoordinatorAssembly {
+  func searchMoreDetailCoordinator(container: Container) {
+    container.register(SearchMoreDetailCoordinator.self) {
+      (_, presenter: UINavigationController?, viewControllerType: SearchSectionType) in
+      return SearchMoreDetailCoordinator(presenter: presenter, viewControllerType: viewControllerType)
+    }
+  }
+  
+  func searchCoordinator(container: Container) {
+    container.register(SearchCoordinator.self) { (_, presenter: UINavigationController?) in
+      return SearchCoordinator(presenter: presenter)
+    }
+  }
+  
+  func searchResultListCoordinator(container: Container) {
+    container.register(SearchResultListCoordinator.self) {
+      (r, presenter: UINavigationController?, searchKeyword: String) in
+      return SearchResultListCoordinator(presenter: presenter, text: searchKeyword)
+    }
+  }
+  
+  func postSearchCoordinator(container: Container) {
+    container.register(PostSearchCoordinator.self) { 
+      (r, presenter: UINavigationController?, searchType: SearchType)in
+      return PostSearchCoordinator(presenter: presenter, searchType: searchType)
     }
   }
 }
