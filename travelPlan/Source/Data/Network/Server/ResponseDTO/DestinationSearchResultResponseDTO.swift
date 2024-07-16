@@ -12,8 +12,8 @@ struct DestinationSearchResultResponseDTO: Decodable {
   let gptRelated: Bool
       
   struct Destination: Decodable {
-    let id: Int64
-    let contentTypeId: Int32
+    let id: Int
+    let contentTypeId: Int
     let title: String
     let thumbnailUrl: String
     let address: String

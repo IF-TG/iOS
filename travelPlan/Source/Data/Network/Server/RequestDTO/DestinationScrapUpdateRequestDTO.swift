@@ -8,6 +8,6 @@
 import Foundation
 
 struct DestinationScrapUpdateRequestDTO: Encodable {
-  let objectIdList: [Int64]
+  let objectIdList: [Int]
   let folderName: String
 }
