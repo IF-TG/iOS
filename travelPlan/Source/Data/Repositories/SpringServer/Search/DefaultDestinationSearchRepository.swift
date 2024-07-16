@@ -26,8 +26,8 @@ final class DefaultDestinationSearchRepository {
 extension DefaultDestinationSearchRepository: DestinationSearchRepository {
   func fetchDestinationList(
     by keyword: String,
-    page: Int32? = nil,
-    perPage: Int32? = nil
+    page: Int? = nil,
+    perPage: Int? = nil
   ) -> AnyPublisher<[ThumbnailDestination], any Error> {
     let requestDTO = DestinationSearchRequestDTO(keyword: keyword, page: page, perPage: perPage)
     let endpoint = DestinationSearchEndpoints.fetchDestinationList(with: requestDTO)

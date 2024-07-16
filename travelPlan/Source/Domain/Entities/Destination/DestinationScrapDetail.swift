@@ -15,7 +15,7 @@ struct DestinationScrapDetail {
   let overview: String
   let tel: String
   let category: Category
-  let thumbnail: String
+  let thumbnailImageData: Data?
   let isScraped: Bool
   
   struct Category {

@@ -44,8 +44,9 @@ extension DestinationScrapDetailResponseDTO {
         middleCategory: category.middleCategory,
         smallCategory: category.smallCategory
       ),
-      thumbnail: thumbnail,
+      thumbnailImageData: Data(base64Encoded: thumbnail),
       isScraped: scraped
     )
   }
 }
+

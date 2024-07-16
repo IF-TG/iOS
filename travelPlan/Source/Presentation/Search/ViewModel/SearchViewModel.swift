@@ -154,7 +154,7 @@ extension DefaultSearchViewModel {
     let letportsHeader = "야영 레포츠 어떠세요?🏕️"
     let leportsInfo = TravelDestinationInfo(
       place: "수상 스키",
-      categoryId: TourType.leports.rawValue,
+      contentTypeId: 28,
       category: TourType.leports.toString,
       location: "강원도 동해",
       isButtonSelected: false,

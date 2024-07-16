@@ -23,8 +23,8 @@ final class DefaultDestinationScrapRepository {
 extension DefaultDestinationScrapRepository: DestinationScrapRepository {
   func getDestinationScrapList(
     folderName: String,
-    page: Int32? = nil,
-    perPage: Int32? = nil
+    page: Int? = nil,
+    perPage: Int? = nil
   ) -> AnyPublisher<[DestinationScrapDetail], any Error> {
     let requestDTO = DestinationScrapListRequestDTO(folderName: folderName, page: page, perPage: perPage)
     let endpoint = DestinationScrapEndpoints.getDestinationScrapList(with: requestDTO)
@@ -36,7 +36,7 @@ extension DefaultDestinationScrapRepository: DestinationScrapRepository {
       .eraseToAnyPublisher()
   }
   
-  func toggleDestinationScrap(id: Int64, folderName: String?) -> AnyPublisher<DestinationScrapToggler, any Error> {
+  func toggleDestinationScrap(id: Int, folderName: String?) -> AnyPublisher<DestinationScrapToggler, any Error> {
     let requestDTO = DestinationScrapToggleRequestDTO(objectId: id, forderName: folderName)
     let endpoint = DestinationScrapEndpoints.toggleDestinationScrap(with: requestDTO)
     
@@ -48,7 +48,7 @@ extension DefaultDestinationScrapRepository: DestinationScrapRepository {
   }
   
   func updateDestinationScrap(
-    objectIdList: [Int64],
+    objectIdList: [Int],
     folderName: String
   ) -> AnyPublisher<[UpdatedDestinationScrap], any Error> {
     let requestDTO = DestinationScrapUpdateRequestDTO(objectIdList: objectIdList, folderName: folderName)

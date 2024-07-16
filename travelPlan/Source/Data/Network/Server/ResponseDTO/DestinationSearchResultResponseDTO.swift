@@ -31,7 +31,7 @@ extension DestinationSearchResultResponseDTO {
       .init(
         id: .init(id: $0.id, contentTypeId: $0.contentTypeId),
         title: $0.title,
-        thumbnailURL: $0.thumbnailUrl,
+        thumbnailImageData: Data(base64Encoded: $0.thumbnailUrl),
         address: $0.address,
         category: .init(
           largeCategory: $0.largeCategory,

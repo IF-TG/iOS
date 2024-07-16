@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-protocol SearchResultListViewModelPageDelegate {
+protocol SearchResultListViewModelPageDelegate: AnyObject {
   func pop()
   func showDetail()
 }
@@ -36,7 +36,7 @@ struct SearchResultListViewModelInput {
   let didTapStarButton: PassthroughSubject<(IndexPath, Int), Never> = .init()
   let didTapSearchButton: PassthroughSubject<String, Never> = .init()
   let didChangeSearchTextField: AnyPublisher<String, Never>
-  let didTapCategoryItem: PassthroughSubject<(Int, Int?), Never> = .init()
+  let didTapCategoryItem: PassthroughSubject<(Int, Int), Never> = .init()
 }
 
 enum SearchResultListViewModelState {
@@ -48,14 +48,21 @@ enum SearchResultListViewModelState {
 }
 
 final class DefaultSearchResultListViewModel: SearchResultListViewModel {
+  // MARK: - Dependencies
+  private let actions: SearchResultListViewModelActions
+  private let useCase: any DestinationSearchResultUseCase
+  
   // MARK: - Properties
   var dataSource = [SearchResultSectionModel]()
   private var originalDestinationInfos = [TravelDestinationInfo]()
-  private let actions: SearchResultListViewModelActions
   
   // MARK: - LifeCycle
-  init(actions: SearchResultListViewModelActions) {
+  init(
+    actions: SearchResultListViewModelActions,
+    useCase: any DestinationSearchResultUseCase
+  ) {
     self.actions = actions
+    self.useCase = useCase
   }
   
   deinit {
@@ -79,45 +86,78 @@ final class DefaultSearchResultListViewModel: SearchResultListViewModel {
 // MARK: - Private Helpers
 extension DefaultSearchResultListViewModel {
   private func viewDidLoadStream(_ input: Input) -> Output {
-    return input.viewDidLoad
-      .flatMap { [weak self] _ in
-        return Future { promise in
-          DispatchQueue.global().asyncAfter(deadline: .now() + 1.0) {
-            self?.dataSource.append(.category(
-              [TravelDestinationCategoryInfo(categoryId: nil, title: "전체")] +
-              TourType.allCases.map { TravelDestinationCategoryInfo(categoryId: $0.rawValue, title: $0.toString) }
-            ))
-            
-            let travelInfos = [
-              TravelDestinationInfo(place: "숙박 mock", categoryId: TourType.accommodation.rawValue, 
-                                    category: TourType.accommodation.toString, location: "강릉",
-                                    isButtonSelected: true, imageData: TempSource.imageData, id: 1),
-              TravelDestinationInfo(place: "관광지 mock", categoryId: TourType.attraction.rawValue, 
-                                    category: TourType.attraction.toString, location: "인천",
-                                    isButtonSelected: false, imageData: TempSource.imageData, id: 2),
-              TravelDestinationInfo(place: "문화시설 mock", categoryId: TourType.cultureFacility.rawValue,
-                                    category: TourType.cultureFacility.toString, location: "대전",
-                                    isButtonSelected: false, imageData: TempSource.imageData, id: 3),
-              TravelDestinationInfo(place: "레포츠 mock", categoryId: TourType.leports.rawValue,
-                                    category: TourType.leports.toString, location: "전주",
-                                    isButtonSelected: true, imageData: TempSource.imageData, id: 4),
-              TravelDestinationInfo(place: "레포츠 mock2", categoryId: TourType.leports.rawValue,
-                                    category: TourType.leports.toString, location: "전주",
-                                    isButtonSelected: true, imageData: TempSource.imageData, id: 5),
-              TravelDestinationInfo(place: "레포츠 mock3", categoryId: TourType.leports.rawValue,
-                                    category: TourType.leports.toString, location: "전주",
-                                    isButtonSelected: true, imageData: TempSource.imageData, id: 6),
-              TravelDestinationInfo(place: "레포츠 mock4", categoryId: TourType.leports.rawValue,
-                                    category: TourType.leports.toString, location: "전주",
-                                    isButtonSelected: true, imageData: TempSource.imageData, id: 7)
-            ]
-            self?.originalDestinationInfos = travelInfos
-            self?.dataSource.append(.destination(travelInfos))
-            promise(.success(State.firstReloadData))
+    return input.viewDidLoad.flatMap { [weak self] _ in
+      // keyword를 기반으로 useCase 호출
+      let tempKeyword = "viewModel에서 호출한 임시 키워드"
+      guard let self = self else { return Just(State.none).eraseToAnyPublisher() }
+      
+      return self.useCase.fetchDestinationList(keyword: tempKeyword, page: nil, perPage: nil)
+        .map { (thumbnailDestinations: [ThumbnailDestination]) in
+          self.dataSource.append(.category(
+            [TravelDestinationCategoryInfo(contentTypeId: nil, title: "전체")] +
+            TourType.allCases.map { TravelDestinationCategoryInfo(contentTypeId: $0.rawValue, title: $0.toString) }
+          ))
+          
+          let travelDestinationInfos = thumbnailDestinations.map {
+            TravelDestinationInfo(place: $0.title,
+                                  contentTypeId: $0.id.contentTypeId,
+                                  category: $0.category.largeCategory,
+                                  location: $0.address,
+                                  isButtonSelected: $0.isScraped,
+                                  imageData: $0.thumbnailImageData,
+                                  id: $0.id.id)
           }
-        }.eraseToAnyPublisher()
-      }
+          
+          self.dataSource.append(.destination(travelDestinationInfos))
+          return State.firstReloadData
+        }
+        .catch { _ in return Just(State.none).eraseToAnyPublisher() }
+        .eraseToAnyPublisher()
+    }
       .eraseToAnyPublisher()
+    
+    
+    
+    
+//    return input.viewDidLoad
+//      .flatMap { [weak self] _ in
+//        return Future { promise in
+//          DispatchQueue.global().asyncAfter(deadline: .now() + 1.0) {
+//            self?.dataSource.append(.category(
+//              [TravelDestinationCategoryInfo(categoryId: nil, title: "전체")] +
+//              TourType.allCases.map { TravelDestinationCategoryInfo(categoryId: $0.rawValue, title: $0.toString) }
+//            ))
+//            
+//            let travelInfos = [
+//              TravelDestinationInfo(place: "숙박 mock", categoryId: TourType.accommodation.rawValue, 
+//                                    category: TourType.accommodation.toString, location: "강릉",
+//                                    isButtonSelected: true, imageData: TempSource.imageData, id: 1),
+//              TravelDestinationInfo(place: "관광지 mock", categoryId: TourType.attraction.rawValue, 
+//                                    category: TourType.attraction.toString, location: "인천",
+//                                    isButtonSelected: false, imageData: TempSource.imageData, id: 2),
+//              TravelDestinationInfo(place: "문화시설 mock", categoryId: TourType.cultureFacility.rawValue,
+//                                    category: TourType.cultureFacility.toString, location: "대전",
+//                                    isButtonSelected: false, imageData: TempSource.imageData, id: 3),
+//              TravelDestinationInfo(place: "레포츠 mock", categoryId: TourType.leports.rawValue,
+//                                    category: TourType.leports.toString, location: "전주",
+//                                    isButtonSelected: true, imageData: TempSource.imageData, id: 4),
+//              TravelDestinationInfo(place: "레포츠 mock2", categoryId: TourType.leports.rawValue,
+//                                    category: TourType.leports.toString, location: "전주",
+//                                    isButtonSelected: true, imageData: TempSource.imageData, id: 5),
+//              TravelDestinationInfo(place: "레포츠 mock3", categoryId: TourType.leports.rawValue,
+//                                    category: TourType.leports.toString, location: "전주",
+//                                    isButtonSelected: true, imageData: TempSource.imageData, id: 6),
+//              TravelDestinationInfo(place: "레포츠 mock4", categoryId: TourType.leports.rawValue,
+//                                    category: TourType.leports.toString, location: "전주",
+//                                    isButtonSelected: true, imageData: TempSource.imageData, id: 7)
+//            ]
+//            self?.originalDestinationInfos = travelInfos
+//            self?.dataSource.append(.destination(travelInfos))
+//            promise(.success(State.firstReloadData))
+//          }
+//        }.eraseToAnyPublisher()
+//      }
+//      .eraseToAnyPublisher()
   }
   
   private func didTapStarButtonStream(_ input: Input) -> Output {
@@ -185,7 +225,7 @@ extension DefaultSearchResultListViewModel {
   
   private func didTapCategoryItem(_ input: Input) -> Output {
     return input.didTapCategoryItem
-      .map { [weak self] item, categoryId in
+      .map { [weak self] item, contentTypeId in
         if case .destination(let infos) = self?.dataSource[1] {
           guard let self = self else { return State.none }
           
@@ -194,7 +234,7 @@ extension DefaultSearchResultListViewModel {
           } else {
             self.dataSource[1] = .destination(
               originalDestinationInfos.filter {
-                $0.categoryId == categoryId
+                $0.contentTypeId == contentTypeId
               }
             )
           }

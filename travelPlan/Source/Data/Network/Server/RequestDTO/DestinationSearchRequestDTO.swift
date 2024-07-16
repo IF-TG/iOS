@@ -9,6 +9,6 @@ import Foundation
 
 struct DestinationSearchRequestDTO: Encodable {
   let keyword: String
-  let page: Int32?
-  let perPage: Int32?
+  let page: Int?
+  let perPage: Int?
 }

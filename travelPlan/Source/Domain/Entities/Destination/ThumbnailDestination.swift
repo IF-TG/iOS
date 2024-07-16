@@ -10,7 +10,7 @@ import Foundation
 struct ThumbnailDestination {
   let id: Id
   let title: String
-  let thumbnailURL: String
+  let thumbnailImageData: Data?
   let address: String
   let category: Category
   var isScraped: Bool
@@ -22,7 +22,7 @@ struct ThumbnailDestination {
   }
   
   struct Id {
-    let id: Int64
-    let contentTypeId: Int32
+    let id: Int
+    let contentTypeId: Int
   }
 }
