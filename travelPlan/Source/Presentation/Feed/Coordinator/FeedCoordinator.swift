@@ -16,7 +16,12 @@ protocol FeedCoordinatorDependencies {
     post: Post?,
     postId: PostIdentifier
   ) -> PostDetailCoordinator
-  func makePostSearchCoordinator(presenter: UINavigationController?) -> PostSearchCoordinator
+  
+  func makePostSearchCoordinator(
+    presenter: UINavigationController?,
+    searchType: SearchType
+  ) -> PostSearchCoordinator
+  
   func makeNotificationCoordinator(presenter: UINavigationController?) -> NotificationCenterCoordinator
   func makeReviewWritingCoordinator(
     presenter: UINavigationController?,
@@ -125,7 +130,7 @@ extension FeedCoordinator: FeedPostCoordinatorDelegate {
 // MARK: - FeedCoordinatorDelegate
 extension FeedCoordinator: FeedCoordinatorDelegate {
   func showPostSearch() {
-    let childCoordinator = dependencies.makePostSearchCoordinator(presenter: presenter)
+    let childCoordinator = dependencies.makePostSearchCoordinator(presenter: presenter, searchType: .post)
     addChild(with: childCoordinator)
   }
   
