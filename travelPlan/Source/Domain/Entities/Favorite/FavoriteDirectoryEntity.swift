@@ -11,10 +11,10 @@ import Foundation
 final class FavoriteDirectoryEntity: Object {
   /// PK
   /// 디렉터리 이름
-  @Persisted var title: String
+  @Persisted(primaryKey: true) var title: String?
   
   /// Persistence storage에서 가져올 때 이를 기준으로 가장빠른 순으로 정렬되어 가져옵니다.
-  @Persisted var createAt: Date
+  @Persisted var createAt: Date = Date()
   
   /// 디렉터리의 대표 이미지
   @Persisted var imageThumbnails = List<Data>()
@@ -30,16 +30,15 @@ final class FavoriteDirectoryEntity: Object {
   }
   
   // MARK: - Lifecycle
-  init(
+  convenience init(
     title: String,
-    createAt: Date = Date(),
     imageThumbnails: [Data] = [],
     postIdentifiers: [PostIdentifier] = [],
     destinationIdentifiers: [Int64] = []
   ) {
+    self.init()
     self.title = title
     self.createAt = createAt
-    super.init()
     self.imageThumbnails.append(objectsIn: imageThumbnails)
     self.postIdentifiers.append(objectsIn: postIdentifiers)
     self.destinationIdentifiers.append(objectsIn: destinationIdentifiers)
