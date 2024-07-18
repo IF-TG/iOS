@@ -94,7 +94,7 @@ extension DefaultSearchResultListViewModel {
       guard let self = self else { return Just(State.none).eraseToAnyPublisher() }
       
       return self.useCase.fetchDestinationList(keyword: searchKeyword, page: nil, perPage: nil)
-        .map { (thumbnailDestinations: [ThumbnailDestination]) in
+        .map { (thumbnailDestinations: [ThumbnailDestination]) -> SearchResultListViewModelState in
           self.dataSource.append(.category(
             [TravelDestinationCategoryInfo(contentTypeId: nil, title: "전체")] +
             TourType.allCases.map { TravelDestinationCategoryInfo(contentTypeId: $0.rawValue, title: $0.toString) }
