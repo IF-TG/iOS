@@ -89,6 +89,7 @@ final class DefaultSearchResultListViewModel: SearchResultListViewModel {
 // MARK: - Private Helpers
 extension DefaultSearchResultListViewModel {
   private func viewDidLoadStream(_ input: Input) -> Output {
+    // TODO: - 네트워크 결과 보이기 전까지 인디케이터 작동시키기
     return input.viewDidLoad.flatMap { [weak self] _ in
       guard let self = self else { return Just(State.none).eraseToAnyPublisher() }
       
