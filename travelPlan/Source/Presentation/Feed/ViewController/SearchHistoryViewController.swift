@@ -95,20 +95,14 @@ final class SearchHistoryViewController: UIViewController {
     )
     tapGesture.cancelsTouchesInView = false
     $0.addGestureRecognizer(tapGesture)
-    
-    $0.register(SearchHistoryRecommendationTagCell.self,
-                forCellWithReuseIdentifier: SearchHistoryRecommendationTagCell.id)
-    $0.register(SearchHistoryRecentTagCell.self,
-                forCellWithReuseIdentifier: SearchHistoryRecentTagCell.id)
-    $0.register(PostRecommendationSearchHeaderView.self,
-                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-                withReuseIdentifier: PostRecommendationSearchHeaderView.id)
-    $0.register(PostRecentSearchHeaderView.self,
-                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-                withReuseIdentifier: PostRecentSearchHeaderView.id)
-    $0.register(SearchHistoryFooterView.self,
-                forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
-                withReuseIdentifier: SearchHistoryFooterView.id)
+    $0.register(type: SearchHistoryRecommendationTagCell.self)
+    $0.register(type: SearchHistoryRecentTagCell.self)
+    $0.register(type: PostRecommendationSearchHeaderView.self,
+                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader)
+    $0.register(type: PostRecentSearchHeaderView.self,
+                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader)
+    $0.register(type: SearchHistoryFooterView.self,
+                forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter)
   }
   
   private var subscriptions = Set<AnyCancellable>()
