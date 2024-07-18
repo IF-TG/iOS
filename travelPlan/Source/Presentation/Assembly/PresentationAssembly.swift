@@ -15,6 +15,8 @@ final class PresentationAssembly: Assembly {
     loginPage(container: container)
     searchPage(container: container)
     searchResultListPage(container: container)
+    searchHistoryPage(container: container)
+    
     
     // MARK: - Search Page
     
@@ -228,6 +230,22 @@ private extension PresentationAssembly {
       (r, actions: SearchResultListViewModelActions, searchKeyword: String) in
       let viewModel = r.resolve((any SearchResultListViewModel).self, arguments: actions, searchKeyword)!
       return SearchResultListViewController(viewModel: viewModel)
+    }
+  }
+  
+  func searchHistoryPage(container: Container) {
+    container.register((any SearchHistoryViewModel).self) { (r, actions: SearchHistoryViewModelActions, searchType: SearchType) in
+      
+      // TODO: - usecase를 만들어서  vm에 넣어주어야 합니다.
+      return DefaultSearchHistoryViewModel(
+        searchType: searchType,
+        actions: actions
+      )
+    }
+    
+    container.register(SearchHistoryViewController.self) { (r, actions: SearchHistoryViewModelActions, searchType: SearchType) in
+      let viewModel = r.resolve((any SearchHistoryViewModel).self, arguments: actions, searchType)!
+      return SearchHistoryViewController(viewModel: viewModel)
     }
   }
 }

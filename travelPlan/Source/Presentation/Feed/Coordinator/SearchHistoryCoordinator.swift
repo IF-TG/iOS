@@ -53,8 +53,9 @@ final class SearchHistoryCoordinator: FlowCoordinator {
         self?.pop() }
     )
     
-    let viewModel = DefaultSearchHistoryViewModel(searchType: searchType, actions: actions)
-    let viewController = SearchHistoryViewController(viewModel: viewModel)
+//    let viewModel = DefaultSearchHistoryViewModel(searchType: searchType, actions: actions)
+//    let viewController = SearchHistoryViewController(viewModel: viewModel)
+    let viewController = dependencies.makeSearchHistoryViewController(actions: actions, searchType: searchType)
     
     presenter?.pushViewController(viewController, animated: false)
   }
