@@ -1,5 +1,5 @@
 //
-//  DefaultPostSearchLayout.swift
+//  DefaultSearchHistoryLayout.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 2023/09/04.
@@ -7,8 +7,8 @@
 
 import UIKit
 
-// MARK: - PostSearchLayout
-class DefaultPostSearchLayout: CompositionalLayoutCreatable {
+// MARK: - SearchHistory
+class DefaultSearchHistoryLayout: CompositionalLayoutCreatable {
   
   enum Constants {
     enum Recent {
@@ -45,9 +45,9 @@ class DefaultPostSearchLayout: CompositionalLayoutCreatable {
   func makeLayout() -> UICollectionViewCompositionalLayout {
     return UICollectionViewCompositionalLayout { [weak self] section, _ in
       switch section {
-      case PostSearchSection.recommendation.rawValue:
+      case SearchHistorySection.recommendation.rawValue:
         return self?.recommendationSearchSectionLayout()
-      case PostSearchSection.recent.rawValue:
+      case SearchHistorySection.recent.rawValue:
         return self?.recentSearchSectionLayout()
       default: return nil
       }
@@ -56,7 +56,7 @@ class DefaultPostSearchLayout: CompositionalLayoutCreatable {
 }
 
 // MARK: - Helpers
-extension DefaultPostSearchLayout {
+extension DefaultSearchHistoryLayout {
   private func recommendationSearchSectionLayout() -> NSCollectionLayoutSection {
     let section = CollectionLayoutSectionProvider.createOneLineTagSection()
     

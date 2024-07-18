@@ -47,7 +47,7 @@ final class PostRecentSearchHeaderView: UICollectionReusableView {
     )
   }
   
-  weak var delegate: PostSearchHeaderViewDelegate?
+  weak var delegate: SearchHistoryHeaderViewDelegate?
   
   // MARK: - LifeCycle
   override init(frame: CGRect) {

@@ -12,8 +12,8 @@ struct DestinationSearchResultResponseDTO: Decodable {
   let gptRelated: Bool
       
   struct Destination: Decodable {
-    let id: Int64
-    let contentTypeId: Int32
+    let id: Int
+    let contentTypeId: Int
     let title: String
     let thumbnailUrl: String
     let address: String
@@ -31,7 +31,7 @@ extension DestinationSearchResultResponseDTO {
       .init(
         id: .init(id: $0.id, contentTypeId: $0.contentTypeId),
         title: $0.title,
-        thumbnailURL: $0.thumbnailUrl,
+        thumbnailImageData: Data(base64Encoded: $0.thumbnailUrl),
         address: $0.address,
         category: .init(
           largeCategory: $0.largeCategory,

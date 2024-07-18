@@ -13,6 +13,12 @@ final class PresentationAssembly: Assembly {
   // swiftlint:disable:next function_body_length
   func assemble(container: Swinject.Container) {
     loginPage(container: container)
+    searchPage(container: container)
+    searchResultListPage(container: container)
+    searchHistoryPage(container: container)
+    
+    
+    // MARK: - Search Page
     
     // MARK: - PostDetail Page
     // MARK: - PostDetailViewModelType
@@ -175,7 +181,7 @@ final class PresentationAssembly: Assembly {
   }
 }
 
-// MARK: - Login Page
+// MARK: - Private Helpers
 private extension PresentationAssembly {
   func loginPage(container: Container) {
     container.register((any LoginViewModel).self) { r in
@@ -189,11 +195,57 @@ private extension PresentationAssembly {
     }
   }
   
+  func searchPage(container: Container) {
+    container.register(SearchViewController.self) { (r, actions: SearchViewModelActions) in
+      let searchViewModel = r.resolve((any SearchViewModel).self, argument: actions)!
+      return SearchViewController(viewModel: searchViewModel)
+    }
+    
+    container.register((any SearchViewModel).self) { (r, actions: SearchViewModelActions) in
+      return DefaultSearchViewModel(actions: actions)
+    }
+  }
+  
   func ownerRepository(with r: Resolver) -> any LoggedInUserRepository {
 #if DEBUG
     return DefaultLoggedInUserRepository(storage: .init(value: StubOwnerStorage()))
 #else
     return r.resolve(LoggedInUserRepository.self)!
 #endif
+  }
+    
+  func searchResultListPage(container: Container) {
+    container.register((any SearchResultListViewModel).self) {
+      (r, actions: SearchResultListViewModelActions, searchKeyword: String) in
+      let useCase = r.resolve(DestinationSearchResultUseCase.self)!
+      
+      return DefaultSearchResultListViewModel(
+        actions: actions,
+        searchKeyword: searchKeyword,
+        useCase: useCase
+      )
+    }
+    
+    container.register(SearchResultListViewController.self) {
+      (r, actions: SearchResultListViewModelActions, searchKeyword: String) in
+      let viewModel = r.resolve((any SearchResultListViewModel).self, arguments: actions, searchKeyword)!
+      return SearchResultListViewController(viewModel: viewModel)
+    }
+  }
+  
+  func searchHistoryPage(container: Container) {
+    container.register((any SearchHistoryViewModel).self) { (r, actions: SearchHistoryViewModelActions, searchType: SearchType) in
+      
+      // TODO: - usecase를 만들어서  vm에 넣어주어야 합니다.
+      return DefaultSearchHistoryViewModel(
+        searchType: searchType,
+        actions: actions
+      )
+    }
+    
+    container.register(SearchHistoryViewController.self) { (r, actions: SearchHistoryViewModelActions, searchType: SearchType) in
+      let viewModel = r.resolve((any SearchHistoryViewModel).self, arguments: actions, searchType)!
+      return SearchHistoryViewController(viewModel: viewModel)
+    }
   }
 }

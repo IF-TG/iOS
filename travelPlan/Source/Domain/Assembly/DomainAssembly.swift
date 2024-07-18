@@ -18,6 +18,7 @@ final class DomainAssembly: Swinject.Assembly {
     postNestedCommentHeartUseCase(container: container)
     noticeUseCase(container: container)
     loginUseCase(container: container)
+    destinationSearchResultUseCase(container: container)
     
     // TODO: - Tour Use Case
     

@@ -9,6 +9,6 @@ import Foundation
 
 struct DestinationScrapListRequestDTO: Encodable {
   let folderName: String
-  let page: Int32?
-  let perPage: Int32?
+  let page: Int?
+  let perPage: Int?
 }

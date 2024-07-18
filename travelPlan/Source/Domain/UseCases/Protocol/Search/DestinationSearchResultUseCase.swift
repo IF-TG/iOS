@@ -12,7 +12,7 @@ import Combine
 protocol DestinationSearchResultUseCase {
   func fetchDestinationList(
     keyword: String,
-    page: Int32?,
-    perPage: Int32?
+    page: Int?,
+    perPage: Int?
   ) -> AnyPublisher<[ThumbnailDestination], any Error>
 }

@@ -92,7 +92,7 @@ private extension FeedViewModel {
       .didTapPostSearch
       .receive(on: backgroundQueue)
       .map { _ -> State in
-        return .goToPostSearch
+        return .goToSearchHistory
       }.eraseToAnyPublisher()
   }
   

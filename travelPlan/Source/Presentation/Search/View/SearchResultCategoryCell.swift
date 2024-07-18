@@ -14,11 +14,11 @@ final class SearchResultCategoryCell: UICollectionViewCell {
     return String(describing: SearchResultCategoryCell.self)
   }
   
-  private let tagLabel = PostSearchTagLabel().set {
+  private let tagLabel = SearchHistoryTagLabel().set {
     $0.textColor = UIColor.YG.highlight
   }
   
-  private(set) var categoryId: Int?
+  private(set) var contentTypeId: Int?
   
   override var isSelected: Bool {
     didSet {
@@ -42,7 +42,7 @@ final class SearchResultCategoryCell: UICollectionViewCell {
 extension SearchResultCategoryCell {
   func configure(with info: TravelDestinationCategoryInfo) {
     tagLabel.text = info.title
-    categoryId = info.categoryId
+    contentTypeId = info.contentTypeId
     contentView.layer.cornerRadius = min(contentView.frame.width, contentView.frame.height) / 2
   }
 }

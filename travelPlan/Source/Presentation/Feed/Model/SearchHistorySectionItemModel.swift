@@ -1,5 +1,5 @@
 //
-//  PostSearchSectionItemModel.swift
+//  SearchHistorySectionItemModel.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 2023/05/10.
@@ -7,12 +7,12 @@
 
 import Foundation
 
-enum PostSearchSection: Int {
+enum SearchHistorySection: Int {
   case recommendation
   case recent
 }
 
-struct PostSearchSectionModel {
+struct SearchHistorySectionModel {
   var sectionItem: Item
   let section: Section
   
@@ -27,10 +27,10 @@ struct PostSearchSectionModel {
   }
 }
 
-extension PostSearchSectionModel.Item: Equatable {
+extension SearchHistorySectionModel.Item: Equatable {
   static func == (
-    lhs: PostSearchSectionModel.Item,
-    rhs: PostSearchSectionModel.Item
+    lhs: SearchHistorySectionModel.Item,
+    rhs: SearchHistorySectionModel.Item
   ) -> Bool {
     switch (lhs, rhs) {
     case (.recommendation, .recommendation):
@@ -44,7 +44,7 @@ extension PostSearchSectionModel.Item: Equatable {
 }
 
 // MARK: - Mock
-extension PostSearchSectionModel {
+extension SearchHistorySectionModel {
   static func createRecommendationMock() -> [String] {
     return ["인기관광", "가족코스", "자연", "액티비티", "TOP10 여행지", "인기맛집", "대전 명소"]
   }

@@ -89,34 +89,34 @@ extension DefaultSearchMoreDetailViewModel {
     let imageData = TempSource.imageData
     
     self.itemInfos = [
-      TravelDestinationInfo(place: "축제 타이틀", categoryId: TourType.festival.rawValue,
-                            category: TourType.festival.toString, location: "24.01.01~24.02.10", 
-                            isButtonSelected: false, imageData: imageData, id: 12345456),
-      TravelDestinationInfo(place: "축제 타이틀", categoryId: TourType.festival.rawValue,
+      TravelDestinationInfo(place: "축제 타이틀", contentTypeId: 15,
                             category: TourType.festival.toString, location: "24.01.01~24.02.10",
                             isButtonSelected: false, imageData: imageData, id: 12345456),
-      TravelDestinationInfo(place: "축제 타이틀", categoryId: TourType.festival.rawValue,
+      TravelDestinationInfo(place: "축제 타이틀", contentTypeId: 15,
                             category: TourType.festival.toString, location: "24.01.01~24.02.10",
                             isButtonSelected: false, imageData: imageData, id: 12345456),
-      TravelDestinationInfo(place: "축제 타이틀", categoryId: TourType.festival.rawValue,
+      TravelDestinationInfo(place: "축제 타이틀", contentTypeId: 15,
                             category: TourType.festival.toString, location: "24.01.01~24.02.10",
                             isButtonSelected: false, imageData: imageData, id: 12345456),
-      TravelDestinationInfo(place: "축제 타이틀", categoryId: TourType.festival.rawValue,
+      TravelDestinationInfo(place: "축제 타이틀", contentTypeId: 15,
                             category: TourType.festival.toString, location: "24.01.01~24.02.10",
                             isButtonSelected: false, imageData: imageData, id: 12345456),
-      TravelDestinationInfo(place: "축제 타이틀", categoryId: TourType.festival.rawValue,
+      TravelDestinationInfo(place: "축제 타이틀", contentTypeId: 15,
                             category: TourType.festival.toString, location: "24.01.01~24.02.10",
                             isButtonSelected: false, imageData: imageData, id: 12345456),
-      TravelDestinationInfo(place: "축제 타이틀", categoryId: TourType.festival.rawValue,
+      TravelDestinationInfo(place: "축제 타이틀", contentTypeId: 15,
                             category: TourType.festival.toString, location: "24.01.01~24.02.10",
                             isButtonSelected: false, imageData: imageData, id: 12345456),
-      TravelDestinationInfo(place: "축제 타이틀", categoryId: TourType.festival.rawValue,
+      TravelDestinationInfo(place: "축제 타이틀", contentTypeId: 15,
                             category: TourType.festival.toString, location: "24.01.01~24.02.10",
                             isButtonSelected: false, imageData: imageData, id: 12345456),
-      TravelDestinationInfo(place: "축제 타이틀", categoryId: TourType.festival.rawValue,
+      TravelDestinationInfo(place: "축제 타이틀", contentTypeId: 15,
                             category: TourType.festival.toString, location: "24.01.01~24.02.10",
                             isButtonSelected: false, imageData: imageData, id: 12345456),
-      TravelDestinationInfo(place: "축제 타이틀", categoryId: TourType.festival.rawValue,
+      TravelDestinationInfo(place: "축제 타이틀", contentTypeId: 15,
+                            category: TourType.festival.toString, location: "24.01.01~24.02.10",
+                            isButtonSelected: false, imageData: imageData, id: 12345456),
+      TravelDestinationInfo(place: "축제 타이틀", contentTypeId: 15,
                             category: TourType.festival.toString, location: "24.01.01~24.02.10",
                             isButtonSelected: false, imageData: imageData, id: 12345456)
     ]
@@ -127,21 +127,21 @@ extension DefaultSearchMoreDetailViewModel {
     let imageData = TempSource.imageData
     
     self.itemInfos = [
-      TravelDestinationInfo(place: "레포츠 타이틀", categoryId: TourType.leports.rawValue,
+      TravelDestinationInfo(place: "레포츠 타이틀", contentTypeId: 28,
                             category: TourType.leports.toString, location: "강원도 ~~~", isButtonSelected: false,
-                            imageData: imageData, id: 12344),
-      TravelDestinationInfo(place: "레포츠 타이틀", categoryId: TourType.leports.rawValue,
+                            imageData: imageData, id: 12345),
+      TravelDestinationInfo(place: "레포츠 타이틀", contentTypeId: 28,
                             category: TourType.leports.toString, location: "강원도 ~~~", isButtonSelected: false,
-                            imageData: imageData, id: 12344),
-      TravelDestinationInfo(place: "레포츠 타이틀", categoryId: TourType.leports.rawValue,
+                            imageData: imageData, id: 12346),
+      TravelDestinationInfo(place: "레포츠 타이틀", contentTypeId: 28,
                             category: TourType.leports.toString, location: "강원도 ~~~", isButtonSelected: false,
-                            imageData: imageData, id: 12344),
-      TravelDestinationInfo(place: "레포츠 타이틀", categoryId: TourType.leports.rawValue,
+                            imageData: imageData, id: 12347),
+      TravelDestinationInfo(place: "레포츠 타이틀", contentTypeId: 28,
                             category: TourType.leports.toString, location: "강원도 ~~~", isButtonSelected: false,
-                            imageData: imageData, id: 12344),
-      TravelDestinationInfo(place: "레포츠 타이틀", categoryId: TourType.leports.rawValue,
+                            imageData: imageData, id: 12348),
+      TravelDestinationInfo(place: "레포츠 타이틀", contentTypeId: 28,
                             category: TourType.leports.toString, location: "강원도 ~~~", isButtonSelected: false,
-                            imageData: imageData, id: 12344)
+                            imageData: imageData, id: 12349)
     ]
   }
   

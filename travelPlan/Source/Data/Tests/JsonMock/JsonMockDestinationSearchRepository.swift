@@ -24,8 +24,8 @@ final class JsonMockDestinationSearchRepository {
 extension JsonMockDestinationSearchRepository: DestinationSearchRepository {
   func fetchDestinationList(
     by keyword: String,
-    page: Int32? = nil,
-    perPage: Int32? = nil
+    page: Int? = nil,
+    perPage: Int? = nil
   ) -> AnyPublisher<[ThumbnailDestination], any Error> {
     MockUrlProtocol.requestHandler = { _ in
       let mockData = MockResponseType

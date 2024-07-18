@@ -1,5 +1,5 @@
 //
-//  PostSearchHeaderViewDelegate.swift
+//  SearchHistoryHeaderViewDelegate.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 2023/05/20.
@@ -7,6 +7,6 @@
 
 import Foundation
 
-protocol PostSearchHeaderViewDelegate: AnyObject {
+protocol SearchHistoryHeaderViewDelegate: AnyObject {
   func didTapDeleteAllButton()
 }

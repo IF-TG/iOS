@@ -1,5 +1,5 @@
 //
-//  PostSearchViewController.swift
+//  SearchHistoryViewController.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 2023/05/08.
@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Combine
 
-final class PostSearchViewController: UIViewController {
+final class SearchHistoryViewController: UIViewController {
   enum Constants {
     enum SearchBarButtonItem {
       static let imageName = "search"
@@ -42,9 +42,9 @@ final class PostSearchViewController: UIViewController {
   }
   
   // MARK: - Properties
-  private let viewModel: any PostSearchViewModel
+  private let viewModel: any SearchHistoryViewModel
   
-  private lazy var input = PostSearchViewModelInput(didChangeSearchTextField: searchTextField.changed)
+  private lazy var input = SearchHistoryViewModelInput(didChangeSearchTextField: searchTextField.changed)
   
   private lazy var searchBarButtonItem = UIBarButtonItem(
     image: UIImage(named: Constants.SearchBarButtonItem.imageName)?
@@ -76,8 +76,8 @@ final class PostSearchViewController: UIViewController {
     $0.delegate = self
   }
   
-  private let compositionalLayout: CompositionalLayoutCreatable = DefaultPostSearchLayout()
-  private lazy var collectionViewAdapter = PostSearchCollectionViewAdapter(
+  private let compositionalLayout: CompositionalLayoutCreatable = DefaultSearchHistoryLayout()
+  private lazy var collectionViewAdapter = SearchHistoryCollectionViewAdapter(
     dataSource: self.viewModel,
     delegate: self
   )
@@ -95,26 +95,20 @@ final class PostSearchViewController: UIViewController {
     )
     tapGesture.cancelsTouchesInView = false
     $0.addGestureRecognizer(tapGesture)
-    
-    $0.register(PostRecommendationSearchTagCell.self,
-                forCellWithReuseIdentifier: PostRecommendationSearchTagCell.id)
-    $0.register(PostRecentSearchTagCell.self,
-                forCellWithReuseIdentifier: PostRecentSearchTagCell.id)
-    $0.register(PostRecommendationSearchHeaderView.self,
-                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-                withReuseIdentifier: PostRecommendationSearchHeaderView.id)
-    $0.register(PostRecentSearchHeaderView.self,
-                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-                withReuseIdentifier: PostRecentSearchHeaderView.id)
-    $0.register(PostSearchFooterView.self,
-                forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
-                withReuseIdentifier: PostSearchFooterView.id)
+    $0.register(type: SearchHistoryRecommendationTagCell.self)
+    $0.register(type: SearchHistoryRecentTagCell.self)
+    $0.register(type: PostRecommendationSearchHeaderView.self,
+                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader)
+    $0.register(type: PostRecentSearchHeaderView.self,
+                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader)
+    $0.register(type: SearchHistoryFooterView.self,
+                forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter)
   }
   
   private var subscriptions = Set<AnyCancellable>()
   
   // MARK: - LifeCycle
-  init(viewModel: any PostSearchViewModel) {
+  init(viewModel: any SearchHistoryViewModel) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
   }
@@ -133,12 +127,12 @@ final class PostSearchViewController: UIViewController {
   }
   
   deinit {
-    print("deinit: \(Self.self)")
+    print("deinit: \(SearchHistoryViewController.self)")
   }
 }
 
 // MARK: - ViewBindCase
-extension PostSearchViewController {
+extension SearchHistoryViewController {
   
   func bind() {
     let output = self.viewModel.transform(input)
@@ -169,7 +163,7 @@ extension PostSearchViewController {
 }
 
 // MARK: - Helpers
-extension PostSearchViewController {
+extension SearchHistoryViewController {
   private func setupStyles() {
     view.backgroundColor = .white
   }
@@ -199,7 +193,7 @@ extension PostSearchViewController {
 }
 
 // MARK: - Actions
-extension PostSearchViewController {
+extension SearchHistoryViewController {
   @objc private func didTapSearchButton() {
     input.didTapSearchButton.send(self.searchTextField.text ?? "")
   }
@@ -214,7 +208,7 @@ extension PostSearchViewController {
 }
 
 // MARK: - LayoutSupport
-extension PostSearchViewController: LayoutSupport {
+extension SearchHistoryViewController: LayoutSupport {
   func addSubviews() {
     view.addSubview(collectionView)
   }
@@ -228,22 +222,22 @@ extension PostSearchViewController: LayoutSupport {
 }
 
 // MARK: - UITextFieldDelegate
-extension PostSearchViewController: UITextFieldDelegate {
+extension SearchHistoryViewController: UITextFieldDelegate {
   func textFieldShouldReturn(_ textField: UITextField) -> Bool {
     input.didTapSearchButton.send(textField.text ?? "")
     return true
   }
 }
 
-// MARK: - PostSearchHeaderViewDelegate
-extension PostSearchViewController: PostSearchHeaderViewDelegate {
+// MARK: - SearchHistoryHeaderViewDelegate
+extension SearchHistoryViewController: SearchHistoryHeaderViewDelegate {
   func didTapDeleteAllButton() {
     input.didTapDeleteAllButton.send()
   }
 }
 
-// MARK: - PostRecentSearchTagCellDelegate
-extension PostSearchViewController: PostRecentSearchTagCellDelegate {
+// MARK: - SearchHistoryRecentTagCellDelegate
+extension SearchHistoryViewController: SearchHistoryRecentTagCellDelegate {
   func didTapTagDeleteButton(in recentTagCell: UICollectionViewCell) {
     guard let indexPath = collectionView.indexPath(for: recentTagCell) else { return }
     
@@ -252,7 +246,7 @@ extension PostSearchViewController: PostRecentSearchTagCellDelegate {
 }
 
 // MARK: - CautionAlertViewControllerDelegate
-extension PostSearchViewController: CautionAlertViewControllerDelegate {
+extension SearchHistoryViewController: CautionAlertViewControllerDelegate {
   func didTapAlertConfirm() {
     input.didTapDeleteAllAlert.send()
   }
@@ -262,8 +256,8 @@ extension PostSearchViewController: CautionAlertViewControllerDelegate {
   }
 }
 
-// MARK: - PostSearchCollectionViewDelegate
-extension PostSearchViewController: PostSearchCollectionViewDelegate {
+// MARK: - SearchHistoryCollectionViewDelegate
+extension SearchHistoryViewController: SearchHistoryCollectionViewDelegate {
   func didSelectTag(at indexPath: IndexPath) {
     input.didSelectedItem.send(indexPath)
   }

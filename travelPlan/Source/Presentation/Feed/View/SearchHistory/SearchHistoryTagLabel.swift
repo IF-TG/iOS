@@ -1,5 +1,5 @@
 //
-//  PostSearchTagLabel.swift
+//  SearchHistoryTagLabel.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 2023/09/01.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PostSearchTagLabel: UILabel {
+class SearchHistoryTagLabel: UILabel {
   enum Constants {
     static let fontSize: CGFloat = 14
     static let numberOfLines = 1

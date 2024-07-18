@@ -1,5 +1,5 @@
 //
-//  PostSearchFooterView.swift
+//  SearchHistoryFooterView.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 2023/05/17.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class PostSearchFooterView: UICollectionReusableView {
+final class SearchHistoryFooterView: UICollectionReusableView {
   enum Constants {
     enum Inset {
       static let leading: CGFloat = 0
@@ -36,7 +36,7 @@ final class PostSearchFooterView: UICollectionReusableView {
 }
 
 // MARK: - LayoutSupport
-extension PostSearchFooterView: LayoutSupport {
+extension SearchHistoryFooterView: LayoutSupport {
   func addSubviews() {
     addSubview(underLineView)
   }

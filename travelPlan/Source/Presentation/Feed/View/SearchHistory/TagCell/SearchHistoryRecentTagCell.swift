@@ -1,5 +1,5 @@
 //
-//  PostRecentSearchTagCell.swift
+//  SearchHistoryRecentTagCell.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 2023/08/29.
@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-final class PostRecentSearchTagCell: UICollectionViewCell {
+final class SearchHistoryRecentTagCell: UICollectionViewCell {
   enum Constants {
     enum ContentView {
       static let borderWidth: CGFloat = 1
@@ -32,10 +32,10 @@ final class PostRecentSearchTagCell: UICollectionViewCell {
       static let imageName = "cancel"
     }
     
-    static let targetSizeHeight: CGFloat = DefaultPostSearchLayout
+    static let targetSizeHeight: CGFloat = DefaultSearchHistoryLayout
       .Constants.Recent.Item.absoluteHeight
-    static let contentInsets: CGFloat = DefaultPostSearchLayout
-      .Constants.Recent.Section.ContentInsets.leading + DefaultPostSearchLayout
+    static let contentInsets: CGFloat = DefaultSearchHistoryLayout
+      .Constants.Recent.Section.ContentInsets.leading + DefaultSearchHistoryLayout
       .Constants.Recent.Section.ContentInsets.trailing
   }
   
@@ -50,9 +50,9 @@ final class PostRecentSearchTagCell: UICollectionViewCell {
     $0.tintColor = .yg.gray5
   }
   
-  private let tagLabel = PostSearchTagLabel()
+  private let tagLabel = SearchHistoryTagLabel()
   
-  weak var delegate: PostRecentSearchTagCellDelegate?
+  weak var delegate: SearchHistoryRecentTagCellDelegate?
   // MARK: - LifeCycle
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -75,8 +75,8 @@ final class PostRecentSearchTagCell: UICollectionViewCell {
 }
 
 // MARK: - Configure
-extension PostRecentSearchTagCell {
-  func configure(_ text: String, delegate: PostRecentSearchTagCellDelegate?) {
+extension SearchHistoryRecentTagCell {
+  func configure(_ text: String, delegate: SearchHistoryRecentTagCellDelegate?) {
     self.delegate = delegate
     tagLabel.text = text
     contentView.layer.cornerRadius = min(contentView.frame.width, contentView.frame.height) / 2
@@ -84,7 +84,7 @@ extension PostRecentSearchTagCell {
 }
 
 // MARK: - Helpers
-extension PostRecentSearchTagCell {
+extension SearchHistoryRecentTagCell {
   // label text가 길어져서 cell width가 최대 지정 width를 넘어간다면, cell width를 고정해줍니다.
   private func calculateTagSize(
     to layoutAttributes: UICollectionViewLayoutAttributes
@@ -109,7 +109,7 @@ extension PostRecentSearchTagCell {
   }
 }
 
-extension PostRecentSearchTagCell: LayoutSupport {
+extension SearchHistoryRecentTagCell: LayoutSupport {
   func addSubviews() {
     contentView.addSubview(tagLabel)
     contentView.addSubview(tagDeleteButton)
@@ -132,7 +132,7 @@ extension PostRecentSearchTagCell: LayoutSupport {
 }
 
 // MARK: - Actions
-extension PostRecentSearchTagCell {
+extension SearchHistoryRecentTagCell {
   @objc private func didTaptagDeleteButton(_ button: UIButton) {
     delegate?.didTapTagDeleteButton(in: self)
   }

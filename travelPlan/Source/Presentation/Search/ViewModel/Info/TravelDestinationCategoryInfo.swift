@@ -8,6 +8,6 @@
 import Foundation
 
 struct TravelDestinationCategoryInfo {
-  let categoryId: Int?
+  let contentTypeId: Int?
   let title: String
 }

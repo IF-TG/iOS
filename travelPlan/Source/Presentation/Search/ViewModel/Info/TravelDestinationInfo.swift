@@ -9,7 +9,7 @@ import Foundation
 
 struct TravelDestinationInfo {
   let place: String
-  let categoryId: Int
+  let contentTypeId: Int
   let category: String
   let location: String
   var isButtonSelected: Bool

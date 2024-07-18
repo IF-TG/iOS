@@ -25,8 +25,8 @@ final class JsonMockDestinationScrapRepository {
 extension JsonMockDestinationScrapRepository: DestinationScrapRepository {
   func getDestinationScrapList(	
     folderName: String,
-    page: Int32? = nil,
-    perPage: Int32? = nil
+    page: Int? = nil,
+    perPage: Int? = nil
   ) -> AnyPublisher<[DestinationScrapDetail], any Error> {
     MockUrlProtocol.requestHandler = { _ in
       let mockData = MockResponseType
@@ -39,7 +39,7 @@ extension JsonMockDestinationScrapRepository: DestinationScrapRepository {
   }
   
   func toggleDestinationScrap(
-    id: Int64,
+    id: Int,
     folderName: String?
   ) -> AnyPublisher<DestinationScrapToggler, any Error> {
     MockUrlProtocol.requestHandler = { _ in
@@ -53,7 +53,7 @@ extension JsonMockDestinationScrapRepository: DestinationScrapRepository {
   }
   
   func updateDestinationScrap(
-    objectIdList: [Int64],
+    objectIdList: [Int],
     folderName: String
   ) -> AnyPublisher<[UpdatedDestinationScrap], any Error> {
     MockUrlProtocol.requestHandler = { _ in
