@@ -65,7 +65,6 @@ extension SearchHistoryCoordinator {
       presenter: presenter,
       searchKeyword: searchKeyword
     )
-//    let childCoordinator = SearchResultListCoordinator(presenter: presenter, text: text)
     addChild(with: childCoordinator)
   }
   
