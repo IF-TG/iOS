@@ -53,6 +53,8 @@ final class DefaultSearchHistoryViewModel {
     }
   }
   
+  // TODO: - 최근검색에 대한 list를 fetch해주는 usecase를 적용해야 합니다.
+  
   // MARK: - Properties
   private var sectionModels: [SearchHistorySectionModel] = []
   private var recentModels: [String] = []
