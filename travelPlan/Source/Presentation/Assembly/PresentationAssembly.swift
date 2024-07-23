@@ -235,11 +235,12 @@ private extension PresentationAssembly {
   
   func searchHistoryPage(container: Container) {
     container.register((any SearchHistoryViewModel).self) { (r, actions: SearchHistoryViewModelActions, searchType: SearchType) in
-      
-      // TODO: - usecase를 만들어서  vm에 넣어주어야 합니다.
+      let useCase = r.resolve(SearchHistoryUseCase.self)!
+
       return DefaultSearchHistoryViewModel(
         searchType: searchType,
-        actions: actions
+        actions: actions,
+        useCase: useCase
       )
     }
     
