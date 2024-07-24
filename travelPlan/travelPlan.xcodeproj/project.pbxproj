@@ -158,6 +158,7 @@
 		1390CC5D2A8BADEC00E34DC3 /* TitleWithButtonHeaderViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1390CC5C2A8BADEC00E34DC3 /* TitleWithButtonHeaderViewDelegate.swift */; };
 		139AC9122C4FF32400C03F9A /* mock_response_recentSearch.json in Resources */ = {isa = PBXBuildFile; fileRef = 139AC9102C4FF32400C03F9A /* mock_response_recentSearch.json */; };
 		139AC9142C4FF6B700C03F9A /* JsonMockRecentSearchHistoryRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139AC9132C4FF6B700C03F9A /* JsonMockRecentSearchHistoryRepository.swift */; };
+		139AC9162C50BB4800C03F9A /* RecentSearchHistoryRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139AC9152C50BB4800C03F9A /* RecentSearchHistoryRepositoryTests.swift */; };
 		139DEDEB2B163D9A00363E7B /* SearchDestinationCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139DEDEA2B163D9A00363E7B /* SearchDestinationCollectionViewLayout.swift */; };
 		139DEE102B16ADF300363E7B /* SearchDestinationServiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139DEE0F2B16ADF300363E7B /* SearchDestinationServiceCell.swift */; };
 		139DEE3A2B17CAC900363E7B /* SearchDestinationServiceTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139DEE392B17CAC900363E7B /* SearchDestinationServiceTypeView.swift */; };
@@ -1111,6 +1112,7 @@
 		1390CC6E2A8E0B2800E34DC3 /* SearchStarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchStarButton.swift; sourceTree = "<group>"; };
 		139AC9112C4FF32400C03F9A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/mock_response_recentSearch.json; sourceTree = "<group>"; };
 		139AC9132C4FF6B700C03F9A /* JsonMockRecentSearchHistoryRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonMockRecentSearchHistoryRepository.swift; sourceTree = "<group>"; };
+		139AC9152C50BB4800C03F9A /* RecentSearchHistoryRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearchHistoryRepositoryTests.swift; sourceTree = "<group>"; };
 		139DEDEA2B163D9A00363E7B /* SearchDestinationCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDestinationCollectionViewLayout.swift; sourceTree = "<group>"; };
 		139DEE0F2B16ADF300363E7B /* SearchDestinationServiceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDestinationServiceCell.swift; sourceTree = "<group>"; };
 		139DEE392B17CAC900363E7B /* SearchDestinationServiceTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDestinationServiceTypeView.swift; sourceTree = "<group>"; };
@@ -4347,6 +4349,7 @@
 				134055772C4449D800EC8877 /* DestinationSearchRepositoryTests.swift */,
 				1383C81B2B97F44800830F1A /* KeychainManagerTests.swift */,
 				1375BF572C4970A000DE58B3 /* RealmStorageTests.swift */,
+				139AC9152C50BB4800C03F9A /* RecentSearchHistoryRepositoryTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -5113,6 +5116,7 @@
 				1521758B2BFB288800666549 /* StubFirebaseStorageService.swift in Sources */,
 				13EB3D412BF4CF9300CA84F0 /* ShoppingUseCaseTests.swift in Sources */,
 				1546DF3F2B0C64E500B49A55 /* ImageDiskCacheTests.swift in Sources */,
+				139AC9162C50BB4800C03F9A /* RecentSearchHistoryRepositoryTests.swift in Sources */,
 				156C1E2C2BBED14300AF1D99 /* SHCoordinator+XCTestCase.swift in Sources */,
 				15FFAC282ADC598E0013DB57 /* SessionProviderTests.swift in Sources */,
 				156C1E232BBEC93900AF1D99 /* XCTestCase+Helpers.swift in Sources */,
