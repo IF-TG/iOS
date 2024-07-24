@@ -24,6 +24,19 @@ final class DefaultRecommendationSearchHistoryRepository {
 
 extension DefaultRecommendationSearchHistoryRepository: RecommendationSearchHistoryRepository {
   func fetchHistory() -> AnyPublisher<[RecommendationSearchHistory], any Error> {
-    return Just([RecommendationSearchHistory]()).setAnyErrorAndEraseToAnyPublisher()
+    // FIXME: - mock을 제거하고 service 구현하기
+    let mockHistories: [RecommendationSearchHistory] = [
+      .init(keyword: "서울"),
+      .init(keyword: "경기"),
+      .init(keyword: "강원"),
+      .init(keyword: "페스티벌"),
+      .init(keyword: "공연"),
+      .init(keyword: "캠핑"),
+      .init(keyword: "바다"),
+      .init(keyword: "서핑"),
+      .init(keyword: "수영"),
+    ]
+    
+    return Just(mockHistories).setAnyErrorAndEraseToAnyPublisher()
   }
 }
