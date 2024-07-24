@@ -156,6 +156,8 @@
 		1385F6962C427BD8003DB336 /* TourAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1385F6952C427BD8003DB336 /* TourAddress.swift */; };
 		1385F6982C427BE6003DB336 /* TourImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1385F6972C427BE6003DB336 /* TourImage.swift */; };
 		1390CC5D2A8BADEC00E34DC3 /* TitleWithButtonHeaderViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1390CC5C2A8BADEC00E34DC3 /* TitleWithButtonHeaderViewDelegate.swift */; };
+		139AC9122C4FF32400C03F9A /* mock_response_recentSearch.json in Resources */ = {isa = PBXBuildFile; fileRef = 139AC9102C4FF32400C03F9A /* mock_response_recentSearch.json */; };
+		139AC9142C4FF6B700C03F9A /* JsonMockRecentSearchHistoryRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139AC9132C4FF6B700C03F9A /* JsonMockRecentSearchHistoryRepository.swift */; };
 		139DEDEB2B163D9A00363E7B /* SearchDestinationCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139DEDEA2B163D9A00363E7B /* SearchDestinationCollectionViewLayout.swift */; };
 		139DEE102B16ADF300363E7B /* SearchDestinationServiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139DEE0F2B16ADF300363E7B /* SearchDestinationServiceCell.swift */; };
 		139DEE3A2B17CAC900363E7B /* SearchDestinationServiceTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139DEE392B17CAC900363E7B /* SearchDestinationServiceTypeView.swift */; };
@@ -1107,6 +1109,8 @@
 		1385F6972C427BE6003DB336 /* TourImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourImage.swift; sourceTree = "<group>"; };
 		1390CC5C2A8BADEC00E34DC3 /* TitleWithButtonHeaderViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleWithButtonHeaderViewDelegate.swift; sourceTree = "<group>"; };
 		1390CC6E2A8E0B2800E34DC3 /* SearchStarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchStarButton.swift; sourceTree = "<group>"; };
+		139AC9112C4FF32400C03F9A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/mock_response_recentSearch.json; sourceTree = "<group>"; };
+		139AC9132C4FF6B700C03F9A /* JsonMockRecentSearchHistoryRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonMockRecentSearchHistoryRepository.swift; sourceTree = "<group>"; };
 		139DEDEA2B163D9A00363E7B /* SearchDestinationCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDestinationCollectionViewLayout.swift; sourceTree = "<group>"; };
 		139DEE0F2B16ADF300363E7B /* SearchDestinationServiceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDestinationServiceCell.swift; sourceTree = "<group>"; };
 		139DEE392B17CAC900363E7B /* SearchDestinationServiceTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDestinationServiceTypeView.swift; sourceTree = "<group>"; };
@@ -2079,6 +2083,7 @@
 			children = (
 				1385F67D2C410F23003DB336 /* JsonMockDestinationScrapRepository.swift */,
 				134055742C44439500EC8877 /* JsonMockDestinationSearchRepository.swift */,
+				139AC9132C4FF6B700C03F9A /* JsonMockRecentSearchHistoryRepository.swift */,
 			);
 			path = JsonMock;
 			sourceTree = "<group>";
@@ -2275,6 +2280,14 @@
 				1340556F2C44171000EC8877 /* mock_response_getAllByKeyword.json */,
 			);
 			path = Destination;
+			sourceTree = "<group>";
+		};
+		139AC90C2C4FF2B900C03F9A /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				139AC9102C4FF32400C03F9A /* mock_response_recentSearch.json */,
+			);
+			path = Search;
 			sourceTree = "<group>";
 		};
 		13BF411E2ADBEC4100F3F082 /* View */ = {
@@ -2818,6 +2831,7 @@
 		151DF1072AEEC53400D5D55B /* MockJson */ = {
 			isa = PBXGroup;
 			children = (
+				139AC90C2C4FF2B900C03F9A /* Search */,
 				1385F67F2C41129C003DB336 /* Destination */,
 				13EB3D1E2BF346CD00CA84F0 /* TourAPI */,
 				15591DDF2BBEA28D00128A9E /* FavoriteDirectory */,
@@ -5001,6 +5015,7 @@
 				158E81F52B9A4D3F0080CCA8 /* mock_response_postContainer.json in Resources */,
 				13BF411D2ADBE42000F3F082 /* onboarding-video.mp4 in Resources */,
 				1518BC292BB0486400FD1A74 /* mock_postComment_toggleCommentHeart_response.json in Resources */,
+				139AC9122C4FF32400C03F9A /* mock_response_recentSearch.json in Resources */,
 				158BEFBB2A0EB2A500C27861 /* Pretendard-Regular.ttf in Resources */,
 				15F0A3F529FD58280049AB33 /* .swiftlint.yml in Resources */,
 				15553BCF2BB348B0000AA896 /* mock_postNestedComment_send_response.json in Resources */,
@@ -5403,6 +5418,7 @@
 				130369662AEC3AA2007E980C /* NSRange+.swift in Sources */,
 				150A543D2BC82C61005D8108 /* BottomBasedTooltipView.swift in Sources */,
 				1581F2D72C43E8A700A06171 /* PostHeartInfo.swift in Sources */,
+				139AC9142C4FF6B700C03F9A /* JsonMockRecentSearchHistoryRepository.swift in Sources */,
 				15CB235B2A109CA4003EAF20 /* PostHeaderContentBottomInfo.swift in Sources */,
 				130304792A24936D00776A0D /* SearchViewModel.swift in Sources */,
 				13EB3D922BF7C74500CA84F0 /* CourseUseCase.swift in Sources */,
@@ -5987,6 +6003,14 @@
 				1385F68D2C411697003DB336 /* en */,
 			);
 			name = mock_response_updateDestinationScrap.json;
+			sourceTree = "<group>";
+		};
+		139AC9102C4FF32400C03F9A /* mock_response_recentSearch.json */ = {
+			isa = PBXVariantGroup;
+			children = (
+				139AC9112C4FF32400C03F9A /* en */,
+			);
+			name = mock_response_recentSearch.json;
 			sourceTree = "<group>";
 		};
 		13E622BD2BD02401003E4FA4 /* mock_reviewWriting_post_response.json */ = {
