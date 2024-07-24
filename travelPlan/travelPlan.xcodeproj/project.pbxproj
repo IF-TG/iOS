@@ -159,6 +159,8 @@
 		139AC9122C4FF32400C03F9A /* mock_response_recentSearch.json in Resources */ = {isa = PBXBuildFile; fileRef = 139AC9102C4FF32400C03F9A /* mock_response_recentSearch.json */; };
 		139AC9142C4FF6B700C03F9A /* JsonMockRecentSearchHistoryRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139AC9132C4FF6B700C03F9A /* JsonMockRecentSearchHistoryRepository.swift */; };
 		139AC9162C50BB4800C03F9A /* RecentSearchHistoryRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139AC9152C50BB4800C03F9A /* RecentSearchHistoryRepositoryTests.swift */; };
+		139AC9182C50E5BD00C03F9A /* DestinationLikeRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139AC9172C50E5BD00C03F9A /* DestinationLikeRepository.swift */; };
+		139AC91A2C50E76800C03F9A /* DefaultDestinationLikeRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139AC9192C50E76800C03F9A /* DefaultDestinationLikeRepository.swift */; };
 		139DEDEB2B163D9A00363E7B /* SearchDestinationCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139DEDEA2B163D9A00363E7B /* SearchDestinationCollectionViewLayout.swift */; };
 		139DEE102B16ADF300363E7B /* SearchDestinationServiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139DEE0F2B16ADF300363E7B /* SearchDestinationServiceCell.swift */; };
 		139DEE3A2B17CAC900363E7B /* SearchDestinationServiceTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139DEE392B17CAC900363E7B /* SearchDestinationServiceTypeView.swift */; };
@@ -1113,6 +1115,8 @@
 		139AC9112C4FF32400C03F9A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/mock_response_recentSearch.json; sourceTree = "<group>"; };
 		139AC9132C4FF6B700C03F9A /* JsonMockRecentSearchHistoryRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonMockRecentSearchHistoryRepository.swift; sourceTree = "<group>"; };
 		139AC9152C50BB4800C03F9A /* RecentSearchHistoryRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearchHistoryRepositoryTests.swift; sourceTree = "<group>"; };
+		139AC9172C50E5BD00C03F9A /* DestinationLikeRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationLikeRepository.swift; sourceTree = "<group>"; };
+		139AC9192C50E76800C03F9A /* DefaultDestinationLikeRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultDestinationLikeRepository.swift; sourceTree = "<group>"; };
 		139DEDEA2B163D9A00363E7B /* SearchDestinationCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDestinationCollectionViewLayout.swift; sourceTree = "<group>"; };
 		139DEE0F2B16ADF300363E7B /* SearchDestinationServiceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDestinationServiceCell.swift; sourceTree = "<group>"; };
 		139DEE392B17CAC900363E7B /* SearchDestinationServiceTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDestinationServiceTypeView.swift; sourceTree = "<group>"; };
@@ -2076,6 +2080,7 @@
 				134055622C43090B00EC8877 /* DefaultDestinationSearchRepository.swift */,
 				13491A9E2C490016002A2B28 /* DefaultRecentSearchHistoryRepository.swift */,
 				13491AB02C4913E5002A2B28 /* DefaultRecommendationSearchHistoryRepository.swift */,
+				139AC9192C50E76800C03F9A /* DefaultDestinationLikeRepository.swift */,
 			);
 			path = Search;
 			sourceTree = "<group>";
@@ -2258,6 +2263,7 @@
 				134055602C43085600EC8877 /* DestinationSearchRepository.swift */,
 				13491A9C2C48FF85002A2B28 /* SearchHistoryRepository.swift */,
 				13491AAE2C4913B0002A2B28 /* RecommendationSearchHistoryRepository.swift */,
+				139AC9172C50E5BD00C03F9A /* DestinationLikeRepository.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -5679,6 +5685,7 @@
 				13EB3CD82BEBF1E800CA84F0 /* ImageSessionProvider.swift in Sources */,
 				15F5A1362BF5DAAE00CDF2F0 /* Error+PaginationError.swift in Sources */,
 				1594F53229FD517E00A58F20 /* AppDelegate.swift in Sources */,
+				139AC91A2C50E76800C03F9A /* DefaultDestinationLikeRepository.swift in Sources */,
 				134CCB672B028D9C00D51D84 /* ReviewWritingContentViewDelegate.swift in Sources */,
 				13405F692AF4478400382796 /* NavigationTitleWithClickView.swift in Sources */,
 				13EB3D3D2BF4C45A00CA84F0 /* TourSearchResultEntity.swift in Sources */,
@@ -5705,6 +5712,7 @@
 				154070932C0F35A9000C9C42 /* Container+.swift in Sources */,
 				15D955AD2ADEA525002BF9C3 /* FeedViewModelable.swift in Sources */,
 				15DA4C832ACD821F003A7900 /* EmptyStateView.swift in Sources */,
+				139AC9182C50E5BD00C03F9A /* DestinationLikeRepository.swift in Sources */,
 				158EFCD12BCA4B9000C40612 /* SettingViewModel.swift in Sources */,
 				134055732C441DA300EC8877 /* ThumbnailDestination.swift in Sources */,
 				158439152BAAC80B00348509 /* FavoritePostViewModel.swift in Sources */,
