@@ -13,8 +13,6 @@ final class DefaultSearchHistoryUseCase {
   private let recentRepository: any RecentSearchHistoryRepository
   private let recommendationRepository: any RecommendationSearchHistoryRepository
   
-  // MARK: - Properties
-  
   // MARK: - LifeCycle
   init(
     recentRepository: any RecentSearchHistoryRepository,
