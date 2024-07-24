@@ -165,14 +165,11 @@ extension MockResponseType {
 
 extension MockResponseType {
   @frozen enum SearchHistoryResponse {
-    case recentSearchOfPost
-    case recentSearchOfDestination
+    case recentSearch
     
     var filePath: String {
       [
-        // TODO: post mock파일 만들기
-        .recentSearchOfPost: "todo: mock파일 만들기!!",
-        .recentSearchOfDestination: "mock_response_recentSearchOfDestination"
+        .recentSearch: "mock_response_recentSearch"
       ][self]!
     }
   }
