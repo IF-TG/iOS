@@ -27,10 +27,13 @@ final class DefaultSearchHistoryUseCase {
 
 extension DefaultSearchHistoryUseCase: SearchHistoryUseCase {
   func fetchHistories(page: Int?, perPage: Int?) -> AnyPublisher<SearchHistories, any Error> {
-    recentRepository.fetchRecentSearchHistory(page: page, perPage: perPage)
+    let recent = recentRepository.fetchRecentSearchHistory(page: page, perPage: perPage)
+    let recommendation = recommendationRepository.fetchHistory()
     
-    // FIXME: - Will Erase
-    return Just(SearchHistories(recent: .init(), recommendation: .init()))
-      .setAnyErrorAndEraseToAnyPublisher()
+    return Publishers.Zip(recent, recommendation)
+      .map {
+        SearchHistories(recent: $0, recommendation: $1)
+      }
+      .eraseToAnyPublisher()
   }
 }

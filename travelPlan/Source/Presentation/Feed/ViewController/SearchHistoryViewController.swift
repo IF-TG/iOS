@@ -131,10 +131,9 @@ final class SearchHistoryViewController: UIViewController {
   }
 }
 
-// MARK: - ViewBindCase
+// MARK: - Bind
 extension SearchHistoryViewController {
-  
-  func bind() {
+  private func bind() {
     let output = self.viewModel.transform(input)
     output
       .receive(on: RunLoop.main)
@@ -154,8 +153,12 @@ extension SearchHistoryViewController {
           navigationController?.navigationBar.endEditing(true)
         case .reloadSections(let sectionIndex):
           collectionView.reloadSections(.init(integer: sectionIndex))
+        case .reloadData:
+          collectionView.reloadData()
         case .none:
           break
+        case .unexpectedError(description: let description):
+          print("viewController 에러 발생 처리: \(description)")
         }
       }
       .store(in: &subscriptions)
