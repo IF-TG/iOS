@@ -18,12 +18,12 @@ final class DestinationScrapRepositoryTests: BaseXCTestCase {
   override func setUp() {
     super.setUp()
     sut = JsonMockDestinationScrapRepository(backgroundQueue: .main)
-    subscriptions = .init()
   }
   
   override func tearDown() {
     super.tearDown()
     sut = nil
+    subscriptions.removeAll()
   }
   
   func test_getDestinationScrapList호출시_스크랩된여행지리스트가return되는지() {

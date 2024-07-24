@@ -21,6 +21,7 @@ final class DestinationSearchRepositoryTests: BaseXCTestCase {
   override func tearDown() {
     super.tearDown()
     sut = nil
+    subscriptions.removeAll()
   }
 }
 
