@@ -29,7 +29,7 @@ extension JsonMockRecentSearchHistoryRepository: RecentSearchHistoryRepository {
   ) -> AnyPublisher<[RecentSearchHistory], any Error> {
     MockUrlProtocol.requestHandler = { _ in
       let mockData = MockResponseType
-        .searchHistory(.recentSearchOfDestination)
+        .searchHistory(.recentSearch)
         .mockDataLoader
       return (HTTPURLResponse(), mockData)
     }
