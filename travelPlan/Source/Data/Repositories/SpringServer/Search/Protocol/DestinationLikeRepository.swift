@@ -10,5 +10,5 @@ import Combine
 
 protocol DestinationLikeRepository {
   /// 여행지 좋아요 추가/삭제를 요청합니다.
-  func toggleDestinationLike(destinationId: Int) -> AnyPublisher<Void, Never>
+  func toggleDestinationLike(destinationId: Int) -> AnyPublisher<DestinationLike, any Error>
 }
