@@ -29,7 +29,7 @@ extension JsonMockDestinationSearchRepository: DestinationSearchRepository {
   ) -> AnyPublisher<[ThumbnailDestination], any Error> {
     MockUrlProtocol.requestHandler = { _ in
       let mockData = MockResponseType
-        .destinationScrap(.getAllByKeyword)
+        .destination(.getAllByKeyword)
         .mockDataLoader
       return (HTTPURLResponse(), mockData)
     }
