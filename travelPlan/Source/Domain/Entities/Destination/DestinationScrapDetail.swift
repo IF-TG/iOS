@@ -8,24 +8,13 @@
 import Foundation
 
 struct DestinationScrapDetail {
-  let id: Id
+  let id: DestinationIdEntity
   let title: String
-  let address: TourAddress
-  let map: TourCoordinate<Double>
+  let address: DestinationAddress
+  let map: DestinationCoordinate<Double>
   let overview: String
   let tel: String
-  let category: Category
+  let category: DestinationCategory
   let thumbnailImageData: Data?
   let isScraped: Bool
-  
-  struct Category {
-    let largeCategory: String
-    let middleCategory: String
-    let smallCategory: String
-  }
-  
-  struct Id {
-    let id: Int64
-    let contentTypdId: Int32
-  }
 }
