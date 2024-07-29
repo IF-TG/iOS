@@ -1,0 +1,38 @@
+{
+    "result": {
+        "destination": {
+            "id": 1,
+            "contentTypeId": 15,
+            "title": "Example Title",
+            "address": "123 Example St",
+            "addressDetail": "Suite 100",
+            "mapX": 37.7749,
+            "mapY": -122.4194,
+            "overview": "Example overview",
+            "tel": "123-456-7890",
+            "category": {
+                "largeCategory": "Category1",
+                "middleCategory": "Category2",
+                "smallCategory": "Category3"
+            },
+            "zipcode": "94103",
+            "thumbnail": "http://example.com/image.png",
+            "scraped": true
+        },
+        "detail": {
+            "ageLimit": "All ages",
+            "startDate": "2023.07.01",
+            "endDate": "2023.07.10",
+            "eventPlace": "Central Park",
+            "program": "Various Performances",
+            "showtime": "10:00 AM - 8:00 PM",
+            "spendTime": "2 hours",
+            "sponsor": "City Council",
+            "usageFee": "Free"
+        },
+        "liked": true
+    },
+    "status": "success",
+    "statusCode": "200",
+    "message": "Request succeeded"
+}
