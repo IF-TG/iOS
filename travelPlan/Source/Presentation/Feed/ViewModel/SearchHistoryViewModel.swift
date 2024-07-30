@@ -116,15 +116,7 @@ extension DefaultSearchHistoryViewModel {
             )
             
             // recent
-            let sortedRecentSearchKeyword = searchHistories.recent.sorted {
-              if let lhsDate = $0.createAt, let rhsDate = $1.createAt {
-                return lhsDate < rhsDate
-              } else if $0.createAt == nil {
-                return false // lhs가 rhs의 뒤에 와야함을 의미
-              } else {
-                return true // lhs가 rhs의 앞에 와야함을 의미
-              }
-            }.map { $0.keyword }
+            let sortedRecentSearchKeyword = searchHistories.recent.sorted { $0 < $1 }.map { $0.keyword }
             
             self.sectionModels.append(
               SearchHistorySectionModel(
