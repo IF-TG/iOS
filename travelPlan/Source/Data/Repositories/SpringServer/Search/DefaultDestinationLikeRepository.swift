@@ -19,10 +19,3 @@ final class DefaultDestinationLikeRepository {
     self.backgroundQueue = backgroundQueue
   }
 }
-
-// MARK: - DestinationLikeRepository
-extension DefaultDestinationLikeRepository: DestinationLikeRepository {
-  func toggleDestinationLike(destinationId: Int) -> AnyPublisher<Void, Never> {
-    <#code#>
-  }
-}
