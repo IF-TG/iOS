@@ -19,12 +19,11 @@ final class DomainAssembly: Swinject.Assembly {
     noticeUseCase(container: container)
     loginUseCase(container: container)
     destinationSearchResultUseCase(container: container)
+    searchHistoryUseCase(container: container)
     
     // TODO: - Tour Use Case
     
     // TODO: - Album Use Case
-    
-    // TODO: - PostReviewWriting Use Case
     
     // TODO: - FavoriteDirectory Use Case
     
@@ -34,6 +33,29 @@ final class DomainAssembly: Swinject.Assembly {
 
 // MARK: - Private Helpers
 private extension DomainAssembly {
+  func searchHistoryUseCase(container: Container) {
+    container.register(SearchHistoryUseCase.self) { r in
+      let recentRepository: RecentSearchHistoryRepository
+      let recommendationRepository: RecommendationSearchHistoryRepository
+      
+#if DEBUG
+      recentRepository = JsonMockRecentSearchHistoryRepository()
+      recommendationRepository = r.resolve(RecommendationSearchHistoryRepository.self)!
+      return DefaultSearchHistoryUseCase(
+        recentRepository: recentRepository,
+        recommendationRepository: recommendationRepository
+      )
+#else
+      recentRepository = r.resolve(RecentSearchHistoryRepository.self)!
+      recommendationRepository = r.resolve(RecommendationSearchHistoryRepository.self)!
+      return DefaultSearchHistoryUseCase(
+        recentRepository: recentRepository,
+        recommendationRepository: recommendationRepository
+      )
+#endif
+    }
+  }
+  
   func destinationSearchResultUseCase(container: Container) {
     container.register(DestinationSearchResultUseCase.self) { r in
       let searchRepository: any DestinationSearchRepository

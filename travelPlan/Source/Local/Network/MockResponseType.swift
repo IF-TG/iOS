@@ -14,6 +14,7 @@ import Foundation
   case postNestedComment(PostNestedCommentResponse)
   case favoriteDirectory(FavoriteDirectory)
   case destinationScrap(DestinationScrapResponse)
+  case searchHistory(SearchHistoryResponse)
   
   var filePath: String {
     return switch self {
@@ -28,7 +29,9 @@ import Foundation
     case .post(let response):
       response.filePath
     case .destinationScrap(let response):
-      response.filPath
+      response.filePath
+    case .searchHistory(let response):
+      response.filePath
     }
   }
   
@@ -149,12 +152,24 @@ extension MockResponseType {
     case toggleDestinationScrap
     case updateDestinationScrap
     case getAllByKeyword
-    var filPath: String {
+    var filePath: String {
       [
         .getAllDestinationScrapsByScrapFolderAndUserId: "mock_response_getDestinationScrapList",
         .toggleDestinationScrap: "mock_response_toggleDestinationScrap",
         .updateDestinationScrap: "mock_response_updateDestinationScrap",
         .getAllByKeyword: "mock_response_getAllByKeyword"
+      ][self]!
+    }
+  }
+}
+
+extension MockResponseType {
+  @frozen enum SearchHistoryResponse {
+    case recentSearch
+    
+    var filePath: String {
+      [
+        .recentSearch: "mock_response_recentSearch"
       ][self]!
     }
   }

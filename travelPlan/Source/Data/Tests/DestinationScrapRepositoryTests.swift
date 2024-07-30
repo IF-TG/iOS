@@ -18,12 +18,12 @@ final class DestinationScrapRepositoryTests: BaseXCTestCase {
   override func setUp() {
     super.setUp()
     sut = JsonMockDestinationScrapRepository(backgroundQueue: .main)
-    subscriptions = .init()
   }
   
   override func tearDown() {
     super.tearDown()
     sut = nil
+    subscriptions.removeAll()
   }
   
   func test_getDestinationScrapList호출시_스크랩된여행지리스트가return되는지() {
@@ -45,7 +45,7 @@ final class DestinationScrapRepositoryTests: BaseXCTestCase {
   
   func test_toggleDestinationScrap호출시_토글결과엔터티가return되는지() {
     // Arrange
-    let id: Int64 = 122
+    let id = 122
     let folderName = "전체"
     
     // Act
@@ -61,7 +61,7 @@ final class DestinationScrapRepositoryTests: BaseXCTestCase {
   
   func test_updateDestinationScrap호출시_업데이트된결과엔터티반환히는지() {
     // Arrange
-    let idList: [Int64] = [1,2,3,4,5,6]
+    let idList = [1,2,3,4,5,6]
     let folderName = "전체"
     
     // Act

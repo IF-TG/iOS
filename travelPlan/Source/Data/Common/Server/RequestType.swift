@@ -16,6 +16,7 @@ import Foundation
   case postNestedComment(PostNestedCommentRequestType)
   case favoritePostInDirectory(FavoritePostInDirectory)
   case destination(DestinationRequestType)
+  case searchHistory(SearchHistoryType)
   
   var path: String {
     return switch self {
@@ -35,6 +36,8 @@ import Foundation
       favoritePost.path
     case .destination(let destination):
       destination.path
+    case .searchHistory(let history):
+      history.path
     }
   }
 }
@@ -211,6 +214,18 @@ extension RequestType {
       case .Detail: return "destination/detail"
       case .scrapList: return "destination/scrap/detail"
       case .search: return "destination/search"
+      }
+    }
+  }
+}
+
+extension RequestType {
+  @frozen enum SearchHistoryType {
+    case getRecentSearchHistory
+    
+    var path: String {
+      switch self {
+      case .getRecentSearchHistory: return "searchHistory"
       }
     }
   }

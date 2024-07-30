@@ -36,12 +36,14 @@ struct SearchHistoryViewModelInput {
 }
 
 enum SearchHistoryViewModelState {
+  case unexpectedError(description: String)
   case none
   case resignFirstResponder
   case presentAlert
   case changeButtonColor(Bool)
   case goDownKeyboard
   case reloadSections(sectionIndex: Int)
+  case reloadData
 }
 
 final class DefaultSearchHistoryViewModel {
@@ -60,11 +62,17 @@ final class DefaultSearchHistoryViewModel {
   private var recentModels: [String] = []
   private let searchType: SearchType
   private let actions: SearchHistoryViewModelActions
+  private let useCase: any SearchHistoryUseCase
   
   // MARK: - LifeCycle
-  init(searchType: SearchType, actions: SearchHistoryViewModelActions) {
+  init(
+    searchType: SearchType,
+    actions: SearchHistoryViewModelActions,
+    useCase: any SearchHistoryUseCase
+  ) {
     self.searchType = searchType
     self.actions = actions
+    self.useCase = useCase
   }
   
   deinit {
@@ -72,9 +80,8 @@ final class DefaultSearchHistoryViewModel {
   }
 }
 
-// MARK: - SearchHistoryViewModel
+// MARK: - Helpers
 extension DefaultSearchHistoryViewModel: SearchHistoryViewModel {
-  
   func transform(_ input: Input) -> Output {
     return Publishers.MergeMany([
       viewDidLoadStream(input),
@@ -89,12 +96,37 @@ extension DefaultSearchHistoryViewModel: SearchHistoryViewModel {
       didTapBackButtonStream(input)
     ]).eraseToAnyPublisher()
   }
-  
+}
+
+// MARK: - Private Helpers
+extension DefaultSearchHistoryViewModel {
   private func viewDidLoadStream(_ input: Input) -> Output {
     return input.viewDidLoad
-      .map { [weak self] in
-        self?.loadData()
-        return State.none
+      .flatMap { [weak self] in
+        guard let self else { return Just(State.none).eraseToAnyPublisher() }
+        
+        return self.useCase.fetchHistories(page: nil, perPage: nil)
+          .map { searchHistories -> State in
+            // recommendation
+            self.sectionModels.append(
+              SearchHistorySectionModel(
+                sectionItem: .recommendation(items: searchHistories.recommendation.map { "#" + $0.keyword }),
+                section: .recommendation(title: "추천 검색")
+              )
+            )
+            
+            // recent
+            let sortedRecentSearchKeyword = searchHistories.recent.sorted { $0 < $1 }.map { $0.keyword }
+            
+            self.sectionModels.append(
+              SearchHistorySectionModel(
+                sectionItem: .recent(items: sortedRecentSearchKeyword), section: .recent(title: "최근 검색")
+              )
+            )
+            return State.reloadData
+          }
+          .catch { Just(State.unexpectedError(description: $0.localizedDescription)).eraseToAnyPublisher() }
+          .eraseToAnyPublisher()
       }
       .eraseToAnyPublisher()
   }
@@ -191,39 +223,12 @@ extension DefaultSearchHistoryViewModel: SearchHistoryViewModel {
   }
   
   private func didTapBackButtonStream(_ input: Input) -> Output {
-    
     return input.didTapBackButton
       .map { [weak self] in
         self?.actions.pop()
         return State.none
       }
       .eraseToAnyPublisher()
-      
-  }
-}
-
-// MARK: - Helpers
-extension DefaultSearchHistoryViewModel {
-  private func loadData() {
-    // recommendation
-    let recommendatoinModels = SearchHistorySectionModel.createRecommendationMock()
-    let transformedModels = recommendatoinModels.map { "#"+$0 }
-    
-    sectionModels.append(
-      SearchHistorySectionModel(
-        sectionItem: .recommendation(items: transformedModels),
-        section: .recommendation(title: SearchHistorySectionModel.createRecommendationHeaderMock())
-      )
-    )
-    
-    // recent
-    self.recentModels = SearchHistorySectionModel.createRecentMock()
-    sectionModels.append(
-      SearchHistorySectionModel(
-        sectionItem: .recent(items: recentModels),
-        section: .recent(title: SearchHistorySectionModel.createRecentHeaderMock())
-      )
-    )
   }
   
   private func removeAllRecentItems() {
