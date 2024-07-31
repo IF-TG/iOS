@@ -1,5 +1,5 @@
 //
-//  SearchDestinationHeaderView.swift
+//  DestinationDetailHeaderView.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 6/12/24.
@@ -8,10 +8,10 @@
 import UIKit
 import SnapKit
 
-final class SearchDestinationHeaderView: UICollectionReusableView {
+final class DestinationDetailHeaderView: UICollectionReusableView {
   enum Constant {
     static var bumperViewHeight: CGFloat {
-      return 38-SearchDestinationCollectionViewLayout.Constant.SectionZero.sectionInsetTop
+      return 38-DestinationDetailCollectionViewLayout.Constant.SectionZero.sectionInsetTop
     }
   }
   
@@ -20,7 +20,7 @@ final class SearchDestinationHeaderView: UICollectionReusableView {
     frame: .zero,
     collectionViewLayout: self.makeCompositionalLayout()
   ).set {
-    $0.register(type: SearchDestinationImageCell.self)
+    $0.register(type: DestinationDetailImageCell.self)
     $0.contentInsetAdjustmentBehavior = .never
     $0.dataSource = self
   }
@@ -47,7 +47,7 @@ final class SearchDestinationHeaderView: UICollectionReusableView {
 }
 
 // MARK: - Helpers
-extension SearchDestinationHeaderView {
+extension DestinationDetailHeaderView {
   func configure(with imageDatas: [Data]) {
     dataSource = imageDatas
     collectionView.reloadData()
@@ -55,7 +55,7 @@ extension SearchDestinationHeaderView {
 }
 
 // MARK: - Private Helpers
-extension SearchDestinationHeaderView {
+extension DestinationDetailHeaderView {
   private func setupStyles() {
     self.clipsToBounds = true
   }
@@ -98,7 +98,7 @@ extension SearchDestinationHeaderView {
 }
 
 // MARK: - UICollectionViewDataSource
-extension SearchDestinationHeaderView: UICollectionViewDataSource {
+extension DestinationDetailHeaderView: UICollectionViewDataSource {
   func collectionView(
     _ collectionView: UICollectionView,
     numberOfItemsInSection section: Int
@@ -111,9 +111,9 @@ extension SearchDestinationHeaderView: UICollectionViewDataSource {
     cellForItemAt indexPath: IndexPath
   ) -> UICollectionViewCell {
     guard let cell = collectionView.dequeueReusableCell(
-      withReuseIdentifier: SearchDestinationImageCell.identifier,
+      withReuseIdentifier: DestinationDetailImageCell.identifier,
       for: indexPath
-    ) as? SearchDestinationImageCell else { return .init() }
+    ) as? DestinationDetailImageCell else { return .init() }
     
     cell.configure(with: dataSource[indexPath.item])
     return cell
@@ -121,7 +121,7 @@ extension SearchDestinationHeaderView: UICollectionViewDataSource {
 }
 
 // MARK: - LayoutSupport
-extension SearchDestinationHeaderView: LayoutSupport {
+extension DestinationDetailHeaderView: LayoutSupport {
   func addSubviews() {
     addSubview(collectionView)
     addSubview(bumperView)

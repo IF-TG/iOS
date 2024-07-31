@@ -1,5 +1,5 @@
 //
-//  SearchDestinationImageCell.swift
+//  DestinationDetailImageCell.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 6/12/24.
@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-final class SearchDestinationImageCell: UICollectionViewCell {
+final class DestinationDetailImageCell: UICollectionViewCell {
   // MARK: - Properties
   private let thumbnailImageView = UIImageView().set {
     $0.backgroundColor = .yg.littleWhite
@@ -28,14 +28,14 @@ final class SearchDestinationImageCell: UICollectionViewCell {
 }
 
 // MARK: - Helpers
-extension SearchDestinationImageCell {
+extension DestinationDetailImageCell {
   func configure(with data: Data) {
     thumbnailImageView.image = UIImage(data: data)
   }
 }
 
 // MARK: - LayoutSupport
-extension SearchDestinationImageCell: LayoutSupport {
+extension DestinationDetailImageCell: LayoutSupport {
   func addSubviews() {
     contentView.addSubview(thumbnailImageView)
   }

@@ -1,5 +1,5 @@
 //
-//  SearchDestinationViewController.swift
+//  DestinationDetailViewController.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 11/27/23.
@@ -18,7 +18,7 @@ enum DestinationType {
   case festival
 }
 
-class SearchDestinationViewController: UIViewController {
+class DestinationDetailViewController: UIViewController {
   enum Common {
     static var backgroundColor: UIColor {
       return .yg.littleWhite
@@ -26,7 +26,7 @@ class SearchDestinationViewController: UIViewController {
   }
   
   // MARK: - Dependencies
-  private let viewModel: any SearchDestinationViewModel
+  private let viewModel: any DestinationDetailViewModel
   
   // MARK: - Properties
   private let landscapeToastView = LandscapeToastView(text: "복사되었습니다.")
@@ -46,7 +46,7 @@ class SearchDestinationViewController: UIViewController {
   }
   private let type: DestinationType
   
-  private let layout = SearchDestinationCollectionViewLayout()
+  private let layout = DestinationDetailCollectionViewLayout()
   
   private lazy var collectionView = UICollectionView(
     frame: .zero,
@@ -54,26 +54,26 @@ class SearchDestinationViewController: UIViewController {
       $0.register(InnerRoundRectReusableView.self, forDecorationViewOfKind: InnerRoundRectReusableView.baseID)
     }
   ).set {
-    $0.register(SearchDestinationHeaderView.self,
+    $0.register(DestinationDetailHeaderView.self,
                 forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-                withReuseIdentifier: SearchDestinationHeaderView.identifier)
-    $0.register(type: SearchDestinationTitleCell.self)
-    $0.register(type: SearchDestinationServiceCell.self)
-    $0.register(type: SearchDestinationContentCell.self)
+                withReuseIdentifier: DestinationDetailHeaderView.identifier)
+    $0.register(type: DestinationDetailTitleCell.self)
+    $0.register(type: DestinationDetailServiceCell.self)
+    $0.register(type: DestinationDetailContentCell.self)
     $0.backgroundColor = Common.backgroundColor
     $0.dataSource = self
     $0.delegate = self
     $0.contentInsetAdjustmentBehavior = .never
   }
   
-  private let input = SearchDestinationViewModelInput()
+  private let input = DestinationDetailViewModelInput()
   
   private var subscriptions = Set<AnyCancellable>()
   
   private var isHeaderViewFirstDequeue = false
   
   // MARK: - LifeCycle
-  init(viewModel: any SearchDestinationViewModel, type: DestinationType) {
+  init(viewModel: any DestinationDetailViewModel, type: DestinationType) {
     self.viewModel = viewModel
     self.type = type
     super.init(nibName: nil, bundle: nil)
@@ -103,7 +103,7 @@ class SearchDestinationViewController: UIViewController {
   }
 }
 
-extension SearchDestinationViewController {
+extension DestinationDetailViewController {
   private func bind() {
     viewModel
       .transform(input)
@@ -124,7 +124,7 @@ extension SearchDestinationViewController {
 }
 
 // MARK: - Private Helpers
-extension SearchDestinationViewController {
+extension DestinationDetailViewController {
   private func setupNavigationBar() {
     setupDefaultBackBarButtonItem(tintColor: .white)
     navigationItem.rightBarButtonItems = [
@@ -151,7 +151,7 @@ extension SearchDestinationViewController {
 }
 
 // MARK: - Actions
-private extension SearchDestinationViewController {
+private extension DestinationDetailViewController {
   @objc func didTapStarButton(_ sender: UIButton) {
     print("Star Button 클릭")
   }
@@ -162,7 +162,7 @@ private extension SearchDestinationViewController {
 }
 
 // MARK: - LayoutSupport
-extension SearchDestinationViewController: LayoutSupport {
+extension DestinationDetailViewController: LayoutSupport {
   func addSubviews() {
     view.addSubview(collectionView)
     collectionView.addSubview(landscapeToastView)
@@ -186,7 +186,7 @@ extension SearchDestinationViewController: LayoutSupport {
 }
 
 // MARK: - UICollectionViewDataSource
-extension SearchDestinationViewController: UICollectionViewDataSource {
+extension DestinationDetailViewController: UICollectionViewDataSource {
   func numberOfSections(in collectionView: UICollectionView) -> Int {
     return viewModel.dataSource.count
   }
@@ -212,9 +212,9 @@ extension SearchDestinationViewController: UICollectionViewDataSource {
     switch viewModel.dataSource[indexPath.section] {
     case .main(let info):
       guard let titleCell = collectionView.dequeueReusableCell(
-        withReuseIdentifier: SearchDestinationTitleCell.id,
+        withReuseIdentifier: DestinationDetailTitleCell.id,
         for: indexPath
-      ) as? SearchDestinationTitleCell else { return .init() }
+      ) as? DestinationDetailTitleCell else { return .init() }
       
       titleCell.configure(mainInfo: info)
       titleCell.bind(to: input.didTapCopyAddressButton)
@@ -225,9 +225,9 @@ extension SearchDestinationViewController: UICollectionViewDataSource {
       
     case .content(let infos):
       guard let contentCell = collectionView.dequeueReusableCell(
-        withReuseIdentifier: SearchDestinationContentCell.id,
+        withReuseIdentifier: DestinationDetailContentCell.id,
         for: indexPath
-      ) as? SearchDestinationContentCell else { return .init() }
+      ) as? DestinationDetailContentCell else { return .init() }
       
       contentCell.configure(with: infos[indexPath.item])
       return contentCell
@@ -241,9 +241,9 @@ extension SearchDestinationViewController: UICollectionViewDataSource {
   ) -> UICollectionReusableView {
     guard let headerView = collectionView.dequeueReusableSupplementaryView(
       ofKind: UICollectionView.elementKindSectionHeader,
-      withReuseIdentifier: SearchDestinationHeaderView.identifier,
+      withReuseIdentifier: DestinationDetailHeaderView.identifier,
       for: indexPath
-    ) as? SearchDestinationHeaderView else { return .init() }
+    ) as? DestinationDetailHeaderView else { return .init() }
     if case .main(let mainInfo) = viewModel.dataSource[indexPath.section] {
       if !isHeaderViewFirstDequeue {
         headerView.configure(with: mainInfo.headerInfo.imageDatas)
@@ -256,13 +256,13 @@ extension SearchDestinationViewController: UICollectionViewDataSource {
 }
 
 // MARK: - UICollectionViewDelegate
-extension SearchDestinationViewController: UICollectionViewDelegate {
+extension DestinationDetailViewController: UICollectionViewDelegate {
   func collectionView(
     _ collectionView: UICollectionView,
     willDisplay cell: UICollectionViewCell,
     forItemAt indexPath: IndexPath
   ) {
-    guard let titleCell = cell as? SearchDestinationTitleCell else { return }
+    guard let titleCell = cell as? DestinationDetailTitleCell else { return }
     titleCell.updateToggleButtonVisibility()
   }
 }

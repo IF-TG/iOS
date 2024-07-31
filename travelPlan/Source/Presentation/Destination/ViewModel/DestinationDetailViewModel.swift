@@ -1,5 +1,5 @@
 //
-//  SearchDestinationViewModel.swift
+//  DestinationDetailViewModel.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 4/28/24.
@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-enum SearchDestinationSection {
+enum DestinationDetailSection {
   case main(Main)
   case temp
   case content([Content])
@@ -31,33 +31,33 @@ enum SearchDestinationSection {
   }
 }
 
-protocol SearchDestinationViewModelDataSourceable {
-  var dataSource: [SearchDestinationSection] { get }
+protocol DestinationDetailViewModelDataSourceable {
+  var dataSource: [DestinationDetailSection] { get }
 }
 
-protocol SearchDestinationViewModel: ViewModelable, SearchDestinationViewModelDataSourceable
-where Input == SearchDestinationViewModelInput,
-      State == SearchDestinationViewModelState,
+protocol DestinationDetailViewModel: ViewModelable, DestinationDetailViewModelDataSourceable
+where Input == DestinationDetailViewModelInput,
+      State == DestinationDetailViewModelState,
       Output == AnyPublisher<State, Never> { }
 
-struct SearchDestinationViewModelInput {
+struct DestinationDetailViewModelInput {
   let viewDidLoad: PassthroughSubject<Void, Never> = .init()
   let didTapCopyAddressButton: PassthroughSubject<Void, Never> = .init()
 }
 
-enum SearchDestinationViewModelState {
+enum DestinationDetailViewModelState {
   case none
   case reloadData
   case appearCopyAlert
 }
 
-final class DefaultSearchDestinationViewModel {
+final class DefaultDestinationDetailViewModel {
   // MARK: - Properties
-  var dataSource = [SearchDestinationSection]()
+  var dataSource = [DestinationDetailSection]()
 }
 
-// MARK: - SearchDestinationViewModel
-extension DefaultSearchDestinationViewModel: SearchDestinationViewModel {
+// MARK: - DestinationDetailViewModel
+extension DefaultDestinationDetailViewModel: DestinationDetailViewModel {
   func transform(_ input: Input) -> Output {
     return Publishers.MergeMany([
       viewDidLoadStream(input),
@@ -69,7 +69,7 @@ extension DefaultSearchDestinationViewModel: SearchDestinationViewModel {
 }
 
 // MARK: - Private Helpers
-extension DefaultSearchDestinationViewModel {
+extension DefaultDestinationDetailViewModel {
   private func didTapCopyAddressButtonStream(_ input: Input) -> Output {
     return input.didTapCopyAddressButton
       .map { _ in
@@ -90,20 +90,20 @@ extension DefaultSearchDestinationViewModel {
                              TempSource.imageData,
                              TempSource.imageData2]
         
-        let section1 = SearchDestinationSection.main(
+        let section1 = DestinationDetailSection.main(
           .init(
             title: "서문수육애국밥서문수육애국밥서문수육애국밥",
             address: "대전 동구 대학로 37대전 동구 대학로 37대전 동구 대학로 37대전 동구 대학로 37대전 동구 대학로 37",
             isSelectedHeart: true,
             heartCount: 10,
-            headerInfo: SearchDestinationSection.Main.Header(imageDatas: thumbnailDatas)
+            headerInfo: DestinationDetailSection.Main.Header(imageDatas: thumbnailDatas)
           )
         )
         
         self?.dataSource.append(section1)
         self?.dataSource.append(.temp) // temp Section2
         
-        let section2 = SearchDestinationSection.content([
+        let section2 = DestinationDetailSection.content([
           .init(title: "🕐영업시간", description: """
                 월 09:00 ~ 18:00
                 화 09:00 ~ 18:00
