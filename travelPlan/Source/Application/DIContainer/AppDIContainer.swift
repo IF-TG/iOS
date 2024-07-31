@@ -20,10 +20,10 @@ final class AppDIContainer {
     assembler.resolver
   }
   
-  static var shared = AppDIContainer()
+//  static var shared = AppDIContainer()
   
   // MARK: - Lifecycle
-  private init() {
+  init() {
     self.container = Container()
     self.assembler = Assembler([], container: container)
     assembler.apply(assemblies: [
@@ -198,5 +198,12 @@ extension AppDIContainer: SearchHistoryCoordinatorDependencies {
     searchKeyword: String
   ) -> SearchResultListCoordinator {
     return resolver.resolve(SearchResultListCoordinator.self, arguments: presenter, searchKeyword)!
+  }
+}
+
+// MARK: - DestinationDetailCoordinatorDependencies
+extension AppDIContainer: DestinationDetailCoordinatorDependencies {
+  func makeDestinationDetailViewController() -> DestinationDetailViewController {
+    resolver.resolve(DestinationDetailViewController.self)!
   }
 }
