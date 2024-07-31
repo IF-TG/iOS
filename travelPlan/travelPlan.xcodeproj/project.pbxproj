@@ -2080,6 +2080,46 @@
 			path = SearchHistory;
 			sourceTree = "<group>";
 		};
+		132ADD9F2C59F74600E76934 /* Photo */ = {
+			isa = PBXGroup;
+			children = (
+				135A07C72BAD6E95003D6C4D /* PhotoEntity.swift */,
+			);
+			path = Photo;
+			sourceTree = "<group>";
+		};
+		132ADDA02C59F75600E76934 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				130CF3832B9248750051DEE8 /* OAuthType.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		132ADDA12C59F77B00E76934 /* Tour */ = {
+			isa = PBXGroup;
+			children = (
+				13E84AEB2BE39C2900B537B6 /* TourDestinationType */,
+				154CA6222BD3AE100066B444 /* TourCommonInfoEntity.swift */,
+				15AE48532BE9395B0035D980 /* TourRetrievedImageEntity.swift */,
+				13EB3CD52BEB689A00CA84F0 /* TourContentId.swift */,
+				13EB3CFE2BED403900CA84F0 /* TourType.swift */,
+				13EB3D3C2BF4C45A00CA84F0 /* TourSearchResultEntity.swift */,
+			);
+			path = Tour;
+			sourceTree = "<group>";
+		};
+		132ADDA22C59F7AB00E76934 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				13491AAC2C49122D002A2B28 /* RecommendationSearchHistory.swift */,
+				13491AA62C490964002A2B28 /* RecentSearchHistory.swift */,
+				13491AA82C490E2F002A2B28 /* SearchHistories.swift */,
+				13491AAA2C490FC2002A2B28 /* SearchRecommendationHistory.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
 		133531F52BA0EE99000A4D9E /* LoginResponseStorage */ = {
 			isa = PBXGroup;
 			children = (
@@ -2731,24 +2771,16 @@
 		151DF0EE2AEEAE1100D5D55B /* Entities */ = {
 			isa = PBXGroup;
 			children = (
+				132ADDA22C59F7AB00E76934 /* Search */,
+				132ADDA12C59F77B00E76934 /* Tour */,
+				132ADDA02C59F75600E76934 /* Login */,
+				132ADD9F2C59F74600E76934 /* Photo */,
 				1385F66C2C3FCAE3003DB336 /* Destination */,
-				13E84AEB2BE39C2900B537B6 /* TourDestinationType */,
 				15CE24142BE3B0B8009EAFEE /* User */,
 				15D37F7E2B978309000E8FDB /* TravelCategory */,
 				15CE24132BE3B024009EAFEE /* Post */,
-				135A07C72BAD6E95003D6C4D /* PhotoEntity.swift */,
-				130CF3832B9248750051DEE8 /* OAuthType.swift */,
 				151DF0EF2AEEAE2100D5D55B /* NoticeEntity.swift */,
 				1564A0A32BBFE25B0045424B /* UpdatedFavoritePostDirectoryName.swift */,
-				154CA6222BD3AE100066B444 /* TourCommonInfoEntity.swift */,
-				15AE48532BE9395B0035D980 /* TourRetrievedImageEntity.swift */,
-				13EB3CD52BEB689A00CA84F0 /* TourContentId.swift */,
-				13EB3CFE2BED403900CA84F0 /* TourType.swift */,
-				13EB3D3C2BF4C45A00CA84F0 /* TourSearchResultEntity.swift */,
-				13491AA62C490964002A2B28 /* RecentSearchHistory.swift */,
-				13491AA82C490E2F002A2B28 /* SearchHistories.swift */,
-				13491AAA2C490FC2002A2B28 /* SearchRecommendationHistory.swift */,
-				13491AAC2C49122D002A2B28 /* RecommendationSearchHistory.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
