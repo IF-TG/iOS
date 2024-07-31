@@ -2120,6 +2120,14 @@
 			path = Search;
 			sourceTree = "<group>";
 		};
+		132ADDA32C59FDB900E76934 /* Destination */ = {
+			isa = PBXGroup;
+			children = (
+				13491A962C451289002A2B28 /* DefaultDestinationSearchResultUseCase.swift */,
+			);
+			path = Destination;
+			sourceTree = "<group>";
+		};
 		133531F52BA0EE99000A4D9E /* LoginResponseStorage */ = {
 			isa = PBXGroup;
 			children = (
@@ -2262,7 +2270,6 @@
 		13491A952C45126F002A2B28 /* Search */ = {
 			isa = PBXGroup;
 			children = (
-				13491A962C451289002A2B28 /* DefaultDestinationSearchResultUseCase.swift */,
 				13491A982C48FC6C002A2B28 /* DefaultSearchHistoryUseCase.swift */,
 			);
 			path = Search;
@@ -2815,6 +2822,7 @@
 		151DF0F22AEEB28600D5D55B /* UseCases */ = {
 			isa = PBXGroup;
 			children = (
+				132ADDA32C59FDB900E76934 /* Destination */,
 				13491A952C45126F002A2B28 /* Search */,
 				151DF0F52AEEB2D200D5D55B /* DefaultNoticeUseCase.swift */,
 				13EB3D902BF7C66B00CA84F0 /* Tour */,
