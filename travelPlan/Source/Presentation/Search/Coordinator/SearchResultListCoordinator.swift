@@ -15,8 +15,8 @@ protocol SearchResultListCoordinatorDependencies: AnyObject {
     actions: SearchResultListViewModelActions,
     text: String
   ) -> SearchResultListViewController
-  // TODO: - SearchDestinationCoordinator 만들어야 함
-//  func makeSearchDestinationCoordinator() -> SearchDestinationCoordinator
+  // TODO: - DestinationDetailCoordinator 만들어야 함
+//  func makeDestinationDetailCoordinator() -> DestinationDetailCoordinator
 }
 
 final class SearchResultListCoordinator: FlowCoordinator {
@@ -86,6 +86,6 @@ extension SearchResultListCoordinator {
   }
   
   private func showDetail() {
-    // TODO: - SearchDestinationViewController를 호출해야 합니다.
+    // TODO: - DestinationDetailViewController를 호출해야 합니다.
   }
 }

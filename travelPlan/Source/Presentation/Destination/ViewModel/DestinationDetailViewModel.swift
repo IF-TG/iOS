@@ -54,6 +54,12 @@ enum DestinationDetailViewModelState {
 final class DefaultDestinationDetailViewModel {
   // MARK: - Properties
   var dataSource = [DestinationDetailSection]()
+  private let useCase: any DestinationDetailUseCase
+  
+  // MARK: - LifeCycle
+  init(useCase: any DestinationDetailUseCase) {
+    self.useCase = useCase
+  }
 }
 
 // MARK: - DestinationDetailViewModel

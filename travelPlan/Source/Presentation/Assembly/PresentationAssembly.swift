@@ -16,7 +16,7 @@ final class PresentationAssembly: Assembly {
     searchPage(container: container)
     searchResultListPage(container: container)
     searchHistoryPage(container: container)
-    
+    destinationDetailPage(container: container)
     
     // MARK: - Search Page
     
@@ -247,6 +247,17 @@ private extension PresentationAssembly {
     container.register(SearchHistoryViewController.self) { (r, actions: SearchHistoryViewModelActions, searchType: SearchType) in
       let viewModel = r.resolve((any SearchHistoryViewModel).self, arguments: actions, searchType)!
       return SearchHistoryViewController(viewModel: viewModel)
+    }
+  }
+  
+  func destinationDetailPage(container: Container) {
+    container.register((any DestinationDetailViewModel).self) { r in
+      let destinationDetailUseCase = r.resolve(DestinationDetailUseCase.self)!
+      return DefaultDestinationDetailViewModel(useCase: destinationDetailUseCase)
+    }
+    
+    container.register(DestinationDetailViewController.self) { r in
+      let viewModel = r.resolve((any DestinationDetailViewModel).self)!
     }
   }
 }
