@@ -56,11 +56,11 @@
 ![image](https://github.com/user-attachments/assets/385d1aca-914c-4d78-b42f-ef6cead6fa76)
 
 - MVVM Input/Output
-| 선정 이유
+> 선정 이유
 - Clean Architecture
-| 선정 이유 pros, cons 
+> 선정 이유 pros, cons 
 - Coordinator
-| 선정 이유 pros, cons 
+> 선정 이유 pros, cons 
 
 ## System Flow
 
