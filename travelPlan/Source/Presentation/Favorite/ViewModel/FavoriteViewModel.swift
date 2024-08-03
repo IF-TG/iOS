@@ -5,7 +5,7 @@
 //  Created by 양승현 on 2023/05/22.
 //
 
-import Realm
+import RealmSwift
 import Foundation
 import Combine
 
@@ -16,6 +16,7 @@ final class FavoriteViewModel {
   // MARK: - Properties
   private var headerDirectory: FavoriteAllDirectoryEntity
   private var favoriteDirectories: [FavoriteDirectoryEntity]
+  let realm = try? Realm()
   
   // MARK: - Lifecycles
   init() {
@@ -69,6 +70,7 @@ extension FavoriteViewModel: FavoriteViewModelable {
     return input.detailPage
       .map { [weak self] indexPath -> State in
         // TODO: - 세부 디렉터리 식별자 키 찾아서 전송해야합니다.
+        // 세부 디렉터리 식별자 키는 문자열임 folder 문자열.
         let item = self?.favoriteDirectories[indexPath.row]
         return .showDetailPage(indexPath, item?.title ?? "찜 상세 화면")
       }.eraseToAnyPublisher()
@@ -77,7 +79,13 @@ extension FavoriteViewModel: FavoriteViewModelable {
   private func changeDirectoryNameStream(_ input: Input) -> Output {
     return input.updateDirectoryName
       .map { [weak self] (title, index) -> State in
+        let directoryName = self?.favoriteDirectories[index].title ?? ""
+        if let favoriteDirectory = self?.realm?.object(
+          ofType: FavoriteDirectoryEntity.self, forPrimaryKey: directoryName) {
+          
+        }
         self?.favoriteDirectories[index].title = title
+        
         let indexPath = IndexPath(row: index, section: 0)
         return .updatedDirecrotyName(indexPath)
       }.eraseToAnyPublisher()
@@ -95,6 +103,9 @@ extension FavoriteViewModel: FavoriteViewModelable {
       .compactMap { $0 }
       .map { [weak self] title in
         let newDirectory = FavoriteDirectoryEntity(title: title)
+        try? self?.realm?.write({
+          self?.realm?.add(newDirectory, update: .modified)
+        })
         self?.favoriteDirectories.append(newDirectory)
         let indexPath = IndexPath(item: (self?.numberOfItems ?? 1)-1, section: 0)
         return .newDirectory(indexPath)
@@ -111,6 +122,15 @@ extension FavoriteViewModel: FavoriteViewModelable {
   private func deleteDirectoryStream(_ input: Input) -> Output {
     return input.deleteDirectory
       .map { [weak self] indexPath -> State in
+        let directoryName = self?.favoriteDirectories[indexPath.row].title ?? ""
+        if let favoriteDirectoryToDelete = self?.realm?.object(
+          ofType: FavoriteDirectoryEntity.self, forPrimaryKey: directoryName
+        ) {
+          try? self?.realm?.write {
+            self?.realm?.delete(favoriteDirectoryToDelete)
+          }
+        }
+
         self?.favoriteDirectories.remove(at: indexPath.row)
         return .deleteDirectory(indexPath)
       }.eraseToAnyPublisher()
