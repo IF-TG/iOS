@@ -64,7 +64,7 @@
 
 ## System Flow
 
- <img src="https://github.com/user-attachments/assets/b966127e-3344-4586-b1e6-7e1f4b1c5d96" height="350" />
+ <img src="https://github.com/user-attachments/assets/a532fd5e-2fc2-4fec-a6fb-c101f9347419" height="450" />
 
 ## 어플리케이션 기능
 
