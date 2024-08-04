@@ -9,10 +9,10 @@ import Foundation
 
 struct TourCommonInfoEntity<T> {
   let id: TourContentId
-  let address: TourAddress
-  let contact: TourContact
-  let coordinate: TourCoordinate<T>
-  let image: TourImage
+  let address: DestinationAddress
+  let contact: DestinationContact
+  let coordinate: DestinationCoordinate<T>
+  let image: DestinationImage
   let overview: String
   let title: String
 }

@@ -14,7 +14,10 @@ import Foundation
   case postNestedComment(PostNestedCommentResponse)
   case favoriteDirectory(FavoriteDirectory)
   case destinationScrap(DestinationScrapResponse)
+  case destination(Destination)
+  case destinationLike(DestinationLike)
   case searchHistory(SearchHistoryResponse)
+  case getDestination(GetDestination)
   
   var filePath: String {
     return switch self {
@@ -31,6 +34,12 @@ import Foundation
     case .destinationScrap(let response):
       response.filePath
     case .searchHistory(let response):
+      response.filePath
+    case .destinationLike(let response):
+      response.filePath
+    case .destination(let response):
+      response.filePath
+    case .getDestination(let response):
       response.filePath
     }
   }
@@ -170,6 +179,49 @@ extension MockResponseType {
     var filePath: String {
       [
         .recentSearch: "mock_response_recentSearch"
+      ][self]!
+    }
+  }
+}
+
+extension MockResponseType {
+  @frozen enum DestinationLike {
+    case toggleLikeDestination
+    
+    var filePath: String {
+      [
+        .toggleLikeDestination: "mock_response_toggleLikeDestination"
+      ][self]!
+    }
+  }
+}
+
+extension MockResponseType {
+  @frozen enum Destination {
+    case getAllByKeyword
+    var filePath: String {
+      [
+        .getAllByKeyword: "mock_response_getAllByKeyword",
+      ][self]!
+    }
+  }
+  
+  @frozen enum GetDestination {
+    case restaurant
+    case festival
+    case leports
+    case shopping
+    case attraction
+    case cultureFacility
+    
+    var filePath: String {
+      [
+        .restaurant: "mock_response_getDestination_restaurant",
+        .festival: "mock_response_getDestination_festival",
+        .leports: "mock_response_getDestination_leports",
+        .shopping: "mock_response_getDestination_shopping",
+        .attraction: "mock_response_getDestination_attraction",
+        .cultureFacility: "mock_response_getDestination_cultureFacility"
       ][self]!
     }
   }

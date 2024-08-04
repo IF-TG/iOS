@@ -1,0 +1,38 @@
+{
+    "result": {
+        "destination": {
+            "id": 1,
+            "contentTypeId": 39,
+            "title": "Example Restaurant",
+            "address": "456 Example Ave",
+            "addressDetail": "Suite 200",
+            "mapX": 37.7749,
+            "mapY": -122.4194,
+            "overview": "A great place to eat.",
+            "tel": "987-654-3210",
+            "category": {
+                "largeCategory": "Food",
+                "middleCategory": "Restaurant",
+                "smallCategory": "Korean"
+            },
+            "zipcode": "94103",
+            "thumbnail": "http://example.com/restaurant.png",
+            "scraped": true
+        },
+        "detail": {
+            "featuredMenu": "Bibimbap",
+            "openDate": "2021-06-01",
+            "openTime": "10:00 AM - 9:00 PM",
+            "packing": "Yes",
+            "parking": "Available",
+            "restDate": "Sunday",
+            "scale": "Large",
+            "seat": "100",
+            "treatMenu": "Korean traditional foods"
+        },
+        "liked": true
+    },
+    "status": "success",
+    "statusCode": "200",
+    "message": "Request succeeded"
+}

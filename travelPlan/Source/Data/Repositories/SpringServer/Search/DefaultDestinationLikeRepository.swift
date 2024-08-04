@@ -19,3 +19,17 @@ final class DefaultDestinationLikeRepository {
     self.backgroundQueue = backgroundQueue
   }
 }
+
+// MARK: - DestinationLikeRepository
+extension DefaultDestinationLikeRepository: DestinationLikeRepository {
+  func toggleDestinationLike(destinationId: Int) -> AnyPublisher<DestinationLike, any Error> {
+    let requestDTO = DestinationLikeRequestDTO(objectId: destinationId)
+    let endpoint = DestinationLikeEndpoints.toggleLikeDestination(with: requestDTO)
+    
+    return service.request(endpoint: endpoint)
+      .receive(on: backgroundQueue)
+      .mapConnectionError()
+      .map { $0.result.toDomain() }
+      .eraseToAnyPublisher()
+  }
+}
