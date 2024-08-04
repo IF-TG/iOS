@@ -9,6 +9,5 @@ import Foundation
 import Combine
 
 protocol DestinationRepository {
-//  func getAllByKeyword() -> AnyPublisher<Void, Never>
-//  func getDestination() -> AnyPublisher<Void, Never>
+  func fetchDestination(destinationId: DestinationIdEntity) -> AnyPublisher<DestinationEntity, any Error>
 }

@@ -22,6 +22,8 @@ enum ConnectionError: LocalizedError {
   case missingRequiredData
   case unexpectedError(error: Error)
   case clientError
+  /// 디코딩 시, iOS에서 정의한 responseDTO와 서버에서 정의한 데이터가 다른 경우
+  case decodingMismatch
   
   var errorDescription: String {
     switch self {
@@ -35,6 +37,8 @@ enum ConnectionError: LocalizedError {
       NSLocalizedString("클라이언트에서 에러가 발생했습니다.", comment: "")
     case .unexpectedError(let error):
       NSLocalizedString("알 수 없는 에러가 발생됬습니다.\n:\(error.localizedDescription)", comment: "")
+    case .decodingMismatch:
+      NSLocalizedString("서버에서 정의한 json과 iOS에서 정의한 json 데이터가 다릅니다.\n:", comment: "")
     }
   }
 }

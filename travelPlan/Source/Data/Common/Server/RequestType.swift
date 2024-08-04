@@ -203,17 +203,19 @@ extension RequestType {
 extension RequestType {
   @frozen enum DestinationRequestType {
     case toggleScrap
-    case Detail
+    case detail
     case scrapList
     case updateScrap
     case search
+    case like
     
     var path: String {
       switch self {
       case .toggleScrap, .updateScrap: return "destination/scrap"
-      case .Detail: return "destination/detail"
+      case .detail: return "destination/detail"
       case .scrapList: return "destination/scrap/detail"
       case .search: return "destination/search"
+      case .like: return "destination/like"
       }
     }
   }

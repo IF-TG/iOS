@@ -1,0 +1,35 @@
+{
+    "result": {
+        "destination": {
+            "id": 1,
+            "contentTypeId": 28,
+            "title": "Example Title",
+            "address": "456 Example Ave",
+            "addressDetail": "Suite 200",
+            "mapX": 37.7749,
+            "mapY": -122.4194,
+            "overview": "A great place to visit.",
+            "tel": "987-654-3210",
+            "category": {
+                "largeCategory": "Attraction",
+                "middleCategory": "Park",
+                "smallCategory": "Amusement"
+            },
+            "zipcode": "94103",
+            "thumbnail": "http://example.com/image.png",
+            "scraped": true
+        },
+        "detail": {
+            "capacity": "Large",
+            "checkBabyStroller": "Yes",
+            "openPeriod": "All year",
+            "parking": "Available",
+            "usageFee": "Free",
+            "usageTime": "9:00 AM - 9:00 PM"
+        },
+        "liked": true
+    },
+    "status": "success",
+    "statusCode": "200",
+    "message": "Request succeeded"
+}

@@ -41,6 +41,14 @@
 		131C4E3D2C174BAF0005D30F /* TravelDestinationCategoryInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131C4E3C2C174BAF0005D30F /* TravelDestinationCategoryInfo.swift */; };
 		131C4E3F2C18C9EC0005D30F /* SearchDestinationHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131C4E3E2C18C9EC0005D30F /* SearchDestinationHeaderView.swift */; };
 		131C4E412C196A290005D30F /* SearchDestinationImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131C4E402C196A290005D30F /* SearchDestinationImageCell.swift */; };
+		131DBBAF2C513BA400BC25AB /* JsonMockDestinationLikeRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131DBBAE2C513BA400BC25AB /* JsonMockDestinationLikeRepository.swift */; };
+		131DBBB22C513D3300BC25AB /* mock_response_toggleLikeDestination.json in Resources */ = {isa = PBXBuildFile; fileRef = 131DBBB02C513D3300BC25AB /* mock_response_toggleLikeDestination.json */; };
+		131DBBB42C513E5D00BC25AB /* DestinationLikeRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131DBBB32C513E5D00BC25AB /* DestinationLikeRepositoryTests.swift */; };
+		131DBBB62C51434800BC25AB /* DestinationAPIEndpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131DBBB52C51434800BC25AB /* DestinationAPIEndpoints.swift */; };
+		131DBBB82C5168A300BC25AB /* DestinationResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131DBBB72C5168A300BC25AB /* DestinationResponseDTO.swift */; };
+		131DBBBA2C5168B800BC25AB /* DestinationRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131DBBB92C5168B800BC25AB /* DestinationRequestDTO.swift */; };
+		131DBBBC2C52196E00BC25AB /* DestinationIdEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131DBBBB2C52196E00BC25AB /* DestinationIdEntity.swift */; };
+		131DBBBE2C5219D500BC25AB /* DestinationCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131DBBBD2C5219D500BC25AB /* DestinationCategory.swift */; };
 		13254FE32A05147200094218 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13254FE22A05147200094218 /* MainTabBarController.swift */; };
 		13254FE52A05157900094218 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13254FE42A05157900094218 /* FeedViewController.swift */; };
 		13254FE72A05158E00094218 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13254FE62A05158E00094218 /* SearchViewController.swift */; };
@@ -69,6 +77,15 @@
 		1335B8B92C31A1AA00DB233B /* DestinationScrapEndpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1335B8B82C31A1AA00DB233B /* DestinationScrapEndpoints.swift */; };
 		1335B8BB2C31AA5000DB233B /* DestinationScrapToggleRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1335B8BA2C31AA5000DB233B /* DestinationScrapToggleRequestDTO.swift */; };
 		1335B8BD2C31AA6300DB233B /* DestinationScrapToggleResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1335B8BC2C31AA6300DB233B /* DestinationScrapToggleResponseDTO.swift */; };
+		133FF0952C521E20000EA6D1 /* DestinationEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 133FF0942C521E20000EA6D1 /* DestinationEntity.swift */; };
+		133FFF8F2C560CC800E7FF1B /* JsonMockDestinationRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 133FFF8E2C560CC800E7FF1B /* JsonMockDestinationRepository.swift */; };
+		133FFF922C560F4B00E7FF1B /* mock_response_getDestination_festival.json in Resources */ = {isa = PBXBuildFile; fileRef = 133FFF902C560F4B00E7FF1B /* mock_response_getDestination_festival.json */; };
+		133FFF952C56AC6700E7FF1B /* mock_response_getDestination_restaurant.json in Resources */ = {isa = PBXBuildFile; fileRef = 133FFF932C56AC6700E7FF1B /* mock_response_getDestination_restaurant.json */; };
+		133FFF972C56AD5B00E7FF1B /* DestinationRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 133FFF962C56AD5B00E7FF1B /* DestinationRepositoryTests.swift */; };
+		133FFF9A2C57BDF800E7FF1B /* mock_response_getDestination_leports.json in Resources */ = {isa = PBXBuildFile; fileRef = 133FFF982C57BDF800E7FF1B /* mock_response_getDestination_leports.json */; };
+		133FFF9D2C57BF2100E7FF1B /* mock_response_getDestination_shopping.json in Resources */ = {isa = PBXBuildFile; fileRef = 133FFF9B2C57BF2100E7FF1B /* mock_response_getDestination_shopping.json */; };
+		133FFFA02C57BFF700E7FF1B /* mock_response_getDestination_attraction.json in Resources */ = {isa = PBXBuildFile; fileRef = 133FFF9E2C57BFF700E7FF1B /* mock_response_getDestination_attraction.json */; };
+		133FFFA32C57C05B00E7FF1B /* mock_response_getDestination_cultureFacility.json in Resources */ = {isa = PBXBuildFile; fileRef = 133FFFA12C57C05B00E7FF1B /* mock_response_getDestination_cultureFacility.json */; };
 		134055612C43085600EC8877 /* DestinationSearchRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 134055602C43085600EC8877 /* DestinationSearchRepository.swift */; };
 		134055632C43090B00EC8877 /* DefaultDestinationSearchRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 134055622C43090B00EC8877 /* DefaultDestinationSearchRepository.swift */; };
 		134055652C430DC700EC8877 /* DestinationSearchEndpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 134055642C430DC700EC8877 /* DestinationSearchEndpoints.swift */; };
@@ -133,6 +150,7 @@
 		1364FBE42B611DA400D89FC9 /* AlbumPhotoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1364FBE32B611DA400D89FC9 /* AlbumPhotoDetailViewController.swift */; };
 		1364FBE62B61A8EA00D89FC9 /* PhotoViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1364FBE52B61A8EA00D89FC9 /* PhotoViewControllerDelegate.swift */; };
 		1375BF582C4970A000DE58B3 /* RealmStorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1375BF572C4970A000DE58B3 /* RealmStorageTests.swift */; };
+		1378E2322C58D119002F9704 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1378E2312C58D119002F9704 /* GoogleService-Info.plist */; };
 		13813A212AAA458000AF6AEB /* SearchHistoryCollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13813A202AAA458000AF6AEB /* SearchHistoryCollectionViewDataSource.swift */; };
 		13813A232AAA459900AF6AEB /* SearchHistoryCollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13813A222AAA459900AF6AEB /* SearchHistoryCollectionViewDelegate.swift */; };
 		1383C81C2B97F44800830F1A /* KeychainManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1383C81B2B97F44800830F1A /* KeychainManagerTests.swift */; };
@@ -151,16 +169,20 @@
 		1385F6882C411582003DB336 /* mock_response_toggleDestinationScrap.json in Resources */ = {isa = PBXBuildFile; fileRef = 1385F6862C411582003DB336 /* mock_response_toggleDestinationScrap.json */; };
 		1385F68E2C411697003DB336 /* mock_response_updateDestinationScrap.json in Resources */ = {isa = PBXBuildFile; fileRef = 1385F68C2C411697003DB336 /* mock_response_updateDestinationScrap.json */; };
 		1385F6902C4118B4003DB336 /* DestinationScrapRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1385F68F2C4118B4003DB336 /* DestinationScrapRepositoryTests.swift */; };
-		1385F6922C427BA6003DB336 /* TourCoordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1385F6912C427BA6003DB336 /* TourCoordinate.swift */; };
-		1385F6942C427BC2003DB336 /* TourContact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1385F6932C427BC2003DB336 /* TourContact.swift */; };
-		1385F6962C427BD8003DB336 /* TourAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1385F6952C427BD8003DB336 /* TourAddress.swift */; };
-		1385F6982C427BE6003DB336 /* TourImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1385F6972C427BE6003DB336 /* TourImage.swift */; };
+		1385F6922C427BA6003DB336 /* DestinationCoordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1385F6912C427BA6003DB336 /* DestinationCoordinate.swift */; };
+		1385F6942C427BC2003DB336 /* DestinationContact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1385F6932C427BC2003DB336 /* DestinationContact.swift */; };
+		1385F6962C427BD8003DB336 /* DestinationAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1385F6952C427BD8003DB336 /* DestinationAddress.swift */; };
+		1385F6982C427BE6003DB336 /* DestinationImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1385F6972C427BE6003DB336 /* DestinationImage.swift */; };
 		1390CC5D2A8BADEC00E34DC3 /* TitleWithButtonHeaderViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1390CC5C2A8BADEC00E34DC3 /* TitleWithButtonHeaderViewDelegate.swift */; };
 		139AC9122C4FF32400C03F9A /* mock_response_recentSearch.json in Resources */ = {isa = PBXBuildFile; fileRef = 139AC9102C4FF32400C03F9A /* mock_response_recentSearch.json */; };
 		139AC9142C4FF6B700C03F9A /* JsonMockRecentSearchHistoryRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139AC9132C4FF6B700C03F9A /* JsonMockRecentSearchHistoryRepository.swift */; };
 		139AC9162C50BB4800C03F9A /* RecentSearchHistoryRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139AC9152C50BB4800C03F9A /* RecentSearchHistoryRepositoryTests.swift */; };
 		139AC9182C50E5BD00C03F9A /* DestinationLikeRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139AC9172C50E5BD00C03F9A /* DestinationLikeRepository.swift */; };
 		139AC91A2C50E76800C03F9A /* DefaultDestinationLikeRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139AC9192C50E76800C03F9A /* DefaultDestinationLikeRepository.swift */; };
+		139AC91C2C50E9A600C03F9A /* DestinationLikeEndpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139AC91B2C50E9A600C03F9A /* DestinationLikeEndpoints.swift */; };
+		139AC91E2C50EAFC00C03F9A /* DestinationLikeResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139AC91D2C50EAFC00C03F9A /* DestinationLikeResponseDTO.swift */; };
+		139AC9202C50EB3500C03F9A /* DestinationLikeRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139AC91F2C50EB3500C03F9A /* DestinationLikeRequestDTO.swift */; };
+		139AC9222C51393800C03F9A /* DestinationLike.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139AC9212C51393800C03F9A /* DestinationLike.swift */; };
 		139DEDEB2B163D9A00363E7B /* SearchDestinationCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139DEDEA2B163D9A00363E7B /* SearchDestinationCollectionViewLayout.swift */; };
 		139DEE102B16ADF300363E7B /* SearchDestinationServiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139DEE0F2B16ADF300363E7B /* SearchDestinationServiceCell.swift */; };
 		139DEE3A2B17CAC900363E7B /* SearchDestinationServiceTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139DEE392B17CAC900363E7B /* SearchDestinationServiceTypeView.swift */; };
@@ -806,7 +828,6 @@
 		15EB39E62AC303C90025FFB4 /* BaseProfileAreaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EB39E52AC303C90025FFB4 /* BaseProfileAreaView.swift */; };
 		15EB3A012AC3477B0025FFB4 /* PostHeaderContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EB3A002AC3477B0025FFB4 /* PostHeaderContentView.swift */; };
 		15EB3A222AC99FCA0025FFB4 /* PostHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158BEF7C2A0E2C5F00C27861 /* PostHeaderView.swift */; };
-		15EBD7222C04E6070090B311 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 15EBD7212C04E6070090B311 /* GoogleService-Info.plist */; };
 		15EBD9172BE8A2BD00BCEA7F /* FirestorePostCommentHeartAPIEndopint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EBD9162BE8A2BD00BCEA7F /* FirestorePostCommentHeartAPIEndopint.swift */; };
 		15EBD91B2BE8D38A00BCEA7F /* PostCommentHeartUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EBD91A2BE8D38A00BCEA7F /* PostCommentHeartUseCase.swift */; };
 		15EBD91D2BE8D3A000BCEA7F /* DefaultPostCommentHeartUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EBD91C2BE8D3A000BCEA7F /* DefaultPostCommentHeartUseCase.swift */; };
@@ -991,6 +1012,14 @@
 		131C4E3C2C174BAF0005D30F /* TravelDestinationCategoryInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelDestinationCategoryInfo.swift; sourceTree = "<group>"; };
 		131C4E3E2C18C9EC0005D30F /* SearchDestinationHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDestinationHeaderView.swift; sourceTree = "<group>"; };
 		131C4E402C196A290005D30F /* SearchDestinationImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDestinationImageCell.swift; sourceTree = "<group>"; };
+		131DBBAE2C513BA400BC25AB /* JsonMockDestinationLikeRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonMockDestinationLikeRepository.swift; sourceTree = "<group>"; };
+		131DBBB12C513D3300BC25AB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/mock_response_toggleLikeDestination.json; sourceTree = "<group>"; };
+		131DBBB32C513E5D00BC25AB /* DestinationLikeRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationLikeRepositoryTests.swift; sourceTree = "<group>"; };
+		131DBBB52C51434800BC25AB /* DestinationAPIEndpoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationAPIEndpoints.swift; sourceTree = "<group>"; };
+		131DBBB72C5168A300BC25AB /* DestinationResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationResponseDTO.swift; sourceTree = "<group>"; };
+		131DBBB92C5168B800BC25AB /* DestinationRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationRequestDTO.swift; sourceTree = "<group>"; };
+		131DBBBB2C52196E00BC25AB /* DestinationIdEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationIdEntity.swift; sourceTree = "<group>"; };
+		131DBBBD2C5219D500BC25AB /* DestinationCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationCategory.swift; sourceTree = "<group>"; };
 		13254FE22A05147200094218 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		13254FE42A05157900094218 /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
 		13254FE62A05158E00094218 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
@@ -1021,6 +1050,15 @@
 		1335B8B82C31A1AA00DB233B /* DestinationScrapEndpoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationScrapEndpoints.swift; sourceTree = "<group>"; };
 		1335B8BA2C31AA5000DB233B /* DestinationScrapToggleRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationScrapToggleRequestDTO.swift; sourceTree = "<group>"; };
 		1335B8BC2C31AA6300DB233B /* DestinationScrapToggleResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationScrapToggleResponseDTO.swift; sourceTree = "<group>"; };
+		133FF0942C521E20000EA6D1 /* DestinationEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationEntity.swift; sourceTree = "<group>"; };
+		133FFF8E2C560CC800E7FF1B /* JsonMockDestinationRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonMockDestinationRepository.swift; sourceTree = "<group>"; };
+		133FFF912C560F4B00E7FF1B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/mock_response_getDestination_festival.json; sourceTree = "<group>"; };
+		133FFF942C56AC6700E7FF1B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/mock_response_getDestination_restaurant.json; sourceTree = "<group>"; };
+		133FFF962C56AD5B00E7FF1B /* DestinationRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationRepositoryTests.swift; sourceTree = "<group>"; };
+		133FFF992C57BDF800E7FF1B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/mock_response_getDestination_leports.json; sourceTree = "<group>"; };
+		133FFF9C2C57BF2100E7FF1B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/mock_response_getDestination_shopping.json; sourceTree = "<group>"; };
+		133FFF9F2C57BFF700E7FF1B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/mock_response_getDestination_attraction.json; sourceTree = "<group>"; };
+		133FFFA22C57C05B00E7FF1B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/mock_response_getDestination_cultureFacility.json; sourceTree = "<group>"; };
 		134055602C43085600EC8877 /* DestinationSearchRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationSearchRepository.swift; sourceTree = "<group>"; };
 		134055622C43090B00EC8877 /* DefaultDestinationSearchRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultDestinationSearchRepository.swift; sourceTree = "<group>"; };
 		134055642C430DC700EC8877 /* DestinationSearchEndpoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationSearchEndpoints.swift; sourceTree = "<group>"; };
@@ -1086,6 +1124,7 @@
 		1364FBE32B611DA400D89FC9 /* AlbumPhotoDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumPhotoDetailViewController.swift; sourceTree = "<group>"; };
 		1364FBE52B61A8EA00D89FC9 /* PhotoViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewControllerDelegate.swift; sourceTree = "<group>"; };
 		1375BF572C4970A000DE58B3 /* RealmStorageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmStorageTests.swift; sourceTree = "<group>"; };
+		1378E2312C58D119002F9704 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		137F19242B85F1F3008408AD /* travelPlan.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = travelPlan.entitlements; sourceTree = "<group>"; };
 		13813A1D2AA9FC2200AF6AEB /* SearchHistoryCollectionViewAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHistoryCollectionViewAdapter.swift; sourceTree = "<group>"; };
 		13813A202AAA458000AF6AEB /* SearchHistoryCollectionViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHistoryCollectionViewDataSource.swift; sourceTree = "<group>"; };
@@ -1106,10 +1145,10 @@
 		1385F6872C411582003DB336 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/mock_response_toggleDestinationScrap.json; sourceTree = "<group>"; };
 		1385F68D2C411697003DB336 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/mock_response_updateDestinationScrap.json; sourceTree = "<group>"; };
 		1385F68F2C4118B4003DB336 /* DestinationScrapRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationScrapRepositoryTests.swift; sourceTree = "<group>"; };
-		1385F6912C427BA6003DB336 /* TourCoordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourCoordinate.swift; sourceTree = "<group>"; };
-		1385F6932C427BC2003DB336 /* TourContact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourContact.swift; sourceTree = "<group>"; };
-		1385F6952C427BD8003DB336 /* TourAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourAddress.swift; sourceTree = "<group>"; };
-		1385F6972C427BE6003DB336 /* TourImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourImage.swift; sourceTree = "<group>"; };
+		1385F6912C427BA6003DB336 /* DestinationCoordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationCoordinate.swift; sourceTree = "<group>"; };
+		1385F6932C427BC2003DB336 /* DestinationContact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationContact.swift; sourceTree = "<group>"; };
+		1385F6952C427BD8003DB336 /* DestinationAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationAddress.swift; sourceTree = "<group>"; };
+		1385F6972C427BE6003DB336 /* DestinationImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationImage.swift; sourceTree = "<group>"; };
 		1390CC5C2A8BADEC00E34DC3 /* TitleWithButtonHeaderViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleWithButtonHeaderViewDelegate.swift; sourceTree = "<group>"; };
 		1390CC6E2A8E0B2800E34DC3 /* SearchStarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchStarButton.swift; sourceTree = "<group>"; };
 		139AC9112C4FF32400C03F9A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/mock_response_recentSearch.json; sourceTree = "<group>"; };
@@ -1117,6 +1156,10 @@
 		139AC9152C50BB4800C03F9A /* RecentSearchHistoryRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearchHistoryRepositoryTests.swift; sourceTree = "<group>"; };
 		139AC9172C50E5BD00C03F9A /* DestinationLikeRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationLikeRepository.swift; sourceTree = "<group>"; };
 		139AC9192C50E76800C03F9A /* DefaultDestinationLikeRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultDestinationLikeRepository.swift; sourceTree = "<group>"; };
+		139AC91B2C50E9A600C03F9A /* DestinationLikeEndpoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationLikeEndpoints.swift; sourceTree = "<group>"; };
+		139AC91D2C50EAFC00C03F9A /* DestinationLikeResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationLikeResponseDTO.swift; sourceTree = "<group>"; };
+		139AC91F2C50EB3500C03F9A /* DestinationLikeRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationLikeRequestDTO.swift; sourceTree = "<group>"; };
+		139AC9212C51393800C03F9A /* DestinationLike.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationLike.swift; sourceTree = "<group>"; };
 		139DEDEA2B163D9A00363E7B /* SearchDestinationCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDestinationCollectionViewLayout.swift; sourceTree = "<group>"; };
 		139DEE0F2B16ADF300363E7B /* SearchDestinationServiceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDestinationServiceCell.swift; sourceTree = "<group>"; };
 		139DEE392B17CAC900363E7B /* SearchDestinationServiceTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDestinationServiceTypeView.swift; sourceTree = "<group>"; };
@@ -1763,7 +1806,6 @@
 		15EA6B342ACEF627002783F0 /* EmptyStateBasedContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateBasedContentViewController.swift; sourceTree = "<group>"; };
 		15EB39E52AC303C90025FFB4 /* BaseProfileAreaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseProfileAreaView.swift; sourceTree = "<group>"; };
 		15EB3A002AC3477B0025FFB4 /* PostHeaderContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostHeaderContentView.swift; sourceTree = "<group>"; };
-		15EBD7212C04E6070090B311 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		15EBD9162BE8A2BD00BCEA7F /* FirestorePostCommentHeartAPIEndopint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestorePostCommentHeartAPIEndopint.swift; sourceTree = "<group>"; };
 		15EBD9182BE8AC9400BCEA7F /* FirestorePostCommentHeartRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestorePostCommentHeartRepositoryTests.swift; sourceTree = "<group>"; };
 		15EBD91A2BE8D38A00BCEA7F /* PostCommentHeartUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCommentHeartUseCase.swift; sourceTree = "<group>"; };
@@ -2038,6 +2080,54 @@
 			path = SearchHistory;
 			sourceTree = "<group>";
 		};
+		132ADD9F2C59F74600E76934 /* Photo */ = {
+			isa = PBXGroup;
+			children = (
+				135A07C72BAD6E95003D6C4D /* PhotoEntity.swift */,
+			);
+			path = Photo;
+			sourceTree = "<group>";
+		};
+		132ADDA02C59F75600E76934 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				130CF3832B9248750051DEE8 /* OAuthType.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		132ADDA12C59F77B00E76934 /* Tour */ = {
+			isa = PBXGroup;
+			children = (
+				13E84AEB2BE39C2900B537B6 /* TourDestinationType */,
+				154CA6222BD3AE100066B444 /* TourCommonInfoEntity.swift */,
+				15AE48532BE9395B0035D980 /* TourRetrievedImageEntity.swift */,
+				13EB3CD52BEB689A00CA84F0 /* TourContentId.swift */,
+				13EB3CFE2BED403900CA84F0 /* TourType.swift */,
+				13EB3D3C2BF4C45A00CA84F0 /* TourSearchResultEntity.swift */,
+			);
+			path = Tour;
+			sourceTree = "<group>";
+		};
+		132ADDA22C59F7AB00E76934 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				13491AAC2C49122D002A2B28 /* RecommendationSearchHistory.swift */,
+				13491AA62C490964002A2B28 /* RecentSearchHistory.swift */,
+				13491AA82C490E2F002A2B28 /* SearchHistories.swift */,
+				13491AAA2C490FC2002A2B28 /* SearchRecommendationHistory.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		132ADDA32C59FDB900E76934 /* Destination */ = {
+			isa = PBXGroup;
+			children = (
+				13491A962C451289002A2B28 /* DefaultDestinationSearchResultUseCase.swift */,
+			);
+			path = Destination;
+			sourceTree = "<group>";
+		};
 		133531F52BA0EE99000A4D9E /* LoginResponseStorage */ = {
 			isa = PBXGroup;
 			children = (
@@ -2091,6 +2181,8 @@
 				1385F67D2C410F23003DB336 /* JsonMockDestinationScrapRepository.swift */,
 				134055742C44439500EC8877 /* JsonMockDestinationSearchRepository.swift */,
 				139AC9132C4FF6B700C03F9A /* JsonMockRecentSearchHistoryRepository.swift */,
+				131DBBAE2C513BA400BC25AB /* JsonMockDestinationLikeRepository.swift */,
+				133FFF8E2C560CC800E7FF1B /* JsonMockDestinationRepository.swift */,
 			);
 			path = JsonMock;
 			sourceTree = "<group>";
@@ -2178,7 +2270,6 @@
 		13491A952C45126F002A2B28 /* Search */ = {
 			isa = PBXGroup;
 			children = (
-				13491A962C451289002A2B28 /* DefaultDestinationSearchResultUseCase.swift */,
 				13491A982C48FC6C002A2B28 /* DefaultSearchHistoryUseCase.swift */,
 			);
 			path = Search;
@@ -2275,6 +2366,14 @@
 				1385F6732C405364003DB336 /* DestinationScrapDetail.swift */,
 				1385F6792C407937003DB336 /* UpdatedDestinationScrap.swift */,
 				134055722C441DA300EC8877 /* ThumbnailDestination.swift */,
+				139AC9212C51393800C03F9A /* DestinationLike.swift */,
+				1385F6912C427BA6003DB336 /* DestinationCoordinate.swift */,
+				1385F6932C427BC2003DB336 /* DestinationContact.swift */,
+				1385F6952C427BD8003DB336 /* DestinationAddress.swift */,
+				1385F6972C427BE6003DB336 /* DestinationImage.swift */,
+				131DBBBB2C52196E00BC25AB /* DestinationIdEntity.swift */,
+				131DBBBD2C5219D500BC25AB /* DestinationCategory.swift */,
+				133FF0942C521E20000EA6D1 /* DestinationEntity.swift */,
 			);
 			path = Destination;
 			sourceTree = "<group>";
@@ -2286,6 +2385,13 @@
 				1385F6862C411582003DB336 /* mock_response_toggleDestinationScrap.json */,
 				1385F68C2C411697003DB336 /* mock_response_updateDestinationScrap.json */,
 				1340556F2C44171000EC8877 /* mock_response_getAllByKeyword.json */,
+				131DBBB02C513D3300BC25AB /* mock_response_toggleLikeDestination.json */,
+				133FFF902C560F4B00E7FF1B /* mock_response_getDestination_festival.json */,
+				133FFF932C56AC6700E7FF1B /* mock_response_getDestination_restaurant.json */,
+				133FFF982C57BDF800E7FF1B /* mock_response_getDestination_leports.json */,
+				133FFF9B2C57BF2100E7FF1B /* mock_response_getDestination_shopping.json */,
+				133FFF9E2C57BFF700E7FF1B /* mock_response_getDestination_attraction.json */,
+				133FFFA12C57C05B00E7FF1B /* mock_response_getDestination_cultureFacility.json */,
 			);
 			path = Destination;
 			sourceTree = "<group>";
@@ -2672,28 +2778,16 @@
 		151DF0EE2AEEAE1100D5D55B /* Entities */ = {
 			isa = PBXGroup;
 			children = (
+				132ADDA22C59F7AB00E76934 /* Search */,
+				132ADDA12C59F77B00E76934 /* Tour */,
+				132ADDA02C59F75600E76934 /* Login */,
+				132ADD9F2C59F74600E76934 /* Photo */,
 				1385F66C2C3FCAE3003DB336 /* Destination */,
-				13E84AEB2BE39C2900B537B6 /* TourDestinationType */,
 				15CE24142BE3B0B8009EAFEE /* User */,
 				15D37F7E2B978309000E8FDB /* TravelCategory */,
 				15CE24132BE3B024009EAFEE /* Post */,
-				135A07C72BAD6E95003D6C4D /* PhotoEntity.swift */,
-				130CF3832B9248750051DEE8 /* OAuthType.swift */,
 				151DF0EF2AEEAE2100D5D55B /* NoticeEntity.swift */,
 				1564A0A32BBFE25B0045424B /* UpdatedFavoritePostDirectoryName.swift */,
-				154CA6222BD3AE100066B444 /* TourCommonInfoEntity.swift */,
-				15AE48532BE9395B0035D980 /* TourRetrievedImageEntity.swift */,
-				13EB3CD52BEB689A00CA84F0 /* TourContentId.swift */,
-				13EB3CFE2BED403900CA84F0 /* TourType.swift */,
-				13EB3D3C2BF4C45A00CA84F0 /* TourSearchResultEntity.swift */,
-				1385F6912C427BA6003DB336 /* TourCoordinate.swift */,
-				1385F6932C427BC2003DB336 /* TourContact.swift */,
-				1385F6952C427BD8003DB336 /* TourAddress.swift */,
-				1385F6972C427BE6003DB336 /* TourImage.swift */,
-				13491AA62C490964002A2B28 /* RecentSearchHistory.swift */,
-				13491AA82C490E2F002A2B28 /* SearchHistories.swift */,
-				13491AAA2C490FC2002A2B28 /* SearchRecommendationHistory.swift */,
-				13491AAC2C49122D002A2B28 /* RecommendationSearchHistory.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -2728,6 +2822,7 @@
 		151DF0F22AEEB28600D5D55B /* UseCases */ = {
 			isa = PBXGroup;
 			children = (
+				132ADDA32C59FDB900E76934 /* Destination */,
 				13491A952C45126F002A2B28 /* Search */,
 				151DF0F52AEEB2D200D5D55B /* DefaultNoticeUseCase.swift */,
 				13EB3D902BF7C66B00CA84F0 /* Tour */,
@@ -2823,6 +2918,8 @@
 				1385F6772C4068F4003DB336 /* DestinationScrapUpdateResponseDTO.swift */,
 				134055682C43276B00EC8877 /* DestinationSearchResultResponseDTO.swift */,
 				13491AA42C4902D7002A2B28 /* RecentSearchHistoryResponseDTO.swift */,
+				139AC91D2C50EAFC00C03F9A /* DestinationLikeResponseDTO.swift */,
+				131DBBB72C5168A300BC25AB /* DestinationResponseDTO.swift */,
 			);
 			path = ResponseDTO;
 			sourceTree = "<group>";
@@ -3345,6 +3442,8 @@
 				1335B8B82C31A1AA00DB233B /* DestinationScrapEndpoints.swift */,
 				134055642C430DC700EC8877 /* DestinationSearchEndpoints.swift */,
 				13491AA02C49010E002A2B28 /* SearchHistoryEndpoints.swift */,
+				139AC91B2C50E9A600C03F9A /* DestinationLikeEndpoints.swift */,
+				131DBBB52C51434800BC25AB /* DestinationAPIEndpoints.swift */,
 			);
 			path = Server;
 			sourceTree = "<group>";
@@ -3722,7 +3821,7 @@
 			isa = PBXGroup;
 			children = (
 				15C36D9C2C062DDD00673C4B /* travelPlanRelease.entitlements */,
-				15EBD7212C04E6070090B311 /* GoogleService-Info.plist */,
+				1378E2312C58D119002F9704 /* GoogleService-Info.plist */,
 				154CA5FA2BD38EAA0066B444 /* Secrets.xcconfig */,
 				137F19242B85F1F3008408AD /* travelPlan.entitlements */,
 				15F0A3F429FD58280049AB33 /* .swiftlint.yml */,
@@ -4288,6 +4387,8 @@
 				1385F6752C4068C5003DB336 /* DestinationScrapUpdateRequestDTO.swift */,
 				134055662C430E4100EC8877 /* DestinationSearchRequestDTO.swift */,
 				13491AA22C4902C7002A2B28 /* RecentSearchHistoryRequestDTO.swift */,
+				139AC91F2C50EB3500C03F9A /* DestinationLikeRequestDTO.swift */,
+				131DBBB92C5168B800BC25AB /* DestinationRequestDTO.swift */,
 			);
 			path = RequestDTO;
 			sourceTree = "<group>";
@@ -4356,6 +4457,8 @@
 				1383C81B2B97F44800830F1A /* KeychainManagerTests.swift */,
 				1375BF572C4970A000DE58B3 /* RealmStorageTests.swift */,
 				139AC9152C50BB4800C03F9A /* RecentSearchHistoryRepositoryTests.swift */,
+				131DBBB32C513E5D00BC25AB /* DestinationLikeRepositoryTests.swift */,
+				133FFF962C56AD5B00E7FF1B /* DestinationRepositoryTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -5019,6 +5122,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				131DBBB22C513D3300BC25AB /* mock_response_toggleLikeDestination.json in Resources */,
+				133FFFA02C57BFF700E7FF1B /* mock_response_getDestination_attraction.json in Resources */,
 				154CA5FB2BD38EAA0066B444 /* Secrets.xcconfig in Resources */,
 				13EB3D282BF35CC800CA84F0 /* mock_tourAPI_introductionInfo_shopping.json in Resources */,
 				158E81F52B9A4D3F0080CCA8 /* mock_response_postContainer.json in Resources */,
@@ -5028,17 +5133,22 @@
 				158BEFBB2A0EB2A500C27861 /* Pretendard-Regular.ttf in Resources */,
 				15F0A3F529FD58280049AB33 /* .swiftlint.yml in Resources */,
 				15553BCF2BB348B0000AA896 /* mock_postNestedComment_send_response.json in Resources */,
+				1378E2322C58D119002F9704 /* GoogleService-Info.plist in Resources */,
+				133FFF9A2C57BDF800E7FF1B /* mock_response_getDestination_leports.json in Resources */,
 				15BE6BEF2BAF1FD4009A2568 /* mock_response_postComments_whenCommentSend.json in Resources */,
 				1594F53E29FD517F00A58F20 /* LaunchScreen.storyboard in Resources */,
 				13E622BF2BD02401003E4FA4 /* mock_reviewWriting_post_response.json in Resources */,
 				13EB3D252BF35C3600CA84F0 /* mock_tourAPI_introductionInfo_attraction.json in Resources */,
 				13EB3D8D2BF71EC400CA84F0 /* mock_tourAPI_introductionInfo_course.json in Resources */,
 				15BE6BD42BAEF83D009A2568 /* mock_response_postCommentContainer.json in Resources */,
+				133FFF952C56AC6700E7FF1B /* mock_response_getDestination_restaurant.json in Resources */,
 				159958762B0D988400B2E4DC /* Palette.xcassets in Resources */,
 				158BEFBC2A0EB2A500C27861 /* Pretendard-SemiBold.ttf in Resources */,
 				1564A0A62BBFE3C60045424B /* mock_favoritePostDirectoryName_update_response.json in Resources */,
 				1385F6882C411582003DB336 /* mock_response_toggleDestinationScrap.json in Resources */,
 				1385F68E2C411697003DB336 /* mock_response_updateDestinationScrap.json in Resources */,
+				133FFF922C560F4B00E7FF1B /* mock_response_getDestination_festival.json in Resources */,
+				133FFFA32C57C05B00E7FF1B /* mock_response_getDestination_cultureFacility.json in Resources */,
 				1518BC1F2BB02DEE00FD1A74 /* mock_postComment_delete_response.json in Resources */,
 				158BEFBF2A0EB2A500C27861 /* Pretendard-Thin.ttf in Resources */,
 				1518BC212BB03BF300FD1A74 /* mock_postComment_fetchComments_response.json in Resources */,
@@ -5054,6 +5164,7 @@
 				15FD50972BB45A78006CCCDD /* mock_postNestedComemnt_delete_response.json in Resources */,
 				13EB3D2E2BF35D5A00CA84F0 /* mock_tourAPI_introductionInfo_leports.json in Resources */,
 				15EBDBBD2BC0236C00A8A91C /* mock_posts_response.json in Resources */,
+				133FFF9D2C57BF2100E7FF1B /* mock_response_getDestination_shopping.json in Resources */,
 				158BEFBE2A0EB2A500C27861 /* Pretendard-ExtraBold.ttf in Resources */,
 				13EB3D2B2BF35D2900CA84F0 /* mock_tourAPI_introductionInfo_cultureFacility.json in Resources */,
 				15591DE12BBEA2B900128A9E /* mock_favoritePosts_fetch_response.json in Resources */,
@@ -5063,7 +5174,6 @@
 				158BEFB82A0EB2A500C27861 /* Pretendard-Light.ttf in Resources */,
 				158BEFB92A0EB2A500C27861 /* Pretendard-ExtraLight.ttf in Resources */,
 				15FD50932BB4540A006CCCDD /* mock_postNestedComment_update_response.json in Resources */,
-				15EBD7222C04E6070090B311 /* GoogleService-Info.plist in Resources */,
 				158BEFC02A0EB2A500C27861 /* Pretendard-Black.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -5101,6 +5211,7 @@
 				15ABC4272BF3588800B9FA74 /* StubPostNestedCommentHeartRepository.swift in Sources */,
 				159851CA2BEDF81D001262BD /* Combine+XCTestHelpers.swift in Sources */,
 				15803C3F2BD8F5F900D83F2B /* XMLParsingServiceTests.swift in Sources */,
+				131DBBB42C513E5D00BC25AB /* DestinationLikeRepositoryTests.swift in Sources */,
 				1385F6902C4118B4003DB336 /* DestinationScrapRepositoryTests.swift in Sources */,
 				15D6559A2B8E1CCB00466FEC /* UserInfoAPIEndpointTests.swift in Sources */,
 				1335320E2BA469E3000A4D9E /* DataConverterTests.swift in Sources */,
@@ -5152,6 +5263,7 @@
 				15D284062C204FC700B39AC8 /* FirestoreWhatsNewNotificationRepoTests.swift in Sources */,
 				1526ECF82BF6435800B629FB /* StubPostHeartRepository.swift in Sources */,
 				1588F20E2C4258F0005C5EA8 /* PostHeartUseCaseImplTests.swift in Sources */,
+				133FFF972C56AD5B00E7FF1B /* DestinationRepositoryTests.swift in Sources */,
 				13EB3CCD2BEA6B7900CA84F0 /* DefaultTourFestivalInfoRepositoryTests.swift in Sources */,
 				13EB3D9C2BF7DDFA00CA84F0 /* CourseUseCaseTests.swift in Sources */,
 				1526ECEC2BF6367B00B629FB /* DefaultPostFetchUseCaseTests.swift in Sources */,
@@ -5241,7 +5353,7 @@
 				15D3882F2B01504900039946 /* IconWithLabelStackView.swift in Sources */,
 				1586D3042AB193F7001D4A80 /* Season.swift in Sources */,
 				130CF3732B8F8A040051DEE8 /* LoginAPIEndPoints.swift in Sources */,
-				1385F6942C427BC2003DB336 /* TourContact.swift in Sources */,
+				1385F6942C427BC2003DB336 /* DestinationContact.swift in Sources */,
 				15B5E7A72BBAE8B800C19F56 /* DefaultUserBlockUseCase.swift in Sources */,
 				154070AB2C103D2D000C9C42 /* AppDIContainer+Resolver.swift in Sources */,
 				15D284002C2049BD00B39AC8 /* FirestoreWhatsNewNotificaitonEndpoint.swift in Sources */,
@@ -5250,6 +5362,7 @@
 				15B9285B2AF9DEAA003A20D4 /* PostDetailViewController.swift in Sources */,
 				13EB3D162BF0AE2C00CA84F0 /* IntroductionInfoLeportsEntity.swift in Sources */,
 				15FFAC012AD5D6710013DB57 /* FavoriteDirectorySettingViewDelegate.swift in Sources */,
+				133FFF8F2C560CC800E7FF1B /* JsonMockDestinationRepository.swift in Sources */,
 				15869CEF2BF4FE8200FB342B /* PostCommentsAndPostLikeStateFetchUseCase.swift in Sources */,
 				1543DC942BC53D4B0041852F /* ReviewWritingThemeSectionHeader.swift in Sources */,
 				154FBC1A2BC2D4C30070D2FE /* PostDetailViewController+TableViewHelpers.swift in Sources */,
@@ -5277,6 +5390,7 @@
 				1518BC132BB00DB200FD1A74 /* PostCommentUpdateResponseDTO.swift in Sources */,
 				15FEB5EC2A050A99000A5F33 /* ViewModelProtocols.swift in Sources */,
 				15C466AD2BBACE2C00609DDD /* DefaultPhotoService.swift in Sources */,
+				133FF0952C521E20000EA6D1 /* DestinationEntity.swift in Sources */,
 				159F38BB2AFA9F32000A24C2 /* PostDetailCategoryHeaderView.swift in Sources */,
 				15E1550E2BAB47F400582E12 /* BottomNextPageIndicatorCell.swift in Sources */,
 				159851E72BEE2B2C001262BD /* PostNestedCommentHeartsResponseDTO.swift in Sources */,
@@ -5292,6 +5406,7 @@
 				15F2A01E2B1584880014603D /* SettingUserNameTextField.swift in Sources */,
 				154CA5FF2BD395030066B444 /* SecretManager.swift in Sources */,
 				15FFAC0B2AD7C22B0013DB57 /* RequestType.swift in Sources */,
+				131DBBB82C5168A300BC25AB /* DestinationResponseDTO.swift in Sources */,
 				15710CB82A132C630023C19E /* FeedPostSearchBarItem.swift in Sources */,
 				131A110A2AB509FB007BDD66 /* UIView+roundCorners.swift in Sources */,
 				15EE50F52BF9BDF700628FC9 /* NicknameValidateState.swift in Sources */,
@@ -5335,6 +5450,7 @@
 				1540708F2C0F1BDA000C9C42 /* CoreAssembly.swift in Sources */,
 				15F0D1BE2A52940F00D04773 /* PostViewBottomSheetViewController.swift in Sources */,
 				157ADC9E2ACFAAFA00D37680 /* FavoritePostViewAdapter.swift in Sources */,
+				131DBBBE2C5219D500BC25AB /* DestinationCategory.swift in Sources */,
 				13EB3D982BF7D54600CA84F0 /* DefaultCourseUseCase.swift in Sources */,
 				13E746772B4D303E007D5C15 /* PhotoCellDelegate.swift in Sources */,
 				15C83F8A2AB2134D00DDB536 /* BottomSheetView.swift in Sources */,
@@ -5342,6 +5458,7 @@
 				154CA6132BD3A6CC0066B444 /* TourApiCommonInfoResponseDTO.swift in Sources */,
 				13405F042AED899800382796 /* KakaoLoginButton.swift in Sources */,
 				1526ED1C2BF647F200B629FB /* DefaultPostSearchUseCase.swift in Sources */,
+				139AC91C2C50E9A600C03F9A /* DestinationLikeEndpoints.swift in Sources */,
 				15BE6BEC2BAF1DB3009A2568 /* MockPostCommentRepository.swift in Sources */,
 				15EE50F32BF9BCDE00628FC9 /* NicknameValidationUseCase.swift in Sources */,
 				13BF41202ADBEC8C00F3F082 /* LoginStartView.swift in Sources */,
@@ -5371,6 +5488,7 @@
 				151DF0F42AEEB29500D5D55B /* NoticeUseCase.swift in Sources */,
 				15EE50F92BF9BE4700628FC9 /* DefaultUserNicknameSettingUseCase.swift in Sources */,
 				13813A212AAA458000AF6AEB /* SearchHistoryCollectionViewDataSource.swift in Sources */,
+				131DBBB62C51434800BC25AB /* DestinationAPIEndpoints.swift in Sources */,
 				1343840B2B480360005034E0 /* BaseNavigationLeftButton.swift in Sources */,
 				134055612C43085600EC8877 /* DestinationSearchRepository.swift in Sources */,
 				15F0D1B42A51BFB800D04773 /* SearchHistoryCoordinator.swift in Sources */,
@@ -5383,6 +5501,7 @@
 				139DEE102B16ADF300363E7B /* SearchDestinationServiceCell.swift in Sources */,
 				1335B8BD2C31AA6300DB233B /* DestinationScrapToggleResponseDTO.swift in Sources */,
 				15FFABFF2AD5D57B0013DB57 /* FavoriteInfo.swift in Sources */,
+				139AC9202C50EB3500C03F9A /* DestinationLikeRequestDTO.swift in Sources */,
 				15A4F28B2ACC072A001AA51D /* PrimaryColorToneRoundLabel.swift in Sources */,
 				1325508E2A13EE8E00094218 /* PostRecentSearchHeaderView.swift in Sources */,
 				13300FA82AC0804400952757 /* CellConfigurable.swift in Sources */,
@@ -5497,7 +5616,7 @@
 				15553BC82BB34643000AA896 /* PostNestedCommentUseCase.swift in Sources */,
 				159958792B0DC51900B2E4DC /* PostCellWithOneThumbnail.swift in Sources */,
 				13EB3D392BF4B9A500CA84F0 /* ShoppingEntity.swift in Sources */,
-				1385F6922C427BA6003DB336 /* TourCoordinate.swift in Sources */,
+				1385F6922C427BA6003DB336 /* DestinationCoordinate.swift in Sources */,
 				1594A44C2C04F25C00428D41 /* PostViewDelegate.swift in Sources */,
 				130CF3842B9248750051DEE8 /* OAuthType.swift in Sources */,
 				15FD508D2BB44F9E006CCCDD /* PostNestedCommentUpdateRequestDTO.swift in Sources */,
@@ -5574,7 +5693,7 @@
 				15F4AF462BC6B2E800E9C20E /* UITableView+Helpers.swift in Sources */,
 				1546DF322B0AF54300B49A55 /* ImageMemoryCachable.swift in Sources */,
 				15EA6B352ACEF627002783F0 /* EmptyStateBasedContentViewController.swift in Sources */,
-				1385F6962C427BD8003DB336 /* TourAddress.swift in Sources */,
+				1385F6962C427BD8003DB336 /* DestinationAddress.swift in Sources */,
 				15869CEB2BF4FE4B00FB342B /* OwnerRelatedPostFetchUseCase.swift in Sources */,
 				1594A4532C05997B00428D41 /* UIView+ImageRender.swift in Sources */,
 				13AE0DD22BBC42C000652B99 /* PhotoOrderView.swift in Sources */,
@@ -5643,6 +5762,7 @@
 				13C32A3D2B0A2FF30046ED98 /* PictureImageViewDelegate.swift in Sources */,
 				13E84AE82BE370E000B537B6 /* TourAPIIntroductionInfoRequestDTO.swift in Sources */,
 				152AD4F02A189CFC008A2A11 /* FavoriteHeaderView.swift in Sources */,
+				139AC9222C51393800C03F9A /* DestinationLike.swift in Sources */,
 				1572ABB22BE67A7D008AFE66 /* MockFirestoreImageStorage.swift in Sources */,
 				15E670DB2BDF4486002E1D19 /* FirestoreReviewWritingSaveRequestDTO.swift in Sources */,
 				15B9285D2AF9E3A2003A20D4 /* PostDetailProfileAreaView.swift in Sources */,
@@ -5687,6 +5807,7 @@
 				1594F53229FD517E00A58F20 /* AppDelegate.swift in Sources */,
 				139AC91A2C50E76800C03F9A /* DefaultDestinationLikeRepository.swift in Sources */,
 				134CCB672B028D9C00D51D84 /* ReviewWritingContentViewDelegate.swift in Sources */,
+				131DBBBA2C5168B800BC25AB /* DestinationRequestDTO.swift in Sources */,
 				13405F692AF4478400382796 /* NavigationTitleWithClickView.swift in Sources */,
 				13EB3D3D2BF4C45A00CA84F0 /* TourSearchResultEntity.swift in Sources */,
 				13491AA52C4902D7002A2B28 /* RecentSearchHistoryResponseDTO.swift in Sources */,
@@ -5775,6 +5896,7 @@
 				15D283FE2C20483800B39AC8 /* FirestoreWhatsNewNotificationRepository.swift in Sources */,
 				13EB3D102BF0396F00CA84F0 /* TourIntroductionInfoAttractionResponseDTO.swift in Sources */,
 				13EB3D122BF0814C00CA84F0 /* IntroductionInfoCultureFacilityEntity.swift in Sources */,
+				139AC91E2C50EAFC00C03F9A /* DestinationLikeResponseDTO.swift in Sources */,
 				154070952C0F5491000C9C42 /* Resolver+.swift in Sources */,
 				13EB3D4F2BF500E900CA84F0 /* DefaultAttractionUseCase.swift in Sources */,
 				139DEE3C2B18274200363E7B /* SearchDestinationContentCell.swift in Sources */,
@@ -5856,7 +5978,9 @@
 				15D6559D2B8F6F3800466FEC /* MyInformationViewModel.swift in Sources */,
 				13EB3D942BF7C84700CA84F0 /* CourseEntity.swift in Sources */,
 				15553BC42BB343F1000AA896 /* PostNestedCommentRepository.swift in Sources */,
+				131DBBAF2C513BA400BC25AB /* JsonMockDestinationLikeRepository.swift in Sources */,
 				151BDAD62B16EE07002F36C3 /* UIView+Combine.swift in Sources */,
+				131DBBBC2C52196E00BC25AB /* DestinationIdEntity.swift in Sources */,
 				15803C612BDAA1A600D83F2B /* FirebaseStorageService.swift in Sources */,
 				15F4573B2C15848600E2F305 /* AlertCoordinatable.swift in Sources */,
 				13405F0B2AEEF1E400382796 /* LoginButtonDelegate.swift in Sources */,
@@ -5918,7 +6042,7 @@
 				1540478A2BE4B82D009E86FF /* PostHeartUseCase.swift in Sources */,
 				15198E962BADE2BB0011930D /* PostThumbnails.swift in Sources */,
 				154CA6322BD40C5C0066B444 /* TourApiSessionProvider.swift in Sources */,
-				1385F6982C427BE6003DB336 /* TourImage.swift in Sources */,
+				1385F6982C427BE6003DB336 /* DestinationImage.swift in Sources */,
 				15B01DAB2BA9472300BE9F98 /* StubUserStorage.swift in Sources */,
 				13606E982AA4F26500365F20 /* DefaultSearchHistoryLayout.swift in Sources */,
 				15FBD5D42B98DAB000076115 /* TravelRegionMapper.swift in Sources */,
@@ -5985,6 +6109,62 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		131DBBB02C513D3300BC25AB /* mock_response_toggleLikeDestination.json */ = {
+			isa = PBXVariantGroup;
+			children = (
+				131DBBB12C513D3300BC25AB /* en */,
+			);
+			name = mock_response_toggleLikeDestination.json;
+			sourceTree = "<group>";
+		};
+		133FFF902C560F4B00E7FF1B /* mock_response_getDestination_festival.json */ = {
+			isa = PBXVariantGroup;
+			children = (
+				133FFF912C560F4B00E7FF1B /* en */,
+			);
+			name = mock_response_getDestination_festival.json;
+			sourceTree = "<group>";
+		};
+		133FFF932C56AC6700E7FF1B /* mock_response_getDestination_restaurant.json */ = {
+			isa = PBXVariantGroup;
+			children = (
+				133FFF942C56AC6700E7FF1B /* en */,
+			);
+			name = mock_response_getDestination_restaurant.json;
+			sourceTree = "<group>";
+		};
+		133FFF982C57BDF800E7FF1B /* mock_response_getDestination_leports.json */ = {
+			isa = PBXVariantGroup;
+			children = (
+				133FFF992C57BDF800E7FF1B /* en */,
+			);
+			name = mock_response_getDestination_leports.json;
+			sourceTree = "<group>";
+		};
+		133FFF9B2C57BF2100E7FF1B /* mock_response_getDestination_shopping.json */ = {
+			isa = PBXVariantGroup;
+			children = (
+				133FFF9C2C57BF2100E7FF1B /* en */,
+			);
+			name = mock_response_getDestination_shopping.json;
+			sourceTree = "<group>";
+		};
+		133FFF9E2C57BFF700E7FF1B /* mock_response_getDestination_attraction.json */ = {
+			isa = PBXVariantGroup;
+			children = (
+				133FFF9F2C57BFF700E7FF1B /* en */,
+			);
+			name = mock_response_getDestination_attraction.json;
+			sourceTree = "<group>";
+		};
+		133FFFA12C57C05B00E7FF1B /* mock_response_getDestination_cultureFacility.json */ = {
+			isa = PBXVariantGroup;
+			children = (
+				133FFFA22C57C05B00E7FF1B /* en */,
+			);
+			name = mock_response_getDestination_cultureFacility.json;
+			sourceTree = "<group>";
+		};
 		1340556F2C44171000EC8877 /* mock_response_getAllByKeyword.json */ = {
 			isa = PBXVariantGroup;
 			children = (

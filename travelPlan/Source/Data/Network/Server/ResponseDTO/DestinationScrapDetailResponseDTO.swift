@@ -8,8 +8,8 @@
 import Foundation
 
 struct DestinationScrapDetailResponseDTO: Decodable {
-  let id: Int64
-  let contentTypeId: Int32
+  let id: Int
+  let contentTypeId: Int
   let title: String
   let address: String
   let addressDetail: String
@@ -33,17 +33,15 @@ struct DestinationScrapDetailResponseDTO: Decodable {
 extension DestinationScrapDetailResponseDTO {
   func toDomain() -> DestinationScrapDetail {
     return .init(
-      id: .init(id: id, contentTypdId: contentTypeId),
+      id: .init(id: id, contentTypeId: contentTypeId),
       title: title,
       address: .init(address1: address, address2: addressDetail),
       map: .init(mapX: mapX, mapY: mapY),
       overview: overview,
       tel: tel,
-      category: .init(
-        largeCategory: category.largeCategory,
-        middleCategory: category.middleCategory,
-        smallCategory: category.smallCategory
-      ),
+      category: .init(large: category.largeCategory,
+                      middle: category.middleCategory,
+                      small: category.smallCategory),
       thumbnailImageData: Data(base64Encoded: thumbnail),
       isScraped: scraped
     )

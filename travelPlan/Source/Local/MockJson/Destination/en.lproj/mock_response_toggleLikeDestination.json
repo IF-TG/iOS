@@ -1,0 +1,9 @@
+{
+  "result": {
+    "objectId": 123455,
+    "value": true
+  },
+  "status": "success",
+  "statusCode": "200",
+  "message": "Operation completed successfully"
+}
