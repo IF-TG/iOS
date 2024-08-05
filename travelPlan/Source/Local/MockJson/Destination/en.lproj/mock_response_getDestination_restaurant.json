@@ -16,7 +16,7 @@
                 "smallCategory": "Korean"
             },
             "zipcode": "94103",
-            "thumbnail": "http://example.com/restaurant.png",
+            "thumbnail": "restaurant_1",
             "scraped": true
         },
         "detail": {
@@ -30,7 +30,8 @@
             "seat": "100",
             "treatMenu": "Korean traditional foods"
         },
-        "liked": true
+        "liked": true,
+        "likeCount": 12
     },
     "status": "success",
     "statusCode": "200",

@@ -3,9 +3,9 @@
         "destinations": [
             {
                 "id": 1234,
-                "contentTypeId": 123,
-                "title": "Beautiful Beach",
-                "thumbnailUrl": "tempThumbnail12",
+                "contentTypeId": 39,
+                "title": "음식점 타이틀 mock1",
+                "thumbnailUrl": "restaurant_1",
                 "address": "123 Ocean Drive, Beach City",
                 "largeCategory": "Nature",
                 "smallCategory": "Beaches",
@@ -14,9 +14,9 @@
             },
             {
                 "id": 987,
-                "contentTypeId": 678,
-                "title": "Mountain Hike",
-                "thumbnailUrl": "tempThumbnail11",
+                "contentTypeId": 39,
+                "title": "음식점 타이틀 mock2",
+                "thumbnailUrl": "restaurant_1",
                 "address": "456 Mountain Road, Hill Town",
                 "largeCategory": "Adventure",
                 "smallCategory": "Hiking",
