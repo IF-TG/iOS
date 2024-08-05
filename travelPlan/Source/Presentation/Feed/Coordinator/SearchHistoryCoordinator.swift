@@ -24,7 +24,7 @@ protocol SearchHistoryCoordinatorDependencies {
 
 final class SearchHistoryCoordinator: FlowCoordinator {
   // MARK: - Dependencies
-  private let dependencies: SearchHistoryCoordinatorDependencies = AppDIContainer.shared
+  private let dependencies: SearchHistoryCoordinatorDependencies
   var presenter: UINavigationController?
   
   // MARK: - Properties
@@ -33,9 +33,14 @@ final class SearchHistoryCoordinator: FlowCoordinator {
   private let searchType: SearchType
   
   // MARK: - LifeCycle
-  init(presenter: UINavigationController?, searchType: SearchType) {
+  init(
+    presenter: UINavigationController?,
+    searchType: SearchType,
+    dependencies: SearchHistoryCoordinatorDependencies
+  ) {
     self.presenter = presenter
     self.searchType = searchType
+    self.dependencies = dependencies
   }
   
   deinit {

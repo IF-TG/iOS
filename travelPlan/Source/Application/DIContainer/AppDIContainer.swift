@@ -20,7 +20,7 @@ final class AppDIContainer {
     assembler.resolver
   }
   
-//  static var shared = AppDIContainer()
+  static var shared = AppDIContainer()
   
   // MARK: - Lifecycle
   init() {
@@ -176,6 +176,13 @@ extension AppDIContainer: SearchCoordinatorDependencies {
 
 // MARK: - SearchResultListCoordinatorDependencies
 extension AppDIContainer: SearchResultListCoordinatorDependencies {
+  func makeDestinationDetailCoordinator(
+    presenter: UINavigationController?,
+    destinationId: DestinationIdEntity
+  ) -> DestinationDetailCoordinator {
+    return resolver.resolve(DestinationDetailCoordinator.self, arguments: presenter, destinationId)!
+  }
+  
   func makeSearchResultListViewController(
     actions: SearchResultListViewModelActions,
     text: String
@@ -203,7 +210,7 @@ extension AppDIContainer: SearchHistoryCoordinatorDependencies {
 
 // MARK: - DestinationDetailCoordinatorDependencies
 extension AppDIContainer: DestinationDetailCoordinatorDependencies {
-  func makeDestinationDetailViewController() -> DestinationDetailViewController {
-    resolver.resolve(DestinationDetailViewController.self)!
+  func makeDestinationDetailViewController(destinationId: DestinationIdEntity) -> DestinationDetailViewController {
+    resolver.resolve(DestinationDetailViewController.self, argument: destinationId)!
   }
 }
