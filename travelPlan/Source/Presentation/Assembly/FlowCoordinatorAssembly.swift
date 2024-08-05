@@ -34,6 +34,7 @@ final class FlowCoordinatorAssembly: Assembly {
     searchResultListCoordinator(container: container)
     searchCoordinator(container: container)
     searchHistoryCoordinator(container: container)
+    destinationDetailCoordinator(container: container)
     
     // TODO: - Login Flow Coordinator
     container.register(LoginCoordinator.self) { _ in
@@ -89,8 +90,8 @@ final class FlowCoordinatorAssembly: Assembly {
 // MARK: - Private Helpers
 private extension FlowCoordinatorAssembly {
   func searchMoreDetailCoordinator(container: Container) {
-    container.register(SearchMoreDetailCoordinator.self) {
-      (_, presenter: UINavigationController?, viewControllerType: SearchSectionType) in
+    container.register(SearchMoreDetailCoordinator.self)
+    { (_, presenter: UINavigationController?, viewControllerType: SearchSectionType) in
       return SearchMoreDetailCoordinator(presenter: presenter, viewControllerType: viewControllerType)
     }
   }
@@ -102,16 +103,35 @@ private extension FlowCoordinatorAssembly {
   }
   
   func searchResultListCoordinator(container: Container) {
-    container.register(SearchResultListCoordinator.self) {
-      (r, presenter: UINavigationController?, searchKeyword: String) in
-      return SearchResultListCoordinator(presenter: presenter, text: searchKeyword)
+    container.register(SearchResultListCoordinator.self)
+    { (_, presenter: UINavigationController?, searchKeyword: String) in
+      return SearchResultListCoordinator(
+        presenter: presenter,
+        text: searchKeyword,
+        dependencies: AppDIContainer.shared
+      )
     }
   }
   
   func searchHistoryCoordinator(container: Container) {
-    container.register(SearchHistoryCoordinator.self) {
-      (r, presenter: UINavigationController?, searchType: SearchType)in
-      return SearchHistoryCoordinator(presenter: presenter, searchType: searchType)
+    container.register(SearchHistoryCoordinator.self)
+    { (_, presenter: UINavigationController?, searchType: SearchType) in
+      return SearchHistoryCoordinator(
+        presenter: presenter,
+        searchType: searchType,
+        dependencies: AppDIContainer.shared
+      )
+    }
+  }
+  
+  func destinationDetailCoordinator(container: Container) {
+    container.register(DestinationDetailCoordinator.self) 
+    { (_, presenter: UINavigationController?, destinationId: DestinationIdEntity) in
+      return DestinationDetailCoordinator(
+        presenter: presenter,
+        dependencies: AppDIContainer.shared,
+        destinationId: destinationId
+      )
     }
   }
 }

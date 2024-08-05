@@ -171,10 +171,6 @@ final class PresentationAssembly: Assembly {
     
     // TODO: - Favorite Page
     
-    // TODO: - Search Page
-    
-    // TODO: - SearchDetail Page
-    
     // TODO: - Plan Page
     
     // TODO: - ReviewWriting Page
@@ -215,7 +211,7 @@ private extension PresentationAssembly {
   }
     
   func searchResultListPage(container: Container) {
-    container.register((any SearchResultListViewModel).self) {
+    container.register((any SearchResultListViewModel).self) { 
       (r, actions: SearchResultListViewModelActions, searchKeyword: String) in
       let useCase = r.resolve(DestinationSearchResultUseCase.self)!
       
@@ -234,7 +230,8 @@ private extension PresentationAssembly {
   }
   
   func searchHistoryPage(container: Container) {
-    container.register((any SearchHistoryViewModel).self) { (r, actions: SearchHistoryViewModelActions, searchType: SearchType) in
+    container.register((any SearchHistoryViewModel).self) { 
+      (r, actions: SearchHistoryViewModelActions, searchType: SearchType) in
       let useCase = r.resolve(SearchHistoryUseCase.self)!
 
       return DefaultSearchHistoryViewModel(
@@ -244,20 +241,23 @@ private extension PresentationAssembly {
       )
     }
     
-    container.register(SearchHistoryViewController.self) { (r, actions: SearchHistoryViewModelActions, searchType: SearchType) in
+    container.register(SearchHistoryViewController.self) { 
+      (r, actions: SearchHistoryViewModelActions, searchType: SearchType) in
       let viewModel = r.resolve((any SearchHistoryViewModel).self, arguments: actions, searchType)!
       return SearchHistoryViewController(viewModel: viewModel)
     }
   }
   
   func destinationDetailPage(container: Container) {
-    container.register((any DestinationDetailViewModel).self) { r in
+    container.register((any DestinationDetailViewModel).self) { (r, destinationId: DestinationIdEntity) in
       let destinationDetailUseCase = r.resolve(DestinationDetailUseCase.self)!
-      return DefaultDestinationDetailViewModel(useCase: destinationDetailUseCase)
+      return DefaultDestinationDetailViewModel(useCase: destinationDetailUseCase, destinationId: destinationId)
     }
     
-    container.register(DestinationDetailViewController.self) { r in
-      let viewModel = r.resolve((any DestinationDetailViewModel).self)!
+    container.register(DestinationDetailViewController.self) 
+    { (r, destinationId: DestinationIdEntity) in
+      let viewModel = r.resolve((any DestinationDetailViewModel).self, argument: destinationId)!
+      return DestinationDetailViewController(viewModel: viewModel)
     }
   }
 }
