@@ -40,4 +40,3 @@ extension DefaultDestinationDetailUseCase: DestinationDetailUseCase {
     return likeRepository.toggleDestinationLike(destinationId: id)
   }
 }
-
