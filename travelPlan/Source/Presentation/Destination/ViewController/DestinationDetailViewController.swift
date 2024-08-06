@@ -9,15 +9,6 @@ import UIKit
 import SnapKit
 import Combine
 
-enum DestinationType {
-  case cultureFacility
-  case touristAttraction
-  case leports
-  case restaurant
-  case shopping
-  case festival
-}
-
 class DestinationDetailViewController: UIViewController {
   enum Common {
     static var backgroundColor: UIColor {
@@ -44,7 +35,6 @@ class DestinationDetailViewController: UIViewController {
     $0.imageView?.tintColor = .white
     $0.addTarget(self, action: #selector(didTapShareButton(_:)), for: .touchUpInside)
   }
-  private let type: DestinationType
   
   private let layout = DestinationDetailCollectionViewLayout()
   
@@ -73,9 +63,8 @@ class DestinationDetailViewController: UIViewController {
   private var isHeaderViewFirstDequeue = false
   
   // MARK: - LifeCycle
-  init(viewModel: any DestinationDetailViewModel, type: DestinationType) {
+  init(viewModel: any DestinationDetailViewModel) {
     self.viewModel = viewModel
-    self.type = type
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -116,7 +105,8 @@ extension DestinationDetailViewController {
           break
         case .reloadData:
           self?.collectionView.reloadData()
-          guard let self = self else { return }
+        case .unexpectedError(description: let description):
+          print("에러 발생: \(description)")
         }
       }
       .store(in: &subscriptions)
