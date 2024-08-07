@@ -53,9 +53,6 @@ final class DefaultSearchResultListViewModel: SearchResultListViewModel {
     self.actions = actions
     self.useCase = useCase
     self.searchKeyword = searchKeyword
-    let url = Bundle.main.url(forResource: "tempThumbnail1", withExtension: "jpg")!
-    guard let data = try? Data(contentsOf: url) else { return }
-    print("data: \(data)")
   }
   
   deinit {
