@@ -25,7 +25,7 @@ final class DestinationDetailHeaderView: UICollectionReusableView {
     $0.dataSource = self
   }
   
-  private var dataSource = [Data]()
+  private var dataSource = [Data?]()
   
   private let bumperView = UIView().set {
     $0.backgroundColor = .yg.littleWhite
@@ -48,7 +48,7 @@ final class DestinationDetailHeaderView: UICollectionReusableView {
 
 // MARK: - Helpers
 extension DestinationDetailHeaderView {
-  func configure(with imageDatas: [Data]) {
+  func configure(with imageDatas: [Data?]) {
     dataSource = imageDatas
     collectionView.reloadData()
   }

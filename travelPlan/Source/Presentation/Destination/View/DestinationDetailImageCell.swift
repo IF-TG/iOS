@@ -29,8 +29,13 @@ final class DestinationDetailImageCell: UICollectionViewCell {
 
 // MARK: - Helpers
 extension DestinationDetailImageCell {
-  func configure(with data: Data) {
-    thumbnailImageView.image = UIImage(data: data)
+  func configure(with data: Data?) {
+    if let data = data {
+      thumbnailImageView.image = UIImage(data: data)
+    } else {
+      // TODO: - Data가 없는 경우, Default 이미지를 추가해야 합니다.
+      thumbnailImageView.image = UIImage(named: "emptyImageSquare")
+    }
   }
 }
 
