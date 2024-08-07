@@ -9,7 +9,7 @@ import UIKit
 import SHCoordinator
 
 protocol DestinationDetailCoordinatorDependencies {
-  func makeDestinationDetailViewController() -> DestinationDetailViewController
+  func makeDestinationDetailViewController(destinationId: DestinationIdEntity) -> DestinationDetailViewController
 }
 
 final class DestinationDetailCoordinator: FlowCoordinator {
@@ -17,15 +17,18 @@ final class DestinationDetailCoordinator: FlowCoordinator {
   var parent: (any SHCoordinator.FlowCoordinator)?
   var child: [any SHCoordinator.FlowCoordinator] = []
   var presenter: UINavigationController?
-  private let dependencies: DestinationDetailCoordinatorDependencies
+  private let dependencies: any DestinationDetailCoordinatorDependencies
+  private let destinationId: DestinationIdEntity
   
   // MARK: - LifeCycle
   init(
     presenter: UINavigationController?,
-    dependencies: DestinationDetailCoordinatorDependencies
+    dependencies: any DestinationDetailCoordinatorDependencies,
+    destinationId: DestinationIdEntity
   ) {
     self.presenter = presenter
     self.dependencies = dependencies
+    self.destinationId = destinationId
   }
   
   deinit {
@@ -34,7 +37,7 @@ final class DestinationDetailCoordinator: FlowCoordinator {
   
   // MARK: - Start
   func start() {
-    let viewController = dependencies.makeDestinationDetailViewController()
+    let viewController = dependencies.makeDestinationDetailViewController(destinationId: destinationId)
     presenter?.pushViewController(viewController, animated: true)
   }
 }
