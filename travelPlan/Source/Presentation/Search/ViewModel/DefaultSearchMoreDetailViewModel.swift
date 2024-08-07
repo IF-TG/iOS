@@ -1,5 +1,5 @@
 //
-//  SearchMoreDetailViewModel.swift
+//  DefaultSearchMoreDetailViewModel.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 2023/09/16.
@@ -7,10 +7,6 @@
 
 import Foundation
 import Combine
-
-protocol SearchMoreDetailViewModel: ViewModelable
-where Input == SearchMoreDetailViewModelInput,
-      State == SearchMoreDetailViewModelState {}
 
 struct SearchMoreDetailViewModelInput {
   let viewDidLoad: PassthroughSubject<SearchSectionType, Never> = .init()
