@@ -2238,7 +2238,6 @@
 		1335B8B12C319D1E00DB233B /* Search */ = {
 			isa = PBXGroup;
 			children = (
-				1385F6672C3FA774003DB336 /* Protocol */,
 				1335B8B62C319EB200DB233B /* DefaultDestinationRepository.swift */,
 				1385F66A2C3FADBE003DB336 /* DefaultDestinationScrapRepository.swift */,
 				134055622C43090B00EC8877 /* DefaultDestinationSearchRepository.swift */,
@@ -2420,19 +2419,6 @@
 			path = KeychainStorage;
 			sourceTree = "<group>";
 		};
-		1385F6672C3FA774003DB336 /* Protocol */ = {
-			isa = PBXGroup;
-			children = (
-				1385F6682C3FA797003DB336 /* DestinationScrapRepository.swift */,
-				1335B8B42C319E7300DB233B /* DestinationRepository.swift */,
-				134055602C43085600EC8877 /* DestinationSearchRepository.swift */,
-				13491A9C2C48FF85002A2B28 /* SearchHistoryRepository.swift */,
-				13491AAE2C4913B0002A2B28 /* RecommendationSearchHistoryRepository.swift */,
-				139AC9172C50E5BD00C03F9A /* DestinationLikeRepository.swift */,
-			);
-			path = Protocol;
-			sourceTree = "<group>";
-		};
 		1385F66C2C3FCAE3003DB336 /* Destination */ = {
 			isa = PBXGroup;
 			children = (
@@ -2574,6 +2560,33 @@
 			isa = PBXGroup;
 			children = (
 				13BE82E42C6130D800951099 /* restaurant_1.png */,
+			);
+			path = Destination;
+			sourceTree = "<group>";
+		};
+		13BE82EC2C63C32C00951099 /* Destination */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Destination;
+			sourceTree = "<group>";
+		};
+		13BE82ED2C63C35A00951099 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				134055602C43085600EC8877 /* DestinationSearchRepository.swift */,
+				13491A9C2C48FF85002A2B28 /* SearchHistoryRepository.swift */,
+				13491AAE2C4913B0002A2B28 /* RecommendationSearchHistoryRepository.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		13BE82EE2C63C36E00951099 /* Destination */ = {
+			isa = PBXGroup;
+			children = (
+				1385F6682C3FA797003DB336 /* DestinationScrapRepository.swift */,
+				1335B8B42C319E7300DB233B /* DestinationRepository.swift */,
+				139AC9172C50E5BD00C03F9A /* DestinationLikeRepository.swift */,
 			);
 			path = Destination;
 			sourceTree = "<group>";
@@ -3110,6 +3123,8 @@
 		151DF0FA2AEEB96E00D5D55B /* Repositories */ = {
 			isa = PBXGroup;
 			children = (
+				13BE82EE2C63C36E00951099 /* Destination */,
+				13BE82ED2C63C35A00951099 /* Search */,
 				159851C22BEDEE29001262BD /* Favorite */,
 				159851C12BEDEE14001262BD /* Notification */,
 				159851C02BEDED96001262BD /* Authentication */,
@@ -3736,6 +3751,7 @@
 		154CA61C2BD3AD0B0066B444 /* SpringServer */ = {
 			isa = PBXGroup;
 			children = (
+				13BE82EC2C63C32C00951099 /* Destination */,
 				1335B8B12C319D1E00DB233B /* Search */,
 				1540709C2C0F6E68000C9C42 /* FavoriteDirectory */,
 				1540709B2C0F6E10000C9C42 /* Notification */,
