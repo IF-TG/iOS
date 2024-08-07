@@ -186,6 +186,11 @@ extension SearchResultListViewController: UICollectionViewDelegate {
       
       guard let contentTypeId = categoryCell.contentTypeId else { return }
       input.didTapCategoryItem.send((indexPath.item, contentTypeId))
+    } else {
+      if case .destination(let infos) = viewModel.dataSource[indexPath.section] {
+        let info = infos[indexPath.item]
+        viewModel.showDestinationDetailPage(id: info.id, contentTypeId: info.contentTypeId)
+      }
     }
   }
   
