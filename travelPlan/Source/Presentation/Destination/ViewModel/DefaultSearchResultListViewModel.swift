@@ -162,9 +162,25 @@ extension DefaultSearchResultListViewModel {
   private func didTapSearchButtonStream(_ input: Input) -> Output {
     // TODO: - text 키워드를 기반으로 서버에 다시 요청해야합니다.
     return input.didTapSearchButton
-      .map { [weak self] text in
-        print("search: \(text)")
-        return State.none
+      .flatMap { [weak self] text in
+        guard let self = self else { return Just(State.none).eraseToAnyPublisher() }
+        
+        return self.useCase.fetchDestinationList(keyword: text, page: nil, perPage: nil)
+          .map { (thumbnailDestinations: [ThumbnailDestination]) -> SearchResultListViewModelState in
+            let travelDestinationInfos = thumbnailDestinations.map {
+              TravelDestinationInfo(place: $0.title,
+                                    contentTypeId: $0.id.contentTypeId,
+                                    category: $0.category.largeCategory,
+                                    location: $0.address,
+                                    isButtonSelected: $0.isScraped,
+                                    imageData: $0.thumbnailImageData,
+                                    id: $0.id.id)
+            }
+            self.dataSource[1] = SearchResultSectionModel.destination(travelDestinationInfos) 
+            return State.firstReloadData(text)
+          }
+          .catch { _ in return Just(State.none).eraseToAnyPublisher() }
+          .eraseToAnyPublisher()
       }
       .eraseToAnyPublisher()
   }
