@@ -10,7 +10,7 @@ import Foundation
 struct DestinationRecommendAPIEndpoints {
   static func fetchRecommendList(
     with requestDTO: PagingRequestDTO
-  ) -> Endpoint<CommonDTO<DestinationRecommendResponseDTO>> {
+  ) -> Endpoint<CommonDTO<[DestinationRecommendResponseDTO]>> {
     return .init(
       scheme: "http",
       host: "localhost:8080",

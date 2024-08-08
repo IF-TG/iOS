@@ -8,46 +8,52 @@
 import Foundation
 
 struct DestinationRecommendResponseDTO: Decodable {
-  let sections: [Section]
+  let title: String
+  let destinations: [Destination]
   
-  struct Section: Decodable {
+  enum CodingKeys: String, CodingKey {
+    case title
+    case destinations = "destination"
+  }
+  
+  struct Destination: Decodable {
+    let id: Int
+    let contentTypeId: Int
     let title: String
-    let destinations: [Destination]
-    
-    struct Destination: Decodable {
-      let destinationId: DestinationIdResponseDTO
-      let title: String
-      let thumbnailUrl: String
-      let category: DestinationCategoryResponseDTO
-      let address: String
-      let scraped: Bool
-    }
+    let thumbnailUrl: String
+    let largeCategory: String
+    let smallCategory: String
+    let middleCategory: String
+    let address: String
+    let scraped: Bool
   }
 }
 
 // MARK: - Mapping to Domain
 extension DestinationRecommendResponseDTO {
-  func toDomain() -> [DestinationRecommendSection] {
-    let sections = sections.map {
-      let destinations = $0.destinations.map {
-        return DestinationRecommendSection.Destination(
-          destinationId: DestinationIdEntity(
-            id: $0.destinationId.id,
-            contentTypeId: $0.destinationId.contentTypeId
-          ),
-          title: $0.title,
-          thumbnailData: Data(base64Encoded: $0.thumbnailUrl),
-          address: $0.address,
-          category: DestinationCategory(
-            large: $0.category.large,
-            middle: $0.category.middle,
-            small: $0.category.small
-          ),
-          isScaped: $0.scraped
-        )
-      }
+  func toDomain() -> DestinationRecommendSection {
+    let destinations = destinations.map { destination -> DestinationRecommendSection.Destination in
       
-      return sections
+      return DestinationRecommendSection.Destination(
+        destinationId: DestinationIdEntity(
+          id: destination.id,
+          contentTypeId: destination.contentTypeId
+        ),
+        title: destination.title,
+        thumbnailData: Data(base64Encoded: destination.thumbnailUrl),
+        address: destination.address,
+        category: DestinationCategory(
+          large: destination.largeCategory,
+          middle: destination.middleCategory,
+          small: destination.smallCategory
+        ),
+        isScaped: destination.scraped
+      )
     }
+    
+    return DestinationRecommendSection(
+      title: title,
+      destinations: destinations
+    )
   }
 }
