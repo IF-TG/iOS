@@ -11,15 +11,15 @@ import Combine
 final class DefaultDestinationRecommendRepository {
   // MARK: - Dependencies
   private let service: any Sessionable
-  private let dispatchQueue: DispatchQueue
+  private let backgroundQueue: DispatchQueue
   
   // MARK: - LifeCycle
   init(
     service: any Sessionable,
-    dispatchQueue: DispatchQueue = .global(qos: .userInitiated)
+    backgroundQueue: DispatchQueue = .global(qos: .userInitiated)
   ) {
     self.service = service
-    self.dispatchQueue = dispatchQueue
+    self.backgroundQueue = backgroundQueue
   }
 }
 
@@ -34,7 +34,7 @@ extension DefaultDestinationRecommendRepository: DestinationRecommendRepository 
     
     return service.request(endpoint: endpoint)
       .mapConnectionError()
-      .map { $0.result.toDomain() }
+      .map { $0.result.map { $0.toDomain() } }
       .eraseToAnyPublisher()
   }
 }
