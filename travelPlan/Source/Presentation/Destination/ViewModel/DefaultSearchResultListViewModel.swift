@@ -170,7 +170,6 @@ extension DefaultSearchResultListViewModel {
   }
   
   private func didTapCategoryItem(_ input: Input) -> Output {
-    // 클릭된 cell에서 destinationId를 가져와서 actions를 통해 destinationDetailCoordinator에게 id를 넘겨야 한다.!!!!!!
     return input.didTapCategoryItem
       .map { [weak self] item, contentTypeId in
         if case .destination(let infos) = self?.dataSource[1] {
