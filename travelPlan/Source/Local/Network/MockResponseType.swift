@@ -42,6 +42,8 @@ import Foundation
       response.filePath
     case .getDestination(let response):
       response.filePath
+    case .destinationRecommend(let response):
+      response.filePath
     }
   }
   

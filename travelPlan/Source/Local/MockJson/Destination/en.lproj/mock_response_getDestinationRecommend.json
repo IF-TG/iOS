@@ -1,0 +1,87 @@
+{
+    "result": [
+        {
+            "title": "Sample Title 1",
+            "destination": [
+                {
+                    "id": 1234567890,
+                    "contentTypeId": 123,
+                    "title": "Destination Title 1",
+                    "thumbnailUrl": "restaurant_1",
+                    "address": "123 Sample St, Sample City, SC 12341",
+                    "largeCategory": "Tourism",
+                    "smallCategory": "Museum",
+                    "middleCategory": "History",
+                    "scraped": true
+                }
+            ]
+        },
+        {
+            "title": "Sample Title 2",
+            "destination": [
+                {
+                    "id": 1234567891,
+                    "contentTypeId": 124,
+                    "title": "Destination Title 2",
+                    "thumbnailUrl": "restaurant_1",
+                    "address": "123 Sample St, Sample City, SC 12342",
+                    "largeCategory": "Tourism",
+                    "smallCategory": "Museum",
+                    "middleCategory": "History",
+                    "scraped": false
+                }
+            ]
+        },
+        {
+            "title": "Sample Title 3",
+            "destination": [
+                {
+                    "id": 1234567892,
+                    "contentTypeId": 125,
+                    "title": "Destination Title 3",
+                    "thumbnailUrl": "restaurant_1",
+                    "address": "123 Sample St, Sample City, SC 12343",
+                    "largeCategory": "Tourism",
+                    "smallCategory": "Museum",
+                    "middleCategory": "History",
+                    "scraped": true
+                }
+            ]
+        },
+        {
+            "title": "Sample Title 4",
+            "destination": [
+                {
+                    "id": 1234567893,
+                    "contentTypeId": 126,
+                    "title": "Destination Title 4",
+                    "thumbnailUrl": "restaurant_1",
+                    "address": "123 Sample St, Sample City, SC 12344",
+                    "largeCategory": "Tourism",
+                    "smallCategory": "Museum",
+                    "middleCategory": "History",
+                    "scraped": false
+                }
+            ]
+        },
+        {
+            "title": "Sample Title 5",
+            "destination": [
+                {
+                    "id": 1234567894,
+                    "contentTypeId": 127,
+                    "title": "Destination Title 5",
+                    "thumbnailUrl": "restaurant_1",
+                    "address": "123 Sample St, Sample City, SC 12345",
+                    "largeCategory": "Tourism",
+                    "smallCategory": "Museum",
+                    "middleCategory": "History",
+                    "scraped": true
+                }
+            ]
+        }
+    ],
+    "status": "Success",
+    "statusCode": "200",
+    "message": "Data retrieved successfully"
+}
