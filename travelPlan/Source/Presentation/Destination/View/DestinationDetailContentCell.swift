@@ -10,8 +10,6 @@ import SnapKit
 
 final class DestinationDetailContentCell: UICollectionViewCell {
   // MARK: - Properties
-  static let id = String(describing: DestinationDetailContentCell.self)
-  
   private let titleLabel = UILabel().set {
     $0.text = "제목"
     $0.font = .init(pretendard: .semiBold_600(fontSize: 16))
