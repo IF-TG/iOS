@@ -23,7 +23,7 @@ final class AppDIContainer {
   static var shared = AppDIContainer()
   
   // MARK: - Lifecycle
-  init() {
+  private init() {
     self.container = Container()
     self.assembler = Assembler([], container: container)
     assembler.apply(assemblies: [
