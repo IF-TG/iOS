@@ -15,13 +15,15 @@ protocol SearchResultListCoordinatorDependencies: AnyObject {
     actions: SearchResultListViewModelActions,
     text: String
   ) -> SearchResultListViewController
-  // TODO: - SearchDestinationCoordinator 만들어야 함
-//  func makeSearchDestinationCoordinator() -> SearchDestinationCoordinator
+  func makeDestinationDetailCoordinator(
+    presenter: UINavigationController?,
+    destinationId: DestinationIdEntity
+  ) -> DestinationDetailCoordinator
 }
 
 final class SearchResultListCoordinator: FlowCoordinator {
   // MARK: - Dependencies
-  private let dependencies: SearchResultListCoordinatorDependencies = AppDIContainer.shared
+  private let dependencies: SearchResultListCoordinatorDependencies
   var presenter: UINavigationController?
   
   // MARK: - Properties
@@ -30,9 +32,14 @@ final class SearchResultListCoordinator: FlowCoordinator {
   private let text: String
   
   // MARK: - LifeCycle
-  init(presenter: UINavigationController?, text: String) {
+  init(
+    presenter: UINavigationController?,
+    text: String,
+    dependencies: SearchResultListCoordinatorDependencies
+  ) {
     self.presenter = presenter
     self.text = text
+    self.dependencies = dependencies
   }
   
   deinit {
@@ -43,7 +50,9 @@ final class SearchResultListCoordinator: FlowCoordinator {
   func start() {
     let actions = SearchResultListViewModelActions(
       pop: { [weak self] in self?.pop() },
-      showDetail: { [weak self] in self?.showDetail() }
+      showDestinationDetail: { [weak self] (destinationId: DestinationIdEntity) in
+        self?.showDestinationDetail(destinationId: destinationId)
+      }
     )
     
     let viewController = dependencies.makeSearchResultListViewController(actions: actions, text: text)
@@ -85,7 +94,11 @@ extension SearchResultListCoordinator {
     presentCoordinator.presenter?.popToViewController(toViewController, animated: true)
   }
   
-  private func showDetail() {
-    // TODO: - SearchDestinationViewController를 호출해야 합니다.
+  private func showDestinationDetail(destinationId: DestinationIdEntity) {
+    let destinationDetailCoordinator = dependencies.makeDestinationDetailCoordinator(
+      presenter: presenter,
+      destinationId: destinationId
+    )
+    addChild(with: destinationDetailCoordinator)
   }
 }

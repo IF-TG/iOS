@@ -176,6 +176,13 @@ extension AppDIContainer: SearchCoordinatorDependencies {
 
 // MARK: - SearchResultListCoordinatorDependencies
 extension AppDIContainer: SearchResultListCoordinatorDependencies {
+  func makeDestinationDetailCoordinator(
+    presenter: UINavigationController?,
+    destinationId: DestinationIdEntity
+  ) -> DestinationDetailCoordinator {
+    return resolver.resolve(DestinationDetailCoordinator.self, arguments: presenter, destinationId)!
+  }
+  
   func makeSearchResultListViewController(
     actions: SearchResultListViewModelActions,
     text: String
@@ -198,5 +205,12 @@ extension AppDIContainer: SearchHistoryCoordinatorDependencies {
     searchKeyword: String
   ) -> SearchResultListCoordinator {
     return resolver.resolve(SearchResultListCoordinator.self, arguments: presenter, searchKeyword)!
+  }
+}
+
+// MARK: - DestinationDetailCoordinatorDependencies
+extension AppDIContainer: DestinationDetailCoordinatorDependencies {
+  func makeDestinationDetailViewController(destinationId: DestinationIdEntity) -> DestinationDetailViewController {
+    resolver.resolve(DestinationDetailViewController.self, argument: destinationId)!
   }
 }

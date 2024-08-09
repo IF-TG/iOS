@@ -11,17 +11,20 @@ struct DestinationResponseDTO: Decodable {
   let destination: DestinationResponseDTO.Destination
   let detail: DestinationResponseDTO.Detail
   let liked: Bool
+  let likeCount: Int
   
   enum CodingKeys: CodingKey {
     case destination
     case detail
     case liked
+    case likeCount
   }
   
   init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
     self.destination = try container.decode(Destination.self, forKey: .destination)
     self.liked = try container.decode(Bool.self, forKey: .liked)
+    self.likeCount = try container.decode(Int.self, forKey: .likeCount)
     
     switch destination.contentTypeId {
     case TourType.attraction.rawValue:
@@ -142,27 +145,6 @@ extension DestinationResponseDTO.Detail {
     let openDate: String?
     let restDate: String?
     let usageTime: String?
-    
-    enum CodingKeys: CodingKey {
-      case capacity
-      case checkBabyStroller
-      case checkPet
-      case experienceGuide
-      case openDate
-      case restDate
-      case usageTime
-    }
-    
-    init(from decoder: any Decoder) throws {
-      let container: KeyedDecodingContainer<DestinationResponseDTO.Detail.AttractionResponseDTO.CodingKeys> = try decoder.container(keyedBy: DestinationResponseDTO.Detail.AttractionResponseDTO.CodingKeys.self)
-      self.capacity = try container.decode(String.self, forKey: DestinationResponseDTO.Detail.AttractionResponseDTO.CodingKeys.capacity)
-      self.checkBabyStroller = try container.decodeIfPresent(String.self, forKey: DestinationResponseDTO.Detail.AttractionResponseDTO.CodingKeys.checkBabyStroller)
-      self.checkPet = try container.decodeIfPresent(String.self, forKey: DestinationResponseDTO.Detail.AttractionResponseDTO.CodingKeys.checkPet)
-      self.experienceGuide = try container.decodeIfPresent(String.self, forKey: DestinationResponseDTO.Detail.AttractionResponseDTO.CodingKeys.experienceGuide)
-      self.openDate = try container.decodeIfPresent(String.self, forKey: DestinationResponseDTO.Detail.AttractionResponseDTO.CodingKeys.openDate)
-      self.restDate = try container.decodeIfPresent(String.self, forKey: DestinationResponseDTO.Detail.AttractionResponseDTO.CodingKeys.restDate)
-      self.usageTime = try container.decodeIfPresent(String.self, forKey: DestinationResponseDTO.Detail.AttractionResponseDTO.CodingKeys.usageTime)
-    }
   }
   
   /// 레포츠
@@ -388,10 +370,11 @@ extension DestinationResponseDTO {
       overview: destination.overview,
       category: destination.category.toDomain(),
       zipcode: destination.zipCode,
-      thumbnailURL: destination.thumbnail,
+      imageData: Data(base64Encoded: destination.thumbnail),
       detail: detail.toDomain(),
       isScraped: destination.scraped,
       liked: liked,
+      likeCount: likeCount,
       tel: destination.tel
     )
   }

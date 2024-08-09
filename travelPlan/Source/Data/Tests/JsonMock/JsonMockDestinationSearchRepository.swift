@@ -35,5 +35,25 @@ extension JsonMockDestinationSearchRepository: DestinationSearchRepository {
     }
     
     return repository.fetchDestinationList(by: keyword, page: page, perPage: perPage)
+      .tryMap {
+        guard let url = Bundle.main.url(forResource: "restaurant_1", withExtension: "png")
+        else { throw TransformationError.notExistedUrl }
+
+        guard let data = try? Data(contentsOf: url)
+        else { throw TransformationError.cannotConvertData }
+        
+        return $0.map {
+          
+          ThumbnailDestination(
+            id: $0.id,
+            title: $0.title,
+            thumbnailImageData: data,
+            address: $0.address,
+            category: $0.category,
+            isScraped: $0.isScraped
+          )
+        }
+      }
+      .eraseToAnyPublisher()
   }
 }

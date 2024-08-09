@@ -15,10 +15,11 @@ struct DestinationEntity {
   let overview: String
   let category: DestinationCategory
   let zipcode: String
-  let thumbnailURL: String
+  let imageData: Data?
   let detail: DestinationEntity.Detail
   let isScraped: Bool
   let liked: Bool
+  var likeCount: Int
   let tel: String
   
   @frozen enum Detail {

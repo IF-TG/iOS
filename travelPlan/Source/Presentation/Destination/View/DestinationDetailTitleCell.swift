@@ -1,5 +1,5 @@
 //
-//  SearchDestinationTitleCell.swift
+//  DestinationDetailTitleCell.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 11/28/23.
@@ -9,10 +9,10 @@ import UIKit
 import SnapKit
 import Combine
 
-final class SearchDestinationTitleCell: UICollectionViewCell {
+final class DestinationDetailTitleCell: UICollectionViewCell {
   // MARK: - Properties
   static var id: String {
-    return String.init(describing: SearchDestinationTitleCell.self)
+    return String.init(describing: DestinationDetailTitleCell.self)
   }
   
   private let titleLabel = UILabel().set {
@@ -96,7 +96,7 @@ final class SearchDestinationTitleCell: UICollectionViewCell {
 }
 
 // MARK: - LayoutSupport
-extension SearchDestinationTitleCell: LayoutSupport {
+extension DestinationDetailTitleCell: LayoutSupport {
   func addSubviews() {
     contentView.addSubview(titleLabel)
     contentView.addSubview(mapImageView)
@@ -148,8 +148,8 @@ extension SearchDestinationTitleCell: LayoutSupport {
 }
 
 // MARK: - Helpers
-extension SearchDestinationTitleCell {
-  func configure(mainInfo: SearchDestinationSection.Main) {
+extension DestinationDetailTitleCell {
+  func configure(mainInfo: DestinationDetailSection.Main) {
     titleLabel.text = mainInfo.title
     addressLabel.text = mainInfo.address
     heartButton.isSelected = mainInfo.isSelectedHeart
@@ -182,7 +182,7 @@ extension SearchDestinationTitleCell {
 }
 
 // MARK: - Private Helpers
-extension SearchDestinationTitleCell {
+extension DestinationDetailTitleCell {
   private func setupStyles() {
     contentView.backgroundColor = .white
     contentView.layer.shadowPath = UIBezierPath(
@@ -201,7 +201,7 @@ extension SearchDestinationTitleCell {
 }
 
 // MARK: - Actions
-private extension SearchDestinationTitleCell {
+private extension DestinationDetailTitleCell {
   @objc func didTapToggleButton(_ button: UIButton) {
     print("주소 자세히 보기!")
   }

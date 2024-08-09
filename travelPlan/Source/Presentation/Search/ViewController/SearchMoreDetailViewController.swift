@@ -298,7 +298,7 @@ extension SearchMoreDetailViewController: UICollectionViewDelegate {
     input.didSelectItem.send(indexPath)
     
     // TODO: - will erase
-    let viewModel = DefaultSearchDestinationViewModel()
-    navigationController?.pushViewController(SearchDestinationViewController(viewModel: viewModel, type: .festival), animated: true)
+//    let viewModel = DefaultDestinationDetailViewModel()
+//    navigationController?.pushViewController(DestinationDetailViewController(viewModel: viewModel, type: .festival), animated: true)
   }
 }

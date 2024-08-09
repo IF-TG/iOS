@@ -1,5 +1,5 @@
 //
-//  SearchDestinationServiceCell.swift
+//  DestinationDetailServiceCell.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 11/29/23.
@@ -8,14 +8,14 @@
 import UIKit
 import SnapKit
 
-struct SearchDestinationServiceTypeViewInfo {
+struct DestinationDetailServiceTypeViewInfo {
   let imageName: String
   let title: String
 }
 
-class SearchDestinationServiceCell: UICollectionViewCell {
+class DestinationDetailServiceCell: UICollectionViewCell {
   // MARK: - Properties
-  static let id = String(describing: SearchDestinationServiceCell.self)
+  static let id = String(describing: DestinationDetailServiceCell.self)
   private var onceConfigure = false
   private let stackView = UIStackView().set {
     $0.axis = .horizontal
@@ -34,7 +34,7 @@ class SearchDestinationServiceCell: UICollectionViewCell {
 }
 
 // MARK: - LayoutSupport
-extension SearchDestinationServiceCell: LayoutSupport {
+extension DestinationDetailServiceCell: LayoutSupport {
   func addSubviews() {
     contentView.addSubview(stackView)
   }
@@ -47,11 +47,11 @@ extension SearchDestinationServiceCell: LayoutSupport {
 }
 
 // MARK: - Helpers
-extension SearchDestinationServiceCell {
-  func configure(models: [SearchDestinationServiceTypeViewInfo]) {
+extension DestinationDetailServiceCell {
+  func configure(models: [DestinationDetailServiceTypeViewInfo]) {
     if !onceConfigure {
       for model in models {
-        let serviceTypeView = SearchDestinationServiceTypeView(title: model.title, imageName: model.imageName)
+        let serviceTypeView = DestinationDetailServiceTypeView(title: model.title, imageName: model.imageName)
         
         stackView.addArrangedSubview(serviceTypeView)
         serviceTypeView.snp.makeConstraints {

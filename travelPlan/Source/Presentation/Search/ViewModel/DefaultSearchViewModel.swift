@@ -1,5 +1,5 @@
 //
-//  SearchViewModel.swift
+//  DefaultSearchViewModel.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 2023/05/29.
@@ -19,10 +19,6 @@ protocol SearchViewModelDataSourceable {
   func numberOfItemsInSection(in section: Int) -> Int
   func numberOfSections() -> Int
 }
-
-protocol SearchViewModel: ViewModelable, SearchViewModelDataSourceable
-where Input == SearchViewModelInput,
-      State == SearchViewModelState {}
 
 // MARK: - Input
 struct SearchViewModelInput {

@@ -1,5 +1,5 @@
 //
-//  SearchDestinationContentCell.swift
+//  DestinationDetailContentCell.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 11/30/23.
@@ -8,10 +8,8 @@
 import UIKit
 import SnapKit
 
-final class SearchDestinationContentCell: UICollectionViewCell {
+final class DestinationDetailContentCell: UICollectionViewCell {
   // MARK: - Properties
-  static let id = String(describing: SearchDestinationContentCell.self)
-  
   private let titleLabel = UILabel().set {
     $0.text = "제목"
     $0.font = .init(pretendard: .semiBold_600(fontSize: 16))
@@ -37,7 +35,7 @@ final class SearchDestinationContentCell: UICollectionViewCell {
 }
 
 // MARK: - LayoutSupport
-extension SearchDestinationContentCell: LayoutSupport {
+extension DestinationDetailContentCell: LayoutSupport {
   func addSubviews() {
     contentView.addSubview(titleLabel)
     contentView.addSubview(descriptionLabel)
@@ -59,8 +57,8 @@ extension SearchDestinationContentCell: LayoutSupport {
 }
 
 // MARK: - Helpers
-extension SearchDestinationContentCell {
-  func configure(with info: SearchDestinationSection.Content) {
+extension DestinationDetailContentCell {
+  func configure(with info: DestinationDetailSection.Content) {
     titleLabel.text = info.title
     descriptionLabel.text = info.description
   }

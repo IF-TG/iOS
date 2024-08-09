@@ -1,5 +1,5 @@
 //
-//  SearchDestinationCollectionViewLayout.swift
+//  DestinationDetailCollectionViewLayout.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 11/29/23.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class SearchDestinationCollectionViewLayout: CompositionalLayoutCreatable {
+final class DestinationDetailCollectionViewLayout: CompositionalLayoutCreatable {
   enum Constant {
     enum SectionZero {
       static var sectionInsetTop: CGFloat { 5 }
@@ -33,7 +33,7 @@ final class SearchDestinationCollectionViewLayout: CompositionalLayoutCreatable 
 }
 
 // MARK: - Private Helpers
-extension SearchDestinationCollectionViewLayout {
+extension DestinationDetailCollectionViewLayout {
   private func makeFirstLayoutSection() -> NSCollectionLayoutSection {
     let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
                                           heightDimension: .estimated(95))

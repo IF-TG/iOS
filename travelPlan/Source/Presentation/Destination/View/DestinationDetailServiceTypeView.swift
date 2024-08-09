@@ -1,5 +1,5 @@
 //
-//  SearchDestinationServiceTypeView.swift
+//  DestinationDetailServiceTypeView.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 11/30/23.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class SearchDestinationServiceTypeView: UIView {
+final class DestinationDetailServiceTypeView: UIView {
   // MARK: - Properties
   private let titleLabel = UILabel().set {
     $0.text = "제목"
@@ -40,7 +40,7 @@ final class SearchDestinationServiceTypeView: UIView {
 }
 
 // MARK: - LayoutSupport
-extension SearchDestinationServiceTypeView: LayoutSupport {
+extension DestinationDetailServiceTypeView: LayoutSupport {
   func addSubviews() {
     addSubview(imageView)
     addSubview(titleLabel)
@@ -62,7 +62,7 @@ extension SearchDestinationServiceTypeView: LayoutSupport {
 }
 
 // MARK: - Private Helpers
-extension SearchDestinationServiceTypeView {
+extension DestinationDetailServiceTypeView {
   private func setupStyles() {
     
   }

@@ -1,15 +1,17 @@
 {
   "images" : [
     {
+      "filename" : "tempProfile5.jpg",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "tempThumbnail5.jpg",
+      "filename" : "tempProfile5 2.jpg",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "tempProfile5 3.jpg",
       "idiom" : "universal",
       "scale" : "3x"
     }
