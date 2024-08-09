@@ -18,6 +18,11 @@ enum SearchResultSectionModel {
   case destination([TravelDestinationInfo])
 }
 
+enum SearchResultSectionIndex: Int {
+  case category
+  case destination
+}
+
 struct SearchResultListViewModelInput {
   let viewDidLoad: PassthroughSubject<Void, Never> = .init()
   let didTapStarButton: PassthroughSubject<(IndexPath, Int), Never> = .init()
@@ -64,7 +69,6 @@ final class DefaultSearchResultListViewModel: SearchResultListViewModel {
     Publishers.MergeMany(
       viewDidLoadStream(input),
       didTapStarButtonStream(input),
-      didTapDetailStream(input),
       didChangeSearchTextFieldStream(input),
       didTapSearchButtonStream(input),
       didTapCategoryItem(input)
@@ -116,7 +120,15 @@ extension DefaultSearchResultListViewModel {
   }
   
   private func saveButtonState(indexPath: IndexPath, id: Int) -> AnyPublisher<State, Never> {
-    // TODO: - id값을 통해 서버에 데이터 저장을 요청하고, 성공 시 하트버튼의 색깔을 변경해야 합니다.
+  // 버튼의 눌림 여부에 의해 로직 정의
+    // 버튼이 눌려져 있지 않은 경우
+     // 디렉토리를 설정해야하므로, folderName이름을 정의해주고 useCase 호출
+    
+    // 버튼이 눌려져 있는 경우
+     // 디렉토리를 설정하지 않으므로, folderName을 nil로 주고 useCase 호출
+    
+    
+    // TODO: - id값을 통해 서버에 데이터 저장을 요청하고, 성공 시 스타버튼의 색깔을 변경해야 합니다.
     return Future { [weak self] promise in
       // fake network. 추후 네트워크 통신 이후, promise로 값을 방출해야 합니다.
       DispatchQueue.global().asyncAfter(wallDeadline: .now() + 0.5) {
@@ -146,11 +158,6 @@ extension DefaultSearchResultListViewModel {
     .eraseToAnyPublisher()
   }
   
-  private func didTapDetailStream(_ input: Input) -> Output {
-    // TODO: - 상세화면으로 이동해야합니다.
-    return Just(State.none).eraseToAnyPublisher()
-  }
-  
   private func didChangeSearchTextFieldStream(_ input: Input) -> Output {
     return input.didChangeSearchTextField
       .map { [weak self] in
@@ -160,32 +167,49 @@ extension DefaultSearchResultListViewModel {
   }
   
   private func didTapSearchButtonStream(_ input: Input) -> Output {
-    // TODO: - text 키워드를 기반으로 서버에 다시 요청해야합니다.
     return input.didTapSearchButton
-      .map { [weak self] text in
-        print("search: \(text)")
-        return State.none
+      .flatMap { [weak self] text in
+        guard let self = self else { return Just(State.none).eraseToAnyPublisher() }
+        
+        return self.useCase.fetchDestinationList(keyword: text, page: nil, perPage: nil)
+          .map { (thumbnailDestinations: [ThumbnailDestination]) -> SearchResultListViewModelState in
+            let travelDestinationInfos = thumbnailDestinations.map {
+              TravelDestinationInfo(place: $0.title,
+                                    contentTypeId: $0.id.contentTypeId,
+                                    category: $0.category.largeCategory,
+                                    location: $0.address,
+                                    isButtonSelected: $0.isScraped,
+                                    imageData: $0.thumbnailImageData,
+                                    id: $0.id.id)
+            }
+            let destinationIndex = SearchResultSectionIndex.destination.rawValue
+            self.dataSource[destinationIndex] = SearchResultSectionModel.destination(travelDestinationInfos)
+            return State.firstReloadData(text)
+          }
+          .catch { _ in return Just(State.none).eraseToAnyPublisher() }
+          .eraseToAnyPublisher()
       }
       .eraseToAnyPublisher()
   }
   
   private func didTapCategoryItem(_ input: Input) -> Output {
-    // 클릭된 cell에서 destinationId를 가져와서 actions를 통해 destinationDetailCoordinator에게 id를 넘겨야 한다.!!!!!!
     return input.didTapCategoryItem
       .map { [weak self] item, contentTypeId in
-        if case .destination(let infos) = self?.dataSource[1] {
+        let destinationIndex = SearchResultSectionIndex.destination.rawValue
+        
+        if case .destination(let infos) = self?.dataSource[destinationIndex] {
           guard let self = self else { return State.none }
           
           if item == .zero {
-            self.dataSource[1] = .destination(originalDestinationInfos)
+            self.dataSource[destinationIndex] = .destination(originalDestinationInfos)
           } else {
-            self.dataSource[1] = .destination(
+            self.dataSource[destinationIndex] = .destination(
               originalDestinationInfos.filter {
                 $0.contentTypeId == contentTypeId
               }
             )
           }
-          return State.reloadSection(1)
+          return State.reloadSection(destinationIndex)
         }
         return State.none
       }

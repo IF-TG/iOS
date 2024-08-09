@@ -215,7 +215,7 @@ extension DestinationDetailViewController: UICollectionViewDataSource {
       
     case .content(let infos):
       guard let contentCell = collectionView.dequeueReusableCell(
-        withReuseIdentifier: DestinationDetailContentCell.id,
+        withReuseIdentifier: DestinationDetailContentCell.identifier,
         for: indexPath
       ) as? DestinationDetailContentCell else { return .init() }
       
