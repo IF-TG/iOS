@@ -15,4 +15,9 @@ protocol DestinationSearchResultUseCase {
     page: Int?,
     perPage: Int?
   ) -> AnyPublisher<[ThumbnailDestination], any Error>
+  
+  func toggleScrap(
+    id: Int,
+    folderName: String?
+  ) -> AnyPublisher<DestinationScrapToggler, any Error>
 }
