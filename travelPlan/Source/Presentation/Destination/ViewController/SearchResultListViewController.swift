@@ -36,6 +36,8 @@ final class SearchResultListViewController: UIViewController {
     $0.dataSource = self
     $0.delegate = self
     $0.allowsMultipleSelection = true
+    let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapCollectionView))
+    $0.addGestureRecognizer(tapGesture)
   }
   
   private var selectedTagIndexPath = IndexPath(item: .zero, section: .zero)
@@ -105,6 +107,9 @@ extension SearchResultListViewController {
       .receive(on: RunLoop.main)
       .sink { [weak self, selectedTagIndexPath] state in
         switch state {
+        case .reloadDataWithKeyboardDown:
+          self?.searchTextField.endEditing(true)
+          self?.collectionView.reloadData()
         case .changeButtonColor(let isChanged):
           if isChanged {
             self?.setupSearchBarButtonItemStyle(.yg.primary, isEnabled: true)
@@ -264,5 +269,9 @@ private extension SearchResultListViewController {
   
   @objc func didTapBackButton() {
     viewModel.pop()
+  }
+  
+  @objc func didTapCollectionView() {
+    searchTextField.endEditing(true)
   }
 }

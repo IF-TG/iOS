@@ -37,6 +37,7 @@ enum SearchResultListViewModelState {
   case reloadSection(Int)
   case reloadItems(IndexPath)
   case changeButtonColor(Bool)
+  case reloadDataWithKeyboardDown
 }
 
 final class DefaultSearchResultListViewModel: SearchResultListViewModel {
@@ -184,7 +185,7 @@ extension DefaultSearchResultListViewModel {
             }
             let destinationIndex = SearchResultSectionIndex.destination.rawValue
             self.dataSource[destinationIndex] = SearchResultSectionModel.destination(travelDestinationInfos)
-            return State.firstReloadData(text)
+            return State.reloadDataWithKeyboardDown
           }
           .catch { _ in return Just(State.none).eraseToAnyPublisher() }
           .eraseToAnyPublisher()
