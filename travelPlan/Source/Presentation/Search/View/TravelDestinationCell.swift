@@ -54,16 +54,18 @@ extension TravelDestinationCell {
     self.contentId = info.id
   }
   
-  func bind(to publisher: PassthroughSubject<(IndexPath, Int), Never>, indexPath: IndexPath) {
+  // in SearchResultListVC
+  func bind(to publisher: PassthroughSubject<(IndexPath, Int, Bool), Never>, indexPath: IndexPath) {
     cancellable?.cancel()
     cancellable = containerView
       .starButtonTapPublisher
-      .sink { [weak self] in
+      .sink { [weak self] isSelected in
         guard let self = self, let contentId = self.contentId else { return }
-        publisher.send((indexPath, contentId))
+        publisher.send((indexPath, contentId, isSelected))
       }
   }
   
+  // in SearchVC
   func bind(to publisher: PassthroughSubject<IndexPath, Never>, indexPath: IndexPath) {
     cancellable?.cancel()
     cancellable = containerView

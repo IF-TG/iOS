@@ -25,7 +25,7 @@ enum SearchResultSectionIndex: Int {
 
 struct SearchResultListViewModelInput {
   let viewDidLoad: PassthroughSubject<Void, Never> = .init()
-  let didTapStarButton: PassthroughSubject<(IndexPath, Int), Never> = .init()
+  let didTapStarButton: PassthroughSubject<(IndexPath, Int, Bool), Never> = .init()
   let didTapSearchButton: PassthroughSubject<String, Never> = .init()
   let didChangeSearchTextField: AnyPublisher<String, Never>
   let didTapCategoryItem: PassthroughSubject<(Int, Int), Never> = .init()
@@ -113,7 +113,10 @@ extension DefaultSearchResultListViewModel {
   
   private func didTapStarButtonStream(_ input: Input) -> Output {
     return input.didTapStarButton
-      .flatMap { [weak self] indexPath, id in
+      .flatMap { [weak self] indexPath, id, isSelected in
+        
+        print("이전에 버튼이 눌려져있었는가?: \(isSelected)")
+        // TODO: - isSelected를 기반으로 아래 주석상태를 구현해야함.
         guard let self = self else { return Just(State.none).eraseToAnyPublisher() }
         return self.saveButtonState(indexPath: indexPath, id: id)
       }
@@ -142,7 +145,7 @@ extension DefaultSearchResultListViewModel {
           
           if case .destination(var infos) = self.dataSource[indexPath.section] {
             infos[indexPath.item].isButtonSelected.toggle()
-            for (i, info) in self.originalDestinationInfos.enumerated()
+            for (i, _) in self.originalDestinationInfos.enumerated()
             where self.originalDestinationInfos[i].id == id {
               self.originalDestinationInfos[i].isButtonSelected.toggle()
               break
