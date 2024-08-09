@@ -18,6 +18,11 @@ enum SearchResultSectionModel {
   case destination([TravelDestinationInfo])
 }
 
+enum SearchResultSectionIndex: Int {
+  case category
+  case destination
+}
+
 struct SearchResultListViewModelInput {
   let viewDidLoad: PassthroughSubject<Void, Never> = .init()
   let didTapStarButton: PassthroughSubject<(IndexPath, Int), Never> = .init()
@@ -177,7 +182,8 @@ extension DefaultSearchResultListViewModel {
                                     imageData: $0.thumbnailImageData,
                                     id: $0.id.id)
             }
-            self.dataSource[1] = SearchResultSectionModel.destination(travelDestinationInfos)
+            let destinationIndex = SearchResultSectionIndex.destination.rawValue
+            self.dataSource[destinationIndex] = SearchResultSectionModel.destination(travelDestinationInfos)
             return State.firstReloadData(text)
           }
           .catch { _ in return Just(State.none).eraseToAnyPublisher() }
@@ -189,19 +195,21 @@ extension DefaultSearchResultListViewModel {
   private func didTapCategoryItem(_ input: Input) -> Output {
     return input.didTapCategoryItem
       .map { [weak self] item, contentTypeId in
-        if case .destination(let infos) = self?.dataSource[1] {
+        let destinationIndex = SearchResultSectionIndex.destination.rawValue
+        
+        if case .destination(let infos) = self?.dataSource[destinationIndex] {
           guard let self = self else { return State.none }
           
           if item == .zero {
-            self.dataSource[1] = .destination(originalDestinationInfos)
+            self.dataSource[destinationIndex] = .destination(originalDestinationInfos)
           } else {
-            self.dataSource[1] = .destination(
+            self.dataSource[destinationIndex] = .destination(
               originalDestinationInfos.filter {
                 $0.contentTypeId == contentTypeId
               }
             )
           }
-          return State.reloadSection(1)
+          return State.reloadSection(destinationIndex)
         }
         return State.none
       }
