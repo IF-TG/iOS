@@ -87,19 +87,27 @@ extension DefaultSearchResultListViewModel {
       
       return self.useCase.fetchDestinationList(keyword: searchKeyword, page: nil, perPage: nil)
         .map { (thumbnailDestinations: [ThumbnailDestination]) -> SearchResultListViewModelState in
-          self.dataSource.append(.category(
-            [TravelDestinationCategoryInfo(contentTypeId: nil, title: "전체")] +
-            TourType.allCases.map { TravelDestinationCategoryInfo(contentTypeId: $0.rawValue, title: $0.toString) }
-          ))
+          var categoryInfos = [TravelDestinationCategoryInfo]()
           
-          let travelDestinationInfos = thumbnailDestinations.map {
-            TravelDestinationInfo(place: $0.title,
-                                  contentTypeId: $0.id.contentTypeId,
-                                  category: $0.category.largeCategory,
-                                  location: $0.address,
-                                  isButtonSelected: $0.isScraped,
-                                  imageData: $0.thumbnailImageData,
-                                  id: $0.id.id)
+          categoryInfos.append(TravelDestinationCategoryInfo(contentTypeId: nil, title: "전체"))
+          
+          for tourType in TourType.allCases {
+            if tourType != TourType.course && tourType != TourType.accommodation {
+              categoryInfos.append(
+                TravelDestinationCategoryInfo(contentTypeId: tourType.rawValue, title: tourType.toString)
+              )
+            }
+          }
+          self.dataSource.append(.category(categoryInfos))
+          
+          let travelDestinationInfos = thumbnailDestinations.map { destination in
+            TravelDestinationInfo(place: destination.title,
+                                  contentTypeId: destination.id.contentTypeId,
+                                  category: destination.category.largeCategory,
+                                  location: destination.address,
+                                  isButtonSelected: destination.isScraped,
+                                  imageData: destination.thumbnailImageData,
+                                  id: destination.id.id)
           }
           self.originalDestinationInfos = travelDestinationInfos
           
