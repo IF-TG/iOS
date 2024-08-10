@@ -2,27 +2,183 @@
     "result": {
         "destinations": [
             {
-                "id": 1234,
+                "id": 1,
                 "contentTypeId": 39,
                 "title": "음식점 타이틀 mock1",
                 "thumbnailUrl": "restaurant_1",
                 "address": "123 Ocean Drive, Beach City",
-                "largeCategory": "Nature",
+                "largeCategory": "식당",
                 "smallCategory": "Beaches",
                 "middleCategory": "Tropical",
                 "scraped": true
             },
             {
-                "id": 987,
+                "id": 2,
                 "contentTypeId": 39,
                 "title": "음식점 타이틀 mock2",
                 "thumbnailUrl": "restaurant_1",
                 "address": "456 Mountain Road, Hill Town",
-                "largeCategory": "Adventure",
+                "largeCategory": "식당",
                 "smallCategory": "Hiking",
                 "middleCategory": "Mountain",
                 "scraped": false
+            },
+            {
+                "id": 3,
+                "contentTypeId": 12,
+                "title": "관광지 타이틀 mock1",
+                "thumbnailUrl": "restaurant_1",
+                "address": "123 Ocean Drive, Beach City",
+                "largeCategory": "관광지",
+                "smallCategory": "Beaches",
+                "middleCategory": "Tropical",
+                "scraped": true
+            },
+            {
+                "id": 4,
+                "contentTypeId": 12,
+                "title": "관광지 타이틀 mock2",
+                "thumbnailUrl": "restaurant_1",
+                "address": "주소주소주소주소주소주소주소주소주소주소",
+                "largeCategory": "관광지",
+                "smallCategory": "Beaches",
+                "middleCategory": "Tropical",
+                "scraped": false
+            },
+            {
+                "id": 5,
+                "contentTypeId": 12,
+                "title": "관광지 타이틀 mock3",
+                "thumbnailUrl": "restaurant_1",
+                "address": "주소",
+                "largeCategory": "관광지",
+                "smallCategory": "Beaches",
+                "middleCategory": "Tropical",
+                "scraped": false
+            },
+            {
+                "id": 6,
+                "contentTypeId": 14,
+                "title": "문화시설 타이틀 mock1",
+                "thumbnailUrl": "restaurant_1",
+                "address": "주소",
+                "largeCategory": "문화시설",
+                "smallCategory": "Beaches",
+                "middleCategory": "Tropical",
+                "scraped": true
+            },
+            {
+                "id": 7,
+                "contentTypeId": 14,
+                "title": "문화시설 타이틀 mock2",
+                "thumbnailUrl": "restaurant_1",
+                "address": "주소",
+                "largeCategory": "문화시설",
+                "smallCategory": "Beaches",
+                "middleCategory": "Tropical",
+                "scraped": false
+            },
+            {
+                "id": 8,
+                "contentTypeId": 14,
+                "title": "문화시설 타이틀 mock3",
+                "thumbnailUrl": "restaurant_1",
+                "address": "주소",
+                "largeCategory": "문화시설",
+                "smallCategory": "Beaches",
+                "middleCategory": "Tropical",
+                "scraped": true
+            },
+            {
+                "id": 9,
+                "contentTypeId": 15,
+                "title": "축제 타이틀 mock1",
+                "thumbnailUrl": "restaurant_1",
+                "address": "주소",
+                "largeCategory": "축제",
+                "smallCategory": "Beaches",
+                "middleCategory": "Tropical",
+                "scraped": true
+            },
+            {
+                "id": 10,
+                "contentTypeId": 15,
+                "title": "축제 타이틀 mock2",
+                "thumbnailUrl": "restaurant_1",
+                "address": "주소",
+                "largeCategory": "축제",
+                "smallCategory": "Beaches",
+                "middleCategory": "Tropical",
+                "scraped": false
+            },
+            {
+                "id": 11,
+                "contentTypeId": 15,
+                "title": "축제 타이틀 mock3",
+                "thumbnailUrl": "restaurant_1",
+                "address": "주소",
+                "largeCategory": "축제",
+                "smallCategory": "Beaches",
+                "middleCategory": "Tropical",
+                "scraped": false
+            },
+            {
+                "id": 12,
+                "contentTypeId": 28,
+                "title": "레포츠 타이틀 mock1",
+                "thumbnailUrl": "restaurant_1",
+                "address": "주소",
+                "largeCategory": "레포츠",
+                "smallCategory": "Beaches",
+                "middleCategory": "Tropical",
+                "scraped": false
+            },
+            {
+                "id": 13,
+                "contentTypeId": 28,
+                "title": "레포츠 타이틀 mock2",
+                "thumbnailUrl": "restaurant_1",
+                "address": "주소",
+                "largeCategory": "레포츠",
+                "smallCategory": "Beaches",
+                "middleCategory": "Tropical",
+                "scraped": false
+            },
+            {
+                "id": 14,
+                "contentTypeId": 38,
+                "title": "쇼핑 타이틀 mock1",
+                "thumbnailUrl": "restaurant_1",
+                "address": "주소",
+                "largeCategory": "쇼핑",
+                "smallCategory": "Beaches",
+                "middleCategory": "Tropical",
+                "scraped": false
+            },
+            {
+                "id": 15,
+                "contentTypeId": 38,
+                "title": "쇼핑 타이틀 mock2",
+                "thumbnailUrl": "restaurant_1",
+                "address": "주소",
+                "largeCategory": "쇼핑",
+                "smallCategory": "Beaches",
+                "middleCategory": "Tropical",
+                "scraped": true
+            },
+            {
+                "id": 16,
+                "contentTypeId": 38,
+                "title": "쇼핑 타이틀 mock3",
+                "thumbnailUrl": "restaurant_1",
+                "address": "주소",
+                "largeCategory": "쇼핑",
+                "smallCategory": "Beaches",
+                "middleCategory": "Tropical",
+                "scraped": false
             }
+            
+            
         ],
         "gptRelated": true
     },
