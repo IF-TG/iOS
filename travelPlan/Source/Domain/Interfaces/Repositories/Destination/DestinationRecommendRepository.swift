@@ -9,6 +9,7 @@ import Foundation
 import Combine
 
 protocol DestinationRecommendRepository {
+  /// 여행지 추천 list를 받아옵니다.
   func fetchRecommendationDestinationList(
     page: Int?,
     perPage: Int?
