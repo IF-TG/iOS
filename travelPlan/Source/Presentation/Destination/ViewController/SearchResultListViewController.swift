@@ -37,6 +37,7 @@ final class SearchResultListViewController: UIViewController {
     $0.delegate = self
     $0.allowsMultipleSelection = true
     let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapCollectionView))
+    tapGesture.cancelsTouchesInView = false
     $0.addGestureRecognizer(tapGesture)
   }
   
@@ -181,16 +182,14 @@ extension SearchResultListViewController: UICollectionViewDelegate {
     didSelectItemAt indexPath: IndexPath
   ) {
     if indexPath.section == 0 {
-      guard selectedTagIndexPath != indexPath else { return }
-      
       collectionView.deselectItem(at: selectedTagIndexPath, animated: false)
       selectedTagIndexPath = indexPath
       
-      guard let categoryCell = collectionView.cellForItem(at: indexPath)
-              as? SearchResultCategoryCell else { return }
+      guard 
+        let categoryCell = collectionView.cellForItem(at: indexPath) as? SearchResultCategoryCell
+      else { return }
       
-      guard let contentTypeId = categoryCell.contentTypeId else { return }
-      input.didTapCategoryItem.send((indexPath.item, contentTypeId))
+      input.didTapCategoryItem.send((indexPath.item, categoryCell.contentTypeId))
     } else {
       if case .destination(let infos) = viewModel.dataSource[indexPath.section] {
         let info = infos[indexPath.item]

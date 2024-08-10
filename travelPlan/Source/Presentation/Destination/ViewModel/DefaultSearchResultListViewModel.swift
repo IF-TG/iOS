@@ -13,7 +13,7 @@ struct SearchResultListViewModelActions {
   let showDestinationDetail: (DestinationIdEntity) -> Void
 }
 
-enum SearchResultSectionModel {
+@frozen enum SearchResultSectionModel {
   case category([TravelDestinationCategoryInfo])
   case destination([TravelDestinationInfo])
 }
@@ -28,7 +28,7 @@ struct SearchResultListViewModelInput {
   let didTapStarButton: PassthroughSubject<(IndexPath, Int, Bool), Never> = .init()
   let didTapSearchButton: PassthroughSubject<String, Never> = .init()
   let didChangeSearchTextField: AnyPublisher<String, Never>
-  let didTapCategoryItem: PassthroughSubject<(Int, Int), Never> = .init()
+  let didTapCategoryItem: PassthroughSubject<(Int, Int?), Never> = .init()
 }
 
 enum SearchResultListViewModelState {
@@ -72,7 +72,7 @@ final class DefaultSearchResultListViewModel: SearchResultListViewModel {
       didTapStarButtonStream(input),
       didChangeSearchTextFieldStream(input),
       didTapSearchButtonStream(input),
-      didTapCategoryItem(input)
+      didTapCategoryItemStream(input)
     )
     .eraseToAnyPublisher()
   }
@@ -101,6 +101,7 @@ extension DefaultSearchResultListViewModel {
                                   imageData: $0.thumbnailImageData,
                                   id: $0.id.id)
           }
+          self.originalDestinationInfos = travelDestinationInfos
           
           self.dataSource.append(.destination(travelDestinationInfos))
           return State.firstReloadData(self.searchKeyword)
@@ -159,15 +160,15 @@ extension DefaultSearchResultListViewModel {
       .eraseToAnyPublisher()
   }
   
-  private func didTapCategoryItem(_ input: Input) -> Output {
+  private func didTapCategoryItemStream(_ input: Input) -> Output {
     return input.didTapCategoryItem
-      .map { [weak self] item, contentTypeId in
-        let destinationIndex = SearchResultSectionIndex.destination.rawValue
+      .map { [weak self] (itemIndex, contentTypeId) -> State in
+        guard let self = self else { return State.none }
         
-        if case .destination(let infos) = self?.dataSource[destinationIndex] {
-          guard let self = self else { return State.none }
+        let destinationIndex = SearchResultSectionIndex.destination.rawValue
+        if case .destination = dataSource[destinationIndex] {
           
-          if item == .zero {
+          if itemIndex == SearchResultSectionIndex.category.rawValue {
             self.dataSource[destinationIndex] = .destination(originalDestinationInfos)
           } else {
             self.dataSource[destinationIndex] = .destination(
@@ -201,6 +202,12 @@ extension DefaultSearchResultListViewModel {
         if case .destination(var infos) = self.dataSource[indexPath.section] {
           infos[indexPath.item].isButtonSelected = toggler.isSelected
           self.dataSource[indexPath.section] = .destination(infos)
+          
+          // update originInfo
+          for i in 0..<originalDestinationInfos.count
+          where originalDestinationInfos[i].id == infos[indexPath.item].id {
+            originalDestinationInfos[i].isButtonSelected = toggler.isSelected
+          }
         }
         return State.reloadItems(indexPath)
       }
