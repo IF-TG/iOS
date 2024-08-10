@@ -97,7 +97,7 @@
 
 | ![ 상세화면 스크롤 ](https://github.com/user-attachments/assets/a13edfca-32ed-4b12-b393-2a546e357a74) | ![네비바 애니](https://github.com/user-attachments/assets/be9ac408-1983-4d0b-a24f-880ad236c78c)  | ![ 카테고리 ](https://github.com/user-attachments/assets/64f07e56-6798-4e96-99cc-89a466edfc7f)  | ![편집하기](https://github.com/user-attachments/assets/fc9ff720-0940-4a0d-a67a-5380e6acdb24)  |
 | :-:| :-: | :-: | :-: |
-| `상세화면 스크롤` | `자연스러운 네비바 애니메이션` | `카테고리 편집 화면` | `상세화면 -> 편집화면 이동` |
+| `상세화면 스크롤` | `자연스러운 네비바 애니메이션` | `카테고리 화면` | `상세화면 -> 편집화면 이동` |
 
 | gif1 | gif2  | gif3  | gif4  |
 | :-:| :-: | :-: | :-: |
