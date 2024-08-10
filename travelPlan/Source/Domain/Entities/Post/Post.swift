@@ -7,14 +7,14 @@
 
 import Foundation
 
-struct Post {
-  var liked: Bool?
-  var detail: Detail<[PostContent]>
-  let author: Author
-  let highResolveImages: [PostImage]
-  let category: Category
+public struct Post {
+  public var liked: Bool?
+  public var detail: Detail<[PostContent]>
+  public let author: Author
+  public let highResolveImages: [PostImage]
+  public let category: Category
   
-  init(
+  public init(
     liked: Bool?,
     detail: Detail<[PostContent]>,
     author: Author,
@@ -28,7 +28,7 @@ struct Post {
     self.category = category
   }
   
-  init(
+  public init(
     liked: Bool,
     atomicPost: AtomicPost,
     postAuthor: Post.Author
@@ -43,7 +43,7 @@ struct Post {
 
 // MARK: - Nested
 extension Post {
-  struct Detail<ContentType> {
+  public struct Detail<ContentType> {
     let postID: PostIdentifier
     let title: String
     let content: ContentType
@@ -54,35 +54,35 @@ extension Post {
     let tripDate: TripDate
   }
   
-  struct PostImage {
+  public struct PostImage {
     let imageData: Data?
     let sort: Int32
   }
   
-  struct PostContent {
+  public struct PostContent {
     let sort: Int
     let text: String
   }
   
-  struct Author {
+  public struct Author {
     let profileImageData: Data?
     let nickname: String
     var authorId: UserIdentifier
   }
   
-  struct TripDate {
+  public struct TripDate {
     let startDate: Date
     let endDate: Date
   }
   
-  struct Category {
+  public struct Category {
     let themes: [TravelTheme]
     let regions: [TravelRegion]
     let seasons: [Season]
     let partners: [TravelPartner]
   }
   
-  struct Location {
+  public struct Location {
     let x: Double
     let y: Double
   }
