@@ -146,7 +146,9 @@ final class MockPostsGeneratorForPaging {
       let postDetail = Post.Detail(
         postID: PostIdentifier(i),
         title: titles[i],
-        content: [Post.PostContent(sort: 1+i*i, text: postContentTexts[i])],
+        content: [Post.PostContent(sort: 1, text: postContentTexts[i]),
+                  Post.PostContent(sort: 4, text: postContentTexts[(i+3)%postContentTexts.count]),
+                  Post.PostContent(sort: 7, text: postContentTexts[(i+5)%postContentTexts.count])],
         likes: Int32(postHearts[i]),
         comments: Int32(postComments[i]),
         location: .init(x: -1.0, y: -1.0),
