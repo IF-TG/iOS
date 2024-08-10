@@ -255,6 +255,8 @@
 		13CB6D342A1FEC6D00D185B2 /* CautionAlertViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CB6D332A1FEC6D00D185B2 /* CautionAlertViewControllerDelegate.swift */; };
 		13CB6D362A20E12B00D185B2 /* CALayer+Border.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CB6D352A20E12B00D185B2 /* CALayer+Border.swift */; };
 		13CC52742C4A96C2002134D2 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 13CC52732C4A96C2002134D2 /* RealmSwift */; };
+		13E5B8782C67BC02000E1006 /* DefaultDestinationRecommendUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E5B8772C67BC02000E1006 /* DefaultDestinationRecommendUseCase.swift */; };
+		13E5B87A2C67BC4B000E1006 /* DestinationRecommendUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E5B8792C67BC4B000E1006 /* DestinationRecommendUseCase.swift */; };
 		13E622BF2BD02401003E4FA4 /* mock_reviewWriting_post_response.json in Resources */ = {isa = PBXBuildFile; fileRef = 13E622BD2BD02401003E4FA4 /* mock_reviewWriting_post_response.json */; };
 		13E622C32BD39F91003E4FA4 /* MockReviewWritingRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E622C22BD39F91003E4FA4 /* MockReviewWritingRepository.swift */; };
 		13E746772B4D303E007D5C15 /* PhotoCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E746762B4D303E007D5C15 /* PhotoCellDelegate.swift */; };
@@ -1279,6 +1281,8 @@
 		13CB6D312A1E9F6600D185B2 /* CautionAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CautionAlertViewController.swift; sourceTree = "<group>"; };
 		13CB6D332A1FEC6D00D185B2 /* CautionAlertViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CautionAlertViewControllerDelegate.swift; sourceTree = "<group>"; };
 		13CB6D352A20E12B00D185B2 /* CALayer+Border.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+Border.swift"; sourceTree = "<group>"; };
+		13E5B8772C67BC02000E1006 /* DefaultDestinationRecommendUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultDestinationRecommendUseCase.swift; sourceTree = "<group>"; };
+		13E5B8792C67BC4B000E1006 /* DestinationRecommendUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationRecommendUseCase.swift; sourceTree = "<group>"; };
 		13E622BE2BD02401003E4FA4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/mock_reviewWriting_post_response.json; sourceTree = "<group>"; };
 		13E622C22BD39F91003E4FA4 /* MockReviewWritingRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockReviewWritingRepository.swift; sourceTree = "<group>"; };
 		13E746762B4D303E007D5C15 /* PhotoCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCellDelegate.swift; sourceTree = "<group>"; };
@@ -2208,6 +2212,7 @@
 			children = (
 				13491A962C451289002A2B28 /* DefaultDestinationSearchResultUseCase.swift */,
 				132ADDA42C59FE1900E76934 /* DefaultDestinationDetailUseCase.swift */,
+				13E5B8772C67BC02000E1006 /* DefaultDestinationRecommendUseCase.swift */,
 			);
 			path = Destination;
 			sourceTree = "<group>";
@@ -2217,6 +2222,7 @@
 			children = (
 				132ADDA72C59FFD900E76934 /* DestinationDetailUseCase.swift */,
 				13491A922C450C5E002A2B28 /* DestinationSearchResultUseCase.swift */,
+				13E5B8792C67BC4B000E1006 /* DestinationRecommendUseCase.swift */,
 			);
 			path = Destination;
 			sourceTree = "<group>";
@@ -5694,6 +5700,7 @@
 				15B5E79B2BBAE3B400C19F56 /* UserBlockResponseDTO.swift in Sources */,
 				1546587B2BEA60AC0081CCF8 /* UserDefaultsOwnerStorage.swift in Sources */,
 				15D655822B8E079200466FEC /* UserInfoAPIEndpoint.swift in Sources */,
+				13E5B87A2C67BC4B000E1006 /* DestinationRecommendUseCase.swift in Sources */,
 				15C1F55A2AF37092005FDA15 /* BaseLabel.swift in Sources */,
 				151AF4DF2C2C35BC004B98EE /* BasePlanCategorySelectionViewController.swift in Sources */,
 				157ADCA02ACFB33100D37680 /* UIScrollView+.swift in Sources */,
@@ -5790,6 +5797,7 @@
 				1558033B2BF1ACAD008F631C /* PostNestedCommentHeartUseCaseImpl.swift in Sources */,
 				13491A9B2C48FC7E002A2B28 /* SearchHistoryUseCase.swift in Sources */,
 				13C9F4E02BFC5C2E004D37D5 /* SearchFestivalInfo.swift in Sources */,
+				13E5B8782C67BC02000E1006 /* DefaultDestinationRecommendUseCase.swift in Sources */,
 				15C36BBB2BD17AC0004AA8E9 /* FirestoreRequestType.swift in Sources */,
 				1572ABC22BE78D62008AFE66 /* PostCommentAtomicRepository.swift in Sources */,
 				15E0BA0B2BF1BBED00EBCDD9 /* PostNestedCommentUseCaseImpl.swift in Sources */,
