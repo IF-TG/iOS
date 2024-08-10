@@ -3014,6 +3014,7 @@
 		151DF0EE2AEEAE1100D5D55B /* Entities */ = {
 			isa = PBXGroup;
 			children = (
+				1541B01C2C672D480011DAAA /* Notice */,
 				132ADDA22C59F7AB00E76934 /* Search */,
 				132ADDA12C59F77B00E76934 /* Tour */,
 				132ADDA02C59F75600E76934 /* Login */,
@@ -3022,8 +3023,6 @@
 				15CE24142BE3B0B8009EAFEE /* User */,
 				15D37F7E2B978309000E8FDB /* TravelCategory */,
 				15CE24132BE3B024009EAFEE /* Post */,
-				151DF0EF2AEEAE2100D5D55B /* NoticeEntity.swift */,
-				1564A0A32BBFE25B0045424B /* UpdatedFavoritePostDirectoryName.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -3524,6 +3523,14 @@
 				15591DD72BBE9D1800128A9E /* DefaultFavoritePostInDirectoryRepository.swift */,
 			);
 			path = FavoriteDirectory;
+			sourceTree = "<group>";
+		};
+		1541B01C2C672D480011DAAA /* Notice */ = {
+			isa = PBXGroup;
+			children = (
+				151DF0EF2AEEAE2100D5D55B /* NoticeEntity.swift */,
+			);
+			path = Notice;
 			sourceTree = "<group>";
 		};
 		1546DF182B0A653F00B49A55 /* Core */ = {
@@ -4483,6 +4490,7 @@
 		15CE24132BE3B024009EAFEE /* Post */ = {
 			isa = PBXGroup;
 			children = (
+				1564A0A32BBFE25B0045424B /* UpdatedFavoritePostDirectoryName.swift */,
 				150D4E672BEA58A8004509D6 /* Comment */,
 				13E98F932BC7E42E00F05295 /* PostContentEntity.swift */,
 				15A8599F2BB56E18002C0CA0 /* PostContainer.swift */,
