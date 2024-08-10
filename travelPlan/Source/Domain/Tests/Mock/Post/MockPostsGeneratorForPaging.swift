@@ -146,7 +146,7 @@ final class MockPostsGeneratorForPaging {
       let postDetail = Post.Detail(
         postID: PostIdentifier(i),
         title: titles[i],
-        content: [Post.PostContent(sort: 1, text: postContentTexts[i])],
+        content: [Post.PostContent(sort: 1+i*i, text: postContentTexts[i])],
         likes: Int32(postHearts[i]),
         comments: Int32(postComments[i]),
         location: .init(x: -1.0, y: -1.0),
@@ -156,7 +156,7 @@ final class MockPostsGeneratorForPaging {
       let profileImageData = loadImage(named: profilePath(i % 5))!
       
       let highResolveImages = postContentThumbnails[i].enumerated().compactMap { (idx, imageString) in
-        return Post.PostImage(imageData: loadImage(named: imageString), sort: Int32(idx + 2))
+        return Post.PostImage(imageData: loadImage(named: imageString), sort: Int32(idx + 2*i))
       }
       
       let postContentThumbnails = postContentThumbnails[i].compactMap { loadImage(named: $0) }
