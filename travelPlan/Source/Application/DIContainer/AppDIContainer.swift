@@ -145,7 +145,9 @@ extension AppDIContainer: PostDetailCoordinatorDependencies {
     presenter: UINavigationController?,
     mode: ReviewWritingMode
   ) -> any SHCoordinator.FlowCoordinator {
-    return resolver.resolve(ReviewWritingCoordinator.self, arguments: presenter, mode)!
+    #warning("임시로 리뷰 화면 편집할 떄 들어갈 수 있도록 했는데, reviewWRiting 코디 등록해서 이 시점에서 resolve해주어야 합니다.")
+    return ReviewWritingCoordinator(presenter: presenter, mode: mode)
+    //return resolver.resolve(ReviewWritingCoordinator.self, arguments: presenter, mode)!
   }
   
   func makePostDetailCategoryViewController(dataSource: [String]) -> UIViewController {
