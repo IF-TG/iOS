@@ -158,7 +158,7 @@ final class MockPostsGeneratorForPaging {
       let profileImageData = loadImage(named: profilePath(i % 5))!
       
       let highResolveImages = postContentThumbnails[i].enumerated().compactMap { (idx, imageString) in
-        return Post.PostImage(imageData: loadImage(named: imageString), sort: Int32(idx + 2*i))
+        return Post.PostImage(imageData: loadImage(named: imageString), sort: Int32(idx + (0...2).randomElement()!))
       }
       
       let postContentThumbnails = postContentThumbnails[i].compactMap { loadImage(named: $0) }
