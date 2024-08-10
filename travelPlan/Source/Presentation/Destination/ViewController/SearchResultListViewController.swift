@@ -181,16 +181,17 @@ extension SearchResultListViewController: UICollectionViewDelegate {
     _ collectionView: UICollectionView,
     didSelectItemAt indexPath: IndexPath
   ) {
-    if indexPath.section == 0 {
+    guard let section = SearchResultSectionIndex(rawValue: indexPath.section) else { return }
+    
+    switch section {
+    case .category:
       collectionView.deselectItem(at: selectedTagIndexPath, animated: false)
       selectedTagIndexPath = indexPath
-      
-      guard 
+      guard
         let categoryCell = collectionView.cellForItem(at: indexPath) as? SearchResultCategoryCell
       else { return }
-      
       input.didTapCategoryItem.send((indexPath.item, categoryCell.contentTypeId))
-    } else {
+    case .destination:
       if case .destination(let infos) = viewModel.dataSource[indexPath.section] {
         let info = infos[indexPath.item]
         viewModel.showDestinationDetailPage(id: info.id, contentTypeId: info.contentTypeId)
@@ -202,8 +203,9 @@ extension SearchResultListViewController: UICollectionViewDelegate {
     _ collectionView: UICollectionView,
     didDeselectItemAt indexPath: IndexPath
   ) {
-    if indexPath.section == 0,
-       selectedTagIndexPath == indexPath {
+    guard let section = SearchResultSectionIndex(rawValue: indexPath.section) else { return }
+    
+    if case .category = section, selectedTagIndexPath == indexPath {
       collectionView.selectItem(at: indexPath, animated: false, scrollPosition: [])
     }
   }
