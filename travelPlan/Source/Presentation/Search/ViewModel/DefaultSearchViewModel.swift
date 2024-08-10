@@ -13,13 +13,6 @@ struct SearchViewModelActions {
   let showSearchHistory: () -> Void
 }
 
-protocol SearchViewModelDataSourceable {
-  func getCellViewModels(in section: Int) -> SearchItemType
-  func fetchHeaderTitle(in section: Int) -> String
-  func numberOfItemsInSection(in section: Int) -> Int
-  func numberOfSections() -> Int
-}
-
 // MARK: - Input
 struct SearchViewModelInput {
   let viewDidLoad: PassthroughSubject<Void, Never> = .init()
