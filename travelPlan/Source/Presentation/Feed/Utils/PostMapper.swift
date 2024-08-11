@@ -8,8 +8,8 @@
 import Foundation
 import UIKit
 
-struct PostMapper {
-  static func toPostInfo(_ post: Post, thumbnails: [Data]) -> PostInfo {
+public struct PostMapper {
+  public static func toPostInfo(_ post: Post, thumbnails: [Data]) -> PostInfo {
     let tripDate = post.detail.tripDate
     let postHeaderContentBottomInfo = PostHeaderContentBottomInfo(
       userName: post.author.nickname,
@@ -35,28 +35,12 @@ struct PostMapper {
       footer: postFooterInfo)
   }
   
-  static func toPostDetails(_ post: Post, category: Post.Category) -> PostDetails {
-    var textIndex = 0
-    var imageIndex = 0
-    var content: [PostContentEntity] = (1...(post.detail.content.count + post.highResolveImages.count)).map { i in
-      if post.detail.content.count > textIndex, post.detail.content[textIndex].sort == i {
-        let entity = PostContentEntity.text(post.detail.content[textIndex].text)
-        textIndex += 1
-        return entity
-      } else {
-        let entity = PostContentEntity.image(post.highResolveImages[imageIndex].imageData ?? Data())
-        imageIndex += 1
-        return entity
-      }
-    }
-    
-    /// 비어있는 이미지 제거.
-    content = content.filter { entity in
-      if case .image(let data) = entity, data.count < 1 {
-        return false
-      }
-      return true
-    }
+  public static func toPostDetails(_ post: Post, category: Post.Category) -> PostDetails {
+    let content: [PostContentEntity] = (post.detail.content.map(convert(postContent:)) +
+     post.highResolveImages.compactMap(convert(postImage:))
+    )
+    .sorted(by: comparer)
+    .map { $0.postContentEntity }
     
     let postDetail = Post.Detail<[PostContentEntity]>(
       postID: post.detail.postID, title: post.detail.title,
@@ -64,12 +48,29 @@ struct PostMapper {
       comments: post.detail.comments, location: post.detail.location,
       createAt: post.detail.createAt, tripDate: post.detail.tripDate)
     
-    /// Firestore를 사용한 경우 좋아요는 서버를 통해 확인받아야 합니다.
+    // MARK: Firestore를 사용한 경우 좋아요는 서버를 통해 확인받아야 합니다.
     return PostDetails(
       detail: postDetail,
       author: post.author,
       isFavorite: false,
       hasHeart: post.liked ?? false,
       category: category)
+  }
+}
+
+// MARK: - Helpers
+internal extension PostMapper {
+  typealias SortAndPostContent = (sort: Int, postContentEntity: PostContentEntity)
+  static func convert(postContent: Post.PostContent) -> SortAndPostContent {
+    (postContent.sort, PostContentEntity.text(postContent.text))
+  }
+  
+  static func convert(postImage: Post.PostImage) -> SortAndPostContent? {
+    guard let imageData = postImage.imageData else { return nil }
+    return (Int(postImage.sort), PostContentEntity.image(imageData))
+  }
+  
+  static var comparer = { (lhs: PostMapper.SortAndPostContent, rhs: PostMapper.SortAndPostContent) -> Bool in
+    lhs.sort < rhs.sort
   }
 }

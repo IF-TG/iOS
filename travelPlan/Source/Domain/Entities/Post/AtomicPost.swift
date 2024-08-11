@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct AtomicPost {
+public struct AtomicPost {
   // MARK: - Firestore를 활용하게 될 경우 authorId는 String이 되야 합니다.
   let authorId: UserIdentifier
   let detail: Post.Detail<[Post.PostContent]>
