@@ -10,6 +10,7 @@ import Combine
 
 struct SearchViewModelActions {
   let showSearchDetail: (SearchSectionType) -> Void
+  let showDetail: (_ destinationId: DestinationIdEntity) -> Void
   let showSearchHistory: () -> Void
 }
 
@@ -17,7 +18,7 @@ struct SearchViewModelActions {
 struct SearchViewModelInput {
   let viewDidLoad: PassthroughSubject<Void, Never> = .init()
   let didTapView: PassthroughSubject<Void, Never> = .init()
-  let didTapStarButton: PassthroughSubject<IndexPath, Never> = .init()
+  let didTapStarButton: PassthroughSubject<(IndexPath, Bool), Never> = .init()
   let didTaplookingMoreButton: PassthroughSubject<Int, Never> = .init()
   let textFieldDidBeginEditing: PassthroughSubject<Void, Never> = .init()
 }
@@ -27,17 +28,20 @@ enum SearchViewModelState {
   case goDownKeyboard
   case none
   case reloadItems(IndexPath)
+  case reloadData
 }
 
 final class DefaultSearchViewModel {
   // MARK: - Dependencies
   private let actions: SearchViewModelActions
+  private let useCase: any DestinationRecommendUseCase
   
   // MARK: - Properties
   private var dataSource = [SearchSectionModel]()
   
   // MARK: - LifeCycle
-  init(actions: SearchViewModelActions) {
+  init(useCase: any DestinationRecommendUseCase, actions: SearchViewModelActions) {
+    self.useCase = useCase
     self.actions = actions
   }
 }
@@ -67,10 +71,10 @@ extension DefaultSearchViewModel: SearchViewModelDataSourceable {
   
   func numberOfItemsInSection(in section: Int) -> Int {
     switch dataSource[section].itemType {
-    case let .festival(viewModels):
-      return viewModels.count
-    case let .leports(viewModels):
-      return viewModels.count
+    case let .festival(infos):
+      return infos.count
+    case let .else(infos):
+      return infos.count
     }
   }
   
@@ -83,9 +87,49 @@ extension DefaultSearchViewModel: SearchViewModelDataSourceable {
 extension DefaultSearchViewModel {
   private func viewDidLoadStream(_ input: Input) -> Output {
     return input.viewDidLoad
-      .map { [weak self] _ in
-        self?.fetchData()
-        return State.none
+      .flatMap { [weak self] _ in
+        guard let self = self else { return Just(State.none).eraseToAnyPublisher() }
+        
+        return self.useCase.fetchDestinationList(page: nil, perPage: nil)
+          .map { recommendSections in
+            for (index, recommendSection) in recommendSections.enumerated() {
+              if index == .zero {
+                let festivalInfos = recommendSection.destinations.map {
+                  return SearchFestivalInfo(
+                    title: $0.title,
+                    period: "날짜를 제공하지 않습니다.",
+                    imageData: $0.thumbnailData,
+                    contentTypeId: $0.destinationId.contentTypeId,
+                    id: $0.destinationId.id,
+                    isSelectedButton: $0.isScaped
+                  )
+                }
+                self.dataSource.append(.init(
+                  itemType: .festival(festivalInfos),
+                  headerTitle: recommendSection.title
+                ))
+              } else {
+                let infos = recommendSection.destinations.map {
+                  return TravelDestinationInfo(
+                    place: $0.title,
+                    contentTypeId: $0.destinationId.contentTypeId,
+                    category: $0.category.large,
+                    location: $0.address,
+                    isButtonSelected: $0.isScaped,
+                    imageData: $0.thumbnailData,
+                    id: $0.destinationId.id
+                  )
+                }
+                self.dataSource.append(.init(
+                  itemType: .else(infos),
+                  headerTitle: recommendSection.title
+                ))
+              }
+            }
+            return State.reloadData
+          }
+          .catch { _ in return Just(State.none).eraseToAnyPublisher() }
+          .eraseToAnyPublisher()
       }
       .eraseToAnyPublisher()
   }
@@ -107,12 +151,14 @@ extension DefaultSearchViewModel {
   
   private func didTapStarButtonStream(_ input: Input) -> Output {
     return input.didTapStarButton
-      .flatMap { [weak self] indexPath in
-        guard let self = self else {
-          return Just(State.none).eraseToAnyPublisher()
+      .flatMap { [weak self] indexPath, isSelected in
+        guard let self = self else { return Just(State.none).eraseToAnyPublisher() }
+        
+        if isSelected {
+          return self.saveButtonState(indexPath: indexPath, folderName: nil)
+        } else {
+          return self.saveButtonState(indexPath: indexPath, folderName: "전체")
         }
-        return self.saveButtonState(indexPath: indexPath)
-          .eraseToAnyPublisher()
       }
       .eraseToAnyPublisher()
   }
@@ -126,65 +172,44 @@ extension DefaultSearchViewModel {
       .eraseToAnyPublisher()
   }
   
-  private func fetchData() {
-    // 네트워크 요청을 수행해서 데이터를 가져옵니다.
-    let festivalHeader = "베스트 축제 🎡"
-    let imageData = TempSource.imageData
+  private func saveButtonState(indexPath: IndexPath, folderName: String?) -> AnyPublisher<State, Never> {
+    let id = self.dataSource[indexPath.section].itemType.getId(itemIndex: indexPath.item)
     
-    let searchFestivalInfo = SearchFestivalInfo(title: "대관령눈꽃축제", period: "24.05.11~24.05.20",
-                                                        imageData: imageData, isSelectedButton: true)
-    dataSource.append(
-      SearchSectionModel(
-        itemType: .festival([searchFestivalInfo, searchFestivalInfo, searchFestivalInfo]),
-        headerTitle: festivalHeader
-      )
-    )
-    
-    let letportsHeader = "야영 레포츠 어떠세요?🏕️"
-    let leportsInfo = TravelDestinationInfo(
-      place: "수상 스키",
-      contentTypeId: 28,
-      category: TourType.leports.toString,
-      location: "강원도 동해",
-      isButtonSelected: false,
-      imageData: imageData,
-      id: 123
-    )
-    dataSource.append(
-      SearchSectionModel(
-        itemType: .leports([leportsInfo, leportsInfo, leportsInfo]),
-        headerTitle: letportsHeader
-      )
-    )
+    return useCase.toggleDestinationScrap(id: id, folderName: folderName)
+      .map { [weak self] toggler in
+        guard let self = self else { return State.none }
+        
+        switch dataSource[indexPath.section].itemType {
+        case .festival(var infos):
+          infos[indexPath.item].isSelectedButton = toggler.isSelected
+          dataSource[indexPath.section].itemType = .festival(infos)
+        case .else(var infos):
+          infos[indexPath.item].isButtonSelected = toggler.isSelected
+          dataSource[indexPath.section].itemType = .else(infos)
+        }
+        return State.reloadItems(indexPath)
+      }
+      .catch { _ in return Just(State.none).eraseToAnyPublisher() }
+      .eraseToAnyPublisher()
+  }
+}
+
+// MARK: - SearchViewModelPageDelegate
+extension DefaultSearchViewModel {
+  func showDetailPage(indexPath: IndexPath) {
+    switch dataSource[indexPath.section].itemType {
+    case .festival(let infos):
+      let info = infos[indexPath.item]
+      let destinationId = DestinationIdEntity(id: info.id, contentTypeId: info.contentTypeId)
+      actions.showDetail(destinationId)
+    case .else(let infos):
+      let info = infos[indexPath.item]
+      let destinationId = DestinationIdEntity(id: info.id, contentTypeId: info.contentTypeId)
+      actions.showDetail(destinationId)
+    }
   }
   
-  /// 서버에 저장 요청.
-  /// 성공 시 UI 변환, 실패 시, 변화 없음
-  private func saveButtonState(indexPath: IndexPath) -> AnyPublisher<State, Never> {
-    // TODO: - id값을 통해 서버에 데이터 저장을 요청하고, 성공 시 하트버튼의 색깔을 변경해야 합니다.
-    return Future { promise in
-      // fake network. 추후 네트워크 통신 이후, promise로 값을 방출해야 합니다.
-      DispatchQueue.global().asyncAfter(wallDeadline: .now() + 0.5) { [weak self] in
-        DispatchQueue.main.async {
-          print("DEBUG: FakeNetwork 통신 성공!")
-          guard let self = self else {
-            promise(.success(.none))
-            return
-          }
-          
-          switch self.dataSource[indexPath.section].itemType {
-          case .festival(var infos):
-            infos[indexPath.item].isSelectedButton.toggle()
-            self.dataSource[indexPath.section].itemType = .festival(infos)
-            
-          case .leports(var infos):
-            infos[indexPath.item].isButtonSelected.toggle()
-            self.dataSource[indexPath.section].itemType = .leports(infos)
-          }
-          promise(.success(.reloadItems(indexPath)))
-        }
-      }
-    }
-    .eraseToAnyPublisher()
+  func pop() {
+    
   }
 }
