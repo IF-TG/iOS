@@ -16,6 +16,13 @@ struct SearchResultListViewModelActions {
 @frozen enum SearchResultSectionModel {
   case category([TravelDestinationCategoryInfo])
   case destination([TravelDestinationInfo])
+  
+  func getId(itemIndex: Int) -> Int? {
+    if case .destination(let infos) = self {
+      return infos[itemIndex].id
+    }
+    return nil
+  }
 }
 
 enum SearchResultSectionIndex: Int {
@@ -25,7 +32,7 @@ enum SearchResultSectionIndex: Int {
 
 struct SearchResultListViewModelInput {
   let viewDidLoad: PassthroughSubject<Void, Never> = .init()
-  let didTapStarButton: PassthroughSubject<(IndexPath, Int, Bool), Never> = .init()
+  let didTapStarButton: PassthroughSubject<(IndexPath, Bool), Never> = .init()
   let didTapSearchButton: PassthroughSubject<String, Never> = .init()
   let didChangeSearchTextField: AnyPublisher<String, Never>
   let didTapCategoryItem: PassthroughSubject<(Int, Int?), Never> = .init()
@@ -122,13 +129,13 @@ extension DefaultSearchResultListViewModel {
   
   private func didTapStarButtonStream(_ input: Input) -> Output {
     return input.didTapStarButton
-      .flatMap { [weak self] (indexPath, id, isSelected) -> AnyPublisher<State, Never> in
+      .flatMap { [weak self] (indexPath, isSelected) -> AnyPublisher<State, Never> in
         guard let self = self else { return Just(State.none).eraseToAnyPublisher() }
         
         if isSelected {
-          return buttonUpdatePublisher(indexPath: indexPath, id: id, folderName: nil)
+          return buttonUpdatePublisher(indexPath: indexPath, folderName: nil)
         } else {
-          return buttonUpdatePublisher(indexPath: indexPath, id: id, folderName: "전체")
+          return buttonUpdatePublisher(indexPath: indexPath, folderName: "전체")
         }
       }
       .eraseToAnyPublisher()
@@ -200,9 +207,12 @@ extension DefaultSearchResultListViewModel {
   
   private func buttonUpdatePublisher(
     indexPath: IndexPath,
-    id: Int,
     folderName: String?
   ) -> AnyPublisher<State, Never> {
+    guard
+      let id = dataSource[indexPath.section].getId(itemIndex: indexPath.item)
+    else { return Just(State.none).eraseToAnyPublisher()}
+    
     return useCase.toggleScrap(id: id, folderName: folderName)
       .map { [weak self] toggler -> State in
         guard let self = self else { return State.none }
