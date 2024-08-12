@@ -73,10 +73,13 @@ extension DefaultSearchMoreDetailViewModel: SearchMoreDetailViewModel {
 // MARK: - Private Helpers
 extension DefaultSearchMoreDetailViewModel {
   private func fetchData(type: SearchSectionType) {
+    // TODO: - 네트워크 통신 하기
     switch type {
     case .festival:
       fetchFestivalModel()
     case .leports:
+      fetchLeportsModel()
+    case .cultureFacility:
       fetchLeportsModel()
     }
   }
@@ -168,7 +171,7 @@ extension DefaultSearchMoreDetailViewModel {
 extension DefaultSearchMoreDetailViewModel {
   func numberOfItems(type: SearchSectionType) -> Int {
     switch type {
-    case .festival, .leports:
+    case .festival, .leports, .cultureFacility:
       return itemInfos?.count ?? .zero
     }
   }
