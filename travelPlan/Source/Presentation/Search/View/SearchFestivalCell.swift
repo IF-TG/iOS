@@ -130,13 +130,14 @@ extension SearchFestivalCell {
     }
   }
   
-  func bind(to publisher: PassthroughSubject<IndexPath, Never>, indexPath: IndexPath) {
+  func bind(to publisher: PassthroughSubject<(IndexPath, Bool), Never>, indexPath: IndexPath) {
     cancellable?.cancel()
     cancellable = starButton
       .tap
       .receive(on: RunLoop.main)
-      .sink {
-        publisher.send(indexPath)
+      .sink { [weak self] _ in
+        guard let self = self else { return }
+        publisher.send((indexPath, self.starButton.isSelected))
       }
   }
 }
