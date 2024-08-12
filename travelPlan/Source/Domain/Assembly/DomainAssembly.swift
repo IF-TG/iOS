@@ -21,6 +21,7 @@ final class DomainAssembly: Swinject.Assembly {
     destinationSearchResultUseCase(container: container)
     searchHistoryUseCase(container: container)
     destinationDetailUseCase(container: container)
+    destinationRecommendUseCase(container: container)
     
     // TODO: - Tour Use Case
     
@@ -275,6 +276,22 @@ private extension DomainAssembly {
         likeRepository: r.resolve(DestinationLikeRepository.self)!,
         scrapRepository: r.resolve(DestinationScrapRepository.self)!,
         destinationRepository: r.resolve(DestinationRepository.self)!
+      )
+#endif
+    }
+  }
+  
+  func destinationRecommendUseCase(container: Container) {
+    container.register(DestinationRecommendUseCase.self) { r in
+#if DEBUG
+      return DefaultDestinationRecommendUseCase(
+        recommendRepository: JsonMockDestinationRecommendRepository(),
+        scrapRepository: JsonMockDestinationScrapRepository()
+      )
+#else
+      return DefaultDestinationRecommendUseCase(
+        recommendRepository: r.resolve(DestinationRecommendRepository.self)!,
+        scrapRepository: r.resolve(DestinationScrapRepository.self)!
       )
 #endif
     }

@@ -98,7 +98,10 @@ private extension FlowCoordinatorAssembly {
   
   func searchCoordinator(container: Container) {
     container.register(SearchCoordinator.self) { (_, presenter: UINavigationController?) in
-      return SearchCoordinator(presenter: presenter)
+      return SearchCoordinator(
+        presenter: presenter,
+        dependencies: AppDIContainer.shared
+      )
     }
   }
   
@@ -125,7 +128,7 @@ private extension FlowCoordinatorAssembly {
   }
   
   func destinationDetailCoordinator(container: Container) {
-    container.register(DestinationDetailCoordinator.self) 
+    container.register(DestinationDetailCoordinator.self)
     { (_, presenter: UINavigationController?, destinationId: DestinationIdEntity) in
       return DestinationDetailCoordinator(
         presenter: presenter,
