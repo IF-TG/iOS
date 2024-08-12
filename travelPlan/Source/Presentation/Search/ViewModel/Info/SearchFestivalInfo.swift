@@ -11,5 +11,7 @@ struct SearchFestivalInfo {
   let title: String
   let period: String
   let imageData: Data?
+  let contentTypeId: Int
+  let id: Int
   var isSelectedButton: Bool
 }
