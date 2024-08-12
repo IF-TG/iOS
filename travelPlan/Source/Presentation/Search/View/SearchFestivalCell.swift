@@ -81,11 +81,11 @@ final class SearchFestivalCell: UICollectionViewCell {
     $0.text = "축제명"
   }
   
-  private let periodLabel: UILabel = .init().set {
+  private let locationLabel: UILabel = .init().set {
     $0.font = UIFont(pretendard: .semiBold_600(fontSize: Constants.PeriodLabel.fontSize))
     $0.textColor = .yg.littleWhite
     $0.textAlignment = .center
-    $0.text = "날짜"
+    $0.text = "장소"
   }
   
   override var bounds: CGRect {
@@ -109,7 +109,7 @@ final class SearchFestivalCell: UICollectionViewCell {
   override func prepareForReuse() {
     super.prepareForReuse()
     thumbnailImageView.image = nil
-    periodLabel.text = nil
+    locationLabel.text = nil
     festivalLabel.text = nil
     starButton.isSelected = false
   }
@@ -119,7 +119,7 @@ final class SearchFestivalCell: UICollectionViewCell {
 extension SearchFestivalCell {
   func configure(with info: SearchFestivalInfo) {
     festivalLabel.text = info.title
-    periodLabel.text = info.period
+    locationLabel.text = info.location
     starButton.isSelected = info.isSelectedButton
     
     // imageTODO: - 이미지 적용
@@ -150,7 +150,7 @@ extension SearchFestivalCell: LayoutSupport {
     contentView.addSubview(thumbnailImageView)
     thumbnailImageView.addSubview(starButton)
     thumbnailImageView.addSubview(festivalLabel)
-    thumbnailImageView.addSubview(periodLabel)
+    thumbnailImageView.addSubview(locationLabel)
   }
   
   func setConstraints() {
@@ -170,7 +170,7 @@ extension SearchFestivalCell: LayoutSupport {
         .inset(Constants.FestivalLabel.Inset.trailing)
     }
     
-    periodLabel.snp.makeConstraints {
+    locationLabel.snp.makeConstraints {
       $0.top.equalTo(festivalLabel.snp.bottom)
       $0.leading.equalTo(festivalLabel)
       $0.trailing.lessThanOrEqualToSuperview()

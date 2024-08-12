@@ -13,8 +13,7 @@ protocol SearchViewModel: ViewModelable,
 where Input == SearchViewModelInput,
       State == SearchViewModelState {}
 
-protocol SearchViewModelPageDelegate {
-  func pop()
+protocol SearchViewModelPageDelegate: AnyObject {
   func showDetailPage(indexPath: IndexPath)
 }
 
