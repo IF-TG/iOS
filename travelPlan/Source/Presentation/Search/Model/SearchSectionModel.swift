@@ -12,11 +12,22 @@ struct SearchSectionModel {
   let headerTitle: String
 }
 
-enum SearchItemType {
-  
+@frozen enum SearchItemType {
   case festival([SearchFestivalInfo])
-//  case camping([TravelDestinationItemInfo])
-//  case cultureFacility
-  case leports([TravelDestinationInfo])
-//  case sessionalRecommendation
+  case `else`([TravelDestinationInfo])
+  
+  func getId(itemIndex: Int) -> Int {
+    switch self {
+    case .festival(let infos):
+      return infos[itemIndex].id
+    case .else(let infos):
+      return infos[itemIndex].id
+    }
+  }
+}
+
+@frozen enum SearchSectionType: Int {
+  case festival
+  case leports
+  case cultureFacility
 }
