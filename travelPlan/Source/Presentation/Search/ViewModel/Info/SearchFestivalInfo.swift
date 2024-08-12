@@ -9,7 +9,7 @@ import Foundation
 
 struct SearchFestivalInfo {
   let title: String
-  let period: String
+  let location: String
   let imageData: Data?
   let contentTypeId: Int
   let id: Int

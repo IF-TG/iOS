@@ -97,7 +97,7 @@ extension DefaultSearchViewModel {
                 let festivalInfos = recommendSection.destinations.map {
                   return SearchFestivalInfo(
                     title: $0.title,
-                    period: "날짜를 제공하지 않습니다.",
+                    location: $0.address,
                     imageData: $0.thumbnailData,
                     contentTypeId: $0.destinationId.contentTypeId,
                     id: $0.destinationId.id,
@@ -207,9 +207,5 @@ extension DefaultSearchViewModel {
       let destinationId = DestinationIdEntity(id: info.id, contentTypeId: info.contentTypeId)
       actions.showDetail(destinationId)
     }
-  }
-  
-  func pop() {
-    
   }
 }
