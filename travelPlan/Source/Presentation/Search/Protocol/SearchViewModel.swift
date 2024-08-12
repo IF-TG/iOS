@@ -7,9 +7,16 @@
 
 import Foundation
 
-protocol SearchViewModel: ViewModelable, SearchViewModelDataSourceable
+protocol SearchViewModel: ViewModelable,
+                          SearchViewModelDataSourceable,
+                          SearchViewModelPageDelegate
 where Input == SearchViewModelInput,
       State == SearchViewModelState {}
+
+protocol SearchViewModelPageDelegate {
+  func pop()
+  func showDetailPage(indexPath: IndexPath)
+}
 
 protocol SearchViewModelDataSourceable {
   func getCellViewModels(in section: Int) -> SearchItemType

@@ -20,11 +20,16 @@ protocol SearchCoordinatorDependencies: AnyObject {
     presenter: UINavigationController?,
     searchType: SearchType
   ) -> SearchHistoryCoordinator
+  
+  func makeDestinationDetailCoordinator(
+    presenter: UINavigationController?,
+    destinationId: DestinationIdEntity
+  ) -> DestinationDetailCoordinator
 }
 
 final class SearchCoordinator: FlowCoordinator {
   // MARK: - Dependencies
-  private let dependencies: SearchCoordinatorDependencies = AppDIContainer.shared
+  private let dependencies: any SearchCoordinatorDependencies
   var presenter: UINavigationController?
   
   // MARK: - Properties
@@ -32,8 +37,9 @@ final class SearchCoordinator: FlowCoordinator {
   var child: [FlowCoordinator] = []
   
   // MARK: - LifeCycle
-  init(presenter: UINavigationController?) {
+  init(presenter: UINavigationController?, dependencies: any SearchCoordinatorDependencies) {
     self.presenter = presenter
+    self.dependencies = dependencies
   }
   
   deinit {
@@ -44,6 +50,7 @@ final class SearchCoordinator: FlowCoordinator {
   func start() {
     let actions = SearchViewModelActions(
       showSearchDetail: { [weak self] type in self?.showSearchDetail(type: type) },
+      showDetail: { [weak self] destinationId in self?.showDetail(destinationId: destinationId) },
       showSearchHistory: { [weak self] in self?.showSearchHistory() }
     )
     
@@ -53,6 +60,14 @@ final class SearchCoordinator: FlowCoordinator {
 }
 
 extension SearchCoordinator {
+  private func showDetail(destinationId: DestinationIdEntity) {
+    let child = dependencies.makeDestinationDetailCoordinator(
+      presenter: presenter,
+      destinationId: destinationId
+    )
+    addChild(with: child)
+  }
+  
   private func showSearchDetail(type: SearchSectionType) {
     let child = dependencies.makeSearchMoreDetailCoordinator(
       presenter: presenter,
