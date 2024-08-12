@@ -30,7 +30,6 @@
 		130CF38B2B9347790051DEE8 /* LoginStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130CF38A2B9347790051DEE8 /* LoginStrategy.swift */; };
 		130CF38D2B9347CF0051DEE8 /* AppleLoginStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130CF38C2B9347CF0051DEE8 /* AppleLoginStrategy.swift */; };
 		130CF38F2B9356370051DEE8 /* AuthenticationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130CF38E2B9356370051DEE8 /* AuthenticationService.swift */; };
-		130FA91F2A359EE300E739C5 /* SearchViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130FA91E2A359EE300E739C5 /* SearchViewDelegate.swift */; };
 		131A11062AB4CD1A007BDD66 /* SearchMoreDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131A11052AB4CD1A007BDD66 /* SearchMoreDetailViewController.swift */; };
 		131A11082AB5067E007BDD66 /* DefaultSearchMoreDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131A11072AB5067E007BDD66 /* DefaultSearchMoreDetailViewModel.swift */; };
 		131A110A2AB509FB007BDD66 /* UIView+roundCorners.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131A11092AB509FB007BDD66 /* UIView+roundCorners.swift */; };
@@ -65,7 +64,6 @@
 		13300FA42AC0688300952757 /* BaseDestinationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13300FA32AC0688300952757 /* BaseDestinationView.swift */; };
 		13300FA82AC0804400952757 /* CellConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13300FA72AC0804400952757 /* CellConfigurable.swift */; };
 		13300FAC2AC0883200952757 /* UICompositionalLayoutCreatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13300FAB2AC0883200952757 /* UICompositionalLayoutCreatable.swift */; };
-		13300FAE2AC2093D00952757 /* SearchSectionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13300FAD2AC2093D00952757 /* SearchSectionType.swift */; };
 		13333CBF2ABDE86A005AB50B /* LeftAlignThreeLabelsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13333CBE2ABDE86A005AB50B /* LeftAlignThreeLabelsView.swift */; };
 		133531F42BA0D3CB000A4D9E /* JWTResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 133531F32BA0D3CB000A4D9E /* JWTResponseDTO.swift */; };
 		133531F92BA1A0B8000A4D9E /* KeychainLoginResponseStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 133531F82BA1A0B8000A4D9E /* KeychainLoginResponseStorage.swift */; };
@@ -1049,7 +1047,6 @@
 		130CF38A2B9347790051DEE8 /* LoginStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginStrategy.swift; sourceTree = "<group>"; };
 		130CF38C2B9347CF0051DEE8 /* AppleLoginStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleLoginStrategy.swift; sourceTree = "<group>"; };
 		130CF38E2B9356370051DEE8 /* AuthenticationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationService.swift; sourceTree = "<group>"; };
-		130FA91E2A359EE300E739C5 /* SearchViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewDelegate.swift; sourceTree = "<group>"; };
 		131A11052AB4CD1A007BDD66 /* SearchMoreDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMoreDetailViewController.swift; sourceTree = "<group>"; };
 		131A11072AB5067E007BDD66 /* DefaultSearchMoreDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultSearchMoreDetailViewModel.swift; sourceTree = "<group>"; };
 		131A11092AB509FB007BDD66 /* UIView+roundCorners.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+roundCorners.swift"; sourceTree = "<group>"; };
@@ -1086,7 +1083,6 @@
 		13300FA32AC0688300952757 /* BaseDestinationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseDestinationView.swift; sourceTree = "<group>"; };
 		13300FA72AC0804400952757 /* CellConfigurable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellConfigurable.swift; sourceTree = "<group>"; };
 		13300FAB2AC0883200952757 /* UICompositionalLayoutCreatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICompositionalLayoutCreatable.swift; sourceTree = "<group>"; };
-		13300FAD2AC2093D00952757 /* SearchSectionType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchSectionType.swift; sourceTree = "<group>"; };
 		13333CBE2ABDE86A005AB50B /* LeftAlignThreeLabelsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftAlignThreeLabelsView.swift; sourceTree = "<group>"; };
 		133531F32BA0D3CB000A4D9E /* JWTResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JWTResponseDTO.swift; sourceTree = "<group>"; };
 		133531F82BA1A0B8000A4D9E /* KeychainLoginResponseStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainLoginResponseStorage.swift; sourceTree = "<group>"; };
@@ -2123,7 +2119,6 @@
 				13274C5B2A59B4AD001F141C /* SearchFestivalModel.swift */,
 				13FE64762A5C378D007D9A53 /* SearchCampingModel.swift */,
 				130304A92A271F3B00776A0D /* SearchSectionModel.swift */,
-				13300FAD2AC2093D00952757 /* SearchSectionType.swift */,
 				13A93EE62ACDE4AB00FC4BBD /* SearchDetailHeaderInfo.swift */,
 			);
 			path = Model;
@@ -2141,7 +2136,6 @@
 		130FA91D2A359ED500E739C5 /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
-				130FA91E2A359EE300E739C5 /* SearchViewDelegate.swift */,
 				13BE82E82C629BEE00951099 /* SearchViewModel.swift */,
 				13BE82EA2C629C3700951099 /* SearchMoreDetailViewModel.swift */,
 			);
@@ -5832,7 +5826,6 @@
 				13300FA82AC0804400952757 /* CellConfigurable.swift in Sources */,
 				13EB3D352BF4883E00CA84F0 /* ShoppingUseCase.swift in Sources */,
 				15591DD22BBE993500128A9E /* FavoritePostAPIEndpoint.swift in Sources */,
-				130FA91F2A359EE300E739C5 /* SearchViewDelegate.swift in Sources */,
 				13E7EAE72BDF90BA0027946C /* TourAPIFestivalRequestDTO.swift in Sources */,
 				151AF50A2C2D72FF004B98EE /* StackViewBuilder.swift in Sources */,
 				1564A0A02BBFE0290045424B /* FavoritePostDirectoryNameUpdateRequestDTO.swift in Sources */,
@@ -6318,7 +6311,6 @@
 				15803C612BDAA1A600D83F2B /* FirebaseStorageService.swift in Sources */,
 				15F4573B2C15848600E2F305 /* AlertCoordinatable.swift in Sources */,
 				13405F0B2AEEF1E400382796 /* LoginButtonDelegate.swift in Sources */,
-				13300FAE2AC2093D00952757 /* SearchSectionType.swift in Sources */,
 				1570FDB22AB1B616006FBAA3 /* TravelOrderType.swift in Sources */,
 				15A0A86D2C19589300C56DCB /* SpringServerRepositoryAssembly.swift in Sources */,
 				13405F6D2AF6804F00382796 /* ReviewWritingContentView.swift in Sources */,
