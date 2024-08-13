@@ -30,6 +30,11 @@ enum SearchResultSectionIndex: Int {
   case destination
 }
 
+enum SearchResultCategoryItemIndex: Int {
+  case all
+  case `else`
+}
+
 struct SearchResultListViewModelInput {
   let viewDidLoad: PassthroughSubject<Void, Never> = .init()
   let didTapStarButton: PassthroughSubject<(IndexPath, Bool), Never> = .init()
@@ -181,20 +186,15 @@ extension DefaultSearchResultListViewModel {
         guard let self = self else { return State.none }
         
         let destinationIndex = SearchResultSectionIndex.destination.rawValue
-        if case .destination = dataSource[destinationIndex] {
-          
-          if itemIndex == SearchResultSectionIndex.category.rawValue {
-            self.dataSource[destinationIndex] = .destination(originalDestinationInfos)
-          } else {
-            self.dataSource[destinationIndex] = .destination(
-              originalDestinationInfos.filter {
-                $0.contentTypeId == contentTypeId
-              }
-            )
-          }
-          return State.reloadSection(destinationIndex)
+        let isAllItemIndexAtCategorySection = itemIndex == SearchResultCategoryItemIndex.all.rawValue
+        
+        if isAllItemIndexAtCategorySection {
+          dataSource[destinationIndex] = .destination(originalDestinationInfos)
+        } else {
+          let filterdInfos = originalDestinationInfos.filter { $0.contentTypeId == contentTypeId }
+          dataSource[destinationIndex] = .destination(filterdInfos)
         }
-        return State.none
+        return State.reloadSection(destinationIndex)
       }
       .eraseToAnyPublisher()
   }
@@ -222,9 +222,9 @@ extension DefaultSearchResultListViewModel {
           self.dataSource[indexPath.section] = .destination(infos)
           
           // update originInfo
-          for i in 0..<originalDestinationInfos.count
-          where originalDestinationInfos[i].id == infos[indexPath.item].id {
-            originalDestinationInfos[i].isButtonSelected = toggler.isSelected
+          for index in originalDestinationInfos.indices
+          where originalDestinationInfos[index].id == infos[indexPath.item].id {
+            originalDestinationInfos[index].isButtonSelected = toggler.isSelected
           }
         }
         return State.reloadItems(indexPath)
