@@ -222,9 +222,9 @@ extension DefaultSearchResultListViewModel {
           self.dataSource[indexPath.section] = .destination(infos)
           
           // update originInfo
-          for i in 0..<originalDestinationInfos.count
-          where originalDestinationInfos[i].id == infos[indexPath.item].id {
-            originalDestinationInfos[i].isButtonSelected = toggler.isSelected
+          for index in originalDestinationInfos.indices
+          where originalDestinationInfos[index].id == infos[indexPath.item].id {
+            originalDestinationInfos[index].isButtonSelected = toggler.isSelected
           }
         }
         return State.reloadItems(indexPath)

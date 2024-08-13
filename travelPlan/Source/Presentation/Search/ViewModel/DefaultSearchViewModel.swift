@@ -91,7 +91,7 @@ extension DefaultSearchViewModel {
         guard let self = self else { return Just(State.none).eraseToAnyPublisher() }
         
         return self.useCase.fetchDestinationList(page: nil, perPage: nil)
-          .map { recommendSections in
+          .map { [weak self] recommendSections in
             for (index, recommendSection) in recommendSections.enumerated() {
               if index == .zero {
                 let festivalInfos = recommendSection.destinations.map {
@@ -104,7 +104,7 @@ extension DefaultSearchViewModel {
                     isSelectedButton: $0.isScaped
                   )
                 }
-                self.dataSource.append(.init(
+                self?.dataSource.append(.init(
                   itemType: .festival(festivalInfos),
                   headerTitle: recommendSection.title
                 ))
@@ -120,7 +120,7 @@ extension DefaultSearchViewModel {
                     id: $0.destinationId.id
                   )
                 }
-                self.dataSource.append(.init(
+                self?.dataSource.append(.init(
                   itemType: .else(infos),
                   headerTitle: recommendSection.title
                 ))
