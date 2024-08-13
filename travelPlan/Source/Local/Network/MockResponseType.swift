@@ -13,6 +13,7 @@ import Foundation
   case postComment(PostCommentResponse)
   case postNestedComment(PostNestedCommentResponse)
   case favoriteDirectory(FavoriteDirectory)
+  case destinationRecommend(DestinationRecommend)
   case destinationScrap(DestinationScrapResponse)
   case destination(Destination)
   case destinationLike(DestinationLike)
@@ -40,6 +41,8 @@ import Foundation
     case .destination(let response):
       response.filePath
     case .getDestination(let response):
+      response.filePath
+    case .destinationRecommend(let response):
       response.filePath
     }
   }
@@ -222,6 +225,18 @@ extension MockResponseType {
         .shopping: "mock_response_getDestination_shopping",
         .attraction: "mock_response_getDestination_attraction",
         .cultureFacility: "mock_response_getDestination_cultureFacility"
+      ][self]!
+    }
+  }
+}
+
+extension MockResponseType {
+  @frozen enum DestinationRecommend {
+    case getDestinationRecommend
+    
+    var filePath: String {
+      [
+        .getDestinationRecommend: "mock_response_getDestinationRecommend"
       ][self]!
     }
   }

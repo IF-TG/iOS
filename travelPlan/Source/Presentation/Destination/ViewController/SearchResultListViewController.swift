@@ -36,6 +36,9 @@ final class SearchResultListViewController: UIViewController {
     $0.dataSource = self
     $0.delegate = self
     $0.allowsMultipleSelection = true
+    let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapCollectionView))
+    tapGesture.cancelsTouchesInView = false
+    $0.addGestureRecognizer(tapGesture)
   }
   
   private var selectedTagIndexPath = IndexPath(item: .zero, section: .zero)
@@ -105,6 +108,9 @@ extension SearchResultListViewController {
       .receive(on: RunLoop.main)
       .sink { [weak self, selectedTagIndexPath] state in
         switch state {
+        case .reloadDataWithKeyboardDown:
+          self?.searchTextField.endEditing(true)
+          self?.collectionView.reloadData()
         case .changeButtonColor(let isChanged):
           if isChanged {
             self?.setupSearchBarButtonItemStyle(.yg.primary, isEnabled: true)
@@ -175,18 +181,17 @@ extension SearchResultListViewController: UICollectionViewDelegate {
     _ collectionView: UICollectionView,
     didSelectItemAt indexPath: IndexPath
   ) {
-    if indexPath.section == 0 {
-      guard selectedTagIndexPath != indexPath else { return }
-      
+    guard let section = SearchResultSectionIndex(rawValue: indexPath.section) else { return }
+    
+    switch section {
+    case .category:
       collectionView.deselectItem(at: selectedTagIndexPath, animated: false)
       selectedTagIndexPath = indexPath
-      
-      guard let categoryCell = collectionView.cellForItem(at: indexPath)
-              as? SearchResultCategoryCell else { return }
-      
-      guard let contentTypeId = categoryCell.contentTypeId else { return }
-      input.didTapCategoryItem.send((indexPath.item, contentTypeId))
-    } else {
+      guard
+        let categoryCell = collectionView.cellForItem(at: indexPath) as? SearchResultCategoryCell
+      else { return }
+      input.didTapCategoryItem.send((indexPath.item, categoryCell.contentTypeId))
+    case .destination:
       if case .destination(let infos) = viewModel.dataSource[indexPath.section] {
         let info = infos[indexPath.item]
         viewModel.showDestinationDetailPage(id: info.id, contentTypeId: info.contentTypeId)
@@ -198,8 +203,9 @@ extension SearchResultListViewController: UICollectionViewDelegate {
     _ collectionView: UICollectionView,
     didDeselectItemAt indexPath: IndexPath
   ) {
-    if indexPath.section == 0,
-       selectedTagIndexPath == indexPath {
+    guard let section = SearchResultSectionIndex(rawValue: indexPath.section) else { return }
+    
+    if case .category = section, selectedTagIndexPath == indexPath {
       collectionView.selectItem(at: indexPath, animated: false, scrollPosition: [])
     }
   }
@@ -264,5 +270,9 @@ private extension SearchResultListViewController {
   
   @objc func didTapBackButton() {
     viewModel.pop()
+  }
+  
+  @objc func didTapCollectionView() {
+    searchTextField.endEditing(true)
   }
 }

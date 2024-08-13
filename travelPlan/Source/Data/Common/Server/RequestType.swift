@@ -208,6 +208,7 @@ extension RequestType {
     case updateScrap
     case search
     case like
+    case recommend
     
     var path: String {
       switch self {
@@ -216,6 +217,7 @@ extension RequestType {
       case .scrapList: return "destination/scrap/detail"
       case .search: return "destination/search"
       case .like: return "destination/like"
+      case .recommend: return "destination/recommend"
       }
     }
   }

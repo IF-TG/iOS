@@ -18,8 +18,6 @@ class TravelDestinationCell: UICollectionViewCell {
   private lazy var containerView: BaseDestinationView<LeftAlignThreeLabelsView>
   = .init(centerView: LeftAlignThreeLabelsView(), imageViewType: .default)
   
-  private var contentId: Int?
-  
   private var cancellable: AnyCancellable?
   
   // MARK: - LifeCycle
@@ -51,19 +49,20 @@ extension TravelDestinationCell {
       imageData: info.imageData,
       isSelectedButton: info.isButtonSelected
     )
-    self.contentId = info.id
   }
   
-  func bind(to publisher: PassthroughSubject<(IndexPath, Int), Never>, indexPath: IndexPath) {
+  // in SearchResultListVC
+  func bind(to publisher: PassthroughSubject<(IndexPath, Bool), Never>, indexPath: IndexPath) {
     cancellable?.cancel()
     cancellable = containerView
       .starButtonTapPublisher
-      .sink { [weak self] in
-        guard let self = self, let contentId = self.contentId else { return }
-        publisher.send((indexPath, contentId))
+      .sink { [weak self] isSelected in
+        guard let self = self else { return }
+        publisher.send((indexPath, isSelected))
       }
   }
   
+  // in SearchVC
   func bind(to publisher: PassthroughSubject<IndexPath, Never>, indexPath: IndexPath) {
     cancellable?.cancel()
     cancellable = containerView

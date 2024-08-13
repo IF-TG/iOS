@@ -198,7 +198,8 @@ private extension PresentationAssembly {
     }
     
     container.register((any SearchViewModel).self) { (r, actions: SearchViewModelActions) in
-      return DefaultSearchViewModel(actions: actions)
+      let useCase = r.resolve(DestinationRecommendUseCase.self)!
+      return DefaultSearchViewModel(useCase: useCase, actions: actions)
     }
   }
   

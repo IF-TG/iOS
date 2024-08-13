@@ -13,9 +13,16 @@ struct SearchResultListViewModelActions {
   let showDestinationDetail: (DestinationIdEntity) -> Void
 }
 
-enum SearchResultSectionModel {
+@frozen enum SearchResultSectionModel {
   case category([TravelDestinationCategoryInfo])
   case destination([TravelDestinationInfo])
+  
+  func getId(itemIndex: Int) -> Int? {
+    if case .destination(let infos) = self {
+      return infos[itemIndex].id
+    }
+    return nil
+  }
 }
 
 enum SearchResultSectionIndex: Int {
@@ -25,10 +32,10 @@ enum SearchResultSectionIndex: Int {
 
 struct SearchResultListViewModelInput {
   let viewDidLoad: PassthroughSubject<Void, Never> = .init()
-  let didTapStarButton: PassthroughSubject<(IndexPath, Int), Never> = .init()
+  let didTapStarButton: PassthroughSubject<(IndexPath, Bool), Never> = .init()
   let didTapSearchButton: PassthroughSubject<String, Never> = .init()
   let didChangeSearchTextField: AnyPublisher<String, Never>
-  let didTapCategoryItem: PassthroughSubject<(Int, Int), Never> = .init()
+  let didTapCategoryItem: PassthroughSubject<(Int, Int?), Never> = .init()
 }
 
 enum SearchResultListViewModelState {
@@ -37,6 +44,7 @@ enum SearchResultListViewModelState {
   case reloadSection(Int)
   case reloadItems(IndexPath)
   case changeButtonColor(Bool)
+  case reloadDataWithKeyboardDown
 }
 
 final class DefaultSearchResultListViewModel: SearchResultListViewModel {
@@ -71,7 +79,7 @@ final class DefaultSearchResultListViewModel: SearchResultListViewModel {
       didTapStarButtonStream(input),
       didChangeSearchTextFieldStream(input),
       didTapSearchButtonStream(input),
-      didTapCategoryItem(input)
+      didTapCategoryItemStream(input)
     )
     .eraseToAnyPublisher()
   }
@@ -86,20 +94,29 @@ extension DefaultSearchResultListViewModel {
       
       return self.useCase.fetchDestinationList(keyword: searchKeyword, page: nil, perPage: nil)
         .map { (thumbnailDestinations: [ThumbnailDestination]) -> SearchResultListViewModelState in
-          self.dataSource.append(.category(
-            [TravelDestinationCategoryInfo(contentTypeId: nil, title: "전체")] +
-            TourType.allCases.map { TravelDestinationCategoryInfo(contentTypeId: $0.rawValue, title: $0.toString) }
-          ))
+          var categoryInfos = [TravelDestinationCategoryInfo]()
           
-          let travelDestinationInfos = thumbnailDestinations.map {
-            TravelDestinationInfo(place: $0.title,
-                                  contentTypeId: $0.id.contentTypeId,
-                                  category: $0.category.largeCategory,
-                                  location: $0.address,
-                                  isButtonSelected: $0.isScraped,
-                                  imageData: $0.thumbnailImageData,
-                                  id: $0.id.id)
+          categoryInfos.append(TravelDestinationCategoryInfo(contentTypeId: nil, title: "전체"))
+          
+          for tourType in TourType.allCases {
+            if tourType != TourType.course && tourType != TourType.accommodation {
+              categoryInfos.append(
+                TravelDestinationCategoryInfo(contentTypeId: tourType.rawValue, title: tourType.toString)
+              )
+            }
           }
+          self.dataSource.append(.category(categoryInfos))
+          
+          let travelDestinationInfos = thumbnailDestinations.map { destination in
+            TravelDestinationInfo(place: destination.title,
+                                  contentTypeId: destination.id.contentTypeId,
+                                  category: destination.category.largeCategory,
+                                  location: destination.address,
+                                  isButtonSelected: destination.isScraped,
+                                  imageData: destination.thumbnailImageData,
+                                  id: destination.id.id)
+          }
+          self.originalDestinationInfos = travelDestinationInfos
           
           self.dataSource.append(.destination(travelDestinationInfos))
           return State.firstReloadData(self.searchKeyword)
@@ -112,50 +129,16 @@ extension DefaultSearchResultListViewModel {
   
   private func didTapStarButtonStream(_ input: Input) -> Output {
     return input.didTapStarButton
-      .flatMap { [weak self] indexPath, id in
+      .flatMap { [weak self] (indexPath, isSelected) -> AnyPublisher<State, Never> in
         guard let self = self else { return Just(State.none).eraseToAnyPublisher() }
-        return self.saveButtonState(indexPath: indexPath, id: id)
-      }
-      .eraseToAnyPublisher()
-  }
-  
-  private func saveButtonState(indexPath: IndexPath, id: Int) -> AnyPublisher<State, Never> {
-  // 버튼의 눌림 여부에 의해 로직 정의
-    // 버튼이 눌려져 있지 않은 경우
-     // 디렉토리를 설정해야하므로, folderName이름을 정의해주고 useCase 호출
-    
-    // 버튼이 눌려져 있는 경우
-     // 디렉토리를 설정하지 않으므로, folderName을 nil로 주고 useCase 호출
-    
-    
-    // TODO: - id값을 통해 서버에 데이터 저장을 요청하고, 성공 시 스타버튼의 색깔을 변경해야 합니다.
-    return Future { [weak self] promise in
-      // fake network. 추후 네트워크 통신 이후, promise로 값을 방출해야 합니다.
-      DispatchQueue.global().asyncAfter(wallDeadline: .now() + 0.5) {
-        DispatchQueue.main.async {
-          print("DEBUG: FakeNetwork 통신 성공!")
-          guard let self = self else {
-            promise(.success(.none))
-            return
-          }
-          
-          if case .destination(var infos) = self.dataSource[indexPath.section] {
-            infos[indexPath.item].isButtonSelected.toggle()
-            for (i, info) in self.originalDestinationInfos.enumerated()
-            where self.originalDestinationInfos[i].id == id {
-              self.originalDestinationInfos[i].isButtonSelected.toggle()
-              break
-            }
-    
-            self.dataSource[indexPath.section] = .destination(infos)
-            
-            promise(.success(.reloadItems(indexPath)))
-          }
-          promise(.success(.none))
+        
+        if isSelected {
+          return buttonUpdatePublisher(indexPath: indexPath, folderName: nil)
+        } else {
+          return buttonUpdatePublisher(indexPath: indexPath, folderName: "전체")
         }
       }
-    }
-    .eraseToAnyPublisher()
+      .eraseToAnyPublisher()
   }
   
   private func didChangeSearchTextFieldStream(_ input: Input) -> Output {
@@ -184,7 +167,7 @@ extension DefaultSearchResultListViewModel {
             }
             let destinationIndex = SearchResultSectionIndex.destination.rawValue
             self.dataSource[destinationIndex] = SearchResultSectionModel.destination(travelDestinationInfos)
-            return State.firstReloadData(text)
+            return State.reloadDataWithKeyboardDown
           }
           .catch { _ in return Just(State.none).eraseToAnyPublisher() }
           .eraseToAnyPublisher()
@@ -192,15 +175,15 @@ extension DefaultSearchResultListViewModel {
       .eraseToAnyPublisher()
   }
   
-  private func didTapCategoryItem(_ input: Input) -> Output {
+  private func didTapCategoryItemStream(_ input: Input) -> Output {
     return input.didTapCategoryItem
-      .map { [weak self] item, contentTypeId in
-        let destinationIndex = SearchResultSectionIndex.destination.rawValue
+      .map { [weak self] (itemIndex, contentTypeId) -> State in
+        guard let self = self else { return State.none }
         
-        if case .destination(let infos) = self?.dataSource[destinationIndex] {
-          guard let self = self else { return State.none }
+        let destinationIndex = SearchResultSectionIndex.destination.rawValue
+        if case .destination = dataSource[destinationIndex] {
           
-          if item == .zero {
+          if itemIndex == SearchResultSectionIndex.category.rawValue {
             self.dataSource[destinationIndex] = .destination(originalDestinationInfos)
           } else {
             self.dataSource[destinationIndex] = .destination(
@@ -220,6 +203,34 @@ extension DefaultSearchResultListViewModel {
     if text.count > 0 {
       return true
     } else { return false }
+  }
+  
+  private func buttonUpdatePublisher(
+    indexPath: IndexPath,
+    folderName: String?
+  ) -> AnyPublisher<State, Never> {
+    guard
+      let id = dataSource[indexPath.section].getId(itemIndex: indexPath.item)
+    else { return Just(State.none).eraseToAnyPublisher()}
+    
+    return useCase.toggleScrap(id: id, folderName: folderName)
+      .map { [weak self] toggler -> State in
+        guard let self = self else { return State.none }
+        
+        if case .destination(var infos) = self.dataSource[indexPath.section] {
+          infos[indexPath.item].isButtonSelected = toggler.isSelected
+          self.dataSource[indexPath.section] = .destination(infos)
+          
+          // update originInfo
+          for i in 0..<originalDestinationInfos.count
+          where originalDestinationInfos[i].id == infos[indexPath.item].id {
+            originalDestinationInfos[i].isButtonSelected = toggler.isSelected
+          }
+        }
+        return State.reloadItems(indexPath)
+      }
+      .catch { _ in return Just(State.none).eraseToAnyPublisher() }
+      .eraseToAnyPublisher()
   }
 }
 

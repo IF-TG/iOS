@@ -20,6 +20,7 @@ final class SpringServerRepositoryAssembly: Assembly {
     recommendationSearchHistoryRepository(container: container)
     destinationRepository(container: container)
     destinationLikeRepository(container: container)
+    destinationRecommendRepository(container: container)
     
     // MARK: - LoginRepository
     container.register(LoginRepository.self) { r in
@@ -120,6 +121,13 @@ extension SpringServerRepositoryAssembly {
     container.register(DestinationLikeRepository.self) { r in
       let service = r.resolve(Sessionable.self)!
       return DefaultDestinationLikeRepository(service: service)
+    }
+  }
+  
+  private func destinationRecommendRepository(container: Container) {
+    container.register(DestinationRecommendRepository.self) { r in
+      let service = r.resolve(Sessionable.self)!
+      return DefaultDestinationRecommendRepository(service: service)
     }
   }
 }

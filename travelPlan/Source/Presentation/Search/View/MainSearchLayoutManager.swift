@@ -62,8 +62,9 @@ extension MainSearchLayoutManager: CompositionalLayoutCreatable {
       switch sectionIndex {
       case SearchSectionType.festival.rawValue: 
         return self?.festivalLayout()
-      case SearchSectionType.leports.rawValue:
-        return self?.leportsLayout()
+        
+      case SearchSectionType.leports.rawValue, SearchSectionType.cultureFacility.rawValue:
+        return self?.commonLayout()
       default: return nil
       }
     }
@@ -74,53 +75,53 @@ extension MainSearchLayoutManager: CompositionalLayoutCreatable {
 extension MainSearchLayoutManager {
   private func festivalLayout() -> NSCollectionLayoutSection {
     let item = makeLayoutItem(
-      fractionalWidth: Constant.Festival.Item.fractionalWidth,
-      fractionalHeight: Constant.Festival.Item.fractionalHeight
+      fractionalWidth: 1,
+      fractionalHeight: 1
     )
     
     let group = NSCollectionLayoutGroup.horizontal(
       layoutSize: .init(
-        widthDimension: .absolute(Constant.Festival.Group.width),
-        heightDimension: .absolute(Constant.Festival.Group.height)
+        widthDimension: .absolute(140),
+        heightDimension: .absolute(150)
       ),
       subitems: [item]
     )
     
     let section = NSCollectionLayoutSection(group: group)
     section.orthogonalScrollingBehavior = .continuous
-    section.interGroupSpacing = Constant.Festival.Section.interGroupSpacing
+    section.interGroupSpacing = 10
     section.contentInsets = .init(
       top: .zero,
-      leading: Constant.Festival.Section.Inset.leading,
+      leading: 16,
       bottom: .zero,
-      trailing: Constant.Festival.Section.Inset.trailing
+      trailing: 16
     )
     section.boundarySupplementaryItems = [headerLayout()]
     return section
   }
   
-  private func leportsLayout() -> NSCollectionLayoutSection {
+  private func commonLayout() -> NSCollectionLayoutSection {
     let item = makeLayoutItem(
-      fractionalWidth: Constant.Camping.Item.fractionalWidth,
-      fractionalHeight: Constant.Camping.Item.fractionalHeight
+      fractionalWidth: 1,
+      fractionalHeight: 0.3
     )
     
     let group = NSCollectionLayoutGroup.vertical(
       layoutSize: .init(
-        widthDimension: .fractionalWidth(Constant.Camping.Group.fractionalWidth),
-        heightDimension: .absolute(Constant.Camping.Group.height)
+        widthDimension: .fractionalWidth(0.89),
+        heightDimension: .absolute(360)
       ),
       subitem: item,
-      count: Constant.Camping.Group.count
+      count: 3
     )
     
     let section = NSCollectionLayoutSection(group: group)
     section.orthogonalScrollingBehavior = .groupPaging
     section.contentInsets = .init(
-      top: Constant.Camping.Section.Inset.top,
-      leading: Constant.Camping.Section.Inset.leading,
-      bottom: Constant.Camping.Section.Inset.bottom,
-      trailing: Constant.Camping.Section.Inset.trailing
+      top: 5,
+      leading: 16,
+      bottom: 5,
+      trailing: 16
     )
     section.boundarySupplementaryItems = [headerLayout()]
     return section
@@ -129,8 +130,8 @@ extension MainSearchLayoutManager {
   private func headerLayout() -> NSCollectionLayoutBoundarySupplementaryItem {
     return .init(
       layoutSize: .init(
-        widthDimension: .fractionalWidth(Constant.Header.fractionalWidth),
-        heightDimension: .estimated(Constant.Header.estimatedHeight)
+        widthDimension: .fractionalWidth(1.0),
+        heightDimension: .estimated(74)
       ),
       elementKind: UICollectionView.elementKindSectionHeader,
       alignment: .top

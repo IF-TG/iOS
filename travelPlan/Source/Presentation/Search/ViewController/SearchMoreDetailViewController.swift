@@ -187,7 +187,7 @@ extension SearchMoreDetailViewController {
   
   private func registerCell(in collectionView: UICollectionView) {
     switch type {
-    case .festival, .leports:
+    case .festival, .leports, .cultureFacility:
       collectionView.register(TravelDestinationCell.self,
                               forCellWithReuseIdentifier: TravelDestinationCell.id)
     }
@@ -223,7 +223,7 @@ extension SearchMoreDetailViewController: UICollectionViewDataSource {
   ) -> UICollectionViewCell {
 
     switch type {
-    case .festival, .leports:
+    case .festival, .leports, .cultureFacility:
       guard let cell = collectionView.dequeueReusableCell(
         withReuseIdentifier: TravelDestinationCell.id,
         for: indexPath

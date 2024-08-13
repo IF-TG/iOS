@@ -40,8 +40,6 @@ final class SearchView: UIView {
   }
   
   // MARK: - Properties
-  weak var delegate: SearchViewDelegate?
-  
   private lazy var searchTextField: UITextField = UITextField().set {
     $0.attributedPlaceholder = .init(
       string: Constants.SearchTextField.placeholder,
@@ -59,7 +57,6 @@ final class SearchView: UIView {
     
     $0.setImage(image, for: .normal)
     $0.tintColor = .yg.primary
-    $0.addTarget(self, action: #selector(didTapSearchButton), for: .touchUpInside)
   }
   
   private let shadowLayer: CALayer = .init().set {
@@ -113,13 +110,6 @@ extension SearchView {
     layer.borderColor = UIColor.yg.primary.cgColor
     layer.borderWidth = SearchView.Constants.borderWidth
     layer.cornerRadius = SearchView.Constants.cornerRadius
-  }
-}
-
-// MARK: - Actions
-extension SearchView {
-  @objc private func didTapSearchButton() {
-    delegate?.didTapSearchButton(self, text: searchTextField.text ?? "")
   }
 }
 

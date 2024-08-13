@@ -1,0 +1,176 @@
+{
+    "result": [
+        {
+            "title": "축제를 즐겨봐요!",
+            "destination": [
+                {
+                    "id": 1,
+                    "contentTypeId": 15,
+                    "title": "펜타포트 락페스티벌",
+                    "thumbnailUrl": "restaurant_1",
+                    "address": "인천",
+                    "largeCategory": "축제",
+                    "smallCategory": "Museum",
+                    "middleCategory": "History",
+                    "scraped": true
+                },
+                {
+                    "id": 2,
+                    "contentTypeId": 15,
+                    "title": "난지 한강공원 페스티벌",
+                    "thumbnailUrl": "restaurant_1",
+                    "address": "123 Sample St, Sample City, SC 12341",
+                    "largeCategory": "축제",
+                    "smallCategory": "Museum",
+                    "middleCategory": "History",
+                    "scraped": false
+                },
+                {
+                    "id": 3,
+                    "contentTypeId": 15,
+                    "title": "머드 축제",
+                    "thumbnailUrl": "restaurant_1",
+                    "address": "123 Sample St, Sample City, SC 12341",
+                    "largeCategory": "Tourism",
+                    "smallCategory": "Museum",
+                    "middleCategory": "History",
+                    "scraped": false
+                },
+                {
+                    "id": 4,
+                    "contentTypeId": 15,
+                    "title": "축제축제축제축제",
+                    "thumbnailUrl": "restaurant_1",
+                    "address": "123 Sample St, Sample City, SC 12341",
+                    "largeCategory": "축제",
+                    "smallCategory": "Museum",
+                    "middleCategory": "History",
+                    "scraped": false
+                },
+                {
+                    "id": 5,
+                    "contentTypeId": 15,
+                    "title": "축제축제축제축제축제축제축제축제",
+                    "thumbnailUrl": "restaurant_1",
+                    "address": "123 Sample St, Sample City, SC 12341",
+                    "largeCategory": "축제",
+                    "smallCategory": "Museum",
+                    "middleCategory": "History",
+                    "scraped": true
+                }
+            ]
+        },
+        {
+            "title": "레포츠 어떠세요?",
+            "destination": [
+                {
+                    "id": 6,
+                    "contentTypeId": 28,
+                    "title": "바나나 보트",
+                    "thumbnailUrl": "restaurant_1",
+                    "address": "123 Sample St, Sample City, SC 12342",
+                    "largeCategory": "레포츠",
+                    "smallCategory": "Museum",
+                    "middleCategory": "History",
+                    "scraped": false
+                },
+                {
+                    "id": 7,
+                    "contentTypeId": 28,
+                    "title": "수상 스키",
+                    "thumbnailUrl": "restaurant_1",
+                    "address": "123 Sample St, Sample City, SC 12342",
+                    "largeCategory": "레포츠",
+                    "smallCategory": "Museum",
+                    "middleCategory": "History",
+                    "scraped": true
+                },
+                {
+                    "id": 8,
+                    "contentTypeId": 28,
+                    "title": "번지 점프",
+                    "thumbnailUrl": "restaurant_1",
+                    "address": "123 Sample St, Sample City, SC 12342",
+                    "largeCategory": "레포츠",
+                    "smallCategory": "Museum",
+                    "middleCategory": "History",
+                    "scraped": false
+                },
+                {
+                    "id": 9,
+                    "contentTypeId": 28,
+                    "title": "다이빙 놀이",
+                    "thumbnailUrl": "restaurant_1",
+                    "address": "123 Sample St, Sample City, SC 12342",
+                    "largeCategory": "레포츠",
+                    "smallCategory": "Museum",
+                    "middleCategory": "History",
+                    "scraped": true
+                },
+                {
+                    "id": 10,
+                    "contentTypeId": 28,
+                    "title": "패러 글라이딩",
+                    "thumbnailUrl": "restaurant_1",
+                    "address": "123 Sample St, Sample City, SC 12342",
+                    "largeCategory": "레포츠",
+                    "smallCategory": "Museum",
+                    "middleCategory": "History",
+                    "scraped": false
+                }
+            ]
+        },
+        {
+            "title": "다양한 문화시설을 경험해보세요!",
+            "destination": [
+                {
+                    "id": 11,
+                    "contentTypeId": 14,
+                    "title": "인천 문학 경기장",
+                    "thumbnailUrl": "restaurant_1",
+                    "address": "123 Sample St, Sample City, SC 12343",
+                    "largeCategory": "문화시설",
+                    "smallCategory": "Museum",
+                    "middleCategory": "History",
+                    "scraped": false
+                },
+                {
+                    "id": 12,
+                    "contentTypeId": 14,
+                    "title": "일산 킨텍스 콘서트장",
+                    "thumbnailUrl": "restaurant_1",
+                    "address": "123 Sample St, Sample City, SC 12343",
+                    "largeCategory": "문화시설",
+                    "smallCategory": "Museum",
+                    "middleCategory": "History",
+                    "scraped": false
+                },
+                {
+                    "id": 13,
+                    "contentTypeId": 14,
+                    "title": "경복궁",
+                    "thumbnailUrl": "restaurant_1",
+                    "address": "서울",
+                    "largeCategory": "문화시설",
+                    "smallCategory": "Museum",
+                    "middleCategory": "History",
+                    "scraped": false
+                },
+                {
+                    "id": 14,
+                    "contentTypeId": 14,
+                    "title": "국립 중앙 박물관",
+                    "thumbnailUrl": "restaurant_1",
+                    "address": "서울",
+                    "largeCategory": "문화시설",
+                    "smallCategory": "Museum",
+                    "middleCategory": "History",
+                    "scraped": false
+                }
+            ]
+        }
+    ],
+    "status": "Success",
+    "statusCode": "200",
+    "message": "Data retrieved successfully"
+}

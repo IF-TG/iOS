@@ -56,8 +56,16 @@ class BaseDestinationView<CenterView>: UIView where CenterView: UIView & CellCon
   private let centerView: CenterView
   private let starButton: SearchStarButton = .init(normalType: .black)
   
-  var starButtonTapPublisher: AnyPublisher<Void, Never> {
-    return starButton.tap.eraseToAnyPublisher()
+  /// value: tap이 이루어지기 직전의 isSelected 상태
+  var starButtonTapPublisher: AnyPublisher<Bool, Never> {
+    return starButton
+      .publisher(for: .touchUpInside)
+      .map { [weak self] _ in
+        guard let self = self else { return false }
+        
+        return starButton.isSelected
+      }
+      .eraseToAnyPublisher()
   }
   
   // MARK: - LifeCycle

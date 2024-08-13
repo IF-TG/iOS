@@ -121,6 +121,8 @@ extension SearchViewController {
   
   internal func render(_ state: SearchViewModelState) {
     switch state {
+    case .reloadData:
+      collectionView.reloadData()
     case .goDownKeyboard:
       view.endEditing(true)
     case .none:
@@ -143,16 +145,6 @@ private extension SearchViewController {
 extension SearchViewController {
   private func setupStyles() {
     view.backgroundColor = .white
-  }
-  
-  private func headerType(for section: Int) -> SearchSectionType? {
-    switch section {
-    case SearchSectionType.festival.rawValue:
-      return .festival
-    case SearchSectionType.leports.rawValue:
-      return .leports
-    default: return nil
-    }
   }
   
   private func setupNavigationBar() {
@@ -235,13 +227,13 @@ extension SearchViewController: UICollectionViewDataSource {
       
       return cell
       
-    case let .leports(leportsInfos):
+    case let .else(infos):
       guard let cell = collectionView.dequeueReusableCell(
         withReuseIdentifier: TravelDestinationCell.id,
         for: indexPath
       ) as? TravelDestinationCell else { return .init() }
       
-      cell.configure(with: leportsInfos[indexPath.item])
+      cell.configure(with: infos[indexPath.item])
       cell.bind(to: input.didTapStarButton, indexPath: indexPath)
         
       return cell
@@ -272,32 +264,13 @@ extension SearchViewController: UICollectionViewDataSource {
 
 // MARK: - UICollectionViewDelegate
 extension SearchViewController: UICollectionViewDelegate {
-//  func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//    let currentTopMargin = Constants.SearchView.Spacing.top - scrollView.contentOffset.y
-//    isScrolledUntilTop = currentTopMargin > CGFloat.zero
-//
-//    if isScrolledUntilTop {
-//      searchView.snp.updateConstraints {
-//        $0.top.equalTo(view.safeAreaLayoutGuide).inset(currentTopMargin)
-//      }
-//    }
-//  }
-  
   func collectionView(
     _ collectionView: UICollectionView,
     didSelectItemAt indexPath: IndexPath
   ) {
-    // pushTODO: - detailVC 화면 전환
-    print("[\(indexPath.section), \(indexPath.item)] clicked")
+    viewModel.showDetailPage(indexPath: indexPath)
   }
 }
-
-// MARK: - SearchViewDelegate
-// extension SearchViewController: SearchViewDelegate {
-//   func didTapSearchButton(_ searchView: SearchView, text: String) {
-//     input.didTapSearchButton.send(text)
-//   }
-// }
 
 // MARK: - TitleWithButtonHeaderViewDelegate
 extension SearchViewController: TitleWithButtonHeaderViewDelegate {
