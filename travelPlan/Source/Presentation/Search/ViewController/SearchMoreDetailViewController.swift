@@ -32,9 +32,10 @@ class SearchMoreDetailViewController: UIViewController {
     }
   }
   
+  // MARK: - Dependencies
+  private let viewModel: any SearchMoreDetailViewModel
+  
   // MARK: - Properties
-  weak var coordinator: SearchMoreDetailCoordinatorDelegate?
-  private let viewModel = DefaultSearchMoreDetailViewModel()
   private let appearance = UINavigationBarAppearance()
   private let compositionalLayoutManager: CompositionalLayoutCreatable = SearchMoreDetailLayoutManager()
   private lazy var compositionalLayout = compositionalLayoutManager.makeLayout()
@@ -46,11 +47,11 @@ class SearchMoreDetailViewController: UIViewController {
     frame: .zero,
     collectionViewLayout: compositionalLayout
   ).set {
-    self.registerCell(in: $0)
+    $0.register(type: TravelDestinationCell.self)
     $0.register(SearchDetailHeaderView.self,
                 forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                 withReuseIdentifier: SearchDetailHeaderView.id)
-    $0.roundCorners(cornerRadius: Constant.CollectionView.cornerRadius,
+    $0.roundCorners(cornerRadius: 10,
                     cornerList: [.layerMinXMinYCorner, .layerMaxXMinYCorner])
     $0.backgroundColor = .clear
     $0.delegate = self
@@ -60,11 +61,10 @@ class SearchMoreDetailViewController: UIViewController {
   }
   
   private var headerViewHeight: CGFloat {
-    self.view.bounds.height * Constant.CollectionHeaderView.heightRatio
+    self.view.bounds.height * 0.25
   }
   
   private lazy var backButton: UIButton = .init().set {
-    typealias Const = Constant.BackButton
     $0.addTarget(
       self,
       action: #selector(didTapBackBarButtonItem),
@@ -72,12 +72,12 @@ class SearchMoreDetailViewController: UIViewController {
     )
     $0.contentEdgeInsets = .init(
       top: .zero,
-      left: Const.ContentEdgeInsets.left,
+      left: 10,
       bottom: .zero,
       right: .zero
     )
     $0.setImage(
-      UIImage(named: Const.imageName)?
+      UIImage(named: "back")?
         .withRenderingMode(.alwaysTemplate),
       for: .normal
     )
@@ -85,21 +85,18 @@ class SearchMoreDetailViewController: UIViewController {
   }
   
   private let navigationTitleLabel: UILabel = .init().set {
-    typealias Const = Constant.NavigationTitleLabel
-    $0.font = .init(pretendard: .semiBold_600(fontSize: Const.fontSize))
+    $0.font = .init(pretendard: .semiBold_600(fontSize: 18))
     $0.textColor = .yg.gray7
     $0.alpha = .zero
   }
-  
-  private let type: SearchSectionType
   
   private let input = SearchMoreDetailViewModelInput()
   
   private var subscriptions = Set<AnyCancellable>()
   
   // MARK: - LifeCycle
-  init(type: SearchSectionType) {
-    self.type = type
+  init(viewModel: any SearchMoreDetailViewModel) {
+    self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -117,7 +114,7 @@ class SearchMoreDetailViewController: UIViewController {
     setupStyles()
     setupNavigationBar()
     bind()
-    input.viewDidLoad.send(type)
+    input.viewDidLoad.send()
   }
   
   override func viewWillDisappear(_ animated: Bool) {
@@ -139,9 +136,8 @@ extension SearchMoreDetailViewController {
   
   func render(_ state: SearchMoreDetailViewModelState) {
     switch state {
-    case .showDetail:
-      print("DEBUG: 다음 화면으로 전환합니다.")
-    case let .setNavigationTitle(title):
+    case .reloadDataAndSetHeaderTitle(let title):
+      collectionView.reloadData()
       navigationTitleLabel.text = title
       setupBaseNavigationTitleView(titleViewType: .custom(customView: navigationTitleLabel))
     case .reloadItems(let indexPath):
@@ -156,7 +152,7 @@ extension SearchMoreDetailViewController {
 // MARK: - Actions
 extension SearchMoreDetailViewController {
   @objc private func didTapBackBarButtonItem() {
-    coordinator?.finish(withAnimated: true)
+    viewModel.pop()
   }
 }
 
@@ -184,14 +180,6 @@ extension SearchMoreDetailViewController {
   private func changeBackButtonTintColor(with scaleFactor: CGFloat) -> UIColor {
     return UIColor(white: scaleFactor, alpha: 1)
   }
-  
-  private func registerCell(in collectionView: UICollectionView) {
-    switch type {
-    case .festival, .leports, .cultureFacility:
-      collectionView.register(TravelDestinationCell.self,
-                              forCellWithReuseIdentifier: TravelDestinationCell.id)
-    }
-  }
 }
 
 // MARK: - LayoutSupport
@@ -214,26 +202,22 @@ extension SearchMoreDetailViewController: UICollectionViewDataSource {
     _ collectionView: UICollectionView,
     numberOfItemsInSection section: Int
   ) -> Int {
-    self.viewModel.numberOfItems(type: type)
+    self.viewModel.numberOfItemsInSection()
   }
   
   func collectionView(
     _ collectionView: UICollectionView,
     cellForItemAt indexPath: IndexPath
   ) -> UICollectionViewCell {
-
-    switch type {
-    case .festival, .leports, .cultureFacility:
-      guard let cell = collectionView.dequeueReusableCell(
-        withReuseIdentifier: TravelDestinationCell.id,
-        for: indexPath
-      ) as? TravelDestinationCell else { return .init() }
-      guard let itemInfos = self.viewModel.itemInfos else { return .init() }
-      
-      cell.configure(with: itemInfos[indexPath.item])
-      cell.bind(to: input.didTapStarButton, indexPath: indexPath)
-      return cell
-    }
+    guard let cell = collectionView.dequeueReusableCell(
+      withReuseIdentifier: TravelDestinationCell.identifier,
+      for: indexPath
+    ) as? TravelDestinationCell else { return .init() }
+    
+    let destinationInfo = viewModel.destinationInfo(indexPath: indexPath)
+    cell.configure(with: destinationInfo)
+    cell.bind(to: input.didTapStarButton, indexPath: indexPath)
+    return cell
   }
   
   func collectionView(
@@ -247,10 +231,8 @@ extension SearchMoreDetailViewController: UICollectionViewDataSource {
         withReuseIdentifier: SearchDetailHeaderView.id,
         for: indexPath
       ) as? SearchDetailHeaderView else { return .init() }
-      
-      if let headerInfo = viewModel.headerInfo {
-        headerView.configure(with: headerInfo)
-      }
+
+        headerView.configure(with: viewModel.headerInfo())
       return headerView
     } else { return .init() }
   }
@@ -295,10 +277,6 @@ extension SearchMoreDetailViewController: UICollectionViewDelegate {
   }
   
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    input.didSelectItem.send(indexPath)
-    
-    // TODO: - will erase
-//    let viewModel = DefaultDestinationDetailViewModel()
-//    navigationController?.pushViewController(DestinationDetailViewController(viewModel: viewModel, type: .festival), animated: true)
+    viewModel.showDestinationDetail(indexPath: indexPath)
   }
 }
