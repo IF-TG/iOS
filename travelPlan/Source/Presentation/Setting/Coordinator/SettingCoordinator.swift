@@ -9,19 +9,37 @@ import UIKit
 import SHCoordinator
 import Alamofire
 
+protocol SettingCoordinatorDependencies {
+  func makeSettingViewController(with actions: SettingViewModelActions) -> UIViewController
+  func makeOperatingGuideViewController() -> UIViewController
+  func makeMyInformationCoordinator(presenter: UINavigationController?) -> FlowCoordinator
+  func makeCustomerServiceViewController() -> UIViewController
+}
+
 final class SettingCoordinator: FlowCoordinator {
   // MARK: - Properties
   var parent: FlowCoordinator?
   var child: [FlowCoordinator] = []
   var presenter: UINavigationController?
   
-  init(presenter: UINavigationController?) {
+  private let dependencies: SettingCoordinatorDependencies
+  
+  init(presenter: UINavigationController?, dependencies: SettingCoordinatorDependencies) {
     self.presenter = presenter
+    self.dependencies = dependencies
   }
   
   // MARK: - Helpers
   func start() {
-    let actions = SettingViewModelActions { [weak self] in
+    let viewController = dependencies.makeSettingViewController(with: makeActions())
+    presenter?.pushViewController(viewController, animated: true)
+  }
+}
+
+// MARK: - Public Helpers
+extension SettingCoordinator {
+  func makeActions() -> SettingViewModelActions {
+    return SettingViewModelActions { [weak self] in
       self?.showOperationGuidePage()
     } showMyInformationPage: { [weak self] in
       self?.showMyInformationPage()
@@ -30,32 +48,23 @@ final class SettingCoordinator: FlowCoordinator {
     } finish: { [weak self] in
       self?.finish()
     }
-    
-    let stubOwnerStorage = StubOwnerStorage()
-    let loggedInUserRepository = DefaultLoggedInUserRepository(storage: .init(value: stubOwnerStorage))
-    let loggedInUserUseCase = DefaultLoggedInUserUseCase(loggedInUserRepository: loggedInUserRepository)
-    
-    let viewModel = SettingViewModel(loggedInUserUseCase: loggedInUserUseCase, actions: actions)
-
-    let vc = SettingViewController(viewModel: viewModel)
-    presenter?.pushViewController(vc, animated: true)
   }
 }
 
 // MARK: - Actions Helpers
 extension SettingCoordinator {
   func showOperationGuidePage() {
-    let operationGuidePage = OperationGuideViewController(navigationTitle: "이용안내")
+    let operationGuidePage = dependencies.makeOperatingGuideViewController()
     presenter?.pushViewController(operationGuidePage, animated: true)
   }
   
   func showMyInformationPage() {
-    let childCoordinator = MyInformationCoordinator(presenter: presenter)
+    let childCoordinator = dependencies.makeMyInformationCoordinator(presenter: presenter)
     addChild(with: childCoordinator)
   }
   
   func showCustomerServicePage() {
-    let viewController = CustomerServiceViewController(navigationTitle: "고객센터")
+    let viewController = dependencies.makeCustomerServiceViewController()
     presenter?.pushViewController(viewController, animated: true)
   }
 }
