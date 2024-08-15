@@ -37,3 +37,5 @@ protocol SettingViewModelable: ViewModelable
 where Input == SettingViewModelInput,
       State == SettingViewModelState,
       Output == AnyPublisher<State, Never> { }
+
+typealias SettingViewModelType = any SettingViewModelable & SettingViewModelPageDelegate
