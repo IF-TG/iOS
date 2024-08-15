@@ -44,7 +44,6 @@
 - Firebase
 - AppsFlyer
 - Swiftlint
-- Realm
 - GoogleSignIn
 - Snapkit
 
@@ -75,48 +74,59 @@
 
 ### [ 로그인 화면 ]
 
-| gif1 | ![구글+파이어스토어로긴](https://github.com/user-attachments/assets/d1528479-5804-4c5d-b78c-82c1e6f45997)  | gif3  | gif4  |
-| :-:| :-: | :-: | :-: |
-| `로그인 애니메이션` | `구글 로그인 연동` | `애플 로그인 연동` | `없을시 제거` |
+| ![로그인 화면](https://github.com/user-attachments/assets/40d26c59-8582-4c7f-bd57-0c3e5ecb8d4e) | ![구글+파이어스토어로긴](https://github.com/user-attachments/assets/d1528479-5804-4c5d-b78c-82c1e6f45997)  | gif3  | gif4  |
+| :-: | :-: | :-: | :-: |
+| `로그인 화면` | `구글 로그인 연동` | `애플 로그인 연동` | `없을시 제거` |
 
 ### [ 피드 여행 후기 포스트 글쓰기 화면 ]
 | gif1 | gif2  | gif3  | gif4  |
-| :-:| :-: | :-: | :-: |
+| :-: | :-: | :-: | :-: |
 | `제목+글 추가 기본` | `이미지 연속 추가` | `이미지 추가->삭제 후 글 추가` | `글 추가 및 글 제거` |
 
-### [ 피드 여행 후기 포스트 화면 ]
-| gif1 | gif2  | gif3  | gif4  |
-| :-:| :-: | :-: | :-: |
-| `피드 메인 카테고리 소팅` | `피드 서브 카테고리 소팅` | `피드 게시글 공유` | `피드 하트 on,  off` |
+| ![피드 페이징 및 리프레싱](https://github.com/user-attachments/assets/37d9d899-b2d0-4325-8924-7a7c3a494330) | ![카테고리 전환](https://github.com/user-attachments/assets/1d240fb5-9079-455a-941e-ffffafcc696e) | ![피드 -  상세화면 ](https://github.com/user-attachments/assets/e92ff353-b121-4575-a68a-6634392bd9e9) |
+| :-: | :-: | :-: |
+| `피드 페이징 및 리프레싱` | `피드 카테고리 테마 전환` | `상세화면 이동` |
 
-| gif1 | gif2  | gif3  | gif4  |
-| :-:| :-: | :-: | :-: |
-| `피드 페이징` | `피드 리프레시` | `포스트 신고` | `상세화면 이동` |
+
+### [ 공유하기 로직 ]
+
+- Closed #246 (<a href="https://github.com/IF-TG/iOS/pull/246">앱스플라이어 도전기 PR 링크 바로가기</a>)
+
+| ![공유하기 로직](https://github.com/IF-TG/iOS/assets/96910404/1a3e3ed5-8868-4419-bcd9-cb811646d5f6) | ![앱이 백그라운드 상태일 때](https://github.com/IF-TG/iOS/assets/96910404/ae6982fb-e01c-46f6-bb40-c036f113d5d2) | ![실행되지 않은 앱일 때 링크 클릭](https://github.com/IF-TG/iOS/assets/96910404/a34b7cb6-0fee-4926-9e2a-dda3cae7df6b) | ![유효하지 않은 포스트일 때](https://github.com/IF-TG/iOS/assets/96910404/7807d479-9752-43e4-9cf0-7fe7c6314be8) | 
+| :-: | :-: | :-: | :-: | 
+| `공유하기 로직` | `앱이 백그라운드 상태일 때 링크 클릭`  | `실행되지 않은 앱일 때 링크 클릭` |`유효하지 않은 포스트일 때` |
+
+### [ 피드 여행 후기 포스트 화면 ]
+
+| ![테마별 소팅](https://github.com/user-attachments/assets/ab710bcc-b2f1-45df-87d8-dcb139064846) | ![포스트 차단 후 페이징](https://github.com/user-attachments/assets/a6736f5e-bd60-47dd-a1b7-d3b994c5a713) | ![피드 하트 취소](https://github.com/user-attachments/assets/9f8ff0c7-855c-4ca3-9410-4d231d9d4aa3) | ![피드 하트 후 포스트화면 연동](https://github.com/user-attachments/assets/fa8b4189-b076-4ac6-a387-abeee08868fe) | 
+| :-: | :-: | :-: | :-: | 
+| `피드 대표적 계절, 지역 테마 및 서브 카테고리 소팅` | `피드 포스트 그만보기 및 스크롤`  | `피드 포스트 하트 취소` |`피드에서 포스트 하트 후 상세화면 연동` |
+
 
 ### [ 여행 후기 포스트 상세화면 ]
 
 | ![ 상세화면 스크롤 ](https://github.com/user-attachments/assets/a13edfca-32ed-4b12-b393-2a546e357a74) | ![네비바 애니](https://github.com/user-attachments/assets/be9ac408-1983-4d0b-a24f-880ad236c78c)  | ![ 카테고리 ](https://github.com/user-attachments/assets/64f07e56-6798-4e96-99cc-89a466edfc7f)  | ![편집하기](https://github.com/user-attachments/assets/fc9ff720-0940-4a0d-a67a-5380e6acdb24)  |
-| :-:| :-: | :-: | :-: |
+| :-: | :-: | :-: | :-: |
 | `상세화면 스크롤` | `자연스러운 네비바 애니메이션` | `카테고리 화면` | `상세화면 -> 편집화면 이동` |
 
-| gif1 | gif2  | gif3  | gif4  |
-| :-:| :-: | :-: | :-: |
-| `상세 화면 포스트 댓글 추가` | `포스트 댓글 업데이트` | `포스트 댓글 삭제` | `포스트 댓글 신고` |
+#### [ 댓글과 대댓글의 기능은 동일하게 동작해서 댓글의 동작 과정은 생략했습니다. ]
 
-| gif1 | gif2  | gif3  | gif4  |
-| :-:| :-: | :-: | :-: |
-| `상세 화면 포스트 대댓글 추가` | `포스트 대댓글 업데이트` | `포스트 대댓글 삭제` | `포스트 대댓글 신고` |
+| ![대댓글 작성](https://github.com/user-attachments/assets/f26b57de-c4b8-4b17-ac36-83d61e0093c6) | ![대댓글 업데이트](https://github.com/user-attachments/assets/ffb8cd6c-0f1b-46da-8b31-75565f054543)  | ![대댓글 삭제](https://github.com/user-attachments/assets/e1ed7ee8-65f1-49e1-b8de-ddb021e9975e) | ![대댓글 하트 do, undo](https://github.com/user-attachments/assets/68c6a1db-ef04-4b2c-9986-c6ee38ac2a44) |
+| :-: | :-: | :-: | :-: |
+| `상세 화면 포스트 대댓글 추가` | `포스트 대댓글 업데이트` | `포스트 대댓글 삭제` | `대댓글 하트 do, undo` |
 
-| gif1 | gif2  | gif3  |gif3  |
-| :-:| :-: | :-: |:-: |
-| `댓글 하트 및 누적 연동` | `대댓글 하트 및 누적 연동` | `상세 화면 하트 후 피드 화면 연동` |`상세화면에서 공유하기` |
+#### [타인의 댓글, 대댓글 옵션 선택하는 경우 #1, #2, #3] [자신의 경우 댓글 제거 #4]
 
+| ![대댓글 차단](https://github.com/user-attachments/assets/3f913ea6-b984-473c-8683-a8720e54df43) | ![댓글차단](https://github.com/user-attachments/assets/9bcd7cad-a92a-49a7-a1e4-68f053748ea3) | ![댓글 삭제된 경우 대댓글 차단](https://github.com/user-attachments/assets/855c4b5f-8511-4c0c-9078-f5b94b3d67f0) |
+| :-: | :-: | :-: |
+| `대댓글 차단 #1` | `댓글 차단(대댓글 존재(O))#2` | `댓글 차단상태-> 마지막 대댓글 차단#3` |
 
 ### [ 알림센터 Flow ]
 
-| gif1 | gif2  | gif3  |
-| :-:| :-: | :-: |
-| `알림센터 화면 알림 제거` | `알림센터 화면 알림 전부 제거` | `공지 사항 화면 공지 보이기, 축소하기` |
+
+| ![알림 화면](https://github.com/user-attachments/assets/b02c3d91-c098-46d1-827c-ddad203657b0) | ![공지사항 화면](https://github.com/user-attachments/assets/d7094a04-277e-4885-8e0c-89cda9839de4) | 
+| :-: | :-: |
+| `알림센터 알림 화면 및 알림 전부 제거, 리프레시` | `파베 연동된 공지 사항 화면 공지 보이기, 축소하기` |
 
 ### [ 검색 Flow ]
 
