@@ -99,11 +99,9 @@
 | :-:| :-: | :-: | :-: |
 | `상세화면 스크롤` | `자연스러운 네비바 애니메이션` | `카테고리 화면` | `상세화면 -> 편집화면 이동` |
 
-| gif1 | gif2  | gif3  | ![댓글 하트 do, uodo](https://github.com/user-attachments/assets/8d865816-a487-4ca4-b871-046ac78d3d2d) |
-| :-:| :-: | :-: | :-: |
-| `상세 화면 포스트 댓글 추가` | `포스트 댓글 업데이트` | `포스트 댓글 삭제` | `포스트 댓글 하트 do, undo` |
+#### [ 댓글과 대댓글의 기능은 동일하게 동작해서 생략합니다!! ]
 
-| ![대댓글 작성](https://github.com/user-attachments/assets/f26b57de-c4b8-4b17-ac36-83d61e0093c6) | ![대댓글 업데이트](https://github.com/user-attachments/assets/ffb8cd6c-0f1b-46da-8b31-75565f054543)  | !![대댓글 삭제](https://github.com/user-attachments/assets/e1ed7ee8-65f1-49e1-b8de-ddb021e9975e) | ![대댓글 하트 do, undo](https://github.com/user-attachments/assets/68c6a1db-ef04-4b2c-9986-c6ee38ac2a44) |
+| ![대댓글 작성](https://github.com/user-attachments/assets/f26b57de-c4b8-4b17-ac36-83d61e0093c6) | ![대댓글 업데이트](https://github.com/user-attachments/assets/ffb8cd6c-0f1b-46da-8b31-75565f054543)  | ![대댓글 삭제](https://github.com/user-attachments/assets/e1ed7ee8-65f1-49e1-b8de-ddb021e9975e) | ![대댓글 하트 do, undo](https://github.com/user-attachments/assets/68c6a1db-ef04-4b2c-9986-c6ee38ac2a44) |
 | :-:| :-: | :-: | :-: |
 | `상세 화면 포스트 대댓글 추가` | `포스트 대댓글 업데이트` | `포스트 대댓글 삭제` | `대댓글 하트 do, undo` |
 
