@@ -42,7 +42,7 @@ final class TitleWithButtonHeaderView: UICollectionReusableView {
     return String(describing: self)
   }
 
-  var sectionIndex: Int?
+  private var sectionIndex: Int?
   
   weak var delegate: TitleWithButtonHeaderViewDelegate?
   
@@ -88,8 +88,9 @@ final class TitleWithButtonHeaderView: UICollectionReusableView {
 
 // MARK: - Public Helpers
 extension TitleWithButtonHeaderView {
-  func configure(title: String) {
+  func configure(title: String, sectionIndex: Int) {
     headerLabel.text = title
+    self.sectionIndex = sectionIndex
   }
 }
 
