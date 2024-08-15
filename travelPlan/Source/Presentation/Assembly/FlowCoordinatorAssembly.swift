@@ -63,7 +63,7 @@ final class FlowCoordinatorAssembly: Assembly {
     
     // FIXME: - Setting Flow Coordinator.
     container.register(SettingCoordinator.self) { (_, presenter: UINavigationController) in
-      SettingCoordinator(presenter: presenter)
+      SettingCoordinator(presenter: presenter, dependencies: appDIContainer)
     }
     
     // FIXME: - Favorite Flow Coordinator
