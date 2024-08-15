@@ -44,7 +44,6 @@
 - Firebase
 - AppsFlyer
 - Swiftlint
-- Realm
 - GoogleSignIn
 - Snapkit
 
