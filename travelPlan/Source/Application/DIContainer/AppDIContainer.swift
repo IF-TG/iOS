@@ -227,14 +227,22 @@ extension AppDIContainer: SettingCoordinatorDependencies {
     return resolver.resolve(OperationGuideViewController.self)!
   }
   
-  // TODO: - 이거 코디 resolve로 꺼내와야함. 아직 등록x
-  #warning("노노노노 아직안했으!")
-  func makeMyInformationCoordinator(presenter: UINavigationController?) -> any SHCoordinator.FlowCoordinator {
-    return MyInformationCoordinator(presenter: presenter)
-   // return resolver.resolve(<#T##serviceType: Service.Type##Service.Type#>)
+  func makeMyInformationCoordinator(presenter: UINavigationController?) -> any FlowCoordinator {
+    return resolver.resolve(MyInformationCoordinator.self, argument: presenter)!
   }
   
   func makeCustomerServiceViewController() -> UIViewController {
     return resolver.resolve(CustomerServiceViewController.self)!
+  }
+}
+
+// MARK: - MyInformationCoordinatorDependencies
+extension AppDIContainer: MyInformationCoordinatorDependencies {
+  func makeMyInformationViewController(with actions: MyInformationViewModelActions) -> UIViewController {
+    return resolver.resolve(MyInformationViewController.self, argument: actions)!
+  }
+  
+  func makeMyInformationAlbumSheetViewController() -> UIViewController {
+    return resolver.resolve(MyInformationAlbumSheetViewController.self)!
   }
 }
