@@ -84,15 +84,16 @@
 | :-:| :-: | :-: | :-: |
 | `제목+글 추가 기본` | `이미지 연속 추가` | `이미지 추가->삭제 후 글 추가` | `글 추가 및 글 제거` |
 
-| ![피드 페이징 및 리프레싱](https://github.com/user-attachments/assets/37d9d899-b2d0-4325-8924-7a7c3a494330) | ![카테고리 전환](https://github.com/user-attachments/assets/1d240fb5-9079-455a-941e-ffffafcc696e) | gif3  | 
+| ![피드 페이징 및 리프레싱](https://github.com/user-attachments/assets/37d9d899-b2d0-4325-8924-7a7c3a494330) | ![카테고리 전환](https://github.com/user-attachments/assets/1d240fb5-9079-455a-941e-ffffafcc696e) | ![피드 -  상세화면 ](https://github.com/user-attachments/assets/e92ff353-b121-4575-a68a-6634392bd9e9) | 
 | :-:| :-: | :-: | 
-| `피드 페이징 및 리프레싱` | `피드 카테고리 테마 전환` ` | `상세화면 이동` |
+| `피드 페이징 및 리프레싱` | `피드 카테고리 테마 전환` | `상세화면 이동` |
 
 ### [ 피드 여행 후기 포스트 화면 ]
 
-| gif1 | gif2  | gif3  | 
-| :-:| :-: | :-: | 
-| `피드 대표적 계절, 지역 테마 및 서브 카테고리 소팅` | `피드 포스트 신고`  | `피드 하트 on,  off` |
+| ![테마별 소팅](https://github.com/user-attachments/assets/ab710bcc-b2f1-45df-87d8-dcb139064846) | ![포스트 차단 후 페이징](https://github.com/user-attachments/assets/a6736f5e-bd60-47dd-a1b7-d3b994c5a713) | ![피드 하트 취소](https://github.com/user-attachments/assets/9f8ff0c7-855c-4ca3-9410-4d231d9d4aa3) | ![피드 하트 후 포스트화면 연동](https://github.com/user-attachments/assets/fa8b4189-b076-4ac6-a387-abeee08868fe) | 
+| :-:| :-: | :-: | :-: | 
+| `피드 대표적 계절, 지역 테마 및 서브 카테고리 소팅` | `피드 포스트 그만보기 및 스크롤`  | `피드 포스트 하트 취소` |`피드에서 포스트 하트 후 상세화면 연동` |
+
 
 ### [ 여행 후기 포스트 상세화면 ]
 
