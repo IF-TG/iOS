@@ -167,7 +167,7 @@ final class PresentationAssembly: Assembly {
       MainTabBarController()
     }
     
-    // TODO: - Setting Page
+    // MARK: - Setting Page
     container.register(SettingViewModelType.self) { (r, actions: SettingViewModelActions) in
       let ownerRepository = self.ownerRepository(with: r)
       return SettingViewModel(ownerRepository: ownerRepository, actions: actions)
@@ -186,6 +186,24 @@ final class PresentationAssembly: Assembly {
       return CustomerServiceViewController(navigationTitle: "고객센터")
     }
     
+    container.register(MyInformationViewModelType.self) { (r, actions: MyInformationViewModelActions) in
+      let userNicknameSettingUseCase = r.resolve(UserNicknameSettingUseCase.self)!
+      let userProfileImageSettingUsecase = r.resolve(UserProfileImageSettingUseCase.self)!
+      let nicknameValidationUseCase = r.resolve(NicknameValidationUseCase.self)!
+      let ownerRepository = self.ownerRepository(with: r)
+      
+      return MyInformationViewModel(
+        userNicknameSettingUseCase: userNicknameSettingUseCase,
+        userProfileImageSettingUseCase: userProfileImageSettingUsecase,
+        nicknameValidationUseCase: nicknameValidationUseCase,
+        ownerRepository: ownerRepository,
+        actions: actions)
+    }
+    
+    container.register(MyInformationViewController.self) { (r, actions: MyInformationViewModelActions) in
+      let viewModel = r.resolve(MyInformationViewModelType.self, argument: actions)!
+      return MyInformationViewController(viewModel: viewModel)
+    }
     
     // TODO: - Favorite Page
     
