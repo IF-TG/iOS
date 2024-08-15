@@ -216,3 +216,24 @@ extension AppDIContainer: DestinationDetailCoordinatorDependencies {
     resolver.resolve(DestinationDetailViewController.self, argument: destinationId)!
   }
 }
+
+extension AppDIContainer: SettingCoordinatorDependencies {
+  func makeSettingViewController(with actions: SettingViewModelActions) -> UIViewController {
+    return resolver.resolve(SettingViewController.self, argument: actions)!
+  }
+  
+  func makeOperatingGuideViewController() -> UIViewController {
+    return resolver.resolve(OperationGuideViewController.self)!
+  }
+  
+  // TODO: - 이거 코디 resolve로 꺼내와야함. 아직 등록x
+  #warning("노노노노 아직안했으!")
+  func makeMyInformationCoordinator(presenter: UINavigationController?) -> any SHCoordinator.FlowCoordinator {
+    return MyInformationCoordinator(presenter: presenter)
+   // return resolver.resolve(<#T##serviceType: Service.Type##Service.Type#>)
+  }
+  
+  func makeCustomerServiceViewController() -> UIViewController {
+    return resolver.resolve(CustomerServiceViewController.self)!
+  }
+}
