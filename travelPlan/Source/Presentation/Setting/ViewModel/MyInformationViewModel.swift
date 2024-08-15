@@ -13,7 +13,7 @@ final class MyInformationViewModel {
   private let userNicknameSettingUseCase: UserNicknameSettingUseCase
   private let userProfileImageSettingUseCase: UserProfileImageSettingUseCase
   private let nicknameValidationUseCase: NicknameValidationUseCase
-  private let loggedInUserUseCase: LoggedInUserUseCase
+  private let ownerRepository: LoggedInUserRepository
   private let actions: MyInformationViewModelActions
   
   // MARK: - Properties
@@ -39,13 +39,13 @@ final class MyInformationViewModel {
     userNicknameSettingUseCase: UserNicknameSettingUseCase,
     userProfileImageSettingUseCase: UserProfileImageSettingUseCase,
     nicknameValidationUseCase: NicknameValidationUseCase,
-    loggedInUserUseCase: LoggedInUserUseCase,
+    ownerRepository: LoggedInUserRepository,
     actions: MyInformationViewModelActions
   ) {
     self.userNicknameSettingUseCase = userNicknameSettingUseCase
     self.userProfileImageSettingUseCase = userProfileImageSettingUseCase
     self.nicknameValidationUseCase = nicknameValidationUseCase
-    self.loggedInUserUseCase = loggedInUserUseCase
+    self.ownerRepository = ownerRepository
     self.actions = actions
     bothNameAndProfileUpdatedPublisher = Publishers.Zip(
       updatedNicknameNotifier,
@@ -76,7 +76,7 @@ private extension MyInformationViewModel {
     return input.viewDidLoad
       .map { [weak self] _ in
         /// 로그인한 사용자라면 반드시 ownerStorage에 사용자 정보가 저장되어야 합니다.
-        guard let ownerEntity = self?.loggedInUserUseCase.user else {
+        guard let ownerEntity = self?.ownerRepository.user else {
           return .unexpectedError(description: "사용자 정보를 불러올 수 없습니다.")
         }
         self?.ownerEntity = ownerEntity
@@ -131,7 +131,7 @@ private extension MyInformationViewModel {
         if let image = self?.editedUserProfileImage {
           // MARK: 서버에 사용자 이미지가 저장되어있지 않다면, save를 통해 저장해야 합니다.
           // 사용자 이미지가 저장됬다면 update or delete -> save를 호출해야합니다.
-          if self?.loggedInUserUseCase.hasProfileImageSavedInServer == true {
+          if self?.ownerRepository.hasProfileImageSavedInServer == true {
             self?.profileUpdateSubject.send(image)
           } else {
             self?.profileSaveSubject.send(image)
@@ -258,7 +258,7 @@ private extension MyInformationViewModel {
       print("저장할 닉네임이 없습니다.")
       return
     }
-    loggedInUserUseCase.updateNickname(with: nickname)
+    ownerRepository.updateNickname(with: nickname)
     ownerEntity?.nickname = nickname
   }
   
@@ -267,7 +267,7 @@ private extension MyInformationViewModel {
       print("저장할 이미지가 없습니다.")
       return
     }
-    loggedInUserUseCase.updateProfileImageData(with: profileImageData)
+    ownerRepository.updateProfileImageData(with: profileImageData)
     ownerEntity?.profileImageData = profileImageData
   }
 }
