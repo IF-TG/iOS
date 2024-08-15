@@ -313,6 +313,7 @@ extension PostDetailViewController: ViewBindCase {
         /// tableView.deleteRows(at: [indexPath], with: .top)
         tableView.reloadSections(IndexSet(integer: indexPath.section), with: .none)
       }
+      chatViewModel.notifyModifiedCommentsOfCommentAndReply()
       stopIndicator()
     case .reloadWhenLastNestedCommentDelete(let indexPath):
       UITableView.performWithoutAnimation {
