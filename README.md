@@ -84,9 +84,18 @@
 | :-:| :-: | :-: | :-: |
 | `제목+글 추가 기본` | `이미지 연속 추가` | `이미지 추가->삭제 후 글 추가` | `글 추가 및 글 제거` |
 
-| ![피드 페이징 및 리프레싱](https://github.com/user-attachments/assets/37d9d899-b2d0-4325-8924-7a7c3a494330) | ![카테고리 전환](https://github.com/user-attachments/assets/1d240fb5-9079-455a-941e-ffffafcc696e) | ![피드 -  상세화면 ](https://github.com/user-attachments/assets/e92ff353-b121-4575-a68a-6634392bd9e9) | 
-| :-:| :-: | :-: | 
+| ![피드 페이징 및 리프레싱](https://github.com/user-attachments/assets/37d9d899-b2d0-4325-8924-7a7c3a494330) | ![카테고리 전환](https://github.com/user-attachments/assets/1d240fb5-9079-455a-941e-ffffafcc696e) | ![피드 -  상세화면 ](https://github.com/user-attachments/assets/e92ff353-b121-4575-a68a-6634392bd9e9) |
+| :-:| :-: | :-: |
 | `피드 페이징 및 리프레싱` | `피드 카테고리 테마 전환` | `상세화면 이동` |
+
+
+### [ 공유하기 로직 ]
+
+- Closed #246 (<a href="https://github.com/IF-TG/iOS/pull/246">앱스플라이어 도전기 PR 링크 바로가기</a>)
+
+| ![공유하기 로직](https://github.com/IF-TG/iOS/assets/96910404/1a3e3ed5-8868-4419-bcd9-cb811646d5f6) | ![앱이 백그라운드 상태일 때](https://github.com/IF-TG/iOS/assets/96910404/ae6982fb-e01c-46f6-bb40-c036f113d5d2) | ![실행되지 않은 앱일 때 링크 클릭](https://github.com/IF-TG/iOS/assets/96910404/a34b7cb6-0fee-4926-9e2a-dda3cae7df6b) | ![유효하지 않은 포스트일 때](https://github.com/IF-TG/iOS/assets/96910404/7807d479-9752-43e4-9cf0-7fe7c6314be8) | 
+| :-:| :-: | :-: | :-: | 
+| `공유하기 로직` | `앱이 백그라운드 상태일 때 링크 클릭`  | `실행되지 않은 앱일 때 링크 클릭` |`유효하지 않은 포스트일 때` |
 
 ### [ 피드 여행 후기 포스트 화면 ]
 
