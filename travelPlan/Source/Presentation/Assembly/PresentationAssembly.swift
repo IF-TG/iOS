@@ -168,6 +168,16 @@ final class PresentationAssembly: Assembly {
     }
     
     // TODO: - Setting Page
+    container.register(SettingViewModelType.self) { (r, actions: SettingViewModelActions) in
+      let ownerRepository = self.ownerRepository(with: r)
+      return SettingViewModel(ownerRepository: ownerRepository, actions: actions)
+    }
+    
+    container.register(SettingViewController.self) { (r, actions: SettingViewModelActions) in
+      let settingViewModel = r.resolve(SettingViewModelType.self, argument: actions)!
+      return SettingViewController(viewModel: settingViewModel)
+    }
+    
     
     // TODO: - Favorite Page
     
