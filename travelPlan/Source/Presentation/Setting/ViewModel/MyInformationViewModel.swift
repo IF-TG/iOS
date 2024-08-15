@@ -131,7 +131,7 @@ private extension MyInformationViewModel {
         if let image = self?.editedUserProfileImage {
           // MARK: 서버에 사용자 이미지가 저장되어있지 않다면, save를 통해 저장해야 합니다.
           // 사용자 이미지가 저장됬다면 update or delete -> save를 호출해야합니다.
-          if self?.ownerRepository.hasProfileImageSavedInServer == true {
+          if self?.ownerRepository.isSavedProfileInServer == true {
             self?.profileUpdateSubject.send(image)
           } else {
             self?.profileSaveSubject.send(image)
