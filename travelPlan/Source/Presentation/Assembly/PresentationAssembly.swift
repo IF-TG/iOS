@@ -178,6 +178,14 @@ final class PresentationAssembly: Assembly {
       return SettingViewController(viewModel: settingViewModel)
     }
     
+    container.register(OperationGuideViewController.self) { _ in
+      return OperationGuideViewController(navigationTitle: "이용안내")
+    }
+    
+    container.register(CustomerServiceViewController.self) { _ in
+      return CustomerServiceViewController(navigationTitle: "고객센터")
+    }
+    
     
     // TODO: - Favorite Page
     
