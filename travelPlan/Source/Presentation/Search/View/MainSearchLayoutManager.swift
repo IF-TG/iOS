@@ -59,11 +59,13 @@ class MainSearchLayoutManager {
 extension MainSearchLayoutManager: CompositionalLayoutCreatable {
   func makeLayout() -> UICollectionViewCompositionalLayout {
     return UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ in
+      
       switch sectionIndex {
-      case SearchSectionType.festival.rawValue: 
+      case SearchSectionIndex.festival.rawValue:
         return self?.festivalLayout()
         
-      case SearchSectionType.leports.rawValue, SearchSectionType.cultureFacility.rawValue:
+      case SearchSectionIndex.leports.rawValue,
+        SearchSectionIndex.cultureFacility.rawValue:
         return self?.commonLayout()
       default: return nil
       }
