@@ -205,6 +205,10 @@ final class PresentationAssembly: Assembly {
       return MyInformationViewController(viewModel: viewModel)
     }
     
+    container.register(MyInformationAlbumSheetViewController.self) { _ in
+      MyInformationAlbumSheetViewController()
+    }
+    
     // TODO: - Favorite Page
     
     // TODO: - Plan Page
