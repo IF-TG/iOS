@@ -71,13 +71,16 @@ extension MyInformationCoordinator {
   }
   
   func showBottomSheetAlbum() {
-    let albumSheet = MyInformationAlbumSheetViewController()
-    alubmImageChoiceSubscription = albumSheet.$hasSelectedProfile
+    let albumSheet = dependencies.makeMyInformationAlbumSheetViewController() as? MyInformationAlbumSheetViewController
+    alubmImageChoiceSubscription = albumSheet?.$hasSelectedProfile
       .subscribe(on: DispatchQueue.main)
       .compactMap { $0 }
       .sink { [weak self] image in
         (self?.viewController as? MyInformationViewController)?.handleSelectedImage(with: image)
       }
+    guard let albumSheet else {
+      fatalError("엘범 시트 DIC 등록이 잘못되었으니 수정해주세요.")
+    }
     viewController?.presentBottomSheet(albumSheet)
   }
   
