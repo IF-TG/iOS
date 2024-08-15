@@ -217,6 +217,7 @@ extension AppDIContainer: DestinationDetailCoordinatorDependencies {
   }
 }
 
+// MARK: - SettingCoordinatorDependencies
 extension AppDIContainer: SettingCoordinatorDependencies {
   func makeSettingViewController(with actions: SettingViewModelActions) -> UIViewController {
     return resolver.resolve(SettingViewController.self, argument: actions)!
