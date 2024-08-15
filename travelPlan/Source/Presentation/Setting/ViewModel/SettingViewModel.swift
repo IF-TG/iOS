@@ -10,17 +10,17 @@ import Combine
 
 final class SettingViewModel {
   // MARK: - Dependencies
-  private let loggedInUserUseCase: LoggedInUserUseCase
+  private let owenrRepository: LoggedInUserRepository
   
   // MARK: - Properties
   private let actions: SettingViewModelActions
   
   // MARK: - Lifecycle
   init(
-    loggedInUserUseCase: LoggedInUserUseCase,
+    owenrRepository: LoggedInUserRepository,
     actions: SettingViewModelActions
   ) {
-    self.loggedInUserUseCase = loggedInUserUseCase
+    self.owenrRepository = owenrRepository
     self.actions = actions
   }
 }
@@ -38,8 +38,8 @@ extension SettingViewModel: SettingViewModelable {
 private extension SettingViewModel {
   func viewDidLoadStream(input: Input) -> Output {
     return input.viewDidLoad.map { [weak self] _ -> State in
-      let username = self?.loggedInUserUseCase.nickname
-      let profileImageData = self?.loggedInUserUseCase.profileImageData
+      let username = self?.owenrRepository.nickname
+      let profileImageData = self?.owenrRepository.profileImageData
       return .viewDidLoad((username, profileImageData))
     }.eraseToAnyPublisher()
   }
