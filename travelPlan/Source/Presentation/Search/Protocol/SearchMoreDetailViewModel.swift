@@ -20,9 +20,7 @@ protocol SearchMoreDetailViewModelPageDelegate: AnyObject {
   func pop()
 }
 
-protocol SearchMoreDetailViewModelDataSourceable {
-  var dataSource: SearchMoreDetailInfo { get }
-  
+protocol SearchMoreDetailViewModelDataSourceable {  
   func headerInfo() -> SearchDetailHeaderInfo
   func numberOfItemsInSection() -> Int
   func destinationInfo(indexPath: IndexPath) -> TravelDestinationInfo
