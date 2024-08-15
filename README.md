@@ -1,4 +1,4 @@
-![대댓글 업데이트](https://github.com/user-attachments/assets/cc1cd3ff-4f42-4cbc-b88b-9dc1a75e3dc1)# 여가: 여행을 가다
+# 여가: 여행을 가다
 // 목업파일같은거
 
 ## 프로젝트 소개 
@@ -103,7 +103,7 @@
 | :-:| :-: | :-: | :-: |
 | `상세 화면 포스트 댓글 추가` | `포스트 댓글 업데이트` | `포스트 댓글 삭제` | `포스트 댓글 하트 do, undo` |
 
-| ![대댓글 작성](https://github.com/user-attachments/assets/f26b57de-c4b8-4b17-ac36-83d61e0093c6) | ![대댓글 업데이트](https://github.com/user-attachments/assets/ffb8cd6c-0f1b-46da-8b31-75565f054543)  | ![대댓글 업데이트](https://github.com/user-attachments/assets/d33c87c7-fede-45b2-973a-cf830b84275f)  | ![대댓글 하트 do, undo](https://github.com/user-attachments/assets/68c6a1db-ef04-4b2c-9986-c6ee38ac2a44) |
+| ![대댓글 작성](https://github.com/user-attachments/assets/f26b57de-c4b8-4b17-ac36-83d61e0093c6) | ![대댓글 업데이트](https://github.com/user-attachments/assets/ffb8cd6c-0f1b-46da-8b31-75565f054543)  | !![대댓글 삭제](https://github.com/user-attachments/assets/e1ed7ee8-65f1-49e1-b8de-ddb021e9975e) | ![대댓글 하트 do, undo](https://github.com/user-attachments/assets/68c6a1db-ef04-4b2c-9986-c6ee38ac2a44) |
 | :-:| :-: | :-: | :-: |
 | `상세 화면 포스트 대댓글 추가` | `포스트 대댓글 업데이트` | `포스트 대댓글 삭제` | `대댓글 하트 do, undo` |
 
