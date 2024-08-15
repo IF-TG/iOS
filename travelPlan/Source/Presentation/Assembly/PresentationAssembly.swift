@@ -17,8 +17,7 @@ final class PresentationAssembly: Assembly {
     searchResultListPage(container: container)
     searchHistoryPage(container: container)
     destinationDetailPage(container: container)
-    
-    // MARK: - Search Page
+    searchMoreDetailPage(container: container)
     
     // MARK: - PostDetail Page
     // MARK: - PostDetailViewModelType
@@ -31,7 +30,7 @@ final class PresentationAssembly: Assembly {
       return PostDetailViewModel(
         post: post,
         postId: postId,
-        postFetchUseCase: defaultPostFetchUseCase, 
+        postFetchUseCase: defaultPostFetchUseCase,
         postHeartUseCase: defaultPostHeartUseCase,
         ownerRepository: ownerRepository,
         actions: actions)
@@ -210,10 +209,9 @@ private extension PresentationAssembly {
     return r.resolve(LoggedInUserRepository.self)!
 #endif
   }
-    
+  
   func searchResultListPage(container: Container) {
-    container.register((any SearchResultListViewModel).self) { 
-      (r, actions: SearchResultListViewModelActions, searchKeyword: String) in
+    container.register((any SearchResultListViewModel).self) { (r, actions: SearchResultListViewModelActions, searchKeyword: String) in
       let useCase = r.resolve(DestinationSearchResultUseCase.self)!
       
       return DefaultSearchResultListViewModel(
@@ -223,18 +221,16 @@ private extension PresentationAssembly {
       )
     }
     
-    container.register(SearchResultListViewController.self) {
-      (r, actions: SearchResultListViewModelActions, searchKeyword: String) in
+    container.register(SearchResultListViewController.self) { (r, actions: SearchResultListViewModelActions, searchKeyword: String) in
       let viewModel = r.resolve((any SearchResultListViewModel).self, arguments: actions, searchKeyword)!
       return SearchResultListViewController(viewModel: viewModel)
     }
   }
   
   func searchHistoryPage(container: Container) {
-    container.register((any SearchHistoryViewModel).self) { 
-      (r, actions: SearchHistoryViewModelActions, searchType: SearchType) in
+    container.register((any SearchHistoryViewModel).self) { (r, actions: SearchHistoryViewModelActions, searchType: SearchType) in
       let useCase = r.resolve(SearchHistoryUseCase.self)!
-
+      
       return DefaultSearchHistoryViewModel(
         searchType: searchType,
         actions: actions,
@@ -242,23 +238,52 @@ private extension PresentationAssembly {
       )
     }
     
-    container.register(SearchHistoryViewController.self) { 
-      (r, actions: SearchHistoryViewModelActions, searchType: SearchType) in
+    container.register(SearchHistoryViewController.self) { (r, actions: SearchHistoryViewModelActions, searchType: SearchType) in
       let viewModel = r.resolve((any SearchHistoryViewModel).self, arguments: actions, searchType)!
       return SearchHistoryViewController(viewModel: viewModel)
     }
   }
   
   func destinationDetailPage(container: Container) {
-    container.register((any DestinationDetailViewModel).self) { (r, destinationId: DestinationIdEntity) in
+    container.register((any DestinationDetailViewModel).self)
+    { (r, destinationId: DestinationIdEntity, actions: DestinationDetailViewModelActions) in
       let destinationDetailUseCase = r.resolve(DestinationDetailUseCase.self)!
-      return DefaultDestinationDetailViewModel(useCase: destinationDetailUseCase, destinationId: destinationId)
+      return DefaultDestinationDetailViewModel(
+        useCase: destinationDetailUseCase,
+        destinationId: destinationId,
+        actions: actions
+      )
     }
     
-    container.register(DestinationDetailViewController.self) 
-    { (r, destinationId: DestinationIdEntity) in
-      let viewModel = r.resolve((any DestinationDetailViewModel).self, argument: destinationId)!
+    container.register(DestinationDetailViewController.self) { (r, destinationId: DestinationIdEntity, actions: DestinationDetailViewModelActions) in
+      let viewModel = r.resolve((any DestinationDetailViewModel).self, arguments: destinationId, actions)!
       return DestinationDetailViewController(viewModel: viewModel)
+    }
+  }
+  
+  func searchMoreDetailPage(container: Container) {
+    container.register((any SearchMoreDetailViewModel).self) { (r, actions: SearchMoreDetailViewModelActions, destinationInfos: [TravelDestinationInfo], title: String, searchSection: SearchSectionIndex) in
+      let scrapRepository: any DestinationScrapRepository
+#if DEBUG
+      scrapRepository = JsonMockDestinationScrapRepository()
+#else
+      scrapRepository = r.resolve(DestinationScrapRepository.self)!
+#endif
+      return DefaultSearchMoreDetailViewModel(
+        actions: actions,
+        destinations: destinationInfos,
+        title: title,
+        scrapRepository: scrapRepository,
+        searchSection: searchSection
+      )
+    }
+    
+    container.register(SearchMoreDetailViewController.self) { (r, actions: SearchMoreDetailViewModelActions, destinationInfos: [TravelDestinationInfo], headerTitle: String, searchSection: SearchSectionIndex) in
+      let viewModel = r.resolve(
+        (any SearchMoreDetailViewModel).self,
+        arguments: actions, destinationInfos, headerTitle, searchSection
+      )!
+      return SearchMoreDetailViewController(viewModel: viewModel)
     }
   }
 }
