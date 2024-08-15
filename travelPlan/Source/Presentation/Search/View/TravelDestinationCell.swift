@@ -11,10 +11,6 @@ import Combine
 
 class TravelDestinationCell: UICollectionViewCell {
   // MARK: - Properties
-  static var id: String {
-    return String(describing: self)
-  }
-  
   private lazy var containerView: BaseDestinationView<LeftAlignThreeLabelsView>
   = .init(centerView: LeftAlignThreeLabelsView(), imageViewType: .default)
   
@@ -51,24 +47,12 @@ extension TravelDestinationCell {
     )
   }
   
-  // in SearchResultListVC
   func bind(to publisher: PassthroughSubject<(IndexPath, Bool), Never>, indexPath: IndexPath) {
     cancellable?.cancel()
     cancellable = containerView
       .starButtonTapPublisher
-      .sink { [weak self] isSelected in
-        guard let self = self else { return }
+      .sink { isSelected in
         publisher.send((indexPath, isSelected))
-      }
-  }
-  
-  // in SearchVC
-  func bind(to publisher: PassthroughSubject<IndexPath, Never>, indexPath: IndexPath) {
-    cancellable?.cancel()
-    cancellable = containerView
-      .starButtonTapPublisher
-      .sink { _ in
-        publisher.send(indexPath)
       }
   }
 }
