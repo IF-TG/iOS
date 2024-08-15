@@ -369,7 +369,7 @@
 		15050D3C2BE92EA100B3E26A /* TourApiImageRetrieveRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15050D3B2BE92EA100B3E26A /* TourApiImageRetrieveRequestDTO.swift */; };
 		15050D3E2BE92F1800B3E26A /* TourApiRetrievedImageResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15050D3D2BE92F1800B3E26A /* TourApiRetrievedImageResponseDTO.swift */; };
 		1505E6092C245813009788AA /* NumberFormatterWithSuffix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1505E6082C245813009788AA /* NumberFormatterWithSuffix.swift */; };
-		15068AD62C6E359300129A9B /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 13CC52732C4A96C2002134D2 /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		15068AD72C6E554500129A9B /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 13CC52732C4A96C2002134D2 /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		150727262BBAB9E400271217 /* PostNestedCommentHeartToggleRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150727252BBAB9E400271217 /* PostNestedCommentHeartToggleRequestDTO.swift */; };
 		15098D042BA5DB490012962A /* MyInformationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15098D032BA5DB490012962A /* MyInformationCoordinator.swift */; };
 		15098D062BA5E8360012962A /* MyInformationAlbumSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15098D052BA5E8360012962A /* MyInformationAlbumSheetViewController.swift */; };
@@ -1018,7 +1018,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				15068AD62C6E359300129A9B /* RealmSwift in Embed Frameworks */,
+				15068AD72C6E554500129A9B /* RealmSwift in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
