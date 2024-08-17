@@ -34,7 +34,9 @@ class BaseBottomSheetViewController: UIViewController {
   
   private var bottomSheetOriginY: CGFloat!
   
-  var touchSleep = false
+  private var touchSleep = false
+  
+  private var synchronized = Synchronized()
   
   private var bottomSheetOriginHeight: CGFloat!
   
@@ -109,7 +111,20 @@ class BaseBottomSheetViewController: UIViewController {
     }
   }
   
-  // MARK: - Private helper
+  // MARK: - Public Helpers
+  func sleepDismissArea() {
+    synchronized.sync {
+      touchSleep = true
+    }
+  }
+  
+  func notSleepDismissArea() {
+    synchronized.sync {
+      touchSleep = false
+    }
+  }
+  
+  // MARK: - Private Helpers
   private func configureUI() {
     setupUI()
   }

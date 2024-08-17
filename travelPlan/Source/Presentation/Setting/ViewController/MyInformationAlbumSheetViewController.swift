@@ -55,7 +55,7 @@ final class MyInformationAlbumSheetViewController: BaseBottomSheetViewController
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     view.isUserInteractionEnabled = true
-    touchSleep = false
+    notSleepDismissArea()
   }
   
   required init?(coder: NSCoder) {
@@ -132,12 +132,9 @@ extension MyInformationAlbumSheetViewController {
     let picker = UIImagePickerController()
     picker.allowsEditing = true
     picker.sourceType = sourceType
-    self.view.isUserInteractionEnabled = false
     if sourceType == .camera {
-      touchSleep = true
-      picker.allowsEditing = false
+      sleepDismissArea()
       picker.cameraCaptureMode = .photo
-      picker.modalPresentationStyle = .fullScreen
     }
     picker.delegate = self
     present(picker, animated: true)
