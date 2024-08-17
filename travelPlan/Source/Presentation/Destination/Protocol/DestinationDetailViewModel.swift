@@ -18,9 +18,11 @@ where Input == DestinationDetailViewModelInput,
       Output == AnyPublisher<State, Never> { }
 
 protocol DestinationDetailViewModelDataSourceable {
-  var dataSource: [DestinationDetailSection] { get }
+  func numberOfSections() -> Int
+  func numberOfItemsInSection(sectionIndex: Int) -> Int
+  func destinationDetailSection(sectionIndex: Int) -> DestinationDetailSection
 }
 
-protocol DestinationDetailViewModelPageDelegate {
+protocol DestinationDetailViewModelPageDelegate: AnyObject {
   func pop()
 }
