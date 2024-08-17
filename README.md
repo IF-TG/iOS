@@ -115,7 +115,7 @@
 | :-: | :-: | :-: | :-: |
 | `상세 화면 포스트 대댓글 추가` | `포스트 대댓글 업데이트` | `포스트 대댓글 삭제` | `대댓글 하트 do, undo` |
 
-#### [타인의 댓글, 대댓글 옵션 선택하는 경우 #1, #2, #3] [자신의 경우 댓글 제거 #4]
+#### [타인의 댓글, 대댓글 옵션 선택하는 경우 #1, #2, #3]
 
 | <img src="https://github.com/user-attachments/assets/3f913ea6-b984-473c-8683-a8720e54df43" width="230"> | <img src="https://github.com/user-attachments/assets/9bcd7cad-a92a-49a7-a1e4-68f053748ea3" width="230"> | <img src="https://github.com/user-attachments/assets/855c4b5f-8511-4c0c-9078-f5b94b3d67f0" width="230"> |
 | :-: | :-: | :-: |
