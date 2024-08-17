@@ -57,15 +57,14 @@ private extension DomainAssembly {
     
     container.register(NicknameValidationUseCase.self) { r in
 #if DEBUG
-      let ownerStorage = StubOwnerStorage()
+      return StubNicknameValidationUseCase()
 #else
       let ownerStorage = r.resolve(OwnerStorage.self)!
-#endif
-      
       let userProfileSettingRepository = r.resolve(UserProfileSettingRepository.self, name: .firebase)!
       return DefaultNicknameValidationUseCase(
         userProfileSettingRepository: userProfileSettingRepository,
         ownerStorage: ownerStorage)
+#endif
     }
   }
   
