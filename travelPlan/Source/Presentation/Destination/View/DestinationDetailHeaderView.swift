@@ -23,7 +23,6 @@ final class DestinationDetailHeaderView: UICollectionReusableView {
     $0.register(type: DestinationDetailImageCell.self)
     $0.contentInsetAdjustmentBehavior = .never
     $0.dataSource = self
-    $0.delegate = self
   }
   
   private var dataSource = [Data?]()
@@ -97,6 +96,14 @@ extension DestinationDetailHeaderView {
     
     let section = NSCollectionLayoutSection(group: group)
     section.orthogonalScrollingBehavior = .groupPaging
+    
+    section.visibleItemsInvalidationHandler = { [weak self] (_, contentOffset, environment) in
+      guard let self = self else { return }
+      
+      let pageWidth = environment.container.contentSize.width
+      let currentPage = Int(round(contentOffset.x / pageWidth)) + 1
+      self.indicatorBoxView.update(currentPage: currentPage)
+    }
     return section
   }
 }
@@ -150,16 +157,5 @@ extension DestinationDetailHeaderView: LayoutSupport {
       $0.height.equalTo(Constant.bumperViewHeight * 2)
       $0.bottom.equalToSuperview().offset(Constant.bumperViewHeight)
     }
-  }
-}
-
-extension DestinationDetailHeaderView: UICollectionViewDelegate {
-  func collectionView(
-    _ collectionView: UICollectionView,
-    willDisplay cell: UICollectionViewCell,
-    forItemAt indexPath: IndexPath
-  ) {
-    let currentPage = indexPath.item + 1
-    indicatorBoxView.update(currentPage: currentPage)
   }
 }
