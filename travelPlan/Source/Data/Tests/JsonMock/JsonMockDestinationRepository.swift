@@ -50,7 +50,7 @@ extension JsonMockDestinationRepository: DestinationRepository {
           overview: $0.overview,
           category: $0.category,
           zipcode: $0.zipcode,
-          imageData: data,
+          imageDatas: (0..<6).map { _ in return data },
           detail: $0.detail,
           isScraped: $0.isScraped,
           liked: $0.liked,
