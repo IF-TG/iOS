@@ -142,16 +142,18 @@
 
 ### [ 설정 Flow ]
 
-- 설정 메인화면, 프로필 이미지 추가, 닉네임 추가, 닉네임 및 프로필 이미지 추가 후 뒤로가기 (gif4개)
-- 설정 화면에서 갈 수 있는 화면들..
+#### [ 설정 메인 화면, 내 정보 화면 ]
 
-| ![설정메인](https://github.com/user-attachments/assets/168783b6-802a-4ba5-8c2b-3d3ed2dde248) |  | ![닉네임 변경](https://github.com/user-attachments/assets/0d26a28d-bd53-483e-a32e-11a2940dd8d9) | ![프로필,이미지 수정 후 저장](https://github.com/user-attachments/assets/a6b1e70d-32ca-4960-a2d9-d84d2db5be18) |
+| ![설정메인](https://github.com/user-attachments/assets/168783b6-802a-4ba5-8c2b-3d3ed2dde248) | ![카메라로 이미지 추가](https://github.com/user-attachments/assets/069fcf35-3ef1-4f90-9fe5-3d3de0777d65) | ![닉네임 변경](https://github.com/user-attachments/assets/0d26a28d-bd53-483e-a32e-11a2940dd8d9) | ![프로필,이미지 수정 후 저장](https://github.com/user-attachments/assets/a6b1e70d-32ca-4960-a2d9-d84d2db5be18) |
 | :-: | :-: | :-: | :-: |
-| `설정 메인 화면` | `내 정보화면. 프로필 이미지 추가` | `내 정보화면. 닉네임 변경` | `내 정보화면. 프로필 수정 및 이미지 수정 후 저장` |
+| `설정 메인 화면` | `내 정보화면. 카메라로 프로필 이미지 추가` | `내 정보화면. 닉네임 변경` | `내 정보화면. 프로필 수정 및 이미지 수정 후 저장` |
+
+
+#### [ 이용 안내 화면, 메일 문의 화면 flow ] 
+
+| <img src="https://github.com/user-attachments/assets/107c76b0-29ef-4e6d-9fa8-2bdf449ae826" width="230"> | <img src="https://github.com/user-attachments/assets/999c360f-426f-4fbc-9fd5-1e9cec353b83" width="230"> | <img src="https://github.com/user-attachments/assets/eaf68c31-845a-419b-97c1-c2b5b2ba7e2f" width="230"> |
+| :-: | :-: | :-: | 
+| `이용 안내 화면` | `메일 문의화면 -> 메일 전송 flow` | `여가팀 메일함 메일 상세내용` |
 
 ### etc
-- 여행 카테고리 지정 모든 가능한 상황, 느리게 변심 없이 선택할 때 화면 동작.
-
-## 기술적 도전
-
-- 깃허브 위치로 링크 연동!!
+- 여행 카테고리 지정 모든 가능한 상황
