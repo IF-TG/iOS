@@ -5,7 +5,6 @@
 //  Created by 양승현 on 3/16/24.
 //
 
-import AVFoundation
 import Combine
 import Photos
 import UIKit
@@ -51,6 +50,12 @@ final class MyInformationAlbumSheetViewController: BaseBottomSheetViewController
     labels.forEach {
       $0.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapBottomSheetComponent)))
     }
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    view.isUserInteractionEnabled = true
+    touchSleep = false
   }
   
   required init?(coder: NSCoder) {
@@ -127,6 +132,13 @@ extension MyInformationAlbumSheetViewController {
     let picker = UIImagePickerController()
     picker.allowsEditing = true
     picker.sourceType = sourceType
+    self.view.isUserInteractionEnabled = false
+    if sourceType == .camera {
+      touchSleep = true
+      picker.allowsEditing = false
+      picker.cameraCaptureMode = .photo
+      picker.modalPresentationStyle = .fullScreen
+    }
     picker.delegate = self
     present(picker, animated: true)
   }
