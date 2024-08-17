@@ -23,6 +23,7 @@ final class DestinationDetailHeaderView: UICollectionReusableView {
     $0.register(type: DestinationDetailImageCell.self)
     $0.contentInsetAdjustmentBehavior = .never
     $0.dataSource = self
+    $0.delegate = self
   }
   
   private var dataSource = [Data?]()
@@ -32,6 +33,8 @@ final class DestinationDetailHeaderView: UICollectionReusableView {
     $0.layer.cornerRadius = Constant.bumperViewHeight
     $0.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
   }
+  
+  private let indicatorBoxView = IndicatorBoxView()
   
   // MARK: - LifeCycle
   override init(frame: CGRect) {
@@ -50,6 +53,7 @@ final class DestinationDetailHeaderView: UICollectionReusableView {
 extension DestinationDetailHeaderView {
   func configure(with imageDatas: [Data?]) {
     dataSource = imageDatas
+    indicatorBoxView.configure(currentPage: 1, totalPage: imageDatas.count)
     collectionView.reloadData()
   }
 }
@@ -123,9 +127,10 @@ extension DestinationDetailHeaderView: UICollectionViewDataSource {
 // MARK: - LayoutSupport
 extension DestinationDetailHeaderView: LayoutSupport {
   func addSubviews() {
+    addSubview(indicatorBoxView)
     addSubview(collectionView)
     addSubview(bumperView)
-    bringSubviewToFront(bumperView)
+    _=[bumperView, indicatorBoxView].map { bringSubviewToFront($0) }
   }
   
   func setConstraints() {
@@ -133,10 +138,28 @@ extension DestinationDetailHeaderView: LayoutSupport {
       $0.edges.equalToSuperview()
     }
     
+    indicatorBoxView.snp.makeConstraints {
+      $0.trailing.equalToSuperview().inset(20)
+      $0.bottom.equalTo(bumperView.snp.top).offset(-12)
+      $0.height.equalTo(22)
+      $0.width.equalTo(50)
+    }
+    
     bumperView.snp.makeConstraints {
       $0.leading.trailing.equalToSuperview()
       $0.height.equalTo(Constant.bumperViewHeight * 2)
       $0.bottom.equalToSuperview().offset(Constant.bumperViewHeight)
     }
+  }
+}
+
+extension DestinationDetailHeaderView: UICollectionViewDelegate {
+  func collectionView(
+    _ collectionView: UICollectionView,
+    willDisplay cell: UICollectionViewCell,
+    forItemAt indexPath: IndexPath
+  ) {
+    let currentPage = indexPath.item + 1
+    indicatorBoxView.update(currentPage: currentPage)
   }
 }
