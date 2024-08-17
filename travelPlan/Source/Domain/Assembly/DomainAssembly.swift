@@ -38,13 +38,21 @@ final class DomainAssembly: Swinject.Assembly {
 private extension DomainAssembly {
   func settingRelatedUseCases(container: Container) {
     container.register(UserProfileImageSettingUseCase.self) { r in
+#if DEBUG
+      return StubUserProfileImageSettingUseCase()
+#else
       let userProfileSettingRepository = r.resolve(UserProfileSettingRepository.self, name: .firebase)!
       return DefaultUserProfileImageSettingUseCase(userProfileSettingRepository: userProfileSettingRepository)
+#endif
     }
     
     container.register(UserNicknameSettingUseCase.self) { r in
+#if DEBUG
+      return StubUserNicknameSettingUseCase()
+#else
       let userProfileSettingRepository = r.resolve(UserProfileSettingRepository.self, name: .firebase)!
       return DefaultUserNicknameSettingUseCase(userProfileSettingRepository: userProfileSettingRepository)
+#endif
     }
     
     container.register(NicknameValidationUseCase.self) { r in
