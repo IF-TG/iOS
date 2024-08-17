@@ -650,6 +650,7 @@
 		1586D3042AB193F7001D4A80 /* Season.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1586D3032AB193F7001D4A80 /* Season.swift */; };
 		1587022A2C708A23001C6FB2 /* StubUserNicknameSettingUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158702292C708A23001C6FB2 /* StubUserNicknameSettingUseCase.swift */; };
 		1587022E2C708B2C001C6FB2 /* StubUserProfileImageSettingUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1587022D2C708B2C001C6FB2 /* StubUserProfileImageSettingUseCase.swift */; };
+		158702302C7091AF001C6FB2 /* StubNicknameValidationUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1587022F2C7091AF001C6FB2 /* StubNicknameValidationUseCase.swift */; };
 		1588978B2BFC2EEA006BB978 /* PostDetailChatViewModelable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1588978A2BFC2EEA006BB978 /* PostDetailChatViewModelable.swift */; };
 		1588978D2BFC3105006BB978 /* PostDetailSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1588978C2BFC3105006BB978 /* PostDetailSection.swift */; };
 		1588978F2BFC3FBA006BB978 /* PostDetailChatDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1588978E2BFC3FBA006BB978 /* PostDetailChatDataSource.swift */; };
@@ -1681,6 +1682,7 @@
 		1586D3032AB193F7001D4A80 /* Season.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Season.swift; sourceTree = "<group>"; };
 		158702292C708A23001C6FB2 /* StubUserNicknameSettingUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubUserNicknameSettingUseCase.swift; sourceTree = "<group>"; };
 		1587022D2C708B2C001C6FB2 /* StubUserProfileImageSettingUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubUserProfileImageSettingUseCase.swift; sourceTree = "<group>"; };
+		1587022F2C7091AF001C6FB2 /* StubNicknameValidationUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubNicknameValidationUseCase.swift; sourceTree = "<group>"; };
 		1588978A2BFC2EEA006BB978 /* PostDetailChatViewModelable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailChatViewModelable.swift; sourceTree = "<group>"; };
 		1588978C2BFC3105006BB978 /* PostDetailSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailSection.swift; sourceTree = "<group>"; };
 		1588978E2BFC3FBA006BB978 /* PostDetailChatDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailChatDataSource.swift; sourceTree = "<group>"; };
@@ -4306,6 +4308,7 @@
 				1526ED1F2BF64A4D00B629FB /* Post */,
 				158702292C708A23001C6FB2 /* StubUserNicknameSettingUseCase.swift */,
 				1587022D2C708B2C001C6FB2 /* StubUserProfileImageSettingUseCase.swift */,
+				1587022F2C7091AF001C6FB2 /* StubNicknameValidationUseCase.swift */,
 			);
 			path = Stub;
 			sourceTree = "<group>";
@@ -5747,6 +5750,7 @@
 				15A859A02BB56E18002C0CA0 /* PostContainer.swift in Sources */,
 				13606E8C2A9F959F00365F20 /* PostRecommendationSearchHeaderView.swift in Sources */,
 				13813A232AAA459900AF6AEB /* SearchHistoryCollectionViewDelegate.swift in Sources */,
+				158702302C7091AF001C6FB2 /* StubNicknameValidationUseCase.swift in Sources */,
 				1385F6722C404129003DB336 /* DestinationScrapDetailResponseDTO.swift in Sources */,
 				15C1F5402AF29CDE005FDA15 /* NotificationIconType.swift in Sources */,
 				1518BC232BB0415500FD1A74 /* PostCommentHeartToggleRequestDTO.swift in Sources */,
