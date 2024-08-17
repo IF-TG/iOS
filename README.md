@@ -83,7 +83,7 @@
 | :-: | :-: | :-: | :-: |
 | `제목+글 추가 기본` | `이미지 연속 추가` | `이미지 추가->삭제 후 글 추가` | `글 추가 및 글 제거` |
 
-| ![피드 페이징 및 리프레싱](https://github.com/user-attachments/assets/37d9d899-b2d0-4325-8924-7a7c3a494330) | ![카테고리 전환](https://github.com/user-attachments/assets/1d240fb5-9079-455a-941e-ffffafcc696e) | ![피드 -  상세화면 ](https://github.com/user-attachments/assets/e92ff353-b121-4575-a68a-6634392bd9e9) |
+| <img src="https://github.com/user-attachments/assets/37d9d899-b2d0-4325-8924-7a7c3a494330" width="230"> | <img src="https://github.com/user-attachments/assets/1d240fb5-9079-455a-941e-ffffafcc696e" width="230"> | <img src="https://github.com/user-attachments/assets/e92ff353-b121-4575-a68a-6634392bd9e9" width="230"> |
 | :-: | :-: | :-: |
 | `피드 페이징 및 리프레싱` | `피드 카테고리 테마 전환` | `상세화면 이동` |
 
@@ -117,16 +117,15 @@
 
 #### [타인의 댓글, 대댓글 옵션 선택하는 경우 #1, #2, #3] [자신의 경우 댓글 제거 #4]
 
-| ![대댓글 차단](https://github.com/user-attachments/assets/3f913ea6-b984-473c-8683-a8720e54df43) | ![댓글차단](https://github.com/user-attachments/assets/9bcd7cad-a92a-49a7-a1e4-68f053748ea3) | ![댓글 삭제된 경우 대댓글 차단](https://github.com/user-attachments/assets/855c4b5f-8511-4c0c-9078-f5b94b3d67f0) |
+| <img src="https://github.com/user-attachments/assets/3f913ea6-b984-473c-8683-a8720e54df43" width="230"> | <img src="https://github.com/user-attachments/assets/9bcd7cad-a92a-49a7-a1e4-68f053748ea3" width="230"> | <img src="https://github.com/user-attachments/assets/855c4b5f-8511-4c0c-9078-f5b94b3d67f0" width="230"> |
 | :-: | :-: | :-: |
 | `대댓글 차단 #1` | `댓글 차단(대댓글 존재(O))#2` | `댓글 차단상태-> 마지막 대댓글 차단#3` |
 
 ### [ 알림센터 Flow ]
 
-
-| ![알림 화면](https://github.com/user-attachments/assets/b02c3d91-c098-46d1-827c-ddad203657b0) | ![공지사항 화면](https://github.com/user-attachments/assets/d7094a04-277e-4885-8e0c-89cda9839de4) | 
+| <img src="https://github.com/user-attachments/assets/b02c3d91-c098-46d1-827c-ddad203657b0" width="230"> | <img src="https://github.com/user-attachments/assets/d7094a04-277e-4885-8e0c-89cda9839de4" width="230"> | 
 | :-: | :-: |
-| `알림센터 알림 화면 및 알림 전부 제거, 리프레시` | `파베 연동된 공지 사항 화면 공지 보이기, 축소하기` |
+| `알림 화면. 알림 전부 제거, 리프레시` | `Firestore 기반 공지사항 화면` |
 
 ### [ 검색 Flow ]
 
