@@ -16,7 +16,14 @@
                 "smallCategory": "Amusement"
             },
             "zipcode": "94103",
-            "thumbnail": "http://example.com/image.png",
+            "thumbnail": [
+              "restaurant_1",
+              "restaurant_1",
+              "restaurant_1",
+              "restaurant_1",
+              "restaurant_1",
+              "restaurant_1"
+            ],
             "scraped": true
         },
         "detail": {
