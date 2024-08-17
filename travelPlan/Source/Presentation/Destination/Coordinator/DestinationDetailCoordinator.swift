@@ -9,7 +9,10 @@ import UIKit
 import SHCoordinator
 
 protocol DestinationDetailCoordinatorDependencies {
-  func makeDestinationDetailViewController(destinationId: DestinationIdEntity) -> DestinationDetailViewController
+  func makeDestinationDetailViewController(
+    destinationId: DestinationIdEntity,
+    actions: DestinationDetailViewModelActions
+  ) -> DestinationDetailViewController
 }
 
 final class DestinationDetailCoordinator: FlowCoordinator {
@@ -37,7 +40,19 @@ final class DestinationDetailCoordinator: FlowCoordinator {
   
   // MARK: - Start
   func start() {
-    let viewController = dependencies.makeDestinationDetailViewController(destinationId: destinationId)
+    let actions = DestinationDetailViewModelActions(pop: { [weak self] in
+      self?.pop()
+    })
+    let viewController = dependencies.makeDestinationDetailViewController(
+      destinationId: destinationId,
+      actions: actions
+    )
     presenter?.pushViewController(viewController, animated: true)
+  }
+}
+
+extension DestinationDetailCoordinator {
+  private func pop() {
+    finish(withAnimated: true)
   }
 }

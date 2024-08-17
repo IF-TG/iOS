@@ -9,8 +9,10 @@ import Foundation
 import Combine
 
 struct SearchViewModelActions {
-  let showSearchDetail: (SearchSectionType) -> Void
-  let showDetail: (_ destinationId: DestinationIdEntity) -> Void
+  let showSearchMoreDetail: (_ destinationInfos: [TravelDestinationInfo],
+                             _ headerTitle: String,
+                             _ searchSection: SearchSectionIndex) -> Void
+  let showDestinationDetail: (_ destinationId: DestinationIdEntity) -> Void
   let showSearchHistory: () -> Void
 }
 
@@ -19,7 +21,6 @@ struct SearchViewModelInput {
   let viewDidLoad: PassthroughSubject<Void, Never> = .init()
   let didTapView: PassthroughSubject<Void, Never> = .init()
   let didTapStarButton: PassthroughSubject<(IndexPath, Bool), Never> = .init()
-  let didTaplookingMoreButton: PassthroughSubject<Int, Never> = .init()
   let textFieldDidBeginEditing: PassthroughSubject<Void, Never> = .init()
 }
 
@@ -36,7 +37,7 @@ final class DefaultSearchViewModel {
   private let actions: SearchViewModelActions
   private let useCase: any DestinationRecommendUseCase
   
-  // MARK: - Properties
+  // MARK: - SearchViewModelDataSourceable
   private var dataSource = [SearchSectionModel]()
   
   // MARK: - LifeCycle
@@ -47,12 +48,11 @@ final class DefaultSearchViewModel {
 }
 
 // MARK: - SearchViewModel
-extension DefaultSearchViewModel: SearchViewModel {
+extension DefaultSearchViewModel: SearchViewModelable {
   func transform(_ input: Input) -> Output {
     return Publishers.MergeMany([
       viewDidLoadStream(input),
       didTapCollectionViewStream(input),
-      didTaplookingMoreButtonStream(input),
       didTapStarButtonStream(input),
       textFieldDidBeginEditingStream(input)
     ]).eraseToAnyPublisher()
@@ -61,7 +61,7 @@ extension DefaultSearchViewModel: SearchViewModel {
 
 // MARK: - SearchViewModelDataSourceable
 extension DefaultSearchViewModel: SearchViewModelDataSourceable {
-  func getCellViewModels(in section: Int) -> SearchItemType {
+  func getCellViewModels(in section: Int) -> SearchSectionType {
     return dataSource[section].itemType
   }
   
@@ -71,9 +71,7 @@ extension DefaultSearchViewModel: SearchViewModelDataSourceable {
   
   func numberOfItemsInSection(in section: Int) -> Int {
     switch dataSource[section].itemType {
-    case let .festival(infos):
-      return infos.count
-    case let .else(infos):
+    case let .festival(infos), let .leports(infos), let .cultureFacility(infos):
       return infos.count
     }
   }
@@ -92,39 +90,21 @@ extension DefaultSearchViewModel {
         
         return self.useCase.fetchDestinationList(page: nil, perPage: nil)
           .map { [weak self] recommendSections in
-            for (index, recommendSection) in recommendSections.enumerated() {
-              if index == .zero {
-                let festivalInfos = recommendSection.destinations.map {
-                  return SearchFestivalInfo(
-                    title: $0.title,
-                    location: $0.address,
-                    imageData: $0.thumbnailData,
-                    contentTypeId: $0.destinationId.contentTypeId,
-                    id: $0.destinationId.id,
-                    isSelectedButton: $0.isScaped
-                  )
-                }
-                self?.dataSource.append(.init(
-                  itemType: .festival(festivalInfos),
-                  headerTitle: recommendSection.title
-                ))
-              } else {
-                let infos = recommendSection.destinations.map {
-                  return TravelDestinationInfo(
-                    place: $0.title,
-                    contentTypeId: $0.destinationId.contentTypeId,
-                    category: $0.category.large,
-                    location: $0.address,
-                    isButtonSelected: $0.isScaped,
-                    imageData: $0.thumbnailData,
-                    id: $0.destinationId.id
-                  )
-                }
-                self?.dataSource.append(.init(
-                  itemType: .else(infos),
-                  headerTitle: recommendSection.title
-                ))
-              }
+            guard let self = self else {return State.none }
+            
+            for (sectionIndex, recommendSection) in recommendSections.enumerated() {
+              let itemType: SearchSectionType
+              
+              let infos = makeTravelDestinationInfos(destinationRecommendSection: recommendSection)
+              if sectionIndex == SearchSectionIndex.festival.rawValue {
+                itemType = .festival(infos)
+              } else if sectionIndex == SearchSectionIndex.leports.rawValue {
+                itemType = .leports(infos)
+              } else if sectionIndex == SearchSectionIndex.cultureFacility.rawValue {
+                itemType = .cultureFacility(infos)
+              } else { return State.none }
+              
+              dataSource.append(SearchSectionModel(itemType: itemType, headerTitle: recommendSection.title))
             }
             return State.reloadData
           }
@@ -137,15 +117,6 @@ extension DefaultSearchViewModel {
   private func didTapCollectionViewStream(_ input: Input) -> Output {
     return input.didTapView
       .map { State.goDownKeyboard }
-      .eraseToAnyPublisher()
-  }
-  
-  private func didTaplookingMoreButtonStream(_ input: Input) -> Output {
-    return input.didTaplookingMoreButton
-      .map { [weak self] sectionIndex in
-        self?.actions.showSearchDetail(SearchSectionType(rawValue: sectionIndex) ?? .festival)
-        return State.none
-      }
       .eraseToAnyPublisher()
   }
   
@@ -173,39 +144,79 @@ extension DefaultSearchViewModel {
   }
   
   private func saveButtonState(indexPath: IndexPath, folderName: String?) -> AnyPublisher<State, Never> {
-    let id = self.dataSource[indexPath.section].itemType.getId(itemIndex: indexPath.item)
+    let id = self.dataSource[indexPath.section].itemType.getId(from: indexPath.item)
     
     return useCase.toggleDestinationScrap(id: id, folderName: folderName)
       .map { [weak self] toggler in
         guard let self = self else { return State.none }
         
+        let searchSectionType: SearchSectionType
         switch dataSource[indexPath.section].itemType {
         case .festival(var infos):
-          infos[indexPath.item].isSelectedButton = toggler.isSelected
-          dataSource[indexPath.section].itemType = .festival(infos)
-        case .else(var infos):
           infos[indexPath.item].isButtonSelected = toggler.isSelected
-          dataSource[indexPath.section].itemType = .else(infos)
+          searchSectionType = .festival(infos)
+        case .leports(var infos):
+          infos[indexPath.item].isButtonSelected = toggler.isSelected
+          searchSectionType = .leports(infos)
+        case .cultureFacility(var infos):
+          infos[indexPath.item].isButtonSelected = toggler.isSelected
+          searchSectionType = .cultureFacility(infos)
         }
+        dataSource[indexPath.section].itemType = searchSectionType
         return State.reloadItems(indexPath)
       }
       .catch { _ in return Just(State.none).eraseToAnyPublisher() }
       .eraseToAnyPublisher()
   }
+  
+  func makeTravelDestinationInfos(
+    destinationRecommendSection: DestinationRecommendSection
+  ) -> [TravelDestinationInfo] {
+    return destinationRecommendSection.destinations.map {
+      return TravelDestinationInfo(
+        place: $0.title,
+        contentTypeId: $0.destinationId.contentTypeId,
+        category: $0.category.large,
+        location: $0.address,
+        isButtonSelected: $0.isScaped,
+        imageData: $0.thumbnailData,
+        id: $0.destinationId.id
+      )
+    }
+  }
 }
 
 // MARK: - SearchViewModelPageDelegate
-extension DefaultSearchViewModel {
-  func showDetailPage(indexPath: IndexPath) {
+extension DefaultSearchViewModel: SearchViewModelPageDelegate {
+  func showDestinationDetailPage(indexPath: IndexPath) {
     switch dataSource[indexPath.section].itemType {
-    case .festival(let infos):
+    case .festival(let infos), .leports(let infos), .cultureFacility(let infos):
       let info = infos[indexPath.item]
       let destinationId = DestinationIdEntity(id: info.id, contentTypeId: info.contentTypeId)
-      actions.showDetail(destinationId)
-    case .else(let infos):
-      let info = infos[indexPath.item]
-      let destinationId = DestinationIdEntity(id: info.id, contentTypeId: info.contentTypeId)
-      actions.showDetail(destinationId)
+      actions.showDestinationDetail(destinationId)
     }
+  }
+  
+  func showMoreDetailPage(sectionIndex: Int) {
+    let section: SearchSectionIndex
+    let destinations: [TravelDestinationInfo]
+    
+    switch dataSource[sectionIndex].itemType {
+    case .festival(let infos):
+      destinations = infos
+      section = .festival
+    case .leports(let infos):
+      destinations = infos
+      section = .leports
+    case .cultureFacility(let infos):
+      destinations = infos
+      section = .cultureFacility
+    }
+    
+    actions.showSearchMoreDetail(
+      destinations,
+      dataSource[sectionIndex].headerTitle,
+      section
+    )
   }
 }

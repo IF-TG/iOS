@@ -187,13 +187,11 @@ extension DefaultSearchResultListViewModel {
         
         let destinationIndex = SearchResultSectionIndex.destination.rawValue
         let isAllItemIndexAtCategorySection = itemIndex == SearchResultCategoryItemIndex.all.rawValue
+        let updatedInfos = isAllItemIndexAtCategorySection ? 
+        originalDestinationInfos : originalDestinationInfos.filter { $0.contentTypeId == contentTypeId }
         
-        if isAllItemIndexAtCategorySection {
-          dataSource[destinationIndex] = .destination(originalDestinationInfos)
-        } else {
-          let filterdInfos = originalDestinationInfos.filter { $0.contentTypeId == contentTypeId }
-          dataSource[destinationIndex] = .destination(filterdInfos)
-        }
+        dataSource[destinationIndex] = .destination(updatedInfos)
+        
         return State.reloadSection(destinationIndex)
       }
       .eraseToAnyPublisher()

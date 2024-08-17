@@ -12,8 +12,7 @@ protocol SearchCoordinatorDependencies: AnyObject {
   func makeSearchViewController(actions: SearchViewModelActions) -> SearchViewController
   
   func makeSearchMoreDetailCoordinator(
-    presenter: UINavigationController?,
-    viewControllerType: SearchSectionType
+    presenter: UINavigationController?
   ) -> SearchMoreDetailCoordinator
   
   func makeSearchHistoryCoordinator(
@@ -49,8 +48,14 @@ final class SearchCoordinator: FlowCoordinator {
   // MARK: - Helpers
   func start() {
     let actions = SearchViewModelActions(
-      showSearchDetail: { [weak self] type in self?.showSearchDetail(type: type) },
-      showDetail: { [weak self] destinationId in self?.showDetail(destinationId: destinationId) },
+      showSearchMoreDetail: { [weak self] destinationInfos, title, searchSection in
+        self?.showSearchMoreDetail(
+          destinationInfos: destinationInfos,
+          headerTitle: title,
+          searchSection: searchSection
+        )
+      },
+      showDestinationDetail: { [weak self] destinationId in self?.showDetail(destinationId: destinationId) },
       showSearchHistory: { [weak self] in self?.showSearchHistory() }
     )
     
@@ -68,12 +73,20 @@ extension SearchCoordinator {
     addChild(with: child)
   }
   
-  private func showSearchDetail(type: SearchSectionType) {
-    let child = dependencies.makeSearchMoreDetailCoordinator(
-      presenter: presenter,
-      viewControllerType: type
+  private func showSearchMoreDetail(
+    destinationInfos: [TravelDestinationInfo],
+    headerTitle: String,
+    searchSection: SearchSectionIndex
+  ) {
+    let searchDetailCoordinator = dependencies.makeSearchMoreDetailCoordinator(presenter: presenter)
+    
+    child.append(searchDetailCoordinator)
+    searchDetailCoordinator.parent = self
+    searchDetailCoordinator.start(
+      destinationInfos: destinationInfos,
+      headerTitle: headerTitle,
+      searchSection: searchSection
     )
-    addChild(with: child)
   }
   
   private func showSearchHistory() {
