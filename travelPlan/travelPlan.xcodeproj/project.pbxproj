@@ -152,6 +152,9 @@
 		1378E2322C58D119002F9704 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1378E2312C58D119002F9704 /* GoogleService-Info.plist */; };
 		13813A212AAA458000AF6AEB /* SearchHistoryCollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13813A202AAA458000AF6AEB /* SearchHistoryCollectionViewDataSource.swift */; };
 		13813A232AAA459900AF6AEB /* SearchHistoryCollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13813A222AAA459900AF6AEB /* SearchHistoryCollectionViewDelegate.swift */; };
+		1382AB972C737A0D00827A59 /* restaurant_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 1382AB942C737A0D00827A59 /* restaurant_2.png */; };
+		1382AB982C737A0D00827A59 /* restaurant_3.png in Resources */ = {isa = PBXBuildFile; fileRef = 1382AB952C737A0D00827A59 /* restaurant_3.png */; };
+		1382AB992C737A0D00827A59 /* restaurant_4.png in Resources */ = {isa = PBXBuildFile; fileRef = 1382AB962C737A0D00827A59 /* restaurant_4.png */; };
 		1383C81C2B97F44800830F1A /* KeychainManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1383C81B2B97F44800830F1A /* KeychainManagerTests.swift */; };
 		1383C81F2B9815B700830F1A /* KeychainKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1383C81E2B9815B700830F1A /* KeychainKey.swift */; };
 		1385F6692C3FA797003DB336 /* DestinationScrapRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1385F6682C3FA797003DB336 /* DestinationScrapRepository.swift */; };
@@ -1171,6 +1174,9 @@
 		13813A1D2AA9FC2200AF6AEB /* SearchHistoryCollectionViewAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHistoryCollectionViewAdapter.swift; sourceTree = "<group>"; };
 		13813A202AAA458000AF6AEB /* SearchHistoryCollectionViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHistoryCollectionViewDataSource.swift; sourceTree = "<group>"; };
 		13813A222AAA459900AF6AEB /* SearchHistoryCollectionViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHistoryCollectionViewDelegate.swift; sourceTree = "<group>"; };
+		1382AB942C737A0D00827A59 /* restaurant_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = restaurant_2.png; sourceTree = "<group>"; };
+		1382AB952C737A0D00827A59 /* restaurant_3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = restaurant_3.png; sourceTree = "<group>"; };
+		1382AB962C737A0D00827A59 /* restaurant_4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = restaurant_4.png; sourceTree = "<group>"; };
 		1383C81B2B97F44800830F1A /* KeychainManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManagerTests.swift; sourceTree = "<group>"; };
 		1383C81E2B9815B700830F1A /* KeychainKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainKey.swift; sourceTree = "<group>"; };
 		1385F6682C3FA797003DB336 /* DestinationScrapRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationScrapRepository.swift; sourceTree = "<group>"; };
@@ -2570,6 +2576,9 @@
 			isa = PBXGroup;
 			children = (
 				13BE82E42C6130D800951099 /* restaurant_1.png */,
+				1382AB942C737A0D00827A59 /* restaurant_2.png */,
+				1382AB952C737A0D00827A59 /* restaurant_3.png */,
+				1382AB962C737A0D00827A59 /* restaurant_4.png */,
 			);
 			path = Destination;
 			sourceTree = "<group>";
@@ -5428,6 +5437,7 @@
 				1594F53E29FD517F00A58F20 /* LaunchScreen.storyboard in Resources */,
 				13E622BF2BD02401003E4FA4 /* mock_reviewWriting_post_response.json in Resources */,
 				13EB3D252BF35C3600CA84F0 /* mock_tourAPI_introductionInfo_attraction.json in Resources */,
+				1382AB972C737A0D00827A59 /* restaurant_2.png in Resources */,
 				13BE82DE2C61133000951099 /* topten-more-thumbnail.png in Resources */,
 				13BE82D62C61131800951099 /* seoungsimdang.jpeg in Resources */,
 				13EB3D8D2BF71EC400CA84F0 /* mock_tourAPI_introductionInfo_course.json in Resources */,
@@ -5436,6 +5446,7 @@
 				159958762B0D988400B2E4DC /* Palette.xcassets in Resources */,
 				158BEFBC2A0EB2A500C27861 /* Pretendard-SemiBold.ttf in Resources */,
 				1564A0A62BBFE3C60045424B /* mock_favoritePostDirectoryName_update_response.json in Resources */,
+				1382AB982C737A0D00827A59 /* restaurant_3.png in Resources */,
 				13BE82C52C61127600951099 /* tempThumbnail13.jpg in Resources */,
 				1385F6882C411582003DB336 /* mock_response_toggleDestinationScrap.json in Resources */,
 				13BE82BD2C61126400951099 /* tempThumbnail9.jpg in Resources */,
@@ -5478,6 +5489,7 @@
 				13EB3D2B2BF35D2900CA84F0 /* mock_tourAPI_introductionInfo_cultureFacility.json in Resources */,
 				15591DE12BBEA2B900128A9E /* mock_favoritePosts_fetch_response.json in Resources */,
 				151DF10F2AEECBB400D5D55B /* mock_response_notice.json in Resources */,
+				1382AB992C737A0D00827A59 /* restaurant_4.png in Resources */,
 				13BE82C72C61127900951099 /* tempThumbnail14.jpg in Resources */,
 				134055712C44171000EC8877 /* mock_response_getAllByKeyword.json in Resources */,
 				158BEFBD2A0EB2A500C27861 /* Pretendard-Medium.ttf in Resources */,
