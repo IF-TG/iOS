@@ -370,7 +370,7 @@ extension DestinationResponseDTO {
       overview: destination.overview,
       category: destination.category.toDomain(),
       zipcode: destination.zipCode,
-      imageDatas: destination.thumbnails.map { Data(base64Encoded: $0) },
+      imageDatas: destination.thumbnails.compactMap { Data(base64Encoded: $0) },
       detail: detail.toDomain(),
       isScraped: destination.scraped,
       liked: liked,
