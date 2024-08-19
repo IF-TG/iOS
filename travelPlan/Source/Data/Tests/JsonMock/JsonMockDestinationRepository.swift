@@ -36,11 +36,16 @@ extension JsonMockDestinationRepository: DestinationRepository {
     
     return repository.fetchDestination(destinationId: destinationId)
       .tryMap {
-        guard let url = Bundle.main.url(forResource: "restaurant_1", withExtension: "png")
-        else { throw TransformationError.notExistedUrl }
-
-        guard let data = try? Data(contentsOf: url) 
-        else { throw TransformationError.cannotConvertData }
+        let resources = [
+          "restaurant_1",
+          "restaurant_2",
+          "restaurant_3",
+          "restaurant_4"
+        ]
+        let imageDatas = resources.compactMap {
+          Bundle.main.url(forResource: $0, withExtension: "png")
+        }
+          .compactMap { try? Data(contentsOf: $0) }
         
         return DestinationEntity(
           destinationId: $0.destinationId,
@@ -50,7 +55,7 @@ extension JsonMockDestinationRepository: DestinationRepository {
           overview: $0.overview,
           category: $0.category,
           zipcode: $0.zipcode,
-          imageDatas: (0..<6).map { _ in return data },
+          imageDatas: imageDatas,
           detail: $0.detail,
           isScraped: $0.isScraped,
           liked: $0.liked,

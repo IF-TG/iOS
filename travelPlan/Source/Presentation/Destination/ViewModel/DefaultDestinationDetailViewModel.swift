@@ -20,7 +20,7 @@ enum DestinationDetailSection {
     let headerInfo: Header
     
     struct Header {
-      let imageDatas: [Data?]
+      let imageDatas: [Data]
     }
   }
   
