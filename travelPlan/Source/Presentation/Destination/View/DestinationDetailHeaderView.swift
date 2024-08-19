@@ -35,6 +35,9 @@ final class DestinationDetailHeaderView: UICollectionReusableView {
   
   private let indicatorBoxView = IndicatorBoxView()
   
+  private var willSetContentOffsetToRightEdge = false
+  private var willSetContentOffsetToLeftEdge = false
+  
   // MARK: - LifeCycle
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -50,15 +53,38 @@ final class DestinationDetailHeaderView: UICollectionReusableView {
 
 // MARK: - Helpers
 extension DestinationDetailHeaderView {
-  func configure(with imageDatas: [Data?]) {
+  func configure(with imageDatas: [Data]) {
     dataSource = imageDatas
-    indicatorBoxView.configure(currentPage: 1, totalPage: imageDatas.count)
-    collectionView.reloadData()
+    
+    if dataSource.count > 1, let last = dataSource.last, let first = dataSource.first {
+      dataSource.insert(last, at: 0)
+      dataSource.append(first)
+      let firstPage = 1
+      indicatorBoxView.configure(currentPage: firstPage, totalPage: imageDatas.count)
+      collectionView.setContentOffset(
+        .init(x: collectionView.bounds.width, y: collectionView.contentOffset.y),
+        animated: false
+      )
+      collectionView.reloadData()
+    } else if imageDatas.count == 1 { // 이미지의 개수가 1개만 있는 경우는 트릭 사용 제외
+      let firstPage = 1
+      indicatorBoxView.configure(currentPage: firstPage, totalPage: imageDatas.count)
+      collectionView.reloadData()
+    } else { // 이미지가 존재하지 않는 경우
+      // empty image를 적용하기
+    }
   }
 }
 
 // MARK: - Private Helpers
 extension DestinationDetailHeaderView {
+  private func shouldTrick() -> Bool {
+    if dataSource.count > 1, let _ = dataSource.last, let _ = dataSource.first {
+      return true
+    }
+    return false
+  }
+  
   private func setupStyles() {
     self.clipsToBounds = true
   }
@@ -100,9 +126,29 @@ extension DestinationDetailHeaderView {
     section.visibleItemsInvalidationHandler = { [weak self] (_, contentOffset, environment) in
       guard let self = self else { return }
       
-      let pageWidth = environment.container.contentSize.width
-      let currentPage = Int(round(contentOffset.x / pageWidth)) + 1
-      self.indicatorBoxView.update(currentPage: currentPage)
+      let contentSize = environment.container.contentSize
+//      let count = dataSource.count
+//      
+//      if shouldTrick() {
+//        if contentOffset.x < 0, !willSetContentOffsetToRightEdge {
+//          willSetContentOffsetToRightEdge.toggle()
+//          collectionView.setContentOffset(
+//            .init(x: contentSize.width * Double(count - 2), y: contentOffset.y),
+//            animated: false
+//          )
+//          willSetContentOffsetToRightEdge.toggle()
+//        } else if contentOffset.x > Double(count - 1) * contentSize.width, !willSetContentOffsetToLeftEdge {
+//          willSetContentOffsetToLeftEdge.toggle()
+//          collectionView.setContentOffset(
+//            .init(x: contentSize.width, y: contentOffset.y),
+//            animated: false
+//          )
+//          willSetContentOffsetToLeftEdge.toggle()
+//        }
+//      }
+      
+      let currentPageIndex = Int(round(contentOffset.x / contentSize.width))
+      self.indicatorBoxView.update(currentPage: currentPageIndex + 1)
     }
     return section
   }
