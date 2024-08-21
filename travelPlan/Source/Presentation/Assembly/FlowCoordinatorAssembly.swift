@@ -35,6 +35,7 @@ final class FlowCoordinatorAssembly: Assembly {
     searchCoordinator(container: container)
     searchHistoryCoordinator(container: container)
     destinationDetailCoordinator(container: container)
+    searchMoreDetailCoordinator(container: container)
     
     // TODO: - Login Flow Coordinator
     container.register(LoginCoordinator.self) { _ in
@@ -76,8 +77,6 @@ final class FlowCoordinatorAssembly: Assembly {
       FavoriteCoordinator(presenter: presenter)
     }
     
-    // TODO: - SearchDetail Flow Coordinator
-    
     // FIXME: - Plan Flow Coordinator
     container.register(PlanCoordinator.self) { (_, presenter: UINavigationController) in
       PlanCoordinator(presenter: presenter)
@@ -95,9 +94,11 @@ final class FlowCoordinatorAssembly: Assembly {
 // MARK: - Private Helpers
 private extension FlowCoordinatorAssembly {
   func searchMoreDetailCoordinator(container: Container) {
-    container.register(SearchMoreDetailCoordinator.self)
-    { (_, presenter: UINavigationController?, viewControllerType: SearchSectionType) in
-      return SearchMoreDetailCoordinator(presenter: presenter, viewControllerType: viewControllerType)
+    container.register(SearchMoreDetailCoordinator.self) { (_, presenter: UINavigationController?) in
+      return SearchMoreDetailCoordinator(
+        presenter: presenter,
+        dependencies: AppDIContainer.shared
+      )
     }
   }
   
@@ -111,8 +112,7 @@ private extension FlowCoordinatorAssembly {
   }
   
   func searchResultListCoordinator(container: Container) {
-    container.register(SearchResultListCoordinator.self)
-    { (_, presenter: UINavigationController?, searchKeyword: String) in
+    container.register(SearchResultListCoordinator.self) { (_, presenter: UINavigationController?, searchKeyword: String) in
       return SearchResultListCoordinator(
         presenter: presenter,
         text: searchKeyword,
@@ -122,8 +122,7 @@ private extension FlowCoordinatorAssembly {
   }
   
   func searchHistoryCoordinator(container: Container) {
-    container.register(SearchHistoryCoordinator.self)
-    { (_, presenter: UINavigationController?, searchType: SearchType) in
+    container.register(SearchHistoryCoordinator.self) { (_, presenter: UINavigationController?, searchType: SearchType) in
       return SearchHistoryCoordinator(
         presenter: presenter,
         searchType: searchType,
@@ -133,8 +132,7 @@ private extension FlowCoordinatorAssembly {
   }
   
   func destinationDetailCoordinator(container: Container) {
-    container.register(DestinationDetailCoordinator.self)
-    { (_, presenter: UINavigationController?, destinationId: DestinationIdEntity) in
+    container.register(DestinationDetailCoordinator.self) { (_, presenter: UINavigationController?, destinationId: DestinationIdEntity) in
       return DestinationDetailCoordinator(
         presenter: presenter,
         dependencies: AppDIContainer.shared,

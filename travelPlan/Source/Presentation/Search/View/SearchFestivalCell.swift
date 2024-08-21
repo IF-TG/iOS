@@ -11,78 +11,35 @@ import UIKit
 import SnapKit
 
 final class SearchFestivalCell: UICollectionViewCell {
-  enum Constants {
-    enum ThumbnailImageView {
-      static let cornerRadius: CGFloat = 7
-    }
-    enum ThumbnailGradientLayer {
-      static let lastColorAlpha: CGFloat = 1.0
-      static let firstLocation: NSNumber = 0.7
-      static let lastLocation: NSNumber = 1.0
-    }
-    
-    enum StarButton {
-      enum Inset {
-        static let top: CGFloat = 8
-        static let trailing: CGFloat = 8
-      }
-      static let size: CGFloat = 24
-    }
-    
-    enum FestivalLabel {
-      static let fontSize: CGFloat = 18
-      static let numberOfLines = 1
-      enum Inset {
-        static let leading: CGFloat = 4
-        static let trailing: CGFloat = 4
-      }
-    }
-    
-    enum PeriodLabel {
-      static let fontSize: CGFloat = 12
-      enum Inset {
-        static let trailing: CGFloat = 4
-        static let bottom: CGFloat = 6
-      }
-    }
-  }
-  
   // MARK: - Properties
-  static var id: String {
-    return String(describing: self)
-  }
-  
   private lazy var thumbnailImageView: UIImageView = .init().set {
     $0.contentMode = .scaleAspectFill
     $0.layer.masksToBounds = true
     $0.isUserInteractionEnabled = true // UIImageView의 터치 이벤트를 감지하기 위해 인터랙션을 활성화
-    $0.layer.cornerRadius = Constants.ThumbnailImageView.cornerRadius
+    $0.layer.cornerRadius = 7
     $0.layer.insertSublayer(self.thumbnailGradientLayer, at: .zero)
   }
   
   private let thumbnailGradientLayer: CAGradientLayer = .init().set {
     $0.colors = [
       UIColor.clear.cgColor,
-      UIColor.yg.gray7.withAlphaComponent(Constants.ThumbnailGradientLayer.lastColorAlpha).cgColor
+      UIColor.yg.gray7.withAlphaComponent(1.0).cgColor
     ]
-    $0.locations = [
-      Constants.ThumbnailGradientLayer.firstLocation,
-      Constants.ThumbnailGradientLayer.lastLocation
-    ]
+    $0.locations = [0.7, 1.0]
   }
   
   private let starButton: SearchStarButton = .init(normalType: .white)
   
-  private let festivalLabel: UILabel = .init().set {
-    $0.font = UIFont(pretendard: .bold_700(fontSize: Constants.FestivalLabel.fontSize))
+  private let titleLabel: UILabel = .init().set {
+    $0.font = UIFont(pretendard: .bold_700(fontSize: 18))
     $0.textColor = .yg.littleWhite
-    $0.numberOfLines = Constants.FestivalLabel.numberOfLines
+    $0.numberOfLines = 1
     $0.textAlignment = .center
     $0.text = "축제명"
   }
   
   private let locationLabel: UILabel = .init().set {
-    $0.font = UIFont(pretendard: .semiBold_600(fontSize: Constants.PeriodLabel.fontSize))
+    $0.font = UIFont(pretendard: .semiBold_600(fontSize: 12))
     $0.textColor = .yg.littleWhite
     $0.textAlignment = .center
     $0.text = "장소"
@@ -110,17 +67,17 @@ final class SearchFestivalCell: UICollectionViewCell {
     super.prepareForReuse()
     thumbnailImageView.image = nil
     locationLabel.text = nil
-    festivalLabel.text = nil
+    titleLabel.text = nil
     starButton.isSelected = false
   }
 }
 
 // MARK: - Configure
 extension SearchFestivalCell {
-  func configure(with info: SearchFestivalInfo) {
-    festivalLabel.text = info.title
+  func configure(with info: TravelDestinationInfo) {
+    titleLabel.text = info.place
     locationLabel.text = info.location
-    starButton.isSelected = info.isSelectedButton
+    starButton.isSelected = info.isButtonSelected
     
     // imageTODO: - 이미지 적용
     if let imageData = info.imageData {
@@ -149,7 +106,7 @@ extension SearchFestivalCell: LayoutSupport {
     
     contentView.addSubview(thumbnailImageView)
     thumbnailImageView.addSubview(starButton)
-    thumbnailImageView.addSubview(festivalLabel)
+    thumbnailImageView.addSubview(titleLabel)
     thumbnailImageView.addSubview(locationLabel)
   }
   
@@ -159,24 +116,23 @@ extension SearchFestivalCell: LayoutSupport {
     }
     
     starButton.snp.makeConstraints {
-      $0.top.equalToSuperview().inset(Constants.StarButton.Inset.top)
-      $0.trailing.equalToSuperview().inset(Constants.StarButton.Inset.trailing)
-      $0.size.equalTo(Constants.StarButton.size)
+      $0.top.equalToSuperview().inset(8)
+      $0.trailing.equalToSuperview().inset(8)
+      $0.size.equalTo(24)
     }
     
-    festivalLabel.snp.makeConstraints {
-      $0.leading.equalToSuperview().inset(Constants.FestivalLabel.Inset.leading)
-      $0.trailing.lessThanOrEqualToSuperview()
-        .inset(Constants.FestivalLabel.Inset.trailing)
+    titleLabel.snp.makeConstraints {
+      $0.leading.equalToSuperview().inset(4)
+      $0.trailing.lessThanOrEqualToSuperview().inset(4)
     }
     
     locationLabel.snp.makeConstraints {
-      $0.top.equalTo(festivalLabel.snp.bottom)
-      $0.leading.equalTo(festivalLabel)
+      $0.top.equalTo(titleLabel.snp.bottom)
+      $0.leading.equalTo(titleLabel)
       $0.trailing.lessThanOrEqualToSuperview()
-        .inset(Constants.PeriodLabel.Inset.trailing)
+        .inset(4)
       $0.bottom.equalToSuperview()
-        .inset(Constants.PeriodLabel.Inset.bottom)
+        .inset(6)
     }
   }
 }

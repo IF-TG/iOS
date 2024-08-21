@@ -158,10 +158,9 @@ extension AppDIContainer: PostDetailCoordinatorDependencies {
 // MARK: - SearchCoordinatorDependencies
 extension AppDIContainer: SearchCoordinatorDependencies {
   func makeSearchMoreDetailCoordinator(
-    presenter: UINavigationController?,
-    viewControllerType: SearchSectionType
+    presenter: UINavigationController?
   ) -> SearchMoreDetailCoordinator {
-    return resolver.resolve(SearchMoreDetailCoordinator.self, arguments: presenter, viewControllerType)!
+    return resolver.resolve(SearchMoreDetailCoordinator.self, argument: presenter)!
   }
   
   func makeSearchHistoryCoordinator(
@@ -212,8 +211,33 @@ extension AppDIContainer: SearchHistoryCoordinatorDependencies {
 
 // MARK: - DestinationDetailCoordinatorDependencies
 extension AppDIContainer: DestinationDetailCoordinatorDependencies {
-  func makeDestinationDetailViewController(destinationId: DestinationIdEntity) -> DestinationDetailViewController {
-    resolver.resolve(DestinationDetailViewController.self, argument: destinationId)!
+  func makeDestinationDetailViewController(
+    destinationId: DestinationIdEntity,
+    actions: DestinationDetailViewModelActions
+  ) -> DestinationDetailViewController {
+    resolver.resolve(DestinationDetailViewController.self, arguments: destinationId, actions)!
+  }
+}
+
+// MARK: - SearchMoreDetailCoordinatorDependencies
+extension AppDIContainer: SearchMoreDetailCoordinatorDependencies {
+  func makeSearchMoreDetailViewController(
+    actions: SearchMoreDetailViewModelActions,
+    destinationInfos: [TravelDestinationInfo],
+    headerTitle: String,
+    searchSection: SearchSectionIndex
+  ) -> SearchMoreDetailViewController {
+    return resolver.resolve(
+      SearchMoreDetailViewController.self,
+      arguments: actions, destinationInfos, headerTitle, searchSection
+    )!
+  }
+  
+  func makeDestinationDetailCoordinator(
+    presenter: UINavigationController?,
+    destinationIdEntity: DestinationIdEntity
+  ) -> DestinationDetailCoordinator {
+    return resolver.resolve(DestinationDetailCoordinator.self, arguments: presenter, destinationIdEntity)!
   }
 }
 

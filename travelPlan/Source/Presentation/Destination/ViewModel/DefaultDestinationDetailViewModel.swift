@@ -43,11 +43,16 @@ enum DestinationDetailViewModelState {
   case unexpectedError(description: String)
 }
 
-final class DefaultDestinationDetailViewModel {
+struct DestinationDetailViewModelActions {
+  let pop: () -> Void
+}
+
+final class DefaultDestinationDetailViewModel: DestinationDetailViewModelDataSourceable {
   // MARK: - Dependencies
   private let useCase: any DestinationDetailUseCase
   // TODO: - destinationId를 통해서 usecase 호출
   private let destinationId: DestinationIdEntity
+  private let actions: DestinationDetailViewModelActions
   
   // MARK: - Properties
   var dataSource = [DestinationDetailSection]()
@@ -57,15 +62,17 @@ final class DefaultDestinationDetailViewModel {
   // MARK: - LifeCycle
   init(
     useCase: any DestinationDetailUseCase,
-    destinationId: DestinationIdEntity
+    destinationId: DestinationIdEntity,
+    actions: DestinationDetailViewModelActions
   ) {
     self.useCase = useCase
     self.destinationId = destinationId
+    self.actions = actions
   }
 }
 
-// MARK: - DestinationDetailViewModel
-extension DefaultDestinationDetailViewModel: DestinationDetailViewModel {
+// MARK: - DestinationDetailViewModelable
+extension DefaultDestinationDetailViewModel: DestinationDetailViewModelable {
   func transform(_ input: Input) -> Output {
     return Publishers.MergeMany([
       viewDidLoadStream(input),
@@ -114,3 +121,11 @@ extension DefaultDestinationDetailViewModel {
       .eraseToAnyPublisher()
   }
 }
+
+// MARK: - DestinationDetailViewModelPageDelegate
+extension DefaultDestinationDetailViewModel: DestinationDetailViewModelPageDelegate {
+  func pop() {
+    actions.pop()
+  }
+}
+

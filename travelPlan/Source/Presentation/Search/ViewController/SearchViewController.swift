@@ -57,9 +57,9 @@ final class SearchViewController: UIViewController {
     $0.delegate = self
     $0.backgroundColor = .clear
     $0.register(SearchFestivalCell.self,
-                forCellWithReuseIdentifier: SearchFestivalCell.id)
+                forCellWithReuseIdentifier: SearchFestivalCell.identifier)
     $0.register(TravelDestinationCell.self,
-                forCellWithReuseIdentifier: TravelDestinationCell.id)
+                forCellWithReuseIdentifier: TravelDestinationCell.identifier)
     $0.register(TitleWithButtonHeaderView.self,
                 forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                 withReuseIdentifier: TitleWithButtonHeaderView.id)
@@ -216,20 +216,20 @@ extension SearchViewController: UICollectionViewDataSource {
   ) -> UICollectionViewCell {
     switch viewModel.getCellViewModels(in: indexPath.section) {
       
-    case let .festival(festivalInfos):
+    case let .festival(infos):
       guard let cell = collectionView.dequeueReusableCell(
-        withReuseIdentifier: SearchFestivalCell.id,
+        withReuseIdentifier: SearchFestivalCell.identifier,
         for: indexPath
       ) as? SearchFestivalCell else { return .init() }
       
-      cell.configure(with: festivalInfos[indexPath.item])
+      cell.configure(with: infos[indexPath.item])
       cell.bind(to: input.didTapStarButton, indexPath: indexPath)
       
       return cell
       
-    case let .else(infos):
+    case let .leports(infos), let .cultureFacility(infos):
       guard let cell = collectionView.dequeueReusableCell(
-        withReuseIdentifier: TravelDestinationCell.id,
+        withReuseIdentifier: TravelDestinationCell.identifier,
         for: indexPath
       ) as? TravelDestinationCell else { return .init() }
       
@@ -253,9 +253,8 @@ extension SearchViewController: UICollectionViewDataSource {
       ) as? TitleWithButtonHeaderView else { return .init() }
       
       headerView.delegate = self
-      headerView.sectionIndex = indexPath.section
       let headerTitle = viewModel.fetchHeaderTitle(in: indexPath.section)
-      headerView.configure(title: headerTitle)
+      headerView.configure(title: headerTitle, sectionIndex: indexPath.section)
     
       return headerView
     } else { return .init() }
@@ -268,15 +267,14 @@ extension SearchViewController: UICollectionViewDelegate {
     _ collectionView: UICollectionView,
     didSelectItemAt indexPath: IndexPath
   ) {
-    viewModel.showDetailPage(indexPath: indexPath)
+    viewModel.showDestinationDetailPage(indexPath: indexPath)
   }
 }
 
 // MARK: - TitleWithButtonHeaderViewDelegate
 extension SearchViewController: TitleWithButtonHeaderViewDelegate {
-  // pushTODO: - 각 타입에 맞게 화면전환을 해야합니다.
   func didTaplookingMoreButton(_ button: UIButton, in section: Int) {
-    input.didTaplookingMoreButton.send(section)
+    viewModel.showMoreDetailPage(sectionIndex: section)
   }
 }
 

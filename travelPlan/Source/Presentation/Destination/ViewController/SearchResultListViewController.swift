@@ -31,8 +31,8 @@ final class SearchResultListViewController: UIViewController {
     frame: .zero,
     collectionViewLayout: compositionalLayout
   ).set {
-    $0.register(SearchResultCategoryCell.self, forCellWithReuseIdentifier: SearchResultCategoryCell.id)
-    $0.register(TravelDestinationCell.self, forCellWithReuseIdentifier: TravelDestinationCell.id)
+    $0.register(type: SearchResultCategoryCell.self)
+    $0.register(type: TravelDestinationCell.self)
     $0.dataSource = self
     $0.delegate = self
     $0.allowsMultipleSelection = true
@@ -157,16 +157,17 @@ extension SearchResultListViewController: UICollectionViewDataSource {
     switch viewModel.dataSource[indexPath.section] {
     case .category(let categories):
       guard let cell = collectionView.dequeueReusableCell(
-        withReuseIdentifier: SearchResultCategoryCell.id,
-        for: indexPath
-      ) as? SearchResultCategoryCell else { return .init() }
+        for: indexPath,
+        type: SearchResultCategoryCell.self
+      ) else { return .init() }
+      
       cell.configure(with: categories[indexPath.item])
       return cell
     case .destination(let destinationInfos):
       guard let cell = collectionView.dequeueReusableCell(
-        withReuseIdentifier: TravelDestinationCell.id,
-        for: indexPath
-      ) as? TravelDestinationCell else { return .init() }
+        for: indexPath,
+        type: TravelDestinationCell.self
+      ) else { return .init() }
       
       cell.configure(with: destinationInfos[indexPath.item])
       cell.bind(to: input.didTapStarButton, indexPath: indexPath)
