@@ -22,6 +22,7 @@ final class DomainAssembly: Swinject.Assembly {
     searchHistoryUseCase(container: container)
     destinationDetailUseCase(container: container)
     destinationRecommendUseCase(container: container)
+    settingRelatedUseCases(container: container)
     
     // TODO: - Tour Use Case
     
@@ -35,6 +36,38 @@ final class DomainAssembly: Swinject.Assembly {
 
 // MARK: - Private Helpers
 private extension DomainAssembly {
+  func settingRelatedUseCases(container: Container) {
+    container.register(UserProfileImageSettingUseCase.self) { r in
+#if DEBUG
+      return StubUserProfileImageSettingUseCase()
+#else
+      let userProfileSettingRepository = r.resolve(UserProfileSettingRepository.self, name: .firebase)!
+      return DefaultUserProfileImageSettingUseCase(userProfileSettingRepository: userProfileSettingRepository)
+#endif
+    }
+    
+    container.register(UserNicknameSettingUseCase.self) { r in
+#if DEBUG
+      return StubUserNicknameSettingUseCase()
+#else
+      let userProfileSettingRepository = r.resolve(UserProfileSettingRepository.self, name: .firebase)!
+      return DefaultUserNicknameSettingUseCase(userProfileSettingRepository: userProfileSettingRepository)
+#endif
+    }
+    
+    container.register(NicknameValidationUseCase.self) { r in
+#if DEBUG
+      return StubNicknameValidationUseCase()
+#else
+      let ownerStorage = r.resolve(OwnerStorage.self)!
+      let userProfileSettingRepository = r.resolve(UserProfileSettingRepository.self, name: .firebase)!
+      return DefaultNicknameValidationUseCase(
+        userProfileSettingRepository: userProfileSettingRepository,
+        ownerStorage: ownerStorage)
+#endif
+    }
+  }
+  
   func searchHistoryUseCase(container: Container) {
     container.register(SearchHistoryUseCase.self) { r in
       let recentRepository: RecentSearchHistoryRepository

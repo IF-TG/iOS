@@ -166,7 +166,47 @@ final class PresentationAssembly: Assembly {
       MainTabBarController()
     }
     
-    // TODO: - Setting Page
+    // MARK: - Setting Page
+    container.register(SettingViewModelType.self) { (r, actions: SettingViewModelActions) in
+      let ownerRepository = self.ownerRepository(with: r)
+      return SettingViewModel(ownerRepository: ownerRepository, actions: actions)
+    }
+    
+    container.register(SettingViewController.self) { (r, actions: SettingViewModelActions) in
+      let settingViewModel = r.resolve(SettingViewModelType.self, argument: actions)!
+      return SettingViewController(viewModel: settingViewModel)
+    }
+    
+    container.register(OperationGuideViewController.self) { _ in
+      return OperationGuideViewController(navigationTitle: "이용안내")
+    }
+    
+    container.register(CustomerServiceViewController.self) { _ in
+      return CustomerServiceViewController(navigationTitle: "고객센터")
+    }
+    
+    container.register(MyInformationViewModelType.self) { (r, actions: MyInformationViewModelActions) in
+      let userNicknameSettingUseCase = r.resolve(UserNicknameSettingUseCase.self)!
+      let userProfileImageSettingUsecase = r.resolve(UserProfileImageSettingUseCase.self)!
+      let nicknameValidationUseCase = r.resolve(NicknameValidationUseCase.self)!
+      let ownerRepository = self.ownerRepository(with: r)
+      
+      return MyInformationViewModel(
+        userNicknameSettingUseCase: userNicknameSettingUseCase,
+        userProfileImageSettingUseCase: userProfileImageSettingUsecase,
+        nicknameValidationUseCase: nicknameValidationUseCase,
+        ownerRepository: ownerRepository,
+        actions: actions)
+    }
+    
+    container.register(MyInformationViewController.self) { (r, actions: MyInformationViewModelActions) in
+      let viewModel = r.resolve(MyInformationViewModelType.self, argument: actions)!
+      return MyInformationViewController(viewModel: viewModel)
+    }
+    
+    container.register(MyInformationAlbumSheetViewController.self) { _ in
+      MyInformationAlbumSheetViewController()
+    }
     
     // TODO: - Favorite Page
     

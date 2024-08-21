@@ -10,44 +10,41 @@ import SHCoordinator
 import Combine
 import SHFirestoreService
 
+protocol MyInformationCoordinatorDependencies {
+  func makeMyInformationViewController(with actions: MyInformationViewModelActions) -> UIViewController
+  func makeMyInformationAlbumSheetViewController() -> UIViewController
+}
+
 final class MyInformationCoordinator: FlowCoordinator {
+  // MARK: - Properties
   var parent: FlowCoordinator?
   var child: [FlowCoordinator] = []
   
   var presenter: UINavigationController?
   
-  var viewController: UIViewController?
+  private weak var viewController: UIViewController?
   
-  var alubmImageChoiceSubscription: AnyCancellable?
+  private let dependencies: MyInformationCoordinatorDependencies
+  
+  private var alubmImageChoiceSubscription: AnyCancellable?
   
   private let profileImageMemoryCache = ImageMemoryCache()
   
-  init(presenter: UINavigationController?) {
+  // MARK: - Lifecycle
+  init(presenter: UINavigationController?, dependencies: MyInformationCoordinatorDependencies) {
     self.presenter = presenter
+    self.dependencies = dependencies
   }
   
   func start() {
-    let firestoreService = FirestoreService()
-    let firebaseStorageService = FirebaseStorageService()
-    let stubOwnerStorage = StubOwnerStorage()
-    let loggedInUserRepository = DefaultLoggedInUserRepository(storage: .init(value: stubOwnerStorage))
-    let loggedInUserUseCase = DefaultLoggedInUserUseCase(loggedInUserRepository: loggedInUserRepository)
-    
-    let userProfileSettingRepository = FirestoreUserProfileSettingRepository(
-      service: firestoreService,
-      firebaseStorageService: firebaseStorageService,
-      ownerStorage: stubOwnerStorage)
-    let userProfileImageSettingUseCase = DefaultUserProfileImageSettingUseCase(
-      userProfileSettingRepository: userProfileSettingRepository)
-    
-    let userNicknameSettingUseCase = DefaultUserNicknameSettingUseCase(
-      userProfileSettingRepository: userProfileSettingRepository)
-    
-    let nicknameValidationUseCase = DefaultNicknameValidationUseCase(
-      userProfileSettingRepository: userProfileSettingRepository,
-      ownerStorage: stubOwnerStorage)
-    
-    let actions = MyInformationViewModelActions { [weak self] in
+    let _viewController = dependencies.makeMyInformationViewController(with: makeActions())
+    self.viewController = _viewController
+    presenter?.pushViewController(_viewController, animated: true)
+  }
+  
+  // MARK: - Helpers
+  func makeActions() -> MyInformationViewModelActions {
+    return MyInformationViewModelActions { [weak self] in
       self?.showConfirmationAlertPage()
     } showBottomSheetAlbum: { [weak self] in
       self?.showBottomSheetAlbum()
@@ -58,16 +55,6 @@ final class MyInformationCoordinator: FlowCoordinator {
     } finishWithAnimation: { [weak self] animate in
       self?.finish(withAnimated: animate)
     }
-
-    let viewModel = MyInformationViewModel(
-      userNicknameSettingUseCase: userNicknameSettingUseCase,
-      userProfileImageSettingUseCase: userProfileImageSettingUseCase,
-      nicknameValidationUseCase: nicknameValidationUseCase,
-      loggedInUserUseCase: loggedInUserUseCase,
-      actions: actions)
-    let viewController = MyInformationViewController(viewModel: viewModel)
-    self.viewController = viewController
-    presenter?.pushViewController(viewController, animated: true)
   }
 }
 
@@ -84,13 +71,16 @@ extension MyInformationCoordinator {
   }
   
   func showBottomSheetAlbum() {
-    let albumSheet = MyInformationAlbumSheetViewController()
-    alubmImageChoiceSubscription = albumSheet.$hasSelectedProfile
+    let albumSheet = dependencies.makeMyInformationAlbumSheetViewController() as? MyInformationAlbumSheetViewController
+    alubmImageChoiceSubscription = albumSheet?.$hasSelectedProfile
       .subscribe(on: DispatchQueue.main)
       .compactMap { $0 }
       .sink { [weak self] image in
         (self?.viewController as? MyInformationViewController)?.handleSelectedImage(with: image)
       }
+    guard let albumSheet else {
+      fatalError("엘범 시트 DIC 등록이 잘못되었으니 수정해주세요.")
+    }
     viewController?.presentBottomSheet(albumSheet)
   }
   
