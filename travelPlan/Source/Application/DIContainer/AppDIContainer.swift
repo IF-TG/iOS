@@ -240,3 +240,33 @@ extension AppDIContainer: SearchMoreDetailCoordinatorDependencies {
     return resolver.resolve(DestinationDetailCoordinator.self, arguments: presenter, destinationIdEntity)!
   }
 }
+
+// MARK: - SettingCoordinatorDependencies
+extension AppDIContainer: SettingCoordinatorDependencies {
+  func makeSettingViewController(with actions: SettingViewModelActions) -> UIViewController {
+    return resolver.resolve(SettingViewController.self, argument: actions)!
+  }
+  
+  func makeOperatingGuideViewController() -> UIViewController {
+    return resolver.resolve(OperationGuideViewController.self)!
+  }
+  
+  func makeMyInformationCoordinator(presenter: UINavigationController?) -> any FlowCoordinator {
+    return resolver.resolve(MyInformationCoordinator.self, argument: presenter)!
+  }
+  
+  func makeCustomerServiceViewController() -> UIViewController {
+    return resolver.resolve(CustomerServiceViewController.self)!
+  }
+}
+
+// MARK: - MyInformationCoordinatorDependencies
+extension AppDIContainer: MyInformationCoordinatorDependencies {
+  func makeMyInformationViewController(with actions: MyInformationViewModelActions) -> UIViewController {
+    return resolver.resolve(MyInformationViewController.self, argument: actions)!
+  }
+  
+  func makeMyInformationAlbumSheetViewController() -> UIViewController {
+    return resolver.resolve(MyInformationAlbumSheetViewController.self)!
+  }
+}

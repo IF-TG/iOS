@@ -55,7 +55,11 @@ final class FirebaseRepositoryAssembly: Swinject.Assembly {
     }
     
     container.register(UserProfileSettingRepository.self, name: .firebase) { r in
+      #if DEBUG
+      let ownerStorage = StubOwnerStorage()
+      #else
       let ownerStorage = r.resolve(OwnerStorage.self)!
+      #endif
       return FirestoreUserProfileSettingRepository(
         service: firestoreService,
         firebaseStorageService: firestoreStorageService,

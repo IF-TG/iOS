@@ -24,11 +24,19 @@ final class SpringServerRepositoryAssembly: Assembly {
     
     // MARK: - LoginRepository
     container.register(LoginRepository.self) { r in
+    #if DEBUG
+      let authenticationService = DefaultAuthenticationService(sessionProvider: SessionProvider())
+      let loginResultStorage = r.resolve(LoginResultStorage.self)!
+      let loggedInUserRepository = r.resolve(LoggedInUserRepository.self)!
+      let userProfileRepository = StubUserProfileRepository()
+      let firestoreService = r.resolve(FirestoreServiceProtocol.self, name: .firebase)!
+    #else
       let authenticationService = r.resolve(AuthenticationService.self)!
       let loginResultStorage = r.resolve(LoginResultStorage.self)!
       let loggedInUserRepository = r.resolve(LoggedInUserRepository.self)!
       let userProfileRepository = r.resolve(UserProfileRepository.self)!
       let firestoreService = r.resolve(FirestoreServiceProtocol.self, name: .firebase)!
+    #endif
       
       return DefaultLoginRepository(
         authService: authenticationService,

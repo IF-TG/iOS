@@ -370,6 +370,7 @@
 		15050D3C2BE92EA100B3E26A /* TourApiImageRetrieveRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15050D3B2BE92EA100B3E26A /* TourApiImageRetrieveRequestDTO.swift */; };
 		15050D3E2BE92F1800B3E26A /* TourApiRetrievedImageResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15050D3D2BE92F1800B3E26A /* TourApiRetrievedImageResponseDTO.swift */; };
 		1505E6092C245813009788AA /* NumberFormatterWithSuffix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1505E6082C245813009788AA /* NumberFormatterWithSuffix.swift */; };
+		15068AD72C6E554500129A9B /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 13CC52732C4A96C2002134D2 /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		150727262BBAB9E400271217 /* PostNestedCommentHeartToggleRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150727252BBAB9E400271217 /* PostNestedCommentHeartToggleRequestDTO.swift */; };
 		15098D042BA5DB490012962A /* MyInformationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15098D032BA5DB490012962A /* MyInformationCoordinator.swift */; };
 		15098D062BA5E8360012962A /* MyInformationAlbumSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15098D052BA5E8360012962A /* MyInformationAlbumSheetViewController.swift */; };
@@ -648,6 +649,9 @@
 		15869D0C2BF5A45900FB342B /* FirestoreOwnerHeartPostRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15869D0B2BF5A45900FB342B /* FirestoreOwnerHeartPostRepository.swift */; };
 		1586BA872BBBCCCB001AA97C /* PostDetailViewModelable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1586BA862BBBCCCB001AA97C /* PostDetailViewModelable.swift */; };
 		1586D3042AB193F7001D4A80 /* Season.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1586D3032AB193F7001D4A80 /* Season.swift */; };
+		1587022A2C708A23001C6FB2 /* StubUserNicknameSettingUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158702292C708A23001C6FB2 /* StubUserNicknameSettingUseCase.swift */; };
+		1587022E2C708B2C001C6FB2 /* StubUserProfileImageSettingUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1587022D2C708B2C001C6FB2 /* StubUserProfileImageSettingUseCase.swift */; };
+		158702302C7091AF001C6FB2 /* StubNicknameValidationUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1587022F2C7091AF001C6FB2 /* StubNicknameValidationUseCase.swift */; };
 		1588978B2BFC2EEA006BB978 /* PostDetailChatViewModelable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1588978A2BFC2EEA006BB978 /* PostDetailChatViewModelable.swift */; };
 		1588978D2BFC3105006BB978 /* PostDetailSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1588978C2BFC3105006BB978 /* PostDetailSection.swift */; };
 		1588978F2BFC3FBA006BB978 /* PostDetailChatDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1588978E2BFC3FBA006BB978 /* PostDetailChatDataSource.swift */; };
@@ -1018,6 +1022,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				15068AD72C6E554500129A9B /* RealmSwift in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1677,6 +1682,9 @@
 		15869D0D2BF5C3BD00FB342B /* FirestoreOwnerHeartPostRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreOwnerHeartPostRepositoryTests.swift; sourceTree = "<group>"; };
 		1586BA862BBBCCCB001AA97C /* PostDetailViewModelable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailViewModelable.swift; sourceTree = "<group>"; };
 		1586D3032AB193F7001D4A80 /* Season.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Season.swift; sourceTree = "<group>"; };
+		158702292C708A23001C6FB2 /* StubUserNicknameSettingUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubUserNicknameSettingUseCase.swift; sourceTree = "<group>"; };
+		1587022D2C708B2C001C6FB2 /* StubUserProfileImageSettingUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubUserProfileImageSettingUseCase.swift; sourceTree = "<group>"; };
+		1587022F2C7091AF001C6FB2 /* StubNicknameValidationUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubNicknameValidationUseCase.swift; sourceTree = "<group>"; };
 		1588978A2BFC2EEA006BB978 /* PostDetailChatViewModelable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailChatViewModelable.swift; sourceTree = "<group>"; };
 		1588978C2BFC3105006BB978 /* PostDetailSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailSection.swift; sourceTree = "<group>"; };
 		1588978E2BFC3FBA006BB978 /* PostDetailChatDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailChatDataSource.swift; sourceTree = "<group>"; };
@@ -4309,6 +4317,9 @@
 				1526ED212BF64C1000B629FB /* User */,
 				1526ED202BF64A5400B629FB /* PostComment */,
 				1526ED1F2BF64A4D00B629FB /* Post */,
+				158702292C708A23001C6FB2 /* StubUserNicknameSettingUseCase.swift */,
+				1587022D2C708B2C001C6FB2 /* StubUserProfileImageSettingUseCase.swift */,
+				1587022F2C7091AF001C6FB2 /* StubNicknameValidationUseCase.swift */,
 			);
 			path = Stub;
 			sourceTree = "<group>";
@@ -5669,6 +5680,7 @@
 				15DF29EB2BC52BC800F470DC /* PostReviewWritingCategoryBottomSheet.swift in Sources */,
 				1572ABAB2BE63243008AFE66 /* FirestorePostCommentSendRequestDTO.swift in Sources */,
 				13EB3D142BF081B200CA84F0 /* TourIntroductionInfoCultureFacilityResponseDTO.swift in Sources */,
+				1587022E2C708B2C001C6FB2 /* StubUserProfileImageSettingUseCase.swift in Sources */,
 				1540709E2C0F8A38000C9C42 /* DomainAssembly.swift in Sources */,
 				15DE36B92AB853900030CCCC /* TravelThemeBottomSheetCell.swift in Sources */,
 				15F3765E2AFBF1A500B3BF35 /* PostDetailCommentHeader.swift in Sources */,
@@ -5753,6 +5765,7 @@
 				15A859A02BB56E18002C0CA0 /* PostContainer.swift in Sources */,
 				13606E8C2A9F959F00365F20 /* PostRecommendationSearchHeaderView.swift in Sources */,
 				13813A232AAA459900AF6AEB /* SearchHistoryCollectionViewDelegate.swift in Sources */,
+				158702302C7091AF001C6FB2 /* StubNicknameValidationUseCase.swift in Sources */,
 				1385F6722C404129003DB336 /* DestinationScrapDetailResponseDTO.swift in Sources */,
 				15C1F5402AF29CDE005FDA15 /* NotificationIconType.swift in Sources */,
 				1518BC232BB0415500FD1A74 /* PostCommentHeartToggleRequestDTO.swift in Sources */,
@@ -6094,6 +6107,7 @@
 				15D6558B2B8E0F8500466FEC /* DefaultUserProfileSettingRepository.swift in Sources */,
 				15FF36B82BE1DE4E00557276 /* DateTimeConverter.swift in Sources */,
 				15B01DAF2BA95A4600BE9F98 /* DefaultLoggedInUserUseCase.swift in Sources */,
+				1587022A2C708A23001C6FB2 /* StubUserNicknameSettingUseCase.swift in Sources */,
 				15AAD34C2BBFD1760042DBF6 /* FavoritePostToggleEntity.swift in Sources */,
 				151DF0F02AEEAE2100D5D55B /* NoticeEntity.swift in Sources */,
 				157ADCAC2AD008EE00D37680 /* FavoriteDetailMenuViewConfigurable.swift in Sources */,

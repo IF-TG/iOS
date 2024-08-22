@@ -62,9 +62,14 @@ final class FlowCoordinatorAssembly: Assembly {
       return MainCoordinator(tabBarController: tabBarController, dependencies: appDIContainer)
     }
     
-    // FIXME: - Setting Flow Coordinator.
+    // MARK: - Setting Flow Coordinator.
     container.register(SettingCoordinator.self) { (_, presenter: UINavigationController) in
-      SettingCoordinator(presenter: presenter)
+      SettingCoordinator(presenter: presenter, dependencies: appDIContainer)
+    }
+    
+    // MARK: - MyInformationCoordinator
+    container.register(MyInformationCoordinator.self) { (_, presenter: UINavigationController?) in
+      MyInformationCoordinator(presenter: presenter, dependencies: appDIContainer)
     }
     
     // FIXME: - Favorite Flow Coordinator
