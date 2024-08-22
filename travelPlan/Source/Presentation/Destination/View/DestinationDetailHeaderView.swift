@@ -37,7 +37,8 @@ final class DestinationDetailHeaderView: UICollectionReusableView {
   private var hasDisplayedInfiniteCarouselSection = false
   /// configure 메소드에서 scrollView.scrollToItem가 먹히지 않기 때문에, dataSource가 적용된 후에
   ///  section.visibleItemsInvalidationHandler에서 초기 scrollToItem을 적용해주기 위해 사용하는 변수
-  private var isConfigured = false
+  ///  carousel을 적용하는 경우에만 해당
+  private var isConfiguredIfCarousel = false
   
   // MARK: - LifeCycle
   override init(frame: CGRect) {
@@ -61,6 +62,7 @@ extension DestinationDetailHeaderView {
       dataSource.insert(last, at: 0)
       dataSource.append(first)
       indicatorBoxView.configure(currentPage: firstPage, totalPage: imageDatas.count)
+      isConfiguredIfCarousel = true
     } else if imageDatas.count == 1 { // 이미지의 개수가 1개만 있는 경우는 트릭 사용 제외
       dataSource = imageDatas
       indicatorBoxView.configure(currentPage: firstPage, totalPage: imageDatas.count)
@@ -71,7 +73,6 @@ extension DestinationDetailHeaderView {
       dataSource = [data]
       indicatorBoxView.configure(currentPage: firstPage, totalPage: firstPage)
     }
-    isConfigured = true
     collectionView.reloadData()
   }
 }
@@ -121,7 +122,7 @@ extension DestinationDetailHeaderView {
       
       let contentSize = environment.container.contentSize
       
-      if !hasDisplayedInfiniteCarouselSection, isConfigured {
+      if !hasDisplayedInfiniteCarouselSection, isConfiguredIfCarousel {
         hasDisplayedInfiniteCarouselSection.toggle()
         collectionView.scrollToItem(
           at: IndexPath(item: 1, section: .zero),
