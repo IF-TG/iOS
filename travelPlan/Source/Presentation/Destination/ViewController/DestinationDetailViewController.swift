@@ -22,10 +22,10 @@ class DestinationDetailViewController: UIViewController {
   // MARK: - Properties
   private let landscapeToastView = LandscapeToastView(text: "복사되었습니다.")
   
-  private lazy var starButton = UIButton().set {
-    $0.setImage(.init(named: "emptyStar-border-white"), for: .normal)
+  private lazy var starButton = SearchStarButton(normalType: .white).set {
     $0.addTarget(self, action: #selector(didTapStarButton(_:)), for: .touchUpInside)
   }
+  
   private lazy var shareButton = UIButton().set {
     // TODO: - 색상을 image에서 흰색으로 바꿔야합니다.(작동 되는지 확인해보기)
     let image = resizeImage(image: .init(named: "feedShare"),
@@ -48,12 +48,12 @@ class DestinationDetailViewController: UIViewController {
                 forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                 withReuseIdentifier: DestinationDetailHeaderView.identifier)
     $0.register(type: DestinationDetailTitleCell.self)
-    $0.register(type: DestinationDetailServiceCell.self)
     $0.register(type: DestinationDetailContentCell.self)
     $0.backgroundColor = Common.backgroundColor
     $0.dataSource = self
     $0.delegate = self
     $0.contentInsetAdjustmentBehavior = .never
+    $0.bounces = false
   }
   
   private let input = DestinationDetailViewModelInput()
@@ -99,14 +99,19 @@ extension DestinationDetailViewController {
       .receive(on: RunLoop.main)
       .sink { [weak self] state in
         switch state {
+        case .updateScrap(let isSelected):
+          self?.starButton.isSelected = isSelected
         case .appearCopyAlert:
           self?.landscapeToastView.performGhostAnimation()
         case .none:
           break
-        case .reloadData:
+        case .loadData(let isScraped):
+          self?.starButton.isSelected = isScraped
           self?.collectionView.reloadData()
         case .unexpectedError(description: let description):
           print("에러 발생: \(description)")
+        case .reloadItem(let indexPath):
+          self?.collectionView.reloadItems(at: [indexPath])
         }
       }
       .store(in: &subscriptions)
@@ -143,11 +148,11 @@ extension DestinationDetailViewController {
 // MARK: - Actions
 private extension DestinationDetailViewController {
   @objc func didTapStarButton(_ sender: UIButton) {
-    print("Star Button 클릭")
+    input.didTapStarButton.send(sender.isSelected)
   }
   
   @objc func didTapShareButton(_ sender: UIButton) {
-    print("Share Button 클릭")
+    // TODO: - shared input을 추가해야합니다.
   }
 }
 
@@ -178,28 +183,25 @@ extension DestinationDetailViewController: LayoutSupport {
 // MARK: - UICollectionViewDataSource
 extension DestinationDetailViewController: UICollectionViewDataSource {
   func numberOfSections(in collectionView: UICollectionView) -> Int {
-    return viewModel.dataSource.count
+    return viewModel.numberOfSections()
+    
   }
 
   func collectionView(
     _ collectionView: UICollectionView,
     numberOfItemsInSection section: Int
   ) -> Int {
-    switch viewModel.dataSource[section] {
-    case .main:
-      return 1
-    case .temp:
-      return 0
-    case .content(let infos):
-      return infos.count
-    }
+    return viewModel.numberOfItemsInSection(sectionIndex: section)
   }
   
   func collectionView(
     _ collectionView: UICollectionView,
     cellForItemAt indexPath: IndexPath
   ) -> UICollectionViewCell {
-    switch viewModel.dataSource[indexPath.section] {
+    
+    let detailSection = viewModel.destinationDetailSection(sectionIndex: indexPath.section)
+    
+    switch detailSection {
     case .main(let info):
       guard let titleCell = collectionView.dequeueReusableCell(
         withReuseIdentifier: DestinationDetailTitleCell.id,
@@ -207,11 +209,12 @@ extension DestinationDetailViewController: UICollectionViewDataSource {
       ) as? DestinationDetailTitleCell else { return .init() }
       
       titleCell.configure(mainInfo: info)
-      titleCell.bind(to: input.didTapCopyAddressButton)
+      titleCell.bind(
+        copyAddressButtonPublisher: input.didTapCopyAddressButton,
+        heartButtonPublisher: input.didTapHeartButton,
+        indexPath: indexPath
+      )
       return titleCell
-      
-    case .temp:
-      return UICollectionViewCell()
       
     case .content(let infos):
       guard let contentCell = collectionView.dequeueReusableCell(
@@ -234,14 +237,13 @@ extension DestinationDetailViewController: UICollectionViewDataSource {
       withReuseIdentifier: DestinationDetailHeaderView.identifier,
       for: indexPath
     ) as? DestinationDetailHeaderView else { return .init() }
-    if case .main(let mainInfo) = viewModel.dataSource[indexPath.section] {
-      if !isHeaderViewFirstDequeue {
-        headerView.configure(with: mainInfo.headerInfo.imageDatas)
-        isHeaderViewFirstDequeue.toggle()
-      }
-      return headerView
+    
+    if case .main(let mainInfo) = viewModel.destinationDetailSection(sectionIndex: indexPath.section),
+        !isHeaderViewFirstDequeue {
+      headerView.configure(with: mainInfo.headerInfo.imageDatas)
+      isHeaderViewFirstDequeue.toggle()
     }
-    return .init()
+    return headerView
   }
 }
 
@@ -254,5 +256,9 @@ extension DestinationDetailViewController: UICollectionViewDelegate {
   ) {
     guard let titleCell = cell as? DestinationDetailTitleCell else { return }
     titleCell.updateToggleButtonVisibility()
+  }
+  
+  func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    
   }
 }

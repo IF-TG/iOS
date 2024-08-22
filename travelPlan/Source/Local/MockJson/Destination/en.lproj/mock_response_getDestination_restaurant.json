@@ -16,8 +16,13 @@
                 "smallCategory": "Korean"
             },
             "zipcode": "94103",
-            "thumbnail": "restaurant_1",
-            "scraped": true
+            "thumbnail": [
+              "restaurant_1",
+              "restaurant_2",
+              "restaurant_3",
+              "restaurant_4"
+            ],
+            "scraped": false
         },
         "detail": {
             "featuredMenu": "Bibimbap",
@@ -30,7 +35,7 @@
             "seat": "100",
             "treatMenu": "Korean traditional foods"
         },
-        "liked": true,
+        "liked": false,
         "likeCount": 12
     },
     "status": "success",
