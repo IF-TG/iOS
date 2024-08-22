@@ -155,6 +155,7 @@
 		1382AB972C737A0D00827A59 /* restaurant_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 1382AB942C737A0D00827A59 /* restaurant_2.png */; };
 		1382AB982C737A0D00827A59 /* restaurant_3.png in Resources */ = {isa = PBXBuildFile; fileRef = 1382AB952C737A0D00827A59 /* restaurant_3.png */; };
 		1382AB992C737A0D00827A59 /* restaurant_4.png in Resources */ = {isa = PBXBuildFile; fileRef = 1382AB962C737A0D00827A59 /* restaurant_4.png */; };
+		1382AB9C2C76565100827A59 /* emptyImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 1382AB9B2C76565100827A59 /* emptyImage.png */; };
 		1383C81C2B97F44800830F1A /* KeychainManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1383C81B2B97F44800830F1A /* KeychainManagerTests.swift */; };
 		1383C81F2B9815B700830F1A /* KeychainKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1383C81E2B9815B700830F1A /* KeychainKey.swift */; };
 		1385F6692C3FA797003DB336 /* DestinationScrapRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1385F6682C3FA797003DB336 /* DestinationScrapRepository.swift */; };
@@ -1177,6 +1178,7 @@
 		1382AB942C737A0D00827A59 /* restaurant_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = restaurant_2.png; sourceTree = "<group>"; };
 		1382AB952C737A0D00827A59 /* restaurant_3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = restaurant_3.png; sourceTree = "<group>"; };
 		1382AB962C737A0D00827A59 /* restaurant_4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = restaurant_4.png; sourceTree = "<group>"; };
+		1382AB9B2C76565100827A59 /* emptyImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = emptyImage.png; sourceTree = "<group>"; };
 		1383C81B2B97F44800830F1A /* KeychainManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManagerTests.swift; sourceTree = "<group>"; };
 		1383C81E2B9815B700830F1A /* KeychainKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainKey.swift; sourceTree = "<group>"; };
 		1385F6682C3FA797003DB336 /* DestinationScrapRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationScrapRepository.swift; sourceTree = "<group>"; };
@@ -2409,6 +2411,15 @@
 				13813A222AAA459900AF6AEB /* SearchHistoryCollectionViewDelegate.swift */,
 			);
 			path = SearchHistory;
+			sourceTree = "<group>";
+		};
+		1382AB9A2C7655CF00827A59 /* Image */ = {
+			isa = PBXGroup;
+			children = (
+				1382AB9B2C76565100827A59 /* emptyImage.png */,
+				13BE829E2C610E0800951099 /* TempImage */,
+			);
+			path = Image;
 			sourceTree = "<group>";
 		};
 		1383C8232B98646B00830F1A /* PersistentStorages */ = {
@@ -4146,7 +4157,7 @@
 		1594F54529FD521000A58F20 /* Support */ = {
 			isa = PBXGroup;
 			children = (
-				13BE829E2C610E0800951099 /* TempImage */,
+				1382AB9A2C7655CF00827A59 /* Image */,
 				157176702A0BFA2F0015EC8C /* Fonts */,
 				13BF411C2ADBE42000F3F082 /* onboarding-video.mp4 */,
 				1594F53F29FD517F00A58F20 /* Info.plist */,
@@ -5465,6 +5476,7 @@
 				13BE82B92C61125A00951099 /* tempThumbnail7.jpg in Resources */,
 				13BE82A62C6111EE00951099 /* tempProfile3.jpg in Resources */,
 				1518BC1B2BB022D100FD1A74 /* mock_postComment_update_response.json in Resources */,
+				1382AB9C2C76565100827A59 /* emptyImage.png in Resources */,
 				13EB3D8A2BF71EAE00CA84F0 /* mock_tourAPI_introductionInfo_accommodation.json in Resources */,
 				1385F6822C4112DD003DB336 /* mock_response_getDestinationScrapList.json in Resources */,
 				13BE82E52C6130D800951099 /* restaurant_1.png in Resources */,
