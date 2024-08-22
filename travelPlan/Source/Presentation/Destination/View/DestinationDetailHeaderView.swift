@@ -25,7 +25,7 @@ final class DestinationDetailHeaderView: UICollectionReusableView {
     $0.dataSource = self
   }
   
-  private var dataSource = [Data?]()
+  private var dataSource = [Data]()
   
   private let bumperView = UIView().set {
     $0.backgroundColor = .yg.littleWhite
@@ -34,9 +34,10 @@ final class DestinationDetailHeaderView: UICollectionReusableView {
   }
   
   private let indicatorBoxView = IndicatorBoxView()
-  
-  private var willSetContentOffsetToRightEdge = false
-  private var willSetContentOffsetToLeftEdge = false
+  private var hasDisplayedInfiniteCarouselSection = false
+  /// configure 메소드에서 scrollView.scrollToItem가 먹히지 않기 때문에, dataSource가 적용된 후에
+  ///  section.visibleItemsInvalidationHandler에서 초기 scrollToItem을 적용해주기 위해 사용하는 변수
+  private var isConfigured = false
   
   // MARK: - LifeCycle
   override init(frame: CGRect) {
@@ -54,37 +55,29 @@ final class DestinationDetailHeaderView: UICollectionReusableView {
 // MARK: - Helpers
 extension DestinationDetailHeaderView {
   func configure(with imageDatas: [Data]) {
-    dataSource = imageDatas
-    
-    if dataSource.count > 1, let last = dataSource.last, let first = dataSource.first {
+    let firstPage = 1
+    if imageDatas.count > 1, let last = imageDatas.last, let first = imageDatas.first {
+      dataSource = imageDatas
       dataSource.insert(last, at: 0)
       dataSource.append(first)
-      let firstPage = 1
       indicatorBoxView.configure(currentPage: firstPage, totalPage: imageDatas.count)
-      collectionView.setContentOffset(
-        .init(x: collectionView.bounds.width, y: collectionView.contentOffset.y),
-        animated: false
-      )
-      collectionView.reloadData()
     } else if imageDatas.count == 1 { // 이미지의 개수가 1개만 있는 경우는 트릭 사용 제외
-      let firstPage = 1
+      dataSource = imageDatas
       indicatorBoxView.configure(currentPage: firstPage, totalPage: imageDatas.count)
-      collectionView.reloadData()
     } else { // 이미지가 존재하지 않는 경우
-      // empty image를 적용하기
+      let url = Bundle.main.url(forResource: "emptyImage", withExtension: "png")!
+      guard let data = try? Data(contentsOf: url) else { return }
+      
+      dataSource = [data]
+      indicatorBoxView.configure(currentPage: firstPage, totalPage: firstPage)
     }
+    isConfigured = true
+    collectionView.reloadData()
   }
 }
 
 // MARK: - Private Helpers
 extension DestinationDetailHeaderView {
-  private func shouldTrick() -> Bool {
-    if dataSource.count > 1, let _ = dataSource.last, let _ = dataSource.first {
-      return true
-    }
-    return false
-  }
-  
   private func setupStyles() {
     self.clipsToBounds = true
   }
@@ -127,30 +120,49 @@ extension DestinationDetailHeaderView {
       guard let self = self else { return }
       
       let contentSize = environment.container.contentSize
-//      let count = dataSource.count
-//      
-//      if shouldTrick() {
-//        if contentOffset.x < 0, !willSetContentOffsetToRightEdge {
-//          willSetContentOffsetToRightEdge.toggle()
-//          collectionView.setContentOffset(
-//            .init(x: contentSize.width * Double(count - 2), y: contentOffset.y),
-//            animated: false
-//          )
-//          willSetContentOffsetToRightEdge.toggle()
-//        } else if contentOffset.x > Double(count - 1) * contentSize.width, !willSetContentOffsetToLeftEdge {
-//          willSetContentOffsetToLeftEdge.toggle()
-//          collectionView.setContentOffset(
-//            .init(x: contentSize.width, y: contentOffset.y),
-//            animated: false
-//          )
-//          willSetContentOffsetToLeftEdge.toggle()
-//        }
-//      }
       
+      if !hasDisplayedInfiniteCarouselSection, isConfigured {
+        hasDisplayedInfiniteCarouselSection.toggle()
+        collectionView.scrollToItem(
+          at: IndexPath(item: 1, section: .zero),
+          at: .centeredHorizontally,
+          animated: false
+        )
+        return
+      }
+      
+      guard validateCarouselAction(contentOffset: contentOffset, contentWidth: contentSize.width) else { return }
       let currentPageIndex = Int(round(contentOffset.x / contentSize.width))
-      self.indicatorBoxView.update(currentPage: currentPageIndex + 1)
+      self.indicatorBoxView.update(currentPage: currentPageIndex)
+      scrollToItemIfMoveEdgeIndex(contentOffset: contentOffset, contentWidth: contentSize.width)
     }
     return section
+  }
+  
+  private func validateCarouselAction(contentOffset: CGPoint, contentWidth: Double) -> Bool {
+    let isFinishDeceleration = (Int(contentOffset.x) % Int(contentWidth)) == 0
+    
+    return isFinishDeceleration && dataSource.count > 1
+  }
+  
+  private func scrollToItemIfMoveEdgeIndex(contentOffset: CGPoint, contentWidth: Double) {
+    // 오른쪽 끝으로 가면 왼쪽에 존재하는 fake data로 스크롤 이동
+    if contentOffset.x <= 0 {
+      collectionView.scrollToItem(
+        at: IndexPath(item: dataSource.count-2, section: .zero),
+        at: .centeredHorizontally,
+        animated: false
+      )
+    }
+
+    // 왼쪽 끝으로 가면 오른쪽에 존재하는 fake data로 스크롤 이동
+    if contentOffset.x >= Double(dataSource.count-1) * contentWidth {
+      collectionView.scrollToItem(
+        at: IndexPath(item: 1, section: .zero),
+        at: .centeredHorizontally,
+        animated: false
+      )
+    }
   }
 }
 
