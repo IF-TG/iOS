@@ -36,7 +36,7 @@ extension JsonMockDestinationRepository: DestinationRepository {
     
     return repository.fetchDestination(destinationId: destinationId)
       .tryMap {
-        let resources = [
+        let resources: [String] = [
           "restaurant_1",
           "restaurant_2",
           "restaurant_3",
