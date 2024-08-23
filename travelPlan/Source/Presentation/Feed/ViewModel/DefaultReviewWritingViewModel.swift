@@ -1,5 +1,5 @@
 //
-//  ReviewWritingViewModel.swift
+//  DefaultReviewWritingViewModel.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 11/12/23.
