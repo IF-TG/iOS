@@ -9,11 +9,6 @@ import Foundation
 import Combine
 import Photos
 
-protocol ReviewWritingViewModel: ViewModelable
-where Input == ReviewWritingViewModelInput,
-      State == ReviewWritingViewModelState,
-      Output == AnyPublisher<State, Never> { }
-
 struct ReviewWritingViewModelInput {
   let didTapTitleTextView: PassthroughSubject<Void, Never> = .init()
   let didTapCancelButton: PassthroughSubject<Void, Never> = .init()
@@ -46,13 +41,14 @@ enum ReviewWritingViewModelState {
   case setupContents(title: String, contents: [PostContentEntity])
 }
 
-final class DefaultReviewWritingViewModel: ReviewWritingViewModel {
-  
+final class DefaultReviewWritingViewModel {
   // MARK: - Dependencies
   private let photoAuthorizationUseCase: any PhotoAuthorizationUseCase
   private let reviewWritingUseCase: any ReviewWritingUseCase
   private let loggedInOwnerUseCase: any LoggedInUserUseCase
   private let mode: ReviewWritingMode
+  
+  // MARK: - Properties
   private var reviewWritingEntity: ReviewWritingEntity?
   
   // MARK: - LifeCycle
@@ -73,8 +69,8 @@ final class DefaultReviewWritingViewModel: ReviewWritingViewModel {
   }
 }
 
-// MARK: - Helpers
-extension DefaultReviewWritingViewModel {
+// MARK: - ReviewWritingViewModelable
+extension DefaultReviewWritingViewModel: ReviewWritingViewModelable {
   func transform(_ input: Input) -> Output {
     return Publishers
       .MergeMany(
