@@ -18,6 +18,8 @@ final class PresentationAssembly: Assembly {
     searchHistoryPage(container: container)
     destinationDetailPage(container: container)
     searchMoreDetailPage(container: container)
+    reviewWritingPage(container: container)
+    photoService(container: container)
     
     // MARK: - PostDetail Page
     // MARK: - PostDetailViewModelType
@@ -324,6 +326,34 @@ private extension PresentationAssembly {
         arguments: actions, destinationInfos, headerTitle, searchSection
       )!
       return SearchMoreDetailViewController(viewModel: viewModel)
+    }
+  }
+  
+  func reviewWritingPage(container: Container) {
+    container.register(ReviewWritingViewModel.self) { (r, mode) in
+      let photoAuthorizationUseCase = r.resolve(PhotoAuthorizationUseCase.self)!
+      let reviewWritingUseCase = r.resolve(ReviewWritingUseCase.self)!
+      let loggedInUserUseCase = r.resolve(LoggedInUserUseCase.self)!
+      
+      return DefaultReviewWritingViewModel(
+        photoAuthorizationUseCase: photoAuthorizationUseCase,
+        reviewWritingUseCase: reviewWritingUseCase,
+        loggedInOwnerUseCase: loggedInUserUseCase,
+        mode: mode
+      )
+    }
+    
+    container.register(ReviewWritingViewController.self) { (r, mode) in
+      let viewModel = r.resolve(ReviewWritingViewModel.self, argument: mode)!
+      let photoService = r.resolve(PhotoService.self)!
+      
+      return ReviewWritingViewController(viewModel: viewModel, photoService: photoService)
+    }
+  }
+  
+  func photoService(container: Container) {
+    container.register(PhotoService.self) { _ in
+      return DefaultPhotoService()
     }
   }
 }
