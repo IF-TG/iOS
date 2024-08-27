@@ -22,7 +22,7 @@ final class DefaultAlbumUseCase {
 
 // MARK: - AlbumUseCase
 extension DefaultAlbumUseCase: AlbumUseCase {
-  var maxSelectedImageCount: Int {
+  var maxSelectPhotoCount: Int {
     return 20
   }
   
