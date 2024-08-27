@@ -36,6 +36,9 @@ final class FlowCoordinatorAssembly: Assembly {
     searchHistoryCoordinator(container: container)
     destinationDetailCoordinator(container: container)
     searchMoreDetailCoordinator(container: container)
+    reviewWritingCoordinator(container: container)
+    albumCoordinator(container: container)
+    albumPhotoDetailCoordinator(container: container)
     
     // TODO: - Login Flow Coordinator
     container.register(LoginCoordinator.self) { _ in
@@ -53,8 +56,6 @@ final class FlowCoordinatorAssembly: Assembly {
     container.register(NotificationCenterCoordinator.self) { (_, presenter: UINavigationController?) in
       return NotificationCenterCoordinator(presenter: presenter, dependencies: appDIContainer)
     }
-    
-    // TODO: - Album Coordinator
     
     // MARK: - Main Flow Coordinator
     container.register(MainCoordinator.self) { r in
@@ -81,8 +82,6 @@ final class FlowCoordinatorAssembly: Assembly {
     container.register(PlanCoordinator.self) { (_, presenter: UINavigationController) in
       PlanCoordinator(presenter: presenter)
     }
-    
-    // TODO: - ReviewWriting Flow Coordinator
     
     // MARK: - Feed Flow Coordinator
     container.register(FeedCoordinator.self) { (_, presenter: UINavigationController) in
@@ -137,6 +136,31 @@ private extension FlowCoordinatorAssembly {
         presenter: presenter,
         dependencies: AppDIContainer.shared,
         destinationId: destinationId
+      )
+    }
+  }
+  
+  func reviewWritingCoordinator(container: Container) {
+    container.register(ReviewWritingCoordinator.self) { (_, presenter: UINavigationController?, mode: ReviewWritingMode) in
+      return ReviewWritingCoordinator(
+        presenter: presenter,
+        dependencies: AppDIContainer.shared,
+        mode: mode
+      )
+    }
+  }
+  
+  func albumCoordinator(container: Container) {
+    container.register(AlbumCoordinator.self) { (_, presenter: UINavigationController?) in
+      return AlbumCoordinator(presenter: presenter, dependencies: AppDIContainer.shared)
+    }
+  }
+  
+  func albumPhotoDetailCoordinator(container: Container) {
+    container.register(AlbumPhotoDetailCoordinator.self) { (_, presenter) in
+      return AlbumPhotoDetailCoordinator(
+        presenter: presenter,
+        dependencies: AppDIContainer.shared
       )
     }
   }
