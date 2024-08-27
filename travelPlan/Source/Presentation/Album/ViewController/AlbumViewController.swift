@@ -20,9 +20,11 @@ final class AlbumViewController: UIViewController {
     static let scale = UIScreen.main.scale
   }
   
-  // MARK: - Properties
-  weak var coordinator: (any AlbumCoordinatorDelegate)?
+  // MARK: - Dependencies
   private let photoService: any PhotoService
+  private let viewModel: any AlbumViewModel
+  
+  // MARK: - Properties
   private let albumStackView: UIStackView = .init().set {
     $0.axis = .vertical
     $0.distribution = .fill
@@ -61,11 +63,11 @@ final class AlbumViewController: UIViewController {
   }
   
   private var subscriptions = Set<AnyCancellable>()
-  private let viewModel: any AlbumViewModelable
   private let input = AlbumViewModelInput()
+//  private var isParentPop = false
   
   // MARK: - LifeCycle
-  init(viewModel: any AlbumViewModelable, photoService: any PhotoService) {
+  init(viewModel: any AlbumViewModel, photoService: any PhotoService) {
     self.viewModel = viewModel
     self.photoService = photoService
     super.init(nibName: nil, bundle: nil)
@@ -90,6 +92,7 @@ final class AlbumViewController: UIViewController {
     super.viewWillAppear(animated)
     tabBarController?.tabBar.isHidden = true
     (tabBarController as? MainTabBarController)?.hideShadowLayer()
+    input.viewWillAppear.send()
   }
   
   override func viewWillDisappear(_ animated: Bool) {
@@ -99,6 +102,7 @@ final class AlbumViewController: UIViewController {
   }
   
   deinit {
+    print("deinit: \(Self.self)")
     PHPhotoLibrary.shared().unregisterChangeObserver(self)
   }
 }
@@ -126,7 +130,7 @@ extension AlbumViewController: UICollectionViewDataSource {
     _ collectionView: UICollectionView,
     numberOfItemsInSection section: Int
   ) -> Int {
-    viewModel.dataSource.count
+    viewModel.numberOfItemsInSection()
   }
   
   func collectionView(
@@ -144,7 +148,7 @@ extension AlbumViewController: UICollectionViewDataSource {
       width: Const.cellSize.width * Const.scale,
       height: Const.cellSize.height * Const.scale
     )
-    let photoModel = viewModel.dataSource[indexPath.item]
+    let photoModel = viewModel.photoModel(ItemIndex: indexPath.item)
     
     photoService.fetchImage(
       asset: photoModel.asset,
@@ -164,14 +168,6 @@ extension AlbumViewController: UICollectionViewDataSource {
 
 // MARK: - Private Helpers
 extension AlbumViewController {
-  private func presentLimitedLibraryPicker() {
-    if #available(iOS 14, *) {
-      coordinator?.presentLimitedLibraryPicker(controller: self)
-    } else {
-      return
-    }
-  }
-  
   private func collectionViewReloadData(isAuthLimited: Bool) {
     if isAuthLimited {
       photoAuthView.isHidden = false
@@ -220,22 +216,12 @@ extension AlbumViewController {
         switch state {
         case .none:
           break
-        case let .showDetailPhoto(photoDetailEntity):
-          self?.coordinator?.showPhotoDetail(photoDetailEntity)
         case let .reloadData(isAuthLimited):
           self?.collectionViewReloadData(isAuthLimited: isAuthLimited)
         case .reloadItem(let indexPaths):
           self?.update(indexPaths: indexPaths)
         case .activateFinishButton(let basis):
           self?.decideFinishButtonState(basis)
-        case.popViewController:
-          self?.coordinator?.finish(withAnimated: true)
-        case .deliverAssetsToParents(let selectedAssets):
-          self?.coordinator?.finish(selectedAssets: selectedAssets)
-        case .callSetting:
-          self?.coordinator?.openSettings()
-        case .presentLimitedLibraryPicker:
-          self?.presentLimitedLibraryPicker()
         }
       }
       .store(in: &subscriptions)
@@ -245,11 +231,11 @@ extension AlbumViewController {
 // MARK: - Actions
 private extension AlbumViewController {
   @objc func didTapCancelButton(_ sender: UIButton) {
-    input.didTapCancelButton.send()
+    viewModel.pop()
   }
   
   @objc func didTapFinishButton(_ sender: UIButton) {
-    input.didTapFinishButton.send()
+    viewModel.popByPassingAssets()
   }
   
   @objc func didTapTitleView() {
@@ -261,16 +247,16 @@ private extension AlbumViewController {
 extension AlbumViewController: PhotoCellDelegate {
   func didTapCell(_ cell: UICollectionViewCell, quadrant: PhotoCellQuadrant) {
     guard let indexPath = collectionView.indexPath(for: cell) else { return }
-    
     switch  quadrant {
     case .first:
       input.touchedFirstQuadrant.send(indexPath)
     case .else:
-      input.touchedElseQuadrant.send(indexPath)
+      viewModel.showDetailPhoto(at: indexPath.item)
     }
   }
 }
 
+// TODO: - Coordinator에서 작성하도록 수정해야함.
 // MARK: - UINavigationControllerDelegate
 extension AlbumViewController: UINavigationControllerDelegate {
   func navigationController(
@@ -292,11 +278,11 @@ extension AlbumViewController: UINavigationControllerDelegate {
 // MARK: - PhotoAuthorizationViewDelegate
 extension AlbumViewController: PhotoAuthorizationViewDelegate {
   func didTapSelectMorePhotosButton() {
-    input.didTapSelectMorePhotosButton.send()
+    viewModel.presentLimitedLibraryPicker()
   }
   
   func didTapAuthsettingButton() {
-    input.didTapAuthsettingButton.send()
+    viewModel.callSetting()
   }
 }
 
@@ -304,12 +290,5 @@ extension AlbumViewController: PhotoAuthorizationViewDelegate {
 extension AlbumViewController: PHPhotoLibraryChangeObserver {
   func photoLibraryDidChange(_ changeInstance: PHChange) {
     input.photoLibraryDidChange.send(changeInstance)
-  }
-}
-
-// MARK: - Helpers
-extension AlbumViewController {
-  func popAlbumPhotoDetailViewController() {
-    input.popAlbumPhotoDetailViewController.send()
   }
 }
