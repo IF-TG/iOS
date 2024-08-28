@@ -8,26 +8,37 @@
 import UIKit
 import SHCoordinator
 import PhotosUI
+import Combine
 
-protocol AlbumCoordinatorDelegate: AnyObject, FlowCoordinatorDelegate {
-  func openSettings()
-  func finish(selectedAssets: [PHAsset])
-  func showPhotoDetail(_ photoDetailModel: PhotoDetailModel)
+protocol AlbumCoordinatorDependencies {
+  func makeAlbumViewController(
+    parentPopPublisher: AnyPublisher<Void, Never>,
+    actions: AlbumViewModelActions
+  ) -> AlbumViewController
   
-  @available(iOS 14, *)
-  func presentLimitedLibraryPicker(controller: UIViewController)
+  func makeAlbumPhotoDetailCoordinator(
+    presenter: UINavigationController?
+  ) -> AlbumPhotoDetailCoordinator
 }
 
 final class AlbumCoordinator: FlowCoordinator {
+  // MARK: - Dependencies
+  private let dependencies: any AlbumCoordinatorDependencies
+  
   // MARK: - Properties
   var parent: FlowCoordinator?
   var child: [FlowCoordinator] = []
   var presenter: UINavigationController?
-  private var viewController: AlbumViewController?
+  private weak var viewController: UIViewController?
+  private let parentPopSubject = PassthroughSubject<Void, Never>()
+  private var parentPopPublisher: AnyPublisher<Void, Never> {
+    parentPopSubject.eraseToAnyPublisher()
+  }
   
   // MARK: - LifeCycle
-  init(presenter: UINavigationController?) {
+  init(presenter: UINavigationController?, dependencies: any AlbumCoordinatorDependencies) {
     self.presenter = presenter
+    self.dependencies = dependencies
   }
   
   deinit {
@@ -36,39 +47,48 @@ final class AlbumCoordinator: FlowCoordinator {
   
   // MARK: - Helpers
   func start() {
-    let albumUsecase = DefaultAlbumUseCase()
-    let photoAuthUseCase = DefaultPhotoAuthorizationUseCase()
-    let albumPhotoMaxCountUseCase = DefaultAlbumPhotoMaxCountUseCase()
-    let viewModel = DefaultAlbumViewModel(
-      albumUseCase: albumUsecase,
-      photoAuthUseCase: photoAuthUseCase,
-      albumPhotoMaxCountUseCase: albumPhotoMaxCountUseCase
+    let actions = AlbumViewModelActions(
+      showDetailPhoto: { [weak self] detailModel, maxSelectPhotoCount in
+        self?.showPhotoDetail(photoDetailModel: detailModel, maxSelectPhotoCount: maxSelectPhotoCount)
+      },
+      pop: { [weak self] in
+        self?.finish(withAnimated: true)
+      },
+      popByPassingAssets: { [weak self] selectedAssets in
+        self?.finish(selectedAssets: selectedAssets)
+      },
+      callSetting: { [weak self] in
+        self?.openSettings()
+      },
+      presentLimitedLibraryPicker: { [weak self] in
+        if #available(iOS 14, *) {
+          self?.presentLimitedLibraryPicker()
+        }
+      }
     )
-    let photoService = DefaultPhotoService()
-    let albumViewController = AlbumViewController(viewModel: viewModel, photoService: photoService)
-    viewController = albumViewController
-    presenter?.delegate = albumViewController
-    albumViewController.coordinator = self
     
+    let albumViewController = dependencies.makeAlbumViewController(
+      parentPopPublisher: self.parentPopPublisher,
+      actions: actions
+    )
+    self.viewController = albumViewController
     presenter?.pushViewController(albumViewController, animated: true)
-  }
-  
-  func popAlbumPhotoDetailViewController() {
-    viewController?.popAlbumPhotoDetailViewController()
   }
 }
 
-// MARK: - AlbumCoordinatorDelegate
-extension AlbumCoordinator: AlbumCoordinatorDelegate {
-  func showPhotoDetail(_ photoDetailModel: PhotoDetailModel) {
-    let childCoordinator = AlbumPhotoDetailCoordinator(
-      presenter: presenter,
-      photoDetailModel: photoDetailModel
+// MARK: - Private Helpers
+extension AlbumCoordinator {
+  private func showPhotoDetail(photoDetailModel: PhotoDetailModel, maxSelectPhotoCount: Int) {
+    let childCoordinator = dependencies.makeAlbumPhotoDetailCoordinator(presenter: presenter)
+    child.append(childCoordinator)
+    childCoordinator.parent = self
+    childCoordinator.start(
+      photoDetailModel: photoDetailModel,
+      maxSelectPhotoCount: maxSelectPhotoCount
     )
-    addChild(with: childCoordinator)
   }
   
-  func openSettings() {
+  private func openSettings() {
     guard
       let url = URL(string: UIApplication.openSettingsURLString),
       UIApplication.shared.canOpenURL(url)
@@ -81,14 +101,22 @@ extension AlbumCoordinator: AlbumCoordinatorDelegate {
   }
   
   @available(iOS 14, *)
-  func presentLimitedLibraryPicker(controller: UIViewController) {
-    PHPhotoLibrary.shared().presentLimitedLibraryPicker(from: controller)
+  private func presentLimitedLibraryPicker() {
+    guard let viewController = self.viewController else { return }
+    PHPhotoLibrary.shared().presentLimitedLibraryPicker(from: viewController)
   }
   
-  func finish(selectedAssets: [PHAsset]) {
+  private func finish(selectedAssets: [PHAsset]) {
     guard let parent = parent as? ReviewWritingCoordinator else { return }
     
     parent.getSelectedAssets(selectedAssets)
     finish(withAnimated: true)
+  }
+}
+
+// MARK: - AlbumCoordinatorDelegate
+extension AlbumCoordinator: AlbumCoordinatorDelegate {
+  func reloadDataByAlbumPhotoDetail() {
+    parentPopSubject.send()
   }
 }
