@@ -11,7 +11,7 @@ import Combine
 final class DefaultReviewWritingRepository {
   // MARK: - Dependencies
   private let service: Sessionable
-  private let backgroundQueue: DispatchQueue
+  private let backgroundQueue: DispatchQueue 
   
   // MARK: - Properties
   private var subscriptions = Set<AnyCancellable?>()
