@@ -8,6 +8,8 @@
 import UIKit
 import SHCoordinator
 import Swinject
+import Combine
+import Photos
 
 final class PresentationAssembly: Assembly {
   // swiftlint:disable:next function_body_length
@@ -18,6 +20,10 @@ final class PresentationAssembly: Assembly {
     searchHistoryPage(container: container)
     destinationDetailPage(container: container)
     searchMoreDetailPage(container: container)
+    reviewWritingPage(container: container)
+    photoService(container: container)
+    albumPhotoDetailPage(container: container)
+    albumPage(container: container)
     
     // MARK: - PostDetail Page
     // MARK: - PostDetailViewModelType
@@ -159,8 +165,6 @@ final class PresentationAssembly: Assembly {
         notificationViewModel: defaultNotificationViewModel)
     }
     
-    // TODO: - Album Page
-    
     // TODO: - Main Page
     container.register(MainTabBarController.self) { _ in
       MainTabBarController()
@@ -212,7 +216,6 @@ final class PresentationAssembly: Assembly {
     
     // TODO: - Plan Page
     
-    // TODO: - ReviewWriting Page
   }
 }
 
@@ -324,6 +327,73 @@ private extension PresentationAssembly {
         arguments: actions, destinationInfos, headerTitle, searchSection
       )!
       return SearchMoreDetailViewController(viewModel: viewModel)
+    }
+  }
+  
+  func reviewWritingPage(container: Container) {
+    container.register((any ReviewWritingViewModel).self) { (r, mode, actions, selectedAssetsPublisher) in
+      let reviewWritingUseCase = r.resolve(ReviewWritingUseCase.self)!
+      let loggedInUserUseCase = r.resolve(LoggedInUserUseCase.self)!
+      
+      return DefaultReviewWritingViewModel(
+        reviewWritingUseCase: reviewWritingUseCase,
+        loggedInOwnerUseCase: loggedInUserUseCase,
+        mode: mode,
+        actions: actions,
+        selectedAssetsPublisher: selectedAssetsPublisher
+      )
+    }
+    
+    container.register(ReviewWritingViewController.self) { (r, mode: ReviewWritingMode, actions: ReviewWritingViewModelActions, selectedAssetsPublisher: AnyPublisher<[PHAsset], Never>) in
+      let viewModel = r.resolve(
+        (any ReviewWritingViewModel).self,
+        arguments: mode, actions, selectedAssetsPublisher
+      )!
+      let photoService = r.resolve(PhotoService.self)!
+      
+      return ReviewWritingViewController(viewModel: viewModel, photoService: photoService)
+    }
+  }
+  
+  func photoService(container: Container) {
+    container.register(PhotoService.self) { _ in
+      return DefaultPhotoService()
+    }
+  }
+  
+  func albumPhotoDetailPage(container: Container) {
+    container.register((any AlbumPhotoDetailViewModel).self) { (_, photoDetailModel, maxSelectPhotoCount, actions) in
+      return DefaultAlbumPhotoDetailViewModel(
+        photoDetailModel: photoDetailModel,
+        maxSelectPhotoCount: maxSelectPhotoCount,
+        actions: actions
+      )
+    }
+    
+    container.register(AlbumPhotoDetailViewController.self) { (r, photoDetailModel: PhotoDetailModel, albumPhotoDetailPage: Int, actions: AlbumPhotoDetailViewModelActions) in
+      let viewModel = r.resolve(
+        (any AlbumPhotoDetailViewModel).self,
+        arguments: photoDetailModel, albumPhotoDetailPage, actions
+      )!
+      let photoService = r.resolve(PhotoService.self)!
+      return AlbumPhotoDetailViewController(viewModel: viewModel, photoService: photoService)
+    }
+  }
+  
+  func albumPage(container: Container) {
+    container.register((any AlbumViewModel).self) { (r, parentPopPublisher: AnyPublisher<Void, Never>, actions: AlbumViewModelActions) in
+      let albumUseCase = r.resolve(AlbumUseCase.self)!
+      return DefaultAlbumViewModel(
+        albumUseCase: albumUseCase,
+        parentPopPublisher: parentPopPublisher,
+        actions: actions
+      )
+    }
+    
+    container.register(AlbumViewController.self) { (r, parentPopPublisher: AnyPublisher<Void, Never>, actions: AlbumViewModelActions) in
+      let viewModel = r.resolve((any AlbumViewModel).self, arguments: parentPopPublisher, actions)!
+      let photoService = r.resolve(PhotoService.self)!
+      return AlbumViewController(viewModel: viewModel, photoService: photoService)
     }
   }
 }

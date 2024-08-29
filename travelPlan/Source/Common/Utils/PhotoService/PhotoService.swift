@@ -15,4 +15,12 @@ protocol PhotoService {
                   contentMode: PHImageContentMode,
                   resizeModeOption: PHImageRequestOptionsResizeMode,
                   completion: @escaping (UIImage) -> Void)
+  
+  func fetchImageData(
+    asset: PHAsset,
+    size: CGSize,
+    contentMode: PHImageContentMode,
+    resizeModeOption: PHImageRequestOptionsResizeMode,
+    completion: @escaping (Data?) -> Void
+  )
 }

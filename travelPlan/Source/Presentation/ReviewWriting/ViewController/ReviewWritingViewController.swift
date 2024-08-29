@@ -20,8 +20,6 @@ final class ReviewWritingViewController: UIViewController {
   }
   
   // MARK: - Properties
-  weak var coordinator: (ReviewWritingCoordinatorDelegate & ReviewWritingPostReceivable)?
-  
   private lazy var titleView = NavigationTitleWithClickView(title: "테마 설정", layoutType: .rightImage).set {
     self.addGestureRecognizer(from: $0, action: #selector(didTapTitleView))
   }
@@ -118,60 +116,25 @@ extension ReviewWritingViewController {
       .receive(on: RunLoop.main)
       .sink { [weak self] state in
         switch state {
+        case .configureImage(let sortedDatas):
+          for data in sortedDatas {
+            self?.contentView.addImageView(imageData: data, shouldScrollToLastView: true)
+          }
         case .none:
           break
-        case .popViewController:
-          self?.coordinator?.finish(withAnimated: true)
-        case .presentAlbumViewController:
-          self?.coordinator?.showPhotoViewController()
-        case .presentPlan:
-          print("플랜화면 띄우기")
-        case .keyboardDown:
-          self?.view.endEditing(true)
         case .manageTextViewDisplay:
           self?.contentView.manageContentOffsetYByLastView()
-        case .presentThemeSetting:
-          self?.coordinator?.showCategoryBottomSheet()
-        case .alertAuthRequest:
-          // TODO: - Alert화면 띄우기
           break
         case let .setupContents(title, postContents):
           self?.contentView.setupContents(.init(title: title, contents: postContents))
-        case .popViewControllerWith(let post):
-          self?.coordinator?.receive(post: post)
         case .unexpectedError(description: let description):
           print("에러가 발생했습니다. error: \(description)")
+        case .savedReviewWritingSuccessfully:
+          self?.viewModel.pop()
+        case .savedReviewWritingEditSuccessfully(post: let post):
+          self?.viewModel.pop(with: post)
         }
       }
-      .store(in: &subscriptions)
-    
-    coordinator?
-      .selectedAssetsPublisher
-      .sink(receiveValue: { [weak self] assets in
-        let group = DispatchGroup()
-        var images: [(index: Int, UIImage)] = []
-        
-        for (index, asset) in assets.enumerated() {
-          group.enter()
-          self?.photoService.fetchImage(
-            asset: asset,
-            size: PHImageManagerMaximumSize,
-            contentMode: .aspectFill,
-            resizeModeOption: .none
-          ) { image in
-            images.append((index: index, image))
-            group.leave()
-          }
-        }
-        
-        group.notify(queue: .main) {
-          let sortedImages = images.sorted { $0.0 < $1.0 }.map { $0.1 }
-          
-          for image in sortedImages {
-            self?.contentView.addImageView(image: image, shouldScrollToLastView: true)
-          }
-        }
-      })
       .store(in: &subscriptions)
   }
 }
@@ -287,12 +250,7 @@ extension ReviewWritingViewController: LayoutSupport {
 private extension ReviewWritingViewController {
   @objc func didTapCancelButton() {
     let keyboardIsOnScreen = cancelButton.image(for: .normal) != nil
-    
-    if keyboardIsOnScreen {
-      input.didTapKeyboardDownButton.send()
-    } else {
-      input.didTapCancelButton.send()
-    }
+    keyboardIsOnScreen ? _=view.endEditing(true) : viewModel.pop()
   }
   
   @objc func didTapFinishButton() {
@@ -301,7 +259,7 @@ private extension ReviewWritingViewController {
   }
   
   @objc func didTapTitleView() {
-    input.didTapNavigationTitleView.send()
+    viewModel.showCategoryBottomSheet()
   }
   
   @objc func didTapScrollView() {
@@ -309,18 +267,18 @@ private extension ReviewWritingViewController {
   }
   
   @objc func didTapView() {
-    input.didTapView.send()
+    view.endEditing(true)
   }
 }
 
 // MARK: - ReviewWritingBottomViewDelegate
 extension ReviewWritingViewController: ReviewWritingBottomViewDelegate {
   func didTapPlanView(_ view: UIView) {
-    input.didTapPlanView.send()
+    viewModel.presentPlan()
   }
   
   func didTapAlbumButton(_ button: UIButton) {
-    input.didTapAlbumButton.send()
+    viewModel.didTapAlbumButton()
   }
 }
 

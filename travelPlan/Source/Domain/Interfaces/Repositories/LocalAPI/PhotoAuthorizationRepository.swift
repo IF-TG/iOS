@@ -1,5 +1,5 @@
 //
-//  DefaultPhotoAuthorizationUseCase.swift
+//  PhotoAuthorizationRepository.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 3/30/24.
@@ -9,13 +9,13 @@ import Foundation
 import Photos
 import Combine
 
-protocol PhotoAuthorizationUseCase {
+protocol PhotoAuthorizationRepository {
   var authorizationStatus: PHAuthorizationStatus { get }
   
   func requestAuthorization() -> AnyPublisher<PHAuthorizationStatus, Never>
 }
 
-extension PhotoAuthorizationUseCase {
+extension PhotoAuthorizationRepository {
   var authorizationStatus: PHAuthorizationStatus {
     if #available(iOS 14, *) {
       return PHPhotoLibrary.authorizationStatus(for: .readWrite)

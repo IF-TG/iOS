@@ -9,46 +9,55 @@ import SHCoordinator
 import UIKit
 import Photos
 
-protocol AlbumPhotoDetailCoordinatorDelegate: FlowCoordinatorDelegate {
-  func popViewController()
+protocol AlbumPhotoDetailCoordinatorDependencies {
+  func makeAlbumPhotoDetailViewController(
+    photoDetailModel: PhotoDetailModel,
+    maxSelectPhotoCount: Int,
+    actions: AlbumPhotoDetailViewModelActions
+  ) -> AlbumPhotoDetailViewController
 }
 
 final class AlbumPhotoDetailCoordinator: FlowCoordinator {
+  // MARK: - Dependencies
+  private let dependencies: any AlbumPhotoDetailCoordinatorDependencies
   
   // MARK: - Properties
   var parent: FlowCoordinator?
   var child: [FlowCoordinator] = []
   var presenter: UINavigationController?
-  private let photoDetailModel: PhotoDetailModel
   
   // MARK: - LifeCycle
-  init(presenter: UINavigationController?, photoDetailModel: PhotoDetailModel) {
+  init(
+    presenter: UINavigationController?,
+    dependencies: any AlbumPhotoDetailCoordinatorDependencies
+  ) {
     self.presenter = presenter
-    self.photoDetailModel = photoDetailModel
+    self.dependencies = dependencies
   }
   
-  func start() {
-    let albumPhotoMaxCountUseCase = DefaultAlbumPhotoMaxCountUseCase()
-    let albumPhotoDetailViewModel = DefaultAlbumPhotoDetailViewModel(
+  // MARK: - Start
+  func start(photoDetailModel: PhotoDetailModel, maxSelectPhotoCount: Int) {
+    let actions = AlbumPhotoDetailViewModelActions(pop: { [weak self] in
+      self?.pop()
+    })
+    
+    let viewController = dependencies.makeAlbumPhotoDetailViewController(
       photoDetailModel: photoDetailModel,
-      albumPhotoMaxCountUseCase: albumPhotoMaxCountUseCase
+      maxSelectPhotoCount: maxSelectPhotoCount,
+      actions: actions
     )
-    let photoService = DefaultPhotoService()
-    let albumPhotoDetailViewController = AlbumPhotoDetailViewController(
-      viewModel: albumPhotoDetailViewModel,
-      photoService: photoService
-    )
-    albumPhotoDetailViewController.coordinator = self
-    presenter?.pushViewController(albumPhotoDetailViewController, animated: true)
+    presenter?.pushViewController(viewController, animated: true)
   }
+  
+  func start() { }
 }
 
-// MARK: - AlbumPhotoDetailCoordinatorDelegate
-extension AlbumPhotoDetailCoordinator: AlbumPhotoDetailCoordinatorDelegate {
-  func popViewController() {
-    guard let parent = parent as? AlbumCoordinator else { return }
+// MARK: - Private Helpers
+extension AlbumPhotoDetailCoordinator {
+  private func pop() {
+    guard let parent = parent as? AlbumCoordinatorDelegate else { return }
     
-    parent.popAlbumPhotoDetailViewController()
+    parent.reloadDataByAlbumPhotoDetail()
     self.finish(withAnimated: true)
   }
 }

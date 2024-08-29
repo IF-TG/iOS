@@ -1,5 +1,5 @@
 //
-//  DefaultPhotoAuthorizationUseCase.swift
+//  DefaultPhotoAuthorizationRepository.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 3/27/24.
@@ -9,7 +9,7 @@ import Foundation
 import Combine
 import Photos
 
-final class DefaultPhotoAuthorizationUseCase: PhotoAuthorizationUseCase {
+final class DefaultPhotoAuthorizationRepository: PhotoAuthorizationRepository {
   func requestAuthorization() -> AnyPublisher<PHAuthorizationStatus, Never> {
     return Future { promise in
       if #available(iOS 14, *) {

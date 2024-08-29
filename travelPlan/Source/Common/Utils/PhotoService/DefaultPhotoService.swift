@@ -37,4 +37,26 @@ extension DefaultPhotoService: PhotoService {
       completion(image)
     }
   }
+  
+  func fetchImageData(
+    asset: PHAsset,
+    size: CGSize,
+    contentMode: PHImageContentMode,
+    resizeModeOption: PHImageRequestOptionsResizeMode,
+    completion: @escaping (Data?) -> Void
+  ) {
+    
+    let options = PHImageRequestOptions().set {
+      $0.deliveryMode = .highQualityFormat
+      $0.resizeMode = resizeModeOption
+      $0.isSynchronous = false
+    }
+    
+    imageManager.requestImageDataAndOrientation(
+      for: asset,
+      options: options
+    ) { (data, _, _, _) in
+      completion(data)
+    }
+  }
 }

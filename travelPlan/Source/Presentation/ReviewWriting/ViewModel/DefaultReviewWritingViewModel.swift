@@ -1,5 +1,5 @@
 //
-//  ReviewWritingViewModel.swift
+//  DefaultReviewWritingViewModel.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 11/12/23.
@@ -9,20 +9,9 @@ import Foundation
 import Combine
 import Photos
 
-protocol ReviewWritingViewModel: ViewModelable
-where Input == ReviewWritingViewModelInput,
-      State == ReviewWritingViewModelState,
-      Output == AnyPublisher<State, Never> { }
-
 struct ReviewWritingViewModelInput {
   let didTapTitleTextView: PassthroughSubject<Void, Never> = .init()
-  let didTapCancelButton: PassthroughSubject<Void, Never> = .init()
-  let didTapKeyboardDownButton: PassthroughSubject<Void, Never> = .init()
   let didTapFinishButton: PassthroughSubject<([PostContentEntity], String), Never> = .init()
-  let didTapAlbumButton: PassthroughSubject<Void, Never> = .init()
-  let didTapPlanView: PassthroughSubject<Void, Never> = .init()
-  let didTapNavigationTitleView: PassthroughSubject<Void, Never> = .init()
-  let didTapView: PassthroughSubject<Void, Never> = .init()
   let didTapScrollView: PassthroughSubject<Void, Never> = .init()
   let viewDidLoad: PassthroughSubject<Void, Never> = .init()
 }
@@ -32,40 +21,51 @@ enum ReviewWritingMode {
   case edit(ReviewWritingEntity)
 }
 
+struct ReviewWritingViewModelActions {
+  let showAlbum: () -> Void
+  let showCategoryBottomSheet: () -> Void
+  let pop: () -> Void
+  let popWith: (Post?) -> Void
+  let presentPlan: () -> Void
+  let alertAuthRequest: () -> Void
+}
+
 enum ReviewWritingViewModelState {
   case unexpectedError(description: String)
-  case popViewControllerWith(Post?)
-  case popViewController
-  case presentAlbumViewController
-  case presentPlan
-  case keyboardDown
+  case savedReviewWritingSuccessfully
+  case savedReviewWritingEditSuccessfully(post: Post?)
+  case configureImage(sortedDatas: [Data?])
   case manageTextViewDisplay
-  case presentThemeSetting
   case none
-  case alertAuthRequest
   case setupContents(title: String, contents: [PostContentEntity])
 }
 
-final class DefaultReviewWritingViewModel: ReviewWritingViewModel {
-  
+final class DefaultReviewWritingViewModel {
   // MARK: - Dependencies
-  private let photoAuthorizationUseCase: any PhotoAuthorizationUseCase
   private let reviewWritingUseCase: any ReviewWritingUseCase
   private let loggedInOwnerUseCase: any LoggedInUserUseCase
   private let mode: ReviewWritingMode
+  private let actions: ReviewWritingViewModelActions
+  
+  private let selectedAssetsPublisher: AnyPublisher<[PHAsset], Never>
+  
+  // MARK: - Properties
   private var reviewWritingEntity: ReviewWritingEntity?
+  private var subscriptions = Set<AnyCancellable>()
   
   // MARK: - LifeCycle
   init(
-    photoAuthorizationUseCase: any PhotoAuthorizationUseCase,
     reviewWritingUseCase: any ReviewWritingUseCase,
     loggedInOwnerUseCase: any LoggedInUserUseCase,
-    mode: ReviewWritingMode
+    mode: ReviewWritingMode,
+    actions: ReviewWritingViewModelActions,
+    selectedAssetsPublisher: AnyPublisher<[PHAsset], Never>
   ) {
-    self.photoAuthorizationUseCase = photoAuthorizationUseCase
     self.reviewWritingUseCase = reviewWritingUseCase
     self.loggedInOwnerUseCase = loggedInOwnerUseCase
     self.mode = mode
+    self.actions = actions
+    self.selectedAssetsPublisher = selectedAssetsPublisher
   }
   
   deinit {
@@ -73,20 +73,15 @@ final class DefaultReviewWritingViewModel: ReviewWritingViewModel {
   }
 }
 
-// MARK: - Helpers
-extension DefaultReviewWritingViewModel {
+// MARK: - ReviewWritingViewModelable
+extension DefaultReviewWritingViewModel: ReviewWritingViewModelable {
   func transform(_ input: Input) -> Output {
     return Publishers
       .MergeMany(
         viewDidLoadStream(input),
-        didTapCancelButtonStream(input),
-        didTapKeyboardDownButtonStream(input),
-        didTapViewStream(input),
-        didTapPlanViewStream(input),
         didTapScrollViewStream(input),
-        didTapNavigationTextViewStream(input),
         didTapFinishButtonStream(input),
-        didTapAlbumButtonStream(input)
+        selectedAssetsStream()
       )
       .eraseToAnyPublisher()
   }
@@ -94,6 +89,35 @@ extension DefaultReviewWritingViewModel {
 
 // MARK: - Private Helpers
 extension DefaultReviewWritingViewModel {
+  private func selectedAssetsStream() -> Output {
+    selectedAssetsPublisher.flatMap { assets in
+      let group = DispatchGroup()
+      var datas = [(index: Int, data: Data?)]()
+      
+      for (index, asset) in assets.enumerated() {
+        group.enter()
+        let photoService = DefaultPhotoService()
+        photoService.fetchImageData(
+          asset: asset,
+          size: PHImageManagerMaximumSize,
+          contentMode: .aspectFill,
+          resizeModeOption: .none) { data in
+            datas.append((index: index, data: data))
+            group.leave()
+          }
+      }
+      
+      return Future<ReviewWritingViewModelState, Never> { promise in
+        group.notify(queue: .main) {
+          let sortedDatas = datas.sorted { $0.0 < $1.0 }.map { $0.1 }
+          promise(.success(State.configureImage(sortedDatas: sortedDatas)))
+        }
+      }
+      .eraseToAnyPublisher()
+    }
+    .eraseToAnyPublisher()
+  }
+  
   private func viewDidLoadStream(_ input: Input) -> Output {
     return input.viewDidLoad
       .map { [weak self] in
@@ -106,62 +130,9 @@ extension DefaultReviewWritingViewModel {
       .eraseToAnyPublisher()
   }
   
-  private func didTapCancelButtonStream(_ input: Input) -> Output {
-    return input.didTapCancelButton
-      .map { State.popViewController }
-      .eraseToAnyPublisher()
-  }
-  
-  private func didTapKeyboardDownButtonStream(_ input: Input) -> Output {
-    return input.didTapKeyboardDownButton
-      .map { State.keyboardDown }
-      .eraseToAnyPublisher()
-  }
-  
-  private func didTapViewStream(_ input: Input) -> Output {
-    return input.didTapView
-      .map { State.keyboardDown }
-      .eraseToAnyPublisher()
-  }
-  
-  private func didTapPlanViewStream(_ input: Input) -> Output {
-    return input.didTapPlanView
-      .map { State.presentPlan }
-      .eraseToAnyPublisher()
-  }
-  
   private func didTapScrollViewStream(_ input: Input) -> Output {
     return input.didTapScrollView
       .map { State.manageTextViewDisplay }
-      .eraseToAnyPublisher()
-  }
-  
-  private func didTapNavigationTextViewStream(_ input: Input) -> Output {
-    return input.didTapNavigationTitleView
-      .map { State.presentThemeSetting }
-      .eraseToAnyPublisher()
-  }
-  
-  private func didTapAlbumButtonStream(_ input: Input) -> Output {
-    return input.didTapAlbumButton
-      .flatMap { [weak self] in
-        guard let self else { return Just(State.none).eraseToAnyPublisher() }
-        
-        return self.photoAuthorizationUseCase.requestAuthorization()
-          .receive(on: RunLoop.main)
-          .map { status in
-            switch status {
-            case .authorized, .limited:
-              return State.presentAlbumViewController
-            case .denied, .restricted, .notDetermined:
-              return State.alertAuthRequest
-            @unknown default:
-              print("DEBUG: Apple API에서 새로운 타입을 추가했기때문에 새 타입에 대한 대응을 구현해야합니다.")
-              return State.none
-            }
-          }
-          .eraseToAnyPublisher()
-      }
       .eraseToAnyPublisher()
   }
   
@@ -195,7 +166,7 @@ extension DefaultReviewWritingViewModel {
           )
           return reviewWritingUseCase.savePost(entity: tempThemeEntity)
             .filter { $0 }
-            .map { _ in State.popViewController }
+            .map { _ in State.savedReviewWritingSuccessfully }
             .catch { Just(State.unexpectedError(description: $0.localizedDescription)).eraseToAnyPublisher() }
             .eraseToAnyPublisher()
         case .edit:
@@ -205,9 +176,9 @@ extension DefaultReviewWritingViewModel {
           return reviewWritingUseCase.updatePost(requestValue: .init(entity: entity, postId: entity.postId))
             .map { post -> State in
               if let post {
-                return State.popViewControllerWith(post)
+                return State.savedReviewWritingEditSuccessfully(post: post)
               } else {
-                return State.popViewControllerWith(nil)
+                return State.savedReviewWritingEditSuccessfully(post: nil)
               }
             }
             .catch { Just(State.unexpectedError(description: $0.localizedDescription)).eraseToAnyPublisher() }
@@ -215,5 +186,40 @@ extension DefaultReviewWritingViewModel {
         }
       }
       .eraseToAnyPublisher()
+  }
+}
+
+// MARK: - ReviewWritingViewModelPageDelegate
+extension DefaultReviewWritingViewModel: ReviewWritingViewModelPageDelegate {
+  func pop() {
+    actions.pop()
+  }
+  
+  func didTapAlbumButton() {
+    reviewWritingUseCase.requestAuthorization()
+      .receive(on: DispatchQueue.main)
+      .sink { [weak self] (status: PHAuthorizationStatus) in
+        switch status {
+        case .authorized, .limited:
+          self?.actions.showAlbum()
+        case .denied, .restricted, .notDetermined:
+          self?.actions.alertAuthRequest()
+        @unknown default:
+          print("DEBUG: Apple API에서 새로운 타입을 추가했기때문에 새 타입에 대한 대응을 구현해야합니다.")
+        }
+      }
+      .store(in: &subscriptions)
+  }
+  
+  func pop(with post: Post?) {
+    actions.popWith(post)
+  }
+  
+  func presentPlan() {
+    actions.presentPlan()
+  }
+  
+  func showCategoryBottomSheet() {
+    actions.showCategoryBottomSheet()
   }
 }

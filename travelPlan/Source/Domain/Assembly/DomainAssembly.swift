@@ -23,10 +23,11 @@ final class DomainAssembly: Swinject.Assembly {
     destinationDetailUseCase(container: container)
     destinationRecommendUseCase(container: container)
     settingRelatedUseCases(container: container)
+    loggedInUserUseCase(container: container)
+    reviewWritingUseCase(container: container)
+    albumUseCase(container: container)
     
     // TODO: - Tour Use Case
-    
-    // TODO: - Album Use Case
     
     // TODO: - FavoriteDirectory Use Case
     
@@ -327,6 +328,31 @@ private extension DomainAssembly {
         scrapRepository: r.resolve(DestinationScrapRepository.self)!
       )
 #endif
+    }
+  }
+  
+  func loggedInUserUseCase(container: Container) {
+    container.register(LoggedInUserUseCase.self) { r in
+      let loggedInUserRepository = r.resolve(LoggedInUserRepository.self)!
+      return DefaultLoggedInUserUseCase(loggedInUserRepository: loggedInUserRepository)
+    }
+  }
+  
+  func reviewWritingUseCase(container: Container) {
+    container.register(ReviewWritingUseCase.self) { r in
+      let reviewWritingRepository = r.resolve(ReviewWritingRepository.self)!
+      let photoAuthRepository = r.resolve(PhotoAuthorizationRepository.self)!
+      
+      return DefaultReviewWritingUseCase(
+        reviewWritingRepository: reviewWritingRepository,
+        photoAuthRepository: photoAuthRepository
+      )
+    }
+  }
+  
+  func albumUseCase(container: Container) {
+    container.register(AlbumUseCase.self) { _ in
+      return DefaultAlbumUseCase()
     }
   }
 }
