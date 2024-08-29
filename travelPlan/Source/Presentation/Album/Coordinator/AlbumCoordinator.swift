@@ -31,9 +31,6 @@ final class AlbumCoordinator: FlowCoordinator {
   var presenter: UINavigationController?
   private weak var viewController: UIViewController?
   private let parentPopSubject = PassthroughSubject<Void, Never>()
-  private var parentPopPublisher: AnyPublisher<Void, Never> {
-    parentPopSubject.eraseToAnyPublisher()
-  }
   
   // MARK: - LifeCycle
   init(presenter: UINavigationController?, dependencies: any AlbumCoordinatorDependencies) {
@@ -68,7 +65,7 @@ final class AlbumCoordinator: FlowCoordinator {
     )
     
     let albumViewController = dependencies.makeAlbumViewController(
-      parentPopPublisher: self.parentPopPublisher,
+      parentPopPublisher: self.parentPopSubject.eraseToAnyPublisher(),
       actions: actions
     )
     self.viewController = albumViewController
