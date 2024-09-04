@@ -81,8 +81,6 @@ final class SpringServerRepositoryAssembly: Assembly {
       return DefaultPostNestedCommentRepository(service: defaultSession)
     }
     
-    // TODO: - ReviewWriting
-    
     // MARK: - whatsNewNotification
     container.register(WhatsNewNotificationRepository.self) { _ in
       return DefaultWhatsNewNotificationRepository(service: defaultSession)
