@@ -19,13 +19,11 @@
 - 컨벤션 지키기
 - PullRequest할 때, 자신이 구현한 기능 자세히 소개 및 새롭게 알게된 개념 소개 및 참고했던 포스트 링크 남기기
 - 중복 코드를 줄이기. 객체와의 의존성은 줄이고 결합도는 높이는 객체 설계 및 구현하기
-- etc...
 
 ## 개발 환경
 - Minimum deployment target: **iOS 13.0**
 - MVVM + Clean architecture
 - Coordinator pattern
-- etc...
 
 ## 사용 기술 및 라이브러리
 ### 1st party
@@ -56,11 +54,8 @@
 ![image](https://github.com/user-attachments/assets/385d1aca-914c-4d78-b42f-ef6cead6fa76)
 
 - Clean Architecture
-> 선정 이유 pros, cons 
 - Input/Output binding ( in MVVM )
-> 선정 이유
 - Coordinator
-> 선정 이유 pros, cons 
 
 ## System Flow
 
@@ -71,6 +66,7 @@
 > 죄송합니다.
 > 
 > Application 각 flow별 동작 gif는 크롬 브라우저에서 원활하게 동작됩니다. (사파리에서는 gif가 동작되지 않는 현상을 발견했습니다😭.)
+> GIF가 많기 때문에 일부 로딩 시간이 있습니다.
 
 ### [ 로그인 화면 ]
 
@@ -78,15 +74,18 @@
 | :-: | :-: | :-: | :-: |
 | `로그인 화면` | `구글 로그인 연동` | `애플 로그인 연동` | `없을시 제거` |
 
-### [ 피드 여행 후기 포스트 글쓰기 화면 ]
+### [ 피드 여행 후기 포스트 화면 ]
 | gif1 | gif2  | gif3  | gif4  |
 | :-: | :-: | :-: | :-: |
 | `제목+글 추가 기본` | `이미지 연속 추가` | `이미지 추가->삭제 후 글 추가` | `글 추가 및 글 제거` |
 
+<img src="https://github.com/IF-TG/iOS/assets/96910404/8acef3d7-9031-45b1-ba52-f098339fa58b" width="180">|<img src="https://github.com/IF-TG/iOS/assets/96910404/23ba2fec-581f-4c83-98aa-8312f4b402b6" width="180">|<img src="https://github.com/IF-TG/iOS/assets/96910404/b2b12a92-2b87-4bf2-9c83-f71185f04c60" width="180">|<img src="https://github.com/IF-TG/iOS/assets/96910404/3b1c3f6a-d979-40a4-b048-06f3aa463564" width="180">|
+|:-:|:-:|:-:|:-:|
+|`카테고리 화면 초기->선택완료까지`|`카테고리 화면 대분류 전환`|`카테고리 화면 소분류 다중 선택`|`카테고리 화면 다중 선택한 소분류 취소`| 
+
 | <img src="https://github.com/user-attachments/assets/37d9d899-b2d0-4325-8924-7a7c3a494330" width="230"> | <img src="https://github.com/user-attachments/assets/1d240fb5-9079-455a-941e-ffffafcc696e" width="230"> | <img src="https://github.com/user-attachments/assets/e92ff353-b121-4575-a68a-6634392bd9e9" width="230"> |
 | :-: | :-: | :-: |
 | `피드 페이징 및 리프레싱` | `피드 카테고리 테마 전환` | `상세화면 이동` |
-
 
 ### [ 공유하기 로직 ]
 
