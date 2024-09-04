@@ -8,6 +8,8 @@
 import UIKit
 import Swinject
 import SHCoordinator
+import Combine
+import Photos
 
 /// Assembler는 단 하나의 인스턴스만 생겨야 합니다. 또한 앱이 종료되기 전까지 메모리에 로드되어 있음이 보장되야 합니다.
 /// Yeoga앱이 실행되기 위해 필요로되는 Layer별 assembly들을 한 곳에 모아 dependency를 관리합니다.
@@ -140,14 +142,11 @@ extension AppDIContainer: PostDetailCoordinatorDependencies {
     return resolver.resolve(PostDetailViewController.self, arguments: coordinator, postId, post)!
   }
   
-  // TODO: - ReviewWriting register에 등록하면 이곳에서 반영해야합니다.(꺼내야합니다.) 인자값 등드
   func makeReviewWritingCoordinator(
     presenter: UINavigationController?,
     mode: ReviewWritingMode
   ) -> any SHCoordinator.FlowCoordinator {
-    #warning("임시로 리뷰 화면 편집할 떄 들어갈 수 있도록 했는데, reviewWRiting 코디 등록해서 이 시점에서 resolve해주어야 합니다.")
-    return ReviewWritingCoordinator(presenter: presenter, mode: mode)
-    //return resolver.resolve(ReviewWritingCoordinator.self, arguments: presenter, mode)!
+    return container.resolve(ReviewWritingCoordinator.self, arguments: presenter, mode)!
   }
   
   func makePostDetailCategoryViewController(dataSource: [String]) -> UIViewController {
@@ -158,10 +157,9 @@ extension AppDIContainer: PostDetailCoordinatorDependencies {
 // MARK: - SearchCoordinatorDependencies
 extension AppDIContainer: SearchCoordinatorDependencies {
   func makeSearchMoreDetailCoordinator(
-    presenter: UINavigationController?,
-    viewControllerType: SearchSectionType
+    presenter: UINavigationController?
   ) -> SearchMoreDetailCoordinator {
-    return resolver.resolve(SearchMoreDetailCoordinator.self, arguments: presenter, viewControllerType)!
+    return resolver.resolve(SearchMoreDetailCoordinator.self, argument: presenter)!
   }
   
   func makeSearchHistoryCoordinator(
@@ -212,7 +210,109 @@ extension AppDIContainer: SearchHistoryCoordinatorDependencies {
 
 // MARK: - DestinationDetailCoordinatorDependencies
 extension AppDIContainer: DestinationDetailCoordinatorDependencies {
-  func makeDestinationDetailViewController(destinationId: DestinationIdEntity) -> DestinationDetailViewController {
-    resolver.resolve(DestinationDetailViewController.self, argument: destinationId)!
+  func makeDestinationDetailViewController(
+    destinationId: DestinationIdEntity,
+    actions: DestinationDetailViewModelActions
+  ) -> DestinationDetailViewController {
+    resolver.resolve(DestinationDetailViewController.self, arguments: destinationId, actions)!
+  }
+}
+
+// MARK: - SearchMoreDetailCoordinatorDependencies
+extension AppDIContainer: SearchMoreDetailCoordinatorDependencies {
+  func makeSearchMoreDetailViewController(
+    actions: SearchMoreDetailViewModelActions,
+    destinationInfos: [TravelDestinationInfo],
+    headerTitle: String,
+    searchSection: SearchSectionIndex
+  ) -> SearchMoreDetailViewController {
+    return resolver.resolve(
+      SearchMoreDetailViewController.self,
+      arguments: actions, destinationInfos, headerTitle, searchSection
+    )!
+  }
+  
+  func makeDestinationDetailCoordinator(
+    presenter: UINavigationController?,
+    destinationIdEntity: DestinationIdEntity
+  ) -> DestinationDetailCoordinator {
+    return resolver.resolve(DestinationDetailCoordinator.self, arguments: presenter, destinationIdEntity)!
+  }
+}
+
+// MARK: - SettingCoordinatorDependencies
+extension AppDIContainer: SettingCoordinatorDependencies {
+  func makeSettingViewController(with actions: SettingViewModelActions) -> UIViewController {
+    return resolver.resolve(SettingViewController.self, argument: actions)!
+  }
+  
+  func makeOperatingGuideViewController() -> UIViewController {
+    return resolver.resolve(OperationGuideViewController.self)!
+  }
+  
+  func makeMyInformationCoordinator(presenter: UINavigationController?) -> any FlowCoordinator {
+    return resolver.resolve(MyInformationCoordinator.self, argument: presenter)!
+  }
+  
+  func makeCustomerServiceViewController() -> UIViewController {
+    return resolver.resolve(CustomerServiceViewController.self)!
+  }
+}
+
+// MARK: - MyInformationCoordinatorDependencies
+extension AppDIContainer: MyInformationCoordinatorDependencies {
+  func makeMyInformationViewController(with actions: MyInformationViewModelActions) -> UIViewController {
+    return resolver.resolve(MyInformationViewController.self, argument: actions)!
+  }
+  
+  func makeMyInformationAlbumSheetViewController() -> UIViewController {
+    return resolver.resolve(MyInformationAlbumSheetViewController.self)!
+  }
+}
+
+// MARK: -  ReviewWritingCoordinatorDependencies
+extension AppDIContainer: ReviewWritingCoordinatorDependencies {
+  func makeReviewWritingViewController(
+    mode: ReviewWritingMode,
+    actions: ReviewWritingViewModelActions,
+    selectedAssetsPublisher: AnyPublisher<[PHAsset], Never>
+  ) -> ReviewWritingViewController {
+    return container.resolve(ReviewWritingViewController.self, arguments: mode, actions, selectedAssetsPublisher)!
+  }
+  
+  func makeAlbumCoordinator(presenter: UINavigationController?) -> AlbumCoordinator {
+    return container.resolve(AlbumCoordinator.self, argument: presenter)!
+  }
+}
+
+// MARK: - AlbumCoordinatorDependencies
+extension AppDIContainer: AlbumCoordinatorDependencies {
+  func makeAlbumViewController(
+    parentPopPublisher: AnyPublisher<Void, Never>,
+    actions: AlbumViewModelActions
+  ) -> AlbumViewController {
+    return container.resolve(AlbumViewController.self, arguments: parentPopPublisher, actions)!
+  }
+  
+  func makeAlbumPhotoDetailCoordinator(presenter: UINavigationController?) -> AlbumPhotoDetailCoordinator {
+    return container.resolve(AlbumPhotoDetailCoordinator.self, argument: presenter)!
+  }
+}
+
+// MARK: - AlbumPhotoDetailCoordinatorDependencies
+extension AppDIContainer: AlbumPhotoDetailCoordinatorDependencies {
+  func makeAlbumPhotoDetailViewController(
+    photoDetailModel: PhotoDetailModel,
+    maxSelectPhotoCount: Int,
+    actions: AlbumPhotoDetailViewModelActions
+  ) -> AlbumPhotoDetailViewController {
+    return container.resolve(
+      AlbumPhotoDetailViewController.self,
+      arguments: photoDetailModel, maxSelectPhotoCount, actions
+    )!
+  }
+  
+  func makeAlbumPhotoDetailViewController() -> AlbumPhotoDetailViewController {
+    return container.resolve(AlbumPhotoDetailViewController.self)!
   }
 }

@@ -48,3 +48,5 @@ protocol MyInformationViewModelable: ViewModelable
 where Input == MyInformationViewModelInput,
       State == MyInformationViewModelState,
       Output == AnyPublisher<State, Never> { }
+
+typealias MyInformationViewModelType = any MyInformationViewModelable & MyInformationViewModelPageDelegate

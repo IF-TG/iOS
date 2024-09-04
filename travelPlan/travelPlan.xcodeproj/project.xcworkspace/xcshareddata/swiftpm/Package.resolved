@@ -175,7 +175,7 @@
     {
       "identity" : "realm-swift",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/realm/realm-swift.git",
+      "location" : "https://github.com/realm/realm-swift",
       "state" : {
         "revision" : "ae827eabf45ba64562c75b6e99038da6ce12d427",
         "version" : "10.52.1"

@@ -8,11 +8,21 @@
 import Foundation
 import Combine
 
-protocol DestinationDetailViewModelDataSourceable {
-  var dataSource: [DestinationDetailSection] { get }
-}
+typealias DestinationDetailViewModel = DestinationDetailViewModelable 
+& DestinationDetailViewModelDataSourceable
+& DestinationDetailViewModelPageDelegate
 
-protocol DestinationDetailViewModel: ViewModelable, DestinationDetailViewModelDataSourceable
+protocol DestinationDetailViewModelable: ViewModelable
 where Input == DestinationDetailViewModelInput,
       State == DestinationDetailViewModelState,
       Output == AnyPublisher<State, Never> { }
+
+protocol DestinationDetailViewModelDataSourceable {
+  func numberOfSections() -> Int
+  func numberOfItemsInSection(sectionIndex: Int) -> Int
+  func destinationDetailSection(sectionIndex: Int) -> DestinationDetailSection
+}
+
+protocol DestinationDetailViewModelPageDelegate: AnyObject {
+  func pop()
+}

@@ -21,14 +21,24 @@ final class SpringServerRepositoryAssembly: Assembly {
     destinationRepository(container: container)
     destinationLikeRepository(container: container)
     destinationRecommendRepository(container: container)
+    reviewWritingRepository(container: container)
+    photoAuthorizationRepository(container: container)
     
     // MARK: - LoginRepository
     container.register(LoginRepository.self) { r in
+    #if DEBUG
+      let authenticationService = DefaultAuthenticationService(sessionProvider: SessionProvider())
+      let loginResultStorage = r.resolve(LoginResultStorage.self)!
+      let loggedInUserRepository = r.resolve(LoggedInUserRepository.self)!
+      let userProfileRepository = StubUserProfileRepository()
+      let firestoreService = r.resolve(FirestoreServiceProtocol.self, name: .firebase)!
+    #else
       let authenticationService = r.resolve(AuthenticationService.self)!
       let loginResultStorage = r.resolve(LoginResultStorage.self)!
       let loggedInUserRepository = r.resolve(LoggedInUserRepository.self)!
       let userProfileRepository = r.resolve(UserProfileRepository.self)!
       let firestoreService = r.resolve(FirestoreServiceProtocol.self, name: .firebase)!
+    #endif
       
       return DefaultLoginRepository(
         authService: authenticationService,
@@ -81,53 +91,66 @@ final class SpringServerRepositoryAssembly: Assembly {
 }
 
 // MARK: - Private Helpers
-extension SpringServerRepositoryAssembly {
-  private func destinationSearchRepository(container: Container) {
+private extension SpringServerRepositoryAssembly {
+  func destinationSearchRepository(container: Container) {
     container.register(DestinationSearchRepository.self) { r in
       let service = r.resolve(Sessionable.self)!
       return DefaultDestinationSearchRepository(service: service)
     }
   }
   
-  private func destinationScrapRepository(container: Container) {
+  func destinationScrapRepository(container: Container) {
     container.register(DestinationScrapRepository.self) { r in
       let service = r.resolve(Sessionable.self)!
       return DefaultDestinationScrapRepository(service: service)
     }
   }
   
-  private func recentSearchHistoryRepository(container: Container) {
+  func recentSearchHistoryRepository(container: Container) {
     container.register(RecentSearchHistoryRepository.self) { r in
       let service = r.resolve(Sessionable.self)!
       return DefaultRecentSearchHistoryRepository(service: service)
     }
   }
   
-  private func recommendationSearchHistoryRepository(container: Container) {
+  func recommendationSearchHistoryRepository(container: Container) {
     container.register(RecommendationSearchHistoryRepository.self) { r in
       let service = r.resolve(Sessionable.self)!
       return DefaultRecommendationSearchHistoryRepository(service: service)
     }
   }
   
-  private func destinationRepository(container: Container) {
+  func destinationRepository(container: Container) {
     container.register(DestinationRepository.self) { r in
       let service = r.resolve(Sessionable.self)!
       return DefaultDestinationRepository(service: service)
     }
   }
   
-  private func destinationLikeRepository(container: Container) {
+  func destinationLikeRepository(container: Container) {
     container.register(DestinationLikeRepository.self) { r in
       let service = r.resolve(Sessionable.self)!
       return DefaultDestinationLikeRepository(service: service)
     }
   }
   
-  private func destinationRecommendRepository(container: Container) {
+  func destinationRecommendRepository(container: Container) {
     container.register(DestinationRecommendRepository.self) { r in
       let service = r.resolve(Sessionable.self)!
       return DefaultDestinationRecommendRepository(service: service)
+    }
+  }
+  
+  func reviewWritingRepository(container: Container) {
+    container.register(ReviewWritingRepository.self) { r in
+      let service = r.resolve(Sessionable.self)!
+      return DefaultReviewWritingRepository(service: service)
+    }
+  }
+  
+  func photoAuthorizationRepository(container: Container) {
+    container.register(PhotoAuthorizationRepository.self) { _ in
+      return DefaultPhotoAuthorizationRepository()
     }
   }
 }

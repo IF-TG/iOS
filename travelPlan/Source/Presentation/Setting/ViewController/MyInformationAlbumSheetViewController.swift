@@ -5,14 +5,15 @@
 //  Created by 양승현 on 3/16/24.
 //
 
-import UIKit
 import Combine
+import Photos
+import UIKit
 
 final class MyInformationAlbumSheetViewController: BaseBottomSheetViewController {
   // MARK: - Nested
   enum Menu: String, CaseIterable {
     case camera = "사진 찍기"
-    case album = "엘범에서 선택"
+    case album = "앨범에서 선택"
   }
   
   // MARK: - Properties
@@ -51,6 +52,12 @@ final class MyInformationAlbumSheetViewController: BaseBottomSheetViewController
     }
   }
   
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    view.isUserInteractionEnabled = true
+    notSleepDismissArea()
+  }
+  
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
@@ -62,26 +69,90 @@ extension MyInformationAlbumSheetViewController {
     guard let selectedLabel = gesture.view as? UILabel, let text = selectedLabel.text else {
       return
     }
-    let picker = UIImagePickerController()
-    picker.allowsEditing = true
-    picker.delegate = self
+    
     let menu = Menu(rawValue: text)
+    
     switch menu {
     case .camera:
-      picker.sourceType = .camera
-      picker.cameraDevice = .rear
-      picker.cameraCaptureMode = .photo
+      requestCameraAccessAndPresentPicker()
     case .album:
-      picker.sourceType = .photoLibrary
+      requestPhotoLibraryAccessAndPresentPicker()
     default:
       return
     }
+  }
+  
+  private func requestCameraAccessAndPresentPicker() {
+    let status = AVCaptureDevice.authorizationStatus(for: .video)
+    switch status {
+    case .authorized:
+      presentImagePicker(sourceType: .camera)
+    case .notDetermined:
+      AVCaptureDevice.requestAccess(for: .video) { granted in
+        if granted {
+          DispatchQueue.main.async {
+            self.presentImagePicker(sourceType: .camera)
+          }
+        } else {
+          self.showAccessDeniedAlert(for: "카메라")
+        }
+      }
+    case .denied, .restricted:
+      showAccessDeniedAlert(for: "카메라")
+    default: break
+    }
+  }
+  
+  private func requestPhotoLibraryAccessAndPresentPicker() {
+    let status = PHPhotoLibrary.authorizationStatus()
+    switch status {
+    case .authorized:
+      presentImagePicker(sourceType: .photoLibrary)
+    case .notDetermined:
+      PHPhotoLibrary.requestAuthorization { status in
+        if status == .authorized {
+          DispatchQueue.main.async {
+            self.presentImagePicker(sourceType: .photoLibrary)
+          }
+        } else {
+          self.showAccessDeniedAlert(for: "사진 라이브러리")
+        }
+      }
+    case .denied, .restricted:
+      showAccessDeniedAlert(for: "사진 라이브러리")
+    default: break
+    }
+  }
+  
+  private func presentImagePicker(sourceType: UIImagePickerController.SourceType) {
+    guard UIImagePickerController.isSourceTypeAvailable(sourceType) else {
+      return
+    }
+    
+    let picker = UIImagePickerController()
+    picker.allowsEditing = true
+    picker.sourceType = sourceType
+    if sourceType == .camera {
+      sleepDismissArea()
+      picker.cameraCaptureMode = .photo
+    }
+    picker.delegate = self
     present(picker, animated: true)
+  }
+  
+  private func showAccessDeniedAlert(for feature: String) {
+    let alert = UIAlertController(
+      title: "\(feature) 접근 불가",
+      message: "앱 설정에서 \(feature) 접근을 허용해주세요.",
+      preferredStyle: .alert
+    )
+    alert.addAction(UIAlertAction(title: "확인", style: .default))
+    present(alert, animated: true)
   }
 }
 
 // MARK: - UIImagePickerControllerDelegate
-extension MyInformationAlbumSheetViewController: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
+extension MyInformationAlbumSheetViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
   func imagePickerController(
     _ picker: UIImagePickerController,
     didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]

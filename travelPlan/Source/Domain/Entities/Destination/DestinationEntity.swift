@@ -15,7 +15,7 @@ struct DestinationEntity {
   let overview: String
   let category: DestinationCategory
   let zipcode: String
-  let imageData: Data?
+  let imageDatas: [Data]
   let detail: DestinationEntity.Detail
   let isScraped: Bool
   let liked: Bool

@@ -8,6 +8,8 @@
 import UIKit
 import SHCoordinator
 import Swinject
+import Combine
+import Photos
 
 final class PresentationAssembly: Assembly {
   // swiftlint:disable:next function_body_length
@@ -17,8 +19,11 @@ final class PresentationAssembly: Assembly {
     searchResultListPage(container: container)
     searchHistoryPage(container: container)
     destinationDetailPage(container: container)
-    
-    // MARK: - Search Page
+    searchMoreDetailPage(container: container)
+    reviewWritingPage(container: container)
+    photoService(container: container)
+    albumPhotoDetailPage(container: container)
+    albumPage(container: container)
     
     // MARK: - PostDetail Page
     // MARK: - PostDetailViewModelType
@@ -31,7 +36,7 @@ final class PresentationAssembly: Assembly {
       return PostDetailViewModel(
         post: post,
         postId: postId,
-        postFetchUseCase: defaultPostFetchUseCase, 
+        postFetchUseCase: defaultPostFetchUseCase,
         postHeartUseCase: defaultPostHeartUseCase,
         ownerRepository: ownerRepository,
         actions: actions)
@@ -160,20 +165,57 @@ final class PresentationAssembly: Assembly {
         notificationViewModel: defaultNotificationViewModel)
     }
     
-    // TODO: - Album Page
-    
     // TODO: - Main Page
     container.register(MainTabBarController.self) { _ in
       MainTabBarController()
     }
     
-    // TODO: - Setting Page
+    // MARK: - Setting Page
+    container.register(SettingViewModelType.self) { (r, actions: SettingViewModelActions) in
+      let ownerRepository = self.ownerRepository(with: r)
+      return SettingViewModel(ownerRepository: ownerRepository, actions: actions)
+    }
+    
+    container.register(SettingViewController.self) { (r, actions: SettingViewModelActions) in
+      let settingViewModel = r.resolve(SettingViewModelType.self, argument: actions)!
+      return SettingViewController(viewModel: settingViewModel)
+    }
+    
+    container.register(OperationGuideViewController.self) { _ in
+      return OperationGuideViewController(navigationTitle: "이용안내")
+    }
+    
+    container.register(CustomerServiceViewController.self) { _ in
+      return CustomerServiceViewController(navigationTitle: "고객센터")
+    }
+    
+    container.register(MyInformationViewModelType.self) { (r, actions: MyInformationViewModelActions) in
+      let userNicknameSettingUseCase = r.resolve(UserNicknameSettingUseCase.self)!
+      let userProfileImageSettingUsecase = r.resolve(UserProfileImageSettingUseCase.self)!
+      let nicknameValidationUseCase = r.resolve(NicknameValidationUseCase.self)!
+      let ownerRepository = self.ownerRepository(with: r)
+      
+      return MyInformationViewModel(
+        userNicknameSettingUseCase: userNicknameSettingUseCase,
+        userProfileImageSettingUseCase: userProfileImageSettingUsecase,
+        nicknameValidationUseCase: nicknameValidationUseCase,
+        ownerRepository: ownerRepository,
+        actions: actions)
+    }
+    
+    container.register(MyInformationViewController.self) { (r, actions: MyInformationViewModelActions) in
+      let viewModel = r.resolve(MyInformationViewModelType.self, argument: actions)!
+      return MyInformationViewController(viewModel: viewModel)
+    }
+    
+    container.register(MyInformationAlbumSheetViewController.self) { _ in
+      MyInformationAlbumSheetViewController()
+    }
     
     // TODO: - Favorite Page
     
     // TODO: - Plan Page
     
-    // TODO: - ReviewWriting Page
   }
 }
 
@@ -210,10 +252,9 @@ private extension PresentationAssembly {
     return r.resolve(LoggedInUserRepository.self)!
 #endif
   }
-    
+  
   func searchResultListPage(container: Container) {
-    container.register((any SearchResultListViewModel).self) { 
-      (r, actions: SearchResultListViewModelActions, searchKeyword: String) in
+    container.register((any SearchResultListViewModel).self) { (r, actions: SearchResultListViewModelActions, searchKeyword: String) in
       let useCase = r.resolve(DestinationSearchResultUseCase.self)!
       
       return DefaultSearchResultListViewModel(
@@ -223,18 +264,16 @@ private extension PresentationAssembly {
       )
     }
     
-    container.register(SearchResultListViewController.self) {
-      (r, actions: SearchResultListViewModelActions, searchKeyword: String) in
+    container.register(SearchResultListViewController.self) { (r, actions: SearchResultListViewModelActions, searchKeyword: String) in
       let viewModel = r.resolve((any SearchResultListViewModel).self, arguments: actions, searchKeyword)!
       return SearchResultListViewController(viewModel: viewModel)
     }
   }
   
   func searchHistoryPage(container: Container) {
-    container.register((any SearchHistoryViewModel).self) { 
-      (r, actions: SearchHistoryViewModelActions, searchType: SearchType) in
+    container.register((any SearchHistoryViewModel).self) { (r, actions: SearchHistoryViewModelActions, searchType: SearchType) in
       let useCase = r.resolve(SearchHistoryUseCase.self)!
-
+      
       return DefaultSearchHistoryViewModel(
         searchType: searchType,
         actions: actions,
@@ -242,23 +281,119 @@ private extension PresentationAssembly {
       )
     }
     
-    container.register(SearchHistoryViewController.self) { 
-      (r, actions: SearchHistoryViewModelActions, searchType: SearchType) in
+    container.register(SearchHistoryViewController.self) { (r, actions: SearchHistoryViewModelActions, searchType: SearchType) in
       let viewModel = r.resolve((any SearchHistoryViewModel).self, arguments: actions, searchType)!
       return SearchHistoryViewController(viewModel: viewModel)
     }
   }
   
   func destinationDetailPage(container: Container) {
-    container.register((any DestinationDetailViewModel).self) { (r, destinationId: DestinationIdEntity) in
+    container.register((any DestinationDetailViewModel).self)
+    { (r, destinationId: DestinationIdEntity, actions: DestinationDetailViewModelActions) in
       let destinationDetailUseCase = r.resolve(DestinationDetailUseCase.self)!
-      return DefaultDestinationDetailViewModel(useCase: destinationDetailUseCase, destinationId: destinationId)
+      return DefaultDestinationDetailViewModel(
+        useCase: destinationDetailUseCase,
+        destinationId: destinationId,
+        actions: actions
+      )
     }
     
-    container.register(DestinationDetailViewController.self) 
-    { (r, destinationId: DestinationIdEntity) in
-      let viewModel = r.resolve((any DestinationDetailViewModel).self, argument: destinationId)!
+    container.register(DestinationDetailViewController.self) { (r, destinationId: DestinationIdEntity, actions: DestinationDetailViewModelActions) in
+      let viewModel = r.resolve((any DestinationDetailViewModel).self, arguments: destinationId, actions)!
       return DestinationDetailViewController(viewModel: viewModel)
+    }
+  }
+  
+  func searchMoreDetailPage(container: Container) {
+    container.register((any SearchMoreDetailViewModel).self) { (r, actions: SearchMoreDetailViewModelActions, destinationInfos: [TravelDestinationInfo], title: String, searchSection: SearchSectionIndex) in
+      let scrapRepository: any DestinationScrapRepository
+#if DEBUG
+      scrapRepository = JsonMockDestinationScrapRepository()
+#else
+      scrapRepository = r.resolve(DestinationScrapRepository.self)!
+#endif
+      return DefaultSearchMoreDetailViewModel(
+        actions: actions,
+        destinations: destinationInfos,
+        title: title,
+        scrapRepository: scrapRepository,
+        searchSection: searchSection
+      )
+    }
+    
+    container.register(SearchMoreDetailViewController.self) { (r, actions: SearchMoreDetailViewModelActions, destinationInfos: [TravelDestinationInfo], headerTitle: String, searchSection: SearchSectionIndex) in
+      let viewModel = r.resolve(
+        (any SearchMoreDetailViewModel).self,
+        arguments: actions, destinationInfos, headerTitle, searchSection
+      )!
+      return SearchMoreDetailViewController(viewModel: viewModel)
+    }
+  }
+  
+  func reviewWritingPage(container: Container) {
+    container.register((any ReviewWritingViewModel).self) { (r, mode, actions, selectedAssetsPublisher) in
+      let reviewWritingUseCase = r.resolve(ReviewWritingUseCase.self)!
+      let loggedInUserUseCase = r.resolve(LoggedInUserUseCase.self)!
+      
+      return DefaultReviewWritingViewModel(
+        reviewWritingUseCase: reviewWritingUseCase,
+        loggedInOwnerUseCase: loggedInUserUseCase,
+        mode: mode,
+        actions: actions,
+        selectedAssetsPublisher: selectedAssetsPublisher
+      )
+    }
+    
+    container.register(ReviewWritingViewController.self) { (r, mode: ReviewWritingMode, actions: ReviewWritingViewModelActions, selectedAssetsPublisher: AnyPublisher<[PHAsset], Never>) in
+      let viewModel = r.resolve(
+        (any ReviewWritingViewModel).self,
+        arguments: mode, actions, selectedAssetsPublisher
+      )!
+      let photoService = r.resolve(PhotoService.self)!
+      
+      return ReviewWritingViewController(viewModel: viewModel, photoService: photoService)
+    }
+  }
+  
+  func photoService(container: Container) {
+    container.register(PhotoService.self) { _ in
+      return DefaultPhotoService()
+    }
+  }
+  
+  func albumPhotoDetailPage(container: Container) {
+    container.register((any AlbumPhotoDetailViewModel).self) { (_, photoDetailModel, maxSelectPhotoCount, actions) in
+      return DefaultAlbumPhotoDetailViewModel(
+        photoDetailModel: photoDetailModel,
+        maxSelectPhotoCount: maxSelectPhotoCount,
+        actions: actions
+      )
+    }
+    
+    container.register(AlbumPhotoDetailViewController.self) { (r, photoDetailModel: PhotoDetailModel, albumPhotoDetailPage: Int, actions: AlbumPhotoDetailViewModelActions) in
+      let viewModel = r.resolve(
+        (any AlbumPhotoDetailViewModel).self,
+        arguments: photoDetailModel, albumPhotoDetailPage, actions
+      )!
+      let photoService = r.resolve(PhotoService.self)!
+      return AlbumPhotoDetailViewController(viewModel: viewModel, photoService: photoService)
+    }
+  }
+  
+  func albumPage(container: Container) {
+    container.register((any AlbumViewModel).self) { (r, parentPopPublisher: AnyPublisher<Void, Never>, actions: AlbumViewModelActions) in
+      let albumUseCase = r.resolve(AlbumUseCase.self)!
+      return DefaultAlbumViewModel(
+        albumUseCase: albumUseCase,
+        parentPopPublisher: parentPopPublisher,
+        actions: actions
+      )
+    }
+    
+    container.register(AlbumViewController.self) { (r, parentPopPublisher: AnyPublisher<Void, Never>, actions: AlbumViewModelActions) in
+      let viewModel = r.resolve((any AlbumViewModel).self, arguments: parentPopPublisher, actions)!
+      let photoService = r.resolve(PhotoService.self)!
+      return AlbumViewController(viewModel: viewModel, photoService: photoService)
     }
   }
 }

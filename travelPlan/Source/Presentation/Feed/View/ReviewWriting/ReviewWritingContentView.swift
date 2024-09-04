@@ -467,7 +467,8 @@ extension ReviewWritingContentView {
   }
   
   /// imageView를 생성하고 layout을 적용합니다.
-  func addImageView(image: UIImage, shouldScrollToLastView: Bool) {
+  func addImageView(imageData: Data?, shouldScrollToLastView: Bool) {
+    guard let data = imageData, let image = UIImage(data: data) else { return }
     let imageView = PictureImageView(frame: .zero, image: image).set {
       $0.delegate = self
       $0.contentMode = .scaleToFill
@@ -501,10 +502,8 @@ extension ReviewWritingContentView {
         textView.snp.makeConstraints {
           $0.height.equalTo(estimatedHeight)
         }
-//      case .image(let data, _):
       case .image(let data):
-        guard let image = UIImage(data: data) else { return }
-        addImageView(image: image, shouldScrollToLastView: false)
+        addImageView(imageData: data, shouldScrollToLastView: false)
       }
     }
   }

@@ -22,10 +22,12 @@ final class DomainAssembly: Swinject.Assembly {
     searchHistoryUseCase(container: container)
     destinationDetailUseCase(container: container)
     destinationRecommendUseCase(container: container)
+    settingRelatedUseCases(container: container)
+    loggedInUserUseCase(container: container)
+    reviewWritingUseCase(container: container)
+    albumUseCase(container: container)
     
     // TODO: - Tour Use Case
-    
-    // TODO: - Album Use Case
     
     // TODO: - FavoriteDirectory Use Case
     
@@ -35,6 +37,38 @@ final class DomainAssembly: Swinject.Assembly {
 
 // MARK: - Private Helpers
 private extension DomainAssembly {
+  func settingRelatedUseCases(container: Container) {
+    container.register(UserProfileImageSettingUseCase.self) { r in
+#if DEBUG
+      return StubUserProfileImageSettingUseCase()
+#else
+      let userProfileSettingRepository = r.resolve(UserProfileSettingRepository.self, name: .firebase)!
+      return DefaultUserProfileImageSettingUseCase(userProfileSettingRepository: userProfileSettingRepository)
+#endif
+    }
+    
+    container.register(UserNicknameSettingUseCase.self) { r in
+#if DEBUG
+      return StubUserNicknameSettingUseCase()
+#else
+      let userProfileSettingRepository = r.resolve(UserProfileSettingRepository.self, name: .firebase)!
+      return DefaultUserNicknameSettingUseCase(userProfileSettingRepository: userProfileSettingRepository)
+#endif
+    }
+    
+    container.register(NicknameValidationUseCase.self) { r in
+#if DEBUG
+      return StubNicknameValidationUseCase()
+#else
+      let ownerStorage = r.resolve(OwnerStorage.self)!
+      let userProfileSettingRepository = r.resolve(UserProfileSettingRepository.self, name: .firebase)!
+      return DefaultNicknameValidationUseCase(
+        userProfileSettingRepository: userProfileSettingRepository,
+        ownerStorage: ownerStorage)
+#endif
+    }
+  }
+  
   func searchHistoryUseCase(container: Container) {
     container.register(SearchHistoryUseCase.self) { r in
       let recentRepository: RecentSearchHistoryRepository
@@ -294,6 +328,31 @@ private extension DomainAssembly {
         scrapRepository: r.resolve(DestinationScrapRepository.self)!
       )
 #endif
+    }
+  }
+  
+  func loggedInUserUseCase(container: Container) {
+    container.register(LoggedInUserUseCase.self) { r in
+      let loggedInUserRepository = r.resolve(LoggedInUserRepository.self)!
+      return DefaultLoggedInUserUseCase(loggedInUserRepository: loggedInUserRepository)
+    }
+  }
+  
+  func reviewWritingUseCase(container: Container) {
+    container.register(ReviewWritingUseCase.self) { r in
+      let reviewWritingRepository = r.resolve(ReviewWritingRepository.self)!
+      let photoAuthRepository = r.resolve(PhotoAuthorizationRepository.self)!
+      
+      return DefaultReviewWritingUseCase(
+        reviewWritingRepository: reviewWritingRepository,
+        photoAuthRepository: photoAuthRepository
+      )
+    }
+  }
+  
+  func albumUseCase(container: Container) {
+    container.register(AlbumUseCase.self) { _ in
+      return DefaultAlbumUseCase()
     }
   }
 }

@@ -34,6 +34,10 @@ class BaseBottomSheetViewController: UIViewController {
   
   private var bottomSheetOriginY: CGFloat!
   
+  private var touchSleep = false
+  
+  private var synchronized = Synchronized()
+  
   private var bottomSheetOriginHeight: CGFloat!
   
   private var contentMode: ContentMode = .full
@@ -92,6 +96,7 @@ class BaseBottomSheetViewController: UIViewController {
   }
   
   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    if touchSleep { return }
     if let touch = touches.first {
       let hitCount = view.subviews.filter {
         let position = touch.location(in: view)
@@ -106,7 +111,20 @@ class BaseBottomSheetViewController: UIViewController {
     }
   }
   
-  // MARK: - Private helper
+  // MARK: - Public Helpers
+  func sleepDismissArea() {
+    synchronized.sync {
+      touchSleep = true
+    }
+  }
+  
+  func notSleepDismissArea() {
+    synchronized.sync {
+      touchSleep = false
+    }
+  }
+  
+  // MARK: - Private Helpers
   private func configureUI() {
     setupUI()
   }

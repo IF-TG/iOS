@@ -61,7 +61,6 @@ final class DestinationDetailTitleCell: UICollectionViewCell {
     $0.addTarget(self, action: #selector(didTapHeartButton), for: .touchUpInside)
   }
   private let heartCountLabel = UILabel().set {
-    $0.text = "+1"
     $0.textColor = .yg.gray6
     $0.font = .init(pretendard: .regular_400(fontSize: 14))
   }
@@ -153,6 +152,7 @@ extension DestinationDetailTitleCell {
     titleLabel.text = mainInfo.title
     addressLabel.text = mainInfo.address
     heartButton.isSelected = mainInfo.isSelectedHeart
+    heartCountLabel.text = "+\(mainInfo.heartCount)"
     
     self.isConfigured = true
   }
@@ -168,14 +168,26 @@ extension DestinationDetailTitleCell {
     }
   }
   
-  func bind(to publisher: PassthroughSubject<Void, Never>) {
+  func bind(
+    copyAddressButtonPublisher: PassthroughSubject<Void, Never>,
+    heartButtonPublisher: PassthroughSubject<IndexPath, Never>,
+    indexPath: IndexPath
+  ) {
     subscriptions.removeAll()
     
     copyAddressButton.tap
-      .receive(on: RunLoop.main)
+      .receive(on: DispatchQueue.main)
       .sink { [weak self] in
         UIPasteboard.general.string = self?.addressLabel.text
-        publisher.send()
+        copyAddressButtonPublisher.send()
+      }
+      .store(in: &subscriptions)
+    
+    heartButton.tap
+      .receive(on: DispatchQueue.main)
+      .sink { [weak self] in
+        guard let self = self else { return }
+        heartButtonPublisher.send(indexPath)
       }
       .store(in: &subscriptions)
   }

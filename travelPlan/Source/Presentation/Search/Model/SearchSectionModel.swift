@@ -8,25 +8,26 @@
 import Foundation
 
 struct SearchSectionModel {
-  var itemType: SearchItemType
+  var itemType: SearchSectionType
   let headerTitle: String
 }
 
-@frozen enum SearchItemType {
-  case festival([SearchFestivalInfo])
-  case `else`([TravelDestinationInfo])
+@frozen enum SearchSectionType {
+  case festival([TravelDestinationInfo])
+  case leports([TravelDestinationInfo])
+  case cultureFacility([TravelDestinationInfo])
   
-  func getId(itemIndex: Int) -> Int {
+  func getId(from itemIndex: Int) -> Int {
     switch self {
-    case .festival(let infos):
-      return infos[itemIndex].id
-    case .else(let infos):
+    case .festival(let infos),
+        .leports(let infos),
+        .cultureFacility(let infos):
       return infos[itemIndex].id
     }
   }
 }
 
-@frozen enum SearchSectionType: Int {
+@frozen enum SearchSectionIndex: Int {
   case festival
   case leports
   case cultureFacility

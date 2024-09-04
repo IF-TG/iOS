@@ -12,5 +12,5 @@ import Combine
 protocol DestinationDetailUseCase {
   func fetchDetail(destinationId: DestinationIdEntity) -> AnyPublisher<DestinationEntity, any Error>
   func toggleScrap(id: Int, folderName: String?) -> AnyPublisher<DestinationScrapToggler, any Error>
-  func toggleLike(id: Int) -> AnyPublisher< DestinationLike, any Error>
+  func toggleLike(id: Int) -> AnyPublisher<DestinationLike, any Error>
 }

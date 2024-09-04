@@ -1,5 +1,5 @@
 //
-//  AlbumViewModel.swift
+//  DefaultAlbumViewModel.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 3/19/24.
@@ -9,38 +9,19 @@ import Foundation
 import Combine
 import Photos
 
-protocol AlbumDataSourceable {
-  var dataSource: [PhotoModel] { get }
-}
-
-protocol AlbumViewModelable: ViewModelable, AlbumDataSourceable
-where AlbumViewModelInput == Input,
-      AlbumViewModelState == State,
-      AnyPublisher<State, Never> == Output { }
-
 struct AlbumViewModelInput {
   let viewDidLoad: PassthroughSubject<Void, Never> = .init()
-  let popAlbumPhotoDetailViewController: PassthroughSubject<Void, Never> = .init()
   let didSelectPhoto: PassthroughSubject<IndexPath, Never> = .init()
   let touchedFirstQuadrant: PassthroughSubject<IndexPath, Never> = .init()
-  let touchedElseQuadrant: PassthroughSubject<IndexPath, Never> = .init()
-  let didTapCancelButton: PassthroughSubject<Void, Never> = .init()
-  let didTapFinishButton: PassthroughSubject<Void, Never> = .init()
-  let didTapSelectMorePhotosButton: PassthroughSubject<Void, Never> = .init()
-  let didTapAuthsettingButton: PassthroughSubject<Void, Never> = .init()
   let photoLibraryDidChange: PassthroughSubject<PHChange, Never> = .init()
+  let viewWillAppear: PassthroughSubject<Void, Never> = .init()
 }
 
 enum AlbumViewModelState {
   case activateFinishButton(Bool)
-  case showDetailPhoto(PhotoDetailModel)
   case reloadItem([IndexPath])
   case reloadData(isAuthLimited: Bool)
   case none
-  case popViewController
-  case deliverAssetsToParents([PHAsset])
-  case callSetting
-  case presentLimitedLibraryPicker
 }
 
 struct PhotoModel {
@@ -52,15 +33,25 @@ final class SelectedAlbumPhotoWrapper {
   @Published var indexArray = [Int]()
 }
 
+struct AlbumViewModelActions {
+  let showDetailPhoto: (PhotoDetailModel, Int) -> Void
+  let pop: () -> Void
+  let popByPassingAssets: ([PHAsset]) -> Void
+  let callSetting: () -> Void
+  let presentLimitedLibraryPicker: () -> Void
+}
+
 final class DefaultAlbumViewModel {
+  // MARK: - Dependencies
+  private let albumUseCase: any AlbumUseCase
+  private let actions: AlbumViewModelActions
   
   // MARK: - Properties
   private let selectedAlbumPhoto = SelectedAlbumPhotoWrapper()
   private var subscriptions = Set<AnyCancellable>()
-  private let albumUseCase: any AlbumUseCase
-  private let photoAuthUseCase: any PhotoAuthorizationUseCase
-  private let albumPhotoMaxCountUseCase: any AlbumPhotoMaxCountUseCase
   var dataSource = [PhotoModel]()
+  
+  private let parentPopPublisher: AnyPublisher<Void, Never>
   
   private var isAuthStatusLimited: Bool {
     if #available(iOS 14, *) {
@@ -73,12 +64,12 @@ final class DefaultAlbumViewModel {
   // MARK: - LifeCycle
   init(
     albumUseCase: any AlbumUseCase,
-    photoAuthUseCase: any PhotoAuthorizationUseCase,
-    albumPhotoMaxCountUseCase: any AlbumPhotoMaxCountUseCase
+    parentPopPublisher: AnyPublisher<Void, Never>,
+    actions: AlbumViewModelActions
   ) {
     self.albumUseCase = albumUseCase
-    self.photoAuthUseCase = photoAuthUseCase
-    self.albumPhotoMaxCountUseCase = albumPhotoMaxCountUseCase
+    self.parentPopPublisher = parentPopPublisher
+    self.actions = actions
   }
 }
 
@@ -86,15 +77,10 @@ final class DefaultAlbumViewModel {
 extension DefaultAlbumViewModel: AlbumViewModelable {
   func transform(_ input: AlbumViewModelInput) -> AnyPublisher<AlbumViewModelState, Never> {
     return Publishers.MergeMany(
+      viewWillAppearStream(input),
       viewDidLoadStream(input),
-      popAlbumPhotoDetailViewControllerStream(input),
       touchedFirstQuadrantStream(input),
-      touchedElseQuadrantStream(input),
       selectedIndexArrayStream(input),
-      didTapFinishButtonStream(input),
-      didTapCancelButtonStream(input),
-      didTapSelectMorePhotosButtonStream(input),
-      didTapAuthsettingButtonStream(input),
       photoLibraryDidChangeStream(input)
     )
     .eraseToAnyPublisher()
@@ -103,26 +89,29 @@ extension DefaultAlbumViewModel: AlbumViewModelable {
 
 // MARK: - Private Helpers
 extension DefaultAlbumViewModel {
-  private func popAlbumPhotoDetailViewControllerStream(_ input: Input) -> Output {
-    return input
-      .popAlbumPhotoDetailViewController
-      .map { [weak self] in
-        guard 
-          let selectedAlbumPhoto = self?.selectedAlbumPhoto,
-          let isAuthLimited = self?.isAuthStatusLimited,
-          let count = self?.dataSource.count
-        else { return State.none }
-        
-        for i in 0..<count {
-          self?.dataSource[i].selectedOrder = .none
+  private func viewWillAppearStream(_ input: Input) -> Output {
+    input.viewWillAppear
+      .flatMap { [weak self] in
+        guard let self = self else { return Just(State.none).eraseToAnyPublisher() }
+        return parentPopPublisher.map { [weak self] in
+          guard
+            let selectedAlbumPhoto = self?.selectedAlbumPhoto,
+            let isAuthLimited = self?.isAuthStatusLimited,
+            let count = self?.dataSource.count
+          else { return State.none }
+          
+          for i in 0..<count {
+            self?.dataSource[i].selectedOrder = .none
+          }
+          
+          for (index, indexPathItem) in selectedAlbumPhoto.indexArray.enumerated() {
+            self?.dataSource[indexPathItem].selectedOrder = .selected(index+1)
+          }
+          return State.reloadData(isAuthLimited: isAuthLimited)
         }
-        
-        for (index, indexPathItem) in selectedAlbumPhoto.indexArray.enumerated() {
-          self?.dataSource[indexPathItem].selectedOrder = .selected(index+1)
-        }
-        
-        return State.reloadData(isAuthLimited: isAuthLimited)
-      }.eraseToAnyPublisher()
+        .eraseToAnyPublisher()
+      }
+      .eraseToAnyPublisher()
   }
   
   private func photoLibraryDidChangeStream(_ input: Input) -> Output {
@@ -143,45 +132,6 @@ extension DefaultAlbumViewModel {
       .eraseToAnyPublisher()
   }
   
-  private func didTapSelectMorePhotosButtonStream(_ input: Input) -> Output {
-    return input
-      .didTapSelectMorePhotosButton
-      .map {
-        return State.presentLimitedLibraryPicker
-      }
-      .eraseToAnyPublisher()
-  }
-  
-  private func didTapAuthsettingButtonStream(_ input: Input) -> Output {
-    return input
-      .didTapAuthsettingButton
-      .receive(on: RunLoop.main)
-      .map {
-        return State.callSetting
-      }
-      .eraseToAnyPublisher()
-  }
-  
-  private func didTapCancelButtonStream(_ input: Input) -> Output {
-    return input
-      .didTapCancelButton
-      .receive(on: RunLoop.main)
-      .map { State.popViewController }
-      .eraseToAnyPublisher()
-  }
-  
-  private func didTapFinishButtonStream(_ input: Input) -> Output {
-    return input
-      .didTapFinishButton
-      .map { [weak self] in
-        let selectedAssets = self?.selectedAlbumPhoto.indexArray.map { indexPathItem in
-          return self?.dataSource[indexPathItem].asset ?? .init()
-        }
-        return State.deliverAssetsToParents(selectedAssets ?? .init())
-      }
-      .eraseToAnyPublisher()
-  }
-  
   private func selectedIndexArrayStream(_ input: Input) -> Output {
     return selectedAlbumPhoto.$indexArray
       .map { $0.count > 0 ? State.activateFinishButton(true) : State.activateFinishButton(false) }
@@ -192,13 +142,13 @@ extension DefaultAlbumViewModel {
     return input
       .viewDidLoad
       .map { [weak self] _ in
-        
-        self?.dataSource = self?.albumUseCase
+        guard let self = self else { return State.none }
+        self.dataSource = self.albumUseCase
           .getAssets()
-          .map { PhotoModel(asset: $0, selectedOrder: .none) } ?? .init()
+          .map { PhotoModel(asset: $0, selectedOrder: .none) }
         
         if #available(iOS 14, *) {
-          return State.reloadData(isAuthLimited: self?.isAuthStatusLimited ?? true)
+          return State.reloadData(isAuthLimited: self.isAuthStatusLimited)
         } else {
           return State.reloadData(isAuthLimited: false)
         }
@@ -212,7 +162,7 @@ extension DefaultAlbumViewModel {
       .map { [weak self] indexPath in
         guard
           let selectedAlbumPhotoCount = self?.selectedAlbumPhoto.indexArray.count,
-          let selectMaxCountPolicy = self?.albumPhotoMaxCountUseCase.selectMaxCount
+          let selectMaxCountPolicy = self?.albumUseCase.maxSelectPhotoCount
         else { return State.none }
           
         let updatingIndexPaths: [IndexPath]
@@ -246,24 +196,46 @@ extension DefaultAlbumViewModel {
       }
       .eraseToAnyPublisher()
   }
+}
+
+// MARK: - AlbumViewModelPageDelegate
+extension DefaultAlbumViewModel: AlbumViewModelPageDelegate {
+  func showDetailPhoto(at itemIndex: Int) {
+    let detailModel = PhotoDetailModel(
+      photoModel: dataSource[itemIndex],
+      selectedAlbumPhoto: selectedAlbumPhoto,
+      indexPathItem: itemIndex
+    )
+    actions.showDetailPhoto(detailModel, albumUseCase.maxSelectPhotoCount)
+  }
   
-  private func touchedElseQuadrantStream(_ input: Input) -> Output {
-    return input
-      .touchedElseQuadrant
-      .map { [weak self] indexPath in
-        guard 
-          let photoModel = self?.dataSource[indexPath.item],
-          let selectedAlbumPhoto = self?.selectedAlbumPhoto
-        else { return State.none }
-        
-        let photoDetailModel = PhotoDetailModel(
-          photoModel: photoModel,
-          selectedAlbumPhoto: selectedAlbumPhoto,
-          indexPathItem: indexPath.item
-        )
-        
-        return State.showDetailPhoto(photoDetailModel)
-      }
-      .eraseToAnyPublisher()
+  func pop() {
+    actions.pop()
+  }
+  
+  func callSetting() {
+    actions.callSetting()
+  }
+  
+  func popByPassingAssets() {
+    let selectedAssets = self.selectedAlbumPhoto.indexArray.map { indexPathItem in
+      return self.dataSource[indexPathItem].asset
+    }
+    actions.popByPassingAssets(selectedAssets)
+  }
+  
+  func presentLimitedLibraryPicker() {
+    actions.presentLimitedLibraryPicker()
+  }
+}
+
+// MARK: - AlbumViewModelDataSourceable
+extension DefaultAlbumViewModel: AlbumViewModelDataSourceable {
+  func numberOfItemsInSection() -> Int {
+    return dataSource.count
+  }
+  
+  func photoModel(ItemIndex: Int) -> PhotoModel {
+    return dataSource[ItemIndex]
   }
 }

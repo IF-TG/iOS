@@ -1,5 +1,5 @@
 //
-//  MockReviewWritingRepository.swift
+//  JsonMockReviewWritingRepository.swift
 //  travelPlan
 //
 //  Created by SeokHyun on 4/20/24.
@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-final class MockReviewWritingRepository {
+final class JsonMockReviewWritingRepository {
   // MARK: - Properties
   private let repository: ReviewWritingRepository
   
@@ -20,7 +20,7 @@ final class MockReviewWritingRepository {
 }
 
 // MARK: - ReviewWritingRepository
-extension MockReviewWritingRepository: ReviewWritingRepository {
+extension JsonMockReviewWritingRepository: ReviewWritingRepository {
   func savePost(with reviewWritingPost: ReviewWritingEntity) -> AnyPublisher<Bool, any Error> {
     MockUrlProtocol.requestHandler = { _ in
       let mockResponseData = MockResponseType.post(.reviewWritingPostResponse).mockDataLoader

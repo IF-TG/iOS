@@ -25,6 +25,11 @@ final class DestinationDetailImageCell: UICollectionViewCell {
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
+  
+  override func prepareForReuse() {
+    super.prepareForReuse()
+    thumbnailImageView.image = nil
+  }
 }
 
 // MARK: - Helpers
@@ -33,7 +38,6 @@ extension DestinationDetailImageCell {
     if let data = data {
       thumbnailImageView.image = UIImage(data: data)
     } else {
-      // TODO: - Data가 없는 경우, Default 이미지를 추가해야 합니다.
       thumbnailImageView.image = UIImage(named: "emptyImageSquare")
     }
   }

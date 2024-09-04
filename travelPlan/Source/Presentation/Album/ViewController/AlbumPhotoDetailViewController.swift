@@ -13,11 +13,10 @@ import Photos
 final class AlbumPhotoDetailViewController: UIViewController {
   
   // MARK: - Properties
-  private let viewModel: any AlbumPhotoDetailViewModelable
+  private let viewModel: any AlbumPhotoDetailViewModel
   private let input = AlbumPhotoDetailViewModelInput()
-  private let photoService: PhotoService
+  private let photoService: any PhotoService
   private var subscriptions = Set<AnyCancellable>()
-  weak var coordinator: AlbumPhotoDetailCoordinatorDelegate?
   
   private let imageView: UIImageView = .init().set {
     $0.contentMode = .scaleAspectFit
@@ -43,7 +42,7 @@ final class AlbumPhotoDetailViewController: UIViewController {
   
   // MARK: - LifeCycle
   init(
-    viewModel: any AlbumPhotoDetailViewModelable,
+    viewModel: any AlbumPhotoDetailViewModel,
     photoService: any PhotoService
   ) {
     self.viewModel = viewModel
@@ -123,8 +122,6 @@ extension AlbumPhotoDetailViewController {
           self?.orderView.initializeUI()
         case .setOrder(let order):
           self?.orderView.configureOrderView(orderText: String(order))
-        case .popViewController:
-          self?.coordinator?.popViewController()
         case .configureUI(let photoModel):
           self?.fetchDetailImage(asset: photoModel.asset)
           self?.configureOrder(selectedOrder: photoModel.selectedOrder)
@@ -156,7 +153,7 @@ extension AlbumPhotoDetailViewController {
 // MARK: - Actions
 private extension AlbumPhotoDetailViewController {
   @objc func didTapBackButton(_ sender: UIButton) {
-    input.didTapBackButton.send()
+    viewModel.pop()
   }
   
   @objc func didTapOrderView() {
