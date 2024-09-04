@@ -133,8 +133,13 @@ final class PostReviewWritingCategoryBottomSheet: BaseBottomSheetViewController 
     }
   }
   
+  /// 선택된 카테고리들은 selectedCategory 인스턴스를 통해 read할 수 있습니다.
+  /// 구현체 측에서는 weak를 사용해서 retain cycle을 방지해야합니다: )
+  var okButtonHandler: (() -> Void)?
+  
   // MARK: - Lifecycle
-  init() {
+  /// 카테고리를 선택했다면 init시점에 주입해주세요.
+  init(selectedCategory: Post.Category? = nil) {
     selectCompletionView.heightAnchor.constraint(equalToConstant: 105).isActive = true
     let stackView = UIStackView(arrangedSubviews: [collectionView, selectCompletionView]).set {
       $0.translatesAutoresizingMaskIntoConstraints = false
@@ -145,6 +150,13 @@ final class PostReviewWritingCategoryBottomSheet: BaseBottomSheetViewController 
     collectionView.dataSource = self
     collectionView.delegate = self
     bind()
+    guard let selectedCategory else { return }
+    themes = selectedCategory.themes
+    regions = selectedCategory.regions
+    seasons = selectedCategory.seasons
+    partners = selectedCategory.partners
+    if themes.count + regions.count + seasons.count + partners.count == 0 { return }
+    selectCompletionView.activeOKButtonUI()
   }
   
   override func viewDidLoad() {
@@ -161,8 +173,8 @@ final class PostReviewWritingCategoryBottomSheet: BaseBottomSheetViewController 
     selectCompletionView.okButtonTap = { [weak self] in
       guard let self else { return }
       let postCategory = Post.Category(themes: themes, regions: regions, seasons: seasons, partners: partners)
-      // TODO: - 이제 dismiss를 해야합니다. 이때 여행 후기 작성 화면으로 돌아간 후에 로딩 화면과 함께 전환할것인지 등을 결정해야합니다.
       selectedCategory = postCategory
+      okButtonHandler?()
       dismiss(animated: true)
     }
     selectCompletionView.clearButtonTap = { [weak self] in
