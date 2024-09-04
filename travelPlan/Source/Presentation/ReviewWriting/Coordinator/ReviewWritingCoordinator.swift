@@ -79,7 +79,9 @@ extension ReviewWritingCoordinator {
 //    let vc = ReviewWritingViewController(viewModel: viewModel, photoService: photoService)
     let actions = ReviewWritingViewModelActions(
       showAlbum: { [weak self] in self?.showAlbum() },
-      showCategoryBottomSheet: { [weak self] in self?.showCategoryBottomSheet() },
+      showCategoryBottomSheet: {
+        [weak self] selectedCategory in self?.showCategoryBottomSheet(with: selectedCategory)
+      },
       pop: { [weak self] in self?.pop() },
       popWith: { [weak self] post in self?.receive(post: post) },
       presentPlan: { [weak self] in self?.presentPlan() },
@@ -111,9 +113,15 @@ extension ReviewWritingCoordinator {
     addChild(with: childCoordinator)
   }
   
-  private func showCategoryBottomSheet() {
-    let bottomSheet = PostReviewWritingCategoryBottomSheet()
+  private func showCategoryBottomSheet(with selectedCategory: Post.Category? = nil) {
+    let bottomSheet = PostReviewWritingCategoryBottomSheet(selectedCategory: selectedCategory)
     bottomSheet.dismissHandler = {
+      /// 내부 클로저에 self타입의 프로퍼티, 함수를 쓸 경우 반드시 [weak self] 사용해야 합니다: )
+      print(bottomSheet.selectedCategory)
+    }
+    
+    bottomSheet.okButtonHandler = {
+      /// 확인 버튼 눌릴 경우에 호출됩니다.
       /// 내부 클로저에 self타입의 프로퍼티, 함수를 쓸 경우 반드시 [weak self] 사용해야 합니다: )
       print(bottomSheet.selectedCategory)
     }
