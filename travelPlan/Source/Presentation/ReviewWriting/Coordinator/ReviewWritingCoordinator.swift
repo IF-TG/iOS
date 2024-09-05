@@ -79,8 +79,8 @@ extension ReviewWritingCoordinator {
 //    let vc = ReviewWritingViewController(viewModel: viewModel, photoService: photoService)
     let actions = ReviewWritingViewModelActions(
       showAlbum: { [weak self] in self?.showAlbum() },
-      showCategoryBottomSheet: {
-        [weak self] selectedCategory in self?.showCategoryBottomSheet(with: selectedCategory)
+      showCategoryBottomSheet: { [weak self] selectedCategory in
+        self?.showCategoryBottomSheet(with: selectedCategory)
       },
       pop: { [weak self] in self?.pop() },
       popWith: { [weak self] post in self?.receive(post: post) },
