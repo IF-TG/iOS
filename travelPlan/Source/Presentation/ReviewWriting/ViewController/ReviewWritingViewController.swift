@@ -124,7 +124,6 @@ extension ReviewWritingViewController {
           break
         case .manageTextViewDisplay:
           self?.contentView.manageContentOffsetYByLastView()
-          break
         case let .setupContents(title, postContents):
           self?.contentView.setupContents(.init(title: title, contents: postContents))
         case .unexpectedError(description: let description):
@@ -133,6 +132,12 @@ extension ReviewWritingViewController {
           self?.viewModel.pop()
         case .savedReviewWritingEditSuccessfully(post: let post):
           self?.viewModel.pop(with: post)
+        case .activateFinishButton(let activate):
+          if activate {
+            self?.finishButton.setTitleColor(.yg.primary, for: .normal)
+          } else {
+            self?.finishButton.setTitleColor(.yg.gray1, for: .normal)
+          }
         }
       }
       .store(in: &subscriptions)
@@ -255,7 +260,7 @@ private extension ReviewWritingViewController {
   
   @objc func didTapFinishButton() {
     let contentViewInfo = contentView.extractContentData()
-    input.didTapFinishButton.send((contentViewInfo.contents, contentViewInfo.title))
+    input.didTapFinishButton.send(contentViewInfo)
   }
   
   @objc func didTapTitleView() {
@@ -288,13 +293,15 @@ extension ReviewWritingViewController: ReviewWritingContentViewDelegate {
     setScrollViewBottomInset(inset: bottomEdge)
   }
   
-  func handleFinishButtonTitleColor(isEnabled: Bool) {
-    finishButton.isEnabled = isEnabled
-    if isEnabled {
-      finishButton.setTitleColor(.yg.primary, for: .normal)
-    } else {
-      finishButton.setTitleColor(.yg.gray1, for: .normal)
-    }
+  func validatePhotoAndTextAreAdded(isAdded: Bool) {
+    // TODO: - 바텀시트의 데이터 또한 존재해야 finishButton.isEnabled true를 만들어야 한다.
+    input.validatePhotoAndTextAreAdded.send(isAdded)
+//    finishButton.isEnabled = isEnabled
+//    if isEnabled {
+//      finishButton.setTitleColor(.yg.primary, for: .normal)
+//    } else {
+//      finishButton.setTitleColor(.yg.gray1, for: .normal)
+//    }
   }
 }
 

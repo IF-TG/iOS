@@ -11,9 +11,11 @@ import Photos
 
 struct ReviewWritingViewModelInput {
   let didTapTitleTextView: PassthroughSubject<Void, Never> = .init()
-  let didTapFinishButton: PassthroughSubject<([PostContentEntity], String), Never> = .init()
+  let didTapFinishButton: PassthroughSubject<(ReviewWritingContentViewInfo), Never> = .init()
   let didTapScrollView: PassthroughSubject<Void, Never> = .init()
   let viewDidLoad: PassthroughSubject<Void, Never> = .init()
+  /// 사진과 텍스트 모두 추가되었는지 검증하는 Publisher입니다.
+  let validatePhotoAndTextAreAdded: PassthroughSubject<Bool, Never> = .init()
 }
 
 enum ReviewWritingMode {
@@ -38,6 +40,7 @@ enum ReviewWritingViewModelState {
   case manageTextViewDisplay
   case none
   case setupContents(title: String, contents: [PostContentEntity])
+  case activateFinishButton(Bool)
 }
 
 final class DefaultReviewWritingViewModel {
@@ -48,10 +51,15 @@ final class DefaultReviewWritingViewModel {
   private let actions: ReviewWritingViewModelActions
   
   private let selectedAssetsPublisher: AnyPublisher<[PHAsset], Never>
+  /// 바텀시트의 완료버튼이 눌리거나 dismiss될 때 사용됩니다.
+  private let selectedCategoryPublisher: AnyPublisher<Post.Category?, Never>
   
   // MARK: - Properties
   private var reviewWritingEntity: ReviewWritingEntity?
   private var subscriptions = Set<AnyCancellable>()
+  private var category: Post.Category?
+  private var arePhotoAndTextAdded: Bool?
+  private let finishButtonStatePublisher = PassthroughSubject<Void, Never>()
   
   // MARK: - LifeCycle
   init(
@@ -59,13 +67,17 @@ final class DefaultReviewWritingViewModel {
     loggedInOwnerUseCase: any LoggedInUserUseCase,
     mode: ReviewWritingMode,
     actions: ReviewWritingViewModelActions,
-    selectedAssetsPublisher: AnyPublisher<[PHAsset], Never>
+    selectedAssetsPublisher: AnyPublisher<[PHAsset], Never>,
+    selectedCategoryPublisher: AnyPublisher<Post.Category?, Never>
   ) {
     self.reviewWritingUseCase = reviewWritingUseCase
     self.loggedInOwnerUseCase = loggedInOwnerUseCase
     self.mode = mode
     self.actions = actions
     self.selectedAssetsPublisher = selectedAssetsPublisher
+    self.selectedCategoryPublisher = selectedCategoryPublisher
+    
+    bind()
   }
   
   deinit {
@@ -81,7 +93,9 @@ extension DefaultReviewWritingViewModel: ReviewWritingViewModelable {
         viewDidLoadStream(input),
         didTapScrollViewStream(input),
         didTapFinishButtonStream(input),
-        selectedAssetsStream()
+        selectedAssetsStream(),
+        validatePhotoAndTextAreAddedStream(input),
+        finishButtonStateStream()
       )
       .eraseToAnyPublisher()
   }
@@ -89,6 +103,51 @@ extension DefaultReviewWritingViewModel: ReviewWritingViewModelable {
 
 // MARK: - Private Helpers
 extension DefaultReviewWritingViewModel {
+  private func bind() {
+    selectedCategoryPublisher.sink { [weak self] category in
+      self?.category = category
+      self?.finishButtonStatePublisher.send()
+    }.store(in: &subscriptions)
+  }
+  
+  private func finishButtonStateStream() -> Output {
+    return finishButtonStatePublisher
+      .map { [weak self] _ in
+        guard let arePhotoAndTextAdded = self?.arePhotoAndTextAdded else { return State.none }
+        if self?.category != nil, arePhotoAndTextAdded {
+          return State.activateFinishButton(true)
+        } else {
+          return State.activateFinishButton(false)
+        }
+      }
+      .eraseToAnyPublisher()
+  }
+  
+  private func validatePhotoAndTextAreAddedStream(_ input: Input) -> Output {
+    // photo text O, 카테고리 X -> X
+    // photo text X, 카테고리 X -> X
+    // photo text X, 카테고리 O -> X
+    // photo text O, 카테고리 O -> O
+    
+    
+    // edit모드인 경우에는 기본적으로 카테고리가 지정되어 있음.
+    // 이때 바텀시트를 초기화하면 카테고리가 지워짐
+    
+    // new모드인 경우에는 기본적으로 카테고리가 지정되어 있지 않음.
+    
+    return input.validatePhotoAndTextAreAdded
+      .map { [weak self] isAdded in
+        self?.arePhotoAndTextAdded = isAdded
+        
+        if isAdded, self?.category != nil {
+          return State.activateFinishButton(true)
+        } else {
+          return State.activateFinishButton(false)
+        }
+      }
+      .eraseToAnyPublisher()
+  }
+  
   private func selectedAssetsStream() -> Output {
     selectedAssetsPublisher.flatMap { assets in
       let group = DispatchGroup()
@@ -138,33 +197,42 @@ extension DefaultReviewWritingViewModel {
   
   private func didTapFinishButtonStream(_ input: Input) -> Output {
     return input.didTapFinishButton
-      .flatMap { [weak self, reviewWritingUseCase, mode] contents, title in
-        self?.reviewWritingEntity?.contents = contents
-        self?.reviewWritingEntity?.title = title
+    // edit의 경우에는 mode의 연관값에 category가 들어있지만, 추후 초기화 가능성을 고려해서 private let category를 사용하는것이 나을듯
+    // 즉, bind를 통해 self.category값이 지정되므로 self.category를 사용하면 된다.
+    // 초기화 버튼을 누를 경우에는 self.category를 nil로 변환해준다. 이때 리뷰작성 완료버튼을 비활성화 해주어야 한다.
+      .flatMap { [weak self, reviewWritingUseCase, mode] contentInfo in
+        guard let category = self?.category else { return Just(State.none).eraseToAnyPublisher() }
         
+        self?.reviewWritingEntity?.contents = contentInfo.contents
+        self?.reviewWritingEntity?.title = contentInfo.title
         switch mode {
         case .new:
-          // TODO: - 사용자가 정의한 테마 설정을 기반으로 eneity를 정의해야합니다.
+          print("카테고리: \(category)")
           
           // MARK: About postId.
           // postId를 생성한 이유는 Firestore를 사용할 때 postId를 직접 지정하기 위해서 입니다.
           // 지정할 때 identifiable한 알고리즘을 사용해야합니다.
           // 지금은 spring server을 사용하므로 -1을 넣습니다.
-          let tempThemeEntity = ReviewWritingEntity(
+          
+          // TODO: - Date UI가 반영되면 temp를 제거합니다.
+          let tempDate = Post.TripDate(
+            startDate: DateTimeConverter.toDate(from: "2023.10.24")!,
+            endDate: DateTimeConverter.toDate(from: "2023.10.27")!)
+          
+          let reviewWritingEntity = ReviewWritingEntity(
             postId: -1,
-            category: .init(themes: [.adventure],
-                            regions: [.busan],
-                            seasons: [.fall],
-                            partners: [.alone]),
-            // MARK: yyyy.MM.dd형식으로 Date를 반환해야합니다.
-            tripDate: .init(
-              startDate: DateTimeConverter.toDate(from: "2023.10.24")!,
-              endDate: DateTimeConverter.toDate(from: "2023.10.27")!),
-            title: title,
-            contents: contents,
+            category: .init(
+              themes: category.themes,
+              regions: category.regions,
+              seasons: category.seasons,
+              partners: category.partners
+            ),
+            tripDate: tempDate,
+            title: contentInfo.title,
+            contents: contentInfo.contents,
             authorId: self?.loggedInOwnerUseCase.id
           )
-          return reviewWritingUseCase.savePost(entity: tempThemeEntity)
+          return reviewWritingUseCase.savePost(entity: reviewWritingEntity)
             .filter { $0 }
             .map { _ in State.savedReviewWritingSuccessfully }
             .catch { Just(State.unexpectedError(description: $0.localizedDescription)).eraseToAnyPublisher() }
