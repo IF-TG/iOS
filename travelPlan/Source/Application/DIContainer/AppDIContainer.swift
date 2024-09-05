@@ -275,9 +275,12 @@ extension AppDIContainer: ReviewWritingCoordinatorDependencies {
   func makeReviewWritingViewController(
     mode: ReviewWritingMode,
     actions: ReviewWritingViewModelActions,
-    selectedAssetsPublisher: AnyPublisher<[PHAsset], Never>
+    selectedAssetsPublisher: AnyPublisher<[PHAsset], Never>,
+    selectedCategoryPublisher: AnyPublisher<Post.Category?, Never>
   ) -> ReviewWritingViewController {
-    return container.resolve(ReviewWritingViewController.self, arguments: mode, actions, selectedAssetsPublisher)!
+    return container.resolve(
+      ReviewWritingViewController.self,
+      arguments: mode, actions, selectedAssetsPublisher, selectedCategoryPublisher)!
   }
   
   func makeAlbumCoordinator(presenter: UINavigationController?) -> AlbumCoordinator {
