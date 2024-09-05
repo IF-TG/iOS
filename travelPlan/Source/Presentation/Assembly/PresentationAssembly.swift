@@ -364,7 +364,7 @@ private extension PresentationAssembly {
   func albumPhotoDetailPage(container: Container) {
     container.register((any AlbumPhotoDetailViewModel).self) { (_, photoDetailModel, maxSelectPhotoCount, actions) in
       return DefaultAlbumPhotoDetailViewModel(
-        photoDetailModel: photoDetailModel,
+        dataSource: photoDetailModel,
         maxSelectPhotoCount: maxSelectPhotoCount,
         actions: actions
       )

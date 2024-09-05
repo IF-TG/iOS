@@ -23,7 +23,7 @@ enum ReviewWritingMode {
 
 struct ReviewWritingViewModelActions {
   let showAlbum: () -> Void
-  let showCategoryBottomSheet: () -> Void
+  let showCategoryBottomSheet: (_ selectedCateogry: Post.Category?) -> Void
   let pop: () -> Void
   let popWith: (Post?) -> Void
   let presentPlan: () -> Void
@@ -220,6 +220,7 @@ extension DefaultReviewWritingViewModel: ReviewWritingViewModelPageDelegate {
   }
   
   func showCategoryBottomSheet() {
-    actions.showCategoryBottomSheet()
+    /// 사용자가 선택한 카테고리가 있을 경우 매개변수로 주입해야합니다.
+    actions.showCategoryBottomSheet(nil)
   }
 }
