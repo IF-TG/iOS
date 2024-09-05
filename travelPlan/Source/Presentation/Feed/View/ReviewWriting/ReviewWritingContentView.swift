@@ -265,7 +265,7 @@ extension ReviewWritingContentView {
     .map { $0 && $1 }
     .receive(on: RunLoop.main)
     .sink { [weak self] isEnabled in
-      self?.delegate?.handleFinishButtonTitleColor(isEnabled: isEnabled)
+      self?.delegate?.validatePhotoAndTextAreAdded(isAdded: isEnabled)
     }
     .store(in: &subscriptions)
   }
