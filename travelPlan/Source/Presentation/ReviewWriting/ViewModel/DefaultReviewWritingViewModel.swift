@@ -25,7 +25,7 @@ enum ReviewWritingMode {
 
 struct ReviewWritingViewModelActions {
   let showAlbum: () -> Void
-  let showCategoryBottomSheet: () -> Void
+  let showCategoryBottomSheet: (_ selectedCateogry: Post.Category?) -> Void
   let pop: () -> Void
   let popWith: (Post?) -> Void
   let presentPlan: () -> Void
@@ -128,7 +128,6 @@ extension DefaultReviewWritingViewModel {
     // photo text X, 카테고리 X -> X
     // photo text X, 카테고리 O -> X
     // photo text O, 카테고리 O -> O
-    
     
     // edit모드인 경우에는 기본적으로 카테고리가 지정되어 있음.
     // 이때 바텀시트를 초기화하면 카테고리가 지워짐
@@ -288,6 +287,6 @@ extension DefaultReviewWritingViewModel: ReviewWritingViewModelPageDelegate {
   }
   
   func showCategoryBottomSheet() {
-    actions.showCategoryBottomSheet()
+    actions.showCategoryBottomSheet(category)
   }
 }

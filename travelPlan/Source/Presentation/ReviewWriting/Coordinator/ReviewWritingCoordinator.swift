@@ -61,7 +61,9 @@ extension ReviewWritingCoordinator {
   func start(mode: ReviewWritingMode) {
     let actions = ReviewWritingViewModelActions(
       showAlbum: { [weak self] in self?.showAlbum() },
-      showCategoryBottomSheet: { [weak self] in self?.showCategoryBottomSheet() },
+      showCategoryBottomSheet: { [weak self] selectedCategory in
+        self?.showCategoryBottomSheet(with: selectedCategory)
+      },
       pop: { [weak self] in self?.pop() },
       popWith: { [weak self] post in self?.receive(post: post) },
       presentPlan: { [weak self] in self?.presentPlan() },
@@ -94,8 +96,8 @@ extension ReviewWritingCoordinator {
     addChild(with: childCoordinator)
   }
   
-  private func showCategoryBottomSheet() {
-    let bottomSheet = PostReviewWritingCategoryBottomSheet()
+  private func showCategoryBottomSheet(with selectedCategory: Post.Category? = nil) {
+    let bottomSheet = PostReviewWritingCategoryBottomSheet(selectedCategory: selectedCategory)
     bottomSheet.okButtonHandler = { [weak self] in
       self?.selectedCategorySubject.send(bottomSheet.selectedCategory)
     }
