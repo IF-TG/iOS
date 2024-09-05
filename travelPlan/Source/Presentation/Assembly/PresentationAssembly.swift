@@ -331,7 +331,7 @@ private extension PresentationAssembly {
   }
   
   func reviewWritingPage(container: Container) {
-    container.register((any ReviewWritingViewModel).self) { (r, mode, actions, selectedAssetsPublisher) in
+    container.register((any ReviewWritingViewModel).self) { (r, mode, actions, selectedAssetsPublisher, selectedCategoryPublisher) in
       let reviewWritingUseCase = r.resolve(ReviewWritingUseCase.self)!
       let loggedInUserUseCase = r.resolve(LoggedInUserUseCase.self)!
       
@@ -340,14 +340,15 @@ private extension PresentationAssembly {
         loggedInOwnerUseCase: loggedInUserUseCase,
         mode: mode,
         actions: actions,
-        selectedAssetsPublisher: selectedAssetsPublisher
+        selectedAssetsPublisher: selectedAssetsPublisher,
+        selectedCategoryPublisher: selectedCategoryPublisher
       )
     }
     
-    container.register(ReviewWritingViewController.self) { (r, mode: ReviewWritingMode, actions: ReviewWritingViewModelActions, selectedAssetsPublisher: AnyPublisher<[PHAsset], Never>) in
+    container.register(ReviewWritingViewController.self) { (r, mode: ReviewWritingMode, actions: ReviewWritingViewModelActions, selectedAssetsPublisher: AnyPublisher<[PHAsset], Never>, selectedCategoryPublisher: AnyPublisher<Post.Category?, Never>) in
       let viewModel = r.resolve(
         (any ReviewWritingViewModel).self,
-        arguments: mode, actions, selectedAssetsPublisher
+        arguments: mode, actions, selectedAssetsPublisher, selectedCategoryPublisher
       )!
       let photoService = r.resolve(PhotoService.self)!
       
@@ -364,7 +365,7 @@ private extension PresentationAssembly {
   func albumPhotoDetailPage(container: Container) {
     container.register((any AlbumPhotoDetailViewModel).self) { (_, photoDetailModel, maxSelectPhotoCount, actions) in
       return DefaultAlbumPhotoDetailViewModel(
-        photoDetailModel: photoDetailModel,
+        dataSource: photoDetailModel,
         maxSelectPhotoCount: maxSelectPhotoCount,
         actions: actions
       )
