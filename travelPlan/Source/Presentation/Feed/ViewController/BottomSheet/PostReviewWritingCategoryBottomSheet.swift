@@ -133,6 +133,8 @@ final class PostReviewWritingCategoryBottomSheet: BaseBottomSheetViewController 
     }
   }
   
+  var okButtonHandler: (() -> Void)?
+  
   // MARK: - Lifecycle
   init() {
     selectCompletionView.heightAnchor.constraint(equalToConstant: 105).isActive = true
@@ -163,6 +165,7 @@ final class PostReviewWritingCategoryBottomSheet: BaseBottomSheetViewController 
       let postCategory = Post.Category(themes: themes, regions: regions, seasons: seasons, partners: partners)
       // TODO: - 이제 dismiss를 해야합니다. 이때 여행 후기 작성 화면으로 돌아간 후에 로딩 화면과 함께 전환할것인지 등을 결정해야합니다.
       selectedCategory = postCategory
+      okButtonHandler?()
       dismiss(animated: true)
     }
     selectCompletionView.clearButtonTap = { [weak self] in
