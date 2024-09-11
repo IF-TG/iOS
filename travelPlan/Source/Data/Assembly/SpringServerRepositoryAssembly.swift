@@ -140,9 +140,14 @@ private extension SpringServerRepositoryAssembly {
   }
   
   func reviewWritingRepository(container: Container) {
+    
     container.register(ReviewWritingRepository.self) { r in
       let service = r.resolve(Sessionable.self)!
       return DefaultReviewWritingRepository(service: service)
+    }
+    
+    container.register(ReviewWritingRepository.self, name: .jsonMock) { _ in
+      return JsonMockReviewWritingRepository()
     }
   }
   

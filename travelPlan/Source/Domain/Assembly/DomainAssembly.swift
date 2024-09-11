@@ -339,10 +339,15 @@ private extension DomainAssembly {
   }
   
   func reviewWritingUseCase(container: Container) {
+    
     container.register(ReviewWritingUseCase.self) { r in
-      let reviewWritingRepository = r.resolve(ReviewWritingRepository.self)!
+      let reviewWritingRepository: any ReviewWritingRepository
       let photoAuthRepository = r.resolve(PhotoAuthorizationRepository.self)!
-      
+#if DEBUG
+      reviewWritingRepository = r.resolve(ReviewWritingRepository.self, name: .jsonMock)!
+#else
+      reviewWritingRepository = r.resolve(ReviewWritingRepository.self)!
+#endif
       return DefaultReviewWritingUseCase(
         reviewWritingRepository: reviewWritingRepository,
         photoAuthRepository: photoAuthRepository
