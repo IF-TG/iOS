@@ -196,9 +196,6 @@ extension DefaultReviewWritingViewModel {
   
   private func didTapFinishButtonStream(_ input: Input) -> Output {
     return input.didTapFinishButton
-    // edit의 경우에는 mode의 연관값에 category가 들어있지만, 추후 초기화 가능성을 고려해서 private let category를 사용하는것이 나을듯
-    // 즉, bind를 통해 self.category값이 지정되므로 self.category를 사용하면 된다.
-    // 초기화 버튼을 누를 경우에는 self.category를 nil로 변환해준다. 이때 리뷰작성 완료버튼을 비활성화 해주어야 한다.
       .flatMap { [weak self, reviewWritingUseCase, mode] contentInfo in
         guard let category = self?.category else { return Just(State.none).eraseToAnyPublisher() }
         
