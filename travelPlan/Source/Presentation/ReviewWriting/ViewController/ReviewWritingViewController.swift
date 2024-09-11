@@ -133,11 +133,7 @@ extension ReviewWritingViewController {
         case .savedReviewWritingEditSuccessfully(post: let post):
           self?.viewModel.pop(with: post)
         case .activateFinishButton(let activate):
-          if activate {
-            self?.finishButton.setTitleColor(.yg.primary, for: .normal)
-          } else {
-            self?.finishButton.setTitleColor(.yg.gray1, for: .normal)
-          }
+          self?.setFinishButtonState(activate)
         }
       }
       .store(in: &subscriptions)
@@ -146,6 +142,16 @@ extension ReviewWritingViewController {
 
 // MARK: - Private Helpers
 extension ReviewWritingViewController {
+  private func setFinishButtonState(_ activate: Bool) {
+    if activate {
+      finishButton.setTitleColor(.yg.primary, for: .normal)
+      finishButton.isEnabled = true
+    } else {
+      finishButton.setTitleColor(.yg.gray1, for: .normal)
+      finishButton.isEnabled = false
+    }
+  }
+  
   private func addGestureRecognizer(from view: UIView, action: Selector?) {
     let tapGesture = UITapGestureRecognizer(target: self, action: action)
     view.addGestureRecognizer(tapGesture)
@@ -296,12 +302,6 @@ extension ReviewWritingViewController: ReviewWritingContentViewDelegate {
   func validatePhotoAndTextAreAdded(isAdded: Bool) {
     // TODO: - 바텀시트의 데이터 또한 존재해야 finishButton.isEnabled true를 만들어야 한다.
     input.validatePhotoAndTextAreAdded.send(isAdded)
-//    finishButton.isEnabled = isEnabled
-//    if isEnabled {
-//      finishButton.setTitleColor(.yg.primary, for: .normal)
-//    } else {
-//      finishButton.setTitleColor(.yg.gray1, for: .normal)
-//    }
   }
 }
 
