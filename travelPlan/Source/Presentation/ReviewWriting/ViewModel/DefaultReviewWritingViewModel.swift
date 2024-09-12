@@ -15,7 +15,7 @@ struct ReviewWritingViewModelInput {
   let didTapScrollView: PassthroughSubject<Void, Never> = .init()
   let viewDidLoad: PassthroughSubject<Void, Never> = .init()
   /// 사진과 텍스트 모두 추가되었는지 검증하는 Publisher입니다.
-  let validatePhotoAndTextAreAdded: PassthroughSubject<Bool, Never> = .init()
+  let validatePhotoAndTitleAreAdded: PassthroughSubject<Bool, Never> = .init()
 }
 
 enum ReviewWritingMode {
@@ -94,7 +94,7 @@ extension DefaultReviewWritingViewModel: ReviewWritingViewModelable {
         didTapScrollViewStream(input),
         didTapFinishButtonStream(input),
         selectedAssetsStream(),
-        validatePhotoAndTextAreAddedStream(input),
+        validatePhotoAndTitleAreAddedStream(input),
         finishButtonStateStream()
       )
       .eraseToAnyPublisher()
@@ -123,7 +123,7 @@ extension DefaultReviewWritingViewModel {
       .eraseToAnyPublisher()
   }
   
-  private func validatePhotoAndTextAreAddedStream(_ input: Input) -> Output {
+  private func validatePhotoAndTitleAreAddedStream(_ input: Input) -> Output {
     // photo text O, 카테고리 X -> X
     // photo text X, 카테고리 X -> X
     // photo text X, 카테고리 O -> X
@@ -134,7 +134,7 @@ extension DefaultReviewWritingViewModel {
     
     // new모드인 경우에는 기본적으로 카테고리가 지정되어 있지 않음.
     
-    return input.validatePhotoAndTextAreAdded
+    return input.validatePhotoAndTitleAreAdded
       .map { [weak self] isAdded in
         self?.arePhotoAndTextAdded = isAdded
         

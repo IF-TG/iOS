@@ -9,5 +9,5 @@ import Foundation
 
 protocol ReviewWritingContentViewDelegate: AnyObject {
   func changeContentInset(bottomEdge: CGFloat)
-  func validatePhotoAndTextAreAdded(isAdded: Bool)
+  func validatePhotoAndTitleAreAdded(isAdded: Bool)
 }

@@ -299,9 +299,8 @@ extension ReviewWritingViewController: ReviewWritingContentViewDelegate {
     setScrollViewBottomInset(inset: bottomEdge)
   }
   
-  func validatePhotoAndTextAreAdded(isAdded: Bool) {
-    // TODO: - 바텀시트의 데이터 또한 존재해야 finishButton.isEnabled true를 만들어야 한다.
-    input.validatePhotoAndTextAreAdded.send(isAdded)
+  func validatePhotoAndTitleAreAdded(isAdded: Bool) {
+    input.validatePhotoAndTitleAreAdded.send(isAdded)
   }
 }
 
