@@ -62,7 +62,7 @@
 - Input/Output binding ( in MVVM )
 - Coordinator
 
-> 각각의 layer 마다 객체들은 protocol을 DIP를 지키고자 노력했습니다.
+> 각각의 layer 마다 객체들은 protocol을 통해 의존성을 낮추어 서로 협력합니다. 이때 **DIP**를 지키고자 노력했습니다.
 > 또한 layer 별로 Assembly에서 객체를 등록해, 객체의 의존성 주입에 필요한 로직을 해당 Layer의 Assembly에서 한정할 수 있었습니다.
 
 ---
