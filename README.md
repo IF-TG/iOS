@@ -1,13 +1,14 @@
 # 여가: 여행을 가다
 
-![image](https://github.com/user-attachments/assets/b7e7ae64-fd3e-4771-a59a-58a7af8330f9)
+![image](https://github.com/user-attachments/assets/c4c200c9-01e3-4451-9abb-43454361a628)
 
 
 ## 프로젝트 소개 
-> 먼저 다녀온 여행객의 여행 기록을 후기로 공유하고 국내 소외 관광지를 활성화 하기 위한 서비스 입니다.
+먼저 다녀온 여행객의 여행 기록을 후기로 공유하고 국내 소외 관광지를 활성화 하기 위한 서비스 입니다.
 
 ### 👉 개발 동기
-  - 많은 현대인이 SNS 광고와 알고리즘에 의존해 여행지를 선택하면서, 일부 국내 여행지들이 소외되고 있습니다. 이 문제를 해결하기 위해, 한국관광공사 공공데이터를 활용한 여행 커뮤니티 앱 서비스를 개발하여 숨겨진 여행지를 발굴하고 공유할 수 있는 플렛폼을 마련했습니다🤩
+> 많은 현대인이 SNS 광고와 알고리즘에 의존해 여행지를 선택하면서, 일부 국내 여행지들이 소외되고 있습니다.
+> 이 문제를 해결하기 위해, 한국관광공사 공공데이터를 활용한 여행 커뮤니티 앱 서비스를 개발하여 숨겨진 여행지를 발굴하고 공유할 수 있는 플렛폼을 마련했습니다🤩
 
 ---
 
@@ -25,7 +26,7 @@
 - PullRequest할 때, 자신이 구현한 기능 자세히 소개 및 새롭게 알게된 개념 소개 및 참고했던 포스트 링크 남기기
 - 중복 코드를 줄이기. 객체와의 의존성은 줄이고 결합도는 높이는 객체 설계 및 구현하기
 
-### cf.
+### 💡 '여가' 스토리가 담긴 공간
 - <a href="https://carbonated-eggplant-aad.notion.site/d00c55ded166441bb7991ff3a28b4d73?pvs=4">여가-여행을 가다[노션 링크]</a>
 - <a href="https://www.figma.com/file/QmC7HTkSEMLfleIZlxnlOL/iOS-%EC%97%AC%ED%96%89-%EC%95%B1?type=design&mode=design">여가 UI/UX design Figma[링크]</a>
 - <a href="https://carbonated-eggplant-aad.notion.site/iOS-97bec2a437214a8198843455b4c4f5e5?pvs=4">iOS 팀 노션 [링크]</a>
@@ -48,6 +49,7 @@
 
 ### Etc
 - Figma, SwiftPM, Github project kanban
+
 ---
 
 ## 개발 환경
