@@ -17,5 +17,5 @@ protocol DestinationRecommendUseCase {
   func toggleDestinationScrap(
     id: Int,
     folderName: String?
-  )  -> AnyPublisher<DestinationScrapToggler, any Error>
+  ) -> AnyPublisher<DestinationScrapToggler, any Error>
 }
