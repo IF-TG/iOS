@@ -87,3 +87,9 @@ extension Post {
     let y: Double
   }
 }
+
+extension Post.PostContent: Equatable {
+  public static func == (lhs: Post.PostContent, rhs: Post.PostContent) -> Bool {
+    return lhs.sort == rhs.sort && lhs.text == rhs.text
+  }
+}
