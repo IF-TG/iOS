@@ -120,15 +120,13 @@ extension PostResponseDTO {
         postID, createAt)
     }
     
-//    os_log(
-//      "Failed to convert trip dates. PostId: %@ Start Date: %@, End Date: %@",
-//      log: .default,
-//      type: .error,
-//      postID, startDate, endDate)
+//        os_log(
+//          "Failed to convert trip dates. PostId: %@ Start Date: %@, End Date: %@",
+//          log: .default,
+//          type: .error,
+//          postID, startDate, endDate)
     
-    // TODO: - 델리미터 구분해서 Post객체 완성하기
     let textContents: [Post.PostContent] = indexDelimitedByUUID(content)
-    print("DEBUG: textContents -> \(textContents)")
     
     return Post.Detail<[Post.PostContent]>(
       postID: postID,
@@ -184,19 +182,22 @@ private extension PostResponseDTO {
     let uuidPattern = "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}"
     guard let regex = try? NSRegularExpression(pattern: uuidPattern, options: []) else { return [] }
     
-//    var result: [(String, Int)] = []  // 배열로 결과 저장
     var result = [Post.PostContent]()
     var currentIndex = 1
     var lastPosition = contentText.startIndex
     
-    // 정규식으로 매칭된 UUID 위치 탐색
-    let matches = regex.matches(in: contentText, options: [], range: NSRange(contentText.startIndex..., in: contentText))
+    // 정규식으로 매칭된 UUID 위치를 탐색합니다.
+    let matches = regex.matches(
+      in: contentText, options: [],
+      range: NSRange(contentText.startIndex..., in: contentText)
+    )
     
     for match in matches {
       let range = Range(match.range, in: contentText)!
       
       // UUID 앞의 텍스트 부분
-      let prefixText = String(contentText[lastPosition..<range.lowerBound]).trimmingCharacters(in: .whitespacesAndNewlines)
+      let prefixText = String(contentText[lastPosition..<range.lowerBound])
+        .trimmingCharacters(in: .whitespacesAndNewlines)
       if !prefixText.isEmpty {
         // 텍스트에 인덱스 할당
         result.append(Post.PostContent(sort: currentIndex, text: prefixText))
@@ -205,7 +206,6 @@ private extension PostResponseDTO {
       
       // UUID에 인덱스 할당
       let uuidString = String(contentText[range])
-//      result.append(Post.PostContent(sort: <#T##Int#>, text: uuidString)(uuidString, currentIndex))
       currentIndex += 1
       
       // UUID 뒤의 나머지 텍스트로 갱신
