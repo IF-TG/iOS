@@ -14,6 +14,8 @@
 		130304AA2A271F3B00776A0D /* SearchSectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130304A92A271F3B00776A0D /* SearchSectionModel.swift */; };
 		130304B02A28447900776A0D /* TravelDestinationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130304AF2A28447900776A0D /* TravelDestinationCell.swift */; };
 		130369662AEC3AA2007E980C /* NSRange+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130369652AEC3AA2007E980C /* NSRange+.swift */; };
+		13097B042C9D9D1600C67C22 /* JsonMockPostRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13097B032C9D9D1600C67C22 /* JsonMockPostRepositoryTests.swift */; };
+		13097B062CA13B3C00C67C22 /* ReviewWritingSaveRequestDTOTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13097B052CA13B3C00C67C22 /* ReviewWritingSaveRequestDTOTests.swift */; };
 		130990B92BFF18A900D6E50C /* DefaultSearchResultListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130990B82BFF18A900D6E50C /* DefaultSearchResultListViewModel.swift */; };
 		130990BC2BFFC66D00D6E50C /* TravelDestinationLayoutGroupProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130990BB2BFFC66D00D6E50C /* TravelDestinationLayoutGroupProvider.swift */; };
 		130990BE2C01007600D6E50C /* SearchResultCategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130990BD2C01007600D6E50C /* SearchResultCategoryCell.swift */; };
@@ -1039,6 +1041,8 @@
 		130304A92A271F3B00776A0D /* SearchSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchSectionModel.swift; sourceTree = "<group>"; };
 		130304AF2A28447900776A0D /* TravelDestinationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelDestinationCell.swift; sourceTree = "<group>"; };
 		130369652AEC3AA2007E980C /* NSRange+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSRange+.swift"; sourceTree = "<group>"; };
+		13097B032C9D9D1600C67C22 /* JsonMockPostRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonMockPostRepositoryTests.swift; sourceTree = "<group>"; };
+		13097B052CA13B3C00C67C22 /* ReviewWritingSaveRequestDTOTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWritingSaveRequestDTOTests.swift; sourceTree = "<group>"; };
 		130990B82BFF18A900D6E50C /* DefaultSearchResultListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultSearchResultListViewModel.swift; sourceTree = "<group>"; };
 		130990BB2BFFC66D00D6E50C /* TravelDestinationLayoutGroupProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelDestinationLayoutGroupProvider.swift; sourceTree = "<group>"; };
 		130990BD2C01007600D6E50C /* SearchResultCategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCategoryCell.swift; sourceTree = "<group>"; };
@@ -4830,6 +4834,8 @@
 				131DBBB32C513E5D00BC25AB /* DestinationLikeRepositoryTests.swift */,
 				133FFF962C56AD5B00E7FF1B /* DestinationRepositoryTests.swift */,
 				13BE83082C640E3200951099 /* DestinationRecommendRepositoryTests.swift */,
+				13097B032C9D9D1600C67C22 /* JsonMockPostRepositoryTests.swift */,
+				13097B052CA13B3C00C67C22 /* ReviewWritingSaveRequestDTOTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -5610,6 +5616,7 @@
 				152175882BFB05CC00666549 /* StubImageMemoryCache.swift in Sources */,
 				15ABC4272BF3588800B9FA74 /* StubPostNestedCommentHeartRepository.swift in Sources */,
 				159851CA2BEDF81D001262BD /* Combine+XCTestHelpers.swift in Sources */,
+				13097B042C9D9D1600C67C22 /* JsonMockPostRepositoryTests.swift in Sources */,
 				15803C3F2BD8F5F900D83F2B /* XMLParsingServiceTests.swift in Sources */,
 				131DBBB42C513E5D00BC25AB /* DestinationLikeRepositoryTests.swift in Sources */,
 				1385F6902C4118B4003DB336 /* DestinationScrapRepositoryTests.swift in Sources */,
@@ -5658,6 +5665,7 @@
 				13EB3D0C2BEFCF7F00CA84F0 /* DefaultTourImageRetrieveInfoRepositoryTests.swift in Sources */,
 				1375BF582C4970A000DE58B3 /* RealmStorageTests.swift in Sources */,
 				151130092A04E4EB0041DDA1 /* travelPlanTests.swift in Sources */,
+				13097B062CA13B3C00C67C22 /* ReviewWritingSaveRequestDTOTests.swift in Sources */,
 				15591DE32BBEA5AF00128A9E /* FavoritePostInDirectoryUseCaseTests.swift in Sources */,
 				1588F2102C425977005C5EA8 /* DefaultPostHeartUseCaseTests.swift in Sources */,
 				15553BD62BB34D06000AA896 /* PostNestedCommentUseCaseTests.swift in Sources */,
