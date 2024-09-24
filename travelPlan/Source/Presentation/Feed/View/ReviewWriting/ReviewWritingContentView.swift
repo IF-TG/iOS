@@ -55,6 +55,7 @@ final class ReviewWritingContentView: UIStackView {
     $0.textColor = .yg.gray1
     $0.isScrollEnabled = false
     $0.delegate = self
+    $0.removeAmendmentProposal()
   }
   
   private(set) var firstMessageTextViewTextIsPlaceholder = true
@@ -63,6 +64,7 @@ final class ReviewWritingContentView: UIStackView {
     $0.font = .init(pretendard: .regular_400(fontSize: 16))
     $0.textColor = .yg.gray1
     $0.isScrollEnabled = false
+    $0.removeAmendmentProposal()
     $0.delegate = self
   }
   /// placeholder 여부에 따라 textView를 hidden 처리하므로, 그에 맞게 indexing
@@ -351,6 +353,7 @@ extension ReviewWritingContentView {
       $0.textColor = .yg.gray6
       $0.isScrollEnabled = false
       $0.delegate = self
+      $0.removeAmendmentProposal()
     }
   }
   
