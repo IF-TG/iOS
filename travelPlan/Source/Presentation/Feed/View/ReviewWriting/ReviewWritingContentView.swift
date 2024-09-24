@@ -9,13 +9,6 @@ import UIKit
 import Combine
 import SnapKit
 
-// struct ReviewWritingContentViewInfo {
-//  var text: String = ""
-//  var imageDataList: [Data] = .init()
-//  /// text이면 1, imageData이면 0 추가
-//  var isTextIndex: String = ""
-// }
-
 struct ReviewWritingContentViewInfo {
   let title: String
   let contents: [PostContentEntity]
@@ -24,13 +17,9 @@ struct ReviewWritingContentViewInfo {
 final class ReviewWritingContentView: UIStackView {
   // MARK: - Nested
   enum Constant {
-    enum LastView {
-      static let bottomSpacing: CGFloat = 40
-    }
     enum firstMessageTextView {
       static let placeholder = "이번 여행에 대한 나의 후기를\n자유롭게 작성해보세요. :)"
     }
-    static let delimiter = "∆∑©"
   }
   
   enum MessageTextViewVisibilityState {
@@ -43,7 +32,7 @@ final class ReviewWritingContentView: UIStackView {
     var scrollViewHeight: CGFloat?
     var cursorHeight: CGFloat?
     var spacingFromCursorBoundaryToKeyboard: CGFloat {
-      return Constant.LastView.bottomSpacing
+      return 40
     }
     var spacingFromScrollViewTopToCursorBoundary: CGFloat? {
       guard let b = self.keyboardHeight,
