@@ -16,6 +16,7 @@
 		130369662AEC3AA2007E980C /* NSRange+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130369652AEC3AA2007E980C /* NSRange+.swift */; };
 		13097B042C9D9D1600C67C22 /* JsonMockPostRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13097B032C9D9D1600C67C22 /* JsonMockPostRepositoryTests.swift */; };
 		13097B062CA13B3C00C67C22 /* ReviewWritingSaveRequestDTOTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13097B052CA13B3C00C67C22 /* ReviewWritingSaveRequestDTOTests.swift */; };
+		13097B082CA2F20800C67C22 /* UITextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13097B072CA2F20800C67C22 /* UITextField+.swift */; };
 		130990B92BFF18A900D6E50C /* DefaultSearchResultListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130990B82BFF18A900D6E50C /* DefaultSearchResultListViewModel.swift */; };
 		130990BC2BFFC66D00D6E50C /* TravelDestinationLayoutGroupProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130990BB2BFFC66D00D6E50C /* TravelDestinationLayoutGroupProvider.swift */; };
 		130990BE2C01007600D6E50C /* SearchResultCategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130990BD2C01007600D6E50C /* SearchResultCategoryCell.swift */; };
@@ -1043,6 +1044,7 @@
 		130369652AEC3AA2007E980C /* NSRange+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSRange+.swift"; sourceTree = "<group>"; };
 		13097B032C9D9D1600C67C22 /* JsonMockPostRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonMockPostRepositoryTests.swift; sourceTree = "<group>"; };
 		13097B052CA13B3C00C67C22 /* ReviewWritingSaveRequestDTOTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWritingSaveRequestDTOTests.swift; sourceTree = "<group>"; };
+		13097B072CA2F20800C67C22 /* UITextField+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+.swift"; sourceTree = "<group>"; };
 		130990B82BFF18A900D6E50C /* DefaultSearchResultListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultSearchResultListViewModel.swift; sourceTree = "<group>"; };
 		130990BB2BFFC66D00D6E50C /* TravelDestinationLayoutGroupProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelDestinationLayoutGroupProvider.swift; sourceTree = "<group>"; };
 		130990BD2C01007600D6E50C /* SearchResultCategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCategoryCell.swift; sourceTree = "<group>"; };
@@ -5180,6 +5182,7 @@
 				15DDB16E2B04799C001F6EAA /* UITextView+.swift */,
 				1594A4522C05997B00428D41 /* UIView+ImageRender.swift */,
 				15F4573C2C15854D00E2F305 /* UIAlertController+.swift */,
+				13097B072CA2F20800C67C22 /* UITextField+.swift */,
 			);
 			path = "UIKit+";
 			sourceTree = "<group>";
@@ -6468,6 +6471,7 @@
 				15198E962BADE2BB0011930D /* PostThumbnails.swift in Sources */,
 				154CA6322BD40C5C0066B444 /* TourApiSessionProvider.swift in Sources */,
 				1385F6982C427BE6003DB336 /* DestinationImage.swift in Sources */,
+				13097B082CA2F20800C67C22 /* UITextField+.swift in Sources */,
 				15B01DAB2BA9472300BE9F98 /* StubUserStorage.swift in Sources */,
 				13606E982AA4F26500365F20 /* DefaultSearchHistoryLayout.swift in Sources */,
 				15FBD5D42B98DAB000076115 /* TravelRegionMapper.swift in Sources */,
