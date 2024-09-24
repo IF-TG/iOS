@@ -134,9 +134,9 @@ private extension DomainAssembly {
   func postUseCase(container: Container) {
     container.register(PostFetchUseCase.self) { r in
 #if DEBUG
-//      return MockPostFetchUseCase()
-      let jsonMockPostRepository = JsonMockPostRepository()
-      return DefaultPostFetchUseCase(postRepository: jsonMockPostRepository)
+      return MockPostFetchUseCase()
+//      let jsonMockPostRepository = JsonMockPostRepository()
+//      return DefaultPostFetchUseCase(postRepository: jsonMockPostRepository)
 #else
       let defaultPostRepository = r.resolve(PostRepository.self)!
       return DefaultPostFetchUseCase(postRepository: defaultPostRepository)
