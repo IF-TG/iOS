@@ -199,17 +199,12 @@ private extension PostResponseDTO {
       let prefixText = String(contentText[lastPosition..<range.lowerBound])
         .trimmingCharacters(in: .whitespacesAndNewlines)
       if !prefixText.isEmpty {
-        // 텍스트에 인덱스 할당
         result.append(Post.PostContent(sort: currentIndex, text: prefixText))
-        currentIndex += 1
+        currentIndex += 1 // 텍스트에 인덱스 추가
       }
       
-      // UUID에 인덱스 할당
-      let uuidString = String(contentText[range])
-      currentIndex += 1
-      
-      // UUID 뒤의 나머지 텍스트로 갱신
-      lastPosition = range.upperBound
+      currentIndex += 1 // UUID index 추가
+      lastPosition = range.upperBound // UUID 뒤의 다음 텍스트로 갱신
     }
     
     // 마지막 남은 텍스트 처리
