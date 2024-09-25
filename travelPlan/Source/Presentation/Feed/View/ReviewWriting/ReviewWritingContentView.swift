@@ -90,6 +90,12 @@ final class ReviewWritingContentView: UIStackView {
   private var isTextViewDidBeginEditingFirstCalled = false
   private let imageViewPublisher = PassthroughSubject<Bool, Never>()
   
+  var isImageCountZeroPublisher: AnyPublisher<Bool, Never> {
+    isImageCountZeroSubject.eraseToAnyPublisher()
+  }
+  private let isImageCountZeroSubject = PassthroughSubject<Bool, Never>()
+  private var imageCount = 0
+  
   // MARK: - LifeCycle
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -411,6 +417,21 @@ extension ReviewWritingContentView {
                                          context: nil)
     return ceil(boundingRect.height)
   }
+  
+  private func configureImageCount(isAdded: Bool) {
+    if isAdded {
+      imageCount += 1
+    } else {
+      imageCount -= 1
+    }
+    
+    // isImageCountZeroSubject는 0일때 혹은 1개일때만 send하는 것이 합리적이기 때문에 else문을 작성하지 않았습니다.
+    if imageCount <= 0 {
+      isImageCountZeroSubject.send(true)
+    } else if imageCount == 1 {
+      isImageCountZeroSubject.send(false)
+    }
+  }
 }
 
 // MARK: - Helpers
@@ -467,6 +488,8 @@ extension ReviewWritingContentView {
       let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapImageView(_:)))
       $0.addGestureRecognizer(tapGesture)
     }
+    configureImageCount(isAdded: true)
+    
     setupImageView(imageView: imageView, shouldScrollToLastView: shouldScrollToLastView)
     if firstMessageTextViewTextIsPlaceholder {
       firstMessageTextView.isHidden = true
@@ -518,6 +541,7 @@ extension ReviewWritingContentView: PictureImageViewDelegate {
       imageViewPublisher.send(false)
     }
     imageView.removeFromSuperview()
+    configureImageCount(isAdded: false)
   }
 }
 

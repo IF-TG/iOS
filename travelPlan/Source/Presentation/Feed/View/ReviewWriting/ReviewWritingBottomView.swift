@@ -102,3 +102,16 @@ private extension ReviewWritingBottomView {
     delegate?.didTapAlbumButton(button)
   }
 }
+
+// MARK: - Helpers
+extension ReviewWritingBottomView {
+  func configureCameraWarningLabelText(_ isImageCountZero: Bool) {
+    if isImageCountZero {
+      cameraWarningLabel.isHidden = false
+      alertCircleImageView.isHidden = false
+    } else {
+      cameraWarningLabel.isHidden = true
+      alertCircleImageView.isHidden = true
+    }
+  }
+}

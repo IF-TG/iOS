@@ -137,6 +137,12 @@ extension ReviewWritingViewController {
         }
       }
       .store(in: &subscriptions)
+    
+    contentView.isImageCountZeroPublisher
+      .sink { [weak self] isImageCountZero in
+        self?.bottomView.configureCameraWarningLabelText(isImageCountZero)
+      }
+      .store(in: &subscriptions)
   }
 }
 
