@@ -46,7 +46,8 @@ extension ReviewWritingSaveRequestDTOTests {
       )
       
       // Act
-      let responseContent = ReviewWritingSaveRequestDTO.makeRequestDTO(entity: tempEntity).content
+      let reviewWritingSaveRequestDTO = ReviewWritingSaveRequestDTO.makeRequestDTO(entity: tempEntity)
+      let responseContent = reviewWritingSaveRequestDTO.content
       let contentArr = indexDelimitedByUUID(responseContent)
       
       var outerBreak = false
@@ -92,7 +93,7 @@ private extension ReviewWritingSaveRequestDTOTests {
     var currentIndex = 1
     var lastPosition = contentText.startIndex
     
-    // 정규식으로 매칭된 UUID 위치를 탐색합니다.
+    // 정규식으로 매칭된 UUID 위치 탐색
     let matches = regex.matches(
       in: contentText, options: [],
       range: NSRange(contentText.startIndex..., in: contentText)
