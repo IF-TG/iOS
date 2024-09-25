@@ -1,14 +1,20 @@
 # 여가: 여행을 가다
-// 목업파일같은거
+
+![image](https://github.com/user-attachments/assets/c4c200c9-01e3-4451-9abb-43454361a628)
+
 
 ## 프로젝트 소개 
-> 먼저 다녀온 여행객의 여행 후기를 통해 여행 계획을 쉽게 세우고 여행 기록을 공유할 수 있는 서비스 입니다.
+먼저 다녀온 여행객의 여행 기록을 후기로 공유하고 국내 소외 관광지를 활성화 하기 위한 서비스 입니다.
 
+### 👉 개발 동기
+> 많은 현대인이 SNS 광고와 알고리즘에 의존해 여행지를 선택하면서, 일부 국내 여행지들이 소외되고 있습니다.
+> 이 문제를 해결하기 위해, 한국관광공사 공공데이터를 활용한 여행 커뮤니티 앱 서비스를 개발하여 숨겨진 여행지를 발굴하고 공유할 수 있는 플렛폼을 마련했습니다🤩
 
+---
 
 ## 🧑🏻‍💻 팀 소개 
 
-| BE: 임경완 | iOS: 양승현 | iOS: 김석현 | Design: 오수민
+| BE: 임경완 | iOS: 띵킹 | iOS: 김석현 | Design: 오수민
 |:--------:|:--------:|:--------:|:--------:|
 | <img src="https://avatars.githubusercontent.com/u/47065431?v=4" width="100" /> | <img src="https://avatars.githubusercontent.com/u/96910404?s=400&u=9e3d914e4168c78643e358115a0294669793ca99&v=4" width="100" /> | <img src="https://avatars.githubusercontent.com/u/108918481?v=4" width="100" /> | <img src="https://user-images.githubusercontent.com/96910404/236286254-671dd10b-9342-485b-9c75-799522175025.jpeg" width="100" /> |
 [MoonDooo](https://github.com/MoonDooo) |[SHcommit](https://github.com/SHcommit) |[letusHyun](https://github.com/letusHyun) | OhSumin
@@ -16,21 +22,20 @@
 ## 🎯 동료와의 목표 
 - UI 구현시 되도록 외부 라이브러리 사용하지 않기
 - 기능 구현하다 막히거나 오류 해결이 어려운 경우 동료와 의논하며 해결하기
-- 컨벤션 지키기
+- 컨벤션 준수하기
 - PullRequest할 때, 자신이 구현한 기능 자세히 소개 및 새롭게 알게된 개념 소개 및 참고했던 포스트 링크 남기기
 - 중복 코드를 줄이기. 객체와의 의존성은 줄이고 결합도는 높이는 객체 설계 및 구현하기
 
-## 개발 환경
-- Minimum deployment target: **iOS 13.0**
-- MVVM + Clean architecture
-- Coordinator pattern
+### 💡 '여가' 스토리가 담긴 공간
+- <a href="https://carbonated-eggplant-aad.notion.site/d00c55ded166441bb7991ff3a28b4d73?pvs=4">여가-여행을 가다[노션 링크]</a>
+- <a href="https://www.figma.com/file/QmC7HTkSEMLfleIZlxnlOL/iOS-%EC%97%AC%ED%96%89-%EC%95%B1?type=design&mode=design">여가 UI/UX design Figma[링크]</a>
+- <a href="https://carbonated-eggplant-aad.notion.site/iOS-97bec2a437214a8198843455b4c4f5e5?pvs=4">iOS 팀 노션 [링크]</a>
 
+---
 ## 사용 기술 및 라이브러리
 ### 1st party
-- UIKit 
-- AutoLayout
-- Combine
-- GCD
+- UIKit, AutoLayout
+- Combine, GCD
 - XCTest
 - Photos
 - LinkPresentation
@@ -38,41 +43,42 @@
 
 ### 3rd party
 - Swinject
-- Alamofire
-- Firebase
+- Alamofire, Firebase, GoogleSignIn
 - AppsFlyer
-- Swiftlint
-- GoogleSignIn
-- Snapkit
+- Snapkit, Swiftlint
 
 ### Etc
-- Figma
-- SwiftPM
-- Github project kanban
+- Figma, SwiftPM, Github project kanban
 
-## Project Architecture
-![image](https://github.com/user-attachments/assets/385d1aca-914c-4d78-b42f-ef6cead6fa76)
+---
+
+## 개발 환경
+- Minimum deployment target: **iOS 13.0**
+
+## Project Architecture & System Flow
+<img width="709" alt="image" src="https://github.com/user-attachments/assets/f5be0aa7-3dfa-49fc-8ca8-87505a07bf11">
 
 - Clean Architecture
 - Input/Output binding ( in MVVM )
 - Coordinator
 
-## System Flow
+> 각각의 layer 마다 객체들은 protocol을 DIP를 지키고자 노력했습니다.
+> 또한 layer 별로 Assembly에서 객체를 등록해, 객체의 의존성 주입에 필요한 로직을 해당 Layer의 Assembly에서 한정할 수 있었습니다.
 
- <img src="https://github.com/user-attachments/assets/a532fd5e-2fc2-4fec-a6fb-c101f9347419" height="450" />
+---
 
 ## 어플리케이션 기능
 
 > 죄송합니다.
 > 
 > Application 각 flow별 동작 gif는 크롬 브라우저에서 원활하게 동작됩니다. (사파리에서는 gif가 동작되지 않는 현상을 발견했습니다😭.)
-> GIF가 많기 때문에 일부 로딩 시간이 있습니다.
+> GIF 용량이 있어서 때문에 일부 화면은 로딩 지연이 걸립니다.
 
 ### [ 로그인 화면 ]
 
-| ![로그인 화면](https://github.com/user-attachments/assets/40d26c59-8582-4c7f-bd57-0c3e5ecb8d4e) | ![구글+파이어스토어로긴](https://github.com/user-attachments/assets/d1528479-5804-4c5d-b78c-82c1e6f45997)  | gif3  | gif4  |
-| :-: | :-: | :-: | :-: |
-| `로그인 화면` | `구글 로그인 연동` | `애플 로그인 연동` | `없을시 제거` |
+| ![로그인 화면](https://github.com/user-attachments/assets/40d26c59-8582-4c7f-bd57-0c3e5ecb8d4e) | ![구글+파이어스토어로긴](https://github.com/user-attachments/assets/d1528479-5804-4c5d-b78c-82c1e6f45997)  | gif3  |
+| :-: | :-: | :-: |
+| `로그인 화면` | `구글 로그인 연동` | `애플 로그인 연동` |
 
 ### [ 피드 여행 후기 포스트 화면 ]
 | gif1 | gif2  | gif3  | gif4  |
@@ -153,6 +159,3 @@
 | <img src="https://github.com/user-attachments/assets/107c76b0-29ef-4e6d-9fa8-2bdf449ae826" width="230"> | <img src="https://github.com/user-attachments/assets/999c360f-426f-4fbc-9fd5-1e9cec353b83" width="230"> | <img src="https://github.com/user-attachments/assets/eaf68c31-845a-419b-97c1-c2b5b2ba7e2f" width="230"> |
 | :-: | :-: | :-: | 
 | `이용 안내 화면` | `메일 문의화면 -> 메일 전송 flow` | `여가팀 메일함 메일 상세내용` |
-
-### etc
-- 여행 카테고리 지정 모든 가능한 상황
