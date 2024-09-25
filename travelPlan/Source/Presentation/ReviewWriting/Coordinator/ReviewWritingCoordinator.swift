@@ -20,7 +20,8 @@ protocol ReviewWritingCoordinatorDependencies {
   func makeReviewWritingViewController(
     mode: ReviewWritingMode,
     actions: ReviewWritingViewModelActions,
-    selectedAssetsPublisher: AnyPublisher<[PHAsset], Never>
+    selectedAssetsPublisher: AnyPublisher<[PHAsset], Never>,
+    selectedCategoryPublisher: AnyPublisher<Post.Category?, Never>
   ) -> ReviewWritingViewController
   
   func makeAlbumCoordinator(presenter: UINavigationController?) -> AlbumCoordinator
@@ -37,10 +38,7 @@ final class ReviewWritingCoordinator: FlowCoordinator {
   var viewController: UIViewController?
   private let mode: ReviewWritingMode
   private let selectedAssetsSubject = PassthroughSubject<[PHAsset], Never>()
-  
-  var selectedAssetsPublisher: AnyPublisher<[PHAsset], Never> {
-    self.selectedAssetsSubject.eraseToAnyPublisher()
-  }
+  private let selectedCategorySubject = PassthroughSubject<Post.Category?, Never>()
   
   // MARK: - LifeCycle
   init(
@@ -61,22 +59,6 @@ final class ReviewWritingCoordinator: FlowCoordinator {
 // MARK: - Start
 extension ReviewWritingCoordinator {
   func start(mode: ReviewWritingMode) {
-//     let mockReviewWritingRepository = MockReviewWritingRepository()
-//     let reviewWritingUseCase = DefaultReviewWritingUseCase(reviewWritingRepository: mockReviewWritingRepository)
-//    let firestoreReviewWritingRepository = FirestoreReviewWritingRepository(service: FirestoreService())
-//    let reviewWritingUseCase = DefaultReviewWritingUseCase(reviewWritingRepository: firestoreReviewWritingRepository)
-//    let photoAuthUseCase = DefaultPhotoAuthorizationUseCase()
-    // MARK: - DI C에 등록시 DefaultLoggedInUserRepository(stroage: .init(name:)을 통해 주입해야합니다.
-//    let loggedInUserRepository = DefaultLoggedInUserRepository(storage: .init(value: StubOwnerStorage()))
-//    let loggedInOwnerUseCase = DefaultLoggedInUserUseCase(loggedInUserRepository: loggedInUserRepository)
-//    let viewModel = DefaultReviewWritingViewModel(
-//      photoAuthorizationUseCase: photoAuthUseCase,
-//      reviewWritingUseCase: reviewWritingUseCase,
-//      loggedInOwnerUseCase: loggedInOwnerUseCase,
-//      mode: mode
-//    )
-//    let photoService = DefaultPhotoService()
-//    let vc = ReviewWritingViewController(viewModel: viewModel, photoService: photoService)
     let actions = ReviewWritingViewModelActions(
       showAlbum: { [weak self] in self?.showAlbum() },
       showCategoryBottomSheet: { [weak self] selectedCategory in
@@ -91,7 +73,8 @@ extension ReviewWritingCoordinator {
     let viewController = dependencies.makeReviewWritingViewController(
       mode: mode,
       actions: actions,
-      selectedAssetsPublisher: selectedAssetsPublisher
+      selectedAssetsPublisher: selectedAssetsSubject.eraseToAnyPublisher(),
+      selectedCategoryPublisher: selectedCategorySubject.eraseToAnyPublisher()
     )
     presenter?.pushViewController(viewController, animated: true)
   }
@@ -115,15 +98,8 @@ extension ReviewWritingCoordinator {
   
   private func showCategoryBottomSheet(with selectedCategory: Post.Category? = nil) {
     let bottomSheet = PostReviewWritingCategoryBottomSheet(selectedCategory: selectedCategory)
-    bottomSheet.dismissHandler = {
-      /// 내부 클로저에 self타입의 프로퍼티, 함수를 쓸 경우 반드시 [weak self] 사용해야 합니다: )
-      print(bottomSheet.selectedCategory)
-    }
-    
-    bottomSheet.okButtonHandler = {
-      /// 확인 버튼 눌릴 경우에 호출됩니다.
-      /// 내부 클로저에 self타입의 프로퍼티, 함수를 쓸 경우 반드시 [weak self] 사용해야 합니다: )
-      print(bottomSheet.selectedCategory)
+    bottomSheet.okButtonHandler = { [weak self] in
+      self?.selectedCategorySubject.send(bottomSheet.selectedCategory)
     }
     presenter?.presentBottomSheet(bottomSheet)
   }

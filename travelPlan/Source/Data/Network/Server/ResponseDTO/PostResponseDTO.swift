@@ -105,7 +105,7 @@ extension PostResponseDTO {
       category: toDomain())
   }
   
-    func toDomain() -> Post.Detail<[Post.PostContent]> {
+  func toDomain() -> Post.Detail<[Post.PostContent]> {
     // MARK: - Server에서 받는 글의 경우 특정한 테그에 의해 글을 분리해야합니다.
     // 서버에서 createAt형식을 yyyy.MM.dd형식으로 줘야합니다.
     var createAtDate: Date
@@ -120,16 +120,18 @@ extension PostResponseDTO {
         postID, createAt)
     }
     
-    os_log(
-      "Failed to convert trip dates. PostId: %@ Start Date: %@, End Date: %@",
-      log: .default,
-      type: .error,
-      postID, startDate, endDate)
+//        os_log(
+//          "Failed to convert trip dates. PostId: %@ Start Date: %@, End Date: %@",
+//          log: .default,
+//          type: .error,
+//          postID, startDate, endDate)
+    
+    let textContents: [Post.PostContent] = indexDelimitedByUUID(content)
     
     return Post.Detail<[Post.PostContent]>(
       postID: postID,
       title: title,
-      content: [.init(sort: 0, text: content)],
+      content: textContents,
       likes: likes,
       comments: comments,
       location: toDomain(),
@@ -170,5 +172,47 @@ extension PostResponseDTO {
       regions: mappedRegions,
       seasons: mappedSeasons,
       partners: mappedPartners)
+  }
+}
+
+// MARK: - Private Helpers
+private extension PostResponseDTO {
+  func indexDelimitedByUUID(_ contentText: String) -> [Post.PostContent] {
+    // UUID 정규 표현식 패턴
+    let uuidPattern = "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}"
+    guard let regex = try? NSRegularExpression(pattern: uuidPattern, options: []) else { return [] }
+    
+    var result = [Post.PostContent]()
+    var currentIndex = 1
+    var lastPosition = contentText.startIndex
+    
+    // 정규식으로 매칭된 UUID 위치를 탐색합니다.
+    let matches = regex.matches(
+      in: contentText, options: [],
+      range: NSRange(contentText.startIndex..., in: contentText)
+    )
+    
+    for match in matches {
+      let range = Range(match.range, in: contentText)!
+      
+      // UUID 앞의 텍스트 부분
+      let prefixText = String(contentText[lastPosition..<range.lowerBound])
+        .trimmingCharacters(in: .whitespacesAndNewlines)
+      if !prefixText.isEmpty {
+        result.append(Post.PostContent(sort: currentIndex, text: prefixText))
+        currentIndex += 1 // 텍스트에 인덱스 추가
+      }
+      
+      currentIndex += 1 // UUID index 추가
+      lastPosition = range.upperBound // UUID 뒤의 다음 텍스트로 갱신
+    }
+    
+    // 마지막 남은 텍스트 처리
+    let finalText = String(contentText[lastPosition...]).trimmingCharacters(in: .whitespacesAndNewlines)
+    if !finalText.isEmpty {
+      result.append(Post.PostContent(sort: currentIndex, text: finalText))
+    }
+    
+    return result
   }
 }

@@ -124,7 +124,6 @@ final class PostReviewWritingCategoryBottomSheet: BaseBottomSheetViewController 
   
   private let selectCompletionView = ReviewCategorySelectCompletionView(frame: .zero)
   
-  // 구현체에서 클로저 선언시 weak를 사용해야합니다.
   override var dismissHandler: (() -> Void)? {
     get {
       super.dismissHandler
@@ -133,12 +132,9 @@ final class PostReviewWritingCategoryBottomSheet: BaseBottomSheetViewController 
     }
   }
   
-  /// 선택된 카테고리들은 selectedCategory 인스턴스를 통해 read할 수 있습니다.
-  /// 구현체 측에서는 weak를 사용해서 retain cycle을 방지해야합니다: )
   var okButtonHandler: (() -> Void)?
   
   // MARK: - Lifecycle
-  /// 카테고리를 선택했다면 init시점에 주입해주세요.
   init(selectedCategory: Post.Category? = nil) {
     selectCompletionView.heightAnchor.constraint(equalToConstant: 105).isActive = true
     let stackView = UIStackView(arrangedSubviews: [collectionView, selectCompletionView]).set {

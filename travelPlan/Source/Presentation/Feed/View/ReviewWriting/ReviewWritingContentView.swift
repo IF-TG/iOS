@@ -9,13 +9,6 @@ import UIKit
 import Combine
 import SnapKit
 
-// struct ReviewWritingContentViewInfo {
-//  var text: String = ""
-//  var imageDataList: [Data] = .init()
-//  /// text이면 1, imageData이면 0 추가
-//  var isTextIndex: String = ""
-// }
-
 struct ReviewWritingContentViewInfo {
   let title: String
   let contents: [PostContentEntity]
@@ -24,13 +17,9 @@ struct ReviewWritingContentViewInfo {
 final class ReviewWritingContentView: UIStackView {
   // MARK: - Nested
   enum Constant {
-    enum LastView {
-      static let bottomSpacing: CGFloat = 40
-    }
     enum firstMessageTextView {
       static let placeholder = "이번 여행에 대한 나의 후기를\n자유롭게 작성해보세요. :)"
     }
-    static let delimiter = "∆∑©"
   }
   
   enum MessageTextViewVisibilityState {
@@ -43,7 +32,7 @@ final class ReviewWritingContentView: UIStackView {
     var scrollViewHeight: CGFloat?
     var cursorHeight: CGFloat?
     var spacingFromCursorBoundaryToKeyboard: CGFloat {
-      return Constant.LastView.bottomSpacing
+      return 40
     }
     var spacingFromScrollViewTopToCursorBoundary: CGFloat? {
       guard let b = self.keyboardHeight,
@@ -66,6 +55,7 @@ final class ReviewWritingContentView: UIStackView {
     $0.textColor = .yg.gray1
     $0.isScrollEnabled = false
     $0.delegate = self
+    $0.removeAmendmentProposal()
   }
   
   private(set) var firstMessageTextViewTextIsPlaceholder = true
@@ -74,6 +64,7 @@ final class ReviewWritingContentView: UIStackView {
     $0.font = .init(pretendard: .regular_400(fontSize: 16))
     $0.textColor = .yg.gray1
     $0.isScrollEnabled = false
+    $0.removeAmendmentProposal()
     $0.delegate = self
   }
   /// placeholder 여부에 따라 textView를 hidden 처리하므로, 그에 맞게 indexing
@@ -98,6 +89,12 @@ final class ReviewWritingContentView: UIStackView {
   private var shouldScrollToLastView = false
   private var isTextViewDidBeginEditingFirstCalled = false
   private let imageViewPublisher = PassthroughSubject<Bool, Never>()
+  
+  var isImageCountZeroPublisher: AnyPublisher<Bool, Never> {
+    isImageCountZeroSubject.eraseToAnyPublisher()
+  }
+  private let isImageCountZeroSubject = PassthroughSubject<Bool, Never>()
+  private var imageCount = 0
   
   // MARK: - LifeCycle
   override init(frame: CGRect) {
@@ -265,7 +262,7 @@ extension ReviewWritingContentView {
     .map { $0 && $1 }
     .receive(on: RunLoop.main)
     .sink { [weak self] isEnabled in
-      self?.delegate?.handleFinishButtonTitleColor(isEnabled: isEnabled)
+      self?.delegate?.validatePhotoAndTitleAreAdded(isAdded: isEnabled)
     }
     .store(in: &subscriptions)
   }
@@ -362,6 +359,7 @@ extension ReviewWritingContentView {
       $0.textColor = .yg.gray6
       $0.isScrollEnabled = false
       $0.delegate = self
+      $0.removeAmendmentProposal()
     }
   }
   
@@ -419,6 +417,21 @@ extension ReviewWritingContentView {
                                          context: nil)
     return ceil(boundingRect.height)
   }
+  
+  private func configureImageCount(isAdded: Bool) {
+    if isAdded {
+      imageCount += 1
+    } else {
+      imageCount -= 1
+    }
+    
+    // isImageCountZeroSubject는 0일때 혹은 1개일때만 send하는 것이 합리적이기 때문에 else문을 작성하지 않았습니다.
+    if imageCount <= 0 {
+      isImageCountZeroSubject.send(true)
+    } else if imageCount == 1 {
+      isImageCountZeroSubject.send(false)
+    }
+  }
 }
 
 // MARK: - Helpers
@@ -475,6 +488,8 @@ extension ReviewWritingContentView {
       let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapImageView(_:)))
       $0.addGestureRecognizer(tapGesture)
     }
+    configureImageCount(isAdded: true)
+    
     setupImageView(imageView: imageView, shouldScrollToLastView: shouldScrollToLastView)
     if firstMessageTextViewTextIsPlaceholder {
       firstMessageTextView.isHidden = true
@@ -526,6 +541,7 @@ extension ReviewWritingContentView: PictureImageViewDelegate {
       imageViewPublisher.send(false)
     }
     imageView.removeFromSuperview()
+    configureImageCount(isAdded: false)
   }
 }
 

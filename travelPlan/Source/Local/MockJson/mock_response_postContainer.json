@@ -5,6 +5,7 @@
         "tempThumbnail3", "tempThumbnail1", "tempThumbnail2"
       ],
       "post": {
+        "authorId": 1,
         "postId": 0,
         "profileImgUri": "tempProfile1",
         "title": "포스트1",
@@ -14,18 +15,18 @@
         "postImgUri": [
           {
             "img": "tempThumbnail3",
-            "sort": 0
+            "sort": 2
           },
           {
             "img": "tempThumbnail1",
-            "sort": 1
+            "sort": 4
           },
           {
             "img": "tempThumbnail2",
-            "sort": 2
+            "sort": 5
           }
         ],
-        "content": "여행여행컨텐츠컨텐츠~~~~",
+        "content": "텍트스하나1텍스트하나1490B4DE7-3173-4073-9DB7-44CD7D9F3F14텍스트둘2텍스트둘2FBD96749-154F-4ED1-8F74-40DBAB61624D0851DA83-0D1E-44AA-9924-1DF5321A2725텍스트삼3텍스트삼3",
         "likeNum": 20,
         "commentNum": 12,
         "createAt": "2024.03.11",
@@ -51,6 +52,7 @@
         "tempThumbnail4", "tempThumbnail2", "tempThumbnail5", "tempThumbnail6"
       ],
       "post": {
+        "authorId": 2,
         "postId": 1,
         "profileImgUri": "tempProfile2",
         "title": "포스트11",
@@ -60,22 +62,22 @@
         "postImgUri": [
           {
             "img": "tempThumbnail4",
-            "sort": 0
-          },
-          {
-            "img": "tempThumbnail2",
-            "sort": 1
-          },
-          {
-            "img": "tempThumbnail5",
             "sort": 2
           },
           {
+            "img": "tempThumbnail2",
+            "sort": 4
+          },
+          {
+            "img": "tempThumbnail5",
+            "sort": 5
+          },
+          {
             "img": "tempThumbnail6",
-            "sort": 3
+            "sort": 6
           }
         ],
-        "content": "여행여행컨텐츠컨텐츠~~~~",
+        "content": "텍트스하나1텍스트하나1490B4DE7-3173-4073-9DB7-44CD7D9F3F14텍스트둘2텍스트둘2FBD96749-154F-4ED1-8F74-40DBAB61624D0851DA83-0D1E-44AA-9924-1DF5321A27259D9CE55B-666B-4027-9440-5BECFB419E96텍스트삼3텍스트삼3",
         "likeNum": 11,
         "commentNum": 131,
         "createAt": "2024.04.11",
@@ -101,6 +103,7 @@
         "tempThumbnail15", "tempThumbnail13", "tempThumbnail11", "tempThumbnail12", "tempThumbnail14"
       ],
       "post": {
+        "authorId": 3,
         "postId": 0,
         "profileImgUri": "tempProfile3",
         "title": "포스트3",
@@ -110,26 +113,26 @@
         "postImgUri": [
           {
             "img": "tempThumbnail15",
-            "sort": 0
-          },
-          {
-            "img": "tempThumbnail13",
-            "sort": 1
-          },
-          {
-            "img": "tempThumbnail11",
             "sort": 2
           },
           {
+            "img": "tempThumbnail13",
+            "sort": 4
+          },
+          {
+            "img": "tempThumbnail11",
+            "sort": 6
+          },
+          {
             "img": "tempThumbnail12",
-            "sort": 3
+            "sort": 7
           },
           {
             "img": "tempThumbnail14",
-            "sort": 4
+            "sort": 8
           }
         ],
-        "content": "여행여행컨텐츠컨텐츠~~~~",
+        "content": "텍스트1917365A2-142A-4D79-9F40-739B0FE9E8D3텍스트2텍스트203E4604A-2596-4FE3-9B62-BF360E095A79텍스트3텍스트3텍스트3AC6EFEA5-1F73-4087-A30C-51E34FC9BC2600ABF970-7B2D-4DCA-A507-8CE139669E0CA4A3BA43-0B9D-4FB0-AB78-D9E197C00BD2텍스트4텍스트4텍스트4텍스트4",
         "likeNum": 222,
         "commentNum": 1222,
         "createAt": "2024.03.11",

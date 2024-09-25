@@ -35,7 +35,7 @@ final class JsonMockPostRepository: PostRepository {
     }
     return postRepository
       .fetchPosts(page: page, perPage: perPage, category: category)
-      .eraseToAnyPublisherWithDelay(for: .seconds(0.0777), scheduler: RunLoop.current)
+      .eraseToAnyPublisherWithDelay(for: .seconds(0.0777), scheduler: RunLoop.main)
   }
   
   func fetchComments(

@@ -9,5 +9,5 @@ import Foundation
 
 protocol ReviewWritingContentViewDelegate: AnyObject {
   func changeContentInset(bottomEdge: CGFloat)
-  func handleFinishButtonTitleColor(isEnabled: Bool)
+  func validatePhotoAndTitleAreAdded(isAdded: Bool)
 }

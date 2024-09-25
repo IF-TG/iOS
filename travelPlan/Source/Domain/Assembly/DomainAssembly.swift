@@ -135,6 +135,8 @@ private extension DomainAssembly {
     container.register(PostFetchUseCase.self) { r in
 #if DEBUG
       return MockPostFetchUseCase()
+//      let jsonMockPostRepository = JsonMockPostRepository()
+//      return DefaultPostFetchUseCase(postRepository: jsonMockPostRepository)
 #else
       let defaultPostRepository = r.resolve(PostRepository.self)!
       return DefaultPostFetchUseCase(postRepository: defaultPostRepository)
@@ -339,10 +341,15 @@ private extension DomainAssembly {
   }
   
   func reviewWritingUseCase(container: Container) {
+    
     container.register(ReviewWritingUseCase.self) { r in
-      let reviewWritingRepository = r.resolve(ReviewWritingRepository.self)!
+      let reviewWritingRepository: any ReviewWritingRepository
       let photoAuthRepository = r.resolve(PhotoAuthorizationRepository.self)!
-      
+#if DEBUG
+      reviewWritingRepository = r.resolve(ReviewWritingRepository.self, name: .jsonMock)!
+#else
+      reviewWritingRepository = r.resolve(ReviewWritingRepository.self)!
+#endif
       return DefaultReviewWritingUseCase(
         reviewWritingRepository: reviewWritingRepository,
         photoAuthRepository: photoAuthRepository

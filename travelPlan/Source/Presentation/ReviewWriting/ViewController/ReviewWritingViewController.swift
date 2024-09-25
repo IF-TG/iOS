@@ -124,7 +124,6 @@ extension ReviewWritingViewController {
           break
         case .manageTextViewDisplay:
           self?.contentView.manageContentOffsetYByLastView()
-          break
         case let .setupContents(title, postContents):
           self?.contentView.setupContents(.init(title: title, contents: postContents))
         case .unexpectedError(description: let description):
@@ -133,7 +132,15 @@ extension ReviewWritingViewController {
           self?.viewModel.pop()
         case .savedReviewWritingEditSuccessfully(post: let post):
           self?.viewModel.pop(with: post)
+        case .activateFinishButton(let activate):
+          self?.setFinishButtonState(activate)
         }
+      }
+      .store(in: &subscriptions)
+    
+    contentView.isImageCountZeroPublisher
+      .sink { [weak self] isImageCountZero in
+        self?.bottomView.configureCameraWarningLabelText(isImageCountZero)
       }
       .store(in: &subscriptions)
   }
@@ -141,6 +148,16 @@ extension ReviewWritingViewController {
 
 // MARK: - Private Helpers
 extension ReviewWritingViewController {
+  private func setFinishButtonState(_ activate: Bool) {
+    if activate {
+      finishButton.setTitleColor(.yg.primary, for: .normal)
+      finishButton.isEnabled = true
+    } else {
+      finishButton.setTitleColor(.yg.gray1, for: .normal)
+      finishButton.isEnabled = false
+    }
+  }
+  
   private func addGestureRecognizer(from view: UIView, action: Selector?) {
     let tapGesture = UITapGestureRecognizer(target: self, action: action)
     view.addGestureRecognizer(tapGesture)
@@ -255,7 +272,7 @@ private extension ReviewWritingViewController {
   
   @objc func didTapFinishButton() {
     let contentViewInfo = contentView.extractContentData()
-    input.didTapFinishButton.send((contentViewInfo.contents, contentViewInfo.title))
+    input.didTapFinishButton.send(contentViewInfo)
   }
   
   @objc func didTapTitleView() {
@@ -288,13 +305,8 @@ extension ReviewWritingViewController: ReviewWritingContentViewDelegate {
     setScrollViewBottomInset(inset: bottomEdge)
   }
   
-  func handleFinishButtonTitleColor(isEnabled: Bool) {
-    finishButton.isEnabled = isEnabled
-    if isEnabled {
-      finishButton.setTitleColor(.yg.primary, for: .normal)
-    } else {
-      finishButton.setTitleColor(.yg.gray1, for: .normal)
-    }
+  func validatePhotoAndTitleAreAdded(isAdded: Bool) {
+    input.validatePhotoAndTitleAreAdded.send(isAdded)
   }
 }
 

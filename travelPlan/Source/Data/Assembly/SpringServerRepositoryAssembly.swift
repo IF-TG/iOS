@@ -81,8 +81,6 @@ final class SpringServerRepositoryAssembly: Assembly {
       return DefaultPostNestedCommentRepository(service: defaultSession)
     }
     
-    // TODO: - ReviewWriting
-    
     // MARK: - whatsNewNotification
     container.register(WhatsNewNotificationRepository.self) { _ in
       return DefaultWhatsNewNotificationRepository(service: defaultSession)
@@ -142,9 +140,14 @@ private extension SpringServerRepositoryAssembly {
   }
   
   func reviewWritingRepository(container: Container) {
+    
     container.register(ReviewWritingRepository.self) { r in
       let service = r.resolve(Sessionable.self)!
       return DefaultReviewWritingRepository(service: service)
+    }
+    
+    container.register(ReviewWritingRepository.self, name: .jsonMock) { _ in
+      return JsonMockReviewWritingRepository()
     }
   }
   
