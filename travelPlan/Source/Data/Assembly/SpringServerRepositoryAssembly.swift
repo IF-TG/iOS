@@ -27,7 +27,7 @@ final class SpringServerRepositoryAssembly: Assembly {
     // MARK: - LoginRepository
     container.register(LoginRepository.self) { r in
     #if DEBUG
-      let authenticationService = DefaultAuthenticationService(sessionProvider: SessionProvider())
+      let authenticationService = DefaultAuthenticationService(sessionProvider: SessionProvider(session: MockSession.default))
       let loginResultStorage = r.resolve(LoginResultStorage.self)!
       let loggedInUserRepository = r.resolve(LoggedInUserRepository.self)!
       let userProfileRepository = StubUserProfileRepository()
