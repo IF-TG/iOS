@@ -10,11 +10,7 @@ import SHCoordinator
 import SHFirestoreService
 
 protocol LoginCoordinatorDependencies {
-  func makeLoginViewController() -> LoginViewController
-}
-
-protocol LoginCoordinatorDelegate: FlowCoordinatorDelegate {
-  func showFeedPage()
+  func makeLoginViewController(actions: LoginViewModelActions) -> LoginViewController
 }
 
 final class LoginCoordinator: FlowCoordinator {
@@ -31,8 +27,12 @@ final class LoginCoordinator: FlowCoordinator {
   }
   
   func start() {
-    presenter?.viewControllers = [dependencies.makeLoginViewController()]
-//    loginViewController.coordinator = self
+    let actions = LoginViewModelActions(showFeed: { [weak self] in
+      self?.showFeedPage()
+    })
+    
+    let loginViewController = dependencies.makeLoginViewController(actions: actions)
+    presenter?.viewControllers = [loginViewController]
   }
   
   deinit {
@@ -40,8 +40,8 @@ final class LoginCoordinator: FlowCoordinator {
   }
 }
 
-// MARK: - LoginCoordinatorDelegate
-extension LoginCoordinator: LoginCoordinatorDelegate {
+// MARK: - Private Helpers
+private extension LoginCoordinator {
   func showFeedPage() {
     guard let parent = parent as? ApplicationCoordinator else {
       NSLog("DEBUG: Parent is not applicationCoordinator")
