@@ -81,9 +81,9 @@
 | `로그인 화면` | `구글 로그인 연동` | `애플 로그인 연동` |
 
 ### [ 피드 여행 후기 포스트 화면 ]
-| gif1 | gif2  | gif3  | gif4  |
-| :-: | :-: | :-: | :-: |
-| `제목+글 추가 기본` | `이미지 연속 추가` | `이미지 추가->삭제 후 글 추가` | `글 추가 및 글 제거` |
+|<img src="https://github.com/user-attachments/assets/141d2916-b3d6-4cba-8f3f-e528d0273ea1" width="310">|<img src="https://github.com/user-attachments/assets/8f645037-66ea-482a-bfdc-aa126a73e8e0" width="310">|<img src="https://github.com/user-attachments/assets/996bfc52-1c4e-4e0d-bb69-41d24b2c2199" width="230">|
+| :-: | :-: | :-: |
+| `제목+글 추가 기본` | `이미지 연속 추가` | `이미지 추가 -> 글 추가 -> 이미지 삭제 -> 글 제거` |
 
 <img src="https://github.com/IF-TG/iOS/assets/96910404/8acef3d7-9031-45b1-ba52-f098339fa58b" width="180">|<img src="https://github.com/IF-TG/iOS/assets/96910404/23ba2fec-581f-4c83-98aa-8312f4b402b6" width="180">|<img src="https://github.com/IF-TG/iOS/assets/96910404/b2b12a92-2b87-4bf2-9c83-f71185f04c60" width="180">|<img src="https://github.com/IF-TG/iOS/assets/96910404/3b1c3f6a-d979-40a4-b048-06f3aa463564" width="180">|
 |:-:|:-:|:-:|:-:|
