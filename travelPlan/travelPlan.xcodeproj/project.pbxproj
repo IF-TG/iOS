@@ -165,6 +165,7 @@
 		1382ABAC2C79170900827A59 /* AlbumCoordinatorDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1382ABAB2C79170900827A59 /* AlbumCoordinatorDelegate.swift */; };
 		1383C81C2B97F44800830F1A /* KeychainManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1383C81B2B97F44800830F1A /* KeychainManagerTests.swift */; };
 		1383C81F2B9815B700830F1A /* KeychainKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1383C81E2B9815B700830F1A /* KeychainKey.swift */; };
+		1383D2042CAC339A00F822A9 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1383D2032CAC339A00F822A9 /* LoginViewModel.swift */; };
 		1385F6692C3FA797003DB336 /* DestinationScrapRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1385F6682C3FA797003DB336 /* DestinationScrapRepository.swift */; };
 		1385F66B2C3FADBE003DB336 /* DefaultDestinationScrapRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1385F66A2C3FADBE003DB336 /* DefaultDestinationScrapRepository.swift */; };
 		1385F66E2C3FCB2F003DB336 /* DestinationScrapToggler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1385F66D2C3FCB2F003DB336 /* DestinationScrapToggler.swift */; };
@@ -1198,6 +1199,7 @@
 		1382ABAB2C79170900827A59 /* AlbumCoordinatorDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumCoordinatorDelegate.swift; sourceTree = "<group>"; };
 		1383C81B2B97F44800830F1A /* KeychainManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManagerTests.swift; sourceTree = "<group>"; };
 		1383C81E2B9815B700830F1A /* KeychainKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainKey.swift; sourceTree = "<group>"; };
+		1383D2032CAC339A00F822A9 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		1385F6682C3FA797003DB336 /* DestinationScrapRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationScrapRepository.swift; sourceTree = "<group>"; };
 		1385F66A2C3FADBE003DB336 /* DefaultDestinationScrapRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultDestinationScrapRepository.swift; sourceTree = "<group>"; };
 		1385F66D2C3FCB2F003DB336 /* DestinationScrapToggler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationScrapToggler.swift; sourceTree = "<group>"; };
@@ -2299,6 +2301,7 @@
 			isa = PBXGroup;
 			children = (
 				13405F0A2AEEF1E400382796 /* LoginButtonDelegate.swift */,
+				1383D2032CAC339A00F822A9 /* LoginViewModel.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -6259,6 +6262,7 @@
 				15D955AD2ADEA525002BF9C3 /* FeedViewModelable.swift in Sources */,
 				15DA4C832ACD821F003A7900 /* EmptyStateView.swift in Sources */,
 				139AC9182C50E5BD00C03F9A /* DestinationLikeRepository.swift in Sources */,
+				1383D2042CAC339A00F822A9 /* LoginViewModel.swift in Sources */,
 				158EFCD12BCA4B9000C40612 /* SettingViewModel.swift in Sources */,
 				134055732C441DA300EC8877 /* ThumbnailDestination.swift in Sources */,
 				158439152BAAC80B00348509 /* FavoritePostViewModel.swift in Sources */,
