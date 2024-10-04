@@ -32,6 +32,10 @@ final class CoreAssembly: Swinject.Assembly {
       GoogleLoginStrategyWithFirebase()
     }
     
+    container.register(LoginStrategy.self, name: "apple") { _ in
+      AppleLoginStrategy()
+    }
+    
     // MARK: - ImageIO
     container.register(ImageIO.self) { _ in
       ImageIO()

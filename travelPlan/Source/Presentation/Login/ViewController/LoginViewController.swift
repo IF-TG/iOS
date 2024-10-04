@@ -12,7 +12,6 @@ final class LoginViewController: UIViewController {
   // MARK: - Properteis
   private let viewModel: any LoginViewModel
   private var subscriptions = Set<AnyCancellable>()
-  weak var coordinator: LoginCoordinatorDelegate?
   
   private lazy var loginView = LoginView().set {
     $0.delegate = self
@@ -45,7 +44,6 @@ final class LoginViewController: UIViewController {
   
   deinit {
     print("deinit: \(Self.self)")
-    coordinator?.finish()
   }
 }
 
@@ -62,7 +60,7 @@ extension LoginViewController {
   func render(_ state: LoginViewModelState) {
     switch state {
     case .presentFeed:
-      coordinator?.showFeedPage()
+      viewModel.showFeedPage()
     case .none:
       break
     }

@@ -8,26 +8,19 @@
 import Combine
 import Foundation
 
-struct LoginViewModelInput {
-  let didTapLoginButton: PassthroughSubject<OAuthType, Never> = .init()
+struct LoginViewModelActions {
+  let showFeed: () -> Void
 }
-
-enum LoginViewModelState {
-  case none
-  case presentFeed
-}
-
-protocol LoginViewModel: ViewModelable
-where LoginViewModelInput == Input,
-      LoginViewModelState == State {}
 
 final class DefaultLoginViewModel {
   // MARK: - Properties
-  private let loginUseCase: LoginUseCase
+  private let loginUseCase: any LoginUseCase
+  private let actions: LoginViewModelActions
   
   // MARK: - LifeCycle
-  init(loginUseCase: LoginUseCase) {
+  init(loginUseCase: any LoginUseCase, actions: LoginViewModelActions) {
     self.loginUseCase = loginUseCase
+    self.actions = actions
   }
   
   deinit {
@@ -36,7 +29,7 @@ final class DefaultLoginViewModel {
 }
 
 // MARK: - LoginViewModel
-extension DefaultLoginViewModel: LoginViewModel {
+extension DefaultLoginViewModel: LoginViewModelable {
   func transform(_ input: Input) -> Output {
     return Publishers
       .MergeMany([
@@ -47,7 +40,7 @@ extension DefaultLoginViewModel: LoginViewModel {
 }
 
 // MARK: - Input operator chain Flow
-private extension DefaultLoginViewModel {
+extension DefaultLoginViewModel {
   private func didTapLoginButtonStream(_ input: Input) -> Output {
     return input
       .didTapLoginButton
@@ -72,5 +65,11 @@ private extension DefaultLoginViewModel {
           .eraseToAnyPublisher()
       }
       .eraseToAnyPublisher()
+  }
+}
+
+extension DefaultLoginViewModel: LoginViewModelPageDelegate {
+  func showFeedPage() {
+    actions.showFeed()
   }
 }

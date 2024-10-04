@@ -222,13 +222,13 @@ final class PresentationAssembly: Assembly {
 // MARK: - Private Helpers
 private extension PresentationAssembly {
   func loginPage(container: Container) {
-    container.register((any LoginViewModel).self) { r in
+    container.register((any LoginViewModel).self) { (r, actions: LoginViewModelActions) in
       let loginUseCase = r.resolve(LoginUseCase.self)!
-      return DefaultLoginViewModel(loginUseCase: loginUseCase)
+      return DefaultLoginViewModel(loginUseCase: loginUseCase, actions: actions)
     }
     
-    container.register(LoginViewController.self) { r in
-      let loginViewModel = r.resolve((any LoginViewModel).self)!
+    container.register(LoginViewController.self) { (r, actions: LoginViewModelActions) in
+      let loginViewModel = r.resolve((any LoginViewModel).self, argument: actions)!
       return LoginViewController(viewModel: loginViewModel)
     }
   }

@@ -127,8 +127,8 @@ extension AppDIContainer: NotificationCenterCoordinatorDependencies {
 
 // MARK: - LoginCoordinatorDependencies
 extension AppDIContainer: LoginCoordinatorDependencies {
-  func makeLoginViewController() -> LoginViewController {
-    return resolver.resolve(LoginViewController.self)!
+  func makeLoginViewController(actions: LoginViewModelActions) -> LoginViewController {
+    return resolver.resolve(LoginViewController.self, argument: actions)!
   }
 }
 
