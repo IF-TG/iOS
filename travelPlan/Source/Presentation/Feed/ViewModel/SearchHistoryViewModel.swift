@@ -55,11 +55,8 @@ final class DefaultSearchHistoryViewModel {
     }
   }
   
-  // TODO: - 최근검색에 대한 list를 fetch해주는 usecase를 적용해야 합니다.
-  
   // MARK: - Properties
   private var sectionModels: [SearchHistorySectionModel] = []
-  private var recentModels: [String] = []
   private let searchType: SearchType
   private let actions: SearchHistoryViewModelActions
   private let useCase: any SearchHistoryUseCase
@@ -155,6 +152,7 @@ extension DefaultSearchHistoryViewModel {
     return input.didTapSearchButton
       .map { [weak self] text in
         guard let self = self else { return State.none }
+        // TODO: - 추후 keyword save api를 적용해야 합니다.
         switch searchType {
         case .travelDestination:
           actions.showTravelDestinationList(text)
@@ -232,29 +230,16 @@ extension DefaultSearchHistoryViewModel {
   }
   
   private func removeAllRecentItems() {
-    self.recentModels.removeAll()
-    updateRecentItem(with: recentModels)
+    if case .recent(var items) = sectionModels[1].sectionItem {
+      items.removeAll()
+      sectionModels[1].sectionItem = .recent(items: items)
+    }
   }
   
   private func removeRecentItem(at index: Int) {
-    self.recentModels.remove(at: index)
-    updateRecentItem(with: recentModels)
-  }
-  
-  private func updateRecentItem(with recentItems: [String]) {
-    guard let index = self.sectionModels.firstIndex(where: isRecentSection(item:)) else {
-      return
-    }
-    
-    sectionModels[index].sectionItem = .recent(items: recentItems)
-  }
-  
-  // recent section이 있는지 확인합니다.
-  private func isRecentSection(item: SearchHistorySectionModel) -> Bool {
-    if case .recent = item.sectionItem {
-      return true
-    } else {
-      return false
+    if case .recent(var items) = sectionModels[1].sectionItem {
+      items.remove(at: index)
+      sectionModels[1].sectionItem = .recent(items: items)
     }
   }
   
