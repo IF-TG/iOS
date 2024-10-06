@@ -54,7 +54,6 @@
 		13254FE32A05147200094218 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13254FE22A05147200094218 /* MainTabBarController.swift */; };
 		13254FE52A05157900094218 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13254FE42A05157900094218 /* FeedViewController.swift */; };
 		13254FE72A05158E00094218 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13254FE62A05158E00094218 /* SearchViewController.swift */; };
-		13254FE92A0515A900094218 /* PlanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13254FE82A0515A900094218 /* PlanViewController.swift */; };
 		13254FEB2A0515C700094218 /* FavoriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13254FEA2A0515C700094218 /* FavoriteViewController.swift */; };
 		13254FED2A0515D800094218 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13254FEC2A0515D800094218 /* SettingViewController.swift */; };
 		13254FF02A0549D200094218 /* TabBarCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13254FEF2A0549D200094218 /* TabBarCase.swift */; };
@@ -368,7 +367,6 @@
 		1503F9342A4E0D06002BC38D /* SettingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1503F9332A4E0D06002BC38D /* SettingCoordinator.swift */; };
 		1503F9372A4E1103002BC38D /* FavoriteCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1503F9362A4E1103002BC38D /* FavoriteCoordinator.swift */; };
 		1503F93A2A4E1260002BC38D /* SearchCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1503F9392A4E1260002BC38D /* SearchCoordinator.swift */; };
-		1503F93D2A4E1291002BC38D /* PlanCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1503F93C2A4E1291002BC38D /* PlanCoordinator.swift */; };
 		1503F9402A4E1327002BC38D /* FeedCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1503F93F2A4E1327002BC38D /* FeedCoordinator.swift */; };
 		15050D382BE92C8C00B3E26A /* TourImageRetrieveInfoRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15050D372BE92C8C00B3E26A /* TourImageRetrieveInfoRepository.swift */; };
 		15050D3A2BE92CEC00B3E26A /* TourImageInfoAPIEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15050D392BE92CEC00B3E26A /* TourImageInfoAPIEndpoint.swift */; };
@@ -1082,7 +1080,6 @@
 		13254FE22A05147200094218 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		13254FE42A05157900094218 /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
 		13254FE62A05158E00094218 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
-		13254FE82A0515A900094218 /* PlanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanViewController.swift; sourceTree = "<group>"; };
 		13254FEA2A0515C700094218 /* FavoriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteViewController.swift; sourceTree = "<group>"; };
 		13254FEC2A0515D800094218 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		13254FEF2A0549D200094218 /* TabBarCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarCase.swift; sourceTree = "<group>"; };
@@ -1401,7 +1398,6 @@
 		1503F9332A4E0D06002BC38D /* SettingCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingCoordinator.swift; sourceTree = "<group>"; };
 		1503F9362A4E1103002BC38D /* FavoriteCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteCoordinator.swift; sourceTree = "<group>"; };
 		1503F9392A4E1260002BC38D /* SearchCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCoordinator.swift; sourceTree = "<group>"; };
-		1503F93C2A4E1291002BC38D /* PlanCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanCoordinator.swift; sourceTree = "<group>"; };
 		1503F93F2A4E1327002BC38D /* FeedCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCoordinator.swift; sourceTree = "<group>"; };
 		15050D372BE92C8C00B3E26A /* TourImageRetrieveInfoRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourImageRetrieveInfoRepository.swift; sourceTree = "<group>"; };
 		15050D392BE92CEC00B3E26A /* TourImageInfoAPIEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourImageInfoAPIEndpoint.swift; sourceTree = "<group>"; };
@@ -2917,14 +2913,6 @@
 				1503F9392A4E1260002BC38D /* SearchCoordinator.swift */,
 				131A110B2AB5D55C007BDD66 /* SearchMoreDetailCoordinator.swift */,
 				131C4DFB2C08F7570005D30F /* SearchResultListCoordinator.swift */,
-			);
-			path = Coordinator;
-			sourceTree = "<group>";
-		};
-		1503F93B2A4E128B002BC38D /* Coordinator */ = {
-			isa = PBXGroup;
-			children = (
-				1503F93C2A4E1291002BC38D /* PlanCoordinator.swift */,
 			);
 			path = Coordinator;
 			sourceTree = "<group>";
@@ -4475,18 +4463,8 @@
 			isa = PBXGroup;
 			children = (
 				151AF4DC2C2C3586004B98EE /* PlanCategorySelection */,
-				1503F93B2A4E128B002BC38D /* Coordinator */,
-				15BED2FE2A0824B800F86321 /* ViewController */,
 			);
 			path = Plan;
-			sourceTree = "<group>";
-		};
-		15BED2FE2A0824B800F86321 /* ViewController */ = {
-			isa = PBXGroup;
-			children = (
-				13254FE82A0515A900094218 /* PlanViewController.swift */,
-			);
-			path = ViewController;
 			sourceTree = "<group>";
 		};
 		15BED2FF2A0824C300F86321 /* Search */ = {
@@ -6367,7 +6345,6 @@
 				13606E882A9DDE7D00365F20 /* SearchHistoryRecentTagCell.swift in Sources */,
 				1568CCA82C0C3B920056A298 /* ScrollableViewRegister.swift in Sources */,
 				152603D72B97A4BC00634299 /* PostsRequestDTO.swift in Sources */,
-				13254FE92A0515A900094218 /* PlanViewController.swift in Sources */,
 				15FFAC3C2ADE50880013DB57 /* PostHeaderContentInfo.swift in Sources */,
 				13606E942AA187F500365F20 /* SearchHistoryTagLabel.swift in Sources */,
 				15C1F54A2AF2C356005FDA15 /* NotificationViewModelable.swift in Sources */,
@@ -6418,7 +6395,6 @@
 				151DF0DE2AEE709800D5D55B /* Bool+.swift in Sources */,
 				154CA6272BD3B5A70066B444 /* TourApiError.swift in Sources */,
 				150F17FA2B166C1C008C0E17 /* BaseSettingViewController.swift in Sources */,
-				1503F93D2A4E1291002BC38D /* PlanCoordinator.swift in Sources */,
 				13EB3D6D2BF603B300CA84F0 /* DefaultAccommodationUseCase.swift in Sources */,
 				13254FE52A05157900094218 /* FeedViewController.swift in Sources */,
 				15B9285F2AFA2D89003A20D4 /* PostDetailContentImageCell.swift in Sources */,
