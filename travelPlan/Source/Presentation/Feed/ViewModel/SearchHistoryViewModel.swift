@@ -230,16 +230,18 @@ extension DefaultSearchHistoryViewModel {
   }
   
   private func removeAllRecentItems() {
-    if case .recent(var items) = sectionModels[1].sectionItem {
+    let recentIndex = SearchHistorySection.recent.rawValue
+    if case .recent(var items) = sectionModels[recentIndex].sectionItem {
       items.removeAll()
-      sectionModels[1].sectionItem = .recent(items: items)
+      sectionModels[recentIndex].sectionItem = .recent(items: items)
     }
   }
   
   private func removeRecentItem(at index: Int) {
-    if case .recent(var items) = sectionModels[1].sectionItem {
+    let recentIndex = SearchHistorySection.recent.rawValue
+    if case .recent(var items) = sectionModels[recentIndex].sectionItem {
       items.remove(at: index)
-      sectionModels[1].sectionItem = .recent(items: items)
+      sectionModels[recentIndex].sectionItem = .recent(items: items)
     }
   }
   
