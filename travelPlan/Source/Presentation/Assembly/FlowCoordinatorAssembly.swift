@@ -78,11 +78,6 @@ final class FlowCoordinatorAssembly: Assembly {
       FavoriteCoordinator(presenter: presenter)
     }
     
-    // FIXME: - Plan Flow Coordinator
-    container.register(PlanCoordinator.self) { (_, presenter: UINavigationController) in
-      PlanCoordinator(presenter: presenter)
-    }
-    
     // MARK: - Feed Flow Coordinator
     container.register(FeedCoordinator.self) { (_, presenter: UINavigationController) in
       FeedCoordinator(presenter: presenter, dependencies: appDIContainer)

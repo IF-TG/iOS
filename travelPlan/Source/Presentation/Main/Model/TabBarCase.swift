@@ -8,7 +8,6 @@
 enum TabBarCase: String {
   case feed
   case search
-  case plan
   case favorite
   case profile
   
@@ -16,7 +15,6 @@ enum TabBarCase: String {
     switch self {
     case .feed: return "피드"
     case .search: return "검색"
-    case .plan: return "플랜"
     case .favorite: return "찜"
     case .profile: return "프로필"
     }

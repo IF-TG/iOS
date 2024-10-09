@@ -54,7 +54,6 @@
 		13254FE32A05147200094218 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13254FE22A05147200094218 /* MainTabBarController.swift */; };
 		13254FE52A05157900094218 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13254FE42A05157900094218 /* FeedViewController.swift */; };
 		13254FE72A05158E00094218 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13254FE62A05158E00094218 /* SearchViewController.swift */; };
-		13254FE92A0515A900094218 /* PlanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13254FE82A0515A900094218 /* PlanViewController.swift */; };
 		13254FEB2A0515C700094218 /* FavoriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13254FEA2A0515C700094218 /* FavoriteViewController.swift */; };
 		13254FED2A0515D800094218 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13254FEC2A0515D800094218 /* SettingViewController.swift */; };
 		13254FF02A0549D200094218 /* TabBarCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13254FEF2A0549D200094218 /* TabBarCase.swift */; };
@@ -139,7 +138,6 @@
 		135A07C02BA94A9C003D6C4D /* DefaultAlbumViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 135A07BF2BA94A9C003D6C4D /* DefaultAlbumViewModel.swift */; };
 		135A07C22BA9882D003D6C4D /* AlbumUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 135A07C12BA9882D003D6C4D /* AlbumUseCase.swift */; };
 		135A07C42BA9883E003D6C4D /* DefaultAlbumUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 135A07C32BA9883E003D6C4D /* DefaultAlbumUseCase.swift */; };
-		135A07C82BAD6E95003D6C4D /* PhotoEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 135A07C72BAD6E95003D6C4D /* PhotoEntity.swift */; };
 		135A07D12BB4031D003D6C4D /* DefaultPhotoAuthorizationRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 135A07D02BB4031D003D6C4D /* DefaultPhotoAuthorizationRepository.swift */; };
 		135A07D32BB4AB38003D6C4D /* PhotoAuthorizationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 135A07D22BB4AB38003D6C4D /* PhotoAuthorizationView.swift */; };
 		135A07D52BB55A13003D6C4D /* PhotoAuthorizationViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 135A07D42BB55A13003D6C4D /* PhotoAuthorizationViewDelegate.swift */; };
@@ -369,7 +367,6 @@
 		1503F9342A4E0D06002BC38D /* SettingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1503F9332A4E0D06002BC38D /* SettingCoordinator.swift */; };
 		1503F9372A4E1103002BC38D /* FavoriteCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1503F9362A4E1103002BC38D /* FavoriteCoordinator.swift */; };
 		1503F93A2A4E1260002BC38D /* SearchCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1503F9392A4E1260002BC38D /* SearchCoordinator.swift */; };
-		1503F93D2A4E1291002BC38D /* PlanCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1503F93C2A4E1291002BC38D /* PlanCoordinator.swift */; };
 		1503F9402A4E1327002BC38D /* FeedCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1503F93F2A4E1327002BC38D /* FeedCoordinator.swift */; };
 		15050D382BE92C8C00B3E26A /* TourImageRetrieveInfoRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15050D372BE92C8C00B3E26A /* TourImageRetrieveInfoRepository.swift */; };
 		15050D3A2BE92CEC00B3E26A /* TourImageInfoAPIEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15050D392BE92CEC00B3E26A /* TourImageInfoAPIEndpoint.swift */; };
@@ -1083,7 +1080,6 @@
 		13254FE22A05147200094218 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		13254FE42A05157900094218 /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
 		13254FE62A05158E00094218 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
-		13254FE82A0515A900094218 /* PlanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanViewController.swift; sourceTree = "<group>"; };
 		13254FEA2A0515C700094218 /* FavoriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteViewController.swift; sourceTree = "<group>"; };
 		13254FEC2A0515D800094218 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		13254FEF2A0549D200094218 /* TabBarCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarCase.swift; sourceTree = "<group>"; };
@@ -1171,7 +1167,6 @@
 		135A07BF2BA94A9C003D6C4D /* DefaultAlbumViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultAlbumViewModel.swift; sourceTree = "<group>"; };
 		135A07C12BA9882D003D6C4D /* AlbumUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumUseCase.swift; sourceTree = "<group>"; };
 		135A07C32BA9883E003D6C4D /* DefaultAlbumUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultAlbumUseCase.swift; sourceTree = "<group>"; };
-		135A07C72BAD6E95003D6C4D /* PhotoEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoEntity.swift; sourceTree = "<group>"; };
 		135A07D02BB4031D003D6C4D /* DefaultPhotoAuthorizationRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultPhotoAuthorizationRepository.swift; sourceTree = "<group>"; };
 		135A07D22BB4AB38003D6C4D /* PhotoAuthorizationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAuthorizationView.swift; sourceTree = "<group>"; };
 		135A07D42BB55A13003D6C4D /* PhotoAuthorizationViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAuthorizationViewDelegate.swift; sourceTree = "<group>"; };
@@ -1403,7 +1398,6 @@
 		1503F9332A4E0D06002BC38D /* SettingCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingCoordinator.swift; sourceTree = "<group>"; };
 		1503F9362A4E1103002BC38D /* FavoriteCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteCoordinator.swift; sourceTree = "<group>"; };
 		1503F9392A4E1260002BC38D /* SearchCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCoordinator.swift; sourceTree = "<group>"; };
-		1503F93C2A4E1291002BC38D /* PlanCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanCoordinator.swift; sourceTree = "<group>"; };
 		1503F93F2A4E1327002BC38D /* FeedCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCoordinator.swift; sourceTree = "<group>"; };
 		15050D372BE92C8C00B3E26A /* TourImageRetrieveInfoRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourImageRetrieveInfoRepository.swift; sourceTree = "<group>"; };
 		15050D392BE92CEC00B3E26A /* TourImageInfoAPIEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourImageInfoAPIEndpoint.swift; sourceTree = "<group>"; };
@@ -2181,14 +2175,6 @@
 			path = SearchHistory;
 			sourceTree = "<group>";
 		};
-		132ADD9F2C59F74600E76934 /* Photo */ = {
-			isa = PBXGroup;
-			children = (
-				135A07C72BAD6E95003D6C4D /* PhotoEntity.swift */,
-			);
-			path = Photo;
-			sourceTree = "<group>";
-		};
 		132ADDA02C59F75600E76934 /* Login */ = {
 			isa = PBXGroup;
 			children = (
@@ -2931,14 +2917,6 @@
 			path = Coordinator;
 			sourceTree = "<group>";
 		};
-		1503F93B2A4E128B002BC38D /* Coordinator */ = {
-			isa = PBXGroup;
-			children = (
-				1503F93C2A4E1291002BC38D /* PlanCoordinator.swift */,
-			);
-			path = Coordinator;
-			sourceTree = "<group>";
-		};
 		1503F93E2A4E131F002BC38D /* Coordinator */ = {
 			isa = PBXGroup;
 			children = (
@@ -3140,7 +3118,6 @@
 				132ADDA22C59F7AB00E76934 /* Search */,
 				132ADDA12C59F77B00E76934 /* Tour */,
 				132ADDA02C59F75600E76934 /* Login */,
-				132ADD9F2C59F74600E76934 /* Photo */,
 				1385F66C2C3FCAE3003DB336 /* Destination */,
 				15CE24142BE3B0B8009EAFEE /* User */,
 				15D37F7E2B978309000E8FDB /* TravelCategory */,
@@ -4486,18 +4463,8 @@
 			isa = PBXGroup;
 			children = (
 				151AF4DC2C2C3586004B98EE /* PlanCategorySelection */,
-				1503F93B2A4E128B002BC38D /* Coordinator */,
-				15BED2FE2A0824B800F86321 /* ViewController */,
 			);
 			path = Plan;
-			sourceTree = "<group>";
-		};
-		15BED2FE2A0824B800F86321 /* ViewController */ = {
-			isa = PBXGroup;
-			children = (
-				13254FE82A0515A900094218 /* PlanViewController.swift */,
-			);
-			path = ViewController;
 			sourceTree = "<group>";
 		};
 		15BED2FF2A0824C300F86321 /* Search */ = {
@@ -6378,7 +6345,6 @@
 				13606E882A9DDE7D00365F20 /* SearchHistoryRecentTagCell.swift in Sources */,
 				1568CCA82C0C3B920056A298 /* ScrollableViewRegister.swift in Sources */,
 				152603D72B97A4BC00634299 /* PostsRequestDTO.swift in Sources */,
-				13254FE92A0515A900094218 /* PlanViewController.swift in Sources */,
 				15FFAC3C2ADE50880013DB57 /* PostHeaderContentInfo.swift in Sources */,
 				13606E942AA187F500365F20 /* SearchHistoryTagLabel.swift in Sources */,
 				15C1F54A2AF2C356005FDA15 /* NotificationViewModelable.swift in Sources */,
@@ -6429,7 +6395,6 @@
 				151DF0DE2AEE709800D5D55B /* Bool+.swift in Sources */,
 				154CA6272BD3B5A70066B444 /* TourApiError.swift in Sources */,
 				150F17FA2B166C1C008C0E17 /* BaseSettingViewController.swift in Sources */,
-				1503F93D2A4E1291002BC38D /* PlanCoordinator.swift in Sources */,
 				13EB3D6D2BF603B300CA84F0 /* DefaultAccommodationUseCase.swift in Sources */,
 				13254FE52A05157900094218 /* FeedViewController.swift in Sources */,
 				15B9285F2AFA2D89003A20D4 /* PostDetailContentImageCell.swift in Sources */,
@@ -6492,7 +6457,6 @@
 				158EFCD32BCA4BA200C40612 /* SettingViewModelable.swift in Sources */,
 				153FA9112B938C19006CF3C3 /* ParameterType.swift in Sources */,
 				13EB3D472BF4E9FF00CA84F0 /* DefaultLeportsUseCase.swift in Sources */,
-				135A07C82BAD6E95003D6C4D /* PhotoEntity.swift in Sources */,
 				13EB3CD62BEB689A00CA84F0 /* TourContentId.swift in Sources */,
 				15FFAC0D2AD9AEB80013DB57 /* Encodable+.swift in Sources */,
 				13E98F8D2BC5961F00F05295 /* ReviewWritingEntity.swift in Sources */,

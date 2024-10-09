@@ -72,7 +72,7 @@ extension MainTabBarController {
   }
   
   func setTabBarIcon() {
-    let tabBarList: [TabBarCase] = [.feed, .search, .plan, .favorite, .profile]
+    let tabBarList: [TabBarCase] = [.feed, .search, .favorite, .profile]
     let tabBarItems = tabBarList.map {
       let imageName = $0.rawValue
       let selectedImage = UIImage(named: imageName)?.withTintColor(UIColor.yg.primary, renderingMode: .alwaysOriginal)

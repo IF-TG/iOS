@@ -74,10 +74,6 @@ extension AppDIContainer: MainCoordinatorDependencies {
     return resolve(SearchCoordinator.self, argument: presenter)!
   }
   
-  func makePlanCoordinator(presenter: UINavigationController) -> PlanCoordinator {
-    return resolve(PlanCoordinator.self, argument: presenter)!
-  }
-  
   func makeFavoriteCoordinator(presenter: UINavigationController) -> FavoriteCoordinator {
     return resolve(FavoriteCoordinator.self, argument: presenter)!
   }

@@ -16,8 +16,6 @@ final class DefaultAlbumUseCase {
     NSSortDescriptor(key: "modificationDate", ascending: false) // 가장 최근에 수정된 사진순
   ]
   private var fetchResult: PHFetchResult<PHAsset>?
-  private var photoEntity = [PhotoEntity]()
-  private var selectedIndexArray = [Int]()
 }
 
 // MARK: - AlbumUseCase

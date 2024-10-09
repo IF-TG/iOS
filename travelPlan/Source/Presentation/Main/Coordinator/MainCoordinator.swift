@@ -17,10 +17,6 @@ protocol MainCoordinatorDependencies {
     presenter: UINavigationController?
   ) -> SearchCoordinator
   
-  func makePlanCoordinator(
-    presenter: UINavigationController
-  ) -> PlanCoordinator
-  
   func makeFavoriteCoordinator(
     presenter: UINavigationController
   ) -> FavoriteCoordinator
@@ -59,13 +55,11 @@ final class MainCoordinator: FlowCoordinator {
   func start() {
     let feed = dependencies.makeFeedCoordinator(presenter: UINavigationController())
     let search = dependencies.makeSearchCoordinator(presenter: UINavigationController())
-    let plan = dependencies.makePlanCoordinator(presenter: UINavigationController())
     let favorite = dependencies.makeFavoriteCoordinator(presenter: UINavigationController())
     let setting = dependencies.makeSettingCoordinator(presenter: UINavigationController())
     
     addChild(with: feed)
     addChild(with: search)
-    addChild(with: plan)
     addChild(with: favorite)
     addChild(with: setting)
     

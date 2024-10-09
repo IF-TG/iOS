@@ -64,7 +64,6 @@ final class AlbumViewController: UIViewController {
   
   private var subscriptions = Set<AnyCancellable>()
   private let input = AlbumViewModelInput()
-//  private var isParentPop = false
   
   // MARK: - LifeCycle
   init(viewModel: any AlbumViewModel, photoService: any PhotoService) {
